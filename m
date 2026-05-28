@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D029326A08F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 15:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5265261B71;
+	Thu, 28 May 2026 15:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779982117; cv=none; b=JKKTjuwQxASN4gzBtiQpXdp5gA9p48Uk/kceZ8NPtDDilrcES8EP+TCWiBLjgsZ2crBkF+tAuQgpLSsCno+TsdjVLqqgafaMF/FnpjO1eQM8Ca/48GAusiZ1HxgvWAqCW1dblghLJM4ay4jEa41Riwa64TB+XLg1e8U3WQWNQQw=
+	t=1779982118; cv=none; b=dvUFKWve/gwKGmhd+83PUjJysuU7Tsvodi2qGA+9gxrdx3ldfLz3Rn5QEbTnJu3y53NQtOUOpPWxoVVdMzmYjpvs5T48iAzelmiB1V+E6XyzvKq3u9Kq2+rwnmfCgPiypVmklrPAeuMtigKSf12mFkOg1eeYFyxZV+/MpsanI3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779982117; c=relaxed/simple;
-	bh=vdHJI+EMjLxZD/QaMi7GqZ8jwR8Jf+ewiX6tUNrtCyU=;
-	h=Date:From:Cc:Subject:Message-ID; b=L80QB0cg3D9hy2UbRO9Gy+oHG5AMPHAN1zzjsaCyqbhnYKkPt9t1R1IZF35SYb+O0nbYIBTD3bxqY4DygU8GsR5Uuf4wKJcYfck+RJn9McjzL4zV20k+UaK0diNHA2iv+bzM6XLGxswJJDPgQ+FP+nbXsuBdmoWMkf8AePr9KCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQeQfw5F; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1779982118; c=relaxed/simple;
+	bh=h6gIQSh7EnSLP0hziwCdjn4VeCMknpf+zkhPz4Yk5XQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jA03YWKwfMdkpkl2t65S+ssZJODUMSW3d8EeknZus+krcOeniDYHacddTszq9+o3+Z8NZ6X++s0nCH4C+Mat/QXe70RfPZumRh1662ALnzLJxcF/6G1v8946Ev/8aCL5sNQSp/9h8ezpEGiyWGP2+Zt/4jFLQOd3XxcsutWIdFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKTxhQRi; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQeQfw5F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKTxhQRi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779982117; x=1811518117;
-  h=date:from:cc:subject:message-id;
-  bh=vdHJI+EMjLxZD/QaMi7GqZ8jwR8Jf+ewiX6tUNrtCyU=;
-  b=EQeQfw5FjmlT1LdPCzeVww4fp7fjosu7DaLGjtda71VIeC+Fl/mGZwfR
-   pHTVpBG6NkvMwMSEHEnrc97BJyPQpvGqkzfwLup+eklvuZz24RmNtUaLi
-   3hp2MYGI1lp6UTGEawZzjHaHk+3grXjkiDLyhZFX7/1T44RXxAaQlqsQ+
-   B7yqu2Z225jcKcAv0B79gYA4Rp8uNJOGsSzgNGdYjpFtT/bsqkCAkvsZ1
-   dOAGQd5qJm0boLo07QWSovVBmdkkI55vsm3JFENQh+IjOCpAhl15bck50
-   ejW2EhrKqUUGpBuRpgnPaxg24qTRY7fg4xR2u9gsbDVJiJnoSmO2bO679
-   Q==;
-X-CSE-ConnectionGUID: LHB3YXN7Rc+sng8e6oOmhA==
-X-CSE-MsgGUID: gWA0peVaT+Gn7VzZkbYP6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80550565"
+  t=1779982118; x=1811518118;
+  h=date:from:to:cc:subject:message-id;
+  bh=h6gIQSh7EnSLP0hziwCdjn4VeCMknpf+zkhPz4Yk5XQ=;
+  b=IKTxhQRiXivgtvBs7dDkMWacEOrHMNFfp6l5X+Cby62zp1WracOjyJ74
+   FXHAs86jMG3xMVEz26UkWqxxgAnMe+DerXmuO7PE7ozqxIIQLUTFV3SAX
+   orw3VFKabzQJYKxTJmByxG+29Ara8OEBcllwObOyOOlJz216sTuH8BVP9
+   Meh9kgYDeuRzf1UQ/7ktTlqNy1w94I44ZlfflcM5HVnw9XRRbw01IDleO
+   iVlACyNgPC9MEAVNFvbE0f334MNYHyK5+lxpPqX5+H6GyD4okonmtSZI+
+   if9PS5D+h0j08IJXeHaADhz2sAhWULMG/lT9lo52rgyPjA3rDqR3NvCPR
+   g==;
+X-CSE-ConnectionGUID: oFxoWpwgRsCHTy94tdt5kw==
+X-CSE-MsgGUID: y4o0RIHkSayXKlQefn3gvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="79975587"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="80550565"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 08:28:36 -0700
-X-CSE-ConnectionGUID: vcBNx5zxQQq2ScMdzb3kAA==
-X-CSE-MsgGUID: ak2IMtUWT5Wv1NSCLHI+fA==
+   d="scan'208";a="79975587"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 08:28:37 -0700
+X-CSE-ConnectionGUID: DMwmCKApSv+F9qWfLRbzpA==
+X-CSE-MsgGUID: e7+FBSsnRKK8gBnb32NJVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="239565937"
+   d="scan'208";a="238399635"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 May 2026 08:28:34 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 May 2026 08:28:35 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSceu-0000000064i-0YNE;
+	id 1wSceu-0000000064g-0QZ5;
 	Thu, 28 May 2026 15:28:32 +0000
-Date: Thu, 28 May 2026 23:28:26 +0800
+Date: Thu, 28 May 2026 23:28:25 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [geert-m68k:master 1282/1440]
- drivers/usb/host/isp116x.h:411:15: sparse: sparse: cast removes address space
- '__iomem' of expression
-Message-ID: <202605282355.uB9GDd2J-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org
+Subject: [akpm-mm:mm-unstable 273/420] mm/userfaultfd.c:4475:1:
+ warning: alias and aliasee have different types 'long (int)' and 'long
+ (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((int)0),
+ typeof (0LL)) || __builtin_types_compatible_p(typeof ((int)0), typeof
+ (0ULL))), 0...
+Message-ID: <202605282311.BlbuvsRF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,105 +66,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git master
-head:   26b3f6c06bb2e4c5e933736324b70b732c06ba64
-commit: b971c823ecb945e93fbe49e98884e4ef9ee5e859 [1282/1440] Merge tag 'v5.8-rc2'
-config: m68k-randconfig-r132-20260528 (https://download.01.org/0day-ci/archive/20260528/202605282355.uB9GDd2J-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605282355.uB9GDd2J-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   8a74e22643189e0ae339afc91110ddb4cab1941b
+commit: 688eee218159283140c8c4b48429cfe400cb64e4 [273/420] userfaultfd: merge fs/userfaultfd.c into mm/userfaultfd.c
+config: arm-randconfig-003-20260528 (https://download.01.org/0day-ci/archive/20260528/202605282311.BlbuvsRF-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605282311.BlbuvsRF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605282355.uB9GDd2J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605282311.BlbuvsRF-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/usb/host/isp116x-hcd.c:137:55: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [usertype] @@
-   drivers/usb/host/isp116x-hcd.c:137:55: sparse:     expected unsigned short [usertype] val
-   drivers/usb/host/isp116x-hcd.c:137:55: sparse:     got restricted __le16 [usertype]
-   drivers/usb/host/isp116x-hcd.c:184:34: sparse: sparse: cast to restricted __le16
-   drivers/usb/host/isp116x-hcd.c:184:34: sparse: sparse: cast to restricted __le16
-   drivers/usb/host/isp116x-hcd.c:184:34: sparse: sparse: cast to restricted __le16
-   drivers/usb/host/isp116x-hcd.c:184:34: sparse: sparse: cast to restricted __le16
-   drivers/usb/host/isp116x-hcd.c: note: in included file:
->> drivers/usb/host/isp116x.h:411:15: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/usb/host/isp116x.h:411:15: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/usb/host/isp116x.h:391:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/usb/host/isp116x.h:391:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/usb/host/isp116x.h:391:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:391:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:391:9: sparse:    void
-   drivers/usb/host/isp116x.h:391:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:391:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:391:9: sparse:    void
-   drivers/usb/host/isp116x.h:391:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:391:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:391:9: sparse:    void
-   drivers/usb/host/isp116x.h:397:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:397:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:397:9: sparse:    void
-   drivers/usb/host/isp116x.h:391:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:391:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:391:9: sparse:    void
-   drivers/usb/host/isp116x.h:427:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:427:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:427:9: sparse:    void
-   drivers/usb/host/isp116x.h:429:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:429:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:429:9: sparse:    void
-   drivers/usb/host/isp116x.h:403:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:403:9: sparse:    int
-   drivers/usb/host/isp116x.h:403:9: sparse:    void
-   drivers/usb/host/isp116x.h:403:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:403:9: sparse:    int
-   drivers/usb/host/isp116x.h:403:9: sparse:    void
-   drivers/usb/host/isp116x.h:397:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:397:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:397:9: sparse:    void
-   drivers/usb/host/isp116x.h:397:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:397:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:397:9: sparse:    void
-   drivers/usb/host/isp116x.h:403:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:403:9: sparse:    int
-   drivers/usb/host/isp116x.h:403:9: sparse:    void
-   drivers/usb/host/isp116x.h:391:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:391:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:391:9: sparse:    void
-   drivers/usb/host/isp116x.h:397:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:397:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:397:9: sparse:    void
-   drivers/usb/host/isp116x.h:397:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:397:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:397:9: sparse:    void
-   drivers/usb/host/isp116x.h:397:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:397:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:397:9: sparse:    void
-   drivers/usb/host/isp116x.h:397:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:397:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:397:9: sparse:    void
-   drivers/usb/host/isp116x.h:391:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/usb/host/isp116x.h:391:9: sparse:    unsigned short
-   drivers/usb/host/isp116x.h:391:9: sparse:    void
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +411 drivers/usb/host/isp116x.h
+>> mm/userfaultfd.c:4475:1: warning: alias and aliasee have different types 'long (int)' and 'long (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((int)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((int)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long)') [-Wattribute-alias]
+    4475 | SYSCALL_DEFINE1(userfaultfd, int, flags)
+         | ^
+   include/linux/syscalls.h:225:36: note: expanded from macro 'SYSCALL_DEFINE1'
+     225 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DEFINEx'
+     251 |                 __attribute__((alias(__stringify(__se_sys##name))));    \
+         |                                ^
+   mm/userfaultfd.c:4475:1: note: aliasee is declared here
+   include/linux/syscalls.h:225:36: note: expanded from macro 'SYSCALL_DEFINE1'
+     225 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DEFINEx'
+     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
+         |                         ^
+   <scratch space>:46:1: note: expanded from here
+      46 | __se_sys_userfaultfd
+         | ^
+   1 warning generated.
 
-4808a1c0261176 Olav Kongas     2005-04-09  406  
-4808a1c0261176 Olav Kongas     2005-04-09  407  static inline u16 isp116x_read_data16(struct isp116x *isp116x)
-4808a1c0261176 Olav Kongas     2005-04-09  408  {
-4808a1c0261176 Olav Kongas     2005-04-09  409  	u16 val;
-4808a1c0261176 Olav Kongas     2005-04-09  410  
-2f0f9fcd96fa8d Michael Schmitz 2013-04-06 @411  	val = isp_readw(isp116x->data_reg);
-4808a1c0261176 Olav Kongas     2005-04-09  412  	isp116x_delay(isp116x, 150);
-4808a1c0261176 Olav Kongas     2005-04-09  413  	return val;
-4808a1c0261176 Olav Kongas     2005-04-09  414  }
-4808a1c0261176 Olav Kongas     2005-04-09  415  
 
-:::::: The code at line 411 was first introduced by commit
-:::::: 2f0f9fcd96fa8dbeec54cce98170985f7b384a41 m68k/atari: USB - add ISP1160 USB host controller support
+vim +4475 mm/userfaultfd.c
 
-:::::: TO: Michael Schmitz <schmitzmic@gmail.com>
-:::::: CC: Geert Uytterhoeven <geert@linux-m68k.org>
+  4474	
+> 4475	SYSCALL_DEFINE1(userfaultfd, int, flags)
+  4476	{
+  4477		if (!userfaultfd_syscall_allowed(flags))
+  4478			return -EPERM;
+  4479	
+  4480		return new_userfaultfd(flags);
+  4481	}
+  4482	
 
 --
 0-DAY CI Kernel Test Service
