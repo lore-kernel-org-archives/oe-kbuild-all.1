@@ -1,193 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A86372067;
-	Thu, 28 May 2026 08:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779956169; cv=none; b=cbjO9Scfar9R6KTDUFJshC8xpPZpPo61um1GxQ2dV7KSHnNeObNxGFSUzUL1Wluu02hnt8rd5Bnx3Y+l9PfFCqbxNnaeoea4CGS29WLskixlowFzMi2uZ6r2KVS63q3dMWobTrjkju2BJLnPIuJwqlUipVpsh8fxnWCeNww7xCA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779956169; c=relaxed/simple;
-	bh=XRG8W9NAHc+HbEyj0+UtCgt+HhS+ZeeZXcAuoLpSGFE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZdMEclZ/rVCq3l2Mm1K2rW+0m5S8FcfCWRb5ykHXINv+2UtmYwP5Dc9MTRf5l18mWs3JYakg8q4BMu+5PxezMnn3iXXAo5xhJHPvt9jjGaGtyXl2dwEar80ZAk5NftFef92rxoUfsQ2hAHCIt8m8TajTazTbQ/eJlSL/n53PHzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHGDkimU; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8982034404B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 08:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779956787; cv=pass; b=Sg/V8sUpStZJuTqqnnnztG1AahY9CF6ZEDs4yYw4bzadJ4301fXC/45VsHsLyT2GTqPMBYQ5Dlxc+hw+t7qNbM27dLWdQvcFjCmkdpgWqpO/pG+ZlFpfJk0LgTjytiFdERsvRExQvu47W6ICOZMyUXrXA8qy5dfKPppFuQSXu4A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779956787; c=relaxed/simple;
+	bh=/1NS+gkl7GjjY8ICVeuimsM8GB8gzdwrRtRRYetgFFg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=NF9Dw49QXc8e5BrBQ6n+OYhYx2IelFz+ibVAjRq8W6ptU8b461yJmGjwf/AJaLnpe+BhbeIfyBWVZMQw3vx/MKAnh4IKaBorJnnegoMNBQQF2Prt32u578WwHmbmuWqlYhUtCiYNSdh0ZhjzQpl8Ka1Q9z/3UQTBntv06fOUQGo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=r0VV0Meo; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHGDkimU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779956167; x=1811492167;
-  h=date:from:to:cc:subject:message-id;
-  bh=XRG8W9NAHc+HbEyj0+UtCgt+HhS+ZeeZXcAuoLpSGFE=;
-  b=IHGDkimUC1MfgVBtimXvqjELLUBoBJGBQd3UPiTmQBzPJy3BHjXCdyG2
-   m8hByVb3A2XfOL38mxuwI8WH/pi3NuRHgFu+jeg8sGBzNc0zW8lojsZIN
-   Y4fuuUS9HKmjLQiEr7ol2DBxNY9Cppp0Szpn0p/mlFfrEfkxthNA2+DeQ
-   nIBUKu4hfjxAB4D5lr4KgHuWsCuaNLNIcvq9VtXlQTNAgfmkhr90AYVHJ
-   OA2lmiXWp5cz/DII+NElLnsTWLWsCzlCkBet15dAmw6zdGXT6IXB1rjI8
-   pAEPzZ3pD/AEtqF9WCmc0fG8tkhR3WRlbCnUHy6bl7So9XzJWf10djulB
-   A==;
-X-CSE-ConnectionGUID: G7VqswVcT1KBr39VCi5fvw==
-X-CSE-MsgGUID: 7HgbP3rBTWGIOhs4sG6h4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="80520119"
-X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="80520119"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 01:16:07 -0700
-X-CSE-ConnectionGUID: 91NmiBW4RE2ttYlQlBmu7g==
-X-CSE-MsgGUID: 7247Q2d1SaOkJYI760tmCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="266088107"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 May 2026 01:16:04 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wSVuL-000000005j0-3mpc;
-	Thu, 28 May 2026 08:16:01 +0000
-Date: Thu, 28 May 2026 16:15:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Subject: [akpm-mm:mm-new 429/433] mm/swap_state.c:468:19: error: call
- to undeclared function 'folio_memcg_alloc_deferred'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202605281620.lc3rtkBm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="r0VV0Meo"
+ARC-Seal: i=1; a=rsa-sha256; t=1779956775; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=c/2YKrJKJV9nvuTGmv6roYVQmojKGuz5qRF8W4kLcf36dNTiukEJMi+gg+6Oh3197I1V3sXzxVQSf1EDtwhPXVUMWM0cWmwDS7sR4AU1BbKzOrba6yE6rKuWAbgULufitXYWVGiseV1DX8A0NRy2l8zhyJsef6SUF3ZA0f+CF6A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1779956775; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=u02RJ/VBMYB77bElnPcqjbbt4TJaP39IGuZGLZTk5z4=; 
+	b=Wwf+0YIfKj87kkiUC3NUT2iUkPUwxDo53s6hdRs/nncNWvMHTt0HmnZop3QiereQayeu525bZDLkOZsjbBET1U0gAfuJ3CsHATHTPBsVl+1n0Wflowm3XiI31COzpcXoF6KzLeO3DUHwk5xxoMJ3TMd0YIbWF+KTYdilVjp63uw=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779956775;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=u02RJ/VBMYB77bElnPcqjbbt4TJaP39IGuZGLZTk5z4=;
+	b=r0VV0MeoEKdxmXOvPs+YPRrNyLzRIfNcDjZfDWHloiPAeA2LNko1x/QO9wkpkrpj
+	pWagdDUiy+T+yufNVyZcB39gMvdzFDRn7lTrzag5iOdZmsM/iNL/5/xQ0KEJLJfqizL
+	GKZTE+Yb2tCj3U0c8jZhkpuSBYy+5f3xq/52+mTI=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1779956774306351.5153761474652; Thu, 28 May 2026 13:56:14 +0530 (IST)
+Received: from  [106.192.19.160] by mail.zoho.in
+	with HTTP;Thu, 28 May 2026 13:56:14 +0530 (IST)
+Date: Thu, 28 May 2026 13:56:14 +0530
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+To: "kernel test robot" <lkp@intel.com>
+Cc: "jack" <jack@suse.com>, "oe-kbuild-all" <oe-kbuild-all@lists.linux.dev>,
+	"linux-ext4" <linux-ext4@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>
+Message-ID: <19e6db0f597.25d55d43200914.4102954258751814923@zohomail.in>
+In-Reply-To: <202605281203.e91xvDyr-lkp@intel.com>
+References: <19e5aa07c9b.3a2e576d130187.5289857983023045470@zohomail.in> <202605281203.e91xvDyr-lkp@intel.com>
+Subject: Re: [PATCH v4] ext2: Remove deprecated DAX support
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   d7d405cc33d6e3eeba2d6ec8f0b595da2a5c600a
-commit: a5e62d9e00dac6f96174c397a82da30e7ae53064 [429/433] mm: switch deferred split shrinker to list_lru
-config: hexagon-defconfig (https://download.01.org/0day-ci/archive/20260528/202605281620.lc3rtkBm-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281620.lc3rtkBm-lkp@intel.com/reproduce)
+This indentation warning is from pre-existing code (originally written in 2010) that my patch did not touch. I prefer to keep this patch focused solely on removing deprecated DAX support. A separate cleanup patch can be submitted later if desired.
+Regards,
+Ashwin Gundarapu
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605281620.lc3rtkBm-lkp@intel.com/
+From: kernel test robot <lkp@intel.com>
+To: "Ashwin Gundarapu"<linuxuser509@zohomail.in>, "jack"<jack@suse.com>
+Cc: <oe-kbuild-all@lists.linux.dev>, "linux-ext4"<linux-ext4@vger.kernel.org>, "linux-kernel"<linux-kernel@vger.kernel.org>
+Date: Thu, 28 May 2026 09:46:32 +0530
+Subject: Re: [PATCH v4] ext2: Remove deprecated DAX support
 
-All errors (new ones prefixed by >>):
+ > Hi Ashwin, 
+ >  
+ > kernel test robot noticed the following build warnings: 
+ >  
+ > [auto build test WARNING on jack-fs/for_next] 
+ > [also build test WARNING on linus/master v7.1-rc5 next-20260527] 
+ > [If your patch is applied to the wrong git tree, kindly drop us a note. 
+ > And when submitting patch, we suggest to use '--base' as documented in 
+ > https://git-scm.com/docs/git-format-patch#_base_tree_information] 
+ >  
+ > url: https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/ext2-Remove-deprecated-DAX-support/20260524-233631 
+ > base: https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git for_next 
+ > patch link: https://lore.kernel.org/r/19e5aa07c9b.3a2e576d130187.5289857983023045470%40zohomail.in 
+ > patch subject: [PATCH v4] ext2: Remove deprecated DAX support 
+ > config: arm-randconfig-r071-20260528 (https://download.01.org/0day-ci/archive/20260528/202605281203.e91xvDyr-lkp@intel.com/config) 
+ > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261) 
+ > smatch: v0.5.0-9185-gbcc58b9c 
+ >  
+ > If you fix the issue in a separate patch/commit (i.e. not just a new version of 
+ > the same patch/commit), kindly add following tags 
+ > | Reported-by: kernel test robot <lkp@intel.com> 
+ > | Closes: https://lore.kernel.org/oe-kbuild-all/202605281203.e91xvDyr-lkp@intel.com/ 
+ >  
+ > smatch warnings: 
+ > fs/ext2/inode.c:1251 ext2_setsize() warn: inconsistent indenting 
+ >  
+ > vim +1251 fs/ext2/inode.c 
+ >  
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1236 
+ > 2c27c65ed0696f0 Christoph Hellwig 2010-06-04  1237  static int ext2_setsize(struct inode *inode, loff_t newsize) 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1238  { 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1239      int error; 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1240 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1241      if (!(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode) || 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1242          S_ISLNK(inode->i_mode))) 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1243          return -EINVAL; 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1244      if (ext2_inode_is_fast_symlink(inode)) 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1245          return -EINVAL; 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1246      if (IS_APPEND(inode) || IS_IMMUTABLE(inode)) 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1247          return -EPERM; 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1248 
+ > 562c72aa57c36b1 Christoph Hellwig 2011-06-24  1249      inode_dio_wait(inode); 
+ > 562c72aa57c36b1 Christoph Hellwig 2011-06-24  1250 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27 @1251              error = block_truncate_page(inode->i_mapping, 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1252                                  newsize, ext2_get_block); 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1253      if (error) 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1254          return error; 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1255 
+ > 70f3bad8c3154ba Jan Kara          2021-04-12  1256      filemap_invalidate_lock(inode->i_mapping); 
+ > 2c27c65ed0696f0 Christoph Hellwig 2010-06-04  1257      truncate_setsize(inode, newsize); 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1258      __ext2_truncate_blocks(inode, newsize); 
+ > 70f3bad8c3154ba Jan Kara          2021-04-12  1259      filemap_invalidate_unlock(inode->i_mapping); 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1260 
+ > 5cdc59fce617a2e Jeff Layton       2023-10-04  1261      inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode)); 
+ > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1262      if (inode_needs_sync(inode)) { 
+ > b0439bbc29f0201 Jan Kara          2026-03-26  1263          mmb_sync(&EXT2_I(inode)->i_metadata_bhs); 
+ > c37650161a53c01 Christoph Hellwig 2010-10-06  1264          sync_inode_metadata(inode, 1); 
+ > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1265      } else { 
+ > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1266          mark_inode_dirty(inode); 
+ > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1267      } 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1268 
+ > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1269      return 0; 
+ > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1270  } 
+ > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1271 
+ >  
+ > -- 
+ > 0-DAY CI Kernel Test Service 
+ > https://github.com/intel/lkp-tests/wiki 
+ >  
+ > 
 
->> mm/swap_state.c:468:19: error: call to undeclared function 'folio_memcg_alloc_deferred'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     468 |         if (order > 1 && folio_memcg_alloc_deferred(folio)) {
-         |                          ^
-   1 error generated.
-
-
-vim +/folio_memcg_alloc_deferred +468 mm/swap_state.c
-
-   390	
-   391	/*
-   392	 * Try to allocate a folio of given order in the swap cache.
-   393	 *
-   394	 * This helper resolves the potential races of swap allocation
-   395	 * and prepares a folio to be used for swap IO. May return following
-   396	 * value:
-   397	 *
-   398	 * -ENOMEM / -EBUSY: Order is too large or in conflict with sub slot,
-   399	 *                   caller should shrink the order and retry
-   400	 * -ENOENT / -EEXIST: Target swap entry is unavailable or cached, the caller
-   401	 *                    should abort or try to use the cached folio instead
-   402	 */
-   403	static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
-   404						swp_entry_t targ_entry, gfp_t gfp,
-   405						unsigned int order, struct vm_fault *vmf,
-   406						struct mempolicy *mpol, pgoff_t ilx)
-   407	{
-   408		int err;
-   409		swp_entry_t entry;
-   410		struct folio *folio;
-   411		void *shadow = NULL;
-   412		unsigned short memcg_id;
-   413		unsigned long address, nr_pages = 1UL << order;
-   414		struct vm_area_struct *vma = vmf ? vmf->vma : NULL;
-   415	
-   416		VM_WARN_ON_ONCE(nr_pages > SWAPFILE_CLUSTER);
-   417		entry.val = round_down(targ_entry.val, nr_pages);
-   418	
-   419		/* Check if the slot and range are available, skip allocation if not */
-   420		spin_lock(&ci->lock);
-   421		err = __swap_cache_add_check(ci, targ_entry, nr_pages, NULL, NULL);
-   422		spin_unlock(&ci->lock);
-   423		if (unlikely(err))
-   424			return ERR_PTR(err);
-   425	
-   426		/*
-   427		 * Limit THP gfp. The limitation is a no-op for typical
-   428		 * GFP_HIGHUSER_MOVABLE but matters for shmem.
-   429		 */
-   430		if (order)
-   431			gfp = thp_shmem_limit_gfp_mask(vma_thp_gfp_mask(vma), gfp);
-   432	
-   433		if (mpol || !vmf) {
-   434			folio = folio_alloc_mpol(gfp, order, mpol, ilx, numa_node_id());
-   435		} else {
-   436			address = round_down(vmf->address, PAGE_SIZE << order);
-   437			folio = vma_alloc_folio(gfp, order, vmf->vma, address);
-   438		}
-   439		if (unlikely(!folio))
-   440			return ERR_PTR(-ENOMEM);
-   441	
-   442		/* Double check the range is still not in conflict */
-   443		spin_lock(&ci->lock);
-   444		err = __swap_cache_add_check(ci, targ_entry, nr_pages, &shadow, &memcg_id);
-   445		if (unlikely(err)) {
-   446			spin_unlock(&ci->lock);
-   447			folio_put(folio);
-   448			return ERR_PTR(err);
-   449		}
-   450	
-   451		__folio_set_locked(folio);
-   452		__folio_set_swapbacked(folio);
-   453		__swap_cache_do_add_folio(ci, folio, entry);
-   454		spin_unlock(&ci->lock);
-   455	
-   456		if (mem_cgroup_swapin_charge_folio(folio, memcg_id,
-   457						   vmf ? vmf->vma->vm_mm : NULL, gfp)) {
-   458			spin_lock(&ci->lock);
-   459			__swap_cache_do_del_folio(ci, folio, entry, shadow);
-   460			spin_unlock(&ci->lock);
-   461			folio_unlock(folio);
-   462			/* nr_pages refs from swap cache, 1 from allocation */
-   463			folio_put_refs(folio, nr_pages + 1);
-   464			count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK_CHARGE);
-   465			return ERR_PTR(-ENOMEM);
-   466		}
-   467	
- > 468		if (order > 1 && folio_memcg_alloc_deferred(folio)) {
-   469			spin_lock(&ci->lock);
-   470			__swap_cache_do_del_folio(ci, folio, entry, shadow);
-   471			spin_unlock(&ci->lock);
-   472			folio_unlock(folio);
-   473			/* nr_pages refs from swap cache, 1 from allocation */
-   474			folio_put_refs(folio, nr_pages + 1);
-   475			return ERR_PTR(-ENOMEM);
-   476		}
-   477	
-   478		/* memsw uncharges swap when folio is added to swap cache */
-   479		memcg1_swapin(folio);
-   480		if (shadow)
-   481			workingset_refault(folio, shadow);
-   482	
-   483		node_stat_mod_folio(folio, NR_FILE_PAGES, nr_pages);
-   484		lruvec_stat_mod_folio(folio, NR_SWAPCACHE, nr_pages);
-   485	
-   486		/* Caller will initiate read into locked new_folio */
-   487		folio_add_lru(folio);
-   488		return folio;
-   489	}
-   490	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
