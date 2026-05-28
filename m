@@ -1,119 +1,254 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1673EFD04;
-	Thu, 28 May 2026 13:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750473AFAFF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 13:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779973800; cv=none; b=ddkSLMQ58WWRb3gD1Q0RUP8u35R7eoMOggHj4xxCjCT7JeZ+02aAuLibxy/E9ZZtOyesD5uMprAT1KJT069gn42D6wxu342SqGJpqHiiG75o43oQv9xCynOmMFAcYITzL7ZV2JhILsLhUYn+GwThHs5JO7BaYx1Gs/mHpDcwSY8=
+	t=1779975213; cv=none; b=KwCsoL4bD03IV3+KSY/HMB7QRdmqJ+V1wifjM6yIT21/zn5CiKuOD65F1pzG+qSrysAUYNeuJAEk+Fgl3rANSbeeARw8GL9ECo7PTf0/emG5FM4rL4edZXHQCpSoPelF7BHivc6edt2TKEgSgWpY6eYDIxFW+98Ra93XHdjHubs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779973800; c=relaxed/simple;
-	bh=M4GHMGyh8NthM4VVBxzPmfqsz7fLmnq5IxpVMD3tP0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p2/Zl0M2f2+EVq0Qf2+Bzq/Ol0G7E/ldZi1RnJZtVriK5nzHyFsJH45XD6UfJ0afUpcPvcSl6hXXRbKx161VwvCgdjgUG+jX3WzZ78l6wu8R2RXa9Piv8PiS/iVCEiw2ct+wgAR4Y8RGbxNf8VvaOzDkXa4qYLF+GVHY231jsJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FScYaL+n; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779975213; c=relaxed/simple;
+	bh=wRO4g8LxtkP8/d4l7qmnZwaEwTbv4mZmJfQnBYp9/+E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Cd5t9TO8iQB5rVv7JljyOTjpI0KGE662XbBbvtcya52h0m/zTUSlCRdoVxqpIz2juUCpoMMXvGquGoRQ1XtlD54qti2lfr/aa+DkJrG8lmrqsfJPg6xuCfYM6zVr1z8AT7TKaEsGv9sl7IDrIroCjLn909WTQrc7IEFwYjxInd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezuvlXQF; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FScYaL+n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21A771F000E9;
-	Thu, 28 May 2026 13:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779973798;
-	bh=r0QrpkQCV7e0TWVW6fG/E9wzE1TJ4SiymmotkEZ+8oA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=FScYaL+nQtn59lt3XFAAA9o4Yg6kEl4brpFw1LEWS7IHxDUz4mtHZtTtzkom60O/I
-	 CkE+aQiTiJHwB3PdgrJ3kjmvauHOSobrvqXYrhhhhXyK7BA+MkznIG/BU2DyQtkFKR
-	 Lr3Y8UgujM5kp9B11rrCi5LFCc+kWInO+/aNjtG5B2Aa7xo7HyNgXnEwbxFJn4SEnS
-	 x31KCBgSewijLLjX6s4w2feHYNefrNyuvrdKt1sntsxdpMpZYXUpgPDDrqVfW55S0B
-	 r6eF+hFt6UGOJqgXbtviEa1MkTylc8TVYTV+kTRSYpzYCirZM9pbLqd5MBhHhNC7g8
-	 qAonuPStPCxVA==
-Date: Thu, 28 May 2026 14:09:47 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: David Lechner <dlechner@baylibre.com>, Jyoti Bhayana
- <jbhayana@google.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Benson Leung
- <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel
- definition
-Message-ID: <20260528140947.12c73152@jic23-huawei>
-In-Reply-To: <202605281432.a64fe4iY-lkp@intel.com>
-References: <20260525014654.2399354-1-dlechner@baylibre.com>
-	<202605281432.a64fe4iY-lkp@intel.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezuvlXQF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779975211; x=1811511211;
+  h=date:from:to:cc:subject:message-id;
+  bh=wRO4g8LxtkP8/d4l7qmnZwaEwTbv4mZmJfQnBYp9/+E=;
+  b=ezuvlXQF5fkeY1apLFK8NW0srLAMvC2h7r5aF04S7zUuAlCSH2s0Ic3A
+   53DeHihUpOB2yphdJjIsHpZ+sfRzX2Twgk7tlwvWh43YvtMk8qf5+JgxH
+   CXTUdqyGmaeRTRQtQAo7oqnGczsB/dHDF1EccryqpPySBSjYsmGA5JSNU
+   0TQn6JAl4y2Qdlt60z1BP3Rw3rV7arr/rMiKAnOVlAMivKu0IoI/x2EDI
+   gU+ZcLz1/WoI3LSXdcJwFX+otSbBF/BA7cKLV4+eucxGwEPS3BCF5+n2h
+   dTAAeRg59gULNOnsM7DJzNegOztqYzZIOnAt1Nrg8EJxHh/F5pxhOSWN8
+   w==;
+X-CSE-ConnectionGUID: x5s70O/qSsWd2Hb25Prg8A==
+X-CSE-MsgGUID: RKp9WTFSQVaUv/nFp8EOJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="92289324"
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="92289324"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 06:33:31 -0700
+X-CSE-ConnectionGUID: hGvzQdqgTUyJgJ7WcEDatQ==
+X-CSE-MsgGUID: 6Vpcf1RCQ+SaDtTEzPlWDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="239978789"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 28 May 2026 06:33:28 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wSarW-0000000060g-0DUk;
+	Thu, 28 May 2026 13:33:26 +0000
+Date: Thu, 28 May 2026 21:32:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prathamesh Shete <pshete@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+ Linus Walleij <linusw@kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [linusw-pinctrl:devel 70/81]
+ drivers/pinctrl/tegra/pinctrl-tegra238.c:1169:27: warning:
+ 'soc_gpio86_phh3_pins' defined but not used
+Message-ID: <202605282107.qMTvFj61-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Thu, 28 May 2026 14:40:51 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+head:   0524a508b2cf7a3819406cd10d43d6e30fa31004
+commit: 25cac7292d49f4fc5ee352eff7c8874d1b296380 [70/81] pinctrl: tegra: Add Tegra238 pinmux driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260528/202605282107.qMTvFj61-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605282107.qMTvFj61-lkp@intel.com/reproduce)
 
-> Hi David,
-> 
-> kernel test robot noticed the following build errors:
-> 
-For the record, this is a side effect of some email trouble David had.
-It's meant to be in a series with the patch that makes that macro
-a compound literal.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605282107.qMTvFj61-lkp@intel.com/
 
-> [auto build test ERROR on jic23-iio/togreg]
-> [also build test ERROR on linus/master v7.1-rc5 next-20260527]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-pressure-cros_ec_baro-simplify-timestamp-channel-definition/20260525-134550
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-> patch link:    https://lore.kernel.org/r/20260525014654.2399354-1-dlechner%40baylibre.com
-> patch subject: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel definition
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605281432.a64fe4iY-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/iio/buffer.h:10,
->                     from drivers/iio/pressure/cros_ec_baro.c:9:
->    drivers/iio/pressure/cros_ec_baro.c: In function 'cros_ec_baro_probe':
-> >> include/linux/iio/iio.h:356:38: error: expected expression before '{' token  
->      356 | #define IIO_CHAN_SOFT_TIMESTAMP(_si) {                                  \
->          |                                      ^
->    drivers/iio/pressure/cros_ec_baro.c:174:20: note: in expansion of macro 'IIO_CHAN_SOFT_TIMESTAMP'
->      174 |         *channel = IIO_CHAN_SOFT_TIMESTAMP(1);
->          |                    ^~~~~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +356 include/linux/iio/iio.h
-> 
-> 00c5f80c2fad53 include/linux/iio/iio.h   Peter Rosin      2016-11-08  355  
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12 @356  #define IIO_CHAN_SOFT_TIMESTAMP(_si) {					\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  357  	.type = IIO_TIMESTAMP,						\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  358  	.channel = -1,							\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  359  	.scan_index = _si,						\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  360  	.scan_type = {							\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  361  		.sign = 's',						\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  362  		.realbits = 64,					\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  363  		.storagebits = 64,					\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  364  		},							\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  365  }
-> 1d892719e70e47 drivers/staging/iio/iio.h Jonathan Cameron 2011-05-18  366  
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
 
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1169:27: warning: 'soc_gpio86_phh3_pins' defined but not used [-Wunused-const-variable=]
+    1169 | static const unsigned int soc_gpio86_phh3_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1165:27: warning: 'uart5_cts_phh2_pins' defined but not used [-Wunused-const-variable=]
+    1165 | static const unsigned int uart5_cts_phh2_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1161:27: warning: 'uart5_rts_phh1_pins' defined but not used [-Wunused-const-variable=]
+    1161 | static const unsigned int uart5_rts_phh1_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1157:27: warning: 'uart5_rx_phh0_pins' defined but not used [-Wunused-const-variable=]
+    1157 | static const unsigned int uart5_rx_phh0_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1153:27: warning: 'uart5_tx_pgg7_pins' defined but not used [-Wunused-const-variable=]
+    1153 | static const unsigned int uart5_tx_pgg7_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1149:27: warning: 'soc_gpio85_pgg6_pins' defined but not used [-Wunused-const-variable=]
+    1149 | static const unsigned int soc_gpio85_pgg6_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1145:27: warning: 'uart2_cts_pgg5_pins' defined but not used [-Wunused-const-variable=]
+    1145 | static const unsigned int uart2_cts_pgg5_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1141:27: warning: 'uart2_rts_pgg4_pins' defined but not used [-Wunused-const-variable=]
+    1141 | static const unsigned int uart2_rts_pgg4_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1137:27: warning: 'uart2_rx_pgg3_pins' defined but not used [-Wunused-const-variable=]
+    1137 | static const unsigned int uart2_rx_pgg3_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1133:27: warning: 'uart2_tx_pgg2_pins' defined but not used [-Wunused-const-variable=]
+    1133 | static const unsigned int uart2_tx_pgg2_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1129:27: warning: 'soc_gpio84_pgg1_pins' defined but not used [-Wunused-const-variable=]
+    1129 | static const unsigned int soc_gpio84_pgg1_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1125:27: warning: 'soc_gpio77_pgg0_pins' defined but not used [-Wunused-const-variable=]
+    1125 | static const unsigned int soc_gpio77_pgg0_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1121:27: warning: 'soc_gpio76_pff7_pins' defined but not used [-Wunused-const-variable=]
+    1121 | static const unsigned int soc_gpio76_pff7_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1117:27: warning: 'soc_gpio80_pff6_pins' defined but not used [-Wunused-const-variable=]
+    1117 | static const unsigned int soc_gpio80_pff6_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1113:27: warning: 'soc_gpio74_pff5_pins' defined but not used [-Wunused-const-variable=]
+    1113 | static const unsigned int soc_gpio74_pff5_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1109:27: warning: 'soc_gpio73_pff4_pins' defined but not used [-Wunused-const-variable=]
+    1109 | static const unsigned int soc_gpio73_pff4_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1105:27: warning: 'soc_gpio72_pff3_pins' defined but not used [-Wunused-const-variable=]
+    1105 | static const unsigned int soc_gpio72_pff3_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1101:27: warning: 'soc_gpio71_pff2_pins' defined but not used [-Wunused-const-variable=]
+    1101 | static const unsigned int soc_gpio71_pff2_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1097:27: warning: 'soc_gpio70_pff1_pins' defined but not used [-Wunused-const-variable=]
+    1097 | static const unsigned int soc_gpio70_pff1_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/tegra/pinctrl-tegra238.c:1093:27: warning: 'soc_gpio69_pff0_pins' defined but not used [-Wunused-const-variable=]
+    1093 | static const unsigned int soc_gpio69_pff0_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/tegra/pinctrl-tegra238.c:1089:27: warning: 'soc_gpio83_pee5_pins' defined but not used [-Wunused-const-variable=]
+    1089 | static const unsigned int soc_gpio83_pee5_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/tegra/pinctrl-tegra238.c:1085:27: warning: 'soc_gpio50_pee4_pins' defined but not used [-Wunused-const-variable=]
+    1085 | static const unsigned int soc_gpio50_pee4_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/tegra/pinctrl-tegra238.c:1081:27: warning: 'soc_gpio82_pee3_pins' defined but not used [-Wunused-const-variable=]
+    1081 | static const unsigned int soc_gpio82_pee3_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/tegra/pinctrl-tegra238.c:1077:27: warning: 'soc_gpio49_pee2_pins' defined but not used [-Wunused-const-variable=]
+    1077 | static const unsigned int soc_gpio49_pee2_pins[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/soc_gpio86_phh3_pins +1169 drivers/pinctrl/tegra/pinctrl-tegra238.c
+
+  1076	
+> 1077	static const unsigned int soc_gpio49_pee2_pins[] = {
+  1078		TEGRA_PIN_SOC_GPIO49_PEE2,
+  1079	};
+  1080	
+> 1081	static const unsigned int soc_gpio82_pee3_pins[] = {
+  1082		TEGRA_PIN_SOC_GPIO82_PEE3,
+  1083	};
+  1084	
+> 1085	static const unsigned int soc_gpio50_pee4_pins[] = {
+  1086		TEGRA_PIN_SOC_GPIO50_PEE4,
+  1087	};
+  1088	
+> 1089	static const unsigned int soc_gpio83_pee5_pins[] = {
+  1090		TEGRA_PIN_SOC_GPIO83_PEE5,
+  1091	};
+  1092	
+> 1093	static const unsigned int soc_gpio69_pff0_pins[] = {
+  1094		TEGRA_PIN_SOC_GPIO69_PFF0,
+  1095	};
+  1096	
+> 1097	static const unsigned int soc_gpio70_pff1_pins[] = {
+  1098		TEGRA_PIN_SOC_GPIO70_PFF1,
+  1099	};
+  1100	
+> 1101	static const unsigned int soc_gpio71_pff2_pins[] = {
+  1102		TEGRA_PIN_SOC_GPIO71_PFF2,
+  1103	};
+  1104	
+> 1105	static const unsigned int soc_gpio72_pff3_pins[] = {
+  1106		TEGRA_PIN_SOC_GPIO72_PFF3,
+  1107	};
+  1108	
+> 1109	static const unsigned int soc_gpio73_pff4_pins[] = {
+  1110		TEGRA_PIN_SOC_GPIO73_PFF4,
+  1111	};
+  1112	
+> 1113	static const unsigned int soc_gpio74_pff5_pins[] = {
+  1114		TEGRA_PIN_SOC_GPIO74_PFF5,
+  1115	};
+  1116	
+> 1117	static const unsigned int soc_gpio80_pff6_pins[] = {
+  1118		TEGRA_PIN_SOC_GPIO80_PFF6,
+  1119	};
+  1120	
+> 1121	static const unsigned int soc_gpio76_pff7_pins[] = {
+  1122		TEGRA_PIN_SOC_GPIO76_PFF7,
+  1123	};
+  1124	
+> 1125	static const unsigned int soc_gpio77_pgg0_pins[] = {
+  1126		TEGRA_PIN_SOC_GPIO77_PGG0,
+  1127	};
+  1128	
+> 1129	static const unsigned int soc_gpio84_pgg1_pins[] = {
+  1130		TEGRA_PIN_SOC_GPIO84_PGG1,
+  1131	};
+  1132	
+> 1133	static const unsigned int uart2_tx_pgg2_pins[] = {
+  1134		TEGRA_PIN_UART2_TX_PGG2,
+  1135	};
+  1136	
+> 1137	static const unsigned int uart2_rx_pgg3_pins[] = {
+  1138		TEGRA_PIN_UART2_RX_PGG3,
+  1139	};
+  1140	
+> 1141	static const unsigned int uart2_rts_pgg4_pins[] = {
+  1142		TEGRA_PIN_UART2_RTS_PGG4,
+  1143	};
+  1144	
+> 1145	static const unsigned int uart2_cts_pgg5_pins[] = {
+  1146		TEGRA_PIN_UART2_CTS_PGG5,
+  1147	};
+  1148	
+> 1149	static const unsigned int soc_gpio85_pgg6_pins[] = {
+  1150		TEGRA_PIN_SOC_GPIO85_PGG6,
+  1151	};
+  1152	
+> 1153	static const unsigned int uart5_tx_pgg7_pins[] = {
+  1154		TEGRA_PIN_UART5_TX_PGG7,
+  1155	};
+  1156	
+> 1157	static const unsigned int uart5_rx_phh0_pins[] = {
+  1158		TEGRA_PIN_UART5_RX_PHH0,
+  1159	};
+  1160	
+> 1161	static const unsigned int uart5_rts_phh1_pins[] = {
+  1162		TEGRA_PIN_UART5_RTS_PHH1,
+  1163	};
+  1164	
+> 1165	static const unsigned int uart5_cts_phh2_pins[] = {
+  1166		TEGRA_PIN_UART5_CTS_PHH2,
+  1167	};
+  1168	
+> 1169	static const unsigned int soc_gpio86_phh3_pins[] = {
+  1170		TEGRA_PIN_SOC_GPIO86_PHH3,
+  1171	};
+  1172	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
