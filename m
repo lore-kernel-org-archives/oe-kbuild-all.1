@@ -1,69 +1,64 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1002D9780
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 07:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BBE32720C;
+	Thu, 28 May 2026 07:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779951853; cv=none; b=s0KpYaIAtVgdpGKm7CQKkBAlIcQQdnqZ7wIdJWZQHe9lyFLjJg1zi9NHX7Ys2QlbB+2X7LcrrLclrqXjTTqq8BCMzBYuu7k2Ow1iPGnd71nOvsHjutZXxZYn5wiFU7yGxxDfSiBEdl6I5DddkJdhPJHS/8vvgCp+MNw95jx4Ju0=
+	t=1779952987; cv=none; b=l2joeshWNHxspPOVX4nTH/JxY5eYMLvpsQzoIE1l+LDkq5OXbjDzCNb8MVUSsvN/bHhhjvkwBcl0tMs/0lBhWqnEwUTTtuqnlmwTC55MWOUlrTyRtj45YC/Xvva8IN/avKrqMhXzeRWA0Bn6TFRi253Sw4mVP4syl8IO+LBb94c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779951853; c=relaxed/simple;
-	bh=mp5eC9QcCaWdzObaBsTcJpd9HQya9qhJSNz4iceL6wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IgyuJ2Pyn3hWwhToN+Fk9aeLNKWtX8xBxjfgHSWRsnyggPacgPTzQaOJL1b09G8T13wfqlhVxUHPve8QlGOaW3jfaTTfNfJRx4cvjkzuWCPGQEa7ppxfnfKK7+II1qO6nMEoBR7B6LR9md1+nVk298HFwOnL5e3AcKY2xL16Y5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EcNCJyJ7; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779952987; c=relaxed/simple;
+	bh=8gO9OFosoNPSAgZQatlSa4o21QvJ/pd6Qrsi3dKieqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=S97nnhGqLcrwXtwQ8myUp+u6c7nC8XMlo5icv5JvISN7x7vMvXj9lTFdod0ZCMj2FeutS8wx6CUNK3HNbT8IVdcbkZYcx8cBQGlzMmC2LFEKafndX4J3RG+ts9RK/AbZT4hk6sQx1jtH8pAbUrWPZdGKu6McGUYa6dWdWvGgmk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oqemg4O3; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EcNCJyJ7"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-44e5624c053so7432722f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 00:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779951850; x=1780556650; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6tu8aAu4Ep/N6iy7DCv6X/IZDlC/z4wBdX6VJFzFJkI=;
-        b=EcNCJyJ7W4qD+VOJKRYhgR1Fwp0V0pzGoLVQvtOvHnFFhB3WqKxAwzxth0KH6cUMyH
-         xrqTuY3V0Ct6Ym2JDwP9Xal/Qj5x43Xxakjy3Axw88he0sskI8YBa7OWe/cRlDigIazk
-         uShk9scJpIky0GVv2y8Dw+oMuRXQXfYigKW0UWmu0yW7l3yB29Y39jAIaa3Ch2dFvgsV
-         SId0orfh3X4idaGWutO9AtafStDl4V12ddElAeTyz6RiFrLOZLZ1LMnGLZ3ISq07JtOg
-         +bIolSBaz6mVX9Dm55m03i0qt0lj2WwcxMK7uMHDJXbqZnvRkaIC9vgbJLUdBuffOxH7
-         iyEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779951850; x=1780556650;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6tu8aAu4Ep/N6iy7DCv6X/IZDlC/z4wBdX6VJFzFJkI=;
-        b=nk8StvxdT8QDHn5I0P0uooQ2DrF/UREhaXGFOwCbXfkDp/7dFr1Ys92z80XssZRFN0
-         8G1grW2emDF6pxM7Fy5LzdmL4uyQB28jS1zJgPM4VLjCkHr8cYkJ9s7Ri5NiZkjT7XP7
-         SArb1QcspYrdnhuy6ynDHSiHACrde2w4ea5B+5qNxQdFCwpeSmZ//P1Z8rUr2n9DZJDC
-         KjSEomw3xkRR25+lHxlCyCVYoMzbtIfXh6WO82hJ5eAxy9pOf/3OUDOMOY+pXymHtWkM
-         iyDE9IFbO2RQx6OiYGlELDz01S5UXdXx7FTtg/ZukGcNHRFquxwTzfaJ+bwfbyFJk1AV
-         zRWg==
-X-Forwarded-Encrypted: i=1; AFNElJ/kar/uk1LG5k9+eaIx3PLjhct1NEBG1cwqLoiOSHgTpOkf5d/d9rjJX9rgLBEFCzh5hqoRlia1NE6h22be@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkIFGBe8kloMjBhiiCHJn8XlyCs+R1pmdk01zH61jehiVA0Enb
-	D8i55H9dS+TC6zWgd+VWgOD1GNbvxS3pf3V5v6jE6tceLO0LwW7hFtbO
-X-Gm-Gg: Acq92OE4GfaMnuKoJQisVh+WdgNFsKfnYn1TPEMISqf2icNF/CLFuenJl3y4neHaTqu
-	5FYZGH5wGflCgahjJsgZm8hfn/rnCI7CVnX0Aqh37WhwH2u9UyV+jVVhcsIq/joOB9S1t/1xf4T
-	cull6jnVtEHoSLpfBGzW3SWma/P9fa8o/Cdiq26y2AFlEXWKael25m0yuvDAmBloosCbEXbPj/Q
-	EJCg1Jdd7o9pL38hlheP6Rn3WrU00STYdj9CBnE4dKPo3abcr0rL1fOz30jnN8HhhCs8ZqGcwRX
-	EmfxlRj9AqCWfDL5fXbZL/EExxCYOOMYWhFBv1rTg9Xd+IoI1kwBUt6A3lLAesnqvIgkRfICEn/
-	u/c/Le7Z2nkIGRjb1iRMoPTAklFsp3kM6K94jEGQxfZkW1ankeiYCU5i57rIchrE2HqmA9ladN2
-	kIHmfOHNSpMVjSKX8U/iYKH+ndEVdh4IdOow==
-X-Received: by 2002:a05:600c:1d05:b0:490:890a:da46 with SMTP id 5b1f17b1804b1-490890af5b5mr52642515e9.2.1779951850000;
-        Thu, 28 May 2026 00:04:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4908eac6042sm9186795e9.21.2026.05.28.00.04.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 00:04:08 -0700 (PDT)
-Date: Thu, 28 May 2026 10:04:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 2/2] kernel/cgroup/cgroup.c:5863
- cgroup_create() warn: passing zero to 'ERR_PTR'
-Message-ID: <202605281519.xhFrIcQD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oqemg4O3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779952984; x=1811488984;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8gO9OFosoNPSAgZQatlSa4o21QvJ/pd6Qrsi3dKieqI=;
+  b=Oqemg4O36iQ5/2ge+Z/DNICioiVlwrLtmthHUE3FHYuSFKipyHeXzN7e
+   8B7M0WEpgAOveLB/XJverBaaxT2ISPCD7K0HKemC/F2wE/C5ZkEPoqNyr
+   b1YVKKGD6VOma/pkicw5WxCQBYJqSFw3aBkhNgb6+62nfTLu7XJp3xJch
+   3pxB3AGB8/QDBB8rX/9zF+9JjDsz8gPpC/wiZAfNI9Fm/ykafXZAL9WSD
+   yo4sFxRG2JDPo5AhvKF6PwkpLCLFbvFr4zRnu0b+8YtfMlQqXOianPBUO
+   HM+7Djp0PqZx9K4JzjCHuQOKNnqxZ/kHhg7VWSz0m8rAj9ApvCRnLSB8k
+   w==;
+X-CSE-ConnectionGUID: tQG34OrmSiCicAU7yxTPVA==
+X-CSE-MsgGUID: c9JZal1TSE+hH1fSbLgW8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="84417281"
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="84417281"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 00:23:03 -0700
+X-CSE-ConnectionGUID: 24XA7NGiQRCNsGR5Fi0rgw==
+X-CSE-MsgGUID: vw55Oy1LQc2tNoPxWwEF3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="241438967"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 28 May 2026 00:23:01 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wSV50-000000005gC-1rGq;
+	Thu, 28 May 2026 07:22:58 +0000
+Date: Thu, 28 May 2026 15:22:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ Thomas Gleixner <tglx@kernel.org>
+Subject: [tip:timers/vdso 10/18] kernel/sys.c:2878:1: warning: alias
+ and aliasee have different types 'long (unsigned int *, unsigned int *, void
+ *)' and 'long (typeof
+ (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((unsigned int
+ *)0), typeof (0LL)) || __builtin_types_compat...
+Message-ID: <202605281540.qUDQmxib-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,155 +66,307 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   7d38f5b0e4b0d06970e261174e220a997a0908e7
-commit: caeb52b32bd70bc82167f136ab287e2b7a916375 [2/2] ANDROID: cgroup: Use backport reservation for freeze time
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260528/202605281519.xhFrIcQD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/=
+vdso
+head:   034779fb06aba5bc45faf366922bd77e4d36543a
+commit: 7158fc54b2c6f124eec0d7cd13bff69da0172e59 [10/18] vdso: Remove struc=
+t getcpu_cache
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20260528/20=
+2605281540.qUDQmxib-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5ba=
+c06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260528/202605281540.qUDQmxib-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605281519.xhFrIcQD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605281540.qUDQmxib-lkp@i=
+ntel.com/
 
-smatch warnings:
-kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
+All warnings (new ones prefixed by >>):
 
-vim +/ERR_PTR +5863 kernel/cgroup/cgroup.c
+   kernel/sys.c:1793:1: warning: alias and aliasee have different types 'lo=
+ng (unsigned int, struct rlimit *)' and 'long (typeof (__builtin_choose_exp=
+r((__builtin_types_compatible_p(typeof ((unsigned int)0), typeof (0LL)) || =
+__builtin_types_compatible_p(typeof ((unsigned int)0), typeof (0ULL))), 0LL=
+, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof =
+((struct rlimit *)0), typeof (0LL)) || __builtin_types_compatible_p(typeof =
+((struct rlimit *)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long, long)'=
+) [-Wattribute-alias]
+    1793 | SYSCALL_DEFINE2(setrlimit, unsigned int, resource, struct rlimit=
+ __user *, rlim)
+         | ^
+   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFI=
+NE2'
+     226 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     251 |                 __attribute__((alias(__stringify(__se_sys##name)=
+)));    \
+         |                                ^
+   kernel/sys.c:1793:1: note: aliasee is declared here
+   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFI=
+NE2'
+     226 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
+GS__))  \
+         |                         ^
+   <scratch space>:109:1: note: expanded from here
+     109 | __se_sys_setrlimit
+         | ^
+   kernel/sys.c:1933:1: warning: alias and aliasee have different types 'lo=
+ng (int, struct rusage *)' and 'long (typeof (__builtin_choose_expr((__buil=
+tin_types_compatible_p(typeof ((int)0), typeof (0LL)) || __builtin_types_co=
+mpatible_p(typeof ((int)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_c=
+hoose_expr((__builtin_types_compatible_p(typeof ((struct rusage *)0), typeo=
+f (0LL)) || __builtin_types_compatible_p(typeof ((struct rusage *)0), typeo=
+f (0ULL))), 0LL, 0L)))' (aka 'long (long, long)') [-Wattribute-alias]
+    1933 | SYSCALL_DEFINE2(getrusage, int, who, struct rusage __user *, ru)
+         | ^
+   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFI=
+NE2'
+     226 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     251 |                 __attribute__((alias(__stringify(__se_sys##name)=
+)));    \
+         |                                ^
+   kernel/sys.c:1933:1: note: aliasee is declared here
+   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFI=
+NE2'
+     226 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
+GS__))  \
+         |                         ^
+   <scratch space>:15:1: note: expanded from here
+      15 | __se_sys_getrusage
+         | ^
+   kernel/sys.c:1959:1: warning: alias and aliasee have different types 'lo=
+ng (int)' and 'long (typeof (__builtin_choose_expr((__builtin_types_compati=
+ble_p(typeof ((int)0), typeof (0LL)) || __builtin_types_compatible_p(typeof=
+ ((int)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long)') [-Wattribute-al=
+ias]
+    1959 | SYSCALL_DEFINE1(umask, int, mask)
+         | ^
+   include/linux/syscalls.h:225:36: note: expanded from macro 'SYSCALL_DEFI=
+NE1'
+     225 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     251 |                 __attribute__((alias(__stringify(__se_sys##name)=
+)));    \
+         |                                ^
+   kernel/sys.c:1959:1: note: aliasee is declared here
+   include/linux/syscalls.h:225:36: note: expanded from macro 'SYSCALL_DEFI=
+NE1'
+     225 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
+GS__))  \
+         |                         ^
+   <scratch space>:42:1: note: expanded from here
+      42 | __se_sys_umask
+         | ^
+   kernel/sys.c:2517:1: warning: alias and aliasee have different types 'lo=
+ng (int, unsigned long, unsigned long, unsigned long, unsigned long)' and '=
+long (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((=
+int)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((int)0), type=
+of (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_comp=
+atible_p(typeof ((unsigned long)0), typeof (0LL)) || __builtin_types_compat=
+ible_p(typeof ((unsigned long)0), typeof (0ULL))), 0LL, 0L)), typeof (__bui=
+ltin_choose_expr((__builtin_types_compatible_p(typeof ((unsigned long)0), t=
+ypeof (0LL)) || __builtin_types_compatible_p(typeof ((unsigned long)0), typ=
+eof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_com=
+patible_p(typeof ((unsigned long)0), typeof (0LL)) || __builtin_types_compa=
+tible_p(typeof ((unsigned long)0), typeof (0ULL))), 0LL, 0L)), typeof (__bu=
+iltin_choose_expr((__builtin_types_compatible_p(typeof ((unsigned long)0), =
+typeof (0LL)) || __builtin_types_compatible_p(typeof ((unsigned long)0), ty=
+peof (0ULL))), 0LL, 0L)))' (aka 'long (long, long, long, long, long)') [-Wa=
+ttribute-alias]
+    2517 | SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigne=
+d long, arg3,
+         | ^
+   include/linux/syscalls.h:229:36: note: expanded from macro 'SYSCALL_DEFI=
+NE5'
+     229 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     251 |                 __attribute__((alias(__stringify(__se_sys##name)=
+)));    \
+         |                                ^
+   kernel/sys.c:2517:1: note: aliasee is declared here
+   include/linux/syscalls.h:229:36: note: expanded from macro 'SYSCALL_DEFI=
+NE5'
+     229 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
+GS__))  \
+         |                         ^
+   <scratch space>:93:1: note: expanded from here
+      93 | __se_sys_prctl
+         | ^
+>> kernel/sys.c:2878:1: warning: alias and aliasee have different types 'lo=
+ng (unsigned int *, unsigned int *, void *)' and 'long (typeof (__builtin_c=
+hoose_expr((__builtin_types_compatible_p(typeof ((unsigned int *)0), typeof=
+ (0LL)) || __builtin_types_compatible_p(typeof ((unsigned int *)0), typeof =
+(0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compati=
+ble_p(typeof ((unsigned int *)0), typeof (0LL)) || __builtin_types_compatib=
+le_p(typeof ((unsigned int *)0), typeof (0ULL))), 0LL, 0L)), typeof (__buil=
+tin_choose_expr((__builtin_types_compatible_p(typeof ((void *)0), typeof (0=
+LL)) || __builtin_types_compatible_p(typeof ((void *)0), typeof (0ULL))), 0=
+LL, 0L)))' (aka 'long (long, long, long)') [-Wattribute-alias]
+    2878 | SYSCALL_DEFINE3(getcpu, unsigned __user *, cpup, unsigned __user=
+ *, nodep, void __user *, unused)
+         | ^
+   include/linux/syscalls.h:227:36: note: expanded from macro 'SYSCALL_DEFI=
+NE3'
+     227 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     251 |                 __attribute__((alias(__stringify(__se_sys##name)=
+)));    \
+         |                                ^
+   kernel/sys.c:2878:1: note: aliasee is declared here
+   include/linux/syscalls.h:227:36: note: expanded from macro 'SYSCALL_DEFI=
+NE3'
+     227 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
+GS__))  \
+         |                         ^
+   <scratch space>:132:1: note: expanded from here
+     132 | __se_sys_getcpu
+         | ^
+   kernel/sys.c:2957:1: warning: alias and aliasee have different types 'lo=
+ng (struct sysinfo *)' and 'long (typeof (__builtin_choose_expr((__builtin_=
+types_compatible_p(typeof ((struct sysinfo *)0), typeof (0LL)) || __builtin=
+_types_compatible_p(typeof ((struct sysinfo *)0), typeof (0ULL))), 0LL, 0L)=
+))' (aka 'long (long)') [-Wattribute-alias]
+    2957 | SYSCALL_DEFINE1(sysinfo, struct sysinfo __user *, info)
+         | ^
+   include/linux/syscalls.h:225:36: note: expanded from macro 'SYSCALL_DEFI=
+NE1'
+     225 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     251 |                 __attribute__((alias(__stringify(__se_sys##name)=
+)));    \
+         |                                ^
+   kernel/sys.c:2957:1: note: aliasee is declared here
+   include/linux/syscalls.h:225:36: note: expanded from macro 'SYSCALL_DEFI=
+NE1'
+     225 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, _=
+_VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DE=
+FINEx'
+     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
+GS__))  \
+         |                         ^
+   <scratch space>:160:1: note: expanded from here
+     160 | __se_sys_sysinfo
+         | ^
+   31 warnings generated.
 
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5741  static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5742  				    umode_t mode)
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5743  {
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5744  	struct cgroup_root *root = parent->root;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5745  	struct cgroup *cgrp, *tcgrp;
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5746  	struct kernfs_node *kn;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5747  	int level = parent->level + 1;
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5748  	int ret;
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5749  
-0a950f65e1e64f kernel/cgroup.c        Tejun Heo          2012-11-19  5750  	/* allocate the cgroup and its ID, 0 is reserved for the root */
-7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5751  	cgrp = kzalloc(struct_size(cgrp, ancestors, (level + 1)), GFP_KERNEL);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5752  	if (!cgrp)
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5753  		return ERR_PTR(-ENOMEM);
-0ab02ca8f88790 kernel/cgroup.c        Li Zefan           2014-02-11  5754  
-2aad2a86f6685c kernel/cgroup.c        Tejun Heo          2014-09-24  5755  	ret = percpu_ref_init(&cgrp->self.refcnt, css_release, 0, GFP_KERNEL);
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5756  	if (ret)
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5757  		goto out_free_cgrp;
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5758  
-c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5759  	ret = cgroup_rstat_init(cgrp);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5760  	if (ret)
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5761  		goto out_cancel_ref;
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5762  
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5763  	/* create the directory */
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5764  	kn = kernfs_create_dir_ns(parent->kn, name, mode,
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5765  				  current_fsuid(), current_fsgid(),
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5766  				  cgrp, NULL);
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5767  	if (IS_ERR(kn)) {
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5768  		ret = PTR_ERR(kn);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5769  		goto out_stat_exit;
-976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5770  	}
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5771  	cgrp->kn = kn;
-976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5772  
-cc31edceee04a7 kernel/cgroup.c        Paul Menage        2008-10-18  5773  	init_cgroup_housekeeping(cgrp);
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5774  
-9d800df12d3173 kernel/cgroup.c        Tejun Heo          2014-05-14  5775  	cgrp->self.parent = &parent->self;
-ba0f4d761503bd kernel/cgroup.c        Tejun Heo          2014-05-13  5776  	cgrp->root = root;
-b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5777  	cgrp->level = level;
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5778  
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5779  	ret = psi_cgroup_alloc(cgrp);
-324bda9e6c5add kernel/cgroup/cgroup.c Alexei Starovoitov 2017-10-02  5780  	if (ret)
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5781  		goto out_kernfs_remove;
-b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5782  
-f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5783  	if (cgrp->root == &cgrp_dfl_root) {
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5784  		ret = cgroup_bpf_inherit(cgrp);
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5785  		if (ret)
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5786  			goto out_psi_free;
-f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5787  	}
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5788  
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5789  	cgrp->kmi_ext_info = kzalloc(sizeof(*cgrp->kmi_ext_info), GFP_KERNEL);
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5790  	if (!cgrp->kmi_ext_info)
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5791  		goto out_psi_free;
 
-ret = -ENOMEM;
+vim +2878 kernel/sys.c
 
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5792  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5793  	/*
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5794  	 * New cgroup inherits effective freeze counter, and
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5795  	 * if the parent has to be frozen, the child has too.
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5796  	 */
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5797  	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5798  	seqcount_init(&cgrp->kmi_ext_info->freezer.freeze_seq);
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5799  	if (cgrp->freezer.e_freeze) {
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5800  		/*
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5801  		 * Set the CGRP_FREEZE flag, so when a process will be
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5802  		 * attached to the child cgroup, it will become frozen.
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5803  		 * At this point the new cgroup is unpopulated, so we can
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5804  		 * consider it frozen immediately.
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5805  		 */
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5806  		set_bit(CGRP_FREEZE, &cgrp->flags);
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5807  		cgrp->kmi_ext_info->freezer.freeze_start_nsec = ktime_get_ns();
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5808  		set_bit(CGRP_FROZEN, &cgrp->flags);
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5809  	}
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5810  
-4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5811  	spin_lock_irq(&css_set_lock);
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5812  	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp)) {
-7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5813  		cgrp->ancestors[tcgrp->level] = tcgrp;
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5814  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5815  		if (tcgrp != cgrp) {
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5816  			tcgrp->nr_descendants++;
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5817  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5818  			/*
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5819  			 * If the new cgroup is frozen, all ancestor cgroups
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5820  			 * get a new frozen descendant, but their state can't
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5821  			 * change because of this.
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5822  			 */
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5823  			if (cgrp->freezer.e_freeze)
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5824  				tcgrp->freezer.nr_frozen_descendants++;
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5825  		}
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5826  	}
-4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5827  	spin_unlock_irq(&css_set_lock);
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5828  
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5829  	if (notify_on_release(parent))
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5830  		set_bit(CGRP_NOTIFY_ON_RELEASE, &cgrp->flags);
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5831  
-2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5832  	if (test_bit(CGRP_CPUSET_CLONE_CHILDREN, &parent->flags))
-2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5833  		set_bit(CGRP_CPUSET_CLONE_CHILDREN, &cgrp->flags);
-97978e6d1f2da0 kernel/cgroup.c        Daniel Lezcano     2010-10-27  5834  
-0cb51d71c1fa92 kernel/cgroup.c        Tejun Heo          2014-05-16  5835  	cgrp->self.serial_nr = css_serial_nr_next++;
-53fa5261747a90 kernel/cgroup.c        Tejun Heo          2013-05-24  5836  
-4e139afc22cb98 kernel/cgroup.c        Tejun Heo          2012-11-19  5837  	/* allocation complete, commit to creation */
-d5c419b68e368f kernel/cgroup.c        Tejun Heo          2014-05-16  5838  	list_add_tail_rcu(&cgrp->self.sibling, &cgroup_parent(cgrp)->self.children);
-3c9c825b8b50de kernel/cgroup.c        Tejun Heo          2014-02-12  5839  	atomic_inc(&root->nr_cgrps);
-a590b90d472f2c kernel/cgroup/cgroup.c Tejun Heo          2017-04-28  5840  	cgroup_get_live(parent);
-415cf07a1c1c65 kernel/cgroup.c        Li Zefan           2013-04-08  5841  
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5842  	/*
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5843  	 * On the default hierarchy, a child doesn't automatically inherit
-667c24917144e3 kernel/cgroup.c        Tejun Heo          2014-07-08  5844  	 * subtree_control from the parent.  Each is configured manually.
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5845  	 */
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5846  	if (!cgroup_on_dfl(cgrp))
-5531dc915ba10b kernel/cgroup.c        Tejun Heo          2016-03-03  5847  		cgrp->subtree_control = cgroup_control(cgrp);
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5848  
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5849  	cgroup_propagate_control(cgrp);
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5850  
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5851  	return cgrp;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5852  
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5853  out_psi_free:
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5854  	psi_cgroup_free(cgrp);
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5855  out_kernfs_remove:
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5856  	kernfs_remove(cgrp->kn);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5857  out_stat_exit:
-c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5858  	cgroup_rstat_exit(cgrp);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5859  out_cancel_ref:
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5860  	percpu_ref_exit(&cgrp->self.refcnt);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5861  out_free_cgrp:
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5862  	kfree(cgrp);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03 @5863  	return ERR_PTR(ret);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5864  }
+  2877=09
+> 2878	SYSCALL_DEFINE3(getcpu, unsigned __user *, cpup, unsigned __user *, =
+nodep, void __user *, unused)
+  2879	{
+  2880		int err =3D 0;
+  2881		int cpu =3D raw_smp_processor_id();
+  2882=09
+  2883		if (cpup)
+  2884			err |=3D put_user(cpu, cpup);
+  2885		if (nodep)
+  2886			err |=3D put_user(cpu_to_node(cpu), nodep);
+  2887		return err ? -EFAULT : 0;
+  2888	}
+  2889=09
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
