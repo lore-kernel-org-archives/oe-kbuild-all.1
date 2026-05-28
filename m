@@ -1,171 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB263E1231
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 11:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9BC3E0758
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 13:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779967514; cv=none; b=BGKerLsju7yxND4igmIK/TxjGe7Abngl06VviNGCNXUePj05TSiHHCzK1XfMq710b9wXDzXLcRjBnRbchNdTnNMPsunby9IvVR7shC8TRSRyRrIlsROd6pdgM7JN8vGIiKbGAMeGfwGyPEnEIdGiRlJ3m12osJMJrW5kFofW7wA=
+	t=1779973581; cv=none; b=KflgcOo8hPSCeVZNDvGG9SQbdgVd3sjUeyciUPC7VkTW6sHDbTJYH17qvgrpuIsSXQ9wZSI9TtMFFx2nTtvBdX6ekdRyLzj1/B0+rDQs8zubJ3ZGg/VVuB9ZXYIkBMPDPE4Si/ovDG9MszyyNafrveSPtgmJD6M53nIwJatC6V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779967514; c=relaxed/simple;
-	bh=IrpciD1D4mV8t56Rf6hUyqgbSzTj0OOvoOP/ugPTdrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=D8gLuWDiv7JNmg6xhBGLRqgBAflSlvNH+sn0z/Iz6NS6V4u4eJ3rghCnCgBPEmWZ+rhHkPsGRp2qXkJy5jSOZGlkPSU1sWe3KQHcN3G1g40RRKIm0NlR7A/pIpSpAkCFV0+guYh/jKjA8/sGlfCC19l2XVYHgFOw02f727L/yjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYYQgjXI; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1779973581; c=relaxed/simple;
+	bh=HEy7mKacEP1S/fPhPucD0kya4UrRHAEo7+8IS4Ms124=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NW2pg7ehA1b1FLPxGmZ9Vxd1aT3z9Ryvyquym/cPmxCGNGtiEWMNSOPX18d9/tBHlg1WTToiJr8JI+8rTYpAFMk9nIllg5buTjs3bDdyfUXbGbsRB0KbIKNhkBr5QZiXe+YH8WxmLz0kPiQnsPz5/8BToTYH5EIho5jh6erDX0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aSOP1vY+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYYQgjXI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aSOP1vY+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779967512; x=1811503512;
-  h=date:from:to:cc:subject:message-id;
-  bh=IrpciD1D4mV8t56Rf6hUyqgbSzTj0OOvoOP/ugPTdrQ=;
-  b=RYYQgjXIosfPQacbk0LqHtuo1q5Yy4GvBni8clHvwwTqNBv7o4T3tO6P
-   QjXBVS4lHcOk8PYZIl3Rfqi4r3/agIIo+Mp/LpChZaNGLXQNVB9yEbYYU
-   mFycidbQfzRaeDrjRLeNGayHcKYbZDZsRpHnh0rt6/XbO8ilZ0jrHg1/2
-   dd6g+UhTnz5nM08VXiPeAAwZ+2QlgEF7tu+97G6qKinuFGFEtue0VEyjJ
-   gYGXdDHmnEbvnMLYYJlU8oMEAzUXIiDoD+94ssJE+C2xA5zUGBIdqz6AN
-   BRD5KuUWROA14ozUuz6KGWrOd/YcNgESBGSTEnWbHqmT8yZ3yWxix7pFN
-   g==;
-X-CSE-ConnectionGUID: YPEKPMeIRYO6h7l6/D5wAw==
-X-CSE-MsgGUID: MrReHPGqT8GS4A2uJgZ9tw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="83384501"
+  t=1779973580; x=1811509580;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HEy7mKacEP1S/fPhPucD0kya4UrRHAEo7+8IS4Ms124=;
+  b=aSOP1vY+f9dtn3qclLl6KcMen6NPmWowSgy1/670kSXCckysYlmZ8KJr
+   9YMRpxQMgAxLXqEK5hVgr1+R807DJ9H43VAFmSgQSiIYPHJXZnFiVnugs
+   7X5zOYKLmY2Av1r4F1w9mbHwcCIY5u/MYYvzbgi1hsdpqOe08BCXi2/u7
+   ZVmsShYT2XtMW2TVEfJSoY+5bba3WfP8joX3NyibUsuxzW3Q72phkux9h
+   TOdoqclp7B5mzVOJp691CDfIo9jJcpPnmuwv9Fp30rQJe0wWPZ/svcYgX
+   hJ4I0wo9msLusqo7gp1fqWfvJe1N0OBit0SdfTEG/afyPSn9Q5r3V+/UI
+   w==;
+X-CSE-ConnectionGUID: iE9gmPzETlilPY2ArT4N7g==
+X-CSE-MsgGUID: g0pV0JcDSgS5Hgc6d6X6jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="103488125"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="83384501"
+   d="scan'208";a="103488125"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 04:25:12 -0700
-X-CSE-ConnectionGUID: H15aFt1dS7anWJEf1ard7A==
-X-CSE-MsgGUID: HKcIbs8sRqawQJWNaEPJ1Q==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 06:06:19 -0700
+X-CSE-ConnectionGUID: R6Munf91Te+cbCb8kqLK1g==
+X-CSE-MsgGUID: +/azEfm0Tl6/JkrifPf6ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="266131618"
+   d="scan'208";a="266155379"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 28 May 2026 04:25:10 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 28 May 2026 06:06:13 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSYrL-000000000KL-3dzz;
-	Thu, 28 May 2026 11:25:07 +0000
-Date: Thu, 28 May 2026 13:24:44 +0200
+	id 1wSaR9-000000000Px-33nX;
+	Thu, 28 May 2026 13:06:11 +0000
+Date: Thu, 28 May 2026 15:06:00 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Mario Limonciello (AMD)" <superm1@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org
-Subject: [amd-pstate:superm1/backlight-property-v4 3/9]
- drivers/gpu/drm/drm_backlight.c:101:76: error: passing argument 3 of
- 'kobject_uevent_env' from incompatible pointer type
-Message-ID: <202605281301.8RWsqel0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Aichun Shi <shiaichun@open-hieco.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 11/11] EDAC/amd64: Harden Hygon Family 0x18 UMC
+ SMN base against bad DFID
+Message-ID: <202605281516.yB5gAy7r-lkp@intel.com>
+References: <20260528035246.526012-12-shiaichun@open-hieco.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260528035246.526012-12-shiaichun@open-hieco.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/backlight-property-v4
-head:   d6dda4e35a589d00e7be9db8c45aef13547401f2
-commit: 838d0906592749f46424cbf58eb20a85a95efd27 [3/9] drm: link connectors to backlight devices
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260528/202605281301.8RWsqel0-lkp@intel.com/config)
+Hi Aichun,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ras/edac-for-next]
+[also build test ERROR on linus/master v7.1-rc5 next-20260527]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aichun-Shi/ras-amd-atl-Add-Hygon-DF1-Data-Fabric-system-information-helper/20260528-121009
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+patch link:    https://lore.kernel.org/r/20260528035246.526012-12-shiaichun%40open-hieco.net
+patch subject: [RFC PATCH v2 11/11] EDAC/amd64: Harden Hygon Family 0x18 UMC SMN base against bad DFID
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260528/202605281516.yB5gAy7r-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281301.8RWsqel0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281516.yB5gAy7r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605281301.8RWsqel0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605281516.yB5gAy7r-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_backlight.c: In function '__drm_backlight_worker':
->> drivers/gpu/drm/drm_backlight.c:101:76: error: passing argument 3 of 'kobject_uevent_env' from incompatible pointer type [-Wincompatible-pointer-types]
-     101 |                 kobject_uevent_env(&b->connector->kdev->kobj, KOBJ_CHANGE, ep);
-         |                                                                            ^~
-         |                                                                            |
-         |                                                                            const char * const*
-   In file included from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16,
-                    from include/linux/backlight.h:12,
-                    from drivers/gpu/drm/drm_backlight.c:8:
-   include/linux/kobject.h:216:31: note: expected 'char **' but argument is of type 'const char * const*'
-     216 |                         char *envp[]);
-         |                         ~~~~~~^~~~~~
-   drivers/gpu/drm/drm_backlight.c: At top level:
-   drivers/gpu/drm/drm_backlight.c:315:6: warning: no previous prototype for 'drm_backlight_inhibit_legacy' [-Wmissing-prototypes]
-     315 | void drm_backlight_inhibit_legacy(struct drm_backlight *b)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_backlight.c: In function 'drm_backlight_inhibit_legacy':
-   drivers/gpu/drm/drm_backlight.c:321:10: error: 'struct drm_backlight' has no member named 'luminance_clients'
-     321 |         b->luminance_clients++;
-         |          ^~
-   drivers/gpu/drm/drm_backlight.c:323:36: error: 'struct backlight_device' has no member named 'drm_takeover'
-     323 |                 atomic_inc(&b->link->drm_takeover);
-         |                                    ^~
-   drivers/gpu/drm/drm_backlight.c: At top level:
-   drivers/gpu/drm/drm_backlight.c:334:6: warning: no previous prototype for 'drm_backlight_uninhibit_legacy' [-Wmissing-prototypes]
-     334 | void drm_backlight_uninhibit_legacy(struct drm_backlight *b)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15:
-   drivers/gpu/drm/drm_backlight.c: In function 'drm_backlight_uninhibit_legacy':
-   drivers/gpu/drm/drm_backlight.c:340:22: error: 'struct drm_backlight' has no member named 'luminance_clients'
-     340 |         if (WARN_ON(b->luminance_clients == 0))
-         |                      ^~
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON'
-     110 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/gpu/drm/drm_backlight.c:342:10: error: 'struct drm_backlight' has no member named 'luminance_clients'
-     342 |         b->luminance_clients--;
-         |          ^~
-   drivers/gpu/drm/drm_backlight.c:344:36: error: 'struct backlight_device' has no member named 'drm_takeover'
-     344 |                 atomic_dec(&b->link->drm_takeover);
-         |                                    ^~
-   drivers/gpu/drm/drm_backlight.c: At top level:
-   drivers/gpu/drm/drm_backlight.c:356:6: warning: no previous prototype for 'drm_backlight_inhibit_legacy_all' [-Wmissing-prototypes]
-     356 | void drm_backlight_inhibit_legacy_all(struct drm_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_backlight.c:372:6: warning: no previous prototype for 'drm_backlight_uninhibit_legacy_all' [-Wmissing-prototypes]
-     372 | void drm_backlight_uninhibit_legacy_all(struct drm_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/ras/amd/atl/access.c:13:
+>> drivers/ras/amd/atl/internal.h:22:10: fatal error: asm/hygon/node.h: No such file or directory
+      22 | #include <asm/hygon/node.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+   In file included from drivers/ras/amd/atl/hygon/system.c:10:
+>> drivers/ras/amd/atl/hygon/../internal.h:22:10: fatal error: asm/hygon/node.h: No such file or directory
+      22 | #include <asm/hygon/node.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +/kobject_uevent_env +101 drivers/gpu/drm/drm_backlight.c
+vim +22 drivers/ras/amd/atl/internal.h
 
-    74	
-    75	static void __drm_backlight_worker(struct work_struct *w)
-    76	{
-    77		struct drm_backlight *b = container_of(w, struct drm_backlight, work);
-    78		static const char * const ep[] = { "BACKLIGHT=1", NULL };
-    79		struct backlight_device *bd;
-    80		bool send_uevent;
-    81		unsigned int v;
-    82	
-    83		scoped_guard(spinlock, &drm_backlight_lock) {
-    84			send_uevent = b->changed;
-    85			b->changed = false;
-    86			v = b->set_value;
-    87			bd = b->link;
-    88			backlight_device_ref(bd);
-    89		}
-    90	
-    91		if (bd) {
-    92			int rc = backlight_set_brightness(bd, v, BACKLIGHT_UPDATE_DRM);
-    93	
-    94			WARN_ON(rc);
-    95			if (rc)
-    96				backlight_set_brightness(bd, U16_MAX, BACKLIGHT_UPDATE_DRM);
-    97			backlight_device_unref(bd);
-    98		}
-    99	
-   100		if (send_uevent)
- > 101			kobject_uevent_env(&b->connector->kdev->kobj, KOBJ_CHANGE, ep);
-   102	}
-   103	
+    19	
+    20	#include <asm/amd/nb.h>
+    21	#include <asm/amd/node.h>
+  > 22	#include <asm/hygon/node.h>
+    23	#include <linux/processor.h>
+    24	
 
 --
 0-DAY CI Kernel Test Service
