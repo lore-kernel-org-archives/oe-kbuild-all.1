@@ -1,62 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A68305695
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 16:31:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E864B3F0744
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 16:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779985904; cv=none; b=NMNCSj/jGZz9Fz1uk8kI96kRpRWmtluA/0zWrGDEK/aBvOlvRP1I7dlwMfv5CLZVCwQmOWTS85TopBORvJCmRdypqrRpHaTxmb+AS0LFJz+sEUa2MDp3ooa9xOFNHDQwucjFIwHefVwgJNtobmdu8RYCLI3T2DjfHtd9qxzeo/4=
+	t=1779985907; cv=none; b=UsXmJfY3RVHchM5/Z0Wz86JydvW2nV+hC7Ehy4flyb3DJ5W0/XoTcxIToNljSOFub6lbfSDTS/EdDWBvvDXMPyQur8iLPblBIGxjxxJEtaYWWfDTNzVABTik0yNfykO9nk0zG1yFFEbXGnGeVVWMQL478yFtMzmSyKsNKX7zc0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779985904; c=relaxed/simple;
-	bh=g4PfWYekFf3RIlpveF1WxmN46+5vYY0i1UDnwsgoz6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=h2ieFG1VEJ+K9jGGeg8KMq1zSKM7ahInk3Vvd9T6tSuNyt25NePjbkhgrvvL2KuDQaERMyicalSB4uspg5pvudOpEQNY35LjsfvOaXj5rTg3meD5PyPcTwvRQYh6YKJjYJgqm/TF2VKcYOp4SX2us/zM9csvv+uDSj+7+dR8soQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heSmqKBV; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1779985907; c=relaxed/simple;
+	bh=6/VxO29NKPftZVpE3X5f0Il43jF0FzmLQFOeYxxrxGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=brKKiWzLRBoz38PHEGqdjINfQoKl4izP3ylMGhbLE4+GUZipqam5vRuIQjKYXzICrImFv0MzGPjGly4j9fvyztQZnMXuSnkuVjYeL7ePLi3rAnl3wjQVs3qsD8+t12MtEND8/gWeNQqxLLmhQ9yLCe7KF4RdSBLM3g923y+sR6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODYSg3XT; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heSmqKBV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODYSg3XT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779985902; x=1811521902;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=g4PfWYekFf3RIlpveF1WxmN46+5vYY0i1UDnwsgoz6Y=;
-  b=heSmqKBVIVKUhgY0u+i4TBz8Ogp6HCDN1ns+sf/iQOI76EdpU6xesR1L
-   wVjMWyBOsYRusblKB7XU++dPq0P8F3KzevQBL+Gp8UuNr+fGW5BZBhtEu
-   YOcMrTz2y4PvPf005WsFCVQV1FscU5tGWl9QTW91pm5SYYbVCs1NlQDQ2
-   vISojJN4WDMxKP3roYcXVlFtZxXjU2tTNpZGcVxoa6SfZDSNRs6WR7ZvZ
-   o/0fTr4SS1GV0dLkj/1PCKoBJTI+yFDx8nzrR3ONbPYovqXUI5paOL78d
-   EDinQKrGZ4Jn+RSoDca8hQOO2z2mOfywYZIZ+QrIaBTQ7MBwQ/I9rKLTh
-   g==;
-X-CSE-ConnectionGUID: +SLpEHtqTt2ptqXsOExp+w==
-X-CSE-MsgGUID: pxgGuhbCRoeN/Rdcm7UVVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="84721092"
+  t=1779985905; x=1811521905;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6/VxO29NKPftZVpE3X5f0Il43jF0FzmLQFOeYxxrxGc=;
+  b=ODYSg3XTgmlAC4Je29wHnlCwODHXB4z06f0z3ifJb5cV6SFaFOGDZVl5
+   iRN6eGqXcvYX5VRc9VKsnBmfyIE++llyy9Oin4PZ0EaTS4uJCJmvYf8Oi
+   cYedkmz79ZGugUuVio+HWV/4UzqKO8kpmCVqxr3RhlnaX3vk2HCwCqRuO
+   y0fW5uyFK5KZs+5iAztbr+SEaVBlxMNHswLvLvHj23zd9c2jbsNMlJbma
+   lx1ecC1f5Rcx/st7WE0zEkjtbajDLfIFNtoe7iNbWgKg4cW40EU69AZJi
+   eniy9LvOcI+gi+JJ1xlwYSydb8Qc6S7c9wqClMDGGzYKumzCjFI4WP3qA
+   Q==;
+X-CSE-ConnectionGUID: w7bTdHrzQaqXpA8Cg2ABVA==
+X-CSE-MsgGUID: KQjEgygxTHGIx1vZweN70A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="84721106"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="84721092"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 09:31:42 -0700
-X-CSE-ConnectionGUID: Tu2C01M5QIenoGzfeoDYrQ==
-X-CSE-MsgGUID: GuxVVQiMRiGRiRmG57JC3Q==
+   d="scan'208";a="84721106"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 09:31:45 -0700
+X-CSE-ConnectionGUID: QjgaMkq9S/O3FjpqVnDpAA==
+X-CSE-MsgGUID: NNctJPBmTKyZX98hr1nCrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="240027399"
+   d="scan'208";a="236244866"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 May 2026 09:31:40 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 May 2026 09:31:41 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSddx-0000000069s-3993;
+	id 1wSddx-0000000069q-2wYk;
 	Thu, 28 May 2026 16:31:37 +0000
-Date: Fri, 29 May 2026 00:31:06 +0800
+Date: Fri, 29 May 2026 00:31:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15-2025-05 7/7]
- kernel/futex/core.c:4203:1: warning: alias and aliasee have different types
- 'long (u32 *, int, u32, const struct old_timespec32 *, u32 *, u32)' (aka
- 'long (unsigned int *, int, unsigned int, const struct old_timespec32 *,
- unsigned int *, unsigned int)') a...
-Message-ID: <202605290036.BHMuWBsX-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kacper Kokot <kacper.kokot.44@gmail.com>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	stable@vger.kernel.org, Kacper Kokot <kacper.kokot.44@gmail.com>
+Subject: Re: [PATCH] netfilter: TCPMSS: fix dropped packets when MSS option
+ is unaligned
+Message-ID: <202605290016.Qu0UrK4O-lkp@intel.com>
+References: <20260525201116.407338-2-kacper.kokot.44@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,275 +70,180 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20260525201116.407338-2-kacper.kokot.44@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15-2025-=
-05
-head:   661c276466eca251d9f8b1313356fc1c1d9c3e81
-commit: fd8a10d44c11f8f53d640db6b97486045b7e0b81 [7/7] futex: Move to kerne=
-l/futex/
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20260529/202=
-605290036.BHMuWBsX-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 940=
-9c07de6378507397ecdb6f05f628f58110112)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260529/202605290036.BHMuWBsX-lkp@intel.com/reproduce)
+Hi Kacper,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on nf-next/main]
+[also build test WARNING on netfilter-nf/main horms-ipvs/master linus/master v7.1-rc5 next-20260527]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kacper-Kokot/netfilter-TCPMSS-fix-dropped-packets-when-MSS-option-is-unaligned/20260526-041308
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git main
+patch link:    https://lore.kernel.org/r/20260525201116.407338-2-kacper.kokot.44%40gmail.com
+patch subject: [PATCH] netfilter: TCPMSS: fix dropped packets when MSS option is unaligned
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260529/202605290016.Qu0UrK4O-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605290016.Qu0UrK4O-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605290036.BHMuWBsX-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605290016.Qu0UrK4O-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/futex/core.c:3562:1: warning: alias and aliasee have different ty=
-pes 'long (struct robust_list_head *, size_t)' (aka 'long (struct robust_li=
-st_head *, unsigned int)') and 'long (typeof (__builtin_choose_expr((__buil=
-tin_types_compatible_p(typeof ((struct robust_list_head *)0), typeof (0LL))=
- || __builtin_types_compatible_p(typeof ((struct robust_list_head *)0), typ=
-eof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_com=
-patible_p(typeof ((size_t)0), typeof (0LL)) || __builtin_types_compatible_p=
-(typeof ((size_t)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long, long)')=
- [-Wattribute-alias]
-    3562 | SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user =
-*, head,
-         | ^
-   include/linux/syscalls.h:217:36: note: expanded from macro 'SYSCALL_DEFI=
-NE2'
-     217 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, _=
-_VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-     227 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:242:18: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-     242 |                 __attribute__((alias(__stringify(__se_sys##name)=
-)));    \
-         |                                ^
-   kernel/futex/core.c:3562:1: note: aliasee is declared here
-   include/linux/syscalls.h:217:36: note: expanded from macro 'SYSCALL_DEFI=
-NE2'
-     217 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, _=
-_VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-     227 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:246:18: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-     246 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
-GS__))  \
-         |                         ^
-   <scratch space>:235:1: note: expanded from here
-     235 | __se_sys_set_robust_list
-         | ^
-   kernel/futex/core.c:3584:1: warning: alias and aliasee have different ty=
-pes 'long (int, struct robust_list_head **, size_t *)' (aka 'long (int, str=
-uct robust_list_head **, unsigned int *)') and 'long (typeof (__builtin_cho=
-ose_expr((__builtin_types_compatible_p(typeof ((int)0), typeof (0LL)) || __=
-builtin_types_compatible_p(typeof ((int)0), typeof (0ULL))), 0LL, 0L)), typ=
-eof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((struct ro=
-bust_list_head **)0), typeof (0LL)) || __builtin_types_compatible_p(typeof =
-((struct robust_list_head **)0), typeof (0ULL))), 0LL, 0L)), typeof (__buil=
-tin_choose_expr((__builtin_types_compatible_p(typeof ((size_t *)0), typeof =
-(0LL)) || __builtin_types_compatible_p(typeof ((size_t *)0), typeof (0ULL))=
-), 0LL, 0L)))' (aka 'long (long, long, long)') [-Wattribute-alias]
-    3584 | SYSCALL_DEFINE3(get_robust_list, int, pid,
-         | ^
-   include/linux/syscalls.h:218:36: note: expanded from macro 'SYSCALL_DEFI=
-NE3'
-     218 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, _=
-_VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-     227 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:242:18: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-     242 |                 __attribute__((alias(__stringify(__se_sys##name)=
-)));    \
-         |                                ^
-   kernel/futex/core.c:3584:1: note: aliasee is declared here
-   include/linux/syscalls.h:218:36: note: expanded from macro 'SYSCALL_DEFI=
-NE3'
-     218 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, _=
-_VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-     227 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:246:18: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-     246 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
-GS__))  \
-         |                         ^
-   <scratch space>:254:1: note: expanded from here
-     254 | __se_sys_get_robust_list
-         | ^
-   kernel/futex/core.c:4022:1: warning: alias and aliasee have different ty=
-pes 'long (u32 *, int, u32, const struct __kernel_timespec *, u32 *, u32)' =
-(aka 'long (unsigned int *, int, unsigned int, const struct __kernel_timesp=
-ec *, unsigned int *, unsigned int)') and 'long (typeof (__builtin_choose_e=
-xpr((__builtin_types_compatible_p(typeof ((u32 *)0), typeof (0LL)) || __bui=
-ltin_types_compatible_p(typeof ((u32 *)0), typeof (0ULL))), 0LL, 0L)), type=
-of (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((int)0), ty=
-peof (0LL)) || __builtin_types_compatible_p(typeof ((int)0), typeof (0ULL))=
-), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(t=
-ypeof ((u32)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((u32)=
-0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_ty=
-pes_compatible_p(typeof ((const struct __kernel_timespec *)0), typeof (0LL)=
-) || __builtin_types_compatible_p(typeof ((const struct __kernel_timespec *=
-)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_t=
-ypes_compatible_p(typeof ((u32 *)0), typeof (0LL)) || __builtin_types_compa=
-tible_p(typeof ((u32 *)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_ch=
-oose_expr((__builtin_types_compatible_p(typeof ((u32)0), typeof (0LL)) || _=
-_builtin_types_compatible_p(typeof ((u32)0), typeof (0ULL))), 0LL, 0L)))' (=
-aka 'long (long, long, long, long, long, long)') [-Wattribute-alias]
-    4022 | SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
-         | ^
-   include/linux/syscalls.h:221:36: note: expanded from macro 'SYSCALL_DEFI=
-NE6'
-     221 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, _=
-_VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-     227 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:242:18: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-     242 |                 __attribute__((alias(__stringify(__se_sys##name)=
-)));    \
-         |                                ^
-   kernel/futex/core.c:4022:1: note: aliasee is declared here
-   include/linux/syscalls.h:221:36: note: expanded from macro 'SYSCALL_DEFI=
-NE6'
-     221 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, _=
-_VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-     227 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:246:18: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-     246 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
-GS__))  \
-         |                         ^
-   <scratch space>:103:1: note: expanded from here
-     103 | __se_sys_futex
-         | ^
->> kernel/futex/core.c:4203:1: warning: alias and aliasee have different ty=
-pes 'long (u32 *, int, u32, const struct old_timespec32 *, u32 *, u32)' (ak=
-a 'long (unsigned int *, int, unsigned int, const struct old_timespec32 *, =
-unsigned int *, unsigned int)') and 'long (typeof (__builtin_choose_expr((_=
-_builtin_types_compatible_p(typeof ((u32 *)0), typeof (0LL)) || __builtin_t=
-ypes_compatible_p(typeof ((u32 *)0), typeof (0ULL))), 0LL, 0L)), typeof (__=
-builtin_choose_expr((__builtin_types_compatible_p(typeof ((int)0), typeof (=
-0LL)) || __builtin_types_compatible_p(typeof ((int)0), typeof (0ULL))), 0LL=
-, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof =
-((u32)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((u32)0), ty=
-peof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_co=
-mpatible_p(typeof ((const struct old_timespec32 *)0), typeof (0LL)) || __bu=
-iltin_types_compatible_p(typeof ((const struct old_timespec32 *)0), typeof =
-(0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compati=
-ble_p(typeof ((u32 *)0), typeof (0LL)) || __builtin_types_compatible_p(type=
-of ((u32 *)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((_=
-_builtin_types_compatible_p(typeof ((u32)0), typeof (0LL)) || __builtin_typ=
-es_compatible_p(typeof ((u32)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (l=
-ong, long, long, long, long, long)') [-Wattribute-alias]
-    4203 | SYSCALL_DEFINE6(futex_time32, u32 __user *, uaddr, int, op, u32,=
- val,
-         | ^
-   include/linux/syscalls.h:221:36: note: expanded from macro 'SYSCALL_DEFI=
-NE6'
-     221 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, _=
-_VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-     227 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:242:18: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-     242 |                 __attribute__((alias(__stringify(__se_sys##name)=
-)));    \
-         |                                ^
-   kernel/futex/core.c:4203:1: note: aliasee is declared here
-   include/linux/syscalls.h:221:36: note: expanded from macro 'SYSCALL_DEFI=
-NE6'
-     221 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, _=
-_VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:227:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-     227 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:246:18: note: expanded from macro '__SYSCALL_DE=
-FINEx'
-     246 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_AR=
-GS__))  \
-         |                         ^
-   <scratch space>:122:1: note: expanded from here
-     122 | __se_sys_futex_time32
-         | ^
-   4 warnings generated.
+   net/netfilter/xt_TCPMSS.c: In function 'tcpmss_mangle_packet':
+>> net/netfilter/xt_TCPMSS.c:140:66: warning: suggest parentheses around comparison in operand of '&' [-Wparentheses]
+     140 |                         if (((char *)&opt[i + 2] - (char *)tcph) & 0x1 != 0) {
+         |                                                                  ^
 
 
-vim +4203 kernel/futex/core.c
+vim +140 net/netfilter/xt_TCPMSS.c
 
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4201 =20
-bec2f7cbb73ead kernel/futex.c Arnd Bergmann     2018-04-17  4202  #ifdef CO=
-NFIG_COMPAT_32BIT_TIME
-8dabe7245bbc13 kernel/futex.c Arnd Bergmann     2019-01-07 @4203  SYSCALL_D=
-EFINE6(futex_time32, u32 __user *, uaddr, int, op, u32, val,
-1ce53e2c2ac069 kernel/futex.c Alejandro Colomar 2020-11-28  4204  		const s=
-truct old_timespec32 __user *, utime, u32 __user *, uaddr2,
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4205  		u32, va=
-l3)
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4206  {
-51cf94d16860a3 kernel/futex.c Thomas Gleixner   2021-04-22  4207  	int ret,=
- cmd =3D op & FUTEX_CMD_MASK;
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4208  	ktime_t =
-t, *tp =3D NULL;
-51cf94d16860a3 kernel/futex.c Thomas Gleixner   2021-04-22  4209  	struct t=
-imespec64 ts;
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4210 =20
-51cf94d16860a3 kernel/futex.c Thomas Gleixner   2021-04-22  4211  	if (utim=
-e && futex_cmd_has_timeout(cmd)) {
-bec2f7cbb73ead kernel/futex.c Arnd Bergmann     2018-04-17  4212  		if (get=
-_old_timespec32(&ts, utime))
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4213  			return=
- -EFAULT;
-51cf94d16860a3 kernel/futex.c Thomas Gleixner   2021-04-22  4214  		ret =3D =
-futex_init_timeout(cmd, op, &ts, &t);
-51cf94d16860a3 kernel/futex.c Thomas Gleixner   2021-04-22  4215  		if (ret)
-51cf94d16860a3 kernel/futex.c Thomas Gleixner   2021-04-22  4216  			return=
- ret;
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4217  		tp =3D =
-&t;
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4218  	}
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4219 =20
-b097d5ed335615 kernel/futex.c Thomas Gleixner   2021-04-22  4220  	return d=
-o_futex(uaddr, op, val, tp, uaddr2, (unsigned long)utime, val3);
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4221  }
-bec2f7cbb73ead kernel/futex.c Arnd Bergmann     2018-04-17  4222  #endif /*=
- CONFIG_COMPAT_32BIT_TIME */
-04e7712f446058 kernel/futex.c Arnd Bergmann     2018-04-17  4223 =20
-
-:::::: The code at line 4203 was first introduced by commit
-:::::: 8dabe7245bbc134f2cfcc12cde75c019dab924cc y2038: syscalls: rename y20=
-38 compat syscalls
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+    69	
+    70	static int
+    71	tcpmss_mangle_packet(struct sk_buff *skb,
+    72			     const struct xt_action_param *par,
+    73			     unsigned int family,
+    74			     unsigned int tcphoff,
+    75			     unsigned int minlen)
+    76	{
+    77		const struct xt_tcpmss_info *info = par->targinfo;
+    78		struct tcphdr *tcph;
+    79		int len, tcp_hdrlen;
+    80		unsigned int i;
+    81		__be16 oldval;
+    82		u16 newmss;
+    83		u8 *opt;
+    84	
+    85		/* This is a fragment, no TCP header is available */
+    86		if (par->fragoff != 0)
+    87			return 0;
+    88	
+    89		if (skb_ensure_writable(skb, skb->len))
+    90			return -1;
+    91	
+    92		len = skb->len - tcphoff;
+    93		if (len < (int)sizeof(struct tcphdr))
+    94			return -1;
+    95	
+    96		tcph = (struct tcphdr *)(skb_network_header(skb) + tcphoff);
+    97		tcp_hdrlen = tcph->doff * 4;
+    98	
+    99		if (len < tcp_hdrlen || tcp_hdrlen < sizeof(struct tcphdr))
+   100			return -1;
+   101	
+   102		if (info->mss == XT_TCPMSS_CLAMP_PMTU) {
+   103			struct net *net = xt_net(par);
+   104			unsigned int in_mtu = tcpmss_reverse_mtu(net, skb, family);
+   105			unsigned int min_mtu = min(dst_mtu(skb_dst(skb)), in_mtu);
+   106	
+   107			if (min_mtu <= minlen) {
+   108				net_err_ratelimited("unknown or invalid path-MTU (%u)\n",
+   109						    min_mtu);
+   110				return -1;
+   111			}
+   112			newmss = min_mtu - minlen;
+   113		} else
+   114			newmss = info->mss;
+   115	
+   116		opt = (u_int8_t *)tcph;
+   117		for (i = sizeof(struct tcphdr); i <= tcp_hdrlen - TCPOLEN_MSS; i += optlen(opt, i)) {
+   118			if (opt[i] == TCPOPT_MSS && opt[i+1] == TCPOLEN_MSS) {
+   119				u_int16_t oldmss;
+   120				u16 csum_oldmss, csum_newmss;
+   121	
+   122				oldmss = (opt[i+2] << 8) | opt[i+3];
+   123	
+   124				/* Never increase MSS, even when setting it, as
+   125				 * doing so results in problems for hosts that rely
+   126				 * on MSS being set correctly.
+   127				 */
+   128				if (oldmss <= newmss)
+   129					return 0;
+   130	
+   131				opt[i+2] = (newmss & 0xff00) >> 8;
+   132				opt[i+3] = newmss & 0x00ff;
+   133	
+   134				csum_oldmss = htons(oldmss);
+   135				csum_newmss = htons(newmss);
+   136	
+   137				/* MSS may be unaligned; fix up the incremental checksum
+   138				 * to avoid an invalid checksum and a dropped packet.
+   139				 */
+ > 140				if (((char *)&opt[i + 2] - (char *)tcph) & 0x1 != 0) {
+   141					csum_oldmss = swab16(csum_oldmss);
+   142					csum_newmss = swab16(csum_newmss);
+   143				}
+   144	
+   145				inet_proto_csum_replace2(&tcph->check, skb,
+   146							 csum_oldmss, csum_newmss,
+   147							 false);
+   148				return 0;
+   149			}
+   150		}
+   151	
+   152		/* There is data after the header so the option can't be added
+   153		 * without moving it, and doing so may make the SYN packet
+   154		 * itself too large. Accept the packet unmodified instead.
+   155		 */
+   156		if (len > tcp_hdrlen)
+   157			return 0;
+   158	
+   159		/* tcph->doff has 4 bits, do not wrap it to 0 */
+   160		if (tcp_hdrlen >= 15 * 4)
+   161			return 0;
+   162	
+   163		/*
+   164		 * MSS Option not found ?! add it..
+   165		 */
+   166		if (skb_tailroom(skb) < TCPOLEN_MSS) {
+   167			if (pskb_expand_head(skb, 0,
+   168					     TCPOLEN_MSS - skb_tailroom(skb),
+   169					     GFP_ATOMIC))
+   170				return -1;
+   171			tcph = (struct tcphdr *)(skb_network_header(skb) + tcphoff);
+   172		}
+   173	
+   174		skb_put(skb, TCPOLEN_MSS);
+   175	
+   176		/*
+   177		 * IPv4: RFC 1122 states "If an MSS option is not received at
+   178		 * connection setup, TCP MUST assume a default send MSS of 536".
+   179		 * IPv6: RFC 2460 states IPv6 has a minimum MTU of 1280 and a minimum
+   180		 * length IPv6 header of 60, ergo the default MSS value is 1220
+   181		 * Since no MSS was provided, we must use the default values
+   182		 */
+   183		if (xt_family(par) == NFPROTO_IPV4)
+   184			newmss = min(newmss, (u16)536);
+   185		else
+   186			newmss = min(newmss, (u16)1220);
+   187	
+   188		opt = (u_int8_t *)tcph + sizeof(struct tcphdr);
+   189		memmove(opt + TCPOLEN_MSS, opt, len - sizeof(struct tcphdr));
+   190	
+   191		inet_proto_csum_replace2(&tcph->check, skb,
+   192					 htons(len), htons(len + TCPOLEN_MSS), true);
+   193		opt[0] = TCPOPT_MSS;
+   194		opt[1] = TCPOLEN_MSS;
+   195		opt[2] = (newmss & 0xff00) >> 8;
+   196		opt[3] = newmss & 0x00ff;
+   197	
+   198		inet_proto_csum_replace4(&tcph->check, skb, 0, *((__be32 *)opt), false);
+   199	
+   200		oldval = ((__be16 *)tcph)[6];
+   201		tcph->doff += TCPOLEN_MSS/4;
+   202		inet_proto_csum_replace2(&tcph->check, skb,
+   203					 oldval, ((__be16 *)tcph)[6], false);
+   204		return TCPOLEN_MSS;
+   205	}
+   206	
 
 --
 0-DAY CI Kernel Test Service
