@@ -1,71 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9AC4377559
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 08:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222263B388C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 09:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779958754; cv=none; b=netuq0PWdY3Kq5/z/hbyVscVm7iNBrcBRSA40Ry7sK0piCp4QBRAvo67KqVlIaSvV4ADzcTlNIwfJ9SkUwAT5K3K6FXx96o7eTBqZsmhOUwXXvy4xU0a9+TCh8LFECM0esIuvpMMX5zb5KACpPfnbFl/c101wxIVqD7g73ws/L8=
+	t=1779961516; cv=none; b=bt62yqsV04WD32cq0LuLPr1aHlAAlB9pgVgDlEnYrkRNUKxSIwSm3pxJXkV3naJeOtF9t9HlEBvVpohoQRitWUQVVPPfHQ0jYyXmbZDwKToD1M78y5zCicsCsTAFNxhXI4TXRBlO72WIvQ4asPja5hI4oWLq85sQFJZbSLgiqgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779958754; c=relaxed/simple;
-	bh=yITXz7miJoKkLJkFy0JeLjTGaWJ0V8x8RwQLEqHLRmQ=;
+	s=arc-20240116; t=1779961516; c=relaxed/simple;
+	bh=Ns+kkAR+hqqNKJDOgIZGSsgQVGWwfuFwMtfE1ObOqIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOMcckbopTyZ3OB+GllmxVS78eUTEB0S6mwcBmLyHgOHmf6ed4yOw35TFjXKYKT8Wj7lzatuFhKryT5Jx+BGZRf2afgdwVoHw3S07JTuFLaUz2OKyz61/wnHIgP8qsOU4/58DQOSIubkM6uSI+q5VqwinYqtnF4JLnH5bLghCJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLjGjCS8; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=TxFNwdzHfFTw3IKjhLdTND1Vt4IBO1P/ayW9iEKmKZmHGJXhFMY3mWHSga5/O1bv/afj6dVc1h2bFWPHEb3sLe1aJu/tFIxpD3OCse5u8r8MUNyOPEgGKmAn9v1oe6d42PvFNn867l+EHzg1JpGYcCHaGs1wTVqAzrj1RBNfYL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZN8mH9Rb; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLjGjCS8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZN8mH9Rb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779958753; x=1811494753;
+  t=1779961513; x=1811497513;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yITXz7miJoKkLJkFy0JeLjTGaWJ0V8x8RwQLEqHLRmQ=;
-  b=ZLjGjCS8wiNcOhv0UVujYSv2STmW4NEvvxaBjIu9pH9XcD2BjNXRc/2H
-   oWxLTYUwkIz3UHBLfP2zCHwbJNsQfyByIfGMlDLMqB7tQaUTzI4vHYoh4
-   U6Va9hk/d2cD+APLK7gF7FosLYlRPJaGygriTPPAC21ueXmdxaSZx3JCw
-   hIeEYXen3Zyildyrit+LBdg4lRQFEOH3NIZpni44JxG79R1vDGQrSK1f1
-   opFsJj4qAmAgCLK/7y3l3KK7luKcs+jyktGNF4NIE0HiWKJiSgqik7B/L
-   4Y8R/Oegzch6TSdrynPkAnN2f8/d9DvXSg9vPXEE9rhZa2AnNEsXEh1SC
-   w==;
-X-CSE-ConnectionGUID: 8TgRW4klRnu2WC5yidVx1A==
-X-CSE-MsgGUID: s/IOBXM7T02N6HVhJNXfmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="79946328"
+  bh=Ns+kkAR+hqqNKJDOgIZGSsgQVGWwfuFwMtfE1ObOqIo=;
+  b=ZN8mH9RbFkErhTa7r1oYaZkyN89+77qd69nXcs6Cop5s38qyQgESQO3N
+   ChVfJCUwpXWjiKan8a2fcJDLSmqjen4S5XtxDrrpvWMCQ9VkjoCJOOeB5
+   lv7MIC+vzS+1RECiNAetbPB6D2WEvbAJISnUIumNeH7gjCB4QDZ9RZ3O/
+   nmE8SFAHLRy6T+dR36vH5pQ6YY5IiS1qk9AjgMCjA21ya6xOS897wWTR5
+   n8rD8NDu99C52xz5VvtKURl6+UFiLSQoO/W3GtM4lc1F32vCV8XKOnP3A
+   2V4WpAi7/4sfBmMdm4HI4ZNJ30glqgJbwZawv1YgTTDodggsNOcSWqEKN
+   A==;
+X-CSE-ConnectionGUID: DNItP4PpTf++/dabFmtkVw==
+X-CSE-MsgGUID: XunGUE/kSJOUGMN1B0tzAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="91109296"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="79946328"
+   d="scan'208";a="91109296"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 01:59:12 -0700
-X-CSE-ConnectionGUID: OWoJ8s+vSmKaooVbl3p+sQ==
-X-CSE-MsgGUID: R+cGajzlR9ql9VHI5YnIIw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 02:45:12 -0700
+X-CSE-ConnectionGUID: Wy6aTRKzTeeTOlrS3es8fA==
+X-CSE-MsgGUID: DWx78cg/R5Wh9KSanTx46g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="246523117"
+   d="scan'208";a="246533641"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 May 2026 01:59:07 -0700
+  by orviesa003.jf.intel.com with ESMTP; 28 May 2026 02:45:09 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSWa0-000000005l0-1tso;
-	Thu, 28 May 2026 08:59:04 +0000
-Date: Thu, 28 May 2026 16:58:24 +0800
+	id 1wSXIY-000000005nC-18BT;
+	Thu, 28 May 2026 09:45:06 +0000
+Date: Thu, 28 May 2026 17:44:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>, Vlastimil Babka <vbabka@kernel.org>,
-	Harry Yoo <harry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
+To: Ashwin Gundarapu <linuxuser509@zohomail.in>, tglx <tglx@kernel.org>,
+	mingo <mingo@redhat.com>, bp <bp@alien8.de>, hpa <hpa@zytor.com>,
+	x86 <x86@kernel.org>, "dave.hansen" <dave.hansen@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	io-uring@vger.kernel.org, kasan-dev@googlegroups.com,
-	bpf@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH] mm/slab: improve kmem_cache_alloc_bulk
-Message-ID: <202605281629.y8HhAihO-lkp@intel.com>
-References: <20260527070239.2252948-2-hch@lst.de>
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] x86/vm86: Remove deprecated VM86 support
+Message-ID: <202605281749.4b3Hss7l-lkp@intel.com>
+References: <19e6858d9db.3a90532342003.5043853571553507480@zohomail.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,117 +65,162 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260527070239.2252948-2-hch@lst.de>
+In-Reply-To: <19e6858d9db.3a90532342003.5043853571553507480@zohomail.in>
 
-Hi Christoph,
+Hi Ashwin,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on v7.1-rc5]
+[also build test ERROR on linus/master next-20260527]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/mm-slab-improve-kmem_cache_alloc_bulk/20260527-150421
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260527070239.2252948-2-hch%40lst.de
-patch subject: [PATCH] mm/slab: improve kmem_cache_alloc_bulk
-config: parisc-randconfig-r071-20260528 (https://download.01.org/0day-ci/archive/20260528/202605281629.y8HhAihO-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281629.y8HhAihO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/x86-vm86-Remove-deprecated-VM86-support/20260527-153401
+base:   v7.1-rc5
+patch link:    https://lore.kernel.org/r/19e6858d9db.3a90532342003.5043853571553507480%40zohomail.in
+patch subject: [PATCH v2] x86/vm86: Remove deprecated VM86 support
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260528/202605281749.4b3Hss7l-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281749.4b3Hss7l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605281629.y8HhAihO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605281749.4b3Hss7l-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   lib/test_meminit.c: In function 'do_kmem_cache_size':
->> lib/test_meminit.c:239:29: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-        kmem_cache_free_bulk(c, ret, bulk_array);
-                                ^~~
-                                net
-   lib/test_meminit.c:239:29: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/lib/insn-eval.c: In function 'get_segment_selector':
+>> arch/x86/lib/insn-eval.c:380:40: error: invalid use of undefined type 'struct kernel_vm86_regs'
+     380 |                         return vm86regs->ds;
+         |                                        ^~
+   arch/x86/lib/insn-eval.c:382:40: error: invalid use of undefined type 'struct kernel_vm86_regs'
+     382 |                         return vm86regs->es;
+         |                                        ^~
+   arch/x86/lib/insn-eval.c:384:40: error: invalid use of undefined type 'struct kernel_vm86_regs'
+     384 |                         return vm86regs->fs;
+         |                                        ^~
+   arch/x86/lib/insn-eval.c:386:40: error: invalid use of undefined type 'struct kernel_vm86_regs'
+     386 |                         return vm86regs->gs;
+         |                                        ^~
+--
+   arch/x86/kernel/process_32.c: In function 'release_thread':
+>> arch/x86/kernel/process_32.c:108:9: error: implicit declaration of function 'release_vm86_irqs' [-Wimplicit-function-declaration]
+     108 |         release_vm86_irqs(dead_task);
+         |         ^~~~~~~~~~~~~~~~~
+--
+   arch/x86/kernel/signal.c: In function 'handle_signal':
+>> arch/x86/kernel/signal.c:261:17: error: implicit declaration of function 'save_v86_state' [-Wimplicit-function-declaration]
+     261 |                 save_v86_state((struct kernel_vm86_regs *) regs, VM86_SIGNAL);
+         |                 ^~~~~~~~~~~~~~
+--
+   arch/x86/kernel/traps.c: In function 'do_trap_no_signal':
+>> arch/x86/kernel/traps.c:289:30: error: implicit declaration of function 'handle_vm86_trap' [-Wimplicit-function-declaration]
+     289 |                         if (!handle_vm86_trap((struct kernel_vm86_regs *) regs,
+         |                              ^~~~~~~~~~~~~~~~
+   arch/x86/kernel/traps.c: In function '__exc_general_protection':
+>> arch/x86/kernel/traps.c:927:17: error: implicit declaration of function 'handle_vm86_fault'; did you mean 'handle_mm_fault'? [-Wimplicit-function-declaration]
+     927 |                 handle_vm86_fault((struct kernel_vm86_regs *) regs, error_code);
+         |                 ^~~~~~~~~~~~~~~~~
+         |                 handle_mm_fault
 
 
-vim +239 lib/test_meminit.c
+vim +380 arch/x86/lib/insn-eval.c
 
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  209  
-5015a300a522c8f Alexander Potapenko 2019-07-16  210  /*
-5015a300a522c8f Alexander Potapenko 2019-07-16  211   * Test kmem_cache with given parameters:
-5015a300a522c8f Alexander Potapenko 2019-07-16  212   *  want_ctor - use a constructor;
-5015a300a522c8f Alexander Potapenko 2019-07-16  213   *  want_rcu - use SLAB_TYPESAFE_BY_RCU;
-5015a300a522c8f Alexander Potapenko 2019-07-16  214   *  want_zero - use __GFP_ZERO.
-5015a300a522c8f Alexander Potapenko 2019-07-16  215   */
-5015a300a522c8f Alexander Potapenko 2019-07-16  216  static int __init do_kmem_cache_size(size_t size, bool want_ctor,
-5015a300a522c8f Alexander Potapenko 2019-07-16  217  				     bool want_rcu, bool want_zero,
-5015a300a522c8f Alexander Potapenko 2019-07-16  218  				     int *total_failures)
-5015a300a522c8f Alexander Potapenko 2019-07-16  219  {
-5015a300a522c8f Alexander Potapenko 2019-07-16  220  	struct kmem_cache *c;
-5015a300a522c8f Alexander Potapenko 2019-07-16  221  	int iter;
-5015a300a522c8f Alexander Potapenko 2019-07-16  222  	bool fail = false;
-5015a300a522c8f Alexander Potapenko 2019-07-16  223  	gfp_t alloc_mask = GFP_KERNEL | (want_zero ? __GFP_ZERO : 0);
-5015a300a522c8f Alexander Potapenko 2019-07-16  224  	void *buf, *buf_copy;
-5015a300a522c8f Alexander Potapenko 2019-07-16  225  
-5015a300a522c8f Alexander Potapenko 2019-07-16  226  	c = kmem_cache_create("test_cache", size, 1,
-5015a300a522c8f Alexander Potapenko 2019-07-16  227  			      want_rcu ? SLAB_TYPESAFE_BY_RCU : 0,
-5015a300a522c8f Alexander Potapenko 2019-07-16  228  			      want_ctor ? test_ctor : NULL);
-5015a300a522c8f Alexander Potapenko 2019-07-16  229  	for (iter = 0; iter < 10; iter++) {
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  230  		/* Do a test of bulk allocations */
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  231  		if (!want_rcu && !want_ctor) {
-863d4ee245fb4d6 Christoph Hellwig   2026-05-27  232  			if (!kmem_cache_alloc_bulk(c, alloc_mask, BULK_SIZE,
-863d4ee245fb4d6 Christoph Hellwig   2026-05-27  233  					bulk_array)) {
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  234  				fail = true;
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  235  			} else {
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  236  				int i;
-863d4ee245fb4d6 Christoph Hellwig   2026-05-27  237  				for (i = 0; i < BULK_SIZE; i++)
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  238  					fail |= check_buf(bulk_array[i], size, want_ctor, want_rcu, want_zero);
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04 @239  				kmem_cache_free_bulk(c, ret, bulk_array);
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  240  			}
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  241  		}
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  242  
-5015a300a522c8f Alexander Potapenko 2019-07-16  243  		buf = kmem_cache_alloc(c, alloc_mask);
-5015a300a522c8f Alexander Potapenko 2019-07-16  244  		/* Check that buf is zeroed, if it must be. */
-dc5c5ad79f0cc2d Laura Abbott        2019-12-04  245  		fail |= check_buf(buf, size, want_ctor, want_rcu, want_zero);
-5015a300a522c8f Alexander Potapenko 2019-07-16  246  		fill_with_garbage_skip(buf, size, want_ctor ? CTOR_BYTES : 0);
-d3a811617ae629d Arnd Bergmann       2019-07-16  247  
-d3a811617ae629d Arnd Bergmann       2019-07-16  248  		if (!want_rcu) {
-d3a811617ae629d Arnd Bergmann       2019-07-16  249  			kmem_cache_free(c, buf);
-d3a811617ae629d Arnd Bergmann       2019-07-16  250  			continue;
-d3a811617ae629d Arnd Bergmann       2019-07-16  251  		}
-d3a811617ae629d Arnd Bergmann       2019-07-16  252  
-5015a300a522c8f Alexander Potapenko 2019-07-16  253  		/*
-5015a300a522c8f Alexander Potapenko 2019-07-16  254  		 * If this is an RCU cache, use a critical section to ensure we
-5015a300a522c8f Alexander Potapenko 2019-07-16  255  		 * can touch objects after they're freed.
-5015a300a522c8f Alexander Potapenko 2019-07-16  256  		 */
-5015a300a522c8f Alexander Potapenko 2019-07-16  257  		rcu_read_lock();
-5015a300a522c8f Alexander Potapenko 2019-07-16  258  		/*
-5015a300a522c8f Alexander Potapenko 2019-07-16  259  		 * Copy the buffer to check that it's not wiped on
-5015a300a522c8f Alexander Potapenko 2019-07-16  260  		 * free().
-5015a300a522c8f Alexander Potapenko 2019-07-16  261  		 */
-733d1d1a7745113 Alexander Potapenko 2019-08-02  262  		buf_copy = kmalloc(size, GFP_ATOMIC);
-5015a300a522c8f Alexander Potapenko 2019-07-16  263  		if (buf_copy)
-5015a300a522c8f Alexander Potapenko 2019-07-16  264  			memcpy(buf_copy, buf, size);
-d3a811617ae629d Arnd Bergmann       2019-07-16  265  
-4ab7ace465466d2 Alexander Potapenko 2019-07-16  266  		kmem_cache_free(c, buf);
-5015a300a522c8f Alexander Potapenko 2019-07-16  267  		/*
-5015a300a522c8f Alexander Potapenko 2019-07-16  268  		 * Check that |buf| is intact after kmem_cache_free().
-5015a300a522c8f Alexander Potapenko 2019-07-16  269  		 * |want_zero| is false, because we wrote garbage to
-5015a300a522c8f Alexander Potapenko 2019-07-16  270  		 * the buffer already.
-5015a300a522c8f Alexander Potapenko 2019-07-16  271  		 */
-5015a300a522c8f Alexander Potapenko 2019-07-16  272  		fail |= check_buf(buf, size, want_ctor, want_rcu,
-5015a300a522c8f Alexander Potapenko 2019-07-16  273  				  false);
-5015a300a522c8f Alexander Potapenko 2019-07-16  274  		if (buf_copy) {
-5015a300a522c8f Alexander Potapenko 2019-07-16  275  			fail |= (bool)memcmp(buf, buf_copy, size);
-5015a300a522c8f Alexander Potapenko 2019-07-16  276  			kfree(buf_copy);
-5015a300a522c8f Alexander Potapenko 2019-07-16  277  		}
-5015a300a522c8f Alexander Potapenko 2019-07-16  278  		rcu_read_unlock();
-5015a300a522c8f Alexander Potapenko 2019-07-16  279  	}
-5015a300a522c8f Alexander Potapenko 2019-07-16  280  	kmem_cache_destroy(c);
-5015a300a522c8f Alexander Potapenko 2019-07-16  281  
-5015a300a522c8f Alexander Potapenko 2019-07-16  282  	*total_failures += fail;
-5015a300a522c8f Alexander Potapenko 2019-07-16  283  	return 1;
-5015a300a522c8f Alexander Potapenko 2019-07-16  284  }
-5015a300a522c8f Alexander Potapenko 2019-07-16  285  
+32d0b95300db03 Ricardo Neri 2017-10-27  323  
+32d0b95300db03 Ricardo Neri 2017-10-27  324  /**
+32d0b95300db03 Ricardo Neri 2017-10-27  325   * get_segment_selector() - obtain segment selector
+32d0b95300db03 Ricardo Neri 2017-10-27  326   * @regs:		Register values as seen when entering kernel mode
+32d0b95300db03 Ricardo Neri 2017-10-27  327   * @seg_reg_idx:	Segment register index to use
+32d0b95300db03 Ricardo Neri 2017-10-27  328   *
+32d0b95300db03 Ricardo Neri 2017-10-27  329   * Obtain the segment selector from any of the CS, SS, DS, ES, FS, GS segment
+32d0b95300db03 Ricardo Neri 2017-10-27  330   * registers. In CONFIG_X86_32, the segment is obtained from either pt_regs or
+32d0b95300db03 Ricardo Neri 2017-10-27  331   * kernel_vm86_regs as applicable. In CONFIG_X86_64, CS and SS are obtained
+32d0b95300db03 Ricardo Neri 2017-10-27  332   * from pt_regs. DS, ES, FS and GS are obtained by reading the actual CPU
+32d0b95300db03 Ricardo Neri 2017-10-27  333   * registers. This done for only for completeness as in CONFIG_X86_64 segment
+32d0b95300db03 Ricardo Neri 2017-10-27  334   * registers are ignored.
+32d0b95300db03 Ricardo Neri 2017-10-27  335   *
+32d0b95300db03 Ricardo Neri 2017-10-27  336   * Returns:
+32d0b95300db03 Ricardo Neri 2017-10-27  337   *
+32d0b95300db03 Ricardo Neri 2017-10-27  338   * Value of the segment selector, including null when running in
+32d0b95300db03 Ricardo Neri 2017-10-27  339   * long mode.
+32d0b95300db03 Ricardo Neri 2017-10-27  340   *
+32d0b95300db03 Ricardo Neri 2017-10-27  341   * -EINVAL on error.
+32d0b95300db03 Ricardo Neri 2017-10-27  342   */
+32d0b95300db03 Ricardo Neri 2017-10-27  343  static short get_segment_selector(struct pt_regs *regs, int seg_reg_idx)
+32d0b95300db03 Ricardo Neri 2017-10-27  344  {
+32d0b95300db03 Ricardo Neri 2017-10-27  345  	unsigned short sel;
+32d0b95300db03 Ricardo Neri 2017-10-27  346  
+3a24a60854d2ef Brian Gerst  2022-03-25  347  #ifdef CONFIG_X86_64
+32d0b95300db03 Ricardo Neri 2017-10-27  348  	switch (seg_reg_idx) {
+32d0b95300db03 Ricardo Neri 2017-10-27  349  	case INAT_SEG_REG_IGNORE:
+32d0b95300db03 Ricardo Neri 2017-10-27  350  		return 0;
+32d0b95300db03 Ricardo Neri 2017-10-27  351  	case INAT_SEG_REG_CS:
+32d0b95300db03 Ricardo Neri 2017-10-27  352  		return (unsigned short)(regs->cs & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  353  	case INAT_SEG_REG_SS:
+32d0b95300db03 Ricardo Neri 2017-10-27  354  		return (unsigned short)(regs->ss & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  355  	case INAT_SEG_REG_DS:
+32d0b95300db03 Ricardo Neri 2017-10-27  356  		savesegment(ds, sel);
+32d0b95300db03 Ricardo Neri 2017-10-27  357  		return sel;
+32d0b95300db03 Ricardo Neri 2017-10-27  358  	case INAT_SEG_REG_ES:
+32d0b95300db03 Ricardo Neri 2017-10-27  359  		savesegment(es, sel);
+32d0b95300db03 Ricardo Neri 2017-10-27  360  		return sel;
+32d0b95300db03 Ricardo Neri 2017-10-27  361  	case INAT_SEG_REG_FS:
+32d0b95300db03 Ricardo Neri 2017-10-27  362  		savesegment(fs, sel);
+32d0b95300db03 Ricardo Neri 2017-10-27  363  		return sel;
+32d0b95300db03 Ricardo Neri 2017-10-27  364  	case INAT_SEG_REG_GS:
+32d0b95300db03 Ricardo Neri 2017-10-27  365  		savesegment(gs, sel);
+32d0b95300db03 Ricardo Neri 2017-10-27  366  		return sel;
+32d0b95300db03 Ricardo Neri 2017-10-27  367  	default:
+32d0b95300db03 Ricardo Neri 2017-10-27  368  		return -EINVAL;
+32d0b95300db03 Ricardo Neri 2017-10-27  369  	}
+32d0b95300db03 Ricardo Neri 2017-10-27  370  #else /* CONFIG_X86_32 */
+32d0b95300db03 Ricardo Neri 2017-10-27  371  	struct kernel_vm86_regs *vm86regs = (struct kernel_vm86_regs *)regs;
+32d0b95300db03 Ricardo Neri 2017-10-27  372  
+32d0b95300db03 Ricardo Neri 2017-10-27  373  	if (v8086_mode(regs)) {
+32d0b95300db03 Ricardo Neri 2017-10-27  374  		switch (seg_reg_idx) {
+32d0b95300db03 Ricardo Neri 2017-10-27  375  		case INAT_SEG_REG_CS:
+32d0b95300db03 Ricardo Neri 2017-10-27  376  			return (unsigned short)(regs->cs & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  377  		case INAT_SEG_REG_SS:
+32d0b95300db03 Ricardo Neri 2017-10-27  378  			return (unsigned short)(regs->ss & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  379  		case INAT_SEG_REG_DS:
+32d0b95300db03 Ricardo Neri 2017-10-27 @380  			return vm86regs->ds;
+32d0b95300db03 Ricardo Neri 2017-10-27  381  		case INAT_SEG_REG_ES:
+32d0b95300db03 Ricardo Neri 2017-10-27  382  			return vm86regs->es;
+32d0b95300db03 Ricardo Neri 2017-10-27  383  		case INAT_SEG_REG_FS:
+32d0b95300db03 Ricardo Neri 2017-10-27  384  			return vm86regs->fs;
+32d0b95300db03 Ricardo Neri 2017-10-27  385  		case INAT_SEG_REG_GS:
+32d0b95300db03 Ricardo Neri 2017-10-27  386  			return vm86regs->gs;
+32d0b95300db03 Ricardo Neri 2017-10-27  387  		case INAT_SEG_REG_IGNORE:
+32d0b95300db03 Ricardo Neri 2017-10-27  388  		default:
+32d0b95300db03 Ricardo Neri 2017-10-27  389  			return -EINVAL;
+32d0b95300db03 Ricardo Neri 2017-10-27  390  		}
+32d0b95300db03 Ricardo Neri 2017-10-27  391  	}
+32d0b95300db03 Ricardo Neri 2017-10-27  392  
+32d0b95300db03 Ricardo Neri 2017-10-27  393  	switch (seg_reg_idx) {
+32d0b95300db03 Ricardo Neri 2017-10-27  394  	case INAT_SEG_REG_CS:
+32d0b95300db03 Ricardo Neri 2017-10-27  395  		return (unsigned short)(regs->cs & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  396  	case INAT_SEG_REG_SS:
+32d0b95300db03 Ricardo Neri 2017-10-27  397  		return (unsigned short)(regs->ss & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  398  	case INAT_SEG_REG_DS:
+32d0b95300db03 Ricardo Neri 2017-10-27  399  		return (unsigned short)(regs->ds & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  400  	case INAT_SEG_REG_ES:
+32d0b95300db03 Ricardo Neri 2017-10-27  401  		return (unsigned short)(regs->es & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  402  	case INAT_SEG_REG_FS:
+32d0b95300db03 Ricardo Neri 2017-10-27  403  		return (unsigned short)(regs->fs & 0xffff);
+32d0b95300db03 Ricardo Neri 2017-10-27  404  	case INAT_SEG_REG_GS:
+3a24a60854d2ef Brian Gerst  2022-03-25  405  		savesegment(gs, sel);
+3a24a60854d2ef Brian Gerst  2022-03-25  406  		return sel;
+32d0b95300db03 Ricardo Neri 2017-10-27  407  	case INAT_SEG_REG_IGNORE:
+32d0b95300db03 Ricardo Neri 2017-10-27  408  	default:
+32d0b95300db03 Ricardo Neri 2017-10-27  409  		return -EINVAL;
+32d0b95300db03 Ricardo Neri 2017-10-27  410  	}
+32d0b95300db03 Ricardo Neri 2017-10-27  411  #endif /* CONFIG_X86_64 */
+32d0b95300db03 Ricardo Neri 2017-10-27  412  }
+32d0b95300db03 Ricardo Neri 2017-10-27  413  
 
 --
 0-DAY CI Kernel Test Service
