@@ -1,181 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23025313550
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 06:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00D6315D43
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 06:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779948673; cv=none; b=e9MubUhUeJvNdimfhgcPsevyRsC8FWn+YWvj3IDE6n2I05CG3VhWVkRzvurkKkydORGmCP1YFrXtl9x4A1MzgJhxsNtWu+acqdN86jn1j4q/nR4fXc9jb4KonM7LlCg8Rpa5qvpg8bQLtZYWNwCicH4iBTwXssZaVxybGZNjpSw=
+	t=1779949234; cv=none; b=Fm1VqMtjedrrji916q3HTyiyFOJvu8+LaQljtTCrFwToaF1BZI8hzxkY2JA2Zwo9HVgxzzINHaekyGHoaWTpvezRsJf4MTbmJUddBvo4il79JtF1MDammxlhUKd0qlXDmVICncCHemGw/ZFhCafe0mBrk5XmZcl4zmpnBhdyY/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779948673; c=relaxed/simple;
-	bh=7nHTFjRpVi+JfXuX41y5vmRrefrnQl0N7LbXwO+Hz/k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nw3Y55q0rq1H5msQy8v3nqmfFHtnU3M4FaS2kwxPcP5ba+aL/encZaii2IQRoPJPE4beqEkgIjTgg125eHswDD1rrEGVxtccUYs/nQD9K4NL0R09DdfrJ2x7XOuPYtD6SI+cWiPyRYLQQCEu3MMfncLi7qjLQ8+KVVetFagQxg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CnKEPwYD; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779949234; c=relaxed/simple;
+	bh=2egaF4JqOz/gl9SLUY90HURXnn0GR2GdC+N8/MNudYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nYvewHeskLF2mSLYnmBYyuyr2rnmZ+FiQEJcsN5EdoJlvIGK0w8HpuHPknOLAKrxE7cCeupmAAKRTl/tvUpNiDGDMvq5XuLhWs8mp1fgSfb8UVSDWRMjjK6CU/9Kmpjx9/CvoMcnsIWZTQ5jY/Md6i7O5IqiIML4IjeV5j9qOXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YecaFJnz; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CnKEPwYD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779948671; x=1811484671;
-  h=date:from:to:cc:subject:message-id;
-  bh=7nHTFjRpVi+JfXuX41y5vmRrefrnQl0N7LbXwO+Hz/k=;
-  b=CnKEPwYDoUP3VpkdfoPoHecVR5XBBNR/PU04Sz5B/tSyLXbq93DaKBzF
-   X06z1Hvs5l4bBbGPPrpe0ZwUfeB2KELjXoi3agfBsqIlqctvUA+H8QUv2
-   vToXlfHZa9RbWRYKcqVPxqI7F0bB1xk/Ls/NKHwf7om+tuEDElxPPnbXj
-   MvNfdTZsAOHOSW9PV1MqeVewAqX8cPxOAeZ7oqUlfFUQ26rtckbptP805
-   wmoypfyimypGL3IIL4+DyiN7N+njavjZO/DdgReiwsTsbPog4KgEr6dUB
-   RfLX6JItBlka2t/n8X/BH6eeeTxAhUXU7mQjCZBt9UhMf4H+JW1rIXyat
-   g==;
-X-CSE-ConnectionGUID: K293O+rEToewuEGt04Dbew==
-X-CSE-MsgGUID: 9vMLXR+cTXmEt0cA6T00Qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="106238317"
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="106238317"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 23:11:10 -0700
-X-CSE-ConnectionGUID: LBCq6A6ARZiXNIpqRJZDKw==
-X-CSE-MsgGUID: R56w3UoBRHupPjtBDnho7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="246490500"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 27 May 2026 23:11:09 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wSTxS-000000000Iz-257A;
-	Thu, 28 May 2026 06:11:06 +0000
-Date: Thu, 28 May 2026 08:10:54 +0200
-From: kernel test robot <lkp@intel.com>
-To: tao <tao.wangtao@honor.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: ./include/linux/rmap.h:399:64: error: 'struct
- vm_area_struct' has no member named 'vm_rcuref'
-Message-ID: <202605280842.cVIcBVHT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YecaFJnz"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49050bfe053so29626195e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 23:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779949231; x=1780554031; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w0DmSmrXZPiEu0OyuVrKN0In8ljbty3VMv6sMMRIM3c=;
+        b=YecaFJnzLOSjGuKl38aaK+gWiNv4eIKnDBzrr+bTHzOWNBaMvkyb8ANROaPrm+/g2C
+         SzRU3P5F7gsTGJKrh9CxE/jmDP7i/Yxy5DIia1X7o9p4Cw28YnAMuED1Rpyb+moekomL
+         06bXL9+dVEDz0CiMG9sv5zJ7gzpZb9Ni5bXC7RRBSZfbTIcneKXQw4havgecguHGU5Vp
+         T+xP1qGcOMVMweoySG3ZlRAnUiovFItRSoeXwL87VVUAfjmCylvPykiRLz/d8oJVl1+C
+         VzgG5G0+FOODjbuTYY8RTR9L8NPq6Qe9eAfsXHtQV9a5fabQULN3GMHyqXUeKT7Rs3Nh
+         0JvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779949231; x=1780554031;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w0DmSmrXZPiEu0OyuVrKN0In8ljbty3VMv6sMMRIM3c=;
+        b=MEZIemFqzckPxDxBaBiyKUEKtVvjqwaUVY6ZWsfAJITUHXYpDuE0JUPgxVe3HCiMNF
+         FhJMiZQgKzYAvq10Iu7IqPFuFsci309mz9dFZ8O4PY6lVPBtXhQ4PJjKQeRoDE5FL8AR
+         lPWNUpRvYh71aTm5anec7cHBJuBqomuU+zphXWsW0R8UqIEydTstvtayznTaFFvg7mKS
+         +wxYLL8YUMbhJyooYyIZ88z0uOFBb6+dxmhrb7ECGC0oEqxQ/AhDuT9xuquOWLrkCoVj
+         U3InHLZvn59jcwOvyTHyCyxb4b9LR+mQC6nYDPeQNu9NbwNUSMFB13N8SZnVtNTBjk+j
+         CQyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8tzmt2RQTNWOXy/i9Rw5l+2WPQ7PUQHHcIrK5KGpZhJDXGo3ZZsgKSUdG6RWyzG8GVa/agd5pOg8K+8L8B@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCVv6heSnsmLUjq2GRl73q6wvSqYRTbKP7fUf8/hbOGdTlT4/f
+	kmFGFtLkctMfkoAOIW4WIYNcoz3iQU/FFlZ6Opj3zlHUvjgVN3V1xTOE
+X-Gm-Gg: Acq92OEY5Sm9nDJAfWpUrV5LVGHQstbJQ7QBxkvAyMLiC2Iogpcdj+GTfvgYJ0Ws6wK
+	OhwQ2czd4h5y7PWyzmOaf5nzpmMDD7J65cwck/Bt0M6RAVwiuUkDl6JPpwtTLVhO6xSAwR8m/aa
+	oQ0rltQpeDKo9K4Rn27SgRaOUdueOVhk991mfIdlh+QmkgEk2F0BcRCXDzdkqhMw/Lq4uPe61FC
+	qrcueEtH/jhaf8VJytjDameG4jTiKkgz8x0q4BBN4XZFr1AaJYA+/oUlsM/cb3HtIB+8PqySqU/
+	clsMKvKs9RxR1qkFGZ27wL9JofmrtBPysFA7aEbxv38cW1u44TEcr9taCf9LxXyO9/8n74jVYAr
+	qffuXdNp42ikGfiNK1cNAzz4KIuC2iGoewtEA6fmUWsnuEYIADrvTp8SDXl/NjgU/pUQmwatXA6
+	phCKHSlacGdVqOqJVOf1SI+3Vd3Ij0o+l/TQ==
+X-Received: by 2002:a05:600c:4f0f:b0:490:50e4:7224 with SMTP id 5b1f17b1804b1-49050e474d4mr424196945e9.3.1779949230846;
+        Wed, 27 May 2026 23:20:30 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49092a817d3sm23909105e9.10.2026.05.27.23.20.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 23:20:30 -0700 (PDT)
+Date: Thu, 28 May 2026 09:20:27 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 2/2]
+ drivers/misc/pci_endpoint_test.c:292 pci_endpoint_test_bar() warn:
+ signedness bug returning '(-61)'
+Message-ID: <202605281200.z115VoHV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/tao/mm-rmap-introduce-anon_rmap-APIs-for-anonymous-folios/20260527-191029
-head:   d6b84c27ac44f1ad64e0c96150f128acfc1be38e
-commit: 559daa35a1b4293cef83dcdc547cd724bf4fee5c mm: support setup and upgrade of ANON_VMA_LAZY folios
-date:   19 hours ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260528/202605280842.cVIcBVHT-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   7d38f5b0e4b0d06970e261174e220a997a0908e7
+commit: f615e8d2dec6746127d4667c3cae81bfd6a1ed3a [2/2] misc: pci_endpoint_test: Give disabled BARs a distinct error code
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260528/202605281200.z115VoHV-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605280842.cVIcBVHT-lkp@intel.com/reproduce)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605280842.cVIcBVHT-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605281200.z115VoHV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/misc/pci_endpoint_test.c:292 pci_endpoint_test_bar() warn: signedness bug returning '(-61)'
 
-   In file included from ./include/linux/init.h:5,
-                    from ./include/linux/printk.h:6,
-                    from ./include/asm-generic/bug.h:31,
-                    from ./arch/x86/include/asm/bug.h:193,
-                    from ./include/linux/bug.h:5,
-                    from ./include/linux/mmdebug.h:5,
-                    from ./include/linux/mm.h:7,
-                    from ./include/linux/pagewalk.h:5,
-                    from fs/proc/task_mmu.c:2:
-   ./include/linux/rmap.h: In function '__folio_rmap_sanity_checks':
->> ./include/linux/rmap.h:399:64: error: 'struct vm_area_struct' has no member named 'vm_rcuref'
-     399 |                         VM_WARN_ON_FOLIO(!rcuref_read(&root_vma->vm_rcuref), folio);
-         |                                                                ^~
-   ./include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
-      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
-         |                                                               ^
-   ./include/linux/rmap.h:399:25: note: in expansion of macro 'VM_WARN_ON_FOLIO'
-     399 |                         VM_WARN_ON_FOLIO(!rcuref_read(&root_vma->vm_rcuref), folio);
-         |                         ^~~~~~~~~~~~~~~~
+vim +292 drivers/misc/pci_endpoint_test.c
 
+2c156ac71c6b25 Kishon Vijay Abraham I 2017-03-27  282  static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
+                                                              ^^^^
 
-vim +399 ./include/linux/rmap.h
+2c156ac71c6b25 Kishon Vijay Abraham I 2017-03-27  283  				  enum pci_barno barno)
+2c156ac71c6b25 Kishon Vijay Abraham I 2017-03-27  284  {
+2a35703a6a00e8 Niklas Cassel          2024-03-22  285  	int j, bar_size, buf_size, iters, remain;
+2a35703a6a00e8 Niklas Cassel          2024-03-22  286  	void *write_buf __free(kfree) = NULL;
+2a35703a6a00e8 Niklas Cassel          2024-03-22  287  	void *read_buf __free(kfree) = NULL;
+cda370ec6d1f7b Kishon Vijay Abraham I 2017-08-18  288  	struct pci_dev *pdev = test->pdev;
+2c156ac71c6b25 Kishon Vijay Abraham I 2017-03-27  289  
+f615e8d2dec674 Niklas Cassel          2025-01-23  290  	bar_size = pci_resource_len(pdev, barno);
+f615e8d2dec674 Niklas Cassel          2025-01-23  291  	if (!bar_size)
+f615e8d2dec674 Niklas Cassel          2025-01-23 @292  		return -ENODATA;
 
-   330	
-   331	static __always_inline void __folio_rmap_sanity_checks(const struct folio *folio,
-   332			const struct page *page, int nr_pages, enum pgtable_level level)
-   333	{
-   334		/* hugetlb folios are handled separately. */
-   335		VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
-   336	
-   337		/* When (un)mapping zeropages, we should never touch ref+mapcount. */
-   338		VM_WARN_ON_FOLIO(is_zero_folio(folio), folio);
-   339	
-   340		/*
-   341		 * TODO: we get driver-allocated folios that have nothing to do with
-   342		 * the rmap using vm_insert_page(); therefore, we cannot assume that
-   343		 * folio_test_large_rmappable() holds for large folios. We should
-   344		 * handle any desired mapcount+stats accounting for these folios in
-   345		 * VM_MIXEDMAP VMAs separately, and then sanity-check here that
-   346		 * we really only get rmappable folios.
-   347		 */
-   348	
-   349		VM_WARN_ON_ONCE(nr_pages <= 0);
-   350		VM_WARN_ON_FOLIO(page_folio(page) != folio, folio);
-   351		VM_WARN_ON_FOLIO(page_folio(page + nr_pages - 1) != folio, folio);
-   352	
-   353		switch (level) {
-   354		case PGTABLE_LEVEL_PTE:
-   355			break;
-   356		case PGTABLE_LEVEL_PMD:
-   357			/*
-   358			 * We don't support folios larger than a single PMD yet. So
-   359			 * when PGTABLE_LEVEL_PMD is set, we assume that we are creating
-   360			 * a single "entire" mapping of the folio.
-   361			 */
-   362			VM_WARN_ON_FOLIO(folio_nr_pages(folio) != HPAGE_PMD_NR, folio);
-   363			VM_WARN_ON_FOLIO(nr_pages != HPAGE_PMD_NR, folio);
-   364			break;
-   365		case PGTABLE_LEVEL_PUD:
-   366			/*
-   367			 * Assume that we are creating a single "entire" mapping of the
-   368			 * folio.
-   369			 */
-   370			VM_WARN_ON_FOLIO(folio_nr_pages(folio) != HPAGE_PUD_NR, folio);
-   371			VM_WARN_ON_FOLIO(nr_pages != HPAGE_PUD_NR, folio);
-   372			break;
-   373		default:
-   374			BUILD_BUG();
-   375		}
-   376	
-   377		/*
-   378		 * Anon folios must have an associated live anon_vma as long as they're
-   379		 * mapped into userspace.
-   380		 * Note that the atomic_read() mainly does two things:
-   381		 *
-   382		 * 1. In KASAN builds with CONFIG_SLUB_RCU_DEBUG, it causes KASAN to
-   383		 *    check that the associated anon_vma has not yet been freed (subject
-   384		 *    to KASAN's usual limitations). This check will pass if the
-   385		 *    anon_vma's refcount has already dropped to 0 but an RCU grace
-   386		 *    period hasn't passed since then.
-   387		 * 2. If the anon_vma has not yet been freed, it checks that the
-   388		 *    anon_vma still has a nonzero refcount (as opposed to being in the
-   389		 *    middle of an RCU delay for getting freed).
-   390		 */
-   391		if (folio_test_anon(folio) && !folio_test_ksm(folio)) {
-   392			unsigned long mapping = (unsigned long)folio->mapping;
-   393			struct anon_vma *anon_vma;
-   394	
-   395			if (folio_test_anon_vma_lazy(folio)) {
-   396				struct vm_area_struct *root_vma =
-   397					(void *)(mapping - FOLIO_MAPPING_ANON_VMA_LAZY);
-   398	
- > 399				VM_WARN_ON_FOLIO(!rcuref_read(&root_vma->vm_rcuref), folio);
-   400				return;
-   401			}
-   402	
-   403			anon_vma = (void *)(mapping - FOLIO_MAPPING_ANON);
-   404			VM_WARN_ON_FOLIO(atomic_read(&anon_vma->refcount) == 0, folio);
-   405		}
-   406	}
-   407	
+This is return true;
+
+f615e8d2dec674 Niklas Cassel          2025-01-23  293  
+2c156ac71c6b25 Kishon Vijay Abraham I 2017-03-27  294  	if (!test->bar[barno])
+2c156ac71c6b25 Kishon Vijay Abraham I 2017-03-27  295  		return false;
+2c156ac71c6b25 Kishon Vijay Abraham I 2017-03-27  296  
+834b9051992580 Kishon Vijay Abraham I 2017-08-18  297  	if (barno == test->test_reg_bar)
+2a35703a6a00e8 Niklas Cassel          2024-03-22  298  		bar_size = 0x4;
+834b9051992580 Kishon Vijay Abraham I 2017-08-18  299  
+2a35703a6a00e8 Niklas Cassel          2024-03-22  300  	/*
+2a35703a6a00e8 Niklas Cassel          2024-03-22  301  	 * Allocate a buffer of max size 1MB, and reuse that buffer while
+2a35703a6a00e8 Niklas Cassel          2024-03-22  302  	 * iterating over the whole BAR size (which might be much larger).
+2a35703a6a00e8 Niklas Cassel          2024-03-22  303  	 */
+2a35703a6a00e8 Niklas Cassel          2024-03-22  304  	buf_size = min(SZ_1M, bar_size);
+2c156ac71c6b25 Kishon Vijay Abraham I 2017-03-27  305  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
