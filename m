@@ -1,118 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9BC3E0758
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 13:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1673EFD04;
+	Thu, 28 May 2026 13:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779973581; cv=none; b=KflgcOo8hPSCeVZNDvGG9SQbdgVd3sjUeyciUPC7VkTW6sHDbTJYH17qvgrpuIsSXQ9wZSI9TtMFFx2nTtvBdX6ekdRyLzj1/B0+rDQs8zubJ3ZGg/VVuB9ZXYIkBMPDPE4Si/ovDG9MszyyNafrveSPtgmJD6M53nIwJatC6V0=
+	t=1779973800; cv=none; b=ddkSLMQ58WWRb3gD1Q0RUP8u35R7eoMOggHj4xxCjCT7JeZ+02aAuLibxy/E9ZZtOyesD5uMprAT1KJT069gn42D6wxu342SqGJpqHiiG75o43oQv9xCynOmMFAcYITzL7ZV2JhILsLhUYn+GwThHs5JO7BaYx1Gs/mHpDcwSY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779973581; c=relaxed/simple;
-	bh=HEy7mKacEP1S/fPhPucD0kya4UrRHAEo7+8IS4Ms124=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NW2pg7ehA1b1FLPxGmZ9Vxd1aT3z9Ryvyquym/cPmxCGNGtiEWMNSOPX18d9/tBHlg1WTToiJr8JI+8rTYpAFMk9nIllg5buTjs3bDdyfUXbGbsRB0KbIKNhkBr5QZiXe+YH8WxmLz0kPiQnsPz5/8BToTYH5EIho5jh6erDX0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aSOP1vY+; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779973800; c=relaxed/simple;
+	bh=M4GHMGyh8NthM4VVBxzPmfqsz7fLmnq5IxpVMD3tP0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p2/Zl0M2f2+EVq0Qf2+Bzq/Ol0G7E/ldZi1RnJZtVriK5nzHyFsJH45XD6UfJ0afUpcPvcSl6hXXRbKx161VwvCgdjgUG+jX3WzZ78l6wu8R2RXa9Piv8PiS/iVCEiw2ct+wgAR4Y8RGbxNf8VvaOzDkXa4qYLF+GVHY231jsJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FScYaL+n; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aSOP1vY+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779973580; x=1811509580;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HEy7mKacEP1S/fPhPucD0kya4UrRHAEo7+8IS4Ms124=;
-  b=aSOP1vY+f9dtn3qclLl6KcMen6NPmWowSgy1/670kSXCckysYlmZ8KJr
-   9YMRpxQMgAxLXqEK5hVgr1+R807DJ9H43VAFmSgQSiIYPHJXZnFiVnugs
-   7X5zOYKLmY2Av1r4F1w9mbHwcCIY5u/MYYvzbgi1hsdpqOe08BCXi2/u7
-   ZVmsShYT2XtMW2TVEfJSoY+5bba3WfP8joX3NyibUsuxzW3Q72phkux9h
-   TOdoqclp7B5mzVOJp691CDfIo9jJcpPnmuwv9Fp30rQJe0wWPZ/svcYgX
-   hJ4I0wo9msLusqo7gp1fqWfvJe1N0OBit0SdfTEG/afyPSn9Q5r3V+/UI
-   w==;
-X-CSE-ConnectionGUID: iE9gmPzETlilPY2ArT4N7g==
-X-CSE-MsgGUID: g0pV0JcDSgS5Hgc6d6X6jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="103488125"
-X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="103488125"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 06:06:19 -0700
-X-CSE-ConnectionGUID: R6Munf91Te+cbCb8kqLK1g==
-X-CSE-MsgGUID: +/azEfm0Tl6/JkrifPf6ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="266155379"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 28 May 2026 06:06:13 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wSaR9-000000000Px-33nX;
-	Thu, 28 May 2026 13:06:11 +0000
-Date: Thu, 28 May 2026 15:06:00 +0200
-From: kernel test robot <lkp@intel.com>
-To: Aichun Shi <shiaichun@open-hieco.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 11/11] EDAC/amd64: Harden Hygon Family 0x18 UMC
- SMN base against bad DFID
-Message-ID: <202605281516.yB5gAy7r-lkp@intel.com>
-References: <20260528035246.526012-12-shiaichun@open-hieco.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FScYaL+n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21A771F000E9;
+	Thu, 28 May 2026 13:09:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779973798;
+	bh=r0QrpkQCV7e0TWVW6fG/E9wzE1TJ4SiymmotkEZ+8oA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=FScYaL+nQtn59lt3XFAAA9o4Yg6kEl4brpFw1LEWS7IHxDUz4mtHZtTtzkom60O/I
+	 CkE+aQiTiJHwB3PdgrJ3kjmvauHOSobrvqXYrhhhhXyK7BA+MkznIG/BU2DyQtkFKR
+	 Lr3Y8UgujM5kp9B11rrCi5LFCc+kWInO+/aNjtG5B2Aa7xo7HyNgXnEwbxFJn4SEnS
+	 x31KCBgSewijLLjX6s4w2feHYNefrNyuvrdKt1sntsxdpMpZYXUpgPDDrqVfW55S0B
+	 r6eF+hFt6UGOJqgXbtviEa1MkTylc8TVYTV+kTRSYpzYCirZM9pbLqd5MBhHhNC7g8
+	 qAonuPStPCxVA==
+Date: Thu, 28 May 2026 14:09:47 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: David Lechner <dlechner@baylibre.com>, Jyoti Bhayana
+ <jbhayana@google.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Benson Leung
+ <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel
+ definition
+Message-ID: <20260528140947.12c73152@jic23-huawei>
+In-Reply-To: <202605281432.a64fe4iY-lkp@intel.com>
+References: <20260525014654.2399354-1-dlechner@baylibre.com>
+	<202605281432.a64fe4iY-lkp@intel.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260528035246.526012-12-shiaichun@open-hieco.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Aichun,
+On Thu, 28 May 2026 14:40:51 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+> Hi David,
+> 
+> kernel test robot noticed the following build errors:
+> 
+For the record, this is a side effect of some email trouble David had.
+It's meant to be in a series with the patch that makes that macro
+a compound literal.
 
-[auto build test ERROR on ras/edac-for-next]
-[also build test ERROR on linus/master v7.1-rc5 next-20260527]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> [auto build test ERROR on jic23-iio/togreg]
+> [also build test ERROR on linus/master v7.1-rc5 next-20260527]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-pressure-cros_ec_baro-simplify-timestamp-channel-definition/20260525-134550
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20260525014654.2399354-1-dlechner%40baylibre.com
+> patch subject: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel definition
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605281432.a64fe4iY-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/iio/buffer.h:10,
+>                     from drivers/iio/pressure/cros_ec_baro.c:9:
+>    drivers/iio/pressure/cros_ec_baro.c: In function 'cros_ec_baro_probe':
+> >> include/linux/iio/iio.h:356:38: error: expected expression before '{' token  
+>      356 | #define IIO_CHAN_SOFT_TIMESTAMP(_si) {                                  \
+>          |                                      ^
+>    drivers/iio/pressure/cros_ec_baro.c:174:20: note: in expansion of macro 'IIO_CHAN_SOFT_TIMESTAMP'
+>      174 |         *channel = IIO_CHAN_SOFT_TIMESTAMP(1);
+>          |                    ^~~~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +356 include/linux/iio/iio.h
+> 
+> 00c5f80c2fad53 include/linux/iio/iio.h   Peter Rosin      2016-11-08  355  
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12 @356  #define IIO_CHAN_SOFT_TIMESTAMP(_si) {					\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  357  	.type = IIO_TIMESTAMP,						\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  358  	.channel = -1,							\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  359  	.scan_index = _si,						\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  360  	.scan_type = {							\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  361  		.sign = 's',						\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  362  		.realbits = 64,					\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  363  		.storagebits = 64,					\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  364  		},							\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  365  }
+> 1d892719e70e47 drivers/staging/iio/iio.h Jonathan Cameron 2011-05-18  366  
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aichun-Shi/ras-amd-atl-Add-Hygon-DF1-Data-Fabric-system-information-helper/20260528-121009
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-patch link:    https://lore.kernel.org/r/20260528035246.526012-12-shiaichun%40open-hieco.net
-patch subject: [RFC PATCH v2 11/11] EDAC/amd64: Harden Hygon Family 0x18 UMC SMN base against bad DFID
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260528/202605281516.yB5gAy7r-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281516.yB5gAy7r-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605281516.yB5gAy7r-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/ras/amd/atl/access.c:13:
->> drivers/ras/amd/atl/internal.h:22:10: fatal error: asm/hygon/node.h: No such file or directory
-      22 | #include <asm/hygon/node.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from drivers/ras/amd/atl/hygon/system.c:10:
->> drivers/ras/amd/atl/hygon/../internal.h:22:10: fatal error: asm/hygon/node.h: No such file or directory
-      22 | #include <asm/hygon/node.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +22 drivers/ras/amd/atl/internal.h
-
-    19	
-    20	#include <asm/amd/nb.h>
-    21	#include <asm/amd/node.h>
-  > 22	#include <asm/hygon/node.h>
-    23	#include <linux/processor.h>
-    24	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
