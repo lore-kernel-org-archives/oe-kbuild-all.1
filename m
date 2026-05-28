@@ -1,75 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EB2305693;
-	Thu, 28 May 2026 06:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1002D9780
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 07:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779950464; cv=none; b=Q1n3a/H2ok+GbgrMVItNXlk0PQ2GQxjIereE9yYXxbt0z/zOOrVrQntSoVse4ZPaX5DxUExOi8cWXAkPMB0vvn/3Hd3BJGEP+cL882EUOraJHR/mOmV3NJ57TQAyxPAr0GNbgFzPPnCYckr3R17LN9SZEXomHvtZoDuqt7AxwSo=
+	t=1779951853; cv=none; b=s0KpYaIAtVgdpGKm7CQKkBAlIcQQdnqZ7wIdJWZQHe9lyFLjJg1zi9NHX7Ys2QlbB+2X7LcrrLclrqXjTTqq8BCMzBYuu7k2Ow1iPGnd71nOvsHjutZXxZYn5wiFU7yGxxDfSiBEdl6I5DddkJdhPJHS/8vvgCp+MNw95jx4Ju0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779950464; c=relaxed/simple;
-	bh=SioP6jDgWCwXbGQVSvOG90A2ONx8D8JxSS4hvLLdlx8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kuMtYi1s3yTdDIPZYWo6s5yhz8duQuY6kahAxjGYTizpVF00xlWyC/TCF05WA3s/WZcr70BKVgPOB/DfLzPQUyb/FXxDy6IjO0W16dw8g2zk1B4lxlL7R3aqxXFLMav2ivocLEsak9LaqeC1kSupHnEeIb4BDRhydxC0Hv92aiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxRZbt4z; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779951853; c=relaxed/simple;
+	bh=mp5eC9QcCaWdzObaBsTcJpd9HQya9qhJSNz4iceL6wo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IgyuJ2Pyn3hWwhToN+Fk9aeLNKWtX8xBxjfgHSWRsnyggPacgPTzQaOJL1b09G8T13wfqlhVxUHPve8QlGOaW3jfaTTfNfJRx4cvjkzuWCPGQEa7ppxfnfKK7+II1qO6nMEoBR7B6LR9md1+nVk298HFwOnL5e3AcKY2xL16Y5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EcNCJyJ7; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxRZbt4z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779950463; x=1811486463;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SioP6jDgWCwXbGQVSvOG90A2ONx8D8JxSS4hvLLdlx8=;
-  b=YxRZbt4zrpjHYSMq94PCJYaOeufPTmR7FHfPMi6wbqx2p8ZnB09P6p/C
-   MNlkksZRsN+jQXwJa8dBMTAvoSS469qDS8rrQnwTGhIamGG3+cHJ8hjO7
-   skEffHJejIYEu2O7y/VzvcbHn/Uynuow+1+AY+rUYRnqAAPMSOvzjmAej
-   1fxUeWze7fCbuI7ijvcZZBQFQvELJ0olVwbKSTp14zeI9gEvRHrXoj8nX
-   0GqY42xmUk/WNruwK+LjtbQnO1b34yjpw57vtJd2KuhijIIYLvKnvaDHy
-   kc0d6MEOe1CuqH/vWeDgpggOgyKqodSOxFc8ms/DMFco7/fVIH6FS8QtN
-   g==;
-X-CSE-ConnectionGUID: xIYK7GMFRT2ScoLlgE8yuQ==
-X-CSE-MsgGUID: CNr9jQcXRNuwdiYzaSGWKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="92263273"
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="92263273"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 23:41:03 -0700
-X-CSE-ConnectionGUID: AD0JX70CQtC2uKqoWuRP1w==
-X-CSE-MsgGUID: xnwTCWx8SKiOK0BVLFC32w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="239892506"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 May 2026 23:40:58 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wSUQJ-000000005dK-33pH;
-	Thu, 28 May 2026 06:40:55 +0000
-Date: Thu, 28 May 2026 14:40:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Lechner <dlechner@baylibre.com>,
-	Jyoti Bhayana <jbhayana@google.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel
- definition
-Message-ID: <202605281432.a64fe4iY-lkp@intel.com>
-References: <20260525014654.2399354-1-dlechner@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EcNCJyJ7"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-44e5624c053so7432722f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 00:04:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779951850; x=1780556650; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6tu8aAu4Ep/N6iy7DCv6X/IZDlC/z4wBdX6VJFzFJkI=;
+        b=EcNCJyJ7W4qD+VOJKRYhgR1Fwp0V0pzGoLVQvtOvHnFFhB3WqKxAwzxth0KH6cUMyH
+         xrqTuY3V0Ct6Ym2JDwP9Xal/Qj5x43Xxakjy3Axw88he0sskI8YBa7OWe/cRlDigIazk
+         uShk9scJpIky0GVv2y8Dw+oMuRXQXfYigKW0UWmu0yW7l3yB29Y39jAIaa3Ch2dFvgsV
+         SId0orfh3X4idaGWutO9AtafStDl4V12ddElAeTyz6RiFrLOZLZ1LMnGLZ3ISq07JtOg
+         +bIolSBaz6mVX9Dm55m03i0qt0lj2WwcxMK7uMHDJXbqZnvRkaIC9vgbJLUdBuffOxH7
+         iyEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779951850; x=1780556650;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6tu8aAu4Ep/N6iy7DCv6X/IZDlC/z4wBdX6VJFzFJkI=;
+        b=nk8StvxdT8QDHn5I0P0uooQ2DrF/UREhaXGFOwCbXfkDp/7dFr1Ys92z80XssZRFN0
+         8G1grW2emDF6pxM7Fy5LzdmL4uyQB28jS1zJgPM4VLjCkHr8cYkJ9s7Ri5NiZkjT7XP7
+         SArb1QcspYrdnhuy6ynDHSiHACrde2w4ea5B+5qNxQdFCwpeSmZ//P1Z8rUr2n9DZJDC
+         KjSEomw3xkRR25+lHxlCyCVYoMzbtIfXh6WO82hJ5eAxy9pOf/3OUDOMOY+pXymHtWkM
+         iyDE9IFbO2RQx6OiYGlELDz01S5UXdXx7FTtg/ZukGcNHRFquxwTzfaJ+bwfbyFJk1AV
+         zRWg==
+X-Forwarded-Encrypted: i=1; AFNElJ/kar/uk1LG5k9+eaIx3PLjhct1NEBG1cwqLoiOSHgTpOkf5d/d9rjJX9rgLBEFCzh5hqoRlia1NE6h22be@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkIFGBe8kloMjBhiiCHJn8XlyCs+R1pmdk01zH61jehiVA0Enb
+	D8i55H9dS+TC6zWgd+VWgOD1GNbvxS3pf3V5v6jE6tceLO0LwW7hFtbO
+X-Gm-Gg: Acq92OE4GfaMnuKoJQisVh+WdgNFsKfnYn1TPEMISqf2icNF/CLFuenJl3y4neHaTqu
+	5FYZGH5wGflCgahjJsgZm8hfn/rnCI7CVnX0Aqh37WhwH2u9UyV+jVVhcsIq/joOB9S1t/1xf4T
+	cull6jnVtEHoSLpfBGzW3SWma/P9fa8o/Cdiq26y2AFlEXWKael25m0yuvDAmBloosCbEXbPj/Q
+	EJCg1Jdd7o9pL38hlheP6Rn3WrU00STYdj9CBnE4dKPo3abcr0rL1fOz30jnN8HhhCs8ZqGcwRX
+	EmfxlRj9AqCWfDL5fXbZL/EExxCYOOMYWhFBv1rTg9Xd+IoI1kwBUt6A3lLAesnqvIgkRfICEn/
+	u/c/Le7Z2nkIGRjb1iRMoPTAklFsp3kM6K94jEGQxfZkW1ankeiYCU5i57rIchrE2HqmA9ladN2
+	kIHmfOHNSpMVjSKX8U/iYKH+ndEVdh4IdOow==
+X-Received: by 2002:a05:600c:1d05:b0:490:890a:da46 with SMTP id 5b1f17b1804b1-490890af5b5mr52642515e9.2.1779951850000;
+        Thu, 28 May 2026 00:04:10 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4908eac6042sm9186795e9.21.2026.05.28.00.04.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 00:04:08 -0700 (PDT)
+Date: Thu, 28 May 2026 10:04:05 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 2/2] kernel/cgroup/cgroup.c:5863
+ cgroup_create() warn: passing zero to 'ERR_PTR'
+Message-ID: <202605281519.xhFrIcQD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,59 +72,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260525014654.2399354-1-dlechner@baylibre.com>
 
-Hi David,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v7.1-rc5 next-20260527]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-pressure-cros_ec_baro-simplify-timestamp-channel-definition/20260525-134550
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20260525014654.2399354-1-dlechner%40baylibre.com
-patch subject: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel definition
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   7d38f5b0e4b0d06970e261174e220a997a0908e7
+commit: caeb52b32bd70bc82167f136ab287e2b7a916375 [2/2] ANDROID: cgroup: Use backport reservation for freeze time
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260528/202605281519.xhFrIcQD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605281432.a64fe4iY-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605281519.xhFrIcQD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
 
-   In file included from include/linux/iio/buffer.h:10,
-                    from drivers/iio/pressure/cros_ec_baro.c:9:
-   drivers/iio/pressure/cros_ec_baro.c: In function 'cros_ec_baro_probe':
->> include/linux/iio/iio.h:356:38: error: expected expression before '{' token
-     356 | #define IIO_CHAN_SOFT_TIMESTAMP(_si) {                                  \
-         |                                      ^
-   drivers/iio/pressure/cros_ec_baro.c:174:20: note: in expansion of macro 'IIO_CHAN_SOFT_TIMESTAMP'
-     174 |         *channel = IIO_CHAN_SOFT_TIMESTAMP(1);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+vim +/ERR_PTR +5863 kernel/cgroup/cgroup.c
 
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5741  static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5742  				    umode_t mode)
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5743  {
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5744  	struct cgroup_root *root = parent->root;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5745  	struct cgroup *cgrp, *tcgrp;
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5746  	struct kernfs_node *kn;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5747  	int level = parent->level + 1;
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5748  	int ret;
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5749  
+0a950f65e1e64f kernel/cgroup.c        Tejun Heo          2012-11-19  5750  	/* allocate the cgroup and its ID, 0 is reserved for the root */
+7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5751  	cgrp = kzalloc(struct_size(cgrp, ancestors, (level + 1)), GFP_KERNEL);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5752  	if (!cgrp)
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5753  		return ERR_PTR(-ENOMEM);
+0ab02ca8f88790 kernel/cgroup.c        Li Zefan           2014-02-11  5754  
+2aad2a86f6685c kernel/cgroup.c        Tejun Heo          2014-09-24  5755  	ret = percpu_ref_init(&cgrp->self.refcnt, css_release, 0, GFP_KERNEL);
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5756  	if (ret)
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5757  		goto out_free_cgrp;
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5758  
+c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5759  	ret = cgroup_rstat_init(cgrp);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5760  	if (ret)
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5761  		goto out_cancel_ref;
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5762  
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5763  	/* create the directory */
+fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5764  	kn = kernfs_create_dir_ns(parent->kn, name, mode,
+fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5765  				  current_fsuid(), current_fsgid(),
+fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5766  				  cgrp, NULL);
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5767  	if (IS_ERR(kn)) {
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5768  		ret = PTR_ERR(kn);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5769  		goto out_stat_exit;
+976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5770  	}
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5771  	cgrp->kn = kn;
+976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5772  
+cc31edceee04a7 kernel/cgroup.c        Paul Menage        2008-10-18  5773  	init_cgroup_housekeeping(cgrp);
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5774  
+9d800df12d3173 kernel/cgroup.c        Tejun Heo          2014-05-14  5775  	cgrp->self.parent = &parent->self;
+ba0f4d761503bd kernel/cgroup.c        Tejun Heo          2014-05-13  5776  	cgrp->root = root;
+b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5777  	cgrp->level = level;
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5778  
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5779  	ret = psi_cgroup_alloc(cgrp);
+324bda9e6c5add kernel/cgroup/cgroup.c Alexei Starovoitov 2017-10-02  5780  	if (ret)
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5781  		goto out_kernfs_remove;
+b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5782  
+f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5783  	if (cgrp->root == &cgrp_dfl_root) {
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5784  		ret = cgroup_bpf_inherit(cgrp);
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5785  		if (ret)
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5786  			goto out_psi_free;
+f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5787  	}
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5788  
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5789  	cgrp->kmi_ext_info = kzalloc(sizeof(*cgrp->kmi_ext_info), GFP_KERNEL);
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5790  	if (!cgrp->kmi_ext_info)
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5791  		goto out_psi_free;
 
-vim +356 include/linux/iio/iio.h
+ret = -ENOMEM;
 
-00c5f80c2fad53 include/linux/iio/iio.h   Peter Rosin      2016-11-08  355  
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12 @356  #define IIO_CHAN_SOFT_TIMESTAMP(_si) {					\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  357  	.type = IIO_TIMESTAMP,						\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  358  	.channel = -1,							\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  359  	.scan_index = _si,						\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  360  	.scan_type = {							\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  361  		.sign = 's',						\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  362  		.realbits = 64,					\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  363  		.storagebits = 64,					\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  364  		},							\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  365  }
-1d892719e70e47 drivers/staging/iio/iio.h Jonathan Cameron 2011-05-18  366  
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5792  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5793  	/*
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5794  	 * New cgroup inherits effective freeze counter, and
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5795  	 * if the parent has to be frozen, the child has too.
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5796  	 */
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5797  	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5798  	seqcount_init(&cgrp->kmi_ext_info->freezer.freeze_seq);
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5799  	if (cgrp->freezer.e_freeze) {
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5800  		/*
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5801  		 * Set the CGRP_FREEZE flag, so when a process will be
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5802  		 * attached to the child cgroup, it will become frozen.
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5803  		 * At this point the new cgroup is unpopulated, so we can
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5804  		 * consider it frozen immediately.
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5805  		 */
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5806  		set_bit(CGRP_FREEZE, &cgrp->flags);
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5807  		cgrp->kmi_ext_info->freezer.freeze_start_nsec = ktime_get_ns();
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5808  		set_bit(CGRP_FROZEN, &cgrp->flags);
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5809  	}
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5810  
+4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5811  	spin_lock_irq(&css_set_lock);
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5812  	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp)) {
+7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5813  		cgrp->ancestors[tcgrp->level] = tcgrp;
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5814  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5815  		if (tcgrp != cgrp) {
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5816  			tcgrp->nr_descendants++;
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5817  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5818  			/*
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5819  			 * If the new cgroup is frozen, all ancestor cgroups
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5820  			 * get a new frozen descendant, but their state can't
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5821  			 * change because of this.
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5822  			 */
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5823  			if (cgrp->freezer.e_freeze)
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5824  				tcgrp->freezer.nr_frozen_descendants++;
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5825  		}
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5826  	}
+4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5827  	spin_unlock_irq(&css_set_lock);
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5828  
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5829  	if (notify_on_release(parent))
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5830  		set_bit(CGRP_NOTIFY_ON_RELEASE, &cgrp->flags);
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5831  
+2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5832  	if (test_bit(CGRP_CPUSET_CLONE_CHILDREN, &parent->flags))
+2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5833  		set_bit(CGRP_CPUSET_CLONE_CHILDREN, &cgrp->flags);
+97978e6d1f2da0 kernel/cgroup.c        Daniel Lezcano     2010-10-27  5834  
+0cb51d71c1fa92 kernel/cgroup.c        Tejun Heo          2014-05-16  5835  	cgrp->self.serial_nr = css_serial_nr_next++;
+53fa5261747a90 kernel/cgroup.c        Tejun Heo          2013-05-24  5836  
+4e139afc22cb98 kernel/cgroup.c        Tejun Heo          2012-11-19  5837  	/* allocation complete, commit to creation */
+d5c419b68e368f kernel/cgroup.c        Tejun Heo          2014-05-16  5838  	list_add_tail_rcu(&cgrp->self.sibling, &cgroup_parent(cgrp)->self.children);
+3c9c825b8b50de kernel/cgroup.c        Tejun Heo          2014-02-12  5839  	atomic_inc(&root->nr_cgrps);
+a590b90d472f2c kernel/cgroup/cgroup.c Tejun Heo          2017-04-28  5840  	cgroup_get_live(parent);
+415cf07a1c1c65 kernel/cgroup.c        Li Zefan           2013-04-08  5841  
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5842  	/*
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5843  	 * On the default hierarchy, a child doesn't automatically inherit
+667c24917144e3 kernel/cgroup.c        Tejun Heo          2014-07-08  5844  	 * subtree_control from the parent.  Each is configured manually.
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5845  	 */
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5846  	if (!cgroup_on_dfl(cgrp))
+5531dc915ba10b kernel/cgroup.c        Tejun Heo          2016-03-03  5847  		cgrp->subtree_control = cgroup_control(cgrp);
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5848  
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5849  	cgroup_propagate_control(cgrp);
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5850  
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5851  	return cgrp;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5852  
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5853  out_psi_free:
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5854  	psi_cgroup_free(cgrp);
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5855  out_kernfs_remove:
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5856  	kernfs_remove(cgrp->kn);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5857  out_stat_exit:
+c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5858  	cgroup_rstat_exit(cgrp);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5859  out_cancel_ref:
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5860  	percpu_ref_exit(&cgrp->self.refcnt);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5861  out_free_cgrp:
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5862  	kfree(cgrp);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03 @5863  	return ERR_PTR(ret);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5864  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
