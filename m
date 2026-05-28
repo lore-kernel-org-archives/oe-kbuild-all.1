@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AC4176238;
-	Thu, 28 May 2026 15:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AD72571C0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 15:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779982161; cv=none; b=i/+URackb+DVEwWDomZ0EOFZ+K6HxpkMM+20U/P+HvaRMdQevtUCs9m2C7KuG6wY52qFQoivU2dl8iKPThkTbCTLhHOjXdPoWHdVaBsJwvch9pfGB2PMFxd39PGqS4y5Gm8B6n8txHzcZ/6FHO5uIKbc/GFTikYbYT1lL8tAuZE=
+	t=1779983979; cv=none; b=W/d9HtsMKqJ8UpGtShaEePqiSRSU/6SJbnA/i4XZ27CJJa43HfQYtAbPtzs7XJ1HK4vWmbWyWIMGTXTCE4uxUY4/vzBgu0lf5ZrLsdc4+USs7M4Yz3dy14cpx1N91YgZwq1Vd/RpsHu1/cEyZuCu59C5C4E7pq2U5AyWPHnLrYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779982161; c=relaxed/simple;
-	bh=5kA2Au7z//leYylfBmiJi6Pxa8dpAPp025Zec2cefEI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rBvk6SP/S1v4jA9LNiwQVloa/RHj9MPgktrNZb9F7nWih3KQ4ME1tZYl9s/1PlkBgW+YGPkkrKTrfEIMeYzKj1t4lnac5u7iL/KYm5qh+hylozt1ARcANDKyIIzcKycNFxgLIWCPBv/U6atwnLANFDaHgAIAyL42N3Ur6lPebDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXPsHjxB; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1779983979; c=relaxed/simple;
+	bh=tpLXBa7OCDr3arTqoRa/wOORcEnapbVte3zRoJIyjM8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T/jfD9NPogmsAdqbckg5CNOvJ2C3IBJuwOlaNfsE6LY9NTrGldS0y4Qd+YxW8hFJvJ8dgokb/VtrkcwtlUExj/NLROFMfCYDflV6hHjljk7wTY2kVYbaluRy8VtM5DtMZcHSfkI8BtZFzO26dqK5cQU/DRAVqxfY21HKr8wfKbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VL6V49NB; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXPsHjxB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VL6V49NB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779982161; x=1811518161;
+  t=1779983977; x=1811519977;
   h=date:from:to:cc:subject:message-id;
-  bh=5kA2Au7z//leYylfBmiJi6Pxa8dpAPp025Zec2cefEI=;
-  b=MXPsHjxBsjyVln+bRee2qZwzo9NdK+z1pWhlOar0UyA8TVGtttPm6Myy
-   CaYVQRMY+dilR5Sh4K97Q2TxrQy3ZuYezgxk+wrC6Pv3l3VPPZkWQfWr0
-   k1YgoV5VqtryBPDXklT+jSsDW67XJ7Jj02LiLsDiz/U2e5gWZynIMGmj8
-   Jpzy94WUxUCvkIXeN6yddStpxcyMebsvr6ZnJfRoB0jtuEIwSs3gZXMZx
-   F886Ey9nHQ99kE3WfLqtiHZbv4nmMNkqpsFc5jiq4J+MRPBhGTDeLw0P+
-   ZiVbwcTmSU4jcQiCtmS+ZMiPhx7aLcQvrbTsdjaYSHR/hqXxc+P1BO1Nn
+  bh=tpLXBa7OCDr3arTqoRa/wOORcEnapbVte3zRoJIyjM8=;
+  b=VL6V49NBZglqAWQoQ930RwiMJdiKvtNFc5EtNZzSf/2usZN/K1oOWAiF
+   olETZDQtlvanXMpsjaCaDlb3qsp4ZXE9lcnlM+8j2cAT9HoxAcEaDJ0Ye
+   fVAEIRilQuJnRKDkU04PDE6x/agunKCJD/3YBSs68cYHjxGbu+6N2Lkqa
+   iZneUnTdrx18GeMWbmR+Aw/prgxYiA0WNhnm3UFAWtS/T7mfDmz8/q+J/
+   MMcPrrZgSDDcisq6phmPL1Uuthfqhucdub4hG/iZHLgKlD1RFHMxJ7hy1
+   jSC4Y5t+ByvfGO9ncOGymvxspTXG4LD9RfkLHGy7tK/viuNvwtW+93Osm
    Q==;
-X-CSE-ConnectionGUID: 7si4cZEEQLWQWDeKjEjPzA==
-X-CSE-MsgGUID: LqLe6JIsS7+MC5DtsLSHkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80939922"
+X-CSE-ConnectionGUID: jDUYijiwTVSrTp8HsteOCA==
+X-CSE-MsgGUID: lpk9BC7pSFuJnwpQkHPNrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="79978359"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="80939922"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 08:29:20 -0700
-X-CSE-ConnectionGUID: mBgCdB9vQqixzQSraNRdEg==
-X-CSE-MsgGUID: T7BnWVHJTX6tg7u3v6Csrg==
+   d="scan'208";a="79978359"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 08:59:37 -0700
+X-CSE-ConnectionGUID: 6ZMKgckjRS+rrhqI2vgiGg==
+X-CSE-MsgGUID: lRXRZOzkRFCh6B0Vjwbccg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="280691405"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 28 May 2026 08:29:19 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 28 May 2026 08:59:35 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wScfc-000000000XF-3Bix;
-	Thu, 28 May 2026 15:29:16 +0000
-Date: Thu, 28 May 2026 17:28:51 +0200
+	id 1wSd8v-0000000066k-3TT2;
+	Thu, 28 May 2026 15:59:33 +0000
+Date: Thu, 28 May 2026 23:59:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Chen <me@linux.beauty>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: Warning: fs/file.c:819 expecting prototype for
- sys_close_range(). Prototype was for do_close_range() instead
-Message-ID: <202605281747.yadMYCxP-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:rootns 15/23] <stdin>:1633:2: warning: syscall
+ rootns_wait not implemented
+Message-ID: <202605282307.ULuMkkOn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,22 +57,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Li-Chen/exec-factor-argument-setup-out-of-do_execveat_common/20260528-180137
-head:   2b6f0aa717fe21307563094c88a5b38825a40ed8
-commit: 64909eca9a8dddc4347ee5d3861a9054b9694b59 file: expose helpers for in-kernel fd actions
-date:   5 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260528/202605281747.yadMYCxP-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281747.yadMYCxP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
+head:   e5a6a778f0cd5584723651f07f5e46f765b4b2f5
+commit: c33122882bc50e01504936c20aefc86b1dc1bfb5 [15/23] rootns: Implement rootns_wait()
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260528/202605282307.ULuMkkOn-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605282307.ULuMkkOn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605281747.yadMYCxP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605282307.ULuMkkOn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: fs/file.c:819 expecting prototype for sys_close_range(). Prototype was for do_close_range() instead
+   <stdin>:1630:2: warning: syscall rootns_create not implemented [-W#warnings]
+    1630 | #warning syscall rootns_create not implemented
+         |  ^
+>> <stdin>:1633:2: warning: syscall rootns_wait not implemented [-W#warnings]
+    1633 | #warning syscall rootns_wait not implemented
+         |  ^
+   2 warnings generated.
 
 --
 0-DAY CI Kernel Test Service
