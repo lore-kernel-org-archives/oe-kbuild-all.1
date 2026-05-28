@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4ED3B585F;
-	Thu, 28 May 2026 09:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE68934A78F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 May 2026 10:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779962357; cv=none; b=YMNe1We0pCloRnI/3OnkbFsNxk/kux/gEQBROwnbLyy+zE3fVVy+ukDH5Ld4I2skKm5v1fGk0R9wjdrTqqRTPraxYJIJCC4/qK7V+M6PtSLawB5wMZwzk4gl4S+zrbGBoybuB5T58FRbq0d1LUDR8UTOB1uVKGzSvXGX8SbZUOM=
+	t=1779963803; cv=none; b=kIcYZAGnLFcslncsla2l2LdpphFjEXS8BLahOK71Ll7Bbl5kNr1W7b0avh77+G2nweuTyNIDEqbR8+1w4btHzFre6FSIl4Pq2xBF4yRs9GI+tJJglPjeEwwP6o2o2NeReIovOiwu9BOYNv6o0KZKg7pFHMvlL570jwWHsNvWOe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779962357; c=relaxed/simple;
-	bh=RVbc3koXQ4err9PbYblRDyJEYwnImRo0oDvglNC9DXQ=;
+	s=arc-20240116; t=1779963803; c=relaxed/simple;
+	bh=Ka4dqkKXiaoSIrqEW/co4iBfNrpr3bkYU5jiBBI6700=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jkuag/cJc5heAwBg4vzsGQn5OjgRPugMTltv9tnXWATc2BHoUaCb3UShChtGKoiv6oYJ5je5zY9ePFlXUqsqLSPdw8WmiH9uoBAzWEdo3DTvtFv3K1uv5n9ND0ehoRsuQ8phO/J5C5Qu6g1BG0b9Qg4+cxzlK/bN7iyDrkZGQD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZU2XzmeT; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=J3jy5y7XNdCLJtBrJL93/0w3LTJuvwBKk7E5vGfb0M3HlHcfjWn5QlYDFEPhXO9mR+9Jqfp/UoCq5BLqOpxf8I7934gbrj1sr7qVlPFvo2EfocRtdGjOB3viM7a7oTx6mNpQxBkL5JHzRmYQX8Ile7n84KLYI+p8v/6NIOyW4Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwFcc2T1; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZU2XzmeT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwFcc2T1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779962356; x=1811498356;
+  t=1779963801; x=1811499801;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RVbc3koXQ4err9PbYblRDyJEYwnImRo0oDvglNC9DXQ=;
-  b=ZU2XzmeTZKSCX1+i7fxS0rPWlQui3LIrGdKJdPJNe0yl7Uah2jPLn1eW
-   Fc1b1fsP9aU3MZc9pdghOJD2RMe1+AqhKu0b2NSxRNRiKnAh3/WItIeXw
-   xgE9WmW+czrKRzdm7OE+bf8GQlNSUpkCJx5n9FPBJZVvrqdUXJITNnOoI
-   5wmgBZ3auvPyv2i7kC0u+3UEfMid4LdBDYy8MnnEdTJmIBjnqjqYw3x2B
-   BorFQO5heI5ipbwDgqixVcwb+iUt4CYCH9UJrmfCjnt6bwQmMWPCUjp2o
-   XP63q/sSR1D0yeDqBKxbv+6la/ryVW517Zc/B/PamtwOE/rUK0n8dcuCM
-   w==;
-X-CSE-ConnectionGUID: NcAOvSpeQQGZ4C/K61vWsA==
-X-CSE-MsgGUID: /jMunWhqSvKBIXiXmzsDIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="84690782"
+  bh=Ka4dqkKXiaoSIrqEW/co4iBfNrpr3bkYU5jiBBI6700=;
+  b=AwFcc2T1AIitwMIss7UBAU2uihXyHjc1hkCmm0TNC/gCLOezzOJCv0Km
+   h3/o79i0nMl9OKYbVdAEQuvZL88LTN9fhi7dKxT/Sfd1yFfQJvm8VNqlu
+   CsflqX+Z9vUB3XL4D3ZckhipEb1tMcYT5pUqJ0+141OXcjhjCuDa+9wGr
+   HFFzKl2QJFsKgcnRWS+KIG6Tn6WAQy63AtdGMVMswvYmFmQJgd9K/JfUM
+   bQFgcBE76RIRP3I0Q34Avhe+dcdxZw8WCoafxN0uBDpVfUkU1tYHgrrDu
+   ymKqqoGGaIPiP7ZI6a16Lg/ziTlBVAeVu6KYcRX1RLySH3pUiL2x+FcUS
+   g==;
+X-CSE-ConnectionGUID: x4v90totQDWwDVJVj9VNHQ==
+X-CSE-MsgGUID: Dxzy/vRFSpy8PoZTeBh/Jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="80831209"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="84690782"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 02:59:16 -0700
-X-CSE-ConnectionGUID: mkTEZP3cRj+k5DYuQ58yeA==
-X-CSE-MsgGUID: A+RjZFUHRLql4VDS9C8C+Q==
+   d="scan'208";a="80831209"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 03:23:20 -0700
+X-CSE-ConnectionGUID: 4e6Lg948ScyWBGo3dD7oTg==
+X-CSE-MsgGUID: FYhj2vLeSWarY/Tzszl07g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="238322491"
+   d="scan'208";a="238090938"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 May 2026 02:59:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 28 May 2026 03:23:15 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSXW7-000000005oI-107J;
-	Thu, 28 May 2026 09:59:07 +0000
-Date: Thu, 28 May 2026 17:58:32 +0800
+	id 1wSXtP-000000005q6-1If0;
+	Thu, 28 May 2026 10:23:11 +0000
+Date: Thu, 28 May 2026 18:22:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	syzbot <syzbot+5d32c8bd82427f9c77cc@syzkaller.appspotmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	apopple@nvidia.com, byungchul@sk.com, david@kernel.org,
 	gourry@gourry.net, joshua.hahnjy@gmail.com,
@@ -63,7 +63,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Subject: Re: [PATCH] drm/lease: Limit amount of maximum objects per lease.
-Message-ID: <202605281701.Blefmpwd-lkp@intel.com>
+Message-ID: <202605281856.LeAMyg6G-lkp@intel.com>
 References: <b3390013-f0de-4e23-a915-23340594fb49@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -89,28 +89,36 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-lea
 base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
 patch link:    https://lore.kernel.org/r/b3390013-f0de-4e23-a915-23340594fb49%40linux.intel.com
 patch subject: [PATCH] drm/lease: Limit amount of maximum objects per lease.
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260528/202605281701.Blefmpwd-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281701.Blefmpwd-lkp@intel.com/reproduce)
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260528/202605281856.LeAMyg6G-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281856.LeAMyg6G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605281701.Blefmpwd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605281856.LeAMyg6G-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_lease.c:513:50: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+   In file included from drivers/gpu/drm/drm_lease.c:13:
+   drivers/gpu/drm/drm_lease.c: In function 'drm_mode_create_lease_ioctl':
+>> drivers/gpu/drm/drm_lease.c:513:36: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
      513 |                 drm_dbg_lease(dev, "too many objects (%ld)\n", object_count);
-         |                                                       ~~~      ^~~~~~~~~~~~
-         |                                                       %zu
-   include/drm/drm_print.h:663:54: note: expanded from macro 'drm_dbg_lease'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-         |                                                      ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:563:39: note: expanded from macro 'drm_dev_dbg'
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~
+         |                                                                |
+         |                                                                size_t {aka unsigned int}
+   include/drm/drm_print.h:563:39: note: in definition of macro 'drm_dev_dbg'
      563 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                                       ~~~    ^~~~~~~~~~~
-   1 warning generated.
+         |                                       ^~~
+   drivers/gpu/drm/drm_lease.c:513:17: note: in expansion of macro 'drm_dbg_lease'
+     513 |                 drm_dbg_lease(dev, "too many objects (%ld)\n", object_count);
+         |                 ^~~~~~~~~~~~~
+   drivers/gpu/drm/drm_lease.c:513:57: note: format string is defined here
+     513 |                 drm_dbg_lease(dev, "too many objects (%ld)\n", object_count);
+         |                                                       ~~^
+         |                                                         |
+         |                                                         long int
+         |                                                       %d
 
 
 vim +513 drivers/gpu/drm/drm_lease.c
