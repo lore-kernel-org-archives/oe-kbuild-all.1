@@ -1,71 +1,71 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020127.outbound.protection.outlook.com [52.101.195.127])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010021.outbound.protection.outlook.com [52.101.201.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8766E343884;
-	Fri, 29 May 2026 14:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.127
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8412B3438A4;
+	Fri, 29 May 2026 14:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.21
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780064704; cv=fail; b=u+0dmXDeM0Dzd+KwAX/GnNWKX7UgP+PAea7zW56Y30JJboqhglS82UEDu++Os6hoNp3S5MCSLUP1MYw0SwzMQHyubojgo11Zk+vZgGNyTbkG+t5m+P1xnZ3Zl5lJpcC/dQoAuj12ZNiq/YJVl0NZCnalmEI/oQJi7WS3kjKhdhg=
+	t=1780065779; cv=fail; b=E1WXXj6cMs8uJRBkrbyoJxkUE/MAsewTch2BFo+vZzZf4PYDfZwNgV2ybUrl99yvGt+3EoMqbPCTnZOo0e3OE7kxW1cY3w0Cnxl9Fh4kCLFwu9G7rDjMwKzJ4vceZG2a2eEU+ZsR1E6Q+oeq4YDORjTiMwlyXqOtf5xL7Dl65xE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780064704; c=relaxed/simple;
-	bh=FLL0V7rAPe7epv+V0PyRoczqqz+2TUQEIuRRu8Jj8/s=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=NxM2cTcm/rCrPMpUyflhD1CB+x45OkZ5P1P0mIMeLPpTGHBX+Pvx7FPDwA+4iM9h2k6SzuMbh1D/iSSYapNxn8oieZBtu3dA5+kMx86RF8susMINYbGyNFCBi/3bE/DYU8/nNDwvkU++0kXtqnUijCyrYct+lUFfutIA8WZa8oI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=hD0icOM3; arc=fail smtp.client-ip=52.101.195.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1780065779; c=relaxed/simple;
+	bh=nCru1lyos63WevEzF0NTxPU/6OAB+ChWEUXn9gU5428=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=LjaZENx/+A1RG9w/zVMK9l2ItpnhOnA52u6TdxKonx/EMw9+hqSjj0SAKXWojKlp1hpLZLLhE4x9rXdrqav5I3HJyV24+XKA5Nt5ORkpm1YW7slXEOvLPKTkAmSZE7NJXiEj8qPQBnsrfIOtOrBf0Qcc5r9GoEq1qcjKnYxj9nM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EHZcVggr; arc=fail smtp.client-ip=52.101.201.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="hD0icOM3"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EHZcVggr"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dR4WZe3DgkLJ7TwSyqWDtu9KOJIkyffoiYSxGeu4Pen5zZke8CVOBXFe0GnS//H2+i2A7c55DaMFfMQJkgVUxgocDxiiuFC2U1FJxToIEs1AUDMqd0oAPp+l7LOFMdTO/UStwSev5BXX1jEO8DFO4GhELxg48RuXZVkGMJqlYUWFveosnNZLdZr1sW+ji/IU2lJt7eOYuTCSbv67c4h25G5a26RLpCYKDWxfZ+eZdjLzPwSohg33B1Om/zAyLnFGY7oGCSULRqjT/A1drtkGAINXpMjSp/jW93xfLKaLWz8zKkMXrX/uvFgDW56rFf+CazkKguwKsr/fQjFwYzpL9g==
+ b=vwkIWq8hZXvoUNIYBAz3Fa0meHBFPeDdRjyTFDPK++j5Y9q1t39zmR4D1Xx02Wq0XzgBklYhuS4b5kzAc5VMKIytVOQaYJDUaA+bxzZHblvwCK/vKErAaTbOCdpSOFdtlH4WjUVQSthOSeCxx01+HiTb2eivQwucXsVOUBbJUExyYz6wKkhaIcygjXFRhfhoOiRTW0LMEJGB3PZxdSGtgJV6MdQK/ud5cmluCLxRwEDb6WRZ/vvNuYBCY3EU9+FwIglOrGPBsBa8YV6B76fQUMyDi2skelasP/s3wZ6qNmEM4O71LO1XeC62B2MXvPTEWf/rw3+T1j4RQCAm/NxvOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XpSwpj7CxV2y5bTihOMVPdZ3eifUGPLGd/2hqm6ps38=;
- b=nEExndqPRkkqw/z0U8v92E6RXJO2IpqjTvdFvRtpdlu6I9PbNuxBfQi8WHMWBXsBQLQcjaUNvpwqfiygYCvOtYI+nRfkqbw41npKt/J18VPGyCk/vECVs4IHjXJ7K2uPTdHXB45hcwgVBaIIOaTd6nsj4fGNcL01/lF3NuVazTh9PbY0jRHXqHjqO2tcmZoQjx/UhMBHrOXNAPwAvd7NWBgS7zJYZDKTSuja8e624Ue0jasRBQpFXBYlCkvnvWJ2QQHpSZTGjMgsp/Cw7x6Ue20BZxWHfb2hmoDlWivjikUXEsGC4Y9wvYgMpjzNriZ5BaucmNIJ35LHNIyvSHN66g==
+ bh=2OuHfkcJLzvckChbDiNvEP5TnyRShCei2+6iqu+PS/w=;
+ b=xL/IRElu8i0hvFsknofCh2R4RmCeF78XduF10zD6dpV+bhfW7ZhVr7TJihtQ8IJigkAO0eSSPzI+AKMmtWf57eeTo2chWv/K5WfS20vmJowYlc9OqMcfX+gugopMJ9HTpIwm3s9mj4j2KY1Cq1lrnbBWkgjzuQ68+H/q/M6VUq9lORg1U+ubK3vAu+1B2cRXM7EnvZR2imZlZG6Lc0k+WnIuS+gUgWnXUSU4gt2Yr3RvmN+OE4zu7Mzsm24i6yXFwe1IiP+my2pttITASZSPRgqS86wyIvogi50wIfcRtkHlsdvRy4H9K283+BqQ0S5DmNPuWfm89HFnPSFqnFgkpw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XpSwpj7CxV2y5bTihOMVPdZ3eifUGPLGd/2hqm6ps38=;
- b=hD0icOM3r+CK0OZYQBxL39bhU71IjG9bnhxzfyaSK89AqvQTyGZtguD3Q1FimL9BPiUMLw5ZbZlQGd95hHF+4PjHeE4PxbeUTLg81odelr/MZ+8yqgsQh0U70LJghw4Sm7ukN7sPa0u2N2KuhPCgu70bE4HAo5xTraZ/rimYlG4=
+ bh=2OuHfkcJLzvckChbDiNvEP5TnyRShCei2+6iqu+PS/w=;
+ b=EHZcVggrDmaXCLLaZPdNEzOUDGAY6OLqvhNw70JUkSslxyEXT4yvgCwazbQsXgeqTtTUbkI4iAEJRmcY3fPTOpSxP1SL5Zqq88hSpWGhCNJjDIpEhhqPJHht3XAcMy0KPB5pyvmXLCCydRV7U+4C+0nRaEXC9Tsfzw48HwTbeck0m8oTU6al4FBtXXQntHURceusiYwNkqVNHeUHr0BPafonD0NtmgmKEP8vFEmpD4/E3NHJLc3blEGHKParcEcjEdz9vTi2KyB73m6s8kbWLpal4hjVzETSdXacGn0zhddmclOKiY019hPJ558iVKZxH1RFP2bTPKhiXMxYzT3Ztg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWXP265MB2248.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:79::6) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SA1PR12MB5615.namprd12.prod.outlook.com (2603:10b6:806:229::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Fri, 29 May
- 2026 14:24:56 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0071.014; Fri, 29 May 2026
- 14:24:56 +0000
+ 2026 14:42:46 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0071.011; Fri, 29 May 2026
+ 14:42:46 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 29 May 2026 15:24:55 +0100
-Message-Id: <DIV89S3WNBBG.1DWPGA9DDUQOX@garyguo.net>
-Subject: Re: [linux-next:master 3728/9137]
- samples/rust/rust_driver_auxiliary.o: warning: objtool:
- _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9auxiliary16RegistrationDataNtCseULRbgTYaTO_21rust_driver_auxiliary4DataEENtNtB...
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
+Date: Fri, 29 May 2026 23:42:42 +0900
+Message-Id: <DIV8NE4MBOCF.1DGBV11QPIDQT@nvidia.com>
 Cc: "Alice Ryhl" <aliceryhl@google.com>, "kernel test robot"
  <lkp@intel.com>, "Danilo Krummrich" <dakr@kernel.org>,
  <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
  <rust-for-linux@vger.kernel.org>
-X-Mailer: aerc 0.21.0
+Subject: Re: [linux-next:master 3728/9137]
+ samples/rust/rust_driver_auxiliary.o: warning: objtool:
+ _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9auxiliary16RegistrationDataNtCseULRbgTYaTO_21rust_driver_auxiliary4DataEENtNtB...
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
 References: <202605291041.seNEWvLQ-lkp@intel.com>
  <ahkzosbjO4NdSyD8@google.com> <DIUZYLZW1KTM.VRI2RJ8DXEGQ@nvidia.com>
  <CAH5fLgiFo1rep3N5qGWGsTXT177hfSwW0=e1KsVCrrz2uRMoBw@mail.gmail.com>
  <DIV0HOKW3R1L.2ZK80B9TV36H7@nvidia.com>
  <DIV5H9S8ZN2L.234ZKX4RBF6BO@garyguo.net>
- <DIV7XF0O2B5A.QMQBUMXB3EJP@nvidia.com>
-In-Reply-To: <DIV7XF0O2B5A.QMQBUMXB3EJP@nvidia.com>
-X-ClientProxiedBy: LO4P265CA0107.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c3::12) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+ <DIV6O6TSXRU9.2RAEFRRAGX4EM@nvidia.com>
+ <DIV7510GLW8P.1KP88LYA360IC@garyguo.net>
+In-Reply-To: <DIV7510GLW8P.1KP88LYA360IC@garyguo.net>
+X-ClientProxiedBy: TY6PR01CA0014.jpnprd01.prod.outlook.com
+ (2603:1096:405:3bc::7) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,202 +73,159 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB2248:EE_
-X-MS-Office365-Filtering-Correlation-Id: a12ddfae-f795-422c-5935-08debd8e0eb1
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SA1PR12MB5615:EE_
+X-MS-Office365-Filtering-Correlation-Id: 910c34b0-4091-41fd-c5aa-08debd908c42
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|10070799003|366016|56012099006|4143699003|4133799003|22082099003|18002099003;
+	BCL:0;ARA:13230040|10070799003|376014|366016|1800799024|13003099007|18002099003|22082099003|56012099006|4143699003|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	Tl+j4fq1E+j+Yc00CnsG7aXWw6B1/LxTWLOXFba04eGeorMvGyxrKrziC4x2iOAEQPnbLWjaa5ToFky0moezdcd8uM8+gB1TcWNB/gOHFg92Tl3BRzPyNUcHPwueoOYNwbnZS4unfLGqZ76wwPGyVTGIDDkdbpvABKMxUHG4oo+3xGarsfyowMtwBJVM6h9LqZWbt0eXUii8PjOl8hBFWbZ5FtIcVnRsOFuhe4WGg5zDHreoJUsOWFepDi6HtSjyU8lj8Se9wfpDGVZtG79EB+l7hsylxN7Twj/9eZDjox4BB8U+x2CmdeYHP6JBvodmOV/xNkx0j6eKZN9X23Pw3VP6PXvg9ORZU8ZJQtJtFwK9SZz2VYOzw0okNIaFOvlbo5ldveGkoRDAbrGjqfPRUzesCzbdFhZ0DUwBe3ojITfFPW+0CnEaL1Y+Bzdb5JwtcFcl06amXdcFNCm5PMWxKyq09thqOQfHiqIieNeAuXvPmuskPlqRMdXwDRhQdk6t+/uB9d4KQC6FVEhsB43dzCjpYQc5brmuL8HZ1BTAtje94uEtY6coYYBJCkNLidQSwIXVLdl9GzLdxeYjD2CXsMX6VbFf/E7Woe3d+/Ct20u9R7ujklXYQ+a8ekO6sFnObNJCgRCHjiGxd54PiISzYA==
+	K34ByD0byJ9yk/BZeEPz1qvq1W9ZpXkCaygpkiF+22tqSqccaz09dNtShphQqE5hfJjUtH5x1eYqGEwOd3mMmRmTdfheiPbXjgXo2jo3LBEHwD038RojwX+qaNi3irjZyAi3vcek4EJ8j9U+l+1Z9Z0J0GiEFTALU4pqmq2trfrQr+DwPFPccwJL8yC9qqLpYIrPFhRSrU4XLKIzgBBMwcOIuk6I8fNILerHt9SsYtvg2HPbf09ZRTjZCYwEBkfBgt+CTQMTjWic4YgU83yHs5owk8SqEEXgw7s8XAoAzwkFNY/UYkJ5eV2sjKUB8gtFU0FT0sUyuYlW4HG06Dp+L4hC/E4zZj+fyo1p1ZixfKGWnxzUa80g9Km7mbzSjqk4YqYeXNIP+0R2djYwdUsdnmOjdTK+LKygyYsGnedO+rtNcNhJj/Ns83v1atNsf9ImkTQ4DofksorPJ421SvWJ3Vig257U0N2xqhlVYJYxbkGd2FjoHSQuL6uyaepeY9NELQI/cJ5mp412ukJwUESnocgdIbOUARtIq8JyeIXlTKPbrO7893LCXLLU0aKSfwdJl4NcMZXZOAhHy+RgfpLVFL3Bmn8IpFNGrVbQWuY7o8p1qJuBCvaxUdmVNxi1Rozfi04Vmfcu1yzbXIhCnTJxY5eHr4ar8lk0YIsdaLOyudf3hbqb6qXUxAXpD2k3hTpdpOLis/N7+f9NUh2iPX6Dxg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(56012099006)(4143699003)(4133799003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(366016)(1800799024)(13003099007)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UGs5T2VFSmRHR29EUGpwdFRLYkN4Ull0YmcxWFRZSTdEOFI5U0ZkRDluRVYv?=
- =?utf-8?B?b295Wkw0aUtXTHdsRE8wbHR5TzdSbVl0QzFVeXA0eUZvT0dQeGZjZkYxYnNN?=
- =?utf-8?B?dXNhR3pranJBT01oOXVGZXM3cW93RlBFZm8zd2VRVTJHcWViN3g5WXNRRjNh?=
- =?utf-8?B?aHladkNhZEVVcEJPSS8zUnBEb2s2M3Y1N2ZkczVWRS9EUnZuZzYzSHUrb0Nl?=
- =?utf-8?B?T2JuUUpaSDZCNWN3emNHakR6clpKQTY0TTR3QUtZcGpVeHB6ODFMTHM0bktD?=
- =?utf-8?B?MFBucWI0WVFsbkRjMSsrdXNYcjYyK1Vpb3FJdHV5RjA4cCt6cEZQSFV0MlFI?=
- =?utf-8?B?eGxJNHdzaUVXQ3JkSmdtc2kzMHNCdHliTmQ5bE9MSFJTMVhjYm5LQlhXM0tE?=
- =?utf-8?B?NVFCRkpvR0RLMGxrbGVoelBOMThuZHVuQUZpTlNKTzN4UVoyakYycGpQTThm?=
- =?utf-8?B?SGNzdEZGWlRaR3lRSndsQUR6alBGY3REbGdBaDJBT2l6UVRTYzcxUkwyblNV?=
- =?utf-8?B?WEZ4bW1rcjdBYzRobHlWcW9EK1lCa2lWNVVsTi85Wmt4K0J3NzRXR0I1WlFy?=
- =?utf-8?B?Ymcva2xXSHNOcG5WK3pBdnBXNmNDM2tLVVBSOWZETk5sVjdHbFMrWFM5SmNv?=
- =?utf-8?B?bXdsekVQZzhlYjIvWk1UREYvTnZodU0wRjJBTXVkbTNva2toYlRDSlhhS0s1?=
- =?utf-8?B?Z2JuUjZqYVVBQ2pETnp0RkM2SVFrM1RBcXFQM3dzMGV1OUN3T2grRy9hNWlx?=
- =?utf-8?B?eG5Bd2w0UVhJbHMyQmZsVExEeldPOHYyOEJPQjI0Skd6NXFHZlZ1OUtBUWZm?=
- =?utf-8?B?Y0xDR2lCQWxFcWErKzVYQU45K0orRjZoLzU2N2Z4dTBrMlZUVlQ4aU5wUWVN?=
- =?utf-8?B?ZzRIQzZlMDBXbUxGclZ1TTN0Y1JYOVpoRS9ZM09YWFkzMXI5TnBoNTNFcmlX?=
- =?utf-8?B?WVE2YjVvL0EwQ09QRVV5elUrK1d5dWRhamtuR0Jtd1pyK2lTeWZNcjNjVlpk?=
- =?utf-8?B?U2ZPbS9JR2t3NjlZbmRDcFFBdkE1cTI0QWJKVWw4elVGeDR1eTRmMndYNDJa?=
- =?utf-8?B?YTRVMEhrS3d0MUxtTjRwRzczWWI4OFYrSi9DQklTa0JPU25DS0VjWjh4U3Vx?=
- =?utf-8?B?VUFyK1VuS1dHbXJFMlR5WVN0NVNENDQxMmRINm5pSUxSSzhwYUl2cktwdGZo?=
- =?utf-8?B?RzFsSVdFV0VvRENRS3MzSkEvVEpaclEyWHhhWnZjRytLRGQzTkRhT094QUFQ?=
- =?utf-8?B?ZHZFQ1lqRG1xU2dTOUpkeXoxQWM0WTNzMGU5ZWNCUk5QWHFiTXRmb0VoYlUx?=
- =?utf-8?B?WVlVMW1pM2l1U2Z4ZUo4UUc2N2loRitTakUvZkVLa0dMME9jUk5xMmNIU1ND?=
- =?utf-8?B?WGRzZ0RFTStUTGVZNFU5RXM2aGFZeWNVRGJVM3ZPZFJnQmgyU0RXdWhMTkho?=
- =?utf-8?B?SGcwZG1RaEdjVkZKSDdOd0gwODR0M3dSUm5YQzg1SmllRmtpSC9XVlJobzNR?=
- =?utf-8?B?RUlpbUJ4NzZENzI3VCtzOHpleGVoRDkxS1I5bHMxbFNuUkRNYlRFU0lUTXVs?=
- =?utf-8?B?VTFxcG93K09wa2RHaEFTa0FCMjZwV1dMdndmaXI5eVhFTmpaK25uOC9hS05Q?=
- =?utf-8?B?VzI0NVlWTG9rbTFuWXZ0QVdXRGpiVUxIL3c2eWdsaHZia3dUdE5tNmhXUlcy?=
- =?utf-8?B?aDBSMnBhTm1xcjR0aGhYeVZOMDFuaGh0MUgxUVhSSXVKNW1mK01BWVhaWDRU?=
- =?utf-8?B?MnZLaUk3VmRHbXVoNHZvRUhmZmNyY3IyRElQQ2FkaEdPRk02VjdzRjA1MWZm?=
- =?utf-8?B?TDlZWmtRQmtvdzJsMDRSSXlOLzlUeEVqSWlsYjY4cHZLSEpqUzR4dEtBNlpI?=
- =?utf-8?B?ejRxMVhIZUZyTXgxa25kQVlUQldBaytJNDBnNDkyZ1pHSSs5R0NUM1FqbzRa?=
- =?utf-8?B?NHBhclFpbkdmejFJMm1UVCtVOEpYL21WR09pZHR6bVpPMUJrVjk4VFpOYmZO?=
- =?utf-8?B?dloxR20rY3pOWFF3SXh4NzJRTzNPTHI5ck9oY3c3RFJJY1haUU1iT2pERzY5?=
- =?utf-8?B?OGtKNElnRTlueVVtVEd2U08xbGtnZzhDenZkanR6aVhiYmRLSGFOQWM5V1Ju?=
- =?utf-8?B?aGk0VzJ5TUFMcHNXYWpJRGtpZ0ZScWdTSXR3a2VHdFo4d1M1ZFV5bjc0OUxs?=
- =?utf-8?B?SWdDN0ZFWVQxV3RiOXFhSVJBc0RsUGN4NzNMbDFGVzVydkFBbTZhY3RXTmhl?=
- =?utf-8?B?a2hJeEtuSUlCMnhrQTJvVkpPOGZMVW5HcVNuNS9SZWdHajlBMXhkQ25obndj?=
- =?utf-8?B?bmk4a1haS3c0TGtuTXZ4ZS9zUWZxTElsQjI0ZzRxZk16YnpTK1pGdz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: a12ddfae-f795-422c-5935-08debd8e0eb1
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+	=?utf-8?B?OG9VQ04xT2NuU09aTzBmQ2dpZHVHRmgyNndDNWxUcEJuWndxdGNDaUFpYVNE?=
+ =?utf-8?B?ZUx3TXFEdE90MldCbnQvY2pRSmllbHFRbU5DWk9YL2s3MmFXck1CQVNpK0FE?=
+ =?utf-8?B?UnRqTkkweUFzNmNRdEE4TFRoYjdMYjFPcWYyeG5nOVZEQzJLaEZGRjEweGxE?=
+ =?utf-8?B?cjFLam10TStia2dNcUhxTm9nMGJGZ1R1S2JmSzU1YWdRTnFpOWdIbFpudVpi?=
+ =?utf-8?B?TnRpVEtTSjhOdDQ2V0dCL1BqaE45dmRkamZwTmlYRktiMVBRcy9sR3pJSkp1?=
+ =?utf-8?B?QnprYmM5WHRkV3IwQWE0T2dnWFBpd1k1RmRVUEdISGRPT1A2dEw4Qi92cjBs?=
+ =?utf-8?B?aDMvK08rZm5hdHRUNGx0T0Z4blVpTXZqdk1hbElkY0I5OS9tZWhJYjd4c3pr?=
+ =?utf-8?B?elZnL0tDaWx0WDM5ZnpNazR5QzdDN25ra3VzK28wSm44RzVrcjBTSzhPUVdy?=
+ =?utf-8?B?LzdHT2pmb1Nsekw5eGxWMVZ4Q1RSVDV0d2lsTXNJVzNIdWIzWFhFdDBScmNk?=
+ =?utf-8?B?eFJMK1ZmYUVQZ29xOXpJQzdSYmVqK3c2Y09XWFVORlY0aWlNT09rSE1peXlJ?=
+ =?utf-8?B?UmthNTdrL2kxSmV5NnFWc1l2OVRaTzNNYk1CMmZoK2ZPY1JjY3Vzei9lenJE?=
+ =?utf-8?B?MFhvdW9uNGpja2tPWXVWaDlqSklnSENpVG02aWlKTnR2RmI0cTgrc3YwWVNu?=
+ =?utf-8?B?MVFnM1VydlhwUzJ0ZXZSTm5USXlSUEdQa3l1NGNNRFY2RmJPNEVxTjJqd1BF?=
+ =?utf-8?B?ZkZjZVpKTFh2YVJ6S1czK0R1UktMaDNiKzRxL3ZxOHdQR3A0UFU2WGRtRFRJ?=
+ =?utf-8?B?Nm9vN0p5bzBRVkxHczdxL1RER3N0OEd4Nk5TOVJCUXV2eUt0NEFIRjlQWlYv?=
+ =?utf-8?B?Z3FnYXNwY29INXRqeEhhQzNjTWtsQ0xneWpMSXBjMC8vM3lobS8wRmtZdUli?=
+ =?utf-8?B?OUpEeXc2UjRQVW1QQzlXY1NQSnFuc2JYMjM1eFBNSDk2SGpuM0JjTGo4eFQr?=
+ =?utf-8?B?eERuOXlxRTFXNWtnY0haamlYdHdrRDhxN0NtZHArajExV2Jnazg1ekNxNmlr?=
+ =?utf-8?B?Z2RBeHNIeGJyM25iblpJZE9WWUZpcjd5Qlc4QUtCdW1HSU5KNzJ2eW9LUDlE?=
+ =?utf-8?B?eEIxY3NmWStkSWhNVWJoNVpNUkdGV2Z6V0toYklESGtuMUd2aHlFMVIwY3hj?=
+ =?utf-8?B?Tzg0V0l0bCs5dGZYUHhWMDYwK1FNL2JXSVROMnQ1Z2tEZTBkQW1jVEJBT3Y0?=
+ =?utf-8?B?ZVM1c0xwckVHaTJnbEVpSWNqTmNuaVNramZNa0JvR081V3p2cVo3Nm1IVkQr?=
+ =?utf-8?B?V2kzWGNXN05SOW1xT0E4MXFscjZmUi9od0VPTzZJNWdINWN2cU1lMEk3Wk5v?=
+ =?utf-8?B?QTViVkJ5VlNObk83a0NscjZ2N2M4YzBvUnQ3Wml1SmNPbUUwTGNRbmYySUZR?=
+ =?utf-8?B?a0lNTUxHQ0hETVphZU1JODIxNzVUSE53UmZYQWdTNkJsVVI1NXdzU01aVzdQ?=
+ =?utf-8?B?ZG5aalhLc0dFTzRtbUE5ZnBBVUY5NDZueHZZamhRWlhITEk2RUt5T0RtaE9B?=
+ =?utf-8?B?TmhZTk9QTk1LN1V5bnlpR013ek5FZWJ6NDg1YU1ZNG5CdXBENDNROVJRVzBv?=
+ =?utf-8?B?SGtRelNIOUp3cFdwMTVCTXY0SlZxMzhaRkYwMGc0QWVOUFZObS9hQ0VCTGZn?=
+ =?utf-8?B?emJnYlVMQUVBRCtyN1V2TmJkZXNPVitsQ2tmaVBmRHJXWEp6RGtETmZtVkVw?=
+ =?utf-8?B?Z3NYcHFDSUVhZ2tFVHVBKzVkeVVmT3I3Skk3NW90VGtzNnZGZE5nQ2NDNGts?=
+ =?utf-8?B?S0dFcTlZMUpZTlIxUUx3REZoNHV3SjMwcVhxQnFTamZOeGE2WHdMZFhFY2Ur?=
+ =?utf-8?B?Vk5jbnFoTy80UFF2a3FidTRodjFsOUdCZ0wxQ2RVR1VvNm5PUjFiemtKMXhr?=
+ =?utf-8?B?Mkx4cUVRalQrdFpzUXdXV20wMldxRGUxanJjMWJrMkpjOGJkMUNWUzdQRkN4?=
+ =?utf-8?B?NXpaUEl1QURPdFhORGQyUjI1UWxmR2FvZ0p6M1hnUStKMkFrdnJpVjhLK0VE?=
+ =?utf-8?B?bnNYckxZejhtcGwwL1ZWeXN1aUJJWUJyVk9ldU9FNE0zZ1dqcDYvbGcxdmpN?=
+ =?utf-8?B?NVpFS1d4cENyUHUrY3NLUWlWSWRHQW1qb05HNldvQklCdHBEZitDdTFwdW5G?=
+ =?utf-8?B?Ym1OWFlJOHFhTW1RR05HUmZqbFQ0UUJKb0Q2UzB4cWVhZ3QvYnR5cmFEaFht?=
+ =?utf-8?B?QWdKQ1M1eXNwVjV5RTFSY1YxVTVQeHl4YjJwczFIQXVJUXRzbis1UnQyUE8y?=
+ =?utf-8?B?clhyZGpEZi84S3hQYVZkbGFtYnBycDFPS0htbkZOT1Ezbm9EV25VbVdka1cw?=
+ =?utf-8?Q?2CkiRPtXP88J+u1oatqqyrfOYkkdyJI7ViBJIN9OP8c8H?=
+X-MS-Exchange-AntiSpam-MessageData-1: Na7I26++tq9TsA==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 910c34b0-4091-41fd-c5aa-08debd908c42
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 14:24:56.3612
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 14:42:46.1910
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qXTNq54Y6xBo/6KK17ZuRFcirWaJAAuBGIo9CcvZI0mQzFPjFnukqFAyDlrkQZJKZWmKhPXt61wmAGOJQk2nEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2248
+X-MS-Exchange-CrossTenant-UserPrincipalName: p/fS6RtVzK1cAIS4M0X4aPo5waLTSRE07Z95DC1PTDaKNTuZF+dvwNA4Y2FZCajqNFmy7M53eyrAOIEop6EgXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5615
 
-On Fri May 29, 2026 at 3:08 PM BST, Alexandre Courbot wrote:
-> On Fri May 29, 2026 at 9:13 PM JST, Gary Guo wrote:
->> On Fri May 29, 2026 at 9:19 AM BST, Alexandre Courbot wrote:
->>> On Fri May 29, 2026 at 5:00 PM JST, Alice Ryhl wrote:
->>>> On Fri, May 29, 2026 at 9:54=E2=80=AFAM Alexandre Courbot <acourbot@nv=
-idia.com> wrote:
+On Fri May 29, 2026 at 10:31 PM JST, Gary Guo wrote:
+> On Fri May 29, 2026 at 2:09 PM BST, Alexandre Courbot wrote:
+>> On Fri May 29, 2026 at 9:13 PM JST, Gary Guo wrote:
+>>> On Fri May 29, 2026 at 9:19 AM BST, Alexandre Courbot wrote:
+>>>> On Fri May 29, 2026 at 5:00 PM JST, Alice Ryhl wrote:
+>>>>> On Fri, May 29, 2026 at 9:54=E2=80=AFAM Alexandre Courbot <acourbot@n=
+vidia.com> wrote:
+>>>>>>
+>>>>>> On Fri May 29, 2026 at 3:35 PM JST, Alice Ryhl wrote:
+>>>>>> > On Fri, May 29, 2026 at 10:52:52AM +0800, kernel test robot wrote:
+>>>>>> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linu=
+x-next.git master
+>>>>>> >> head:   f7af91adc230aa99e23330ecf85bc9badd9780ad
+>>>>>> >> commit: fd3b87ff0232f46e1ad53a48609a3853c8757c6c [3728/9137] rust=
+: auxiliary: add registration data to auxiliary devices
+>>>>>> >> config: x86_64-randconfig-004-20260529 (https://download.01.org/0=
+day-ci/archive/20260529/202605291041.seNEWvLQ-lkp@intel.com/config)
+>>>
+>>> Ah, OPTIMIZE_FOR_SIZE build, it's always this...
+>>>
+>>>>>> >> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-proj=
+ect 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+>>>>>> >> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+>>>>>> >> reproduce (this is a W=3D1 build): (https://download.01.org/0day-=
+ci/archive/20260529/202605291041.seNEWvLQ-lkp@intel.com/reproduce)
+>>>>>> >>
+>>>>>> >> If you fix the issue in a separate patch/commit (i.e. not just a =
+new version of
+>>>>>> >> the same patch/commit), kindly add following tags
+>>>>>> >> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>>> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202605291041.seNE=
+WvLQ-lkp@intel.com/
+>>>>>> >>
+>>>>>> >> All warnings (new ones prefixed by >>):
+>>>>>> >>
+>>>>>> >>    samples/rust/rust_driver_auxiliary.o: warning: objtool: asan.m=
+odule_ctor+0xd: call without frame pointer save/setup
+>>>>>> >>    samples/rust/rust_driver_auxiliary.o: warning: objtool: asan.m=
+odule_dtor+0x1: call without frame pointer save/setup
+>>>>>> >
+>>>>>> > This one looks like this bug:
+>>>>>> > https://github.com/rust-lang/rust/pull/156980
+>>>>>>
+>>>>>> Does [1] work around the problem by any chance?
+>>>>>>
+>>>>>> [1] https://lore.kernel.org/all/20260527-nova-exports-v2-3-06de4c556=
+d55@nvidia.com/
 >>>>>
->>>>> On Fri May 29, 2026 at 3:35 PM JST, Alice Ryhl wrote:
->>>>> > On Fri, May 29, 2026 at 10:52:52AM +0800, kernel test robot wrote:
->>>>> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux=
--next.git master
->>>>> >> head:   f7af91adc230aa99e23330ecf85bc9badd9780ad
->>>>> >> commit: fd3b87ff0232f46e1ad53a48609a3853c8757c6c [3728/9137] rust:=
- auxiliary: add registration data to auxiliary devices
->>>>> >> config: x86_64-randconfig-004-20260529 (https://download.01.org/0d=
-ay-ci/archive/20260529/202605291041.seNEWvLQ-lkp@intel.com/config)
->>
->> Ah, OPTIMIZE_FOR_SIZE build, it's always this...
->>
->>>>> >> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-proje=
-ct 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
->>>>> >> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
->>>>> >> reproduce (this is a W=3D1 build): (https://download.01.org/0day-c=
-i/archive/20260529/202605291041.seNEWvLQ-lkp@intel.com/reproduce)
->>>>> >>
->>>>> >> If you fix the issue in a separate patch/commit (i.e. not just a n=
-ew version of
->>>>> >> the same patch/commit), kindly add following tags
->>>>> >> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202605291041.seNEW=
-vLQ-lkp@intel.com/
->>>>> >>
->>>>> >> All warnings (new ones prefixed by >>):
->>>>> >>
->>>>> >>    samples/rust/rust_driver_auxiliary.o: warning: objtool: asan.mo=
-dule_ctor+0xd: call without frame pointer save/setup
->>>>> >>    samples/rust/rust_driver_auxiliary.o: warning: objtool: asan.mo=
-dule_dtor+0x1: call without frame pointer save/setup
->>>>> >
->>>>> > This one looks like this bug:
->>>>> > https://github.com/rust-lang/rust/pull/156980
->>>>>
->>>>> Does [1] work around the problem by any chance?
->>>>>
->>>>> [1] https://lore.kernel.org/all/20260527-nova-exports-v2-3-06de4c556d=
-55@nvidia.com/
+>>>>> The asan.module_ctor error? I don't see how it would work around that=
+.
 >>>>
->>>> The asan.module_ctor error? I don't see how it would work around that.
+>>>> I was referring to this error on the report:
+>>>>
+>>>> _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRia=
+bPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9auxiliary16RegistrationD=
+ataNtCseULRbgTYaTO_21rust_driver_auxiliary4DataEENtNtB8_9allocator7KmallocE=
+INtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5=
+ErrorINtNtB3y_10___internal11InitClosureNCINvYIBH_B1L_B35_EINtNtBa_4init11I=
+nPlaceInitB1L_E8pin_initB4u_IB4O_NCINvMsc_B1O_INtB1O_12RegistrationB2l_E3ne=
+wNtNtBX_7convert10InfallibleB2l_Es_0B1L_B4u_EE0B1L_B4u_EEB2n_: symbol name =
+too long, can't create __pfx_ symbol
+>>>>
+>>>> As this patch might help shorten the symbol.
 >>>
->>> I was referring to this error on the report:
+>>> https://lore.kernel.org/rust-for-linux/20260527-pin-init-sync-v1-5-e203=
+35ed2501@garyguo.net/
+>>> would also help a bit with this, although I'm not sure if is sufficient=
+.
 >>>
->>> _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiab=
-Plh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9auxiliary16RegistrationDa=
-taNtCseULRbgTYaTO_21rust_driver_auxiliary4DataEENtNtB8_9allocator7KmallocEI=
-NtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5E=
-rrorINtNtB3y_10___internal11InitClosureNCINvYIBH_B1L_B35_EINtNtBa_4init11In=
-PlaceInitB1L_E8pin_initB4u_IB4O_NCINvMsc_B1O_INtB1O_12RegistrationB2l_E3new=
-NtNtBX_7convert10InfallibleB2l_Es_0B1L_B4u_EE0B1L_B4u_EEB2n_: symbol name t=
-oo long, can't create __pfx_ symbol
->>>
->>> As this patch might help shorten the symbol.
+>>> Also, regarding your patch; do you need `#[inline(always)]` or is `#[in=
+line]`
+>>> sufficient? Inlining shouldn't be forced unless there's a good justific=
+ation.
 >>
->> https://lore.kernel.org/rust-for-linux/20260527-pin-init-sync-v1-5-e2033=
-5ed2501@garyguo.net/
->> would also help a bit with this, although I'm not sure if is sufficient.
->>
->> Also, regarding your patch; do you need `#[inline(always)]` or is `#[inl=
-ine]`
->> sufficient? Inlining shouldn't be forced unless there's a good justifica=
-tion.
+>> If the code is not inlined, we risk a build failure - pretty similarly
+>> to the link errors of `build_assert!`. I'd say that justifies using
+>> `#[inline(always)]` here, but maybe we should also add a comment
+>> explaining why we do so.
 >
-> So using the config file and base commit from the report, I get these 4 s=
-ymbols:
->
-> samples/rust/rust_driver_auxiliary.o: warning: objtool: _RINvXs5_NtNtCs1E=
-KtwoKEMO2_6kernel5alloc4kboxINtB6_3BoxINtNtNtCs1peUGmbrgHn_4core3mem12maybe=
-_uninit11MaybeUninitINtNtBa_9auxiliary16RegistrationDataNtCsfAKt1AHk10R_21r=
-ust_driver_auxiliary4DataEENtNtB8_9allocator7KmallocEINtCsfxcgfq7FLKi_8pin_=
-init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3y_10___int=
-ernal11InitClosureNCINvYIBH_B1L_B35_EINtNtBa_4init11InPlaceInitB1L_E8pin_in=
-itB4u_IB4O_NCINvMsc_B1O_INtB1O_12RegistrationB2l_E3newNtNtBX_7convert10Infa=
-llibleB2l_Es_0B1L_B4u_EE0B1L_B4u_EEB2n_: symbol name too long, can't create=
- __pfx_ symbol
-> samples/rust/rust_debugfs_scoped.o: warning: objtool: _RINvMs0_NvNtNtCs1E=
-KtwoKEMO2_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3Ve=
-cINtNtCs1peUGmbrgHn_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNt=
-CsgkhUnUyOK5q_19rust_debugfs_scoped10DeviceDataENtNtB1a_9allocator7KmallocE=
-EB3s_ENtNtB8_5mutex12MutexBackendE5stateNtNtB1z_7convert10InfallibleINtNtCs=
-fxcgfq7FLKi_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB60_6=
-OpaqueNtNtCsge5g75tgsAU_8bindings12bindings_raw5mutexE8ffi_initNCNCINvMs0_B=
-8_INtB8_4LockB15_B3Z_E3newB15_E00E0B6b_B4x_EEB2G_: symbol name too long, ca=
-n't create __pfx_ symbol
-> samples/rust/rust_debugfs_scoped.o: warning: objtool: _RINvXs5_NtNtCs1EKt=
-woKEMO2_6kernel5alloc4kboxINtB6_3BoxINtNtNtCs1peUGmbrgHn_4core3mem12maybe_u=
-ninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCsgkhUnUyOK5q_19rust_debugfs_scop=
-ed10DeviceDataEENtNtB8_9allocator7KmallocEINtCsfxcgfq7FLKi_8pin_init12InPla=
-ceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11Init=
-ClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7c=
-onvert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB=
-1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_17create_file_writes0_0B27_E0B27_Es0_0B1=
-L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create=
- __pfx_ symbol
-> samples/rust/rust_debugfs_scoped.o: warning: objtool: _RINvXs5_NtNtCs1EKt=
-woKEMO2_6kernel5alloc4kboxINtB6_3BoxINtNtNtCs1peUGmbrgHn_4core3mem12maybe_u=
-ninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCsgkhUnUyOK5q_19rust_debugfs_scop=
-ed10ModuleDataEENtNtB8_9allocator7KmallocEINtCsfxcgfq7FLKi_8pin_init12InPla=
-ceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11Init=
-ClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7c=
-onvert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB=
-1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_12init_control0IB4F_NCNvMB29_B27_4inits_=
-0B27_B6a_EE0B8k_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name=
- too long, can't create __pfx_ symbol
->
-> With [1], we are down to 1:
->
-> samples/rust/rust_debugfs_scoped.o: warning: objtool: _RINvMs0_NvNtNtCs1E=
-KtwoKEMO2_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3Ve=
-cINtNtCs1peUGmbrgHn_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNt=
-CsgkhUnUyOK5q_19rust_debugfs_scoped10DeviceDataENtNtB1a_9allocator7KmallocE=
-EB3s_ENtNtB8_5mutex12MutexBackendE5stateNtNtB1z_7convert10InfallibleINtNtCs=
-fxcgfq7FLKi_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB60_6=
-OpaqueNtNtCsge5g75tgsAU_8bindings12bindings_raw5mutexE8ffi_initNCNCINvMs0_B=
-8_INtB8_4LockB15_B3Z_E3newB15_E00E0B6b_B4x_EEB2G_: symbol name too long, ca=
-n't create __pfx_ symbol
->
-> I also tried to apply the patch you listed, but it didn't apply on that
-> commit.
+> I think for long symbol names it's a very difference argument. There're m=
+any ways to
+> create complex types that can lead to those. With this logic every generi=
+c code
+> needs to be `#[inline(always)]`, which obviously is not what we want.
 
-Looks like the commit being built does not have pin-init-next integrated.
-The symbol that you reported should not be present with latest pin-init cha=
-nges.
+I have tried to just `#[inline]` the problematic methods in [1] and at
+least on my local config this results in a successful build. I can try
+that for the next revision.
 
-I think we're looking at a solved issue again.
-
-Best,
-Gary
+[1] https://lore.kernel.org/all/20260527-nova-exports-v2-3-06de4c556d55@nvi=
+dia.com/
