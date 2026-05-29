@@ -1,85 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA9E2DCF67
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 21:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE143431F5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 22:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780091276; cv=none; b=XEcQx0awoYn/3GAiUl2B1FSlr+eWkUD9SmPfeBqH9em0p0PdG2IIVXsFZxIphPOb0SVvMDaEz32yGfTX5PI/nDO1aTVM0lztkmFgxoKi9az2E1ZBFMcUl9s7OU8LYfqkyUgbwOTvLOAB/aIPeyBuAFWPK1WLJ+3Rcd0Enfh29rE=
+	t=1780093862; cv=none; b=cGV07f8j8lxaf+oDpPbfDabfxGqupzcvbZIBakZCglrEwTpQAv5fWDBZHV3xLrboCsGXbNbG4Jbny71vucx4LQmjIww5wbev022rYJkY0yCEom9qATziWI4aEa2S3QzhvmnCqmx8sYbgpXhn5XYKCs5Pr/aXEPoPCs1GWF+2uCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780091276; c=relaxed/simple;
-	bh=NyjaA13Ma30FwWlmNukWQRpREw1aKxDnAr4ZsUHBhwg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lgq15SCSHBgsHEt6wmVKrMmMB38JVRLHmzsw5aSxbMz6zzOPUS7rnN3kA2E9NTZTFlxfyKXqbpHSykKwVi+4UrtKZEqPeYBGiN4pxs23DDU8c6HKrJyTfyhaoMgsVN7euIps+dR9uUhchZqWOLzyDYDOvanziiNq/+sgV93MKq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cNh5EHlF; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1780093862; c=relaxed/simple;
+	bh=c7RmsYwKPPP1s+qZMPOSysvd9bUZYybnC3kGLkuIxec=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dwlRpa56OSxalhM6LHEVEXkhvxrna8AnuZ3ZYu4R8bftNpbQs0MdNDCIQsFkwXdsRQY5Zg/mZft8+I4PKVL+DLosyReS601hO14apuc10mpq75/du4fKdFG6sipl0CuDkf+OlmXk/XCMbRV0QSDCTX+nbNCyJAdGXPSlVHEqAg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cJoOz2yY; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cNh5EHlF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cJoOz2yY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780091275; x=1811627275;
-  h=date:from:to:cc:subject:message-id;
-  bh=NyjaA13Ma30FwWlmNukWQRpREw1aKxDnAr4ZsUHBhwg=;
-  b=cNh5EHlFMBU0zJubHDRZVOvnW+VmQ8N+2s5RLy55WTi4Bng62D349f8C
-   7tSf80XxyNH6aJp0Vd0TV+9k5KO+Ob5tOc9w+eXcssTCDQqK+wla3kAwd
-   Pw2GpC284qoUntxjAcb0xuHqVdhJtuSKzOlOC1Xks1COVupgwmCdOx8Lg
-   +d4Qszv4+iZwYDZQgaurDvXUDGVDN4set2Oa0NbiMkCyJHFuAO1DL7eyV
-   2ziJ9flkbXXG2hptXjT5I4mw0ZS8ujzyYI4K46wsAGnc/Xa/w/3RmxTKd
-   9DhAxybBBQIjQv9UWGOHtl53W4iiZbkhXpkLzz3EttXa/V1tq3KFWr2La
-   Q==;
-X-CSE-ConnectionGUID: p49CqJ/+RZOJC3pRimm4uw==
-X-CSE-MsgGUID: fYnczRB7TbaNNAVRwKWYdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="103619303"
+  t=1780093861; x=1811629861;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=c7RmsYwKPPP1s+qZMPOSysvd9bUZYybnC3kGLkuIxec=;
+  b=cJoOz2yY79V3et15AgirgrlGcd4BBS+IVp+iepyqOsrSNTLjm2PLPhLb
+   7+kOVczs1aiPmng4Uxz3iSFulGlWdX+9x5L5cgBXVTT+pDNh5rmrR2aij
+   1ixW6MGGp/3Li77FMWHQ+hDyJvyqn+K1KfzXeb0ryp3iCK93tQ9vQuIDq
+   ZSEvxEJ3qvrD9FN7A0JAYYRvZoKsuDWG1zwl19RjHNtaU0HWNyRRnxECf
+   A4oViqikAt03Uq99DLbHxrnCt7jPmUYCvo1t93DBB3hmlPwZiV1c+yHSK
+   FM7ZGuHNIF5I5EW7Iy2Lkd0mPmyOwqj0exezJs8N/tGzJzaFBU0csXR9R
+   w==;
+X-CSE-ConnectionGUID: l5LJCwzJSvGwTaweJ1EQQg==
+X-CSE-MsgGUID: k6Wv+pR8TnSpFbz6wLFi6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="91635367"
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="103619303"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 14:47:55 -0700
-X-CSE-ConnectionGUID: hNOFo6rJR6WXsVssws8fIg==
-X-CSE-MsgGUID: c+WqSjFUTU2qMYzeoWIxXA==
+   d="scan'208";a="91635367"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 15:31:00 -0700
+X-CSE-ConnectionGUID: fT+4KezeTfeAVQokF2g9gw==
+X-CSE-MsgGUID: 4Hy2wPQgSIWeuLNQ9RLc3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="248060486"
+   d="scan'208";a="246978150"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 May 2026 14:47:53 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 May 2026 15:30:54 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wT53W-000000007j8-2ub7;
-	Fri, 29 May 2026 21:47:50 +0000
-Date: Sat, 30 May 2026 05:47:11 +0800
+	id 1wT5j9-000000007k8-1bbe;
+	Fri, 29 May 2026 22:30:51 +0000
+Date: Sat, 30 May 2026 06:30:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>
-Subject: [jic23-iio:testing 240/253] ERROR: modpost: "__umoddi3"
- [drivers/iio/light/apds9999.ko] undefined!
-Message-ID: <202605300553.scZHSbc3-lkp@intel.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:ffclock /11] kernel/time/timekeeping.c:2526:56:
+ warning: left shift count >= width of type
+Message-ID: <202605300612.92AXGk94-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   7b84b1e9dd850a5c9b55e27daa4ecdc2dd5b3431
-commit: a67c818e7a5ce49e141f0d73f8330026e82bcc31 [240/253] iio: light: add support for APDS9999 sensor
-config: m68k-randconfig-r064-20260529 (https://download.01.org/0day-ci/archive/20260530/202605300553.scZHSbc3-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300553.scZHSbc3-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux ffclock
+head:   70c32e7a9e128f2579034276c19d34bcf79f4b0c
+commit: 6fc43ccf0a8bed65163bc381478a4c6ad65f4479 [/11] timekeeping: Add abs=
+olute reference for feed-forward clock discipline
+config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20260530=
+/202605300612.92AXGk94-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260530/202605300612.92AXGk94-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605300553.scZHSbc3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605300612.92AXGk94-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__umoddi3" [drivers/iio/light/apds9999.ko] undefined!
+   kernel/time/timekeeping.c: In function 'timekeeping_set_reference':
+>> kernel/time/timekeeping.c:2526:56: warning: left shift count >=3D width =
+of type [-Wshift-count-overflow]
+    2526 |         offset_scaled =3D (sec_diff * (s64)(NSEC_PER_SEC << NTP_=
+SCALE_SHIFT)) +
+         |                                                        ^~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MFD_STMFX
-   Depends on [n]: HAS_IOMEM [=y] && I2C [=m] && OF [=n]
-   Selected by [m]:
-   - PINCTRL_STMFX [=m] && PINCTRL [=y] && I2C [=m] && HAS_IOMEM [=y]
+
+vim +2526 kernel/time/timekeeping.c
+
+  2445=09
+  2446=09
+  2447	int timekeeping_set_reference(const struct tk_reference *ref, bool s=
+tep)
+  2448	{
+  2449		struct timekeeper *tks =3D &tk_core.shadow_timekeeper;
+  2450		struct timespec64 ts_delta;
+  2451		u64 new_tl, delta, ref_frac, ref_sec;
+  2452		s64 offset_ns, offset_scaled, ref_ns, sec_diff;
+  2453		u64 xt_shifted;
+  2454		unsigned long flags;
+  2455=09
+  2456		raw_spin_lock_irqsave(&tk_core.lock, flags);
+  2457=09
+  2458		if (tks->cs_id !=3D ref->cs_id) {
+  2459			raw_spin_unlock_irqrestore(&tk_core.lock, flags);
+  2460			return -ENODEV;
+  2461		}
+  2462=09
+  2463		timekeeping_forward_now(tks);
+  2464=09
+  2465		/*
+  2466		 * Compute the NTP tick_length from the reference period.
+  2467		 * tick_length is in ns << NTP_SCALE_SHIFT (i.e. ns << 32) per tick.
+  2468		 * period_frac_sec is the counter period as a fraction of a second
+  2469		 * (0.period_shift fixed point), so:
+  2470		 *   tick_length =3D period_frac_sec * cycle_interval * NSEC_PER_SEC
+  2471		 *                 >> (32 + period_shift)
+  2472		 */
+  2473		new_tl =3D mul_u64_u64_shr(ref->period_frac_sec,
+  2474				(u64)tks->cycle_interval * NSEC_PER_SEC,
+  2475				32 + ref->period_shift);
+  2476		ntp_set_tick_length(tks->id, new_tl);
+  2477=09
+  2478		/*
+  2479		 * Compute reference time at cycle_last (i.e. "now" after
+  2480		 * timekeeping_forward_now). Use 128-bit arithmetic to handle
+  2481		 * seconds overflow in ref_frac.
+  2482		 */
+  2483		delta =3D tks->tkr_mono.cycle_last - ref->counter_value;
+  2484		ref_frac =3D mul_u64_u64_shr_add_u64(&ref_sec, delta,
+  2485						    ref->period_frac_sec,
+  2486						    ref->period_shift,
+  2487						    ref->time_frac_sec);
+  2488		ref_sec +=3D ref->time_sec;
+  2489=09
+  2490		/*
+  2491		 * Compute the phase error between the reference time at the next
+  2492		 * tick boundary and the kernel's xtime there.
+  2493		 */
+  2494		xt_shifted =3D tks->tkr_mono.xtime_nsec;
+  2495		ref_ns =3D (s64)mul_u64_u64_shr(ref_frac, NSEC_PER_SEC, 64);
+  2496		sec_diff =3D (s64)(ref_sec - tks->xtime_sec);
+  2497=09
+  2498		offset_ns =3D sec_diff * NSEC_PER_SEC + ref_ns -
+  2499			    (s64)(xt_shifted >> tks->tkr_mono.shift);
+  2500=09
+  2501=09
+  2502		if (step) {
+  2503			struct timespec64 new_xt, xt;
+  2504=09
+  2505			xt =3D tk_xtime(tks);
+  2506			ts_delta =3D ns_to_timespec64(offset_ns);
+  2507			new_xt =3D timespec64_add(xt, ts_delta);
+  2508			tk_set_wall_to_mono(tks,
+  2509				timespec64_sub(tks->wall_to_monotonic, ts_delta));
+  2510			tk_set_xtime(tks, &new_xt);
+  2511=09
+  2512			/* Recompute after step =E2=80=94 only sub-ns residual remains */
+  2513			xt_shifted =3D tks->tkr_mono.xtime_nsec;
+  2514			sec_diff =3D (s64)(ref_sec - tks->xtime_sec);
+  2515		} else if (offset_ns > MAXPHASE || offset_ns < -MAXPHASE) {
+  2516			timekeeping_restore_shadow(&tk_core);
+  2517			raw_spin_unlock_irqrestore(&tk_core.lock, flags);
+  2518			return -EINVAL;
+  2519		}
+  2520=09
+  2521		/*
+  2522		 * Set time_offset with full sub-ns precision. sec_diff can
+  2523		 * only be -1, 0, or 1 at this point (bounded by MAXPHASE or
+  2524		 * by the step having just aligned to the nearest nanosecond).
+  2525		 */
+> 2526		offset_scaled =3D (sec_diff * (s64)(NSEC_PER_SEC << NTP_SCALE_SHIFT=
+)) +
+  2527			(((s64)mul_u64_u64_shr(ref_frac,
+  2528				(u64)NSEC_PER_SEC << tks->tkr_mono.shift, 64) -
+  2529			  (s64)xt_shifted) << (NTP_SCALE_SHIFT - tks->tkr_mono.shift));
+  2530		ntp_set_time_offset(tks->id, offset_scaled);
+  2531		tks->ntp_error =3D 0;
+  2532=09
+  2533		timekeeping_update_from_shadow(&tk_core,
+  2534			step ? TK_CLOCK_WAS_SET : 0);
+  2535		raw_spin_unlock_irqrestore(&tk_core.lock, flags);
+  2536=09
+  2537		if (step) {
+  2538			clock_was_set(CLOCK_SET_WALL);
+  2539			audit_tk_injoffset(ts_delta);
+  2540		}
+  2541		return 0;
+  2542	}
+  2543	EXPORT_SYMBOL_GPL(timekeeping_set_reference);
+  2544=09
 
 --
 0-DAY CI Kernel Test Service
