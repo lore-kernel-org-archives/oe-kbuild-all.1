@@ -1,145 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C8D285072;
-	Fri, 29 May 2026 19:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841413A8737
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 19:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780083049; cv=none; b=tuaoc8ucFxYkAo7V4m53vnzgkldbxLuzPdaoBgqdNN/Hxz0PBL81Ps8OGkUqKQv3lV1m0nucQNcHCwqmDfw7Aj2t0G/p1ISJfs3yX0eiWHaFU3SzsTiBfz+1Q3sfS1sCUE9ooNvZSzf/+CkHMnVjZLWOUV18J2nxMgI4TzeVSjs=
+	t=1780084252; cv=none; b=R9VSOLAsf3KGvEnHuZ46nqnt+hAV58H5iSUHzmc8pROl8xeYFBhfmI+7qzMyLLklhxD6Z+RunwJGWbgVEnpbfWgp8TmdAmRp3quqYLelkrniFxnAHmlMbilCCgzKFP56ww5DTmd+FiAZ6rIzqW6ntd9dv1N6H3QoN5081lmXWto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780083049; c=relaxed/simple;
-	bh=QZ/5ipK/QhhxD1HdAIKiPbLGE1KQ3R7JNjuwA3TLQXg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=r6k3F4b8PUrsHyB8zPJ2U7pwRGo3EA7pmHZ1tsvyAblaXGDi2bZwqodtjOA7J/od3IH8CPLpWIHyWcBpRBd7+Q1hE5DcxhvNCwcmbYnurbf1cnsyACafEn/ul1zWkfZVQVehKZ6Kw+KtUWl2VDnFGp7g8qywXw+ar+K/en3O+aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NQLcxHLT; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1780084252; c=relaxed/simple;
+	bh=Xy47Vb9m65sQMnuPVEfRiE4rCqGWTQXYogQjJ4vAUFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CAPJrGFg72Ziz0Hgno8DdpzuzOEZDMV1OreDo5Zrqr+rdGqE7wZ6YDodUTWRi9XL/gauIDoMg2ymKJBsRS6gnC788+CNl70ITyS5JxIES4g71WflzxMlPfzAhEysi1aLc9PdJKpR0pX/tsTjXJnuNIrFS0XtUZchjw5pQeQ1P88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nK70ITUY; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NQLcxHLT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nK70ITUY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780083048; x=1811619048;
-  h=date:from:to:cc:subject:message-id;
-  bh=QZ/5ipK/QhhxD1HdAIKiPbLGE1KQ3R7JNjuwA3TLQXg=;
-  b=NQLcxHLT1JjeZRSFomOw0KxcN6CK4jh0xdrmU7Fcx2hQEKSSRZhrNPeq
-   fO8Z+7d5zWatqYSpteFnTwNnrgKDi56Qy5fAImVw4Tsqw96tbyzzTw2Zd
-   NlEhyUvVN7Rpc61nQPjGGpNwUS2AMwafoUv8Dn3z9+a261x8DNZ5rSvcW
-   td+yLYZJbnYVXe84/seigXRbBgzzClur3N+2hO59XbQIlrqhmGkITeeWS
-   GUdQ+DYYJWNcV7P2K9sJ5emwAHiTd/v/J4O+XJerFYDmgLBNNzx+xSOfu
-   XolWrJE3ZKVpTEQMNsucwL1ICkDq/9ivf6fWf4jUUOwkX97yVm7RAS9lA
-   g==;
-X-CSE-ConnectionGUID: lG5OLDSZR/qBPah+eczZIA==
-X-CSE-MsgGUID: 1S3jk37/T+y4kO51OkKckg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="80794869"
-X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="80794869"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 12:30:47 -0700
-X-CSE-ConnectionGUID: 1uz+UkfMTPOhXjDFeWNIUA==
-X-CSE-MsgGUID: S8hhaTx6R8mKwH2T6miNtA==
+  t=1780084250; x=1811620250;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Xy47Vb9m65sQMnuPVEfRiE4rCqGWTQXYogQjJ4vAUFE=;
+  b=nK70ITUYLNX9jvJlutiXa9dQyRkAy9JsQgHvYfdJQjLb7eIoKGDNmfbj
+   7AAvqqEFmgXqpO0jsH3NnLbqsCk4OyJlfBti/Z73JuHFY+xjw14sBW0B7
+   MvneNUt7tuAEfCiXPVHdlq/ML64ppAkYidk/sImEJ7SFH6yuKiRbojU6a
+   dK6ZOkOdr1w0AYN8WdhtGd2g/OUS5N1RNIrW35mYybjxjEbuyGTgaHJwI
+   dSDDntZJUiS3GhNv9OjsVVUyznBUaZviVpMKbkwvdRYoMohS82A6PkHZf
+   PCjKiVBqZvFfoxbSerEAHDC7g4Yx1Sv+hxRvLLDAXOvFNR1lFLj3yoAdg
+   w==;
+X-CSE-ConnectionGUID: e8XpzqQHSFigg0Q0H+MKpg==
+X-CSE-MsgGUID: RvaeLwnpRSiAzKn2cTxlWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="91252444"
+X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
+   d="scan'208";a="91252444"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 12:50:49 -0700
+X-CSE-ConnectionGUID: caj/6dIZQ8mge6IaX0afWA==
+X-CSE-MsgGUID: +stMZUGZScOU1l87RpGVlg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="241889273"
+X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
+   d="scan'208";a="246946747"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 May 2026 12:30:46 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 May 2026 12:50:48 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wT2up-000000007cM-0ghC;
-	Fri, 29 May 2026 19:30:43 +0000
-Date: Sat, 30 May 2026 03:29:55 +0800
+	id 1wT3EC-000000007dq-1Gfm;
+	Fri, 29 May 2026 19:50:44 +0000
+Date: Sat, 30 May 2026 03:50:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:kvm-arm64/nv3 25/32]
- arch/arm64/kvm/hyp/vhe/switch.c:368:22: warning: value size does not match
- register size specified by the constraint and modifier
-Message-ID: <202605300331.uAxQip7s-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Thorsten Blum <thorsten.blum@linux.dev>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Thorsten Blum <thorsten.blum@linux.dev>,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] powerpc/boot: remove unused min_t/max_t macros
+Message-ID: <202605300340.G7sL2jlK-lkp@intel.com>
+References: <20260525091839.817778-3-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260525091839.817778-3-thorsten.blum@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/nv3
-head:   1779d2897784632a8fee0474e0dd5d124a8beeff
-commit: f967f8c6811b3c791cb2fd70289b633d04785aa5 [25/32] KVM: arm64: Implement runtime handling of HCRX_EL2.NVTGE==1
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260530/202605300331.uAxQip7s-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300331.uAxQip7s-lkp@intel.com/reproduce)
+Hi Thorsten,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v7.1-rc5 next-20260528]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thorsten-Blum/powerpc-boot-remove-unused-min_t-max_t-macros/20260525-172120
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20260525091839.817778-3-thorsten.blum%40linux.dev
+patch subject: [PATCH] powerpc/boot: remove unused min_t/max_t macros
+config: powerpc64-randconfig-r061-20260529 (https://download.01.org/0day-ci/archive/20260530/202605300340.G7sL2jlK-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300340.G7sL2jlK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605300331.uAxQip7s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605300340.G7sL2jlK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/vhe/switch.c:368:22: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     368 |                      : [err] "+r" (err), [v] "=&r" (v)
-         |                                    ^
-   arch/arm64/kvm/hyp/vhe/switch.c:365:16: note: use constraint modifier "w"
-     365 |                      "2:        mov     %[err], %[errcode]\n"
-         |                                         ^~~~~~
-         |                                         %w[err]
-   1 warning generated.
+   In file included from arch/powerpc/boot/decompress.c:37:
+   In file included from arch/powerpc/boot/../../../lib/decompress_unxz.c:241:
+>> arch/powerpc/boot/../../../lib/xz/xz_dec_stream.c:158:21: error: call to undeclared function 'min_t'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     158 |         size_t copy_size = min_t(size_t,
+         |                            ^
+>> arch/powerpc/boot/../../../lib/xz/xz_dec_stream.c:158:27: error: unexpected type name 'size_t': expected expression
+     158 |         size_t copy_size = min_t(size_t,
+         |                                  ^
+   In file included from arch/powerpc/boot/decompress.c:37:
+   In file included from arch/powerpc/boot/../../../lib/decompress_unxz.c:242:
+>> arch/powerpc/boot/../../../lib/xz/xz_dec_lzma2.c:357:9: error: call to undeclared function 'min_t'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     357 |         left = min_t(size_t, dict->limit - dict->pos, *len);
+         |                ^
+>> arch/powerpc/boot/../../../lib/xz/xz_dec_lzma2.c:357:15: error: unexpected type name 'size_t': expected expression
+     357 |         left = min_t(size_t, dict->limit - dict->pos, *len);
+         |                      ^
+   arch/powerpc/boot/../../../lib/xz/xz_dec_lzma2.c:1101:25: error: call to undeclared function 'min_t'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1101 |                         dict_limit(&s->dict, min_t(size_t,
+         |                                              ^
+   arch/powerpc/boot/../../../lib/xz/xz_dec_lzma2.c:1101:31: error: unexpected type name 'size_t': expected expression
+    1101 |                         dict_limit(&s->dict, min_t(size_t,
+         |                                                    ^
+   In file included from arch/powerpc/boot/decompress.c:37:
+   In file included from arch/powerpc/boot/../../../lib/decompress_unxz.c:243:
+>> arch/powerpc/boot/../../../lib/xz/xz_dec_bcj.c:469:14: error: call to undeclared function 'min_t'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     469 |         copy_size = min_t(size_t, s->temp.filtered, b->out_size - b->out_pos);
+         |                     ^
+>> arch/powerpc/boot/../../../lib/xz/xz_dec_bcj.c:469:20: error: unexpected type name 'size_t': expected expression
+     469 |         copy_size = min_t(size_t, s->temp.filtered, b->out_size - b->out_pos);
+         |                           ^
+   8 errors generated.
 
 
-vim +368 arch/arm64/kvm/hyp/vhe/switch.c
+vim +/min_t +158 arch/powerpc/boot/../../../lib/xz/xz_dec_stream.c
 
-   350	
-   351	static int __vcpu_l1_vncr_read(struct kvm_vcpu *vcpu, enum vcpu_sysreg reg, u64 *val)
-   352	{
-   353		u64 vncr_va = read_sysreg_s(SYS_VNCR_EL2);
-   354		u64 *reg_va = &((u64 *)vncr_va)[reg - __VNCR_START__];
-   355		u64 spsr, elr, esr, far, v;
-   356		int err = 0;
-   357	
-   358		spsr = read_sysreg_el2(SYS_SPSR);
-   359		elr = read_sysreg_el2(SYS_ELR);
-   360		esr = read_sysreg_el2(SYS_ESR);
-   361		far = read_sysreg_el2(SYS_FAR);
-   362	
-   363		asm volatile("1:	ldr	%[v], [%[va]]\n"
-   364			     "		b	9f\n"
-   365			     "2:	mov	%[err], %[errcode]\n"
-   366			     "9:\n"
-   367			     __KVM_EXTABLE(1b, 2b)
- > 368			     : [err] "+r" (err), [v] "=&r" (v)
-   369			     : [va] "r" (reg_va), [errcode] "i" (-EFAULT));
-   370	
-   371		if (unlikely(err)) {
-   372			unsigned int ec;
-   373	
-   374			/*
-   375			 * We expect this to be ESR_ELx_EC_DABT_CUR, and to be dealt
-   376			 * with by the VNCR fault handler on the slow path.
-   377			 */
-   378			vcpu->arch.fault.esr_el2 = read_sysreg_el2(SYS_ESR);
-   379			ec = kvm_vcpu_trap_get_class(vcpu);
-   380	
-   381			if (!WARN_ONCE(ec != ESR_ELx_EC_DABT_CUR,
-   382				       "Unexpected EC=%x reading L1 VNCR\n", ec)) {
-   383				vcpu->arch.fault.esr_el2 &= ESR_ELx_EC_MASK | ESR_ELx_FSC;
-   384				vcpu->arch.fault.esr_el2 |= ESR_ELx_VNCR | ESR_ELx_IL;
-   385				vcpu->arch.fault.far_el2  = read_sysreg_el2(SYS_FAR);
-   386			}
-   387	
-   388			/* Restore the original fault context, just in case */
-   389			write_sysreg_el2(spsr, SYS_SPSR);
-   390			write_sysreg_el2(elr,  SYS_ELR);
-   391			write_sysreg_el2(esr,  SYS_ESR);
-   392			write_sysreg_el2(far,  SYS_FAR);
-   393	
-   394			return err;
-   395		}
-   396	
-   397		/* Apply our own sanitisation, just like HW would... */
-   398		*val = kvm_vcpu_apply_reg_masks(vcpu, reg, v);
-   399	
-   400		return 0;
-   401	}
-   402	
+24fa0402a9b6a5 Lasse Collin 2011-01-12  149  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  150  /*
+24fa0402a9b6a5 Lasse Collin 2011-01-12  151   * Fill s->temp by copying data starting from b->in[b->in_pos]. Caller
+24fa0402a9b6a5 Lasse Collin 2011-01-12  152   * must have set s->temp.pos to indicate how much data we are supposed
+24fa0402a9b6a5 Lasse Collin 2011-01-12  153   * to copy into s->temp.buf. Return true once s->temp.pos has reached
+24fa0402a9b6a5 Lasse Collin 2011-01-12  154   * s->temp.size.
+24fa0402a9b6a5 Lasse Collin 2011-01-12  155   */
+24fa0402a9b6a5 Lasse Collin 2011-01-12  156  static bool fill_temp(struct xz_dec *s, struct xz_buf *b)
+24fa0402a9b6a5 Lasse Collin 2011-01-12  157  {
+24fa0402a9b6a5 Lasse Collin 2011-01-12 @158  	size_t copy_size = min_t(size_t,
+24fa0402a9b6a5 Lasse Collin 2011-01-12  159  			b->in_size - b->in_pos, s->temp.size - s->temp.pos);
+24fa0402a9b6a5 Lasse Collin 2011-01-12  160  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  161  	memcpy(s->temp.buf + s->temp.pos, b->in + b->in_pos, copy_size);
+24fa0402a9b6a5 Lasse Collin 2011-01-12  162  	b->in_pos += copy_size;
+24fa0402a9b6a5 Lasse Collin 2011-01-12  163  	s->temp.pos += copy_size;
+24fa0402a9b6a5 Lasse Collin 2011-01-12  164  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  165  	if (s->temp.pos == s->temp.size) {
+24fa0402a9b6a5 Lasse Collin 2011-01-12  166  		s->temp.pos = 0;
+24fa0402a9b6a5 Lasse Collin 2011-01-12  167  		return true;
+24fa0402a9b6a5 Lasse Collin 2011-01-12  168  	}
+24fa0402a9b6a5 Lasse Collin 2011-01-12  169  
+24fa0402a9b6a5 Lasse Collin 2011-01-12  170  	return false;
+24fa0402a9b6a5 Lasse Collin 2011-01-12  171  }
+24fa0402a9b6a5 Lasse Collin 2011-01-12  172  
 
 --
 0-DAY CI Kernel Test Service
