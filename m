@@ -1,103 +1,69 @@
-Received: from va-2-115.ptr.blmpb.com (va-2-115.ptr.blmpb.com [209.127.231.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0953A9DA1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 06:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C594F38BF96
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 06:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780036779; cv=none; b=czGAoaSzonS3c7uPuTLm7SfZeghffUppki9rieUbD1F4JmnquuU+GwDH1Tl5Q1NSi8EIJLn74/OxDVbV9soxJzGndSr7X3X+W6W47KNZIUsR57s8Ol3GUfSYCzKd7go7pF5KB/YEd3EFROqUsotatf/NlNQkISNdPLUvZ9Z5ZBk=
+	t=1780036917; cv=none; b=eB4tDcrjiU3Rc5KfIf8QncF8hj9V1fCEFN4tlXxREpN1rsW9xTufCQXmOQaelEvB8r/3lNp1hS5WHSADd6PmHFh5aiLyKb3GGM5JIZ2Ahl+VWJPStOxMDlWpQP47KyOI0lfOq4KzNil5+qLPajVLKeLKSZaiOlOiFMCm1ZK4qNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780036779; c=relaxed/simple;
-	bh=AlOg1oR8IXqMRTwkdxPxwcoRI7qC1sl/KDGrpRTmnvY=;
-	h=References:Content-Type:In-Reply-To:From:Subject:To:Cc:Date:
-	 Message-Id:Mime-Version; b=E1oL5ltEtfLr3aLJNQwKDgb54P0hwya3OxAsnzVGj8aBg9SvUVlVKYmWPeuC6PiOjIq8FtgOPAQTr1Muw17KyrcBH216DHc9xx4FAceQ3KCtT7+M3pAjA5HwD+IO08Vwh/PBIy0UODVJZwWZMCe8SOEkfV29HOGz4VhzoAQeJbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=aFXAvM/s; arc=none smtp.client-ip=209.127.231.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1780036917; c=relaxed/simple;
+	bh=gSDWsFQQZrOFx7xkm6Ie0yCMLyLFQHeQQSd7E9WghFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jLVlW9A+I2SNkswAj/KWiu82Ek2a2HQktJj1mJoqkOxbC5u+7gD3BoTI0ZO8/asd9SsFiZTsIGrdhyawxkn9NgsTNK7MMcuIQwPwAgba3GKzpgabwJ0btagBZMw4/wHcBSVklrulLLRMKbHhWOq045LjIgb2ia9TX2WThN+DdWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o9g5Iz0Z; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Vd6jotBp; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="aFXAvM/s"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1780036763; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=XzW3F6CsLR0UAm+3hG2ux5GBKP33UPCEJhu7hKH3KUU=;
- b=aFXAvM/sABgSxnVn3yyONEtK5GSDDQr0bcr5IOEZkSzDqNtCUEIsmfar2ftVeEOOrc1DOA
- IZrvBtEJONqWK+xjicPYAeuSFyuGEM1kYstelSUTtp2C7wV2RrWg8IeQsuxvo891JLNz1E
- fXjnRATaWAVZ9v0tqKpYAeDtYUJOfWCU7X3x1hae04VIDkMTptFbUEZw34WGBQL69d94aT
- LXcyqIOBs7DctQLA/JMZu44Qdq4RQFWRwqUjj/k4B++7cBbfpL1kPrvLOWKrebHERspwAb
- ZCxgyTPeMtmXknsSNW0whGETCFUJ1vBljZU/4AXKz+iIERbf1tBnNnTlsqpbrw==
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o9g5Iz0Z";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Vd6jotBp"
+Date: Fri, 29 May 2026 08:41:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1780036914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gSDWsFQQZrOFx7xkm6Ie0yCMLyLFQHeQQSd7E9WghFU=;
+	b=o9g5Iz0ZYV8nqjLGsSSC/WAjVba4bYKQjpC/hQMiFCj8bEQOr7HVVRrHDq2k1Hvq9oCKWf
+	dw8Tc34NbqhSRbsuLgbuXVa6BCTnXVuE62DlGctkMcQJOWI6ZFqaGbKvh00s5JaxYwhdrJ
+	SRd+HcdTcmWK8KBlj7gDsROnd/KfzcoCJHP4Bbi+TiVPvgl88fd78JPZjcINZM5UO+QmqL
+	LBVkmtfzb1fiAyGTxJ+ZHmN4c+9XW1LHShkscbgWEWk8iHsWXoelGak8L9cklqcMAdfhQg
+	AlK35QEDAcTwcGHCjqXyo4UiSsLQV8MkDLKpWg54Ot6j67uTFuohbiVAMLWDHw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1780036914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gSDWsFQQZrOFx7xkm6Ie0yCMLyLFQHeQQSd7E9WghFU=;
+	b=Vd6jotBpxdxGKEiLodQ30LnthkTEWEGCqoqfJ5Zh/VtvITqEpALWTijbogDzi+erC4Fb0q
+	d7NOFmh9BVRwiXAA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Chuyi Zhou <zhouchuyi@bytedance.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [bigeasy-staging:smp_call_function_any 4/12]
+ kernel/smp.c:806:28: warning: assignment to 'cpumask_t *' {aka 'struct
+ cpumask *'} from 'int' makes pointer from integer without a cast
+Message-ID: <20260529064153.O841fTxA@linutronix.de>
 References: <202605291433.OHkzEFaS-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-In-Reply-To: <202605291433.OHkzEFaS-lkp@intel.com>
-From: "Chuyi Zhou" <zhouchuyi@bytedance.com>
-Subject: Re: [bigeasy-staging:smp_call_function_any 4/12] kernel/smp.c:806:28: warning: assignment to 'cpumask_t *' {aka 'struct cpumask *'} from 'int' makes pointer from integer without a cast
-User-Agent: Mozilla Thunderbird
-To: "kernel test robot" <lkp@intel.com>
-Cc: <oe-kbuild-all@lists.linux.dev>, 
-	"Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
-Date: Fri, 29 May 2026 14:39:09 +0800
-X-Lms-Return-Path: <lba+26a193499+746821+lists.linux.dev+zhouchuyi@bytedance.com>
-Content-Transfer-Encoding: 7bit
-Message-Id: <cff3a200-0473-48db-8027-435ff7832e42@bytedance.com>
+ <cff3a200-0473-48db-8027-435ff7832e42@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Original-From: Chuyi Zhou <zhouchuyi@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cff3a200-0473-48db-8027-435ff7832e42@bytedance.com>
 
-On 2026-05-29 2:26 p.m., kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git smp_call_function_any
-> head:   cec01329013ce633ca5857f5bb9273e000fdc6cf
-> commit: 98f51da91a96beeef4adf696e0c4f768fee75f33 [4/12] smp: Use task-local IPI cpumask in smp_call_function_many_cond()
-> config: i386-buildonly-randconfig-003-20260529 (https://download.01.org/0day-ci/archive/20260529/202605291433.OHkzEFaS-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291433.OHkzEFaS-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605291433.OHkzEFaS-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     kernel/smp.c: In function 'smp_task_ipi_mask_alloc':
->     kernel/smp.c:806:30: error: implicit declaration of function 'kmalloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
->       806 |         task->ipi_mask_ptr = kmalloc(cpumask_size(), GFP_KERNEL);
->           |                              ^~~~~~~
->           |                              mm_alloc
->>> kernel/smp.c:806:28: warning: assignment to 'cpumask_t *' {aka 'struct cpumask *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
->       806 |         task->ipi_mask_ptr = kmalloc(cpumask_size(), GFP_KERNEL);
->           |                            ^
->     kernel/smp.c: In function 'smp_task_ipi_mask_free':
->     kernel/smp.c:818:9: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
->       818 |         kfree(task->ipi_mask_ptr);
->           |         ^~~~~
->     cc1: some warnings being treated as errors
-> 
+On 2026-05-29 14:39:09 [+0800], Chuyi Zhou wrote:
+> V6 fixes this problem by explicitly including <linux/slab.h> in smp.c.
 
-V6 fixes this problem by explicitly including <linux/slab.h> in smp.c.
+thank you for confirming. Will replace asap=E2=80=A6
 
-Thanks.
+> Thanks.
 
-> 
-> vim +806 kernel/smp.c
-> 
->     800	
->     801	int smp_task_ipi_mask_alloc(struct task_struct *task)
->     802	{
->     803		if (static_branch_unlikely(&ipi_mask_inlined))
->     804			return 0;
->     805	
->   > 806		task->ipi_mask_ptr = kmalloc(cpumask_size(), GFP_KERNEL);
->     807		if (!task->ipi_mask_ptr)
->     808			return -ENOMEM;
->     809	
->     810		return 0;
->     811	}
->     812	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Sebastian
