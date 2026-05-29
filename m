@@ -1,65 +1,128 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4E82EC0B0;
-	Fri, 29 May 2026 08:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130B43B4EB5;
+	Fri, 29 May 2026 08:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780044832; cv=none; b=Hmsnuk4YhZcKUN+IMjSzr/0sEtntg3EcILmts+Gu/xkUog2fipyDgU1Ff0PFhrCMML9NKatHqccN+7z5LE0W94c6Tl45V02T8USoxJJDlIeA8HF03RpTtPbU2XEcTTc4UnFZqrzDaWNWQbw81UeqgVg86+RWGacoUKmP/KyLU5U=
+	t=1780045148; cv=none; b=i5/WkK/IO6lJIZWM3Xgr0lRyt6stxHE3aCpNscsIu+6d7e+t6ibXdGC9kxSXC7C1IJS0nmc6YNPFIoZN2VlCckq0kx4UtbSVCmqCk3+9D1n1WMlysUZxzwu+aJrYODyrHtDMaP/tCMzh5uTwKBzkp5rwQ5tjDoLi23Rgu1bhPy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780044832; c=relaxed/simple;
-	bh=YK5mmg4ZFL2N2KQuKAdzGY9b67CYNIYCA7NTCQpfAoA=;
+	s=arc-20240116; t=1780045148; c=relaxed/simple;
+	bh=kT17TFaVMuzhehcDGfOX5jz4/y7vwK9PowtC8aVxbbc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P+rSwDdOs03Qc650FMyCDd66nNYLVvXoOekA9F0RV3vPIHWSMAqUE1w1l/+fhMxWo9GhxTL8gwBFQP0Kt/u/FqRyBnX7kMokrM4kAaSzTMlOQeuRGAcyr7sNCa/ySi+t1PNIkzWKwwPHGkbC4RnBq4YiT/XMKzTsy2oX3fN9mxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=M4PrkdPD; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QsA8tKY4; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=qrPPmau/kWKSadsWTz3yVhMx0YGu2b+CooFqYazXmysWukjrHPgEizQfyGc4XE9zMPf6wMcA40WjwPZuwMyVNlntGZzZ4/SzkPmzv4853oAwcjwzDCn+KpwXkVMem9p0I7TA5pxizoXjBPLrr9xWziqBOOxlpTMfcA+7AKKfEjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dMyqNsDw; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="M4PrkdPD";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QsA8tKY4"
-Date: Fri, 29 May 2026 10:53:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1780044828;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MNWmO9WOVqMwMAfQbe12V136EMySKd/BTb2XrZNUavw=;
-	b=M4PrkdPDUgvMPM/9tNiPXGGhc/v+zrO61XRPdsgyq0pZwRrCREFaEToMsA1Zd01UEOVA6q
-	rvp+8e4upW5IRthKqNKddiAT8LNdb8y9erPuzlawATfz/Bd6Hkw03+pscQ+gGv4BUFsWny
-	dU7oXgIhNbG/RDRw0ldSIw8iCRow+QfJcMwiwe9fua+KxfnLqmD1yKebYVV3jMIRX5yFWg
-	8JlwFuAD0alG3uvD1CgTo7ToQtDQWGC7EICULSmaKUKiefonqxFIMT6gOHOZUacoopaAmH
-	QSPN7zh8tubYgVmSeNkuaint6z0IY+DyVKKMdokDtzAVjaNMMFTjmd8HStoakA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1780044828;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MNWmO9WOVqMwMAfQbe12V136EMySKd/BTb2XrZNUavw=;
-	b=QsA8tKY4Xj7kYxMvULvFkcrhtqCUJAFpmL0JOGr9Lv2iI8w/HUfMXYi+NrHPjFas2Xh3BA
-	BjINfqXVK9lxr6Bw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [bigeasy-staging:b4/hsr_ptp 3/9] net/hsr/hsr_forward.c:381
- hsr_create_tagged_frame() error: use kfree_skb() here instead of kfree(skb)
-Message-ID: <20260529085347.m2iV71fz@linutronix.de>
-References: <202605291505.4v18xVW0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dMyqNsDw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780045147; x=1811581147;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kT17TFaVMuzhehcDGfOX5jz4/y7vwK9PowtC8aVxbbc=;
+  b=dMyqNsDwFEtBCTJon41RJVEe7Sr+2cAk4YR2gi0XUSVIoDXjVOmZnHpu
+   eqmVGW7JZKaLXxCp3AYRqfs2Oa8b8uuTtOMdwT2+y4oF6JP/ye0NuDiYk
+   vY/W6UGTpKR/hsoE7iLlQOJhd90QLMrwOHkLz6wOBNgXBhSYt79VQnZD9
+   jG8BB+SVXPSchRo1Wy9l6QQGVS2pvqMDXO0lRsmm0Je+TNmxsdhsj/t/9
+   xrvL4sElpmJqXnYgwxWnP7p2SGvj2AEwNO5GP5H0K9lXKib5QQx+9k5Qj
+   3FV7wSAvxoLyv44nZ8PHPwel2bk3F5D8Z0szyr4BZrJmHyQWJuX0mds3N
+   A==;
+X-CSE-ConnectionGUID: YhbZ0x0KR96AccZkZs+Xqg==
+X-CSE-MsgGUID: B1zS2qEdSUaQ5BuLtRhC0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80795031"
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="80795031"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 01:59:06 -0700
+X-CSE-ConnectionGUID: fTjGFbSZTdOevsLtgfQEfA==
+X-CSE-MsgGUID: T68RK7tKSXS5sDa6pImfFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="247740206"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 29 May 2026 01:59:01 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wSt3R-00000000714-14pf;
+	Fri, 29 May 2026 08:58:57 +0000
+Date: Fri, 29 May 2026 16:58:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yury Norov <ynorov@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Yury Norov <ynorov@nvidia.com>,
+	Farhad Alemi <farhad.alemi@berkeley.edu>,
+	Waiman Long <longman@redhat.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH] mm: don't allow empty relative nodemask in
+ mpol_relative_nodemask()
+Message-ID: <202605291609.AR5UEvmT-lkp@intel.com>
+References: <20260528190337.878027-1-ynorov@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202605291505.4v18xVW0-lkp@intel.com>
+In-Reply-To: <20260528190337.878027-1-ynorov@nvidia.com>
 
-On 2026-05-29 11:00:19 [+0300], Dan Carpenter wrote:
-> 0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  380  err:
-> 0acc8103869743 Sebastian Andrzej Siewior 2026-05-19 @381  	kfree(skb);
-> 
-> This should be kfree_skb()
+Hi Yury,
 
-Yes, thank you.
+kernel test robot noticed the following build warnings:
 
-Sebastian
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yury-Norov/mm-don-t-allow-empty-relative-nodemask-in-mpol_relative_nodemask/20260529-030835
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260528190337.878027-1-ynorov%40nvidia.com
+patch subject: [PATCH] mm: don't allow empty relative nodemask in mpol_relative_nodemask()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260529/202605291609.AR5UEvmT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291609.AR5UEvmT-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605291609.AR5UEvmT-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/mempolicy.c:377:3: warning: void function 'mpol_relative_nodemask' should not return a value [-Wreturn-mismatch]
+     377 |                 return -EINVAL;
+         |                 ^      ~~~~~~~
+   1 warning generated.
+
+
+vim +/mpol_relative_nodemask +377 mm/mempolicy.c
+
+   369	
+   370	static void mpol_relative_nodemask(nodemask_t *ret, const nodemask_t *orig,
+   371					   const nodemask_t *rel)
+   372	{
+   373		unsigned int w = nodes_weight(*rel);
+   374		nodemask_t tmp;
+   375	
+   376		if (w == 0)
+ > 377			return -EINVAL;
+   378	
+   379		nodes_fold(tmp, *orig, w);
+   380		nodes_onto(*ret, tmp, *rel);
+   381	}
+   382	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
