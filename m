@@ -1,256 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7723ADB98
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 20:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CF4330666
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 21:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780088096; cv=none; b=qy/XnxOPoPYpt7dBPONpRb9RNWl8MYrXkgQGHflBjj1vdvhtoaw4Jju0SCLJYBQSdVl5ZpVTb2SPUGV3xzj82ayPob6zlJofA1bU6ta2U0DsdghKgLu02Lz+dGGT+UOTfyn5d5uX8AYRsvMCJ0BTXJFVipogNcQEuys+n93eCI4=
+	t=1780089223; cv=none; b=tfxBOVmoCmwJhbg1ZWI5NwYOghjes2bIIZEeRrMLO+kCybn+moLDgKiW/kjN/adbo7D3nfYxAhYOBZR+ZqVT1L4HewDKwVGSpbwPV6fMeDJNutNTCFMu0S9gCPy3cRbdWtsVqeLf/zja7xpWVPOsAR5U9/N3E5U1UUSpZhp0kGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780088096; c=relaxed/simple;
-	bh=/S5opQBS0Ej1USU/abspGG6ppFq446gxLFslHhfOoBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z0wgNn8hqJbWMtzvDuIS1i+T2rMh1KgAP396RLZ4S1uKoCdSxHjL9US6oOyLPi4WF10rEWttw3PNwMf6jduGQlbGrVGtFughaAimxXvrrC0yb3niW8VxKFWk8Mlu32VhSLMI5+50a+WnJPhSLGdMZpnze/wSuqxpL0IBbHJ/xRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEGab0ta; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1780089223; c=relaxed/simple;
+	bh=CuJ1rgfaltO/03yAQFox8nr6NdC3ldVKhGYeNc9gh4A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uM7djmacvTOeFlSpr3WIvbLkzu8nBc3DSrL5LFhGyAFEPAHFRykGHPMTPGf18/kqZ0FfVZ/Yhw8wHu3OUCARwapMwVxIdawkO68YHvL6Sw5vsEbu6gfyzRH/3GQSiIRamHJSa5OnnJVFrvThVH8jy7Q1Mnlc42D+LbWSwNFcNmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fukFFpZy; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEGab0ta"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fukFFpZy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780088095; x=1811624095;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/S5opQBS0Ej1USU/abspGG6ppFq446gxLFslHhfOoBA=;
-  b=ZEGab0ta6a06x4zz1BVQSvY3Yf/507rWbYU2tK3qQxZkG1WAUgXQ1pl5
-   ImrWtZH+/y/WJxLiWrLbMGNB2tfKIwfL1x2oinjJhwnfesLS6xmEHKR8o
-   X20UIxJ4SG35dtzRetzZwOTjRe0WcX4pIu39O3S4Tw8iFQQQ1QNCoj7/l
-   nllRQoxEFa4Sji1HaVW9Hq9JRLmFhfyFp/2PSGPUEpDudil2EWaEaMm1x
-   kTuQCNUCc2xv9/QuL0t8n2BjdM8Qj1JgSI0qjHxzVszXq63muO3uprOXq
-   ct3PSsXFQ1paA8Vxkr7Xw9fqhP/paWiLmxqL6hrSU/s7AvHUSnFfHhflQ
-   A==;
-X-CSE-ConnectionGUID: ewqZdNsFRdWxCRaipPZXeA==
-X-CSE-MsgGUID: ur9Y1ujPRH2j2Ycba99Pzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="84806040"
+  t=1780089222; x=1811625222;
+  h=date:from:to:cc:subject:message-id;
+  bh=CuJ1rgfaltO/03yAQFox8nr6NdC3ldVKhGYeNc9gh4A=;
+  b=fukFFpZyBmy0QaAfzQGU6Yph4UmEnRKtCd5QYRQJsp6NFTLERcn/4MF8
+   j1plAjAdAb3jP2Ruwuu3sZx7+JBSHWIwa8MOUEq5Pq4cRc2XGXn6qCCHh
+   zvKxX1+1C6/UvQPVnQIobuIk4h+fup56g8SgBW+L787FEHB3W7sV4Gq/H
+   bupj4nBU1gFitKXBMm0FcCjwsECAtB6LyJtC0eM+yNi4rJHAH3lYinVcZ
+   oEgj6s/AlSzWCzn7JeVnRCv5utFedn8+wUDEcSxOb8ey9/uTOv3AN9YKK
+   ex+R7L75cZsmmaVxA3pjUR+5lx33AJ5UgUJ/lvvU3QDS369VKwFoae7Ho
+   g==;
+X-CSE-ConnectionGUID: t+j4Dxy3Sl+H36fe9BFSsA==
+X-CSE-MsgGUID: 84dx11zvQNKzCIummO2Czw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="79980987"
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="84806040"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 13:54:55 -0700
-X-CSE-ConnectionGUID: LXmduyQWTgC5f/i4ueVE5Q==
-X-CSE-MsgGUID: JzBUgapxRuy8vKMrDUZ7PA==
+   d="scan'208";a="79980987"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 14:13:41 -0700
+X-CSE-ConnectionGUID: 3wV9Ehc2S4enf8S7VvcLGg==
+X-CSE-MsgGUID: F3A4RmymRO6x+868m15hKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="243045869"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 May 2026 13:54:51 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="247887367"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 29 May 2026 14:13:39 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wT4EB-000000007h8-3tDW;
-	Fri, 29 May 2026 20:54:47 +0000
-Date: Sat, 30 May 2026 04:54:19 +0800
+	id 1wT4WP-000000000wP-0795;
+	Fri, 29 May 2026 21:13:37 +0000
+Date: Fri, 29 May 2026 23:13:20 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kacper Kokot <kacper.kokot.44@gmail.com>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	stable@vger.kernel.org, Kacper Kokot <kacper.kokot.44@gmail.com>
-Subject: Re: [PATCH] netfilter: TCPMSS: fix dropped packets when MSS option
- is unaligned
-Message-ID: <202605300415.wk7l0cyV-lkp@intel.com>
-References: <20260525201116.407338-2-kacper.kokot.44@gmail.com>
+To: Tamir Duberstein <tamird@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tamird:b4/fileops-unsound-redesign 3/3] warning: consider
+ removing unnecessary double parentheses
+Message-ID: <202605292317.Eg5yFGGi-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260525201116.407338-2-kacper.kokot.44@gmail.com>
 
-Hi Kacper,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on nf-next/main]
-[also build test WARNING on netfilter-nf/main horms-ipvs/master linus/master v7.1-rc5 next-20260528]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kacper-Kokot/netfilter-TCPMSS-fix-dropped-packets-when-MSS-option-is-unaligned/20260526-041308
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git main
-patch link:    https://lore.kernel.org/r/20260525201116.407338-2-kacper.kokot.44%40gmail.com
-patch subject: [PATCH] netfilter: TCPMSS: fix dropped packets when MSS option is unaligned
-config: arc-randconfig-r133-20260529 (https://download.01.org/0day-ci/archive/20260530/202605300415.wk7l0cyV-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300415.wk7l0cyV-lkp@intel.com/reproduce)
+tree:   https://github.com/tamird/linux b4/fileops-unsound-redesign
+head:   915dcce74f0c8e8b9943bb1f6429c273d922d998
+commit: 915dcce74f0c8e8b9943bb1f6429c273d922d998 [3/3] rust: debugfs: retain callback references
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260529/202605292317.Eg5yFGGi-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605292317.Eg5yFGGi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605300415.wk7l0cyV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605292317.Eg5yFGGi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/netfilter/xt_TCPMSS.c:134:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] csum_oldmss @@     got restricted __be16 [usertype] @@
-   net/netfilter/xt_TCPMSS.c:134:37: sparse:     expected unsigned short [usertype] csum_oldmss
-   net/netfilter/xt_TCPMSS.c:134:37: sparse:     got restricted __be16 [usertype]
->> net/netfilter/xt_TCPMSS.c:135:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] csum_newmss @@     got restricted __be16 [usertype] @@
-   net/netfilter/xt_TCPMSS.c:135:37: sparse:     expected unsigned short [usertype] csum_newmss
-   net/netfilter/xt_TCPMSS.c:135:37: sparse:     got restricted __be16 [usertype]
->> net/netfilter/xt_TCPMSS.c:146:50: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] from @@     got unsigned short [assigned] [usertype] csum_oldmss @@
-   net/netfilter/xt_TCPMSS.c:146:50: sparse:     expected restricted __be16 [usertype] from
-   net/netfilter/xt_TCPMSS.c:146:50: sparse:     got unsigned short [assigned] [usertype] csum_oldmss
->> net/netfilter/xt_TCPMSS.c:146:63: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be16 [usertype] to @@     got unsigned short [assigned] [usertype] csum_newmss @@
-   net/netfilter/xt_TCPMSS.c:146:63: sparse:     expected restricted __be16 [usertype] to
-   net/netfilter/xt_TCPMSS.c:146:63: sparse:     got unsigned short [assigned] [usertype] csum_newmss
+All warnings (new ones prefixed by >>):
 
-vim +134 net/netfilter/xt_TCPMSS.c
-
-    69	
-    70	static int
-    71	tcpmss_mangle_packet(struct sk_buff *skb,
-    72			     const struct xt_action_param *par,
-    73			     unsigned int family,
-    74			     unsigned int tcphoff,
-    75			     unsigned int minlen)
-    76	{
-    77		const struct xt_tcpmss_info *info = par->targinfo;
-    78		struct tcphdr *tcph;
-    79		int len, tcp_hdrlen;
-    80		unsigned int i;
-    81		__be16 oldval;
-    82		u16 newmss;
-    83		u8 *opt;
-    84	
-    85		/* This is a fragment, no TCP header is available */
-    86		if (par->fragoff != 0)
-    87			return 0;
-    88	
-    89		if (skb_ensure_writable(skb, skb->len))
-    90			return -1;
-    91	
-    92		len = skb->len - tcphoff;
-    93		if (len < (int)sizeof(struct tcphdr))
-    94			return -1;
-    95	
-    96		tcph = (struct tcphdr *)(skb_network_header(skb) + tcphoff);
-    97		tcp_hdrlen = tcph->doff * 4;
-    98	
-    99		if (len < tcp_hdrlen || tcp_hdrlen < sizeof(struct tcphdr))
-   100			return -1;
-   101	
-   102		if (info->mss == XT_TCPMSS_CLAMP_PMTU) {
-   103			struct net *net = xt_net(par);
-   104			unsigned int in_mtu = tcpmss_reverse_mtu(net, skb, family);
-   105			unsigned int min_mtu = min(dst_mtu(skb_dst(skb)), in_mtu);
-   106	
-   107			if (min_mtu <= minlen) {
-   108				net_err_ratelimited("unknown or invalid path-MTU (%u)\n",
-   109						    min_mtu);
-   110				return -1;
-   111			}
-   112			newmss = min_mtu - minlen;
-   113		} else
-   114			newmss = info->mss;
-   115	
-   116		opt = (u_int8_t *)tcph;
-   117		for (i = sizeof(struct tcphdr); i <= tcp_hdrlen - TCPOLEN_MSS; i += optlen(opt, i)) {
-   118			if (opt[i] == TCPOPT_MSS && opt[i+1] == TCPOLEN_MSS) {
-   119				u_int16_t oldmss;
-   120				u16 csum_oldmss, csum_newmss;
-   121	
-   122				oldmss = (opt[i+2] << 8) | opt[i+3];
-   123	
-   124				/* Never increase MSS, even when setting it, as
-   125				 * doing so results in problems for hosts that rely
-   126				 * on MSS being set correctly.
-   127				 */
-   128				if (oldmss <= newmss)
-   129					return 0;
-   130	
-   131				opt[i+2] = (newmss & 0xff00) >> 8;
-   132				opt[i+3] = newmss & 0x00ff;
-   133	
- > 134				csum_oldmss = htons(oldmss);
- > 135				csum_newmss = htons(newmss);
-   136	
-   137				/* MSS may be unaligned; fix up the incremental checksum
-   138				 * to avoid an invalid checksum and a dropped packet.
-   139				 */
-   140				if (((char *)&opt[i + 2] - (char *)tcph) & 0x1 != 0) {
-   141					csum_oldmss = swab16(csum_oldmss);
-   142					csum_newmss = swab16(csum_newmss);
-   143				}
-   144	
-   145				inet_proto_csum_replace2(&tcph->check, skb,
- > 146							 csum_oldmss, csum_newmss,
-   147							 false);
-   148				return 0;
-   149			}
-   150		}
-   151	
-   152		/* There is data after the header so the option can't be added
-   153		 * without moving it, and doing so may make the SYN packet
-   154		 * itself too large. Accept the packet unmodified instead.
-   155		 */
-   156		if (len > tcp_hdrlen)
-   157			return 0;
-   158	
-   159		/* tcph->doff has 4 bits, do not wrap it to 0 */
-   160		if (tcp_hdrlen >= 15 * 4)
-   161			return 0;
-   162	
-   163		/*
-   164		 * MSS Option not found ?! add it..
-   165		 */
-   166		if (skb_tailroom(skb) < TCPOLEN_MSS) {
-   167			if (pskb_expand_head(skb, 0,
-   168					     TCPOLEN_MSS - skb_tailroom(skb),
-   169					     GFP_ATOMIC))
-   170				return -1;
-   171			tcph = (struct tcphdr *)(skb_network_header(skb) + tcphoff);
-   172		}
-   173	
-   174		skb_put(skb, TCPOLEN_MSS);
-   175	
-   176		/*
-   177		 * IPv4: RFC 1122 states "If an MSS option is not received at
-   178		 * connection setup, TCP MUST assume a default send MSS of 536".
-   179		 * IPv6: RFC 2460 states IPv6 has a minimum MTU of 1280 and a minimum
-   180		 * length IPv6 header of 60, ergo the default MSS value is 1220
-   181		 * Since no MSS was provided, we must use the default values
-   182		 */
-   183		if (xt_family(par) == NFPROTO_IPV4)
-   184			newmss = min(newmss, (u16)536);
-   185		else
-   186			newmss = min(newmss, (u16)1220);
-   187	
-   188		opt = (u_int8_t *)tcph + sizeof(struct tcphdr);
-   189		memmove(opt + TCPOLEN_MSS, opt, len - sizeof(struct tcphdr));
-   190	
-   191		inet_proto_csum_replace2(&tcph->check, skb,
-   192					 htons(len), htons(len + TCPOLEN_MSS), true);
-   193		opt[0] = TCPOPT_MSS;
-   194		opt[1] = TCPOLEN_MSS;
-   195		opt[2] = (newmss & 0xff00) >> 8;
-   196		opt[3] = newmss & 0x00ff;
-   197	
-   198		inet_proto_csum_replace4(&tcph->check, skb, 0, *((__be32 *)opt), false);
-   199	
-   200		oldval = ((__be16 *)tcph)[6];
-   201		tcph->doff += TCPOLEN_MSS/4;
-   202		inet_proto_csum_replace2(&tcph->check, skb,
-   203					 oldval, ((__be16 *)tcph)[6], false);
-   204		return TCPOLEN_MSS;
-   205	}
-   206	
+>> warning: consider removing unnecessary double parentheses
+   --> rust/kernel/debugfs/file_ops.rs:235:26
+   |
+   235 |     seq_print!(seq_file, "{}", (CallbackWriter::<D, C> { data, callback }));
+   |                          ^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#double_parens
+   = note: `-W clippy::double-parens` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::double_parens)]`
 
 --
 0-DAY CI Kernel Test Service
