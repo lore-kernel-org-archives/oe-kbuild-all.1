@@ -1,164 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0519B32B13A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 05:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780034147; cv=none; b=dINxYGTlVcIL/b2i6ojCugh6248HMm8IRInPcayK/j/kqK2EobHzJ+Ys6tixpaYPXhiBMR8jVuQXAULdYDxAMi2mtUASnL2V8PSknaqIz72T6bKWD8HHW1wmX6DMG3lcN5ylb5dasByhKCaAJVMTWX5maGonlOGInOooTitE9hY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780034147; c=relaxed/simple;
-	bh=JK0LUCE0peVgGY8IO/ARXuwtHxegxsrHg0YpZIXyQFA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=L7pXYSGihTcafNlN+6Ql3PzA+oUo+nrczTSJt2KmgURhYHBoCMB1FWvNT7Z+1yet+caHiy+x3Vm7QZh1R0mVUz3lhBCXAoibMF4yOhAy+OLJC4h8lB+e0BOS6nfOqfKuBs8FdtQT3NsarvAu2MpKh5xtQPtr++cEi9B1Asm2B8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQtFMD/A; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A9D347BC1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 05:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780034209; cv=fail; b=XY1v4baxanL65EH7IwC+xFseTYDcYWpowTh9Qr4ARAOJPr8yG7ADfSMrCRNWLY0c6rNtyul94/TcqM0YQNNwxMUDF6FPqy2JGeUB1WRFSWncT3kRjsCO2obIVurOh7jdKjt8xUEqmFx/XhmLKcLhNclV9VDsIamQjIgLTTPrAxQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780034209; c=relaxed/simple;
+	bh=63NRreYtrpLm4LrZVTIR5l9hbC3mOzu45urlyZsWlnI=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=Mscq+C2sWZIO6w7wL3WcTA78WbMPzswpwZqZekQlW7it/EouUJJHfkKa5DlqoEZiDCRAiU7bs9AG7mvEYbYsbgfPnII+bbMFaBGTG6usJODm+tb2tvLbxmNauQLuhLSwveYdkHvEHd9sKp9+H1ui4KTQLaqHZwrrtUCg9TK0mIc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a62y3Akr; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQtFMD/A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a62y3Akr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780034146; x=1811570146;
-  h=date:from:to:cc:subject:message-id;
-  bh=JK0LUCE0peVgGY8IO/ARXuwtHxegxsrHg0YpZIXyQFA=;
-  b=bQtFMD/Am4zQ+2LS5aGNX38w0suJEmI1DaeEeNGA07fRhtfAWXhqlFzX
-   iL3uTiGk72I6kIcs4A7TgZyMs+DbtkrGwaMZkJA0qzNI+DEPZ+4JP9YqZ
-   0VuyWgcHD+IlfMkw7G4JJhVODtI9aBFwCkkGm/NfW3dtQIFQURMWxEZtp
-   CdASGcs1pOx/151cPAhUPUOCBW7eTqHsvMmoIEpl2OoFotAiPOfK3Rgk0
-   CC5Qv60Nvg72nEACK8dc3UrMFXgqJu3PvJlfEdxB6Agkf9lb64B33l0R9
-   JBYR7Gjq6Xy/V8vaB6jRkxR7MOWryxFvkwNfqsU8RMKQugYzzCdI41faA
-   g==;
-X-CSE-ConnectionGUID: WYgJWFVVTfWBEXpRl78lXQ==
-X-CSE-MsgGUID: IKIRnUNLRJ2uCxrL597NGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80996011"
+  t=1780034208; x=1811570208;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=63NRreYtrpLm4LrZVTIR5l9hbC3mOzu45urlyZsWlnI=;
+  b=a62y3AkrYkuN23qiSfiBnwgRFfPhiiZsKXCAZGGQAyZP0vUYe/6oRZ6s
+   jNiEOlsaAawfhk/9o9ZxMLpUKfk5FRY5gaO0hP79WBLGnxWo11onO1OaM
+   E8KDgdwT9CiHX4yMW4SWA03U5+qJITfAUx2RsJU78dY0cdhYg0mPcaG41
+   GU5aRFQPIMQ3BO74PuGI/606Y+rTNYxlsNv+aflEb6/cdLcVyDKiHlZ+N
+   ZPBFL4nleFg2cyy5gyyGPP4m12pER7PLTBqiZ+PUchMbKB7Kvvw3swDIm
+   bL0TeI6pLeelI5n4ymj/UHb4lMgEmLbAk6uoxAiLaN+SFObun8UY935wO
+   A==;
+X-CSE-ConnectionGUID: kOBbOQ3+RPClgomKNSnGvg==
+X-CSE-MsgGUID: AEejSmUPT1+1AsjMrPVm/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80735939"
 X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="80996011"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 22:55:45 -0700
-X-CSE-ConnectionGUID: bA5KttrAQuWQN4a6VpMJBQ==
-X-CSE-MsgGUID: Mlps386ZT8mJxptYAnZEiA==
+   d="scan'208";a="80735939"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 22:56:47 -0700
+X-CSE-ConnectionGUID: 5g7a5kdaTVuSQPKX+UDJSw==
+X-CSE-MsgGUID: 4itqc+l+RQ6RHMTzGw1feA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="246767638"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 May 2026 22:55:43 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wSqC4-000000006oc-2DgV;
-	Fri, 29 May 2026 05:55:40 +0000
-Date: Fri, 29 May 2026 13:55:04 +0800
+   d="scan'208";a="247850761"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 22:56:47 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 28 May 2026 22:56:46 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 28 May 2026 22:56:46 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.19) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 28 May 2026 22:56:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HKu6QouLq4Djv+XxwjvmVWdo+JbAg6ZDxvJhmPluOBUXVXw/HltEgWeNNUQLS+HomSU8gOxzj8zLSSYoU3aKrbONRmmpqgXXP0G5htGBW36Vy/pdw11I26UpTXFxriDkLqy7pKxiNi+ZXtaHMfsaXsh1pep346nilzvEmsfFSGUjUckkUFSXB/FsBu2EUBjZp3k8rPj8KuDQSImi6ikMZOd2g7ziSjLXTxnpL1MyWxlz7kEysDy91lfxUh4tLG4kKx6iUca6qxe+/8DQlUxqiq4tyncXM1GnPkUGCu3DpBTO7TwqLhLvIrYCor9xZcuQFRDOk9FmVZymbq74kr09eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0ugm+CzqMKuumHpD0BC14hr2Zw2vOWsCk+E9nXxsEkg=;
+ b=vGI644aEL7mvB3v/A/qDQCALeMq0/ii/5G2/vNL2oYvKha6EMuDBFYi7xDW+bvnIR/VPgcaQhMVh4dm7288ZSqPXwjKWI+sf2AKd4YUjXBS2BNreiZhZTvHigHNtmsKNz4I+Nz90bLkuyX/LzmECSW0oLQp8MRTMbM0tbF/Ft+a7nktDibvsGRwHfwDFY7O8bOQZD4b4n1jx8Ly/7Jjpp41pvDpso7CUck8Oc2+whSIuRrtv6Gp2grqUVhsP8GmHOd2Di1XPxaPII9kAa1n3QTzqAfUJD6c0XaC9QeG/eFiM6fucsHEZRkxCtC2Tq1mWhOvFiIZ0wyYOK8jYFApKNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3493.namprd11.prod.outlook.com (2603:10b6:a03:81::16)
+ by MW4PR11MB7164.namprd11.prod.outlook.com (2603:10b6:303:212::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Fri, 29 May
+ 2026 05:56:43 +0000
+Received: from BYAPR11MB3493.namprd11.prod.outlook.com
+ ([fe80::887f:a81a:8389:1259]) by BYAPR11MB3493.namprd11.prod.outlook.com
+ ([fe80::887f:a81a:8389:1259%5]) with mapi id 15.21.0071.011; Fri, 29 May 2026
+ 05:56:43 +0000
+Date: Fri, 29 May 2026 13:56:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kairui Song <kasong@tencent.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 8522/9137] mm/memcontrol-v1.c:651:31:
- error: implicit declaration of function 'swp_cluster_offset'
-Message-ID: <202605291334.abNeADbG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: David Woodhouse <dwmw@amazon.co.uk>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [dwmw2:ffclock 10/10] aarch64-linux-gnu-ld: Unexpected GOT/PLT
+ entries detected!
+Message-ID: <ahkqk/h203Ac9Bi5@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: TPYP295CA0034.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:7d0:7::14) To BYAPR11MB3493.namprd11.prod.outlook.com
+ (2603:10b6:a03:81::16)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3493:EE_|MW4PR11MB7164:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01e2671a-63e8-4e21-bcb7-08debd470f34
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|18002099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: WG4SQJ1dlaYGUK0/GiUjbMqA5gL/pB5vppsMvLkAkioTYHtTvi+aXYeLgmY/br4K1ZZ8qjB1nhPM1CDTBazRaod8h+6RRj1IMDakaB3aU0xyDyw8tWEGipXlmdh7g67yKVeVjEGwh1/rhmD8JedOUlaW8JlcN9QE5YHmZGTnAExawOO+6QgxzzLEmacyOZ4iIXB+Y7sfFbcGCAAv83UCNvbUoG7g9Yep5WT6RpTyvmXBmplr74YkTJkCmhnUYF6L0jktOL0UtueP2FxNG1nbwK/i+d83UZdaMjh9Jv+RI0CHqEjokJ4iTDEI3cQ+v1T42vLDIll9ToddTSuBrc2ki2uEzgcSrXx9IZGWmluL3aRbJtYjHnybtEYo/fLBvR8RG9E1AF3a5KyT5EpICBv0i+gj4udWtVKw4KTxbf4reSA13axDrQUNAQIKsw9JXeMsNFSLkfRG7e0k4KZp5faA4EEc2ze/G2ZU9jlrTAhsRFX4M0USITPLhqSZAnkiLZ7rgbCXIpX9DMdC4qBw2yXuhiheUkb5UInQeoW8xxwLH0p/ihR6hBVu6sc3DKL+r8IbCA4jC+Lvwzz5bi7nnezAQ6SvZUpmeIxFjbi3120+3c/SD/yyh8im6Z0OPiIOclnbOs3ZvhEJB0b/rG63PBErIw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3493.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Oo02HOyX59WhI+Cl7iLpXTbXlXhpiT8wb7wG+L46WR32m2Kqf1+rAZxiVu59?=
+ =?us-ascii?Q?KCjub0wcMiT3LtB4rWj5rDtREXcIngYzNEBQ5tz6e4ocgBrKRUvHdOE55W6f?=
+ =?us-ascii?Q?Q3vaJ8JuY+0BqYM+6HltvEauZ7scMkp5PDoLc4HfWYK1VAlkRd+jl51SvOy9?=
+ =?us-ascii?Q?5wb2suRKREis/a77v5O44Vy/LIiP5t1YWBOOhWutbv4qMi1o58ibpTbhp4aC?=
+ =?us-ascii?Q?CZUFsUBVDAPT1FshXNrpGUuEf9N6xpLRSjc12s+bNjHMWH8iala3PqbPbJtQ?=
+ =?us-ascii?Q?hp1j1LogsyUib8Gg0VrSNNpmCeuc3MGazxvDD40nTWiNkqIP7r3W5jvgIxrc?=
+ =?us-ascii?Q?tQ3sMy/y5d9+FQYuhjmYXiHoVehzn02LLBstF1iKa6rv6t5aMVWWWLrupYwH?=
+ =?us-ascii?Q?MBgoi2A4yRTpLBqFi7e2Y11rUhpAXNvMYFfGHg03agul7+oQVdJmV87Vxb38?=
+ =?us-ascii?Q?4KBEOzyO2tjtH8OKRd4R73sukZ9PQ+C67uuYg9+NDCgT+3rqLDBZO6kQvGY5?=
+ =?us-ascii?Q?kUhn4gwSQzfigoDxMpiuj44DtKFV8kqAwT2vK59y4AL8tC8rfhX2EPV3JKfy?=
+ =?us-ascii?Q?O12nLVQSA6rMLgSx+VHAx5IF4IxvFlcaU0TbqJ0gjezMKH6oJY3x0J4UQiSP?=
+ =?us-ascii?Q?clJ2n3KxHUuSf7jH78u0J7TdlTqS4g5KfrGBAfOyaCVJhjOfIdAMuad73GJH?=
+ =?us-ascii?Q?fQeDrDMn9fKnkpFmb5mVKDZV5JFLoE+OLpT+5nUtqZgKq/kmnSICkftWO6Sk?=
+ =?us-ascii?Q?7aUKD2mSYa7Vx4+7IqT3tcDqB9ljeAUCPpiU1X4d28CdyUxjRCNLh3ys59D/?=
+ =?us-ascii?Q?KKkaxs8eIs/oKDvYE8TY8ArXP7Pht2mViXHtZ4IAYIxhuPKMJOd4Fwdc1O/j?=
+ =?us-ascii?Q?Q02gshRg8E/gJEw/oTDkxYsu5kUlx9XJWF2oh9d0ULwd8Z+3VDRudAsK71AB?=
+ =?us-ascii?Q?1Bc0pIpUadQ5nJAhBXM3LRUZyCJsrOdgq8FgdhPjjZiPFK/ZccJwmkgmSyhi?=
+ =?us-ascii?Q?IsHxxTsQxt9a5oHwsNR8i6jHBbsVDASYBVMUKNrX1JmU9Wm8X4RtmiPm3+Yy?=
+ =?us-ascii?Q?JJFjGN7PW3I3RmuVAV2pQP7FYLK1UhP+ND2wsKJDJOkaX9wNpaq9Z2MJ8DUA?=
+ =?us-ascii?Q?/hpuJc5CID3ZaIvImzPTxU2SLyltANOKeGYO/89BB1JvQxiypVXnUnzK/u5x?=
+ =?us-ascii?Q?XNRCFw4LWh0hTd6s+5lIwq6Rzmgi4A0cilLg18yL3py5HWbEpSEFXVTbxuTG?=
+ =?us-ascii?Q?wAG0VhlcEQ/gWCi1ZRGhdMc0Z+aegLvYxp8QxBI+I6k3y/V3dXDIzrCTQjp2?=
+ =?us-ascii?Q?IVg7b/BLdGI/rkRc3twXk5SSGGsCTYXwJMTFQ7k0xcsg5oIhek+4lUJa+e9f?=
+ =?us-ascii?Q?DhN8EzmS57BYSU/Rb7TEIjLe+fDYrbuyRIWCtFGz+Nhb8FIEkRsNd/V0phbP?=
+ =?us-ascii?Q?yd7ldBN4vgLRBUyPvN0/1fH55BFNpbEq+g0ogiZOZvqogjbpgmzrgFPsWZir?=
+ =?us-ascii?Q?QaGHuWbISAfZodL6pH03U/JfJ4dlGe3dOLLb/X55fpYOU0UUDX3Az2QnfcO4?=
+ =?us-ascii?Q?EN97+jglUYdiaFUONGB3lu0lpUVwJaAy+NKK46yIldkxtB9OwxlMwGEXqqID?=
+ =?us-ascii?Q?gETckjiKaN0S0WIQb9GZ50M0tCRjR6Olnppq0zzJ3J9XTVUb6e/8K/Y3wDTZ?=
+ =?us-ascii?Q?SWOyFKwDaRNKskh34Xt5KBW5zn9MJWgzj4UBsNcVpf20+yrO/iCKlj7TVnKa?=
+ =?us-ascii?Q?n1bWr23YgA=3D=3D?=
+X-Exchange-RoutingPolicyChecked: BOgL4Cph+oKgoYJ8hwzizrGtp3mNXvTBtTOasD3Ybu7aKv/zW7CmNHEbuEcyac/b8+rQW7I4XcQRuwwQtfFpgXPAFBOjHBBDgZ/humM4FoE866J384uCTY1yT5n3KztiOuGurHS+uUJqP4NccU1vRlKxfLDRoieSsHMohhYf9K4jUz3JnZIfTsRWxzNGfKnwoEmwnB/UPO91Hmy9UYnWyqtQMSqvnyFtCe9PvIM1Zq/nmRUjsS1OtjJqV0IyZ7ByID2EHvm/nm61ffZH+rQOUZXrwZfJWVL7ded43tkeJI+/B6kkMivjzDrxyIq/AIwELxaBJDPfalB4JmffVPH2nA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01e2671a-63e8-4e21-bcb7-08debd470f34
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3493.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 05:56:43.1931
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: foDkx9AQP96a3pDvAhngiszK8e+kJ/2C+PAEP9AsyIUeoZAIWvvLfwFYu2to9U4g0OAnbbHDPxB7nCftPdTmTg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7164
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f7af91adc230aa99e23330ecf85bc9badd9780ad
-commit: 93680c2b51fa1f84fe50800b71140dbd283372b8 [8522/9137] mm/memcg, swap: store cgroup id in cluster table directly
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260529/202605291334.abNeADbG-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291334.abNeADbG-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux ffclock
+head:   0b56bf62998ffb14cc4fb5ab4781f6b3e5f60f0b
+commit: 0b56bf62998ffb14cc4fb5ab4781f6b3e5f60f0b [10/10] kernel/time: Add /dev/vmclock_host miscdev
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260528/202605281743.Pqcf2Ld3-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281743.Pqcf2Ld3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605291334.abNeADbG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605281743.Pqcf2Ld3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memcontrol-v1.c: In function '__memcg1_swapout':
->> mm/memcontrol-v1.c:651:31: error: implicit declaration of function 'swp_cluster_offset' [-Wimplicit-function-declaration]
-     651 |         __swap_cgroup_set(ci, swp_cluster_offset(folio->swap), nr_entries,
-         |                               ^~~~~~~~~~~~~~~~~~
-
-
-vim +/swp_cluster_offset +651 mm/memcontrol-v1.c
-
-   606	
-   607	/**
-   608	 * __memcg1_swapout - transfer a memsw charge to swap
-   609	 * @folio: folio whose memsw charge to transfer
-   610	 * @ci: the locked swap cluster holding the swap entries
-   611	 *
-   612	 * Transfer the memsw charge of @folio to the swap entry stored in
-   613	 * folio->swap.
-   614	 *
-   615	 * Context: folio must be isolated, unmapped, locked and is just about to
-   616	 * be freed, and caller must disable IRQs and hold the swap cluster lock.
-   617	 */
-   618	void __memcg1_swapout(struct folio *folio, struct swap_cluster_info *ci)
-   619	{
-   620		struct mem_cgroup *memcg, *swap_memcg;
-   621		struct obj_cgroup *objcg;
-   622		unsigned int nr_entries;
-   623	
-   624		VM_WARN_ON_ONCE_FOLIO(!folio_test_swapcache(folio), folio);
-   625		VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-   626		VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
-   627		VM_BUG_ON_FOLIO(folio_ref_count(folio), folio);
-   628	
-   629		if (mem_cgroup_disabled())
-   630			return;
-   631	
-   632		if (!do_memsw_account())
-   633			return;
-   634	
-   635		objcg = folio_objcg(folio);
-   636		VM_WARN_ON_ONCE_FOLIO(!objcg, folio);
-   637		if (!objcg)
-   638			return;
-   639	
-   640		rcu_read_lock();
-   641		memcg = obj_cgroup_memcg(objcg);
-   642		/*
-   643		 * In case the memcg owning these pages has been offlined and doesn't
-   644		 * have an ID allocated to it anymore, charge the closest online
-   645		 * ancestor for the swap instead and transfer the memory+swap charge.
-   646		 */
-   647		nr_entries = folio_nr_pages(folio);
-   648		swap_memcg = mem_cgroup_private_id_get_online(memcg, nr_entries);
-   649		mod_memcg_state(swap_memcg, MEMCG_SWAP, nr_entries);
-   650	
- > 651		__swap_cgroup_set(ci, swp_cluster_offset(folio->swap), nr_entries,
-   652				  mem_cgroup_private_id(swap_memcg));
-   653	
-   654		folio_unqueue_deferred_split(folio);
-   655		folio->memcg_data = 0;
-   656	
-   657		if (!obj_cgroup_is_root(objcg))
-   658			page_counter_uncharge(&memcg->memory, nr_entries);
-   659	
-   660		if (memcg != swap_memcg) {
-   661			if (!mem_cgroup_is_root(swap_memcg))
-   662				page_counter_charge(&swap_memcg->memsw, nr_entries);
-   663			page_counter_uncharge(&memcg->memsw, nr_entries);
-   664		}
-   665	
-   666		/*
-   667		 * The caller must hold the swap cluster lock with IRQ off. It is
-   668		 * important here to have the interrupts disabled because it is the
-   669		 * only synchronisation we have for updating the per-CPU variables.
-   670		 */
-   671		preempt_disable_nested();
-   672		VM_WARN_ON_IRQS_ENABLED();
-   673		memcg1_charge_statistics(memcg, -folio_nr_pages(folio));
-   674		preempt_enable_nested();
-   675		memcg1_check_events(memcg, folio_nid(folio));
-   676	
-   677		rcu_read_unlock();
-   678		obj_cgroup_put(objcg);
-   679	}
-   680	
+>> aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+>> aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-gnu-ld: kernel/time/timekeeping.o: in function `timekeeping_adjust':
+   kernel/time/timekeeping.c:2563:(.text+0xa24): undefined reference to `ntp_get_status'
+   aarch64-linux-gnu-ld: kernel/time/timekeeping.c:2564:(.text+0xa2c): undefined reference to `ntp_get_time_state'
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
