@@ -1,62 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF5032B13E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 07:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADC2324B33
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 07:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780039837; cv=none; b=bUEsyz4Y4ng/3BEx9K/YZsuqYR7ADcnwZQifVEFjLnBkcRFk6iWWiQqL9CMMcKcofpRvN2RGr/qTjOV1GB1nUN4p3kAgmRMxf7MFp2jFgVt1Akk+vZtYN0O/zbhmz2n6jCK3qA+l9LSzIvf6NqDn5wEKZeqCtbhD8IZYxrk1M1A=
+	t=1780039914; cv=none; b=gpRNe1Rxd4wcvOOvOHMLPVpDruhRD578JD7FNcLtFiaX2VlMxC/Q0P1bL5yDxFfHtKiFkzCx5vtelm93nRBpIhUrqMqfKSrJvB268XaKjwLBp7XDXwXu91A7VdycH+xGYGtpvsPm0jWcnHA2iKGm1p9iivsomSQszEatCk9A48g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780039837; c=relaxed/simple;
-	bh=ClMk5zNyCRJu81M7Srr+gaScjDUvl33BlIAsEzgQIdU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q5qor9fzqFRbLON/yIL5eJkqgpEuYNiWF54J2Rc313D2x1mTT0e49eRLgM9Fb5j+qwKb9j/dRITNx+3mvZtzz3ocvmmJqieQ/FMkJyJtDI/C915qhGqfOxWTRHotB6of0mBk0gKaT1K8MlMZCgxUWy4yAuicalSRbTDOji2mSAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=efVZxVlK; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1780039914; c=relaxed/simple;
+	bh=vI/5B7EAfrh2K/RpnItI7BQL3Iw7kvv28C+tbRHhADY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=W+6OE4jTueLzMx131xhgytzmPe+PyfewZjOq1E9mVOfZfsdUTExXTaH8tKeNpnXUViZVz8G8UmtjbaZrEzknaY2dg9xvNLt8d1EMEmNpUxc96oyfJaRCHoPVpO5xUHzwRP1Cku9lbt3Xw+8VNFnVVn14uLrH8+6Y7kqL4mYuFP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iHIl8HuK; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="efVZxVlK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHIl8HuK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780039835; x=1811575835;
+  t=1780039913; x=1811575913;
   h=date:from:to:cc:subject:message-id;
-  bh=ClMk5zNyCRJu81M7Srr+gaScjDUvl33BlIAsEzgQIdU=;
-  b=efVZxVlKNsuluyd2Se2BWOSsoLALlMGYEaHZJ5dURdWgq2mSCKeUbP9E
-   /8XfybSh/vw/ZZknRO1oFIIKCu6bvzYr1lWwJ+Kvo5GsAumQZjeAihJHy
-   qzlzIS96gsJcPLntDFZFFHky8P+DW/BPirJ3eHnEARDqVnHDbyxTuskta
-   wbYVShfMEv6R+zo/aJZmma+A57vk8cNCc7ucfnWJKWoCEqHV5OyVLD34R
-   Qrl0lZIOhSPNBvX7vYkN3RVtyKmM/9RQu+8zXWIB71eqhPF+zGP0DheV7
-   oPwfwEJqBGXlno/fsKWwzxB1IDU6fYuXNpgrBtMDHmJnMkCW+mRcUW5ro
-   Q==;
-X-CSE-ConnectionGUID: YET9Yf9OQOu/p2htmK4oVA==
-X-CSE-MsgGUID: Y8gt80DZQ5+KFRZY/ESxXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80883201"
+  bh=vI/5B7EAfrh2K/RpnItI7BQL3Iw7kvv28C+tbRHhADY=;
+  b=iHIl8HuKk/QoHbRb9sXYcO2BtwXkZVH1MTH8fOv/AMWTNgnHn38PNeL7
+   yPS6ziXr1rgMOd0soVPMeqQDnks7Cs2ZVCDwRzwXPVyCd2oghx1nU0Gc3
+   8844YYWzEos25BRipx7goiRObkhHS00cZ/fwim5kZk4IPxr4xb0cMtKe3
+   MjrcV5OV4OR10JsI36UP3q02Z3RQkcpvkLLnQyMD+mgNWSSbfG4QJem32
+   ab+4jjEj5hOqHrRlrW9nQiqIloY3DGfTYjh9P+X46kD7nhznR5eHDee74
+   MZpO5fc0CWoMPjoLfVb1z5WpcfgDFbJVzZrHidyGYkKz0JiOa1vViKZzG
+   w==;
+X-CSE-ConnectionGUID: pjW07WtRSfO85PeHub6PbA==
+X-CSE-MsgGUID: g8c2SFKCREu4qlmfdnquIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80883285"
 X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="80883201"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 00:30:35 -0700
-X-CSE-ConnectionGUID: Z095tQyIRDmG5HMN6Dhl8w==
-X-CSE-MsgGUID: +OukO60WTfKSSE7SqzhBfg==
+   d="scan'208";a="80883285"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 00:31:52 -0700
+X-CSE-ConnectionGUID: FaYcFVu2RkeM5etuQRAfsQ==
+X-CSE-MsgGUID: wAk1wpQ0RdWKsBLTfK9zJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="238590460"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 29 May 2026 00:30:33 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="266651115"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 29 May 2026 00:31:50 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSrfr-000000000pp-035s;
-	Fri, 29 May 2026 07:30:31 +0000
-Date: Fri, 29 May 2026 09:30:24 +0200
+	id 1wSrh6-000000006uk-172d;
+	Fri, 29 May 2026 07:31:48 +0000
+Date: Fri, 29 May 2026 15:31:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
+To: Ronald Claveau <linux-kernel-dev@aliel.fr>
 Cc: oe-kbuild-all@lists.linux.dev,
- Johannes Berg <johannes@sipsolutions.net>,
- linux-wireless@vger.kernel.org, Willem de Bruijn <willemb@google.com>,
- linux-doc@vger.kernel.org
-Subject: [wireless-next:main 10/20] htmldocs:
- Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181:
- WARNING: Failed to create a cross reference. A title or caption not found:
- 'crc' [ref.ref]
-Message-ID: <202605290940.E4u11iiQ-lkp@intel.com>
+ Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [thermal:thermal/linux-next 8/19] ERROR: modpost:
+ "meson_sm_get" [drivers/thermal/amlogic_thermal.ko] undefined!
+Message-ID: <202605291530.en7aGn7w-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,26 +61,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   e7d6bd24e883bf7c328d73c99bf6bcde19bf5e61
-commit: 25bfb3a8edcbadf4d9d27450c547a631e7513f14 [10/20] docs: net: render the checksum comment in checksum-offloads.rst
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260529/202605290940.E4u11iiQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git thermal/linux-next
+head:   3929405c64376a8a54c794e8a4485023b108a97e
+commit: b21d88de69184c1dc82d85859aeb34a6418b96e4 [8/19] thermal/drivers/amlogic: Add support for secure monitor calibration readout
+config: arm64-randconfig-003-20260528 (https://download.01.org/0day-ci/archive/20260529/202605291530.en7aGn7w-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291530.en7aGn7w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605290940.E4u11iiQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605291530.en7aGn7w-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+>> ERROR: modpost: "meson_sm_get" [drivers/thermal/amlogic_thermal.ko] undefined!
+>> ERROR: modpost: "meson_sm_get_thermal_calib" [drivers/thermal/amlogic_thermal.ko] undefined!
 
 --
 0-DAY CI Kernel Test Service
