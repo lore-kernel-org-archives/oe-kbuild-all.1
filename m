@@ -1,102 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D15C34040D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 16:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AB937A4B8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 16:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780071581; cv=none; b=hewABN8ltMCr6N+AS1ugOqQWqukDUJ4nQNACpEV9GpkH4vmBE4M+D5hjwksrQpZn1riQqymrmStvoglPTRZD4sW6q1pZ4enwnDBEFemLB/gMt2yMRPEolgAVVFN+N/ZQnI+0vCIIE/I6OrIswXtk5RAW4PEMibEGjwJoE5HQjC8=
+	t=1780072180; cv=none; b=IE0UaVQJuEHoWTWy6N3WPLcuI7XxTiaX6lAkSNwLner/I0uqb6qD5qYIFPuIh6cTDgeBffhvhe5eCCnAD9kygq0r8x7lnaqvsWV5tDmxQbp/KCMhet9St+BL/m8sl6Hyo12lo+VoE9Dr1W1emLV9VedHLjF1iGaG+Yprxc1MsxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780071581; c=relaxed/simple;
-	bh=EYp/jAynC172ymkPlBs938kKNz8BDeBeyLFCV6NsZSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KIWaUjwXCR1df1A+fjgXpLCukIC1u/opdPbDDmk58cE+z9Dl0gjpR+Op+sfW0lHLMoxU44XDYhWB14i21Jql8zjkEph8B7hyIkF9ugXbWF7LtqdOuBOluV6fDy6kXjismAUj49O72vCsRsVwDyMiarKzxVBu1IKOanNOXuNOxoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+ok9+ls; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1780072180; c=relaxed/simple;
+	bh=iFG7AzXxHX76C8ipF5tnzlHN5cLnnrGJZBvsb92nY7I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SwyxkemO2x5WKCujop2j+LOvFHrDjBkVppLYh786/sU9lKnYJJej9h/qWFKl0aOcob1AGgv7zAGzJafhFDQ6CHkveQtwr7AJeNrnAenYhSnJRC1wGKxgqgoLZ/Dc8D5IfazoD3SRiznWNehSuthkZFr4Xeg4UQ/IL8haa/rthj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IXdafSrT; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+ok9+ls"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IXdafSrT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780071580; x=1811607580;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EYp/jAynC172ymkPlBs938kKNz8BDeBeyLFCV6NsZSQ=;
-  b=g+ok9+lsDycWf0giZaCMpG+cKYwTbrk3Yj710JDJZ7HQR53DZE5hPQeP
-   oPQiTEjcKWdWIYbFPcglXgQmevwkjQ9WnE7CErG6wwDOVaZMcrTFpnl8+
-   pkbLZPnUv3a8SWba62J70rw/NuS82k/8QRbyOFFIbgUJEPNFWrVimzjdD
-   BHxPkXeOgSxGocX2O/i6dBwM3iR1bqsT5ix2ODXHzbP9Q47f0SjS5t9ry
-   d/Ue8+eiZNjxOwTKsYIFfsAozlbHS27svLeg8uoF1x1byPZYmoqjWFvCQ
-   mMxP4zsZ3s61NlGDwfHGy7RnGtKawNzTyWdWBi2ImHU/j9httNp5bpomU
-   g==;
-X-CSE-ConnectionGUID: HmAyvm2tSIG/9edGL+YN9g==
-X-CSE-MsgGUID: Vbg7GydJRy6ptlFDImSVgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="80901037"
+  t=1780072179; x=1811608179;
+  h=date:from:to:cc:subject:message-id;
+  bh=iFG7AzXxHX76C8ipF5tnzlHN5cLnnrGJZBvsb92nY7I=;
+  b=IXdafSrToK69VWThZcAGIigY4zcFnnxlkQnZWKsOWcwbtOSyZn6d1+ZM
+   ovapCO0YVmgYpagFMBSFDIRmY/+yQhyniNKKMEjwgFgKFkIISFlczSBiE
+   1hIY+DRLGORwGgz+f7R+yLfWMrUuQjSNJ+jcq/+WQoPnEhCyNf4QR2nZf
+   /qVuhJeSCNhIYLy2kRvzejVW8R5FP8oJRN35sXSS9GlLOHXQRt86IAqLv
+   wWrX3HQHs5gGSY4SxgKNAk3ns7V+WohNjj+Ia4GFe2y37XEZ4Gengr0TJ
+   2U5QAr+nnb/wOJp78AyMRU8nIe8OGlpwDfLGKzMq77WhfPRUUaBiu2QGE
+   Q==;
+X-CSE-ConnectionGUID: sI+i29qzTXKhCOXF57YGXw==
+X-CSE-MsgGUID: gXmnbMGxT8iT4GjQQkrwmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="84786906"
 X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="80901037"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 09:19:39 -0700
-X-CSE-ConnectionGUID: uTyt/F+0Q9G5VrvCvb6AiA==
-X-CSE-MsgGUID: EfFBoTWxSZK9YE6bc6REDw==
+   d="scan'208";a="84786906"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 09:29:39 -0700
+X-CSE-ConnectionGUID: Lfb/K5WfQx+mKffq5ersTA==
+X-CSE-MsgGUID: zbTZci9SQQOjuxRmlbJt1g==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="238712433"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 29 May 2026 09:19:37 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 May 2026 09:29:38 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSzvr-000000000uj-2NX8;
-	Fri, 29 May 2026 16:19:35 +0000
-Date: Fri, 29 May 2026 18:18:49 +0200
+	id 1wT05X-000000000ut-36XT;
+	Fri, 29 May 2026 16:29:35 +0000
+Date: Fri, 29 May 2026 18:29:19 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tao Cui <cui.tao@linux.dev>, tj@kernel.org, hannes@cmpxchg.org,
-	mkoutny@suse.com, leon@kernel.org, jgg@ziepe.ca
-Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
-	cgroups@vger.kernel.org, Tao Cui <cuitao@kylinos.cn>
-Subject: Re: [PATCH rdma-next v2 3/3] cgroup/rdma: update cgroup resource
- list for MR_MEM
-Message-ID: <202605291816.15AyhoZE-lkp@intel.com>
-References: <20260529090733.2242822-4-cui.tao@linux.dev>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:rootns 17/23] kernel/rootns.c:68:50: error:
+ invalid use of undefined type 'struct mnt_namespace'
+Message-ID: <202605291850.XlPlB9JH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260529090733.2242822-4-cui.tao@linux.dev>
 
-Hi Tao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tj-cgroup/for-next]
-[also build test WARNING on next-20260528]
-[cannot apply to linus/master v7.1-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Cui/cgroup-rdma-extend-charge-uncharge-API-with-s64-amount-parameter/20260529-171623
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20260529090733.2242822-4-cui.tao%40linux.dev
-patch subject: [PATCH rdma-next v2 3/3] cgroup/rdma: update cgroup resource list for MR_MEM
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260529/202605291816.15AyhoZE-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
+head:   86a21721c8c825e8a083fff56e37007e355c0bc1
+commit: 9131624df850013a118122968debfcf59383172b [17/23] rootns: Implement rootns_enter()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260529/202605291850.XlPlB9JH-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291816.15AyhoZE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291850.XlPlB9JH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605291816.15AyhoZE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605291850.XlPlB9JH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: kernel/cgroup/rdma.c:210 function parameter 'amount' not described in 'uncharge_cg_locked'
->> Warning: kernel/cgroup/rdma.c:312 function parameter 'amount' not described in 'rdmacg_uncharge_hierarchy'
->> Warning: kernel/cgroup/rdma.c:335 function parameter 'amount' not described in 'rdmacg_uncharge'
->> Warning: kernel/cgroup/rdma.c:210 function parameter 'amount' not described in 'uncharge_cg_locked'
->> Warning: kernel/cgroup/rdma.c:312 function parameter 'amount' not described in 'rdmacg_uncharge_hierarchy'
->> Warning: kernel/cgroup/rdma.c:335 function parameter 'amount' not described in 'rdmacg_uncharge'
+   kernel/rootns.c: In function 'rootns_tag_nsproxy':
+>> kernel/rootns.c:68:50: error: invalid use of undefined type 'struct mnt_namespace'
+      68 |                 rootns_tag_ns(rootns, &ns->mnt_ns->ns);
+         |                                                  ^~
+
+
+vim +68 kernel/rootns.c
+
+    61	
+    62	void rootns_tag_nsproxy(struct rootns *rootns, struct nsproxy *ns, u64 flags)
+    63	{
+    64		if (!rootns || !ns)
+    65			return;
+    66	
+    67		if (flags & CLONE_NEWNS)
+  > 68			rootns_tag_ns(rootns, &ns->mnt_ns->ns);
+    69	#ifdef CONFIG_UTS_NS
+    70		if (flags & CLONE_NEWUTS)
+    71			rootns_tag_ns(rootns, &ns->uts_ns->ns);
+    72	#endif
+    73	#ifdef CONFIG_IPC_NS
+    74		if (flags & CLONE_NEWIPC)
+    75			rootns_tag_ns(rootns, &ns->ipc_ns->ns);
+    76	#endif
+    77	#ifdef CONFIG_PID_NS
+    78		if (flags & CLONE_NEWPID)
+    79			rootns_tag_ns(rootns, &ns->pid_ns_for_children->ns);
+    80	#endif
+    81	#ifdef CONFIG_CGROUPS
+    82		if (flags & CLONE_NEWCGROUP)
+    83			rootns_tag_ns(rootns, &ns->cgroup_ns->ns);
+    84	#endif
+    85	#ifdef CONFIG_NET_NS
+    86		if (flags & CLONE_NEWNET)
+    87			rootns_tag_ns(rootns, &ns->net_ns->ns);
+    88	#endif
+    89	#ifdef CONFIG_TIME_NS
+    90		if (flags & CLONE_NEWTIME)
+    91			rootns_tag_ns(rootns, &ns->time_ns_for_children->ns);
+    92	#endif
+    93	}
+    94	
 
 --
 0-DAY CI Kernel Test Service
