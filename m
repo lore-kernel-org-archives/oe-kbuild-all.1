@@ -1,94 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7726B3A4F26
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 06:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4A5352031
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 06:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780035575; cv=none; b=QmSrT4eDFu2b+up/BlZLVETRdMr6KLrB9Ti58eNUYi1nhXWKb3hTSBhg5cvbejiwh5orzINElzJsaL3Isribf9uAqcJ0oWkwoycgk/oTWSsJWpoQXI8WxXLLM2Muec7JO0Q88bV5ogh7AKQpt2YS0wznnfS3XzmAijf0YKn0t9M=
+	t=1780035578; cv=none; b=XuzO8jwbqaXetdl7tUv3lSDTsDBxj8g0nmFzgGuGy8o2vsaVerNQ4xoSL5UCpd2xoJQUOtNHPuz6ayLeVa24kQBq3rClwjjvpXWTSYKI/WxblBZF6l6I4FqVzmQ9E2WfPojVT8JoAHtDMYgcGfoT1iOj1UtwK/ObsEfuxJkSnhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780035575; c=relaxed/simple;
-	bh=9bhry/3986v+fvaHmpVoXZLKy0Vg6iKE0sIvYv5sJ/k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Rgt3OGJE79GI26UciAXCBZENNMOnzbv1V0EYbXKdS9eLntPvhbxFjCIM8n/p/N4MuBDs5n3cFqk6vY2DfRuXPNllbIoDLzGQbLtF8KgxgbufIMy6dAc/RlZ9CXTFvd4lAMNi4WzZvTDiGdoG1RcqYTtwkX68g8GrZll8KRbp/JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmSYVKLn; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1780035578; c=relaxed/simple;
+	bh=mLrKjWWivQT6KcJ50KEr/lOyLOkCG5rptxpC8LkCVHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=asyfXW4f1/4zEUA8cv7+epLrSqqirOaM4uv329vD3+Vtd//I8GrVUqmJPqiat2DbNmDBcAyJyDOCx2GYYTTI9Fojo4U3zRI5aoQ039m0alRwzBG9PM1y3To6teA0f4IE1oB8nK3WwKY9BZLfhnDSAX5RhfaQNAX7XPEjk2I8VzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dwwfo7HW; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmSYVKLn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dwwfo7HW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780035574; x=1811571574;
-  h=date:from:to:cc:subject:message-id;
-  bh=9bhry/3986v+fvaHmpVoXZLKy0Vg6iKE0sIvYv5sJ/k=;
-  b=nmSYVKLnkQekzc6iNUIfpoDlIulJPx6M8tBk5C0soXl8CWOPMmhcSzMf
-   xYDNIY8d/99+2RA2sEg4k7tL0dxUc2WCNFseKL8Ol5D+T4Tz96I2iWONn
-   52pjaTY0BwSgOTt9aGGcEgy8ZdELpDipqvtLG9vzROFzDShdWBiR2X7LF
-   U270HBKQhE1Sao2QWVvxfQhPVC++5fy2zJMja/YSycP3STAsKg2bKY0Ng
-   UJAbq6p/aeWfdOXGMzNSkgTBfIvNGt8uWtT0ycgvXzYO1JoyPy5AsTzSN
-   2ScU6FUj2FnQwECly4vMJ4OPbyWFX6m/o/7qi/yhjZErxV6uV2cBH27rP
-   A==;
-X-CSE-ConnectionGUID: 17k3+tQZQPGGrkuRJ3aYAw==
-X-CSE-MsgGUID: h9AluE5SRPCaD1yf45fKFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80911283"
+  t=1780035575; x=1811571575;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mLrKjWWivQT6KcJ50KEr/lOyLOkCG5rptxpC8LkCVHQ=;
+  b=Dwwfo7HWSUBoGrX10clqLurgJ++cz2AQP5JW457/3Kv4hBb1wge5mkr6
+   c94wuBYqOYDGIqcqfkMnc/Xa/+sLLsA1gsTw4pdNM+JRz2NSd5vajbTfV
+   31olYqrkwoQuwswMv++XtpgJ82kemuymNW9aEa+diGL5DM0sCZiJO54N4
+   7VbeZXAqxAAyb35cofxI4mjyzz5dvqjTJCXEHNZgJw6n1q6q1vnSl4pk7
+   rFJ4F3cYrJgQEJKjZ3g1rsi0BeCH4QNWj5wYlTwUXlsO/E35i3qIEtWwB
+   rs1fX34lliK3Rp3ikQnzdvtshcm8heeaC9py12MByI2q+5tcZuorDUSo/
+   g==;
+X-CSE-ConnectionGUID: tH7Et6ePSQqA9duN36Wyqg==
+X-CSE-MsgGUID: t9dhHfUzTHOGSXyaIYIe+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80782642"
 X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="80911283"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 23:19:34 -0700
-X-CSE-ConnectionGUID: urHlsW6aRw6F2Y6FnL7v1w==
-X-CSE-MsgGUID: KHDKJxU3QWOEG/U1Y8DDIQ==
+   d="scan'208";a="80782642"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 23:19:35 -0700
+X-CSE-ConnectionGUID: wugcElarQpOJoAatsPLsvw==
+X-CSE-MsgGUID: OCxStORMRa2YKIjvxUWkhg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="246772115"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 28 May 2026 23:19:33 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 May 2026 23:19:32 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSqZ8-000000000p5-1hxI;
+	id 1wSqZ8-000000000p3-1WhS;
 	Fri, 29 May 2026 06:19:30 +0000
-Date: Fri, 29 May 2026 08:18:55 +0200
+Date: Fri, 29 May 2026 08:18:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [nbdd0121:io_projection 4/19] warning:
- `kernel::build_assert::build_assert` is both a module and a macro
-Message-ID: <202605290838.M1qbL8Tl-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Hyunwoo Kim <imv4bel@gmail.com>, gregkh@linuxfoundation.org,
+	arve@android.com, tkjos@android.com, brauner@kernel.org,
+	cmllamas@google.com, aliceryhl@google.com, mo@sdhn.cc,
+	wedsonaf@gmail.com, Liam.Howlett@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, stable@vger.kernel.org,
+	imv4bel@gmail.com
+Subject: Re: [PATCH] rust_binder: use a u64 stride when cleaning up the
+ offsets array
+Message-ID: <202605290823.20jvlxFD-lkp@intel.com>
+References: <ahjpn-3WQTywTdyj@v4bel>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahjpn-3WQTywTdyj@v4bel>
 
-tree:   https://github.com/nbdd0121/linux io_projection
-head:   c53915574e787e2ef9e3998645328cdff6822fb0
-commit: 4ef5969e3d5e49232cce370a4e346d51606fa53f [4/19] rust: ptr: add panicking index projection variant
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260529/202605290838.M1qbL8Tl-lkp@intel.com/config)
+Hi Hyunwoo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus linus/master v7.1-rc5 next-20260528]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hyunwoo-Kim/rust_binder-use-a-u64-stride-when-cleaning-up-the-offsets-array/20260529-092450
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/ahjpn-3WQTywTdyj%40v4bel
+patch subject: [PATCH] rust_binder: use a u64 stride when cleaning up the offsets array
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260529/202605290823.20jvlxFD-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605290838.M1qbL8Tl-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605290823.20jvlxFD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605290838.M1qbL8Tl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605290823.20jvlxFD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: `kernel::build_assert::build_assert` is both a module and a macro
-   --> rust/kernel/ptr/projection.rs:262:42
-   |
-   262 | /// - `build` will use [`build_assert!`](kernel::build_assert::build_assert) mechanism to have
-   |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ambiguous link
-   |
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
-   help: to link to the module, prefix with `mod@`
-   |
-   262 | /// - `build` will use [`build_assert!`](mod@kernel::build_assert::build_assert) mechanism to have
-   |                                          ++++
-   help: to link to the macro, add an exclamation mark
-   |
-   262 | /// - `build` will use [`build_assert!`](kernel::build_assert::build_assert!) mechanism to have
-   |                                                                            +
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j384 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/android/binder/allocation.rs:412:
+        }
+    
+        fn cleanup_object(&self, index_offset: usize) -> Result {
+   -        let offset: usize = self.alloc.read::<u64>(index_offset)?.try_into().map_err(|_| EINVAL)?;
+   +        let offset: usize = self
+   +            .alloc
+   +            .read::<u64>(index_offset)?
+   +            .try_into()
+   +            .map_err(|_| EINVAL)?;
+            let header = self.read::<BinderObjectHeader>(offset)?;
+            match header.type_ {
+                BINDER_TYPE_WEAK_BINDER | BINDER_TYPE_BINDER => {
+>> Diff in drivers/android/binder/allocation.rs:412:
+        }
+    
+        fn cleanup_object(&self, index_offset: usize) -> Result {
+   -        let offset: usize = self.alloc.read::<u64>(index_offset)?.try_into().map_err(|_| EINVAL)?;
+   +        let offset: usize = self
+   +            .alloc
+   +            .read::<u64>(index_offset)?
+   +            .try_into()
+   +            .map_err(|_| EINVAL)?;
+            let header = self.read::<BinderObjectHeader>(offset)?;
+            match header.type_ {
+                BINDER_TYPE_WEAK_BINDER | BINDER_TYPE_BINDER => {
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make[2]: *** [Makefile:1954: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
 
 --
 0-DAY CI Kernel Test Service
