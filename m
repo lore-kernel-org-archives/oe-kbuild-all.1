@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE143431F5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 22:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515FF3ADB8D;
+	Fri, 29 May 2026 22:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780093862; cv=none; b=cGV07f8j8lxaf+oDpPbfDabfxGqupzcvbZIBakZCglrEwTpQAv5fWDBZHV3xLrboCsGXbNbG4Jbny71vucx4LQmjIww5wbev022rYJkY0yCEom9qATziWI4aEa2S3QzhvmnCqmx8sYbgpXhn5XYKCs5Pr/aXEPoPCs1GWF+2uCo=
+	t=1780093863; cv=none; b=QrRwzrVIIbD2qYazsqtcF7/MsOk5WwomGr4hc+kfCRyFp/lRJ7Jmc8O4vYAtawcfYAbxKjB+GaMI/G6J08fhmqJgGC3lNn2UcjOKY/n/EMJkiOaQUsfViDfCl/tgxeLAzDkWgVnxMZbxNRPlotVU3AXIv+ph8WJLueIMqYFbNXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780093862; c=relaxed/simple;
-	bh=c7RmsYwKPPP1s+qZMPOSysvd9bUZYybnC3kGLkuIxec=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dwlRpa56OSxalhM6LHEVEXkhvxrna8AnuZ3ZYu4R8bftNpbQs0MdNDCIQsFkwXdsRQY5Zg/mZft8+I4PKVL+DLosyReS601hO14apuc10mpq75/du4fKdFG6sipl0CuDkf+OlmXk/XCMbRV0QSDCTX+nbNCyJAdGXPSlVHEqAg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cJoOz2yY; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1780093863; c=relaxed/simple;
+	bh=Lx7Le+gc/NfhYmDuBG+v8oPpIVrtd7UcVWadeoFkbtk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Xtej9BsTgX/juVxeKEnPLGhnHZeOPbjvlPa0hiimLqha+LJZCKUnU+jg7bdxhSTqPFRmcVPpMJprn3ALynOkfF2gEZhTTZ7KpqJCceK01+kCSbO4CpVjpWwztIGgGfUGHj0CrVCtEVBIH+wP1cRBtFgWK6mreTFqQR6p53LOwqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqoQX8kc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cJoOz2yY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqoQX8kc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780093861; x=1811629861;
+  t=1780093862; x=1811629862;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=c7RmsYwKPPP1s+qZMPOSysvd9bUZYybnC3kGLkuIxec=;
-  b=cJoOz2yY79V3et15AgirgrlGcd4BBS+IVp+iepyqOsrSNTLjm2PLPhLb
-   7+kOVczs1aiPmng4Uxz3iSFulGlWdX+9x5L5cgBXVTT+pDNh5rmrR2aij
-   1ixW6MGGp/3Li77FMWHQ+hDyJvyqn+K1KfzXeb0ryp3iCK93tQ9vQuIDq
-   ZSEvxEJ3qvrD9FN7A0JAYYRvZoKsuDWG1zwl19RjHNtaU0HWNyRRnxECf
-   A4oViqikAt03Uq99DLbHxrnCt7jPmUYCvo1t93DBB3hmlPwZiV1c+yHSK
-   FM7ZGuHNIF5I5EW7Iy2Lkd0mPmyOwqj0exezJs8N/tGzJzaFBU0csXR9R
+  bh=Lx7Le+gc/NfhYmDuBG+v8oPpIVrtd7UcVWadeoFkbtk=;
+  b=UqoQX8kcCD8slcHbwv+yZ2BzdAbEur8iICSSGkkuke5G4np7fOYehmKJ
+   KOEjYYIaQRTKHRsGRBWOky2NKjrG//9lgz120n2zmCV5X6GchgtOJzNNt
+   kWatdIoxqNILAP3qq5tD5rSaY+kRssZqlLMcfUzOmyOCgG0O8al+dWJh0
+   ++Tlx9UZJaDidM1Z2BiCDmqhKwCKiz6awu+f9uVwjWBXDlXfb0jttyH7f
+   ZirEtBA/QQ0OpqsWIiQx/4A8i5d0WrGwnjXd56YW1tFL5kchC5qFr7ADh
+   oSrTsi6KnLyD9Xa836yMlSgsb4eQy1NFTKmfDmd30UtmDHwfr5QoKaz2f
    w==;
-X-CSE-ConnectionGUID: l5LJCwzJSvGwTaweJ1EQQg==
-X-CSE-MsgGUID: k6Wv+pR8TnSpFbz6wLFi6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="91635367"
+X-CSE-ConnectionGUID: sjldBeLhQVmeqUYRud+q8A==
+X-CSE-MsgGUID: JeYul3daSya0aHKXAh+Njg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="91635369"
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="91635367"
+   d="scan'208";a="91635369"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 15:31:00 -0700
-X-CSE-ConnectionGUID: fT+4KezeTfeAVQokF2g9gw==
-X-CSE-MsgGUID: 4Hy2wPQgSIWeuLNQ9RLc3Q==
+X-CSE-ConnectionGUID: LUwkx6TjSLujbsgMDQg5LQ==
+X-CSE-MsgGUID: V4jw9mZASmSD72apMPlUTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="246978150"
+   d="scan'208";a="246978148"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 29 May 2026 15:30:54 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wT5j9-000000007k8-1bbe;
+	id 1wT5j9-000000007k6-1TXG;
 	Fri, 29 May 2026 22:30:51 +0000
-Date: Sat, 30 May 2026 06:30:01 +0800
+Date: Sat, 30 May 2026 06:30:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:ffclock /11] kernel/time/timekeeping.c:2526:56:
- warning: left shift count >= width of type
-Message-ID: <202605300612.92AXGk94-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:ffclock 8/10] kernel/time/timekeeping.c:2526:49:
+ warning: shift count >= width of type
+Message-ID: <202605300611.vR6jAFZe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,29 +65,35 @@ Content-Transfer-Encoding: quoted-printable
 
 tree:   git://git.infradead.org/users/dwmw2/linux ffclock
 head:   70c32e7a9e128f2579034276c19d34bcf79f4b0c
-commit: 6fc43ccf0a8bed65163bc381478a4c6ad65f4479 [/11] timekeeping: Add abs=
-olute reference for feed-forward clock discipline
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20260530=
-/202605300612.92AXGk94-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.2.0
+commit: 6fc43ccf0a8bed65163bc381478a4c6ad65f4479 [8/10] timekeeping: Add ab=
+solute reference for feed-forward clock discipline
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20260530/20=
+2605300611.vR6jAFZe-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 940=
+9c07de6378507397ecdb6f05f628f58110112)
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260530/202605300612.92AXGk94-lkp@intel.com/reproduce)
+/20260530/202605300611.vR6jAFZe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605300612.92AXGk94-lkp@i=
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605300611.vR6jAFZe-lkp@i=
 ntel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/time/timekeeping.c: In function 'timekeeping_set_reference':
->> kernel/time/timekeeping.c:2526:56: warning: left shift count >=3D width =
-of type [-Wshift-count-overflow]
+>> kernel/time/timekeeping.c:2526:49: warning: shift count >=3D width of ty=
+pe [-Wshift-count-overflow]
     2526 |         offset_scaled =3D (sec_diff * (s64)(NSEC_PER_SEC << NTP_=
 SCALE_SHIFT)) +
-         |                                                        ^~
+         |                                                        ^  ~~~~~~=
+~~~~~~~~~
+   kernel/time/timekeeping.c:2010:13: warning: variable 'suspend_timing_nee=
+ded' set but not used [-Wunused-but-set-global]
+    2010 | static bool suspend_timing_needed;
+         |             ^
+   2 warnings generated.
 
 
 vim +2526 kernel/time/timekeeping.c
