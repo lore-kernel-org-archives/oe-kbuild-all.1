@@ -1,161 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B732E7391;
-	Fri, 29 May 2026 04:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F76731A045
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 04:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780029643; cv=none; b=LUAnR7dUGQ/H5ZkBJ2C5WI4qmpqf4uTrDCGGn17WTK0W5/NryNwMgQNPRrmJ5LeZZK1kXmFEf/bDv86PcX+536Ct5X+BmChNnBFiuQVP+VscFTs80T4RgTA2SK53aGsGM2PPAnkRvltdICtpNweG5cNRptQj8wr982u7QsG15dY=
+	t=1780030243; cv=none; b=pbDgK866qRkkgvy5sYDksAXRUAgF+5WgrttfbF5lzo68UXZgzqMeN0Zwi5lAA17/E1VabCBRnOFQAUc2YDRIY//34EieNKmhGbtbfPPbpsFmyBJYrJ3PChbZV0xKWcYFjkfdMGfyKxaTBh4Hu+MWEo9ubpu2t62C5pLRaNyUZ2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780029643; c=relaxed/simple;
-	bh=rBMM6X8A/PFcOJEVlKnW82fg6ov8GtuamsqALNG/gAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b6KCP54I0y7kOyrsh/HJIhFAtTziyTPf+dyltyeZeDTy1yfB5vjyfeXoaJSKN38z2SjuOKiiF+68A6LmvBBo0qVkjo9zA6uE8cAe7xCDPUe2yWCSdsWNhlLYBAk0/bfc1ywu/bE0x2eUeZrQhRm469TnZJRHPCzbpz/Q1hYtJTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fYpjqum4; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1780030243; c=relaxed/simple;
+	bh=PwkO2FHCz+myKVpCIlHL72fYkcYgUNVduVXUzYJnkCE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q5xlvOy4PM4rKe+QuNOYJhgcpEn3zygaGqHuQpRyWXk8rp3CbEta+BIcVZzucL9ex5oVV3csMJBqet3N/GsVN0RE5X5vh6muzINLmL3l3L4h+DmJBICSZgvgf9P1kcq6GQUVH2UmkkefzQ28eH7DoPMjViNv2ZEKVHiLXHp8UwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ncrr7EED; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fYpjqum4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncrr7EED"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780029642; x=1811565642;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rBMM6X8A/PFcOJEVlKnW82fg6ov8GtuamsqALNG/gAg=;
-  b=fYpjqum4LStq/3IDf+efjo6Uc0HY36lzQRGh5XmQPswtD9Rb2ttQZ616
-   Wbv/d2gnmLMaGlO5X9Kzs4+HcVU8Ed2pCKRozXsQjn3VZ6NPAdgKVvQnF
-   rXAfcQkyYQZNa+3jjHXczz0gNQ4hlXTvR71fcyjlQv/w7up7hjbszVqwz
-   0BSHGDi2F1RjbPSYBIlz0urXPYoFas7rxeMnIraQUNasUIBjeq0Iw5F/4
-   fWME9HvkBHSJu/7aYWnwwyOKhgSusF9xP/HzA6B2BQ/RP6hultBlll/sN
-   eRAaihY35nnu+ztuAb2ENHRHLMjYgYI5ICNivhi3jLUFV0giEAjgE+V6Q
+  t=1780030243; x=1811566243;
+  h=date:from:to:cc:subject:message-id;
+  bh=PwkO2FHCz+myKVpCIlHL72fYkcYgUNVduVXUzYJnkCE=;
+  b=ncrr7EEDsFFp+fSCbne1Xt3l1LmhfcGkT1whzdIduMXG3r2z9IjAw3XV
+   LgCd8XCyISYvALKBydgQzqZK3cMYyX1qonZgAa0aWBBxLHrHHOjW9/6u1
+   wfbuwbuSpSQ0u7rfO4iTY3FnAC/IcYKkTIqktVLUucO6WpC3U2GjIv2ET
+   ghl0AQk47sYlefH3b0y5/bKk8c0ar2ANph0NEAhGG4KFVi9pRjL/FXZoe
+   nyGBuvarNjamxg3urDZjHpiIWSbbxF4XKspHqO3r0IbFni88Vfza7aWdR
+   2cji+aOKEDKuWsHBBtBKS+a1efX9bKOVUIr/qNKoMb9Qs99ypbtcccYB8
    A==;
-X-CSE-ConnectionGUID: dtGOv6qLQxylsM5JoTA7lA==
-X-CSE-MsgGUID: tUCTSAOBRiq50P9TpQ6Ejg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80939756"
+X-CSE-ConnectionGUID: qwzsBd1mTqmz4GfA+zQHrw==
+X-CSE-MsgGUID: E32NK3C0S9SWU9iX42VuqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="103552899"
 X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="80939756"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 21:40:41 -0700
-X-CSE-ConnectionGUID: cWE2aSUJS1+uC/FGOLesOg==
-X-CSE-MsgGUID: 6awdJtHgR5GH4dlhTTl3qg==
+   d="scan'208";a="103552899"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 21:50:42 -0700
+X-CSE-ConnectionGUID: W6zKDqCQQCS9TshwLHtyIg==
+X-CSE-MsgGUID: zduWmbYIQhG1XIL27QxK+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="238558658"
+   d="scan'208";a="247691441"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 May 2026 21:40:39 -0700
+  by orviesa005.jf.intel.com with ESMTP; 28 May 2026 21:50:41 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSp1R-000000006lq-13rC;
-	Fri, 29 May 2026 04:40:37 +0000
-Date: Fri, 29 May 2026 12:40:04 +0800
+	id 1wSpB7-000000006mM-3ZDb;
+	Fri, 29 May 2026 04:50:37 +0000
+Date: Fri, 29 May 2026 12:50:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev, frank.li@nxp.com,
-	Pankaj Gupta <pankaj.gupta@nxp.com>,
-	sashiko-bot <sashiko-bot@kernel.org>
-Subject: Re: [PATCH -next] firmware: imx: se_ctrl: serialize command receiver
- registration
-Message-ID: <202605291211.iAxyywQe-lkp@intel.com>
-References: <20260528091634.3331090-1-pankaj.gupta@nxp.com>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thesofproject:topic/sof-dev 7661/8934]
+ sound/soc/sof/mediatek/mtk-adsp-common.c:99: undefined reference to
+ `mtk_adsp_ipc_send'
+Message-ID: <202605291211.u0Zp8nwq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260528091634.3331090-1-pankaj.gupta@nxp.com>
 
-Hi Pankaj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20260527]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/firmware-imx-se_ctrl-serialize-command-receiver-registration/20260528-172942
-base:   next-20260527
-patch link:    https://lore.kernel.org/r/20260528091634.3331090-1-pankaj.gupta%40nxp.com
-patch subject: [PATCH -next] firmware: imx: se_ctrl: serialize command receiver registration
-config: s390-randconfig-r121-20260529 (https://download.01.org/0day-ci/archive/20260529/202605291211.iAxyywQe-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291211.iAxyywQe-lkp@intel.com/reproduce)
+tree:   https://github.com/thesofproject/linux topic/sof-dev
+head:   ce4ed6c4e02650bce16e2f4d7b9d313c573e8541
+commit: 3e55a76d727eddf6b3bad82139a6788172168a01 [7661/8934] Merge branch 'sound/upstream-20250414' into merge/sound-upstream-20250414
+config: alpha-randconfig-r072-20260529 (https://download.01.org/0day-ci/archive/20260529/202605291211.u0Zp8nwq-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291211.u0Zp8nwq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605291211.iAxyywQe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605291211.u0Zp8nwq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/firmware/imx/se_ctrl.c: In function 'se_ioctl':
->> drivers/firmware/imx/se_ctrl.c:933:1: error: label at end of compound statement
-    out_enable_cmd_rcv:
-    ^~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MFD_STMFX
-   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
-   Selected by [m]:
-   - PINCTRL_STMFX [=m] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
+   alpha-linux-ld: sound/soc/sof/mediatek/mtk-adsp-common.o: in function `mtk_adsp_send_msg':
+>> sound/soc/sof/mediatek/mtk-adsp-common.c:99: undefined reference to `mtk_adsp_ipc_send'
+>> alpha-linux-ld: sound/soc/sof/mediatek/mtk-adsp-common.c:99: undefined reference to `mtk_adsp_ipc_send'
+   alpha-linux-ld: sound/soc/sof/mediatek/mtk-adsp-common.o: in function `mtk_adsp_handle_request':
+   sound/soc/sof/mediatek/mtk-adsp-common.c:139: undefined reference to `mtk_adsp_ipc_send'
+   alpha-linux-ld: sound/soc/sof/mediatek/mtk-adsp-common.c:139: undefined reference to `mtk_adsp_ipc_send'
+   alpha-linux-ld: sound/soc/sof/mediatek/mt8365/mt8365.o:(.data.rel+0xa0): undefined reference to `sof_of_pm'
 
 
-vim +933 drivers/firmware/imx/se_ctrl.c
+vim +99 sound/soc/sof/mediatek/mtk-adsp-common.c
 
-   905	
-   906	/* IOCTL entry point of a character device */
-   907	static long se_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
-   908	{
-   909		struct se_if_device_ctx *dev_ctx = fp->private_data;
-   910		struct se_if_priv *priv = dev_ctx->priv;
-   911		void __user *uarg = (void __user *)arg;
-   912		long err;
-   913	
-   914		/* Prevent race during change of device context */
-   915		scoped_cond_guard(mutex_intr, return -EBUSY, &dev_ctx->fops_lock) {
-   916			switch (cmd) {
-   917			case SE_IOCTL_ENABLE_CMD_RCV:
-   918				scoped_guard(mutex, &priv->priv_dev_ctx->fops_lock) {
-   919					if (priv->cmd_receiver_clbk_hdl.dev_ctx) {
-   920						err = -EBUSY;
-   921						goto out_enable_cmd_rcv;
-   922					}
-   923					priv->cmd_receiver_clbk_hdl.rx_msg =
-   924									kzalloc(MAX_NVM_MSG_LEN,
-   925										GFP_KERNEL);
-   926					if (!priv->cmd_receiver_clbk_hdl.rx_msg) {
-   927						err = -ENOMEM;
-   928						goto out_enable_cmd_rcv;
-   929					}
-   930					priv->cmd_receiver_clbk_hdl.rx_msg_sz = MAX_NVM_MSG_LEN;
-   931					priv->cmd_receiver_clbk_hdl.dev_ctx = dev_ctx;
-   932					err = 0;
- > 933	out_enable_cmd_rcv:
-   934				}
-   935				break;
-   936			case SE_IOCTL_GET_MU_INFO:
-   937				err = se_ioctl_get_mu_info(dev_ctx, uarg);
-   938				break;
-   939			case SE_IOCTL_SETUP_IOBUF:
-   940				err = se_ioctl_setup_iobuf_handler(dev_ctx, uarg);
-   941				break;
-   942			case SE_IOCTL_GET_SOC_INFO:
-   943				err = se_ioctl_get_se_soc_info_handler(dev_ctx, uarg);
-   944				break;
-   945			case SE_IOCTL_CMD_SEND_RCV_RSP:
-   946				err = se_ioctl_cmd_snd_rcv_rsp_handler(dev_ctx, uarg);
-   947				break;
-   948			default:
-   949				err = -EINVAL;
-   950				dev_dbg(priv->dev, "%s: IOCTL %.8x not supported.",
-   951					dev_ctx->devname, cmd);
-   952			}
-   953		}
-   954	
-   955		return err;
-   956	}
-   957	
+698c1e99a0a3b8 YC Hung                    2022-05-17   86  
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   87  /**
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   88   * mtk_adsp_send_msg - Send message to Audio DSP
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   89   * @sdev: SOF device
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   90   * @msg: SOF IPC Message to send
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   91   */
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   92  int mtk_adsp_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   93  {
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   94  	struct adsp_priv *priv = sdev->pdata->hw_pdata;
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   95  
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   96  	sof_mailbox_write(sdev, sdev->host_box.offset, msg->msg_data,
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   97  			  msg->msg_size);
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   98  
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20  @99  	return mtk_adsp_ipc_send(priv->dsp_ipc, MTK_ADSP_IPC_REQ, MTK_ADSP_IPC_OP_REQ);
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20  100  }
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20  101  EXPORT_SYMBOL(mtk_adsp_send_msg);
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20  102  
+
+:::::: The code at line 99 was first introduced by commit
+:::::: 24489150c5d9afea54c6909ba05c4dbdd8846dc0 ASoC: SOF: mediatek: Commonize duplicated functions
+
+:::::: TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
