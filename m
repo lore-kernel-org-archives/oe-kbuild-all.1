@@ -1,151 +1,97 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689E63B1ECD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 17:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2050304BCB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 17:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780163197; cv=none; b=oURWxeVOY1eaZcuCQRpuFe4vRvAdzAGvmZeUKQh8LQkZzBx4qoL+A5rq9+n/uvaZa/XOJhp3IwAQXOHyAdauVu7mpyJFdhQ+Jx65wuZLWkm+8p53ekd/AxaXhA0gX0MzCMCaE0FN66Oq7IM0RQQrFEE6Yizp0FeUnAPoNbNRdAg=
+	t=1780163455; cv=none; b=HiSHIjCEBoNbvrmbJg4JEM/EkZfqdX46Qqw9pbQipBbSH3nIfAvKCYyOBG0DqvpVPu9KWA4EbvJgFC+NefXXGmIONoTdrZURPszVKysdJexFScjYtwHdvAqBUIHbJIihJ8TwvJi729qP+Y++QGlWsOkGSe0j+Ao/t6BWFr/yGUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780163197; c=relaxed/simple;
-	bh=p9mmt+HC9BO3hUp9yEhHwEZiKKcOtn8P/wxRR15M1ZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=f7rn/o78HfXJq4s+P1qmKin4qlMSyM/uH/dlM834PZD1qDZWdXHsjHJRftpzgos3qcrKd9KOAG44hziqJ8HNa1TUeOLeQnHC7lz3O9lT4i9NyExIOjZyQU8KceATzf5WQFdNKmOoyOxMM6Unc/KxAtdC5ZblqUbqsE+kfzWI7aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DoVxwcWl; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780163455; c=relaxed/simple;
+	bh=GaVlv3GPs0IMGz8hAgJQyN+0Do94PNieO3eneGatlG4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YsH4EXLfSg2jh9pjleTcHdcFc4tUv5oBrHHznTp3c69Vmn0DS3tQ9KF5ratnMg81Gv88VJeqR02jaVIXpr8yVwAv3FOSPgQ1dwVP6kciyeXrspbO6Wj3YvUgK32keQ+hsispalhXZqjhJNMUEG8WKO6AqB2nCxS/pJUV346+jdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=K/bDReHH; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DoVxwcWl"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45ef4223be7so920848f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 10:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780163195; x=1780767995; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HhbZmkaWK2d+OrlQbKHk4YxAXH5lr2lMy7P+sZtQEn8=;
-        b=DoVxwcWltvBHAc5HOs/rEX8/tqOZSJPfvRMJ6CuhsD+UG10nQz9Xh/ANF+sJCp6oQf
-         1P2wM9ls/SiPsDdxfBeeAS2nBDdl3pkOxfpNaodVVLhV9aznls+WQiiTeM0Gukx2xnRj
-         LdrT6yrW7/CE1izlNtHm1rtKgY9kV1qXwyDMbmZBZwiQES9iojgb6WL+FyVg8wTMiDvP
-         fthuiZTdkVWIumcEhDAuU1/2UuU8xOAmK2XTWWXhYl/pI3TUX+VIDEPXz91WLLav1Cbe
-         +1CqhKUM9H+ogb2vyrj/kvCOSseeUA/dZOwZGu2vNxZAEqluEaquJLtk2yZTnHvw9nYq
-         rldg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780163195; x=1780767995;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HhbZmkaWK2d+OrlQbKHk4YxAXH5lr2lMy7P+sZtQEn8=;
-        b=I/a8jWr2RJtdV6GXuol1yYszvG4X1u3jbRrlwCmrmBBWS7G89fJoU3xKfwRL5t/Rw5
-         V1J6aDL6o6hrgT2RV0dufdnHzew9oRsVoC+R1U7c1dEhfZCIN1FYeFY2DsxyLivv/rq9
-         IvwUJiwPt3Ij5ZNeFTq4bcUNKtR7vnkaPtGbsrJXyfnhGZZK/7ezUVszmfsinmVW77+y
-         Ke1mfBl8qQOqb42NrUla6v2j9WilNiBtdPNZbFJFU/6t98vgUAy2NW5ur73xixQZ7GDB
-         JiOVZXY++o5kvF7/tkC1EGkNi/WIV1IcLO6NR94B9Ob4cmFKZMc6Y4OLsGH31DSSjXIH
-         OaKg==
-X-Forwarded-Encrypted: i=1; AFNElJ+UY3yiZbdxOrpQfd9kNfs0h7fZQa35eEt8ZKvQrwXKBUcpbWjIYPHWpFzXEeTx9WBH05dnbJdO4SGN9vbc@lists.linux.dev
-X-Gm-Message-State: AOJu0YwugLnI39V/ozgmNyJdlu/7JnlSec1mzjG86IIwJ0opGMemWa+r
-	+jvNANcKXAXuwbA+c53f7GEvpv1ab0YeZeMat7eEPlo/EOnohP/zv6ny
-X-Gm-Gg: Acq92OFnfm4iZcK/KWZ0RFAgMWHMSfXD4XT0w9R5rzehhiIBXQjt1V3pbVcFNBgNWO5
-	uIaYI6tVBmLRWzh4OxqwCqqbvDab4JCbElyAdM6z/crc5PXn/EQCI7nEdsQD6cx6tWtAkzApFys
-	nRJbpIujDnrUVQbB7BmqtYOJWGtgYIJ5wqIX69hqY3conuH/Qq2eMaLtbMIOeUoMkJ/wGGJX71k
-	1SJoOpvQG2fMNR0eyVgjjwWK6clLpohii3+ZQWuAOM96xlW+m9dyGNaWOoCbEVTl30hOlT3Njkf
-	Jz4cfDA3ypNhm29DBsUqFBzweGM0P2oydZ9dwOMnbtN2GtPuSwy7y5KAa+NBFTXc8OaIvifGUA3
-	4OBbL5K5s35LMrhOYQ48yyVtop5UXR8DAKwAw5qsxNR2Ir8oWG1yEDqbLDLhUPeGD7VPB93UtVr
-	hu5f0QjZ63LhM18kfRKHp2PrhVXZFq/t3ciw==
-X-Received: by 2002:adf:f190:0:b0:44f:9b70:2996 with SMTP id ffacd0b85a97d-45ef6b4f4f5mr5775458f8f.21.1780163194681;
-        Sat, 30 May 2026 10:46:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef354cd7csm12052902f8f.18.2026.05.30.10.46.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 10:46:34 -0700 (PDT)
-Date: Sat, 30 May 2026 20:46:31 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Pavitra Jha <jhapavitra98@gmail.com>,
-	idryomov@gmail.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Slava.Dubeyko@ibm.com,
-	amarkuze@redhat.com, ceph-devel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Pavitra Jha <jhapavitra98@gmail.com>
-Subject: Re: [PATCH v2] ceph: fix bare ceph_decode_8 OOB in decode_lockers()
-Message-ID: <202605310022.LGyGb8eD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="K/bDReHH"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gSSSM6j8Xz9tf8;
+	Sat, 30 May 2026 19:50:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780163444;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/jKHuR7kgRB1wn/s/194XHELOUv8teEXVzBIWxuLZPw=;
+	b=K/bDReHH8Q2rfEZQaVUnFDu7wou1UuZMIRw+FKDYSqCUkb0XCWvrIb5n//DtEYcOpWcn2b
+	UWlGTeqPRCJn7uDaqGvislQt5uur+SCoJEkcdbJrAynWv+l3zgPjdpP3zroWTdzS01fY9Q
+	mxknvS/9jg5/cg3j/n5R+oQtJ0DVE4nMFGCEZiSMAwPTBlKVtOGjcwuE45SRc86hVr1kGx
+	VjauxNYxn48V02cSnJSsyr4ilXfgDpUAo+DwOnCP57SjbISr4sz6kkjzfn1XiDED86PV8+
+	gk2rwC88ZIDhoNS9dHMUqtyOMozizE0QlMixyvQBZ3Gcg5iDdHgeBqsXGet44g==
+Message-ID: <ad2ea981-34b2-43b6-a59f-af85f68a65d4@mailbox.org>
+Date: Sat, 30 May 2026 19:50:41 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260528132521.843004-1-jhapavitra98@gmail.com>
+Subject: Re: [linux-next:master 7314/9870]
+ arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f
+ (cirrus,cs2500): compatible:0: 'cirrus,cs2500' is not one of
+ ['cirrus,cs2000-cp']
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>,
+ Nguyen Tran <nguyen.tran.pz@bp.renesas.com>, oe-kbuild-all@lists.linux.dev
+References: <202605300905.msiJHWF3-lkp@intel.com>
+ <09db37b5-808e-44c4-ae41-ff9594e39c4b@mailbox.org>
+ <CAMuHMdUgMDPiRUJwOUv0Tab_D5qhQumChhN1288tTtXeqTLz7Q@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdUgMDPiRUJwOUv0Tab_D5qhQumChhN1288tTtXeqTLz7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 2d2e3e2f82e63e0d750
+X-MBO-RS-META: e3ab9ueroecmf63iyn7z1aaqdp3m6fyw
 
-Hi Pavitra,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavitra-Jha/ceph-fix-bare-ceph_decode_8-OOB-in-decode_lockers/20260528-212749
-base:   https://github.com/ceph/ceph-client.git testing
-patch link:    https://lore.kernel.org/r/20260528132521.843004-1-jhapavitra98%40gmail.com
-patch subject: [PATCH v2] ceph: fix bare ceph_decode_8 OOB in decode_lockers()
-config: um-randconfig-r073-20260530 (https://download.01.org/0day-ci/archive/20260531/202605310022.LGyGb8eD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605310022.LGyGb8eD-lkp@intel.com/
-
-smatch warnings:
-net/ceph/cls_lock_client.c:313 decode_lockers() warn: missing error code 'ret'
-
-vim +/ret +313 net/ceph/cls_lock_client.c
-
-d4ed4a53056288 Douglas Fuller 2015-06-29  288  static int decode_lockers(void **p, void *end, u8 *type, char **tag,
-d4ed4a53056288 Douglas Fuller 2015-06-29  289  			  struct ceph_locker **lockers, u32 *num_lockers)
-d4ed4a53056288 Douglas Fuller 2015-06-29  290  {
-d4ed4a53056288 Douglas Fuller 2015-06-29  291  	u8 struct_v;
-d4ed4a53056288 Douglas Fuller 2015-06-29  292  	u32 struct_len;
-d4ed4a53056288 Douglas Fuller 2015-06-29  293  	char *s;
-d4ed4a53056288 Douglas Fuller 2015-06-29  294  	int i;
-d4ed4a53056288 Douglas Fuller 2015-06-29  295  	int ret;
-d4ed4a53056288 Douglas Fuller 2015-06-29  296  
-d4ed4a53056288 Douglas Fuller 2015-06-29  297  	ret = ceph_start_decoding(p, end, 1, "cls_lock_get_info_reply",
-d4ed4a53056288 Douglas Fuller 2015-06-29  298  				  &struct_v, &struct_len);
-d4ed4a53056288 Douglas Fuller 2015-06-29  299  	if (ret)
-d4ed4a53056288 Douglas Fuller 2015-06-29  300  		return ret;
-d4ed4a53056288 Douglas Fuller 2015-06-29  301  
-d4ed4a53056288 Douglas Fuller 2015-06-29  302  	*num_lockers = ceph_decode_32(p);
-69050f8d6d075d Kees Cook      2026-02-20  303  	*lockers = kzalloc_objs(**lockers, *num_lockers, GFP_NOIO);
-d4ed4a53056288 Douglas Fuller 2015-06-29  304  	if (!*lockers)
-d4ed4a53056288 Douglas Fuller 2015-06-29  305  		return -ENOMEM;
-d4ed4a53056288 Douglas Fuller 2015-06-29  306  
-d4ed4a53056288 Douglas Fuller 2015-06-29  307  	for (i = 0; i < *num_lockers; i++) {
-d4ed4a53056288 Douglas Fuller 2015-06-29  308  		ret = decode_locker(p, end, *lockers + i);
-d4ed4a53056288 Douglas Fuller 2015-06-29  309  		if (ret)
-d4ed4a53056288 Douglas Fuller 2015-06-29  310  			goto err_free_lockers;
-d4ed4a53056288 Douglas Fuller 2015-06-29  311  	}
-d4ed4a53056288 Douglas Fuller 2015-06-29  312  
-cff58e4599d8e1 Pavitra Jha    2026-05-28 @313  	ceph_decode_8_safe(p, end, *type, err_free_lockers);
-
-This macro has a goto err_free_lockers but the error code isn't set.
-
-d4ed4a53056288 Douglas Fuller 2015-06-29  314  	s = ceph_extract_encoded_string(p, end, NULL, GFP_NOIO);
-d4ed4a53056288 Douglas Fuller 2015-06-29  315  	if (IS_ERR(s)) {
-d4ed4a53056288 Douglas Fuller 2015-06-29  316  		ret = PTR_ERR(s);
-d4ed4a53056288 Douglas Fuller 2015-06-29  317  		goto err_free_lockers;
-d4ed4a53056288 Douglas Fuller 2015-06-29  318  	}
-d4ed4a53056288 Douglas Fuller 2015-06-29  319  
-d4ed4a53056288 Douglas Fuller 2015-06-29  320  	*tag = s;
-d4ed4a53056288 Douglas Fuller 2015-06-29  321  	return 0;
-d4ed4a53056288 Douglas Fuller 2015-06-29  322  
-d4ed4a53056288 Douglas Fuller 2015-06-29  323  err_free_lockers:
-d4ed4a53056288 Douglas Fuller 2015-06-29  324  	ceph_free_lockers(*lockers, *num_lockers);
-d4ed4a53056288 Douglas Fuller 2015-06-29  325  	return ret;
-d4ed4a53056288 Douglas Fuller 2015-06-29  326  }
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+On 5/30/26 7:37 PM, Geert Uytterhoeven wrote:
+> Hi Marek,
+> 
+> On Sat, 30 May 2026 at 17:33, Marek Vasut <marek.vasut@mailbox.org> wrote:
+>> On 5/30/26 10:02 AM, kernel test robot wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>>> head:   7da7f07112610a520567421dd2ffcb51beaefbcc
+>>> commit: a3dcb0a3204f75f6841d8f7d0dc232f51706dfb9 [7314/9870] arm64: dts: renesas: r8a779md: Add support for R-Car M3Le R8A779MD Geist
+>>> config: arm64-randconfig-2055-20260529 (https://download.01.org/0day-ci/archive/20260530/202605300905.msiJHWF3-lkp@intel.com/config)
+>>> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+>>> dtschema: 2026.5.dev9+gdf9ad30c5
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300905.msiJHWF3-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202605300905.msiJHWF3-lkp@intel.com/
+>>>
+>>> dtcheck warnings: (new ones prefixed by >>)
+>>>>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f (cirrus,cs2500): compatible:0: 'cirrus,cs2500' is not one of ['cirrus,cs2000-cp']
+>>>        from schema $id: http://devicetree.org/schemas/clock/cirrus,cs2000-cp.yaml
+>>>>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f (cirrus,cs2500): compatible: ['cirrus,cs2500', 'cirrus,cs2000-cp'] is too long
+>>>        from schema $id: http://devicetree.org/schemas/clock/cirrus,cs2000-cp.yaml
+>>>>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: /soc/i2c@e6510000/clock-controller@4f: failed to match any schema with compatible: ['cirrus,cs2500', 'cirrus,cs2000-cp']
+>>>      arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: mmc@ee100000 (renesas,sdhi-r8a779md): compatible: 'oneOf' conditional failed, one must be fixed:
+> 
+>> Geert, could you please pick up:
+>>
+>> [PATCH v2 3/7] dt-bindings: clock: cs2000-cp: document CS2500
+>>
+>> Or would you prefer me to send it separately as V3 ?
+> 
+> Oh, I missed that sboyd provided his ack; I thought he was gonna take it.
+> I will add it tomorrow...
+Thank you for your help !
