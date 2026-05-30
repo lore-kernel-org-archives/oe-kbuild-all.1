@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42EF8346E55;
-	Sat, 30 May 2026 04:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157B131E848
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 04:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780115360; cv=none; b=BSwpIYWIVCZKwPtmOCEyXct3sL8AUVWqNam8E+eTvdf3PGSAsLbgs21LOE4t/G2leP0F8LrJTIP9pUqeRvkPVZ8q3lCPS4LFFsAx73Rv01ieVcB3sPWRNgyYfudYs6WFKpIl23TjgrcCleQbDjj8+G/ROcZAalc2wMIz8r8o6EU=
+	t=1780115958; cv=none; b=qjhnMgTsjmYtaLhj8zw4jA0lZycm7Gzu2mhhRuQeCoJIfs4SNKHtS/EhxfIu4vmSvMX4YPgAvWQXE5TQ+iOD2i+Ula3okLIZbkiCHfl3APyudISeVoe7Dmz0YqP6ga1xouJRk67JEVpgMBrY7oDq+vOX97RjUJbz1Rf4eo8L/Ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780115360; c=relaxed/simple;
-	bh=HeKjvhZRE/kd4wpQIeWkJRRTJkavQo+51DDmvfIBbQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E6SPV0IiwuI8nsY4cYfz8XGWtSjErfJHjIdYRi5jw2WZi619Bo39kJdUEcF8C9YkwzroJO8V5FjQVblu1U9/iO1/RB+m7q+jSZ2icNhEWfdhVkH4RLQlaFmahLpKOu4urMksoQn8DDWCaaqQU716yRthNUgfIi0jvi3nTD59RKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CGUVwRQd; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1780115958; c=relaxed/simple;
+	bh=MOxHJInR4U7FHUKNtD5jLQlWo7DPcRM+l/hwxBwtIV8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nSeqxjjfRxPJ0YXbMe0wbFhxoEV3vUTvTvp7Q9Zk7aBlkNOS7VdypPi8D549hcAsoIcr7VHNDYh5jWZJxXk5vGf78SEZiEFmVDaAYuxjD3LqBO9zghRhb2M0zwZmiLsC76W4EbxBXx/1QhpI+8M6BAQTsaVBt0pFUf2GUdy1ksU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFi0xV4T; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CGUVwRQd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFi0xV4T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780115358; x=1811651358;
+  t=1780115957; x=1811651957;
   h=date:from:to:cc:subject:message-id;
-  bh=HeKjvhZRE/kd4wpQIeWkJRRTJkavQo+51DDmvfIBbQ0=;
-  b=CGUVwRQdGU7sms3f6R4YEFVCe56RdN9Qhh/Y14v9JrpV+k8qOCMX1M3x
-   4aprZ+BMN135oNE0XnMbE0t9PNJN3LvG0n5ks8I4vhnaKag8WVkMUaLlY
-   wt82uW/ZXJTQYOr0+9OPC2N/aG/qReNVcAyXI+kUsruigiCWq91uCcN4R
-   L1uyTMDRRlmsB/NtOwQjh76cVm7hdyvyohEhr/0XsKSaEWL9j7gTjpik2
-   FmKDUbpgh/Eg4MoswjHRmpbRCTN7fYdtWTq1/t3qdNp8FTBhGhsTeYsdB
-   vBDhsWjx9u3nd3Bcrs7HGsYga/ByiQFnZicpMERd39Tcpg+olAyEOrQXi
-   g==;
-X-CSE-ConnectionGUID: LZMBGWhUTTeh0Jfx8ksQaQ==
-X-CSE-MsgGUID: +lu2QrqVQniJc/seJdWoVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="80692297"
+  bh=MOxHJInR4U7FHUKNtD5jLQlWo7DPcRM+l/hwxBwtIV8=;
+  b=OFi0xV4TvDlZbGSlSg8L4R1Yp+MirAqfeH+T8jmSL+k2Vto9pnB2RG43
+   QUaL1L6hiJDpXPB55FHcCLLuXS4GVy6X1ELO+CClRUvyXPNEGqqbl+72H
+   pW94BiD6brEXA1CEKLbtJoEY3hfZKe6pbrUVHHrhU0LLZsiArLyudrO6J
+   Qh0j7JVHwwePDZfkQSEhaCXLbHMcUgdPSrXD/Y1Gk6sDseSRKYR5Gc2XI
+   oXV4FlMSaTDByGJbKHaCiqRXTdAhTE2EhEn5UZUUJp76adxXRahzM8ZyA
+   C+54/Eoc1kzjv5hsK9Ov0unwm5BHA3u+BKHEJ5iXoTkxrb5UWkxyQlDH+
+   A==;
+X-CSE-ConnectionGUID: AE70QvdiSwm1eRPI6TPLSg==
+X-CSE-MsgGUID: YwLX/pH8Rdiba8Dqd8uA+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="80991654"
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="80692297"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 21:29:16 -0700
-X-CSE-ConnectionGUID: E78+1FaiQiiz5bwYBQi4xA==
-X-CSE-MsgGUID: NKPP2TwjTuW7TWCcPZl5dA==
+   d="scan'208";a="80991654"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 21:39:16 -0700
+X-CSE-ConnectionGUID: SIKemS4ZQ1GOrykVsLm/Hw==
+X-CSE-MsgGUID: 1YhAAaIoSqaC7w9HqM9E5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="247953183"
+   d="scan'208";a="247035882"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 29 May 2026 21:29:14 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 May 2026 21:39:15 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTBJv-0000000086e-3w4Z;
-	Sat, 30 May 2026 04:29:11 +0000
-Date: Sat, 30 May 2026 12:28:23 +0800
+	id 1wTBTc-0000000086w-0bU9;
+	Sat, 30 May 2026 04:39:12 +0000
+Date: Sat, 30 May 2026 12:38:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joerg Roedel <joerg.roedel@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [joro:kvm-planes-v7.0 16/62]
- arch/riscv/kvm/vcpu_insn.c:138:3: warning: shift count is negative
-Message-ID: <202605301212.1KZPhMcp-lkp@intel.com>
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>
+Subject: [jic23-iio:testing 240/253]
+ drivers/iio/light/apds9999.c:201:undefined reference to `__umoddi3'
+Message-ID: <202605301225.6MQ3YOMu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,168 +59,75 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git kvm-planes-v7.0
-head:   dbb5c2770eccdd9477ce812561c61d49ef7891ab
-commit: 4be7559caa1d9c7436c368cf89fee7d28d0559a9 [16/62] kvm: Move VCPU locking to struct kvm_vcpu_common
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260530/202605301212.1KZPhMcp-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605301212.1KZPhMcp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   7b84b1e9dd850a5c9b55e27daa4ecdc2dd5b3431
+commit: a67c818e7a5ce49e141f0d73f8330026e82bcc31 [240/253] iio: light: add support for APDS9999 sensor
+config: i386-randconfig-r071-20260529 (https://download.01.org/0day-ci/archive/20260530/202605301225.6MQ3YOMu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605301225.6MQ3YOMu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605301212.1KZPhMcp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605301225.6MQ3YOMu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/kvm/vcpu_insn.c:8:
-   include/linux/kvm_host.h:1023:56: error: no member named 'srcu_depth' in 'struct kvm_vcpu'
-    1023 |                   "KVM: Illegal vCPU srcu_idx LOCK, depth=%d", vcpu->srcu_depth - 1);
-         |                                                                ~~~~  ^
-   include/linux/kvm_host.h:1034:58: error: no member named 'srcu_depth' in 'struct kvm_vcpu'
-    1034 |                   "KVM: Illegal vCPU srcu_idx UNLOCK, depth=%d", vcpu->srcu_depth);
-         |                                                                  ~~~~  ^
->> arch/riscv/kvm/vcpu_insn.c:138:3: warning: shift count is negative [-Wshift-count-negative]
-     138 |                 SET_RD(insn, &vcpu->arch.guest_context,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     139 |                        run->riscv_csr.ret_value);
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:412:35: note: expanded from macro 'SET_RD'
-     412 | #define SET_RD(insn, regs, val) (*REG_PTR(insn, SH_RD, regs) = (val))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:404:29: note: expanded from macro 'REG_PTR'
-     404 |         ((ulong *)((ulong)(regs) + REG_OFFSET(insn, pos)))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:401:3: note: expanded from macro 'REG_OFFSET'
-     401 |         (SHIFT_RIGHT((insn), (pos) - LOG_REGBYTES) & REG_MASK)
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:395:18: note: expanded from macro 'SHIFT_RIGHT'
-     395 |         ((y) < 0 ? ((x) << -(y)) : ((x) >> (y)))
-         |                         ^  ~~~~
-   arch/riscv/kvm/vcpu_insn.c:152:18: warning: shift count is negative [-Wshift-count-negative]
-     152 |         ulong rs1_val = GET_RS1(insn, &vcpu->arch.guest_context);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:406:31: note: expanded from macro 'GET_RS1'
-     406 | #define GET_RS1(insn, regs)     (*REG_PTR(insn, SH_RS1, regs))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:404:29: note: expanded from macro 'REG_PTR'
-     404 |         ((ulong *)((ulong)(regs) + REG_OFFSET(insn, pos)))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:401:3: note: expanded from macro 'REG_OFFSET'
-     401 |         (SHIFT_RIGHT((insn), (pos) - LOG_REGBYTES) & REG_MASK)
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:395:18: note: expanded from macro 'SHIFT_RIGHT'
-     395 |         ((y) < 0 ? ((x) << -(y)) : ((x) >> (y)))
-         |                         ^  ~~~~
-   arch/riscv/kvm/vcpu_insn.c:537:9: warning: shift count is negative [-Wshift-count-negative]
-     537 |         data = GET_RS2(insn, &vcpu->arch.guest_context);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:407:31: note: expanded from macro 'GET_RS2'
-     407 | #define GET_RS2(insn, regs)     (*REG_PTR(insn, SH_RS2, regs))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:404:29: note: expanded from macro 'REG_PTR'
-     404 |         ((ulong *)((ulong)(regs) + REG_OFFSET(insn, pos)))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:401:3: note: expanded from macro 'REG_OFFSET'
-     401 |         (SHIFT_RIGHT((insn), (pos) - LOG_REGBYTES) & REG_MASK)
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:395:18: note: expanded from macro 'SHIFT_RIGHT'
-     395 |         ((y) < 0 ? ((x) << -(y)) : ((x) >> (y)))
-         |                         ^  ~~~~
-   arch/riscv/kvm/vcpu_insn.c:553:12: warning: shift count is negative [-Wshift-count-negative]
-     553 |                 data64 = GET_RS2S(insn, &vcpu->arch.guest_context);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:409:32: note: expanded from macro 'GET_RS2S'
-     409 | #define GET_RS2S(insn, regs)    (*REG_PTR(RVC_RS2S(insn), 0, regs))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:404:29: note: expanded from macro 'REG_PTR'
-     404 |         ((ulong *)((ulong)(regs) + REG_OFFSET(insn, pos)))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:401:3: note: expanded from macro 'REG_OFFSET'
-     401 |         (SHIFT_RIGHT((insn), (pos) - LOG_REGBYTES) & REG_MASK)
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:395:34: note: expanded from macro 'SHIFT_RIGHT'
-     395 |         ((y) < 0 ? ((x) << -(y)) : ((x) >> (y)))
-         |                                         ^  ~~~
-   arch/riscv/kvm/vcpu_insn.c:557:12: warning: shift count is negative [-Wshift-count-negative]
-     557 |                 data64 = GET_RS2C(insn, &vcpu->arch.guest_context);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:410:32: note: expanded from macro 'GET_RS2C'
-     410 | #define GET_RS2C(insn, regs)    (*REG_PTR(insn, SH_RS2C, regs))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:404:29: note: expanded from macro 'REG_PTR'
-     404 |         ((ulong *)((ulong)(regs) + REG_OFFSET(insn, pos)))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:401:3: note: expanded from macro 'REG_OFFSET'
-     401 |         (SHIFT_RIGHT((insn), (pos) - LOG_REGBYTES) & REG_MASK)
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:395:34: note: expanded from macro 'SHIFT_RIGHT'
-     395 |         ((y) < 0 ? ((x) << -(y)) : ((x) >> (y)))
-         |                                         ^  ~~~
-   arch/riscv/kvm/vcpu_insn.c:561:12: warning: shift count is negative [-Wshift-count-negative]
-     561 |                 data32 = GET_RS2S(insn, &vcpu->arch.guest_context);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:409:32: note: expanded from macro 'GET_RS2S'
-     409 | #define GET_RS2S(insn, regs)    (*REG_PTR(RVC_RS2S(insn), 0, regs))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:404:29: note: expanded from macro 'REG_PTR'
-     404 |         ((ulong *)((ulong)(regs) + REG_OFFSET(insn, pos)))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:401:3: note: expanded from macro 'REG_OFFSET'
-     401 |         (SHIFT_RIGHT((insn), (pos) - LOG_REGBYTES) & REG_MASK)
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:395:34: note: expanded from macro 'SHIFT_RIGHT'
-     395 |         ((y) < 0 ? ((x) << -(y)) : ((x) >> (y)))
-         |                                         ^  ~~~
-   arch/riscv/kvm/vcpu_insn.c:565:12: warning: shift count is negative [-Wshift-count-negative]
-     565 |                 data32 = GET_RS2C(insn, &vcpu->arch.guest_context);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:410:32: note: expanded from macro 'GET_RS2C'
-     410 | #define GET_RS2C(insn, regs)    (*REG_PTR(insn, SH_RS2C, regs))
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/insn.h:404:29: note: expanded from macro 'REG_PTR'
-     404 |         ((ulong *)((ulong)(regs) + REG_OFFSET(insn, pos)))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   ld: drivers/iio/light/apds9999.o: in function `apds9999_read_raw':
+>> drivers/iio/light/apds9999.c:201:(.text+0x1cf): undefined reference to `__umoddi3'
 
 
-vim +138 arch/riscv/kvm/vcpu_insn.c
+vim +201 drivers/iio/light/apds9999.c
 
-8a061562e2f2b3 Anup Patel 2022-07-29  117  
-8a061562e2f2b3 Anup Patel 2022-07-29  118  /**
-8a061562e2f2b3 Anup Patel 2022-07-29  119   * kvm_riscv_vcpu_csr_return -- Handle CSR read/write after user space
-8a061562e2f2b3 Anup Patel 2022-07-29  120   *				emulation or in-kernel emulation
-8a061562e2f2b3 Anup Patel 2022-07-29  121   *
-8a061562e2f2b3 Anup Patel 2022-07-29  122   * @vcpu: The VCPU pointer
-8a061562e2f2b3 Anup Patel 2022-07-29  123   * @run:  The VCPU run struct containing the CSR data
-8a061562e2f2b3 Anup Patel 2022-07-29  124   *
-8a061562e2f2b3 Anup Patel 2022-07-29  125   * Returns > 0 upon failure and 0 upon success
-8a061562e2f2b3 Anup Patel 2022-07-29  126   */
-8a061562e2f2b3 Anup Patel 2022-07-29  127  int kvm_riscv_vcpu_csr_return(struct kvm_vcpu *vcpu, struct kvm_run *run)
-8a061562e2f2b3 Anup Patel 2022-07-29  128  {
-8a061562e2f2b3 Anup Patel 2022-07-29  129  	ulong insn;
-8a061562e2f2b3 Anup Patel 2022-07-29  130  
-8a061562e2f2b3 Anup Patel 2022-07-29  131  	if (vcpu->arch.csr_decode.return_handled)
-8a061562e2f2b3 Anup Patel 2022-07-29  132  		return 0;
-8a061562e2f2b3 Anup Patel 2022-07-29  133  	vcpu->arch.csr_decode.return_handled = 1;
-8a061562e2f2b3 Anup Patel 2022-07-29  134  
-8a061562e2f2b3 Anup Patel 2022-07-29  135  	/* Update destination register for CSR reads */
-8a061562e2f2b3 Anup Patel 2022-07-29  136  	insn = vcpu->arch.csr_decode.insn;
-8a061562e2f2b3 Anup Patel 2022-07-29  137  	if ((insn >> SH_RD) & MASK_RX)
-8a061562e2f2b3 Anup Patel 2022-07-29 @138  		SET_RD(insn, &vcpu->arch.guest_context,
-8a061562e2f2b3 Anup Patel 2022-07-29  139  		       run->riscv_csr.ret_value);
-8a061562e2f2b3 Anup Patel 2022-07-29  140  
-8a061562e2f2b3 Anup Patel 2022-07-29  141  	/* Move to next instruction */
-8a061562e2f2b3 Anup Patel 2022-07-29  142  	vcpu->arch.guest_context.sepc += INSN_LEN(insn);
-8a061562e2f2b3 Anup Patel 2022-07-29  143  
-8a061562e2f2b3 Anup Patel 2022-07-29  144  	return 0;
-8a061562e2f2b3 Anup Patel 2022-07-29  145  }
-8a061562e2f2b3 Anup Patel 2022-07-29  146  
-
-:::::: The code at line 138 was first introduced by commit
-:::::: 8a061562e2f2b32bfb5bff5bf3afc64e37d95a27 RISC-V: KVM: Add extensible CSR emulation framework
-
-:::::: TO: Anup Patel <apatel@ventanamicro.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
+   166	
+   167	static int apds9999_read_raw(struct iio_dev *indio_dev,
+   168				     struct iio_chan_spec const *chan,
+   169				     int *val, int *val2, long mask)
+   170	{
+   171		struct apds9999_data *data = iio_priv(indio_dev);
+   172		int gain, itime_us;
+   173		u64 scale_nano;
+   174		u32 counts;
+   175		int ret;
+   176	
+   177		switch (mask) {
+   178		case IIO_CHAN_INFO_RAW:
+   179			ret = apds9999_read_channel(data, chan->address, &counts);
+   180			if (ret)
+   181				return ret;
+   182			*val = (int)counts;
+   183			return IIO_VAL_INT;
+   184	
+   185		case IIO_CHAN_INFO_SCALE:
+   186			/*
+   187			 * Scale (lux per count) = 54 / (gain * integration_time_ms)
+   188			 *
+   189			 * The constant 54 is derived from the datasheet table:
+   190			 *   at gain = 3x, itime = 100 ms -> 0.180 lux/count
+   191			 *   -> C = 0.180 * 3 * 100 = 54
+   192			 *
+   193			 * Expressed as IIO_VAL_INT_PLUS_NANO.
+   194			 */
+   195			gain = apds9999_gains[data->als_gain_idx];
+   196			itime_us = apds9999_itimes_us[data->als_res];
+   197	
+   198			/* scale_nano = 54 * 1e12 / (gain * itime_us) nano-lux/count */
+   199			scale_nano = div_u64(54ULL * NSEC_PER_SEC * USEC_PER_MSEC, (u32)(gain * itime_us));
+   200			*val = (int)div_u64(scale_nano, NSEC_PER_SEC);
+ > 201			*val2 = (int)(scale_nano % NSEC_PER_SEC);
+   202			return IIO_VAL_INT_PLUS_NANO;
+   203	
+   204		case IIO_CHAN_INFO_INT_TIME:
+   205			*val = 0;
+   206			*val2 = apds9999_itimes_us[data->als_res];
+   207			return IIO_VAL_INT_PLUS_MICRO;
+   208	
+   209		default:
+   210			return -EINVAL;
+   211		}
+   212	}
+   213	
 
 --
 0-DAY CI Kernel Test Service
