@@ -1,147 +1,106 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CB42DCBF8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 20:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC45D27467F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 20:56:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780173992; cv=none; b=bXAS2bZPey9cXGoregeZXj4MHxUg8sKqqcYkmnQxynVEzuu0Sq6loJwKJSj6mZ6SNbrqvmjr9qSOYlGZHe2npS1BbzyAAEpCbzZFfMhfz3Sk6uqGJesioXrKKCW7o8Z5/LH25juNL/u2rJoagymbmlLUvmPhzUKk3AvKm0d+Qks=
+	t=1780174590; cv=none; b=HIjNfLa9/1xOHPUKQ3/XXpX20V4aWgAkxnxmb+DK5KEgpJCbzB5uChYzumvl0nWr4s7ojMmv/xs6wFLuW+Y+bWvKYrCfbzfVwtRBtRcFkrmwtcXTfrjRVQybJSGf/apIdR2PnW1k/phck7ZzT20PXAlAZHyA7bylW9BrTxpxsvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780173992; c=relaxed/simple;
-	bh=IKhWW7LSJTC41x0mWNouiX5kSdHnHIBXrgOzOcenlZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JUitSfF0PrFId69Aw0QmpoMbWmk65cIky5rp1GErxPrR2yZwEsAI0svFSRgQBhT6GyOpKZJax6j32EQylck+ZH4CRXCKw0jkRCABGweWmCgZP8a6DbJe8ZQF6M65iNcmaQgVXUqayjG/gOw+aYAyz6E7n88OO/Pix0PKfJYCjHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEAWEJtb; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1780174590; c=relaxed/simple;
+	bh=N/NMY268M88NWmU47FvXF6yek2iX3FKdKiBBrhj2tws=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TooccfmCdA9XBQxxtAGa0FkzPXNwaTxAM3f+1tBOQVE7D29vcA36/9jcQ6X14aAoTYGHKxHSVZG/ng30pNngcegCsEudOcGzYZAD82vRjM1oIRKBKFYU9BNXCSKoMmAfvF3lLEJuEA4+tPenJOLRpuk/Qz+xlva8oUMw3Msc+rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZbdTMS0; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEAWEJtb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZbdTMS0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780173991; x=1811709991;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IKhWW7LSJTC41x0mWNouiX5kSdHnHIBXrgOzOcenlZ4=;
-  b=IEAWEJtb9yUJ/cm8RwZU4DSn2KERzRIoYjpXG9UedVSF7M8pISL1CqxR
-   lmSxjg5rUI2BmC+j/1YBFvwwkaM29iD7IhRBY6aoC/KUhEXZMSbkS2gbT
-   Gvr/vZIBYmcFJBNOn4gkMI6JmyxlELUGvkFdud4q2nAN91naPLCi4bcCM
-   WOXRV7cKOlEGeEJjZWZsbmE1gQcDsgVyaHLL/HD4FhNoSG+3tCYSNuYYO
-   VG4C5F0s6BsR6UvFjZRvcX1ikY8lCXp7uQu1xMVodvZ43C83pkRMVJpYY
-   cJ30Q79wnStsXyc0aKMBrwsRvuFSU7JMQFjl9oVY0OklUWJxa0m77O1qN
-   w==;
-X-CSE-ConnectionGUID: eR31QUhwREi1p+Tp28odEg==
-X-CSE-MsgGUID: 0f0GBUf3TGiFLxQxDOR0AA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="80716606"
+  t=1780174589; x=1811710589;
+  h=date:from:to:cc:subject:message-id;
+  bh=N/NMY268M88NWmU47FvXF6yek2iX3FKdKiBBrhj2tws=;
+  b=QZbdTMS0hUyzAhK0CsqyqK2sBU1q88o63hBrtE9i2iUC4XujWoL9CcIc
+   lvTFBisGLNrHEnWulUGsdco9GH2VzBBMtewSKJAY3RkItIPkk7khx6KaA
+   iAB3VTCc1nor+HUmHfj1hOenFuzkDvuiFMKc/T1yxiUkYip75xMkRQHhp
+   NTw9+Zjg0ehxiZVkml1XAYQeUzVAFSsItMzFf3QFruatf22Eg0s4gA4ez
+   W/UCG8o2/L6c24E1Mewv5hjfm2aj6HrAw9isZ6DNwgQaIgyZSD3XPmxVA
+   UunGqHlr+i8pepaG1wa+upYSv3iwykVn6F3zX/FsNy6puw7SKEUq3mLFq
+   A==;
+X-CSE-ConnectionGUID: wYZotqbSTvu/dBZactkeBQ==
+X-CSE-MsgGUID: uQUXxDs3S2eTZxUWCOSX8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="80716813"
 X-IronPort-AV: E=Sophos;i="6.24,178,1774335600"; 
-   d="scan'208";a="80716606"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 13:46:31 -0700
-X-CSE-ConnectionGUID: DGrd7KQqQsK+ayMD8X3rew==
-X-CSE-MsgGUID: MmoRbom1RdK7+lt6il1nYA==
+   d="scan'208";a="80716813"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 13:56:29 -0700
+X-CSE-ConnectionGUID: mOsx7s5KT3OhojBDDsypQw==
+X-CSE-MsgGUID: ZpfC8tsDTfGCn10BnDbZCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,178,1774335600"; 
-   d="scan'208";a="238985489"
+   d="scan'208";a="243028135"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 May 2026 13:46:27 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 May 2026 13:56:27 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTQZc-000000008t4-1F25;
-	Sat, 30 May 2026 20:46:24 +0000
-Date: Sun, 31 May 2026 04:45:53 +0800
+	id 1wTQjI-000000008tm-3XuG;
+	Sat, 30 May 2026 20:56:24 +0000
+Date: Sun, 31 May 2026 04:56:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-block <linux-block@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Bart Van Assche <bvanassche@acm.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Ming Lei <tom.leiming@gmail.com>,
-	Damien Le Moal <dlemoal@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Qu Wenruo <wqu@suse.com>, Hillf Danton <hdanton@sina.com>
-Subject: Re: [PATCH] loop: reject binding to procfs and sysfs files
-Message-ID: <202605310413.Xgk6vCeB-lkp@intel.com>
-References: <148efba2-a0b6-47d7-ac76-b19d2f4b696c@I-love.SAKURA.ne.jp>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 7431/9870]
+ kernel/sched/ext.c:7926:undefined reference to `bpf_prog_arena'
+Message-ID: <202605310454.U9iByL2n-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <148efba2-a0b6-47d7-ac76-b19d2f4b696c@I-love.SAKURA.ne.jp>
 
-Hi Tetsuo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on axboe/for-next]
-[also build test ERROR on linus/master v7.1-rc5 next-20260529]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tetsuo-Handa/loop-reject-binding-to-procfs-and-sysfs-files/20260530-214900
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/148efba2-a0b6-47d7-ac76-b19d2f4b696c%40I-love.SAKURA.ne.jp
-patch subject: [PATCH] loop: reject binding to procfs and sysfs files
-config: nios2-defconfig (https://download.01.org/0day-ci/archive/20260531/202605310413.Xgk6vCeB-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605310413.Xgk6vCeB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7da7f07112610a520567421dd2ffcb51beaefbcc
+commit: 0e2819cba977f910c7eeaf77c705e28787c3385d [7431/9870] sched_ext: Require an arena for cid-form schedulers
+config: parisc-randconfig-r134-20260530 (https://download.01.org/0day-ci/archive/20260531/202605310454.U9iByL2n-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605310454.U9iByL2n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605310413.Xgk6vCeB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605310454.U9iByL2n-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/block/loop.c: In function 'loop_validate_file':
->> drivers/block/loop.c:504:14: error: 'PROC_SUPER_MAGIC' undeclared (first use in this function)
-     504 |         case PROC_SUPER_MAGIC: /* e.g. "losetup -f /proc/sys/kernel/version" */
-         |              ^~~~~~~~~~~~~~~~
-   drivers/block/loop.c:504:14: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/block/loop.c:505:14: error: 'SYSFS_MAGIC' undeclared (first use in this function)
-     505 |         case SYSFS_MAGIC: /* e.g. "losetup -f /sys/power/state" */
-         |              ^~~~~~~~~~~
+   hppa-linux-ld: kernel/sched/build_policy.o: in function `scx_arena_scan_prog':
+>> kernel/sched/ext.c:7926:(.text+0x4b44): undefined reference to `bpf_prog_arena'
 
 
-vim +/PROC_SUPER_MAGIC +504 drivers/block/loop.c
+vim +7926 kernel/sched/ext.c
 
-   478	
-   479	static int loop_validate_file(struct file *file, struct block_device *bdev)
-   480	{
-   481		struct inode	*inode = file->f_mapping->host;
-   482		struct file	*f = file;
-   483	
-   484		/* Avoid recursion */
-   485		while (is_loop_device(f)) {
-   486			struct loop_device *l;
-   487	
-   488			lockdep_assert_held(&loop_validate_mutex);
-   489			if (f->f_mapping->host->i_rdev == bdev->bd_dev)
-   490				return -EBADF;
-   491	
-   492			l = I_BDEV(f->f_mapping->host)->bd_disk->private_data;
-   493			if (l->lo_state != Lo_bound)
-   494				return -EINVAL;
-   495			/* Order wrt setting lo->lo_backing_file in loop_configure(). */
-   496			rmb();
-   497			f = l->lo_backing_file;
-   498		}
-   499		if (S_ISBLK(inode->i_mode))
-   500			return 0;
-   501		if (!S_ISREG(inode->i_mode))
-   502			return -EINVAL;
-   503		switch (inode->i_sb->s_magic) {
- > 504		case PROC_SUPER_MAGIC: /* e.g. "losetup -f /proc/sys/kernel/version" */
- > 505		case SYSFS_MAGIC: /* e.g. "losetup -f /sys/power/state" */
-   506			return -EINVAL;
-   507		}
-   508		return 0;
-   509	}
-   510	
+  7917	
+  7918	/*
+  7919	 * The verifier enforces one arena per BPF program, so each struct_ops
+  7920	 * member prog contributes at most one arena via bpf_prog_arena().
+  7921	 * Require all non-NULL contributions to match.
+  7922	 */
+  7923	static int scx_arena_scan_prog(struct bpf_prog *prog, void *data)
+  7924	{
+  7925		struct scx_arena_scan *s = data;
+> 7926		struct bpf_map *arena = bpf_prog_arena(prog);
+  7927	
+  7928		if (!arena)
+  7929			return 0;
+  7930		if (s->arena && s->arena != arena) {
+  7931			s->err = -EINVAL;
+  7932			return 1;
+  7933		}
+  7934		s->arena = arena;
+  7935		return 0;
+  7936	}
+  7937	
 
 --
 0-DAY CI Kernel Test Service
