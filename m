@@ -1,133 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974DC22A80D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 20:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CB42DCBF8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 20:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780172490; cv=none; b=CQC2DUq+TTXoPOyr1GAsf8NJJhkWdVzgfi8NItdEckAzcGmCR3X+Pa5aYcC6FroKyrASo91dsaP0YF61nhoj4eV282h/nUrasY08Q4fCXgQWWl8Ixx/VcNAgxGFB5+wxD67L4vMTUDADDLHrT/LGGNBQvS4/awVAejyw1Dsu51E=
+	t=1780173992; cv=none; b=bXAS2bZPey9cXGoregeZXj4MHxUg8sKqqcYkmnQxynVEzuu0Sq6loJwKJSj6mZ6SNbrqvmjr9qSOYlGZHe2npS1BbzyAAEpCbzZFfMhfz3Sk6uqGJesioXrKKCW7o8Z5/LH25juNL/u2rJoagymbmlLUvmPhzUKk3AvKm0d+Qks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780172490; c=relaxed/simple;
-	bh=8RE0hkjfPVb8yI+twZizYH8hMueBY+Pvz9vrCF5aiOY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=W0oxeeZ1dcPn7U9PkVAds1+/AK+do8ioppHTA/hkcBlgq2oxUcPEacuJMNRRZlq46EE1m17g4xQrT58GvJWKwH0KJ1hgZlWWACdGxRpuw5Z/HE4hL3RCJWwHmPZePlm2Q2DVyAnmu5k8R1iRvWwEyDKexKWSAsN0iAsg8DTEG8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KI0i4Hgn; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1780173992; c=relaxed/simple;
+	bh=IKhWW7LSJTC41x0mWNouiX5kSdHnHIBXrgOzOcenlZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JUitSfF0PrFId69Aw0QmpoMbWmk65cIky5rp1GErxPrR2yZwEsAI0svFSRgQBhT6GyOpKZJax6j32EQylck+ZH4CRXCKw0jkRCABGweWmCgZP8a6DbJe8ZQF6M65iNcmaQgVXUqayjG/gOw+aYAyz6E7n88OO/Pix0PKfJYCjHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEAWEJtb; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KI0i4Hgn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEAWEJtb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780172487; x=1811708487;
-  h=date:from:to:cc:subject:message-id;
-  bh=8RE0hkjfPVb8yI+twZizYH8hMueBY+Pvz9vrCF5aiOY=;
-  b=KI0i4Hgn++hkgi8WyxpIYHcZJqUahyltJXxDVLdf0cQy9QTFZJoESZti
-   3MkqczNvhU2UkQEg28CLckrx4ux+z8dI+n3nyVhY/T9d8vgG6KQVHj8Rx
-   0QBdt9IsMU3sDvgq0TY3hiuqdy1l7t3wepuC8GkGHhWTNmVIXLKX24Vz3
-   smlrv8FXcVKuqsTRY73KCeVO7OSz65/CpmpclUwUibJH1+fuqu7PVwtI6
-   DXxI3W15oyl9qgj6YCClNJfLJKpe4mmI77A3LND8HTXlAJ1zBZJ4mySn4
-   2MLsxtSf+/Fy3nbcGxoeDOUDHT1svEiE3EYzuSb3Y2k5j18zYnHc3bA7z
-   A==;
-X-CSE-ConnectionGUID: dv6ajfuoR5+PZKjjOKSbHw==
-X-CSE-MsgGUID: AhAt78QpRt+CVgvFr9MaYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="84845509"
+  t=1780173991; x=1811709991;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IKhWW7LSJTC41x0mWNouiX5kSdHnHIBXrgOzOcenlZ4=;
+  b=IEAWEJtb9yUJ/cm8RwZU4DSn2KERzRIoYjpXG9UedVSF7M8pISL1CqxR
+   lmSxjg5rUI2BmC+j/1YBFvwwkaM29iD7IhRBY6aoC/KUhEXZMSbkS2gbT
+   Gvr/vZIBYmcFJBNOn4gkMI6JmyxlELUGvkFdud4q2nAN91naPLCi4bcCM
+   WOXRV7cKOlEGeEJjZWZsbmE1gQcDsgVyaHLL/HD4FhNoSG+3tCYSNuYYO
+   VG4C5F0s6BsR6UvFjZRvcX1ikY8lCXp7uQu1xMVodvZ43C83pkRMVJpYY
+   cJ30Q79wnStsXyc0aKMBrwsRvuFSU7JMQFjl9oVY0OklUWJxa0m77O1qN
+   w==;
+X-CSE-ConnectionGUID: eR31QUhwREi1p+Tp28odEg==
+X-CSE-MsgGUID: 0f0GBUf3TGiFLxQxDOR0AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="80716606"
 X-IronPort-AV: E=Sophos;i="6.24,178,1774335600"; 
-   d="scan'208";a="84845509"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 13:21:27 -0700
-X-CSE-ConnectionGUID: RdMB5bC7ROmIEhtmZqe+Ew==
-X-CSE-MsgGUID: WRj+/atAT3uNaRLQAahhEw==
+   d="scan'208";a="80716606"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 13:46:31 -0700
+X-CSE-ConnectionGUID: DGrd7KQqQsK+ayMD8X3rew==
+X-CSE-MsgGUID: MmoRbom1RdK7+lt6il1nYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,178,1774335600"; 
-   d="scan'208";a="238766472"
+   d="scan'208";a="238985489"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 30 May 2026 13:21:25 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 May 2026 13:46:27 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTQBP-000000008ru-0wtT;
-	Sat, 30 May 2026 20:21:23 +0000
-Date: Sun, 31 May 2026 04:21:16 +0800
+	id 1wTQZc-000000008t4-1F25;
+	Sat, 30 May 2026 20:46:24 +0000
+Date: Sun, 31 May 2026 04:45:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>,
- Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: [linux-next:master 7118/9870]
- drivers/infiniband/hw/bnxt_re/uapi.c:499:30: sparse: sparse: symbol
- 'bnxt_re_create_qp_defs' was not declared. Should it be static?
-Message-ID: <202605310411.DYzu0ViR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-block <linux-block@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Bart Van Assche <bvanassche@acm.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Ming Lei <tom.leiming@gmail.com>,
+	Damien Le Moal <dlemoal@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Qu Wenruo <wqu@suse.com>, Hillf Danton <hdanton@sina.com>
+Subject: Re: [PATCH] loop: reject binding to procfs and sysfs files
+Message-ID: <202605310413.Xgk6vCeB-lkp@intel.com>
+References: <148efba2-a0b6-47d7-ac76-b19d2f4b696c@I-love.SAKURA.ne.jp>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <148efba2-a0b6-47d7-ac76-b19d2f4b696c@I-love.SAKURA.ne.jp>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7da7f07112610a520567421dd2ffcb51beaefbcc
-commit: 7e812673a948395675e9893e75b0fc60d19bbf27 [7118/9870] RDMA/bnxt_re: Support doorbells for app allocated QPs
-config: riscv-randconfig-r132-20260530 (https://download.01.org/0day-ci/archive/20260531/202605310411.DYzu0ViR-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605310411.DYzu0ViR-lkp@intel.com/reproduce)
+Hi Tetsuo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe/for-next]
+[also build test ERROR on linus/master v7.1-rc5 next-20260529]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tetsuo-Handa/loop-reject-binding-to-procfs-and-sysfs-files/20260530-214900
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/148efba2-a0b6-47d7-ac76-b19d2f4b696c%40I-love.SAKURA.ne.jp
+patch subject: [PATCH] loop: reject binding to procfs and sysfs files
+config: nios2-defconfig (https://download.01.org/0day-ci/archive/20260531/202605310413.Xgk6vCeB-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605310413.Xgk6vCeB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605310411.DYzu0ViR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605310413.Xgk6vCeB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> drivers/infiniband/hw/bnxt_re/uapi.c:499:30: sparse: sparse: symbol 'bnxt_re_create_qp_defs' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/bnxt_re_create_qp_defs +499 drivers/infiniband/hw/bnxt_re/uapi.c
+   drivers/block/loop.c: In function 'loop_validate_file':
+>> drivers/block/loop.c:504:14: error: 'PROC_SUPER_MAGIC' undeclared (first use in this function)
+     504 |         case PROC_SUPER_MAGIC: /* e.g. "losetup -f /proc/sys/kernel/version" */
+         |              ^~~~~~~~~~~~~~~~
+   drivers/block/loop.c:504:14: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/block/loop.c:505:14: error: 'SYSFS_MAGIC' undeclared (first use in this function)
+     505 |         case SYSFS_MAGIC: /* e.g. "losetup -f /sys/power/state" */
+         |              ^~~~~~~~~~~
 
-   456	
-   457	DECLARE_UVERBS_NAMED_METHOD(BNXT_RE_METHOD_DBR_ALLOC,
-   458				    UVERBS_ATTR_IDR(BNXT_RE_ALLOC_DBR_HANDLE,
-   459						    BNXT_RE_OBJECT_DBR,
-   460						    UVERBS_ACCESS_NEW,
-   461						    UA_MANDATORY),
-   462				    UVERBS_ATTR_PTR_OUT(BNXT_RE_ALLOC_DBR_ATTR,
-   463							UVERBS_ATTR_STRUCT(struct bnxt_re_db_region,
-   464									   umdbr),
-   465									   UA_MANDATORY),
-   466				    UVERBS_ATTR_PTR_OUT(BNXT_RE_ALLOC_DBR_OFFSET,
-   467							UVERBS_ATTR_TYPE(u64),
-   468							UA_MANDATORY));
-   469	
-   470	DECLARE_UVERBS_NAMED_METHOD_DESTROY(BNXT_RE_METHOD_DBR_FREE,
-   471					    UVERBS_ATTR_IDR(BNXT_RE_FREE_DBR_HANDLE,
-   472							    BNXT_RE_OBJECT_DBR,
-   473							    UVERBS_ACCESS_DESTROY,
-   474							    UA_MANDATORY));
-   475	
-   476	DECLARE_UVERBS_NAMED_OBJECT(BNXT_RE_OBJECT_DBR,
-   477				    UVERBS_TYPE_ALLOC_IDR(bnxt_re_dbr_cleanup),
-   478				    &UVERBS_METHOD(BNXT_RE_METHOD_DBR_ALLOC),
-   479				    &UVERBS_METHOD(BNXT_RE_METHOD_DBR_FREE));
-   480	
-   481	DECLARE_UVERBS_NAMED_METHOD(BNXT_RE_METHOD_GET_DEFAULT_DBR,
-   482				    UVERBS_ATTR_PTR_OUT(BNXT_RE_DEFAULT_DBR_ATTR,
-   483							UVERBS_ATTR_STRUCT(struct bnxt_re_db_region,
-   484									   umdbr),
-   485							UA_MANDATORY));
-   486	
-   487	DECLARE_UVERBS_GLOBAL_METHODS(BNXT_RE_OBJECT_DEFAULT_DBR,
-   488				      &UVERBS_METHOD(BNXT_RE_METHOD_GET_DEFAULT_DBR));
-   489	
-   490	ADD_UVERBS_ATTRIBUTES_SIMPLE(
-   491		bnxt_re_qp_create,
-   492		UVERBS_OBJECT_QP,
-   493		UVERBS_METHOD_QP_CREATE,
-   494		UVERBS_ATTR_IDR(BNXT_RE_CREATE_QP_ATTR_DBR_HANDLE,
-   495				BNXT_RE_OBJECT_DBR,
-   496				UVERBS_ACCESS_READ,
-   497				UA_OPTIONAL));
-   498	
- > 499	const struct uapi_definition bnxt_re_create_qp_defs[] = {
-   500		UAPI_DEF_CHAIN_OBJ_TREE(UVERBS_OBJECT_QP, &bnxt_re_qp_create),
-   501		{},
-   502	};
-   503	
+
+vim +/PROC_SUPER_MAGIC +504 drivers/block/loop.c
+
+   478	
+   479	static int loop_validate_file(struct file *file, struct block_device *bdev)
+   480	{
+   481		struct inode	*inode = file->f_mapping->host;
+   482		struct file	*f = file;
+   483	
+   484		/* Avoid recursion */
+   485		while (is_loop_device(f)) {
+   486			struct loop_device *l;
+   487	
+   488			lockdep_assert_held(&loop_validate_mutex);
+   489			if (f->f_mapping->host->i_rdev == bdev->bd_dev)
+   490				return -EBADF;
+   491	
+   492			l = I_BDEV(f->f_mapping->host)->bd_disk->private_data;
+   493			if (l->lo_state != Lo_bound)
+   494				return -EINVAL;
+   495			/* Order wrt setting lo->lo_backing_file in loop_configure(). */
+   496			rmb();
+   497			f = l->lo_backing_file;
+   498		}
+   499		if (S_ISBLK(inode->i_mode))
+   500			return 0;
+   501		if (!S_ISREG(inode->i_mode))
+   502			return -EINVAL;
+   503		switch (inode->i_sb->s_magic) {
+ > 504		case PROC_SUPER_MAGIC: /* e.g. "losetup -f /proc/sys/kernel/version" */
+ > 505		case SYSFS_MAGIC: /* e.g. "losetup -f /sys/power/state" */
+   506			return -EINVAL;
+   507		}
+   508		return 0;
+   509	}
+   510	
 
 --
 0-DAY CI Kernel Test Service
