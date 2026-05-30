@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D450239478D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 07:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A585F1632E7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 08:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780127791; cv=none; b=rEOWK/49DffnszjOcBAFW2ORwP0jYPb/JGHQdmVQhkN52XaUHcJxI30q9IMng9ODNPWCGfvewcnVcq+9qbe6aCY+ywTV/s6umtAY9xiIBi4tmhBu/VA0nFQyR1o+/Pw965X4B5fRSb1/OAJbC76SpTReqcrXBLBTd0oF6NhzfkE=
+	t=1780128169; cv=none; b=KNfSX0SmH+HUFjDFXe1ipJEPZhE1hAYGFCvHrA+rZMqAotMqitOp7LHPWlUR5avW3Y2F+GwW50nIhaJoxZEikmUk9lK1a3ouRBlXX8KR4T1iRy99jKOhFmkDjCyPO/T3X2sMFKWIwnAq4ei9MMeUTknMsEc1TMh7LoIzL6EItnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780127791; c=relaxed/simple;
-	bh=mhwbwDKKcDd0r/Kq42IqKZfmrFImo5jE7ycNrbv83l0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A5mTqBPUp/YAlYQDQEr5brE4s0mvdzTicHtz9LtcVjw+nHeHoU0qrzBrSPtbNfwmEDZ9LkeFoagiPgw+o8qLL/vHzNOaELkY435lRS5ypnDJHKfKD/51LvC24JCY/7/s4OgPjefO44uhfuhw1FFYXCJJd0D9araSnC2YLIbg15c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zmvgjrw4; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1780128169; c=relaxed/simple;
+	bh=1i3YteHo0+Ds3v9K6BAMrkIZAmDzS1B9hUThgLenArQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LtRM7UKwU0uQNXXrzPG8mLcM92EPA/yhwV5zVHb2axzKI8a0ghdytsP8UArZkKJqxVdDmbdsEJZzRJECRrbRZOQ50XtfbMGjZvv5xEkEPbK7wNqF3JKnj10lRxxL22k3OO+AHOSWlzjIukzhqUSRCPPR76xYGER4KVc+EL5br6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDPCPzIS; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zmvgjrw4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDPCPzIS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780127790; x=1811663790;
+  t=1780128168; x=1811664168;
   h=date:from:to:cc:subject:message-id;
-  bh=mhwbwDKKcDd0r/Kq42IqKZfmrFImo5jE7ycNrbv83l0=;
-  b=Zmvgjrw4U9VgYSzEwNhQvjaMsDzZ8iigV7QnJiFp+jcktTbyaBaB6Wzr
-   vz2+NyyK1OvpHgkhlZnq/2KOJBsjBlwPwllIZDe9kUeWdeIobnz92lxS5
-   0pWDbuB3h4A65kSd1tE5smw+/pPVVRETqB5m0vYPa6tDm6zYnphx4oiz1
-   aQBXYHEGSKMNYW0/ovN+VHc0yWnxrInUFcQ8N+urOcoZqSysxiJduhsaw
-   lkAX3RXyURL2CSFGe3NYbfGnYYsv90bUijNAiRu0mdrUCevbVYoaSPEzv
-   JUmkwsu5fULYfQcq7obIwrNPOa9cEHdgSgKjP5W6l06T0abHgQxaOLYbO
-   A==;
-X-CSE-ConnectionGUID: ZljXwiyoQZ+V6WqdXLGLTg==
-X-CSE-MsgGUID: 4pVCwvxSQ6KbE6CKF9sVlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="80941639"
+  bh=1i3YteHo0+Ds3v9K6BAMrkIZAmDzS1B9hUThgLenArQ=;
+  b=fDPCPzISj48hqmi9BH2AwBaRZ+T2AyTFcHUQFtjoo2y+tAN82LitJfN4
+   YtEFYAa467J+2NuQ9n7wZ+4shSSqJgVDv4/NYSz7mFPymm0nym60+Ou5d
+   i7A1TG2bHUQ/FwBgmSZcyZqVCTbndEk1W29v9zfAVkrTfSMwT2Nt1feOD
+   PEuTDHRekpGGbUQwDONrpkJTduLcgLZcmD5MVju5Lr9E1Jrbh5916CXBM
+   rakZANj9RrwLLLDPeH/ryULvpUkJtjlC0Vv49OjScyesmhLyFdCc3LKmh
+   vJ2HfUQ6Ji9C8oockdzKSM4ftBpi4r0lfLUrwLj2DGMiTdLX+IzzIDtQu
+   g==;
+X-CSE-ConnectionGUID: 8yKYb3QhTuKrMP2N0uwL6A==
+X-CSE-MsgGUID: F90HIJEiSkSVoqSt+T5NFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="84829595"
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="80941639"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 00:56:28 -0700
-X-CSE-ConnectionGUID: /L0qJNuJRoqkNkh1fsUzAQ==
-X-CSE-MsgGUID: +I5pdHsJTym7Mz+MJFKwQg==
+   d="scan'208";a="84829595"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 01:02:47 -0700
+X-CSE-ConnectionGUID: zzwIWFx1TtKodfzkr3cWjw==
+X-CSE-MsgGUID: umMS4cyCTjGJ8wPJRA/wsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="247980244"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 30 May 2026 00:56:26 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="240047315"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 30 May 2026 01:02:47 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTEYR-000000008Es-1jEX;
-	Sat, 30 May 2026 07:56:23 +0000
-Date: Sat, 30 May 2026 15:55:56 +0800
+	id 1wTEea-0000000015R-2Rbt;
+	Sat, 30 May 2026 08:02:44 +0000
+Date: Sat, 30 May 2026 10:02:20 +0200
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Lukasz Luba <lukasz.luba@arm.com>
-Subject: [thermal:thermal/bleeding-edge 23/30]
- drivers/hwmon/cros_ec_hwmon.c:535:10: error: implicit declaration of function
- 'devm_thermal_cooling_device_register'; did you mean
- 'devm_thermal_of_cooling_device_register'?
-Message-ID: <202605301554.S9n45bfQ-lkp@intel.com>
+To: Brian Cain <brian.cain@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bcain:bcain/boot_qemu 42/43] mm/mm_init.c:920:37: error:
+ 'struct zone' has no member named 'pageblock_flags'
+Message-ID: <202605300924.HRYSUNlR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,78 +59,80 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Daniel,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git thermal/bleeding-edge
-head:   100e27ef9a645f07881160256b7131fb40885215
-commit: fe809a49f5cd6e2e0b24bf3c1b1af588b1a19760 [23/30] hwmon: Use non-OF thermal cooling device registration API
-config: arm64-randconfig-004-20260530 (https://download.01.org/0day-ci/archive/20260530/202605301554.S9n45bfQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605301554.S9n45bfQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/boot_qemu
+head:   dea73df6b6f456832390a9acd2c44cf235110d30
+commit: a2a98cd08700b29ee25458e078d1c20cc3cb4131 [42/43] mm: guard pageblock init against missing pageblock_flags
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260530/202605300924.HRYSUNlR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300924.HRYSUNlR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605301554.S9n45bfQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605300924.HRYSUNlR-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hwmon/cros_ec_hwmon.c: In function 'cros_ec_hwmon_register_fan_cooling_devices':
->> drivers/hwmon/cros_ec_hwmon.c:535:10: error: implicit declaration of function 'devm_thermal_cooling_device_register'; did you mean 'devm_thermal_of_cooling_device_register'? [-Werror=implicit-function-declaration]
-      cdev = devm_thermal_cooling_device_register(dev, type, cpriv,
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-             devm_thermal_of_cooling_device_register
->> drivers/hwmon/cros_ec_hwmon.c:535:8: warning: assignment to 'struct thermal_cooling_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      cdev = devm_thermal_cooling_device_register(dev, type, cpriv,
-           ^
-   cc1: some warnings being treated as errors
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from mm/mm_init.c:9:
+   mm/mm_init.c: In function 'memmap_init_range':
+>> mm/mm_init.c:920:37: error: 'struct zone' has no member named 'pageblock_flags'
+     920 |                         if (likely(z->pageblock_flags)) {
+         |                                     ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
 
 
-vim +535 drivers/hwmon/cros_ec_hwmon.c
+vim +920 mm/mm_init.c
 
-   504	
-   505	static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
-   506							       struct cros_ec_hwmon_priv *priv)
-   507	{
-   508		struct cros_ec_hwmon_cooling_priv *cpriv;
-   509		struct thermal_cooling_device *cdev;
-   510		const char *type;
-   511		size_t i;
-   512	
-   513		if (!IS_ENABLED(CONFIG_THERMAL))
-   514			return;
-   515	
-   516		if (!priv->fan_control_supported)
-   517			return;
-   518	
-   519		for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-   520			if (!(priv->usable_fans & BIT(i)))
-   521				continue;
-   522	
-   523			cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
-   524			if (!cpriv)
-   525				continue;
-   526	
-   527			type = devm_kasprintf(dev, GFP_KERNEL, "%s-fan%zu", dev_name(dev), i);
-   528			if (!type) {
-   529				dev_warn(dev, "no memory to compose cooling device type for fan %zu\n", i);
-   530				continue;
-   531			}
-   532	
-   533			cpriv->hwmon_priv = priv;
-   534			cpriv->index = i;
- > 535			cdev = devm_thermal_cooling_device_register(dev, type, cpriv,
-   536								    &cros_ec_thermal_cooling_ops);
-   537			if (IS_ERR(cdev)) {
-   538				dev_warn(dev, "failed to register fan %zu as a cooling device: %pe\n", i,
-   539					 cdev);
-   540				continue;
-   541			}
-   542		}
-   543	}
-   544	
+   887	
+   888		for (pfn = start_pfn; pfn < end_pfn; ) {
+   889			/*
+   890			 * There can be holes in boot-time mem_map[]s handed to this
+   891			 * function.  They do not exist on hotplugged memory.
+   892			 */
+   893			if (context == MEMINIT_EARLY) {
+   894				if (overlap_memmap_init(zone, &pfn))
+   895					continue;
+   896				if (defer_init(nid, pfn, zone_end_pfn)) {
+   897					deferred_struct_pages = true;
+   898					break;
+   899				}
+   900			}
+   901	
+   902			page = pfn_to_page(pfn);
+   903			__init_single_page(page, pfn, zone, nid);
+   904			if (context == MEMINIT_HOTPLUG) {
+   905	#ifdef CONFIG_ZONE_DEVICE
+   906				if (zone == ZONE_DEVICE)
+   907					__SetPageReserved(page);
+   908				else
+   909	#endif
+   910					__SetPageOffline(page);
+   911			}
+   912	
+   913			/*
+   914			 * Usually, we want to mark the pageblock MIGRATE_MOVABLE,
+   915			 * such that unmovable allocations won't be scattered all
+   916			 * over the place during system boot.
+   917			 */
+   918			if (pageblock_aligned(pfn)) {
+   919				struct zone *z = page_zone(page);
+ > 920				if (likely(z->pageblock_flags)) {
+   921					init_pageblock_migratetype(page, migratetype,
+   922							isolate_pageblock);
+   923				} else {
+   924					pr_warn_once("memmap_init_range: skipping pageblock init for pfn 0x%lx (zone %s has no pageblock_flags)\n",
+   925						     pfn, z->name);
+   926				}
+   927				cond_resched();
+   928			}
+   929			pfn++;
+   930		}
+   931	}
+   932	
 
 --
 0-DAY CI Kernel Test Service
