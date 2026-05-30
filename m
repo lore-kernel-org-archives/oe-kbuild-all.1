@@ -1,132 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7D130E85C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 09:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BC13955D0;
+	Sat, 30 May 2026 09:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780132293; cv=none; b=MfuNsgcB5ew0RvU8mQSGWWH4evbNM/o9F1hCLSAlbKUssQXkUsSV/geR+8+Cf6djN87VFXpLVlOnm7vCRgwJzxtDbqPNrumux0hLCaDNj92QzraSft59G7dYdhIwaOrw94k8gHclraKO25jphN3SIHBFuxkaYR4GOeGGMcMKjcY=
+	t=1780132432; cv=none; b=hfNc8Cnww3G+zFNLOFTSEDnnN65MmeFvDH5d3lgqtph+cyIZyElRLq8IXx9TG+o6PlOV2SnSp1I6ATA1js7BmO+rS22vPd41KubB8p74VNTcPlD1uDJBqjUWT7SIGyNVlFI8x5hu1MfMkk6lqfRbsYaPTlpcAtaPvsRh2Aorh0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780132293; c=relaxed/simple;
-	bh=k8bOuOBaprLWAsQBUvPzU/f58n9YQFeIv20zS9f2X3o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ekc6RE253BZAslmBVuuDj/ayQ056U7fSUk5GdnqAm3feV1xah98vWtaAjipTCz7NllguSn7CfZmRxgQ3tTcQvnHaCIvKFXM0m068DSdAIS45MtWrlfAGDBnxAGBpIvVP/ime21EtBv6+htU6802tm5/GjWXxM25TadY0Rzshfic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YHkToqzW; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1780132432; c=relaxed/simple;
+	bh=22tmpD69P1URiswlRoWhBg/BX2jx5Dn1SpOE5c+SaRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E5SXsXXMSgap2JAQorn4TIjNqcM7rMZyVCsd6LgdbDiWvm0ZAx5GAkDyf//xV3ePMiQH30TEh+kZg2u7Low5eQN4h3Z+8HyRHcDIuykGpwHTxYyF/HIWQ7wZWAhY/WW7DnJZmVt7I3mw1x2NWTLv3PIgo1WNGlcSIX6MYkPpTAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fCs4gOiE; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YHkToqzW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCs4gOiE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780132291; x=1811668291;
-  h=date:from:to:cc:subject:message-id;
-  bh=k8bOuOBaprLWAsQBUvPzU/f58n9YQFeIv20zS9f2X3o=;
-  b=YHkToqzWA7CT+cMLgjyvl77E2gfEUbc3XHYCRlA9+xdWWbWeAgA1o9hK
-   nfHSKFFhc1jty9tX5cM3/tEqIu4XhmgB3/81xclq/aHPYCHuiCt0S0PeE
-   bJXFoZrc+k+LDZdKkRSGS1scGdJQSVied2nxq69rluK0R8yUUxKSQSwY3
-   cCwC2Gvsuk2Ag6Gzch/No07ZmSG0/jOlWinbPz6gDBYBqqYDsCVStFiUW
-   wvWwEx5PBBQ3gEt+pwqSTD+st/K4EqPo2ddWyKqNn9OpgjutUpFCutlaT
-   IdgR2941+IrilH3CfzpA1RtdeFS4UJudH+f+PrFxsjzSWA3Mkaspv0hrt
+  t=1780132431; x=1811668431;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=22tmpD69P1URiswlRoWhBg/BX2jx5Dn1SpOE5c+SaRw=;
+  b=fCs4gOiEebh1evuXFgL9v/wuh8s1Uc5Ih2dCKAvvgb4PQSBuemwOtt2x
+   lCJUNc/wgQ6CmLtaoVttRYGa/auyVgHvzD3oBOeFnEADkklKFsbeZFCVh
+   1syyu0QlMAYZ8OpLSoS/UcTKHcP3NteogfbOa1itF1fJKJqo13ePxYH8D
+   wnIX5ZVwSHNCW8KN4wpg0aSjPnCCa9a+WsCCGSvbGzuQKfccaU/7l6r1f
+   p+3ZmMCDpgWmfXv4husiM8iciS6bQFen51q26vnzZWbPQaMBBEOXMYWoZ
+   /cxjmmDpknLkdJWnRk3nwpMSgmL2M6qPG2RRHeGyfFFrqOqCvdgdFVfn7
    g==;
-X-CSE-ConnectionGUID: 7CFNO8YvSha8LZzh/2fpHw==
-X-CSE-MsgGUID: AR+uPRBjSLmYSpKFU9STFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="83548958"
+X-CSE-ConnectionGUID: Si8DyG/eTzqG62jX9R04rw==
+X-CSE-MsgGUID: KI/y50X7Rte8L/J2a6MMdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="80112664"
 X-IronPort-AV: E=Sophos;i="6.24,177,1774335600"; 
-   d="scan'208";a="83548958"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 02:11:31 -0700
-X-CSE-ConnectionGUID: L3Iw0OJ7TXOkXPuCZo0buA==
-X-CSE-MsgGUID: EYPzea0RRGODJHNNCVHfGQ==
+   d="scan'208";a="80112664"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 02:13:51 -0700
+X-CSE-ConnectionGUID: mDD6+TLDRNeHEF6Qv2iPgw==
+X-CSE-MsgGUID: UrfCGkIIQG23p/OWwKiWPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,177,1774335600"; 
-   d="scan'208";a="242939860"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 May 2026 02:11:30 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="240528979"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 30 May 2026 02:13:47 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTFj4-000000008HC-4215;
-	Sat, 30 May 2026 09:11:26 +0000
-Date: Sat, 30 May 2026 17:10:59 +0800
+	id 1wTFlJ-00000000169-0kTS;
+	Sat, 30 May 2026 09:13:45 +0000
+Date: Sat, 30 May 2026 11:13:18 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- mm/memblock.c:2512:28: warning: cast to pointer from integer of different
- size
-Message-ID: <202605301711.sCSHgsPC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Neil Spring <ntspring@meta.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	edumazet@google.com, ncardwell@google.com, kuniyu@google.com,
+	davem@davemloft.net, kuba@kernel.org, dsahern@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, shuah@kernel.org,
+	linux-kselftest@vger.kernel.org, ntspring@meta.com,
+	bpf@vger.kernel.org, martin.lau@linux.dev, daniel@iogearbox.net
+Subject: Re: [PATCH net-next v10 2/2] selftests: net: add local ECMP rehash
+ test
+Message-ID: <202605301121.q28WSYib-lkp@intel.com>
+References: <20260529160136.1010064-3-ntspring@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260529160136.1010064-3-ntspring@meta.com>
 
-Hi Jaewon,
+Hi Neil,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   3e20a144f5762d10c2d82a5cf65ece4d2c8ea320
-commit: b2fbc2411ea7772d758ab4626d83f8aabf29eaf8 [1/1] ANDROID: memblock: introduce memsize showing reserved memory
-config: arm-randconfig-002-20260530 (https://download.01.org/0day-ci/archive/20260530/202605301711.sCSHgsPC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605301711.sCSHgsPC-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Spring/tcp-rehash-onto-different-local-ECMP-path-on-retransmit-timeout/20260530-005334
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260529160136.1010064-3-ntspring%40meta.com
+patch subject: [PATCH net-next v10 2/2] selftests: net: add local ECMP rehash test
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260530/202605301121.q28WSYib-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605301121.q28WSYib-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605301711.sCSHgsPC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605301121.q28WSYib-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/memblock.c: In function 'memblock_memsize_show':
->> mm/memblock.c:2512:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2512 |                            (void *)base, (void *)end,
-         |                            ^
-   mm/memblock.c:2512:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2512 |                            (void *)base, (void *)end,
-         |                                          ^
+   In file included from drivers/net/slip/slhc.c:74:
+>> include/net/tcp.h:2557:2: error: call to undeclared function 'tcp_synq_overflow'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2557 |         tcp_synq_overflow(sk);
+         |         ^
+   1 error generated.
+--
+   In file included from drivers/net/ethernet/broadcom/bnx2x/bnx2x_main.c:48:
+>> include/net/tcp.h:2557:2: error: call to undeclared function 'tcp_synq_overflow'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2557 |         tcp_synq_overflow(sk);
+         |         ^
+   drivers/net/ethernet/broadcom/bnx2x/bnx2x_main.c:15197:26: warning: shift count >= width of type [-Wshift-count-overflow]
+    15197 |         bp->cyclecounter.mask = CYCLECOUNTER_MASK(64);
+          |                                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/timecounter.h:14:59: note: expanded from macro 'CYCLECOUNTER_MASK'
+      14 | #define CYCLECOUNTER_MASK(bits) (u64)((bits) < 64 ? ((1ULL<<(bits))-1) : -1)
+         |                                                           ^ ~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +2512 mm/memblock.c
+vim +/tcp_synq_overflow +2557 include/net/tcp.h
 
-  2493	
-  2494	static int memblock_memsize_show(struct seq_file *m, void *private)
-  2495	{
-  2496		int i;
-  2497		struct memsize_rgn_struct *rgn;
-  2498		unsigned long reserved = 0, reusable = 0;
-  2499	
-  2500		sort(memsize_rgn, memsize_rgn_count,
-  2501		     sizeof(memsize_rgn[0]), memsize_rgn_cmp, NULL);
-  2502		for (i = 0; i < memsize_rgn_count; i++) {
-  2503			phys_addr_t base, end;
-  2504			long size;
-  2505	
-  2506			rgn = &memsize_rgn[i];
-  2507			base = rgn->base;
-  2508			size = rgn->size;
-  2509			end = base + size;
-  2510	
-  2511			seq_printf(m, "0x%pK-0x%pK 0x%08lx ( %7lu KB ) %s %s %s\n",
-> 2512				   (void *)base, (void *)end,
-  2513				   size, DIV_ROUND_UP(size, SZ_1K),
-  2514				   rgn->nomap ? "nomap" : "  map",
-  2515				   rgn->reusable ? "reusable" : "unusable",
-  2516				   rgn->name);
-  2517			if (rgn->reusable)
-  2518				reusable += (unsigned long)rgn->size;
-  2519			else
-  2520				reserved += (unsigned long)rgn->size;
-  2521		}
-  2522	
-  2523		seq_puts(m, "\n");
-  2524		seq_printf(m, " .unusable  : %7lu KB\n",
-  2525			   DIV_ROUND_UP(reserved, SZ_1K));
-  2526		seq_printf(m, " .reusable  : %7lu KB\n",
-  2527			   DIV_ROUND_UP(reusable, SZ_1K));
-  2528		return 0;
-  2529	}
-  2530	
+  2554	
+  2555	static inline void cookie_record_sent(const struct sock *sk)
+  2556	{
+> 2557		tcp_synq_overflow(sk);
+  2558		__NET_INC_STATS(sock_net(sk), LINUX_MIB_SYNCOOKIESSENT);
+  2559	}
+  2560	
 
 --
 0-DAY CI Kernel Test Service
