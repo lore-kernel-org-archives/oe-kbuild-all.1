@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570D434388E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 21:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AC42D9EDB;
+	Sat, 30 May 2026 23:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780177295; cv=none; b=gwHCNEndKbN2+LHbgpoSmtEfCXHnZeFHF74cFE+3jmRwNMmiOdMDpVMEBtvY7vRQ41wH717pE29lyjQrq4qIEhtsXQ+R9mYjzSf5xrrmhIwW04R2Kh1uJoaRIMZhwcz/xAY9IEa1T09NLK1JQKcelmUmQRWAXN7CBKr6UrTNgFE=
+	t=1780184589; cv=none; b=sTev+l5K6gK6pX86RCMru9uzsZGp1QWT22vdL1fTU23NVs98ohMqvkd5WMMePdO/VL3l2UrBk9oXEQP+o8S5sVJk/dTLdtlghmumOWpNndapRjrTvz0/Xepo7+T8YAi6eD+kZaCglGCzmsuyjOcDHu0EyGI/BJqsk6+SiaJeAUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780177295; c=relaxed/simple;
-	bh=ous4BKfOB5KVPIWSdXX1iS/qOi2H/nPBJYVK8j6Uyi8=;
+	s=arc-20240116; t=1780184589; c=relaxed/simple;
+	bh=6UEtp5cJrG0/ctHrMRtxUfaitpU3/366G0FBrSuy0Lo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qsHmNVaMeLdhjNRD0PRWseBNxLshSCiKgbrJHmLfasWFWZ0aydfi/L+FM4nBVewC/M4V+G0PWSOOvFxQzyjVK2HTh+P+VQYu0s2VAyrL5X0+tpOiykc8ToFOVQ+jjtTQvelTCoXKjz1G9hf17ulONeq90udkHjjvfI7gg0LmZS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1et/tf1; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=QkEZms6wsTkIB1YGQyPJOQWWlk+qIlO4CDWsPuewnkwVDLSklyTMG8atOS4TE48383glWKtZ0SjERRuWfny1LREAhfhsSwfLQ66TxpYwmICca86lCcUi/w5OmgWjtwMEaf59KnesMOPscH/m+jdsavcpAFRUzXmkEncDNLq+yKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H6ZPRpQ4; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1et/tf1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6ZPRpQ4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780177293; x=1811713293;
+  t=1780184588; x=1811720588;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ous4BKfOB5KVPIWSdXX1iS/qOi2H/nPBJYVK8j6Uyi8=;
-  b=C1et/tf15qrW3fDsLz+VK6gn5EobqW5OA2Ks5LotL2w7Z4MuvJgv18n+
-   7tQrLfSSPI7AgPgm71t62qhpDyMRLxPyY1yaQHAOVFXJN5jbRrc0g9XF5
-   4W03IZvFfg2rS0oJC6gcjziU1TYHjAX4BRogzPMsgKNmhvoVMPK1oyN16
-   Vce6h1RBopePvs57YO7s0MkoACnP2QbHAbIKkJeV5bbkOBnIUYzBC70Fn
-   A6rmd9eWJgU6iVx83LdTJ9xI0+hbwmtiV8ByYkrQjG3G87A0ncYKQsQXs
-   mIVnIdSsTnMez8UFcRwx/X4RiI4XtuqLQ5vsT5U7QzdWPamWPLM2o03gz
-   Q==;
-X-CSE-ConnectionGUID: LwrLlTxoT9C931WVRVUkIg==
-X-CSE-MsgGUID: 3KavdBEWQSefCtMSAqtZhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="81046636"
+  bh=6UEtp5cJrG0/ctHrMRtxUfaitpU3/366G0FBrSuy0Lo=;
+  b=H6ZPRpQ4jOJj/AM3TUMsRL7lln/RT8iu4e+HUoUx67vYGCjcymUsLIFr
+   UGiJZjl7nhgs0g3qqr18bvF+KmhTlJl+9BdM8iDKTSK3hES5xaPZtmQvF
+   HO+u3WsN7p2PgdiBb91JU/WpDrAP0QnzZmJtIHrg1J9zsjARDRqzxw01v
+   Roc+fsi8dmXVp/k+z72Vgw3r4yZDLG/Q2CdxgLN2hsf4xvj2rdprp56/H
+   ze0HLI3dQHGygcM/VIGBAY20e23yAodpX2cASfi9JfU2WF8vGkCfrMDvZ
+   GbITkg9YNpfaHrpFVzubXv25zEjTqvUDBeJ2NhNsW7YkSVCfBnOsguIHx
+   A==;
+X-CSE-ConnectionGUID: d7pfpt7PQk69MbmwhGjaGQ==
+X-CSE-MsgGUID: 4U8fPfEnQNqRdwWotnAiYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="84849478"
 X-IronPort-AV: E=Sophos;i="6.24,178,1774335600"; 
-   d="scan'208";a="81046636"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 14:41:33 -0700
-X-CSE-ConnectionGUID: Y3QzqPhcRRaAhSmw8ZUbLQ==
-X-CSE-MsgGUID: 6LIlfcLcQ8ihz37D6RtLLw==
+   d="scan'208";a="84849478"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 16:43:07 -0700
+X-CSE-ConnectionGUID: GJleeBbPSLu4SZVIMXP6eA==
+X-CSE-MsgGUID: wkqRRNVaQsel5UF928mo3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,178,1774335600"; 
-   d="scan'208";a="281289966"
+   d="scan'208";a="239009345"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 May 2026 14:41:29 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 May 2026 16:43:06 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTRQs-000000008v0-2tQL;
-	Sat, 30 May 2026 21:41:26 +0000
-Date: Sun, 31 May 2026 05:41:17 +0800
+	id 1wTTKZ-000000008xy-2Yo3;
+	Sat, 30 May 2026 23:43:03 +0000
+Date: Sun, 31 May 2026 07:42:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manish Baing <manishbaing2789@gmail.com>, jk@codeconstruct.com.au,
-	matt@codeconstruct.com.au
-Cc: oe-kbuild-all@lists.linux.dev, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, manishbaing2789@gmail.com
-Subject: Re: [PATCH] mctp: serial: replace memset with zero-initialization
-Message-ID: <202605310538.R9GEHEYK-lkp@intel.com>
-References: <20260530175618.135533-1-manishbaing2789@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] [TEST] add a broken patch
+Message-ID: <202605310729.zrGRsEVN-lkp@intel.com>
+References: <9050789262f583cef777eb3a9c3e07948faf18c3.1780141190.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,77 +64,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260530175618.135533-1-manishbaing2789@gmail.com>
+In-Reply-To: <9050789262f583cef777eb3a9c3e07948faf18c3.1780141190.git.mchehab+huawei@kernel.org>
 
-Hi Manish,
+Hi Mauro,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.1-rc5 next-20260529]
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus sailus-media-tree/master sailus-media-tree/streams linus/master v7.1-rc5 next-20260529]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manish-Baing/mctp-serial-replace-memset-with-zero-initialization/20260531-015807
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260530175618.135533-1-manishbaing2789%40gmail.com
-patch subject: [PATCH] mctp: serial: replace memset with zero-initialization
-config: x86_64-buildonly-randconfig-001-20260531 (https://download.01.org/0day-ci/archive/20260531/202605310538.R9GEHEYK-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605310538.R9GEHEYK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/add-a-broken-patch/20260530-194048
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/9050789262f583cef777eb3a9c3e07948faf18c3.1780141190.git.mchehab%2Bhuawei%40kernel.org
+patch subject: [PATCH] [TEST] add a broken patch
+config: x86_64-buildonly-randconfig-002-20260531 (https://download.01.org/0day-ci/archive/20260531/202605310729.zrGRsEVN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605310729.zrGRsEVN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605310538.R9GEHEYK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605310729.zrGRsEVN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/mctp/mctp-serial.c: In function 'test_next_chunk_len':
->> drivers/net/mctp/mctp-serial.c:540:28: error: redeclaration of 'devx' with no linkage
-     540 |         struct mctp_serial devx = { };
-         |                            ^~~~
-   drivers/net/mctp/mctp-serial.c:539:28: note: previous declaration of 'devx' with type 'struct mctp_serial'
-     539 |         struct mctp_serial devx;
-         |                            ^~~~
+>> drivers/staging/media/atomisp/pci/sh_css.c:91:1: error: unknown type name 'FOOBAR_SYNTAX_BREAK_BY_PURPOSE'
+      91 | FOOBAR_SYNTAX_BREAK_BY_PURPOSE
+         | ^
+   1 error generated.
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for MFD_STMFX
-   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
-   Selected by [y]:
-   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=m] && OF [=n]
+   Selected by [m]:
+   - PINCTRL_STMFX [=m] && PINCTRL [=y] && I2C [=m] && HAS_IOMEM [=y]
 
 
-vim +/devx +540 drivers/net/mctp/mctp-serial.c
+vim +/FOOBAR_SYNTAX_BREAK_BY_PURPOSE +91 drivers/staging/media/atomisp/pci/sh_css.c
 
-   536	
-   537	static void test_next_chunk_len(struct kunit *test)
-   538	{
-   539		struct mctp_serial devx;
- > 540		struct mctp_serial devx = { };
-   541		struct mctp_serial *dev = &devx;
-   542		int next;
-   543	
-   544		const struct test_chunk_tx *params = test->param_value;
-   545	
-   546		memcpy(dev->txbuf, params->input, params->input_len);
-   547		dev->txlen = params->input_len;
-   548	
-   549		for (size_t i = 0; i < MAX_CHUNKS; i++) {
-   550			next = next_chunk_len(dev);
-   551			dev->txpos += next;
-   552			KUNIT_EXPECT_EQ(test, next, params->chunks[i]);
-   553	
-   554			if (next == 0) {
-   555				KUNIT_EXPECT_EQ(test, dev->txpos, dev->txlen);
-   556				return;
-   557			}
-   558		}
-   559	
-   560		KUNIT_FAIL_AND_ABORT(test, "Ran out of chunks");
-   561	}
-   562	
+    90	
+  > 91	FOOBAR_SYNTAX_BREAK_BY_PURPOSE
+    92	
+    93	
 
 --
 0-DAY CI Kernel Test Service
