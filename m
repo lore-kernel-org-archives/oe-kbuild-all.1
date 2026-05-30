@@ -1,81 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B471A6828
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 May 2026 23:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A12D233944
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 00:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780099019; cv=none; b=F9cmdf86afZ2YZn6LihHu32CzwkoKQnQk5hx5NljjAwIVyt9kAQvVr4qTO3sviqQXmKzDGf3vok6pVgbQaNdD83yhc0GqL/i9laYp3TC8UTo25rAw3PVptzwqryucYFOg6LMzOWKRRRMTPTlXDiHuuHnzgmCgmaSCWPvAL1JizM=
+	t=1780101005; cv=none; b=lqY5mS13As3yaVXJTor2yYyYbGbEtkzU1hQPbrlc1yrfE7/2OGNHjS7S7wNjTyrmK3IFQuoeta0C4zCvFmeOI10cg69jxF0jIxP03N86wVDmNfvjJaoCm5jeK9vNWyEuDjRefiC0PeCSxqowVLl+9x05uklH+f7QwNSz9keMSm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780099019; c=relaxed/simple;
-	bh=cgTQMK2h5iHjMkVZRSI5Pr6rnLhzmfaQnGVy7KwbeP4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=egM5ccyjvzuigDqMr8ppFHds1VPIij6cuZPaaCtzNJNZoGr3kfbYmifOPLYD3vHXQsSap+5n+R3BZjICx+ZAFd5usCp/ziGZxzw6WgIz36czo/95HKJpaR5rZgsMByo/B3F+r21sI+bMt3z7m0mEWdnTagiwmdZsuVVrAxQ7eRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VntN29Dy; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1780101005; c=relaxed/simple;
+	bh=bBqolNpq53DgsmUQ2BFuzaYnhW/rcPsQ7MDFtL03gnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W72Ldd1lrAAe2EKRsfqcCUo5k5UImZTKu0I+lHZ/It55eif0vqiQR1Fn+nLuRQhRCklJJEMgHv4Mar6wx0o6a2btbmsJSDCPAK/oFj/5Y4sGW6ql/auLcCwRE+caFIiii699h27egNwRu+x8sZ1OiRbXHBWIOVF7VKZNq5RHoYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MPI95q+7; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VntN29Dy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MPI95q+7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780099019; x=1811635019;
-  h=date:from:to:cc:subject:message-id;
-  bh=cgTQMK2h5iHjMkVZRSI5Pr6rnLhzmfaQnGVy7KwbeP4=;
-  b=VntN29Dy7S1MLHHReAmJrvOiJDFdKjYQA6S4jvzyyurcklFGc6ME7/GW
-   u2UOwZ9Sb7Ye/lAQmHVfDQzLXhTngvwe/oTJ7eQZwprhQy45nAOQ1DiEr
-   wp4Q2zbtHsJ31Y16xEzZ/5iYMfd8IDMXCZfVWMmsg4NMnm5KKJwkiFkrZ
-   QS+OpAKFXyotNMUNCWAteP5RKVHj43UGQbSrlxvodmmBm/HSw8UC/Npx7
-   rmgOI9UKcRqwo5hgojWqaC60n+DWBgExLkD8WLEswplIlJdaoMXw06DM5
-   opwuQAt/yj7uhZS5f7cAALtiWvrrHwkgg+xO+YZb57O5yZiU8MrrjB6gl
-   Q==;
-X-CSE-ConnectionGUID: fc4QmTBqTPafvTrqYryXYA==
-X-CSE-MsgGUID: 2dEMKcKRSFC14INc84Bjwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="91264447"
+  t=1780101004; x=1811637004;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bBqolNpq53DgsmUQ2BFuzaYnhW/rcPsQ7MDFtL03gnE=;
+  b=MPI95q+7FpIanWvEb5D1bMZxUqAjzsqxcew2IYUnSMvecVUtoRHio2md
+   n6vLDNExdeRV3ilah3d9Ij3vNNUQvkVPHHOjyTp2+wsXbsdv4nCH5OujA
+   5Bw5X7BXHA44Z7Wkf7RkH3vzHtBWa+BDGRRV84oHgbpMNcCJsXPHPYIRw
+   D0k2F4BqBujFbZT3z3OI/QliCoCIc7xYeXz1ZYM8jtHsdp9TjDs04EGpP
+   YChlttmqRgor2Piu1kuI/FyAMMLPUI2nL728HehazvHtKXRZuyBqOlkVk
+   7NBPcesxgC0XBKr2xWpwECbIlRJmVUiSoxJgIYCMFwrUyThkY3SBTqDPU
+   w==;
+X-CSE-ConnectionGUID: ++MwII9rTkmxSFHzuVWzqQ==
+X-CSE-MsgGUID: a6ZHv8ZzQtyhQS9AdFbKzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="92072722"
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="91264447"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 16:56:58 -0700
-X-CSE-ConnectionGUID: z8iNfqHFRq66hsGVsRCG3w==
-X-CSE-MsgGUID: FHuE5nKUSVSE/B5mkETZYw==
+   d="scan'208";a="92072722"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 17:30:03 -0700
+X-CSE-ConnectionGUID: h+J0CmLOTIq5pQA996kJEQ==
+X-CSE-MsgGUID: ctXeWKB0SiiuGA9gwsYHqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="240442315"
+   d="scan'208";a="248090916"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 May 2026 16:56:56 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 29 May 2026 17:30:00 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wT74Q-000000007mY-15t5;
-	Fri, 29 May 2026 23:56:54 +0000
-Date: Sat, 30 May 2026 07:56:16 +0800
+	id 1wT7aP-000000007pW-1IUB;
+	Sat, 30 May 2026 00:29:57 +0000
+Date: Sat, 30 May 2026 08:29:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:ffclock 10/10] microblaze-linux-ld:
- kernel/time/timekeeping.c:2600:undefined reference to `ntp_get_time_state'
-Message-ID: <202605300703.Li0NXZnu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Fernand Sieber <sieberf@amazon.com>, Tejun Heo <tj@kernel.org>,
+	David Vernet <void@manifault.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	linux-kernel@vger.kernel.org, nh-open-source@amazon.com,
+	Fahad Mubeen <fmubeen@amazon.de>,
+	Hendrik Borghorst <hborghor@amazon.de>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Fernand Sieber <sieberf@amazon.com>
+Subject: Re: [PATCH] sched/ext: add scx_bpf_cgroup_report_throttled kfunc
+Message-ID: <202605300827.2IdN367O-lkp@intel.com>
+References: <20260525192432.20487-1-sieberf@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260525192432.20487-1-sieberf@amazon.com>
 
-tree:   git://git.infradead.org/users/dwmw2/linux ffclock
-head:   70c32e7a9e128f2579034276c19d34bcf79f4b0c
-commit: 0b56bf62998ffb14cc4fb5ab4781f6b3e5f60f0b [10/10] kernel/time: Add /dev/vmclock_host miscdev
-config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20260530/202605300703.Li0NXZnu-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300703.Li0NXZnu-lkp@intel.com/reproduce)
+Hi Fernand,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on linus/master v7.1-rc5 next-20260528]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fernand-Sieber/sched-ext-add-scx_bpf_cgroup_report_throttled-kfunc/20260526-032545
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20260525192432.20487-1-sieberf%40amazon.com
+patch subject: [PATCH] sched/ext: add scx_bpf_cgroup_report_throttled kfunc
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260530/202605300827.2IdN367O-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300827.2IdN367O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605300703.Li0NXZnu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605300827.2IdN367O-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   microblaze-linux-ld: kernel/time/timekeeping.o: in function `timekeeping_adjust':
-   kernel/time/timekeeping.c:2600:(.text+0x30b4): undefined reference to `ntp_get_status'
->> microblaze-linux-ld: kernel/time/timekeeping.c:2600:(.text+0x30c0): undefined reference to `ntp_get_time_state'
+   ld: vmlinux.o: in function `__BTF_ID__set8__scx_kfunc_ids_any':
+>> build_policy.c:(.BTF_ids+0x1cc): undefined reference to `KF_TRUSTED_ARGS'
 
 --
 0-DAY CI Kernel Test Service
