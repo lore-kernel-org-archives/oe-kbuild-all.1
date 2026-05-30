@@ -1,124 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BC13955D0;
-	Sat, 30 May 2026 09:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CF73630B2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 09:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780132432; cv=none; b=hfNc8Cnww3G+zFNLOFTSEDnnN65MmeFvDH5d3lgqtph+cyIZyElRLq8IXx9TG+o6PlOV2SnSp1I6ATA1js7BmO+rS22vPd41KubB8p74VNTcPlD1uDJBqjUWT7SIGyNVlFI8x5hu1MfMkk6lqfRbsYaPTlpcAtaPvsRh2Aorh0E=
+	t=1780134934; cv=none; b=AEigDMTgAs6e7JWMdutXRk9KH/vVY005ZTu1P55oX6l6GhT49mB5U0FTYy6f4yvBaecWnYCUHA3B9P/YrO/QJ0hOn1ccfxOSagViI3fp7qMNb12Whf029QPhmbdQ1SJksGdXJI+tRgTaXHoL23U3YhNGKfczJey2sQJkkV7ulEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780132432; c=relaxed/simple;
-	bh=22tmpD69P1URiswlRoWhBg/BX2jx5Dn1SpOE5c+SaRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E5SXsXXMSgap2JAQorn4TIjNqcM7rMZyVCsd6LgdbDiWvm0ZAx5GAkDyf//xV3ePMiQH30TEh+kZg2u7Low5eQN4h3Z+8HyRHcDIuykGpwHTxYyF/HIWQ7wZWAhY/WW7DnJZmVt7I3mw1x2NWTLv3PIgo1WNGlcSIX6MYkPpTAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fCs4gOiE; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1780134934; c=relaxed/simple;
+	bh=Hw1WKhDvr0U6j5Hab/gVKniKHLnLJfvLMvKQ1kd7gVs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ThwiI53QvUZMKMh9HYwCzCU+deA/YVZRt10jjuKV3kktMD9TMtdqlcykSAajSM4VW2gIOyxdzRQ7UqF6gqnDthf07kmlMVAhHdbO5NWvU22x/n4NhFNbbCv6EI8+F+GBwm/hp3SPWuE0I+5vrQOXQrvA8bQE4GcUdaUFmiM8IgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maVtrrFV; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCs4gOiE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maVtrrFV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780132431; x=1811668431;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=22tmpD69P1URiswlRoWhBg/BX2jx5Dn1SpOE5c+SaRw=;
-  b=fCs4gOiEebh1evuXFgL9v/wuh8s1Uc5Ih2dCKAvvgb4PQSBuemwOtt2x
-   lCJUNc/wgQ6CmLtaoVttRYGa/auyVgHvzD3oBOeFnEADkklKFsbeZFCVh
-   1syyu0QlMAYZ8OpLSoS/UcTKHcP3NteogfbOa1itF1fJKJqo13ePxYH8D
-   wnIX5ZVwSHNCW8KN4wpg0aSjPnCCa9a+WsCCGSvbGzuQKfccaU/7l6r1f
-   p+3ZmMCDpgWmfXv4husiM8iciS6bQFen51q26vnzZWbPQaMBBEOXMYWoZ
-   /cxjmmDpknLkdJWnRk3nwpMSgmL2M6qPG2RRHeGyfFFrqOqCvdgdFVfn7
-   g==;
-X-CSE-ConnectionGUID: Si8DyG/eTzqG62jX9R04rw==
-X-CSE-MsgGUID: KI/y50X7Rte8L/J2a6MMdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="80112664"
+  t=1780134933; x=1811670933;
+  h=date:from:to:cc:subject:message-id;
+  bh=Hw1WKhDvr0U6j5Hab/gVKniKHLnLJfvLMvKQ1kd7gVs=;
+  b=maVtrrFV+edaDcil21kKUC1G3st9hQ6BIaEX2Z9GI8x1oRR9leuwIoAi
+   rQH+6Nsrku4HrXwu63PS9nj4pESw3ZYa2LSNbVxr47Ah2LN/3yMnfzzpV
+   ncLQSfqVXKWhDLj6GW+O96WaCQHU05JAF1/oTKpMSgaHcep1NHERTzGHC
+   QjpkV9Igg1/qf5yoe5J4XzumKF7lwO08iXQHhT11Q9FDQSw8c8MWsIRLs
+   It3pd8jdwvGR13Cp/SMq9vyipLIVESdRPHNEg3hkZuIPQUZop6AkA948b
+   P1hZvBz+50HsxUJ4w+bH/laQDH+uSxzuoDqWSu0jmwyCBYtbLDLY0cMiM
+   w==;
+X-CSE-ConnectionGUID: GrArkT0kShG7Z2Wfi0lbkA==
+X-CSE-MsgGUID: RU2qxW42QGS7hAYQ8lowBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="68506025"
 X-IronPort-AV: E=Sophos;i="6.24,177,1774335600"; 
-   d="scan'208";a="80112664"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 02:13:51 -0700
-X-CSE-ConnectionGUID: mDD6+TLDRNeHEF6Qv2iPgw==
-X-CSE-MsgGUID: UrfCGkIIQG23p/OWwKiWPQ==
+   d="scan'208";a="68506025"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 02:55:32 -0700
+X-CSE-ConnectionGUID: QaNqWfTrQWWz/3kmCIbDmA==
+X-CSE-MsgGUID: f/kJ63IJTBCZRe9UsPCnxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,177,1774335600"; 
-   d="scan'208";a="240528979"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 30 May 2026 02:13:47 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="248171975"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 30 May 2026 02:55:30 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTFlJ-00000000169-0kTS;
-	Sat, 30 May 2026 09:13:45 +0000
-Date: Sat, 30 May 2026 11:13:18 +0200
+	id 1wTGPg-000000008Ik-1YWM;
+	Sat, 30 May 2026 09:55:28 +0000
+Date: Sat, 30 May 2026 17:55:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neil Spring <ntspring@meta.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	edumazet@google.com, ncardwell@google.com, kuniyu@google.com,
-	davem@davemloft.net, kuba@kernel.org, dsahern@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, shuah@kernel.org,
-	linux-kselftest@vger.kernel.org, ntspring@meta.com,
-	bpf@vger.kernel.org, martin.lau@linux.dev, daniel@iogearbox.net
-Subject: Re: [PATCH net-next v10 2/2] selftests: net: add local ECMP rehash
- test
-Message-ID: <202605301121.q28WSYib-lkp@intel.com>
-References: <20260529160136.1010064-3-ntspring@meta.com>
+To: Brian Cain <brian.cain@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bcain:bcain/boot_qemu 42/43] mm/mm_init.c:920:37: error:
+ 'struct zone' has no member named 'pageblock_flags'
+Message-ID: <202605301742.KfG0qQ9w-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260529160136.1010064-3-ntspring@meta.com>
 
-Hi Neil,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Spring/tcp-rehash-onto-different-local-ECMP-path-on-retransmit-timeout/20260530-005334
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260529160136.1010064-3-ntspring%40meta.com
-patch subject: [PATCH net-next v10 2/2] selftests: net: add local ECMP rehash test
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260530/202605301121.q28WSYib-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605301121.q28WSYib-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/boot_qemu
+head:   dea73df6b6f456832390a9acd2c44cf235110d30
+commit: a2a98cd08700b29ee25458e078d1c20cc3cb4131 [42/43] mm: guard pageblock init against missing pageblock_flags
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260530/202605301742.KfG0qQ9w-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605301742.KfG0qQ9w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605301121.q28WSYib-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605301742.KfG0qQ9w-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/slip/slhc.c:74:
->> include/net/tcp.h:2557:2: error: call to undeclared function 'tcp_synq_overflow'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2557 |         tcp_synq_overflow(sk);
-         |         ^
-   1 error generated.
---
-   In file included from drivers/net/ethernet/broadcom/bnx2x/bnx2x_main.c:48:
->> include/net/tcp.h:2557:2: error: call to undeclared function 'tcp_synq_overflow'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2557 |         tcp_synq_overflow(sk);
-         |         ^
-   drivers/net/ethernet/broadcom/bnx2x/bnx2x_main.c:15197:26: warning: shift count >= width of type [-Wshift-count-overflow]
-    15197 |         bp->cyclecounter.mask = CYCLECOUNTER_MASK(64);
-          |                                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/timecounter.h:14:59: note: expanded from macro 'CYCLECOUNTER_MASK'
-      14 | #define CYCLECOUNTER_MASK(bits) (u64)((bits) < 64 ? ((1ULL<<(bits))-1) : -1)
-         |                                                           ^ ~~~~~~
-   1 warning and 1 error generated.
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from mm/mm_init.c:9:
+   mm/mm_init.c: In function 'memmap_init_range':
+>> mm/mm_init.c:920:37: error: 'struct zone' has no member named 'pageblock_flags'
+     920 |                         if (likely(z->pageblock_flags)) {
+         |                                     ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
 
 
-vim +/tcp_synq_overflow +2557 include/net/tcp.h
+vim +920 mm/mm_init.c
 
-  2554	
-  2555	static inline void cookie_record_sent(const struct sock *sk)
-  2556	{
-> 2557		tcp_synq_overflow(sk);
-  2558		__NET_INC_STATS(sock_net(sk), LINUX_MIB_SYNCOOKIESSENT);
-  2559	}
-  2560	
+   887	
+   888		for (pfn = start_pfn; pfn < end_pfn; ) {
+   889			/*
+   890			 * There can be holes in boot-time mem_map[]s handed to this
+   891			 * function.  They do not exist on hotplugged memory.
+   892			 */
+   893			if (context == MEMINIT_EARLY) {
+   894				if (overlap_memmap_init(zone, &pfn))
+   895					continue;
+   896				if (defer_init(nid, pfn, zone_end_pfn)) {
+   897					deferred_struct_pages = true;
+   898					break;
+   899				}
+   900			}
+   901	
+   902			page = pfn_to_page(pfn);
+   903			__init_single_page(page, pfn, zone, nid);
+   904			if (context == MEMINIT_HOTPLUG) {
+   905	#ifdef CONFIG_ZONE_DEVICE
+   906				if (zone == ZONE_DEVICE)
+   907					__SetPageReserved(page);
+   908				else
+   909	#endif
+   910					__SetPageOffline(page);
+   911			}
+   912	
+   913			/*
+   914			 * Usually, we want to mark the pageblock MIGRATE_MOVABLE,
+   915			 * such that unmovable allocations won't be scattered all
+   916			 * over the place during system boot.
+   917			 */
+   918			if (pageblock_aligned(pfn)) {
+   919				struct zone *z = page_zone(page);
+ > 920				if (likely(z->pageblock_flags)) {
+   921					init_pageblock_migratetype(page, migratetype,
+   922							isolate_pageblock);
+   923				} else {
+   924					pr_warn_once("memmap_init_range: skipping pageblock init for pfn 0x%lx (zone %s has no pageblock_flags)\n",
+   925						     pfn, z->name);
+   926				}
+   927				cond_resched();
+   928			}
+   929			pfn++;
+   930		}
+   931	}
+   932	
 
 --
 0-DAY CI Kernel Test Service
