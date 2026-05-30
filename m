@@ -1,98 +1,122 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E2C29ACC5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 15:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C9634575D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 16:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780155215; cv=none; b=Ki0qa97/YcTJ9CpYI6fUhtj1nIiKRoN0TGZW8hga1c+wDjJa+m1TbIYazUsAusVNTFfXnP4F1bboCKIixOzPWPoWLuYxJ0IER81IaedVGz5s25/BWT/2Nv53nO+1L4Q2VCu18WhVFZFgqbmMnzCaef/G+4o5epvy+afZ0emGU2c=
+	t=1780158363; cv=none; b=ZrGOx6A7bXBk+3UjAek4kNg/CcZsMcbHOO5V3cvGvLAiEYSQiovvdX9YX2Us/y30Bs8I3geCNITb1ZOSZ+UAC75Zn2mutIcyUb0yDq907oZLUq5a3qlRXhcVO4Ier35kmeenRHj1u9as3HOhySq2O8zfRxOJWPY+CeU1kP18BjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780155215; c=relaxed/simple;
-	bh=UoDXPZVW7wCxVRZj9fmYmGsT+qtVDw7WSxGP+hmAl58=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YnOV3vdu9+X2C7AAkE74zaAohoTroa38drKcnoSB9e5TTL6TGfRTTmcTx+D5GkFGpXmZIywUBWvV+94ECPKzcTv2LgjtWDd5dK/FKSK9rkWhKfjVdc4DcaOFDowlTD90kVttuZQZasJ1/1h8M0/BV8luIvay755/dAJ9VdkWAtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=x3Uxk3b5; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1780158363; c=relaxed/simple;
+	bh=Ddww3+Y7G31arSPrf8U3We2LTkJF+qCYhuY4Pd7CNsE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pwEXzo3kkF5M1QMfrq9Tm/48IV1/lTu7WA2KwxVeGKMB+josjLcETeDmL1457jRqP4qPWLB4akKLfXNh69JsemGutZqOf73J83C2oDEo/Bicha8juIiv+GqJn7OTrl9X0teIupIsYdXccGuAvze2zAqakt5kyrzKbvIpms3LD7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjpYfWBx; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="x3Uxk3b5"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gSPPv0WKMz9v9G;
-	Sat, 30 May 2026 17:33:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1780155203;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9MiiKffw1/uK4zYJYTv6msTZkIg1ZjdIuxQf8Sysh4Q=;
-	b=x3Uxk3b5zZLlyBH/dgClhqudddJ9E2RPDU/TokQuh1/nF8uGW4q+Ecje9xYrJEDA1AnIns
-	x8NLWV/JsriojTuABDkAjQGQ3LN56TOdvce1Ot6XdONq2IZq0yAjKBdBdIismaSG6auh7y
-	cKSw76GFg8RT3z2k+BGaV78bB7UcS6nb1vd2HhnDLz3GjEB8a0pQkwK1LY/Z7x2RfM6A0U
-	XtKKb0ZaO+hfsqgXCcfkrpN3xqzDL4ByRaXX0KlUxZFH8nM1ThjsjUi5AXyMkxcOxFwimF
-	2X7DMF+cESVe/eDQ1d/fh1VUW2IZLsUOEcrZTJFGQne3NTSGwPLN+nCUj85OGA==
-Message-ID: <09db37b5-808e-44c4-ae41-ff9594e39c4b@mailbox.org>
-Date: Sat, 30 May 2026 17:33:20 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjpYfWBx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780158360; x=1811694360;
+  h=date:from:to:cc:subject:message-id;
+  bh=Ddww3+Y7G31arSPrf8U3We2LTkJF+qCYhuY4Pd7CNsE=;
+  b=SjpYfWBx5eauMd/mGQU2B5Iz1ntoXTi6iD2d49q3zXDxghC1rL6x2rVG
+   OSwQik6TrQ6+/pIOAY4/lqpvuqlii8KpNkbG3wGKhTpzUYBMGdHxNu8qu
+   f0Pa/BOnOfTW4BZsDIEWnhCXDn5n67JFkFnPLOX1qBI4+U65EV73SsPQQ
+   1AKMbzHnt4cZ/LSQVZANwzZ5E/ZjI4jqOC7dj7PtdPYwe9bUBuD9xDHwR
+   6q5dgPM1P0kTdNU2IgqqvKJACg/YFU21iYrdaXDW58woZN8jcWi9ZDoTj
+   4EqAoL9lBgxAN1gT0YgUX/mAUcOlUjDHvzAAahuglsrPfOM/E0rJ8Of4U
+   g==;
+X-CSE-ConnectionGUID: VqMyMxPsSx6egeNvrQZYrQ==
+X-CSE-MsgGUID: TqBcmWcCTHeFAPPtp37GZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="80833015"
+X-IronPort-AV: E=Sophos;i="6.24,177,1774335600"; 
+   d="scan'208";a="80833015"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 09:25:59 -0700
+X-CSE-ConnectionGUID: ExefeB9RTfem6oWecjwQ7A==
+X-CSE-MsgGUID: MHLdjqIBSVikzogARrAXzA==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 30 May 2026 09:25:58 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wTMVY-000000008eg-2HDv;
+	Sat, 30 May 2026 16:25:56 +0000
+Date: Sun, 31 May 2026 00:25:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:rootns 17/23] kernel/rootns.c:68:36: error:
+ incomplete definition of type 'struct mnt_namespace'
+Message-ID: <202605310016.muOq6iCB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Subject: Re: [linux-next:master 7314/9870]
- arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f
- (cirrus,cs2500): compatible:0: 'cirrus,cs2500' is not one of
- ['cirrus,cs2000-cp']
-To: kernel test robot <lkp@intel.com>,
- Nguyen Tran <nguyen.tran.pz@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Geert Uytterhoeven <geert+renesas@glider.be>
-References: <202605300905.msiJHWF3-lkp@intel.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <202605300905.msiJHWF3-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: pbgskcqepexhacrt9sy49mkffuqfyoho
-X-MBO-RS-ID: e7bb63528a375d9a969
 
-On 5/30/26 10:02 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   7da7f07112610a520567421dd2ffcb51beaefbcc
-> commit: a3dcb0a3204f75f6841d8f7d0dc232f51706dfb9 [7314/9870] arm64: dts: renesas: r8a779md: Add support for R-Car M3Le R8A779MD Geist
-> config: arm64-randconfig-2055-20260529 (https://download.01.org/0day-ci/archive/20260530/202605300905.msiJHWF3-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> dtschema: 2026.5.dev9+gdf9ad30c5
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300905.msiJHWF3-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605300905.msiJHWF3-lkp@intel.com/
-> 
-> dtcheck warnings: (new ones prefixed by >>)
->>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f (cirrus,cs2500): compatible:0: 'cirrus,cs2500' is not one of ['cirrus,cs2000-cp']
->     	from schema $id: http://devicetree.org/schemas/clock/cirrus,cs2000-cp.yaml
->>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f (cirrus,cs2500): compatible: ['cirrus,cs2500', 'cirrus,cs2000-cp'] is too long
->     	from schema $id: http://devicetree.org/schemas/clock/cirrus,cs2000-cp.yaml
->>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: /soc/i2c@e6510000/clock-controller@4f: failed to match any schema with compatible: ['cirrus,cs2500', 'cirrus,cs2000-cp']
->     arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: mmc@ee100000 (renesas,sdhi-r8a779md): compatible: 'oneOf' conditional failed, one must be fixed:
->     	['renesas,sdhi-r8a779md', 'renesas,rcar-gen3-sdhi'] is too long
->     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-mmc-r8a77470', 'renesas,sdhi-r7s72100', 'renesas,sdhi-r7s9210', 'renesas,sdhi-r8a73a4', 'renesas,sdhi-r8a7740', 'renesas,sdhi-r9a09g057', 'renesas,sdhi-sh73a0']
->     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r8a7778', 'renesas,sdhi-r8a7779']
->     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r8a7742', 'renesas,sdhi-r8a7743', 'renesas,sdhi-r8a7744', 'renesas,sdhi-r8a7745', 'renesas,sdhi-r8a77470', 'renesas,sdhi-r8a7790', 'renesas,sdhi-r8a7791', 'renesas,sdhi-r8a7792', 'renesas,sdhi-r8a7793', 'renesas,sdhi-r8a7794']
->     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r8a774a1', 'renesas,sdhi-r8a774b1', 'renesas,sdhi-r8a774c0', 'renesas,sdhi-r8a774e1', 'renesas,sdhi-r8a7795', 'renesas,sdhi-r8a7796', 'renesas,sdhi-r8a77961', 'renesas,sdhi-r8a77965', 'renesas,sdhi-r8a77970', 'renesas,sdhi-r8a77980', 'renesas,sdhi-r8a77990', 'renesas,sdhi-r8a77995']
->     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r8a779a0', 'renesas,sdhi-r8a779f0', 'renesas,sdhi-r8a779g0', 'renesas,sdhi-r8a779h0']
->     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r9a07g043', 'renesas,sdhi-r9a07g044', 'renesas,sdhi-r9a07g054', 'renesas,sdhi-r9a08g045', 'renesas,sdhi-r9a09g011']
->     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r9a09g047', 'renesas,sdhi-r9a09g056', 'renesas,sdhi-r9a09g077', 'renesas,sdhi-r9a09g087']
->     	'renesas,rcar-gen1-sdhi' was expected
-Geert, could you please pick up:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
+head:   86a21721c8c825e8a083fff56e37007e355c0bc1
+commit: 9131624df850013a118122968debfcf59383172b [17/23] rootns: Implement rootns_enter()
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260531/202605310016.muOq6iCB-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605310016.muOq6iCB-lkp@intel.com/reproduce)
 
-[PATCH v2 3/7] dt-bindings: clock: cs2000-cp: document CS2500
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605310016.muOq6iCB-lkp@intel.com/
 
-Or would you prefer me to send it separately as V3 ?
+All errors (new ones prefixed by >>):
 
-Thank you !
+>> kernel/rootns.c:68:36: error: incomplete definition of type 'struct mnt_namespace'
+      68 |                 rootns_tag_ns(rootns, &ns->mnt_ns->ns);
+         |                                        ~~~~~~~~~~^
+   include/linux/nsproxy.h:9:8: note: forward declaration of 'struct mnt_namespace'
+       9 | struct mnt_namespace;
+         |        ^
+   1 error generated.
+
+
+vim +68 kernel/rootns.c
+
+    61	
+    62	void rootns_tag_nsproxy(struct rootns *rootns, struct nsproxy *ns, u64 flags)
+    63	{
+    64		if (!rootns || !ns)
+    65			return;
+    66	
+    67		if (flags & CLONE_NEWNS)
+  > 68			rootns_tag_ns(rootns, &ns->mnt_ns->ns);
+    69	#ifdef CONFIG_UTS_NS
+    70		if (flags & CLONE_NEWUTS)
+    71			rootns_tag_ns(rootns, &ns->uts_ns->ns);
+    72	#endif
+    73	#ifdef CONFIG_IPC_NS
+    74		if (flags & CLONE_NEWIPC)
+    75			rootns_tag_ns(rootns, &ns->ipc_ns->ns);
+    76	#endif
+    77	#ifdef CONFIG_PID_NS
+    78		if (flags & CLONE_NEWPID)
+    79			rootns_tag_ns(rootns, &ns->pid_ns_for_children->ns);
+    80	#endif
+    81	#ifdef CONFIG_CGROUPS
+    82		if (flags & CLONE_NEWCGROUP)
+    83			rootns_tag_ns(rootns, &ns->cgroup_ns->ns);
+    84	#endif
+    85	#ifdef CONFIG_NET_NS
+    86		if (flags & CLONE_NEWNET)
+    87			rootns_tag_ns(rootns, &ns->net_ns->ns);
+    88	#endif
+    89	#ifdef CONFIG_TIME_NS
+    90		if (flags & CLONE_NEWTIME)
+    91			rootns_tag_ns(rootns, &ns->time_ns_for_children->ns);
+    92	#endif
+    93	}
+    94	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
