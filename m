@@ -1,160 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFFE29E11A;
-	Sat, 30 May 2026 14:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E2C29ACC5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 May 2026 15:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780151875; cv=none; b=P59UGzqJasbzZLaZQS1+bm8Y3WCB5PLcur5apxqvoQo6vGLz82FlicjgjBeHYaTaQIOdzzmPCq/lY3g/XhSQM3o1LBdhjYmuDYkW3SXRzQVo+CzRDyZEH4yFtHuAi4/hjm8fcBeonuT7JCu+cIrfOaeIaHRcRVChR4VE6jApnLc=
+	t=1780155215; cv=none; b=Ki0qa97/YcTJ9CpYI6fUhtj1nIiKRoN0TGZW8hga1c+wDjJa+m1TbIYazUsAusVNTFfXnP4F1bboCKIixOzPWPoWLuYxJ0IER81IaedVGz5s25/BWT/2Nv53nO+1L4Q2VCu18WhVFZFgqbmMnzCaef/G+4o5epvy+afZ0emGU2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780151875; c=relaxed/simple;
-	bh=8J9DxXs1T71CGG83HJhn3H2Zp8tDfVF76AzxudwcgFw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=riLSmrEE5GR0f806K4A4+TA4BwgXC6Jtk9uTCPMZoULw+FRqH/s0h8spQxxfMfq25/S6/++GoIJt9n3SL2fW9QiFoziI6ih2DEnkH1laBP+rWQ3sXZYXgNGfIrW63DwxDTR9wpmUyCplc1oHkYioziGnIx4dfJNWh6N7QTDuSiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eci7JBmm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780155215; c=relaxed/simple;
+	bh=UoDXPZVW7wCxVRZj9fmYmGsT+qtVDw7WSxGP+hmAl58=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YnOV3vdu9+X2C7AAkE74zaAohoTroa38drKcnoSB9e5TTL6TGfRTTmcTx+D5GkFGpXmZIywUBWvV+94ECPKzcTv2LgjtWDd5dK/FKSK9rkWhKfjVdc4DcaOFDowlTD90kVttuZQZasJ1/1h8M0/BV8luIvay755/dAJ9VdkWAtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=x3Uxk3b5; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eci7JBmm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D59791F00893;
-	Sat, 30 May 2026 14:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780151873;
-	bh=xFR7BdrPZnwRH2ZgOvUm1xEzh0vhD/WsVvyCyy/3hVo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=eci7JBmml/kIE1fEr5bSX2PYWFs1eIbZljWm5xTFc7g/68iBAqPTVfmrd7zY9cYIp
-	 dyN4Fkit/Uu0d5rZLnxiMmCM9vu/WAwmkdDbAMlIhkzV8SleyFzFAMukwIz/k4m410
-	 5e6dtBeBrTb+4J1kAOBFOLMuvx6ZB6/LHwqvFcSi1haO43kpTUTvN7hGAxgCsPvsZT
-	 r35RADQ4VbC2fKD2NJeOKCerBdHiseyw5EEcEwHgw1UtqDxY/GD9y2FC3fNV1Mf9Hk
-	 bDDVRCiI4gfSvs9OZIoHe9cLKMhCM7vS18LRsxMQ0+HAItsZyocWHuYnC+/Rzb2gli
-	 mhroXLt0+7xgQ==
-Date: Sat, 30 May 2026 15:37:46 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org
-Subject: Re: [jic23-iio:testing 240/253]
- drivers/iio/light/apds9999.c:201:undefined reference to `__umoddi3'
-Message-ID: <20260530153746.22c155d8@jic23-huawei>
-In-Reply-To: <202605301225.6MQ3YOMu-lkp@intel.com>
-References: <202605301225.6MQ3YOMu-lkp@intel.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="x3Uxk3b5"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gSPPv0WKMz9v9G;
+	Sat, 30 May 2026 17:33:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780155203;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9MiiKffw1/uK4zYJYTv6msTZkIg1ZjdIuxQf8Sysh4Q=;
+	b=x3Uxk3b5zZLlyBH/dgClhqudddJ9E2RPDU/TokQuh1/nF8uGW4q+Ecje9xYrJEDA1AnIns
+	x8NLWV/JsriojTuABDkAjQGQ3LN56TOdvce1Ot6XdONq2IZq0yAjKBdBdIismaSG6auh7y
+	cKSw76GFg8RT3z2k+BGaV78bB7UcS6nb1vd2HhnDLz3GjEB8a0pQkwK1LY/Z7x2RfM6A0U
+	XtKKb0ZaO+hfsqgXCcfkrpN3xqzDL4ByRaXX0KlUxZFH8nM1ThjsjUi5AXyMkxcOxFwimF
+	2X7DMF+cESVe/eDQ1d/fh1VUW2IZLsUOEcrZTJFGQne3NTSGwPLN+nCUj85OGA==
+Message-ID: <09db37b5-808e-44c4-ae41-ff9594e39c4b@mailbox.org>
+Date: Sat, 30 May 2026 17:33:20 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Subject: Re: [linux-next:master 7314/9870]
+ arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f
+ (cirrus,cs2500): compatible:0: 'cirrus,cs2500' is not one of
+ ['cirrus,cs2000-cp']
+To: kernel test robot <lkp@intel.com>,
+ Nguyen Tran <nguyen.tran.pz@bp.renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+References: <202605300905.msiJHWF3-lkp@intel.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <202605300905.msiJHWF3-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: pbgskcqepexhacrt9sy49mkffuqfyoho
+X-MBO-RS-ID: e7bb63528a375d9a969
 
-On Sat, 30 May 2026 12:38:47 +0800
-kernel test robot <lkp@intel.com> wrote:
-
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-> head:   7b84b1e9dd850a5c9b55e27daa4ecdc2dd5b3431
-> commit: a67c818e7a5ce49e141f0d73f8330026e82bcc31 [240/253] iio: light: add support for APDS9999 sensor
-> config: i386-randconfig-r071-20260529 (https://download.01.org/0day-ci/archive/20260530/202605301225.6MQ3YOMu-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> smatch: v0.5.0-9185-gbcc58b9c
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605301225.6MQ3YOMu-lkp@intel.com/reproduce)
+On 5/30/26 10:02 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   7da7f07112610a520567421dd2ffcb51beaefbcc
+> commit: a3dcb0a3204f75f6841d8f7d0dc232f51706dfb9 [7314/9870] arm64: dts: renesas: r8a779md: Add support for R-Car M3Le R8A779MD Geist
+> config: arm64-randconfig-2055-20260529 (https://download.01.org/0day-ci/archive/20260530/202605300905.msiJHWF3-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> dtschema: 2026.5.dev9+gdf9ad30c5
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605300905.msiJHWF3-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605301225.6MQ3YOMu-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605300905.msiJHWF3-lkp@intel.com/
 > 
-> All errors (new ones prefixed by >>):
-> 
->    ld: drivers/iio/light/apds9999.o: in function `apds9999_read_raw':
-> >> drivers/iio/light/apds9999.c:201:(.text+0x1cf): undefined reference to `__umoddi3'  
-> 
-> 
-I was clearly half asleep whilst trying previous fix and failed to notice
-the line after was bad as well.  Anyhow, trying again.  Squashing this on top.
+> dtcheck warnings: (new ones prefixed by >>)
+>>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f (cirrus,cs2500): compatible:0: 'cirrus,cs2500' is not one of ['cirrus,cs2000-cp']
+>     	from schema $id: http://devicetree.org/schemas/clock/cirrus,cs2000-cp.yaml
+>>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: clock-controller@4f (cirrus,cs2500): compatible: ['cirrus,cs2500', 'cirrus,cs2000-cp'] is too long
+>     	from schema $id: http://devicetree.org/schemas/clock/cirrus,cs2000-cp.yaml
+>>> arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: /soc/i2c@e6510000/clock-controller@4f: failed to match any schema with compatible: ['cirrus,cs2500', 'cirrus,cs2000-cp']
+>     arch/arm64/boot/dts/renesas/r8a779md-geist.dtb: mmc@ee100000 (renesas,sdhi-r8a779md): compatible: 'oneOf' conditional failed, one must be fixed:
+>     	['renesas,sdhi-r8a779md', 'renesas,rcar-gen3-sdhi'] is too long
+>     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-mmc-r8a77470', 'renesas,sdhi-r7s72100', 'renesas,sdhi-r7s9210', 'renesas,sdhi-r8a73a4', 'renesas,sdhi-r8a7740', 'renesas,sdhi-r9a09g057', 'renesas,sdhi-sh73a0']
+>     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r8a7778', 'renesas,sdhi-r8a7779']
+>     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r8a7742', 'renesas,sdhi-r8a7743', 'renesas,sdhi-r8a7744', 'renesas,sdhi-r8a7745', 'renesas,sdhi-r8a77470', 'renesas,sdhi-r8a7790', 'renesas,sdhi-r8a7791', 'renesas,sdhi-r8a7792', 'renesas,sdhi-r8a7793', 'renesas,sdhi-r8a7794']
+>     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r8a774a1', 'renesas,sdhi-r8a774b1', 'renesas,sdhi-r8a774c0', 'renesas,sdhi-r8a774e1', 'renesas,sdhi-r8a7795', 'renesas,sdhi-r8a7796', 'renesas,sdhi-r8a77961', 'renesas,sdhi-r8a77965', 'renesas,sdhi-r8a77970', 'renesas,sdhi-r8a77980', 'renesas,sdhi-r8a77990', 'renesas,sdhi-r8a77995']
+>     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r8a779a0', 'renesas,sdhi-r8a779f0', 'renesas,sdhi-r8a779g0', 'renesas,sdhi-r8a779h0']
+>     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r9a07g043', 'renesas,sdhi-r9a07g044', 'renesas,sdhi-r9a07g054', 'renesas,sdhi-r9a08g045', 'renesas,sdhi-r9a09g011']
+>     	'renesas,sdhi-r8a779md' is not one of ['renesas,sdhi-r9a09g047', 'renesas,sdhi-r9a09g056', 'renesas,sdhi-r9a09g077', 'renesas,sdhi-r9a09g087']
+>     	'renesas,rcar-gen1-sdhi' was expected
+Geert, could you please pick up:
 
-diff --git a/drivers/iio/light/apds9999.c b/drivers/iio/light/apds9999.c
-index 5285d148fbb5..7a0df5252078 100644
---- a/drivers/iio/light/apds9999.c
-+++ b/drivers/iio/light/apds9999.c
-@@ -182,7 +182,9 @@ static int apds9999_read_raw(struct iio_dev *indio_dev,
-                *val = (int)counts;
-                return IIO_VAL_INT;
- 
--       case IIO_CHAN_INFO_SCALE:
-+       case IIO_CHAN_INFO_SCALE: {
-+               u32 remainder;
-+
-                /*
-                 * Scale (lux per count) = 54 / (gain * integration_time_ms)
-                 *
-@@ -197,10 +199,10 @@ static int apds9999_read_raw(struct iio_dev *indio_dev,
- 
-                /* scale_nano = 54 * 1e12 / (gain * itime_us) nano-lux/count */
-                scale_nano = div_u64(54ULL * NSEC_PER_SEC * USEC_PER_MSEC, (u32)(gain * itime_us));
--               *val = (int)div_u64(scale_nano, NSEC_PER_SEC);
--               *val2 = (int)(scale_nano % NSEC_PER_SEC);
-+               *val = (int)div_u64_rem(scale_nano, NSEC_PER_SEC, &remainder);
-+               *val2 = (int)remainder;
-                return IIO_VAL_INT_PLUS_NANO;
--
-+       }
-        case IIO_CHAN_INFO_INT_TIME:
-                *val = 0;
-                *val2 = apds9999_itimes_us[data->als_res];
+[PATCH v2 3/7] dt-bindings: clock: cs2000-cp: document CS2500
 
+Or would you prefer me to send it separately as V3 ?
 
-
-> vim +201 drivers/iio/light/apds9999.c
-> 
->    166	
->    167	static int apds9999_read_raw(struct iio_dev *indio_dev,
->    168				     struct iio_chan_spec const *chan,
->    169				     int *val, int *val2, long mask)
->    170	{
->    171		struct apds9999_data *data = iio_priv(indio_dev);
->    172		int gain, itime_us;
->    173		u64 scale_nano;
->    174		u32 counts;
->    175		int ret;
->    176	
->    177		switch (mask) {
->    178		case IIO_CHAN_INFO_RAW:
->    179			ret = apds9999_read_channel(data, chan->address, &counts);
->    180			if (ret)
->    181				return ret;
->    182			*val = (int)counts;
->    183			return IIO_VAL_INT;
->    184	
->    185		case IIO_CHAN_INFO_SCALE:
->    186			/*
->    187			 * Scale (lux per count) = 54 / (gain * integration_time_ms)
->    188			 *
->    189			 * The constant 54 is derived from the datasheet table:
->    190			 *   at gain = 3x, itime = 100 ms -> 0.180 lux/count
->    191			 *   -> C = 0.180 * 3 * 100 = 54
->    192			 *
->    193			 * Expressed as IIO_VAL_INT_PLUS_NANO.
->    194			 */
->    195			gain = apds9999_gains[data->als_gain_idx];
->    196			itime_us = apds9999_itimes_us[data->als_res];
->    197	
->    198			/* scale_nano = 54 * 1e12 / (gain * itime_us) nano-lux/count */
->    199			scale_nano = div_u64(54ULL * NSEC_PER_SEC * USEC_PER_MSEC, (u32)(gain * itime_us));
->    200			*val = (int)div_u64(scale_nano, NSEC_PER_SEC);
->  > 201			*val2 = (int)(scale_nano % NSEC_PER_SEC);  
->    202			return IIO_VAL_INT_PLUS_NANO;
->    203	
->    204		case IIO_CHAN_INFO_INT_TIME:
->    205			*val = 0;
->    206			*val2 = apds9999_itimes_us[data->als_res];
->    207			return IIO_VAL_INT_PLUS_MICRO;
->    208	
->    209		default:
->    210			return -EINVAL;
->    211		}
->    212	}
->    213	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
+Thank you !
