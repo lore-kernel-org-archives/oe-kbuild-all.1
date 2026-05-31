@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAECF3346B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 May 2026 14:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBB22DEA89
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 May 2026 16:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780237122; cv=none; b=ZT44wmL5ggydj3oPn0obvJZpFnTO2O7qVx8serSNS4YbCy++fZ29dHj4BnN1uoPtLWoZMEERNnhieQWQajElTTVerLEHIPy8gX9gflSJAL26ESEomthqOzr5l+3yHYHAr5Tlv/2dUlN6xEt17uVrinpp0IbAu92OhDd8vUSlmnk=
+	t=1780246630; cv=none; b=UHhV7az74mmfzO9L9Yokus8kEne32CrX+a/eoYM6TFsWb9Ow5H/3KPjH6t3xqkpf4LzwPI+wv9jE3r0JYXXSH+EkoaAc8NKGY7BWjwD+iGgKr73jhLpUsMk/JR7tDFLSU+AcWz4dKUUnjiS1DLG92JjV4n9OA58UF6HUb6ogW18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780237122; c=relaxed/simple;
-	bh=6Y0/dl0n64w4a3Lz9fCIOWOpMpFz4N6hfZiQtsP00HQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iE5IPic3SNuSn4yWo4AM9ccj+bL1VyR63+orblvtAeItwb61TgLhVhl3lXNid4gpoBpa2QWx01e1eBiNo4X+pqzTeq0AfFJxpJySYlVo430pAP8B1vZWTjW/O6HFFC2VwkLN8hm6AeuidmnUlPF2LfwOmj2pq42oR3N0qgd1sYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M66hZ9PK; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1780246630; c=relaxed/simple;
+	bh=YxB8iq1OKxhlx8OiSPDy6fWpMVZHM57unYTBUCz4B9k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z6x6lDTcOwxCw72MLKJnCclF5nDOEC0TbtSGXjKuhnKqAGcsn84TfvqQnvKBNbSd1BUqPFOY45st52uRpTvNUGVjG/T+ZcV0xy3mv3SkfwfDmkeHnx1A7qyuG9W8kTNM/F4nKaSPAkDxqNW7ENsdZkeaqdvW53lccQ1kTvNeDwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anxaks0w; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M66hZ9PK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anxaks0w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780237120; x=1811773120;
+  t=1780246627; x=1811782627;
   h=date:from:to:cc:subject:message-id;
-  bh=6Y0/dl0n64w4a3Lz9fCIOWOpMpFz4N6hfZiQtsP00HQ=;
-  b=M66hZ9PKEtQ5KZyy6VGmv88WLsNBWlN+wS0/v3wnP+cAeUt9Kpno44VM
-   HIR5NoS3MvFjfARIPU8MC+kbsbHBjNOTWaeIQbLfktWVVUblizEJA2mi1
-   9nToQ9jtjie3Rdc9AeBWsOwVi3hkojQmw0rhNT4NcimzWAxBcAsAHyC/L
-   CQ+8UY3Hs3jhT7hWC2pnf4ZaLQ2qk52v581T+n50A4ZS640S+3VvG/xOb
-   l+jgYGE1SR/49/arC/rYNj9WdRe01fU64hfUBgA+rmbH3cZMox+ruRm72
-   qGKV9RvIqZrmfE7bVV7TBtIImcNeitWWI8dGGQVS3by8xwNP/kfYn68he
-   A==;
-X-CSE-ConnectionGUID: 9BganXf4Tlyk/ahDZRA9Qg==
-X-CSE-MsgGUID: JbsXeLLHQ0iBwHB9F1IVag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="84639021"
+  bh=YxB8iq1OKxhlx8OiSPDy6fWpMVZHM57unYTBUCz4B9k=;
+  b=anxaks0w7IcWcWFSnMXATm12d2fwSvb04O9H4OTPZ/sy5HeI9uZh0XNm
+   wno5aGziIR+MZjYyt17MhnE/BSPdKtT12wBiLAV8xM7d7pPnYi7YbHgBc
+   7iU+fJbG3BDbr5n9uzpVT/+L11kXt+4qp0u/B05uFVVPo6xWW0fpBDqL6
+   SyKn6TslxY435lY4khTgFwsfEm2EfuMIkPbI+sDj+zsN/7iHxa0UazR/5
+   T8aQuv4IEIp4YcPm91wdyDUgN9pO732qsyra9wVlowOdtq0jSh0KHUH5U
+   lV8pmFgfDdjwnvg/36+3f2Gq/wUdHKZV4NVk7IFQkB9uRpXA/mBgfqHgV
+   g==;
+X-CSE-ConnectionGUID: Ijm5NjF5SiKaF3Hn4zOHHA==
+X-CSE-MsgGUID: RdpDYP5kSdCN5EpsQJI8gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="80052731"
 X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
-   d="scan'208";a="84639021"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 07:18:39 -0700
-X-CSE-ConnectionGUID: qK6EdkcJQb6Z/9pBfU4H+g==
-X-CSE-MsgGUID: /Yh560bfRHGilTW4xj+/9g==
+   d="scan'208";a="80052731"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 09:57:06 -0700
+X-CSE-ConnectionGUID: HML7du4AQKqM/795MF60SA==
+X-CSE-MsgGUID: ucLD1krjQxiRCYKBpg6OgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
-   d="scan'208";a="238921823"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 31 May 2026 07:18:37 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="240357461"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 31 May 2026 09:57:04 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTgzr-000000009UM-2Lr7;
-	Sun, 31 May 2026 14:18:35 +0000
-Date: Sun, 31 May 2026 22:18:14 +0800
+	id 1wTjTC-000000001PJ-18bg;
+	Sun, 31 May 2026 16:57:02 +0000
+Date: Sun, 31 May 2026 18:56:57 +0200
 From: kernel test robot <lkp@intel.com>
-To: Timo Alho <talho@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jon Hunter <jonathanh@nvidia.com>
-Subject: [jonhunter:tegra/next-fixes 5/24]
- drivers/clk/tegra/clk-bpmp.c:373:62: warning: '%s' directive output may be
- truncated writing up to 39 bytes into a region of size between 28 and 38
-Message-ID: <202605312211.QMin2ACt-lkp@intel.com>
+To: Leo Li <sunpeng.li@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [amd-pstate:superm1/backlight-property-v5 9/21] htmldocs:
+ Documentation/gpu/amdgpu/display/display-manager:29:
+ ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:789: WARNING: Line
+ block ends without a blank line. [docutils]
+Message-ID: <202605311832.R47OfrlB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,70 +63,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/jonhunter/linux tegra/next-fixes
-head:   bbc9d83793001800cd9fd2e531bf692526351dcb
-commit: a4050db6c37daf99cf1df1ddc6f16f0a373ee7c2 [5/24] clk: tegra: Support unique names for multi-socket platforms
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260531/202605312211.QMin2ACt-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605312211.QMin2ACt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/backlight-property-v5
+head:   5f2330560c00d587cd173ee4222011b62e1ac567
+commit: 4dbf62273708e62ea3d1532671b4e5c26f722b8b [9/21] drm/amd/display: Use vline2 interrupt on DCN instead of vstartup
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260531/202605311832.R47OfrlB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605312211.QMin2ACt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605311832.R47OfrlB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/clk/tegra/clk-bpmp.c: In function 'tegra_bpmp_clk_get_info':
->> drivers/clk/tegra/clk-bpmp.c:373:62: warning: '%s' directive output may be truncated writing up to 39 bytes into a region of size between 28 and 38 [-Wformat-truncation=]
-     373 |                 snprintf(info->name, sizeof(info->name), "%d-%s",
-         |                                                              ^~
-     374 |                          dev_to_node(bpmp->dev), response.name);
-         |                                                  ~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-bpmp.c:373:17: note: 'snprintf' output between 3 and 52 bytes into a destination of size 40
-     373 |                 snprintf(info->name, sizeof(info->name), "%d-%s",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     374 |                          dev_to_node(bpmp->dev), response.name);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +373 drivers/clk/tegra/clk-bpmp.c
-
-   351	
-   352	static int tegra_bpmp_clk_get_info(struct tegra_bpmp *bpmp, unsigned int id,
-   353					   struct tegra_bpmp_clk_info *info)
-   354	{
-   355		struct cmd_clk_get_all_info_response response;
-   356		struct tegra_bpmp_clk_message msg;
-   357		unsigned int i;
-   358		int err;
-   359	
-   360		memset(&msg, 0, sizeof(msg));
-   361		msg.cmd = CMD_CLK_GET_ALL_INFO;
-   362		msg.id = id;
-   363		msg.rx.data = &response;
-   364		msg.rx.size = sizeof(response);
-   365	
-   366		err = tegra_bpmp_clk_transfer(bpmp, &msg);
-   367		if (err < 0)
-   368			return err;
-   369	
-   370		if (dev_to_node(bpmp->dev) == NUMA_NO_NODE)
-   371			strscpy(info->name, response.name, MRQ_CLK_NAME_MAXLEN);
-   372		else
- > 373			snprintf(info->name, sizeof(info->name), "%d-%s",
-   374				 dev_to_node(bpmp->dev), response.name);
-   375	
-   376		info->num_parents = response.num_parents;
-   377	
-   378		for (i = 0; i < info->num_parents; i++)
-   379			info->parents[i] = response.parents[i];
-   380	
-   381		info->flags = response.flags;
-   382	
-   383		return 0;
-   384	}
-   385	
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'state' not described in 'amdgpu_dm_set_vline_irq_state'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'adev' not described in 'amdgpu_dm_set_vline_irq_state'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'source' not described in 'amdgpu_dm_set_vline_irq_state'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'vline_crtc_id' not described in 'amdgpu_dm_set_vline_irq_state'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'state' not described in 'amdgpu_dm_set_vline_irq_state'
+>> Documentation/gpu/amdgpu/display/display-manager:29: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:789: WARNING: Line block ends without a blank line. [docutils]
+   Documentation/gpu/amdgpu/display/display-manager:47: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c:61: ERROR: Unexpected section title.
 
 --
 0-DAY CI Kernel Test Service
