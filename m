@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBB22DEA89
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 May 2026 16:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D38231A23
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 May 2026 19:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780246630; cv=none; b=UHhV7az74mmfzO9L9Yokus8kEne32CrX+a/eoYM6TFsWb9Ow5H/3KPjH6t3xqkpf4LzwPI+wv9jE3r0JYXXSH+EkoaAc8NKGY7BWjwD+iGgKr73jhLpUsMk/JR7tDFLSU+AcWz4dKUUnjiS1DLG92JjV4n9OA58UF6HUb6ogW18=
+	t=1780257369; cv=none; b=Q56CrsHybgkfPpmsATHPBXcMQA+kPS8L1A25BsfPvrjv+/KycYKOOtNm6vmcWoOGXMC/LjMBJbylnJZV/Z8fjTHWfKbTfmuEGSEBa4hLnmIchD0wxXVD4SGD3QsQ4xkpt0Jp2baGF4PtBQs7v9zsseCNFHoHzTo529+8FeWHLqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780246630; c=relaxed/simple;
-	bh=YxB8iq1OKxhlx8OiSPDy6fWpMVZHM57unYTBUCz4B9k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Z6x6lDTcOwxCw72MLKJnCclF5nDOEC0TbtSGXjKuhnKqAGcsn84TfvqQnvKBNbSd1BUqPFOY45st52uRpTvNUGVjG/T+ZcV0xy3mv3SkfwfDmkeHnx1A7qyuG9W8kTNM/F4nKaSPAkDxqNW7ENsdZkeaqdvW53lccQ1kTvNeDwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anxaks0w; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1780257369; c=relaxed/simple;
+	bh=Dp9+P/hEbPbBgKJsNkE5h0vI03Nxytgj452lI5kdvKg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JU6CNSCS/XGc4JVRPgN2KcoGv0iYRFtu1j0CpZUHDIWt9rDDdgmTwCW0mvlFhVGpt0MUYYp5lgN34fUz1zU4Yt5aNuqKBoHDCIsvuYuVFPRwSyuu1V5ZD0e+t5lsOwkCqDFq8K++PwoGE8DfkhZXCMWmP5xkvzdP7Kdr2TnJTJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEVMLDeL; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anxaks0w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEVMLDeL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780246627; x=1811782627;
+  t=1780257368; x=1811793368;
   h=date:from:to:cc:subject:message-id;
-  bh=YxB8iq1OKxhlx8OiSPDy6fWpMVZHM57unYTBUCz4B9k=;
-  b=anxaks0w7IcWcWFSnMXATm12d2fwSvb04O9H4OTPZ/sy5HeI9uZh0XNm
-   wno5aGziIR+MZjYyt17MhnE/BSPdKtT12wBiLAV8xM7d7pPnYi7YbHgBc
-   7iU+fJbG3BDbr5n9uzpVT/+L11kXt+4qp0u/B05uFVVPo6xWW0fpBDqL6
-   SyKn6TslxY435lY4khTgFwsfEm2EfuMIkPbI+sDj+zsN/7iHxa0UazR/5
-   T8aQuv4IEIp4YcPm91wdyDUgN9pO732qsyra9wVlowOdtq0jSh0KHUH5U
-   lV8pmFgfDdjwnvg/36+3f2Gq/wUdHKZV4NVk7IFQkB9uRpXA/mBgfqHgV
-   g==;
-X-CSE-ConnectionGUID: Ijm5NjF5SiKaF3Hn4zOHHA==
-X-CSE-MsgGUID: RdpDYP5kSdCN5EpsQJI8gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="80052731"
+  bh=Dp9+P/hEbPbBgKJsNkE5h0vI03Nxytgj452lI5kdvKg=;
+  b=iEVMLDeLlUjhMRIAEvxsUBzk21RQrQFzJxDTIgcuRaZ0HylyKdEUVyx9
+   lc9sLsjvXb/c/zidrDDT7tTYEtdjAtx7FoRwkDHD4SxEmCu/QO6xNa2Rs
+   OOxw/YvqQycySYvDjKYfpgSD2xgDCxvOOjQDgr82avF1iGH6t/uglcFV/
+   ifd2Yq5VZdFpjzj/Pf7BcdNCWWf9/DufKkAKX94p5EAZm/8PaWXeICmzR
+   VgdZqfWXBLuEb3+VSUC9Ub26TUwtXmd4R0frE16eCsHVDbTfCoCUh9tCB
+   V193jaTsNy2DjXR2TRpN8BdYit7LpFx+mJZmaxXRIP0aeEQQV7yXYOMhp
+   A==;
+X-CSE-ConnectionGUID: qBYEXG8cQSWVqb0AD8VyzA==
+X-CSE-MsgGUID: BHnyX1quTK+1t+teWa0wwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="84911422"
 X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
-   d="scan'208";a="80052731"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 09:57:06 -0700
-X-CSE-ConnectionGUID: HML7du4AQKqM/795MF60SA==
-X-CSE-MsgGUID: ucLD1krjQxiRCYKBpg6OgQ==
+   d="scan'208";a="84911422"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 12:56:07 -0700
+X-CSE-ConnectionGUID: hG2y3WqWRbyj88yJiWdpjA==
+X-CSE-MsgGUID: p2bQbMPKRtu2Kt4W/z2FJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
-   d="scan'208";a="240357461"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 31 May 2026 09:57:04 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="243502891"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 31 May 2026 12:56:06 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTjTC-000000001PJ-18bg;
-	Sun, 31 May 2026 16:57:02 +0000
-Date: Sun, 31 May 2026 18:56:57 +0200
+	id 1wTmGR-000000009hO-2MDg;
+	Sun, 31 May 2026 19:56:03 +0000
+Date: Mon, 01 Jun 2026 03:55:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leo Li <sunpeng.li@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
- "Mario Limonciello (AMD)" <superm1@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [amd-pstate:superm1/backlight-property-v5 9/21] htmldocs:
- Documentation/gpu/amdgpu/display/display-manager:29:
- ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:789: WARNING: Line
- block ends without a blank line. [docutils]
-Message-ID: <202605311832.R47OfrlB-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:block-error-injection 3/7]
+ block/blk-core.c:545:45: error: 'BD_MAKE_IT_FAIL' undeclared
+Message-ID: <202606010341.ZynlUP5R-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,27 +59,39 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/backlight-property-v5
-head:   5f2330560c00d587cd173ee4222011b62e1ac567
-commit: 4dbf62273708e62ea3d1532671b4e5c26f722b8b [9/21] drm/amd/display: Use vline2 interrupt on DCN instead of vstartup
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260531/202605311832.R47OfrlB-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git block-error-injection
+head:   f7d922716d709e96c39fc2a0ebc67eac84deb06d
+commit: 31905bce1e3e0c7d6b853dc916a0f64fdec2673e [3/7] block: refactor should_fail_bio and should_fail_request
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260601/202606010341.ZynlUP5R-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260601/202606010341.ZynlUP5R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605311832.R47OfrlB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606010341.ZynlUP5R-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'state' not described in 'amdgpu_dm_set_vline_irq_state'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'adev' not described in 'amdgpu_dm_set_vline_irq_state'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'source' not described in 'amdgpu_dm_set_vline_irq_state'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'vline_crtc_id' not described in 'amdgpu_dm_set_vline_irq_state'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'state' not described in 'amdgpu_dm_set_vline_irq_state'
->> Documentation/gpu/amdgpu/display/display-manager:29: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:789: WARNING: Line block ends without a blank line. [docutils]
-   Documentation/gpu/amdgpu/display/display-manager:47: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c:61: ERROR: Unexpected section title.
+   block/blk-core.c: In function 'may_fail_bio':
+>> block/blk-core.c:545:45: error: 'BD_MAKE_IT_FAIL' undeclared (first use in this function)
+     545 |         return bdev_test_flag(bio->bi_bdev, BD_MAKE_IT_FAIL) ||
+         |                                             ^~~~~~~~~~~~~~~
+   block/blk-core.c:545:45: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/BD_MAKE_IT_FAIL +545 block/blk-core.c
+
+   540	
+   541	static inline bool may_fail_bio(struct bio *bio)
+   542	{
+   543		if (!IS_ENABLED(CONFIG_FAIL_MAKE_REQUEST))
+   544			return false;
+ > 545		return bdev_test_flag(bio->bi_bdev, BD_MAKE_IT_FAIL) ||
+   546			(bio_flagged(bio, BIO_REMAPPED) &&
+   547			 bdev_test_flag(bdev_whole(bio->bi_bdev), BD_MAKE_IT_FAIL));
+   548	}
+   549	
 
 --
 0-DAY CI Kernel Test Service
