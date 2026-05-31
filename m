@@ -1,110 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497D2285CBA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 May 2026 07:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8FE335BA;
+	Sun, 31 May 2026 13:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780212795; cv=none; b=bJHmeKH7dwfDLVNRDAvj99Cv9te+NOEuSThA5ltUS8IN82bu49TBplpqDdZsJZifj9qHHgg0OSc6Y4HvRFqF9kdcn3M3V1K8xim/AKTY4VQ49M0FLnJRkl1SljmhLRO24k/0hBoLJK4cM7GEn6l/UwFhqGhbegPBxIKU7xqhyvs=
+	t=1780232678; cv=none; b=hIa8H+Ae/Imx/SdbzM/+p3tSoRGILdOAUVq76/4vjH0CR7KcGR8hHhDeIdeIooB4bzu3Wsx10vwiosU5JOxSR2nNPpKKztvX3pjBqfNAmlanlEauhRgcGw8/IHA+7JdL9E273nWOBYA31z5mJ0zD1Bj+Og8WAlTLfNGFCtB2AUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780212795; c=relaxed/simple;
-	bh=ON4op0xyIxO0r+QlnW8n6GqwvGv5itj2Hm/YY7J1G8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PAgWeErd7rSaQp4GdHTQoW9z7fJmRlOPGxTuz8feg4iJQa+j2BRJfRTmWYwQfZ7qFST1oS1mGiniR9AEJmLJx7haBWKofUGB2AYrwlRKApaSaCbbJMAraUXaKcNKck8Cv1sgzsqIT0SHEEc58r+Oqpa2qAsvr2NHG+Hdvhno8ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VKU3f0zQ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1780232678; c=relaxed/simple;
+	bh=KXYiQ/EWH/syonYMw6B3JK/DzVa3oSMhCPGIkAqHpc4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kjwzCAvdv0LYGyFZo4cz6chjNbJfBH371jy2zZievjFQzkkpjyteKP0IW9BYpfSM2lkzEnla/QeizlaR+Sfg/8Mt9PSySDcZlN4BdW09IEHi5xDxyWAQZMNaMHD0OdnhAEuDpfexr/jypCm9Y7dJw/jz914+CUnWL0D+t+H6/kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YS7cep8w; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VKU3f0zQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YS7cep8w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780212793; x=1811748793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ON4op0xyIxO0r+QlnW8n6GqwvGv5itj2Hm/YY7J1G8k=;
-  b=VKU3f0zQuz5/kiZoFGze9JZ/pgas2rb4Ui6MwN29eevlBzzJHT9e7dej
-   w/Uid01KWjHPaAY1Kv/4A9qtl9r3DmvBlimxtrAp/1hZMOD3F74NJ1iMm
-   TH50/SfPyrQNGY+bt2Vp9hXMCd1FKnQ7ETAhuYLrlaAW5fekuY/pxAdki
-   PraPgSkzYw5/Fac8dv3F9NO6IEX2GhFKCCg0NNLvgANbt/+FCm6Zsnal5
-   Nf+8boLO08vs+gc/ZhDXnO8zfWfkhKLnxhe6qZoURKS8LxLGIrjOOjO8d
-   w9gcUu9XQooNhEsjeiw0c9QXbGklIGVPs9fxq8eFWQFJx2rHtElBFOZgc
-   Q==;
-X-CSE-ConnectionGUID: Sh3Q4GrXTUa4/79koi5Jcg==
-X-CSE-MsgGUID: mDbnuk2pQ42B++4jdicv6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="91312223"
-X-IronPort-AV: E=Sophos;i="6.24,178,1774335600"; 
-   d="scan'208";a="91312223"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 00:33:13 -0700
-X-CSE-ConnectionGUID: d7hqS9uJSri6DlxUO/zX+A==
-X-CSE-MsgGUID: u4CJiThARsSt0DchGPiYwQ==
+  t=1780232676; x=1811768676;
+  h=date:from:to:cc:subject:message-id;
+  bh=KXYiQ/EWH/syonYMw6B3JK/DzVa3oSMhCPGIkAqHpc4=;
+  b=YS7cep8wxEYPYch0ilPpVmpZ7CKXEXiWeLmvVcsvXm09jXNSjrWZrlXM
+   NvnVzCY/2l/pHnLoZ9meZYffK9xe9gyccFDhn/1HqBaP11C2PtL08BA7K
+   +SfC4lx6rA7HDNz9xxywvB3UkVLjXzFJxrtzyDSfMhoxEk2a4CpIlqdvN
+   I2/YlUriT4EU98iDFvx2IbX0nyECg9CjH3Dxq0ZXjAzXLNK2EtuE+Ip09
+   qlrS0pnsshBbs0PYYbn5/tQ4rc4X0DAK3g2zL5cnZF9Nz5Nw6181AStC7
+   dUk40MBulDOhBDM2pEVkw6ehmkpdQrt9h300Wmgn6E2gq5aBBIDUifCRW
+   w==;
+X-CSE-ConnectionGUID: wH7fWcQHR/aTmUB6NEXmMg==
+X-CSE-MsgGUID: H4vNSgd9ReWFV05QLdxlSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="81198258"
+X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
+   d="scan'208";a="81198258"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 06:04:36 -0700
+X-CSE-ConnectionGUID: 3bXJbdQRR5SH7cdyut+nyw==
+X-CSE-MsgGUID: z8Ux4JpPQOyJ7b05jkvyxQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,178,1774335600"; 
-   d="scan'208";a="240729373"
+X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
+   d="scan'208";a="239134440"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 31 May 2026 00:33:11 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 31 May 2026 06:04:33 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTafV-000000009Eg-2hYK;
-	Sun, 31 May 2026 07:33:09 +0000
-Date: Sun, 31 May 2026 15:32:57 +0800
+	id 1wTfqA-000000009R8-1XqS;
+	Sun, 31 May 2026 13:04:30 +0000
+Date: Sun, 31 May 2026 21:04:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] [TEST] add a broken patch
-Message-ID: <202605311536.iMbfNXsu-lkp@intel.com>
-References: <9050789262f583cef777eb3a9c3e07948faf18c3.1780141190.git.mchehab+huawei@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev,
+ matthieu.baerts@tessares.net,
+ "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: [mptcp:export-net 15/22]
+ include/linux/compiler_types.h:699:45: error: call to
+ '__compiletime_assert_784' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof_field(struct mptcp_ext, flags) != sizeof(u16)
+Message-ID: <202605312026.Srgsz7Tp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9050789262f583cef777eb3a9c3e07948faf18c3.1780141190.git.mchehab+huawei@kernel.org>
 
-Hi Mauro,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-[also build test ERROR on staging/staging-next staging/staging-linus sailus-media-tree/master linus/master v7.1-rc5 next-20260529]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/add-a-broken-patch/20260530-194048
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/9050789262f583cef777eb3a9c3e07948faf18c3.1780141190.git.mchehab%2Bhuawei%40kernel.org
-patch subject: [PATCH] [TEST] add a broken patch
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260531/202605311536.iMbfNXsu-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605311536.iMbfNXsu-lkp@intel.com/reproduce)
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
+head:   27a7d32aeb103a5c763966a494b141136c31cea0
+commit: 206cf8c6e2bfce69eba0d463b3f6127d14f75abc [15/22] mptcp: fix uninit-value in mptcp_established_options
+config: arm-collie_defconfig (https://download.01.org/0day-ci/archive/20260531/202605312026.Srgsz7Tp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605312026.Srgsz7Tp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605311536.iMbfNXsu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605312026.Srgsz7Tp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/media/atomisp/pci/sh_css.c:91:31: error: expected ';' before 'int'
-      91 | FOOBAR_SYNTAX_BREAK_BY_PURPOSE
-         |                               ^
-         |                               ;
-   ......
-      94 | int  __printf(1, 0) (*sh_css_printf)(const char *fmt, va_list args) = NULL;
-         | ~~~                            
+   In file included from <command-line>:
+   In function 'mptcp_established_options_dss',
+       inlined from 'mptcp_established_options' at net/mptcp/options.c:881:11:
+>> include/linux/compiler_types.h:699:45: error: call to '__compiletime_assert_784' declared with attribute error: BUILD_BUG_ON failed: sizeof_field(struct mptcp_ext, flags) != sizeof(u16)
+     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:680:25: note: in definition of macro '__compiletime_assert'
+     680 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
+     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   net/mptcp/options.c:576:9: note: in expansion of macro 'BUILD_BUG_ON'
+     576 |         BUILD_BUG_ON(sizeof_field(struct mptcp_ext, flags) != sizeof(u16));
+         |         ^~~~~~~~~~~~
 
 
-vim +91 drivers/staging/media/atomisp/pci/sh_css.c
+vim +/__compiletime_assert_784 +699 include/linux/compiler_types.h
 
-    90	
-  > 91	FOOBAR_SYNTAX_BREAK_BY_PURPOSE
-    92	
-    93	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  685  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  686  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  687  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  690   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  691   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  692   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  698  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @699  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  700  
+
+:::::: The code at line 699 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
