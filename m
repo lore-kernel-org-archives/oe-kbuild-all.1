@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB36370D70
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 19:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF1B359A81;
+	Mon,  1 Jun 2026 19:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780342395; cv=none; b=brLpI0Kcrr3Z0rhj1NG2TTnQ8mZcHKVw6qYHOBpo3+stREV5dGaoKPZ7uP6IKt8jbat023zCcjx2cewUBwltopRqo8l5/f4LMY3yM9bPInlUGGnw0/cj3CaDOpk1ABXNyVmio0fhn1Xb5wcpbPr0ILNL2jY1AARY8IuHFNXMKRs=
+	t=1780343237; cv=none; b=famT4mFhVdScg1og0NZRUPMiBA6JmZij7UWJKK8qihJakcn659pCIM2q9sY+/h84iq5jPVHP8UP1ub8fPwqNewpyc848Tizs1tnilRPwol1v7w+xT+w+QIVHwzISKC6fpvWHKMlj+gfs0DF+31lMPqK8BY4dVkr7Ycqf/kkgqYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780342395; c=relaxed/simple;
-	bh=583+aEYtC6Jm9sjDrtakoQ64FQ7IKi/clbXL1YOhU8o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AFTcz6VxUYN52hn897JlqcjaEJbp0B1zNWpQ6H0odjdosHJ2hf/R6PjU0RfEIvsWqe1ccOIUjCd4gDhIEDBI/mK4GL/7D3yaTpoOizJtf6GHRZXN8zDcC7bxIYkkzKVnByQX3M2uLmvVo9EKbxPvNYinkE37OLM6Wgmb02plqCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FsW0+heU; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1780343237; c=relaxed/simple;
+	bh=RgQLVU0v4z9jXrZH+0a0VNNEzfsMOJgetTFzqQshON8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H1j3zEBbmoWcI76BaxPsWw1djzSHPckuR+ZVSm9vxwoMgegbCizB8fWSLtgHnWh6hCR07GMVctM0p6ulJUr75KicH02OgCrW6LiKTH1AG00OJxUy6i/AdqykU4GE++tclnlhcuPDIWVASt2kHzqkCjBMVw4Tu8eEQfQWMwCSqyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JUZpW8hT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FsW0+heU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JUZpW8hT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780342393; x=1811878393;
+  t=1780343236; x=1811879236;
   h=date:from:to:cc:subject:message-id;
-  bh=583+aEYtC6Jm9sjDrtakoQ64FQ7IKi/clbXL1YOhU8o=;
-  b=FsW0+heUM7DGUFVlDnjl2306N/PV4zVOzxVXntA7l9OsrUHwT0rtb0rJ
-   FdI2bQqpQQkbMouE+pHOrcQZ2YMVyoawRkAkzsodH5FXb6F6jzNsmbR39
-   2zxDpQie8gu9pUgC72BG93y1F6W2hrHjPVOxpweg8+wvZAXvi+bGuG3xn
-   s5urRdAZyiDFdN5W5393Gc3tJDrpXeUwWyHcZaQuwZv79ZrsA1swgeGd5
-   5bWXfaDu4DwywKvVCKUQEqekW/+oVrmY8DpLx1cbwzwzS39mVSEe1WUyk
-   /8Oo+eoUegXnVPG4N7cbpk9qeSzRvJI4f4UAW1eG+nNwipXyd/0B2fjYN
-   w==;
-X-CSE-ConnectionGUID: NG/ki02SRvypROjlUOXK4w==
-X-CSE-MsgGUID: 1igKZAN4Tgya4jTML6kroQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81084215"
+  bh=RgQLVU0v4z9jXrZH+0a0VNNEzfsMOJgetTFzqQshON8=;
+  b=JUZpW8hTUSx2JTSM+vtwfvzAqDtbbSe6IWUdj+XDhCxAH7agoLiOkq4T
+   GDY7EPBH+HUPlxUFg0tRRlguag8htN/KKkNjrjtQuodAj06kJ4ngGmzA7
+   eO9SiPDrPLkMIjxJpgvZwCM/MT7MlwRvVVZ9FTlNzmcVCxXyRwHAk3VIH
+   ZZnZOBoCm1997KhPZF57drB12PSYISir2tauKUKpexfqMyggvneIRABki
+   2kc9+fuAayoWn03X0ShO9XWvlAP3UPsYiJgY0Xr69L1ynPY60+RwqQsG0
+   RjfdEbMVh71dtp5Xx4j3cd7kHrVJiUXOGeQlA128cFoHlgxJ2odYJa1jb
+   g==;
+X-CSE-ConnectionGUID: fpZEroKWQhWrO6dT5RYBIg==
+X-CSE-MsgGUID: US2tbanfTWe9LmE++4q0fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81141039"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="81084215"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 12:33:13 -0700
-X-CSE-ConnectionGUID: N1RpnvDVTWe33tIQcheW9w==
-X-CSE-MsgGUID: UOYQNp0tQCa0gwjy9nTgqA==
+   d="scan'208";a="81141039"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 12:47:15 -0700
+X-CSE-ConnectionGUID: V+U+JAvgSoaqp51yEVjo1w==
+X-CSE-MsgGUID: Et6cfNSQQPqs17fxTx4+hA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="273945930"
+   d="scan'208";a="240676853"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Jun 2026 12:33:12 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 01 Jun 2026 12:47:14 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wU8Np-00000000B0Z-0ovf;
-	Mon, 01 Jun 2026 19:33:09 +0000
-Date: Tue, 02 Jun 2026 03:32:10 +0800
+	id 1wU8bP-00000000B1U-3ObA;
+	Mon, 01 Jun 2026 19:47:11 +0000
+Date: Tue, 02 Jun 2026 03:46:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
- sound/soc/mediatek/common/mtk-soundcard-driver.c:206:31: error: dereferencing
- pointer to incomplete type 'struct snd_soc_card_platform'
-Message-ID: <202606020340.7vPjnoLa-lkp@intel.com>
+ sound/soc/generic/audio-graph-card.c:559:3: error: cannot jump from this goto
+ statement to its label
+Message-ID: <202606020324.XOXU3UUE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,57 +62,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
 head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
-commit: cc97e5ee4f734c20e86677cf9ed8ac4c87277f2a [290/290] ASoC: mediatek: common: use snd_soc_card_register()
-config: arm64-randconfig-002-20260601 (https://download.01.org/0day-ci/archive/20260602/202606020340.7vPjnoLa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020340.7vPjnoLa-lkp@intel.com/reproduce)
+commit: 8b2c2285d52a963fe976708999062dd19988df3a [290/290] ASoC: generic: use snd_soc_card_register()
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260602/202606020324.XOXU3UUE-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020324.XOXU3UUE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606020340.7vPjnoLa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606020324.XOXU3UUE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/soc/mediatek/common/mtk-soundcard-driver.c: In function 'mtk_soundcard_common_probe':
->> sound/soc/mediatek/common/mtk-soundcard-driver.c:206:31: error: dereferencing pointer to incomplete type 'struct snd_soc_card_platform'
-     orig_dai_link = card_platform->driver.dai_link;
-                                  ^~
-   sound/soc/mediatek/common/mtk-soundcard-driver.c:217:9: error: too many arguments to function 'devm_snd_soc_card_alloc'
-     card = devm_snd_soc_card_alloc(&pdev->dev, card_platform->owner,
-            ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/sound/soc.h:1318,
-                    from sound/soc/mediatek/common/mtk-soundcard-driver.c:12:
-   include/sound/soc-card.h:90:22: note: declared here
-    struct snd_soc_card *devm_snd_soc_card_alloc(struct device *dev,
-                         ^~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/generic/audio-graph-card.c:559:3: error: cannot jump from this goto statement to its label
+     559 |                 goto end;
+         |                 ^
+   sound/soc/generic/audio-graph-card.c:562:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     562 |         struct link_info *li __free(kfree) = kzalloc_obj(*li);
+         |                           ^
+   1 error generated.
+--
+>> sound/soc/generic/audio-graph-card2.c:1322:3: error: cannot jump from this goto statement to its label
+    1322 |                 goto end;
+         |                 ^
+   sound/soc/generic/audio-graph-card2.c:1325:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1325 |         struct link_info *li __free(kfree) = kzalloc_obj(*li);
+         |                           ^
+   1 error generated.
 
 
-vim +206 sound/soc/mediatek/common/mtk-soundcard-driver.c
+vim +559 sound/soc/generic/audio-graph-card.c
 
-   184	
-   185	int mtk_soundcard_common_probe(struct platform_device *pdev)
-   186	{
-   187		struct device_node *platform_node, *adsp_node, *accdet_node;
-   188		struct snd_soc_component *accdet_comp;
-   189		struct platform_device *accdet_pdev;
-   190		const struct mtk_soundcard_pdata *pdata;
-   191		struct mtk_soc_card_data *soc_card_data;
-   192		struct snd_soc_dai_link *orig_dai_link, *dai_link;
-   193		struct snd_soc_jack *jacks;
-   194		struct snd_soc_card_platform *card_platform;
-   195		struct snd_soc_card *card;
-   196		const char *card_name;
-   197		int i, orig_num_links, ret;
-   198		bool needs_legacy_probe;
-   199	
-   200		pdata = device_get_match_data(&pdev->dev);
-   201		if (!pdata)
-   202			return -EINVAL;
-   203	
-   204		card_platform =  pdata->card_data->card_platform;
-   205	
- > 206		orig_dai_link = card_platform->driver.dai_link;
+   550	
+   551	int audio_graph_parse_of(struct simple_util_priv *priv)
+   552	{
+   553		struct snd_soc_card_driver *card_driver = simple_priv_to_card_driver(priv);
+   554		struct device *dev = simple_priv_to_dev(priv);
+   555		struct snd_soc_card *card;
+   556		int ret = -EINVAL;
+   557	
+   558		if (!dev)
+ > 559			goto end;
+   560	
+   561		ret = -ENOMEM;
+   562		struct link_info *li __free(kfree) = kzalloc_obj(*li);
+   563		if (!li)
+   564			goto end;
+   565	
+   566		ret = graph_get_dais_count(priv, li);
+   567		if (ret < 0)
+   568			goto end;
+   569	
+   570		ret = -EINVAL;
+   571		if (!li->link)
+   572			goto end;
+   573	
+   574		ret = simple_util_init_priv(priv, li);
+   575		if (ret < 0)
+   576			goto end;
+   577	
+   578		priv->pa_gpio = devm_gpiod_get_optional(dev, "pa", GPIOD_OUT_LOW);
+   579		if (IS_ERR(priv->pa_gpio)) {
+   580			ret = PTR_ERR(priv->pa_gpio);
+   581			dev_err(dev, "failed to get amplifier gpio: %d\n", ret);
+   582			goto end;
+   583		}
+   584	
+   585		ret = simple_util_parse_widgets(priv, NULL);
+   586		if (ret < 0)
+   587			goto end;
+   588	
+   589		ret = simple_util_parse_routing(priv, NULL);
+   590		if (ret < 0)
+   591			goto end;
+   592	
+   593		ret = simple_util_parse_card_name(priv, NULL);
+   594		if (ret < 0)
+   595			goto err;
+   596	
+   597		memset(li, 0, sizeof(*li));
+   598		ret = graph_for_each_link(priv, li,
+   599					  graph_dai_link_of,
+   600					  graph_dai_link_of_dpcm);
+   601		if (ret < 0)
+   602			goto err;
+   603	
+   604		card = devm_snd_soc_card_alloc(dev, card_driver);
+   605		if (!card)
+   606			goto err;
+   607	
+   608		snd_soc_card_set_drvdata(card, priv);
+   609	
+   610		simple_util_debug_info(priv);
+   611	
+   612		ret = devm_snd_soc_card_register(card);
+   613	err:
+   614		if (ret < 0) {
+   615			simple_util_clean_reference(priv);
+   616			return dev_err_probe(dev, ret, "parse error\n");
+   617		}
+   618	end:
+   619		return graph_ret(priv, ret);
+   620	}
+   621	EXPORT_SYMBOL_GPL(audio_graph_parse_of);
+   622	
 
 --
 0-DAY CI Kernel Test Service
