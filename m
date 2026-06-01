@@ -1,142 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C8941C72;
-	Mon,  1 Jun 2026 02:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD301A0BD0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 02:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780280551; cv=none; b=cyAs5SssQ1EAXj+QJkNy0o1wMuxjEjOmyIHHNdcObQoNJN7K093izzfQXJBpN71kI51zmLsQW9/vldPwAe4tKh2D/aenNa5CzyQUv/UEk0vSUU0E2mb6TeGor1yvhSV8LqA/FN9KgvVzp7WmFFhLdJzwfMAsnX0BDaOQdTAEaRg=
+	t=1780281857; cv=none; b=Ujd0ls5ZkrzzwB3GkoLzBE00/dfUlJSjqVwwBMDEyEP4G84vP7CABaMOuYoH7JsEG0/rK7K+zvj5FfYvH/uSSNeOufFysgCVu12jRHXJrfW0v7Y/mCq8FtRJlUasugo8enbrweLYkZdcf38Nmh7TSwBaum28apn5Am4+qm6o6JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780280551; c=relaxed/simple;
-	bh=CSTIk+EYfgOQEmivd+6MNb6DKAwx2ykz1VGJCY1R/Dc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FjFhTiMztZx1HmrTrJYLN2Xlkv80GBSuA3NJZWbefKvL/SN7AXpGjEcFsBDciO7kddywWfuuPQDiqGQ1uBA1qEb/WJa2QQ6ZMyti2hpSi3sjwnY4oDyqkBiZGTSTXqnISN0pxd0n9hr9WB6NjoCHIBfxoV4qXQJA1vGry2pJcUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2KPmZi5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780281857; c=relaxed/simple;
+	bh=EMUHgVwY9nw8XT/Lof1fdSQPwrY4bBbSrS+LKzdUL0U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tFZbxyPAVzFzbXRceeAojJjwZMUgD1kyOsild96HCsmG7+Pm7pJRsBGagVYlNdadlmtWFz0g1GrSDRRUFEFXOMummEM2aRdpgJ/kDvXhgVWAS85UiKmWRs+UMgYXS2gczUhjvF6sF1SFPNP6tVAJqcoV1sZUqOXOMj+vNuzCK+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eix/bjyE; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2KPmZi5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF8111F00893;
-	Mon,  1 Jun 2026 02:22:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780280550;
-	bh=UeqB1s/dR7PI0sLE5Y2hToN0eFT/jD95ZWS/IPa4/qw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=R2KPmZi5qjCl1Jady3PJJnezK+1PkvNBRGXeSG29lialAThN4gAz6/wIkrinw3AzU
-	 1Pce2THCoPbL2kmkzb4FMSAiAHJIEArD4LDxVbZ77nOE5Zu/OosYaXpMksGEvbg1O4
-	 XUCHeH4nOLWiMApsoUnUMMKWO/Ht+iMSayYKoqAUOEJMXcenqhPmnP0ZGue6RrKYF+
-	 AiAxlbCXQ6g8EULC8ZE9p6MES7/N2a6kneEweLB6/EsEO/DIi+5yKLvZp6lD3acjjb
-	 CeeplhNYIRxHVBOBjvRtnyzxnxmBq16aZPDc6f7CkQvM4lHW8VuhpjPCS/RlykiIgA
-	 nefu7OpRMK6NA==
-Message-ID: <25fb125b-6b4d-4f46-b8be-0a34099d1696@kernel.org>
-Date: Mon, 1 Jun 2026 12:22:25 +1000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eix/bjyE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780281856; x=1811817856;
+  h=date:from:to:cc:subject:message-id;
+  bh=EMUHgVwY9nw8XT/Lof1fdSQPwrY4bBbSrS+LKzdUL0U=;
+  b=eix/bjyEbgk+cgN1CBEQ7YvDRBmpJjg7Jizdh6MfmSUnQHwYoYkea1gL
+   89kHhPRjkWslDsCsf72Sb3NhaMjLrJ02GyIEbUupe9L3X5u4P7Pk6pZ1w
+   O0F5zVw+zfBhUgMln3wrjQojp69NVNu/mn5VdXdhB1wfBkCu4MnWGnjnd
+   PdCOXCfOXp3Hgq0/QquhoGn8gwoi4tOis/XagJUybRtUxomKu+p1ScaOq
+   gP6WfOSMYkZHd/T7RLepqnmc26urHd+T01Fm+co+v10H8ii7x7UQK/n25
+   8LnGqFpCzuOMk0XMa3gO0GLPESJOASEPBKaEkJAYsAUIzcnX/oOA+TosN
+   Q==;
+X-CSE-ConnectionGUID: tkA23LRsTqm+oXP/BhOfcA==
+X-CSE-MsgGUID: PT4pOUwaT1OAQlaYJV82Vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="92418433"
+X-IronPort-AV: E=Sophos;i="6.24,180,1774335600"; 
+   d="scan'208";a="92418433"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 19:44:15 -0700
+X-CSE-ConnectionGUID: ie8OGUeyRkarXNE8GKiZjA==
+X-CSE-MsgGUID: pSc+NwmCRzKAqdreKGf8yQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,180,1774335600"; 
+   d="scan'208";a="281560414"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 31 May 2026 19:44:13 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wTsdP-000000009z4-0jUG;
+	Mon, 01 Jun 2026 02:44:11 +0000
+Date: Mon, 01 Jun 2026 10:43:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:vfs.all 15/15]
+ include/linux/rcupdate.h:110:undefined reference to `xxh32'
+Message-ID: <202606011009.f2CJLTNP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [mptcp:export-net 15/22] include/linux/compiler_types.h:699:45:
- error: call to '__compiletime_assert_784' declared with attribute error:
- BUILD_BUG_ON failed: sizeof_field(struct mptcp_ext, flags) != sizeof(u16)
-Content-Language: fr
-To: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>
-Cc: mptcp@lists.linux.dev, kernel test robot <lkp@intel.com>
-References: <202605312026.Srgsz7Tp-lkp@intel.com>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <202605312026.Srgsz7Tp-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi LKP team,
+tree:   https://github.com/brauner/linux.git vfs.all
+head:   5ac2d6d826f2c4d04480827eb799cb7a86c866d8
+commit: 5ac2d6d826f2c4d04480827eb799cb7a86c866d8 [15/15] Merge branch 'vfs-7.2.xattr' into vfs.all
+config: sh-sh2007_defconfig (https://download.01.org/0day-ci/archive/20260601/202606011009.f2CJLTNP-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260601/202606011009.f2CJLTNP-lkp@intel.com/reproduce)
 
-On 31/05/2026 23:04, kernel test robot wrote:
-> tree:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
-> head:   27a7d32aeb103a5c763966a494b141136c31cea0
-> commit: 206cf8c6e2bfce69eba0d463b3f6127d14f75abc [15/22] mptcp: fix uninit-value in mptcp_established_options
-> config: arm-collie_defconfig (https://download.01.org/0day-ci/archive/20260531/202605312026.Srgsz7Tp-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260531/202605312026.Srgsz7Tp-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605312026.Srgsz7Tp-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606011009.f2CJLTNP-lkp@intel.com/
 
-Thank you for the report.
+All errors (new ones prefixed by >>):
 
-(...)
+   sh4-linux-ld: fs/xattr.o: in function `simple_xattr_obj_hashfn':
+   fs/xattr.c:1295:(.text+0x264): undefined reference to `xxh32'
+   sh4-linux-ld: fs/xattr.o: in function `simple_xattr_hashfn':
+   fs/xattr.c:1288:(.text+0x2e4): undefined reference to `xxh32'
+   sh4-linux-ld: fs/xattr.o: in function `simple_xattr_get':
+   fs/xattr.c:1354:(.text+0x27e4): undefined reference to `xxh32'
+   sh4-linux-ld: fs/xattr.o: in function `__rcu_read_unlock':
+>> include/linux/rcupdate.h:110:(.text+0x2a38): undefined reference to `xxh32'
+   sh4-linux-ld: fs/xattr.o: in function `rht_bucket_insert':
+   include/linux/rhashtable.h:298:(.text+0x3230): undefined reference to `xxh32'
+   sh4-linux-ld: fs/xattr.o:fs/xattr.c:1693: more undefined references to `xxh32' follow
 
->    net/mptcp/options.c:576:9: note: in expansion of macro 'BUILD_BUG_ON'
->      576 |         BUILD_BUG_ON(sizeof_field(struct mptcp_ext, flags) != sizeof(u16));
->          |         ^~~~~~~~~~~~
 
-Mmh, I wonder what size this struct group has on ARM 32bit. I tried to
-reproduce the issue with the config file and the instructions, but I
-didn't manage to. So I don't know what size was detected there.
+vim +110 include/linux/rcupdate.h
 
-  $ COMPILER_INSTALL_PATH=${HOME}/0day COMPILER=gcc-15.2.0 \
-    ~/lkp/kbuild/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash net/mptcp/
-  Compiler will be installed in ${HOME}/0day
-  PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-  make --keep-going CONFIG_OF_ALL_DTBS=y CONFIG_DTC=y CROSS_COMPILE=${HOME}/0day/gcc-15.2.0-nolibc/arm-linux-gnueabi/bin/arm-linux-gnueabi- --jobs=32 KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 O=build_dir ARCH=arm SHELL=/bin/bash net/mptcp/
-  (...)
-    CC      net/mptcp/options.o
-  (...)
+7b0b759b65247c Paul E. McKenney 2010-08-17  105  
+7b0b759b65247c Paul E. McKenney 2010-08-17  106  static inline void __rcu_read_unlock(void)
+7b0b759b65247c Paul E. McKenney 2010-08-17  107  {
+925da92ba5cb0c Waiman Long      2021-08-26  108  	if (IS_ENABLED(CONFIG_RCU_STRICT_GRACE_PERIOD))
+aa40c138cc8f36 Paul E. McKenney 2020-08-10  109  		rcu_read_unlock_strict();
+fcf0e25ad4c8d1 Ankur Arora      2024-12-12 @110  	preempt_enable();
+7b0b759b65247c Paul E. McKenney 2010-08-17  111  }
+7b0b759b65247c Paul E. McKenney 2010-08-17  112  
 
-Any idea why I cannot reproduce the issue?
+:::::: The code at line 110 was first introduced by commit
+:::::: fcf0e25ad4c8d14d2faab4d9a17040f31efce205 rcu: handle unstable rdp in rcu_read_unlock_strict()
 
-It would be good to know the output of sizeof_field().
+:::::: TO: Ankur Arora <ankur.a.arora@oracle.com>
+:::::: CC: Boqun Feng <boqun.feng@gmail.com>
 
-@Paolo: or should we use memset()?
-
-Cheers,
-Matt
--- 
-Sponsored by the NGI0 Core fund.
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
