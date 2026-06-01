@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8A33AE183
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 13:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C831A3AE18D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 14:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322155; cv=none; b=RQhIHQpZcloXV0grmQekFwFomuKRmfE+lbFE/6HVn7xIs6tQsi8Hg2W/OSEAdluKYHWE6dJ3L5cENM7cx6C9J8fXGysvZH+KSZ145c5XGsAhqv+bRvApLvSqDmonuBMshbQcpqj/4UV3/xrx7d52PHAqfjdz5mydfRnIigF6CSI=
+	t=1780322759; cv=none; b=kjtDhB9+1FnXJwvZQO87rK3o5ChvQonfuda+RxMDMKgohnbQX4Jd5tScLCJwdNpegRvku3BzEpfEHhFKhiPU4zkLyBrUwHxwSZYcafYr1aQ7Mhvj/2QtYJWRyOl6DAZbIkEQsT+35tjcSSXJ/+q30NV/mpZxYiUgNFWkJeJTeyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322155; c=relaxed/simple;
-	bh=gfREg8QY6zk5ZV15U8DNWcdbSlOCyNU6ZASC5BYjBkM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=judAVJOZiPcBFpJ6GX3xO0eUxIGkRs83Yvto87qi5Qdb9L1tCpRJRP2g9njJNHTeonhq1mQ0KN2li36HLKXwet8S2gGn+LNf58AjZBdAVuW8AkG7i0pcbdVT+fdTtTg4+4fMIVHTVBtsS/ibOIM3W++JghsypZSPho+HyVlf5s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MGKVOvUV; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1780322759; c=relaxed/simple;
+	bh=0ntkprx88v5ZPCY0OlyLAQLxoGSri9TIlf2JG1hTIwc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ETSwVYQNy80STnXRJ8edkBV2qW2JyJhRxO+QR8hKChXwVZOtP3c/HZaZ6+lfiguBYg1qOH5wTFF+OUR1xB29PkogIRI70C5QKf7CHihzGX0w0VtjVG4bba67F5gzYmlVd/MP0neU+4lqsqXCZDQAOhaUu2zFOnpQn44X6nm0iMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCMmh9rZ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MGKVOvUV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCMmh9rZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780322153; x=1811858153;
+  t=1780322757; x=1811858757;
   h=date:from:to:cc:subject:message-id;
-  bh=gfREg8QY6zk5ZV15U8DNWcdbSlOCyNU6ZASC5BYjBkM=;
-  b=MGKVOvUVsaBuTL4+VP4l+sWuHtsMOMoZrb02GuBaqEiT+h4kX3FzUzRM
-   QhxNPxevZ/xc8U/ASAqMFdRrWv/nPfkq9dCNXmFqTDUTPPJKD+BXdA6jd
-   JDMHPeXNf2dbuZCRRQ9EsQZTqdUxViuiL4fHxWXYWE13Ldx7/rs0aA1PQ
-   G1Bnc9xrgK144XPR/N00mymj2xbo/vz42U6gP1x07zr4JXM9BuhXSIOzb
-   fC4DyIQcM2M29+kFYxlcLE6RJvALC3mj2D/Jr2QkTIoRvJDN7dGDGq3MU
-   VVO8qiqB1wlFNWj7xqfNJqyH2IzffIoHzULXEpxaYLmYXkrz6y0ihmfXU
+  bh=0ntkprx88v5ZPCY0OlyLAQLxoGSri9TIlf2JG1hTIwc=;
+  b=CCMmh9rZiTOaWUuJXUizdkIjaieIHb1EMfjyoLj5hwYfHIo98dBEhKWc
+   tPiazKbydUbUM2brJNmU6YZ4e9GAcpYmPgDoseX49ri3oZ0AYWi4zmJjr
+   S9CBQa678gb72rkioAAtqXy3AH26Q1EInF93xO0RaiZu0g9Mh+3bvEvS1
+   kb4H7qmn01GzDEqf8YOugndYnBCaQhSQrKBfOEULudYBUQDf+Mi6AmmSy
+   b5Ey1Bqwq8sxLD5DD0Nhwvj8Q3jEr/cjg688XmbKPc3VDTJvFIJFbUNbL
+   fV+Oiy1ifQ5lAVGVjmVu7eRx3OufuzaeU7vI4TW2MzAQKJwJNSfxIQxk/
    g==;
-X-CSE-ConnectionGUID: qtnFK22rTqiyqvStLmUWFg==
-X-CSE-MsgGUID: J5iNZvBdQPWvD7vsH6SFHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="92460785"
+X-CSE-ConnectionGUID: kc+mQizDQRSltNDW1dSWlw==
+X-CSE-MsgGUID: BumBi5R7T+KVtoyz6No7SA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="80112449"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="92460785"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 06:55:53 -0700
-X-CSE-ConnectionGUID: QFZWkK/USYKgbWwqJuYGEw==
-X-CSE-MsgGUID: YJ9ZUHb3RX+qSEhS7r6yog==
+   d="scan'208";a="80112449"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 07:05:56 -0700
+X-CSE-ConnectionGUID: awzkQ+/DSMeBiOzhjxmTFw==
+X-CSE-MsgGUID: h9/aDo7mRsmCuXwAR98zTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="243682727"
+   d="scan'208";a="247545904"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Jun 2026 06:55:51 -0700
+  by orviesa003.jf.intel.com with ESMTP; 01 Jun 2026 07:05:54 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wU37M-00000000Adg-0IQq;
-	Mon, 01 Jun 2026 13:55:48 +0000
-Date: Mon, 01 Jun 2026 21:55:10 +0800
+	id 1wU3H5-00000000AeE-2OeT;
+	Mon, 01 Jun 2026 14:05:51 +0000
+Date: Mon, 01 Jun 2026 22:05:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: kernel/sched/core.c:10574:58: sparse: sparse: incorrect type
- in argument 1 (different address spaces)
-Message-ID: <202606012159.elx68pnX-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
+ sound/soc/mediatek/mt8186/mt8186-mt6366.c:1100:17: warning: excess elements
+ in struct initializer
+Message-ID: <202606012250.Qre11SKC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,180 +60,231 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e43ffb69e0438cddd72aaa30898b4dc446f664f8
-commit: fbd0e71dc370af73f6b316e4de9eed273dd90340 sched/mmcid: Provide CID ownership mode fixup functions
-date:   6 months ago
-config: loongarch-randconfig-r133-20260601 (https://download.01.org/0day-ci/archive/20260601/202606012159.elx68pnX-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260601/202606012159.elx68pnX-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
+head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
+commit: cc97e5ee4f734c20e86677cf9ed8ac4c87277f2a [290/290] ASoC: mediatek: common: use snd_soc_card_register()
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260601/202606012250.Qre11SKC-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260601/202606012250.Qre11SKC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: fbd0e71dc370 ("sched/mmcid: Provide CID ownership mode fixup functions")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606012159.elx68pnX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606012250.Qre11SKC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/core.c:880:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:880:49: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:880:49: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:1100:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:1100:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:1100:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:1206:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:1206:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:1206:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:2203:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:2203:39: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:2203:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:2214:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2214:65: sparse:     expected struct task_struct *tsk
-   kernel/sched/core.c:2214:65: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:3656:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:3656:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:3656:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:3861:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:3861:36: sparse:     expected struct task_struct const *p
-   kernel/sched/core.c:3861:36: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:8167:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:8167:43: sparse:     expected struct task_struct *push_task
-   kernel/sched/core.c:8167:43: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:5585:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:5585:15: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:5585:15: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:6799:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6799:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6799:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6865:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:6865:37: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6865:37: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:7372:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7372:17: sparse:    struct task_struct *
-   kernel/sched/core.c:7372:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:10322:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10322:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:10322:25: sparse:     got struct task_struct [noderef] __rcu *curr
->> kernel/sched/core.c:10574:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *t @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10574:58: sparse:     expected struct task_struct *t
-   kernel/sched/core.c:10574:58: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:10610:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:10610:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:10610:38: sparse:    struct task_struct *
-   kernel/sched/core.c:631:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
-   kernel/sched/core.c:656:6: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
-   kernel/sched/core.c:680:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:1799:9: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
-   kernel/sched/sched.h:1799:9: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/pelt.h:102:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/pelt.h:102:13: sparse:     expected struct task_struct const *p
-   kernel/sched/pelt.h:102:13: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:880:11: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c:1579:13: sparse: sparse: context imbalance in 'uclamp_update_util_min_rt_default' - wrong count at exit
-   kernel/sched/core.c:2284:35: sparse: sparse: context imbalance in 'wait_task_inactive' - different lock contexts for basic block
-   kernel/sched/core.c:2678:6: sparse: sparse: context imbalance in 'set_cpus_allowed_common' - different lock contexts for basic block
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2474:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2277:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2277:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2277:25: sparse:    struct task_struct *
-   kernel/sched/core.c:2167:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:2167:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:2167:38: sparse:    struct task_struct const *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/switch_to.h):
-   arch/loongarch/include/asm/fpu.h:80:17: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_w'
-   arch/loongarch/include/asm/fpu.h:80:17: sparse: sparse: cast from unknown type
-   arch/loongarch/include/asm/fpu.h:89:17: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_w'
-   arch/loongarch/include/asm/fpu.h:89:17: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/cpu-info.h, arch/loongarch/include/asm/processor.h, arch/loongarch/include/asm/thread_info.h, ...):
-   arch/loongarch/include/asm/loongarch.h:1358:1: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_w'
-   arch/loongarch/include/asm/loongarch.h:1358:1: sparse: sparse: cast from unknown type
-   arch/loongarch/include/asm/loongarch.h:1358:1: sparse: sparse: undefined identifier '__builtin_loongarch_csrwr_w'
-   arch/loongarch/include/asm/loongarch.h:1358:1: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/switch_to.h):
-   arch/loongarch/include/asm/fpu.h:89:17: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/cpu-info.h, arch/loongarch/include/asm/processor.h, arch/loongarch/include/asm/thread_info.h, ...):
-   arch/loongarch/include/asm/loongarch.h:1358:1: sparse: sparse: cast from unknown type
-   arch/loongarch/include/asm/loongarch.h:1358:1: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/switch_to.h):
-   arch/loongarch/include/asm/fpu.h:226:17: sparse: sparse: undefined identifier '__builtin_loongarch_csrxchg_w'
-   arch/loongarch/include/asm/fpu.h:226:17: sparse: sparse: cast from unknown type
-   arch/loongarch/include/asm/fpu.h:274:17: sparse: sparse: undefined identifier '__builtin_loongarch_csrxchg_w'
-   arch/loongarch/include/asm/fpu.h:274:17: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2474:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +10574 kernel/sched/core.c
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1099:15: error: variable 'mt8186_mt6366_da7219_max98357_soc_card' has initializer but incomplete type
+    1099 | static struct snd_soc_card_platform mt8186_mt6366_da7219_max98357_soc_card = {
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1100:10: error: 'struct snd_soc_card_platform' has no member named 'name'
+    1100 |         .name = "mt8186_da7219_max98357",
+         |          ^~~~
+>> sound/soc/mediatek/mt8186/mt8186-mt6366.c:1100:17: warning: excess elements in struct initializer
+    1100 |         .name = "mt8186_da7219_max98357",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1100:17: note: (near initialization for 'mt8186_mt6366_da7219_max98357_soc_card')
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1101:10: error: 'struct snd_soc_card_platform' has no member named 'owner'
+    1101 |         .owner = THIS_MODULE,
+         |          ^~~~~
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/cache.h:9,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from include/linux/time.h:5,
+                    from include/linux/input.h:8,
+                    from sound/soc/mediatek/mt8186/mt8186-mt6366.c:14:
+   include/linux/init.h:176:21: warning: excess elements in struct initializer
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1101:18: note: in expansion of macro 'THIS_MODULE'
+    1101 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:176:21: note: (near initialization for 'mt8186_mt6366_da7219_max98357_soc_card')
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1101:18: note: in expansion of macro 'THIS_MODULE'
+    1101 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1102:10: error: 'struct snd_soc_card_platform' has no member named 'driver'
+    1102 |         .driver = {
+         |          ^~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1102:19: error: extra brace group at end of initializer
+    1102 |         .driver = {
+         |                   ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1102:19: note: (near initialization for 'mt8186_mt6366_da7219_max98357_soc_card')
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1102:19: warning: excess elements in struct initializer
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1102:19: note: (near initialization for 'mt8186_mt6366_da7219_max98357_soc_card')
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1116:15: error: variable 'mt8186_mt6366_rt1019_rt5682s_soc_card' has initializer but incomplete type
+    1116 | static struct snd_soc_card_platform mt8186_mt6366_rt1019_rt5682s_soc_card = {
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1117:10: error: 'struct snd_soc_card_platform' has no member named 'name'
+    1117 |         .name = "mt8186_rt1019_rt5682s",
+         |          ^~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1117:17: warning: excess elements in struct initializer
+    1117 |         .name = "mt8186_rt1019_rt5682s",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1117:17: note: (near initialization for 'mt8186_mt6366_rt1019_rt5682s_soc_card')
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1118:10: error: 'struct snd_soc_card_platform' has no member named 'owner'
+    1118 |         .owner = THIS_MODULE,
+         |          ^~~~~
+   include/linux/init.h:176:21: warning: excess elements in struct initializer
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1118:18: note: in expansion of macro 'THIS_MODULE'
+    1118 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:176:21: note: (near initialization for 'mt8186_mt6366_rt1019_rt5682s_soc_card')
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1118:18: note: in expansion of macro 'THIS_MODULE'
+    1118 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1119:10: error: 'struct snd_soc_card_platform' has no member named 'driver'
+    1119 |         .driver = {
+         |          ^~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1119:19: error: extra brace group at end of initializer
+    1119 |         .driver = {
+         |                   ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1119:19: note: (near initialization for 'mt8186_mt6366_rt1019_rt5682s_soc_card')
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1119:19: warning: excess elements in struct initializer
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1119:19: note: (near initialization for 'mt8186_mt6366_rt1019_rt5682s_soc_card')
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1133:15: error: variable 'mt8186_mt6366_rt5682s_max98360_soc_card' has initializer but incomplete type
+    1133 | static struct snd_soc_card_platform mt8186_mt6366_rt5682s_max98360_soc_card = {
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1134:10: error: 'struct snd_soc_card_platform' has no member named 'name'
+    1134 |         .name = "mt8186_rt5682s_max98360",
+         |          ^~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1134:17: warning: excess elements in struct initializer
+    1134 |         .name = "mt8186_rt5682s_max98360",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1134:17: note: (near initialization for 'mt8186_mt6366_rt5682s_max98360_soc_card')
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1135:10: error: 'struct snd_soc_card_platform' has no member named 'owner'
+    1135 |         .owner = THIS_MODULE,
+         |          ^~~~~
+   include/linux/init.h:176:21: warning: excess elements in struct initializer
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1135:18: note: in expansion of macro 'THIS_MODULE'
+    1135 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:176:21: note: (near initialization for 'mt8186_mt6366_rt5682s_max98360_soc_card')
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1135:18: note: in expansion of macro 'THIS_MODULE'
+    1135 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1136:10: error: 'struct snd_soc_card_platform' has no member named 'driver'
+    1136 |         .driver = {
+         |          ^~~~~~
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1136:19: error: extra brace group at end of initializer
+    1136 |         .driver = {
+         |                   ^
+   sound/soc/mediatek/mt8186/mt8186-mt6366.c:1136:19: note: (near initialization for 'mt8186_mt6366_rt5682s_max98360_soc_card')
+--
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1307:15: error: variable 'mt8188_mt6359_soc_card' has initializer but incomplete type
+    1307 | static struct snd_soc_card_platform mt8188_mt6359_soc_card = {
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1308:10: error: 'struct snd_soc_card_platform' has no member named 'owner'
+    1308 |         .owner = THIS_MODULE,
+         |          ^~~~~
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/cache.h:9,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from include/linux/time.h:5,
+                    from include/linux/input.h:8,
+                    from sound/soc/mediatek/mt8188/mt8188-mt6359.c:10:
+   include/linux/init.h:176:21: warning: excess elements in struct initializer
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1308:18: note: in expansion of macro 'THIS_MODULE'
+    1308 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:176:21: note: (near initialization for 'mt8188_mt6359_soc_card')
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1308:18: note: in expansion of macro 'THIS_MODULE'
+    1308 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1309:10: error: 'struct snd_soc_card_platform' has no member named 'driver'
+    1309 |         .driver = {
+         |          ^~~~~~
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1309:19: error: extra brace group at end of initializer
+    1309 |         .driver = {
+         |                   ^
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1309:19: note: (near initialization for 'mt8188_mt6359_soc_card')
+>> sound/soc/mediatek/mt8188/mt8188-mt6359.c:1309:19: warning: excess elements in struct initializer
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1309:19: note: (near initialization for 'mt8188_mt6359_soc_card')
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1307:37: error: storage size of 'mt8188_mt6359_soc_card' isn't known
+    1307 | static struct snd_soc_card_platform mt8188_mt6359_soc_card = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~
+--
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1246:15: error: variable 'mt8195_mt6359_soc_card' has initializer but incomplete type
+    1246 | static struct snd_soc_card_platform mt8195_mt6359_soc_card = {
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1247:10: error: 'struct snd_soc_card_platform' has no member named 'owner'
+    1247 |         .owner = THIS_MODULE,
+         |          ^~~~~
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/cache.h:9,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from include/linux/time.h:5,
+                    from include/linux/input.h:8,
+                    from sound/soc/mediatek/mt8195/mt8195-mt6359.c:11:
+   include/linux/init.h:176:21: warning: excess elements in struct initializer
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1247:18: note: in expansion of macro 'THIS_MODULE'
+    1247 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:176:21: note: (near initialization for 'mt8195_mt6359_soc_card')
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1247:18: note: in expansion of macro 'THIS_MODULE'
+    1247 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1248:10: error: 'struct snd_soc_card_platform' has no member named 'driver'
+    1248 |         .driver = {
+         |          ^~~~~~
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1248:19: error: extra brace group at end of initializer
+    1248 |         .driver = {
+         |                   ^
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1248:19: note: (near initialization for 'mt8195_mt6359_soc_card')
+>> sound/soc/mediatek/mt8195/mt8195-mt6359.c:1248:19: warning: excess elements in struct initializer
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1248:19: note: (near initialization for 'mt8195_mt6359_soc_card')
+   sound/soc/mediatek/mt8195/mt8195-mt6359.c:1246:37: error: storage size of 'mt8195_mt6359_soc_card' isn't known
+    1246 | static struct snd_soc_card_platform mt8195_mt6359_soc_card = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~
 
- 10555	
- 10556	static void __maybe_unused mm_cid_fixup_cpus_to_tasks(struct mm_struct *mm)
- 10557	{
- 10558		unsigned int cpu;
- 10559	
- 10560		/* Walk the CPUs and fixup all stale CIDs */
- 10561		for_each_possible_cpu(cpu) {
- 10562			struct mm_cid_pcpu *pcp = per_cpu_ptr(mm->mm_cid.pcpu, cpu);
- 10563			struct rq *rq = cpu_rq(cpu);
- 10564	
- 10565			/* Remote access to mm::mm_cid::pcpu requires rq_lock */
- 10566			guard(rq_lock_irq)(rq);
- 10567			/* Is the CID still owned by the CPU? */
- 10568			if (cid_on_cpu(pcp->cid)) {
- 10569				/*
- 10570				 * If rq->curr has @mm, transfer it with the
- 10571				 * transition bit set. Otherwise drop it.
- 10572				 */
- 10573				if (rq->curr->mm == mm && rq->curr->mm_cid.active)
- 10574					mm_cid_transit_to_task(rq->curr, pcp);
- 10575				else
- 10576					mm_drop_cid_on_cpu(mm, pcp);
- 10577	
- 10578			} else if (rq->curr->mm == mm && rq->curr->mm_cid.active) {
- 10579				unsigned int cid = rq->curr->mm_cid.cid;
- 10580	
- 10581				/* Ensure it has the transition bit set */
- 10582				if (!cid_in_transit(cid)) {
- 10583					cid = cid_to_transit_cid(cid);
- 10584					rq->curr->mm_cid.cid = cid;
- 10585					pcp->cid = cid;
- 10586				}
- 10587			}
- 10588		}
- 10589		/* Clear the transition bit */
- 10590		WRITE_ONCE(mm->mm_cid.transit, 0);
- 10591	}
- 10592	
+
+vim +1100 sound/soc/mediatek/mt8186/mt8186-mt6366.c
+
+0da16e370dd7a1 sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c Jiaxin Yu                  2022-07-19  1098  
+cc97e5ee4f734c sound/soc/mediatek/mt8186/mt8186-mt6366.c                Kuninori Morimoto          2026-05-18  1099  static struct snd_soc_card_platform mt8186_mt6366_da7219_max98357_soc_card = {
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16 @1100  	.name = "mt8186_da7219_max98357",
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1101  	.owner = THIS_MODULE,
+cc97e5ee4f734c sound/soc/mediatek/mt8186/mt8186-mt6366.c                Kuninori Morimoto          2026-05-18  1102  	.driver = {
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1103  		.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1104  		.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1105  		.controls = mt8186_mt6366_da7219_max98357_controls,
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1106  		.num_controls = ARRAY_SIZE(mt8186_mt6366_da7219_max98357_controls),
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1107  		.dapm_widgets = mt8186_mt6366_da7219_max98357_widgets,
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1108  		.num_dapm_widgets = ARRAY_SIZE(mt8186_mt6366_da7219_max98357_widgets),
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1109  		.dapm_routes = mt8186_mt6366_rt1019_rt5682s_routes,
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1110  		.num_dapm_routes = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_routes),
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1111  		.codec_conf = mt8186_mt6366_rt1019_rt5682s_codec_conf,
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1112  		.num_configs = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_codec_conf),
+cc97e5ee4f734c sound/soc/mediatek/mt8186/mt8186-mt6366.c                Kuninori Morimoto          2026-05-18  1113  	},
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1114  };
+6ed619b348bf0a sound/soc/mediatek/mt8186/mt8186-mt6366.c                AngeloGioacchino Del Regno 2024-04-16  1115  
+
+:::::: The code at line 1100 was first introduced by commit
+:::::: 6ed619b348bf0a490e70dea7a330cf44dc81c16d ASoC: mediatek: mt8186: Unify mt8186-mt6366 machine drivers
+
+:::::: TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
