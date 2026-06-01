@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6ED35C1A1;
-	Mon,  1 Jun 2026 19:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34AF357CF3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 19:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780341665; cv=none; b=cDx2aHVuIrXSaxW5TvUtCGPe7EZosyYbTN+gar4A0pPvhuUs+gL6bXLFiKlcKUvBoQ5u8wTnfT4DsSE9hygN+X3ZYg9pihFXVk+5ZKRXBpSlVq4JWC13Cf8TbYUv5VVoUrll4H60rPiBQm9knrcHL1CHIlk3BxEOlkUOE8SstL0=
+	t=1780341665; cv=none; b=A8gg5Y5rHAoft/VhTQjHOt5h/tx/k7Q8+Obe659Fo1x1M53voK/d6wMTakeVsBpsA9F5HmR0pEytiNPqFPgfL8XhuMYgZWDYVgtn/1WXqSbVb+iKcebxelpWw+dkPGnbkXAwSYv/EnwxGPM9pA5+xIoDzZn/4QQF9IOvagoBf/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780341665; c=relaxed/simple;
-	bh=mCp2yLzZgff8G6L7EK7dF8PSRmguJwd3YspP1CyF9Vc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M2+v7TjIPXrbxtBy+YWmtxHjlUxhQYQ+mwi5Zqt/4k+6wrRThaTdcjTeKl6Ui3gXjYy8TC/hzZvbhz1qf4T+c2OAg2V2tOs5WNRFesYv2zpBCqgyk/N65tyQgqvXgh7ycF05qmZd91UklnBfV9xdMw9+N89Aw22Mqgo8wolpkzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XtPAT8Np; arc=none smtp.client-ip=198.175.65.19
+	bh=pZM/A/sJdbmusg4rl5m0RiTwSehPGCzJVwZkF68DH0A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cxaTfVX6SUVeeje5sbbzHr0T3Wkc4CyTcysSxC10u2ATdldHdfVnBjq4Pv1gIK5JizzeSM6YUd+1C6D6NurjRvE1xR2QkzD7M4BDyDC4x+uNDnhMuqbfICwI+OCaDIlUGzIL1q2TkQGUPQwY1LjvaaLi1ht9biQF3WGZXeySw2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b3SO8XO1; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XtPAT8Np"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b3SO8XO1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1780341664; x=1811877664;
   h=date:from:to:cc:subject:message-id;
-  bh=mCp2yLzZgff8G6L7EK7dF8PSRmguJwd3YspP1CyF9Vc=;
-  b=XtPAT8NpawpVgZXaDggd5VCJsQv8fsvvlU+J1T+txfZDPCa+MGU6FjDL
-   N6iArojgC1Kopqgq5UX9k3o/fL/bKfonigMCIVAaXqenpZhjEwkeRal+u
-   RgF+RjRj4NZdZrtU+gVUfA7Z5JjmLDSwr/xBi80G8th3lGwKEssVGK40c
-   fGPR+CagJ4FQVBN/sxOYAHBfQHlrc/wIbbHWR/Co3cfw0AYpno5yNLzbn
-   vn+/F7jnhc2EOiyExkqZAkHDSZWawgBLFsqxBjj7licSD/7hhjkK8CT2J
-   ySu7gwEJZxz5yJRE99KBXehaOWwA4VkMAlxmShBAVvMG0sUakx8ScoM1K
-   A==;
-X-CSE-ConnectionGUID: BEg3et6YQEqFwyJMvGgI5A==
-X-CSE-MsgGUID: vFEsHdBQSzCe/dvqnxViRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81083309"
+  bh=pZM/A/sJdbmusg4rl5m0RiTwSehPGCzJVwZkF68DH0A=;
+  b=b3SO8XO1FZSRoU9XMte6yW9yrZcwKA/iX4mysPANt295dXR8vxRn6l7q
+   ZXCohLddzi/fzRoqjCgLuXm4WD/S96sS16qGCJ59sUTSwhDnK8bkh9i/e
+   U0zVKN6IWxwQWcDyfy0uuKzKN8dtlipihQWjS1vBYWpybddLbIsUzWQoQ
+   7WClLUqKZlWGHFvdckvPYQT1NGHn4Sags917Ufx8ryJO+lUDd4xYgSx/n
+   /YifisF/oXIbHSHOv6Ii092OdjEsDwcGUyIUXptvoiKS8L1zuVoCra4s5
+   Ttk6S1XG/Ui0SoeBPYtbH8eb6TvidIYFq6O3cGQKGillTPL+qoLPHZwfH
+   Q==;
+X-CSE-ConnectionGUID: zteIKJEQRR6WroHIUg5M+g==
+X-CSE-MsgGUID: jiAd25uPT8W3ugSwUkeXiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81083307"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="81083309"
+   d="scan'208";a="81083307"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 12:21:01 -0700
-X-CSE-ConnectionGUID: Iclkm0XSTNmEbSSDazNh6A==
-X-CSE-MsgGUID: dV0bEQdNTDCt9AgAltqVxw==
+X-CSE-ConnectionGUID: lzjFIHGdTbmmfza9Id35JQ==
+X-CSE-MsgGUID: kDs/Ztq4RGeN8j5nY6fXmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="273943775"
+   d="scan'208";a="273943773"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 01 Jun 2026 12:21:01 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wU8C1-00000000Azg-38Wk;
+	id 1wU8C1-00000000Aze-30Jj;
 	Mon, 01 Jun 2026 19:20:57 +0000
-Date: Tue, 02 Jun 2026 03:20:01 +0800
+Date: Tue, 02 Jun 2026 03:20:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
- sound/soc/mediatek/mt2701/mt2701-wm8960.c:93:37: error: variable has
- incomplete type 'struct snd_soc_card_platform'
-Message-ID: <202606020324.E8mr7SGm-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 4036/9870] Warning: lib/rhashtable.c:1030
+ expecting prototype for rhashtable_init(). Prototype was for
+ __rhashtable_init() instead
+Message-ID: <202606020301.Un7nzzO0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,45 +60,24 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
-head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
-commit: ba780c31a4e60755ed798ac2484d34e12441f8de [290/290] ASoC: mediatek: mt2701-wm8960: use snd_soc_card_register()
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260602/202606020324.E8mr7SGm-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020324.E8mr7SGm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7da7f07112610a520567421dd2ffcb51beaefbcc
+commit: 060d4e94b8d400b62453890821bd7feecd4cde2c [4036/9870] rhashtable: give each instance its own lockdep class
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260602/202606020301.Un7nzzO0-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020301.Un7nzzO0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606020324.E8mr7SGm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606020301.Un7nzzO0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/soc/mediatek/mt2701/mt2701-wm8960.c:93:37: error: variable has incomplete type 'struct snd_soc_card_platform'
-      93 | static struct snd_soc_card_platform mt2701_wm8960_card_platform = {
-         |                                     ^
-   sound/soc/mediatek/mt2701/mt2701-wm8960.c:93:15: note: forward declaration of 'struct snd_soc_card_platform'
-      93 | static struct snd_soc_card_platform mt2701_wm8960_card_platform = {
-         |               ^
-   1 error generated.
-
-
-vim +93 sound/soc/mediatek/mt2701/mt2701-wm8960.c
-
-    92	
-  > 93	static struct snd_soc_card_platform mt2701_wm8960_card_platform = {
-    94		.name = "mt2701-wm8960",
-    95		.owner = THIS_MODULE,
-    96		.driver = {
-    97			.dai_link = mt2701_wm8960_dai_links,
-    98			.num_links = ARRAY_SIZE(mt2701_wm8960_dai_links),
-    99			.controls = mt2701_wm8960_controls,
-   100			.num_controls = ARRAY_SIZE(mt2701_wm8960_controls),
-   101			.dapm_widgets = mt2701_wm8960_widgets,
-   102			.num_dapm_widgets = ARRAY_SIZE(mt2701_wm8960_widgets),
-   103		},
-   104	};
-   105	
+   Warning: lib/rhashtable.c:1030 function parameter 'key' not described in '__rhashtable_init'
+>> Warning: lib/rhashtable.c:1030 expecting prototype for rhashtable_init(). Prototype was for __rhashtable_init() instead
+   Warning: lib/rhashtable.c:1104 function parameter 'key' not described in '__rhltable_init'
+   Warning: lib/rhashtable.c:1104 expecting prototype for rhltable_init(). Prototype was for __rhltable_init() instead
 
 --
 0-DAY CI Kernel Test Service
