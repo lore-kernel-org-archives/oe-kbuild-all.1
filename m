@@ -1,88 +1,72 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEB7390985
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 09:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F3939BFE7
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 11:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780306198; cv=none; b=OIIl8kjhdvwKjBtcTazCyv9RPplCcEJQ4tLQ4/xpSOObMj1lAOA8KfqTs3Si4sfmLoNNuj4796KZmm5lsB3QzqVGJcOoSuGuvTXtMuuBp6cG+FY8EC92PVIoPv9XLW7ioRDmb6kMpYgs7c75llM2PGc/n9FLU9L2OHmfEv1lMa4=
+	t=1780313048; cv=none; b=X3xEcaVcFAPnOwDLHDpVzqNEZbhDxJhiuJGXDeGI0uSXAVHC2LhNWexeBePS/6c5wX3XY705iCUfOmCmg+soCoZktmS+3kKIs2d4m+xJHk9WoKTjCTw8uzJPRGqTeS16prOnXHMadKsCUiUp532chyQuFgXI95PLFFJAaPD4yII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780306198; c=relaxed/simple;
-	bh=gcL11uWBi7+521a/swSLxsPdFD2yXU9/tDxeGdKh5o0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TauROgLdGDGo8jO0wLT5Nsw0kcjx8NipKvZkLR/oQd0rS/x0Shz3sS/ueWS+ZekqmnGpQ3dZsBZttWomt9cu6GsVX6geFZuLU9nGIDExTuOhICZH7L1Yum1Ro4VRFmZcmWHS5l7TfaYTkcGS4A/8c6oVJNgBseQwuNneXO2PUes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fT7eOk2/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LwwhhpTX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fT7eOk2/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LwwhhpTX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1780313048; c=relaxed/simple;
+	bh=u2Wg7/wkOYY/zwZKZHdM4GhZp/OBLEav78Qi8gTKzjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=t6s77kqhugEtsFHbEdO1ukLihO3JkAWTsymiHKbwjiiVU/HHba01rOwTlIiHpjecUe+OHDvQJ03hZHW8jrYx8HXHuGuOppEUa6iai7mpXYJbMVY8kzRzBmF3KWMbqYfiRPeI/9R7zFrD+eR59Do3XuK08JQ1tazxnLBMWTzHrgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zy6ou+/H; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fT7eOk2/";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LwwhhpTX";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fT7eOk2/";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LwwhhpTX"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C2B1F66D2E;
-	Mon,  1 Jun 2026 09:29:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780306193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DapO5g55BWAO53IfVTKZC7bT6Fm/+2GfVus0svtSJFk=;
-	b=fT7eOk2/+UsyVlLrozFsMvCcWnr9ZXOHcM+uKQhDqBNPvbLUcYpVin6v6zuzS2AbHFdCRX
-	1aiUj6rU/IbIhziR7gUdOdTr3wW3FuyRC8pFyB0C5g8XNhtMk/aCAZtO87d4Y/ohaDfvaA
-	vUWieYv/CteBaU3ojBdGa0BJ6bLQoT8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780306193;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DapO5g55BWAO53IfVTKZC7bT6Fm/+2GfVus0svtSJFk=;
-	b=LwwhhpTXUFUQlTN5Sf45zrIoZT92R2K9DJJT4orI9YSAJEJeUE8jb/NSB3nFI6g5HLH6ru
-	vXqVgTQBI8SlpRCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="fT7eOk2/";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=LwwhhpTX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780306193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DapO5g55BWAO53IfVTKZC7bT6Fm/+2GfVus0svtSJFk=;
-	b=fT7eOk2/+UsyVlLrozFsMvCcWnr9ZXOHcM+uKQhDqBNPvbLUcYpVin6v6zuzS2AbHFdCRX
-	1aiUj6rU/IbIhziR7gUdOdTr3wW3FuyRC8pFyB0C5g8XNhtMk/aCAZtO87d4Y/ohaDfvaA
-	vUWieYv/CteBaU3ojBdGa0BJ6bLQoT8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780306193;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DapO5g55BWAO53IfVTKZC7bT6Fm/+2GfVus0svtSJFk=;
-	b=LwwhhpTXUFUQlTN5Sf45zrIoZT92R2K9DJJT4orI9YSAJEJeUE8jb/NSB3nFI6g5HLH6ru
-	vXqVgTQBI8SlpRCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ADBD1779A7;
-	Mon,  1 Jun 2026 09:29:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hhRpKhFRHWqyUAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 01 Jun 2026 09:29:53 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 54F76A0EBE; Mon, 01 Jun 2026 11:29:53 +0200 (CEST)
-Date: Mon, 1 Jun 2026 11:29:53 +0200
-From: Jan Kara <jack@suse.cz>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Cc: kernel test robot <lkp@intel.com>, jack <jack@suse.com>, 
-	oe-kbuild-all <oe-kbuild-all@lists.linux.dev>, linux-ext4 <linux-ext4@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4] ext2: Remove deprecated DAX support
-Message-ID: <mcagjzg2lqxqvhbfschylrc345m33367fue24vfuh6cuh6vybr@khd5lm7ur34p>
-References: <19e5aa07c9b.3a2e576d130187.5289857983023045470@zohomail.in>
- <202605281203.e91xvDyr-lkp@intel.com>
- <19e6db0f597.25d55d43200914.4102954258751814923@zohomail.in>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zy6ou+/H"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68b2229b48eso6807365a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Jun 2026 04:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780313046; x=1780917846; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9IsruQ+xb754I9A+RmHdRJ+tfp/OEfSP2zbAEjgvAx4=;
+        b=Zy6ou+/H5JTtjkFRC/cX+SSjd4SsR8hjx1eC09lketOYmQFTBq7rNVHm15PAiVUC5y
+         4+HYU3I12hZqOZ6ngNl0PZSVzCEa0/Ez5qpnZ9zExhW/M/wj0kFPsLnTg5QYb+jIM+XV
+         blR1skqjHG4nEt99bDCp2GwsnMa8cHzjcH1EiINu7bQeKzdxqq7Cz7JxCQSCUJX3IG36
+         Rlp/sjjFCfG1y6rjUY91tZUTQqif7XrRS8N8qEDrqiRLhPzsj6WmOlGK0mKRUSzeVtye
+         36NuTiyAovhW37w/jP0GJCcQ+p/WxI2EJuL1O07qI3zFrsrfEyeTAShd3YbBwLiaqHsV
+         dogA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780313046; x=1780917846;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9IsruQ+xb754I9A+RmHdRJ+tfp/OEfSP2zbAEjgvAx4=;
+        b=mH9CSw+rgatsXriy55AlYQxa02UL+fzfUdkjJw9QqpMtFTwaMSj91wTEu2+L/97J1/
+         JjLW4cOKiv5jt5Rpvpyonw8BlZr0o0YDMDlitHvXQ5hKLUkFQkZg8HftLkCetan4LzNZ
+         vcE0lSD+U1ipN0eSkVIi8d6YnrXEtRAiX8+JmOx8OfvwrUJEMcynfu9M2pB5R81n4Thb
+         /aEoRKbrhlk1mdcvFzyaREn3yoQg8QXoCyH03JROM750tGj6e5JZ1y+UEz39X+ZYhHMm
+         V2giOCo/SMibEpXpyAeZewcGRRGg6xEMSxtko2IUlWxDkY1JYeM+g79EGsjULKVrPczj
+         s7OQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+0ic00ttyeSDSI2SApKjIEgRLVTPpB2ZtakSrURIS0IWODZcdY6RM9NzfpQmBCPU3d6vWz9kAWv1MQSi1E@lists.linux.dev
+X-Gm-Message-State: AOJu0YxE6rQbzgtHgrbsNsiRdywce2BxqLhWmnx/pb117s9CW8Y0SMQ9
+	UD9UBUkdijqQKKiQ6m/WOq9ddpfCRzmHFG7diAyXdffIbsiFgY6djqZ6
+X-Gm-Gg: Acq92OESy3sl2s2Of8Lr3D8t7/uGXwM0HzfJOLF+hjeuyYHKMsELlIfwPNRNMQf5X2/
+	266P6TGtt7jtrhqVEf0JSn1b4sHITaKC2XXUAXQr0qwIny2+AqNEFZgAUflhnPfN/V7h6Cb2akt
+	0OdRTQVrMmHyD9k16P4w4pPjVboJ1EF5SCtSZGF0//cRpg29Xxi/OgR5jiKX3IbpMsvKTQRcU2A
+	K5N5Px1+oQdm4HcaTuORSVhDtTVj2lqL7HZ+WTTMuxBAHZ3nqSmuD3z57s5VTQugZpIUeWWQlFM
+	WWp0R9V4SrmCZi/MSMEkUak/c+jJVHcp7K3uaHwbU2Xx+sHvaPpOZxaWH3B7jhnzxQxCW1MOTpw
+	YPFX948z88i1OmR94SU1xuC/9S3nzHmIYG+MaCpwcr1SW22nS20WWA0WP53qjpD/cL/gm1IEqc1
+	tsEG8STwbWuFuvH+HqB10d7mJF7GaFG6K2K6e0/P/elK+F
+X-Received: by 2002:a17:907:a68b:b0:bd2:aeaf:470c with SMTP id a640c23a62f3a-beab2758bcamr573962666b.40.1780313045324;
+        Mon, 01 Jun 2026 04:24:05 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-beb4356b901sm206634966b.9.2026.06.01.04.24.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2026 04:24:03 -0700 (PDT)
+Date: Mon, 1 Jun 2026 14:24:00 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Sean Wang <sean.wang@mediatek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Felix Fietkau <nbd@nbd.name>, Javier Tia <floss@jetm.me>
+Subject: [nbd168-wireless:mt76 34/42]
+ drivers/net/wireless/mediatek/mt76/mt7925/main.c:415
+ mt7925_mac_link_bss_add() error: we previously assumed
+ 'mvif->phy->mt76->chandef.chan' could be null (see line 405)
+Message-ID: <202606011203.GwBe93Bo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -91,132 +75,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <19e6db0f597.25d55d43200914.4102954258751814923@zohomail.in>
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: C2B1F66D2E
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,git-scm.com:url,01.org:url,suse.cz:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
 
-On Thu 28-05-26 13:56:14, Ashwin Gundarapu wrote:
-> This indentation warning is from pre-existing code (originally written in
-> 2010) that my patch did not touch. I prefer to keep this patch focused
-> solely on removing deprecated DAX support. A separate cleanup patch can
-> be submitted later if desired.
+tree:   https://github.com/nbd168/wireless mt76
+head:   4913f44167cf35a9536e9eec7352e15b2de0c573
+commit: b7ce8a8162e825b541286a4682ca6194e7c15dc2 [34/42] wifi: mt76: mt7925: sync MT7927 BSS band assignment
+config: i386-randconfig-141-20260601 (https://download.01.org/0day-ci/archive/20260601/202606011203.GwBe93Bo-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-Actually no, your patch indeed introduced several indentation problems (by
-removing some conditions but not reindenting internal blocks). Also there
-were some spurious empty lines added. No need to resend, I've fixed that up
-on commit. Thanks for the patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606011203.GwBe93Bo-lkp@intel.com/
 
-								Honza
+smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7925/main.c:415 mt7925_mac_link_bss_add() error: we previously assumed 'mvif->phy->mt76->chandef.chan' could be null (see line 405)
 
+vim +415 drivers/net/wireless/mediatek/mt76/mt7925/main.c
 
-> Regards,
-> Ashwin Gundarapu
-> 
-> From: kernel test robot <lkp@intel.com>
-> To: "Ashwin Gundarapu"<linuxuser509@zohomail.in>, "jack"<jack@suse.com>
-> Cc: <oe-kbuild-all@lists.linux.dev>, "linux-ext4"<linux-ext4@vger.kernel.org>, "linux-kernel"<linux-kernel@vger.kernel.org>
-> Date: Thu, 28 May 2026 09:46:32 +0530
-> Subject: Re: [PATCH v4] ext2: Remove deprecated DAX support
-> 
->  > Hi Ashwin, 
->  >  
->  > kernel test robot noticed the following build warnings: 
->  >  
->  > [auto build test WARNING on jack-fs/for_next] 
->  > [also build test WARNING on linus/master v7.1-rc5 next-20260527] 
->  > [If your patch is applied to the wrong git tree, kindly drop us a note. 
->  > And when submitting patch, we suggest to use '--base' as documented in 
->  > https://git-scm.com/docs/git-format-patch#_base_tree_information] 
->  >  
->  > url: https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/ext2-Remove-deprecated-DAX-support/20260524-233631 
->  > base: https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git for_next 
->  > patch link: https://lore.kernel.org/r/19e5aa07c9b.3a2e576d130187.5289857983023045470%40zohomail.in 
->  > patch subject: [PATCH v4] ext2: Remove deprecated DAX support 
->  > config: arm-randconfig-r071-20260528 (https://download.01.org/0day-ci/archive/20260528/202605281203.e91xvDyr-lkp@intel.com/config) 
->  > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261) 
->  > smatch: v0.5.0-9185-gbcc58b9c 
->  >  
->  > If you fix the issue in a separate patch/commit (i.e. not just a new version of 
->  > the same patch/commit), kindly add following tags 
->  > | Reported-by: kernel test robot <lkp@intel.com> 
->  > | Closes: https://lore.kernel.org/oe-kbuild-all/202605281203.e91xvDyr-lkp@intel.com/ 
->  >  
->  > smatch warnings: 
->  > fs/ext2/inode.c:1251 ext2_setsize() warn: inconsistent indenting 
->  >  
->  > vim +1251 fs/ext2/inode.c 
->  >  
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1236 
->  > 2c27c65ed0696f0 Christoph Hellwig 2010-06-04  1237  static int ext2_setsize(struct inode *inode, loff_t newsize) 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1238  { 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1239      int error; 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1240 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1241      if (!(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode) || 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1242          S_ISLNK(inode->i_mode))) 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1243          return -EINVAL; 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1244      if (ext2_inode_is_fast_symlink(inode)) 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1245          return -EINVAL; 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1246      if (IS_APPEND(inode) || IS_IMMUTABLE(inode)) 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1247          return -EPERM; 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1248 
->  > 562c72aa57c36b1 Christoph Hellwig 2011-06-24  1249      inode_dio_wait(inode); 
->  > 562c72aa57c36b1 Christoph Hellwig 2011-06-24  1250 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27 @1251              error = block_truncate_page(inode->i_mapping, 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1252                                  newsize, ext2_get_block); 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1253      if (error) 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1254          return error; 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1255 
->  > 70f3bad8c3154ba Jan Kara          2021-04-12  1256      filemap_invalidate_lock(inode->i_mapping); 
->  > 2c27c65ed0696f0 Christoph Hellwig 2010-06-04  1257      truncate_setsize(inode, newsize); 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1258      __ext2_truncate_blocks(inode, newsize); 
->  > 70f3bad8c3154ba Jan Kara          2021-04-12  1259      filemap_invalidate_unlock(inode->i_mapping); 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1260 
->  > 5cdc59fce617a2e Jeff Layton       2023-10-04  1261      inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode)); 
->  > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1262      if (inode_needs_sync(inode)) { 
->  > b0439bbc29f0201 Jan Kara          2026-03-26  1263          mmb_sync(&EXT2_I(inode)->i_metadata_bhs); 
->  > c37650161a53c01 Christoph Hellwig 2010-10-06  1264          sync_inode_metadata(inode, 1); 
->  > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1265      } else { 
->  > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1266          mark_inode_dirty(inode); 
->  > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1267      } 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1268 
->  > 737f2e93b9724a3 Nicholas Piggin   2010-05-27  1269      return 0; 
->  > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1270  } 
->  > ^1da177e4c3f415 Linus Torvalds    2005-04-16  1271 
->  >  
->  > -- 
->  > 0-DAY CI Kernel Test Service 
->  > https://github.com/intel/lkp-tests/wiki 
->  >  
->  > 
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+95977b1d10cfeb Sean Wang      2024-06-12  375  static int mt7925_mac_link_bss_add(struct mt792x_dev *dev,
+95977b1d10cfeb Sean Wang      2024-06-12  376  				   struct ieee80211_bss_conf *link_conf,
+95977b1d10cfeb Sean Wang      2024-06-12  377  				   struct mt792x_link_sta *mlink)
+c948b5da6bbec7 Deren Wu       2023-09-18  378  {
+95977b1d10cfeb Sean Wang      2024-06-12  379  	struct mt792x_bss_conf *mconf = mt792x_link_conf_to_mconf(link_conf);
+95977b1d10cfeb Sean Wang      2024-06-12  380  	struct ieee80211_vif *vif = link_conf->vif;
+95977b1d10cfeb Sean Wang      2024-06-12  381  	struct mt792x_vif *mvif = mconf->vif;
+c948b5da6bbec7 Deren Wu       2023-09-18  382  	struct mt76_txq *mtxq;
+c948b5da6bbec7 Deren Wu       2023-09-18  383  	int idx, ret = 0;
+c948b5da6bbec7 Deren Wu       2023-09-18  384  
+4bada9b0a29c18 Ming Yen Hsieh 2025-03-04  385  	if (vif->type == NL80211_IFTYPE_P2P_DEVICE) {
+4bada9b0a29c18 Ming Yen Hsieh 2025-03-04  386  		mconf->mt76.idx = MT792x_MAX_INTERFACES;
+4bada9b0a29c18 Ming Yen Hsieh 2025-03-04  387  	} else {
+95977b1d10cfeb Sean Wang      2024-06-12  388  		mconf->mt76.idx = __ffs64(~dev->mt76.vif_mask);
+4bada9b0a29c18 Ming Yen Hsieh 2025-03-04  389  
+95977b1d10cfeb Sean Wang      2024-06-12  390  		if (mconf->mt76.idx >= MT792x_MAX_INTERFACES) {
+c948b5da6bbec7 Deren Wu       2023-09-18  391  			ret = -ENOSPC;
+c948b5da6bbec7 Deren Wu       2023-09-18  392  			goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  393  		}
+4bada9b0a29c18 Ming Yen Hsieh 2025-03-04  394  	}
+c948b5da6bbec7 Deren Wu       2023-09-18  395  
+0cb349d742d177 Sean Wang      2024-07-06  396  	mconf->mt76.omac_idx = ieee80211_vif_is_mld(vif) ?
+0cb349d742d177 Sean Wang      2024-07-06  397  			       0 : mconf->mt76.idx;
+0cb349d742d177 Sean Wang      2024-07-06  398  	mconf->mt76.band_idx = 0xff;
+b7ce8a8162e825 Sean Wang      2026-04-25  399  
+b7ce8a8162e825 Sean Wang      2026-04-25  400  	if (is_mt7927(&dev->mt76)) {
+b7ce8a8162e825 Sean Wang      2026-04-25  401  		struct ieee80211_channel *chan = NULL;
+b7ce8a8162e825 Sean Wang      2026-04-25  402  
+b7ce8a8162e825 Sean Wang      2026-04-25  403  		if (link_conf->chanreq.oper.chan)
+b7ce8a8162e825 Sean Wang      2026-04-25  404  			chan = link_conf->chanreq.oper.chan;
+b7ce8a8162e825 Sean Wang      2026-04-25 @405  		else if (mvif->phy->mt76->chandef.chan)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+We added this NULL check which is basically a no-op since:
+	else
+		chan = mvif->phy->mt76->chandef.chan;
+would work the same way.
+
+b7ce8a8162e825 Sean Wang      2026-04-25  406  			chan = mvif->phy->mt76->chandef.chan;
+b7ce8a8162e825 Sean Wang      2026-04-25  407  
+b7ce8a8162e825 Sean Wang      2026-04-25  408  		mconf->mt76.band_idx = mt7927_band_idx(chan->band);
+b7ce8a8162e825 Sean Wang      2026-04-25  409  	}
+b7ce8a8162e825 Sean Wang      2026-04-25  410  
+ac03e5b82bc6b4 Ming Yen Hsieh 2024-12-10  411  	mconf->mt76.wmm_idx = ieee80211_vif_is_mld(vif) ?
+ac03e5b82bc6b4 Ming Yen Hsieh 2024-12-10  412  			      0 : mconf->mt76.idx % MT76_CONNAC_MAX_WMM_SETS;
+4bada9b0a29c18 Ming Yen Hsieh 2025-03-04  413  	mconf->mt76.link_idx = hweight16(mvif->valid_links);
+c948b5da6bbec7 Deren Wu       2023-09-18  414  
+95977b1d10cfeb Sean Wang      2024-06-12 @415  	if (mvif->phy->mt76->chandef.chan->band != NL80211_BAND_2GHZ)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Then the dereference it without checking.  Should this be "chan->band"
+instead, btw?
+
+95977b1d10cfeb Sean Wang      2024-06-12  416  		mconf->mt76.basic_rates_idx = MT792x_BASIC_RATES_TBL + 4;
+c948b5da6bbec7 Deren Wu       2023-09-18  417  	else
+95977b1d10cfeb Sean Wang      2024-06-12  418  		mconf->mt76.basic_rates_idx = MT792x_BASIC_RATES_TBL;
+c948b5da6bbec7 Deren Wu       2023-09-18  419  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
