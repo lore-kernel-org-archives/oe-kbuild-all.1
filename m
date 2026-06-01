@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D348A377EAF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 15:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C663D8112
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 15:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780326972; cv=none; b=OX1LVqzsDy3TRiHesK2R1grhV66HcJfnvbA/XMdnC1lyp/hmT4yZ8Lo40vj8+6fkeohS6gfeoT6qKEgQ7Hky+BwXriqU054Iyv6CDVCR4QjD+e48zRR2OGZiLYXZKySEsAhhsVpJr2W+cnw7n2Hsr/Xhcgv8tI/TrDFQ2HvdhZw=
+	t=1780327637; cv=none; b=n37n7y4ZyIRaVPCV2qp45kFTu+VhohwWbtbB/eRROnpzdPteHUDDunJRKyJqLqmz/4vOQ92YAC9bad06pnI7Ha2/MFOLw7gGqM4NIsojW6H7BWDDPB6mitqE9WF8vvlqKKsFRjZszLSyCdeg3RsM2Lmu4q7Io+atT2mfhgp6wrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780326972; c=relaxed/simple;
-	bh=foSzzkGad1LX4Am/cu1katEgfRoMWTRe+kABmqu1rlE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Amp1cpuTsW3hMCsVSgGGTv7Qt7E8GpOZcvovH43LFdvkBV0IIJG2phLa18RSyPaUZPZADeDpVK5OTKDd9nmcCReYA2wrhlmQCTrbZcliMIOqzVI2cpsbo0WzJTmj0icd9TQU4Guk9KsYBnOvVLXjftPKx3UZ8uztnR3YnzDjvz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XEE5l6Mp; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1780327637; c=relaxed/simple;
+	bh=zEXG6PuN+G4gaZu7HBhfa0OVJo6VtkON69ZC+KLZ+jA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nJxRxjk7r7yNFmJ/5jmG4MRzdTjqCADUJNepRTWpsncsjHUsSCBypF76hwt5Em5kqFbPVlz04itlo6JKGqQhHTLaRT1RePh3z40iEUXb8CzneTDH1eAA+koOYhuADdASp1GvdS0cOxOcpB8zBleTT8mQGCSLOvaZTaRgnletWac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XWDooHvi; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XEE5l6Mp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XWDooHvi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780326971; x=1811862971;
+  t=1780327630; x=1811863630;
   h=date:from:to:cc:subject:message-id;
-  bh=foSzzkGad1LX4Am/cu1katEgfRoMWTRe+kABmqu1rlE=;
-  b=XEE5l6MpfO1w/s2TLEJqdzWHLzcqHcSdOrYTXpzkz42eIB7ViwVRQdmh
-   c8ni/6bDCUj1oEM97LT8H5sJUhCkHwzucZgVeORpGmcZFHVkiSX9/ehd2
-   wFisiCtVljqqYXFSux5OEO1/lBGJ7tf84Xs03gZC10//CTVlAIIohOeBQ
-   dGTYtbyuwKbh6fOptw7ORyVGXcBmCtgrhl4pdNWj5JzvP60fJVLUhmxBi
-   Z68ujJInRkhaQWYYoyBd2f94vkU6URWkS/P+AypMRqZjV1UnwqoEn3wu8
-   jEOngSb9hkuUXJbDKdbMAG5tNdYE+UHqkjJr8suJQTEARZicK+CAp+q/s
-   w==;
-X-CSE-ConnectionGUID: oaIN31HXRDKveRtbM8qTUQ==
-X-CSE-MsgGUID: E1yOyNyZRRa5J1BzdR4Miw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="68622075"
+  bh=zEXG6PuN+G4gaZu7HBhfa0OVJo6VtkON69ZC+KLZ+jA=;
+  b=XWDooHvisp2YkKtMRPrAHx/qIbbSUFTdNmSYsmpeynaKE+xd2TRJGLOZ
+   y8hBToceyHw5v/wP7R9x+qOats6sV/8cB6LgXnb4MsVAnG/Ug4W/h+V1v
+   tK4+rNpN9awYajd1BJmM99LUeZAWvyiZZRBbk/YHr92uWj7ApV7frSbgA
+   grPoPGHJgHFq3tfo1fdoY+ov0ONCkMql9b8tDvrL1Anw+xGVL1YP4uQRs
+   XN5jm3LAI0TTEOK6itxQECxvwjug8Ojx8rnXDZr7n9aTbceLT/ddH6B7V
+   1/qnqoZ8Snnxj64HCttZvOZPWb62cgPQPjCDAV0j8AawPBNwwRbgKcEba
+   Q==;
+X-CSE-ConnectionGUID: KK/7PwYVQAOc0P1HS8Iqjg==
+X-CSE-MsgGUID: nmHpEAifS4SCQDKSMgPZeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="103757328"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="68622075"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 08:16:10 -0700
-X-CSE-ConnectionGUID: BJcyftg+RJCPNcSclKa6rA==
-X-CSE-MsgGUID: cWFJFkkGRpqMVO3v/yXabA==
+   d="scan'208";a="103757328"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 08:27:10 -0700
+X-CSE-ConnectionGUID: PQvfhJkESvqAQWwKpZptKw==
+X-CSE-MsgGUID: tmSR6/8mTJa9qUFfDF+yAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="247564939"
+   d="scan'208";a="243728934"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 01 Jun 2026 08:16:08 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Jun 2026 08:27:08 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wU4N3-00000000Ahq-1NPB;
-	Mon, 01 Jun 2026 15:16:05 +0000
-Date: Mon, 01 Jun 2026 23:15:18 +0800
+	id 1wU4Xi-00000000AiS-0bt7;
+	Mon, 01 Jun 2026 15:27:06 +0000
+Date: Mon, 01 Jun 2026 23:26:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>
-Subject: drivers/mmc/host/wmt-sdmmc.c:241:39: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202606012342.rl7e4RO3-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
+ sound/soc/spacemit/k1_i2s.c:112:40: error: implicit declaration of function
+ 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'?
+Message-ID: <202606012315.T2yj09vP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,58 +60,68 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e43ffb69e0438cddd72aaa30898b4dc446f664f8
-commit: 7cd8db0fb0b2bf309163d56fec585c0f9e0964d1 mmc: add COMPILE_TEST to multiple drivers
-date:   9 months ago
-config: s390-randconfig-r131-20260601 (https://download.01.org/0day-ci/archive/20260601/202606012342.rl7e4RO3-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260601/202606012342.rl7e4RO3-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
+head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
+commit: 8be84f679bd497ac2dabc87df9f9a4737f841c0d [290/290] ASoC: soc-dai: remove snd_soc_dai_{set/get}_drvdata()
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20260601/202606012315.T2yj09vP-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260601/202606012315.T2yj09vP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7cd8db0fb0b2 ("mmc: add COMPILE_TEST to multiple drivers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606012342.rl7e4RO3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606012315.T2yj09vP-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mmc/host/wmt-sdmmc.c:241:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
-   drivers/mmc/host/wmt-sdmmc.c:241:39: sparse:     expected unsigned int
-   drivers/mmc/host/wmt-sdmmc.c:241:39: sparse:     got restricted __be32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +241 drivers/mmc/host/wmt-sdmmc.c
+   sound/soc/spacemit/k1_i2s.c: In function 'spacemit_i2s_startup':
+>> sound/soc/spacemit/k1_i2s.c:112:40: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     112 |         struct spacemit_i2s_dev *i2s = snd_soc_dai_get_drvdata(dai);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                        snd_soc_card_get_drvdata
+>> sound/soc/spacemit/k1_i2s.c:112:40: error: initialization of 'struct spacemit_i2s_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
 
-3a96dff0f828ae Tony Prisk 2012-11-18  221  
-3a96dff0f828ae Tony Prisk 2012-11-18  222  static void wmt_mci_read_response(struct mmc_host *mmc)
-3a96dff0f828ae Tony Prisk 2012-11-18  223  {
-3a96dff0f828ae Tony Prisk 2012-11-18  224  	struct wmt_mci_priv *priv;
-3a96dff0f828ae Tony Prisk 2012-11-18  225  	int idx1, idx2;
-3a96dff0f828ae Tony Prisk 2012-11-18  226  	u8 tmp_resp;
-3a96dff0f828ae Tony Prisk 2012-11-18  227  	u32 response;
-3a96dff0f828ae Tony Prisk 2012-11-18  228  
-3a96dff0f828ae Tony Prisk 2012-11-18  229  	priv = mmc_priv(mmc);
-3a96dff0f828ae Tony Prisk 2012-11-18  230  
-3a96dff0f828ae Tony Prisk 2012-11-18  231  	for (idx1 = 0; idx1 < 4; idx1++) {
-3a96dff0f828ae Tony Prisk 2012-11-18  232  		response = 0;
-3a96dff0f828ae Tony Prisk 2012-11-18  233  		for (idx2 = 0; idx2 < 4; idx2++) {
-3a96dff0f828ae Tony Prisk 2012-11-18  234  			if ((idx1 == 3) && (idx2 == 3))
-3a96dff0f828ae Tony Prisk 2012-11-18  235  				tmp_resp = readb(priv->sdmmc_base + SDMMC_RSP);
-3a96dff0f828ae Tony Prisk 2012-11-18  236  			else
-3a96dff0f828ae Tony Prisk 2012-11-18  237  				tmp_resp = readb(priv->sdmmc_base + SDMMC_RSP +
-3a96dff0f828ae Tony Prisk 2012-11-18  238  						 (idx1*4) + idx2 + 1);
-3a96dff0f828ae Tony Prisk 2012-11-18  239  			response |= (tmp_resp << (idx2 * 8));
-3a96dff0f828ae Tony Prisk 2012-11-18  240  		}
-3a96dff0f828ae Tony Prisk 2012-11-18 @241  		priv->cmd->resp[idx1] = cpu_to_be32(response);
-3a96dff0f828ae Tony Prisk 2012-11-18  242  	}
-3a96dff0f828ae Tony Prisk 2012-11-18  243  }
-3a96dff0f828ae Tony Prisk 2012-11-18  244  
 
-:::::: The code at line 241 was first introduced by commit
-:::::: 3a96dff0f828ae9dfb43efd49a9b67a74c6dc360 mmc: SD/MMC Host Controller for Wondermedia WM8505/WM8650
+vim +112 sound/soc/spacemit/k1_i2s.c
 
-:::::: TO: Tony Prisk <linux@prisktech.co.nz>
-:::::: CC: Chris Ball <cjb@laptop.org>
+fce217449075d5 Troy Mitchell 2025-10-17  108  
+6b4afbaaa342ea Troy Mitchell 2026-04-29  109  static int spacemit_i2s_startup(struct snd_pcm_substream *substream,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  110  	struct snd_soc_dai *dai)
+6b4afbaaa342ea Troy Mitchell 2026-04-29  111  {
+6b4afbaaa342ea Troy Mitchell 2026-04-29 @112  	struct spacemit_i2s_dev *i2s = snd_soc_dai_get_drvdata(dai);
+6b4afbaaa342ea Troy Mitchell 2026-04-29  113  
+6b4afbaaa342ea Troy Mitchell 2026-04-29  114  	switch (i2s->dai_fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+6b4afbaaa342ea Troy Mitchell 2026-04-29  115  	case SND_SOC_DAIFMT_I2S:
+6b4afbaaa342ea Troy Mitchell 2026-04-29  116  		snd_pcm_hw_constraint_minmax(substream->runtime,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  117  					     SNDRV_PCM_HW_PARAM_CHANNELS,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  118  					     2, 2);
+6b4afbaaa342ea Troy Mitchell 2026-04-29  119  		snd_pcm_hw_constraint_mask64(substream->runtime,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  120  					     SNDRV_PCM_HW_PARAM_FORMAT,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  121  					     SNDRV_PCM_FMTBIT_S16_LE);
+6b4afbaaa342ea Troy Mitchell 2026-04-29  122  		break;
+6b4afbaaa342ea Troy Mitchell 2026-04-29  123  	case SND_SOC_DAIFMT_DSP_A:
+6b4afbaaa342ea Troy Mitchell 2026-04-29  124  	case SND_SOC_DAIFMT_DSP_B:
+6b4afbaaa342ea Troy Mitchell 2026-04-29  125  		snd_pcm_hw_constraint_minmax(substream->runtime,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  126  					     SNDRV_PCM_HW_PARAM_CHANNELS,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  127  					     1, 1);
+6b4afbaaa342ea Troy Mitchell 2026-04-29  128  		snd_pcm_hw_constraint_mask64(substream->runtime,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  129  					     SNDRV_PCM_HW_PARAM_FORMAT,
+6b4afbaaa342ea Troy Mitchell 2026-04-29  130  					     SNDRV_PCM_FMTBIT_S32_LE);
+6b4afbaaa342ea Troy Mitchell 2026-04-29  131  		break;
+6b4afbaaa342ea Troy Mitchell 2026-04-29  132  	default:
+6b4afbaaa342ea Troy Mitchell 2026-04-29  133  		dev_dbg(i2s->dev, "unexpected format type");
+6b4afbaaa342ea Troy Mitchell 2026-04-29  134  		return -EINVAL;
+6b4afbaaa342ea Troy Mitchell 2026-04-29  135  	}
+6b4afbaaa342ea Troy Mitchell 2026-04-29  136  
+6b4afbaaa342ea Troy Mitchell 2026-04-29  137  	return 0;
+6b4afbaaa342ea Troy Mitchell 2026-04-29  138  }
+6b4afbaaa342ea Troy Mitchell 2026-04-29  139  
+
+:::::: The code at line 112 was first introduced by commit
+:::::: 6b4afbaaa342eaa52172e0be5ef8d1fcbf9ff460 ASoC: spacemit: move hw constraints from hw_params to startup
+
+:::::: TO: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
