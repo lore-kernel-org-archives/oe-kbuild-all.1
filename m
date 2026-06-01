@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD301A0BD0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 02:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FB32264D3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 04:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780281857; cv=none; b=Ujd0ls5ZkrzzwB3GkoLzBE00/dfUlJSjqVwwBMDEyEP4G84vP7CABaMOuYoH7JsEG0/rK7K+zvj5FfYvH/uSSNeOufFysgCVu12jRHXJrfW0v7Y/mCq8FtRJlUasugo8enbrweLYkZdcf38Nmh7TSwBaum28apn5Am4+qm6o6JM=
+	t=1780288870; cv=none; b=MtvvrdcolrQ99B5d+asN5na8l9/ZqY45VwQeQmeb7byFqJDT+muP39DS5f+bHDyCLlftqG8E5oof7tzX4Lb5bvk4ujLtx7iixl3kCNhS/lcrerdmJa5kEgqhsJVLf9pIxRNYwBl4I0YuVU9u18926pncnreFQwZEa9Y9nbwZcRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780281857; c=relaxed/simple;
-	bh=EMUHgVwY9nw8XT/Lof1fdSQPwrY4bBbSrS+LKzdUL0U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tFZbxyPAVzFzbXRceeAojJjwZMUgD1kyOsild96HCsmG7+Pm7pJRsBGagVYlNdadlmtWFz0g1GrSDRRUFEFXOMummEM2aRdpgJ/kDvXhgVWAS85UiKmWRs+UMgYXS2gczUhjvF6sF1SFPNP6tVAJqcoV1sZUqOXOMj+vNuzCK+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eix/bjyE; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1780288870; c=relaxed/simple;
+	bh=naeTLqZu6MMAoWKRz7e+5CAnowWsI7mMr4Q2zIAM3Dw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SSFc8/b1NslqRwY4gD8eexO5WXIuD2rgon6ZZwL1ZzNWg3xCTkFfH3PrHv1xnKQ3J0CXK0owAM36nV2s9xN8KdsIaYabUGeP3vX0p29dIXgOD6ZP7/6kgXDOEJbmwWidD8YFTuKoIyrXZuV4Dn4akPqg2xXQXC1Q4NGeHeMWbAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHpQJoE2; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eix/bjyE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHpQJoE2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780281856; x=1811817856;
+  t=1780288869; x=1811824869;
   h=date:from:to:cc:subject:message-id;
-  bh=EMUHgVwY9nw8XT/Lof1fdSQPwrY4bBbSrS+LKzdUL0U=;
-  b=eix/bjyEbgk+cgN1CBEQ7YvDRBmpJjg7Jizdh6MfmSUnQHwYoYkea1gL
-   89kHhPRjkWslDsCsf72Sb3NhaMjLrJ02GyIEbUupe9L3X5u4P7Pk6pZ1w
-   O0F5zVw+zfBhUgMln3wrjQojp69NVNu/mn5VdXdhB1wfBkCu4MnWGnjnd
-   PdCOXCfOXp3Hgq0/QquhoGn8gwoi4tOis/XagJUybRtUxomKu+p1ScaOq
-   gP6WfOSMYkZHd/T7RLepqnmc26urHd+T01Fm+co+v10H8ii7x7UQK/n25
-   8LnGqFpCzuOMk0XMa3gO0GLPESJOASEPBKaEkJAYsAUIzcnX/oOA+TosN
-   Q==;
-X-CSE-ConnectionGUID: tkA23LRsTqm+oXP/BhOfcA==
-X-CSE-MsgGUID: PT4pOUwaT1OAQlaYJV82Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="92418433"
+  bh=naeTLqZu6MMAoWKRz7e+5CAnowWsI7mMr4Q2zIAM3Dw=;
+  b=JHpQJoE2RiChbaRFVQhWNHpf1IBhu3+RIcnvQPnrdilJHRXxlLm8uGwm
+   DyQTvIofLNX3PkwY8KUVFPvMPFKOIjmITfb1xfsH1h2K6mtvv9boPKSsP
+   rt/+dZW9pD1Hg1pXR1iIvJPxaz3Gaug5WvFu72XIp+hcOFGfD7KqCc3s0
+   N31IoZKgtQaMFo+VUjLyC+8qbBkT+2OPs8Rs5Saj44TSLfHk7TSaGF8Ap
+   qMmqW+eJVflzkdRhMjzGfwgvGPuSwb1eoe3c2UcPMYHCEqPaIYTGRhnxV
+   J5zL3r1vgbdIhZksVKOIV5KAjNHVlJJOnp7zTSt66fBvS443Qd0pnyith
+   A==;
+X-CSE-ConnectionGUID: anLYKF93TrWIEiGo+twvwg==
+X-CSE-MsgGUID: k3sV3LvZQMORAD6jaLxS1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="81013359"
 X-IronPort-AV: E=Sophos;i="6.24,180,1774335600"; 
-   d="scan'208";a="92418433"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 19:44:15 -0700
-X-CSE-ConnectionGUID: ie8OGUeyRkarXNE8GKiZjA==
-X-CSE-MsgGUID: pSc+NwmCRzKAqdreKGf8yQ==
+   d="scan'208";a="81013359"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 21:41:08 -0700
+X-CSE-ConnectionGUID: Ha1AzRFmQxyw9mJKUSB/4Q==
+X-CSE-MsgGUID: prdGWD0zQ3anWSywZH9yyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,180,1774335600"; 
-   d="scan'208";a="281560414"
+   d="scan'208";a="242405384"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 31 May 2026 19:44:13 -0700
+  by orviesa006.jf.intel.com with ESMTP; 31 May 2026 21:41:07 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTsdP-000000009z4-0jUG;
-	Mon, 01 Jun 2026 02:44:11 +0000
-Date: Mon, 01 Jun 2026 10:43:57 +0800
+	id 1wTuSW-00000000ABG-1HwO;
+	Mon, 01 Jun 2026 04:41:04 +0000
+Date: Mon, 01 Jun 2026 12:40:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-github:vfs.all 15/15]
- include/linux/rcupdate.h:110:undefined reference to `xxh32'
-Message-ID: <202606011009.f2CJLTNP-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
+ Hannes Reinecke <hare@kernel.org>
+Subject: [libata:for-next 12/13] Warning:
+ drivers/ata/libata-scsi.c:1850 function parameter 'ap' not described in
+ 'ata_scsi_translate'
+Message-ID: <202606011207.M7VA2A90-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,49 +61,25 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/brauner/linux.git vfs.all
-head:   5ac2d6d826f2c4d04480827eb799cb7a86c866d8
-commit: 5ac2d6d826f2c4d04480827eb799cb7a86c866d8 [15/15] Merge branch 'vfs-7.2.xattr' into vfs.all
-config: sh-sh2007_defconfig (https://download.01.org/0day-ci/archive/20260601/202606011009.f2CJLTNP-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/libata/linux.git for-next
+head:   28cee4cb852c2c8c27925c65bc612be2acb7d7ca
+commit: ebfb3924ee1c09d8794892aaee308a8a52f284d9 [12/13] ata: libata: Pass ap parameter directly to functions in the issuing path
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260601/202606011207.M7VA2A90-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260601/202606011009.f2CJLTNP-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260601/202606011207.M7VA2A90-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606011009.f2CJLTNP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606011207.M7VA2A90-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sh4-linux-ld: fs/xattr.o: in function `simple_xattr_obj_hashfn':
-   fs/xattr.c:1295:(.text+0x264): undefined reference to `xxh32'
-   sh4-linux-ld: fs/xattr.o: in function `simple_xattr_hashfn':
-   fs/xattr.c:1288:(.text+0x2e4): undefined reference to `xxh32'
-   sh4-linux-ld: fs/xattr.o: in function `simple_xattr_get':
-   fs/xattr.c:1354:(.text+0x27e4): undefined reference to `xxh32'
-   sh4-linux-ld: fs/xattr.o: in function `__rcu_read_unlock':
->> include/linux/rcupdate.h:110:(.text+0x2a38): undefined reference to `xxh32'
-   sh4-linux-ld: fs/xattr.o: in function `rht_bucket_insert':
-   include/linux/rhashtable.h:298:(.text+0x3230): undefined reference to `xxh32'
-   sh4-linux-ld: fs/xattr.o:fs/xattr.c:1693: more undefined references to `xxh32' follow
-
-
-vim +110 include/linux/rcupdate.h
-
-7b0b759b65247c Paul E. McKenney 2010-08-17  105  
-7b0b759b65247c Paul E. McKenney 2010-08-17  106  static inline void __rcu_read_unlock(void)
-7b0b759b65247c Paul E. McKenney 2010-08-17  107  {
-925da92ba5cb0c Waiman Long      2021-08-26  108  	if (IS_ENABLED(CONFIG_RCU_STRICT_GRACE_PERIOD))
-aa40c138cc8f36 Paul E. McKenney 2020-08-10  109  		rcu_read_unlock_strict();
-fcf0e25ad4c8d1 Ankur Arora      2024-12-12 @110  	preempt_enable();
-7b0b759b65247c Paul E. McKenney 2010-08-17  111  }
-7b0b759b65247c Paul E. McKenney 2010-08-17  112  
-
-:::::: The code at line 110 was first introduced by commit
-:::::: fcf0e25ad4c8d14d2faab4d9a17040f31efce205 rcu: handle unstable rdp in rcu_read_unlock_strict()
-
-:::::: TO: Ankur Arora <ankur.a.arora@oracle.com>
-:::::: CC: Boqun Feng <boqun.feng@gmail.com>
+>> Warning: drivers/ata/libata-scsi.c:1850 function parameter 'ap' not described in 'ata_scsi_translate'
+>> Warning: drivers/ata/libata-scsi.c:1850 function parameter 'ap' not described in 'ata_scsi_translate'
+--
+>> Warning: drivers/ata/libata-core.c:5163 function parameter 'ap' not described in 'ata_qc_issue'
+>> Warning: drivers/ata/libata-core.c:5163 function parameter 'ap' not described in 'ata_qc_issue'
 
 --
 0-DAY CI Kernel Test Service
