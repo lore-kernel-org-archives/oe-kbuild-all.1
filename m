@@ -1,58 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34AF357CF3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 19:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BB8356742;
+	Mon,  1 Jun 2026 19:21:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780341665; cv=none; b=A8gg5Y5rHAoft/VhTQjHOt5h/tx/k7Q8+Obe659Fo1x1M53voK/d6wMTakeVsBpsA9F5HmR0pEytiNPqFPgfL8XhuMYgZWDYVgtn/1WXqSbVb+iKcebxelpWw+dkPGnbkXAwSYv/EnwxGPM9pA5+xIoDzZn/4QQF9IOvagoBf/A=
+	t=1780341666; cv=none; b=cmmk+XRkHBG8T5tLAjqvduA1n2a0/6WzqGKOsDWyUDc1U/QFI3eq6seI5bDXMaxNM6HPOokH0glKqHYajAMRcQFQUpxEp3AgVH2HmCwObbHNTtf7Yz8ngZS7AzWb+d4PfzJxLgvYJ+aPjbzmjsbytEP1iqbdt1sL9Pq0kIGFOLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780341665; c=relaxed/simple;
-	bh=pZM/A/sJdbmusg4rl5m0RiTwSehPGCzJVwZkF68DH0A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cxaTfVX6SUVeeje5sbbzHr0T3Wkc4CyTcysSxC10u2ATdldHdfVnBjq4Pv1gIK5JizzeSM6YUd+1C6D6NurjRvE1xR2QkzD7M4BDyDC4x+uNDnhMuqbfICwI+OCaDIlUGzIL1q2TkQGUPQwY1LjvaaLi1ht9biQF3WGZXeySw2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b3SO8XO1; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1780341666; c=relaxed/simple;
+	bh=te1p2XikqfauP/Ps6RR+pSJ+j3eSP3lPbx5QlhDRH2w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KfmJLtMVS5n8bJIJ2LsgMXotLczln5VxtKloP6kU0kURuLFhCDLdM+zuB+NoG5p529Q/OvCgHKQSj2t2XcVGOP7nNgsh2M2ZuBVHHmUMrcTBLXbyZjnTmyLzd0kialrrdVgYGCm14SwqzXzjRH7iZtvvySlcZNL2pH4tImGZraY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjN6vLWK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b3SO8XO1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjN6vLWK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780341664; x=1811877664;
+  t=1780341665; x=1811877665;
   h=date:from:to:cc:subject:message-id;
-  bh=pZM/A/sJdbmusg4rl5m0RiTwSehPGCzJVwZkF68DH0A=;
-  b=b3SO8XO1FZSRoU9XMte6yW9yrZcwKA/iX4mysPANt295dXR8vxRn6l7q
-   ZXCohLddzi/fzRoqjCgLuXm4WD/S96sS16qGCJ59sUTSwhDnK8bkh9i/e
-   U0zVKN6IWxwQWcDyfy0uuKzKN8dtlipihQWjS1vBYWpybddLbIsUzWQoQ
-   7WClLUqKZlWGHFvdckvPYQT1NGHn4Sags917Ufx8ryJO+lUDd4xYgSx/n
-   /YifisF/oXIbHSHOv6Ii092OdjEsDwcGUyIUXptvoiKS8L1zuVoCra4s5
-   Ttk6S1XG/Ui0SoeBPYtbH8eb6TvidIYFq6O3cGQKGillTPL+qoLPHZwfH
+  bh=te1p2XikqfauP/Ps6RR+pSJ+j3eSP3lPbx5QlhDRH2w=;
+  b=MjN6vLWKmsbo0IVLNnJFw5CnOFT3z0SoXeiskiV36tTutFkOfLqubbVS
+   BzpXrOSIXsRprvA9mQPCxu2Eq53d5UK9TtO5fYBI3NrQMjJLvyZGAYj1m
+   rNB2tkeZyiyo40TA6cFLbDkbvQt63vq5NZ0/SNmwP7m9s6GzoNXFeG3Ml
+   qzwvvMs25ujoWPPG4IPTo0DZy85IybCdUCgPWrSml9TxZQxvVzRygjJm6
+   kdNLFquB1KTqR+vx/8+hlqiaJ1pVHwwyBGFjzeWYUdAEGz0V+0szVhlmK
+   yW2cZsRm2QsJithUXg9QeJJXRGKmM0wZm/eWj9nPHo7u5jlfke8SXPj7r
    Q==;
-X-CSE-ConnectionGUID: zteIKJEQRR6WroHIUg5M+g==
-X-CSE-MsgGUID: jiAd25uPT8W3ugSwUkeXiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81083307"
+X-CSE-ConnectionGUID: EGUEjvotQfGtGQ5XlrXsKg==
+X-CSE-MsgGUID: 7VVjZh17R3m8tdpdlM52fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81083312"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="81083307"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
+   d="scan'208";a="81083312"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 12:21:01 -0700
-X-CSE-ConnectionGUID: lzjFIHGdTbmmfza9Id35JQ==
-X-CSE-MsgGUID: kDs/Ztq4RGeN8j5nY6fXmw==
+X-CSE-ConnectionGUID: 1ZY2wPDnQD+YyaExWLlCbw==
+X-CSE-MsgGUID: wgCUb5r0QX2Ekk+bApSTAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="273943773"
+   d="scan'208";a="243767020"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Jun 2026 12:21:01 -0700
+  by orviesa009.jf.intel.com with ESMTP; 01 Jun 2026 12:21:01 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wU8C1-00000000Aze-30Jj;
+	id 1wU8C1-00000000Azi-3Dsv;
 	Mon, 01 Jun 2026 19:20:57 +0000
-Date: Tue, 02 Jun 2026 03:20:20 +0800
+Date: Tue, 02 Jun 2026 03:20:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 4036/9870] Warning: lib/rhashtable.c:1030
- expecting prototype for rhashtable_init(). Prototype was for
- __rhashtable_init() instead
-Message-ID: <202606020301.Un7nzzO0-lkp@intel.com>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
+Subject: [mptcp:export 1/60] .git_markup: warning: ignored by one of
+ the .gitignore files
+Message-ID: <202606020245.oFsdN9JN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,24 +59,23 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7da7f07112610a520567421dd2ffcb51beaefbcc
-commit: 060d4e94b8d400b62453890821bd7feecd4cde2c [4036/9870] rhashtable: give each instance its own lockdep class
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260602/202606020301.Un7nzzO0-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020301.Un7nzzO0-lkp@intel.com/reproduce)
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export
+head:   e05cbdb611ff815528cdf90e29a96663b9af48c6
+commit: 63c7e82ee806b2ba0be31bda10406e6f91efb432 [1/60] DO-NOT-MERGE: git markup: net
+config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20260602/202606020245.oFsdN9JN-lkp@intel.com/config)
+compiler: hppa64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020245.oFsdN9JN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606020301.Un7nzzO0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606020245.oFsdN9JN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: lib/rhashtable.c:1030 function parameter 'key' not described in '__rhashtable_init'
->> Warning: lib/rhashtable.c:1030 expecting prototype for rhashtable_init(). Prototype was for __rhashtable_init() instead
-   Warning: lib/rhashtable.c:1104 function parameter 'key' not described in '__rhltable_init'
-   Warning: lib/rhashtable.c:1104 expecting prototype for rhltable_init(). Prototype was for __rhltable_init() instead
+   .b4-config: warning: ignored by one of the .gitignore files
+>> .git_markup: warning: ignored by one of the .gitignore files
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
 
 --
 0-DAY CI Kernel Test Service
