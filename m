@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8FF3264EF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 16:46:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D0E39DBC5;
+	Mon,  1 Jun 2026 16:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780332408; cv=none; b=ktp5NWfwcwoacmS5KdyQPS3XiXa4L/5DLju9AjnX4ew7BAy3X2tQ48XfQMPwUbxSJWTnjjbnx7p9frKD7MfM4JVgbIAbQv6bEzww/rJAkGYRlX9JtG/VdsAmlbg5zwG/Ds9kREdOso22h8Zxqyim+WBaACQRa950nTW0epTs9q8=
+	t=1780333078; cv=none; b=e1RUDboYfm6rDtgyRcZhfC9Ll6SseHrvSOMsAPh/3aB8+JSTtZ7TpGSMUcQE4HgBqUVa+nU7W3mHQT9auiUdeh5JuqYaYaoLU3pmiTgXZIyCyZMjIxI8dkgX6khWAadQUbAccRHfZ31FR3rDVsEv9biSLkBSJUpEnF1QK/ONEug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780332408; c=relaxed/simple;
-	bh=3HsIVCno4lnII/yu2zbdEQx23gtUOCxH72L4w4hvtC4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kKA4zqCP/cPLbGLbmLxwJx+rFjEejoyop5JrpTek0ZkvkhMohiQUmvpgMFfgsp/1O05bpwN4W0KJeYwQWB2zQ+Vy8cETmVzf7MKe6b1o79rqdXERU3dYfn63Olpck22Yn/LwoKYDabxpQFyszMrh3uzy8a9b630tMDDrz+Gwb08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AT4r6cNr; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1780333078; c=relaxed/simple;
+	bh=/zGNLRR4uyg0sPIMcyzYdDsLm5eXyF+zmkEicrGHW2g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DNPNJAZ/pMoACZI0SO48xesK/FgaeIlBcPPVIArs6sa4oYxNoNWC0TpqQXXmz/38DfOCp3joBFngfOq10W4X8njx8wbtZoraVGnum+FB69v9cnuqjTFcxMIiQT3A7GFWFLeTVpEL3IuAhnR/1/qmkAx6vQ3Vh20aGMKvUU+bZzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RXeQEaGl; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AT4r6cNr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RXeQEaGl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780332407; x=1811868407;
+  t=1780333074; x=1811869074;
   h=date:from:to:cc:subject:message-id;
-  bh=3HsIVCno4lnII/yu2zbdEQx23gtUOCxH72L4w4hvtC4=;
-  b=AT4r6cNrFl5TNgukZeiaFHVOGuq7b2kywQgKnuVRQHvgofglacOjdh3f
-   Mg4X54Fix7L/rW209Kw1Y9fxrsS1vkbiBUKIpP6UReOqXYb9wCV880gip
-   bKJD+hHEIREy//DOozGzLI+u1+/s1hm3JUqSsD12GssRBbNQzb79/vmbB
-   zOyfQi6p4CAAUAcGC3X4soQCB05vJr+E8MqTtOW9EcZNSGWEHb+NrZs9K
-   1VJRYskpEeLB15VhO6lkOATjpK0wTe1rG7+8dWbx2zDOEg+6bNti0xa5A
-   s6/C94VU4bbrO3iVFFzLbH2TganULjx5oewL4pc4JwEs4s6xDAVA+2YFo
-   w==;
-X-CSE-ConnectionGUID: 5PTA3iwqTNiEXBWmA14ubw==
-X-CSE-MsgGUID: y6yskpUlTI+BbnCmFQQ6VQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81089916"
+  bh=/zGNLRR4uyg0sPIMcyzYdDsLm5eXyF+zmkEicrGHW2g=;
+  b=RXeQEaGlucyq+e1M/frSgiKgWiWuM7fV8+Uy/VL0F/U/gU6N/1ZIHv1a
+   JIFXCCQQ2//v0J9qGHDl6oAK1zwWvuU+PTs0xZKdOL0FoYmF/HM6EaXie
+   lPVACDsDkBvyjrxwmDJIniUbjDoGv+My01hVjKRGH3FdnkorpfvVasQ8M
+   nJm1S/CuAlxFhij6gVGZDBnSzNt6sBKYlvZ5mDxklR5jvVLPVKDZymcBx
+   9HKhy6oVPuX8hNlaYfuBE//cXLwYNjrk0qCZrm5Z5kll4pjDKNIrrnmZM
+   cOPhS3uU1ZvMYaC4Ncxb2XDrFDGa8odmQbVdXZrj7BPC5vreLaH1wz8Je
+   Q==;
+X-CSE-ConnectionGUID: Tm9axQVpSDmyYOjLZVg54A==
+X-CSE-MsgGUID: ZBX8c5QdRmaeIKRbeDU8Zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="98515269"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="81089916"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 09:46:46 -0700
-X-CSE-ConnectionGUID: /nF9bs2HSnWbLAYz421G4g==
-X-CSE-MsgGUID: rzf+CnjxQAiGw1OV0QqAjA==
+   d="scan'208";a="98515269"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 09:57:53 -0700
+X-CSE-ConnectionGUID: s48lFvDCQHynqbsjYsdfgw==
+X-CSE-MsgGUID: Ec/8wMAVTsak/bY4oilF+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="243745215"
+   d="scan'208";a="247909729"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 01 Jun 2026 09:46:44 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Jun 2026 09:57:50 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wU5mj-00000000ApC-2gCS;
-	Mon, 01 Jun 2026 16:46:41 +0000
-Date: Tue, 02 Jun 2026 00:46:07 +0800
+	id 1wU5xU-00000000Apg-0ldf;
+	Mon, 01 Jun 2026 16:57:48 +0000
+Date: Tue, 02 Jun 2026 00:57:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>
-Subject: kernel/sched/core.c:881:49: sparse: sparse: incorrect type
- in argument 2 (different address spaces)
-Message-ID: <202606020052.7nHX5mNh-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
+ sound/soc/intel/boards/cht_bsw_rt5645.c:693:45: error: incompatible pointer
+ types passing 'struct snd_soc_card_platform *' to parameter of type 'struct
+ snd_soc_card_driver *'
+Message-ID: <202606020044.xk6sN7xT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,146 +61,235 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e43ffb69e0438cddd72aaa30898b4dc446f664f8
-commit: e38e5299747b23015b00b0109891815db44a2f30 sched/hrtick: Fix hrtick() vs. scheduling context
-date:   6 months ago
-config: loongarch-randconfig-r133-20260601 (https://download.01.org/0day-ci/archive/20260602/202606020052.7nHX5mNh-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020052.7nHX5mNh-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
+head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
+commit: be523d87f62e84d2688d2184fedff0b1dab28389 [290/290] ASoC: intel: cht_bsw_rt5645: use snd_soc_card_register()
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260602/202606020044.xk6sN7xT-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e5ab4f8a1f766febdc65ce89c00dec85393cfd68)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020044.xk6sN7xT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e38e5299747b ("sched/hrtick: Fix hrtick() vs. scheduling context")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606020052.7nHX5mNh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606020044.xk6sN7xT-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/core.c:881:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:881:49: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:881:49: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:1101:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:1101:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:1101:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:1207:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:1207:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:1207:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:2175:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:2175:39: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:2175:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:2186:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2186:65: sparse:     expected struct task_struct *tsk
-   kernel/sched/core.c:2186:65: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:3583:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:3583:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:3583:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:3788:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:3788:36: sparse:     expected struct task_struct const *p
-   kernel/sched/core.c:3788:36: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:8065:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:8065:43: sparse:     expected struct task_struct *push_task
-   kernel/sched/core.c:8065:43: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:5512:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:5512:15: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:5512:15: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:6730:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6730:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6730:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6797:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:6797:37: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6797:37: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:7303:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7303:17: sparse:    struct task_struct *
-   kernel/sched/core.c:7303:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:10207:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10207:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:10207:25: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:10468:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *t @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10468:58: sparse:     expected struct task_struct *t
-   kernel/sched/core.c:10468:58: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:10504:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:10504:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:10504:38: sparse:    struct task_struct *
-   kernel/sched/core.c:632:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
-   kernel/sched/core.c:657:6: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
-   kernel/sched/core.c:681:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:1808:9: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
-   kernel/sched/sched.h:1808:9: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/pelt.h:102:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/pelt.h:102:13: sparse:     expected struct task_struct const *p
-   kernel/sched/pelt.h:102:13: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:881:11: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c:1580:13: sparse: sparse: context imbalance in 'uclamp_update_util_min_rt_default' - wrong count at exit
-   kernel/sched/core.c:2256:35: sparse: sparse: context imbalance in 'wait_task_inactive' - different lock contexts for basic block
-   kernel/sched/core.c:2650:6: sparse: sparse: context imbalance in 'set_cpus_allowed_common' - different lock contexts for basic block
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2302:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2302:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2302:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2291:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2291:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2291:25: sparse:    struct task_struct *
-   kernel/sched/core.c:2170:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:2170:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:2170:38: sparse:    struct task_struct const *
-   kernel/sched/sched.h:2302:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2302:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2302:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2635:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2635:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2635:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2635:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2635:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2635:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2302:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2302:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2302:26: sparse:    struct task_struct *
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/switch_to.h):
-   arch/loongarch/include/asm/fpu.h:80:17: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_w'
-   arch/loongarch/include/asm/fpu.h:80:17: sparse: sparse: cast from unknown type
-   arch/loongarch/include/asm/fpu.h:89:17: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_w'
-   arch/loongarch/include/asm/fpu.h:89:17: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/cpu-info.h, arch/loongarch/include/asm/processor.h, arch/loongarch/include/asm/thread_info.h, ...):
-   arch/loongarch/include/asm/loongarch.h:1360:1: sparse: sparse: undefined identifier '__builtin_loongarch_csrrd_w'
-   arch/loongarch/include/asm/loongarch.h:1360:1: sparse: sparse: cast from unknown type
-   arch/loongarch/include/asm/loongarch.h:1360:1: sparse: sparse: undefined identifier '__builtin_loongarch_csrwr_w'
-   arch/loongarch/include/asm/loongarch.h:1360:1: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/switch_to.h):
-   arch/loongarch/include/asm/fpu.h:89:17: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/cpu-info.h, arch/loongarch/include/asm/processor.h, arch/loongarch/include/asm/thread_info.h, ...):
-   arch/loongarch/include/asm/loongarch.h:1360:1: sparse: sparse: cast from unknown type
-   arch/loongarch/include/asm/loongarch.h:1360:1: sparse: sparse: cast from unknown type
-   kernel/sched/core.c: note: in included file (through arch/loongarch/include/asm/switch_to.h):
-   arch/loongarch/include/asm/fpu.h:226:17: sparse: sparse: undefined identifier '__builtin_loongarch_csrxchg_w'
-   arch/loongarch/include/asm/fpu.h:226:17: sparse: sparse: cast from unknown type
-   arch/loongarch/include/asm/fpu.h:274:17: sparse: sparse: undefined identifier '__builtin_loongarch_csrxchg_w'
-   arch/loongarch/include/asm/fpu.h:274:17: sparse: sparse: cast from unknown type
+All errors (new ones prefixed by >>):
 
-vim +881 kernel/sched/core.c
+   sound/soc/intel/boards/cht_bsw_rt5645.c:486:37: error: variable has incomplete type 'struct snd_soc_card_platform'
+     486 | static struct snd_soc_card_platform snd_soc_card_chtrt5645 = {
+         |                                     ^
+   sound/soc/intel/boards/cht_bsw_rt5645.c:37:9: note: forward declaration of 'struct snd_soc_card_platform'
+      37 |         struct snd_soc_card_platform *soc_card_platform;
+         |                ^
+   sound/soc/intel/boards/cht_bsw_rt5645.c:500:37: error: variable has incomplete type 'struct snd_soc_card_platform'
+     500 | static struct snd_soc_card_platform snd_soc_card_chtrt5650 = {
+         |                                     ^
+   sound/soc/intel/boards/cht_bsw_rt5645.c:37:9: note: forward declaration of 'struct snd_soc_card_platform'
+      37 |         struct snd_soc_card_platform *soc_card_platform;
+         |                ^
+>> sound/soc/intel/boards/cht_bsw_rt5645.c:693:45: error: incompatible pointer types passing 'struct snd_soc_card_platform *' to parameter of type 'struct snd_soc_card_driver *' [-Wincompatible-pointer-types]
+     693 |         card = devm_snd_soc_card_alloc(&pdev->dev, card_platform);
+         |                                                    ^~~~~~~~~~~~~
+   include/sound/soc-card.h:91:39: note: passing argument to parameter 'driver' here
+      91 |                                              struct snd_soc_card_driver *driver);
+         |                                                                          ^
+   3 errors generated.
 
-   867	
-   868	/*
-   869	 * High-resolution timer tick.
-   870	 * Runs from hardirq context with interrupts disabled.
-   871	 */
-   872	static enum hrtimer_restart hrtick(struct hrtimer *timer)
-   873	{
-   874		struct rq *rq = container_of(timer, struct rq, hrtick_timer);
-   875		struct rq_flags rf;
-   876	
-   877		WARN_ON_ONCE(cpu_of(rq) != smp_processor_id());
-   878	
-   879		rq_lock(rq, &rf);
-   880		update_rq_clock(rq);
- > 881		rq->donor->sched_class->task_tick(rq, rq->donor, 1);
-   882		rq_unlock(rq, &rf);
-   883	
-   884		return HRTIMER_NORESTART;
-   885	}
-   886	
+
+vim +693 sound/soc/intel/boards/cht_bsw_rt5645.c
+
+   528	
+   529	static int snd_cht_mc_probe(struct platform_device *pdev)
+   530	{
+   531		struct snd_soc_card_platform *card_platform = snd_soc_cards[0].soc_card_platform;
+   532		struct snd_soc_card *card;
+   533		struct snd_soc_acpi_mach *mach;
+   534		const char *platform_name;
+   535		struct cht_mc_private *drv;
+   536		struct acpi_device *adev;
+   537		struct device *codec_dev;
+   538		bool sof_parent;
+   539		bool found = false;
+   540		bool is_bytcr = false;
+   541		int dai_index = 0;
+   542		int ret_val = 0;
+   543		int i;
+   544		const char *mclk_name;
+   545	
+   546		drv = devm_kzalloc(&pdev->dev, sizeof(*drv), GFP_KERNEL);
+   547		if (!drv)
+   548			return -ENOMEM;
+   549	
+   550		mach = pdev->dev.platform_data;
+   551	
+   552		for (i = 0; i < ARRAY_SIZE(snd_soc_cards); i++) {
+   553			if (acpi_dev_found(snd_soc_cards[i].codec_id) &&
+   554				(!strncmp(snd_soc_cards[i].codec_id, mach->id, 8))) {
+   555				dev_dbg(&pdev->dev,
+   556					"found codec %s\n", snd_soc_cards[i].codec_id);
+   557				card_platform = snd_soc_cards[i].soc_card_platform;
+   558				drv->acpi_card = &snd_soc_cards[i];
+   559				found = true;
+   560				break;
+   561			}
+   562		}
+   563	
+   564		if (!found) {
+   565			dev_err(&pdev->dev, "No matching HID found in supported list\n");
+   566			return -ENODEV;
+   567		}
+   568	
+   569		/* set correct codec name */
+   570		for (i = 0; i < ARRAY_SIZE(cht_dailink); i++)
+   571			if (cht_dailink[i].num_codecs &&
+   572			    !strcmp(cht_dailink[i].codecs->name,
+   573				    "i2c-10EC5645:00")) {
+   574				dai_index = i;
+   575				break;
+   576			}
+   577	
+   578		/* fixup codec name based on HID */
+   579		adev = acpi_dev_get_first_match_dev(mach->id, NULL, -1);
+   580		if (adev) {
+   581			snprintf(cht_rt5645_codec_name, sizeof(cht_rt5645_codec_name),
+   582				 "i2c-%s", acpi_dev_name(adev));
+   583			cht_dailink[dai_index].codecs->name = cht_rt5645_codec_name;
+   584		} else {
+   585			dev_err(&pdev->dev, "Error cannot find '%s' dev\n", mach->id);
+   586			return -ENOENT;
+   587		}
+   588	
+   589		/* acpi_get_first_physical_node() returns a borrowed ref, no need to deref */
+   590		codec_dev = acpi_get_first_physical_node(adev);
+   591		acpi_dev_put(adev);
+   592		if (!codec_dev)
+   593			return -EPROBE_DEFER;
+   594	
+   595		snd_soc_card_chtrt5645.components = rt5645_components(codec_dev);
+   596		snd_soc_card_chtrt5650.components = rt5645_components(codec_dev);
+   597	
+   598		/*
+   599		 * swap SSP0 if bytcr is detected
+   600		 * (will be overridden if DMI quirk is detected)
+   601		 */
+   602		if (soc_intel_is_byt()) {
+   603			if (mach->mach_params.acpi_ipc_irq_index == 0)
+   604				is_bytcr = true;
+   605		}
+   606	
+   607		if (is_bytcr) {
+   608			/*
+   609			 * Baytrail CR platforms may have CHAN package in BIOS, try
+   610			 * to find relevant routing quirk based as done on Windows
+   611			 * platforms. We have to read the information directly from the
+   612			 * BIOS, at this stage the card is not created and the links
+   613			 * with the codec driver/pdata are non-existent
+   614			 */
+   615	
+   616			struct acpi_chan_package chan_package = { 0 };
+   617	
+   618			/* format specified: 2 64-bit integers */
+   619			struct acpi_buffer format = {sizeof("NN"), "NN"};
+   620			struct acpi_buffer state = {0, NULL};
+   621			struct snd_soc_acpi_package_context pkg_ctx;
+   622			bool pkg_found = false;
+   623	
+   624			state.length = sizeof(chan_package);
+   625			state.pointer = &chan_package;
+   626	
+   627			pkg_ctx.name = "CHAN";
+   628			pkg_ctx.length = 2;
+   629			pkg_ctx.format = &format;
+   630			pkg_ctx.state = &state;
+   631			pkg_ctx.data_valid = false;
+   632	
+   633			pkg_found = snd_soc_acpi_find_package_from_hid(mach->id,
+   634								       &pkg_ctx);
+   635			if (pkg_found) {
+   636				if (chan_package.aif_value == 1) {
+   637					dev_info(&pdev->dev, "BIOS Routing: AIF1 connected\n");
+   638					cht_rt5645_quirk |= CHT_RT5645_SSP0_AIF1;
+   639				} else  if (chan_package.aif_value == 2) {
+   640					dev_info(&pdev->dev, "BIOS Routing: AIF2 connected\n");
+   641					cht_rt5645_quirk |= CHT_RT5645_SSP0_AIF2;
+   642				} else {
+   643					dev_info(&pdev->dev, "BIOS Routing isn't valid, ignored\n");
+   644					pkg_found = false;
+   645				}
+   646			}
+   647	
+   648			if (!pkg_found) {
+   649				/* no BIOS indications, assume SSP0-AIF2 connection */
+   650				cht_rt5645_quirk |= CHT_RT5645_SSP0_AIF2;
+   651			}
+   652		}
+   653	
+   654		/* check quirks before creating card */
+   655		dmi_check_system(cht_rt5645_quirk_table);
+   656		log_quirks(&pdev->dev);
+   657	
+   658		if ((cht_rt5645_quirk & CHT_RT5645_SSP2_AIF2) ||
+   659		    (cht_rt5645_quirk & CHT_RT5645_SSP0_AIF2))
+   660			cht_dailink[dai_index].codecs->dai_name = "rt5645-aif2";
+   661	
+   662		if ((cht_rt5645_quirk & CHT_RT5645_SSP0_AIF1) ||
+   663		    (cht_rt5645_quirk & CHT_RT5645_SSP0_AIF2))
+   664			cht_dailink[dai_index].cpus->dai_name = "ssp0-port";
+   665	
+   666		if (cht_rt5645_quirk & CHT_RT5645_PMC_PLT_CLK_0)
+   667			mclk_name = "pmc_plt_clk_0";
+   668		else
+   669			mclk_name = "pmc_plt_clk_3";
+   670	
+   671		drv->mclk = devm_clk_get(&pdev->dev, mclk_name);
+   672		if (IS_ERR(drv->mclk)) {
+   673			dev_err(&pdev->dev, "Failed to get MCLK from %s: %ld\n",
+   674				mclk_name, PTR_ERR(drv->mclk));
+   675			return PTR_ERR(drv->mclk);
+   676		}
+   677	
+   678		sof_parent = snd_soc_acpi_sof_parent(&pdev->dev);
+   679	
+   680		/* set card and driver name */
+   681		if (sof_parent) {
+   682			snd_soc_card_chtrt5645.name = SOF_CARD_RT5645_NAME;
+   683			snd_soc_card_chtrt5645.driver.name = SOF_DRIVER_NAME;
+   684			snd_soc_card_chtrt5650.name = SOF_CARD_RT5650_NAME;
+   685			snd_soc_card_chtrt5650.driver.name = SOF_DRIVER_NAME;
+   686		} else {
+   687			snd_soc_card_chtrt5645.name = CARD_RT5645_NAME;
+   688			snd_soc_card_chtrt5645.driver.name = DRIVER_NAME;
+   689			snd_soc_card_chtrt5650.name = CARD_RT5650_NAME;
+   690			snd_soc_card_chtrt5650.driver.name = DRIVER_NAME;
+   691		}
+   692	
+ > 693		card = devm_snd_soc_card_alloc(&pdev->dev, card_platform);
+   694		if (!card)
+   695			return -ENOMEM;
+   696	
+   697		/* set pm ops */
+   698		if (sof_parent)
+   699			pdev->dev.driver->pm = &snd_soc_pm_ops;
+   700	
+   701		/* override platform name, if required */
+   702		platform_name = mach->mach_params.platform;
+   703	
+   704		ret_val = snd_soc_fixup_dai_links_platform_name(card, platform_name);
+   705		if (ret_val)
+   706			return ret_val;
+   707	
+   708		snd_soc_card_attach_priv(card, drv);
+   709	
+   710		ret_val = devm_snd_soc_card_register(card);
+   711		if (ret_val) {
+   712			dev_err(&pdev->dev,
+   713				"snd_soc_card_register() failed %d\n", ret_val);
+   714			return ret_val;
+   715		}
+   716		platform_set_drvdata(pdev, card);
+   717		return ret_val;
+   718	}
+   719	
 
 --
 0-DAY CI Kernel Test Service
