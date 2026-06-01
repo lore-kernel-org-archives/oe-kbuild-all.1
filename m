@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9BB3016E3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 16:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3A22DF13B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 16:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780331687; cv=none; b=Hc2SPgC+IOYnO0FpsVJIFrR/G4aoj29p85NgaoTbu2mqjgzVv8KoeQcT3d/Pc5THd7bJCoSVNS4i4dqWrPrR2Wy7E4+aClPnXaSTKvPUXYGxwGoKb834gQzIgLfEyJ57DirnbfrftXd6nAcy4RNDUGF/UMlGjp/2XgGYxwBH5kw=
+	t=1780331688; cv=none; b=bTmCH2aF7Izj/zyJ4SytoBAJiZN0T5nxtvGIcH4VGfgAy2eqhSEuQcUfXcOeaq31+aA/1EhRMevAfD3cOEN0NQNf9lH6BoWxQdDBmX7EGQebDpM2CuvZLZJ/AoCRIg74x2mtaMf86JHzlVCDQh9Iniyomuy/NhqYM4bC5apwyCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780331687; c=relaxed/simple;
-	bh=LlAVmx3fat2QKCgITMEOFiPNn6ZCMY/LbSoGfABSN6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=f76Rh3HCljgtfRlATlSzsk//u2mdvLBjxjii7jYCNAUD9LArjuASRwTGSKbnUZanG2AMEOJlL1wYpYhgNsoH0gL4Me0HC6oF139u0UfHocvXsDnKE1/e+OvVrR24TeEstwDquCuP1cH3kjzitm0SL2/IfjFda8114ZgxdPRj54U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K18JPXaJ; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1780331688; c=relaxed/simple;
+	bh=2H1DY9K3cwezU2kGbNUZ/1sCCWUbpdwrcvsfR1A4PTE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gYjANtwWxWpJvwzeSuENslz6eyT/+7Qhm2Vl0Q/iYvChf64CGuqh/uQjJ07xw3BUOYiGK6Cs2Ej25eC5o68YrAL8z1rrq9oKOftRaARB3Yd2x0KeN1yK/iVsgpRe99aWuuHhoIhOf2s6fYApa9z+XKLP+H8fFdX+Y3IsLqFWim4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=baGKUH2m; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K18JPXaJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baGKUH2m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780331686; x=1811867686;
+  t=1780331688; x=1811867688;
   h=date:from:to:cc:subject:message-id;
-  bh=LlAVmx3fat2QKCgITMEOFiPNn6ZCMY/LbSoGfABSN6Q=;
-  b=K18JPXaJKljn/2s1XA2BmycKueQMrODgO8ablA8kbKCmOYWix1Fvbyc4
-   AJ4m1U+lS7t2u2m8/2u7lP3MTqplEGcqwW+ko6Ho/p4NV5RA1NoLdpj2I
-   sC75SMDJH2kto8+dVHCSNfJUV9fOr1z2i2Pib3Noe5w2Oo49WtVLP7ijC
-   5wNuwDY0/fS5p1xjOXS4RdIB3FbNCdYLbJFSUxdcsl+xrrFfxnS6i1q9z
-   oNanQh5ebRTFrovMfipS0pMlMoNkIlq/Kb7FTvkoC7EjThawJLdoaVsRY
-   1jxgiO8//CiH+DBIrLf/rdoB/Ufz4L5yXllR0Nfs973NmVYy32JZPUbOD
+  bh=2H1DY9K3cwezU2kGbNUZ/1sCCWUbpdwrcvsfR1A4PTE=;
+  b=baGKUH2mCKjjBZ7Y5rTUo6Zj4vA0Tns6pH/3vexCh1YIMmU5F9PvT8q2
+   0rjya/wqkp8hV+j9dZKQpPzHyzcKwkOfBkYWeoUyYp1Na6D4Heu/5+dZa
+   pZEWHG8QH1pCh4y8EeE36v5JWluwFCw0b1iJFTWoxICyFbPjWTXFyU8DI
+   6jk/iNxrtdkFvAINVMRUEAvGXB4/chVfOkkjlm+AHvLO2n4W7L5bJ/b2v
+   k8oxB48LsEpk6Z/hoNelygJa0UUIGzgUOKh4y4HLX/ig77Ny8409fY4j3
+   TSRZqentD+L+HCEgfrM+sA2lY2SRVQ6u5Yp3DjS/gH4AGtdZHSKFLRdS6
    A==;
-X-CSE-ConnectionGUID: Qsgn0HynS+OVvg9nPyDJxg==
-X-CSE-MsgGUID: jcHSRrofRCCSECD5sTwKrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="106543558"
+X-CSE-ConnectionGUID: Vm4NUpQLQR686Ehq9Rb0LQ==
+X-CSE-MsgGUID: Xnrz//RJQuSCBpSMqOy2Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="106543560"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="106543558"
+   d="scan'208";a="106543560"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 09:34:45 -0700
-X-CSE-ConnectionGUID: MoJldCjwQFCSYCc9eShMbA==
-X-CSE-MsgGUID: eAV2mwnWShiGPkaKO8K6Mw==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 09:34:46 -0700
+X-CSE-ConnectionGUID: pDOr7+UYSOWGM0VbsdpfOQ==
+X-CSE-MsgGUID: odw9bFdXS/GyOwGgzeuMrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="242573662"
+   d="scan'208";a="242573666"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 01 Jun 2026 09:34:43 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wU5b6-00000000AoV-1o9u;
+	id 1wU5b6-00000000AoX-21Xf;
 	Mon, 01 Jun 2026 16:34:40 +0000
-Date: Tue, 02 Jun 2026 00:34:04 +0800
+Date: Tue, 02 Jun 2026 00:34:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: avivdaum <aviv.daum@gmail.com>
+To: Thomas Ballasi <tballasi@linux.microsoft.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>
-Subject: fs/fat/fat_test.c:261:9: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202606020036.nW4hUG3I-lkp@intel.com>
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: mm/vmscan.c:6585:66: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202606020025.ZBQ7ncEa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,80 +63,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e43ffb69e0438cddd72aaa30898b4dc446f664f8
-commit: 4bbf3f58e00f8671eb384c7df6983d803058b204 fat: add KUnit tests for timestamp conversion helpers
-date:   10 weeks ago
-config: m68k-randconfig-r111-20260601 (https://download.01.org/0day-ci/archive/20260602/202606020036.nW4hUG3I-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.5.0
+commit: 874a0a566ede40f3d6062cae8fe1022e616edd1a mm: vmscan: add cgroup IDs to vmscan tracepoints
+date:   8 weeks ago
+config: alpha-randconfig-r122-20260601 (https://download.01.org/0day-ci/archive/20260602/202606020025.ZBQ7ncEa-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020036.nW4hUG3I-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020025.ZBQ7ncEa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4bbf3f58e00f ("fat: add KUnit tests for timestamp conversion helpers")
+| Fixes: 874a0a566ede ("mm: vmscan: add cgroup IDs to vmscan tracepoints")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606020036.nW4hUG3I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606020025.ZBQ7ncEa-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/fat/fat_test.c:261:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le16 const __left @@
-   fs/fat/fat_test.c:261:9: sparse:     expected long long left_value
-   fs/fat/fat_test.c:261:9: sparse:     got restricted __le16 const __left
-   fs/fat/fat_test.c:261:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le16 const __right @@
-   fs/fat/fat_test.c:261:9: sparse:     expected long long right_value
-   fs/fat/fat_test.c:261:9: sparse:     got restricted __le16 const __right
-   fs/fat/fat_test.c:265:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le16 const __left @@
-   fs/fat/fat_test.c:265:9: sparse:     expected long long left_value
-   fs/fat/fat_test.c:265:9: sparse:     got restricted __le16 const __left
-   fs/fat/fat_test.c:265:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le16 const __right @@
-   fs/fat/fat_test.c:265:9: sparse:     expected long long right_value
-   fs/fat/fat_test.c:265:9: sparse:     got restricted __le16 const __right
-   fs/fat/fat_test.c:286:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le16 const __left @@
-   fs/fat/fat_test.c:286:9: sparse:     expected long long left_value
-   fs/fat/fat_test.c:286:9: sparse:     got restricted __le16 const __left
-   fs/fat/fat_test.c:286:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le16 const __right @@
-   fs/fat/fat_test.c:286:9: sparse:     expected long long right_value
-   fs/fat/fat_test.c:286:9: sparse:     got restricted __le16 const __right
-   fs/fat/fat_test.c:290:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le16 const __left @@
-   fs/fat/fat_test.c:290:9: sparse:     expected long long left_value
-   fs/fat/fat_test.c:290:9: sparse:     got restricted __le16 const __left
-   fs/fat/fat_test.c:290:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le16 const __right @@
-   fs/fat/fat_test.c:290:9: sparse:     expected long long right_value
-   fs/fat/fat_test.c:290:9: sparse:     got restricted __le16 const __right
+>> mm/vmscan.c:6585:66: sparse: sparse: Using plain integer as NULL pointer
+   mm/vmscan.c:6589:58: sparse: sparse: Using plain integer as NULL pointer
 
-vim +261 fs/fat/fat_test.c
+vim +6585 mm/vmscan.c
 
-b0d4adaf3b3c44 David Gow 2021-04-15  248  
-b0d4adaf3b3c44 David Gow 2021-04-15  249  static void fat_time_unix2fat_test(struct kunit *test)
-b0d4adaf3b3c44 David Gow 2021-04-15  250  {
-b0d4adaf3b3c44 David Gow 2021-04-15  251  	static struct msdos_sb_info fake_sb;
-b0d4adaf3b3c44 David Gow 2021-04-15  252  	__le16 date, time;
-b0d4adaf3b3c44 David Gow 2021-04-15  253  	u8 cs;
-b0d4adaf3b3c44 David Gow 2021-04-15  254  	struct fat_timestamp_testcase *testcase =
-b0d4adaf3b3c44 David Gow 2021-04-15  255  		(struct fat_timestamp_testcase *)test->param_value;
-b0d4adaf3b3c44 David Gow 2021-04-15  256  
-4bbf3f58e00f86 avivdaum  2026-03-16  257  	fat_test_set_time_offset(&fake_sb, testcase->time_offset);
-b0d4adaf3b3c44 David Gow 2021-04-15  258  
-b0d4adaf3b3c44 David Gow 2021-04-15  259  	fat_time_unix2fat(&fake_sb, &testcase->ts,
-b0d4adaf3b3c44 David Gow 2021-04-15  260  			  &time, &date, &cs);
-b0d4adaf3b3c44 David Gow 2021-04-15 @261  	KUNIT_EXPECT_EQ_MSG(test,
-4bbf3f58e00f86 avivdaum  2026-03-16  262  			    testcase->time,
-4bbf3f58e00f86 avivdaum  2026-03-16  263  			    time,
-b0d4adaf3b3c44 David Gow 2021-04-15  264  			    "Time mismatch\n");
-b0d4adaf3b3c44 David Gow 2021-04-15  265  	KUNIT_EXPECT_EQ_MSG(test,
-4bbf3f58e00f86 avivdaum  2026-03-16  266  			    testcase->date,
-4bbf3f58e00f86 avivdaum  2026-03-16  267  			    date,
-b0d4adaf3b3c44 David Gow 2021-04-15  268  			    "Date mismatch\n");
-b0d4adaf3b3c44 David Gow 2021-04-15  269  	KUNIT_EXPECT_EQ_MSG(test,
-b0d4adaf3b3c44 David Gow 2021-04-15  270  			    testcase->cs,
-b0d4adaf3b3c44 David Gow 2021-04-15  271  			    cs,
-b0d4adaf3b3c44 David Gow 2021-04-15  272  			    "Centisecond mismatch\n");
-b0d4adaf3b3c44 David Gow 2021-04-15  273  }
-b0d4adaf3b3c44 David Gow 2021-04-15  274  
-
-:::::: The code at line 261 was first introduced by commit
-:::::: b0d4adaf3b3c4402d9c3b6186e02aa1e4f7985cd fat: Add KUnit tests for checksums and timestamps
-
-:::::: TO: David Gow <davidgow@google.com>
-:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
+  6551	
+  6552	unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
+  6553					gfp_t gfp_mask, nodemask_t *nodemask)
+  6554	{
+  6555		unsigned long nr_reclaimed;
+  6556		struct scan_control sc = {
+  6557			.nr_to_reclaim = SWAP_CLUSTER_MAX,
+  6558			.gfp_mask = current_gfp_context(gfp_mask),
+  6559			.reclaim_idx = gfp_zone(gfp_mask),
+  6560			.order = order,
+  6561			.nodemask = nodemask,
+  6562			.priority = DEF_PRIORITY,
+  6563			.may_writepage = 1,
+  6564			.may_unmap = 1,
+  6565			.may_swap = 1,
+  6566		};
+  6567	
+  6568		/*
+  6569		 * scan_control uses s8 fields for order, priority, and reclaim_idx.
+  6570		 * Confirm they are large enough for max values.
+  6571		 */
+  6572		BUILD_BUG_ON(MAX_PAGE_ORDER >= S8_MAX);
+  6573		BUILD_BUG_ON(DEF_PRIORITY > S8_MAX);
+  6574		BUILD_BUG_ON(MAX_NR_ZONES > S8_MAX);
+  6575	
+  6576		/*
+  6577		 * Do not enter reclaim if fatal signal was delivered while throttled.
+  6578		 * 1 is returned so that the page allocator does not OOM kill at this
+  6579		 * point.
+  6580		 */
+  6581		if (throttle_direct_reclaim(sc.gfp_mask, zonelist, nodemask))
+  6582			return 1;
+  6583	
+  6584		set_task_reclaim_state(current, &sc.reclaim_state);
+> 6585		trace_mm_vmscan_direct_reclaim_begin(sc.gfp_mask, order, 0);
+  6586	
+  6587		nr_reclaimed = do_try_to_free_pages(zonelist, &sc);
+  6588	
+  6589		trace_mm_vmscan_direct_reclaim_end(nr_reclaimed, 0);
+  6590		set_task_reclaim_state(current, NULL);
+  6591	
+  6592		return nr_reclaimed;
+  6593	}
+  6594	
 
 --
 0-DAY CI Kernel Test Service
