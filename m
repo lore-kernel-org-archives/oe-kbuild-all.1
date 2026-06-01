@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC47340A6B;
-	Mon,  1 Jun 2026 21:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827BE342526
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jun 2026 21:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780350724; cv=none; b=Gg+W4vB1j/BCOw6fgbt3OiX/zVVYXqSn6cKLRr+7dWgQ3TAAphBTUdha7AzIMN+jxFoftxNy6YjTYQCg074YoX6gxikRc2BYbpgcie/0n94d9mK/sQLqdldSoM+DGd2vLFlo4EdiojcrRJAqGTe+Hp4+JcC4K2C1zFZFL57sh+4=
+	t=1780351026; cv=none; b=MYg+OZDGGzyMOZdSceQnGvubXVZLxgZ4KHwHFcD9c8pa4iaCn2LXNxfUZimpdXvKMo97GV0C1Oidpg1A916F4M7KzlHr75SpEMNasMgBvwl9pClzuoI3xtU5jnPMHQloFH1mgWx9wcKFOkyd1NiqV7seTOdee3ASQ4Zyu0lQZ4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780350724; c=relaxed/simple;
-	bh=MOu2VGety2kdefOXvcvdltSb2tbJfWvBSMs/8FvtLNw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NQIm4ORse3BX5DJBH08LKZFuHtv/d9pES+NTf6Z1sMIgHSNGPRGfiDIawzRjN7lMUMsmudZebjlp0LPn806PR368JcQtw0OCxtPNbLCNkVjZQQb6Brzui9/rX1uG5vuT/R3eDLTpgI7zx7PtuyHE0cKZPBDNKecqvAVFCDKJWFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zy3fnTQo; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1780351026; c=relaxed/simple;
+	bh=RbwKijCyG6jtZlW4fTUFONHnCcP+OzMu4XUXBe3/Ue4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iTHEO79yBAQrLPymP3mu6z20KQnsERR3gMe+8OM3LiF0z1BxCNY97AhxiGvbzFMduhGP3WD7cJjGLImbJr/giyEVV3DEsCT2Rg/vPuChq6t30ieNRPdE4w2h11J9VoXDdD59dkkmTfrT9WUtZorxCYSeqeI+zpnxFGMi87bdqNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ocg/eNTi; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zy3fnTQo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ocg/eNTi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780350723; x=1811886723;
+  t=1780351025; x=1811887025;
   h=date:from:to:cc:subject:message-id;
-  bh=MOu2VGety2kdefOXvcvdltSb2tbJfWvBSMs/8FvtLNw=;
-  b=Zy3fnTQodhv+O1A5IW78qNHTP+2nGdiH2QfwHlANzMHob8pMgwxA6jLc
-   1OHUT88ij8HEEoh9g324+aaJyz7ZHi2OMBv4gjqCVoCwTVp8Q8RJvFEb9
-   KJUBoab3ejrT8lgRusx27UaLIUfpZE+DblmcH5Z+TXZFnpV5tEakqSjAL
-   pG3GoH42lAu6M/gfefKKXjgAyQ3eXFSzaNcyk1S7ftAjdwVr/uyVsngs5
-   VXbf9txafMCOoYfWIJk5VXoQ1Oo4mxtzuGxuBgwRhINCr6CscVJJyYdk/
-   ssPIoEfkr1s6+AiB1Lnpar9AYQT13RDMd6vl4l7Xf7rYnIwXbVvR4DWXq
+  bh=RbwKijCyG6jtZlW4fTUFONHnCcP+OzMu4XUXBe3/Ue4=;
+  b=Ocg/eNTi09FJvdV9KdfsqrqN6IAj8tLEnlDqS3DNuxNp17AHDmRpqCSc
+   dPS857abnOBS/YF3HWwJz3kR+tsdi6Zmzq/SDpGfSPkQKF2uSSEtxRifp
+   ITVdhL3iRAUd6PdPlQpgb/lXTzTw/tlx2k/db65OIjydeI9fw5BpCywd/
+   UjKEPg9cv8Vv/SKBzukUWco6o++I8vgLf2l2L+WXNYJxfYwgyT7Ox2wUC
+   ug/a3EU/q7fo9IWZG6d+gKhh8TDlwOXNmhRae4zPGwmfHVP4kqOqfJTZ9
+   89XdX0pMnljeZuOkf37Ii+PE1g9/pW34MpQAUmdTK8P1poVAA8e6SSbf8
    g==;
-X-CSE-ConnectionGUID: eXXdMg+hTOOBzKh6bPWI/w==
-X-CSE-MsgGUID: Jjat94dDQp2siSghC6uEOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81019854"
+X-CSE-ConnectionGUID: 1uWzhU9MSW6GiVVazAiI6w==
+X-CSE-MsgGUID: 2LOTDo3MRUie6M+bv+969Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="80850210"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="81019854"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 14:52:03 -0700
-X-CSE-ConnectionGUID: XJKcnGveTzmBc0FgOL0+kg==
-X-CSE-MsgGUID: Go8GlUpYQ3CVYTCRg+H+EQ==
+   d="scan'208";a="80850210"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 14:57:05 -0700
+X-CSE-ConnectionGUID: exK3y20BSauPFDsv0ASxXQ==
+X-CSE-MsgGUID: Lg4OGhHcR+WOiPsQmuf1Pw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="239279242"
+   d="scan'208";a="267575582"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Jun 2026 14:52:01 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 01 Jun 2026 14:57:02 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUAYA-00000000B6h-1sl5;
-	Mon, 01 Jun 2026 21:51:58 +0000
-Date: Tue, 02 Jun 2026 05:51:49 +0800
+	id 1wUAd2-00000000B7W-1iQu;
+	Mon, 01 Jun 2026 21:57:00 +0000
+Date: Tue, 02 Jun 2026 05:56:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
- sound/soc/qcom/apq8016_sbc.c:313:38: error: incompatible pointer types
- passing 'struct snd_soc_card_platform *' to parameter of type 'struct
- snd_soc_card_driver *'
-Message-ID: <202606020506.dDyYDp2V-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 4036/9870] Warning: lib/rhashtable.c:1030
+ function parameter 'key' not described in '__rhashtable_init'
+Message-ID: <202606020558.MTZqSPtu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,145 +59,30 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
-head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
-commit: a779421ee3636a4d54a8dcdea7f2035e308309f1 [290/290] ASoC: qcom: use snd_soc_card_register()
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260602/202606020506.dDyYDp2V-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e5ab4f8a1f766febdc65ce89c00dec85393cfd68)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020506.dDyYDp2V-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7da7f07112610a520567421dd2ffcb51beaefbcc
+commit: 060d4e94b8d400b62453890821bd7feecd4cde2c [4036/9870] rhashtable: give each instance its own lockdep class
+config: m68k-randconfig-r062-20260601 (https://download.01.org/0day-ci/archive/20260602/202606020558.MTZqSPtu-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020558.MTZqSPtu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606020506.dDyYDp2V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606020558.MTZqSPtu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sound/soc/qcom/apq8016_sbc.c:26:31: error: field has incomplete type 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                                      ^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:161:46: error: incomplete definition of type 'struct snd_soc_card_platform'
-     161 |         for_each_card_driver_prelinks(&card_platform->driver, i, link)
-         |                                        ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:161:46: error: incomplete definition of type 'struct snd_soc_card_platform'
-     161 |         for_each_card_driver_prelinks(&card_platform->driver, i, link)
-         |                                        ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:261:15: error: incomplete definition of type 'struct snd_soc_card_platform'
-     261 |         card_platform->components = "qdsp6";
-         |         ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:263:46: error: incomplete definition of type 'struct snd_soc_card_platform'
-     263 |         for_each_card_driver_prelinks(&card_platform->driver, i, link) {
-         |                                        ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:263:46: error: incomplete definition of type 'struct snd_soc_card_platform'
-     263 |         for_each_card_driver_prelinks(&card_platform->driver, i, link) {
-         |                                        ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:305:15: error: incomplete definition of type 'struct snd_soc_card_platform'
-     305 |         card_platform->owner = THIS_MODULE;
-         |         ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:306:15: error: incomplete definition of type 'struct snd_soc_card_platform'
-     306 |         card_platform->driver.dapm_widgets = apq8016_sbc_dapm_widgets;
-         |         ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:307:15: error: incomplete definition of type 'struct snd_soc_card_platform'
-     307 |         card_platform->driver.num_dapm_widgets = ARRAY_SIZE(apq8016_sbc_dapm_widgets);
-         |         ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:308:15: error: incomplete definition of type 'struct snd_soc_card_platform'
-     308 |         card_platform->driver.controls = apq8016_sbc_snd_controls;
-         |         ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
-   sound/soc/qcom/apq8016_sbc.c:309:15: error: incomplete definition of type 'struct snd_soc_card_platform'
-     309 |         card_platform->driver.num_controls = ARRAY_SIZE(apq8016_sbc_snd_controls);
-         |         ~~~~~~~~~~~~~^
-   sound/soc/qcom/apq8016_sbc.c:26:9: note: forward declaration of 'struct snd_soc_card_platform'
-      26 |         struct snd_soc_card_platform card_platform;
-         |                ^
->> sound/soc/qcom/apq8016_sbc.c:313:38: error: incompatible pointer types passing 'struct snd_soc_card_platform *' to parameter of type 'struct snd_soc_card_driver *' [-Wincompatible-pointer-types]
-     313 |         card = devm_snd_soc_card_alloc(dev, card_platform);
-         |                                             ^~~~~~~~~~~~~
-   include/sound/soc-card.h:91:39: note: passing argument to parameter 'driver' here
-      91 |                                              struct snd_soc_card_driver *driver);
-         |                                                                          ^
-   12 errors generated.
+>> Warning: lib/rhashtable.c:1030 function parameter 'key' not described in '__rhashtable_init'
+   Warning: lib/rhashtable.c:1030 expecting prototype for rhashtable_init(). Prototype was for __rhashtable_init() instead
+>> Warning: lib/rhashtable.c:1104 function parameter 'key' not described in '__rhltable_init'
+>> Warning: lib/rhashtable.c:1104 expecting prototype for rhltable_init(). Prototype was for __rhltable_init() instead
 
-
-vim +313 sound/soc/qcom/apq8016_sbc.c
-
-   286	
-   287	static int apq8016_sbc_platform_probe(struct platform_device *pdev)
-   288	{
-   289		void (*add_ops)(struct snd_soc_card_platform *);
-   290		struct device *dev = &pdev->dev;
-   291		struct snd_soc_card *card;
-   292		struct snd_soc_card_platform *card_platform;
-   293		struct apq8016_sbc_data *data;
-   294		int ret;
-   295	
-   296		add_ops = device_get_match_data(&pdev->dev);
-   297		if (!add_ops)
-   298			return -EINVAL;
-   299	
-   300		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-   301		if (!data)
-   302			return -ENOMEM;
-   303	
-   304		card_platform = &data->card_platform;
-   305		card_platform->owner = THIS_MODULE;
-   306		card_platform->driver.dapm_widgets = apq8016_sbc_dapm_widgets;
-   307		card_platform->driver.num_dapm_widgets = ARRAY_SIZE(apq8016_sbc_dapm_widgets);
-   308		card_platform->driver.controls = apq8016_sbc_snd_controls;
-   309		card_platform->driver.num_controls = ARRAY_SIZE(apq8016_sbc_snd_controls);
-   310	
-   311		add_ops(card_platform);
-   312	
- > 313		card = devm_snd_soc_card_alloc(dev, card_platform);
-   314		if (!card)
-   315			return -ENOMEM;
-   316	
-   317		ret = qcom_snd_parse_of(card);
-   318		if (ret)
-   319			return ret;
-   320	
-   321		data->mic_iomux = devm_platform_ioremap_resource_byname(pdev, "mic-iomux");
-   322		if (IS_ERR(data->mic_iomux))
-   323			return PTR_ERR(data->mic_iomux);
-   324	
-   325		data->spkr_iomux = devm_platform_ioremap_resource_byname(pdev, "spkr-iomux");
-   326		if (IS_ERR(data->spkr_iomux))
-   327			return PTR_ERR(data->spkr_iomux);
-   328	
-   329		snd_soc_card_set_drvdata(card, data);
-   330	
-   331		return devm_snd_soc_card_register(card);
-   332	}
-   333	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
 
 --
 0-DAY CI Kernel Test Service
