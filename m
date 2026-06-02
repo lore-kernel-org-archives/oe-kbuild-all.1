@@ -1,226 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8448733D4E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 02:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB5E33E37A;
+	Tue,  2 Jun 2026 02:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780366821; cv=none; b=QdnV8PwC4IK4gfPUsnF2JH7AcwpL4l1DRizwe1CSBiKCL1vv6P2yuZdZi12H9s/nHx/BDCLZ+fxHKSJSVk/pxqHJrvUszG65o0d4WqEYE/XFxoutLwLJp5Zt+P3zFTDsXhluQGFnOLgpoeS84aVEWXatOa8SgDpRQ3Xt8mxKbJQ=
+	t=1780366885; cv=none; b=MGLx7hwyY1ONWPydfqVC9dGl5Bg1HWwSh+cHYETaobykLHpJbcml+5WxzNVSynaXdm23bBx3Tk2nwIv1LerNPzRI7xXZJ6EEmbJ23QKOEwh4yb4lFBIRsl6OTTUDu4I8bShu4LieYftFutsjz17VGIVe7H2Xb5oVW8/VhdgZvH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780366821; c=relaxed/simple;
-	bh=HefS6IQHSqgbWI7SY9aQ+wyoVT+vEZ3e2xVfeJjUW7I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L71E579alNNYwPd2oPHxeCYIkxAp8V74hemLGtuqGU79zYLcoVfJ0Qno9k7WjmEbJet/C1p3bCJrcV4ZlXOwf+J42kGELRuPd5ZQG+7ynmRDfzMotw5RfrarEYDjBTuCqdzGPP3SUjNrsxNb4SS7FAp3IQdPWUCL11mb4uYBaPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7n1o8lL; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1780366885; c=relaxed/simple;
+	bh=c2+SViuNjksxMtE1VcAPh1IEUFSJvUeNCCC+NtP5vQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=baFG1Q3EaDntBr8ja/IJeZjJUdDosuaaDDdzD6xs3JxJl4QVdMT1v/rru339RNluuntqtyWs93FPBU2wS/gZlKd+84g+nb35DROrpYRva75eR5JjtxGcedov9MMNHjZVgbOdpdG8fCMnLJIHdQAD1MwQrEDf76x/UlzLdh1Dhf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=chLgXfDE; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7n1o8lL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="chLgXfDE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780366820; x=1811902820;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HefS6IQHSqgbWI7SY9aQ+wyoVT+vEZ3e2xVfeJjUW7I=;
-  b=H7n1o8lLIKBHxFjqguWaiFPeGP8nkvTFW0GMc4NGhDRBhjmjo+EWbbnS
-   RslUY9KlvtmVHhQDXWvppcSiMQlBntqgRyrT5zQ1euYKzSm7nv3M51BCi
-   PFdMrZCw9Lkt+wyJqaBWubr+LjhRs551R4APZcU1hVFsUHJc/BaB2Ip7c
-   7JG7WM6ZLhBZ8wUhund4OS11XD0VoCCe1tYpEnpxxBzeOQ/9neYeK1ing
-   eLpT1D0wifM8kNOLZtcXNoMj2Bt/WvxHb2f3I1/47nG5mqj5LbdMgoPKx
-   RzCJtEnZ/CmLFJUEXl4F4PwdnLKFAi86QYTkf6b45qwE0DoIsgv0Gh6Ka
-   w==;
-X-CSE-ConnectionGUID: se0pNyp5TOeY8WHDpnlwMQ==
-X-CSE-MsgGUID: VatzQASPTIWu91kEM0xM3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="84990327"
+  t=1780366884; x=1811902884;
+  h=date:from:to:cc:subject:message-id;
+  bh=c2+SViuNjksxMtE1VcAPh1IEUFSJvUeNCCC+NtP5vQ0=;
+  b=chLgXfDEcLrHO++uDB9eA32rOpQlb5uXL4G+aeJ9Opr+KHJeebZRpTDm
+   54KBAl7hTeyfJmsHQyYXdIO4xV5xHC/+wH42/kpTExBFhSBWGs4E1RQ60
+   oo5gKwd4TGfWlv0myXqd672K07Pv6CM02At7VfF2w7phflQ2E0op3cetp
+   vFkys80vXaUAq7Zcok7ll3KMNsOmyoReRWWIqbvWUG+zsstNzFL9OqPQD
+   i0bli1VwVVe1ewQA4l21Dn1Gd7ILWURinJKUOQzkSVFQisi4gpN7uuL71
+   opQzKEEGOgf1/qMevSRcoRpd2xORFleqWSVn9oyyKKWeQsn//jJ/AQMPY
+   A==;
+X-CSE-ConnectionGUID: qLeIiL7lTxOhlWrWrR8qkA==
+X-CSE-MsgGUID: PoC+JFa9QUmmoVbSY5K7ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91446572"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="84990327"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 19:20:20 -0700
-X-CSE-ConnectionGUID: PFeTzYRITYaNOqHdcS2WWw==
-X-CSE-MsgGUID: FqOZzqFVReKJpyhXpvqWMQ==
+   d="scan'208";a="91446572"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 19:21:24 -0700
+X-CSE-ConnectionGUID: SlxvEZ+hTrmO038VyK4e/A==
+X-CSE-MsgGUID: ceeDOTK7SsKSaWFkzlf2hA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="248843895"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 01 Jun 2026 19:20:17 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 01 Jun 2026 19:21:22 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUEjm-00000000BNC-1r01;
-	Tue, 02 Jun 2026 02:20:14 +0000
-Date: Tue, 2 Jun 2026 10:19:36 +0800
+	id 1wUEkq-000000001if-2ILW;
+	Tue, 02 Jun 2026 02:21:20 +0000
+Date: Tue, 02 Jun 2026 04:20:51 +0200
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org,
-	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH net-next] mptcp: change mptcp_established_options() to
- return opt_size
-Message-ID: <202606021023.2uNktNr0-lkp@intel.com>
-References: <20260601091816.444738-1-edumazet@google.com>
+To: K Prateek Nayak <kprateek.nayak@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:sched/core 53/55] kernel/sched/core.c:9862:19:
+ error: too few arguments to function call, single argument 'rq' was not
+ specified
+Message-ID: <202606020432.6P6cOrOj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260601091816.444738-1-edumazet@google.com>
 
-Hi Eric,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/mptcp-change-mptcp_established_options-to-return-opt_size/20260601-174435
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260601091816.444738-1-edumazet%40google.com
-patch subject: [PATCH net-next] mptcp: change mptcp_established_options() to return opt_size
-config: powerpc-arches_defconfig (https://download.01.org/0day-ci/archive/20260602/202606021023.2uNktNr0-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021023.2uNktNr0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+head:   3a9f55cc6febc28a79812ccea577e49e6292c272
+commit: f01680da9d51010caa60b7f534bbae7eeed904d3 [53/55] sched/fair: Call update_curr() before unthrottling the hierarchy
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260602/202606020432.6P6cOrOj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020432.6P6cOrOj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606021023.2uNktNr0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606020432.6P6cOrOj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/ipv4/tcp_output.c: In function 'tcp_established_options':
-   net/ipv4/tcp_output.c:1186:63: error: passing argument 3 of 'mptcp_established_options' makes pointer from integer without a cast [-Wint-conversion]
-    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
-         |                                                               ^~~~~~~~~
-         |                                                               |
-         |                                                               unsigned int
-   net/ipv4/tcp_output.c:1186:63: note: possible fix: take the address with '&'
-    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
-         |                                                               ^~~~~~~~~
-         |                                                               &
-   In file included from include/net/tcp.h:44,
-                    from net/ipv4/tcp_output.c:40:
-   include/net/mptcp.h:271:59: note: expected 'unsigned int *' but argument is of type 'unsigned int'
-     271 |                                             unsigned int *size,
-         |                                             ~~~~~~~~~~~~~~^~~~
-   net/ipv4/tcp_output.c:1187:54: error: passing argument 4 of 'mptcp_established_options' makes integer from pointer without a cast [-Wint-conversion]
-    1187 |                                                      &opts->mptcp);
-         |                                                      ^~~~~~~~~~~~
-         |                                                      |
-         |                                                      struct mptcp_out_options *
-   include/net/mptcp.h:272:58: note: expected 'unsigned int' but argument is of type 'struct mptcp_out_options *'
-     272 |                                             unsigned int remaining,
-         |                                             ~~~~~~~~~~~~~^~~~~~~~~
->> net/ipv4/tcp_output.c:1186:28: error: too few arguments to function 'mptcp_established_options'; expected 5, have 4
-    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/mptcp.h:269:19: note: declared here
-     269 | static inline int mptcp_established_options(struct sock *sk,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/core.c:9862:19: error: too few arguments to function call, single argument 'rq' was not specified
+    9862 |                 update_rq_clock();
+         |                 ~~~~~~~~~~~~~~~ ^
+   kernel/sched/core.c:860:6: note: 'update_rq_clock' declared here
+     860 | void update_rq_clock(struct rq *rq)
+         |      ^               ~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/mptcp_established_options +1186 net/ipv4/tcp_output.c
+vim +/rq +9862 kernel/sched/core.c
 
-  1145	
-  1146	/* Compute TCP options for ESTABLISHED sockets. This is not the
-  1147	 * final wire format yet.
-  1148	 */
-  1149	static unsigned int tcp_established_options(struct sock *sk, struct sk_buff *skb,
-  1150						struct tcp_out_options *opts,
-  1151						struct tcp_key *key)
-  1152	{
-  1153		struct tcp_sock *tp = tcp_sk(sk);
-  1154		unsigned int size = 0;
-  1155		unsigned int eff_sacks;
-  1156	
-  1157		opts->options = 0;
-  1158	
-  1159		/* Better than switch (key.type) as it has static branches */
-  1160		if (tcp_key_is_md5(key)) {
-  1161			opts->options |= OPTION_MD5;
-  1162			size += TCPOLEN_MD5SIG_ALIGNED;
-  1163		} else if (tcp_key_is_ao(key)) {
-  1164			opts->options |= OPTION_AO;
-  1165			size += tcp_ao_len_aligned(key->ao_key);
-  1166		}
-  1167	
-  1168		if (likely(tp->rx_opt.tstamp_ok)) {
-  1169			opts->options |= OPTION_TS;
-  1170			opts->tsval = skb ? tcp_skb_timestamp_ts(tp->tcp_usec_ts, skb) +
-  1171					tp->tsoffset : 0;
-  1172			opts->tsecr = tp->rx_opt.ts_recent;
-  1173			size += TCPOLEN_TSTAMP_ALIGNED;
-  1174		}
-  1175	
-  1176		/* MPTCP options have precedence over SACK for the limited TCP
-  1177		 * option space because a MPTCP connection would be forced to
-  1178		 * fall back to regular TCP if a required multipath option is
-  1179		 * missing. SACK still gets a chance to use whatever space is
-  1180		 * left.
-  1181		 */
-  1182		if (sk_is_mptcp(sk)) {
-  1183			unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
-  1184			int opt_size;
-  1185	
-> 1186			opt_size = mptcp_established_options(sk, skb, remaining,
-  1187							     &opts->mptcp);
-  1188			if (opt_size >= 0) {
-  1189				opts->options |= OPTION_MPTCP;
-  1190				size += opt_size;
-  1191			}
-  1192		}
-  1193	
-  1194		eff_sacks = tp->rx_opt.num_sacks + tp->rx_opt.dsack;
-  1195		if (unlikely(eff_sacks)) {
-  1196			const unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
-  1197			if (likely(remaining >= TCPOLEN_SACK_BASE_ALIGNED +
-  1198						TCPOLEN_SACK_PERBLOCK)) {
-  1199				opts->num_sack_blocks =
-  1200					min_t(unsigned int, eff_sacks,
-  1201					      (remaining - TCPOLEN_SACK_BASE_ALIGNED) /
-  1202					      TCPOLEN_SACK_PERBLOCK);
-  1203	
-  1204				size += TCPOLEN_SACK_BASE_ALIGNED +
-  1205					opts->num_sack_blocks * TCPOLEN_SACK_PERBLOCK;
-  1206			} else {
-  1207				opts->num_sack_blocks = 0;
-  1208			}
-  1209		} else {
-  1210			opts->num_sack_blocks = 0;
-  1211		}
-  1212	
-  1213		if (tcp_ecn_mode_accecn(tp)) {
-  1214			int ecn_opt = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option);
-  1215	
-  1216			if (ecn_opt && tp->saw_accecn_opt &&
-  1217			    (ecn_opt >= TCP_ACCECN_OPTION_PERSIST ||
-  1218			     !tcp_accecn_opt_fail_send(tp)) &&
-  1219			    (ecn_opt >= TCP_ACCECN_OPTION_FULL || tp->accecn_opt_demand ||
-  1220			     tcp_accecn_option_beacon_check(sk))) {
-  1221				opts->use_synack_ecn_bytes = 0;
-  1222				size += tcp_options_fit_accecn(opts, tp->accecn_minlen,
-  1223							       MAX_TCP_OPTION_SPACE - size);
-  1224			}
-  1225		}
-  1226	
-  1227		if (unlikely(BPF_SOCK_OPS_TEST_FLAG(tp,
-  1228						    BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG))) {
-  1229			unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
-  1230	
-  1231			bpf_skops_hdr_opt_len(sk, skb, NULL, NULL, 0, opts, &remaining);
-  1232	
-  1233			size = MAX_TCP_OPTION_SPACE - remaining;
-  1234		}
-  1235	
-  1236		return size;
-  1237	}
-  1238	
+  9805	
+  9806	static int tg_set_cfs_bandwidth(struct task_group *tg,
+  9807					u64 period_us, u64 quota_us, u64 burst_us)
+  9808	{
+  9809		int i, ret = 0, runtime_enabled, runtime_was_enabled;
+  9810		struct cfs_bandwidth *cfs_b = &tg->cfs_bandwidth;
+  9811		u64 period, quota, burst;
+  9812	
+  9813		period = (u64)period_us * NSEC_PER_USEC;
+  9814	
+  9815		if (quota_us == RUNTIME_INF)
+  9816			quota = RUNTIME_INF;
+  9817		else
+  9818			quota = (u64)quota_us * NSEC_PER_USEC;
+  9819	
+  9820		burst = (u64)burst_us * NSEC_PER_USEC;
+  9821	
+  9822		/*
+  9823		 * Prevent race between setting of cfs_rq->runtime_enabled and
+  9824		 * unthrottle_offline_cfs_rqs().
+  9825		 */
+  9826		guard(cpus_read_lock)();
+  9827		guard(mutex)(&cfs_constraints_mutex);
+  9828	
+  9829		ret = __cfs_schedulable(tg, period, quota);
+  9830		if (ret)
+  9831			return ret;
+  9832	
+  9833		runtime_enabled = quota != RUNTIME_INF;
+  9834		runtime_was_enabled = cfs_b->quota != RUNTIME_INF;
+  9835		/*
+  9836		 * If we need to toggle cfs_bandwidth_used, off->on must occur
+  9837		 * before making related changes, and on->off must occur afterwards
+  9838		 */
+  9839		if (runtime_enabled && !runtime_was_enabled)
+  9840			cfs_bandwidth_usage_inc();
+  9841	
+  9842		scoped_guard (raw_spinlock_irq, &cfs_b->lock) {
+  9843			cfs_b->period = ns_to_ktime(period);
+  9844			cfs_b->quota = quota;
+  9845			cfs_b->burst = burst;
+  9846	
+  9847			__refill_cfs_bandwidth_runtime(cfs_b);
+  9848	
+  9849			/*
+  9850			 * Restart the period timer (if active) to handle new
+  9851			 * period expiry:
+  9852			 */
+  9853			if (runtime_enabled)
+  9854				start_cfs_bandwidth(cfs_b);
+  9855		}
+  9856	
+  9857		for_each_online_cpu(i) {
+  9858			struct cfs_rq *cfs_rq = tg_cfs_rq(tg, i);
+  9859			struct rq *rq = cfs_rq->rq;
+  9860	
+  9861			guard(rq_lock_irq)(rq);
+> 9862			update_rq_clock();
+  9863			cfs_rq->runtime_enabled = runtime_enabled;
+  9864			cfs_rq->runtime_remaining = 1;
+  9865	
+  9866			if (cfs_rq->throttled)
+  9867				unthrottle_cfs_rq(cfs_rq);
+  9868		}
+  9869	
+  9870		if (runtime_was_enabled && !runtime_enabled)
+  9871			cfs_bandwidth_usage_dec();
+  9872	
+  9873		return 0;
+  9874	}
+  9875	
 
 --
 0-DAY CI Kernel Test Service
