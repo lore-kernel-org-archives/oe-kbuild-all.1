@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B4A70836
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 14:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A76364057
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 15:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780411151; cv=none; b=CYAwYlVLaMjXbGPTygFFQtxsvGuw0lZ4zZfQkIlTINP4V0Syck4LVIt7RNqbafS+ZfYBrRqkSHWnRkX01u+xIIWpoqcuHFRDllX73adY5qPvi5eb6CLRR/Pgv+LGACtPOo9iPDobzBodzB/EbW4jns0TtEitzhFTEuXD0NHujz0=
+	t=1780412417; cv=none; b=hRVNIOcoOG4rB7K70pLKre62k4uhmtP6QQU9Gbfrtr/ORtyJsv5RnzcWD5xfbdbX/UlwqLMEXsiofFbvOY2YxRLhmo3LpL5uxXXhbXyAKWNhGVtqNsy5DNiIk0zToeYqpiBAOioQHbTpWyeaqLV4TlybcOpobs4XhvC406iUkBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780411151; c=relaxed/simple;
-	bh=wTx+3Asbn4+BTD66M7g14RBN0YbOHx9fl0y3zl5TEm8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oeYt0kHP5c5COxwerBChMinRZSvAGLD57wKoU8FjCHzF5nv1yRftrIITNFyiulisSQzIADGi5CU3Y0fVK8x2cQAHkBikYWrHnks6Y+6XmgGuNoKwLDYvLpdH7y1KggSmDi5XwjJppH5XaHvJ3XgQPXjEgniwi46BJB39LFAwvgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bRCABgUn; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1780412417; c=relaxed/simple;
+	bh=+TxXPCE/eqkvTO1i0ubYLaE6JPPC6jt7Rx+g6B4CRB4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=epTfws21lXYoK+s0kG4kenUyJeIahEnqhezvr+xVN3RdC0LG323Mu5SVD1z4QWThhpNM8u5rdN4xG2AxbWzmFL69LLfw1QJVvJ7hDXqwSE92ANJtEEI34E1E3sdNxlaqhbk7fR0cpdc3Hely2O/Mh4kggkfk2gh4vmChmRhfcGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emWyfNq/; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bRCABgUn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emWyfNq/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780411150; x=1811947150;
+  t=1780412416; x=1811948416;
   h=date:from:to:cc:subject:message-id;
-  bh=wTx+3Asbn4+BTD66M7g14RBN0YbOHx9fl0y3zl5TEm8=;
-  b=bRCABgUnp/vL1tV5AOoxxAV+9H/OaqvQ51Lrd9vnIFPOQdqgP6boRsc0
-   d4rkQTh5sOa0Lfv9Ke5TRE0rns8r7saYWh4RF85SA5PnnDVBgoYQLOo0I
-   AJvdm5/u5Nz7+wQjM24LAM9ZxXmHqGg5A8aWLPUNrrSUBOMeHzm5xIDYE
-   ENDQ+rAN8UjEPF84kxiSPJbT/O805gXdz0YvdSga+1QTqT9byP2CSlO2a
-   /3AP3L9bf1WZfAtHyPuTJpex9+AaoSSDwdN/ZcehMq9yYRAsYwJysZc+U
-   o1trgidrE5oWSawMHZzN+GLh9a5n5Lemyo8FLmGtCGeaVuB5wuF4XsWN/
+  bh=+TxXPCE/eqkvTO1i0ubYLaE6JPPC6jt7Rx+g6B4CRB4=;
+  b=emWyfNq/iNpfMqZ+b0KDPGxyCzEy0SX7kVE4mMMw4YE2rL4CHZdxYv8M
+   5B0DGZrEn3uwKsLLF5v+ZNy5SuURdX3IMrFyxM1eoDQFF6u6yIo9uR5tz
+   NYSwt08fM37qWochpVqhGS3GN2EiWGAAoTykCj6g1txl16lPoaFXbkBAJ
+   PiFceTcXmoaapRwpWlUDR8sBE5neOVDh8fCa4IezBJ9Ev5gRL+86pMkis
+   1NtrgRnXKC7v+K4JbvFFl5EA9JRRVdByk6LB8+xTTzh+oP6PQp3lFP8ov
+   wW4pY8+j9E84pKr9eltgNv38BwUgW7qaHN9vWBYsBlzwJPTSUmiZLPjIV
    A==;
-X-CSE-ConnectionGUID: +9D9p7PFQJym8hTeXhf4kQ==
-X-CSE-MsgGUID: IfwHSWAGQaCMUXuLKwnDcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92308671"
+X-CSE-ConnectionGUID: dxM6Ts6gS86d2SW/DlL4OA==
+X-CSE-MsgGUID: XXVhvQCvQF+tjBQldd5lLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81195170"
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="92308671"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 07:39:09 -0700
-X-CSE-ConnectionGUID: x0arvhAcQc6CHJ+S4hZ/Og==
-X-CSE-MsgGUID: cdhCbPDxSRWevFnjnLA9fA==
+   d="scan'208";a="81195170"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 08:00:15 -0700
+X-CSE-ConnectionGUID: 4bKVMAuyS0GahdnXtp+kQA==
+X-CSE-MsgGUID: W1Az7HtmRK+t+vdpSAucIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="237573133"
+   d="scan'208";a="239756893"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Jun 2026 07:39:07 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 02 Jun 2026 08:00:12 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUQGn-00000000C8G-3BDH;
-	Tue, 02 Jun 2026 14:39:05 +0000
-Date: Tue, 02 Jun 2026 22:38:51 +0800
+	id 1wUQbC-00000000C9K-2F9F;
+	Tue, 02 Jun 2026 15:00:10 +0000
+Date: Tue, 02 Jun 2026 22:59:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
- sound/soc/soc-pcm.c:446:33: error: dereferencing pointer to incomplete type
- 'struct snd_soc_dai'
-Message-ID: <202606022250.9pj4Up6O-lkp@intel.com>
+ sound/soc/codecs/cx20442.c:250:17: warning: assignment to 'struct
+ cx20442_priv *' from 'int' makes pointer from integer without a cast
+Message-ID: <202606022245.BxegzKrA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,123 +62,187 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
 head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
-commit: 61940afff67a6c8e813921b69dbef7e26112dccf [290/290] ASoC: soc-dai: move struct snd_soc_dai to soc-dai.c
-config: arm64-randconfig-002-20260601 (https://download.01.org/0day-ci/archive/20260602/202606022250.9pj4Up6O-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606022250.9pj4Up6O-lkp@intel.com/reproduce)
+commit: be2dfcdd460ff025011f95257876a89883815cda [290/290] ASoC: soc-component: remove snd_soc_component_{set/get}_drvdata()
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260602/202606022245.BxegzKrA-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606022245.BxegzKrA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606022250.9pj4Up6O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606022245.BxegzKrA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sound/soc/soc-pcm.c: In function 'soc_pcm_shared_bclk_rule_rate':
->> sound/soc/soc-pcm.c:446:33: error: dereferencing pointer to incomplete type 'struct snd_soc_dai'
-     struct snd_soc_card *card = dai->component->card;
-                                    ^~
+   sound/soc/codecs/cx20442.c: In function 'v253_close':
+   sound/soc/codecs/cx20442.c:250:19: error: implicit declaration of function 'snd_soc_component_get_drvdata'; did you mean 'snd_soc_component_set_jack'? [-Werror=implicit-function-declaration]
+     250 |         cx20442 = snd_soc_component_get_drvdata(component);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                   snd_soc_component_set_jack
+>> sound/soc/codecs/cx20442.c:250:17: warning: assignment to 'struct cx20442_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     250 |         cx20442 = snd_soc_component_get_drvdata(component);
+         |                 ^
+   sound/soc/codecs/cx20442.c: In function 'cx20442_component_probe':
+   sound/soc/codecs/cx20442.c:355:30: warning: unused variable 'card' [-Wunused-variable]
+     355 |         struct snd_soc_card *card = snd_soc_component_to_card(component);
+         |                              ^~~~
+   cc1: some warnings being treated as errors
+--
+   sound/soc/codecs/rt722-sdca.c: In function 'rt722_cae_update_put':
+   sound/soc/codecs/rt722-sdca.c:579:41: error: implicit declaration of function 'snd_soc_component_get_drvdata'; did you mean 'snd_soc_component_set_jack'? [-Werror=implicit-function-declaration]
+     579 |         struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                         snd_soc_component_set_jack
+>> sound/soc/codecs/rt722-sdca.c:579:41: warning: initialization of 'struct rt722_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/codecs/rt722-sdca.c: In function 'rt722_cae_update_get':
+   sound/soc/codecs/rt722-sdca.c:617:41: warning: initialization of 'struct rt722_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     617 |         struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/rt722-sdca.c: In function 'rt722_sdca_fu06_playback_get':
+   sound/soc/codecs/rt722-sdca.c:829:41: warning: initialization of 'struct rt722_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     829 |         struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/rt722-sdca.c: In function 'rt722_sdca_fu06_playback_put':
+   sound/soc/codecs/rt722-sdca.c:840:41: warning: initialization of 'struct rt722_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     840 |         struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   sound/soc/codecs/tas675x.c: In function 'tas675x_set_rtldg_thresh':
+   sound/soc/codecs/tas675x.c:324:36: error: implicit declaration of function 'snd_soc_component_get_drvdata'; did you mean 'snd_soc_component_set_jack'? [-Werror=implicit-function-declaration]
+     324 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(comp);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_component_set_jack
+>> sound/soc/codecs/tas675x.c:324:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/codecs/tas675x.c: In function 'tas675x_get_rtldg_thresh':
+   sound/soc/codecs/tas675x.c:353:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     353 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(comp);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/tas675x.c: In function 'tas675x_set_dcldg_trigger':
+   sound/soc/codecs/tas675x.c:379:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     379 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(comp);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/tas675x.c: In function 'tas675x_set_acldg_trigger':
+   sound/soc/codecs/tas675x.c:495:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     495 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(comp);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/tas675x.c: In function 'tas675x_get_rtldg_impedance':
+   sound/soc/codecs/tas675x.c:577:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     577 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(comp);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/tas675x.c: In function 'tas675x_get_dc_resistance':
+   sound/soc/codecs/tas675x.c:605:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     605 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(comp);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/tas675x.c: In function 'tas675x_hw_params':
+   sound/soc/codecs/tas675x.c:1127:50: error: invalid use of undefined type 'struct snd_soc_dai'
+    1127 |         struct snd_soc_component *component = dai->component;
+         |                                                  ^~
+   sound/soc/codecs/tas675x.c:1128:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1128 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(component);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/tas675x.c:1214:46: error: invalid use of undefined type 'struct snd_soc_dai'
+    1214 |         tas675x_program_slot_offsets(tas, dai->id,
+         |                                              ^~
+   sound/soc/codecs/tas675x.c: In function 'tas675x_set_fmt':
+   sound/soc/codecs/tas675x.c:1224:50: error: invalid use of undefined type 'struct snd_soc_dai'
+    1224 |         struct snd_soc_component *component = dai->component;
+         |                                                  ^~
+   sound/soc/codecs/tas675x.c:1225:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1225 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(component);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/tas675x.c:1315:16: error: invalid use of undefined type 'struct snd_soc_dai'
+    1315 |         if (dai->id == 2) {
+         |                ^~
+   sound/soc/codecs/tas675x.c: In function 'tas675x_set_tdm_slot':
+   sound/soc/codecs/tas675x.c:1360:69: error: invalid use of undefined type 'struct snd_soc_dai'
+    1360 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(dai->component);
+         |                                                                     ^~
+   sound/soc/codecs/tas675x.c: In function 'tas675x_mute_stream':
+   sound/soc/codecs/tas675x.c:1376:50: error: invalid use of undefined type 'struct snd_soc_dai'
+    1376 |         struct snd_soc_component *component = dai->component;
+         |                                                  ^~
+   sound/soc/codecs/tas675x.c:1377:36: warning: initialization of 'struct tas675x_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1377 |         struct tas675x_priv *tas = snd_soc_component_get_drvdata(component);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/tas675x.c:1383:38: error: invalid use of undefined type 'struct snd_soc_dai'
+    1383 |                         clear_bit(dai->id, &tas->active_capture_dais);
+         |                                      ^~
+   sound/soc/codecs/tas675x.c:1385:36: error: invalid use of undefined type 'struct snd_soc_dai'
+    1385 |                         set_bit(dai->id, &tas->active_capture_dais);
+         |                                    ^~
+   sound/soc/codecs/tas675x.c:1395:30: error: invalid use of undefined type 'struct snd_soc_dai'
+    1395 |                 clear_bit(dai->id, &tas->active_playback_dais);
+         |                              ^~
+   sound/soc/codecs/tas675x.c:1397:28: error: invalid use of undefined type 'struct snd_soc_dai'
+    1397 |                 set_bit(dai->id, &tas->active_playback_dais);
+         |                            ^~
+   cc1: some warnings being treated as errors
+--
+   sound/soc/sof/ipc3-topology.c: In function 'sof_ipc3_widget_setup_comp_pipeline':
+   sound/soc/sof/ipc3-topology.c:527:36: error: implicit declaration of function 'snd_soc_component_get_drvdata'; did you mean 'snd_soc_component_set_jack'? [-Werror=implicit-function-declaration]
+     527 |         struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_component_set_jack
+>> sound/soc/sof/ipc3-topology.c:527:36: warning: initialization of 'struct snd_sof_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   cc1: some warnings being treated as errors
+--
+   sound/soc/tegra/tegra210_mixer.c: In function 'tegra210_mixer_get_fade_duration':
+   sound/soc/tegra/tegra210_mixer.c:202:40: error: implicit declaration of function 'snd_soc_component_get_drvdata'; did you mean 'snd_soc_component_set_jack'? [-Werror=implicit-function-declaration]
+     202 |         struct tegra210_mixer *mixer = snd_soc_component_get_drvdata(cmpnt);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                        snd_soc_component_set_jack
+>> sound/soc/tegra/tegra210_mixer.c:202:40: warning: initialization of 'struct tegra210_mixer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/tegra/tegra210_mixer.c: In function 'tegra210_mixer_put_fade_duration':
+   sound/soc/tegra/tegra210_mixer.c:215:40: warning: initialization of 'struct tegra210_mixer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     215 |         struct tegra210_mixer *mixer = snd_soc_component_get_drvdata(cmpnt);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/tegra/tegra210_mixer.c: In function 'tegra210_mixer_get_fade_gain':
+   sound/soc/tegra/tegra210_mixer.c:238:40: warning: initialization of 'struct tegra210_mixer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     238 |         struct tegra210_mixer *mixer = snd_soc_component_get_drvdata(cmpnt);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/tegra/tegra210_mixer.c: In function 'tegra210_mixer_put_fade_gain':
+   sound/soc/tegra/tegra210_mixer.c:251:40: warning: initialization of 'struct tegra210_mixer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     251 |         struct tegra210_mixer *mixer = snd_soc_component_get_drvdata(cmpnt);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/tegra/tegra210_mixer.c: In function 'tegra210_mixer_put_fade_switch':
+   sound/soc/tegra/tegra210_mixer.c:279:40: warning: initialization of 'struct tegra210_mixer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     279 |         struct tegra210_mixer *mixer = snd_soc_component_get_drvdata(cmpnt);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/tegra/tegra210_mixer.c: In function 'tegra210_mixer_get_fade_status':
+   sound/soc/tegra/tegra210_mixer.c:366:40: warning: initialization of 'struct tegra210_mixer *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     366 |         struct tegra210_mixer *mixer = snd_soc_component_get_drvdata(cmpnt);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +446 sound/soc/soc-pcm.c
+vim +250 sound/soc/codecs/cx20442.c
 
-01d7584cd2e5a9 Liam Girdwood 2012-04-25  435  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  436  /*
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  437   * Shared BCLK constraint: when multiple DAIs share the same physical BCLK,
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  438   * constrain hw_params so that the BCLK rate (rate * channels * sample_bits,
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  439   * or rate * slots * slot_width for TDM) remains consistent.
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  440   */
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  441  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  442  static int soc_pcm_shared_bclk_rule_rate(struct snd_pcm_hw_params *params,
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  443  					 struct snd_pcm_hw_rule *rule)
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  444  {
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  445  	struct snd_soc_dai *dai = rule->private;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22 @446  	struct snd_soc_card *card = dai->component->card;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  447  	struct snd_soc_pcm_runtime *rtd;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  448  	struct snd_soc_dai *other_dai;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  449  	unsigned long active_bclk_rate = 0;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  450  	struct snd_interval *rate = hw_param_interval(params, SNDRV_PCM_HW_PARAM_RATE);
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  451  	struct snd_interval constraint = { .empty = 1 };
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  452  	unsigned int target_rate;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  453  	int i;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  454  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  455  	/* Protect the rtd list traversal with the ASoC card mutex helper. */
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  456  	guard(snd_soc_card_mutex)(card);
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  457  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  458  	/* Scan all DAIs on the card for an active peer sharing the same BCLK */
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  459  	for_each_card_rtds(card, rtd) {
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  460  		for_each_rtd_cpu_dais(rtd, i, other_dai) {
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  461  			if (other_dai == dai)
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  462  				continue;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  463  			if (!other_dai->bclk)
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  464  				continue;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  465  			if (!snd_soc_dai_active(other_dai))
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  466  				continue;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  467  			/*
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  468  			 * Skip peers whose hw_params hasn't run yet.
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  469  			 * symmetric_rate is set by soc_pcm_set_dai_params()
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  470  			 * after snd_soc_dai_hw_params(), so non-zero means
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  471  			 * the DAI's clk_set_rate() has already executed.
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  472  			 */
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  473  			if (!other_dai->symmetric_rate)
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  474  				continue;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  475  			if (!clk_is_match(dai->bclk, other_dai->bclk))
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  476  				continue;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  477  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  478  			active_bclk_rate = clk_get_rate(other_dai->bclk);
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  479  			if (active_bclk_rate)
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  480  				goto found;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  481  		}
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  482  	}
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  483  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  484  	return 0;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  485  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  486  found:
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  487  	if (dai->bclk_ratio) {
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  488  		/*
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  489  		 * Driver has set an explicit BCLK ratio (e.g. for TDM where
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  490  		 * BCLK = rate * slots * slot_width). The only valid rate is
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  491  		 * active_bclk_rate / bclk_ratio.
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  492  		 */
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  493  		target_rate = active_bclk_rate / dai->bclk_ratio;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  494  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  495  		constraint.min = target_rate;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  496  		constraint.max = target_rate;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  497  	} else {
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  498  		struct snd_interval *channels = hw_param_interval(params,
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  499  						SNDRV_PCM_HW_PARAM_CHANNELS);
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  500  		struct snd_interval *sample_bits = hw_param_interval(params,
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  501  						SNDRV_PCM_HW_PARAM_SAMPLE_BITS);
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  502  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  503  		/*
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  504  		 * Default: BCLK = rate * channels * sample_bits.
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  505  		 * Calculate the range of valid rates given the current
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  506  		 * channel and sample_bits intervals.
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  507  		 */
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  508  		if (!channels->min || !sample_bits->min)
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  509  			return 0;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  510  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  511  		constraint.max = active_bclk_rate /
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  512  				 ((unsigned long)channels->min * sample_bits->min);
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  513  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  514  		if (channels->max && sample_bits->max)
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  515  			constraint.min = active_bclk_rate /
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  516  					 ((unsigned long)channels->max * sample_bits->max);
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  517  		else
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  518  			constraint.min = constraint.max;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  519  	}
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  520  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  521  	constraint.integer = 1;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  522  	constraint.empty = 0;
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  523  
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  524  	return snd_interval_refine(rate, &constraint);
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  525  }
-c8c2ffd722a6e4 Troy Mitchell 2026-05-22  526  
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  237  
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  238  /* Line discipline .close() */
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  239  static void v253_close(struct tty_struct *tty)
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  240  {
+446c921ecedc6a Janusz Krzysztofik 2026-05-12  241  	struct cx20442_codec *codec = tty->disc_data;
+446c921ecedc6a Janusz Krzysztofik 2026-05-12  242  	struct snd_soc_component *component = codec->component;
+f0fba2ad1b6b53 Liam Girdwood      2010-03-17  243  	struct cx20442_priv *cx20442;
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  244  
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  245  	tty->disc_data = NULL;
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  246  
+d0fdfe34080c64 Kuninori Morimoto  2018-01-29  247  	if (!component)
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  248  		return;
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  249  
+d0fdfe34080c64 Kuninori Morimoto  2018-01-29 @250  	cx20442 = snd_soc_component_get_drvdata(component);
+f0fba2ad1b6b53 Liam Girdwood      2010-03-17  251  
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  252  	/* Prevent the codec driver from further accessing the modem */
+fac3f5e20dcecc Kuninori Morimoto  2017-11-09  253  	cx20442->tty = NULL;
+446c921ecedc6a Janusz Krzysztofik 2026-05-12  254  	codec->ready = false;
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  255  }
+ad120dae127f5c Janusz Krzysztofik 2009-07-29  256  
 
-:::::: The code at line 446 was first introduced by commit
-:::::: c8c2ffd722a6e497b9c6bb9961a7afb6ee5e2c28 ASoC: soc-pcm: constrain hw_params when DAIs share the same BCLK
+:::::: The code at line 250 was first introduced by commit
+:::::: d0fdfe34080c64127b2e57525a84e3fb3cc29d87 ASoC: cx20442: replace codec to component
 
-:::::: TO: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 :::::: CC: Mark Brown <broonie@kernel.org>
 
 --
