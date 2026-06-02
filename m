@@ -1,108 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27EA342501
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 02:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D17834A3BF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 02:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780366158; cv=none; b=t+ucClSUR/xCWG3cH4ISdesUxrvQPQcgEUkHWb81g8v0kZThAkKNMAHaPkxmExfXJo0mXeL+cmxdMmfjSWID/9coZ3/GmSpjODLqY5K4aza0wepWlYg5VpZtahN2Xo57HpV0E4oYMpUKnZw2QbpB12k7KImQU+0mB+S7YUtzV4o=
+	t=1780366221; cv=none; b=j8wS41cWvAQqM6xCPA07oQzVQXVWfNkN5DPhYIbzvxN3PbOxt/gUZo7FUGmri8bMwuMANhCMcfqMggyTu0WedaIVS9+cMtkEbS5OD4B0acg9yp3swhKnlVPovALGinL8rAoFBW4tWBTVf6LU5PmyTBoaJcOk/xs6ih6dQkYKJx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780366158; c=relaxed/simple;
-	bh=2CGQeitG8MF52OBnjopAmcSlSdYbcjoYd/eIMzglXNA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tV2QDMCECRQeJFOSyZE1gGRGK+vrG42QAJkRHuNYGUuz/q2Hnvc235AqPv52Pddla6xqEksN+7gcine4t7AJUZJt7t6qBpzNCEvoxJS6Gi+KzaYwrMRGfTcp8TkSfiQQudsAhMPPWWnBZuU4ulcQIgIZxI+Snq5Jc/c2jxRPzAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Borm5YEK; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1780366221; c=relaxed/simple;
+	bh=y7Xd42BcknrLJfoPP64g2rAK+lYNayuuuDtn7l3IJAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M+7W32HWVswJ5uqFOSmXQOwzAIcezQ/x4JS12qa+tEaFzePyTFaT2CVmH61Ip7pGgaOXJnO25Q3sowvqMUwMmkQXojXu/VVr0XIzuz1KQjCUGg/Q4ZHecD8kdSdBHflQb+fBq2+dyh7TRw6PE33oa8YyZZk3cEHKvGQioJqdFro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nq3Vc5AZ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Borm5YEK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nq3Vc5AZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780366157; x=1811902157;
-  h=date:from:to:cc:subject:message-id;
-  bh=2CGQeitG8MF52OBnjopAmcSlSdYbcjoYd/eIMzglXNA=;
-  b=Borm5YEKfUL2/IqDFDRA2EqrZELrb5W+ITvPQdLDNOYYE8HMbWpM7NcA
-   cj2tEJguauyvf10Pnu0XKCybe4+NEEADlx8S95qlEhZaQUkmwIkuLdjiO
-   1XzhFvyTGGngV3fOAEmnewkZ4thk9YfhobWFYZcEsGyNQQ+oNhz47gqWV
-   RhLkIBQuCV+xpEjWjanv1o/HTVuKBnIwh49ofEkVLICMysDrD43/Xs4dv
-   XrB6lwywsMIVHZCp46U31XJlTSIz9OZj3onaZAw5Nr2XZnFDakH2G/Ygr
-   Pob40DfvwTCCXqY5Mdz5UbxSvdc9n5bxmsswd4w3p332eZtq6sk4KX5zT
-   g==;
-X-CSE-ConnectionGUID: /Tkh16RLQFeLR+9xH8HH6g==
-X-CSE-MsgGUID: 84EKzrhyRO2VBDT+clpOTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81317675"
+  t=1780366219; x=1811902219;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y7Xd42BcknrLJfoPP64g2rAK+lYNayuuuDtn7l3IJAQ=;
+  b=Nq3Vc5AZYYkSZRHSvAbpfMpIZE+oWTxmMCY9q0WYVhcbGFu7RAAfq5gv
+   AASKPzVhRiy3tDO2QbDvnXtWAY7jFW9Up6/z4DlQbVjE92g/M5Rj+i97D
+   UBydqqqpTi/ZFCjKV24ISriTDAeoXJOCyQowh6V6y1oHAoeEawa9x4POx
+   n+q4Te2QklmT2QuiuRr5AdSFrBApHYkIOvJI/fU0AEn+4B0GBAQqZ8z4g
+   /wi+ll73SxT7A2d1czrIfP5skMs0L+kCgsoyiWTah1pee8Pxk1+TpRqL8
+   ioH74Qp7awHlWi67D1f/21Fzn3M+4AhxwuKKt/D0ylVYsB+dboLptYssz
+   A==;
+X-CSE-ConnectionGUID: Tlo5nnSpQAODYKFdD7/jPg==
+X-CSE-MsgGUID: bb6NnYGFRXapuDtVteY/Jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91709511"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="81317675"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 19:09:17 -0700
-X-CSE-ConnectionGUID: foTiEtXSR8ahO2oBn+3/ig==
-X-CSE-MsgGUID: wA2GHkeRSZaF4vKNgKWFkQ==
+   d="scan'208";a="91709511"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 19:10:18 -0700
+X-CSE-ConnectionGUID: bJcqv7MzQa+o128oLimDug==
+X-CSE-MsgGUID: jdiXheh/TvW9ljwlcUxbGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="243858556"
+   d="scan'208";a="281865857"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Jun 2026 19:09:15 -0700
+  by orviesa001.jf.intel.com with ESMTP; 01 Jun 2026 19:10:15 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUEZ6-00000000BMT-0uWl;
-	Tue, 02 Jun 2026 02:09:12 +0000
-Date: Tue, 02 Jun 2026 10:09:06 +0800
+	id 1wUEa4-00000000BMY-1J86;
+	Tue, 02 Jun 2026 02:10:12 +0000
+Date: Tue, 2 Jun 2026 10:09:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/afs/server.c:375:5-24: WARNING: atomic_dec_and_test
- variation before object free at line 383.
-Message-ID: <202606021010.6QMyYfim-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Eric Dumazet <edumazet@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org,
+	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net-next] mptcp: change mptcp_established_options() to
+ return opt_size
+Message-ID: <202606021033.Gt2vODEq-lkp@intel.com>
+References: <20260601091816.444738-1-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260601091816.444738-1-edumazet@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e43ffb69e0438cddd72aaa30898b4dc446f664f8
-commit: 4882ba78574e2d8c579658f65f6784b0d139d173 afs: Fix afs_server ref accounting
-date:   1 year, 3 months ago
-config: hexagon-randconfig-r064-20260601 (https://download.01.org/0day-ci/archive/20260602/202606021010.6QMyYfim-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
+Hi Eric,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/mptcp-change-mptcp_established_options-to-return-opt_size/20260601-174435
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260601091816.444738-1-edumazet%40google.com
+patch subject: [PATCH net-next] mptcp: change mptcp_established_options() to return opt_size
+config: i386-randconfig-007-20260602 (https://download.01.org/0day-ci/archive/20260602/202606021033.Gt2vODEq-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021033.Gt2vODEq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4882ba78574e ("afs: Fix afs_server ref accounting")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606021010.6QMyYfim-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606021033.Gt2vODEq-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/afs/server.c:375:5-24: WARNING: atomic_dec_and_test variation before object free at line 383.
-   fs/afs/server.c:357:5-24: WARNING: atomic_dec_and_test variation before object free at line 360.
+All errors (new ones prefixed by >>):
 
-vim +375 fs/afs/server.c
+   net/ipv4/tcp_output.c: In function 'tcp_established_options':
+>> net/ipv4/tcp_output.c:1186:63: error: passing argument 3 of 'mptcp_established_options' makes pointer from integer without a cast [-Wint-conversion]
+    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
+         |                                                               ^~~~~~~~~
+         |                                                               |
+         |                                                               unsigned int
+   In file included from include/net/tcp.h:44,
+                    from net/ipv4/tcp_output.c:40:
+   include/net/mptcp.h:271:59: note: expected 'unsigned int *' but argument is of type 'unsigned int'
+     271 |                                             unsigned int *size,
+         |                                             ~~~~~~~~~~~~~~^~~~
+>> net/ipv4/tcp_output.c:1187:54: error: passing argument 4 of 'mptcp_established_options' makes integer from pointer without a cast [-Wint-conversion]
+    1187 |                                                      &opts->mptcp);
+         |                                                      ^~~~~~~~~~~~
+         |                                                      |
+         |                                                      struct mptcp_out_options *
+   include/net/mptcp.h:272:58: note: expected 'unsigned int' but argument is of type 'struct mptcp_out_options *'
+     272 |                                             unsigned int remaining,
+         |                                             ~~~~~~~~~~~~~^~~~~~~~~
+>> net/ipv4/tcp_output.c:1186:28: error: too few arguments to function 'mptcp_established_options'
+    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/mptcp.h:269:19: note: declared here
+     269 | static inline int mptcp_established_options(struct sock *sk,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-   365	
-   366	/*
-   367	 * Drop an active count on a server object.
-   368	 */
-   369	void afs_unuse_server(struct afs_net *net, struct afs_server *server,
-   370			      enum afs_server_trace reason)
-   371	{
-   372		if (!server)
-   373			return;
-   374	
- > 375		if (atomic_dec_and_test(&server->active)) {
-   376			if (!test_bit(AFS_SERVER_FL_EXPIRED, &server->flags) &&
-   377			    READ_ONCE(server->cell->state) < AFS_CELL_FAILED) {
-   378				time64_t unuse_time = ktime_get_real_seconds();
-   379	
-   380				server->unuse_time = unuse_time;
-   381				afs_set_server_timer(server, afs_server_gc_delay);
-   382			} else {
- > 383				schedule_work(&server->destroyer);
-   384			}
-   385		}
-   386	
-   387		afs_put_server(net, server, reason);
-   388	}
-   389	
+
+vim +/mptcp_established_options +1186 net/ipv4/tcp_output.c
+
+  1145	
+  1146	/* Compute TCP options for ESTABLISHED sockets. This is not the
+  1147	 * final wire format yet.
+  1148	 */
+  1149	static unsigned int tcp_established_options(struct sock *sk, struct sk_buff *skb,
+  1150						struct tcp_out_options *opts,
+  1151						struct tcp_key *key)
+  1152	{
+  1153		struct tcp_sock *tp = tcp_sk(sk);
+  1154		unsigned int size = 0;
+  1155		unsigned int eff_sacks;
+  1156	
+  1157		opts->options = 0;
+  1158	
+  1159		/* Better than switch (key.type) as it has static branches */
+  1160		if (tcp_key_is_md5(key)) {
+  1161			opts->options |= OPTION_MD5;
+  1162			size += TCPOLEN_MD5SIG_ALIGNED;
+  1163		} else if (tcp_key_is_ao(key)) {
+  1164			opts->options |= OPTION_AO;
+  1165			size += tcp_ao_len_aligned(key->ao_key);
+  1166		}
+  1167	
+  1168		if (likely(tp->rx_opt.tstamp_ok)) {
+  1169			opts->options |= OPTION_TS;
+  1170			opts->tsval = skb ? tcp_skb_timestamp_ts(tp->tcp_usec_ts, skb) +
+  1171					tp->tsoffset : 0;
+  1172			opts->tsecr = tp->rx_opt.ts_recent;
+  1173			size += TCPOLEN_TSTAMP_ALIGNED;
+  1174		}
+  1175	
+  1176		/* MPTCP options have precedence over SACK for the limited TCP
+  1177		 * option space because a MPTCP connection would be forced to
+  1178		 * fall back to regular TCP if a required multipath option is
+  1179		 * missing. SACK still gets a chance to use whatever space is
+  1180		 * left.
+  1181		 */
+  1182		if (sk_is_mptcp(sk)) {
+  1183			unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
+  1184			int opt_size;
+  1185	
+> 1186			opt_size = mptcp_established_options(sk, skb, remaining,
+> 1187							     &opts->mptcp);
+  1188			if (opt_size >= 0) {
+  1189				opts->options |= OPTION_MPTCP;
+  1190				size += opt_size;
+  1191			}
+  1192		}
+  1193	
+  1194		eff_sacks = tp->rx_opt.num_sacks + tp->rx_opt.dsack;
+  1195		if (unlikely(eff_sacks)) {
+  1196			const unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
+  1197			if (likely(remaining >= TCPOLEN_SACK_BASE_ALIGNED +
+  1198						TCPOLEN_SACK_PERBLOCK)) {
+  1199				opts->num_sack_blocks =
+  1200					min_t(unsigned int, eff_sacks,
+  1201					      (remaining - TCPOLEN_SACK_BASE_ALIGNED) /
+  1202					      TCPOLEN_SACK_PERBLOCK);
+  1203	
+  1204				size += TCPOLEN_SACK_BASE_ALIGNED +
+  1205					opts->num_sack_blocks * TCPOLEN_SACK_PERBLOCK;
+  1206			} else {
+  1207				opts->num_sack_blocks = 0;
+  1208			}
+  1209		} else {
+  1210			opts->num_sack_blocks = 0;
+  1211		}
+  1212	
+  1213		if (tcp_ecn_mode_accecn(tp)) {
+  1214			int ecn_opt = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option);
+  1215	
+  1216			if (ecn_opt && tp->saw_accecn_opt &&
+  1217			    (ecn_opt >= TCP_ACCECN_OPTION_PERSIST ||
+  1218			     !tcp_accecn_opt_fail_send(tp)) &&
+  1219			    (ecn_opt >= TCP_ACCECN_OPTION_FULL || tp->accecn_opt_demand ||
+  1220			     tcp_accecn_option_beacon_check(sk))) {
+  1221				opts->use_synack_ecn_bytes = 0;
+  1222				size += tcp_options_fit_accecn(opts, tp->accecn_minlen,
+  1223							       MAX_TCP_OPTION_SPACE - size);
+  1224			}
+  1225		}
+  1226	
+  1227		if (unlikely(BPF_SOCK_OPS_TEST_FLAG(tp,
+  1228						    BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG))) {
+  1229			unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
+  1230	
+  1231			bpf_skops_hdr_opt_len(sk, skb, NULL, NULL, 0, opts, &remaining);
+  1232	
+  1233			size = MAX_TCP_OPTION_SPACE - remaining;
+  1234		}
+  1235	
+  1236		return size;
+  1237	}
+  1238	
 
 --
 0-DAY CI Kernel Test Service
