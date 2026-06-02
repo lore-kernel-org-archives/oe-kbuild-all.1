@@ -1,68 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF9F36F8FD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 03:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0B838E5FF;
+	Tue,  2 Jun 2026 04:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780372431; cv=none; b=u7AcHnkX+rgGmj4ggaDkM2+F5hXrXhfJzrajrTIqKIp3TcRN2B6VNFZAsO8nHLWDpro7C1mrNr72O4vpUu2gOosZ91baeRFPCBtI/6KhfNE644x5N8y1abjW7voSucCwlspKq4ByovKiCb7jrjmbRztolicIxhSzhgJhQETJlFg=
+	t=1780373704; cv=none; b=tnbzO2ozVypY/L0jFe8LguIHAu/EbUJvRsOPMbzw0ychm9HaoPFXsY1aTU6v8nnx/kK05rjacUuTcSidYmiamWiDQ73Vog0rDZ8YSYxq3s7onqNAJGnUCLGs/hEmTzVnCMnljpXU4v6b3zYRBd0x9bglbSlI7PVGS4qO3sVFzis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780372431; c=relaxed/simple;
-	bh=piaJGw0Lw/G8i0lLqXKLF7hb5NFogwJnH00dTbpo53U=;
+	s=arc-20240116; t=1780373704; c=relaxed/simple;
+	bh=vfRA/Ie/j4izTP90KkxVG6PO83nBUWibXhsc1OZxR+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WA4dcPq7Z7TAvrd4sbWF82M1eNcrwKqau7rY5JRxjmuVfKUmETgfmh28j7NgOtTNvzG+G//q2kXbp3zNUHrzh5KPWKWw6gw6OZP7kyFPWTek24BIcguP8L+OrBjS5kD2SBuCEmOikCjn6XIzhd1o1Dd9vKJpxvwQbbnUHz+MIYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vwuvvhur; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=PucwQUo4WVYJlJHv06hs+OMUKNW9oXRsll8gl1CyhfRZ6D0jbpc+8pLcotwwRhcIRUP+VoFe5PgQ3pUgBdYEKy4j4J3w89HO8ZwhXmTf9ME9CNJOeJvQ+d1i9PVUjbHrIT5PL7yBoxPFkCkqAcYrjTkQZic3Bb4cMa4BX+eObog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ci4yQogl; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vwuvvhur"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ci4yQogl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780372430; x=1811908430;
+  t=1780373702; x=1811909702;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=piaJGw0Lw/G8i0lLqXKLF7hb5NFogwJnH00dTbpo53U=;
-  b=VwuvvhurmpskV07oiPv2PpHOK9xo/w8u+wHuXWWjLIhUezg7BlYHfFpx
-   XiEbwHO/5o1DJssVO6P3Lk0XfKNbEpS+GqAuEVU8Udbg/vZ9uh4zMjAgA
-   R3mpDHm5TKhYs4WWY0E2UXARwDxr6lJ6MzYdHK4amSEFVLNms4zCd+eu2
-   p7A3rcVqCdpZHm7bdjGHgI7IsDrn+mDNaMWjyt1f5pURyMMR2RzWCZYFW
-   P/gAG/mYe+IRLIuBE5fLSKhD2s347tKY2G5FdeKM17iX3g51HZPxjP3Ji
-   tiDD2Obb3U89tOpXx0aDOjYoTLUrvxK1sfcZHhu6Tcx1R0bMlHnYmwhRi
+  bh=vfRA/Ie/j4izTP90KkxVG6PO83nBUWibXhsc1OZxR+I=;
+  b=ci4yQoglSOKGPtqprcXsfNpf6Jt+kN40EJJSizMH+UxxTWadycBPzJXo
+   IKv08vfux5m51WoxL1AsI8PN5dg0Q1UR+lxsXtbTm2atEk4doQ1+0XADV
+   Bm8nU09tlTW33BmJ8rnpZBD60yp3HWwIvFa5ZDXDPwcbyzhkj2DrRDZTz
+   CaEHeHny4IV4MCmifAF6hZn+bURy+8l8qQeqP2QWC1VxOwbBUN89Fm+zL
+   jQNaju/8GfwGbG3CycZCyBDtIWfh7RQWe3tdYScrXRxDiCgheKhgVkSMN
+   V6LfAiI94gw9FESz+t+pSjlSbooS/TPRQTkegSVrHmxC8d/FLPwdSxbpC
    Q==;
-X-CSE-ConnectionGUID: QVvEatFYTOmbLy0zCYvakQ==
-X-CSE-MsgGUID: Q7AbNAapTdKCrTwpvBLnXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="68694252"
+X-CSE-ConnectionGUID: s6Ei81mCQIympXdb7xeCBw==
+X-CSE-MsgGUID: 9ERmTggTQY+hATRx3iG0Bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81332265"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="68694252"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 20:53:49 -0700
-X-CSE-ConnectionGUID: RWaTPT0jQ7eOk/ol2HExhQ==
-X-CSE-MsgGUID: oW49JsbbT+qFPgLOmMF5cw==
+   d="scan'208";a="81332265"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 21:15:01 -0700
+X-CSE-ConnectionGUID: 2Wo58T2iR0ymRS+tXnPy6w==
+X-CSE-MsgGUID: XzqRfukNQgysyyAQQYsEyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="237437717"
+   d="scan'208";a="242752583"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Jun 2026 20:53:45 -0700
+  by orviesa006.jf.intel.com with ESMTP; 01 Jun 2026 21:14:58 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUGCE-00000000BSY-3tPw;
-	Tue, 02 Jun 2026 03:53:42 +0000
-Date: Tue, 2 Jun 2026 11:52:43 +0800
+	id 1wUGWl-00000000BUI-2Uz6;
+	Tue, 02 Jun 2026 04:14:55 +0000
+Date: Tue, 2 Jun 2026 12:14:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org,
-	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH net-next] mptcp: change mptcp_established_options() to
- return opt_size
-Message-ID: <202606021113.tfn0OswA-lkp@intel.com>
-References: <20260601091816.444738-1-edumazet@google.com>
+To: Congkai Tan <congkai@amazon.com>, kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Congkai Tan <congkai@amazon.com>,
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Haris Okanovic <harisokn@amazon.com>,
+	Geoff Blake <blakgeof@amazon.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] KVM: arm64: Expose PMMIR_EL1.SLOTS to guests
+Message-ID: <202606021209.2lvgE216-lkp@intel.com>
+References: <20260601193954.2103455-1-congkai@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,156 +71,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260601091816.444738-1-edumazet@google.com>
+In-Reply-To: <20260601193954.2103455-1-congkai@amazon.com>
 
-Hi Eric,
+Hi Congkai,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on 1702da76e017ae0fbe1a92b07bc332972c293e89]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/mptcp-change-mptcp_established_options-to-return-opt_size/20260601-174435
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260601091816.444738-1-edumazet%40google.com
-patch subject: [PATCH net-next] mptcp: change mptcp_established_options() to return opt_size
-config: nios2-defconfig (https://download.01.org/0day-ci/archive/20260602/202606021113.tfn0OswA-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021113.tfn0OswA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Congkai-Tan/KVM-arm64-Expose-PMMIR_EL1-SLOTS-to-guests/20260602-034527
+base:   1702da76e017ae0fbe1a92b07bc332972c293e89
+patch link:    https://lore.kernel.org/r/20260601193954.2103455-1-congkai%40amazon.com
+patch subject: [PATCH] KVM: arm64: Expose PMMIR_EL1.SLOTS to guests
+config: arm64-randconfig-r123-20260602 (https://download.01.org/0day-ci/archive/20260602/202606021209.2lvgE216-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021209.2lvgE216-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606021113.tfn0OswA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606021209.2lvgE216-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/ipv4/tcp_output.c: In function 'tcp_established_options':
->> net/ipv4/tcp_output.c:1186:63: warning: passing argument 3 of 'mptcp_established_options' makes pointer from integer without a cast [-Wint-conversion]
-    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
-         |                                                               ^~~~~~~~~
-         |                                                               |
-         |                                                               unsigned int
-   In file included from include/net/tcp.h:44,
-                    from net/ipv4/tcp_output.c:40:
-   include/net/mptcp.h:271:59: note: expected 'unsigned int *' but argument is of type 'unsigned int'
-     271 |                                             unsigned int *size,
-         |                                             ~~~~~~~~~~~~~~^~~~
->> net/ipv4/tcp_output.c:1187:54: warning: passing argument 4 of 'mptcp_established_options' makes integer from pointer without a cast [-Wint-conversion]
-    1187 |                                                      &opts->mptcp);
-         |                                                      ^~~~~~~~~~~~
-         |                                                      |
-         |                                                      struct mptcp_out_options *
-   In file included from include/net/tcp.h:44,
-                    from net/ipv4/tcp_output.c:40:
-   include/net/mptcp.h:272:58: note: expected 'unsigned int' but argument is of type 'struct mptcp_out_options *'
-     272 |                                             unsigned int remaining,
-         |                                             ~~~~~~~~~~~~~^~~~~~~~~
-   net/ipv4/tcp_output.c:1186:28: error: too few arguments to function 'mptcp_established_options'
-    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/net/tcp.h:44,
-                    from net/ipv4/tcp_output.c:40:
-   include/net/mptcp.h:269:19: note: declared here
-     269 | static inline int mptcp_established_options(struct sock *sk,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c: In function 'access_pmmir':
+>> arch/arm64/kvm/sys_regs.c:1391:28: error: invalid use of undefined type 'struct arm_pmu'
+    1391 |         p->regval = cpu_pmu->reg_pmmir & ARMV8_PMU_SLOTS;
+         |                            ^~
 
 
-vim +/mptcp_established_options +1186 net/ipv4/tcp_output.c
+vim +1391 arch/arm64/kvm/sys_regs.c
 
-  1145	
-  1146	/* Compute TCP options for ESTABLISHED sockets. This is not the
-  1147	 * final wire format yet.
-  1148	 */
-  1149	static unsigned int tcp_established_options(struct sock *sk, struct sk_buff *skb,
-  1150						struct tcp_out_options *opts,
-  1151						struct tcp_key *key)
-  1152	{
-  1153		struct tcp_sock *tp = tcp_sk(sk);
-  1154		unsigned int size = 0;
-  1155		unsigned int eff_sacks;
-  1156	
-  1157		opts->options = 0;
-  1158	
-  1159		/* Better than switch (key.type) as it has static branches */
-  1160		if (tcp_key_is_md5(key)) {
-  1161			opts->options |= OPTION_MD5;
-  1162			size += TCPOLEN_MD5SIG_ALIGNED;
-  1163		} else if (tcp_key_is_ao(key)) {
-  1164			opts->options |= OPTION_AO;
-  1165			size += tcp_ao_len_aligned(key->ao_key);
-  1166		}
-  1167	
-  1168		if (likely(tp->rx_opt.tstamp_ok)) {
-  1169			opts->options |= OPTION_TS;
-  1170			opts->tsval = skb ? tcp_skb_timestamp_ts(tp->tcp_usec_ts, skb) +
-  1171					tp->tsoffset : 0;
-  1172			opts->tsecr = tp->rx_opt.ts_recent;
-  1173			size += TCPOLEN_TSTAMP_ALIGNED;
-  1174		}
-  1175	
-  1176		/* MPTCP options have precedence over SACK for the limited TCP
-  1177		 * option space because a MPTCP connection would be forced to
-  1178		 * fall back to regular TCP if a required multipath option is
-  1179		 * missing. SACK still gets a chance to use whatever space is
-  1180		 * left.
-  1181		 */
-  1182		if (sk_is_mptcp(sk)) {
-  1183			unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
-  1184			int opt_size;
-  1185	
-> 1186			opt_size = mptcp_established_options(sk, skb, remaining,
-> 1187							     &opts->mptcp);
-  1188			if (opt_size >= 0) {
-  1189				opts->options |= OPTION_MPTCP;
-  1190				size += opt_size;
-  1191			}
-  1192		}
-  1193	
-  1194		eff_sacks = tp->rx_opt.num_sacks + tp->rx_opt.dsack;
-  1195		if (unlikely(eff_sacks)) {
-  1196			const unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
-  1197			if (likely(remaining >= TCPOLEN_SACK_BASE_ALIGNED +
-  1198						TCPOLEN_SACK_PERBLOCK)) {
-  1199				opts->num_sack_blocks =
-  1200					min_t(unsigned int, eff_sacks,
-  1201					      (remaining - TCPOLEN_SACK_BASE_ALIGNED) /
-  1202					      TCPOLEN_SACK_PERBLOCK);
-  1203	
-  1204				size += TCPOLEN_SACK_BASE_ALIGNED +
-  1205					opts->num_sack_blocks * TCPOLEN_SACK_PERBLOCK;
-  1206			} else {
-  1207				opts->num_sack_blocks = 0;
-  1208			}
-  1209		} else {
-  1210			opts->num_sack_blocks = 0;
-  1211		}
-  1212	
-  1213		if (tcp_ecn_mode_accecn(tp)) {
-  1214			int ecn_opt = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option);
-  1215	
-  1216			if (ecn_opt && tp->saw_accecn_opt &&
-  1217			    (ecn_opt >= TCP_ACCECN_OPTION_PERSIST ||
-  1218			     !tcp_accecn_opt_fail_send(tp)) &&
-  1219			    (ecn_opt >= TCP_ACCECN_OPTION_FULL || tp->accecn_opt_demand ||
-  1220			     tcp_accecn_option_beacon_check(sk))) {
-  1221				opts->use_synack_ecn_bytes = 0;
-  1222				size += tcp_options_fit_accecn(opts, tp->accecn_minlen,
-  1223							       MAX_TCP_OPTION_SPACE - size);
-  1224			}
-  1225		}
-  1226	
-  1227		if (unlikely(BPF_SOCK_OPS_TEST_FLAG(tp,
-  1228						    BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG))) {
-  1229			unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
-  1230	
-  1231			bpf_skops_hdr_opt_len(sk, skb, NULL, NULL, 0, opts, &remaining);
-  1232	
-  1233			size = MAX_TCP_OPTION_SPACE - remaining;
-  1234		}
-  1235	
-  1236		return size;
-  1237	}
-  1238	
+  1373	
+  1374	/*
+  1375	 * Expose only PMMIR_EL1.SLOTS to the guest, which is consumed by perf in its
+  1376	 * topdown default metric group. Other PMMIR_EL1 fields remain RAZ. Future
+  1377	 * patches can extend the exposed mask incrementally as KVM gains support for
+  1378	 * those features.
+  1379	 */
+  1380	static bool access_pmmir(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+  1381				 const struct sys_reg_desc *r)
+  1382	{
+  1383		struct arm_pmu *cpu_pmu = vcpu->kvm->arch.arm_pmu;
+  1384	
+  1385		if (p->is_write)
+  1386			return write_to_read_only(vcpu, p, r);
+  1387	
+  1388		if (check_pmu_access_disabled(vcpu, 0))
+  1389			return false;
+  1390	
+> 1391		p->regval = cpu_pmu->reg_pmmir & ARMV8_PMU_SLOTS;
+  1392		return true;
+  1393	}
+  1394	
 
 --
 0-DAY CI Kernel Test Service
