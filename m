@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D17834A3BF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 02:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8448733D4E5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 02:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780366221; cv=none; b=j8wS41cWvAQqM6xCPA07oQzVQXVWfNkN5DPhYIbzvxN3PbOxt/gUZo7FUGmri8bMwuMANhCMcfqMggyTu0WedaIVS9+cMtkEbS5OD4B0acg9yp3swhKnlVPovALGinL8rAoFBW4tWBTVf6LU5PmyTBoaJcOk/xs6ih6dQkYKJx0=
+	t=1780366821; cv=none; b=QdnV8PwC4IK4gfPUsnF2JH7AcwpL4l1DRizwe1CSBiKCL1vv6P2yuZdZi12H9s/nHx/BDCLZ+fxHKSJSVk/pxqHJrvUszG65o0d4WqEYE/XFxoutLwLJp5Zt+P3zFTDsXhluQGFnOLgpoeS84aVEWXatOa8SgDpRQ3Xt8mxKbJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780366221; c=relaxed/simple;
-	bh=y7Xd42BcknrLJfoPP64g2rAK+lYNayuuuDtn7l3IJAQ=;
+	s=arc-20240116; t=1780366821; c=relaxed/simple;
+	bh=HefS6IQHSqgbWI7SY9aQ+wyoVT+vEZ3e2xVfeJjUW7I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M+7W32HWVswJ5uqFOSmXQOwzAIcezQ/x4JS12qa+tEaFzePyTFaT2CVmH61Ip7pGgaOXJnO25Q3sowvqMUwMmkQXojXu/VVr0XIzuz1KQjCUGg/Q4ZHecD8kdSdBHflQb+fBq2+dyh7TRw6PE33oa8YyZZk3cEHKvGQioJqdFro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nq3Vc5AZ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=L71E579alNNYwPd2oPHxeCYIkxAp8V74hemLGtuqGU79zYLcoVfJ0Qno9k7WjmEbJet/C1p3bCJrcV4ZlXOwf+J42kGELRuPd5ZQG+7ynmRDfzMotw5RfrarEYDjBTuCqdzGPP3SUjNrsxNb4SS7FAp3IQdPWUCL11mb4uYBaPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7n1o8lL; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nq3Vc5AZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7n1o8lL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780366219; x=1811902219;
+  t=1780366820; x=1811902820;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y7Xd42BcknrLJfoPP64g2rAK+lYNayuuuDtn7l3IJAQ=;
-  b=Nq3Vc5AZYYkSZRHSvAbpfMpIZE+oWTxmMCY9q0WYVhcbGFu7RAAfq5gv
-   AASKPzVhRiy3tDO2QbDvnXtWAY7jFW9Up6/z4DlQbVjE92g/M5Rj+i97D
-   UBydqqqpTi/ZFCjKV24ISriTDAeoXJOCyQowh6V6y1oHAoeEawa9x4POx
-   n+q4Te2QklmT2QuiuRr5AdSFrBApHYkIOvJI/fU0AEn+4B0GBAQqZ8z4g
-   /wi+ll73SxT7A2d1czrIfP5skMs0L+kCgsoyiWTah1pee8Pxk1+TpRqL8
-   ioH74Qp7awHlWi67D1f/21Fzn3M+4AhxwuKKt/D0ylVYsB+dboLptYssz
-   A==;
-X-CSE-ConnectionGUID: Tlo5nnSpQAODYKFdD7/jPg==
-X-CSE-MsgGUID: bb6NnYGFRXapuDtVteY/Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91709511"
+  bh=HefS6IQHSqgbWI7SY9aQ+wyoVT+vEZ3e2xVfeJjUW7I=;
+  b=H7n1o8lLIKBHxFjqguWaiFPeGP8nkvTFW0GMc4NGhDRBhjmjo+EWbbnS
+   RslUY9KlvtmVHhQDXWvppcSiMQlBntqgRyrT5zQ1euYKzSm7nv3M51BCi
+   PFdMrZCw9Lkt+wyJqaBWubr+LjhRs551R4APZcU1hVFsUHJc/BaB2Ip7c
+   7JG7WM6ZLhBZ8wUhund4OS11XD0VoCCe1tYpEnpxxBzeOQ/9neYeK1ing
+   eLpT1D0wifM8kNOLZtcXNoMj2Bt/WvxHb2f3I1/47nG5mqj5LbdMgoPKx
+   RzCJtEnZ/CmLFJUEXl4F4PwdnLKFAi86QYTkf6b45qwE0DoIsgv0Gh6Ka
+   w==;
+X-CSE-ConnectionGUID: se0pNyp5TOeY8WHDpnlwMQ==
+X-CSE-MsgGUID: VatzQASPTIWu91kEM0xM3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="84990327"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="91709511"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 19:10:18 -0700
-X-CSE-ConnectionGUID: bJcqv7MzQa+o128oLimDug==
-X-CSE-MsgGUID: jdiXheh/TvW9ljwlcUxbGQ==
+   d="scan'208";a="84990327"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 19:20:20 -0700
+X-CSE-ConnectionGUID: PFeTzYRITYaNOqHdcS2WWw==
+X-CSE-MsgGUID: FqOZzqFVReKJpyhXpvqWMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="281865857"
+   d="scan'208";a="248843895"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 Jun 2026 19:10:15 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 Jun 2026 19:20:17 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUEa4-00000000BMY-1J86;
-	Tue, 02 Jun 2026 02:10:12 +0000
-Date: Tue, 2 Jun 2026 10:09:14 +0800
+	id 1wUEjm-00000000BNC-1r01;
+	Tue, 02 Jun 2026 02:20:14 +0000
+Date: Tue, 2 Jun 2026 10:19:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Eric Dumazet <edumazet@google.com>,
 	"David S . Miller" <davem@davemloft.net>,
@@ -61,7 +61,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
 	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
 Subject: Re: [PATCH net-next] mptcp: change mptcp_established_options() to
  return opt_size
-Message-ID: <202606021033.Gt2vODEq-lkp@intel.com>
+Message-ID: <202606021023.2uNktNr0-lkp@intel.com>
 References: <20260601091816.444738-1-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,29 +83,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/mptcp-change
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20260601091816.444738-1-edumazet%40google.com
 patch subject: [PATCH net-next] mptcp: change mptcp_established_options() to return opt_size
-config: i386-randconfig-007-20260602 (https://download.01.org/0day-ci/archive/20260602/202606021033.Gt2vODEq-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021033.Gt2vODEq-lkp@intel.com/reproduce)
+config: powerpc-arches_defconfig (https://download.01.org/0day-ci/archive/20260602/202606021023.2uNktNr0-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021023.2uNktNr0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606021033.Gt2vODEq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606021023.2uNktNr0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    net/ipv4/tcp_output.c: In function 'tcp_established_options':
->> net/ipv4/tcp_output.c:1186:63: error: passing argument 3 of 'mptcp_established_options' makes pointer from integer without a cast [-Wint-conversion]
+   net/ipv4/tcp_output.c:1186:63: error: passing argument 3 of 'mptcp_established_options' makes pointer from integer without a cast [-Wint-conversion]
     1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
          |                                                               ^~~~~~~~~
          |                                                               |
          |                                                               unsigned int
+   net/ipv4/tcp_output.c:1186:63: note: possible fix: take the address with '&'
+    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
+         |                                                               ^~~~~~~~~
+         |                                                               &
    In file included from include/net/tcp.h:44,
                     from net/ipv4/tcp_output.c:40:
    include/net/mptcp.h:271:59: note: expected 'unsigned int *' but argument is of type 'unsigned int'
      271 |                                             unsigned int *size,
          |                                             ~~~~~~~~~~~~~~^~~~
->> net/ipv4/tcp_output.c:1187:54: error: passing argument 4 of 'mptcp_established_options' makes integer from pointer without a cast [-Wint-conversion]
+   net/ipv4/tcp_output.c:1187:54: error: passing argument 4 of 'mptcp_established_options' makes integer from pointer without a cast [-Wint-conversion]
     1187 |                                                      &opts->mptcp);
          |                                                      ^~~~~~~~~~~~
          |                                                      |
@@ -113,7 +117,7 @@ All errors (new ones prefixed by >>):
    include/net/mptcp.h:272:58: note: expected 'unsigned int' but argument is of type 'struct mptcp_out_options *'
      272 |                                             unsigned int remaining,
          |                                             ~~~~~~~~~~~~~^~~~~~~~~
->> net/ipv4/tcp_output.c:1186:28: error: too few arguments to function 'mptcp_established_options'
+>> net/ipv4/tcp_output.c:1186:28: error: too few arguments to function 'mptcp_established_options'; expected 5, have 4
     1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
          |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
    include/net/mptcp.h:269:19: note: declared here
@@ -165,7 +169,7 @@ vim +/mptcp_established_options +1186 net/ipv4/tcp_output.c
   1184			int opt_size;
   1185	
 > 1186			opt_size = mptcp_established_options(sk, skb, remaining,
-> 1187							     &opts->mptcp);
+  1187							     &opts->mptcp);
   1188			if (opt_size >= 0) {
   1189				opts->options |= OPTION_MPTCP;
   1190				size += opt_size;
