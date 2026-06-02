@@ -1,122 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D360630FC1B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 20:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DD2357CE0;
+	Tue,  2 Jun 2026 20:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780433434; cv=none; b=flyx1P6lR4IrD/fs2KTs34FoLW5C+vmRmPnp4z9plvcvyFy3LcUXW/HLtVkVQO5tRK+5iXY4r+VNRZJk2Ke6DDaX7TH1O2LNvXCG1nwtyXn2gsxG/7MtXVmphhYOu0JuIFL3pHqpyxFTJhN9ejHJFx+d+AOtLDj2hFCSXsJV3q4=
+	t=1780433434; cv=none; b=DwkGgId3SDUXBdJEq4sV9JRZtI676I4Oob1vgSMwTRnAvY9tXYB1JyxxHvYHcKxQTI8zacmRRuL7WZ7lKioUGn3HI5YxNHqM255c/4mzCZ1J+H+/AoznfWEwXiHuk/f8MjuxxOPIv7Xf9mL3ZuyP/pWcmZSZFAJ12uyvFex8CLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780433434; c=relaxed/simple;
-	bh=nG6MGnnODQGny2oLTkD1/IusrR6cDKqZaIfS1SvFhZo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XSbYtF4glmEeUUFKr0RDlsFrysjYQJyf92Q2DBUFcH/H/6OTtOhDQobewcbnXqreOukRrIj8uU6hcrCoK3R+xLS+oTyaEtyHgPTZNzJRn0EkR9N4arEA9SBsJ2gaKyqetwuHq1HtCyXcRfG6RN+DYZONs4DtT37PiWTZhHDoZRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JCCbXviC; arc=none smtp.client-ip=198.175.65.19
+	bh=c8bFi1eRju1L7vEtsiQHSIuqFxoYZANvVh7IdYZgZcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jIQsnNy74mXdyVULCTOGE26zl0fpuYJ6zq8ngkJQZFVTIOUx4DuxO9wI8x5ehdXpE0n0sX83AyJHhRHnY+5qd8bMcMbRaBNrDG38K8yjp5JzZQ0pdghhxHEVlzynJXQCw412uYuMI/6RZA3U91505OItI5mIojrjy+E8FJBM8jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CEt49bHc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCCbXviC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CEt49bHc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780433433; x=1811969433;
-  h=date:from:to:cc:subject:message-id;
-  bh=nG6MGnnODQGny2oLTkD1/IusrR6cDKqZaIfS1SvFhZo=;
-  b=JCCbXviCFGUzd3rtcCNyF/1TvdayApWh2eekLdq/KyomHcP+xCdoJtg6
-   AiH+MB1LOzGpptknM/eRKWkkoYJhgo6H9ARbHafZGPWePIxVz8HB975xm
-   2+gJqUl6H1PHfcbHGVH0j1BiBtEwLT+jf0+eB0M0tIMPcLZg7mtoGco3S
-   AMIareto9Ge3H9IrklYGSYyaLL04W9xipqt7hhtEBV/IZbuw3Idd8kWGf
-   VIW36GfG5vyg9G10O7DzPmZkXQ8HXIRS87Z/uukWxOMCmQ/czhcgB5+mI
-   z/uVZkSI9NVZAC3rxBkvOmJI+Do/JR/VDWgBsn5Sr4NTgmG37n6Y1v+Gk
+  t=1780433434; x=1811969434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c8bFi1eRju1L7vEtsiQHSIuqFxoYZANvVh7IdYZgZcw=;
+  b=CEt49bHckzysc78IhGkPWcnN1UOn9FytOyUjr15nrcFLXWd5azWBcW9B
+   X6oNf8glTx7TJ8IeergsfFIUSssSSbcRcD6a6SMfIhYP3qBqs57dZUs6R
+   2LWjuO7IulAo8cFc4Vd55d476PO3oZZWN92uSYb8VrH1DPaF2nzyZNqiq
+   UaDkipsuHj/4N3SzVPc7QLjGN3taShYVe2y8G+Fby0YRp81DCOJjGaeMt
+   2IO0KXrqi7S2oYL0ufY3ZN4Km36tcMnGtmVI9jeUWjo8alEMbrQbres1o
+   WOQ9dZYnOdJXo/vWOjenWoRJW+Etw7b6cJhCP3PBSGpziHHnbCUpmZJd1
    w==;
-X-CSE-ConnectionGUID: GYnbDvs6SuCggPtm2TO4oQ==
-X-CSE-MsgGUID: bzQyxejpRTaBYt2UoekPDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81205845"
+X-CSE-ConnectionGUID: +lhhsnmQT2Sho3mielfLvg==
+X-CSE-MsgGUID: cSzXT3YLSMypkhgyoN3DEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="80969320"
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="81205845"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 13:50:33 -0700
-X-CSE-ConnectionGUID: zN1GnmJBSrumcxS/DtaPuQ==
-X-CSE-MsgGUID: O3uXrLVQQHSsiXXuDE8MjQ==
+   d="scan'208";a="80969320"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 13:50:33 -0700
+X-CSE-ConnectionGUID: 6sx5f/l8TGmPjP6Z2GLYZQ==
+X-CSE-MsgGUID: qzsigZNmQHyZ+v3bwCsmzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="242970305"
+   d="scan'208";a="267653490"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 02 Jun 2026 13:50:31 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 02 Jun 2026 13:50:30 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUW4C-000000001rD-2OMJ;
+	id 1wUW4C-000000001rB-2E0Q;
 	Tue, 02 Jun 2026 20:50:28 +0000
-Date: Tue, 02 Jun 2026 22:49:39 +0200
+Date: Tue, 2 Jun 2026 22:49:38 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/flat 61/61] kernel/sched/fair.c:9922:20:
- warning: 'cfs_rq' is used uninitialized
-Message-ID: <202606022233.nMLuVHVG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Lei Zhu <zhulei_szu@163.com>, kuba@kernel.org, sukhdeeps@marvell.com,
+	davem@davemloft.net, andrew+netdev@lunn.ch
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH net-next] net: atlantic: aq_utils_obj_{set|clear}
+ optimizations
+Message-ID: <202606022243.HUNSnMWR-lkp@intel.com>
+References: <20260602092949.263270-1-zhulei_szu@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260602092949.263270-1-zhulei_szu@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat
-head:   a5d37500c54a90dc76e3e3e1cd3b0194b06d5461
-commit: a5d37500c54a90dc76e3e3e1cd3b0194b06d5461 [61/61] sched/eevdf: Move to a single runqueue
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260602/202606022233.nMLuVHVG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606022233.nMLuVHVG-lkp@intel.com/reproduce)
+Hi Lei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lei-Zhu/net-atlantic-aq_utils_obj_-set-clear-optimizations/20260602-174147
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260602092949.263270-1-zhulei_szu%40163.com
+patch subject: [PATCH net-next] net: atlantic: aq_utils_obj_{set|clear} optimizations
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260602/202606022243.HUNSnMWR-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606022243.HUNSnMWR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606022233.nMLuVHVG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606022243.HUNSnMWR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/sched/fair.c: In function 'pick_task_fair':
->> kernel/sched/fair.c:9922:20: warning: 'cfs_rq' is used uninitialized [-Wuninitialized]
-    9922 |         if (!cfs_rq->h_nr_queued)
-         |              ~~~~~~^~~~~~~~~~~~~
-   kernel/sched/fair.c:9917:24: note: 'cfs_rq' was declared here
-    9917 |         struct cfs_rq *cfs_rq;
-         |                        ^~~~~~
+   In file included from drivers/net/ethernet/aquantia/atlantic/aq_main.c:10:
+   In file included from drivers/net/ethernet/aquantia/atlantic/aq_main.h:12:
+   In file included from drivers/net/ethernet/aquantia/atlantic/aq_common.h:17:
+>> drivers/net/ethernet/aquantia/atlantic/aq_utils.h:21:38: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+      21 |         } while (!atomic_try_cmpxchg(flags, &flags_old, flags_new));
+         |                                             ^~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:1275:38: note: passing argument to parameter 'old' here
+    1275 | atomic_try_cmpxchg(atomic_t *v, int *old, int new)
+         |                                      ^
+   In file included from drivers/net/ethernet/aquantia/atlantic/aq_main.c:10:
+   In file included from drivers/net/ethernet/aquantia/atlantic/aq_main.h:12:
+   In file included from drivers/net/ethernet/aquantia/atlantic/aq_common.h:17:
+   drivers/net/ethernet/aquantia/atlantic/aq_utils.h:31:38: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+      31 |         } while (!atomic_try_cmpxchg(flags, &flags_old, flags_new));
+         |                                             ^~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:1275:38: note: passing argument to parameter 'old' here
+    1275 | atomic_try_cmpxchg(atomic_t *v, int *old, int new)
+         |                                      ^
+   2 errors generated.
+--
+   In file included from drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_a0.c:10:
+   In file included from drivers/net/ethernet/aquantia/atlantic/hw_atl/../aq_hw.h:15:
+   In file included from drivers/net/ethernet/aquantia/atlantic/hw_atl/../aq_common.h:17:
+>> drivers/net/ethernet/aquantia/atlantic/hw_atl/../aq_utils.h:21:38: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+      21 |         } while (!atomic_try_cmpxchg(flags, &flags_old, flags_new));
+         |                                             ^~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:1275:38: note: passing argument to parameter 'old' here
+    1275 | atomic_try_cmpxchg(atomic_t *v, int *old, int new)
+         |                                      ^
+   In file included from drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_a0.c:10:
+   In file included from drivers/net/ethernet/aquantia/atlantic/hw_atl/../aq_hw.h:15:
+   In file included from drivers/net/ethernet/aquantia/atlantic/hw_atl/../aq_common.h:17:
+   drivers/net/ethernet/aquantia/atlantic/hw_atl/../aq_utils.h:31:38: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+      31 |         } while (!atomic_try_cmpxchg(flags, &flags_old, flags_new));
+         |                                             ^~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:1275:38: note: passing argument to parameter 'old' here
+    1275 | atomic_try_cmpxchg(atomic_t *v, int *old, int new)
+         |                                      ^
+   2 errors generated.
 
 
-vim +/cfs_rq +9922 kernel/sched/fair.c
+vim +21 drivers/net/ethernet/aquantia/atlantic/aq_utils.h
 
-  9912	
-  9913	struct task_struct *pick_task_fair(struct rq *rq, struct rq_flags *rf)
-  9914		__must_hold(__rq_lockp(rq))
-  9915	{
-  9916		struct sched_entity *se;
-  9917		struct cfs_rq *cfs_rq;
-  9918		struct task_struct *p;
-  9919		int new_tasks;
-  9920	
-  9921	again:
-> 9922		if (!cfs_rq->h_nr_queued)
-  9923			goto idle;
-  9924	
-  9925		/* Might not have done put_prev_entity() */
-  9926		if (cfs_rq->curr && cfs_rq->curr->on_rq)
-  9927			update_curr(cfs_rq);
-  9928	
-  9929		se = pick_next_entity(rq, true);
-  9930		if (!se)
-  9931			goto again;
-  9932	
-  9933		p = task_of(se);
-  9934		return p;
-  9935	
-  9936	idle:
-  9937		new_tasks = sched_balance_newidle(rq, rf);
-  9938		if (new_tasks < 0)
-  9939			return RETRY_TASK;
-  9940		if (new_tasks > 0)
-  9941			goto again;
-  9942		return NULL;
-  9943	}
-  9944	
+    13	
+    14	static inline void aq_utils_obj_set(atomic_t *flags, u32 mask)
+    15	{
+    16		unsigned long flags_old, flags_new;
+    17	
+    18		flags_old = atomic_read(flags);
+    19		do {
+    20			flags_new = flags_old | (mask);
+  > 21		} while (!atomic_try_cmpxchg(flags, &flags_old, flags_new));
+    22	}
+    23	
 
 --
 0-DAY CI Kernel Test Service
