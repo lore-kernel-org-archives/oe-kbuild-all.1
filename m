@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E873F44F7
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 17:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5213CB8FD
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 17:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780420071; cv=none; b=PwK/XNz1x9vanlOdd2V2S1jUqfKb8UBEeh0eNUiyJibMwge3WxIwKRvDV27D1RWzJD6kefGYynkwP6wjGbzJL2uGOSptK+L8XaH+5VsQYN+dv8+9+D4WfUiL7tYjuvnyevwF/uMI732p3hTS2Xb9sF25cZ0MERe1Ti5tzQHVrDU=
+	t=1780421276; cv=none; b=MWocGUZHo7GpLJ78o+nw1SGJiV8xY9TM3qD0pqSEC593Z9Y9ptfINt+NkOFSes8A/eOg/jSnQYlKIK1+RJfumWGR9TJE0Yg7+2Kbz05XvPAd5rq7XUw9OnrYfuT5jbkLFh1Y2un1hPJMwTT7HwR3QuC7czyg6TxCA6zin/au3Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780420071; c=relaxed/simple;
-	bh=3Lftt1hVs1EqVxUuw82hviABKeAZ8dQrwTdQtWcQnyc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tyqie3XeOqlzLrCpIVkWsvCjEyoUPxuZ/Ub7LxmEBIPm/ON5EQgPp3bw/ocNSgcwbmTIF6WkXowXnz8bLHsgV0SYJt29a7Y3nhkiRgFtYkPe3H2vHHNkaiz1xBYNLz99XZmYl3Quez10sUhVDNLP0ZkUkdrql0F3LjnKu4y3Q0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Le1+KZ5k; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1780421276; c=relaxed/simple;
+	bh=CU0FpcNon3McemiE3Pz5bZaptj2WcohXdN36NuMz1AE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MylRZgF8u+ugzuf5rRuuQlPHbm/EVKqEf0NGjaVKFmYEUNg0aR2eLXZ7t8IrTnRB0k9Hx7bhZzFfRcWTBJZIkjbiZS7T05aoYzoUOoFrtBZzYZ9z71Ir60EGRK0DYCeYpRjvD6BKsFO2BNnr5Iq4tmwvdXsiCPMLFIIqWDUhknk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LM9dBpsw; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Le1+KZ5k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LM9dBpsw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780420071; x=1811956071;
+  t=1780421273; x=1811957273;
   h=date:from:to:cc:subject:message-id;
-  bh=3Lftt1hVs1EqVxUuw82hviABKeAZ8dQrwTdQtWcQnyc=;
-  b=Le1+KZ5kEgA0I6POVUddJstCcECkrqfTDZVQrlWC/OBOMAEuKaFo1S5I
-   qpXu5yaBdtrJqXTMBWeboVZ96lrS0aNIJLr0OKJuApEf9NtUB8/+Jccau
-   7jkQ9CzCHtZlY2N5IsNsYW76/BifxlEfK51kTFpQWvIdMQ/IqNq7ilKGM
-   wuhiAmKxVtN2bgnMLNvRMppvy2QC+qb5n6YvWafkwaIv29asEgSkqNekZ
-   R4UTZBK0YK8CYi5MI+yj2viPU8B5/gzid4diptBiLgpHkvnHGRCoa4dhP
-   431drbWQaIxnvUUVMMbBaS1p0rROmLNJ6ULW+Fjlv1BjCYFG/kKZrBDE0
+  bh=CU0FpcNon3McemiE3Pz5bZaptj2WcohXdN36NuMz1AE=;
+  b=LM9dBpswa+28sK3HSV1Y4ljDxEQ3Oo91X9UTH+AQFeRu5ecokxCwGb21
+   DLgEYclUW9bqoy4pQulHy9/tdq4I6qbT+ol3kxpHn7Jq4lmnLHSbbDh7N
+   1/y6NDZqoy/tLfYfUb3kpWRTsyGG0EKPfYryhUV1HQD/LOraiHXR46EKn
+   9yp5qu8UF0EZg/LPuVft30HVB/s46DosguevR67NYHEeP00SkSWNQCe1J
+   QIg/r7nDgUdQ56ow+6LM4q56X/2aYQQE+sCOIBfYPOCnJey1J33KT4BIE
+   kfqME+Lsq08M3KQIwtyZ7a/zY11kMuduNZxRTbkJ/n3wk/m7O2Z2Exruo
    w==;
-X-CSE-ConnectionGUID: xAudfidFSBuxLTfp/83Mjg==
-X-CSE-MsgGUID: lxHJPVxISgmxd4KYYLH2xA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="80244996"
+X-CSE-ConnectionGUID: eFLGmTJjT9etul47VQWsjQ==
+X-CSE-MsgGUID: IDueEyEcSdmOTipzhUVKxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81076085"
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="80244996"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 10:07:50 -0700
-X-CSE-ConnectionGUID: +QIqXgKpS4G6q0y3j7grYw==
-X-CSE-MsgGUID: x/WAfPyNQiK+7CRdwTu5kg==
+   d="scan'208";a="81076085"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 10:27:52 -0700
+X-CSE-ConnectionGUID: H22nHQe6Tr6lTkRWm81CZA==
+X-CSE-MsgGUID: DZlJp6kSSzyU8dn0BDIbxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="244050967"
+   d="scan'208";a="241481364"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 02 Jun 2026 10:07:48 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 02 Jun 2026 10:27:51 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUSaf-00000000CKo-3oKJ;
-	Tue, 02 Jun 2026 17:07:45 +0000
-Date: Wed, 03 Jun 2026 01:07:06 +0800
+	id 1wUSu4-00000000CME-1frC;
+	Tue, 02 Jun 2026 17:27:48 +0000
+Date: Wed, 03 Jun 2026 01:27:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
- sound/soc/soc-component.c:1949:55: warning: initialization of 'struct
- snd_soc_component *' from 'int' makes pointer from integer without a cast
-Message-ID: <202606030041.KdkXrIOe-lkp@intel.com>
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ "Bryan O'Donoghue" <bod@kernel.org>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Subject: [linuxtv-media-pending:next 19/29] ERROR: modpost:
+ "__umoddi3" [drivers/media/platform/qcom/iris/qcom-iris.ko] undefined!
+Message-ID: <202606030132.qnBXVDkM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,57 +61,54 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
-head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
-commit: 65d71bb7bc31ce188d488d8e1f2bc901c7128948 [290/290] ASoC: soc-component: remove compatible definition
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260603/202606030041.KdkXrIOe-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606030041.KdkXrIOe-lkp@intel.com/reproduce)
+tree:   https://git.linuxtv.org/media-ci/media-pending.git next
+head:   6a75e3d4f6428b90f398354212e3a2e0172851d6
+commit: 5c66647a5c3e005f9b6a96fe4aa7ec82d2701b4f [19/29] media: iris: add FPS calculation and VPP FW overhead in frequency formula
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260603/202606030132.qnBXVDkM-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606030132.qnBXVDkM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606030041.KdkXrIOe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606030132.qnBXVDkM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   sound/soc/soc-component.c: In function 'snd_soc_component_unregister_by_driver':
-   sound/soc/soc-component.c:1949:55: error: implicit declaration of function 'snd_soc_lookup_component_nolocked'; did you mean 'snd_soc_tplg_component_load'? [-Werror=implicit-function-declaration]
-    1949 |                 struct snd_soc_component *component = snd_soc_lookup_component_nolocked(dev, driver_name);
-         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                       snd_soc_tplg_component_load
->> sound/soc/soc-component.c:1949:55: warning: initialization of 'struct snd_soc_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   cc1: some warnings being treated as errors
-
-
-vim +1949 sound/soc/soc-component.c
-
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1930  
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1931  /**
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1932   * snd_soc_component_unregister_by_driver - Unregister component using a given driver
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1933   * from the ASoC core
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1934   *
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1935   * @dev: The device to unregister
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1936   * @component_driver: The component driver to unregister
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1937   */
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1938  void snd_soc_component_unregister_by_driver(struct device *dev,
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1939  					    const struct snd_soc_component_driver *component_driver)
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1940  {
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1941  	const char *driver_name = NULL;
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1942  
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1943  	if (component_driver)
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1944  		driver_name = component_driver->name;
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1945  
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1946  	guard(mutex)(&client_mutex);
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1947  
-c538402ce106a9 Kuninori Morimoto 2026-05-27  1948  	while (1) {
-c538402ce106a9 Kuninori Morimoto 2026-05-27 @1949  		struct snd_soc_component *component = snd_soc_lookup_component_nolocked(dev, driver_name);
-
-:::::: The code at line 1949 was first introduced by commit
-:::::: c538402ce106a9ead46629e7b974b6c45a11a3ab ASoC: soc-component: move snd_soc_register_[un]component() to soc-component.c
-
-:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-:::::: CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0x14 (section: .data) -> ice_adv_lnk_speed_100 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0x30 (section: .data) -> ice_adv_lnk_speed_1000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0x4c (section: .data) -> ice_adv_lnk_speed_2500 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0x68 (section: .data) -> ice_adv_lnk_speed_5000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0x84 (section: .data) -> ice_adv_lnk_speed_10000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0xa0 (section: .data) -> ice_adv_lnk_speed_25000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0xbc (section: .data) -> ice_adv_lnk_speed_40000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0xd8 (section: .data) -> ice_adv_lnk_speed_50000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0xf4 (section: .data) -> ice_adv_lnk_speed_100000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/intel/ice/ice: section mismatch in reference: ice_adv_lnk_speed_maps+0x110 (section: .data) -> ice_adv_lnk_speed_200000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_ext_maps+0x14 (section: .data) -> qed_mfw_ext_1g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_ext_maps+0x30 (section: .data) -> qed_mfw_ext_10g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_ext_maps+0x4c (section: .data) -> qed_mfw_ext_25g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_ext_maps+0x68 (section: .data) -> qed_mfw_ext_40g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_ext_maps+0x84 (section: .data) -> qed_mfw_ext_50g_base_r (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_ext_maps+0xa0 (section: .data) -> qed_mfw_ext_50g_base_r2 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_ext_maps+0xbc (section: .data) -> qed_mfw_ext_100g_base_r2 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_ext_maps+0xd8 (section: .data) -> qed_mfw_ext_100g_base_r4 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_legacy_maps+0x14 (section: .data) -> qed_mfw_legacy_1g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_legacy_maps+0x30 (section: .data) -> qed_mfw_legacy_10g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_legacy_maps+0x4c (section: .data) -> qed_mfw_legacy_20g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_legacy_maps+0x68 (section: .data) -> qed_mfw_legacy_25g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_legacy_maps+0x84 (section: .data) -> qed_mfw_legacy_40g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_legacy_maps+0xa0 (section: .data) -> qed_mfw_legacy_50g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed: section mismatch in reference: qed_mfw_legacy_maps+0xbc (section: .data) -> qed_mfw_legacy_bb_100g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qede/qede: section mismatch in reference: qede_forced_speed_maps+0x14 (section: .data) -> qede_forced_speed_1000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qede/qede: section mismatch in reference: qede_forced_speed_maps+0x30 (section: .data) -> qede_forced_speed_10000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qede/qede: section mismatch in reference: qede_forced_speed_maps+0x4c (section: .data) -> qede_forced_speed_20000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qede/qede: section mismatch in reference: qede_forced_speed_maps+0x68 (section: .data) -> qede_forced_speed_25000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qede/qede: section mismatch in reference: qede_forced_speed_maps+0x84 (section: .data) -> qede_forced_speed_40000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qede/qede: section mismatch in reference: qede_forced_speed_maps+0xa0 (section: .data) -> qede_forced_speed_50000 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qede/qede: section mismatch in reference: qede_forced_speed_maps+0xbc (section: .data) -> qede_forced_speed_100000 (section: .init.rodata)
+>> ERROR: modpost: "__umoddi3" [drivers/media/platform/qcom/iris/qcom-iris.ko] undefined!
+>> ERROR: modpost: "__udivdi3" [drivers/media/platform/qcom/iris/qcom-iris.ko] undefined!
 
 --
 0-DAY CI Kernel Test Service
