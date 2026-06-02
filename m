@@ -1,161 +1,226 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937A136C592
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 03:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF9F36F8FD
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 03:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780372429; cv=none; b=dc2oEuZu5ES9pxElVBmUrUUKMVwTXPaZM9WbeGigT0m+PBj6k8+eYmMGSLx+JRrTr6FD1c5Nrw/orwOUi6COpLOHZ8aDzn9SSWfPKZfYRWLYxzzoiVnLhZWikvdHrgwNlkR8M0Pozh0HpwdtBIgx1+KSh945B+Al0HheZLgZx68=
+	t=1780372431; cv=none; b=u7AcHnkX+rgGmj4ggaDkM2+F5hXrXhfJzrajrTIqKIp3TcRN2B6VNFZAsO8nHLWDpro7C1mrNr72O4vpUu2gOosZ91baeRFPCBtI/6KhfNE644x5N8y1abjW7voSucCwlspKq4ByovKiCb7jrjmbRztolicIxhSzhgJhQETJlFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780372429; c=relaxed/simple;
-	bh=Fu3Wdd9+4BheEzXWbgUNchv58z9Db0lR8EHZjF6eCsw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ekqMzkgV0GkJm3wj6FIe5T++MD59mDBfIR26aUBxkatu0oEv8S9sv3ddQlWQh4AkmSF42da/7MkwD4M/LMJ79PQCyVOc7SDC/pz9eB2LKV+ebqAdziMqf9l6xMrRK2LFixDlDV7hQm4hHF9VUGcSdP0F+Bd1AJtFB3Oq2oJYfMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m398x/Mv; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1780372431; c=relaxed/simple;
+	bh=piaJGw0Lw/G8i0lLqXKLF7hb5NFogwJnH00dTbpo53U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WA4dcPq7Z7TAvrd4sbWF82M1eNcrwKqau7rY5JRxjmuVfKUmETgfmh28j7NgOtTNvzG+G//q2kXbp3zNUHrzh5KPWKWw6gw6OZP7kyFPWTek24BIcguP8L+OrBjS5kD2SBuCEmOikCjn6XIzhd1o1Dd9vKJpxvwQbbnUHz+MIYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vwuvvhur; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m398x/Mv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vwuvvhur"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780372428; x=1811908428;
-  h=date:from:to:cc:subject:message-id;
-  bh=Fu3Wdd9+4BheEzXWbgUNchv58z9Db0lR8EHZjF6eCsw=;
-  b=m398x/MvM/RiRC2Eki+SpIWdXdgaqynvlRnWioJOnHttbziqmO0weAAe
-   nj0Im/N5LVf239YavXWUmxKb/MaR8s6nqDE/VN2ZkLv2n7KRHsHpK+NKW
-   ZUqpgDlA0ykdcjvwkikpOLu2RkXXsknAEtwLAGlqGwkVDZH588R6Cud1M
-   MSf/PsU+IpQK9jkAJqrRE5J+AAH4WFI17fHo2Y31uf/2S5pSZE2+KUbIg
-   5L4krpwYRWp3kswJ3XSaeq12A1LjJ3McVtvF2qD7QN/E1SUvlAx5bZwfO
-   1e20mbYn2AIl6nohyJdiRplSLMcmD/Xw0bHu2u/AE5rubmwYf44mdKvxA
+  t=1780372430; x=1811908430;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=piaJGw0Lw/G8i0lLqXKLF7hb5NFogwJnH00dTbpo53U=;
+  b=VwuvvhurmpskV07oiPv2PpHOK9xo/w8u+wHuXWWjLIhUezg7BlYHfFpx
+   XiEbwHO/5o1DJssVO6P3Lk0XfKNbEpS+GqAuEVU8Udbg/vZ9uh4zMjAgA
+   R3mpDHm5TKhYs4WWY0E2UXARwDxr6lJ6MzYdHK4amSEFVLNms4zCd+eu2
+   p7A3rcVqCdpZHm7bdjGHgI7IsDrn+mDNaMWjyt1f5pURyMMR2RzWCZYFW
+   P/gAG/mYe+IRLIuBE5fLSKhD2s347tKY2G5FdeKM17iX3g51HZPxjP3Ji
+   tiDD2Obb3U89tOpXx0aDOjYoTLUrvxK1sfcZHhu6Tcx1R0bMlHnYmwhRi
    Q==;
-X-CSE-ConnectionGUID: yrtOKzUBQ9q5tt4oUkhfaQ==
-X-CSE-MsgGUID: 3ZKVaxI7SVCsfnQzQPnv6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81117706"
+X-CSE-ConnectionGUID: QVvEatFYTOmbLy0zCYvakQ==
+X-CSE-MsgGUID: Q7AbNAapTdKCrTwpvBLnXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="68694252"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="81117706"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 20:53:48 -0700
-X-CSE-ConnectionGUID: NES4f2vCR3+/yunxKVxcww==
-X-CSE-MsgGUID: h2sWuk5EQbOLiozShJLnyw==
+   d="scan'208";a="68694252"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 20:53:49 -0700
+X-CSE-ConnectionGUID: RWaTPT0jQ7eOk/ol2HExhQ==
+X-CSE-MsgGUID: oW49JsbbT+qFPgLOmMF5cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="248713665"
+   d="scan'208";a="237437717"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 01 Jun 2026 20:53:46 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 01 Jun 2026 20:53:45 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUGCE-00000000BSa-42CG;
+	id 1wUGCE-00000000BSY-3tPw;
 	Tue, 02 Jun 2026 03:53:42 +0000
-Date: Tue, 02 Jun 2026 11:52:42 +0800
+Date: Tue, 2 Jun 2026 11:52:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andi Shyti <andi@smida.it>
-Subject: drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse:
- cast from restricted __be64
-Message-ID: <202606021143.KjvJRzff-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Eric Dumazet <edumazet@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org,
+	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net-next] mptcp: change mptcp_established_options() to
+ return opt_size
+Message-ID: <202606021113.tfn0OswA-lkp@intel.com>
+References: <20260601091816.444738-1-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260601091816.444738-1-edumazet@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e43ffb69e0438cddd72aaa30898b4dc446f664f8
-commit: 63ef02da5ddb725555cd41f125ec0bd8e893da3a i2c: octeon: add block-mode i2c operations
-date:   1 year ago
-config: alpha-randconfig-r122-20260602 (https://download.01.org/0day-ci/archive/20260602/202606021143.KjvJRzff-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021143.KjvJRzff-lkp@intel.com/reproduce)
+Hi Eric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/mptcp-change-mptcp_established_options-to-return-opt_size/20260601-174435
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260601091816.444738-1-edumazet%40google.com
+patch subject: [PATCH net-next] mptcp: change mptcp_established_options() to return opt_size
+config: nios2-defconfig (https://download.01.org/0day-ci/archive/20260602/202606021113.tfn0OswA-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021113.tfn0OswA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 63ef02da5ddb ("i2c: octeon: add block-mode i2c operations")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606021143.KjvJRzff-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606021113.tfn0OswA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [usertype] buf @@
-   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse:     expected unsigned long long [usertype] val
-   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse:     got restricted __be64 [addressable] [usertype] buf
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
-   drivers/i2c/busses/i2c-octeon-core.c:732:42: sparse: sparse: cast from restricted __be64
+All warnings (new ones prefixed by >>):
 
-vim +731 drivers/i2c/busses/i2c-octeon-core.c
+   net/ipv4/tcp_output.c: In function 'tcp_established_options':
+>> net/ipv4/tcp_output.c:1186:63: warning: passing argument 3 of 'mptcp_established_options' makes pointer from integer without a cast [-Wint-conversion]
+    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
+         |                                                               ^~~~~~~~~
+         |                                                               |
+         |                                                               unsigned int
+   In file included from include/net/tcp.h:44,
+                    from net/ipv4/tcp_output.c:40:
+   include/net/mptcp.h:271:59: note: expected 'unsigned int *' but argument is of type 'unsigned int'
+     271 |                                             unsigned int *size,
+         |                                             ~~~~~~~~~~~~~~^~~~
+>> net/ipv4/tcp_output.c:1187:54: warning: passing argument 4 of 'mptcp_established_options' makes integer from pointer without a cast [-Wint-conversion]
+    1187 |                                                      &opts->mptcp);
+         |                                                      ^~~~~~~~~~~~
+         |                                                      |
+         |                                                      struct mptcp_out_options *
+   In file included from include/net/tcp.h:44,
+                    from net/ipv4/tcp_output.c:40:
+   include/net/mptcp.h:272:58: note: expected 'unsigned int' but argument is of type 'struct mptcp_out_options *'
+     272 |                                             unsigned int remaining,
+         |                                             ~~~~~~~~~~~~~^~~~~~~~~
+   net/ipv4/tcp_output.c:1186:28: error: too few arguments to function 'mptcp_established_options'
+    1186 |                 opt_size = mptcp_established_options(sk, skb, remaining,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/net/tcp.h:44,
+                    from net/ipv4/tcp_output.c:40:
+   include/net/mptcp.h:269:19: note: declared here
+     269 | static inline int mptcp_established_options(struct sock *sk,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-   688	
-   689	/**
-   690	 * octeon_i2c_hlc_block_comp_write - high-level-controller composite block write
-   691	 * @i2c: The struct octeon_i2c
-   692	 * @msgs: msg[0] contains address, msg[1] contains data to be written
-   693	 *
-   694	 * i2c core command is constructed and write data is written into the FIFO buffer.
-   695	 * The execution of the command will result in HW write, using the data in FIFO.
-   696	 * Used in the case where the i2c xfer is for greater than 8 bytes of write data.
-   697	 *
-   698	 * Returns: 0 on success, otherwise a negative errno.
-   699	 */
-   700	static int octeon_i2c_hlc_block_comp_write(struct octeon_i2c *i2c, struct i2c_msg *msgs)
-   701	{
-   702		bool set_ext;
-   703		int ret;
-   704		u16 len, i;
-   705		u64 cmd, ext = 0;
-   706	
-   707		octeon_i2c_hlc_enable(i2c);
-   708		octeon_i2c_block_enable(i2c);
-   709	
-   710		/* Write (size - 1) into block control register */
-   711		len = msgs[1].len - 1;
-   712		octeon_i2c_writeq_flush((u64)len, i2c->twsi_base + OCTEON_REG_BLOCK_CTL(i2c));
-   713	
-   714		/* Prepare core command */
-   715		cmd = SW_TWSI_V | SW_TWSI_SOVR | SW_TWSI_OP_7_IA;
-   716		cmd |= (u64)(msgs[0].addr & 0x7full) << SW_TWSI_ADDR_SHIFT;
-   717	
-   718		/* Set parameters for extended message (if required) */
-   719		set_ext = octeon_i2c_hlc_ext(i2c, msgs[0], &cmd, &ext);
-   720	
-   721		/* Write msg into FIFO buffer */
-   722		octeon_i2c_writeq_flush(TWSX_BLOCK_STS_RESET_PTR,
-   723					i2c->twsi_base + OCTEON_REG_BLOCK_STS(i2c));
-   724		for (i = 0; i <= len; i += 8) {
-   725			__be64 buf = 0;
-   726	
-   727			/* Copy 8 bytes or remaining bytes from message buffer */
-   728			memcpy(&buf, &msgs[1].buf[i], min(8, msgs[1].len - i));
-   729	
-   730			/* Byte-swap message data and write into FIFO */
- > 731			buf = cpu_to_be64(buf);
-   732			octeon_i2c_writeq_flush((u64)buf, i2c->twsi_base + OCTEON_REG_BLOCK_FIFO(i2c));
-   733		}
-   734		if (set_ext)
-   735			octeon_i2c_writeq_flush(ext, i2c->twsi_base + OCTEON_REG_SW_TWSI_EXT(i2c));
-   736	
-   737		/* Send command to core (send data in FIFO) */
-   738		ret = octeon_i2c_hlc_cmd_send(i2c, cmd);
-   739		if (ret)
-   740			goto err;
-   741	
-   742		cmd = __raw_readq(i2c->twsi_base + OCTEON_REG_SW_TWSI(i2c));
-   743		if ((cmd & SW_TWSI_R) == 0) {
-   744			octeon_i2c_block_disable(i2c);
-   745			return octeon_i2c_check_status(i2c, false);
-   746		}
-   747	
-   748	err:
-   749		octeon_i2c_block_disable(i2c);
-   750		return ret;
-   751	}
-   752	
+
+vim +/mptcp_established_options +1186 net/ipv4/tcp_output.c
+
+  1145	
+  1146	/* Compute TCP options for ESTABLISHED sockets. This is not the
+  1147	 * final wire format yet.
+  1148	 */
+  1149	static unsigned int tcp_established_options(struct sock *sk, struct sk_buff *skb,
+  1150						struct tcp_out_options *opts,
+  1151						struct tcp_key *key)
+  1152	{
+  1153		struct tcp_sock *tp = tcp_sk(sk);
+  1154		unsigned int size = 0;
+  1155		unsigned int eff_sacks;
+  1156	
+  1157		opts->options = 0;
+  1158	
+  1159		/* Better than switch (key.type) as it has static branches */
+  1160		if (tcp_key_is_md5(key)) {
+  1161			opts->options |= OPTION_MD5;
+  1162			size += TCPOLEN_MD5SIG_ALIGNED;
+  1163		} else if (tcp_key_is_ao(key)) {
+  1164			opts->options |= OPTION_AO;
+  1165			size += tcp_ao_len_aligned(key->ao_key);
+  1166		}
+  1167	
+  1168		if (likely(tp->rx_opt.tstamp_ok)) {
+  1169			opts->options |= OPTION_TS;
+  1170			opts->tsval = skb ? tcp_skb_timestamp_ts(tp->tcp_usec_ts, skb) +
+  1171					tp->tsoffset : 0;
+  1172			opts->tsecr = tp->rx_opt.ts_recent;
+  1173			size += TCPOLEN_TSTAMP_ALIGNED;
+  1174		}
+  1175	
+  1176		/* MPTCP options have precedence over SACK for the limited TCP
+  1177		 * option space because a MPTCP connection would be forced to
+  1178		 * fall back to regular TCP if a required multipath option is
+  1179		 * missing. SACK still gets a chance to use whatever space is
+  1180		 * left.
+  1181		 */
+  1182		if (sk_is_mptcp(sk)) {
+  1183			unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
+  1184			int opt_size;
+  1185	
+> 1186			opt_size = mptcp_established_options(sk, skb, remaining,
+> 1187							     &opts->mptcp);
+  1188			if (opt_size >= 0) {
+  1189				opts->options |= OPTION_MPTCP;
+  1190				size += opt_size;
+  1191			}
+  1192		}
+  1193	
+  1194		eff_sacks = tp->rx_opt.num_sacks + tp->rx_opt.dsack;
+  1195		if (unlikely(eff_sacks)) {
+  1196			const unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
+  1197			if (likely(remaining >= TCPOLEN_SACK_BASE_ALIGNED +
+  1198						TCPOLEN_SACK_PERBLOCK)) {
+  1199				opts->num_sack_blocks =
+  1200					min_t(unsigned int, eff_sacks,
+  1201					      (remaining - TCPOLEN_SACK_BASE_ALIGNED) /
+  1202					      TCPOLEN_SACK_PERBLOCK);
+  1203	
+  1204				size += TCPOLEN_SACK_BASE_ALIGNED +
+  1205					opts->num_sack_blocks * TCPOLEN_SACK_PERBLOCK;
+  1206			} else {
+  1207				opts->num_sack_blocks = 0;
+  1208			}
+  1209		} else {
+  1210			opts->num_sack_blocks = 0;
+  1211		}
+  1212	
+  1213		if (tcp_ecn_mode_accecn(tp)) {
+  1214			int ecn_opt = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option);
+  1215	
+  1216			if (ecn_opt && tp->saw_accecn_opt &&
+  1217			    (ecn_opt >= TCP_ACCECN_OPTION_PERSIST ||
+  1218			     !tcp_accecn_opt_fail_send(tp)) &&
+  1219			    (ecn_opt >= TCP_ACCECN_OPTION_FULL || tp->accecn_opt_demand ||
+  1220			     tcp_accecn_option_beacon_check(sk))) {
+  1221				opts->use_synack_ecn_bytes = 0;
+  1222				size += tcp_options_fit_accecn(opts, tp->accecn_minlen,
+  1223							       MAX_TCP_OPTION_SPACE - size);
+  1224			}
+  1225		}
+  1226	
+  1227		if (unlikely(BPF_SOCK_OPS_TEST_FLAG(tp,
+  1228						    BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG))) {
+  1229			unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
+  1230	
+  1231			bpf_skops_hdr_opt_len(sk, skb, NULL, NULL, 0, opts, &remaining);
+  1232	
+  1233			size = MAX_TCP_OPTION_SPACE - remaining;
+  1234		}
+  1235	
+  1236		return size;
+  1237	}
+  1238	
 
 --
 0-DAY CI Kernel Test Service
