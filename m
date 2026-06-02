@@ -1,134 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E3D38836C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 12:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538A13BE17D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 12:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780405066; cv=none; b=bU8aKwssSeImFvKO3V8qN/8NF9pAKA9e6MHhRw5vo3clB5KGHLTCVfrtznEaEwzHtZHDjuJ41nvukS1F7C3YavLD0Ctb6ur1g32H6q1uRq57Hjav/QKAtVUYH90cfoEIVFz57LUl3mmBBrZgDsFNIRZhOgmjX5vgFjw6bMFqcRE=
+	t=1780405066; cv=none; b=AIVGFcepneQneC1fgSRpwAWNpzPq9/Wjv/HsWWaZHhMRu0Zd8/H8XY+5MJjbXPb30WGrmngsJgi7kOf+gTtZFd8r+3Uq6D95OzyNBVpTfpc/sPTF2A2BIqKJtpJr0zY4BpAeXPcsyoXCoDCnQOztA/R9Jtv8KaS/xVRehjRP+Z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780405066; c=relaxed/simple;
-	bh=35hdW/wwDjr1vFALwc1iduv8yoL5UmcgZk7rvJt/BV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=lPkFYR/H/ck31qrMde47LQeXWj1re/aod3JLHSnY6uyKRYsdwmvCHo9M7ZaAIabtKGsTirNE2l3xuYQPUe8CWmqHvPyhLUETpprDOjyNF2uhpX6z5D2rjxIWsd/i90RNpAmlGXyKZHkbnoT33/13G3RpxgJNmScjWfUcOrx+s00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fmzbul+k; arc=none smtp.client-ip=198.175.65.18
+	bh=yWJ8jbOp8Qki3VbKm7Kf0osmZhjpVgXHMVlz2+rtak0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fM/THzoeFgnu+MkDDYFpndrmMJGjU8V6Ss1NrdpEZeFTHdFS79aueU8Fx7McpH873gRPNDvTUMx1iVwo+AUM0bJgxGGZBypcK3+S8JyZauOxt/Lfk1ygceMdPmfPtXpFqFbZQ5KXpQe4dvAm0R7289YqOatxOf+DXUeWBSFMyXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SuoUd67T; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fmzbul+k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SuoUd67T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1780405065; x=1811941065;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=35hdW/wwDjr1vFALwc1iduv8yoL5UmcgZk7rvJt/BV0=;
-  b=Fmzbul+kqnm/6mh0v3uFogBweF2eCuWNvkgC5Jkau58Hx+V6IucrobIr
-   Oe+Ewt1Ipg9/bYYI3Us0+rTdKiRaFELEldxT0Bxehf5e5F5es4Ujfv5XN
-   4MHheX3Scbi8gk4R0wDgOKrHXMWZU39FzKWDKyuJRXG5HhuJFlJua/MfX
-   wB3iE2kVDnnUmHWJV4VPKcPDX9h8iizn9dAYChGjJFR9eRBWNstcefCwN
-   Ts5E5UZc/4anyDYn7EbHOspgqQKsaKx2iB9ObbZUqcpejndeW/4YSIGSF
-   p1HyZVMqGPFRT/7vRUR1iIvm+pkfcdC+VOhD6mBIpHUEVZIITaza0Uc0q
-   A==;
-X-CSE-ConnectionGUID: EgE+ElXLTGu9z5T1C34RKA==
-X-CSE-MsgGUID: DPbNZYF4TjG7htgGu/aBWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81248090"
+  h=date:from:to:cc:subject:message-id;
+  bh=yWJ8jbOp8Qki3VbKm7Kf0osmZhjpVgXHMVlz2+rtak0=;
+  b=SuoUd67Ta99vsb/Y5KSZloSH/UpJ0hm7sxnShWoQDiFGQCOkmVRAqQrE
+   mHZ+MuCV9RV56u/EgBTaLs+wrevgqb1Ni0iykeoyWSPvUTfxDtM2vF9Ju
+   czwJEJeEdoyg/snO4d3tCujAtO3ItEmqtyr8QUS6xiXhVGf8XKMRFBjL1
+   DYuU31CePQW3pvRZm6X0/FJAevM7INBUxb+Ip62bL9s9BD90QDzRJG8cA
+   48+GHzSPxVxWIaMRanyp3s5CG6HKR5aWfKXtLsjNpI6iyMid221wGN1Ub
+   c8hmwsq7pqw79nywo5KlQLIyy2AXjGbspSqMUXnJ0HoO0muf/+Ep0yapP
+   Q==;
+X-CSE-ConnectionGUID: m/yvSwcuTnCqrxeLhMguYQ==
+X-CSE-MsgGUID: jYfPIBmxTaaPeVXne+WW5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="98751325"
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="81248090"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 05:57:45 -0700
-X-CSE-ConnectionGUID: fEmS+BFvRdam//y7BIk9pQ==
-X-CSE-MsgGUID: vKFUdPYOSyG43fzp4odxtg==
+   d="scan'208";a="98751325"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 05:57:44 -0700
+X-CSE-ConnectionGUID: 69ULqNDBR3KDLhy4zQaVCg==
+X-CSE-MsgGUID: WMYgl2mzSbG7Fsj6vDpHAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="243740104"
+   d="scan'208";a="247856569"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 Jun 2026 05:57:43 -0700
+  by orviesa003.jf.intel.com with ESMTP; 02 Jun 2026 05:57:43 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUOge-00000000C2m-39sH;
+	id 1wUOge-00000000C2o-3MKk;
 	Tue, 02 Jun 2026 12:57:40 +0000
-Date: Tue, 02 Jun 2026 20:57:27 +0800
+Date: Tue, 02 Jun 2026 20:57:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Logan Gunthorpe <logang@deltatee.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
- sound/soc/fsl/fsl_xcvr.c:236:33: warning: initialization of 'struct fsl_xcvr
- *' from 'int' makes pointer from integer without a cast
-Message-ID: <202606022034.wBwV4Y4m-lkp@intel.com>
+Subject: [sbates130272-p2pmem:switchtec-dma-sysfs 4/4]
+ drivers/dma/switchtec_dma.c:1198:55: error: 'readw' undeclared; did you mean
+ 'readsw'?
+Message-ID: <202606022007.RkJdh1xY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
-head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
-commit: 8be84f679bd497ac2dabc87df9f9a4737f841c0d [290/290] ASoC: soc-dai: r=
-emove snd_soc_dai_{set/get}_drvdata()
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/2026060=
-2/202606022034.wBwV4Y4m-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260602/202606022034.wBwV4Y4m-lkp@intel.com/reproduce)
+tree:   https://github.com/sbates130272/linux-p2pmem.git switchtec-dma-sysfs
+head:   7de58d38d826e9043f1c21054c804d326563a84a
+commit: 7de58d38d826e9043f1c21054c804d326563a84a [4/4] dmaengine: switchtec-dma: Add pmon sysfs attributes
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260602/202606022007.RkJdh1xY-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606022007.RkJdh1xY-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606022034.wBwV4Y4m-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606022007.RkJdh1xY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/soc/fsl/fsl_xcvr.c: In function 'fsl_xcvr_capds_put':
-   sound/soc/fsl/fsl_xcvr.c:236:33: error: implicit declaration of function=
- 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Werr=
-or=3Dimplicit-function-declaration]
-     236 |         struct fsl_xcvr *xcvr =3D snd_soc_dai_get_drvdata(dai);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                 snd_soc_card_get_drvdata
->> sound/soc/fsl/fsl_xcvr.c:236:33: warning: initialization of 'struct fsl_=
-xcvr *' from 'int' makes pointer from integer without a cast [-Wint-convers=
-ion]
-   cc1: some warnings being treated as errors
+   drivers/dma/switchtec_dma.c: In function 'se_pending_show':
+>> drivers/dma/switchtec_dma.c:1198:55: error: 'readw' undeclared (first use in this function); did you mean 'readsw'?
+    1198 |         return pmon_show(chan, page, perf_se_pending, readw);
+         |                                                       ^~~~~
+   drivers/dma/switchtec_dma.c:1177:31: note: in definition of macro 'pmon_show'
+    1177 |                 __pmon_val = (reader)(&__chan_fw->field);                    \
+         |                               ^~~~~~
+   drivers/dma/switchtec_dma.c:1198:55: note: each undeclared identifier is reported only once for each function it appears in
+    1198 |         return pmon_show(chan, page, perf_se_pending, readw);
+         |                                                       ^~~~~
+   drivers/dma/switchtec_dma.c:1177:31: note: in definition of macro 'pmon_show'
+    1177 |                 __pmon_val = (reader)(&__chan_fw->field);                    \
+         |                               ^~~~~~
+   drivers/dma/switchtec_dma.c: In function 'se_buf_empty_show':
+   drivers/dma/switchtec_dma.c:1204:57: error: 'readw' undeclared (first use in this function); did you mean 'readsw'?
+    1204 |         return pmon_show(chan, page, perf_se_buf_empty, readw);
+         |                                                         ^~~~~
+   drivers/dma/switchtec_dma.c:1177:31: note: in definition of macro 'pmon_show'
+    1177 |                 __pmon_val = (reader)(&__chan_fw->field);                    \
+         |                               ^~~~~~
+   drivers/dma/switchtec_dma.c: In function 'chan_idle_show':
+>> drivers/dma/switchtec_dma.c:1210:54: error: 'readl' undeclared (first use in this function); did you mean 'readsl'?
+    1210 |         return pmon_show(chan, page, perf_chan_idle, readl);
+         |                                                      ^~~~~
+   drivers/dma/switchtec_dma.c:1177:31: note: in definition of macro 'pmon_show'
+    1177 |                 __pmon_val = (reader)(&__chan_fw->field);                    \
+         |                               ^~~~~~
+   drivers/dma/switchtec_dma.c: In function 'latency_max_show':
+   drivers/dma/switchtec_dma.c:1216:52: error: 'readl' undeclared (first use in this function); did you mean 'readsl'?
+    1216 |         return pmon_show(chan, page, perf_lat_max, readl);
+         |                                                    ^~~~~
+   drivers/dma/switchtec_dma.c:1177:31: note: in definition of macro 'pmon_show'
+    1177 |                 __pmon_val = (reader)(&__chan_fw->field);                    \
+         |                               ^~~~~~
+   drivers/dma/switchtec_dma.c: In function 'latency_min_show':
+   drivers/dma/switchtec_dma.c:1222:52: error: 'readl' undeclared (first use in this function); did you mean 'readsl'?
+    1222 |         return pmon_show(chan, page, perf_lat_min, readl);
+         |                                                    ^~~~~
+   drivers/dma/switchtec_dma.c:1177:31: note: in definition of macro 'pmon_show'
+    1177 |                 __pmon_val = (reader)(&__chan_fw->field);                    \
+         |                               ^~~~~~
+   drivers/dma/switchtec_dma.c: In function 'latency_last_show':
+   drivers/dma/switchtec_dma.c:1228:53: error: 'readl' undeclared (first use in this function); did you mean 'readsl'?
+    1228 |         return pmon_show(chan, page, perf_lat_last, readl);
+         |                                                     ^~~~~
+   drivers/dma/switchtec_dma.c:1177:31: note: in definition of macro 'pmon_show'
+    1177 |                 __pmon_val = (reader)(&__chan_fw->field);                    \
+         |                               ^~~~~~
 
 
-vim +236 sound/soc/fsl/fsl_xcvr.c
+vim +1198 drivers/dma/switchtec_dma.c
 
-28564486866fa8 Viorel Suman   2020-10-13  231 =20
-28564486866fa8 Viorel Suman   2020-10-13  232  static int fsl_xcvr_capds_pu=
-t(struct snd_kcontrol *kcontrol,
-28564486866fa8 Viorel Suman   2020-10-13  233  			      struct snd_ctl_elem=
-_value *ucontrol)
-28564486866fa8 Viorel Suman   2020-10-13  234  {
-28564486866fa8 Viorel Suman   2020-10-13  235  	struct snd_soc_dai *dai =3D =
-snd_kcontrol_chip(kcontrol);
-28564486866fa8 Viorel Suman   2020-10-13 @236  	struct fsl_xcvr *xcvr =3D s=
-nd_soc_dai_get_drvdata(dai);
-e8446a4a574d19 C=C3=A1ssio Gabriel 2026-04-28  237  	int changed;
-28564486866fa8 Viorel Suman   2020-10-13  238 =20
-e8446a4a574d19 C=C3=A1ssio Gabriel 2026-04-28  239  	changed =3D memcmp(xcv=
-r->cap_ds, ucontrol->value.bytes.data,
-e8446a4a574d19 C=C3=A1ssio Gabriel 2026-04-28  240  			 sizeof(xcvr->cap_ds=
-)) !=3D 0;
-e8446a4a574d19 C=C3=A1ssio Gabriel 2026-04-28  241  	memcpy(xcvr->cap_ds, u=
-control->value.bytes.data,
-e8446a4a574d19 C=C3=A1ssio Gabriel 2026-04-28  242  	       sizeof(xcvr->ca=
-p_ds));
-28564486866fa8 Viorel Suman   2020-10-13  243 =20
-e8446a4a574d19 C=C3=A1ssio Gabriel 2026-04-28  244  	return changed;
-28564486866fa8 Viorel Suman   2020-10-13  245  }
-28564486866fa8 Viorel Suman   2020-10-13  246 =20
-
-:::::: The code at line 236 was first introduced by commit
-:::::: 28564486866fa889b78264360022c94836fa8072 ASoC: fsl_xcvr: Add XCVR AS=
-oC CPU DAI driver
-
-:::::: TO: Viorel Suman <viorel.suman@nxp.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+  1195	
+  1196	static ssize_t se_pending_show(struct dma_chan *chan, char *page)
+  1197	{
+> 1198		return pmon_show(chan, page, perf_se_pending, readw);
+  1199	}
+  1200	static struct dma_chan_sysfs_entry se_pending_attr = __ATTR_RO(se_pending);
+  1201	
+  1202	static ssize_t se_buf_empty_show(struct dma_chan *chan, char *page)
+  1203	{
+  1204		return pmon_show(chan, page, perf_se_buf_empty, readw);
+  1205	}
+  1206	static struct dma_chan_sysfs_entry se_buf_empty_attr = __ATTR_RO(se_buf_empty);
+  1207	
+  1208	static ssize_t chan_idle_show(struct dma_chan *chan, char *page)
+  1209	{
+> 1210		return pmon_show(chan, page, perf_chan_idle, readl);
+  1211	}
+  1212	static struct dma_chan_sysfs_entry chan_idle_attr = __ATTR_RO(chan_idle);
+  1213	
 
 --
 0-DAY CI Kernel Test Service
