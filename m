@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAE1382F16
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 08:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2342F3AD517;
+	Tue,  2 Jun 2026 08:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780388848; cv=none; b=SsjrEZffLT4OMj12J82WmLeEXQkwsgT4cvmg7WKK0Hg/7qz7aNUPqmsxjc/3J9Il6F4lhg0xRci3JaCFcGBVBiwbtgqSO8rgLcste7A3kfvMm2xFAjemdxNZS5UHsjDsdvBWBRV5gMA8alWr74Fg45RPaFfMudtL8dqe4N/8hLg=
+	t=1780389514; cv=none; b=lbtUxwQV50eyLk75t0Tx2PIXo3Vp0LwQvp9zm4iS6KtG9fa8rgDjPF7AqTzZbjkY71EFHWRgqv5unHujLPy6EzitM+94XMoM068KX7ioA0rXxVzy3nBnSxjK8Aguh4LablZ32gETThSSjjHCFqK+k0qQvhEN2qSuyWU6FwYv3M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780388848; c=relaxed/simple;
-	bh=B9W62SSO0Qh12Bq8aO+JvSut0n8PoS3oePAwg3bLTwc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RzS870ypundgzaavemD4xpWO/eAEcAmaQnaNrj8oqLBLoa3j7MUrOkYQ30c7zRw/P2bcv0zKQjIy3XhVpfJMm74SfraUzmRb4b++9YrKBXCxfYXYqVEFjrcZOe0KOWPcNp6ULEnedFJGrd9oVB7lyI0K+yolUXZnflFTT0ToO1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VyDNppJw; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1780389514; c=relaxed/simple;
+	bh=Nr8SzIq+QAZ9yLJ/48D7alhz6JSMpx3OS8h2c/xOJyA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=V0f9GX+TQy+y75jfKDPh3YOVDqc9/IJA18U27jYp4v+i5eb66ExHVD7LrRRirGQZ8+vH/vvLhv7bBsHRzbMnhH1Qqdm3TbVXVq27/NLNwmxVLwI/HXpVd2Em4y5DkjtygegpwGZMV2Nb3KAsiV5vStKrPNQGgir6Q4lr7o7KRdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UnapELri; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VyDNppJw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UnapELri"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780388847; x=1811924847;
+  t=1780389510; x=1811925510;
   h=date:from:to:cc:subject:message-id;
-  bh=B9W62SSO0Qh12Bq8aO+JvSut0n8PoS3oePAwg3bLTwc=;
-  b=VyDNppJwvHfrFo/9CsGbu5AbRwwLrY6vaj29pvyTP4rnbS3tWhTdJOXC
-   qp8WL4LoaL03M6YkNAivUhjTAS5b9IKtmtm8nom0UZcctzWkQ6hP10YtJ
-   PFNiRnBqizylj70XKhxv9Ec8ZdR8utlDUXgSjXIHIxVXYH+YyVG4VyO6k
-   ohzHFB64ruh+bggxNprefw9RuqlyqbxdZyj58BWVw4AvQc8cZOqWAH1Tn
-   AEx8i9f6UchOwLu6FSfs0Xwozi9mqXhvl/T3SytFCQZ+OtsxhhrjKU/ve
-   7GbAibiPsyRDyAp3ZeXW07PJI68Ka/rRT3psTGHru8WjbF6jAlx1UNGA4
-   w==;
-X-CSE-ConnectionGUID: M/Xxu4YBTHGGAQSGniMRAA==
-X-CSE-MsgGUID: /3GrPDcUQW+Y9jx26OupIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="80198578"
+  bh=Nr8SzIq+QAZ9yLJ/48D7alhz6JSMpx3OS8h2c/xOJyA=;
+  b=UnapELrim5I2ycdF9uj48rMeWUdzw9A0ww8TfGIyT5JA9vSkAmIg5Fhr
+   x7BbiDFMfhQ8Nsc/Hm6cZCuzDAtyDaGvfEle5B7UivkKcRtRZZ1c9HLlK
+   Fg1Hi+BCfDYSjnKncs/jVxtfQ63S9VXmpFRILsVIY3CpJbLOPzt/OQzV1
+   FMbp3/2VyfotOAUkKADC4MBEKl2dcgiAYeNuWOScaIxqks7VchldDaIRN
+   gO00X3avYfYY1fbu9h1Z+IUZ78dnCbynHuQ5Q2wUNO34+/H5ksCxmZNRW
+   cQGDjSmeYsC2rDxE6lKTSUHh5TxZG0Wj2FQry7VvE7KqadAfTrvYxQTYg
+   Q==;
+X-CSE-ConnectionGUID: 1A9YEIEwQPmbe2kKIp6K7g==
+X-CSE-MsgGUID: P+qAhkrQTp+sSWRKwVUOeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="103830639"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="80198578"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:27:26 -0700
-X-CSE-ConnectionGUID: 4vKf5PIaQEatpwdJuovYoA==
-X-CSE-MsgGUID: 6x1RgOBkTTawGA0+xKR7mg==
+   d="scan'208";a="103830639"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:38:30 -0700
+X-CSE-ConnectionGUID: k7qurRYVT42GFUoL2dFlLw==
+X-CSE-MsgGUID: 2evhJOotS4qyD+4CTzDLsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="248926438"
+   d="scan'208";a="267485497"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Jun 2026 01:27:25 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 02 Jun 2026 01:38:27 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUKT4-00000000Bik-3KFD;
-	Tue, 02 Jun 2026 08:27:22 +0000
-Date: Tue, 02 Jun 2026 16:26:52 +0800
+	id 1wUKdl-00000000Bjy-1ZE1;
+	Tue, 02 Jun 2026 08:38:25 +0000
+Date: Tue, 02 Jun 2026 16:37:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
- include/linux/compiler_types.h:610:27: error: expression in static assertion
- is not an integer
-Message-ID: <202606021626.y6hPK3ic-lkp@intel.com>
+To: Danila Chernetsov <listdansp@mail.ru>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Jan Kara <jack@suse.cz>
+Subject: [jack-fs:for_next 8/9] fs/ext2/file.c:171:14: error:
+ expected ';' after expression
+Message-ID: <202606021655.Peunf4db-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,314 +60,102 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
-head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
-commit: 1ef39bbdce9099b285b9702e22c4defc277e42dd [290/290] ASoC: move struct snd_soc_card/snd_soc_card_driver to soc-card.[hc]
-config: i386-randconfig-003-20260602 (https://download.01.org/0day-ci/archive/20260602/202606021626.y6hPK3ic-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021626.y6hPK3ic-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git for_next
+head:   97740c736bff8331fa4e6e33604a2c8b4229d70d
+commit: d40e3cdfc2d0911712def016967103b37475c01e [8/9] ext2: fix ignored return value of generic_write_sync()
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260602/202606021655.Peunf4db-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021655.Peunf4db-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606021626.y6hPK3ic-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606021655.Peunf4db-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:22,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from arch/x86/include/asm/paravirt.h:19,
-                    from arch/x86/include/asm/irqflags.h:100,
-                    from include/linux/irqflags.h:18,
-                    from arch/x86/include/asm/special_insns.h:10,
-                    from arch/x86/include/asm/processor.h:25,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from sound/soc/sof/topology.c:12:
-   sound/soc/sof/topology.c: In function 'sof_connect_dai_widget':
-   sound/soc/sof/topology.c:1108:39: error: invalid use of undefined type 'struct snd_soc_card'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |                                       ^~
-   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
-      20 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:643:9: note: in expansion of macro 'list_entry'
-     643 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:819:20: note: in expansion of macro 'list_first_entry'
-     819 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1108:9: note: in expansion of macro 'list_for_each_entry'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/bits.h:30,
-                    from sound/soc/sof/topology.c:11:
-   sound/soc/sof/topology.c:1108:39: error: invalid use of undefined type 'struct snd_soc_card'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |                                       ^~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:632:9: note: in expansion of macro 'container_of'
-     632 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:643:9: note: in expansion of macro 'list_entry'
-     643 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:819:20: note: in expansion of macro 'list_first_entry'
-     819 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1108:9: note: in expansion of macro 'list_for_each_entry'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1108:39: error: invalid use of undefined type 'struct snd_soc_card'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |                                       ^~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:22:23: note: in expansion of macro '__same_type'
-      22 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:632:9: note: in expansion of macro 'container_of'
-     632 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:643:9: note: in expansion of macro 'list_entry'
-     643 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:819:20: note: in expansion of macro 'list_first_entry'
-     819 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1108:9: note: in expansion of macro 'list_for_each_entry'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:632:9: note: in expansion of macro 'container_of'
-     632 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:643:9: note: in expansion of macro 'list_entry'
-     643 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:819:20: note: in expansion of macro 'list_first_entry'
-     819 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1108:9: note: in expansion of macro 'list_for_each_entry'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/random.h:8:
-   sound/soc/sof/topology.c:1108:39: error: invalid use of undefined type 'struct snd_soc_card'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |                                       ^~
-   include/linux/list.h:810:37: note: in definition of macro 'list_entry_is_head'
-     810 |         list_is_head(&pos->member, (head))
-         |                                     ^~~~
-   sound/soc/sof/topology.c:1108:9: note: in expansion of macro 'list_for_each_entry'
-    1108 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c: In function 'sof_disconnect_dai_widget':
-   sound/soc/sof/topology.c:1173:39: error: invalid use of undefined type 'struct snd_soc_card'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |                                       ^~
-   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
-      20 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:643:9: note: in expansion of macro 'list_entry'
-     643 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:819:20: note: in expansion of macro 'list_first_entry'
-     819 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1173:9: note: in expansion of macro 'list_for_each_entry'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1173:39: error: invalid use of undefined type 'struct snd_soc_card'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |                                       ^~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:632:9: note: in expansion of macro 'container_of'
-     632 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:643:9: note: in expansion of macro 'list_entry'
-     643 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:819:20: note: in expansion of macro 'list_first_entry'
-     819 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1173:9: note: in expansion of macro 'list_for_each_entry'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1173:39: error: invalid use of undefined type 'struct snd_soc_card'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |                                       ^~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:22:23: note: in expansion of macro '__same_type'
-      22 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:632:9: note: in expansion of macro 'container_of'
-     632 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:643:9: note: in expansion of macro 'list_entry'
-     643 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:819:20: note: in expansion of macro 'list_first_entry'
-     819 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1173:9: note: in expansion of macro 'list_for_each_entry'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:632:9: note: in expansion of macro 'container_of'
-     632 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:643:9: note: in expansion of macro 'list_entry'
-     643 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:819:20: note: in expansion of macro 'list_first_entry'
-     819 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1173:9: note: in expansion of macro 'list_for_each_entry'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c:1173:39: error: invalid use of undefined type 'struct snd_soc_card'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |                                       ^~
-   include/linux/list.h:810:37: note: in definition of macro 'list_entry_is_head'
-     810 |         list_is_head(&pos->member, (head))
-         |                                     ^~~~
-   sound/soc/sof/topology.c:1173:9: note: in expansion of macro 'list_for_each_entry'
-    1173 |         list_for_each_entry(rtd, &card->rtd_list_head, rtd_list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/topology.c: In function 'sof_widget_ready':
-   sound/soc/sof/topology.c:1586:47: error: invalid use of undefined type 'struct snd_soc_component'
-    1586 |                                 dev_info(scomp->dev,
-         |                                               ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   sound/soc/sof/topology.c:1586:33: note: in expansion of macro 'dev_info'
-    1586 |                                 dev_info(scomp->dev,
-         |                                 ^~~~~~~~
-   In file included from include/linux/percpu.h:5,
-                    from include/linux/radix-tree.h:16,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16:
-   sound/soc/sof/topology.c: In function 'snd_sof_load_topology':
-   sound/soc/sof/topology.c:2526:34: error: invalid use of undefined type 'struct snd_soc_card'
-    2526 |         tplg_files = kcalloc(card->num_links, sizeof(char *), GFP_KERNEL);
-         |                                  ^~
-   include/linux/alloc_tag.h:253:16: note: in definition of macro 'alloc_hooks_tag'
-     253 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:1099:49: note: in expansion of macro 'alloc_hooks'
-    1099 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1138:41: note: in expansion of macro 'kmalloc_array'
-    1138 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   sound/soc/sof/topology.c:2526:22: note: in expansion of macro 'kcalloc'
-    2526 |         tplg_files = kcalloc(card->num_links, sizeof(char *), GFP_KERNEL);
-         |                      ^~~~~~~
-   sound/soc/sof/topology.c:2526:34: error: invalid use of undefined type 'struct snd_soc_card'
-    2526 |         tplg_files = kcalloc(card->num_links, sizeof(char *), GFP_KERNEL);
-         |                                  ^~
-   include/linux/alloc_tag.h:257:24: note: in definition of macro 'alloc_hooks_tag'
-     257 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:1099:49: note: in expansion of macro 'alloc_hooks'
-    1099 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1138:41: note: in expansion of macro 'kmalloc_array'
-    1138 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   sound/soc/sof/topology.c:2526:22: note: in expansion of macro 'kcalloc'
-    2526 |         tplg_files = kcalloc(card->num_links, sizeof(char *), GFP_KERNEL);
-         |                      ^~~~~~~
-   sound/soc/sof/topology.c:2526:34: error: invalid use of undefined type 'struct snd_soc_card'
-    2526 |         tplg_files = kcalloc(card->num_links, sizeof(char *), GFP_KERNEL);
-         |                                  ^~
-   include/linux/alloc_tag.h:260:24: note: in definition of macro 'alloc_hooks_tag'
-     260 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:1099:49: note: in expansion of macro 'alloc_hooks'
-    1099 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1138:41: note: in expansion of macro 'kmalloc_array'
-    1138 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   sound/soc/sof/topology.c:2526:22: note: in expansion of macro 'kcalloc'
-    2526 |         tplg_files = kcalloc(card->num_links, sizeof(char *), GFP_KERNEL);
-         |                      ^~~~~~~
-   sound/soc/sof/topology.c:2526:20: error: assignment to 'const char **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2526 |         tplg_files = kcalloc(card->num_links, sizeof(char *), GFP_KERNEL);
-         |                    ^
-   sound/soc/sof/topology.c:2606:68: error: invalid use of undefined type 'struct snd_soc_component'
+>> fs/ext2/file.c:171:14: error: expected ';' after expression
+                           ret = ret2
+                                     ^
+                                     ;
+   1 error generated.
 
 
-vim +610 include/linux/compiler_types.h
+vim +171 fs/ext2/file.c
 
-fd69b2f7d5f4e1 Peter Zijlstra 2026-01-16  608  
-d15155824c5014 Will Deacon    2017-10-24  609  /* Are two types/vars the same type (ignoring qualifiers)? */
-d15155824c5014 Will Deacon    2017-10-24 @610  #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-d15155824c5014 Will Deacon    2017-10-24  611  
-
-:::::: The code at line 610 was first introduced by commit
-:::::: d15155824c5014803d91b829736d249c500bdda6 linux/compiler.h: Split into compiler.h and compiler_types.h
-
-:::::: TO: Will Deacon <will.deacon@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   110	
+   111	static ssize_t ext2_dio_write_iter(struct kiocb *iocb, struct iov_iter *from)
+   112	{
+   113		struct file *file = iocb->ki_filp;
+   114		struct inode *inode = file->f_mapping->host;
+   115		ssize_t ret;
+   116		unsigned int flags = 0;
+   117		unsigned long blocksize = inode->i_sb->s_blocksize;
+   118		loff_t offset = iocb->ki_pos;
+   119		loff_t count = iov_iter_count(from);
+   120		ssize_t status = 0;
+   121	
+   122		trace_ext2_dio_write_begin(iocb, from, 0);
+   123		inode_lock(inode);
+   124		ret = generic_write_checks(iocb, from);
+   125		if (ret <= 0)
+   126			goto out_unlock;
+   127	
+   128		ret = kiocb_modified(iocb);
+   129		if (ret)
+   130			goto out_unlock;
+   131	
+   132		/* use IOMAP_DIO_FORCE_WAIT for unaligned or extending writes */
+   133		if (iocb->ki_pos + iov_iter_count(from) > i_size_read(inode) ||
+   134		   (!IS_ALIGNED(iocb->ki_pos | iov_iter_alignment(from), blocksize)))
+   135			flags |= IOMAP_DIO_FORCE_WAIT;
+   136	
+   137		ret = iomap_dio_rw(iocb, from, &ext2_iomap_ops, &ext2_dio_write_ops,
+   138				   flags, NULL, 0);
+   139	
+   140		/* ENOTBLK is magic return value for fallback to buffered-io */
+   141		if (ret == -ENOTBLK)
+   142			ret = 0;
+   143	
+   144		if (ret < 0 && ret != -EIOCBQUEUED)
+   145			ext2_write_failed(inode->i_mapping, offset + count);
+   146	
+   147		/* handle case for partial write and for fallback to buffered write */
+   148		if (ret >= 0 && iov_iter_count(from)) {
+   149			loff_t pos, endbyte;
+   150			int ret2;
+   151	
+   152			iocb->ki_flags &= ~IOCB_DIRECT;
+   153			pos = iocb->ki_pos;
+   154			status = generic_perform_write(iocb, from);
+   155			if (unlikely(status < 0)) {
+   156				ret = status;
+   157				goto out_unlock;
+   158			}
+   159	
+   160			ret += status;
+   161			endbyte = pos + status - 1;
+   162			ret2 = filemap_write_and_wait_range(inode->i_mapping, pos,
+   163							    endbyte);
+   164			if (!ret2) {
+   165				invalidate_mapping_pages(inode->i_mapping,
+   166							 pos >> PAGE_SHIFT,
+   167							 endbyte >> PAGE_SHIFT);
+   168				if (ret > 0)
+   169					ret = generic_write_sync(iocb, ret);
+   170			} else {
+ > 171				ret = ret2
+   172			}
+   173		}
+   174	
+   175	out_unlock:
+   176		inode_unlock(inode);
+   177		if (status)
+   178			trace_ext2_dio_write_buff_end(iocb, from, status);
+   179		trace_ext2_dio_write_end(iocb, from, ret);
+   180		return ret;
+   181	}
+   182	
 
 --
 0-DAY CI Kernel Test Service
