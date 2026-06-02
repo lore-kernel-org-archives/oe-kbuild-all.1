@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F6638A714
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF2C33D4EC
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jun 2026 16:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780419411; cv=none; b=XYkrEBMX/gFAukiFNbTF3ZYkmb086Nl/gJz94R5FCXAmclEmFVHUf9LWS9vw5TErMqqshhq6UMZyo6Wd2+OYSE2A6z3RSrjGhbjfZIV58+Oo9fBr3NUUuCo9lVuYroK8ppDeRwkcabbIj3taQz/9Sk8Mzep7cBvoHEYYaXmp5AY=
+	t=1780419411; cv=none; b=rOoTS0I9DjPonKT8mkk/HHqChVjIuQ/pg5Fw5lOGhrJmATDw7LbFiHI6U/ilcm81rwC3bd1hWJ3PwBqRyVJ3WoJDM6lJY9QzO4oTCbDjf9BHOYMn9+ndCaCyhNwBR5FBueRkvWNQKp0XhNDuVFqDRRTiJ7XUxTTNP6dsOXdWaNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780419411; c=relaxed/simple;
-	bh=xrS+/EDBZOi+7kITwH/Q5LBGkF3+5R19qwwlzrqMxD8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pwnCVtCefDEsiPR64b+w8JkRTIAUbKsg+22YvSilYd4+cfL2l4FWoEfzYvGC4gFU0oRd4q2RU0VnsSB9PZhLHiRURwKVRbF7FCG8bTYzBVPL5fY9tTsQ2kl3btSs84y/ihtgTq9yOQkku1O298dZFGdOk70yVERme8xKM759VTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLPhG/yq; arc=none smtp.client-ip=192.198.163.9
+	bh=G31+BAmijKzkYxzVzPN77/gkXgW0ieJQR71FsjCSBow=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cA7EQZQ2lrQwsX09VYm182Vn0wcfDDJ3XrOd/eDEbrF2Mq+B8Xvwx1FIxgC3b14WZHuw7j8d0i6Xo1SFpr18BzZqdSu5gHYSo9izojc6uG765DYScCObcbqHZCJE6c3rXo90X4QlDAU4/YAUxUppDB0JgpKiAFT9Gq3syAAWKcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7WQtVuF; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLPhG/yq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7WQtVuF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1780419410; x=1811955410;
   h=date:from:to:cc:subject:message-id;
-  bh=xrS+/EDBZOi+7kITwH/Q5LBGkF3+5R19qwwlzrqMxD8=;
-  b=dLPhG/yqewQTDDPiErl1f7hyEzLCP3aweyek3x6Ga/wW0lTaZhzF4pVa
-   Sv+szA4agYltbbtayYzZSOzi0OjYOggps+kjN50UE+NBPSW9txqkcdr2W
-   9SWw7pVY6gB73K8uygOY1JXHS2e2NAaGtZK6i8sIdYwYZgvDcAAXlOxqx
-   WLUETp9ITkCRCIgxU/8i7/0VoXVFF9nAY1X9z1B3vOagt28KudbNWEWCC
-   rYMcJEB+YRfyLIZ3T1hvDjW0ulzQgva+kvJgqciooVPHjBILuQO5G4KOV
-   G0tH1KzItAe/+mgOsi6umGdRGgS3worPU4Vd6OCxFh2mBGsxT5AAHd6H/
-   w==;
-X-CSE-ConnectionGUID: UmmQUfl9SX+sQA+2jgsmGw==
-X-CSE-MsgGUID: 3UDcH3HZR96to5QoWuq6gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="91898435"
+  bh=G31+BAmijKzkYxzVzPN77/gkXgW0ieJQR71FsjCSBow=;
+  b=W7WQtVuFo0BXJLu+qD5Sa93oo3q5YUV5NY5C9BoZEqfjp3USR7dn1Cwo
+   TA8wl5pa+UFEuz5lZYRCjQGQCFXHlf1vOEjt3duc8o15MTx94Fcc5kJrA
+   HTAXnUrMi7vdZF31yav8fwqa0jC7Iu+/goaNFENTvmbpSOUE/L+AzQqdl
+   50X02HeeZubcBLk+4xKhe9iA/S71nTAudmwHWwUbBsFwOib0e+7XwzlFW
+   kb07BvTQHrVuEAyMURhGQlwMjOfD9ETW7Ee1e316hDLjhHPiqjAnjyVwg
+   pzvLIAoeI2ksgrjxS3xrEau+wNzKQKP9liKlbtk6UTLgP7agVw5zAyo5q
+   A==;
+X-CSE-ConnectionGUID: JRUgi2umS6C07Hpc83dF9w==
+X-CSE-MsgGUID: BWfhXH0RRdenYshOUx/uCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92323853"
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="91898435"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 09:56:47 -0700
-X-CSE-ConnectionGUID: 3U4leaOoSrywnvn/7CHmKg==
-X-CSE-MsgGUID: t0jzBMDCSc25oKvrltFG1w==
+   d="scan'208";a="92323853"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 09:56:49 -0700
+X-CSE-ConnectionGUID: XNwKHaCPRLCFmDM2zlXuIA==
+X-CSE-MsgGUID: lhdESXF5Q7WAUZv3+IWMWw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="247920783"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Jun 2026 09:56:46 -0700
+  by orviesa003.jf.intel.com with ESMTP; 02 Jun 2026 09:56:47 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUSQ0-00000000CJi-07qk;
+	id 1wUSQ0-00000000CJl-2Fe9;
 	Tue, 02 Jun 2026 16:56:44 +0000
-Date: Wed, 03 Jun 2026 00:56:40 +0800
+Date: Wed, 03 Jun 2026 00:56:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- net/netfilter/nft_set_rbtree.c:634:26: warning: variable 'nft_net' set but
- not used
-Message-ID: <202606030013.ZsS4JAKp-lkp@intel.com>
+Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
+ sound/soc/meson/meson-card-utils.c:250:16: warning: unused variable 'j'
+Message-ID: <202606030016.nit7N6KJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,134 +59,360 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Florian,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   99556d6f90332715f214ad982a1ac3abc25f141b
-commit: c80fcb6caa9bfca2486e2b66b54786089f203afc [1/1] netfilter: nft_set_rbtree: prefer sync gc to async worker
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260603/202606030013.ZsS4JAKp-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606030013.ZsS4JAKp-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
+head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
+commit: 9b07c6aa4c11e450c2f7f409b4a47925b85697c0 [290/290] ASoC: soc.h: remove compatible definition
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260603/202606030016.nit7N6KJ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606030016.nit7N6KJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606030013.ZsS4JAKp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606030016.nit7N6KJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from net/netfilter/nft_set_rbtree.c:13:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2174:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> net/netfilter/nft_set_rbtree.c:634:26: warning: variable 'nft_net' set but not used [-Wunused-but-set-variable]
-     634 |         struct nftables_pernet *nft_net;
-         |                                 ^
-   5 warnings generated.
+   sound/soc/meson/meson-card-utils.c: In function 'meson_card_clean_references':
+   sound/soc/meson/meson-card-utils.c:253:17: error: implicit declaration of function 'for_each_card_prelinks'; did you mean 'for_each_card_rtds'? [-Wimplicit-function-declaration]
+     253 |                 for_each_card_prelinks(card, i, link) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 for_each_card_rtds
+   sound/soc/meson/meson-card-utils.c:253:54: error: expected ';' before '{' token
+     253 |                 for_each_card_prelinks(card, i, link) {
+         |                                                      ^~
+         |                                                      ;
+   sound/soc/meson/meson-card-utils.c:262:17: error: implicit declaration of function 'for_each_card_pre_auxs'; did you mean 'for_each_card_auxs'? [-Wimplicit-function-declaration]
+     262 |                 for_each_card_pre_auxs(card, i, aux)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 for_each_card_auxs
+   sound/soc/meson/meson-card-utils.c:262:53: error: expected ';' before 'of_node_put'
+     262 |                 for_each_card_pre_auxs(card, i, aux)
+         |                                                     ^
+         |                                                     ;
+     263 |                         of_node_put(aux->dlc.of_node);
+         |                         ~~~~~~~~~~~                  
+>> sound/soc/meson/meson-card-utils.c:250:16: warning: unused variable 'j' [-Wunused-variable]
+     250 |         int i, j;
+         |                ^
+>> sound/soc/meson/meson-card-utils.c:248:44: warning: unused variable 'codec' [-Wunused-variable]
+     248 |         struct snd_soc_dai_link_component *codec;
+         |                                            ^~~~~
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from sound/soc/meson/meson-card-utils.c:6:
+   sound/soc/meson/meson-card-utils.c: In function 'meson_card_probe':
+   include/linux/init.h:176:21: error: passing argument 2 of 'devm_snd_soc_card_alloc' from incompatible pointer type [-Wincompatible-pointer-types]
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     struct module *
+   sound/soc/meson/meson-card-utils.c:287:51: note: in expansion of macro 'THIS_MODULE'
+     287 |         priv->card = devm_snd_soc_card_alloc(dev, THIS_MODULE, &priv->card_driver,
+         |                                                   ^~~~~~~~~~~
+   In file included from include/sound/soc.h:1265,
+                    from sound/soc/meson/meson-card-utils.c:8:
+   include/sound/soc-card.h:91:74: note: expected 'struct snd_soc_card_driver *' but argument is of type 'struct module *'
+      91 |                                              struct snd_soc_card_driver *driver);
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   sound/soc/meson/meson-card-utils.c:287:22: error: too many arguments to function 'devm_snd_soc_card_alloc'; expected 2, have 6
+     287 |         priv->card = devm_snd_soc_card_alloc(dev, THIS_MODULE, &priv->card_driver,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~
+   include/sound/soc-card.h:90:22: note: declared here
+      90 | struct snd_soc_card *devm_snd_soc_card_alloc(struct device *dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/meson/meson-card-utils.c:297:15: error: implicit declaration of function 'snd_soc_card_of_parse_name'; did you mean 'snd_soc_card_driver_of_parse_name'? [-Wimplicit-function-declaration]
+     297 |         ret = snd_soc_card_of_parse_name(priv->card, "model");
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               snd_soc_card_driver_of_parse_name
+   sound/soc/meson/meson-card-utils.c:302:44: error: 'snd_soc_card_of_parse_audio_routing' undeclared (first use in this function); did you mean 'snd_soc_card_driver_of_parse_audio_routing'?
+     302 |                                            snd_soc_card_of_parse_audio_routing);
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                            snd_soc_card_driver_of_parse_audio_routing
+   sound/soc/meson/meson-card-utils.c:302:44: note: each undeclared identifier is reported only once for each function it appears in
+   sound/soc/meson/meson-card-utils.c:309:44: error: 'snd_soc_card_of_parse_simple_widgets' undeclared (first use in this function); did you mean 'snd_soc_card_driver_of_parse_simple_widgets'?
+     309 |                                            snd_soc_card_of_parse_simple_widgets);
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                            snd_soc_card_driver_of_parse_simple_widgets
+   sound/soc/meson/meson-card-utils.c:319:15: error: implicit declaration of function 'snd_soc_card_of_parse_aux_devs'; did you mean 'snd_soc_card_driver_of_parse_aux_devs'? [-Wimplicit-function-declaration]
+     319 |         ret = snd_soc_card_of_parse_aux_devs(priv->card, "audio-aux-devs");
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               snd_soc_card_driver_of_parse_aux_devs
+--
+   sound/soc/qcom/apq8096.c: In function 'apq8096_add_be_ops':
+   sound/soc/qcom/apq8096.c:97:9: error: implicit declaration of function 'for_each_card_prelinks'; did you mean 'for_each_card_rtds'? [-Wimplicit-function-declaration]
+      97 |         for_each_card_prelinks(card, i, link) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_card_rtds
+   sound/soc/qcom/apq8096.c:97:46: error: expected ';' before '{' token
+      97 |         for_each_card_prelinks(card, i, link) {
+         |                                              ^~
+         |                                              ;
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from sound/soc/qcom/apq8096.c:5:
+   sound/soc/qcom/apq8096.c: In function 'apq8096_platform_probe':
+   include/linux/init.h:176:21: error: passing argument 2 of 'devm_snd_soc_card_alloc' from incompatible pointer type [-Wincompatible-pointer-types]
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     struct module *
+   sound/soc/qcom/apq8096.c:119:45: note: in expansion of macro 'THIS_MODULE'
+     119 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                                             ^~~~~~~~~~~
+   In file included from include/sound/soc.h:1265,
+                    from sound/soc/qcom/apq8096.c:7:
+   include/sound/soc-card.h:91:74: note: expected 'struct snd_soc_card_driver *' but argument is of type 'struct module *'
+      91 |                                              struct snd_soc_card_driver *driver);
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   sound/soc/qcom/apq8096.c:119:16: error: too many arguments to function 'devm_snd_soc_card_alloc'; expected 2, have 6
+     119 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~
+   include/sound/soc-card.h:90:22: note: declared here
+      90 | struct snd_soc_card *devm_snd_soc_card_alloc(struct device *dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/apq8096.c: At top level:
+>> sound/soc/qcom/apq8096.c:67:12: warning: 'apq8096_init' defined but not used [-Wunused-function]
+      67 | static int apq8096_init(struct snd_soc_pcm_runtime *rtd)
+         |            ^~~~~~~~~~~~
+>> sound/soc/qcom/apq8096.c:63:33: warning: 'apq8096_ops' defined but not used [-Wunused-const-variable=]
+      63 | static const struct snd_soc_ops apq8096_ops = {
+         |                                 ^~~~~~~~~~~
+>> sound/soc/qcom/apq8096.c:16:12: warning: 'apq8096_be_hw_params_fixup' defined but not used [-Wunused-function]
+      16 | static int apq8096_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   sound/soc/qcom/sc8280xp.c: In function 'sc8280xp_add_be_ops':
+   sound/soc/qcom/sc8280xp.c:130:9: error: implicit declaration of function 'for_each_card_prelinks'; did you mean 'for_each_card_rtds'? [-Wimplicit-function-declaration]
+     130 |         for_each_card_prelinks(card, i, link) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_card_rtds
+   sound/soc/qcom/sc8280xp.c:130:46: error: expected ';' before '{' token
+     130 |         for_each_card_prelinks(card, i, link) {
+         |                                              ^~
+         |                                              ;
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from sound/soc/qcom/sc8280xp.c:5:
+   sound/soc/qcom/sc8280xp.c: In function 'sc8280xp_platform_probe':
+   include/linux/init.h:176:21: error: passing argument 2 of 'devm_snd_soc_card_alloc' from incompatible pointer type [-Wincompatible-pointer-types]
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     struct module *
+   sound/soc/qcom/sc8280xp.c:156:45: note: in expansion of macro 'THIS_MODULE'
+     156 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                                             ^~~~~~~~~~~
+   In file included from include/sound/soc.h:1265,
+                    from sound/soc/qcom/sc8280xp.c:7:
+   include/sound/soc-card.h:91:74: note: expected 'struct snd_soc_card_driver *' but argument is of type 'struct module *'
+      91 |                                              struct snd_soc_card_driver *driver);
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   sound/soc/qcom/sc8280xp.c:156:16: error: too many arguments to function 'devm_snd_soc_card_alloc'; expected 2, have 6
+     156 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~
+   include/sound/soc-card.h:90:22: note: declared here
+      90 | struct snd_soc_card *devm_snd_soc_card_alloc(struct device *dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/sc8280xp.c: At top level:
+>> sound/soc/qcom/sc8280xp.c:118:33: warning: 'sc8280xp_be_ops' defined but not used [-Wunused-const-variable=]
+     118 | static const struct snd_soc_ops sc8280xp_be_ops = {
+         |                                 ^~~~~~~~~~~~~~~
+>> sound/soc/qcom/sc8280xp.c:71:12: warning: 'sc8280xp_be_hw_params_fixup' defined but not used [-Wunused-function]
+      71 | static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/qcom/sc8280xp.c:26:12: warning: 'sc8280xp_snd_init' defined but not used [-Wunused-function]
+      26 | static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+         |            ^~~~~~~~~~~~~~~~~
+--
+   sound/soc/qcom/sdm845.c: In function 'sdm845_add_ops':
+   sound/soc/qcom/sdm845.c:542:9: error: implicit declaration of function 'for_each_card_prelinks'; did you mean 'for_each_card_rtds'? [-Wimplicit-function-declaration]
+     542 |         for_each_card_prelinks(card, i, link) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_card_rtds
+   sound/soc/qcom/sdm845.c:542:46: error: expected ';' before '{' token
+     542 |         for_each_card_prelinks(card, i, link) {
+         |                                              ^~
+         |                                              ;
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from sound/soc/qcom/sdm845.c:7:
+   sound/soc/qcom/sdm845.c: In function 'sdm845_snd_platform_probe':
+   include/linux/init.h:176:21: error: passing argument 2 of 'devm_snd_soc_card_alloc' from incompatible pointer type [-Wincompatible-pointer-types]
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     struct module *
+   sound/soc/qcom/sdm845.c:574:45: note: in expansion of macro 'THIS_MODULE'
+     574 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                                             ^~~~~~~~~~~
+   In file included from include/sound/soc.h:1265,
+                    from sound/soc/qcom/sdm845.c:13:
+   include/sound/soc-card.h:91:74: note: expected 'struct snd_soc_card_driver *' but argument is of type 'struct module *'
+      91 |                                              struct snd_soc_card_driver *driver);
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   sound/soc/qcom/sdm845.c:574:16: error: too many arguments to function 'devm_snd_soc_card_alloc'; expected 2, have 6
+     574 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~
+   include/sound/soc-card.h:90:22: note: declared here
+      90 | struct snd_soc_card *devm_snd_soc_card_alloc(struct device *dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/sdm845.c: At top level:
+>> sound/soc/qcom/sdm845.c:508:12: warning: 'sdm845_be_hw_params_fixup' defined but not used [-Wunused-function]
+     508 | static int sdm845_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/qcom/sdm845.c:500:33: warning: 'sdm845_be_ops' defined but not used [-Wunused-const-variable=]
+     500 | static const struct snd_soc_ops sdm845_be_ops = {
+         |                                 ^~~~~~~~~~~~~
+>> sound/soc/qcom/sdm845.c:236:12: warning: 'sdm845_dai_init' defined but not used [-Wunused-function]
+     236 | static int sdm845_dai_init(struct snd_soc_pcm_runtime *rtd)
+         |            ^~~~~~~~~~~~~~~
+--
+   sound/soc/qcom/sm8250.c: In function 'sm8250_add_be_ops':
+   sound/soc/qcom/sm8250.c:152:9: error: implicit declaration of function 'for_each_card_prelinks'; did you mean 'for_each_card_rtds'? [-Wimplicit-function-declaration]
+     152 |         for_each_card_prelinks(card, i, link) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_card_rtds
+   sound/soc/qcom/sm8250.c:152:46: error: expected ';' before '{' token
+     152 |         for_each_card_prelinks(card, i, link) {
+         |                                              ^~
+         |                                              ;
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from sound/soc/qcom/sm8250.c:5:
+   sound/soc/qcom/sm8250.c: In function 'sm8250_platform_probe':
+   include/linux/init.h:176:21: error: passing argument 2 of 'devm_snd_soc_card_alloc' from incompatible pointer type [-Wincompatible-pointer-types]
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     struct module *
+   sound/soc/qcom/sm8250.c:179:45: note: in expansion of macro 'THIS_MODULE'
+     179 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                                             ^~~~~~~~~~~
+   In file included from include/sound/soc.h:1265,
+                    from sound/soc/qcom/sm8250.c:7:
+   include/sound/soc-card.h:91:74: note: expected 'struct snd_soc_card_driver *' but argument is of type 'struct module *'
+      91 |                                              struct snd_soc_card_driver *driver);
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   sound/soc/qcom/sm8250.c:179:16: error: too many arguments to function 'devm_snd_soc_card_alloc'; expected 2, have 6
+     179 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~
+   include/sound/soc-card.h:90:22: note: declared here
+      90 | struct snd_soc_card *devm_snd_soc_card_alloc(struct device *dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/sm8250.c:190:13: error: 'struct snd_soc_card' has no member named 'driver_name'
+     190 |         card->driver_name = of_device_get_match_data(dev);
+         |             ^~
+   sound/soc/qcom/sm8250.c: At top level:
+>> sound/soc/qcom/sm8250.c:140:33: warning: 'sm8250_be_ops' defined but not used [-Wunused-const-variable=]
+     140 | static const struct snd_soc_ops sm8250_be_ops = {
+         |                                 ^~~~~~~~~~~~~
+>> sound/soc/qcom/sm8250.c:58:12: warning: 'sm8250_be_hw_params_fixup' defined but not used [-Wunused-function]
+      58 | static int sm8250_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/qcom/sm8250.c:47:13: warning: 'sm8250_snd_exit' defined but not used [-Wunused-function]
+      47 | static void sm8250_snd_exit(struct snd_soc_pcm_runtime *rtd)
+         |             ^~~~~~~~~~~~~~~
+>> sound/soc/qcom/sm8250.c:31:12: warning: 'sm8250_snd_init' defined but not used [-Wunused-function]
+      31 | static int sm8250_snd_init(struct snd_soc_pcm_runtime *rtd)
+         |            ^~~~~~~~~~~~~~~
+--
+   sound/soc/qcom/x1e80100.c: In function 'x1e80100_add_be_ops':
+   sound/soc/qcom/x1e80100.c:176:9: error: implicit declaration of function 'for_each_card_prelinks'; did you mean 'for_each_card_rtds'? [-Wimplicit-function-declaration]
+     176 |         for_each_card_prelinks(card, i, link) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_card_rtds
+   sound/soc/qcom/x1e80100.c:176:46: error: expected ';' before '{' token
+     176 |         for_each_card_prelinks(card, i, link) {
+         |                                              ^~
+         |                                              ;
+   In file included from arch/parisc/include/asm/alternative.h:18,
+                    from arch/parisc/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from sound/soc/qcom/x1e80100.c:5:
+   sound/soc/qcom/x1e80100.c: In function 'x1e80100_platform_probe':
+   include/linux/init.h:176:21: error: passing argument 2 of 'devm_snd_soc_card_alloc' from incompatible pointer type [-Wincompatible-pointer-types]
+     176 | #define THIS_MODULE ((struct module *)0)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     struct module *
+   sound/soc/qcom/x1e80100.c:201:45: note: in expansion of macro 'THIS_MODULE'
+     201 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                                             ^~~~~~~~~~~
+   In file included from include/sound/soc.h:1265,
+                    from sound/soc/qcom/x1e80100.c:10:
+   include/sound/soc-card.h:91:74: note: expected 'struct snd_soc_card_driver *' but argument is of type 'struct module *'
+      91 |                                              struct snd_soc_card_driver *driver);
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   sound/soc/qcom/x1e80100.c:201:16: error: too many arguments to function 'devm_snd_soc_card_alloc'; expected 2, have 6
+     201 |         card = devm_snd_soc_card_alloc(dev, THIS_MODULE, card_driver,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~
+   include/sound/soc-card.h:90:22: note: declared here
+      90 | struct snd_soc_card *devm_snd_soc_card_alloc(struct device *dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/x1e80100.c:213:13: error: 'struct snd_soc_card' has no member named 'driver_name'
+     213 |         card->driver_name = of_device_get_match_data(dev);
+         |             ^~
+   sound/soc/qcom/x1e80100.c: At top level:
+>> sound/soc/qcom/x1e80100.c:164:33: warning: 'x1e80100_be_ops' defined but not used [-Wunused-const-variable=]
+     164 | static const struct snd_soc_ops x1e80100_be_ops = {
+         |                                 ^~~~~~~~~~~~~~~
+>> sound/soc/qcom/x1e80100.c:72:12: warning: 'x1e80100_be_hw_params_fixup' defined but not used [-Wunused-function]
+      72 | static int x1e80100_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/qcom/x1e80100.c:26:12: warning: 'x1e80100_snd_init' defined but not used [-Wunused-function]
+      26 | static int x1e80100_snd_init(struct snd_soc_pcm_runtime *rtd)
+         |            ^~~~~~~~~~~~~~~~~
+..
 
 
-vim +/nft_net +634 net/netfilter/nft_set_rbtree.c
+vim +/j +250 sound/soc/meson/meson-card-utils.c
 
-c80fcb6caa9bfc Florian Westphal  2023-10-13  629  
-c80fcb6caa9bfc Florian Westphal  2023-10-13  630  static void nft_rbtree_gc(struct nft_set *set)
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  631  {
-c80fcb6caa9bfc Florian Westphal  2023-10-13  632  	struct nft_rbtree *priv = nft_set_priv(set);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  633  	struct nft_rbtree_elem *rbe, *rbe_end = NULL;
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09 @634  	struct nftables_pernet *nft_net;
-c80fcb6caa9bfc Florian Westphal  2023-10-13  635  	struct rb_node *node, *next;
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  636  	struct nft_trans_gc *gc;
-5d235d6ce75c12 Pablo Neira Ayuso 2023-01-14  637  	struct net *net;
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  638  
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  639  	set  = nft_set_container_of(priv);
-5d235d6ce75c12 Pablo Neira Ayuso 2023-01-14  640  	net  = read_pnet(&set->net);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  641  	nft_net = nft_pernet(net);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  642  
-c80fcb6caa9bfc Florian Westphal  2023-10-13  643  	gc = nft_trans_gc_alloc(set, 0, GFP_KERNEL);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  644  	if (!gc)
-c80fcb6caa9bfc Florian Westphal  2023-10-13  645  		return;
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  646  
-c80fcb6caa9bfc Florian Westphal  2023-10-13  647  	for (node = rb_first(&priv->root); node ; node = next) {
-c80fcb6caa9bfc Florian Westphal  2023-10-13  648  		next = rb_next(node);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  649  
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  650  		rbe = rb_entry(node, struct nft_rbtree_elem, node);
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  651  
-5d235d6ce75c12 Pablo Neira Ayuso 2023-01-14  652  		/* elements are reversed in the rbtree for historical reasons,
-5d235d6ce75c12 Pablo Neira Ayuso 2023-01-14  653  		 * from highest to lowest value, that is why end element is
-5d235d6ce75c12 Pablo Neira Ayuso 2023-01-14  654  		 * always visited before the start element.
-5d235d6ce75c12 Pablo Neira Ayuso 2023-01-14  655  		 */
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  656  		if (nft_rbtree_interval_end(rbe)) {
-a13f814a67b12a Taehee Yoo        2018-08-30  657  			rbe_end = rbe;
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  658  			continue;
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  659  		}
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  660  		if (!nft_set_elem_expired(&rbe->ext))
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  661  			continue;
-5d235d6ce75c12 Pablo Neira Ayuso 2023-01-14  662  
-c80fcb6caa9bfc Florian Westphal  2023-10-13  663  		gc = nft_trans_gc_queue_sync(gc, GFP_KERNEL);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  664  		if (!gc)
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  665  			goto try_later;
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  666  
-c80fcb6caa9bfc Florian Westphal  2023-10-13  667  		/* end element needs to be removed first, it has
-c80fcb6caa9bfc Florian Westphal  2023-10-13  668  		 * no timeout extension.
-c80fcb6caa9bfc Florian Westphal  2023-10-13  669  		 */
-c80fcb6caa9bfc Florian Westphal  2023-10-13  670  		if (rbe_end) {
-c80fcb6caa9bfc Florian Westphal  2023-10-13  671  			nft_rbtree_gc_remove(net, set, priv, rbe_end);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  672  			nft_trans_gc_elem_add(gc, rbe_end);
-a13f814a67b12a Taehee Yoo        2018-08-30  673  			rbe_end = NULL;
-c80fcb6caa9bfc Florian Westphal  2023-10-13  674  		}
-c80fcb6caa9bfc Florian Westphal  2023-10-13  675  
-c80fcb6caa9bfc Florian Westphal  2023-10-13  676  		gc = nft_trans_gc_queue_sync(gc, GFP_KERNEL);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  677  		if (!gc)
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  678  			goto try_later;
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  679  
-c80fcb6caa9bfc Florian Westphal  2023-10-13  680  		nft_rbtree_gc_remove(net, set, priv, rbe);
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  681  		nft_trans_gc_elem_add(gc, rbe);
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  682  	}
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  683  
-f6c383b8c31a93 Pablo Neira Ayuso 2023-08-09  684  try_later:
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  685  
-c80fcb6caa9bfc Florian Westphal  2023-10-13  686  	if (gc) {
-c80fcb6caa9bfc Florian Westphal  2023-10-13  687  		gc = nft_trans_gc_catchall_sync(gc);
-c80fcb6caa9bfc Florian Westphal  2023-10-13  688  		nft_trans_gc_queue_sync_done(gc);
-c80fcb6caa9bfc Florian Westphal  2023-10-13  689  		priv->last_gc = jiffies;
-c80fcb6caa9bfc Florian Westphal  2023-10-13  690  	}
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  691  }
-8d8540c4f5e03d Pablo Neira Ayuso 2018-05-16  692  
+aa9c3b7273a58b Jerome Brunet     2020-02-13  242  
+aa9c3b7273a58b Jerome Brunet     2020-02-13  243  static void meson_card_clean_references(struct meson_card *priv)
+aa9c3b7273a58b Jerome Brunet     2020-02-13  244  {
+ba5577652c6a70 Kuninori Morimoto 2026-05-20  245  	struct snd_soc_card *card = priv->card;
+ba5577652c6a70 Kuninori Morimoto 2026-05-20  246  	struct snd_soc_card_driver *card_driver = snd_soc_card_to_driver(card);
+aa9c3b7273a58b Jerome Brunet     2020-02-13  247  	struct snd_soc_dai_link *link;
+aa9c3b7273a58b Jerome Brunet     2020-02-13 @248  	struct snd_soc_dai_link_component *codec;
+aa9c3b7273a58b Jerome Brunet     2020-02-13  249  	struct snd_soc_aux_dev *aux;
+aa9c3b7273a58b Jerome Brunet     2020-02-13 @250  	int i, j;
+aa9c3b7273a58b Jerome Brunet     2020-02-13  251  
+ba5577652c6a70 Kuninori Morimoto 2026-05-20  252  	if (card_driver->dai_link) {
+aa9c3b7273a58b Jerome Brunet     2020-02-13  253  		for_each_card_prelinks(card, i, link) {
+aa9c3b7273a58b Jerome Brunet     2020-02-13  254  			if (link->cpus)
+aa9c3b7273a58b Jerome Brunet     2020-02-13  255  				of_node_put(link->cpus->of_node);
+aa9c3b7273a58b Jerome Brunet     2020-02-13  256  			for_each_link_codecs(link, j, codec)
+aa9c3b7273a58b Jerome Brunet     2020-02-13  257  				of_node_put(codec->of_node);
+aa9c3b7273a58b Jerome Brunet     2020-02-13  258  		}
+aa9c3b7273a58b Jerome Brunet     2020-02-13  259  	}
+aa9c3b7273a58b Jerome Brunet     2020-02-13  260  
+ba5577652c6a70 Kuninori Morimoto 2026-05-20  261  	if (card_driver->aux_dev) {
+aa9c3b7273a58b Jerome Brunet     2020-02-13  262  		for_each_card_pre_auxs(card, i, aux)
+aa9c3b7273a58b Jerome Brunet     2020-02-13  263  			of_node_put(aux->dlc.of_node);
+aa9c3b7273a58b Jerome Brunet     2020-02-13  264  	}
+aa9c3b7273a58b Jerome Brunet     2020-02-13  265  
+ba5577652c6a70 Kuninori Morimoto 2026-05-20  266  	kfree(card_driver->dai_link);
+aa9c3b7273a58b Jerome Brunet     2020-02-13  267  	kfree(priv->link_data);
+aa9c3b7273a58b Jerome Brunet     2020-02-13  268  }
+aa9c3b7273a58b Jerome Brunet     2020-02-13  269  
 
-:::::: The code at line 634 was first introduced by commit
-:::::: f6c383b8c31a93752a52697f8430a71dcbc46adf netfilter: nf_tables: adapt set backend to use GC transaction API
+:::::: The code at line 250 was first introduced by commit
+:::::: aa9c3b7273a58b5d9b2c1161b76b5fc8ea8c159b ASoC: meson: axg: extract sound card utils
 
-:::::: TO: Pablo Neira Ayuso <pablo@netfilter.org>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+:::::: TO: Jerome Brunet <jbrunet@baylibre.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
