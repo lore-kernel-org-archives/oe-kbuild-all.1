@@ -1,175 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C922BD00C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 13:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F600481653;
+	Wed,  3 Jun 2026 13:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780492846; cv=none; b=EsR2PGQdcprsJmX0hNXNRyDr21eEpFErjZSaH9Ipo9BRIaFsSwVhtgSjIPcV5D/uLMWSJzEYq3SIq4QB6SfSqasYN4cXPETOO/E0L6fcIeGUYKlb8FK/kOKGN2XKY2nNOwIc+oSoTopN6rcOsedwZ/03tgGvM8cgs8rc1EnIRQU=
+	t=1780492847; cv=none; b=lCr4+GHQxFqH/diysu5m7wg1/oS3i/Oi3U2BPA9bLjDLsYRJerPlx1C2hdwD3ayUMjLF+wR2BYh2eqisvzKWhsNfA+rFsLXqm8iNQtvc/3aWK+hs15z2ZpMxwsdUX0+Hee6jEpcp/TsdRdmM1Y70DHD6wF8+xzYSYUFn9D3phm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780492846; c=relaxed/simple;
-	bh=H2D3DsKMJCLENkE7pbhgaFA9ecmOaFqrZUFkLfrN59c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oOXBfHVWOjDen/wloJvR6UV9hYYtn9yhCd5O7CsFtsnAFMT8GzDKNiEhkgX/YV+fbLZdSejZ4UQ8S1dL1jzNPo9A6Mo9xZri3zY5J1xorXiE6CWu2PdrXzKgard0izpDIqdhU4VHuHWJoHRw0nnV9GOcGOP5M+8yY9aC+xOwuKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNZ9f9kK; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1780492847; c=relaxed/simple;
+	bh=LS+4rNfxK7i9K5lzOlbHkJotT8jcURP1SRsKf+Hoakg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eXcjulMUDGr9QyGAeYOzzsz7yes0KJsCx3bf7qTUDrAoENf/y8uhY0hSllX7x7O2EpFV1YHkWeSy8JsjgCRHwuujpubT00CFeuqFDxZzYS06Z6t0TSQs9j3ZNP5xZVN/A4edICku4tojh+D9ZTN08f7nCZ18kFvz4dRnFbABtEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NM1ebNH4; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNZ9f9kK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NM1ebNH4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780492846; x=1812028846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H2D3DsKMJCLENkE7pbhgaFA9ecmOaFqrZUFkLfrN59c=;
-  b=BNZ9f9kKDy3MCCWaO3tZRmwETxxedoDm8WGHBhb2v2vlkk5AelYIZdtC
-   9/gooo1/tf6ZLEjtSJHf3upPMB2Kmf4GEFshg1umlsy0Bhk6cyrFXpvVs
-   odqQEBRJie+aS3qsmImyK6zr+HeBprLsu8dr48+IR0pnwKAejXKbnzGnU
-   vq8PcTyLD8Xl3y5HiESgdsUb7EC6rADobc2RJLknOSpotPuOh5sg2WQvB
-   AO2W9GUct/Ml5mhgjIzQ7IcRpuJM0U94B9Uq0UDEKhbPqpgvsOFVbyXTm
-   WhFplw+Ii5y1f/+v54eogCrfD8wBjiZmk02y/wWokIcPvWzdaTqmc/uRU
+  t=1780492845; x=1812028845;
+  h=date:from:to:cc:subject:message-id;
+  bh=LS+4rNfxK7i9K5lzOlbHkJotT8jcURP1SRsKf+Hoakg=;
+  b=NM1ebNH4ausPTDrMAvl8XIWoVN2WVI5xP8PXrFHGIrmbmhqZeIpiUsxP
+   73WNhBT39E4flB5SlZaMJYF/OJBMewiFBX1+qdFUElroDkFrvuyj0XUrg
+   tbA2xz+59JxDMFB8/H9xj7IOWB03nezKttHBJVh+Y861qrplzpPWycubw
+   JNjga2N1s+rH4KKBYcZDRaOcwlCnP2auESwjR1c1BwCmJxVwwCGb0sJnf
+   Pd4IsTuJZ57UH3WesoI2XXz2jNTKBc4Osc36JWYneTaKWxXDYsJraQO0C
+   3oo1HbrI66DV/gtlu837xiju0TTTxwHThkHqn7+jCNOc811/4k4DQTjuM
    w==;
-X-CSE-ConnectionGUID: wNnlUmnXSIKnmpxBdK3jTg==
-X-CSE-MsgGUID: hh28yM7ISJuc5/NDWeVOww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="80336208"
+X-CSE-ConnectionGUID: 3Zct8392TtKqquulgVPswA==
+X-CSE-MsgGUID: zS3tLWCkSeecHEcN0SJTIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81428421"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="80336208"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 06:20:45 -0700
-X-CSE-ConnectionGUID: Ebk5Hf5QTWK1EMkeaBwsBA==
-X-CSE-MsgGUID: Q9LWzdFPTaqwCb2KRD1JNw==
+   d="scan'208";a="81428421"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 06:20:44 -0700
+X-CSE-ConnectionGUID: zaP3vnPDTCO4rXoTblD7Ug==
+X-CSE-MsgGUID: kY2rFTsIRNeIW8YYrp8TwA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
+   d="scan'208";a="241741619"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Jun 2026 06:20:43 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 03 Jun 2026 06:20:43 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUlWT-00000000241-186f;
+	id 1wUlWT-00000000243-1JPf;
 	Wed, 03 Jun 2026 13:20:41 +0000
-Date: Wed, 3 Jun 2026 15:20:39 +0200
+Date: Wed, 03 Jun 2026 15:20:40 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jason Huang <Jason.Huang2@infineon.com>, linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, wlan-kernel-dev-list@infineon.com,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Kurt Lee <kurt.lee@cypress.com>,
-	Jason Huang <jason.huang2@infineon.com>
-Subject: Re: [PATCH] wifi: brcmfmac: add DPP support and fix
- fw-supplicant/P2P interop
-Message-ID: <202606031541.hOnf0Qnq-lkp@intel.com>
-References: <20260603035722.145894-1-Jason.Huang2@infineon.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:more.configfs 30/33] Warning:
+ fs/configfs/dir.c:260 function parameter 'parent_sd' not described in
+ 'configfs_create_dir'
+Message-ID: <202606031516.cGG744n7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603035722.145894-1-Jason.Huang2@infineon.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v7.1-rc6 next-20260602]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Huang/wifi-brcmfmac-add-DPP-support-and-fix-fw-supplicant-P2P-interop/20260603-115824
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20260603035722.145894-1-Jason.Huang2%40infineon.com
-patch subject: [PATCH] wifi: brcmfmac: add DPP support and fix fw-supplicant/P2P interop
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260603/202606031541.hOnf0Qnq-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031541.hOnf0Qnq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git more.configfs
+head:   53a9faf145785b0b12ec71f2204f3b3011dbda5e
+commit: 2bbdcd7eabfcd3a5bd2614ab75ece19323d5f4c2 [30/33] configfs: attach the subtree only when it's completely built
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260603/202606031516.cGG744n7-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031516.cGG744n7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606031541.hOnf0Qnq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606031516.cGG744n7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c: In function 'brcmf_p2p_tx_action_frame':
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c:1593:13: warning: variable 'action_frame_len' set but not used [-Wunused-but-set-variable]
-    1593 |         u16 action_frame_len;
-         |             ^~~~~~~~~~~~~~~~
-
-
-vim +/action_frame_len +1593 drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
-
-  1570	
-  1571	
-  1572	/**
-  1573	 * brcmf_p2p_tx_action_frame() - send action frame over fil.
-  1574	 *
-  1575	 * @ifp: interface to transmit on.
-  1576	 * @p2p: p2p info struct for vif.
-  1577	 * @af_params: action frame data/info.
-  1578	 * @vif: vif to send
-  1579	 *
-  1580	 * Send an action frame immediately without doing channel synchronization.
-  1581	 *
-  1582	 * This function waits for a completion event before returning.
-  1583	 * The WLC_E_ACTION_FRAME_COMPLETE event will be received when the action
-  1584	 * frame is transmitted.
-  1585	 */
-  1586	static s32 brcmf_p2p_tx_action_frame(struct brcmf_if *ifp,
-  1587					     struct brcmf_p2p_info *p2p,
-  1588					     struct brcmf_fil_af_params_le *af_params)
-  1589	{
-  1590		struct brcmf_pub *drvr = p2p->cfg->pub;
-  1591		s32 err = 0;
-  1592		struct brcmf_fil_action_frame_le *action_frame;
-> 1593		u16 action_frame_len;
-  1594	
-  1595		action_frame = &af_params->action_frame;
-  1596		action_frame_len = le16_to_cpu(action_frame->len);
-  1597	
-  1598		brcmf_dbg(TRACE, "Enter\n");
-  1599	
-  1600		reinit_completion(&p2p->send_af_done);
-  1601		clear_bit(BRCMF_P2P_STATUS_ACTION_TX_COMPLETED, &p2p->status);
-  1602		clear_bit(BRCMF_P2P_STATUS_ACTION_TX_NOACK, &p2p->status);
-  1603	
-  1604		err = brcmf_fil_bsscfg_data_set(ifp, "actframe", af_params,
-  1605						sizeof(*af_params));
-  1606		if (err) {
-  1607			bphy_err(drvr, " sending action frame has failed\n");
-  1608			goto exit;
-  1609		}
-  1610	
-  1611		p2p->af_sent_channel = le32_to_cpu(af_params->channel);
-  1612		p2p->af_tx_sent_jiffies = jiffies;
-  1613	
-  1614		if (test_bit(BRCMF_P2P_STATUS_DISCOVER_LISTEN, &p2p->status) &&
-  1615		    p2p->af_sent_channel ==
-  1616		    ieee80211_frequency_to_channel(p2p->remain_on_channel.center_freq))
-  1617			p2p->wait_for_offchan_complete = false;
-  1618		else
-  1619			p2p->wait_for_offchan_complete = true;
-  1620	
-  1621		brcmf_dbg(TRACE, "Waiting for %s tx completion event\n",
-  1622			  (p2p->wait_for_offchan_complete) ?
-  1623			   "off-channel" : "on-channel");
-  1624	
-  1625		wait_for_completion_timeout(&p2p->send_af_done, P2P_AF_MAX_WAIT_TIME);
-  1626	
-  1627		if (test_bit(BRCMF_P2P_STATUS_ACTION_TX_COMPLETED, &p2p->status)) {
-  1628			brcmf_dbg(TRACE, "TX action frame operation is success\n");
-  1629		} else {
-  1630			err = -EIO;
-  1631			brcmf_dbg(TRACE, "TX action frame operation has failed\n");
-  1632		}
-  1633		/* clear status bit for action tx */
-  1634		clear_bit(BRCMF_P2P_STATUS_ACTION_TX_COMPLETED, &p2p->status);
-  1635		clear_bit(BRCMF_P2P_STATUS_ACTION_TX_NOACK, &p2p->status);
-  1636	
-  1637	exit:
-  1638		return err;
-  1639	}
-  1640	
+>> Warning: fs/configfs/dir.c:260 function parameter 'parent_sd' not described in 'configfs_create_dir'
+>> Warning: fs/configfs/dir.c:260 function parameter 'parent_sd' not described in 'configfs_create_dir'
 
 --
 0-DAY CI Kernel Test Service
