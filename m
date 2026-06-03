@@ -1,199 +1,224 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F493D6465
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 14:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75E2383C65
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 14:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780497770; cv=none; b=GHObBaoMqYqSuZkcxVF7hCrA8u06hPy8R3IsTs8QRt9Wx/nu1THwfHzsnJpUOM+KrWPlYJFpSr886NkaXhrKgCjKOfBit45kYdvd8mk9SL07WEaFTntrd+dVtXqGvk0CU2cL9kPlMKuWgkseSw4WVXKcJVWHLclqtaELJ47FtEY=
+	t=1780498414; cv=none; b=kTlCybtP33+vhlo3LkMbZdSa4WO3Gf/RvvCgU+PtCQ1PHx66NPbIBeVfc8Bt8Fhu6hg9kQ+IrJQPeX520awrQEKcMXcu/jwhGaUaVYKxgIhiBIIkvd3uCFdgH6d81vjfbUm2ancoLeJENdYLoWSW8ilYhbZoMb721JbFee7QyCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780497770; c=relaxed/simple;
-	bh=40/rz+Svj780MEv17S5hrRUI2Sow5Qt10VDlFQAoZw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YXCXaYn1cW6lkqPxQMorb8Gfe9nrDOqWxPK35sLaYob2lc4pIQkD8eBjkwcXQmIV/U91Q3otaoULfrhyOjl5aIg4CLilOLkrBjq6kn8uk+XMNc+0pHsrHYwMqpW9kPWcQJR8WzSRkOgoESSaYImEVcABhs6I1RkH9xjh2zuVYcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ikKq+7EJ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1780498414; c=relaxed/simple;
+	bh=NAQyyqDLWB/DYAdZzZgG1em95oLBKDGd5SrDTm54glw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=l/4JU025Sf352xZvs2KDVh6bKAMd4awl14xLc1a532nTbcxe3/rTjeYI9Ha2gBdqx2IKyrVsNdv2BMwDEAJbwC8PqoNSeX8e+ysMHENF7RerpkgSlcjccRXCCv36p6M/zaZ3K0kq6SUeQBFUVZ1Ace0Xxj5oTsXBTuar7U9l7Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B80wBJ+F; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikKq+7EJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B80wBJ+F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780497769; x=1812033769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=40/rz+Svj780MEv17S5hrRUI2Sow5Qt10VDlFQAoZw0=;
-  b=ikKq+7EJOMZO8jqwd5J1lqCBknkr32M72yFBsR49q4yq2+XsxYYhJI68
-   EQ7Lqdmp1YOlOmbG+feafyCieBnRYp9Lc8oKYO7d4uf/xTCpJH3mZKdol
-   ur5bbf8FKQpYW4N/nXtXEbqkxv8nLWjIrUDhZ4Wqqdclk7jydE/OC1+GR
-   HJtEeb8X/FTm+9KbpoAmy9HGs7B8e7zmgCSs1OcXbtCaRoLvKsbfCyOmd
-   gVkzi13XQxImYfxEYDz9K59ekbrAcjo2+oWkpH/Xi8ZP3t8euEcgGspHE
-   LLNFdvWNp+Zw8RmIwQ1H8qQXpLl8WXzZ3wCicf3P5ci77+/Z1ZzwQDnw8
-   w==;
-X-CSE-ConnectionGUID: jHYWz8Y0SHO84cyNi74OpQ==
-X-CSE-MsgGUID: aX39SFYQRoqhX6BBa2kcXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="91624816"
+  t=1780498413; x=1812034413;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NAQyyqDLWB/DYAdZzZgG1em95oLBKDGd5SrDTm54glw=;
+  b=B80wBJ+FlglQopZUWwpVNoBjH/PFDKXNTIjIHWx5tIsulktoA4brOw8r
+   wz+0LTSaGoldH6jBwmjr8QCrN5tGZgVbBO8rRYB7PAeCCe8qyXCAXD+u8
+   A1hUt79mJyZsWOrdw1NuyiEB8KFGbqKZ8RgatIFQ5aYDQpPNXbH1g03Ec
+   Iod7e/5AtEsSIBvw0GCFIDgo0E0aMwurJVcvE62XJrGsoteeQnDdnBJE0
+   BXM3fhHCqn/mDMn36FIkWBckq15LjyXGqCztxYoPbTdCp4bZ6aswMIAef
+   dxgUSSiKieSIZHmwGOo19haUWAG47jIMmZIokGLXkKxf/jA27gyeAXehK
+   Q==;
+X-CSE-ConnectionGUID: daJPo7qzTCGNBTNngJFECQ==
+X-CSE-MsgGUID: iJfQw5AsTCaBK9EHpINX3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="85200328"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="91624816"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:42:47 -0700
-X-CSE-ConnectionGUID: 8mMfWrHTSlSjR3rNteAd1g==
-X-CSE-MsgGUID: Ub0+VjfkRBOJVLDPy16mcw==
+   d="scan'208";a="85200328"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:53:32 -0700
+X-CSE-ConnectionGUID: xQK2MlJbQeSB9voAf/xmoQ==
+X-CSE-MsgGUID: yEb9mTCNSUmzkmvAQvhGPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="246082245"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Jun 2026 07:42:44 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="237916565"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jun 2026 07:53:30 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUmnp-0000000024j-3mvP;
-	Wed, 03 Jun 2026 14:42:41 +0000
-Date: Wed, 3 Jun 2026 16:41:55 +0200
+	id 1wUmyG-00000000DY0-0TfG;
+	Wed, 03 Jun 2026 14:53:28 +0000
+Date: Wed, 03 Jun 2026 22:52:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: JB Tsai <jb.tsai@mediatek.com>, nbd@nbd.name, lorenzo@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, Deren.Wu@mediatek.com,
-	Sean.Wang@mediatek.com, Quan.Zhou@mediatek.com,
-	Ryder.Lee@mediatek.com, Leon.Yen@mediatek.com,
-	litien.chang@mediatek.com, Charlie-cy.Wu@mediatek.com,
-	jb.tsai@mediatek.com
-Subject: Re: [PATCH] wifi: mt76: mt7925: add regulatory wiphy self manager
- support
-Message-ID: <202606031619.GjGn8yRe-lkp@intel.com>
-References: <20260603075331.1234691-1-jb.tsai@mediatek.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@kernel.org>
+Subject: [tglx-devel:irq/constify 8/8]
+ arch/powerpc/sysdev/xive/common.c:1350:26: warning: passing argument 1 of
+ 'is_xive_irq' discards 'const' qualifier from pointer target type
+Message-ID: <202606032249.P3LdHXZd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603075331.1234691-1-jb.tsai@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi JB,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/=
+constify
+head:   2e8b4859e87ef8229ab12228b5e484171084a127
+commit: 2e8b4859e87ef8229ab12228b5e484171084a127 [8/8] genirq/chip: Constif=
+y the 'chip' field in irq_data
+config: powerpc64-randconfig-r073-20260603 (https://download.01.org/0day-ci=
+/archive/20260603/202606032249.P3LdHXZd-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260603/202606032249.P3LdHXZd-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v7.1-rc6 next-20260602]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/JB-Tsai/wifi-mt76-mt7925-add-regulatory-wiphy-self-manager-support/20260603-155908
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20260603075331.1234691-1-jb.tsai%40mediatek.com
-patch subject: [PATCH] wifi: mt76: mt7925: add regulatory wiphy self manager support
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260603/202606031619.GjGn8yRe-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031619.GjGn8yRe-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606031619.GjGn8yRe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606032249.P3LdHXZd-lkp@i=
+ntel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/wireless/mediatek/mt76/mt7925/regd.c: In function 'mt7925_regd_update':
->> drivers/net/wireless/mediatek/mt76/mt7925/regd.c:361:57: warning: passing argument 2 of 'regulatory_set_wiphy_regd' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     361 |                 return regulatory_set_wiphy_regd(wiphy, &mt7925_regd_ww);
-         |                                                         ^~~~~~~~~~~~~~~
-   In file included from include/net/mac80211.h:22,
-                    from drivers/net/wireless/mediatek/mt76/mt7925/../mt76.h:18,
-                    from drivers/net/wireless/mediatek/mt76/mt7925/../mt76_connac.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7925/../mt76_connac_mcu.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7925/../mt792x.h:10,
-                    from drivers/net/wireless/mediatek/mt76/mt7925/mt7925.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7925/regd.c:4:
-   include/net/cfg80211.h:8082:59: note: expected 'struct ieee80211_regdomain *' but argument is of type 'const struct ieee80211_regdomain *'
-    8082 |                               struct ieee80211_regdomain *rd);
-         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from arch/powerpc/sysdev/xive/common.c:10:
+   arch/powerpc/sysdev/xive/common.c: In function 'xive_irq_domain_debug_sh=
+ow':
+>> arch/powerpc/sysdev/xive/common.c:1350:26: warning: passing argument 1 o=
+f 'is_xive_irq' discards 'const' qualifier from pointer target type [-Wdisc=
+arded-qualifiers]
+    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if=
+_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond=
+) : __trace_if_value(cond))
+         |                                                    ^~~~
+   arch/powerpc/sysdev/xive/common.c:1350:9: note: in expansion of macro 'i=
+f'
+    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
+         |         ^~
+   arch/powerpc/sysdev/xive/common.c:972:35: note: expected 'struct irq_chi=
+p *' but argument is of type 'const struct irq_chip *'
+     972 | bool is_xive_irq(struct irq_chip *chip)
+         |                  ~~~~~~~~~~~~~~~~~^~~~
+>> arch/powerpc/sysdev/xive/common.c:1350:26: warning: passing argument 1 o=
+f 'is_xive_irq' discards 'const' qualifier from pointer target type [-Wdisc=
+arded-qualifiers]
+    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if=
+_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond=
+) : __trace_if_value(cond))
+         |                                                             ^~~~
+   arch/powerpc/sysdev/xive/common.c:1350:9: note: in expansion of macro 'i=
+f'
+    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
+         |         ^~
+   arch/powerpc/sysdev/xive/common.c:972:35: note: expected 'struct irq_chi=
+p *' but argument is of type 'const struct irq_chip *'
+     972 | bool is_xive_irq(struct irq_chip *chip)
+         |                  ~~~~~~~~~~~~~~~~~^~~~
+>> arch/powerpc/sysdev/xive/common.c:1350:26: warning: passing argument 1 o=
+f 'is_xive_irq' discards 'const' qualifier from pointer target type [-Wdisc=
+arded-qualifiers]
+    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if=
+_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_=
+var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARG=
+S__) ) )
+         |                            ^~~~~~~~~~~~~~
+   arch/powerpc/sysdev/xive/common.c:1350:9: note: in expansion of macro 'i=
+f'
+    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
+         |         ^~
+   arch/powerpc/sysdev/xive/common.c:972:35: note: expected 'struct irq_chi=
+p *' but argument is of type 'const struct irq_chip *'
+     972 | bool is_xive_irq(struct irq_chip *chip)
+         |                  ~~~~~~~~~~~~~~~~~^~~~
 
 
-vim +361 drivers/net/wireless/mediatek/mt76/mt7925/regd.c
+vim +1350 arch/powerpc/sysdev/xive/common.c
 
-   286	
-   287	int mt7925_regd_update(struct mt792x_phy *phy, char *alpha2)
-   288	{
-   289		struct wiphy *wiphy = phy->mt76->hw->wiphy;
-   290		struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
-   291		struct mt792x_dev *dev = mt792x_hw_dev(hw);
-   292		struct mt7925_regd_rule *mt7925_rule;
-   293		struct mt76_dev *mdev = &dev->mt76;
-   294		struct ieee80211_regdomain *regd;
-   295		struct ieee80211_reg_rule *rule;
-   296		struct mt7925_regd_rule_ev *ev;
-   297		int i, num_of_rules = 0;
-   298		struct sk_buff *skb;
-   299		int ret = 0;
-   300	
-   301		if (dev->hw_full_reset)
-   302			return 0;
-   303	
-   304		if (!MT7925_REGD_SUPPORTED(phy))
-   305			return -EOPNOTSUPP;
-   306	
-   307		mt792x_mutex_acquire(dev);
-   308		skb = mt7925_regd_query_regdb(phy, alpha2);
-   309		mt792x_mutex_release(dev);
-   310	
-   311		if (!skb)
-   312			return -EINVAL;
-   313	
-   314		ev = (struct mt7925_regd_rule_ev *)(skb->data + 4);
-   315		num_of_rules = le32_to_cpu(ev->n_reg_rules);
-   316	
-   317		if (!num_of_rules ||
-   318			WARN_ON_ONCE(num_of_rules > NL80211_MAX_SUPP_REG_RULES)) {
-   319			ret = -EINVAL;
-   320			goto err;
-   321		}
-   322	
-   323		regd = kzalloc(struct_size(regd, reg_rules, num_of_rules), GFP_KERNEL);
-   324		if (!regd) {
-   325			ret = -ENOMEM;
-   326			goto err;
-   327		}
-   328	
-   329		for (i = 0; i < num_of_rules; i++) {
-   330			mt7925_rule = &ev->reg_rule[i];
-   331			rule = &regd->reg_rules[i];
-   332	
-   333			rule->freq_range.start_freq_khz =
-   334						MHZ_TO_KHZ(mt7925_rule->start_freq);
-   335			rule->freq_range.end_freq_khz =
-   336						MHZ_TO_KHZ(mt7925_rule->end_freq);
-   337			rule->freq_range.max_bandwidth_khz =
-   338						MHZ_TO_KHZ(mt7925_rule->max_bw);
-   339			/* not used by fw */
-   340			rule->power_rule.max_antenna_gain = DBI_TO_MBI(6);
-   341			rule->power_rule.max_eirp = DBM_TO_MBM(22);
-   342			rule->flags = mt7925_rule->flags;
-   343		}
-   344	
-   345		regd->n_reg_rules = num_of_rules;
-   346		regd->dfs_region = ev->dfs_region;
-   347	
-   348		memcpy(regd->alpha2, alpha2, 2);
-   349		memcpy(mdev->alpha2, alpha2, 2);
-   350	
-   351		dev->regd_change = true;
-   352		mt7925_mcu_regd_update(dev, alpha2, ENVIRON_ANY);
-   353	
-   354		ret = regulatory_set_wiphy_regd(wiphy, regd);
-   355	
-   356		kfree(regd);
-   357	err:
-   358		dev_kfree_skb(skb);
-   359	
-   360		if (ret < 0)
- > 361			return regulatory_set_wiphy_regd(wiphy, &mt7925_regd_ww);
-   362	
-   363		return ret;
-   364	}
-   365	EXPORT_SYMBOL_GPL(mt7925_regd_update);
-   366	
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1338 =20
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1339  static void xive_irq=
+_domain_debug_show(struct seq_file *m, struct irq_domain *d,
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1340  				       struct ir=
+q_data *irqd, int ind)
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1341  {
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1342  	struct xive_irq_dat=
+a *xd;
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1343  	u64 val;
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1344  	int i;
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1345 =20
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1346  	/* No IRQ domain le=
+vel information. To be done */
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1347  	if (!irqd)
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1348  		return;
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1349 =20
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10 @1350  	if (!is_xive_irq(ir=
+q_data_get_irq_chip(irqd)))
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1351  		return;
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1352 =20
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1353  	seq_printf(m, "%*sX=
+IVE:\n", ind, "");
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1354  	ind++;
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1355 =20
+cc0cc23babc979 Nam Cao          2025-08-11  1356  	xd =3D irq_data_get_irq_=
+chip_data(irqd);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1357  	if (!xd) {
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1358  		seq_printf(m, "%*s=
+not assigned\n", ind, "");
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1359  		return;
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1360  	}
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1361 =20
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1362  	val =3D xive_esb_re=
+ad(xd, XIVE_ESB_GET);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1363  	seq_printf(m, "%*sE=
+SB:      %s\n", ind, "", esb_names[val & 0x3]);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1364  	seq_printf(m, "%*sP=
+state:   %s %s\n", ind, "", xd->stale_p ? "stale" : "",
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1365  		   xd->saved_p ? "=
+saved" : "");
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1366  	seq_printf(m, "%*sT=
+arget:   %d\n", ind, "", xd->target);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1367  	seq_printf(m, "%*sC=
+hip:     %d\n", ind, "", xd->src_chip);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1368  	seq_printf(m, "%*sT=
+rigger:  0x%016llx\n", ind, "", xd->trig_page);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1369  	seq_printf(m, "%*sE=
+OI:      0x%016llx\n", ind, "", xd->eoi_page);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1370  	seq_printf(m, "%*sF=
+lags:    0x%llx\n", ind, "", xd->flags);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1371  	for (i =3D 0; i < A=
+RRAY_SIZE(xive_irq_flags); i++) {
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1372  		if (xd->flags & xi=
+ve_irq_flags[i].mask)
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1373  			seq_printf(m, "%*=
+s%s\n", ind + 12, "", xive_irq_flags[i].name);
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1374  	}
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1375  }
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1376  #endif
+a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1377 =20
+
+:::::: The code at line 1350 was first introduced by commit
+:::::: a5021abc48a0f44083a15a37b3e61378519cb00d powerpc/xive: Add a debug_s=
+how handler to the XIVE irq_domain
+
+:::::: TO: C=C3=A9dric Le Goater <clg@kaod.org>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 --
 0-DAY CI Kernel Test Service
