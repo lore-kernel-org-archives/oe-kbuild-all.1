@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3103930677E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 13:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664AF1E531
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 14:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780494027; cv=none; b=Nrjq3PL5VLwV7p6szMbytY2zmzseQapWl46cZnwvFWwxgUHIDOjfo3A1qXq2IQGuEW5WYKfIr0MI3CqGkRoxYSRhpYIACwddr6HTyjRTZ6KILb9qedSqqRw1UXhdkqVwCRKj7rAs/1HNb+MqEJ/hbtlxeslVjVFzeJh2s/Q9g3c=
+	t=1780497153; cv=none; b=GH4EY91tSSFr+3exjdAwdM2ekF8V3uitPkhdeIc0IdF56vP5UGproMNj7OAxj+iB5fF2P2ETQJRRF7hE3sAfl0fYcheIS6Eeo+jZD90YPHB/Ohtxy+OkUP0aROExG+qdUSeMWKMslKuq4ktxCJwybqMAowkHcobqXybnI2bdw4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780494027; c=relaxed/simple;
-	bh=l1yoXBjwYXfxs6FuuBBA3f2rs43NWhsl+b8/ba5IlDY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AVLluzj3i1HQ8Tz0duUeeoe3et4yPE+lWOpxnIHIBBgF/Cqkfhn39mQQSBq67G+eygY2xL9Y4P5MQdylCey49uy/SXDR1g22I/4IE0QENlCEWbE2DPMabHARBNdMJbVik4e35yB0X+eTf0VzWSuMGphJqCuzWQAtwaIZhskHhLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyKwR6hY; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1780497153; c=relaxed/simple;
+	bh=xbJm0T8u7QgoWljC3gkJ90UyJ/TgTiMAfHCoV1q6onc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PZ0HLHZQvJW79VAKOviMsmu25QuaeMZPs3vDrIP2nO/61U4+aHBIO2qJcbIYGVhBjjt40G1ybjTUrs/O9jKojpW/SgUoQci8w8mQVt3UgO8mOGWRgsfI9diRMXPZjkGturSSlvkfSk5of8UTG3npuDN01ZXQ9U8ItbCjsorhchk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4uelcPF; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyKwR6hY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4uelcPF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780494025; x=1812030025;
+  t=1780497151; x=1812033151;
   h=date:from:to:cc:subject:message-id;
-  bh=l1yoXBjwYXfxs6FuuBBA3f2rs43NWhsl+b8/ba5IlDY=;
-  b=iyKwR6hYfpyoVO77w2gl7JFaNCp4J+0+U0S55FqlSQHESVCLCtqrwFks
-   VS74R+XyzipTv17bMBy6JDb85oSyNcTH5Xm17FTOPus49EY2eato6SPAC
-   5V8l0q9d4J29T76WrYC3cU2ujVNv5qh72rBmea+wxarckHEMpPix+kaHn
-   xipn/mLmH9nKYse2p24Fz4Or+w+uKsG8FucnQbs5IXr6Xntwp6Ch8Ul5X
-   +UFqKEXV5wvuULgJM4R8vAZaRt2cu+B4xzMOr7AuevuKUBAUNU6JC3F6i
-   octpeJu3w9wLpvj30gKTrjtH2/aFDDY3bu0rIWxhvNgJ14gdvCVLIyjRI
-   w==;
-X-CSE-ConnectionGUID: Zhm+c/ZQQ+2DNFWwNPi6nA==
-X-CSE-MsgGUID: +Gu7nEO4TSi738pUR//3GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81299477"
+  bh=xbJm0T8u7QgoWljC3gkJ90UyJ/TgTiMAfHCoV1q6onc=;
+  b=H4uelcPFWBLIXxN/2hrJcLgDForJyfue4FjLFchRlqULWWsrQD5EZNJs
+   UBia0hAYFI+bBGSi43ISDcpGrhxY02iSt2dMD9bQwXq2dSV6hgAFtN0c1
+   V+ARNejQ/biKEAxMF8t7ylYH4oHpFknURGcoTH+BgxStE8cdZCxX0Vl9U
+   6lhqRTfmB8om2DpVXI01CPcc3VMYi7dz69l17sK+JpfGmmtZRIaSpipxW
+   hiNBfO2TYaSi7ILz4nOX9ZGZlyqjc8ZsX2b/sRtb3G1V5tVn9aruax7a4
+   P5YKJTQm8fXj5/J+Utx7p4Zyr+J/+YEbqkqTNj1VQDUrinEesOWp02tfn
+   g==;
+X-CSE-ConnectionGUID: exBPOQ5SQwm397w0iM5jwg==
+X-CSE-MsgGUID: X39pKFfFRWGMdjleOSE/0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81166656"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="81299477"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 06:40:25 -0700
-X-CSE-ConnectionGUID: XB9ZMmlBTTK9yp20V7C7OQ==
-X-CSE-MsgGUID: IYFduMaqQcukSP+nqEPinQ==
+   d="scan'208";a="81166656"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:32:30 -0700
+X-CSE-ConnectionGUID: ZffkNI67RSSi/we80fz6Dg==
+X-CSE-MsgGUID: bZdMNOawRbWryKhUTNnMgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="268144447"
+   d="scan'208";a="244337625"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Jun 2026 06:40:22 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 Jun 2026 07:32:29 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUlpU-00000000DTM-0Hqo;
-	Wed, 03 Jun 2026 13:40:20 +0000
-Date: Wed, 03 Jun 2026 21:39:55 +0800
+	id 1wUmdu-00000000DX4-0wad;
+	Wed, 03 Jun 2026 14:32:26 +0000
+Date: Wed, 03 Jun 2026 22:32:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, Vineet Gupta <vgupta@kernel.org>
-Subject: include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse:
- sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes
- deafcafe)
-Message-ID: <202606032126.mdl90A9W-lkp@intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@kernel.org>
+Subject: [tglx-devel:irq/constify 8/8] kernel/irq/ipi.c:317:33:
+ warning: initialization discards 'const' qualifier from pointer target type
+Message-ID: <202606032231.CqGIh6FI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,78 +59,60 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
-commit: ea7caffedd011f7d40abe93a884ffbe46f122535 ARC: atomics: Implement arch_atomic64_cmpxchg using _relaxed
-date:   12 months ago
-config: arc-randconfig-r123-20260603 (https://download.01.org/0day-ci/archive/20260603/202606032126.mdl90A9W-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606032126.mdl90A9W-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/constify
+head:   2e8b4859e87ef8229ab12228b5e484171084a127
+commit: 2e8b4859e87ef8229ab12228b5e484171084a127 [8/8] genirq/chip: Constify the 'chip' field in irq_data
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260603/202606032231.CqGIh6FI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606032231.CqGIh6FI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ea7caffedd01 ("ARC: atomics: Implement arch_atomic64_cmpxchg using _relaxed")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606032126.mdl90A9W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606032231.CqGIh6FI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/atomic64_test.c: note: in included file (through include/linux/atomic.h, include/asm-generic/bitops/lock.h, arch/arc/include/asm/bitops.h, include/linux/bitops.h, ...):
-   include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
->> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
->> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+All warnings (new ones prefixed by >>):
 
-vim +4152 include/linux/atomic/atomic-arch-fallback.h
+   kernel/irq/ipi.c: In function 'ipi_send_single':
+>> kernel/irq/ipi.c:317:33: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     317 |         struct irq_chip *chip = data ? irq_data_get_irq_chip(data) : NULL;
+         |                                 ^~~~
+   kernel/irq/ipi.c: In function 'ipi_send_mask':
+   kernel/irq/ipi.c:338:33: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     338 |         struct irq_chip *chip = data ? irq_data_get_irq_chip(data) : NULL;
+         |                                 ^~~~
 
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4126  
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4127  /**
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4128   * raw_atomic64_cmpxchg() - atomic compare and exchange with full ordering
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4129   * @v: pointer to atomic64_t
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4130   * @old: s64 value to compare with
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4131   * @new: s64 value to assign
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4132   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4133   * If (@v == @old), atomically updates @v to @new with full ordering.
-6dfee110c6cc7a include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2024-02-09  4134   * Otherwise, @v is not modified and relaxed ordering is provided.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4135   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4136   * Safe to use in noinstr code; prefer atomic64_cmpxchg() elsewhere.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4137   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4138   * Return: The original value of @v.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4139   */
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4140  static __always_inline s64
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4141  raw_atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4142  {
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4143  #if defined(arch_atomic64_cmpxchg)
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4144  	return arch_atomic64_cmpxchg(v, old, new);
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4145  #elif defined(arch_atomic64_cmpxchg_relaxed)
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4146  	s64 ret;
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4147  	__atomic_pre_full_fence();
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4148  	ret = arch_atomic64_cmpxchg_relaxed(v, old, new);
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4149  	__atomic_post_full_fence();
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4150  	return ret;
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4151  #else
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05 @4152  	return raw_cmpxchg(&v->counter, old, new);
-d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4153  #endif
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4154  }
-d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4155  
 
-:::::: The code at line 4152 was first introduced by commit
-:::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
+vim +/const +317 kernel/irq/ipi.c
 
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  304  
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  305  /**
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  306   * ipi_send_single - Send an IPI to a single CPU
+3b35e7e6daef5a8 Randy Dunlap 2021-08-10  307   * @virq:	Linux IRQ number from irq_reserve_ipi()
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  308   * @cpu:	destination CPU, must in the destination mask passed to
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  309   *		irq_reserve_ipi()
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  310   *
+3b35e7e6daef5a8 Randy Dunlap 2021-08-10  311   * Return: %0 on success or negative error number on failure.
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  312   */
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  313  int ipi_send_single(unsigned int virq, unsigned int cpu)
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  314  {
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  315  	struct irq_desc *desc = irq_to_desc(virq);
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  316  	struct irq_data *data = desc ? irq_desc_get_irq_data(desc) : NULL;
+3b8e29a82dd16c1 Qais Yousef  2015-12-08 @317  	struct irq_chip *chip = data ? irq_data_get_irq_chip(data) : NULL;
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  318  
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  319  	if (WARN_ON_ONCE(ipi_send_verify(chip, data, NULL, cpu)))
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  320  		return -EINVAL;
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  321  
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  322  	return __ipi_send_single(desc, cpu);
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  323  }
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  324  EXPORT_SYMBOL_GPL(ipi_send_single);
+3b8e29a82dd16c1 Qais Yousef  2015-12-08  325  
+
+:::::: The code at line 317 was first introduced by commit
+:::::: 3b8e29a82dd16c1f2061e0b955a71cd36eeb061b genirq: Implement ipi_send_mask/single()
+
+:::::: TO: Qais Yousef <qais.yousef@imgtec.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 --
 0-DAY CI Kernel Test Service
