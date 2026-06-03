@@ -1,84 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4091025B0A3;
-	Wed,  3 Jun 2026 11:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C922BD00C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 13:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780487386; cv=none; b=CtAOsFCRhE4HK/sdBbKTw53a1jTayosc0YX8tr47hzNy5MjCSaqZ+q4yqmx7WKx6/Dd/T+EdlRJlROGvjCxdBHkkSBfdZopDBATsDZRI2kEta9RKgEasRPDdK9Ljy7RqRuYVA94Sed6xwLNRH8yDt5lbmyoEmACPbegCDJ00Ezw=
+	t=1780492846; cv=none; b=EsR2PGQdcprsJmX0hNXNRyDr21eEpFErjZSaH9Ipo9BRIaFsSwVhtgSjIPcV5D/uLMWSJzEYq3SIq4QB6SfSqasYN4cXPETOO/E0L6fcIeGUYKlb8FK/kOKGN2XKY2nNOwIc+oSoTopN6rcOsedwZ/03tgGvM8cgs8rc1EnIRQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780487386; c=relaxed/simple;
-	bh=drZBsPwx6+GpDkzr4elJUMEzRDtWFJ72EWCZeqTMNeA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sDWXHvqDlltOsDbGzIPkdYjSAPnBNphUfpFN+tZbjV3L2fZbQ8A8CWzvz7K9swdI2c1exb8Ar7b47e+AcAVzpY04v9ZerH7HwLbMPb3kzLInvU7AsnyWh7baqt11DpG7ua+Y2sM1FYK2/h4b1BTUanHnS00z6EUXQD8BZZzstJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NCYwqClJ; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1780492846; c=relaxed/simple;
+	bh=H2D3DsKMJCLENkE7pbhgaFA9ecmOaFqrZUFkLfrN59c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOXBfHVWOjDen/wloJvR6UV9hYYtn9yhCd5O7CsFtsnAFMT8GzDKNiEhkgX/YV+fbLZdSejZ4UQ8S1dL1jzNPo9A6Mo9xZri3zY5J1xorXiE6CWu2PdrXzKgard0izpDIqdhU4VHuHWJoHRw0nnV9GOcGOP5M+8yY9aC+xOwuKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNZ9f9kK; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NCYwqClJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNZ9f9kK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780487386; x=1812023386;
-  h=date:from:to:cc:subject:message-id;
-  bh=drZBsPwx6+GpDkzr4elJUMEzRDtWFJ72EWCZeqTMNeA=;
-  b=NCYwqClJ4yrtKwMFnxUfMW4JyPvaLyTSt5gMvb4xr+AWynpSEcRpzo8S
-   GNfkJrmXcJGKlw/ZucCadIejBQQhE4wR8fUa4JEUMBRQ3qEYXwhyiCQGp
-   SEyPIrbbNKW2f3cB6vLdxVIGKEn90iKpeIHQpr9BwFOCLxNTlzxFqLaV2
-   y8XkAePrwtIDxuq58DNcc4fW0v/7lTonvVpA+NxYYYdPrwfM90c3BqJc6
-   MRME9mBtK8kcPqNaFypP/DcMraR1yODKLR9ulNTWjP8adeQT2e1akBjkv
-   dkh6GaTk2mGFieDcNY1ogjJc6yC2tGvqw24NNUT2/HW4RggFtHTUDwOYM
-   Q==;
-X-CSE-ConnectionGUID: AnHe9lRSTZSv4I/izFGAEg==
-X-CSE-MsgGUID: m/QdxDERSWWkrHMpkhhfgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81287321"
+  t=1780492846; x=1812028846;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H2D3DsKMJCLENkE7pbhgaFA9ecmOaFqrZUFkLfrN59c=;
+  b=BNZ9f9kKDy3MCCWaO3tZRmwETxxedoDm8WGHBhb2v2vlkk5AelYIZdtC
+   9/gooo1/tf6ZLEjtSJHf3upPMB2Kmf4GEFshg1umlsy0Bhk6cyrFXpvVs
+   odqQEBRJie+aS3qsmImyK6zr+HeBprLsu8dr48+IR0pnwKAejXKbnzGnU
+   vq8PcTyLD8Xl3y5HiESgdsUb7EC6rADobc2RJLknOSpotPuOh5sg2WQvB
+   AO2W9GUct/Ml5mhgjIzQ7IcRpuJM0U94B9Uq0UDEKhbPqpgvsOFVbyXTm
+   WhFplw+Ii5y1f/+v54eogCrfD8wBjiZmk02y/wWokIcPvWzdaTqmc/uRU
+   w==;
+X-CSE-ConnectionGUID: wNnlUmnXSIKnmpxBdK3jTg==
+X-CSE-MsgGUID: hh28yM7ISJuc5/NDWeVOww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="80336208"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="81287321"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 04:49:45 -0700
-X-CSE-ConnectionGUID: zkfDu55rQy6d2dkk60xQNA==
-X-CSE-MsgGUID: wl+d5X+wQ8+7rt0zVYmrng==
+   d="scan'208";a="80336208"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 06:20:45 -0700
+X-CSE-ConnectionGUID: Ebk5Hf5QTWK1EMkeaBwsBA==
+X-CSE-MsgGUID: Q9LWzdFPTaqwCb2KRD1JNw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="267854380"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Jun 2026 04:49:43 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 03 Jun 2026 06:20:43 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUk6O-0000000023F-0xcG;
-	Wed, 03 Jun 2026 11:49:40 +0000
-Date: Wed, 03 Jun 2026 13:49:17 +0200
+	id 1wUlWT-00000000241-186f;
+	Wed, 03 Jun 2026 13:20:41 +0000
+Date: Wed, 3 Jun 2026 15:20:39 +0200
 From: kernel test robot <lkp@intel.com>
-To: Pranjal Shrivastava <praan@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: Warning: fs/nfs/pagelist.c:478 function parameter 'pinned'
- not described in 'nfs_page_create_from_folio'
-Message-ID: <202606031311.0vTqyPGz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jason Huang <Jason.Huang2@infineon.com>, linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, wlan-kernel-dev-list@infineon.com,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Kurt Lee <kurt.lee@cypress.com>,
+	Jason Huang <jason.huang2@infineon.com>
+Subject: Re: [PATCH] wifi: brcmfmac: add DPP support and fix
+ fw-supplicant/P2P interop
+Message-ID: <202606031541.hOnf0Qnq-lkp@intel.com>
+References: <20260603035722.145894-1-Jason.Huang2@infineon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603035722.145894-1-Jason.Huang2@infineon.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Pranjal-Shrivastava/nfs-make-nfs_page-pin-aware/20260603-133419
-head:   51c6eda8fc66ee56e3e2f4079ad6ab86d457213a
-commit: 15061ec64dc3144340b3ba2857700c9622c38dd6 nfs: make nfs_page pin-aware
-date:   6 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260603/202606031311.0vTqyPGz-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031311.0vTqyPGz-lkp@intel.com/reproduce)
+Hi Jason,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v7.1-rc6 next-20260602]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Huang/wifi-brcmfmac-add-DPP-support-and-fix-fw-supplicant-P2P-interop/20260603-115824
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260603035722.145894-1-Jason.Huang2%40infineon.com
+patch subject: [PATCH] wifi: brcmfmac: add DPP support and fix fw-supplicant/P2P interop
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260603/202606031541.hOnf0Qnq-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031541.hOnf0Qnq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606031311.0vTqyPGz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606031541.hOnf0Qnq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: fs/nfs/pagelist.c:446 function parameter 'pinned' not described in 'nfs_page_create_from_page'
->> Warning: fs/nfs/pagelist.c:478 function parameter 'pinned' not described in 'nfs_page_create_from_folio'
-   Warning: fs/nfs/pagelist.c:446 function parameter 'pinned' not described in 'nfs_page_create_from_page'
->> Warning: fs/nfs/pagelist.c:478 function parameter 'pinned' not described in 'nfs_page_create_from_folio'
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c: In function 'brcmf_p2p_tx_action_frame':
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c:1593:13: warning: variable 'action_frame_len' set but not used [-Wunused-but-set-variable]
+    1593 |         u16 action_frame_len;
+         |             ^~~~~~~~~~~~~~~~
+
+
+vim +/action_frame_len +1593 drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
+
+  1570	
+  1571	
+  1572	/**
+  1573	 * brcmf_p2p_tx_action_frame() - send action frame over fil.
+  1574	 *
+  1575	 * @ifp: interface to transmit on.
+  1576	 * @p2p: p2p info struct for vif.
+  1577	 * @af_params: action frame data/info.
+  1578	 * @vif: vif to send
+  1579	 *
+  1580	 * Send an action frame immediately without doing channel synchronization.
+  1581	 *
+  1582	 * This function waits for a completion event before returning.
+  1583	 * The WLC_E_ACTION_FRAME_COMPLETE event will be received when the action
+  1584	 * frame is transmitted.
+  1585	 */
+  1586	static s32 brcmf_p2p_tx_action_frame(struct brcmf_if *ifp,
+  1587					     struct brcmf_p2p_info *p2p,
+  1588					     struct brcmf_fil_af_params_le *af_params)
+  1589	{
+  1590		struct brcmf_pub *drvr = p2p->cfg->pub;
+  1591		s32 err = 0;
+  1592		struct brcmf_fil_action_frame_le *action_frame;
+> 1593		u16 action_frame_len;
+  1594	
+  1595		action_frame = &af_params->action_frame;
+  1596		action_frame_len = le16_to_cpu(action_frame->len);
+  1597	
+  1598		brcmf_dbg(TRACE, "Enter\n");
+  1599	
+  1600		reinit_completion(&p2p->send_af_done);
+  1601		clear_bit(BRCMF_P2P_STATUS_ACTION_TX_COMPLETED, &p2p->status);
+  1602		clear_bit(BRCMF_P2P_STATUS_ACTION_TX_NOACK, &p2p->status);
+  1603	
+  1604		err = brcmf_fil_bsscfg_data_set(ifp, "actframe", af_params,
+  1605						sizeof(*af_params));
+  1606		if (err) {
+  1607			bphy_err(drvr, " sending action frame has failed\n");
+  1608			goto exit;
+  1609		}
+  1610	
+  1611		p2p->af_sent_channel = le32_to_cpu(af_params->channel);
+  1612		p2p->af_tx_sent_jiffies = jiffies;
+  1613	
+  1614		if (test_bit(BRCMF_P2P_STATUS_DISCOVER_LISTEN, &p2p->status) &&
+  1615		    p2p->af_sent_channel ==
+  1616		    ieee80211_frequency_to_channel(p2p->remain_on_channel.center_freq))
+  1617			p2p->wait_for_offchan_complete = false;
+  1618		else
+  1619			p2p->wait_for_offchan_complete = true;
+  1620	
+  1621		brcmf_dbg(TRACE, "Waiting for %s tx completion event\n",
+  1622			  (p2p->wait_for_offchan_complete) ?
+  1623			   "off-channel" : "on-channel");
+  1624	
+  1625		wait_for_completion_timeout(&p2p->send_af_done, P2P_AF_MAX_WAIT_TIME);
+  1626	
+  1627		if (test_bit(BRCMF_P2P_STATUS_ACTION_TX_COMPLETED, &p2p->status)) {
+  1628			brcmf_dbg(TRACE, "TX action frame operation is success\n");
+  1629		} else {
+  1630			err = -EIO;
+  1631			brcmf_dbg(TRACE, "TX action frame operation has failed\n");
+  1632		}
+  1633		/* clear status bit for action tx */
+  1634		clear_bit(BRCMF_P2P_STATUS_ACTION_TX_COMPLETED, &p2p->status);
+  1635		clear_bit(BRCMF_P2P_STATUS_ACTION_TX_NOACK, &p2p->status);
+  1636	
+  1637	exit:
+  1638		return err;
+  1639	}
+  1640	
 
 --
 0-DAY CI Kernel Test Service
