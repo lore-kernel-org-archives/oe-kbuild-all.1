@@ -1,224 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75E2383C65
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 14:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3913E5564;
+	Wed,  3 Jun 2026 16:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780498414; cv=none; b=kTlCybtP33+vhlo3LkMbZdSa4WO3Gf/RvvCgU+PtCQ1PHx66NPbIBeVfc8Bt8Fhu6hg9kQ+IrJQPeX520awrQEKcMXcu/jwhGaUaVYKxgIhiBIIkvd3uCFdgH6d81vjfbUm2ancoLeJENdYLoWSW8ilYhbZoMb721JbFee7QyCU=
+	t=1780503231; cv=none; b=swfmmcEbBocA69CcLCNzrXgdKVin72FOR7ZG2gELVweM+fdvjE5tDj6G8XPklTe/2u5d2IqhLOQgUbnmnr4rDEYRIBCDsuvJ/PxSwotwBMPrYV+iFcQozXg3Ui1bF4wSsOzragZ1XxUQLWkzfWiiJzQQ69w0StqFd9UeLhWrZL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780498414; c=relaxed/simple;
-	bh=NAQyyqDLWB/DYAdZzZgG1em95oLBKDGd5SrDTm54glw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=l/4JU025Sf352xZvs2KDVh6bKAMd4awl14xLc1a532nTbcxe3/rTjeYI9Ha2gBdqx2IKyrVsNdv2BMwDEAJbwC8PqoNSeX8e+ysMHENF7RerpkgSlcjccRXCCv36p6M/zaZ3K0kq6SUeQBFUVZ1Ace0Xxj5oTsXBTuar7U9l7Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B80wBJ+F; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1780503231; c=relaxed/simple;
+	bh=NQGda+ldp72jCROfqHpVqZFXJq6f6BXsKUN8lXV3OIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=trL7El/ZLuvQ12t3/LR+EoirPTlW1hRzuCw+QdHExO5+BKMQ8vZI9st6+jjP0dbpKil7RNXjwIoignpKJevA92mVsiDL/Ff+MRT+AoiY13nj6RnrAiea8aJIuLLdONViIpHwxoQSeS/RgY7B5NWv3tsrPCFqK2H6l52cm71gaaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bjrjSJc7; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B80wBJ+F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bjrjSJc7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780498413; x=1812034413;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NAQyyqDLWB/DYAdZzZgG1em95oLBKDGd5SrDTm54glw=;
-  b=B80wBJ+FlglQopZUWwpVNoBjH/PFDKXNTIjIHWx5tIsulktoA4brOw8r
-   wz+0LTSaGoldH6jBwmjr8QCrN5tGZgVbBO8rRYB7PAeCCe8qyXCAXD+u8
-   A1hUt79mJyZsWOrdw1NuyiEB8KFGbqKZ8RgatIFQ5aYDQpPNXbH1g03Ec
-   Iod7e/5AtEsSIBvw0GCFIDgo0E0aMwurJVcvE62XJrGsoteeQnDdnBJE0
-   BXM3fhHCqn/mDMn36FIkWBckq15LjyXGqCztxYoPbTdCp4bZ6aswMIAef
-   dxgUSSiKieSIZHmwGOo19haUWAG47jIMmZIokGLXkKxf/jA27gyeAXehK
+  t=1780503228; x=1812039228;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NQGda+ldp72jCROfqHpVqZFXJq6f6BXsKUN8lXV3OIk=;
+  b=bjrjSJc7eP0HYzxdTMuM+aGB49gSaKX1cNTqyqQEemF9KVGpC7a1qTfW
+   r0hArhmn4oJArYkWEZpd2PAZSTjTekMWLOOBbQ1RgOEAGnMDdF0Yj2Zt/
+   y0GJpnFMv3AjOIrqPu37+CcDTbKX6uUP/OHh7OAG/9v1yZMQpakMrgdoH
+   L1SzsmD1H3ZswH4qtwK1ulnwHwKjmRZ3SF9xkZwD8Ac6GvXZO7NiE7TE3
+   k9vWTm2FdW4o+XK4WEnxGjjL/8NhXtiOyatrDARicFtnQL+9U82TY8zfG
+   a3p4s2P1W2Sw2Oorf4USHY+GEM4POa3Bv83zQSHwkjhGCcEe0mvzGEgZZ
    Q==;
-X-CSE-ConnectionGUID: daJPo7qzTCGNBTNngJFECQ==
-X-CSE-MsgGUID: iJfQw5AsTCaBK9EHpINX3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="85200328"
+X-CSE-ConnectionGUID: vq5L98maQwmHkpxc/OOdUg==
+X-CSE-MsgGUID: brUhrWEOTiKZ+qn4y4fKQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81225137"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="85200328"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:53:32 -0700
-X-CSE-ConnectionGUID: xQK2MlJbQeSB9voAf/xmoQ==
-X-CSE-MsgGUID: yEb9mTCNSUmzkmvAQvhGPA==
+   d="scan'208";a="81225137"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 09:13:47 -0700
+X-CSE-ConnectionGUID: k6LN7mBHR++zHn/j+ieAWQ==
+X-CSE-MsgGUID: Ux6O5Lk7RXigtCnUbBF23Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="237916565"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Jun 2026 07:53:30 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="241293620"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 03 Jun 2026 09:13:45 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUmyG-00000000DY0-0TfG;
-	Wed, 03 Jun 2026 14:53:28 +0000
-Date: Wed, 03 Jun 2026 22:52:42 +0800
+	id 1wUoDv-0000000026z-2aBv;
+	Wed, 03 Jun 2026 16:13:43 +0000
+Date: Wed, 3 Jun 2026 18:13:06 +0200
 From: kernel test robot <lkp@intel.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@kernel.org>
-Subject: [tglx-devel:irq/constify 8/8]
- arch/powerpc/sysdev/xive/common.c:1350:26: warning: passing argument 1 of
- 'is_xive_irq' discards 'const' qualifier from pointer target type
-Message-ID: <202606032249.P3LdHXZd-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Johannes Berg <johannes@sipsolutions.net>,
+	linux-wireless@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Johannes Berg <johannes.berg@intel.com>, Xiang Mei <xmei5@asu.edu>
+Subject: Re: [PATCH] wifi: cfg80211: enforce HE/EHT cap/oper consistency
+Message-ID: <202606031815.lqRk4eKB-lkp@intel.com>
+References: <20260603091812.101894-2-johannes@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603091812.101894-2-johannes@sipsolutions.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/=
-constify
-head:   2e8b4859e87ef8229ab12228b5e484171084a127
-commit: 2e8b4859e87ef8229ab12228b5e484171084a127 [8/8] genirq/chip: Constif=
-y the 'chip' field in irq_data
-config: powerpc64-randconfig-r073-20260603 (https://download.01.org/0day-ci=
-/archive/20260603/202606032249.P3LdHXZd-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.5.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260603/202606032249.P3LdHXZd-lkp@intel.com/reproduce)
+Hi Johannes,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v7.1-rc6 next-20260602]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-cfg80211-enforce-HE-EHT-cap-oper-consistency/20260603-173706
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260603091812.101894-2-johannes%40sipsolutions.net
+patch subject: [PATCH] wifi: cfg80211: enforce HE/EHT cap/oper consistency
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260603/202606031815.lqRk4eKB-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031815.lqRk4eKB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606032249.P3LdHXZd-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606031815.lqRk4eKB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from arch/powerpc/sysdev/xive/common.c:10:
-   arch/powerpc/sysdev/xive/common.c: In function 'xive_irq_domain_debug_sh=
-ow':
->> arch/powerpc/sysdev/xive/common.c:1350:26: warning: passing argument 1 o=
-f 'is_xive_irq' discards 'const' qualifier from pointer target type [-Wdisc=
-arded-qualifiers]
-    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if=
-_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond=
-) : __trace_if_value(cond))
-         |                                                    ^~~~
-   arch/powerpc/sysdev/xive/common.c:1350:9: note: in expansion of macro 'i=
-f'
-    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
-         |         ^~
-   arch/powerpc/sysdev/xive/common.c:972:35: note: expected 'struct irq_chi=
-p *' but argument is of type 'const struct irq_chip *'
-     972 | bool is_xive_irq(struct irq_chip *chip)
-         |                  ~~~~~~~~~~~~~~~~~^~~~
->> arch/powerpc/sysdev/xive/common.c:1350:26: warning: passing argument 1 o=
-f 'is_xive_irq' discards 'const' qualifier from pointer target type [-Wdisc=
-arded-qualifiers]
-    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if=
-_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond=
-) : __trace_if_value(cond))
-         |                                                             ^~~~
-   arch/powerpc/sysdev/xive/common.c:1350:9: note: in expansion of macro 'i=
-f'
-    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
-         |         ^~
-   arch/powerpc/sysdev/xive/common.c:972:35: note: expected 'struct irq_chi=
-p *' but argument is of type 'const struct irq_chip *'
-     972 | bool is_xive_irq(struct irq_chip *chip)
-         |                  ~~~~~~~~~~~~~~~~~^~~~
->> arch/powerpc/sysdev/xive/common.c:1350:26: warning: passing argument 1 o=
-f 'is_xive_irq' discards 'const' qualifier from pointer target type [-Wdisc=
-arded-qualifiers]
-    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if=
-_value'
-      68 |         (cond) ?                                        \
-         |          ^~~~
-   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_=
-var'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARG=
-S__) ) )
-         |                            ^~~~~~~~~~~~~~
-   arch/powerpc/sysdev/xive/common.c:1350:9: note: in expansion of macro 'i=
-f'
-    1350 |         if (!is_xive_irq(irq_data_get_irq_chip(irqd)))
-         |         ^~
-   arch/powerpc/sysdev/xive/common.c:972:35: note: expected 'struct irq_chi=
-p *' but argument is of type 'const struct irq_chip *'
-     972 | bool is_xive_irq(struct irq_chip *chip)
-         |                  ~~~~~~~~~~~~~~~~~^~~~
+>> net/wireless/nl80211.c:12054:8: error: use of undeclared identifier 'params'
+    12054 |         if (!!params->he_cap != !!params->he_oper)
+          |               ^~~~~~
+   net/wireless/nl80211.c:12054:28: error: use of undeclared identifier 'params'
+    12054 |         if (!!params->he_cap != !!params->he_oper)
+          |                                   ^~~~~~
+   net/wireless/nl80211.c:12057:8: error: use of undeclared identifier 'params'
+    12057 |         if (!!params->eht_cap != !!params->eht_oper)
+          |               ^~~~~~
+   net/wireless/nl80211.c:12057:29: error: use of undeclared identifier 'params'
+    12057 |         if (!!params->eht_cap != !!params->eht_oper)
+          |                                    ^~~~~~
+   4 errors generated.
 
 
-vim +1350 arch/powerpc/sysdev/xive/common.c
+vim +/params +12054 net/wireless/nl80211.c
 
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1338 =20
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1339  static void xive_irq=
-_domain_debug_show(struct seq_file *m, struct irq_domain *d,
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1340  				       struct ir=
-q_data *irqd, int ind)
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1341  {
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1342  	struct xive_irq_dat=
-a *xd;
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1343  	u64 val;
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1344  	int i;
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1345 =20
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1346  	/* No IRQ domain le=
-vel information. To be done */
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1347  	if (!irqd)
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1348  		return;
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1349 =20
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10 @1350  	if (!is_xive_irq(ir=
-q_data_get_irq_chip(irqd)))
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1351  		return;
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1352 =20
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1353  	seq_printf(m, "%*sX=
-IVE:\n", ind, "");
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1354  	ind++;
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1355 =20
-cc0cc23babc979 Nam Cao          2025-08-11  1356  	xd =3D irq_data_get_irq_=
-chip_data(irqd);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1357  	if (!xd) {
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1358  		seq_printf(m, "%*s=
-not assigned\n", ind, "");
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1359  		return;
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1360  	}
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1361 =20
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1362  	val =3D xive_esb_re=
-ad(xd, XIVE_ESB_GET);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1363  	seq_printf(m, "%*sE=
-SB:      %s\n", ind, "", esb_names[val & 0x3]);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1364  	seq_printf(m, "%*sP=
-state:   %s %s\n", ind, "", xd->stale_p ? "stale" : "",
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1365  		   xd->saved_p ? "=
-saved" : "");
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1366  	seq_printf(m, "%*sT=
-arget:   %d\n", ind, "", xd->target);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1367  	seq_printf(m, "%*sC=
-hip:     %d\n", ind, "", xd->src_chip);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1368  	seq_printf(m, "%*sT=
-rigger:  0x%016llx\n", ind, "", xd->trig_page);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1369  	seq_printf(m, "%*sE=
-OI:      0x%016llx\n", ind, "", xd->eoi_page);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1370  	seq_printf(m, "%*sF=
-lags:    0x%llx\n", ind, "", xd->flags);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1371  	for (i =3D 0; i < A=
-RRAY_SIZE(xive_irq_flags); i++) {
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1372  		if (xd->flags & xi=
-ve_irq_flags[i].mask)
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1373  			seq_printf(m, "%*=
-s%s\n", ind + 12, "", xive_irq_flags[i].name);
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1374  	}
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1375  }
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1376  #endif
-a5021abc48a0f4 C=C3=A9dric Le Goater 2020-12-10  1377 =20
-
-:::::: The code at line 1350 was first introduced by commit
-:::::: a5021abc48a0f44083a15a37b3e61378519cb00d powerpc/xive: Add a debug_s=
-how handler to the XIVE irq_domain
-
-:::::: TO: C=C3=A9dric Le Goater <clg@kaod.org>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+ 12020	
+ 12021	static int nl80211_parse_counter_offsets(struct cfg80211_registered_device *rdev,
+ 12022						 const u8 *data, size_t datalen,
+ 12023						 int first_count, struct nlattr *attr,
+ 12024						 const u16 **offsets, unsigned int *n_offsets)
+ 12025	{
+ 12026		int i;
+ 12027	
+ 12028		*n_offsets = 0;
+ 12029	
+ 12030		if (!attr)
+ 12031			return 0;
+ 12032	
+ 12033		if (!nla_len(attr) || (nla_len(attr) % sizeof(u16)))
+ 12034			return -EINVAL;
+ 12035	
+ 12036		*n_offsets = nla_len(attr) / sizeof(u16);
+ 12037		if (rdev->wiphy.max_num_csa_counters &&
+ 12038		    (*n_offsets > rdev->wiphy.max_num_csa_counters))
+ 12039			return -EINVAL;
+ 12040	
+ 12041		*offsets = nla_data(attr);
+ 12042	
+ 12043		/* sanity checks - counters should fit and be the same */
+ 12044		for (i = 0; i < *n_offsets; i++) {
+ 12045			u16 offset = (*offsets)[i];
+ 12046	
+ 12047			if (offset >= datalen)
+ 12048				return -EINVAL;
+ 12049	
+ 12050			if (first_count != -1 && data[offset] != first_count)
+ 12051				return -EINVAL;
+ 12052		}
+ 12053	
+ 12054		if (!!params->he_cap != !!params->he_oper)
+ 12055			return -EINVAL;
+ 12056	
+ 12057		if (!!params->eht_cap != !!params->eht_oper)
+ 12058			return -EINVAL;
+ 12059	
+ 12060		return 0;
+ 12061	}
+ 12062	
 
 --
 0-DAY CI Kernel Test Service
