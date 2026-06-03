@@ -1,156 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3913E5564;
-	Wed,  3 Jun 2026 16:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB7A3E3161
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 16:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780503231; cv=none; b=swfmmcEbBocA69CcLCNzrXgdKVin72FOR7ZG2gELVweM+fdvjE5tDj6G8XPklTe/2u5d2IqhLOQgUbnmnr4rDEYRIBCDsuvJ/PxSwotwBMPrYV+iFcQozXg3Ui1bF4wSsOzragZ1XxUQLWkzfWiiJzQQ69w0StqFd9UeLhWrZL0=
+	t=1780505692; cv=none; b=kIUuIrR+isHtS8FJ9sa/g7xBjYBV52wYHQDf5/3G9BMAftSRbtvN/71it5smPx6UNT2ehWvC54SFK4Ru8dtrWixT2LkhSShF5SmIHLsTmZ4Oh39SLM/8ei2AZ/B+QV/K9ojA5DnAU1cFzPE6QfilSYUGh02rgP8aIHZqNch2tKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780503231; c=relaxed/simple;
-	bh=NQGda+ldp72jCROfqHpVqZFXJq6f6BXsKUN8lXV3OIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=trL7El/ZLuvQ12t3/LR+EoirPTlW1hRzuCw+QdHExO5+BKMQ8vZI9st6+jjP0dbpKil7RNXjwIoignpKJevA92mVsiDL/Ff+MRT+AoiY13nj6RnrAiea8aJIuLLdONViIpHwxoQSeS/RgY7B5NWv3tsrPCFqK2H6l52cm71gaaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bjrjSJc7; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1780505692; c=relaxed/simple;
+	bh=lSkbLnxyan/V/NE45gsukrl43r3UBFclA6+i09ipQQE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VMuWN8cyV+deysZhBAJETCyepIrzjc7aaJXcgkz9XUFfcpZw4MQVmQnlhmSgmro78tg+MxtOnkLz9Hj/SbQ+Gb2/tFi1+pC//YlxYrr5SnAXgSwLIjiZRj+5x861Ax61uyzdmGGFi8ijpgH70P9aKnDgCzZtg4nvwZ/OQijRv4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MgAkkEyS; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bjrjSJc7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MgAkkEyS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780503228; x=1812039228;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NQGda+ldp72jCROfqHpVqZFXJq6f6BXsKUN8lXV3OIk=;
-  b=bjrjSJc7eP0HYzxdTMuM+aGB49gSaKX1cNTqyqQEemF9KVGpC7a1qTfW
-   r0hArhmn4oJArYkWEZpd2PAZSTjTekMWLOOBbQ1RgOEAGnMDdF0Yj2Zt/
-   y0GJpnFMv3AjOIrqPu37+CcDTbKX6uUP/OHh7OAG/9v1yZMQpakMrgdoH
-   L1SzsmD1H3ZswH4qtwK1ulnwHwKjmRZ3SF9xkZwD8Ac6GvXZO7NiE7TE3
-   k9vWTm2FdW4o+XK4WEnxGjjL/8NhXtiOyatrDARicFtnQL+9U82TY8zfG
-   a3p4s2P1W2Sw2Oorf4USHY+GEM4POa3Bv83zQSHwkjhGCcEe0mvzGEgZZ
-   Q==;
-X-CSE-ConnectionGUID: vq5L98maQwmHkpxc/OOdUg==
-X-CSE-MsgGUID: brUhrWEOTiKZ+qn4y4fKQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81225137"
+  t=1780505692; x=1812041692;
+  h=date:from:to:cc:subject:message-id;
+  bh=lSkbLnxyan/V/NE45gsukrl43r3UBFclA6+i09ipQQE=;
+  b=MgAkkEySSuets8IzjkEZYO7JJlqu/c6tNvlz6Oa/FHW7nK4PadKaXW1y
+   q6F/z5jTTYE7s7b3mQWMOr4WL2TWVGLeAYPi1SufmHztrLTtB34dRjpLB
+   CUWcb0H9EpuV0TowejlPceEzKaiT78TnClOHnhvfwZ2twqWh2r5CA51ar
+   GWlZnfTupiwXr1LXwgEnLIsTrKeoRcMI15BQwTXRs9X43U5D1jxHnLBxL
+   ReAbppMv449VJdVgKv8NtZv9k5MotGJjMWmp/CGwlfHc0NRB8Go/HFUEs
+   GBFr3oYQij9Q5L0hs7vralXCND+6bThdGHX5QeEJoGrLpx7mBgaU3itY7
+   A==;
+X-CSE-ConnectionGUID: STCmj+yETiuvqe4ZCjoNiA==
+X-CSE-MsgGUID: oYKe0Zl7Tpi3jaJp3kY+Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81505620"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="81225137"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 09:13:47 -0700
-X-CSE-ConnectionGUID: k6LN7mBHR++zHn/j+ieAWQ==
-X-CSE-MsgGUID: Ux6O5Lk7RXigtCnUbBF23Q==
+   d="scan'208";a="81505620"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 09:54:49 -0700
+X-CSE-ConnectionGUID: K37zSL2kQ5mFOXe5ERpwXg==
+X-CSE-MsgGUID: c36BIHz0RJaZ6jgmH1LPOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="241293620"
+   d="scan'208";a="237954354"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Jun 2026 09:13:45 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jun 2026 09:54:46 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUoDv-0000000026z-2aBv;
-	Wed, 03 Jun 2026 16:13:43 +0000
-Date: Wed, 3 Jun 2026 18:13:06 +0200
+	id 1wUorc-0000000027N-1FgM;
+	Wed, 03 Jun 2026 16:54:44 +0000
+Date: Wed, 03 Jun 2026 18:53:53 +0200
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>,
-	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes.berg@intel.com>, Xiang Mei <xmei5@asu.edu>
-Subject: Re: [PATCH] wifi: cfg80211: enforce HE/EHT cap/oper consistency
-Message-ID: <202606031815.lqRk4eKB-lkp@intel.com>
-References: <20260603091812.101894-2-johannes@sipsolutions.net>
+To: Nikolay Aleksandrov <nikolay@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ David Ahern <dsahern@kernel.org>, Tariq Toukan <tariqt@nvidia.com>
+Subject: 
+ drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c:877:31: error:
+ initialization of 'int (*)(struct devlink *, u32,  union devlink_param_value
+ *, struct netlink_ext_ack *)' {aka 'int (*)(struct devlink *, unsigned int, 
+ union devlink_param_value *, st...
+Message-ID: <202606031801.2KXNQX9V-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603091812.101894-2-johannes@sipsolutions.net>
 
-Hi Johannes,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v7.1-rc6 next-20260602]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-cfg80211-enforce-HE-EHT-cap-oper-consistency/20260603-173706
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20260603091812.101894-2-johannes%40sipsolutions.net
-patch subject: [PATCH] wifi: cfg80211: enforce HE/EHT cap/oper consistency
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260603/202606031815.lqRk4eKB-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031815.lqRk4eKB-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/devlink-add-generic-device-max_sfs-parameter/20260603-183351
+head:   3f9c478ff2a7ceca60d14dab453bbd80ba5347fd
+commit: 3f9c478ff2a7ceca60d14dab453bbd80ba5347fd net/mlx5: implement max_sfs parameter
+date:   6 hours ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260603/202606031801.2KXNQX9V-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031801.2KXNQX9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606031815.lqRk4eKB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606031801.2KXNQX9V-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/wireless/nl80211.c:12054:8: error: use of undeclared identifier 'params'
-    12054 |         if (!!params->he_cap != !!params->he_oper)
-          |               ^~~~~~
-   net/wireless/nl80211.c:12054:28: error: use of undeclared identifier 'params'
-    12054 |         if (!!params->he_cap != !!params->he_oper)
-          |                                   ^~~~~~
-   net/wireless/nl80211.c:12057:8: error: use of undeclared identifier 'params'
-    12057 |         if (!!params->eht_cap != !!params->eht_oper)
-          |               ^~~~~~
-   net/wireless/nl80211.c:12057:29: error: use of undeclared identifier 'params'
-    12057 |         if (!!params->eht_cap != !!params->eht_oper)
-          |                                    ^~~~~~
-   4 errors generated.
+   In file included from include/linux/mlx5/driver.h:58,
+                    from drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.h:7,
+                    from drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c:4:
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c:877:31: error: initialization of 'int (*)(struct devlink *, u32,  union devlink_param_value *, struct netlink_ext_ack *)' {aka 'int (*)(struct devlink *, unsigned int,  union devlink_param_value *, struct netlink_ext_ack *)'} from incompatible pointer type 'int (*)(struct devlink *, u32,  union devlink_param_value,  struct netlink_ext_ack *)' {aka 'int (*)(struct devlink *, unsigned int,  union devlink_param_value,  struct netlink_ext_ack *)'} [-Wincompatible-pointer-types]
+     877 |                               mlx5_devlink_max_sfs_validate),
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/devlink.h:635:21: note: in definition of macro 'DEVLINK_PARAM_GENERIC'
+     635 |         .validate = _validate,                                          \
+         |                     ^~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c:877:31: note: (near initialization for 'mlx5_nv_param_devlink_params[2].validate')
+     877 |                               mlx5_devlink_max_sfs_validate),
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/devlink.h:635:21: note: in definition of macro 'DEVLINK_PARAM_GENERIC'
+     635 |         .validate = _validate,                                          \
+         |                     ^~~~~~~~~
 
 
-vim +/params +12054 net/wireless/nl80211.c
+vim +877 drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
 
- 12020	
- 12021	static int nl80211_parse_counter_offsets(struct cfg80211_registered_device *rdev,
- 12022						 const u8 *data, size_t datalen,
- 12023						 int first_count, struct nlattr *attr,
- 12024						 const u16 **offsets, unsigned int *n_offsets)
- 12025	{
- 12026		int i;
- 12027	
- 12028		*n_offsets = 0;
- 12029	
- 12030		if (!attr)
- 12031			return 0;
- 12032	
- 12033		if (!nla_len(attr) || (nla_len(attr) % sizeof(u16)))
- 12034			return -EINVAL;
- 12035	
- 12036		*n_offsets = nla_len(attr) / sizeof(u16);
- 12037		if (rdev->wiphy.max_num_csa_counters &&
- 12038		    (*n_offsets > rdev->wiphy.max_num_csa_counters))
- 12039			return -EINVAL;
- 12040	
- 12041		*offsets = nla_data(attr);
- 12042	
- 12043		/* sanity checks - counters should fit and be the same */
- 12044		for (i = 0; i < *n_offsets; i++) {
- 12045			u16 offset = (*offsets)[i];
- 12046	
- 12047			if (offset >= datalen)
- 12048				return -EINVAL;
- 12049	
- 12050			if (first_count != -1 && data[offset] != first_count)
- 12051				return -EINVAL;
- 12052		}
- 12053	
- 12054		if (!!params->he_cap != !!params->he_oper)
- 12055			return -EINVAL;
- 12056	
- 12057		if (!!params->eht_cap != !!params->eht_oper)
- 12058			return -EINVAL;
- 12059	
- 12060		return 0;
- 12061	}
- 12062	
+   865	
+   866	static const struct devlink_param mlx5_nv_param_devlink_params[] = {
+   867		DEVLINK_PARAM_GENERIC(ENABLE_SRIOV, BIT(DEVLINK_PARAM_CMODE_PERMANENT),
+   868				      mlx5_devlink_enable_sriov_get,
+   869				      mlx5_devlink_enable_sriov_set, NULL),
+   870		DEVLINK_PARAM_GENERIC(TOTAL_VFS, BIT(DEVLINK_PARAM_CMODE_PERMANENT),
+   871				      mlx5_devlink_total_vfs_get,
+   872				      mlx5_devlink_total_vfs_set,
+   873				      mlx5_devlink_total_vfs_validate),
+   874		DEVLINK_PARAM_GENERIC(MAX_SFS, BIT(DEVLINK_PARAM_CMODE_PERMANENT),
+   875				      mlx5_devlink_max_sfs_get,
+   876				      mlx5_devlink_max_sfs_set,
+ > 877				      mlx5_devlink_max_sfs_validate),
+   878		DEVLINK_PARAM_DRIVER(MLX5_DEVLINK_PARAM_ID_CQE_COMPRESSION_TYPE,
+   879				     "cqe_compress_type", DEVLINK_PARAM_TYPE_STRING,
+   880				     BIT(DEVLINK_PARAM_CMODE_PERMANENT),
+   881				     mlx5_nv_param_devlink_cqe_compress_get,
+   882				     mlx5_nv_param_devlink_cqe_compress_set,
+   883				     mlx5_nv_param_devlink_cqe_compress_validate),
+   884		DEVLINK_PARAM_DRIVER_WITH_DEFAULTS(MLX5_DEVLINK_PARAM_ID_SWP_L4_CSUM_MODE,
+   885						   "swp_l4_csum_mode", DEVLINK_PARAM_TYPE_STRING,
+   886						   BIT(DEVLINK_PARAM_CMODE_PERMANENT),
+   887						   mlx5_devlink_swp_l4_csum_mode_get,
+   888						   mlx5_devlink_swp_l4_csum_mode_set,
+   889						   mlx5_devlink_swp_l4_csum_mode_validate,
+   890						   mlx5_devlink_swp_l4_csum_mode_get_default,
+   891						   mlx5_devlink_swp_l4_csum_mode_set_default),
+   892	};
+   893	
 
 --
 0-DAY CI Kernel Test Service
