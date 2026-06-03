@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F99F393DF9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 10:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DF63ADBAD;
+	Wed,  3 Jun 2026 11:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780484265; cv=none; b=scYiQnynDfhrL2PIy2qVd1vLC9R7Stb7pKdCpBZ7A2uYVMndfYFtx+xP/dNCTKdHWpRFjsoF/cPO3sk3+ZuJE6jXQlvsKcfCgYIEvX6JTPZnuHXZpucfnG4nLpFOkgRcjtsQCjXMu0lnal7SlnAfmkUT2E9a4JZ6dP+L/s9AZyA=
+	t=1780484868; cv=none; b=GgDULaPF2HdATiKMBtUJLQ6ZilVCZvvTcNIZL4RNrwWSYl2Shj+0dRtdIRT/47tNQAEK5Le40LEjQwZ5wPmdDxOuaGsy3bfmy6oR4IDv78qGobV4b0TrdzXuWRSJ8zrqHDEBnJOCCyRk1UB+UUCdL7UBMcsjhOrfpAMLxN7igWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780484265; c=relaxed/simple;
-	bh=EKZrmv1+gdS0GisuFgRd0fU5qugRqtxz7qgbeYRHlQE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ta/Cm/ubmT5ycx5qSjwKaO7AAfAebCIw1b/W8ryIhWNtgXsP3jN5jLm0r/MGgAELwfGk9fQmgydt4eGZ+PrwWMetZErWE1ATJMv+oxAzC7L1VRB3YgjNIwYjs79REnyt6OcYSAXpFu8yBW57D3zrC+c4Cccjp/9pMxAk6WtQ7gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwvZzudJ; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1780484868; c=relaxed/simple;
+	bh=lIEtwJJh9UEdPmIswm6wyDa2NFYzJHGxZAtnNg8GLgE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VJ+QOmUYf128NMpM+4mpxOPc9yumUVc65hgpRtXVa6FetTVR7DXcbMBGXSSUhTbZjg5hQAfuf3MylrpqWo4amzBUfYaZ/EspWDP6+CGYpCokh5wWNbXo/K2P9JtzuaG3Ns/Cc9ckQbmViBo6M58bzdwpZ+KpaOkpqwFzB+MZOAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SiyvaCUG; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwvZzudJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SiyvaCUG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780484264; x=1812020264;
+  t=1780484867; x=1812020867;
   h=date:from:to:cc:subject:message-id;
-  bh=EKZrmv1+gdS0GisuFgRd0fU5qugRqtxz7qgbeYRHlQE=;
-  b=lwvZzudJ7NBerlXCobBumADNHr7XIEP7hEnrX6TOiYGLL46xGYVJRIUG
-   34njhsBzmlnfyv2N1D5kEa8TZjYUh9IGYm+jy3yXIuJuLeYmxKeEPY3lG
-   8V+xRF5RE9iwNgqjAp+2rXtqU+OoTTaIaqVICLzVV7pdPCvmVjTFbFzwo
-   b9SQD1QsSEJIb2OyHYlRMGeW1NIPsA4jRQBJjqhRZHP6u4kewy6YM4Buh
-   U5TL0wYKtPAC8l6+iacyhem3bvQ8CNhuFcwoa8PAV2sqRoqnlJdIMimq/
-   sSN4erR976QFLAZ2RIlJPoOL0RlR/nS57U9Q4E6cpd8/8SC4bFcim1iHJ
-   w==;
-X-CSE-ConnectionGUID: 1RAwbjJwSYaK4j8Rul7m4A==
-X-CSE-MsgGUID: /8JHp3X7TYqz5BIJTEQhQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92663865"
+  bh=lIEtwJJh9UEdPmIswm6wyDa2NFYzJHGxZAtnNg8GLgE=;
+  b=SiyvaCUGJgssBBhQpB+2CDUJZHIiGoKFdqZ9LHCNiZ7v4HrQ5KJSlYfI
+   FcUNWR5cLH2hM9IgIvt++VJYOfAMNk4mkIMCZ+jphen6hmjn13Tt9O0FA
+   xmTJwPEUIRb6zhJYKoa4aEK7yAMBXoFDQkag6REE45xQebaw8m53iiwvT
+   uQccT74ttGX+BOMUGVb4Rhjr13KgZEpIhmXozWzDEX9C3oTo14OBNS4JL
+   GOuj48EyCVKYz2c30zqF5kqf3ucQh9rXwxScRh8GDNR1hXaPlVGBb/mfn
+   AWHbUeiGlCyl8vbA+44y8SWx+1f+CGHJ4I6o3zDSJJHFA+ziAULst8tJv
+   A==;
+X-CSE-ConnectionGUID: t7tpsR8sTv+Uu0zs+EKRBQ==
+X-CSE-MsgGUID: Tp1v5OgBRwS3PQEcWLfzAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92771524"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="92663865"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 03:57:43 -0700
-X-CSE-ConnectionGUID: hjl3WOjAQ3mWd1jencVkXw==
-X-CSE-MsgGUID: h2K6zpEqS7qSq4+RVjnTRQ==
+   d="scan'208";a="92771524"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 04:07:46 -0700
+X-CSE-ConnectionGUID: EJfw8Vk2Q7KCddp3Uanv0g==
+X-CSE-MsgGUID: 9i2cc1WmR2SLijVXasZ07A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="237838719"
+   d="scan'208";a="243139435"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Jun 2026 03:57:42 -0700
+  by orviesa006.jf.intel.com with ESMTP; 03 Jun 2026 04:07:43 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUjI4-00000000DK2-16vi;
-	Wed, 03 Jun 2026 10:57:40 +0000
-Date: Wed, 03 Jun 2026 18:57:03 +0800
+	id 1wUjRl-00000000DKo-0bKn;
+	Wed, 03 Jun 2026 11:07:41 +0000
+Date: Wed, 03 Jun 2026 19:07:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/1]
- arch/arm64/kvm/hyp/nvhe/modules.c:276:5: warning: no previous prototype for
- 'module_map_module_page'
-Message-ID: <202606031848.sC3N2i9k-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/boot_qemu 20/46] arch/hexagon/Makefile:83:
+ warning: ignoring old recipe for target 'dtbs'
+Message-ID: <202606031900.uPvtpRXU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,55 +60,53 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Vincent,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   66b8d2a9700a7cf3c1a5f4089bb4a93d1bcbc144
-commit: db8bad4a59d2609e1ec4c6da947554ab51901f4a [0/1] ANDROID: KVM: arm64: Expose unmap_module_page to modules
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260603/202606031848.sC3N2i9k-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031848.sC3N2i9k-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/boot_qemu
+head:   d99deb935033fad4dc63395a63498a77613df72a
+commit: 9ed7172993b8e76f687f481352d61a880dbc3084 [20/46] hexagon: update build system and Kconfig
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260603/202606031900.uPvtpRXU-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031900.uPvtpRXU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606031848.sC3N2i9k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606031900.uPvtpRXU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/nvhe/modules.c:276:5: warning: no previous prototype for 'module_map_module_page' [-Wmissing-prototypes]
-     276 | int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/modules.c:282:5: warning: no previous prototype for 'module_map_module_pages' [-Wmissing-prototypes]
-     282 | int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/modules.c:288:5: warning: no previous prototype for 'module_unmap_module_pages' [-Wmissing-prototypes]
-     288 | int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> Makefile:1599: warning: overriding recipe for target 'dtbs'
+>> arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+   make[3]: *** [Makefile:2143: .] Error 2
+   make[3]: Target 'arch/hexagon/' not remade because of errors.
+--
+>> Makefile:1599: warning: overriding recipe for target 'dtbs'
+>> arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+--
+>> Makefile:1599: warning: overriding recipe for target 'dtbs'
+>> arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+--
+>> /kbuild/src/Makefile:1599: warning: overriding recipe for target 'dtbs'
+>> /kbuild/src/arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+   /kbuild/src/scripts/Makefile.clean:12: /kbuild/src/arch/hexagon/platform/sm8150/Makefile: No such file or directory
+   make[3]: *** No rule to make target '/kbuild/src/arch/hexagon/platform/sm8150/Makefile'.
+   /kbuild/src/scripts/Makefile.clean:12: Failed to remake makefile '/kbuild/src/arch/hexagon/platform/sm8150/Makefile'.
+   make[2]: *** [/kbuild/src/Makefile:2148: _clean_arch/hexagon/platform/sm8150] Error 2
+   make[2]: Target 'mrproper' not remade because of errors.
+   make[1]: *** [/kbuild/src/Makefile:248: __sub-make] Error 2
+   make[1]: Target 'mrproper' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'mrproper' not remade because of errors.
+--
+>> Makefile:1599: warning: overriding recipe for target 'dtbs'
+>> arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
 
 
-vim +/module_map_module_page +276 arch/arm64/kvm/hyp/nvhe/modules.c
+vim +/dtbs +83 arch/hexagon/Makefile
 
-   275	
- > 276	int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
-   277				   bool is_protected)
-   278	{
-   279		return __pkvm_map_module_pages(pfn, va, 1, prot, is_protected);
-   280	}
-   281	
- > 282	int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
-   283				   bool is_protected)
-   284	{
-   285		return __pkvm_map_module_pages(pfn, va, nr_pages, prot, is_protected);
-   286	}
-   287	
- > 288	int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
-   289	{
-   290		return __pkvm_unmap_module_pages(pfn, va, nr_pages);
-   291	}
-   292	
+    80	
+    81	PHONY += dtbs
+    82	dtbs: scripts
+  > 83		$(Q)$(MAKE) $(build)=$(boot)/dts dtbs
 
 --
 0-DAY CI Kernel Test Service
