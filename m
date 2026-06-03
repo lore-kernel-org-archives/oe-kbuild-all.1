@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664AF1E531
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 14:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D049352F87;
+	Wed,  3 Jun 2026 14:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780497153; cv=none; b=GH4EY91tSSFr+3exjdAwdM2ekF8V3uitPkhdeIc0IdF56vP5UGproMNj7OAxj+iB5fF2P2ETQJRRF7hE3sAfl0fYcheIS6Eeo+jZD90YPHB/Ohtxy+OkUP0aROExG+qdUSeMWKMslKuq4ktxCJwybqMAowkHcobqXybnI2bdw4Q=
+	t=1780497768; cv=none; b=EvLGmgadFGPzS7GYL8+pOu24HXyuJS4JVO9dmnYv/kX4wr6jRhmCNJvf1c67FWi18zeveiXfXtLsLc6t8gl6t0qzdMXhX+3efcn38jzQQeq10PmVeUTOsAUnNKGYR721Ywa5FjednzcsIZXa0TXzuD1esgn9+TxwNVKLiclEssE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780497153; c=relaxed/simple;
-	bh=xbJm0T8u7QgoWljC3gkJ90UyJ/TgTiMAfHCoV1q6onc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PZ0HLHZQvJW79VAKOviMsmu25QuaeMZPs3vDrIP2nO/61U4+aHBIO2qJcbIYGVhBjjt40G1ybjTUrs/O9jKojpW/SgUoQci8w8mQVt3UgO8mOGWRgsfI9diRMXPZjkGturSSlvkfSk5of8UTG3npuDN01ZXQ9U8ItbCjsorhchk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4uelcPF; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1780497768; c=relaxed/simple;
+	bh=IAXIe9i199iVavRnrmTXTxm2Y+IVirjDD3K3rG4IhqA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FKhN8myILveOWBIwKkpkqud7ai4dy4ML6XevnXWAzZ3XxIIWVSmTepmFRt/I5q6HVaaOBGvhdrXmQd4LIRZcE6CM1FFalef4B+q+4qHGq4kTF3vNR31bQGBpKp2yV/Ef9GnmE61fhFzwToEf0w3Q1oB8mASzkLewxQRZKovxnFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h5KXLT8i; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4uelcPF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h5KXLT8i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780497151; x=1812033151;
+  t=1780497767; x=1812033767;
   h=date:from:to:cc:subject:message-id;
-  bh=xbJm0T8u7QgoWljC3gkJ90UyJ/TgTiMAfHCoV1q6onc=;
-  b=H4uelcPFWBLIXxN/2hrJcLgDForJyfue4FjLFchRlqULWWsrQD5EZNJs
-   UBia0hAYFI+bBGSi43ISDcpGrhxY02iSt2dMD9bQwXq2dSV6hgAFtN0c1
-   V+ARNejQ/biKEAxMF8t7ylYH4oHpFknURGcoTH+BgxStE8cdZCxX0Vl9U
-   6lhqRTfmB8om2DpVXI01CPcc3VMYi7dz69l17sK+JpfGmmtZRIaSpipxW
-   hiNBfO2TYaSi7ILz4nOX9ZGZlyqjc8ZsX2b/sRtb3G1V5tVn9aruax7a4
-   P5YKJTQm8fXj5/J+Utx7p4Zyr+J/+YEbqkqTNj1VQDUrinEesOWp02tfn
-   g==;
-X-CSE-ConnectionGUID: exBPOQ5SQwm397w0iM5jwg==
-X-CSE-MsgGUID: X39pKFfFRWGMdjleOSE/0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81166656"
+  bh=IAXIe9i199iVavRnrmTXTxm2Y+IVirjDD3K3rG4IhqA=;
+  b=h5KXLT8iby4ZsPazPcDuYqB0/PlKmFrpUt5esnYe+xIrpWLQ2rUDqcv3
+   xSQ2VbwwaQtVDyt8beOvKp3ZfrOQRjpGWeq5kk/Im37BiACv2ezKaRhSe
+   HkfsDv1uW3hk6SyucZB0YowT0lbOqEhbOdx1KcdWemc0gxzeSSniHq7MV
+   kfbXdK9YFMiVta/yokTeYVPnFD5kdn8kNvECDNVEzh5CliVk5Trneb8pz
+   7rQR8Oz/LEefdD3J1easEElqipe6JK5wGfQhJOf16AMEbPbAG/9xqXFqz
+   DSjtw5NgEz1Ld2TFKJInzSd09xCSgr7EJcU0O7SAA/8gxEGt0VwMckXoX
+   A==;
+X-CSE-ConnectionGUID: 4TeaJ8DQS9SilKrtzUKJmQ==
+X-CSE-MsgGUID: m8pZqX1jRk2LGIZGTRd95Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="91624810"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="81166656"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:32:30 -0700
-X-CSE-ConnectionGUID: ZffkNI67RSSi/we80fz6Dg==
-X-CSE-MsgGUID: bZdMNOawRbWryKhUTNnMgw==
+   d="scan'208";a="91624810"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:42:47 -0700
+X-CSE-ConnectionGUID: H0bRajFSR9aum4ahq1yLng==
+X-CSE-MsgGUID: GWqVLa2URreIybuiLRFYPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="244337625"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Jun 2026 07:32:29 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="246082250"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 03 Jun 2026 07:42:45 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUmdu-00000000DX4-0wad;
-	Wed, 03 Jun 2026 14:32:26 +0000
-Date: Wed, 03 Jun 2026 22:32:12 +0800
+	id 1wUmnp-0000000024l-3y1h;
+	Wed, 03 Jun 2026 14:42:41 +0000
+Date: Wed, 03 Jun 2026 16:41:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@kernel.org>
-Subject: [tglx-devel:irq/constify 8/8] kernel/irq/ipi.c:317:33:
- warning: initialization discards 'const' qualifier from pointer target type
-Message-ID: <202606032231.CqGIh6FI-lkp@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:more.configfs 33/33] fs/configfs/symlink.c:136:26:
+ warning: variable 'sd' set but not used
+Message-ID: <202606031627.uHB6eQoo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,60 +60,108 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/constify
-head:   2e8b4859e87ef8229ab12228b5e484171084a127
-commit: 2e8b4859e87ef8229ab12228b5e484171084a127 [8/8] genirq/chip: Constify the 'chip' field in irq_data
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260603/202606032231.CqGIh6FI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606032231.CqGIh6FI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git more.configfs
+head:   53a9faf145785b0b12ec71f2204f3b3011dbda5e
+commit: 53a9faf145785b0b12ec71f2204f3b3011dbda5e [33/33] kill configfs_dirent_is_ready()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260603/202606031627.uHB6eQoo-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031627.uHB6eQoo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606032231.CqGIh6FI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606031627.uHB6eQoo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/irq/ipi.c: In function 'ipi_send_single':
->> kernel/irq/ipi.c:317:33: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     317 |         struct irq_chip *chip = data ? irq_data_get_irq_chip(data) : NULL;
-         |                                 ^~~~
-   kernel/irq/ipi.c: In function 'ipi_send_mask':
-   kernel/irq/ipi.c:338:33: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     338 |         struct irq_chip *chip = data ? irq_data_get_irq_chip(data) : NULL;
-         |                                 ^~~~
+>> fs/configfs/symlink.c:136:26: warning: variable 'sd' set but not used [-Wunused-but-set-variable]
+     136 |         struct configfs_dirent *sd;
+         |                                 ^
+   1 warning generated.
 
 
-vim +/const +317 kernel/irq/ipi.c
+vim +/sd +136 fs/configfs/symlink.c
 
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  304  
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  305  /**
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  306   * ipi_send_single - Send an IPI to a single CPU
-3b35e7e6daef5a8 Randy Dunlap 2021-08-10  307   * @virq:	Linux IRQ number from irq_reserve_ipi()
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  308   * @cpu:	destination CPU, must in the destination mask passed to
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  309   *		irq_reserve_ipi()
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  310   *
-3b35e7e6daef5a8 Randy Dunlap 2021-08-10  311   * Return: %0 on success or negative error number on failure.
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  312   */
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  313  int ipi_send_single(unsigned int virq, unsigned int cpu)
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  314  {
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  315  	struct irq_desc *desc = irq_to_desc(virq);
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  316  	struct irq_data *data = desc ? irq_desc_get_irq_data(desc) : NULL;
-3b8e29a82dd16c1 Qais Yousef  2015-12-08 @317  	struct irq_chip *chip = data ? irq_data_get_irq_chip(data) : NULL;
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  318  
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  319  	if (WARN_ON_ONCE(ipi_send_verify(chip, data, NULL, cpu)))
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  320  		return -EINVAL;
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  321  
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  322  	return __ipi_send_single(desc, cpu);
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  323  }
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  324  EXPORT_SYMBOL_GPL(ipi_send_single);
-3b8e29a82dd16c1 Qais Yousef  2015-12-08  325  
+7063fbf2261194f Joel Becker       2005-12-15  130  
+7063fbf2261194f Joel Becker       2005-12-15  131  
+7a77db95511c39b Christian Brauner 2023-01-13  132  int configfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
+549c7297717c32e Christian Brauner 2021-01-21  133  		     struct dentry *dentry, const char *symname)
+7063fbf2261194f Joel Becker       2005-12-15  134  {
+7063fbf2261194f Joel Becker       2005-12-15  135  	int ret;
+2a109f2a4155f16 Louis Rilling     2008-07-04 @136  	struct configfs_dirent *sd;
+7063fbf2261194f Joel Becker       2005-12-15  137  	struct config_item *parent_item;
+3c48f23adada870 Subrata Modak     2009-04-19  138  	struct config_item *target_item = NULL;
+aa293583f0fe8b1 Bhumika Goyal     2017-10-16  139  	const struct config_item_type *type;
+7063fbf2261194f Joel Becker       2005-12-15  140  
+2a109f2a4155f16 Louis Rilling     2008-07-04  141  	sd = dentry->d_parent->d_fsdata;
+2a109f2a4155f16 Louis Rilling     2008-07-04  142  
+7063fbf2261194f Joel Becker       2005-12-15  143  	parent_item = configfs_get_config_item(dentry->d_parent);
+7063fbf2261194f Joel Becker       2005-12-15  144  	type = parent_item->ci_type;
+7063fbf2261194f Joel Becker       2005-12-15  145  
+2a109f2a4155f16 Louis Rilling     2008-07-04  146  	ret = -EPERM;
+7063fbf2261194f Joel Becker       2005-12-15  147  	if (!type || !type->ct_item_ops ||
+7063fbf2261194f Joel Becker       2005-12-15  148  	    !type->ct_item_ops->allow_link)
+7063fbf2261194f Joel Becker       2005-12-15  149  		goto out_put;
+7063fbf2261194f Joel Becker       2005-12-15  150  
+351e5d869e5ac10 Al Viro           2019-08-03  151  	/*
+351e5d869e5ac10 Al Viro           2019-08-03  152  	 * This is really sick.  What they wanted was a hybrid of
+351e5d869e5ac10 Al Viro           2019-08-03  153  	 * link(2) and symlink(2) - they wanted the target resolved
+351e5d869e5ac10 Al Viro           2019-08-03  154  	 * at syscall time (as link(2) would've done), be a directory
+351e5d869e5ac10 Al Viro           2019-08-03  155  	 * (which link(2) would've refused to do) *AND* be a deep
+351e5d869e5ac10 Al Viro           2019-08-03  156  	 * fucking magic, making the target busy from rmdir POV.
+351e5d869e5ac10 Al Viro           2019-08-03  157  	 * symlink(2) is nothing of that sort, and the locking it
+351e5d869e5ac10 Al Viro           2019-08-03  158  	 * gets matches the normal symlink(2) semantics.  Without
+351e5d869e5ac10 Al Viro           2019-08-03  159  	 * attempts to resolve the target (which might very well
+351e5d869e5ac10 Al Viro           2019-08-03  160  	 * not even exist yet) done prior to locking the parent
+351e5d869e5ac10 Al Viro           2019-08-03  161  	 * directory.  This perversion, OTOH, needs to resolve
+351e5d869e5ac10 Al Viro           2019-08-03  162  	 * the target, which would lead to obvious deadlocks if
+351e5d869e5ac10 Al Viro           2019-08-03  163  	 * attempted with any directories locked.
+351e5d869e5ac10 Al Viro           2019-08-03  164  	 *
+351e5d869e5ac10 Al Viro           2019-08-03  165  	 * Unfortunately, that garbage is userland ABI and we should've
+351e5d869e5ac10 Al Viro           2019-08-03  166  	 * said "no" back in 2005.  Too late now, so we get to
+351e5d869e5ac10 Al Viro           2019-08-03  167  	 * play very ugly games with locking.
+351e5d869e5ac10 Al Viro           2019-08-03  168  	 *
+351e5d869e5ac10 Al Viro           2019-08-03  169  	 * Try *ANYTHING* of that sort in new code, and you will
+351e5d869e5ac10 Al Viro           2019-08-03  170  	 * really regret it.  Just ask yourself - what could a BOFH
+351e5d869e5ac10 Al Viro           2019-08-03  171  	 * do to me and do I want to find it out first-hand?
+351e5d869e5ac10 Al Viro           2019-08-03  172  	 *
+351e5d869e5ac10 Al Viro           2019-08-03  173  	 *  AV, a thoroughly annoyed bastard.
+351e5d869e5ac10 Al Viro           2019-08-03  174  	 */
+351e5d869e5ac10 Al Viro           2019-08-03  175  	inode_unlock(dir);
+1b25dea3867abc9 Al Viro           2025-09-04  176  	ret = get_target(symname, &target_item, dentry->d_sb);
+351e5d869e5ac10 Al Viro           2019-08-03  177  	inode_lock(dir);
+7063fbf2261194f Joel Becker       2005-12-15  178  	if (ret)
+7063fbf2261194f Joel Becker       2005-12-15  179  		goto out_put;
+7063fbf2261194f Joel Becker       2005-12-15  180  
+351e5d869e5ac10 Al Viro           2019-08-03  181  	if (dentry->d_inode || d_unhashed(dentry))
+351e5d869e5ac10 Al Viro           2019-08-03  182  		ret = -EEXIST;
+351e5d869e5ac10 Al Viro           2019-08-03  183  	else
+4609e1f18e19c3b Christian Brauner 2023-01-13  184  		ret = inode_permission(&nop_mnt_idmap, dir,
+47291baa8ddfdae Christian Brauner 2021-01-21  185  				       MAY_WRITE | MAY_EXEC);
+351e5d869e5ac10 Al Viro           2019-08-03  186  	if (!ret)
+7063fbf2261194f Joel Becker       2005-12-15  187  		ret = type->ct_item_ops->allow_link(parent_item, target_item);
+e75206517504461 Louis Rilling     2008-06-12  188  	if (!ret) {
+9a73d78cda750f1 Louis Rilling     2008-06-20  189  		mutex_lock(&configfs_symlink_mutex);
+7063fbf2261194f Joel Becker       2005-12-15  190  		ret = create_link(parent_item, target_item, dentry);
+9a73d78cda750f1 Louis Rilling     2008-06-20  191  		mutex_unlock(&configfs_symlink_mutex);
+e75206517504461 Louis Rilling     2008-06-12  192  		if (ret && type->ct_item_ops->drop_link)
+e75206517504461 Louis Rilling     2008-06-12  193  			type->ct_item_ops->drop_link(parent_item,
+e75206517504461 Louis Rilling     2008-06-12  194  						     target_item);
+e75206517504461 Louis Rilling     2008-06-12  195  	}
+7063fbf2261194f Joel Becker       2005-12-15  196  
+7063fbf2261194f Joel Becker       2005-12-15  197  	config_item_put(target_item);
+7063fbf2261194f Joel Becker       2005-12-15  198  
+7063fbf2261194f Joel Becker       2005-12-15  199  out_put:
+7063fbf2261194f Joel Becker       2005-12-15  200  	config_item_put(parent_item);
+7063fbf2261194f Joel Becker       2005-12-15  201  	return ret;
+7063fbf2261194f Joel Becker       2005-12-15  202  }
+7063fbf2261194f Joel Becker       2005-12-15  203  
 
-:::::: The code at line 317 was first introduced by commit
-:::::: 3b8e29a82dd16c1f2061e0b955a71cd36eeb061b genirq: Implement ipi_send_mask/single()
+:::::: The code at line 136 was first introduced by commit
+:::::: 2a109f2a4155f168047aa2f5b3a170e279bef89a [PATCH] configfs: Prevent userspace from creating new entries under attaching directories
 
-:::::: TO: Qais Yousef <qais.yousef@imgtec.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: Louis Rilling <louis.rilling@kerlabs.com>
+:::::: CC: Mark Fasheh <mfasheh@suse.com>
 
 --
 0-DAY CI Kernel Test Service
