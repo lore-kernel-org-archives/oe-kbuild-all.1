@@ -1,167 +1,199 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D049352F87;
-	Wed,  3 Jun 2026 14:42:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F493D6465
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 14:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780497768; cv=none; b=EvLGmgadFGPzS7GYL8+pOu24HXyuJS4JVO9dmnYv/kX4wr6jRhmCNJvf1c67FWi18zeveiXfXtLsLc6t8gl6t0qzdMXhX+3efcn38jzQQeq10PmVeUTOsAUnNKGYR721Ywa5FjednzcsIZXa0TXzuD1esgn9+TxwNVKLiclEssE=
+	t=1780497770; cv=none; b=GHObBaoMqYqSuZkcxVF7hCrA8u06hPy8R3IsTs8QRt9Wx/nu1THwfHzsnJpUOM+KrWPlYJFpSr886NkaXhrKgCjKOfBit45kYdvd8mk9SL07WEaFTntrd+dVtXqGvk0CU2cL9kPlMKuWgkseSw4WVXKcJVWHLclqtaELJ47FtEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780497768; c=relaxed/simple;
-	bh=IAXIe9i199iVavRnrmTXTxm2Y+IVirjDD3K3rG4IhqA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FKhN8myILveOWBIwKkpkqud7ai4dy4ML6XevnXWAzZ3XxIIWVSmTepmFRt/I5q6HVaaOBGvhdrXmQd4LIRZcE6CM1FFalef4B+q+4qHGq4kTF3vNR31bQGBpKp2yV/Ef9GnmE61fhFzwToEf0w3Q1oB8mASzkLewxQRZKovxnFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h5KXLT8i; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1780497770; c=relaxed/simple;
+	bh=40/rz+Svj780MEv17S5hrRUI2Sow5Qt10VDlFQAoZw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YXCXaYn1cW6lkqPxQMorb8Gfe9nrDOqWxPK35sLaYob2lc4pIQkD8eBjkwcXQmIV/U91Q3otaoULfrhyOjl5aIg4CLilOLkrBjq6kn8uk+XMNc+0pHsrHYwMqpW9kPWcQJR8WzSRkOgoESSaYImEVcABhs6I1RkH9xjh2zuVYcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ikKq+7EJ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h5KXLT8i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikKq+7EJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780497767; x=1812033767;
-  h=date:from:to:cc:subject:message-id;
-  bh=IAXIe9i199iVavRnrmTXTxm2Y+IVirjDD3K3rG4IhqA=;
-  b=h5KXLT8iby4ZsPazPcDuYqB0/PlKmFrpUt5esnYe+xIrpWLQ2rUDqcv3
-   xSQ2VbwwaQtVDyt8beOvKp3ZfrOQRjpGWeq5kk/Im37BiACv2ezKaRhSe
-   HkfsDv1uW3hk6SyucZB0YowT0lbOqEhbOdx1KcdWemc0gxzeSSniHq7MV
-   kfbXdK9YFMiVta/yokTeYVPnFD5kdn8kNvECDNVEzh5CliVk5Trneb8pz
-   7rQR8Oz/LEefdD3J1easEElqipe6JK5wGfQhJOf16AMEbPbAG/9xqXFqz
-   DSjtw5NgEz1Ld2TFKJInzSd09xCSgr7EJcU0O7SAA/8gxEGt0VwMckXoX
-   A==;
-X-CSE-ConnectionGUID: 4TeaJ8DQS9SilKrtzUKJmQ==
-X-CSE-MsgGUID: m8pZqX1jRk2LGIZGTRd95Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="91624810"
+  t=1780497769; x=1812033769;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=40/rz+Svj780MEv17S5hrRUI2Sow5Qt10VDlFQAoZw0=;
+  b=ikKq+7EJOMZO8jqwd5J1lqCBknkr32M72yFBsR49q4yq2+XsxYYhJI68
+   EQ7Lqdmp1YOlOmbG+feafyCieBnRYp9Lc8oKYO7d4uf/xTCpJH3mZKdol
+   ur5bbf8FKQpYW4N/nXtXEbqkxv8nLWjIrUDhZ4Wqqdclk7jydE/OC1+GR
+   HJtEeb8X/FTm+9KbpoAmy9HGs7B8e7zmgCSs1OcXbtCaRoLvKsbfCyOmd
+   gVkzi13XQxImYfxEYDz9K59ekbrAcjo2+oWkpH/Xi8ZP3t8euEcgGspHE
+   LLNFdvWNp+Zw8RmIwQ1H8qQXpLl8WXzZ3wCicf3P5ci77+/Z1ZzwQDnw8
+   w==;
+X-CSE-ConnectionGUID: jHYWz8Y0SHO84cyNi74OpQ==
+X-CSE-MsgGUID: aX39SFYQRoqhX6BBa2kcXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="91624816"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="91624810"
+   d="scan'208";a="91624816"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:42:47 -0700
-X-CSE-ConnectionGUID: H0bRajFSR9aum4ahq1yLng==
-X-CSE-MsgGUID: GWqVLa2URreIybuiLRFYPw==
+X-CSE-ConnectionGUID: 8mMfWrHTSlSjR3rNteAd1g==
+X-CSE-MsgGUID: Ub0+VjfkRBOJVLDPy16mcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="246082250"
+   d="scan'208";a="246082245"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Jun 2026 07:42:45 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 03 Jun 2026 07:42:44 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUmnp-0000000024l-3y1h;
+	id 1wUmnp-0000000024j-3mvP;
 	Wed, 03 Jun 2026 14:42:41 +0000
-Date: Wed, 03 Jun 2026 16:41:54 +0200
+Date: Wed, 3 Jun 2026 16:41:55 +0200
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:more.configfs 33/33] fs/configfs/symlink.c:136:26:
- warning: variable 'sd' set but not used
-Message-ID: <202606031627.uHB6eQoo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: JB Tsai <jb.tsai@mediatek.com>, nbd@nbd.name, lorenzo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, Deren.Wu@mediatek.com,
+	Sean.Wang@mediatek.com, Quan.Zhou@mediatek.com,
+	Ryder.Lee@mediatek.com, Leon.Yen@mediatek.com,
+	litien.chang@mediatek.com, Charlie-cy.Wu@mediatek.com,
+	jb.tsai@mediatek.com
+Subject: Re: [PATCH] wifi: mt76: mt7925: add regulatory wiphy self manager
+ support
+Message-ID: <202606031619.GjGn8yRe-lkp@intel.com>
+References: <20260603075331.1234691-1-jb.tsai@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603075331.1234691-1-jb.tsai@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git more.configfs
-head:   53a9faf145785b0b12ec71f2204f3b3011dbda5e
-commit: 53a9faf145785b0b12ec71f2204f3b3011dbda5e [33/33] kill configfs_dirent_is_ready()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260603/202606031627.uHB6eQoo-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031627.uHB6eQoo-lkp@intel.com/reproduce)
+Hi JB,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v7.1-rc6 next-20260602]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/JB-Tsai/wifi-mt76-mt7925-add-regulatory-wiphy-self-manager-support/20260603-155908
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260603075331.1234691-1-jb.tsai%40mediatek.com
+patch subject: [PATCH] wifi: mt76: mt7925: add regulatory wiphy self manager support
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260603/202606031619.GjGn8yRe-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031619.GjGn8yRe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606031627.uHB6eQoo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606031619.GjGn8yRe-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/configfs/symlink.c:136:26: warning: variable 'sd' set but not used [-Wunused-but-set-variable]
-     136 |         struct configfs_dirent *sd;
-         |                                 ^
-   1 warning generated.
+   drivers/net/wireless/mediatek/mt76/mt7925/regd.c: In function 'mt7925_regd_update':
+>> drivers/net/wireless/mediatek/mt76/mt7925/regd.c:361:57: warning: passing argument 2 of 'regulatory_set_wiphy_regd' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     361 |                 return regulatory_set_wiphy_regd(wiphy, &mt7925_regd_ww);
+         |                                                         ^~~~~~~~~~~~~~~
+   In file included from include/net/mac80211.h:22,
+                    from drivers/net/wireless/mediatek/mt76/mt7925/../mt76.h:18,
+                    from drivers/net/wireless/mediatek/mt76/mt7925/../mt76_connac.h:7,
+                    from drivers/net/wireless/mediatek/mt76/mt7925/../mt76_connac_mcu.h:7,
+                    from drivers/net/wireless/mediatek/mt76/mt7925/../mt792x.h:10,
+                    from drivers/net/wireless/mediatek/mt76/mt7925/mt7925.h:7,
+                    from drivers/net/wireless/mediatek/mt76/mt7925/regd.c:4:
+   include/net/cfg80211.h:8082:59: note: expected 'struct ieee80211_regdomain *' but argument is of type 'const struct ieee80211_regdomain *'
+    8082 |                               struct ieee80211_regdomain *rd);
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
 
 
-vim +/sd +136 fs/configfs/symlink.c
+vim +361 drivers/net/wireless/mediatek/mt76/mt7925/regd.c
 
-7063fbf2261194f Joel Becker       2005-12-15  130  
-7063fbf2261194f Joel Becker       2005-12-15  131  
-7a77db95511c39b Christian Brauner 2023-01-13  132  int configfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
-549c7297717c32e Christian Brauner 2021-01-21  133  		     struct dentry *dentry, const char *symname)
-7063fbf2261194f Joel Becker       2005-12-15  134  {
-7063fbf2261194f Joel Becker       2005-12-15  135  	int ret;
-2a109f2a4155f16 Louis Rilling     2008-07-04 @136  	struct configfs_dirent *sd;
-7063fbf2261194f Joel Becker       2005-12-15  137  	struct config_item *parent_item;
-3c48f23adada870 Subrata Modak     2009-04-19  138  	struct config_item *target_item = NULL;
-aa293583f0fe8b1 Bhumika Goyal     2017-10-16  139  	const struct config_item_type *type;
-7063fbf2261194f Joel Becker       2005-12-15  140  
-2a109f2a4155f16 Louis Rilling     2008-07-04  141  	sd = dentry->d_parent->d_fsdata;
-2a109f2a4155f16 Louis Rilling     2008-07-04  142  
-7063fbf2261194f Joel Becker       2005-12-15  143  	parent_item = configfs_get_config_item(dentry->d_parent);
-7063fbf2261194f Joel Becker       2005-12-15  144  	type = parent_item->ci_type;
-7063fbf2261194f Joel Becker       2005-12-15  145  
-2a109f2a4155f16 Louis Rilling     2008-07-04  146  	ret = -EPERM;
-7063fbf2261194f Joel Becker       2005-12-15  147  	if (!type || !type->ct_item_ops ||
-7063fbf2261194f Joel Becker       2005-12-15  148  	    !type->ct_item_ops->allow_link)
-7063fbf2261194f Joel Becker       2005-12-15  149  		goto out_put;
-7063fbf2261194f Joel Becker       2005-12-15  150  
-351e5d869e5ac10 Al Viro           2019-08-03  151  	/*
-351e5d869e5ac10 Al Viro           2019-08-03  152  	 * This is really sick.  What they wanted was a hybrid of
-351e5d869e5ac10 Al Viro           2019-08-03  153  	 * link(2) and symlink(2) - they wanted the target resolved
-351e5d869e5ac10 Al Viro           2019-08-03  154  	 * at syscall time (as link(2) would've done), be a directory
-351e5d869e5ac10 Al Viro           2019-08-03  155  	 * (which link(2) would've refused to do) *AND* be a deep
-351e5d869e5ac10 Al Viro           2019-08-03  156  	 * fucking magic, making the target busy from rmdir POV.
-351e5d869e5ac10 Al Viro           2019-08-03  157  	 * symlink(2) is nothing of that sort, and the locking it
-351e5d869e5ac10 Al Viro           2019-08-03  158  	 * gets matches the normal symlink(2) semantics.  Without
-351e5d869e5ac10 Al Viro           2019-08-03  159  	 * attempts to resolve the target (which might very well
-351e5d869e5ac10 Al Viro           2019-08-03  160  	 * not even exist yet) done prior to locking the parent
-351e5d869e5ac10 Al Viro           2019-08-03  161  	 * directory.  This perversion, OTOH, needs to resolve
-351e5d869e5ac10 Al Viro           2019-08-03  162  	 * the target, which would lead to obvious deadlocks if
-351e5d869e5ac10 Al Viro           2019-08-03  163  	 * attempted with any directories locked.
-351e5d869e5ac10 Al Viro           2019-08-03  164  	 *
-351e5d869e5ac10 Al Viro           2019-08-03  165  	 * Unfortunately, that garbage is userland ABI and we should've
-351e5d869e5ac10 Al Viro           2019-08-03  166  	 * said "no" back in 2005.  Too late now, so we get to
-351e5d869e5ac10 Al Viro           2019-08-03  167  	 * play very ugly games with locking.
-351e5d869e5ac10 Al Viro           2019-08-03  168  	 *
-351e5d869e5ac10 Al Viro           2019-08-03  169  	 * Try *ANYTHING* of that sort in new code, and you will
-351e5d869e5ac10 Al Viro           2019-08-03  170  	 * really regret it.  Just ask yourself - what could a BOFH
-351e5d869e5ac10 Al Viro           2019-08-03  171  	 * do to me and do I want to find it out first-hand?
-351e5d869e5ac10 Al Viro           2019-08-03  172  	 *
-351e5d869e5ac10 Al Viro           2019-08-03  173  	 *  AV, a thoroughly annoyed bastard.
-351e5d869e5ac10 Al Viro           2019-08-03  174  	 */
-351e5d869e5ac10 Al Viro           2019-08-03  175  	inode_unlock(dir);
-1b25dea3867abc9 Al Viro           2025-09-04  176  	ret = get_target(symname, &target_item, dentry->d_sb);
-351e5d869e5ac10 Al Viro           2019-08-03  177  	inode_lock(dir);
-7063fbf2261194f Joel Becker       2005-12-15  178  	if (ret)
-7063fbf2261194f Joel Becker       2005-12-15  179  		goto out_put;
-7063fbf2261194f Joel Becker       2005-12-15  180  
-351e5d869e5ac10 Al Viro           2019-08-03  181  	if (dentry->d_inode || d_unhashed(dentry))
-351e5d869e5ac10 Al Viro           2019-08-03  182  		ret = -EEXIST;
-351e5d869e5ac10 Al Viro           2019-08-03  183  	else
-4609e1f18e19c3b Christian Brauner 2023-01-13  184  		ret = inode_permission(&nop_mnt_idmap, dir,
-47291baa8ddfdae Christian Brauner 2021-01-21  185  				       MAY_WRITE | MAY_EXEC);
-351e5d869e5ac10 Al Viro           2019-08-03  186  	if (!ret)
-7063fbf2261194f Joel Becker       2005-12-15  187  		ret = type->ct_item_ops->allow_link(parent_item, target_item);
-e75206517504461 Louis Rilling     2008-06-12  188  	if (!ret) {
-9a73d78cda750f1 Louis Rilling     2008-06-20  189  		mutex_lock(&configfs_symlink_mutex);
-7063fbf2261194f Joel Becker       2005-12-15  190  		ret = create_link(parent_item, target_item, dentry);
-9a73d78cda750f1 Louis Rilling     2008-06-20  191  		mutex_unlock(&configfs_symlink_mutex);
-e75206517504461 Louis Rilling     2008-06-12  192  		if (ret && type->ct_item_ops->drop_link)
-e75206517504461 Louis Rilling     2008-06-12  193  			type->ct_item_ops->drop_link(parent_item,
-e75206517504461 Louis Rilling     2008-06-12  194  						     target_item);
-e75206517504461 Louis Rilling     2008-06-12  195  	}
-7063fbf2261194f Joel Becker       2005-12-15  196  
-7063fbf2261194f Joel Becker       2005-12-15  197  	config_item_put(target_item);
-7063fbf2261194f Joel Becker       2005-12-15  198  
-7063fbf2261194f Joel Becker       2005-12-15  199  out_put:
-7063fbf2261194f Joel Becker       2005-12-15  200  	config_item_put(parent_item);
-7063fbf2261194f Joel Becker       2005-12-15  201  	return ret;
-7063fbf2261194f Joel Becker       2005-12-15  202  }
-7063fbf2261194f Joel Becker       2005-12-15  203  
-
-:::::: The code at line 136 was first introduced by commit
-:::::: 2a109f2a4155f168047aa2f5b3a170e279bef89a [PATCH] configfs: Prevent userspace from creating new entries under attaching directories
-
-:::::: TO: Louis Rilling <louis.rilling@kerlabs.com>
-:::::: CC: Mark Fasheh <mfasheh@suse.com>
+   286	
+   287	int mt7925_regd_update(struct mt792x_phy *phy, char *alpha2)
+   288	{
+   289		struct wiphy *wiphy = phy->mt76->hw->wiphy;
+   290		struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
+   291		struct mt792x_dev *dev = mt792x_hw_dev(hw);
+   292		struct mt7925_regd_rule *mt7925_rule;
+   293		struct mt76_dev *mdev = &dev->mt76;
+   294		struct ieee80211_regdomain *regd;
+   295		struct ieee80211_reg_rule *rule;
+   296		struct mt7925_regd_rule_ev *ev;
+   297		int i, num_of_rules = 0;
+   298		struct sk_buff *skb;
+   299		int ret = 0;
+   300	
+   301		if (dev->hw_full_reset)
+   302			return 0;
+   303	
+   304		if (!MT7925_REGD_SUPPORTED(phy))
+   305			return -EOPNOTSUPP;
+   306	
+   307		mt792x_mutex_acquire(dev);
+   308		skb = mt7925_regd_query_regdb(phy, alpha2);
+   309		mt792x_mutex_release(dev);
+   310	
+   311		if (!skb)
+   312			return -EINVAL;
+   313	
+   314		ev = (struct mt7925_regd_rule_ev *)(skb->data + 4);
+   315		num_of_rules = le32_to_cpu(ev->n_reg_rules);
+   316	
+   317		if (!num_of_rules ||
+   318			WARN_ON_ONCE(num_of_rules > NL80211_MAX_SUPP_REG_RULES)) {
+   319			ret = -EINVAL;
+   320			goto err;
+   321		}
+   322	
+   323		regd = kzalloc(struct_size(regd, reg_rules, num_of_rules), GFP_KERNEL);
+   324		if (!regd) {
+   325			ret = -ENOMEM;
+   326			goto err;
+   327		}
+   328	
+   329		for (i = 0; i < num_of_rules; i++) {
+   330			mt7925_rule = &ev->reg_rule[i];
+   331			rule = &regd->reg_rules[i];
+   332	
+   333			rule->freq_range.start_freq_khz =
+   334						MHZ_TO_KHZ(mt7925_rule->start_freq);
+   335			rule->freq_range.end_freq_khz =
+   336						MHZ_TO_KHZ(mt7925_rule->end_freq);
+   337			rule->freq_range.max_bandwidth_khz =
+   338						MHZ_TO_KHZ(mt7925_rule->max_bw);
+   339			/* not used by fw */
+   340			rule->power_rule.max_antenna_gain = DBI_TO_MBI(6);
+   341			rule->power_rule.max_eirp = DBM_TO_MBM(22);
+   342			rule->flags = mt7925_rule->flags;
+   343		}
+   344	
+   345		regd->n_reg_rules = num_of_rules;
+   346		regd->dfs_region = ev->dfs_region;
+   347	
+   348		memcpy(regd->alpha2, alpha2, 2);
+   349		memcpy(mdev->alpha2, alpha2, 2);
+   350	
+   351		dev->regd_change = true;
+   352		mt7925_mcu_regd_update(dev, alpha2, ENVIRON_ANY);
+   353	
+   354		ret = regulatory_set_wiphy_regd(wiphy, regd);
+   355	
+   356		kfree(regd);
+   357	err:
+   358		dev_kfree_skb(skb);
+   359	
+   360		if (ret < 0)
+ > 361			return regulatory_set_wiphy_regd(wiphy, &mt7925_regd_ww);
+   362	
+   363		return ret;
+   364	}
+   365	EXPORT_SYMBOL_GPL(mt7925_regd_update);
+   366	
 
 --
 0-DAY CI Kernel Test Service
