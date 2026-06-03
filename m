@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8213730148A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 19:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6871934A76A;
+	Wed,  3 Jun 2026 19:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780513506; cv=none; b=Kth3FNcFprdzMperG1an810Eyu/LlgBMn5yChOFaz4m0OxqqhV3D5nWICuo3EgElDNWLyGu1ml/wEih1qH1mWqeBiPruoqd+3EyCn20KsL0QG6BqhTjBLocI/TrCf1arnz8O+xrMwjT4fGvmtdQ0AjIIHxaUSbH7qKJzdTLifJc=
+	t=1780514211; cv=none; b=Hcv3JImcaCidPT4DEpjjPw8cvA5TSD4qYXdDPcuxygWWTyqwMPEX29/B1ryWH9XwEY63LVgaP2KXkdfnQIt9r80F47XOFtw4itqnpW0Ylm/Sq+aSRFmak/WaarXsyExQWPNBvp/3HNOjtXRFs1nmd0frySHNV81wvkN57Rq9lEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780513506; c=relaxed/simple;
-	bh=jIx8N8V6yJ0b5gZq8wWZAm946jpUfNr0aE38RfCaz6c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XIgdHT6IJLCb9jaKKzr0BHvTvSueQoiHSp4JBRjyPk4wkPvrp/01EjuqMMdDDfTo7DIdXacDxrx1g5pcDZFLhLbmUX5jAmNOvZI+9Csx1O1PikhE4AIlBh7OVNnR6wyzVIufs4C9eceX9WHLlvxNupzRNQEHFOpRErmk2youGpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NsUck3uL; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1780514211; c=relaxed/simple;
+	bh=KhEsWPNQ6bD5/d7Tz1Dc8Szc7hsbmUVroXqhB8qW6RI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Uf8HdrkgZCMYs4Pfcy/vjWuNLPGBCN7BqWaifDTWQmWR5h8rX92MZGVFx+LRxPzmPTbl0j0MbHAqrOtXLWPKkKXNTwNK4i3eaUcWwx8F4DhajweEeLR9ZqhNx74P0htmGSqM47M9WojC4OhOIJKdXd645sjDnTLNV7eZeoKJg+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H92VVAyk; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NsUck3uL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H92VVAyk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780513506; x=1812049506;
+  t=1780514209; x=1812050209;
   h=date:from:to:cc:subject:message-id;
-  bh=jIx8N8V6yJ0b5gZq8wWZAm946jpUfNr0aE38RfCaz6c=;
-  b=NsUck3uLetYWXn7yELAFQ0cp/6H4lptUqCQ8EtPkq3y/cjiZDtNgqe5+
-   fxHF+y8hucK3TcaVU6nxSwuiGUWea5Z+RvxyqnUEybUBLbzK7r600yxp0
-   DztK2tT7QLegs+CEBup0uDaWLVppIwv0djCsLuOYfXH/kNu8tt7USBtzw
-   9p48ivJAtsEHZKGsAbeYYrsNwIH583Ruv0+sQdr37joFIO1rfvxjTCpmf
-   +rjw/dH2kaYFYekkN958ys3izeBAhdUoDTWy9oILrXMRVuBMpP8LACT7h
-   2zKUi0Jkz+nxCkX2IMxuAXAS5Sb2ZT76h39kfAfj1uRr0mAQGAV5gS3cO
-   g==;
-X-CSE-ConnectionGUID: by2VpcvtSSKtB+ZAvUz0Ag==
-X-CSE-MsgGUID: u5FhUAkWT5S9H+2+bN3lCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81395618"
+  bh=KhEsWPNQ6bD5/d7Tz1Dc8Szc7hsbmUVroXqhB8qW6RI=;
+  b=H92VVAykvh+7cUGSc3aQi0Qs0PTppRxRViU9G3G7CK12Cz7VWGojjRKa
+   d3GPYDSsfph27S4/pyAXZtDQu6r9ofG6/CDlxbovKLalyf0d9VkG9P/Ho
+   EpWsLsnB2sSvQiyBVcGcg/5zD+B3K0VPNL2S4PooHzagqBlVg6tITEOZT
+   +fW1dWyaZqES/fkC1R8arH0FgnxZG5/IeJNaHmbAtkvMXaT5AknV+/Su7
+   Z8qMwc8K/MUhltIVRVvMl6VVEjAKeuvB9E5of1YZ/1jjRD9PSbDW3TGst
+   k04F3agP98F+CvoH7gclNnLASmwDAstxo9LtKv7q1S6HnXBF5r5YOQSg/
+   w==;
+X-CSE-ConnectionGUID: AQBa/EmTTBSdeahl49dinQ==
+X-CSE-MsgGUID: 3nKqP7TDSSyjyQHreiKGHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="85189788"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="81395618"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 12:05:05 -0700
-X-CSE-ConnectionGUID: EQ6AEV0gQGODcUcgjhIStA==
-X-CSE-MsgGUID: Vg32UksXRL6cMNGZ7k2/AQ==
+   d="scan'208";a="85189788"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 12:16:49 -0700
+X-CSE-ConnectionGUID: Gu0moSAtQu2wkIvCjW0jow==
+X-CSE-MsgGUID: oPVw22fNSz+IDuj6CC5HDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="249410939"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Jun 2026 12:05:03 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="237992407"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jun 2026 12:16:47 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUqtg-00000000Dn4-1CIV;
-	Wed, 03 Jun 2026 19:05:00 +0000
-Date: Thu, 04 Jun 2026 03:04:07 +0800
+	id 1wUr53-0000000028X-1Bre;
+	Wed, 03 Jun 2026 19:16:45 +0000
+Date: Wed, 03 Jun 2026 21:16:42 +0200
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Jon Hunter <jonathanh@nvidia.com>
-Subject: Error: Invalid compression type
-Message-ID: <202606040244.Yx0j1YrV-lkp@intel.com>
+To: Michal Camacho Romero <michal.camacho.romero@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: drivers/iommu/intel/dmar.c:681:11: warning: variable
+ 'txt_heap' is uninitialized when used here
+Message-ID: <202606032136.5vhG7xrS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,63 +60,96 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
-commit: 916aa36042db8ee230543ffe0d192f900e8b8c9f clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation
-date:   8 months ago
-config: sh-randconfig-r061-20260603 (https://download.01.org/0day-ci/archive/20260604/202606040244.Yx0j1YrV-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606040244.Yx0j1YrV-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Michal-Camacho-Romero/x86-tboot-Add-support-for-parsing-DTPR-table-and-disabling-TPRs/20260603-194638
+head:   7185450ff8f30f609336848d64612c34f44c9b04
+commit: 7185450ff8f30f609336848d64612c34f44c9b04 iommu/vt-d: Disable PMRs and skip force-IOMMU when TXT TPRs are active
+date:   7 hours ago
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260603/202606032136.5vhG7xrS-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606032136.5vhG7xrS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 916aa36042db ("clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606040244.Yx0j1YrV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606032136.5vhG7xrS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> Error: Invalid compression type
-   Usage: /usr/bin/mkimage [-T type] -l image
-   -l ==> list image header information
-   -T ==> parse image file as 'type'
-   -q ==> quiet
-   /usr/bin/mkimage [-x] -A arch -O os -T type -C comp -a addr -e ep -n name -d data_file[:data_file...] image
-   -A ==> set architecture to 'arch'
-   -O ==> set operating system to 'os'
-   -T ==> set image type to 'type'
-   -C ==> set compression type 'comp'
-   -a ==> set load address to 'addr' (hex)
-   -e ==> set entry point to 'ep' (hex)
-   -n ==> set image name to 'name'
-   -R ==> set second image name to 'name'
-   -d ==> use image data from 'datafile'
-   -x ==> set XIP (execute in place)
-   -s ==> create an image with no data
-   -v ==> verbose
-   /usr/bin/mkimage [-D dtc_options] [-f fit-image.its|-f auto|-f auto-conf|-F] [-b <dtb> [-b <dtb>]] [-E] [-B size] [-i <ramdisk.cpio.gz>] fit-image
-   <dtb> file is used with -f auto, it may occur multiple times.
-   -D => set all options for device tree compiler
-   -f => input filename for FIT source
-   -i => input filename for ramdisk file
-   -E => place data outside of the FIT structure
-   -B => align size in hex for FIT structure and header
-   -b => append the device tree binary to the FIT
-   -t => update the timestamp in the FIT
-   Signing / verified boot options: [-k keydir] [-K dtb] [ -c <comment>] [-p addr] [-r] [-N engine]
-   -k => set directory containing private keys
-   -K => write public keys to this .dtb file
-   -g => set key name hint
-   -G => use this signing key (in lieu of -k)
-   -c => add comment in signature node
-   -F => re-sign existing FIT image
-   -p => place external data at a static position
-   -r => mark keys used as 'required' in dtb
-   -N => openssl engine to use for signing
-   -o => algorithm to use for signing
-   /usr/bin/mkimage -V ==> print version information and exit
-   Use '-T list' to see a list of available image types
-   Long options are available; read the man page for details
+>> drivers/iommu/intel/dmar.c:681:11: warning: variable 'txt_heap' is uninitialized when used here [-Wuninitialized]
+     681 |                 iounmap(txt_heap);
+         |                         ^~~~~~~~
+   drivers/iommu/intel/dmar.c:639:34: note: initialize the variable 'txt_heap' to silence this warning
+     639 |         void                   *txt_heap;
+         |                                         ^
+         |                                          = NULL
+   1 warning generated.
+
+
+vim +/txt_heap +681 drivers/iommu/intel/dmar.c
+
+   630	
+   631	/**
+   632	 * parse_dmar_table - parses the DMA reporting table
+   633	 */
+   634	static int __init
+   635	parse_dmar_table(void)
+   636	{
+   637		struct acpi_table_dmar *dmar;
+   638		struct acpi_table_dtpr *dtpr;
+   639		void                   *txt_heap;
+   640		int drhd_count = 0;
+   641		int ret;
+   642		struct dmar_res_callback cb = {
+   643			.print_entry = true,
+   644			.ignore_unhandled = true,
+   645			.arg[ACPI_DMAR_TYPE_HARDWARE_UNIT] = &drhd_count,
+   646			.cb[ACPI_DMAR_TYPE_HARDWARE_UNIT] = &dmar_parse_one_drhd,
+   647			.cb[ACPI_DMAR_TYPE_RESERVED_MEMORY] = &dmar_parse_one_rmrr,
+   648			.cb[ACPI_DMAR_TYPE_ROOT_ATS] = &dmar_parse_one_atsr,
+   649			.cb[ACPI_DMAR_TYPE_HARDWARE_AFFINITY] = &dmar_parse_one_rhsa,
+   650			.cb[ACPI_DMAR_TYPE_NAMESPACE] = &dmar_parse_one_andd,
+   651			.cb[ACPI_DMAR_TYPE_SATC] = &dmar_parse_one_satc,
+   652		};
+   653	
+   654		/*
+   655		 * Do it again, earlier dmar_tbl mapping could be mapped with
+   656		 * fixed map.
+   657		 */
+   658		dmar_table_detect();
+   659	
+   660		/*
+   661		 * ACPI tables may not be DMA protected by tboot, so use DMAR copy
+   662		 * SINIT saved in SinitMleData in TXT heap (which is DMA protected)
+   663		 */
+   664		dmar_tbl = tboot_get_dmar_table(dmar_tbl);
+   665	
+   666		dmar = (struct acpi_table_dmar *)dmar_tbl;
+   667		if (!dmar)
+   668			return -ENODEV;
+   669	
+   670		if (dmar->width < PAGE_SHIFT - 1) {
+   671			pr_warn("Invalid DMAR haw\n");
+   672			return -EINVAL;
+   673		}
+   674	
+   675		dtpr = tboot_get_dtpr_table(&txt_heap);
+   676		if (dtpr) {
+   677			/* TPR is enabled
+   678			 * This will also tell not to establish IOMMU PMRs
+   679			 */
+   680			tboot_parse_dtpr_table(dtpr);
+ > 681			iounmap(txt_heap);
+   682		}
+   683	
+   684		txt_heap = NULL;
+   685		pr_info("Host address width %d\n", dmar->width + 1);
+   686		ret = dmar_walk_dmar_table(dmar, &cb);
+   687		if (ret == 0 && drhd_count == 0)
+   688			pr_warn(FW_BUG "No DRHD structure found in DMAR table\n");
+   689	
+   690		return ret;
+   691	}
+   692	
 
 --
 0-DAY CI Kernel Test Service
