@@ -1,175 +1,295 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E7F1DF73C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 00:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE7D33C507;
+	Wed,  3 Jun 2026 01:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780447117; cv=none; b=sytbISIwiheBkBFinZpZ4aUYuMCf2pbL1cdjdfjS7RnT3L9ouYL6PexWW4Bgb0xA/xXs4D5KyXjVhFJVnZvt1Bsf0oTMIKqoaUAGaVrP0QUvzbvtY9T8nXOpmIspgjxatcVpPH4hEALjCbNmpDGQ9q6IskTK6qxUtTJYZD584H8=
+	t=1780449664; cv=none; b=CZqv3Mnsbxx5GSOHSxlfgREhBDTIBTL5J89zUo9IneBZyz3+uCKkNo9Eh9rMXUXvabPijktCqskBEfz6uJVuYlU9tRobx2oG0FOAMCHAA6mbHDUah66VZUcJ0e4j9hdbWnGmXR7H9wjdDU6QJDYTHTAZhbni43gGlLs6qv3itYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780447117; c=relaxed/simple;
-	bh=nPGV6z2LmWVCM1DMnj+USXl0NgnVRkyL7IZiHT89v74=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TH8QNaapDwrODXdef7c1SnXmllp9Hgy72hruWDHYNmszqLlkgE8TGl59vV284tHBioyGkq7aLksLBq2HqXjRmtV7ykC/kLjkBgcjqRHVtm5ccSyvhQ2ZTq3yOvQEPl9WptYTIBp81NuWg1gPamyPbOP90Abj02qsThFkJMIBGF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMReD4vC; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780449664; c=relaxed/simple;
+	bh=8vixmOuT3LIAXcCvcIoXDTdEI3JVjvXuSoPkQqs0Xoc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Zj3wtr5PSbwuIog61F0CaojFdXXjxaZSuFFYVJ80v299Zt2ruHRg9Ek0N3L/qEQVOlRSkVDzptunqTlqDAZKIklEifyU7OPnmQodpIxSRzaWwehjhfzRLHxd7aHck2v9Nz8/WLU7hqzZsBPkNnIWQKSr7bMEYPpt3G43WFFcNug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euhkND3O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMReD4vC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780447116; x=1811983116;
-  h=date:from:to:cc:subject:message-id;
-  bh=nPGV6z2LmWVCM1DMnj+USXl0NgnVRkyL7IZiHT89v74=;
-  b=kMReD4vCcBnHxl/OYke54U+N7J+R8gNTIB3PYC5Jcky87YGz38rMbPgi
-   6wtia50/+nFN4N4MKOpyG3xf+OUVzrQi4tCVhgxhI5/O4uGcXPqbx6vBx
-   9rE7wLPxzPTPDr9EfpBlQ8h9Po37FkUcjSQdfRGlr/5FGE+DjVKWIuRbe
-   ybML9h+6m+b+WS2933JF/iIQGELf6hOlFeV0vQdaaFEgXTTe7+4Lh/T9v
-   DZCojwBhKMu0W089G3hHaiaVhZbo9XakMl5xxQUemcT5wvUuJZm4iIX99
-   SwmGpsczSd6Cs14ehzgFV0nI5j4Enk+SN7fMvefwKwiwE4I2XnihER1d8
-   Q==;
-X-CSE-ConnectionGUID: sCLANoxdQjWt9tF1dNrs9A==
-X-CSE-MsgGUID: skZMdUMIRLaWlz3sUdhvHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92354758"
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="92354758"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 17:38:36 -0700
-X-CSE-ConnectionGUID: vsbrfE09Re+PzIIFxo/8jQ==
-X-CSE-MsgGUID: i6QSugMAQ1SYgFsxpTBBUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="239905497"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Jun 2026 17:38:34 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wUZct-00000000Cim-2YKQ;
-	Wed, 03 Jun 2026 00:38:31 +0000
-Date: Wed, 03 Jun 2026 08:38:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-01-3 290/290]
- sound/soc/meson/meson-card-utils.c:280:22: error: too many arguments to
- function 'devm_snd_soc_card_alloc'; expected 2, have 6
-Message-ID: <202606030833.5tu0NsiD-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euhkND3O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34F461F00893;
+	Wed,  3 Jun 2026 01:20:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780449660;
+	bh=jaDw0gn3gT9HcVtufl402mihixaE+qh+yT/WCpNOLwU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=euhkND3Ob1K0sLstL/rcWgvqDNMX5Z+eHl2P4tnIoDk1a9DR/mTiCGrY1u2/FLgsE
+	 tsYtz6hEqg5sBj+DO7icxbHFQc4uaWKrcUVAF5vXbcSGXpc9+V24DirUKvUCMsBVte
+	 Dm1MoGLrZH33pk5Tk7kR1wsv41hfNiWcgiSjdcViVwxWXd8NRd0RAfvMY+fCTwi1UG
+	 MQGl1GB5qZtIdjDuBb0SqrauJXdOms1MlDYlVkBSFIB6EhO9NvC/mvZKn8U7D9oJy7
+	 nfBjTv+35stutj+0nBqTFNJNPfyp0oW4NYB9CBiXQmUxRWT16Ug1Z0WCmRQRAiqr8x
+	 Wo1d8VkyLDLrw==
+Date: Wed, 3 Jun 2026 10:20:55 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Eva Kurchatova <eva.kurchatova@virtuozzo.com>, mhiramat@kernel.org,
+ rostedt@goodmis.org, oe-kbuild-all@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mathieu.desnoyers@efficios.com, peterz@infradead.org, jpoimboe@kernel.org,
+ samitolvanen@google.com
+Subject: Re: [PATCH v2] tracing: fix CFI violation in probestub test
+Message-Id: <20260603102055.182fb82e837842e059862096@kernel.org>
+In-Reply-To: <202606022312.7cKiQBmg-lkp@intel.com>
+References: <20260602135425.542073-1-eva.kurchatova@virtuozzo.com>
+	<202606022312.7cKiQBmg-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-01-3
-head:   1ef39bbdce9099b285b9702e22c4defc277e42dd
-commit: ba5577652c6a70b474f502c8026d61c78664c85f [290/290] ASoC: meson: meson-card-utils: use snd_soc_card_register()
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260603/202606030833.5tu0NsiD-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606030833.5tu0NsiD-lkp@intel.com/reproduce)
+On Tue, 2 Jun 2026 23:40:51 +0200
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606030833.5tu0NsiD-lkp@intel.com/
+> Hi Eva,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on trace/for-next]
+> [also build test ERROR on linus/master v6.16-rc1 next-20260602]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Eva-Kurchatova/tracing-fix-CFI-violation-in-probestub-test/20260602-222302
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+> patch link:    https://lore.kernel.org/r/20260602135425.542073-1-eva.kurchatova%40virtuozzo.com
+> patch subject: [PATCH v2] tracing: fix CFI violation in probestub test
+> config: x86_64-rhel-9.4-kselftests (https://download.01.org/0day-ci/archive/20260602/202606022312.7cKiQBmg-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606022312.7cKiQBmg-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606022312.7cKiQBmg-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from drivers/dma-buf/sync_trace.h:10,
+>                     from drivers/dma-buf/sw_sync.c:18:
+>    include/linux/tracepoint.h:403:9: warning: data definition has no type or storage class
+>      403 |         CFI_NOSEAL(__probestub_##_name);                                \
+>          |         ^~~~~~~~~~
 
-All errors (new ones prefixed by >>):
+Hmm, it seems that this macro is not defined in this build
+configuration? Maybe we need:
 
-   In file included from arch/parisc/include/asm/alternative.h:18,
-                    from arch/parisc/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from sound/soc/meson/meson-card-utils.c:6:
-   sound/soc/meson/meson-card-utils.c: In function 'meson_card_probe':
-   include/linux/init.h:176:21: error: passing argument 2 of 'devm_snd_soc_card_alloc' from incompatible pointer type [-Wincompatible-pointer-types]
-     176 | #define THIS_MODULE ((struct module *)0)
-         |                     ^~~~~~~~~~~~~~~~~~~~
-         |                     |
-         |                     struct module *
-   sound/soc/meson/meson-card-utils.c:280:51: note: in expansion of macro 'THIS_MODULE'
-     280 |         priv->card = devm_snd_soc_card_alloc(dev, THIS_MODULE, &priv->card_driver,
-         |                                                   ^~~~~~~~~~~
-   In file included from include/sound/soc.h:1318,
-                    from sound/soc/meson/meson-card-utils.c:8:
-   include/sound/soc-card.h:91:74: note: expected 'struct snd_soc_card_driver *' but argument is of type 'struct module *'
-      91 |                                              struct snd_soc_card_driver *driver);
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
->> sound/soc/meson/meson-card-utils.c:280:22: error: too many arguments to function 'devm_snd_soc_card_alloc'; expected 2, have 6
-     280 |         priv->card = devm_snd_soc_card_alloc(dev, THIS_MODULE, &priv->card_driver,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~
-   include/sound/soc-card.h:90:22: note: declared here
-      90 | struct snd_soc_card *devm_snd_soc_card_alloc(struct device *dev,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+#include <linux/cfi.h>
+
+instead of asm/cfi.h?
+
+Thanks,
+
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/../../drivers/dma-buf/sync_trace.h:12:1: note: in expansion of macro 'TRACE_EVENT'
+>       12 | TRACE_EVENT(sync_timeline,
+>          | ^~~~~~~~~~~
+>    include/linux/tracepoint.h:403:9: error: type defaults to 'int' in declaration of 'CFI_NOSEAL' [-Wimplicit-int]
+>      403 |         CFI_NOSEAL(__probestub_##_name);                                \
+>          |         ^~~~~~~~~~
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/../../drivers/dma-buf/sync_trace.h:12:1: note: in expansion of macro 'TRACE_EVENT'
+>       12 | TRACE_EVENT(sync_timeline,
+>          | ^~~~~~~~~~~
+> >> include/trace/../../drivers/dma-buf/sync_trace.h:13:25: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>       13 |         TP_PROTO(struct sync_timeline *timeline),
+>          |                         ^~~~~~~~~~~~~
+>    include/linux/tracepoint.h:394:48: note: in definition of macro '__DEFINE_TRACE_EXT'
+>      394 |         void __probestub_##_name(void *__data, proto)                   \
+>          |                                                ^~~~~
+>    include/linux/tracepoint.h:424:41: note: in expansion of macro 'PARAMS'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |                                         ^~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/define_trace.h:28:28: note: in expansion of macro 'PARAMS'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |                            ^~~~~~
+>    include/trace/../../drivers/dma-buf/sync_trace.h:12:1: note: in expansion of macro 'TRACE_EVENT'
+>       12 | TRACE_EVENT(sync_timeline,
+>          | ^~~~~~~~~~~
+>    include/trace/../../drivers/dma-buf/sync_trace.h:13:9: note: in expansion of macro 'TP_PROTO'
+>       13 |         TP_PROTO(struct sync_timeline *timeline),
+>          |         ^~~~~~~~
+> --
+>    In file included from include/trace/events/lock.h:9,
+>                     from kernel/locking/mutex.c:35:
+>    include/linux/tracepoint.h:403:9: warning: data definition has no type or storage class
+>      403 |         CFI_NOSEAL(__probestub_##_name);                                \
+>          |         ^~~~~~~~~~
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/events/lock.h:24:1: note: in expansion of macro 'TRACE_EVENT'
+>       24 | TRACE_EVENT(lock_acquire,
+>          | ^~~~~~~~~~~
+>    include/linux/tracepoint.h:403:9: error: type defaults to 'int' in declaration of 'CFI_NOSEAL' [-Wimplicit-int]
+>      403 |         CFI_NOSEAL(__probestub_##_name);                                \
+>          |         ^~~~~~~~~~
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/events/lock.h:24:1: note: in expansion of macro 'TRACE_EVENT'
+>       24 | TRACE_EVENT(lock_acquire,
+>          | ^~~~~~~~~~~
+> >> include/trace/events/lock.h:28:24: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>       28 |                 struct lockdep_map *next_lock, unsigned long ip),
+>          |                        ^~~~~~~~~~~
+>    include/linux/tracepoint.h:394:48: note: in definition of macro '__DEFINE_TRACE_EXT'
+>      394 |         void __probestub_##_name(void *__data, proto)                   \
+>          |                                                ^~~~~
+>    include/linux/tracepoint.h:424:41: note: in expansion of macro 'PARAMS'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |                                         ^~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/define_trace.h:28:28: note: in expansion of macro 'PARAMS'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |                            ^~~~~~
+>    include/trace/events/lock.h:24:1: note: in expansion of macro 'TRACE_EVENT'
+>       24 | TRACE_EVENT(lock_acquire,
+>          | ^~~~~~~~~~~
+>    include/trace/events/lock.h:26:9: note: in expansion of macro 'TP_PROTO'
+>       26 |         TP_PROTO(struct lockdep_map *lock, unsigned int subclass,
+>          |         ^~~~~~~~
+>    include/linux/tracepoint.h:403:9: warning: data definition has no type or storage class
+>      403 |         CFI_NOSEAL(__probestub_##_name);                                \
+>          |         ^~~~~~~~~~
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:61:9: note: in expansion of macro 'DEFINE_TRACE'
+>       61 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/events/lock.h:69:1: note: in expansion of macro 'DEFINE_EVENT'
+>       69 | DEFINE_EVENT(lock, lock_release,
+>          | ^~~~~~~~~~~~
+>    include/linux/tracepoint.h:403:9: error: type defaults to 'int' in declaration of 'CFI_NOSEAL' [-Wimplicit-int]
+>      403 |         CFI_NOSEAL(__probestub_##_name);                                \
+>          |         ^~~~~~~~~~
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:61:9: note: in expansion of macro 'DEFINE_TRACE'
+>       61 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/events/lock.h:69:1: note: in expansion of macro 'DEFINE_EVENT'
+>       69 | DEFINE_EVENT(lock, lock_release,
+>          | ^~~~~~~~~~~~
+>    include/trace/events/lock.h:71:25: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>       71 |         TP_PROTO(struct lockdep_map *lock, unsigned long ip),
+>          |                         ^~~~~~~~~~~
+>    include/linux/tracepoint.h:394:48: note: in definition of macro '__DEFINE_TRACE_EXT'
+>      394 |         void __probestub_##_name(void *__data, proto)                   \
+>          |                                                ^~~~~
+>    include/linux/tracepoint.h:424:41: note: in expansion of macro 'PARAMS'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |                                         ^~~~~~
+>    include/trace/define_trace.h:61:9: note: in expansion of macro 'DEFINE_TRACE'
+>       61 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/define_trace.h:61:28: note: in expansion of macro 'PARAMS'
+>       61 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |                            ^~~~~~
+>    include/trace/events/lock.h:69:1: note: in expansion of macro 'DEFINE_EVENT'
+>       69 | DEFINE_EVENT(lock, lock_release,
+>          | ^~~~~~~~~~~~
+>    include/trace/events/lock.h:71:9: note: in expansion of macro 'TP_PROTO'
+>       71 |         TP_PROTO(struct lockdep_map *lock, unsigned long ip),
+>          |         ^~~~~~~~
+>    include/linux/tracepoint.h:403:9: warning: data definition has no type or storage class
+>      403 |         CFI_NOSEAL(__probestub_##_name);                                \
+>          |         ^~~~~~~~~~
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/events/lock.h:95:1: note: in expansion of macro 'TRACE_EVENT'
+>       95 | TRACE_EVENT(contention_begin,
+>          | ^~~~~~~~~~~
+>    include/linux/tracepoint.h:403:9: error: type defaults to 'int' in declaration of 'CFI_NOSEAL' [-Wimplicit-int]
+>      403 |         CFI_NOSEAL(__probestub_##_name);                                \
+>          |         ^~~~~~~~~~
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/events/lock.h:95:1: note: in expansion of macro 'TRACE_EVENT'
+>       95 | TRACE_EVENT(contention_begin,
+>          | ^~~~~~~~~~~
+>    include/linux/tracepoint.h:380:24: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>      380 |                 struct tracepoint_func *it_func_ptr;                    \
+>          |                        ^~~~~~~~~~~~~~~
+>    include/linux/tracepoint.h:424:9: note: in expansion of macro '__DEFINE_TRACE_EXT'
+>      424 |         __DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+>          |         ^~~~~~~~~~~~~~~~~~
+>    include/trace/define_trace.h:28:9: note: in expansion of macro 'DEFINE_TRACE'
+>       28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+>          |         ^~~~~~~~~~~~
+>    include/trace/events/lock.h:95:1: note: in expansion of macro 'TRACE_EVENT'
+>       95 | TRACE_EVENT(contention_begin,
+> 
+> 
+> vim +13 include/trace/../../drivers/dma-buf/sync_trace.h
+> 
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  11  
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  12  TRACE_EVENT(sync_timeline,
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28 @13  	TP_PROTO(struct sync_timeline *timeline),
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  14  
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  15  	TP_ARGS(timeline),
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  16  
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  17  	TP_STRUCT__entry(
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  18  			__string(name, timeline->name)
+> 5c1401f83a16b7e drivers/staging/android/trace/sync.h Gustavo Padovan         2016-05-31  19  			__field(u32, value)
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  20  	),
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  21  
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  22  	TP_fast_assign(
+> 2c92ca849fcc6ee drivers/dma-buf/sync_trace.h         Steven Rostedt (Google  2024-05-16  23) 			__assign_str(name);
+> 5c1401f83a16b7e drivers/staging/android/trace/sync.h Gustavo Padovan         2016-05-31  24  			__entry->value = timeline->value;
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  25  	),
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  26  
+> 5c1401f83a16b7e drivers/staging/android/trace/sync.h Gustavo Padovan         2016-05-31  27  	TP_printk("name=%s value=%d", __get_str(name), __entry->value)
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  28  );
+> b699a644f82110e drivers/staging/android/trace/sync.h Erik Gilling            2013-02-28  29  
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 
-vim +/devm_snd_soc_card_alloc +280 sound/soc/meson/meson-card-utils.c
-
-   262	
-   263	int meson_card_probe(struct platform_device *pdev)
-   264	{
-   265		const struct meson_card_match_data *data;
-   266		struct device *dev = &pdev->dev;
-   267		struct meson_card *priv;
-   268		int ret;
-   269	
-   270		data = of_device_get_match_data(dev);
-   271		if (!data) {
-   272			dev_err(dev, "failed to match device\n");
-   273			return -ENODEV;
-   274		}
-   275	
-   276		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   277		if (!priv)
-   278			return -ENOMEM;
-   279	
- > 280		priv->card = devm_snd_soc_card_alloc(dev, THIS_MODULE, &priv->card_driver,
-   281						     NULL, NULL, NULL);
-   282		if (!priv->card)
-   283			return -ENOMEM;
-   284	
-   285		snd_soc_card_set_drvdata(priv->card, priv);
-   286	
-   287		priv->card_driver.name = dev->driver->name;
-   288		priv->match_data = data;
-   289	
-   290		ret = snd_soc_of_parse_card_name(priv->card, "model");
-   291		if (ret < 0)
-   292			return ret;
-   293	
-   294		ret = meson_card_parse_of_optional(priv->card, "audio-routing",
-   295						   snd_soc_of_parse_audio_routing);
-   296		if (ret) {
-   297			dev_err(dev, "error while parsing routing\n");
-   298			return ret;
-   299		}
-   300	
-   301		ret = meson_card_parse_of_optional(priv->card, "audio-widgets",
-   302						   snd_soc_of_parse_audio_simple_widgets);
-   303		if (ret) {
-   304			dev_err(dev, "error while parsing widgets\n");
-   305			return ret;
-   306		}
-   307	
-   308		ret = meson_card_add_links(priv->card);
-   309		if (ret)
-   310			goto out_err;
-   311	
-   312		ret = snd_soc_of_parse_aux_devs(priv->card, "audio-aux-devs");
-   313		if (ret)
-   314			goto out_err;
-   315	
-   316		ret = devm_snd_soc_card_register(priv->card);
-   317		if (ret)
-   318			goto out_err;
-   319	
-   320		return 0;
-   321	
-   322	out_err:
-   323		meson_card_clean_references(priv);
-   324		return ret;
-   325	}
-   326	EXPORT_SYMBOL_GPL(meson_card_probe);
-   327	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
