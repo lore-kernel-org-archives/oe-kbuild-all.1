@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836DE423A7B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 07:30:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D293FE645
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 07:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780471810; cv=none; b=dIABzcMXb7HCY3q413p1p26tgHI6SkQWiGNAeR/w5J2kFWCeFkTG5cpbuczEv1ALxT0QTP8arfRDtIMR7ToRvNzQP5hKJwbIbrGV++/HOWGU/E/BROGW7099VTgqHTFQpTZoD6zrqmFI4TRH8enHDYO6XLlu6oxXAeewrhpGfuw=
+	t=1780471816; cv=none; b=ckXRLJBuONE098CLFO/dGnfZLr2sTt7tkL6NiuIJ+jMHMJnDUeedtdl5tZoAP6q19HGjzB192tP5lOZpkfVM9yW0qWjsbhmVsTod6NjnjUN2LcU100elIFU+43ucaCyBGUT06i8EQwCuOl+E4uBhA4JZVTMb75v6mdNA05MM/N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780471810; c=relaxed/simple;
-	bh=c6RKy67qaAbO0Y5/DAHuMAchRnbL6XXkXgeeQ0beYjE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bm+CQjl3wpK32v0OH6aUVW+KaicnwCJbxn4q3ooSJ8FfJKl8qfKhtZj2p6JxF2xYcn/kdvQWM3zJL17kGVlPKqtxnSufktViSx0mpkreqph96KbNsQk8h+K3rFZh253Wa/KKZCavCBXPZFGK+7Wp+V9KWFCSqX3L1kaYcMNPiFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kGiI6Tc4; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1780471816; c=relaxed/simple;
+	bh=5bYixKYpjwj7ZPAY12sOz2MO4Mz6K6pNDdTt2VRewjE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dXehiz6pTqlx2i121JUE/EV74VQHmdAJtjSgXP5hZnZxzcyZVoAz5avov7ClbZ5hfOKUbYPpeQ/YEK3gsucQxBo/FLkTUGlpGEznDYqbekXOFNVCOxhihLWCDWwc+Xq3amq/kEXFRP+IVxwmi9miN+HAK93Ha4/0lbbL8EOiTo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k001IC8Z; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kGiI6Tc4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k001IC8Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780471806; x=1812007806;
+  t=1780471811; x=1812007811;
   h=date:from:to:cc:subject:message-id;
-  bh=c6RKy67qaAbO0Y5/DAHuMAchRnbL6XXkXgeeQ0beYjE=;
-  b=kGiI6Tc4BOZeQmWZAu6vFWvbxutfE+U+pwoAPUL9YCK64xsrE7YSGnhu
-   If8NDFnsLgUKoUr3NbPs5gay9duz6jMEfZBWMYSV3ztMmbPnYLHdAgF5t
-   hbdjz/xno6aa7ba1VrnODGhQw499ZUDvw/M89MkvfdfwDn7dRXI/c9iZk
-   nqNqRQdPip+OccoIWGc2tQ0Y+gX7vT32cEaCqduDYDUizSTNktrYoJrwe
-   zmlqGEYtE4aiJZFNmDyN/BAhQ8Xf8o0hgt4THnRTVFmIiYs+ImajAce90
-   KZ6vU9dALqH6SFANTYM9/bZOezLUdHtowdXC1nvM/1K41EN6D5dzIAZMt
+  bh=5bYixKYpjwj7ZPAY12sOz2MO4Mz6K6pNDdTt2VRewjE=;
+  b=k001IC8Z++mbHF///59uWVaLw5VbIfFlIU2e8ROU0BG1IxxqYRsOGVJl
+   xKqMVLSCtQ4MsSB37xeCQBMXU6ZFJIKSP3Ji3vnu0VVC/gPHwi2CuFHiV
+   ZfvEycaTg9eyhuw0txMqteZ0Y1XuVGxVPePO4Jt2ZE7AtnEgRboiBXcm/
+   xpQP7leXjystWKJ/r66CCZcUCwfg+mVYd40F/iRsia4/rRLkVjaS3nkmd
+   MWwAPvCq69kJoz1yL2XS3MZuSFlgM3BJT4nsWlMhrzWiWD6t3CSIkuuZq
+   kyUZCMkBbBSZ9anCrYuB0DjnYHU+9A/gWCyPSdZSwjutwUXAd3XcUBBXz
    Q==;
-X-CSE-ConnectionGUID: Of5zDn7eSB6T3/vSthWtFw==
-X-CSE-MsgGUID: gAG1ma2ZQzGm8i7YGLzfHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="68812189"
+X-CSE-ConnectionGUID: breFyI/8ShiDEEmSfZLkYw==
+X-CSE-MsgGUID: DbQCm1X9RhCnGh8Ta3Rq7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="68812191"
 X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="68812189"
+   d="scan'208";a="68812191"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 00:30:06 -0700
-X-CSE-ConnectionGUID: XyD9kpocSjG0+lGFu15A4A==
-X-CSE-MsgGUID: hdHbk0shRNakz8pyBlvVig==
+X-CSE-ConnectionGUID: Ek7aCIJgSFOtBAKBrwOrqQ==
+X-CSE-MsgGUID: wR2wib4HREiAfuj9IW0Xsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="243286324"
+   d="scan'208";a="243286328"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 03 Jun 2026 00:30:05 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUg37-00000000D5I-3R4b;
+	id 1wUg37-00000000D5G-3EPZ;
 	Wed, 03 Jun 2026 07:30:01 +0000
-Date: Wed, 03 Jun 2026 15:29:22 +0800
+Date: Wed, 03 Jun 2026 15:29:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-2025-05 9/9]
- include/trace/trace_events.h:27:23: warning: 'str__psi__trace_system_name'
- defined but not used
-Message-ID: <202606031500.afSOBa1T-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 239/239]
+ drivers/net/dsa/mv88e6xxx/chip.c:2320:4: error: implicit declaration of
+ function 'mv88e6xxx_g2_eeprom_wait'
+Message-ID: <202606031526.CfjggVRI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,138 +60,62 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15-2025-05
-head:   39bd6e622fc6c1224c41cf8ae6c1a78340129cb6
-commit: 5a6502af1102ab38aa431ceb75fccc3adbc9e3c3 [9/9] ANDROID: psi: Add vendor hooks for PSI tracing
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260603/202606031500.afSOBa1T-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031500.afSOBa1T-lkp@intel.com/reproduce)
+Hi Fabio,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   3b23bcc6f8584d5e2404df6e37244321a1ba778c
+commit: d44346dda7d4faca4a64b6233a3ea0a09dc615e4 [239/239] net: dsa: mv88e6xxx: Avoid EEPROM timeout when EEPROM is absent
+config: i386-buildonly-randconfig-006-20260603 (https://download.01.org/0day-ci/archive/20260603/202606031526.CfjggVRI-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e5ab4f8a1f766febdc65ce89c00dec85393cfd68)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031526.CfjggVRI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606031500.afSOBa1T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606031526.CfjggVRI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/psi.h:25,
-                    from drivers/android/vendor_hooks.c:112:
->> include/trace/trace_events.h:27:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/loop.h:21,
-                    from drivers/android/vendor_hooks.c:111:
-   include/trace/trace_events.h:27:23: warning: 'str__loop__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/direct_io.h:21,
-                    from drivers/android/vendor_hooks.c:110:
-   include/trace/trace_events.h:27:23: warning: 'str__direct_io__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dm.h:21,
-                    from drivers/android/vendor_hooks.c:109:
-   include/trace/trace_events.h:27:23: warning: 'str__dm__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bl_hib.h:44,
-                    from drivers/android/vendor_hooks.c:108:
-   include/trace/trace_events.h:27:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cfg80211.h:31,
-                    from drivers/android/vendor_hooks.c:107:
-   include/trace/trace_events.h:27:23: warning: 'str__cfg80211__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+>> drivers/net/dsa/mv88e6xxx/chip.c:2320:4: error: implicit declaration of function 'mv88e6xxx_g2_eeprom_wait' [-Werror,-Wimplicit-function-declaration]
+    2320 |                         mv88e6xxx_g2_eeprom_wait(chip);
+         |                         ^
+   drivers/net/dsa/mv88e6xxx/chip.c:2320:4: note: did you mean 'mv88e6xxx_g2_pvt_write'?
+   drivers/net/dsa/mv88e6xxx/global2.h:457:19: note: 'mv88e6xxx_g2_pvt_write' declared here
+     457 | static inline int mv88e6xxx_g2_pvt_write(struct mv88e6xxx_chip *chip,
+         |                   ^
+   1 error generated.
 
 
-vim +/str__psi__trace_system_name +27 include/trace/trace_events.h
+vim +/mv88e6xxx_g2_eeprom_wait +2320 drivers/net/dsa/mv88e6xxx/chip.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+  2306	
+  2307	static void mv88e6xxx_hardware_reset(struct mv88e6xxx_chip *chip)
+  2308	{
+  2309		struct gpio_desc *gpiod = chip->reset;
+  2310	
+  2311		/* If there is a GPIO connected to the reset pin, toggle it */
+  2312		if (gpiod) {
+  2313			/* If the switch has just been reset and not yet completed
+  2314			 * loading EEPROM, the reset may interrupt the I2C transaction
+  2315			 * mid-byte, causing the first EEPROM read after the reset
+  2316			 * from the wrong location resulting in the switch booting
+  2317			 * to wrong mode and inoperable.
+  2318			 */
+  2319			if (chip->info->ops->get_eeprom)
+> 2320				mv88e6xxx_g2_eeprom_wait(chip);
+  2321	
+  2322			gpiod_set_value_cansleep(gpiod, 1);
+  2323			usleep_range(10000, 20000);
+  2324			gpiod_set_value_cansleep(gpiod, 0);
+  2325			usleep_range(10000, 20000);
+  2326	
+  2327			if (chip->info->ops->get_eeprom)
+  2328				mv88e6xxx_g2_eeprom_wait(chip);
+  2329		}
+  2330	}
+  2331	
 
 --
 0-DAY CI Kernel Test Service
