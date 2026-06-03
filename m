@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FF033C1B4
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jun 2026 23:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D789A3B27E2;
+	Wed,  3 Jun 2026 23:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780528712; cv=none; b=CcSJn678Qb+XswW43QMnKgBTmz6ufTKWJeyaR6+Ortx0TeHTzj5SDF6S7jTvdrzp9wNhktDLIYk/6d8Di5xqqUp3gwLc3/16ATd48aj9msLKVQECyE27CHRQ5EI2z3AmIXBYlbqO6/Uw6t+GAcSOD4u+QcvzxBaGLCLm/c78+BM=
+	t=1780529373; cv=none; b=kwra1+OwoqsL+oweLlwRhSfvNZgC6RzZ4syS8T0GtcRGZXb9mKSaEyuabxy6pxhuZnB9nee0vGU5KOaUTIIadejfVhXAf73ZfSUAE5EAK5wYZk9Eki0U27rNwuIxTrhzmVfGLoU7T/eYZfl2jACAu4h0Ddi+ltAWnD4pIarkogw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780528712; c=relaxed/simple;
-	bh=D5ekZyD4d3nHxiBwfUVIn/vbwyWsEYUhqLB1pos0gXs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NeV7V9YuiaFZYbNcGPdY4EyzQnf4A1zWob7j+9at4nhg5uIyr/vNGFZes0KqZJlW/zq2Wkn89d8vu8prIPpfJZFEqLA5iIl9Z52V/GGcOpbPgz1nCbR/3J3yazBHLWt+6O26/Plq5EUFqH00gEjCFonL1ENsAY5SnPkB7MNoFO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mr7bmv1A; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1780529373; c=relaxed/simple;
+	bh=Ha4oADRXq1PYWtCJBMnXq0kpE6mHWtuzSC7B8v/poo4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nhGNwC8wXliEBaD0+pygVXmuY6pCvC3pG0Y+BMvEP34BwDByYth7ubDotYjdDKOMIlU0utipdxgxnOOBW/Ni56Hc6ue52eOUBoxuQExUqe5e8Y98pinGqK6mOpb2/Q65jF5+Fr5oA5vC2eHppuh5HJCiLHKqnu2aG9OZmL/uwTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bRHhIEFL; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mr7bmv1A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bRHhIEFL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780528711; x=1812064711;
+  t=1780529372; x=1812065372;
   h=date:from:to:cc:subject:message-id;
-  bh=D5ekZyD4d3nHxiBwfUVIn/vbwyWsEYUhqLB1pos0gXs=;
-  b=Mr7bmv1Adh1I9pXK27VTE3JF7SncuOWMbJVewE5o2pEmygSq0p6pypMl
-   f8MeS/0lw/L7q8YsEyHd4tvOYQDnEj4pRteliiVIFgadRNqQ1bTUrQEWZ
-   Oj7asbQ4WzKtVlljeQqohV34MsgFO8svOybKHN3sZ5OjAMrF/xZca76y1
-   3P6paA7kaXvhHePqpPrp3O56Yfd5pHTETSJ5NNMvjb7TXPKFoFAg67CP5
-   UIN9+6yin/ZxKGujgUMLyJCPoPfhuqvz98xUiK+clNKTJrWX28igf2NiT
-   LCUyVgroaBUtFGsG7gOcrsCpR5nhSJMidm2yEqC7+QewFKwMhFqxkrNRD
-   w==;
-X-CSE-ConnectionGUID: EJt/9pDnSKGl3pNP+2W91w==
-X-CSE-MsgGUID: 3oPjwj2EQsGD95wkhoglKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="104014680"
+  bh=Ha4oADRXq1PYWtCJBMnXq0kpE6mHWtuzSC7B8v/poo4=;
+  b=bRHhIEFL4bNiEelZw2C+oitv2AqcK6SBQk8mneNtWccRFmJwqU0Apcxj
+   TOU7F4GWiyk2YFLuZ7Da9EXuyQQSfDLjedEwck4go/dEEm6wW0Wnd1zBk
+   ydL+jA/G9czjLJtVkFQ5dRlXVzGRiHgF2vtMEPZ0JwGa6nBqSoLzRpjlT
+   9sihQT12smIgnUUshwijeyxy30gbzVt8If+F7SVCEWYyUZHhd9sl9Aro2
+   ukAh/tHUgzesVbRqTVDzNDAPSqbZr5Mvv856wjnfiqo3qXyCCLqNOeIt1
+   GwfQgpCTve6rdpE1WyKS/jRsIcUWQ62Y3LpnxyqbYe+/jgju7UsIjYZCE
+   Q==;
+X-CSE-ConnectionGUID: +aYOM08YT26uKaZSMBwSOg==
+X-CSE-MsgGUID: xw34qsZvQ6G8mpcEEW/DaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="84974564"
 X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="104014680"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 16:18:30 -0700
-X-CSE-ConnectionGUID: 2Jv1w9u8Qae+5xPlU7NtGQ==
-X-CSE-MsgGUID: uwMaYZnTQWmLOY2BxQbeNw==
+   d="scan'208";a="84974564"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 16:29:31 -0700
+X-CSE-ConnectionGUID: bp+4zMZzSXuPfJ7utyxZlw==
+X-CSE-MsgGUID: 7hgxRcjqQSCaGGNwFXt6Tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="240185877"
+   d="scan'208";a="274613151"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Jun 2026 16:18:29 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 Jun 2026 16:29:30 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wUuqw-00000000DzH-2YPq;
-	Wed, 03 Jun 2026 23:18:26 +0000
-Date: Thu, 04 Jun 2026 07:18:02 +0800
+	id 1wUv1b-00000000E00-2bQu;
+	Wed, 03 Jun 2026 23:29:27 +0000
+Date: Thu, 04 Jun 2026 07:28:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:more.configfs 30/33] Warning:
- fs/configfs/dir.c:260 function parameter 'parent_sd' not described in
- 'configfs_create_dir'
-Message-ID: <202606040743.eKD89WcV-lkp@intel.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Joerg Roedel <joerg.roedel@amd.com>
+Subject: [joro:kvm-planes-v7.1 59/60] arch/x86/kvm/svm/svm.c:5326:6:
+ error: call to undeclared function '____sev_snp_guest'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202606040736.ebDQao8C-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,23 +61,41 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git more.configfs
-head:   53a9faf145785b0b12ec71f2204f3b3011dbda5e
-commit: 2bbdcd7eabfcd3a5bd2614ab75ece19323d5f4c2 [30/33] configfs: attach the subtree only when it's completely built
-config: csky-randconfig-r073-20260604 (https://download.01.org/0day-ci/archive/20260604/202606040743.eKD89WcV-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606040743.eKD89WcV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git kvm-planes-v7.1
+head:   02b786614480597a489766ec45b0ec286a3301a0
+commit: a476e7f4b75733365b448899e65f4326eaebf9e3 [59/60] kvm: svm: Implement max_planes x86 operation
+config: x86_64-randconfig-016-20260603 (https://download.01.org/0day-ci/archive/20260604/202606040736.ebDQao8C-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606040736.ebDQao8C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606040743.eKD89WcV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606040736.ebDQao8C-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: fs/configfs/dir.c:260 function parameter 'parent_sd' not described in 'configfs_create_dir'
->> Warning: fs/configfs/dir.c:260 function parameter 'parent_sd' not described in 'configfs_create_dir'
+>> arch/x86/kvm/svm/svm.c:5326:6: error: call to undeclared function '____sev_snp_guest'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5326 |         if (____sev_snp_guest(kvm))
+         |             ^
+   arch/x86/kvm/svm/svm.c:5326:6: note: did you mean 'is_sev_snp_guest'?
+   arch/x86/kvm/svm/svm.h:461:29: note: 'is_sev_snp_guest' declared here
+     461 | static __always_inline bool is_sev_snp_guest(struct kvm_vcpu *vcpu)
+         |                             ^
+   1 error generated.
+
+
+vim +/____sev_snp_guest +5326 arch/x86/kvm/svm/svm.c
+
+  5323	
+  5324	static unsigned svm_max_planes(struct kvm *kvm)
+  5325	{
+> 5326		if (____sev_snp_guest(kvm))
+  5327			return sev_snp_max_planes(kvm);
+  5328	
+  5329		return kvm_x86_default_max_planes(kvm);
+  5330	}
+  5331	
 
 --
 0-DAY CI Kernel Test Service
