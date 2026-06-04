@@ -1,134 +1,262 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C44397E92
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 07:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF893CF97F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 07:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780557391; cv=none; b=p/lBRk5mCkk86URbCkrGhLtkW53QLCwbinNlIlIksdo9alM6l90dnsVwcFsZSbUe7lxAQ1xU8FMFKhf+LvmLVOtoBoHWZVihDxO2M97LT+bRG9Fd5RQBztHUczNfR5qe/Wjf0cGs2k7VuQiInQni0IQ2QMAuzQMVXZSZEB5u7/8=
+	t=1780559504; cv=none; b=UggRRBmAG3/E6jZf/VcIN3L3/YAfbu7J9Lo3kOvWTMr/zTnvyZMjAancosAV0Qi40HR/v5d4VIWpDQJAYF7IwMGCsT5Q6BwxTqBVf1WpF7yD89vJY2cMfpRVd5YauY5r2pn9tLtpuSdAlWQgVs7FlkVr4vWU4JwQYA8uCWb/a1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780557391; c=relaxed/simple;
-	bh=ipxFRwOMI9FnrFLgYfOuqOLFuYrkxm4d5w3ALRd0Xlc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tWTKFINJVNN7+SbmhTYdv0BANZjNj2sYdIG3rU6nfwz4VDcJq8mqmC0LnSNr40UIZvVrVQjN5r57NbpTo5CABvdkp+evg9XIC31VVMLGl7iLLs8DwfFT8ScZ2+aicchGWqUEFgmP+H48s0EHOSyNHzp3npheDoxi/pxJLY89F0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1780559504; c=relaxed/simple;
+	bh=FV+N87suUUs+iLHlfFjEEsfrN2RzK6MoF3lJkQQJeYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=M5hTXFIjrGYRC9MfwCxo48MvVZXW3Ru3vDXI6QWAK4mlnBHkkVuc3eAefiKdz+/Imk5jwjI5peQO52UqVmkqPdlRVGK1vXeLSeDuVSm6tnlPxWqaxX4gimN0NaKALoifz7SYxRSMsrB8cltIDQmiFFKvYqC4+HZc9+fgSRSkfeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ru3ZspAp; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-68d2342c5e6so504745a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jun 2026 00:16:29 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ru3ZspAp"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-9157f7c1c0eso45396085a.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jun 2026 00:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780559502; x=1781164302; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KMjb4giZH4nYOsBgqkE4+V82FGKxrHLIUiOWlEV+G84=;
+        b=Ru3ZspApIZ7oBDMc3ATRon1ThdicEw81ICcgdim/NtHTUlbKTBYQMHtnEI7i21T2j0
+         HDe2B7FZUdwlfzuQIHCn6maaSdJkJkyedgUnrJsca8DTDzabdj0Puh4Ztnwj3yE/zhed
+         92dc0yJXMV3je13cB7iBPu2FpG6VFOfaE1N0/9YE10cUMx6aVu4N806438OCdh7kVBpp
+         WcIZh0tDbo6mg4hLe4VfUJSoxyHwRx+sPGUbYXJjyoJywPgOoxge9VASYIZ6s+TDz25R
+         MvP0Bn6XGjjkmTgmTfIWhRqXEbrUe7YYrRVE8kKb+ucA6Wq4OxvntUNBVvHBWSB9/F+W
+         CIVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780557388; x=1781162188;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cmuhf90GQCmtgd5+s3OkmfdSZyPGskYbQsHr9VlNV2M=;
-        b=i4wT0xeVCqhNvZxRGKMR4MdkALPx2EfCincfJY340Ib7x9XuArUBNL7Y0Jhfq7rKo2
-         gazKiM/Gxgq3mdZ7Vjrzk/moJhlJTHtcRyEow96tr9kQvWOIoMt0yY4Y93Cio+cXxVUk
-         2dlLT5LoP4bvYKT+kYYf3B+6iJ1TZT4ZtjBQgxyNF/WGZNj15ihk4fonYj4qvQc20d10
-         SnR/CAcKR9W0P+Tjp7kvBZmDIVcMtN5zByH+zBlDm3GJYZF5NLPy6EmAuy29m38Ztxvq
-         /DhGReklHWSoiCuF4GMgFWAcTt61pbKdD6ftJrHVqoVRFX9zUv7g0xp5MSCaM+rkedT7
-         B6dQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+ylZFLXWuu/zgqpkph0TC8QrwqtsthUv9EMmbW2RW3UJtxyueLuVBVoD0901ksTu0KXr3VbmjHxjHTrGxo@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyuRBJWjLv9FrWR/ib5NgsMPXBGlPpv1FzK5tMIByx/EEAYGkx
-	2nxJvn15VPZ0azTzN6UOULA6PmIbxPficd8przUExSq8L57RWpT/g9mZaHUe5yz//Ok=
-X-Gm-Gg: Acq92OE87wqLQ5r6d6fpHFHZnFTjTcQoLysNO1StAWkNfy+kX+RuLXd5yF93DzMpT1e
-	KJY3eTACgPFg6GSVFot80C3TqMX2st9yLWh0r8KSgwZbttOBp+6JWaDL/OUglzJgvhedq0Vju1W
-	Wp9BhLu1IQ8+OirnClAM6Td2EaSOye4BkJh0v9undBe93bNOk2BM1qJ8ARejbdKpPkHhDsuDqvF
-	l0ExznEHHswwcKxDz5uyyijcq4laHnziypX0bJSZbE/vqfM3V/C3h406uQIqjzaiiV8QveU+vTJ
-	mRCcnSPbZW1ojV+cEGzjaycZnmikSWIijQnbapHuF9+xQW+uYBmcJ4g2GCwHdblEVErQh0HFqHU
-	sdJ0hDaOOTLEX5mWVseRIQgqJjQ/iyGJoQgp6CS5jRYEkmUoulio0HJArdVXtljxDtmy9t53hd2
-	Azifv/yx63alSSRwVzfViplrMs1tFpvbukUt0AvNT2/gewITplEe2GAGL1GL3KS/LKnShKD5g=
-X-Received: by 2002:a05:6402:5290:b0:680:ccda:55b9 with SMTP id 4fb4d7f45d1cf-68e714dc524mr3037970a12.16.1780557388241;
-        Thu, 04 Jun 2026 00:16:28 -0700 (PDT)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68e65029381sm2107589a12.13.2026.06.04.00.16.26
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 00:16:27 -0700 (PDT)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-68d232ed3f9so514140a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jun 2026 00:16:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+MSMr2N8aX1GLJCxV39n5hemGlmUBuf+rpjAgsc1fFLjoyorHHjq3Tl3m3UBZYeIp6WT4GL6hFndIt2yC0@lists.linux.dev
-X-Received: by 2002:a05:6402:3805:b0:68a:f749:608d with SMTP id
- 4fb4d7f45d1cf-68e72932655mr3390437a12.21.1780557386130; Thu, 04 Jun 2026
- 00:16:26 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780559502; x=1781164302;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KMjb4giZH4nYOsBgqkE4+V82FGKxrHLIUiOWlEV+G84=;
+        b=E2CwgKiS1f7khGWNLlp0Tsy9FfCsQeghrfvIGN5QhwJ8PD2kw0HrCd+Ia4nMLeSfZL
+         AkmA/LX7JcdeWjrzhG1xYFhArOkmkR8ptN+mUlLtnUYTEVR+Xzf4K2IJou6OdYTAfUpN
+         NgEg7QKzOGfk1b07ofTFnvpspbqjO7Rtqmhe8FVbogH+VxsCT1EMm33BQrVzECjen4XK
+         +5ygokeh/cWwVAl/77kN4q06ozha3c3FGORhTQw1JcS3gx4UdrMr17z988Lc4FZMVdc3
+         /XAJAlV1hwEEjn8m3WBOsoboy2Pu+rL24L9UQnV3OcEZ65YEgFjbkMI/EFb5E4h47BBz
+         nkOg==
+X-Forwarded-Encrypted: i=1; AFNElJ8fx4ny5FyZbbVAB0u9NOlzlZqiu5Kr4+rKOQbFKcFHyrcR4xXcZ2UXGP450n1Fl/DKWl/5e8UFC3Oxd6+5@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWyIKIko+WHD3tlpziciS2VqTvj7GZegn5LMLuYY6HVQJ/j8uJ
+	7AAbUWVq4uPY7jQmg2WVtu/0VQC1q+1Li9IxuYgUmDnxr6rGoB2CrtEa
+X-Gm-Gg: Acq92OF7ruwCeMtzVpThdppcYRCZ5J8cCdd7ViR1JwnFkJlUujVNn9uy+5C3t8BIeV1
+	oPvhILF7y7Ny2968SoyAH3MiMIysiHD3Ju4PboWUMFvhyUn9y0+W6FNIURzPxURoHv+f0rDraP0
+	3xVMq9TqE6iNr1WoXlT+iSY2Sxu/CZAteBQWDNlciegAj6v8Y0rOM30OP3HN/fcmqDOZ/s6s5kY
+	ToPFBW+3N4ScJQcLxxnW2WnxfvCc/ks0DCahm5MonhANz8o1U1UnEMl5exUQGxFgEZgzJsBnLct
+	pkRFpa6j8oTfFGFr5beaDyerDUFSAWnPisWvNIMaCXMxslb1QZGnMnGIefIYfrrR8bZJZgdURTK
+	iH+sncUK34qAOtTbLsRt7QSn78Rvn1NMkVsFkkq5Q0veurFtv0tbm7Arg7AHYwkswF9fqXO75Y1
+	3u+a5WnoHOndtZ6dHarN0jflDQmhc=
+X-Received: by 2002:a05:620a:1722:b0:912:1206:ddd1 with SMTP id af79cd13be357-9158a656cbcmr1068462185a.1.1780559502030;
+        Thu, 04 Jun 2026 00:51:42 -0700 (PDT)
+Received: from localhost ([149.40.50.195])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a243f24sm524092285a.20.2026.06.04.00.51.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 00:51:41 -0700 (PDT)
+Date: Thu, 4 Jun 2026 10:51:36 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Mark Harmstone <mark@harmstone.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	David Sterba <dsterba@suse.com>, Boris Burkov <boris@bur.io>
+Subject: [kdave:for-7.0-rc6 63/199] fs/btrfs/relocation.c:5080
+ do_remap_reloc_trans() warn: variable dereferenced before check 'dest_bg'
+ (see line 5014)
+Message-ID: <202606041517.HaryVyGy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202606040245.XfmRpBhA-lkp@intel.com>
-In-Reply-To: <202606040245.XfmRpBhA-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 4 Jun 2026 09:16:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUqo5C9epmE1idc15x9nByhVZP5Hdb5OKtOLSMakb+sfA@mail.gmail.com>
-X-Gm-Features: AVHnY4JPWQVIpu2upPgjp37FxY__BC8JhXLs9bmbyscm7sasgK8RSPuLMSmE61A
-Message-ID: <CAMuHMdUqo5C9epmE1idc15x9nByhVZP5Hdb5OKtOLSMakb+sfA@mail.gmail.com>
-Subject: Re: drivers/iio/common/scmi_sensors/scmi_iio.c:247:1-7: WARNING:
- do_div() does a 64-by-32 division, please consider using div64_u64 instead.
-To: kernel test robot <lkp@intel.com>
-Cc: Tiwei Bie <tiwei.btw@antgroup.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Johannes Berg <johannes.berg@intel.com>, 
-	Jyoti Bhayana <jbhayana@google.com>, Jonathan Cameron <jic23@kernel.org>, 
-	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>, arm-scmi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-CC IIO/SCMI
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-7.0-rc6
+head:   316fb1b3169efb081d2db910cbbfef445afa03b9
+commit: fd6594b1446cc753450bad8d0da6288da1ad7b96 [63/199] btrfs: replace identity remaps with actual remaps when doing relocations
+config: sparc-randconfig-r073-20260604 (https://download.01.org/0day-ci/archive/20260604/202606041517.HaryVyGy-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-On Wed, 3 Jun 2026 at 20:36, kernel test robot <lkp@intel.com> wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
-> commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
-> date:   1 year, 1 month ago
-> config: um-randconfig-r052-20260603 (https://download.01.org/0day-ci/archive/20260604/202606040245.XfmRpBhA-lkp@intel.com/config)
-> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e5ab4f8a1f766febdc65ce89c00dec85393cfd68)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Fixes: a0e2cb6a9063 ("um: Add VFIO-based virtual PCI driver")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606040245.XfmRpBhA-lkp@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
-> >> drivers/iio/common/scmi_sensors/scmi_iio.c:247:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
->    drivers/iio/common/scmi_sensors/scmi_iio.c:507:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
->    drivers/iio/common/scmi_sensors/scmi_iio.c:273:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
->    drivers/iio/common/scmi_sensors/scmi_iio.c:166:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
->
-> vim +247 drivers/iio/common/scmi_sensors/scmi_iio.c
->
-> f774117c96f94c Jyoti Bhayana 2021-03-09  238
-> f774117c96f94c Jyoti Bhayana 2021-03-09  239  static void convert_ns_to_freq(u64 interval_ns, u64 *hz, u64 *uhz)
-> f774117c96f94c Jyoti Bhayana 2021-03-09  240  {
-> f774117c96f94c Jyoti Bhayana 2021-03-09  241    u64 rem, freq;
-> f774117c96f94c Jyoti Bhayana 2021-03-09  242
-> f774117c96f94c Jyoti Bhayana 2021-03-09  243    freq = NSEC_PER_SEC;
-> f774117c96f94c Jyoti Bhayana 2021-03-09  244    rem = do_div(freq, interval_ns);
-> f774117c96f94c Jyoti Bhayana 2021-03-09  245    *hz = freq;
-> f774117c96f94c Jyoti Bhayana 2021-03-09  246    *uhz = rem * 1000000UL;
-> f774117c96f94c Jyoti Bhayana 2021-03-09 @247    do_div(*uhz, interval_ns);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606041517.HaryVyGy-lkp@intel.com/
 
-Indeed, most do_div() use in that driver is broken on 32-bit.
+smatch warnings:
+fs/btrfs/relocation.c:5080 do_remap_reloc_trans() warn: variable dereferenced before check 'dest_bg' (see line 5014)
 
-> f774117c96f94c Jyoti Bhayana 2021-03-09  248  }
-> f774117c96f94c Jyoti Bhayana 2021-03-09  249
->
-> :::::: The code at line 247 was first introduced by commit
-> :::::: f774117c96f94c7c4d2f076e4cacc80218b0df48 iio/scmi: Adding support for IIO SCMI Based Sensors
->
-> :::::: TO: Jyoti Bhayana <jbhayana@google.com>
-> :::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+vim +/dest_bg +5080 fs/btrfs/relocation.c
 
-So why was this sent to different people instead?
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4931  static int do_remap_reloc_trans(struct btrfs_fs_info *fs_info,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4932  				struct btrfs_block_group *src_bg,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4933  				struct btrfs_path *path, u64 *last_start)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4934  {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4935  	struct btrfs_trans_handle *trans;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4936  	struct btrfs_root *extent_root;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4937  	struct btrfs_key ins;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4938  	struct btrfs_block_group *dest_bg = NULL;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4939  	u64 start = 0, remap_length = 0;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4940  	u64 length, new_addr, min_size;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4941  	int ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4942  	const bool is_data = (src_bg->flags & BTRFS_BLOCK_GROUP_DATA);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4943  	bool no_more = false;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4944  	bool made_reservation = false, bg_needs_free_space;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4945  	struct btrfs_space_info *sinfo = src_bg->space_info;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4946  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4947  	extent_root = btrfs_extent_root(fs_info, src_bg->start);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4948  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4949  	trans = btrfs_start_transaction(extent_root, 0);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4950  	if (IS_ERR(trans))
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4951  		return PTR_ERR(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4952  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4953  	mutex_lock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4954  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4955  	ret = find_next_identity_remap(trans, path, src_bg->start + src_bg->length,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4956  				       *last_start, &start, &remap_length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4957  	if (ret == -ENOENT) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4958  		no_more = true;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4959  		goto next;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4960  	} else if (ret) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4961  		mutex_unlock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4962  		btrfs_end_transaction(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4963  		return ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4964  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4965  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4966  	/* Try to reserve enough space for block. */
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4967  	spin_lock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4968  	btrfs_space_info_update_bytes_may_use(sinfo, remap_length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4969  	spin_unlock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4970  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4971  	if (is_data)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4972  		min_size = fs_info->sectorsize;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4973  	else
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4974  		min_size = fs_info->nodesize;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4975  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4976  	/*
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4977  	 * We're using btrfs_reserve_extent() to allocate a contiguous
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4978  	 * logical address range, but this will become a remap item rather than
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4979  	 * an extent in the extent tree.
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4980  	 *
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4981  	 * Short allocations are fine: it means that we chop off the beginning
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4982  	 * of the identity remap that we're processing, and will tackle the
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4983  	 * rest of it the next time round.
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4984  	 */
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4985  	ret = btrfs_reserve_extent(fs_info->fs_root, remap_length, remap_length,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4986  				   min_size, 0, 0, &ins, is_data, false);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4987  	if (ret) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4988  		spin_lock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4989  		btrfs_space_info_update_bytes_may_use(sinfo, -remap_length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4990  		spin_unlock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4991  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4992  		mutex_unlock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4993  		btrfs_end_transaction(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4994  		return ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4995  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4996  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4997  	made_reservation = true;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4998  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4999  	new_addr = ins.objectid;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5000  	length = ins.offset;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5001  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5002  	if (!is_data && !IS_ALIGNED(length, fs_info->nodesize)) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5003  		u64 new_length = ALIGN_DOWN(length, fs_info->nodesize);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5004  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5005  		btrfs_free_reserved_extent(fs_info, new_addr + new_length,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5006  					   length - new_length, 0);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5007  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5008  		length = new_length;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5009  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5010  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5011  	dest_bg = btrfs_lookup_block_group(fs_info, new_addr);
 
-Gr{oetje,eeting}s,
+Do we not need to check for NULL returns from btrfs_lookup_block_group()?
 
-                        Geert
-
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5012  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5013  	mutex_lock(&dest_bg->free_space_lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07 @5014  	bg_needs_free_space = test_bit(BLOCK_GROUP_FLAG_NEEDS_FREE_SPACE,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5015  				       &dest_bg->runtime_flags);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5016  	mutex_unlock(&dest_bg->free_space_lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5017  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5018  	if (bg_needs_free_space) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5019  		ret = btrfs_add_block_group_free_space(trans, dest_bg);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5020  		if (ret)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5021  			goto fail;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5022  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5023  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5024  	ret = copy_remapped_data(fs_info, start, new_addr, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5025  	if (ret)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5026  		goto fail;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5027  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5028  	ret = btrfs_remove_from_free_space_tree(trans, new_addr, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5029  	if (ret)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5030  		goto fail;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5031  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5032  	ret = add_remap_entry(trans, path, src_bg, start, new_addr, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5033  	if (ret) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5034  		btrfs_add_to_free_space_tree(trans, new_addr, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5035  		goto fail;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5036  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5037  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5038  	adjust_block_group_remap_bytes(trans, dest_bg, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5039  	btrfs_free_reserved_bytes(dest_bg, length, 0);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5040  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5041  	spin_lock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5042  	sinfo->bytes_readonly += length;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5043  	spin_unlock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5044  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5045  next:
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5046  	if (dest_bg)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5047  		btrfs_put_block_group(dest_bg);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5048  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5049  	if (made_reservation)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5050  		btrfs_dec_block_group_reservations(fs_info, new_addr);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5051  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5052  	mutex_unlock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5053  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5054  	if (src_bg->identity_remap_count == 0) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5055  		bool mark_fully_remapped = false;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5056  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5057  		spin_lock(&src_bg->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5058  		if (!test_bit(BLOCK_GROUP_FLAG_FULLY_REMAPPED, &src_bg->runtime_flags)) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5059  			mark_fully_remapped = true;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5060  			set_bit(BLOCK_GROUP_FLAG_FULLY_REMAPPED, &src_bg->runtime_flags);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5061  		}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5062  		spin_unlock(&src_bg->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5063  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5064  		if (mark_fully_remapped)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5065  			btrfs_mark_bg_fully_remapped(src_bg, trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5066  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5067  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5068  	ret = btrfs_end_transaction(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5069  	if (ret)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5070  		return ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5071  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5072  	if (no_more)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5073  		return 1;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5074  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5075  	*last_start = start;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5076  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5077  	return 0;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5078  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5079  fail:
+fd6594b1446cc7 Mark Harmstone 2026-01-07 @5080  	if (dest_bg)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5081  		btrfs_put_block_group(dest_bg);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5082  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5083  	btrfs_free_reserved_extent(fs_info, new_addr, length, 0);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5084  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5085  	mutex_unlock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5086  	btrfs_end_transaction(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5087  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5088  	return ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5089  }
 
 --
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
