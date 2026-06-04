@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E583242BA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 17:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21E1494A01
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 17:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780592586; cv=none; b=X9puk3YBJV03/vAH7n4XanwWrj+CVcTp/QWxOFt7h0FoE6MNqQ9jI4NthMOgavF2+8G0B4BA/mkPwwcdWkqOmr/Ek1psf8HcDDa8gVRGei7wSOsnhAMJhFZJG5toXEE+a7/Y/2cmwijL4H+gD5NcQi7FQL6liGwg0e8EInS0t9g=
+	t=1780592757; cv=none; b=MRAzviBcqFztY5hseavDxUzYSnZ1Lu34NB0WzToBNf6Cvmbd24djz0g1hbODiRyqCQEx5IhjWK9nUNNJYmnwJlW0p0Z+SLwHVUJqV8vLdJ9z8IEw6ofFUp7ZgaS5jXtZB6AJLC0ZJqZonZphH9ej/rDtmM71jyoKgmoPfUrIWh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780592586; c=relaxed/simple;
-	bh=l20v8rSWdcg+pFBarDZqL8SpzpgFzu+Eh17Aub0WWNM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iWdQGn1myCJHf//GYuzpPjJfuJSyEsC3EHmFOVV6F7P/tgKBtpR2HPOKY1hsPEIQ5CAYc2uzPORvcJiOcSq/CqoK+/8tIgDr96ZW7UX02qVGauiyLPV5va5rcf6cxt8szI17y5f1tMcTscI63FIXW5IEZq0/fqCA0dyJqgLoWRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAWjsz+/; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1780592757; c=relaxed/simple;
+	bh=eb43Izc74OSP40AzGeLRE8EKUocYJlftQoG0lP5yVeY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NdROGODKgnjhHME4+G5P6JEkPPJpGdidL+NpxsbfHPGUDSBo2juSwoJyl5AGmxbRwWMNM9gFHlr5h1v5kfRrbYpwOAmCIWtGk270hGj8Q190TQjMZ0cZBY2tZ41MMNq96gm6U4MBndH7qaM94Moml4UPsaeDtVm4Wo9dRSAW17U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cb+fP+mu; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAWjsz+/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cb+fP+mu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780592585; x=1812128585;
+  t=1780592756; x=1812128756;
   h=date:from:to:cc:subject:message-id;
-  bh=l20v8rSWdcg+pFBarDZqL8SpzpgFzu+Eh17Aub0WWNM=;
-  b=EAWjsz+/4RfjBAcTVs4P4T5XUQ/WfPwx1kbl1Nyruy39UwxCBMAroOW4
-   n1RAWnoIkl6iuunDa4aR8gKTKGJ+hQ5MOuz2BivdId//jPHwDJUQnYd8k
-   s5GYA+lphd5kVJISw1DXQAS3xbIf/Snk6JgZKi527H/dhqMUW1cuo/GC4
-   23gJDwFIEQYzL3A1Rptp7ngoPi7b+tgEirK8DH3IA1ZUaB6pBfEE7sfl0
-   dgR595wEl+yVy56o8rZnbFdcIGaGMsHYGpECtq3rl5KpbP7qD6UGQPOoX
-   vxDIVRh1sIXs1pyv9aGKX07u+kEisj2av6nxwIBbpmFQLTtegE+3Ljas+
-   g==;
-X-CSE-ConnectionGUID: JOTIZHL7TDCK/vquwo3U7w==
-X-CSE-MsgGUID: L81n64OXRBi4eKOZ/63LAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="98997185"
+  bh=eb43Izc74OSP40AzGeLRE8EKUocYJlftQoG0lP5yVeY=;
+  b=Cb+fP+mutxpJeyvY52CxR7q3NCTN6wrffwxGpd/glQ7BAGbUluLE0Aho
+   RmMRZ3us/khWGMxQ5u9gzw/mxdDDUE+wr9St9/th5ilJbTvqfGOv2JRbT
+   p2pbVy8APPZyogv0OrpcteWylrIFVj6vGsifgGHqSKnzmBp++PCjtZw5X
+   Zj5m0y+S7Ze9DN+bKiGxzzsZrQq9uipHzDz66ow4vanbX+ocxIzXbIchL
+   v34Ap5oU82k3b0Pjz7xymPqk5hUt31FVDIn1jKpAd9q5dyZJ/6dO4L29o
+   rTvvUi2vmU0RTpP9LpiH7NDG3aXUAH/7zlCLZ4pPMgvFo/XbjsqsUVGK8
+   Q==;
+X-CSE-ConnectionGUID: TYTSPL1hQ+GvAe9Rfaz/CQ==
+X-CSE-MsgGUID: 8/eFhn1SRPK3aldosAYRiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81424366"
 X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
-   d="scan'208";a="98997185"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 10:03:04 -0700
-X-CSE-ConnectionGUID: ujrHosJHQwShdVuZR+E0JQ==
-X-CSE-MsgGUID: kmNZhp99T6Ww65xOrduorw==
+   d="scan'208";a="81424366"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 10:05:56 -0700
+X-CSE-ConnectionGUID: E660Et0VSS+9aKsv8mjW2g==
+X-CSE-MsgGUID: 9ZCoNdPeQWKD9nSexge7hw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
-   d="scan'208";a="244708948"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 04 Jun 2026 10:03:03 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 04 Jun 2026 10:05:53 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVBT9-000000002MX-3XxM;
-	Thu, 04 Jun 2026 17:02:59 +0000
-Date: Thu, 04 Jun 2026 19:02:15 +0200
+	id 1wVBVu-00000000Eza-2Bw6;
+	Thu, 04 Jun 2026 17:05:50 +0000
+Date: Fri, 05 Jun 2026 01:05:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Thierry Reding <treding@nvidia.com>
-Subject: [linux-next:master 8422/10715]
- arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb:
- front-camera@48 (aptina,mi1040): 'orientation' does not match any of the
- regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202606041953.rMXFx1cc-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.1-rc 164/164] Warning:
+ drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'ds' not
+ described in 'mxl862xx_fdb_add_per_fid'
+Message-ID: <202606050141.pEsdU0So-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,35 +58,38 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a225caacc36546a09586e3ece36c0313146e7da9
-commit: a5acde8adb4d4d921a004b8df995d50255253afa [8422/10715] ARM: tegra: grouper: Add support for front camera
-config: arm-randconfig-2051-20260531 (https://download.01.org/0day-ci/archive/20260604/202606041953.rMXFx1cc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606041953.rMXFx1cc-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
+head:   ebfa00052eb2eb7ab8e1e7afe14dfe29a9ca2c4f
+commit: d0288d6e55e2b3d0a5c21aabfd191e4f7cf213ea [164/164] net: dsa: wire flash_update devlink callback to drivers
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260605/202606050141.pEsdU0So-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606050141.pEsdU0So-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606041953.rMXFx1cc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606050141.pEsdU0So-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: pmic@3c (maxim,max77663): regulators:sd0: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: pmic@3c (maxim,max77663): regulators:sd1: Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: audio-codec@1c (realtek,rt5640): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
-   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
->> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: front-camera@48 (aptina,mi1040): 'orientation' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'ds' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'addr' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'vid' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'fid' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'port_id' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3534 function parameter 'ds' not described in 'mxl862xx_fdb_del_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3534 function parameter 'addr' not described in 'mxl862xx_fdb_del_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3534 function parameter 'vid' not described in 'mxl862xx_fdb_del_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3534 function parameter 'fid' not described in 'mxl862xx_fdb_del_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'ds' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'addr' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'vid' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'fid' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3515 function parameter 'port_id' not described in 'mxl862xx_fdb_add_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3534 function parameter 'ds' not described in 'mxl862xx_fdb_del_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3534 function parameter 'addr' not described in 'mxl862xx_fdb_del_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3534 function parameter 'vid' not described in 'mxl862xx_fdb_del_per_fid'
+>> Warning: drivers/net/dsa/mxl862xx/mxl862xx.c:3534 function parameter 'fid' not described in 'mxl862xx_fdb_del_per_fid'
 
 --
 0-DAY CI Kernel Test Service
