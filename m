@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F16397350;
-	Thu,  4 Jun 2026 18:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DA725B098
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 18:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780596846; cv=none; b=c352UE5jJV6N4jkUbeZGOTIrnxRhcKxOQUn/mPN1kXt06lDbp+IhJpuUlBrEip4z4kYh+t4j7INm4UswNKJssgz865ai3RsmyrNZgW+j2LyoE2XAJ3SLMw2Jh1KsY4K2/yFlwBs6/h16lrMVsVB6sWzGAzbYGxSl78mY73NbX80=
+	t=1780598042; cv=none; b=poLkAYqKAmAO6QP+xNhrM2SCbhExbFC0F9bEByHnznbmPmZHS37ElXCGEWOjPBtFfdbxZoIldEfxzdPImVLb5MyOdBl0vi7qK5VVunFXu3mRtX2DTB9GPC8xAX1rr87yT9Z2iE15cJ7FBb8+a4cMo3j+WlzKzwH6FxM1Uv9fJjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780596846; c=relaxed/simple;
-	bh=R8FMnx5MGUBjK1edLdUjsNizXbgdi+MnDgWq9KVFwtw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dhGfmjyPw9HxyVyC5b/JzMJ1lKnyihpcWZN/cMDc4jOzcEta59i9zMYPoaypCz4eaEkghxKVZQLRy5jHwJJt6kwR8VbNHoGIrEJsk917XIvhcICVjsVhVRpfcMDhV3dY0ypJqJokOmkIMx+fg8pIVIgtVzoHWx859S5xnynEbuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZHwy6siY; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1780598042; c=relaxed/simple;
+	bh=oXbBe/KpYX+atDv/mCoN6qwE9LCmH8M3an3MlLj/+ws=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hIFMWYswNXiMyLhBTGHEpG4fum1TqqOp+JKhlmCn+5rmH0AlBwVqY8pfayhGMN4IQOwVSHFX4MD9U0i8P4T3EOVh1caypH52Ghkgiu62r+9Brw1hkRbgsqIJn/UzW1yge7IKEhFFhYBUCpabW4Rfo7fYwsfZ6KY10TOkHc+u0DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JdyMNnjQ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZHwy6siY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JdyMNnjQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780596844; x=1812132844;
+  t=1780598040; x=1812134040;
   h=date:from:to:cc:subject:message-id;
-  bh=R8FMnx5MGUBjK1edLdUjsNizXbgdi+MnDgWq9KVFwtw=;
-  b=ZHwy6siYmOMZPouiPzfsody1wJBRGNCUXw8jsjAjOxKhIyEOHf/LJAPn
-   t7VK0E60A+mU9sYYMtU3xvzF0fK3jyqvKFkAdLvR6JHyAOzCIc0Uimq8Y
-   BtoGTOlTaWKbdWG2cvKa5au5CkM6rwp0xRbkmzc7okjitNNNkhloj/FTo
-   RQx0wj6vB7x/7RqCdQKPQVNe984olyyXJbUS6IpqMXdrobbmOHkwd/ZLa
-   9FUtlffJrNsWCVycWfKqf4d+S6bojyTBaCHHqa6j4Ou6lGD64oiu7W8F5
-   cP4nR2WCdKNgX/01l86Um4Ay2JK5+e3JBf4etIMA1KHYmi/AQS2qq6nbb
-   g==;
-X-CSE-ConnectionGUID: jrsIaPiTSM6QU0zgJpVfig==
-X-CSE-MsgGUID: OkJaM4NYRtykOy5ZCardYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="104092191"
+  bh=oXbBe/KpYX+atDv/mCoN6qwE9LCmH8M3an3MlLj/+ws=;
+  b=JdyMNnjQRYWwj3bPs5wbpZlu8EO5a6JCZJq9BRYzbKFEm11sHV5hLRWP
+   jYin40+ziXb1BC0T2v3NOspSBG+bv5SpnbXSIiC2q7eOU1qTNp3PADpvq
+   ShlgDBHF04x7O8YAm7NuqdtD3a7U8LSFADWECsRBCTcr+lEbGqRSdW3qV
+   TMNfv6KrjdaRbevrj5Kbvkms7pphE3Y8tLxX5E5L52klFGFWDelDtiQwv
+   GdE0lchl/dRpilY+oYl6X8UeSMQieJ5Yd2IifZ8IVIl+O3ZkVDrztrMtV
+   xW85v84ponFosNgjeERKMR8lXMYLnXtPii/lJOZ6ln6WBrn575CGuB+6v
+   A==;
+X-CSE-ConnectionGUID: oJAEFpiaRAeZhmcKuPfxuQ==
+X-CSE-MsgGUID: hYeCEBnwS6m7/Rsw/8R0ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81492487"
 X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
-   d="scan'208";a="104092191"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 11:14:04 -0700
-X-CSE-ConnectionGUID: NAPeJ6c7Q+evtJTFEjYrfQ==
-X-CSE-MsgGUID: g3R4qkRIT0uISiWBkZJmzg==
+   d="scan'208";a="81492487"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 11:34:00 -0700
+X-CSE-ConnectionGUID: 1JOaDWtLSz+HXZSBh5fFtg==
+X-CSE-MsgGUID: 243aT8NGTPKzZGKhQu+5zw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
-   d="scan'208";a="238271169"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Jun 2026 11:14:02 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="243535358"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 04 Jun 2026 11:33:59 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVCZs-000000002N7-1Uww;
-	Thu, 04 Jun 2026 18:14:00 +0000
-Date: Thu, 04 Jun 2026 20:13:16 +0200
+	id 1wVCtA-00000000F4A-0Ut8;
+	Thu, 04 Jun 2026 18:33:56 +0000
+Date: Fri, 05 Jun 2026 02:33:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Javen Xu <javen_xu@realsil.com.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: drivers/net/ethernet/realtek/r8169_main.c:5168:6: warning:
- variable 'tx_done' set but not used
-Message-ID: <202606042024.ym6DXsZo-lkp@intel.com>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [legion:sysctls-v1 27/31] net/core/sysctl_net_core.c:686:14:
+ warning: 'netns_core_net_data' defined but not used
+Message-ID: <202606050241.LFcApeOW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,48 +59,33 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/javen/r8169-add-support-for-multi-irqs/20260604-183631
-head:   701d27322fcb57fca646ece205dcc2a3a74c4c11
-commit: fe99b1d4a4b59d25254704ec227e0c35c416ee0d r8169: add support for new interrupt mapping
-date:   7 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260604/202606042024.ym6DXsZo-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606042024.ym6DXsZo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/legion/linux.git sysctls-v1
+head:   7c8f50dd793cb0314002e78bb70e3bfd0346e606
+commit: 053a27220f0ce01fd0961d676ddb867d3a84ccfa [27/31] sysctl: use ctl_field in net core sysctls
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260605/202606050241.LFcApeOW-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606050241.LFcApeOW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606042024.ym6DXsZo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606050241.LFcApeOW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/realtek/r8169_main.c:5168:6: warning: variable 'tx_done' set but not used [-Wunused-but-set-variable]
-    5168 |         int tx_done;
-         |             ^
-   1 warning generated.
+>> net/core/sysctl_net_core.c:686:14: warning: 'netns_core_net_data' defined but not used [-Wunused-function]
+     686 | static void *netns_core_net_data(const struct ctl_context *ctx)
+         |              ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/tx_done +5168 drivers/net/ethernet/realtek/r8169_main.c
+vim +/netns_core_net_data +686 net/core/sysctl_net_core.c
 
-  5162	
-  5163	static int rtl8169_poll(struct napi_struct *napi, int budget)
-  5164	{
-  5165		struct rtl8169_private *tp = netdev_priv(napi->dev);
-  5166		struct net_device *dev = napi->dev;
-  5167		int work_done = 0;
-> 5168		int tx_done;
-  5169	
-  5170		tx_done = rtl_tx(dev, tp, budget);
-  5171	
-  5172		/* rtl8169_poll() is used only when there is a single RX ring. */
-  5173		work_done = rtl_rx(dev, tp, &tp->rx_ring[0], budget, napi);
-  5174	
-  5175		if (work_done < budget && napi_complete_done(napi, work_done))
-  5176			rtl_irq_enable(tp);
-  5177	
-  5178		return work_done;
-  5179	}
-  5180	
+   685	
+ > 686	static void *netns_core_net_data(const struct ctl_context *ctx)
+   687	{
+   688		return ctx->ns.net_ns;
+   689	}
+   690	
 
 --
 0-DAY CI Kernel Test Service
