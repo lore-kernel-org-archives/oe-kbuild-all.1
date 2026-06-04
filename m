@@ -1,138 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0DB19539F;
-	Thu,  4 Jun 2026 01:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A732FE04E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 02:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780535967; cv=none; b=pjSqA5AXLgaBZyzwHBiOYUlB89ZHxoVhysSmFVrbjhK0ILGFzhwqrlTZorQEGDFdlK173XTWg2nXeh7jh4FD66jtO2zcxnnTq5lp95PmSZHj8kXEjTkzqeG33n8o8SyiaKJY04AKW9Wr3uzz3ND89Zf+R0NXkGB7M9ZUGbj91vQ=
+	t=1780539434; cv=none; b=nl3qqM3UMTGLK6dNntimh91ntvWJeTX+grguTlgnIKs3SqQbJGm1bcGr/7fvmEu3JoZrC5C2BpeP6KyykJBXi7UFT2i+r52Nvr0xZfvBEOTszJOYOqNxgHQYZ/jzegJrBoMNCzwTwlNT2+5nkHtYUeTQlNeJ7cqy6mFOcUfdf20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780535967; c=relaxed/simple;
-	bh=1WwmzN29ORLbTFjtCM9yLOjbWCGZTYTvPIh2Ofj0H74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ggmoRX7GBZppAy9xqzVxlWkNNTj3c3+KfTDLmQbyK4BuiFBdes64E6NjIClkrk6ad//wIB1hIBtHXEWtnYrKS5BPAZE8xgIDxB/r1IrQCfMN1Cz53c+cRTe/2XpSbhNJQPCrCxRoIEQ9Rv/ZUqQnwD2UG/KzCHsRPe1a7gNrtrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5XsDUv2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780539434; c=relaxed/simple;
+	bh=h9+JqMvkk39BCvmTywoeqrhTMeL4OUZnpNwPjVejWBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bGSnY4Te2IESWcS79mzRs0e7vQ4cYJgkhl0/VzN12pI6x/8Yiwuaq/thrBLHUEqrPaMs14NoSHTi600p4XMtYnbC86YE+Zhx1qWSFSWcRv9YfnlDaQMx+db7L9rtm+fpRUFnnEczcUyj/IaJL3ZRmqke8wyDM1spFLvyylXBLLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d75vosx3; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5XsDUv2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DCE51F00893;
-	Thu,  4 Jun 2026 01:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780535966;
-	bh=OC2aLlOHe9nbxKbN6iiUmt49s8yh8/9Q9SdTr4G6ru4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N5XsDUv2Kw9VML6g5U88DT7ZNzkDdXLZ3aiuBI5+XlksR3H0zkVI7T6i8FI+L7i1N
-	 kDM2b5yqi90rQ99EaQJI3g8XegeKFyG5usithsAxx7AJfs54vfFl2Toklmzv0xqVxQ
-	 FTJRYaWolql9UZgyPe0VbRkbDzj/LWeVSGBTMUfSa/Z2ncObNAnZECsbhjZ88aHKUh
-	 zoWhcSajOOzMGd7Z5+eTsK4lG6DNI4NbSm5f/TqZ5C62gqAvBmZdkL++TMWylww2kp
-	 oK/lABLtuRocYBIaoGFT0j3HDDmMfZuru5jrSJKkeoH+rZjQzy9aJpkzOrZFptM+CL
-	 J9pcdu5QNZbAQ==
-Date: Wed, 3 Jun 2026 18:19:21 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	mm-commits@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [akpm-mm:mm-unstable 274/423] mm/userfaultfd.c:4475:1: warning:
- alias and aliasee have different types 'long (ulong, ulong, ulong, ulong,
- ulong, ulong, ulong)' (aka 'long (unsigned long, unsigned long, unsigned
- long, unsigned long, unsigned long, unsigned long, unsigned long)') and
- 'l...
-Message-ID: <20260604011921.GA1329739@ax162>
-References: <202606031038.1aPfmoCm-lkp@intel.com>
- <ah_BbB_BnjnNh85i@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d75vosx3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780539424; x=1812075424;
+  h=date:from:to:cc:subject:message-id;
+  bh=h9+JqMvkk39BCvmTywoeqrhTMeL4OUZnpNwPjVejWBQ=;
+  b=d75vosx3xa/rgHx51FWEGibA46n0OyFC3zW7JU+9aaa91qpKE4AuM5s/
+   cXZdZBai9GsZaS3X4UmzVBDK/0mfgJ5NFjLRbq7JNUDrTaUtdjQHDNmr2
+   QNuUVXgMyr73T/b8nVQD2hWQjZBGCiP3rh6hJBeZFffdn96KxBfr2zUkK
+   I1DMO5TlSw5/00ZmvKpOgDSByq2JU/afhpWqBk4wI55tdEczBLFbY8O8b
+   Tt3FmeHTfIiQoOk3WAhmt6MherWKBt2fBHbD4HZllIK9LLE7ucjZKu2+V
+   rwso6J1vJTKvOAL9QofxjXkzVKQXfrn3rxboFsV9T03kUTWgx/Az+8H9k
+   w==;
+X-CSE-ConnectionGUID: i4ooGHDtSomBXpEtskNgAQ==
+X-CSE-MsgGUID: EWbFoe6BQk2p3dmNTq3y9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81423505"
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="81423505"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 19:17:03 -0700
+X-CSE-ConnectionGUID: 46oUs8EjSxqb+IQrseWE1g==
+X-CSE-MsgGUID: XDUmo70xRI+BavpEgr2pSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="274644433"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 03 Jun 2026 19:17:02 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wUxdj-00000000E9o-1NuI;
+	Thu, 04 Jun 2026 02:16:59 +0000
+Date: Thu, 04 Jun 2026 10:16:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:more.configfs 33/33] fs/configfs/symlink.c:136:33:
+ warning: variable 'sd' set but not used
+Message-ID: <202606041019.eVNiH4jZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ah_BbB_BnjnNh85i@kernel.org>
 
-On Wed, Jun 03, 2026 at 08:53:48AM +0300, Mike Rapoport wrote:
-> (adding Nathan)
-> 
-> On Wed, Jun 03, 2026 at 10:29:32AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> > head:   6bb9014e347a15dfa837cbc52451035466d86ddf
-> > commit: 53313230f720eaaf9f1f6d20faafd7e01a9e09b7 [274/423] userfaultfd: merge fs/userfaultfd.c into mm/userfaultfd.c
-> > config: riscv-randconfig-r122-20260529 (https://download.01.org/0day-ci/archive/20260603/202606031038.1aPfmoCm-lkp@intel.com/config)
-> > compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
-> > sparse: v0.6.5-rc1
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606031038.1aPfmoCm-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202606031038.1aPfmoCm-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> 
-> Looks the same as https://lore.kernel.org/all/20260528164552.GB1342076@ax162
-> Nathan said it's a compiler issue.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git more.configfs
+head:   53a9faf145785b0b12ec71f2204f3b3011dbda5e
+commit: 53a9faf145785b0b12ec71f2204f3b3011dbda5e [33/33] kill configfs_dirent_is_ready()
+config: csky-randconfig-r073-20260604 (https://download.01.org/0day-ci/archive/20260604/202606041019.eVNiH4jZ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606041019.eVNiH4jZ-lkp@intel.com/reproduce)
 
-Indeed, this should be resolved in Linus's tree with
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606041019.eVNiH4jZ-lkp@intel.com/
 
-  175db11786bd ("Disable -Wattribute-alias for clang-23 and newer")
+All warnings (new ones prefixed by >>):
 
-> > >> mm/userfaultfd.c:4475:1: warning: alias and aliasee have different types 'long (ulong, ulong, ulong, ulong, ulong, ulong, ulong)' (aka 'long (unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)') and 'long (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((int)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((int)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long)') [-Wattribute-alias]
-> >     4475 | SYSCALL_DEFINE1(userfaultfd, int, flags)
-> >          | ^
-> >    include/linux/syscalls.h:225:36: note: expanded from macro 'SYSCALL_DEFINE1'
-> >      225 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-> >          |                                    ^
-> >    include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
-> >      236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-> >          |         ^
-> >    arch/riscv/include/asm/syscall_wrapper.h:82:2: note: expanded from macro '__SYSCALL_DEFINEx'
-> >       82 |         __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)                         \
-> >          |         ^
-> >    arch/riscv/include/asm/syscall_wrapper.h:37:19: note: expanded from macro '__SYSCALL_SE_DEFINEx'
-> >       37 |                         __attribute__((alias(__stringify(___se_##prefix##name))));      \
-> >          |                                        ^
-> >    mm/userfaultfd.c:4475:1: note: aliasee is declared here
-> >    include/linux/syscalls.h:225:36: note: expanded from macro 'SYSCALL_DEFINE1'
-> >      225 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-> >          |                                    ^
-> >    include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
-> >      236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-> >          |         ^
-> >    arch/riscv/include/asm/syscall_wrapper.h:82:2: note: expanded from macro '__SYSCALL_DEFINEx'
-> >       82 |         __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)                         \
-> >          |         ^
-> >    arch/riscv/include/asm/syscall_wrapper.h:41:14: note: expanded from macro '__SYSCALL_SE_DEFINEx'
-> >       41 |         static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-> >          |                     ^
-> >    <scratch space>:148:1: note: expanded from here
-> >      148 | ___se_sys_userfaultfd
-> >          | ^
-> >    1 warning generated.
-> > 
-> > 
-> > vim +4475 mm/userfaultfd.c
-> > 
-> >   4474	
-> > > 4475	SYSCALL_DEFINE1(userfaultfd, int, flags)
-> >   4476	{
-> >   4477		if (!userfaultfd_syscall_allowed(flags))
-> >   4478			return -EPERM;
-> >   4479	
-> >   4480		return new_userfaultfd(flags);
-> >   4481	}
-> >   4482	
-> > 
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
-> -- 
-> Sincerely yours,
-> Mike.
+   fs/configfs/symlink.c: In function 'configfs_symlink':
+>> fs/configfs/symlink.c:136:33: warning: variable 'sd' set but not used [-Wunused-but-set-variable=]
+     136 |         struct configfs_dirent *sd;
+         |                                 ^~
 
--- 
-Cheers,
-Nathan
+
+vim +/sd +136 fs/configfs/symlink.c
+
+7063fbf2261194 Joel Becker       2005-12-15  130  
+7063fbf2261194 Joel Becker       2005-12-15  131  
+7a77db95511c39 Christian Brauner 2023-01-13  132  int configfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
+549c7297717c32 Christian Brauner 2021-01-21  133  		     struct dentry *dentry, const char *symname)
+7063fbf2261194 Joel Becker       2005-12-15  134  {
+7063fbf2261194 Joel Becker       2005-12-15  135  	int ret;
+2a109f2a4155f1 Louis Rilling     2008-07-04 @136  	struct configfs_dirent *sd;
+7063fbf2261194 Joel Becker       2005-12-15  137  	struct config_item *parent_item;
+3c48f23adada87 Subrata Modak     2009-04-19  138  	struct config_item *target_item = NULL;
+aa293583f0fe8b Bhumika Goyal     2017-10-16  139  	const struct config_item_type *type;
+7063fbf2261194 Joel Becker       2005-12-15  140  
+2a109f2a4155f1 Louis Rilling     2008-07-04  141  	sd = dentry->d_parent->d_fsdata;
+2a109f2a4155f1 Louis Rilling     2008-07-04  142  
+7063fbf2261194 Joel Becker       2005-12-15  143  	parent_item = configfs_get_config_item(dentry->d_parent);
+7063fbf2261194 Joel Becker       2005-12-15  144  	type = parent_item->ci_type;
+7063fbf2261194 Joel Becker       2005-12-15  145  
+2a109f2a4155f1 Louis Rilling     2008-07-04  146  	ret = -EPERM;
+7063fbf2261194 Joel Becker       2005-12-15  147  	if (!type || !type->ct_item_ops ||
+7063fbf2261194 Joel Becker       2005-12-15  148  	    !type->ct_item_ops->allow_link)
+7063fbf2261194 Joel Becker       2005-12-15  149  		goto out_put;
+7063fbf2261194 Joel Becker       2005-12-15  150  
+351e5d869e5ac1 Al Viro           2019-08-03  151  	/*
+351e5d869e5ac1 Al Viro           2019-08-03  152  	 * This is really sick.  What they wanted was a hybrid of
+351e5d869e5ac1 Al Viro           2019-08-03  153  	 * link(2) and symlink(2) - they wanted the target resolved
+351e5d869e5ac1 Al Viro           2019-08-03  154  	 * at syscall time (as link(2) would've done), be a directory
+351e5d869e5ac1 Al Viro           2019-08-03  155  	 * (which link(2) would've refused to do) *AND* be a deep
+351e5d869e5ac1 Al Viro           2019-08-03  156  	 * fucking magic, making the target busy from rmdir POV.
+351e5d869e5ac1 Al Viro           2019-08-03  157  	 * symlink(2) is nothing of that sort, and the locking it
+351e5d869e5ac1 Al Viro           2019-08-03  158  	 * gets matches the normal symlink(2) semantics.  Without
+351e5d869e5ac1 Al Viro           2019-08-03  159  	 * attempts to resolve the target (which might very well
+351e5d869e5ac1 Al Viro           2019-08-03  160  	 * not even exist yet) done prior to locking the parent
+351e5d869e5ac1 Al Viro           2019-08-03  161  	 * directory.  This perversion, OTOH, needs to resolve
+351e5d869e5ac1 Al Viro           2019-08-03  162  	 * the target, which would lead to obvious deadlocks if
+351e5d869e5ac1 Al Viro           2019-08-03  163  	 * attempted with any directories locked.
+351e5d869e5ac1 Al Viro           2019-08-03  164  	 *
+351e5d869e5ac1 Al Viro           2019-08-03  165  	 * Unfortunately, that garbage is userland ABI and we should've
+351e5d869e5ac1 Al Viro           2019-08-03  166  	 * said "no" back in 2005.  Too late now, so we get to
+351e5d869e5ac1 Al Viro           2019-08-03  167  	 * play very ugly games with locking.
+351e5d869e5ac1 Al Viro           2019-08-03  168  	 *
+351e5d869e5ac1 Al Viro           2019-08-03  169  	 * Try *ANYTHING* of that sort in new code, and you will
+351e5d869e5ac1 Al Viro           2019-08-03  170  	 * really regret it.  Just ask yourself - what could a BOFH
+351e5d869e5ac1 Al Viro           2019-08-03  171  	 * do to me and do I want to find it out first-hand?
+351e5d869e5ac1 Al Viro           2019-08-03  172  	 *
+351e5d869e5ac1 Al Viro           2019-08-03  173  	 *  AV, a thoroughly annoyed bastard.
+351e5d869e5ac1 Al Viro           2019-08-03  174  	 */
+351e5d869e5ac1 Al Viro           2019-08-03  175  	inode_unlock(dir);
+1b25dea3867abc Al Viro           2025-09-04  176  	ret = get_target(symname, &target_item, dentry->d_sb);
+351e5d869e5ac1 Al Viro           2019-08-03  177  	inode_lock(dir);
+7063fbf2261194 Joel Becker       2005-12-15  178  	if (ret)
+7063fbf2261194 Joel Becker       2005-12-15  179  		goto out_put;
+7063fbf2261194 Joel Becker       2005-12-15  180  
+351e5d869e5ac1 Al Viro           2019-08-03  181  	if (dentry->d_inode || d_unhashed(dentry))
+351e5d869e5ac1 Al Viro           2019-08-03  182  		ret = -EEXIST;
+351e5d869e5ac1 Al Viro           2019-08-03  183  	else
+4609e1f18e19c3 Christian Brauner 2023-01-13  184  		ret = inode_permission(&nop_mnt_idmap, dir,
+47291baa8ddfda Christian Brauner 2021-01-21  185  				       MAY_WRITE | MAY_EXEC);
+351e5d869e5ac1 Al Viro           2019-08-03  186  	if (!ret)
+7063fbf2261194 Joel Becker       2005-12-15  187  		ret = type->ct_item_ops->allow_link(parent_item, target_item);
+e7520651750446 Louis Rilling     2008-06-12  188  	if (!ret) {
+9a73d78cda750f Louis Rilling     2008-06-20  189  		mutex_lock(&configfs_symlink_mutex);
+7063fbf2261194 Joel Becker       2005-12-15  190  		ret = create_link(parent_item, target_item, dentry);
+9a73d78cda750f Louis Rilling     2008-06-20  191  		mutex_unlock(&configfs_symlink_mutex);
+e7520651750446 Louis Rilling     2008-06-12  192  		if (ret && type->ct_item_ops->drop_link)
+e7520651750446 Louis Rilling     2008-06-12  193  			type->ct_item_ops->drop_link(parent_item,
+e7520651750446 Louis Rilling     2008-06-12  194  						     target_item);
+e7520651750446 Louis Rilling     2008-06-12  195  	}
+7063fbf2261194 Joel Becker       2005-12-15  196  
+7063fbf2261194 Joel Becker       2005-12-15  197  	config_item_put(target_item);
+7063fbf2261194 Joel Becker       2005-12-15  198  
+7063fbf2261194 Joel Becker       2005-12-15  199  out_put:
+7063fbf2261194 Joel Becker       2005-12-15  200  	config_item_put(parent_item);
+7063fbf2261194 Joel Becker       2005-12-15  201  	return ret;
+7063fbf2261194 Joel Becker       2005-12-15  202  }
+7063fbf2261194 Joel Becker       2005-12-15  203  
+
+:::::: The code at line 136 was first introduced by commit
+:::::: 2a109f2a4155f168047aa2f5b3a170e279bef89a [PATCH] configfs: Prevent userspace from creating new entries under attaching directories
+
+:::::: TO: Louis Rilling <louis.rilling@kerlabs.com>
+:::::: CC: Mark Fasheh <mfasheh@suse.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
