@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562422EEE92;
-	Thu,  4 Jun 2026 21:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F21030D3E7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 23:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780609627; cv=none; b=ixy2K6uD4R7vE1abeO6KjZw1bzWgJqQ+VMxIJWFT9MX1YeNVUhtZ/KMJ2AbUzPA3eXl4RZ37r2JNIr2LDm8gJon1KZlE6vpLcMVXRFVy7iMto7QpCJP6zvFD9DshoJOqA4KZBGIQogJJ2TdsnBfAAVLKmuFd72ChnRMg+6CskDc=
+	t=1780616288; cv=none; b=g1C06xrIfEMZa0Lgqra5HMFsalLZKLteXKV6XM1shcxuUwM+y1fo94H3SzPEuXZxD9EuRvJwp0rle570Xte7UEMD1PU6+O3Z4c73w4H1sb+0FnpxcEgA7EwrFTyDJ7An/PoSTeAOqsQEI2O3km8ZPvZslrypgVA3JrZ2THUKi4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780609627; c=relaxed/simple;
-	bh=YbaEXYukQgl0J4eLc4dkXihGQg/spIPsxRJ1aBDKrso=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iTOkzAmhk04pYuj9Pa0jcGehDdzYP0cvCOUStl5bdnktVMDMJ3MTXTCbqR1rPnwQSIdQX/3ni+4POs1plYjS88PArj9dZ0x4T+qoly8D9I3lHcrcEZ47VfAGTUWPPXPFpL9g5sE5hHkvCwasG7NlIz+YtBZWbHDmTNaUz5d3JGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RWAg/heV; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1780616288; c=relaxed/simple;
+	bh=YEDWp2cE51a1TKKLwnX+bFGA+Ng6BY6pwhzXPdo9JSk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EtS9tR5cjQkiH7ByBkt6WrYMJpiDdqAi82axLWzu24MBVCvDZ8Jyt66kucIx2PoPED6lbvNKWfGiqAWe4lXti5tn6xhzptPxyAx7R1TB9Qsu/TTzkgcboFfFbpRn/sXN+ivGq9Lc7dozOJz39kSWK8gHoen741jAGnWmyNfp2Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TnXtf9Xj; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWAg/heV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TnXtf9Xj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780609627; x=1812145627;
+  t=1780616287; x=1812152287;
   h=date:from:to:cc:subject:message-id;
-  bh=YbaEXYukQgl0J4eLc4dkXihGQg/spIPsxRJ1aBDKrso=;
-  b=RWAg/heV8QWAruXFD/ODFKPnk0+a6HrecfM14x74fyAuiEBq7upG1Qnq
-   haZtzIWDbNkmZWgALcvugIwtsd4zdz/i3hHZ8MC5FALDEV9kZYLoRF0Vl
-   /DLMYJVcgK6UbG0t28OVurXVSdndLD7DOZb+87kylpiwQU15Hq3rebhIk
-   K2nn/WdJzGPF8DHO/czkeF/M9UUKKd/JdNexmmlw5cSBAugOYwLY1rj6k
-   tcY9HO0h9UTJUEbC/nxLZ2JfVkr4F8hWs2lhdgQB6h83QAbGOweQ47X4B
-   sXqF8ViIU1T23+00xN92ZjRD1FHAAbWmp20wieuyNePnCa830Tmr3a4I/
-   Q==;
-X-CSE-ConnectionGUID: sj0NehpKQ82HsQt7GWlVXA==
-X-CSE-MsgGUID: FZtoBkJQTYekawLW+XhzFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81353901"
-X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
-   d="scan'208";a="81353901"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 14:47:06 -0700
-X-CSE-ConnectionGUID: zEOSAifTTLCnvAi32RLZcw==
-X-CSE-MsgGUID: XO6QoCIvSXSpMBCn1CmhwQ==
+  bh=YEDWp2cE51a1TKKLwnX+bFGA+Ng6BY6pwhzXPdo9JSk=;
+  b=TnXtf9XjoCBvsfAAgqNUbzvvupohbXSafjVJEhC3bmS3wZ6TMKJfnnW/
+   ka+NbVgn5oOG7EA12u0UmTAOEEE0OTKoMBHFwKRZbXsIWLdyrtA7hT9ai
+   srT5R3d5xOGJT0BjrqVE49ozlchIMOi5ig+yH+6gDph+O07Bc802+EbIH
+   QNjQnEtwYTWi5fZTwK7U4O/jvBw8yqSbNBiUd2R3KP6BeY340YFljREA+
+   28YEG8FjdGEneW3m5WV9IwGzxslQsS7bSrWXu1WUdXveWNGhxxuCIxaa8
+   SVZpdA85KDmW13ZjO/56h5vOEqMlXEy9hiFEWRBd3tOxtwIYl8m+V+Wiy
+   g==;
+X-CSE-ConnectionGUID: 8HkSO3aZTzu13SIrucxqdg==
+X-CSE-MsgGUID: OeYT+MwcSTW5GxbKVTdTgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="84030416"
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="84030416"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 16:38:07 -0700
+X-CSE-ConnectionGUID: uSt9I3aWSxWZP7tXfMOp6Q==
+X-CSE-MsgGUID: McEu248XR6qZYKs/f3/uEQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
-   d="scan'208";a="244721978"
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="268614629"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 04 Jun 2026 14:47:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 04 Jun 2026 16:38:05 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVFu1-000000002Ob-3438;
-	Thu, 04 Jun 2026 21:47:01 +0000
-Date: Thu, 04 Jun 2026 23:46:31 +0200
+	id 1wVHdT-000000002Pz-0aUA;
+	Thu, 04 Jun 2026 23:38:03 +0000
+Date: Fri, 05 Jun 2026 01:37:53 +0200
 From: kernel test robot <lkp@intel.com>
-To: Umang Jain <uajain@igalia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: drivers/usb/early/xhci-dbc.c:657:22: warning: unused
- variable 'offset'
-Message-ID: <202606042320.kigKLoga-lkp@intel.com>
+To: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/admin-guide/mm/damon/hugepage.rst:
+ WARNING: document isn't included in any toctree [toc.not_included]
+Message-ID: <202606050129.sxUrDe40-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,76 +60,28 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/usb-early-xhci-dbc-Track-early_ioremap-size-separately/20260604-225542
-head:   2ecba7a3b238002d00204460340708e61b6bee82
-commit: 2ecba7a3b238002d00204460340708e61b6bee82 WIP: early: xhci-xdbc: Map lower and with 0 offset to partially work
-date:   7 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260604/202606042320.kigKLoga-lkp@intel.com/config)
+tree:   https://github.com/intel-lab-lkp/linux/commits/gutierrez-asier-huawei-partners-com/mm-damon-Introduce-DAMOS_QUOTA_HUGEPAGE-auto-tuning/20260604-230803
+head:   263912f5b34dfc2412f2e8b7ea92f6a278ebcfe7
+commit: 263912f5b34dfc2412f2e8b7ea92f6a278ebcfe7 Documentation/admin-guide/mm/damon: add DAMON-based Hugepage Management
+date:   8 hours ago
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606042320.kigKLoga-lkp@intel.com/reproduce)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260605/202606050129.sxUrDe40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606042320.kigKLoga-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606050129.sxUrDe40-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/early/xhci-dbc.c:657:22: warning: unused variable 'offset' [-Wunused-variable]
-     657 |         u32 bus, dev, func, offset;
-         |                             ^~~~~~
-   1 warning generated.
-
-
-vim +/offset +657 drivers/usb/early/xhci-dbc.c
-
-aeb9dd1de98c1a Lu Baolu       2017-03-21  653  
-b0ae33a2d2fb6c Peter Zijlstra 2022-03-04  654  int __init early_xdbc_parse_parameter(char *s, int keep_early)
-aeb9dd1de98c1a Lu Baolu       2017-03-21  655  {
-aeb9dd1de98c1a Lu Baolu       2017-03-21  656  	unsigned long dbgp_num = 0;
-aeb9dd1de98c1a Lu Baolu       2017-03-21 @657  	u32 bus, dev, func, offset;
-298ac860af9a0b Peter Zijlstra 2022-03-04  658  	char *e;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  659  	int ret;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  660  
-aeb9dd1de98c1a Lu Baolu       2017-03-21  661  	if (!early_pci_allowed())
-aeb9dd1de98c1a Lu Baolu       2017-03-21  662  		return -EPERM;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  663  
-b0ae33a2d2fb6c Peter Zijlstra 2022-03-04  664  	early_console_keep = keep_early;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  665  
-aeb9dd1de98c1a Lu Baolu       2017-03-21  666  	if (xdbc.xdbc_reg)
-aeb9dd1de98c1a Lu Baolu       2017-03-21  667  		return 0;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  668  
-298ac860af9a0b Peter Zijlstra 2022-03-04  669  	if (*s) {
-298ac860af9a0b Peter Zijlstra 2022-03-04  670  	       dbgp_num = simple_strtoul(s, &e, 10);
-298ac860af9a0b Peter Zijlstra 2022-03-04  671  	       if (s == e)
-aeb9dd1de98c1a Lu Baolu       2017-03-21  672  		       dbgp_num = 0;
-298ac860af9a0b Peter Zijlstra 2022-03-04  673  	}
-aeb9dd1de98c1a Lu Baolu       2017-03-21  674  
-aeb9dd1de98c1a Lu Baolu       2017-03-21  675  	pr_notice("dbgp_num: %lu\n", dbgp_num);
-aeb9dd1de98c1a Lu Baolu       2017-03-21  676  
-aeb9dd1de98c1a Lu Baolu       2017-03-21  677  	/* Locate the host controller: */
-aeb9dd1de98c1a Lu Baolu       2017-03-21  678  	ret = xdbc_find_dbgp(dbgp_num, &bus, &dev, &func);
-aeb9dd1de98c1a Lu Baolu       2017-03-21  679  	if (ret) {
-aeb9dd1de98c1a Lu Baolu       2017-03-21  680  		pr_notice("failed to locate xhci host\n");
-aeb9dd1de98c1a Lu Baolu       2017-03-21  681  		return -ENODEV;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  682  	}
-aeb9dd1de98c1a Lu Baolu       2017-03-21  683  
-aeb9dd1de98c1a Lu Baolu       2017-03-21  684  	xdbc.vendor	= read_pci_config_16(bus, dev, func, PCI_VENDOR_ID);
-aeb9dd1de98c1a Lu Baolu       2017-03-21  685  	xdbc.device	= read_pci_config_16(bus, dev, func, PCI_DEVICE_ID);
-aeb9dd1de98c1a Lu Baolu       2017-03-21  686  	xdbc.bus	= bus;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  687  	xdbc.dev	= dev;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  688  	xdbc.func	= func;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  689  
-aeb9dd1de98c1a Lu Baolu       2017-03-21  690  	/* Map the IO memory: */
-aeb9dd1de98c1a Lu Baolu       2017-03-21  691  	xdbc.xhci_base = xdbc_map_pci_mmio(bus, dev, func);
-aeb9dd1de98c1a Lu Baolu       2017-03-21  692  	if (!xdbc.xhci_base)
-aeb9dd1de98c1a Lu Baolu       2017-03-21  693  		return -EINVAL;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  694  
-2ecba7a3b23800 Umang Jain     2026-06-04  695  	xdbc.xdbc_reg = (struct xdbc_regs __iomem *)(xdbc.xhci_base);
-aeb9dd1de98c1a Lu Baolu       2017-03-21  696  
-aeb9dd1de98c1a Lu Baolu       2017-03-21  697  	return 0;
-aeb9dd1de98c1a Lu Baolu       2017-03-21  698  }
-aeb9dd1de98c1a Lu Baolu       2017-03-21  699  
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/admin-guide/mm/damon/hugepage.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
 
 --
 0-DAY CI Kernel Test Service
