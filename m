@@ -1,62 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899143AF64E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 10:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C5E37DEBF;
+	Thu,  4 Jun 2026 10:08:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780567695; cv=none; b=ekGM9RaKc7QLFRG4U3ze7J/gjqOvGk24NKz6dfE0DcVXD4EO/25Rs1BXAbjFai9VfUFxQun9SWqSl6tbOi1VIw28qKU9GvoK4ojlwKSecz/yYW3oCVgSW/e4sqzE0/JBVUn8RYE/q9/UdVFCLkrtWclgs5Tx8MJqti4iHvb+Xgo=
+	t=1780567704; cv=none; b=Mbo8q/TZin9IYBOVDxZ4Bryr2c1iqU19sPDN2k7UbhqrwJC//1gnvFP60PoKg1Awkr3S6MgPufJ3BF6MxYpZL8Fu9le4BLZF5+lznOZ1VPEG4/IVFfJCLxDqMNwR3JL0WxqyrZhkhxJ3N8edk/KQnco0ZGWCnDkIjxwma9CUSgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780567695; c=relaxed/simple;
-	bh=8tfj3AT6OHHFInW0idIeUBXIWQmDlTczUcETXNxha34=;
+	s=arc-20240116; t=1780567704; c=relaxed/simple;
+	bh=n8dz+rAIivGTlLz4kr9eKw2AJPPEpZQAQx3LTSxHyQc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nXFse+f1gneR9UG/97YDUueQwQae6OKq7zxTjWv7rDkWvVpebN98QIJcAmjIipEQHKVC9Z4WQqNqCbzrkbRis4Nw9eFt+3bJJQoaG47mXvJ0AAoGgcattOcwcs3+TmzvIKpAjm8ry68la1Hic2kAInJJaKGO9IYhFzwgOvPcbjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nciPMUk2; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=iRDcmmlz+XhfacXbGjeiRR6RvONY8WxB93ntjOEunlLT4Bn2izQDg90wI9E0nSW6sgRnJxZQuS6HOoddRaW0DUj1vO/SV9w0F4LNwqkW/4FYi5NpP89vl4xZdhO+SSegEqGMYutKqMCOC2W/B+OaqiIRBI8vTPm6x8sYkXOpATc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eqD8yWFo; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nciPMUk2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eqD8yWFo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780567685; x=1812103685;
+  t=1780567696; x=1812103696;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=8tfj3AT6OHHFInW0idIeUBXIWQmDlTczUcETXNxha34=;
-  b=nciPMUk2x/7g7HTurP47VKC4ZcRk5XSVnPTHAaOmtyGHbAh1ZAJx5Sv0
-   Om6eaiJGu5/DgjkqaiywUAA/WjLCAPppnltr0B9gfPpDBt82ldgKIfR20
-   gKTNtTFa5NKHU/EychM5tLrP+wRbIf+Oxm3wE9PM9YeElraaX9WftJyJz
-   1O+gNzXrD8AAai3PzXcs4GOL0Ivd3HT+oLj6WJKtsdDENsBNPWDB64Ztn
-   ESC0PYQgR7WJ53qN0uh8U6sSieN9mDFjFouTwYhfsfllHKsedIOLE0KVN
-   x9vf8vQe8H5+ERyrWdHFLFcWRGWgKuQpnLXkeLogYdVGt0DNfMiL/o6Ed
-   Q==;
-X-CSE-ConnectionGUID: YgsJoj4QSfGY+CIlkY6Npw==
-X-CSE-MsgGUID: Kuz/v4fZSSeI13G4TeTp2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81573908"
+  bh=n8dz+rAIivGTlLz4kr9eKw2AJPPEpZQAQx3LTSxHyQc=;
+  b=eqD8yWFo/dGB6drEJRgUjtPYKGPrWmYW+vZL+69sUlpCw3BevISHy69a
+   HdO4Tzl7uYprIwV+8OKdAAVQMzr29YdrTfMqnVHM1pL4HmuBTC/wpzfd1
+   w3I4ebE94bYCmu+EAiYIapn9/RmKdyEXPLPv2XPLxiPV2Kgsxnerl2WQY
+   tkIpJdwgBAwzdlb3sIg88d5SFK4Rv7IBrxSbowg61Z+RFlEEZBdPa+HMe
+   lh2BddlzpE/Ll6eQSI9kiZJCVH0NmxjYE83etxtA9WHkaEh8SfuUDLamx
+   tIEoVnB4t7qOTeQT4nC18gR8wpjidNZggof8HspygdTuEK6F6J7IkadYt
+   A==;
+X-CSE-ConnectionGUID: S+YuiMBbQlaxhra2heFbXA==
+X-CSE-MsgGUID: Ds+TRI8XTf6d8Zp8ILKhXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81573913"
 X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
-   d="scan'208";a="81573908"
+   d="scan'208";a="81573913"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 03:08:03 -0700
-X-CSE-ConnectionGUID: LBGDq2CsT12K6eBcOHNGUA==
-X-CSE-MsgGUID: 6DSU+vKcRYySk4WG3Zimrw==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 03:08:04 -0700
+X-CSE-ConnectionGUID: 67qOfRWdTtilIiJQU9mI7Q==
+X-CSE-MsgGUID: UYRrd3pzQFGd4OZh1NNvHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
-   d="scan'208";a="244621401"
+   d="scan'208";a="244621400"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
   by orviesa007.jf.intel.com with ESMTP; 04 Jun 2026 03:08:00 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wV4zV-000000002Jd-0L08;
+	id 1wV4zV-000000002Jf-0apE;
 	Thu, 04 Jun 2026 10:07:57 +0000
-Date: Thu, 4 Jun 2026 12:07:30 +0200
+Date: Thu, 4 Jun 2026 12:07:32 +0200
 From: kernel test robot <lkp@intel.com>
 To: Jack Wu via B4 Relay <devnull+jackbb_wu.compal.com@kernel.org>,
 	Johan Hovold <johan@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jack Wu <jackbb_wu@compal.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jack Wu <jackbb_wu@compal.com>
 Subject: Re: [PATCH v2] USB: serial: option: add new usb-id for Dell Wireless
  DW5826e-m
-Message-ID: <202606041225.2ntCSb4p-lkp@intel.com>
+Message-ID: <202606041246.ZhwbKrIJ-lkp@intel.com>
 References: <20260604-dw5826e-option-driver-v2-1-00609f65f5ae@compal.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -79,23 +80,42 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Wu-via-B4-Relay/USB-
 base:   e43ffb69e0438cddd72aaa30898b4dc446f664f8
 patch link:    https://lore.kernel.org/r/20260604-dw5826e-option-driver-v2-1-00609f65f5ae%40compal.com
 patch subject: [PATCH v2] USB: serial: option: add new usb-id for Dell Wireless DW5826e-m
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260604/202606041225.2ntCSb4p-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606041225.2ntCSb4p-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260604/202606041246.ZhwbKrIJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606041246.ZhwbKrIJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606041225.2ntCSb4p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606041246.ZhwbKrIJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/serial/option.c:1132:9: error: expected '}' before '{' token
+>> drivers/usb/serial/option.c:1132:2: error: expected '}'
     1132 |         { USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_E100A) },   /* ADU-E100, ADU-310 */
          |         ^
    drivers/usb/serial/option.c:645:50: note: to match this '{'
      645 | static const struct usb_device_id option_ids[] = {
          |                                                  ^
+>> drivers/usb/serial/option.c:2537:1: error: definition of variable with array type needs an explicit size or an initializer
+    2537 | MODULE_DEVICE_TABLE(usb, option_ids);
+         | ^
+   include/linux/module.h:256:21: note: expanded from macro 'MODULE_DEVICE_TABLE'
+     256 | static typeof(name) __mod_device_table(type, name)                      \
+         |                     ^
+   include/linux/module.h:247:2: note: expanded from macro '__mod_device_table'
+     247 |         __PASTE(__mod_device_table__,   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:339:1: note: expanded from here
+     339 | __mod_device_table__kmod_option__usb__option_ids
+         | ^
+   2 errors generated.
 
 
 vim +1132 drivers/usb/serial/option.c
