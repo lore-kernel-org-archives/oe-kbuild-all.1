@@ -1,105 +1,117 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7901E3C1967
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 05:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB719199385
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jun 2026 06:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780551816; cv=none; b=iPKLmF8yLoixS4VQMVJNCRKDMc2VeTi6AlUZnOEobxPNq93mjhNFgE5KMte34Iqk77n0k7Dicxs7QkFoFh404m+nfA8VEkZ9rU577W8Poc1s+X6t1vQZsl5XRS2rdMX2B8VTdyoTn+jg466yNL8DgiQrb6a6Onpq1FgQZz88uzk=
+	t=1780553042; cv=none; b=kHs59DzEb1RVSb2/2h/nPQBfAAm0/9s7VZx/AZemL8ocPv3EYPXgUsosyZjqW2VlIkkE173K3u/iAinbqWvJf9LAsC4PKIBKb4CcnMOJYKeelA6KPfv9+4AGm4T6k1tQNw5tmPrDxTRtK6yIwil7Q3hCpQQlTCyU1FKB/ez+YtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780551816; c=relaxed/simple;
-	bh=AEhMerSE061sddegxts/S9Yhziuy8j0ynoTHFqr9dPc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YxpZOQfywnakzbNay3C/Mmj3XNs72DCRppGoFTtA7GWloPaGTwtraCC7n7tM5ccNf6RfwlGQi59m5qPKT0QvTScmPs1/SS5rHNRxJYcBYdw2G3VrlHku9uvlMj5S77daRDwngZ0oaVKlNZ+SPqWlvNcDpOpoen5juutLvGqLdxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tAp4rMtg; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780553042; c=relaxed/simple;
+	bh=CiAF47QrFNb3VQSmiI1gAWPARMkmVShzbMohSB9skDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jNKqm5KiXSq0StyHOFSvrCMlV3vYv5gDudPilV3DDsvVDoDv24Kfb1etrZSsJ0zaov9mKtHr/Rw5c2U5BbcYDDIohEpGSn3HvgI/SflaV7chUeUGC3a538c5SozkcwuBYccythg+YvTZz4GkWvOZEJe9uLXP1PO/KDo82oMOQBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJvpn/qM; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tAp4rMtg"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4863a7dac63so160840b6e.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jun 2026 22:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780551812; x=1781156612; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dd5qbt0svs5X9PyH4+Z4KjGVOSti+IcuLa2FFG2ZmDM=;
-        b=tAp4rMtgW4akyxyJ5xMc1AS5I9FbmUPDbcENQpX4V81mkitsW1cHKttFoS2whnTvRC
-         9OunO5fpsTJHHgQpgQ8itT18BQgLdreFApuBiYgnsaF8mddHFFTwTFxhORuaypRDweGU
-         b6TWcBGmNLWkwXfZscN96bsTQ0BcyHJm9eLRavMQfY9cDjJQzuqn+70IhdDJjputWmIo
-         IRezM0aIG4fmm+/wYKDTCC6ml5FfOXSnt0E6gNC8eWvEyznXsPPsZ3c+8qVnbPpNBesg
-         7BSBEnrktEfwjw41s8CIuEbPaDFZzA45DUkvxU2+ADXxjavofIw/+m9WCylaBwqn0kui
-         4nVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780551812; x=1781156612;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dd5qbt0svs5X9PyH4+Z4KjGVOSti+IcuLa2FFG2ZmDM=;
-        b=mlV4X0ct1m/xxb9UfyPE3VptNYCeMfVH3xI6IR7iIVJaluDSYZXy3+/60+5KPRO8Zo
-         qzVo24Ricmas9YVT3ZBGc46JNS9cl7uW2J9g2G42nAfeQciOa3YaDgB0o3GC9zJP3GQP
-         fdI0IlsxQsmE9tzDUBAxOzvn6I90aOxZ2CL29yJJiMTjRohVSK2Tf6x9FNTtjr1jE2X1
-         XQxfJs4qKRjPlKiy+SdY9sRIeXnf2Dcc8egyjw2Dv2G5yA+Q2Y4qryU1WYazDlbSdBO7
-         eEjh2Sd1EojcjmMWvH/Iq5b6yYWIP5+I5DG1uQIwSQyJIh5tVoOfR4TqgUW/VgvJ+tQW
-         fgMw==
-X-Forwarded-Encrypted: i=1; AFNElJ+mKwpB8fjpSDtbI1dctXDX6wX6R0cBtgWSURulgLkdrOQ0RuCkS3J35bHKCw3tq2emRzm1a9uvFvw93MxU@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywmi5NqAIvgT3/lbt6U5mZ14qre7/HMoUJwScAkBt+CCkzfNqU8
-	ecawXCHKH48NqmjDU3ZLsoxPwFNN2ZBV+OfzydUxTe6QWIDXZBp1eQM6DX9nSUmU
-X-Gm-Gg: Acq92OFmKbLaaVEcc1BpXdqUZPUzdph7sMMiSDQfXQIlQx1lh9muZ5os3Xo9wdxqHig
-	JZs4Ajdk8Hy18tMZFTkgP+MOIdpxpt4BZ3p+KHRPu6Nh4q+AB81GxntDZApqgSyw9xMJd/Ly/PI
-	2YAGUQ2S05CKFCSX7bAk24U16qW9g4Ux1c9kuiKwbylg6Kwe+l/DQC+66nx8IaNt6DsEnHv2RQx
-	wuj6/UE+0Dxpt7hCR2losIAbmYoOj97l+O/Ngu/yxl6A5+/pQTgXwOiLddeG0Kw1+uSxGuKysZo
-	Gn5/SbUI//2irqR8L9V2ETevGSjS33ZXwcQtw4+vd58+j2oBOwrPwirsslhfj0d9Vq8L68Lgjjf
-	HSby8SzARhGUdbFSyCk3p0V5sorSoG+7LFHfyDfbO8ghxOAjo8H5agtHAu9vb9LIroh3/uWUbcs
-	Og/5GAlHU+EvCBesAmVI+JY6GaGu/4dk20SGud5UsWAw8NvKjs/01xuRHWXqFX3njVdrnpUg8MA
-	fUHx25kdNcglmU9sZWixLgx6F8+YrwjL7GC+IAxzH2ofObBnqtB+kZXCAKNlJB/9YLoOg==
-X-Received: by 2002:a05:6808:d48:b0:486:4892:d562 with SMTP id 5614622812f47-4865a9a50b5mr3872126b6e.1.1780551812279;
-        Wed, 03 Jun 2026 22:43:32 -0700 (PDT)
-Received: from localhost.localdomain (99-61-165-33.lightspeed.sntcca.sbcglobal.net. [99.61.165.33])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e6e75c5495sm3197548a34.10.2026.06.03.22.43.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 22:43:31 -0700 (PDT)
-From: Mithil Bavishi <bavishimithil@gmail.com>
-To: nathan@kernel.org
-Cc: aaro.koskinen@iki.fi,
-	andreas@kemnade.info,
-	bavishimithil@gmail.com,
-	kees@kernel.org,
-	khilman@baylibre.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux@armlinux.org.uk,
-	lkp@intel.com,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	rogerq@kernel.org,
-	samitolvanen@google.com,
-	tony@atomide.com
-Subject: Re: [PATCH v2] ARM: OMAP2+: Add CFI type for omap4_finish_suspend
-Date: Wed,  3 Jun 2026 22:43:29 -0700
-Message-ID: <20260604054329.19450-1-bavishimithil@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260525165527.GA18457@ax162>
-References: <20260525165527.GA18457@ax162>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJvpn/qM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780553041; x=1812089041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CiAF47QrFNb3VQSmiI1gAWPARMkmVShzbMohSB9skDA=;
+  b=fJvpn/qM3073y/2hfHx7jaROjj45LMy6LUzSS+LVaA57oBNPavCfANDg
+   5oJzCUXaTkbFbUtpND6yGlG06jcEtkB/dJNT96JKWxDukKB8DabB8A3+Q
+   Vdn+8D1ajiy5VfLjGwKUbK5SnoODWTpug937mjewQ8h3w087MidYq7GCe
+   IftfX4abRm3ARbLtHWI1RPFoBxj9oZayf6Cg2knb3YKi8FuH7C+z2k2yq
+   nSoYd9tC3+yBzlSB80EWs17Ya/4kvTqHNNp3wnLqo/opnkhV7ejCeKbrf
+   03MH125X1xaLGxKl/6CyyXqPyr7sRjlYlh0Q+LBeR3/lNyAfcCTvr4IZv
+   Q==;
+X-CSE-ConnectionGUID: 99RThaR7SOOPvJlLyVLzpw==
+X-CSE-MsgGUID: hW3lEWVDSOmROQRUkpw9Dg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="92858494"
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="92858494"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 23:04:01 -0700
+X-CSE-ConnectionGUID: rW2snc4ATBmWtyOd08pxfw==
+X-CSE-MsgGUID: DMk6Ah2STY2ZVZIFf0OH7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="243381899"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 03 Jun 2026 23:03:58 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wV1BL-000000002HX-0huY;
+	Thu, 04 Jun 2026 06:03:55 +0000
+Date: Thu, 4 Jun 2026 08:03:38 +0200
+From: kernel test robot <lkp@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
+	horms@kernel.org, johannes@sipsolutions.net,
+	Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: exclude driver and netdevsim bugs
+Message-ID: <202606040736.mHgLfIxh-lkp@intel.com>
+References: <20260603162943.2406080-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603162943.2406080-1-kuba@kernel.org>
 
-> are both pointing out that cfi_types.h needs to be included in
-> arch/arm/mach-omap2/sleep44xx.S for SYM_TYPED_FUNC_START to always be
-> expanded properly. I tested adding
->
->   #include <linux/cfi_types.h>
->
-> as the first include line and both issues were resolved.
+Hi Jakub,
 
-My apologies, I was switching systems and seem to have lost this somewhere
-in the process. Sent a v3 with the include, thanks a lot!
+kernel test robot noticed the following build warnings:
 
-Best,
-Mithil Bavishi
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/docs-exclude-driver-and-netdevsim-bugs/20260604-003949
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260603162943.2406080-1-kuba%40kernel.org
+patch subject: [PATCH net-next] docs: exclude driver and netdevsim bugs
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260604/202606040736.mHgLfIxh-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606040736.mHgLfIxh-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Checksumming on output with GSO
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+   Documentation/process/maintainer-netdev.rst:295: ERROR: Unexpected indentation. [docutils]
+>> Documentation/process/maintainer-netdev.rst:299: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
+   Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+
+
+vim +299 Documentation/process/maintainer-netdev.rst
+
+   292	
+   293	Additionally, netdev does not consider bugs to be ``net``-worthy
+   294	if they fulfill **all** of the following criteria:
+   295	 - bug is in a hardware device driver;
+   296	 - bug is either a missing error handling or is part of the error handling flow;
+   297	 - bug was discovered by a static analysis / AI tool;
+   298	 - bug was triggered/observed only with kernel changes or fault injection.
+ > 299	Fixes for such bugs should default to ``net-next`` and should **not** contain
+   300	a Fixes tag. Networking or driver maintainers may redirect such fixes to ``net``
+   301	at their discretion if they consider the condition to be relevant enough.
+   302	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
