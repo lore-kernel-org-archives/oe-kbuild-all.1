@@ -1,154 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5592DD5E2;
-	Fri,  5 Jun 2026 05:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90762329E44
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 05:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780636393; cv=none; b=KJ5ptnm4cQwLT0sIrs3MNINtNYe6BUXVJ8+soiwRFOQ3psdoiPdIAGBQQfLNVYcFVnebIQucQ3k9sV59d3FemyNUzwyORhegzUME+bTItCGPgQQLzVwVJ5ofHeEioT+EA8qR6By09o0W4jZMLyfzuUJbwvQiPX2zoukCsfDIpec=
+	t=1780637593; cv=none; b=NI/qmKKukWDzW5wLeeACjfD5d+NXi8BtxYd8+NoYUE86FBTDXmK3/Oq/leUU3pWF6MwtL0yMERAoMGf3VUy66Hm+H15elNx8kHzduT/YeWPL37TdZLEjCTGXdPUop6y6EeaBKvxO+sieCRHv9spiSKjUZSRxo2QDGOo1OPlT1eY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780636393; c=relaxed/simple;
-	bh=TQUiYWAmwPUw+M03/QOdIdW1HsZH13WAQ/Eqy5s20Vg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lqQNsqxrZ/59VfOFT4bPvN2qAHk/jI5sOLjnHImv6GdbvmcW+9GjiHTCax/0DxS/7XhIGkPYwTjvOeG8Wd3Z3LoJwkDvwMc1JUQPjJRk3SehOrAIDtNR7VS+5WjqR+Q3IvvXhoSWC2defhz/ar5bqKZWf9qBtScxUGcKZniqqNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mx7VYxMP; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1780637593; c=relaxed/simple;
+	bh=sO54mWHlnpCQgD136qmtopLdsghhIszMhGkC7/GBhwE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q60Tyb50w+/Q/3a4jsYvr49lq4bk8IprhtYhoqQqxzSBApkpOiuBtCqd4klNELIp4R6A4T4t7DdKN5c0MpHO8a7RWWjs6nlw2B9dMF7guumSd7ikAs16Eo72PjlHfo+WC7FMwNrhusxik4H0fb3sziFITRX0L18vLsi958LU8Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezPh6ZdQ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mx7VYxMP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezPh6ZdQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780636391; x=1812172391;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TQUiYWAmwPUw+M03/QOdIdW1HsZH13WAQ/Eqy5s20Vg=;
-  b=mx7VYxMPUyonXK2BTF6UX/JT6DRDw6m1PYl2ByX7dVEKJEEA9vzfRP8E
-   9DlL4XrfWjT3NubgLyRBmCM4FpzU8O5PPYPcRsPOBlQXWq6o6Q7lhFnOG
-   BTmmkEupumzU4zvbUoUxICZ4o89JIR+SvZ3uzLY6PdVy2PAuOiAM+dCVC
-   7C5Lmj+7oAmkFpRsmkGLkSVJWhZ1SBmK8oWNm/lUlWIvMPTABYZNatju0
-   brRXYNWj55LS+Ld991wXkGX1YYRF8ZK76ou0HDsqkeoCKzC3hh0eYnseR
-   Rexc4Y72u1bN5Q4jfKAiCu5HcTU7kOJ/DHOt772BPVsyaJsCaYUhgsMGS
+  t=1780637591; x=1812173591;
+  h=date:from:to:cc:subject:message-id;
+  bh=sO54mWHlnpCQgD136qmtopLdsghhIszMhGkC7/GBhwE=;
+  b=ezPh6ZdQgKieQdP5bucqFxFHJuV5t0e9LDsw/8u4ueO2uCvYx2/uEYNt
+   9VrKZSc0GaOGZEc42tSEov2wcXT4FfjS59YFMtf8JQtPTgyVGcUVK1+j4
+   oAwDTNep3IbFoWWXwoFtXnsYBmR+7JMyBO2q+wVcTI5BPDOL9dCXv8/vo
+   LE43AVbTMsOY1qiBUs9ycuXpruxRt521dp1Xi8eMy1mklBFmT+OYC1ia3
+   af9KK0R+qEpi9js/DHBWyi6MbSf5GdYI6PKrMUxrGHx5+F00+T6e9+hqH
+   LI3kKH9F5/qODMmFaKVsJvR6COnTUdf9LZ0cgg1eVk7bBFQWCd1r6TGkI
    w==;
-X-CSE-ConnectionGUID: 8wxYag+VRrurSIspVcLilA==
-X-CSE-MsgGUID: P0VGM0YsRxiolZh1Hz6zzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="92955858"
+X-CSE-ConnectionGUID: GigfmK4FQ/K9yXX9DA2BNg==
+X-CSE-MsgGUID: hVKWZ6ToRLijAQaINuFGKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="69004706"
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="92955858"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 22:13:11 -0700
-X-CSE-ConnectionGUID: Egdbmk2NSHuR6c2aejfrkQ==
-X-CSE-MsgGUID: xlSgLb2LQQqEAFQk/fm/Ng==
+   d="scan'208";a="69004706"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 22:33:11 -0700
+X-CSE-ConnectionGUID: HSsG5ReBRMqt5zaIncpEpQ==
+X-CSE-MsgGUID: y5u+oSraSe6d2CpukCuDCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="242258563"
+   d="scan'208";a="238398074"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Jun 2026 22:13:09 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 04 Jun 2026 22:33:09 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVMrj-000000002U5-1bQ7;
-	Fri, 05 Jun 2026 05:13:07 +0000
-Date: Fri, 5 Jun 2026 07:12:10 +0200
+	id 1wVNB5-000000002UH-2jS1;
+	Fri, 05 Jun 2026 05:33:07 +0000
+Date: Fri, 05 Jun 2026 07:32:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Thiyagarajan Pandiyan <thiyagarajan@aerlync.com>,
-	johannes@sipsolutions.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	Thiyagarajan Pandiyan <thiyagarajan@aerlync.com>
-Subject: Re: [PATCH] wifi: nl80211: Increase ie_len size to prevent truncated
- IEs in new peer notifications
-Message-ID: <202606050734.F3c2JaGN-lkp@intel.com>
-References: <20260604203027.406815-1-thiyagarajan@aerlync.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:partial-reg 7/9] htmldocs:
+ include/uapi/linux/media.h:399: WARNING: Invalid xref:
+ std:ref:`media_ioc_unsubscribe_event`. Possible alternatives:
+Message-ID: <202606050733.iEIhymOp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260604203027.406815-1-thiyagarajan@aerlync.com>
 
-Hi Thiyagarajan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.16-rc1 next-20260604]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thiyagarajan-Pandiyan/wifi-nl80211-Increase-ie_len-size-to-prevent-truncated-IEs-in-new-peer-notifications/20260605-043726
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20260604203027.406815-1-thiyagarajan%40aerlync.com
-patch subject: [PATCH] wifi: nl80211: Increase ie_len size to prevent truncated IEs in new peer notifications
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260605/202606050734.F3c2JaGN-lkp@intel.com/config)
+tree:   git://linuxtv.org/sailus/media_tree.git partial-reg
+head:   b7d01dab7d47849d483b459ff2abf50497b52149
+commit: 4d67653aa3bd15cbaf60bbe6f4d0dce10d0dccbc [7/9] media: mc: Add MEDIA_IOC_DQEVENT
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606050734.F3c2JaGN-lkp@intel.com/reproduce)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260605/202606050733.iEIhymOp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606050734.F3c2JaGN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606050733.iEIhymOp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/wireless/nl80211.c:21357:6: error: conflicting types for 'cfg80211_notify_new_peer_candidate'
-    21357 | void cfg80211_notify_new_peer_candidate(struct net_device *dev, const u8 *addr,
-          |      ^
-   include/net/cfg80211.h:8687:6: note: previous declaration is here
-    8687 | void cfg80211_notify_new_peer_candidate(struct net_device *dev,
-         |      ^
-   1 error generated.
+   std:label:`vidioc_subscribe_event` (from userspace-api/media/v4l/vidioc-subscribe-event)
+   c:macro:`V4L.VIDIOC_UNSUBSCRIBE_EVENT` (from userspace-api/media/v4l/vidioc-subscribe-event)
+   std:label:`vidioc_unsubscribe_event` (from userspace-api/media/v4l/vidioc-subscribe-event)
+   c:function:`v4l2_ctrl_subscribe_event` (from driver-api/media/v4l2-controls) [ref.missing]
+   include/uapi/linux/media.h:398: WARNING: undefined label: 'media_ioc_subscribe_event' [ref.ref]
+>> include/uapi/linux/media.h:399: WARNING: Invalid xref: std:ref:`media_ioc_unsubscribe_event`. Possible alternatives:
+   c:macro:`V4L.VIDIOC_UNSUBSCRIBE_EVENT` (from userspace-api/media/v4l/vidioc-subscribe-event)
+   std:label:`vidioc_unsubscribe_event` (from userspace-api/media/v4l/vidioc-subscribe-event)
+   c:macro:`V4L.VIDIOC_SUBSCRIBE_EVENT` (from userspace-api/media/v4l/vidioc-subscribe-event)
+   std:label:`vidioc_subscribe_event` (from userspace-api/media/v4l/vidioc-subscribe-event)
+   c:function:`v4l2_ctrl_subscribe_event` (from driver-api/media/v4l2-controls) [ref.missing]
+>> include/uapi/linux/media.h:399: WARNING: undefined label: 'media_ioc_unsubscribe_event' [ref.ref]
+>> include/uapi/linux/media.h:369: WARNING: Invalid xref: std:ref:`media-event-all`. Possible alternatives:
+   std:label:`media-ent-f-lens` (from userspace-api/media/mediactl/media-types)
+   c:macro:`media_entity_call` (from driver-api/media/mc-core)
+   std:label:`media-request-api` (from userspace-api/media/mediactl/request-api) [ref.missing]
+>> include/uapi/linux/media.h:369: WARNING: undefined label: 'media-event-all' [ref.ref]
+>> include/uapi/linux/media.h:371: WARNING: Invalid xref: c:type:`MC.media_event`. Possible alternatives:
+   c:function:`media_device_init` (from driver-api/media/mc-core)
+   c:struct:`media_entity` (from driver-api/media/mc-core)
+   c:struct:`media_device` (from driver-api/media/mc-core) [ref.missing]
+>> include/uapi/linux/media.h:383: WARNING: Invalid xref: c:type:`MC.media_event_subscription`. Possible alternatives:
+   c:type:`V4L.v4l2_event_subscription` (from userspace-api/media/v4l/vidioc-subscribe-event)
+   c:struct:`tipc_subscription` (from networking/tipc)
+   c:functionParam:`mmu_notifier_register.subscription` (from core-api/mm-api)
+   c:functionParam:`mmu_notifier_put.subscription` (from core-api/mm-api) [ref.missing]
 
 
-vim +/cfg80211_notify_new_peer_candidate +21357 net/wireless/nl80211.c
+vim +399 include/uapi/linux/media.h
 
-04a773ade0680d Johannes Berg         2009-04-19  21356  
-947add36ca2dcd Johannes Berg         2013-02-22 @21357  void cfg80211_notify_new_peer_candidate(struct net_device *dev, const u8 *addr,
-a63204d4bff16d Thiyagarajan Pandiyan 2026-06-05  21358  					const u8 *ie, size_t ie_len,
-ecbc12ad6b6826 Bob Copeland          2018-10-26  21359  					int sig_dbm, gfp_t gfp)
-c93b5e717ec47b Javier Cardona        2011-04-07  21360  {
-947add36ca2dcd Johannes Berg         2013-02-22  21361  	struct wireless_dev *wdev = dev->ieee80211_ptr;
-f26cbf401be935 Zhao, Gang            2014-04-21  21362  	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wdev->wiphy);
-c93b5e717ec47b Javier Cardona        2011-04-07  21363  	struct sk_buff *msg;
-c93b5e717ec47b Javier Cardona        2011-04-07  21364  	void *hdr;
-c93b5e717ec47b Javier Cardona        2011-04-07  21365  
-947add36ca2dcd Johannes Berg         2013-02-22  21366  	if (WARN_ON(wdev->iftype != NL80211_IFTYPE_MESH_POINT))
-947add36ca2dcd Johannes Berg         2013-02-22  21367  		return;
-947add36ca2dcd Johannes Berg         2013-02-22  21368  
-947add36ca2dcd Johannes Berg         2013-02-22  21369  	trace_cfg80211_notify_new_peer_candidate(dev, addr);
-947add36ca2dcd Johannes Berg         2013-02-22  21370  
-4ef8c1c93f848e Johannes Berg         2017-01-09  21371  	msg = nlmsg_new(100 + ie_len, gfp);
-c93b5e717ec47b Javier Cardona        2011-04-07  21372  	if (!msg)
-c93b5e717ec47b Javier Cardona        2011-04-07  21373  		return;
-c93b5e717ec47b Javier Cardona        2011-04-07  21374  
-c93b5e717ec47b Javier Cardona        2011-04-07  21375  	hdr = nl80211hdr_put(msg, 0, 0, 0, NL80211_CMD_NEW_PEER_CANDIDATE);
-c93b5e717ec47b Javier Cardona        2011-04-07  21376  	if (!hdr) {
-c93b5e717ec47b Javier Cardona        2011-04-07  21377  		nlmsg_free(msg);
-c93b5e717ec47b Javier Cardona        2011-04-07  21378  		return;
-c93b5e717ec47b Javier Cardona        2011-04-07  21379  	}
-c93b5e717ec47b Javier Cardona        2011-04-07  21380  
-9360ffd1859720 David S. Miller       2012-03-29  21381  	if (nla_put_u32(msg, NL80211_ATTR_WIPHY, rdev->wiphy_idx) ||
-947add36ca2dcd Johannes Berg         2013-02-22  21382  	    nla_put_u32(msg, NL80211_ATTR_IFINDEX, dev->ifindex) ||
-947add36ca2dcd Johannes Berg         2013-02-22  21383  	    nla_put(msg, NL80211_ATTR_MAC, ETH_ALEN, addr) ||
-9360ffd1859720 David S. Miller       2012-03-29  21384  	    (ie_len && ie &&
-ecbc12ad6b6826 Bob Copeland          2018-10-26  21385  	     nla_put(msg, NL80211_ATTR_IE, ie_len, ie)) ||
-ecbc12ad6b6826 Bob Copeland          2018-10-26  21386  	    (sig_dbm &&
-ecbc12ad6b6826 Bob Copeland          2018-10-26  21387  	     nla_put_u32(msg, NL80211_ATTR_RX_SIGNAL_DBM, sig_dbm)))
-9360ffd1859720 David S. Miller       2012-03-29  21388  		goto nla_put_failure;
-c93b5e717ec47b Javier Cardona        2011-04-07  21389  
-3b7b72eed19684 Johannes Berg         2011-10-22  21390  	genlmsg_end(msg, hdr);
-c93b5e717ec47b Javier Cardona        2011-04-07  21391  
-68eb55031da7c9 Johannes Berg         2013-11-19  21392  	genlmsg_multicast_netns(&nl80211_fam, wiphy_net(&rdev->wiphy), msg, 0,
-2a94fe48f32ccf Johannes Berg         2013-11-19  21393  				NL80211_MCGRP_MLME, gfp);
-c93b5e717ec47b Javier Cardona        2011-04-07  21394  	return;
-c93b5e717ec47b Javier Cardona        2011-04-07  21395  
-c93b5e717ec47b Javier Cardona        2011-04-07  21396   nla_put_failure:
-c93b5e717ec47b Javier Cardona        2011-04-07  21397  	nlmsg_free(msg);
-c93b5e717ec47b Javier Cardona        2011-04-07  21398  }
-947add36ca2dcd Johannes Berg         2013-02-22  21399  EXPORT_SYMBOL(cfg80211_notify_new_peer_candidate);
-c93b5e717ec47b Javier Cardona        2011-04-07  21400  
+   368	
+ > 369	#define MEDIA_EVENT_ALL		0
+   370	
+ > 371	struct media_event {
+   372		__u32 type;
+   373		union {
+   374			__u8 data[64];
+   375		} u;
+   376		__u32 reserved[8];
+   377		__u32 pending;
+   378		__u32 sequence;
+   379		__u64 timestamp;
+   380		__u32 id;
+   381	} __attribute__((packed));
+   382	
+ > 383	struct media_event_subscription {
+   384		__u32 type;
+   385		__u32 id;
+   386		__u32 flags;
+   387		__u32 reserved[5];
+   388	} __attribute__((packed));
+   389	
+   390	/* ioctls */
+   391	
+   392	#define MEDIA_IOC_DEVICE_INFO	_IOWR('|', 0x00, struct media_device_info)
+   393	#define MEDIA_IOC_ENUM_ENTITIES	_IOWR('|', 0x01, struct media_entity_desc)
+   394	#define MEDIA_IOC_ENUM_LINKS	_IOWR('|', 0x02, struct media_links_enum)
+   395	#define MEDIA_IOC_SETUP_LINK	_IOWR('|', 0x03, struct media_link_desc)
+   396	#define MEDIA_IOC_G_TOPOLOGY	_IOWR('|', 0x04, struct media_v2_topology)
+   397	#define MEDIA_IOC_REQUEST_ALLOC	_IOR ('|', 0x05, int)
+   398	#define MEDIA_IOC_SUBSCRIBE_EVENT _IOWR ('|', 0x06, struct media_event_subscription)
+ > 399	#define MEDIA_IOC_UNSUBSCRIBE_EVENT _IOWR ('|', 0x07, struct media_event_subscription)
+   400	#define MEDIA_IOC_DQEVENT	_IOWR('|', 0x08, struct media_event)
+   401	
 
 --
 0-DAY CI Kernel Test Service
