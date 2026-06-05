@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5058438F249
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 12:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918B540E8FA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 13:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780662823; cv=none; b=lH1wL9I2QIgrrNVhzSImXC2weUlJe9jHfNcKJu4QEkC4V4Zxu+SLSs1I8BANJ/AJPKH0M6Rx262eli/XTfxzvGtzqBaNCy05AH3cnmTHVIy6x2OR2dkRpfmgd9J7xHuL02rf0eqPNSCBxebN9cNxa07LVL7pM4BpV5DMY51uncA=
+	t=1780666007; cv=none; b=U5qTKeikz6NbLmOq9wwV7+IIL5sX4rv2wG4aEQBU41qzRJ8LkyaNW73f+FzCQlPPJntofSSC7prJ0B1V2iqm4F2fi8PAlcUEpV7Kvqd/Vmqx9MO97Fg/1eaZJtMSnrCsiYxvD9XLLwSszxkMbDKkqCdb6djfeiZUrrfIYv3YPtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780662823; c=relaxed/simple;
-	bh=MUJoif134ARHegV9T8Yl2vrZgXr8aFbYLKqhmDgVYak=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bbRcpN4DLKKz9GY8OBpusxdJFkWF0Rgj6HOZmsEZnzzcS++NmivHd5//teLBlRWBXZGXRYMCQRtlAhzblf7U1jbtyFTEz+3tToVO8qKe/QntyqsG3jhlL0IycfZXRThyGeasxvyj5dn7hyubPbkgwHobF2d5hfT/ZsPZKwi2dhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D/0S3EMg; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1780666007; c=relaxed/simple;
+	bh=+zHVsAlXHiwXej9hAwMiT1Bmsu7hhvhmfPp8qE5YiU4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=syDp6I0LATHe7DEyovoAj9q925p5c+ogjg7DOZFVF5hul9PdceuZmjM7k5c7DmutjavL4PDW3HTAXUNa/YjaRnihBE4kJEPld5dDKjnqyjSuxR1j8zjpKJpdeJX36tgjdDFPipz5N6C6pXhaT+RdRAB2sTquPmEONVWveH1yVnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hilvlboa; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D/0S3EMg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hilvlboa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780662822; x=1812198822;
+  t=1780666005; x=1812202005;
   h=date:from:to:cc:subject:message-id;
-  bh=MUJoif134ARHegV9T8Yl2vrZgXr8aFbYLKqhmDgVYak=;
-  b=D/0S3EMgTzufLwIA7vlJ3GMQ1K1K1OldwzI2w8B31HPzEQE7crDRReEm
-   N4tpoQ8t1ThcGNSx9cbzfuknxq9ZUwym/gbNaoPf9mC4ilpqOUWNjKcjV
-   QTbJ07WMlgIzww2b4VgVPc7V01iVvGIP7M1MKUZaLpnyy3aX1lAMprY6N
-   i0LFfieQOXrC+vKC9pffPfQD+fjNyGJzW2nykmywpk9g3qhwaPxNJYukw
-   QmRw6AESSeCQ5uIvTXjk/dpgGhgxFZY+2MCG1cr6r9Nv3KMc6290/Tv09
-   7d7SKE5y5CH6ara9VbXhr37YTF4RXwzQvsLvsUBWS1jGHyAK4hiOdA4Nd
+  bh=+zHVsAlXHiwXej9hAwMiT1Bmsu7hhvhmfPp8qE5YiU4=;
+  b=hilvlboaWblXe6GW0vwJ4oadkiyByj79y6KZUks0DfBo41guVKtCqQ3w
+   noETOMeJX+s//8c5I+Sp9sq6yU5XcoOZ6PCew5F9MRJCaiL+oZP5sztKD
+   0TNwjA0vtBVBCPnr/9EM2j3LQ8mxSVJQ/SGJnOIAv7S7fSToql6me8WS3
+   qMtQKodxUOyx/4qFyNaZ0dcKAKiMNeV9moz1lbJbbtoQe8xCRGPcGmGTx
+   qxFgBxOOhX4y6gmN6B00YBMFx2hqJH5mKrt40QumMHTXTwQlX0mkypAWk
+   P8/OqCijUdA7vjcGwvpq6IFKsNI9KgTSD/h7GXxC1+F1s0mgAOsYKcyXj
    Q==;
-X-CSE-ConnectionGUID: awLU2orVSwW46MhGNxVHgA==
-X-CSE-MsgGUID: I54LfvDIRUGPWeLYLqIo8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="84075132"
+X-CSE-ConnectionGUID: XGChCagnSdyCIoT6G5TvuQ==
+X-CSE-MsgGUID: sjjlT/zxRQ2hHiN5zJEXjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="92873186"
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="84075132"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 05:33:42 -0700
-X-CSE-ConnectionGUID: 4sSKngXnTfWrArDBw2unwQ==
-X-CSE-MsgGUID: InVIJakoQuyjWv32BD+k/Q==
+   d="scan'208";a="92873186"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 06:26:44 -0700
+X-CSE-ConnectionGUID: xnzlRfy5TryA0IqsCDtR5w==
+X-CSE-MsgGUID: Hp3ZWmsWSECO8vUs+l+ROA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="243740653"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 05 Jun 2026 05:33:40 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 05 Jun 2026 06:26:42 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVTk1-00000000FyU-2Ls5;
-	Fri, 05 Jun 2026 12:33:37 +0000
-Date: Fri, 05 Jun 2026 20:32:54 +0800
+	id 1wVUZM-00000000G2g-0hE6;
+	Fri, 05 Jun 2026 13:26:40 +0000
+Date: Fri, 05 Jun 2026 21:25:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:partial-reg 7/9]
- drivers/media/mc/mc-device.c:26:10: fatal error: media/media-event.h: No such
- file or directory
-Message-ID: <202606052044.b4pvupEW-lkp@intel.com>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+ Lee Jones <lee@kernel.org>
+Subject: [lee-leds:for-leds-next 20/28]
+ drivers/leds/flash/leds-s2m-flash.c:12:10: fatal error:
+ linux/mfd/samsung/s2mu005.h: No such file or directory
+Message-ID: <202606052113.SVU1F2CZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,42 +59,36 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://linuxtv.org/sailus/media_tree.git partial-reg
-head:   b7d01dab7d47849d483b459ff2abf50497b52149
-commit: 4d67653aa3bd15cbaf60bbe6f4d0dce10d0dccbc [7/9] media: mc: Add MEDIA_IOC_DQEVENT
-config: arm-randconfig-r073-20260605 (https://download.01.org/0day-ci/archive/20260605/202606052044.b4pvupEW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   a2263676302a4eec40af93b3829f1d3d5aade93c
+commit: f0878c58430c378c47aaece1b29484e4ae8d7faf [20/28] leds: flash: Add support for Samsung S2M series PMIC flash LED device
+config: microblaze-randconfig-r073-20260605 (https://download.01.org/0day-ci/archive/20260605/202606052113.SVU1F2CZ-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 9.5.0
 smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606052044.b4pvupEW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606052113.SVU1F2CZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606052044.b4pvupEW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606052113.SVU1F2CZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/mc/mc-device.c:26:10: fatal error: media/media-event.h: No such file or directory
-    #include <media/media-event.h>
-             ^~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
->> drivers/media/mc/mc-event.c:17:10: fatal error: media/media-event.h: No such file or directory
-    #include <media/media-event.h>
-             ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/leds/flash/leds-s2m-flash.c:12:10: fatal error: linux/mfd/samsung/s2mu005.h: No such file or directory
+      12 | #include <linux/mfd/samsung/s2mu005.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    compilation terminated.
 
 
-vim +26 drivers/media/mc/mc-device.c
+vim +12 drivers/leds/flash/leds-s2m-flash.c
 
-    22	
-    23	#include <media/media-device.h>
-    24	#include <media/media-devnode.h>
-    25	#include <media/media-entity.h>
-  > 26	#include <media/media-event.h>
-    27	#include <media/media-fh.h>
-    28	#include <media/media-request.h>
-    29	
+  > 12	#include <linux/mfd/samsung/s2mu005.h>
+    13	#include <linux/module.h>
+    14	#include <linux/of.h>
+    15	#include <linux/platform_device.h>
+    16	#include <linux/regmap.h>
+    17	#include <media/v4l2-flash-led-class.h>
+    18	
 
 --
 0-DAY CI Kernel Test Service
