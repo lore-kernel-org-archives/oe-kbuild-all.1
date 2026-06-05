@@ -1,208 +1,158 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B882BE02C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 05:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81F71E766F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 05:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780637657; cv=none; b=ODV0AW/vmyLyoCc1T+iqoRfkx1c0746j9HDFgSZ9nkb+G3xkGMSMUWCH23GQZmsWAzWtT7ISGhLVWWM1OSoLNLh15dMYryfGNvZ0fYi/wcbPFuHbeVahrHPtIjp1aaVqNeDUOHo0CHcado08y5InGyYGQYOWsrxJAqKTvL1tWOs=
+	t=1780638019; cv=none; b=SuQHswWxjV1Nmsproxc9//w5J/9WDXlgZovEM3eQoBKYatTokdYr9zQLaG3Rg91Lo/T+hVKJk8/7cPI9VRSUO0jSWltIn/rQd8vl8v156HgtQWg++cww3NH/RViqreWUTB8MnHlAd8BsRHZWNUkQHtL+qEECR/N3RN2Blxp8wO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780637657; c=relaxed/simple;
-	bh=V5qZTotbVZqIi3WbOGzhwzC5ayxsLaxpl9YiVyDHJv0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qsRz86vYG3OvGgIJVTHuBPVxe45A7xq1AC+6xlB/9rF9oZIWFH6vByvukf74gVeK4gqLk1ILYX54Moco7Q5gnC75Gs2cU/TvRMlRf+1vlgfzxa2vV1wZcCabK6lRPmt1MwcYqIxyg0xXl+zKgvfjjXFUhZMI5HAKYJ0ckJ49h9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I387eIeU; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780638019; c=relaxed/simple;
+	bh=QwVL5bnbAHg6L90NwksFlxa8HoQrIZVaGy9q5Tq4ZmY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FYi/f+fgcHDIc1xXiRr/ok/8rmxXBX0v+mOgGbJ3slQG1gY0wDeTamgQfry609wZJ8se0n0dTAoT6yAGm1/aXzaUNr1SuBbuQ1iNkAtFKDOQsy3P/3AxzFWf0FxlGe2bzrHinpXxYB8cABqCenk2Tq1FcMic0Wtw3GBb+eU9eoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJmSMtrS; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I387eIeU"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4908b92904fso17034615e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jun 2026 22:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780637654; x=1781242454; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=37IODtkHh3WkItPEPXTLqKpgBZFLXl0jA8UdpZi3R+c=;
-        b=I387eIeUiOED+32K+svTXqGxSsyZ9cdaObeHXjWVNwUvkE+8PaHkp31iPJ1BKGSVx7
-         QrR9SPKxN5fJ8Ga1/BMCO/rOmQda80yWPxX/WsQPxbmv/+sMqv0y5+X9dTAVpBih6+Ry
-         l7hZ9GPH/4GWYF4q0M6NbD3e1vJ1Pk9iBpSHPDW3FOsi/UqihNyAVAHtToz7u1vx2twU
-         kAXrVilXL6ZiKE/1CC/gxzIBAPAJIGb8fsLmZjvA926CCEW6pTUm5Kbzg6dYMI/1H7vC
-         ybK7MJCxTmrlYc8fxoOjpwm+hjAVQcIfH6rVAK0nWl9Ps47NKGdMyXgpVa89YX0dsKTV
-         6I4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780637654; x=1781242454;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=37IODtkHh3WkItPEPXTLqKpgBZFLXl0jA8UdpZi3R+c=;
-        b=X01uWRuLaeaiZ0raYOMXh27uuxFz0YofvKUGgkyCLZra1+LsA6Ql8eRai5TZUZVVsZ
-         /LP1xfJhtDQEFJ6lw9k1bd1lzdZ4UzYCwpSaQr0QoVj4yeREHT+tXQPqsSi4L99nL96Z
-         kggv4Lo4tVYROczMeKKUbV0nixPp4mXB0yB4XIQ+d0HCw3AWFFXEc234ioXR7w8/qBKH
-         xxfRC9bAi6rZ2PyycHwLoZYa/MBDbMggOezQ1Y5Z341uC+J+whBsErTIkY4PSnjNBP7f
-         FXkWeOodjQ/CGYQWIv3O4SsQxL0JmRCzwJmlZH7b7ZurFIqzXds//x7NxXlVp54Q/QZ/
-         6V3A==
-X-Forwarded-Encrypted: i=1; AFNElJ/F47nLUD2BZON/9ConWOG02nIKh+plNAtUdDvpzX8kjHGQNkUN1YgyjcVRlYF3PGZuSf8rEnSgrWddPYza@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjdIAyUF8BMEqsGrz6F/z4zqdzDRux3D7VCbJGTVPQUOfEUTlC
-	xcKluCEzqbsQ/Is4GQiAFwjV1oBd+hAy2v3TYVYpNp+ch4jDrmI5PqKY
-X-Gm-Gg: Acq92OHGyavO4rphHKtMaY/kOGOEfz5iJMg4JOjpyj2sfO9reu1k5cEE2xgddIPY07V
-	gaftKSzRzsvazZbEBZ45JCrnFdRjGx07j8U2xNhCB70qL+rsmDLJZf1EkiUH3jnwcsUel2V/8DB
-	r59BDYqp1fu9+Y9RWjJOAndCm3GITi3JbUNp37W/6yVtmatepq2FRMaMydm6wweQYJ8kTeAz8VM
-	ZRaxY8lEvTQmqDWADHnQwSe3s+sOGe7yisJYFh2v9a7TXLoaZrGPTE0qWjFWRf9C2SWHvkD038k
-	VutHQXP0e+GsYY0AfaCgof7NRw8UfF1MkZtBpiC/zYV1CRWj/Pla1i+vMY6wTqmKeZMcvFdHmCo
-	vl2iVcV6KGZ/23u3zO9vq4ptFLtMte1T4wUQ14pNrODsGR3hHw0wnvTFBDMzGbasLkP9zyYK3r+
-	Uce7WiyC7hXxPI039qXdMJzOfqeZWoNQ==
-X-Received: by 2002:a05:600c:34c9:b0:490:688b:f10d with SMTP id 5b1f17b1804b1-490c25b3549mr25030335e9.7.1780637653630;
-        Thu, 04 Jun 2026 22:34:13 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f351ac0sm37251852f8f.27.2026.06.04.22.34.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 22:34:12 -0700 (PDT)
-Date: Fri, 5 Jun 2026 08:34:08 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-wireless-next-main 5/5]
- drivers/net/wireless/ath/ath12k/wifi7/hw.c:979 ath12k_wifi7_mac_op_tx()
- error: buffer overflow 'ahsta->link' 15 <= 15
-Message-ID: <202606051125.XaYVDQZf-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJmSMtrS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780638018; x=1812174018;
+  h=date:from:to:cc:subject:message-id;
+  bh=QwVL5bnbAHg6L90NwksFlxa8HoQrIZVaGy9q5Tq4ZmY=;
+  b=FJmSMtrSQoJm+wfeQ0PQ6Liiyxv/7KqFk14tgm6Jgmfclyq0mOX0Ic1V
+   s/f7gEUSOgIM/yPbZZOHoY8rbA1B7Lq4nd37Ej1exCKDtrADeZUfzwGNR
+   +ghLW9XsUM3FiS9aBpo5nNUWTsFsJidTgRfEZvoVhlm0pB337lf/VFlBm
+   OES/fv3UiQqwIN+sJMVfGYg0cs4GMWtNvAhgWxhPdRJlYQhLcIdoWePXC
+   vRb4pw0B4J/iSjSaL1IZ6aKIpi/R/ZghKQzoUHAEQdJ5EY9Wl23rsWSmK
+   DKZTwjcqB/Yv3vFt3XnZ/oOSLgfYtPWoRwvqd2jOQTxU+gnKphEI8UZAH
+   w==;
+X-CSE-ConnectionGUID: VtPKw9IcQdWbz9GYh3WBSQ==
+X-CSE-MsgGUID: R+GszucYSqiuAnUgAuO4Uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81470343"
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="81470343"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 22:40:18 -0700
+X-CSE-ConnectionGUID: 7MXVQDgJQACoSDtNQYvOMQ==
+X-CSE-MsgGUID: YUTNBXvFSjqMoJWq2mZYCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="249681379"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 04 Jun 2026 22:40:15 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wVNHw-00000000FZm-2ZA4;
+	Fri, 05 Jun 2026 05:40:12 +0000
+Date: Fri, 05 Jun 2026 13:39:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jeff Johnson <jjohnson@kernel.org>,
+ ath12k@lists.infradead.org,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Subject: [ath:master 2/4] net/wireless/nl80211.c:6993:41: error:
+ 'struct cfg80211_ap_settings' has no member named 'he_oper'
+Message-ID: <202606051314.S2kES3SV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common upstream-wireless-next-main
-head:   a26c2a22e7e88b2b5afb1349f3994fc564c988b1
-commit: 2f57f737dbf3005951a045eb9d1daaff0095f6c1 [5/5] wifi: ath12k: Add support for 4-address mode
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260605/202606051125.XaYVDQZf-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git master
+head:   d54e5a797eebf0ef8c91f628aac578128b39a0b1
+commit: da16cf9abfd30e79c6c7ed7c4f8bf8b1316b934b [2/4] Merge remote-tracking branch 'wireless-next/main'
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260605/202606051314.S2kES3SV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606051314.S2kES3SV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606051125.XaYVDQZf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606051314.S2kES3SV-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/ath/ath12k/wifi7/hw.c:979 ath12k_wifi7_mac_op_tx() error: buffer overflow 'ahsta->link' 15 <= 15
+All errors (new ones prefixed by >>):
 
-vim +979 drivers/net/wireless/ath/ath12k/wifi7/hw.c
+   net/wireless/nl80211.c: In function 'nl80211_calculate_ap_capabilities':
+>> net/wireless/nl80211.c:6993:41: error: 'struct cfg80211_ap_settings' has no member named 'he_oper'
+    6993 |         if (!!params->he_cap != !!params->he_oper)
+         |                                         ^~
+>> net/wireless/nl80211.c:6996:42: error: 'struct cfg80211_ap_settings' has no member named 'eht_oper'
+    6996 |         if (!!params->eht_cap != !!params->eht_oper)
+         |                                          ^~
 
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   880  static void ath12k_wifi7_mac_op_tx(struct ieee80211_hw *hw,
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   881  				   struct ieee80211_tx_control *control,
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   882  				   struct sk_buff *skb)
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   883  {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   884  	struct ath12k_skb_cb *skb_cb = ATH12K_SKB_CB(skb);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   885  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   886  	struct ieee80211_vif *vif = info->control.vif;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   887  	struct ath12k_vif *ahvif = ath12k_vif_to_ahvif(vif);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   888  	struct ath12k_link_vif *arvif = &ahvif->deflink;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   889  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   890  	struct ieee80211_key_conf *key = info->control.hw_key;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   891  	struct ieee80211_sta *sta = control->sta;
-2f57f737dbf300 drivers/net/wireless/ath/ath12k/wifi7/hw.c Tamizh Chelvam Raja 2026-05-25   892  	struct ath12k_link_sta *arsta = NULL;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   893  	struct ath12k_link_vif *tmp_arvif;
-2f57f737dbf300 drivers/net/wireless/ath/ath12k/wifi7/hw.c Tamizh Chelvam Raja 2026-05-25   894  	struct ath12k_sta *ahsta = NULL;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   895  	u32 info_flags = info->flags;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   896  	struct sk_buff *msdu_copied;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   897  	struct ath12k *ar, *tmp_ar;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   898  	struct ath12k_pdev_dp *dp_pdev, *tmp_dp_pdev;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   899  	struct ath12k_dp_link_peer *peer;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   900  	unsigned long links_map;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   901  	bool is_mcast = false;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   902  	bool is_dvlan = false;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   903  	struct ethhdr *eth;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   904  	bool is_prb_rsp;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   905  	u16 mcbc_gsn;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   906  	u8 link_id;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   907  	int ret;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   908  	struct ath12k_dp *tmp_dp;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   909  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   910  	if (ahvif->vdev_type == WMI_VDEV_TYPE_MONITOR) {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   911  		ieee80211_free_txskb(hw, skb);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   912  		return;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   913  	}
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   914  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   915  	link_id = u32_get_bits(info->control.flags, IEEE80211_TX_CTRL_MLO_LINK);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   916  	memset(skb_cb, 0, sizeof(*skb_cb));
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   917  	skb_cb->vif = vif;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   918  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   919  	if (key) {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   920  		skb_cb->cipher = key->cipher;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   921  		skb_cb->flags |= ATH12K_SKB_CIPHER_SET;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   922  	}
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   923  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   924  	/* handle only for MLO case, use deflink for non MLO case */
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   925  	if (ieee80211_vif_is_mld(vif)) {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   926  		link_id = ath12k_mac_get_tx_link(sta, vif, link_id, skb, info_flags);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   927  		if (link_id >= IEEE80211_MLD_MAX_NUM_LINKS) {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   928  			ieee80211_free_txskb(hw, skb);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   929  			return;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   930  		}
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   931  	} else {
-9abf22075da98c drivers/net/wireless/ath/ath12k/wifi7/hw.c Jakub Kicinski      2026-01-22   932  		if (vif->type == NL80211_IFTYPE_P2P_DEVICE)
-9abf22075da98c drivers/net/wireless/ath/ath12k/wifi7/hw.c Jakub Kicinski      2026-01-22   933  			link_id = ATH12K_FIRST_SCAN_LINK;
 
-ATH12K_FIRST_SCAN_LINK is 15.
+vim +6993 net/wireless/nl80211.c
 
-9abf22075da98c drivers/net/wireless/ath/ath12k/wifi7/hw.c Jakub Kicinski      2026-01-22   934  		else
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   935  			link_id = 0;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   936  	}
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   937  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   938  	arvif = rcu_dereference(ahvif->link[link_id]);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   939  	if (!arvif || !arvif->ar) {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   940  		ath12k_warn(ahvif->ah, "failed to find arvif link id %u for frame transmission",
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   941  			    link_id);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   942  		ieee80211_free_txskb(hw, skb);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   943  		return;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   944  	}
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   945  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   946  	ar = arvif->ar;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   947  	skb_cb->link_id = link_id;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   948  	/*
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   949  	 * as skb_cb is common currently for dp and mgmt tx processing
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   950  	 * set this in the common mac op tx function.
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   951  	 */
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   952  	skb_cb->ar = ar;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   953  	is_prb_rsp = ieee80211_is_probe_resp(hdr->frame_control);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   954  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   955  	if (info_flags & IEEE80211_TX_CTL_HW_80211_ENCAP) {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   956  		eth = (struct ethhdr *)skb->data;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   957  		is_mcast = is_multicast_ether_addr(eth->h_dest);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   958  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   959  		skb_cb->flags |= ATH12K_SKB_HW_80211_ENCAP;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   960  	} else if (ieee80211_is_mgmt(hdr->frame_control)) {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   961  		if (sta && sta->mlo)
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   962  			skb_cb->flags |= ATH12K_SKB_MLO_STA;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   963  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   964  		ret = ath12k_mac_mgmt_tx(ar, skb, is_prb_rsp);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   965  		if (ret) {
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   966  			ath12k_warn(ar->ab, "failed to queue management frame %d\n",
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   967  				    ret);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   968  			ieee80211_free_txskb(hw, skb);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   969  		}
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   970  		return;
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   971  	}
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   972  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   973  	if (!(info_flags & IEEE80211_TX_CTL_HW_80211_ENCAP))
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   974  		is_mcast = is_multicast_ether_addr(hdr->addr1);
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   975  
-2f57f737dbf300 drivers/net/wireless/ath/ath12k/wifi7/hw.c Tamizh Chelvam Raja 2026-05-25   976  	if (sta) {
-2f57f737dbf300 drivers/net/wireless/ath/ath12k/wifi7/hw.c Tamizh Chelvam Raja 2026-05-25   977  		ahsta = ath12k_sta_to_ahsta(control->sta);
-2f57f737dbf300 drivers/net/wireless/ath/ath12k/wifi7/hw.c Tamizh Chelvam Raja 2026-05-25   978  		if (ahsta && ahsta->enable_4addr)
-2f57f737dbf300 drivers/net/wireless/ath/ath12k/wifi7/hw.c Tamizh Chelvam Raja 2026-05-25  @979  			arsta = rcu_dereference(ahsta->link[link_id]);
+7443dcd1f1718a Aloka Dixit   2020-09-11  6942  
+66cd794e3c30b8 Johannes Berg 2017-02-07  6943  /*
+66cd794e3c30b8 Johannes Berg 2017-02-07  6944   * Since the nl80211 API didn't include, from the beginning, attributes about
+a384ae96990250 Johannes Berg 2026-04-15  6945   * HT/VHT/... capabilities, we parse them out of the elements and check for
+a384ae96990250 Johannes Berg 2026-04-15  6946   * validity for use by drivers/mac80211.
+66cd794e3c30b8 Johannes Berg 2017-02-07  6947   */
+d642e759b73cbf Johannes Berg 2026-04-15  6948  static int nl80211_calculate_ap_capabilities(struct genl_info *info,
+d642e759b73cbf Johannes Berg 2026-04-15  6949  					     struct cfg80211_ap_settings *params)
+66cd794e3c30b8 Johannes Berg 2017-02-07  6950  {
+a384ae96990250 Johannes Berg 2026-04-15  6951  	size_t ies_len = params->beacon.tail_len;
+a384ae96990250 Johannes Berg 2026-04-15  6952  	const u8 *ies = params->beacon.tail;
+153e2a11c99b73 Johannes Berg 2021-09-30  6953  	const struct element *cap;
+66cd794e3c30b8 Johannes Berg 2017-02-07  6954  
+153e2a11c99b73 Johannes Berg 2021-09-30  6955  	cap = cfg80211_find_elem(WLAN_EID_HT_CAPABILITY, ies, ies_len);
+d642e759b73cbf Johannes Berg 2026-04-15  6956  	if (cap) {
+d642e759b73cbf Johannes Berg 2026-04-15  6957  		if (cap->datalen < sizeof(*params->ht_cap)) {
+d642e759b73cbf Johannes Berg 2026-04-15  6958  			GENL_SET_ERR_MSG(info, "bad HT capability in beacon");
+d642e759b73cbf Johannes Berg 2026-04-15  6959  			return -EINVAL;
+d642e759b73cbf Johannes Berg 2026-04-15  6960  		}
+153e2a11c99b73 Johannes Berg 2021-09-30  6961  		params->ht_cap = (void *)cap->data;
+d642e759b73cbf Johannes Berg 2026-04-15  6962  	}
+d642e759b73cbf Johannes Berg 2026-04-15  6963  
+153e2a11c99b73 Johannes Berg 2021-09-30  6964  	cap = cfg80211_find_elem(WLAN_EID_VHT_CAPABILITY, ies, ies_len);
+d642e759b73cbf Johannes Berg 2026-04-15  6965  	if (cap) {
+d642e759b73cbf Johannes Berg 2026-04-15  6966  		if (cap->datalen < sizeof(*params->vht_cap)) {
+d642e759b73cbf Johannes Berg 2026-04-15  6967  			GENL_SET_ERR_MSG(info, "bad VHT capability in beacon");
+d642e759b73cbf Johannes Berg 2026-04-15  6968  			return -EINVAL;
+d642e759b73cbf Johannes Berg 2026-04-15  6969  		}
+153e2a11c99b73 Johannes Berg 2021-09-30  6970  		params->vht_cap = (void *)cap->data;
+d642e759b73cbf Johannes Berg 2026-04-15  6971  	}
+d642e759b73cbf Johannes Berg 2026-04-15  6972  
+153e2a11c99b73 Johannes Berg 2021-09-30  6973  	cap = cfg80211_find_ext_elem(WLAN_EID_EXT_HE_CAPABILITY, ies, ies_len);
+d642e759b73cbf Johannes Berg 2026-04-15  6974  	if (cap) {
+d642e759b73cbf Johannes Berg 2026-04-15  6975  		if (cap->datalen < sizeof(*params->he_cap) + 1) {
+d642e759b73cbf Johannes Berg 2026-04-15  6976  			GENL_SET_ERR_MSG(info, "bad HE capability in beacon");
+d642e759b73cbf Johannes Berg 2026-04-15  6977  			return -EINVAL;
+d642e759b73cbf Johannes Berg 2026-04-15  6978  		}
+153e2a11c99b73 Johannes Berg 2021-09-30  6979  		params->he_cap = (void *)(cap->data + 1);
+d642e759b73cbf Johannes Berg 2026-04-15  6980  	}
+d642e759b73cbf Johannes Berg 2026-04-15  6981  
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6982  	cap = cfg80211_find_ext_elem(WLAN_EID_EXT_EHT_CAPABILITY, ies, ies_len);
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6983  	if (cap) {
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6984  		params->eht_cap = (void *)(cap->data + 1);
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6985  		if (!ieee80211_eht_capa_size_ok((const u8 *)params->he_cap,
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6986  						(const u8 *)params->eht_cap,
+d642e759b73cbf Johannes Berg 2026-04-15  6987  						cap->datalen - 1, true)) {
+d642e759b73cbf Johannes Berg 2026-04-15  6988  			GENL_SET_ERR_MSG(info, "bad EHT capability in beacon");
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6989  			return -EINVAL;
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6990  		}
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6991  	}
+072e6f7f416f5d Johannes Berg 2026-01-30  6992  
+cb9959ab5f9961 Johannes Berg 2026-06-03 @6993  	if (!!params->he_cap != !!params->he_oper)
+cb9959ab5f9961 Johannes Berg 2026-06-03  6994  		return -EINVAL;
+cb9959ab5f9961 Johannes Berg 2026-06-03  6995  
+cb9959ab5f9961 Johannes Berg 2026-06-03 @6996  	if (!!params->eht_cap != !!params->eht_oper)
+cb9959ab5f9961 Johannes Berg 2026-06-03  6997  		return -EINVAL;
+cb9959ab5f9961 Johannes Berg 2026-06-03  6998  
+8bc65d38ee4668 Aloka Dixit   2022-05-22  6999  	return 0;
+66cd794e3c30b8 Johannes Berg 2017-02-07  7000  }
+66cd794e3c30b8 Johannes Berg 2017-02-07  7001  
 
-But the ahsta->link[] array has 15 elements.
+:::::: The code at line 6993 was first introduced by commit
+:::::: cb9959ab5f99611d27a06586add84811fe8102dc wifi: cfg80211: enforce HE/EHT cap/oper consistency
 
-2f57f737dbf300 drivers/net/wireless/ath/ath12k/wifi7/hw.c Tamizh Chelvam Raja 2026-05-25   980  	}
-2f57f737dbf300 drivers/net/wireless/ath/ath12k/wifi7/hw.c Tamizh Chelvam Raja 2026-05-25   981  
-c26f294fef2a4b drivers/net/wireless/ath/ath12k/wifi7/hw.c Ripan Deuri         2025-11-03   982  	/* This is case only for P2P_GO */
+:::::: TO: Johannes Berg <johannes.berg@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
