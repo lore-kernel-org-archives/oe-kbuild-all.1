@@ -1,85 +1,109 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA03337646A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 10:10:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C74D3F39C7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 10:10:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780654217; cv=none; b=rKzGkM0o32fdnQthPUxsLJe0ClceH2vBmjz4Nccu1WNATftk8SmpGoGGD/BlUaOJA4pCN5Yca0sOpvidSqTz05zeovTNbu9kfDtrc+gTOK/wLtKqHi529reIbEFLEWU3UQhF2FZeG6hsMvIjhCs93HgLzxMOB2g+kP7yhUErmLE=
+	t=1780654218; cv=none; b=r+vD6mCj4Q3wEwsbI6mRhxLTx4MaFKo5s8S8PK7lwG8Q9sSzm1UtGzvG7JTluYdvHxS6HOzDqj7e0MVXST+lmA1hazrgJ8SsQjDe9eEPlMGP4c9gnYvn8HuDauefYGil1zP59/r3vk1t3jszbBsbB324DmLK8zgj2jKhTnzCBqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780654217; c=relaxed/simple;
-	bh=ctZM14pGcCuO3ehcMDJTtzdHHC/vAvL67pU+U+/KqMI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DxfWYUNZYbLBCKwcnahceaWhOCYRmD7EcCNpaPs/eS+1bybdvSsVGr4jwNFuxyQdTLWNpCImBE51TvI12+pLvSQ1JLydCMuDjsZ+OAxvV/z7ZofYMHylewq8sQJDOmhBo2SZKJDFjJgpASX9hZrUWDnjDXr2j6tHQJbTDPFyLCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uq94EP15; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1780654218; c=relaxed/simple;
+	bh=OniSiIUZfkX9DzebqNGw39xDzYzBX34avMJiWZQ0/+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZ5q7B1JNLqRDfLYusI2Oy1ofBks+kkQg01Hf8qVXkZHpIINMqjvT09Y1noA0VkyAMiAV5tWXWMPub2I1hiKX4HlEc585Uye/A+kCIKBh3w2eXB8r0LCW2r+j+zlGFhP+D/etT8BNoMpgsF5E21o47F/3c6IWDzG8GpSLVTdhc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URp803Lx; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uq94EP15"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URp803Lx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780654216; x=1812190216;
-  h=date:from:to:cc:subject:message-id;
-  bh=ctZM14pGcCuO3ehcMDJTtzdHHC/vAvL67pU+U+/KqMI=;
-  b=Uq94EP15VhGcSQBqY1jUU7DKIUb9DBkmV+wlnrct1MvNppCuIJTU79CN
-   BD55f45iks2PhnA/GwzixB1EDyqDnXOQBHBMY7z7cwphm3AeQrr1W93/B
-   E3PrQsQIairzVujlBxX4v8XHvA3RK+cL5LgUAk81zrZ7eU5EgbLDFQyBX
-   vTobrTILJn5US2QHQv3OqlhEnDeSLcQfBhIKGCihEijzCmva+9oz4HNBy
-   dDiC9S0m6ffOxpQlN9wflVwHZi3uBeomPE6VWHC9oxiL4onoJAvF1hHrw
-   ChwwNl9UQFVxYwc+H4uzSghPG/W8p6pRglr4C9QSKeRNt07vGYindoxFr
+  t=1780654217; x=1812190217;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OniSiIUZfkX9DzebqNGw39xDzYzBX34avMJiWZQ0/+w=;
+  b=URp803LxFNUrYFOpFIYLbhbgW0/r/POCTwYaBjiH9mg+L3Fx1d2BgQ9s
+   4ahWS892YFIlLnl19TTnhu+AFSgWXweugET9WeFLn7CxLDpgyrXqDhTJG
+   hEe32cfSZTBd2LVe8R489k0W5lkgIeMGgwyuHW3mQV9ugC4HJBSB1lKRP
+   UZ/Sm+/uq9oI9bFor9pdcVURoZ/XcFwanPfy6d4aLyzTmaI8ftR9JbRjP
+   tAKh/J1UiOm+PGhcb59iWskNn96pbJOu4Fj/EeePZ3T+hZ9QBdlKpZKZN
+   ooNOvpZHTpXJmMRMin+USk1QbbibkOhD/qcG60DeiiaGoPcojKdtL3lKP
    A==;
-X-CSE-ConnectionGUID: yy1T+oDuS6yuVlM6N1JIlA==
-X-CSE-MsgGUID: /hu8U+faSSun7BHMG8+MLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="99060917"
+X-CSE-ConnectionGUID: xAieVKW4TmSYEr2ZWaKlJQ==
+X-CSE-MsgGUID: TbqNpSkPSe+pvFhrbqIU4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="99060919"
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="99060917"
+   d="scan'208";a="99060919"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 03:10:15 -0700
-X-CSE-ConnectionGUID: AWBhEhL6SZCxXnWyuhIttA==
-X-CSE-MsgGUID: 92B9zVrSRf+AHfYhKIqvSg==
+X-CSE-ConnectionGUID: G2iaHSZwT8WTfLzUaJEI1g==
+X-CSE-MsgGUID: pueleeM3QFS0yypcI/V8zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="268499519"
+   d="scan'208";a="268499513"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Jun 2026 03:10:14 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jun 2026 03:10:13 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVRVD-000000002Y7-3WU4;
+	id 1wVRVD-000000002Y5-3MAz;
 	Fri, 05 Jun 2026 10:10:11 +0000
-Date: Fri, 05 Jun 2026 12:09:41 +0200
+Date: Fri, 5 Jun 2026 12:09:42 +0200
 From: kernel test robot <lkp@intel.com>
-To: Justin Tee <justintee8345@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: Warning: drivers/scsi/lpfc/lpfc_sli.c:261 function parameter
- 'phba' not described in 'lpfc_sli4_queue_io_for_retry'
-Message-ID: <202606051127.QwjG1Ef6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Rosen Penev <rosenp@gmail.com>, linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Johannes Berg <johannes@sipsolutions.net>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv2 wireless-next] wifi: mac80211: fold tid_ampdu_rx
+ allocations into a flexible array
+Message-ID: <202606051234.K5D1iGLy-lkp@intel.com>
+References: <20260605005627.317194-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260605005627.317194-1-rosenp@gmail.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Justin-Tee/lpfc-Fix-use-after-free-in-lpfc_cmpl_ct_cmd_vmid/20260605-030023
-head:   c4116d7aa9bf645d02aee57916c4f02ab9b611a9
-commit: 71bfe938a0f8dfe6bd3cf1c1ec63dfa3862052ab lpfc: Put iocbq on phba->txq when ELS WQ is full or ELS SGL unavailable
-date:   15 hours ago
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260605/202606051127.QwjG1Ef6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606051127.QwjG1Ef6-lkp@intel.com/reproduce)
+Hi Rosen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v7.1-rc6 next-20260604]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/wifi-mac80211-fold-tid_ampdu_rx-allocations-into-a-flexible-array/20260605-085839
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260605005627.317194-1-rosenp%40gmail.com
+patch subject: [PATCHv2 wireless-next] wifi: mac80211: fold tid_ampdu_rx allocations into a flexible array
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260605/202606051234.K5D1iGLy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606051127.QwjG1Ef6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606051234.K5D1iGLy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/scsi/lpfc/lpfc_sli.c:261 function parameter 'phba' not described in 'lpfc_sli4_queue_io_for_retry'
->> Warning: drivers/scsi/lpfc/lpfc_sli.c:261 function parameter 'iocb' not described in 'lpfc_sli4_queue_io_for_retry'
->> Warning: drivers/scsi/lpfc/lpfc_sli.c:261 function parameter 'head' not described in 'lpfc_sli4_queue_io_for_retry'
->> Warning: drivers/scsi/lpfc/lpfc_sli.c:261 function parameter 'phba' not described in 'lpfc_sli4_queue_io_for_retry'
->> Warning: drivers/scsi/lpfc/lpfc_sli.c:261 function parameter 'iocb' not described in 'lpfc_sli4_queue_io_for_retry'
->> Warning: drivers/scsi/lpfc/lpfc_sli.c:261 function parameter 'head' not described in 'lpfc_sli4_queue_io_for_retry'
+   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
+   ------------------------------------------------------------------------------------------------^
+   Documentation/core-api/kref:328: ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
+   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
+   --------------------------------------------------------------------------------------------^
+>> Documentation/driver-api/80211/mac80211-advanced:228: ./net/mac80211/sta_info.h:229: WARNING: Inline strong start-string without end-string. [docutils]
+>> Documentation/driver-api/80211/mac80211-advanced:228: ./net/mac80211/sta_info.h:229: WARNING: Inline strong start-string without end-string. [docutils]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
+   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
 
 --
 0-DAY CI Kernel Test Service
