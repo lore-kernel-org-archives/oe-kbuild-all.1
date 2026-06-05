@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A81C38F656
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 18:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D627404E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 20:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780683563; cv=none; b=BsMscW4E0Pc7fNOJSBlkb9rFxvUXloQTW2X71AGQ3gLcoDcvZpig84T+jdvX9Jn/l/PtF5ElW1hKs9Q8AuRTjkfevHczpXGizOzvjSJHGAb9k0BqaDYj2dmzW1pIMJFZOERdZAD+KqrWv1Fh5sAOId7hHGRutal6qnyptDTiX4I=
+	t=1780691588; cv=none; b=O8QOcbVUOPzdPnp/jY2vFmzljmgH+enCUzxToYD9qLABR4VRULgxRIib3HqHFClZqlE52bmnIx3rCB0baGTU2mAiWCzi0iGzhqae/lXgYGPSZ7hUt4esBagiRNLr3g53/7n7iM72eAvX5nD7b7B7k6k6PSm+E/euML7Qypd9MQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780683563; c=relaxed/simple;
-	bh=2LvfYBItYBjFFpInddPhtGQVyaPsJUkI3hONLqZqBKk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ogzurma0f4pEyFSwIbzaoY1lWzfgt4OoZpUsgIvA/TV+u7yCsFZlmmDhLkGXN1VXuwF1SGrZ1i4AtwFckX6tbdLLy9OeVjnDgMNFyDJlVejacLEzaMV45kEN+rRRRLhS5Vs9Y+HDG1sj+SbjPEkiOEjCYzvAD1SFgr2WXnTuEKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjCTw2Q6; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1780691588; c=relaxed/simple;
+	bh=7+MYABtSn1Op+jjdZpJHaW0EKuu0iWWNBhTbNgBkgKw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=As5lNflDeSXPwvUFi8/YyGfO2tHvi1XcbCREHQjNJBjSkP40KMsTaMMisedg8admdMdLoP9/JHB1ywV9QYim/9iEZi6arhSQJuyfvL5Bq6ZcvYwuD4PcfFNH97TTaXn4cYVbSiRTX9wpIGCoVWbeeZ5ZIoMJXEbLMKOy4UXSlfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gve93y4e; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjCTw2Q6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gve93y4e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780683561; x=1812219561;
+  t=1780691587; x=1812227587;
   h=date:from:to:cc:subject:message-id;
-  bh=2LvfYBItYBjFFpInddPhtGQVyaPsJUkI3hONLqZqBKk=;
-  b=WjCTw2Q6ufuQPbe8TxnM1YsAQ21RUI+akCeiPLVSZlS969zRmsKuEEtm
-   WX/xS6G9N3ixvAMd92uKjl5rxaaJmHldaYWuhuBYmVwCe21n5uItA13qg
-   5w5RDrGQUcFYkTNQEl0j+5UXp2C+jYuIxyV59rrJP4TjXUvzzFXp8NLrE
-   RAWAX+ZjWI0pWiVDLhZkkHlWnXxlW82j1WIfQVubyv9DvWa0yU3cjVAja
-   JmlRvsyQmu6rgQzW7NNFyc4vJgi8f3lgaHB3jteMCp6WVDCtNrgndI+IE
-   UfavdzqL3t2GFuEO7dUyfLn3/82ZUtpA+fXmJ0ZIWR0B5OIRShDCGVd/N
-   Q==;
-X-CSE-ConnectionGUID: RRsXlUr8QLuBYJO8dknlgw==
-X-CSE-MsgGUID: bp0SNgY9QrSa74RNpw49cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="69054002"
+  bh=7+MYABtSn1Op+jjdZpJHaW0EKuu0iWWNBhTbNgBkgKw=;
+  b=Gve93y4eLDsiru3iBVyAF90+9mM0pHq/w/Uj9mI2xonCIo3NCFLXXzU6
+   6YArtBtdGn2Yb0W6G6hKoWDBD9idI6NSMGYiMtmUDYgynOwKZY4jlXiZA
+   zhJbLsGynVfpBs+ioM3+CE12qO8yXzcWi94heB0Qhu6jLsrHDqgcFV2Y1
+   1bPlYXxmkXr/MW+Dtv7Zts7PSlktqB0FQveT1QTPhWXzBNPI87QXg2NEW
+   fequpKxuDTE+n1RMYmY0c0qH//OYlNGzbihjmj81NFGcq/pHGG51Gsst8
+   WpAp+bWz0Sl0KW3TO49RbUPhLqrNyOxaUq5v04MwnVIqubX5zs06ONB7H
+   A==;
+X-CSE-ConnectionGUID: I7nc95ZLRh6N9uJ9AmxrzQ==
+X-CSE-MsgGUID: 7scTE/hrTuSBlgzfO3Ofcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="99103941"
 X-IronPort-AV: E=Sophos;i="6.24,189,1774335600"; 
-   d="scan'208";a="69054002"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 11:19:21 -0700
-X-CSE-ConnectionGUID: A7uhLF6ORX2GdHa8MxOWPQ==
-X-CSE-MsgGUID: cP1ebsM6TNSlAoPsccwu8A==
+   d="scan'208";a="99103941"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 13:33:06 -0700
+X-CSE-ConnectionGUID: QXXQaL1kSJmhW/ugYHcWpA==
+X-CSE-MsgGUID: obtLw7OcTZyt92SWfjgywQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,189,1774335600"; 
-   d="scan'208";a="275139494"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 05 Jun 2026 11:19:20 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="246773296"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Jun 2026 13:33:05 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVZ8X-000000002d7-0rWS;
-	Fri, 05 Jun 2026 18:19:17 +0000
-Date: Fri, 05 Jun 2026 20:19:08 +0200
+	id 1wVbDy-00000000GRa-19dJ;
+	Fri, 05 Jun 2026 20:33:02 +0000
+Date: Sat, 06 Jun 2026 04:32:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Thierry Reding <treding@nvidia.com>
-Subject: [linux-next:master 8480/11439]
- arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: front-camera@48
- (aptina,mi1040): 'orientation' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202606052028.RIswOycL-lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg-dnu 2/22]
+ include/linux/dma-buf.h:681:52: warning: omitting the parameter name in a
+ function definition is a C2x extension
+Message-ID: <202606060452.jWoyoQsS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,91 +60,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b99ae45861eccff1e1d8c7b05a13650be805d437
-commit: 34d89435081d07b052dd522a57054132dada5400 [8480/11439] ARM: tegra: transformer: Add support for front camera
-config: arm-randconfig-2051-20260531 (https://download.01.org/0day-ci/archive/20260605/202606052028.RIswOycL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606052028.RIswOycL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-dnu
+head:   3f82c4921593bc77b715a413ab2eb6d99396ea68
+commit: 28248187ee4c7ab861b06f44f148f583fb1429eb [2/22] dma-buf: add no-op stubs when CONFIG_DMA_SHARED_BUFFER is disabled
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20260606/202606060452.jWoyoQsS-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260606/202606060452.jWoyoQsS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606052028.RIswOycL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606060452.jWoyoQsS-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi:54.22-60.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1138.15-1151.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1224.15-1236.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: front-camera@48 (aptina,mi1040): 'orientation' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: pmic@2d (ti,tps65911): 'pmic-sleep-hog', 'wakeup-source' do not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: pmic@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf201.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
---
-   arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi:54.22-60.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1138.15-1151.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1224.15-1236.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: front-camera@48 (aptina,mi1040): 'orientation' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: pmic@2d (ti,tps65911): 'pmic-sleep-hog', 'wakeup-source' do not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: pmic@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tg.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
---
-   arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi:54.22-60.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1138.15-1151.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1224.15-1236.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: front-camera@48 (aptina,mi1040): 'orientation' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: pmic@2d (ti,tps65911): 'pmic-sleep-hog', 'wakeup-source' do not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: pmic@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
---
-   arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi:54.22-60.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1138.15-1151.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1224.15-1236.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: front-camera@48 (aptina,mi1040): 'orientation' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: pmic@2d (ti,tps65911): 'pmic-sleep-hog', 'wakeup-source' do not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: pmic@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-tf700t.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+All warnings (new ones prefixed by >>):
+
+   In file included from io_uring/io_uring.c:89:
+   In file included from io_uring/zcrx.h:6:
+>> include/linux/dma-buf.h:681:52: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+                                  struct vm_area_struct *vma, unsigned long)
+                                                                           ^
+   1 warning generated.
+
+
+vim +681 include/linux/dma-buf.h
+
+   674	
+   675	static inline void
+   676	dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
+   677					  struct sg_table *sg_table,
+   678					  enum dma_data_direction direction) { }
+   679	
+   680	static inline int dma_buf_mmap(struct dma_buf *dmabuf,
+ > 681				       struct vm_area_struct *vma, unsigned long)
+   682	{
+   683		return -EOPNOTSUPP;
+   684	}
+   685	
 
 --
 0-DAY CI Kernel Test Service
