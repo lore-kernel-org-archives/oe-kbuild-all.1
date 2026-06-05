@@ -1,110 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C376E410D30;
-	Fri,  5 Jun 2026 06:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707F7426EB9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 07:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780642455; cv=none; b=WA/xrsFKZ6z/cChqzvXdeGA0JtEakvNUvLoLwOr784bCH3C8gZqyBjbNqLc1DpsnmSIxbXqUu/bCC0qIsh+OFoeGvqYKFRCizbwFUMdTkxRAeOPJZZhCrC8eQuF2jWkX2XFRP6EEFostD2fiaRtuhwPndi+q8jTRnTimQZtd+Rk=
+	t=1780643541; cv=none; b=IpYrqMehJ31edAFXY6LeJkMeISMwYKsR0rkgWKVM+o0uBfDNn8ul4UbtcCVxnr23hq5aU80l3qAZPvVN3eVaugfqMENbB+d8F2Nc9GvaXfjx7SEgUge0+KSLhWYafSqXWa7Lpq2O7DYGp0pWPPsbyOo4+s4anP3GpF+1oxdLCEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780642455; c=relaxed/simple;
-	bh=Bfhxyeh0I+nLYaM2G8L9iOBrMI/5fCXfZhtYUW4UmJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YRLAOcsYGOKBZHE2+4zcXWzFBqOAFHOZYvPLv7sWZzICwYG4u1KXUl1OjEaTbzvq0HotSCPu6I+5EqbrIVM4i4Jc3KYsPV0oZHzZ4p0gCS8sIINEkwAslJ2O9P9UaErUEUm8r2mnmHNre+CkxsiuXi5Fi3fRgHAtze1d+anlDLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6Xgq5kk; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1780643541; c=relaxed/simple;
+	bh=Fg8tfAf7OWfMWSKakx3UB71VKICbqtu9FMM8xvG38qg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nWf0I6mj7U4g9xDWrx+uL7Vds88so2buJ5C6VGClKoQUZD08KSsih9Pjer1xRAE6+Z4lvpZh+epN/65lKPzZ5faMSWttCvSbhOUF6tLs2MvQuFJL2Ji7ymhbkETybo0B0mR9lOYthqRu02gWL2oHhbJ4QiJJx8UoYyMS6+WDK1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lisO5q+S; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6Xgq5kk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lisO5q+S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780642454; x=1812178454;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bfhxyeh0I+nLYaM2G8L9iOBrMI/5fCXfZhtYUW4UmJY=;
-  b=J6Xgq5kklws8g8/3b5+KYtlQa9T9dvORb0OhvF9yDCbo+0m+sld+PYpt
-   uY3irBSxmLRAQA+8Pc0g5uBjifZ+uSC0R0oe4b+ZbttipPrRwcAIzRfJx
-   pNsv6FVRe1Do9wsNDOS2QLGsxLySoye6/QumnNNnrZZdzMftqH5dsFNf6
-   U8glVMH4Qedtqrs6PRRlYtOgydJzwSe/Ku7ocPz2gez8kzePEhbV+LTPQ
-   tFLpP9WTEnCg3kMiaDgYM/DcRGAUk4T4mc5wSDC3ddPtvqLHReMn/YhDm
-   9+5T8tB0mMg0ElW07OdUCQU0/3TzSk5K/+KfFMAhAuu8sF6z6KA36PX1J
+  t=1780643541; x=1812179541;
+  h=date:from:to:cc:subject:message-id;
+  bh=Fg8tfAf7OWfMWSKakx3UB71VKICbqtu9FMM8xvG38qg=;
+  b=lisO5q+ScnODyIrHYmuT3qdUXvl0fdxuq2GUw2Z+PiTMBW+UvMHvvedd
+   LW73PqGD6UwDaTsIUvD++sPv3jnGinWZQdWkC5P64iGS5/jTM+yATFJFz
+   7ysaDG6MQtQKNpctLOJ4KqF/5b/ljvpYdsftH/cNzl84KlIOm6MdZ2049
+   PwmtmwUDTcwyYYRjUuD4N4nQEMYlfTP+nHjeaQ97n4XdwKjBQG7nCj/Zd
+   LV9zLTMSI9wX3UbIb2e0yfq0LZWjM8JyXRGw9C4eSQK8Ug2zJ+9ykPr2O
+   yzpqxq/i5yrODkJTp1q5u38+qWfOJtbYxe9JbDl8eI5MBt6s61e1EvNiS
    w==;
-X-CSE-ConnectionGUID: XbyS7aJSQROu7k6P11tCPA==
-X-CSE-MsgGUID: WeWYZ3upTPy+I7oYB4bopA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81474440"
+X-CSE-ConnectionGUID: dN0krxg6TIOKo2S89OLcMw==
+X-CSE-MsgGUID: lOzqZSiIQ+SkELPz331B0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81456508"
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="81474440"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 23:54:14 -0700
-X-CSE-ConnectionGUID: igsVH0E/Q920RoFFPu5r2g==
-X-CSE-MsgGUID: Mv2TdVCjQlahbFrWexy6Vg==
+   d="scan'208";a="81456508"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 00:12:21 -0700
+X-CSE-ConnectionGUID: VVdGF+eWTle8yk+1F5Msmg==
+X-CSE-MsgGUID: tg2tPzp1Rimjee1IdVg37w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="238412207"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Jun 2026 23:54:10 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="248702159"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 05 Jun 2026 00:12:19 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVORU-000000002Uv-18Ka;
-	Fri, 05 Jun 2026 06:54:08 +0000
-Date: Fri, 5 Jun 2026 08:54:01 +0200
+	id 1wVOj2-00000000Fee-0y2f;
+	Fri, 05 Jun 2026 07:12:16 +0000
+Date: Fri, 05 Jun 2026 15:11:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Adam Young <admiyo@os.amperecomputing.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Saket Dumbre <saket.dumbre@intel.com>, Len Brown <lenb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-acpi@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Huisong Li <lihuisong@huawei.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v01] mailbox/pcc.c:  add query channel function
-Message-ID: <202606050825.2uv1FZrY-lkp@intel.com>
-References: <20260604203749.168752-1-admiyo@os.amperecomputing.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-08 3/3]
+ lib/kunit_iov_iter.c:265:16: warning: variable 'b' set but not used
+Message-ID: <202606051530.MZrUuPx1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260604203749.168752-1-admiyo@os.amperecomputing.com>
 
-Hi Adam,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jassibrar-mailbox/for-next]
-[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge soc/for-next linus/master v6.16-rc1 next-20260604]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adam-Young/mailbox-pcc-c-add-query-channel-function/20260605-044323
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
-patch link:    https://lore.kernel.org/r/20260604203749.168752-1-admiyo%40os.amperecomputing.com
-patch subject: [PATCH v01] mailbox/pcc.c:  add query channel function
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260605/202606050825.2uv1FZrY-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606050825.2uv1FZrY-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-08
+head:   68c2e470be3043e4f1e58736d4a20702f28a26e1
+commit: 2d71340ff1d41a5b9fc1b30ded12d638b2e2ae96 [3/3] iov_iter: Kunit tests for copying to/from an iterator
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260605/202606051530.MZrUuPx1-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606051530.MZrUuPx1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 2d71340ff1d4 ("iov_iter: Kunit tests for copying to/from an iterator")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606050825.2uv1FZrY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606051530.MZrUuPx1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/mailbox/pcc.c:358 function parameter 'q_chan' not described in 'pcc_mbox_query_channel'
->> Warning: drivers/mailbox/pcc.c:358 function parameter 'subspace_id' not described in 'pcc_mbox_query_channel'
->> Warning: drivers/mailbox/pcc.c:358 function parameter 'q_chan' not described in 'pcc_mbox_query_channel'
->> Warning: drivers/mailbox/pcc.c:358 function parameter 'subspace_id' not described in 'pcc_mbox_query_channel'
+   lib/kunit_iov_iter.c: In function 'iov_kunit_copy_to_bvec':
+>> lib/kunit_iov_iter.c:265:16: warning: variable 'b' set but not used [-Wunused-but-set-variable=]
+     265 |         int i, b, patt;
+         |                ^
+
+
+vim +/b +265 lib/kunit_iov_iter.c
+
+   253	
+   254	/*
+   255	 * Test copying to a ITER_BVEC-type iterator.
+   256	 */
+   257	static void __init iov_kunit_copy_to_bvec(struct kunit *test)
+   258	{
+   259		const struct bvec_test_range *pr;
+   260		struct iov_iter iter;
+   261		struct bio_vec bvec[8];
+   262		struct page **spages, **bpages;
+   263		u8 *scratch, *buffer;
+   264		size_t bufsize, npages, size, copied;
+ > 265		int i, b, patt;
+   266	
+   267		bufsize = 0x100000;
+   268		npages = bufsize / PAGE_SIZE;
+   269	
+   270		scratch = iov_kunit_create_buffer(test, &spages, npages);
+   271		for (i = 0; i < bufsize; i++)
+   272			scratch[i] = pattern(i);
+   273	
+   274		buffer = iov_kunit_create_buffer(test, &bpages, npages);
+   275		memset(buffer, 0, bufsize);
+   276	
+   277		iov_kunit_load_bvec(test, &iter, READ, bvec, ARRAY_SIZE(bvec),
+   278				    bpages, npages, bufsize, bvec_test_ranges);
+   279		size = iter.count;
+   280	
+   281		copied = copy_to_iter(scratch, size, &iter);
+   282	
+   283		KUNIT_EXPECT_EQ(test, copied, size);
+   284		KUNIT_EXPECT_EQ(test, iter.count, 0);
+   285		KUNIT_EXPECT_EQ(test, iter.nr_segs, 0);
+   286	
+   287		/* Build the expected image in the scratch buffer. */
+   288		b = 0;
+   289		patt = 0;
+   290		memset(scratch, 0, bufsize);
+   291		for (pr = bvec_test_ranges; pr->from >= 0; pr++, b++) {
+   292			u8 *p = scratch + pr->page * PAGE_SIZE;
+   293	
+   294			for (i = pr->from; i < pr->to; i++)
+   295				p[i] = pattern(patt++);
+   296		}
+   297	
+   298		/* Compare the images */
+   299		for (i = 0; i < bufsize; i++) {
+   300			KUNIT_EXPECT_EQ_MSG(test, buffer[i], scratch[i], "at i=%x", i);
+   301			if (buffer[i] != scratch[i])
+   302				return;
+   303		}
+   304	
+   305		KUNIT_SUCCEED();
+   306	}
+   307	
 
 --
 0-DAY CI Kernel Test Service
