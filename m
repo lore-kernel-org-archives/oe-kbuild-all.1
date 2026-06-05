@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D627404E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 20:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A48A37BE74;
+	Fri,  5 Jun 2026 21:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780691588; cv=none; b=O8QOcbVUOPzdPnp/jY2vFmzljmgH+enCUzxToYD9qLABR4VRULgxRIib3HqHFClZqlE52bmnIx3rCB0baGTU2mAiWCzi0iGzhqae/lXgYGPSZ7hUt4esBagiRNLr3g53/7n7iM72eAvX5nD7b7B7k6k6PSm+E/euML7Qypd9MQY=
+	t=1780696350; cv=none; b=A9YOtemAcijRCg/DQi6w+u8uGWhIYM16cKxg1VmJoBlXnYlLu4/mLP5qD1D84NFRGntsRJMcKkzvhoSJ1TRdE+1cWQdK3yzOASbGAld5PsywwQKTGQlIv2+6xi17LqxHPl5i+Y9XJCmdeVijNDyfUAdrg55kLPXVTdEZPjHdX0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780691588; c=relaxed/simple;
-	bh=7+MYABtSn1Op+jjdZpJHaW0EKuu0iWWNBhTbNgBkgKw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=As5lNflDeSXPwvUFi8/YyGfO2tHvi1XcbCREHQjNJBjSkP40KMsTaMMisedg8admdMdLoP9/JHB1ywV9QYim/9iEZi6arhSQJuyfvL5Bq6ZcvYwuD4PcfFNH97TTaXn4cYVbSiRTX9wpIGCoVWbeeZ5ZIoMJXEbLMKOy4UXSlfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gve93y4e; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1780696350; c=relaxed/simple;
+	bh=MuG/b2Nzb8xoxBhSn2l0Zzt8kO12bXyA7kD2oUVL67M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=L9C3dCM2e9emTCFUkLYPQHmHMmHktMY6LIkdiI44Aob2PVOGk2ITvBOQw51pDPL7+nmWeD55etdXutKPCDOipSnVKLPGjAiEbiq3mbVcrCLpJIRLtFSJwgWOZdTex+q252PlwCjwHYFcXm8MDNvehe0IubZy7YUvkY0+xzXnzXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iaj5I3x0; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gve93y4e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iaj5I3x0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780691587; x=1812227587;
+  t=1780696349; x=1812232349;
   h=date:from:to:cc:subject:message-id;
-  bh=7+MYABtSn1Op+jjdZpJHaW0EKuu0iWWNBhTbNgBkgKw=;
-  b=Gve93y4eLDsiru3iBVyAF90+9mM0pHq/w/Uj9mI2xonCIo3NCFLXXzU6
-   6YArtBtdGn2Yb0W6G6hKoWDBD9idI6NSMGYiMtmUDYgynOwKZY4jlXiZA
-   zhJbLsGynVfpBs+ioM3+CE12qO8yXzcWi94heB0Qhu6jLsrHDqgcFV2Y1
-   1bPlYXxmkXr/MW+Dtv7Zts7PSlktqB0FQveT1QTPhWXzBNPI87QXg2NEW
-   fequpKxuDTE+n1RMYmY0c0qH//OYlNGzbihjmj81NFGcq/pHGG51Gsst8
-   WpAp+bWz0Sl0KW3TO49RbUPhLqrNyOxaUq5v04MwnVIqubX5zs06ONB7H
-   A==;
-X-CSE-ConnectionGUID: I7nc95ZLRh6N9uJ9AmxrzQ==
-X-CSE-MsgGUID: 7scTE/hrTuSBlgzfO3Ofcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="99103941"
+  bh=MuG/b2Nzb8xoxBhSn2l0Zzt8kO12bXyA7kD2oUVL67M=;
+  b=iaj5I3x0KBRZPlwQeH4bE7GOZKPnNKZxkghYQs9viRveLroYUsAtfjyu
+   LS0C4BARVLAsSVPn5UUXX62S4tp2fTR11bgYVpSOqNPx1kdu7O+w3jlxZ
+   bxSC0NoAuR4DTSdgtGwhT/2cP/u2C7M32X3/WY1Umu6VDarCOT969RG+V
+   t/cQThTkSwNDUjVch7I5n3hI1prBingKDlHXXhAyVA4CUuSx7udSUWZSR
+   alCD/3WfTdQc0bi9iEh4EPaJ1gwPQu86hHfQvj1vK6sf+HW7lnntTv8/z
+   B3qMpl9T4lamUgCHfRYWnLT1aVRmH4uXpgzfi7Gm4I1wIxJ8L68Cjnlh5
+   w==;
+X-CSE-ConnectionGUID: wbquUQxVR4SYNKSHEkLR5A==
+X-CSE-MsgGUID: Uu51HFBMTPuE1VLXDxCJ3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="81597799"
 X-IronPort-AV: E=Sophos;i="6.24,189,1774335600"; 
-   d="scan'208";a="99103941"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 13:33:06 -0700
-X-CSE-ConnectionGUID: QXXQaL1kSJmhW/ugYHcWpA==
-X-CSE-MsgGUID: obtLw7OcTZyt92SWfjgywQ==
+   d="scan'208";a="81597799"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 14:52:28 -0700
+X-CSE-ConnectionGUID: nuCP9Wg1TAyqmyGJtSAq0Q==
+X-CSE-MsgGUID: XSPYl6a8S9qR31+X5Ab04A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,189,1774335600"; 
-   d="scan'208";a="246773296"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Jun 2026 13:33:05 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="283033237"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 05 Jun 2026 14:52:26 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVbDy-00000000GRa-19dJ;
-	Fri, 05 Jun 2026 20:33:02 +0000
-Date: Sat, 06 Jun 2026 04:32:36 +0800
+	id 1wVcSl-000000002fF-1jOw;
+	Fri, 05 Jun 2026 21:52:23 +0000
+Date: Fri, 05 Jun 2026 23:51:47 +0200
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-dnu 2/22]
- include/linux/dma-buf.h:681:52: warning: omitting the parameter name in a
- function definition is a C2x extension
-Message-ID: <202606060452.jWoyoQsS-lkp@intel.com>
+To: Mykyta Yatsenko <yatsenko@meta.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Alexei Starovoitov <ast@kernel.org>
+Subject: [bpf-next:master 6/23] Warning: lib/rhashtable.c:736
+ function parameter 'ht' not described in 'rhashtable_next_key'
+Message-ID: <202606052300.ZZL5B8q3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,42 +60,24 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-dnu
-head:   3f82c4921593bc77b715a413ab2eb6d99396ea68
-commit: 28248187ee4c7ab861b06f44f148f583fb1429eb [2/22] dma-buf: add no-op stubs when CONFIG_DMA_SHARED_BUFFER is disabled
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20260606/202606060452.jWoyoQsS-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260606/202606060452.jWoyoQsS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+head:   aa22d619ba22177f430693cf5e9495052d996644
+commit: 8f4fa9f89b72845fa8ac956bff2e1d2ba5722f2e [6/23] rhashtable: Add rhashtable_next_key() API
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260605/202606052300.ZZL5B8q3-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606052300.ZZL5B8q3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606060452.jWoyoQsS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606052300.ZZL5B8q3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from io_uring/io_uring.c:89:
-   In file included from io_uring/zcrx.h:6:
->> include/linux/dma-buf.h:681:52: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-                                  struct vm_area_struct *vma, unsigned long)
-                                                                           ^
-   1 warning generated.
-
-
-vim +681 include/linux/dma-buf.h
-
-   674	
-   675	static inline void
-   676	dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
-   677					  struct sg_table *sg_table,
-   678					  enum dma_data_direction direction) { }
-   679	
-   680	static inline int dma_buf_mmap(struct dma_buf *dmabuf,
- > 681				       struct vm_area_struct *vma, unsigned long)
-   682	{
-   683		return -EOPNOTSUPP;
-   684	}
-   685	
+>> Warning: lib/rhashtable.c:736 function parameter 'ht' not described in 'rhashtable_next_key'
+>> Warning: lib/rhashtable.c:736 function parameter 'prev_key' not described in 'rhashtable_next_key'
+>> Warning: lib/rhashtable.c:736 function parameter 'ht' not described in 'rhashtable_next_key'
+>> Warning: lib/rhashtable.c:736 function parameter 'prev_key' not described in 'rhashtable_next_key'
 
 --
 0-DAY CI Kernel Test Service
