@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0792FF672
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 01:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C113B7B93;
+	Fri,  5 Jun 2026 01:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780622043; cv=none; b=O/NgFZrKg6JxIKr72qDImE9ALqO1MsVnxWbJATZO8tpyrtX7OwTulrhbItLEtr7VJ8DADTp0Zg5/bP8AwvNsIp6L59dOsev1hAwpqdluo+EPBcmUSpS8v8ysx4qjQSCoCgnHjUjvVngzSOHcutAr37WrIsDSokLstcITf0yoS/k=
+	t=1780622655; cv=none; b=VztraQaa01JTkjgis/Mk1B20t0GCF70YEJpK7PrYZz0gY6LI6f4gjppputsrBvgR9hsOtUtoA+bVpQZonWeb72E8KHkehmqnSkYEnxo8eg9a3I8oluKPFPDPRdTU7agWZMwN564p8pufle/TvOLWIg6ok24FwBvbgIUhjGh0r6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780622043; c=relaxed/simple;
-	bh=PKo6nU0RJbbfixnFoba9fc3BFmeat7PfizDFu0a0szU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GWefETStFnq2lJvDrbmI3hMPW/P4CnRwsc8QtrrcB+Y47FEPgP+77wQAXlqzXSVkEzjT6EczOch631o3tESsjPbYTJKzIUpaLDgVWUu+sQFFCw+Pz+npoapi2osQ9jaPwXamkyDkZOtkWr7UMZcRe8JLCGsUd3sPiMS5XGZQfgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ksklrfEm; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1780622655; c=relaxed/simple;
+	bh=wUXquFQuBDYMZICYnLQmQNv1jv/HaB9bdKctPiDDt8E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KcwO/3+iecUlB50H2+4s9JY5B+kARex9slNG5IXd4yyDdT7UF0iuuKW4ldmsxRhGh/A9mkSOMbShvjejd03TyR5VNQa295tnwRI8+OsISdEgBnnoWil87PVKXTIjRbng92IRZ3iA2a5ASzoC23bE+AQ+/GTBaBDC6z2UqGq+74c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1bwtWx4; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ksklrfEm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1bwtWx4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780622040; x=1812158040;
+  t=1780622650; x=1812158650;
   h=date:from:to:cc:subject:message-id;
-  bh=PKo6nU0RJbbfixnFoba9fc3BFmeat7PfizDFu0a0szU=;
-  b=ksklrfEmU+/xXgsyDSPqfeLcmvCce6HziYJTl+wZvK2NsWXWLVBFWuZ/
-   3lpnUKWhibLEH5qYrmDuBPm7FrisM+elZMFG4OcHQXlDOSiSvW6fDeAo8
-   7NqrjqFUVdp9Lxg6dRuqsbE0C6n72DGgefx84IrZOf6CDGydWdIIU/3Ii
-   lorCFmyJwXzuNmgWfmHjf1gBVKMvzq+EAQkGpx9NqeAqDy70vrYuXIxQV
-   59AIfHkv1IdA8AoC0jvWQt07FT7yxwfr8pFX1TYTMRGvgvLK3wiYxnRmD
-   YL8rFBpX/Uap0J1fy5fl1YhPPBs5rShFNYKPZbdMUjqJ5hL/jmYmtZ/zp
-   w==;
-X-CSE-ConnectionGUID: c2Zzn8OjSOGj21OcHkgngw==
-X-CSE-MsgGUID: hd5Ww1cUQz6/gWMAoFVPFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81435738"
+  bh=wUXquFQuBDYMZICYnLQmQNv1jv/HaB9bdKctPiDDt8E=;
+  b=F1bwtWx4NxEChjrWnd7hPogJ6oFUZa8wKfUc8NHyhLIqqq7lq4C1vnJE
+   3ZX9UFrASnQrKgfSJmEtFcuniRgFTUq7UafKaao6gD159zMX7ifvnpiUJ
+   B14NbwLmdLSCdGXnA9G23eZ9L4o0GZulmAPLqdyvz5mL9cg65UyErODzE
+   O7QwAVe0IPGefWwBuZRCBVwEswPFqJ8uD+WohnIRVjz4+cSLb1WjowLjV
+   4IWUz+bWNV2o4CBp1MDtBn/YLSq/y+4KzjOJtHDUdXkRgu2wqD/7+ScGn
+   7aFMSGX1W3odU1IkRzHuqXA2W/r/yNwJ/nlfOGps5Ts1LvsnfXZcn1q5R
+   Q==;
+X-CSE-ConnectionGUID: 3FYtM6Z4TTSfYyb7aJVbww==
+X-CSE-MsgGUID: o1P1ITQpRqG6HxamPXF7Ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="92142076"
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="81435738"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 18:14:00 -0700
-X-CSE-ConnectionGUID: Z3WO7o+WTxeEebHVQ/QrzA==
-X-CSE-MsgGUID: HLT9uO05TTejrSKhBnOWUw==
+   d="scan'208";a="92142076"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 18:24:05 -0700
+X-CSE-ConnectionGUID: uF5IaECnRIOofeg8SgIBIg==
+X-CSE-MsgGUID: SZZHOVVQTCOmJU6YGz8JJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="244816579"
+   d="scan'208";a="240516094"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Jun 2026 18:14:00 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 04 Jun 2026 18:24:03 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVJ8G-00000000FPK-3PvH;
-	Fri, 05 Jun 2026 01:13:56 +0000
-Date: Fri, 05 Jun 2026 09:13:11 +0800
+	id 1wVJI0-00000000FQW-1P2q;
+	Fri, 05 Jun 2026 01:24:00 +0000
+Date: Fri, 05 Jun 2026 09:23:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Gladkov <legion@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [legion:sysctls-v1 30/31]
- net/netfilter/ipvs/ip_vs_ctl.c:2616:16: warning: 'ipvs_init_net_mode' defined
- but not used
-Message-ID: <202606050935.R1shzb0N-lkp@intel.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ netdev@vger.kernel.org
+Subject: [mst-vhost:balloon 12/38] ld.lld: error: undefined symbol:
+ folio_zero_user
+Message-ID: <202606050942.HHhnHpHF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,33 +61,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/legion/linux.git sysctls-v1
-head:   7c8f50dd793cb0314002e78bb70e3bfd0346e606
-commit: fd92ceb8623ece84961aef90c6de3d1d3dde8c21 [30/31] sysctl: use ctl_field in IPVS sysctls
-config: sparc-randconfig-002-20260605 (https://download.01.org/0day-ci/archive/20260605/202606050935.R1shzb0N-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606050935.R1shzb0N-lkp@intel.com/reproduce)
+Hi Michael,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git balloon
+head:   b145636d693114d343a0a47a4400f5b31e211fec
+commit: c4af912c65bc897b31264a3403f18b0cf52fa10c [12/38] mm: use folio_zero_user for user pages in post_alloc_hook
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260605/202606050942.HHhnHpHF-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606050942.HHhnHpHF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606050935.R1shzb0N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606050942.HHhnHpHF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/netfilter/ipvs/ip_vs_ctl.c:2616:16: warning: 'ipvs_init_net_mode' defined but not used [-Wunused-function]
-    static umode_t ipvs_init_net_mode(const struct ctl_context *ctx)
-                   ^~~~~~~~~~~~~~~~~~
-
-
-vim +/ipvs_init_net_mode +2616 net/netfilter/ipvs/ip_vs_ctl.c
-
-  2615	
-> 2616	static umode_t ipvs_init_net_mode(const struct ctl_context *ctx)
-  2617	{
-  2618		return net_eq(ctx->target.ipvs->net, &init_net) ? 0644 : 0444;
-  2619	}
-  2620	
+>> ld.lld: error: undefined symbol: folio_zero_user
+   >>> referenced by page_alloc.c
+   >>>               mm/page_alloc.o:(post_alloc_hook) in archive vmlinux.a
+   >>> referenced by page_alloc.c
+   >>>               mm/page_alloc.o:(get_page_from_freelist) in archive vmlinux.a
 
 --
 0-DAY CI Kernel Test Service
