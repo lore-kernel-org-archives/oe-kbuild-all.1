@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2893E3DBD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jun 2026 10:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205444C77BF;
+	Fri,  5 Jun 2026 10:50:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780656642; cv=none; b=a9faReAXWSPJspXPZ/HChLaPeJQIaJ/ze7t95MvgUPi8j8AH0Yu8sa2KTRfbO9DJJ4SSwt30qzcOO1CZbMFMNYTGPwOZ7dkdgcQ8qcSGL/rhj6b1ZYedkphgXnEWP5KHkdxNWdrPFsTsvTW1FLsW6XuU6UQdbxkCIjD8p2UkcoQ=
+	t=1780656643; cv=none; b=qBHEQ2noGl/yuwGOLTRIs5qQoW4xI4s6aDsKv2EcDqwPBo7P0tYDjp3bLchkc3vbruuKurnqz36DGEwyLBqJ8NPBD2likKWAtVnx/FvGtYha2ymttd1bufggXyGVu11OHDuMdHZIXRQbU+r3l/rqRtfkGNWf+5dNu/7W8r5r7TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780656642; c=relaxed/simple;
-	bh=dP8YWUHyjBdIhczwzUDTm2FYKbbrs2ulgfXMuTfXmjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MrGF53+02RmseDduGeolzB9pMpeYAWZkniMwq8SXbIlS4K4L2sElht8LkX7UYu2G6xbZv81WheW8ncoxBFYr7ZJhv2ntF2qecnovNavfroNpAMOBhC/OioGE+3lYT0iB3J5pReKa/1oNaUrBj8Qouv+BOhP6W5oQKAdt7+r3uQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJz4uYLs; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1780656643; c=relaxed/simple;
+	bh=GKK7WfGkKQYtFjmLO9iFyUTBlOq47vtLXTU84yExILQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pDxqrXEPDVRZ8pITBMUSSUHLXmfVediJz/yRyNOdabMiC5Nai/RlpWftxx6+nd/BAFRg+R8ICr7xvV8t+HsbhrmoKxsNiQhr7VD7jPizR3Bjt40tg0p/O3WRoQIvGXKm0uwsVvnUNNHTvQ+qAGHVkgloPllR33W7MITw8PYlk1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0LvzDFt; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJz4uYLs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0LvzDFt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780656640; x=1812192640;
+  t=1780656643; x=1812192643;
   h=date:from:to:cc:subject:message-id;
-  bh=dP8YWUHyjBdIhczwzUDTm2FYKbbrs2ulgfXMuTfXmjQ=;
-  b=AJz4uYLsYV8zwi5+3oUnPnsB1OKblZPTPDvOeFiOFgGlgr2UxG8DPouo
-   5pUKqWUmsvh4OD9snptlNpzlklH7WfFwotw5A3XowAAKRBQ7gRl8CRCSv
-   aS62ENuk/fL69O7IRM2dobpHmFiGaohpaIQmRhGmKolq/AE/oCUAK8zsa
-   MvSjI83CvU10IXMfas79NctrGhBMUk8x9CflKYj5osvpzt2wfLclGKTke
-   aXEbJCnHd8b1m55LIztIK9VA83hKchWX7fJ3FtqFKgn7N+qtCEhLcnm/T
-   21JA4KeoiPwu7/xAqBZeFoXfzMHYELniunhhPzs0RnsOGnsbqqnt6zQAh
-   w==;
-X-CSE-ConnectionGUID: FPvlN3IIQcWBmPOJwaYlnQ==
-X-CSE-MsgGUID: gjVoyAZxTXWTTOJOEZBLqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81236487"
+  bh=GKK7WfGkKQYtFjmLO9iFyUTBlOq47vtLXTU84yExILQ=;
+  b=a0LvzDFttjMWkqtiXk7B86T2r1UDXYr7YS/jHcvzdSwyi9aZvLVPf5j6
+   Xnlna4PL4wbHNmTIj+c6Sgtwxx8LDqs6bLTcbSLxYTVdGwCa+qGUqQqwo
+   UzT9Nq/vgiF6MT3fbLVWgsYtOnF6G/t60Lh4zcAQfm6gnHtAHPA35r4lJ
+   SvyavzCB6hmilG25hpexjRqGvMof8oIptim5MHKbyaGkshDKcNmM0wy6Z
+   i/eYhZ17tfv64leCUzroUC1xPutBMJB5txo9X8/9braIXxIflc4eQ6lnX
+   rAcxejr3dRGGR8kTUeJ1ZSRPfnnjGfQsT4uENSOzEnQoImwZZfZ+bgchz
+   A==;
+X-CSE-ConnectionGUID: Yil8+pRbRayN0idDzQMvvg==
+X-CSE-MsgGUID: XawD2q7+QDWBCSrGpjQdTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81236490"
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="81236487"
+   d="scan'208";a="81236490"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 03:50:39 -0700
-X-CSE-ConnectionGUID: G/kpjcu5QPyt3mSaifmuiQ==
-X-CSE-MsgGUID: okhOwTKLREu4kRSY0DtJvw==
+X-CSE-ConnectionGUID: Glz90DjTS9WaHlh75qnMVw==
+X-CSE-MsgGUID: 4ixzoeSmTZ+pC2HSUuwzwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="246647507"
+   d="scan'208";a="246647509"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 05 Jun 2026 03:50:36 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVS8I-00000000Ftu-0Gz5;
+	id 1wVS8I-00000000Ftw-0NyQ;
 	Fri, 05 Jun 2026 10:50:34 +0000
-Date: Fri, 05 Jun 2026 18:49:51 +0800
+Date: Fri, 05 Jun 2026 18:49:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
  Christian Brauner <christianvanbrauner@gmail.com>,
  Christian Brauner <brauner@kernel.org>,
  "Darrick J. Wong" <djwong@kernel.org>, Christoph Hellwig <hch@lst.de>
 Subject: [brauner-vfs:vfs-7.2.iomap 6/10]
- fs/iomap/buffered-io.c:577:33: error: implicit declaration of function
- 'fsverity_fill_zerohash'; did you mean 'fsverity_file_open'?
-Message-ID: <202606051818.Y3MWKSfv-lkp@intel.com>
+ fs/iomap/buffered-io.c:577:5: error: call to undeclared function
+ 'fsverity_fill_zerohash'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202606051838.FGBZXbNu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -66,25 +67,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-7.2.iomap
 head:   7cf86a52cd64d21a9511f2659cb87d3aab2cc1d4
 commit: 014c8fc41d92d1c48e9c08cb92ab3761f4956d4f [6/10] iomap: teach iomap to read files with fsverity
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260605/202606051818.Y3MWKSfv-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606051818.Y3MWKSfv-lkp@intel.com/reproduce)
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260605/202606051838.FGBZXbNu-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606051838.FGBZXbNu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606051818.Y3MWKSfv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606051838.FGBZXbNu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/iomap/buffered-io.c: In function 'iomap_read_folio_iter':
->> fs/iomap/buffered-io.c:577:33: error: implicit declaration of function 'fsverity_fill_zerohash'; did you mean 'fsverity_file_open'? [-Wimplicit-function-declaration]
+>> fs/iomap/buffered-io.c:577:5: error: call to undeclared function 'fsverity_fill_zerohash'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      577 |                                 fsverity_fill_zerohash(folio, poff, plen,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                                 fsverity_file_open
+         |                                 ^
+   1 error generated.
 
 
-vim +577 fs/iomap/buffered-io.c
+vim +/fsverity_fill_zerohash +577 fs/iomap/buffered-io.c
 
    526	
    527	static int iomap_read_folio_iter(struct iomap_iter *iter,
