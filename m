@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3538A274B23;
-	Sat,  6 Jun 2026 04:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B4878F39
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jun 2026 04:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780718849; cv=none; b=ScfSQfL6LjigS4Mxym2m0HW9sPZDhiU5B1XkR3ewQxGjbCXz510l9ItnOTFQViq0xVjb+bb2UAlwJ2zCqKfttEq46cOVbKoiq45YPkaZaEFf0NsJ4Bz45ncq80Bbf1Qmz26pDfub3Y1UmpWYSUYlnUT49q/MVqNLc1+S6vFI8sY=
+	t=1780719454; cv=none; b=aBJLMRHgC4E9yqOPW+SdJPSSeEPVeg5g8FS0HBrUUV6bp+vvaIT73UFQklWGhu2jqxjPeWj1k3TG/BA0adu3tKhIJxyyDiWfxsEuorxeUULmClTRbcKjG0yS6HGASuu4WGHsKCJFNvyos002U0HpVppWqwRVf8ybBubqq2yM8As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780718849; c=relaxed/simple;
-	bh=IQfqbJx5FgA9xLpKYTXn+XXlxkgMdhU8guDLgCUl/Qk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rO7q+k81n3nHYvbGHMiHeCEwpPQYjERhgRKp3hGBb8uWpRgmtKqnz6Jn+2xM1Y96rc7xWdUUsJysi1berrmQJrf1B832CIJpTnVbOz/lX5t1bqxoPdxQjvEAYA5grbgs08MyXlshAwvZtm0UfgeyjkkhDsejZ5x16LoDil/TM1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GyThO5ev; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1780719454; c=relaxed/simple;
+	bh=O96ekfDpslUmbN+KsU9CTOLFBxlvPnw5xEX36pMbDyk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=usBypqn5NDSZBULGicvnl2kksEJlrN6ceP+0ykKscl86XgucZ7LK7VwuTotWAueAWXswtvHuaN6VemAHtaFwEW3pFKdKgLDJz5YB0EEn7ZEYAHZMZyiSc1rFpklG97BPnHidmXzVisiR2VCcs+eDLtcfGaj0Xi2WFTWVJH/dpe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IfG4VzIS; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GyThO5ev"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IfG4VzIS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780718847; x=1812254847;
+  t=1780719452; x=1812255452;
   h=date:from:to:cc:subject:message-id;
-  bh=IQfqbJx5FgA9xLpKYTXn+XXlxkgMdhU8guDLgCUl/Qk=;
-  b=GyThO5evLj2Wr5oXvJgyLZtqj1w0tWQIYqqfe0e/efp08heOjR5H2aCP
-   5bfePnssj6Y++FzxKsFhSGUjPfdUGiZVH2Z2ilpY92HhWRYuSG0sHcrJI
-   0BE9NroA5UK8rELgy4Pnay3m/OIXyFOKFfYiRJ81sc0H9m0skV+Kwk/Zp
-   Va8wpuE2oPG0S8523TJ0ezEzSd33VtN1BsBA4cGIVGdz2hVEkl0ADLs+0
-   +CuGMZ2CVlVK27ubbh3NnF3rKaubn+IJAnmwNu2qiaAg5hEdRlnjYfPGF
-   dzBKuD3DMMmzDiMifHkkhhGvXavRCMWelz1gjCFczL3ZLPBdo7I/snE8w
-   w==;
-X-CSE-ConnectionGUID: hsZWEEPlSbmTlAayCPxFRg==
-X-CSE-MsgGUID: yRrIfTQKR8a8fptL+OzvNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="81295319"
+  bh=O96ekfDpslUmbN+KsU9CTOLFBxlvPnw5xEX36pMbDyk=;
+  b=IfG4VzISLLu2/gX2Qm0TLjEe4EXJKjFVcMsZkTWy66ZJ3L4/rZEyqemJ
+   iUsCl81fRXpGypy+c/msp16XeMqj/Z2odZe5tdgyCM7ZvnxRK8WDdAqSK
+   HQMnOkUYOPKUQfyvinBO/SizaHY9rGKn1GPbklzUcbCW15tVN1S9smq5s
+   TpcPv4FkCodvOhr8llrU+fD83ZQiSuMY8Zs/kDzkzXZjdUnfv59IghVBt
+   Nai/DnrTCfh808L1EFSUS9apHMHra89oaw0PzacKp7CTmkLtTrQR2YZbQ
+   Ta6eE/WEXlDlpAWcXgwu9Y9k5T8DyCJHhOT3Z7ArzFgM1g9QCYvFMLc7N
+   Q==;
+X-CSE-ConnectionGUID: H1GO37UrSp2SB2rMXgKfvw==
+X-CSE-MsgGUID: D78583fzQW2jQoUzfc65Hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="92117105"
 X-IronPort-AV: E=Sophos;i="6.24,190,1774335600"; 
-   d="scan'208";a="81295319"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 21:07:26 -0700
-X-CSE-ConnectionGUID: 2tBrcnAbSxSMxzFs6UzVbw==
-X-CSE-MsgGUID: h18XB9r+RvCNNwDBdlkTcA==
+   d="scan'208";a="92117105"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 21:17:32 -0700
+X-CSE-ConnectionGUID: aieXjmgkSKmgcvw7eq0Lzg==
+X-CSE-MsgGUID: 3/42p5orQfSMbjDOBqRT5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,190,1774335600"; 
-   d="scan'208";a="245062195"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Jun 2026 21:07:25 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="242032019"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 05 Jun 2026 21:17:31 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wViJf-00000000Gj4-0HcH;
-	Sat, 06 Jun 2026 04:07:23 +0000
-Date: Sat, 06 Jun 2026 12:06:27 +0800
+	id 1wViTQ-000000002kz-2vhl;
+	Sat, 06 Jun 2026 04:17:28 +0000
+Date: Sat, 06 Jun 2026 06:16:52 +0200
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/flat-2026-06-04 58/62]
- kernel/sched/debug.c:274:2: error: call to undeclared function
- '__sched_cgroup_mode_update'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202606061224.6SlMZvGc-lkp@intel.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 7813/11755]
+ arch/arm/boot/dts/gemini/gemini-rut1xx.dtb: pci@50000000
+ (cortina,gemini-pci): Unevaluated properties are not allowed ('resets' was
+ unexpected)
+Message-ID: <202606060637.mbx8QrSx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,55 +61,28 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat-2026-06-04
-head:   b89fcd232db2b7117a3255be623eeb4c67ece726
-commit: 582f7ee48dc53ebe117cf24e3a2b2102b25dcbd7 [58/62] sched/fair: Add cgroup_mode: up
-config: x86_64-randconfig-014-20260605 (https://download.01.org/0day-ci/archive/20260606/202606061224.6SlMZvGc-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260606/202606061224.6SlMZvGc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6e845bcb78c95af935094040bd4edc3c2b6dd784
+commit: dce8e0cb88fb12d068459b75f299ff2242172257 [7813/11755] ARM: dts: gemini: Correct the RUT1xx
+config: arm-randconfig-2055-20260528 (https://download.01.org/0day-ci/archive/20260606/202606060637.mbx8QrSx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260606/202606060637.mbx8QrSx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606061224.6SlMZvGc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606060637.mbx8QrSx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/sched/build_utility.c:71:
->> kernel/sched/debug.c:274:2: error: call to undeclared function '__sched_cgroup_mode_update'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     274 |         __sched_cgroup_mode_update(mode);
-         |         ^
-   1 error generated.
-
-
-vim +/__sched_cgroup_mode_update +274 kernel/sched/debug.c
-
-   256	
-   257	static ssize_t sched_dynamic_write(struct file *filp, const char __user *ubuf,
-   258					   size_t cnt, loff_t *ppos)
-   259	{
-   260		char buf[16];
-   261		int mode;
-   262	
-   263		if (cnt > 15)
-   264			cnt = 15;
-   265	
-   266		if (copy_from_user(buf, ubuf, cnt))
-   267			return -EFAULT;
-   268	
-   269		buf[cnt] = 0;
-   270		mode = sched_dynamic_mode(strstrip(buf));
-   271		if (mode < 0)
-   272			return mode;
-   273	
- > 274		__sched_cgroup_mode_update(mode);
-   275		sched_dynamic_update(mode);
-   276	
-   277		*ppos += cnt;
-   278	
-   279		return cnt;
-   280	}
-   281	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/gemini/gemini-rut1xx.dtb: /soc/syscon@40000000: failed to match any schema with compatible: ['cortina,gemini-syscon', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/gemini/gemini-rut1xx.dtb: /soc/syscon@40000000/pinctrl: failed to match any schema with compatible: ['cortina,gemini-pinctrl']
+   arch/arm/boot/dts/gemini/gemini-rut1xx.dtb: timer@43000000 (faraday,fttmr010): False schema does not allow [[2]]
+   	from schema $id: http://devicetree.org/schemas/timer/faraday,fttmr010.yaml
+   arch/arm/boot/dts/gemini/gemini-rut1xx.dtb: power-controller@4b000000 (cortina,gemini-power-controller): '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml
+>> arch/arm/boot/dts/gemini/gemini-rut1xx.dtb: pci@50000000 (cortina,gemini-pci): Unevaluated properties are not allowed ('resets' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/faraday,ftpci100.yaml
 
 --
 0-DAY CI Kernel Test Service
