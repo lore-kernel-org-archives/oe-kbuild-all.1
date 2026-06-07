@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FB1288B1;
-	Sun,  7 Jun 2026 02:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B764071C6
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jun 2026 03:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780800557; cv=none; b=MEnL2w+bCwf8bhmm4ArkoVNi5ZJdT8hzCgdulTXS5i8dQTMZ4JahqAs+T0WLlROZiE93tRNJAC9u903EDAPeBEhRoa1bAJwsBGu8E+h740ZJjGTGE9Sxffr8qTbs5Ah5rkeDcBsnT8Rh9FbRo8Y5uGOerUXJKjuk70gJIsY7jjY=
+	t=1780802536; cv=none; b=FZN9yLiRjf7qVKacenKeGDzanT7wIrBRMoQEKOkUmU87Lmvr7H1mZVYEIm+uwWZywGUY4qHXIyMyRjOgERE1staSTYI+tJUTdpvXuZYOgKZdXjVaTTtZ3z2oxDr7TN3TNpoAUdf23jImPqAiD2AOQOHAbuIqk/k3T2YOdJ93oPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780800557; c=relaxed/simple;
-	bh=4bmKfbx4v7WNjDlgRiZEZX1VNwcvXlYhbVYgBYvK3XE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JiLLWy+QFzChquqUIBhMUyX4/HsgCoN6h4UQR2QKCTMzZjP4rBNWG8H69CFFfZ1X6+A9SXvLAjRqWHYjdEMpAJJh67xZg7Fc86TdfURc7WDXB1UWc5wibx5NAhx48D5Y/7aX+Ww35vNlRsByElkeuRFd6GRW+i8V0fdCmT5iErA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIwBj0qm; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1780802536; c=relaxed/simple;
+	bh=9dbx6DpuHhiRxO0R9lBB23dJBdOcku4RiRiBHrE6aRs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jjUDEbw0JKzTT+qvHtlHIPBVMzXCh370nDliwKhdN+ri+5H/jKyRvNegXhM/ra9KLHjLvB3khTxMrrX4iVK1U/eS3dlyl5RGdoqA3HHIOTITu8NGIfp5MtpKbrCUYGrNnUb1xdiX4HjS7+7F4/yY7w9bWnM4B/euoFJOH2/jH40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AouY+ki4; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIwBj0qm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AouY+ki4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780800554; x=1812336554;
+  t=1780802533; x=1812338533;
   h=date:from:to:cc:subject:message-id;
-  bh=4bmKfbx4v7WNjDlgRiZEZX1VNwcvXlYhbVYgBYvK3XE=;
-  b=UIwBj0qmnxJ+oZQpCSvgHeFPuePEupZ7gAtIPyD9tx1sPnHw2wClTyy4
-   BRmJyB++Tdxe5x1+uF/zEdbvaizRrNEcWdEcMbftCxFI8k5C8a1wBMvPT
-   3aKfO5slFMprmNLLVxGGaQM34wlxEKoWs25PAfUZgOosDmBVpWQC4iNFV
-   dso9h6+G9/XQ9WUH/hNT3lTI5FfWQvQS99s7VjRgOu+uX7bn3My3m1DD7
-   Oto9hAXvx7Ul7XmTWjFq+lBmg6QOQbyC+TloEsLH2Wue0RaCtp23JF7J0
-   hcNvkNQjvQAp+3aEvdW9q7vcNqsuy4MMuhTEdUVbES+ZmbXICDyFr0iv8
-   w==;
-X-CSE-ConnectionGUID: JAF7HPhaT8W6RjLY+Fxpfg==
-X-CSE-MsgGUID: RxxgDEUoSTSSYHdwrkx9Xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11809"; a="92145956"
-X-IronPort-AV: E=Sophos;i="6.24,191,1774335600"; 
-   d="scan'208";a="92145956"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2026 19:49:13 -0700
-X-CSE-ConnectionGUID: CwrYUfeMR3+DdIbO4lwszg==
-X-CSE-MsgGUID: ANmMb5w6SfuzBEfmfD2fTw==
+  bh=9dbx6DpuHhiRxO0R9lBB23dJBdOcku4RiRiBHrE6aRs=;
+  b=AouY+ki41+00v0Tkta3MxG3VpFsuc1kRQcB8csGUzM0X1VxPLXg6GcqV
+   /8ECacmbhwQqBYLYze0k0gdYFeuK+G6SglRvBn2TYC0yDGgKrpxnYM+FA
+   kgbMixgkUNa+YtrgZP1sFneZn/M8mBRX61zp0dUbOH71d6zmyLqLq0iyZ
+   5Sb7KGo4Usgx2ZMfASHzkB4EdqaDDYnq5LHllKwPrE8GtFqiefG/XSFg7
+   a4BIgUYKxF/1LAI5sfEplnjhuI0R0oHwfTp6xlzmxQosKs4Caj9ua6oh/
+   6q9uRye1KWHDf2j8C0ZdvpPQ51/ngnr1xwIfbM7zh0X9sU2Ihcj3l50nS
+   Q==;
+X-CSE-ConnectionGUID: OrnD7Y8DTiuUwp5vQM1huA==
+X-CSE-MsgGUID: mShJPIw0RpeQ9dinQDyxPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11809"; a="93066892"
+X-IronPort-AV: E=Sophos;i="6.24,192,1774335600"; 
+   d="scan'208";a="93066892"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2026 20:22:12 -0700
+X-CSE-ConnectionGUID: 2gTww33rQ3GTHuX3/oaz4A==
+X-CSE-MsgGUID: tXvHiUgGQT2ieDcf6DLe6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,191,1774335600"; 
-   d="scan'208";a="245036243"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 06 Jun 2026 19:49:10 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 06 Jun 2026 20:22:11 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wW3ZT-00000000HYo-3Mqm;
-	Sun, 07 Jun 2026 02:49:07 +0000
-Date: Sun, 07 Jun 2026 10:49:04 +0800
+	id 1wW45Q-00000000Ha2-32sz;
+	Sun, 07 Jun 2026 03:22:08 +0000
+Date: Sun, 07 Jun 2026 11:21:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>,
- Christian Brauner <brauner@kernel.org>
-Subject: [brauner-github:vfs-7.2.misc 28/28] fs/open.c:112:29:
- warning: converting the result of '<<' to a boolean always evaluates to true
-Message-ID: <202606071029.DKCs8WOs-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 2/2]
+ drivers/android/debug_kinfo.c:163:30: error: offsetof of incomplete type
+ 'struct module'
+Message-ID: <202606071103.08akKrYL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,192 +58,178 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Jori,
+Hi Kuan-Ying,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+FYI, the error/warning still remains.
 
-tree:   https://github.com/brauner/linux.git vfs-7.2.misc
-head:   0da79c259ad0554b36761a7135d4f92eb7c46263
-commit: 0da79c259ad0554b36761a7135d4f92eb7c46263 [28/28] vfs: uapi: retire octal and hex numbers in favor of (1 << n) for O_ flags
-config: powerpc64-randconfig-001-20260607 (https://download.01.org/0day-ci/archive/20260607/202606071029.DKCs8WOs-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   468e09dd6f52610d73a09cbbb28a2e7d4b940431
+commit: bf309bfecfed8d40a870a96a53d3c3c4448e67bf [2/2] ANDROID: gki_defconfig: enable debug_kinfo
+config: arm64-randconfig-r113-20260607 (https://download.01.org/0day-ci/archive/20260607/202606071103.08akKrYL-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260607/202606071029.DKCs8WOs-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260607/202606071103.08akKrYL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606071029.DKCs8WOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606071103.08akKrYL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/open.c:112:29: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
-     112 |         error = break_lease(inode, O_WRONLY);
-         |                                    ^
-   include/uapi/asm-generic/fcntl.h:20:21: note: expanded from macro 'O_WRONLY'
-      20 | #define O_WRONLY        (1 << 0)
-         |                            ^
-   fs/open.c:152:1: warning: alias and aliasee have different types 'long (const char *, long)' and 'long (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((const char *)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((const char *)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((long)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((long)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long, long)') [-Wattribute-alias]
-     152 | SYSCALL_DEFINE2(truncate, const char __user *, path, long, length)
-         | ^
-   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFINE2'
-     226 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
-     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DEFINEx'
-     251 |                 __attribute__((alias(__stringify(__se_sys##name))));    \
-         |                                ^
-   fs/open.c:152:1: note: aliasee is declared here
-   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFINE2'
-     226 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
-     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DEFINEx'
-     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
-         |                         ^
-   <scratch space>:92:1: note: expanded from here
-      92 | __se_sys_truncate
-         | ^
-   fs/open.c:158:1: warning: alias and aliasee have different types 'long (const char *, compat_off_t)' (aka 'long (const char *, int)') and 'long (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((const char *)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((const char *)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((compat_off_t)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((compat_off_t)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long, long)') [-Wattribute-alias]
-     158 | COMPAT_SYSCALL_DEFINE2(truncate, const char __user *, path, compat_off_t, length)
-         | ^
-   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_DEFINE2'
-      55 |         COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |         ^
-   include/linux/compat.h:76:18: note: expanded from macro 'COMPAT_SYSCALL_DEFINEx'
-      76 |                 __attribute__((alias(__stringify(__se_compat_sys##name))));     \
-         |                                ^
-   fs/open.c:158:1: note: aliasee is declared here
-   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_DEFINE2'
-      55 |         COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |         ^
-   include/linux/compat.h:80:18: note: expanded from macro 'COMPAT_SYSCALL_DEFINEx'
-      80 |         asmlinkage long __se_compat_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))   \
-         |                         ^
-   <scratch space>:119:1: note: expanded from here
-     119 | __se_compat_sys_truncate
-         | ^
-   fs/open.c:209:1: warning: alias and aliasee have different types 'long (unsigned int, off_t)' (aka 'long (unsigned int, long)') and 'long (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((unsigned int)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((unsigned int)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((off_t)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((off_t)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long, long)') [-Wattribute-alias]
-     209 | SYSCALL_DEFINE2(ftruncate, unsigned int, fd, off_t, length)
-         | ^
-   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFINE2'
-     226 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
-     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DEFINEx'
-     251 |                 __attribute__((alias(__stringify(__se_sys##name))));    \
-         |                                ^
-   fs/open.c:209:1: note: aliasee is declared here
-   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFINE2'
-     226 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
-     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:255:18: note: expanded from macro '__SYSCALL_DEFINEx'
-     255 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
-         |                         ^
-   <scratch space>:165:1: note: expanded from here
-     165 | __se_sys_ftruncate
-         | ^
-   fs/open.c:215:1: warning: alias and aliasee have different types 'long (unsigned int, compat_off_t)' (aka 'long (unsigned int, int)') and 'long (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((unsigned int)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((unsigned int)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((compat_off_t)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((compat_off_t)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long, long)') [-Wattribute-alias]
-     215 | COMPAT_SYSCALL_DEFINE2(ftruncate, unsigned int, fd, compat_off_t, length)
-         | ^
-   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_DEFINE2'
-      55 |         COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |         ^
-   include/linux/compat.h:76:18: note: expanded from macro 'COMPAT_SYSCALL_DEFINEx'
-      76 |                 __attribute__((alias(__stringify(__se_compat_sys##name))));     \
-         |                                ^
-   fs/open.c:215:1: note: aliasee is declared here
-   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_DEFINE2'
-      55 |         COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |         ^
-   include/linux/compat.h:80:18: note: expanded from macro 'COMPAT_SYSCALL_DEFINEx'
-      80 |         asmlinkage long __se_compat_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))   \
-         |                         ^
-   <scratch space>:192:1: note: expanded from here
-     192 | __se_compat_sys_ftruncate
-         | ^
-   fs/open.c:365:1: warning: alias and aliasee have different types 'long (int, int, loff_t, loff_t)' (aka 'long (int, int, long long, long long)') and 'long (typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((int)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((int)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((int)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((int)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((loff_t)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((loff_t)0), typeof (0ULL))), 0LL, 0L)), typeof (__builtin_choose_expr((__builtin_types_compatible_p(typeof ((loff_t)0), typeof (0LL)) || __builtin_types_compatible_p(typeof ((loff_t)0), typeof (0ULL))), 0LL, 0L)))' (aka 'long (long, long, long long, long long)') [-Wattribute-alias]
-     365 | SYSCALL_DEFINE4(fallocate, int, fd, int, mode, loff_t, offset, loff_t, len)
-         | ^
-   include/linux/syscalls.h:228:36: note: expanded from macro 'SYSCALL_DEFINE4'
-     228 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:236:2: note: expanded from macro 'SYSCALL_DEFINEx'
+   In file included from drivers/android/debug_kinfo.c:10:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2177:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/android/debug_kinfo.c:163:30: error: offsetof of incomplete type 'struct module'
+     163 |         info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
+         |                                     ^        ~~~~~~~~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^                  ~~~~
+   include/linux/printk.h:348:8: note: forward declaration of 'struct module'
+     348 | struct module;
+         |        ^
+   5 warnings and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=y] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +112 fs/open.c
+vim +163 drivers/android/debug_kinfo.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16   72  
-29d80d506b1838 Yuichiro Tsuji    2025-01-21   73  int vfs_truncate(const struct path *path, loff_t length)
-^1da177e4c3f41 Linus Torvalds    2005-04-16   74  {
-abf08576afe315 Christian Brauner 2023-01-13   75  	struct mnt_idmap *idmap;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   76  	struct inode *inode;
-29d80d506b1838 Yuichiro Tsuji    2025-01-21   77  	int error;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   78  
-a02de9608595c8 David Howells     2012-12-20   79  	inode = path->dentry->d_inode;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   80  
-^1da177e4c3f41 Linus Torvalds    2005-04-16   81  	/* For directories it's -EISDIR, for other non-regulars - -EINVAL */
-^1da177e4c3f41 Linus Torvalds    2005-04-16   82  	if (S_ISDIR(inode->i_mode))
-a02de9608595c8 David Howells     2012-12-20   83  		return -EISDIR;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   84  	if (!S_ISREG(inode->i_mode))
-a02de9608595c8 David Howells     2012-12-20   85  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   86  
-abf08576afe315 Christian Brauner 2023-01-13   87  	idmap = mnt_idmap(path->mnt);
-4609e1f18e19c3 Christian Brauner 2023-01-13   88  	error = inode_permission(idmap, inode, MAY_WRITE);
-9ac9b8474c39c3 Dave Hansen       2008-02-15   89  	if (error)
-4acf3bc76e521b Amir Goldstein    2024-11-15   90  		return error;
-4acf3bc76e521b Amir Goldstein    2024-11-15   91  
-4acf3bc76e521b Amir Goldstein    2024-11-15   92  	error = fsnotify_truncate_perm(path, length);
-4acf3bc76e521b Amir Goldstein    2024-11-15   93  	if (error)
-4acf3bc76e521b Amir Goldstein    2024-11-15   94  		return error;
-4acf3bc76e521b Amir Goldstein    2024-11-15   95  
-4acf3bc76e521b Amir Goldstein    2024-11-15   96  	error = mnt_want_write(path->mnt);
-4acf3bc76e521b Amir Goldstein    2024-11-15   97  	if (error)
-4acf3bc76e521b Amir Goldstein    2024-11-15   98  		return error;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   99  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  100  	error = -EPERM;
-c82e42da8a6b2f Miklos Szeredi    2008-06-24  101  	if (IS_APPEND(inode))
-9ac9b8474c39c3 Dave Hansen       2008-02-15  102  		goto mnt_drop_write_and_out;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  103  
-8cf9ee5061037a Miklos Szeredi    2018-07-18  104  	error = get_write_access(inode);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  105  	if (error)
-9ac9b8474c39c3 Dave Hansen       2008-02-15  106  		goto mnt_drop_write_and_out;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  107  
-9700382c3c9ff3 david m. richter  2007-07-31  108  	/*
-9700382c3c9ff3 david m. richter  2007-07-31  109  	 * Make sure that there are no leases.  get_write_access() protects
-9700382c3c9ff3 david m. richter  2007-07-31  110  	 * against the truncate racing with a lease-granting setlease().
-9700382c3c9ff3 david m. richter  2007-07-31  111  	 */
-8737c9305bd560 Al Viro           2009-12-24 @112  	error = break_lease(inode, O_WRONLY);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  113  	if (error)
-9700382c3c9ff3 david m. richter  2007-07-31  114  		goto put_write_and_out;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  115  
-a02de9608595c8 David Howells     2012-12-20  116  	error = security_path_truncate(path);
-907f4554e2521c Christoph Hellwig 2010-03-03  117  	if (!error)
-abf08576afe315 Christian Brauner 2023-01-13  118  		error = do_truncate(idmap, path->dentry, length, 0, NULL);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  119  
-9700382c3c9ff3 david m. richter  2007-07-31  120  put_write_and_out:
-8cf9ee5061037a Miklos Szeredi    2018-07-18  121  	put_write_access(inode);
-9ac9b8474c39c3 Dave Hansen       2008-02-15  122  mnt_drop_write_and_out:
-a02de9608595c8 David Howells     2012-12-20  123  	mnt_drop_write(path->mnt);
-4acf3bc76e521b Amir Goldstein    2024-11-15  124  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  125  	return error;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  126  }
-a02de9608595c8 David Howells     2012-12-20  127  EXPORT_SYMBOL_GPL(vfs_truncate);
-a02de9608595c8 David Howells     2012-12-20  128  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16   93  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16   94  static int debug_kinfo_probe(struct platform_device *pdev)
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16   95  {
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16   96  	struct device_node *mem_region;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16   97  	struct reserved_mem *rmem;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16   98  	struct kernel_all_info *all_info;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16   99  	struct kernel_info *info;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  100  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  101  	mem_region = of_parse_phandle(pdev->dev.of_node, "memory-region", 0);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  102  	if (!mem_region) {
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  103  		dev_warn(&pdev->dev, "no such memory-region\n");
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  104  		return -ENODEV;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  105  	}
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  106  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  107  	rmem = of_reserved_mem_lookup(mem_region);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  108  	if (!rmem) {
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  109  		dev_warn(&pdev->dev, "no such reserved mem of node name %s\n",
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  110  				pdev->dev.of_node->name);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  111  		return -ENODEV;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  112  	}
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  113  
+453d97a0931169 drivers/staging/android/debug_kinfo.c Will McVicker 2021-02-08  114  	/* Need to wait for reserved memory to be mapped */
+453d97a0931169 drivers/staging/android/debug_kinfo.c Will McVicker 2021-02-08  115  	if (!rmem->priv) {
+453d97a0931169 drivers/staging/android/debug_kinfo.c Will McVicker 2021-02-08  116  		return -EPROBE_DEFER;
+453d97a0931169 drivers/staging/android/debug_kinfo.c Will McVicker 2021-02-08  117  	}
+453d97a0931169 drivers/staging/android/debug_kinfo.c Will McVicker 2021-02-08  118  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  119  	if (!rmem->base || !rmem->size) {
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  120  		dev_warn(&pdev->dev, "unexpected reserved memory\n");
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  121  		return -EINVAL;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  122  	}
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  123  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  124  	if (rmem->size < sizeof(struct kernel_all_info)) {
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  125  		dev_warn(&pdev->dev, "unexpected reserved memory size\n");
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  126  		return -EINVAL;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  127  	}
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  128  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  129  	all_info_addr = rmem->priv;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  130  	all_info_size = rmem->size;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  131  
+440b6d482f0c06 drivers/staging/android/debug_kinfo.c Jone Chou     2021-04-21  132  	memset(all_info_addr, 0, sizeof(struct kernel_all_info));
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  133  	all_info = (struct kernel_all_info *)all_info_addr;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  134  	info = &(all_info->info);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  135  	info->enabled_all = IS_ENABLED(CONFIG_KALLSYMS_ALL);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  136  	info->enabled_base_relative = IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  137  	info->enabled_absolute_percpu = IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  138  	info->enabled_cfi_clang = IS_ENABLED(CONFIG_CFI_CLANG);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  139  	info->num_syms = kallsyms_num_syms;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  140  	info->name_len = KSYM_NAME_LEN;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  141  	info->bit_per_long = BITS_PER_LONG;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  142  	info->module_name_len = MODULE_NAME_LEN;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  143  	info->symbol_len = KSYM_SYMBOL_LEN;
+3777f3811a7f55 drivers/staging/android/debug_kinfo.c Jone Chou     2021-06-06  144  	if (!info->enabled_base_relative)
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  145  		info->_addresses_pa = (u64)__pa_symbol((volatile void *)kallsyms_addresses);
+3777f3811a7f55 drivers/staging/android/debug_kinfo.c Jone Chou     2021-06-06  146  	else {
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  147  		info->_relative_pa = (u64)__pa_symbol((volatile void *)kallsyms_relative_base);
+3777f3811a7f55 drivers/staging/android/debug_kinfo.c Jone Chou     2021-06-06  148  		info->_offsets_pa = (u64)__pa_symbol((volatile void *)kallsyms_offsets);
+3777f3811a7f55 drivers/staging/android/debug_kinfo.c Jone Chou     2021-06-06  149  	}
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  150  	info->_stext_pa = (u64)__pa_symbol(_stext);
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  151  	info->_etext_pa = (u64)__pa_symbol(_etext);
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  152  	info->_sinittext_pa = (u64)__pa_symbol(_sinittext);
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  153  	info->_einittext_pa = (u64)__pa_symbol(_einittext);
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  154  	info->_end_pa = (u64)__pa_symbol(_end);
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  155  	info->_names_pa = (u64)__pa_symbol((volatile void *)kallsyms_names);
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  156  	info->_token_table_pa = (u64)__pa_symbol((volatile void *)kallsyms_token_table);
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  157  	info->_token_index_pa = (u64)__pa_symbol((volatile void *)kallsyms_token_index);
+570ae012689ba9 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-20  158  	info->_markers_pa = (u64)__pa_symbol((volatile void *)kallsyms_markers);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  159  	info->thread_size = THREAD_SIZE;
+a806a7915c0377 drivers/staging/android/debug_kinfo.c Jone Chou     2021-05-21  160  	info->swapper_pg_dir_pa = (u64)__pa_symbol(swapper_pg_dir);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  161  	strlcpy(info->last_uts_release, init_utsname()->release, sizeof(info->last_uts_release));
+180f8b73199bd6 drivers/staging/android/debug_kinfo.c Jone Chou     2020-12-21  162  	info->enabled_modules_tree_lookup = IS_ENABLED(CONFIG_MODULES_TREE_LOOKUP);
+180f8b73199bd6 drivers/staging/android/debug_kinfo.c Jone Chou     2020-12-21 @163  	info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
+b8d72cb07e32f7 drivers/android/debug_kinfo.c         Kuan-Ying Lee 2023-12-28  164  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  165  	update_kernel_all_info(all_info);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  166  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  167  	return 0;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  168  }
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou     2020-10-16  169  
 
-:::::: The code at line 112 was first introduced by commit
-:::::: 8737c9305bd5602b11f7eb4655d5695d4a42a0c6 Switch may_open() and break_lease() to passing O_...
+:::::: The code at line 163 was first introduced by commit
+:::::: 180f8b73199bd665c03ff43853170280fc82e02d ANDROID: kernel: add module info for debug_kinfo
 
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+:::::: TO: Jone Chou <jonechou@google.com>
+:::::: CC: Jone Chou <jonechou@google.com>
 
 --
 0-DAY CI Kernel Test Service
