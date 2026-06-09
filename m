@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F14C2BEC3F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jun 2026 10:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C3F3FBB73
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jun 2026 11:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781002532; cv=none; b=TIcnkpf7BO+khnSQb9KcoeKQXkiSTxFwZR2+rEN807MYL8h2Sv9UxTBiPPUgnral3RhHHD7J4EPc4a2pJ6m6VXpvXCR+dXdulmG1TTnj8tLRJnId/eIo4YDVqB5hXa7eifzdf23ODxJRJsIT2ruzMgsZksQXTuainoB0h0/YLqY=
+	t=1781003194; cv=none; b=uTcC3HIoZtNeKX2JFnOzfMSpiV4PKIDvbUdJ0/3z3dzCITTeB9zmfO31hg93kxC0nTKJXNlkT69GobB9rCP1kjOPUfBTkiJg06H71M8aI+Wy5/8Pd9oPrVxxe0wgEgPKfD53dDGlRTPD7KhmwrAHTFfKLAeeb6sIpkskvEH+ERM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781002532; c=relaxed/simple;
-	bh=wxQIrzwAdBvmPbNInXInTN0Qt36nNLg+UZC+iCzyNso=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PPazC2XQsv/GyFwpeXnyuK8rU2oilXUCWMvG1H9wg0YcQhffHc7kcdpVMmBbHHIP669+rA18Anf5At4yAhFVCGFhNoV0aZxP+xwok/TNBGXChufK/R0MHtcPq/i26BuyJLoEPs+5dNEuKlw/yzfIwPKEGztNViSfV1/vd9lsHbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMKU7b+8; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1781003194; c=relaxed/simple;
+	bh=WQrpD9e8QymiLOBYb6mduyCXcLJbgXvY0j6xvudiU/I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LcH65mKC/fjLX2BW91oSOj7+hndXJaW1CoM2rg9dUJbHe4XKMqUQqdlGUac2/PLtsB9DHD8ax+rHvaaQc3jElX175mYhD0LsCBtgG012tBAOnZyRvO5juvxuqCkV2QAKdBoIiIR3JIUAJ4VLSkVg4Ar5SQmGVS4HMiCdFUuOKGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWPNzsfM; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMKU7b+8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWPNzsfM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781002531; x=1812538531;
+  t=1781003193; x=1812539193;
   h=date:from:to:cc:subject:message-id;
-  bh=wxQIrzwAdBvmPbNInXInTN0Qt36nNLg+UZC+iCzyNso=;
-  b=AMKU7b+8lETUiWgRcJMsvc/Pa5EwPUFGRr1cOXvWQBLfVWmq1CmYVgFv
-   qrFCALdv7zkG7e79cc7X97qEkdI8tVBmBEQPaa0Pnnk2YtwyuG5e/HzDr
-   ew28bzSCzrSuYi3K6ReaCOYvYgmjaK4BEJZ4cnczWWVaI2FwqapiRIEA6
-   s2m9PsDDlC7JyiBkSPnUjBEMK8l5/+EMyoNw3VXqUeeuQIl9cwGZY7JWd
-   F51/m+RtWBzUjYmXawlxHVSNakPxH8zl1/wclQjmyE65bxNVe5G113qFF
-   Q4hmjmWDzhsUY7vfBX4SebJrpI9+f789vjbqOIS2tek0t/ZTqKjfJ49KR
-   g==;
-X-CSE-ConnectionGUID: av6tdybtQJCQjRprsrd4qQ==
-X-CSE-MsgGUID: xSQqBjUYQRueoYNi1IUF9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="85609588"
+  bh=WQrpD9e8QymiLOBYb6mduyCXcLJbgXvY0j6xvudiU/I=;
+  b=iWPNzsfMTbFSlYK3j5aY4cgRHDr7fC7aXQiBMCJtbNxKJZUTIXA5sCxJ
+   iYAxPVMCa93OlMzdZ1kJgm5KYuNexUEVrtoA+uIKzQUtCa1mLlY80lR0S
+   QQvc1pPqHBFqD46WKsK1qn7oMpmdPqTgRd1Q3hZ1X13yvxv/xiapSn+3S
+   B0FC34jCqq3qWUTzF4tWmpHFXQ92raNjOhXXRZa1Cr60mNH1kD4EWwYbi
+   JNkYAjlJ/hppBdWtR1PQiG25vSSjedvsuHWvS+KKpW+lxYh1e+csG3iub
+   P+UBKUuwhMEs2LSZPv4kx1h3KGNH21L0AwK8OvTzGl7U+H/oEhOMZxjtj
+   w==;
+X-CSE-ConnectionGUID: rZTSjhi8Q32g1AzCrTtrTw==
+X-CSE-MsgGUID: jwYGA2AjRsGNqPV2VOI0VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="104424343"
 X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="85609588"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 03:55:30 -0700
-X-CSE-ConnectionGUID: zO+OitMmQx+znd7Ca+TfEA==
-X-CSE-MsgGUID: zRjuHYw6QXCh4E4mG9dYQw==
+   d="scan'208";a="104424343"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 04:06:33 -0700
+X-CSE-ConnectionGUID: kUbm3YUeQI6ACLHnlIu+Tw==
+X-CSE-MsgGUID: CLpWwe60TkKrE33z9h9fmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="241666713"
+   d="scan'208";a="250912252"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Jun 2026 03:55:29 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Jun 2026 04:06:30 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wWu7C-00000000JvW-2Gs2;
-	Tue, 09 Jun 2026 10:55:26 +0000
-Date: Tue, 09 Jun 2026 18:55:14 +0800
+	id 1wWuHr-00000000JwU-2Oxt;
+	Tue, 09 Jun 2026 11:06:27 +0000
+Date: Tue, 09 Jun 2026 19:05:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:verifier/errors/v1 3/17]
- kernel/bpf/diagnostics.c:460:6: warning: stack frame size (1568) exceeds
- limit (1280) in 'bpf_diag_report_source'
-Message-ID: <202606091810.k52hEnGe-lkp@intel.com>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, Steve French <stfrench@microsoft.com>,
+ Roland Mainz <roland.mainz@nrubsig.org>
+Subject: [cifs:for-next-next 15/16] fs/smb/client/cifsfs.c:1204:43:
+ error: 'FS_XFLAG_CASEFOLD' undeclared
+Message-ID: <202606091859.Hyzpt7jg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,62 +61,83 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/kkdwivedi/linux verifier/errors/v1
-head:   bd319f349f948035a4c5b93b96b109695d7eb130
-commit: 8bd874a4c3f5883e1cb73c95ea735d2cfdf8f792 [3/17] bpf: Add source and instruction diagnostic context
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260609/202606091810.k52hEnGe-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260609/202606091810.k52hEnGe-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next-next
+head:   910f40bbf5dc81b5fcc5592fdd4caa29e80ffce0
+commit: 4fb53948f97f5e89700fa933ba7d928ba1980f06 [15/16] cifs: Implement fileattr_get for case sensitivity
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260609/202606091859.Hyzpt7jg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260609/202606091859.Hyzpt7jg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606091810.k52hEnGe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606091859.Hyzpt7jg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/bpf/diagnostics.c:96:40: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'bpf_diag_vprint_indented' [-Wmissing-format-attribute]
-      88 | static void bpf_diag_vprint_indented(struct bpf_verifier_env *env,
-         | __attribute__((format(printf, 2, 0))) 
-      89 |                                      const char *fmt, va_list args)
-      90 | {
-      91 |         char buf[1024];
-      92 | 
-      93 |         if (!bpf_verifier_log_needed(&env->log))
-      94 |                 return;
-      95 | 
-      96 |         vscnprintf(buf, sizeof(buf), fmt, args);
-         |                                               ^
-   kernel/bpf/diagnostics.c:88:13: note: 'bpf_diag_vprint_indented' declared here
-      88 | static void bpf_diag_vprint_indented(struct bpf_verifier_env *env,
-         |             ^
-   kernel/bpf/diagnostics.c:227:20: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'bpf_diag_insn_print' [-Wmissing-format-attribute]
-     217 | static void bpf_diag_insn_print(void *private_data, const char *fmt, ...)
-         | __attribute__((format(printf, 2, 3))) 
-     218 | {
-     219 |         struct bpf_diag_insn_buf *buf = private_data;
-     220 |         va_list args;
-     221 | 
-     222 |         if (buf->len >= buf->size)
-     223 |                 return;
-     224 | 
-     225 |         va_start(args, fmt);
-     226 |         buf->len += vscnprintf(buf->buf + buf->len, buf->size - buf->len,
-     227 |                                fmt, args);
-         |                                         ^
-   kernel/bpf/diagnostics.c:217:13: note: 'bpf_diag_insn_print' declared here
-     217 | static void bpf_diag_insn_print(void *private_data, const char *fmt, ...)
-         |             ^
->> kernel/bpf/diagnostics.c:460:6: warning: stack frame size (1568) exceeds limit (1280) in 'bpf_diag_report_source' [-Wframe-larger-than]
-     460 | void bpf_diag_report_source(struct bpf_verifier_env *env, u32 insn_idx,
-         |      ^
-   3 warnings generated.
+   fs/smb/client/cifsfs.c: In function 'cifs_fileattr_get':
+>> fs/smb/client/cifsfs.c:1204:43: error: 'FS_XFLAG_CASEFOLD' undeclared (first use in this function)
+    1204 |                         fa->fsx_xflags |= FS_XFLAG_CASEFOLD;
+         |                                           ^~~~~~~~~~~~~~~~~
+   fs/smb/client/cifsfs.c:1204:43: note: each undeclared identifier is reported only once for each function it appears in
+>> fs/smb/client/cifsfs.c:1215:35: error: 'FS_XFLAG_CASENONPRESERVING' undeclared (first use in this function)
+    1215 |                 fa->fsx_xflags |= FS_XFLAG_CASENONPRESERVING;
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/bpf_diag_report_source +460 kernel/bpf/diagnostics.c
+vim +/FS_XFLAG_CASEFOLD +1204 fs/smb/client/cifsfs.c
 
-   459	
- > 460	void bpf_diag_report_source(struct bpf_verifier_env *env, u32 insn_idx,
+  1168	
+  1169	int cifs_fileattr_get(struct dentry *dentry, struct file_kattr *fa)
+  1170	{
+  1171		struct cifs_sb_info *cifs_sb = CIFS_SB(dentry->d_sb);
+  1172		struct cifs_tcon *tcon = cifs_sb_master_tcon(cifs_sb);
+  1173		struct inode *inode = d_inode(dentry);
+  1174		u32 attrs;
+  1175	
+  1176		/* Preserve FS_COMPR_FL previously reported by cifs_ioctl(). */
+  1177		if (CIFS_I(inode)->cifsAttrs & ATTR_COMPRESSED)
+  1178			fa->flags |= FS_COMPR_FL;
+  1179	
+  1180		/*
+  1181		 * FS_CASEFOLD_FL is defined by UAPI as a folder attribute,
+  1182		 * and userspace tools (e.g., lsattr) display it only on
+  1183		 * directories. Confine the case-handling bits to directories
+  1184		 * to match that convention; for non-directories the share's
+  1185		 * case semantics are still discoverable through the parent.
+  1186		 */
+  1187		if (!S_ISDIR(inode->i_mode))
+  1188			return 0;
+  1189	
+  1190		/*
+  1191		 * The server's FS_ATTRIBUTE_INFORMATION response, cached on
+  1192		 * the tcon at mount, reflects the share's case-handling
+  1193		 * semantics after any POSIX extensions negotiation. Prefer
+  1194		 * it over the client-local nocase mount option, which only
+  1195		 * governs dentry comparison on this superblock.
+  1196		 *
+  1197		 * QueryFSInfo is best-effort at mount; when it did not
+  1198		 * populate fsAttrInfo, MaxPathNameComponentLength remains
+  1199		 * zero. In that case fall back to nocase so the reporting
+  1200		 * matches the comparison behavior installed on the sb.
+  1201		 */
+  1202		if (le32_to_cpu(tcon->fsAttrInfo.MaxPathNameComponentLength) == 0) {
+  1203			if (tcon->nocase) {
+> 1204				fa->fsx_xflags |= FS_XFLAG_CASEFOLD;
+  1205				fa->flags |= FS_CASEFOLD_FL;
+  1206			}
+  1207			return 0;
+  1208		}
+  1209		attrs = le32_to_cpu(tcon->fsAttrInfo.Attributes);
+  1210		if (!(attrs & FILE_CASE_SENSITIVE_SEARCH)) {
+  1211			fa->fsx_xflags |= FS_XFLAG_CASEFOLD;
+  1212			fa->flags |= FS_CASEFOLD_FL;
+  1213		}
+  1214		if (!(attrs & FILE_CASE_PRESERVED_NAMES))
+> 1215			fa->fsx_xflags |= FS_XFLAG_CASENONPRESERVING;
+  1216		return 0;
+  1217	}
+  1218	
 
 --
 0-DAY CI Kernel Test Service
