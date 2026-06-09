@@ -1,101 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621BB3A7F59
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jun 2026 22:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1B313DDAA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jun 2026 02:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780957272; cv=none; b=LktCewvD0dMeGSPFWjBtL4MCZ0cQg7qozLT/REkmfLTJPbt4w7cD3C7B/kZ80FOvS/RFaYWFBhneC4O5F49DFiM61RtM6ZyfyzM+pR7NXW8cpo3fTSrihh+XNAYtSS9fzKyYYTyhUx0hGqp2tWe2QSumnsoNj0jl70uBTtCF5VE=
+	t=1780972387; cv=none; b=kcscEekSV9TyAokwcXGUZNLAR+tkNHM/+JxL/MZVrQTrKrLCtlo+D/IwdH1ONWaiZeiSrEyisC7gn0BdFpa9QwnhwgHq7zvoF0kHPZGHtv1gBST6VJdWqWCm87eIJG47p4Fhz/PxgQR1LsQpIWqz+CDsUQhNrNGsS5ee4xpWvYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780957272; c=relaxed/simple;
-	bh=nOrvp/K0XgNlq7j+UTPcdpo4z07+p3UJ7MV7HzxAmi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dNj4TrlJi2lS09t7CSzPHYCKt7ZOC8BUhFTB7dzN5nMJ9Zw27yM/o9gQrOW2BnfFZGwYvU2iaS5wg4Hz0T0v2qsdPXfOJrozFopDOKzvh+jDIi2kurndlvyHnfxLaEJSv0eJOQnGNbmCzqaec3F2BiAm8zVdBZx2A8oy3DO/at0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Id3YSbXt; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1780972387; c=relaxed/simple;
+	bh=7+C2WZZYwe2vjpiFBeekbv4omDHOemASdqfbP0Z5gpc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cmksl8ibYA0byD9XSgvrhH91vIQcZSotzPBsg6AzVSWIHMQDv8RVs8vSrYsRSU7WuMY789zjl5+XtrrvHyHw3EeKzSOE/0ewqLKV7xbJhxf1g+8OHywv3lCG9f4CMp+ZA3Rant3G3P8toY9w5MjopHk9H8x/YTr99ViXdBm8k74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwCEICT2; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Id3YSbXt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwCEICT2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780957270; x=1812493270;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nOrvp/K0XgNlq7j+UTPcdpo4z07+p3UJ7MV7HzxAmi8=;
-  b=Id3YSbXtSVNJoeiihWgmWeCthu1WD5NjbkWzDDkg4iJqfmVWXPbDVG6f
-   Z2A1czMTT621uRdn890CTOzUanXlwaBFms7+xLwnvwJU0ZA6FcBO7VI6s
-   JM1ZebXFgRg+EPDw69RpESFrPM/Exxxm5XJV7CKE9ZAoFHTpNjgoNiUH5
-   0ww4oHwTfTQTNmurxFOvN0vY/FH8qKfn04zxI4QVXQQfwmbmVV2n397w/
-   xsV2yTRE+PG2sMx8Z/cA7biK5ipclYwkVPO8zT5V/9+jtccF2706HN7Nu
-   T4wt3B2P93N7MHKHajGNZNI8rSsuE6dnsWToILZeudyPyzk/R6mM8jg1F
-   g==;
-X-CSE-ConnectionGUID: Ave/kiLXR5Su2q4o42Ld+w==
-X-CSE-MsgGUID: JD9RXTr/Qm2xuut9r5erHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="92383231"
+  t=1780972385; x=1812508385;
+  h=date:from:to:cc:subject:message-id;
+  bh=7+C2WZZYwe2vjpiFBeekbv4omDHOemASdqfbP0Z5gpc=;
+  b=nwCEICT2j7IIsMFN1f82jRa9zJNkRqywRZLn3AswpaYKYQ5I97GcBciQ
+   fq3BwPwF7sKpvCqdExI+UqHN6wjO3qsp/NdJgSTkFVGscMZxbgdRTYnl4
+   +sABywbwu40cNEqHbmK7wl11YLb8g6frzfKnt/omyx8NLos8AHxnZAyJF
+   +7x98ezmywYwy+0Jm0s/9wl7QgPnOBzGxS2bhmm7/4ofmwHK87SH6ahLq
+   3kETYGcyI+zisJn59i1TD0sUoi44kYV9rG6mdAtvpHIt6C51w/1KKJCau
+   uWoqX5AQKduOg0bPL4NxHzeOjQigEZjbzzsjmpVwxQgpPgQSKQ7D8E7W6
+   Q==;
+X-CSE-ConnectionGUID: 8FfOIadgSv+8XeZptLdDKA==
+X-CSE-MsgGUID: sn4rQD3PRR6MPtiaP0PcVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="92831430"
 X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
-   d="scan'208";a="92383231"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 15:21:09 -0700
-X-CSE-ConnectionGUID: lJZjgeBlTN6jGd0GB9fJdQ==
-X-CSE-MsgGUID: AFyYNntiSUuy9R2WgvdGkQ==
+   d="scan'208";a="92831430"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 19:33:05 -0700
+X-CSE-ConnectionGUID: /UNeCf4UQt25KQbQPTGM+A==
+X-CSE-MsgGUID: mwwlqL7dTVmLZTPejOMSVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
-   d="scan'208";a="245774920"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 08 Jun 2026 15:21:07 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="245574906"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 08 Jun 2026 19:33:03 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wWiLA-000000003KT-1yBL;
-	Mon, 08 Jun 2026 22:21:04 +0000
-Date: Tue, 9 Jun 2026 00:20:52 +0200
+	id 1wWmGy-00000000JWg-3ys2;
+	Tue, 09 Jun 2026 02:33:00 +0000
+Date: Tue, 09 Jun 2026 10:32:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: david.laight.linux@gmail.com, Kees Cook <kees@kernel.org>,
-	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH next] drivers/gpu/drm/vmwgfx/vmwgfx_msg: Use strscpy() to
- copy mks-guest-stat names
-Message-ID: <202606090046.Gb27Aell-lkp@intel.com>
-References: <20260608095523.2606-25-david.laight.linux@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-kminext 4/4]
+ sound/soc/intel/avs/path.c:137:38: warning: 'strcmp' reading 1 or more bytes
+ from a region of size 0
+Message-ID: <202606091003.h7ZQ4kF0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260608095523.2606-25-david.laight.linux@gmail.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20260605]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/drivers-gpu-drm-vmwgfx-vmwgfx_msg-Use-strscpy-to-copy-mks-guest-stat-names/20260608-175822
-base:   next-20260605
-patch link:    https://lore.kernel.org/r/20260608095523.2606-25-david.laight.linux%40gmail.com
-patch subject: [PATCH next] drivers/gpu/drm/vmwgfx/vmwgfx_msg: Use strscpy() to copy mks-guest-stat names
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260609/202606090046.Gb27Aell-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260609/202606090046.Gb27Aell-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-kminext
+head:   839a808be3da5300418d7231fa1f5ae5f05d5ab3
+commit: 595b7f155b926460a00776cc581e4dcd01220006 [4/4] ASoC: Intel: avs: Conditional-path support
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260609/202606091003.h7ZQ4kF0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260609/202606091003.h7ZQ4kF0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 595b7f155b92 ("ASoC: Intel: avs: Conditional-path support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606090046.Gb27Aell-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606091003.h7ZQ4kF0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/vmwgfx/vmwgfx_msg.c:666 function parameter 'lim' not described in 'mksstat_init_record_time'
->> Warning: drivers/gpu/drm/vmwgfx/vmwgfx_msg.c:666 function parameter 'lim' not described in 'mksstat_init_record_time'
+   In function 'avs_tplg_path_template_id_equal',
+       inlined from 'avs_condpath_find_match' at sound/soc/intel/avs/path.c:160:6,
+       inlined from 'avs_condpaths_walk' at sound/soc/intel/avs/path.c:1269:13:
+>> sound/soc/intel/avs/path.c:137:38: warning: 'strcmp' reading 1 or more bytes from a region of size 0 [-Wstringop-overread]
+     137 |         return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from sound/soc/intel/avs/path.h:14,
+                    from sound/soc/intel/avs/path.c:15:
+   sound/soc/intel/avs/topology.h: In function 'avs_condpaths_walk':
+   sound/soc/intel/avs/topology.h:150:13: note: at offset 4 into source object 'id' of size 4
+     150 |         u32 id;
+         |             ^~
+   sound/soc/intel/avs/topology.h:150:13: note: at offset 4 into source object 'id' of size 4
+
+
+vim +/strcmp +137 sound/soc/intel/avs/path.c
+
+   133	
+   134	static bool avs_tplg_path_template_id_equal(struct avs_tplg_path_template_id *id,
+   135						    struct avs_tplg_path_template_id *id2)
+   136	{
+ > 137		return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
+   138	}
+   139	
 
 --
 0-DAY CI Kernel Test Service
