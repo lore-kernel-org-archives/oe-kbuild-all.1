@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6D936605E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jun 2026 23:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D8B3F5BC2;
+	Tue,  9 Jun 2026 23:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781046557; cv=none; b=I/P8Nm/lfHpLHTI8kJewhbMNvfSfqVcc/fkh8iwll/gap5hfJzGvxtJl1UZp7t4ilq4a2bygNVk5+F2gG9Uzp4tRNuh9S+vGI8nZd+FmG58Nzr0q+TU0FVMWrLmO7llXbsJ+rcKfCJAQY8ZrbusrtvdLj3MT3wfDFJdDDQ5wb+A=
+	t=1781046558; cv=none; b=rcRMpEzSjVa3HFnWCjbzo+I5uNuqWR15h5F8TyvzCq3CYflZz+MKkJ/e2vmvcK/cR1P1M8Q/Uox0TtgexsvxhuubhllTF1HnK5x7aN+j2xRUAprzQy4nfdab8QDi9YfN52if2Y1tYv92v1KJXcwOt6wGS0N6XaxHQrfPQmyTKaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781046557; c=relaxed/simple;
-	bh=VLz4daNubJxG2Mn++yVemxpgH19ICFk/UrmnMtx0ENE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OS23nU+UiOTjA8b+XJKhe9CNqP4OlDFhOItbvB+DVvVQSIZ8zMvxHA6P51tAtjNYg+QSzKQUOorZRU/kk2NMrLxw2kkKe1mSMxN7QNCECDkBnxtOe1vhQgnulAwBT+HDStiPUn0uMzFFjvcnBd0i86bS0YSzM8dOwR6LtpM+vs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EBhyDz51; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1781046558; c=relaxed/simple;
+	bh=1OjaBozmMS7OkEWtwI0fZZy/7aRXgKMoI2DySNHayFU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BAV9a+GULB0D16B5zZ02Ydpfdl+J/pkntUNzuEjLROnZFY/+GZ84HO1VgnZc4p/45PulTTLXRpL5j6xtIOGuZY0o5b09LAWt1wVld/4TH+Niwfzn128TMdIGlhlpJ/xThi2X9XOf+44irO2zNFDDiTNEMBiWnW654XniE06H6cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMjVELSY; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EBhyDz51"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMjVELSY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781046555; x=1812582555;
+  t=1781046556; x=1812582556;
   h=date:from:to:cc:subject:message-id;
-  bh=VLz4daNubJxG2Mn++yVemxpgH19ICFk/UrmnMtx0ENE=;
-  b=EBhyDz51r4ap9CTR+SKBzIrQzrW8TmFBgwgb3SpGKEi/dWQ5a7xBrdwk
-   eQuHOhfRG35iG/W6/tad/iHgo9QLWdmNZ2a75XPCrbOAbvgFVqM1spXQT
-   OJbKKpZ+WLM4HcDuAEVeZsH5yD9Rvt+6l4KIq8gCIBh2Dj/eZAoAdRUiV
-   yhnkrq6JPUZY1j8y+5sKqzFc5CFYLsy3AmH/0yMJ8dvXRP5kmJsdvUxkL
-   clj3zpQ7cIxTNuY4VeMLXfe3hgZaCRRgTBCn53UV5r2dTaoa+CuBVPybv
-   mLiRuc4iKHTcHmtV3CQglTzTQMmIDq4/xtcTKIqXkinejsCEYsfg1I8i3
-   w==;
-X-CSE-ConnectionGUID: FfHF1rAfRI6E1Tyly++hkQ==
-X-CSE-MsgGUID: KtyhUUaASqSDVTP16OxgVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81938136"
+  bh=1OjaBozmMS7OkEWtwI0fZZy/7aRXgKMoI2DySNHayFU=;
+  b=kMjVELSYw/wSDmfoyLYIy2OziGXn8bp1O0xA9C0ZLzNgb/oLxb+7Ce9f
+   Sivu1mLBvmJpzga2Gp8zPblBNOKgIyMyoMNtcX32/o3qwggXTh6sKtbFZ
+   gblspU1hffrSHRRjKLt9tnjRQ+kVhJUieAVSsjhGZnE862YkwGOZruDdg
+   vjlHHrCcv7rD3dvC7O+Hxq5jKmALjWgxY1i31KYljDZZdlE0xl3QWgX6/
+   SSmBsJAQ9i5ogVr5uWsWiZmiTGHPloT5eFhbnr/iXwmeMStHUxmmJNQYq
+   zWG/mQ1dhSuvJU1cY8g7PRbr6e3SFMOPpgPOxZ5ac3tF/mA2lOPLU/BqE
+   Q==;
+X-CSE-ConnectionGUID: +Y/zdWSWRPeG/8LVhbtXUg==
+X-CSE-MsgGUID: NyaI9w9gRDWncRp8uNTnDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="104491826"
 X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="81938136"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 16:09:14 -0700
-X-CSE-ConnectionGUID: J9eCVZ1oQ0WZMxwrbjxd2g==
-X-CSE-MsgGUID: xWiUl3/dRBOjde6SU4+hCw==
+   d="scan'208";a="104491826"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 16:09:14 -0700
+X-CSE-ConnectionGUID: tMH0RdOwQyCgGB3Lrd4dPw==
+X-CSE-MsgGUID: JRHD+VwiSXaxEyGIAFZ1jA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="244858630"
+   d="scan'208";a="245150781"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Jun 2026 16:09:12 -0700
+  by orviesa010.jf.intel.com with ESMTP; 09 Jun 2026 16:09:12 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wX5ZF-00000000Kea-41aw;
+	id 1wX5ZF-00000000KeY-3uQf;
 	Tue, 09 Jun 2026 23:09:09 +0000
-Date: Wed, 10 Jun 2026 07:08:53 +0800
+Date: Wed, 10 Jun 2026 07:08:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Chen <peter.chen@cixtech.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org
-Subject: [peter-chen-usb:cdns3_kconfig_reorg 2/4]
- drivers/usb/cdns3/cdnsp-sky1.c:218:12: warning: 'cdnsp_sky1_resume' defined
- but not used
-Message-ID: <202606100700.mSjHu5V1-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-next 22/22] fs/9p/vfs_addr.c:79:6:
+ warning: variable 'len' is used uninitialized whenever 'if' condition is true
+Message-ID: <202606100718.e78jIMlQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,178 +59,99 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git cdns3_kconfig_reorg
-head:   5ef7c27aa805ae8486b5f20ef21483af7a120386
-commit: 7095d19fba7625032eb775f9f425f33f4ede1517 [2/4] usb: cdns3: sky1: Add cdnsp-sky1 glue driver
-config: arm64-randconfig-002-20260610 (https://download.01.org/0day-ci/archive/20260610/202606100700.mSjHu5V1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100700.mSjHu5V1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
+head:   1d9a108be2c6acdd19dfad7fd3f536c79810dafa
+commit: 1d9a108be2c6acdd19dfad7fd3f536c79810dafa [22/22] netfs: Combine prepare and issue ops and grab the buffers on request
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260610/202606100718.e78jIMlQ-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100718.e78jIMlQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606100700.mSjHu5V1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606100718.e78jIMlQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/cdns3/cdnsp-sky1.c:218:12: warning: 'cdnsp_sky1_resume' defined but not used [-Wunused-function]
-     218 | static int cdnsp_sky1_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~
->> drivers/usb/cdns3/cdnsp-sky1.c:213:12: warning: 'cdnsp_sky1_suspend' defined but not used [-Wunused-function]
-     213 | static int cdnsp_sky1_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~
+>> fs/9p/vfs_addr.c:79:6: warning: variable 'len' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+      79 |         if (err < 0)
+         |             ^~~~~~~
+   fs/9p/vfs_addr.c:90:51: note: uninitialized use occurs here
+      90 |         return netfs_write_subrequest_terminated(subreq, len ?: err);
+         |                                                          ^~~
+   fs/9p/vfs_addr.c:79:2: note: remove the 'if' if its condition is always false
+      79 |         if (err < 0)
+         |         ^~~~~~~~~~~~
+      80 |                 goto term;
+         |                 ~~~~~~~~~
+   fs/9p/vfs_addr.c:74:14: note: initialize the variable 'len' to silence this warning
+      74 |         int err, len;
+         |                     ^
+         |                      = 0
+   1 warning generated.
 --
->> Warning: drivers/usb/cdns3/cdnsp-sky1.c:84 expecting prototype for sky1_set_mode_by_id(). Prototype was for cdnsp_sky1_set_mode_by_id() instead
+>> fs/netfs/write_collect.c:154:7: warning: variable 'fpos' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     154 |                 if (!bvecq->bv[slot].bv_page) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/write_collect.c:186:7: note: uninitialized use occurs here
+     186 |                 if (fpos + fsize >= collected_to)
+         |                     ^~~~
+   fs/netfs/write_collect.c:154:3: note: remove the 'if' if its condition is always false
+     154 |                 if (!bvecq->bv[slot].bv_page) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     155 |                         WARN_ONCE(1, "R=%08x slot already cleared?\n", wreq->debug_id);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     156 |                         fsize = bvecq->bv[slot].bv_len;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     157 |                         goto skip;
+         |                         ~~~~~~~~~~
+     158 |                 }
+         |                 ~
+   fs/netfs/write_collect.c:137:26: note: initialize the variable 'fpos' to silence this warning
+     137 |                 unsigned long long fpos, fend;
+         |                                        ^
+         |                                         = 0
+   1 warning generated.
+--
+>> fs/netfs/read_pgpriv2.c:204:9: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     204 |         return ret;
+         |                ^~~
+   fs/netfs/read_pgpriv2.c:187:9: note: initialize the variable 'ret' to silence this warning
+     187 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +/cdnsp_sky1_resume +218 drivers/usb/cdns3/cdnsp-sky1.c
+vim +79 fs/9p/vfs_addr.c
 
+    66	
+    67	/*
+    68	 * Issue a subrequest to write to the server.
+    69	 */
+    70	static void v9fs_issue_write(struct netfs_io_subrequest *subreq)
+    71	{
+    72		struct iov_iter iter;
+    73		struct p9_fid *fid = subreq->rreq->netfs_priv;
+    74		int err, len;
+    75	
+    76		subreq->len = umin(subreq->len, fid->clnt->msize - P9_IOHDRSZ);
     77	
-    78	/**
-    79	 * sky1_set_mode_by_id - program one USB controller mode strap
-    80	 * @syscon: regmap for S5 syscon (from DT property cix,syscon-usb)
-    81	 * @id: controller slot ID (U3_TYPEC_DRD_ID .. U2_HOST3_ID)
-    82	 * @mode: MODE_STRAP_OTG, MODE_STRAP_HOST, or MODE_STRAP_DEVICE
-    83	 */
-  > 84	static int cdnsp_sky1_set_mode_by_id(struct regmap *syscon, int id, int mode)
-    85	{
-    86		if (id < 0 || id >= SKY1_USB_S5_NUM)
-    87			return -EINVAL;
+    78		err = netfs_prepare_write_buffer(subreq, INT_MAX);
+  > 79		if (err < 0)
+    80			goto term;
+    81	
+    82		iov_iter_bvec_queue(&iter, ITER_SOURCE, subreq->content.bvecq,
+    83				    subreq->content.slot, subreq->content.offset, subreq->len);
+    84	
+    85		len = p9_client_write(fid, subreq->start, &iter, &err);
+    86		if (len > 0)
+    87			__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
     88	
-    89		return regmap_update_bits(syscon,
-    90					  strap_signals[id].offset,
-    91					  GENMASK(strap_signals[id].bit + 1,
-    92						  strap_signals[id].bit),
-    93					  (unsigned int)mode << strap_signals[id].bit);
-    94	}
-    95	
-    96	static int cdnsp_sky1_set_all_controllers_otg(struct regmap *syscon)
-    97	{
-    98		int id, ret;
-    99	
-   100		for (id = 0; id < SKY1_USB_S5_NUM; id++) {
-   101			ret = cdnsp_sky1_set_mode_by_id(syscon, id, MODE_STRAP_OTG);
-   102			if (ret)
-   103				return ret;
-   104		}
-   105	
-   106		return 0;
-   107	}
-   108	
-   109	static const struct clk_bulk_data cdnsp_sky1_cdns_core_clks[] = {
-   110		{ .id = "sof" },
-   111		{ .id = "aclk" },
-   112		{ .id = "lpm" },
-   113		{ .id = "pclk" },
-   114	};
-   115	
-   116	static int cdnsp_sky1_probe(struct platform_device *pdev)
-   117	{
-   118		struct device *dev = &pdev->dev;
-   119		struct cdnsp_sky1 *priv;
-   120		struct cdns *cdns;
-   121		struct cdns3_probe_data probe_data;
-   122		struct resource *res;
-   123		int ret;
-   124	
-   125		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   126		if (!priv)
-   127			return -ENOMEM;
-   128	
-   129		priv->dev = dev;
-   130		priv->num_clks = ARRAY_SIZE(cdnsp_sky1_cdns_core_clks);
-   131		priv->clks = devm_kmemdup(dev, cdnsp_sky1_cdns_core_clks,
-   132					   sizeof(cdnsp_sky1_cdns_core_clks), GFP_KERNEL);
-   133		if (!priv->clks)
-   134			return -ENOMEM;
-   135	
-   136		ret = devm_clk_bulk_get(dev, priv->num_clks, priv->clks);
-   137		if (ret)
-   138			return dev_err_probe(dev, ret, "failed to get clocks\n");
-   139	
-   140		ret = clk_bulk_prepare_enable(priv->num_clks, priv->clks);
-   141		if (ret)
-   142			return dev_err_probe(dev, ret, "failed to enable clocks\n");
-   143	
-   144		priv->usb_syscon = syscon_regmap_lookup_by_phandle(dev->of_node,
-   145								   "cix,syscon-usb");
-   146		if (IS_ERR(priv->usb_syscon)) {
-   147			ret = PTR_ERR(priv->usb_syscon);
-   148			dev_err_probe(dev, ret, "failed to get cix,syscon-usb regmap\n");
-   149			goto err_clk;
-   150		}
-   151	
-   152		ret = cdnsp_sky1_set_all_controllers_otg(priv->usb_syscon);
-   153		if (ret) {
-   154			dev_err_probe(dev, ret,
-   155				      "failed to set USB controllers to OTG strap\n");
-   156			goto err_clk;
-   157		}
-   158	
-   159		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "glue");
-   160		if (!res)
-   161			goto err_clk;
-   162	
-   163		priv->glue_base = devm_ioremap_resource(dev, res);
-   164		if (IS_ERR(priv->glue_base)) {
-   165			ret = PTR_ERR(priv->glue_base);
-   166			goto err_clk;
-   167		}
-   168	
-   169		/* Set ARCACHE and AWCACHE */
-   170		writel(SKY1_USB_AXI_WR_CACHE_VALUE, priv->glue_base + AXI_SETTING_OFFSET);
-   171	
-   172		cdns = &priv->cdns;
-   173		cdns->dev = dev;
-   174	
-   175		probe_data.cdns = cdns;
-   176		probe_data.pdev = pdev;
-   177	
-   178		ret = cdns3_core_probe(&probe_data);
-   179		if (ret)
-   180			goto err_clk;
-   181	
-   182		return 0;
-   183	
-   184	err_clk:
-   185		clk_bulk_disable_unprepare(priv->num_clks, priv->clks);
-   186	
-   187		return ret;
-   188	}
-   189	
-   190	static void cdnsp_sky1_remove(struct platform_device *pdev)
-   191	{
-   192		struct cdns *cdns = platform_get_drvdata(pdev);
-   193		struct cdnsp_sky1 *priv;
-   194	
-   195		if (!cdns)
-   196			return;
-   197	
-   198		cdns3_core_remove(cdns);
-   199		priv = container_of(cdns, struct cdnsp_sky1, cdns);
-   200		clk_bulk_disable_unprepare(priv->num_clks, priv->clks);
-   201	}
-   202	
-   203	static int cdnsp_sky1_runtime_suspend(struct device *dev)
-   204	{
-   205		return cdns3_runtime_suspend(dev_get_drvdata(dev));
-   206	}
-   207	
-   208	static int cdnsp_sky1_runtime_resume(struct device *dev)
-   209	{
-   210		return cdns3_runtime_resume(dev_get_drvdata(dev));
-   211	}
-   212	
- > 213	static int cdnsp_sky1_suspend(struct device *dev)
-   214	{
-   215		return cdns3_pm_suspend(dev_get_drvdata(dev));
-   216	}
-   217	
- > 218	static int cdnsp_sky1_resume(struct device *dev)
-   219	{
-   220		return cdns3_pm_resume(dev_get_drvdata(dev));
-   221	}
-   222	
+    89	term:
+    90		return netfs_write_subrequest_terminated(subreq, len ?: err);
+    91	}
+    92	
 
 --
 0-DAY CI Kernel Test Service
