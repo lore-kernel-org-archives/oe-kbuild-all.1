@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7706C3FFFB3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jun 2026 18:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6E13769FF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jun 2026 18:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781028697; cv=none; b=Og1ms39K8bgDsKmK/43pKTaXvVj3bhKMEzHWCui8m6XZzVt9zFEwYlO5hAuzUCbxvF6quxJS7ZxQYhgNTso6u2Mt9MgLhV4qhh9bHSOdiMXzr3RtT5ITpEROytwsDxriASDQoJvG+oVm8XEqGIhlL916akimKsiMdKo9Ksd+XQE=
+	t=1781030079; cv=none; b=NIEjvG/HqFrJfAky3DSsVcJ9FGVzmYrI+8RaC5K9Njv325ignayOA5zRhfTPoq552U8va32ahP6KTDH2EzDRPXMaWE/+1ifKCa3OsKb++pJXyxok/eqny7P70oU7dKFHP8w4PpYUPMWeGuwbTDcd00ueOfQIZpcZygHI1tW6eO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781028697; c=relaxed/simple;
-	bh=FLgqkgJjcHS9vYofp1XytKHhTZs+gwvJuI3gMF/sHIA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bZ/QtU16i/VqNdKhSXVyM6VrUFYJEXZzGggJHrwJx6BeIxauJ3x3wEnQECNfNeSAACOu+zsHgDhQIijTsTRYREdeZIZVUZq9QYcAymMEVZ17ryOVJH9+L71XB4tXnCbaT4/0FQas2U21x/cxeRyK9WO03HmysT51ajFrmjrJXWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NvQgj2ol; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1781030079; c=relaxed/simple;
+	bh=Nkq6g+xDqL43cn0GeUDkEbfBXYmx1Z8qCy5843vFy4g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rPKHhV79vceIXWLIzPDGds1JsMewDqcZ8x0JJbAQK0f1urSi9RWQczmWAHeYsfDZ0LpJa7QoR58Ck2EJ15RDVGdWpt5ml61nnGi4+Fw9cgzDqaQt7wX7BwKYUtdyMgPCn1aet4ibMnf4YbnywWJUOPFFX1OpnzpdQZPexVzm+fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGK13eek; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NvQgj2ol"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGK13eek"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781028696; x=1812564696;
+  t=1781030078; x=1812566078;
   h=date:from:to:cc:subject:message-id;
-  bh=FLgqkgJjcHS9vYofp1XytKHhTZs+gwvJuI3gMF/sHIA=;
-  b=NvQgj2ol5bhX8bDoCLAjjbO+OEa5DH3O9CkrFHtNDKVmxRUSkWGZG2FT
-   n6yOFgodZCVGSfKyUaXRLLazg2JhUfRWX23s0hrolZM08FyvQAJ23fcXf
-   RthoO+mhB3HDo1lvfSy6mBm3g8cF2pYe4WeN4CPzNzPynZHj7bQo3SmTO
-   O2BOvHj+WyWSfRDmHVO9BuV+ulNwlTJefF2VRUxS4HNJyzwUfV/iDverZ
-   T6v/2raptFx9HJEyqhmf8rfMes6yrzCcUYXpMbCKltVUYcuff5Ffiy2z8
-   E8HlyASf3nUJobMeVBVwlo+r8iQsbnSTtAeKxRHRi4ANnPuGaBvP0C//r
-   A==;
-X-CSE-ConnectionGUID: bapuTpR7RWKDsN/mQBB01g==
-X-CSE-MsgGUID: ra8mWar9TDCKqtbFTgEk9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="84372668"
+  bh=Nkq6g+xDqL43cn0GeUDkEbfBXYmx1Z8qCy5843vFy4g=;
+  b=VGK13eekVVXqgNsGjJjLZjr2tFtWUEF0II9yFzVQzlO5zvSS7nv7dFFn
+   DAhOY0dHuBOrFuya75moaS3VMRbkeQrV0ZARe8XXCjTD5SSMS8PeGJEdB
+   +cAC3kosjLkRN78RjEDpphrUlsQ/nnq4XpkiKDIpEjVpdqbvfkXuXRs+m
+   YNIWiOsuRqRdBZkwmePpTDdmCM+LaPLLoSFTr6L+DlS86DEXNjS3hMNZ+
+   2giuxFfwCwYkRaaSRmlFGWPB91+TC+y59H19O2YpOsrPyCF+p5PrGTYx/
+   eEKJsSW7smroXdCLzgxPCWRjFsxHLqkVapVvvSlci02GuJypfoG1ocL5q
+   w==;
+X-CSE-ConnectionGUID: 7hZZGbEZSUSwjQnwIVczSA==
+X-CSE-MsgGUID: tEzJcYS+S4Ca75bshsDd4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81781969"
 X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="84372668"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 11:11:35 -0700
-X-CSE-ConnectionGUID: LO3x3VjRSbCx+t3KUNTZXg==
-X-CSE-MsgGUID: p9hkBeLzRWi6WxnAwvkX9A==
+   d="scan'208";a="81781969"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 11:34:37 -0700
+X-CSE-ConnectionGUID: GGhfcQxeQb6m3YlpmN/tMg==
+X-CSE-MsgGUID: ntR4KIrcRx6v5RbqnHO8Ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="246023039"
+   d="scan'208";a="242974712"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Jun 2026 11:11:34 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jun 2026 11:34:36 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wX0vD-00000000KP4-0R7w;
-	Tue, 09 Jun 2026 18:11:31 +0000
-Date: Wed, 10 Jun 2026 02:10:48 +0800
+	id 1wX1HU-00000000KR4-2FgF;
+	Tue, 09 Jun 2026 18:34:32 +0000
+Date: Wed, 10 Jun 2026 02:33:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [chrome-os:chromeos-6.6 31/31]
  drivers/hid/spi-hid/spi-hid-of-ilitek.c:513:5: warning: no previous prototype
- for 'ili_spi_ms_register_read'
-Message-ID: <202606100233.RVnvwnvW-lkp@intel.com>
+ for function 'ili_spi_ms_register_read'
+Message-ID: <202606100208.aReoHuuV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,26 +63,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
 head:   a4d01e77dd885e0545ecd445e2facf156ddf42f5
 commit: 0574a30467bd55edaeaf9fce1dd02a9cc4bc56ee [31/31] CHROMIUM: HID: spi-hid: Integrate Ilitek extension into SPI-HID framework
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260610/202606100233.RVnvwnvW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100233.RVnvwnvW-lkp@intel.com/reproduce)
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260610/202606100208.aReoHuuV-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100208.aReoHuuV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606100233.RVnvwnvW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606100208.aReoHuuV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hid/spi-hid/spi-hid-of-ilitek.c:513:5: warning: no previous prototype for 'ili_spi_ms_register_read' [-Wmissing-prototypes]
+>> drivers/hid/spi-hid/spi-hid-of-ilitek.c:513:5: warning: no previous prototype for function 'ili_spi_ms_register_read' [-Wmissing-prototypes]
      513 | int ili_spi_ms_register_read(u32 addr, u32 *data, int len, u8 msmode)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hid/spi-hid/spi-hid-of-ilitek.c:694:5: warning: no previous prototype for 'ili_ic_code_reset' [-Wmissing-prototypes]
+         |     ^
+   drivers/hid/spi-hid/spi-hid-of-ilitek.c:513:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     513 | int ili_spi_ms_register_read(u32 addr, u32 *data, int len, u8 msmode)
+         | ^
+         | static 
+>> drivers/hid/spi-hid/spi-hid-of-ilitek.c:694:5: warning: no previous prototype for function 'ili_ic_code_reset' [-Wmissing-prototypes]
      694 | int ili_ic_code_reset(bool mcu)
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/hid/spi-hid/spi-hid-of-ilitek.c:2625:5: warning: no previous prototype for 'ili_spi_write_then_read_split' [-Wmissing-prototypes]
+         |     ^
+   drivers/hid/spi-hid/spi-hid-of-ilitek.c:694:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     694 | int ili_ic_code_reset(bool mcu)
+         | ^
+         | static 
+>> drivers/hid/spi-hid/spi-hid-of-ilitek.c:2625:5: warning: no previous prototype for function 'ili_spi_write_then_read_split' [-Wmissing-prototypes]
     2625 | int ili_spi_write_then_read_split(struct spi_device *spi,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |     ^
+   drivers/hid/spi-hid/spi-hid-of-ilitek.c:2625:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2625 | int ili_spi_write_then_read_split(struct spi_device *spi,
+         | ^
+         | static 
+   3 warnings generated.
 
 
 vim +/ili_spi_ms_register_read +513 drivers/hid/spi-hid/spi-hid-of-ilitek.c
