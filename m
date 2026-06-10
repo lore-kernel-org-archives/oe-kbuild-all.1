@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25501F3D56
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 02:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB2322A80D;
+	Wed, 10 Jun 2026 02:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781057881; cv=none; b=pwVnzVmZZD4przq3GgEukkIKk298WbRYUSk7t4SAmkJE4T9h3UboedHNP4B6LSGbuE+A75lWZgCRAU6Er/t3GYO4lSIAellNFaRpaWAiNggz7SrX6lv8L+sTD8NGPpg4wASE+FWxjjWTQfWToBfmB/kAEOfSjf4zCCZrSozOZMM=
+	t=1781058662; cv=none; b=m4+TlBQtHV9rZC2e2JL3UO61h0pombveQvdv6ZJ0gsFYbGVEG2er/mFAEu1QNGTuxD/YEbGOcRn/ttt6egkLOVneHXkiovYpGDDn4TUp2VFxtHXgt7ffQek1vvKi2Oe2MFAiYFQftyHXvl2vYfQX4dvEpNQM4bj8HT25BqQe/rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781057881; c=relaxed/simple;
-	bh=MltHAS7O3NlAQlkfwxXifPVwrPfdIhQ/rzDwqd6nSao=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sznaz7UaWKZQtVi+4rmYQAb7/trulCslhviRMf85aOwBIUMKYHoKT0OqIXmMY7s1o8eaHyugS9WRGyhLSRurMm5Q2oHWH8nHt8+2J7LMPuBTMvgeoJHB9Jt7vez1HFvjy69Djn3+4YWgUGd+JJROt6A+QNfaM/H6JIEt1Kw9898=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRzxBaK1; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1781058662; c=relaxed/simple;
+	bh=q2X9TjFLi50Te162DjUVbY1kOZzXwOOH5Z1jucpZe+c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SQbNoUY/IbF0pNvBy9t20CFB2Rfq8UfVktcVKxHCCWnDku/TdvUiXCzAEoOzVCnSFPAbg1Yen/kDjlPFbO2D5+1uWlsN5gzLv3Z4LfG+TD3yLkWip/uYwDViUPWJWgriYaYmeEag9uYDlpCrszAkhmmtufMfZZcDOPbbtH5Ax6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T7AQDaSK; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRzxBaK1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T7AQDaSK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781057879; x=1812593879;
+  t=1781058661; x=1812594661;
   h=date:from:to:cc:subject:message-id;
-  bh=MltHAS7O3NlAQlkfwxXifPVwrPfdIhQ/rzDwqd6nSao=;
-  b=JRzxBaK1n5DBsxASfusXYTwjLdZUYjul9bfPGTuBZdK+WpDGpDTgMumH
-   qCjKJDCl793LwyG6FSdpzBhgC4BICGLlIC1LJOQ/qdUib36FMCaw4hFen
-   0zdW4pyKTtV7fZS3pHfHsGaFqvF3foKufeW++2PKOdl3mbHlsBcQN7ocS
-   5yU3Hxbt0klAeLzhSZHgMcGJi4tJLrIxT0iHRIVi4Rj3Fc4WTPi6hp/3B
-   2O8AsDfR5ish1kIxtnanLUT4GcYlmoeOg27im066uFivHG5xPVRgPJ4eV
-   6NhbW7qQO2fl1uuS6wZRlscAtxjB5u0es7kgvgljOWwtzk70Ng+K3X1Ep
-   Q==;
-X-CSE-ConnectionGUID: PgBRNKqJR8CUJmFirg/seg==
-X-CSE-MsgGUID: 09E//L/AQZWooRFducE0IA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="85730940"
+  bh=q2X9TjFLi50Te162DjUVbY1kOZzXwOOH5Z1jucpZe+c=;
+  b=T7AQDaSKkiN4fq5R+tT4XvPgGBIgyR5M+dbthrHnvB/qQnWtMpp1yU9F
+   4hRfkaeMBRhst2qVbFex9hDkjSWqKb8nmstMAjA2SNaswZmfpW4BEJWiz
+   XKG3KEvi4WJK44YrF6Glp7jTXYjipvo/WQefH8+7PJbwr22YxUHh8gCnh
+   RhuSeB0aPXFPgT5p93lJYqNYvpr/s9C13s7vxWutgO8V3Xniic42VkmsU
+   5AhreJ0PqefRXE9w5/hg/wP2XkhEtqfB5iz66coqQN1hVvVIkoEwIBV+E
+   RWeaHiSQs5CJRnUUo/GtIweX60OIH+9xCQwXC+iqHQKlVAlcuVVgczfeI
+   A==;
+X-CSE-ConnectionGUID: h3i/FyruRhGuLAUghrvamg==
+X-CSE-MsgGUID: R+xuO8keR0C+9qhpwS84xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="92407113"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="85730940"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 19:17:58 -0700
-X-CSE-ConnectionGUID: 1zX+QCzNSKaOT8GUiSrXSQ==
-X-CSE-MsgGUID: b2+vpld9SHKBeKIk6EWeug==
+   d="scan'208";a="92407113"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 19:31:00 -0700
+X-CSE-ConnectionGUID: GC62w92JRLSYVHmHGv6tQQ==
+X-CSE-MsgGUID: cqa4r15ZQxSW0IYG0f931w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="244892914"
+   d="scan'208";a="245184199"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Jun 2026 19:17:57 -0700
+  by orviesa010.jf.intel.com with ESMTP; 09 Jun 2026 19:30:58 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wX8Vu-00000000Kny-1Ilo;
-	Wed, 10 Jun 2026 02:17:54 +0000
-Date: Wed, 10 Jun 2026 10:17:30 +0800
+	id 1wX8iU-00000000Koa-38MI;
+	Wed, 10 Jun 2026 02:30:54 +0000
+Date: Wed, 10 Jun 2026 10:30:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: crypto/hmac.c:301:1: warning: the frame size of 1040 bytes
- is larger than 1024 bytes
-Message-ID: <202606101048.ma5faTxi-lkp@intel.com>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [superna9999:topic/sm8650/ayaneo-pocket-s2/wsa2-fix 3/5]
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c:311:2: warning: variable 'sysclk' is
+ used uninitialized whenever switch default is taken
+Message-ID: <202606101057.hHh1Oz5d-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,93 +62,74 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Herbert,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   acb7500801e98639f6d8c2d796ed9f64cba83d3a
-commit: 9d9b193ed73a65ec47cf1fd39925b09da8216461 crypto: hash - Increase HASH_MAX_DESCSIZE for hmac(sha3-224-s390)
-date:   10 months ago
-config: mips-lemote2f_defconfig (https://download.01.org/0day-ci/archive/20260610/202606101048.ma5faTxi-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606101048.ma5faTxi-lkp@intel.com/reproduce)
+tree:   https://github.com/superna9999/linux topic/sm8650/ayaneo-pocket-s2/wsa2-fix
+head:   074a0ec5e0e7c16933371ee131890bacbfee4fdd
+commit: 02d9f572535b8da9920f6bae51fcdfc3e3d93cb3 [3/5] ASoC: qcom: q6apm-lpass-dais: Add MI2S clock control
+config: x86_64-buildonly-randconfig-003-20260610 (https://download.01.org/0day-ci/archive/20260610/202606101057.hHh1Oz5d-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606101057.hHh1Oz5d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9d9b193ed73a ("crypto: hash - Increase HASH_MAX_DESCSIZE for hmac(sha3-224-s390)")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606101048.ma5faTxi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606101057.hHh1Oz5d-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   crypto/hmac.c: In function 'hmac_setkey_ahash':
->> crypto/hmac.c:301:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     301 | }
-         | ^
+>> sound/soc/qcom/qdsp6/q6apm-lpass-dais.c:311:2: warning: variable 'sysclk' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+     311 |         default:
+         |         ^~~~~~~
+   sound/soc/qcom/qdsp6/q6apm-lpass-dais.c:315:6: note: uninitialized use occurs here
+     315 |         if (sysclk) {
+         |             ^~~~~~
+   sound/soc/qcom/qdsp6/q6apm-lpass-dais.c:294:20: note: initialize the variable 'sysclk' to silence this warning
+     294 |         struct clk *sysclk;
+         |                           ^
+         |                            = NULL
+   1 warning generated.
 
 
-vim +301 crypto/hmac.c
+vim +/sysclk +311 sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
 
-0796ae061e6da5 Herbert Xu 2006-08-21  250  
-c3103416d52176 Herbert Xu 2025-05-15  251  static int hmac_setkey_ahash(struct crypto_ahash *parent,
-c3103416d52176 Herbert Xu 2025-05-15  252  			     const u8 *inkey, unsigned int keylen)
-c3103416d52176 Herbert Xu 2025-05-15  253  {
-c3103416d52176 Herbert Xu 2025-05-15  254  	struct ahash_hmac_ctx *tctx = crypto_ahash_ctx(parent);
-c3103416d52176 Herbert Xu 2025-05-15  255  	struct crypto_ahash *fb = crypto_ahash_fb(tctx->hash);
-c3103416d52176 Herbert Xu 2025-05-15  256  	int ds = crypto_ahash_digestsize(parent);
-c3103416d52176 Herbert Xu 2025-05-15  257  	int bs = crypto_ahash_blocksize(parent);
-c3103416d52176 Herbert Xu 2025-05-15  258  	int ss = crypto_ahash_statesize(parent);
-c3103416d52176 Herbert Xu 2025-05-15  259  	HASH_REQUEST_ON_STACK(req, fb);
-c3103416d52176 Herbert Xu 2025-05-15  260  	u8 *opad = &tctx->pads[ss];
-c3103416d52176 Herbert Xu 2025-05-15  261  	u8 *ipad = &tctx->pads[0];
-c3103416d52176 Herbert Xu 2025-05-15  262  	int err, i;
-c3103416d52176 Herbert Xu 2025-05-15  263  
-c3103416d52176 Herbert Xu 2025-05-15  264  	if (fips_enabled && (keylen < 112 / 8))
-c3103416d52176 Herbert Xu 2025-05-15  265  		return -EINVAL;
-c3103416d52176 Herbert Xu 2025-05-15  266  
-c3103416d52176 Herbert Xu 2025-05-15  267  	ahash_request_set_callback(req, 0, NULL, NULL);
-c3103416d52176 Herbert Xu 2025-05-15  268  
-c3103416d52176 Herbert Xu 2025-05-15  269  	if (keylen > bs) {
-c3103416d52176 Herbert Xu 2025-05-15  270  		ahash_request_set_virt(req, inkey, ipad, keylen);
-c3103416d52176 Herbert Xu 2025-05-15  271  		err = crypto_ahash_digest(req);
-c3103416d52176 Herbert Xu 2025-05-15  272  		if (err)
-c3103416d52176 Herbert Xu 2025-05-15  273  			goto out_zero_req;
-c3103416d52176 Herbert Xu 2025-05-15  274  
-c3103416d52176 Herbert Xu 2025-05-15  275  		keylen = ds;
-c3103416d52176 Herbert Xu 2025-05-15  276  	} else
-c3103416d52176 Herbert Xu 2025-05-15  277  		memcpy(ipad, inkey, keylen);
-c3103416d52176 Herbert Xu 2025-05-15  278  
-c3103416d52176 Herbert Xu 2025-05-15  279  	memset(ipad + keylen, 0, bs - keylen);
-c3103416d52176 Herbert Xu 2025-05-15  280  	memcpy(opad, ipad, bs);
-c3103416d52176 Herbert Xu 2025-05-15  281  
-c3103416d52176 Herbert Xu 2025-05-15  282  	for (i = 0; i < bs; i++) {
-c3103416d52176 Herbert Xu 2025-05-15  283  		ipad[i] ^= HMAC_IPAD_VALUE;
-c3103416d52176 Herbert Xu 2025-05-15  284  		opad[i] ^= HMAC_OPAD_VALUE;
-c3103416d52176 Herbert Xu 2025-05-15  285  	}
-c3103416d52176 Herbert Xu 2025-05-15  286  
-c3103416d52176 Herbert Xu 2025-05-15  287  	ahash_request_set_virt(req, ipad, NULL, bs);
-c3103416d52176 Herbert Xu 2025-05-15  288  	err = crypto_ahash_init(req) ?:
-c3103416d52176 Herbert Xu 2025-05-15  289  	      crypto_ahash_update(req) ?:
-c3103416d52176 Herbert Xu 2025-05-15  290  	      crypto_ahash_export(req, ipad);
-c3103416d52176 Herbert Xu 2025-05-15  291  
-c3103416d52176 Herbert Xu 2025-05-15  292  	ahash_request_set_virt(req, opad, NULL, bs);
-c3103416d52176 Herbert Xu 2025-05-15  293  	err = err ?:
-c3103416d52176 Herbert Xu 2025-05-15  294  	      crypto_ahash_init(req) ?:
-c3103416d52176 Herbert Xu 2025-05-15  295  	      crypto_ahash_update(req) ?:
-c3103416d52176 Herbert Xu 2025-05-15  296  	      crypto_ahash_export(req, opad);
-c3103416d52176 Herbert Xu 2025-05-15  297  
-c3103416d52176 Herbert Xu 2025-05-15  298  out_zero_req:
-c3103416d52176 Herbert Xu 2025-05-15  299  	HASH_REQUEST_ZERO(req);
-c3103416d52176 Herbert Xu 2025-05-15  300  	return err;
-c3103416d52176 Herbert Xu 2025-05-15 @301  }
-c3103416d52176 Herbert Xu 2025-05-15  302  
-
-:::::: The code at line 301 was first introduced by commit
-:::::: c3103416d5217655d707d9417aaf66f184e3d72f crypto: hmac - Add ahash support
-
-:::::: TO: Herbert Xu <herbert@gondor.apana.org.au>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+   290	
+   291	static int q6i2s_set_sysclk(struct snd_soc_dai *dai, int clk_id, unsigned int freq, int dir)
+   292	{
+   293		struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
+   294		struct clk *sysclk;
+   295		bool *enabled;
+   296		int ret = 0;
+   297	
+   298		switch (clk_id) {
+   299		case LPAIF_MI2S_MCLK:
+   300			sysclk = dai_data->priv[dai->id].mclk;
+   301			enabled = &dai_data->priv[dai->id].mclk_enabled;
+   302			break;
+   303		case LPAIF_MI2S_BCLK:
+   304			sysclk = dai_data->priv[dai->id].bclk;
+   305			enabled = &dai_data->priv[dai->id].bclk_enabled;
+   306			break;
+   307		case LPAIF_MI2S_ECLK:
+   308			sysclk = dai_data->priv[dai->id].eclk;
+   309			enabled = &dai_data->priv[dai->id].eclk_enabled;
+   310			break;
+ > 311		default:
+   312			break;
+   313		}
+   314	
+   315		if (sysclk) {
+   316			clk_set_rate(sysclk, freq);
+   317			ret = clk_prepare_enable(sysclk);
+   318			if (ret) {
+   319				dev_err(dai->dev, "Error, Unable to prepare (%d) sysclk\n", clk_id);
+   320				return ret;
+   321			}
+   322	
+   323			*enabled = true;
+   324		}
+   325	
+   326		return ret;
+   327	}
+   328	
 
 --
 0-DAY CI Kernel Test Service
