@@ -1,119 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED28232694F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 03:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C52B352C35
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 05:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781063374; cv=none; b=e7/8OC136g/hCRNSdc+efPE7L5QYfg07MpqDG7RnVFU8rz/hOqnwoR2y3kbcW8w7wfzGbGFmMLCe8i3oqQudgqQzoNdeZ2PeKeuGydOaqK7wqq841ol29V9d8vQTnUEC4ob5/9ookcuOZReRDJ7O58Uk7HGDcXA7y8I/5xDQn3s=
+	t=1781068882; cv=none; b=sZbKsQ9F9k/4Cf5BvEhJHUNCumPfDHwtAbe8FzA7AwAoZF0YLF+c2txzr+4OEDTKT969uDeHYd4yIFr6EQrqu7wRNejAFQzAi6yMElqLvRa5BAlsEZMvjlC/lpVnF4au22HmxNAFm+Z42sFdL6t4AFiRWpEoFJgez/kedSZtQVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781063374; c=relaxed/simple;
-	bh=KYpIDmSexgrTILzapC+3rrNyZFokBG++p4LHZiLCPvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UBgUXyyhmtBL4HN1fl7GZHpBhG0G7ny/rk8aUGPESJ1i0XpLyIvZya9hI/Gb1mLHQO6vcT5DcfHHLM7eEmNmp+EqMprJRroOVTepHyPZQwDKfGbQTju1halBXe8uZoV9aZtpyd5cuZLHPsX/uFDmI9y7aK02C0Sq0zUvdQXN1wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAICHqWT; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1781068882; c=relaxed/simple;
+	bh=M7tELnQhajuWNUAKZGdQYpEoQBjyCBIW+hVqN8eFhd0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kVrmE9AJDpHmzGnotmeE0BiKJR9tSs6FII/xmNYo0KMKQfP3XRPZ+aLgjFK7RE4QhBv/+h7UtOzUboB4+X6ctYXQAZpG8/ogFuuyZliyXc25gndyZsWnScoFJaODuv2H/sF5bs34ZBtUDcdBoCtUEjb1V5gsWzmCB/S9rXFUOb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a67GqHJP; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAICHqWT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a67GqHJP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781063372; x=1812599372;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KYpIDmSexgrTILzapC+3rrNyZFokBG++p4LHZiLCPvQ=;
-  b=iAICHqWTR5kI8e13TYUk1T2BywmbiHjlPa8COpK9FVdpfjfA/rJE/mH/
-   WYa3EUXo0JVVaKla2VTp6jUtktlG+LcyXDFscE5SLl56Ya5NtGmxs8sgK
-   N7657Aiy5ioRM4wScUVeue0lR/jNoBzAhsCOmE9a0Umh15adMPsgJlvWP
-   bLj/xzEVBxFB+pm7djgvkal9zu6IluaUWodDmm6u+BzFoFj9mRKvoD8NS
-   iKmJJAMS+R2QXINYwjykZRlEkRI7nzLDk783FluL/esZlof+X4R9EWBLs
-   vNXi3zFtYSXyN0RFFTf5URD+uy6jywkklTtLnEgTNnMU2WjcivuFvN/ol
+  t=1781068881; x=1812604881;
+  h=date:from:to:cc:subject:message-id;
+  bh=M7tELnQhajuWNUAKZGdQYpEoQBjyCBIW+hVqN8eFhd0=;
+  b=a67GqHJP1aBCdgrvXVcNqEOkP72cT3v6yagUEkc8zrP4cCnsQ6KHDHZ0
+   lbE3SxEx+zzOtGe95mAwrrib8V5A5i5MDt8RXJCPOsstzVoES41SKs4mB
+   RN8oykAa61jY8vXzufz2+K3F1klzNMzBVJgbjqsjBZA5hem41aMCCZw59
+   9EXXGavRs08bQV8yMxFIoapuMkMX2CTXTwamZ/Qtzgq9vJZo2291GFoJW
+   l3mAnX+0d5BuJYG3dQjV0SKqRtbJSFkgwiR1bOCsUb3wJCZLb6t3pz+PB
+   p6qPZYllt5zRqFo53UhTygDLl+w6VKhHa+Ymo+/t8/PKDgiZObZo1vb9H
    A==;
-X-CSE-ConnectionGUID: ZuigvotiSGWCV8YIFl4LFQ==
-X-CSE-MsgGUID: wZd7Eg2XQ728XNQU5MT1Gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="82039531"
+X-CSE-ConnectionGUID: MJ81jhgFSGGGkWipWRWvtA==
+X-CSE-MsgGUID: Gu0AZQ2ET5yJHTw9UpicAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="84421368"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="82039531"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 20:49:32 -0700
-X-CSE-ConnectionGUID: IsPE+VdaRuSR6HvyLHOUGQ==
-X-CSE-MsgGUID: 2E+NuBHdQgq8eMn5EIyVlg==
+   d="scan'208";a="84421368"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 22:21:20 -0700
+X-CSE-ConnectionGUID: O51jEB51TJGU44OpLwf/Bg==
+X-CSE-MsgGUID: YZRXdS5sQVmDTy5sfWM4Vw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="244909650"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 09 Jun 2026 20:49:30 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="243096125"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jun 2026 22:21:19 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wX9wU-000000003bt-2z3n;
-	Wed, 10 Jun 2026 03:49:26 +0000
-Date: Wed, 10 Jun 2026 05:49:05 +0200
+	id 1wXBNM-00000000Kvy-3GiZ;
+	Wed, 10 Jun 2026 05:21:16 +0000
+Date: Wed, 10 Jun 2026 13:20:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sabrina Dubroca <sd@queasysnail.net>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Sabrina Dubroca <sd@queasysnail.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH net-next 2/2] net: remove some unused EXPORT_SYMBOL()s
-Message-ID: <202606100534.VKtBus9X-lkp@intel.com>
-References: <cbf1457c5d192a206f2f244ea3453766cb5dbbf9.1781013810.git.sd@queasysnail.net>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>
+Subject: [linux-next:master 10407/12670]
+ drivers/nvme/host/sysfs.c:357:30: sparse: sparse: symbol
+ 'nvme_ns_diag_attr_group' was not declared. Should it be static?
+Message-ID: <202606101329.T3zXNqdy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cbf1457c5d192a206f2f244ea3453766cb5dbbf9.1781013810.git.sd@queasysnail.net>
 
-Hi Sabrina,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sabrina-Dubroca/tls-remove-tls_toe-and-the-related-driver/20260609-223704
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/cbf1457c5d192a206f2f244ea3453766cb5dbbf9.1781013810.git.sd%40queasysnail.net
-patch subject: [PATCH net-next 2/2] net: remove some unused EXPORT_SYMBOL()s
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260610/202606100534.VKtBus9X-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   49e02880ec0a8c378e811bc9d85da188d7c6204c
+commit: 37afebc79a11bd889fe8e0a98c9ae034c3cff323 [10407/12670] nvme: add diag attribute group under sysfs
+config: microblaze-randconfig-r131-20260610 (https://download.01.org/0day-ci/archive/20260610/202606101329.T3zXNqdy-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606101329.T3zXNqdy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606100534.VKtBus9X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606101329.T3zXNqdy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/sysfs.c:357:30: sparse: sparse: symbol 'nvme_ns_diag_attr_group' was not declared. Should it be static?
 
-   ===================================================== [docutils]
-   Documentation/networking/ipvs-sysctl.rst:88: ERROR: Unexpected indentation. [docutils]
->> Documentation/networking/tls-offload.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
-   Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+vim +/nvme_ns_diag_attr_group +357 drivers/nvme/host/sysfs.c
 
-
-vim +29 Documentation/networking/tls-offload.rst
-
-f42c104f2ec94a Jakub Kicinski 2019-05-21  17  
-f42c104f2ec94a Jakub Kicinski 2019-05-21  18   * Software crypto mode (``TLS_SW``) - CPU handles the cryptography.
-f42c104f2ec94a Jakub Kicinski 2019-05-21  19     In most basic cases only crypto operations synchronous with the CPU
-f42c104f2ec94a Jakub Kicinski 2019-05-21  20     can be used, but depending on calling context CPU may utilize
-f42c104f2ec94a Jakub Kicinski 2019-05-21  21     asynchronous crypto accelerators. The use of accelerators introduces extra
-f42c104f2ec94a Jakub Kicinski 2019-05-21  22     latency on socket reads (decryption only starts when a read syscall
-f42c104f2ec94a Jakub Kicinski 2019-05-21  23     is made) and additional I/O load on the system.
-f42c104f2ec94a Jakub Kicinski 2019-05-21  24   * Packet-based NIC offload mode (``TLS_HW``) - the NIC handles crypto
-f42c104f2ec94a Jakub Kicinski 2019-05-21  25     on a packet by packet basis, provided the packets arrive in order.
-f42c104f2ec94a Jakub Kicinski 2019-05-21  26     This mode integrates best with the kernel stack and is described in detail
-f42c104f2ec94a Jakub Kicinski 2019-05-21  27     in the remaining part of this document
-f42c104f2ec94a Jakub Kicinski 2019-05-21  28     (``ethtool`` flags ``tls-hw-tx-offload`` and ``tls-hw-rx-offload``).
-f42c104f2ec94a Jakub Kicinski 2019-05-21 @29  The operation mode is selected automatically based on device configuration,
-f42c104f2ec94a Jakub Kicinski 2019-05-21  30  offload opt-in or opt-out on per-connection basis is not currently supported.
-f42c104f2ec94a Jakub Kicinski 2019-05-21  31  
+   356	
+ > 357	const struct attribute_group nvme_ns_diag_attr_group = {
+   358		.name		= "diag",
+   359		.attrs		= nvme_ns_diag_attrs,
+   360		.is_visible	= nvme_ns_diag_attrs_are_visible,
+   361	};
+   362	
 
 --
 0-DAY CI Kernel Test Service
