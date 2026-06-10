@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33B1361641;
-	Wed, 10 Jun 2026 19:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4A037A488
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 19:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781119982; cv=none; b=U6SZdXkod/N5N/X8AJ5YiU5mav62c+3MaF81RwTSgzRJDR7fwxPHDS6BSKc2gRKSdkmOjfLnyn9yu1o0L7evirtYZCN77ygBrAp617AkFlW2sXQQu8CoIV19XasaCaXYZ+mJ1dbcPLpjv6U9WL7+zVfudTpg64BxDNRRwxJXKTE=
+	t=1781120571; cv=none; b=ExEi1UeO/BCNBU0QT28m7NAmMm2ZpbW+uaaN8CwhjL4OIedIB8BM7rdyciJsBA3pnw6jeX9MBZca146RvoCzG6Rngs5ocxsMAmjtQxHwkfZEBbHOF3gZZvfpI7m7Hu47AbRJ6DqaUEtBxrNlabApvzIopFY5fhUaGqG3MMpvZAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781119982; c=relaxed/simple;
-	bh=GY05IJrZKcxcHjpA8csG4o4QDYOJDwexr7PFGzhyaHc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nzbpI99bcwTNrnXJz4J3ZwL7jsWLm5Bcaj7eylo5598RCGXt7csA0Ao4cq3wNNaEydtfb7YJDlic6CkL1GmL6gI/8jEdi2vs/D4ppx4j1SJiGmFxQ6ppVVAUZR6FTQ38Ksi4hkWuUfrmuLLPFXluvYkWTUTpcew4XL0jG3pwNI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/CSut24; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1781120571; c=relaxed/simple;
+	bh=3GQX8iOMghsbBZ2Gse6jCTk0NW17XporX91fwkdb3pU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IIouvHdNrQyqVSbfr7A+XV/9DarW36BR8XI3ar+zhSF86uO3eI3x1nVe22MSclhM9V7I6JJq9236uwtC47EgzgDM8pnbiDQyWG4foPaTSd1JeVf3fVRVUQijU+NIMXLOm7WiHLnHRezpH3nAy1JVvuFndwUgymfERVUj8m4/rFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TtEcCRHh; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/CSut24"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtEcCRHh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781119979; x=1812655979;
+  t=1781120570; x=1812656570;
   h=date:from:to:cc:subject:message-id;
-  bh=GY05IJrZKcxcHjpA8csG4o4QDYOJDwexr7PFGzhyaHc=;
-  b=i/CSut24Hplje1O/FUrq82F72kkCuSklGuGwzwPxq7ajJftB1SeE+S4I
-   70TLShbmq4EgiZLbipOb8/GC8XDu1BSZA9gYHvQQODLyrLeZjQb2r1cac
-   9fOIfYAHghIz3ph663idlbLzOE9aGoUOyOrI2TGOO2d5nDqkkduc0C9IY
-   /sMM0362UmFskH94e1Njrx8uChwBG4HOKa2Mq+mjdwXcYkCSTmCsAij0R
-   F2TWbYalgljMr40OBJHGFPW5O2zokypClbB9qcCexX7q/pijz5JZeC9IQ
-   oRQURVn6x2U7xnSl2FufkzYRGDeurItyL/pNklZfVLh6S4CRrHSLacBcJ
+  bh=3GQX8iOMghsbBZ2Gse6jCTk0NW17XporX91fwkdb3pU=;
+  b=TtEcCRHh89ahailjhV9dm2QlyV5UZcBayxKWEvI4AMWs6GTelexO5yDk
+   MSVDEFZwAgFIf7vEVyrQIRZ/JV4FWOtZhL2NOt7kU7NLb3mkLzMS8rZlP
+   1ElhFFy4T7IYgOT+1o9lrfxiNoC2w88vt+FSejrFbJS7VBjUCEalCioXN
+   gqx1FmyDiRVpo/F6ljpn914lebLyqFAMXEpBgCepdnQCpNKbA+AG60BZs
+   KnHJyAAl4tWDqSRtBse5pVLMV+G82/IGrJcueYxtH5rfx7BazHw/ugkYQ
+   VCtWSoJyPo0XCa4slkFFfTamRSgn/RXPJNWdRoUW5RQDw9JA0P7tBKLtY
    w==;
-X-CSE-ConnectionGUID: +ubKRUJBRJmwanTbODfRRQ==
-X-CSE-MsgGUID: pHDMNz37SgG7pK7UdabpWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81987247"
+X-CSE-ConnectionGUID: CSiEvrbiSlGPnd9XjErADA==
+X-CSE-MsgGUID: +PenFQ46RV23Gzdqvp3hAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82033768"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="81987247"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 12:32:48 -0700
-X-CSE-ConnectionGUID: 1yBt8qdqTQ2GXOwIA2LhLg==
-X-CSE-MsgGUID: LLohIqf+RuujZ4mFGGamRA==
+   d="scan'208";a="82033768"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 12:42:49 -0700
+X-CSE-ConnectionGUID: krEe+Sx0RficyBJvK0R5Rw==
+X-CSE-MsgGUID: nfG+QyGFR4uK0v6nm9hBYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="251179401"
+   d="scan'208";a="269948561"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Jun 2026 12:32:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 Jun 2026 12:42:48 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXOfL-00000000Los-3vow;
-	Wed, 10 Jun 2026 19:32:43 +0000
-Date: Thu, 11 Jun 2026 03:31:51 +0800
+	id 1wXOp3-00000000Lq4-36Gi;
+	Wed, 10 Jun 2026 19:42:45 +0000
+Date: Thu, 11 Jun 2026 03:42:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Jun <lijun01@kylinos.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:asoc-7.1 10/10]
- sound/soc/loongson/loongson_dma.c:213:45: warning: format specifies type
- 'unsigned int' but the argument has type 'u64' (aka 'unsigned long long')
-Message-ID: <202606110332.I6vetCYj-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 0/2]
+ arch/x86/coco/pkvm/pkvm.c:130:12: warning: 'pkvm_wakeup_secondary_cpu'
+ defined but not used
+Message-ID: <202606110309.cvY7k9qG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,63 +60,57 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git asoc-7.1
-head:   3f3d5a7a065fc9874f671c5afb9dd214f7671946
-commit: 3f3d5a7a065fc9874f671c5afb9dd214f7671946 [10/10] ASoC: loongson: Fix invalid position error in ls_pcm_pointer
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260611/202606110332.I6vetCYj-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606110332.I6vetCYj-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   19f145cefca5621fd2dd6693def69fe1a476b2d7
+commit: 171a0f6163b37c35a8ef394153bce28ba6206f71 [0/2] ANDROID: x86/pkvm: Use hypercall to start CPUs
+config: i386-randconfig-002-20260611 (https://download.01.org/0day-ci/archive/20260611/202606110309.cvY7k9qG-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606110309.cvY7k9qG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606110332.I6vetCYj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606110309.cvY7k9qG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/soc/loongson/loongson_dma.c:213:45: warning: format specifies type 'unsigned int' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
-     213 |                 dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
-         |                                                    ~~     ^~~~
-         |                                                    %llx
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                     ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   1 warning generated.
+>> arch/x86/coco/pkvm/pkvm.c:130:12: warning: 'pkvm_wakeup_secondary_cpu' defined but not used [-Wunused-function]
+     130 | static int pkvm_wakeup_secondary_cpu(u32 apic_id, unsigned long start_ip, unsigned int cpu)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/coco/pkvm/pkvm.c:123:13: warning: 'pkvm_mmio_writeq' defined but not used [-Wunused-function]
+     123 | static void pkvm_mmio_writeq(u64 v, volatile void __iomem *addr)
+         |             ^~~~~~~~~~~~~~~~
+   arch/x86/coco/pkvm/pkvm.c:93:12: warning: 'pkvm_mmio_readq' defined but not used [-Wunused-function]
+      93 | static u64 pkvm_mmio_readq(const volatile void __iomem *addr)
+         |            ^~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_SCU
+   Depends on [n]: X86_PLATFORM_DEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
 
 
-vim +213 sound/soc/loongson/loongson_dma.c
+vim +/pkvm_wakeup_secondary_cpu +130 arch/x86/coco/pkvm/pkvm.c
 
-   196	
-   197	static snd_pcm_uframes_t
-   198	loongson_pcm_pointer(struct snd_soc_component *component,
-   199			     struct snd_pcm_substream *substream)
-   200	{
-   201		struct snd_pcm_runtime *runtime = substream->runtime;
-   202		struct device *dev = substream->pcm->card->dev;
-   203		struct loongson_runtime_data *prtd = runtime->private_data;
-   204		struct loongson_dma_desc *desc;
-   205		snd_pcm_uframes_t x;
-   206		u64 addr;
-   207	
-   208		desc = dma_desc_save(prtd);
-   209		addr = ((u64)desc->saddr_hi << 32) | desc->saddr;
-   210	
-   211		if (addr < runtime->dma_addr ||
-   212		    addr > runtime->dma_addr + runtime->dma_bytes) {
- > 213			dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
-   214			x = 0;
-   215		} else {
-   216			x = bytes_to_frames(runtime, addr - runtime->dma_addr);
-   217			if (x == runtime->buffer_size)
-   218				x = 0;
-   219		}
-   220	
-   221		return x;
-   222	}
-   223	
+   129	
+ > 130	static int pkvm_wakeup_secondary_cpu(u32 apic_id, unsigned long start_ip, unsigned int cpu)
+   131	{
+   132		return kvm_hypercall2(PKVM_GHC_START_CPU, apic_id, start_ip);
+   133	}
+   134	
 
 --
 0-DAY CI Kernel Test Service
