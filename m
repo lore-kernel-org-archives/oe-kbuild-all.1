@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20752EEE99
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 03:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED28232694F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 03:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781063173; cv=none; b=XiFaWGI7V1VcNBIJW1wozP+4PAfRfETXgGXVB3zzmKSRV7RBo/pGpXsehANMZXV4PzUTovMNUh8jPlVFt4OBg0MqQKgTqh8ZpCqL4WBszO2aW9IZWpZmsFRFDZia8mvjHFQL67AJo8pTV29Syd8q8vO7ZSNWF3ilsTqd5j7em8g=
+	t=1781063374; cv=none; b=e7/8OC136g/hCRNSdc+efPE7L5QYfg07MpqDG7RnVFU8rz/hOqnwoR2y3kbcW8w7wfzGbGFmMLCe8i3oqQudgqQzoNdeZ2PeKeuGydOaqK7wqq841ol29V9d8vQTnUEC4ob5/9ookcuOZReRDJ7O58Uk7HGDcXA7y8I/5xDQn3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781063173; c=relaxed/simple;
-	bh=verQQH9xS0Kt9TML7W4Uyyf/Sx7YvSc3FYMDOwweIW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=P3IUTLWu4Xh0IBO4i1cozBZsTMP5LLOgkbf1a4d5DDThYdQ7O21UYkAJPOPmLfZo6SEpsujvXP6IT5GhYpM3yKOgTxeEh+ZaYZQj7GP2RrstBpUBi0r5iYdHyM0+wE4kM6HN/fWZsNhKH/PlvrpZlbSWcmkqQ2SwFMYGvZSpaPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AcR7q2LQ; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1781063374; c=relaxed/simple;
+	bh=KYpIDmSexgrTILzapC+3rrNyZFokBG++p4LHZiLCPvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UBgUXyyhmtBL4HN1fl7GZHpBhG0G7ny/rk8aUGPESJ1i0XpLyIvZya9hI/Gb1mLHQO6vcT5DcfHHLM7eEmNmp+EqMprJRroOVTepHyPZQwDKfGbQTju1halBXe8uZoV9aZtpyd5cuZLHPsX/uFDmI9y7aK02C0Sq0zUvdQXN1wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAICHqWT; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AcR7q2LQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAICHqWT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781063172; x=1812599172;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=verQQH9xS0Kt9TML7W4Uyyf/Sx7YvSc3FYMDOwweIW8=;
-  b=AcR7q2LQGZFFdvLsk0nOXJ+RTgIKSBH4YnJEkQAIF6G04+pcHk2xqBfv
-   C4jXzUSjZ8xRXHTijWm1l5qLgXcvP2Ix+yFahK8tMjz6gzsO0wVWltdIP
-   A14o5wJ12yRPLdvCZN0D0i2URR1keplgI8yLwcQYK5W74tn1IUhMqfEaO
-   hQkmAiWwRph67VB1jqx1vlSki8+f8G0BiYGeaGCigzvO3X+ucwG4a4frw
-   W8wNzGAVbtNbMZhaLbX9OU/i1WcQLNAr7WnKHkCjDkUERlIcM9zb7/H4W
-   bdbiBIyZ4+pth1b3ke2Xv3QfRoMq8dFC3yuRMzBVRpnB4O3yyJvkDA1Dj
-   w==;
-X-CSE-ConnectionGUID: 9g2dKRDEQr2hqakdGHKQ3g==
-X-CSE-MsgGUID: hEuLfwbNQMmZ6vgp7VdzWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="85474431"
+  t=1781063372; x=1812599372;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KYpIDmSexgrTILzapC+3rrNyZFokBG++p4LHZiLCPvQ=;
+  b=iAICHqWTR5kI8e13TYUk1T2BywmbiHjlPa8COpK9FVdpfjfA/rJE/mH/
+   WYa3EUXo0JVVaKla2VTp6jUtktlG+LcyXDFscE5SLl56Ya5NtGmxs8sgK
+   N7657Aiy5ioRM4wScUVeue0lR/jNoBzAhsCOmE9a0Umh15adMPsgJlvWP
+   bLj/xzEVBxFB+pm7djgvkal9zu6IluaUWodDmm6u+BzFoFj9mRKvoD8NS
+   iKmJJAMS+R2QXINYwjykZRlEkRI7nzLDk783FluL/esZlof+X4R9EWBLs
+   vNXi3zFtYSXyN0RFFTf5URD+uy6jywkklTtLnEgTNnMU2WjcivuFvN/ol
+   A==;
+X-CSE-ConnectionGUID: ZuigvotiSGWCV8YIFl4LFQ==
+X-CSE-MsgGUID: wZd7Eg2XQ728XNQU5MT1Gg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="82039531"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="85474431"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 20:46:10 -0700
-X-CSE-ConnectionGUID: t942LcRBRzSliN9w/MHVVQ==
-X-CSE-MsgGUID: xYHo/vVJRIyHcVAnDQDfDw==
+   d="scan'208";a="82039531"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 20:49:32 -0700
+X-CSE-ConnectionGUID: IsPE+VdaRuSR6HvyLHOUGQ==
+X-CSE-MsgGUID: 2E+NuBHdQgq8eMn5EIyVlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="249973099"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Jun 2026 20:46:09 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="244909650"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 09 Jun 2026 20:49:30 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wX9tG-00000000KsA-0ajW;
-	Wed, 10 Jun 2026 03:46:06 +0000
-Date: Wed, 10 Jun 2026 11:45:36 +0800
+	id 1wX9wU-000000003bt-2z3n;
+	Wed, 10 Jun 2026 03:49:26 +0000
+Date: Wed, 10 Jun 2026 05:49:05 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>
-Subject: [groeck-staging:hwmon-next 71/74]
- drivers/hwmon/cros_ec_hwmon.c:158:13: warning:
- 'cros_ec_hwmon_millicelsius_to_kelvin' defined but not used
-Message-ID: <202606101103.K2DwFMw7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sabrina Dubroca <sd@queasysnail.net>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Sabrina Dubroca <sd@queasysnail.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>
+Subject: Re: [PATCH net-next 2/2] net: remove some unused EXPORT_SYMBOL()s
+Message-ID: <202606100534.VKtBus9X-lkp@intel.com>
+References: <cbf1457c5d192a206f2f244ea3453766cb5dbbf9.1781013810.git.sd@queasysnail.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,35 +66,54 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cbf1457c5d192a206f2f244ea3453766cb5dbbf9.1781013810.git.sd@queasysnail.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   1723bc01ecc7ca2f30272685121314379ba5eb18
-commit: 4a1140942f92a3608a708be12cedae3968f9f9c8 [71/74] hwmon: (cros_ec) Implement custom kelvin to celsius conversions
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260610/202606101103.K2DwFMw7-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606101103.K2DwFMw7-lkp@intel.com/reproduce)
+Hi Sabrina,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sabrina-Dubroca/tls-remove-tls_toe-and-the-related-driver/20260609-223704
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/cbf1457c5d192a206f2f244ea3453766cb5dbbf9.1781013810.git.sd%40queasysnail.net
+patch subject: [PATCH net-next 2/2] net: remove some unused EXPORT_SYMBOL()s
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260610/202606100534.VKtBus9X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606101103.K2DwFMw7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606100534.VKtBus9X-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hwmon/cros_ec_hwmon.c:158:13: warning: 'cros_ec_hwmon_millicelsius_to_kelvin' defined but not used [-Wunused-function]
-     158 | static long cros_ec_hwmon_millicelsius_to_kelvin(long t)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ===================================================== [docutils]
+   Documentation/networking/ipvs-sysctl.rst:88: ERROR: Unexpected indentation. [docutils]
+>> Documentation/networking/tls-offload.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
+   Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
 
 
-vim +/cros_ec_hwmon_millicelsius_to_kelvin +158 drivers/hwmon/cros_ec_hwmon.c
+vim +29 Documentation/networking/tls-offload.rst
 
-   157	
- > 158	static long cros_ec_hwmon_millicelsius_to_kelvin(long t)
-   159	{
-   160		return DIV_ROUND_CLOSEST(t - CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS,
-   161					 MILLIDEGREE_PER_DEGREE);
-   162	}
-   163	
+f42c104f2ec94a Jakub Kicinski 2019-05-21  17  
+f42c104f2ec94a Jakub Kicinski 2019-05-21  18   * Software crypto mode (``TLS_SW``) - CPU handles the cryptography.
+f42c104f2ec94a Jakub Kicinski 2019-05-21  19     In most basic cases only crypto operations synchronous with the CPU
+f42c104f2ec94a Jakub Kicinski 2019-05-21  20     can be used, but depending on calling context CPU may utilize
+f42c104f2ec94a Jakub Kicinski 2019-05-21  21     asynchronous crypto accelerators. The use of accelerators introduces extra
+f42c104f2ec94a Jakub Kicinski 2019-05-21  22     latency on socket reads (decryption only starts when a read syscall
+f42c104f2ec94a Jakub Kicinski 2019-05-21  23     is made) and additional I/O load on the system.
+f42c104f2ec94a Jakub Kicinski 2019-05-21  24   * Packet-based NIC offload mode (``TLS_HW``) - the NIC handles crypto
+f42c104f2ec94a Jakub Kicinski 2019-05-21  25     on a packet by packet basis, provided the packets arrive in order.
+f42c104f2ec94a Jakub Kicinski 2019-05-21  26     This mode integrates best with the kernel stack and is described in detail
+f42c104f2ec94a Jakub Kicinski 2019-05-21  27     in the remaining part of this document
+f42c104f2ec94a Jakub Kicinski 2019-05-21  28     (``ethtool`` flags ``tls-hw-tx-offload`` and ``tls-hw-rx-offload``).
+f42c104f2ec94a Jakub Kicinski 2019-05-21 @29  The operation mode is selected automatically based on device configuration,
+f42c104f2ec94a Jakub Kicinski 2019-05-21  30  offload opt-in or opt-out on per-connection basis is not currently supported.
+f42c104f2ec94a Jakub Kicinski 2019-05-21  31  
 
 --
 0-DAY CI Kernel Test Service
