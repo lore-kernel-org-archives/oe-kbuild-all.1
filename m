@@ -1,235 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F071C20C00A;
-	Wed, 10 Jun 2026 00:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0430B228CB0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 01:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781053159; cv=none; b=WowlL4dEioJkVzvFEnlPYq60HH5ZdtaHUsH4L0qz/88CKxK8REQvaunoLkaxszad9GdzqOFE6yFUac3/ycZBk/rKt6v1gKe9PjJaDTOy4KxDG+dCnloOaaeGorANgTS3Ij/xlzz5oqTs3Xku4zFZaBqxovQOtEcd2Vqq84yKRYE=
+	t=1781053437; cv=none; b=CRZUWV+Zv/rGTwUhwVnHHH7Bi9CLnci7VgVsY3Q8mCBMXxYepIZF4qJKJwZzBqiD5D1idthmLMKMmen9vWK2puaFOViD0j0cMEo+0cfGIlWX+bjO6b7v7srLjcD99PhpbfUOaoLUN1UX0TIfMcby/hV9IM6YrVt8EmYJe7nV4N0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781053159; c=relaxed/simple;
-	bh=bg0Kt87vKWA6+4X2YYr8x4OdUB0JRpeubAmPpDheKeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tPWTWb6V3JWvbPYKL0Z+zJjI4abe3YudeA7X+cgbqnQwO7QpqlTBvI0rtpTamEaHRfsJag7ZPlXaYDYMt5RAZbPFzTJZOfBDwAgc+V8fTxJGhC6REoqDstmnf0wthmP193FLm1eNcYk/we3069ybQLuwDCUA1NtLvE7IhPPdeuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mc/6UnTT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781053437; c=relaxed/simple;
+	bh=LhQP71HqfWw9aySOn7bAy/tNklTZqPnFgZUz/+FPph0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aI+3sylA2hTp7bSGVu1cRAuMe9RmgRFZAPxTPkNdQZuCCXuwk8kW6WgejLLWviL4EJ/Est3DECCyT/eTuAuDCYQC+p5giY6eGQqk9x5dDUgNFOthLgNsDOvv/F9ZFJuE+/2DIRH7IcT+w41wSzj92Uamx0WgE4sUzIilBe4koxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bi+6xuet; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mc/6UnTT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D26F21F00893;
-	Wed, 10 Jun 2026 00:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781053157;
-	bh=uUVnW9bl08ieM7eZ90v8rpfEm8zqR16wKdKv8Uejgr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Mc/6UnTTvKBwkl68AwgjWg+9Fl4aIdsh+Orye1yQPcO8asfuOuXZZM1KQFoy9XYqQ
-	 mX5u/E3xXbmWdlfEUlGhvPktdrY3Gh5aWmnZ5kj4KggKLPrZm/7+vOc1oAkzGymanz
-	 tinizkHQLBR7ZdB8OJrFzEs2IstWQl3Cm99JoAlgXyO9O/dKyt9022TKPVYn7uyj/D
-	 t6NiM8thSYvstq5WOKtCwLZPcTZnVjWB8L67lvtA+53LgscttLqPTAtNsKBH2x863c
-	 ABWyeufxIO1FLKxqjhuyt3IS12LWBRuOQFtVcD7xf2mCP5IVKX50xZZLz185xvZvjs
-	 wjse7inSaNB6A==
-Date: Wed, 10 Jun 2026 08:59:14 +0800
-From: "Peter Chen (CIX)" <peter.chen@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Peter Chen <peter.chen@cixtech.com>, oe-kbuild-all@lists.linux.dev,
-	linux-usb@vger.kernel.org
-Subject: Re: [peter-chen-usb:cdns3_kconfig_reorg 2/4]
- drivers/usb/cdns3/cdnsp-sky1.c:218:12: warning: 'cdnsp_sky1_resume' defined
- but not used
-Message-ID: <aii24sVJs/VWE1t/@nchen-desktop>
-References: <202606100700.mSjHu5V1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bi+6xuet"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781053435; x=1812589435;
+  h=date:from:to:cc:subject:message-id;
+  bh=LhQP71HqfWw9aySOn7bAy/tNklTZqPnFgZUz/+FPph0=;
+  b=bi+6xuetOakr1HuupJPS0jfMkXeaMcL+xI0N0OzAvMiX9VdBl+CPtJrA
+   68RiiMeQeLREfk7ihsNqyEZ1cQo810ffD5qTbvAeVQE9c6eg8mn9ELm82
+   yZaer0fk7D6s/NCapRRaHYAEl9dvWjfgWUTdhdHmvTTvwf5J9yzQH0XzX
+   jti795RkmYyb1YXmPddbFTe6rGmEWsEJgxUGrdHRt8UFuICwqLuUE4iHJ
+   OXEezB6Y47q8FDl/deQ41y3O7xFjyH3Xn1xjJ1y70WYzUN8NSrcqBddm4
+   +lSkfcw+xThdB/GblikJS6qRA5XLKSshT6ckwgp5OEwipmMUFmXQrmjlk
+   g==;
+X-CSE-ConnectionGUID: JUkPUZX0Sv6JqMuY3rFzrA==
+X-CSE-MsgGUID: 7b6feUNYSmu6+XwKMwvDEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="85685456"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="85685456"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 18:03:54 -0700
+X-CSE-ConnectionGUID: hbd92WooSuaXq98iepDF4g==
+X-CSE-MsgGUID: +pC5dO9oTGSG8UDW7BGrVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="276209151"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 09 Jun 2026 18:03:53 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wX7MD-00000000Kl0-497f;
+	Wed, 10 Jun 2026 01:03:49 +0000
+Date: Wed, 10 Jun 2026 09:03:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [linux-next:master 10310/12670]
+ drivers/vdpa/vdpa_user/vduse_dev.c:1647:3: sparse: sparse: symbol
+ '__uapi_arch_align' was not declared. Should it be static?
+Message-ID: <202606100814.IGp0yqEO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202606100700.mSjHu5V1-lkp@intel.com>
 
-On 26-06-10 07:08:53, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git cdns3_kconfig_reorg
-> head:   5ef7c27aa805ae8486b5f20ef21483af7a120386
-> commit: 7095d19fba7625032eb775f9f425f33f4ede1517 [2/4] usb: cdns3: sky1: Add cdnsp-sky1 glue driver
-> config: arm64-randconfig-002-20260610 (https://download.01.org/0day-ci/archive/20260610/202606100700.mSjHu5V1-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 9.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100700.mSjHu5V1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606100700.mSjHu5V1-lkp@intel.com/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   49e02880ec0a8c378e811bc9d85da188d7c6204c
+commit: 6664d88b2c941956ee2fe09c0d09b102b9398109 [10310/12670] vduse: fix compat handling for VDUSE_IOTLB_GET_FD/VDUSE_VQ_GET_INFO
+config: x86_64-randconfig-123-20260610 (https://download.01.org/0day-ci/archive/20260610/202606100814.IGp0yqEO-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100814.IGp0yqEO-lkp@intel.com/reproduce)
 
-Fixed, thanks for reporting it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606100814.IGp0yqEO-lkp@intel.com/
 
-Peter
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/usb/cdns3/cdnsp-sky1.c:218:12: warning: 'cdnsp_sky1_resume' defined but not used [-Wunused-function]
->      218 | static int cdnsp_sky1_resume(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~
-> >> drivers/usb/cdns3/cdnsp-sky1.c:213:12: warning: 'cdnsp_sky1_suspend' defined but not used [-Wunused-function]
->      213 | static int cdnsp_sky1_suspend(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~~
-> --
-> >> Warning: drivers/usb/cdns3/cdnsp-sky1.c:84 expecting prototype for sky1_set_mode_by_id(). Prototype was for cdnsp_sky1_set_mode_by_id() instead
-> 
-> 
-> vim +/cdnsp_sky1_resume +218 drivers/usb/cdns3/cdnsp-sky1.c
-> 
->     77	
->     78	/**
->     79	 * sky1_set_mode_by_id - program one USB controller mode strap
->     80	 * @syscon: regmap for S5 syscon (from DT property cix,syscon-usb)
->     81	 * @id: controller slot ID (U3_TYPEC_DRD_ID .. U2_HOST3_ID)
->     82	 * @mode: MODE_STRAP_OTG, MODE_STRAP_HOST, or MODE_STRAP_DEVICE
->     83	 */
->   > 84	static int cdnsp_sky1_set_mode_by_id(struct regmap *syscon, int id, int mode)
->     85	{
->     86		if (id < 0 || id >= SKY1_USB_S5_NUM)
->     87			return -EINVAL;
->     88	
->     89		return regmap_update_bits(syscon,
->     90					  strap_signals[id].offset,
->     91					  GENMASK(strap_signals[id].bit + 1,
->     92						  strap_signals[id].bit),
->     93					  (unsigned int)mode << strap_signals[id].bit);
->     94	}
->     95	
->     96	static int cdnsp_sky1_set_all_controllers_otg(struct regmap *syscon)
->     97	{
->     98		int id, ret;
->     99	
->    100		for (id = 0; id < SKY1_USB_S5_NUM; id++) {
->    101			ret = cdnsp_sky1_set_mode_by_id(syscon, id, MODE_STRAP_OTG);
->    102			if (ret)
->    103				return ret;
->    104		}
->    105	
->    106		return 0;
->    107	}
->    108	
->    109	static const struct clk_bulk_data cdnsp_sky1_cdns_core_clks[] = {
->    110		{ .id = "sof" },
->    111		{ .id = "aclk" },
->    112		{ .id = "lpm" },
->    113		{ .id = "pclk" },
->    114	};
->    115	
->    116	static int cdnsp_sky1_probe(struct platform_device *pdev)
->    117	{
->    118		struct device *dev = &pdev->dev;
->    119		struct cdnsp_sky1 *priv;
->    120		struct cdns *cdns;
->    121		struct cdns3_probe_data probe_data;
->    122		struct resource *res;
->    123		int ret;
->    124	
->    125		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->    126		if (!priv)
->    127			return -ENOMEM;
->    128	
->    129		priv->dev = dev;
->    130		priv->num_clks = ARRAY_SIZE(cdnsp_sky1_cdns_core_clks);
->    131		priv->clks = devm_kmemdup(dev, cdnsp_sky1_cdns_core_clks,
->    132					   sizeof(cdnsp_sky1_cdns_core_clks), GFP_KERNEL);
->    133		if (!priv->clks)
->    134			return -ENOMEM;
->    135	
->    136		ret = devm_clk_bulk_get(dev, priv->num_clks, priv->clks);
->    137		if (ret)
->    138			return dev_err_probe(dev, ret, "failed to get clocks\n");
->    139	
->    140		ret = clk_bulk_prepare_enable(priv->num_clks, priv->clks);
->    141		if (ret)
->    142			return dev_err_probe(dev, ret, "failed to enable clocks\n");
->    143	
->    144		priv->usb_syscon = syscon_regmap_lookup_by_phandle(dev->of_node,
->    145								   "cix,syscon-usb");
->    146		if (IS_ERR(priv->usb_syscon)) {
->    147			ret = PTR_ERR(priv->usb_syscon);
->    148			dev_err_probe(dev, ret, "failed to get cix,syscon-usb regmap\n");
->    149			goto err_clk;
->    150		}
->    151	
->    152		ret = cdnsp_sky1_set_all_controllers_otg(priv->usb_syscon);
->    153		if (ret) {
->    154			dev_err_probe(dev, ret,
->    155				      "failed to set USB controllers to OTG strap\n");
->    156			goto err_clk;
->    157		}
->    158	
->    159		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "glue");
->    160		if (!res)
->    161			goto err_clk;
->    162	
->    163		priv->glue_base = devm_ioremap_resource(dev, res);
->    164		if (IS_ERR(priv->glue_base)) {
->    165			ret = PTR_ERR(priv->glue_base);
->    166			goto err_clk;
->    167		}
->    168	
->    169		/* Set ARCACHE and AWCACHE */
->    170		writel(SKY1_USB_AXI_WR_CACHE_VALUE, priv->glue_base + AXI_SETTING_OFFSET);
->    171	
->    172		cdns = &priv->cdns;
->    173		cdns->dev = dev;
->    174	
->    175		probe_data.cdns = cdns;
->    176		probe_data.pdev = pdev;
->    177	
->    178		ret = cdns3_core_probe(&probe_data);
->    179		if (ret)
->    180			goto err_clk;
->    181	
->    182		return 0;
->    183	
->    184	err_clk:
->    185		clk_bulk_disable_unprepare(priv->num_clks, priv->clks);
->    186	
->    187		return ret;
->    188	}
->    189	
->    190	static void cdnsp_sky1_remove(struct platform_device *pdev)
->    191	{
->    192		struct cdns *cdns = platform_get_drvdata(pdev);
->    193		struct cdnsp_sky1 *priv;
->    194	
->    195		if (!cdns)
->    196			return;
->    197	
->    198		cdns3_core_remove(cdns);
->    199		priv = container_of(cdns, struct cdnsp_sky1, cdns);
->    200		clk_bulk_disable_unprepare(priv->num_clks, priv->clks);
->    201	}
->    202	
->    203	static int cdnsp_sky1_runtime_suspend(struct device *dev)
->    204	{
->    205		return cdns3_runtime_suspend(dev_get_drvdata(dev));
->    206	}
->    207	
->    208	static int cdnsp_sky1_runtime_resume(struct device *dev)
->    209	{
->    210		return cdns3_runtime_resume(dev_get_drvdata(dev));
->    211	}
->    212	
->  > 213	static int cdnsp_sky1_suspend(struct device *dev)
->    214	{
->    215		return cdns3_pm_suspend(dev_get_drvdata(dev));
->    216	}
->    217	
->  > 218	static int cdnsp_sky1_resume(struct device *dev)
->    219	{
->    220		return cdns3_pm_resume(dev_get_drvdata(dev));
->    221	}
->    222	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/vdpa/vdpa_user/vduse_dev.c:1647:3: sparse: sparse: symbol '__uapi_arch_align' was not declared. Should it be static?
 
--- 
+vim +/__uapi_arch_align +1647 drivers/vdpa/vdpa_user/vduse_dev.c
 
-Best regards,
-Peter
+  1634	
+  1635	struct compat_vduse_vq_info {
+  1636		__u32 index;
+  1637		__u32 num;
+  1638		compat_u64 desc_addr;
+  1639		compat_u64 driver_addr;
+  1640		compat_u64 device_addr;
+  1641		union {
+  1642			struct vduse_vq_state_split split;
+  1643			struct vduse_vq_state_packed packed;
+  1644		};
+  1645		__u8 ready;
+  1646		__u8 padding[3];
+> 1647	} __uapi_arch_align;
+  1648	#define COMPAT_VDUSE_VQ_GET_INFO	_IOWR(VDUSE_BASE, 0x15, struct compat_vduse_vq_info)
+  1649	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
