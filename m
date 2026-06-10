@@ -1,122 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB083B7B99
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 10:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8833DB31D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 10:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781086417; cv=none; b=tlEg+uwafXBSgmLKB8KyIL6HL5S+Ab7D3HNLkvKVoJijCIicay16T3gmXg4J1MJV6iV+Isq3iw3LcfBGytmtPMSCmUFiALpC1W4ns8qpj6Q98G/9q7OIMPy/lHrbL3Mi2CuvrW3hWol6iCNJEmiJT0rrHMbMwDKSLAl79mjFCgk=
+	t=1781086720; cv=none; b=OSm6P3DYc6+rqlwwPRjCcXWDqDTM3Xcx456NHrt5kFr4I5Wy4mahMTaGWwacanErWzqckGZzv5hmxXHu3AHAxCREpdJSAhpIYtt8k0C3kusvnMkYSYQbQkmRDKAdgFU4ZkjlghZyzx0kIIszkZYxSoHOZYIBgTDL06IKx0RjK5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781086417; c=relaxed/simple;
-	bh=cMTJuejrHwBetGHsFuY6t9SgDleNjFm5NjkOXfnxBxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gts2tDkBbL3IGad9TSFBFgwUWMH5S+p48M96abS/X8B2tCVmUyFFeLZXrXKuBJksbAkDgMrvZ4FNQZQ8mEpGTpgw4tQTCPIue2FzhoykeHl9J7KWNpe4yQBO6QXh8u3+bXcOy6CBzB33HNwsWerMdnZ4Gnx+jh8YO71yhsRuYMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MD4aApIl; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1781086720; c=relaxed/simple;
+	bh=0vT6m0xvtZBn1DCKXnEF5E8HMLI8Cq+xgqUa5y0l/HY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eLkDtJV9nEX320zaIzM+Y/EKTnOY1mSZlt4bJQJ926oDfowY0AGPhbTvLN76FAG/V/9Fa42yGrIYfxercDY+nhiJXs/qGnEp6Zn1QLJcj4qGODQhXJ4ldKpojWEAuxpkL5YLn8EhtZQqiH+o00xXmv2De0R3Z7Nj+osn4q2lsb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DADZfyF/; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MD4aApIl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DADZfyF/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781086414; x=1812622414;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cMTJuejrHwBetGHsFuY6t9SgDleNjFm5NjkOXfnxBxM=;
-  b=MD4aApIlO+ttQIKTIh0khQVu7Mqwnw1Uiqy7Y219Cb4G50gfUysdwcbJ
-   HA17knTOpSJm3RO5HK/sf6EpvG+euwtrpL1WkmV75CbdGXCyKZCvakPLX
-   p+6xjvNYdl289KpRfW1MFTiqbaoB/dvpXK9CQJ4RHs9tAX8TyccuswvNX
-   iEvZbiKn0ahGuM4DikWsJ5IfCwKNMigNlIZKtK2RlKdbdRAFxau0aehcO
-   gMfsOtkPIVEJzT3GiKDb7mpzUyz22zg2L/g6kiQtbbasbBbOkM7DNeJcm
-   ZZuEJU/kWC7k4GLITqapNebgZhS9teZrbGTyDjEC+R/Kfw7SIYAaQzW+y
-   g==;
-X-CSE-ConnectionGUID: jHz9NknWTHWgMvTCLUVp2A==
-X-CSE-MsgGUID: 9y0hjOvtTzu0gwGQvZDmLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81782576"
+  t=1781086717; x=1812622717;
+  h=date:from:to:cc:subject:message-id;
+  bh=0vT6m0xvtZBn1DCKXnEF5E8HMLI8Cq+xgqUa5y0l/HY=;
+  b=DADZfyF/7DQcW92nYpl+y6M8/Ttvcg0Whp9Q4HcfxVAPvJ0Y3Dd0Sk/h
+   +EmaoFtl6F0liyI4Kc0MBBwzgg/7DOT5kJ2EyQ/WaEhvcAs2/4UTVzdR7
+   5iD5XqJHuQ9P6PVndabgUCKE5TqxhdJILLjRXy1vfHo492R5EHdobvxUK
+   TGxJEQf+afKHXoWM8kDW0zUVJelKgClyyRBH5mDuFGY1Vc4LDPfoAmKiO
+   U4bUztEceLFy2zQZosEWe4WoybVou5Cbt+ja3jBIn7XfmI3e9JFv0exx6
+   UMnfElt7xcHGETayT9SJvWE7b8rfrRbQTN8w0H52YLKim/xZL5wKaak/C
+   Q==;
+X-CSE-ConnectionGUID: WhW3ro61TlarnAWFK2c25g==
+X-CSE-MsgGUID: FeSDQRPuTPGZLKAhor02mQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81985780"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="81782576"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 03:13:33 -0700
-X-CSE-ConnectionGUID: e0vXuc0ETwy4oFAzC7P5Xg==
-X-CSE-MsgGUID: 6ODCntwaTjmOQ7ZJLib29g==
+   d="scan'208";a="81985780"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 03:18:36 -0700
+X-CSE-ConnectionGUID: StIwlisdSJS0p1FDMtdAnQ==
+X-CSE-MsgGUID: xmyESamaTPS2kLldtgYKDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="251045056"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 10 Jun 2026 03:13:32 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="245988928"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 10 Jun 2026 03:18:36 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXFwA-000000003fN-2BPy;
-	Wed, 10 Jun 2026 10:13:30 +0000
-Date: Wed, 10 Jun 2026 12:13:11 +0200
+	id 1wXG12-00000000LHO-2rV6;
+	Wed, 10 Jun 2026 10:18:32 +0000
+Date: Wed, 10 Jun 2026 18:17:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Yeo <alexyeo362@gmail.com>
+To: Sean Christopherson <seanjc@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2] platform/x86: panasonic-laptop: add fan speed
- mode for newer models
-Message-ID: <202606101253.EPD74jPt-lkp@intel.com>
-References: <20260610031756.546459-1-alexyeo362@gmail.com>
+Subject: [sean-jc:x86/kvmclock_vs_tsc 1/51]
+ arch/x86/kernel/jailhouse.c:68:9: error: too few arguments to function
+ 'apic_set_timer_period_khz'
+Message-ID: <202606101835.L8oQ2QHC-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610031756.546459-1-alexyeo362@gmail.com>
 
-Hi Alex,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.1-rc7 next-20260609]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Yeo/platform-x86-panasonic-laptop-add-fan-speed-mode-for-newer-models/20260610-112852
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260610031756.546459-1-alexyeo362%40gmail.com
-patch subject: [RFC PATCH v2] platform/x86: panasonic-laptop: add fan speed mode for newer models
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260610/202606101253.EPD74jPt-lkp@intel.com/config)
+tree:   https://github.com/sean-jc/linux x86/kvmclock_vs_tsc
+head:   03e00f8b41e58b5dd5ceef21940a62e5d8e08766
+commit: e3916a6bfe7c4342989909ff0109708bda8ed516 [1/51] x86/apic: Provide helpers to set local APIC timer period in hz and khz
+config: x86_64-buildonly-randconfig-005-20260610 (https://download.01.org/0day-ci/archive/20260610/202606101835.L8oQ2QHC-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606101253.EPD74jPt-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606101835.L8oQ2QHC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606101253.EPD74jPt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606101835.L8oQ2QHC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/platform/x86/panasonic-laptop.c: In function 'check_fan_mode_present':
->> drivers/platform/x86/panasonic-laptop.c:518:9: error: 'status' undeclared (first use in this function); did you mean 'kstatfs'?
-     518 |         status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.CEFM", &handle);
-         |         ^~~~~~
-         |         kstatfs
-   drivers/platform/x86/panasonic-laptop.c:518:9: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kernel/jailhouse.c: In function 'jailhouse_timer_init':
+>> arch/x86/kernel/jailhouse.c:68:9: error: too few arguments to function 'apic_set_timer_period_khz'
+      68 |         apic_set_timer_period_khz(setup_data.v1.apic_khz);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kernel/jailhouse.c:16:
+   arch/x86/include/asm/apic.h:141:13: note: declared here
+     141 | extern void apic_set_timer_period_khz(u64 period_khz, const char *source);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +518 drivers/platform/x86/panasonic-laptop.c
+vim +/apic_set_timer_period_khz +68 arch/x86/kernel/jailhouse.c
 
-   512	
-   513	static acpi_status check_fan_mode_present(void)
-   514	{
-   515		acpi_handle handle;
-   516	
-   517		/* check if read (CEFM) and set (SEFM) are available */
- > 518		status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.CEFM", &handle);
-   519		if (ACPI_FAILURE(status))
-   520			return -ENOENT;
-   521		status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.SEFM", &handle);
-   522		if (ACPI_FAILURE(status))
-   523			return -ENOENT;
-   524	
-   525		return 0;
-   526	}
-   527	
+    65	
+    66	static void __init jailhouse_timer_init(void)
+    67	{
+  > 68		apic_set_timer_period_khz(setup_data.v1.apic_khz);
+    69	}
+    70	
 
 --
 0-DAY CI Kernel Test Service
