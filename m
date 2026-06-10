@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D8B3F5BC2;
-	Tue,  9 Jun 2026 23:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957642857FA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 00:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781046558; cv=none; b=rcRMpEzSjVa3HFnWCjbzo+I5uNuqWR15h5F8TyvzCq3CYflZz+MKkJ/e2vmvcK/cR1P1M8Q/Uox0TtgexsvxhuubhllTF1HnK5x7aN+j2xRUAprzQy4nfdab8QDi9YfN52if2Y1tYv92v1KJXcwOt6wGS0N6XaxHQrfPQmyTKaM=
+	t=1781052837; cv=none; b=pDhEWKac4Ru/3xhTWSkXBm3Syh6e4y7lzr3ZIzxrzAfqA+oRygc9OqOZFYNoZnr6j4zE4hW7tZ2Oz/JgRavoAzSPSEAKUpVtVfK42CEFb/AG2svTk7AysCbp4G1VXXTAhWK4YCNweCBTDbibTrWoSkl6Nwz99MHHPxwHxOUo+eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781046558; c=relaxed/simple;
-	bh=1OjaBozmMS7OkEWtwI0fZZy/7aRXgKMoI2DySNHayFU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BAV9a+GULB0D16B5zZ02Ydpfdl+J/pkntUNzuEjLROnZFY/+GZ84HO1VgnZc4p/45PulTTLXRpL5j6xtIOGuZY0o5b09LAWt1wVld/4TH+Niwfzn128TMdIGlhlpJ/xThi2X9XOf+44irO2zNFDDiTNEMBiWnW654XniE06H6cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMjVELSY; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1781052837; c=relaxed/simple;
+	bh=cIZezIozr4DtsXksnfv1CdeBRV0+dPRXoCGC51Shv38=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i+ZnF1cjOzghqYvlPxWHc3AzLSpd4e6074moQ4/bIx6fSteyWco4OjDxQJ22eNN/5T2aZy3CiIx4koBgn9blCJVYtdtOhGDUhPNcWpldyDA9FMcbgiX9CfVpR9D/CWvBoS/kfkxEXqRqwJ6wZ1PQ/4gbfjCVAqdBiymcu5nYsTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJZllh4e; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMjVELSY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJZllh4e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781046556; x=1812582556;
+  t=1781052835; x=1812588835;
   h=date:from:to:cc:subject:message-id;
-  bh=1OjaBozmMS7OkEWtwI0fZZy/7aRXgKMoI2DySNHayFU=;
-  b=kMjVELSYw/wSDmfoyLYIy2OziGXn8bp1O0xA9C0ZLzNgb/oLxb+7Ce9f
-   Sivu1mLBvmJpzga2Gp8zPblBNOKgIyMyoMNtcX32/o3qwggXTh6sKtbFZ
-   gblspU1hffrSHRRjKLt9tnjRQ+kVhJUieAVSsjhGZnE862YkwGOZruDdg
-   vjlHHrCcv7rD3dvC7O+Hxq5jKmALjWgxY1i31KYljDZZdlE0xl3QWgX6/
-   SSmBsJAQ9i5ogVr5uWsWiZmiTGHPloT5eFhbnr/iXwmeMStHUxmmJNQYq
-   zWG/mQ1dhSuvJU1cY8g7PRbr6e3SFMOPpgPOxZ5ac3tF/mA2lOPLU/BqE
-   Q==;
-X-CSE-ConnectionGUID: +Y/zdWSWRPeG/8LVhbtXUg==
-X-CSE-MsgGUID: NyaI9w9gRDWncRp8uNTnDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="104491826"
-X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="104491826"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 16:09:14 -0700
-X-CSE-ConnectionGUID: tMH0RdOwQyCgGB3Lrd4dPw==
-X-CSE-MsgGUID: JRHD+VwiSXaxEyGIAFZ1jA==
+  bh=cIZezIozr4DtsXksnfv1CdeBRV0+dPRXoCGC51Shv38=;
+  b=aJZllh4ehksgnR5I0ET+gsJKBjsiVOGoalRkKsM1As80gbqnlKYXz8uD
+   Neu4G12RQvwVA9TlYDCC28R58FxXYEysZUv0glC3sxLLQErb7zzvE99pJ
+   FLubmuxKmj19MHlwuVG4ecg2wIqIwzqAnRpzvwpx1CrMedLRB4N+VUvD4
+   PcN7H3Oga0Vr5g1QikbaByFPP2sMO2YwDfHynyZQfkvSVb4m8Os71cRVz
+   VkVC/NV+uaoMjo+4stLG1z5ALQ0E8XKdaSZ1V03ecsK4Mo8hQhQ7QpBlM
+   ZG7WWJHQQyjAg3IJNxB4apr1znMEg7Kb8h2tRehuRLegjtdQE1+6W3sQy
+   w==;
+X-CSE-ConnectionGUID: 9jk6iaS9TAu46zYIP8fwKA==
+X-CSE-MsgGUID: OKRsDFIKTyaCPUr3ALdB/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="99253808"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="99253808"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 17:53:54 -0700
+X-CSE-ConnectionGUID: gYxMMnOgTt28HYUxn3KpKQ==
+X-CSE-MsgGUID: 6OJPg+aeRHe+kdd5gRs2KA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="245150781"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="241883336"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Jun 2026 16:09:12 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Jun 2026 17:53:52 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wX5ZF-00000000KeY-3uQf;
-	Tue, 09 Jun 2026 23:09:09 +0000
-Date: Wed, 10 Jun 2026 07:08:51 +0800
+	id 1wX7CX-00000000Kke-2wco;
+	Wed, 10 Jun 2026 00:53:49 +0000
+Date: Wed, 10 Jun 2026 08:52:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-next 22/22] fs/9p/vfs_addr.c:79:6:
- warning: variable 'len' is used uninitialized whenever 'if' condition is true
-Message-ID: <202606100718.e78jIMlQ-lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>
+Subject: [linux-next:master 11785/12670] net/ipv6/ip6mr.c:295:24:
+ sparse: sparse: incompatible types in comparison expression (different
+ address spaces):
+Message-ID: <202606100834.usCNGoLp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,99 +60,60 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   1d9a108be2c6acdd19dfad7fd3f536c79810dafa
-commit: 1d9a108be2c6acdd19dfad7fd3f536c79810dafa [22/22] netfs: Combine prepare and issue ops and grab the buffers on request
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260610/202606100718.e78jIMlQ-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100718.e78jIMlQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   49e02880ec0a8c378e811bc9d85da188d7c6204c
+commit: 2c309a863dd6e609b10caa55a362dc48d2e04564 [11785/12670] ip6mr: Free mr_table after RCU grace period.
+config: m68k-randconfig-r112-20260610 (https://download.01.org/0day-ci/archive/20260610/202606100834.usCNGoLp-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100834.usCNGoLp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606100718.e78jIMlQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606100834.usCNGoLp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/ipv6/ip6mr.c:295:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/ipv6/ip6mr.c:295:24: sparse:    struct mr_table [noderef] __rcu *
+   net/ipv6/ip6mr.c:295:24: sparse:    struct mr_table *
+   net/ipv6/ip6mr.c:301:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/ipv6/ip6mr.c:301:16: sparse:    struct mr_table [noderef] __rcu *
+   net/ipv6/ip6mr.c:301:16: sparse:    struct mr_table *
+   net/ipv6/ip6mr.c:301:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/ipv6/ip6mr.c:301:16: sparse:    struct mr_table [noderef] __rcu *
+   net/ipv6/ip6mr.c:301:16: sparse:    struct mr_table *
+   net/ipv6/ip6mr.c:312:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/ipv6/ip6mr.c:312:16: sparse:    struct mr_table [noderef] __rcu *
+   net/ipv6/ip6mr.c:312:16: sparse:    struct mr_table *
+   net/ipv6/ip6mr.c:326:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/ipv6/ip6mr.c:326:9: sparse:    struct mr_table [noderef] __rcu *
+   net/ipv6/ip6mr.c:326:9: sparse:    struct mr_table *
+   net/ipv6/ip6mr.c:332:32: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/ipv6/ip6mr.c:332:32: sparse:    struct mr_table [noderef] __rcu *
+   net/ipv6/ip6mr.c:332:32: sparse:    struct mr_table *
+   net/ipv6/ip6mr.c:336:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/ipv6/ip6mr.c:336:9: sparse:    struct mr_table [noderef] __rcu *
+   net/ipv6/ip6mr.c:336:9: sparse:    struct mr_table *
 
->> fs/9p/vfs_addr.c:79:6: warning: variable 'len' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-      79 |         if (err < 0)
-         |             ^~~~~~~
-   fs/9p/vfs_addr.c:90:51: note: uninitialized use occurs here
-      90 |         return netfs_write_subrequest_terminated(subreq, len ?: err);
-         |                                                          ^~~
-   fs/9p/vfs_addr.c:79:2: note: remove the 'if' if its condition is always false
-      79 |         if (err < 0)
-         |         ^~~~~~~~~~~~
-      80 |                 goto term;
-         |                 ~~~~~~~~~
-   fs/9p/vfs_addr.c:74:14: note: initialize the variable 'len' to silence this warning
-      74 |         int err, len;
-         |                     ^
-         |                      = 0
-   1 warning generated.
---
->> fs/netfs/write_collect.c:154:7: warning: variable 'fpos' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     154 |                 if (!bvecq->bv[slot].bv_page) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/write_collect.c:186:7: note: uninitialized use occurs here
-     186 |                 if (fpos + fsize >= collected_to)
-         |                     ^~~~
-   fs/netfs/write_collect.c:154:3: note: remove the 'if' if its condition is always false
-     154 |                 if (!bvecq->bv[slot].bv_page) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     155 |                         WARN_ONCE(1, "R=%08x slot already cleared?\n", wreq->debug_id);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     156 |                         fsize = bvecq->bv[slot].bv_len;
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     157 |                         goto skip;
-         |                         ~~~~~~~~~~
-     158 |                 }
-         |                 ~
-   fs/netfs/write_collect.c:137:26: note: initialize the variable 'fpos' to silence this warning
-     137 |                 unsigned long long fpos, fend;
-         |                                        ^
-         |                                         = 0
-   1 warning generated.
---
->> fs/netfs/read_pgpriv2.c:204:9: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     204 |         return ret;
-         |                ^~~
-   fs/netfs/read_pgpriv2.c:187:9: note: initialize the variable 'ret' to silence this warning
-     187 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+vim +295 net/ipv6/ip6mr.c
 
-
-vim +79 fs/9p/vfs_addr.c
-
-    66	
-    67	/*
-    68	 * Issue a subrequest to write to the server.
-    69	 */
-    70	static void v9fs_issue_write(struct netfs_io_subrequest *subreq)
-    71	{
-    72		struct iov_iter iter;
-    73		struct p9_fid *fid = subreq->rreq->netfs_priv;
-    74		int err, len;
-    75	
-    76		subreq->len = umin(subreq->len, fid->clnt->msize - P9_IOHDRSZ);
-    77	
-    78		err = netfs_prepare_write_buffer(subreq, INT_MAX);
-  > 79		if (err < 0)
-    80			goto term;
-    81	
-    82		iov_iter_bvec_queue(&iter, ITER_SOURCE, subreq->content.bvecq,
-    83				    subreq->content.slot, subreq->content.offset, subreq->len);
-    84	
-    85		len = p9_client_write(fid, subreq->start, &iter, &err);
-    86		if (len > 0)
-    87			__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
-    88	
-    89	term:
-    90		return netfs_write_subrequest_terminated(subreq, len ?: err);
-    91	}
-    92	
+   283	
+   284	bool ip6mr_rule_default(const struct fib_rule *rule)
+   285	{
+   286		return fib_rule_matchall(rule) && rule->action == FR_ACT_TO_TBL &&
+   287		       rule->table == RT6_TABLE_DFLT && !rule->l3mdev;
+   288	}
+   289	EXPORT_SYMBOL(ip6mr_rule_default);
+   290	#else
+   291	static struct mr_table *ip6mr_mr_table_iter(struct net *net,
+   292						    struct mr_table *mrt)
+   293	{
+   294		if (!mrt)
+ > 295			return rcu_dereference(net->ipv6.mrt6);
+   296		return NULL;
+   297	}
+   298	
 
 --
 0-DAY CI Kernel Test Service
