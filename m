@@ -1,236 +1,235 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E310828BAB9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 00:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F071C20C00A;
+	Wed, 10 Jun 2026 00:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781052839; cv=none; b=jc8W5SUx7kynSZI9CfSDN2HvY3/zhSLBJd23aWULRlwlTg7pjqrSehEdTUlyGjbyYRKvy7L9Knf+2DKjrWIPf5JCgD6zpx6A5KOxa+/srnVdGYO1gxHBikVqRc7ZijTxkTCWjIPk7tjBi+v2y1K9saUN/QhryzjeXIC1de9X92E=
+	t=1781053159; cv=none; b=WowlL4dEioJkVzvFEnlPYq60HH5ZdtaHUsH4L0qz/88CKxK8REQvaunoLkaxszad9GdzqOFE6yFUac3/ycZBk/rKt6v1gKe9PjJaDTOy4KxDG+dCnloOaaeGorANgTS3Ij/xlzz5oqTs3Xku4zFZaBqxovQOtEcd2Vqq84yKRYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781052839; c=relaxed/simple;
-	bh=Vsw7ymtEOE8cBO+yECOFCOePxulHne17Qetbw0mPSC0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mMg0DAFghicqh6CZqtuKwnJEv6HhCF/3CulqcEViCjD9cjt8WFkjYvi++KrBEhZjVWoTqPOfRtjW9kY0goLCE0uKRKV70+vTAzerwFcGyDh0JG+Boi7dpWUlX5ag9typhbhHaHOdBiFPnYpLYDS8uM/Nfat8FcSAmHU+x7C1tUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZtHxqq1o; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781053159; c=relaxed/simple;
+	bh=bg0Kt87vKWA6+4X2YYr8x4OdUB0JRpeubAmPpDheKeU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tPWTWb6V3JWvbPYKL0Z+zJjI4abe3YudeA7X+cgbqnQwO7QpqlTBvI0rtpTamEaHRfsJag7ZPlXaYDYMt5RAZbPFzTJZOfBDwAgc+V8fTxJGhC6REoqDstmnf0wthmP193FLm1eNcYk/we3069ybQLuwDCUA1NtLvE7IhPPdeuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mc/6UnTT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZtHxqq1o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781052835; x=1812588835;
-  h=date:from:to:cc:subject:message-id;
-  bh=Vsw7ymtEOE8cBO+yECOFCOePxulHne17Qetbw0mPSC0=;
-  b=ZtHxqq1oYW0t7ITYgOz0uzaKXVW19jqY8Zlkj9Qa6QRgIFqbbviIR3Jw
-   nQbgDMVN/Uoyqnpr9e0NTjLvi2XAiHNwK2wStRXe8/3d4nRM55W3u0KVj
-   eHmsEtmGEzJeCy2zCCbtxrcDrRv+zCebxI/UNvMV+2NwxmVx3506PtP0h
-   bWSTag5MgK5cJkUcYVik6y7rmGWMNidsGUnZ2cnNN2Ye+3ApQ+KXtPhwW
-   XvPCvqYAM9Ldy6DCBeXZ1VQm5+OhPeomzOhnQ1ft6MNH2xXqCzivnj8F8
-   up9p/ckbxq2eyb51GquqgmQeKHNfeuQmOX4PJhES+NjWHVEMHP+X7yXpd
-   A==;
-X-CSE-ConnectionGUID: fSCi5WFdTTel0vg0a6OYog==
-X-CSE-MsgGUID: OM9P7BryRzydpJhWlqFniA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81883529"
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="81883529"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 17:53:54 -0700
-X-CSE-ConnectionGUID: qqCOxIaMRtmuF20pJ3Tqlg==
-X-CSE-MsgGUID: /OHqUpQoTm+PFltaIpSDOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="246104354"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Jun 2026 17:53:53 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wX7CX-00000000Kkc-2scT;
-	Wed, 10 Jun 2026 00:53:49 +0000
-Date: Wed, 10 Jun 2026 08:52:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Subject: [avpatel:riscv_trace_support_v4 66/81] cpu.c:(.text+0x7b4):
- multiple definition of `sbi_mpxy_read_attrs';
- arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined
- here
-Message-ID: <202606100809.6PvRLpEV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mc/6UnTT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D26F21F00893;
+	Wed, 10 Jun 2026 00:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781053157;
+	bh=uUVnW9bl08ieM7eZ90v8rpfEm8zqR16wKdKv8Uejgr4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Mc/6UnTTvKBwkl68AwgjWg+9Fl4aIdsh+Orye1yQPcO8asfuOuXZZM1KQFoy9XYqQ
+	 mX5u/E3xXbmWdlfEUlGhvPktdrY3Gh5aWmnZ5kj4KggKLPrZm/7+vOc1oAkzGymanz
+	 tinizkHQLBR7ZdB8OJrFzEs2IstWQl3Cm99JoAlgXyO9O/dKyt9022TKPVYn7uyj/D
+	 t6NiM8thSYvstq5WOKtCwLZPcTZnVjWB8L67lvtA+53LgscttLqPTAtNsKBH2x863c
+	 ABWyeufxIO1FLKxqjhuyt3IS12LWBRuOQFtVcD7xf2mCP5IVKX50xZZLz185xvZvjs
+	 wjse7inSaNB6A==
+Date: Wed, 10 Jun 2026 08:59:14 +0800
+From: "Peter Chen (CIX)" <peter.chen@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Peter Chen <peter.chen@cixtech.com>, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org
+Subject: Re: [peter-chen-usb:cdns3_kconfig_reorg 2/4]
+ drivers/usb/cdns3/cdnsp-sky1.c:218:12: warning: 'cdnsp_sky1_resume' defined
+ but not used
+Message-ID: <aii24sVJs/VWE1t/@nchen-desktop>
+References: <202606100700.mSjHu5V1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202606100700.mSjHu5V1-lkp@intel.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v4
-head:   79783024b7bd12897e21fecfaf6ac7dad02a8f0e
-commit: 853576b22385941e4e89cde2cf72e4d5384c2554 [66/81] RISC-V: Move common MPXY helper routines to arch/riscv
-config: riscv-randconfig-001-20260610 (https://download.01.org/0day-ci/archive/20260610/202606100809.6PvRLpEV-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100809.6PvRLpEV-lkp@intel.com/reproduce)
+On 26-06-10 07:08:53, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git cdns3_kconfig_reorg
+> head:   5ef7c27aa805ae8486b5f20ef21483af7a120386
+> commit: 7095d19fba7625032eb775f9f425f33f4ede1517 [2/4] usb: cdns3: sky1: Add cdnsp-sky1 glue driver
+> config: arm64-randconfig-002-20260610 (https://download.01.org/0day-ci/archive/20260610/202606100700.mSjHu5V1-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 9.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100700.mSjHu5V1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606100700.mSjHu5V1-lkp@intel.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606100809.6PvRLpEV-lkp@intel.com/
+Fixed, thanks for reporting it.
 
-All error/warnings (new ones prefixed by >>):
+Peter
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/usb/cdns3/cdnsp-sky1.c:218:12: warning: 'cdnsp_sky1_resume' defined but not used [-Wunused-function]
+>      218 | static int cdnsp_sky1_resume(struct device *dev)
+>          |            ^~~~~~~~~~~~~~~~~
+> >> drivers/usb/cdns3/cdnsp-sky1.c:213:12: warning: 'cdnsp_sky1_suspend' defined but not used [-Wunused-function]
+>      213 | static int cdnsp_sky1_suspend(struct device *dev)
+>          |            ^~~~~~~~~~~~~~~~~~
+> --
+> >> Warning: drivers/usb/cdns3/cdnsp-sky1.c:84 expecting prototype for sky1_set_mode_by_id(). Prototype was for cdnsp_sky1_set_mode_by_id() instead
+> 
+> 
+> vim +/cdnsp_sky1_resume +218 drivers/usb/cdns3/cdnsp-sky1.c
+> 
+>     77	
+>     78	/**
+>     79	 * sky1_set_mode_by_id - program one USB controller mode strap
+>     80	 * @syscon: regmap for S5 syscon (from DT property cix,syscon-usb)
+>     81	 * @id: controller slot ID (U3_TYPEC_DRD_ID .. U2_HOST3_ID)
+>     82	 * @mode: MODE_STRAP_OTG, MODE_STRAP_HOST, or MODE_STRAP_DEVICE
+>     83	 */
+>   > 84	static int cdnsp_sky1_set_mode_by_id(struct regmap *syscon, int id, int mode)
+>     85	{
+>     86		if (id < 0 || id >= SKY1_USB_S5_NUM)
+>     87			return -EINVAL;
+>     88	
+>     89		return regmap_update_bits(syscon,
+>     90					  strap_signals[id].offset,
+>     91					  GENMASK(strap_signals[id].bit + 1,
+>     92						  strap_signals[id].bit),
+>     93					  (unsigned int)mode << strap_signals[id].bit);
+>     94	}
+>     95	
+>     96	static int cdnsp_sky1_set_all_controllers_otg(struct regmap *syscon)
+>     97	{
+>     98		int id, ret;
+>     99	
+>    100		for (id = 0; id < SKY1_USB_S5_NUM; id++) {
+>    101			ret = cdnsp_sky1_set_mode_by_id(syscon, id, MODE_STRAP_OTG);
+>    102			if (ret)
+>    103				return ret;
+>    104		}
+>    105	
+>    106		return 0;
+>    107	}
+>    108	
+>    109	static const struct clk_bulk_data cdnsp_sky1_cdns_core_clks[] = {
+>    110		{ .id = "sof" },
+>    111		{ .id = "aclk" },
+>    112		{ .id = "lpm" },
+>    113		{ .id = "pclk" },
+>    114	};
+>    115	
+>    116	static int cdnsp_sky1_probe(struct platform_device *pdev)
+>    117	{
+>    118		struct device *dev = &pdev->dev;
+>    119		struct cdnsp_sky1 *priv;
+>    120		struct cdns *cdns;
+>    121		struct cdns3_probe_data probe_data;
+>    122		struct resource *res;
+>    123		int ret;
+>    124	
+>    125		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+>    126		if (!priv)
+>    127			return -ENOMEM;
+>    128	
+>    129		priv->dev = dev;
+>    130		priv->num_clks = ARRAY_SIZE(cdnsp_sky1_cdns_core_clks);
+>    131		priv->clks = devm_kmemdup(dev, cdnsp_sky1_cdns_core_clks,
+>    132					   sizeof(cdnsp_sky1_cdns_core_clks), GFP_KERNEL);
+>    133		if (!priv->clks)
+>    134			return -ENOMEM;
+>    135	
+>    136		ret = devm_clk_bulk_get(dev, priv->num_clks, priv->clks);
+>    137		if (ret)
+>    138			return dev_err_probe(dev, ret, "failed to get clocks\n");
+>    139	
+>    140		ret = clk_bulk_prepare_enable(priv->num_clks, priv->clks);
+>    141		if (ret)
+>    142			return dev_err_probe(dev, ret, "failed to enable clocks\n");
+>    143	
+>    144		priv->usb_syscon = syscon_regmap_lookup_by_phandle(dev->of_node,
+>    145								   "cix,syscon-usb");
+>    146		if (IS_ERR(priv->usb_syscon)) {
+>    147			ret = PTR_ERR(priv->usb_syscon);
+>    148			dev_err_probe(dev, ret, "failed to get cix,syscon-usb regmap\n");
+>    149			goto err_clk;
+>    150		}
+>    151	
+>    152		ret = cdnsp_sky1_set_all_controllers_otg(priv->usb_syscon);
+>    153		if (ret) {
+>    154			dev_err_probe(dev, ret,
+>    155				      "failed to set USB controllers to OTG strap\n");
+>    156			goto err_clk;
+>    157		}
+>    158	
+>    159		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "glue");
+>    160		if (!res)
+>    161			goto err_clk;
+>    162	
+>    163		priv->glue_base = devm_ioremap_resource(dev, res);
+>    164		if (IS_ERR(priv->glue_base)) {
+>    165			ret = PTR_ERR(priv->glue_base);
+>    166			goto err_clk;
+>    167		}
+>    168	
+>    169		/* Set ARCACHE and AWCACHE */
+>    170		writel(SKY1_USB_AXI_WR_CACHE_VALUE, priv->glue_base + AXI_SETTING_OFFSET);
+>    171	
+>    172		cdns = &priv->cdns;
+>    173		cdns->dev = dev;
+>    174	
+>    175		probe_data.cdns = cdns;
+>    176		probe_data.pdev = pdev;
+>    177	
+>    178		ret = cdns3_core_probe(&probe_data);
+>    179		if (ret)
+>    180			goto err_clk;
+>    181	
+>    182		return 0;
+>    183	
+>    184	err_clk:
+>    185		clk_bulk_disable_unprepare(priv->num_clks, priv->clks);
+>    186	
+>    187		return ret;
+>    188	}
+>    189	
+>    190	static void cdnsp_sky1_remove(struct platform_device *pdev)
+>    191	{
+>    192		struct cdns *cdns = platform_get_drvdata(pdev);
+>    193		struct cdnsp_sky1 *priv;
+>    194	
+>    195		if (!cdns)
+>    196			return;
+>    197	
+>    198		cdns3_core_remove(cdns);
+>    199		priv = container_of(cdns, struct cdnsp_sky1, cdns);
+>    200		clk_bulk_disable_unprepare(priv->num_clks, priv->clks);
+>    201	}
+>    202	
+>    203	static int cdnsp_sky1_runtime_suspend(struct device *dev)
+>    204	{
+>    205		return cdns3_runtime_suspend(dev_get_drvdata(dev));
+>    206	}
+>    207	
+>    208	static int cdnsp_sky1_runtime_resume(struct device *dev)
+>    209	{
+>    210		return cdns3_runtime_resume(dev_get_drvdata(dev));
+>    211	}
+>    212	
+>  > 213	static int cdnsp_sky1_suspend(struct device *dev)
+>    214	{
+>    215		return cdns3_pm_suspend(dev_get_drvdata(dev));
+>    216	}
+>    217	
+>  > 218	static int cdnsp_sky1_resume(struct device *dev)
+>    219	{
+>    220		return cdns3_pm_resume(dev_get_drvdata(dev));
+>    221	}
+>    222	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12,
-                    from arch/riscv/include/asm/kvm_host.h:25,
-                    from arch/riscv/kernel/asm-offsets.c:13:
-   arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     799 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:805:5: warning: no previous prototype for 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     805 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:811:5: warning: no previous prototype for 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     811 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:819:5: warning: no previous prototype for 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     819 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:826:39: warning: 'struct sbi_mpxy_notification_data' declared inside parameter list will not be visible outside of this definition or declaration
-     826 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:825:5: warning: no previous prototype for 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     825 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   riscv64-linux-ld: arch/riscv/kernel/cpu.o: in function `sbi_mpxy_read_attrs':
->> cpu.c:(.text+0x7b4): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu.o: in function `sbi_mpxy_write_attrs':
->> cpu.c:(.text+0x804): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu.o: in function `sbi_mpxy_send_message_with_resp':
->> cpu.c:(.text+0x854): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu.o: in function `sbi_mpxy_send_message_without_resp':
->> cpu.c:(.text+0x8a4): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu.o: in function `sbi_mpxy_get_notifications':
->> cpu.c:(.text+0x8f4): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpufeature.o: in function `sbi_mpxy_read_attrs':
-   cpufeature.c:(.text+0x97a): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpufeature.o: in function `sbi_mpxy_write_attrs':
-   cpufeature.c:(.text+0x9ca): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpufeature.o: in function `sbi_mpxy_send_message_with_resp':
-   cpufeature.c:(.text+0xa1a): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpufeature.o: in function `sbi_mpxy_send_message_without_resp':
-   cpufeature.c:(.text+0xa6a): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpufeature.o: in function `sbi_mpxy_get_notifications':
-   cpufeature.c:(.text+0xaba): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/irq.o: in function `sbi_mpxy_read_attrs':
-   irq.c:(.text+0xf6): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/irq.o: in function `sbi_mpxy_write_attrs':
-   irq.c:(.text+0x146): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/irq.o: in function `sbi_mpxy_send_message_with_resp':
-   irq.c:(.text+0x196): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/irq.o: in function `sbi_mpxy_send_message_without_resp':
-   irq.c:(.text+0x1e6): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/irq.o: in function `sbi_mpxy_get_notifications':
-   irq.c:(.text+0x236): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/setup.o: in function `sbi_mpxy_read_attrs':
-   setup.c:(.text+0x3e): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/setup.o: in function `sbi_mpxy_write_attrs':
-   setup.c:(.text+0x8e): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/setup.o: in function `sbi_mpxy_send_message_with_resp':
-   setup.c:(.text+0xde): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/setup.o: in function `sbi_mpxy_send_message_without_resp':
-   setup.c:(.text+0x12e): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/setup.o: in function `sbi_mpxy_get_notifications':
-   setup.c:(.text+0x17e): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/sys_hwprobe.o: in function `sbi_mpxy_read_attrs':
-   sys_hwprobe.c:(.text+0x130e): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/sys_hwprobe.o: in function `sbi_mpxy_write_attrs':
-   sys_hwprobe.c:(.text+0x135e): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/sys_hwprobe.o: in function `sbi_mpxy_send_message_with_resp':
-   sys_hwprobe.c:(.text+0x13ae): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/sys_hwprobe.o: in function `sbi_mpxy_send_message_without_resp':
-   sys_hwprobe.c:(.text+0x13fe): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/sys_hwprobe.o: in function `sbi_mpxy_get_notifications':
-   sys_hwprobe.c:(.text+0x144e): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/time.o: in function `sbi_mpxy_read_attrs':
-   time.c:(.text+0x3e): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/time.o: in function `sbi_mpxy_write_attrs':
-   time.c:(.text+0x8e): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/time.o: in function `sbi_mpxy_send_message_with_resp':
-   time.c:(.text+0xde): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/time.o: in function `sbi_mpxy_send_message_without_resp':
-   time.c:(.text+0x12e): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/time.o: in function `sbi_mpxy_get_notifications':
-   time.c:(.text+0x17e): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/traps_misaligned.o: in function `sbi_mpxy_read_attrs':
-   traps_misaligned.c:(.text+0xa44): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/traps_misaligned.o: in function `sbi_mpxy_write_attrs':
-   traps_misaligned.c:(.text+0xa94): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/traps_misaligned.o: in function `sbi_mpxy_send_message_with_resp':
-   traps_misaligned.c:(.text+0xae4): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/traps_misaligned.o: in function `sbi_mpxy_send_message_without_resp':
-   traps_misaligned.c:(.text+0xb34): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/traps_misaligned.o: in function `sbi_mpxy_get_notifications':
-   traps_misaligned.c:(.text+0xb84): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops.o: in function `sbi_mpxy_read_attrs':
-   cpu_ops.c:(.text+0x3e): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops.o: in function `sbi_mpxy_write_attrs':
-   cpu_ops.c:(.text+0x8e): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops.o: in function `sbi_mpxy_send_message_with_resp':
-   cpu_ops.c:(.text+0xde): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops.o: in function `sbi_mpxy_send_message_without_resp':
-   cpu_ops.c:(.text+0x12e): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops.o: in function `sbi_mpxy_get_notifications':
-   cpu_ops.c:(.text+0x17e): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops_spinwait.o: in function `sbi_mpxy_read_attrs':
-   cpu_ops_spinwait.c:(.text+0xd6): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops_spinwait.o: in function `sbi_mpxy_write_attrs':
-   cpu_ops_spinwait.c:(.text+0x126): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops_spinwait.o: in function `sbi_mpxy_send_message_with_resp':
-   cpu_ops_spinwait.c:(.text+0x176): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops_spinwait.o: in function `sbi_mpxy_send_message_without_resp':
-   cpu_ops_spinwait.c:(.text+0x1c6): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/cpu_ops_spinwait.o: in function `sbi_mpxy_get_notifications':
-   cpu_ops_spinwait.c:(.text+0x216): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/suspend.o: in function `sbi_mpxy_read_attrs':
-   suspend.c:(.text+0x3e): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/suspend.o: in function `sbi_mpxy_write_attrs':
-   suspend.c:(.text+0x8e): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/suspend.o: in function `sbi_mpxy_send_message_with_resp':
-   suspend.c:(.text+0xde): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/suspend.o: in function `sbi_mpxy_send_message_without_resp':
-   suspend.c:(.text+0x12e): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/kernel/suspend.o: in function `sbi_mpxy_get_notifications':
-   suspend.c:(.text+0x17e): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
-   riscv64-linux-ld: arch/riscv/mm/cacheflush.o: in function `sbi_mpxy_read_attrs':
-   cacheflush.c:(.text+0x20e): multiple definition of `sbi_mpxy_read_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x11a): first defined here
-   riscv64-linux-ld: arch/riscv/mm/cacheflush.o: in function `sbi_mpxy_write_attrs':
-   cacheflush.c:(.text+0x25e): multiple definition of `sbi_mpxy_write_attrs'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x16a): first defined here
-   riscv64-linux-ld: arch/riscv/mm/cacheflush.o: in function `sbi_mpxy_send_message_with_resp':
-   cacheflush.c:(.text+0x2ae): multiple definition of `sbi_mpxy_send_message_with_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x1ba): first defined here
-   riscv64-linux-ld: arch/riscv/mm/cacheflush.o: in function `sbi_mpxy_send_message_without_resp':
-   cacheflush.c:(.text+0x2fe): multiple definition of `sbi_mpxy_send_message_without_resp'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x20a): first defined here
-   riscv64-linux-ld: arch/riscv/mm/cacheflush.o: in function `sbi_mpxy_get_notifications':
-   cacheflush.c:(.text+0x34e): multiple definition of `sbi_mpxy_get_notifications'; arch/riscv/kernel/alternative.o:alternative.c:(.text+0x25a): first defined here
---
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12,
-                    from arch/riscv/include/asm/kvm_host.h:25,
-                    from arch/riscv/kernel/asm-offsets.c:13:
-   arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     799 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:805:5: warning: no previous prototype for 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     805 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:811:5: warning: no previous prototype for 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     811 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:819:5: warning: no previous prototype for 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     819 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:826:39: warning: 'struct sbi_mpxy_notification_data' declared inside parameter list will not be visible outside of this definition or declaration
-     826 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:825:5: warning: no previous prototype for 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     825 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+-- 
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Peter
