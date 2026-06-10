@@ -1,168 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FAC35E1AD;
-	Wed, 10 Jun 2026 19:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33B1361641;
+	Wed, 10 Jun 2026 19:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781118651; cv=none; b=hUQNEEQOD7pE99NsEnRiuGnI5PUXGgkYfeqXsuTX9PwNHr77TQ2SqWQNNynY/NNoAuRHwAryjCnKI7f9ZP+xpS5SBJaUuwt2xNrM+lmbnnzPB4jHFFyofVY2FCksHzESSCMIOVi6Mnn5dV4uuqSdfmUQIPJOiJ6XUWS7SD9e790=
+	t=1781119982; cv=none; b=U6SZdXkod/N5N/X8AJ5YiU5mav62c+3MaF81RwTSgzRJDR7fwxPHDS6BSKc2gRKSdkmOjfLnyn9yu1o0L7evirtYZCN77ygBrAp617AkFlW2sXQQu8CoIV19XasaCaXYZ+mJ1dbcPLpjv6U9WL7+zVfudTpg64BxDNRRwxJXKTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781118651; c=relaxed/simple;
-	bh=UusuSpxnBqEewppTICNmTk3Nc55pTHnvDixw96lrajU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XOelhgLjNCArutFBbbCBGh4Nnm4yM9SmyNdlGxfbnadz7e3TW253PgRnR3mIVKPDIA0hktWSEP6V4vwzH7xkLWw9nsFMb2uxjzU4Nqm6xw0f1OsgggleXgu7V2a4bl+vYPinkjB9kChgDLt8JeWbypAPWp85IYj5bEnQek9M3dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDgAAbjX; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1781119982; c=relaxed/simple;
+	bh=GY05IJrZKcxcHjpA8csG4o4QDYOJDwexr7PFGzhyaHc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nzbpI99bcwTNrnXJz4J3ZwL7jsWLm5Bcaj7eylo5598RCGXt7csA0Ao4cq3wNNaEydtfb7YJDlic6CkL1GmL6gI/8jEdi2vs/D4ppx4j1SJiGmFxQ6ppVVAUZR6FTQ38Ksi4hkWuUfrmuLLPFXluvYkWTUTpcew4XL0jG3pwNI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/CSut24; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDgAAbjX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/CSut24"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781118649; x=1812654649;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=UusuSpxnBqEewppTICNmTk3Nc55pTHnvDixw96lrajU=;
-  b=nDgAAbjXewLFlOaAVS1Jpk2F0ruSUND5MYPv4Kgi7AHobjdvrvR8d402
-   I84AtNPL257y7C+Kn/RmMZ2ldgGJ9wFxLRtSISiYT7Wx/SLan1Yu+79Zi
-   Uy/b5MgZCyJWr0XT/Pdtv8MKZoTj+igX5NkcJIzkD2N2+62CNvgUkqbnV
-   xuNLY0pw0cjNojuMBy6khPCNGT4IEco+qIUchRbmXZdECoLW+eOPkktpc
-   L/hvtbtn722hLNjdVz1yJxKLq0VOk1en0qoOY1Or+4W31xb6g2IRdVSD2
-   hzlt+3AmcGejvkJnMWoy1cm1P2u455y3+fyWV/LL/xfyyQAconIBlmaIH
+  t=1781119979; x=1812655979;
+  h=date:from:to:cc:subject:message-id;
+  bh=GY05IJrZKcxcHjpA8csG4o4QDYOJDwexr7PFGzhyaHc=;
+  b=i/CSut24Hplje1O/FUrq82F72kkCuSklGuGwzwPxq7ajJftB1SeE+S4I
+   70TLShbmq4EgiZLbipOb8/GC8XDu1BSZA9gYHvQQODLyrLeZjQb2r1cac
+   9fOIfYAHghIz3ph663idlbLzOE9aGoUOyOrI2TGOO2d5nDqkkduc0C9IY
+   /sMM0362UmFskH94e1Njrx8uChwBG4HOKa2Mq+mjdwXcYkCSTmCsAij0R
+   F2TWbYalgljMr40OBJHGFPW5O2zokypClbB9qcCexX7q/pijz5JZeC9IQ
+   oRQURVn6x2U7xnSl2FufkzYRGDeurItyL/pNklZfVLh6S4CRrHSLacBcJ
    w==;
-X-CSE-ConnectionGUID: IUJr0Y7ZSFW7Tx1PvlKGPg==
-X-CSE-MsgGUID: pZz4StTkR8iARlOeNLIiuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92596820"
+X-CSE-ConnectionGUID: +ubKRUJBRJmwanTbODfRRQ==
+X-CSE-MsgGUID: pHDMNz37SgG7pK7UdabpWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81987247"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="92596820"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 12:10:48 -0700
-X-CSE-ConnectionGUID: D1SAQGkQQXakFoapfkXoPw==
-X-CSE-MsgGUID: Q0gHE8A8TwKc7krrJyYVWQ==
+   d="scan'208";a="81987247"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 12:32:48 -0700
+X-CSE-ConnectionGUID: 1yBt8qdqTQ2GXOwIA2LhLg==
+X-CSE-MsgGUID: LLohIqf+RuujZ4mFGGamRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="276450343"
+   d="scan'208";a="251179401"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Jun 2026 12:10:45 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 Jun 2026 12:32:47 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXOK2-00000000LnG-2Hjk;
-	Wed, 10 Jun 2026 19:10:42 +0000
-Date: Thu, 11 Jun 2026 03:10:11 +0800
+	id 1wXOfL-00000000Los-3vow;
+	Wed, 10 Jun 2026 19:32:43 +0000
+Date: Thu, 11 Jun 2026 03:31:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>
+To: Li Jun <lijun01@kylinos.cn>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	virtualization@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Cindy Lu <lulu@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	linux-kernel@vger.kernel.org, Laurent Vivier <lvivier@redhat.com>,
-	Yongji Xie <xieyongji@bytedance.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Maxime Coquelin <mcoqueli@redhat.com>
-Subject: Re: [PATCH v3] vduse: Add suspend
-Message-ID: <202606110222.CJtRWzQl-lkp@intel.com>
-References: <20260610083452.477759-1-eperezma@redhat.com>
+ Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:asoc-7.1 10/10]
+ sound/soc/loongson/loongson_dma.c:213:45: warning: format specifies type
+ 'unsigned int' but the argument has type 'u64' (aka 'unsigned long long')
+Message-ID: <202606110332.I6vetCYj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260610083452.477759-1-eperezma@redhat.com>
 
-Hi Eugenio,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20260609]
-[cannot apply to linus/master v7.1-rc7 v7.1-rc6 v7.1-rc5 v7.1-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eugenio-P-rez/vduse-Add-suspend/20260610-164534
-base:   next-20260609
-patch link:    https://lore.kernel.org/r/20260610083452.477759-1-eperezma%40redhat.com
-patch subject: [PATCH v3] vduse: Add suspend
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260611/202606110222.CJtRWzQl-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git asoc-7.1
+head:   3f3d5a7a065fc9874f671c5afb9dd214f7671946
+commit: 3f3d5a7a065fc9874f671c5afb9dd214f7671946 [10/10] ASoC: loongson: Fix invalid position error in ls_pcm_pointer
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260611/202606110332.I6vetCYj-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606110222.CJtRWzQl-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606110332.I6vetCYj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606110222.CJtRWzQl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606110332.I6vetCYj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/vdpa/vdpa_user/vduse_dev.c:566:3: error: cannot jump from this goto statement to its label
-     566 |                 goto unlock;
-         |                 ^
-   drivers/vdpa/vdpa_user/vduse_dev.c:568:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     568 |         guard(rwsem_read)(&vq->dev->rwsem);
-         |         ^
-   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
-     423 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
-     303 |                 class_##_name##_constructor
-         |                 ^
-   <scratch space>:132:1: note: expanded from here
-     132 | class_rwsem_read_constructor
-         | ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:138:1: note: expanded from here
-     138 | __UNIQUE_ID_unlock_770
-         | ^
-   drivers/vdpa/vdpa_user/vduse_dev.c:568:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-   include/linux/cleanup.h:423:15: note: expanded from macro 'guard'
-     423 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:165:2: note: expanded from macro '__UNIQUE_ID'
-     165 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:126:1: note: expanded from here
-     126 | __UNIQUE_ID_guard_769
-         | ^
-   1 error generated.
+>> sound/soc/loongson/loongson_dma.c:213:45: warning: format specifies type 'unsigned int' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     213 |                 dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
+         |                                                    ~~     ^~~~
+         |                                                    %llx
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +566 drivers/vdpa/vdpa_user/vduse_dev.c
+vim +213 sound/soc/loongson/loongson_dma.c
 
-c8a6153b6c59d9 Xie Yongji        2021-08-31  561  
-c8a6153b6c59d9 Xie Yongji        2021-08-31  562  static void vduse_vq_kick(struct vduse_virtqueue *vq)
-c8a6153b6c59d9 Xie Yongji        2021-08-31  563  {
-c8a6153b6c59d9 Xie Yongji        2021-08-31  564  	spin_lock(&vq->kick_lock);
-c8a6153b6c59d9 Xie Yongji        2021-08-31  565  	if (!vq->ready)
-c8a6153b6c59d9 Xie Yongji        2021-08-31 @566  		goto unlock;
-c8a6153b6c59d9 Xie Yongji        2021-08-31  567  
-9c4307e82fa1dc Eugenio Pérez     2026-06-10  568  	guard(rwsem_read)(&vq->dev->rwsem);
-9c4307e82fa1dc Eugenio Pérez     2026-06-10  569  	if (vq->dev->suspended)
-9c4307e82fa1dc Eugenio Pérez     2026-06-10  570  		return;
-9c4307e82fa1dc Eugenio Pérez     2026-06-10  571  
-c8a6153b6c59d9 Xie Yongji        2021-08-31  572  	if (vq->kickfd)
-3652117f854819 Christian Brauner 2023-11-22  573  		eventfd_signal(vq->kickfd);
-c8a6153b6c59d9 Xie Yongji        2021-08-31  574  	else
-c8a6153b6c59d9 Xie Yongji        2021-08-31  575  		vq->kicked = true;
-c8a6153b6c59d9 Xie Yongji        2021-08-31  576  unlock:
-c8a6153b6c59d9 Xie Yongji        2021-08-31  577  	spin_unlock(&vq->kick_lock);
-c8a6153b6c59d9 Xie Yongji        2021-08-31  578  }
-c8a6153b6c59d9 Xie Yongji        2021-08-31  579  
+   196	
+   197	static snd_pcm_uframes_t
+   198	loongson_pcm_pointer(struct snd_soc_component *component,
+   199			     struct snd_pcm_substream *substream)
+   200	{
+   201		struct snd_pcm_runtime *runtime = substream->runtime;
+   202		struct device *dev = substream->pcm->card->dev;
+   203		struct loongson_runtime_data *prtd = runtime->private_data;
+   204		struct loongson_dma_desc *desc;
+   205		snd_pcm_uframes_t x;
+   206		u64 addr;
+   207	
+   208		desc = dma_desc_save(prtd);
+   209		addr = ((u64)desc->saddr_hi << 32) | desc->saddr;
+   210	
+   211		if (addr < runtime->dma_addr ||
+   212		    addr > runtime->dma_addr + runtime->dma_bytes) {
+ > 213			dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
+   214			x = 0;
+   215		} else {
+   216			x = bytes_to_frames(runtime, addr - runtime->dma_addr);
+   217			if (x == runtime->buffer_size)
+   218				x = 0;
+   219		}
+   220	
+   221		return x;
+   222	}
+   223	
 
 --
 0-DAY CI Kernel Test Service
