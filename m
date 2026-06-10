@@ -1,55 +1,97 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64ED93B42C0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 11:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DFC409635;
+	Wed, 10 Jun 2026 13:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781092754; cv=none; b=EAV89+sq+QGxatCu4T4ZOHNPdal6EZxH1ItfT7ivC7TTwThNxaLp4U/HmUgLO1pyYxkROPktktAsrmQGzt/nLpKWyICgUdr+YQHPLzNrC9+EI3tM+vryyIcoVGivcu6sG6jNmirgq/SF1j+tJc6sq83mfJXYBBpLkvH5GBOvjLg=
+	t=1781098203; cv=none; b=dAW8U3i9XsLfTUuxiK+FG/XpE6RQbTpt8idII9apm7QfQJ/4GnPM401C/DwAscK0BY820IA0lko1HdDzk7EHFzd5ORAAGBqUNMunQEkGDgu9BpBLIt+p26LhI56f6TogQ1IWDdWcHrvYGlJ5dTsKFd1n32xViVOgZyJhJmlPE74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781092754; c=relaxed/simple;
-	bh=3lAV0Rx6lP26WBih1OzsHvbz8b7/5U9ceTGoQHqa8mo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+iGfoISQsgRxoVo7q1UxXyLWHjTxvV+eNSDwJY7oZI/wsNB6e4E9Yc2L2fNNMThlB1GwnU8dHxO4fMp/F2ip1fkHGy9E/O7yO6RijfMrpC2r9sq54039jYvVljqpcDXv9x33ADWH378zjiHtPEZfRv5sDj9SMy/53AB08tB5OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 941D068BFE; Wed, 10 Jun 2026 13:59:10 +0200 (CEST)
-Date: Wed, 10 Jun 2026 13:59:10 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Philip Li <philip.li@intel.com>
-Cc: Christoph Hellwig <hch@lst.de>, kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [hch-misc:block-error-injection 3/4] block/blk-core.c:141:33:
- sparse: sparse: cast to restricted blk_opf_t
-Message-ID: <20260610115910.GC19624@lst.de>
-References: <202606101953.PdmBi8go-lkp@intel.com> <20260610113757.GA18273@lst.de> <ailRL3E4dtN6/mUE@rli9-mobl>
+	s=arc-20240116; t=1781098203; c=relaxed/simple;
+	bh=aMXHdFbndSz/eYfb5PbPvtxEGkHz6Uux41Kgogc+L+E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KOL+x7auRRKYLy+a9UdXG218QP5ZiaQsHs5nqabsbKFSm9S3f+Fm8DD1wai4xnW8JqntoGCKdsXvIbo8ZtzvHCaDGFbVhV0YCb1FN5lUMqvWTmzkW6E6FuufKr6vGaZxQQi8Vz5ZdYXsDKT4E6v5LTXwnHbZsQQMsWiKeHryAto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R13VFIqD; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R13VFIqD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781098201; x=1812634201;
+  h=date:from:to:cc:subject:message-id;
+  bh=aMXHdFbndSz/eYfb5PbPvtxEGkHz6Uux41Kgogc+L+E=;
+  b=R13VFIqDKbwNqNnWRg8umkeeinyCDNoUlOc62EZbS+erZkB+g+uDI0F8
+   xP+8N++P9T+wgPPFAU2BfeE8H0WO14hxqxpLBfNu+pIEWeWFhU/nnEOZg
+   WAtBdiSo/tHQLFo7Vmgh9854Z8Rn9cDKbIR5xVTwX0ewT4GiZ0ZX9KMqd
+   CmOjtYSaHT+w8iwPDiiE1wYixZaTDKdMi7fvBGrpHctF6nTIEAqGAw18Y
+   ZeQ+FlA8ZBT4m0FDeb1VmDRyZR5jwaZrDqJVeq7eeI6YbT+M6+9zFWWND
+   Dzs6kmuljlUTE0n8QHIaRHPHeKuX2takQTib0GZE4RayFVh9DpU9CIxxa
+   Q==;
+X-CSE-ConnectionGUID: HLHjRFw5SLuCNwD0XHWwTw==
+X-CSE-MsgGUID: b8dC9cxMTqO7wpQVIi+GFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81933476"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="81933476"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 06:30:01 -0700
+X-CSE-ConnectionGUID: Vj/9ZGoBT1Wrtqm/qkQKRg==
+X-CSE-MsgGUID: n233I64eT1uzeGanx7rbPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="241760029"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 10 Jun 2026 06:29:59 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wXJ0H-00000000LSU-0yQ7;
+	Wed, 10 Jun 2026 13:29:57 +0000
+Date: Wed, 10 Jun 2026 21:29:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/kvmclock_vs_tsc 1/51]
+ arch/x86/kernel/jailhouse.c:68:50: error: too few arguments to function call,
+ expected 2, have 1
+Message-ID: <202606102111.oiMD3eO9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ailRL3E4dtN6/mUE@rli9-mobl>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Jun 10, 2026 at 07:57:35PM +0800, Philip Li wrote:
-> On Wed, Jun 10, 2026 at 01:37:57PM +0200, Christoph Hellwig wrote:
-> > On Wed, Jun 10, 2026 at 07:22:03PM +0800, kernel test robot wrote:
-> > >    139		for (i = 0; i < ARRAY_SIZE(blk_op_name); i++)
-> > >    140			if (blk_op_name[i] && !strcmp(blk_op_name[i], op))
-> > >  > 141				return (enum req_op)i;
-> > 
-> > My spare on x86 and varous cross builds is perfectly fine with it.
-> > What sparese version is installed on the microblaze build box?
-> 
-> The version used is
-> 
->   sparse: v0.6.5-rc1
+tree:   https://github.com/sean-jc/linux x86/kvmclock_vs_tsc
+head:   03e00f8b41e58b5dd5ceef21940a62e5d8e08766
+commit: e3916a6bfe7c4342989909ff0109708bda8ed516 [1/51] x86/apic: Provide helpers to set local APIC timer period in hz and khz
+config: x86_64-randconfig-005-20260610 (https://download.01.org/0day-ci/archive/20260610/202606102111.oiMD3eO9-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606102111.oiMD3eO9-lkp@intel.com/reproduce)
 
-That's pretty current.  No idea why this generates a warning on
-microblaze, but not elsewhere.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606102111.oiMD3eO9-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+>> arch/x86/kernel/jailhouse.c:68:50: error: too few arguments to function call, expected 2, have 1
+      68 |         apic_set_timer_period_khz(setup_data.v1.apic_khz);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~                       ^
+   arch/x86/include/asm/apic.h:141:13: note: 'apic_set_timer_period_khz' declared here
+     141 | extern void apic_set_timer_period_khz(u64 period_khz, const char *source);
+         |             ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +68 arch/x86/kernel/jailhouse.c
+
+    65	
+    66	static void __init jailhouse_timer_init(void)
+    67	{
+  > 68		apic_set_timer_period_khz(setup_data.v1.apic_khz);
+    69	}
+    70	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
