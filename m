@@ -1,127 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F663D9DB4;
-	Wed, 10 Jun 2026 10:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03783FF1B8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 11:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781087076; cv=none; b=QqvKmjQL2akP2d0zifUX3e1Au4DpfxoDSaTKKO5+f8UAS95uvT7ltl5Ewcc2UBpN+sAVOxzZfsaXdkDL3BBNbPEDS5Szs7ga2GAi2bka9KQpm3IHwNesFArdoeutF6Pwl0ky8967Xb0lyDsn+5RxIwGEOCwUlBAxnXgybLxX0ds=
+	t=1781089962; cv=none; b=ftxEXy+8Uv3e0yobI8B7HkHFDhfv1I32h+/d8c1/bnL4V/vAssGqE9tDI4YnQ0Som+oS/8X0tqD1kLvBfGwx63ZDsypE6a6OgTGjxn0+7URp3m4ahYmOqPH4Nd7xEkMzUZJZbdKT4im51s30DQ9/B1qkvh8gN0NWL7zpwFZZf0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781087076; c=relaxed/simple;
-	bh=VPIJghQGO9fRx1dNGVr2U/4TQ1mVqFYwuo///L76Zy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rk3voFp1CmU0QK+TYMKEHQLcpzIvZ2EDSxP1ugozRiq/XWXd057EsvwnL1XUk4IjKe7E06eB57SOc0aMhs7MgIyw+ylXZp+6jrvpjfmMK6ZjZrzP8mOJjZeU567GyCKq4BOPXW7XvJFHMk73NjTcX03ix9DuQDpn964eoKjqtWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QP2Dc2/K; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1781089962; c=relaxed/simple;
+	bh=cmgYCH7bAKow3n+v3GCCkyP/zSVvV5OBIjoYeOEHYJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=e8c50M2gCjqMEItvJmAE6yjPtf60dB7dMLevgEB6vuRc5JGdhcqboed69xTXjyZ0JdTyol3VDAQEgf+qAKnrf0mWuhghCtd7/YX3csN/NXvBto8sncRmo7YGxxXB2iNMSjPKWmhrQPDTOEL81e3WH1Hj4/Tz1ec8zlaSh60f/S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKeE0fCR; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QP2Dc2/K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKeE0fCR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781087074; x=1812623074;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VPIJghQGO9fRx1dNGVr2U/4TQ1mVqFYwuo///L76Zy4=;
-  b=QP2Dc2/KS+cux8RfPYjpNvFdN1Kf7UKjBRopr9rQxza0x89RSYzQfMjX
-   Ie5JQtLMuZDhnlFfNgKNIdRm1Z4ykRTLxud3P+t2WZZxXnUVJnqMDcHTi
-   vkGlx60FQTwS7HpM5LL+DqriXGUsr/xucbW2AvZ/GI1UmgRQW97s9/gui
-   DPqDXmvSeUlsPxY0OXL7cMlILphKpixEXicBhsJmjzPrTBM0gfzG9YU7Z
-   dFeCUJUTPhacXxuogjWTWl8uve4KL3HF+lmVdqrIfRyR1XiNAlT7SiDgr
-   uf6aDV+kv2ei25Jq1uL6+XAvBaEhSSlPBYYG1a/8pyVRAoXEpbYnPQmpW
-   w==;
-X-CSE-ConnectionGUID: ebqduFYYTyq5uXArLVYv9g==
-X-CSE-MsgGUID: ywaI/jdeRCqYGMpj9m3iqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="92549603"
+  t=1781089959; x=1812625959;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cmgYCH7bAKow3n+v3GCCkyP/zSVvV5OBIjoYeOEHYJ0=;
+  b=EKeE0fCRbG6W44RgWYw0CreZTotLrp3ShkGbE3J0YsfNUFSfw/SPo7IO
+   wogay5JImcN4TGhHTQ5lVN4Hnrrn2ZHxNGW2KcODnFSaPaWechXNfzsBv
+   UfmynRDGpEBoqgo4+1rK5l5Uv+chOCDlovY9eDYrN4DAKwKB0k0TUioeo
+   KHV96HAq/Mn+GDyCUmPlgv0fAI7uzKrJEG2/8itZre/v1T3ZWFQ0m7bwJ
+   XCsH9JUwKwo6PHLAMuq4OQDQVMCnhqD7VxJNuIP78XR2Qq5p6IHj1B7pO
+   e6HEKP+DanWWzOVHSOgfF4KmrGhS73JeSPiK89H6uGLVJ+2AwDE/Vpso1
+   g==;
+X-CSE-ConnectionGUID: lWbDRlDRThq/yJdurjJiYw==
+X-CSE-MsgGUID: f4wb/w2yTAi1JA+sYaf/EA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81944482"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="92549603"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 03:24:33 -0700
-X-CSE-ConnectionGUID: 3Ez8/HUASkKJ39t9fqOP+A==
-X-CSE-MsgGUID: Uss+nLKwSyak1Tvukt/jRQ==
+   d="scan'208";a="81944482"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 04:12:39 -0700
+X-CSE-ConnectionGUID: mRjzvZLJTg668CQ+F5VaaQ==
+X-CSE-MsgGUID: dalGLgk7Tduj3Sxr/zDMVg==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Jun 2026 03:24:32 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="248012738"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 10 Jun 2026 04:12:37 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXG6o-000000003fV-3J3n;
-	Wed, 10 Jun 2026 10:24:30 +0000
-Date: Wed, 10 Jun 2026 12:23:41 +0200
+	id 1wXGrL-00000000LKI-0DyM;
+	Wed, 10 Jun 2026 11:12:35 +0000
+Date: Wed, 10 Jun 2026 19:11:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Yeo <alexyeo362@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2] platform/x86: panasonic-laptop: add fan speed
- mode for newer models
-Message-ID: <202606101201.Uas4V2ol-lkp@intel.com>
-References: <20260610031756.546459-1-alexyeo362@gmail.com>
+To: =?utf-8?Q?"Ma=C3=ADra?= Canal" <mcanal@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [drm-misc:drm-misc-next 8/13] Warning:
+ drivers/gpu/drm/v3d/v3d_submit.c:85 function parameter 'submit' not described
+ in 'v3d_lookup_bos'
+Message-ID: <202606101838.EX8oSATj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610031756.546459-1-alexyeo362@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
+Hi Ma=C3=ADra,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it'=
+s irrelevant.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.1-rc7 next-20260609]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+head:   2df5efb45425b48fbf5a3c1f36a686af26871009
+commit: f59d986943afbb97443cf91f45b1dc2c6fb6bebc [8/13] drm/v3d: Convert su=
+bmit helpers to operate on struct v3d_submit
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/202606=
+10/202606101838.EX8oSATj-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260610/202606101838.EX8oSATj-lkp@intel.com/reproduce)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Yeo/platform-x86-panasonic-laptop-add-fan-speed-mode-for-newer-models/20260610-112852
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260610031756.546459-1-alexyeo362%40gmail.com
-patch subject: [RFC PATCH v2] platform/x86: panasonic-laptop: add fan speed mode for newer models
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260610/202606101201.Uas4V2ol-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606101201.Uas4V2ol-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606101201.Uas4V2ol-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606101838.EX8oSATj-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/panasonic-laptop.c:518:2: error: use of undeclared identifier 'status'
-     518 |         status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.CEFM", &handle);
-         |         ^~~~~~
-   drivers/platform/x86/panasonic-laptop.c:519:19: error: use of undeclared identifier 'status'; did you mean 'static'?
-     519 |         if (ACPI_FAILURE(status))
-         |                          ^~~~~~
-   drivers/platform/x86/panasonic-laptop.c:521:2: error: use of undeclared identifier 'status'
-     521 |         status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.SEFM", &handle);
-         |         ^~~~~~
-   drivers/platform/x86/panasonic-laptop.c:522:19: error: use of undeclared identifier 'status'; did you mean 'static'?
-     522 |         if (ACPI_FAILURE(status))
-         |                          ^~~~~~
-   4 errors generated.
-
-
-vim +/status +518 drivers/platform/x86/panasonic-laptop.c
-
-   512	
-   513	static acpi_status check_fan_mode_present(void)
-   514	{
-   515		acpi_handle handle;
-   516	
-   517		/* check if read (CEFM) and set (SEFM) are available */
- > 518		status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.CEFM", &handle);
-   519		if (ACPI_FAILURE(status))
-   520			return -ENOENT;
-   521		status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.SEFM", &handle);
-   522		if (ACPI_FAILURE(status))
-   523			return -ENOENT;
-   524	
-   525		return 0;
-   526	}
-   527	
+>> Warning: drivers/gpu/drm/v3d/v3d_submit.c:85 function parameter 'submit'=
+ not described in 'v3d_lookup_bos'
+>> Warning: drivers/gpu/drm/v3d/v3d_submit.c:85 function parameter 'submit'=
+ not described in 'v3d_lookup_bos'
 
 --
 0-DAY CI Kernel Test Service
