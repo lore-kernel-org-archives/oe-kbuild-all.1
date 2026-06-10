@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE54740D592
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jun 2026 22:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97232202F70;
+	Wed, 10 Jun 2026 23:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781131965; cv=none; b=O7ccXpn+gKpCne+OVqYpmXLpzMXXhaz7BLwantmfoEXKXZ1B9It5tnwQiUp8Lv/JaT3GcxsD8SwSkZOBjXNOO4FSSkru+xab+YZbfMabwCB8IPVr2BeMXyViJseGSDN76z6OyOBP04rQS8RhamEO5En3Hohlke1MuMxgxDPdFZU=
+	t=1781134425; cv=none; b=g0+4S/WoY81r/HS+dj+OHR6LM5+4+rDZMLO3UqRlnQt/sdwRT7MCibytvMJhFMSWhfXapgPlwMhq+Eb5zZ4KSk6UcQk+qsHzjMPA+nE9+2Gxw7gtBjSB1+v3TnFEm71gDXkIAf6zamSw/sw7vnagy2/Cz09+ubwuHrMlvgqjWA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781131965; c=relaxed/simple;
-	bh=Ll2hToKJyicZCRXESQAD8s5T5QwnqZBmr6M0S15UriU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ecRic3uKvI7o/UqYof2GgkCyJ5d6Wa86F+ZdSaUmRPqf2JZoe9NH6Ff6J8dpiVQBnXkNb7j8WFJQrVu/CldSi8AiYQo5JMZsx79jow60smKkX2gmM6SEzzplSYThA7HVEZXcnZ/U2egMLE+PbU8rsF8JxNmZMCjJyLRNXjEcdZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BR81lDL8; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1781134425; c=relaxed/simple;
+	bh=7cgO4PoW38pKtdAQrhf4qftDA/SojIx+cWJbr56OBSA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IWgrn/BviU4FRkGZkUE1HUcL+7qS/Id21dMhQO/A1Gp2RrrTryI/oDvnTF+05FQ0xhqNPKtC476bnUmgI+Gey87d8UTaKfn8AIzxf5HN3poOFGYF/KqWE4k0MG7dKuWVu0y4LxHicWA2ll7oAJcWrJ2A+tZA+fNNsBPa4kz/diY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrvpqrYO; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BR81lDL8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrvpqrYO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781131964; x=1812667964;
+  t=1781134424; x=1812670424;
   h=date:from:to:cc:subject:message-id;
-  bh=Ll2hToKJyicZCRXESQAD8s5T5QwnqZBmr6M0S15UriU=;
-  b=BR81lDL8V3s8VS8jOU+a/N0Ol6wyfX7JKhUGlJ6gQnD0zfFCKZr/nmCq
-   n4Ij0ejwtqIMkBqqwC2/i3Wh0wHu668i5n/XP+YmLu0LKrsPzteBysaO3
-   rp6t1yuLXbg5FV1+KWKQixV6znIdGcOx2nkezmLSd6Kcj9d5kBdg9SEi4
-   ObntiBGchT9LN/5e+SLL90fO812jy+jamP/wT1j1xvh02S9sEmA7OY4W6
-   ESvxzP+jc4/ZLMZC3fLLZOWVWzpBa/Kjj5/KRC6FGRYchWaxHjKlh1Fd7
-   RgdWWARyZsriF4Usgl+woSWZFS9rmkog80VXfddhUVdAVrHGjs/A0jkTu
-   w==;
-X-CSE-ConnectionGUID: 4+2GGjzDQU2s6PQp7xXeyg==
-X-CSE-MsgGUID: y9Ec6bAsTzC0hruPBlOniA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="84510626"
+  bh=7cgO4PoW38pKtdAQrhf4qftDA/SojIx+cWJbr56OBSA=;
+  b=VrvpqrYOvssNMiN3PqiOmlgjvA4UOB7zPh33Rv2gCXSak25mNHuY1KcM
+   r2HCWaAKRACe0kEeWn24/1qNTHoyla1cYbDgC7lb4nSFT9zKoLD2wPUlq
+   CtweiUNb6UPoPMFRdynr+dkWhoRrEPp5d1MHwATkhwqDoNNbK82iLs0bi
+   AEApy+p2ixoL2a0hPKfXuaH9Go2Av/QhA/u1csIuucPKRyYs+aQWrF80j
+   JiZjmLLSyc4K8LsTKIg+58jJBwQNl7+9mBhMHnOsJB+urk+jL1SKD3fM7
+   QbLG8EJZ7Wk0oORXIGx84Yx7rmE4ISyLsskvDaYNIjkKaKWlkyFpFFecY
+   Q==;
+X-CSE-ConnectionGUID: iMVToCm4TGSXQBmQjcjAQA==
+X-CSE-MsgGUID: A0LfodbKQiOlnIAdIQx5Zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81944809"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="84510626"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 15:52:43 -0700
-X-CSE-ConnectionGUID: W/kjLGGCTiOg4BIdYGsB0A==
-X-CSE-MsgGUID: M9Tf8KHhTP6FUBJvIfqm5w==
+   d="scan'208";a="81944809"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 16:33:43 -0700
+X-CSE-ConnectionGUID: t5n6XEabQmO2atic7TWxlA==
+X-CSE-MsgGUID: h+kxwKHiRu6hO2RIuZEwow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="246168461"
+   d="scan'208";a="248180264"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 10 Jun 2026 15:52:42 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 10 Jun 2026 16:33:42 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXRmp-000000003px-1zmj;
-	Wed, 10 Jun 2026 22:52:39 +0000
-Date: Thu, 11 Jun 2026 00:52:03 +0200
+	id 1wXSQV-000000003qP-3xXo;
+	Wed, 10 Jun 2026 23:33:39 +0000
+Date: Thu, 11 Jun 2026 01:32:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Chen-Yu Tsai" <wenst@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: drivers/base/property.c:1117:31: warning: unused variable
- 'ep'
-Message-ID: <202606110043.IXzwVy9b-lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: net/netfilter/nfnetlink_cthelper.c:227:6: warning: variable
+ 'ret' is used uninitialized whenever 'if' condition is true
+Message-ID: <202606110148.Pn8XckYm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,63 +60,115 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/device-property-Add-fwnode_graph_get_port_by_id/20260610-173601
-head:   54dea7fcb07184da44e32947a96eaf18f7f6972c
-commit: a15f14edcda940eac696f9dd2cc820733f711d4b device property: Add fwnode_graph_get_next_port_endpoint()
-date:   13 hours ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260611/202606110043.IXzwVy9b-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606110043.IXzwVy9b-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-nf_conntrack_helper-dynamically-allocate-struct-nf_conntrack_helper/20260602-061630
+head:   739a05785415ce5213468185673fa33bae0e8306
+commit: fe02ae4335b9628202025ecd6821fffb1edaed32 netfilter: nf_conntrack_helper: dynamically allocate struct nf_conntrack_helper
+date:   9 days ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260611/202606110148.Pn8XckYm-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606110148.Pn8XckYm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606110043.IXzwVy9b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606110148.Pn8XckYm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/base/property.c: In function 'fwnode_graph_get_next_port_endpoint':
->> drivers/base/property.c:1117:31: warning: unused variable 'ep' [-Wunused-variable]
-    1117 |         struct fwnode_handle *ep;
-         |                               ^~
+>> net/netfilter/nfnetlink_cthelper.c:227:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     227 |         if (!helper)
+         |             ^~~~~~~
+   net/netfilter/nfnetlink_cthelper.c:280:9: note: uninitialized use occurs here
+     280 |         return ret;
+         |                ^~~
+   net/netfilter/nfnetlink_cthelper.c:227:2: note: remove the 'if' if its condition is always false
+     227 |         if (!helper)
+         |         ^~~~~~~~~~~~
+     228 |                 goto err_cth;
+         |                 ~~~~~~~~~~~~
+   net/netfilter/nfnetlink_cthelper.c:217:9: note: initialize the variable 'ret' to silence this warning
+     217 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +/ep +1117 drivers/base/property.c
+vim +227 net/netfilter/nfnetlink_cthelper.c
 
-  1101	
-  1102	/**
-  1103	 * fwnode_graph_get_next_port_endpoint - Get next endpoint firmware node in port
-  1104	 * @port: Pointer to the target port firmware node
-  1105	 * @prev: Previous endpoint node or %NULL to get the first
-  1106	 *
-  1107	 * The caller is responsible for calling fwnode_handle_put() on the returned
-  1108	 * fwnode pointer. Note that this function also puts a reference to @prev
-  1109	 * unconditionally.
-  1110	 *
-  1111	 * Return: an endpoint firmware node pointer or %NULL if no more endpoints
-  1112	 * are available.
-  1113	 */
-  1114	struct fwnode_handle *fwnode_graph_get_next_port_endpoint(const struct fwnode_handle *port,
-  1115								  struct fwnode_handle *prev)
-  1116	{
-> 1117		struct fwnode_handle *ep;
-  1118	
-  1119		while (1) {
-  1120			prev = fwnode_get_next_child_node(port, prev);
-  1121			if (!prev)
-  1122				break;
-  1123	
-  1124			if (WARN(!fwnode_name_eq(prev, "endpoint"),
-  1125				 "non endpoint node is used (%pfw)", prev))
-  1126				continue;
-  1127	
-  1128			break;
-  1129		}
-  1130	
-  1131		return prev;
-  1132	}
-  1133	EXPORT_SYMBOL_GPL(fwnode_graph_get_next_port_endpoint);
-  1134	
+   209	
+   210	static int
+   211	nfnl_cthelper_create(const struct nlattr * const tb[],
+   212			     struct nf_conntrack_tuple *tuple)
+   213	{
+   214		struct nf_conntrack_helper *helper;
+   215		struct nfnl_cthelper *nfcth;
+   216		unsigned int size;
+   217		int ret;
+   218	
+   219		if (!tb[NFCTH_TUPLE] || !tb[NFCTH_POLICY] || !tb[NFCTH_PRIV_DATA_LEN])
+   220			return -EINVAL;
+   221	
+   222		nfcth = kzalloc_obj(*nfcth, GFP_KERNEL_ACCOUNT);
+   223		if (nfcth == NULL)
+   224			return -ENOMEM;
+   225	
+   226		helper = kzalloc_obj(*helper, GFP_KERNEL_ACCOUNT);
+ > 227		if (!helper)
+   228			goto err_cth;
+   229	
+   230		nfcth->helper = helper;
+   231	
+   232		ret = nfnl_cthelper_parse_expect_policy(helper, tb[NFCTH_POLICY]);
+   233		if (ret < 0)
+   234			goto err_helper;
+   235	
+   236		nla_strscpy(helper->name,
+   237			    tb[NFCTH_NAME], NF_CT_HELPER_NAME_LEN);
+   238		size = ntohl(nla_get_be32(tb[NFCTH_PRIV_DATA_LEN]));
+   239		if (size > sizeof_field(struct nf_conn_help, data)) {
+   240			ret = -ENOMEM;
+   241			goto err_helper;
+   242		}
+   243		helper->data_len = size;
+   244	
+   245		helper->flags |= NF_CT_HELPER_F_USERSPACE;
+   246		memcpy(&helper->tuple, tuple, sizeof(struct nf_conntrack_tuple));
+   247	
+   248		helper->me = THIS_MODULE;
+   249		helper->help = nfnl_userspace_cthelper;
+   250		helper->from_nlattr = nfnl_cthelper_from_nlattr;
+   251		helper->to_nlattr = nfnl_cthelper_to_nlattr;
+   252	
+   253		/* Default to queue number zero, this can be updated at any time. */
+   254		if (tb[NFCTH_QUEUE_NUM])
+   255			helper->queue_num = ntohl(nla_get_be32(tb[NFCTH_QUEUE_NUM]));
+   256	
+   257		if (tb[NFCTH_STATUS]) {
+   258			int status = ntohl(nla_get_be32(tb[NFCTH_STATUS]));
+   259	
+   260			switch(status) {
+   261			case NFCT_HELPER_STATUS_ENABLED:
+   262				helper->flags |= NF_CT_HELPER_F_CONFIGURED;
+   263				break;
+   264			case NFCT_HELPER_STATUS_DISABLED:
+   265				helper->flags &= ~NF_CT_HELPER_F_CONFIGURED;
+   266				break;
+   267			}
+   268		}
+   269	
+   270		ret = __nf_conntrack_helper_register(helper);
+   271		if (ret < 0)
+   272			goto err_helper;
+   273	
+   274		list_add_tail(&nfcth->list, &nfnl_cthelper_list);
+   275		return 0;
+   276	err_helper:
+   277		kfree(helper);
+   278	err_cth:
+   279		kfree(nfcth);
+   280		return ret;
+   281	}
+   282	
 
 --
 0-DAY CI Kernel Test Service
