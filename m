@@ -1,109 +1,108 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E581336CDE2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 20:09:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03C137F725
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 20:09:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781208581; cv=none; b=V4FLpK9TKMgHx1iKV2ud8UIEkwFtq0hU9fBgGf7P5gMzmXSDaNbzsj9zg7/+pU8Wj0daS/gyrRSnIBLFwV7SbMgdEhspN4BPygp9DPjbiFEnhQRnyG7B4cY8fXY32Q8SDaEIF39Vz1vrPNE26f7OKh7fKrpx/4EEhaodWarmR7c=
+	t=1781208583; cv=none; b=e/kDaQMt0+JYdLLY3T2Nfa5RUi7WKMi8lTQgI1Sir6NFGUCWiyA+YfHKrsifNWEHLWF/i/at1Hy6JW/KzUkbydkorqAZyqGTLtw/TtG3KPWVEXY1ndI0Au3GuUmv3QYUcIkv54yMouAxvE2btNlGVXG3ZxM2rP9kaYniSj1dFBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781208581; c=relaxed/simple;
-	bh=j+O3pwkynm5+JCHNuwyrFeLubgA0tkP/19Tz2BY31bg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C/BgesVK510g27rPgbLaOY8KQ5udTDtHpOK9w3pE+mHdZ1EfKU8kC/J1u1BUWxALCRp1BOu3b5keswKP9NXEeqaM0EVZNNuWGtT47Ak0mGSnUBhU8BIzan5mdQYlga33LOTa0iezpBao2SXKwhXD/lN4uEDWXIfswJCn1LN1NHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqYwNHHh; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1781208583; c=relaxed/simple;
+	bh=EQOazW5CD336bmfGtyc+neUA/IDSngYm/OPsDtn+eGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=UgoHMcOGQI8Tz1esoZqpW3AmxPSFCNQ78XoofbPfbuByCAhd9ClYC5QKlJosRk5XpUUAv+ORfViShvuK/oAFRf6kh/fVlOxnVKc6jXANFwpD2bBW6dUGFo2DW2KOKkKChMDCG9E4kMjtwfGkiuofEjSBvTXqZmF0TGRYqZBGLzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nnugiDMC; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqYwNHHh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nnugiDMC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781208580; x=1812744580;
-  h=date:from:to:cc:subject:message-id;
-  bh=j+O3pwkynm5+JCHNuwyrFeLubgA0tkP/19Tz2BY31bg=;
-  b=JqYwNHHh7BQKuoMQJjoKPrz4CSYTix3RPX+NtAeIiyXqGccC7RCATdGJ
-   mW7jCfO66Cxp2ITZuHwnERugkTl7nbrVV/DAuEVFxmI1xJcdP5EYck+IL
-   UgZAk/YvPSPRP9soYr+Bfi+iLN4OH6wNk/m7mbA+rpE/A0d3c0S2/BT5T
-   nx3qR5TiLUn+j+Ko9AUZ6oLeHMqliT47sIkVTbzPLsPR2KCWNZixQmft9
-   6A4FE145s4Y9BDtUaCN0XHH2Z72DOSZtiSEjbztGPV/pjROeAN9bVVj5j
-   C1qi3eJYNAEdrOmO9OyxxuoRmsa5PtHxiKWRMB6MvNJ6du17ZeJ5uHpmy
-   A==;
-X-CSE-ConnectionGUID: 4m5Oxq+BSZmlYZzR44yXlg==
-X-CSE-MsgGUID: H/HYCob+R461E7h3pBOFIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="99612860"
+  t=1781208582; x=1812744582;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EQOazW5CD336bmfGtyc+neUA/IDSngYm/OPsDtn+eGk=;
+  b=nnugiDMCth2d1oHZ9iMTTRXQxgp8toTxIsxX/G8lrMJaYdvwj8aBkaGa
+   G2/Ug4E+GVAMqtsy/5wgH+ijPD25OlSp2kHYdw2Td6vF2UunRe6VVeDWx
+   fDwmiVXIZqyFpufHHjlozpfwCm1Bb0FszBAjZri7IL5BhD+iSI3bWOW99
+   9SYo7cKbyRdH5QFw0b5KGMmXtaObI5gabbKJUIqeV0XjPjZyi19bD3Afz
+   xAmfYlTgJ/TQWP/zVuPvLQrpjnWLCJeEUTYW3k8I9LI+vxb2j7fS8VMUd
+   lRdLwVqwnfyzfaLhKYmvNYkBe3Y8QanYGP74pfzB9I/A3SZ6LinTv4B50
+   g==;
+X-CSE-ConnectionGUID: nO6sK0L6SPyvP5MWDM9Fow==
+X-CSE-MsgGUID: xXyu/i2CT3qAmK/YIc3Dcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="99612861"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="99612860"
+   d="scan'208";a="99612861"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 13:09:39 -0700
-X-CSE-ConnectionGUID: 3FFb4aaMQuW20nYz1n2M3Q==
-X-CSE-MsgGUID: 0UJc5oCOQhazZ4IjGCdYpA==
+X-CSE-ConnectionGUID: HfY326KoStuWooDYXm37SQ==
+X-CSE-MsgGUID: zFtrrdUYR5+lMTClFWWYGQ==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 11 Jun 2026 13:09:38 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXliZ-00000000NoT-3N3i;
+	id 1wXliZ-00000000NoX-3ZFh;
 	Thu, 11 Jun 2026 20:09:35 +0000
-Date: Fri, 12 Jun 2026 04:08:56 +0800
+Date: Fri, 12 Jun 2026 04:08:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>
-Subject: [sean-jc:x86/gmem_inplace 35/59]
- arch/x86/kvm/../../../virt/kvm/guest_memfd.c:1204:24: error: implicit
- declaration of function 'kvm_range_has_vm_memory_attributes'; did you mean
- 'kvm_mmu_init_memslot_memory_attributes'?
-Message-ID: <202606120453.WtQJbXSH-lkp@intel.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13:
+ sparse: sparse: incompatible types in comparison expression (different
+ address spaces):
+Message-ID: <202606120408.aeuScIKt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/sean-jc/linux x86/gmem_inplace
-head:   6e882d8de05edd03686f68396c4ab861b7814c4b
-commit: 3b494d9b05174562830962ea9e49aff75fde974f [35/59] KVM: Let userspace disable per-VM mem attributes, enable per-gmem attributes
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260612/202606120453.WtQJbXSH-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120453.WtQJbXSH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
+commit: 276e8beb2a0c390fdac8f11bb58d9fdf95a6d538 drm/amdgpu/userq: add force completion helpers
+date:   9 months ago
+config: i386-randconfig-062-20260610 (https://download.01.org/0day-ci/archive/20260612/202606120408.aeuScIKt-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120408.aeuScIKt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 276e8beb2a0c ("drm/amdgpu/userq: add force completion helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606120453.WtQJbXSH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606120408.aeuScIKt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
+   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:434:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse:    struct dma_fence [noderef] __rcu *
+   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse:    struct dma_fence *
 
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_range_is_private':
->> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:1204:24: error: implicit declaration of function 'kvm_range_has_vm_memory_attributes'; did you mean 'kvm_mmu_init_memslot_memory_attributes'? [-Wimplicit-function-declaration]
-    1204 |                 return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        kvm_mmu_init_memslot_memory_attributes
+vim +429 drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
 
-
-vim +1204 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
-
-1f6c06b177513e Paolo Bonzini       2024-02-14  1196  
-36cf63bb5df688 Fuad Tabba          2025-07-29  1197  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_POPULATE
-3338335299abe8 Sean Christopherson 2026-06-10  1198  static bool kvm_gmem_range_is_private(struct file *file, pgoff_t index,
-3338335299abe8 Sean Christopherson 2026-06-10  1199  				      size_t nr_pages, struct kvm *kvm, gfn_t gfn)
-3338335299abe8 Sean Christopherson 2026-06-10  1200  {
-3338335299abe8 Sean Christopherson 2026-06-10  1201  	struct maple_tree *mt = &GMEM_I(file_inode(file))->attributes;
-3338335299abe8 Sean Christopherson 2026-06-10  1202  
-3338335299abe8 Sean Christopherson 2026-06-10  1203  	if (!gmem_in_place_conversion)
-3338335299abe8 Sean Christopherson 2026-06-10 @1204  		return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
-3338335299abe8 Sean Christopherson 2026-06-10  1205  							  KVM_MEMORY_ATTRIBUTE_PRIVATE,
-3338335299abe8 Sean Christopherson 2026-06-10  1206  							  KVM_MEMORY_ATTRIBUTE_PRIVATE);
-3338335299abe8 Sean Christopherson 2026-06-10  1207  
-e4f7252dca71e1 Ackerley Tng        2026-04-23  1208  	return kvm_gmem_range_has_attributes(mt, index, nr_pages,
-e4f7252dca71e1 Ackerley Tng        2026-04-23  1209  					     KVM_MEMORY_ATTRIBUTE_PRIVATE);
-3338335299abe8 Sean Christopherson 2026-06-10  1210  }
-2a62345b30529e Michael Roth        2026-01-08  1211  
-
-:::::: The code at line 1204 was first introduced by commit
-:::::: 3338335299abe867f2a5d5b207df57edba03b5f1 KVM: guest_memfd: Wire up kvm_get_memory_attributes() to per-gmem attributes
-
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Sean Christopherson <seanjc@google.com>
+   418	
+   419	static void
+   420	amdgpu_userq_fence_driver_set_error(struct amdgpu_userq_fence *fence,
+   421					    int error)
+   422	{
+   423		struct amdgpu_userq_fence_driver *fence_drv = fence->fence_drv;
+   424		unsigned long flags;
+   425		struct dma_fence *f;
+   426	
+   427		spin_lock_irqsave(&fence_drv->fence_list_lock, flags);
+   428	
+ > 429		f = rcu_dereference_protected(&fence->base,
+   430					      lockdep_is_held(&fence_drv->fence_list_lock));
+   431		if (f && !dma_fence_is_signaled_locked(f))
+   432			dma_fence_set_error(f, error);
+   433		spin_unlock_irqrestore(&fence_drv->fence_list_lock, flags);
+   434	}
+   435	
 
 --
 0-DAY CI Kernel Test Service
