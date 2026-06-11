@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B329D2EC571
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 14:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4B73DC4D8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 15:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781189449; cv=none; b=SqY1UnCZTSUk9hudDS5BgWMVsejDXoIJEgATrc5crGhLev7I6nPfHA2TgebUhZZb8iWYwD74MQJs5bUIZ/eLDOhVMHe8csORApzF9Mwj0gg0cEQCtsKakHnXuk94Bq3X0iv9EA9ld/K0FSO73CL0poNE87WUkIt5xDF+fACl69A=
+	t=1781190119; cv=none; b=Uk4ppC3qgaIwBc5AyBCUGUK7cPXEltJo9QfspAkY9nMwIK2GG/pXp+MIvJqJSTsxduFcUOhY1vUEySeC1iQ76lAA65GMm0LX+8oMVfsSPmXmDPgYJV3+b2hOPgyS1jIWouetdD2f4UY2I5YhKdv5f8Dymsjn7HsPC9kkiZ73GPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781189449; c=relaxed/simple;
-	bh=W5BDX/RKqmiIqW8TGhQbND4lmMkBC6Fad6L9mbEyb8Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PHzl4/dmcl2AUrrxdi7xMnGM3kgTPTo7OXZui+RG9AC0gn5KUciF4UFtcWF6DHaqIgKRLgfiiriXe4SzWw+rOCuAcsmTNg91xyg99Dv5OwczLdCX4Wi5V9di6PNLxDRvVRgpcdT1mMrPUiY9qF39WNgAsl+MJ70sWOcZLOSMyvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PdzRHnrx; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1781190119; c=relaxed/simple;
+	bh=w21MAMB5B9VWnSaVa16+gjlLy84MizA8ZOov5d6RH88=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cJn12Jrdw+VDnSReWrmbiptC8DAkqaEwSNUZbqdLsM9u/SjfJP1xiF9UQyIuSDHxUNepFsefTnC1IYgrtLLNOyoae166Rc1o95LBW6wa5HkD8BcLtTZjTpKf74HZ48nxToe1yMEHru/3rZMNPxvsuOPW1ktzrnH8EBZh7Nc15Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Or2aGX3w; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PdzRHnrx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Or2aGX3w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781189448; x=1812725448;
+  t=1781190119; x=1812726119;
   h=date:from:to:cc:subject:message-id;
-  bh=W5BDX/RKqmiIqW8TGhQbND4lmMkBC6Fad6L9mbEyb8Y=;
-  b=PdzRHnrxciWqOfMJUHPxWsvIVV78XXqIGuU09RSlVk+rNbrAtSjL6O05
-   mSWIzkt4OqR0bQ5FzGTQHALuWnw59Q9l6kBgFugK+Wp9+g7nHY7+RNZne
-   YminDT1S6kcrlzmIxrrGXaGeLAXr8bxqXXz7mqNv7/MH8z6c+dY/Ww/iU
-   jl6bjgF2Lh4FJafWkWO6wayOQiX1hPOT1F2GJBv3xfv/x3vtNYiwuB1Xo
-   O+JGjMMthj7dPyswmL0PpriHPIGBr/59XQ1pcYEnvq+HR/2eUYc42v/Vg
-   ID0V6Sy60AG4rObvHgzCjhuUEzo5FUzJDJzfHWv4PMLPZLPMjEJjCaFbr
+  bh=w21MAMB5B9VWnSaVa16+gjlLy84MizA8ZOov5d6RH88=;
+  b=Or2aGX3wstFZvco3AKlZKw2XTjykkrFkcj9oElrVtXJMlMVYkCahJzWh
+   gn+q0wAjWDAysmy7JY/9+mFLDa4fEB4Xo9ESiLtTGrFvTXxyRF/ag92qV
+   2TxHCVxH+NG4YTVFl1SwYUkXrivYgybf662yuks0mTY5GZNPuhqnKWz6B
+   jg8eRJ6apEsNGBmvWkY/UvzSFWqBUiDyl5euNt2hGB6Hrx8ZVEliYK4Qb
+   CI1jQI1VFp9EamP3w6usrd2fkApKd7syPp52JUYCZ4FRTeLU3Q4U/sChV
+   nPkesrV07vrw2q9ozH46p3nX3E5RV3WgPzc2C3yZxzDLTyO8WoShknYAf
    w==;
-X-CSE-ConnectionGUID: AazMoQyhT0yi9SlzPWZGIA==
-X-CSE-MsgGUID: oY3c4kK8TSyqiTX04aTR6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81986634"
+X-CSE-ConnectionGUID: nXzsUFmFRTetKj81GizM2Q==
+X-CSE-MsgGUID: 2FqaBxcrT7yGraJYH5opBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="69550109"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="81986634"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 07:50:47 -0700
-X-CSE-ConnectionGUID: 2f54JqF/RJSomTGVMTSH2Q==
-X-CSE-MsgGUID: eFU3XrKbRgOIWpW4xwNosw==
+   d="scan'208";a="69550109"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 08:01:50 -0700
+X-CSE-ConnectionGUID: yRvuZEUzTRKQUZz5mvU/uw==
+X-CSE-MsgGUID: pCQ1fuoMS6CPj9MGAsVDyg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="251593188"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Jun 2026 07:50:45 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 11 Jun 2026 08:01:47 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXgjy-00000000NFY-2E3t;
-	Thu, 11 Jun 2026 14:50:42 +0000
-Date: Thu, 11 Jun 2026 22:50:28 +0800
+	id 1wXguf-00000000NHC-1qIo;
+	Thu, 11 Jun 2026 15:01:45 +0000
+Date: Thu, 11 Jun 2026 23:01:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Hector Martin <marcan@marcan.st>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>
-Subject: drivers/mfd/macsmc.c:462:26: sparse: sparse: cast to
- restricted __be32
-Message-ID: <202606112222.NIgwfLNG-lkp@intel.com>
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: kernel/futex/core.c:505:51: sparse: sparse: incorrect type
+ in initializer (different address spaces)
+Message-ID: <202606112255.eBHGZxFs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,106 +62,269 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
-commit: e038d985c9823a12cd64fa077d0c5aca2c644b67 mfd: Add Apple Silicon System Management Controller
-date:   11 months ago
-config: riscv-randconfig-r121-20260611 (https://download.01.org/0day-ci/archive/20260611/202606112222.NIgwfLNG-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
+commit: cec199c5e39bde7191a08087cc3d002ccfab31ff futex: Implement FUTEX2_NUMA
+date:   1 year, 1 month ago
+config: x86_64-randconfig-123-20260610 (https://download.01.org/0day-ci/archive/20260611/202606112255.eBHGZxFs-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606112222.NIgwfLNG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606112255.eBHGZxFs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e038d985c982 ("mfd: Add Apple Silicon System Management Controller")
+| Fixes: cec199c5e39b ("futex: Implement FUTEX2_NUMA")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606112222.NIgwfLNG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606112255.eBHGZxFs-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/mfd/macsmc.c:462:26: sparse: sparse: cast to restricted __be32
->> drivers/mfd/macsmc.c:462:26: sparse: sparse: cast to restricted __be32
->> drivers/mfd/macsmc.c:462:26: sparse: sparse: cast to restricted __be32
->> drivers/mfd/macsmc.c:462:26: sparse: sparse: cast to restricted __be32
->> drivers/mfd/macsmc.c:462:26: sparse: sparse: cast to restricted __be32
->> drivers/mfd/macsmc.c:462:26: sparse: sparse: cast to restricted __be32
-   drivers/mfd/macsmc.c:242:5: sparse: sparse: context imbalance in 'apple_smc_write_atomic' - wrong count at exit
+   kernel/futex/core.c:505:38: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/futex/core.c:505:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *naddr @@     got void * @@
+   kernel/futex/core.c:505:51: sparse:     expected unsigned int [noderef] [usertype] __user *naddr
+   kernel/futex/core.c:505:51: sparse:     got void *
+   kernel/futex/core.c:894:9: sparse: sparse: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
 
-vim +462 drivers/mfd/macsmc.c
+vim +505 kernel/futex/core.c
 
-   404	
-   405	static int apple_smc_probe(struct platform_device *pdev)
-   406	{
-   407		struct device *dev = &pdev->dev;
-   408		struct apple_smc *smc;
-   409		u32 count;
-   410		int ret;
-   411	
-   412		smc = devm_kzalloc(dev, sizeof(*smc), GFP_KERNEL);
-   413		if (!smc)
-   414			return -ENOMEM;
-   415	
-   416		smc->dev = &pdev->dev;
-   417		smc->sram_base = devm_platform_get_and_ioremap_resource(pdev, 1, &smc->sram);
-   418		if (IS_ERR(smc->sram_base))
-   419			return dev_err_probe(dev, PTR_ERR(smc->sram_base), "Failed to map SRAM region");
-   420	
-   421		smc->rtk = devm_apple_rtkit_init(dev, smc, NULL, 0, &apple_smc_rtkit_ops);
-   422		if (IS_ERR(smc->rtk))
-   423			return dev_err_probe(dev, PTR_ERR(smc->rtk), "Failed to initialize RTKit");
-   424	
-   425		smc->boot_stage = APPLE_SMC_BOOTING;
-   426		ret = apple_rtkit_wake(smc->rtk);
-   427		if (ret)
-   428			return dev_err_probe(dev, ret, "Failed to wake up SMC");
-   429	
-   430		ret = devm_add_action_or_reset(dev, apple_smc_rtkit_shutdown, smc);
-   431		if (ret)
-   432			return dev_err_probe(dev, ret, "Failed to register rtkit shutdown action");
-   433	
-   434		ret = apple_rtkit_start_ep(smc->rtk, SMC_ENDPOINT);
-   435		if (ret)
-   436			return dev_err_probe(dev, ret, "Failed to start SMC endpoint");
-   437	
-   438		init_completion(&smc->init_done);
-   439		init_completion(&smc->cmd_done);
-   440	
-   441		ret = apple_rtkit_send_message(smc->rtk, SMC_ENDPOINT,
-   442					       FIELD_PREP(SMC_MSG, SMC_MSG_INITIALIZE), NULL, false);
-   443		if (ret)
-   444			return dev_err_probe(dev, ret, "Failed to send init message");
-   445	
-   446		if (wait_for_completion_timeout(&smc->init_done, msecs_to_jiffies(SMC_TIMEOUT_MS)) == 0) {
-   447			dev_err(dev, "Timed out initializing SMC");
-   448			return -ETIMEDOUT;
-   449		}
-   450	
-   451		if (smc->boot_stage != APPLE_SMC_INITIALIZED) {
-   452			dev_err(dev, "SMC failed to boot successfully, boot stage=%d\n", smc->boot_stage);
-   453			return -EIO;
-   454		}
-   455	
-   456		dev_set_drvdata(&pdev->dev, smc);
-   457		BLOCKING_INIT_NOTIFIER_HEAD(&smc->event_handlers);
-   458	
-   459		ret = apple_smc_read_u32(smc, SMC_KEY(#KEY), &count);
-   460		if (ret)
-   461			return dev_err_probe(smc->dev, ret, "Failed to get key count");
- > 462		smc->key_count = be32_to_cpu(count);
-   463	
-   464		/* Enable notifications */
-   465		apple_smc_write_flag(smc, SMC_KEY(NTAP), true);
-   466		ret = devm_add_action_or_reset(dev, apple_smc_disable_notifications, smc);
-   467		if (ret)
-   468			return dev_err_probe(dev, ret, "Failed to register notification disable action");
-   469	
-   470		ret = devm_mfd_add_devices(smc->dev, PLATFORM_DEVID_NONE,
-   471					   apple_smc_devs, ARRAY_SIZE(apple_smc_devs),
-   472					   NULL, 0, NULL);
-   473		if (ret)
-   474			return dev_err_probe(smc->dev, ret, "Failed to register sub-devices");
-   475	
-   476	
-   477		return 0;
-   478	}
-   479	
+   446	
+   447	/**
+   448	 * get_futex_key() - Get parameters which are the keys for a futex
+   449	 * @uaddr:	virtual address of the futex
+   450	 * @flags:	FLAGS_*
+   451	 * @key:	address where result is stored.
+   452	 * @rw:		mapping needs to be read/write (values: FUTEX_READ,
+   453	 *              FUTEX_WRITE)
+   454	 *
+   455	 * Return: a negative error code or 0
+   456	 *
+   457	 * The key words are stored in @key on success.
+   458	 *
+   459	 * For shared mappings (when @fshared), the key is:
+   460	 *
+   461	 *   ( inode->i_sequence, page->index, offset_within_page )
+   462	 *
+   463	 * [ also see get_inode_sequence_number() ]
+   464	 *
+   465	 * For private mappings (or when !@fshared), the key is:
+   466	 *
+   467	 *   ( current->mm, address, 0 )
+   468	 *
+   469	 * This allows (cross process, where applicable) identification of the futex
+   470	 * without keeping the page pinned for the duration of the FUTEX_WAIT.
+   471	 *
+   472	 * lock_page() might sleep, the caller should not hold a spinlock.
+   473	 */
+   474	int get_futex_key(u32 __user *uaddr, unsigned int flags, union futex_key *key,
+   475			  enum futex_access rw)
+   476	{
+   477		unsigned long address = (unsigned long)uaddr;
+   478		struct mm_struct *mm = current->mm;
+   479		struct page *page;
+   480		struct folio *folio;
+   481		struct address_space *mapping;
+   482		int node, err, size, ro = 0;
+   483		bool fshared;
+   484	
+   485		fshared = flags & FLAGS_SHARED;
+   486		size = futex_size(flags);
+   487		if (flags & FLAGS_NUMA)
+   488			size *= 2;
+   489	
+   490		/*
+   491		 * The futex address must be "naturally" aligned.
+   492		 */
+   493		key->both.offset = address % PAGE_SIZE;
+   494		if (unlikely((address % size) != 0))
+   495			return -EINVAL;
+   496		address -= key->both.offset;
+   497	
+   498		if (unlikely(!access_ok(uaddr, size)))
+   499			return -EFAULT;
+   500	
+   501		if (unlikely(should_fail_futex(fshared)))
+   502			return -EFAULT;
+   503	
+   504		if (flags & FLAGS_NUMA) {
+ > 505			u32 __user *naddr = (void *)uaddr + size / 2;
+   506	
+   507			if (futex_get_value(&node, naddr))
+   508				return -EFAULT;
+   509	
+   510			if (node == FUTEX_NO_NODE) {
+   511				node = numa_node_id();
+   512				if (futex_put_value(node, naddr))
+   513					return -EFAULT;
+   514	
+   515			} else if (node >= MAX_NUMNODES || !node_possible(node)) {
+   516				return -EINVAL;
+   517			}
+   518	
+   519			key->both.node = node;
+   520	
+   521		} else {
+   522			key->both.node = FUTEX_NO_NODE;
+   523		}
+   524	
+   525		/*
+   526		 * PROCESS_PRIVATE futexes are fast.
+   527		 * As the mm cannot disappear under us and the 'key' only needs
+   528		 * virtual address, we dont even have to find the underlying vma.
+   529		 * Note : We do have to check 'uaddr' is a valid user address,
+   530		 *        but access_ok() should be faster than find_vma()
+   531		 */
+   532		if (!fshared) {
+   533			/*
+   534			 * On no-MMU, shared futexes are treated as private, therefore
+   535			 * we must not include the current process in the key. Since
+   536			 * there is only one address space, the address is a unique key
+   537			 * on its own.
+   538			 */
+   539			if (IS_ENABLED(CONFIG_MMU))
+   540				key->private.mm = mm;
+   541			else
+   542				key->private.mm = NULL;
+   543	
+   544			key->private.address = address;
+   545			return 0;
+   546		}
+   547	
+   548	again:
+   549		/* Ignore any VERIFY_READ mapping (futex common case) */
+   550		if (unlikely(should_fail_futex(true)))
+   551			return -EFAULT;
+   552	
+   553		err = get_user_pages_fast(address, 1, FOLL_WRITE, &page);
+   554		/*
+   555		 * If write access is not required (eg. FUTEX_WAIT), try
+   556		 * and get read-only access.
+   557		 */
+   558		if (err == -EFAULT && rw == FUTEX_READ) {
+   559			err = get_user_pages_fast(address, 1, 0, &page);
+   560			ro = 1;
+   561		}
+   562		if (err < 0)
+   563			return err;
+   564		else
+   565			err = 0;
+   566	
+   567		/*
+   568		 * The treatment of mapping from this point on is critical. The folio
+   569		 * lock protects many things but in this context the folio lock
+   570		 * stabilizes mapping, prevents inode freeing in the shared
+   571		 * file-backed region case and guards against movement to swap cache.
+   572		 *
+   573		 * Strictly speaking the folio lock is not needed in all cases being
+   574		 * considered here and folio lock forces unnecessarily serialization.
+   575		 * From this point on, mapping will be re-verified if necessary and
+   576		 * folio lock will be acquired only if it is unavoidable
+   577		 *
+   578		 * Mapping checks require the folio so it is looked up now. For
+   579		 * anonymous pages, it does not matter if the folio is split
+   580		 * in the future as the key is based on the address. For
+   581		 * filesystem-backed pages, the precise page is required as the
+   582		 * index of the page determines the key.
+   583		 */
+   584		folio = page_folio(page);
+   585		mapping = READ_ONCE(folio->mapping);
+   586	
+   587		/*
+   588		 * If folio->mapping is NULL, then it cannot be an anonymous
+   589		 * page; but it might be the ZERO_PAGE or in the gate area or
+   590		 * in a special mapping (all cases which we are happy to fail);
+   591		 * or it may have been a good file page when get_user_pages_fast
+   592		 * found it, but truncated or holepunched or subjected to
+   593		 * invalidate_complete_page2 before we got the folio lock (also
+   594		 * cases which we are happy to fail).  And we hold a reference,
+   595		 * so refcount care in invalidate_inode_page's remove_mapping
+   596		 * prevents drop_caches from setting mapping to NULL beneath us.
+   597		 *
+   598		 * The case we do have to guard against is when memory pressure made
+   599		 * shmem_writepage move it from filecache to swapcache beneath us:
+   600		 * an unlikely race, but we do need to retry for folio->mapping.
+   601		 */
+   602		if (unlikely(!mapping)) {
+   603			int shmem_swizzled;
+   604	
+   605			/*
+   606			 * Folio lock is required to identify which special case above
+   607			 * applies. If this is really a shmem page then the folio lock
+   608			 * will prevent unexpected transitions.
+   609			 */
+   610			folio_lock(folio);
+   611			shmem_swizzled = folio_test_swapcache(folio) || folio->mapping;
+   612			folio_unlock(folio);
+   613			folio_put(folio);
+   614	
+   615			if (shmem_swizzled)
+   616				goto again;
+   617	
+   618			return -EFAULT;
+   619		}
+   620	
+   621		/*
+   622		 * Private mappings are handled in a simple way.
+   623		 *
+   624		 * If the futex key is stored in anonymous memory, then the associated
+   625		 * object is the mm which is implicitly pinned by the calling process.
+   626		 *
+   627		 * NOTE: When userspace waits on a MAP_SHARED mapping, even if
+   628		 * it's a read-only handle, it's expected that futexes attach to
+   629		 * the object not the particular process.
+   630		 */
+   631		if (folio_test_anon(folio)) {
+   632			/*
+   633			 * A RO anonymous page will never change and thus doesn't make
+   634			 * sense for futex operations.
+   635			 */
+   636			if (unlikely(should_fail_futex(true)) || ro) {
+   637				err = -EFAULT;
+   638				goto out;
+   639			}
+   640	
+   641			key->both.offset |= FUT_OFF_MMSHARED; /* ref taken on mm */
+   642			key->private.mm = mm;
+   643			key->private.address = address;
+   644	
+   645		} else {
+   646			struct inode *inode;
+   647	
+   648			/*
+   649			 * The associated futex object in this case is the inode and
+   650			 * the folio->mapping must be traversed. Ordinarily this should
+   651			 * be stabilised under folio lock but it's not strictly
+   652			 * necessary in this case as we just want to pin the inode, not
+   653			 * update i_pages or anything like that.
+   654			 *
+   655			 * The RCU read lock is taken as the inode is finally freed
+   656			 * under RCU. If the mapping still matches expectations then the
+   657			 * mapping->host can be safely accessed as being a valid inode.
+   658			 */
+   659			rcu_read_lock();
+   660	
+   661			if (READ_ONCE(folio->mapping) != mapping) {
+   662				rcu_read_unlock();
+   663				folio_put(folio);
+   664	
+   665				goto again;
+   666			}
+   667	
+   668			inode = READ_ONCE(mapping->host);
+   669			if (!inode) {
+   670				rcu_read_unlock();
+   671				folio_put(folio);
+   672	
+   673				goto again;
+   674			}
+   675	
+   676			key->both.offset |= FUT_OFF_INODE; /* inode-based key */
+   677			key->shared.i_seq = get_inode_sequence_number(inode);
+   678			key->shared.pgoff = page_pgoff(folio, page);
+   679			rcu_read_unlock();
+   680		}
+   681	
+   682	out:
+   683		folio_put(folio);
+   684		return err;
+   685	}
+   686	
 
 --
 0-DAY CI Kernel Test Service
