@@ -1,212 +1,123 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882293002C8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 23:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781220116; cv=pass; b=Qi5Zix2KX4p06eMgGYj3IldRz17bWpxbKyY96XLaBbZj7ab0u4K2+NekyzfU95OqgdYeX0c+i8+sdZ25GnnJgJclpuc78/Z3j3cItU5uHR4HQGm29PGoA5aaonhLk//AyoIZNP3ySkSMd6/tkWyB47KZkHeZUFP8VwvTshErkBE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781220116; c=relaxed/simple;
-	bh=0KOpocfsmYCErQrwt4UlLZ3PO2wHR9usv0qa6UVTPaE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T0IsoRGg0fbLin4kEgoNhCQ+lEJ8vSB9tqZknr3/ql3P91xsz/atE0RgXwSWmPi7P+oitWm6u8huqhZy2cjkNYEgk/w8KtpqOiMfJXxcgkCfxe48jvvyXcNhL89Uq8Q5Xuw3VB/smAV1LqVh4pzwZJl7cjUneI34t53YYrgYHGs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dKRVgEqb; arc=pass smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFA5380FFA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 23:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781221984; cv=none; b=ihgURej3xnad82Tpe/DFBlTNCKCdNIxrwVe7KvEbChdZ1WBjxMBWkCMvp/T8PHVVajxutQB/BBrQGfApzikveaRkhEylx2On4ypIsqu5vtHC4R9+Ds/kbT5U2medccqWufRo8ZrddEOhF0Q2od/QbkLCokAVZMij5GvcZC6iIyQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781221984; c=relaxed/simple;
+	bh=9OEJdbOe3szU7H6NNfNWgjYLOWtN0GIUcSse/T8Zo/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GW7Ep4ry+5udtJ+3f8OhjQxvQ2HpQL/6VIVEbrmxvYbMlHOygTMcXOdwf1B5lC1P9hey4bBLK/pQOGRBqYxv3K6JG6bo4wgd1/hAOLlgcLBBTS/NJgFGu1OdJApRs50K9RsX5j4YuOuppeWDxN/UBEunR5oHh9YlenU5H9OLg3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hIAoN8tc; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dKRVgEqb"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-68d22476e88so5119a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 16:21:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781220113; cv=none;
-        d=google.com; s=arc-20240605;
-        b=S1h7ErQgNMEEzFfmt4Djdap8gGgxq4joM/BzhRHVzkSceJ8zmZoZml3hGvsawzRrPz
-         z9Jy1aKGzGsGOT7dccsQ2IFHvq0ljGt1bBriw0VJSADKSREWI7HGzPgtVVbsCUwWOAt8
-         trYHJfljyaJTkACTyDq8QvEKFzQ6dupazf8dcDrvtsDpw90GEcJk2hUyiAjzBM5cjUAH
-         /nV2n07JS6Odkm2yVzlKXm0VxYhcf9GGtBht+8TS0l+HOswWwEFpxbxQcr+9vRfWL/+N
-         LNWYzTVtvaPdjfGYs2oRuMEpHG+L29EHB2SUmfMBVMFiBPb0DMsTMqT6xjDnxW1EWPnv
-         GM+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wy4YG3+WLKT0bnxTi4rcDviiXmMXkNuh6SIVgT2Ukbg=;
-        fh=msSBXnfdr7xAUBE2DLRXfSDkgf7lMGXHfDgRCVs8sjU=;
-        b=GYOkh352+KVCjyrzZlwJSg0ALaI1P0/JLqbPuL1m5LSSm1dHqY6o8GpO8TcJMh2fDS
-         Lumi2TAHZSfDO6+KAAHI8O0K9lqk2wTopiBDaP4ZigbFN5Bj4X8usFRotFGmpXrQtspz
-         bfOLzuJkwBZy5IBTLJ09sDEYMfobNPA7CbkrF5OAgLeWG65aeRB45TD7GIYpJFirSedf
-         6LNyL02kniFFpMfxHwxWbrolsw4Lipuw2ZawAs+cd+5FED3i9UrmM9lkS6hjBiZDy5HK
-         DOHXjPKgAq+nL3xp2mb5yWgLApnhMK2uIWX11rHPqjEy70393QR8S23Dicghlg+iBb6I
-         qtOQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781220113; x=1781824913; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wy4YG3+WLKT0bnxTi4rcDviiXmMXkNuh6SIVgT2Ukbg=;
-        b=dKRVgEqbS4Awj9V84pelvBl6uB6Q3evmUwWXLyqNuKy2QVNDnM6mEU7NlZbrUgjwRl
-         TRxQhI1RsGRLylbrqS12jUr0D6UW2hys50wQS0+M44BIqIEK8TJFEdBNtsLzqGQygQiN
-         OPMWWixjgGaIh3Y1U/gbkM3ll3Ka67Sdmk5vFXY5qpJEiqZzztA76qHGOGZyxDHnTtNr
-         EaIl9E4oqtPOn+SFhC0gMlZHqokMSCTOoZ+j+HtIkGbVSRxN+SCFaoAsuezzoHxt0/ri
-         imzauyhJhXo5Xzocpoxm8Y2v6Ji3l3p92Z9UxzqWeVuhclITXh+PiR4Ok13ksDBfJRiU
-         3y2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781220113; x=1781824913;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wy4YG3+WLKT0bnxTi4rcDviiXmMXkNuh6SIVgT2Ukbg=;
-        b=aUD3+2FKFgIR84hFINU4EALiGQ+8y3Etni707ZmZZ4DJIf087FvkF0ydksUcyKJNZR
-         Cfmx8jMEwukcLnzOntkdNs10zvi2ibYl7Ife5ccsQ08j6DlebM4Tu66yakt4T6R/qoV1
-         +qisuft4ZvIYKNFi5lP8CD0sFfFIEcbLyDx4na+dYdZAVycrui33KkCGPxZnW74mD1lT
-         n68S0m18XMlc2J1Hsqg6EdyJdBd9ILZARmbN1xQnLRFA510QZBbSkCmaNx32/HSmjsll
-         Vzueu8XGpGQxqsJ0LuC6mYH3ZkW+YmymkxTLO9CYiFaREFclZtKWGnlXFQ/nzKMZ4jtQ
-         ii+Q==
-X-Gm-Message-State: AOJu0YxEbv3uUiSm6QcDxEKMlFK1vD7xiAxbM2z3Zts9V7JTYOj2SCcV
-	gNItNNSRpcWetbfECNL1FANt/zgMkiPJN2cDInxXGqjSf89tn7W5KOILMfF3iwYbXQ/gMu1er0F
-	BUddridDMbbEHqXdu3pu/q2Fu/dyggxAVj5rCUKnN
-X-Gm-Gg: Acq92OFj2HljwV0qSk3sjgkN6dqIEKZasqh+8d+oDJ9FwRd56BLdWKqSFsqo8Zp1D0O
-	RtRdwByUBFlqW30aGtkVKIAvP1wxuDM++ZxZU0f/dLIXpY4XiNafaPC/BBzuIVlLarTLyJdguAX
-	6BWn9HQcMTgq64qMWEjxoKqwfUflSTj/+rdouUeCU5rg4HCRg1oiY60+WbD4P5vuuYB1tshvdfN
-	k5tGLT3FNBNbaFwi3jrH5vkp2RpTGQ41i8PJjLCchhL4AHnkO4S9VojgUl126lMZtlYD3HVHjVW
-	mUDlSHz63pVi3obxqUY85zGxuTz715+rFTkfbJGvofQ1j5TH
-X-Received: by 2002:a05:6402:8c9:b0:68f:d41d:ca5e with SMTP id
- 4fb4d7f45d1cf-6935eecadc7mr15088a12.12.1781220112434; Thu, 11 Jun 2026
- 16:21:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hIAoN8tc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781221982; x=1812757982;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9OEJdbOe3szU7H6NNfNWgjYLOWtN0GIUcSse/T8Zo/M=;
+  b=hIAoN8tcohnHsSjuW6xIbwmsir7Ng72QlXVYWTzPWZCxx/PnDPuDAbTG
+   xnb3ypSV+MNB2B+XuzIohCHsSLnmxMSzJvJ7NOXsW+RTEfiRuTGQYSRJy
+   pvP49YLEE2oJVR5DMthjCS3Bj8/9xBdinSaCqJlBkbOmTQwsrU+zAXMNo
+   z3+ug3gsUhR0xKCR+TuTnN8XavOGB/Ajd1myju75EmPu3T6PtQI4DvPKD
+   WNR04aeVDubebI6yza9TziJrLza/hi0z/BTEvr5rKYuy/14qLoeVOetCv
+   ry6zydJczMm260lccaEs0QHzpk5ddD49DiWbCdmzf+EhWeIuACrTWb8aT
+   g==;
+X-CSE-ConnectionGUID: aDLzh0/yTkOoedheDpAPdg==
+X-CSE-MsgGUID: hVb+LwcvQr+MBGWQqBSwrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81186189"
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="81186189"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 16:53:02 -0700
+X-CSE-ConnectionGUID: 7A088UPoRuS9SyY7bcYF+w==
+X-CSE-MsgGUID: P3T+90fGR0euWCEAWPYoGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="243714785"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 11 Jun 2026 16:53:01 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wXpCk-00000000O1g-2x4W;
+	Thu, 11 Jun 2026 23:52:58 +0000
+Date: Fri, 12 Jun 2026 07:52:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Yeo <alexyeo362@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2] platform/x86: panasonic-laptop: add fan speed
+ mode for newer models
+Message-ID: <202606120736.VmZFcjrX-lkp@intel.com>
+References: <20260610031756.546459-1-alexyeo362@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202606111233.kM8oo8Df-lkp@intel.com>
-In-Reply-To: <202606111233.kM8oo8Df-lkp@intel.com>
-From: Rong Xu <xur@google.com>
-Date: Thu, 11 Jun 2026 16:21:39 -0700
-X-Gm-Features: AVVi8CdgA8mX8CeIPVrEHy6IFhrCA6FbgvbVngnIuaNjUMiAHxPfZKuMrZPHN8M
-Message-ID: <CAF1bQ=Q41e4vAT357Cec+CfsacPmOYB1AGWSbuy-ujh2wUw=HQ@mail.gmail.com>
-Subject: Re: [kbuild:kbuild-next-unstable 25/32] WARNING: modpost: vmlinux:
- section mismatch in reference: tcp4_net_ops.llvm.4527429266264891517+0x8
- (section: .data) -> tcp4_proc_init_net (section: .init.text)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260610031756.546459-1-alexyeo362@gmail.com>
 
-I looked at these warnings. They are from the distributed ThinLTO
-builds. But I believe they were caused by missing section tagging for
-the data and functions in these network source files.
+Hi Alex,
 
-We need to patch the following files to eliminate the warnings:
-net/ipv4/ping.c
-net/ipv4/tcp_ipv4.c
-net/ipv4/udp.c
-net/ipv6/addrconf.c
-net/ipv6/addrlabel.c
-net/ipv6/ip6_flowlabel.c
-net/ipv6/mcast.c
-net/ipv6/ndisc.c
-net/ipv6/proc.c
-net/ipv6/raw.c
-net/ipv6/tcp_ipv6.c
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-One example patch to fix this:
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.1-rc7 next-20260610]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
-index 8fc24c3743c5..1244fdf74c3f 100644
---- a/net/ipv4/tcp_ipv4.c
-+++ b/net/ipv4/tcp_ipv4.c
-@@ -3318,17 +3318,17 @@ static void __net_exit
-tcp4_proc_exit_net(struct net *net)
-        remove_proc_entry("tcp", net->proc_net);
- }
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Yeo/platform-x86-panasonic-laptop-add-fan-speed-mode-for-newer-models/20260610-112852
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260610031756.546459-1-alexyeo362%40gmail.com
+patch subject: [RFC PATCH v2] platform/x86: panasonic-laptop: add fan speed mode for newer models
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260612/202606120736.VmZFcjrX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120736.VmZFcjrX-lkp@intel.com/reproduce)
 
--static struct pernet_operations tcp4_net_ops =3D {
-+static struct pernet_operations __net_initdata tcp4_net_ops =3D {
-        .init =3D tcp4_proc_init_net,
-        .exit =3D tcp4_proc_exit_net,
- };
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606120736.VmZFcjrX-lkp@intel.com/
 
--int __init tcp4_proc_init(void)
-+int __net_init tcp4_proc_init(void)
- {
-        return register_pernet_subsys(&tcp4_net_ops);
- }
+All errors (new ones prefixed by >>):
 
--void tcp4_proc_exit(void)
-+void __net_exit tcp4_proc_exit(void)
- {
-        unregister_pernet_subsys(&tcp4_net_ops);
- }
-
-I'll be sending over a patch for people to review.
-
-Thanks,
-
--Rong
+   drivers/platform/x86/panasonic-laptop.c: In function 'check_fan_mode_present':
+>> drivers/platform/x86/panasonic-laptop.c:518:9: error: 'status' undeclared (first use in this function); did you mean 'kstatfs'?
+     518 |         status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.CEFM", &handle);
+         |         ^~~~~~
+         |         kstatfs
+   drivers/platform/x86/panasonic-laptop.c:518:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
-On Wed, Jun 10, 2026 at 9:21=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git =
-kbuild-next-unstable
-> head:   7158c5b67e92e52c2ca9a3617a7e768a84031da1
-> commit: 9f2aee8f7d1842be08da860e45265d30dba0d1f7 [25/32] kbuild: distribu=
-ted build support for Clang ThinLTO
-> config: i386-randconfig-r122-20260611 (https://download.01.org/0day-ci/ar=
-chive/20260611/202606111233.kM8oo8Df-lkp@intel.com/config)
-> compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e984=
-6648fd6183ee6d8cbdb4502213fcf902a211)
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260611/202606111233.kM8oo8Df-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606111233.kM8oo8Df-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
->
-> >> WARNING: modpost: vmlinux: section mismatch in reference: tcp4_net_ops=
-.llvm.4527429266264891517+0x8 (section: .data) -> tcp4_proc_init_net (secti=
-on: .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: udp4_net_ops=
-.llvm.17425824324074326067+0x8 (section: .data) -> udp4_proc_init_net (sect=
-ion: .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: ping_v4_net_=
-ops.llvm.5641696707737373282+0x8 (section: .data) -> ping_v4_proc_init_net =
-(section: .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: if6_proc_net=
-_ops.llvm.7870945277386035298+0x8 (section: .data) -> if6_proc_net_init (se=
-ction: .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_addr_la=
-bel_ops.llvm.5745897517271459135+0x8 (section: .data) -> ip6addrlbl_net_ini=
-t (section: .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: ndisc_net_op=
-s.llvm.8806210167060761094+0x8 (section: .data) -> ndisc_net_init (section:=
- .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: raw6_net_ops=
-.llvm.3743523335772203324+0x8 (section: .data) -> raw6_init_net (section: .=
-init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: igmp6_net_op=
-s.llvm.7071106350580158050+0x8 (section: .data) -> igmp6_net_init (section:=
- .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: tcpv6_net_op=
-s.llvm.17505177970592326146+0x8 (section: .data) -> tcpv6_net_init (section=
-: .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: ip6_flowlabe=
-l_net_ops.llvm.6051723423336054316+0x8 (section: .data) -> ip6_flowlabel_pr=
-oc_init (section: .init.text)
-> >> WARNING: modpost: vmlinux: section mismatch in reference: ipv6_proc_op=
-s.llvm.7829948594772821810+0x8 (section: .data) -> ipv6_proc_init_net (sect=
-ion: .init.text)
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +518 drivers/platform/x86/panasonic-laptop.c
+
+   512	
+   513	static acpi_status check_fan_mode_present(void)
+   514	{
+   515		acpi_handle handle;
+   516	
+   517		/* check if read (CEFM) and set (SEFM) are available */
+ > 518		status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.CEFM", &handle);
+   519		if (ACPI_FAILURE(status))
+   520			return -ENOENT;
+   521		status = acpi_get_handle(NULL, "\\_SB.PC00.LPCB.EC0.SEFM", &handle);
+   522		if (ACPI_FAILURE(status))
+   523			return -ENOENT;
+   524	
+   525		return 0;
+   526	}
+   527	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
