@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4241D6BB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 19:12:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D31842B733
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 19:12:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781205157; cv=none; b=moCmnN2nsZo254AVCjru07z1tdNhRD8ANMQ+YtHrQ2RfurTyTgzx9d6dA+wirmjdT7mu+OEWWiN2JwsY1P+cnuKntuK35PeAeDsITEJMeQZPl5GpSJF+IInxJ9bRU/cM/nJono26OEO4xaflKH1Ll/F7ZOaeoTpf91NXosQDOGU=
+	t=1781205158; cv=none; b=DQ3BaEGxAJ3flBfByhlka7gsCLV+pLkxLvOLxpOA3IoLYdwzcDrOD4Ldt5LrQhy72rUUT1dbnSKzupbI29LwmiTrUR6jWJT8FnBPRql7TjBZKQrcTSgkZ+wu9CA7hLvI/rH3LRrzVhEfvFxLscr9mMxz+HzJ33PH1EOELRJCrLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781205157; c=relaxed/simple;
-	bh=3Z/oYYr2BZBd+eP0fVzwxbHC6cIJX/f/XSUVKUvk3ZA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YfDMBkl3N2npP2xpO6YZGUegl0ZxnUD014iqPnIpH8BS+hRNuq3zKTHwN3ZrKztbIidjV+Q5hnl/DbM8MoSyr37EVbSdbUC/juwSuHDu7Fmc6yptcPZuPWSxD5XPdNEmqmh+GSNyouPWiPfkmdypnHU2ZsruwucSVDu5wLew2Bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCowDMuJ; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1781205158; c=relaxed/simple;
+	bh=Hpj1UNU2SWt+ZBnxLY0kJUKxtMJ3rBhxiO7bEJb6Wuo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BKUeAlhRqZcdx6HJqvSGiVx3wghBdd2/FLYS+KBL6ex02w1LMzMxjWTgMjn1R7R+KTi0oG4lPMZzt+LYw0zKDmHJLmL3/FWl60ib5Ckq2HR86oAKY9UUnCuguCltQkvdEk/7+bCOb5S3GEz2/KmDuvNtxHlL8l1hrDQo6pOPYyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9LlZPf3; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCowDMuJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9LlZPf3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781205155; x=1812741155;
+  t=1781205157; x=1812741157;
   h=date:from:to:cc:subject:message-id;
-  bh=3Z/oYYr2BZBd+eP0fVzwxbHC6cIJX/f/XSUVKUvk3ZA=;
-  b=SCowDMuJvCxRed/TU6Pdspvg5EQweRfjNkdXHo4eH9cMNJZwKZJWVWfT
-   Yc/5XABKVX9/HYEJttFnT62m6BYiMg8N+vrM90moOwJcH21TEMoELqI/l
-   MmaY4dvlKjQTiJHpshrTtoRZfRmbrOk6nuMiRIV4E5YYtKCBUxjeN/Rsn
-   6uqfvEOAZWkCyPog4UHXvmBPDNR0eJLHA0nWJ1ccDxple5DZ2bL/7+Oh7
-   RrPP1Jr5jIttznu5ND7tKwQ7C5jWd44BWkbjCiJMAXHq6Ftkfm4RGTMsT
-   FA9Ln4H5CTtE7Yuz/WsktrD+h9lbMZEYYWqO97QhlTUrah1HR8ju63T6D
-   Q==;
-X-CSE-ConnectionGUID: CDJFaowfToOGx6IHpjB+jg==
-X-CSE-MsgGUID: eXvJs8faSVu5ucdFINHP1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="99608836"
+  bh=Hpj1UNU2SWt+ZBnxLY0kJUKxtMJ3rBhxiO7bEJb6Wuo=;
+  b=M9LlZPf3/30k3TZ33jffDrrX9OGgKnG+lHpG9sV6SKWA60G83+qpHcSa
+   lOSy2mGD2/dQjxvALGYPN6Z+6XfGH7cB18B5gJuQprJjSzYxBtdgbUYUX
+   YcoEfY5bt0Lrpn/7UNoyWg8wxZHAzOhnZ7MJqmP901up8spY05iwCqLah
+   cy+ahWI2zLw5I6g/+RwbQ87KmhSDz8eOb5s6CsYf8MzAxvRYYHvTP4kRT
+   2zxqHExLuv/zpeZ9Wq6ukHNLlnJlesD2FaJqEsvCwgK6/1RqkcjWamdSC
+   L3ioYXnl6RWhvZ+JuKgCftSo444rrfkz+ef4LAPoYLu2xzC94Y1yU8YxC
+   A==;
+X-CSE-ConnectionGUID: LX2S/nyUSdClFm4EiYAHOw==
+X-CSE-MsgGUID: LNvDtMYVT/GcaDFVCJu92g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="99608839"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="99608836"
+   d="scan'208";a="99608839"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 12:12:34 -0700
-X-CSE-ConnectionGUID: I4Nwq3r8QEmh9OaPwPGptQ==
-X-CSE-MsgGUID: i5tJcIirTx20fYZjnrdTqw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 12:12:35 -0700
+X-CSE-ConnectionGUID: onmw27m1TEKVxMY0zQAXNQ==
+X-CSE-MsgGUID: hjmSEL6PR/qhQh/rHWlviw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="250862681"
+   d="scan'208";a="250862683"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 11 Jun 2026 12:12:33 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXkpK-00000000Nji-1RNW;
+	id 1wXkpK-00000000Njq-246C;
 	Thu, 11 Jun 2026 19:12:30 +0000
-Date: Fri, 12 Jun 2026 03:12:07 +0800
+Date: Fri, 12 Jun 2026 03:11:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-2026-04 1/1]
- arch/x86/coco/pkvm/pkvm.c:122:13: warning: 'pkvm_mmio_writeq' defined but not
- used
-Message-ID: <202606120301.z4BcNERR-lkp@intel.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>
+Subject: drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse: sparse:
+ incompatible types in comparison expression (different address spaces):
+Message-ID: <202606120248.njRlf8uE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,90 +60,82 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Chuanxiao,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-04
-head:   35c31415e6893d66536f52b0beef1c05fdd85a8c
-commit: cd1c1ff12613506f091f809f0e6f60b6c3c1303f [1/1] ANDROID: x86/pkvm: Use hypercalls to access MMIO
-config: i386-randconfig-002-20260611 (https://download.01.org/0day-ci/archive/20260612/202606120301.z4BcNERR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120301.z4BcNERR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
+commit: 603fc0fc30bf69e78a7a5febdb1431bd49d87f22 drm/msm/dp: drop the msm_dp_catalog module
+date:   11 months ago
+config: riscv-randconfig-r121-20260611 (https://download.01.org/0day-ci/archive/20260612/202606120248.njRlf8uE-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120248.njRlf8uE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 603fc0fc30bf ("drm/msm/dp: drop the msm_dp_catalog module")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606120301.z4BcNERR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606120248.njRlf8uE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse:    void [noderef] __iomem *
+   drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse:    void *
 
->> arch/x86/coco/pkvm/pkvm.c:122:13: warning: 'pkvm_mmio_writeq' defined but not used [-Wunused-function]
-     122 | static void pkvm_mmio_writeq(u64 v, volatile void __iomem *addr)
-         |             ^~~~~~~~~~~~~~~~
->> arch/x86/coco/pkvm/pkvm.c:92:12: warning: 'pkvm_mmio_readq' defined but not used [-Wunused-function]
-      92 | static u64 pkvm_mmio_readq(const volatile void __iomem *addr)
-         |            ^~~~~~~~~~~~~~~
+vim +1313 drivers/gpu/drm/msm/dp/dp_display.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_SCU
-   Depends on [n]: X86_PLATFORM_DEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-
-
-vim +/pkvm_mmio_writeq +122 arch/x86/coco/pkvm/pkvm.c
-
-    91	
-  > 92	static u64 pkvm_mmio_readq(const volatile void __iomem *addr)
-    93	{
-    94		unsigned long val;
-    95	
-    96		if (pkvm_virt_mmio(8, false, (unsigned long)addr, &val))
-    97			return 0xffffffffffffffff;
-    98		return val;
-    99	}
-   100	
-   101	static void pkvm_mmio_writeb(unsigned char v, volatile void __iomem *addr)
-   102	{
-   103		unsigned long val = v;
-   104	
-   105		pkvm_virt_mmio(1, true, (unsigned long)addr, &val);
-   106	}
-   107	
-   108	static void pkvm_mmio_writew(unsigned short v, volatile void __iomem *addr)
-   109	{
-   110		unsigned long val = v;
-   111	
-   112		pkvm_virt_mmio(2, true, (unsigned long)addr, &val);
-   113	}
-   114	
-   115	static void pkvm_mmio_writel(unsigned int v, volatile void __iomem *addr)
-   116	{
-   117		unsigned long val = v;
-   118	
-   119		pkvm_virt_mmio(4, true, (unsigned long)addr, &val);
-   120	}
-   121	
- > 122	static void pkvm_mmio_writeq(u64 v, volatile void __iomem *addr)
-   123	{
-   124		unsigned long val = v;
-   125	
-   126		pkvm_virt_mmio(8, true, (unsigned long)addr, &val);
-   127	}
-   128	
+  1302	
+  1303	static int msm_dp_display_get_io(struct msm_dp_display_private *display)
+  1304	{
+  1305		struct platform_device *pdev = display->msm_dp_display.pdev;
+  1306	
+  1307		display->ahb_base = msm_dp_ioremap(pdev, 0, &display->ahb_len);
+  1308		if (IS_ERR(display->ahb_base))
+  1309			return PTR_ERR(display->ahb_base);
+  1310	
+  1311		display->aux_base = msm_dp_ioremap(pdev, 1, &display->aux_len);
+  1312		if (IS_ERR(display->aux_base)) {
+> 1313			if (display->aux_base != ERR_PTR(-EINVAL)) {
+  1314				DRM_ERROR("unable to remap aux region: %pe\n", display->aux_base);
+  1315				return PTR_ERR(display->aux_base);
+  1316			}
+  1317	
+  1318			/*
+  1319			 * The initial binding had a single reg, but in order to
+  1320			 * support variation in the sub-region sizes this was split.
+  1321			 * msm_dp_ioremap() will fail with -EINVAL here if only a single
+  1322			 * reg is specified, so fill in the sub-region offsets and
+  1323			 * lengths based on this single region.
+  1324			 */
+  1325			if (display->ahb_len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
+  1326				DRM_ERROR("legacy memory region not large enough\n");
+  1327				return -EINVAL;
+  1328			}
+  1329	
+  1330			display->ahb_len = DP_DEFAULT_AHB_SIZE;
+  1331			display->aux_base = display->ahb_base + DP_DEFAULT_AUX_OFFSET;
+  1332			display->aux_len = DP_DEFAULT_AUX_SIZE;
+  1333			display->link_base = display->ahb_base + DP_DEFAULT_LINK_OFFSET;
+  1334			display->link_len = DP_DEFAULT_LINK_SIZE;
+  1335			display->p0_base = display->ahb_base + DP_DEFAULT_P0_OFFSET;
+  1336			display->p0_len = DP_DEFAULT_P0_SIZE;
+  1337	
+  1338			return 0;
+  1339		}
+  1340	
+  1341		display->link_base = msm_dp_ioremap(pdev, 2, &display->link_len);
+  1342		if (IS_ERR(display->link_base)) {
+  1343			DRM_ERROR("unable to remap link region: %pe\n", display->link_base);
+  1344			return PTR_ERR(display->link_base);
+  1345		}
+  1346	
+  1347		display->p0_base = msm_dp_ioremap(pdev, 3, &display->p0_len);
+  1348		if (IS_ERR(display->p0_base)) {
+  1349			DRM_ERROR("unable to remap p0 region: %pe\n", display->p0_base);
+  1350			return PTR_ERR(display->p0_base);
+  1351		}
+  1352	
+  1353		return 0;
+  1354	}
+  1355	
 
 --
 0-DAY CI Kernel Test Service
