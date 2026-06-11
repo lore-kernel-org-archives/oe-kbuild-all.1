@@ -1,400 +1,330 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5C5285068;
-	Thu, 11 Jun 2026 02:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB03830DD00
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 03:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781144802; cv=none; b=qSsoaVsAUDnrcQD4BOS6HKRTREPXsTY65qCb+j4OQCK/5znI5Fnxnpx82HiHgP6WFxztJG2h+/X/NTflyoXsmOnbpvf+BpjkHi58cO6j7v1pYzjFlfMU88p2b8A3p6a/4UjOOSumP4/zLvk8kkU7sqZkjyOtQau9HQt0zlZdBwY=
+	t=1781148434; cv=none; b=lbRsJf/3+rZLUjKk7RB2AW0ILWXSjzxQTysm2F6emeGOI1Kwx3Fa7+PR9fdYdWoFpBjjFFOri5OVWEKB06I5gO8bX53LctnBI/haHOxm0BTkqYkojOtwLLDdIyorHhHM13pIzzmx82xYkY4YwJS6IsSmPFakaRqHK3oMxjEqgII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781144802; c=relaxed/simple;
-	bh=42ocNaY4J5enhd7f4uXUrDsldtOXegJngP81m4fa5o8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SsIBq+axcgzFLf0ga2gYcuwt9R33zZ00H2PSzwFfNx056ayJ5Gn+dk9UFX5ja2dxek4//9yVfbX3xKEyqGHAYjudMXbhZc3K0YjbchLxjiDFfdYl7T5T7vyqVLf8WSiTx90Xbf5ogZOA9X3quSL39YxqyPjGqZozKY+mJm4IXYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXf7Rwdz; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1781148434; c=relaxed/simple;
+	bh=d287ZZ3IlfQeMtvoG6lnOLu6OUTC2OYK6qMzrWiNqr0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IkxHU/2IhNYLxTSrVpQ6HrQBTwYA/YzwfIzul4tgkWjpV40M07nmV9CREeDjJ9+9EiKIyyixKJDzCn0F2ONH8chiRD8PtGUc1UNVtuzRnaXifMT2nR+tO2ASkxDjwp/zkSMN6R/4gWYgbCjrjHKnLnVCOi9FhetVHI+JCnoj7eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lraPBDSK; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXf7Rwdz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lraPBDSK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781144800; x=1812680800;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=42ocNaY4J5enhd7f4uXUrDsldtOXegJngP81m4fa5o8=;
-  b=lXf7Rwdzu8IlPHocgOXUksVyXHxT91z0pp8BC2rhJ+5jBNicStH/9GaB
-   /C5MwpGAOxJuNE0+3C1rgD2ut+c6eO2l7nUS7JxfxSImOymEMvkCOc6fb
-   lePcoyGLKegVmdx8WGNya0D7toDMqwxWx2i3074mdDVsyu8HcnuKucC2D
-   pntT3VP66msFe1GmkjdfHjgCOVOXdk2+pphJLKeLBda+4NyucUKs1Zr62
-   s+e+ywYxeFJ4bW3yNA+Uiz4n7Qd0dxFtpYmMAce5iuZMgaGttaTEWqw24
-   8CdLCQioDcBACbnfpkM7d7V3+52+Ifbkg+jtMdvjyDWXMboqAyN6Btdt8
-   A==;
-X-CSE-ConnectionGUID: z75yNPa9Q9ShJQc7mimR0w==
-X-CSE-MsgGUID: zBt9wY5gT8aBjQYlFvsKGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81695347"
+  t=1781148432; x=1812684432;
+  h=date:from:to:cc:subject:message-id;
+  bh=d287ZZ3IlfQeMtvoG6lnOLu6OUTC2OYK6qMzrWiNqr0=;
+  b=lraPBDSKOTgGF3UL5T6AzqWx7yVYbx7nmyEIOUoWTTTxegx5enBsYVWu
+   WecSASMeykq1wJtPnQjn+xjxzYN0SAGwUSpQYk1L9tX6dxRc+/keK5jnm
+   iWiAyjzjRlO8Bk7qYHPD0KtWzP9RaxYW88mLXSxaJawEMF6WS54aqJnQY
+   SXargYsvpi2NVYA1qOD7pd1WIqSCAAJ/vYmaxmHnf79KSfbbfG/N+6Jtm
+   BKDu5wx5cxaNq7Drn5uhRSQpBdozBIVVN94QLMg/b05/Psc1D6UKhDlPW
+   k8NtgILbqSz/IjHbMj/FvJJp2CQyaY7WgEpR0XnWzgiwZWKAbOzQo7qYv
+   Q==;
+X-CSE-ConnectionGUID: Xkj5ts14RrqdUOBi4hE2vg==
+X-CSE-MsgGUID: xE1oQ/eqRPu01109RJ/cZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81090276"
 X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="81695347"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 19:26:40 -0700
-X-CSE-ConnectionGUID: 1CfD3wkvSDiRCrnQE4hKnA==
-X-CSE-MsgGUID: lMipG0LISgmMXjJCBe5GgQ==
+   d="scan'208";a="81090276"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 20:27:11 -0700
+X-CSE-ConnectionGUID: MBQLE4dFTQi+w++pPwbmKw==
+X-CSE-MsgGUID: J/wVV1gkQ5+nMnTVrX/Org==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="284426761"
+   d="scan'208";a="243904211"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Jun 2026 19:26:37 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Jun 2026 20:27:10 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXV7p-00000000MBy-3uM3;
-	Thu, 11 Jun 2026 02:26:34 +0000
-Date: Thu, 11 Jun 2026 10:26:17 +0800
+	id 1wXW4R-00000000MH8-0q8C;
+	Thu, 11 Jun 2026 03:27:07 +0000
+Date: Thu, 11 Jun 2026 11:26:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Elfring <Markus.Elfring@web.de>, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel-janitors@vger.kernel.org,
-	Adrian Korwel <adriank20047@gmail.com>,
-	Felix Gu <ustc.gu@gmail.com>
-Subject: Re: [PATCH] USB: serial: io_ti: Use common error handling code in
- do_download_mode()
-Message-ID: <202606111021.E9ag1FLC-lkp@intel.com>
-References: <188a2ea8-6bb6-46aa-883d-a1472b35217f@web.de>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: kernel/futex/core.c:505:51: sparse: sparse: incorrect type
+ in initializer (different address spaces)
+Message-ID: <202606111140.rUnqbJOC-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <188a2ea8-6bb6-46aa-883d-a1472b35217f@web.de>
 
-Hi Markus,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on johan-usb-serial/usb-next]
-[also build test ERROR on johan-usb-serial/usb-linus usb/usb-testing usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v7.1-rc7 next-20260609]
-[cannot apply to peter-chen-usb/for-usb-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/USB-serial-io_ti-Use-common-error-handling-code-in-do_download_mode/20260610-232603
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
-patch link:    https://lore.kernel.org/r/188a2ea8-6bb6-46aa-883d-a1472b35217f%40web.de
-patch subject: [PATCH] USB: serial: io_ti: Use common error handling code in do_download_mode()
-config: i386-buildonly-randconfig-003-20260611 (https://download.01.org/0day-ci/archive/20260611/202606111021.E9ag1FLC-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
+commit: cec199c5e39bde7191a08087cc3d002ccfab31ff futex: Implement FUTEX2_NUMA
+date:   1 year, 1 month ago
+config: x86_64-randconfig-123-20260610 (https://download.01.org/0day-ci/archive/20260611/202606111140.rUnqbJOC-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111021.E9ag1FLC-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111140.rUnqbJOC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: cec199c5e39b ("futex: Implement FUTEX2_NUMA")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606111021.E9ag1FLC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606111140.rUnqbJOC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/futex/core.c:505:38: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/futex/core.c:505:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *naddr @@     got void * @@
+   kernel/futex/core.c:505:51: sparse:     expected unsigned int [noderef] [usertype] __user *naddr
+   kernel/futex/core.c:505:51: sparse:     got void *
+   kernel/futex/core.c:894:9: sparse: sparse: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
 
->> drivers/usb/serial/io_ti.c:1325:8: error: use of undeclared identifier 'vheader'
-    1325 |         kfree(vheader);
-         |               ^~~~~~~
->> drivers/usb/serial/io_ti.c:1326:8: error: use of undeclared identifier 'header'
-    1326 |         kfree(header);
-         |               ^~~~~~
->> drivers/usb/serial/io_ti.c:1336:8: error: use of undeclared identifier 'record'
-    1336 |         kfree(record);
-         |               ^~~~~~
->> drivers/usb/serial/io_ti.c:1338:8: error: use of undeclared identifier 'firmware_version'
-    1338 |         kfree(firmware_version);
-         |               ^~~~~~~~~~~~~~~~
-   4 errors generated.
+vim +505 kernel/futex/core.c
 
-
-vim +/vheader +1325 drivers/usb/serial/io_ti.c
-
-  1065	
-  1066	static int do_download_mode(struct edgeport_serial *serial,
-  1067			const struct firmware *fw)
-  1068	{
-  1069		struct device *dev = &serial->serial->interface->dev;
-  1070		int status = 0;
-  1071		int start_address;
-  1072		struct edge_ti_manuf_descriptor *ti_manuf_desc;
-  1073		int download_cur_ver;
-  1074		int download_new_ver;
-  1075		struct edgeport_fw_hdr *fw_hdr = (struct edgeport_fw_hdr *)fw->data;
-  1076		struct ti_i2c_desc *rom_desc;
-  1077	
-  1078		dev_dbg(dev, "%s - RUNNING IN DOWNLOAD MODE\n", __func__);
-  1079	
-  1080		status = check_i2c_image(serial);
-  1081		if (status) {
-  1082			dev_dbg(dev, "%s - DOWNLOAD MODE -- BAD I2C\n", __func__);
-  1083			return status;
-  1084		}
-  1085	
-  1086		/*
-  1087		 * Validate Hardware version number
-  1088		 * Read Manufacturing Descriptor from TI Based Edgeport
-  1089		 */
-  1090		ti_manuf_desc = kmalloc_obj(*ti_manuf_desc);
-  1091		if (!ti_manuf_desc)
-  1092			return -ENOMEM;
-  1093	
-  1094		status = get_manuf_info(serial, (u8 *)ti_manuf_desc);
-  1095		if (status)
-  1096			goto free_ti_manuf_desc;
-  1097	
-  1098		/* Check version number of ION descriptor */
-  1099		if (!ignore_cpu_rev && ti_cpu_rev(ti_manuf_desc) < 2) {
-  1100			dev_dbg(dev, "%s - Wrong CPU Rev %d (Must be 2)\n",
-  1101				__func__, ti_cpu_rev(ti_manuf_desc));
-  1102			status = -EINVAL;
-  1103			goto free_ti_manuf_desc;
-  1104		}
-  1105	
-  1106		rom_desc = kmalloc_obj(*rom_desc);
-  1107		if (!rom_desc) {
-  1108			status = -ENOMEM;
-  1109			goto free_ti_manuf_desc;
-  1110		}
-  1111	
-  1112		/* Search for type 2 record (firmware record) */
-  1113		start_address = get_descriptor_addr(serial,
-  1114				I2C_DESC_TYPE_FIRMWARE_BASIC, rom_desc);
-  1115		if (start_address != 0) {
-  1116			struct ti_i2c_firmware_rec *firmware_version;
-  1117			u8 *record;
-  1118	
-  1119			dev_dbg(dev, "%s - Found Type FIRMWARE (Type 2) record\n",
-  1120					__func__);
-  1121	
-  1122			firmware_version = kmalloc_obj(*firmware_version);
-  1123			if (!firmware_version)
-  1124				goto e_nomem;
-  1125	
-  1126			/*
-  1127			 * Validate version number
-  1128			 * Read the descriptor data
-  1129			 */
-  1130			status = read_rom(serial, start_address +
-  1131					sizeof(struct ti_i2c_desc),
-  1132					sizeof(struct ti_i2c_firmware_rec),
-  1133					(u8 *)firmware_version);
-  1134			if (status)
-  1135				goto free_firmware_version;
-  1136	
-  1137			/*
-  1138			 * Check version number of download with current
-  1139			 * version in I2c
-  1140			 */
-  1141			download_cur_ver = (firmware_version->Ver_Major << 8) +
-  1142					   (firmware_version->Ver_Minor);
-  1143			download_new_ver = (fw_hdr->major_version << 8) +
-  1144					   (fw_hdr->minor_version);
-  1145	
-  1146			dev_dbg(dev, "%s - >> FW Versions Device %d.%d  Driver %d.%d\n",
-  1147				__func__, firmware_version->Ver_Major,
-  1148				firmware_version->Ver_Minor,
-  1149				fw_hdr->major_version, fw_hdr->minor_version);
-  1150	
-  1151			/*
-  1152			 * Check if we have an old version in the I2C and
-  1153			 * update if necessary
-  1154			 */
-  1155			if (download_cur_ver < download_new_ver) {
-  1156				dev_dbg(dev, "%s - Update I2C dld from %d.%d to %d.%d\n",
-  1157					__func__,
-  1158					firmware_version->Ver_Major,
-  1159					firmware_version->Ver_Minor,
-  1160					fw_hdr->major_version,
-  1161					fw_hdr->minor_version);
-  1162	
-  1163				record = kmalloc(1, GFP_KERNEL);
-  1164				if (!record) {
-  1165					status = -ENOMEM;
-  1166					goto free_firmware_version;
-  1167				}
-  1168				/*
-  1169				 * In order to update the I2C firmware we must
-  1170				 * change the type 2 record to type 0xF2. This
-  1171				 * will force the UMP to come up in Boot Mode.
-  1172				 * Then while in boot mode, the driver will
-  1173				 * download the latest firmware (padded to
-  1174				 * 15.5k) into the UMP ram. Finally when the
-  1175				 * device comes back up in download mode the
-  1176				 * driver will cause the new firmware to be
-  1177				 * copied from the UMP Ram to I2C and the
-  1178				 * firmware will update the record type from
-  1179				 * 0xf2 to 0x02.
-  1180				 */
-  1181				*record = I2C_DESC_TYPE_FIRMWARE_BLANK;
-  1182	
-  1183				/*
-  1184				 * Change the I2C Firmware record type to
-  1185				 * 0xf2 to trigger an update
-  1186				 */
-  1187				status = write_rom(serial, start_address,
-  1188						sizeof(*record), record);
-  1189				if (status)
-  1190					goto free_record;
-  1191	
-  1192				/*
-  1193				 * verify the write -- must do this in order
-  1194				 * for write to complete before we do the
-  1195				 * hardware reset
-  1196				 */
-  1197				status = read_rom(serial,
-  1198							start_address,
-  1199							sizeof(*record),
-  1200							record);
-  1201				if (status)
-  1202					goto free_record;
-  1203	
-  1204				if (*record != I2C_DESC_TYPE_FIRMWARE_BLANK) {
-  1205					dev_err(dev, "%s - error resetting device\n",
-  1206							__func__);
-  1207					goto e_nodev;
-  1208				}
-  1209	
-  1210				dev_dbg(dev, "%s - HARDWARE RESET\n", __func__);
-  1211	
-  1212				/* Reset UMP -- Back to BOOT MODE */
-  1213				status = ti_vsend_sync(serial->serial->dev,
-  1214						UMPC_HARDWARE_RESET,
-  1215						0, 0, NULL, 0,
-  1216						TI_VSEND_TIMEOUT_DEFAULT);
-  1217	
-  1218				dev_dbg(dev, "%s - HARDWARE RESET return %d\n",
-  1219						__func__, status);
-  1220	
-  1221				/* return an error on purpose. */
-  1222				goto e_nodev;
-  1223			}
-  1224			/* Same or newer fw version is already loaded */
-  1225			serial->fw_version = download_cur_ver;
-  1226			kfree(firmware_version);
-  1227		}
-  1228		/* Search for type 0xF2 record (firmware blank record) */
-  1229		else {
-  1230			start_address = get_descriptor_addr(serial,
-  1231					I2C_DESC_TYPE_FIRMWARE_BLANK, rom_desc);
-  1232			if (start_address != 0) {
-  1233	#define HEADER_SIZE	(sizeof(struct ti_i2c_desc) + \
-  1234					sizeof(struct ti_i2c_firmware_rec))
-  1235				u8 *header;
-  1236				u8 *vheader;
-  1237	
-  1238				header = kmalloc(HEADER_SIZE, GFP_KERNEL);
-  1239				if (!header)
-  1240					goto e_nomem;
-  1241	
-  1242				vheader = kmalloc(HEADER_SIZE, GFP_KERNEL);
-  1243				if (!vheader) {
-  1244					kfree(header);
-  1245					goto e_nomem;
-  1246				}
-  1247	
-  1248				dev_dbg(dev, "%s - Found Type BLANK FIRMWARE (Type F2) record\n",
-  1249						__func__);
-  1250	
-  1251				/*
-  1252				 * In order to update the I2C firmware we must change
-  1253				 * the type 2 record to type 0xF2. This will force the
-  1254				 * UMP to come up in Boot Mode.  Then while in boot
-  1255				 * mode, the driver will download the latest firmware
-  1256				 * (padded to 15.5k) into the UMP ram. Finally when the
-  1257				 * device comes back up in download mode the driver
-  1258				 * will cause the new firmware to be copied from the
-  1259				 * UMP Ram to I2C and the firmware will update the
-  1260				 * record type from 0xf2 to 0x02.
-  1261				 */
-  1262				status = build_i2c_fw_hdr(header, fw);
-  1263				if (status)
-  1264					goto e_inval;
-  1265	
-  1266				/*
-  1267				 * Update I2C with type 0xf2 record with correct
-  1268				 * size and checksum
-  1269				 */
-  1270				status = write_rom(serial,
-  1271							start_address,
-  1272							HEADER_SIZE,
-  1273							header);
-  1274				if (status)
-  1275					goto e_inval;
-  1276	
-  1277				/*
-  1278				 * verify the write -- must do this in order for
-  1279				 * write to complete before we do the hardware reset
-  1280				 */
-  1281				status = read_rom(serial, start_address,
-  1282								HEADER_SIZE, vheader);
-  1283	
-  1284				if (status) {
-  1285					dev_dbg(dev, "%s - can't read header back\n",
-  1286							__func__);
-  1287					goto free_vheader;
-  1288				}
-  1289				if (memcmp(vheader, header, HEADER_SIZE)) {
-  1290					dev_dbg(dev, "%s - write download record failed\n",
-  1291							__func__);
-  1292					goto e_inval;
-  1293				}
-  1294	
-  1295				kfree(vheader);
-  1296				kfree(header);
-  1297	
-  1298				dev_dbg(dev, "%s - Start firmware update\n", __func__);
-  1299	
-  1300				/* Tell firmware to copy download image into I2C */
-  1301				status = ti_vsend_sync(serial->serial->dev,
-  1302						UMPC_COPY_DNLD_TO_I2C,
-  1303						0, 0, NULL, 0,
-  1304						TI_VSEND_TIMEOUT_FW_DOWNLOAD);
-  1305	
-  1306				dev_dbg(dev, "%s - Update complete 0x%x\n", __func__,
-  1307						status);
-  1308				if (status) {
-  1309					dev_err(dev,
-  1310						"%s - UMPC_COPY_DNLD_TO_I2C failed\n",
-  1311						__func__);
-  1312					goto free_rom_desc;
-  1313				}
-  1314			}
-  1315		}
-  1316	
-  1317		/* The device is running the download code */
-  1318		kfree(rom_desc);
-  1319		kfree(ti_manuf_desc);
-  1320		return 0;
-  1321	
-  1322	e_inval:
-  1323		status = -EINVAL;
-  1324	free_vheader:
-> 1325		kfree(vheader);
-> 1326		kfree(header);
-  1327		goto free_rom_desc;
-  1328	
-  1329	e_nomem:
-  1330		status = -ENOMEM;
-  1331		goto free_rom_desc;
-  1332	
-  1333	e_nodev:
-  1334		status = -ENODEV;
-  1335	free_record:
-> 1336		kfree(record);
-  1337	free_firmware_version:
-> 1338		kfree(firmware_version);
-  1339	free_rom_desc:
-  1340		kfree(rom_desc);
-  1341	free_ti_manuf_desc:
-  1342		kfree(ti_manuf_desc);
-  1343		return status;
-  1344	}
-  1345	
+   446	
+   447	/**
+   448	 * get_futex_key() - Get parameters which are the keys for a futex
+   449	 * @uaddr:	virtual address of the futex
+   450	 * @flags:	FLAGS_*
+   451	 * @key:	address where result is stored.
+   452	 * @rw:		mapping needs to be read/write (values: FUTEX_READ,
+   453	 *              FUTEX_WRITE)
+   454	 *
+   455	 * Return: a negative error code or 0
+   456	 *
+   457	 * The key words are stored in @key on success.
+   458	 *
+   459	 * For shared mappings (when @fshared), the key is:
+   460	 *
+   461	 *   ( inode->i_sequence, page->index, offset_within_page )
+   462	 *
+   463	 * [ also see get_inode_sequence_number() ]
+   464	 *
+   465	 * For private mappings (or when !@fshared), the key is:
+   466	 *
+   467	 *   ( current->mm, address, 0 )
+   468	 *
+   469	 * This allows (cross process, where applicable) identification of the futex
+   470	 * without keeping the page pinned for the duration of the FUTEX_WAIT.
+   471	 *
+   472	 * lock_page() might sleep, the caller should not hold a spinlock.
+   473	 */
+   474	int get_futex_key(u32 __user *uaddr, unsigned int flags, union futex_key *key,
+   475			  enum futex_access rw)
+   476	{
+   477		unsigned long address = (unsigned long)uaddr;
+   478		struct mm_struct *mm = current->mm;
+   479		struct page *page;
+   480		struct folio *folio;
+   481		struct address_space *mapping;
+   482		int node, err, size, ro = 0;
+   483		bool fshared;
+   484	
+   485		fshared = flags & FLAGS_SHARED;
+   486		size = futex_size(flags);
+   487		if (flags & FLAGS_NUMA)
+   488			size *= 2;
+   489	
+   490		/*
+   491		 * The futex address must be "naturally" aligned.
+   492		 */
+   493		key->both.offset = address % PAGE_SIZE;
+   494		if (unlikely((address % size) != 0))
+   495			return -EINVAL;
+   496		address -= key->both.offset;
+   497	
+   498		if (unlikely(!access_ok(uaddr, size)))
+   499			return -EFAULT;
+   500	
+   501		if (unlikely(should_fail_futex(fshared)))
+   502			return -EFAULT;
+   503	
+   504		if (flags & FLAGS_NUMA) {
+ > 505			u32 __user *naddr = (void *)uaddr + size / 2;
+   506	
+   507			if (futex_get_value(&node, naddr))
+   508				return -EFAULT;
+   509	
+   510			if (node == FUTEX_NO_NODE) {
+   511				node = numa_node_id();
+   512				if (futex_put_value(node, naddr))
+   513					return -EFAULT;
+   514	
+   515			} else if (node >= MAX_NUMNODES || !node_possible(node)) {
+   516				return -EINVAL;
+   517			}
+   518	
+   519			key->both.node = node;
+   520	
+   521		} else {
+   522			key->both.node = FUTEX_NO_NODE;
+   523		}
+   524	
+   525		/*
+   526		 * PROCESS_PRIVATE futexes are fast.
+   527		 * As the mm cannot disappear under us and the 'key' only needs
+   528		 * virtual address, we dont even have to find the underlying vma.
+   529		 * Note : We do have to check 'uaddr' is a valid user address,
+   530		 *        but access_ok() should be faster than find_vma()
+   531		 */
+   532		if (!fshared) {
+   533			/*
+   534			 * On no-MMU, shared futexes are treated as private, therefore
+   535			 * we must not include the current process in the key. Since
+   536			 * there is only one address space, the address is a unique key
+   537			 * on its own.
+   538			 */
+   539			if (IS_ENABLED(CONFIG_MMU))
+   540				key->private.mm = mm;
+   541			else
+   542				key->private.mm = NULL;
+   543	
+   544			key->private.address = address;
+   545			return 0;
+   546		}
+   547	
+   548	again:
+   549		/* Ignore any VERIFY_READ mapping (futex common case) */
+   550		if (unlikely(should_fail_futex(true)))
+   551			return -EFAULT;
+   552	
+   553		err = get_user_pages_fast(address, 1, FOLL_WRITE, &page);
+   554		/*
+   555		 * If write access is not required (eg. FUTEX_WAIT), try
+   556		 * and get read-only access.
+   557		 */
+   558		if (err == -EFAULT && rw == FUTEX_READ) {
+   559			err = get_user_pages_fast(address, 1, 0, &page);
+   560			ro = 1;
+   561		}
+   562		if (err < 0)
+   563			return err;
+   564		else
+   565			err = 0;
+   566	
+   567		/*
+   568		 * The treatment of mapping from this point on is critical. The folio
+   569		 * lock protects many things but in this context the folio lock
+   570		 * stabilizes mapping, prevents inode freeing in the shared
+   571		 * file-backed region case and guards against movement to swap cache.
+   572		 *
+   573		 * Strictly speaking the folio lock is not needed in all cases being
+   574		 * considered here and folio lock forces unnecessarily serialization.
+   575		 * From this point on, mapping will be re-verified if necessary and
+   576		 * folio lock will be acquired only if it is unavoidable
+   577		 *
+   578		 * Mapping checks require the folio so it is looked up now. For
+   579		 * anonymous pages, it does not matter if the folio is split
+   580		 * in the future as the key is based on the address. For
+   581		 * filesystem-backed pages, the precise page is required as the
+   582		 * index of the page determines the key.
+   583		 */
+   584		folio = page_folio(page);
+   585		mapping = READ_ONCE(folio->mapping);
+   586	
+   587		/*
+   588		 * If folio->mapping is NULL, then it cannot be an anonymous
+   589		 * page; but it might be the ZERO_PAGE or in the gate area or
+   590		 * in a special mapping (all cases which we are happy to fail);
+   591		 * or it may have been a good file page when get_user_pages_fast
+   592		 * found it, but truncated or holepunched or subjected to
+   593		 * invalidate_complete_page2 before we got the folio lock (also
+   594		 * cases which we are happy to fail).  And we hold a reference,
+   595		 * so refcount care in invalidate_inode_page's remove_mapping
+   596		 * prevents drop_caches from setting mapping to NULL beneath us.
+   597		 *
+   598		 * The case we do have to guard against is when memory pressure made
+   599		 * shmem_writepage move it from filecache to swapcache beneath us:
+   600		 * an unlikely race, but we do need to retry for folio->mapping.
+   601		 */
+   602		if (unlikely(!mapping)) {
+   603			int shmem_swizzled;
+   604	
+   605			/*
+   606			 * Folio lock is required to identify which special case above
+   607			 * applies. If this is really a shmem page then the folio lock
+   608			 * will prevent unexpected transitions.
+   609			 */
+   610			folio_lock(folio);
+   611			shmem_swizzled = folio_test_swapcache(folio) || folio->mapping;
+   612			folio_unlock(folio);
+   613			folio_put(folio);
+   614	
+   615			if (shmem_swizzled)
+   616				goto again;
+   617	
+   618			return -EFAULT;
+   619		}
+   620	
+   621		/*
+   622		 * Private mappings are handled in a simple way.
+   623		 *
+   624		 * If the futex key is stored in anonymous memory, then the associated
+   625		 * object is the mm which is implicitly pinned by the calling process.
+   626		 *
+   627		 * NOTE: When userspace waits on a MAP_SHARED mapping, even if
+   628		 * it's a read-only handle, it's expected that futexes attach to
+   629		 * the object not the particular process.
+   630		 */
+   631		if (folio_test_anon(folio)) {
+   632			/*
+   633			 * A RO anonymous page will never change and thus doesn't make
+   634			 * sense for futex operations.
+   635			 */
+   636			if (unlikely(should_fail_futex(true)) || ro) {
+   637				err = -EFAULT;
+   638				goto out;
+   639			}
+   640	
+   641			key->both.offset |= FUT_OFF_MMSHARED; /* ref taken on mm */
+   642			key->private.mm = mm;
+   643			key->private.address = address;
+   644	
+   645		} else {
+   646			struct inode *inode;
+   647	
+   648			/*
+   649			 * The associated futex object in this case is the inode and
+   650			 * the folio->mapping must be traversed. Ordinarily this should
+   651			 * be stabilised under folio lock but it's not strictly
+   652			 * necessary in this case as we just want to pin the inode, not
+   653			 * update i_pages or anything like that.
+   654			 *
+   655			 * The RCU read lock is taken as the inode is finally freed
+   656			 * under RCU. If the mapping still matches expectations then the
+   657			 * mapping->host can be safely accessed as being a valid inode.
+   658			 */
+   659			rcu_read_lock();
+   660	
+   661			if (READ_ONCE(folio->mapping) != mapping) {
+   662				rcu_read_unlock();
+   663				folio_put(folio);
+   664	
+   665				goto again;
+   666			}
+   667	
+   668			inode = READ_ONCE(mapping->host);
+   669			if (!inode) {
+   670				rcu_read_unlock();
+   671				folio_put(folio);
+   672	
+   673				goto again;
+   674			}
+   675	
+   676			key->both.offset |= FUT_OFF_INODE; /* inode-based key */
+   677			key->shared.i_seq = get_inode_sequence_number(inode);
+   678			key->shared.pgoff = page_pgoff(folio, page);
+   679			rcu_read_unlock();
+   680		}
+   681	
+   682	out:
+   683		folio_put(folio);
+   684		return err;
+   685	}
+   686	
 
 --
 0-DAY CI Kernel Test Service
