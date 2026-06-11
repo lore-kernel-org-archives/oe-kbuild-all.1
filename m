@@ -1,113 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8FC3D8122
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 10:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3BF3DCDA4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 11:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781175067; cv=none; b=ja14BXK1nKdKw4RqdysYg19ZD2i4LIOl8ScQQuzdeTIom6yoeCFftZeMPO3UenFPMAFZzq5xTB8S1LrK+I27YWc1jgOJEYu4+loHeS4o9kl7bQtadLvSOYc/H7I0amftTKPwZbtbgejqHJu3tozJ0bcJURSwDZMSW4i7PlNKS4A=
+	t=1781176800; cv=none; b=nZv3YlcYaP6DiaXAZGgt1wIn1feV7k1vb1S0bsM/urMDQgZg+D8T+5ZxPBMFxzvbNqfVN5R+3NGZUmdmo0/yQTsVaFq3etCocp4E1Dxd3RBXnUDyysRw0PkFQKu8FOhgBQVH2kslKU1LRdYQCbs6ZhjgUur3IRZ76AN+2aVxGQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781175067; c=relaxed/simple;
-	bh=LrGXYsktu/PMfFx+8O9rwTaFqGn/8GHysMCIUghQpI4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QRiDAICadpB78MQo0e02hi++EwDmlw8Ar47VRpN0r6ehgMsjbjf8Ul4RgpWPKOu6Ur2TWiFvA1BJJuE+HAWN8hGIzSSbnfSSMDiI1gL83ZxYngialB20tyyRVYduYvlPhGtsbNoNUfNlhJ/uArBQtT26YUyXnWYAfEizDkRADnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+JTzCVw; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781176800; c=relaxed/simple;
+	bh=fxYLO9HD2iCGubfv3LFtpfQozDHJ4rIXVNR9DeiomaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kMYhLJgedQh6wlnE6PZo9nS7n4G1YrL3igcLqd5JCH0XTitXVgJ7I/AQnaF7b4Aba3/qncz+PLysRcBf09BsNwX4SEVY04CldY+D+y9Bo0UeGNsooFqhOFEzNWIdnFN2xJR1W+glgcISmuQdcGrgB3x9S6GOxWnDLi/b8zdJOj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dmrc6lmb; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+JTzCVw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781175066; x=1812711066;
-  h=date:from:to:cc:subject:message-id;
-  bh=LrGXYsktu/PMfFx+8O9rwTaFqGn/8GHysMCIUghQpI4=;
-  b=n+JTzCVwxgHj9uDVlwDXvvn75iU6IwVc+ehGdI0mPX3CFqeU193syeu5
-   YFANuGxviw1KhWygcJqJyIcR5ZHlYniM7wPU1mNX1jTfkHzVeDorFZUiK
-   nt8O0fYc87q5fXGY3VIlEnoLZ5VczaemP6MZg0m0Q3tqjob4k35ubar+7
-   jBLP49qZicA2aEPsk2mJVFXDTtBLFnjSlQKsqu9EPAUyQSBkEPdHsL7tD
-   cHmWbZrZzJORCTiDgZvxJLuvBh6mWemaLf/PgMx9p9CHdVz33xTIYExxg
-   vucUu0+l16M2leiVnqYamt6EaF23siyRg9UGfVRSj0LQk8dWg9zUjN5B1
-   A==;
-X-CSE-ConnectionGUID: 6WZDtQ7fSYy26X4ICV4hog==
-X-CSE-MsgGUID: jyngZS55RzCNmoIkEbbaXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="85883007"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="85883007"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 03:51:05 -0700
-X-CSE-ConnectionGUID: iQTBERzlTwyWGcncxhFQ7w==
-X-CSE-MsgGUID: nVEr4N8gTqi6yFAgi4YuGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="251541589"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Jun 2026 03:51:02 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXczz-00000000MoW-3VUP;
-	Thu, 11 Jun 2026 10:50:59 +0000
-Date: Thu, 11 Jun 2026 18:50:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Christoph Hellwig <hch@lst.de>
-Subject: arch/nios2/include/asm/checksum.h:30:24: sparse: sparse:
- restricted __wsum degrades to integer
-Message-ID: <202606111818.O5tEL43L-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dmrc6lmb"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-91591f19c30so1141847285a.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 04:19:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781176798; x=1781781598; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6t9UzwtLsdthmiUIXMFdRm3409bQDOGnzbrc7Xpt57Y=;
+        b=Dmrc6lmbHBc+O5+Zn9+eT4KQXOWoXiA0vG/s3bD+iGJgG8moNyg7gMXjS9YsrP9/+Y
+         baV0pjDdxfNcvhV0+w4F2CMad/v+EQHn1QxkzmsvfmaC6hN336fLRFBXSsHv2LWlk8VS
+         A5LlXaXT3kVCKt09Udrtwmf/gHKk4byjNCd9T7GlGryC6NLprPWbQx6OeZeNXYR0XZKK
+         DlbarZLDG21ekBWPDcLx96+UnSAZ35wGPJX7STEzxa1YU/BF9UL2MK2htzQtg3tfaA3E
+         yW6vSQayLmWOSnDHL9OynpPSfDvWU9JWYMK9v7qYOhU2TKMXgx7PkFvXAIxlrs1RXS82
+         TljQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781176798; x=1781781598;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6t9UzwtLsdthmiUIXMFdRm3409bQDOGnzbrc7Xpt57Y=;
+        b=bZ0sT3CrZJDnSPl+eQ8ftdI+rZV8LLSRl8O2QEKDCeP57n2GEYLTnzJuYi1QhIWMga
+         A+NeNoWBpU/R+RojnM7CHp9+TmqMM+hFjHOcrTJiDitrALYN0mw4Kf+9ptr/e56QcX46
+         ZnJ0RpaJGJNK06cwiIyCXlKEXauogqczwn8SMANDLAsSOMu3n7r2QF/JUCiVbAGtBFqa
+         SHz8LN+8ut7HbFt3RwR0PXuOF5JNp5LGVusQd2schVkDdLxypLLPxJHAiy9gspg1YbhP
+         M7uiUsMXQql5iPMehjgcPhKX/WLEdIa9C//l5V5sMWbwqXfiAmE60EZag4OWJonhfapm
+         /MCw==
+X-Forwarded-Encrypted: i=1; AFNElJ930corjoO1WH8e5IeoKx68wKKkiLkYZma07mknD4wt1m5/2uYgYKPakt/sdyKGwDIddquEKpt1VaqLHdIn@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYCYZwdh/nOyUQwkoqy5+A+HPkYZau7s/Rvt0SijmM545GYH78
+	YUgVDRqYa4DcgPrB+vJsZkIur34hJL62PW8ux/GMMvYz8mYrrIX5meIA
+X-Gm-Gg: Acq92OFO41y9pLTGJejn988cUAT8EmngKlf5t6tZ6bOtiON4BOk67dORsKGlVd+NnMt
+	nAoXk5QVFxF4Supam5opxw246cMG7NtP+2GB+l6/ZHRpUz56Rg6KxFSBlggYMRd+bCi4JvJKir7
+	EA9gyTKBx6Zq2XBs+dZ1NORHDZ6gI0ZraUwHMoiNPlxX/7i22ShISv9UGdf8hqI0EYVugdYQFDM
+	tKzaeTPoKF+VSRYSdRSvDRn6vs44PotR+RSp9jko13h8Cg46Gt3AxQqO0fptrAZeIZjmA94rVfL
+	NIfkqPCyQdN2TEhKjz+WdV7AGXbpReJN/fLn5ePVkCq3MvooyfmTxJH057xTahU2haI0YRIW/Ia
+	Q9SSyKq56YhjO0RkxFiafGnZF0AHGMM+0QUtNoJYo7pNY4UQ2v1uxiPAtGjGZPXWAa5eBAQbkBb
+	ZLowSh5H6SNogBo6aPBCwHF2fdFQQ=
+X-Received: by 2002:a05:620a:1a28:b0:915:80e8:67d1 with SMTP id af79cd13be357-9160b09ebdamr307941385a.56.1781176798572;
+        Thu, 11 Jun 2026 04:19:58 -0700 (PDT)
+Received: from localhost ([149.40.50.215])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d1eadaea6asm15010306d6.40.2026.06.11.04.19.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 04:19:57 -0700 (PDT)
+Date: Thu, 11 Jun 2026 14:19:53 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, T Pratham <t-pratham@ti.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: drivers/crypto/ti/dthev2-common.c:44 dthe_get_dev() warn: can
+ 'dev_data' even be NULL?
+Message-ID: <202606111933.69GGTKxr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+[ I don't know why the zero data bot doesn't include T Pratham in the
+  CC list...  -dan ]
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
-commit: 203247c5cb972af5d46bdb7d41ef40078048810b blk-integrity: support arbitrary buffer alignment
-date:   3 months ago
-config: nios2-randconfig-r134-20260611 (https://download.01.org/0day-ci/archive/20260611/202606111818.O5tEL43L-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111818.O5tEL43L-lkp@intel.com/reproduce)
+commit: 35c5097f737a164b3afe23d07698db95061f0db8 crypto: ti - Enable compile testing for dthev2
+config: s390-randconfig-r072-20260611 (https://download.01.org/0day-ci/archive/20260611/202606111933.69GGTKxr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 203247c5cb97 ("blk-integrity: support arbitrary buffer alignment")
+| Fixes: 35c5097f737a ("crypto: ti - Enable compile testing for dthev2")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606111818.O5tEL43L-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606111933.69GGTKxr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   block/t10-pi.c: note: in included file (through include/net/checksum.h):
->> arch/nios2/include/asm/checksum.h:30:24: sparse: sparse: restricted __wsum degrades to integer
+smatch warnings:
+drivers/crypto/ti/dthev2-common.c:44 dthe_get_dev() warn: can 'dev_data' even be NULL?
 
-vim +30 arch/nios2/include/asm/checksum.h
+vim +/dev_data +44 drivers/crypto/ti/dthev2-common.c
 
-eea9507a69d637d Ley Foon Tan 2014-11-06  17  
-eea9507a69d637d Ley Foon Tan 2014-11-06  18  /*
-eea9507a69d637d Ley Foon Tan 2014-11-06  19   * Fold a partial checksum
-eea9507a69d637d Ley Foon Tan 2014-11-06  20   */
-eea9507a69d637d Ley Foon Tan 2014-11-06  21  static inline __sum16 csum_fold(__wsum sum)
-eea9507a69d637d Ley Foon Tan 2014-11-06  22  {
-eea9507a69d637d Ley Foon Tan 2014-11-06  23  	__asm__ __volatile__(
-eea9507a69d637d Ley Foon Tan 2014-11-06  24  		"add	%0, %1, %0\n"
-eea9507a69d637d Ley Foon Tan 2014-11-06  25  		"cmpltu	r8, %0, %1\n"
-eea9507a69d637d Ley Foon Tan 2014-11-06  26  		"srli	%0, %0, 16\n"
-eea9507a69d637d Ley Foon Tan 2014-11-06  27  		"add	%0, %0, r8\n"
-eea9507a69d637d Ley Foon Tan 2014-11-06  28  		"nor	%0, %0, %0\n"
-eea9507a69d637d Ley Foon Tan 2014-11-06  29  		: "=r" (sum)
-eea9507a69d637d Ley Foon Tan 2014-11-06 @30  		: "r" (sum << 16), "0" (sum)
-eea9507a69d637d Ley Foon Tan 2014-11-06  31  		: "r8");
-eea9507a69d637d Ley Foon Tan 2014-11-06  32  	return (__force __sum16) sum;
-eea9507a69d637d Ley Foon Tan 2014-11-06  33  }
-eea9507a69d637d Ley Foon Tan 2014-11-06  34  
+52f641bc63a4665 T Pratham 2025-08-20  35  struct dthe_data *dthe_get_dev(struct dthe_tfm_ctx *ctx)
+52f641bc63a4665 T Pratham 2025-08-20  36  {
+52f641bc63a4665 T Pratham 2025-08-20  37  	struct dthe_data *dev_data;
+52f641bc63a4665 T Pratham 2025-08-20  38  
+52f641bc63a4665 T Pratham 2025-08-20  39  	if (ctx->dev_data)
+52f641bc63a4665 T Pratham 2025-08-20  40  		return ctx->dev_data;
+52f641bc63a4665 T Pratham 2025-08-20  41  
+52f641bc63a4665 T Pratham 2025-08-20  42  	spin_lock_bh(&dthe_dev_list.lock);
+52f641bc63a4665 T Pratham 2025-08-20  43  	dev_data = list_first_entry(&dthe_dev_list.dev_list, struct dthe_data, list);
+52f641bc63a4665 T Pratham 2025-08-20 @44  	if (dev_data)
 
-:::::: The code at line 30 was first introduced by commit
-:::::: eea9507a69d637d52705de8703b168bf6bfe5643 nios2: Library functions
+This check doesn't make sense since list_first_entry() never returns
+NULL.  Maybe list_first_entry_or_null() was intended?
 
-:::::: TO: Ley Foon Tan <lftan@altera.com>
-:::::: CC: Ley Foon Tan <lftan@altera.com>
+52f641bc63a4665 T Pratham 2025-08-20  45  		list_move_tail(&dev_data->list, &dthe_dev_list.dev_list);
+52f641bc63a4665 T Pratham 2025-08-20  46  	spin_unlock_bh(&dthe_dev_list.lock);
+52f641bc63a4665 T Pratham 2025-08-20  47  
+52f641bc63a4665 T Pratham 2025-08-20  48  	return dev_data;
+52f641bc63a4665 T Pratham 2025-08-20  49  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
