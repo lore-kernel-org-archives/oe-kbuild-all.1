@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E76F36A379
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 22:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6F738F651
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 22:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781216155; cv=none; b=Zj3hpD+KExwJ7RbTju1PwoyzfTy7t4/5CS9Q8n60U4CPT4GW17KXbSxy4gA1T4pdEOoWQrBsNebG87itZ7tm+LYSraOnE8kLpbxu3AyTm+PP39Vq7sjMXRCKYNBwDPn5L6uAPuyms/zV2MOMOBH/+MD5zzzmir8la/tt8DeRpvQ=
+	t=1781216157; cv=none; b=bySerHZHPrlYOQJYIwcnBVExVnklXKez6yGhE34YymBeY00aYE/QlB2yAGJjl88vwNfjWcHAmxKcc1s5QdB5Hjnoubrm1JpGZOuOACN3UmQnmlsg9H9RZn1W9Ufz3z30iMZtSoVVa2Iu5fhNORRVfa+9jUEiWQ3KnwgFSVAGGko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781216155; c=relaxed/simple;
-	bh=Ynp6fxIirKiJ9ETtqsaB2TbNur8yt+KemFdw3WfxzWc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=awh7Z1D3nXJEbEG2pydtcwKpl9VSDdpGmTiYOO8VjNH7oyEtWTcgt9qBUfY9CuLTm4h0xyJx2EKuMm1WArL9mFdQ30+dTpYVMIlsEKJDAYCKYJl9sHzm8jV6I4oNX76hkFG2GsQOb1JFOw2t7LcSbpANsx0N8fRUEYkQ2FzpmVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0WfNHEa; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1781216157; c=relaxed/simple;
+	bh=fh5fkYNPXSIfBtCsdQ9W2y4pXTvadvSO/pvFgXbrdrc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Yp5SIgdksUv27x92+6BTYFfs6eDLnM4aSYrfScDQCVzTdx2bHNMjbuTRyn/qdbzl0JYIgP7cqJv9oBEF4WHDAjt2bktCo5ALBxTiOAqLJ6L/PSQRBBy+r4jIac1pfmVvD6mU+24JwNGPs8eBXkYT8r3FyCB2mgwwnLNJpnZftJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b3/gXmOs; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0WfNHEa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b3/gXmOs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781216153; x=1812752153;
+  t=1781216154; x=1812752154;
   h=date:from:to:cc:subject:message-id;
-  bh=Ynp6fxIirKiJ9ETtqsaB2TbNur8yt+KemFdw3WfxzWc=;
-  b=K0WfNHEacVs5AmyozQkX3NS0F2ObeOxP1T6Qvgrk9GW3ARX+onCPDRht
-   5FXuqqqs0cDq4AHxcDQnWNPo4Q0ppE2I8eV5j+9o6NU9OMk/ONDtPERYl
-   mceryf6yp66cQApHWkLWV91HM3oLrhJolJ03ECcJYJObNNrvq7KdBUfaH
-   LYEsYyw6Z/tdGcPmyDOPYpdZ3KF759ECA9ASdTCFP4V42pghaZ2/TZMHo
-   3YAgPQzsE1t8irRQA8keQMgtN+GiVIQ71KC409Dmxl0pCi9i+LlZLQ1iJ
-   lUyiEGlxaZ5XusnMv4F0dVENTzzTQStsxjeaK4qi/rdeNVapGaR5xnl50
+  bh=fh5fkYNPXSIfBtCsdQ9W2y4pXTvadvSO/pvFgXbrdrc=;
+  b=b3/gXmOs2sYyI6dB0qhDvFuSPmX59I855O8HH1wedRSu3zgCPQ8IgBXN
+   4Lltwfl0OVp0H4r1yWqYYHVs2HdWl7Ig0LovKzN7/dt/7MUftL5rxuJ1s
+   x33CwveyRPeAo9InfLunNEYB7d3hm7LhwHw0QI2f6/tBfpNAz8Seg7NAd
+   0ncEk11rnApzkvzlTOFbcPEBJjRIi9RiJLPGPAus5LbRRE1XA4VXFqBDp
+   QLfVc50kDCnBOAmz8WyPQ9PFVxq5m//k6csr4XGNkG+S8o1UDltkFom+3
+   5xO16bxb84HPeK7hxm6vu46UAiigovhzpMmZ/bKMNXTR61mJ3yDZBFFcz
    w==;
-X-CSE-ConnectionGUID: Fq2H2IFXSviPQZ/Iiq21Lw==
-X-CSE-MsgGUID: GOJfh+fbSPawitQtRoG1BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="107479801"
+X-CSE-ConnectionGUID: J7mEuNztSTmKpspDzxzEpA==
+X-CSE-MsgGUID: tLthybNaTt+1FvQwlu3MeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82152295"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="107479801"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 15:15:53 -0700
-X-CSE-ConnectionGUID: ThLN+v7pTBiRokEY2q4UpA==
-X-CSE-MsgGUID: wbsfQGldT/yLgaB0dLpEOA==
+   d="scan'208";a="82152295"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 15:15:54 -0700
+X-CSE-ConnectionGUID: JPbZnScjRYuxfnyEBHdfUg==
+X-CSE-MsgGUID: QrVswOxdSLO1BJspGzzo4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="251722433"
+   d="scan'208";a="245531816"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Jun 2026 15:15:51 -0700
+  by orviesa006.jf.intel.com with ESMTP; 11 Jun 2026 15:15:51 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXngj-00000000Nvf-0NgM;
+	id 1wXngj-00000000Nvh-0UP2;
 	Thu, 11 Jun 2026 22:15:49 +0000
-Date: Fri, 12 Jun 2026 06:15:37 +0800
+Date: Fri, 12 Jun 2026 06:15:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/38]
- include/linux/blkdev.h:1699:17: error: field has incomplete type 'struct
- rq_list'
-Message-ID: <202606120634.reTH6NpH-lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, Chong Qiao <qiaochong@loongson.cn>,
+ Huacai Chen <chenhuacai@loongson.cn>
+Subject: drivers/mfd/ls2k-bmc-core.c:108:14: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202606120639.WG6eb8VU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,196 +61,65 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Christoph,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   17584f778119ed93d9ae85feb43561e05f5254b0
-commit: 24f685a927c5a41df01d66069493bee40a5fb60e [0/38] UPSTREAM: block: add a rq_list type
-config: x86_64-randconfig-001-20260611 (https://download.01.org/0day-ci/archive/20260612/202606120634.reTH6NpH-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120634.reTH6NpH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
+commit: 0d64f6d1ffe96f59145481f7413344b1fa3ad1ce mfd: ls2kbmc: Introduce Loongson-2K BMC core driver
+date:   8 months ago
+config: riscv-randconfig-r123-20260611 (https://download.01.org/0day-ci/archive/20260612/202606120639.WG6eb8VU-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120639.WG6eb8VU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 0d64f6d1ffe9 ("mfd: ls2kbmc: Introduce Loongson-2K BMC core driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606120634.reTH6NpH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606120639.WG6eb8VU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mfd/ls2k-bmc-core.c:108:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char *mode @@     got void [noderef] __iomem * @@
+   drivers/mfd/ls2k-bmc-core.c:108:14: sparse:     expected char *mode
+   drivers/mfd/ls2k-bmc-core.c:108:14: sparse:     got void [noderef] __iomem *
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:352:9: note: previous definition is here
-     352 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   In file included from fs/nfs/nfs4trace.c:6:
->> include/linux/blkdev.h:1699:17: error: field has incomplete type 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                        ^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from fs/nfs/nfs4trace.c:7:
-   In file included from include/linux/nfs_fs.h:31:
-   In file included from include/linux/sunrpc/auth.h:13:
-   In file included from include/linux/sunrpc/sched.h:19:
-   include/linux/sunrpc/xdr.h:782:46: warning: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-     782 |         if (U32_MAX >= SIZE_MAX / sizeof(*p) && len > SIZE_MAX / sizeof(*p))
-         |                                                 ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
-   2 warnings and 1 error generated.
---
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:352:9: note: previous definition is here
-     352 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   In file included from include/linux/blk-mq.h:5:
->> include/linux/blkdev.h:1699:17: error: field has incomplete type 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                        ^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
->> include/linux/blk-mq.h:239:11: error: incomplete definition of type 'const struct rq_list'
-     239 |         return rl->head == NULL;
-         |                ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
->> include/linux/blk-mq.h:244:4: error: incomplete definition of type 'struct rq_list'
-     244 |         rl->head = NULL;
-         |         ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:245:4: error: incomplete definition of type 'struct rq_list'
-     245 |         rl->tail = NULL;
-         |         ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:251:8: error: incomplete definition of type 'struct rq_list'
-     251 |         if (rl->tail)
-         |             ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:252:5: error: incomplete definition of type 'struct rq_list'
-     252 |                 rl->tail->rq_next = rq;
-         |                 ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:254:5: error: incomplete definition of type 'struct rq_list'
-     254 |                 rl->head = rq;
-         |                 ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:255:4: error: incomplete definition of type 'struct rq_list'
-     255 |         rl->tail = rq;
-         |         ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:260:18: error: incomplete definition of type 'struct rq_list'
-     260 |         rq->rq_next = rl->head;
-         |                       ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:261:4: error: incomplete definition of type 'struct rq_list'
-     261 |         rl->head = rq;
-         |         ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:262:9: error: incomplete definition of type 'struct rq_list'
-     262 |         if (!rl->tail)
-         |              ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:263:5: error: incomplete definition of type 'struct rq_list'
-     263 |                 rl->tail = rq;
-         |                 ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:268:25: error: incomplete definition of type 'struct rq_list'
-     268 |         struct request *rq = rl->head;
-         |                              ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-    1699 |         struct rq_list req_list;
-         |                ^
-   In file included from drivers/pnp/resource.c:20:
-   In file included from include/linux/libata.h:21:
-   In file included from include/scsi/scsi_host.h:11:
-   include/linux/blk-mq.h:271:5: error: incomplete definition of type 'struct rq_list'
-     271 |                 rl->head = rl->head->rq_next;
+vim +108 drivers/mfd/ls2k-bmc-core.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-
-
-vim +1699 include/linux/blkdev.h
-
-  1697	
-  1698	struct io_comp_batch {
-> 1699		struct rq_list req_list;
-  1700		bool need_ts;
-  1701		void (*complete)(struct io_comp_batch *);
-  1702	};
-  1703	
+    97	
+    98	/*
+    99	 * Currently the Loongson-2K BMC hardware does not have an I2C interface to adapt to the
+   100	 * resolution. We set the resolution by presetting "video=1280x1024-16@2M" to the BMC memory.
+   101	 */
+   102	static int ls2k_bmc_parse_mode(struct pci_dev *pdev, struct simplefb_platform_data *pd)
+   103	{
+   104		char *mode;
+   105		int depth, ret;
+   106	
+   107		/* The last 16M of PCI BAR0 is used to store the resolution string. */
+ > 108		mode = devm_ioremap(&pdev->dev, pci_resource_start(pdev, 0) + SZ_16M, SZ_16M);
+   109		if (!mode)
+   110			return -ENOMEM;
+   111	
+   112		/* The resolution field starts with the flag "video=". */
+   113		if (!strncmp(mode, "video=", 6))
+   114			mode = mode + 6;
+   115	
+   116		ret = kstrtoint(strsep(&mode, "x"), 10, &pd->width);
+   117		if (ret)
+   118			return ret;
+   119	
+   120		ret = kstrtoint(strsep(&mode, "-"), 10, &pd->height);
+   121		if (ret)
+   122			return ret;
+   123	
+   124		ret = kstrtoint(strsep(&mode, "@"), 10, &depth);
+   125		if (ret)
+   126			return ret;
+   127	
+   128		pd->stride = pd->width * depth / 8;
+   129		pd->format = depth == 32 ? "a8r8g8b8" : "r5g6b5";
+   130	
+   131		return 0;
+   132	}
+   133	
 
 --
 0-DAY CI Kernel Test Service
