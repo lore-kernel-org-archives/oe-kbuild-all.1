@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C62425CC4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 16:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5F03FFAD1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 16:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781194751; cv=none; b=CpJ61ZH7ZwYRJefCk9ho9UrN1TEvCMTQvZIw7vbbv2ZwQlyyBlq9vfYLr2AiBh3oezNiyGowVCjRRu60w1Rfd7bNOqjf/cZYQZdKHNgqw4Z8qZV4LV8SqNkZ2vPD3Bh0NDqKyw5GtbzdRSbeAMCmtiQQ/+BmwguXQiXqqVkCYIs=
+	t=1781196674; cv=none; b=kIk5iUSGYTld2xRY2ufRvygpZ+HlPR0f4pyE3o+xHatvDlQFkMbXr3AOS91GpFKXIZZfM+wMOI9OqiS6zQNcpDtyDohA1d7JWS+Q47PCrArGRs57Z4/E6b3Qvf96fyfy/Cb4ERhITbj4f9AaogDCEwRggOoNChn1ayixy8v0ymU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781194751; c=relaxed/simple;
-	bh=+CxkmQJabNpri45oIxbUGHZHBBP4UmRrVT6Ei6Y9lI0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WG546lwVndrvmntbmibvfZHi4fVD/WOHvZWL7ALO4xmKGIlYV2FGAt+UmzcsfXgDt+woMTdTY/PTgNqG800Hd5iF2+tiW91264kWJC7XwawYC0361MH126SABCvxFj+5MC9Dd5om3Ic5/AD6vCO6uKq8gPEncwka0mHo8XjQQWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIujpiev; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1781196674; c=relaxed/simple;
+	bh=vGX3znduISjkLdtqc4z3UfjkYXiCx3K4zBmezI7jPGU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=U1xFkC8+gazIwiY5ewd3y+VCtYUg/5rV0bswBLLibFQKPgCTdMIj8EIHXikVaYCyzgAIDis757lhxU7L8VANInT46X1FurDWY4Jbz+9HiAI91gd6nyRZ+dGCcYh8Ydn2NFLuSO4/0CtOOnn7d76lVs/qgppYLgfvxtlEzkKrBo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aEBCF3L4; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIujpiev"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEBCF3L4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781194750; x=1812730750;
+  t=1781196673; x=1812732673;
   h=date:from:to:cc:subject:message-id;
-  bh=+CxkmQJabNpri45oIxbUGHZHBBP4UmRrVT6Ei6Y9lI0=;
-  b=QIujpievlhcp9k/vBLtkwHvZnRamDoKZWg5IzAhdPjb7pX95U7tDATSa
-   JB/RR3M6c0uIyhB8YsG3pIRl8E7k6IdKFpfNp0gvF2FFrbjX4nh7I75yW
-   xT693wAk+V0UU+JsOssDgcEscBlK6AncNtFfOXx5VSi/yK2C3Mz0f1IK1
-   arTLhjwAnjqfDN7Xxvnxa8i+YAlMaYstTl+rrMJvGsGLexvO45TjB3JqF
-   Gqx/39Yj++VNRWe0yLGvBn8XSps0Pz4iIz+SSj5qTJ4Eg30VNPQuNdjEK
-   +EqFbIrVdsBmPP/WF3o+DWPV/MKFWZNByzL7q/LNxUBTMPomFFz3I9rpO
-   g==;
-X-CSE-ConnectionGUID: rF26m0OfQYu8D4h5u/cTNw==
-X-CSE-MsgGUID: nelixYgSQfSLrDXBImrWWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92579344"
+  bh=vGX3znduISjkLdtqc4z3UfjkYXiCx3K4zBmezI7jPGU=;
+  b=aEBCF3L4M8//igS1Xd4bcoG0Bd31G2g2R2oTxOjphgXIIylc65myb+/r
+   15cuiZRqIz8fpdJVtTeb8VuyiUuLfV/7WIaj8ZIFz2UgekJ0IvoqzxDpt
+   HaYHDqVBXumb4FZZ9PDkViZ1pxRzVKYjnsGlezKQMvN06Jqpqfw0BkNGx
+   erA+sRZJDxktCOpvdTLGOOlkeLKMZqUxcKUwh7PGHKaYz/2h9ZCXX6Pzt
+   et/4xUTQbKfN/FGa4HVk2fRsqeS6TAhfj436YXQcL5QH9QfrnHHHbobIc
+   6D+CPgB2/E9X6uXF/91aRyL64Ufs/P5XA2zgWKxyy7nPOS7ppfNPg25lP
+   Q==;
+X-CSE-ConnectionGUID: IZAFpArTTS6bZIXI3Hobjg==
+X-CSE-MsgGUID: T6Rn1FjxQSOIui/5fDsBoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="93123904"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="92579344"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 09:19:06 -0700
-X-CSE-ConnectionGUID: nrGAadj3Qba7wD6e4w7yEA==
-X-CSE-MsgGUID: vta0o+oYSce6lLjd/FJ1gQ==
+   d="scan'208";a="93123904"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 09:51:11 -0700
+X-CSE-ConnectionGUID: DV1ZmrIxS1qqsxlK39YaSA==
+X-CSE-MsgGUID: 4ctlTyW6RbCmL0wi9HN6Rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="284617309"
+   d="scan'208";a="246416791"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jun 2026 09:19:05 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Jun 2026 09:51:09 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXi7S-00000000NSS-0yQ1;
-	Thu, 11 Jun 2026 16:19:02 +0000
-Date: Fri, 12 Jun 2026 00:18:29 +0800
+	id 1wXicU-00000000NW6-0OE1;
+	Thu, 11 Jun 2026 16:51:06 +0000
+Date: Fri, 12 Jun 2026 00:50:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Arun R Murthy <arun.r.murthy@intel.com>
-Subject: drivers/gpu/drm/i915/display/intel_lt_phy.c:246:35: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202606120029.ZTaxZGeL-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2025-08 1/1]
+ drivers/hwmon/occ/common.c:763:53: warning: diagnostic behavior may be
+ improved by adding the 'format(printf, 7, 8)' attribute to the declaration of
+ 'occ_init_attribute'
+Message-ID: <202606120022.L6q0k3sE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,35 +61,75 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
-commit: e1455196ada3ed892742b6b3459be7e6980a1590 drm/i915/ltphy: Read PHY_VDR_0_CONFIG register
-date:   7 months ago
-config: i386-randconfig-062-20260611 (https://download.01.org/0day-ci/archive/20260612/202606120029.ZTaxZGeL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120029.ZTaxZGeL-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-08
+head:   49b3b23c7424ea4f41e853f74c4ad0f19694eac2
+commit: bf41b962bd0e2659f741f82d404dbd165f3f5e3f [1/1] hwmon: (occ) Rework attribute registration for stack usage
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260612/202606120022.L6q0k3sE-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120022.L6q0k3sE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e1455196ada3 ("drm/i915/ltphy: Read PHY_VDR_0_CONFIG register")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606120029.ZTaxZGeL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606120022.L6q0k3sE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_lt_phy.c:246:35: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +246 drivers/gpu/drm/i915/display/intel_lt_phy.c
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:37:9: warning: '__SANITIZE_THREAD__' macro redefined [-Wmacro-redefined]
+      37 | #define __SANITIZE_THREAD__
+         |         ^
+   <built-in>:353:9: note: previous definition is here
+     353 | #define __SANITIZE_THREAD__ 1
+         |         ^
+>> drivers/hwmon/occ/common.c:763:53: warning: diagnostic behavior may be improved by adding the 'format(printf, 7, 8)' attribute to the declaration of 'occ_init_attribute' [-Wmissing-format-attribute]
+     754 | static void occ_init_attribute(struct occ_attribute *attr, int mode,
+         | __attribute__((format(printf, 7, 8))) 
+     755 |         ssize_t (*show)(struct device *dev, struct device_attribute *attr, char *buf),
+     756 |         ssize_t (*store)(struct device *dev, struct device_attribute *attr,
+     757 |                                    const char *buf, size_t count),
+     758 |         int nr, int index, const char *fmt, ...)
+     759 | {
+     760 |         va_list args;
+     761 | 
+     762 |         va_start(args, fmt);
+     763 |         vsnprintf(attr->name, sizeof(attr->name), fmt, args);
+         |                                                            ^
+   drivers/hwmon/occ/common.c:754:13: note: 'occ_init_attribute' declared here
+     754 | static void occ_init_attribute(struct occ_attribute *attr, int mode,
+         |             ^
+   2 warnings generated.
 
-   238	
-   239	void intel_lt_phy_pll_enable(struct intel_encoder *encoder,
-   240				     const struct intel_crtc_state *crtc_state)
-   241	{
-   242		struct intel_display *display = to_intel_display(encoder);
-   243		struct intel_digital_port *dig_port = enc_to_dig_port(encoder);
-   244		bool lane_reversal = dig_port->lane_reversal;
-   245		u8 owned_lane_mask = intel_lt_phy_get_owned_lane_mask(encoder);
- > 246		intel_wakeref_t wakeref = 0;
+
+vim +763 drivers/hwmon/occ/common.c
+
+   748	
+   749	/*
+   750	 * A helper to make it easier to define an occ_attribute. Since these
+   751	 * are dynamically allocated, we cannot use the existing kernel macros which
+   752	 * stringify the name argument.
+   753	 */
+   754	static void occ_init_attribute(struct occ_attribute *attr, int mode,
+   755		ssize_t (*show)(struct device *dev, struct device_attribute *attr, char *buf),
+   756		ssize_t (*store)(struct device *dev, struct device_attribute *attr,
+   757					   const char *buf, size_t count),
+   758		int nr, int index, const char *fmt, ...)
+   759	{
+   760		va_list args;
+   761	
+   762		va_start(args, fmt);
+ > 763		vsnprintf(attr->name, sizeof(attr->name), fmt, args);
+   764		va_end(args);
+   765	
+   766		attr->sensor.dev_attr.attr.name = attr->name;
+   767		attr->sensor.dev_attr.attr.mode = mode;
+   768		attr->sensor.dev_attr.show = show;
+   769		attr->sensor.dev_attr.store = store;
+   770		attr->sensor.index = index;
+   771		attr->sensor.nr = nr;
+   772	}
+   773	
 
 --
 0-DAY CI Kernel Test Service
