@@ -1,74 +1,108 @@
-Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E412EF4F1;
-	Thu, 11 Jun 2026 00:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6130155A5D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 00:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781137545; cv=none; b=V90MvqLifBkyVH/XDgs2Lv4UsDdvMHFxFTETtcnOKzO2mfGI6jKHVyUldwMdI5kK8rQc2GfEea+XmVRf99bOY01b3/bl7xAupB62yORw18GxS+vQXYBCneGqcAcPUlVvd6tFTEXDQD/ZV3/yc7v6KqeTeYspl7jKVwRdNX2htn4=
+	t=1781138091; cv=none; b=LkrAgmCMLYAO0YLszdYafG/twRVO8XUBPkLyFuajo+joWA3iZ6DA14IY7drYsO6dWtybH9v072fYAW3OmNSCBm6X8/Dw+7FsuAl17LbR8XBwCQSLvrsJDWFPVyyOarqCsiVqoI89jHwuhWmdubbwhiCzu1iXL2MEApUgza0aWGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781137545; c=relaxed/simple;
-	bh=gmZbWdzIEcJhXHIfN2s+kegfAO97qE7D0Lf2NkrabiU=;
+	s=arc-20240116; t=1781138091; c=relaxed/simple;
+	bh=aI/ROZWRw0NskZne5k3CKLPIBd0Bp8HOR6STgPUTeWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gu4RvuCZvDDOi7ZJCu6Hu7vLkfB8tK9AqqZLSaoUoNP2JaoMO0fQmhe64vC/qtr9jHWHu21uFpRA62i4SawMGZcnK+gwxa2QIZDQb6SedIhG3c0+c3gL7OyxdbL6c1CmPxy7HaOf+Zc4Ci/TWVxyz3j93Vqt4MJXyx1OvHcti14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=NZ3GNzI+; arc=none smtp.client-ip=217.70.190.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=MbUmlsLZB3QfRM95bOSGNeUNyIfFK5Yc8t6h2yFyHXK3VPqVuyCESxqEMCM5GU8dwCnTxDto6ps2ilAnhgscGJ09qV5yj6/wwJHE9ku4/5C0cDt9mTZIM7X+fYTP68kt9eLvUMolZ1m/yRyIB+CWr/Z4b9CLLQMWERzyZbrtt8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iY1/EHno; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="NZ3GNzI+"
-Received: from netfilter.org (mail-agni [217.70.190.124])
-	by mail.netfilter.org (Postfix) with UTF8SMTPSA id 9ACBE6017D;
-	Thu, 11 Jun 2026 02:25:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1781137541;
-	bh=s8O63YswwxlErLKBYDq/8shmH2Zn95OA1SzcTyboniE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NZ3GNzI+MMC/BcVRRmQQ3fHrd5yeeYnASvKbBLTLLJvE3kXdVVNbV68RF6+0VSRAJ
-	 jsX9dl2ae2qyhS4iRBBrfODBL5+qgxPWbK5oakjq9kmROPzTCOi5hBb/uDWrp6DJMC
-	 heulRZc+NOSfDdBoWv8hLaN/wz5D8swUbG6y5goutBgCDIrscPnCK/maauC8ERxSMf
-	 AKZKDaNEov4BkPcmCy+eY+dChotUGQm0RuCKKblQEuUpmU78l6JzuV8bYwZOVFhvx6
-	 8lX2wvyqfPuT9UWzdKGSh0/J0Lg9jgyOud7DDJz5R9kTByJe3dtGXYnOuCoAiXxhR5
-	 UQla0rSoiUjSA==
-Date: Thu, 11 Jun 2026 02:25:39 +0200
-From: Pablo Neira Ayuso <pablo@netfilter.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: net/netfilter/nfnetlink_cthelper.c:227:6: warning: variable
- 'ret' is used uninitialized whenever 'if' condition is true
-Message-ID: <aioAgw4VQVAL78nj@chamomile>
-References: <202606110148.Pn8XckYm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iY1/EHno"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781138088; x=1812674088;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aI/ROZWRw0NskZne5k3CKLPIBd0Bp8HOR6STgPUTeWk=;
+  b=iY1/EHnoWad3LG50CJcicpJKFZJ9Fb7bCVOz/fBCppJbmGWVGAz0utRA
+   VEWPfHNBn5Dq8BS6FPPB8elGJc0dxewtL58/DZvmeC5mGSB9qA4YFACMb
+   Y9pVu62VmdLcs63cQF5pcKrMA0eSWfuOpMxvclJMAo3DkfJzHMt4vwyBD
+   2EYgVVd+faeoEJjuXM7ZGpzEOi9ho0f5dEYTKTldmzsj0BKSwZrpUzTtk
+   gyQU7p7E+LD4/RwygEH7ak4mpkZJkJlHaBAPLXIcE1odLfqDNd3rWTFPF
+   0tNX5U7Q9JLHP+T9JMpOCLpq27KhFq/W2Ws1YbUgCpG8TVPcvNDYX20X8
+   g==;
+X-CSE-ConnectionGUID: lv3JqbwhRbmaiVJKnF3cjg==
+X-CSE-MsgGUID: n726lCLAS0OD9tL1fs1bMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82055049"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="82055049"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 17:34:47 -0700
+X-CSE-ConnectionGUID: WiLCKv0jS3O69icKjPZ5cA==
+X-CSE-MsgGUID: WomR+WCwQda5b8/OsTl+sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="270001861"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Jun 2026 17:34:45 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wXTNa-000000003tl-1Zud;
+	Thu, 11 Jun 2026 00:34:42 +0000
+Date: Thu, 11 Jun 2026 02:33:45 +0200
+From: kernel test robot <lkp@intel.com>
+To: Md Shofiqul Islam <shofiqtest@gmail.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, krzk@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Md Shofiqul Islam <shofiqtest@gmail.com>
+Subject: Re: [PATCH] dt-bindings: iio: accel: Convert lis302 binding to YAML
+ schema
+Message-ID: <202606110223.IxhtwJBI-lkp@intel.com>
+References: <20260610110051.1228-1-shofiqtest@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202606110148.Pn8XckYm-lkp@intel.com>
+In-Reply-To: <20260610110051.1228-1-shofiqtest@gmail.com>
 
-On Thu, Jun 11, 2026 at 01:32:48AM +0200, kernel test robot wrote:
-> vim +227 net/netfilter/nfnetlink_cthelper.c
-> 
->    209	
->    210	static int
->    211	nfnl_cthelper_create(const struct nlattr * const tb[],
->    212			     struct nf_conntrack_tuple *tuple)
->    213	{
->    214		struct nf_conntrack_helper *helper;
->    215		struct nfnl_cthelper *nfcth;
->    216		unsigned int size;
->    217		int ret;
->    218	
->    219		if (!tb[NFCTH_TUPLE] || !tb[NFCTH_POLICY] || !tb[NFCTH_PRIV_DATA_LEN])
->    220			return -EINVAL;
->    221	
->    222		nfcth = kzalloc_obj(*nfcth, GFP_KERNEL_ACCOUNT);
->    223		if (nfcth == NULL)
->    224			return -ENOMEM;
->    225	
->    226		helper = kzalloc_obj(*helper, GFP_KERNEL_ACCOUNT);
->  > 227		if (!helper)
->    228			goto err_cth;
+Hi Md,
 
-This seems to be running on an older patch.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v7.1-rc7 next-20260610]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Md-Shofiqul-Islam/dt-bindings-iio-accel-Convert-lis302-binding-to-YAML-schema/20260610-191419
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20260610110051.1228-1-shofiqtest%40gmail.com
+patch subject: [PATCH] dt-bindings: iio: accel: Convert lis302 binding to YAML schema
+config: microblaze-randconfig-2052-20260610 (https://download.01.org/0day-ci/archive/20260611/202606110223.IxhtwJBI-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 15.2.0
+dtschema: 2026.5.dev10+g5d839523d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606110223.IxhtwJBI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606110223.IxhtwJBI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: Duplicate compatible "st,lis302dl-spi" found in schemas matching "$id":
+   	http://devicetree.org/schemas/iio/accel/st,lis302dl.yaml
+   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+>> Warning: Duplicate compatible "st,lis3lv02d" found in schemas matching "$id":
+   	http://devicetree.org/schemas/iio/accel/st,lis302dl.yaml
+   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
