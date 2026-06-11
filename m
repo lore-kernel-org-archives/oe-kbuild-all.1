@@ -1,76 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B885D30D3F6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 10:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AD03CA4AD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 10:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781172426; cv=none; b=cAhSKmDecuJUz+XeRdxER0AWqscuex1k7idobtud/ye+tZH9FIR/oLQgBVAWDlNZI+QhHyGwteoyI/Exy6npG4W7UcVqy9t6Pf08sZp6YJ8w/aSD0mXjayBJtbd2tPDzHU0Noog3bZF5oUg+2wycDriCxZE73cfa+UErrxu5qKg=
+	t=1781172480; cv=none; b=Kiy040N2r6xF63RGPceSiBj/qxNaNYGWvJJ2Ti3h1v/FrzGLVGj0Pf9lii/vGTK3PCOhCUrxHbNixlDLDJu7q2VYD/3HXRDSw/5DIj+VaSf3G8D4BlFTzyQw2JP1q2fd/OIVCeLrNo8ZqNB9qQwX2zi4Dd+UMiyHefW6fOvPC3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781172426; c=relaxed/simple;
-	bh=/JgeMhi06GVbvpfsrq7AjkAs7zAws+cyVKPnDn4T9fw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ljAKzomDdHaGCqrdtiB9R88GVfEwRr2psyih27i34kTL3l4grOec8EuXNO2ZTmB+F3GUbXV68yJj2w4/awuXvjEF796/Hf/+lewK5Y1mC80Hvc9w2kcQGWdmr7yM0vdo80gTyBcyp5d19ZRSWlAJjiHE4/x1dKFsUHw3kH8LBOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DtoRpyw8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781172480; c=relaxed/simple;
+	bh=/wwjO4q9tWLS4eVK5eXn+mBKHzRemg4Mbm4bOBICbGk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=s4le368ePcTxm21KniRyP0L5ixSKDEAc1yrI4yubiQTaV6OHKkm3KgutbFGCM+Oa8wxRv9uG6Yzbhlu9iNVe4U8PhfmAdi9B9Pr9RJ5dE/R18frnbd+V9U/Ogf6vZQFH1YCPKKwlNghqYSr6NznvclObSIabs9Di2JdNg58SZiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UafvUtkv; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DtoRpyw8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E8B71F00898;
-	Thu, 11 Jun 2026 10:07:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781172425;
-	bh=3bTLPvs2Idsb+E798dSjJro/3/aXWkTYhTgPKJ+3EjQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DtoRpyw8BPe/6chcJNqN9N0MIElMF9Ypv4FcIFlwK4iD0MPfPYOw7ruoAKxmwJL0c
-	 c+3YaFo0Jnq/pk0N/oGE6iCnEJe15ndAr3MSMbMcpa3ARFbicJXFEZR5zRbzGBNuLM
-	 ii94DLxmOmzZB2BcPK+FAQ7pRViUNv7LpzjF/i3C9//dKguNkWH2GbyFi0XF4ShMOE
-	 ZMKqaEhUZ6Jgksuf/MtyfwQIrdoGVDRPzLWeMTnDrnj0HrFfmz4rZ7OvacXlpxxPUy
-	 iZjJQa8EyvUfpXm+S83taRdpV5C5HS98Wtb6hVvLYYZ9dKYo6VqdOdEjg3/uIS8kIk
-	 1RUhhh/PTp4Ww==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1wXcJT-00000001e5r-0QY5;
-	Thu, 11 Jun 2026 12:07:03 +0200
-Date: Thu, 11 Jun 2026 12:07:03 +0200
-From: Johan Hovold <johan@kernel.org>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UafvUtkv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781172480; x=1812708480;
+  h=date:from:to:cc:subject:message-id;
+  bh=/wwjO4q9tWLS4eVK5eXn+mBKHzRemg4Mbm4bOBICbGk=;
+  b=UafvUtkvOFJzA58+skD3eb0pLnPJ31YxpgFIS85AhOziTF99T3L4rAt9
+   ENx5jKDdvYt/3pztDqOz0g3+6vYaiiGdUu+tC9BUhrVvQ2lmRWtin2Ciu
+   m76GmxlyDlA5335p73nBDBSqogDMjTQg/WMQ75mgIODJ4QJL3qQgQbtDk
+   U2ug2iNo2CmDukg3iKu6z/L+ly79/2FECju2ZN7I9R70SkvoUmv2W6wnh
+   CZJ8yQyCvmltEaU407RlnRNa95pjiXzzYsq0KcicO3OMvBDx60kT2YNhK
+   0PPahyCFKr0P93YMh76JzrOrRlyTjribPFRaMyMz+qUli9pzCzT3SDYbz
+   w==;
+X-CSE-ConnectionGUID: n54+bvy8TaWNEWPw8R26ZQ==
+X-CSE-MsgGUID: dyIcZMKgT2ujEwQ+UFvrlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81961792"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="81961792"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 03:08:00 -0700
+X-CSE-ConnectionGUID: oCImdu7zRUScV1NXRUBU2A==
+X-CSE-MsgGUID: s9KqaKDmR86S+8wQUMf0FA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="246459578"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 11 Jun 2026 03:07:58 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wXcKJ-00000000Mkc-1eF2;
+	Thu, 11 Jun 2026 10:07:55 +0000
+Date: Thu, 11 Jun 2026 18:07:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Johan Hovold <johan@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, Ulf Hansson <ulfh@kernel.org>
-Subject: Re: [ulfh-pm:next 12/12] drivers/pmdomain/core.c:36:23: warning:
- 'genpd_provider_bus' defined but not used
-Message-ID: <aiqIx_ayahpHI_oF@hovoldconsulting.com>
-References: <202606111746.kAxaAbwg-lkp@intel.com>
+Subject: [ulfh-pm:next 12/12] drivers/pmdomain/core.c:36:23: warning:
+ unused variable 'genpd_provider_bus'
+Message-ID: <202606111737.obDDO7J9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202606111746.kAxaAbwg-lkp@intel.com>
 
-On Thu, Jun 11, 2026 at 05:36:21PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git next
-> head:   ea1ca762328194de780a8e92df0b2e41bf6eeed2
-> commit: ea1ca762328194de780a8e92df0b2e41bf6eeed2 [12/12] pmdomain: fix early domain registration
-> config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260611/202606111746.kAxaAbwg-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111746.kAxaAbwg-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606111746.kAxaAbwg-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/pmdomain/core.c:36:23: warning: 'genpd_provider_bus' defined but not used [-Wunused-variable]
->       36 | static struct device *genpd_provider_bus;
->          |                       ^~~~~~~~~~~~~~~~~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git next
+head:   ea1ca762328194de780a8e92df0b2e41bf6eeed2
+commit: ea1ca762328194de780a8e92df0b2e41bf6eeed2 [12/12] pmdomain: fix early domain registration
+config: x86_64-randconfig-161-20260611 (https://download.01.org/0day-ci/archive/20260611/202606111737.obDDO7J9-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111737.obDDO7J9-lkp@intel.com/reproduce)
 
-Bah. Apparently the only users of the bus are under
-CONFIG_PM_GENERIC_DOMAINS_OF so this one either needs to be marked
-__maybe_unsed or be moved inside the ifdef.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606111737.obDDO7J9-lkp@intel.com/
 
-I'll send a follow-up fix.
+All warnings (new ones prefixed by >>):
 
-Johan
+>> drivers/pmdomain/core.c:36:23: warning: unused variable 'genpd_provider_bus' [-Wunused-variable]
+      36 | static struct device *genpd_provider_bus;
+         |                       ^~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/genpd_provider_bus +36 drivers/pmdomain/core.c
+
+31cb75077003ac Ulf Hansson  2025-07-01  34  
+31cb75077003ac Ulf Hansson  2025-07-01  35  /* The parent for genpd_provider devices. */
+a96e40f4afdcb5 Johan Hovold 2026-04-24 @36  static struct device *genpd_provider_bus;
+31cb75077003ac Ulf Hansson  2025-07-01  37  
+
+:::::: The code at line 36 was first introduced by commit
+:::::: a96e40f4afdcb52a9c97a5465c964e010734d105 pmdomain: core: switch to dynamic root device
+
+:::::: TO: Johan Hovold <johan@kernel.org>
+:::::: CC: Ulf Hansson <ulfh@kernel.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
