@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4B73DC4D8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76C62FFFBE
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 15:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781190119; cv=none; b=Uk4ppC3qgaIwBc5AyBCUGUK7cPXEltJo9QfspAkY9nMwIK2GG/pXp+MIvJqJSTsxduFcUOhY1vUEySeC1iQ76lAA65GMm0LX+8oMVfsSPmXmDPgYJV3+b2hOPgyS1jIWouetdD2f4UY2I5YhKdv5f8Dymsjn7HsPC9kkiZ73GPg=
+	t=1781190120; cv=none; b=IexePeSFo3dbscsgNXwkRFa8IA8v0Jd+Esz01JEFZnVWlylQ3rqTC6K5jhOLZ1aOycG/3R+8t62q5BZVjK4rj6qRRFnDtaK8zN++09uzuPu8re91V4KF+nyaDz3sNagZmnmRkF88uZwhXDmj44pnTPSW414FXLtWNSVm5mDSH/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781190119; c=relaxed/simple;
-	bh=w21MAMB5B9VWnSaVa16+gjlLy84MizA8ZOov5d6RH88=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cJn12Jrdw+VDnSReWrmbiptC8DAkqaEwSNUZbqdLsM9u/SjfJP1xiF9UQyIuSDHxUNepFsefTnC1IYgrtLLNOyoae166Rc1o95LBW6wa5HkD8BcLtTZjTpKf74HZ48nxToe1yMEHru/3rZMNPxvsuOPW1ktzrnH8EBZh7Nc15Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Or2aGX3w; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1781190120; c=relaxed/simple;
+	bh=WhDdyfO9V2vc5ed6PjhIp/giXaP58ZicnhpNqXakVVg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iWF5yDIDmxqarAbWxxry/Sk9raNT0IRYWBeZJyhNN0B39qIzBeLQlnAGxCDd4FPM445937imceUXygNAsx9VdmcuBtUzG3OcTWGG9HXj5sIXYIdYQqyWfKnPd1hXBeRMalxzxF6fyNx0UCYR5sxf7+uLhXpvaCrcgUqvypOZTAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvBKxX4B; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Or2aGX3w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvBKxX4B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1781190119; x=1812726119;
   h=date:from:to:cc:subject:message-id;
-  bh=w21MAMB5B9VWnSaVa16+gjlLy84MizA8ZOov5d6RH88=;
-  b=Or2aGX3wstFZvco3AKlZKw2XTjykkrFkcj9oElrVtXJMlMVYkCahJzWh
-   gn+q0wAjWDAysmy7JY/9+mFLDa4fEB4Xo9ESiLtTGrFvTXxyRF/ag92qV
-   2TxHCVxH+NG4YTVFl1SwYUkXrivYgybf662yuks0mTY5GZNPuhqnKWz6B
-   jg8eRJ6apEsNGBmvWkY/UvzSFWqBUiDyl5euNt2hGB6Hrx8ZVEliYK4Qb
-   CI1jQI1VFp9EamP3w6usrd2fkApKd7syPp52JUYCZ4FRTeLU3Q4U/sChV
-   nPkesrV07vrw2q9ozH46p3nX3E5RV3WgPzc2C3yZxzDLTyO8WoShknYAf
+  bh=WhDdyfO9V2vc5ed6PjhIp/giXaP58ZicnhpNqXakVVg=;
+  b=mvBKxX4B0fofOEOSnOvO04VmIXiJOUyrBCdCeTOk2AbnwDUKYIAtGUr2
+   gHyf/Zqb4RDyRNnfwfFdT+c2FeClLEU5YMrBhfdthgdZTz1Q6NEVXgvgS
+   UxsrDMHx7wdEvH0mQ9jmlUzBPaCQMR/7IxlKIskidm00Zg5OWQoFHNiSl
+   9i6KFMOqBd4b1Gbwjp1Xs5AVsepa6YzJSLQN9+aueVNNDxHh5lfY1XK+u
+   clT7/YnJyKFzcLoC9rXEDqQ/T3kA4FQcPkeey8uE0Bcx2E1qdmUZUmtFh
+   YJWtk5Np8EJLKwnt6p+ahOxtNcpOLyPwhh9VswO9X62tb7c5FucMBrVSZ
    w==;
-X-CSE-ConnectionGUID: nXzsUFmFRTetKj81GizM2Q==
-X-CSE-MsgGUID: 2FqaBxcrT7yGraJYH5opBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="69550109"
+X-CSE-ConnectionGUID: nYb73WPgS0ag2fe1qxt0Hg==
+X-CSE-MsgGUID: qd8SOwgZRnOtJT0VNsbWfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="69550108"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="69550109"
+   d="scan'208";a="69550108"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 08:01:50 -0700
-X-CSE-ConnectionGUID: yRvuZEUzTRKQUZz5mvU/uw==
-X-CSE-MsgGUID: pCQ1fuoMS6CPj9MGAsVDyg==
+X-CSE-ConnectionGUID: kFzSI1YpS2yKbzlbMULnlw==
+X-CSE-MsgGUID: 2iSpzF41S/qRGbUx7YnnbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="251593188"
+   d="scan'208";a="251593187"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 11 Jun 2026 08:01:47 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXguf-00000000NHC-1qIo;
+	id 1wXguf-00000000NHA-1fFv;
 	Thu, 11 Jun 2026 15:01:45 +0000
-Date: Thu, 11 Jun 2026 23:01:14 +0800
+Date: Thu, 11 Jun 2026 23:01:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: kernel/futex/core.c:505:51: sparse: sparse: incorrect type
- in initializer (different address spaces)
-Message-ID: <202606112255.eBHGZxFs-lkp@intel.com>
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Badal Nilawar <badal.nilawar@intel.com>
+Subject: drivers/misc/mei/mei_lb.c:284:32: sparse: sparse: restricted
+ __le32 degrades to integer
+Message-ID: <202606112254.vpmfzsUj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,269 +63,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
-commit: cec199c5e39bde7191a08087cc3d002ccfab31ff futex: Implement FUTEX2_NUMA
-date:   1 year, 1 month ago
-config: x86_64-randconfig-123-20260610 (https://download.01.org/0day-ci/archive/20260611/202606112255.eBHGZxFs-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+commit: 773a43b8627f54dca56d08949497014b4ee8878a mei: lb: add late binding version 2
+date:   9 weeks ago
+config: sparc-randconfig-r112-20260611 (https://download.01.org/0day-ci/archive/20260611/202606112254.vpmfzsUj-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 16.1.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606112255.eBHGZxFs-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606112254.vpmfzsUj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: cec199c5e39b ("futex: Implement FUTEX2_NUMA")
+| Fixes: 773a43b8627f ("mei: lb: add late binding version 2")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606112255.eBHGZxFs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606112254.vpmfzsUj-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/futex/core.c:505:38: sparse: sparse: cast removes address space '__user' of expression
->> kernel/futex/core.c:505:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *naddr @@     got void * @@
-   kernel/futex/core.c:505:51: sparse:     expected unsigned int [noderef] [usertype] __user *naddr
-   kernel/futex/core.c:505:51: sparse:     got void *
-   kernel/futex/core.c:894:9: sparse: sparse: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
+>> drivers/misc/mei/mei_lb.c:284:32: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/misc/mei/mei_lb.c:330:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] command_id @@     got int @@
+   drivers/misc/mei/mei_lb.c:330:40: sparse:     expected restricted __le32 [usertype] command_id
+   drivers/misc/mei/mei_lb.c:330:40: sparse:     got int
 
-vim +505 kernel/futex/core.c
+vim +284 drivers/misc/mei/mei_lb.c
 
-   446	
-   447	/**
-   448	 * get_futex_key() - Get parameters which are the keys for a futex
-   449	 * @uaddr:	virtual address of the futex
-   450	 * @flags:	FLAGS_*
-   451	 * @key:	address where result is stored.
-   452	 * @rw:		mapping needs to be read/write (values: FUTEX_READ,
-   453	 *              FUTEX_WRITE)
-   454	 *
-   455	 * Return: a negative error code or 0
-   456	 *
-   457	 * The key words are stored in @key on success.
-   458	 *
-   459	 * For shared mappings (when @fshared), the key is:
-   460	 *
-   461	 *   ( inode->i_sequence, page->index, offset_within_page )
-   462	 *
-   463	 * [ also see get_inode_sequence_number() ]
-   464	 *
-   465	 * For private mappings (or when !@fshared), the key is:
-   466	 *
-   467	 *   ( current->mm, address, 0 )
-   468	 *
-   469	 * This allows (cross process, where applicable) identification of the futex
-   470	 * without keeping the page pinned for the duration of the FUTEX_WAIT.
-   471	 *
-   472	 * lock_page() might sleep, the caller should not hold a spinlock.
-   473	 */
-   474	int get_futex_key(u32 __user *uaddr, unsigned int flags, union futex_key *key,
-   475			  enum futex_access rw)
-   476	{
-   477		unsigned long address = (unsigned long)uaddr;
-   478		struct mm_struct *mm = current->mm;
-   479		struct page *page;
-   480		struct folio *folio;
-   481		struct address_space *mapping;
-   482		int node, err, size, ro = 0;
-   483		bool fshared;
-   484	
-   485		fshared = flags & FLAGS_SHARED;
-   486		size = futex_size(flags);
-   487		if (flags & FLAGS_NUMA)
-   488			size *= 2;
-   489	
-   490		/*
-   491		 * The futex address must be "naturally" aligned.
-   492		 */
-   493		key->both.offset = address % PAGE_SIZE;
-   494		if (unlikely((address % size) != 0))
-   495			return -EINVAL;
-   496		address -= key->both.offset;
-   497	
-   498		if (unlikely(!access_ok(uaddr, size)))
-   499			return -EFAULT;
-   500	
-   501		if (unlikely(should_fail_futex(fshared)))
-   502			return -EFAULT;
-   503	
-   504		if (flags & FLAGS_NUMA) {
- > 505			u32 __user *naddr = (void *)uaddr + size / 2;
-   506	
-   507			if (futex_get_value(&node, naddr))
-   508				return -EFAULT;
-   509	
-   510			if (node == FUTEX_NO_NODE) {
-   511				node = numa_node_id();
-   512				if (futex_put_value(node, naddr))
-   513					return -EFAULT;
-   514	
-   515			} else if (node >= MAX_NUMNODES || !node_possible(node)) {
-   516				return -EINVAL;
-   517			}
-   518	
-   519			key->both.node = node;
-   520	
-   521		} else {
-   522			key->both.node = FUTEX_NO_NODE;
-   523		}
-   524	
-   525		/*
-   526		 * PROCESS_PRIVATE futexes are fast.
-   527		 * As the mm cannot disappear under us and the 'key' only needs
-   528		 * virtual address, we dont even have to find the underlying vma.
-   529		 * Note : We do have to check 'uaddr' is a valid user address,
-   530		 *        but access_ok() should be faster than find_vma()
-   531		 */
-   532		if (!fshared) {
-   533			/*
-   534			 * On no-MMU, shared futexes are treated as private, therefore
-   535			 * we must not include the current process in the key. Since
-   536			 * there is only one address space, the address is a unique key
-   537			 * on its own.
-   538			 */
-   539			if (IS_ENABLED(CONFIG_MMU))
-   540				key->private.mm = mm;
-   541			else
-   542				key->private.mm = NULL;
-   543	
-   544			key->private.address = address;
-   545			return 0;
-   546		}
-   547	
-   548	again:
-   549		/* Ignore any VERIFY_READ mapping (futex common case) */
-   550		if (unlikely(should_fail_futex(true)))
-   551			return -EFAULT;
-   552	
-   553		err = get_user_pages_fast(address, 1, FOLL_WRITE, &page);
-   554		/*
-   555		 * If write access is not required (eg. FUTEX_WAIT), try
-   556		 * and get read-only access.
-   557		 */
-   558		if (err == -EFAULT && rw == FUTEX_READ) {
-   559			err = get_user_pages_fast(address, 1, 0, &page);
-   560			ro = 1;
-   561		}
-   562		if (err < 0)
-   563			return err;
-   564		else
-   565			err = 0;
-   566	
-   567		/*
-   568		 * The treatment of mapping from this point on is critical. The folio
-   569		 * lock protects many things but in this context the folio lock
-   570		 * stabilizes mapping, prevents inode freeing in the shared
-   571		 * file-backed region case and guards against movement to swap cache.
-   572		 *
-   573		 * Strictly speaking the folio lock is not needed in all cases being
-   574		 * considered here and folio lock forces unnecessarily serialization.
-   575		 * From this point on, mapping will be re-verified if necessary and
-   576		 * folio lock will be acquired only if it is unavoidable
-   577		 *
-   578		 * Mapping checks require the folio so it is looked up now. For
-   579		 * anonymous pages, it does not matter if the folio is split
-   580		 * in the future as the key is based on the address. For
-   581		 * filesystem-backed pages, the precise page is required as the
-   582		 * index of the page determines the key.
-   583		 */
-   584		folio = page_folio(page);
-   585		mapping = READ_ONCE(folio->mapping);
-   586	
-   587		/*
-   588		 * If folio->mapping is NULL, then it cannot be an anonymous
-   589		 * page; but it might be the ZERO_PAGE or in the gate area or
-   590		 * in a special mapping (all cases which we are happy to fail);
-   591		 * or it may have been a good file page when get_user_pages_fast
-   592		 * found it, but truncated or holepunched or subjected to
-   593		 * invalidate_complete_page2 before we got the folio lock (also
-   594		 * cases which we are happy to fail).  And we hold a reference,
-   595		 * so refcount care in invalidate_inode_page's remove_mapping
-   596		 * prevents drop_caches from setting mapping to NULL beneath us.
-   597		 *
-   598		 * The case we do have to guard against is when memory pressure made
-   599		 * shmem_writepage move it from filecache to swapcache beneath us:
-   600		 * an unlikely race, but we do need to retry for folio->mapping.
-   601		 */
-   602		if (unlikely(!mapping)) {
-   603			int shmem_swizzled;
-   604	
-   605			/*
-   606			 * Folio lock is required to identify which special case above
-   607			 * applies. If this is really a shmem page then the folio lock
-   608			 * will prevent unexpected transitions.
-   609			 */
-   610			folio_lock(folio);
-   611			shmem_swizzled = folio_test_swapcache(folio) || folio->mapping;
-   612			folio_unlock(folio);
-   613			folio_put(folio);
-   614	
-   615			if (shmem_swizzled)
-   616				goto again;
-   617	
-   618			return -EFAULT;
-   619		}
-   620	
-   621		/*
-   622		 * Private mappings are handled in a simple way.
-   623		 *
-   624		 * If the futex key is stored in anonymous memory, then the associated
-   625		 * object is the mm which is implicitly pinned by the calling process.
-   626		 *
-   627		 * NOTE: When userspace waits on a MAP_SHARED mapping, even if
-   628		 * it's a read-only handle, it's expected that futexes attach to
-   629		 * the object not the particular process.
-   630		 */
-   631		if (folio_test_anon(folio)) {
-   632			/*
-   633			 * A RO anonymous page will never change and thus doesn't make
-   634			 * sense for futex operations.
-   635			 */
-   636			if (unlikely(should_fail_futex(true)) || ro) {
-   637				err = -EFAULT;
-   638				goto out;
-   639			}
-   640	
-   641			key->both.offset |= FUT_OFF_MMSHARED; /* ref taken on mm */
-   642			key->private.mm = mm;
-   643			key->private.address = address;
-   644	
-   645		} else {
-   646			struct inode *inode;
-   647	
-   648			/*
-   649			 * The associated futex object in this case is the inode and
-   650			 * the folio->mapping must be traversed. Ordinarily this should
-   651			 * be stabilised under folio lock but it's not strictly
-   652			 * necessary in this case as we just want to pin the inode, not
-   653			 * update i_pages or anything like that.
-   654			 *
-   655			 * The RCU read lock is taken as the inode is finally freed
-   656			 * under RCU. If the mapping still matches expectations then the
-   657			 * mapping->host can be safely accessed as being a valid inode.
-   658			 */
-   659			rcu_read_lock();
-   660	
-   661			if (READ_ONCE(folio->mapping) != mapping) {
-   662				rcu_read_unlock();
-   663				folio_put(folio);
-   664	
-   665				goto again;
-   666			}
-   667	
-   668			inode = READ_ONCE(mapping->host);
-   669			if (!inode) {
-   670				rcu_read_unlock();
-   671				folio_put(folio);
-   672	
-   673				goto again;
-   674			}
-   675	
-   676			key->both.offset |= FUT_OFF_INODE; /* inode-based key */
-   677			key->shared.i_seq = get_inode_sequence_number(inode);
-   678			key->shared.pgoff = page_pgoff(folio, page);
-   679			rcu_read_unlock();
-   680		}
-   681	
-   682	out:
-   683		folio_put(folio);
-   684		return err;
-   685	}
-   686	
+   269	
+   270	static int mei_lb_check_response_v2(const struct device *dev, ssize_t bytes,
+   271					    struct mei_lb2_rsp *rsp)
+   272	{
+   273		/*
+   274		 * Received message size may be smaller than the full message size when
+   275		 * reply contains only header with status field set to the error code.
+   276		 * Check the header size and content first to output exact error, if needed,
+   277		 * and then process to the whole message.
+   278		 */
+   279		if (bytes < sizeof(rsp->rheader)) {
+   280			dev_err(dev, "Received less than header size from the firmware: %zd < %zu\n",
+   281				bytes, sizeof(rsp->rheader));
+   282			return -ENOMSG;
+   283		}
+ > 284		if (rsp->rheader.header.command_id != MEI_LB2_CMD) {
+   285			dev_err(dev, "Mismatch command: 0x%x instead of 0x%x\n",
+   286				rsp->rheader.header.command_id, MEI_LB2_CMD);
+   287			return -EPROTO;
+   288		}
+   289		if (!(rsp->rheader.header.flags & MEI_LB2_HDR_FLAG_RSP)) {
+   290			dev_err(dev, "Not a response: 0x%x\n", rsp->rheader.header.flags);
+   291			return -EBADMSG;
+   292		}
+   293		if (rsp->rheader.status) {
+   294			dev_err(dev, "Error in result: 0x%x\n", rsp->rheader.status);
+   295			return (int)le32_to_cpu(rsp->rheader.status);
+   296		}
+   297		if (bytes < sizeof(*rsp)) {
+   298			dev_err(dev, "Received less than message size from the firmware: %zd < %zu\n",
+   299				bytes, sizeof(*rsp));
+   300			return -ENODATA;
+   301		}
+   302	
+   303		return 0;
+   304	}
+   305	
+   306	static int mei_lb_push_payload_v2(struct device *dev, struct mei_cl_device *cldev,
+   307					  u32 type, u32 flags, const void *payload, size_t payload_size)
+   308	{
+   309		u32 first_chunk, last_chunk;
+   310		struct mei_lb2_rsp rsp;
+   311		size_t sent_data = 0;
+   312		size_t chunk_size;
+   313		size_t req_size;
+   314		ssize_t bytes;
+   315		int ret;
+   316	
+   317		struct mei_lb2_req *req __free(kfree) = kzalloc(mei_cldev_mtu(cldev), GFP_KERNEL);
+   318		if (!req)
+   319			return -ENOMEM;
+   320	
+   321		first_chunk = MEI_LB2_FLAG_FST_CHUNK;
+   322		last_chunk = 0;
+   323		do {
+   324			chunk_size = min(payload_size - sent_data, mei_cldev_mtu(cldev) - sizeof(*req));
+   325	
+   326			req_size = struct_size(req, payload, chunk_size);
+   327			if (sent_data + chunk_size == payload_size)
+   328				last_chunk = MEI_LB2_FLAG_LST_CHUNK;
+   329	
+ > 330			req->header.command_id = MEI_LB2_CMD;
+   331			req->type = cpu_to_le32(type);
+   332			req->flags = cpu_to_le32(flags | first_chunk | last_chunk);
+   333			req->reserved = 0;
+   334			req->total_payload_size = cpu_to_le32(payload_size);
+   335			req->payload_size = cpu_to_le32(chunk_size);
+   336			memcpy(req->payload, payload + sent_data, chunk_size);
+   337	
+   338			dev_dbg(dev, "Sending %zu bytes from offset %zu of %zu%s%s\n",
+   339				chunk_size, sent_data, payload_size,
+   340				first_chunk ? " first" : "", last_chunk ? " last" : "");
+   341	
+   342			bytes = mei_cldev_send_timeout(cldev, (u8 *)req, req_size,
+   343						       INTEL_LB_SEND_TIMEOUT_MSEC);
+   344			if (bytes < 0) {
+   345				dev_err(dev, "Failed to send late binding request to firmware. %zd\n",
+   346					bytes);
+   347				return bytes;
+   348			}
+   349	
+   350			bytes = mei_cldev_recv_timeout(cldev, (u8 *)&rsp, sizeof(rsp),
+   351						       INTEL_LB_RECV_TIMEOUT_MSEC);
+   352			if (bytes < 0) {
+   353				dev_err(dev, "Failed to receive late binding reply from firmware. %zd\n",
+   354					bytes);
+   355				return bytes;
+   356			}
+   357			ret = mei_lb_check_response_v2(dev, bytes, &rsp);
+   358			if (ret)
+   359				return ret;
+   360	
+   361			/* prepare for the next chunk */
+   362			sent_data += chunk_size;
+   363			first_chunk = 0;
+   364		} while (!last_chunk);
+   365	
+   366		return 0;
+   367	}
+   368	
 
 --
 0-DAY CI Kernel Test Service
