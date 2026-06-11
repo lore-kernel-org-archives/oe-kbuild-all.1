@@ -1,453 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F3F10785
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 17:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781199057; cv=none; b=gnsI0pJC2b7fafHJLFA60xtOdXWMSmTmfDknJPSvZNCdvM6rBRVXgj7y54vp7TN3D5vHNeHkU+s3VUPt/wy50cqtzmKrMVEH64nNmD/0ie8d4Er40uppdxSPLTaRj8GclJ6aSdSclPG684WJuCSEjlsx3fRa977qAtUydyABTQw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781199057; c=relaxed/simple;
-	bh=/kAdYfEDHCB2zsOMD22DqA7RRHR+RUWjlPc4wIQ1Gcs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eGTGj3GzbaizcjcY3rbSeF3Wyn0FSiPpBioPdCbEs+iJOOyIxl7H4VFPCgnxcrYvCSBXrkDWtmOrQbrx2X16S8aUsGYOktG45p6EgNUkHjByyxZzUwD77z4s6qpsTGBNGC4dLoCu+FxYHT8BkCwoyoSe3jBmzzfZNedk+ObjHLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PvcOFST+; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0697E3803FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 17:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781199727; cv=fail; b=figyXrdRMNuOym9CSqRDsJvn3aW9/Pg1qK9denLQs6Gon8EMG2AgRO++ijOOXy94/HOog2iRlgtE/uiT9gcXC5c6HJaHq90qD4Y2zdnsOfNJfZxVkOU+kTh6t1qfi9I5M6oGhsugasF2nQTv8CaFxL+lhT1WSBryAQocxdTaiMk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781199727; c=relaxed/simple;
+	bh=a1iOhmk13AzQeb10WuuRofq+1s6QfyOl7WA171UGveA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=FH7rgfuj5FK3qL3j9vDmQ9Ha7q8Sfh0FNW3g3h0/OEljIEGgWh4Xa6GTPTf4Go5iO7lXyiIC97gveAQhHl3B7fQaIRopcMV6Kf0G9i7YlvDjgO/81FCoZefHXQOvjKXKpYo+XAFGK2JjpgIFYZdpbQ0ZmCOMPw4dA4vyssOaZi8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kxr++Yc4; arc=fail smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PvcOFST+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kxr++Yc4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781199056; x=1812735056;
-  h=date:from:to:cc:subject:message-id;
-  bh=/kAdYfEDHCB2zsOMD22DqA7RRHR+RUWjlPc4wIQ1Gcs=;
-  b=PvcOFST+JcPCSfqO/bd04BZ1882y32Xha6JMZfT5mQq7CX7+sBy1rOQJ
-   DxpM/CUyOyighVMPl7BzfaD+hNlUqc15MiW0D6Db1Wz5h9tlbrTwiwGvl
-   0CGTWprBmRyzJXbkz2BlQnnO/KmW1Vdk1Udm+ep/ryKY9njCqcWZg9jTs
-   UFSvkfw1ZCmljHSL1oK32NWYRb3pTAkI8TZGms29Y2RMu9Dn0LDYBarUo
-   KynFInxbdwEWtKu2dSy2qZeeyla92BRkZDj90XcvnD3goiTaerx6eMz+r
-   ajEk0Z1eh+RsS84ERsVp0wZxhzgiaaw51K/nUtz1VaDwKVFyAtcOsj1gi
-   A==;
-X-CSE-ConnectionGUID: x/Qt8aHaT5GfiWDpa/bHHA==
-X-CSE-MsgGUID: DwZ350HKT/mJjVrytJYkdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81761643"
+  t=1781199726; x=1812735726;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=a1iOhmk13AzQeb10WuuRofq+1s6QfyOl7WA171UGveA=;
+  b=Kxr++Yc41TAXJ1WaoRu/tVRAqR7raoBn9Pjbl5MWFR83MRCKwg/qVbfB
+   dBs/iitBtykp5GEJEvcf36sDfT5mD4wJ4JklVJNcNlMmYMlGIenYdMJ0I
+   BQKpz+JAyrQ5f7J3Bti4K4fEmcJkPwBRcua8f46X5tIS7RdUa3BRuwSUT
+   tJkO7KkRJTXhw9LU+7Y9slxNAomWYqLH0ScGMt93NIzJQy67LQnNTB5lE
+   qtg6Q6ocGc3O5hJlXGirdfdl59uAoXR7g3rri+hsbCNny7zTDc9Qj09xY
+   eL8jnE2wJd0GOFbnUe461+3/y2IK10KnmbCNtNZNSRg0/arEhYoOaUtkm
+   Q==;
+X-CSE-ConnectionGUID: GDsJ0fsUTw2Z4fypvyZfTQ==
+X-CSE-MsgGUID: Q+EWxztQR8+QM36kZ0QUqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="107457078"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="81761643"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 10:30:56 -0700
-X-CSE-ConnectionGUID: sDLr5HUlSc26e4h3AL49Ew==
-X-CSE-MsgGUID: rua16qRiRsu97QNPZar2jQ==
+   d="scan'208";a="107457078"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 10:42:05 -0700
+X-CSE-ConnectionGUID: 06lTN4r5TQePuVHV6wdXUg==
+X-CSE-MsgGUID: M6AtAX7FTr2oJHwxZXAeZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="240213799"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 11 Jun 2026 10:30:54 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXjEx-0000000043p-3ljA;
-	Thu, 11 Jun 2026 17:30:51 +0000
-Date: Thu, 11 Jun 2026 19:29:59 +0200
-From: kernel test robot <lkp@intel.com>
-To: Ronald Claveau <linux-kernel-dev@aliel.fr>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rclaveau:b4/add-adla_npu-t7-vim4 3/3] checkpatch:
- ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-Message-ID: <202606111959.OtHEJ5y3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+   d="scan'208";a="243613502"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 10:42:05 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 11 Jun 2026 10:42:04 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 11 Jun 2026 10:42:04 -0700
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.64) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 11 Jun 2026 10:42:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qUT69ag45RvoJdPsCCMrQOTOTHRl7gHJ3Ki5TN3uVaunc/vDWrSuI6WI2aeef172GbG5/V/w6On/ewdCxnw9eQf0Q9CsuegIRuHERCRwRQ8/wsZje4fDj4LqhPfz50ig9XlaRXocTMymX3Fz7cQ/XOJ4o0v1JQOzPBx+xyUDEfbSEQ7hsmI8a3dXUuAqRGUEhvLNfdN4361AD+GDbHU2wPriVsqEfQQVk0GoAIk2XgtCH8tSmSD4DOyEwWggxCxolobyTZz0us0sQFcExEu7QlGXWf0D/RQ+5PbST5ZH+JnkmMa+QfxyC80udy9wHWp9HXkRMvCQmwcLtf6txz41cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xra1C/ZV+b7tdCh7Fk8PXB9DdcLkcfetTGjDlgLHois=;
+ b=t5IURfw9xBuU8fEKo1CqB4geltYOl/M4Br1V9JocDy1n7xGg6ciE3FwJkLtHL8lN7fCTQiIQnCV2HoJBQQCSI3Ymt7L0oQoLEfiFQBuEkpynvk44gGXUCgc/1n3a+Oy/NUgiyzwgoAuHzs3gzVTrVaMT3SMJohTK+0ivBMrup382PdM9Ra3FbXQPRl/pKWK7clJv4WFqaXXTDx38tG3j84qoEsrCW0s5FXheNk821fQj1NmUt/aQh99RN4H8lzU1p2pK5NEsH9WKeGoL84kuRmICEYGZ4eSO8pN0vTYz9SnCoW24fGfkYYTA4cJogmB0ubOVDnVvIfI6LuFvDnWr4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
+ by CH3PR11MB7772.namprd11.prod.outlook.com (2603:10b6:610:120::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
+ 2026 17:41:58 +0000
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::a195:49d4:38c5:3891]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::a195:49d4:38c5:3891%4]) with mapi id 15.21.0092.016; Thu, 11 Jun 2026
+ 17:41:58 +0000
+Date: Thu, 11 Jun 2026 10:41:54 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <iweiny@kernel.org>, Dan Williams <djbw@kernel.org>, Li Ming
+	<ming.li@zohomail.com>, Robert Richter <rrichter@amd.com>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-cxl@vger.kernel.org>
+Subject: Re: [PATCH 6/6] Documentation/cxl: Add region granularity and
+ multi-level interleave guide
+Message-ID: <airzYr3NdWYoUDoM@aschofie-mobl2.lan>
+References: <ef2ba341a7ed6f754012e11110750d57929575b2.1780095671.git.alison.schofield@intel.com>
+ <202606041115.8RwB2Cuv-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202606041115.8RwB2Cuv-lkp@intel.com>
+X-ClientProxiedBy: BYAPR21CA0027.namprd21.prod.outlook.com
+ (2603:10b6:a03:114::37) To DS4PPF0BAC23327.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|CH3PR11MB7772:EE_
+X-MS-Office365-Filtering-Correlation-Id: daa51d7d-61ee-4882-9951-08dec7e0bc7b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|4143699003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: Klj9NV0ZcanX8mi1tBdRBmAdvMcizeyzcXe0e59KVMG+LFHaERk2P1g9GGcrL4MOwN8UU6UoIZlvxYRK21Z8dgc93ji3afLuVzYmG7lZYNCz5aaUKqjP+6VvIqWN8aErm+CuNlbP+ift8nt9G9hcQByKygfZaQFFJoJ8F99o2UyVGop9JaCLH9TP8XV9WkZ7NFZMKYj1US6J9xQnyihOEle0mia3ezed+DoU75ZYGBSUM/hRIDqz6ydUu55WEIujYRTDSoneBjvDguFfWNfi/95snh0JkF1CQIZ1Q9wANDpF1SaftoeAiuTlXcTaPZxDtliloj4sdZgF0Rd7fzfB2tVXULFvLYRL1PQD2Foj87N0MtNNZDzjbQ4zM6JKyqjuKeGbmBN/PjGRlS93HYxa7DyJ7NVCMt4XHOCOTBtRnMdzlUB2fHqrQy34kINr9tplIj3rh4MsduyoIle0EP2BNSrCefrK7jz+3sw17w1BzvzUu8uInU8Vu1uX6k9ItE5LbTuJFC1opQ8HEpqkdZDW+SSQb3wOMcElhtNg6cKQVkqx/u1I8XRlvzpMkPa6QOiJZsmXxTbYj7F2vafVrSLIrDsUz5CxHIQ2OHuh/lJL9yvhq6SSNQiG/N3mid535shMMgnSm5Iw1X3cLYkPM9RGiFcYR6VQp/EFPlSA8u9UFppRN+r8e4ge1uKM/rff+l5S
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NETSxavO26364q0qATYCaKReGgp26KwCZqvxp7pxbRhjCrraQlmTtX/I1FGU?=
+ =?us-ascii?Q?9MvMBqKWsTTTiQDAcz61/1wORBczIkljtBnXBi9uRrmVEyiFL+apwTV90Gpn?=
+ =?us-ascii?Q?wYFrZyv6EN/1KwV2QzMcfV8U7zj43VthM/NbtKg1kCnJN3hxcvjVRXF3o012?=
+ =?us-ascii?Q?EO8RBXs/pYU83fr1pw24FnaVKWftHenSR4Qp4njN2WU8e5B9VX1/JiGK5PUO?=
+ =?us-ascii?Q?Jd2sbCZw1+ZFvpIncco8bSMryg4S1t+XvVIZMa/WZa7USfmLbhmK7tR/kBxJ?=
+ =?us-ascii?Q?Hdx4f9gQXpXqBogOJ9XN1uza0D+5T8aLKBFatV2oQyQUMKoVGab5ewfWDOY1?=
+ =?us-ascii?Q?QTCpySa9gYzlgZ1IHBCb4gB3S/LzRsN5T+W//bC23VoIzk8meGbRiA+Llo+/?=
+ =?us-ascii?Q?WfjCgxabGxRQJQe1/EICHN/EoYNhgO4a0xQF1Scn0OQD3DU7G+PO2YTOGLhR?=
+ =?us-ascii?Q?pbVOoZbA3W2EAo9YCDP2uvDeJ/hbxPnlHh3SohD2SxPKtJ9JKyfacON/P1x9?=
+ =?us-ascii?Q?MohLYn9CrVU/eCA4f1Y+tMOY/kv6h13pH09UHS9GFVfuPsm+0WmCca8rHmoD?=
+ =?us-ascii?Q?ZYYNJ6Leh/+2D4g0gicKsf6r569wEDkvblT8L5LgDsrDH35vVchK323OvJXQ?=
+ =?us-ascii?Q?CzgTI+Ok9PxkL4vhb/0/+YRj5VojEWjNxbEaPuT+bAS5El8XhUHrZdngKsO6?=
+ =?us-ascii?Q?I18UROBod+cL4IVL5R9ZvuinFsuUZX9xadLMjOANfGv9EZ4KZuYqWZ1AROKA?=
+ =?us-ascii?Q?ZLGv23gvN2DrWnARmhfKJtzimXIjB/ujLoeoltxu5bJlIIAP+RNdP1S+1K0b?=
+ =?us-ascii?Q?up0Qi/2zpAyw9ZPvWOIs6TKPcbGtjM5yZcxnfgZ/CPelMddjiCD9WsUz3srJ?=
+ =?us-ascii?Q?S5CCKcdniUoMuQHItmhZuw15WzHVROLG7scKfVE5jEeExj4vC3SGR++5bt7M?=
+ =?us-ascii?Q?8DT+am+XPmPID/ebQzWmNwOYOZlEWCgvrSeD4h77W2kXt2wjDxwOuQMQPOjX?=
+ =?us-ascii?Q?MSPq3yrtOWGoX3tz7GC0NfswUqGmx14vq4eH9LVyFkNAC3EOTM4pFq6vCH38?=
+ =?us-ascii?Q?fg5TgtLpA6moHWRz9KrHgvq7w7uYAZ5Y2wAtUszuQV8t+9by8JCB0cdZm/8f?=
+ =?us-ascii?Q?I9gRwokqaxOMAAs1biRkext8HXBecBz7kuC1V0gGrBD6G9LDnJG5zQbhcr5h?=
+ =?us-ascii?Q?NV7eK0hWpatQ5C9qxyDBtpI1kmOW5I2g8LEDFgG4fXXvTOEm2LvORlodo1N4?=
+ =?us-ascii?Q?84XbTeLmI4RPpVKdMsnJKiJRKmjFoTlC3X6j6gByQwxGxla25gfm6P7siYVH?=
+ =?us-ascii?Q?poNPyeCDthtw1CLHYwFwbdPBn1wqPMGQK7h+dBVPguX6dJy9xqoWE4CfSODp?=
+ =?us-ascii?Q?dWZO8HmqAzA1gMH5LNSNMm6pdTufnw2eEqQWJKabsG43C3zkS5Sweao5pFqe?=
+ =?us-ascii?Q?3q1I77YtX/iO3mRKWNWGrLJuysAgI45Tm3RCLGIUY2ATjewh5xoeQ7hoXOTA?=
+ =?us-ascii?Q?h8WMvJRcIej202Nh3/PbTEnc9LEKcmX8CXlavyIoOJiwoCcCoqFLOYVdp9Vk?=
+ =?us-ascii?Q?HWq4J8kjL7FHGNEYpJH9D6eTM09tipcgGLEIl2swwWHHb0wqoEovpK1JV3ER?=
+ =?us-ascii?Q?BDxB2JhB/3z50NqDlusoiEhoCskcBGQJKHCje6lMbwTLa09a+PdeNkzF3VRo?=
+ =?us-ascii?Q?jIMQnP6In6pZn35lLqwRmw3ZSAnx0BXFu2UTRwV38xR4jH7gZ9bVfJkYb5dA?=
+ =?us-ascii?Q?LnsOSxCQKXYoYBVbfGbOHhPoxX4lk6w=3D?=
+X-Exchange-RoutingPolicyChecked: BT7mmlyQUUphpaUsnqp9X2/4yTzueLdfmjVdLg/cGZtfGEmKC0oc97pKR7YiCYj6xlyROJw7jXVw/b6zo5d7566n97JU+l1IsijGZxXrcQuFsVHzq7+qu8zrKb7xCeb+jOykObBfhMw3f746KuXgObZA4VZmpxCKdn1ZxnT5EtU2eLOyjipJ6fe3JocWy5wtBsySO/MGCen4ROzQxM1B2j3bDQa1jxQz2ezfBMvY/nGIqihXP/1MIo6OuMHP45DSttMIwsmkMoq1pbXUF6/9Gu9qOn54wQbm0rowXjiVT7Xk7blNKrVkRfRrKzlFgk7RhF7av5I5osci+8r1D87fwQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: daa51d7d-61ee-4882-9951-08dec7e0bc7b
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 17:41:58.3775
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CS73myJO4RBOJMokPvmEkAfU+ojh+p2wzYoD+dE99T/Ziv+C9YCb+YzxtnSWs/oeW8CbBEn0pCKTu7B1OgABuJYNIxc+BTKnK3TXvpojFiM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7772
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
-head:   a235b3f30d6299ee67af8059ef1bcf76d470ee29
-commit: a235b3f30d6299ee67af8059ef1bcf76d470ee29 [3/3] Temporary use Adla Legacy driver
-reproduce: (https://download.01.org/0day-ci/archive/20260611/202606111959.OtHEJ5y3-lkp@intel.com/reproduce)
+On Thu, Jun 04, 2026 at 11:47:45AM +0800, kernel test robot wrote:
+> Hi Alison,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 254f49634ee16a731174d2ae34bc50bd5f45e731]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Alison-Schofield/cxl-region-Validate-interleave-selector-bits/20260530-080529
+> base:   254f49634ee16a731174d2ae34bc50bd5f45e731
+> patch link:    https://lore.kernel.org/r/ef2ba341a7ed6f754012e11110750d57929575b2.1780095671.git.alison.schofield%40intel.com
+> patch subject: [PATCH 6/6] Documentation/cxl: Add region granularity and multi-level interleave guide
+> config: i386-randconfig-012-20250916 (https://download.01.org/0day-ci/archive/20260604/202606041115.8RwB2Cuv-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606041115.8RwB2Cuv-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606041115.8RwB2Cuv-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> ERROR: modpost: "__udivdi3" [drivers/cxl/core/cxl_core.ko] undefined!
 
-# many are suggestions rather than must-fix
+This will appear fixed in v2:
+- Patch 1: Make divide by 3 in get_selctor() work on 32-bit builds) (lkp)
 
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#1423: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_dpm.c:78:
-+        switch (strategy) {
-+            case ADLAK_DPM_STRATEGY_UP:
-[...]
-+            case ADLAK_DPM_STRATEGY_DOWN:
-[...]
-+            case ADLAK_DPM_STRATEGY_MAX:
-[...]
-+            case ADLAK_DPM_STRATEGY_MIN:
-[...]
-+            default:
 
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#1526: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_dpm.c:181:
-+        switch (i) {
-+            case 0:
-[...]
-+            case 1:
-[...]
-+            case 2:
-[...]
-+            case 3:
-[...]
-+            default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#1770: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_inference.c:106:
-+    switch (device_state) {
-+        case ADLAK_DEVICE_INIT:
-[...]
-+        case ADLAK_DEVICE_ERR:
-[...]
-+        case ADLAK_DEVICE_IDLE:
-[...]
-+        case ADLAK_DEVICE_BUSY:
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#1916: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_inference.c:252:
-+        switch (inference_state) {
-+            case ADLAK_INFERENCE_STATE_INIT:
-[...]
-+            case ADLAK_INFERENCE_STATE_RESUME:
-[...]
-+            case ADLAK_INFERENCE_STATE_DEV_RESET:
-[...]
-+            case ADLAK_INFERENCE_STATE_WQ_RESET:
-[...]
-+            case ADLAK_INFERENCE_STATE_WQ_CHECK:
-[...]
-+            case ADLAK_INFERENCE_STATE_SLEEP_CHECK:
-[...]
-+            case ADLAK_INFERENCE_STATE_POST_TASK:
-[...]
-+            case ADLAK_INFERENCE_STATE_REPORT_TASK_PRE:
-+            case ADLAK_INFERENCE_STATE_REPORT_TASK_PRE2:
-[...]
-+            case ADLAK_INFERENCE_STATE_SUBMIT_WAIT:
-[...]
-+            case ADLAK_INFERENCE_STATE_CHECK_TASK:
-[...]
-+            case ADLAK_INFERENCE_STATE_REPORT_TASK_CUR:
-[...]
-+            default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#2736: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_mm.c:362:
-+        switch (pflush_desc->direction) {
-+            case FLUSH_TO_DEVICE:
-[...]
-+            case FLUSH_FROM_DEVICE:
-[...]
-+            default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#3344: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_queue.c:122:
-+    switch (ptask->state) {
-+        case ADLAK_SUBMIT_STATE_IDLE:
-[...]
-+        case ADLAK_SUBMIT_STATE_PENDING:
-[...]
-+        case ADLAK_SUBMIT_STATE_READY:
-[...]
-+        case ADLAK_SUBMIT_STATE_RUNNING:
-[...]
-+        case ADLAK_SUBMIT_STATE_FINISHED:
-[...]
-+        case ADLAK_SUBMIT_STATE_FAIL:
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#3789: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_submit.c:231:
-+    switch (module) {
-+        case ADLAK_PLATFORM_MODULE_PWE:
-[...]
-+        case ADLAK_PLATFORM_MODULE_PWX:
-[...]
-+        case ADLAK_PLATFORM_MODULE_RS:
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#3838: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_submit.c:280:
-+            switch (dep->module) {
-+                case ADLAK_DEPENDENCY_MODULE_PWE:
-[...]
-+                case ADLAK_DEPENDENCY_MODULE_PWX:
-[...]
-+                case ADLAK_DEPENDENCY_MODULE_RS:
-[...]
-+                default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#4026: FILE: drivers/accel/adla_legacy/kmd/drv/common/adlak_submit.c:468:
-+        switch (dep->module) {
-+            case ADLAK_DEPENDENCY_MODULE_PWE:
-[...]
-+            case ADLAK_DEPENDENCY_MODULE_PWX:
-[...]
-+            case ADLAK_DEPENDENCY_MODULE_RS:
-[...]
-+            default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#11397: FILE: drivers/accel/adla_legacy/kmd/drv/port/os/linux/mm/adlak_mm_os_common.c:146:
-+    switch (mm_info->req.mem_direction) {
-+        case ADLAK_ENUM_MEM_DIR_WRITE_ONLY:
-[...]
-+        case ADLAK_ENUM_MEM_DIR_READ_ONLY:
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#11462: FILE: drivers/accel/adla_legacy/kmd/drv/port/os/linux/mm/adlak_mm_os_common.c:211:
-+    switch (mm_info->req.mem_direction) {
-+        case ADLAK_ENUM_MEM_DIR_WRITE_ONLY:
-[...]
-+        case ADLAK_ENUM_MEM_DIR_READ_ONLY:
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#12671: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/adlak_hw.c:597:
-+    switch (offset) {
-+        case REG_ADLAK_0X0:
-[...]
-+        case REG_ADLAK_0X4:
-[...]
-+        case REG_ADLAK_0X8:
-[...]
-+        case REG_ADLAK_0X10:
-[...]
-+        case REG_ADLAK_0X14:
-[...]
-+        case REG_ADLAK_0X18:
-[...]
-+        case REG_ADLAK_0X1C:
-[...]
-+        case REG_ADLAK_0X20:
-[...]
-+        case REG_ADLAK_0X24:
-[...]
-+        case REG_ADLAK_0X28:
-[...]
-+        case REG_ADLAK_0X2C:
-[...]
-+        case REG_ADLAK_0X30:
-[...]
-+        case REG_ADLAK_0X34:
-[...]
-+        case REG_ADLAK_0X38:
-[...]
-+        case REG_ADLAK_0X3C:
-[...]
-+        case REG_ADLAK_0X40:
-[...]
-+        case REG_ADLAK_0X44:
-[...]
-+        case REG_ADLAK_0X48:
-[...]
-+        case REG_ADLAK_0X4C:
-[...]
-+        case REG_ADLAK_0X50:
-[...]
-+        case REG_ADLAK_0X54:
-[...]
-+        case REG_ADLAK_0X58:
-[...]
-+        case REG_ADLAK_0X5C:
-[...]
-+        case REG_ADLAK_0X60:
-[...]
-+        case REG_ADLAK_0X64:
-[...]
-+        case REG_ADLAK_0X68:
-[...]
-+        case REG_ADLAK_0X6C:
-[...]
-+        case REG_ADLAK_0X70:
-[...]
-+        case REG_ADLAK_0X74:
-[...]
-+        case REG_ADLAK_0X78:
-[...]
-+        case REG_ADLAK_0X7C:
-[...]
-+        case REG_ADLAK_0X80:
-[...]
-+        case REG_ADLAK_0X84:
-[...]
-+        case REG_ADLAK_0X88:
-[...]
-+        case REG_ADLAK_0X8C:
-[...]
-+        case REG_ADLAK_0X90:
-[...]
-+        case REG_ADLAK_0X9C:
-[...]
-+        case REG_ADLAK_0XA0:
-[...]
-+        case REG_ADLAK_0XA4:
-[...]
-+        case REG_ADLAK_0XA8:
-[...]
-+        case REG_ADLAK_0XAC:
-[...]
-+        case REG_ADLAK_0XB0:
-[...]
-+        case REG_ADLAK_0XB4:
-[...]
-+        case REG_ADLAK_0XB8:
-[...]
-+        case REG_ADLAK_0XBC:
-[...]
-+        case REG_ADLAK_0XC0:
-[...]
-+        case REG_ADLAK_0XC4:
-[...]
-+        case REG_ADLAK_0XC8:
-[...]
-+        case REG_ADLAK_0XCC:
-[...]
-+        case REG_ADLAK_0XD0:
-[...]
-+        case REG_ADLAK_0XD4:
-[...]
-+        case REG_ADLAK_0XD8:
-[...]
-+        case REG_ADLAK_0XDC:
-[...]
-+        case REG_ADLAK_0XE0:
-[...]
-+        case REG_ADLAK_0XE4:
-[...]
-+        case REG_ADLAK_0XF0:
-[...]
-+        case REG_ADLAK_0XF4:
-[...]
-+        case REG_ADLAK_0XF8:
-[...]
-+        case REG_ADLAK_0XFC:
-[...]
-+        case REG_ADLAK_0X100:
-[...]
-+        case REG_ADLAK_0X104:
-[...]
-+        case REG_ADLAK_0X108:
-[...]
-+        case REG_ADLAK_0X110:
-[...]
-+        case REG_ADLAK_0X114:
-[...]
-+        case REG_ADLAK_0X118:
-[...]
-+        case REG_ADLAK_0X11C:
-[...]
-+        case REG_ADLAK_0X120:
-[...]
-+        case REG_ADLAK_0X124:
-[...]
-+        default:
-
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#13545: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/adlak_reg.h:255:
-+            ab_axi_saddr : 21; /* Start address of AXI SRAM. saddr * 0x1000<= Byte Range. Unit: 4KB
-+                                */
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#13944: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_debugfs.c:255:
-+    switch (cmd) {
-+        case 'r':
-+        case 'R':
-[...]
-+        case 'w':
-+        case 'W':
-[...]
-+        case 'd':
-+        case 'D':
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#14154: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_debugfs.c:465:
-+    switch (hw_ver_info->rev.bitc.major) {
-+        case r0p0 :
-[...]
-+        case r1p0 :
-[...]
-+        case r2p0 :
-[...]
-+        case r3p0 :
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#14229: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_debugfs.c:540:
-+    switch (dev_hw_version) {
-+        case 0x00000000 :
-[...]
-+        case 0x00000100 :
-+        case 0x00000200 :
-+        case 0x00000300 :
-[...]
-+        case 0x00000301 :
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#14432: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_debugfs.c:743:
-+    switch (ret) {
-+        case 1 :
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#14477: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_debugfs.c:788:
-+    switch (ret) {
-+        case 1:
-[...]
-+        case 2:
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#14532: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_debugfs.c:843:
-+    switch (ret) {
-+        case 1 :
-[...]
-+        default:
-
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#14794: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_fops.c:93:
-+    switch (ioctl_code) {
-+        case ADLAK_IOCTL_QUERYCAP:
-[...]
-+        case ADLAK_IOCTL_REQBUF:
-[...]
-+        case ADLAK_IOCTL_FREEBUF:
-[...]
-+        case ADLAK_IOCTL_ATTACH_EXTERN_BUF:
-[...]
-+        case ADLAK_IOCTL_DETTACH_EXTERN_BUF:
-[...]
-+        case ADLAK_IOCTL_FLUSH_CACHE:
-[...]
-+        case ADLAK_IOCTL_REGISTER_NETWORK:
-[...]
-+        case ADLAK_IOCTL_DESTROY_NETWORK:
-[...]
-+        case ADLAK_IOCTL_INVOKE:
-[...]
-+        case ADLAK_IOCTL_INVOKE_CANCEL:
-[...]
-+        case ADLAK_IOCTL_GET_STAT:
-[...]
-+        case ADLAK_IOCTL_PROFILE_CFG:
-[...]
-+        case ADLAK_IOCTL_WAIT_UNTIL_FINISH:
-[...]
-+        case ADLAK_IOCTL_SET_CONTEXT_ATTRIBUTE:
-[...]
-+        default:
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
