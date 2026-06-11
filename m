@@ -1,179 +1,188 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FCF3D47A3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 10:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781174296; cv=none; b=L8HbAbv9LdQX1agSCpHP5JPW9iPR2yENIRCgmbXaX+2Vcf0chDg7Xso5IXd6VhEVNtXqekQdJFr4jQKwc4PNdcdqIiZzEnAkIzyuyiRa+uINz82WE5Zd/nWmPVjy2rDaI5PQTwPbRmngkuwTtGCf0Dn91NAYXILiwnN8q7Q1++Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781174296; c=relaxed/simple;
-	bh=XoTYR/TeqMK2ycCgG5+xbyxi/eud39OEFhZfHmqkKeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=ktqz2XuTlgBQs8yzcdKWlGcj8LCxigs8PHeKgW+jziVyeIQltpYM2Ah66TO0M1ko5iAkIC9myAcAQXs+f2ejCEe6Eg/m8HuGut8wPS0xpUY2JdmguVsOUNwLf3PyqPZZj8c5OzkI9l0BYFG3wJtS5HVobAnW3CUvve4ZgJgGX7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KOr4eiL9; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324A23624C3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 10:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781174844; cv=pass; b=Hj+rjEBWlXsY+eOOXZVN4G+QXfdW3KyubN0NxO95f1DCCszRgCxNXRxNyWbOPjM3FByLiRozvvcSvNVxjRYd50MGMqEOHTb4QKW/06a0ENdHv6NxVYXF3OajmZQOZLH9qFc06t47RXb7n5kUW6cglCBGVe3vIKVWWa4F2zgm6QY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781174844; c=relaxed/simple;
+	bh=L+XsgchiljswfA1IpbEmqrQNLc8tlDLGV1UdNOeAxwA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cCY3b8RL8ExS1uNPdKp28ly6rBaL6x+XdhBm3FsLBp8S9BCrcIji+POZLMey494rhKciW7lf28lz1J5snb91jTI1fiI4Jfy5Gn+z7/1ekmGVUo9Gf5Tepzv4fmExSe2Dz5sjsmtCLub/WHFOk2eohPpXCkprHj3kC2R9kHD+LKs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ReIUGV79; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=amOht8Pw; arc=pass smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KOr4eiL9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781174293;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X/vtY/v3M5U6llxqJZ4Yn6/DNDaMuf4s018w2I93KIY=;
-	b=KOr4eiL9y3zw82rQbC2xif0vWjnLMDnkkJWniygba8JDegEofT2Iw9Cquc02ZY9/5QcvjU
-	kFoHsAoRD1OQr4DM/oHJwjRQXirm6zzTWxY3wBdnPfbSYxOG+m0y7XIL1SlZ2mT36xx73k
-	CD7gPYk29Awk53vsw1AYVc0A14WNnqY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-529-zH09_9ikNfOCi2Osew1mvw-1; Thu, 11 Jun 2026 06:38:11 -0400
-X-MC-Unique: zH09_9ikNfOCi2Osew1mvw-1
-X-Mimecast-MFC-AGG-ID: zH09_9ikNfOCi2Osew1mvw_1781174291
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-45ef93c359fso6451452f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 03:38:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ReIUGV79";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="amOht8Pw"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65B9xpRn214478
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 10:47:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2Txnep8iMEaX6d4v9f9SspTXDI9luWLyelvApIJYs68=; b=ReIUGV79xck5AQQ4
+	xkZPhVgkr9lJ4DRAficRGZxGeP3ZfQS0+UrtGxqlQQ21SNfGZm9wzoR1FSPI7X8O
+	GU/6PndRFpL83VPNehuDcgHhLVbXE9W1NwdqP/o4dTxjXtkdYmGmHmGAnhJwFJL8
+	zvqLJwZEm0Mmbl2Hk8AihRKYG4G/mCuAuh7O9itX17KF93ZrGkJK6k0zi6AWsKw+
+	pvrFCbhYnuP9qdUk6eTkOi5BsG7jcNDOCaP/DzFVRzvk20nloYmFbyp8EUN7WXl0
+	NwxR/nnCSmfx11JZS2UkvZbJ2bRRDd4fFf4fpD69pG5UsxZ7WyUo5oAAhwaehdbF
+	91zRbg==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eqe6sk2yf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 10:47:22 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8cced2dabc1so150539016d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 03:47:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781174841; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HtHT2crYjTR8Tb6Ioa9pEuddeP5Zpj2FkU/vWfsCuX+Oc9BqBH6+N4kQ8197qaE/bK
+         HWvwCyhIIQ2Oqeahnc66sDkj+rjrwa8XNP8gtkCWskuFhGuLVxL12TymRAdihkEJg6JC
+         JFiFcotiRGxxLgGrmETLTRXhKff4+/LeKC4MggdeTog/2ehDY2uu5FcOc5l7unRkNkBX
+         gwUN9CF0BrKUu7umsc2vAalzSfpBSzI7QJb4RhChsynDfdSuArOWy4rifXDqx6cwak3p
+         vEgDygt6l8GGsbrQTMC7JGqeHYKDlDJpE6YVa2OeXpdmi8uj2Fy957GW5/RtVoz20y+O
+         sp/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2Txnep8iMEaX6d4v9f9SspTXDI9luWLyelvApIJYs68=;
+        fh=QoXowjFVCAto/lqpwaQ16/w2erkC6OLaYzi03Je7xa4=;
+        b=Xn0cCMFq6V0KnnHv5X58GuqH+ckkOOcrv51QDpATet4lRKkNkjACqXyyJ+dk0nKpBY
+         2vDRolOdIlRIc4T+HzqUe6p5bIcr0LTwWcdgQRTlOE4oDX+okAIdRL4nDhAmJbctX0R7
+         qXVCgSJO1tz5QVHgoTk7Ovp7Y2Fwy1lihZ92XNwrRoXazjrDi65Ve2Q8GwdFqamRk9wa
+         A1Wj4WCycmKHza2Puesrff0jI9NCGH1nLfMMzNI8hZfJuyx7OoLHFhZzy2ALTraEuYUx
+         INRtyMnEaj/Kt9kvtiJ5OVb51I2L6Y9dYEdrQxa/ed6lB9p3mLxq0KCPQzRuaqEHB8kr
+         TYaA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1781174841; x=1781779641; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Txnep8iMEaX6d4v9f9SspTXDI9luWLyelvApIJYs68=;
+        b=amOht8Pw3+0B5SUDSvgJ3tN61Urz40/DFYUr+uoikQyqARLl83XE0J0COVBZIPtz7C
+         brrDb7SA8QYJjY/NdQFKzntiFvqST6jox+y8mqr6C8GJZrpaplZEHlqgcpV7o5kTUteu
+         H7eQcQxE72l8MGagLiuLI6/oRb115k4/yJT+TpbApLfBwarIKuCF6XeaVfn5ShE3VuoS
+         55f5VUP+ikVyRjC3ZS1voDSuSa0lasPUvxmZXWXjDGZ4V6QjVMqhtRC2OdcchrqYLPaS
+         kVKdH/GCrie/n9hiatWVB5Ro/52yRh+Be4z4XljuNkitoBDkbYUaUAsf5CWxcdw3vvD5
+         AIEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781174291; x=1781779091;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X/vtY/v3M5U6llxqJZ4Yn6/DNDaMuf4s018w2I93KIY=;
-        b=HxnYgb9s/mWIrjeTrON6JRT/VlOqllqOyzRCp1kilwxiXE1a9xjWzjdXVdigu8OWfk
-         eFGESw2cOkYmKEyHNlVZunlSgrQmpSs0YEtc/YUxUTD/9Muy5Qr0ggBw/P/Mvy5SHmOj
-         fS+82Dcip5elt4zIMcDO6bWYoionGSe6DgEfnxVFrijnjhg+4veup6/RKn5pwM20D0n8
-         t6oareaV2BBrBGGVGlT/w371TvQ6O157tnNJiiCsFpxCycCUP4Zf2UDcBSeZE0Vtjy1T
-         M/3z0N8HKsqgyIVHSGh+OItodNr/A3OrEcnCC4RojKrPu2BosAzIyBan5JHWwtlRH9uZ
-         ydwg==
-X-Forwarded-Encrypted: i=1; AFNElJ9wGA3gtbmYKlTiHCq0l5VPW0LEGoA5aZx/ES6w/e0t3LvtN6mi5eVosXlyvNpKiDjuJxfvsXn9EmSwIAhL@lists.linux.dev
-X-Gm-Message-State: AOJu0Yziel/QTrTegUHO21jpG2CsewYiNKSBimkIHggOVtdARsP6b1kF
-	iZY3282C9SKGaRhJRxfnIDrBo5EMC/503uBTaPWydVfJ0vvLkLLSvHceeBCEpQTZ75rMfch8rVz
-	i5G1VCG12Avx8f5rUvl9okfb6Lp26wsGSSRbSc9MXxhlFLpXa96gHfK5745oJBwN7ICc=
-X-Gm-Gg: Acq92OFxfK9hUrN+CzBOXTJGeVMa+/F0kzq2UyyIAekiwRnk1lvn6iEhIBiZXeU9//E
-	rhxSQ3e58U9C4tKFikMaHAxxIJt82F1ivWMj+87ScYIYgjoGREPyOHkvifAD8kJbzDSOCOXFot+
-	cjO9IZOpMKJHUIjI0ClNpJkavRW7G+rH+VGge+8gRFxQJ5LCwnCm1jC/KDRq04FWxwaTY7Eye8P
-	sJLnUTI2B6KVvamto+c/4osbN49rFepb7eShVqLkTcCOhoUhHj79Pc6K+KImphLtx4CpgmO4Tw8
-	7uh390E6oLXnT+SlhFQnTrqIfBH4YLrQeB9jDktoA4M47YbDT9JOxnOLh67tGBQohwpeGspHgMI
-	iD3D3ayRmm0t1PJPEY/VqfpjLXngHYW5Vst6ncKBPN0NafZ5wCuOStQ==
-X-Received: by 2002:a05:6000:41e3:b0:460:3234:293f with SMTP id ffacd0b85a97d-460677e92a0mr3648441f8f.42.1781174290510;
-        Thu, 11 Jun 2026 03:38:10 -0700 (PDT)
-X-Received: by 2002:a05:6000:41e3:b0:460:3234:293f with SMTP id ffacd0b85a97d-460677e92a0mr3648382f8f.42.1781174289911;
-        Thu, 11 Jun 2026 03:38:09 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-85-71.inter.net.il. [80.230.85.71])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f67c6sm76938127f8f.16.2026.06.11.03.38.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 03:38:09 -0700 (PDT)
-Date: Thu, 11 Jun 2026 06:38:06 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	virtualization@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Cindy Lu <lulu@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	linux-kernel@vger.kernel.org, Laurent Vivier <lvivier@redhat.com>,
-	Yongji Xie <xieyongji@bytedance.com>,
-	Maxime Coquelin <mcoqueli@redhat.com>
-Subject: Re: [PATCH v3] vduse: Add suspend
-Message-ID: <20260611063730-mutt-send-email-mst@kernel.org>
-References: <20260610083452.477759-1-eperezma@redhat.com>
- <202606111115.tKKe1qCE-lkp@intel.com>
- <20260611050140-mutt-send-email-mst@kernel.org>
- <aip9tNOx6WHIq22p@stanley.mountain>
- <CAJaqyWdQ7_1zYcfNVF_vQrrLHf_TRAbqS0X1kMQm7QMZ4UY+kA@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1781174841; x=1781779641;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2Txnep8iMEaX6d4v9f9SspTXDI9luWLyelvApIJYs68=;
+        b=Av4cVtee6k5+nvqTfct3f2+n/lK9WFvC0wRxzpxSDsImSZAxzR1mP0h46vUC1wxmVd
+         6lqwWO+JE3mBom2j+tWGfPHBx5KE3xWEA8pdrprZN/U8EsNBw+iyG8ErlgRv0aF8pR/M
+         tPubizxOJDxA0L91HisNpz2SWMAt1YmlVdlFMAl48uohSFMWBLbQq2uTcZeNTckRA2MT
+         XIwNvIl+tLcWXITbjCvHrBH7Z/JcTqOgjYZzviWsBME5CdljQzsx5TAOIaG3ufSXa3Yi
+         /Rw86XKFX2765sbsGhQDw7EwaIaRxe6ql7DrNLJNUxRdP92E3zvsZXe6FXzICCJ1llmD
+         H5uw==
+X-Forwarded-Encrypted: i=1; AFNElJ+McG0Zx6DYZ9Smmt83wSdP2TLM3eKnuX9rCMSbZ4TOuTffZnnOjbfbulXfaWqI9mxMmI5L6IP0kMgZiTXA@lists.linux.dev
+X-Gm-Message-State: AOJu0YyONG2ZnJ5sZ4CuxWpoBCCrYBJ7q8J6ejyvMDPmJg9KziKnrfO/
+	p6H8gAheSb6UztqzxcP8ElJg4tN0fLFTtDY1IhELXjLnE39yOIaCBKixQemk+dYekmKBXjr1/FA
+	iy/IkUFsRp5Xc0uv0I+tptFb08XQRVBBnNCTBBtNBCxnrzuWk4R+mNWySfwIJgbZu90z4ysZ+RE
+	+e1h4G+C6n+vjooFgQPHz5+7MuYfS8PEJS9pp1nkZnUns=
+X-Gm-Gg: Acq92OENtEULCo9GAAkNrO26xRlHy7rXIhWnhj5GUQHbXJ10YFZdc8v1xFiZ4WhgTmy
+	IuhHy1Bi21SwZC/SrIEz2LakbVuK97mVeU0mfeZRRCL0lCDQxaEmO3k+pCyEvTxK8gUMyUXLecV
+	XF5gnr29i6IsxykGIaR1WiDI/qDWbs6+MkO60GiscSG25cMJ5jgpcSLZ/sc2b0gae1TIWfL1pB3
+	uGs10ZDaNXNIuSdYg==
+X-Received: by 2002:a05:6214:5a01:b0:8ce:aace:eaf8 with SMTP id 6a1803df08f44-8d1db9d60d2mr33282786d6.43.1781174841365;
+        Thu, 11 Jun 2026 03:47:21 -0700 (PDT)
+X-Received: by 2002:a05:6214:5a01:b0:8ce:aace:eaf8 with SMTP id
+ 6a1803df08f44-8d1db9d60d2mr33282536d6.43.1781174840974; Thu, 11 Jun 2026
+ 03:47:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWdQ7_1zYcfNVF_vQrrLHf_TRAbqS0X1kMQm7QMZ4UY+kA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: CDMLbHQApuntTJ-eIXyCwkqNtKxOOIK0nD5tOJirkSY_1781174291
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <202606111746.kAxaAbwg-lkp@intel.com> <aiqIx_ayahpHI_oF@hovoldconsulting.com>
+In-Reply-To: <aiqIx_ayahpHI_oF@hovoldconsulting.com>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Thu, 11 Jun 2026 12:47:09 +0200
+X-Gm-Features: AVVi8Ccf8h5eFiwbHJssZFMFX8GhQjqSYNjKpdrKYVgKiA4I2fW8pztkYRVryLY
+Message-ID: <CAPx+jO8-wvkXh84+kY2rotRU7Jr5RC68bF0HeWEC=bTO1uAoDw@mail.gmail.com>
+Subject: Re: [ulfh-pm:next 12/12] drivers/pmdomain/core.c:36:23: warning:
+ 'genpd_provider_bus' defined but not used
+To: Johan Hovold <johan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+        Ulf Hansson <ulfh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=GbMnWwXL c=1 sm=1 tr=0 ts=6a2a923a cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yx91gb_oNiZeI1HMLzn7:22 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8
+ a=2teeSi3xk2FzZ-70JW0A:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+ a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-ORIG-GUID: HStm3bt7A4Y-QXQ8JLPgLZYmTlLdK0QK
+X-Proofpoint-GUID: HStm3bt7A4Y-QXQ8JLPgLZYmTlLdK0QK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjExMDEwNyBTYWx0ZWRfX9UpmUGVg5WWP
+ +aXuZp0oqhD1pcjC6udT9lKVrkfNp35WLoGhoma9MWMuonH5NfBP0uT0fH1IoBTk1GPsk9uxLWy
+ QXAEB/DXppIAYTzgvMCt0BS6Z91QGCWw/NKBUf1/9V/wkcE78bNZ6fon9RMJgTYHgYNKbEJh8w/
+ kfssfG2/vC79hK+MoFT2Ix55chPqropcXfQRltvTRHo77PInk6feCnXSOLj1RzSwSgF8h4eiXec
+ pbAlCM7dfjf7hqhFL/RatFXQHkZoQhtIWgHCopSR6Cgco+v2r9cP12iHFoGymdI+ct5foxUVqkF
+ jmG0Vrjvf0CfHwLGgRwHZM+RBOH0nvAAyYiwLgTKeWuoacxsIPPagjVm6Tsss/NZ4MpG9Z1Vczp
+ 7eVDW5D6Mi6arXyf4rLPFcz6oJpLafhXUJFr9R573G4l+NQcRDhE7/UMSwQJ6hyFPLhk9LHnkWM
+ T+XOnjvDDNEwdRtCL9Q==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjExMDEwNyBTYWx0ZWRfX/9Hns3CIjBp+
+ 7rJR71KiS5pbKkevYtIa7iu7hRJJyEAo0hTLVvX63vkykLFHbDE/SKC3P2ks+Y0LPHXA+vNml/8
+ MiNj0uW/fP+cvA919dT4io4hmTz8WIs=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-11_02,2026-06-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0 impostorscore=0
+ clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
+ definitions=main-2606110107
 
-On Thu, Jun 11, 2026 at 11:30:23AM +0200, Eugenio Perez Martin wrote:
-> On Thu, Jun 11, 2026 at 11:20 AM Dan Carpenter <error27@gmail.com> wrote:
+On Thu, Jun 11, 2026 at 12:07=E2=80=AFPM Johan Hovold <johan@kernel.org> wr=
+ote:
+>
+> On Thu, Jun 11, 2026 at 05:36:21PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.g=
+it next
+> > head:   ea1ca762328194de780a8e92df0b2e41bf6eeed2
+> > commit: ea1ca762328194de780a8e92df0b2e41bf6eeed2 [12/12] pmdomain: fix =
+early domain registration
+> > config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20=
+260611/202606111746.kAxaAbwg-lkp@intel.com/config)
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20260611/202606111746.kAxaAbwg-lkp@intel.com/reproduce)
 > >
-> > On Thu, Jun 11, 2026 at 05:03:24AM -0400, Michael S. Tsirkin wrote:
-> > > On Thu, Jun 11, 2026 at 10:18:51AM +0300, Dan Carpenter wrote:
-> > > > Hi Eugenio,
-> > > >
-> > > > kernel test robot noticed the following build warnings:
-> > > >
-> > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > >
-> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Eugenio-P-rez/vduse-Add-suspend/20260610-164534
-> > > > base:   next-20260609
-> > > > patch link:    https://lore.kernel.org/r/20260610083452.477759-1-eperezma%40redhat.com
-> > > > patch subject: [PATCH v3] vduse: Add suspend
-> > > > config: arm64-randconfig-r072-20260610 (https://download.01.org/0day-ci/archive/20260611/202606111115.tKKe1qCE-lkp@intel.com/config)
-> > > > compiler: aarch64-linux-gcc (GCC) 8.5.0
-> > > > smatch: v0.5.0-9185-gbcc58b9c
-> > > >
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > > | Closes: https://lore.kernel.org/r/202606111115.tKKe1qCE-lkp@intel.com/
-> > > >
-> > > > smatch warnings:
-> > > > drivers/vdpa/vdpa_user/vduse_dev.c:577 vduse_vq_kick() warn: inconsistent returns '&vq->kick_lock'.
-> > > > drivers/vdpa/vdpa_user/vduse_dev.c:1302 vduse_dev_queue_irq_work() warn: inconsistent returns '&dev->rwsem'.
-> > > >
-> > > > vim +577 drivers/vdpa/vdpa_user/vduse_dev.c
-> > > >
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  562  static void vduse_vq_kick(struct vduse_virtqueue *vq)
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  563  {
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  564    spin_lock(&vq->kick_lock);
-> > > >                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  565    if (!vq->ready)
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  566            goto unlock;
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  567
-> > > > 9c4307e82fa1dc Eugenio Pérez     2026-06-10  568    guard(rwsem_read)(&vq->dev->rwsem);
-> > > > 9c4307e82fa1dc Eugenio Pérez     2026-06-10  569    if (vq->dev->suspended)
-> > > > 9c4307e82fa1dc Eugenio Pérez     2026-06-10  570            return;
-> > > >
-> > > > unlock before returning?
-> > > >
-> > > > 9c4307e82fa1dc Eugenio Pérez     2026-06-10  571
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  572    if (vq->kickfd)
-> > > > 3652117f854819 Christian Brauner 2023-11-22  573            eventfd_signal(vq->kickfd);
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  574    else
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  575            vq->kicked = true;
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  576  unlock:
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31 @577    spin_unlock(&vq->kick_lock);
-> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  578  }
-> > >
-> > >
-> > > I think this is fixed by:
-> > >
-> > > commit e4a249d15eb2d4b28213bebb1eefaf2e6d99de0b (HEAD -> vhost, linux-next-vhost/linux-next, kernel.org/vhost, kernel.org/test)
-> > > Author: Nathan Chancellor <nathan@kernel.org>
-> > > Date:   Wed Jun 10 12:16:49 2026 -0700
-> > >
-> > >     vduse: Fix error around jumping over a __cleanup() variable
-> > >
-> > > right?
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202606111746.kAxaAbwg-l=
+kp@intel.com/
 > >
-> > These things haven't hit linux-next yet.  I found the email.
-> > https://lore.kernel.org/all/20260610-vduse_vq_kick-fix-guard-usage-v1-1-0ce02c08006e@kernel.org/
+> > All warnings (new ones prefixed by >>):
 > >
-> > That only fixes the bug in vduse_vq_kick(), not the bug in
-> > vduse_dev_queue_irq_work().  I don't see a fix for that
-> > yet on lore but I may have missed it.
-> >
-> 
-> No, I can test & send a fast patch for that.
-> 
-> Thanks!
+> > >> drivers/pmdomain/core.c:36:23: warning: 'genpd_provider_bus' defined=
+ but not used [-Wunused-variable]
+> >       36 | static struct device *genpd_provider_bus;
+> >          |                       ^~~~~~~~~~~~~~~~~~
+>
+> Bah. Apparently the only users of the bus are under
+> CONFIG_PM_GENERIC_DOMAINS_OF so this one either needs to be marked
+> __maybe_unsed or be moved inside the ifdef.
+>
+> I'll send a follow-up fix.
 
-Alright.
+I suggest we move it under CONFIG_PM_GENERIC_DOMAINS_OF along with the
+other corresponding parameters like "genpd_bus_registered".
 
--- 
-MST
+>
+> Johan
 
+Kind regards
+Uffe
