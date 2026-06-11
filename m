@@ -1,96 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from d218-7.smtp-out.eu-west-2.amazonses.com (d218-7.smtp-out.eu-west-2.amazonses.com [23.249.218.7])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D700C3CAA57
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 10:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B06286419;
+	Thu, 11 Jun 2026 10:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.249.218.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781172833; cv=none; b=kL2JwOwcRXYaeD0JDJ/tyhkehZSDa6sZ6J8KY4yICTQMU2HvRWpeIaC3t5aTJIYaXfUdvqjkMFAt8cG9YIdJ+5wIA7R0upiHaIiulsz9ETHxbt4/nNRUr0FO+ljHPaK6WhtXx66TREVC3b4zWNMggBLF5HLlDbkBQoRIKvGlEZU=
+	t=1781173052; cv=none; b=pyQYzQQ01KJNYmItPHykp5Cs7XcjbJ10JUdWKi3ETulDRFBneDn52e5+rfRYUJ092Z/AGkZOi5+KPY6HAoKmm8FQroeKQ1Orz2FjGeQL6tgwNNDWq5gMa+3RjvbiKlJdQKKG5F4U+LWUHI1xt02ytUn4sOB1mhFnxPa2/EqIZAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781172833; c=relaxed/simple;
-	bh=IhooDPMCfP3ba/vnIV56QDU8wMJgpa/JFS+wKb3oGv0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Qg0PWcEulVVGhj3W7XP2d2BFtoM2CawQ0OA1U9MhMkZgosk3b/5TEYZAkW8TBiksGQRZAvSRYwftJD2fkUDC6TUDabjmjhmiuv+RzOSzP0m5r1PebGwyekVeYafVsDbEh/2UM7IJHfo0DpRWICnsFQKzvSBVr4ojO9BOm0D0D+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WVi/ZUki; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781173052; c=relaxed/simple;
+	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t+nhLvvGlAOvgsiVTpPRZDx1yHj/OV2JuXRHMrcimS5lwKCzYJkHy/TWwGAOHtSXna4smvXIFisDZKgh6rsdLoXvuDl45+4Lic531fGTbP3SsjZaAUAUt9dChcIo/89qyhH6InZJaobnEpXbN5EqTvV0aq0KX5lS43OcQ4cyte8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net; spf=pass smtp.mailfrom=mail.electricworry.net; dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b=Qb3z5Qhg; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=DcXKIQIZ; arc=none smtp.client-ip=23.249.218.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.electricworry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WVi/ZUki"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781172831; x=1812708831;
-  h=date:from:to:cc:subject:message-id;
-  bh=IhooDPMCfP3ba/vnIV56QDU8wMJgpa/JFS+wKb3oGv0=;
-  b=WVi/ZUkiJJ654Q1NBnuGfST5VAEBKf2It4Y3F+t0zZoL575UI8PV3pbL
-   F5AqN4kCv8R7guZpH8IyaqdfEu3QMOZufCSfntdw5oSWQ7SjbmvdndUHN
-   t8PjEeR1qR8wmFzF7mb763I6q/B1lgs3tllZ7lN7VIASfmYrBZFFmcsIP
-   d0vsHMUFRQOxriwIHP40l/aphFSI0jfHUu1CMAQFn1dQKgrUjSJX71hlJ
-   H42N4sQPHfwsL/oRPZ6Jo1zRmclLCTU+IEHApCc/KXaL3WjLg1RuGyi+7
-   z3cH+8B/o9zwKvRUDsYdaRhqTkZGigy1qJLMyzpaCMQS5yYCModfakeTE
-   g==;
-X-CSE-ConnectionGUID: VWw9I63sQ7GFCalvgfnWSA==
-X-CSE-MsgGUID: 2phtGI2kS+mTLdXdzWrpkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82175244"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="82175244"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 03:13:51 -0700
-X-CSE-ConnectionGUID: 98E5DSzuR/KNmX8Bm5HTVA==
-X-CSE-MsgGUID: AdM81or/Sv+GAljB3s0Ljg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="242013716"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jun 2026 03:13:50 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXcQ0-000000003zZ-0nm7;
-	Thu, 11 Jun 2026 10:13:48 +0000
-Date: Thu, 11 Jun 2026 12:13:23 +0200
-From: kernel test robot <lkp@intel.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ulf Hansson <ulfh@kernel.org>
-Subject: [ulfh-pm:next 12/12] drivers/pmdomain/core.c:36:23: warning:
- 'genpd_provider_bus' defined but not used
-Message-ID: <202606111231.dpbBwWC0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b="Qb3z5Qhg";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="DcXKIQIZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=xxcsvipqs5hvfd7f74n2i5bueyncqkjk; d=electricworry.net;
+	t=1781173049;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
+	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
+	b=Qb3z5Qhg67X/kFLbCygIWg3mcpKMfPPlPjU/az6ybXP+s1Q1EPaOUWqIbLruG3js
+	0l9lDLTfJfmCX5ndK5YiQpfo/Ft8xxc1/P74kgQp4XofI/5MfNfqyigmL1PPuZh3vfb
+	GhU33TCApyNQMAbgGFggr4mTQRAXjbnlikOlImmDLj5fKC9RDpy+uKHj4+yuEK9Ygag
+	PQyuyLmwHclBKCMn5wSlSVfq89O7CNNPTTDQITMgLBsRn/OvYKY962+C4fCv4ojIVnF
+	Exiu87Bt1truPs/wNVzqBYVSQfiVvolM4rivJB+8PDfU6qi5CEWbMFL/baUD2z6sU1e
+	7uD5Sjp5QA==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=smjs5bczbyxi6u2ua6eveuxqal7joyry; d=amazonses.com; t=1781173049;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Feedback-ID;
+	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
+	b=DcXKIQIZAOub/VADAw2xAZwpXQPnpvWjXVAd6eZYPNmWzQ/DcCB5NZ04px2MKePe
+	W5XvAiyZJMd9E8enRsL95TpBwtIQ/ZxRDOCx7qIHH54GHB964l+lv5y2vy/UN9pKTgB
+	kOrEavWgDNw+v+h9MJQwc1qovrkVGo0khYxrShpY=
+Date: Thu, 11 Jun 2026 10:17:28 +0000
+From: Bob McChesney <bob@electricworry.net>
+To: Marco Elver <elver@google.com>
+Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, 
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	"Harry Yoo (Oracle)" <harry@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, linux-sunxi@lists.linux.dev, 
+	Chen-Yu Tsai <wens@kernel.org>
+Subject: Re: [linux-next:master 4283/12670] drivers/dma/sun6i-dma.c:792
+ sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line
+ 793)
+Message-ID: <010b019eb62fd604-d3a75323-b446-46a0-b164-57cc0d1a75b4-000000@eu-west-2.amazonses.com>
+Mail-Followup-To: Marco Elver <elver@google.com>, 
+	Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	"Harry Yoo (Oracle)" <harry@kernel.org>, Vinod Koul <vkoul@kernel.org>, linux-sunxi@lists.linux.dev, 
+	Chen-Yu Tsai <wens@kernel.org>
+References: <202606110958.2CPRMnM0-lkp@intel.com>
+ <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
+Feedback-ID: ::1.eu-west-2.gfFyncE+PRqcG/qebM3Lg+wfopUKzk5aGDEiDVENH+o=:AmazonSES
+X-SES-Outgoing: 2026.06.11-23.249.218.7
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git next
-head:   ea1ca762328194de780a8e92df0b2e41bf6eeed2
-commit: ea1ca762328194de780a8e92df0b2e41bf6eeed2 [12/12] pmdomain: fix early domain registration
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260611/202606111231.dpbBwWC0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111231.dpbBwWC0-lkp@intel.com/reproduce)
+On Thu, Jun 11, 2026 at 11:24:09AM +0200, Marco Elver wrote:
+> +cc maintainers of this driver
+> 
+> On Thu, 11 Jun 2026 at 10:59, Dan Carpenter <error27@gmail.com> wrote:
+> > vim +/v_lli +792 drivers/dma/sun6i-dma.c
+> >
+> > 555859308723d8 Maxime Ripard       2014-07-17  783      dev_dbg(chan2dev(chan), "First: %pad\n", &txd->p_lli);
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  784      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  785           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  786              sun6i_dma_dump_lli(vchan, v_lli, p_lli);
+> > 555859308723d8 Maxime Ripard       2014-07-17  787
+> > 555859308723d8 Maxime Ripard       2014-07-17  788      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> > 555859308723d8 Maxime Ripard       2014-07-17  789
+> > 4fbd804e009ae9 Maxime Ripard       2014-07-30  790  err_lli_free:
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  791      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @792           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> >                                                                                                 ^^^^^^^^^^^^^^^^^
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @793              dma_pool_free(sdev->pool, v_lli, p_lli);
+> >                                                                                           ^^^^^
+> > freed and then dereferenced to get the next block.
+> >
+> > 4fbd804e009ae9 Maxime Ripard       2014-07-30  794      kfree(txd);
+> > 555859308723d8 Maxime Ripard       2014-07-17  795      return NULL;
+> > 555859308723d8 Maxime Ripard       2014-07-17  796  }
+> > 555859308723d8 Maxime Ripard       2014-07-17  797
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  798  static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  799                                      struct dma_chan *chan,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  800                                      dma_addr_t buf_addr,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  801                                      size_t buf_len,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  802                                      size_t period_len,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  803                                      enum dma_transfer_direction dir,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  804                                      unsigned long flags)
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  805  {
+> >
+> > [ snip ]
+> >
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  868
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  869      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  870
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  871  err_lli_free:
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  872      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @873           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> >                                                                                                 ^^^^^^^^^^^^^^^^^
+> > Same.
+> 
+> Not sure what's going on here, but is this a latent bug in this
+> driver?  It appears some recent changes made Smatch see through this
+> better.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606111231.dpbBwWC0-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/pmdomain/core.c:36:23: warning: 'genpd_provider_bus' defined but not used [-Wunused-variable]
-      36 | static struct device *genpd_provider_bus;
-         |                       ^~~~~~~~~~~~~~~~~~
-
-
-vim +/genpd_provider_bus +36 drivers/pmdomain/core.c
-
-31cb75077003ac Ulf Hansson  2025-07-01  34  
-31cb75077003ac Ulf Hansson  2025-07-01  35  /* The parent for genpd_provider devices. */
-a96e40f4afdcb5 Johan Hovold 2026-04-24 @36  static struct device *genpd_provider_bus;
-31cb75077003ac Ulf Hansson  2025-07-01  37  
-
-:::::: The code at line 36 was first introduced by commit
-:::::: a96e40f4afdcb52a9c97a5465c964e010734d105 pmdomain: core: switch to dynamic root device
-
-:::::: TO: Johan Hovold <johan@kernel.org>
-:::::: CC: Ulf Hansson <ulfh@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I remember seeing a proposed fix for this very issue:
+https://lore.kernel.org/linux-sunxi/20260611063631.96566-1-zenghongling@kylinos.cn/
