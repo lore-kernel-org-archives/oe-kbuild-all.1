@@ -1,56 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9B2367F3D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 23:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19503859EE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jun 2026 23:10:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781219401; cv=none; b=RdaMpoNxxoIbmAIwxJ0ziD/P2BYPOqq74cpwNwXpWztg/7Nwmyv+OXqxsrh13Ms6jeqOX4Oxxnw0/eesUsXFzr+hBkoz5GuUAH+EyznVKOwbajKzL82K3K1JhC9P/f2/18UGa0cvtb89A22Xb1GgNys7VozBSR1HLRPkAtcuOA8=
+	t=1781219404; cv=none; b=XoMHhk1R+PD0ftSdVCMiZsmylPwq6qj/M3et6W2nEz1HfF5Ef0Zk0oBQcRn9vOAlLULpJZURehOr4nDAH0GtB4RkW4jzRZXRrdzMlhWEp3hN6LTmTI6D8TmtLsIhSNVgcmEfUytClNIFq23zC4lO86S3InHryFIGi3K7g8tAK7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781219401; c=relaxed/simple;
-	bh=AwboRArJQ/4PxScGGgIWXU+EvgrU9mo1y7PRNQI+7/w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=F7KqqTloBYQ6h8+EQOT/nOCr97s71Rg+eyO1b0gYBwH2DfQfpxveGi9n34JeMsUr9vcibMLsp5SWi5AmcOWtYRQ4ZNm8oUimihYCTJP5K8cokvNbE35Nert+F3ebZJQiOKcBwiSzViGMXZxe25azL6W47CG7V5SKVoNEWjfDBQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Og7dBwWH; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1781219404; c=relaxed/simple;
+	bh=k33w8kK3JxzS/TZGEzu4V0rWmgqRR2+xO0RtVX5v/wc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sdEAUKHRmd+LxgORc1j0eQLLLG+/hBKn3llM4gJfdyVB/drIioLN868jvqzWktWqgZoLcznb/6p1ssJ3Toab68JUSNzPWwzdx55kNwYC9M1hfXtRYzUxKUDQFxCmFo3nwxTGGgWvIkajdGYmQR54Qfg1NjMSq3Pp09r/FvIbKYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wx+KIEMc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Og7dBwWH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wx+KIEMc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781219399; x=1812755399;
+  t=1781219402; x=1812755402;
   h=date:from:to:cc:subject:message-id;
-  bh=AwboRArJQ/4PxScGGgIWXU+EvgrU9mo1y7PRNQI+7/w=;
-  b=Og7dBwWHMgphGRDCE4URgtMM3dBo2I4bAyB+wSQjsYtTBfNJX/kNlR6X
-   dFVMQrbo+prBmddd0jpxkkBpqop3aDWtycdHzS6hIlWlGqnkKmKlG+lA6
-   ibcf/uhAmlAVmNwatWGxhJ8Ctb2VHKaDjpjz5IXyv4y2z1y50fSM27M0L
-   iME/2POmJDCOryNY/68M0awu6dx6ncexzHA4Fv5YBXTfMEgDU1DCpBhBw
-   tNS4clk9PddccweBoLXlNhC6oOJW4Fl0gpj65A648ZkwgcDjXFtx5vHfH
-   WACVmd20G+qG/5NfTcVMmMGJdg0srXegDfI1UUewENWSvSl3GbtiK52r3
-   g==;
-X-CSE-ConnectionGUID: 8bNlHhwzQCepN1TUu/7DRw==
-X-CSE-MsgGUID: XsAav/9yQgunH9e7yyfr5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92727523"
+  bh=k33w8kK3JxzS/TZGEzu4V0rWmgqRR2+xO0RtVX5v/wc=;
+  b=Wx+KIEMc5oKRwTAiwyyF9hq0aQwGVrUOKh7YgsShdgweAWsyw30QzyYN
+   cu41qVs25VA1MlQUHrgLAvmFK0SR5QnBPIRlshBzzDz0Vc1BCq8rcpd6K
+   L5UHY9gUmBygxI5fbbC3ZVRT7Wx9EWXwEXxd3KHEnIrz8WV9UWGz7HGAQ
+   X06OnF37WFsQnmzdqOTvi/QaJ+tbKtz3jT//cdRJ1Eevc/N9JAuZgwzui
+   L5wCCmwxr8ARPNAGs+P9vTmZaZQlmpS9wn0swQWWSr31jGYQG1adUEPQP
+   CfNL0ZO9J880EhWVE/M18O0rpMt5xHIg4Zz9vNQKdiGH3bot62Fg6evFR
+   A==;
+X-CSE-ConnectionGUID: R5zFTa/HT7K9SP8Yt4QPDw==
+X-CSE-MsgGUID: QT/0dbNXT+qQIDwrHU8HZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92727524"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="92727523"
+   d="scan'208";a="92727524"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 16:09:58 -0700
-X-CSE-ConnectionGUID: G7zkL776QZmSYzbji8iX/Q==
-X-CSE-MsgGUID: 6q5fP8ywSUGhJAnZq/Em4A==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 16:09:59 -0700
+X-CSE-ConnectionGUID: gFrqNGeHQZ6S34/+B3S5Gw==
+X-CSE-MsgGUID: wbTO2dMJSDS3cdzU9Fj8EQ==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 11 Jun 2026 16:09:57 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXoX4-00000000NzD-3yAH;
+	id 1wXoX4-00000000NzF-46cA;
 	Thu, 11 Jun 2026 23:09:54 +0000
-Date: Fri, 12 Jun 2026 07:09:18 +0800
+Date: Fri, 12 Jun 2026 07:09:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 105/105]
- kernel/sched/fair.c:9774:69: warning: 'struct lb_env' declared inside
- parameter list will not be visible outside of this definition or declaration
-Message-ID: <202606120713.rhbd7XQP-lkp@intel.com>
+To: Matthew Stewart <matthew.stewart2@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Ray Wu <ray.wu@amd.com>
+Subject: [linux-next:master 9998/13002]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42b/dcn42b_clk_mgr.c:444
+ dcn42b_clk_mgr_construct() warn: inconsistent indenting
+Message-ID: <202606120757.Y9fZz3Ch-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,71 +60,65 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   17033c891775049d8437bf5fb55f35081b40440c
-commit: 64194706630f8c78feb5fb01b6d046aa4aab66df [105/105] anolis: sched: add tunables for expeller and expellee load balance
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260612/202606120713.rhbd7XQP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120713.rhbd7XQP-lkp@intel.com/reproduce)
+Hi Matthew,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   abe651837cb394f76d738a7a747322fca3bf17ba
+commit: 0a5e0416e191571de9362b769feb31b3e87a705e [9998/13002] drm/amd/display: Add DCN42B code to DC
+config: i386-randconfig-141-20260611 (https://download.01.org/0day-ci/archive/20260612/202606120757.Y9fZz3Ch-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606120713.rhbd7XQP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606120757.Y9fZz3Ch-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42b/dcn42b_clk_mgr.c:444 dcn42b_clk_mgr_construct() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/dcn42b/hw_translate_dcn42b.c:151 id_to_offset() warn: inconsistent indenting
 
-   In file included from kernel/sched/fair.c:56:
-   kernel/sched/sched.h:1859:54: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
-    1859 | static inline void sched_core_identity_attach(struct cgroup_taskset *tset) { }
-         |                                                      ^~~~~~~~~~~~~~
->> kernel/sched/fair.c:9774:69: warning: 'struct lb_env' declared inside parameter list will not be visible outside of this definition or declaration
-    9774 | static inline int id_can_migrate_task(struct task_struct *p, struct lb_env *env)
-         |                                                                     ^~~~~~
+vim +444 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42b/dcn42b_clk_mgr.c
 
+a3d3758b2ee159a Matthew Stewart 2026-05-17  414  
+a3d3758b2ee159a Matthew Stewart 2026-05-17  415  void dcn42b_clk_mgr_construct(
+a3d3758b2ee159a Matthew Stewart 2026-05-17  416  		struct dc_context *ctx,
+a3d3758b2ee159a Matthew Stewart 2026-05-17  417  		struct clk_mgr_dcn42 *clk_mgr,
+a3d3758b2ee159a Matthew Stewart 2026-05-17  418  		struct pp_smu_funcs *pp_smu,
+a3d3758b2ee159a Matthew Stewart 2026-05-17  419  		struct dccg *dccg)
+a3d3758b2ee159a Matthew Stewart 2026-05-17  420  {
+a3d3758b2ee159a Matthew Stewart 2026-05-17  421  	clk_mgr->base.base.ctx = ctx;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  422  	clk_mgr->base.base.funcs = &dcn42b_funcs;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  423  	clk_mgr->base.regs = &clk_mgr_regs_dcn42b;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  424  	clk_mgr->base.clk_mgr_shift = &clk_mgr_shift_dcn42b;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  425  	clk_mgr->base.clk_mgr_mask = &clk_mgr_mask_dcn42b;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  426  
+a3d3758b2ee159a Matthew Stewart 2026-05-17  427  	clk_mgr->base.pp_smu = pp_smu;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  428  
+a3d3758b2ee159a Matthew Stewart 2026-05-17  429  	clk_mgr->base.dccg = dccg;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  430  	clk_mgr->base.dfs_bypass_disp_clk = 0;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  431  
+a3d3758b2ee159a Matthew Stewart 2026-05-17  432  	clk_mgr->base.dprefclk_ss_percentage = 0;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  433  	clk_mgr->base.dprefclk_ss_divider = 1000;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  434  	clk_mgr->base.ss_on_dprefclk = false;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  435  	clk_mgr->base.dfs_ref_freq_khz = 48000; /*sync with pmfw*/
+a3d3758b2ee159a Matthew Stewart 2026-05-17  436  	clk_mgr->base.base.clks.ref_dtbclk_khz = 0;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  437  
+a3d3758b2ee159a Matthew Stewart 2026-05-17  438  	/* Changed from DCN3.2_clock_frequency doc to match
+a3d3758b2ee159a Matthew Stewart 2026-05-17  439  	 * dcn32_dump_clk_registers from 4 * dentist_vco_freq_khz /
+a3d3758b2ee159a Matthew Stewart 2026-05-17  440  	 * dprefclk DID divider
+a3d3758b2ee159a Matthew Stewart 2026-05-17  441  	 */
+a3d3758b2ee159a Matthew Stewart 2026-05-17  442  	clk_mgr->base.base.dprefclk_khz = 600000;
+a3d3758b2ee159a Matthew Stewart 2026-05-17  443  
+a3d3758b2ee159a Matthew Stewart 2026-05-17 @444  		clk_mgr->base.smu_present = false;
 
-vim +9774 kernel/sched/fair.c
+:::::: The code at line 444 was first introduced by commit
+:::::: a3d3758b2ee159a0985bc2f973a892200c2ab62b drm/amd/display: Add DCN42B DC resource files
 
-  9740	
-  9741	#else
-  9742	static inline void push_expellee(struct rq *rq) { }
-  9743	#endif
-  9744	static int id_can_migrate_task(struct task_struct *p, struct lb_env *env)
-  9745	{
-  9746		struct rq *src_rq = env->src_rq;
-  9747		struct rq *dst_rq = env->dst_rq;
-  9748	
-  9749		if (!id_expeller_share_core() && env->id_need_redo && task_is_expeller(p) &&
-  9750		    rq_on_expel_by_smt_expeller(dst_rq))
-  9751			goto bad_dst;
-  9752		if ((!sched_feat(ID_SMT_EXPEL) || !task_is_expellee(p)) &&
-  9753		    (!sched_feat(ID_ABSOLUTE_EXPEL) || !task_is_idle(p)))
-  9754			return -1;
-  9755		/* Do not migrate expellee task to CPU on expel */
-  9756		if (should_expel_se(dst_rq, &p->se))
-  9757			goto bad_dst;
-  9758		if (sched_feat(ID_EXPELLEE_NEVER_HOT))
-  9759			goto good_dst;
-  9760		if (!should_expel_se(src_rq, &p->se))
-  9761			return -1;
-  9762		if (!sched_feat(ID_RESCUE_EXPELLEE))
-  9763			return -1;
-  9764	good_dst:
-  9765		schedstat_inc(p->stats.nr_forced_migrations);
-  9766		return 1;
-  9767	bad_dst:
-  9768		schedstat_inc(p->stats.nr_failed_migrations_id);
-  9769		return 0;
-  9770	}
-  9771	#else
-  9772	static inline void update_rq_on_expel(struct rq *rq) { }
-  9773	static inline void push_expellee(struct rq *rq) { }
-> 9774	static inline int id_can_migrate_task(struct task_struct *p, struct lb_env *env)
-  9775	{
-  9776		return -1;
-  9777	}
-  9778	#endif
-  9779	
+:::::: TO: Matthew Stewart <matthew.stewart2@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 --
 0-DAY CI Kernel Test Service
