@@ -1,106 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A27305684
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 07:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A40371893;
+	Fri, 12 Jun 2026 08:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781250788; cv=none; b=bz4cbRWT03M9LCd0LoxGHKwTXWTVgnYH66/XYHkthMMCRrREYIpUUMEwJraH5Lv6C8pGwGs8CxX0i1Hq3lpQsOqvNBfIuw7oLaRJaRwHkRrmGO698cedtsT3tE774EXvtfJYVT7VuHYwmTKdhe+ok6wSzqFmy+XP9FzUYigSTOI=
+	t=1781251668; cv=none; b=A+tgzVUu7sO3iH4DN3BbkpGBy1aJp/jWfsynzVWuntArgtmNheYtfIhdJne4l5X3RXvGEwVu/Em/eCT8su9GoCGqpNAR423hGRM6rZQo7olAPJj7S7YUKOqpzwXj7F8bOqevK5lWvTO+TT/LAfqzxntX4pc7nxX4MI4iJTIFWdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781250788; c=relaxed/simple;
-	bh=qXOR7XQ5fDnDFE0l0vwIIFpvZRG3jiMwWcZpXX9yrQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=gFf3lNqrtliNmNrJJdl9h0kF/SJir5RN+dVYxLV/uS2wgBwUKIWibYjqNmb/JKhHjwCKyLcspYqTfCx1hq8q2pQ+KrBKQJ1Z1hsIUKqyYpJW6iYwV16RnSbfWqzU0vU/2yr8QUWXVtKHketmYkOl1xLhMiKCV09rjhZI67pbFUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y97bmEvT; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1781251668; c=relaxed/simple;
+	bh=9/PhghjZ+xd54UoLUQixk0uTuDw8IDQ6yDW5K3ErHBA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Piwg/ilhu2sS0otyV74hsR90JPB75/Ey9KfS6/AxCTxfCHh7qXi+T3CZrGLa/eh3cGcDwoqqn8pdNk3u6FpVEsg+aPLIKywsqbb+Wbwunrp8NYmrhprT/gcpuBO2ogZv11NXfCvNNfKJxzfCVwwAradYnt82zWd3jwRdY8qzCMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JPKLEPp/; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y97bmEvT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPKLEPp/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781250787; x=1812786787;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qXOR7XQ5fDnDFE0l0vwIIFpvZRG3jiMwWcZpXX9yrQU=;
-  b=Y97bmEvTxslKmLM9adPLWcniWMZYFi4isXYzXD0BcZORR+pS7oO7oi+T
-   DpwrhPkhE1WLb42yQkX7WW8pbK2L7rXPrPSI0SC+LeL5150e5sr9mdMOr
-   erOAU7cK8rQQ0slSQbas7VVoAJWDtcWIjNrVaQYFHJw7FZEoMz4ktCb23
-   EGoPB15vrinfdYWG/i3Qufwv50/DAkz/Ipfm4D9jEHGs1SnscsPO9xkxN
-   7f9Ul7eUfd+qcwhKx6YlMMJy9u7lYpxmOtnmbS5clgode6+AL7w9ClKgH
-   P3dVKjdvz5V7zpqQic59mm5t9QP2LYO+IggLpWzDDM3ZQ6SZfLeAnR66g
-   A==;
-X-CSE-ConnectionGUID: IG6HnDU3RdG2XYokNUj0zQ==
-X-CSE-MsgGUID: E06aA6mtTl6gDXRCDAWjRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82084011"
+  t=1781251667; x=1812787667;
+  h=date:from:to:cc:subject:message-id;
+  bh=9/PhghjZ+xd54UoLUQixk0uTuDw8IDQ6yDW5K3ErHBA=;
+  b=JPKLEPp/971bbiEkrBBlFLCNZhmpYn224YsYAvXuzcOb9thBgwRKqFRm
+   XLsPJSP5bCTZyuzAcI556CdSSLZ8XGz9KY9NafHShh8yZjUINxk935luY
+   RG3uJ7gQK1QNnMMiZ2+BSAhKrXNbbMwTEt7ZH8RPlm409618D6hXjda0d
+   E3NcoBGf5PpR6/twgxOv0yzpMCS43gCjhhHYG20A5auX1MjUB47K+/Qz8
+   PGBTzFm97Jm2kJRmHFB4QsxkFoyzJk+LW4rWtrFOyiRAjGVBhGrOB/ZXN
+   lCEnGAhJMfJv/trzis7bG//gQEAsE1j5eDm4KwOTMI7RrpwVeU0pgsZF8
+   Q==;
+X-CSE-ConnectionGUID: gEsGRSLmSHC6QsCop2+dbg==
+X-CSE-MsgGUID: 6L0KdUICSW2B3jztEyowdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81093721"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="82084011"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 00:53:06 -0700
-X-CSE-ConnectionGUID: GqXjVVQYToeWn8+DDWSppg==
-X-CSE-MsgGUID: CVnKEaUaSvCaoSUGEyY/Pg==
+   d="scan'208";a="81093721"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 01:07:46 -0700
+X-CSE-ConnectionGUID: IWsIa/rLREa+/ZubCc3x4g==
+X-CSE-MsgGUID: ozFMRujRTz2+xwZqd3OjoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="270788447"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Jun 2026 00:53:04 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="270414943"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 12 Jun 2026 01:07:45 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXwhJ-000000004EH-3WN1;
-	Fri, 12 Jun 2026 07:53:01 +0000
-Date: Fri, 12 Jun 2026 09:52:28 +0200
+	id 1wXwvW-00000000OTt-1zfR;
+	Fri, 12 Jun 2026 08:07:42 +0000
+Date: Fri, 12 Jun 2026 16:06:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthieu Buffet <matthieu@buffet.re>
-Cc: oe-kbuild-all@lists.linux.dev, =?utf-8?Q?"Micka=C3=ABl?= =?utf-8?Q?_Sala=C3=BCn"?= <mic@digikod.net>,
- linux-doc@vger.kernel.org
-Subject: [mic:next 15/15] htmldocs:
- Documentation/userspace-api/landlock.rst:768: WARNING: Inline interpreted
- text or phrase reference start-string without end-string. [docutils]
-Message-ID: <202606120923.1nYYlfdb-lkp@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Mark Brown <broonie@kernel.org>
+Subject: [jirislaby:next_master 96/223] Warning:
+ drivers/phy/apple/atc.c:631 Excess struct member 'sw' description in
+ 'apple_atcphy'
+Message-ID: <202606121555.hvvZntPB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git next
-head:   a6f0a6f5377fae42a8028f63c89d544c68f24b60
-commit: a6f0a6f5377fae42a8028f63c89d544c68f24b60 [15/15] landlock: Add documentation for UDP support
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260612/202606120923.1nYYlfdb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git next_master
+head:   a225caacc36546a09586e3ece36c0313146e7da9
+commit: 2fc247190dcde0aee3596b0fb87a0b5afa600941 [96/223] Merge branch 'docs-next' of git://git.lwn.net/linux.git
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260612/202606121555.hvvZntPB-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121555.hvvZntPB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606120923.1nYYlfdb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606121555.hvvZntPB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Scope flags
-   ~~~~~~~~~~~ [docutils]
->> Documentation/userspace-api/landlock.rst:768: WARNING: Inline interpreted text or phrase reference start-string without end-string. [docutils]
->> Documentation/userspace-api/landlock.rst:768: WARNING: Inline interpreted text or phrase reference start-string without end-string. [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:40: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-
-
-vim +768 Documentation/userspace-api/landlock.rst
-
-   767	
- > 768	Starting with the Landlock ABI version 10, it is possible to restrict
-   769	setting the local port of UDP sockets with the
-   770	``LANDLOCK_ACCESS_NET_BIND_UDP`` right. This includes restricting the
-   771	ability to trigger autobind of an ephemeral port by the kernel by e.g.
-   772	sending a first datagram or setting the remote peer of a socket.
-   773	The ``LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP`` right controls setting the
-   774	remote port of UDP sockets (via :manpage:`connect(2)), and sending
-   775	datagrams to an explicit remote port (ignoring any destination set on
-   776	UDP sockets, via e.g. :manpage:`sendto(2)).
-   777	
+>> Warning: drivers/phy/apple/atc.c:631 Excess struct member 'sw' description in 'apple_atcphy'
+>> Warning: drivers/phy/apple/atc.c:631 Excess struct member 'mux' description in 'apple_atcphy'
+>> Warning: drivers/phy/apple/atc.c:631 Excess struct member 'sw' description in 'apple_atcphy'
+>> Warning: drivers/phy/apple/atc.c:631 Excess struct member 'mux' description in 'apple_atcphy'
 
 --
 0-DAY CI Kernel Test Service
