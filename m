@@ -1,132 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10171D61B7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 04:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1479C390CAA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 04:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781238755; cv=none; b=gFycjDSS2qMRaW6idAv1j0cJbaAQwSbdYIg6ScGLAk5P2XCI3r52uy1sfwp6nFBfSJIwEtu9IsV+hBh9vJg1vNKYcZT0fEdGGjjTjOPHvWe5fmAz2VxozRs2YEyjwGmMeCVc0lmXy9EIC+GV7WIkX4YonirWctLp79ml6WzqaAQ=
+	t=1781239354; cv=none; b=FdM3xNgOj5mmXRTEWZNiDnAAQ3nQMtAmFjDvhXZwva9dwC3U1z/ZwHKtZ2Kyqh8s0ta6cSyHsEwIWv3ABu8rJs9+3chS33pheipGeG6X+hK6+0Gzzcvm3wiNO0TV6kIRb5gdtSdiLuZR88Cj8nXRONAhE7ikVgYSDrawpEoh4u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781238755; c=relaxed/simple;
-	bh=khstqJkF3ATYBmmus/0LM5+7K5YtO6cGJKSvZ7jF6ac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QNQuIaJzNmQV6MJSXYvIRHlukWYUY2V4pG/XGc95jTNw4rUCWdaz1u4/j0D5ZgplXZQBkDIjopUiJhJbXCmC2VgZVw9V5YW/0rJzkYgMGI2xkZRw4gaYGh8Yz/09Rm6EMifk72APWCB/FPhYyHIA4S81KBgfdJ0uWAh/rrh0iiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JEHgCuqS; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1781239354; c=relaxed/simple;
+	bh=9e+/zqPFnaKcEPhV/gHBl3vGnSUlgnqTmn1xLU7mX/8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oD/KkEhr93SyjBR9LBavdHU3ly/p4kcuSNOvPwTcZfOiKQGp78xDd+zA6637R647eLPZx907X705KD5IB8KJKwR15lttXdB9i4E4bz8b31PrYe247hwGYnrLAOBJvgyJ+Ict+dUIfa3Wt+1oBUQsqHiVLF/SgKfzgI4YdEM0N6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z1p0eOnW; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JEHgCuqS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z1p0eOnW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781238754; x=1812774754;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=khstqJkF3ATYBmmus/0LM5+7K5YtO6cGJKSvZ7jF6ac=;
-  b=JEHgCuqS6/EAzBgZbHZYi7Dc4p0EhHZaWFPTC4Yg6awQTsVyAH64AAmY
-   ySh9itDJq2t7cNG6pqdOHGqr7BDTIsdGjAaRvrZL2D137tbzfHnLR1aZb
-   FDJXUYmxYfiEWve7Jf6F9r3umtwpNcOF3XxN8hdDdI79UfE2eynpv/Y6u
-   hAwrgLgfmwTXnZ4Qrnmha+mcoGYYnw5p9C0AgOpeVUDc8tk90uS9P/402
-   CKmHT9D9V+NI2b8RUtQBINqbzlRB6A4RgeoAeKf9PvHHhFcYEbOWju1i9
-   O9SJ1AhD2HTsNrGw1s1tkSVJSCWvwSiXB0v6QGs+scVPEwSya4gpGOuvg
-   g==;
-X-CSE-ConnectionGUID: pSknf3JbSdyZVa8uhqdCGg==
-X-CSE-MsgGUID: 2jB3QO/4TQGVJycF7P/w+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82072624"
+  t=1781239352; x=1812775352;
+  h=date:from:to:cc:subject:message-id;
+  bh=9e+/zqPFnaKcEPhV/gHBl3vGnSUlgnqTmn1xLU7mX/8=;
+  b=Z1p0eOnWdPc84T277vvw1WRHJnMV6s8roEUTlnhNgCE/Etm+HlC3Ks5n
+   nOoJgUAQfZzgTA2pV+1PdCfozTnvzPCm7Yjc587/Mk398caZhNS5wdr7E
+   jQkdJXiC2YzpGXZNswny6VcRXG2sI2IFFs5JRzZi1RBYr36U8X7oHB5l2
+   FklWMOmZdWyDKQRh2Wbs4ICd0ZVbheIN/YNf7yL9nxWPKf0wlvDizoxbT
+   LaC2bfysQDSxqf4jwtmv7b4Le/T3rI0Kyq2b49wxx4q/cRhjpOzv4OeEq
+   D5eW6whRu5U9qbAoo0MBaDcOIfmVTkGKm5AWtjaroqi+uRLKF9fttnQNe
+   w==;
+X-CSE-ConnectionGUID: OdeNklXUTyu6f0snDG1k0A==
+X-CSE-MsgGUID: GdlvyW/8QFOC8b5o30rEEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="84636070"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="82072624"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 21:32:34 -0700
-X-CSE-ConnectionGUID: SV4yh9qbThagVXMe3VqKzA==
-X-CSE-MsgGUID: j1RAI94jTU6xaVcXGCNT+A==
+   d="scan'208";a="84636070"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 21:42:31 -0700
+X-CSE-ConnectionGUID: pwhtxVyASHG4flEKMqNOmw==
+X-CSE-MsgGUID: odAgjt21QgeJWpf53zKNXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="245614402"
+   d="scan'208";a="245822868"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Jun 2026 21:32:29 -0700
+  by orviesa010.jf.intel.com with ESMTP; 11 Jun 2026 21:42:29 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXtZC-00000000OJh-2H3e;
-	Fri, 12 Jun 2026 04:32:26 +0000
-Date: Fri, 12 Jun 2026 12:31:49 +0800
+	id 1wXtit-00000000OK9-05G2;
+	Fri, 12 Jun 2026 04:42:27 +0000
+Date: Fri, 12 Jun 2026 12:42:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eugen Hristev <ehristev@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Naushir Patuck <naush@raspberrypi.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Eugen Hristev <ehristev@kernel.org>
-Subject: Re: [PATCH] media: bcm2835-unicam: Fix querycap multiple caps
-Message-ID: <202606121218.nV4fMXUr-lkp@intel.com>
-References: <20260611-bcmpiqcap-v1-1-10cf7fb438df@kernel.org>
+To: Harry Austen <hpausten@protonmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+Message-ID: <202606121227.INI72DTN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260611-bcmpiqcap-v1-1-10cf7fb438df@kernel.org>
 
-Hi Eugen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a87737435cfa134f9cdcc696ba3080759d04cf72]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/media-bcm2835-unicam-Fix-querycap-multiple-caps/20260611-141320
-base:   a87737435cfa134f9cdcc696ba3080759d04cf72
-patch link:    https://lore.kernel.org/r/20260611-bcmpiqcap-v1-1-10cf7fb438df%40kernel.org
-patch subject: [PATCH] media: bcm2835-unicam: Fix querycap multiple caps
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260612/202606121218.nV4fMXUr-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121218.nV4fMXUr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2b414a95b8f7307d42173ba9e580d6d3e2bcbfce
+commit: aa18d5769fcafe645a3ba01a9a69dde4f8dc8cc3 drm/xe: Allow dropping kunit dependency as built-in
+date:   12 months ago
+config: s390-randconfig-r133-20260612 (https://download.01.org/0day-ci/archive/20260612/202606121227.INI72DTN-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121227.INI72DTN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: aa18d5769fca ("drm/xe: Allow dropping kunit dependency as built-in")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606121218.nV4fMXUr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606121227.INI72DTN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/xe/xe_oa.c:2371:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __user * @@
+   drivers/gpu/drm/xe/xe_oa.c:2371:25: sparse:     expected unsigned long long [usertype] *ptr
+   drivers/gpu/drm/xe/xe_oa.c:2371:25: sparse:     got void [noderef] __user *
+>> drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __user *____guptr @@     got unsigned long long [usertype] *ptr @@
+   drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse:     expected void const [noderef] __user *____guptr
+   drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse:     got unsigned long long [usertype] *ptr
+   drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long long [usertype] *ptr @@
+   drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse:     got unsigned long long [usertype] *ptr
 
-   drivers/media/platform/broadcom/bcm2835-unicam.c: In function 'unicam_querycap':
->> drivers/media/platform/broadcom/bcm2835-unicam.c:1836:27: error: 'node' undeclared (first use in this function)
-    1836 |         if (is_image_node(node))
-         |                           ^~~~
-   drivers/media/platform/broadcom/bcm2835-unicam.c:1836:27: note: each undeclared identifier is reported only once for each function it appears in
+vim +2384 drivers/gpu/drm/xe/xe_oa.c
 
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2359  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2360  /**
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2361   * xe_oa_remove_config_ioctl - Removes one OA config
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2362   * @dev: @drm_device
+8169b2097d88d9 Ashutosh Dixit   2024-07-03  2363   * @data: pointer to struct @drm_xe_observation_param
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2364   * @file: @drm_file
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2365   */
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2366  int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2367  {
+cb925d31f09146 Michal Wajdeczko 2024-06-19  2368  	struct xe_device *xe = to_xe_device(dev);
+cb925d31f09146 Michal Wajdeczko 2024-06-19  2369  	struct xe_oa *oa = &xe->oa;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2370  	struct xe_oa_config *oa_config;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2371  	u64 arg, *ptr = u64_to_user_ptr(data);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2372  	int ret;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2373  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2374  	if (!oa->xe) {
+cb925d31f09146 Michal Wajdeczko 2024-06-19  2375  		drm_dbg(&xe->drm, "xe oa interface not available for this system\n");
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2376  		return -ENODEV;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2377  	}
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2378  
+8169b2097d88d9 Ashutosh Dixit   2024-07-03  2379  	if (xe_observation_paranoid && !perfmon_capable()) {
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2380  		drm_dbg(&oa->xe->drm, "Insufficient privileges to remove xe OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2381  		return -EACCES;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2382  	}
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2383  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17 @2384  	ret = get_user(arg, ptr);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2385  	if (XE_IOCTL_DBG(oa->xe, ret))
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2386  		return ret;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2387  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2388  	ret = mutex_lock_interruptible(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2389  	if (ret)
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2390  		return ret;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2391  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2392  	oa_config = idr_find(&oa->metrics_idr, arg);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2393  	if (!oa_config) {
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2394  		drm_dbg(&oa->xe->drm, "Failed to remove unknown OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2395  		ret = -ENOENT;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2396  		goto err_unlock;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2397  	}
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2398  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2399  	WARN_ON(arg != oa_config->id);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2400  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2401  	sysfs_remove_group(oa->metrics_kobj, &oa_config->sysfs_metric);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2402  	idr_remove(&oa->metrics_idr, arg);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2403  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2404  	mutex_unlock(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2405  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2406  	drm_dbg(&oa->xe->drm, "Removed config %s id=%i\n", oa_config->uuid, oa_config->id);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2407  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2408  	xe_oa_config_put(oa_config);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2409  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2410  	return 0;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2411  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2412  err_unlock:
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2413  	mutex_unlock(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2414  	return ret;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2415  }
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2416  
 
-vim +/node +1836 drivers/media/platform/broadcom/bcm2835-unicam.c
+:::::: The code at line 2384 was first introduced by commit
+:::::: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 drm/xe/oa/uapi: Add/remove OA config perf ops
 
-  1825	
-  1826	/* -----------------------------------------------------------------------------
-  1827	 *  V4L2 video device operations
-  1828	 */
-  1829	
-  1830	static int unicam_querycap(struct file *file, void *priv,
-  1831				   struct v4l2_capability *cap)
-  1832	{
-  1833		strscpy(cap->driver, UNICAM_MODULE_NAME, sizeof(cap->driver));
-  1834		strscpy(cap->card, UNICAM_MODULE_NAME, sizeof(cap->card));
-  1835	
-> 1836		if (is_image_node(node))
-  1837			cap->capabilities |= V4L2_CAP_VIDEO_CAPTURE;
-  1838		else
-  1839			cap->capabilities |= V4L2_CAP_META_CAPTURE;
-  1840	
-  1841		return 0;
-  1842	}
-  1843	
+:::::: TO: Ashutosh Dixit <ashutosh.dixit@intel.com>
+:::::: CC: Ashutosh Dixit <ashutosh.dixit@intel.com>
 
 --
 0-DAY CI Kernel Test Service
