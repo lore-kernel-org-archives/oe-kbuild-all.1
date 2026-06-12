@@ -1,456 +1,321 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27F23DD513
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 12:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB12F1E2606
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 13:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781268101; cv=none; b=p7q1vVgGkT9RnHN37HIOq0+jjGbNnex3z0JHyWZlusqm1jVR2W1pyB+ve5FEvQb/mMoQK01h/JG87PX7ClFPDaHs6TyQZSBCVKJFZ0e9plqBxwVVDm385uiMBQMFb494sTs1A/IPqdQwbXwiRXUStEkM1PGPrblFFJk+ht5PgJw=
+	t=1781271306; cv=none; b=ZVAc5Yk3rCypd5rCX7YdpifykD0UA7kaIiUyjws5jX4Jx5yQApUnEE3Va9VLbN05BQfTOUlwPpbGP2j7NIrBCCM5uSNj/rMhmE9VSuzoJm1Z37GkJUStyJUGwIgHA5VZWb/Lyvbz1Jg5QUCHLAH74i9IhfSIfJcH7brWk7aiUuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781268101; c=relaxed/simple;
-	bh=vDr0Htbyjx/wok3PErl3+v5grvNxuEQoDLk1A0Q+Mas=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=V9n3LZfsYB04jb5OOZX48rt1zXnH2rbIP1FDLjEnja4tZkBIzbcAL1fmRxa7qCARoZl66rVTWhakk54wrb47o+QFvjoeCwZFDh5ClsRzcTtYCGHbvXW+q/JXlaSznbqr2nFdmHCsu8WEBn8UhEZ7m6xKpelPn9sEqX7VuciVoPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FWdS3WJ9; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781271306; c=relaxed/simple;
+	bh=QbXQ/yT4xL45fcGUFBMGqB4aDYU9CacrzPx72FRoTzE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=X4u7oLPb3nNlCHwcopGKQsljgia2izpPhduCOPmSW7YPOX8jy2UNQEY4jbe81GulEzABmIe4liOtDYJxgbBjS/pAluc4XjwiAKHSOSn4N20TyPlaXC3K8E8x8CKkwijByqwJVb25N2O061cL0HwjhRN884y2pXR3W12w2RpSGk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kmje9RfC; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FWdS3WJ9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781268098; x=1812804098;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vDr0Htbyjx/wok3PErl3+v5grvNxuEQoDLk1A0Q+Mas=;
-  b=FWdS3WJ9gkMSoQQJZJ8q0ChDSAkXZeZxq8k6QcZbnargNbRBDtnsFbiW
-   OXhGw1CRI+uer+wNNN6ND6hV2Sz30QFK143dBoCCS3W+WN0rubeylAucy
-   6++8rBRMLlcNPbUM21WqMdML+0FGjZ6A3HISIAI4r/Hrp6v44Mnhh+Clk
-   ZFN0h8DPkNMkyT0+nTe6ZMVsTqWAHLogDAb5BNZ9lR5s4Tb68dbZSJedt
-   NDtejmBYn8ODIMTuM4bnTlnv2Bzc63b56VM3KtkbJkqO/eLOxHqr36P53
-   ONidOwSozXmZOerBcysuw9aZs50cPhJ93WgA350tvLMWqO/QArTC55C+T
-   Q==;
-X-CSE-ConnectionGUID: M6D+pjmUTyuDPegoEFGU9w==
-X-CSE-MsgGUID: Zwc72NazQy2eKBMs1qtEvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92661595"
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="92661595"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 05:41:37 -0700
-X-CSE-ConnectionGUID: nBKHt5XxQBGThf15/85cdg==
-X-CSE-MsgGUID: YJu7ygqtQWe5/hGrK92coQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="242430310"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Jun 2026 05:41:35 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wY1CW-00000000OkZ-3oDl;
-	Fri, 12 Jun 2026 12:41:32 +0000
-Date: Fri, 12 Jun 2026 20:40:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: George Mois <george.mois@analog.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>
-Subject: [nsa:xlnx/fix/buf-mmap-multibuffer 24600/27391]
- drivers/iio/adc/adrv902x/devices/adrv9025/public/src/adi_adrv9025_tx.c:1265:1:
- warning: the frame size of 1480 bytes is larger than 1024 bytes
-Message-ID: <202606122059.cW99XmNg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kmje9RfC"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c860544c077so1176408a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 06:35:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781271304; x=1781876104; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PJkStARvkoIWY4b141tWQ1brtOFvQ4g52atjcfQh36s=;
+        b=kmje9RfCDdsQ1HhA/6Ug/BgteZtFk/NQa6JAmtkUKkFrToneAPOlDwBuM2NSbU33qz
+         PiEuuFp94qUcE3Iq3cBshfOZMfL7gguJuL0fDvulhZxttpaj95BbwGJ7WHWPQ5/mTNvY
+         IBr2WJ0IgBkbE/sr9zYmG9jM5ouHRqS3zegZLk13WMNbAnCVyKBfpm82g2MsA4ENL/qP
+         o5QpASnWAXNUEKPFxltIUPcw+fHnQYOrtnJZQxTppGDckds42Js5f0FseyqEfEZsN0w6
+         QF29xH53KI39aU2Hht4azmSA9v9bxNO2ir3eMh/mlN5nSwjrecK9yoOb9S3DdAEpe0c4
+         tgCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781271304; x=1781876104;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PJkStARvkoIWY4b141tWQ1brtOFvQ4g52atjcfQh36s=;
+        b=RRKlbAGYoFXeXm0SKkGIdg3bner3Dyfq2zQDEl04VEVTxVvXM6fRnmt2AnleWKamNj
+         j+uGZ5fiNfHOV5a1XoAPvWHs7EBx8KO3cQAkOCb333c5aIpqHpdhOP5VjVBUkjPCAjCE
+         hMLBEp31ISmIf4GMF8+J+xY7E+bCcTYIkudXKANOb1dV5kFX9TGS588aHq2qUi71Tu8r
+         xlurM/aOegKeWYLvzlPoNX1HpuZwuscOXFMcQvYLnobJqNUrgZGjlDwqwPxJQ4xxA/Zs
+         aMewe8cJxAIltdd0iewC8EWxIiUmvJYNk/IK615ekl/AJPK8I0Jj40H8MAkVRT3dK/qV
+         VI3g==
+X-Forwarded-Encrypted: i=1; AFNElJ/KgGFzvHOh4MlLWZp6s+AAjmgCcrJsdHS3W5+39p+nKxp72nbBWwarfD+JFJ0/VQ8NMGSjbQD7JMuAR1eC@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMlDRNJPQcFQf/RZojGphxXJLoW5rgZWxMJv1BxRtgzaj2WuaS
+	zsZ8+zzH/lJAmlA8WnpL9Fg6ipbXA5XPkvcRLnu6SzFevxbqxuQnyEOekVCynAIct9F7MQJMolT
+	4/NNdvQ==
+X-Received: from pfbft7.prod.google.com ([2002:a05:6a00:81c7:b0:835:429c:76df])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3997:b0:842:55b6:f5a1
+ with SMTP id d2e1a72fcca58-8434caec14amr3070032b3a.6.1781271303898; Fri, 12
+ Jun 2026 06:35:03 -0700 (PDT)
+Date: Fri, 12 Jun 2026 06:35:03 -0700
+In-Reply-To: <202606121943.HbEtzxip-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <202606121943.HbEtzxip-lkp@intel.com>
+Message-ID: <aiwLB2iiGiXp5krW@google.com>
+Subject: Re: [sean-jc:x86/gmem_inplace 30/59] arch/s390/kvm/../../../virt/kvm/kvm_main.c:2437:12:
+ warning: 'kvm_supported_mem_attributes' defined but not used
+From: Sean Christopherson <seanjc@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, oe-kbuild-all@lists.linux.dev, 
+	Fuad Tabba <tabba@google.com>
+Content-Type: text/plain; charset="us-ascii"
 
-Hi George,
+On Fri, Jun 12, 2026, kernel test robot wrote:
+> tree:   https://github.com/sean-jc/linux x86/gmem_inplace
+> head:   ee82c791cf17377ef4b741e56d41fc1e454a1c6c
+> commit: d2dd49c5f92f1ccb2f22e281942dfb7771e27bc2 [30/59] KVM: guest_memfd: Advertise KVM_SET_MEMORY_ATTRIBUTES2 ioctl
+> config: s390-randconfig-002-20260612 (https://download.01.org/0day-ci/archive/20260612/202606121943.HbEtzxip-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121943.HbEtzxip-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606121943.HbEtzxip-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> arch/s390/kvm/../../../virt/kvm/kvm_main.c:2437:12: warning: 'kvm_supported_mem_attributes' defined but not used [-Wunused-function]
+>     static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+>                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/kvm_supported_mem_attributes +2437 arch/s390/kvm/../../../virt/kvm/kvm_main.c
+> 
+>   2436	
+> > 2437	static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+>   2438	{
+>   2439	#ifdef kvm_arch_has_private_mem
+>   2440		if (!kvm || kvm_arch_has_private_mem(kvm))
+>   2441			return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+>   2442	#endif
+>   2443	
+>   2444		return 0;
+>   2445	}
+>   2446	
 
-First bad commit (maybe !=3D root cause):
+Drat, forgot to run this through my full suite of build tests.  We could just
+tag it __maybe_unused, or wrap it in #ifdefs, but I already didn't love having
+kvm_supported_mem_attributes() since PRIVATE is likely the only flag guest_memfd
+will support anytime soon.
 
-tree:   https://github.com/nunojsa/linux xlnx/fix/buf-mmap-multibuffer
-head:   a26a8baba71e866951f6abf4fc6c0504770c272e
-commit: fc37eed973a0915ff27e09e50ffe7a93cfc30f24 [24600/27391] drivers: iio=
-: Rename madura to adrv902x
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/2026=
-0612/202606122059.cW99XmNg-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260612/202606122059.cW99XmNg-lkp@intel.com/reproduce)
+So I think maybe provide kvm_supports_private_mem() instead, and use #ifdef
+shenanigans to avoid an unused function.  That would have the added bonus of
+ensuring that guest_memfd is enabled if kvm_arch_has_private_mem is defined.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606122059.cW99XmNg-lkp@i=
-ntel.com/
+Ackerley, if you haven't already ingested this into your local repo, I force pushed
+to x86/gmem_inplace.  Or if you've already made other changes, here's the full
+thing.
 
-All warnings (new ones prefixed by >>):
+Oh, and looking at this, we probably should drop Fuad's review at this point...
 
-   cc1: warning: drivers/iio/adc/adrv902x/common/adi_libc/: No such file or=
- directory [-Wmissing-include-dirs]
-   drivers/iio/adc/adrv902x/devices/adrv9025/public/src/adi_adrv9025_tx.c: =
-In function 'adi_adrv9025_TxTestToneSet':
->> drivers/iio/adc/adrv902x/devices/adrv9025/public/src/adi_adrv9025_tx.c:1=
-265:1: warning: the frame size of 1480 bytes is larger than 1024 bytes [-Wf=
-rame-larger-than=3D]
-    1265 | }
-         | ^
+---
+From: Ackerley Tng <ackerleytng@google.com>
+Date: Thu, 23 Apr 2026 14:51:09 -0700
+Subject: [PATCH] KVM: guest_memfd: Advertise KVM_SET_MEMORY_ATTRIBUTES2 ioctl
 
+Introduce KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES to advertise the
+availability of the KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
 
-vim +1265 drivers/iio/adc/adrv902x/devices/adrv9025/public/src/adi_adrv9025=
-_tx.c
+KVM_SET_MEMORY_ATTRIBUTES2 is a guest_memfd-scoped version of the existing
+KVM_SET_MEMORY_ATTRIBUTES VM ioctl. It allows userspace to manage memory
+attributes, such as KVM_MEMORY_ATTRIBUTE_PRIVATE, directly on a guest_memfd
+file descriptor.
 
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1142 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1143          /* Write configuration */
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1144          channelLoop =3D txNcoTestTon=
-eCfg[i].txChannelMask;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1145          for (j =3D 0; j < ADI_ADRV90=
-25_MAX_TXCHANNELS; j++)
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1146          {
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1147              if (ADRV9025_BF_EQUAL(ch=
-annelLoop,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1148                                    AD=
-I_ADRV9025_TX1))
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1149              {
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1150                  txChannelBaseAddr =
-=3D ADRV9025_BF_TX_CH0;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1151                  channelLoop       =
-=3D channelLoop & ~ADI_ADRV9025_TX1;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1152              }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1153              else if (ADRV9025_BF_EQU=
-AL(channelLoop,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1154                                      =
-   ADI_ADRV9025_TX2))
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1155              {
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1156                  txChannelBaseAddr =
-=3D ADRV9025_BF_TX_CH1;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1157                  channelLoop       =
-=3D channelLoop & ~ADI_ADRV9025_TX2;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1158              }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1159              else if (ADRV9025_BF_EQU=
-AL(channelLoop,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1160                                      =
-   ADI_ADRV9025_TX3))
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1161              {
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1162                  txChannelBaseAddr =
-=3D ADRV9025_BF_TX_CH2;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1163                  channelLoop       =
-=3D channelLoop & ~ADI_ADRV9025_TX3;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1164              }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1165              else if (ADRV9025_BF_EQU=
-AL(channelLoop,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1166                                      =
-   ADI_ADRV9025_TX4))
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1167              {
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1168                  txChannelBaseAddr =
-=3D ADRV9025_BF_TX_CH3;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1169                  channelLoop       =
-=3D channelLoop & ~ADI_ADRV9025_TX4;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1170              }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1171                  /* error condition b=
-reak loop and report error */
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1172              else if (channelLoop =3D=
-=3D 0)
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1173              {
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1174                  /* All channels setu=
-p */
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1175                  break;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1176              }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1177              else
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1178              {
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1179                  ADI_ERROR_REPORT(&de=
-vice->common,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1180                                   ADI=
-_COMMON_ERRSRC_API,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1181                                   ADI=
-_COMMON_ERR_INV_PARAM,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1182                                   ADI=
-_COMMON_ACT_ERR_CHECK_PARAM,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1183                                   txN=
-coTestToneCfg[i].txChannelMask,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1184                                   "Er=
-ror while accessing selected Tx channel");
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1185                  ADI_ERROR_RETURN(dev=
-ice->common.error.newAction);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1186              }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1187 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1188              txSampleRateDiv2_Hz =3D =
-(((int64_t)device->devStateInfo.txInputRate_kHz[j]) * 1000) >> 1;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1189 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1190              if ((txNcoTestToneCfg[i]=
-.txToneFreq_Hz > txSampleRateDiv2_Hz) ||
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1191                  (txNcoTestToneCfg[i]=
-.txToneFreq_Hz < -(txSampleRateDiv2_Hz)))
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1192              {
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1193                  ADI_ERROR_REPORT(&de=
-vice->common,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1194                                   ADI=
-_COMMON_ERRSRC_API,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1195                                   ADI=
-_COMMON_ERR_INV_PARAM,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1196                                   ADI=
-_COMMON_ACT_ERR_CHECK_PARAM,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1197                                   txN=
-coTestToneCfg[i].txToneFreq_Hz,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1198                                   "Tx=
- Test Tone Frequency is too large for the Tx Profile's sample rate");
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1199                  ADI_ERROR_RETURN(dev=
-ice->common.error.newAction);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1200              }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1201 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1202              tuneWord =3D (uint32_t)(=
-(div_s64(((int64_t)((0 - txNcoTestToneCfg[i].txToneFreq_Hz)) << 32), txSamp=
-leRateDiv2_Hz) + 1) >> 1);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1203              /* +1 >>1 is round to ne=
-arest */
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1204 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1205              /* Configure part */
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1206              /* Disable Tx NCO comple=
-x multiplier */
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1207              recoveryAction =3D adrv9=
-025_TxTxDpNcoEnableBfSet(device,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1208                                      =
-                       txChannelBaseAddr,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1209                                      =
-                       0);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1210              ADI_ERROR_REPORT(&device=
-->common,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1211                               ADI_COM=
-MON_ERRSRC_API,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1212                               device-=
->common.error.errCode,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1213                               recover=
-yAction,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1214                               txNcoTe=
-stToneCfg[i].enable,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1215                               "Error =
-while attempting to disable the Tx Nco complex multipler");
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1216              ADI_ERROR_RETURN(device-=
->common.error.newAction);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1217 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1218              recoveryAction =3D adrv9=
-025_TxTxNcoGainBfSet(device,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1219                                      =
-                   txChannelBaseAddr,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1220                                      =
-                   txNcoTestToneCfg[i].txToneGain);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1221              ADI_ERROR_REPORT(&device=
-->common,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1222                               ADI_COM=
-MON_ERRSRC_API,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1223                               device-=
->common.error.errCode,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1224                               recover=
-yAction,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1225                               txNcoTe=
-stToneCfg[i].txToneGain,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1226                               "Error =
-while attempting to set the Nco tone gain");
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1227              ADI_ERROR_RETURN(device-=
->common.error.newAction);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1228 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1229              recoveryAction =3D adrv9=
-025_TxTxDpNcoFtwBfSet(device,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1230                                      =
-                    txChannelBaseAddr,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1231                                      =
-                    tuneWord);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1232              ADI_ERROR_REPORT(&device=
-->common,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1233                               ADI_COM=
-MON_ERRSRC_API,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1234                               device-=
->common.error.errCode,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1235                               recover=
-yAction,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1236                               txNcoTe=
-stToneCfg[i].txToneFreq_Hz,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1237                               "Error =
-while attempting to set the Nco tone frequency");
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1238              ADI_ERROR_RETURN(device-=
->common.error.newAction);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1239 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1240              recoveryAction =3D adrv9=
-025_TxTxDpNcoFtwUpdateBfSet(device,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1241                                      =
-                          txChannelBaseAddr,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1242                                      =
-                          ADI_ON);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1243              ADI_ERROR_REPORT(&device=
-->common,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1244                               ADI_COM=
-MON_ERRSRC_API,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1245                               device-=
->common.error.errCode,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1246                               recover=
-yAction,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1247                               txNcoTe=
-stToneCfg[i].txToneFreq_Hz,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1248                               "Error =
-while attempting to update the Nco tone frequency");
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1249              ADI_ERROR_RETURN(device-=
->common.error.newAction);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1250 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1251              recoveryAction =3D adrv9=
-025_TxNcoTestEnableBfSet(device,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1252                                      =
-                       txChannelBaseAddr,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1253                                      =
-                       (txNcoTestToneCfg[i].enable > 0) ? 1 : 0);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1254              ADI_ERROR_REPORT(&device=
-->common,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1255                               ADI_COM=
-MON_ERRSRC_API,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1256                               device-=
->common.error.errCode,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1257                               recover=
-yAction,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1258                               txNcoTe=
-stToneCfg[i].enable,
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1259                               "Error =
-while attempting to set the Nco test tone enable");
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1260              ADI_ERROR_RETURN(device-=
->common.error.newAction);
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1261          }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1262      }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1263 =20
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1264      return device->common.error.newA=
-ction;
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07 @1265  }
-1be380acb0acfc drivers/iio/adc/madura/devices/adrv9025/public/src/adi_adrv9=
-025_tx.c George Mois 2023-11-07  1266 =20
+This new version uses struct kvm_memory_attributes2, which adds an
+error_offset field to the output. This allows KVM to return the specific
+offset that triggered an error, which is especially useful for handling
+EAGAIN results caused by transient page reference counts during attribute
+conversions.
 
-:::::: The code at line 1265 was first introduced by commit
-:::::: 1be380acb0acfc5968eee0a1c99fd3970b41cf2f iio: adc: Add Madura API
+Update the KVM API documentation to define the new ioctl and its behavior,
+and add the necessary UAPI definitions and capability checks.
 
-:::::: TO: George Mois <george.mois@analog.com>
-:::::: CC: Nuno S=C3=A1 <noname.nuno@gmail.com>
+Suggested-by: Sean Christopherson <seanjc@google.com>
+Suggested-by: Michael Roth <michael.roth@amd.com>
+Reviewed-by: Fuad Tabba <tabba@google.com>
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+---
+ Documentation/virt/kvm/api.rst | 78 +++++++++++++++++++++++++++++++++-
+ include/uapi/linux/kvm.h       |  2 +
+ virt/kvm/kvm_main.c            | 23 +++++++---
+ 3 files changed, 95 insertions(+), 8 deletions(-)
 
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 6c691fb2af5f..43f86ae3a17d 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -117,7 +117,7 @@ description:
+       x86 includes both i386 and x86_64.
+ 
+   Type:
+-      system, vm, or vcpu.
++      system, vm, vcpu or guest_memfd.
+ 
+   Parameters:
+       what parameters are accepted by the ioctl.
+@@ -6373,6 +6373,8 @@ S390:
+ Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
+ Returns -EINVAL if called on a protected VM.
+ 
++.. _KVM_SET_MEMORY_ATTRIBUTES:
++
+ 4.141 KVM_SET_MEMORY_ATTRIBUTES
+ -------------------------------
+ 
+@@ -6565,6 +6567,80 @@ KVM_S390_KEYOP_SSKE
+   Sets the storage key for the guest address ``guest_addr`` to the key
+   specified in ``key``, returning the previous value in ``key``.
+ 
++4.145 KVM_SET_MEMORY_ATTRIBUTES2
++---------------------------------
++
++:Capability: KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES
++:Architectures: all
++:Type: guest_memfd ioctl
++:Parameters: struct kvm_memory_attributes2 (in/out)
++:Returns: 0 on success, <0 on error
++
++Errors:
++
++  ========== ===============================================================
++  EINVAL     The specified `offset` or `size` were invalid (e.g. not
++             page aligned, causes an overflow, or size is zero).
++  EFAULT     The parameter address was invalid.
++  EAGAIN     Some page within requested range had unexpected refcounts. The
++             offset of the page will be returned in `error_offset`.
++  ENOMEM     Ran out of memory trying to track private/shared state
++  ========== ===============================================================
++
++KVM_SET_MEMORY_ATTRIBUTES2 is an extension to
++KVM_SET_MEMORY_ATTRIBUTES that supports returning (writing) values to
++userspace.  The original (pre-extension) fields are shared with
++KVM_SET_MEMORY_ATTRIBUTES identically.
++
++Attribute values are shared with KVM_SET_MEMORY_ATTRIBUTES.
++
++::
++
++  struct kvm_memory_attributes2 {
++	/* in */
++	union {
++		__u64 address;
++		__u64 offset;
++	};
++	__u64 size;
++	__u64 attributes;
++	__u64 flags;
++	/* out */
++	__u64 error_offset;
++	__u64 reserved[11];
++  };
++
++  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
++
++Set attributes for a range of offsets within a guest_memfd to
++KVM_MEMORY_ATTRIBUTE_PRIVATE to limit the specified guest_memfd backed
++memory range for guest_use. Even if KVM_CAP_GUEST_MEMFD_MMAP is
++supported, after a successful call to set
++KVM_MEMORY_ATTRIBUTE_PRIVATE, the requested range will not be mappable
++into host userspace and will only be mappable by the guest.
++
++To allow the range to be mappable into host userspace again, call
++KVM_SET_MEMORY_ATTRIBUTES2 on the guest_memfd again with
++KVM_MEMORY_ATTRIBUTE_PRIVATE unset.
++
++KVM does not directly manipulate the memory contents of pages during
++attribute updates. However, the process of setting these attributes,
++which includes operations such as unmapping pages from the host or
++stage-2 page tables, may result in side effects on memory contents
++that vary across different trusted firmware implementations.
++
++If this ioctl returns -EAGAIN, the offset of the page with unexpected
++refcounts will be returned in `error_offset`. This can occur if there
++are transient refcounts on the pages, taken by other parts of the
++kernel.
++
++Userspace is expected to figure out how to remove all known refcounts
++on the shared pages, such as refcounts taken by get_user_pages(), and
++try the ioctl again. A possible source of these long term refcounts is
++if the guest_memfd memory was pinned in IOMMU page tables.
++
++See also: :ref: `KVM_SET_MEMORY_ATTRIBUTES`.
++
+ .. _kvm_run:
+ 
+ 5. The kvm_run structure
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 0b55258573d3..f437fd0f1350 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -996,6 +996,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_S390_USER_OPEREXEC 246
+ #define KVM_CAP_S390_KEYOP 247
+ #define KVM_CAP_S390_VSIE_ESAMODE 248
++#define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 249
+ 
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
+@@ -1648,6 +1649,7 @@ struct kvm_memory_attributes {
+ 	__u64 flags;
+ };
+ 
++/* Available with KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES */
+ #define KVM_SET_MEMORY_ATTRIBUTES2              _IOWR(KVMIO,  0xd2, struct kvm_memory_attributes2)
+ 
+ struct kvm_memory_attributes2 {
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index efbcc765f3ce..dc43dee89512 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -2434,18 +2434,22 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+ }
+ #endif /* CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT */
+ 
++#ifdef kvm_arch_has_private_mem
++static u64 kvm_supports_private_mem(struct kvm *kvm)
++{
++	return !kvm || kvm_arch_has_private_mem(kvm);
++}
++#else
++#define kvm_supports_private_mem(kvm) false
++#endif
++
+ #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+ static u64 kvm_supported_vm_mem_attributes(struct kvm *kvm)
+ {
+-#ifdef kvm_arch_has_private_mem
+-	if (gmem_in_place_conversion)
++	if (gmem_in_place_conversion || !kvm_supports_private_mem(kvm))
+ 		return 0;
+ 
+-	if (!kvm || kvm_arch_has_private_mem(kvm))
+-		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+-#endif
+-
+-	return 0;
++	return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+ }
+ 
+ /*
+@@ -4970,6 +4974,11 @@ static int kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+ 		return 1;
+ 	case KVM_CAP_GUEST_MEMFD_FLAGS:
+ 		return kvm_gmem_get_supported_flags(kvm);
++	case KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES:
++		if (!gmem_in_place_conversion || !kvm_supports_private_mem(kvm))
++			return 0;
++
++		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+ #endif
+ 	default:
+ 		break;
+
+base-commit: 7e5cbd74e6f2dbe5d98d71e4286725da4179a531
 --
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
