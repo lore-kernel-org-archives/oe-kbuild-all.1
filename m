@@ -1,82 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A023655E6;
-	Fri, 12 Jun 2026 18:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1008E2F549F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 18:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781288297; cv=none; b=DXVpklvmYpv2EBwnqEC7I7Mg6dmVRf45Q0WdWiTDMv4SeQC8iXm0s5NXWAqSenqCz/tin9RnKGBusoqnBsRnzXOHCKH3yRScO49ZbdvQxhjR9itelkUxx08nxzXRpecMteNGNwmUhGjF7YKleK77O/JTcd9yUJ5mu2BrlVZRvYo=
+	t=1781289137; cv=none; b=QS6Rd1K5GoHbSFhe7I7/aODx+dbAe9TvnYqOAdnIHVTLi0q89afQ/WXF+fZT4P/+Xy42Un1lSvyb96nOT1W+yhseqzIKnTzzBPPolpk8NsaV0tK8ODE7i2G4ugBxr/zPi32wAIQCMJiuFHBOCRlMRfVYbEf0lWjNBaDRoD7njHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781288297; c=relaxed/simple;
-	bh=GgXwtHCxCdjGr2EMLikfw9VatVYG3ZHRAJxS0RtI0o0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NnGkX/LmNlCZ8EZQ63L3exdn2l2VUM2fsKYapAQj+pzJG7+frN0RPJuBKZFLlBFPPDeLjxFi8pbHzrnWcSg04uewTnm82Hi9eEo5VZkKkgd0I0NRwPKkj7vFYeJVI49pZ9Mm2k5QlXsZ82STlLhV9sTeV2YHde4yDZcvJ1C7bLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QySR2KP0; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1781289137; c=relaxed/simple;
+	bh=teAGIu20S+DfVjCHbLEHuNbZ11mMm4HiN9c3DP7SxHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A+L8SexHOM3uxYjknOOifamq6GHpilHs9zRAYTxfRcD0yIptFvcLFQHStSb6tlo+TLOEInUBMUtIMWYtVd8GoYP6+OANLeH+hJNMpOM8HLxg7vN23muDclyJ5uqlS6Cmp1M4boqmrGu72xBDWJBAHgYRuV0d59WMOPBqvZCwgkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ky93kri/; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QySR2KP0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ky93kri/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781288294; x=1812824294;
-  h=date:from:to:cc:subject:message-id;
-  bh=GgXwtHCxCdjGr2EMLikfw9VatVYG3ZHRAJxS0RtI0o0=;
-  b=QySR2KP0RyNKo3EoALDdQbjNTPqGul48lRv7ri3s+5eqQydaUUX33SlY
-   +vTrhIq8JG4IzR+DOqDP6MUDfA55iJU+DwTnRfMllrjGuiAw2pAJZHn8t
-   xKGqRQvJQb/o2X1U0HoCjhkQMKt9G/wdvyTdWIXY8pP/BXRQwHZLFdgHN
-   jE50nfQ75FhxfI9B6smn+tb+a90M7OubzTJvD0MTaBqy/wjcyxszxLlRE
-   npSVUySkBhNFvXME1Q3USs0dzQkLftPHEIhwYUKsYQ363Z92EWpoAVMyj
-   KNLACRLcdSe5P4EvfvljlPYrDEisoXP+fwpldd94gKbGNlyk+6F6usyd1
-   w==;
-X-CSE-ConnectionGUID: wY8BzxwjSWKETD/G1VZWtA==
-X-CSE-MsgGUID: okji8vMDQIm2GCoPpITgag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="85969209"
+  t=1781289136; x=1812825136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=teAGIu20S+DfVjCHbLEHuNbZ11mMm4HiN9c3DP7SxHo=;
+  b=ky93kri/s0ompeRsNo/HXFPIKdBSBhmLUqsg0kMESpgjlTUZzX3H/6bm
+   vldndyA/7BB9gu/dHfuTQu0M33qNyOxvGAU+R7Ekg7+apNj2ifN/inupq
+   siKowFlhUIUC9OIX4XKlw/6uKugxj7vlFEhMXRMWqxqUcrAZ64mDOblUO
+   Vlno8fE9vJ+iN1E5bBcMQBr2ql576pjeFaQttd1EOIHYKyz3qDVjKl4IX
+   Hm3GeRirDh1uHSrOWg1oFJsPbzLTp+Gb0kGuudfE5Vj9bM3TLRiBPg2CT
+   /Ez2Os/3I7XPYh81X09n+oaXk6NnrVnPeZHxMyMTBxa98966963RDy/W8
+   A==;
+X-CSE-ConnectionGUID: DnyAOVUkSDW5HOrt46+u2Q==
+X-CSE-MsgGUID: ilnW8A0xTI2jG3Q+bskW6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="81969313"
 X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="85969209"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 11:18:13 -0700
-X-CSE-ConnectionGUID: +vqLKWf9T+irdFBg0Zrxtg==
-X-CSE-MsgGUID: gisD8UCbQmeAb2PyXyWVEQ==
+   d="scan'208";a="81969313"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 11:32:15 -0700
+X-CSE-ConnectionGUID: LRQ+WIO9QSabUQjeviLM2g==
+X-CSE-MsgGUID: 9mWp3+uRQGmnNKBT8ZADWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="251170555"
+   d="scan'208";a="246758789"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jun 2026 11:18:11 -0700
+  by orviesa008.jf.intel.com with ESMTP; 12 Jun 2026 11:32:12 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wY6SG-00000000PBJ-1fAc;
-	Fri, 12 Jun 2026 18:18:08 +0000
-Date: Sat, 13 Jun 2026 02:17:21 +0800
+	id 1wY6fq-00000000PCT-0vYD;
+	Fri, 12 Jun 2026 18:32:10 +0000
+Date: Sat, 13 Jun 2026 02:32:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jia Wang <wangjia@ultrarisc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [linusw-pinctrl:devel 125/127] ERROR: modpost:
- "pinctrl_get_group_selector" [drivers/pinctrl/ultrarisc/pinctrl-ultrarisc.ko]
- undefined!
-Message-ID: <202606130210.ytVPxHlm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jipa Alexandru-Ionut <jipaionut@gmail.com>, valentina.manea.m@gmail.com,
+	shuah@kernel.org, i@zenithal.me, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Jipa Alexandru-Ionut <jipaionut@gmail.com>
+Subject: Re: [PATCH] usbip: vudc: fix NULL pointer dereference in vep_dequeue
+Message-ID: <202606130221.e57TS4Rk-lkp@intel.com>
+References: <20260612114148.6849-1-jipaionut@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260612114148.6849-1-jipaionut@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-head:   981aefd53b3cdafae0e45332a1023b80d67f52be
-commit: cb7037924836a352e767f69f1aa65b82f3e815f4 [125/127] pinctrl: ultrarisc: Add UltraRISC DP1000 pinctrl driver
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260613/202606130210.ytVPxHlm-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c8ad049db78ae52052722b6f42b54cd2a666072b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260613/202606130210.ytVPxHlm-lkp@intel.com/reproduce)
+Hi Jipa,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v7.1-rc7 next-20260611]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jipa-Alexandru-Ionut/usbip-vudc-fix-NULL-pointer-dereference-in-vep_dequeue/20260612-195006
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20260612114148.6849-1-jipaionut%40gmail.com
+patch subject: [PATCH] usbip: vudc: fix NULL pointer dereference in vep_dequeue
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260613/202606130221.e57TS4Rk-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260613/202606130221.e57TS4Rk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606130210.ytVPxHlm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606130221.e57TS4Rk-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "pinctrl_get_group_selector" [drivers/pinctrl/ultrarisc/pinctrl-ultrarisc.ko] undefined!
+   drivers/usb/usbip/vudc_dev.c: In function 'vep_dequeue':
+>> drivers/usb/usbip/vudc_dev.c:336:26: warning: variable 'req' set but not used [-Wunused-but-set-variable=]
+     336 |         struct vrequest *req;
+         |                          ^~~
+
+
+vim +/req +336 drivers/usb/usbip/vudc_dev.c
+
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  332  
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  333  static int vep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  334  {
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  335  	struct vep *ep;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08 @336  	struct vrequest *req;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  337  	struct vudc *udc;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  338  	struct vrequest *lst;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  339  	unsigned long flags;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  340  	int ret = -EINVAL;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  341  
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  342  	if (!_ep || !_req)
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  343  		return ret;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  344  
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  345  	ep = to_vep(_ep);
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  346  	req = to_vrequest(_req);
+c21cd67cd337e6 Jipa Alexandru-Ionut 2026-06-12  347  	udc = ep_to_vudc(ep);
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  348  
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  349  	if (!udc->driver)
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  350  		return -ESHUTDOWN;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  351  
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  352  	spin_lock_irqsave(&udc->lock, flags);
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  353  	list_for_each_entry(lst, &ep->req_queue, req_entry) {
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  354  		if (&lst->req == _req) {
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  355  			list_del_init(&lst->req_entry);
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  356  			_req->status = -ECONNRESET;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  357  			ret = 0;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  358  			break;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  359  		}
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  360  	}
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  361  	spin_unlock_irqrestore(&udc->lock, flags);
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  362  
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  363  	if (ret == 0)
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  364  		usb_gadget_giveback_request(_ep, _req);
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  365  
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  366  	return ret;
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  367  }
+b6a0ca11186759 Igor Kotrasinski     2016-03-08  368  
 
 --
 0-DAY CI Kernel Test Service
