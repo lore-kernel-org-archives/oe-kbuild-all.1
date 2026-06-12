@@ -1,143 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C1835E1DB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 10:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E2A38F953
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 10:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781260198; cv=none; b=OXZ3HJBIHmKkLUFJaYLTel7FHzDR3iBUJgQsKPGUF1pohP1WIqKLsBGDmLECUPfJjPEbPZd8YGTa3M/uR2y8NmeNaG625cSWbhfIK1UDtevruLCPLVC987TY1nkr2KDZiH9/GWkYX4VBQcKGqycbYt/vQ6nYyFZuNbGGI3Ss13U=
+	t=1781260247; cv=none; b=dNBq20b7llfTUgHEpiidPeOmCHigdsX/Yp++WZ44PJUX5bQGBm2NWzz1KbZ6hzG9GCmLPhd/WTEevrrmGLBluD1lKdDIpLwecenDaug7c51qoq8fchT8dz7UreATJne8Sk9k8/TVFYfIwOPCt57MvZbzn8KQICehvhT6sTIdpF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781260198; c=relaxed/simple;
-	bh=MRXOkGvRggX5TjWjGyoj/7X0pXnGrU+vae+SgZDT4HE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eMhWMcX1b4jMX9PN2gPNPq9ykMqbSHOVXn5O+/q3h/hMYpdL/J1INMAiFujJat77ZnMbvq0KaXogc9VUputzaWJP7vOS++xGkZotvvZ4Lgibh014KvZAf8A/KNW/djmd+PgvBClL6MyU7V0SwocSXtX2ytmgPT142Xf782KFl94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXae6l3j; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781260247; c=relaxed/simple;
+	bh=v5cwcGomvSUQMzir0sDntuk3Z2EgSkEPoe/fBYaEm+M=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=MSkbdE7ikMzC0H6o+wCreep+0bhw+lEHrCUZVh6H/iP8cv92t4TfVlTE+HvxliOSkLADBU6JrAzecGl8J2msomLbzFIVRBUQfCO+NpNvfi7zus+LxgjNtf7G0QdmGv29RJz7afrjnQQ4dKKmPuYUMSvRh4Gj5lWGbuwg2+/7rWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fCknGNyA; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXae6l3j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781260197; x=1812796197;
-  h=date:from:to:cc:subject:message-id;
-  bh=MRXOkGvRggX5TjWjGyoj/7X0pXnGrU+vae+SgZDT4HE=;
-  b=cXae6l3j1l8dFq+EhUf6iLg5NgUX3i4vjStwei7CD74xfebsd0nTRO4i
-   rksOlwXYM5ygJtIUlbaG6HlzpWhG8K6EqAuZRkJ6rXUqkb9XjdHz7w/NU
-   0IGFH5hW5H59Hs0faUIUewNDIDcNaNnNwn2eBrliGjOMNuFLdUhdyIelj
-   OKNBDk07n1x8mIuWIYrZPf8boZzvl85LHu8iMuEcwzZpHZUdx1zSfKYGn
-   pz393d3FEGQ5Ko/MYMfyz8b/1L+ChwROsEZIDXwr27VDcPd+0UAq4Ato2
-   UeEo8kGPCsNGENFpYHLqAdfTgHVjQ3JMs5fIaBK678+6mIMdur8izBG72
-   g==;
-X-CSE-ConnectionGUID: ER0/fd4JSBKdwV/p5YFuPw==
-X-CSE-MsgGUID: Mrsrsi/+SHCGR8NGg1EBCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92409614"
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="92409614"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 03:29:56 -0700
-X-CSE-ConnectionGUID: +eLpJGN6QOq7Rlo+8cn/RQ==
-X-CSE-MsgGUID: 9oEz1F5bTxG+Ro32o91BUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="243853030"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Jun 2026 03:29:54 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXz95-00000000Ocf-3vYC;
-	Fri, 12 Jun 2026 10:29:51 +0000
-Date: Fri, 12 Jun 2026 18:29:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:kvmclock6 12/36] arch/x86/kvm/x86.c:3249:1: warning:
- label 'fallback' defined but not used
-Message-ID: <202606121847.WMpRF92x-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fCknGNyA"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c0c1e0b0faso5375215ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 03:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781260246; x=1781865046; darn=lists.linux.dev;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=oARqs+T9JbWNb6W4wENAtGBSBaXfYyAinTQCHjHTX1s=;
+        b=fCknGNyAEOKP++71BxQU6iq08mCOxdGTTg+dWnoS4Fs8zbA+Jc/FoB68cZy4kDyE6u
+         oE38/vxMg8TKydE8xsdlNHra/qkBy5GZg4cFIGjR+kW8IgXl6BRuveCo+SAPNhtFBQOV
+         DZgzVTTWwW8HjxQ0xf29ZK7XO0Wo/0Oq55pY2ES8KB2XR5HQi/vFIRc9WDO3zyALmXfz
+         NWcWAJBfJJViheRLwoPav6eqvjwZLceERmmg5+nOWu4OvFSKAQl7ZsWWLmtPFUz2yTMJ
+         rV64zd1ll0zBDHPoST6k4PTstysFhHF5EmCz2McBD1nvK6yabiL5uRe/sxjLf1K9UO3P
+         /eCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781260246; x=1781865046;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oARqs+T9JbWNb6W4wENAtGBSBaXfYyAinTQCHjHTX1s=;
+        b=cimqlWW8O0s2CTMQBwsDTF5TQ+sRFeLeRtcGgt4wve3RiYjW+RAP8BLKAfGHAnHAIr
+         hTseT1Z0ANhPUNCsJugdtBsFWDIpSDvW6toMYzpSbXvTpwYGNIC6zzX9tN1IV3EXU0Wv
+         wcIHh0SUDRX1mOmvagRJJs/CSsSY8O3JZLXfNRksvykoftUBFca++SlfvvPsFwn6nukh
+         q4K/IWWFJJessQx98quUzCn27BDSEB5/v700OqwEP3PFjG/HpPON3UtYqtAxILvikNwj
+         0/oAOYbTmZUIfEovaYXXVU5hcKZMLIyOGM1m/WARrcjswQDDTjSj6Ve975rpsS0jlxpI
+         +imQ==
+X-Gm-Message-State: AOJu0YwM6zrb/IYoUk17LlLsU8Y/EzbrKKOZGoyyLoSqxmuyN8MSZxdV
+	MHqLUg5Q75TbtbWak+/O17v0luSgHv+UY6aYx7/AK+zPvK6j7NXsOjBn
+X-Gm-Gg: Acq92OFXRrauj7WyN8GmRixAeGz3ghQ0ml50RIZcPnQ8i82hG2y5wWVQ0z1bkkxgkP4
+	g2awuagg/R8ayJNGL/sn7r7LogKwPikYDFC4sk7hewdjZKhysS179tSUKH4g6TckKZ2n3lQlKjQ
+	UtEfHfJ91XPptOSAJFSBeWEUSpbcp3vShS1J0fb+hEh+5qEfCE2McllQms3xZZIAYKnaa2BNoQg
+	YstCg/rxlg7ZS1/zzygdBRLm79Y7JDZdS0NRINfMX1bxeFxSGA0H3xfkq9BL6GIbGpMmKhT3pqK
+	kGAsT8eKKDR4Kq/5fwfNTunK5pjpBA0jT9LvEGsTfCm6dnpnH0lskWIQcJXxGSQkscfe3+VSrNF
+	bYkPCFCZqXUUpsSybORYb5puLY3spikEfzOBafqez1lFDTClUz9JBjPa2EIxJkDOH6v2yBH5QUi
+	maA7W0i7f4Dy4PZH4a6lXAoz9KeQ==
+X-Received: by 2002:a17:903:3887:b0:2b2:4d36:7ba with SMTP id d9443c01a7336-2c40e0350d2mr27814135ad.0.1781260245979;
+        Fri, 12 Jun 2026 03:30:45 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42fbb50e5sm17778985ad.35.2026.06.12.03.30.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 03:30:44 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: kernel test robot <lkp@intel.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List <linux-mm@kvack.org>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, David Hildenbrand <david@kernel.org>, linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, Sayali Patil <sayalip@linux.ibm.com>
+Subject: Re: [PATCH v2 3/3] powerpc: Kconfig: Enable THP_SWAP on Book3S64
+In-Reply-To: <202606121305.h0cxjhP2-lkp@intel.com>
+Date: Fri, 12 Jun 2026 12:01:26 +0530
+Message-ID: <jys4e0ch.ritesh.list@gmail.com>
+References: <3abf510d24c8ef17bd5e324cccc5e03e548afade.1781170904.git.ritesh.list@gmail.com> <202606121305.h0cxjhP2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/dwmw2/linux kvmclock6
-head:   f0cde567611e75fa2459c24c7aea06d619f07f8b
-commit: 0dba225ab43627430d6b2f8be1143ea133116e96 [12/36] KVM: x86: Restructure get_kvmclock()
-config: i386-buildonly-randconfig-004-20260612 (https://download.01.org/0day-ci/archive/20260612/202606121847.WMpRF92x-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121847.WMpRF92x-lkp@intel.com/reproduce)
+kernel test robot <lkp@intel.com> writes:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606121847.WMpRF92x-lkp@intel.com/
+> Hi Ritesh,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on akpm-mm/mm-everything]
+> [also build test WARNING on linux-review/Ritesh-Harjani-IBM/include-linux-swap-h-Remove-unused-leftovers/20260611-111124 next-20260611]
+> [cannot apply to powerpc/next powerpc/fixes linus/master v7.1-rc7]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ritesh-Harjani-IBM/mm-swap-make-SWAPFILE_CLUSTER-runtime/20260611-181121
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/3abf510d24c8ef17bd5e324cccc5e03e548afade.1781170904.git.ritesh.list%40gmail.com
+> patch subject: [PATCH v2 3/3] powerpc: Kconfig: Enable THP_SWAP on Book3S64
+> config: arm64-randconfig-r133-20260611 (https://download.01.org/0day-ci/archive/20260612/202606121305.h0cxjhP2-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 8.5.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121305.h0cxjhP2-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606121305.h0cxjhP2-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> mm/swapfile.c:133:6: sparse: sparse: symbol 'swap_table_use_page' was not declared. Should it be static?
+>
+> vim +/swap_table_use_page +133 mm/swapfile.c
+>
+>    131	
+>    132	unsigned int swap_slots_in_cluster __read_mostly;
+>  > 133	bool swap_table_use_page __read_mostly;
+>    134	
 
-All warnings (new ones prefixed by >>):
+I had noticed this after sending the v2. But by then it was late.
+Good that the sparse checker caught it.
 
-   arch/x86/kvm/x86.c: In function 'get_kvmclock':
->> arch/x86/kvm/x86.c:3249:1: warning: label 'fallback' defined but not used [-Wunused-label]
-    3249 | fallback:
-         | ^~~~~~~~
->> arch/x86/kvm/x86.c:3206:39: warning: unused variable 'hv_clock' [-Wunused-variable]
-    3206 |         struct pvclock_vcpu_time_info hv_clock;
-         |                                       ^~~~~~~~
+So, I will declare this variable as static - that should fix the
+sparse warning. I will spin a v3 in sometime with this fixed.
 
-
-vim +/fallback +3249 arch/x86/kvm/x86.c
-
-  3202	
-  3203	static void get_kvmclock(struct kvm *kvm, struct kvm_clock_data *data)
-  3204	{
-  3205		struct kvm_arch *ka = &kvm->arch;
-> 3206		struct pvclock_vcpu_time_info hv_clock;
-  3207		unsigned int seq;
-  3208	
-  3209		do {
-  3210			seq = read_seqcount_begin(&ka->pvclock_sc);
-  3211	
-  3212			data->flags = 0;
-  3213	#ifdef CONFIG_X86_64
-  3214			if (ka->use_master_clock) {
-  3215				struct timespec64 ts;
-  3216	
-  3217				/*
-  3218				 * The RDTSC and get_cpu_tsc_khz() must happen on
-  3219				 * the same CPU.
-  3220				 */
-  3221				get_cpu();
-  3222	
-  3223				if (kvm_get_walltime_and_clockread(&ts, &data->host_tsc)) {
-  3224					data->realtime = ts.tv_nsec + NSEC_PER_SEC * ts.tv_sec;
-  3225					data->flags |= KVM_CLOCK_REALTIME | KVM_CLOCK_HOST_TSC;
-  3226				} else {
-  3227					/*
-  3228					 * Clock read failed (e.g. clocksource is
-  3229					 * transitioning away from TSC). Fall back to
-  3230					 * the non-master-clock path rather than
-  3231					 * spinning.
-  3232					 */
-  3233					put_cpu();
-  3234					goto fallback;
-  3235				}
-  3236	
-  3237				data->flags |= KVM_CLOCK_TSC_STABLE;
-  3238				hv_clock.tsc_timestamp = ka->master_cycle_now;
-  3239				hv_clock.system_time = ka->master_kernel_ns + ka->kvmclock_offset;
-  3240				kvm_get_time_scale(NSEC_PER_SEC, get_cpu_tsc_khz() * 1000LL,
-  3241						   &hv_clock.tsc_shift,
-  3242						   &hv_clock.tsc_to_system_mul);
-  3243				data->clock = __pvclock_read_cycles(&hv_clock, data->host_tsc);
-  3244	
-  3245				put_cpu();
-  3246			} else
-  3247	#endif
-  3248			{
-> 3249	fallback:
-  3250				data->clock = get_kvmclock_base_ns() + ka->kvmclock_offset;
-  3251			}
-  3252		} while (read_seqcount_retry(&ka->pvclock_sc, seq));
-  3253	}
-  3254	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-ritesh
