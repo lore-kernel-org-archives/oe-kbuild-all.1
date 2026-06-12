@@ -1,129 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D332C286419;
-	Fri, 12 Jun 2026 10:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7AD36CDE9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 11:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781261519; cv=none; b=HxmOXpLv2ilReaa8Six7j1kLfAFk4fttjuWFZ/QUFG6nKxUbtXq3Lpa/2WNGrWQJJOEYEY8Ykkc11sPrWlKrufmXvFUoHv6yW4IX5pYbvYFDwcs6SRJMHH5aXUHbkHCuNao50BpPGHHa509GVHDqHqa87T76Iuij8M4uxNAVLEU=
+	t=1781262179; cv=none; b=RCTdQSmLkyZubp5NOEAY7A7brjsWsDxxPJGLLWtSfmRCkUUuDbdlkE+iK3MefuEuoy+7mHgTOOYWmoOM/0oSx+gA84+41l14T3bnnDrzMWuxK0xpwCpDzicgK51ibCROdpEF9bXP9Ld6A2AiDw0TdefnYR7hEfo9pm4+Ot+fdrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781261519; c=relaxed/simple;
-	bh=pMOnB/VdBXmdUjIVbiD9nrvItT0vIkK1YmjB2wpMXxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4WjAN37pyUr6Ioci56x2fxqtyteI8B5NB1kMPxKN/Ja4mAusw7B1RBbVHfBjwrNK5RM/JDBCi5NQtATXhH55Ayt2fZx6pkz0iKIyTD/1KWraeHAdud7A/+1bio3VVonCdKB9dbLHnas40wRCE0sdd/eziy8ZDL19RVpKPyvIFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ROG16Wg1; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1781262179; c=relaxed/simple;
+	bh=Ml3WmBGW3TCCwQkwXgG8K1B74V0ppFx8cwOs47BveBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=THHAyrsJky1aZeax5GXglX0WTZ0/ljFR21d6MhQHYqMO9qM8Ax0JDquAA9G9/sqlkWiH7ZHwk4/ENgHd22UCblGMSbuQEqiurOmrFyCAV5ntKQnj6RehJr7suC/v7bqx3XGLA887GCmaN4OmpzrwaYcjjJUJWWCFKlx8qNB4wXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crkwGFFp; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROG16Wg1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crkwGFFp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781261518; x=1812797518;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pMOnB/VdBXmdUjIVbiD9nrvItT0vIkK1YmjB2wpMXxQ=;
-  b=ROG16Wg1KhrMWbKcNk5AWmYsE6lr7ewwPhPJxc66EO3FWyu1rzgesx06
-   hEbQYFiBIspy9zIAMNILIr2Swxg4uIwLCOB3dk7IvWEUlgYYk9aaxHKxY
-   j55N+KAFDEjMl/OMeuj33pcIppEVkHCfO35jogXGvqU+4A/jpb1Tud+Vn
-   w9qb9DI5DNVsL7m11zsLe8dCePoSJLUn+Lx2DVoaf/moPKUvjytQTypHU
-   EFeiuq6ALN5y8fmDcVSu/sokad7YxU9moOCIFjN8KTUIq99gZ2y0zCsT+
-   8Bz7bKg0M6g3QSEjVFT0oNj6fOLltp0LUR64GFWstnpz/uCP3VUKSp8OY
-   A==;
-X-CSE-ConnectionGUID: 54fOAHpjTn+7i5Iwm3QFcw==
-X-CSE-MsgGUID: TyJqc6luSvKuRxRpd5G8Uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81225542"
+  t=1781262178; x=1812798178;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Ml3WmBGW3TCCwQkwXgG8K1B74V0ppFx8cwOs47BveBI=;
+  b=crkwGFFp7/ON1cOz+Ej8HV1HN9gqVMVte3qJs/vuV0fZ6Px2lUU2s4ni
+   w084ANLsbRBPQ5QRn5yu0/mx7TmaQ+nAryX3n1woGeH0hYvwqX0zEdyr5
+   r9os0O/H0CZDbEqhFemNYgP632Jnv3PQqmdfb5CenEYTW/OPh8eLY3Qmb
+   yMJGZjdZ191Sg1/JZsGKkKNg0zY2jGHAzS7gbt4vM1zJEG6ReG+DVzBLh
+   4hmzBr6sVVyR1Y9QOfGmawKHKU3KrC/9SFX6a2Ef5XhTnbHpONM0l+yGj
+   LSmu0rpA91IDt1K4zt2RpzxIvFR+wWHXRPEdXyB6D2B6deaG8PBQDWtjG
+   g==;
+X-CSE-ConnectionGUID: H6rMo4DlQKGMjYdfb5Bm3Q==
+X-CSE-MsgGUID: A2NxIIvuRWuvIZqzC2Y8Mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82096192"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="81225542"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 03:51:57 -0700
-X-CSE-ConnectionGUID: +m0b2O1nRG2ZVT/wGcft6Q==
-X-CSE-MsgGUID: K7G8RJqfQ3ytrgkqBeLqGA==
+   d="scan'208";a="82096192"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 04:02:57 -0700
+X-CSE-ConnectionGUID: 9qVu8A4kQga8rgwRhoFJqA==
+X-CSE-MsgGUID: 2yE6AlMXQzmwOP9iJGsm4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="270834789"
+   d="scan'208";a="251735995"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Jun 2026 03:51:55 -0700
+  by orviesa005.jf.intel.com with ESMTP; 12 Jun 2026 04:02:56 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXzUO-00000000OdB-1fzT;
-	Fri, 12 Jun 2026 10:51:52 +0000
-Date: Fri, 12 Jun 2026 18:51:04 +0800
+	id 1wXzf2-00000000Odj-4BRr;
+	Fri, 12 Jun 2026 11:02:52 +0000
+Date: Fri, 12 Jun 2026 19:02:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kyle Zeng <kylebot@openai.com>, jfs-discussion@lists.sourceforge.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Dave Kleikamp <shaggy@kernel.org>, outbounddisclosures@openai.com,
-	Kyle Zeng <kylebot@openai.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] jfs: validate active AG before updating db_active
-Message-ID: <202606121834.MtsXleJq-lkp@intel.com>
-References: <20260611212956.10206-1-kylebot@openai.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:timekeeping 3/4] kernel/time/ntp.c:530:undefined
+ reference to `__divdi3'
+Message-ID: <202606121817.k5Kmr0vk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260611212956.10206-1-kylebot@openai.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kyle,
+tree:   git://git.infradead.org/users/dwmw2/linux timekeeping
+head:   e7f603c6279b37147e7f69f394706df2546459b9
+commit: c763fbd03afe23fb69685b6987fabf43c65ed579 [3/4] timekeeping: Settle =
+competing time_offset and time_adjust skew
+config: i386-randconfig-001-20260612 (https://download.01.org/0day-ci/archi=
+ve/20260612/202606121817.k5Kmr0vk-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260612/202606121817.k5Kmr0vk-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master kleikamp-shaggy/jfs-next v7.1-rc7 next-20260611]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Zeng/jfs-validate-active-AG-before-updating-db_active/20260612-054255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260611212956.10206-1-kylebot%40openai.com
-patch subject: [PATCH] jfs: validate active AG before updating db_active
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20260612/202606121834.MtsXleJq-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121834.MtsXleJq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606121834.MtsXleJq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606121817.k5Kmr0vk-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/jfs/file.c:52:3: error: call to undeclared function 'jfs_error'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      52 |                 jfs_error(inode->i_sb,
-         |                 ^
-   fs/jfs/file.c:52:3: note: did you mean 'xas_error'?
-   include/linux/xarray.h:1435:19: note: 'xas_error' declared here
-    1435 | static inline int xas_error(const struct xa_state *xas)
-         |                   ^
-   1 error generated.
+   ld: kernel/time/ntp.o: in function `ntp_transfer_offset_adjust':
+>> kernel/time/ntp.c:530:(.text+0xe53): undefined reference to `__divdi3'
 
 
-vim +/jfs_error +52 fs/jfs/file.c
+vim +530 kernel/time/ntp.c
 
-    43	
-    44	static int jfs_get_active_ag(struct inode *inode, int *agp)
-    45	{
-    46		struct jfs_inode_info *ji = JFS_IP(inode);
-    47		struct jfs_sb_info *sbi = JFS_SBI(inode->i_sb);
-    48		struct bmap *bmap = sbi->bmap;
-    49		u64 ag = BLKTOAG(addressPXD(&ji->ixpxd), sbi);
-    50	
-    51		if (ag >= bmap->db_numag) {
-  > 52			jfs_error(inode->i_sb,
-    53				  "inode %lu has invalid active ag %llu\n",
-    54				  inode->i_ino, (unsigned long long)ag);
-    55			return -EIO;
-    56		}
-    57	
-    58		*agp = ag;
-    59		return 0;
-    60	}
-    61	
+   488=09
+   489	/*
+   490	 * time_offset (drained exponentially) and time_adjust (drained line=
+arly at the
+   491	 * MAX_TICKADJ rate) can be asked to slew the clock in opposite dire=
+ctions.
+   492	 * second_overflow() only folds their *net* into skew_delta, so the =
+cancelling
+   493	 * part would never be drained from either tracker via the per-tick =
+code -- and
+   494	 * if they cancel exactly, skew_delta is zero and neither converges =
+at all.
+   495	 *
+   496	 * Settle that cancelling phase directly between the two here. No cl=
+ock motion
+   497	 * results (the opposing slews annihilate), but both move toward zer=
+o so neither
+   498	 * stalls. @amount is the phase to take off time_offset, in its (=C3=
+=B7HZ) units and
+   499	 * with its sign; the same real magnitude comes off time_adjust in t=
+he opposite
+   500	 * direction. Clamped so neither tracker is driven past zero.
+   501	 */
+   502	static void ntp_transfer_offset_adjust(struct ntp_data *ntpdata, s64=
+ amount)
+   503	{
+   504		s64 frac_delta, carry;
+   505=09
+   506		/*
+   507		 * Don't drain time_offset past zero. @amount shares its sign and is
+   508		 * normally bounded below it by ntp_offset_chunk(), but the =C2=B11=
+ skew_delta
+   509		 * floor for a tiny time_offset can exceed it, so clamp.
+   510		 */
+   511		if (abs(amount) > abs(ntpdata->time_offset))
+   512			amount =3D ntpdata->time_offset;
+   513		if (!amount)
+   514			return;
+   515=09
+   516		/*
+   517		 * Remove the matching phase from time_adjust, in plain shifted-ns.=
+ No
+   518		 * clamp against time_adjust's zero is needed: @amount is bounded b=
+y the
+   519		 * adjtime chunk, which second_overflow() never lets exceed time_ad=
+just's
+   520		 * own pending phase, so this cannot overshoot.
+   521		 */
+   522		frac_delta =3D amount * NTP_INTERVAL_FREQ;
+   523=09
+   524		ntpdata->time_offset -=3D amount;
+   525=09
+   526		/* Add the matching phase to time_adjust, carrying whole =C2=B5s (O=
+(1)). */
+   527		ntpdata->time_adjust_frac +=3D frac_delta;
+   528		if (ntpdata->time_adjust_frac >=3D ONE_US_NS ||
+   529		    ntpdata->time_adjust_frac <=3D -ONE_US_NS) {
+ > 530			carry =3D ntpdata->time_adjust_frac / ONE_US_NS;
+   531			ntpdata->time_adjust	  +=3D carry;
+   532			ntpdata->time_adjust_frac -=3D carry * ONE_US_NS;
+   533		}
+   534=09
+   535		/*
+   536		 * Keep time_adjust and its sub-=C2=B5s remainder the same sign. The
+   537		 * truncating carry above can leave them opposed (e.g. +4 =C2=B5s p=
+aired
+   538		 * with -250 ns), and ntp_drain_time_adjust() treats abs(time_adjus=
+t_frac)
+   539		 * as same-direction drawer capacity -- an opposing remainder there=
+ makes
+   540		 * it over-deliver phase that was never removed from the pile. Borr=
+ow or
+   541		 * repay a single whole =C2=B5s to realign; the total phase is unch=
+anged.
+   542		 */
+   543		if (ntpdata->time_adjust > 0 && ntpdata->time_adjust_frac < 0) {
+   544			ntpdata->time_adjust--;
+   545			ntpdata->time_adjust_frac +=3D ONE_US_NS;
+   546		} else if (ntpdata->time_adjust < 0 && ntpdata->time_adjust_frac > =
+0) {
+   547			ntpdata->time_adjust++;
+   548			ntpdata->time_adjust_frac -=3D ONE_US_NS;
+   549		}
+   550	}
+   551=09
 
 --
 0-DAY CI Kernel Test Service
