@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0412882B7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 14:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E46366061
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 14:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781273755; cv=none; b=Pw7t3DXeBM39wLAj7rLXzyI0ujfOBlyXbfMm++czgfxum1D/wXRYnwexP161KcdHPtZelU2cSj8JXkTpnt7y9XPH4q5r+ox4oxa07D+yAs7y276OE1C0AuA0C3dj8kXtd0J24kmO+sErZv7sovGGzg5XySrtlHczezcmFVxG7a0=
+	t=1781273759; cv=none; b=RsJBSG+tj7HsOkKXgfbnWup0SOFdKzUD/aHjnhaSMGp/7mvtt+gnR7KDBr08Z6Klq5yaUBC02BGKLlO3Ld2PWvvTQG+orc/fHPR9OB80jE9UCMx+NlYoES/9eqnAE7j2G45oSc8iMXSUUOgl3QmCES1oLjUMcqXC5li5qUiiUtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781273755; c=relaxed/simple;
-	bh=4PCiY0d2OOk9lhp2KWL+RYh0ekTs55kRxZNsDB5kBq8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rnjPLOGcPqqueMrUgYFR89BA+2jampQ1DREJDPqBOyY8+/Bb0NuuhUmCBXSGB2phpPng4auIvaqvWvvfsDWjCfs4jabR++3mfC4uRgbdrPBss+eLbHBf6YEvey5bYS+lKgECma0RI1BZFgayV/bFVnI1Ron9LVUpWLkEEdkmnm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUXXJMrf; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1781273759; c=relaxed/simple;
+	bh=7kbB4nC73fiHRmCjChaE0xkJW3wZJA6BNJ33b1Cq6Jg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=u/7RnRiiGNmMc0w8AcC8GMHGavj5RKdE8fN3GAnClmPCauNaFA0eMhd93rBxa85xZ080Nk9hm+Pu6Y4CSva12b0AUzPgf2VifEYt3woqwxj5RKA2wHeuJM0iFptdULmN8UD6KtYd2+BHCLV13pPRtyZ+Wy21J8BVxR3YeJwPgs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYJRW1Fy; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUXXJMrf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYJRW1Fy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781273750; x=1812809750;
+  t=1781273755; x=1812809755;
   h=date:from:to:cc:subject:message-id;
-  bh=4PCiY0d2OOk9lhp2KWL+RYh0ekTs55kRxZNsDB5kBq8=;
-  b=SUXXJMrfJsnJViSIMdSmwHKuMwPgZl56xk4GUR37LGjmVnoLggDTwgne
-   HfxKw9GpQGr0ecSrXU+0L0inMdxVfpe4O3ONmXyipAwW+0kzXdcdrnEbV
-   ltHuoUUL6gScXlkImJBal3vMrKLvsKnaQnAeUr0ZMlaSkTbVoElRNmZpO
-   EW9VEFXXALK16i25HuzIQq+1Bg40i3tzipOAG42jco2UDx1kjJOd7cL38
-   rTWjk65aPYQCiONjG+MvbBE0PEjnTVASZ59nAf+B32zoab8qV+G6w7Jyc
-   LbgLixfRhNk3lIfenQAyoJF0dIYgL2Cy0sFF578hdtoi9J1jeT+x8oegV
-   w==;
-X-CSE-ConnectionGUID: m5Is3s+OQT+l2kqbFAtLVw==
-X-CSE-MsgGUID: 8IpJBHWsSFelYhShvlAD4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82148054"
+  bh=7kbB4nC73fiHRmCjChaE0xkJW3wZJA6BNJ33b1Cq6Jg=;
+  b=RYJRW1FyvwLjMTbd6rMD2aMBzk72KpClLAlCZB68eQ+J8WEuBgIy1UYM
+   pV6pfVsSTMqtnbVYbwsLVYFApnC6yvctDVXez1QBU4RDZ5/JMgJLdd7vv
+   wsG2P2rdQToepcZ4DXt7WbOUDtJodozHWyFB2ZfxfNDP7njzuDCKrZh8q
+   7S1mpJThVsELUYfzEQYG0xUu/BFFFIDg7hW6FKryUpSQBsWtBuTbH2KJI
+   s6trtpQm4t1CsWP0mVCtyTi+m7NH8btTlI+0mv554MG89GpVwizgFMjQ1
+   wlJoBp/64T3olbw253BVtwX46w69gZpCiKianOFdOf4EWdXdImV3dPEBn
+   g==;
+X-CSE-ConnectionGUID: alz/YSNNRQG+m6yEurjfkg==
+X-CSE-MsgGUID: k3gKvo/BQnqI9WGcckTQlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="107537502"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="82148054"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 07:15:49 -0700
-X-CSE-ConnectionGUID: z5/dz3qNQ8mBJ4irh8UUuQ==
-X-CSE-MsgGUID: +KW5GNWPT1GqAZh614b2yQ==
+   d="scan'208";a="107537502"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 07:15:49 -0700
+X-CSE-ConnectionGUID: DnowN5djTNKgCaCR6ZCEhQ==
+X-CSE-MsgGUID: ZHfQjdTmRX2MDKnde7fDOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="251768344"
+   d="scan'208";a="244408815"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Jun 2026 07:15:47 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 12 Jun 2026 07:15:47 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wY2fg-00000000Oqr-37xX;
+	id 1wY2fg-00000000Oqv-3MNq;
 	Fri, 12 Jun 2026 14:15:44 +0000
-Date: Fri, 12 Jun 2026 22:15:21 +0800
+Date: Fri, 12 Jun 2026 22:15:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <brauner@kernel.org>
-Subject: [linux-next:master 3830/13336] fs/filesystems.c:286:13:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202606122244.xQfTKXNs-lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: drivers/nvme/target/tcp.c:1325:46: sparse: sparse: incorrect
+ type in assignment (different base types)
+Message-ID: <202606122214.l63U4QS2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,113 +60,82 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ec039126b7fac4e3af35ebccaa7c6f9b6875ba81
-commit: 36b3306779ea58f994a614b3663a196707a66ce2 [3830/13336] fs: cache the string generated by reading /proc/filesystems
-config: x86_64-randconfig-121-20260612 (https://download.01.org/0day-ci/archive/20260612/202606122244.xQfTKXNs-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2b414a95b8f7307d42173ba9e580d6d3e2bcbfce
+commit: dbbd07d0a7020b80f6a7028e561908f7b83b3d5a nvmet-tcp: Fix potential UAF when ddgst mismatch
+date:   5 weeks ago
+config: sh-randconfig-r123-20260612 (https://download.01.org/0day-ci/archive/20260612/202606122214.l63U4QS2-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606122244.xQfTKXNs-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606122214.l63U4QS2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: dbbd07d0a702 ("nvmet-tcp: Fix potential UAF when ddgst mismatch")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606122244.xQfTKXNs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606122214.l63U4QS2-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/filesystems.c:286:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file_systems_string *old @@     got struct file_systems_string [noderef] __rcu *static [addressable] [assigned] [toplevel] file_systems_string @@
-   fs/filesystems.c:286:13: sparse:     expected struct file_systems_string *old
-   fs/filesystems.c:286:13: sparse:     got struct file_systems_string [noderef] __rcu *static [addressable] [assigned] [toplevel] file_systems_string
->> fs/filesystems.c:332:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file_systems_string [noderef] __rcu *volatile @@     got struct file_systems_string *[assigned] new @@
-   fs/filesystems.c:332:9: sparse:     expected struct file_systems_string [noderef] __rcu *volatile
-   fs/filesystems.c:332:9: sparse:     got struct file_systems_string *[assigned] new
+>> drivers/nvme/target/tcp.c:1325:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] status @@     got int @@
+   drivers/nvme/target/tcp.c:1325:46: sparse:     expected restricted __le16 [usertype] status
+   drivers/nvme/target/tcp.c:1325:46: sparse:     got int
 
-vim +286 fs/filesystems.c
+vim +1325 drivers/nvme/target/tcp.c
 
-   255	
-   256	static __cold noinline int regen_filesystems_string(void)
-   257	{
-   258		struct file_system_type *p;
-   259		struct file_systems_string *old, *new;
-   260		size_t newlen, usedlen;
-   261		unsigned long gen;
-   262	
-   263	retry:
-   264		newlen = 0;
-   265	
-   266		/* pre-calc space for each fs */
-   267		spin_lock(&file_systems_lock);
-   268		gen = file_systems_gen;
-   269		hlist_for_each_entry_rcu(p, &file_systems, list) {
-   270			if (!(p->fs_flags & FS_REQUIRES_DEV))
-   271				newlen += strlen("nodev");
-   272			newlen += strlen("\t") + strlen(p->name) +  strlen("\n");
-   273		}
-   274		spin_unlock(&file_systems_lock);
-   275	
-   276		new = kmalloc(offsetof(struct file_systems_string, string) + newlen + 1,
-   277			      GFP_KERNEL);
-   278		if (!new)
-   279			return -ENOMEM;
-   280	
-   281		new->gen = gen;
-   282		new->len = newlen;
-   283		new->string[newlen] = '\0';
-   284	
-   285		spin_lock(&file_systems_lock);
- > 286		old = file_systems_string;
-   287	
-   288		/*
-   289		 * Did someone beat us to it?
-   290		 */
-   291		if (old && old->gen == file_systems_gen) {
-   292			kfree(new);
-   293			return 0;
-   294		}
-   295	
-   296		/*
-   297		 * Did the list change in the meantime?
-   298		 */
-   299		if (gen != file_systems_gen) {
-   300			kfree(new);
-   301			goto retry;
-   302		}
-   303	
-   304		/*
-   305		 * Populate the string.
-   306		 *
-   307		 * We know we have just enough space because we calculated the right
-   308		 * size the previous time we had the lock and confirmed the list has
-   309		 * not changed after reacquiring it.
-   310		 */
-   311		usedlen = 0;
-   312		hlist_for_each_entry_rcu(p, &file_systems, list) {
-   313			usedlen += sprintf(&new->string[usedlen], "%s\t%s\n",
-   314					   (p->fs_flags & FS_REQUIRES_DEV) ? "" : "nodev",
-   315					   p->name);
-   316		}
-   317	
-   318		if (WARN_ON_ONCE(new->len != strlen(new->string))) {
-   319			/*
-   320			 * Should never happen of course, keep this in case someone changes string
-   321			 * generation above and messes it up.
-   322			 */
-   323			spin_unlock(&file_systems_lock);
-   324			if (old)
-   325				kfree_rcu(old, rcu);
-   326			return -EINVAL;
-   327		}
-   328	
-   329		/*
-   330		 * Paired with consume fence in READ_ONCE() in filesystems_proc_show()
-   331		 */
- > 332		smp_store_release(&file_systems_string, new);
-   333		spin_unlock(&file_systems_lock);
-   334		if (old)
-   335			kfree_rcu(old, rcu);
-   336		return 0;
-   337	}
-   338	
+  1288	
+  1289	static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
+  1290	{
+  1291		struct nvmet_tcp_cmd *cmd = queue->cmd;
+  1292		int ret, len;
+  1293		char cbuf[CMSG_LEN(sizeof(char))] = {};
+  1294		struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
+  1295		struct kvec iov = {
+  1296			.iov_base = (void *)&cmd->recv_ddgst + queue->offset,
+  1297			.iov_len = queue->left
+  1298		};
+  1299	
+  1300		if (queue->tls_pskid) {
+  1301			msg.msg_control = cbuf;
+  1302			msg.msg_controllen = sizeof(cbuf);
+  1303		}
+  1304		len = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+  1305				iov.iov_len, msg.msg_flags);
+  1306		if (unlikely(len < 0))
+  1307			return len;
+  1308		if (queue->tls_pskid) {
+  1309			ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+  1310			if (ret < 0)
+  1311				return ret;
+  1312		}
+  1313	
+  1314		queue->offset += len;
+  1315		queue->left -= len;
+  1316		if (queue->left)
+  1317			return -EAGAIN;
+  1318	
+  1319		if (queue->data_digest && cmd->exp_ddgst != cmd->recv_ddgst) {
+  1320			pr_err("queue %d: cmd %d pdu (%d) data digest error: recv %#x expected %#x\n",
+  1321				queue->idx, cmd->req.cmd->common.command_id,
+  1322				queue->pdu.cmd.hdr.type, le32_to_cpu(cmd->recv_ddgst),
+  1323				le32_to_cpu(cmd->exp_ddgst));
+  1324			if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED)) {
+> 1325				cmd->req.cqe->status = NVME_SC_CMD_SEQ_ERROR;
+  1326				nvmet_req_uninit(&cmd->req);
+  1327			}
+  1328			nvmet_tcp_free_cmd_buffers(cmd);
+  1329			ret = -EPROTO;
+  1330			goto out;
+  1331		}
+  1332	
+  1333		if (cmd->rbytes_done == cmd->req.transfer_len)
+  1334			nvmet_tcp_execute_request(cmd);
+  1335	
+  1336		ret = 0;
+  1337	out:
+  1338		nvmet_prepare_receive_pdu(queue);
+  1339		return ret;
+  1340	}
+  1341	
 
 --
 0-DAY CI Kernel Test Service
