@@ -1,129 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9757C36EAB2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 14:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0412882B7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 14:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781273754; cv=none; b=hPljnAZQiZccT52XzkLtdWBM9OHPkiiUpCvxlgh3GVYuxN0ZsaBXJh14+PINr2p92hWEWJOSPVFyIMlol07Skn3ShgAIZz54dAs950XLWWA1T3A1HzuIkAlKbzvySXPA40tPw9kN1XM31ya0WKNmCLYDe4R1hwSd/DjB1v7yYeU=
+	t=1781273755; cv=none; b=Pw7t3DXeBM39wLAj7rLXzyI0ujfOBlyXbfMm++czgfxum1D/wXRYnwexP161KcdHPtZelU2cSj8JXkTpnt7y9XPH4q5r+ox4oxa07D+yAs7y276OE1C0AuA0C3dj8kXtd0J24kmO+sErZv7sovGGzg5XySrtlHczezcmFVxG7a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781273754; c=relaxed/simple;
-	bh=3MxIwN27nFQhRr1kA51XcnxX3jfn0CBfYy65uVQjmaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BIVVj9kLeLJ+V65zalml6kATpiv8xDu+eNXIoOJ1zvaKe9xZ92edK07pLEXXaUVhz4l5egp8s/P+j7LzGqYiiGXeIDX5ziNflmWT3LP/meyrOXPT5SlFunH9NlbYHd8uVVoGt1R9kgNZGCqZqDzhpyZell4nN+k6GT5kCcBz1TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bsZg6nkO; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1781273755; c=relaxed/simple;
+	bh=4PCiY0d2OOk9lhp2KWL+RYh0ekTs55kRxZNsDB5kBq8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rnjPLOGcPqqueMrUgYFR89BA+2jampQ1DREJDPqBOyY8+/Bb0NuuhUmCBXSGB2phpPng4auIvaqvWvvfsDWjCfs4jabR++3mfC4uRgbdrPBss+eLbHBf6YEvey5bYS+lKgECma0RI1BZFgayV/bFVnI1Ron9LVUpWLkEEdkmnm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUXXJMrf; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bsZg6nkO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUXXJMrf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1781273750; x=1812809750;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3MxIwN27nFQhRr1kA51XcnxX3jfn0CBfYy65uVQjmaw=;
-  b=bsZg6nkOZ/sMuHtnPlFmooxNbVzbOSXX430GZ0KbvT/LNqpDnp6ZjVQo
-   DoB7oLQ+YpYVr5enOl4zi5iilvTJv/KQhWA5DQfVrnWW/Q+WoLSe9mKY3
-   mTwE5y24VlP/GGaR3zs6Bm2RcAwdTtMeMMHPfqqg4Jf0TzE9L+JGHrfef
-   Ux8SqQEX4WNCBFfnIfGDdxApakXxVQctYiy3Nx0cD19EYzra0CpQA6TX8
-   6ci7xCo2cFV4IyUMBtHcX2vYr2FkPrsEk+0h/bloDBpB7WpebU1jyE4+/
-   wNXajcfkfwmhuYI78a5j0g8jlGK+wOWVL5IBVfct6+/11NL1gXokqbtkb
-   A==;
-X-CSE-ConnectionGUID: aQlkW6HtQx2WuiwcM5h9Cg==
-X-CSE-MsgGUID: 4uUC63FITJm2TEvp/+tsqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="107537500"
+  h=date:from:to:cc:subject:message-id;
+  bh=4PCiY0d2OOk9lhp2KWL+RYh0ekTs55kRxZNsDB5kBq8=;
+  b=SUXXJMrfJsnJViSIMdSmwHKuMwPgZl56xk4GUR37LGjmVnoLggDTwgne
+   HfxKw9GpQGr0ecSrXU+0L0inMdxVfpe4O3ONmXyipAwW+0kzXdcdrnEbV
+   ltHuoUUL6gScXlkImJBal3vMrKLvsKnaQnAeUr0ZMlaSkTbVoElRNmZpO
+   EW9VEFXXALK16i25HuzIQq+1Bg40i3tzipOAG42jco2UDx1kjJOd7cL38
+   rTWjk65aPYQCiONjG+MvbBE0PEjnTVASZ59nAf+B32zoab8qV+G6w7Jyc
+   LbgLixfRhNk3lIfenQAyoJF0dIYgL2Cy0sFF578hdtoi9J1jeT+x8oegV
+   w==;
+X-CSE-ConnectionGUID: m5Is3s+OQT+l2kqbFAtLVw==
+X-CSE-MsgGUID: 8IpJBHWsSFelYhShvlAD4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82148054"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="107537500"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 07:15:49 -0700
-X-CSE-ConnectionGUID: mqsuFAOcSrKpxhZn6SdmvQ==
-X-CSE-MsgGUID: ThaldhReTmesqRqZas5v3Q==
+   d="scan'208";a="82148054"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 07:15:49 -0700
+X-CSE-ConnectionGUID: z5/dz3qNQ8mBJ4irh8UUuQ==
+X-CSE-MsgGUID: +KW5GNWPT1GqAZh614b2yQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="244408811"
+   d="scan'208";a="251768344"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Jun 2026 07:15:47 -0700
+  by orviesa005.jf.intel.com with ESMTP; 12 Jun 2026 07:15:47 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wY2fg-00000000Oqt-3FyK;
+	id 1wY2fg-00000000Oqr-37xX;
 	Fri, 12 Jun 2026 14:15:44 +0000
-Date: Fri, 12 Jun 2026 22:15:20 +0800
+Date: Fri, 12 Jun 2026 22:15:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>,
- "Nuno =?utf-8?Q?S=C3=A1"?= <nuno.sa@analog.com>
-Subject: [nsa:xlnx/fix/buf-mmap-multibuffer 26668/27391]
- drivers/clk/clk-adjustable-rate.c:166: warning: Function parameter or struct
- member 'node' not described in '_of_adjustable_clk_setup'
-Message-ID: <202606122230.RvSBq6Xl-lkp@intel.com>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <brauner@kernel.org>
+Subject: [linux-next:master 3830/13336] fs/filesystems.c:286:13:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202606122244.xQfTKXNs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/nunojsa/linux xlnx/fix/buf-mmap-multibuffer
-head:   a26a8baba71e866951f6abf4fc6c0504770c272e
-commit: 3b1f15dc5c4de92663059705d6f1cb6fc87d4470 [26668/27391] Merge tag 'xilinx-v2025.1' https://github.com/Xilinx/linux-xlnx.git
-config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20260612/202606122230.RvSBq6Xl-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606122230.RvSBq6Xl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ec039126b7fac4e3af35ebccaa7c6f9b6875ba81
+commit: 36b3306779ea58f994a614b3663a196707a66ce2 [3830/13336] fs: cache the string generated by reading /proc/filesystems
+config: x86_64-randconfig-121-20260612 (https://download.01.org/0day-ci/archive/20260612/202606122244.xQfTKXNs-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606122244.xQfTKXNs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606122230.RvSBq6Xl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606122244.xQfTKXNs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/filesystems.c:286:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file_systems_string *old @@     got struct file_systems_string [noderef] __rcu *static [addressable] [assigned] [toplevel] file_systems_string @@
+   fs/filesystems.c:286:13: sparse:     expected struct file_systems_string *old
+   fs/filesystems.c:286:13: sparse:     got struct file_systems_string [noderef] __rcu *static [addressable] [assigned] [toplevel] file_systems_string
+>> fs/filesystems.c:332:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file_systems_string [noderef] __rcu *volatile @@     got struct file_systems_string *[assigned] new @@
+   fs/filesystems.c:332:9: sparse:     expected struct file_systems_string [noderef] __rcu *volatile
+   fs/filesystems.c:332:9: sparse:     got struct file_systems_string *[assigned] new
 
->> drivers/clk/clk-adjustable-rate.c:166: warning: Function parameter or struct member 'node' not described in '_of_adjustable_clk_setup'
-   drivers/clk/clk-adjustable-rate.c:166: warning: expecting prototype for of_adjustable_clk_setup(). Prototype was for _of_adjustable_clk_setup() instead
+vim +286 fs/filesystems.c
 
-
-vim +166 drivers/clk/clk-adjustable-rate.c
-
-32d85645476ed0 Michael Hennerich 2016-10-18  160  
-32d85645476ed0 Michael Hennerich 2016-10-18  161  #ifdef CONFIG_OF
-32d85645476ed0 Michael Hennerich 2016-10-18  162  /**
-32d85645476ed0 Michael Hennerich 2016-10-18  163   * of_adjustable_clk_setup() - Setup function for simple adjustable rate clock
-32d85645476ed0 Michael Hennerich 2016-10-18  164   */
-32d85645476ed0 Michael Hennerich 2016-10-18  165  struct clk *_of_adjustable_clk_setup(struct device_node *node)
-32d85645476ed0 Michael Hennerich 2016-10-18 @166  {
-32d85645476ed0 Michael Hennerich 2016-10-18  167  	struct clk *clk;
-32d85645476ed0 Michael Hennerich 2016-10-18  168  	const char *clk_name = node->name;
-32d85645476ed0 Michael Hennerich 2016-10-18  169  	u32 rate;
-32d85645476ed0 Michael Hennerich 2016-10-18  170  	u32 accuracy = 0;
-32d85645476ed0 Michael Hennerich 2016-10-18  171  	int ret;
-32d85645476ed0 Michael Hennerich 2016-10-18  172  
-32d85645476ed0 Michael Hennerich 2016-10-18  173  	if (of_property_read_u32(node, "clock-frequency", &rate))
-32d85645476ed0 Michael Hennerich 2016-10-18  174  		return ERR_PTR(-EIO);
-32d85645476ed0 Michael Hennerich 2016-10-18  175  
-32d85645476ed0 Michael Hennerich 2016-10-18  176  	if (of_property_read_u32(node, "clock-accuracy", &accuracy))
-32d85645476ed0 Michael Hennerich 2016-10-18  177  		return ERR_PTR(-EIO);
-32d85645476ed0 Michael Hennerich 2016-10-18  178  
-32d85645476ed0 Michael Hennerich 2016-10-18  179  	of_property_read_string(node, "clock-output-names", &clk_name);
-32d85645476ed0 Michael Hennerich 2016-10-18  180  
-32d85645476ed0 Michael Hennerich 2016-10-18  181  	clk = clk_register_adjustable_rate_with_accuracy(NULL, clk_name, NULL,
-32d85645476ed0 Michael Hennerich 2016-10-18  182  						    0, rate, accuracy);
-32d85645476ed0 Michael Hennerich 2016-10-18  183  	if (IS_ERR(clk))
-32d85645476ed0 Michael Hennerich 2016-10-18  184  		return clk;
-32d85645476ed0 Michael Hennerich 2016-10-18  185  
-32d85645476ed0 Michael Hennerich 2016-10-18  186  	ret = of_clk_add_provider(node, of_clk_src_simple_get, clk);
-32d85645476ed0 Michael Hennerich 2016-10-18  187  	if (ret) {
-32d85645476ed0 Michael Hennerich 2016-10-18  188  		clk_unregister(clk);
-32d85645476ed0 Michael Hennerich 2016-10-18  189  		return ERR_PTR(ret);
-32d85645476ed0 Michael Hennerich 2016-10-18  190  	}
-32d85645476ed0 Michael Hennerich 2016-10-18  191  
-32d85645476ed0 Michael Hennerich 2016-10-18  192  	return clk;
-32d85645476ed0 Michael Hennerich 2016-10-18  193  }
-32d85645476ed0 Michael Hennerich 2016-10-18  194  
-
-:::::: The code at line 166 was first introduced by commit
-:::::: 32d85645476ed0845d7e11d75647d3ab0f15239d drivers/clk/clk-adjustable-rate: CCF new adjustable rate driver
-
-:::::: TO: Michael Hennerich <michael.hennerich@analog.com>
-:::::: CC: Michael Hennerich <michael.hennerich@analog.com>
+   255	
+   256	static __cold noinline int regen_filesystems_string(void)
+   257	{
+   258		struct file_system_type *p;
+   259		struct file_systems_string *old, *new;
+   260		size_t newlen, usedlen;
+   261		unsigned long gen;
+   262	
+   263	retry:
+   264		newlen = 0;
+   265	
+   266		/* pre-calc space for each fs */
+   267		spin_lock(&file_systems_lock);
+   268		gen = file_systems_gen;
+   269		hlist_for_each_entry_rcu(p, &file_systems, list) {
+   270			if (!(p->fs_flags & FS_REQUIRES_DEV))
+   271				newlen += strlen("nodev");
+   272			newlen += strlen("\t") + strlen(p->name) +  strlen("\n");
+   273		}
+   274		spin_unlock(&file_systems_lock);
+   275	
+   276		new = kmalloc(offsetof(struct file_systems_string, string) + newlen + 1,
+   277			      GFP_KERNEL);
+   278		if (!new)
+   279			return -ENOMEM;
+   280	
+   281		new->gen = gen;
+   282		new->len = newlen;
+   283		new->string[newlen] = '\0';
+   284	
+   285		spin_lock(&file_systems_lock);
+ > 286		old = file_systems_string;
+   287	
+   288		/*
+   289		 * Did someone beat us to it?
+   290		 */
+   291		if (old && old->gen == file_systems_gen) {
+   292			kfree(new);
+   293			return 0;
+   294		}
+   295	
+   296		/*
+   297		 * Did the list change in the meantime?
+   298		 */
+   299		if (gen != file_systems_gen) {
+   300			kfree(new);
+   301			goto retry;
+   302		}
+   303	
+   304		/*
+   305		 * Populate the string.
+   306		 *
+   307		 * We know we have just enough space because we calculated the right
+   308		 * size the previous time we had the lock and confirmed the list has
+   309		 * not changed after reacquiring it.
+   310		 */
+   311		usedlen = 0;
+   312		hlist_for_each_entry_rcu(p, &file_systems, list) {
+   313			usedlen += sprintf(&new->string[usedlen], "%s\t%s\n",
+   314					   (p->fs_flags & FS_REQUIRES_DEV) ? "" : "nodev",
+   315					   p->name);
+   316		}
+   317	
+   318		if (WARN_ON_ONCE(new->len != strlen(new->string))) {
+   319			/*
+   320			 * Should never happen of course, keep this in case someone changes string
+   321			 * generation above and messes it up.
+   322			 */
+   323			spin_unlock(&file_systems_lock);
+   324			if (old)
+   325				kfree_rcu(old, rcu);
+   326			return -EINVAL;
+   327		}
+   328	
+   329		/*
+   330		 * Paired with consume fence in READ_ONCE() in filesystems_proc_show()
+   331		 */
+ > 332		smp_store_release(&file_systems_string, new);
+   333		spin_unlock(&file_systems_lock);
+   334		if (old)
+   335			kfree_rcu(old, rcu);
+   336		return 0;
+   337	}
+   338	
 
 --
 0-DAY CI Kernel Test Service
