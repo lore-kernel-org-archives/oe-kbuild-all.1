@@ -1,102 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB33E3264FD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 04:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10171D61B7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 04:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781237491; cv=none; b=FkaUFM+0fYV4th3Pr0cN0I2pN8xh0wZhtDCejFCl/XTs07s7wG+0I+sN0GXw+kIqJUAIjPegLYQWsLPoKCWgO++4gllviBTGxJoXOmIDXdxYEJEALP8tcicJFEZQHVOLLxgZo9fVIgYDG6HNY/unp3BPD2wUoMcI2qklUGEFs3c=
+	t=1781238755; cv=none; b=gFycjDSS2qMRaW6idAv1j0cJbaAQwSbdYIg6ScGLAk5P2XCI3r52uy1sfwp6nFBfSJIwEtu9IsV+hBh9vJg1vNKYcZT0fEdGGjjTjOPHvWe5fmAz2VxozRs2YEyjwGmMeCVc0lmXy9EIC+GV7WIkX4YonirWctLp79ml6WzqaAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781237491; c=relaxed/simple;
-	bh=F4H8lhYWaTrRFVodRXlYxl2I+HoenkEvyq0qXY+OuLk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E5yiM/y9TaJ+8FgzcLnDTxFarnCFtFLiEFXEtBAnf+kHIOQAHNqfBp5OppwBNdxDW1bli397plWyRiTNZ4qmJgC5fO18pLFy17VHwHkso8YwmH8YYJ8jjpqQqWmcd09CcYyEFHGAYP1X76SqK0voog1qu6J2GDZB4YZW+2oy+5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1oXwUvD; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1781238755; c=relaxed/simple;
+	bh=khstqJkF3ATYBmmus/0LM5+7K5YtO6cGJKSvZ7jF6ac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNQuIaJzNmQV6MJSXYvIRHlukWYUY2V4pG/XGc95jTNw4rUCWdaz1u4/j0D5ZgplXZQBkDIjopUiJhJbXCmC2VgZVw9V5YW/0rJzkYgMGI2xkZRw4gaYGh8Yz/09Rm6EMifk72APWCB/FPhYyHIA4S81KBgfdJ0uWAh/rrh0iiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JEHgCuqS; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1oXwUvD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JEHgCuqS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781237490; x=1812773490;
-  h=date:from:to:cc:subject:message-id;
-  bh=F4H8lhYWaTrRFVodRXlYxl2I+HoenkEvyq0qXY+OuLk=;
-  b=P1oXwUvDcuU88V1t9JK3cV1C0TANzmThJ7zcP4FKFY61pt04qJvqQSwD
-   TegjHL3+wMNb+BnSPIv9X2NYvZJza1F8XXNWfzjuXQUvViq3qZg3JEXEL
-   n/FdyKEPGpGUfuEfiNXcK7kzgkgo+BzLJIWFra2B4kXIMZ9EVzwPJpd76
-   MNK3/gA0lwk2RRzdwZX/vdg5a7PkeNekZ/OOD32C9lV7DLIFYiZbR/HhV
-   U7Jg0/HuKX1X+cFVn2K1o/ahf7jA3ndz6hXpSHMhk1ijpO/JXZzV/E80f
-   GZNoShazrJMUKg+NDq6EWHaEihwKXQNO/tOsztlTf+zp07w7CbADPsWaQ
-   Q==;
-X-CSE-ConnectionGUID: gpL7QbrjTjuUaA3BhyTVQA==
-X-CSE-MsgGUID: +2HqM6wvSdS4YfIyxbFeQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82128426"
+  t=1781238754; x=1812774754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=khstqJkF3ATYBmmus/0LM5+7K5YtO6cGJKSvZ7jF6ac=;
+  b=JEHgCuqS6/EAzBgZbHZYi7Dc4p0EhHZaWFPTC4Yg6awQTsVyAH64AAmY
+   ySh9itDJq2t7cNG6pqdOHGqr7BDTIsdGjAaRvrZL2D137tbzfHnLR1aZb
+   FDJXUYmxYfiEWve7Jf6F9r3umtwpNcOF3XxN8hdDdI79UfE2eynpv/Y6u
+   hAwrgLgfmwTXnZ4Qrnmha+mcoGYYnw5p9C0AgOpeVUDc8tk90uS9P/402
+   CKmHT9D9V+NI2b8RUtQBINqbzlRB6A4RgeoAeKf9PvHHhFcYEbOWju1i9
+   O9SJ1AhD2HTsNrGw1s1tkSVJSCWvwSiXB0v6QGs+scVPEwSya4gpGOuvg
+   g==;
+X-CSE-ConnectionGUID: pSknf3JbSdyZVa8uhqdCGg==
+X-CSE-MsgGUID: 2jB3QO/4TQGVJycF7P/w+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82072624"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="82128426"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 21:11:30 -0700
-X-CSE-ConnectionGUID: bb3dVkX6Q5mMSfn/neIHHQ==
-X-CSE-MsgGUID: Jfw0ve/kSiuBZOJq51/P5w==
+   d="scan'208";a="82072624"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 21:32:34 -0700
+X-CSE-ConnectionGUID: SV4yh9qbThagVXMe3VqKzA==
+X-CSE-MsgGUID: j1RAI94jTU6xaVcXGCNT+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="242579169"
+   d="scan'208";a="245614402"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Jun 2026 21:11:28 -0700
+  by orviesa006.jf.intel.com with ESMTP; 11 Jun 2026 21:32:29 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXtEr-00000000OIX-2PAq;
-	Fri, 12 Jun 2026 04:11:25 +0000
-Date: Fri, 12 Jun 2026 12:11:12 +0800
+	id 1wXtZC-00000000OJh-2H3e;
+	Fri, 12 Jun 2026 04:32:26 +0000
+Date: Fri, 12 Jun 2026 12:31:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 38/38] ERROR: modpost: module
- ext4 uses symbol dget_parent from namespace
- VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not
- import it.
-Message-ID: <202606121215.bTZlCebv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Eugen Hristev <ehristev@kernel.org>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Naushir Patuck <naush@raspberrypi.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Eugen Hristev <ehristev@kernel.org>
+Subject: Re: [PATCH] media: bcm2835-unicam: Fix querycap multiple caps
+Message-ID: <202606121218.nV4fMXUr-lkp@intel.com>
+References: <20260611-bcmpiqcap-v1-1-10cf7fb438df@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611-bcmpiqcap-v1-1-10cf7fb438df@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   17584f778119ed93d9ae85feb43561e05f5254b0
-commit: e2c81a7fa3cb3fe3ff19af6fcf11cf014a578f24 [38/38] ANDROID: Fix incorrect namespacing for ANDROID_GKI_VFS_EXPORT_ONLY
-config: i386-randconfig-006-20260611 (https://download.01.org/0day-ci/archive/20260612/202606121215.bTZlCebv-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121215.bTZlCebv-lkp@intel.com/reproduce)
+Hi Eugen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a87737435cfa134f9cdcc696ba3080759d04cf72]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/media-bcm2835-unicam-Fix-querycap-multiple-caps/20260611-141320
+base:   a87737435cfa134f9cdcc696ba3080759d04cf72
+patch link:    https://lore.kernel.org/r/20260611-bcmpiqcap-v1-1-10cf7fb438df%40kernel.org
+patch subject: [PATCH] media: bcm2835-unicam: Fix querycap multiple caps
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260612/202606121218.nV4fMXUr-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121218.nV4fMXUr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606121215.bTZlCebv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606121218.nV4fMXUr-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: memblock_end_of_DRAM: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ucs2_string.o
-ERROR: modpost: module nfsv4 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module nfsv4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module nfsv4 uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module nfsv4 uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module nfsv4 uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
->> ERROR: modpost: module ext4 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
->> ERROR: modpost: module ext4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol mntget from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module snd-compress uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
-ERROR: modpost: module snd-compress uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+   drivers/media/platform/broadcom/bcm2835-unicam.c: In function 'unicam_querycap':
+>> drivers/media/platform/broadcom/bcm2835-unicam.c:1836:27: error: 'node' undeclared (first use in this function)
+    1836 |         if (is_image_node(node))
+         |                           ^~~~
+   drivers/media/platform/broadcom/bcm2835-unicam.c:1836:27: note: each undeclared identifier is reported only once for each function it appears in
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+
+vim +/node +1836 drivers/media/platform/broadcom/bcm2835-unicam.c
+
+  1825	
+  1826	/* -----------------------------------------------------------------------------
+  1827	 *  V4L2 video device operations
+  1828	 */
+  1829	
+  1830	static int unicam_querycap(struct file *file, void *priv,
+  1831				   struct v4l2_capability *cap)
+  1832	{
+  1833		strscpy(cap->driver, UNICAM_MODULE_NAME, sizeof(cap->driver));
+  1834		strscpy(cap->card, UNICAM_MODULE_NAME, sizeof(cap->card));
+  1835	
+> 1836		if (is_image_node(node))
+  1837			cap->capabilities |= V4L2_CAP_VIDEO_CAPTURE;
+  1838		else
+  1839			cap->capabilities |= V4L2_CAP_META_CAPTURE;
+  1840	
+  1841		return 0;
+  1842	}
+  1843	
 
 --
 0-DAY CI Kernel Test Service
