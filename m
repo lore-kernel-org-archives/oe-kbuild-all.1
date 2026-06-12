@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D415238D3F6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 03:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AE237EFE3;
+	Fri, 12 Jun 2026 04:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781235507; cv=none; b=GqpYfyHLvKhoVcIDv3e7uozd47FA/5lps4+rvB0asvTai74wt2aJaJ8JzrJbcZCFAdGGD6J8fHJhvvzybOTDCAJpzPKEbDq1jxzL9raf+jBSqL0uES+kBZMN3VtvILXf41QJAieTPQB65nuGwhKZifsbvlAMvl5UEl0eAK/+Dkc=
+	t=1781236891; cv=none; b=IwebPwiJZNwVi8WM21wSkgTbnBFKcCosKXtDnmLrbaBmooPjAFMs0rpT5Emh0+jXwVwZ+qniQErl256wxAL9xPMtrscBwOhM9a82De8ENNa5meFHwcv285rPMDaOK3gsYgHe+dm+x3kx7yM1AMSByp2sA+YMQ/2NwfTUAU48d/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781235507; c=relaxed/simple;
-	bh=cdL3hjWHxADipDINv+yyb8RaWnTvz2zwNr5msLRniTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HoT3Vd4EjBVe/IsQQ0/augKUrAFfvzG/BypwYZ9zOvzOBNs+sSa1jm+pDggob8UVSJW7MLBgaHlLBs31xL2jPtDGPylRQZuBjek879+ITnpCmyTNFkMAP25evUSxOL0eqRISUoWfxq31OAEc0N5caWA7o76QW0CCLYXSGbiaEWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNrL8IL2; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1781236891; c=relaxed/simple;
+	bh=F4it6wIFAu0vkuw7hmz39NKWcOvWEc2p6Cxq/EfSsew=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HtRfN9R746nFP5CODVppDz95KBhjBda9MzOHupu7c8Hn5/9OoRKCeTX8jguIkHRToctmfq/tBtQn7Hner1JO9B8xZS3tRB8+DocX+kffLygioQjhRHd4w5Dh5z+9n4aGnhIXx8P1GJhsHLz6yy3Nw53xVkv7J4g5XveQxCQ2Rjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nW7jKWjT; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNrL8IL2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nW7jKWjT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781235505; x=1812771505;
+  t=1781236889; x=1812772889;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cdL3hjWHxADipDINv+yyb8RaWnTvz2zwNr5msLRniTE=;
-  b=jNrL8IL2H8nLvd9u7LwEVvOs7n7TPrKS2RKYBTDGUwu77iKftOPWwmTO
-   eUORtZrX3vO8e51iJSsuL0i3Pe/BfpAzzn/cJTqe3YzaQrVVPlS6ZEiTQ
-   zt65gAnXcsPpiznzMgQoUfYSDZrfxPDH0g6b9XkCgbVZzZi3KMgzPJVie
-   qPz/JWRcRV5M8KPd7cz96LKVtIH7nuORgYB0uAhJAiyrZHx7jO9VBrcFx
-   xBZyGxEUO8eUxpxg7Zw4qXrrSO4sS2IPikUvUPjR7XHbHvMiQv1aYSz/h
-   9GKa2g+dezrJLvI+igqN3AUR4y4yWGo1YUUtdcK114QelH9NreSchmLTH
-   Q==;
-X-CSE-ConnectionGUID: ebl1lL1URZelhrCmTfAk9A==
-X-CSE-MsgGUID: nqO9yqmFSDGT2/xenmx2wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82109787"
+  bh=F4it6wIFAu0vkuw7hmz39NKWcOvWEc2p6Cxq/EfSsew=;
+  b=nW7jKWjT3q/V4biczxYuHHOfHAfSKSROBwXdNEQ4KNrbYEkaFlxdeL/5
+   gtFzakUUZHEQEx+0OZ5YzHuTLYNdXJzWEiPub1JToSlWjhbNKGYGQi168
+   OftB57j49JCY7RujZWgZXPq+PEnVV8pFQPHU1SNk5fqXAglgUQjZTyOs3
+   saej20snRLdgrtPqRnXPNjPn4wht0xczkYqH23htOJP1U7RVjscUJ3/kJ
+   6o3y8169iO6Gg0bktaWDWdCv5dKDD7C1q/7e8B0lKokdy0/CJAdm0+hUH
+   b9DiH+aINa49wjC4ZaalnKG9fBlkpRa4xNdMWmtDG94x5l+rDY/0gijru
+   w==;
+X-CSE-ConnectionGUID: VNgI6XasTqeexlOK3eQlWg==
+X-CSE-MsgGUID: GHR+9hULQf60QbM7wODEcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81200956"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="82109787"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 20:38:23 -0700
-X-CSE-ConnectionGUID: dApBtNT3TjSVoR8p/4cgOw==
-X-CSE-MsgGUID: OWOxeoevTF+k1gjAFwSw7Q==
+   d="scan'208";a="81200956"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 21:01:28 -0700
+X-CSE-ConnectionGUID: YcE56+8hS9+Hic2Al2peDA==
+X-CSE-MsgGUID: LHm1TQHjSoSLakJg31zOmw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="246735316"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Jun 2026 20:38:20 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 11 Jun 2026 21:01:25 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXsin-00000000OGL-3l1O;
-	Fri, 12 Jun 2026 03:38:17 +0000
-Date: Fri, 12 Jun 2026 11:37:27 +0800
+	id 1wXt59-00000000OHl-1nl5;
+	Fri, 12 Jun 2026 04:01:23 +0000
+Date: Fri, 12 Jun 2026 12:00:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Radim =?utf-8?Q?Kr=C4=8Dm=C3=A1=C5=99"?= <radim.krcmar@oss.qualcomm.com>
-Subject: arch/riscv/kvm/vcpu_config.c:81:17: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202606121131.MoaF9Gwp-lkp@intel.com>
+To: Kate Hsuan <hpa@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ =?utf-8?Q?"=D0=94=D0=B0=D0=BC=D1=98=D0=B0=D0=BD?=
+ =?utf-8?Q?_=D0=93=D0=B5=D0=BE=D1=80=D0=B3=D0=B8=D0=B5=D0=B2=D1=81=D0?=
+ =?utf-8?Q?=BA=D0=B8"?= <gdamjan@gmail.com>
+Subject: [gdamjan:v7.1/imx471 2/2] drivers/media/i2c/imx471.c:809:37:
+ warning: variable 'ret' is uninitialized when used here
+Message-ID: <202606121107.YCBtHjdw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,52 +62,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2b414a95b8f7307d42173ba9e580d6d3e2bcbfce
-commit: 6ed523e2b6129d7dd4aab801a610930d85b2d3f8 RISC-V: KVM: Factor-out VCPU config into separate sources
-date:   2 months ago
-config: riscv-randconfig-r121-20260612 (https://download.01.org/0day-ci/archive/20260612/202606121131.MoaF9Gwp-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121131.MoaF9Gwp-lkp@intel.com/reproduce)
+tree:   https://github.com/gdamjan/linux v7.1/imx471
+head:   6deed8dc0c1a824fc0ee6e2cef953c0747b0fbfe
+commit: 6deed8dc0c1a824fc0ee6e2cef953c0747b0fbfe [2/2] media: i2c: imx471: Add Sony IMX471 image sensor driver
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260612/202606121107.YCBtHjdw-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c8ad049db78ae52052722b6f42b54cd2a666072b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121107.YCBtHjdw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 6ed523e2b612 ("RISC-V: KVM: Factor-out VCPU config into separate sources")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606121131.MoaF9Gwp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606121107.YCBtHjdw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kvm/vcpu_config.c:81:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
-   arch/riscv/kvm/vcpu_config.c:81:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_config.c:81:17: sparse:     got restricted __le64 [usertype]
-   arch/riscv/kvm/vcpu_config.c:82:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
-   arch/riscv/kvm/vcpu_config.c:82:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_config.c:82:17: sparse:     got restricted __le64 [usertype]
-   arch/riscv/kvm/vcpu_config.c:83:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
-   arch/riscv/kvm/vcpu_config.c:83:17: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_config.c:83:17: sparse:     got restricted __le64 [usertype]
-   arch/riscv/kvm/vcpu_config.c:85:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
-   arch/riscv/kvm/vcpu_config.c:85:25: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_config.c:85:25: sparse:     got restricted __le64 [usertype]
-   arch/riscv/kvm/vcpu_config.c:87:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
-   arch/riscv/kvm/vcpu_config.c:87:25: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_config.c:87:25: sparse:     got restricted __le64 [usertype]
-   arch/riscv/kvm/vcpu_config.c:89:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
-   arch/riscv/kvm/vcpu_config.c:89:33: sparse:     expected unsigned long
-   arch/riscv/kvm/vcpu_config.c:89:33: sparse:     got restricted __le64 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +81 arch/riscv/kvm/vcpu_config.c
+>> drivers/media/i2c/imx471.c:809:37: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     809 |                 return dev_err_probe(sensor->dev, ret,
+         |                                                   ^~~
+   drivers/media/i2c/imx471.c:805:9: note: initialize the variable 'ret' to silence this warning
+     805 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
-    73	
-    74	void kvm_riscv_vcpu_config_load(struct kvm_vcpu *vcpu)
-    75	{
-    76		struct kvm_vcpu_config *cfg = &vcpu->arch.cfg;
-    77		void *nsh;
-    78	
-    79		if (kvm_riscv_nacl_sync_csr_available()) {
-    80			nsh = nacl_shmem();
-  > 81			nacl_csr_write(nsh, CSR_HEDELEG, cfg->hedeleg);
+
+vim +/ret +809 drivers/media/i2c/imx471.c
+
+   796	
+   797	static int imx471_check_hwcfg(struct imx471_data *sensor)
+   798	{
+   799		struct v4l2_fwnode_endpoint bus_cfg = {
+   800			.bus_type = V4L2_MBUS_CSI2_DPHY,
+   801		};
+   802		struct fwnode_handle *ep, *fwnode = dev_fwnode(sensor->dev);
+   803		struct clk *clk;
+   804		unsigned long link_freq_bitmap;
+   805		int ret;
+   806	
+   807		clk = devm_v4l2_sensor_clk_get(sensor->dev, NULL);
+   808		if (IS_ERR(clk))
+ > 809			return dev_err_probe(sensor->dev, ret,
+   810					     "can't get clock frequency\n");
+   811	
+   812		if (clk_get_rate(clk) != IMX471_EXT_CLK)
+   813			return dev_err_probe(sensor->dev, -EINVAL,
+   814					     "external clock %lu is not supported\n",
+   815					     clk_get_rate(clk));
+   816	
+   817		ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
+   818		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+   819		fwnode_handle_put(ep);
+   820		if (ret)
+   821			return dev_err_probe(sensor->dev, ret,
+   822					     "parsing endpoint failed");
+   823	
+   824		ret = v4l2_link_freq_to_bitmap(sensor->dev, bus_cfg.link_frequencies,
+   825					       bus_cfg.nr_of_link_frequencies,
+   826					       link_freq_menu_items,
+   827					       ARRAY_SIZE(link_freq_menu_items),
+   828					       &link_freq_bitmap);
+   829	
+   830		if (ret == -ENOENT)
+   831			goto error_endpoint_free;
+   832	
+   833		if (ret == -ENODATA)
+   834			goto error_endpoint_free;
+   835	
+   836	error_endpoint_free:
+   837		v4l2_fwnode_endpoint_free(&bus_cfg);
+   838	
+   839		return ret;
+   840	}
+   841	
 
 --
 0-DAY CI Kernel Test Service
