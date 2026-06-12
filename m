@@ -1,98 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF22C2C08BC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 02:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D415238D3F6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jun 2026 03:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781233146; cv=none; b=GAYm7P5zpc5tISz8ga2Nw0VEzC3yVaZTgDPVvr3W/zqd4JYmv1D2O2xKS3RmRH4AgtFNH8f+OqRRfGZl16O2pGeCEb2nOXEKHPx/jHGlL6qK68wUqRNZzNJJChfD0XpHhAb7mAmTd64ZGr9OfRTTbwQigoUE/myC0085RhJWvsg=
+	t=1781235507; cv=none; b=GqpYfyHLvKhoVcIDv3e7uozd47FA/5lps4+rvB0asvTai74wt2aJaJ8JzrJbcZCFAdGGD6J8fHJhvvzybOTDCAJpzPKEbDq1jxzL9raf+jBSqL0uES+kBZMN3VtvILXf41QJAieTPQB65nuGwhKZifsbvlAMvl5UEl0eAK/+Dkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781233146; c=relaxed/simple;
-	bh=TkwRG0/ENlzeRTd8lWeKV4YiviHGOUjHarx4Fs6ikeg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uz2CrXDp8q2x/Zf944UeZO6512tPw6rmb40p1DfFgASZd+iV0+PNkLmkFqqShzhLbCaCD/daUjskaQQMKyiZOAf+g2tjLKF/d9tYBRZBExyBW+iP2uSpPYBAfwM5SBLUV2kWz7UT0YbH/cr7HyT9CYw4rxibQcRGVWPvuotPfD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Duc2zsW0; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1781235507; c=relaxed/simple;
+	bh=cdL3hjWHxADipDINv+yyb8RaWnTvz2zwNr5msLRniTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HoT3Vd4EjBVe/IsQQ0/augKUrAFfvzG/BypwYZ9zOvzOBNs+sSa1jm+pDggob8UVSJW7MLBgaHlLBs31xL2jPtDGPylRQZuBjek879+ITnpCmyTNFkMAP25evUSxOL0eqRISUoWfxq31OAEc0N5caWA7o76QW0CCLYXSGbiaEWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNrL8IL2; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Duc2zsW0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNrL8IL2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781233144; x=1812769144;
-  h=date:from:to:cc:subject:message-id;
-  bh=TkwRG0/ENlzeRTd8lWeKV4YiviHGOUjHarx4Fs6ikeg=;
-  b=Duc2zsW0ISQLCFTVSqePxsfUmrZaNJIB0hnmH4qAOQGQIPrrZiuBYIJJ
-   sfE4qVLLuQG04BoGoD+K/2SN0f1fSnBBAYOmxD3u+YGfEOK02lrdKBVNV
-   iJM1/qEYuVdTvH4ld3+6TG9NHInrHna9CI4tsJwIcsU4yy8377RKKxyFD
-   VBKlUletbhkOHUoJmJPBgIZB8L1JDo5vkQ0SN5bePHdtNLnMlOyvxi+/3
-   7u55uBn20GBSfS2xkhjitkSzwI3BcER94NaOOA/OK186S5CVseApMna+P
-   P4YP2hU8fvInAPre+gdhpALF8Rs6dkOW70GuAOQJ1j7zhQMoX7g9GjSC1
+  t=1781235505; x=1812771505;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cdL3hjWHxADipDINv+yyb8RaWnTvz2zwNr5msLRniTE=;
+  b=jNrL8IL2H8nLvd9u7LwEVvOs7n7TPrKS2RKYBTDGUwu77iKftOPWwmTO
+   eUORtZrX3vO8e51iJSsuL0i3Pe/BfpAzzn/cJTqe3YzaQrVVPlS6ZEiTQ
+   zt65gAnXcsPpiznzMgQoUfYSDZrfxPDH0g6b9XkCgbVZzZi3KMgzPJVie
+   qPz/JWRcRV5M8KPd7cz96LKVtIH7nuORgYB0uAhJAiyrZHx7jO9VBrcFx
+   xBZyGxEUO8eUxpxg7Zw4qXrrSO4sS2IPikUvUPjR7XHbHvMiQv1aYSz/h
+   9GKa2g+dezrJLvI+igqN3AUR4y4yWGo1YUUtdcK114QelH9NreSchmLTH
    Q==;
-X-CSE-ConnectionGUID: 8eLIHWFRQhe8ukpw8p/9xQ==
-X-CSE-MsgGUID: u78eNm1TTza70dFlZAx27Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="93171184"
+X-CSE-ConnectionGUID: ebl1lL1URZelhrCmTfAk9A==
+X-CSE-MsgGUID: nqO9yqmFSDGT2/xenmx2wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82109787"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="93171184"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 19:59:04 -0700
-X-CSE-ConnectionGUID: iNdg2bMNTymKAwhQfZaRkA==
-X-CSE-MsgGUID: Lo0hystFQnOoHzC9C6llaw==
+   d="scan'208";a="82109787"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 20:38:23 -0700
+X-CSE-ConnectionGUID: dApBtNT3TjSVoR8p/4cgOw==
+X-CSE-MsgGUID: OWOxeoevTF+k1gjAFwSw7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="284800253"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jun 2026 19:59:01 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="246735316"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 11 Jun 2026 20:38:20 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXs6k-000000004BF-3Rhs;
-	Fri, 12 Jun 2026 02:58:58 +0000
-Date: Fri, 12 Jun 2026 04:58:18 +0200
+	id 1wXsin-00000000OGL-3l1O;
+	Fri, 12 Jun 2026 03:38:17 +0000
+Date: Fri, 12 Jun 2026 11:37:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>,
- Frank Li <Frank.Li@nxp.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-doc@vger.kernel.org
-Subject: [nsa:xlnx/fix/buf-mmap-multibuffer 27173/27391] htmldocs:
- Warning: MAINTAINERS references a file that doesn't exist:
- Documentation/devicetree/bindings/i3c/adi,i3c-master.yaml
-Message-ID: <202606120453.2rP7tq7s-lkp@intel.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Radim =?utf-8?Q?Kr=C4=8Dm=C3=A1=C5=99"?= <radim.krcmar@oss.qualcomm.com>
+Subject: arch/riscv/kvm/vcpu_config.c:81:17: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202606121131.MoaF9Gwp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/nunojsa/linux xlnx/fix/buf-mmap-multibuffer
-head:   a26a8baba71e866951f6abf4fc6c0504770c272e
-commit: c54362d581209a7421fe0d0caf70ff172289da75 [27173/27391] i3c: master: Add driver for Analog Devices I3C Controller IP
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260612/202606120453.2rP7tq7s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2b414a95b8f7307d42173ba9e580d6d3e2bcbfce
+commit: 6ed523e2b6129d7dd4aab801a610930d85b2d3f8 RISC-V: KVM: Factor-out VCPU config into separate sources
+date:   2 months ago
+config: riscv-randconfig-r121-20260612 (https://download.01.org/0day-ci/archive/20260612/202606121131.MoaF9Gwp-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121131.MoaF9Gwp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 6ed523e2b612 ("RISC-V: KVM: Factor-out VCPU config into separate sources")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606120453.2rP7tq7s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606121131.MoaF9Gwp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kvm/vcpu_config.c:81:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:81:17: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:81:17: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:82:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:82:17: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:82:17: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:83:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:83:17: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:83:17: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:85:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:85:25: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:85:25: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:87:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:87:25: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:87:25: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:89:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:89:33: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:89:33: sparse:     got restricted __le64 [usertype]
 
-   from /zdci/src/kernel-tests/bisect-test-build-error.sh:102: main
-   Warning: Documentation/devicetree/bindings/iio/adc/adi,ltc2308.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adc.txt
-   Warning: Documentation/devicetree/bindings/iio/adc/adi,ltc2308.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adc.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i3c/adi,i3c-master.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
---
-     from /zdci/src/kernel-tests/bisect-test-build-error.sh:102: main
-   Warning: Documentation/devicetree/bindings/iio/adc/adi,ltc2308.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adc.txt
-   Warning: Documentation/devicetree/bindings/iio/adc/adi,ltc2308.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adc.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i3c/adi,i3c-master.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+vim +81 arch/riscv/kvm/vcpu_config.c
+
+    73	
+    74	void kvm_riscv_vcpu_config_load(struct kvm_vcpu *vcpu)
+    75	{
+    76		struct kvm_vcpu_config *cfg = &vcpu->arch.cfg;
+    77		void *nsh;
+    78	
+    79		if (kvm_riscv_nacl_sync_csr_available()) {
+    80			nsh = nacl_shmem();
+  > 81			nacl_csr_write(nsh, CSR_HEDELEG, cfg->hedeleg);
 
 --
 0-DAY CI Kernel Test Service
