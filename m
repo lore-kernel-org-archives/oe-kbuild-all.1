@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3DA38E8DF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jun 2026 09:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5966A225416
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jun 2026 09:11:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781341826; cv=none; b=UjnuU57SGTiEeIptVwV2iCvvU8yDixLuzDenDfqiVJQQ7aKoXYunGkZ88YbRZ9gznzu0VyUBtJLDnpQZmWxNHk3eCBM3emBViihWcbIFYc0fswvb1cajoWk/NH31Le/xJ/XPxZ3EDpu3pQPQy/kMecJW9YIv/TFj0IdP82dBWdI=
+	t=1781341886; cv=none; b=FEwdb9cb+Y1sqnG7U5GTpa8VlDKZ0HkDTaiultnbvKyPScUG9+Ro22a/7owC7Lf1kC0GALq/iOOs6zTOZucQyr1qhUFfvFTvTiw1dihIuvRe9HhEpoVvTH4tLmmj9fV1r8Jise+IAIDnv9DE6bMv6Y46RWJFEZ5CffvYp51SDjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781341826; c=relaxed/simple;
-	bh=dDwG04ibxjQXVpgPpEZs+Y30Z70h2ZUEQxPwKUfb+HA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mnmT1xM2GOM7ETzEtPhIVHCXymYEZ8+gu8eM7Ll7+IYan4BthbBufDafAb4M/G5R8n1PhWz9/axnqsC8Bnqb5ceen7zSTpGQaneBsBNpK78E9bwMuVQeYxQm+HX2aPGPuo+kzSY2adymeS2lT02z/UG0YI/XR4sbNzedb6pqnJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igaJsuan; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1781341886; c=relaxed/simple;
+	bh=U7rWKhO9+qnqEej+eYdabEEaDrvpfuE7hGPlEXRmNOE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KaHP8x7OjLPHG7OUDa5vTWRy1zDorBGTqcUjKRT6aNvSvrH8K13e6ORpKefAoIGCaKZQy8AJE14b1+cL1D6sIcFwL0CQH1jxKjvgtYFj8Iq2D7fbUWmKXQeQHzaTQUDF8sZH3UXxd2No0C9l1pxHyyQV/rrXOJTaJr7KcrcV2wM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VqTKv8Qz; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igaJsuan"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VqTKv8Qz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781341825; x=1812877825;
+  t=1781341884; x=1812877884;
   h=date:from:to:cc:subject:message-id;
-  bh=dDwG04ibxjQXVpgPpEZs+Y30Z70h2ZUEQxPwKUfb+HA=;
-  b=igaJsuan8uKDMck0nL139q22Rx2ztV3XE+92q7ka09+U9RVtQfwNopAL
-   cY2HFYpan5d+6G7+4P8KaC6DWYFLLhHYkqPhKZpIKGNJzXhQBkAwyF3cD
-   /hS9UwnuWEbqkfwyqKJeWKjLUGVwG8YcIn9vavip/mm/wu7Cymw/H04xx
-   ewMNOyyofTVNFOcBJhfp6lGTcptsA0wyZFVpUWz4lMYrASw7gUBDS5WG4
-   bqOfKAt3eZp+jc4L1Pg6JlehM0xTbbDEqWkvrOFQCguHEJ60ZHu6kpvNR
-   Q+SjDPhEuoTWPbxBa0wz48laGXWXy8YC2l20F0Wik3YCDgD2qQACUQHmZ
-   Q==;
-X-CSE-ConnectionGUID: KO6enGHuQwCAZ4NT5XmP0A==
-X-CSE-MsgGUID: OczKsKhQT7W34yNq2dqH3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="99582151"
+  bh=U7rWKhO9+qnqEej+eYdabEEaDrvpfuE7hGPlEXRmNOE=;
+  b=VqTKv8QzBOz+vuQD9zTIBXUarpckprq1P6XFglztYKg8+q+RBsyQHm6q
+   yLUrFGcO/0uhYXBXesOMlQNXMWwf2wY1jc5DABlhA6h1XlfeLkruA/Mhm
+   ypy8ceJWqhCOSTZo2q38XRqvMURIgZYJSI10GfXHdRynr7gVdzj/zo9A4
+   PGyJfuh9GMe31LUMTC+V1ZqpLnClaiN9M9h55CyAIfWqIEpm15I/3FFDx
+   LqZ3E+OfPcYzrCPDi2FRez0zOYqqno3s/oQar1H9v4g6WGBVlOlhzxwmt
+   KpnHeT4WiHRfSYPCvo8OvdFddCyv1lypcWDnKfoi7sYO/wdCbeuAzPV9x
+   A==;
+X-CSE-ConnectionGUID: W+c8RUo3SuuTpzswCRQrsg==
+X-CSE-MsgGUID: NhyNfcQHSbO8/ljJSLjpZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="93552348"
 X-IronPort-AV: E=Sophos;i="6.24,202,1774335600"; 
-   d="scan'208";a="99582151"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 02:10:24 -0700
-X-CSE-ConnectionGUID: RKE7PJX+S9Kn6FNCw2XuWA==
-X-CSE-MsgGUID: EHc0rFeyQGODqHiT5nwY8Q==
+   d="scan'208";a="93552348"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 02:11:24 -0700
+X-CSE-ConnectionGUID: 5lYQa2EoTmu30bISi/dvXw==
+X-CSE-MsgGUID: QWawq/9iSLKpgaFXmbUdZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,202,1774335600"; 
-   d="scan'208";a="244609449"
+   d="scan'208";a="277222037"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Jun 2026 02:10:22 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 Jun 2026 02:11:22 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYKNf-00000000PpO-46lE;
-	Sat, 13 Jun 2026 09:10:19 +0000
-Date: Sat, 13 Jun 2026 17:10:17 +0800
+	id 1wYKOe-00000000PpS-0InE;
+	Sat, 13 Jun 2026 09:11:20 +0000
+Date: Sat, 13 Jun 2026 17:10:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [superna9999:topic/sm8650/ayaneo-pocket-s2/pmos-v4 24/31]
- sound/soc/qcom/sc8280xp.c:176:48: error: 'LPAIF_MI2S_MCLK' undeclared; did
- you mean 'LPAIF_DIG_CLK'?
-Message-ID: <202606131748.RtozIxJD-lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:libeth 9/9]
+ drivers/net/ethernet/intel/idpf/xdp.h:52:32: sparse: sparse: incorrect type
+ in assignment (different base types)
+Message-ID: <202606131700.1bxLBC2r-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,76 +60,61 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/superna9999/linux topic/sm8650/ayaneo-pocket-s2/pmos-v4
-head:   2990bb85e68d401720ce49038f3e512d7eb1a389
-commit: 82a9dc5108c057c67137a9d9bcab231d4989eccf [24/31] ASoC: qcom: sc8280xp: ASoC: qcom: sc8280xp: enhance machine driver for board-specific config
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260613/202606131748.RtozIxJD-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260613/202606131748.RtozIxJD-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux libeth
+head:   9e46fc70df7af200bb7352af1c5e1501e3b67672
+commit: 9e46fc70df7af200bb7352af1c5e1501e3b67672 [9/9] idpf: add flow-based XDP fallback for FWs without Tx FIFO support
+config: sparc64-randconfig-r122-20260613 (https://download.01.org/0day-ci/archive/20260613/202606131700.1bxLBC2r-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260613/202606131700.1bxLBC2r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606131748.RtozIxJD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606131700.1bxLBC2r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/intel/idpf/xsk.c: note: in included file:
+>> drivers/net/ethernet/intel/idpf/xdp.h:52:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] cmd_dtype @@     got restricted __le16 [usertype] @@
+   drivers/net/ethernet/intel/idpf/xdp.h:52:32: sparse:     expected unsigned char [usertype] cmd_dtype
+   drivers/net/ethernet/intel/idpf/xdp.h:52:32: sparse:     got restricted __le16 [usertype]
+--
+   drivers/net/ethernet/intel/idpf/xdp.c: note: in included file:
+>> drivers/net/ethernet/intel/idpf/xdp.h:52:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] cmd_dtype @@     got restricted __le16 [usertype] @@
+   drivers/net/ethernet/intel/idpf/xdp.h:52:32: sparse:     expected unsigned char [usertype] cmd_dtype
+   drivers/net/ethernet/intel/idpf/xdp.h:52:32: sparse:     got restricted __le16 [usertype]
 
-   sound/soc/qcom/sc8280xp.c: In function 'sc8280xp_snd_hw_params':
->> sound/soc/qcom/sc8280xp.c:176:48: error: 'LPAIF_MI2S_MCLK' undeclared (first use in this function); did you mean 'LPAIF_DIG_CLK'?
-     176 |                                                LPAIF_MI2S_MCLK, mclk_freq,
-         |                                                ^~~~~~~~~~~~~~~
-         |                                                LPAIF_DIG_CLK
-   sound/soc/qcom/sc8280xp.c:176:48: note: each undeclared identifier is reported only once for each function it appears in
->> sound/soc/qcom/sc8280xp.c:181:48: error: 'LPAIF_MI2S_BCLK' undeclared (first use in this function); did you mean 'LPAIF_DIG_CLK'?
-     181 |                                                LPAIF_MI2S_BCLK, bclk_freq,
-         |                                                ^~~~~~~~~~~~~~~
-         |                                                LPAIF_DIG_CLK
+vim +52 drivers/net/ethernet/intel/idpf/xdp.h
 
-
-vim +176 sound/soc/qcom/sc8280xp.c
-
-   154	
-   155	static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
-   156					  struct snd_pcm_hw_params *params)
-   157	{
-   158		struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-   159		struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-   160		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-   161		struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-   162		int mclk_freq = sc8280xp_get_mclk_freq(params);
-   163		int bclk_freq = sc8280xp_get_bclk_freq(params);
-   164	
-   165		switch (cpu_dai->id) {
-   166		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
-   167		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
-   168			snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
-   169	
-   170			if (data->snd_soc_common_priv->codec_dai_fmt)
-   171				snd_soc_dai_set_fmt(codec_dai,
-   172						    data->snd_soc_common_priv->codec_dai_fmt);
-   173	
-   174			if (data->snd_soc_common_priv->mi2s_mclk_enable)
-   175				snd_soc_dai_set_sysclk(cpu_dai,
- > 176						       LPAIF_MI2S_MCLK, mclk_freq,
-   177						       SND_SOC_CLOCK_IN);
-   178	
-   179			if (data->snd_soc_common_priv->mi2s_bclk_enable)
-   180				snd_soc_dai_set_sysclk(cpu_dai,
- > 181						       LPAIF_MI2S_BCLK, bclk_freq,
-   182						       SND_SOC_CLOCK_IN);
-   183	
-   184			if (data->snd_soc_common_priv->codec_sysclk_set)
-   185				snd_soc_dai_set_sysclk(cpu_dai,
-   186						       0, mclk_freq,
-   187						       SND_SOC_CLOCK_IN);
-   188			break;
-   189		default:
-   190			break;
-   191		}
-   192	
-   193		return 0;
-   194	}
-   195	
+    27	
+    28	static inline void idpf_xdp_tx_xmit_fb(struct libeth_xdp_tx_desc desc, u32 i,
+    29					       const struct libeth_xdpsq *sq, u64 priv)
+    30	{
+    31		struct idpf_flex_tx_sched_desc *tx_desc = sq->descs;
+    32		u32 cmd;
+    33	
+    34		cmd = FIELD_PREP(IDPF_TXD_FLEX_FLOW_DTYPE_M,
+    35				 IDPF_TX_DESC_DTYPE_FLEX_FLOW_SCHE);
+    36		if (desc.flags & LIBETH_XDP_TX_LAST)
+    37			cmd |= IDPF_TXD_FLEX_FLOW_CMD_EOP;
+    38		if (priv && (desc.flags & LIBETH_XDP_TX_CSUM))
+    39			cmd |= IDPF_TXD_FLEX_FLOW_CMD_CS_EN;
+    40	
+    41		tx_desc = &tx_desc[i];
+    42		tx_desc->buf_addr = cpu_to_le64(desc.addr);
+    43	
+    44	#ifdef __LIBETH_WORD_ACCESS
+    45		*(u64 *)&tx_desc->qw1 = ((u64)desc.len << 48) | ((u64)i << 32) | cmd;
+    46	#else
+    47		tx_desc->qw1.rxr_bufsize = cpu_to_le16(desc.len);
+    48		tx_desc->qw1.compl_tag = cpu_to_le16(i);
+    49		tx_desc->qw1.ts[0] = 0;
+    50		tx_desc->qw1.ts[1] = 0;
+    51		tx_desc->qw1.ts[2] = 0;
+  > 52		tx_desc->qw1.cmd_dtype = cpu_to_le16(cmd);
+    53	#endif
+    54	}
+    55	
 
 --
 0-DAY CI Kernel Test Service
