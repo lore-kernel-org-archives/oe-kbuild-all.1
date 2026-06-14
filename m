@@ -1,157 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A41733F360
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 21:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8592D1D6BB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 22:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781473495; cv=none; b=nW8XRBawsTggJ7mL015U5/R0ZpC6Ke6s6ZJc8bPQlnpz3mxJUaD1ATBG0chK6r/0lcFvi7xoLXv2pZ6ZBNiXRzze5F/7y7TjzSuYFTbOBIFr/eh8oq1K8TTC4DuKIHVBK9B5BDXWU9ItjTjHqhl0yNuZefVR9ICk+GVnGbPZN90=
+	t=1781474756; cv=none; b=KexIQdq32pqY1/UHGEsIy7tB4cXhjrnp28K5Z2AUsy3Umx2OdfBWMuYHrSdzj41BZ/veOVHWWEXL1s7Y8+VI8zAsjjn1ZoXIuPz2ABDXsiNCLauOpDX9NWG9hfP1B883Khs3XmyJegNh+tvi90tu3zubQmWX2mJ8Kj+YyVdNnG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781473495; c=relaxed/simple;
-	bh=pl1IQAemOzv8bCvOQ1NLU8RZThERw+L2c+2Tb2hhtxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AHWZmhwn64/oDNu7lhKOG3JxD4j9xRt0QzQxX55aLN0T2kOUBxiXSYKspHb8mDuCyvsBT8wq/N4wYHepDKLl1XZEICANuM6o3mNrNQlNMLUmfHrcEsHOqa1IB/a2x3gIBaTPEmyq87nGNcLbgiH8nnUTnb6mmbDq3FCPZQBaADI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=duJRbQWP; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1781474756; c=relaxed/simple;
+	bh=aWbc8kZjD92BsrXE2/3BK9PLOchJe0TjPxrARU9CZKE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nvzHXNJx8F6dDOIU2Lf3VfCiIspUR+zBx+ALFZQCVsHizP53pfXeeqSXSvwVJiXwbDueCeO0mSSHMz0zC/74Y4lil3l3sIdQJdUiJenyuH/qRkLSAru405pusGEho7hFCf6ObsEvvzNvpSopyGmPwU6wW4ijnqqyqWIdj4OglFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=da2dwbsT; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="duJRbQWP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="da2dwbsT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781473494; x=1813009494;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pl1IQAemOzv8bCvOQ1NLU8RZThERw+L2c+2Tb2hhtxQ=;
-  b=duJRbQWP8bbuQ/wTzgHfbneUDCn1j5asRS+/X3lXs2vxICkvE0On97cS
-   XduXdXf4RZaZKAgZQqzLIrc8eSbexbhwnLaPuA98LreFpFzwmXL5UClpG
-   Bet3+CNmJRvZ8DH0GyB6U58azltU3mp/4V15RHdG2lBREjPH5No8sGQ9U
-   rgy8GCKUrvk08dUT95BVIisJIovDlPH0zT8s/DhAxVusxlxSNdcSwt5DS
-   NJXzIrhPX0a4y5MkO6fYjMeS+yMJRic4BTw3R3RnE4KMngtVdqr1chKpz
-   EjX8aqthB3EMPtlS7XNr4bjsVCGiaOZ3ALOFnK+ufr+9TT6hwmHMed2aY
-   A==;
-X-CSE-ConnectionGUID: Sm2nINw7RLSxg2qUDQW/YA==
-X-CSE-MsgGUID: LkTo4dJ7RCOakL7l7rYspw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="82253067"
+  t=1781474755; x=1813010755;
+  h=date:from:to:cc:subject:message-id;
+  bh=aWbc8kZjD92BsrXE2/3BK9PLOchJe0TjPxrARU9CZKE=;
+  b=da2dwbsThn8+KpgzqHeywyCsCCXWPDyqASDCffdIeOq7PBa+F8ti1gnH
+   rdPhtbfGgVqHukT3SzoAOm0ulIpxUEMTJhhO5FC+6/YgNhvYGLhCDxT35
+   qQCiYEzaivvGU3iD73FOzDMQfK5uIsSbxF1GOyL1/yYIxqO3Icg3kWAZR
+   oSsxqD6wJdzXTw2BJgB8OC9CcAKcG5E7gOkpPimAAJfTnyFq+juCrlyXL
+   JhFwLNpHzD96vod84PT9PHxPxwmoShyTze/ZPV9NyoFPi1i3ScnO0JcIm
+   OxhofysCdYIe6uP23Nk1CNh4hcwQ9LtlET/tzED+NGV0ceWZQJl7qGOyC
+   w==;
+X-CSE-ConnectionGUID: yVAIp9wYTFuYxkxY9ZiLcg==
+X-CSE-MsgGUID: OMr5Rd9ZSWWAPH06rr3apw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="99637091"
 X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="82253067"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 14:44:53 -0700
-X-CSE-ConnectionGUID: 299MaWTWRJqxr345Q3iwkw==
-X-CSE-MsgGUID: Tf4Zvv55Tn+Z8R8w+yjdzg==
+   d="scan'208";a="99637091"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 15:05:54 -0700
+X-CSE-ConnectionGUID: TIbAZqeKT12F3cRMayvBUw==
+X-CSE-MsgGUID: FSmI5JkqTy6xxxuG+5RKkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="240956943"
+   d="scan'208";a="243161544"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Jun 2026 14:44:51 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Jun 2026 15:05:52 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYsdN-00000000RDs-285g;
-	Sun, 14 Jun 2026 21:44:49 +0000
-Date: Mon, 15 Jun 2026 05:44:45 +0800
+	id 1wYsxh-00000000RE6-2rxz;
+	Sun, 14 Jun 2026 22:05:49 +0000
+Date: Mon, 15 Jun 2026 06:05:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ronald Claveau <linux-kernel-dev@aliel.fr>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rclaveau:b4/add-adla_npu-t7-vim4 12/12]
- =?us-ascii?Q?drivers/accel/adla=5Flegacy/kmd/drv/port/platform/linux/adl?=
- =?us-ascii?Q?ak=5Fplatform=5Fconfig.c:378:19:?= error: implicit
- declaration of function 'of_parse_phandle'
-Message-ID: <202606150517.pkWp6ql4-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>
+Subject: drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202606150641.cbQ05ZMM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
-head:   db2e0f73cef8a993f240d9ea07ff72f5e99a7a9a
-commit: db2e0f73cef8a993f240d9ea07ff72f5e99a7a9a [12/12] Temporary use Adla Legacy driver
-config: parisc-randconfig-002-20260615 (https://download.01.org/0day-ci/archive/20260615/202606150517.pkWp6ql4-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606150517.pkWp6ql4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8cd9520d35a6c38db6567e97dd93b1f11f185dc6
+commit: 1982621decaf788d0611fc291fe89b297b6e5510 pinctrl: Allow compile testing for K210, TB10X and ZYNQ
+date:   12 months ago
+config: s390-randconfig-r113-20260614 (https://download.01.org/0day-ci/archive/20260615/202606150641.cbQ05ZMM-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606150641.cbQ05ZMM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 1982621decaf ("pinctrl: Allow compile testing for K210, TB10X and ZYNQ")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606150517.pkWp6ql4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606150641.cbQ05ZMM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse:     expected void *base
+   drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse:     got void [noderef] __iomem *
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     got void *base
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     got void *base
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     got void *base
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     got void *base
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse:     got void *base
 
-   drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c: In function 'adlak_platform_get_rsv_mem_size':
->> drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c:378:19: error: implicit declaration of function 'of_parse_phandle' [-Werror=implicit-function-declaration]
-     378 |     res_mem_dev = of_parse_phandle(((struct device *)dev)->of_node, "memory-region", 0);
-         |                   ^~~~~~~~~~~~~~~~
-   drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c:378:17: warning: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     378 |     res_mem_dev = of_parse_phandle(((struct device *)dev)->of_node, "memory-region", 0);
-         |                 ^
->> drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c:382:11: error: implicit declaration of function 'of_address_to_resource' [-Werror=implicit-function-declaration]
-     382 |     ret = of_address_to_resource(res_mem_dev, 0, &res);
-         |           ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c:388:18: error: implicit declaration of function 'of_n_size_cells' [-Werror=implicit-function-declaration]
-     388 |         nsize  = of_n_size_cells(res_mem_dev);
-         |                  ^~~~~~~~~~~~~~~
->> drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c:389:18: error: implicit declaration of function 'of_get_property' [-Werror=implicit-function-declaration]
-     389 |         ranges = of_get_property(res_mem_dev, "size", NULL);
-         |                  ^~~~~~~~~~~~~~~
-   drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c:389:16: warning: assignment to 'const __be32 *' {aka 'const unsigned int *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     389 |         ranges = of_get_property(res_mem_dev, "size", NULL);
-         |                ^
->> drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c:394:16: error: implicit declaration of function 'of_read_number' [-Werror=implicit-function-declaration]
-     394 |         size = of_read_number(ranges, nsize);
-         |                ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/accel/adla_legacy/kmd/drv/port/os/linux/mm/adlak_mm_os_common.c: In function 'adlak_cma_deinit':
->> drivers/accel/adla_legacy/kmd/drv/port/os/linux/mm/adlak_mm_os_common.c:39:5: error: implicit declaration of function 'of_reserved_mem_device_release' [-Werror=implicit-function-declaration]
-      39 |     of_reserved_mem_device_release(dev);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accel/adla_legacy/kmd/drv/port/os/linux/mm/adlak_mm_os_common.c: In function 'adlak_cma_init':
->> drivers/accel/adla_legacy/kmd/drv/port/os/linux/mm/adlak_mm_os_common.c:47:11: error: implicit declaration of function 'of_reserved_mem_device_init' [-Werror=implicit-function-declaration]
-      47 |     ret = of_reserved_mem_device_init(dev);
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accel/adla_legacy/kmd/drv/port/os/linux/mm/adlak_mm_os_common.c: In function 'adlak_os_mmap':
-   drivers/accel/adla_legacy/kmd/drv/port/os/linux/mm/adlak_mm_os_common.c:439:34: warning: variable 'vm_page_prot' set but not used [-Wunused-but-set-variable]
-     439 |     pgprot_t                     vm_page_prot;
-         |                                  ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +770 drivers/pinctrl/pinctrl-tb10x.c
 
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  746  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  747  static int tb10x_pinctrl_probe(struct platform_device *pdev)
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  748  {
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  749  	int ret = -EINVAL;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  750  	struct device *dev = &pdev->dev;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  751  	struct device_node *of_node = dev->of_node;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  752  	struct device_node *child;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  753  	struct tb10x_pinctrl *state;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  754  	int i;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  755  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  756  	if (!of_node) {
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  757  		dev_err(dev, "No device tree node found.\n");
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  758  		return -EINVAL;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  759  	}
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  760  
+d32aa74555575a Gustavo A. R. Silva 2019-06-06  761  	state = devm_kzalloc(dev, struct_size(state, pinfuncs,
+d32aa74555575a Gustavo A. R. Silva 2019-06-06  762  					      of_get_child_count(of_node)),
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  763  			     GFP_KERNEL);
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  764  	if (!state)
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  765  		return -ENOMEM;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  766  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  767  	platform_set_drvdata(pdev, state);
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  768  	mutex_init(&state->mutex);
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  769  
+4b024225c4a824 YueHaibing          2019-11-04 @770  	state->base = devm_platform_ioremap_resource(pdev, 0);
+86467ff2ddca94 Wei Yongjun         2013-10-21  771  	if (IS_ERR(state->base)) {
+86467ff2ddca94 Wei Yongjun         2013-10-21  772  		ret = PTR_ERR(state->base);
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  773  		goto fail;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  774  	}
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  775  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  776  	state->pingroups = tb10x_pingroups;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  777  	state->pinfuncgrpcnt = ARRAY_SIZE(tb10x_pingroups);
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  778  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  779  	for (i = 0; i < TB10X_PORTS; i++)
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  780  		state->ports[i].mode = tb10x_pinctrl_get_config(state, i);
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  781  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  782  	for_each_child_of_node(of_node, child) {
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  783  		const char *name;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  784  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  785  		if (!of_property_read_string(child, "abilis,function",
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  786  						&name)) {
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  787  			state->pinfuncs[state->pinfuncnt].name = child->name;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  788  			state->pinfuncs[state->pinfuncnt].group = name;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  789  			state->pinfuncnt++;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  790  		}
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  791  	}
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  792  
+c3a6d9e0a37df7 Laxman Dewangan     2016-02-24  793  	state->pctl = devm_pinctrl_register(dev, &tb10x_pindesc, state);
+323de9efdf3e75 Masahiro Yamada     2015-06-09  794  	if (IS_ERR(state->pctl)) {
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  795  		dev_err(dev, "could not register TB10x pin driver\n");
+323de9efdf3e75 Masahiro Yamada     2015-06-09  796  		ret = PTR_ERR(state->pctl);
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  797  		goto fail;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  798  	}
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  799  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  800  	return 0;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  801  
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  802  fail:
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  803  	mutex_destroy(&state->mutex);
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  804  	return ret;
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  805  }
+5aad0db1c1ebb0 Christian Ruppert   2013-10-15  806  
 
-vim +/of_parse_phandle +378 drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_config.c
+:::::: The code at line 770 was first introduced by commit
+:::::: 4b024225c4a8245e6ecc66ce1df1eaf2ebeb4acb pinctrl: use devm_platform_ioremap_resource() to simplify code
 
-   369	
-   370	int adlak_platform_get_rsv_mem_size(void *dev, uint64_t *mem_size) {
-   371	    int                 ret = 0;
-   372	    struct resource     res;
-   373	    uint64_t            size;
-   374	    const __be32 *      ranges = NULL;
-   375	    int                 nsize;
-   376	    struct device_node *res_mem_dev;
-   377	    /* find a memory-region phandle */
- > 378	    res_mem_dev = of_parse_phandle(((struct device *)dev)->of_node, "memory-region", 0);
-   379	    if (!res_mem_dev) {
-   380	        goto err;
-   381	    }
- > 382	    ret = of_address_to_resource(res_mem_dev, 0, &res);
-   383	    if (!ret) {
-   384	        AML_LOG_DEBUG("get cma memory region: [0x%lX, 0x%lX]", (uintptr_t)res.start,
-   385	                      (uintptr_t)res.end);
-   386	        size = res.end - res.start + 1;
-   387	    } else {
- > 388	        nsize  = of_n_size_cells(res_mem_dev);
- > 389	        ranges = of_get_property(res_mem_dev, "size", NULL);
-   390	        if (!ranges) {
-   391	            AML_LOG_ERR("get cma size failed!\n");
-   392	            goto err;
-   393	        }
- > 394	        size = of_read_number(ranges, nsize);
-   395	    }
-   396	    AML_LOG_DEBUG("get cma size=0x%lX", (uintptr_t)size);
-   397	    *mem_size = size;
-   398	    return 0;
-   399	err:
-   400	    return -1;
-   401	}
-   402	
+:::::: TO: YueHaibing <yuehaibing@huawei.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 --
 0-DAY CI Kernel Test Service
