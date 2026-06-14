@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05D21F78E6
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 07:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175393955E2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 08:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781423365; cv=none; b=lJeW1mELO74pJrwFCmjkKQXOIIH0Cq5heAPF+OR5ZVCjtWJ9pqwHACnaWxfeMW1Gcrp5CG1mIbfM3/dc+WSnJbDV7KV0Ls15Z7MFYMFNovWj4Iss9muyMbtxsRCAi+AbRpTyDkDrKWJxORZ6ml1Nq0agg4xb8veYrafJAxL5Joc=
+	t=1781425288; cv=none; b=Q3mBcIr2TXnY0IodHjFTFqzbD5FW2wkd33DIH4l7aQssgGVEQQNttLolLAouZ6Csv6oyjLWiJj4bSbzuGh6sevh2GLTlUYBt/fdhvZussgqkp5/pbb3+QEGmkfpKaCqJRV/eEA8ZwJccKx12iaoh7ZrUb8zGzRPdLt2J6Ea6Jfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781423365; c=relaxed/simple;
-	bh=EdB613XweNTldTI4hdiskSdew06U9g+Zrk0tIFqIrz8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=f9v+AAKHBS/OD0CNN9c4DEkZt7mQGN75YPq92bzX0CeaPTy4QDmx2zSpkKC3FeAdX0nwH0i/668hnpzDgmVN8gu5AKJ2tiP0rF7HNGanuVKToTKCOKFHoHubGKRvqd7p25cdsqd/xhJLhLzaeUrzniaKtaxHNhpJ0N9iWZz2ISU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0vLqDxe; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1781425288; c=relaxed/simple;
+	bh=Ql4oWel8virPe1otE6ScSl3yKV8lFbEXYi4C6z3MAP4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=P10y/uWMLtWlG833U/540fjVkLfQp/t5sotvZUyXRCajBqRXp8mQFXF2AWS59CFJQAyObyJtVBmb0gKg8qokRuybIpnmcnuZTbnFNF+FJE1Qhb6zbZ1l5vOUmYTkLgJkXb6qhBxvw8kvsMxzDGjj0/IY3GI2mJONq3zqQwg0oVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7SxIle6; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0vLqDxe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7SxIle6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781423362; x=1812959362;
+  t=1781425284; x=1812961284;
   h=date:from:to:cc:subject:message-id;
-  bh=EdB613XweNTldTI4hdiskSdew06U9g+Zrk0tIFqIrz8=;
-  b=K0vLqDxeXvavjTEZLofO/6cAyVoO9C27aZIFKGHNLT+wnq/5u6P8MS9r
-   GJr7+EzgMXDG1CFx+RszZbzH/CRHERJ3xJ1L2xuB7NnVZ2hhKSGdpUMnh
-   ty0mU5aMlWGPxg9AB0hZdLTZqBm6TNEsH/7bYSc/aFhbG5cC8kgVVfBGI
-   oeaQAD9dgu43ADM6CbBnUCz6hMQZkJcOsPZDdtHsJykXjuFKW6TqCtFZ2
-   NtAi0I31xloVcxxGvCjzwF4XNeXJyZGYEe/wSkJ39PQ2qlLdsdKsqX2YG
-   zRrhuvIn6lWlQLOkO4NY+VleYaBz9UNxv2V7ei3hHFSGXkRpj3Vs/YGFz
-   w==;
-X-CSE-ConnectionGUID: 8ScXq6HnQbiacTZ4Admo8A==
-X-CSE-MsgGUID: rCGLqURrRKCgBjH3f2o4Cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82301320"
+  bh=Ql4oWel8virPe1otE6ScSl3yKV8lFbEXYi4C6z3MAP4=;
+  b=E7SxIle6xpibFz3KwPKYJOnYJ8oGviAhJpkxq9jMMdHSctuGE19tLMaF
+   cb8lkbTF3aCIRcr8bOskbMhBXD3+/seaoMLZ4d5u4Tjsbbw0nO8G9KdlK
+   6fGSyc30DUP+5/lBzWEkmW13ej2f/5u9rpQFulZlhCS2+C4yfOtvQt9Sg
+   dKpUON0wKbAk8dEON0/VUzbY4g+hnw5oDvDI3ywvaLF8llWS0L+SsSep3
+   H72dZCZnW63CrruNj+s9lMmzjxYunh11BYBxbg6HtNywOPNuYOxpsEZnb
+   /ECVitJ96C9uV5NhGhv9ZB5XgLaR0ttP89mCYLmjxK2ylWDplTv2G1q70
+   Q==;
+X-CSE-ConnectionGUID: 0WQ4fxJ2SxyTInvdnp7eiw==
+X-CSE-MsgGUID: 7ahOzl2eSVO4LAsFBBaGog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="81213124"
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="82301320"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 00:49:21 -0700
-X-CSE-ConnectionGUID: sG4sTh1lTnKiUngFbqNrFA==
-X-CSE-MsgGUID: v5ElzfwPQhKEbXT3uv1gvg==
+   d="scan'208";a="81213124"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 01:21:23 -0700
+X-CSE-ConnectionGUID: 1AATm6ENTiy0WAz928iEYw==
+X-CSE-MsgGUID: YYHTPwFQQFGGYZD0XlRxzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="249083688"
+   d="scan'208";a="271275019"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Jun 2026 00:49:20 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 14 Jun 2026 01:21:22 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYfan-00000000Qfc-0m1T;
-	Sun, 14 Jun 2026 07:49:17 +0000
-Date: Sun, 14 Jun 2026 15:48:37 +0800
+	id 1wYg5n-00000000QgY-1p9I;
+	Sun, 14 Jun 2026 08:21:19 +0000
+Date: Sun, 14 Jun 2026 16:20:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Donnefort <vdonnefort@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Marc Zyngier <maz@kernel.org>, Kalesh Singh <kaleshsingh@google.com>
-Subject: arch/arm64/kvm/hyp/nvhe/stacktrace.c:40:1: sparse: sparse:
- symbol '__pcpu_scope_pkvm_stacktrace' was not declared. Should it be static?
-Message-ID: <202606141506.NrUXwjy5-lkp@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>
+Subject: [linux-next:master 9855/13763]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn35/dcn35_dccg.c:512
+ dccg35_set_hdmistreamclk_rcg() warn: inconsistent indenting
+Message-ID: <202606141620.rpa7SLtn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,37 +62,68 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2b07ea76fd28989bde5993532d7a943a6f90e246
-commit: 9019e82c7e46c03c37e8b108473d02b543222d9f KVM: arm64: Add PKVM_DISABLE_STAGE2_ON_PANIC
-date:   3 months ago
-config: arm64-randconfig-r112-20260614 (https://download.01.org/0day-ci/archive/20260614/202606141506.NrUXwjy5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260614/202606141506.NrUXwjy5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c425609d6ac4012c8bbf01ec2e10e801b1923a7b
+commit: d36771a03412454a0c7f1c81746426958008a2bb [9855/13763] drm/amd/display: Add DCCG DIO, HPO, OPP, and OPTC support for FRL
+config: i386-randconfig-141-20260611 (https://download.01.org/0day-ci/archive/20260614/202606141620.rpa7SLtn-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9019e82c7e46 ("KVM: arm64: Add PKVM_DISABLE_STAGE2_ON_PANIC")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606141506.NrUXwjy5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606141620.rpa7SLtn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/hyp/nvhe/stacktrace.c:12:1: sparse: sparse: symbol '__pcpu_scope_overflow_stack' was not declared. Should it be static?
-   arch/arm64/kvm/hyp/nvhe/stacktrace.c:15:1: sparse: sparse: symbol '__pcpu_scope_kvm_stacktrace_info' was not declared. Should it be static?
->> arch/arm64/kvm/hyp/nvhe/stacktrace.c:40:1: sparse: sparse: symbol '__pcpu_scope_pkvm_stacktrace' was not declared. Should it be static?
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn35/dcn35_dccg.c:512 dccg35_set_hdmistreamclk_rcg() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn35/dcn35_dccg.c:534 dccg35_set_hdmi_char_clk_rcg() warn: inconsistent indenting
 
-vim +/__pcpu_scope_pkvm_stacktrace +40 arch/arm64/kvm/hyp/nvhe/stacktrace.c
+vim +512 drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn35/dcn35_dccg.c
 
-871c5d931417d3 Kalesh Singh 2022-07-26  39  
-6928bcc84bc4bd Kalesh Singh 2022-07-26 @40  DEFINE_PER_CPU(unsigned long [NVHE_STACKTRACE_SIZE/sizeof(long)], pkvm_stacktrace);
-871c5d931417d3 Kalesh Singh 2022-07-26  41  
-
-:::::: The code at line 40 was first introduced by commit
-:::::: 6928bcc84bc4bd9a24a1cb1986418c3de76e1d99 KVM: arm64: Allocate shared pKVM hyp stacktrace buffers
-
-:::::: TO: Kalesh Singh <kaleshsingh@google.com>
-:::::: CC: Marc Zyngier <maz@kernel.org>
+   497	
+   498	static void dccg35_set_hdmistreamclk_rcg(
+   499			struct dccg *dccg,
+   500			int inst,
+   501			bool enable)
+   502	{
+   503		struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
+   504	
+   505		if (!dccg->ctx->dc->debug.root_clock_optimization.bits.hdmistream && enable)
+   506			return;
+   507	
+   508		switch (inst) {
+   509		case 0:
+   510				REG_UPDATE(DCCG_GATE_DISABLE_CNTL3, HDMISTREAMCLK0_GATE_DISABLE, enable ? 0 : 1);
+   511				REG_UPDATE(DCCG_GATE_DISABLE_CNTL6, HDMISTREAMCLK0_ROOT_GATE_DISABLE, enable ? 0 : 1);
+ > 512			break;
+   513		default:
+   514			BREAK_TO_DEBUGGER();
+   515			return;
+   516		}
+   517	}
+   518	
+   519	static void dccg35_set_hdmi_char_clk_rcg(
+   520			struct dccg *dccg,
+   521			int inst,
+   522			bool enable)
+   523	{
+   524		struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
+   525	
+   526		/* Only 1 HPO in DCN35 */
+   527		if (!dccg->ctx->dc->debug.root_clock_optimization.bits.hdmichar && enable)
+   528			return;
+   529	
+   530		switch (inst) {
+   531		case 0:
+   532				REG_UPDATE(DCCG_GATE_DISABLE_CNTL2, HDMICHARCLK0_GATE_DISABLE, enable ? 0 : 1);
+   533				REG_UPDATE(DCCG_GATE_DISABLE_CNTL4, HDMICHARCLK0_ROOT_GATE_DISABLE, enable ? 0 : 1);
+ > 534			break;
+   535		default:
+   536			BREAK_TO_DEBUGGER();
+   537			return;
+   538		}
+   539	}
+   540	
 
 --
 0-DAY CI Kernel Test Service
