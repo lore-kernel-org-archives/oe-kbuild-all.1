@@ -1,232 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F67324CEEA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 04:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F1F21255A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 04:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781411553; cv=none; b=i49y88bxeOJwwy+S+7CBHiLAiHKdIoBUxxc/upNaNvSmxXI7rxA/800cXpu4FB+Ic+usAyI9lSE4Ff1fSq+BbEofCzRacqpDwPz0KIlI7o0I0GbdWEZUGnYnMV05uM1gbXLeES46Nyw6ZOInoSuma1yHpbOhZ3y1XTo2UPGYWck=
+	t=1781412096; cv=none; b=NHJM1bNqnF6oW8Mke+gshvF4D7QwAVV4CWGAIshLbYd1AjhJKQcZnjxD3L09LRJjjoh/8TFbmxxM2jEh8ni2DkbP18k5n8ZLCazs3ELlM8bBFE0CGcvdxvQzjtEymUwEW3miXIL8LJocVOT0Av7TCFPaxS3cglks+8eTwwItiKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781411553; c=relaxed/simple;
-	bh=pEzwc33I+vz9xZ829eO2FVzpDvYkQciYxWWKN3oXB3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=UTZA+nfO6ass4WclRW5QbH6sLShaIyHqQmFI61Rlp5+8ndRqoKhDz51IjDvHVbX+RsAlzL5+GLQCAykMAGumldLgIgr7CoGP+BvlOuG/YdLrfEBW9GfJ1XdsMCA24m8wBMqF64dSSn0SdfoPtDM6lEKEyyiUGdkVgu/VzVDrEW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCEB9LDN; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1781412096; c=relaxed/simple;
+	bh=IuUVjR0H/FfTWwNlOp33LVCMS9U7U49U/vVPic5tr8I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sjmPdhNEA7h2Vtk9aeQ0cWfosIyFlHwmWaCjzEWEJDRb/K9huZHB49jKH0hnMRP1Z7pU/UH7kszxJjqsvHf56av7jr8uYiRaDQ4vynOok1BnqwuHRlg4XwfI9DadBhCnnaD5ql70lYOQC8c/m+qkXzupIEgWjqdVSCL9DdU4H5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFsiYn8w; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCEB9LDN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFsiYn8w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781411551; x=1812947551;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pEzwc33I+vz9xZ829eO2FVzpDvYkQciYxWWKN3oXB3A=;
-  b=lCEB9LDN65Mb9ByLJrWTjulVpQmGPx7ldOWeoyMzF4gOw27DL0JdMK0z
-   6jVsKEJVCJdBdDxx1wd7IeOQG81WiVkv+YwAOmvl8t9FjYOzIrjA66vKn
-   Ojlf5ZgLYJW5u/frgEvxQPOMbB2lpSZ4WC80KYPz9b0T7gzdNtSfwD+ax
-   JGMcX5N6lPubJSeIhahmLoOShYVAu9O67dejrmZ9StYUkfRloifvhe3sQ
-   vKuFUoCM8dKFxbq7+Rvot/rUy784LGXt6VT77ZV6+IUcDH4C8DO+SB3PM
-   Qlbix2jxHctiA9viZ0QnCl62PDwmnulfQkIGu1TBYnc8KvKXb/UNMt7CH
-   Q==;
-X-CSE-ConnectionGUID: 2r+IPt0MT9+wJcBz5pB4Dw==
-X-CSE-MsgGUID: o0mkco5SQduYfOyxtvuY5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="92511787"
+  t=1781412092; x=1812948092;
+  h=date:from:to:cc:subject:message-id;
+  bh=IuUVjR0H/FfTWwNlOp33LVCMS9U7U49U/vVPic5tr8I=;
+  b=oFsiYn8wYPGZ8CcAC6Va0waBgoNyhL7IfPGvZXuSx4vaQtID/o8da1QV
+   MbfByyPK0jCPBMCyHcKE2bK93+xFpJClZCc0fB/MM0ir3ANfIQ9vCcGq9
+   3d9dLQ1f+SIuOTy3ymhBEr54jdvxWrtSs5ZjwfTYrZaek0gGBJTHt+t/V
+   RorUgLBj6/fLcug4qwHeBh319Pf4I8LTgelf3Z3E8SveBuMKJgwsoP8ms
+   xKHehysC8NEDNxBQDKwP9pOTmFwNiDNgJt1sjyFKGytfxi05rRBCy0+jT
+   7gU7gMWrdgQAi04dd45XaXwN4DJdFmhRFS3o3G+vZ3E0Yl5zes7mYUyk9
+   w==;
+X-CSE-ConnectionGUID: R0GDhWKDSrav7Nqxmskj7A==
+X-CSE-MsgGUID: gIjeZ7cnS2+Dud1uYphVlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="93682109"
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="92511787"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 21:32:31 -0700
-X-CSE-ConnectionGUID: 6y8kqXZFQ+OiGU/dMaGFPw==
-X-CSE-MsgGUID: nH2iJGEgRICFpNUxtlq1fA==
+   d="scan'208";a="93682109"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 21:41:31 -0700
+X-CSE-ConnectionGUID: Kan3QVesRRaIZB67zOB7YA==
+X-CSE-MsgGUID: d3H4S3KzRp6CPhfKnIX6fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="277368509"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Jun 2026 21:32:29 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="246063109"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 13 Jun 2026 21:41:30 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYcWI-00000000QYE-1c2b;
-	Sun, 14 Jun 2026 04:32:26 +0000
-Date: Sun, 14 Jun 2026 12:31:45 +0800
+	id 1wYcf1-000000004dh-19ZA;
+	Sun, 14 Jun 2026 04:41:27 +0000
+Date: Sun, 14 Jun 2026 06:41:01 +0200
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>
-Subject: [drm-tip:drm-tip 1/9]
- drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:203:1: warning: label 'retry' defined
- but not used
-Message-ID: <202606141218.CqTOhIHC-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 0/17] htmldocs: Warning:
+ anolis/rpm/kernel.spec.template references a file that doesn't exist:
+ linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+Message-ID: <202606140616.qgMJabWa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
-head:   5fc0f82c971ea3b4e1c58602c0be573a802a8670
-commit: f8363c190f6fe6cffebc8733c2375330112327f9 [1/9] Merge remote-trackin=
-g branch 'drm/drm-next' into drm-tip
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260614/2=
-02606141218.CqTOhIHC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260614/202606141218.CqTOhIHC-lkp@intel.com/reproduce)
+Hi Qiao,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   32202562935a0f31664867f324729f0e461080ca
+commit: b59c41852684e0cfcf198cb3ded58b8b37413a47 [0/17] anolis: spec: add basic framework to generate rpm tree
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260614/202606140616.qgMJabWa-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606141218.CqTOhIHC-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606140616.qgMJabWa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c: In function 'amdgpu_hmm_range_g=
-et_pages':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:203:1: warning: label 'retry' de=
-fined but not used [-Wunused-label]
-     203 | retry:
-         | ^~~~~
-
-
-vim +/retry +203 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
-
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  168 =20
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  169  int amdgpu_hmm_range_get_pages(struct mmu_interval_notifi=
-er *notifier,
-d4cbff464d2932 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2022-11-09  170  			       uint64_t start, uint64_t npages, bool read=
-only,
-c5b3cc417b0260 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Sunil Khatri        =
- 2025-09-17  171  			       void *owner,
-737da5363cc07c drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Sunil Khatri        =
- 2025-10-10  172  			       struct amdgpu_hmm_range *range)
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  173  {
-962d684b5dc074 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2026-02-18  174  	const u64 max_bytes =3D SZ_2G;
-962d684b5dc074 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2026-02-18  175 =20
-962d684b5dc074 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2026-02-18  176  	struct hmm_range *hmm_range =3D &range->hmm_range;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  177  	unsigned long *pfns;
-962d684b5dc074 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2026-02-18  178  	unsigned long end;
-962d684b5dc074 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2026-02-18  179  	int r;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  180 =20
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  181  	pfns =3D kvmalloc_array(npages, sizeof(*pfns), GFP_KERNE=
-L);
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  182  	if (unlikely(!pfns)) {
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  183  		r =3D -ENOMEM;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  184  		goto out_free_range;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  185  	}
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  186 =20
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  187  	hmm_range->notifier =3D notifier;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  188  	hmm_range->default_flags =3D HMM_PFN_REQ_FAULT;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  189  	if (!readonly)
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  190  		hmm_range->default_flags |=3D HMM_PFN_REQ_WRITE;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  191  	hmm_range->hmm_pfns =3D pfns;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  192  	hmm_range->start =3D start;
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  193  	end =3D start + npages * PAGE_SIZE;
-8c21fc49a8e637 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Alex Sierra         =
- 2021-05-06  194  	hmm_range->dev_private_owner =3D owner;
-d8a3c1c80ceb65 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2021-03-30  195 =20
-962d684b5dc074 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2026-02-18  196  	hmm_range->notifier_seq =3D mmu_interval_read_begin=
-(notifier);
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  197  	do {
-962d684b5dc074 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2026-02-18  198  		hmm_range->end =3D min(hmm_range->start + max_byte=
-s, end);
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  199 =20
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  200  		pr_debug("hmm range: start =3D 0x%lx, end =3D 0x%lx",
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  201  			hmm_range->start, hmm_range->end);
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  202 =20
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24 @203  retry:
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  204  		r =3D hmm_range_fault(hmm_range);
-342981fff32802 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Honglei Huang       =
- 2026-05-29  205  		if (unlikely(r))
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  206  			goto out_free_pfns;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  207 =20
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  208  		if (hmm_range->end =3D=3D end)
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  209  			break;
-962d684b5dc074 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
-      2026-02-18  210  		hmm_range->hmm_pfns +=3D max_bytes >> PAGE_SHIFT;
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  211  		hmm_range->start =3D hmm_range->end;
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  212  	} while (hmm_range->end < end);
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  213 =20
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  214  	hmm_range->start =3D start;
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  215  	hmm_range->hmm_pfns =3D pfns;
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu           =
- 2022-11-17  216 =20
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  217  	return 0;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  218 =20
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  219  out_free_pfns:
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  220  	kvfree(pfns);
-dfc74e37bdb487 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Srinivasan Shanmugam=
- 2025-10-23  221  	hmm_range->hmm_pfns =3D NULL;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  222  out_free_range:
-9095e5544061b1 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Philip Yang         =
- 2024-04-30  223  	if (r =3D=3D -EBUSY)
-9095e5544061b1 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Philip Yang         =
- 2024-04-30  224  		r =3D -EAGAIN;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  225  	return r;
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  226  }
-04d8d73dbcbe64 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Philip Yang         =
- 2020-02-24  227 =20
-
-:::::: The code at line 203 was first introduced by commit
-:::::: 04d8d73dbcbe645a378fca6adc6f0e7111e46c17 drm/amdgpu: add common HMM =
-get pages function
-
-:::::: TO: Philip Yang <Philip.Yang@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+>> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
+   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+   Using alabaster theme
+--
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+>> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
+   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
 
 --
 0-DAY CI Kernel Test Service
