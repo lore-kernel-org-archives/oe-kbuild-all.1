@@ -1,161 +1,313 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47C01F91F6
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 14:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAED233952
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 14:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781446049; cv=none; b=lazNw2nP+8yNPI1hvfZGhtrQkmz7/7d740dkKxLyvcfZFto4LQ3xpIEZD7Aob5H10BXQugBzuMvaKC1WqOPvsImcgrKizwUr7MAfIPOUGVc7PV2FyLCFfjbv3qo4Yd7cAxh1fh0j3c2/AFKdXPDzMflArMlpp3/XjQISDKUuR8U=
+	t=1781447316; cv=none; b=PQybYn5NLAx/c5mKeAQfU2+XRzgSWAkWSZdvqHP0Q2714a2Np9+YqqF2I/cA0t+F/9regdwOSEk9b8a4l2ixHuDpv+aO4NuM0CTzMbjwLBKR0FZ15YEU9DF3Z4t18pntXTLdm3KFujyW28fR3ZEsXzmq+lnWgNgGxTSO8ll0TbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781446049; c=relaxed/simple;
-	bh=6z3i6W2OMZX8xM34L4H4pm8fFt8I37oUjOHsmq4RUZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nTnk/IhhPqQe//z9p/x5QwNwEKmLoGaWX6CovRWTjnGf8jKnMd2vCyYfFsN3v449Wvop4xPEmrTOjAsgaJ9Bfyg+AJQrZb8T8FzNuiqyWGrWeniDci1Fk62eFtJv2iGP+369eW63yszuAD+Ci42Dh2rgL/bICym/4BR5PtNJ2D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lKBy4rEn; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1781447316; c=relaxed/simple;
+	bh=gSMftvhupQbZg2ZCGgn3w92oDfidc3cQ8vg0UijQBvE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=g/PgVtWZR1I+mWoQzk4FIry2fuKekCS+CZwXK10Go5+DA4SOrQrLmsSjvO2WK07TzuJ5EU96a5gKj7xOvNQvRW1NxxoJqn+vevTCMIQ30uOEYyn2gFb4rswqSKHAan3+vXVURm5LHRZAxK2pvyzvu4tIsSPKd62rqDlLzK2gPAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWLKkOa/; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lKBy4rEn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWLKkOa/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781446046; x=1812982046;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6z3i6W2OMZX8xM34L4H4pm8fFt8I37oUjOHsmq4RUZM=;
-  b=lKBy4rEnatYnwST8tCgHgFL8rOpa17Qod+FzodRlqZ/FAMMiChTBOrb/
-   D4m+8okvIfh5AiKG7L2yeEXZbD8e7gfB+JDJS0/4id9jJTLkVN57jOHbp
-   lyOsKYGeRh9/VqWKTAccT3oN+FblSC2jFDv9mZCt7XJcFzFAHYWvWqkfl
-   vivBxaeJ09ampDVoBSu16QBDTeIf50x1O1kV8Si6XknSg6l5L5WRJA7qU
-   w8Q91ouMbSFZx7wi7GmW25+h99Dqr0dF70cNrlew9DivAGpM8sougjhA2
-   xvLXRPxllHeH5QUuIQmWOr1i0SS/bFCWabDfcFbocMfeMxY5FAwJZU9Fq
-   Q==;
-X-CSE-ConnectionGUID: y0HN5gfdSg6Q5R6WvxU0zQ==
-X-CSE-MsgGUID: bwSkQR9GRHuz7vf1ul2YAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82241901"
+  t=1781447314; x=1812983314;
+  h=date:from:to:cc:subject:message-id;
+  bh=gSMftvhupQbZg2ZCGgn3w92oDfidc3cQ8vg0UijQBvE=;
+  b=eWLKkOa/YeTl6hGtevABQkEnpM8uzsw5vXbC+OSTMapOG5z+lkgseAVz
+   4n+xCrZEI3jRhuG9opGpMvUhJo5YVC+RkAKSmZ36AW52mf1wn2sjYcvPS
+   ZPibVu2YyQ6Wt9lvl1fIfPkBpEi39zBLppJV5kbqNWbIuSp6AvK2InhqV
+   uZzgB9aoWLnH/EIr+PhTzBD7mi97/2MVIBxC8W/d2hUT//iOB45A1KP3X
+   3hf7eaBl3Tl+Yn4Sz4ONjoMudFOrrWCuaUbiyAv+o2bhZJduJyDEiDFJf
+   lFWMMOTDy3FMDOxvzO87m1+tsA35wlerU87rTjnuJOfA0LsWCF3Jo7fIK
+   w==;
+X-CSE-ConnectionGUID: Dct0VOGbSS6K1Jo9GHBvng==
+X-CSE-MsgGUID: 5OqPus/RRs6dj0LkVTFRbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="93698149"
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="82241901"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 07:07:25 -0700
-X-CSE-ConnectionGUID: Sxf+V4f7TOKVph6xAYHrMw==
-X-CSE-MsgGUID: 3SRfTxVMQkKB9tDFdjc8Xg==
+   d="scan'208";a="93698149"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 07:28:33 -0700
+X-CSE-ConnectionGUID: vWB1keVBRpqugTu8SIQVdA==
+X-CSE-MsgGUID: 1jttSD93SBSMsUwtyik+jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="251177101"
+   d="scan'208";a="244343462"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Jun 2026 07:07:23 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Jun 2026 07:28:31 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYlUe-00000000Qs4-0ZnG;
-	Sun, 14 Jun 2026 14:07:20 +0000
-Date: Sun, 14 Jun 2026 22:06:31 +0800
+	id 1wYlp7-00000000QtE-08pE;
+	Sun, 14 Jun 2026 14:28:29 +0000
+Date: Sun, 14 Jun 2026 22:27:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julian Braha <julianbraha@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
-Subject: drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202606142104.yLTxoIoB-lkp@intel.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [pabeni-devel:mptcp_out_opt_refactor 1/3]
+ net/ipv4/tcp_output.c:846:62: error: passing argument 3 of
+ 'mptcp_synack_options' from incompatible pointer type
+Message-ID: <202606142208.1R4VkAMi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e21ee273e6fa3879aec9a27251cfce98156e07c4
-commit: df75430515c33ece3de46562f917acd9792505ad drm: fix dead default for =
-DRM_TTM_KUNIT_TEST
-date:   3 months ago
-config: nios2-randconfig-r131-20260614 (https://download.01.org/0day-ci/arc=
-hive/20260614/202606142104.yLTxoIoB-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260614/202606142104.yLTxoIoB-lkp@intel.com/reproduce)
+tree:   https://github.com/pabeni/linux-devel mptcp_out_opt_refactor
+head:   626881f865b7b1234b444dfa972f0fa3ef80e920
+commit: 1414ccc3a56482387d4d1732f8eda9f7ca73647e [1/3] tcp: clean-up mptcp option selection hooks signature
+config: parisc-randconfig-002-20260614 (https://download.01.org/0day-ci/archive/20260614/202606142208.1R4VkAMi-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260614/202606142208.1R4VkAMi-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: df75430515c3 ("drm: fix dead default for DRM_TTM_KUNIT_TEST")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606142104.yLTxoIoB-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606142208.1R4VkAMi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse: sparse: incorrect type=
- in assignment (different address spaces) @@     expected void *virtual @@ =
-    got void [noderef] __iomem * @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse:     expected void *vir=
-tual
-   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse:     got void [noderef]=
- __iomem *
-   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse: sparse: incorrect type=
- in assignment (different address spaces) @@     expected void *virtual @@ =
-    got void [noderef] __iomem * @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse:     expected void *vir=
-tual
-   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse:     got void [noderef]=
- __iomem *
->> drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse: sparse: incorrect type=
- in argument 1 (different address spaces) @@     expected void [noderef] __=
-iomem *addr @@     got void *virtual @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse:     expected void [nod=
-eref] __iomem *addr
-   drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse:     got void *virtual
+All error/warnings (new ones prefixed by >>):
 
-vim +465 drivers/gpu/drm/ttm/ttm_bo_util.c
+   net/ipv4/tcp_output.c: In function 'mptcp_set_option_cond':
+>> net/ipv4/tcp_output.c:846:50: warning: passing argument 2 of 'mptcp_synack_options' makes pointer from integer without a cast [-Wint-conversion]
+     846 |                 size = mptcp_synack_options(req, *remaining, opts);
+         |                                                  ^~~~~~~~~~
+         |                                                  |
+         |                                                  unsigned int
+   In file included from include/net/tcp.h:44,
+                    from net/ipv4/tcp_output.c:40:
+   include/net/mptcp.h:270:55: note: expected 'unsigned int *' but argument is of type 'unsigned int'
+     270 |                                         unsigned int *size,
+         |                                         ~~~~~~~~~~~~~~^~~~
+>> net/ipv4/tcp_output.c:846:62: error: passing argument 3 of 'mptcp_synack_options' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     846 |                 size = mptcp_synack_options(req, *remaining, opts);
+         |                                                              ^~~~
+         |                                                              |
+         |                                                              struct tcp_out_options *
+   include/net/mptcp.h:271:67: note: expected 'struct mptcp_out_options *' but argument is of type 'struct tcp_out_options *'
+     271 |                                         struct mptcp_out_options *opts)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   net/ipv4/tcp_output.c: In function 'tcp_syn_options':
+>> net/ipv4/tcp_output.c:1004:51: warning: passing argument 3 of 'mptcp_syn_options' makes pointer from integer without a cast [-Wint-conversion]
+    1004 |                 size = mptcp_syn_options(sk, skb, remaining, opts);
+         |                                                   ^~~~~~~~~
+         |                                                   |
+         |                                                   unsigned int
+   include/net/mptcp.h:263:52: note: expected 'unsigned int *' but argument is of type 'unsigned int'
+     263 |                                      unsigned int *size,
+         |                                      ~~~~~~~~~~~~~~^~~~
+>> net/ipv4/tcp_output.c:1004:62: error: passing argument 4 of 'mptcp_syn_options' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1004 |                 size = mptcp_syn_options(sk, skb, remaining, opts);
+         |                                                              ^~~~
+         |                                                              |
+         |                                                              struct tcp_out_options *
+   include/net/mptcp.h:264:64: note: expected 'struct mptcp_out_options *' but argument is of type 'struct tcp_out_options *'
+     264 |                                      struct mptcp_out_options *opts)
+         |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  451 =20
-a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  452  /**
-a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  453   * ttm_bo_kunmap
-a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  454   *
-a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  455   * @map: Object desc=
-ribing the map to unmap.
-a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  456   *
-a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  457   * Unmaps a kernel m=
-ap set up by ttm_bo_kmap.
-a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  458   */
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  459  void ttm_bo_kunmap(struct=
- ttm_bo_kmap_obj *map)
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  460  {
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  461  	if (!map->virtual)
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  462  		return;
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  463  	switch (map->bo_kmap_typ=
-e) {
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  464  	case ttm_bo_map_iomap:
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10 @465  		iounmap(map->virtual);
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  466  		break;
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  467  	case ttm_bo_map_vmap:
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  468  		vunmap(map->virtual);
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  469  		break;
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  470  	case ttm_bo_map_kmap:
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  471  		kunmap(map->page);
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  472  		break;
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  473  	case ttm_bo_map_premappe=
-d:
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  474  		break;
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  475  	default:
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  476  		BUG();
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  477  	}
-d3116756a710e3c Christian K=C3=B6nig  2021-04-12  478  	ttm_mem_io_free(map=
-->bo->bdev, map->bo->resource);
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  479  	map->virtual =3D NULL;
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  480  	map->page =3D NULL;
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  481  }
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  482  EXPORT_SYMBOL(ttm_bo_kunm=
-ap);
-ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  483 =20
 
-:::::: The code at line 465 was first introduced by commit
-:::::: ba4e7d973dd09b66912ac4c0856add8b0703a997 drm: Add the TTM GPU memory=
- manager subsystem.
+vim +/mptcp_synack_options +846 net/ipv4/tcp_output.c
 
-:::::: TO: Thomas Hellstrom <thellstrom@vmware.com>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+   838	
+   839	static void mptcp_set_option_cond(const struct request_sock *req,
+   840					  struct tcp_out_options *opts,
+   841					  unsigned int *remaining)
+   842	{
+   843		if (rsk_is_mptcp(req)) {
+   844			unsigned int size;
+   845	
+ > 846			size = mptcp_synack_options(req, *remaining, opts);
+   847			if (size >= 0) {
+   848				opts->options |= OPTION_MPTCP;
+   849				*remaining -= size;
+   850			}
+   851		}
+   852	}
+   853	
+   854	static u32 tcp_synack_options_combine_saving(struct tcp_out_options *opts)
+   855	{
+   856		/* How much there's room for combining with the alignment padding? */
+   857		if ((opts->options & (OPTION_SACK_ADVERTISE | OPTION_TS)) ==
+   858		    OPTION_SACK_ADVERTISE)
+   859			return 2;
+   860		else if (opts->options & OPTION_WSCALE)
+   861			return 1;
+   862		return 0;
+   863	}
+   864	
+   865	/* Calculates how long AccECN option will fit to @remaining option space.
+   866	 *
+   867	 * AccECN option can sometimes replace NOPs used for alignment of other
+   868	 * TCP options (up to @max_combine_saving available).
+   869	 *
+   870	 * Only solutions with at least @required AccECN fields are accepted.
+   871	 *
+   872	 * Returns: The size of the AccECN option excluding space repurposed from
+   873	 * the alignment of the other options.
+   874	 */
+   875	static int tcp_options_fit_accecn(struct tcp_out_options *opts, int required,
+   876					  int remaining)
+   877	{
+   878		int size = TCP_ACCECN_MAXSIZE;
+   879		int sack_blocks_reduce = 0;
+   880		int max_combine_saving;
+   881		int rem = remaining;
+   882		int align_size;
+   883	
+   884		if (opts->use_synack_ecn_bytes)
+   885			max_combine_saving = tcp_synack_options_combine_saving(opts);
+   886		else
+   887			max_combine_saving = opts->num_sack_blocks > 0 ? 2 : 0;
+   888		opts->num_accecn_fields = TCP_ACCECN_NUMFIELDS;
+   889		while (opts->num_accecn_fields >= required) {
+   890			/* Pad to dword if cannot combine */
+   891			if ((size & 0x3) > max_combine_saving)
+   892				align_size = ALIGN(size, 4);
+   893			else
+   894				align_size = ALIGN_DOWN(size, 4);
+   895	
+   896			if (rem >= align_size) {
+   897				size = align_size;
+   898				break;
+   899			} else if (opts->num_accecn_fields == required &&
+   900				   opts->num_sack_blocks > 2 &&
+   901				   required > 0) {
+   902				/* Try to fit the option by removing one SACK block */
+   903				opts->num_sack_blocks--;
+   904				sack_blocks_reduce++;
+   905				rem = rem + TCPOLEN_SACK_PERBLOCK;
+   906	
+   907				opts->num_accecn_fields = TCP_ACCECN_NUMFIELDS;
+   908				size = TCP_ACCECN_MAXSIZE;
+   909				continue;
+   910			}
+   911	
+   912			opts->num_accecn_fields--;
+   913			size -= TCPOLEN_ACCECN_PERFIELD;
+   914		}
+   915		if (sack_blocks_reduce > 0) {
+   916			if (opts->num_accecn_fields >= required)
+   917				size -= sack_blocks_reduce * TCPOLEN_SACK_PERBLOCK;
+   918			else
+   919				opts->num_sack_blocks += sack_blocks_reduce;
+   920		}
+   921		if (opts->num_accecn_fields < required)
+   922			return 0;
+   923	
+   924		opts->options |= OPTION_ACCECN;
+   925		return size;
+   926	}
+   927	
+   928	/* Compute TCP options for SYN packets. This is not the final
+   929	 * network wire format yet.
+   930	 */
+   931	static unsigned int tcp_syn_options(struct sock *sk, struct sk_buff *skb,
+   932					struct tcp_out_options *opts,
+   933					struct tcp_key *key)
+   934	{
+   935		struct tcp_sock *tp = tcp_sk(sk);
+   936		unsigned int remaining = MAX_TCP_OPTION_SPACE;
+   937		struct tcp_fastopen_request *fastopen = tp->fastopen_req;
+   938		bool timestamps;
+   939	
+   940		opts->options = 0;
+   941	
+   942		/* Better than switch (key.type) as it has static branches */
+   943		if (tcp_key_is_md5(key)) {
+   944			timestamps = false;
+   945			opts->options |= OPTION_MD5;
+   946			remaining -= TCPOLEN_MD5SIG_ALIGNED;
+   947		} else {
+   948			timestamps = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_timestamps);
+   949			if (tcp_key_is_ao(key)) {
+   950				opts->options |= OPTION_AO;
+   951				remaining -= tcp_ao_len_aligned(key->ao_key);
+   952			}
+   953		}
+   954	
+   955		/* We always get an MSS option.  The option bytes which will be seen in
+   956		 * normal data packets should timestamps be used, must be in the MSS
+   957		 * advertised.  But we subtract them from tp->mss_cache so that
+   958		 * calculations in tcp_sendmsg are simpler etc.  So account for this
+   959		 * fact here if necessary.  If we don't do this correctly, as a
+   960		 * receiver we won't recognize data packets as being full sized when we
+   961		 * should, and thus we won't abide by the delayed ACK rules correctly.
+   962		 * SACKs don't matter, we never delay an ACK when we have any of those
+   963		 * going out.  */
+   964		opts->mss = tcp_advertise_mss(sk);
+   965		remaining -= TCPOLEN_MSS_ALIGNED;
+   966	
+   967		if (likely(timestamps)) {
+   968			opts->options |= OPTION_TS;
+   969			opts->tsval = tcp_skb_timestamp_ts(tp->tcp_usec_ts, skb) + tp->tsoffset;
+   970			opts->tsecr = tp->rx_opt.ts_recent;
+   971			remaining -= TCPOLEN_TSTAMP_ALIGNED;
+   972		}
+   973		if (likely(READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_window_scaling))) {
+   974			opts->ws = tp->rx_opt.rcv_wscale;
+   975			opts->options |= OPTION_WSCALE;
+   976			remaining -= TCPOLEN_WSCALE_ALIGNED;
+   977		}
+   978		if (likely(READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_sack))) {
+   979			opts->options |= OPTION_SACK_ADVERTISE;
+   980			if (unlikely(!(OPTION_TS & opts->options)))
+   981				remaining -= TCPOLEN_SACKPERM_ALIGNED;
+   982		}
+   983	
+   984		if (fastopen && fastopen->cookie.len >= 0) {
+   985			u32 need = fastopen->cookie.len;
+   986	
+   987			need += fastopen->cookie.exp ? TCPOLEN_EXP_FASTOPEN_BASE :
+   988						       TCPOLEN_FASTOPEN_BASE;
+   989			need = (need + 3) & ~3U;  /* Align to 32 bits */
+   990			if (remaining >= need) {
+   991				opts->options |= OPTION_FAST_OPEN_COOKIE;
+   992				opts->fastopen_cookie = &fastopen->cookie;
+   993				remaining -= need;
+   994				tp->syn_fastopen = 1;
+   995				tp->syn_fastopen_exp = fastopen->cookie.exp ? 1 : 0;
+   996			}
+   997		}
+   998	
+   999		smc_set_option(tp, opts, &remaining);
+  1000	
+  1001		if (sk_is_mptcp(sk)) {
+  1002			unsigned int size;
+  1003	
+> 1004			size = mptcp_syn_options(sk, skb, remaining, opts);
+  1005			if (size >= 0) {
+  1006				opts->options |= OPTION_MPTCP;
+  1007				remaining -= size;
+  1008			}
+  1009		}
+  1010	
+  1011		/* Simultaneous open SYN/ACK needs AccECN option but not SYN.
+  1012		 * It is attempted to negotiate the use of AccECN also on the first
+  1013		 * retransmitted SYN, as mentioned in "3.1.4.1. Retransmitted SYNs"
+  1014		 * of AccECN draft.
+  1015		 */
+  1016		if (unlikely((TCP_SKB_CB(skb)->tcp_flags & TCPHDR_ACK) &&
+  1017			     tcp_ecn_mode_accecn(tp) &&
+  1018			     inet_csk(sk)->icsk_retransmits < 2 &&
+  1019			     READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option) &&
+  1020			     remaining >= TCPOLEN_ACCECN_BASE)) {
+  1021			opts->use_synack_ecn_bytes = 1;
+  1022			remaining -= tcp_options_fit_accecn(opts, 0, remaining);
+  1023		}
+  1024	
+  1025		remaining = bpf_skops_hdr_opt_len(sk, skb, NULL, NULL, 0, opts,
+  1026						  remaining);
+  1027	
+  1028		return MAX_TCP_OPTION_SPACE - remaining;
+  1029	}
+  1030	
 
 --
 0-DAY CI Kernel Test Service
