@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3A43596F8;
-	Sun, 14 Jun 2026 10:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908782253A1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 13:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781431627; cv=none; b=T4q5EuPg1Y7ir3H7gL4NbpG1F/XncSCZO03Spqur11+/tJwVsUh2BRQodTLf2Qegs+rI/2ESg7YzN8OEe4XRd29l+thEZdvv9wG9+19kmh1z9ztZlzV9kbdv7HVUUsAXOGYd9lIATzjFhRRRQ8lsy96sQBb8LI7ULcs5K6VGEKA=
+	t=1781443715; cv=none; b=Luwx2CROk13zVj73Q/lJpZd+p/Ef3+6O8HWRLjUYhx73oeeYjvQXDN7X1bJNU0oYcKqDW48vc2EcCIcn1PDIjDyXoLkeRarfJh1YhzJvI3D2btB988fRDH8zNQC9LgjlInfwIFMC7hUOr9WFYm7snP7UoEBknxSh5x98PYzJA1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781431627; c=relaxed/simple;
-	bh=yMwFm4hsOfj/W3tIsswnw8E9mJE+MCAoIWkZ3jkOrSg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LvSWe8cn/xn9B0tbBIq2ueEFKUyLpywziGcUlrAEITGc7RMpEGiMdPvHRv8OaSObvrolb4bIJ4bBXkFLebI2K79XOCXMXWDqdHP8nv7fI7YEMplmN7vOSSFxAjyv385EdED/ShXWEllcZ23mJHkgSChgcA+Jc1nDYnrWq6pWZtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XS+ubBwd; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1781443715; c=relaxed/simple;
+	bh=5NKjZE3E9bgMKlgbgv5phCQNAj8OQH0a4PuEMHVlDaY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DObHICjKBM64w+d5IIJVf1w7x6VxCamUdLOtmsNO6s96mwO4OVhxTu4mOX2BNvM8dLermrrXh+wV/5p5ouVaZJC9oDN7XCVIxRK5j6gxQNyKITh5dxKjIP5OU3zPlMJOjrsV/uY/awNxQEO26VVaUBhKZTOsCiD3ME/ClAruamY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=glHBO8i9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XS+ubBwd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="glHBO8i9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781431624; x=1812967624;
+  t=1781443713; x=1812979713;
   h=date:from:to:cc:subject:message-id;
-  bh=yMwFm4hsOfj/W3tIsswnw8E9mJE+MCAoIWkZ3jkOrSg=;
-  b=XS+ubBwd7Rs5lviBWleGnjh/GTenqkb/t1WKJCWmF7tP68IV9JSPWFPJ
-   uUfhvRVAKrmvHSULsKHWFtRHTtGeClqF5HCootPUH1mphZXhI2bJlbiL/
-   zENPc4X1u/17rczFTqtC2FT+Q6Wj45xX0/Wdii3wMN6SOwz/OrL5fwG3w
-   +qZ/4iWRwN+/oJX5P9d/naRO83z3I29rmI88VTX+cNs0hAV3ZsQyPtwo5
-   rYl0cfwihq9F2f9ZtkmChh17tKw5VgZze5N6KbysyGKR2xYgwlgey6e57
-   jdJprRTuHldM1d/oINkxUeaovfYomlvcZpTlr6T3os8mkWebtk5BnflRy
-   Q==;
-X-CSE-ConnectionGUID: 4Mynb/MITqmZMSNi/nCV1A==
-X-CSE-MsgGUID: fJ9zfNI6QDiXupzpuwYpgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82209732"
+  bh=5NKjZE3E9bgMKlgbgv5phCQNAj8OQH0a4PuEMHVlDaY=;
+  b=glHBO8i9T10myqsRQFq7Rq6CawJZ2tL9AsoxkcdIru1xGudv/w94P7tE
+   gWsVhgQMEIpcZDTkZQV+9pVuL1LVOtJn64gCTqndIgDtXLAuSRYTA/Sjw
+   zOdxdP2EQDw8o8b6qi1iakUEC6uq3ZMPz7DJvq5CEqVzElDfRsHqCbq39
+   +j0Jkj3m3dfq5Mh5AeuAb3D3sZ+8aQYDSCGyKdamTae6gs4CC3nlxEVD+
+   R0VB6EITOJlHiYPKfyd/jz4bxobLotQNwvjU86h93OVwmNTMtpPOptaJO
+   JB0i16kSQid1TsM0i6AJ1ro0uRgTSG1n/IjDfLI9uWUfxec/l6pCUuV4k
+   A==;
+X-CSE-ConnectionGUID: ByXT89XlSMGSfWk3IzzPYA==
+X-CSE-MsgGUID: Zz10MU+mTcOyBaou8egFgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82312158"
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="82209732"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 03:07:03 -0700
-X-CSE-ConnectionGUID: 2hgdEi0XT0Sv5/bsLlUD8w==
-X-CSE-MsgGUID: RvRC6aG+TO+ElmG1Za55RQ==
+   d="scan'208";a="82312158"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 06:28:33 -0700
+X-CSE-ConnectionGUID: 5o9ruNPZRCSTHvyX9xZecg==
+X-CSE-MsgGUID: ldjQGmKQTU2VY0eqqn2poA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="240863379"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Jun 2026 03:07:02 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="243094431"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 14 Jun 2026 06:28:32 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYhk3-00000000Qk2-33xB;
-	Sun, 14 Jun 2026 10:06:59 +0000
-Date: Sun, 14 Jun 2026 18:06:38 +0800
+	id 1wYkt3-000000004gB-2mAX;
+	Sun, 14 Jun 2026 13:28:29 +0000
+Date: Sun, 14 Jun 2026 15:27:55 +0200
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [hare-scsi-devel:configfs-ns.v6 21/24] ERROR: modpost:
- "mnt_clone_direct" [fs/configfs/configfs.ko] undefined!
-Message-ID: <202606141740.ztdQfLkT-lkp@intel.com>
+To: Ronald Claveau <linux-kernel-dev@aliel.fr>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rclaveau:b4/add-adla_npu-t7-vim4 12/12] checkpatch:
+ WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+Message-ID: <202606141510.qdBVSMkM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,21 +59,17 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v6
-head:   65843faa046b6a3ff4953aba7319313104638535
-commit: 6c327e2c66e67e1296c6bd57719991db3a0f250c [21/24] fs/configfs: add superblock as attribute to configfs_pin_fs()
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20260614/202606141740.ztdQfLkT-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 305faf498a4e0b52b40742c927af63ab2082e1a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260614/202606141740.ztdQfLkT-lkp@intel.com/reproduce)
+tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
+head:   db2e0f73cef8a993f240d9ea07ff72f5e99a7a9a
+commit: db2e0f73cef8a993f240d9ea07ff72f5e99a7a9a [12/12] Temporary use Adla Legacy driver
+reproduce: (https://download.01.org/0day-ci/archive/20260614/202606141510.qdBVSMkM-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606141740.ztdQfLkT-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "mnt_clone_direct" [fs/configfs/configfs.ko] undefined!
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#13550: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/adlak_reg.h:255:
++            ab_axi_saddr : 21; /* Start address of AXI SRAM. saddr * 0x1000<= Byte Range. Unit: 4KB
++                                */
 
 --
 0-DAY CI Kernel Test Service
