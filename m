@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F1F21255A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 04:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E4D269D18
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 05:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781412096; cv=none; b=NHJM1bNqnF6oW8Mke+gshvF4D7QwAVV4CWGAIshLbYd1AjhJKQcZnjxD3L09LRJjjoh/8TFbmxxM2jEh8ni2DkbP18k5n8ZLCazs3ELlM8bBFE0CGcvdxvQzjtEymUwEW3miXIL8LJocVOT0Av7TCFPaxS3cglks+8eTwwItiKU=
+	t=1781413841; cv=none; b=i3zGyLZ4dX3FrDKkb6BPN8WYAqb22awA9rt9Xm9TLPkmAr9RMVZlNxAOhLfZYj7DUOcs+fCOv4bx3qWjfcOpzkq1a+agqdKJqJAxqPv/E07hpo6nBPjT6QvrQXG4P9HRkxST0t6e/wycWocNVGBhJXlNxt4bAoz3f8iiySxu1tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781412096; c=relaxed/simple;
-	bh=IuUVjR0H/FfTWwNlOp33LVCMS9U7U49U/vVPic5tr8I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sjmPdhNEA7h2Vtk9aeQ0cWfosIyFlHwmWaCjzEWEJDRb/K9huZHB49jKH0hnMRP1Z7pU/UH7kszxJjqsvHf56av7jr8uYiRaDQ4vynOok1BnqwuHRlg4XwfI9DadBhCnnaD5ql70lYOQC8c/m+qkXzupIEgWjqdVSCL9DdU4H5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFsiYn8w; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1781413841; c=relaxed/simple;
+	bh=csjy/nTxmiPKCxkATMqHSC7vG2SfODrLOlXouooPFEs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QXCJPbUi/NejD4VSnQeJFuJ5+ZGrRIhVgcd6iTZdbTOTrwEyqvdrEOtf0Bdjmd41KnJYJkNUJc7owZXbPbzUbJfhs0HT9jbkJy/AifA0RzLJlNFlYzaaUg0znx27nQGKvv6FuzB9eJkDudmIe4se40ouMNNQM9FsT8XB3iHD/4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R+CVadv8; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFsiYn8w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R+CVadv8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781412092; x=1812948092;
+  t=1781413839; x=1812949839;
   h=date:from:to:cc:subject:message-id;
-  bh=IuUVjR0H/FfTWwNlOp33LVCMS9U7U49U/vVPic5tr8I=;
-  b=oFsiYn8wYPGZ8CcAC6Va0waBgoNyhL7IfPGvZXuSx4vaQtID/o8da1QV
-   MbfByyPK0jCPBMCyHcKE2bK93+xFpJClZCc0fB/MM0ir3ANfIQ9vCcGq9
-   3d9dLQ1f+SIuOTy3ymhBEr54jdvxWrtSs5ZjwfTYrZaek0gGBJTHt+t/V
-   RorUgLBj6/fLcug4qwHeBh319Pf4I8LTgelf3Z3E8SveBuMKJgwsoP8ms
-   xKHehysC8NEDNxBQDKwP9pOTmFwNiDNgJt1sjyFKGytfxi05rRBCy0+jT
-   7gU7gMWrdgQAi04dd45XaXwN4DJdFmhRFS3o3G+vZ3E0Yl5zes7mYUyk9
-   w==;
-X-CSE-ConnectionGUID: R0GDhWKDSrav7Nqxmskj7A==
-X-CSE-MsgGUID: gIjeZ7cnS2+Dud1uYphVlw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="93682109"
+  bh=csjy/nTxmiPKCxkATMqHSC7vG2SfODrLOlXouooPFEs=;
+  b=R+CVadv8fkhZiRXmqRaZLHmv9kJpkuOreF428m7gpQx0kjOboPWPavYN
+   fT9K7/gU7XHNH0sazxGD3WocsPB/KanjwmSRzxHjkwyRPd+DikG6uRnCZ
+   GOKcTiDM0fjIyyAd8wNe/xBWDhmQkCTKVGhQyMilEVp6NhaUdRune350u
+   yBPRvbw7X4VolGJPUOwGDrmmmsBK5TzT6m4p5OxOz7ft07zIZYgIvcHiy
+   4HW0BL0dfxpKXvZN7HHeD7igkb1MJaeP8emENuEG4zyqTT3l1TOByozDQ
+   GfNonCUPTAFRt29bjtRgpTto2FnjyjgUe0WP//ONf5ciZSJ5QbnE4HXAt
+   Q==;
+X-CSE-ConnectionGUID: 9awadJisSrepS/u1ha6qIQ==
+X-CSE-MsgGUID: ZduIETP4RKuecGD/cDqgHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82228905"
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="93682109"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 21:41:31 -0700
-X-CSE-ConnectionGUID: Kan3QVesRRaIZB67zOB7YA==
-X-CSE-MsgGUID: d3H4S3KzRp6CPhfKnIX6fw==
+   d="scan'208";a="82228905"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 22:10:39 -0700
+X-CSE-ConnectionGUID: DsRyRvOcT2KXkv0i+YrJSQ==
+X-CSE-MsgGUID: RQdjZv/mT66EQ98dptEWZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="246063109"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 13 Jun 2026 21:41:30 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="277373466"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 13 Jun 2026 22:10:37 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYcf1-000000004dh-19ZA;
-	Sun, 14 Jun 2026 04:41:27 +0000
-Date: Sun, 14 Jun 2026 06:41:01 +0200
+	id 1wYd7C-00000000QZm-0VqL;
+	Sun, 14 Jun 2026 05:10:34 +0000
+Date: Sun, 14 Jun 2026 13:10:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/17] htmldocs: Warning:
- anolis/rpm/kernel.spec.template references a file that doesn't exist:
- linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-Message-ID: <202606140616.qgMJabWa-lkp@intel.com>
+To: Rong Xu <xur@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>
+Subject: [linux-next:master 8264/13763] WARNING: modpost: vmlinux:
+ section mismatch in reference: ip6_frags_ops.llvm.9919299605129717981+0x10
+ (section: .data) -> ipv6_frags_init_net (section: .init.text)
+Message-ID: <202606141313.fp43r13u-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,40 +61,35 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Qiao,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   32202562935a0f31664867f324729f0e461080ca
-commit: b59c41852684e0cfcf198cb3ded58b8b37413a47 [0/17] anolis: spec: add basic framework to generate rpm tree
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260614/202606140616.qgMJabWa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c425609d6ac4012c8bbf01ec2e10e801b1923a7b
+commit: 9f2aee8f7d1842be08da860e45265d30dba0d1f7 [8264/13763] kbuild: distributed build support for Clang ThinLTO
+config: arm64-randconfig-r062-20260614 (https://download.01.org/0day-ci/archive/20260614/202606141313.fp43r13u-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 305faf498a4e0b52b40742c927af63ab2082e1a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260614/202606141313.fp43r13u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606140616.qgMJabWa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606141313.fp43r13u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
->> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Using alabaster theme
---
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
->> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+WARNING: modpost: vmlinux: section mismatch in reference: nf_log_net_ops.llvm.4372678671302997706+0x10 (section: .data) -> nf_log_net_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: tcp4_net_ops.llvm.12096626374981102982+0x10 (section: .data) -> tcp4_proc_init_net (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: udp4_net_ops.llvm.2202567987732496129+0x10 (section: .data) -> udp4_proc_init_net (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ping_v4_net_ops.llvm.17822209729633118653+0x10 (section: .data) -> ping_v4_proc_init_net (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: if6_proc_net_ops.llvm.11311092467695679803+0x10 (section: .data) -> if6_proc_net_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ipv6_addr_label_ops.llvm.16604229018105681252+0x10 (section: .data) -> ip6addrlbl_net_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ndisc_net_ops.llvm.13996997726691147219+0x10 (section: .data) -> ndisc_net_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: raw6_net_ops.llvm.8836212432996562194+0x10 (section: .data) -> raw6_init_net (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: igmp6_net_ops.llvm.2646928289368285187+0x10 (section: .data) -> igmp6_net_init (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ip6_frags_ops.llvm.9919299605129717981+0x10 (section: .data) -> ipv6_frags_init_net (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: tcpv6_net_ops.llvm.8184694756276117609+0x10 (section: .data) -> tcpv6_net_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ip6_flowlabel_net_ops.llvm.9000375159511838807+0x10 (section: .data) -> ip6_flowlabel_proc_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ipv6_proc_ops.llvm.10242892293412665630+0x10 (section: .data) -> ipv6_proc_init_net (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mctp_net_ops.llvm.8744144085861257396+0x10 (section: .data) -> mctp_routes_net_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mctp_net_ops.llvm.13996325958466738211+0x10 (section: .data) -> mctp_neigh_net_init (section: .init.text)
 
 --
 0-DAY CI Kernel Test Service
