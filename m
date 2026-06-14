@@ -1,75 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908782253A1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 13:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47C01F91F6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 14:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781443715; cv=none; b=Luwx2CROk13zVj73Q/lJpZd+p/Ef3+6O8HWRLjUYhx73oeeYjvQXDN7X1bJNU0oYcKqDW48vc2EcCIcn1PDIjDyXoLkeRarfJh1YhzJvI3D2btB988fRDH8zNQC9LgjlInfwIFMC7hUOr9WFYm7snP7UoEBknxSh5x98PYzJA1A=
+	t=1781446049; cv=none; b=lazNw2nP+8yNPI1hvfZGhtrQkmz7/7d740dkKxLyvcfZFto4LQ3xpIEZD7Aob5H10BXQugBzuMvaKC1WqOPvsImcgrKizwUr7MAfIPOUGVc7PV2FyLCFfjbv3qo4Yd7cAxh1fh0j3c2/AFKdXPDzMflArMlpp3/XjQISDKUuR8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781443715; c=relaxed/simple;
-	bh=5NKjZE3E9bgMKlgbgv5phCQNAj8OQH0a4PuEMHVlDaY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DObHICjKBM64w+d5IIJVf1w7x6VxCamUdLOtmsNO6s96mwO4OVhxTu4mOX2BNvM8dLermrrXh+wV/5p5ouVaZJC9oDN7XCVIxRK5j6gxQNyKITh5dxKjIP5OU3zPlMJOjrsV/uY/awNxQEO26VVaUBhKZTOsCiD3ME/ClAruamY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=glHBO8i9; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1781446049; c=relaxed/simple;
+	bh=6z3i6W2OMZX8xM34L4H4pm8fFt8I37oUjOHsmq4RUZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nTnk/IhhPqQe//z9p/x5QwNwEKmLoGaWX6CovRWTjnGf8jKnMd2vCyYfFsN3v449Wvop4xPEmrTOjAsgaJ9Bfyg+AJQrZb8T8FzNuiqyWGrWeniDci1Fk62eFtJv2iGP+369eW63yszuAD+Ci42Dh2rgL/bICym/4BR5PtNJ2D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lKBy4rEn; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="glHBO8i9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lKBy4rEn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781443713; x=1812979713;
-  h=date:from:to:cc:subject:message-id;
-  bh=5NKjZE3E9bgMKlgbgv5phCQNAj8OQH0a4PuEMHVlDaY=;
-  b=glHBO8i9T10myqsRQFq7Rq6CawJZ2tL9AsoxkcdIru1xGudv/w94P7tE
-   gWsVhgQMEIpcZDTkZQV+9pVuL1LVOtJn64gCTqndIgDtXLAuSRYTA/Sjw
-   zOdxdP2EQDw8o8b6qi1iakUEC6uq3ZMPz7DJvq5CEqVzElDfRsHqCbq39
-   +j0Jkj3m3dfq5Mh5AeuAb3D3sZ+8aQYDSCGyKdamTae6gs4CC3nlxEVD+
-   R0VB6EITOJlHiYPKfyd/jz4bxobLotQNwvjU86h93OVwmNTMtpPOptaJO
-   JB0i16kSQid1TsM0i6AJ1ro0uRgTSG1n/IjDfLI9uWUfxec/l6pCUuV4k
-   A==;
-X-CSE-ConnectionGUID: ByXT89XlSMGSfWk3IzzPYA==
-X-CSE-MsgGUID: Zz10MU+mTcOyBaou8egFgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82312158"
+  t=1781446046; x=1812982046;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6z3i6W2OMZX8xM34L4H4pm8fFt8I37oUjOHsmq4RUZM=;
+  b=lKBy4rEnatYnwST8tCgHgFL8rOpa17Qod+FzodRlqZ/FAMMiChTBOrb/
+   D4m+8okvIfh5AiKG7L2yeEXZbD8e7gfB+JDJS0/4id9jJTLkVN57jOHbp
+   lyOsKYGeRh9/VqWKTAccT3oN+FblSC2jFDv9mZCt7XJcFzFAHYWvWqkfl
+   vivBxaeJ09ampDVoBSu16QBDTeIf50x1O1kV8Si6XknSg6l5L5WRJA7qU
+   w8Q91ouMbSFZx7wi7GmW25+h99Dqr0dF70cNrlew9DivAGpM8sougjhA2
+   xvLXRPxllHeH5QUuIQmWOr1i0SS/bFCWabDfcFbocMfeMxY5FAwJZU9Fq
+   Q==;
+X-CSE-ConnectionGUID: y0HN5gfdSg6Q5R6WvxU0zQ==
+X-CSE-MsgGUID: bwSkQR9GRHuz7vf1ul2YAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82241901"
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="82312158"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 06:28:33 -0700
-X-CSE-ConnectionGUID: 5o9ruNPZRCSTHvyX9xZecg==
-X-CSE-MsgGUID: ldjQGmKQTU2VY0eqqn2poA==
+   d="scan'208";a="82241901"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 07:07:25 -0700
+X-CSE-ConnectionGUID: Sxf+V4f7TOKVph6xAYHrMw==
+X-CSE-MsgGUID: 3SRfTxVMQkKB9tDFdjc8Xg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="243094431"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jun 2026 06:28:32 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="251177101"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 14 Jun 2026 07:07:23 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYkt3-000000004gB-2mAX;
-	Sun, 14 Jun 2026 13:28:29 +0000
-Date: Sun, 14 Jun 2026 15:27:55 +0200
+	id 1wYlUe-00000000Qs4-0ZnG;
+	Sun, 14 Jun 2026 14:07:20 +0000
+Date: Sun, 14 Jun 2026 22:06:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ronald Claveau <linux-kernel-dev@aliel.fr>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rclaveau:b4/add-adla_npu-t7-vim4 12/12] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202606141510.qdBVSMkM-lkp@intel.com>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
+Subject: drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202606142104.yLTxoIoB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
-head:   db2e0f73cef8a993f240d9ea07ff72f5e99a7a9a
-commit: db2e0f73cef8a993f240d9ea07ff72f5e99a7a9a [12/12] Temporary use Adla Legacy driver
-reproduce: (https://download.01.org/0day-ci/archive/20260614/202606141510.qdBVSMkM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e21ee273e6fa3879aec9a27251cfce98156e07c4
+commit: df75430515c33ece3de46562f917acd9792505ad drm: fix dead default for =
+DRM_TTM_KUNIT_TEST
+date:   3 months ago
+config: nios2-randconfig-r131-20260614 (https://download.01.org/0day-ci/arc=
+hive/20260614/202606142104.yLTxoIoB-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260614/202606142104.yLTxoIoB-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Fixes: df75430515c3 ("drm: fix dead default for DRM_TTM_KUNIT_TEST")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606142104.yLTxoIoB-lkp@i=
+ntel.com/
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#13550: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/adlak_reg.h:255:
-+            ab_axi_saddr : 21; /* Start address of AXI SRAM. saddr * 0x1000<= Byte Range. Unit: 4KB
-+                                */
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse: sparse: incorrect type=
+ in assignment (different address spaces) @@     expected void *virtual @@ =
+    got void [noderef] __iomem * @@
+   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse:     expected void *vir=
+tual
+   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse:     got void [noderef]=
+ __iomem *
+   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse: sparse: incorrect type=
+ in assignment (different address spaces) @@     expected void *virtual @@ =
+    got void [noderef] __iomem * @@
+   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse:     expected void *vir=
+tual
+   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse:     got void [noderef]=
+ __iomem *
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse: sparse: incorrect type=
+ in argument 1 (different address spaces) @@     expected void [noderef] __=
+iomem *addr @@     got void *virtual @@
+   drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse:     expected void [nod=
+eref] __iomem *addr
+   drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse:     got void *virtual
+
+vim +465 drivers/gpu/drm/ttm/ttm_bo_util.c
+
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  451 =20
+a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  452  /**
+a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  453   * ttm_bo_kunmap
+a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  454   *
+a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  455   * @map: Object desc=
+ribing the map to unmap.
+a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  456   *
+a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  457   * Unmaps a kernel m=
+ap set up by ttm_bo_kmap.
+a3185f91d0579b6 Christian K=C3=B6nig  2022-05-09  458   */
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  459  void ttm_bo_kunmap(struct=
+ ttm_bo_kmap_obj *map)
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  460  {
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  461  	if (!map->virtual)
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  462  		return;
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  463  	switch (map->bo_kmap_typ=
+e) {
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  464  	case ttm_bo_map_iomap:
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10 @465  		iounmap(map->virtual);
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  466  		break;
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  467  	case ttm_bo_map_vmap:
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  468  		vunmap(map->virtual);
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  469  		break;
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  470  	case ttm_bo_map_kmap:
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  471  		kunmap(map->page);
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  472  		break;
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  473  	case ttm_bo_map_premappe=
+d:
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  474  		break;
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  475  	default:
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  476  		BUG();
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  477  	}
+d3116756a710e3c Christian K=C3=B6nig  2021-04-12  478  	ttm_mem_io_free(map=
+->bo->bdev, map->bo->resource);
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  479  	map->virtual =3D NULL;
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  480  	map->page =3D NULL;
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  481  }
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  482  EXPORT_SYMBOL(ttm_bo_kunm=
+ap);
+ba4e7d973dd09b6 Thomas Hellstrom 2009-06-10  483 =20
+
+:::::: The code at line 465 was first introduced by commit
+:::::: ba4e7d973dd09b66912ac4c0856add8b0703a997 drm: Add the TTM GPU memory=
+ manager subsystem.
+
+:::::: TO: Thomas Hellstrom <thellstrom@vmware.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
