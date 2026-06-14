@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908E52BF3F4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107CC2D0C62
 	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 20:00:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781467248; cv=none; b=Ee08kg4gEhn1r0nrUrluYzR4evlWNBTvFyQjfYNfPAog9FTUE1pR181ngqSuioykakBoe4YVzLLp2/Bkm3FOFXKn/sn4I4jo5JkBy7OdU8cbPn1aBslGNFGhb9+E5EcbT1loC89eqMW4V408tHC6WOEhUK/KfJm3Op0GYDynZLw=
+	t=1781467249; cv=none; b=WNoF+Sg3nGJZM3Q+PV2lRSfJzl4KRbGqHYQkWi11Qej71D87hYrqp81VVA3wmBV4B9ME+gySKcoBrUBZK+B1nma0IMigD2Oc5eslRkCk81oXvMFwPRGxCBCRxOMnEuiY5uLprG9RAvbnQ2P/ncmeCLrZM6fknIxJxDT8rIcyqB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781467248; c=relaxed/simple;
-	bh=aqc3fMImSsp8YUWpUbkwFZy9S65zQAeBkXpwNbY9oJs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OIdcIf+FbwYnLjCoBZnsdnOIeLAPtLTV/tT4KpazzV4gGEoqTTnnX06jz4KrkL7hnKrZz9m1t/gB71hLTguTlACPiT3L9FC7Nl5n4JCTrDj1hb6kEoFPHzvTvDpdB+UNllBzRVxtjz8jlj9HCOEVN2m6QPpjAgsnJtfFfvGc5R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bWHjxH36; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1781467249; c=relaxed/simple;
+	bh=cMR4R0s7cmijZRZ2+n+UkBaWs3HQjq7U77ewd/evF/o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cD8kbg2kHzSRjyOOkSEZbKrLjLPUepuHZDU4Qg84ge0Zg+tmXZ6s1VdrD4oWBPj5DmzDlWysLTHE0PlNlw3BMAKJwQCg3/i2VEiXBjyymuXRDvookGnJ+YQweMKS0HOiZGWRuMxQg33ViiF6XNEHIFEX4lv+KW/pt0dkFU3YwGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YDcuE1BT; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bWHjxH36"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YDcuE1BT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781467247; x=1813003247;
+  t=1781467248; x=1813003248;
   h=date:from:to:cc:subject:message-id;
-  bh=aqc3fMImSsp8YUWpUbkwFZy9S65zQAeBkXpwNbY9oJs=;
-  b=bWHjxH36W3DG9a6NQaKC7lC7o34LQOmgR8/adeDUtC42v4bWN0E+RASw
-   QYIVFFG/Jm8N3p62jEPSWvC0RKlLwt9TktsDU9LY7Xo7/sBVRXiCZuaYE
-   E2rv2Lx/Z7UUt/C8t0eKU2PzslQsbmEhTy2Bbttxg+fiNZJe7GA6nRNy7
-   EagjcnNqroVT63Opao1YZLuzyLkd/ATSSHzfUzFWjij18mvjSYhmomnUs
-   SrG5WZeIUO4PnTBKTI0TanVQdrLYhZEtiB6JQdtlE1oOz4WzJR3+w1/yG
-   o7Igwgqy0pPkqNWWmYemGVFKylpk98LqNTRhvV+k4fTG8uBGpZe/lhRRf
-   w==;
-X-CSE-ConnectionGUID: FOLHO7xyRtO2S8mZtNO7eQ==
-X-CSE-MsgGUID: pmwTGhssQnCr/sQKZR9q1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="99791368"
+  bh=cMR4R0s7cmijZRZ2+n+UkBaWs3HQjq7U77ewd/evF/o=;
+  b=YDcuE1BTH0xvbm6adfroNyWtJgT75GDVMHL+bx40/9Sb7tRMWHCJHJEC
+   qy8w6s9w5lq5zu9M7kNhRqr39E+/jSp+wgmfVJ7zhIVMO9aOLrofjSEX3
+   335MVoyBJFEONtBE85lNLrMo8sdCgcGmrkZxjOd6XHouirTxtGkQPyNhH
+   f8j9TMMHTBLxQS7sP0Vqw7bfMIQnL09XFxVJil0zHEV4ty+HTAFMGjKeC
+   ElcyF7FjsMu/8vsVw2hOgayNENJU0+r500Y4Rx8ghN+cfyJSI3nrnxwTr
+   ZzR56oLYpyV/c0+FTEU7zFPeM/ULxI8oiKszbLnKy9g/zYQvpIs+x6+QC
+   g==;
+X-CSE-ConnectionGUID: 55KVgsQgQVmkFdY9ChRDGQ==
+X-CSE-MsgGUID: WIH7i+8pRYegjbVLAGg3hQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="99791370"
 X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="99791368"
+   d="scan'208";a="99791370"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 13:00:44 -0700
-X-CSE-ConnectionGUID: 0Nne/A49QZG4/67UPU8KTQ==
-X-CSE-MsgGUID: t/M48rufTXmZVAHQmEEi+w==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 13:00:45 -0700
+X-CSE-ConnectionGUID: AqGTTlkJQHGrv3MMpphtrQ==
+X-CSE-MsgGUID: Lokz/wnsSFuVn7ilRoFI4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="277492977"
+   d="scan'208";a="277492979"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 14 Jun 2026 13:00:43 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYr0a-00000000RAi-3ZVv;
+	id 1wYr0a-00000000RAm-3yaZ;
 	Sun, 14 Jun 2026 20:00:40 +0000
-Date: Mon, 15 Jun 2026 04:00:09 +0800
+Date: Mon, 15 Jun 2026 04:00:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tamird:b4/bpf-ringbuf-callback 10/11] ringbuf.c:412:26:
- error: mixing declarations and code is a C99 extension
-Message-ID: <202606150310.cXXCYcJ9-lkp@intel.com>
+To: "j.turek" <jakub.turek@elsta.tech>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/tty/serial/xilinx_uartps.c:438:25: sparse: sparse:
+ dereference of noderef expression
+Message-ID: <202606150318.PcLVQ18L-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,57 +59,69 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/tamird/linux b4/bpf-ringbuf-callback
-head:   60bd75d7c79a01786dd5da0b5264a58fc5a3c3be
-commit: 669fde8241bd5bb91c22df6640b243ca1da272b9 [10/11] libbpf: ringbuf: Add a caller-owned iterator
-config: s390-randconfig-002-20260615 (https://download.01.org/0day-ci/archive/20260615/202606150310.cXXCYcJ9-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606150310.cXXCYcJ9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8cd9520d35a6c38db6567e97dd93b1f11f185dc6
+commit: 267ee93c417e685d9f8e079e41c70ba6ee4df5a5 serial: xilinx_uartps: fix rs485 delay_rts_after_send
+date:   6 months ago
+config: i386-randconfig-062-20260614 (https://download.01.org/0day-ci/archive/20260615/202606150318.PcLVQ18L-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606150318.PcLVQ18L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 267ee93c417e ("serial: xilinx_uartps: fix rs485 delay_rts_after_send")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606150310.cXXCYcJ9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606150318.PcLVQ18L-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tty/serial/xilinx_uartps.c:438:25: sparse: sparse: dereference of noderef expression
+   drivers/tty/serial/xilinx_uartps.c:709:13: sparse: sparse: context imbalance in 'cdns_uart_start_tx' - different lock contexts for basic block
 
-   WARN /zdci/src/lkp/lib/log.sh:131:in `log_warn': /opt/cross/rustc-1.96.0-bindgen-0.72.1 doesn't exist
-     from /zdci/src/kernel-tests/lib/debug.sh:164: kbuild_log_warn
-     from /zdci/src/kernel-tests/lib/kbuild.sh:3371: export_rust_path
-     from /zdci/src/kernel-tests/lib/kbuild.sh:3361: export_compiler_path
-     from /zdci/src/kernel-tests/lib/kbuild.sh:3840: invoke_make
-     from /zdci/src/kernel-tests/lib/kbuild.sh:4022: make
-     from /zdci/src/kernel-tests/common.sh:202: redirect_error_to_screen
-     from /zdci/src/kernel-tests/common.sh:210: redirect_command_errors
-     from /zdci/src/kernel-tests/lib/kbuild.sh:5679: make_prepare
-     from /zdci/src/kernel-tests/lib/kbuild.sh:5908: test_kernel_build
-     from /zdci/src/kernel-tests/lib/builder/base.sh:442: builder_execute_build
-     from /zdci/src/kernel-tests/lib/kbuild.sh:6418: compile_one_config
-     from /zdci/src/kernel-tests/lib/builder/base.sh:88: builder_compile
-     from /zdci/src/kernel-tests/bisect-test-build-error.sh:102: main
->> ringbuf.c:412:26: error: mixing declarations and code is a C99 extension [-Werror,-Wdeclaration-after-statement]
-     412 |         struct ring_buffer_iter it
-         |                                 ^
-   1 error generated.
-   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/resolve_btfids/libbpf/staticobjs/ringbuf.o] Error 1 shuffle=173020936
-   make[6]: Target '__build' not remade because of errors.
-   make[5]: *** [Makefile:152: tools/bpf/resolve_btfids/libbpf/staticobjs/libbpf-in.o] Error 2 shuffle=173020936
-   make[5]: Target 'tools/bpf/resolve_btfids/libbpf/libbpf.a' not remade because of errors.
-   make[4]: *** [Makefile:62: tools/bpf/resolve_btfids//libbpf/libbpf.a] Error 2 shuffle=173020936
-   make[4]: Target 'all' not remade because of errors.
-   make[3]: *** [Makefile:77: bpf/resolve_btfids] Error 2 shuffle=173020936
-   make[2]: *** [Makefile:1557: tools/bpf/resolve_btfids] Error 2 shuffle=173020936
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=173020936
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=173020936
-   make: Target 'prepare' not remade because of errors.
+vim +438 drivers/tty/serial/xilinx_uartps.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MFD_STMFX
-   Depends on [n]: HAS_IOMEM [=y] && I2C [=m] && OF [=n]
-   Selected by [m]:
-   - PINCTRL_STMFX [=m] && PINCTRL [=y] && I2C [=m] && HAS_IOMEM [=y]
+   418	
+   419	/**
+   420	 * cdns_uart_handle_tx - Handle the bytes to be transmitted.
+   421	 * @dev_id: Id of the UART port
+   422	 * Return: None
+   423	 */
+   424	static void cdns_uart_handle_tx(void *dev_id)
+   425	{
+   426		struct uart_port *port = (struct uart_port *)dev_id;
+   427		struct cdns_uart *cdns_uart = port->private_data;
+   428		struct tty_port *tport = &port->state->port;
+   429		unsigned int numbytes;
+   430		unsigned char ch;
+   431		ktime_t rts_delay;
+   432	
+   433		if (kfifo_is_empty(&tport->xmit_fifo) || uart_tx_stopped(port)) {
+   434			/* Disable the TX Empty interrupt */
+   435			writel(CDNS_UART_IXR_TXEMPTY, port->membase + CDNS_UART_IDR);
+   436			/* Set RTS line after delay */
+   437			if (cdns_uart->port->rs485.flags & SER_RS485_ENABLED) {
+ > 438				cdns_uart->tx_timer.function = &cdns_rs485_rx_callback;
+   439				rts_delay = ns_to_ktime(cdns_calc_after_tx_delay(cdns_uart));
+   440				hrtimer_start(&cdns_uart->tx_timer, rts_delay, HRTIMER_MODE_REL);
+   441			}
+   442			return;
+   443		}
+   444	
+   445		numbytes = port->fifosize;
+   446		while (numbytes &&
+   447		       !(readl(port->membase + CDNS_UART_SR) & CDNS_UART_SR_TXFULL) &&
+   448		       uart_fifo_get(port, &ch)) {
+   449			writel(ch, port->membase + CDNS_UART_FIFO);
+   450			numbytes--;
+   451		}
+   452	
+   453		if (kfifo_len(&tport->xmit_fifo) < WAKEUP_CHARS)
+   454			uart_write_wakeup(port);
+   455	
+   456		/* Enable the TX Empty interrupt */
+   457		writel(CDNS_UART_IXR_TXEMPTY, cdns_uart->port->membase + CDNS_UART_IER);
+   458	}
+   459	
 
 --
 0-DAY CI Kernel Test Service
