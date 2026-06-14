@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAED233952
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jun 2026 14:28:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3823638E113;
+	Sun, 14 Jun 2026 14:28:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781447316; cv=none; b=PQybYn5NLAx/c5mKeAQfU2+XRzgSWAkWSZdvqHP0Q2714a2Np9+YqqF2I/cA0t+F/9regdwOSEk9b8a4l2ixHuDpv+aO4NuM0CTzMbjwLBKR0FZ15YEU9DF3Z4t18pntXTLdm3KFujyW28fR3ZEsXzmq+lnWgNgGxTSO8ll0TbY=
+	t=1781447317; cv=none; b=C0XEvW79F9yNi2AygWgTlsG1NWDdgK+g+McYHn1Qft48jrU2OCCNFdKm6/6h0/yHHHgpGwIUEEuMEjD80RU3HW6ZCygh/m+HFxA7cUnXIHqbRvxHIUXh/abGP+w6jcns/A+LNZRakZqKGIGYiR5ELqVCDHfmYnafv7UMBPP5Ji8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781447316; c=relaxed/simple;
-	bh=gSMftvhupQbZg2ZCGgn3w92oDfidc3cQ8vg0UijQBvE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=g/PgVtWZR1I+mWoQzk4FIry2fuKekCS+CZwXK10Go5+DA4SOrQrLmsSjvO2WK07TzuJ5EU96a5gKj7xOvNQvRW1NxxoJqn+vevTCMIQ30uOEYyn2gFb4rswqSKHAan3+vXVURm5LHRZAxK2pvyzvu4tIsSPKd62rqDlLzK2gPAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWLKkOa/; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1781447317; c=relaxed/simple;
+	bh=0xiGbE6dbs6t1Dhv278LQe4tisYyt6tKw0gRetlcL4s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MgcaaMS9WUXRHbMNrOf0d4f+2UdlfK/zKAgFZkB2BNsxuYmYPuYfiK2UhUNzpE3jYnEEtC65+6mRGycI06eXUQWOeDvbtLWbe/kfFbp4//HnE6T7ll8v8YNHS23WRPzV6wjzdJTtrXTJ0Jc8So5LudaizrVHjp/lOjX/5JASAaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lF2qspHF; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWLKkOa/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lF2qspHF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781447314; x=1812983314;
+  t=1781447316; x=1812983316;
   h=date:from:to:cc:subject:message-id;
-  bh=gSMftvhupQbZg2ZCGgn3w92oDfidc3cQ8vg0UijQBvE=;
-  b=eWLKkOa/YeTl6hGtevABQkEnpM8uzsw5vXbC+OSTMapOG5z+lkgseAVz
-   4n+xCrZEI3jRhuG9opGpMvUhJo5YVC+RkAKSmZ36AW52mf1wn2sjYcvPS
-   ZPibVu2YyQ6Wt9lvl1fIfPkBpEi39zBLppJV5kbqNWbIuSp6AvK2InhqV
-   uZzgB9aoWLnH/EIr+PhTzBD7mi97/2MVIBxC8W/d2hUT//iOB45A1KP3X
-   3hf7eaBl3Tl+Yn4Sz4ONjoMudFOrrWCuaUbiyAv+o2bhZJduJyDEiDFJf
-   lFWMMOTDy3FMDOxvzO87m1+tsA35wlerU87rTjnuJOfA0LsWCF3Jo7fIK
-   w==;
-X-CSE-ConnectionGUID: Dct0VOGbSS6K1Jo9GHBvng==
-X-CSE-MsgGUID: 5OqPus/RRs6dj0LkVTFRbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="93698149"
+  bh=0xiGbE6dbs6t1Dhv278LQe4tisYyt6tKw0gRetlcL4s=;
+  b=lF2qspHFVh7dFmvBDyQJhoAvhKijddJiA8ofyrjmwZDwDaiU5TuZVmnq
+   E8jHaJGdrAmEmXanaIygNyxCOe5SuPy4eZXmqDVK5K/JJ8dOvKDUkc/IP
+   FK8QHM8xAV7cbfxlvxjXolidtdDY8GS/IXZTXD9RT6irN+7w9bSZqdh1A
+   l+bsfkWhshz5PZa1ygeZGKJgJ8D2E498zinJHwSzYNjirloqvOIC1uYDR
+   p8l7WzSmRydPODuwUgc9WY0jJO1vNrS467O+BT++Z6DX1aeBES2nr7sAH
+   c9C9Hny+YgfxPospDlebtNhMrsR+5YG4hM2hGogcKTkmxy8QQsa5HbOK1
+   g==;
+X-CSE-ConnectionGUID: f9Jz6NNhQPKwkGVNzkXguw==
+X-CSE-MsgGUID: RQH4N7JjTUiYyV8g0wMHhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="93698151"
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="93698149"
+   d="scan'208";a="93698151"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 07:28:33 -0700
-X-CSE-ConnectionGUID: vWB1keVBRpqugTu8SIQVdA==
-X-CSE-MsgGUID: 1jttSD93SBSMsUwtyik+jw==
+X-CSE-ConnectionGUID: f2vYhMG4SRisA/QLMGezRw==
+X-CSE-MsgGUID: wDXDobVCTRab2A3j5JHf6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,204,1774335600"; 
-   d="scan'208";a="244343462"
+   d="scan'208";a="244343464"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 14 Jun 2026 07:28:31 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYlp7-00000000QtE-08pE;
+	id 1wYlp7-00000000QtG-0RJL;
 	Sun, 14 Jun 2026 14:28:29 +0000
-Date: Sun, 14 Jun 2026 22:27:46 +0800
+Date: Sun, 14 Jun 2026 22:27:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [pabeni-devel:mptcp_out_opt_refactor 1/3]
- net/ipv4/tcp_output.c:846:62: error: passing argument 3 of
- 'mptcp_synack_options' from incompatible pointer type
-Message-ID: <202606142208.1R4VkAMi-lkp@intel.com>
+ net/ipv4/tcp_output.c:846:36: error: incompatible integer to pointer
+ conversion passing 'unsigned int' to parameter of type 'unsigned int *';
+ remove *
+Message-ID: <202606142224.qs4u2q4L-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,57 +64,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/pabeni/linux-devel mptcp_out_opt_refactor
 head:   626881f865b7b1234b444dfa972f0fa3ef80e920
 commit: 1414ccc3a56482387d4d1732f8eda9f7ca73647e [1/3] tcp: clean-up mptcp option selection hooks signature
-config: parisc-randconfig-002-20260614 (https://download.01.org/0day-ci/archive/20260614/202606142208.1R4VkAMi-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260614/202606142208.1R4VkAMi-lkp@intel.com/reproduce)
+config: i386-randconfig-004-20260614 (https://download.01.org/0day-ci/archive/20260614/202606142224.qs4u2q4L-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260614/202606142224.qs4u2q4L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606142208.1R4VkAMi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606142224.qs4u2q4L-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/ipv4/tcp_output.c: In function 'mptcp_set_option_cond':
->> net/ipv4/tcp_output.c:846:50: warning: passing argument 2 of 'mptcp_synack_options' makes pointer from integer without a cast [-Wint-conversion]
+>> net/ipv4/tcp_output.c:846:36: error: incompatible integer to pointer conversion passing 'unsigned int' to parameter of type 'unsigned int *'; remove * [-Wint-conversion]
      846 |                 size = mptcp_synack_options(req, *remaining, opts);
          |                                                  ^~~~~~~~~~
-         |                                                  |
-         |                                                  unsigned int
-   In file included from include/net/tcp.h:44,
-                    from net/ipv4/tcp_output.c:40:
-   include/net/mptcp.h:270:55: note: expected 'unsigned int *' but argument is of type 'unsigned int'
+   include/net/mptcp.h:270:20: note: passing argument to parameter 'size' here
      270 |                                         unsigned int *size,
-         |                                         ~~~~~~~~~~~~~~^~~~
->> net/ipv4/tcp_output.c:846:62: error: passing argument 3 of 'mptcp_synack_options' from incompatible pointer type [-Werror=incompatible-pointer-types]
+         |                                                       ^
+>> net/ipv4/tcp_output.c:846:48: error: incompatible pointer types passing 'struct tcp_out_options *' to parameter of type 'struct mptcp_out_options *' [-Wincompatible-pointer-types]
      846 |                 size = mptcp_synack_options(req, *remaining, opts);
          |                                                              ^~~~
-         |                                                              |
-         |                                                              struct tcp_out_options *
-   include/net/mptcp.h:271:67: note: expected 'struct mptcp_out_options *' but argument is of type 'struct tcp_out_options *'
+   include/net/mptcp.h:271:32: note: passing argument to parameter 'opts' here
      271 |                                         struct mptcp_out_options *opts)
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   net/ipv4/tcp_output.c: In function 'tcp_syn_options':
->> net/ipv4/tcp_output.c:1004:51: warning: passing argument 3 of 'mptcp_syn_options' makes pointer from integer without a cast [-Wint-conversion]
+         |                                                                   ^
+>> net/ipv4/tcp_output.c:1004:37: error: incompatible integer to pointer conversion passing 'unsigned int' to parameter of type 'unsigned int *'; take the address with & [-Wint-conversion]
     1004 |                 size = mptcp_syn_options(sk, skb, remaining, opts);
          |                                                   ^~~~~~~~~
-         |                                                   |
-         |                                                   unsigned int
-   include/net/mptcp.h:263:52: note: expected 'unsigned int *' but argument is of type 'unsigned int'
+         |                                                   &
+   include/net/mptcp.h:263:24: note: passing argument to parameter 'size' here
      263 |                                      unsigned int *size,
-         |                                      ~~~~~~~~~~~~~~^~~~
->> net/ipv4/tcp_output.c:1004:62: error: passing argument 4 of 'mptcp_syn_options' from incompatible pointer type [-Werror=incompatible-pointer-types]
+         |                                                    ^
+   net/ipv4/tcp_output.c:1004:48: error: incompatible pointer types passing 'struct tcp_out_options *' to parameter of type 'struct mptcp_out_options *' [-Wincompatible-pointer-types]
     1004 |                 size = mptcp_syn_options(sk, skb, remaining, opts);
          |                                                              ^~~~
-         |                                                              |
-         |                                                              struct tcp_out_options *
-   include/net/mptcp.h:264:64: note: expected 'struct mptcp_out_options *' but argument is of type 'struct tcp_out_options *'
+   include/net/mptcp.h:264:36: note: passing argument to parameter 'opts' here
      264 |                                      struct mptcp_out_options *opts)
-         |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+         |                                                                ^
+   4 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
 
 
-vim +/mptcp_synack_options +846 net/ipv4/tcp_output.c
+vim +846 net/ipv4/tcp_output.c
 
    838	
    839	static void mptcp_set_option_cond(const struct request_sock *req,
