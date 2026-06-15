@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FACF1E5714
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 02:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6617B25B098
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 02:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781490489; cv=none; b=VGb70pFtlLUzhl0yJJuzVH6J/RdXUDMGZKsdqHR4z60IwJNFFBrGQ5YiI78FW279WIWGuwhVH7Tzqk9XM7aQuxZ0dzrZn7ygHEcoGe73+2AUw2FdNyBTKK1+GqM1+hNDXN5CXTxk6XJ3IYMqBaCPXNo1auw+E29HvGR3KBiL8IE=
+	t=1781490490; cv=none; b=D3+9GN6aOPYWLfJhT+VP78P5VHV/mmunClJCkPnLJlDRoHAPw06Z7nMvq6qEFgAA+EPidTezlYAH8QJZKfyLxXUPqXcQgKvlLu+Caj5d2C8geOgilCux1knAKcNLDvu9OjR44svxB+bcpOvFKbvH+MrsrHoWaSPgdFFqBp9OAKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781490489; c=relaxed/simple;
-	bh=fSUBcpNdV6YuZv1eapUBFPYeH25p5WqRoBulcUrSoNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fwwaMhgzfV3eUrC9+/fBo6eqiULP3Zkd4SvE4Ce2r23dPXcGFaaFkBa73Wf0ue92bv4rX0mkmJLay2NKI033l2LxR6m55JwEWRK4htSdchwknZW/40PY1c3Ri6a2lulJjhr7b8RuwUkEd+cSAZxIsXfhXxtQE3FyEaPavoBmoeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TctNyFwj; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1781490490; c=relaxed/simple;
+	bh=MRf9WNbBWTpn+0mzCXIAfnCH5leTUMyVraw3fuDr9rU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O6vPIJ6WcdmDrFV93mDMdViYkP8YO/Vx+BYS0sZ6M9ob5d/DWvIZtYL+3r2fy9SUOCjV3htm7ScbgU81tFQmMpEjSHTOtlq3q0Wem4LD5n+nxVtuIvmVgrAdf9qd8+6UES5Mpyng5pYRh5bKbaSn/Jg3TuvyoTGH4WWXroa+WE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWxa0bTm; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TctNyFwj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWxa0bTm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781490486; x=1813026486;
+  t=1781490489; x=1813026489;
   h=date:from:to:cc:subject:message-id;
-  bh=fSUBcpNdV6YuZv1eapUBFPYeH25p5WqRoBulcUrSoNQ=;
-  b=TctNyFwj++y9gESctpUUwsoxwZzY3FcMKmr8qRbhXJBvYqVgS4J9vjW+
-   Gu0VvdNw3PM2xeCVRz4je0EnNYPUWtQZVkrOuVHHCzE0z81gnNV8pkEzW
-   SnW/ZX9uwsGlJ5kj0eqmHJUkz4oiIhw8Jn9O4O1Y4TEmnVuTSctKVVotj
-   X+oO9Z1hyi5HlQeTEBsqB2wmtOnpIg9HNkBcq4ZvyL5T+W9fEjeKzA0Pl
-   mh4pOLUg2lFiltCu6OgCGxu3GVZuvz9QLXiMbL59RgvUEa6y7z5s3pePZ
-   SJI+/nSqw5WChq1RptbWi+aDTjIv2PsDyqrr2UxwxEC8/Z3vKpKxn3SLx
-   w==;
-X-CSE-ConnectionGUID: 2DCLTm6RQsyOtvT8amS8jg==
-X-CSE-MsgGUID: Rxx9DSuQQKGXf/ZOCK4XhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="99801414"
+  bh=MRf9WNbBWTpn+0mzCXIAfnCH5leTUMyVraw3fuDr9rU=;
+  b=gWxa0bTmZx1Q/lg6Z1BBeYeVfZ1DzxzV+yIyX7RpFaanwK5r7AdO5SqM
+   I5b2Or8AHTrCXeQoWuYfjhXGFEIN8D7GBj+OMJ659UuxBIDINsfJ0+c1L
+   loMf05XVrHIg/dzQ+dW1+YNj50rkLCroX7EBa6vH6nizYJ5+a3OsK9Av/
+   VpyabB6vqYKJkuE4pScEu2WURPDsDfBXfDC6EpWMfE5pZQxE/ksZwuh4z
+   53234ma6T+t6UV+R85ad3PoMPsAzP7FnY2K6UuMm3lx4K+FZRa3u+lEWG
+   Qf6jXw1yZsRZMFcvm5BJhHQKQ47uXGYfgM0ES2dzZvYfahL0omE4IE9se
+   Q==;
+X-CSE-ConnectionGUID: hdVhMbPlSt+0Sk/nKx0qDA==
+X-CSE-MsgGUID: rnVxSNYvTo+DpbMnFbai2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="99801416"
 X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="99801414"
+   d="scan'208";a="99801416"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 19:28:06 -0700
-X-CSE-ConnectionGUID: gpT6CYgiQWyHf72TWPH7qg==
-X-CSE-MsgGUID: yeca5qjpTIKYI9rIZMtC3w==
+X-CSE-ConnectionGUID: xQt4mSxzRdu+MyA/NgvQRA==
+X-CSE-MsgGUID: DeFd22tvRmeifekNvpiZ0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="271020553"
+   d="scan'208";a="271020555"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 14 Jun 2026 19:28:04 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYx3R-00000000ROK-3Jcb;
+	id 1wYx3R-00000000ROI-3Bad;
 	Mon, 15 Jun 2026 02:28:01 +0000
-Date: Mon, 15 Jun 2026 10:27:06 +0800
+Date: Mon, 15 Jun 2026 10:27:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202606151041.zcDMXyDW-lkp@intel.com>
+ Will Deacon <will@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>,
+ Nicolin Chen <nicolinc@nvidia.com>
+Subject: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1122:38: sparse:
+ sparse: cast from restricted __le64
+Message-ID: <202606151017.QU0evpH9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,88 +63,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8cd9520d35a6c38db6567e97dd93b1f11f185dc6
-commit: f08e7a4e8d6ac4de677727af352ea33c6ce9f444 pmdomain: mediatek: Add support for MFlexGraphics
-date:   7 months ago
-config: powerpc64-randconfig-r113-20260615 (https://download.01.org/0day-ci/archive/20260615/202606151041.zcDMXyDW-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
+commit: 7cad800485956a263318930613f8f4a084af8c70 iommu/arm-smmu-v3: Mark EATS_TRANS safe when computing the update sequence
+date:   5 months ago
+config: arm64-randconfig-r123-20260614 (https://download.01.org/0day-ci/archive/20260615/202606151017.QU0evpH9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606151041.zcDMXyDW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606151017.QU0evpH9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f08e7a4e8d6a ("pmdomain: mediatek: Add support for MFlexGraphics")
+| Fixes: 7cad80048595 ("iommu/arm-smmu-v3: Mark EATS_TRANS safe when computing the update sequence")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606151041.zcDMXyDW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606151017.QU0evpH9-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned long @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     expected restricted __le32 [usertype] magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     got unsigned long
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] ipi_magic @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     expected restricted __le32 [usertype] magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     got unsigned int [usertype] ipi_magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:472:19: sparse: sparse: restricted signed int degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [assigned] [usertype] base @@     got unsigned long long [usertype] shared_mem_phys @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     expected restricted __le64 [assigned] [usertype] base
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     got unsigned long long [usertype] shared_mem_phys
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [assigned] [usertype] size @@     got unsigned int shared_mem_size @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     expected restricted __le32 [assigned] [usertype] size
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     got unsigned int shared_mem_size
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     got int
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] power_state @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     expected restricted __le32 [usertype] power_state
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     got int
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     got int
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] gpu_oppidx @@     got unsigned int opp_idx @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     expected restricted signed int [usertype] gpu_oppidx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     got unsigned int opp_idx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] stack_oppidx @@     got unsigned int opp_idx @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     expected restricted signed int [usertype] stack_oppidx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     got unsigned int opp_idx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:578:42: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:579:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:593:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:594:46: sparse: sparse: restricted __le32 degrades to integer
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1101:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le64 const [usertype] eats_s1chk @@     got unsigned long long @@
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1101:17: sparse:     expected restricted __le64 const [usertype] eats_s1chk
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1101:17: sparse:     got unsigned long long
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1103:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le64 const [usertype] eats_trans @@     got unsigned long long @@
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1103:17: sparse:     expected restricted __le64 const [usertype] eats_trans
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1103:17: sparse:     got unsigned long long
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1122:38: sparse: sparse: cast from restricted __le64
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1124:33: sparse: sparse: cast from restricted __le64
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
 
-vim +509 drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
+vim +1122 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-   504	
-   505	static int mtk_mfg_power_control(struct mtk_mfg *mfg, bool enabled)
-   506	{
-   507		struct mtk_mfg_ipi_msg msg = {};
-   508	
- > 509		msg.cmd = CMD_POWER_CONTROL;
- > 510		msg.u.power_state = enabled ? 1 : 0;
-   511	
-   512		return mtk_mfg_send_ipi(mfg, &msg);
-   513	}
-   514	
-   515	static int mtk_mfg_set_oppidx(struct mtk_mfg *mfg, unsigned int opp_idx)
-   516	{
-   517		struct mtk_mfg_ipi_msg msg = {};
-   518		int ret;
-   519	
-   520		if (opp_idx >= mfg->num_gpu_opps)
-   521			return -EINVAL;
-   522	
-   523		msg.cmd = CMD_FIX_DUAL_TARGET_OPPIDX;
- > 524		msg.u.dual_commit.gpu_oppidx = opp_idx;
-   525		msg.u.dual_commit.stack_oppidx = opp_idx;
-   526	
-   527		ret = mtk_mfg_send_ipi(mfg, &msg);
-   528		if (ret) {
-   529			dev_err(&mfg->pdev->dev, "Failed to set OPP %u: %pe\n",
-   530				opp_idx, ERR_PTR(ret));
-   531			return ret;
-   532		}
-   533	
-   534		return 0;
-   535	}
-   536	
+  1095	
+  1096	VISIBLE_IF_KUNIT
+  1097	void arm_smmu_get_ste_update_safe(const __le64 *cur, const __le64 *target,
+  1098					  __le64 *safe_bits)
+  1099	{
+  1100		const __le64 eats_s1chk =
+  1101			FIELD_PREP(STRTAB_STE_1_EATS, STRTAB_STE_1_EATS_S1CHK);
+  1102		const __le64 eats_trans =
+  1103			FIELD_PREP(STRTAB_STE_1_EATS, STRTAB_STE_1_EATS_TRANS);
+  1104	
+  1105		/*
+  1106		 * When an STE changes EATS_TRANS, the sequencing code in the attach
+  1107		 * logic already will have the PCI cap for ATS disabled. Thus at this
+  1108		 * moment we can expect that the device will not generate ATS queries
+  1109		 * and so we don't care about the sequencing of EATS. The purpose of
+  1110		 * EATS_TRANS is to protect the system from hostile untrusted devices
+  1111		 * that issue ATS when the PCI config space is disabled. However, if
+  1112		 * EATS_TRANS is being changed, then we must have already trusted the
+  1113		 * device as the EATS_TRANS security block is being disabled.
+  1114		 *
+  1115		 *  Note: now the EATS_TRANS update is moved to the first entry_set().
+  1116		 *  Changing S2S and EATS might transiently result in S2S=1 and EATS=1
+  1117		 *  which is a bad STE (see "5.2 Stream Table Entry"). In such a case,
+  1118		 *  we can't do a hitless update. Also, it should not be added to the
+  1119		 *  safe bits with STRTAB_STE_1_EATS_S1CHK, because EATS=0b11 would be
+  1120		 *  effectively an errant 0b00 configuration.
+  1121		 */
+> 1122		if (!((cur[1] | target[1]) & cpu_to_le64(eats_s1chk)) &&
+  1123		    !((cur[2] | target[2]) & cpu_to_le64(STRTAB_STE_2_S2S)))
+  1124			safe_bits[1] |= cpu_to_le64(eats_trans);
+  1125	
+  1126		/*
+  1127		 * MEV does not meaningfully impact the operation of the HW, it only
+  1128		 * changes how many fault events are generated, thus we can relax it
+  1129		 * when computing the ordering. The spec notes the device can act like
+  1130		 * MEV=1 anyhow:
+  1131		 *
+  1132		 *  Note: Software must expect, and be able to deal with, coalesced
+  1133		 *  fault records even when MEV == 0.
+  1134		 */
+  1135		safe_bits[1] |= cpu_to_le64(STRTAB_STE_1_MEV);
+  1136	}
+  1137	EXPORT_SYMBOL_IF_KUNIT(arm_smmu_get_ste_update_safe);
+  1138	
 
 --
 0-DAY CI Kernel Test Service
