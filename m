@@ -1,123 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD0713B584;
-	Mon, 15 Jun 2026 00:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FACF1E5714
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 02:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781484185; cv=none; b=tByPw8cR/e1lVKEmVeQpNSbRWKNfC4YB3aAzLCGmAD7ehuV2H5leelER03oiqfX1t1tHuRtDyT8PwvvnhRnyiRdSsJdHMWU9HjWNMmOrMclK5qdki3O9gtkY1gpikIl0BaqnUCcc32pY1r1otPOckJ+nJqC3+tKRmWVo+qAKWtI=
+	t=1781490489; cv=none; b=VGb70pFtlLUzhl0yJJuzVH6J/RdXUDMGZKsdqHR4z60IwJNFFBrGQ5YiI78FW279WIWGuwhVH7Tzqk9XM7aQuxZ0dzrZn7ygHEcoGe73+2AUw2FdNyBTKK1+GqM1+hNDXN5CXTxk6XJ3IYMqBaCPXNo1auw+E29HvGR3KBiL8IE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781484185; c=relaxed/simple;
-	bh=AvZdXTNtSkDZo5aV+FuouBwHA4hBOPkcsNaFuzZuWL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/+i7XNpnjMAMQQMADOzJQ6TD8RLKGeCa5yh9yCRhuAfF8oCPcPCJNGN5S8hoNqom0Y4HcKBYY6zk1x0VJo2t5IU3fhxxy/sV6nHTuCmMfNFAuvtwbTa/zRx/OFy7huIXbL8qaVwjvsDksl9XdnPbihsWECp9O5BC15/OHV0VVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L817aBrg; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1781490489; c=relaxed/simple;
+	bh=fSUBcpNdV6YuZv1eapUBFPYeH25p5WqRoBulcUrSoNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fwwaMhgzfV3eUrC9+/fBo6eqiULP3Zkd4SvE4Ce2r23dPXcGFaaFkBa73Wf0ue92bv4rX0mkmJLay2NKI033l2LxR6m55JwEWRK4htSdchwknZW/40PY1c3Ri6a2lulJjhr7b8RuwUkEd+cSAZxIsXfhXxtQE3FyEaPavoBmoeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TctNyFwj; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L817aBrg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TctNyFwj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781484183; x=1813020183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AvZdXTNtSkDZo5aV+FuouBwHA4hBOPkcsNaFuzZuWL4=;
-  b=L817aBrgm+DoF7Qh1P1TcQWMqOoj5xBsRviTyB0j6uO1xYfC4p8w0lum
-   DKerxU3vfXATutA/T6m/NxQCj6pM7Kx+sTuuTfyVRbGyEvAp9bAPyxbtr
-   9NbUrSKlE0UljCQe6Hi2bIeThuznTgXpDMrnTBU2z5bAh1gHrnhx7F965
-   h6OYZRMPlNSbHktVv90Dx8wYVC5kdp5TizEGwsa4AHgyF9Ajs7KoZ8jrr
-   Ork/AHshnVGxTqP+0eNSsKhJk6RgLnbXAeXCe2cmYac/+pgwGgEacwtcD
-   lQoYKIh8d4PQMKKwS5NBh3IxPpSNH38C+pqSnu3zpd1O2ijj/umEQmXE2
-   g==;
-X-CSE-ConnectionGUID: iFgm+XN7QVO3He1VP5783A==
-X-CSE-MsgGUID: x9V8zctGRa+pbfmpcAfhSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="82233293"
+  t=1781490486; x=1813026486;
+  h=date:from:to:cc:subject:message-id;
+  bh=fSUBcpNdV6YuZv1eapUBFPYeH25p5WqRoBulcUrSoNQ=;
+  b=TctNyFwj++y9gESctpUUwsoxwZzY3FcMKmr8qRbhXJBvYqVgS4J9vjW+
+   Gu0VvdNw3PM2xeCVRz4je0EnNYPUWtQZVkrOuVHHCzE0z81gnNV8pkEzW
+   SnW/ZX9uwsGlJ5kj0eqmHJUkz4oiIhw8Jn9O4O1Y4TEmnVuTSctKVVotj
+   X+oO9Z1hyi5HlQeTEBsqB2wmtOnpIg9HNkBcq4ZvyL5T+W9fEjeKzA0Pl
+   mh4pOLUg2lFiltCu6OgCGxu3GVZuvz9QLXiMbL59RgvUEa6y7z5s3pePZ
+   SJI+/nSqw5WChq1RptbWi+aDTjIv2PsDyqrr2UxwxEC8/Z3vKpKxn3SLx
+   w==;
+X-CSE-ConnectionGUID: 2DCLTm6RQsyOtvT8amS8jg==
+X-CSE-MsgGUID: Rxx9DSuQQKGXf/ZOCK4XhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="99801414"
 X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="82233293"
+   d="scan'208";a="99801414"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 17:43:03 -0700
-X-CSE-ConnectionGUID: qoqDpLDbTSWJblD78y8e5g==
-X-CSE-MsgGUID: C8Pxmp9mSZ2qIN7l1XsRHg==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 19:28:06 -0700
+X-CSE-ConnectionGUID: gpT6CYgiQWyHf72TWPH7qg==
+X-CSE-MsgGUID: yeca5qjpTIKYI9rIZMtC3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="271003255"
+   d="scan'208";a="271020553"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Jun 2026 17:42:58 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 14 Jun 2026 19:28:04 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYvPj-00000000RKs-3KLk;
-	Mon, 15 Jun 2026 00:42:55 +0000
-Date: Mon, 15 Jun 2026 08:42:55 +0800
+	id 1wYx3R-00000000ROK-3Jcb;
+	Mon, 15 Jun 2026 02:28:01 +0000
+Date: Mon, 15 Jun 2026 10:27:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: mheib@redhat.com, intel-wired-lan@lists.osuosl.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, jiri@resnulli.us, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, corbet@lwn.net, anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch,
-	Mohammad Heib <mheib@redhat.com>
-Subject: Re: [Intel-wired-lan] [PATCH net-next] i40e: add devlink parameter
- for Flow Director ATR sample rate
-Message-ID: <202606150807.u6hUM8VJ-lkp@intel.com>
-References: <20260614161131.192068-1-mheib@redhat.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202606151041.zcDMXyDW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260614161131.192068-1-mheib@redhat.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mheib-redhat-com/i40e-add-devlink-parameter-for-Flow-Director-ATR-sample-rate/20260615-001257
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260614161131.192068-1-mheib%40redhat.com
-patch subject: [Intel-wired-lan] [PATCH net-next] i40e: add devlink parameter for Flow Director ATR sample rate
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260615/202606150807.u6hUM8VJ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606150807.u6hUM8VJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8cd9520d35a6c38db6567e97dd93b1f11f185dc6
+commit: f08e7a4e8d6ac4de677727af352ea33c6ce9f444 pmdomain: mediatek: Add support for MFlexGraphics
+date:   7 months ago
+config: powerpc64-randconfig-r113-20260615 (https://download.01.org/0day-ci/archive/20260615/202606151041.zcDMXyDW-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606151041.zcDMXyDW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f08e7a4e8d6a ("pmdomain: mediatek: Add support for MFlexGraphics")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606150807.u6hUM8VJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606151041.zcDMXyDW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned long @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     expected restricted __le32 [usertype] magic
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     got unsigned long
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] ipi_magic @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     expected restricted __le32 [usertype] magic
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     got unsigned int [usertype] ipi_magic
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:472:19: sparse: sparse: restricted signed int degrades to integer
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [assigned] [usertype] base @@     got unsigned long long [usertype] shared_mem_phys @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     expected restricted __le64 [assigned] [usertype] base
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     got unsigned long long [usertype] shared_mem_phys
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [assigned] [usertype] size @@     got unsigned int shared_mem_size @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     expected restricted __le32 [assigned] [usertype] size
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     got unsigned int shared_mem_size
+>> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     expected restricted __le32 [usertype] cmd
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     got int
+>> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] power_state @@     got int @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     expected restricted __le32 [usertype] power_state
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     got int
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     expected restricted __le32 [usertype] cmd
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     got int
+>> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] gpu_oppidx @@     got unsigned int opp_idx @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     expected restricted signed int [usertype] gpu_oppidx
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     got unsigned int opp_idx
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] stack_oppidx @@     got unsigned int opp_idx @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     expected restricted signed int [usertype] stack_oppidx
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     got unsigned int opp_idx
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:578:42: sparse: sparse: restricted __le32 degrades to integer
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:579:44: sparse: sparse: restricted __le32 degrades to integer
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:593:44: sparse: sparse: restricted __le32 degrades to integer
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:594:46: sparse: sparse: restricted __le32 degrades to integer
 
->> drivers/net/ethernet/intel/i40e/i40e_devlink.c:106:9: error: incompatible function pointer types initializing 'int (*)(struct devlink *, u32, union devlink_param_value *, struct netlink_ext_ack *)' (aka 'int (*)(struct devlink *, unsigned int, union devlink_param_value *, struct netlink_ext_ack *)') with an expression of type 'int (struct devlink *, u32, union devlink_param_value, struct netlink_ext_ack *)' (aka 'int (struct devlink *, unsigned int, union devlink_param_value, struct netlink_ext_ack *)') [-Wincompatible-function-pointer-types]
-     106 |                              i40e_atr_sample_rate_validate),
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/devlink.h:650:14: note: expanded from macro 'DEVLINK_PARAM_DRIVER'
-     650 |         .validate = _validate,                                          \
-         |                     ^~~~~~~~~
-   1 error generated.
+vim +509 drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
 
-
-vim +106 drivers/net/ethernet/intel/i40e/i40e_devlink.c
-
-    93	
-    94	static const struct devlink_param i40e_dl_params[] = {
-    95		DEVLINK_PARAM_GENERIC(MAX_MAC_PER_VF,
-    96				      BIT(DEVLINK_PARAM_CMODE_RUNTIME),
-    97				      i40e_max_mac_per_vf_get,
-    98				      i40e_max_mac_per_vf_set,
-    99				      NULL),
-   100		DEVLINK_PARAM_DRIVER(I40E_DEVLINK_PARAM_ID_ATR_SAMPLE_RATE,
-   101				     "atr_sample_rate",
-   102				     DEVLINK_PARAM_TYPE_U32,
-   103				     BIT(DEVLINK_PARAM_CMODE_RUNTIME),
-   104				     i40e_atr_sample_rate_get,
-   105				     i40e_atr_sample_rate_set,
- > 106				     i40e_atr_sample_rate_validate),
-   107	};
-   108	
+   504	
+   505	static int mtk_mfg_power_control(struct mtk_mfg *mfg, bool enabled)
+   506	{
+   507		struct mtk_mfg_ipi_msg msg = {};
+   508	
+ > 509		msg.cmd = CMD_POWER_CONTROL;
+ > 510		msg.u.power_state = enabled ? 1 : 0;
+   511	
+   512		return mtk_mfg_send_ipi(mfg, &msg);
+   513	}
+   514	
+   515	static int mtk_mfg_set_oppidx(struct mtk_mfg *mfg, unsigned int opp_idx)
+   516	{
+   517		struct mtk_mfg_ipi_msg msg = {};
+   518		int ret;
+   519	
+   520		if (opp_idx >= mfg->num_gpu_opps)
+   521			return -EINVAL;
+   522	
+   523		msg.cmd = CMD_FIX_DUAL_TARGET_OPPIDX;
+ > 524		msg.u.dual_commit.gpu_oppidx = opp_idx;
+   525		msg.u.dual_commit.stack_oppidx = opp_idx;
+   526	
+   527		ret = mtk_mfg_send_ipi(mfg, &msg);
+   528		if (ret) {
+   529			dev_err(&mfg->pdev->dev, "Failed to set OPP %u: %pe\n",
+   530				opp_idx, ERR_PTR(ret));
+   531			return ret;
+   532		}
+   533	
+   534		return 0;
+   535	}
+   536	
 
 --
 0-DAY CI Kernel Test Service
