@@ -1,166 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2698118FDBE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 17:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9C825776;
+	Mon, 15 Jun 2026 17:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781544981; cv=none; b=m/mfSiFqkEiNKpFINQuGBClomFzxEXO1W09ChxZb4PZNmdJAvnwnCgsLXbDZd8+mvg8Qb2XopqEey5ndBVC8FDJan7Fz+ipjeqxCIMBY3C6vIPAod+e0e20t235iINx+xA4g02H4FjaZtNoYfQXPZQkL77YQ8WbhZoHvX1YWFB4=
+	t=1781545703; cv=none; b=Yvelhv+1Z6f1Fde1oJyh9BNXO/b4+9gvkeO1tekqdK9jP+mBmorxcPgKOay0etvxiPI4Du9JcKeF4DP9BAfeVaBE4PpiT8fblHJAmA5EI6XbBjAzYV/fBGj0HLHG0h41Aci8B+oSCfWOuQOrArq7FLwIVzCNk9D/kM12qS8/bKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781544981; c=relaxed/simple;
-	bh=U5y+l5zq3dLEtb0hga9bQLSdeH7BmsfKCKK7fZo4v/8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Sedra+HAKdoeDpS0U0rx0QkxZKG36jXYhWJdpyb1yDaUiSGPS0IiNn3JCihBvamTp3QyP0IqiM2wA0EbuQJKtMPrLiJ33ao6FAgJXaMbbtQJCDScnjhjc7/xbpS6BZe6NJV714Nuc87wOD6k8PmUTG9fY/lGU4Jz6xqctJalNMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atY1xds2; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781545703; c=relaxed/simple;
+	bh=1bHDPA1mcuNx4N0wdvZyVgfGSTpJb+ErMfjyL92aJpA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OegeaqowyUsDi7/K2DsxcsNnFhGq58yGXbp/hqmxDWC6jRXp2XEt44VdcLhNs2zYR5e/gqafUA6bAjM2dHgkY5+xPsG8MqO9IZhgsp5Qi4b9cREMtHF+qRLiUAhPcyEi7Cw4Y2uMuYHOu9GxtOgi2nu1FsvlwAlp6dGV96WTWgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=hrtk5qk+; arc=none smtp.client-ip=199.89.1.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atY1xds2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781544979; x=1813080979;
-  h=date:from:to:cc:subject:message-id;
-  bh=U5y+l5zq3dLEtb0hga9bQLSdeH7BmsfKCKK7fZo4v/8=;
-  b=atY1xds2IAF2FYuoENb/F/8yO5dMPZ0inVvVzFdIBT7A0VDGvTCoJlvn
-   anQ6OqiXA8UBFkqRHrubdlbDDkoLqZXvKYsti1VJgVYAYnFKnEJRYdkGP
-   1gsMH3bDaIPs29D/pBdd2+oTnnI55iGLaK3MEI8OZLGJcjgI1MkfDK4FV
-   z21H0EnVwCDRqFDaThMsl9ApBHN5d6/V0uK1250OzdfCNV7/2NRCqK0Y7
-   lM7+B7Ju2TwhNLiGTx80nVsCcKCIhxrRijCReGZJJ0wg6OgG2UpN5+tH0
-   sWA8LgEcehrg5oLb+xtKNChZukbPpdGoD11+g7Q3tEcnWOimWHlTbxDaM
-   w==;
-X-CSE-ConnectionGUID: /nkuFVayQJCeONk30/qyZQ==
-X-CSE-MsgGUID: b7wv7589RTaYREV6GTJK0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="99869764"
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="99869764"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 10:36:19 -0700
-X-CSE-ConnectionGUID: f+vnVRbpRKyzc/kSEkfE4w==
-X-CSE-MsgGUID: R1ykBEvmQ7OR6VZGySRxrw==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Jun 2026 10:36:17 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wZBEM-00000000SC6-1kEu;
-	Mon, 15 Jun 2026 17:36:14 +0000
-Date: Tue, 16 Jun 2026 01:36:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hao Li <hao.li@linux.dev>,
- Suren Baghdasaryan <surenb@google.com>
-Subject: [linux-next:master 13818/14024] mm/slub.c:5550:28: warning:
- passing argument 1 of '__do_kmalloc_node' makes pointer from integer without
- a cast
-Message-ID: <202606160125.fzducPRb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="hrtk5qk+"
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4gfHfF6Yk9z1XM2FV;
+	Mon, 15 Jun 2026 17:48:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1781545696; x=1784137697; bh=Eduf/gSxjjHPkVNpIdv+Q6Nt
+	FvBB4tx9fHGqlKvxamA=; b=hrtk5qk+ktjAgAkwvGcFyA+7wpXTGIjKe4yVDpJS
+	ibBK+OKdKhWuiFGHiM3GwnY/yucHzvM5/PKMCKoseGTFse+XHPPXcD2i1UUXL913
+	yK3Ps7sJnvL5cX3u87HFvl03M4kScx0/UjZ2qZMMTjgHtOGMSmSuE8H3qf5oWcJi
+	Upu8yHPfg0TsJxEj0WhhoyGt50HsvKOUwlUs+OErqKtGWGDS+MD7Fjp9MF6gXmeH
+	wv1ha6ao+1CViHJmZAo3/tDk/+TazHfX1OtGjCa84FPBrAE3d54diKm2KrHleilF
+	Nazn0HBI/Gg/780xP0SsAI5XURR71Wgd6ZA9hla6gHfVTA==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id woLjxbunHbRd; Mon, 15 Jun 2026 17:48:16 +0000 (UTC)
+Received: from [192.168.3.219] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4gfHf51nJ1z1XM6Jc;
+	Mon, 15 Jun 2026 17:48:12 +0000 (UTC)
+Message-ID: <91082aa9-79b3-4a23-8f7b-4e2d3b7b876e@acm.org>
+Date: Mon, 15 Jun 2026 10:48:11 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [axboe:for-7.2/block 48/73] include/linux/blkdev.h:1750:15:
+ error: use of undeclared identifier 'bdev'
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Jens Axboe <axboe@kernel.dk>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Marco Elver <elver@google.com>
+References: <202606160003.4zv1ceMM-lkp@intel.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <202606160003.4zv1ceMM-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   700f8f17ac2c84f94b7cf4420f306a23a5ddfd24
-commit: ce190ed0166041cfab281967d46fe208f793a864 [13818/14024] mm/slab: introduce kmalloc_flags()
-config: arm-randconfig-002-20260615 (https://download.01.org/0day-ci/archive/20260616/202606160125.fzducPRb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606160125.fzducPRb-lkp@intel.com/reproduce)
+On 6/15/26 9:57 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-7.2/block
+> head:   c7c76f9232bd34835d821f14abdc5fafc17bc938
+> commit: 3033c86fa1a8bb31d0a13738fe8c5f9e5bbaf98a [48/73] block/bdev: Annotate the blk_holder_ops callback functions
+> config: x86_64-randconfig-075-20260615 (https://download.01.org/0day-ci/archive/20260616/202606160003.4zv1ceMM-lkp@intel.com/config)
+> compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606160003.4zv1ceMM-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606160003.4zv1ceMM-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from kernel/sched/core.c:43:
+>>> include/linux/blkdev.h:1750:15: error: use of undeclared identifier 'bdev'
+>      1750 |                 __releases(&bdev->bd_holder_lock);
+>           |                             ^~~~
+>     include/linux/blkdev.h:1756:15: error: use of undeclared identifier 'bdev'
+>      1756 |                 __releases(&bdev->bd_holder_lock);
+>           |                             ^~~~
+>     include/linux/blkdev.h:1762:15: error: use of undeclared identifier 'bdev'
+>      1762 |                 __releases(&bdev->bd_holder_lock);
+>           |                             ^~~~
+>     include/linux/blkdev.h:1768:15: error: use of undeclared identifier 'bdev'
+>      1768 |                 __releases(&bdev->bd_holder_lock);
+>           |                             ^~~~
+>     kernel/sched/core.c:8054:12: warning: array index -1 is before the beginning of the array [-Warray-bounds]
+>      8054 |                                        preempt_modes[preempt_dynamic_mode] : "undef",
+>           |                                        ^             ~~~~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:8029:1: note: array 'preempt_modes' declared here
+>      8029 | const char *preempt_modes[] = {
+>           | ^
+>     1 warning and 4 errors generated.
+The code shown above requires Clang 23 while this code has been built
+with Clang 22. This build error should already have been fixed in
+Linus' master branch since Linus has merged a pull request that bumps
+the Clang version required for lock context analysis to 23:
+Ingo Molnar, [GIT PULL] locking updates for v7.2, June 14
+(https://lore.kernel.org/all/ai6O4a4UstIWIsFv@gmail.com/).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606160125.fzducPRb-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   mm/slub.c: In function '__kmalloc_flags_noprof':
->> mm/slub.c:5550:28: warning: passing argument 1 of '__do_kmalloc_node' makes pointer from integer without a cast [-Wint-conversion]
-      return __do_kmalloc_node(size, NULL, flags, node,
-                               ^~~~
-   mm/slub.c:5338:39: note: expected 'struct kmem_cache * (*)[14]' but argument is of type 'size_t' {aka 'unsigned int'}
-    void *__do_kmalloc_node(kmem_buckets *b, gfp_t flags, int node,
-                            ~~~~~~~~~~~~~~^
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/arm/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from arch/arm/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:7,
-                    from mm/slub.c:15:
->> include/linux/stddef.h:8:14: warning: passing argument 2 of '__do_kmalloc_node' makes integer from pointer without a cast [-Wint-conversion]
-    #define NULL ((void *)0)
-                 ^~~~~~~~~~~
-   mm/slub.c:5550:34: note: in expansion of macro 'NULL'
-      return __do_kmalloc_node(size, NULL, flags, node,
-                                     ^~~~
-   mm/slub.c:5338:48: note: expected 'gfp_t' {aka 'unsigned int'} but argument is of type 'void *'
-    void *__do_kmalloc_node(kmem_buckets *b, gfp_t flags, int node,
-                                             ~~~~~~^~~~~
-   mm/slub.c:5550:47: error: incompatible type for argument 4 of '__do_kmalloc_node'
-      return __do_kmalloc_node(size, NULL, flags, node,
-                                                  ^~~~
-   mm/slub.c:5339:20: note: expected 'kmalloc_token_t' {aka 'struct <anonymous>'} but argument is of type 'int'
-       kmalloc_token_t token, struct slab_alloc_context *ac)
-       ~~~~~~~~~~~~~~~~^~~~~
-   In file included from arch/arm/include/asm/pgtable-nommu.h:13,
-                    from arch/arm/include/asm/pgtable.h:16,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:31,
-                    from mm/slub.c:15:
-   include/linux/slab.h:512:34: error: incompatible type for argument 5 of '__do_kmalloc_node'
-    #define PASS_TOKEN_PARAM(_token) (_token)
-                                     ^~~~~~~~
-   mm/slub.c:5551:5: note: in expansion of macro 'PASS_TOKEN_PARAM'
-        PASS_TOKEN_PARAM(token), &ac);
-        ^~~~~~~~~~~~~~~~
-   mm/slub.c:5339:54: note: expected 'struct slab_alloc_context *' but argument is of type 'kmalloc_token_t' {aka 'struct <anonymous>'}
-       kmalloc_token_t token, struct slab_alloc_context *ac)
-                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-   mm/slub.c:5550:10: error: too many arguments to function '__do_kmalloc_node'
-      return __do_kmalloc_node(size, NULL, flags, node,
-             ^~~~~~~~~~~~~~~~~
-   mm/slub.c:5338:7: note: declared here
-    void *__do_kmalloc_node(kmem_buckets *b, gfp_t flags, int node,
-          ^~~~~~~~~~~~~~~~~
-   mm/slub.c:5556:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
-
-
-vim +/__do_kmalloc_node +5550 mm/slub.c
-
-  5534	
-  5535	/*
-  5536	 * The only version of kmalloc_node() that takes alloc_flags and thus can
-  5537	 * determine on its own whether to handle the allocation via kmalloc_nolock() or
-  5538	 * normally
-  5539	 */
-  5540	void *__kmalloc_flags_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t flags,
-  5541				     unsigned int alloc_flags, int node)
-  5542	{
-  5543		struct slab_alloc_context ac = {
-  5544			.caller_addr = _RET_IP_,
-  5545			.orig_size = size,
-  5546			.alloc_flags = alloc_flags,
-  5547		};
-  5548	
-  5549		if (alloc_flags_allow_spinning(alloc_flags)) {
-> 5550			return __do_kmalloc_node(size, NULL, flags, node,
-  5551					PASS_TOKEN_PARAM(token), &ac);
-  5552		} else {
-  5553			return __kmalloc_nolock_noprof(PASS_TOKEN_PARAMS(size, token),
-  5554						       flags, node, &ac);
-  5555		}
-  5556	}
-  5557	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bart.
