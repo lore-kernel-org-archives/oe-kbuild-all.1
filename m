@@ -1,190 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5573F54C3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 14:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D653E557F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 14:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781532663; cv=none; b=ukufjI/qDzhP9Ca53w/bId7mamJ9aFyZoAb1BtGNmUHIcjAL3m1Wnv+0IY/W07/5FoP2X7VsJr7M7tM5E57Qu+hpJVMXPTD9sDRdQ1yCpxCdwfh3oxE1QYWGdr1oTrjPJCy9RqWlWvl0vABI8D2FC84NJjkqOuHXjIjViocjdxo=
+	t=1781532784; cv=none; b=P+62yVCCA7JHTbbcA8Ag3Hw0o0T6gygKqgK51HZpxQCwh0EOHGqZJ0F+/xG62QQ4+TDN+ZPVHs1qXbO0nqFpOaadeHNfLZp6vEBVqypyYt+3QWqM3fvyRpgleRGjL007y2xEmt67Z9mbDHgm2kmalW/V9t6YnpYQvKrN/o0Jnvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781532663; c=relaxed/simple;
-	bh=dDIOVkCX+wFveJ8hpk5AXemH0/ngJY6Mw/8C0GbS2Mk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=bRyUMlQ1HXdIbNouH5JU81ZwvkiwaFUK0CcF+bxemFCjsaAIRZGmdgwRJhm70sTtqHbe6J5BLd39vPQmyr1CXk2cG4ppFYEOFD2uhxabhM7rxPSOMxAHQkMCNuDySwWNkaC4c0nKnUsZThNPQ6GgRSYtrQQ4AOBFoPqouyb1UBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O01fingN; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1781532784; c=relaxed/simple;
+	bh=kqBD2tWgbXeDS9hKxPUnrTUrcSOYX+nYrtU4sRBDbCk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MxKJwrqnRLBL6OaPL6dSy6B+nYI3Tyw0UbSfmuCCv4iel7xDGikfypYdCswuQ7SQJxiMgRJsZg69h/gkqZd8B/tIRT8jQcEulz6RubsvoBzNX0rteYTNVhmjn8S9R+QJ2vr8RrffmKUkt111LqUHhSAOkj3v/bk0kAqKaSwQADA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RuSHPcjB; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O01fingN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RuSHPcjB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781532663; x=1813068663;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dDIOVkCX+wFveJ8hpk5AXemH0/ngJY6Mw/8C0GbS2Mk=;
-  b=O01fingNV5lIg4DgWG7ivymWGZlOmzzh+apRJgkI99G9D8F5E7aCuZhU
-   L+qBW+X5WqREbY602k5vdP5ibnPI/MaMoNNyqh/bDJ93AFkpX1hy71jn0
-   CCTk2P2kOrO8PD03ZhKG8M+98kZtyKRsmOdvmdldjfkU9AjUKy5wI/VRN
-   LjNKQUkEL0DtQbW+wEJZeVnQZAcP8n+9LGpd2O2Dv42iwHHvcd7hG9BtA
-   Y3FyyH1m5+rGeAwhnZWN9XBoKO8ThbRKKuuuA7QjzlnrH/cNyxJRReAJt
-   a1HEu7xuloGPad8NcgXgNUxacsINfhAPq36kPaDADoTaT98VtNjLQQDID
-   Q==;
-X-CSE-ConnectionGUID: ho1hO9ScTW2IufKnF/6tRw==
-X-CSE-MsgGUID: amSSmys8TyOYrb1Ok5Kerg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82171511"
+  t=1781532783; x=1813068783;
+  h=date:from:to:cc:subject:message-id;
+  bh=kqBD2tWgbXeDS9hKxPUnrTUrcSOYX+nYrtU4sRBDbCk=;
+  b=RuSHPcjBCJgLoog2Yi0Y8FJDQyGjmPY9uyxs+SmZiNL68t+XbBYHLKwM
+   CyXsvnsN4xpZblKiGwguSeWzG6VXuOPyfoxJoSXDg/15nlhWfKZh/Fo8y
+   5pg8/WKU2VtNlWV/Jgl8pR2cGbD4Jkm9q13daNJmyut28ToZoIqWmuNP3
+   SZocrCbY5FpFULfE0Zy/PXQ+cQjqQpNeUMHipXvZmJVpS9+GQZvWpSBil
+   /gAcPZlwemrwGcK1BNcba4+Ibed28H3MG+iTd0yRgID2Z+p5qI3yXIpxc
+   3qfYsL8Xb3WgAZmoFlM8LlVpQOgbQH/Ql9zfP3qB12BaL/jHfE6tqBNk6
+   A==;
+X-CSE-ConnectionGUID: u4Zgnnw+RE++cuY97pWK7g==
+X-CSE-MsgGUID: pf6f/M2IT+ywQS1FXCAt3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82120392"
 X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="82171511"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 07:11:02 -0700
-X-CSE-ConnectionGUID: 0XzP/bs3Rp6BdnXFx62YHQ==
-X-CSE-MsgGUID: U2a1SAiNS+GxtGipD97lbA==
+   d="scan'208";a="82120392"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 07:13:02 -0700
+X-CSE-ConnectionGUID: OSG+MymVQ8eB9X3fiuFzUA==
+X-CSE-MsgGUID: xjC6DlfJSvCKsARVSqNzYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="244576865"
+   d="scan'208";a="247348498"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Jun 2026 07:10:59 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Jun 2026 07:13:01 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZ81h-00000000RvK-20gt;
-	Mon, 15 Jun 2026 14:10:57 +0000
-Date: Mon, 15 Jun 2026 22:10:18 +0800
+	id 1wZ83d-00000000Rvc-3PFL;
+	Mon, 15 Jun 2026 14:12:57 +0000
+Date: Mon, 15 Jun 2026 22:12:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Chiu <andybnac@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Paul Walmsley <pjw@kernel.org>
-Subject: arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202606152154.La53Y9wL-lkp@intel.com>
+To: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [jic23-iio:testing 26/33] lib/math/div64.c:163: multiple
+ definition of `div64_s64_rem'; lib/math/div64.o:lib/math/div64.c:163: first
+ defined here
+Message-ID: <202606152154.P6pwbjhp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0e0611827f3349d0a2ac121c023a6d3260dcecdb
-commit: 818d78ba1b3f88d2bfee249f25020211488a26c3 riscv: signal: abstract he=
-ader saving for setup_sigcontext
-date:   6 months ago
-config: riscv-randconfig-r123-20260615 (https://download.01.org/0day-ci/arc=
-hive/20260615/202606152154.La53Y9wL-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260615/202606152154.La53Y9wL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   a50909aa46dec46de3c73235fc15a7d6f763d996
+commit: adebf76278116a06166d0b5f8b4112ad5dd6389a [26/33] lib: math: div64: add div64_s64_rem()
+config: arm-randconfig-003-20260615 (https://download.01.org/0day-ci/archive/20260615/202606152154.P6pwbjhp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606152154.P6pwbjhp-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 818d78ba1b3f ("riscv: signal: abstract header saving for setup_sig=
-context")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606152154.La53Y9wL-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606152154.P6pwbjhp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *d=
-atap @@     got void * @@
-   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
-_user *datap
-   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *d=
-atap @@     got void * @@
-   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
-_user *datap
-   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *d=
-atap @@     got void * @@
-   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
-_user *datap
-   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *d=
-atap @@     got void * @@
-   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
-_user *datap
-   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
-   arch/riscv/kernel/signal.c:148:22: sparse: sparse: symbol 'arch_ext_list=
-' was not declared. Should it be static?
-   arch/riscv/kernel/signal.c:155:14: sparse: sparse: symbol 'nr_arch_exts'=
- was not declared. Should it be static?
-   arch/riscv/kernel/signal.c:300:39: sparse: sparse: cast removes address =
-space '__user' of expression
-   arch/riscv/kernel/signal.c:300:36: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected struct __riscv_ctx_hdr [=
-noderef] __user *sc_ext_ptr @@     got void * @@
-   arch/riscv/kernel/signal.c:300:36: sparse:     expected struct __riscv_c=
-tx_hdr [noderef] __user *sc_ext_ptr
-   arch/riscv/kernel/signal.c:300:36: sparse:     got void *
+All errors (new ones prefixed by >>):
 
-vim +133 arch/riscv/kernel/signal.c
+   arm-linux-gnueabi-ld: lib/math/test_mul_u64_u64_div_u64.o: in function `div64_s64_rem':
+>> lib/math/div64.c:163: multiple definition of `div64_s64_rem'; lib/math/div64.o:lib/math/div64.c:163: first defined here
 
-8ee0b41898fa26 Greentime Hu 2023-06-05  107 =20
-8ee0b41898fa26 Greentime Hu 2023-06-05  108  /*
-8ee0b41898fa26 Greentime Hu 2023-06-05  109   * Restore Vector extension co=
-ntext from the user's signal frame. This function
-8ee0b41898fa26 Greentime Hu 2023-06-05  110   * assumes a valid extension h=
-eader. So magic and size checking must be done by
-8ee0b41898fa26 Greentime Hu 2023-06-05  111   * the caller.
-8ee0b41898fa26 Greentime Hu 2023-06-05  112   */
-8ee0b41898fa26 Greentime Hu 2023-06-05  113  static long __restore_v_state(=
-struct pt_regs *regs, void __user *sc_vec)
-8ee0b41898fa26 Greentime Hu 2023-06-05  114  {
-8ee0b41898fa26 Greentime Hu 2023-06-05  115  	long err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  116  	struct __sc_riscv_v_state __u=
-ser *state =3D sc_vec;
-8ee0b41898fa26 Greentime Hu 2023-06-05  117  	void __user *datap;
-8ee0b41898fa26 Greentime Hu 2023-06-05  118 =20
-c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  119  	/*
-c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  120  	 * Mark the vstate =
-as clean prior performing the actual copy,
-c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  121  	 * to avoid getting=
- the vstate incorrectly clobbered by the
-c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  122  	 *  discarded vecto=
-r state.
-c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  123  	 */
-c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  124  	riscv_v_vstate_set_=
-restore(current, regs);
-c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  125 =20
-8ee0b41898fa26 Greentime Hu 2023-06-05  126  	/* Copy everything of __sc_ri=
-scv_v_state except datap. */
-8ee0b41898fa26 Greentime Hu 2023-06-05  127  	err =3D __copy_from_user(&cur=
-rent->thread.vstate, &state->v_state,
-8ee0b41898fa26 Greentime Hu 2023-06-05  128  			       offsetof(struct __ri=
-scv_v_ext_state, datap));
-8ee0b41898fa26 Greentime Hu 2023-06-05  129  	if (unlikely(err))
-8ee0b41898fa26 Greentime Hu 2023-06-05  130  		return err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  131 =20
-8ee0b41898fa26 Greentime Hu 2023-06-05  132  	/* Copy the pointer datap its=
-elf. */
-8ee0b41898fa26 Greentime Hu 2023-06-05 @133  	err =3D __get_user(datap, &st=
-ate->v_state.datap);
-8ee0b41898fa26 Greentime Hu 2023-06-05  134  	if (unlikely(err))
-8ee0b41898fa26 Greentime Hu 2023-06-05  135  		return err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  136  	/*
-8ee0b41898fa26 Greentime Hu 2023-06-05  137  	 * Copy the whole vector cont=
-ent from user space datap. Use
-8ee0b41898fa26 Greentime Hu 2023-06-05  138  	 * copy_from_user to prevent =
-information leak.
-8ee0b41898fa26 Greentime Hu 2023-06-05  139  	 */
-c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  140  	return copy_from_us=
-er(current->thread.vstate.datap, datap, riscv_v_vsize);
-8ee0b41898fa26 Greentime Hu 2023-06-05  141  }
-818d78ba1b3f88 Andy Chiu    2025-11-12  142 =20
 
-:::::: The code at line 133 was first introduced by commit
-:::::: 8ee0b41898fa26f66e32237f179b6989c65600d6 riscv: signal: Add sigconte=
-xt save/restore for vector
+vim +163 lib/math/div64.c
 
-:::::: TO: Greentime Hu <greentime.hu@sifive.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+   160	
+   161	#ifndef div64_s64_rem
+   162	s64 div64_s64_rem(s64 dividend, s64 divisor, s64 *remainder)
+ > 163	{
+   164		s64 quot, t, rem;
+   165	
+   166		quot = div64_u64_rem(abs(dividend), abs(divisor), (u64 *)&rem);
+   167		t = dividend >> 63;
+   168		*remainder = (rem ^ t) - t;
+   169		t = (dividend ^ divisor) >> 63;
+   170	
+   171		return (quot ^ t) - t;
+   172	}
+   173	EXPORT_SYMBOL(div64_s64_rem);
+   174	#endif
+   175	
 
 --
 0-DAY CI Kernel Test Service
