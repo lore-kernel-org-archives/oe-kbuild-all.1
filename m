@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FE43B19D8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 06:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FC53ACA48
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 11:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781505322; cv=none; b=Cf0Fg+SUBecMFt86u3RBqoEFQE23VFScfsajcQ6CdoZQt0Ks9ysIqulldvB7dbu0Zdo4M4fGmcon3nv0AqvI8IfI94lT5+3cZtomWv8uv1OwPhm2xIeYK3Ss/R4tN687Ja7+A0ZrcqVMf9cuPE1F9Znq3LNLJ5s/3UAZQX+HheI=
+	t=1781522566; cv=none; b=jr7SGVWNjV/ToHpGoiLW5jXowLV3dNZO6G/wVAl4JJGHcK7gCXiV6J4pJGvBGN+CbFW+ECY3eUAoJv32HWE5ia/LlaCGAOvON6TKBeIzeDazGsVefS/iq94OQxda5PCL3ta7RfDxw56k104sTOhoZoKVxguyHuvacBBHBP5lIuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781505322; c=relaxed/simple;
-	bh=RgUqY0be95tX235FCc9I+l/M0Susvtd0GhFuJF9929U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bnq3b4Cogj3D8sHuwiiLF56mk7z8F7CZQGb+VpWowSAzz0hLRtyPv/6BzoiW0N05trJ6hn+5hDmJfCWmTn7+22Qmh3nLcvna5McuHQpn6o3XaiQYX9oN8FGcIjK6GbXwA2H/BgusUaptYNoaULEUmShjnpiZ/1ssVOiw/JJRsSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJe/8JwE; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1781522566; c=relaxed/simple;
+	bh=8JItlisweInIAcvGSK2hsTt01rul+1U/h5tqeqPPYmU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZRBV9HfaWtmWcLbnwiO4i9sOmZodKw1qS2q0FxdmZcU2QRoU0zvpCgjgRUIx5wIH4MWBA2gVjxHybk2WIiXj1aHtclK0GabjqtcYQfk88JxUIZiuoIHFyAPmn/5iDmBaUbeUrVr/iiyBgG/3hDUTxkMu8wiB2D0Dxoz1y+AVmsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CNh492Kt; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJe/8JwE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CNh492Kt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781505321; x=1813041321;
+  t=1781522565; x=1813058565;
   h=date:from:to:cc:subject:message-id;
-  bh=RgUqY0be95tX235FCc9I+l/M0Susvtd0GhFuJF9929U=;
-  b=CJe/8JwEvReHJ+7ZFYM6M6t9G95Ic89LgKrT4pu15uaqaereQiTT0GuG
-   yykxi2ndPVaLK79fQAO4rzEGHUdV/URQEewhVwJ4ATGN8DJ76oR/7WQFr
-   9WL9+Xym8JYTrxcjOQPzaD9AlFvGFeBL0zvhizHysYpbczPBtc5dSKmCN
-   IAABSxrKC0WvLI2fv5SO1ZCJn+WRQSxQJ0XEEwAhkNpFLcPY9MnBhSfd1
-   yKy8F/vI0T0882iS7b4HZkBW2VEe8HNNByvRra/Pns6J2s5yCv7q8IZ+X
-   LHHt9/62Bon/tqJmceEfsveDfpgrknUKQdHUykFvQcpXWCSsjk1xc1NOM
-   A==;
-X-CSE-ConnectionGUID: 2XT6+42zTTi1nTO4fZr0Mw==
-X-CSE-MsgGUID: zGvCILlCSqC1FlfvBH/Ijg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="86137553"
+  bh=8JItlisweInIAcvGSK2hsTt01rul+1U/h5tqeqPPYmU=;
+  b=CNh492Kt0QpCklYSOeiSttZUa1JiZFzbwAmspS3CDN3EKZZDS1CpjOyE
+   wPr38cbCNuUtxXURCGdebpxBXcfEEMtQGhXYkapt+jxCmdVrflgTqGq+d
+   AGT0YGnkSWPFSDBObOSsbj0JMm9JDBYm24/Io8rUUzhRV63Vd+W2W3tbS
+   UC6sWs8wahqX0z/aCcx768zn7PzDJOZwRSL/ZjXLHz0BF2PsOefVmx2zp
+   CezNRG6EJkzIPyYTy8bfajyZhYTXrNDmMRsB/LmmPh755hMZ4zo930HKk
+   BxE8MXBxZCIcIWabNMBdTTRo/i/3Np+PT1f0RFBTy8/tle4nbtkCJsd5e
+   w==;
+X-CSE-ConnectionGUID: NYXi3F+mTXK4nrb4S914qw==
+X-CSE-MsgGUID: 6f2OyeyJR4mQl7A2RscVTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="104929727"
 X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="86137553"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 23:35:19 -0700
-X-CSE-ConnectionGUID: FzhoaWXlSZiMdSUAk2oA6g==
-X-CSE-MsgGUID: HciGqUPrQz+Ih1HoKDE7Yw==
+   d="scan'208";a="104929727"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 04:22:44 -0700
+X-CSE-ConnectionGUID: 1l3/aRpWQpyv6LJwmdyGJA==
+X-CSE-MsgGUID: 7va7WupiS7qtzaFj3jHMIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="243233709"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jun 2026 23:35:17 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="246336425"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 15 Jun 2026 04:22:43 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZ0ug-00000000RYG-1yDX;
-	Mon, 15 Jun 2026 06:35:14 +0000
-Date: Mon, 15 Jun 2026 14:34:36 +0800
+	id 1wZ5Or-000000004s5-1Kds;
+	Mon, 15 Jun 2026 11:22:41 +0000
+Date: Mon, 15 Jun 2026 13:21:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Marco Elver <elver@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>
-Subject: drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:
- sparse: incorrect type in assignment (different modifiers)
-Message-ID: <202606151401.SQNf0nYw-lkp@intel.com>
+To: Ronald Claveau <linux-kernel-dev@aliel.fr>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rclaveau:b4/add-adla_npu-t7-vim4 12/12] checkpatch:
+ WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+Message-ID: <202606151312.HDE3fwIf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,115 +59,17 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8cd9520d35a6c38db6567e97dd93b1f11f185dc6
-commit: f0b7ce22d71810c8c11abcd912fbd6f57c2e9677 srcu: Support Clang's context analysis
-date:   5 months ago
-config: x86_64-randconfig-123 (https://download.01.org/0day-ci/archive/20260615/202606151401.SQNf0nYw-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606151401.SQNf0nYw-lkp@intel.com/reproduce)
+tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
+head:   543fbf680cf36a5257c66ff76054122b3fab2fd6
+commit: 543fbf680cf36a5257c66ff76054122b3fab2fd6 [12/12] Temporary use Adla Legacy driver
+reproduce: (https://download.01.org/0day-ci/archive/20260615/202606151312.HDE3fwIf-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: f0b7ce22d718 ("srcu: Support Clang's context analysis")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606151401.SQNf0nYw-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected int ( *handler )( ... ) @@     got int ( [noderef] *__v )( ... ) @@
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     expected int ( *handler )( ... )
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     got int ( [noderef] *__v )( ... )
-
-vim +440 drivers/infiniband/core/uverbs_ioctl.c
-
-fac9658cabb98af Matan Barak         2017-08-03  427  
-3a863577a749627 Jason Gunthorpe     2018-08-09  428  static int ib_uverbs_run_method(struct bundle_priv *pbundle,
-3a863577a749627 Jason Gunthorpe     2018-08-09  429  				unsigned int num_attrs)
-fac9658cabb98af Matan Barak         2017-08-03  430  {
-15a1b4becba8861 Jason Gunthorpe     2018-11-25  431  	int (*handler)(struct uverbs_attr_bundle *attrs);
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  432  	struct uverbs_attr_bundle *bundle =
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  433  		container_of(&pbundle->bundle, struct uverbs_attr_bundle, hdr);
-3a863577a749627 Jason Gunthorpe     2018-08-09  434  	size_t uattrs_size = array_size(sizeof(*pbundle->uattrs), num_attrs);
-3a863577a749627 Jason Gunthorpe     2018-08-09  435  	unsigned int destroy_bkey = pbundle->method_elm->destroy_bkey;
-3a863577a749627 Jason Gunthorpe     2018-08-09  436  	unsigned int i;
-fac9658cabb98af Matan Barak         2017-08-03  437  	int ret;
-fac9658cabb98af Matan Barak         2017-08-03  438  
-3a863577a749627 Jason Gunthorpe     2018-08-09  439  	/* See uverbs_disassociate_api() */
-3a863577a749627 Jason Gunthorpe     2018-08-09 @440  	handler = srcu_dereference(
-3a863577a749627 Jason Gunthorpe     2018-08-09  441  		pbundle->method_elm->handler,
-3a863577a749627 Jason Gunthorpe     2018-08-09  442  		&pbundle->bundle.ufile->device->disassociate_srcu);
-3a863577a749627 Jason Gunthorpe     2018-08-09  443  	if (!handler)
-3a863577a749627 Jason Gunthorpe     2018-08-09  444  		return -EIO;
-3a863577a749627 Jason Gunthorpe     2018-08-09  445  
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  446  	pbundle->uattrs = uverbs_alloc(bundle, uattrs_size);
-3a863577a749627 Jason Gunthorpe     2018-08-09  447  	if (IS_ERR(pbundle->uattrs))
-3a863577a749627 Jason Gunthorpe     2018-08-09  448  		return PTR_ERR(pbundle->uattrs);
-3a863577a749627 Jason Gunthorpe     2018-08-09  449  	if (copy_from_user(pbundle->uattrs, pbundle->user_attrs, uattrs_size))
-3a863577a749627 Jason Gunthorpe     2018-08-09  450  		return -EFAULT;
-3a863577a749627 Jason Gunthorpe     2018-08-09  451  
-3a863577a749627 Jason Gunthorpe     2018-08-09  452  	for (i = 0; i != num_attrs; i++) {
-3a863577a749627 Jason Gunthorpe     2018-08-09  453  		ret = uverbs_set_attr(pbundle, &pbundle->uattrs[i]);
-3a863577a749627 Jason Gunthorpe     2018-08-09  454  		if (unlikely(ret))
-3a863577a749627 Jason Gunthorpe     2018-08-09  455  			return ret;
-3a863577a749627 Jason Gunthorpe     2018-08-09  456  	}
-3a863577a749627 Jason Gunthorpe     2018-08-09  457  
-3a863577a749627 Jason Gunthorpe     2018-08-09  458  	/* User space did not provide all the mandatory attributes */
-3a863577a749627 Jason Gunthorpe     2018-08-09  459  	if (unlikely(!bitmap_subset(pbundle->method_elm->attr_mandatory,
-3a863577a749627 Jason Gunthorpe     2018-08-09  460  				    pbundle->bundle.attr_present,
-3a863577a749627 Jason Gunthorpe     2018-08-09  461  				    pbundle->method_elm->key_bitmap_len)))
-fac9658cabb98af Matan Barak         2017-08-03  462  		return -EINVAL;
-fac9658cabb98af Matan Barak         2017-08-03  463  
-07f05f40d956d40 Jason Gunthorpe     2018-11-25  464  	if (pbundle->method_elm->has_udata)
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  465  		uverbs_fill_udata(bundle, &pbundle->bundle.driver_udata,
-4785860e04bc8d7 Jason Gunthorpe     2018-11-30  466  				  UVERBS_ATTR_UHW_IN, UVERBS_ATTR_UHW_OUT);
-f89adedaf3feb2e Gal Pressman        2019-04-30  467  	else
-f89adedaf3feb2e Gal Pressman        2019-04-30  468  		pbundle->bundle.driver_udata = (struct ib_udata){};
-07f05f40d956d40 Jason Gunthorpe     2018-11-25  469  
-3a863577a749627 Jason Gunthorpe     2018-08-09  470  	if (destroy_bkey != UVERBS_API_ATTR_BKEY_LEN) {
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  471  		struct uverbs_obj_attr *destroy_attr = &bundle->attrs[destroy_bkey].obj_attr;
-fac9658cabb98af Matan Barak         2017-08-03  472  
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  473  		ret = uobj_destroy(destroy_attr->uobject, bundle);
-aa72c9a5f986444 Jason Gunthorpe     2018-07-26  474  		if (ret)
-3a863577a749627 Jason Gunthorpe     2018-08-09  475  			return ret;
-3a863577a749627 Jason Gunthorpe     2018-08-09  476  		__clear_bit(destroy_bkey, pbundle->uobj_finalize);
-aa72c9a5f986444 Jason Gunthorpe     2018-07-26  477  
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  478  		ret = handler(bundle);
-3a863577a749627 Jason Gunthorpe     2018-08-09  479  		uobj_put_destroy(destroy_attr->uobject);
-3a863577a749627 Jason Gunthorpe     2018-08-09  480  	} else {
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  481  		ret = handler(bundle);
-7452a3c745a2e7e Jason Gunthorpe     2018-07-25  482  	}
-7452a3c745a2e7e Jason Gunthorpe     2018-07-25  483  
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  484  	/*
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  485  	 * Until the drivers are revised to use the bundle directly we have to
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  486  	 * assume that the driver wrote to its UHW_OUT and flag userspace
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  487  	 * appropriately.
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  488  	 */
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  489  	if (!ret && pbundle->method_elm->has_udata) {
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  490  		const struct uverbs_attr *attr =
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  491  			uverbs_attr_get(bundle, UVERBS_ATTR_UHW_OUT);
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  492  
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  493  		if (!IS_ERR(attr))
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  494  			ret = uverbs_set_output(bundle, attr);
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  495  	}
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  496  
-3a863577a749627 Jason Gunthorpe     2018-08-09  497  	/*
-3a863577a749627 Jason Gunthorpe     2018-08-09  498  	 * EPROTONOSUPPORT is ONLY to be returned if the ioctl framework can
-3a863577a749627 Jason Gunthorpe     2018-08-09  499  	 * not invoke the method because the request is not supported.  No
-3a863577a749627 Jason Gunthorpe     2018-08-09  500  	 * other cases should return this code.
-3a863577a749627 Jason Gunthorpe     2018-08-09  501  	 */
-3a863577a749627 Jason Gunthorpe     2018-08-09  502  	if (WARN_ON_ONCE(ret == -EPROTONOSUPPORT))
-3a863577a749627 Jason Gunthorpe     2018-08-09  503  		return -EINVAL;
-fac9658cabb98af Matan Barak         2017-08-03  504  
-3a863577a749627 Jason Gunthorpe     2018-08-09  505  	return ret;
-fac9658cabb98af Matan Barak         2017-08-03  506  }
-fac9658cabb98af Matan Barak         2017-08-03  507  
-
-:::::: The code at line 440 was first introduced by commit
-:::::: 3a863577a7496278892360a69d90d8465733100c IB/uverbs: Use uverbs_api to unmarshal ioctl commands
-
-:::::: TO: Jason Gunthorpe <jgg@mellanox.com>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#13554: FILE: drivers/accel/adla_legacy/kmd/drv/port/platform/adlak_reg.h:255:
++            ab_axi_saddr : 21; /* Start address of AXI SRAM. saddr * 0x1000<= Byte Range. Unit: 4KB
++                                */
 
 --
 0-DAY CI Kernel Test Service
