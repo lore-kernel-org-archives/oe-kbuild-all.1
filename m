@@ -1,226 +1,565 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20BA3E958C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 12:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490063E6DE0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jun 2026 13:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781526373; cv=none; b=Or6/pnbyZn0puOSMyZ2+7k7OM9G4K2/kHbk/12Zv1WjtYCXJoXmxDWoNb/FD0rSOY6lHYFo+1xsOeL8yTRPhwPPGKDEHmxGVj5tf8PHso2k4amZj59aAilfx31siEnYzeVpFtLbyd0Cktp8k5ohxCtxzq090EBQmMUjmIzG4Ud0=
+	t=1781528415; cv=none; b=cabC3tRmjS6HfzaKAdonJrBltUeHaMfXX1Rj9nuUfxO+5Mn2oggs2DXTYAv1euE0LZGYzqyOWAOTg0tlh01+6Nqry7ojef4kkGGXMhWxGzPbN4XFDJNIzlqS5iuM/VEVbUCx55XrIKkwbXv6pCcCjdIlp5/ED7Nar8SpyiqkjtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781526373; c=relaxed/simple;
-	bh=jnhoSqcDBpRpyILPjMFNlaweXNFayY2LeXFc2ur0pxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jW/8ZWvcb0RIPklH8joG5e3rtHGrELo/G9X62J0BTRAWdQ6LESGlnjYNWswYN6OD4qcU5DMNT1D8zSzdjh5RMyoKLbrB/wKhR1RtBdr5r7BiMCjCPYLffPsdd1gwVov2P1ukX6pZtjBRRLEFo/a0GlDBBK/o6Ks1qi+lebLAXxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jq4vzaKR; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1781528415; c=relaxed/simple;
+	bh=/Iyk+Vrn2a8z6jW66NmUaHhONrpFxPfduRjd6TtXA7o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CUvMqCfYsBGSCBaI7dd5eq2wHDRE6UhtP2qC6rnoosp3qy7mRPxlx0FpvIHdEkAPXykO5eofGDryPzvpk2XCx26JxsjZKZ3QVKBL2rPi+hPqym/2TahEuiLF8U7QQdF+tyRldcHhu5CZqqpaCah4pi5p5K37Rmc3/B6M+905fZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VfyMlvCq; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jq4vzaKR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfyMlvCq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781526371; x=1813062371;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=jnhoSqcDBpRpyILPjMFNlaweXNFayY2LeXFc2ur0pxY=;
-  b=jq4vzaKRiUZEeg5RW5Wv1hcyCPh8XZNlEVdUSGAm+Jy1crPeTCIck6NB
-   OZ4laqaJmJVOM8o/8Gcojl0MKNQ6BHDHCdvuoHmTYS1PMTazw/7fi4hWP
-   zL01A17Dbsob7DBZPpggiTfLJprhDQSeSuGJPk258vL17OLlo/gS41YEV
-   HFtIHI7DUm8PCjxQJ2zHxV9Kans31HeS9aQQgjAv3K8sViflPgOITh7Qk
-   IyO0RYBi5ORS99ShECmg/usv68nviSIDTtTRvxHjH50deI+UWnzrsFuuQ
-   eUdsjxfs6YnAZsGMz6CuKd5/mjIflBta+/bmEmuwDtz8wm6zYB6k37H7u
-   g==;
-X-CSE-ConnectionGUID: NKFCH6a0SqSiKY72s6IB7Q==
-X-CSE-MsgGUID: HnqKJrDCTMCX78+rK5pDFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="82454856"
+  t=1781528411; x=1813064411;
+  h=date:from:to:cc:subject:message-id;
+  bh=/Iyk+Vrn2a8z6jW66NmUaHhONrpFxPfduRjd6TtXA7o=;
+  b=VfyMlvCqBC0MMOr1NSPa506YfwT9WyeFebwpsa716qzYMcG3nQMbQCTr
+   XkYcW7b6M8HEITYnS/EhcjeRaFg0E/474VJ9FbmMFchi2RFUf19seCnsb
+   YLU9C0yrxHMmOEfSNXMyHuM97hd2LuqGyG2jv7nOjRwg1K0dy7udtBVxm
+   +MW2PLbAan4+mzwfLdiPnS6cB0pXj6oKpgusmJClcsYT+FKaRTnkt7FWt
+   Hmaq/UDbL9DHSxWiGyNlCCoRrzxB+A/aFgVItEXL5WjIgqPx1NT4Pi4qI
+   mONEYV3zybRnaaMWhGCYd/tHvgsk6vUfVOT32emZ2xiqyWnXRAEgd0WoB
+   w==;
+X-CSE-ConnectionGUID: TaZ7GoZlTOqd25GSu4tG2Q==
+X-CSE-MsgGUID: c1ipTfdIRiiFNx0B4Pmtbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="92824362"
 X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="82454856"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 05:26:09 -0700
-X-CSE-ConnectionGUID: ub1Ssf+qTA+SNnTMr3XlIA==
-X-CSE-MsgGUID: //pnrilzTli1ZzwHEkcOkA==
+   d="scan'208";a="92824362"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 06:00:10 -0700
+X-CSE-ConnectionGUID: /CC3a7PFS6Cx63D6+EOMBg==
+X-CSE-MsgGUID: C8Zr8sKkQdm2tRHTz123nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="245059802"
+   d="scan'208";a="251737970"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Jun 2026 05:26:06 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Jun 2026 06:00:08 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZ6OB-00000000Rq8-1eJU;
-	Mon, 15 Jun 2026 12:26:03 +0000
-Date: Mon, 15 Jun 2026 20:25:42 +0800
+	id 1wZ6v7-00000000RrW-1X3G;
+	Mon, 15 Jun 2026 13:00:05 +0000
+Date: Mon, 15 Jun 2026 20:59:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Kaushlendra Kumar <kaushlendra.kumar@intel.com>,
-	Kees Cook <kees@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, pengpeng@iscas.ac.cn
-Subject: Re: [PATCH] thermal: intel: int3400: clean up ODVP on probe failures
-Message-ID: <202606152042.8kTVDHYg-lkp@intel.com>
-References: <20260615070326.71761-1-pengpeng@iscas.ac.cn>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: lib/crypto/curve25519-fiat32.c:315 fe_mul_impl() warn:
+ inconsistent indenting
+Message-ID: <202606152057.bHPlTZqD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260615070326.71761-1-pengpeng@iscas.ac.cn>
 
-Hi Pengpeng,
+Hi Eric,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on rafael-pm/thermal]
-[also build test WARNING on linus/master v7.1 next-20260612]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengpeng-Hou/thermal-intel-int3400-clean-up-ODVP-on-probe-failures/20260615-152757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20260615070326.71761-1-pengpeng%40iscas.ac.cn
-patch subject: [PATCH] thermal: intel: int3400: clean up ODVP on probe failures
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260615/202606152042.8kTVDHYg-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606152042.8kTVDHYg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0e0611827f3349d0a2ac121c023a6d3260dcecdb
+commit: afc4e4a5f122183b38095daba2264123cc86d8ab lib/crypto: tests: Migrate Curve25519 self-test to KUnit
+date:   9 months ago
+config: csky-randconfig-r073-20260611 (https://download.01.org/0day-ci/archive/20260615/202606152057.bHPlTZqD-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: afc4e4a5f122 ("lib/crypto: tests: Migrate Curve25519 self-test to KUnit")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606152042.8kTVDHYg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606152057.bHPlTZqD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+lib/crypto/curve25519-fiat32.c:315 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:638 fe_mul_121666_impl() warn: inconsistent indenting
 
-   drivers/thermal/intel/int340x_thermal/int3400_thermal.c: In function 'int3400_thermal_probe':
->> drivers/thermal/intel/int340x_thermal/int3400_thermal.c:659:1: warning: label 'free_art_trt' defined but not used [-Wunused-label]
-     659 | free_art_trt:
-         | ^~~~~~~~~~~~
->> drivers/thermal/intel/int340x_thermal/int3400_thermal.c:651:1: warning: label 'free_imok' defined but not used [-Wunused-label]
-     651 | free_imok:
-         | ^~~~~~~~~
+Old smatch warnings:
+lib/crypto/curve25519-fiat32.c:229 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:230 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:231 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:232 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:233 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:234 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:235 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:236 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:237 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:238 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:239 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:240 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:241 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:242 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:243 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:244 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:245 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:246 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:247 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:248 fe_add_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:272 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:273 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:274 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:275 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:276 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:277 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:278 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:279 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:280 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:281 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:282 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:283 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:284 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:285 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:286 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:287 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:288 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:289 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:290 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:291 fe_sub_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:316 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:317 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:318 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:319 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:320 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:321 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:322 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:323 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:324 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:325 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:326 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:327 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:328 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:329 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:330 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:331 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:332 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:333 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:334 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:335 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:336 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:337 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:338 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:339 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:340 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:341 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:342 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:343 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:344 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:345 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:346 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:347 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:348 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:349 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:350 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:351 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:352 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:353 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:354 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:355 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:356 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:357 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:358 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:359 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:360 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:361 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:362 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:363 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:364 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:365 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:366 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:367 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:368 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:369 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:370 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:371 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:372 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:373 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:374 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:375 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:376 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:377 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:378 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:379 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:380 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:381 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:382 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:383 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:384 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:385 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:386 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:387 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:388 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:389 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:390 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:391 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:392 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:393 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:394 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:395 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:396 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:397 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:398 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:399 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:400 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:401 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:402 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:403 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:404 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:405 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:406 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:407 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:408 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:409 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:410 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:411 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:412 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:413 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:414 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:415 fe_mul_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:447 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:448 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:449 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:450 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:451 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:452 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:453 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:454 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:455 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:456 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:457 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:458 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:459 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:460 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:461 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:462 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:463 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:464 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:465 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:466 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:467 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:468 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:469 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:470 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:471 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:472 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:473 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:474 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:475 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:476 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:477 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:478 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:479 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:480 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:481 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:482 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:483 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:484 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:485 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:486 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:487 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:488 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:489 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:490 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:491 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:492 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:493 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:494 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:495 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:496 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:497 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:498 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:499 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:500 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:501 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:502 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:503 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:504 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:505 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:506 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:507 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:508 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:509 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:510 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:511 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:512 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:513 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:514 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:515 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:516 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:517 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:518 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:519 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:520 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:521 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:522 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:523 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:524 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:525 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:526 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:527 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:528 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:529 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:530 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:531 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:532 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:533 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:534 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:535 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:536 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:537 fe_sqr_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:639 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:640 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:641 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:642 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:643 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:644 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:645 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:646 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:647 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:648 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:649 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:650 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:651 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:652 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:653 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:654 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:655 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:656 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:657 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:658 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:659 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:660 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:661 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:662 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:663 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:664 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:665 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:666 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:667 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:668 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:669 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:670 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:671 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:672 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:673 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:674 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:675 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:676 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:677 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:678 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:679 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:680 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:681 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:682 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:683 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:684 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:685 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:686 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:687 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:688 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:689 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:690 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:691 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:692 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:693 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:694 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:695 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:696 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:697 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:698 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:699 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:700 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:701 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:702 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:703 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:704 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:705 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:706 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:707 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:708 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:709 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:710 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:711 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:712 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:713 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:714 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:715 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:716 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:717 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:718 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:719 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:720 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:721 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:722 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:723 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:724 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:725 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:726 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:727 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:728 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:729 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:730 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:731 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:732 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:733 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:734 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:735 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:736 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:737 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:738 fe_mul_121666_impl() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:111 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:112 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:113 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:114 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:115 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:116 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:117 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:118 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:119 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:120 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:131 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:132 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:134 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:136 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:138 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:140 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:142 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:144 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:146 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:148 fe_freeze() warn: inconsistent indenting
+lib/crypto/curve25519-fiat32.c:150 fe_freeze() warn: inconsistent indenting
 
+vim +315 lib/crypto/curve25519-fiat32.c
 
-vim +/free_art_trt +659 drivers/thermal/intel/int340x_thermal/int3400_thermal.c
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  311  
+660bb8e1f833ea Ard Biesheuvel     2019-11-08  312  static noinline void fe_mul_impl(u32 out[10], const u32 in1[10], const u32 in2[10])
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  313  {
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  314  	{ const u32 x20 = in1[9];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08 @315  	{ const u32 x21 = in1[8];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  316  	{ const u32 x19 = in1[7];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  317  	{ const u32 x17 = in1[6];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  318  	{ const u32 x15 = in1[5];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  319  	{ const u32 x13 = in1[4];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  320  	{ const u32 x11 = in1[3];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  321  	{ const u32 x9 = in1[2];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  322  	{ const u32 x7 = in1[1];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  323  	{ const u32 x5 = in1[0];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  324  	{ const u32 x38 = in2[9];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  325  	{ const u32 x39 = in2[8];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  326  	{ const u32 x37 = in2[7];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  327  	{ const u32 x35 = in2[6];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  328  	{ const u32 x33 = in2[5];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  329  	{ const u32 x31 = in2[4];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  330  	{ const u32 x29 = in2[3];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  331  	{ const u32 x27 = in2[2];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  332  	{ const u32 x25 = in2[1];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  333  	{ const u32 x23 = in2[0];
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  334  	{ u64 x40 = ((u64)x23 * x5);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  335  	{ u64 x41 = (((u64)x23 * x7) + ((u64)x25 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  336  	{ u64 x42 = ((((u64)(0x2 * x25) * x7) + ((u64)x23 * x9)) + ((u64)x27 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  337  	{ u64 x43 = (((((u64)x25 * x9) + ((u64)x27 * x7)) + ((u64)x23 * x11)) + ((u64)x29 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  338  	{ u64 x44 = (((((u64)x27 * x9) + (0x2 * (((u64)x25 * x11) + ((u64)x29 * x7)))) + ((u64)x23 * x13)) + ((u64)x31 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  339  	{ u64 x45 = (((((((u64)x27 * x11) + ((u64)x29 * x9)) + ((u64)x25 * x13)) + ((u64)x31 * x7)) + ((u64)x23 * x15)) + ((u64)x33 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  340  	{ u64 x46 = (((((0x2 * ((((u64)x29 * x11) + ((u64)x25 * x15)) + ((u64)x33 * x7))) + ((u64)x27 * x13)) + ((u64)x31 * x9)) + ((u64)x23 * x17)) + ((u64)x35 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  341  	{ u64 x47 = (((((((((u64)x29 * x13) + ((u64)x31 * x11)) + ((u64)x27 * x15)) + ((u64)x33 * x9)) + ((u64)x25 * x17)) + ((u64)x35 * x7)) + ((u64)x23 * x19)) + ((u64)x37 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  342  	{ u64 x48 = (((((((u64)x31 * x13) + (0x2 * (((((u64)x29 * x15) + ((u64)x33 * x11)) + ((u64)x25 * x19)) + ((u64)x37 * x7)))) + ((u64)x27 * x17)) + ((u64)x35 * x9)) + ((u64)x23 * x21)) + ((u64)x39 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  343  	{ u64 x49 = (((((((((((u64)x31 * x15) + ((u64)x33 * x13)) + ((u64)x29 * x17)) + ((u64)x35 * x11)) + ((u64)x27 * x19)) + ((u64)x37 * x9)) + ((u64)x25 * x21)) + ((u64)x39 * x7)) + ((u64)x23 * x20)) + ((u64)x38 * x5));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  344  	{ u64 x50 = (((((0x2 * ((((((u64)x33 * x15) + ((u64)x29 * x19)) + ((u64)x37 * x11)) + ((u64)x25 * x20)) + ((u64)x38 * x7))) + ((u64)x31 * x17)) + ((u64)x35 * x13)) + ((u64)x27 * x21)) + ((u64)x39 * x9));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  345  	{ u64 x51 = (((((((((u64)x33 * x17) + ((u64)x35 * x15)) + ((u64)x31 * x19)) + ((u64)x37 * x13)) + ((u64)x29 * x21)) + ((u64)x39 * x11)) + ((u64)x27 * x20)) + ((u64)x38 * x9));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  346  	{ u64 x52 = (((((u64)x35 * x17) + (0x2 * (((((u64)x33 * x19) + ((u64)x37 * x15)) + ((u64)x29 * x20)) + ((u64)x38 * x11)))) + ((u64)x31 * x21)) + ((u64)x39 * x13));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  347  	{ u64 x53 = (((((((u64)x35 * x19) + ((u64)x37 * x17)) + ((u64)x33 * x21)) + ((u64)x39 * x15)) + ((u64)x31 * x20)) + ((u64)x38 * x13));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  348  	{ u64 x54 = (((0x2 * ((((u64)x37 * x19) + ((u64)x33 * x20)) + ((u64)x38 * x15))) + ((u64)x35 * x21)) + ((u64)x39 * x17));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  349  	{ u64 x55 = (((((u64)x37 * x21) + ((u64)x39 * x19)) + ((u64)x35 * x20)) + ((u64)x38 * x17));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  350  	{ u64 x56 = (((u64)x39 * x21) + (0x2 * (((u64)x37 * x20) + ((u64)x38 * x19))));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  351  	{ u64 x57 = (((u64)x39 * x20) + ((u64)x38 * x21));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  352  	{ u64 x58 = ((u64)(0x2 * x38) * x20);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  353  	{ u64 x59 = (x48 + (x58 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  354  	{ u64 x60 = (x59 + (x58 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  355  	{ u64 x61 = (x60 + x58);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  356  	{ u64 x62 = (x47 + (x57 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  357  	{ u64 x63 = (x62 + (x57 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  358  	{ u64 x64 = (x63 + x57);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  359  	{ u64 x65 = (x46 + (x56 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  360  	{ u64 x66 = (x65 + (x56 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  361  	{ u64 x67 = (x66 + x56);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  362  	{ u64 x68 = (x45 + (x55 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  363  	{ u64 x69 = (x68 + (x55 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  364  	{ u64 x70 = (x69 + x55);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  365  	{ u64 x71 = (x44 + (x54 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  366  	{ u64 x72 = (x71 + (x54 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  367  	{ u64 x73 = (x72 + x54);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  368  	{ u64 x74 = (x43 + (x53 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  369  	{ u64 x75 = (x74 + (x53 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  370  	{ u64 x76 = (x75 + x53);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  371  	{ u64 x77 = (x42 + (x52 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  372  	{ u64 x78 = (x77 + (x52 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  373  	{ u64 x79 = (x78 + x52);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  374  	{ u64 x80 = (x41 + (x51 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  375  	{ u64 x81 = (x80 + (x51 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  376  	{ u64 x82 = (x81 + x51);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  377  	{ u64 x83 = (x40 + (x50 << 0x4));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  378  	{ u64 x84 = (x83 + (x50 << 0x1));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  379  	{ u64 x85 = (x84 + x50);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  380  	{ u64 x86 = (x85 >> 0x1a);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  381  	{ u32 x87 = ((u32)x85 & 0x3ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  382  	{ u64 x88 = (x86 + x82);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  383  	{ u64 x89 = (x88 >> 0x19);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  384  	{ u32 x90 = ((u32)x88 & 0x1ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  385  	{ u64 x91 = (x89 + x79);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  386  	{ u64 x92 = (x91 >> 0x1a);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  387  	{ u32 x93 = ((u32)x91 & 0x3ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  388  	{ u64 x94 = (x92 + x76);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  389  	{ u64 x95 = (x94 >> 0x19);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  390  	{ u32 x96 = ((u32)x94 & 0x1ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  391  	{ u64 x97 = (x95 + x73);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  392  	{ u64 x98 = (x97 >> 0x1a);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  393  	{ u32 x99 = ((u32)x97 & 0x3ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  394  	{ u64 x100 = (x98 + x70);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  395  	{ u64 x101 = (x100 >> 0x19);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  396  	{ u32 x102 = ((u32)x100 & 0x1ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  397  	{ u64 x103 = (x101 + x67);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  398  	{ u64 x104 = (x103 >> 0x1a);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  399  	{ u32 x105 = ((u32)x103 & 0x3ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  400  	{ u64 x106 = (x104 + x64);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  401  	{ u64 x107 = (x106 >> 0x19);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  402  	{ u32 x108 = ((u32)x106 & 0x1ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  403  	{ u64 x109 = (x107 + x61);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  404  	{ u64 x110 = (x109 >> 0x1a);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  405  	{ u32 x111 = ((u32)x109 & 0x3ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  406  	{ u64 x112 = (x110 + x49);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  407  	{ u64 x113 = (x112 >> 0x19);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  408  	{ u32 x114 = ((u32)x112 & 0x1ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  409  	{ u64 x115 = (x87 + (0x13 * x113));
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  410  	{ u32 x116 = (u32) (x115 >> 0x1a);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  411  	{ u32 x117 = ((u32)x115 & 0x3ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  412  	{ u32 x118 = (x116 + x90);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  413  	{ u32 x119 = (x118 >> 0x19);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  414  	{ u32 x120 = (x118 & 0x1ffffff);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  415  	out[0] = x117;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  416  	out[1] = x120;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  417  	out[2] = (x119 + x93);
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  418  	out[3] = x96;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  419  	out[4] = x99;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  420  	out[5] = x102;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  421  	out[6] = x105;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  422  	out[7] = x108;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  423  	out[8] = x111;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  424  	out[9] = x114;
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  425  	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  426  }
+0ed42a6f431e93 Jason A. Donenfeld 2019-11-08  427  
 
-0ba13c763aacb2 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  556  
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  557  static int int3400_thermal_probe(struct platform_device *pdev)
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  558  {
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  559  	struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  560  	struct int3400_thermal_priv *priv;
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  561  	int result;
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  562  
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  563  	if (!adev)
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  564  		return -ENODEV;
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  565  
-bf4afc53b77aea drivers/thermal/intel/int340x_thermal/int3400_thermal.c Linus Torvalds      2026-02-21  566  	priv = kzalloc_obj(*priv);
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  567  	if (!priv)
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  568  		return -ENOMEM;
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  569  
-006f006f1e5c48 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  570  	priv->pdev = pdev;
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  571  	priv->adev = adev;
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  572  
-c5738dddc01be4 drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-23  573  	result = int3400_thermal_get_uuids(priv);
-8d485da0ddee79 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  574  
-8d485da0ddee79 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  575  	/* Missing IDSP isn't fatal */
-8d485da0ddee79 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  576  	if (result && result != -ENODEV)
-c5738dddc01be4 drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-23  577  		goto free_priv;
-c5738dddc01be4 drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-23  578  
-8d485da0ddee79 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  579  	priv->current_uuid_index = -1;
-8d485da0ddee79 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  580  
-6306e68a63f262 drivers/thermal/int340x_thermal/int3400_thermal.c       Jacob Pan           2014-06-12  581  	result = acpi_parse_art(priv->adev->handle, &priv->art_count,
-6306e68a63f262 drivers/thermal/int340x_thermal/int3400_thermal.c       Jacob Pan           2014-06-12  582  				&priv->arts, true);
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  583  	if (result)
-f126079123f9d0 drivers/thermal/int340x_thermal/int3400_thermal.c       Srinivas Pandruvada 2015-02-25  584  		dev_dbg(&pdev->dev, "_ART table parsing error\n");
-6306e68a63f262 drivers/thermal/int340x_thermal/int3400_thermal.c       Jacob Pan           2014-06-12  585  
-6306e68a63f262 drivers/thermal/int340x_thermal/int3400_thermal.c       Jacob Pan           2014-06-12  586  	result = acpi_parse_trt(priv->adev->handle, &priv->trt_count,
-6306e68a63f262 drivers/thermal/int340x_thermal/int3400_thermal.c       Jacob Pan           2014-06-12  587  				&priv->trts, true);
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  588  	if (result)
-f126079123f9d0 drivers/thermal/int340x_thermal/int3400_thermal.c       Srinivas Pandruvada 2015-02-25  589  		dev_dbg(&pdev->dev, "_TRT table parsing error\n");
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  590  
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  591  	platform_set_drvdata(pdev, priv);
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  592  
-0ba13c763aacb2 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  593  	int3400_setup_gddv(priv);
-0ba13c763aacb2 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  594  
-006f006f1e5c48 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  595  	evaluate_odvp(priv);
-006f006f1e5c48 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  596  
-cbcd51e822bf51 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Rafael J. Wysocki   2023-08-30  597  	priv->thermal = thermal_tripless_zone_device_register("INT3400 Thermal", priv,
-cbcd51e822bf51 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Rafael J. Wysocki   2023-08-30  598  							      &int3400_thermal_ops,
-cbcd51e822bf51 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Rafael J. Wysocki   2023-08-30  599  							      &int3400_thermal_params);
-0ab15365ff38c8 drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-23  600  	if (IS_ERR(priv->thermal)) {
-0ab15365ff38c8 drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-23  601  		result = PTR_ERR(priv->thermal);
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  602  		goto free_odvp;
-0ab15365ff38c8 drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-23  603  	}
-0ab15365ff38c8 drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-23  604  
-6306e68a63f262 drivers/thermal/int340x_thermal/int3400_thermal.c       Jacob Pan           2014-06-12  605  	priv->rel_misc_dev_res = acpi_thermal_rel_misc_device_add(
-6306e68a63f262 drivers/thermal/int340x_thermal/int3400_thermal.c       Jacob Pan           2014-06-12  606  							priv->adev->handle);
-6306e68a63f262 drivers/thermal/int340x_thermal/int3400_thermal.c       Jacob Pan           2014-06-12  607  
-19ecaea2686222 drivers/thermal/int340x_thermal/int3400_thermal.c       Srinivas Pandruvada 2014-12-02  608  	result = sysfs_create_group(&pdev->dev.kobj, &uuid_attribute_group);
-19ecaea2686222 drivers/thermal/int340x_thermal/int3400_thermal.c       Srinivas Pandruvada 2014-12-02  609  	if (result)
-0be86969ae385c drivers/thermal/int340x_thermal/int3400_thermal.c       Alexey Khoroshilov  2017-12-30  610  		goto free_rel_misc;
-19ecaea2686222 drivers/thermal/int340x_thermal/int3400_thermal.c       Srinivas Pandruvada 2014-12-02  611  
-f1b07a14694be0 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Sumeet Pawnikar     2021-07-16  612  	if (acpi_has_method(priv->adev->handle, "IMOK")) {
-f1b07a14694be0 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Sumeet Pawnikar     2021-07-16  613  		result = sysfs_create_group(&pdev->dev.kobj, &imok_attribute_group);
-f1b07a14694be0 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Sumeet Pawnikar     2021-07-16  614  		if (result)
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  615  			goto free_uuid;
-f1b07a14694be0 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Sumeet Pawnikar     2021-07-16  616  	}
-f1b07a14694be0 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Sumeet Pawnikar     2021-07-16  617  
-7931e28098a4c1 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Lee, Chun-Yi        2022-08-08  618  	if (!ZERO_OR_NULL_PTR(priv->data_vault)) {
-13f3cbfbb8c9f3 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Thomas Weißschuh    2024-11-21  619  		result = device_create_bin_file(&pdev->dev, &bin_attr_data_vault);
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  620  		if (result) {
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  621  			kfree(priv->data_vault);
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  622  			priv->data_vault = NULL;
-0ba13c763aacb2 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  623  			goto free_uuid;
-0ba13c763aacb2 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  624  		}
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  625  	}
-0ba13c763aacb2 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  626  
-38e44da591303d drivers/thermal/int340x_thermal/int3400_thermal.c       Brian Bian          2017-08-09  627  	result = acpi_install_notify_handler(
-38e44da591303d drivers/thermal/int340x_thermal/int3400_thermal.c       Brian Bian          2017-08-09  628  			priv->adev->handle, ACPI_DEVICE_NOTIFY, int3400_notify,
-38e44da591303d drivers/thermal/int340x_thermal/int3400_thermal.c       Brian Bian          2017-08-09  629  			(void *)priv);
-38e44da591303d drivers/thermal/int340x_thermal/int3400_thermal.c       Brian Bian          2017-08-09  630  	if (result)
-0be86969ae385c drivers/thermal/int340x_thermal/int3400_thermal.c       Alexey Khoroshilov  2017-12-30  631  		goto free_sysfs;
-38e44da591303d drivers/thermal/int340x_thermal/int3400_thermal.c       Brian Bian          2017-08-09  632  
-5c36cf27846a36 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Srinivas Pandruvada 2023-01-23  633  	result = production_mode_init(priv);
-5c36cf27846a36 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Srinivas Pandruvada 2023-01-23  634  	if (result)
-5c36cf27846a36 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Srinivas Pandruvada 2023-01-23  635  		goto free_notify;
-5c36cf27846a36 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Srinivas Pandruvada 2023-01-23  636  
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  637  	return 0;
-19ecaea2686222 drivers/thermal/int340x_thermal/int3400_thermal.c       Srinivas Pandruvada 2014-12-02  638  
-5c36cf27846a36 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Srinivas Pandruvada 2023-01-23  639  free_notify:
-5c36cf27846a36 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Srinivas Pandruvada 2023-01-23  640  	acpi_remove_notify_handler(priv->adev->handle, ACPI_DEVICE_NOTIFY,
-5c36cf27846a36 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Srinivas Pandruvada 2023-01-23  641  				   int3400_notify);
-0be86969ae385c drivers/thermal/int340x_thermal/int3400_thermal.c       Alexey Khoroshilov  2017-12-30  642  free_sysfs:
-006f006f1e5c48 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  643  	cleanup_odvp(priv);
-e9a7c526c29b0a drivers/thermal/intel/int340x_thermal/int3400_thermal.c Rafael J. Wysocki   2022-08-30  644  	if (!ZERO_OR_NULL_PTR(priv->data_vault)) {
-13f3cbfbb8c9f3 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Thomas Weißschuh    2024-11-21  645  		device_remove_bin_file(&pdev->dev, &bin_attr_data_vault);
-006f006f1e5c48 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  646  		kfree(priv->data_vault);
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  647  		priv->data_vault = NULL;
-006f006f1e5c48 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  648  	}
-0ba13c763aacb2 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Matthew Garrett     2020-04-13  649  free_uuid:
-0be86969ae385c drivers/thermal/int340x_thermal/int3400_thermal.c       Alexey Khoroshilov  2017-12-30  650  	sysfs_remove_group(&pdev->dev.kobj, &uuid_attribute_group);
-f1b07a14694be0 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Sumeet Pawnikar     2021-07-16 @651  free_imok:
-f1b07a14694be0 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Sumeet Pawnikar     2021-07-16  652  	sysfs_remove_group(&pdev->dev.kobj, &imok_attribute_group);
-0be86969ae385c drivers/thermal/int340x_thermal/int3400_thermal.c       Alexey Khoroshilov  2017-12-30  653  free_rel_misc:
-0be86969ae385c drivers/thermal/int340x_thermal/int3400_thermal.c       Alexey Khoroshilov  2017-12-30  654  	if (!priv->rel_misc_dev_res)
-0be86969ae385c drivers/thermal/int340x_thermal/int3400_thermal.c       Alexey Khoroshilov  2017-12-30  655  		acpi_thermal_rel_misc_device_remove(priv->adev->handle);
-19ecaea2686222 drivers/thermal/int340x_thermal/int3400_thermal.c       Srinivas Pandruvada 2014-12-02  656  	thermal_zone_device_unregister(priv->thermal);
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  657  free_odvp:
-19f67ce6d353c4 drivers/thermal/intel/int340x_thermal/int3400_thermal.c Pengpeng Hou        2026-06-15  658  	cleanup_odvp(priv);
-f126079123f9d0 drivers/thermal/int340x_thermal/int3400_thermal.c       Srinivas Pandruvada 2015-02-25 @659  free_art_trt:
-0ab15365ff38c8 drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-23  660  	kfree(priv->trts);
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  661  	kfree(priv->arts);
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  662  free_priv:
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  663  	kfree(priv);
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  664  	return result;
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  665  }
-816cab931f288c drivers/thermal/int340x_thermal/int3400_thermal.c       Zhang Rui           2014-03-14  666  
+:::::: The code at line 315 was first introduced by commit
+:::::: 0ed42a6f431e930b2e8fae21955406e09fe75d70 crypto: curve25519 - generic C library implementations
+
+:::::: TO: Jason A. Donenfeld <Jason@zx2c4.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 --
 0-DAY CI Kernel Test Service
