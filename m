@@ -1,219 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B403DA5A8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 19:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C36345725
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 20:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781636752; cv=none; b=jgcAvJ5FbtcqWnOqrb3o+eev6mQaPaDmkl372AZ8EouR4vvfYWPxJigRt2nHEM/AovlZfHvZ/tX/WOMsMAJilQhj9DM3aXjNsOvYQN9FdaVUX5UtjgIm0r6q6Ui3CshuAoXFgSd1XvrOPB+9U2buS+gBX9kzMT72kNDWd0TjLy0=
+	t=1781641146; cv=none; b=QR8TEc8hDgiNe65sHYezGEza9n4Y97rkt5q9scYp40H/xb2CSx41vuxMGoDfL76ZGIPFanS43p+DQz+Tnr+BOvqalXeYVRxDYppgos4Ebxn2bHWaZHIhbpWynYXaNTY9M5onyn3Pk9Myu1Cfgt25dEN2AEx0W6Sr7gZV/Ex90z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781636752; c=relaxed/simple;
-	bh=SMPliSZE+MkXpOgl/VWlgOqDI9W+kbb9scQyWs2Inc8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PrK+LE8wL6utyDY2zFwhkD4k/67V/07dFJMiURgdLQRNL2Fhx871aLD8/T9ijS3YcVoEIJFdLdEpUBNF8ldOhPrPF39krBLT4L+mb6V9eWCEpdg+3G2kFqpMtmQI3JRxy33TmVe36jOe+nFkkkYB+WQXbkX6SxRhJFa18Ds/0wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iHczr9Aq; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1781641146; c=relaxed/simple;
+	bh=ZQumMHxrTNTS76WJKpYqSc08gwtx7rqu3YrU8AEhN7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jI9GywqxLh8QlJ7RS98/lpRouoTLDJ4x/5jLbMoeKSlQEfykmoucch/nYbzgN4+xL03v2NHC+9MITDDmb2IJYXv1iWbLd0W1m6GR4iw3xr3hTL6U/XhhjEVWkm4OVwP6Q3n2tuDPVBK0Dd/ycrkmICrm1FdTTAecdH1+Qn5OMNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2Ze3Nqr; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHczr9Aq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2Ze3Nqr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781636750; x=1813172750;
-  h=date:from:to:cc:subject:message-id;
-  bh=SMPliSZE+MkXpOgl/VWlgOqDI9W+kbb9scQyWs2Inc8=;
-  b=iHczr9AqFqeWJejCXzkLAGhvn0XEXKHkkhU72kPUPiS9yuFQXfYN3dcO
-   kPTjoAHilNgvrhF2iSftBmEu5qlW4EIoqu6MRN9QvoWTQvubWntcTSyJR
-   cSNEaf6Bpa52Ji3KCEye9V1QOeQaveRgNqi6sJqm7RRtmwq9QcdBNCySF
-   jqy2RB//bgcwfZWjH1VLzE6H64kqDIH6k0C1X4jXUn5dfwEL/kqke6HTp
-   tUwTURWX8s0+CjEWqT+21LdtVrhEy1Euz0PYfVHMLPzCiA5pk/r6HiJif
-   /iqVL+AnUUgEOYW43KN7R3MvSRTGv5fUli1KNSJI9tr7tDrOxgMMl/DqR
-   Q==;
-X-CSE-ConnectionGUID: FYjOYmVdRF+YQZVb3sddcw==
-X-CSE-MsgGUID: jROwRt+BQp6J8MXfiyyd3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="82457682"
+  t=1781641144; x=1813177144;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZQumMHxrTNTS76WJKpYqSc08gwtx7rqu3YrU8AEhN7U=;
+  b=m2Ze3NqrzAgHDt36uKzC0kLrnIGZvd1eoRzlVGngRCluA+iu1iDbChiz
+   mQpOSzI2El5aXPbgtg0eNn0O65QJHjphjKWluUGRMdA6TvtdLdOZmMDom
+   ECYvFtksesgBrt97dHSIKRA683J1+QwNDrWyLBH+k6Zkaiwov4NtC3h9g
+   Jwu6xTC61gbUyTbQB+e9XC7JFXytlZoNgw5irxg3TkcP/qA3lTSBf5UZY
+   l9wiecEf1f3ezpD+c/mNm9EUTj/3jAIrYZ1GmQcu0c6BNdSgdOiTItODP
+   cmYjCmH3LuEtXJ+zS9kEmmMb5tvVNjXp9jWgDCT8qfGki2KEWRr6+2Owa
+   w==;
+X-CSE-ConnectionGUID: +4hxwTwMQDyGpJz5kUSGxQ==
+X-CSE-MsgGUID: n7xombJ8Q3eApTX6s3Rqwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="92744730"
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="82457682"
+   d="scan'208";a="92744730"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 12:05:49 -0700
-X-CSE-ConnectionGUID: wh3xOBPTRva7uIsupiwp/A==
-X-CSE-MsgGUID: D5tME/rLSuq86p9sHtQZQg==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 13:19:04 -0700
+X-CSE-ConnectionGUID: zTrHQPL/TL2Y9+7eSsJv5A==
+X-CSE-MsgGUID: GQLbJOLPQc6kdvUO4GXLtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="271931855"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Jun 2026 12:05:44 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="271945306"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 16 Jun 2026 13:19:02 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZZ6T-00000000Teo-3Jum;
-	Tue, 16 Jun 2026 19:05:41 +0000
-Date: Wed, 17 Jun 2026 03:04:52 +0800
+	id 1wZaFQ-000000005B3-12Qh;
+	Tue, 16 Jun 2026 20:19:00 +0000
+Date: Tue, 16 Jun 2026 22:18:27 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ryan Lee <ryan.lee@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- John Johansen <john.johansen@canonical.com>,
- Georgia Garcia <georgia.garcia@canonical.com>
-Subject: [linux-next:master 13520/14023]
- security/apparmor/domain.c:1158:62: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202606170235.hEvZRsLB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Robert Malz <robert.malz@canonical.com>, anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH] ice: retry reading NVM if admin queue returns EBUSY
+Message-ID: <202606162237.EIrFZKip-lkp@intel.com>
+References: <20260616104521.1545053-1-robert.malz@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260616104521.1545053-1-robert.malz@canonical.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8d6dbbbe3ba62de0a63e962ee004afb848c8e3ac
-commit: 32e92764d6f8d251c1bca62be33793287b453a81 [13520/14023] apparmor: grab ns lock and refresh when looking up changehat child profiles
-config: powerpc-randconfig-r122-20260615 (https://download.01.org/0day-ci/archive/20260617/202606170235.hEvZRsLB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 16.1.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606170235.hEvZRsLB-lkp@intel.com/reproduce)
+Hi Robert,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tnguy-next-queue/dev-queue]
+[also build test ERROR on tnguy-net-queue/dev-queue linus/master v7.1 next-20260616]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Malz/ice-retry-reading-NVM-if-admin-queue-returns-EBUSY/20260616-185349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20260616104521.1545053-1-robert.malz%40canonical.com
+patch subject: [PATCH] ice: retry reading NVM if admin queue returns EBUSY
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260616/202606162237.EIrFZKip-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606162237.EIrFZKip-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606170235.hEvZRsLB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606162237.EIrFZKip-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> security/apparmor/domain.c:1158:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct aa_profile *p @@     got struct aa_profile [noderef] __rcu *parent @@
-   security/apparmor/domain.c:1158:62: sparse:     expected struct aa_profile *p
-   security/apparmor/domain.c:1158:62: sparse:     got struct aa_profile [noderef] __rcu *parent
+All errors (new ones prefixed by >>):
 
-vim +1158 security/apparmor/domain.c
+   drivers/net/ethernet/intel/ice/ice_nvm.c: In function 'ice_read_flat_nvm':
+>> drivers/net/ethernet/intel/ice/ice_nvm.c:101:58: error: 'ICE_AQ_RC_EBUSY' undeclared (first use in this function); did you mean 'LIBIE_AQ_RC_EBUSY'?
+     101 |                         if (hw->adminq.sq_last_status != ICE_AQ_RC_EBUSY ||
+         |                                                          ^~~~~~~~~~~~~~~
+         |                                                          LIBIE_AQ_RC_EBUSY
+   drivers/net/ethernet/intel/ice/ice_nvm.c:101:58: note: each undeclared identifier is reported only once for each function it appears in
 
-  1103	
-  1104	/* helper fn for changing into a hat
-  1105	 *
-  1106	 * Returns: label for hat transition or ERR_PTR. Does not return NULL
-  1107	 */
-  1108	static struct aa_label *change_hat(const struct cred *subj_cred,
-  1109					   struct aa_label *label, const char *hats[],
-  1110					   int count, int flags)
-  1111	{
-  1112		struct aa_profile *profile, *root, *hat = NULL;
-  1113		struct aa_ns *ns, *new_ns;
-  1114		struct aa_label *new;
-  1115		struct label_it it;
-  1116		bool sibling = false;
-  1117		const char *name, *info = NULL;
-  1118		int i, error;
-  1119	
-  1120		AA_BUG(!label);
-  1121		AA_BUG(!hats);
-  1122		AA_BUG(count < 1);
-  1123	
-  1124		/*
-  1125		 * Acquire the newest label and then hold the lock until we choose a
-  1126		 * hat, so that profile replacement doesn't atomically truncate the
-  1127		 * list of potential hats. Because we are getting the namespaces from
-  1128		 * the profiles and label, we can rely on the namespaces being live
-  1129		 * and avoid incrementing their refcounts while grabbing the lock.
-  1130		 */
-  1131		label = aa_get_label(label);
-  1132		ns = labels_ns(label);
-  1133	
-  1134	retry:
-  1135		mutex_lock_nested(&ns->lock, ns->level);
-  1136		if (label_is_stale(label)) {
-  1137			new = aa_get_newest_label(label);
-  1138			new_ns = labels_ns(new);
-  1139			if (new_ns != ns) {
-  1140				aa_put_label(new);
-  1141				mutex_unlock(&ns->lock);
-  1142				ns = new_ns;
-  1143				label = new;
-  1144				goto retry;
-  1145			}
-  1146			aa_put_label(label);
-  1147			label = new;
-  1148		}
-  1149	
-  1150		if (PROFILE_IS_HAT(labels_profile(label)))
-  1151			sibling = true;
-  1152	
-  1153		/*find first matching hat */
-  1154		for (i = 0; i < count && !hat; i++) {
-  1155			name = hats[i];
-  1156			label_for_each_in_scope(it, labels_ns(label), label, profile) {
-  1157				if (sibling && PROFILE_IS_HAT(profile)) {
-> 1158					root = aa_get_profile(profile->parent);
-  1159				} else if (!sibling && !PROFILE_IS_HAT(profile)) {
-  1160					root = aa_get_profile(profile);
-  1161				} else {	/* conflicting change type */
-  1162					info = "conflicting targets types";
-  1163					error = -EPERM;
-  1164					goto fail;
-  1165				}
-  1166				hat = aa_find_child(root, name);
-  1167				aa_put_profile(root);
-  1168				if (!hat) {
-  1169					if (!COMPLAIN_MODE(profile))
-  1170						goto outer_continue;
-  1171					/* complain mode succeed as if hat */
-  1172				} else if (!PROFILE_IS_HAT(hat)) {
-  1173					info = "target not hat";
-  1174					error = -EPERM;
-  1175					aa_put_profile(hat);
-  1176					goto fail;
-  1177				}
-  1178				aa_put_profile(hat);
-  1179			}
-  1180			/* found a hat for all profiles in ns */
-  1181			goto build;
-  1182	outer_continue:
-  1183		;
-  1184		}
-  1185		/* no hats that match, find appropriate error
-  1186		 *
-  1187		 * In complain mode audit of the failure is based off of the first
-  1188		 * hat supplied.  This is done due how userspace interacts with
-  1189		 * change_hat.
-  1190		 */
-  1191		name = NULL;
-  1192		label_for_each_in_scope(it, labels_ns(label), label, profile) {
-  1193			if (!list_empty(&profile->base.profiles)) {
-  1194				info = "hat not found";
-  1195				error = -ENOENT;
-  1196				goto fail;
-  1197			}
-  1198		}
-  1199		info = "no hats defined";
-  1200		error = -ECHILD;
-  1201	
-  1202	fail:
-  1203		label_for_each_in_scope(it, labels_ns(label), label, profile) {
-  1204			/*
-  1205			 * no target as it has failed to be found or built
-  1206			 *
-  1207			 * change_hat uses probing and should not log failures
-  1208			 * related to missing hats
-  1209			 */
-  1210			/* TODO: get rid of GLOBAL_ROOT_UID */
-  1211			if (count > 1 || COMPLAIN_MODE(profile)) {
-  1212				aa_audit_file(subj_cred, profile, &nullperms,
-  1213					      OP_CHANGE_HAT,
-  1214					      AA_MAY_CHANGEHAT, name, NULL, NULL,
-  1215					      GLOBAL_ROOT_UID, info, error);
-  1216			}
-  1217		}
-  1218		mutex_unlock(&ns->lock);
-  1219		return ERR_PTR(error);
-  1220	
-  1221	build:
-  1222		new = fn_label_build_in_scope(label, profile, GFP_KERNEL,
-  1223					   build_change_hat(subj_cred, profile, name,
-  1224							    sibling),
-  1225					   aa_get_label(&profile->label));
-  1226		if (!new) {
-  1227			info = "label build failed";
-  1228			error = -ENOMEM;
-  1229			goto fail;
-  1230		} /* else if (IS_ERR) build_change_hat has logged error so return new */
-  1231		mutex_unlock(&ns->lock);
-  1232		return new;
-  1233	}
-  1234	
+
+vim +101 drivers/net/ethernet/intel/ice/ice_nvm.c
+
+    48	
+    49	/**
+    50	 * ice_read_flat_nvm - Read portion of NVM by flat offset
+    51	 * @hw: pointer to the HW struct
+    52	 * @offset: offset from beginning of NVM
+    53	 * @length: (in) number of bytes to read; (out) number of bytes actually read
+    54	 * @data: buffer to return data in (sized to fit the specified length)
+    55	 * @read_shadow_ram: if true, read from shadow RAM instead of NVM
+    56	 *
+    57	 * Reads a portion of the NVM, as a flat memory space. This function correctly
+    58	 * breaks read requests across Shadow RAM sectors and ensures that no single
+    59	 * read request exceeds the maximum 4KB read for a single AdminQ command.
+    60	 *
+    61	 * Returns a status code on failure. Note that the data pointer may be
+    62	 * partially updated if some reads succeed before a failure.
+    63	 */
+    64	int
+    65	ice_read_flat_nvm(struct ice_hw *hw, u32 offset, u32 *length, u8 *data,
+    66			  bool read_shadow_ram)
+    67	{
+    68		u32 inlen = *length;
+    69		u32 bytes_read = 0;
+    70		int retry_cnt = 0;
+    71		bool last_cmd;
+    72		int status;
+    73	
+    74		*length = 0;
+    75	
+    76		/* Verify the length of the read if this is for the Shadow RAM */
+    77		if (read_shadow_ram && ((offset + inlen) > (hw->flash.sr_words * 2u))) {
+    78			ice_debug(hw, ICE_DBG_NVM, "NVM error: requested offset is beyond Shadow RAM limit\n");
+    79			return -EINVAL;
+    80		}
+    81	
+    82		do {
+    83			u32 read_size, sector_offset;
+    84	
+    85			/* ice_aq_read_nvm cannot read more than 4KB at a time.
+    86			 * Additionally, a read from the Shadow RAM may not cross over
+    87			 * a sector boundary. Conveniently, the sector size is also
+    88			 * 4KB.
+    89			 */
+    90			sector_offset = offset % ICE_AQ_MAX_BUF_LEN;
+    91			read_size = min_t(u32, ICE_AQ_MAX_BUF_LEN - sector_offset,
+    92					  inlen - bytes_read);
+    93	
+    94			last_cmd = !(bytes_read + read_size < inlen);
+    95	
+    96			status = ice_aq_read_nvm(hw, ICE_AQC_NVM_START_POINT,
+    97						 offset, read_size,
+    98						 data + bytes_read, last_cmd,
+    99						 read_shadow_ram, NULL);
+   100			if (status) {
+ > 101				if (hw->adminq.sq_last_status != ICE_AQ_RC_EBUSY ||
+   102				    retry_cnt > ICE_SQ_SEND_MAX_EXECUTE)
+   103					break;
+   104				ice_debug(hw, ICE_DBG_NVM,
+   105					  "NVM read EBUSY error, retry %d\n",
+   106					  retry_cnt + 1);
+   107				last_cmd = false;
+   108				ice_release_nvm(hw);
+   109				msleep(ICE_SQ_SEND_DELAY_TIME_MS);
+   110				status = ice_acquire_nvm(hw, ICE_RES_READ);
+   111				if (status)
+   112					break;
+   113				retry_cnt++;
+   114			} else {
+   115				bytes_read += read_size;
+   116				offset += read_size;
+   117				retry_cnt = 0;
+   118			}
+   119		} while (!last_cmd);
+   120	
+   121		*length = bytes_read;
+   122		return status;
+   123	}
+   124	
 
 --
 0-DAY CI Kernel Test Service
