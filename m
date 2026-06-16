@@ -1,238 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132753F23D7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 22:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E9B305688;
+	Tue, 16 Jun 2026 23:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781650330; cv=none; b=OO7Nf1/eQosws8Kj64kmYay7CBJ7UB8/BGJP1B/hjxPDxMolXui3AnAjOaobH6xE6NiD9ItK/XJcJA8O6Ng4g3l39o5ARq7/aDnl9veVK+paovkyVbTpHdfZvfP6hPUthUQe/He/FwKKMmXAfjUEu/nGmIHjcjUGQAYNmadyFV8=
+	t=1781652130; cv=none; b=Z+cGHKocU+5MJ1i4UKdn27Iwl7QBSvJhdQTQcvqwF/dN5ngDKpqC9mouvX4s+kjkaIpNMhcc+4BmIccO7n2zMNA+8VO70VCj3ZJiJ8ISIkxOw0Qvc4oMNoqFm9pFAOGGwgmzFc8m0mBJP4FBh6uj2pXX1WxOa4pyB2O8buOmVTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781650330; c=relaxed/simple;
-	bh=NI+lOlIiSQ0ae44zkPHqWzl6GbotHRt1ViJwE18XHow=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=R4jjCUaMJWrS2WoV94k9gK9AVi/VWJtEhrg9jdozTtyvVbi/2NVeOpjgRP7VMPIUAyRrk9VUgpH1JKerhy7jL0kW7FuhIjqNgaozHhvihIiUTAPRg3G0PM0i3J35xOJel6FyGUd3wL3fc2RB5xLI8P2WFX5U2p7oNPEcfaz5os8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QbmgqmxH; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1781652130; c=relaxed/simple;
+	bh=GyE5uA4olrbaPtqP2oiu58Jful2NL60LJJpCkTJR/L4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QhzbGJH0Yd2GKS/7F11CvpxZMzuIFaHsoo0G2WeM7T+R/IBxmR6GnyashaRopUgFdL9BIP7yOaLNm5zLoM5gmBaunA/V2dTFfPe3NSp/Dm9XlSVex67VAKRVxgGUBqEXSqWRnwk3jrtNW2K0L1ZSYr1y0oe6/K1OViDwk0qaO4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbB8+IZU; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QbmgqmxH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbB8+IZU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781650329; x=1813186329;
-  h=date:from:to:cc:subject:message-id;
-  bh=NI+lOlIiSQ0ae44zkPHqWzl6GbotHRt1ViJwE18XHow=;
-  b=QbmgqmxH5XNe3VUV0ax/QofY4nX1EGAoSS6XwMeAhGWz3IVeuQhY+U+h
-   FN8T5/FrJBn+Y8EsNzqj6LRjiZwnq5Xic9nQWnIO5AazzxLI9mBqvplNI
-   xagjXqKC2ioqjIBR8SqdIHaoWuGNz4DKBQVA7A/oMwhiz378QDD9oMzq+
-   QWpPNQMTOqNe9C2dTfSac6zYCpBKckbxBY6RuX6I+oLHy8xYJWWwRXs4D
-   TfRIvUh1Y59X821mNXM652NyrzLpy4QTSEuk0xrOtBVMx93E05yRoV+nA
-   EvSyiJtwOdut4hoYz2PQNQMP65jIemUXL9An47lXGOO9PtSo9ttAkuYk1
-   w==;
-X-CSE-ConnectionGUID: X5sp2twdSx+3dX7xb5AlDQ==
-X-CSE-MsgGUID: nY6ycA6ARt+a+yTV3x6Vng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="82478833"
+  t=1781652128; x=1813188128;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GyE5uA4olrbaPtqP2oiu58Jful2NL60LJJpCkTJR/L4=;
+  b=bbB8+IZUNOnKLnh8z8JxPLCdidvUUULcZXCc6NTZCQwADQwW3aEv9aok
+   KlEVlyRrs0ztf/WAzzx7omw3ZXXilDSd+ypBu8S5/YGQxXXJvFchnMVUr
+   OFRAsxzJ9K+PwVkOIsO+V5fyiQNUGNd3BnenSanPHx6CDR7WOTsNBfik1
+   CyNzKknypHzGk13yHmIqoeK90VGUBkzodesVEoOygn4XtvCmC7tuLy2lR
+   iIwGfANSxPZaOnqPWDxDU+tCZNqwugenISbh6xWCu0AuLD+O28oa2AOgi
+   HdEM9uSfjPu7sRswcF0MRP1ScUZ2QiN1zsK8HkazrElS02zmYOl8ZA4EP
+   A==;
+X-CSE-ConnectionGUID: RMeTX1JXSgigMy/IaUTT0A==
+X-CSE-MsgGUID: NZz5fsn5TJKNrjhxugpjSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="93925540"
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="82478833"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 15:52:06 -0700
-X-CSE-ConnectionGUID: n6vkqTy7R6elwNFTasjO8Q==
-X-CSE-MsgGUID: HxqbDu10QjyiEFCsVDJWbA==
+   d="scan'208";a="93925540"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 16:22:07 -0700
+X-CSE-ConnectionGUID: J8SF3DM0T72Ix1jcAp/BmA==
+X-CSE-MsgGUID: naagT6PYQUi8gC/+FJOFJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="241550086"
+   d="scan'208";a="286018154"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Jun 2026 15:52:05 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Jun 2026 16:22:06 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZcdX-000000005Ef-11gO;
-	Tue, 16 Jun 2026 22:52:03 +0000
-Date: Wed, 17 Jun 2026 00:51:09 +0200
+	id 1wZd6Z-000000005F3-2MGP;
+	Tue, 16 Jun 2026 23:22:03 +0000
+Date: Wed, 17 Jun 2026 01:22:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-16 325/326]
- sound/soc/soc-card.c:1337:14: error: 'card_driver' undeclared
-Message-ID: <202606170015.orKXCupV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Robert Malz <robert.malz@canonical.com>, anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] ice: retry reading NVM if admin queue returns EBUSY
+Message-ID: <202606170137.V0sCfQSf-lkp@intel.com>
+References: <20260616104521.1545053-1-robert.malz@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260616104521.1545053-1-robert.malz@canonical.com>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-16
-head:   5ce50ac7d0a59c6fb15e1baa7e6824ac096fe092
-commit: bcca3afbe4030eb595d239674303afc5fd051920 [325/326] ASoC: soc-card.h: remove compatible definition
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260617/202606170015.orKXCupV-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606170015.orKXCupV-lkp@intel.com/reproduce)
+Hi Robert,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tnguy-next-queue/dev-queue]
+[also build test ERROR on tnguy-net-queue/dev-queue linus/master v7.1 next-20260616]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Malz/ice-retry-reading-NVM-if-admin-queue-returns-EBUSY/20260616-185349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20260616104521.1545053-1-robert.malz%40canonical.com
+patch subject: [PATCH] ice: retry reading NVM if admin queue returns EBUSY
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260617/202606170137.V0sCfQSf-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606170137.V0sCfQSf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606170015.orKXCupV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606170137.V0sCfQSf-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/soc-card.c:42:6: warning: no previous prototype for 'snd_soc_card_attach_priv' [-Wmissing-prototypes]
-      42 | void snd_soc_card_attach_priv(struct snd_soc_card *card, void *data)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/soc-card.c: In function 'snd_soc_card_remove':
-   sound/soc/soc-card.c:886:27: error: 'struct snd_soc_card_driver' has no member named 'probed'; did you mean 'probe'?
-     886 |         if (card->driver->probed &&
-         |                           ^~~~~~
-         |                           probe
-   sound/soc/soc-card.c: At top level:
->> sound/soc/soc-card.c:1268:6: warning: no previous prototype for 'snd_soc_card_set_pci_ssid' [-Wmissing-prototypes]
-    1268 | void snd_soc_card_set_pci_ssid(struct snd_soc_card *card,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/soc-card.c: In function 'snd_soc_card_set_pci_ssid':
-   sound/soc/soc-card.c:1272:13: error: 'struct snd_soc_card' has no member named 'pci_subsystem_vendor'
-    1272 |         card->pci_subsystem_vendor = vendor;
-         |             ^~
-   sound/soc/soc-card.c:1273:13: error: 'struct snd_soc_card' has no member named 'pci_subsystem_device'
-    1273 |         card->pci_subsystem_device = device;
-         |             ^~
-   sound/soc/soc-card.c:1274:13: error: 'struct snd_soc_card' has no member named 'pci_subsystem_set'
-    1274 |         card->pci_subsystem_set = true;
-         |             ^~
-   sound/soc/soc-card.c: At top level:
->> sound/soc/soc-card.c:1293:5: warning: no previous prototype for 'snd_soc_card_get_pci_ssid' [-Wmissing-prototypes]
-    1293 | int snd_soc_card_get_pci_ssid(struct snd_soc_card *card,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/soc-card.c: In function 'snd_soc_card_get_pci_ssid':
-   sound/soc/soc-card.c:1297:18: error: 'struct snd_soc_card' has no member named 'pci_subsystem_set'
-    1297 |         if (!card->pci_subsystem_set)
-         |                  ^~
-   sound/soc/soc-card.c:1300:23: error: 'struct snd_soc_card' has no member named 'pci_subsystem_vendor'
-    1300 |         *vendor = card->pci_subsystem_vendor;
-         |                       ^~
-   sound/soc/soc-card.c:1301:23: error: 'struct snd_soc_card' has no member named 'pci_subsystem_device'
-    1301 |         *device = card->pci_subsystem_device;
-         |                       ^~
-   sound/soc/soc-card.c: In function 'snd_soc_card_register3':
->> sound/soc/soc-card.c:1337:14: error: 'card_driver' undeclared (first use in this function)
-    1337 |         if (!card_driver->name)
-         |              ^~~~~~~~~~~
-   sound/soc/soc-card.c:1337:14: note: each undeclared identifier is reported only once for each function it appears in
->> sound/soc/soc-card.c:1351:24: error: returning 'int' from a function with return type 'struct snd_soc_card *' makes pointer from integer without a cast [-Wint-conversion]
-    1351 |                 return -ENOMEM;
-         |                        ^
+>> drivers/net/ethernet/intel/ice/ice_nvm.c:101:37: error: use of undeclared identifier 'ICE_AQ_RC_EBUSY'; did you mean 'LIBIE_AQ_RC_EBUSY'?
+     101 |                         if (hw->adminq.sq_last_status != ICE_AQ_RC_EBUSY ||
+         |                                                          ^~~~~~~~~~~~~~~
+         |                                                          LIBIE_AQ_RC_EBUSY
+   include/linux/net/intel/libie/adminq.h:380:2: note: 'LIBIE_AQ_RC_EBUSY' declared here
+     380 |         LIBIE_AQ_RC_EBUSY       = 12, /* Device or resource busy */
+         |         ^
+   1 error generated.
 
 
-vim +/card_driver +1337 sound/soc/soc-card.c
+vim +101 drivers/net/ethernet/intel/ice/ice_nvm.c
 
-  1266	
-  1267	/* REMOVE ME */
-> 1268	void snd_soc_card_set_pci_ssid(struct snd_soc_card *card,
-  1269				       unsigned short vendor,
-  1270				       unsigned short device)
-  1271	{
-  1272		card->pci_subsystem_vendor = vendor;
-  1273		card->pci_subsystem_device = device;
-  1274		card->pci_subsystem_set = true;
-  1275	}
-  1276	EXPORT_SYMBOL_GPL(snd_soc_card_set_pci_ssid);
-  1277	
-  1278	int snd_soc_card_driver_get_pci_ssid(struct snd_soc_card_driver *card_driver,
-  1279					     unsigned short *vendor,
-  1280					     unsigned short *device)
-  1281	{
-  1282		if (!card_driver->pci_subsystem_set)
-  1283			return -ENOENT;
-  1284	
-  1285		*vendor = card_driver->pci_subsystem_vendor;
-  1286		*device = card_driver->pci_subsystem_device;
-  1287	
-  1288		return 0;
-  1289	}
-  1290	EXPORT_SYMBOL_GPL(snd_soc_card_driver_get_pci_ssid);
-  1291	
-  1292	/* REMOVE ME */
-> 1293	int snd_soc_card_get_pci_ssid(struct snd_soc_card *card,
-  1294				      unsigned short *vendor,
-  1295				      unsigned short *device)
-  1296	{
-  1297		if (!card->pci_subsystem_set)
-  1298			return -ENOENT;
-  1299	
-  1300		*vendor = card->pci_subsystem_vendor;
-  1301		*device = card->pci_subsystem_device;
-  1302	
-  1303		return 0;
-  1304	}
-  1305	EXPORT_SYMBOL_GPL(snd_soc_card_get_pci_ssid);
-  1306	#endif /* CONFIG_PCI */
-  1307	
-  1308	struct snd_soc_dai *snd_soc_card_get_codec_dai(struct snd_soc_card *card,
-  1309						       const char *dai_name)
-  1310	{
-  1311		struct snd_soc_pcm_runtime *rtd;
-  1312	
-  1313		for_each_card_rtds(card, rtd) {
-  1314			const struct snd_soc_dai *dai = snd_soc_rtd_to_codec(rtd, 0);
-  1315	
-  1316			if (!strcmp(snd_soc_dai_name(dai), dai_name))
-  1317				return snd_soc_rtd_to_codec(rtd, 0);
-  1318		}
-  1319	
-  1320		return NULL;
-  1321	}
-  1322	EXPORT_SYMBOL_GPL(snd_soc_card_get_codec_dai);
-  1323	
-  1324	void soc_card_flush_all_delayed_work(struct snd_soc_card *card)
-  1325	{
-  1326		struct snd_soc_pcm_runtime *rtd;
-  1327	
-  1328		for_each_card_rtds(card, rtd)
-  1329			flush_delayed_work(&rtd->delayed_work);
-  1330	}
-  1331	
-  1332	struct snd_soc_card *snd_soc_card_register3(struct device *dev, struct snd_soc_card_driver *driver, void *priv)
-  1333	{
-  1334		struct snd_soc_card *card;
-  1335		int ret;
-  1336	
-> 1337		if (!card_driver->name)
-  1338	
-  1339		card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
-  1340		if (!card)
-  1341			return NULL;
-  1342	
-  1343		card->dev	= dev;
-  1344		card->devres_dev = dev;
-  1345		card->priv	= priv;
-  1346		card->driver	= driver;
-  1347		card->instantiated = 0;
-  1348	
-  1349		card->dapm = snd_soc_dapm_alloc(card->dev);
-  1350		if (!card->dapm)
-> 1351			return -ENOMEM;
-  1352	
-  1353		dev_set_drvdata(card->dev, card);
-  1354	
-  1355		INIT_LIST_HEAD(&card->widget_list_head);
-  1356		INIT_LIST_HEAD(&card->path_list_head);
-  1357		INIT_LIST_HEAD(&card->dapm_list_head);
-  1358		INIT_LIST_HEAD(&card->dapm_dirty_list_head);
-  1359		INIT_LIST_HEAD(&card->aux_list_head);
-  1360		INIT_LIST_HEAD(&card->component_list_head);
-  1361		INIT_LIST_HEAD(&card->unbind_list);
-  1362		INIT_LIST_HEAD(&card->rtd_list_head);
-  1363	
-  1364		mutex_init(&card->mutex);
-  1365		mutex_init(&card->dapm_mutex);
-  1366		mutex_init(&card->pcm_mutex);
-  1367	
-  1368		guard(mutex)(&client_mutex);
-  1369	
-  1370		ret = call_soc_bind_card(card);
-  1371		if (ret < 0)
-  1372			return NULL;
-  1373	
-  1374		return card;
-  1375	}
-  1376	EXPORT_SYMBOL_GPL(snd_soc_card_register3);
-  1377	
+    48	
+    49	/**
+    50	 * ice_read_flat_nvm - Read portion of NVM by flat offset
+    51	 * @hw: pointer to the HW struct
+    52	 * @offset: offset from beginning of NVM
+    53	 * @length: (in) number of bytes to read; (out) number of bytes actually read
+    54	 * @data: buffer to return data in (sized to fit the specified length)
+    55	 * @read_shadow_ram: if true, read from shadow RAM instead of NVM
+    56	 *
+    57	 * Reads a portion of the NVM, as a flat memory space. This function correctly
+    58	 * breaks read requests across Shadow RAM sectors and ensures that no single
+    59	 * read request exceeds the maximum 4KB read for a single AdminQ command.
+    60	 *
+    61	 * Returns a status code on failure. Note that the data pointer may be
+    62	 * partially updated if some reads succeed before a failure.
+    63	 */
+    64	int
+    65	ice_read_flat_nvm(struct ice_hw *hw, u32 offset, u32 *length, u8 *data,
+    66			  bool read_shadow_ram)
+    67	{
+    68		u32 inlen = *length;
+    69		u32 bytes_read = 0;
+    70		int retry_cnt = 0;
+    71		bool last_cmd;
+    72		int status;
+    73	
+    74		*length = 0;
+    75	
+    76		/* Verify the length of the read if this is for the Shadow RAM */
+    77		if (read_shadow_ram && ((offset + inlen) > (hw->flash.sr_words * 2u))) {
+    78			ice_debug(hw, ICE_DBG_NVM, "NVM error: requested offset is beyond Shadow RAM limit\n");
+    79			return -EINVAL;
+    80		}
+    81	
+    82		do {
+    83			u32 read_size, sector_offset;
+    84	
+    85			/* ice_aq_read_nvm cannot read more than 4KB at a time.
+    86			 * Additionally, a read from the Shadow RAM may not cross over
+    87			 * a sector boundary. Conveniently, the sector size is also
+    88			 * 4KB.
+    89			 */
+    90			sector_offset = offset % ICE_AQ_MAX_BUF_LEN;
+    91			read_size = min_t(u32, ICE_AQ_MAX_BUF_LEN - sector_offset,
+    92					  inlen - bytes_read);
+    93	
+    94			last_cmd = !(bytes_read + read_size < inlen);
+    95	
+    96			status = ice_aq_read_nvm(hw, ICE_AQC_NVM_START_POINT,
+    97						 offset, read_size,
+    98						 data + bytes_read, last_cmd,
+    99						 read_shadow_ram, NULL);
+   100			if (status) {
+ > 101				if (hw->adminq.sq_last_status != ICE_AQ_RC_EBUSY ||
+   102				    retry_cnt > ICE_SQ_SEND_MAX_EXECUTE)
+   103					break;
+   104				ice_debug(hw, ICE_DBG_NVM,
+   105					  "NVM read EBUSY error, retry %d\n",
+   106					  retry_cnt + 1);
+   107				last_cmd = false;
+   108				ice_release_nvm(hw);
+   109				msleep(ICE_SQ_SEND_DELAY_TIME_MS);
+   110				status = ice_acquire_nvm(hw, ICE_RES_READ);
+   111				if (status)
+   112					break;
+   113				retry_cnt++;
+   114			} else {
+   115				bytes_read += read_size;
+   116				offset += read_size;
+   117				retry_cnt = 0;
+   118			}
+   119		} while (!last_cmd);
+   120	
+   121		*length = bytes_read;
+   122		return status;
+   123	}
+   124	
 
 --
 0-DAY CI Kernel Test Service
