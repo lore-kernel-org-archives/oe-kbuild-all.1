@@ -1,185 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E9B305688;
-	Tue, 16 Jun 2026 23:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C220D3ADBAC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 23:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781652130; cv=none; b=Z+cGHKocU+5MJ1i4UKdn27Iwl7QBSvJhdQTQcvqwF/dN5ngDKpqC9mouvX4s+kjkaIpNMhcc+4BmIccO7n2zMNA+8VO70VCj3ZJiJ8ISIkxOw0Qvc4oMNoqFm9pFAOGGwgmzFc8m0mBJP4FBh6uj2pXX1WxOa4pyB2O8buOmVTQ=
+	t=1781653615; cv=none; b=hgM42IH20vrpuElRWPE/9az3UbaHlNay75/j7u6+kp3enEgtdZmi8pco7I0MKPtsugaltAPYhsasr4Pp0oWknutKRApD2F1KOpBMK4RCKqCK38rqaFODoTih233Qcu2hH3oYQdP7bIt9rHOKk9nJHbG1eYRmH3dcyANYcnOZ25I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781652130; c=relaxed/simple;
-	bh=GyE5uA4olrbaPtqP2oiu58Jful2NL60LJJpCkTJR/L4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QhzbGJH0Yd2GKS/7F11CvpxZMzuIFaHsoo0G2WeM7T+R/IBxmR6GnyashaRopUgFdL9BIP7yOaLNm5zLoM5gmBaunA/V2dTFfPe3NSp/Dm9XlSVex67VAKRVxgGUBqEXSqWRnwk3jrtNW2K0L1ZSYr1y0oe6/K1OViDwk0qaO4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbB8+IZU; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1781653615; c=relaxed/simple;
+	bh=kfgxLgnjavJ9Y/csTOqsu5NPyQxEGwUKkXaIeDMFD+M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oxo6KnOrt+AiyqkiNm31dsRXiZZx/wG3YRY+L9l8aUf2M/L+yQILiCDBzCj0gCPL1ANjJrebRgTnN+JsICPZA3IrjFAB7ryF1ctYZvt51LyvPUIMzNa8J/KbvYhFOTILTyGYuwMjyophqlZTq4PWSmSpGY8h0m1Zb+uRgCTFtrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iFBXK+gM; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbB8+IZU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iFBXK+gM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781652128; x=1813188128;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GyE5uA4olrbaPtqP2oiu58Jful2NL60LJJpCkTJR/L4=;
-  b=bbB8+IZUNOnKLnh8z8JxPLCdidvUUULcZXCc6NTZCQwADQwW3aEv9aok
-   KlEVlyRrs0ztf/WAzzx7omw3ZXXilDSd+ypBu8S5/YGQxXXJvFchnMVUr
-   OFRAsxzJ9K+PwVkOIsO+V5fyiQNUGNd3BnenSanPHx6CDR7WOTsNBfik1
-   CyNzKknypHzGk13yHmIqoeK90VGUBkzodesVEoOygn4XtvCmC7tuLy2lR
-   iIwGfANSxPZaOnqPWDxDU+tCZNqwugenISbh6xWCu0AuLD+O28oa2AOgi
-   HdEM9uSfjPu7sRswcF0MRP1ScUZ2QiN1zsK8HkazrElS02zmYOl8ZA4EP
+  t=1781653615; x=1813189615;
+  h=date:from:to:cc:subject:message-id;
+  bh=kfgxLgnjavJ9Y/csTOqsu5NPyQxEGwUKkXaIeDMFD+M=;
+  b=iFBXK+gMKnRM3TS4dzIKjNZEs9sLWaAZI2oHPZNWCSpBCXhNRRd3sG9+
+   r/GjcR+iJa/tNMqbj8AfGA7W92yfbVAjMJ0YVZctYuKz2AM9Fa6f7yphq
+   SBel6pmtKMGHHwOmf/KjJBnf5K/CQat2j1lxYiWsewKaPSQc5jtOhsj85
+   x1CbSf6BCDAhwUATujtvAgegNn6ppPuxkFPdPsxNqujrw5lVFAAktABp3
+   ZTUNHbVvcl62P9XOgVffOrfjfBPRM3dyfxGJ7VtYQ4M6F+z5YSuETmjEl
+   rV+4NSE+no9TSioPZTsPCbjd9dJ/bwquVrgpG/RDBrU0Hk8frdkbkLksx
    A==;
-X-CSE-ConnectionGUID: RMeTX1JXSgigMy/IaUTT0A==
-X-CSE-MsgGUID: NZz5fsn5TJKNrjhxugpjSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="93925540"
+X-CSE-ConnectionGUID: 2ri/qa8sQOCnUv7pZWXPTQ==
+X-CSE-MsgGUID: oDTtRH1RTIakZkitnPyxrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="86354841"
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="93925540"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 16:22:07 -0700
-X-CSE-ConnectionGUID: J8SF3DM0T72Ix1jcAp/BmA==
-X-CSE-MsgGUID: naagT6PYQUi8gC/+FJOFJg==
+   d="scan'208";a="86354841"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 16:46:54 -0700
+X-CSE-ConnectionGUID: 4VLI7g3RRKu9jFXmWDoSHw==
+X-CSE-MsgGUID: ow+j3XjNQW+4hckHBC8LTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="286018154"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jun 2026 16:22:06 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="245016712"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Jun 2026 16:46:53 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZd6Z-000000005F3-2MGP;
-	Tue, 16 Jun 2026 23:22:03 +0000
-Date: Wed, 17 Jun 2026 01:22:02 +0200
+	id 1wZdUY-00000000TtG-1s7s;
+	Tue, 16 Jun 2026 23:46:50 +0000
+Date: Wed, 17 Jun 2026 07:46:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robert Malz <robert.malz@canonical.com>, anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org
-Subject: Re: [PATCH] ice: retry reading NVM if admin queue returns EBUSY
-Message-ID: <202606170137.V0sCfQSf-lkp@intel.com>
-References: <20260616104521.1545053-1-robert.malz@canonical.com>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [linux-next:master 226/14321]
+ drivers/gpu/drm/bridge/of-display-mode-bridge.c:54:25: sparse: sparse: symbol
+ 'of_display_mode_bridge_funcs' was not declared. Should it be static?
+Message-ID: <202606170744.FUStcWaB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260616104521.1545053-1-robert.malz@canonical.com>
 
-Hi Robert,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tnguy-next-queue/dev-queue]
-[also build test ERROR on tnguy-net-queue/dev-queue linus/master v7.1 next-20260616]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Malz/ice-retry-reading-NVM-if-admin-queue-returns-EBUSY/20260616-185349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20260616104521.1545053-1-robert.malz%40canonical.com
-patch subject: [PATCH] ice: retry reading NVM if admin queue returns EBUSY
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260617/202606170137.V0sCfQSf-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606170137.V0sCfQSf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4fa3f5fabb30bf00d7475d5a33459ea83d639bf9
+commit: ba2db93cf3d569a4525a02cd0ed5ec5f979e3afd [226/14321] drm/bridge: Move legacy bridge driver out of imx directory for multi-platform use
+config: sparc64-randconfig-r133-20260617 (https://download.01.org/0day-ci/archive/20260617/202606170744.FUStcWaB-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606170744.FUStcWaB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606170137.V0sCfQSf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606170744.FUStcWaB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/of-display-mode-bridge.c:54:25: sparse: sparse: symbol 'of_display_mode_bridge_funcs' was not declared. Should it be static?
 
->> drivers/net/ethernet/intel/ice/ice_nvm.c:101:37: error: use of undeclared identifier 'ICE_AQ_RC_EBUSY'; did you mean 'LIBIE_AQ_RC_EBUSY'?
-     101 |                         if (hw->adminq.sq_last_status != ICE_AQ_RC_EBUSY ||
-         |                                                          ^~~~~~~~~~~~~~~
-         |                                                          LIBIE_AQ_RC_EBUSY
-   include/linux/net/intel/libie/adminq.h:380:2: note: 'LIBIE_AQ_RC_EBUSY' declared here
-     380 |         LIBIE_AQ_RC_EBUSY       = 12, /* Device or resource busy */
-         |         ^
-   1 error generated.
+vim +/of_display_mode_bridge_funcs +54 drivers/gpu/drm/bridge/of-display-mode-bridge.c
 
-
-vim +101 drivers/net/ethernet/intel/ice/ice_nvm.c
-
-    48	
-    49	/**
-    50	 * ice_read_flat_nvm - Read portion of NVM by flat offset
-    51	 * @hw: pointer to the HW struct
-    52	 * @offset: offset from beginning of NVM
-    53	 * @length: (in) number of bytes to read; (out) number of bytes actually read
-    54	 * @data: buffer to return data in (sized to fit the specified length)
-    55	 * @read_shadow_ram: if true, read from shadow RAM instead of NVM
-    56	 *
-    57	 * Reads a portion of the NVM, as a flat memory space. This function correctly
-    58	 * breaks read requests across Shadow RAM sectors and ensures that no single
-    59	 * read request exceeds the maximum 4KB read for a single AdminQ command.
-    60	 *
-    61	 * Returns a status code on failure. Note that the data pointer may be
-    62	 * partially updated if some reads succeed before a failure.
-    63	 */
-    64	int
-    65	ice_read_flat_nvm(struct ice_hw *hw, u32 offset, u32 *length, u8 *data,
-    66			  bool read_shadow_ram)
-    67	{
-    68		u32 inlen = *length;
-    69		u32 bytes_read = 0;
-    70		int retry_cnt = 0;
-    71		bool last_cmd;
-    72		int status;
-    73	
-    74		*length = 0;
-    75	
-    76		/* Verify the length of the read if this is for the Shadow RAM */
-    77		if (read_shadow_ram && ((offset + inlen) > (hw->flash.sr_words * 2u))) {
-    78			ice_debug(hw, ICE_DBG_NVM, "NVM error: requested offset is beyond Shadow RAM limit\n");
-    79			return -EINVAL;
-    80		}
-    81	
-    82		do {
-    83			u32 read_size, sector_offset;
-    84	
-    85			/* ice_aq_read_nvm cannot read more than 4KB at a time.
-    86			 * Additionally, a read from the Shadow RAM may not cross over
-    87			 * a sector boundary. Conveniently, the sector size is also
-    88			 * 4KB.
-    89			 */
-    90			sector_offset = offset % ICE_AQ_MAX_BUF_LEN;
-    91			read_size = min_t(u32, ICE_AQ_MAX_BUF_LEN - sector_offset,
-    92					  inlen - bytes_read);
-    93	
-    94			last_cmd = !(bytes_read + read_size < inlen);
-    95	
-    96			status = ice_aq_read_nvm(hw, ICE_AQC_NVM_START_POINT,
-    97						 offset, read_size,
-    98						 data + bytes_read, last_cmd,
-    99						 read_shadow_ram, NULL);
-   100			if (status) {
- > 101				if (hw->adminq.sq_last_status != ICE_AQ_RC_EBUSY ||
-   102				    retry_cnt > ICE_SQ_SEND_MAX_EXECUTE)
-   103					break;
-   104				ice_debug(hw, ICE_DBG_NVM,
-   105					  "NVM read EBUSY error, retry %d\n",
-   106					  retry_cnt + 1);
-   107				last_cmd = false;
-   108				ice_release_nvm(hw);
-   109				msleep(ICE_SQ_SEND_DELAY_TIME_MS);
-   110				status = ice_acquire_nvm(hw, ICE_RES_READ);
-   111				if (status)
-   112					break;
-   113				retry_cnt++;
-   114			} else {
-   115				bytes_read += read_size;
-   116				offset += read_size;
-   117				retry_cnt = 0;
-   118			}
-   119		} while (!last_cmd);
-   120	
-   121		*length = bytes_read;
-   122		return status;
-   123	}
-   124	
+    53	
+  > 54	struct drm_bridge_funcs of_display_mode_bridge_funcs = {
+    55		.attach = of_display_mode_bridge_attach,
+    56		.get_modes = of_display_mode_bridge_get_modes,
+    57	};
+    58	
 
 --
 0-DAY CI Kernel Test Service
