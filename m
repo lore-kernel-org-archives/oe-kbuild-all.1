@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B1D3264FF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 13:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C262E7376
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 13:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781617235; cv=none; b=kVGBLW7J36qcgwvMuZmN+sc4Wn5BexvNXSQe/M2xF5qq50BtgBS8s155J1i5vdwAhkF/aF61MXIEoOslLVRBAaylvMOcRBJe28hEee6gcZNdusFfjphbhB817pQLjZxACPl9PhLE40Va0ZUnfjzR6ItvBOXk5ObryFsx7k5APl4=
+	t=1781617894; cv=none; b=LqP5M8qawkvsY6B0Nh1Ec4ydkF4JVtoC7abNoeN0Vh1S/4WSs4s7HqIdc1KNgsIQb7FA5I/TgpHKDFmYCKvxMyY1kjzQKmApuiyM7weo/Rl49e++lBXNhxLMqheJ8V7MUmA35gpVBlwdW9PAX1asD9rIXq+6v0Z9b2t7Q3iIR0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781617235; c=relaxed/simple;
-	bh=9xhpmsYxQjUhfY9sirCgmevF3VQz7wrW7ISivJeMifM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NuIO75Gyh9sz780+FRK5QCk/YkBMlNVSLhCcVKeV8Vr0wOvBPr+eWOmwqcu4fKgMf+dXzXEGrPX8wYOkHw9Tcfj2xNz6qlh3hVYc01zZpchb8MOrp0dqaISLmMNoceROpm7wwqB8qxi7XwewsmD6uR3Ky+1m2KsRfM31kMmARcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PyHbyhGj; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1781617894; c=relaxed/simple;
+	bh=mN3HBa8HLWzTZahmdLJ1OSgAikpDmhdQ7syE3KqLBLo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sXmY4bwKxy3HyDsvpbnrwZCEx14oPF5fYpeZurbU1zkJrlXSrjv8my+a4eJqtjxiagYjbV13NnRb/rIxB2FeUvJUeOKMok6rroGqNTxI9sTjzeDnIAK7lgtDBLaSXzV+/6Jtwpdft95Xifb5L5JewCQLp45rJqfWoB76GSZ3ZqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ekGwxwLY; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyHbyhGj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ekGwxwLY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781617233; x=1813153233;
+  t=1781617893; x=1813153893;
   h=date:from:to:cc:subject:message-id;
-  bh=9xhpmsYxQjUhfY9sirCgmevF3VQz7wrW7ISivJeMifM=;
-  b=PyHbyhGj6fXlWMJHRkC5F1XY/tJEqwid+yn/w+7EkvY45/fguVq2o7eH
-   Qv9ZHZInDSNBINIJAUuv9Q+6BLKXHYFOsBcpiu+5tGAh3ACLgW8tPVn8n
-   f1vaz6Ea/zcGqqRLNS2lOHEEUa9Z5M3Fgyd1xX8aD9DCkdjdw1I8ydNpC
-   iO8SgcqAZ1hyGf8+JJji/joJ0Ml9hrHG7hAZ9lbQHR1oAmkAjdtaxtt8g
-   eQgoPnitKwF2vrhzodCqNZM0fORySPnbDXV0+ATYDtRlaPrr245RR19Pu
-   mT2EslTCDSnv9pdq4IMgKee+XJKQSwxlfOo58J7l4UQ1n29Hlzx5nuwmu
-   A==;
-X-CSE-ConnectionGUID: 3jYD/8EvTe+NGyxNOSeZeg==
-X-CSE-MsgGUID: WDsQA7PqQ8Cqv7utz3L7sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82424736"
+  bh=mN3HBa8HLWzTZahmdLJ1OSgAikpDmhdQ7syE3KqLBLo=;
+  b=ekGwxwLYmBVItE9nRaky8mlhjS1ncoww5/5/3roPH/N5xxyzJLvYVktb
+   vmJ/QcmywpivgrnfzATUCXvYSrfa/K52+O3RS55zgcgfIeVP71oicGpnU
+   nNRCN9PevbmOzXHoqiEUF9pFWsOQxkNDuHQCLEMyg7ZjmXCaeBsJDwglb
+   LXjL7eANwEZt5OUlHofa4nkjwmx9biOjVMbqALbgeUWEOKmgq9xb3Vfaa
+   21OMAdEQIJWifSomSUu8V6CUra3RBA3yTLBEcNItZGKAXL4io1s7LSAtY
+   mMMJbgnc8Y7IBILKPmpdT4MaG3oK5Vg8WZjn6bK9mdqa6VpwXZZfxDJz9
+   g==;
+X-CSE-ConnectionGUID: mRWdv6hHScOVlVrGjNm4wg==
+X-CSE-MsgGUID: x4j3Tps4SRWXZkG86qjmeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82368551"
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="82424736"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 06:40:32 -0700
-X-CSE-ConnectionGUID: TxyLNZFMRAuMEoN46bpUUQ==
-X-CSE-MsgGUID: 2YuTINnySFSanmAhbvkoJQ==
+   d="scan'208";a="82368551"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 06:51:33 -0700
+X-CSE-ConnectionGUID: J1nuguoqSVaDPTLraka7IQ==
+X-CSE-MsgGUID: +BfXv2lPTQKKOaiWnGgdyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="249670136"
+   d="scan'208";a="243411873"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Jun 2026 06:40:31 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 16 Jun 2026 06:51:31 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZU1k-00000000TE2-2PVB;
-	Tue, 16 Jun 2026 13:40:28 +0000
-Date: Tue, 16 Jun 2026 21:40:28 +0800
+	id 1wZUCO-00000000TEQ-3oGA;
+	Tue, 16 Jun 2026 13:51:28 +0000
+Date: Tue, 16 Jun 2026 21:50:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:blk-plug 1/1] io_uring/kbuf.c:166:12: error:
- invalid use of undefined type 'struct iovec'
-Message-ID: <202606162105.aSOYCjR9-lkp@intel.com>
+Subject: [android-common:android15-6.6 12/12]
+ security/apparmor/policy.c:116: warning: Function parameter or member 'kref'
+ not described in 'aa_pdb_free_kref'
+Message-ID: <202606162142.lZf2XQny-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,357 +60,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/hch/misc.git blk-plug
-head:   b020c7db0f52c4971abcdc70ce206111adab9229
-commit: b020c7db0f52c4971abcdc70ce206111adab9229 [1/1] block: split out a new blk_plug.h helper
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260616/202606162105.aSOYCjR9-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606162105.aSOYCjR9-lkp@intel.com/reproduce)
+Hi John,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   6a42fccfc2bced5291d91b45c2e71a48b1a09ab7
+commit: 32928c1749e8a0162b168a5bb87c1b67e37281ff [12/12] apparmor: refcount the pdb
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260616/202606162142.lZf2XQny-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606162142.lZf2XQny-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606162105.aSOYCjR9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606162142.lZf2XQny-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   io_uring/kbuf.c: In function 'io_provided_buffers_select':
->> io_uring/kbuf.c:166:12: error: invalid use of undefined type 'struct iovec'
-     166 |         iov[0].iov_base = buf;
-         |            ^
-   io_uring/kbuf.c:166:15: error: invalid use of undefined type 'struct iovec'
-     166 |         iov[0].iov_base = buf;
-         |               ^
-   io_uring/kbuf.c:167:12: error: invalid use of undefined type 'struct iovec'
-     167 |         iov[0].iov_len = *len;
-         |            ^
-   io_uring/kbuf.c:167:15: error: invalid use of undefined type 'struct iovec'
-     167 |         iov[0].iov_len = *len;
-         |               ^
-   In file included from include/linux/kernel.h:27,
-                    from io_uring/kbuf.c:2:
-   io_uring/kbuf.c: In function 'io_ring_buffers_peek':
->> io_uring/kbuf.c:260:46: error: 'UIO_MAXIOV' undeclared (first use in this function)
-     260 |         nr_avail = min_t(__u16, tail - head, UIO_MAXIOV);
-         |                                              ^~~~~~~~~~
-   include/linux/minmax.h:86:38: note: in definition of macro '__cmp_once_unique'
-      86 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-         |                                      ^
-   include/linux/minmax.h:161:27: note: in expansion of macro '__cmp_once'
-     161 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
-         |                           ^~~~~~~~~~
-   io_uring/kbuf.c:260:20: note: in expansion of macro 'min_t'
-     260 |         nr_avail = min_t(__u16, tail - head, UIO_MAXIOV);
-         |                    ^~~~~
-   io_uring/kbuf.c:260:46: note: each undeclared identifier is reported only once for each function it appears in
-     260 |         nr_avail = min_t(__u16, tail - head, UIO_MAXIOV);
-         |                                              ^~~~~~~~~~
-   include/linux/minmax.h:86:38: note: in definition of macro '__cmp_once_unique'
-      86 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-         |                                      ^
-   include/linux/minmax.h:161:27: note: in expansion of macro '__cmp_once'
-     161 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
-         |                           ^~~~~~~~~~
-   io_uring/kbuf.c:260:20: note: in expansion of macro 'min_t'
-     260 |         nr_avail = min_t(__u16, tail - head, UIO_MAXIOV);
-         |                    ^~~~~
-   In file included from include/linux/fs.h:45,
-                    from io_uring/kbuf.c:4:
->> include/linux/slab.h:1021:57: error: invalid application of 'sizeof' to incomplete type 'struct iovec'
-    1021 |         __alloc_objs(kmalloc, default_gfp(__VA_ARGS__), typeof(VAR_OR_TYPE), COUNT)
-         |                                                         ^~~~~~
-   include/linux/slab.h:973:51: note: in definition of macro '__alloc_objs'
-     973 |         const size_t __obj_size = size_mul(sizeof(TYPE), COUNT);        \
-         |                                                   ^~~~
-   io_uring/kbuf.c:282:23: note: in expansion of macro 'kmalloc_objs'
-     282 |                 iov = kmalloc_objs(struct iovec, nr_avail);
-         |                       ^~~~~~~~~~~~
-   io_uring/kbuf.c:312:20: error: invalid use of undefined type 'struct iovec'
-     312 |                 iov->iov_base = u64_to_user_ptr(READ_ONCE(buf->addr));
-         |                    ^~
-   io_uring/kbuf.c:313:20: error: invalid use of undefined type 'struct iovec'
-     313 |                 iov->iov_len = len;
-         |                    ^~
->> io_uring/kbuf.c:314:20: error: increment of pointer to an incomplete type 'struct iovec'
-     314 |                 iov++;
-         |                    ^~
->> io_uring/kbuf.c:328:20: error: arithmetic on pointer to an incomplete type
-     328 |         return iov - arg->iovs;
-         |                    ^
---
-   In file included from io_uring/tw.c:14:
->> io_uring/rw.h:8:33: error: field 'iter_meta' has incomplete type
-       8 |         struct iov_iter_state   iter_meta;
-         |                                 ^~~~~~~~~
-   In file included from include/linux/stddef.h:5,
-                    from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from io_uring/tw.c:5:
->> io_uring/rw.h:16:49: error: field 'iter' has incomplete type
-      16 |                 struct iov_iter                 iter;
-         |                                                 ^~~~
-   include/uapi/linux/stddef.h:37:26: note: in definition of macro '__struct_group'
-      37 |                 struct { MEMBERS } ATTRS; \
-         |                          ^~~~~~~
-   io_uring/rw.h:15:9: note: in expansion of macro 'struct_group'
-      15 |         struct_group(clear,
-         |         ^~~~~~~~~~~~
->> io_uring/rw.h:17:49: error: field 'iter_state' has incomplete type
-      17 |                 struct iov_iter_state           iter_state;
-         |                                                 ^~~~~~~~~~
-   include/uapi/linux/stddef.h:37:26: note: in definition of macro '__struct_group'
-      37 |                 struct { MEMBERS } ATTRS; \
-         |                          ^~~~~~~
-   io_uring/rw.h:15:9: note: in expansion of macro 'struct_group'
-      15 |         struct_group(clear,
-         |         ^~~~~~~~~~~~
->> io_uring/rw.h:18:49: error: field 'fast_iov' has incomplete type
-      18 |                 struct iovec                    fast_iov;
-         |                                                 ^~~~~~~~
-   include/uapi/linux/stddef.h:37:26: note: in definition of macro '__struct_group'
-      37 |                 struct { MEMBERS } ATTRS; \
-         |                          ^~~~~~~
-   io_uring/rw.h:15:9: note: in expansion of macro 'struct_group'
-      15 |         struct_group(clear,
-         |         ^~~~~~~~~~~~
->> io_uring/rw.h:28:65: error: field 'meta' has incomplete type
-      28 |                                 struct uio_meta                 meta;
-         |                                                                 ^~~~
-   include/uapi/linux/stddef.h:37:26: note: in definition of macro '__struct_group'
-      37 |                 struct { MEMBERS } ATTRS; \
-         |                          ^~~~~~~
-   io_uring/rw.h:15:9: note: in expansion of macro 'struct_group'
-      15 |         struct_group(clear,
-         |         ^~~~~~~~~~~~
->> io_uring/rw.h:16:49: error: field 'iter' has incomplete type
-      16 |                 struct iov_iter                 iter;
-         |                                                 ^~~~
-   include/uapi/linux/stddef.h:38:50: note: in definition of macro '__struct_group'
-      38 |                 struct __struct_group_tag(TAG) { MEMBERS } ATTRS NAME; \
-         |                                                  ^~~~~~~
-   io_uring/rw.h:15:9: note: in expansion of macro 'struct_group'
-      15 |         struct_group(clear,
-         |         ^~~~~~~~~~~~
->> io_uring/rw.h:17:49: error: field 'iter_state' has incomplete type
-      17 |                 struct iov_iter_state           iter_state;
-         |                                                 ^~~~~~~~~~
-   include/uapi/linux/stddef.h:38:50: note: in definition of macro '__struct_group'
-      38 |                 struct __struct_group_tag(TAG) { MEMBERS } ATTRS NAME; \
-         |                                                  ^~~~~~~
-   io_uring/rw.h:15:9: note: in expansion of macro 'struct_group'
-      15 |         struct_group(clear,
-         |         ^~~~~~~~~~~~
->> io_uring/rw.h:18:49: error: field 'fast_iov' has incomplete type
-      18 |                 struct iovec                    fast_iov;
-         |                                                 ^~~~~~~~
-   include/uapi/linux/stddef.h:38:50: note: in definition of macro '__struct_group'
-      38 |                 struct __struct_group_tag(TAG) { MEMBERS } ATTRS NAME; \
-         |                                                  ^~~~~~~
-   io_uring/rw.h:15:9: note: in expansion of macro 'struct_group'
-      15 |         struct_group(clear,
-         |         ^~~~~~~~~~~~
->> io_uring/rw.h:28:65: error: field 'meta' has incomplete type
-      28 |                                 struct uio_meta                 meta;
-         |                                                                 ^~~~
-   include/uapi/linux/stddef.h:38:50: note: in definition of macro '__struct_group'
-      38 |                 struct __struct_group_tag(TAG) { MEMBERS } ATTRS NAME; \
-         |                                                  ^~~~~~~
-   io_uring/rw.h:15:9: note: in expansion of macro 'struct_group'
-      15 |         struct_group(clear,
-         |         ^~~~~~~~~~~~
+>> security/apparmor/policy.c:116: warning: Function parameter or member 'kref' not described in 'aa_pdb_free_kref'
+>> security/apparmor/policy.c:116: warning: Excess function parameter 'kr' description in 'aa_pdb_free_kref'
+   security/apparmor/policy.c:881: warning: Function parameter or member 'subj_cred' not described in 'aa_may_manage_policy'
 
 
-vim +166 io_uring/kbuf.c
+vim +116 security/apparmor/policy.c
 
-3b77495a97239fa Jens Axboe          2022-06-13  155  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  156  static int io_provided_buffers_select(struct io_kiocb *req, size_t *len,
-35c8711c8fc4c16 Jens Axboe          2024-03-05  157  				      struct io_buffer_list *bl,
-35c8711c8fc4c16 Jens Axboe          2024-03-05  158  				      struct iovec *iov)
-35c8711c8fc4c16 Jens Axboe          2024-03-05  159  {
-35c8711c8fc4c16 Jens Axboe          2024-03-05  160  	void __user *buf;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  161  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  162  	buf = io_provided_buffer_select(req, len, bl);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  163  	if (unlikely(!buf))
-35c8711c8fc4c16 Jens Axboe          2024-03-05  164  		return -ENOBUFS;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  165  
-35c8711c8fc4c16 Jens Axboe          2024-03-05 @166  	iov[0].iov_base = buf;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  167  	iov[0].iov_len = *len;
-f274495aea7b152 Jens Axboe          2024-08-30  168  	return 1;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  169  }
-35c8711c8fc4c16 Jens Axboe          2024-03-05  170  
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  171  static bool io_should_commit(struct io_kiocb *req, unsigned int issue_flags)
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  172  {
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  173  	/*
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  174  	* If we came in unlocked, we have no choice but to consume the
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  175  	* buffer here, otherwise nothing ensures that the buffer won't
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  176  	* get used by others. This does mean it'll be pinned until the
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  177  	* IO completes, coming in unlocked means we're being called from
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  178  	* io-wq context and there may be further retries in async hybrid
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  179  	* mode. For the locked case, the caller must call commit when
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  180  	* the transfer completes (or if we get -EAGAIN and must poll of
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  181  	* retry).
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  182  	*/
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  183  	if (issue_flags & IO_URING_F_UNLOCKED)
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  184  		return true;
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  185  
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  186  	/* uring_cmd commits kbuf upfront, no need to auto-commit */
-42a6bd57ee9f930 Caleb Sander Mateos 2026-02-18  187  	if (!io_file_can_poll(req) && !io_is_uring_cmd(req))
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  188  		return true;
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  189  	return false;
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  190  }
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  191  
-ab6559bdbb08f6b Jens Axboe          2025-08-20  192  static struct io_br_sel io_ring_buffer_select(struct io_kiocb *req, size_t *len,
-3b77495a97239fa Jens Axboe          2022-06-13  193  					      struct io_buffer_list *bl,
-3b77495a97239fa Jens Axboe          2022-06-13  194  					      unsigned int issue_flags)
-3b77495a97239fa Jens Axboe          2022-06-13  195  {
-3b77495a97239fa Jens Axboe          2022-06-13  196  	struct io_uring_buf_ring *br = bl->buf_ring;
-c3f9109dbc9e2cd Jens Axboe          2024-02-19  197  	__u16 tail, head = bl->head;
-ab6559bdbb08f6b Jens Axboe          2025-08-20  198  	struct io_br_sel sel = { };
-3b77495a97239fa Jens Axboe          2022-06-13  199  	struct io_uring_buf *buf;
-98b6fa62c84f2e1 Jens Axboe          2025-08-27  200  	u32 buf_len;
-3b77495a97239fa Jens Axboe          2022-06-13  201  
-c3f9109dbc9e2cd Jens Axboe          2024-02-19  202  	tail = smp_load_acquire(&br->tail);
-c3f9109dbc9e2cd Jens Axboe          2024-02-19  203  	if (unlikely(tail == head))
-ab6559bdbb08f6b Jens Axboe          2025-08-20  204  		return sel;
-3b77495a97239fa Jens Axboe          2022-06-13  205  
-c3f9109dbc9e2cd Jens Axboe          2024-02-19  206  	if (head + 1 == tail)
-c3f9109dbc9e2cd Jens Axboe          2024-02-19  207  		req->flags |= REQ_F_BL_EMPTY;
-c3f9109dbc9e2cd Jens Axboe          2024-02-19  208  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  209  	buf = io_ring_head_to_buf(br, head, bl->mask);
-98b6fa62c84f2e1 Jens Axboe          2025-08-27  210  	buf_len = READ_ONCE(buf->len);
-98b6fa62c84f2e1 Jens Axboe          2025-08-27  211  	if (*len == 0 || *len > buf_len)
-98b6fa62c84f2e1 Jens Axboe          2025-08-27  212  		*len = buf_len;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  213  	req->flags |= REQ_F_BUFFER_RING | REQ_F_BUFFERS_COMMIT;
-78385c7299f7514 Caleb Sander Mateos 2025-12-04  214  	req->buf_index = READ_ONCE(buf->bid);
-5fda51255439add Jens Axboe          2025-08-20  215  	sel.buf_list = bl;
-78385c7299f7514 Caleb Sander Mateos 2025-12-04  216  	sel.addr = u64_to_user_ptr(READ_ONCE(buf->addr));
-3b77495a97239fa Jens Axboe          2022-06-13  217  
-6f1cbf6d6fd13fc Ming Lei            2025-10-24  218  	if (io_should_commit(req, issue_flags)) {
-418eab7a6f3c002 Jens Axboe          2026-03-19  219  		if (!io_kbuf_commit(req, sel.buf_list, *len, 1))
-418eab7a6f3c002 Jens Axboe          2026-03-19  220  			req->flags |= REQ_F_BUF_MORE;
-5fda51255439add Jens Axboe          2025-08-20  221  		sel.buf_list = NULL;
-3b77495a97239fa Jens Axboe          2022-06-13  222  	}
-ab6559bdbb08f6b Jens Axboe          2025-08-20  223  	return sel;
-3b77495a97239fa Jens Axboe          2022-06-13  224  }
-3b77495a97239fa Jens Axboe          2022-06-13  225  
-ab6559bdbb08f6b Jens Axboe          2025-08-20  226  struct io_br_sel io_buffer_select(struct io_kiocb *req, size_t *len,
-c0e965052149c88 Pavel Begunkov      2025-03-31  227  				  unsigned buf_group, unsigned int issue_flags)
-3b77495a97239fa Jens Axboe          2022-06-13  228  {
-3b77495a97239fa Jens Axboe          2022-06-13  229  	struct io_ring_ctx *ctx = req->ctx;
-ab6559bdbb08f6b Jens Axboe          2025-08-20  230  	struct io_br_sel sel = { };
-3b77495a97239fa Jens Axboe          2022-06-13  231  	struct io_buffer_list *bl;
-3b77495a97239fa Jens Axboe          2022-06-13  232  
-49c21d9a5fcd83b Jens Axboe          2026-03-17  233  	io_ring_submit_lock(ctx, issue_flags);
-3b77495a97239fa Jens Axboe          2022-06-13  234  
-c0e965052149c88 Pavel Begunkov      2025-03-31  235  	bl = io_buffer_get_list(ctx, buf_group);
-3b77495a97239fa Jens Axboe          2022-06-13  236  	if (likely(bl)) {
-a69307a55454060 Jens Axboe          2024-08-09  237  		if (bl->flags & IOBL_BUF_RING)
-ab6559bdbb08f6b Jens Axboe          2025-08-20  238  			sel = io_ring_buffer_select(req, len, bl, issue_flags);
-3b77495a97239fa Jens Axboe          2022-06-13  239  		else
-ab6559bdbb08f6b Jens Axboe          2025-08-20  240  			sel.addr = io_provided_buffer_select(req, len, bl);
-3b77495a97239fa Jens Axboe          2022-06-13  241  	}
-49c21d9a5fcd83b Jens Axboe          2026-03-17  242  	io_ring_submit_unlock(ctx, issue_flags);
-ab6559bdbb08f6b Jens Axboe          2025-08-20  243  	return sel;
-3b77495a97239fa Jens Axboe          2022-06-13  244  }
-3b77495a97239fa Jens Axboe          2022-06-13  245  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  246  /* cap it at a reasonable 256, will be one page even for 4K */
-35c8711c8fc4c16 Jens Axboe          2024-03-05  247  #define PEEK_MAX_IMPORT		256
-35c8711c8fc4c16 Jens Axboe          2024-03-05  248  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  249  static int io_ring_buffers_peek(struct io_kiocb *req, struct buf_sel_arg *arg,
-35c8711c8fc4c16 Jens Axboe          2024-03-05  250  				struct io_buffer_list *bl)
-35c8711c8fc4c16 Jens Axboe          2024-03-05  251  {
-35c8711c8fc4c16 Jens Axboe          2024-03-05  252  	struct io_uring_buf_ring *br = bl->buf_ring;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  253  	struct iovec *iov = arg->iovs;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  254  	int nr_iovs = arg->nr_iovs;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  255  	__u16 nr_avail, tail, head;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  256  	struct io_uring_buf *buf;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  257  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  258  	tail = smp_load_acquire(&br->tail);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  259  	head = bl->head;
-35c8711c8fc4c16 Jens Axboe          2024-03-05 @260  	nr_avail = min_t(__u16, tail - head, UIO_MAXIOV);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  261  	if (unlikely(!nr_avail))
-35c8711c8fc4c16 Jens Axboe          2024-03-05  262  		return -ENOBUFS;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  263  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  264  	buf = io_ring_head_to_buf(br, head, bl->mask);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  265  	if (arg->max_len) {
-e0ee967630c8ee6 Jens Axboe          2024-08-20  266  		u32 len = READ_ONCE(buf->len);
-cf9536e550dd243 Jens Axboe          2025-03-10  267  		size_t needed;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  268  
-e0ee967630c8ee6 Jens Axboe          2024-08-20  269  		if (unlikely(!len))
-e0ee967630c8ee6 Jens Axboe          2024-08-20  270  			return -ENOBUFS;
-e0ee967630c8ee6 Jens Axboe          2024-08-20  271  		needed = (arg->max_len + len - 1) / len;
-e0ee967630c8ee6 Jens Axboe          2024-08-20  272  		needed = min_not_zero(needed, (size_t) PEEK_MAX_IMPORT);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  273  		if (nr_avail > needed)
-35c8711c8fc4c16 Jens Axboe          2024-03-05  274  			nr_avail = needed;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  275  	}
-35c8711c8fc4c16 Jens Axboe          2024-03-05  276  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  277  	/*
-35c8711c8fc4c16 Jens Axboe          2024-03-05  278  	 * only alloc a bigger array if we know we have data to map, eg not
-35c8711c8fc4c16 Jens Axboe          2024-03-05  279  	 * a speculative peek operation.
-35c8711c8fc4c16 Jens Axboe          2024-03-05  280  	 */
-35c8711c8fc4c16 Jens Axboe          2024-03-05  281  	if (arg->mode & KBUF_MODE_EXPAND && nr_avail > nr_iovs && arg->max_len) {
-bf4afc53b77aeaa Linus Torvalds      2026-02-21  282  		iov = kmalloc_objs(struct iovec, nr_avail);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  283  		if (unlikely(!iov))
-35c8711c8fc4c16 Jens Axboe          2024-03-05  284  			return -ENOMEM;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  285  		if (arg->mode & KBUF_MODE_FREE)
-35c8711c8fc4c16 Jens Axboe          2024-03-05  286  			kfree(arg->iovs);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  287  		arg->iovs = iov;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  288  		nr_iovs = nr_avail;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  289  	} else if (nr_avail < nr_iovs) {
-35c8711c8fc4c16 Jens Axboe          2024-03-05  290  		nr_iovs = nr_avail;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  291  	}
-35c8711c8fc4c16 Jens Axboe          2024-03-05  292  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  293  	/* set it to max, if not set, so we can use it unconditionally */
-35c8711c8fc4c16 Jens Axboe          2024-03-05  294  	if (!arg->max_len)
-35c8711c8fc4c16 Jens Axboe          2024-03-05  295  		arg->max_len = INT_MAX;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  296  
-78385c7299f7514 Caleb Sander Mateos 2025-12-04  297  	req->buf_index = READ_ONCE(buf->bid);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  298  	do {
-98b6fa62c84f2e1 Jens Axboe          2025-08-27  299  		u32 len = READ_ONCE(buf->len);
-ae98dbf43d755b4 Jens Axboe          2024-08-09  300  
-ae98dbf43d755b4 Jens Axboe          2024-08-09  301  		/* truncate end piece, if needed, for non partial buffers */
-ae98dbf43d755b4 Jens Axboe          2024-08-09  302  		if (len > arg->max_len) {
-ae98dbf43d755b4 Jens Axboe          2024-08-09  303  			len = arg->max_len;
-26ec15e4b0c1d7b Jens Axboe          2025-06-13  304  			if (!(bl->flags & IOBL_INC)) {
-178b8ff66ff827c Jens Axboe          2025-06-26  305  				arg->partial_map = 1;
-26ec15e4b0c1d7b Jens Axboe          2025-06-13  306  				if (iov != arg->iovs)
-26ec15e4b0c1d7b Jens Axboe          2025-06-13  307  					break;
-a4c694bfc2455e8 Joanne Koong        2025-12-04  308  				WRITE_ONCE(buf->len, len);
-ae98dbf43d755b4 Jens Axboe          2024-08-09  309  			}
-26ec15e4b0c1d7b Jens Axboe          2025-06-13  310  		}
-35c8711c8fc4c16 Jens Axboe          2024-03-05  311  
-78385c7299f7514 Caleb Sander Mateos 2025-12-04  312  		iov->iov_base = u64_to_user_ptr(READ_ONCE(buf->addr));
-ae98dbf43d755b4 Jens Axboe          2024-08-09  313  		iov->iov_len = len;
-35c8711c8fc4c16 Jens Axboe          2024-03-05 @314  		iov++;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  315  
-ae98dbf43d755b4 Jens Axboe          2024-08-09  316  		arg->out_len += len;
-ae98dbf43d755b4 Jens Axboe          2024-08-09  317  		arg->max_len -= len;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  318  		if (!arg->max_len)
-35c8711c8fc4c16 Jens Axboe          2024-03-05  319  			break;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  320  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  321  		buf = io_ring_head_to_buf(br, ++head, bl->mask);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  322  	} while (--nr_iovs);
-35c8711c8fc4c16 Jens Axboe          2024-03-05  323  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  324  	if (head == tail)
-35c8711c8fc4c16 Jens Axboe          2024-03-05  325  		req->flags |= REQ_F_BL_EMPTY;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  326  
-35c8711c8fc4c16 Jens Axboe          2024-03-05  327  	req->flags |= REQ_F_BUFFER_RING;
-35c8711c8fc4c16 Jens Axboe          2024-03-05 @328  	return iov - arg->iovs;
-35c8711c8fc4c16 Jens Axboe          2024-03-05  329  }
-35c8711c8fc4c16 Jens Axboe          2024-03-05  330  
-
-:::::: The code at line 166 was first introduced by commit
-:::::: 35c8711c8fc4c16ad2749b8314da5829a493e28e io_uring/kbuf: add helpers for getting/peeking multiple buffers
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+   110	
+   111	/**
+   112	 * aa_pdb_free_kref - free aa_policydb by kref (called by aa_put_pdb)
+   113	 * @kr: kref callback for freeing of a dfa  (NOT NULL)
+   114	 */
+   115	void aa_pdb_free_kref(struct kref *kref)
+ > 116	{
+   117		struct aa_policydb *pdb = container_of(kref, struct aa_policydb, count);
+   118	
+   119		aa_free_pdb(pdb);
+   120	}
+   121	
 
 --
 0-DAY CI Kernel Test Service
