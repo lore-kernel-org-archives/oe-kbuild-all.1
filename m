@@ -1,73 +1,66 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBE1397AE5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 07:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1F02E7374;
+	Tue, 16 Jun 2026 08:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781594919; cv=none; b=BPQOg8s29+0AyxXPiesvQNcYY/y/hM6M1I7LK4QpHlpxX5iOAinf1H2+HgvH87j4HBwuhFCnJbm6HRz++uT7fAZ//qXmXB1+awMT92DI6MFpaWvPEsY51edpIUUTLYwqiQaQh9c1ahxoJMrahIB1mATuaNgNlWnfyWm1N1f0bNE=
+	t=1781596929; cv=none; b=E4QdVwqtIowvL0A+J6W+AHL5YNT5Y3KZHgjpQHWkG3OE/fDbkMUr0yLYAu9Kv133Gc+vCptGayQfDWTGQplW1kacnjqSwGKAgF1J0QHQKt8yOrYZylGTPYGZiKpLlNeTgtIh3QeR+WKSGH2j4bkGtFwrdRw0Izm9OU+UFAdTyRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781594919; c=relaxed/simple;
-	bh=KmixkQKmyMSsbTbrtZQ4HVzI2fmGpuYfBFAgCq/qysM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fMPAjcpTod0vkrB+l6uMQbzDmufvcsuq9EkU5ILwWo7u8rjfI0S8V6h3V2R4a/4z1w7bKlftsg59aDo7WtVtC4jvPT6QgQ0GJK6n5gCF34GFVFvXkXXPYD5RkY8URJXLMfLwnczuTIHemvUIGRApTHFeseTA53eJrP+IKS3zkVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q30tLhMO; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781596929; c=relaxed/simple;
+	bh=2hprFDhuFZzyagpO1XXJLuYtZVfZ1p82Mf8obLvYWTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=khKgkuQUxwhFjWTjx0Pnk9HnrN4YEYuW+SvihCksjaNYFz6wCHPMzv7RbDcTZz/lsBGThcjyjSVMYZET5Dzg9Bs2k8NOa8u8xr/O0oV8OCx+NthoQUcnBaIuHAcbvQuhkjPgxNP9W/4NS6eMjgf/GDYiQXlrjuBtUG22ULdi0UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IwXuumrS; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q30tLhMO"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51784eb2ba0so34338611cf.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 00:28:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781594917; x=1782199717; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t6jj1GbYdEFlVQkO0CyOO83MTFHg2HEfsxMSazDBBpE=;
-        b=Q30tLhMO8cTnqD+2cuMRqzp0APgP+Qtxl2BiT5OuqxohCwvvvDy3pWQxCBNyw+Fk/a
-         qrke/FqA3jdjW5iK2zxM8OYuxrKP829RLBf3coy7h/ati9HKxwbFbRMcjNuPkC7dOYXN
-         fBze1wDIAUwPDXdt6gzjvOFDOkxXv6lE7w+1jfbFxtLCgE4l2o9rAWs0/0Ls5sd2swDJ
-         vRiRGh5H6y+8Wp6PBxYQjg6uywaxYbG9fLUMXD04+zeCr+hArQW0H9B1jlsaKX2aX6e8
-         WosGguRUcu+tRfUFhuuc3FZRPL3ztTK8Sfffv52c2OUx0o8msN6chtZawgu4oypodh3Q
-         pi+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781594917; x=1782199717;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t6jj1GbYdEFlVQkO0CyOO83MTFHg2HEfsxMSazDBBpE=;
-        b=OnDUO8Hti9PS39P29QpUHD/yYSXn+cB3I4rctq1FUyJTpkCP3+gllEW1ITf8w9XwIb
-         NZvmKeGJV3gW5zaCbE5aLF0UKtJsNH04Hp7YBwq3YnMkyCKNMOUVQEpPmGUlL3KKvQnF
-         ioBjLq+i6YItN5CEKDUUobYoUDReJs+tAuYWj/QtgDadGbRAkYuxFbjIQ1KfIPUMCjwe
-         e/jNmra3YcduJLFeklO8JKTcK4J3GDRdC8T4winqFDftS6r1tcez1/KCLqgfzQLgth7D
-         b0XbZY3vTX+xQRieyVBdGfREcqKraOaMswWqrbNN0/qobc7PAlTJarYRAzl0SHlz3Fg8
-         4dxw==
-X-Forwarded-Encrypted: i=1; AFNElJ9VuySq29cN2adfr3BD5xNJxQnaK762Wc5eLLQyzHFbeFN5e2pbPOiScOU9br3kU7s5GKAA8xeVuRIAwoxy@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7KnWdll5hM3sI4pkqJKh1Fr04suBtxAQwRu5rQEPnT/GXY8fD
-	YuI+72M2RQVqtNO4dfXDzk4wMYOQMCDJJjVVWNFKrEBRK12uJJjO2KtL
-X-Gm-Gg: Acq92OEkwV8Cu9c0ZVE08wUEVQNPRTTio6llex+EnLKkakPrPQ5TCvYmY5+xwWoXWqK
-	rTLlTciJmciMC7PibGsdJrAMRozLTk9T7/JSMpZEUtWYnFNB6KzKb1wANZIct9gk+PhHTKauSkC
-	U2dN9U7wT6J64471izlqjgWWAO22g4qYgltE60QMTLvqFUPH209Giil7yI/p2Ifo1AJV7R3C+vk
-	vs/nGcFP/toRHQSSlU5R4y7Jy9y7uIPduuZB65J+dBThop/CEvhB8TCOxIjqillRD/++t8/RT2N
-	eiTGkooO2xPDZEjOl+DIxRoD3vlG3jz4JycspuvdB78pt53Z7hQiSmz9FYvpnAbMPZeBNBS5UuW
-	WD/miNRe5e1xFSPcF04rtT4ZfqfiJBjfXYfSymTI5TStRCKDan6wRh8U0pT6N7ZEK6mcO/rX/Vv
-	rli9SuQ5L3eWw41c30sJUQT6q5IEE=
-X-Received: by 2002:a05:622a:111:b0:517:83e5:7859 with SMTP id d75a77b69052e-51991aee144mr33035191cf.53.1781594915849;
-        Tue, 16 Jun 2026 00:28:35 -0700 (PDT)
-Received: from localhost ([43.225.189.75])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb6442d8sm131440821cf.11.2026.06.16.00.28.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 00:28:34 -0700 (PDT)
-Date: Tue, 16 Jun 2026 10:28:26 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Harry Wentland <harry.wentland@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Fangzhi Zuo <Jerry.Zuo@amd.com>
-Subject: [linux-next:master 9791/14023]
- drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_hdmi_frl.c:781
- hdmi_frl_verify_link_cap() error: we previously assumed 'link->local_sink'
- could be null (see line 776)
-Message-ID: <202606160512.NM58W8KB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IwXuumrS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781596928; x=1813132928;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2hprFDhuFZzyagpO1XXJLuYtZVfZ1p82Mf8obLvYWTw=;
+  b=IwXuumrS6+eSVU/0tVxa+HkzJV/vNCDFkbA5hpFS7Cjpc16EZqCuENc6
+   ew3mWqXIWpGbOjdJV/PlCl2J3PoWBO7Flm7baXFQQfVUI/V5gQLllHRa0
+   HwKZ5OFrWrdNbOcsnsM3oXV+U7mMiCjnmsK2BUBtORjXMWn1zNLItOu2T
+   oaV4cVL6fiO/xSGiWOkSm7GvgIVVO1q0+LbgJZceqZT25UbV10A4+IwSI
+   NYXG0SXJ7OBKUZDL4WF4N9fIC8xVNTCaGbpUjfmcCvIb2Al3E7eLyW8pU
+   NYXsNjVgjJv41kKq+3esHMPFORycDTYbd0+adP/8skdilUpZiMzEt3Tsg
+   g==;
+X-CSE-ConnectionGUID: 4X3ma8OjTa2V61E00maXfA==
+X-CSE-MsgGUID: 8heRjCUjTGyw5CNuC0D1Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82550885"
+X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
+   d="scan'208";a="82550885"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 01:01:56 -0700
+X-CSE-ConnectionGUID: 7zZaPk4/S+6rYw01pC5BWg==
+X-CSE-MsgGUID: cd+jSqhqQFmyLsBIOvDNBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
+   d="scan'208";a="243536319"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jun 2026 01:01:51 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wZOk0-00000000Ssg-09T9;
+	Tue, 16 Jun 2026 08:01:48 +0000
+Date: Tue, 16 Jun 2026 16:01:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luigi Rizzo <lrizzo@google.com>, rizzo.unipi@gmail.com,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, willemb@google.com,
+	kuniyu@google.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gregkh@linuxfoundation.org, rafael@kernel.org,
+	akpm@linux-foundation.org, david@kernel.org, netdev@vger.kernel.org,
+	linux-mm@kvack.org, iommu@lists.linux.dev,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] swiotlb: avoid double copy with swiotlb on tx socket
+Message-ID: <202606161519.z7SY98jp-lkp@intel.com>
+References: <20260615234220.3946885-1-lrizzo@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,176 +69,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260615234220.3946885-1-lrizzo@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8d6dbbbe3ba62de0a63e962ee004afb848c8e3ac
-commit: cbb8e2044b9e936dfa66f1d4a2f835316c741a67 [9791/14023] drm/amd/display: Add DC link support for FRL
-config: i386-randconfig-141-20260611 (https://download.01.org/0day-ci/archive/20260616/202606160512.NM58W8KB-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+Hi Luigi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v7.1 next-20260615]
+[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luigi-Rizzo/swiotlb-avoid-double-copy-with-swiotlb-on-tx-socket/20260616-074655
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260615234220.3946885-1-lrizzo%40google.com
+patch subject: [PATCH] swiotlb: avoid double copy with swiotlb on tx socket
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260616/202606161519.z7SY98jp-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161519.z7SY98jp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606160512.NM58W8KB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606161519.z7SY98jp-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_hdmi_frl.c:781 hdmi_frl_verify_link_cap() error: we previously assumed 'link->local_sink' could be null (see line 776)
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_hdmi_frl.c:928 hdmi_frl_set_preferred_link_settings() warn: variable dereferenced before check 'pipe->stream_res.hpo_frl_stream_enc' (see line 916)
+All warnings (new ones prefixed by >>):
 
-vim +781 drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_hdmi_frl.c
+>> mm/page_alloc.c:721:17: warning: unused variable 'folio' [-Wunused-variable]
+     721 |                 struct folio *folio = (struct folio *)page;
+         |                               ^~~~~
+   1 warning generated.
+--
+>> Warning: kernel/dma/swiotlb.c:95 cannot understand function prototype: 'atomic_t global_device_serial = ATOMIC_INIT(0);'
+>> Warning: kernel/dma/swiotlb.c:2087 function parameter 'where_debug_only' not described in 'swiotlb_free_pages'
+>> Warning: kernel/dma/swiotlb.c:2087 function parameter 'where_debug_only' not described in 'swiotlb_free_pages'
 
-cbb8e2044b9e93 Harry Wentland 2026-04-24   745  void hdmi_frl_verify_link_cap(struct dc_link *link,
-cbb8e2044b9e93 Harry Wentland 2026-04-24   746  		struct dc_hdmi_frl_link_settings *known_limit_link_setting)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   747  {
-cbb8e2044b9e93 Harry Wentland 2026-04-24   748  	struct dc_hdmi_frl_link_settings cur_link_setting = {0};
-cbb8e2044b9e93 Harry Wentland 2026-04-24   749  	struct dc_hdmi_frl_link_settings *cur = &cur_link_setting;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   750  	bool success = false;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   751  	enum link_result status = LINK_RESULT_UNKNOWN;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   752  	enum clock_source_id frl_phy_clock_source_id;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   753  	unsigned int t_id = link->link_enc->transmitter;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   754  	struct link_resource link_res = {.hpo_frl_link_enc = link->hpo_frl_link_enc};
-cbb8e2044b9e93 Harry Wentland 2026-04-24   755  	struct dc_stream_state *link_stream = NULL;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   756  	struct dc_stream_state *stream = NULL;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   757  	int i;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   758  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   759  	DC_LOGGER_INIT(link->ctx->logger);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   760  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   761  	link->frl_flags.force_frl_rate =
-cbb8e2044b9e93 Harry Wentland 2026-04-24   762  			link->ctx->dc->debug.force_frl_rate;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   763  	link->frl_flags.force_frl_always =
-cbb8e2044b9e93 Harry Wentland 2026-04-24   764  			link->preferred_hdmi_frl_settings.force_frl_always ||
-cbb8e2044b9e93 Harry Wentland 2026-04-24   765  			link->ctx->dc->debug.force_frl_always;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   766  	link->frl_flags.force_frl_max =
-cbb8e2044b9e93 Harry Wentland 2026-04-24   767  			link->preferred_hdmi_frl_settings.force_frl_max ||
-cbb8e2044b9e93 Harry Wentland 2026-04-24   768  			link->ctx->dc->debug.force_frl_max ? true :
-cbb8e2044b9e93 Harry Wentland 2026-04-24   769  			hdmi_frl_test_max_rate(link->ddc);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   770  	link->frl_flags.apply_vsdb_rcc_wa =
-cbb8e2044b9e93 Harry Wentland 2026-04-24   771  			link->ctx->dc->debug.apply_vsdb_rcc_wa;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   772  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   773  	if (link->frl_flags.force_frl_rate == 0xF)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   774  		return;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   775  
-cbb8e2044b9e93 Harry Wentland 2026-04-24  @776  	if (link->local_sink &&
-                                                            ^^^^^^^^^^^^^^^^
-Check for NULL
 
-cbb8e2044b9e93 Harry Wentland 2026-04-24   777  		link->local_sink->edid_caps.panel_patch.force_frl)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   778  			link->frl_flags.force_frl_always = true;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   779  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   780  	if (!link->frl_flags.force_frl_max &&
-cbb8e2044b9e93 Harry Wentland 2026-04-24  @781  			link->local_sink->edid_caps.panel_patch.hdmi_comp_auto) {
-                                                                        ^^^^^^^^^^^^^^^^^^^
-Unchecked dereference
+vim +/folio +721 mm/page_alloc.c
 
-cbb8e2044b9e93 Harry Wentland 2026-04-24   782  		link->frl_flags.force_frl_max = true;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   783  	}
-cbb8e2044b9e93 Harry Wentland 2026-04-24   784  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   785  	if (link->local_sink &&
-                                                            ^^^^^^^^^^^^^^^^
-More checks
-
-cbb8e2044b9e93 Harry Wentland 2026-04-24   786  		link->local_sink->edid_caps.panel_patch.vsdb_rcc_wa)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   787  			link->frl_flags.apply_vsdb_rcc_wa = true;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   788  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   789  	frl_phy_clock_source_id = hdmi_frl_find_matching_phypll(link);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   790  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   791  	cur_link_setting = *known_limit_link_setting;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   792  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   793  	if (link->frl_flags.force_frl_rate != 0) {
-cbb8e2044b9e93 Harry Wentland 2026-04-24   794  		cur->frl_link_rate = (cur_link_setting.frl_link_rate <
-cbb8e2044b9e93 Harry Wentland 2026-04-24   795  				link->frl_flags.force_frl_rate) ?
-cbb8e2044b9e93 Harry Wentland 2026-04-24   796  						cur_link_setting.frl_link_rate :
-cbb8e2044b9e93 Harry Wentland 2026-04-24   797  						link->frl_flags.force_frl_rate;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   798  		link->frl_verified_link_cap = *cur;
-
-[ snip ]
-
-cbb8e2044b9e93 Harry Wentland 2026-04-24   856  void hdmi_frl_set_preferred_link_settings(struct dc *dc,
-cbb8e2044b9e93 Harry Wentland 2026-04-24   857  		struct dc_hdmi_frl_link_settings *link_setting,
-cbb8e2044b9e93 Harry Wentland 2026-04-24   858  		struct dc_hdmi_frl_link_training_overrides *lt_overrides,
-cbb8e2044b9e93 Harry Wentland 2026-04-24   859  		struct dc_link *link)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   860  {
-cbb8e2044b9e93 Harry Wentland 2026-04-24   861  	int i;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   862  	struct pipe_ctx *pipe;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   863  	struct dc_stream_state *link_stream = 0;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   864  	struct pipe_ctx *link_pipe = 0;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   865  	struct pipe_ctx *odm_pipe;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   866  	int opp_cnt = 1;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   867  	enum link_result link_stat = LINK_RESULT_UNKNOWN;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   868  	enum clock_source_id frl_phy_clock_source_id;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   869  	struct dc_stream_state *temp_stream = &dc->scratch.temp_stream;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   870  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   871  	DC_LOGGER_INIT(link->ctx->logger);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   872  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   873  	for (i = 0; i < MAX_PIPES; i++) {
-cbb8e2044b9e93 Harry Wentland 2026-04-24   874  		pipe = &dc->current_state->res_ctx.pipe_ctx[i];
-cbb8e2044b9e93 Harry Wentland 2026-04-24   875  		if (pipe->stream && pipe->stream->link) {
-cbb8e2044b9e93 Harry Wentland 2026-04-24   876  			if (pipe->stream->link == link) {
-cbb8e2044b9e93 Harry Wentland 2026-04-24   877  				link_stream = pipe->stream;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   878  				link_pipe = pipe;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   879  				break;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   880  			}
-cbb8e2044b9e93 Harry Wentland 2026-04-24   881  		}
-cbb8e2044b9e93 Harry Wentland 2026-04-24   882  	}
-cbb8e2044b9e93 Harry Wentland 2026-04-24   883  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   884  	/* Stream not found */
-cbb8e2044b9e93 Harry Wentland 2026-04-24   885  	if (i == MAX_PIPES)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   886  		return;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   887  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   888  	FRL_INFO("FRL LINK TRAINING:  Preferred link Update = %d.\n", link_setting->frl_link_rate);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   889  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   890  	frl_validate_mode_timing(link, &link_stream->timing, link_setting);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   891  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   892  	if (lt_overrides)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   893  		link->preferred_hdmi_frl_settings = *lt_overrides;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   894  	else
-cbb8e2044b9e93 Harry Wentland 2026-04-24   895  		memset(&link->preferred_hdmi_frl_settings, 0, sizeof(link->preferred_hdmi_frl_settings));
-cbb8e2044b9e93 Harry Wentland 2026-04-24   896  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   897  	link_stream->link->frl_link_settings = *link_setting;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   898  	link_stream->link->frl_verified_link_cap = *link_setting;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   899  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   900  	while (link_stat != LINK_RESULT_SUCCESS) {
-cbb8e2044b9e93 Harry Wentland 2026-04-24   901  		link_set_dpms_off(pipe);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   902  		/* For DCN3.0, can also have 4:1 combine mode.
-cbb8e2044b9e93 Harry Wentland 2026-04-24   903  		 * TODO: Add function get_odm_combine_mode that has different
-cbb8e2044b9e93 Harry Wentland 2026-04-24   904  		 *       implementation for DCN2/DCN3AG and DCN3.0
-cbb8e2044b9e93 Harry Wentland 2026-04-24   905  		 */
-cbb8e2044b9e93 Harry Wentland 2026-04-24   906  		for (odm_pipe = pipe->next_odm_pipe; odm_pipe; odm_pipe = odm_pipe->next_odm_pipe)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   907  			opp_cnt++;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   908  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   909  		memcpy(temp_stream, link_stream, sizeof(struct dc_stream_state));
-cbb8e2044b9e93 Harry Wentland 2026-04-24   910  		/* Modify patched_crtc_timing as required for padding */
-cbb8e2044b9e93 Harry Wentland 2026-04-24   911  		if (link_pipe->dsc_padding_params.dsc_hactive_padding) {
-cbb8e2044b9e93 Harry Wentland 2026-04-24   912  			temp_stream->timing.h_addressable = link_stream->timing.h_addressable + link_pipe->dsc_padding_params.dsc_hactive_padding;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   913  			temp_stream->timing.h_total = link_stream->timing.h_total + link_pipe->dsc_padding_params.dsc_htotal_padding;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   914  		}
-cbb8e2044b9e93 Harry Wentland 2026-04-24   915  
-cbb8e2044b9e93 Harry Wentland 2026-04-24  @916  		pipe->stream_res.hpo_frl_stream_enc->funcs->hdmi_frl_set_stream_attribute(
-                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Unchecked dereference
-
-cbb8e2044b9e93 Harry Wentland 2026-04-24   917  			pipe->stream_res.hpo_frl_stream_enc,
-cbb8e2044b9e93 Harry Wentland 2026-04-24   918  			&temp_stream->timing,
-cbb8e2044b9e93 Harry Wentland 2026-04-24   919  			&link_stream->link->frl_link_settings.borrow_params,
-cbb8e2044b9e93 Harry Wentland 2026-04-24   920  			opp_cnt);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   921  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   922  		if (pipe->stream_res.tg->funcs->set_out_mux)
-cbb8e2044b9e93 Harry Wentland 2026-04-24   923  			pipe->stream_res.tg->funcs->set_out_mux(pipe->stream_res.tg, OUT_MUX_HPO_FRL);
-cbb8e2044b9e93 Harry Wentland 2026-04-24   924  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   925  		if ((!link_stream->link->link_enc) ||
-cbb8e2044b9e93 Harry Wentland 2026-04-24   926  				(!link_stream->link->hpo_frl_link_enc) ||
-cbb8e2044b9e93 Harry Wentland 2026-04-24   927  				(!link_stream->ctx->dc->res_pool->dccg->funcs->enable_hdmicharclk) ||
-cbb8e2044b9e93 Harry Wentland 2026-04-24  @928  				(!(pipe->stream_res.hpo_frl_stream_enc)))
-                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Checked too late.
-
-cbb8e2044b9e93 Harry Wentland 2026-04-24   929  			return;
-cbb8e2044b9e93 Harry Wentland 2026-04-24   930  
-cbb8e2044b9e93 Harry Wentland 2026-04-24   931  		switch (link_stream->link->frl_link_settings.frl_link_rate) {
+   717	
+   718	void swiotlb_destroy_compound_page(struct page *page, unsigned int order)
+   719	{
+   720		if (order > 0) {
+ > 721			struct folio *folio = (struct folio *)page;
+   722	
+   723			__ClearPageHead(page);
+   724			page[1].flags.f &= ~PAGE_FLAGS_SECOND;
+   725	#ifdef NR_PAGES_IN_LARGE_FOLIO
+   726			folio->_nr_pages = 0;
+   727	#endif
+   728			for (int i = 1; i < (1 << order); i++) {
+   729				page[i].mapping = NULL;
+   730				clear_compound_head(&page[i]);
+   731			}
+   732		}
+   733	}
+   734	#endif /* CONFIG_SWIOTLB */
+   735	
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
