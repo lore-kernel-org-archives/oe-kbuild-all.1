@@ -1,183 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C36345725
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 20:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F462F12AE;
+	Tue, 16 Jun 2026 20:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781641146; cv=none; b=QR8TEc8hDgiNe65sHYezGEza9n4Y97rkt5q9scYp40H/xb2CSx41vuxMGoDfL76ZGIPFanS43p+DQz+Tnr+BOvqalXeYVRxDYppgos4Ebxn2bHWaZHIhbpWynYXaNTY9M5onyn3Pk9Myu1Cfgt25dEN2AEx0W6Sr7gZV/Ex90z8=
+	t=1781642213; cv=none; b=ZNfC8Bl6lr+xFNY2o221HtYZRB7pekqIOQEVAqZW3xQas4zUPSCqTLz4vnfYKAtekVsBmooifRYEtqdJk90a3yQJwYVvg0aaecrFUifVkAboMrGwGwZaAwfq91tSjVJJ1Kiw9yst9jQB5jfkMsLKJZciaRjo898EW1iYdKZUCW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781641146; c=relaxed/simple;
-	bh=ZQumMHxrTNTS76WJKpYqSc08gwtx7rqu3YrU8AEhN7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jI9GywqxLh8QlJ7RS98/lpRouoTLDJ4x/5jLbMoeKSlQEfykmoucch/nYbzgN4+xL03v2NHC+9MITDDmb2IJYXv1iWbLd0W1m6GR4iw3xr3hTL6U/XhhjEVWkm4OVwP6Q3n2tuDPVBK0Dd/ycrkmICrm1FdTTAecdH1+Qn5OMNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2Ze3Nqr; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1781642213; c=relaxed/simple;
+	bh=0K3eP+no2cHAAZUakn0krxZkUzTuH1y6/TQVmezBnWg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Wq/b+EQqy4WGC2hocejCXaUZYw+Onk4OWT+xpf/eqTTpCAQ3yFfvsLc9ojrGxE+FVA8XbnQIoumx2H71Kb5ya+F/VnbM4gPu1UWe6eXM2406PHL3l3IRZVGJEEyZn/+yUAnF4ngEsZqg3BCUfSuFo+EOV7E/b6JU2bgLf0vz+uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T91pDKE5; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2Ze3Nqr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T91pDKE5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781641144; x=1813177144;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZQumMHxrTNTS76WJKpYqSc08gwtx7rqu3YrU8AEhN7U=;
-  b=m2Ze3NqrzAgHDt36uKzC0kLrnIGZvd1eoRzlVGngRCluA+iu1iDbChiz
-   mQpOSzI2El5aXPbgtg0eNn0O65QJHjphjKWluUGRMdA6TvtdLdOZmMDom
-   ECYvFtksesgBrt97dHSIKRA683J1+QwNDrWyLBH+k6Zkaiwov4NtC3h9g
-   Jwu6xTC61gbUyTbQB+e9XC7JFXytlZoNgw5irxg3TkcP/qA3lTSBf5UZY
-   l9wiecEf1f3ezpD+c/mNm9EUTj/3jAIrYZ1GmQcu0c6BNdSgdOiTItODP
-   cmYjCmH3LuEtXJ+zS9kEmmMb5tvVNjXp9jWgDCT8qfGki2KEWRr6+2Owa
-   w==;
-X-CSE-ConnectionGUID: +4hxwTwMQDyGpJz5kUSGxQ==
-X-CSE-MsgGUID: n7xombJ8Q3eApTX6s3Rqwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="92744730"
+  t=1781642211; x=1813178211;
+  h=date:from:to:cc:subject:message-id;
+  bh=0K3eP+no2cHAAZUakn0krxZkUzTuH1y6/TQVmezBnWg=;
+  b=T91pDKE5U08WkvCC+wGdk2zkAvm/FfHmmO8qWXC93CdvfTqt9H0tOCqp
+   rqlN6flA7veJm8jfrYn+9Z5M25DI/PSKiv7RjskTULw17xt/c5uqyDEA6
+   eRJwFGTbHXuqrOfLqG+tbYfMABTqEdcc5c5UN7NHuU/TWsWVKwSwGZIQe
+   E0u1pL/rWqGGJ7X6xQdW0bwQfKC11ddx0PZzSO0kIR5YuENW4BHwbHNpa
+   TcPgJrxgFckgbKgpAVIPHFMjcelPbUtAAdSVLX3QXqQw5IVw9SP+Zeuhj
+   5hVZpGGSS1JMufbu0Sdcj/Fu78cFHOdQcHCYf0bp5KzNBk8Jdc4rzeQyi
+   A==;
+X-CSE-ConnectionGUID: IN4tFDEQT3GYnQAoNr5X+A==
+X-CSE-MsgGUID: Ng579z0TTV6cmeVS8Wu/8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="93915931"
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="92744730"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 13:19:04 -0700
-X-CSE-ConnectionGUID: zTrHQPL/TL2Y9+7eSsJv5A==
-X-CSE-MsgGUID: GQLbJOLPQc6kdvUO4GXLtQ==
+   d="scan'208";a="93915931"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 13:36:50 -0700
+X-CSE-ConnectionGUID: C1u20FZWQMmnBd7YaoDUCg==
+X-CSE-MsgGUID: wlLTFH1jQhmCZg2i1o90lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="271945306"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Jun 2026 13:19:02 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="244982215"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Jun 2026 13:36:48 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZaFQ-000000005B3-12Qh;
-	Tue, 16 Jun 2026 20:19:00 +0000
-Date: Tue, 16 Jun 2026 22:18:27 +0200
+	id 1wZaWc-00000000TiU-0acd;
+	Tue, 16 Jun 2026 20:36:46 +0000
+Date: Wed, 17 Jun 2026 04:36:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robert Malz <robert.malz@canonical.com>, anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH] ice: retry reading NVM if admin queue returns EBUSY
-Message-ID: <202606162237.EIrFZKip-lkp@intel.com>
-References: <20260616104521.1545053-1-robert.malz@canonical.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:kvm-arm64/nv3 37/37]
+ arch/arm64/kvm/sys_regs.c:222:30: error: expected ';' after expression
+Message-ID: <202606170443.zZpDusGs-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260616104521.1545053-1-robert.malz@canonical.com>
 
-Hi Robert,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tnguy-next-queue/dev-queue]
-[also build test ERROR on tnguy-net-queue/dev-queue linus/master v7.1 next-20260616]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Malz/ice-retry-reading-NVM-if-admin-queue-returns-EBUSY/20260616-185349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20260616104521.1545053-1-robert.malz%40canonical.com
-patch subject: [PATCH] ice: retry reading NVM if admin queue returns EBUSY
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260616/202606162237.EIrFZKip-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606162237.EIrFZKip-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/nv3
+head:   aa9a6e84f564417704258a20210b95d18ebf5601
+commit: aa9a6e84f564417704258a20210b95d18ebf5601 [37/37] WIP
+config: arm64-randconfig-003 (https://download.01.org/0day-ci/archive/20260617/202606170443.zZpDusGs-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606170443.zZpDusGs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606162237.EIrFZKip-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606170443.zZpDusGs-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/intel/ice/ice_nvm.c: In function 'ice_read_flat_nvm':
->> drivers/net/ethernet/intel/ice/ice_nvm.c:101:58: error: 'ICE_AQ_RC_EBUSY' undeclared (first use in this function); did you mean 'LIBIE_AQ_RC_EBUSY'?
-     101 |                         if (hw->adminq.sq_last_status != ICE_AQ_RC_EBUSY ||
-         |                                                          ^~~~~~~~~~~~~~~
-         |                                                          LIBIE_AQ_RC_EBUSY
-   drivers/net/ethernet/intel/ice/ice_nvm.c:101:58: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/arm64/kvm/sys_regs.c:222:30: error: expected ';' after expression
+     222 |                         loc->loc = SR_LOC_SPECIAL : SR_LOC_MEMORY;
+         |                                                   ^
+         |                                                   ;
+   arch/arm64/kvm/sys_regs.c:222:32: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+     222 |                         loc->loc = SR_LOC_SPECIAL : SR_LOC_MEMORY;
+         |                                                     ^
+   arch/arm64/kvm/sys_regs.c:221:3: note: previous statement is here
+     221 |                 if (is_hyp_ctxt(vcpu))
+         |                 ^
+   arch/arm64/kvm/sys_regs.c:222:32: warning: expression result unused [-Wunused-value]
+     222 |                         loc->loc = SR_LOC_SPECIAL : SR_LOC_MEMORY;
+         |                                                     ^~~~~~~~~~~~~
+   2 warnings and 1 error generated.
 
 
-vim +101 drivers/net/ethernet/intel/ice/ice_nvm.c
+vim +222 arch/arm64/kvm/sys_regs.c
 
-    48	
-    49	/**
-    50	 * ice_read_flat_nvm - Read portion of NVM by flat offset
-    51	 * @hw: pointer to the HW struct
-    52	 * @offset: offset from beginning of NVM
-    53	 * @length: (in) number of bytes to read; (out) number of bytes actually read
-    54	 * @data: buffer to return data in (sized to fit the specified length)
-    55	 * @read_shadow_ram: if true, read from shadow RAM instead of NVM
-    56	 *
-    57	 * Reads a portion of the NVM, as a flat memory space. This function correctly
-    58	 * breaks read requests across Shadow RAM sectors and ensures that no single
-    59	 * read request exceeds the maximum 4KB read for a single AdminQ command.
-    60	 *
-    61	 * Returns a status code on failure. Note that the data pointer may be
-    62	 * partially updated if some reads succeed before a failure.
-    63	 */
-    64	int
-    65	ice_read_flat_nvm(struct ice_hw *hw, u32 offset, u32 *length, u8 *data,
-    66			  bool read_shadow_ram)
-    67	{
-    68		u32 inlen = *length;
-    69		u32 bytes_read = 0;
-    70		int retry_cnt = 0;
-    71		bool last_cmd;
-    72		int status;
-    73	
-    74		*length = 0;
-    75	
-    76		/* Verify the length of the read if this is for the Shadow RAM */
-    77		if (read_shadow_ram && ((offset + inlen) > (hw->flash.sr_words * 2u))) {
-    78			ice_debug(hw, ICE_DBG_NVM, "NVM error: requested offset is beyond Shadow RAM limit\n");
-    79			return -EINVAL;
-    80		}
-    81	
-    82		do {
-    83			u32 read_size, sector_offset;
-    84	
-    85			/* ice_aq_read_nvm cannot read more than 4KB at a time.
-    86			 * Additionally, a read from the Shadow RAM may not cross over
-    87			 * a sector boundary. Conveniently, the sector size is also
-    88			 * 4KB.
-    89			 */
-    90			sector_offset = offset % ICE_AQ_MAX_BUF_LEN;
-    91			read_size = min_t(u32, ICE_AQ_MAX_BUF_LEN - sector_offset,
-    92					  inlen - bytes_read);
-    93	
-    94			last_cmd = !(bytes_read + read_size < inlen);
-    95	
-    96			status = ice_aq_read_nvm(hw, ICE_AQC_NVM_START_POINT,
-    97						 offset, read_size,
-    98						 data + bytes_read, last_cmd,
-    99						 read_shadow_ram, NULL);
-   100			if (status) {
- > 101				if (hw->adminq.sq_last_status != ICE_AQ_RC_EBUSY ||
-   102				    retry_cnt > ICE_SQ_SEND_MAX_EXECUTE)
-   103					break;
-   104				ice_debug(hw, ICE_DBG_NVM,
-   105					  "NVM read EBUSY error, retry %d\n",
-   106					  retry_cnt + 1);
-   107				last_cmd = false;
-   108				ice_release_nvm(hw);
-   109				msleep(ICE_SQ_SEND_DELAY_TIME_MS);
-   110				status = ice_acquire_nvm(hw, ICE_RES_READ);
-   111				if (status)
-   112					break;
-   113				retry_cnt++;
-   114			} else {
-   115				bytes_read += read_size;
-   116				offset += read_size;
-   117				retry_cnt = 0;
-   118			}
-   119		} while (!last_cmd);
-   120	
-   121		*length = bytes_read;
-   122		return status;
-   123	}
-   124	
+   168	
+   169	#define MAPPED_EL2_SYSREG(r, m, t)					\
+   170		case r:	{							\
+   171			locate_mapped_el2_register(vcpu, r, m, t, loc);		\
+   172			break;							\
+   173		}
+   174	
+   175	static void locate_register(const struct kvm_vcpu *vcpu, enum vcpu_sysreg reg,
+   176				    struct sr_loc *loc)
+   177	{
+   178		if (!vcpu_get_flag(vcpu, SYSREGS_ON_CPU)) {
+   179			loc->loc = SR_LOC_MEMORY;
+   180			return;
+   181		}
+   182	
+   183		switch (reg) {
+   184			MAPPED_EL2_SYSREG(SCTLR_EL2,   SCTLR_EL1,
+   185					  translate_sctlr_el2_to_sctlr_el1	     );
+   186			MAPPED_EL2_SYSREG(TTBR0_EL2,   TTBR0_EL1,
+   187					  translate_ttbr0_el2_to_ttbr0_el1	     );
+   188			MAPPED_EL2_SYSREG(TTBR1_EL2,   TTBR1_EL1,   NULL	     );
+   189			MAPPED_EL2_SYSREG(TCR_EL2,     TCR_EL1,
+   190					  translate_tcr_el2_to_tcr_el1		     );
+   191			MAPPED_EL2_SYSREG(VBAR_EL2,    VBAR_EL1,    NULL	     );
+   192			MAPPED_EL2_SYSREG(AFSR0_EL2,   AFSR0_EL1,   NULL	     );
+   193			MAPPED_EL2_SYSREG(AFSR1_EL2,   AFSR1_EL1,   NULL	     );
+   194			MAPPED_EL2_SYSREG(ESR_EL2,     ESR_EL1,     NULL	     );
+   195			MAPPED_EL2_SYSREG(FAR_EL2,     FAR_EL1,     NULL	     );
+   196			MAPPED_EL2_SYSREG(MAIR_EL2,    MAIR_EL1,    NULL	     );
+   197			MAPPED_EL2_SYSREG(TCR2_EL2,    TCR2_EL1,    NULL	     );
+   198			MAPPED_EL2_SYSREG(PIR_EL2,     PIR_EL1,     NULL	     );
+   199			MAPPED_EL2_SYSREG(PIRE0_EL2,   PIRE0_EL1,   NULL	     );
+   200			MAPPED_EL2_SYSREG(POR_EL2,     POR_EL1,     NULL	     );
+   201			MAPPED_EL2_SYSREG(AMAIR_EL2,   AMAIR_EL1,   NULL	     );
+   202			MAPPED_EL2_SYSREG(ELR_EL2,     ELR_EL1,	    NULL	     );
+   203			MAPPED_EL2_SYSREG(SPSR_EL2,    SPSR_EL1,    NULL	     );
+   204			MAPPED_EL2_SYSREG(CONTEXTIDR_EL2, CONTEXTIDR_EL1, NULL	     );
+   205			MAPPED_EL2_SYSREG(SCTLR2_EL2,  SCTLR2_EL1,  NULL	     );
+   206		case CNTHCTL_EL2:
+   207			/* CNTHCTL_EL2 is super special, unless we support NV2p1 */
+   208			loc->loc = (is_hyp_ctxt(vcpu) && vcpu_el2_e2h_is_set(vcpu) ?
+   209				    SR_LOC_SPECIAL : SR_LOC_MEMORY);
+   210			break;
+   211		case CPTR_EL2:
+   212			/*
+   213			 * CPTR_EL2 is just as special, and needs a certain amount
+   214			 * of handholding. It always lives in memory, due to being
+   215			 * heavily trapped thanks to CPACR_EL1.TCPAC being RES0.
+   216			 * FEAT_NV2p1 fixes this.
+   217			 */
+   218			locate_mapped_el2_register(vcpu, CPTR_EL2, CPACR_EL1,
+   219						   translate_cptr_el2_to_cpacr_el1,
+   220						   loc);
+   221			if (is_hyp_ctxt(vcpu))
+ > 222				loc->loc = SR_LOC_SPECIAL : SR_LOC_MEMORY;
+   223			break;
+   224		default:
+   225			loc->loc = locate_direct_register(vcpu, reg);
+   226		}
+   227	}
+   228	
 
 --
 0-DAY CI Kernel Test Service
