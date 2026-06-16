@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234D13D0937;
-	Tue, 16 Jun 2026 05:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63403CFF60
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 06:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781587908; cv=none; b=XQC7TSPPbq37AIBuwCdMmpofBeNOCbTbtMk3xrPC0SjgUyxLeEHUZw45dj6vOd6Og3597o5iM00HPsupyLEY6azALCPYA+KurufZrKHqJ8o7irNNiOHosw7NxDXm30+axjHzyLAGFKugbBgZKFMKsVoADKg2EhaOC87XEHFh1Gs=
+	t=1781589826; cv=none; b=HiFgZSNI7S3bO8teopxKbGrbckL4Qkt/O1g4iFqWtam9tGUSQLUpAHA/h1qovF6nv5+XSIz58MDBeSkXxT5RNG2jsOk/MdFJ1MqVyJO6G49xUMeXcbGomkZpZLnCB3E8dzjRlwLL90MC34MdL2MjA5Z77BCfrU3HHy6gMN4dGMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781587908; c=relaxed/simple;
-	bh=2DHGdkh+LxkF8N/SJ1IAj8JluhHq4Cb1Ynj6/3QS7GQ=;
+	s=arc-20240116; t=1781589826; c=relaxed/simple;
+	bh=R/AHKju/NJWmooHGAFSRZLAPNC+346Fg7D+e2npzwjk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ta0K5svlzRiToi6j2SoDKToM3eCqO0jBzwM1wa0dZ4dvCDa0CQbhbbYiB1zODJcH/d5+VhvSimseSmZmbqa2tgN8YcwX5UvjQqpIwubxPDli14wqmQTHCGEqfBpWHMOuXAogsP7v38mTZ06i1j+aNN9yFU2Ykei/WeQlmKSv5Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRgLH8Lb; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=W6O6sSg/PvpQVh6/Nn6IK+0DoBlLRCE0RUhLno4uUJJsV8K3XGPrQ7gpzYbg7TkMYBmn9f6Yx01ul3k5URmRhT1nuhT9UWbbJlhCNbX25ZRJGwSkKBWLpVMQ3VvTXUMIi5P9T/iIPNXfqDxabufPZuMj4VzfTWcaXWNPrPcrUFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+8V7fOT; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRgLH8Lb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+8V7fOT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781587906; x=1813123906;
+  t=1781589825; x=1813125825;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2DHGdkh+LxkF8N/SJ1IAj8JluhHq4Cb1Ynj6/3QS7GQ=;
-  b=BRgLH8LbqIixV1lzdvD+/kDlrpb2vNtWOKc8v3AranJxS4IsMhnK3M0P
-   gVoIS8vSofNmQXRtQ8o/JH/1KaovXX4DDrhPsXSdtuN8pQy62Pz+ULriK
-   M5JO3C7EC+177KCPatTklmI4ODzW4l1QpD3UCLa0ouv595OQNwMsdmB/S
-   X2ThSmQY1KjF2IGpgF1CEnO9CcdwAVr88w2VLKNvzijeuhCWBMQP5OcP9
-   wl3dCkdoyawPa4sD+rn9q2zh9iOD/ervPIzllZerFzeHwOp47hvQ2wN0x
-   wUgYAGt00+pPDJG/htUMtdy5L/D5ppjufY7qlWbBB8PxFZxafEdUuwFgA
+  bh=R/AHKju/NJWmooHGAFSRZLAPNC+346Fg7D+e2npzwjk=;
+  b=G+8V7fOTKrcNKXD31q84u88IREZVU4GUN4cxqQArHAS/5xneeKxB/qjA
+   FvVE5Hboe9Z7tXPYvcYM1joPzz9I/aZdd00eTTlJ/GXVEZI8msF0duPaH
+   oUcRU6x60w1W9kO7QZGdpiDundQUowBZRzJjH7dOaMxdv2aOGFjc3Mr8M
+   uBYSDSOowJPuKxEeI3erTv0zmeVfVwc7ReDHLV5rynluWxoRbICf8by+t
+   emIKpDpsbO/c70KO4zcXL85gJRHSit3zd0v8QqjL4XxDGNOgQ5me6XGi0
+   tGZ3HTWsC0d9UhF6npw4Qjs7OYo/W4UHym7+8qUei0VteKrxYxA1V9/9H
    Q==;
-X-CSE-ConnectionGUID: mmYsfz6jRx2HgszIcWStFg==
-X-CSE-MsgGUID: 1kC8CzRgRBK7Ji0GGflMAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="107772714"
+X-CSE-ConnectionGUID: YSSSBg2mScCLLc6ZOEKzwg==
+X-CSE-MsgGUID: VU0gfYMMSl+fZvE/G0lkbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82449409"
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="107772714"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 22:31:45 -0700
-X-CSE-ConnectionGUID: n42ZcPFkR/isOZj3lnwUSg==
-X-CSE-MsgGUID: gqesfjdSSDG/SZHim1et1g==
+   d="scan'208";a="82449409"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 23:03:44 -0700
+X-CSE-ConnectionGUID: F1KmPwTxREepThZEns0hFA==
+X-CSE-MsgGUID: aBHSjVxVQX64gv0JEuoxlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="285784566"
+   d="scan'208";a="247731455"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jun 2026 22:31:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Jun 2026 23:03:42 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZMOf-00000000Skg-0Hmh;
-	Tue, 16 Jun 2026 05:31:37 +0000
-Date: Tue, 16 Jun 2026 13:31:14 +0800
+	id 1wZMtf-00000000SmE-1ZCN;
+	Tue, 16 Jun 2026 06:03:39 +0000
+Date: Tue, 16 Jun 2026 14:03:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luigi Rizzo <lrizzo@google.com>, rizzo.unipi@gmail.com,
-	m.szyprowski@samsung.com, robin.murphy@arm.com, willemb@google.com,
-	kuniyu@google.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, rafael@kernel.org,
-	akpm@linux-foundation.org, david@kernel.org, netdev@vger.kernel.org,
-	linux-mm@kvack.org, iommu@lists.linux.dev,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] swiotlb: avoid double copy with swiotlb on tx socket
-Message-ID: <202606161322.zGyw68Qa-lkp@intel.com>
-References: <20260615234220.3946885-1-lrizzo@google.com>
+To: RD Babiera <rdbabiera@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, badhri@google.com,
+	heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	RD Babiera <rdbabiera@google.com>
+Subject: Re: [PATCH v1] usb: typec: tcpm: implement retry mechanism for
+ Discover Identity VDMs
+Message-ID: <202606161310.GCXb2ogf-lkp@intel.com>
+References: <20260615194923.4192117-2-rdbabiera@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,36 +66,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260615234220.3946885-1-lrizzo@google.com>
+In-Reply-To: <20260615194923.4192117-2-rdbabiera@google.com>
 
-Hi Luigi,
+Hi RD,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v7.1 next-20260615]
-[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 511e746700ee6e93104d061a87743906128ab709]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luigi-Rizzo/swiotlb-avoid-double-copy-with-swiotlb-on-tx-socket/20260616-074655
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260615234220.3946885-1-lrizzo%40google.com
-patch subject: [PATCH] swiotlb: avoid double copy with swiotlb on tx socket
-config: powerpc-pmac32_defconfig (https://download.01.org/0day-ci/archive/20260616/202606161322.zGyw68Qa-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-tcpm-implement-retry-mechanism-for-Discover-Identity-VDMs/20260616-035226
+base:   511e746700ee6e93104d061a87743906128ab709
+patch link:    https://lore.kernel.org/r/20260615194923.4192117-2-rdbabiera%40google.com
+patch subject: [PATCH v1] usb: typec: tcpm: implement retry mechanism for Discover Identity VDMs
+config: loongarch-randconfig-r133-20260616 (https://download.01.org/0day-ci/archive/20260616/202606161310.GCXb2ogf-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161322.zGyw68Qa-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161310.GCXb2ogf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606161322.zGyw68Qa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606161310.GCXb2ogf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/typec/tcpm/tcpm.c:286:12: sparse: sparse: symbol 'vdm_discovery_state_strings' was not declared. Should it be static?
 
->> Warning: net/core/sock.c:3215 function parameter 'sk' not described in '__skb_page_frag_refill'
->> Warning: net/core/sock.c:3215 expecting prototype for skb_page_frag_refill(). Prototype was for __skb_page_frag_refill() instead
+vim +/vdm_discovery_state_strings +286 drivers/usb/typec/tcpm/tcpm.c
+
+   285	
+ > 286	const char *vdm_discovery_state_strings[] = {
+   287		[VDM_DISCOVERY_UNKNOWN] = "VDM_DISCOVERY_UNKNOWN",
+   288		[VDM_DISCOVERY_PARTNER_IDENT] = "VDM_DISCOVERY_PARTNER_IDENT",
+   289		[VDM_DISCOVERY_CABLE_IDENT] = "VDM_DISCOVERY_CABLE_IDENT",
+   290		[VDM_DISCOVERY_PARTNER_SVIDS] = "VDM_DISCOVERY_PARTNER_SVIDS",
+   291		[VDM_DISCOVERY_PARTNER_MODES] = "VDM_DISCOVERY_PARTNER_MODES",
+   292		[VDM_DISCOVERY_CABLE_SVIDS] = "VDM_DISCOVERY_CABLE_SVIDS",
+   293		[VDM_DISCOVERY_CABLE_MODES] = "VDM_DISCOVERY_CABLE_MODES",
+   294		[VDM_DISCOVERY_COMPLETE] = "VDM_DISCOVERY_COMPLETE",
+   295	};
+   296	
 
 --
 0-DAY CI Kernel Test Service
