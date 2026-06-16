@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E9E314A98
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 06:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B83346AC4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 07:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781592949; cv=none; b=XiVkAHA5W+vJNUJFCvZIbzu85eIzyluenJWVuxAk6ptIyQbFQT/2PSrExosmEstaLtcSiNRmDS3q0Lmr7+9bSdKtXMYEVvr1vgjEZJJB7lk20AsKeaUTNUXhaEHm1FgcJRRgSjWJ2KGaVQ8Fqj95QSfJoRSWnpAeWYpUwAmLgGI=
+	t=1781593669; cv=none; b=pX0spCPCZd6gG47flw9dd78qRIqFcuDp4KlWdSn64i1FHjZ1I9IjSqw94m9+pYGwzU+sv+a//2E74I7v+/Xp0ziXtV8Az+cT1FCFu5iNlsu0XN0OcoZZPOUXZIUmL1nQSMA8MdSdmkhuQSnw39nPQKCHQ9RoSh9N9TMsdBFK8ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781592949; c=relaxed/simple;
-	bh=nxudG/uypIUYSYYwBu5hf1G7wtpHgk3vK4HD50Y3Xd4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Vbzp+EXDfkHScH0En394oYlyUV0EnxFCnCAVbKTLFyJ09rZxZbcFclO1lUKIoZubjDgZAm0parYbgcAHujEXNPf7xXnBckv0iCq/qMqlal6PM7Fe3UcP7t8R+jR7ved7DT9Y2gvhonBvxMNYUl7AqiEZVsq8kglOYlp338jWA40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpONIaV7; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1781593669; c=relaxed/simple;
+	bh=/afCHpI5e0JncairiYaqhIpWcsTlk4FMxlEHb2iPFtk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZyW7ZSEkTlvXkq9fT1hBisUw/gPBMXHBvUTEK2zB+4Ej2H6B2jCM6Quh579XeC+sy0IyQ1EeCZoq1YWy5ToZqo2x2N0UcxWX4tduy4m+YAfUks0YIMkNPJpkpf8robrteKeVD1zEYPzRCax+IBWmdh/bpi6hTr79QrN7O8tF84Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F/sdzWkl; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpONIaV7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F/sdzWkl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781592947; x=1813128947;
+  t=1781593667; x=1813129667;
   h=date:from:to:cc:subject:message-id;
-  bh=nxudG/uypIUYSYYwBu5hf1G7wtpHgk3vK4HD50Y3Xd4=;
-  b=DpONIaV7yOrKLQfre6x9f4rVrtiXik6DrQd20xony1cOg4CreFajWiUk
-   ItyFP+fILxzS/rElA5konTS/omIBM7RaDrrA7gsrNGOpRuwNLmpIXrWdI
-   yD/Nfr66GogDdnlTpovGKOIviYTJ0GnYDxktz234vKKFvw5nBSWl3qYkp
-   dkqCSQnmxD1f03Mjxil3W46+8HhzhRjBLoxe8DIXoFWfTKMGHW1YbrO5J
-   6e+QzffiPjbexuK8yAWFgBAIjd9t1bNnr4BIrI7w3h0Z31/F2Nf83gB5w
-   pv0CfXhDypUgejX5Py1FZRqvy63yLkT9umQyrwdx0wggH7C4wti6q6ijg
+  bh=/afCHpI5e0JncairiYaqhIpWcsTlk4FMxlEHb2iPFtk=;
+  b=F/sdzWkluYjnIjJnlmU8SW1HwyC4VuCmez0fX8Hx9Sr6xM6evEj7qJ32
+   6GiEzfq6F8TixWqfxVppBboDfcQzH+6IxdZ1tfBZndSxqLrJrvPxFivUq
+   ElX82UIQzN1L4tAn1pRUdrz/xBMN1fwbQiUDbgkGOReMXbNDaQdjheg0O
+   STKw6aVikibaC582wARNKvuSZPU/HUEZXWDoqqncWxee/p1PGJM6XdA9h
+   1yswE5qxv1FMaEd0Fl2CIJ85v/xasOX2hLllUJ/GcyaTUfXFMW4/3OaFy
+   frwmoGE49v129ZysL6ezwxgNhmJgTO0Bd7LY8MAwe0eW7VyCgJSi5Te4Y
    g==;
-X-CSE-ConnectionGUID: qCkQXhhzQumBhDN5T3/Yyw==
-X-CSE-MsgGUID: F1bgpRgoTgaptnQoxW1NPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="93020809"
+X-CSE-ConnectionGUID: KUgcC+e5Q3mhv1MjT4rwuw==
+X-CSE-MsgGUID: Yl4eKpaTRA2oj42lJYvqSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="81358509"
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="93020809"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 23:55:47 -0700
-X-CSE-ConnectionGUID: Ep3RQ9bXS4GMSkXuTUpz8Q==
-X-CSE-MsgGUID: LzaexE5HREyriuQIH6HYrw==
+   d="scan'208";a="81358509"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 00:07:47 -0700
+X-CSE-ConnectionGUID: HzFCvFzAQrmo3zaBiC558g==
+X-CSE-MsgGUID: Q20eKCXxSzSmmp3tjyeTHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="285800126"
+   d="scan'208";a="251605109"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jun 2026 23:55:45 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 Jun 2026 00:07:45 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZNi1-00000000Sp0-2RNY;
-	Tue, 16 Jun 2026 06:55:41 +0000
-Date: Tue, 16 Jun 2026 14:55:21 +0800
+	id 1wZNte-00000000Sq2-2soi;
+	Tue, 16 Jun 2026 07:07:42 +0000
+Date: Tue, 16 Jun 2026 15:07:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harini Katakam <harini.katakam@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>,
- Michal Simek <monstr@monstr.eu>,
- Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [nsa:xlnx/fix/buf-mmap-multibuffer 18197/27391]
- include/vdso/bits.h:7:40: warning: left shift count >= width of type
-Message-ID: <202606161407.GJ2rpiVl-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/hyperv_tlb_flush_races 26/31]
+ arch/x86/kvm/xen.c:1610 kvm_xen_hcall_vcpu_op() warn: unsigned
+ 'vcpu->arch.xen.vcpu_id' is never less than zero.
+Message-ID: <202606161552.mxgbSdDq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,91 +60,79 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Harini,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/nunojsa/linux xlnx/fix/buf-mmap-multibuffer
-head:   a26a8baba71e866951f6abf4fc6c0504770c272e
-commit: 1bf02f0625dc1372031ca84b0c2768c0d8f80314 [18197/27391] ptp: Add Xilinx PTP timer driver
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260616/202606161407.GJ2rpiVl-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161407.GJ2rpiVl-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/hyperv_tlb_flush_races
+head:   1fc5b5e066c6bee2c9266b52ef39867ea8929c59
+commit: 7f6f6ad90ce3b2431d0c52431eecb022035022c8 [26/31] KVM: x86/xen: Punt set_singleshot_timer to userspace if Xen vCPU ID isn't set
+config: i386-randconfig-141-20260616 (https://download.01.org/0day-ci/archive/20260616/202606161552.mxgbSdDq-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606161407.GJ2rpiVl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606161552.mxgbSdDq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+arch/x86/kvm/xen.c:1610 kvm_xen_hcall_vcpu_op() warn: unsigned 'vcpu->arch.xen.vcpu_id' is never less than zero.
 
-   In file included from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/ptp/ptp_xilinx.c:8:
-   drivers/ptp/ptp_xilinx.c: In function 'xlnx_tod_read':
-   include/linux/bits.h:36:18: warning: right shift count is negative [-Wshift-count-negative]
-      36 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-         |                  ^~
-   include/linux/bits.h:38:38: note: in expansion of macro '__GENMASK'
-      38 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~
-   drivers/ptp/ptp_xilinx.c:53:41: note: in expansion of macro 'GENMASK'
-      53 | #define XPTPTIMER_MAX_SEC_MASK          GENMASK(XPTPTIMER_MAX_SEC_SIZE - 1, 0)
-         |                                         ^~~~~~~
-   drivers/ptp/ptp_xilinx.c:107:51: note: in expansion of macro 'XPTPTIMER_MAX_SEC_MASK'
-     107 |         ts->tv_sec = (((u64)sech << 32) | secl) & XPTPTIMER_MAX_SEC_MASK;
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/bits.h:6:
-   drivers/ptp/ptp_xilinx.c: In function 'xlnx_ptp_adjtime':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/ptp/ptp_xilinx.c:55:41: note: in expansion of macro 'BIT'
-      55 | #define XPTPTIMER_TOD_OFFSET_NEG        BIT(47)
-         |                                         ^~~
-   drivers/ptp/ptp_xilinx.c:216:24: note: in expansion of macro 'XPTPTIMER_TOD_OFFSET_NEG'
-     216 |                 sign = XPTPTIMER_TOD_OFFSET_NEG;
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ptp/ptp_xilinx.c: In function 'xlnx_ptp_timer_probe':
-   include/linux/bits.h:36:18: warning: right shift count is negative [-Wshift-count-negative]
-      36 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-         |                  ^~
-   include/linux/bits.h:38:38: note: in expansion of macro '__GENMASK'
-      38 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~
-   drivers/ptp/ptp_xilinx.c:53:41: note: in expansion of macro 'GENMASK'
-      53 | #define XPTPTIMER_MAX_SEC_MASK          GENMASK(XPTPTIMER_MAX_SEC_SIZE - 1, 0)
-         |                                         ^~~~~~~
-   drivers/ptp/ptp_xilinx.c:347:50: note: in expansion of macro 'XPTPTIMER_MAX_SEC_MASK'
-     347 |         ts.tv_sec = (((u64)sech << 32) | secl) & XPTPTIMER_MAX_SEC_MASK;
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bits.h:36:18: warning: right shift count is negative [-Wshift-count-negative]
-      36 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-         |                  ^~
-   include/linux/bits.h:38:38: note: in expansion of macro '__GENMASK'
-      38 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~
-   drivers/ptp/ptp_xilinx.c:53:41: note: in expansion of macro 'GENMASK'
-      53 | #define XPTPTIMER_MAX_SEC_MASK          GENMASK(XPTPTIMER_MAX_SEC_SIZE - 1, 0)
-         |                                         ^~~~~~~
-   drivers/ptp/ptp_xilinx.c:353:51: note: in expansion of macro 'XPTPTIMER_MAX_SEC_MASK'
-     353 |         tsp.tv_sec = (((u64)sech << 32) | secl) & XPTPTIMER_MAX_SEC_MASK;
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~
+vim +1610 arch/x86/kvm/xen.c
 
-
-vim +7 include/vdso/bits.h
-
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
-3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  8  
-
-:::::: The code at line 7 was first introduced by commit
-:::::: 3945ff37d2f48d39fd1751d282c80176654049e4 linux/bits.h: Extract common header for vDSO
-
-:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+  1603	
+  1604	static bool kvm_xen_hcall_vcpu_op(struct kvm_vcpu *vcpu, bool longmode, int cmd,
+  1605					  int vcpu_id, u64 param, u64 *r)
+  1606	{
+  1607		struct vcpu_set_singleshot_timer oneshot;
+  1608		struct x86_exception e;
+  1609	
+> 1610		if (!kvm_xen_timer_enabled(vcpu) || vcpu->arch.xen.vcpu_id < 0)
+  1611			return false;
+  1612	
+  1613		switch (cmd) {
+  1614		case VCPUOP_set_singleshot_timer:
+  1615			if (vcpu->arch.xen.vcpu_id != vcpu_id) {
+  1616				*r = -EINVAL;
+  1617				return true;
+  1618			}
+  1619	
+  1620			/*
+  1621			 * The only difference for 32-bit compat is the 4 bytes of
+  1622			 * padding after the interesting part of the structure. So
+  1623			 * for a faithful emulation of Xen we have to *try* to copy
+  1624			 * the padding and return -EFAULT if we can't. Otherwise we
+  1625			 * might as well just have copied the 12-byte 32-bit struct.
+  1626			 */
+  1627			BUILD_BUG_ON(offsetof(struct compat_vcpu_set_singleshot_timer, timeout_abs_ns) !=
+  1628				     offsetof(struct vcpu_set_singleshot_timer, timeout_abs_ns));
+  1629			BUILD_BUG_ON(sizeof_field(struct compat_vcpu_set_singleshot_timer, timeout_abs_ns) !=
+  1630				     sizeof_field(struct vcpu_set_singleshot_timer, timeout_abs_ns));
+  1631			BUILD_BUG_ON(offsetof(struct compat_vcpu_set_singleshot_timer, flags) !=
+  1632				     offsetof(struct vcpu_set_singleshot_timer, flags));
+  1633			BUILD_BUG_ON(sizeof_field(struct compat_vcpu_set_singleshot_timer, flags) !=
+  1634				     sizeof_field(struct vcpu_set_singleshot_timer, flags));
+  1635	
+  1636			if (kvm_read_guest_virt(vcpu, param, &oneshot, longmode ? sizeof(oneshot) :
+  1637						sizeof(struct compat_vcpu_set_singleshot_timer), &e)) {
+  1638				*r = -EFAULT;
+  1639				return true;
+  1640			}
+  1641	
+  1642			kvm_xen_start_timer(vcpu, oneshot.timeout_abs_ns, false);
+  1643			*r = 0;
+  1644			return true;
+  1645	
+  1646		case VCPUOP_stop_singleshot_timer:
+  1647			if (vcpu->arch.xen.vcpu_id != vcpu_id) {
+  1648				*r = -EINVAL;
+  1649				return true;
+  1650			}
+  1651			kvm_xen_stop_timer(vcpu);
+  1652			*r = 0;
+  1653			return true;
+  1654		}
+  1655	
+  1656		return false;
+  1657	}
+  1658	
 
 --
 0-DAY CI Kernel Test Service
