@@ -1,109 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0423EAC65
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 06:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52552313E30
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 06:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781591688; cv=none; b=hZHqMmJRRF8e3PaXFQ54o2ErifF0ZYj2EA2ESvcxLccPyuivhBKE04Wm7LV/eh+yjYxkO7hv4AxOMQMHUvror0Dq9grKKPLIbasSRb0Qopu/KCNoFg5qw7W10aE/RPhRuVXk5brH/1h3CH+AYRBok+RFm+puZ/GuI4JQLB9w0zk=
+	t=1781592347; cv=none; b=OaTFCxW4AGePna4/B4npOuqMXpC2D1jALsONcOjqCwCDs3b1J1nl1/mPFWwANxByqrsuSSgU2LWeAFaAJDyWjz9tOUiD7ohiwJE7I+hwUkvgNv4S9SfHtrSi3bvszwcsfPvHw8m3GJTqVwBy25JWyGRJED1oP1DVU7AEp1AFzJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781591688; c=relaxed/simple;
-	bh=sHzpMcZaCgVHkg5llPtPmfPdPmYnzfSp18tpEqJRUEo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EEna1gKKclLXIZqSStJDDeSEoUD7ZMjfXAze83ZmS0qfOqRU2hi/oUFmzHNe6E0OR8pKnCLCH8pk/OgC7GTsJ55nWz3rLPllRAnb5DrhWvGb73rslHotj+2t10AGwO6NbbxpzPqexYzcSoCezTxtOGsADGQMWEAC1xZwmKbAEjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hopEXOL8; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1781592347; c=relaxed/simple;
+	bh=CCh0ba3licijLznpToBRF/VhtqH9uOpQx+TyumsRKwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sHekcnjY5yqXmJ4OH6n/bZUxTnTlCvNKfwJHfsHmWeJAG/TcHyuHos02icOdm0pN4yUhA2enBy3Qi98m5k2MWECNpoul8XMgW3ByCaTKdR+7h2fa4cd6yJsNfHCYrrxsY9XbOV43Iq1DTZr4UPLJ6U5+dvxUzBMYucFeVw1nMFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/mEJHC/; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hopEXOL8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/mEJHC/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781591685; x=1813127685;
-  h=date:from:to:cc:subject:message-id;
-  bh=sHzpMcZaCgVHkg5llPtPmfPdPmYnzfSp18tpEqJRUEo=;
-  b=hopEXOL8mDouv+Niw5dRV2/S7LX9nZxGkmb2Ba3mdS9+IA2J/Z4lPXw0
-   HvDAN1NzTZIZrvlvo1rsdSXJqQG8lUAukEiE3++fojARhz/IRvIgK6Vqg
-   zlTkfzD/xn29c0IW3u/i8z+UXPXuPHdCsF4yY60/SW4d/wTeQi8hol205
-   YMYqY/wCV5f6fkwaYN6KyOkQ3zMCEMYf+th3auqiB1+Rgt0R2a8iq1LeD
-   FdbRgy1ghUa1KGycDrMFnNcitVFzZdvB9SA6ABWG/ezXQ2/nqS4RG6of5
-   gQNaiDORvVRoFx36jpyqTGUuFFPSestnrn2ASNRM9w57nBs2b7m87r4I+
+  t=1781592346; x=1813128346;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CCh0ba3licijLznpToBRF/VhtqH9uOpQx+TyumsRKwE=;
+  b=P/mEJHC/Auqk8oKVjYUyXqcV5BkSL1aPAr8VlKBwsxr6GB+QNvWGubtm
+   x6OfH0aBbz04c5t+oi9aUrS8Nip2YJwRXYlilfKDdhK4SVDBN3EdFAvsQ
+   9/nhmoTdFRF7EFBsyw4EnSXcpIUIzGZWA1lwFb994BS+kHT8szDQb1khW
+   59ngJZNeD85oan3puHUNVe3NnHppKZT7DxXtHga8JvdXlQDU+yTx/2p3q
+   LpIYt3oV2zBObDYuv/5LlKn16wFAwmNdXnBN4k0hMkuu5jq+3atHBSAJ+
+   9HWmttm85WQqm6gmbr6VQAhcbTmt79fsdPUcHp76nKrDpH1ZsliYBC+Ol
    Q==;
-X-CSE-ConnectionGUID: X0PYGF+oQ9mPwEyvpDDnUQ==
-X-CSE-MsgGUID: LBP/8PrhTGuyGNdzRr6rwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="93463554"
+X-CSE-ConnectionGUID: RfvhLUdoRemw5rBNBebA3Q==
+X-CSE-MsgGUID: Ed9TBtPoQi2Z4MLgqfbgWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="99921274"
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="93463554"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 23:34:44 -0700
-X-CSE-ConnectionGUID: zIHdkkAtTgOHZXND9Hh+ug==
-X-CSE-MsgGUID: SyL638UVRm+3a7tP20/vpQ==
+   d="scan'208";a="99921274"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 23:45:46 -0700
+X-CSE-ConnectionGUID: sKOjKscBT8+Lf9shcPTZEQ==
+X-CSE-MsgGUID: /B2Yx7BFRzCp2336jJ5O/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="271749721"
+   d="scan'208";a="252811134"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Jun 2026 23:34:43 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 15 Jun 2026 23:45:44 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZNNg-00000000SoE-3ROk;
-	Tue, 16 Jun 2026 06:34:40 +0000
-Date: Tue, 16 Jun 2026 14:34:27 +0800
+	id 1wZNYL-00000000SoU-06am;
+	Tue, 16 Jun 2026 06:45:41 +0000
+Date: Tue, 16 Jun 2026 14:44:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.0-main 162/162]
- drivers/net/dsa/yt921x.c:2158:1: error: redefinition of 'dsa_bridge_ports'
-Message-ID: <202606161424.ihEwSbaE-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Biren Pandya <birenpandya@gmail.com>, Linus Walleij <linusw@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biren Pandya <birenpandya@gmail.com>
+Subject: Re: [PATCH v2] iio: gyro: mpu3050: Fix runtime PM leak and refactor
+ trigger state
+Message-ID: <202606161405.AQgTPZlw-lkp@intel.com>
+References: <20260615214504.38979-1-birenpandya@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260615214504.38979-1-birenpandya@gmail.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-main
-head:   5c1d29f589046df832c7a303b9df3afd038366df
-commit: fb921d0bfad9b0ad308fb21eee08296f334dbd0d [162/162] net: dsa: add bridge member iteration macro
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260616/202606161424.ihEwSbaE-lkp@intel.com/config)
+Hi Biren,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v7.1 next-20260615]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Biren-Pandya/iio-gyro-mpu3050-Fix-runtime-PM-leak-and-refactor-trigger-state/20260616-054636
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20260615214504.38979-1-birenpandya%40gmail.com
+patch subject: [PATCH v2] iio: gyro: mpu3050: Fix runtime PM leak and refactor trigger state
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260616/202606161405.AQgTPZlw-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161424.ihEwSbaE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161405.AQgTPZlw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606161424.ihEwSbaE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606161405.AQgTPZlw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/dsa/yt921x.c:2158:1: error: redefinition of 'dsa_bridge_ports'
-    2158 | dsa_bridge_ports(struct dsa_switch *ds, const struct net_device *bdev)
-         | ^~~~~~~~~~~~~~~~
-   In file included from drivers/net/dsa/yt921x.c:24:
-   include/net/dsa.h:841:1: note: previous definition of 'dsa_bridge_ports' with type 'u32(struct dsa_switch *, const struct net_device *)' {aka 'unsigned int(struct dsa_switch *, const struct net_device *)'}
-     841 | dsa_bridge_ports(struct dsa_switch *ds, const struct net_device *bdev)
-         | ^~~~~~~~~~~~~~~~
-
-
-vim +/dsa_bridge_ports +2158 drivers/net/dsa/yt921x.c
-
-186623f4aa724c David Yang 2025-10-17  2156  
-186623f4aa724c David Yang 2025-10-17  2157  static u32
-186623f4aa724c David Yang 2025-10-17 @2158  dsa_bridge_ports(struct dsa_switch *ds, const struct net_device *bdev)
-186623f4aa724c David Yang 2025-10-17  2159  {
-186623f4aa724c David Yang 2025-10-17  2160  	struct dsa_port *dp;
-186623f4aa724c David Yang 2025-10-17  2161  	u32 mask = 0;
-186623f4aa724c David Yang 2025-10-17  2162  
-186623f4aa724c David Yang 2025-10-17  2163  	dsa_switch_for_each_user_port(dp, ds)
-186623f4aa724c David Yang 2025-10-17  2164  		if (dsa_port_offloads_bridge_dev(dp, bdev))
-186623f4aa724c David Yang 2025-10-17  2165  			mask |= BIT(dp->index);
-186623f4aa724c David Yang 2025-10-17  2166  
-186623f4aa724c David Yang 2025-10-17  2167  	return mask;
-186623f4aa724c David Yang 2025-10-17  2168  }
-186623f4aa724c David Yang 2025-10-17  2169  
-
-:::::: The code at line 2158 was first introduced by commit
-:::::: 186623f4aa724c46cbb4dbd5235cf6942215f5b5 net: dsa: yt921x: Add support for Motorcomm YT921x
-
-:::::: TO: David Yang <mmyangfl@gmail.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+>> Warning: drivers/iio/gyro/mpu3050-core.c:953 expecting prototype for mpu3050_drdy_trigger_set_state(). Prototype was for mpu3050_drdy_trigger_disable() instead
 
 --
 0-DAY CI Kernel Test Service
