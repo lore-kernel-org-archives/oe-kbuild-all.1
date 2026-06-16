@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9AB248886;
-	Tue, 16 Jun 2026 01:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E53CDDCD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 03:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781574837; cv=none; b=L19/ZapO5P8JzGejB3RZp63s9CzY+oGEzza4iU6Wpk5P+MkRRX3ZIBWCFlL1Px3qvMKFTDrso0L4ZSAqSMKFOoOACPvOmT1luXDAR6P6IlLrTSo+fb7rE3l5DcoEwYXDSmJf9aRe0LoKTgOpEjsVL59Pt+od9ZIu8tbCOGTIazE=
+	t=1781579605; cv=none; b=QK+XEubVClXfO1xOrZpeLiO4ZrVaigX1TAPFzQlFV4Y9bzHfsmSsrK+qAlJFye0NEnDYiai2PNHOTmIoniAClSxteGMB6ruDzqrq7OrpCKnA1osWHtqK9K+yc6d1BRrSKCLOJPHhoatYC8NXt45ErUu4DuYoLklMpR6qB4wT7aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781574837; c=relaxed/simple;
-	bh=c0fGTUzVSCMd1KDXVd4fqIwkb1qp+gTtFUIXA2U576E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BnsKlZDxXQ9UvKZLI3+wKaTEudUSN7I0alJfdERu0fs8gl+yOYksgXRAh/pU/iqYj4nley825SELoxCod7gjPV1F0sIFoaYZ2yHP75lXVWIJPGWTkf/dknoKFAz7zntda2UoCtaVlOs9N10F7vUqgvpIgTMAIx9+9dPUHu5UTiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0ObOFHB; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1781579605; c=relaxed/simple;
+	bh=+L4tdxTYVeGZloxG7k56wXRTF+QIPpgDQ2NbD/T/4Ug=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LlxcyPKWRtgJ9aTx2rxwNUsLD+I4x8/5QzJxmfrweoTdjwJWwGF0ZqL7CGZl3xbHfNifGUBh6PfHMsZ1zqFa1c0fV/7yA5jeKAcWI0q+niiQsi4zHxhpb2AsTu3uXwwRzi0CEaDuBNWebTnW4wzKh15HsBDJwk7DxzLwYy17nXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUcpx6PQ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0ObOFHB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUcpx6PQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781574836; x=1813110836;
+  t=1781579603; x=1813115603;
   h=date:from:to:cc:subject:message-id;
-  bh=c0fGTUzVSCMd1KDXVd4fqIwkb1qp+gTtFUIXA2U576E=;
-  b=I0ObOFHBr5RpLVcfSxy5Q0GmqBoapXKGLT9F5OxfiifeuGjbFDKAsV+r
-   cVFVValWXheKdpQ7jRfIOlsLkWVRv+r9sPad9Ugts3ep7JK2oVnT11uTj
-   ATXwnkT2Q2cguVBjpxOiV8jmioHx7mmmvnOv6nZKYQKUnGMxf27/oHzxg
-   dktPcT89SSa4yNlXuYzZZ9UI/qrY9KNDe2VD7AHii0KmabKC4TM70tQWI
-   w9QiqFgkSTQbhvnuSQjZSui3iYNYs2LEXQ9dSHYv4LOwuhohhcgfAI6FE
-   oqrbJeH20cmq4hiwiIERZAS3lTK+vGrGAWZcH0uUKdPbPsmn12CeQSVli
+  bh=+L4tdxTYVeGZloxG7k56wXRTF+QIPpgDQ2NbD/T/4Ug=;
+  b=AUcpx6PQUP3wNNaLzKcubJWua5toZXtkDeTWs5jNF0SrA80PpiPBJr0W
+   pUTLwUuxWbWPmEZc/6v2cfScCReOKlwNGJluxb1whA4hxXSGPPj3n+9rj
+   70fqTbF+ejZkK/49UHhbNGU0xPFYOoQVoXIsJnq+tURWzHZPm0z+Ak7Ej
+   x4o45DU88pPC3osa6VHootl2iNpEDJ6MCNkLlZHq2HkwcIDnPbVC2RX/S
+   WzQN1/Fwi47xgoazIUs2fB3hpP85DVvXi+Ja5hqvPEiFAS2XsCA1HfcT3
+   BLlFgBqqu3lBCdxA988tUstLbeTUCzgby9G2rVUuX8ZQJPGli4wwMLG47
    w==;
-X-CSE-ConnectionGUID: W43tLX+0QqmnZ/E3DQMM8Q==
-X-CSE-MsgGUID: lIFayG46SLC08UtYuQ/zvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="86229911"
+X-CSE-ConnectionGUID: f0DiU/nXSsSBEd5DWl9Deg==
+X-CSE-MsgGUID: SB5X6dy7Suqq1OgCEuc0jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="69879221"
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="86229911"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 18:53:55 -0700
-X-CSE-ConnectionGUID: hQMSHub1Tue2KEJ3dvjf3A==
-X-CSE-MsgGUID: 4Rj1ItxNSHaGxnt7zGBtaQ==
+   d="scan'208";a="69879221"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 20:13:22 -0700
+X-CSE-ConnectionGUID: jeREqOIhS6aO1Ztl/TupnA==
+X-CSE-MsgGUID: gOYGVa0iTcudMuVvzz8bMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="271695195"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Jun 2026 18:53:53 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="244752970"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 15 Jun 2026 20:13:21 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZIzv-0000000051t-2D8z;
-	Tue, 16 Jun 2026 01:53:51 +0000
-Date: Tue, 16 Jun 2026 03:53:45 +0200
+	id 1wZKEo-00000000Sem-3tTI;
+	Tue, 16 Jun 2026 03:13:18 +0000
+Date: Tue, 16 Jun 2026 11:13:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: drivers/net/phy/phylink.c:2209:3: error: call to undeclared
- function 'unregister_fwnode_pcs_notifier'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202606160351.gbTsXg5I-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.1-rc 166/166]
+ drivers/phy/mediatek/phy-mtk-xfi-tphy.c:75:6: warning: no previous prototype
+ for 'mtk_xfi_tphy_valid_ctle'
+Message-ID: <202606161100.uH9Uqjp1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,75 +60,45 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phylink-keep-and-use-MAC-supported_interfaces-in-phylink-struct/20260615-212009
-head:   10bf93a42ff6fa44dfd5bc9e6f71cca15ba1750a
-commit: fc6fa24f5fd3fbc958ba44beefce3dea9843a70b net: phylink: support late PCS provider attach
-date:   13 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260616/202606160351.gbTsXg5I-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606160351.gbTsXg5I-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
+head:   c95b3b76f17fc39ff9ed52ee3e3f0bccc707f586
+commit: 93d09f4f4b72a6b829135dfad3eac1c1684ccbe6 [166/166] phy: mtk-xfi: add mtk_xfi_tphy_valid_ctle for use in usxgmii driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260616/202606161100.uH9Uqjp1-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161100.uH9Uqjp1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606160351.gbTsXg5I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606161100.uH9Uqjp1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/phy/phylink.c:2083:34: warning: variable 'pl' is uninitialized when used here [-Wuninitialized]
-    2083 |         if (config->num_possible_pcs && pl->mac_ops->mac_select_pcs) {
-         |                                         ^~
-   drivers/net/phy/phylink.c:2069:20: note: initialize the variable 'pl' to silence this warning
-    2069 |         struct phylink *pl;
-         |                           ^
-         |                            = NULL
->> drivers/net/phy/phylink.c:2209:3: error: call to undeclared function 'unregister_fwnode_pcs_notifier'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2209 |                 unregister_fwnode_pcs_notifier(&pl->fwnode_pcs_nb);
-         |                 ^
-   drivers/net/phy/phylink.c:2209:3: note: did you mean 'register_fwnode_pcs_notifier'?
-   include/linux/pcs/pcs.h:104:19: note: 'register_fwnode_pcs_notifier' declared here
-     104 | static inline int register_fwnode_pcs_notifier(struct notifier_block *nb)
-         |                   ^
-   1 warning and 1 error generated.
+>> drivers/phy/mediatek/phy-mtk-xfi-tphy.c:75:6: warning: no previous prototype for 'mtk_xfi_tphy_valid_ctle' [-Wmissing-prototypes]
+      75 | bool mtk_xfi_tphy_valid_ctle(struct phy *phy)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/unregister_fwnode_pcs_notifier +2209 drivers/net/phy/phylink.c
+vim +/mtk_xfi_tphy_valid_ctle +75 drivers/phy/mediatek/phy-mtk-xfi-tphy.c
 
-  2189	
-  2190	/**
-  2191	 * phylink_destroy() - cleanup and destroy the phylink instance
-  2192	 * @pl: a pointer to a &struct phylink returned from phylink_create()
-  2193	 *
-  2194	 * Destroy a phylink instance. Any PHY that has been attached must have been
-  2195	 * cleaned up via phylink_disconnect_phy() prior to calling this function.
-  2196	 *
-  2197	 * Note: the rtnl lock must not be held when calling this function.
-  2198	 */
-  2199	void phylink_destroy(struct phylink *pl)
-  2200	{
-  2201		struct phylink_pcs *pcs, *tmp;
-  2202	
-  2203		sfp_bus_del_upstream(pl->sfp_bus);
-  2204		if (pl->link_gpio)
-  2205			gpiod_put(pl->link_gpio);
-  2206	
-  2207		/* Unregister notifier for late PCS attach */
-  2208		if (pl->fwnode_pcs_nb.notifier_call)
-> 2209			unregister_fwnode_pcs_notifier(&pl->fwnode_pcs_nb);
-  2210	
-  2211		/* Drop link between PCS and phylink */
-  2212		list_for_each_entry(pcs, &pl->pcs_list, list)
-  2213			pcs->phylink = NULL;
-  2214	
-  2215		/* Remove every PCS from phylink PCS list */
-  2216		list_for_each_entry_safe(pcs, tmp, &pl->pcs_list, list)
-  2217			list_del(&pcs->list);
-  2218	
-  2219		cancel_work_sync(&pl->resolve);
-  2220		kfree(pl);
-  2221	}
-  2222	EXPORT_SYMBOL_GPL(phylink_destroy);
-  2223	
+    74	
+  > 75	bool mtk_xfi_tphy_valid_ctle(struct phy *phy)
+    76	{
+    77		struct mtk_xfi_tphy *xfi_tphy = phy_get_drvdata(phy);
+    78		unsigned int val, ctle;
+    79	
+    80		writel(0x00000404, xfi_tphy->base + 0x00);
+    81		writel(0x00d600d5, xfi_tphy->base + 0x10);
+    82	
+    83		val = readl(xfi_tphy->base + 0xd0);
+    84	
+    85		ctle = FIELD_GET(GENMASK(12, 8), val);
+    86		if (ctle > 10)
+    87		       return false;
+    88	
+    89		return true;
+    90	}
+    91	
 
 --
 0-DAY CI Kernel Test Service
