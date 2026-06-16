@@ -1,64 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C1E3ACF17
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 09:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017BA3CBE75
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 10:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781602570; cv=none; b=A/uugqc7taNLggJ2dktGDEXqQ1uFUB8rhwEM/kSVo8aKHTJwiyk0l8vCIsxCln8XRwm3i9bqUd3sDSavZ/BX6BKKiOrZBe6Qv0Uv+0UK+ShACho4K1j6jmjRQZM7GXBGMC/2msG2MdxCO7Mg/H2IJjBVP04XHWVDzuiClqX+u24=
+	t=1781607378; cv=none; b=DA9pnn42tQ1/ELcNgGz+8e7yCAqRrmRQT9nWjJx4SEl1to0rAF7MFZCiJb2S/A0XlDJY1CagmdXcHzW5DVXFqHLkWC1GZw1u34dinU+Y7KJUoG22iXoPNlQ7O/sVnpC/LjAxmEyL2/udmMfSi+49lAzi3yk52DBbx0dyBKtvyP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781602570; c=relaxed/simple;
-	bh=RQw8+haF3YGhQ11oesYPaatwfeZ9287NS14XPXmFYN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y9Bj9J0XStJNzkEc8lpIkBEDJzN2nJp0rGJKXZYiP+S82StrFFI9SAvYaJTq589aIZLISaQkT5wq/JAZGLIBRkjUws5+9+FEyi1HC+/cRmnUG9Twl+Tl+ekQvxSISTH0PqbGs1GQmF/hy5xVFu4YoWBJVwjNy+zQYdhdQLqtXyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n66qAPZs; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781607378; c=relaxed/simple;
+	bh=Cgw3ABT9pBkomqaKRkRYcm74nI6B59+N8g63924rC3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rgatAvmjfNGCKBmhCeKjA21xCkYWQh9xmV2I2JpDyl1ir1hi4pMxNtxNxRw/5bm9VEMhEF0K0WQPB1WHzeeNq+aDsIbvApsEKM/uYWcWRatTKx5MC5NYb+giyi3VYlCfezuOzZCjnLNZ7+hBIn7FxVDxFvyb6ZdQeqA4VCTPNFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCbabpKU; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n66qAPZs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781602569; x=1813138569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RQw8+haF3YGhQ11oesYPaatwfeZ9287NS14XPXmFYN8=;
-  b=n66qAPZsNgIydz32BQdk1lo6al2SMkxJ7i3RKAo5UZcRoAgqvMQA/kLE
-   7872VSdhtPaPPcDa8rTmjmra1ZSwZRaMyxm17TJZSbX3CkahIy71leeP0
-   icc+bnv43DWR5L0bBAtebvZ6kXtQP6XHc7ChvKPJcVU7YATjJGvQNkhn2
-   dzRXMAszs2tBNCY4GWYcHGAHVeuQQJudUMmj6X0uX5EC7PfSg/PJIAQAT
-   Qz3QjA+7E2M/1sMI+b88qClAcwv5ZN71pz84qd2Rj7BlYj9dFRzrtd69k
-   i0S1ghF4EnCyNeErK3sqhDRiafw04D0//Esrf0tVKAxs1Z+prp8qMAWIC
-   w==;
-X-CSE-ConnectionGUID: V+31yQDBS2yk8V4MFSz0Jw==
-X-CSE-MsgGUID: NI8UTxJFSt6PQXY31zcJCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="69907562"
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="69907562"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 02:36:08 -0700
-X-CSE-ConnectionGUID: ZKpk0ntNQqqKLA+78diyQw==
-X-CSE-MsgGUID: QG1s9KTjT3yZofSS+lLeoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="244836128"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Jun 2026 02:36:06 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wZQDE-00000000Syc-1I6s;
-	Tue, 16 Jun 2026 09:36:04 +0000
-Date: Tue, 16 Jun 2026 17:35:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: Re: [PATCH] misc: lan966x_pci: depopulate children on populate
- failure
-Message-ID: <202606161724.uAEP4nTA-lkp@intel.com>
-References: <20260616004304.95117-1-pengpeng@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCbabpKU"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-91587626ae1so511506385a.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jun 2026 03:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781607376; x=1782212176; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sL1EYeunZVmeX2O8G+uTenF+3xBYFtXT4U5wPuM3bzc=;
+        b=cCbabpKUdHltJ7i0ml9+1RvI/lZw1+hP1vg+Gv+ztRDSRZdDFOhnhdTzNuKsJarB52
+         UQWdPlbmImNJoy6Z0u2RggZleVCECRl0tCrI5FjYJ3a55lsu+Mhmt1GdRAUFTRaD26++
+         x5SK6hAkTScJR5a+5+BsevOwWN/24T+M9OuXUms6nEB9tCp9aqhKRxoRw/2/iG+th26v
+         4OcvLHWdWUNAR75Sdj9Dt3WaK5Rp2npgh4Nmda4Y0B5VzC40O+SSYqrSCIrZ4i+Ekae7
+         nN4pNBMOa4+fXn+vktdsqjt3nY/QXzbCEbFnhyhiMdgeBJ7BA4TqGUhbsk4s3sEP4mjL
+         vDIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781607376; x=1782212176;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sL1EYeunZVmeX2O8G+uTenF+3xBYFtXT4U5wPuM3bzc=;
+        b=pzVOsyn5YAf8c6nmMUawMODRAit9nU2F9Co+elxJ6ya3cNiMGnoBvVFXoRO+ZiwUqD
+         YDR020GN0Eg4G7Qp9a2DqdtnKEczuIEI+IUvWlDSOeZ3NKlycB+gzB/KIj4R9NV+EqDW
+         zKsxbb6yQhNTe8rEa3OVPHigSCYzalNKUZrjEcebzkfmcKRGKskHO4RkmFMz4hU7j6Du
+         sHeg7M0jxDqdkIc2Bo2qqqmBR9wUii4mObQ0WP2YZLvMh7V9U4cEaH8NwuEzcmUPgekd
+         QIbhHlFwaAHyFKdAoXUICez+cbVB1mlnVGkM8sCqyLcS3BJZXwV45CZkhkOReS1aHdib
+         YCSA==
+X-Forwarded-Encrypted: i=1; AFNElJ9o4TOuxs7WaywzGJgU5/GDzO4tvtL/e/rRN/QKezZCcYl4eW2bp0niqY5dFuwUpJ9mQpSktfs1+5/7tnFr@lists.linux.dev
+X-Gm-Message-State: AOJu0YzENDx5LIrWvB479SpGU1oHOikmhL0wpOgfVvcUEpXZVpM4ubes
+	01Gs/qKA75qPQl53WcksRJ1c2ehEIZ3WIttvqq+GMxf/nchy9zcZ5xT4
+X-Gm-Gg: Acq92OHv4V5yqfy7rDc3AMJN3RZX7AYQ/eG7sIXpXk+0RuJvN6TWMSfjiEFjGdrqkWs
+	9TsTojK9DnGITjkyYuznX8xWEHrLfieiFMULTlyxR6ODvo9k5jiBxFzfZWLIBIwWcQkeo0m18QC
+	xj/7tFXkVPuspWaVLrYtLn35p9vKojKYS9P5yHLEkySdOUINYkkLgI6TiZnUWjFXtohfRmnvlgy
+	KL5j1ZeY90G3R4L8S1YOJqHup8YM8e+XIKwgS0ULSvxQ/5GaaUtLpOVkZV2xbkUZkD6PgOwA5un
+	EaLSZkT6zaRNo+f6csNz1c60iXo1ygGLdeqImEqTKOTRx+MoHSuSiqUiy+MnLlRSci2D0166i/r
+	HGzajFqZZ13rOgmeDXVivgVBU9CH5IuuU2b0TpJfmYPtb5zQdmYyxKfaxsov54I2CiipdNx49j8
+	dRGrNOoF4RVb+HBNM5
+X-Received: by 2002:a05:620a:1a10:b0:915:79c8:ec9c with SMTP id af79cd13be357-91c4807388emr438300585a.35.1781607376030;
+        Tue, 16 Jun 2026 03:56:16 -0700 (PDT)
+Received: from localhost ([43.225.189.75])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d9f19e917bsm31563066d6.13.2026.06.16.03.56.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 03:56:15 -0700 (PDT)
+Date: Tue, 16 Jun 2026 13:56:08 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Harry Wentland <harry.wentland@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Fangzhi Zuo <Jerry.Zuo@amd.com>
+Subject: [linux-next:master 9794/14023]
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_hdcp.c:584
+ update_config() error: we previously assumed 'aconnector->dc_sink' could be
+ null (see line 559)
+Message-ID: <202606161822.yCBePSkO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,96 +76,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260616004304.95117-1-pengpeng@iscas.ac.cn>
 
-Hi Pengpeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v7.1 next-20260615]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengpeng-Hou/misc-lan966x_pci-depopulate-children-on-populate-failure/20260616-091550
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20260616004304.95117-1-pengpeng%40iscas.ac.cn
-patch subject: [PATCH] misc: lan966x_pci: depopulate children on populate failure
-config: loongarch-randconfig-001-20260616 (https://download.01.org/0day-ci/archive/20260616/202606161724.uAEP4nTA-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161724.uAEP4nTA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8d6dbbbe3ba62de0a63e962ee004afb848c8e3ac
+commit: 5c9b8b27a883822fe5812bed23bca7ffeb4301f7 [9794/14023] drm/amd/display: Tie FRL support into amdgpu_dm
+config: i386-randconfig-141-20260611 (https://download.01.org/0day-ci/archive/20260616/202606161822.yCBePSkO-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606161724.uAEP4nTA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606161822.yCBePSkO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_hdcp.c:584 update_config() error: we previously assumed 'aconnector->dc_sink' could be null (see line 559)
 
-   drivers/misc/lan966x_pci.c: In function 'lan966x_pci_probe':
->> drivers/misc/lan966x_pci.c:187:1: warning: label 'err_unload_overlay' defined but not used [-Wunused-label]
-     187 | err_unload_overlay:
-         | ^~~~~~~~~~~~~~~~~~
+vim +584 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_hdcp.c
 
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  535  static void update_config(void *handle, struct cp_psp_stream_config *config)
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  536  {
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  537  	struct hdcp_workqueue *hdcp_work = handle;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  538  	struct amdgpu_dm_connector *aconnector = config->dm_stream_ctx;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  539  	int link_index = aconnector->dc_link->link_index;
+be593d9d91c5a3a Chris Bainbridge       2025-04-17  540  	unsigned int conn_index = aconnector->base.index;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  541  	struct mod_hdcp_display *display = &hdcp_work[link_index].display;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  542  	struct mod_hdcp_link *link = &hdcp_work[link_index].link;
+393e83484839970 Bhawanpreet Lakha      2023-07-24  543  	struct hdcp_workqueue *hdcp_w = &hdcp_work[link_index];
+4d31819a3746b1f Wayne Lin              2022-05-31  544  	struct dc_sink *sink = NULL;
+035f54969bb2c1a Aurabindo Pillai       2021-08-13  545  	bool link_is_hdcp14 = false;
+face6a3615a6494 Wenjing Liu            2025-10-03  546  	const struct dc *dc = aconnector->dc_link->dc;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  547  
+a30a8c2f884c283 Bhawanpreet Lakha      2019-12-06  548  	if (config->dpms_off) {
+a30a8c2f884c283 Bhawanpreet Lakha      2019-12-06  549  		hdcp_remove_display(hdcp_work, link_index, aconnector);
+a30a8c2f884c283 Bhawanpreet Lakha      2019-12-06  550  		return;
+a30a8c2f884c283 Bhawanpreet Lakha      2019-12-06  551  	}
+3528cae940d75f3 Leo (Hanghong  Ma      2020-05-08  552) 
+3528cae940d75f3 Leo (Hanghong  Ma      2020-05-08  553) 	memset(display, 0, sizeof(*display));
+3528cae940d75f3 Leo (Hanghong  Ma      2020-05-08  554) 	memset(link, 0, sizeof(*link));
+3528cae940d75f3 Leo (Hanghong  Ma      2020-05-08  555) 
+3528cae940d75f3 Leo (Hanghong  Ma      2020-05-08  556) 	display->index = aconnector->base.index;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  557  	display->state = MOD_HDCP_DISPLAY_ACTIVE;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  558  
+4d31819a3746b1f Wayne Lin              2022-05-31 @559  	if (aconnector->dc_sink)
+                                                                    ^^^^^^^^^^^^^^^^^^^
+This looks like there is a very good reason to thing aconnector->dc_sink
+can be NULL.
 
-vim +/err_unload_overlay +187 drivers/misc/lan966x_pci.c
+4d31819a3746b1f Wayne Lin              2022-05-31  560  		sink = aconnector->dc_sink;
+4d31819a3746b1f Wayne Lin              2022-05-31  561  	else if (aconnector->dc_em_sink)
+4d31819a3746b1f Wayne Lin              2022-05-31  562  		sink = aconnector->dc_em_sink;
+4d31819a3746b1f Wayne Lin              2022-05-31  563  
+a19de9dbb4d293c Srinivasan Shanmugam   2023-07-13  564  	if (sink)
+4d31819a3746b1f Wayne Lin              2022-05-31  565  		link->mode = mod_hdcp_signal_type_to_operation_mode(sink->sink_signal);
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  566  
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  567  	display->controller = CONTROLLER_ID_D0 + config->otg_inst;
+aac6d4391a0a354 Wenjing Liu            2020-12-10  568  	display->dig_fe = config->dig_fe;
+aac6d4391a0a354 Wenjing Liu            2020-12-10  569  	link->dig_be = config->dig_be;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  570  	link->ddc_line = aconnector->dc_link->ddc_hw_inst + 1;
+bf62221e9d0e1e4 Nicholas Kazlauskas    2021-05-19  571  	display->stream_enc_idx = config->stream_enc_idx;
+bf62221e9d0e1e4 Nicholas Kazlauskas    2021-05-19  572  	link->link_enc_idx = config->link_enc_idx;
+f51d22b0d04aa33 Qingqing Zhuo          2022-06-03  573  	link->dio_output_id = config->dio_output_idx;
+bf62221e9d0e1e4 Nicholas Kazlauskas    2021-05-19  574  	link->phy_idx = config->phy_idx;
+10a36226157035e Wayne Lin              2022-04-13  575  
+4d31819a3746b1f Wayne Lin              2022-05-31  576  	if (sink)
+4d31819a3746b1f Wayne Lin              2022-05-31  577  		link_is_hdcp14 = dc_link_is_hdcp14(aconnector->dc_link, sink->sink_signal);
+035f54969bb2c1a Aurabindo Pillai       2021-08-13  578  	link->hdcp_supported_informational = link_is_hdcp14;
+a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  579  	link->dp.rev = aconnector->dc_link->dpcd_caps.dpcd_rev.raw;
+aac6d4391a0a354 Wenjing Liu            2020-12-10  580  	link->dp.assr_enabled = config->assr_enabled;
+aac6d4391a0a354 Wenjing Liu            2020-12-10  581  	link->dp.mst_enabled = config->mst_enabled;
+c32699caeca802c Jasdeep Dhillon        2023-01-25  582  	link->dp.dp2_enabled = config->dp2_enabled;
+f51d22b0d04aa33 Qingqing Zhuo          2022-06-03  583  	link->dp.usb4_enabled = config->usb4_enabled;
+5c9b8b27a883822 Harry Wentland         2026-04-24 @584  	if (aconnector->dc_sink->sink_signal == SIGNAL_TYPE_HDMI_FRL)
+                                                                    ^^^^^^^^^^^^^^^^^^^
+Unchecked dereference.
 
-185686beb464996 Herve Codina 2024-10-14  138  
-185686beb464996 Herve Codina 2024-10-14  139  static int lan966x_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-185686beb464996 Herve Codina 2024-10-14  140  {
-185686beb464996 Herve Codina 2024-10-14  141  	struct device *dev = &pdev->dev;
-185686beb464996 Herve Codina 2024-10-14  142  	struct lan966x_pci *data;
-185686beb464996 Herve Codina 2024-10-14  143  	int ret;
-185686beb464996 Herve Codina 2024-10-14  144  
-185686beb464996 Herve Codina 2024-10-14  145  	/*
-185686beb464996 Herve Codina 2024-10-14  146  	 * On ACPI system, fwnode can point to the ACPI node.
-185686beb464996 Herve Codina 2024-10-14  147  	 * This driver needs an of_node to be used as the device-tree overlay
-185686beb464996 Herve Codina 2024-10-14  148  	 * target. This of_node should be set by the PCI core if it succeeds in
-185686beb464996 Herve Codina 2024-10-14  149  	 * creating it (CONFIG_PCI_DYNAMIC_OF_NODES feature).
-185686beb464996 Herve Codina 2024-10-14  150  	 * Check here for the validity of this of_node.
-185686beb464996 Herve Codina 2024-10-14  151  	 */
-185686beb464996 Herve Codina 2024-10-14  152  	if (!dev_of_node(dev))
-185686beb464996 Herve Codina 2024-10-14  153  		return dev_err_probe(dev, -EINVAL, "Missing of_node for device\n");
-185686beb464996 Herve Codina 2024-10-14  154  
-185686beb464996 Herve Codina 2024-10-14  155  	/* Need to be done before devm_pci_dev_create_intr_ctrl.
-185686beb464996 Herve Codina 2024-10-14  156  	 * It allocates an IRQ and so pdev->irq is updated.
-185686beb464996 Herve Codina 2024-10-14  157  	 */
-185686beb464996 Herve Codina 2024-10-14  158  	ret = pcim_enable_device(pdev);
-185686beb464996 Herve Codina 2024-10-14  159  	if (ret)
-185686beb464996 Herve Codina 2024-10-14  160  		return ret;
-185686beb464996 Herve Codina 2024-10-14  161  
-185686beb464996 Herve Codina 2024-10-14  162  	ret = devm_pci_dev_create_intr_ctrl(pdev);
-185686beb464996 Herve Codina 2024-10-14  163  	if (ret)
-185686beb464996 Herve Codina 2024-10-14  164  		return ret;
-185686beb464996 Herve Codina 2024-10-14  165  
-185686beb464996 Herve Codina 2024-10-14  166  	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-185686beb464996 Herve Codina 2024-10-14  167  	if (!data)
-185686beb464996 Herve Codina 2024-10-14  168  		return -ENOMEM;
-185686beb464996 Herve Codina 2024-10-14  169  
-185686beb464996 Herve Codina 2024-10-14  170  	pci_set_drvdata(pdev, data);
-185686beb464996 Herve Codina 2024-10-14  171  	data->dev = dev;
-185686beb464996 Herve Codina 2024-10-14  172  
-185686beb464996 Herve Codina 2024-10-14  173  	ret = lan966x_pci_load_overlay(data);
-185686beb464996 Herve Codina 2024-10-14  174  	if (ret)
-185686beb464996 Herve Codina 2024-10-14  175  		return ret;
-185686beb464996 Herve Codina 2024-10-14  176  
-185686beb464996 Herve Codina 2024-10-14  177  	pci_set_master(pdev);
-185686beb464996 Herve Codina 2024-10-14  178  
-185686beb464996 Herve Codina 2024-10-14  179  	ret = of_platform_default_populate(dev_of_node(dev), NULL, dev);
-185686beb464996 Herve Codina 2024-10-14  180  	if (ret)
-6b5a5043c64e00b Pengpeng Hou 2026-06-16  181  		goto err_depopulate;
-185686beb464996 Herve Codina 2024-10-14  182  
-185686beb464996 Herve Codina 2024-10-14  183  	return 0;
-185686beb464996 Herve Codina 2024-10-14  184  
-6b5a5043c64e00b Pengpeng Hou 2026-06-16  185  err_depopulate:
-6b5a5043c64e00b Pengpeng Hou 2026-06-16  186  	of_platform_depopulate(dev);
-185686beb464996 Herve Codina 2024-10-14 @187  err_unload_overlay:
-185686beb464996 Herve Codina 2024-10-14  188  	lan966x_pci_unload_overlay(data);
-185686beb464996 Herve Codina 2024-10-14  189  	return ret;
-185686beb464996 Herve Codina 2024-10-14  190  }
-185686beb464996 Herve Codina 2024-10-14  191  
+5c9b8b27a883822 Harry Wentland         2026-04-24  585  		link->hdmi.frl_enabled = config->frl_enabled;
+4fe1fdcc230189b Wenjing Liu            2021-03-10  586  	display->adjust.disable = MOD_HDCP_DISPLAY_DISABLE_AUTHENTICATION;
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
