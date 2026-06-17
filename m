@@ -1,96 +1,113 @@
-Received: from mail-m11892.xmail.ntesmail.com (mail-m11892.xmail.ntesmail.com [115.236.118.92])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA473BD62E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 07:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.118.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362263C5855
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 08:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781682616; cv=none; b=RawE32Ic0uOLJu7uJJWGrMKjbN9RT+PxPf+i5EvcMj13QDDpdpBYdgXZr8ZIzs05tYMV3bPfgj8Ih1hjhNM1lwXevNzmtlqxF8/yqk1ZcjYiDHMOJVrhPuSJm4eFXrLwAnPgHkeZFjFr8eqOmCtA9TH4QvaiZtOVLQAWya1w5N8=
+	t=1781683334; cv=none; b=VE9XXcKZmW2/3gw4a+/S8u7JOypqrt51NK+6XGDHsPykV/J0wcHrAg0pGJ/Pwlh8KARiOPNqCwuDzaYAotKoG8O3dzRkgbvqqvWVbUoAnsCZBDc8Rv9PNAXv+mNpk9n/ZuRkJzA+y9EZW1o/UgVzYSBH/ilOjhUePpi8yBE4PYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781682616; c=relaxed/simple;
-	bh=JjQepXXI9+evFSwe7/Ik0rg2Rb3EEIrKrNJXTF5cII8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h4uMRqf4fLLuvaclZsz7qC0HSS+rA6TUPxwPffxSfYE7yDVvqtVzVv4uMsAi3JGo6QEsSv6TpaCU2jcqKE6zT7ufKDs5FETplQX7qLkpcwlfdkILO4+dKHALWpLHwZ7uOuJK/Z3VRpKjMjqzKsLVQmd56J0GEsRDLP/6vUBX4fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=NeCcLZA3; arc=none smtp.client-ip=115.236.118.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1781683334; c=relaxed/simple;
+	bh=WjY1MjybHh+hFTl+TH5FrRJ/gD9qhMM4cp7p6Zsz2FE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=heBxvr46Mztx+pJnFxxyjCfsLFnMktUfti3ehiZLQZnqKSOAInFrgIWn4K+8L21AshE2qO/8GR4g0yMiqY+OBFAl5nX5O1ED2KTCJVMQDQPmGWN7QUICmft9XDLivmcbodAMPrNWTEy0kgOwwgeI9eAjKqlvQAcoajOvVOb4Cso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N5VGFzBq; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="NeCcLZA3"
-Received: from [172.16.12.74] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 42b932087;
-	Wed, 17 Jun 2026 15:34:48 +0800 (GMT+08:00)
-Message-ID: <e173819a-94af-4055-9d13-a83ad135f4d7@rock-chips.com>
-Date: Wed, 17 Jun 2026 15:34:48 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N5VGFzBq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781683330; x=1813219330;
+  h=date:from:to:cc:subject:message-id;
+  bh=WjY1MjybHh+hFTl+TH5FrRJ/gD9qhMM4cp7p6Zsz2FE=;
+  b=N5VGFzBqkM8GD0aMUS+LWDx1266UOxuG7B/rTZyqtxqDZU67hA8swVEq
+   /DGaXh4TPgaA1eVGzzVSeUIf27Qvt5PtOGo/A1iuEcZ8KHtmSh+qIJxGY
+   BpaFHvVK2Q/929ta3SsrsJ8lh9331i/Tfiq8rm1G52OE11nn59X3pszyG
+   BI1K7THzTeOjR3jcL6RL88q4e0Y+f7ughLsQf485R54sxH2b7jfJVs06Y
+   N+sV9xyqqAH4zVvhNveQdD39Z/6h5JDMO0RywJpGJwLsKocxYh+9zYxVD
+   3nJDHbe7ZXi2acOQyTGiuAf6olnQXOtUegFQemcUQlECTcLwQbJd7eS3r
+   A==;
+X-CSE-ConnectionGUID: TNpwyQWrSqKFCdNWBgFuAQ==
+X-CSE-MsgGUID: gmgol/8aSrqJ00XbGfRnUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="82577425"
+X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
+   d="scan'208";a="82577425"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 01:02:08 -0700
+X-CSE-ConnectionGUID: nnsSv1uqTuaWn1bTqzUZtg==
+X-CSE-MsgGUID: 1SWcyd7QT/u0tF1gBRUc1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
+   d="scan'208";a="243846517"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Jun 2026 01:02:06 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wZlDo-00000000UGA-0vhu;
+	Wed, 17 Jun 2026 08:02:04 +0000
+Date: Wed, 17 Jun 2026 16:01:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-06-16 326/326]
+ sound/soc/soc-card.c:42:6: warning: no previous prototype for
+ 'snd_soc_card_attach_priv'
+Message-ID: <202606171526.khZduE6t-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 226/14321]
- drivers/gpu/drm/bridge/of-display-mode-bridge.c:54:25: sparse: sparse: symbol
- 'of_display_mode_bridge_funcs' was not declared. Should it be static?
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-References: <202606170744.FUStcWaB-lkp@intel.com>
- <DJB4NR341PMS.WYR444583WB8@bootlin.com>
-Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <DJB4NR341PMS.WYR444583WB8@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9ed4810e7c03a8kunm6e7202d6fb16d
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1kYFggdWUFKV1ktWUFJV1kPCRoVCBIfWUFZQ05JGlYdSkpPS0kdQk
-	tDHkJWFRQJFhoXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0
-	tIVUpLSEpKQkxVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=NeCcLZA3WW/stQxG/CA8t/QGN5csroVSHOWTsnCFJmVV5jhbgOP2d+vIHZpotJ5VuCupVSaxOAsYkHpQG43aulvzTeheOKuOF6INe1P81hk8hcD22oUqrgedM0fXVJasFb7FMbHHbsmnpzq+wXewrMSX0fBGjb/zPfijhMe4skg=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=scc3l5LudMcrRQo5gqf6z53bOqoSwIqFfQKIe1ndPQc=;
-	h=date:mime-version:subject:message-id:from;
 
-Hi Luca,
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-16
+head:   5ce50ac7d0a59c6fb15e1baa7e6824ac096fe092
+commit: bcca3afbe4030eb595d239674303afc5fd051920 [326/326] ASoC: soc-card.h: remove compatible definition
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260617/202606171526.khZduE6t-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606171526.khZduE6t-lkp@intel.com/reproduce)
 
-On 6/17/2026 2:57 PM, Luca Ceresoli wrote:
-> Hello Damon,
-> 
-> On Wed Jun 17, 2026 at 1:46 AM CEST, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->> head:   4fa3f5fabb30bf00d7475d5a33459ea83d639bf9
->> commit: ba2db93cf3d569a4525a02cd0ed5ec5f979e3afd [226/14321] drm/bridge: Move legacy bridge driver out of imx directory for multi-platform use
->> config: sparc64-randconfig-r133-20260617 (https://download.01.org/0day-ci/archive/20260617/202606170744.FUStcWaB-lkp@intel.com/config)
->> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
->> sparse: v0.6.5-rc1
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606170744.FUStcWaB-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202606170744.FUStcWaB-lkp@intel.com/
->>
->> sparse warnings: (new ones prefixed by >>)
->>>> drivers/gpu/drm/bridge/of-display-mode-bridge.c:54:25: sparse: sparse: symbol 'of_display_mode_bridge_funcs' was not declared. Should it be static?
->>
->> vim +/of_display_mode_bridge_funcs +54 drivers/gpu/drm/bridge/of-display-mode-bridge.c
->>
->>      53
->>    > 54	struct drm_bridge_funcs of_display_mode_bridge_funcs = {
->>      55		.attach = of_display_mode_bridge_attach,
->>      56		.get_modes = of_display_mode_bridge_get_modes,
->>      57	};
->>      58
-> 
-> This had been reported already (Message-ID:
-> <202605141933.yeT5SiTT-lkp@intel.com>). Indeed this should be static const.
-> 
-> Do you plan to send a patch fixing it? Otherwise let me know and I can do
-> it.
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606171526.khZduE6t-lkp@intel.com/
 
-Thanks for the heads-up. I'll send a fix patch soon.
+All warnings (new ones prefixed by >>):
 
-Best regards,
-Damon
+>> sound/soc/soc-card.c:42:6: warning: no previous prototype for 'snd_soc_card_attach_priv' [-Wmissing-prototypes]
+      42 | void snd_soc_card_attach_priv(struct snd_soc_card *card, void *data)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-card.c: In function 'snd_soc_card_remove':
+   sound/soc/soc-card.c:886:27: error: 'struct snd_soc_card_driver' has no member named 'probed'; did you mean 'probe'?
+     886 |         if (card->driver->probed &&
+         |                           ^~~~~~
+         |                           probe
+   sound/soc/soc-card.c: In function 'snd_soc_card_register3':
+   sound/soc/soc-card.c:1337:14: error: 'card_driver' undeclared (first use in this function)
+    1337 |         if (!card_driver->name)
+         |              ^~~~~~~~~~~
+   sound/soc/soc-card.c:1337:14: note: each undeclared identifier is reported only once for each function it appears in
+   sound/soc/soc-card.c:1351:24: error: returning 'int' from a function with return type 'struct snd_soc_card *' makes pointer from integer without a cast [-Wint-conversion]
+    1351 |                 return -ENOMEM;
+         |                        ^
 
+
+vim +/snd_soc_card_attach_priv +42 sound/soc/soc-card.c
+
+a17b7ac8c2f6e3 Kuninori Morimoto 2026-05-25  41  
+37fbbbd202b3c6 Kuninori Morimoto 2026-03-30 @42  void snd_soc_card_attach_priv(struct snd_soc_card *card, void *data)
+37fbbbd202b3c6 Kuninori Morimoto 2026-03-30  43  {
+37fbbbd202b3c6 Kuninori Morimoto 2026-03-30  44  	card->priv = data;
+37fbbbd202b3c6 Kuninori Morimoto 2026-03-30  45  }
+37fbbbd202b3c6 Kuninori Morimoto 2026-03-30  46  EXPORT_SYMBOL_GPL(snd_soc_card_attach_priv);
+37fbbbd202b3c6 Kuninori Morimoto 2026-03-30  47  
+
+:::::: The code at line 42 was first introduced by commit
+:::::: 37fbbbd202b3c6492f62f43397daad7b7a4f35b2 ASoC: soc-card: move snd_soc_card_{set/get}_drvdata() to soc-card.c
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
