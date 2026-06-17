@@ -1,75 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C9A2DC79B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 11:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDA13A382B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 13:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781694014; cv=none; b=EXWO/bKy9Xg2wRtO56cSagaHintISbVZdVfyV8qf5GeSviE/m0KymPZpVeNKR8jCAy8dYuj5psL8Q8CLH0p3rxgGBqhyo/WRf22JxF1bHyUEhPgRcnRljV1+pkWPvyEmQs13soR+sI3Rvkeh6OgUA2wXJVXwcYNH0e79nWuL9Ag=
+	t=1781702535; cv=none; b=UyuBqWuBcP4G6pG57V4kMAO8vxCb7bOkADIrHDXh6VSBQT4Bqv1mZ6ZyEl9JpfOR0xhYWtIt6XaxDZ9CqSuX3l0IQqiVSpInSjxFD+Dgbw09y4RFimtuZW019AdWdJU/Gzf8j0ghmxW240ofE7Tz7h5gf7ox33SGoOI7i8VjuaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781694014; c=relaxed/simple;
-	bh=u3JMGhhHYyV6LuSPqavUI/Wp7FiycwFEPV0ue5zRtnI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PAACRGfORYYiX5td71aBFdYiDf0AZH1AQjRGyyyaj9nOGgaiYwFSbd0F9KKyBk7aYaq6FB4bTpmBN7VJc7nA7/t80I1ViLidUy/BHJDVD4sdnVHMy/+TNLRcJvCUu7WstNXxC5XXvI35K36QzP2gRhuoV/9mGFPVi1hx6c5WxRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0xnu4ER; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1781702535; c=relaxed/simple;
+	bh=pNGaGpSrgWGb3l5YxS2grAl6BpAaLl1oDeZXOLOP+po=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SepVJYKZfNb0mfgGvymg512hP2ZEsqkduLElpTesGFXRsHDY+u4DaiTXVJc6q4PTo9j+ooNnrZVgG41IoZaB/U7nkFqHTJKH8047I+46sj+Kr9UwAzGNtaKwipeKDPXKYEgbxMP/FPQK3F7LprvHkin8sKxpSansAZwuI8R6q7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0cmWZl2; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0xnu4ER"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0cmWZl2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781694012; x=1813230012;
-  h=date:from:to:cc:subject:message-id;
-  bh=u3JMGhhHYyV6LuSPqavUI/Wp7FiycwFEPV0ue5zRtnI=;
-  b=K0xnu4ERWkikbrCLVT6+iGTUn/ZYUO8PR3d+BV+WXEkXz3EeVK3invfU
-   H/a+zOx5lrrx24W2FFQDvlfimf/Ft4s74g5urbUrwrT3lEpsjW/vy5wKx
-   9jdlIsl+m66GewreYDkymNEbozUbA2hrgYlvD1UDUS2YIEW0w6hwTm+Pu
-   nFo3avpDBUDGbpWAvPXelY8H1sXYIY8NIGjIXxQPwJ9Ijs9tWOFSiakWM
-   fzmD1fvcKFzr2KqEibxjnuVViEJ8ngDgJiXYUq2nOKAOM60a6+AGv7AAl
-   /Cy3yKOTL5FSY9xKba4Ch5AcF491G6Zs1LHns9YwxG3IJwyIsASDM8K5W
-   Q==;
-X-CSE-ConnectionGUID: nq90KBeCTAyvNFM2jO3kmw==
-X-CSE-MsgGUID: q2cm5IraT+Cj2jwcHeYFtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="82489843"
+  t=1781702533; x=1813238533;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pNGaGpSrgWGb3l5YxS2grAl6BpAaLl1oDeZXOLOP+po=;
+  b=d0cmWZl2of6JMdILARVXUdzx/DyUHq1I03q5AwRXlX9Rht8GI2wt1U71
+   YexmHCK9HHV7dxmD3ko0AginjQ5rLvP2qoGZfTwGm2TzgjpvofwuwZWlc
+   ZXIAxGDjMhbaA5Cl2ok/uzDqvm8HHRO4nDi8OGBp6eckkE8ynzdEtNe+F
+   4kWw9sbp/HY3PcUZ7jHn3A8eJ0DdOOg6bPqMabUIXuYr27r5/tB7j/vWW
+   7SI2aPlvrdKP66vYiBST1CHy8xI5vcTUdRRxC1Lh1JkViT7V8tQqIU/Ka
+   aQmSWQh5s05I5CUj/djaTY4JkwX2e8d5I9sCsSAy5B9T8gxZZ9ER1R0x8
+   A==;
+X-CSE-ConnectionGUID: bUjSKjEwReGkro61gzzFfg==
+X-CSE-MsgGUID: uRVW1wHUQYC02PPavG6t1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="81622521"
 X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="82489843"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 04:00:12 -0700
-X-CSE-ConnectionGUID: RdTE0MzeTaykRI90cxDO8Q==
-X-CSE-MsgGUID: mVB5evkyQG+FFuuW9q6aUg==
+   d="scan'208";a="81622521"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 06:22:13 -0700
+X-CSE-ConnectionGUID: jHZb6Hf2QYisk4wQS+ctGQ==
+X-CSE-MsgGUID: LkjlwfBCSnqRbu2TzKMc0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="252338310"
+   d="scan'208";a="249968387"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 17 Jun 2026 04:00:10 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Jun 2026 06:22:11 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZo08-000000005K5-0rr3;
-	Wed, 17 Jun 2026 11:00:08 +0000
-Date: Wed, 17 Jun 2026 12:59:37 +0200
+	id 1wZqDZ-000000005Kj-0MGh;
+	Wed, 17 Jun 2026 13:22:09 +0000
+Date: Wed, 17 Jun 2026 15:21:14 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ronald Claveau <linux-kernel-dev@aliel.fr>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rclaveau:b4/add-adla_npu-t7-vim4 12/12] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202606171210.dw3zGBsM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bod@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
+Subject: Re: [PATCH 3/3] media: iris: Add ROI support framework for iris
+ video encoder
+Message-ID: <202606171554.03yt9utn-lkp@intel.com>
+References: <20260616-enc_roi_enable-v1-3-fefcc4e76f33@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260616-enc_roi_enable-v1-3-fefcc4e76f33@oss.qualcomm.com>
 
-tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
-head:   f209ccd86263f8cdd983bb36326f8916026c7118
-commit: f209ccd86263f8cdd983bb36326f8916026c7118 [12/12] Temporary use Adla Legacy driver
-reproduce: (https://download.01.org/0day-ci/archive/20260617/202606171210.dw3zGBsM-lkp@intel.com/reproduce)
+Hi Deepa,
 
-# many are suggestions rather than must-fix
+kernel test robot noticed the following build warnings:
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#6838: FILE: drivers/accel/adla_legacy/kmd/drv/common/mm/adlak_mm_cma.c:416:
-+				/*share memory between different model only supports soc without smmu for the time
-+                 * being*/
+[auto build test WARNING on 06cb687a5132fcffe624c0070576ab852ac6b568]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepa-Guthyappa-Madivalara/media-uapi-Introduce-new-control-for-video-encoder-ROI/20260617-074155
+base:   06cb687a5132fcffe624c0070576ab852ac6b568
+patch link:    https://lore.kernel.org/r/20260616-enc_roi_enable-v1-3-fefcc4e76f33%40oss.qualcomm.com
+patch subject: [PATCH 3/3] media: iris: Add ROI support framework for iris video encoder
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260617/202606171554.03yt9utn-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606171554.03yt9utn-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+>> include/uapi/linux/videodev2.h:1998: WARNING: Invalid xref: std:ref:`v4l2-ctrl-type-s8`. Possible alternatives:
+   c:type:`V4L.v4l2_ctrl_type` (from userspace-api/media/v4l/vidioc-queryctrl)
+   c:struct:`v4l2_ctrl_type_ops` (from driver-api/media/v4l2-controls)
+   c:struct:`v4l2_ctrl_ops` (from driver-api/media/v4l2-controls) [ref.missing]
+>> include/uapi/linux/videodev2.h:1998: WARNING: undefined label: 'v4l2-ctrl-type-s8' [ref.ref]
+
+
+vim +1998 include/uapi/linux/videodev2.h
+
+  1944	
+  1945	enum v4l2_ctrl_type {
+  1946		V4L2_CTRL_TYPE_INTEGER	     = 1,
+  1947		V4L2_CTRL_TYPE_BOOLEAN	     = 2,
+  1948		V4L2_CTRL_TYPE_MENU	     = 3,
+  1949		V4L2_CTRL_TYPE_BUTTON	     = 4,
+  1950		V4L2_CTRL_TYPE_INTEGER64     = 5,
+  1951		V4L2_CTRL_TYPE_CTRL_CLASS    = 6,
+  1952		V4L2_CTRL_TYPE_STRING        = 7,
+  1953		V4L2_CTRL_TYPE_BITMASK       = 8,
+  1954		V4L2_CTRL_TYPE_INTEGER_MENU  = 9,
+  1955	
+  1956		/* Compound types are >= 0x0100 */
+  1957		V4L2_CTRL_COMPOUND_TYPES     = 0x0100,
+  1958		V4L2_CTRL_TYPE_U8	     = 0x0100,
+  1959		V4L2_CTRL_TYPE_U16	     = 0x0101,
+  1960		V4L2_CTRL_TYPE_U32	     = 0x0102,
+  1961		V4L2_CTRL_TYPE_AREA          = 0x0106,
+  1962		V4L2_CTRL_TYPE_RECT	     = 0x0107,
+  1963	
+  1964		V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
+  1965		V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
+  1966	
+  1967		V4L2_CTRL_TYPE_H264_SPS             = 0x0200,
+  1968		V4L2_CTRL_TYPE_H264_PPS		    = 0x0201,
+  1969		V4L2_CTRL_TYPE_H264_SCALING_MATRIX  = 0x0202,
+  1970		V4L2_CTRL_TYPE_H264_SLICE_PARAMS    = 0x0203,
+  1971		V4L2_CTRL_TYPE_H264_DECODE_PARAMS   = 0x0204,
+  1972		V4L2_CTRL_TYPE_H264_PRED_WEIGHTS    = 0x0205,
+  1973	
+  1974		V4L2_CTRL_TYPE_FWHT_PARAMS	    = 0x0220,
+  1975	
+  1976		V4L2_CTRL_TYPE_VP8_FRAME            = 0x0240,
+  1977	
+  1978		V4L2_CTRL_TYPE_MPEG2_QUANTISATION   = 0x0250,
+  1979		V4L2_CTRL_TYPE_MPEG2_SEQUENCE       = 0x0251,
+  1980		V4L2_CTRL_TYPE_MPEG2_PICTURE        = 0x0252,
+  1981	
+  1982		V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR	= 0x0260,
+  1983		V4L2_CTRL_TYPE_VP9_FRAME		= 0x0261,
+  1984	
+  1985		V4L2_CTRL_TYPE_HEVC_SPS			= 0x0270,
+  1986		V4L2_CTRL_TYPE_HEVC_PPS			= 0x0271,
+  1987		V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS	= 0x0272,
+  1988		V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX	= 0x0273,
+  1989		V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS	= 0x0274,
+  1990		V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS	= 0x0275,
+  1991		V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS	= 0x0276,
+  1992	
+  1993		V4L2_CTRL_TYPE_AV1_SEQUENCE	    = 0x280,
+  1994		V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY = 0x281,
+  1995		V4L2_CTRL_TYPE_AV1_FRAME	    = 0x282,
+  1996		V4L2_CTRL_TYPE_AV1_FILM_GRAIN	    = 0x283,
+  1997	
+> 1998		V4L2_CTRL_TYPE_S8		    = 0x284,
+  1999	};
+  2000	
 
 --
 0-DAY CI Kernel Test Service
