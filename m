@@ -1,200 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mail-m11892.xmail.ntesmail.com (mail-m11892.xmail.ntesmail.com [115.236.118.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10203B841F;
-	Wed, 17 Jun 2026 07:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA473BD62E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 07:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.118.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781682609; cv=none; b=JfRq9b8ENa/C09zDKqMGyxpZGEcwt+xLXTpP0P0pW9ebJJei7Fl06D0s7e1s/SVRM2JckiZt5OmIR1r4SMzw3N6M27j/DM+m1Dpx+l8kz5E+pLMrzywD0nc2CGAlA5f2UBSvpKTQv5Sr2/zXfVPQh0i1uA9DbjRgWZ8VwkyzSYU=
+	t=1781682616; cv=none; b=RawE32Ic0uOLJu7uJJWGrMKjbN9RT+PxPf+i5EvcMj13QDDpdpBYdgXZr8ZIzs05tYMV3bPfgj8Ih1hjhNM1lwXevNzmtlqxF8/yqk1ZcjYiDHMOJVrhPuSJm4eFXrLwAnPgHkeZFjFr8eqOmCtA9TH4QvaiZtOVLQAWya1w5N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781682609; c=relaxed/simple;
-	bh=4koWmBeHUBy8R4UMEBlgP1HSUBscTmzk/AEfQO576IU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uAZdMNcmb9cR7TlvJ10/nTc+HOc6/odSDNHiCCqYCvbTu/6ooRZegHuOL9QWZWY9N49Z+4RrQL0GctBVDaZythH1DEhbBIPimDjWC50IMtggxKYCRuAlInE7kRv3a1GFUvCy6DZH1mrJG9nL/xSfwN1a5nc10PxXXfOOfcXsrqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RHJVHYu8; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781682616; c=relaxed/simple;
+	bh=JjQepXXI9+evFSwe7/Ik0rg2Rb3EEIrKrNJXTF5cII8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h4uMRqf4fLLuvaclZsz7qC0HSS+rA6TUPxwPffxSfYE7yDVvqtVzVv4uMsAi3JGo6QEsSv6TpaCU2jcqKE6zT7ufKDs5FETplQX7qLkpcwlfdkILO4+dKHALWpLHwZ7uOuJK/Z3VRpKjMjqzKsLVQmd56J0GEsRDLP/6vUBX4fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=NeCcLZA3; arc=none smtp.client-ip=115.236.118.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RHJVHYu8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781682608; x=1813218608;
-  h=date:from:to:cc:subject:message-id;
-  bh=4koWmBeHUBy8R4UMEBlgP1HSUBscTmzk/AEfQO576IU=;
-  b=RHJVHYu8PE+DRBnpxZza3ndcjdMSl+mHXaCy6nT8v2K/SjDPQEMDAGcH
-   rCn3RmvjPUgb4c/itNdnZUipJOiwrXjabF3AA3D+a79LhgubUKetKqlcj
-   xPYZH1et0fHBThRAkKdZzZKcOxd+OFbYnwLfYtgurOxx1cux92Bqbf4rz
-   ZMaxQS2cT2PDDz5JuDkh4jNidxpdFBfWDrxx66xNa5i3fMaQ1Qd9iKE4B
-   75h0XjBXePCb/X4YxnOy8zway2cL6Ei9sSkW3g6/fKzGAxf1GQAn+v2H1
-   plXAIYqS0/GtLEATKQO7Fq6L1q6o5/EqxtuvMd+EDhRkkIoRF/OC8j6Kx
-   g==;
-X-CSE-ConnectionGUID: 7IYHIq8WQ/CtWjilyRR/Hw==
-X-CSE-MsgGUID: 5YN8tcasTJeHr8ntx61L/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="92821301"
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="92821301"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 00:50:08 -0700
-X-CSE-ConnectionGUID: sEUp8CQLRyuwpQpFjkL5/w==
-X-CSE-MsgGUID: M9+6DkQCQmK7ssyxfBq7pw==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Jun 2026 00:50:06 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wZl2B-00000000UFW-2VW6;
-	Wed, 17 Jun 2026 07:50:03 +0000
-Date: Wed, 17 Jun 2026 15:49:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-16 326/326]
- sound/soc/codecs/rt5651.c:2113:2: error: call to undeclared function
- 'snd_soc_component_regmap_regcache_sync'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202606171508.QhBoQeZg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="NeCcLZA3"
+Received: from [172.16.12.74] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 42b932087;
+	Wed, 17 Jun 2026 15:34:48 +0800 (GMT+08:00)
+Message-ID: <e173819a-94af-4055-9d13-a83ad135f4d7@rock-chips.com>
+Date: Wed, 17 Jun 2026 15:34:48 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 226/14321]
+ drivers/gpu/drm/bridge/of-display-mode-bridge.c:54:25: sparse: sparse: symbol
+ 'of_display_mode_bridge_funcs' was not declared. Should it be static?
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+References: <202606170744.FUStcWaB-lkp@intel.com>
+ <DJB4NR341PMS.WYR444583WB8@bootlin.com>
+Content-Language: en-US
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <DJB4NR341PMS.WYR444583WB8@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9ed4810e7c03a8kunm6e7202d6fb16d
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1kYFggdWUFKV1ktWUFJV1kPCRoVCBIfWUFZQ05JGlYdSkpPS0kdQk
+	tDHkJWFRQJFhoXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0
+	tIVUpLSEpKQkxVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=NeCcLZA3WW/stQxG/CA8t/QGN5csroVSHOWTsnCFJmVV5jhbgOP2d+vIHZpotJ5VuCupVSaxOAsYkHpQG43aulvzTeheOKuOF6INe1P81hk8hcD22oUqrgedM0fXVJasFb7FMbHHbsmnpzq+wXewrMSX0fBGjb/zPfijhMe4skg=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=scc3l5LudMcrRQo5gqf6z53bOqoSwIqFfQKIe1ndPQc=;
+	h=date:mime-version:subject:message-id:from;
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-16
-head:   5ce50ac7d0a59c6fb15e1baa7e6824ac096fe092
-commit: 4bbdf4f7c937878b634b01d362515e2a79053b52 [326/326] dai
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260617/202606171508.QhBoQeZg-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606171508.QhBoQeZg-lkp@intel.com/reproduce)
+Hi Luca,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606171508.QhBoQeZg-lkp@intel.com/
+On 6/17/2026 2:57 PM, Luca Ceresoli wrote:
+> Hello Damon,
+> 
+> On Wed Jun 17, 2026 at 1:46 AM CEST, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> head:   4fa3f5fabb30bf00d7475d5a33459ea83d639bf9
+>> commit: ba2db93cf3d569a4525a02cd0ed5ec5f979e3afd [226/14321] drm/bridge: Move legacy bridge driver out of imx directory for multi-platform use
+>> config: sparc64-randconfig-r133-20260617 (https://download.01.org/0day-ci/archive/20260617/202606170744.FUStcWaB-lkp@intel.com/config)
+>> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
+>> sparse: v0.6.5-rc1
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606170744.FUStcWaB-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202606170744.FUStcWaB-lkp@intel.com/
+>>
+>> sparse warnings: (new ones prefixed by >>)
+>>>> drivers/gpu/drm/bridge/of-display-mode-bridge.c:54:25: sparse: sparse: symbol 'of_display_mode_bridge_funcs' was not declared. Should it be static?
+>>
+>> vim +/of_display_mode_bridge_funcs +54 drivers/gpu/drm/bridge/of-display-mode-bridge.c
+>>
+>>      53
+>>    > 54	struct drm_bridge_funcs of_display_mode_bridge_funcs = {
+>>      55		.attach = of_display_mode_bridge_attach,
+>>      56		.get_modes = of_display_mode_bridge_get_modes,
+>>      57	};
+>>      58
+> 
+> This had been reported already (Message-ID:
+> <202605141933.yeT5SiTT-lkp@intel.com>). Indeed this should be static const.
+> 
+> Do you plan to send a patch fixing it? Otherwise let me know and I can do
+> it.
+> 
 
-All errors (new ones prefixed by >>):
+Thanks for the heads-up. I'll send a fix patch soon.
 
-   In file included from sound/soc/codecs/rt5651.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> sound/soc/codecs/rt5651.c:2113:2: error: call to undeclared function 'snd_soc_component_regmap_regcache_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2113 |         snd_soc_component_regmap_regcache_sync(component);
-         |         ^
-   sound/soc/codecs/rt5651.c:2113:2: note: did you mean 'snd_soc_component_regcache_sync'?
-   include/sound/soc-component.h:497:19: note: 'snd_soc_component_regcache_sync' declared here
-     497 | static inline int snd_soc_component_regcache_sync(struct snd_soc_component *component)
-         |                   ^
-   1 warning and 1 error generated.
---
-   In file included from sound/soc/codecs/wm8741.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> sound/soc/codecs/wm8741.c:425:2: error: call to undeclared function 'snd_soc_component_regmap_regcache_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     425 |         snd_soc_component_regmap_regcache_sync(component);
-         |         ^
-   sound/soc/codecs/wm8741.c:425:2: note: did you mean 'snd_soc_component_regcache_sync'?
-   include/sound/soc-component.h:497:19: note: 'snd_soc_component_regcache_sync' declared here
-     497 | static inline int snd_soc_component_regcache_sync(struct snd_soc_component *component)
-         |                   ^
-   1 warning and 1 error generated.
---
-   In file included from sound/soc/codecs/wm8961.c:18:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> sound/soc/codecs/wm8961.c:897:2: error: call to undeclared function 'snd_soc_component_regmap_regcache_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     897 |         snd_soc_component_regmap_regcache_sync(component);
-         |         ^
-   sound/soc/codecs/wm8961.c:897:2: note: did you mean 'snd_soc_component_regcache_sync'?
-   include/sound/soc-component.h:497:19: note: 'snd_soc_component_regcache_sync' declared here
-     497 | static inline int snd_soc_component_regcache_sync(struct snd_soc_component *component)
-         |                   ^
-   1 warning and 1 error generated.
---
-   In file included from sound/soc/codecs/wm9705.c:14:
-   In file included from include/linux/regmap.h:18:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> sound/soc/codecs/wm9705.c:290:2: error: call to undeclared function 'snd_soc_component_regmap_regcache_cache_bypass'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     290 |         snd_soc_component_regmap_regcache_cache_bypass(component, true);
-         |         ^
-   sound/soc/codecs/wm9705.c:290:2: note: did you mean 'snd_soc_component_regcache_cache_bypass'?
-   include/sound/soc-component.h:543:20: note: 'snd_soc_component_regcache_cache_bypass' declared here
-     543 | static inline void snd_soc_component_regcache_cache_bypass(struct snd_soc_component *component, bool enable)
-         |                    ^
->> sound/soc/codecs/wm9705.c:308:2: error: call to undeclared function 'snd_soc_component_regmap_regcache_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     308 |         snd_soc_component_regmap_regcache_sync(component);
-         |         ^
-   sound/soc/codecs/wm9705.c:308:2: note: did you mean 'snd_soc_component_regcache_sync'?
-   include/sound/soc-component.h:497:19: note: 'snd_soc_component_regcache_sync' declared here
-     497 | static inline int snd_soc_component_regcache_sync(struct snd_soc_component *component)
-         |                   ^
-   1 warning and 2 errors generated.
+Best regards,
+Damon
 
-
-vim +/snd_soc_component_regmap_regcache_sync +2113 sound/soc/codecs/rt5651.c
-
-  2106	
-  2107	static int rt5651_resume(struct snd_soc_component *component)
-  2108	{
-  2109		struct device *dev = snd_soc_component_to_dev(component);
-  2110		struct rt5651_priv *rt5651 = dev_get_drvdata(dev);
-  2111	
-  2112		regcache_cache_only(rt5651->regmap, false);
-> 2113		snd_soc_component_regmap_regcache_sync(component);
-  2114	
-  2115		return 0;
-  2116	}
-  2117	#else
-  2118	#define rt5651_suspend NULL
-  2119	#define rt5651_resume NULL
-  2120	#endif
-  2121	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
