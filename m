@@ -1,109 +1,127 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B6F3B42FA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 06:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A869036E47E;
+	Wed, 17 Jun 2026 07:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781679474; cv=none; b=jBy3Q9flqSP/Dfk1tiD4yF45YOhyO2Pta4jFsD1TQtSlkLX92m7Fqp2pw91ulsDTYc1mIqpKSsez/lukVIWx4SfbwSHUhpsOMhdAYLD7pkT/haDQZJiBhBJ4F6+PVFPbKRTaXQns5BpyI2Y2NoZTcT/nefoOtDsBycNTuViby1M=
+	t=1781681948; cv=none; b=dF0XsO4Z3ML2N/7qpIpUascTYVVVjybIF5i/4sbtdNRfZn0Y5b7Kzx02f8/bTIZu3fhmxLwwl18jmo6pYnMB3eKw2GoBNLrRKwDqjNfEJA/RAshUyGrQlfOIayMXXmi82c0fnAmm5Wno7y83+IVqFsGx7M2HmIEF2mv/YLvXHg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781679474; c=relaxed/simple;
-	bh=8r05HtVnmMqvIvQBC7hKU1D9QaAj72Zs8jSiFsnHsXU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=WkTjgeLzcohZb8jZMC3x2C0x1XkpQBdTkHDP9rbwZqL0+n1EQjDouD6wi0c+QRQ0HNE5xnV/4gvaQEM55QTUkZyvr7gEr3fmbC2AZKfBADvkwIhwd9aa2sv3I1v2egD9PbILvbnPOjHLTyiHlhaAGcv7dal+WSfJAgrDHE3IjhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mdR32X+9; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1781681948; c=relaxed/simple;
+	bh=YlCXJ9q5mj5cC/hYcpHYKxYt2U+vwlwaaaxuV//KWqI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=R42MwjxT/Mx1NGBp89XgLs7MeQP8cmsGPcDtCJgzPc5YPdZDMp4H8SMWBB2zPg0Auu/85Mcvg8kQYGEpskowuswzLSgCPnKa8zIeD/eZvujf7ffY4CCd2qFADGaD/iF5MMEPIi1dFSMnwamGq16mxwsU+GPPbmeEqVGC9EOkMek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7zj1GUL; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mdR32X+9"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 56D50C2BB3E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 06:57:54 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 76BCE601AA;
-	Wed, 17 Jun 2026 06:57:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 05413106CA1F8;
-	Wed, 17 Jun 2026 08:57:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1781679469; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=w4RK4D8JpXt7WXc/3A7LwcDPg1tU/mb/H1NqQ97DkCg=;
-	b=mdR32X+9LvJEc5kohx2bmirYj+26+w38eU4a5Q9nQzNSslaUa54eWgr1t1MpGexc5QT/c/
-	2g8DG+VOT4Wt7v48WPj4pQ+3wAGD1C/++FahtXmjaADGqd+1iElnZpCUMSPwRg1BC+ZnNr
-	kfLBdv07qHDd7gnnL/attnmvKWhcwkgU03YOsI7xMedlvZ3RzpJSAZtChSgjF124CQwJmE
-	GDEE8rRGQC2WpmGtNLxgpeDyJ17AW+k7dapH2aS180cONKctqeJEWC+4sLJooXsFuaW9dv
-	YCiYivkCoTGf2x/7naZBYHPH2t2Ai2jJWM2aKuFS/V1RHSCL3iCgl3/uwrnNEg==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7zj1GUL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781681947; x=1813217947;
+  h=date:from:to:cc:subject:message-id;
+  bh=YlCXJ9q5mj5cC/hYcpHYKxYt2U+vwlwaaaxuV//KWqI=;
+  b=A7zj1GUL/vlLNm/bnYgKXplcwPOR6z/f2+mmn5BvfU4Kdlnt2/+YVL0V
+   K/VTffrA00iizVgbn5o6KupbSnfZhHldpyqqf6b4nHHr4RYDzFxFYqJDr
+   Jfr9wwi7xTpI4xYQolcxK3ah02hUG+7MgPeVgeZQzeXZfMmlB4hcOMtFy
+   eblv+ExU4iZ0OGF4UPcitGTTqxIe+7lA7GHUKuXdZvV8/jfKKHFhyu+a2
+   6Qk1VbU7eV7izRiU97bIgKcPO7NmK54vN/UG1onw9FcJRdULW0xVb4PS3
+   7bgxT9ZJCdvJfN1zznB6dgYwamJo6+gFWWrBEmFqpNCjTNbsVtqoykt9s
+   A==;
+X-CSE-ConnectionGUID: /L1H93w5R92Y7dNI7vKc7Q==
+X-CSE-MsgGUID: M0Xn/gBiS9qA6XhUYT3m5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="93133261"
+X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
+   d="scan'208";a="93133261"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 00:39:06 -0700
+X-CSE-ConnectionGUID: dBZdiXJhRPO6bHjF/INU4Q==
+X-CSE-MsgGUID: U6ysO9xfSAehhaBbhl6whQ==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 17 Jun 2026 00:39:04 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wZkrW-00000000UF4-0o7l;
+	Wed, 17 Jun 2026 07:39:02 +0000
+Date: Wed, 17 Jun 2026 15:38:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-06-16 326/326]
+ sound/soc/samsung/smdk_wm8994.c:157:6: warning: variable 'ret' is used
+ uninitialized whenever 'if' condition is false
+Message-ID: <202606171549.A6Cfls2x-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 17 Jun 2026 08:57:45 +0200
-Message-Id: <DJB4NR341PMS.WYR444583WB8@bootlin.com>
-Cc: <oe-kbuild-all@lists.linux.dev>, "Luca Ceresoli"
- <luca.ceresoli@bootlin.com>, "kernel test robot" <lkp@intel.com>
-To: "Damon Ding" <damon.ding@rock-chips.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [linux-next:master 226/14321]
- drivers/gpu/drm/bridge/of-display-mode-bridge.c:54:25: sparse: sparse:
- symbol 'of_display_mode_bridge_funcs' was not declared. Should it be
- static?
-X-Mailer: aerc 0.21.0
-References: <202606170744.FUStcWaB-lkp@intel.com>
-In-Reply-To: <202606170744.FUStcWaB-lkp@intel.com>
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Damon,
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-16
+head:   5ce50ac7d0a59c6fb15e1baa7e6824ac096fe092
+commit: de8284496f5761489c928f1a24aaf1f545752d28 [326/326] ASoC: samsung: smdk_wm8994: use snd_soc_card_register()
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260617/202606171549.A6Cfls2x-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606171549.A6Cfls2x-lkp@intel.com/reproduce)
 
-On Wed Jun 17, 2026 at 1:46 AM CEST, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   4fa3f5fabb30bf00d7475d5a33459ea83d639bf9
-> commit: ba2db93cf3d569a4525a02cd0ed5ec5f979e3afd [226/14321] drm/bridge: =
-Move legacy bridge driver out of imx directory for multi-platform use
-> config: sparc64-randconfig-r133-20260617 (https://download.01.org/0day-ci=
-/archive/20260617/202606170744.FUStcWaB-lkp@intel.com/config)
-> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e=
-19d1f51a2c80b63cd8ca95bcc757b7077112808)
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260617/202606170744.FUStcWaB-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606170744.FUStcWaB-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->>> drivers/gpu/drm/bridge/of-display-mode-bridge.c:54:25: sparse: sparse: =
-symbol 'of_display_mode_bridge_funcs' was not declared. Should it be static=
-?
->
-> vim +/of_display_mode_bridge_funcs +54 drivers/gpu/drm/bridge/of-display-=
-mode-bridge.c
->
->     53
->   > 54	struct drm_bridge_funcs of_display_mode_bridge_funcs =3D {
->     55		.attach =3D of_display_mode_bridge_attach,
->     56		.get_modes =3D of_display_mode_bridge_get_modes,
->     57	};
->     58
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606171549.A6Cfls2x-lkp@intel.com/
 
-This had been reported already (Message-ID:
-<202605141933.yeT5SiTT-lkp@intel.com>). Indeed this should be static const.
+All warnings (new ones prefixed by >>):
 
-Do you plan to send a patch fixing it? Otherwise let me know and I can do
-it.
+>> sound/soc/samsung/smdk_wm8994.c:157:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     157 |         if (!card) {
+         |             ^~~~~
+   sound/soc/samsung/smdk_wm8994.c:162:9: note: uninitialized use occurs here
+     162 |         return ret;
+         |                ^~~
+   sound/soc/samsung/smdk_wm8994.c:157:2: note: remove the 'if' if its condition is always true
+     157 |         if (!card) {
+         |         ^~~~~~~~~~
+   sound/soc/samsung/smdk_wm8994.c:137:9: note: initialize the variable 'ret' to silence this warning
+     137 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
-Thanks,
-Luca
+
+vim +157 sound/soc/samsung/smdk_wm8994.c
+
+   134	
+   135	static int smdk_audio_probe(struct platform_device *pdev)
+   136	{
+   137		int ret;
+   138		struct device_node *np = pdev->dev.of_node;
+   139		struct snd_soc_card *card;
+   140	
+   141		if (np) {
+   142			smdk_dai[0].cpus->dai_name = NULL;
+   143			smdk_dai[0].cpus->of_node = of_parse_phandle(np,
+   144					"samsung,i2s-controller", 0);
+   145			if (!smdk_dai[0].cpus->of_node) {
+   146				dev_err(&pdev->dev,
+   147				   "Property 'samsung,i2s-controller' missing or invalid\n");
+   148				ret = -EINVAL;
+   149				return ret;
+   150			}
+   151	
+   152			smdk_dai[0].platforms->name = NULL;
+   153			smdk_dai[0].platforms->of_node = smdk_dai[0].cpus->of_node;
+   154		}
+   155	
+   156		card = devm_snd_soc_card_register(&pdev->dev, &smdk);
+ > 157		if (!card) {
+   158			ret = -ENOMEM;
+   159			dev_err_probe(&pdev->dev, ret, "snd_soc_card_register() failed\n");
+   160		}
+   161	
+   162		return ret;
+   163	}
+   164	
 
 --
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
