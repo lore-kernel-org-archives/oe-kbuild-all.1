@@ -1,493 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66983C2762
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 14:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1C035E937
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 18:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781707311; cv=none; b=M1Xy43jAOuZVICbe1UZh4Jxyu3lGjOt1D51fW2y/fLrxwUFSvkU2nXnV0mR/HHAEQCS4KmyW066UfhXmNHKhM2Eq2bjKXdBWEtZX9qzCSriDHRoUx/ulcJ0bT8A4trYlAAQq5kz5SLdh9wGEU6REaPORMH9lqNPXkcqtmUKeof4=
+	t=1781719630; cv=none; b=jQCWBenXROWZDOhFfo3+22Jk5V3e5l8/BkFle/tXBQGEWA9kvOGQw8HSCr3YMXu69hLq8hdN5cTq2B0QIFz6Yp3gPzVJDy5UvN6cBUzAg5Mh0ABQLqYlvOVD7jn8BwgRH8MxIAa3VwaRgieDpGxzjoGHObduFwbhh42NP3sDtOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781707311; c=relaxed/simple;
-	bh=2fBI0Ly53JTXn5n+lW6dLXbRA5WF0tHscWV5nrX3gnw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dPcAyU8Lk0AqKVKuu+6K2BYpqgV75/SOmQ8JWtwzv6K0+iOdZaRRkxvxc2zNqX2AmomUSzgi3piIxgz7eBPwK1s+dsfwraewMnt9BIg9bcOG8HBs8mXkmsk67YoUuk0YV94+do3XLtKK3+ATNWpFFKR2l2HBMZ7QEZySolxzI4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UhtyVynC; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781719630; c=relaxed/simple;
+	bh=ypxugpPRF6WOaptuO/LqBAXKEr1d1goy/C+UMlVrN+Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OWvWCRZSH7JWE8I6rJaXqJCiWsWGvzZFqrsUH6X2Nn3IDZKYyrU/JPO3a5OMDZPBwXIRZMMm6GPsyN1t5HN92TJPnfbguteU+KpdKRTX1zEficWRxYKMwQ/OJlmIy6eFDoRDyOWP0BdNdkSzYORk0DY+M2YYt1LPLpSzKhd318Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=h0VWWycf; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UhtyVynC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781707308; x=1813243308;
-  h=date:from:to:cc:subject:message-id;
-  bh=2fBI0Ly53JTXn5n+lW6dLXbRA5WF0tHscWV5nrX3gnw=;
-  b=UhtyVynCQ+zBLXsesQLqqbWxVMqX1UYNjFN0WHMHPRk/VzLIxK4OP4VN
-   Qshe/AZUxFK9ZRJS51RbLssttWCToIo7rCvjLkfPgXGaQ3sgXlrV9mgj4
-   HduQtbhi0H1W5uNjFLaq08JWACQfJEvwhk+8wTfBJIA830lQRRZlPrvQY
-   Ahk910kdDFfUwq9new9d+8GQRGHIQddH8gOSJq6paydGeMuai8kGSNt4r
-   LTtc3DrjTwge4vqHc5kRd2bPht/046Rm786X1o+ejZmc7evR1D1+Mskvn
-   wd4ZWpVjtybkSdTz5DeeF1aCBWf+lBdRSo0Vsqj4qTQdELju/Kenj+apf
-   g==;
-X-CSE-ConnectionGUID: bJjjrG9ESZ26aaOqJcKYqQ==
-X-CSE-MsgGUID: 3NgEobk6SuSZ8h2O2qAuoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="81629141"
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="81629141"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 07:41:47 -0700
-X-CSE-ConnectionGUID: dK+L80qIRo20eaYzgVO3NQ==
-X-CSE-MsgGUID: 0qNhHfhhRrKXvG1dedLZzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="247948951"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 17 Jun 2026 07:41:45 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wZrSY-00000000Ud0-1W3c;
-	Wed, 17 Jun 2026 14:41:42 +0000
-Date: Wed, 17 Jun 2026 22:40:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alexander Gordeev <agordeev@linux.ibm.com>
-Subject: drivers/md/dm.c:601: Warning: missing closing `"'
-Message-ID: <202606172233.AWg2Pzin-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="h0VWWycf"
+Message-ID: <b3729b0b-6809-4712-9bc1-1655906aa100@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781719625;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r777nbJnoJBmRzy6AS9sn/4aqKvMx3VPpvVLSkRIJp4=;
+	b=h0VWWycfu36zGcNyb2ZVZoHTtRreo9Unf8iERR0Zczsjz0fgQZH4EaLrw4846YuJ1E8rr9
+	MnF02PTboTtzAGvyWUc9wS9oftdVR9G9vFOKx0Rv7uioHKG/zfV6O0yrvtE2YE5fQtZdDq
+	OV1LzaWkQIJLeiHdAkS52MUzBsfH+zs=
+Date: Wed, 17 Jun 2026 11:06:55 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Subject: Re: mm/bpf_memcontrol.c:125:27: sparse: sparse: symbol
+ 'bpf_mem_cgroup_memory_events' was not declared. Should it be static?
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alexei Starovoitov <ast@kernel.org>, kernel test robot <lkp@intel.com>
+References: <202606150332.Xy4Egd9s-lkp@intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: JP Kobryn <jp.kobryn@linux.dev>
+In-Reply-To: <202606150332.Xy4Egd9s-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   66affa37cfac0aec061cc4bcf4a065b0c52f7e19
-commit: 18ec6c5d7ec6c73ccff616041d75b6ea30a9a36e s390/percpu: Use new percpu code section for arch_this_cpu_add()
-date:   2 weeks ago
-config: s390-randconfig-r072-20260617 (https://download.01.org/0day-ci/archive/20260617/202606172233.AWg2Pzin-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606172233.AWg2Pzin-lkp@intel.com/reproduce)
+On 6/14/26 12:07 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   8cd9520d35a6c38db6567e97dd93b1f11f185dc6
+> commit: 99430ab8b804c26b8a0dec93fcbfe75469f3edc7 mm: introduce BPF kfuncs to access memcg statistics and events
+> date:   6 months ago
+> config: powerpc-randconfig-r134-20260614 (https://download.01.org/0day-ci/archive/20260615/202606150332.Xy4Egd9s-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 305faf498a4e0b52b40742c927af63ab2082e1a9)
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260615/202606150332.Xy4Egd9s-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: 99430ab8b804 ("mm: introduce BPF kfuncs to access memcg statistics and events")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606150332.Xy4Egd9s-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>>> mm/bpf_memcontrol.c:125:27: sparse: sparse: symbol 'bpf_mem_cgroup_memory_events' was not declared. Should it be static?
+>    mm/bpf_memcontrol.c:68:9: sparse: sparse: context imbalance in 'bpf_get_mem_cgroup' - different lock contexts for basic block
+> 
+> vim +/bpf_mem_cgroup_memory_events +125 mm/bpf_memcontrol.c
+> 
+>    117	
+>    118	/**
+>    119	 * bpf_mem_cgroup_memory_events - Read memory cgroup's memory event value
+>    120	 * @memcg: memory cgroup
+>    121	 * @event: memory event id
+>    122	 *
+>    123	 * Return: The current value of the memory event counter.
+>    124	 */
+>  > 125	__bpf_kfunc unsigned long bpf_mem_cgroup_memory_events(struct mem_cgroup *memcg,
+>    126							       enum memcg_memory_event event)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 18ec6c5d7ec6 ("s390/percpu: Use new percpu code section for arch_this_cpu_add()")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606172233.AWg2Pzin-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/md/dm.c: Assembler messages:
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
->> drivers/md/dm.c:601: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:606: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:976: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
-   drivers/md/dm.c:981: Warning: missing closing `"'
---
-   fs/nfsd/filecache.c: Assembler messages:
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
->> fs/nfsd/filecache.c:291: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:296: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:292: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:297: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:541: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:546: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
-   fs/nfsd/filecache.c:229: Warning: missing closing `"'
---
-   include/net/sock.h: Assembler messages:
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
---
-   net/can/raw.c: Assembler messages:
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
->> net/can/raw.c:181: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   net/can/raw.c:186: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4457: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
-   include/linux/netdevice.h:4462: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
->> include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1495: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/net/sock.h:1500: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4468: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-   include/linux/netdevice.h:4473: Warning: missing closing `"'
-..
-
-
-vim +601 drivers/md/dm.c
-
-978e51ba38e00e Mike Snitzer      2017-12-09  570  
-6f25dd1c57b8ba Mike Snitzer      2023-10-25  571  static struct dm_io *alloc_io(struct mapped_device *md, struct bio *bio, gfp_t gfp_mask)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  572  {
-64f52b0e31489b Mike Snitzer      2017-12-11  573  	struct dm_io *io;
-64f52b0e31489b Mike Snitzer      2017-12-11  574  	struct dm_target_io *tio;
-64f52b0e31489b Mike Snitzer      2017-12-11  575  	struct bio *clone;
-64f52b0e31489b Mike Snitzer      2017-12-11  576  
-6f25dd1c57b8ba Mike Snitzer      2023-10-25  577  	clone = bio_alloc_clone(NULL, bio, gfp_mask, &md->mempools->io_bs);
-6f25dd1c57b8ba Mike Snitzer      2023-10-25  578  	if (unlikely(!clone))
-6f25dd1c57b8ba Mike Snitzer      2023-10-25  579  		return NULL;
-6c23f0bd7f16d8 Christoph Hellwig 2022-02-02  580  	tio = clone_to_tio(clone);
-655f3aad7aa485 Mike Snitzer      2022-03-19  581  	tio->flags = 0;
-655f3aad7aa485 Mike Snitzer      2022-03-19  582  	dm_tio_set_flag(tio, DM_TIO_INSIDE_DM_IO);
-64f52b0e31489b Mike Snitzer      2017-12-11  583  	tio->io = NULL;
-64f52b0e31489b Mike Snitzer      2017-12-11  584  
-64f52b0e31489b Mike Snitzer      2017-12-11  585  	io = container_of(tio, struct dm_io, tio);
-64f52b0e31489b Mike Snitzer      2017-12-11  586  	io->magic = DM_IO_MAGIC;
-84b98f4ce4d1d1 Mike Snitzer      2022-03-17  587  	io->status = BLK_STS_OK;
-2b1c6d7a890aea Mikulas Patocka   2025-09-15  588  	io->requeue_flush_with_data = false;
-0f14d60a023cc4 Ming Lei          2022-04-12  589  
-0f14d60a023cc4 Ming Lei          2022-04-12  590  	/* one ref is for submission, the other is for completion */
-0f14d60a023cc4 Ming Lei          2022-04-12  591  	atomic_set(&io->io_count, 2);
-9f6dc633761006 Mike Snitzer      2022-02-17  592  	this_cpu_inc(*md->pending_io);
-7dd76d1feec70a Ming Lei          2022-04-12  593  	io->orig_bio = bio;
-978e51ba38e00e Mike Snitzer      2017-12-09  594  	io->md = md;
-4d7bca13dd9a50 Mike Snitzer      2022-03-19  595  	spin_lock_init(&io->lock);
-b879f915bc48a1 Mike Snitzer      2022-01-28  596  	io->start_time = jiffies;
-82f6cdcc3676c6 Mike Snitzer      2022-03-18  597  	io->flags = 0;
-526d10061bc29b Li Nan            2023-06-13  598  	if (blk_queue_io_stat(md->queue))
-526d10061bc29b Li Nan            2023-06-13  599  		dm_io_set_flag(io, DM_IO_BLK_STAT);
-64f52b0e31489b Mike Snitzer      2017-12-11  600  
-c4f512d255e3c4 Mike Snitzer      2023-06-13 @601  	if (static_branch_unlikely(&stats_enabled) &&
-c4f512d255e3c4 Mike Snitzer      2023-06-13  602  	    unlikely(dm_stats_used(&md->stats)))
-0cdb90f0f30638 Mike Snitzer      2022-02-17  603  		dm_stats_record_start(&md->stats, &io->stats_aux);
-64f52b0e31489b Mike Snitzer      2017-12-11  604  
-64f52b0e31489b Mike Snitzer      2017-12-11  605  	return io;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  606  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  607  
-
-:::::: The code at line 601 was first introduced by commit
-:::::: c4f512d255e3c4ade80a1d68ca816c1b11556a13 dm: skip dm-stats work in alloc_io() unless needed
-
-:::::: TO: Mike Snitzer <snitzer@kernel.org>
-:::::: CC: Mike Snitzer <snitzer@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Roman, it looks like the kfuncs added for bpfoom can safely be made
+static since they get resolved through BTF. I'll send a patch to update
+where applicable.
