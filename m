@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4152E739F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 03:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B42A1ACED5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 04:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781665756; cv=none; b=QtdxQN9C1DNrWYHYAPoL9eOMwkhrRwAZjBqDPrDGNggCokmGrrDxZuPGBvxBXTb3G+MurgmdcPeUrMiW16mRgn0AwZd4I5YK2a2tlmXK3v5DsqKFGQ0pQvZ7TeaZ2HTexJOzdww/fkyDWxvVzzlp7B6j6z9DPy8KO+bUrMeas84=
+	t=1781668966; cv=none; b=Ya8ODLWBdviPlAqpKBGwmyNkfj8DyRWMLqCr+RzJgAJfa1sNpo9Iul+Ic0zGpdR3pHeaZWVl/GM+SW/BYiGzKRQ+wjX6Oo6n+/ERM5j1NU/YMzVpQ9NTuoGnWv5umlaaLSKQEDD/Gnkr/z5zJ1K0Qsdusn/jKkRXMyVQvawC2Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781665756; c=relaxed/simple;
-	bh=z9UXdgmLX6cLrkzUo39xNNJoXBREq2RrIe7BkxfmqLE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KrPPCeDAHXX/wGALFiC6gOeSZfDJsI6EMr+ykAP5SwrT/MaFbYg96lkcLtTZpzqIAlTXcOTrLG9NnK7jOwgOkuuTn5P9muO431mrnqLsUj/vbFtR7cUDTyQH2mmvOTdCKuKOBSiViQB/wMAKdGNc5jZ2IY5ZlEU5uT+ibXzDIHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GPx3fF4L; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1781668966; c=relaxed/simple;
+	bh=elIMoUAJ1afdZwXY4OTqTktk7wQE4msHIkxcBRL7DWY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sCq6fu80xOdagh66vp+AGcpu1J0vo0L5rm/D1FzU2ACwN12R2mvPZla83J9SkVg3qxujuw/7ooV9Z+Heg4MrfpNnOMmmm5pmwvh2r+0gcAP8tTLh7SR19T1fkQvWyr1Ls9jNzPgpMH+rN1NfHv9BxBWZ6WyLXfOJr34R6FPvYqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4kMB6v9; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GPx3fF4L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4kMB6v9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781665754; x=1813201754;
+  t=1781668965; x=1813204965;
   h=date:from:to:cc:subject:message-id;
-  bh=z9UXdgmLX6cLrkzUo39xNNJoXBREq2RrIe7BkxfmqLE=;
-  b=GPx3fF4LGXjRNQ9wzL5IamYb411cgL0X+/EdnXPQ3dTehT0iWhWMmWGW
-   DcbVf04pul96xiyZoSNNadtti1j2FuhvSlCc+aTp8m8QJ87HC9joEKjr+
-   4zhbEzgHCAsXyjhgSpMASaNHaH/AsAWA65EuB+cwjMtfhOfKYPPSs9SRI
-   9AMwMb9DYaZHNd8HXvqaN2N94+0xKLSOxPXC3al1dDOkH6imizxh4eeAR
-   O8+KfxapDDCBE76WvdJeT+bFx2SLtlTfUP2QfDI/AZ3nj3uN0eW95/FKk
-   E56Vnx4gjff8RDVNqvEM+gBhtxAVXMhOsSgT7cxlVjrjgy1PBkJQZdgzR
-   g==;
-X-CSE-ConnectionGUID: ghkXs2pqRwKJL+CwNybmFA==
-X-CSE-MsgGUID: WRzeD2r5Q3GKxFtyIaEHcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="86289065"
+  bh=elIMoUAJ1afdZwXY4OTqTktk7wQE4msHIkxcBRL7DWY=;
+  b=Z4kMB6v9NQjkFknbMw/DvR1EO3L5sBO6Y9OG/kj+4JplX4TIia5EoAmz
+   CvaSUGCTGe07gwN4bGZlghcCLGxS5aG+wf8615tIP/yDSANtQI2kGemNP
+   YwyHUd0LusmsatLVkbI105ma+zb+QuReRdOnmuqaYZlWH80hb+QZtQa+R
+   To1q4Izm7gtQ9MZwlxFaLSHbxwlSHkVC/c5QdDLjnlJ/5J0lDb4xJWJ+T
+   TY3u7yGQf6mw0tMKW1SUbsVY6SooCqCcDnX0hyUyb+69uX4HqQGeFD3sI
+   kpSSdwV2WtNGMN8LoOZwvg3rx8986mHS9DvF3mjqWY/lplXCmhZKQ/0Kg
+   w==;
+X-CSE-ConnectionGUID: LzQ3v5sNQqqcerhRk2nBRw==
+X-CSE-MsgGUID: oUy1W7vYQzamPZdUgjXmFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="93121072"
 X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="86289065"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 20:09:13 -0700
-X-CSE-ConnectionGUID: XczITEsWQFSwIUqxVsBdgw==
-X-CSE-MsgGUID: YQQruJ9QRoe+QDb3pQ3wqA==
+   d="scan'208";a="93121072"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 21:02:45 -0700
+X-CSE-ConnectionGUID: nzM9FmXhReuDNGvHlpWTZw==
+X-CSE-MsgGUID: u6Gc0qpHTU2GdTu9bnxsvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="247816439"
+X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
+   d="scan'208";a="248022876"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Jun 2026 20:09:07 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Jun 2026 21:02:44 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZgeG-00000000U3I-1SpP;
-	Wed, 17 Jun 2026 03:09:04 +0000
-Date: Wed, 17 Jun 2026 11:08:26 +0800
+	id 1wZhU8-00000000U4q-3iGj;
+	Wed, 17 Jun 2026 04:02:40 +0000
+Date: Wed, 17 Jun 2026 12:02:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rppt:gfp-to-kmalloc/scsi 5/5]
- drivers/scsi/sym53c8xx_2/sym_hipd.h:1114:30: error: 'M_MEM_PAGE_ORDER'
- undeclared; did you mean 'SYM_MEM_PAGE_ORDER'?
-Message-ID: <202606171041.3GpQKydM-lkp@intel.com>
+Subject: [jlayton:dir-deleg 11/21] fs/nfsd/nfs4xdr.c:4200:18: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202606171135.OcFv7J1R-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,81 +59,52 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/scsi
-head:   8434cdcf311874c86620e4dbacbe17f63b33eca4
-commit: 8434cdcf311874c86620e4dbacbe17f63b33eca4 [5/5] scsi: sym53c8xx_2: replace __get_free_pages() with kmalloc()
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260617/202606171041.3GpQKydM-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606171041.3GpQKydM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   a27e573c1ea56ce3263c4336b5f83af2e4ebc108
+commit: 69b624a2f2a27a92dff8dcc659789117ffedb2fd [11/21] nfsd: add notification handlers for dir events
+config: i386-randconfig-061-20260616 (https://download.01.org/0day-ci/archive/20260617/202606171135.OcFv7J1R-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260617/202606171135.OcFv7J1R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606171041.3GpQKydM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606171135.OcFv7J1R-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfsd/nfs4xdr.c:4200:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] *attrmask @@     got restricted __be32 [usertype] * @@
+   fs/nfsd/nfs4xdr.c:4200:18: sparse:     expected unsigned int [usertype] *attrmask
+   fs/nfsd/nfs4xdr.c:4200:18: sparse:     got restricted __be32 [usertype] *
 
-   In file included from include/linux/percpu.h:5,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/interrupt.h:11,
-                    from drivers/scsi/sym53c8xx_2/sym_glue.h:32,
-                    from drivers/scsi/sym53c8xx_2/sym_malloc.c:27:
-   drivers/scsi/sym53c8xx_2/sym_malloc.c: In function '___mp0_get_mem_cluster':
->> drivers/scsi/sym53c8xx_2/sym_hipd.h:1114:30: error: 'M_MEM_PAGE_ORDER' undeclared (first use in this function); did you mean 'SYM_MEM_PAGE_ORDER'?
-    1114 |         kmalloc(PAGE_SIZE << M_MEM_PAGE_ORDER, GFP_ATOMIC)
-         |                              ^~~~~~~~~~~~~~~~
-   include/linux/alloc_tag.h:253:16: note: in definition of macro 'alloc_hooks_tag'
-     253 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/scsi/sym53c8xx_2/sym_hipd.h:1114:9: note: in expansion of macro 'kmalloc'
-    1114 |         kmalloc(PAGE_SIZE << M_MEM_PAGE_ORDER, GFP_ATOMIC)
-         |         ^~~~~~~
-   drivers/scsi/sym53c8xx_2/sym_malloc.c:182:19: note: in expansion of macro 'sym_get_mem_cluster'
-     182 |         void *m = sym_get_mem_cluster();
-         |                   ^~~~~~~~~~~~~~~~~~~
-   drivers/scsi/sym53c8xx_2/sym_hipd.h:1114:30: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/alloc_tag.h:253:16: note: in definition of macro 'alloc_hooks_tag'
-     253 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/scsi/sym53c8xx_2/sym_hipd.h:1114:9: note: in expansion of macro 'kmalloc'
-    1114 |         kmalloc(PAGE_SIZE << M_MEM_PAGE_ORDER, GFP_ATOMIC)
-         |         ^~~~~~~
-   drivers/scsi/sym53c8xx_2/sym_malloc.c:182:19: note: in expansion of macro 'sym_get_mem_cluster'
-     182 |         void *m = sym_get_mem_cluster();
-         |                   ^~~~~~~~~~~~~~~~~~~
->> include/linux/alloc_tag.h:265:1: error: initialization of 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     265 | ({                                                                      \
-         | ^
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/scsi/sym53c8xx_2/sym_hipd.h:1114:9: note: in expansion of macro 'kmalloc'
-    1114 |         kmalloc(PAGE_SIZE << M_MEM_PAGE_ORDER, GFP_ATOMIC)
-         |         ^~~~~~~
-   drivers/scsi/sym53c8xx_2/sym_malloc.c:182:19: note: in expansion of macro 'sym_get_mem_cluster'
-     182 |         void *m = sym_get_mem_cluster();
-         |                   ^~~~~~~~~~~~~~~~~~~
+vim +4200 fs/nfsd/nfs4xdr.c
 
-
-vim +1114 drivers/scsi/sym53c8xx_2/sym_hipd.h
-
-  1108	
-  1109	/*
-  1110	 *  MEMORY ALLOCATOR.
-  1111	 */
-  1112	
-  1113	#define sym_get_mem_cluster()	\
-> 1114		kmalloc(PAGE_SIZE << M_MEM_PAGE_ORDER, GFP_ATOMIC)
-  1115	#define sym_free_mem_cluster(p)	\
-  1116		kfree(p)
-  1117	
+  4191	
+  4192	static bool
+  4193	nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
+  4194				  struct dentry *dentry, struct nfs4_delegation *dp,
+  4195				  struct nfsd_file *nf, char *name, u32 namelen)
+  4196	{
+  4197		uint32_t *attrmask;
+  4198	
+  4199		/* Reserve space for attrmask */
+> 4200		attrmask = xdr_reserve_space(xdr, 3 * sizeof(uint32_t));
+  4201		if (!attrmask)
+  4202			return false;
+  4203	
+  4204		ne->ne_file.data = name;
+  4205		ne->ne_file.len = namelen;
+  4206		ne->ne_attrs.attrmask.element = attrmask;
+  4207	
+  4208		attrmask[0] = 0;
+  4209		attrmask[1] = 0;
+  4210		attrmask[2] = 0;
+  4211		ne->ne_attrs.attr_vals.data = NULL;
+  4212		ne->ne_attrs.attr_vals.len = 0;
+  4213		ne->ne_attrs.attrmask.count = 1;
+  4214		return true;
+  4215	}
+  4216	
 
 --
 0-DAY CI Kernel Test Service
