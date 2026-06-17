@@ -1,318 +1,175 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68822F0680
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 20:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225A9345750
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jun 2026 20:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781726595; cv=none; b=B9Tmrn9F2U+2Mc4tdak3zP/EW2ygAhNbD+zTqscm8T+0t15wY8q8GpO5R6oFSUT214FvOzfAjw5Sxmi+mb+ES8u6R9VK5HK/Qm2b4m2cyjDr9AWo+VWjylG0BmfGgd62dci/l92GITIAX021Aqo34Jiz2ELhHpB4BPstt88y3j8=
+	t=1781726597; cv=none; b=MJS+uRugq+RXuJOGEGRL/V7mBR0FNBO9fm+7aOXXFdQxvIlAOGZd/gD2hTIXBzHeiUYTnqLWEH0t3mzlMXdNc+qRnUarhjzDIdcaKQE8q2eV7RZatlY0US5XTrc561DDbr5gavQjeGrwyGVSW98qu7Q0uyf5Q+25nUAE751J8Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781726595; c=relaxed/simple;
-	bh=6LWJuIofTui4T6ALMvFj9wpMKzi9ilmakS5yVeLmnR4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KxlsyeGB7aWDdRSkw/mz7+xcSrt8zhtzq5j5Epl5Zxyn2yUAOVIFEM2ptSxT/nZMrBLMVZBRZ04u2akZXJIdKL5+ETcDL4IejoCv3ZktxjEKCbJrP3MXNdPdAUOzyr1LoXfR9zTU0s5EiZ1kj/OlE79ZAfYy2GHqkCG6YvLqAws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AWonEkLW; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1781726597; c=relaxed/simple;
+	bh=RX26t8axNHR2+20GoC02Y1V789ZRLXoB4J2FYEoPhOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KyWdlyzJKP2UAoDx0V8A03+ZD/h9GetDiXGjhJ8ssWZNG2PwctId0dbJ/pX04e4Ig3BwW7v9Q2SlqT3sJ9EH/rcirJ8tpi2dGmE4dykglJoIR493B7m7FWttN91R3ual7KMeA5p/R/cfLOTe+x5d0ydiPhRctP+obslxvHn0hPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OK8FOx6l; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AWonEkLW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OK8FOx6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781726594; x=1813262594;
-  h=date:from:to:cc:subject:message-id;
-  bh=6LWJuIofTui4T6ALMvFj9wpMKzi9ilmakS5yVeLmnR4=;
-  b=AWonEkLWRK5AL+Y7HhP9fC14ptq9Rs9yulZ0inL2cJ8efqpZmTOb5Csn
-   v6SKQ9djkvVCm2xSB0YoS+KgUZNaFLoq4n20I0k7y7wIV8bgBtdfgUApb
-   WKueF05M+VpPaLG3Ys8gAYnkzB5/HBedNRkbCARnZxW12WsJdFhIR0Cgy
-   x/JPegyBe8yDKIXebBAfizwwuFKBcUNkbyfTYZTcn6i1LVxLqjLsXzg6y
-   ZMr0qVJECkvbztirnRSCxbKk6SSJRZF86WjZ7eEld1Anf/BV/XyubvueR
-   GaGl+5w2tHmTXTYegRb+9DcycoNqJQrz/OxeX2DsUNSDQ6YmCph7j6tE3
-   Q==;
-X-CSE-ConnectionGUID: kpqulMfmSkOfCEszRHb17Q==
-X-CSE-MsgGUID: Ok5KjhUqRjKaxIiVNRaokg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="82435956"
+  t=1781726596; x=1813262596;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RX26t8axNHR2+20GoC02Y1V789ZRLXoB4J2FYEoPhOI=;
+  b=OK8FOx6lyGzj5ocK1xxRLShHn+7nLG7k6S2ONeLeO5S12Adg2fMG/c2W
+   s288dO+Kv+5Qw5WUIPxxlzn4ojdaWKUA2Y+OvyRFEWO6ZtfBpxS1e3HP0
+   8xtwaXkoqimE77KQS6VbBDV3LT6HizIWbHeWHh1zRqmtXnRVpGIVVgelz
+   SuyVamoPQCr6ke/qhP0stHGtoSknG58jHJ3qSuteHRhzBvuZuAPzoz9nu
+   00yy80UFeWzpvx/9UqmSAtuvYxKyvTUzyIQ3fE6eJJwCOCnL1Fv+oog9O
+   IVN8hesYjVGb8JW9qwWOqno/CguW7FRHyvKHw3X7r42hPhHdxNT65U1o8
+   A==;
+X-CSE-ConnectionGUID: YJR1papsTP63zzqa72ZVqg==
+X-CSE-MsgGUID: hPdp0+PGSm6IWZfVFSn4gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="82435958"
 X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="82435956"
+   d="scan'208";a="82435958"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 13:03:14 -0700
-X-CSE-ConnectionGUID: zlnkFvMYS66hhcXT0Tywrg==
-X-CSE-MsgGUID: MKkWGeQoTd26CspRs/m4Pw==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 13:03:15 -0700
+X-CSE-ConnectionGUID: oZ/Ntua8Tzmscqcny8xYcg==
+X-CSE-MsgGUID: BgpdpGDZSzqrbucK7elsTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="286268571"
+   d="scan'208";a="286268578"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 17 Jun 2026 13:03:12 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZwTc-00000000Uwi-41fO;
+	id 1wZwTc-00000000Uwg-3rli;
 	Wed, 17 Jun 2026 20:03:08 +0000
-Date: Thu, 18 Jun 2026 04:02:42 +0800
+Date: Thu, 18 Jun 2026 04:02:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-06-16 326/326]
- sound/soc/soc-card.c:1286:13: error: 'struct snd_soc_card' has no member
- named 'pci_subsystem_vendor'
-Message-ID: <202606180318.eKxuroMU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Lovekesh Solanki <lovekeshsolanki00@gmail.com>,
+	anthony.l.nguyen@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, przemyslaw.kitszel@intel.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+	Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+Subject: Re: [PATCH] e1000: Remove redundant else after return
+Message-ID: <202606180301.nRhk5lMR-lkp@intel.com>
+References: <20260616210008.109635-1-lovekeshsolanki00@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260616210008.109635-1-lovekeshsolanki00@gmail.com>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-16
-head:   5ce50ac7d0a59c6fb15e1baa7e6824ac096fe092
-commit: 347e73ad9dec0dbc10c4c7b5678981c7bf4cb422 [326/326] ASoC: soc.h: remove compatible definition
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260618/202606180318.eKxuroMU-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606180318.eKxuroMU-lkp@intel.com/reproduce)
+Hi Lovekesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tnguy-next-queue/dev-queue]
+[also build test WARNING on tnguy-net-queue/dev-queue linus/master v7.1 next-20260616]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lovekesh-Solanki/e1000-Remove-redundant-else-after-return/20260617-051633
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20260616210008.109635-1-lovekeshsolanki00%40gmail.com
+patch subject: [PATCH] e1000: Remove redundant else after return
+config: powerpc-randconfig-r073-20260617 (https://download.01.org/0day-ci/archive/20260618/202606180301.nRhk5lMR-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606180318.eKxuroMU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606180301.nRhk5lMR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/ethernet/intel/e1000/e1000_main.c:1551 e1000_setup_tx_resources() warn: inconsistent indenting
 
-         |                     ^~
-   sound/soc/soc-card.c:962:80: error: 'struct snd_soc_card' has no member named 'name'
-     962 |                                                           "%s-%s", prefix, card->name);
-         |                                                                                ^~
-   sound/soc/soc-card.c:964:13: error: 'struct snd_soc_card' has no member named 'name'
-     964 |         card->name = card->topology_shortname;
-         |             ^~
-   sound/soc/soc-card.c:964:26: error: 'struct snd_soc_card' has no member named 'topology_shortname'
-     964 |         card->name = card->topology_shortname;
-         |                          ^~
-   sound/soc/soc-card.c: In function 'soc_card_bind':
-   sound/soc/soc-card.c:1025:50: error: 'struct snd_soc_card' has no member named 'dai_link'
-    1025 |         ret = snd_soc_add_pcm_runtimes(card, card->dai_link, card->num_links);
-         |                                                  ^~
-   sound/soc/soc-card.c:1025:66: error: 'struct snd_soc_card' has no member named 'num_links'
-    1025 |         ret = snd_soc_add_pcm_runtimes(card, card->dai_link, card->num_links);
-         |                                                                  ^~
-   sound/soc/soc-card.c:1031:32: error: 'struct snd_soc_card' has no member named 'owner'
-    1031 |                            card->owner, 0, &card->snd_card);
-         |                                ^~
-   sound/soc/soc-card.c:1043:51: error: 'struct snd_soc_card' has no member named 'dapm_widgets'
-    1043 |         ret = snd_soc_dapm_new_controls(dapm, card->dapm_widgets,
-         |                                                   ^~
-   sound/soc/soc-card.c:1044:45: error: 'struct snd_soc_card' has no member named 'num_dapm_widgets'
-    1044 |                                         card->num_dapm_widgets);
-         |                                             ^~
-   sound/soc/soc-card.c:1048:51: error: 'struct snd_soc_card' has no member named 'of_dapm_widgets'
-    1048 |         ret = snd_soc_dapm_new_controls(dapm, card->of_dapm_widgets,
-         |                                                   ^~
-   sound/soc/soc-card.c:1049:45: error: 'struct snd_soc_card' has no member named 'num_of_dapm_widgets'
-    1049 |                                         card->num_of_dapm_widgets);
-         |                                             ^~
-   sound/soc/soc-card.c:1093:51: error: 'struct snd_soc_card' has no member named 'controls'
-    1093 |         ret = snd_soc_card_add_controls(card, card->controls,
-         |                                                   ^~
-   sound/soc/soc-card.c:1094:45: error: 'struct snd_soc_card' has no member named 'num_controls'
-    1094 |                                         card->num_controls);
-         |                                             ^~
-   sound/soc/soc-card.c:1098:51: error: 'struct snd_soc_card' has no member named 'dapm_routes'; did you mean 'dapm_mutex'?
-    1098 |         ret = snd_soc_dapm_add_routes(dapm, card->dapm_routes,
-         |                                                   ^~~~~~~~~~~
-         |                                                   dapm_mutex
-   sound/soc/soc-card.c:1099:43: error: 'struct snd_soc_card' has no member named 'num_dapm_routes'
-    1099 |                                       card->num_dapm_routes);
-         |                                           ^~
-   sound/soc/soc-card.c:1103:49: error: 'struct snd_soc_card' has no member named 'of_dapm_routes'
-    1103 |         ret = snd_soc_dapm_add_routes(dapm, card->of_dapm_routes,
-         |                                                 ^~
-   sound/soc/soc-card.c:1104:43: error: 'struct snd_soc_card' has no member named 'num_of_dapm_routes'
-    1104 |                                       card->num_of_dapm_routes);
-         |                                           ^~
-   sound/soc/soc-card.c:1111:69: error: 'struct snd_soc_card' has no member named 'name'
-    1111 |         soc_card_setup_name(card, card->snd_card->shortname,    card->name,             NULL);
-         |                                                                     ^~
-   sound/soc/soc-card.c:628:57: note: in definition of macro 'soc_card_setup_name'
-     628 |         __soc_card_setup_name(card, name, sizeof(name), name1, name2)
-         |                                                         ^~~~~
-   sound/soc/soc-card.c:1112:69: error: 'struct snd_soc_card' has no member named 'long_name'
-    1112 |         soc_card_setup_name(card, card->snd_card->longname,     card->long_name,        card->name);
-         |                                                                     ^~
-   sound/soc/soc-card.c:628:57: note: in definition of macro 'soc_card_setup_name'
-     628 |         __soc_card_setup_name(card, name, sizeof(name), name1, name2)
-         |                                                         ^~~~~
-   sound/soc/soc-card.c:1112:93: error: 'struct snd_soc_card' has no member named 'name'
-    1112 |         soc_card_setup_name(card, card->snd_card->longname,     card->long_name,        card->name);
-         |                                                                                             ^~
-   sound/soc/soc-card.c:628:64: note: in definition of macro 'soc_card_setup_name'
-     628 |         __soc_card_setup_name(card, name, sizeof(name), name1, name2)
-         |                                                                ^~~~~
-   sound/soc/soc-card.c:1113:69: error: 'struct snd_soc_card' has no member named 'driver_name'
-    1113 |         soc_card_setup_name(card, card->snd_card->driver,       card->driver_name,      card->name);
-         |                                                                     ^~
-   sound/soc/soc-card.c:628:57: note: in definition of macro 'soc_card_setup_name'
-     628 |         __soc_card_setup_name(card, name, sizeof(name), name1, name2)
-         |                                                         ^~~~~
-   sound/soc/soc-card.c:1113:93: error: 'struct snd_soc_card' has no member named 'name'
-    1113 |         soc_card_setup_name(card, card->snd_card->driver,       card->driver_name,      card->name);
-         |                                                                                             ^~
-   sound/soc/soc-card.c:628:64: note: in definition of macro 'soc_card_setup_name'
-     628 |         __soc_card_setup_name(card, name, sizeof(name), name1, name2)
-         |                                                                ^~~~~
-   sound/soc/soc-card.c:1115:17: error: 'struct snd_soc_card' has no member named 'components'
-    1115 |         if (card->components) {
-         |                 ^~
-   sound/soc/soc-card.c:1120:61: error: 'struct snd_soc_card' has no member named 'components'
-    1120 |                 ret = snd_component_add(card->snd_card, card->components);
-         |                                                             ^~
-   In file included from include/linux/device.h:15,
-                    from include/sound/core.h:10,
-                    from sound/soc/soc-card.c:14:
-   sound/soc/soc-card.c:1123:37: error: 'struct snd_soc_card' has no member named 'name'
-    1123 |                                 card->name, ret);
-         |                                     ^~
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   sound/soc/soc-card.c:1122:25: note: in expansion of macro 'dev_err'
-    1122 |                         dev_err(card->dev, "ASoC: %s snd_component_add() failed: %d\n",
-         |                         ^~~~~~~
-   sound/soc/soc-card.c: In function 'snd_soc_card_set_pci_ssid':
->> sound/soc/soc-card.c:1286:13: error: 'struct snd_soc_card' has no member named 'pci_subsystem_vendor'
-    1286 |         card->pci_subsystem_vendor = vendor;
-         |             ^~
->> sound/soc/soc-card.c:1287:13: error: 'struct snd_soc_card' has no member named 'pci_subsystem_device'
-    1287 |         card->pci_subsystem_device = device;
-         |             ^~
->> sound/soc/soc-card.c:1288:13: error: 'struct snd_soc_card' has no member named 'pci_subsystem_set'
-    1288 |         card->pci_subsystem_set = true;
-         |             ^~
-   sound/soc/soc-card.c: In function 'snd_soc_card_get_pci_ssid':
-   sound/soc/soc-card.c:1311:18: error: 'struct snd_soc_card' has no member named 'pci_subsystem_set'
-    1311 |         if (!card->pci_subsystem_set)
-         |                  ^~
-   sound/soc/soc-card.c:1314:23: error: 'struct snd_soc_card' has no member named 'pci_subsystem_vendor'
-    1314 |         *vendor = card->pci_subsystem_vendor;
-         |                       ^~
-   sound/soc/soc-card.c:1315:23: error: 'struct snd_soc_card' has no member named 'pci_subsystem_device'
-    1315 |         *device = card->pci_subsystem_device;
-         |                       ^~
-   sound/soc/soc-card.c: At top level:
-   sound/soc/soc-card.c:1352:5: warning: no previous prototype for 'snd_soc_register_card' [-Wmissing-prototypes]
-    1352 | int snd_soc_register_card(struct snd_soc_card *card)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   sound/soc/soc-card.c: In function 'snd_soc_register_card':
-   sound/soc/soc-card.c:1354:18: error: 'struct snd_soc_card' has no member named 'name'
-    1354 |         if (!card->name || !card->dev)
-         |                  ^~
-   sound/soc/soc-card.c: In function 'snd_soc_card_register3':
-   sound/soc/soc-card.c:1402:13: error: 'struct snd_soc_card' has no member named 'name'
-    1402 |         card->name                              = driver->name;
-         |             ^~
-   sound/soc/soc-card.c:1403:13: error: 'struct snd_soc_card' has no member named 'long_name'
-    1403 |         card->long_name                         = driver->long_name;
-         |             ^~
-   sound/soc/soc-card.c:1404:13: error: 'struct snd_soc_card' has no member named 'driver_name'
-    1404 |         card->driver_name                       = driver->driver_name;
-         |             ^~
-   sound/soc/soc-card.c:1405:13: error: 'struct snd_soc_card' has no member named 'components'
-    1405 |         card->components                        = driver->components;
-         |             ^~
-   sound/soc/soc-card.c:1407:13: error: 'struct snd_soc_card' has no member named 'dai_link'
-    1407 |         card->dai_link                          = driver->dai_link;
-         |             ^~
-   sound/soc/soc-card.c:1408:13: error: 'struct snd_soc_card' has no member named 'num_links'
-    1408 |         card->num_links                         = driver->num_links;
-         |             ^~
-   sound/soc/soc-card.c:1409:13: error: 'struct snd_soc_card' has no member named 'codec_conf'
-    1409 |         card->codec_conf                        = driver->codec_conf;
-         |             ^~
-   sound/soc/soc-card.c:1410:13: error: 'struct snd_soc_card' has no member named 'num_configs'
-    1410 |         card->num_configs                       = driver->num_configs;
-         |             ^~
-   sound/soc/soc-card.c:1411:13: error: 'struct snd_soc_card' has no member named 'aux_dev'
-    1411 |         card->aux_dev                           = driver->aux_dev;
-         |             ^~
-   sound/soc/soc-card.c:1412:13: error: 'struct snd_soc_card' has no member named 'num_aux_devs'
-    1412 |         card->num_aux_devs                      = driver->num_aux_devs;
-         |             ^~
-   sound/soc/soc-card.c:1413:13: error: 'struct snd_soc_card' has no member named 'controls'
-    1413 |         card->controls                          = driver->controls;
-         |             ^~
-   sound/soc/soc-card.c:1414:13: error: 'struct snd_soc_card' has no member named 'num_controls'
-    1414 |         card->num_controls                      = driver->num_controls;
-         |             ^~
-   sound/soc/soc-card.c:1415:13: error: 'struct snd_soc_card' has no member named 'dapm_widgets'
-    1415 |         card->dapm_widgets                      = driver->dapm_widgets;
-         |             ^~
-   sound/soc/soc-card.c:1416:13: error: 'struct snd_soc_card' has no member named 'num_dapm_widgets'
-    1416 |         card->num_dapm_widgets                  = driver->num_dapm_widgets;
-         |             ^~
-   sound/soc/soc-card.c:1417:15: error: 'struct snd_soc_card' has no member named 'dapm_routes'; did you mean 'dapm_mutex'?
-    1417 |         card->dapm_routes                       = driver->dapm_routes;
-         |               ^~~~~~~~~~~
-         |               dapm_mutex
-   sound/soc/soc-card.c:1418:13: error: 'struct snd_soc_card' has no member named 'num_dapm_routes'
-    1418 |         card->num_dapm_routes                   = driver->num_dapm_routes;
-         |             ^~
-   sound/soc/soc-card.c:1419:13: error: 'struct snd_soc_card' has no member named 'of_dapm_widgets'
-    1419 |         card->of_dapm_widgets                   = driver->of_dapm_widgets;
-         |             ^~
-   sound/soc/soc-card.c:1420:13: error: 'struct snd_soc_card' has no member named 'num_of_dapm_widgets'
-    1420 |         card->num_of_dapm_widgets               = driver->num_of_dapm_widgets;
-         |             ^~
-   sound/soc/soc-card.c:1421:13: error: 'struct snd_soc_card' has no member named 'of_dapm_routes'
-    1421 |         card->of_dapm_routes                    = driver->of_dapm_routes;
-         |             ^~
-   sound/soc/soc-card.c:1422:13: error: 'struct snd_soc_card' has no member named 'num_of_dapm_routes'
-    1422 |         card->num_of_dapm_routes                = driver->num_of_dapm_routes;
-         |             ^~
-   sound/soc/soc-card.c:1423:13: error: 'struct snd_soc_card' has no member named 'of_ignore_suspend_widgets'
-    1423 |         card->of_ignore_suspend_widgets         = driver->of_ignore_suspend_widgets;
-         |             ^~
-   sound/soc/soc-card.c:1424:13: error: 'struct snd_soc_card' has no member named 'num_of_ignore_suspend_widgets'
-    1424 |         card->num_of_ignore_suspend_widgets     = driver->num_of_ignore_suspend_widgets;
-         |             ^~
-   sound/soc/soc-card.c:1425:13: error: 'struct snd_soc_card' has no member named 'fully_routed'
-    1425 |         card->fully_routed                      = driver->fully_routed;
-         |             ^~
-   sound/soc/soc-card.c:1426:13: error: 'struct snd_soc_card' has no member named 'component_chaining'
-    1426 |         card->component_chaining                = driver->component_chaining;
-         |             ^~
-   sound/soc/soc-card.c:1428:13: error: 'struct snd_soc_card' has no member named 'pci_subsystem_vendor'
-    1428 |         card->pci_subsystem_vendor              = driver->pci_subsystem_vendor;
-         |             ^~
-   sound/soc/soc-card.c:1429:13: error: 'struct snd_soc_card' has no member named 'pci_subsystem_device'
-    1429 |         card->pci_subsystem_device              = driver->pci_subsystem_device;
-         |             ^~
---
-   sound/soc/samsung/snow.c: In function 'snow_late_probe':
-   sound/soc/samsung/snow.c:109:46: error: 'struct snd_soc_card' has no member named 'dai_link'
-     109 |         rtd = snd_soc_card_to_rtd(card, &card->dai_link[0]);
-         |                                              ^~
-   sound/soc/samsung/snow.c: In function 'snow_probe':
->> sound/soc/samsung/snow.c:209:9: error: implicit declaration of function 'snd_soc_of_parse_card_name'; did you mean 'snd_soc_of_get_dai_name'? [-Wimplicit-function-declaration]
-     209 |         snd_soc_of_parse_card_name(card, "samsung,model");
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_of_get_dai_name
+Old smatch warnings:
+arch/powerpc/include/asm/checksum.h:94 csum_tcpudp_nofold() warn: inconsistent indenting
 
+vim +1551 drivers/net/ethernet/intel/e1000/e1000_main.c
 
-vim +1286 sound/soc/soc-card.c
-
-9666422c9fc116 Kuninori Morimoto 2026-06-10  1280  
-9666422c9fc116 Kuninori Morimoto 2026-06-10  1281  /* REMOVE ME */
-789d6dc80311d8 Kuninori Morimoto 2026-03-26  1282  void snd_soc_card_set_pci_ssid(struct snd_soc_card *card,
-789d6dc80311d8 Kuninori Morimoto 2026-03-26  1283  			       unsigned short vendor,
-789d6dc80311d8 Kuninori Morimoto 2026-03-26  1284  			       unsigned short device)
-789d6dc80311d8 Kuninori Morimoto 2026-03-26  1285  {
-789d6dc80311d8 Kuninori Morimoto 2026-03-26 @1286  	card->pci_subsystem_vendor = vendor;
-789d6dc80311d8 Kuninori Morimoto 2026-03-26 @1287  	card->pci_subsystem_device = device;
-789d6dc80311d8 Kuninori Morimoto 2026-03-26 @1288  	card->pci_subsystem_set = true;
-789d6dc80311d8 Kuninori Morimoto 2026-03-26  1289  }
-789d6dc80311d8 Kuninori Morimoto 2026-03-26  1290  EXPORT_SYMBOL_GPL(snd_soc_card_set_pci_ssid);
-789d6dc80311d8 Kuninori Morimoto 2026-03-26  1291  
-
-:::::: The code at line 1286 was first introduced by commit
-:::::: 789d6dc80311d84d93dd24b965cdd0319108562c ASoC: soc-card: move snd_soc_card_{set/get}_pci_ssid() to soc-card.c
-
-:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-:::::: CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1491  
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1492  /**
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1493   * e1000_setup_tx_resources - allocate Tx resources (Descriptors)
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1494   * @adapter: board private structure
+581d708eb47ccc drivers/net/e1000/e1000_main.c                Mallikarjuna R Chilakala 2005-10-04  1495   * @txdr:    tx descriptor ring (for a specific queue) to setup
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1496   *
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1497   * Return 0 on success, negative on failure
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1498   **/
+6479884509e6cd drivers/net/e1000/e1000_main.c                Joe Perches              2008-07-11  1499  static int e1000_setup_tx_resources(struct e1000_adapter *adapter,
+581d708eb47ccc drivers/net/e1000/e1000_main.c                Mallikarjuna R Chilakala 2005-10-04  1500  				    struct e1000_tx_ring *txdr)
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1501  {
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1502  	struct pci_dev *pdev = adapter->pdev;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1503  	int size;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1504  
+580f321d8498f1 drivers/net/ethernet/intel/e1000/e1000_main.c Florian Westphal         2014-09-03  1505  	size = sizeof(struct e1000_tx_buffer) * txdr->count;
+89bf67f1f080c9 drivers/net/e1000/e1000_main.c                Eric Dumazet             2010-11-22  1506  	txdr->buffer_info = vzalloc(size);
+14f8dc49532f76 drivers/net/ethernet/intel/e1000/e1000_main.c Joe Perches              2013-02-07  1507  	if (!txdr->buffer_info)
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1508  		return -ENOMEM;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1509  
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1510  	/* round up to nearest 4K */
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1511  
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1512  	txdr->size = txdr->count * sizeof(struct e1000_tx_desc);
+9099cfb9170f35 drivers/net/e1000/e1000_main.c                Milind Arun Choudhary    2007-04-27  1513  	txdr->size = ALIGN(txdr->size, 4096);
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1514  
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1515  	txdr->desc = dma_alloc_coherent(&pdev->dev, txdr->size, &txdr->dma,
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1516  					GFP_KERNEL);
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1517  	if (!txdr->desc) {
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1518  setup_tx_desc_die:
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1519  		vfree(txdr->buffer_info);
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1520  		return -ENOMEM;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1521  	}
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1522  
+2648345fcbadfa drivers/net/e1000/e1000_main.c                Malli Chilakala          2005-04-28  1523  	/* Fix for errata 23, can't cross 64kB boundary */
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1524  	if (!e1000_check_64k_bound(adapter, txdr->desc, txdr->size)) {
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1525  		void *olddesc = txdr->desc;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1526  		dma_addr_t olddma = txdr->dma;
+feb8f47809fcc6 drivers/net/e1000/e1000_main.c                Emil Tantilov            2010-07-26  1527  		e_err(tx_err, "txdr align check failed: %u bytes at %p\n",
+675ad47375c76a drivers/net/e1000/e1000_main.c                Emil Tantilov            2010-04-27  1528  		      txdr->size, txdr->desc);
+2648345fcbadfa drivers/net/e1000/e1000_main.c                Malli Chilakala          2005-04-28  1529  		/* Try again, without freeing the previous */
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1530  		txdr->desc = dma_alloc_coherent(&pdev->dev, txdr->size,
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1531  						&txdr->dma, GFP_KERNEL);
+2648345fcbadfa drivers/net/e1000/e1000_main.c                Malli Chilakala          2005-04-28  1532  		/* Failed allocation, critical failure */
+96838a40f02950 drivers/net/e1000/e1000_main.c                Jesse Brandeburg         2006-01-18  1533  		if (!txdr->desc) {
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1534  			dma_free_coherent(&pdev->dev, txdr->size, olddesc,
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1535  					  olddma);
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1536  			goto setup_tx_desc_die;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1537  		}
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1538  
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1539  		if (!e1000_check_64k_bound(adapter, txdr->desc, txdr->size)) {
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1540  			/* give up */
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1541  			dma_free_coherent(&pdev->dev, txdr->size, txdr->desc,
+2648345fcbadfa drivers/net/e1000/e1000_main.c                Malli Chilakala          2005-04-28  1542  					  txdr->dma);
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1543  			dma_free_coherent(&pdev->dev, txdr->size, olddesc,
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1544  					  olddma);
+feb8f47809fcc6 drivers/net/e1000/e1000_main.c                Emil Tantilov            2010-07-26  1545  			e_err(probe, "Unable to allocate aligned memory "
+2648345fcbadfa drivers/net/e1000/e1000_main.c                Malli Chilakala          2005-04-28  1546  			      "for the transmit descriptor ring\n");
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1547  			vfree(txdr->buffer_info);
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1548  			return -ENOMEM;
+d66eba46397f54 drivers/net/ethernet/intel/e1000/e1000_main.c Lovekesh Solanki         2026-06-17  1549  		}
+2648345fcbadfa drivers/net/e1000/e1000_main.c                Malli Chilakala          2005-04-28  1550  			/* Free old allocation, new allocation was successful */
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27 @1551  			dma_free_coherent(&pdev->dev, txdr->size, olddesc,
+b16f53bef9be0a drivers/net/e1000/e1000_main.c                Nick Nunley              2010-04-27  1552  					  olddma);
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1553  	}
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1554  	memset(txdr->desc, 0, txdr->size);
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1555  
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1556  	txdr->next_to_use = 0;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1557  	txdr->next_to_clean = 0;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1558  
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1559  	return 0;
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1560  }
+^1da177e4c3f41 drivers/net/e1000/e1000_main.c                Linus Torvalds           2005-04-16  1561  
 
 --
 0-DAY CI Kernel Test Service
