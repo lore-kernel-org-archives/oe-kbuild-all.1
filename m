@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60611A6803;
-	Wed, 17 Jun 2026 23:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D674274FDF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jun 2026 00:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781740455; cv=none; b=SklAbiPssYEE0+T3g17JzLNaaK1Ut/sc8fsWsRPa+sSfYBz+rwuAb0ZhO17mjQJIRtPYzSz3G2CLn9VmUFw6fSRa45/Y+H+loNMiTrN3pVPpzJT1tKUhtyZC3u++C9bLpgFFSqV6EVHG9iupe4f0YNHB22oEnRrRkOHf5p/xXe4=
+	t=1781744303; cv=none; b=FbpcE5U0K23YqC5nj28o1f+p9D14BFPP1xjCNKXl5eUGqoT4mbzL/GG6s99I3t/9nvJjqb4fQfQpln3uRwqP2hwV5Eu3g4jMMdnHTdl9JtoCmcQXIWB7gSsbb7Fv3/OuQQzm8OXF1byfh3ez3qGML7tVjfJWhFjHAXucHWZsxe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781740455; c=relaxed/simple;
-	bh=ssdTUmGDuNFtWQKnhMR6My2aGMbLPHPkSgmhYLzqwTA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CNCHMQkqZdHG2QeT5zwvzMFfuYPX6fZH0ATPwtngOvFe8TcY2o29yt6Uv2kvnPuPrpBCn3gjdUa5tJwiv6tFHRBcidM+q4AMYKrH+PTOg9kuW3Cf8b1FY7i21Pmu9LQp2MV5y1DrKGuV4mmrvB3XBIFIf5j0/FP/2giceI3fR08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E8BCGSJd; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1781744303; c=relaxed/simple;
+	bh=NG6VwlIPdBKCNmaO4ecFcnVc7fNPOHRqxGMjBmgLYn4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ACYMLOVEFpSMx+jsdMn+Qu1d/6130qgxIm47QaxhVLw10TnhnL9MiuwlsqXSylK+KrxgmSdfIQ4aOaKWeZ9KKrPHFcIpcDIYNO9b2s6Y3G6w8j7Bvcqua4e7X45s/IDDrGTHf0AWyXkbXVF3ZKJ315lSzs63iXbskqTabHZATOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9pcZR0c; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8BCGSJd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9pcZR0c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781740453; x=1813276453;
+  t=1781744301; x=1813280301;
   h=date:from:to:cc:subject:message-id;
-  bh=ssdTUmGDuNFtWQKnhMR6My2aGMbLPHPkSgmhYLzqwTA=;
-  b=E8BCGSJdZFqslbD47rdKKSbNXbjhUr1uRKUzlVq2/1wC3NwFOUzWl/ro
-   TVt1uaFpOS7H8+nCFYEW2d2zLUwoY6wuzWbkXEvM23zZoZK1s7nS2vG4w
-   +MS+fSTfNYdPyKJGm/5UvpWI9TYF5MAy/NQ/NbM3rZB7mskbXBTNgrjHu
-   q2/Sr1SMHXc5xNlNkTFbVDz9LYkiw4bBk1vKKk2Bxf62U+P6MfJ3bd5RJ
-   pI6iauBprAc5z5d53a+I0DBm0UDiQLIM63bf0A7zGyIx0oidxKH5JIioJ
-   RjFWnEdpBYIb2BJ3jm+mdEIC6Ub7c8wO4eTrvVtHSHejVAFoMtMFaLTwx
+  bh=NG6VwlIPdBKCNmaO4ecFcnVc7fNPOHRqxGMjBmgLYn4=;
+  b=X9pcZR0chFOMTcppZIntUEzPT4Nmgd8Ywz0aovEDAwaZIUFiX+cr/d+a
+   fGbGqbUvm0Ahd7ajVh30MSLlcLSx2Lr74k8rj24vkv18yHF9CxAEpQl/c
+   cvgosTSv63Xsj/Pc9OnCepXss7fpopalUeB0xG2MpLmjDm0SmXLoVeiK7
+   DTxboyEDzBaaPYrXnHaprnC5ufQ0XE8L+6MUYW9Hm642dNsKpvFKdht0H
+   ynKwozr0jQlVYiCfMpNT6I2QVZao4QpDJU7AVLzNxk8fAIfMJVxEGJryE
+   NP5ZI/f5SkzBoIU7XQbLLt4Qpm4TO1gPEyNUYkq/pDU2F7hyTB356CdrB
    g==;
-X-CSE-ConnectionGUID: 6RlgM3BmTIOfUMjo/zrKlg==
-X-CSE-MsgGUID: CKIP8MkNS3O9QU/C1Cu62A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="81675121"
+X-CSE-ConnectionGUID: V+/ljzrVR6mgKthlhjLkdg==
+X-CSE-MsgGUID: dO5TUTGNTsePSEvnE/gGgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="85124873"
 X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="81675121"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 16:54:12 -0700
-X-CSE-ConnectionGUID: tI6pyKXFQJGvF39cO7ru3Q==
-X-CSE-MsgGUID: PklomwYJQoK2EihFk7LhPw==
+   d="scan'208";a="85124873"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 17:58:20 -0700
+X-CSE-ConnectionGUID: zm2syxlXQHOc3+kCHFexLg==
+X-CSE-MsgGUID: rKWi6wbDR9uwrMqnl2cG5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="253311647"
+   d="scan'208";a="243864271"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Jun 2026 16:54:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 17 Jun 2026 17:58:19 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wa05A-00000000V2O-1awV;
-	Wed, 17 Jun 2026 23:54:08 +0000
-Date: Thu, 18 Jun 2026 07:53:07 +0800
+	id 1wa15F-00000000V8a-0Xq3;
+	Thu, 18 Jun 2026 00:58:17 +0000
+Date: Thu, 18 Jun 2026 08:58:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [morimoto:sound-cleanup-2026-06-16 326/326]
- sound/soc/intel/boards/bytcht_da7213.c:269:12: error: call to undeclared
- function 'snd_soc_fixup_dai_links_platform_name'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202606180734.IcRR79nF-lkp@intel.com>
+ sound/soc/soc-card.c:1337:14: error: 'card_driver' undeclared
+Message-ID: <202606180809.rvSJ22YV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,105 +61,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-16
 head:   5ce50ac7d0a59c6fb15e1baa7e6824ac096fe092
-commit: 347e73ad9dec0dbc10c4c7b5678981c7bf4cb422 [326/326] ASoC: soc.h: remove compatible definition
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260618/202606180734.IcRR79nF-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606180734.IcRR79nF-lkp@intel.com/reproduce)
+commit: bcca3afbe4030eb595d239674303afc5fd051920 [326/326] ASoC: soc-card.h: remove compatible definition
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260618/202606180809.rvSJ22YV-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606180809.rvSJ22YV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606180734.IcRR79nF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606180809.rvSJ22YV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> sound/soc/intel/boards/bytcht_da7213.c:269:12: error: call to undeclared function 'snd_soc_fixup_dai_links_platform_name'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     269 |         ret_val = snd_soc_fixup_dai_links_platform_name(card, platform_name);
-         |                   ^
-   sound/soc/intel/boards/bytcht_da7213.c:269:12: note: did you mean 'snd_soc_card_fixup_dai_links_platform_name'?
-   include/sound/soc-card.h:285:5: note: 'snd_soc_card_fixup_dai_links_platform_name' declared here
-     285 | int snd_soc_card_fixup_dai_links_platform_name(struct snd_soc_card *card, const char *platform_name);
-         |     ^
-   1 error generated.
+   sound/soc/soc-card.c:42:6: warning: no previous prototype for 'snd_soc_card_attach_priv' [-Wmissing-prototypes]
+      42 | void snd_soc_card_attach_priv(struct snd_soc_card *card, void *data)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-card.c: In function 'snd_soc_card_remove':
+   sound/soc/soc-card.c:886:27: error: 'struct snd_soc_card_driver' has no member named 'probed'; did you mean 'probe'?
+     886 |         if (card->driver->probed &&
+         |                           ^~~~~~
+         |                           probe
+   sound/soc/soc-card.c: In function 'snd_soc_card_register3':
+>> sound/soc/soc-card.c:1337:14: error: 'card_driver' undeclared (first use in this function)
+    1337 |         if (!card_driver->name)
+         |              ^~~~~~~~~~~
+   sound/soc/soc-card.c:1337:14: note: each undeclared identifier is reported only once for each function it appears in
+>> sound/soc/soc-card.c:1351:24: error: returning 'int' from a function with return type 'struct snd_soc_card *' makes pointer from integer without a cast [-Wint-conversion]
+    1351 |                 return -ENOMEM;
+         |                        ^
+--
+   sound/soc/codecs/cs35l56-test.c: In function 'cs35l56_test_system_name_from_ssid':
+>> sound/soc/codecs/cs35l56-test.c:84:9: error: implicit declaration of function 'snd_soc_card_set_pci_ssid'; did you mean 'snd_soc_card_driver_set_pci_ssid'? [-Wimplicit-function-declaration]
+      84 |         snd_soc_card_set_pci_ssid(card, 0x12b4, 0xa7c8);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         snd_soc_card_driver_set_pci_ssid
+   sound/soc/codecs/cs35l56-test.c: In function 'cs35l56_test_case_init_common':
+   sound/soc/codecs/cs35l56-test.c:558:30: error: implicit declaration of function 'snd_soc_component_alloc'; did you mean 'snd_soc_component_close'? [-Wimplicit-function-declaration]
+     558 |         cs35l56->component = snd_soc_component_alloc(cs35l56->base.dev, &component_driver,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~
+         |                              snd_soc_component_close
+   sound/soc/codecs/cs35l56-test.c:558:28: error: assignment to 'struct snd_soc_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     558 |         cs35l56->component = snd_soc_component_alloc(cs35l56->base.dev, &component_driver,
+         |                            ^
 
 
-vim +/snd_soc_fixup_dai_links_platform_name +269 sound/soc/intel/boards/bytcht_da7213.c
+vim +/card_driver +1337 sound/soc/soc-card.c
 
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  230  
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  231  static int bytcht_da7213_probe(struct platform_device *pdev)
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  232  {
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  233  	struct snd_soc_card *card;
-7feb2f786a46d3 Pierre-Louis Bossart  2017-10-12  234  	struct snd_soc_acpi_mach *mach;
-686338c12a2bd2 Pierre-Louis Bossart  2019-01-25  235  	const char *platform_name;
-1b55f1c6fd64ef Andy Shevchenko       2019-03-28  236  	struct acpi_device *adev;
-41656c3dc2acfe Pierre-Louis Bossart  2020-11-12  237  	bool sof_parent;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  238  	int dai_index = 0;
-22a317a0505d11 Pierre-Louis Bossart  2017-10-12  239  	int ret_val = 0;
-22a317a0505d11 Pierre-Louis Bossart  2017-10-12  240  	int i;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  241  
-42432196cfb015 Guennadi Liakhovetski 2020-03-12  242  	mach = pdev->dev.platform_data;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  243  
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  244  	/* fix index of codec dai */
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  245  	for (i = 0; i < ARRAY_SIZE(dailink); i++) {
-0cc65482f5b03a Hans de Goede         2024-08-23  246  		if (dailink[i].num_codecs &&
-7d99a70b659511 Hans de Goede         2024-02-10  247  		    !strcmp(dailink[i].codecs->name, "i2c-DLGS7213:00")) {
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  248  			dai_index = i;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  249  			break;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  250  		}
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  251  	}
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  252  
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  253  	/* fixup codec name based on HID */
-1b55f1c6fd64ef Andy Shevchenko       2019-03-28  254  	adev = acpi_dev_get_first_match_dev(mach->id, NULL, -1);
-1b55f1c6fd64ef Andy Shevchenko       2019-03-28  255  	if (adev) {
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  256  		snprintf(codec_name, sizeof(codec_name),
-1b55f1c6fd64ef Andy Shevchenko       2019-03-28  257  			 "i2c-%s", acpi_dev_name(adev));
-fb1d4861f28e75 Kuninori Morimoto     2019-06-06  258  		dailink[dai_index].codecs->name = codec_name;
-14e91ddd5c02d8 Pierre-Louis Bossart  2024-08-27  259  	} else {
-14e91ddd5c02d8 Pierre-Louis Bossart  2024-08-27  260  		dev_err(&pdev->dev, "Error cannot find '%s' dev\n", mach->id);
-14e91ddd5c02d8 Pierre-Louis Bossart  2024-08-27  261  		return -ENOENT;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  262  	}
-14e91ddd5c02d8 Pierre-Louis Bossart  2024-08-27  263  
-4afda6de022857 Andy Shevchenko       2023-01-02  264  	acpi_dev_put(adev);
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  265  
-f1eebb3bf707b2 Pierre-Louis Bossart  2022-03-01  266  	/* override platform name, if required */
-686338c12a2bd2 Pierre-Louis Bossart  2019-01-25  267  	platform_name = mach->mach_params.platform;
-686338c12a2bd2 Pierre-Louis Bossart  2019-01-25  268  
-686338c12a2bd2 Pierre-Louis Bossart  2019-01-25 @269  	ret_val = snd_soc_fixup_dai_links_platform_name(card, platform_name);
-686338c12a2bd2 Pierre-Louis Bossart  2019-01-25  270  	if (ret_val)
-686338c12a2bd2 Pierre-Louis Bossart  2019-01-25  271  		return ret_val;
-686338c12a2bd2 Pierre-Louis Bossart  2019-01-25  272  
-41656c3dc2acfe Pierre-Louis Bossart  2020-11-12  273  	sof_parent = snd_soc_acpi_sof_parent(&pdev->dev);
-41656c3dc2acfe Pierre-Louis Bossart  2020-11-12  274  
-41656c3dc2acfe Pierre-Louis Bossart  2020-11-12  275  	/* set card and driver name */
-41656c3dc2acfe Pierre-Louis Bossart  2020-11-12  276  	if (sof_parent) {
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  277  		bytcht_da7213_card_driver.name = SOF_CARD_NAME;
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  278  		bytcht_da7213_card_driver.driver_name = SOF_DRIVER_NAME;
-41656c3dc2acfe Pierre-Louis Bossart  2020-11-12  279  	} else {
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  280  		bytcht_da7213_card_driver.name = CARD_NAME;
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  281  		bytcht_da7213_card_driver.driver_name = DRIVER_NAME;
-41656c3dc2acfe Pierre-Louis Bossart  2020-11-12  282  	}
-41656c3dc2acfe Pierre-Louis Bossart  2020-11-12  283  
-05ff312badb607 Pierre-Louis Bossart  2020-11-12  284  	/* set pm ops */
-05ff312badb607 Pierre-Louis Bossart  2020-11-12  285  	if (sof_parent)
-05ff312badb607 Pierre-Louis Bossart  2020-11-12  286  		pdev->dev.driver->pm = &snd_soc_pm_ops;
-05ff312badb607 Pierre-Louis Bossart  2020-11-12  287  
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  288  	card = devm_snd_soc_card_register(&pdev->dev, &bytcht_da7213_card_driver);
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  289  	if (!card) {
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  290  		ret_val = -ENOMEM;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  291  		dev_err(&pdev->dev,
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  292  			"snd_soc_card_register() failed %d\n", ret_val);
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  293  		return ret_val;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  294  	}
-ba5d4e9678ecc3 Kuninori Morimoto     2026-04-21  295  
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  296  	return ret_val;
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  297  }
-82cf89de2c9c2e Pierre-Louis Bossart  2017-03-09  298  
-
-:::::: The code at line 269 was first introduced by commit
-:::::: 686338c12a2bd2d27f8444901fb9ce1a4c0c0b58 ASoC: Intel: bytcht_da7213: platform name fixup support
-
-:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+  1331	
+  1332	struct snd_soc_card *snd_soc_card_register3(struct device *dev, struct snd_soc_card_driver *driver, void *priv)
+  1333	{
+  1334		struct snd_soc_card *card;
+  1335		int ret;
+  1336	
+> 1337		if (!card_driver->name)
+  1338	
+  1339		card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
+  1340		if (!card)
+  1341			return NULL;
+  1342	
+  1343		card->dev	= dev;
+  1344		card->devres_dev = dev;
+  1345		card->priv	= priv;
+  1346		card->driver	= driver;
+  1347		card->instantiated = 0;
+  1348	
+  1349		card->dapm = snd_soc_dapm_alloc(card->dev);
+  1350		if (!card->dapm)
+> 1351			return -ENOMEM;
+  1352	
+  1353		dev_set_drvdata(card->dev, card);
+  1354	
+  1355		INIT_LIST_HEAD(&card->widget_list_head);
+  1356		INIT_LIST_HEAD(&card->path_list_head);
+  1357		INIT_LIST_HEAD(&card->dapm_list_head);
+  1358		INIT_LIST_HEAD(&card->dapm_dirty_list_head);
+  1359		INIT_LIST_HEAD(&card->aux_list_head);
+  1360		INIT_LIST_HEAD(&card->component_list_head);
+  1361		INIT_LIST_HEAD(&card->unbind_list);
+  1362		INIT_LIST_HEAD(&card->rtd_list_head);
+  1363	
+  1364		mutex_init(&card->mutex);
+  1365		mutex_init(&card->dapm_mutex);
+  1366		mutex_init(&card->pcm_mutex);
+  1367	
+  1368		guard(mutex)(&client_mutex);
+  1369	
+  1370		ret = call_soc_bind_card(card);
+  1371		if (ret < 0)
+  1372			return NULL;
+  1373	
+  1374		return card;
+  1375	}
+  1376	EXPORT_SYMBOL_GPL(snd_soc_card_register3);
+  1377	
 
 --
 0-DAY CI Kernel Test Service
