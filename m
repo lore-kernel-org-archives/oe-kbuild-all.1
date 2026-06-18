@@ -1,215 +1,202 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525AC1CAA6C;
-	Thu, 18 Jun 2026 19:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406B02DEA9D;
+	Thu, 18 Jun 2026 19:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781811187; cv=none; b=Ui81GtaikALte2j3Oq1+CEozAtGHVQ8TUcJwdHWFKvdYvJtsVPkpna8XNvWHG023N/m0NnwWOwKk0YJD2c90l+M3YR79hN5cZjhoIcoUyt97ZOoVo1Jqv9nr7x48d+PqXhJwF3vJsRC4G6Kplpgt/hrdCD6F6xSRIZLa+c/EnnU=
+	t=1781812228; cv=none; b=oGhKQX0QL9dbj3ZlP4jt7mVLG7lrnf7uVtC7TPWIH3Y29i2Yzw0HhBcLJmTExPV4pgqYCNDaH0I+Ulu5cdWRPOxRzjm5a58nDJPhgBcjDfL/aham9W/6vKNukr2HVKwB8kexAgrfEkbATxD9HL3XHsHcS9GPgpCtcwMQ+ufBoGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781811187; c=relaxed/simple;
-	bh=jbw7nH/SleJ7izsm6pDgjvWsDyISaIOHSpBZGMBpk6o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G/q1IZNuKc6zMaYekZuR67/Zaj/jwjeoN+7mQ1BFCIlGAWNOKb1vPsYqRnW2KqeaWEC6LmbvdKlPqF9ByjmXfGlR2LsEweDLFcdFCRTJOHgjABygEhaCLJipq3mhC6U45wj+vQ13TWSJ99agJ+HLvOrPSG81oyLunaSutXUlxwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4ds/CkhS; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781812228; c=relaxed/simple;
+	bh=NBq8OmNOqvpBzS5jLW8OBdtDoV0vwk+sBfH4tQ3Ze0U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=k0N+dhNhfG2pYgDQinPF1+tn8ry86uXNLLqLuzZcdKbjUISpB7n3DMxXknDKehuRj5ZBBv4sVBMNiI9pnu3Zm0F2vTreM3FgOSO4W0Cyf25XI1qBWdAL43bPXUQr+MSXnGER6jdzqcnoi4et20eYFQ0Sj8EMadGQhP6iZ5G5v7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P6otDZfl; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4ds/CkhS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Vns4AkM7LBEuQEqheb4FJKwhZODtcNlIv2ZYD+zOODE=; b=4ds/CkhSn/SS4avY4fsM+umtnt
-	CI9BYR4mVxJK70gg6/tBNSVflLWYTLJUts6qI53uBTxUbrXemsuKq4wRXRHjIn/CSNhDrHxOzVImu
-	pTeilJRjbm5DEo9K2fuFU/q2cfml59C9XaNdGyo5dGxXIeJvkraOsbJfyHBDJhRE4CKU94jutd08Y
-	p9PJGHfzDcTrHX2wCP6KLdfU7zQGJsgcQWtX6tu3fqksPxnijW7RD9H8zNLV09QrOp22tTenrUiVZ
-	c3f5zxfBcgoT3jIKDv4J1wE9ZUzI/p4jK4BDATHvTUiDJJGo4qqDoa8KkEYYrrAq9DOliBgdeeaJd
-	626zfgxw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waIU4-00000001kFU-3YIX;
-	Thu, 18 Jun 2026 19:33:04 +0000
-Message-ID: <299a6f3b-708d-490e-8866-f15bf851cf83@infradead.org>
-Date: Thu, 18 Jun 2026 12:33:04 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P6otDZfl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781812227; x=1813348227;
+  h=date:from:to:cc:subject:message-id;
+  bh=NBq8OmNOqvpBzS5jLW8OBdtDoV0vwk+sBfH4tQ3Ze0U=;
+  b=P6otDZflOIqh3DOd+j7BqqxHEVzz49qVRYeP1IOdPWf0/bemX+ZpL7WH
+   nTOkYiIw8Q5jk13qgELiymV/2to+35gkaHgSP4ylX5aU7EZxB2nJJFwjT
+   YoQ74alKxzcdxZsTArqlK+c2vDqzd/Xuh/rZpgwqRGm662iOPnajovbKO
+   9uVosJ+G6J2XZoweKw+huHLKW4YeqhU1PwItQWzb78BJSw8aK9JNqZ+eX
+   zt1r7k9cJl+NJl7/dU2/BGVwEeRK4btlJT33XiTwPd9TF8GTew5MPr1rA
+   BXMIhvkt7XK5qFyPVLhbRn9VJCZYtKl7692ddKbYH+inop0weR6iE61Hz
+   Q==;
+X-CSE-ConnectionGUID: MYzKsIxyRpqqz+A1T6160A==
+X-CSE-MsgGUID: 0Mxt8HhwSVOkMMPZuxqV3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11821"; a="93310677"
+X-IronPort-AV: E=Sophos;i="6.24,212,1774335600"; 
+   d="scan'208";a="93310677"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 12:50:26 -0700
+X-CSE-ConnectionGUID: KHtBg6j5SHqnPtf0dYhYIA==
+X-CSE-MsgGUID: OFrFo4MFTXWXewPeZgTkqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,212,1774335600"; 
+   d="scan'208";a="278633177"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 18 Jun 2026 12:50:25 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1waIko-000000005aT-3CNn;
+	Thu, 18 Jun 2026 19:50:22 +0000
+Date: Thu, 18 Jun 2026 21:49:59 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/dynamic_memslot_hashtable 7/7]
+ arch/x86/kvm/x86.h:63:15: error: static assertion failed due to requirement
+ '(sizeof (((struct kvm_memslots *)0)->id_hash) * 2 * 2) == (1024 * (1 + 1) *
+ (1 + 1))': SIZE_OF_MEMSLOTS_HASHTABLE == (1024 * (1 +
+ IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CON...
+Message-ID: <202606182120.CIfEEL8K-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: htmldocs: Documentation/scheduler/sched-arch.rst:108: WARNING:
- Block quote ends without a blank line; unexpected unindent. [docutils]
-To: Shrikanth Hegde <sshegde@linux.ibm.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-References: <202606180717.yNM0yb41-lkp@intel.com>
- <f1a4c4c7-9ad8-40f5-b1a9-ba631977dac6@linux.ibm.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <f1a4c4c7-9ad8-40f5-b1a9-ba631977dac6@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+
+tree:   https://github.com/sean-jc/linux x86/dynamic_memslot_hashtable
+head:   e6c91f158091040c1e79a7dc9b8401235ae066b5
+commit: e6c91f158091040c1e79a7dc9b8401235ae066b5 [7/7] KVM: Dynamically allocate memslot's id=>slot hash table
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260618/202606182120.CIfEEL8K-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606182120.CIfEEL8K-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606182120.CIfEEL8K-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/kvm/x86.c:21:
+   In file included from arch/x86/kvm/irq.h:19:
+   In file included from arch/x86/kvm/lapic.h:11:
+   In file included from arch/x86/kvm/hyperv.h:25:
+>> arch/x86/kvm/x86.h:63:15: error: static assertion failed due to requirement '(sizeof (((struct kvm_memslots *)0)->id_hash) * 2 * 2) == (1024 * (1 + 1) * (1 + 1))': SIZE_OF_MEMSLOTS_HASHTABLE == (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM)))
+      63 | static_assert(SIZE_OF_MEMSLOTS_HASHTABLE ==
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      64 |               (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM))));
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.h:60:2: note: expanded from macro 'SIZE_OF_MEMSLOTS_HASHTABLE'
+      60 |         (sizeof(((struct kvm_memslots *)0)->id_hash) * 2 * KVM_MAX_NR_ADDRESS_SPACES)
+         |         ^
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   arch/x86/kvm/x86.h:63:42: note: expression evaluates to '32 == 4096'
+      63 | static_assert(SIZE_OF_MEMSLOTS_HASHTABLE ==
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+      64 |               (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM))));
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   In file included from arch/x86/kvm/x86.c:44:
+   include/linux/mman.h:157:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     157 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:135:21: note: expanded from macro '_calc_vm_trans'
+     135 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     159 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:135:21: note: expanded from macro '_calc_vm_trans'
+     135 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   2 warnings and 1 error generated.
+--
+   In file included from arch/x86/kvm/emulate.c:31:
+>> arch/x86/kvm/x86.h:63:15: error: static assertion failed due to requirement '(sizeof (((struct kvm_memslots *)0)->id_hash) * 2 * 2) == (1024 * (1 + 1) * (1 + 1))': SIZE_OF_MEMSLOTS_HASHTABLE == (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM)))
+      63 | static_assert(SIZE_OF_MEMSLOTS_HASHTABLE ==
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      64 |               (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM))));
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.h:60:2: note: expanded from macro 'SIZE_OF_MEMSLOTS_HASHTABLE'
+      60 |         (sizeof(((struct kvm_memslots *)0)->id_hash) * 2 * KVM_MAX_NR_ADDRESS_SPACES)
+         |         ^
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   arch/x86/kvm/x86.h:63:42: note: expression evaluates to '32 == 4096'
+      63 | static_assert(SIZE_OF_MEMSLOTS_HASHTABLE ==
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+      64 |               (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM))));
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   1 error generated.
+--
+   In file included from arch/x86/kvm/vmx/vmx.c:56:
+   In file included from arch/x86/kvm/vmx/capabilities.h:7:
+   In file included from arch/x86/kvm/vmx/../lapic.h:11:
+   In file included from arch/x86/kvm/vmx/../hyperv.h:25:
+>> arch/x86/kvm/vmx/../x86.h:63:15: error: static assertion failed due to requirement '(sizeof (((struct kvm_memslots *)0)->id_hash) * 2 * 2) == (1024 * (1 + 1) * (1 + 1))': SIZE_OF_MEMSLOTS_HASHTABLE == (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM)))
+      63 | static_assert(SIZE_OF_MEMSLOTS_HASHTABLE ==
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      64 |               (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM))));
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/../x86.h:60:2: note: expanded from macro 'SIZE_OF_MEMSLOTS_HASHTABLE'
+      60 |         (sizeof(((struct kvm_memslots *)0)->id_hash) * 2 * KVM_MAX_NR_ADDRESS_SPACES)
+         |         ^
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   arch/x86/kvm/vmx/../x86.h:63:42: note: expression evaluates to '32 == 4096'
+      63 | static_assert(SIZE_OF_MEMSLOTS_HASHTABLE ==
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+      64 |               (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM))));
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   1 error generated.
 
 
+vim +63 arch/x86/kvm/x86.h
 
-On 6/17/26 10:19 PM, Shrikanth Hegde wrote:
-> 
-> 
-> On 6/18/26 10:40 AM, kernel test robot wrote:
->> tree:   https://github.com/intel-lab-lkp/linux/commits/Shrikanth-Hegde/sched-debug-Remove-unused-schedstats/20260618-031604
->> head:   bcb0c494e4af36dd6306a5a1839a0c03046053af
->> commit: 4c29e4f3ba22adc04fc456620f2c6abf539d76df sched/docs: Document cpu_preferred_mask and Preferred CPU concept
->> date:   10 hours ago
->> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
->> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
->> reproduce: (https://download.01.org/0day-ci/archive/20260618/202606180717.yNM0yb41-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202606180717.yNM0yb41-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     Checksumming on output with GSO
->>     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
->>     MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
+65297341d8e15b Uros Bizjak         2021-08-09  58  
+ac777fbf064f81 Sean Christopherson 2025-05-22  59  #define SIZE_OF_MEMSLOTS_HASHTABLE \
+ac777fbf064f81 Sean Christopherson 2025-05-22  60  	(sizeof(((struct kvm_memslots *)0)->id_hash) * 2 * KVM_MAX_NR_ADDRESS_SPACES)
+ac777fbf064f81 Sean Christopherson 2025-05-22  61  
+ac777fbf064f81 Sean Christopherson 2025-05-22  62  /* Sanity check the size of the memslot hash tables. */
+ac777fbf064f81 Sean Christopherson 2025-05-22 @63  static_assert(SIZE_OF_MEMSLOTS_HASHTABLE ==
+ac777fbf064f81 Sean Christopherson 2025-05-22  64  	      (1024 * (1 + IS_ENABLED(CONFIG_X86_64)) * (1 + IS_ENABLED(CONFIG_KVM_SMM))));
+ac777fbf064f81 Sean Christopherson 2025-05-22  65  
 
->>     Documentation/scheduler/sched-arch.rst:107: ERROR: Unexpected indentation. [docutils]
->>>> Documentation/scheduler/sched-arch.rst:108: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->>     Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
->>
->>
->> vim +108 Documentation/scheduler/sched-arch.rst
->>
->>     102   
->>     103    Notes:
->>     104    1. This feature is available under CONFIG_PREFERRED_CPU
->>     105    2. This feature works for FAIR class only.
->>     106    3. A task pinned, which can't be moved to preferred CPUs will continue
->>     107       to run based on its affinity. But no load balancing happens
-> 
-> is it flagging here due to missing . ?
+:::::: The code at line 63 was first introduced by commit
+:::::: ac777fbf064f81b30e21f6d7023b6d0342a3fe1b KVM: x86: Use kvzalloc() to allocate VM struct
 
-No, but you could add that anyway.
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Sean Christopherson <seanjc@google.com>
 
->>   > 108    4. If needed, steal time based governors/arch dependent method
->>     109       could be used to cater to different types of cpu numbers.
->>     110       Arch can do so by implementing its own hooks.
->>     111    5. Decision to use/not use is driven by kernel. Hence it shouldn't
->>     112       break user affinities. One of the main reason why CPU hotplug
->>     113       or Isolated cpuset partitions was not a solution.
->>     114   
-It wants a blank line between each list item (if the list items are multi-line).
-For the list above this one (3 items, all single line), blank lines aren't needed.
-[These comments come from testing, not reading specs.]
-
-I made these changes and a couple of others to make the rendered html look
-reasonable.
-
-Use (or not).
----
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com
-Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com, mgorman@suse.de, bsegall@google.com, maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org
-Subject: [PATCH v4 02/20] sched/docs: Document cpu_preferred_mask and Preferred CPU concept
-Date: Wed, 17 Jun 2026 23:11:21 +0530
-Message-ID: <20260617174139.155540-3-sshegde@linux.ibm.com>
-
-
-Add documentation for new cpumask called cpu_preferred_mask. This could
-help users in understanding what this mask is and the concept behind it.
-
-Document how to enable it and implementation aspects of it.
-
-Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
----
-v3->v4:
-- update docs to reflect preferred is subset of active.
-
- Documentation/scheduler/sched-arch.rst |   61 ++++++++++++++++++++++-
- 1 file changed, 59 insertions(+), 2 deletions(-)
-
---- linux-next.orig/Documentation/scheduler/sched-arch.rst
-+++ linux-next/Documentation/scheduler/sched-arch.rst
-@@ -6,7 +6,8 @@ CPU Scheduler implementation hints for a
- 
- Context switch
- ==============
--1. Runqueue locking
-+Runqueue locking
-+
- By default, the switch_to arch function is called with the runqueue
- locked. This is usually not a problem unless switch_to may need to
- take the runqueue lock. This is usually due to a wake up operation in
-@@ -62,11 +63,67 @@ Your cpu_idle routines need to obey the
- arch/x86/kernel/process.c has examples of both polling and
- sleeping idle functions.
- 
-+Preferred CPUs
-+==============
-+
-+In virtualised environments it is possible to overcommit CPU resources.
-+i.e sum of virtual CPU(vCPU) of all VM's is greater than number of physical
-+CPUs(pCPU). Under such conditions when all or many VM's have high utilization,
-+hypervisor won't be able to satisfy the CPU requirement and has to context
-+switch within or across VM. i.e hypervisor need to preempt one vCPU to run
-+another. This is called vCPU preemption. This is more expensive compared to
-+task context switch within a vCPU.
-+
-+In such cases it is better that combined vCPU ask from all VM is reduced
-+by not using some of the vCPUs. vCPUs where workload can be safely
-+scheduled which won't increase any contention for pCPU are called as
-+"Preferred CPUs".
-+
-+In most cases preferred CPUs will be same as active CPUs, when there is pCPU
-+contention, Preferred CPUs will reduce based on the amount of steal time.
-+When the pCPU contention goes away as indicated by steal time, Preferred CPUs
-+will become same as active CPUs again. One has to enable the feature by
-+writing 1 to /sys/kernel/debug/sched/steal_monitor/enable
-+
-+One of the design construct is preferred CPUs is always subset of active CPUs.
-+With CONFIG_PREFERRED_CPU=n, it is same as active CPUs.
-+
-+For scheduling decisions such as wakeup, pushing the task etc, needs this
-+CPU state info. This is maintained in cpu_preferred_mask.
-+
-+vCPUs which are not in cpu_preferred_mask should be treated as vCPUs which
-+should not be used at this moment provided it doesn't break user affinity.
-+This is achieved by:
-+
-+1. Selecting a preferred CPU at wakeup.
-+2. Push the task away from non-preferred CPU at tick.
-+3. Only select preferred CPUs for load balance.
-+
-+/sys/devices/system/cpu/preferred prints the current cpu_preferred_mask in
-+cpulist format.
-+
-+Notes:
-+
-+1. This feature is available under CONFIG_PREFERRED_CPU
-+
-+2. This feature works for FAIR class only.
-+
-+3. A task pinned, which can't be moved to preferred CPUs will continue
-+   to run based on its affinity. But no load balancing happens
-+
-+4. If needed, steal time based governors/arch dependent method
-+   could be used to cater to different types of cpu numbers.
-+   Arch can do so by implementing its own hooks.
-+
-+5. Decision to use/not use is driven by kernel. Hence it shouldn't
-+   break user affinities. One of the main reason why CPU hotplug
-+   or Isolated cpuset partitions was not a solution.
- 
- Possible arch/ problems
- =======================
- 
- Possible arch problems I found (and either tried to fix or didn't):
- 
--sparc - IRQs on at this point(?), change local_irq_save to _disable.
-+sparc:
-+      - IRQs on at this point(?), change local_irq_save to _disable.
-       - TODO: needs secondary CPUs to disable preempt (See #1)
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
