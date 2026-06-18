@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74C2282F00
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jun 2026 06:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6138C33120C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jun 2026 06:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781762906; cv=none; b=b6WJXJQlBlmFSeDOOVpI+e8Pb0OZTi22tT3SuSP4oUSXzF1YuaB5k2eApqZxyJ9e0GBuwZf9GBxEGUI/GdisxidxkLOyzo6X4CrSyTeKzKIJ7KS6/4QIVXRsNzF+jynt3aYMxJ/1W2WqiELXyWDBNmEa7YW5bkgD/fhv/sA4O9w=
+	t=1781762908; cv=none; b=Y64RPnd4U14Lc7rvG5wnqVN8wOw67Pm8UKTutnraLlamA35YOiLVgAf91NAK0/bEYw8WgUtiOrD2po7iC0cF4e2UO23ypeIF6kpRmf0RcYhisDR04mB7KVuvvXzUNYsqi3vUNoHJqmwLGU5Qz+ApTLKsD1YReZBlM2z+3l7qPkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781762906; c=relaxed/simple;
-	bh=XYxjmbl5UUOlpBCI52Edv2vuPRO8rUrKISnX0apjAgo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=guBlY25wVyr9ztBfdRKIiewOiF7aKc/s1fUS5ooNj8o7e68jcpscxKluhE9aa/zKq7coDAxFm2VIa2ZmfsebZkd2GJmLcF+g2tmtCOKsuwPZCyfO55Sm1TQvKKWBVqkeTFn7Pt0wNfkPr8/N1KkJSh72Q4rUam5lArZKqEnAHIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOGswjGa; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1781762908; c=relaxed/simple;
+	bh=wPDPTMH3RLp6eO/I2qdyzQ36kW1FBwJOSXh8A4j0W6g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aB3DieFyaS8qp1T3m6KxQEeb/ixNn4jyg724KTDDbowWywz8L53cXgh3FuFM2V/dtWdD2NyHsc2awnVQ2UCyGHfzbUN5l4PfklFgX2ew6nok9ORlIK6eWtMYU5qf4Pld8KiXdz1OYAtWAVSToTQmGfUjOlN4ZGkFTszClekzR8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ErpyVQkV; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOGswjGa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ErpyVQkV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781762905; x=1813298905;
+  t=1781762907; x=1813298907;
   h=date:from:to:cc:subject:message-id;
-  bh=XYxjmbl5UUOlpBCI52Edv2vuPRO8rUrKISnX0apjAgo=;
-  b=bOGswjGaUdUAYe73OIqsK31q+j3ful+6P9tAvL97qXOFPACZ6xHlY+1W
-   jvpt0ULxbvXHqk3HPfbTsPoVtItG/ECCf8YAsJg2bg0T3C4zZrpGXuOQH
-   t/braoaMWnlf8zc0jyji2RkmnV9cGzTgWIQpY3NfSUAVKbvXStFD5AXj0
-   E7vY86Sb839L+FdOv0IQ3rJ94isrApjSA1X7t3p9J/U93d55IlHc+u3Rl
-   xxlmALwbUiRN/KXaw1x2fadgM4/GstiymcI87YZU7FACnqlK1s/pQJ2Xl
-   va+mSKQ3EFiuQ3u2IEgkd2Gg7/pEvO328F67lyZi68ySLntesbr5HJBSZ
+  bh=wPDPTMH3RLp6eO/I2qdyzQ36kW1FBwJOSXh8A4j0W6g=;
+  b=ErpyVQkVk7tcGznNB8/wzOfcWwxPENId7gHzoYDclfsqUNfCfj03WFjl
+   DNIYJAVtR72W2mBhn+x3x098BJoJxIWbw28ydmZO64lvNUOHMmzR1gI4n
+   0NH+R+mz1irY7pj4nmeqKZ0VZa6KB6oyXpDB/6huZI5sbpo53Kmxkr6Yj
+   sAle2JksNF+jQVgoT1g4++DnfLU33lw0UMz+o4Eqwo5n+kVzSEG433q1w
+   1V7JSxLRQRruFdAU9v4zf+9ofjVrSWOdqCCFW+AhfS9JhSkCJVyHXGb2J
+   QJTc79gupAhWbQI0R1waJNgfzjliTW0Ke0rJBcVRl6IZRDJTdz7SmV6Id
    A==;
-X-CSE-ConnectionGUID: It4R2vlXR3mIxictOJlWxA==
-X-CSE-MsgGUID: +zputlHXRO+Aq84zie7tzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="82681348"
+X-CSE-ConnectionGUID: laPkrApcQZOW4e/qeedP2A==
+X-CSE-MsgGUID: KkMgmBqxTOK+ydxkg3HbWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="82681351"
 X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="82681348"
+   d="scan'208";a="82681351"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 23:08:25 -0700
-X-CSE-ConnectionGUID: OJFtNuY9Q0yXLu3iqr0VZQ==
-X-CSE-MsgGUID: /B8UO14cTq6PTIt9zagW0w==
+X-CSE-ConnectionGUID: fqToUVqlTY2TEXojI2F2nA==
+X-CSE-MsgGUID: cMORzB4PRPyHEK2xXchnzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="252172599"
+   d="scan'208";a="252172601"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 17 Jun 2026 23:08:23 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wa5vI-00000000VHu-3Isz;
+	id 1wa5vI-00000000VHw-3W7H;
 	Thu, 18 Jun 2026 06:08:20 +0000
-Date: Thu, 18 Jun 2026 14:07:36 +0800
+Date: Thu, 18 Jun 2026 14:07:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-06 4/4]
- drivers/block/loop.c:1967:6: warning: no previous prototype for function
- 'loop_process_cmd_list'
-Message-ID: <202606181318.cQoumhWn-lkp@intel.com>
+Subject: [android-common:android16-6.12-2026-03 2/2]
+ drivers/iommu/pkvm-pviommu.c:461:12: warning: no previous prototype for
+ '__pviommu_selftest'
+Message-ID: <202606181359.vLcV5y9h-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,40 +60,94 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-06
-head:   85490001cfe93283299435daf1c5d8552e2602fd
-commit: e43346421ebd0b52ea04356fbc7ddeae108a4415 [4/4] ANDROID: loop: export loop_process_cmd_list
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20260618/202606181318.cQoumhWn-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606181318.cQoumhWn-lkp@intel.com/reproduce)
+Hi Mostafa,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-03
+head:   bc0d575e7c2d11165b91b071084bcd44a4f212e6
+commit: e516a71a453c76bb298c8a5f53027c7a943f1132 [2/2] ANDROID: drivers: iommu: pviommu: Add selftest
+config: arm64-randconfig-001-20260618 (https://download.01.org/0day-ci/archive/20260618/202606181359.vLcV5y9h-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606181359.vLcV5y9h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606181318.cQoumhWn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606181359.vLcV5y9h-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/block/loop.c:1967:6: warning: no previous prototype for function 'loop_process_cmd_list' [-Wmissing-prototypes]
-    1967 | void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
-         |      ^
-   drivers/block/loop.c:1967:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1967 | void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
-         | ^
-         | static 
-   1 warning generated.
+>> drivers/iommu/pkvm-pviommu.c:461:12: warning: no previous prototype for '__pviommu_selftest' [-Wmissing-prototypes]
+     461 | int __init __pviommu_selftest(void)
+         |            ^~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +/loop_process_cmd_list +1967 drivers/block/loop.c
+vim +/__pviommu_selftest +461 drivers/iommu/pkvm-pviommu.c
 
-  1966	
-> 1967	void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
-  1968	{
-  1969		struct loop_device *lo = disk->private_data;
-  1970		loop_process_work(NULL, cmd_list, lo);
-  1971	}
-  1972	EXPORT_SYMBOL_GPL(loop_process_cmd_list);
-  1973	
+   458	
+   459	#if IS_ENABLED(CONFIG_PKVM_PVIOMMU_SELFTEST) && !defined(MODULE)
+   460	/* Mainly test iova_to_phys and not hypervisor interface. */
+ > 461	int __init __pviommu_selftest(void)
+   462	{
+   463		struct pviommu_domain domain;
+   464	
+   465		pr_info("pviommu selftest starting\n");
+   466	
+   467		mt_init(&domain.mappings);
+   468	
+   469		pviommu_domain_insert_map(&domain, 0x10000, 0xFEFFF, 0xE0000, GFP_KERNEL);
+   470		pviommu_domain_insert_map(&domain, 0xFFF0000, 0x1EDBFFFF, 0xDEAD0000, GFP_KERNEL);
+   471		ASSERT(pviommu_domain_find(&domain, 0x10000) == 0xE0000);
+   472		ASSERT(pviommu_domain_find(&domain, 0x10F00) == 0xE0F00);
+   473		ASSERT(pviommu_domain_find(&domain, 0x1EDBFFFF) == 0xED89FFFF);
+   474		ASSERT(pviommu_domain_find(&domain, 0x10000000) == 0xDEAE0000);
+   475		ASSERT(pviommu_domain_find(&domain, 0x1FF000) == 0);
+   476		pviommu_domain_remove_map(&domain, 0x12000, 0x19FFF);
+   477		ASSERT(pviommu_domain_find(&domain, 0x11000) == 0xE1000);
+   478		ASSERT(pviommu_domain_find(&domain, 0x1B000) == 0xEB000);
+   479		ASSERT(pviommu_domain_find(&domain, 0x14000) == 0);
+   480	
+   481		pviommu_domain_insert_map(&domain, 0xC00000, 0xCFFFFF, 0xABCD000, GFP_KERNEL);
+   482		pviommu_domain_insert_map(&domain, 0xD00000, 0xDFFFFF, 0x1000, GFP_KERNEL);
+   483		pviommu_domain_insert_map(&domain, 0xE00000, 0xEFFFFF, 0xC0FE00000, GFP_KERNEL);
+   484		ASSERT(pviommu_domain_find(&domain, 0xD00000) == 0x1000);
+   485		pviommu_domain_remove_map(&domain, 0xC50000, 0xE5FFFF);
+   486		ASSERT(pviommu_domain_find(&domain, 0xC50000) == 0);
+   487		ASSERT(pviommu_domain_find(&domain, 0xD10000) == 0);
+   488		ASSERT(pviommu_domain_find(&domain, 0xE60000) == 0xC0FE60000);
+   489		ASSERT(pviommu_domain_find(&domain, 0xC10000) == 0xABDD000);
+   490	
+   491		mtree_destroy(&domain.mappings);
+   492		return 0;
+   493	}
+   494	
 
 --
 0-DAY CI Kernel Test Service
