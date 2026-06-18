@@ -1,153 +1,284 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19981F30BB;
-	Thu, 18 Jun 2026 05:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1BA257854;
+	Thu, 18 Jun 2026 05:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781759970; cv=none; b=t91/G2V3JgIKndGc2daaWTHP+gPgpqkPSCIW06AiG1t4zzlMm3lrRxl03wtYDctVzwVzJ+WfvI6fR7M19m1l/QSOSE9xnc8smMiJo4cUCCxDpkFysHQRW+iKsOUNuQ1tQFNEnF3SqbTiyy2ecFlnIgIVttbSntQ3iGb6JVUjmm4=
+	t=1781760469; cv=none; b=g2GVlNOKlAIR54DKj5mwuXggzv1/ICbmASUYvwUAqQQMg6nHN4glvwtYdpZ8CX60DZLUihDuZsfzRzorcv09E1+NNkIItGLiJjZfBf4PqMni4spWsvlh02i/vsa4h1fFWPMMC+qtVempxBLY/Jl+SSbf+onnCKRZ5fcDrJD7C6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781759970; c=relaxed/simple;
-	bh=ZIQIRtqTzxK/88S8Qux/nzjQGyhslhUpTF6jL/YPAQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B/zZSX4gg0GyDT5YWaXwkzVKG/nv8bgz8obZ6gN6B7QbQLWH1j3JioauKeVVAyTNY6RMjJAusbc3JV1TXKMNkq1laNyJeZ0ZQgp+OYDbTQki0ypCixUuB0xoKoybr05HDK0gvLUlHiWB1LPHQrQVg5YEP/DCyp1yMyE0yQEvvn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=HcVhjinM; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1781760469; c=relaxed/simple;
+	bh=Bufpcyan5APVO8sGeoZS1h40pWx1RNwJauGj9zwlxbI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jeh3l0tywhfxtWprFBbl0+p/4WEsWWb3IbFmlMWWhJOHwS821uUGPi6glf/o9NPhjFEgn4V780lKNK1BciGwLbNXQivalP7GLLp8ekH9qhqrJYZRqvgc2bWvnll/G6thILjbwlX5jyqC4HGs4GG3Afo/VRpkSx0fuDzk55CvGFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nPDmJj0i; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="HcVhjinM"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65HHmN3I1106806;
-	Thu, 18 Jun 2026 05:19:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=IsgJfS
-	g9ArKD3VcToruwIgyIj/6yysRSjr388UCZIeo=; b=HcVhjinMhg/b1Ulmkrw7AB
-	cmXtAN171I8n76eoaeoox1ZoNLTv/ueoJ4uH9OrSEu4mmKtiqVTJY2YmDADF+VPk
-	/p1eanc6ryO60UNDzwxD03nHrV2VWFMXVxQ0/a2xFYBAQVvbDOi0DspF8Ps6sxbG
-	+7r7+UXmsFDfT2RM4xbaev5Ffmx6sYh3TApsjcpWRIPdtYavDcrfTiPNjkKirTIi
-	mIuggEtYcCrRg2C2TCJ2Lur1ssb5/C39nE77p6k3GDZWZIqgKPALFKbWdDM35k2Z
-	m/PT98VDNJ/wMe+21otMr2cmi6vsfF8VahlOh42t8QVabvLiXalfo85NW9MPBsRw
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eueqtpfb2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jun 2026 05:19:27 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65I54cGD005106;
-	Thu, 18 Jun 2026 05:19:26 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ev172a45n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jun 2026 05:19:26 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65I5JOiX14483796
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 18 Jun 2026 05:19:24 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 53E422004B;
-	Thu, 18 Jun 2026 05:19:24 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5C16D20043;
-	Thu, 18 Jun 2026 05:19:23 +0000 (GMT)
-Received: from [9.123.5.233] (unknown [9.123.5.233])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 18 Jun 2026 05:19:23 +0000 (GMT)
-Message-ID: <f1a4c4c7-9ad8-40f5-b1a9-ba631977dac6@linux.ibm.com>
-Date: Thu, 18 Jun 2026 10:49:22 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPDmJj0i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781760468; x=1813296468;
+  h=date:from:to:cc:subject:message-id;
+  bh=Bufpcyan5APVO8sGeoZS1h40pWx1RNwJauGj9zwlxbI=;
+  b=nPDmJj0isnwPS66hc+Foe02ea7QOB6AmEQUh9pxDfzYWpCtlo8nXE3hC
+   x9ZBrNCOWcgZ1pQmMeyYt6E6IrJ+JaB9eTUqb/AAwco8upklTUUsJ2zyY
+   LLavGD9mN+hGFHOiAY5DiUepCng3RFJS+wePwbwUt791mDtPyJmQ3ulKu
+   3yByr4ZK5LXZRKJmz7uRLSvRQd+ibuIgG/sotfkDUda17y213V6ELVw7v
+   ovYYAp3f5ggcO42lrpLbngr/b0Zjfm+fD6L5qO+x5v1GQpgzXtYs4Tmr3
+   uIDkrL87kY47LajdkJNHyPsidR4z+WSxhqBjWz5hiSjmjFqmG/qgoOclg
+   A==;
+X-CSE-ConnectionGUID: PwdcEjr3SauFhuCj2iVaRw==
+X-CSE-MsgGUID: yIlLzJLJQVWnidJWCAZWEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="93238535"
+X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
+   d="scan'208";a="93238535"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 22:27:47 -0700
+X-CSE-ConnectionGUID: x+b0Vb0UQ8Oq/jmUKThmbQ==
+X-CSE-MsgGUID: 7sApJLVTQae7wCLh4+xgdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
+   d="scan'208";a="250158273"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 17 Jun 2026 22:27:45 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wa5Hz-00000000VGg-10uz;
+	Thu, 18 Jun 2026 05:27:43 +0000
+Date: Thu, 18 Jun 2026 13:27:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-06-16 326/326]
+ sound/soc/soc-card.c:1272:8: error: no member named 'pci_subsystem_vendor' in
+ 'struct snd_soc_card'
+Message-ID: <202606181207.dum73gpK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: htmldocs: Documentation/scheduler/sched-arch.rst:108: WARNING:
- Block quote ends without a blank line; unexpected unindent. [docutils]
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-References: <202606180717.yNM0yb41-lkp@intel.com>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <202606180717.yNM0yb41-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bJ2QUBy91YPdl5tGQZhvkHQuaOQgp2je
-X-Proofpoint-GUID: bJ2QUBy91YPdl5tGQZhvkHQuaOQgp2je
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE4MDA0NSBTYWx0ZWRfX3FNvIrdIOXQs
- R7MpAtrFIOSjQ8Bmctpyfzb1awEBRVCgWPiQvygy7ihz9OWASYGVNfemQ6cUitv2iNdSG0fn9DT
- T6KUzoLsaheZzJ/pfLBEn2SQOI7NqxMQK89mk4hFzRgkSGU8gZ+vQat3I3unfcN8/mIoSmP8BMc
- Kz5Ptk3MFol/g/DvXbPElD/B9iLVufPkpADbXxwZ72d5nWtqJ/LqVgnixloNCNw+C8vS9cpXLDT
- 0VWJQaI5V/sOob806lVtupgqsTibvYTyxH4ZVGH4d9JDhIOWUG9XuMGPUsMu3pGU+eo66A7n3VW
- 3OfkSclh51B6p1jfHYPS9cCuWxmLx3zOYzx7k7TOuYwCv1UmNgRkIAGfQGCe6wYJms6BnSL7z6S
- +SZgz48dVhM2kNQVvJOIHsoWHTq78jaVoizFAB90CjH3kx5XKEliqXeMJHAj8lJy7c/OfQ53yAb
- NZsYrP4GoTIgPktXCag==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE4MDA0NSBTYWx0ZWRfXwO2oS2FF2J2L
- 6/OqI0shuhaQAI0kb01VEZdlZA12/uxVsyDrhDpkcFmUQGVxWf/Tx+u19YOYO8S4eqM76Plv0HM
- NTNUQXKkCCFfYOpKwUFVpF6k4IVmDaE=
-X-Authority-Analysis: v=2.4 cv=B4KJFutM c=1 sm=1 tr=0 ts=6a337fdf cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=NEAV23lmAAAA:8
- a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=4PYDLAMntfhPxY290xAA:9
- a=QEXdDO2ut3YA:10 a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-17_02,2026-06-17_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 clxscore=1011 phishscore=0 spamscore=0 bulkscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606180045
+
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-16
+head:   5ce50ac7d0a59c6fb15e1baa7e6824ac096fe092
+commit: bcca3afbe4030eb595d239674303afc5fd051920 [326/326] ASoC: soc-card.h: remove compatible definition
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260618/202606181207.dum73gpK-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606181207.dum73gpK-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606181207.dum73gpK-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> sound/soc/soc-card.c:42:6: warning: no previous prototype for function 'snd_soc_card_attach_priv' [-Wmissing-prototypes]
+      42 | void snd_soc_card_attach_priv(struct snd_soc_card *card, void *data)
+         |      ^
+   sound/soc/soc-card.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      42 | void snd_soc_card_attach_priv(struct snd_soc_card *card, void *data)
+         | ^
+         | static 
+   sound/soc/soc-card.c:886:20: error: no member named 'probed' in 'struct snd_soc_card_driver'
+     886 |         if (card->driver->probed &&
+         |             ~~~~~~~~~~~~  ^
+>> sound/soc/soc-card.c:1272:8: error: no member named 'pci_subsystem_vendor' in 'struct snd_soc_card'
+    1272 |         card->pci_subsystem_vendor = vendor;
+         |         ~~~~  ^
+>> sound/soc/soc-card.c:1273:8: error: no member named 'pci_subsystem_device' in 'struct snd_soc_card'
+    1273 |         card->pci_subsystem_device = device;
+         |         ~~~~  ^
+>> sound/soc/soc-card.c:1274:8: error: no member named 'pci_subsystem_set' in 'struct snd_soc_card'
+    1274 |         card->pci_subsystem_set = true;
+         |         ~~~~  ^
+>> sound/soc/soc-card.c:1268:6: warning: no previous prototype for function 'snd_soc_card_set_pci_ssid' [-Wmissing-prototypes]
+    1268 | void snd_soc_card_set_pci_ssid(struct snd_soc_card *card,
+         |      ^
+   sound/soc/soc-card.c:1268:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1268 | void snd_soc_card_set_pci_ssid(struct snd_soc_card *card,
+         | ^
+         | static 
+   sound/soc/soc-card.c:1297:13: error: no member named 'pci_subsystem_set' in 'struct snd_soc_card'
+    1297 |         if (!card->pci_subsystem_set)
+         |              ~~~~  ^
+   sound/soc/soc-card.c:1300:18: error: no member named 'pci_subsystem_vendor' in 'struct snd_soc_card'
+    1300 |         *vendor = card->pci_subsystem_vendor;
+         |                   ~~~~  ^
+   sound/soc/soc-card.c:1301:18: error: no member named 'pci_subsystem_device' in 'struct snd_soc_card'
+    1301 |         *device = card->pci_subsystem_device;
+         |                   ~~~~  ^
+>> sound/soc/soc-card.c:1293:5: warning: no previous prototype for function 'snd_soc_card_get_pci_ssid' [-Wmissing-prototypes]
+    1293 | int snd_soc_card_get_pci_ssid(struct snd_soc_card *card,
+         |     ^
+   sound/soc/soc-card.c:1293:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1293 | int snd_soc_card_get_pci_ssid(struct snd_soc_card *card,
+         | ^
+         | static 
+>> sound/soc/soc-card.c:1337:7: error: use of undeclared identifier 'card_driver'
+    1337 |         if (!card_driver->name)
+         |              ^~~~~~~~~~~
+>> sound/soc/soc-card.c:1351:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct snd_soc_card *' [-Wint-conversion]
+    1351 |                 return -ENOMEM;
+         |                        ^~~~~~~
+   3 warnings and 9 errors generated.
+--
+>> sound/soc/codecs/cs35l56-test.c:84:2: error: call to undeclared function 'snd_soc_card_set_pci_ssid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      84 |         snd_soc_card_set_pci_ssid(card, 0x12b4, 0xa7c8);
+         |         ^
+   sound/soc/codecs/cs35l56-test.c:84:2: note: did you mean 'snd_soc_card_driver_set_pci_ssid'?
+   include/sound/soc-card.h:167:6: note: 'snd_soc_card_driver_set_pci_ssid' declared here
+     167 | void snd_soc_card_driver_set_pci_ssid(struct snd_soc_card_driver *card_driver,
+         |      ^
+   sound/soc/codecs/cs35l56-test.c:98:2: error: call to undeclared function 'snd_soc_card_set_pci_ssid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      98 |         snd_soc_card_set_pci_ssid(card, 0x12b4, 0xa7c8);
+         |         ^
+   sound/soc/codecs/cs35l56-test.c:260:2: error: call to undeclared function 'snd_soc_card_set_pci_ssid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     260 |         snd_soc_card_set_pci_ssid(card, PCI_VENDOR_ID_DELL, 0x1234);
+         |         ^
+   sound/soc/codecs/cs35l56-test.c:287:2: error: call to undeclared function 'snd_soc_card_set_pci_ssid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     287 |         snd_soc_card_set_pci_ssid(card, PCI_VENDOR_ID_DELL, 0x1234);
+         |         ^
+   sound/soc/codecs/cs35l56-test.c:327:2: error: call to undeclared function 'snd_soc_card_set_pci_ssid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     327 |         snd_soc_card_set_pci_ssid(card, PCI_VENDOR_ID_DELL, 0x1234);
+         |         ^
+   sound/soc/codecs/cs35l56-test.c:558:23: error: call to undeclared function 'snd_soc_component_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     558 |         cs35l56->component = snd_soc_component_alloc(cs35l56->base.dev, &component_driver,
+         |                              ^
+   sound/soc/codecs/cs35l56-test.c:558:23: note: did you mean 'snd_soc_component_close'?
+   include/sound/soc-component.h:347:5: note: 'snd_soc_component_close' declared here
+     347 | int snd_soc_component_close(struct snd_soc_component *component,
+         |     ^
+   sound/soc/codecs/cs35l56-test.c:558:21: error: incompatible integer to pointer conversion assigning to 'struct snd_soc_component *' from 'int' [-Wint-conversion]
+     558 |         cs35l56->component = snd_soc_component_alloc(cs35l56->base.dev, &component_driver,
+         |                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     559 |                                                      NULL, NULL, NULL, NULL);
+         |                                                      ~~~~~~~~~~~~~~~~~~~~~~~
+   7 errors generated.
 
 
+vim +1272 sound/soc/soc-card.c
 
-On 6/18/26 10:40 AM, kernel test robot wrote:
-> tree:   https://github.com/intel-lab-lkp/linux/commits/Shrikanth-Hegde/sched-debug-Remove-unused-schedstats/20260618-031604
-> head:   bcb0c494e4af36dd6306a5a1839a0c03046053af
-> commit: 4c29e4f3ba22adc04fc456620f2c6abf539d76df sched/docs: Document cpu_preferred_mask and Preferred CPU concept
-> date:   10 hours ago
-> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-> reproduce: (https://download.01.org/0day-ci/archive/20260618/202606180717.yNM0yb41-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606180717.yNM0yb41-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     Checksumming on output with GSO
->     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
->     MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
->     Documentation/scheduler/sched-arch.rst:107: ERROR: Unexpected indentation. [docutils]
->>> Documentation/scheduler/sched-arch.rst:108: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->     Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
-> 
-> 
-> vim +108 Documentation/scheduler/sched-arch.rst
-> 
->     102	
->     103	Notes:
->     104	1. This feature is available under CONFIG_PREFERRED_CPU
->     105	2. This feature works for FAIR class only.
->     106	3. A task pinned, which can't be moved to preferred CPUs will continue
->     107	   to run based on its affinity. But no load balancing happens
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1266  
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1267  /* REMOVE ME */
+789d6dc80311d8 Kuninori Morimoto 2026-03-26 @1268  void snd_soc_card_set_pci_ssid(struct snd_soc_card *card,
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1269  			       unsigned short vendor,
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1270  			       unsigned short device)
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1271  {
+789d6dc80311d8 Kuninori Morimoto 2026-03-26 @1272  	card->pci_subsystem_vendor = vendor;
+789d6dc80311d8 Kuninori Morimoto 2026-03-26 @1273  	card->pci_subsystem_device = device;
+789d6dc80311d8 Kuninori Morimoto 2026-03-26 @1274  	card->pci_subsystem_set = true;
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1275  }
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1276  EXPORT_SYMBOL_GPL(snd_soc_card_set_pci_ssid);
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1277  
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1278  int snd_soc_card_driver_get_pci_ssid(struct snd_soc_card_driver *card_driver,
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1279  				     unsigned short *vendor,
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1280  				     unsigned short *device)
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1281  {
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1282  	if (!card_driver->pci_subsystem_set)
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1283  		return -ENOENT;
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1284  
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1285  	*vendor = card_driver->pci_subsystem_vendor;
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1286  	*device = card_driver->pci_subsystem_device;
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1287  
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1288  	return 0;
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1289  }
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1290  EXPORT_SYMBOL_GPL(snd_soc_card_driver_get_pci_ssid);
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1291  
+9666422c9fc116 Kuninori Morimoto 2026-06-10  1292  /* REMOVE ME */
+789d6dc80311d8 Kuninori Morimoto 2026-03-26 @1293  int snd_soc_card_get_pci_ssid(struct snd_soc_card *card,
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1294  			      unsigned short *vendor,
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1295  			      unsigned short *device)
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1296  {
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1297  	if (!card->pci_subsystem_set)
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1298  		return -ENOENT;
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1299  
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1300  	*vendor = card->pci_subsystem_vendor;
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1301  	*device = card->pci_subsystem_device;
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1302  
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1303  	return 0;
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1304  }
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1305  EXPORT_SYMBOL_GPL(snd_soc_card_get_pci_ssid);
+789d6dc80311d8 Kuninori Morimoto 2026-03-26  1306  #endif /* CONFIG_PCI */
+7928193d4258eb Kuninori Morimoto 2026-03-30  1307  
+7928193d4258eb Kuninori Morimoto 2026-03-30  1308  struct snd_soc_dai *snd_soc_card_get_codec_dai(struct snd_soc_card *card,
+7928193d4258eb Kuninori Morimoto 2026-03-30  1309  					       const char *dai_name)
+7928193d4258eb Kuninori Morimoto 2026-03-30  1310  {
+7928193d4258eb Kuninori Morimoto 2026-03-30  1311  	struct snd_soc_pcm_runtime *rtd;
+7928193d4258eb Kuninori Morimoto 2026-03-30  1312  
+7928193d4258eb Kuninori Morimoto 2026-03-30  1313  	for_each_card_rtds(card, rtd) {
+4bbdf4f7c93787 Kuninori Morimoto 2026-06-11  1314  		const struct snd_soc_dai *dai = snd_soc_rtd_to_codec(rtd, 0);
+4bbdf4f7c93787 Kuninori Morimoto 2026-06-11  1315  
+4bbdf4f7c93787 Kuninori Morimoto 2026-06-11  1316  		if (!strcmp(snd_soc_dai_name(dai), dai_name))
+7928193d4258eb Kuninori Morimoto 2026-03-30  1317  			return snd_soc_rtd_to_codec(rtd, 0);
+7928193d4258eb Kuninori Morimoto 2026-03-30  1318  	}
+7928193d4258eb Kuninori Morimoto 2026-03-30  1319  
+7928193d4258eb Kuninori Morimoto 2026-03-30  1320  	return NULL;
+7928193d4258eb Kuninori Morimoto 2026-03-30  1321  }
+7928193d4258eb Kuninori Morimoto 2026-03-30  1322  EXPORT_SYMBOL_GPL(snd_soc_card_get_codec_dai);
+e3f3321cabf718 Kuninori Morimoto 2026-04-07  1323  
+e3f3321cabf718 Kuninori Morimoto 2026-04-07  1324  void soc_card_flush_all_delayed_work(struct snd_soc_card *card)
+e3f3321cabf718 Kuninori Morimoto 2026-04-07  1325  {
+e3f3321cabf718 Kuninori Morimoto 2026-04-07  1326  	struct snd_soc_pcm_runtime *rtd;
+e3f3321cabf718 Kuninori Morimoto 2026-04-07  1327  
+e3f3321cabf718 Kuninori Morimoto 2026-04-07  1328  	for_each_card_rtds(card, rtd)
+e3f3321cabf718 Kuninori Morimoto 2026-04-07  1329  		flush_delayed_work(&rtd->delayed_work);
+e3f3321cabf718 Kuninori Morimoto 2026-04-07  1330  }
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1331  
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1332  struct snd_soc_card *snd_soc_card_register3(struct device *dev, struct snd_soc_card_driver *driver, void *priv)
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1333  {
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1334  	struct snd_soc_card *card;
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1335  	int ret;
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1336  
+bcca3afbe4030e Kuninori Morimoto 2026-06-03 @1337  	if (!card_driver->name)
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1338  
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1339  	card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1340  	if (!card)
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1341  		return NULL;
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1342  
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1343  	card->dev	= dev;
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1344  	card->devres_dev = dev;
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1345  	card->priv	= priv;
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1346  	card->driver	= driver;
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1347  	card->instantiated = 0;
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1348  
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1349  	card->dapm = snd_soc_dapm_alloc(card->dev);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1350  	if (!card->dapm)
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27 @1351  		return -ENOMEM;
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1352  
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1353  	dev_set_drvdata(card->dev, card);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1354  
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1355  	INIT_LIST_HEAD(&card->widget_list_head);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1356  	INIT_LIST_HEAD(&card->path_list_head);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1357  	INIT_LIST_HEAD(&card->dapm_list_head);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1358  	INIT_LIST_HEAD(&card->dapm_dirty_list_head);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1359  	INIT_LIST_HEAD(&card->aux_list_head);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1360  	INIT_LIST_HEAD(&card->component_list_head);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1361  	INIT_LIST_HEAD(&card->unbind_list);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1362  	INIT_LIST_HEAD(&card->rtd_list_head);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1363  
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1364  	mutex_init(&card->mutex);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1365  	mutex_init(&card->dapm_mutex);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1366  	mutex_init(&card->pcm_mutex);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1367  
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1368  	guard(mutex)(&client_mutex);
+07f0dd0c3aa4a2 Kuninori Morimoto 2026-05-27  1369  
+bcca3afbe4030e Kuninori Morimoto 2026-06-03  1370  	ret = call_soc_bind_card(card);
+4587ffa04798ff Kuninori Morimoto 2026-06-03  1371  	if (ret < 0)
+4587ffa04798ff Kuninori Morimoto 2026-06-03  1372  		return NULL;
+4587ffa04798ff Kuninori Morimoto 2026-06-03  1373  
+4587ffa04798ff Kuninori Morimoto 2026-06-03  1374  	return card;
+4587ffa04798ff Kuninori Morimoto 2026-06-03  1375  }
+4587ffa04798ff Kuninori Morimoto 2026-06-03  1376  EXPORT_SYMBOL_GPL(snd_soc_card_register3);
+4587ffa04798ff Kuninori Morimoto 2026-06-03  1377  
 
-is it flagging here due to missing . ?
+:::::: The code at line 1272 was first introduced by commit
+:::::: 789d6dc80311d84d93dd24b965cdd0319108562c ASoC: soc-card: move snd_soc_card_{set/get}_pci_ssid() to soc-card.c
 
->   > 108	4. If needed, steal time based governors/arch dependent method
->     109	   could be used to cater to different types of cpu numbers.
->     110	   Arch can do so by implementing its own hooks.
->     111	5. Decision to use/not use is driven by kernel. Hence it shouldn't
->     112	   break user affinities. One of the main reason why CPU hotplug
->     113	   or Isolated cpuset partitions was not a solution.
->     114	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
