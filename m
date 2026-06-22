@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C93366051
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jun 2026 22:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2D535E93B;
+	Mon, 22 Jun 2026 22:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782166972; cv=none; b=oVT0LCumuddZfXRBtDWUwdpgwbxI7E/OE9A8UIoeVVMylbBWxVE40CWACbyJXdP6rtz2YJwtNjahsHYmNpF0mJ2uttQ0ClwDACCP3oZlC8nO/LTj0SMIVac9s1X43Pau5+F5OrLLBJmLvN5wMYBmD7vbBb0uLeJ5q7Ubyejf/FM=
+	t=1782166973; cv=none; b=TVoe9dl8jjC6HyBU2zyRRqWKARG1WzokEQufJ62cdBxquyotnamU43SqtSw2vXGoeHh8j6EPYMf/TUnbM14gCTrPQnEfYyw6doDY/ympq2pcEAe5lEfJgbFRtHLsppHv7pBX/Lr9HAphwWtSTY8/DIMI6q7N7FmKXqaUjAx/ibw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782166972; c=relaxed/simple;
-	bh=z4R2A2Tzw6m+sSNtulbqzVYZUWllGJeguBuUksfklX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=QVBq6lriKs6ku6G/NMidJ7G07Ob1WZtU1zy4vAlLrxx5KqqgNlwJL+Fk67yfOmPQA2Eo1CCNLiodWphrfZshM4rQ7XM2RngSImp/E+D4YGKmd5eQ/Z+ck1ZnhKswE/+Xemfb09XzDDsoRTLoCFbo+DD9PY7ElJk0M6PfuE5bEVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZewREZ2; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1782166973; c=relaxed/simple;
+	bh=NGhbZb21//AHvUjp14aTgxjSClU4yPXQD1V1Z+N+dPk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=oHKPobdGuJBWMkOcBy0igh3Bf3lyWf9bJ0Xlo3tffOlwZGv0oFSisv+2ZxDaTWcah7ovyxXb7PEvXY8CPvLca/ehNckm1saL1W18GlLRcFJpoTVL98tYVVeYRn0b/iDz6mUM0exbSo/kFaNvGkcCryylB17tYUeKGQhb9W6XYzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZYO+gac; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZewREZ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZYO+gac"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782166970; x=1813702970;
+  t=1782166971; x=1813702971;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z4R2A2Tzw6m+sSNtulbqzVYZUWllGJeguBuUksfklX8=;
-  b=eZewREZ2Zhgxo3D8oeTDNHv6rKYlwoU9YSqQLLDkglgiqJT3arRsKbvQ
-   3u5nOT3PIW9ylj4uwF+eZJhvFYVr+qn+hYTaTeH1H4XYzJXEat3ltkdLo
-   0i4FtCrqORsPeLG7y6QtCLpPiiUIJhTu8Qu+FfciaybayEK67no0erchG
-   kXECcagVAWX14V6nTnGql5IzWSt9wqL/9zjwbdrV5b7N414WXL+baPqu0
-   TaiSG25gqLvOiO1CtcJa2Us7z3eFkbqk5KNilO4+5SvFmECelwbpxHFfM
-   4bU6rWD8drrP2r+ZVS6qipL1zygCETJeAv19maYxNeYRvdqyrHu6ugQZJ
+  bh=NGhbZb21//AHvUjp14aTgxjSClU4yPXQD1V1Z+N+dPk=;
+  b=AZYO+gacDV/EouvNZEDV6gOgN9C63wyjoaB8bynYNvWBgNTHHZrj/2YD
+   J20eKuwEym/srzyrIGfC8fy+SBgSo/44Ijnk5tWxGT2B5Fi3qI/liGOKG
+   DqddhvpoqoEr5RMayqhy3wfBZbNu70WenLiXbBXWaFfipkyvgxRTSTqoD
+   +FewT6GoCly+o1TSy34yKnWM2ATvdw5GBOEzJyVYpIVFJ86W39y3H2O5+
+   2v+Zb4sF6DAZiagBp9842mZnUh9TH9HTjr86k7XHfxEYmgdVp7Fh4AezG
+   dPGgEVYzE/c0pKEVwbl+DeZR20aE0BwSyHhc+an1Gpa3c8kFIBct4j8AU
    g==;
-X-CSE-ConnectionGUID: xdMevqzFS5meSqexLEFCDw==
-X-CSE-MsgGUID: Pz40wLy3RZ2YtO5BCGtV3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="81885063"
+X-CSE-ConnectionGUID: OqNReJ71RTOvdNHyNVOOuA==
+X-CSE-MsgGUID: uj+V6hPSSQyr1gC4rFLuyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82676851"
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="81885063"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 15:22:50 -0700
-X-CSE-ConnectionGUID: H7QQwG5tRj65y8LgUCWlgg==
-X-CSE-MsgGUID: Ae5xqL46RZSlZsqRJnotUA==
+   d="scan'208";a="82676851"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 15:22:50 -0700
+X-CSE-ConnectionGUID: ETh0or9RTXaG7sM32mwaiw==
+X-CSE-MsgGUID: QXMZjpQMROWCBHMItxiJww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="253238987"
+   d="scan'208";a="246430591"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Jun 2026 15:22:49 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 Jun 2026 15:22:49 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbn2U-0000000020z-2HZj;
+	id 1wbn2U-00000000211-2ZAQ;
 	Mon, 22 Jun 2026 22:22:46 +0000
-Date: Tue, 23 Jun 2026 06:22:12 +0800
+Date: Tue, 23 Jun 2026 06:22:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [stefandoesinger-zx297520:mfd 10/124]
- drivers/clk/zte/clk-zx297520v3.c:644:27: warning: 'tdm_lsp_sel' defined but
- not used
-Message-ID: <202606230639.SwKO7imF-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [stefandoesinger-zx297520:mfd 69/124]
+ drivers/spi/spi-zx.c:477:17: warning: implicit conversion from 'unsigned
+ long' to 'u32' (aka 'unsigned int') changes value from 18446744073709551614
+ to 4294967294
+Message-ID: <202606230616.8oCztMjD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,30 +65,33 @@ Content-Type: text/plain; charset=us-ascii
 
 tree:   https://gitlab.com/stefandoesinger/zx297520-kernel mfd
 head:   c94d760b3ed42a18ecbae9e63d7010c770a8c042
-commit: 7b95ce97d9a13b0d3b2ca1c45b6bacc090309344 [10/124] clk: zte: Introduce a driver for zx297520v3 LSP clocks
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260623/202606230639.SwKO7imF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606230639.SwKO7imF-lkp@intel.com/reproduce)
+commit: 412031528a775a2630dc7a0b13acf7e31b07defc [69/124] zx29 qspi driver
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260623/202606230616.8oCztMjD-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606230616.8oCztMjD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606230639.SwKO7imF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606230616.8oCztMjD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/clk/zte/clk-zx297520v3.c:644:27: warning: 'tdm_lsp_sel' defined but not used [-Wunused-const-variable=]
-     644 | static const char * const tdm_lsp_sel[] = {
-         |                           ^~~~~~~~~~~
+>> drivers/spi/spi-zx.c:477:17: warning: implicit conversion from 'unsigned long' to 'u32' (aka 'unsigned int') changes value from 18446744073709551614 to 4294967294 [-Wconstant-conversion]
+     477 |         writel_relaxed(~ZX_QSPI_EN, qspi->io_base + ZX_QSPI_EN_REG);
+         |         ~~~~~~~~~~~~~~ ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/tdm_lsp_sel +644 drivers/clk/zte/clk-zx297520v3.c
+vim +477 drivers/spi/spi-zx.c
 
-   643	
- > 644	static const char * const tdm_lsp_sel[] = {
-   645		"lsp_tdm_wclk",
-   646	};
-   647	
+   473	
+   474	static void zx_qspi_remove(struct platform_device *pdev)
+   475	{
+   476		struct zx_qspi *qspi = platform_get_drvdata(pdev);
+ > 477		writel_relaxed(~ZX_QSPI_EN, qspi->io_base + ZX_QSPI_EN_REG);
+   478	}
+   479	
 
 --
 0-DAY CI Kernel Test Service
