@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340C0347FE1;
-	Mon, 22 Jun 2026 19:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C236329D27D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jun 2026 19:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782155424; cv=none; b=Qn2/GNsQZtqw9oLR5KKOmHLWGyyMoDHthFFvKRJk/yCqZpKFz16v4VuYU/aqSEXA8KhXdm6SsVGrolct5rVXUAgcN69wasmIqGFGViTxJCJUxkpR50NOp86UZ7SH7fx6/1v5lY5o5pHQPKLTv/JJHGjhqBVxt11Ojgr/Qs1fKU4=
+	t=1782155578; cv=none; b=F+74r8CS9yQyX4S6PmZlsKCX46qbEtDHSfyLheJFa7qffo0c+VoaxJi8uv6R4uPX1YS1ijpJuzPQU90O3luo+LcF3DJocaSd7mldo0FBWdz3eq9q1HGUIUEA4ZotiECLy+v8XQVtS2b1W1YPBMc9h4qbA8fntOkG14TsLXUMa+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782155424; c=relaxed/simple;
-	bh=ha12m4rnfFj/AHMBzd2t7JsNYf4oxH86G7DDPIEynHE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JExBFJ7P8tvHqEjha9p1g8K6hmRY6lsge/FKX3DhnKnhElUT+Xqc+q+NejUgqSgkkmCZUMdFfu8a5jKVbHKLv93+EpwsrtoHE9dWZKMKaohyzRJzGrVbvGExJxyiTakEaWedw7lQILWWLlNjDbukBdO6GTNS+JFBVSqYtE7uQPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QLXc9FJE; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1782155578; c=relaxed/simple;
+	bh=iq81dqpgE0y15FUpO3nGD+hdhwnOCezOuJEmR1tS5lk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lU6AFILhrW5aEXfdqKETStjpZYu2tYmsiTu89gMVRFRDKtTa/+rcrjaRMYnnIpVVxPvHNYi+4ED4jCBzhk/RWVvE/oDEKFEfF5WASR3PRMzdLCCW2V6uaCEJ+7SZBPrdgEZQYRgBIkOmGRmGwhNRrAQjvmuEpYd/IGKt6DR7iBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcxVL4Mj; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QLXc9FJE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcxVL4Mj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782155422; x=1813691422;
+  t=1782155576; x=1813691576;
   h=date:from:to:cc:subject:message-id;
-  bh=ha12m4rnfFj/AHMBzd2t7JsNYf4oxH86G7DDPIEynHE=;
-  b=QLXc9FJERbXH0Uel5QEujNnAHMDxJfFFjmTB8hfGuiQLKoCVVMO5r8uL
-   vBWDcZm6WJB4NH+PS2OQJhEHPviicUwLp+GtSkAz2kngug5Ll+zA4Fzl/
-   4jweYWjmXlpkBJI2bbIPXgAo3dZppBMqL2V2rr1JzDsIHHkkTnlKyzxi9
-   drJoJ3GRb2RBZwglmszexdZO8EyYCZtGAUVDGAUFwPZsMCzV7NuIVxVOn
-   V1ssUKIhothBYePVQAuKaWPhLNOTrYg6+SIoNFmXEFSYsjWrWJ2t76Fhz
-   PiY5CyUis8D2YQXNw+O0nNnTTLI2eWXWe0jt/zIVL87iRxi/DYbudS1Vc
-   Q==;
-X-CSE-ConnectionGUID: WK/qohyhRSCUI3k1qvcflg==
-X-CSE-MsgGUID: +knrAP81RTSVezbBN95+Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="93550571"
+  bh=iq81dqpgE0y15FUpO3nGD+hdhwnOCezOuJEmR1tS5lk=;
+  b=LcxVL4Mjukz3xVs5hyzaENO8U/tScdZOtHa7QCMu7pkSVMTGZKdXLGjq
+   ITAexkwRpdDSwwIITuY+RsycSc8xPOzkduGgVAnSjYoE2VrymZYeLm0Va
+   V76oGqntEhQewmPS9BSpQEXvxiPmXGAZzmH+mUH5LQO8xNhHCm+mMGZ3+
+   38bJEtj/HxbwJ7j2oBtBDoKHEdscV1E825kkV9EAhZ1/yr1XvlJfXUSrp
+   rVOHqjx1LfEN3e88SjvleXU2Q4i4J83sQFXLKYr7j7rlT8YtzjUZY/eIm
+   4qNslbV4PY4e9UsfKydkveymmz1fQJBr4UvqO7tOjhkS0Ty9+Nk5d8OIl
+   g==;
+X-CSE-ConnectionGUID: Z/B43xMnS3SbS9EcWMSI4A==
+X-CSE-MsgGUID: e4ojj1CRQ/6P5UdzPibMfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="94392097"
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="93550571"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 12:10:22 -0700
-X-CSE-ConnectionGUID: 8m2STgp2T6ClRPRgAoBpGw==
-X-CSE-MsgGUID: 6IpxT73xToOsbmoyzfz8mg==
+   d="scan'208";a="94392097"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 12:12:55 -0700
+X-CSE-ConnectionGUID: im4rQASgQeKT4nm/yTfY2g==
+X-CSE-MsgGUID: dDUicBMzQPKpFKI3s87elg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="273000573"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Jun 2026 12:10:20 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="248172830"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 22 Jun 2026 12:12:53 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbk2A-000000001l9-04Pr;
-	Mon, 22 Jun 2026 19:10:14 +0000
-Date: Tue, 23 Jun 2026 03:08:14 +0800
+	id 1wbk4h-0000000064T-1lVm;
+	Mon, 22 Jun 2026 19:12:51 +0000
+Date: Mon, 22 Jun 2026 21:12:36 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 230/332]
- fs/bcachefs/data/reconcile/work.c:964:25: warning: stack frame size (1048)
- exceeds limit (1024) in 'do_reconcile_phys_thread'
-Message-ID: <202606230247.OoUSKV5v-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/1] htmldocs:
+ ./include/linux/dma-buf.h:548: warning: Excess struct member 'nr_task_refs'
+ description in 'dma_buf'
+Message-ID: <202606222106.UVbcCbJN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,84 +60,56 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
-head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
-commit: 70476991ac7cf35891fc0cf6cb249cda734ad7e8 [230/332] bcachefs: reconcile: plumb reconcile_phase.end
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260623/202606230247.OoUSKV5v-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project a9b492db3d50683e446cd1a5c9ffaf4e92cb77a7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606230247.OoUSKV5v-lkp@intel.com/reproduce)
+Hi Mercier,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   1e5215e6a70eb6c0c74f5549c2060354a65c80c9
+commit: b1ac27dd8a57803034f8361d820e3f2580714031 [0/1] ANDROID: ABI: refresh, CRC fixups and allowed breaks
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260622/202606222106.UVbcCbJN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606230247.OoUSKV5v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606222106.UVbcCbJN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/data/reconcile/work.c:964:25: warning: stack frame size (1048) exceeds limit (1024) in 'do_reconcile_phys_thread' [-Wframe-larger-than]
-     964 | static CLOSURE_CALLBACK(do_reconcile_phys_thread)
-         |                         ^
-   1 warning generated.
+   ./drivers/dma-buf/dma-buf.c:991: warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
+   ./include/linux/dma-buf.h:367: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf_ops'
+   ./include/linux/dma-buf.h:367: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(2' not described in 'dma_buf_ops'
+   ./include/linux/dma-buf.h:548: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf'
+   ./include/linux/dma-buf.h:548: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(2' not described in 'dma_buf'
+>> ./include/linux/dma-buf.h:548: warning: Excess struct member 'nr_task_refs' description in 'dma_buf'
+   ./include/linux/dma-buf.h:585: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf_attach_ops'
+   ./include/linux/dma-buf.h:625: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf_attachment'
+   ./include/linux/dma-buf.h:625: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(2' not described in 'dma_buf_attachment'
+   ./include/linux/dma-buf.h:651: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf_export_info'
+   ./include/linux/dma-buf.h:651: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(2' not described in 'dma_buf_export_info'
 
 
-vim +/do_reconcile_phys_thread +964 fs/bcachefs/data/reconcile/work.c
+vim +548 ./include/linux/dma-buf.h
 
-de374d7b729620 Kent Overstreet 2026-01-19   963  
-de374d7b729620 Kent Overstreet 2026-01-19  @964  static CLOSURE_CALLBACK(do_reconcile_phys_thread)
-de374d7b729620 Kent Overstreet 2026-01-19   965  {
-de374d7b729620 Kent Overstreet 2026-01-19   966  	closure_type(thr, reconcile_phys_thr, cl);
-de374d7b729620 Kent Overstreet 2026-01-19   967  	struct bch_fs *c = thr->c;
-de374d7b729620 Kent Overstreet 2026-01-19   968  
-de374d7b729620 Kent Overstreet 2026-01-19   969  	struct moving_context ctxt __cleanup(bch2_moving_ctxt_exit);
-de374d7b729620 Kent Overstreet 2026-01-19   970  	bch2_moving_ctxt_init(&ctxt, c, NULL, &thr->stats,
-de374d7b729620 Kent Overstreet 2026-01-19   971  			      writepoint_ptr(&c->allocator.reconcile_write_point),
-de374d7b729620 Kent Overstreet 2026-01-19   972  			      true);
-de374d7b729620 Kent Overstreet 2026-01-19   973  
-de374d7b729620 Kent Overstreet 2026-01-19   974  	struct btree_trans *trans = ctxt.trans;
-de374d7b729620 Kent Overstreet 2026-01-19   975  
-de374d7b729620 Kent Overstreet 2026-01-19   976  	CLASS(darray_reconcile_work, work)();
-de374d7b729620 Kent Overstreet 2026-01-19   977  	darray_make_room(&work, REBALANCE_WORK_BUF_NR);
-de374d7b729620 Kent Overstreet 2026-01-19   978  	if (!work.size) {
-de374d7b729620 Kent Overstreet 2026-01-19   979  		bch_err(c, "%s: unable to allocate memory", __func__);
-de374d7b729620 Kent Overstreet 2026-01-19   980  		closure_return(cl);
-de374d7b729620 Kent Overstreet 2026-01-19   981  		return;
-de374d7b729620 Kent Overstreet 2026-01-19   982  	}
-de374d7b729620 Kent Overstreet 2026-01-19   983  
-de374d7b729620 Kent Overstreet 2026-01-19   984  	CLASS(per_snapshot_io_opts, snapshot_io_opts)(c);
-de374d7b729620 Kent Overstreet 2026-01-19   985  
-de374d7b729620 Kent Overstreet 2026-01-19   986  	struct wb_maybe_flush last_flushed __cleanup(wb_maybe_flush_exit);
-de374d7b729620 Kent Overstreet 2026-01-19   987  	wb_maybe_flush_init(&last_flushed);
-de374d7b729620 Kent Overstreet 2026-01-19   988  
-70476991ac7cf3 Kent Overstreet 2026-01-20   989  	struct bbpos work_pos = BBPOS(reconcile_phases[thr->reconcile_phase].btree,
-70476991ac7cf3 Kent Overstreet 2026-01-20   990  				      POS(thr->dev, 0));
-de374d7b729620 Kent Overstreet 2026-01-19   991  
-de374d7b729620 Kent Overstreet 2026-01-19   992  	while (!bch2_move_ratelimit(&ctxt)) {
-de374d7b729620 Kent Overstreet 2026-01-19   993  		if (!bch2_reconcile_enabled(c))
-de374d7b729620 Kent Overstreet 2026-01-19   994  			break;
-de374d7b729620 Kent Overstreet 2026-01-19   995  
-de374d7b729620 Kent Overstreet 2026-01-19   996  		bch2_trans_begin(trans);
-de374d7b729620 Kent Overstreet 2026-01-19   997  
-70476991ac7cf3 Kent Overstreet 2026-01-20   998  		struct bkey_s_c k = next_reconcile_entry(trans, &work, &work_pos, POS(thr->dev, U64_MAX));
-de374d7b729620 Kent Overstreet 2026-01-19   999  		if (bkey_err(k) ||
-de374d7b729620 Kent Overstreet 2026-01-19  1000  		    !k.k ||
-de374d7b729620 Kent Overstreet 2026-01-19  1001  		    k.k->p.inode != thr->dev)
-de374d7b729620 Kent Overstreet 2026-01-19  1002  			break;
-de374d7b729620 Kent Overstreet 2026-01-19  1003  
-de374d7b729620 Kent Overstreet 2026-01-19  1004  		int ret = lockrestart_do(trans,
-de374d7b729620 Kent Overstreet 2026-01-19  1005  			do_reconcile_extent_phys(&ctxt, &snapshot_io_opts, work_pos, &last_flushed));
-de374d7b729620 Kent Overstreet 2026-01-19  1006  		if (ret)
-de374d7b729620 Kent Overstreet 2026-01-19  1007  			break;
-de374d7b729620 Kent Overstreet 2026-01-19  1008  	}
-de374d7b729620 Kent Overstreet 2026-01-19  1009  
-de374d7b729620 Kent Overstreet 2026-01-19  1010  	closure_return(cl);
-de374d7b729620 Kent Overstreet 2026-01-19  1011  }
-de374d7b729620 Kent Overstreet 2026-01-19  1012  
+75adb09e2fd964 Greg Kroah-Hartman 2024-02-29  539  
+b1ac27dd8a5780 T.J. Mercier       2026-03-05  540  	ANDROID_KABI_RESERVE(1);
+b1ac27dd8a5780 T.J. Mercier       2026-03-05  541  	ANDROID_KABI_RESERVE(2);
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  542  	/**
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  543  	 * @nr_task_refs:
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  544  	 *
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  545  	 * The number of tasks that reference this buffer. For calculating PSS.
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  546  	 */
+b1ac27dd8a5780 T.J. Mercier       2026-03-05  547  	ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
+d15bd7ee445d07 Sumit Semwal       2011-12-26 @548  };
+d15bd7ee445d07 Sumit Semwal       2011-12-26  549  
 
-:::::: The code at line 964 was first introduced by commit
-:::::: de374d7b7296203619ba70f976867051cebaf41b bcachefs: Break up reconcile.c
+:::::: The code at line 548 was first introduced by commit
+:::::: d15bd7ee445d0702ad801fdaece348fdb79e6581 dma-buf: Introduce dma buffer sharing mechanism
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Sumit Semwal <sumit.semwal@ti.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
