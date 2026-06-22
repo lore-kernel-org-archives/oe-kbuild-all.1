@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862BC349CFD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jun 2026 19:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD43376025;
+	Mon, 22 Jun 2026 20:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782156986; cv=none; b=kLWlBcOqlHPsQlGP8YGjC5kwkm4XKg46JPcz0rk27+ki1G81mKRlP24mtlezfk6yZC+UaoJz2vT/MEyETwH0+2S0iFGqb8vxiS3l5cqDs8qJ/ba/LWR49Iqk8INhi3v6NoFghtqmbywV59SxnEHq58PbY5HOnq8krdh+nhlI7nY=
+	t=1782159384; cv=none; b=eJy7fJbCBDjAICQ0MWkp9H/pFXNe5m1/OtyqoN6yA/1G4sWVOyAoiqEsX034OEHcGmVN5eAvrvMmci44JJwavwts0xi8HtF3SaADo4TgAwAHqnKrzruid27/Tj6OFTPvzZXtUxDouP6XZddHE4ukavCn48zsJD7GcNF6XclAaUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782156986; c=relaxed/simple;
-	bh=VbAZ9kR6b4BWFUOMY0E08vbegPOcRmKyNUMhHIE9OS4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jr6dOavpXxhUlT53byWxJZ56NbcxO+V4LIY5JprkjAzMYRzecYflvROzbwT6oub/hJGocyqoi+lfQD4AQDm21YCPtE+Hkqnp6q4B7FL6D/rkYBmW+4ktkfFY3WHHCyhk8H3kKGxiFIphp+ndsEJrKO1Wsw4TY7msGuFUJxKA+E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QN5mp+ZE; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1782159384; c=relaxed/simple;
+	bh=efwoTg1ClOEGWe6psPlZBwBpwmDKpo08TesXjsjAz+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Yy/QW1AgMpHXqSV7+8kuO8VTCN6xUQ4Wffs5D1CJDibYQVVXdSiIvNn0vLfb1FmhFadbWF+P6TssRk+7TGJYXgHL19xNJtZf2/cAqKhdnONx9JaDq0sTgce9d5G33NLWGksltEakYD1MDsZCbMThCAntAmVQxMvHnh22EHhbpAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WrPiJJSP; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QN5mp+ZE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrPiJJSP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782156982; x=1813692982;
+  t=1782159382; x=1813695382;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VbAZ9kR6b4BWFUOMY0E08vbegPOcRmKyNUMhHIE9OS4=;
-  b=QN5mp+ZEhGcyiSNU0yQ2xXS9UNrDUR07O9MvzssfXe8jSkvP8QGGgBtH
-   1GWXe3AWd7lam9jjys7fNnltMOiBxPSJ/50L6U1Wn7rJkDw7HOwJJY79z
-   2G8lBnup3GrDinVz8ML24V0qnDHKMHNGQviMaWeyr6QXrFwNtprvh3YPL
-   +nxin8Wjnr61AQ2G+cythyIu0Lp/e1xODjmhuUF19OfIa9ijwBsOam4hs
-   1Gj+1eu86v5l2Cn8NTrr88uDadxKaUWHHZsmqbLptNKNbgTi/nuaFjWAN
-   hNFpuEf/jKQlhz/JGFAmaykXnWLwAyiy52ceCfeZI4tj5ttmiKEcOSbDn
+  bh=efwoTg1ClOEGWe6psPlZBwBpwmDKpo08TesXjsjAz+E=;
+  b=WrPiJJSPVt3eLKf5PzplEYKZAZmmu/+uZ/pRO/FQaPpvA9omnxVtWnr/
+   E/dK04bz93U9C/dtxbFciLYL3Xm8oDRkDg9alzcFJyH0yH4xHkPRXDt+s
+   boa4b3Iu0nSc1ug0L5Ta5iXfNTyk8z/AlsO2Je6lLqQXHthDEYIC+4lU5
+   O8XoIFFvafTc18b2JCLA9Fkr74q+e7bhIhCR7gxJuvhaSLhEgNNCZXjc4
+   M9hBCXCtq5fdhO/niXdme+aVl8v9x6WogVOmmPedSOmDBSultEfDARYVG
+   Lq4NTdnC1XK0Ss9yhBYdA6PlhhgD/kUzruIXoCMElsqFnq1NN6oUjdXdB
    g==;
-X-CSE-ConnectionGUID: T8NbPmePRCCLPjg9RY5+ew==
-X-CSE-MsgGUID: H6amwU8mSxqXHLGAVBrGiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="83007838"
+X-CSE-ConnectionGUID: xlovo8HvSv+j3foPI/f8qg==
+X-CSE-MsgGUID: 1enp2u0SR/2sM2/fYNfDRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82938771"
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="83007838"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 12:36:22 -0700
-X-CSE-ConnectionGUID: KVOT1aoqTm+ZiHIajdz3Ow==
-X-CSE-MsgGUID: HGnBOLg6Ts6x0kCzQoglXg==
+   d="scan'208";a="82938771"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 13:16:22 -0700
+X-CSE-ConnectionGUID: t3H+DQ8ZSCKY080eQOlphw==
+X-CSE-MsgGUID: pRXYbWUeRKiULameiy3bKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="245174882"
+   d="scan'208";a="249361095"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Jun 2026 12:36:20 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Jun 2026 13:16:21 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbkQd-000000001mZ-0PC5;
-	Mon, 22 Jun 2026 19:35:51 +0000
-Date: Tue, 23 Jun 2026 03:31:50 +0800
+	id 1wbl46-000000001r3-0vcg;
+	Mon, 22 Jun 2026 20:16:18 +0000
+Date: Tue, 23 Jun 2026 04:15:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [stefandoesinger-zx297520:mfd 59/124]
- drivers/rpmsg/zx29_smd.c:130:13: warning: 'zx29_smd_release_device' defined
- but not used
-Message-ID: <202606230300.AY9cmB0Y-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [stefandoesinger-zx297520:mfd 10/124]
+ drivers/clk/zte/clk-zx297520v3.c:644:27: warning: unused variable
+ 'tdm_lsp_sel'
+Message-ID: <202606230452.G9fg4Zmp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,75 +64,31 @@ Content-Type: text/plain; charset=us-ascii
 
 tree:   https://gitlab.com/stefandoesinger/zx297520-kernel mfd
 head:   c94d760b3ed42a18ecbae9e63d7010c770a8c042
-commit: fc69b31c2281728e29ccc5e1477a98b1682f3e6a [59/124] rpmsg v1
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260623/202606230300.AY9cmB0Y-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606230300.AY9cmB0Y-lkp@intel.com/reproduce)
+commit: 7b95ce97d9a13b0d3b2ca1c45b6bacc090309344 [10/124] clk: zte: Introduce a driver for zx297520v3 LSP clocks
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260623/202606230452.G9fg4Zmp-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project a9b492db3d50683e446cd1a5c9ffaf4e92cb77a7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606230452.G9fg4Zmp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606230300.AY9cmB0Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606230452.G9fg4Zmp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/rpmsg/zx29_smd.c: In function 'zx29_smd_trysend':
-   drivers/rpmsg/zx29_smd.c:98:31: warning: unused variable 'zx29_ept' [-Wunused-variable]
-      98 |         struct zx29_endpoint *zx29_ept = to_zx29_rpmsg_endpoint(ept);
-         |                               ^~~~~~~~
-   drivers/rpmsg/zx29_smd.c: In function 'zx29_smd_probe':
-   drivers/rpmsg/zx29_smd.c:147:22: warning: unused variable 'i' [-Wunused-variable]
-     147 |         unsigned int i;
-         |                      ^
-   drivers/rpmsg/zx29_smd.c: At top level:
->> drivers/rpmsg/zx29_smd.c:130:13: warning: 'zx29_smd_release_device' defined but not used [-Wunused-function]
-     130 | static void zx29_smd_release_device(struct device *dev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/zte/clk-zx297520v3.c:644:27: warning: unused variable 'tdm_lsp_sel' [-Wunused-const-variable]
+     644 | static const char * const tdm_lsp_sel[] = {
+         |                           ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/zx29_smd_release_device +130 drivers/rpmsg/zx29_smd.c
+vim +/tdm_lsp_sel +644 drivers/clk/zte/clk-zx297520v3.c
 
-    94	
-    95	static int zx29_smd_trysend(struct rpmsg_endpoint *ept, const void *data, int len)
-    96	{
-    97		struct zx29_smd *zx29_smd = to_zx29_rpmsg_device(ept->rpdev);
-  > 98		struct zx29_endpoint *zx29_ept = to_zx29_rpmsg_endpoint(ept);
-    99		dev_info(&zx29_smd->pdev->dev, "zx29_smd_trysend\n");
-   100	
-   101		/* TODO: Copy stuff into stuff */
-   102		//mbox_send_message(zx29_ept->mbox_chan, NULL);
-   103		//mbox_client_txdone(zx29_ept->mbox_chan, 0);
-   104	
-   105		return 0;
-   106	}
-   107	
-   108	static __poll_t zx29_smd_poll(struct rpmsg_endpoint *ept,
-   109					  struct file *filp, poll_table *wait)
-   110	{
-   111		struct zx29_smd *zx29_smd = to_zx29_rpmsg_device(ept->rpdev);
-   112		dev_info(&zx29_smd->pdev->dev, "zx29_smd_poll\n");
-   113		return 0;
-   114	}
-   115	
-   116	static ssize_t zx29_get_mtu(struct rpmsg_endpoint *ept)
-   117	{
-   118		/* meh for now meh */
-   119		return 0x8;
-   120	}
-   121	
-   122	static const struct rpmsg_endpoint_ops zx29_smd_endpoint_ops = {
-   123		.destroy_ept = zx29_smd_destroy_ept,
-   124		.send = zx29_smd_send,
-   125		.trysend = zx29_smd_trysend,
-   126		.poll = zx29_smd_poll,
-   127		.get_mtu = zx29_get_mtu,
-   128	};
-   129	
- > 130	static void zx29_smd_release_device(struct device *dev)
-   131	{
-   132		dev_info(dev, "zx29_smd_release_device\n");
-   133	}
-   134	
+   643	
+ > 644	static const char * const tdm_lsp_sel[] = {
+   645		"lsp_tdm_wclk",
+   646	};
+   647	
 
 --
 0-DAY CI Kernel Test Service
