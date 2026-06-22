@@ -1,186 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3892344D8C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jun 2026 20:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE9935200C;
+	Mon, 22 Jun 2026 20:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782159386; cv=none; b=ZnL4S8OGKrTrT+9bwuDLxFBpvpIvbF7ogGeb02vfTa7kIdIMq+2fW85UHv3RGuXkV0s7g7+kN9qHZ9vleGdZGIHt6S+pZMn0OJOFZSgZlgRSqq9QrhMVzHgyXWmlujASa5KFJX/TYJf43V2cj1Nf6zVrxxowu0aoWRQJBG9t9Kc=
+	t=1782160804; cv=none; b=bw/1rdHZJO28lTVDI+3y3TLnSZ6xR9LIRBH8veKXlp29zubTM/jA1sWnUaCzeXI3Ry1FEYWzRHjO1gTMrHoYBR0J7jMG7r2xL7NR1f7AxzC7PIdzXSXEgiFKPTk2IcCqoMeqSUHJu/N06lbUxlZcnpafFK4CCeS7RwlRJEno1Uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782159386; c=relaxed/simple;
-	bh=jRF1yDd7nfbJFFTCXMjG77ixmVMrpQppUHDt2ghFMfY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PkjOhyLOwnFouOCHUaHgZw+Jt80DNmLF5rd0r7cEMh+4uIaXWbpcauWuugosWoWsQM9S+Euu9TJfnPwu/yTt6t0Dp3fgEYXFIZBvffqO9TzDX196XsIQCF2wewa1qujOjgCypHWlGXH7K2kNs6GxcjFpJ2ltbk3yrpH79zVizgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7b/uu8r; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1782160804; c=relaxed/simple;
+	bh=bDtyCd2o+pozJjbDfob9QrrK9NCfCyVdv7fALMYb5N4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=IcnmhBfhBLeR9cSPUM0nJyBYwz00G/WuvFuzEvB4l5TwtjXckiI8y6s2FYpjyhCQuhHOrz3oICfy/VsQWGq63sIb21qHe/YZmSqEXWM5ZDhgNHAiizDp4j16QtYgWMcCtmVsjhDD/kkZMr3L/sLBGEvFLdvjRRimOrcAxkdFYAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jaOcjrfI; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7b/uu8r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jaOcjrfI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782159385; x=1813695385;
-  h=date:from:to:cc:subject:message-id;
-  bh=jRF1yDd7nfbJFFTCXMjG77ixmVMrpQppUHDt2ghFMfY=;
-  b=V7b/uu8r70kBFTFIP1Q83aWDBHBeVA2wUUGsf9GNyXnJG9DOqe9pcOQj
-   QAuio4AxldTWOrzZzCES0tJytei83TZbY4TRh0pMi7SdVcq0okIYeKORp
-   b12b6hAl8v3/LKCjnHVHvcJVz0fdNrdFdLbK/nmjfF4+IvtEeGvVNesBL
-   X0XM+LhVkpuuo8cbKGkkwcv300pCZjmHCGsTPWeqi+Xs2Ta1cmolnFuk0
-   Zt6t3S+jYrpkrBN9Lay+T7HZNoIga+9j1lc1RYwXX5o5FlbmI8yWyVRBq
-   Pl5s1syZAIgDIG+EEHRFO//fyXPQJJ8ZKgvk1vtk7bXDBB6SM1zxUjNMg
-   A==;
-X-CSE-ConnectionGUID: qUUa/PZFT1eAw+KXG12Sig==
-X-CSE-MsgGUID: 4PPGjJtpQ/6LSEyptCw+2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82938774"
+  t=1782160793; x=1813696793;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bDtyCd2o+pozJjbDfob9QrrK9NCfCyVdv7fALMYb5N4=;
+  b=jaOcjrfIq2IvlbDt+xRyYbtTv8nC/DN04vq0A1NFDqUUjJ05/y00t5I8
+   F1gitaglo8nilBezT7WCi62qYjVeu885YG0v0jefAU+3jFiRA7MIU1gcu
+   MZQ07EMWKVLYfWyHH4obhXfAgDpZ5bF2xjqBlW2gNXyBQXjAxmhnKayuL
+   Bf4muLAIO1RtvndN0sAvLUyEsU3AxekK3FPDdulwZPR32j3Ty8by/Q1ee
+   uTOdghrtWeD9tKdmIWKUnCo0QP5OXwr4kBXBqzPQdRqiVMJlq6nzK5fED
+   jJTZaA+r3PAV7S0PL0Md1992whLwKcC1+nJ5FyU6B/9hEa1QzL9Kyft4C
+   Q==;
+X-CSE-ConnectionGUID: mx4XcZYmRUa8gAH5tx/nyw==
+X-CSE-MsgGUID: PHvQvQQqQKiLPf5JYq3UJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="81878964"
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="82938774"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 13:16:22 -0700
-X-CSE-ConnectionGUID: 7ahvh8b+TDaZWdy+zqLUHQ==
-X-CSE-MsgGUID: be5pCmH3THa1XOOK2XB8gA==
+   d="scan'208";a="81878964"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 13:39:53 -0700
+X-CSE-ConnectionGUID: 64LpbSp0RrK0AIhugbn+uQ==
+X-CSE-MsgGUID: JR62mfIGTK6HzBMlsaxaog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="249361098"
+   d="scan'208";a="254415352"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 22 Jun 2026 13:16:21 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Jun 2026 13:39:51 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbl46-000000001r7-19my;
-	Mon, 22 Jun 2026 20:16:18 +0000
-Date: Tue, 23 Jun 2026 04:15:25 +0800
+	id 1wblQb-000000001tP-2tvE;
+	Mon, 22 Jun 2026 20:39:35 +0000
+Date: Tue, 23 Jun 2026 04:38:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>
-Subject: drivers/soc/qcom/qcom-geni-se.c:1061:21: sparse: sparse:
- cast to restricted __le32
-Message-ID: <202606230444.Jsb2MHsA-lkp@intel.com>
+To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [stefandoesinger-zx297520:mfd 60/124]
+ drivers/rpmsg/zx29_smd.c:239:52: warning: cast to smaller integer type
+ 'unsigned int' from 'u8 *' (aka 'unsigned char *')
+Message-ID: <202606230412.nsvOOJmC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1dc18801be29bc54709aa355b8acd80e183b03cd
-commit: d4bf06592ad68ac4353a81c73e8e662cf88aa2cc soc: qcom: geni-se: Add support to load QUP SE Firmware via Linux subsystem
-date:   9 months ago
-config: hexagon-randconfig-r122-20260622 (https://download.01.org/0day-ci/archive/20260623/202606230444.Jsb2MHsA-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606230444.Jsb2MHsA-lkp@intel.com/reproduce)
+tree:   https://gitlab.com/stefandoesinger/zx297520-kernel mfd
+head:   c94d760b3ed42a18ecbae9e63d7010c770a8c042
+commit: 577bed36cb362481b50bccf9bb4d4c7c091aaecb [60/124] more mbox stuff stuff
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260623/202606230412.nsvOOJmC-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606230412.nsvOOJmC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: d4bf06592ad6 ("soc: qcom: geni-se: Add support to load QUP SE Firmware via Linux subsystem")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606230444.Jsb2MHsA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606230412.nsvOOJmC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/qcom/qcom-geni-se.c:1061:21: sparse: sparse: cast to restricted __le32
-   drivers/soc/qcom/qcom-geni-se.c:1061:21: sparse: sparse: cast from restricted __le16
+All warnings (new ones prefixed by >>):
 
-vim +1061 drivers/soc/qcom/qcom-geni-se.c
+   drivers/rpmsg/zx29_smd.c:178:13: warning: variable 'ptr' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     178 |         } else if (!send_pos) {
+         |                    ^~~~~~~~~
+   drivers/rpmsg/zx29_smd.c:193:37: note: uninitialized use occurs here
+     193 |         zx29_smd->ept.cb(&zx29_smd->rpdev, ptr, len, zx29_smd->ept.priv, RPMSG_ADDR_ANY);
+         |                                            ^~~
+   drivers/rpmsg/zx29_smd.c:178:9: note: remove the 'if' if its condition is always true
+     178 |         } else if (!send_pos) {
+         |                ^~~~~~~~~~~~~~
+     179 |                 dev_info(&zx29_smd->pdev->dev, "send_pos == 0\n");
+     180 |                 ptr = zx29_smd->data_r + zx29_smd->recv->recv_pos;
+     181 |                 len = zx29_smd->recv->size - zx29_smd->recv->recv_pos;
+     182 |         } else {
+         |           ~~~~~~
+     183 |                 dev_info(&zx29_smd->pdev->dev, "wraparound\n");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     184 |                 len = zx29_smd->recv->size - zx29_smd->recv->recv_pos + send_pos;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     185 |                 alloc = kzalloc(len, GFP_KERNEL);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     186 | 
+     187 |                 memcpy(alloc, zx29_smd->data_r + zx29_smd->recv->recv_pos,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     188 |                        zx29_smd->recv->size - zx29_smd->recv->recv_pos);
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     189 |                 memcpy(alloc + zx29_smd->recv->size - zx29_smd->recv->recv_pos, zx29_smd->data_r,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     190 |                        send_pos);
+         |                        ~~~~~~~~~~
+     191 |         }
+         |         ~
+   drivers/rpmsg/zx29_smd.c:155:9: note: initialize the variable 'ptr' to silence this warning
+     155 |         u8 *ptr, *alloc = NULL;
+         |                ^
+         |                 = NULL
+>> drivers/rpmsg/zx29_smd.c:239:52: warning: cast to smaller integer type 'unsigned int' from 'u8 *' (aka 'unsigned char *') [-Wpointer-to-int-cast]
+     239 |         dev_info(&pdev->dev, "zx29_smd->data_r 0x%08x\n", (unsigned int)zx29_smd->data_r);
+         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                          ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/rpmsg/zx29_smd.c:262:52: warning: cast to smaller integer type 'unsigned int' from 'u8 *' (aka 'unsigned char *') [-Wpointer-to-int-cast]
+     262 |         dev_info(&pdev->dev, "zx29_smd->data_s 0x%08x\n", (unsigned int)zx29_smd->data_s);
+         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                          ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/rpmsg/zx29_smd.c:146:13: warning: unused function 'zx29_smd_release_device' [-Wunused-function]
+     146 | static void zx29_smd_release_device(struct device *dev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
 
-   990	
-   991	/**
-   992	 * geni_find_protocol_fw() - Locate and validate SE firmware for a protocol.
-   993	 * @dev: Pointer to the device structure.
-   994	 * @fw: Pointer to the firmware image.
-   995	 * @protocol: Expected serial engine protocol type.
-   996	 *
-   997	 * Identifies the appropriate firmware image or configuration required for a
-   998	 * specific communication protocol instance running on a  Qualcomm GENI
-   999	 * controller.
-  1000	 *
-  1001	 * Return: pointer to a valid 'struct se_fw_hdr' if found, or NULL otherwise.
-  1002	 */
-  1003	static struct se_fw_hdr *geni_find_protocol_fw(struct device *dev, const struct firmware *fw,
-  1004						       enum geni_se_protocol_type protocol)
-  1005	{
-  1006		const struct elf32_hdr *ehdr;
-  1007		const struct elf32_phdr *phdrs;
-  1008		const struct elf32_phdr	*phdr;
-  1009		struct se_fw_hdr *sefw;
-  1010		u32 fw_end, cfg_idx_end, cfg_val_end;
-  1011		u16 fw_size;
-  1012		int i;
-  1013	
-  1014		if (!fw || fw->size < sizeof(struct elf32_hdr))
-  1015			return NULL;
-  1016	
-  1017		ehdr = (const struct elf32_hdr *)fw->data;
-  1018		phdrs = (const struct elf32_phdr *)(fw->data + ehdr->e_phoff);
-  1019	
-  1020		/*
-  1021		 * The firmware is expected to have at least two program headers (segments).
-  1022		 * One for metadata and the other for the actual protocol-specific firmware.
-  1023		 */
-  1024		if (ehdr->e_phnum < 2) {
-  1025			dev_err(dev, "Invalid firmware: less than 2 program headers\n");
-  1026			return NULL;
-  1027		}
-  1028	
-  1029		for (i = 0; i < ehdr->e_phnum; i++) {
-  1030			phdr = &phdrs[i];
-  1031	
-  1032			if (fw->size < phdr->p_offset + phdr->p_filesz) {
-  1033				dev_err(dev, "Firmware size (%zu) < expected offset (%u) + size (%u)\n",
-  1034					fw->size, phdr->p_offset, phdr->p_filesz);
-  1035				return NULL;
-  1036			}
-  1037	
-  1038			if (phdr->p_type != PT_LOAD || !phdr->p_memsz)
-  1039				continue;
-  1040	
-  1041			if (MI_PBT_PAGE_MODE_VALUE(phdr->p_flags) != MI_PBT_NON_PAGED_SEGMENT ||
-  1042			    MI_PBT_SEGMENT_TYPE_VALUE(phdr->p_flags) == MI_PBT_HASH_SEGMENT ||
-  1043			    MI_PBT_ACCESS_TYPE_VALUE(phdr->p_flags) == MI_PBT_NOTUSED_SEGMENT ||
-  1044			    MI_PBT_ACCESS_TYPE_VALUE(phdr->p_flags) == MI_PBT_SHARED_SEGMENT)
-  1045				continue;
-  1046	
-  1047			if (phdr->p_filesz < sizeof(struct se_fw_hdr))
-  1048				continue;
-  1049	
-  1050			sefw = (struct se_fw_hdr *)(fw->data + phdr->p_offset);
-  1051			fw_size = le16_to_cpu(sefw->fw_size_in_items);
-  1052			fw_end = le16_to_cpu(sefw->fw_offset) + fw_size * sizeof(u32);
-  1053			cfg_idx_end = le16_to_cpu(sefw->cfg_idx_offset) +
-  1054				      le16_to_cpu(sefw->cfg_size_in_items) * sizeof(u8);
-  1055			cfg_val_end = le16_to_cpu(sefw->cfg_val_offset) +
-  1056				      le16_to_cpu(sefw->cfg_size_in_items) * sizeof(u32);
-  1057	
-  1058			if (le32_to_cpu(sefw->magic) != SE_MAGIC_NUM || le32_to_cpu(sefw->version) != 1)
-  1059				continue;
-  1060	
-> 1061			if (le32_to_cpu(sefw->serial_protocol) != protocol)
-  1062				continue;
-  1063	
-  1064			if (fw_size % 2 != 0) {
-  1065				fw_size++;
-  1066				sefw->fw_size_in_items = cpu_to_le16(fw_size);
-  1067			}
-  1068	
-  1069			if (fw_size >= MAX_GENI_CFG_RAMn_CNT) {
-  1070				dev_err(dev,
-  1071					"Firmware size (%u) exceeds max allowed RAMn count (%u)\n",
-  1072					fw_size, MAX_GENI_CFG_RAMn_CNT);
-  1073				continue;
-  1074			}
-  1075	
-  1076			if (fw_end > phdr->p_filesz || cfg_idx_end > phdr->p_filesz ||
-  1077			    cfg_val_end > phdr->p_filesz) {
-  1078				dev_err(dev, "Truncated or corrupt SE FW segment found at index %d\n", i);
-  1079				continue;
-  1080			}
-  1081	
-  1082			return sefw;
-  1083		}
-  1084	
-  1085		dev_err(dev, "Failed to get %s protocol firmware\n", protocol_name[protocol]);
-  1086		return NULL;
-  1087	}
-  1088	
+
+vim +239 drivers/rpmsg/zx29_smd.c
+
+   203	
+   204	static int zx29_smd_probe(struct platform_device *pdev)
+   205	{
+   206		struct device *dev = &pdev->dev;
+   207		struct zx29_smd *zx29_smd;
+   208		struct device_node *sram;
+   209		struct resource res;
+   210		u32 channel;
+   211		int ret;
+   212	
+   213		ret = of_property_read_u32(pdev->dev.of_node, "zte,rpmsg-channel", &channel);
+   214		if (ret) {
+   215			dev_err(&pdev->dev, "Invalid rpmsg channel entry\n");
+   216			return ret;
+   217		}
+   218	
+   219		zx29_smd = devm_kzalloc(dev, sizeof(*zx29_smd), GFP_KERNEL);
+   220		if (!zx29_smd)
+   221			return -ENOMEM;
+   222		zx29_smd->pdev = pdev;
+   223		dev_info(&pdev->dev, "Hello rpmsg\n");
+   224	
+   225		sram = of_parse_phandle(pdev->dev.of_node, "sram", 0);
+   226		if (!sram) {
+   227			dev_info(dev, "no sram\n");
+   228			return -EINVAL;
+   229		}
+   230		of_address_to_resource(sram, 0, &res);
+   231		zx29_smd->recv = devm_memremap(dev, res.start + channel * sizeof(struct zx29_channel_hdr),
+   232					       sizeof(struct zx29_channel_hdr), MEMREMAP_WB);
+   233	
+   234		if (!(zx29_smd->recv->flags & 1)) {
+   235			dev_info(&pdev->dev, "Receive channel not created by remote end\n");
+   236			return -ENODEV;
+   237		}
+   238		zx29_smd->data_r = devm_memremap(dev, zx29_smd->recv->base, zx29_smd->recv->size, MEMREMAP_WB);
+ > 239		dev_info(&pdev->dev, "zx29_smd->data_r 0x%08x\n", (unsigned int)zx29_smd->data_r);
+   240	
+   241		zx29_smd->rpdev.ops = &zx29_smd_device_ops;
+   242		zx29_smd->rpdev.src = channel;
+   243		zx29_smd->rpdev.dst = channel;
+   244		zx29_smd->rpdev.announce = true;
+   245		strscpy(zx29_smd->rpdev.id.name, "rpmsg-tty", RPMSG_NAME_SIZE);
+   246		zx29_smd->rpdev.dev.parent = &pdev->dev;
+   247	
+   248		sram = of_parse_phandle(pdev->dev.of_node, "sram", 1);
+   249		if (!sram)
+   250			return -EINVAL;
+   251		of_address_to_resource(sram, 0, &res);
+   252		zx29_smd->send = devm_memremap(dev, res.start + channel * sizeof(struct zx29_channel_hdr),
+   253					       sizeof(struct zx29_channel_hdr), MEMREMAP_WB);
+   254	
+   255		/* FIXME: Create channel infrastructure. */
+   256		zx29_smd->send->base = 0x82000000;
+   257		zx29_smd->send->recv_pos = zx29_smd->send->send_pos = 0;
+   258		zx29_smd->send->size = 0x20;
+   259		zx29_smd->send->flags = 1;
+   260		zx29_smd->send->end = 0;
+   261		zx29_smd->data_s = devm_memremap(dev, zx29_smd->send->base, zx29_smd->send->size, MEMREMAP_WB);
+   262		dev_info(&pdev->dev, "zx29_smd->data_s 0x%08x\n", (unsigned int)zx29_smd->data_s);
+   263	
+   264		zx29_smd->mbox_client.dev = &pdev->dev;
+   265		zx29_smd->mbox_client.rx_callback = zx29_smd_rx_callback;
+   266		zx29_smd->mbox_client.tx_block = true;
+   267		zx29_smd->mbox_client.tx_tout = 500;
+   268		zx29_smd->mbox_client.tx_done = txdone;
+   269		zx29_smd->mbox_client.knows_txdone = false;
+   270	
+   271		return rpmsg_register_device(&zx29_smd->rpdev);
+   272	}
+   273	
 
 --
 0-DAY CI Kernel Test Service
