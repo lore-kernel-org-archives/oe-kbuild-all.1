@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A103655DD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jun 2026 10:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EAA37997A;
+	Mon, 22 Jun 2026 11:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782124781; cv=none; b=nZEuosmkA1FO/Ur0fc3hJmkU0KK2oEHNkolg0veHKOK5amBQ/P0AiF9kWsvhk77tb9Z6Wecg6U/NobSn8llOHPVPd+yfUqJm/fkfFDUdrlgsRqqxXxXrtVUjb/NahRIY0g9RLQFcB8Z6lzIS/qldvJeGdh2cvTIgq9b7N26gmdo=
+	t=1782127159; cv=none; b=AnaMcPXPR7TGx4BDwd3X42keHKMkU2RFkfZQ38PdkIHugkZOB5lVTT0y1U3HCQbxybtsnyPHysae9Gq0hxpLYIDTP3Cc6K0cNqCNtpbGzz8Nv4+M1/V7NmuKXN49G1f0bk4+1/MiuA8JeVEdPiE5tdvfHqr+IoOmW794YGJbOrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782124781; c=relaxed/simple;
-	bh=YHIVJ9SIgxDrhTz0/trktzBe4sqhdbsXs3ikJotrCoU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=f9BobN0LgciI5/HiqOAto7vO4w5XFSqAakbkg4V+EtQk64+tmzvHaUS4kr23xj+wQ56MSD+2GThe6UBlO3/WkRozE46qpohJny4plaJ3AOEy/T/8obgM7R0QQyECHP8gIVDmVHIwo6xzAaqAk67kuTGZidWGjJjmWCqj34F7G88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxcoSYEj; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1782127159; c=relaxed/simple;
+	bh=UJlf8GNgKLQZTpvGkoIRxiisri3P1FyntwPyS+gewYA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=K5NCXpyvHLoqi50/Wo7L8Jym/J+nFidNHS0O3BkTpWCLus4IURIxmYKM0MfN1x1Tpxv7++anlSOXbJlh82ACoXjYnwWWrS5udyyh2Qr5eDInNmwdrFVzk81WgJeOZASF2d1cl0rT48xRabA2Lcl30Hf7K2QocSKH1Vxc/J9GyjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P88ueHgV; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxcoSYEj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P88ueHgV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782124779; x=1813660779;
+  t=1782127158; x=1813663158;
   h=date:from:to:cc:subject:message-id;
-  bh=YHIVJ9SIgxDrhTz0/trktzBe4sqhdbsXs3ikJotrCoU=;
-  b=CxcoSYEjS6FPVDc7txDE76pDUeyUTB0jftYl9wG7WO9S2YifZ1oO32Q4
-   p8zY9FTyhspYt3FDO9QSXV9sL13SZLjd4heR8sp5pAdI8tpGhysWv19fs
-   ogn+HISo7QvmF0BK/vA9RAVaRuQFGH3tov3LW/a2HvxWatqEoZfBsCCu3
-   6B7+rEanFlQzuwM+T2PugljDbLwFl+gnZem3d0iirNg43PVzwQURfW3w6
-   0KiqE3sz8s+Gsqq95pSRMacMQukYwuLcBzPfv8fy/L6YJwoeS1CbopvRx
-   AOi9/1qKO9dsRyEFEG540JU8AnvXjjGtNws9WZLKjwbwXXMeVxUnBVTdu
-   Q==;
-X-CSE-ConnectionGUID: oUVXpaSOQA2faQEyYpHabA==
-X-CSE-MsgGUID: SZrX6Vh+TMybTxP4RZ5ykA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="105645709"
+  bh=UJlf8GNgKLQZTpvGkoIRxiisri3P1FyntwPyS+gewYA=;
+  b=P88ueHgV+/Cb9J0ib4d6abPD0Spaf9Ssb396w8xsP8XVR7p2KLMJc3sz
+   ZUNYomGRT2JkQohGSqZ4LeIKXInSzxiQPdH7CwUtARaRZrLiJ79lB6FZE
+   ANgAoniYVOKNTRWQxd1AVOUTU5yZJyx4w0HE7lx9DTuRCUCwO7m/JBYQv
+   1SjosMrEbJj6hHZiGch4iLwYxE4ou8D2MEIcfGSykx8KpR/fjkGZQ+y1K
+   T826J2NaCXHHC1ape8XGshzNQZ1YRbops0hAPH+pNBJQ1Gc93An0+DGu1
+   jIhXbW8tc3ul9WbtaE6+I0Mf1r54ydKklsmnJBcNaEH0a3TcGmUxu6mZq
+   w==;
+X-CSE-ConnectionGUID: x5ujc5YwTCi8VqerEPC1AA==
+X-CSE-MsgGUID: 8pQElYDmSRmAt+4bg+zZ9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="82622668"
 X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="105645709"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 03:39:37 -0700
-X-CSE-ConnectionGUID: S96ZvfvLRYu1ULTv7bobTw==
-X-CSE-MsgGUID: WdGROlysQ1mcInG2PhZM0Q==
+   d="scan'208";a="82622668"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 04:19:18 -0700
+X-CSE-ConnectionGUID: mybT7a5OQmyCqp0BAy0Gcw==
+X-CSE-MsgGUID: s+qKMsnLTpKUP5QRPUfBDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="273265735"
+   d="scan'208";a="253103175"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Jun 2026 03:39:35 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 Jun 2026 04:19:17 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbc3w-00000000105-3j8x;
-	Mon, 22 Jun 2026 10:39:32 +0000
-Date: Mon, 22 Jun 2026 18:38:56 +0800
+	id 1wbcgM-0000000013F-1QlG;
+	Mon, 22 Jun 2026 11:19:14 +0000
+Date: Mon, 22 Jun 2026 19:19:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kas:sdei-nmi/v3 3/3] arch/arm64/kernel/smp.c:904:17: error:
- implicit declaration of function 'crash_save_cpu'
-Message-ID: <202606221842.s23xS9qu-lkp@intel.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [hare-scsi-devel:configfs-ns.v2 16/17]
+ drivers/nvme/target/loop.c:542:36: error: incomplete definition of type
+ 'struct nsproxy'
+Message-ID: <202606221944.avjlQZnR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,88 +60,52 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git sdei-nmi/v3
-head:   167493d30ef6c99a44291de14cddd41ced8149c4
-commit: 167493d30ef6c99a44291de14cddd41ced8149c4 [3/3] arm64: escalate smp_send_stop() to an SDEI NMI as a last resort
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260622/202606221842.s23xS9qu-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260622/202606221842.s23xS9qu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v2
+head:   e2bc6e23c907dceafa9ce30beca26cdc05bb664d
+commit: 5ee9c143b806000467a489e080f5d0f7db3af48e [16/17] nvmet-loop: skip ports from wrong namespaces
+config: i386-randconfig-017-20260622 (https://download.01.org/0day-ci/archive/20260622/202606221944.avjlQZnR-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260622/202606221944.avjlQZnR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606221842.s23xS9qu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606221944.avjlQZnR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm64/kernel/smp.c: In function 'arm64_nmi_cpu_stop':
->> arch/arm64/kernel/smp.c:904:17: error: implicit declaration of function 'crash_save_cpu' [-Wimplicit-function-declaration]
-     904 |                 crash_save_cpu(regs, cpu);
-         |                 ^~~~~~~~~~~~~~
+>> drivers/nvme/target/loop.c:542:36: error: incomplete definition of type 'struct nsproxy'
+     542 |                 if (p->net_ns != current->nsproxy->net_ns)
+         |                                  ~~~~~~~~~~~~~~~~^
+   include/linux/sched.h:72:8: note: forward declaration of 'struct nsproxy'
+      72 | struct nsproxy;
+         |        ^
+   1 error generated.
 
 
-vim +/crash_save_cpu +904 arch/arm64/kernel/smp.c
+vim +542 drivers/nvme/target/loop.c
 
-45ed695ac10a23 Nicolas Pitre          2014-07-25  865  
-d914d4d4974529 Aaro Koskinen          2019-06-17  866  /*
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  867)  * Bring the local CPU to a stop, saving its register state into the vmcore
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  868)  * on the kdump crash path first. The single point every arm64 stop path
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  869)  * funnels through, so the bookkeeping (mask interrupts, mark offline, mask
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  870)  * SDEI, optionally power off) lives in one place:
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  871)  *
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  872)  *   - the regular IPI_CPU_STOP and pseudo-NMI IPI_CPU_STOP_NMI handlers;
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  873)  *   - panic_smp_self_stop(), a CPU parking itself on a parallel panic();
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  874)  *   - the SDEI cross-CPU NMI handler (drivers/firmware/arm_sdei_nmi.c),
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  875)  *     which reaches CPUs the stop IPIs could not.
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  876)  *
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  877)  * @regs is the register state to record in the vmcore on a crash stop; NULL
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  878)  * means "capture the current context". @die_on_crash decides the kdump crash
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  879)  * path: the IPI stop handlers pass true and power the CPU off (PSCI CPU_OFF,
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  880)  * via __cpu_try_die()) so a capture kernel can reclaim it. The SDEI handler
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  881)  * and panic_smp_self_stop() pass false and only park. For SDEI that is
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  882)  * required, not just conservative: it runs inside an SDEI event that is
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  883)  * deliberately never completed (completing it has firmware resume the wedged
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  884)  * context), and a CPU_OFF from that not-yet-completed context wedges EL3 on
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  885)  * some firmware -- a documented follow-up. Parking also matches this path's
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  886)  * own fallback when CPU_OFF is unavailable.
-d914d4d4974529 Aaro Koskinen          2019-06-17  887   */
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  888) void __noreturn arm64_nmi_cpu_stop(struct pt_regs *regs, bool die_on_crash)
-d914d4d4974529 Aaro Koskinen          2019-06-17  889  {
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  890) 	unsigned int cpu = smp_processor_id();
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  891) 	bool crash = IS_ENABLED(CONFIG_KEXEC_CORE) && crash_stop;
-08e875c16a16c9 Catalin Marinas        2012-03-05  892  
-fdfa588124b635 Douglas Anderson       2024-08-21  893  	/*
-fdfa588124b635 Douglas Anderson       2024-08-21  894  	 * Use local_daif_mask() instead of local_irq_disable() to make sure
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  895) 	 * that pseudo-NMIs are disabled. The "stop" code starts with an IRQ
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  896) 	 * and falls back to NMI (which might be pseudo). If the IRQ finally
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  897) 	 * goes through right as we're timing out then the NMI could interrupt
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  898) 	 * us. It's better to prevent the NMI and let the IRQ finish since the
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  899) 	 * pt_regs will be better.
-fdfa588124b635 Douglas Anderson       2024-08-21  900  	 */
-fdfa588124b635 Douglas Anderson       2024-08-21  901  	local_daif_mask();
-fdfa588124b635 Douglas Anderson       2024-08-21  902  
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  903) 	if (crash)
-78fd584cdec051 AKASHI Takahiro        2017-04-03 @904  		crash_save_cpu(regs, cpu);
-78fd584cdec051 AKASHI Takahiro        2017-04-03  905  
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  906) 	/* the ack a stop requester (e.g. smp_send_stop()) polls for */
-fdfa588124b635 Douglas Anderson       2024-08-21  907  	set_cpu_online(cpu, false);
-78fd584cdec051 AKASHI Takahiro        2017-04-03  908  
-f5df26961853d6 James Morse            2018-01-08  909  	sdei_mask_local_cpu();
-78fd584cdec051 AKASHI Takahiro        2017-04-03  910  
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  911) 	if (crash && die_on_crash)
-de58ed5e16e62f Gavin Shan             2020-03-19  912  		__cpu_try_die(cpu);
-78fd584cdec051 AKASHI Takahiro        2017-04-03  913  
-78fd584cdec051 AKASHI Takahiro        2017-04-03  914  	/* just in case */
-78fd584cdec051 AKASHI Takahiro        2017-04-03  915  	cpu_park_loop();
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  916) }
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  917) NOKPROBE_SYMBOL(arm64_nmi_cpu_stop);
-167493d30ef6c9 Kiryl Shutsemau (Meta  2026-06-02  918) 
-
-:::::: The code at line 904 was first introduced by commit
-:::::: 78fd584cdec0518075cf3aa75e5ec491cc8f3ff3 arm64: kdump: implement machine_crash_shutdown()
-
-:::::: TO: AKASHI Takahiro <takahiro.akashi@linaro.org>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+   534	
+   535	static struct nvmet_port *nvme_loop_find_port(struct nvme_ctrl *ctrl)
+   536	{
+   537		struct nvmet_port *p, *found = NULL;
+   538	
+   539		mutex_lock(&nvme_loop_ports_mutex);
+   540		list_for_each_entry(p, &nvme_loop_ports, entry) {
+   541			/* Skip ports from non-matching namespaces */
+ > 542			if (p->net_ns != current->nsproxy->net_ns)
+   543				continue;
+   544			/* if no transport address is specified use the first port */
+   545			if ((ctrl->opts->mask & NVMF_OPT_TRADDR) &&
+   546			    strcmp(ctrl->opts->traddr, p->disc_addr.traddr))
+   547				continue;
+   548			found = p;
+   549			break;
+   550		}
+   551		mutex_unlock(&nvme_loop_ports_mutex);
+   552		return found;
+   553	}
+   554	
 
 --
 0-DAY CI Kernel Test Service
