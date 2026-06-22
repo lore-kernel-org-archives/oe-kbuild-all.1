@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA2836308D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jun 2026 09:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C1A2D5C68
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jun 2026 09:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782120592; cv=none; b=EbmZ1fc4VlYjMmsNkuKxiZ9cIkLrgWxmhN08L47QTZwXiaJlrjt6HkDpHnTAwO8R3GGJozyt5wCUbtqELzOptONczFHTBqwMMEj2pV97J4ilko0pmbcpmmiO4LON+zJpWNAZTcrshXkvD/zRMVqt7LRQtQyjDOiUA2RuvCbmANE=
+	t=1782121748; cv=none; b=WPHqAeioug70rjb7X40rEz/Wc914UPDMiGfyGwFOSisIQrgF/+a5WheejkHbGluR7rdRXn5Oj8ZRI2ZyYwG9tvX51/im3lmb1LrT4ogmLGS262BSr6i+oXoo98pTd3P1R/ewQOMH+g13RoJcWC6ocQhSt88J7pBhb4ipiofenmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782120592; c=relaxed/simple;
-	bh=VfCbDuLVwicV6y/zk26qKuKtNDkHSFgTmCokI8xPTh0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DNC1hGMPP9vVmHPoke9xYQKvFMHAwhv/LTmoz4iKVSuMGITu/1UVKhCw7Lq2oRseN9QXL4PMRZy6LTcZVNQ6iXajj4pvIii2rbi6ZJVOOS9cRHalppKl9SxFqKtFDMlEwcLRW0KjlpsFgQEkIlMV0dLoz07MLZwUXHcjmvPTtNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2+nn8//; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1782121748; c=relaxed/simple;
+	bh=qt9c9TAeYVLH0493Mx1WtzeGU2SivrGYxPP5vJRYM6c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T2sLAlb6+rguhZaTSJc0ZTIqy+1zDiUL0i9Z+b7d7dTFaEO6b5Meig1vyIgkzzqzX3wqzC7a+O1fxaLfsweH8iGBnL7K+GTAr8XAMaffFKt+VRfE6M1s2t02QVrZD5QGOVHs3orqnzR1tXeHLG/benN5/rhSNNB0auF8XHUjDZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rq2gByfN; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2+nn8//"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rq2gByfN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782120591; x=1813656591;
+  t=1782121747; x=1813657747;
   h=date:from:to:cc:subject:message-id;
-  bh=VfCbDuLVwicV6y/zk26qKuKtNDkHSFgTmCokI8xPTh0=;
-  b=A2+nn8//4JLUEZlMMMvJKkCzMHulnFoUZiUITr00kyrUF3YsgEUjs9Iq
-   F1kH8GdtgUCk87uQ5JRupSC3yqJmY67wOme+rkSAprLi3mjk/1RsjVnPJ
-   B8xqPnnVDg3FD+yWrKnpFZxzhQGPgrBUj5NwqRaSd0gJdsS89/Hckr023
-   I+b3WIcC3UOdojxGoXGaDaZ7eJw6mNs8bWSezHoGlWEeFnIcVW7JVLL1k
-   0T4vFttqYxeCMywhHyOaeAnL5gVMbXrKiBCbGl8BP4Z2UutcInBztsCAL
-   F42X4+gkNSWQD4unJb/X2pE2phkWOn2xhRi10wxqnyjctoQBWqhtSRXOx
-   w==;
-X-CSE-ConnectionGUID: sJoFjArXS1iw1kM59HFR8A==
-X-CSE-MsgGUID: VQ2DBPUsT1mPJ3cocE+0Bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="93500782"
+  bh=qt9c9TAeYVLH0493Mx1WtzeGU2SivrGYxPP5vJRYM6c=;
+  b=Rq2gByfNZv3XjKYhJ/ww4d7V7hlvfA0O721hsbRLdvFcWdEbacmJPLhB
+   PKRRWsGp/uYJUwqGHH+7YyuDCFhi/m1HgeZud4n6eEPauwXzxMKwy2dCG
+   E8nF3dV08Wy2RiTcKr8IQ/PqTlnBFIHRTRPU9QtjbVro3LG6BrVZGd0LC
+   nY4EM0qWhWA0ducZNVYT1hDb/qLlqfVjWjMpFig5JBrRrOu4hpOn6Dml7
+   XKw40d7abIZvoB2WCZsz2/dyIQf971pjgKBshLowwZgSUZ1TeQf4d+AQZ
+   fwoDAdP+RegBH9ScolJJobVWIpTm5QmOdg9v4nszfEhQpgrL23GF2jP4R
+   A==;
+X-CSE-ConnectionGUID: DF79FEm8QG2ye1J5DTVn4w==
+X-CSE-MsgGUID: Scyr2YEdSfa2WspU/6DzRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="70361586"
 X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="93500782"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 02:29:50 -0700
-X-CSE-ConnectionGUID: yO6DqO12T0aturO1MyX1zw==
-X-CSE-MsgGUID: Rlg8k0URSrOlUHypNJCjEA==
+   d="scan'208";a="70361586"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 02:49:06 -0700
+X-CSE-ConnectionGUID: we6YrXPBTYiluvBbojihAg==
+X-CSE-MsgGUID: pWf8ubyPS7uC46bc9/zngA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="249235265"
+   d="scan'208";a="245036742"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 22 Jun 2026 02:29:49 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 Jun 2026 02:49:04 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbayQ-000000000tM-2KVN;
-	Mon, 22 Jun 2026 09:29:46 +0000
-Date: Mon, 22 Jun 2026 17:29:23 +0800
+	id 1wbbH4-000000000ut-0Dx3;
+	Mon, 22 Jun 2026 09:49:02 +0000
+Date: Mon, 22 Jun 2026 17:48:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Johansen <john.johansen@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 13069/14705]
- security/apparmor/af_unix.c:764:50: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202606221759.PO245n0z-lkp@intel.com>
+To: Shyam Prasad N <sprasad@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
+Subject: [linux-next:master 14529/14705]
+ fs/smb/client/smb2pdu.c:5638:22: warning: variable 'total_len' set but not
+ used
+Message-ID: <202606221709.MVKL3qy5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,118 +62,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   3ce97bd3c4f18608335e709c24d6a40e7036cab8
-commit: 4483efe4f21510b30c24bc97d9fd0e8feab94125 [13069/14705] apparmor: fix shadowing of plabel that prevents cache from being updated
-config: powerpc-randconfig-r122-20260615 (https://download.01.org/0day-ci/archive/20260622/202606221759.PO245n0z-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 16.1.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260622/202606221759.PO245n0z-lkp@intel.com/reproduce)
+commit: a83536312b4a62a2beefaab8ecb1e4a524e7f578 [14529/14705] cifs: optimize readdir for larger directories
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260622/202606221709.MVKL3qy5-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260622/202606221709.MVKL3qy5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606221759.PO245n0z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606221709.MVKL3qy5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> security/apparmor/af_unix.c:764:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct aa_label *l @@     got struct aa_label [noderef] __rcu *label @@
-   security/apparmor/af_unix.c:764:50: sparse:     expected struct aa_label *l
-   security/apparmor/af_unix.c:764:50: sparse:     got struct aa_label [noderef] __rcu *label
+All warnings (new ones prefixed by >>):
 
-vim +764 security/apparmor/af_unix.c
+   fs/smb/client/smb2pdu.c: In function 'SMB2_query_directory_large':
+>> fs/smb/client/smb2pdu.c:5638:22: warning: variable 'total_len' set but not used [-Wunused-but-set-variable]
+    5638 |         unsigned int total_len;
+         |                      ^~~~~~~~~
 
-   705	
-   706	/* This fn is only checked if something has changed in the security
-   707	 * boundaries. Otherwise cached info off file is sufficient
-   708	 */
-   709	int aa_unix_file_perm(const struct cred *subj_cred, struct aa_label *label,
-   710			      const char *op, u32 request, struct file *file)
-   711	{
-   712		struct socket *sock = (struct socket *) file->private_data;
-   713		struct sockaddr_un *addr, *peer_addr;
-   714		int addrlen, peer_addrlen;
-   715		struct aa_label *plabel = NULL;
-   716		struct sock *peer_sk = NULL;
-   717		u32 sk_req = request & ~NET_PEER_MASK;
-   718		struct path path;
-   719		bool is_sk_fs;
-   720		int error = 0;
-   721	
-   722		AA_BUG(!label);
-   723		AA_BUG(!sock);
-   724		AA_BUG(!sock->sk);
-   725		AA_BUG(sock->sk->sk_family != PF_UNIX);
-   726	
-   727		/* investigate only using lock via unix_peer_get()
-   728		 * addr only needs the memory barrier, but need to investigate
-   729		 * path
-   730		 */
-   731		unix_state_lock(sock->sk);
-   732		peer_sk = unix_peer(sock->sk);
-   733		if (peer_sk)
-   734			sock_hold(peer_sk);
-   735	
-   736		is_sk_fs = is_unix_fs(sock->sk);
-   737		addr = aa_sunaddr(unix_sk(sock->sk), &addrlen);
-   738		path = unix_sk(sock->sk)->path;
-   739		unix_state_unlock(sock->sk);
-   740	
-   741		if (is_sk_fs && peer_sk)
-   742			sk_req = request;
-   743		if (sk_req) {
-   744				error = aa_unix_label_sk_perm(subj_cred, label, op,
-   745							      sk_req, sock->sk,
-   746							      is_sk_fs ? &path : NULL);
-   747		}
-   748		if (!peer_sk)
-   749			goto out;
-   750	
-   751		peer_addr = aa_sunaddr(unix_sk(peer_sk), &peer_addrlen);
-   752	
-   753		struct path peer_path;
-   754	
-   755		peer_path = unix_sk(peer_sk)->path;
-   756		if (!is_sk_fs && is_unix_fs(peer_sk)) {
-   757			last_error(error,
-   758				   unix_fs_perm(op, request, subj_cred, label,
-   759						is_unix_fs(peer_sk) ? &peer_path : NULL));
-   760		} else if (!is_sk_fs) {
-   761			struct aa_sk_ctx *pctx = aa_sock(peer_sk);
-   762	
-   763			rcu_read_lock();
- > 764			plabel = aa_get_newest_label(pctx->label);
-   765			rcu_read_unlock();
-   766			/* no fs check of aa_unix_peer_perm because conditions above
-   767			 * ensure they will never be done
-   768			 */
-   769			last_error(error,
-   770				xcheck(unix_peer_perm(subj_cred, label, op,
-   771						      MAY_READ | MAY_WRITE, sock->sk,
-   772						      is_sk_fs ? &path : NULL,
-   773						      peer_addr, peer_addrlen,
-   774						      is_unix_fs(peer_sk) ?
-   775								&peer_path : NULL,
-   776						      plabel),
-   777				       unix_peer_perm(file->f_cred, plabel, op,
-   778						      MAY_READ | MAY_WRITE, peer_sk,
-   779						      is_unix_fs(peer_sk) ?
-   780								&peer_path : NULL,
-   781						      addr, addrlen,
-   782						      is_sk_fs ? &path : NULL,
-   783						      label)));
-   784			if (!error && !__aa_subj_label_is_cached(plabel, label))
-   785				update_peer_ctx(peer_sk, pctx, label);
-   786		}
-   787		sock_put(peer_sk);
-   788	
-   789	out:
-   790	
-   791		/* update peer cache to latest successful perm check */
-   792		if (error == 0)
-   793			update_sk_ctx(sock->sk, label, plabel);
-   794		aa_put_label(plabel);
-   795	
-   796		return error;
-   797	}
-   798	
+
+vim +/total_len +5638 fs/smb/client/smb2pdu.c
+
+  5623	
+  5624	/*
+  5625	 * QueryDirectory with large buffer and multi-credit support.
+  5626	 * Uses async infrastructure but waits for completion synchronously.
+  5627	 */
+  5628	int
+  5629	SMB2_query_directory_large(struct cifs_query_dir_io *qd_io, unsigned int buf_size)
+  5630	{
+  5631		int rc, flags = 0;
+  5632		char *buf;
+  5633		struct smb2_hdr *shdr;
+  5634		struct smb_rqst rqst = { .rq_iov = &qd_io->iov[0],
+  5635					 .rq_nvec = SMB2_QUERY_DIRECTORY_IOV_SIZE };
+  5636		struct TCP_Server_Info *server = qd_io->server;
+  5637		struct cifs_tcon *tcon = qd_io->tcon;
+> 5638		unsigned int total_len;
+  5639		int credit_request;
+  5640	
+  5641		cifs_dbg(FYI, "%s: buf_size=%u\n", __func__, buf_size);
+  5642	
+  5643		/* Note: buf_size should already be capped to SMB2_MAX_QD_DATABUF_SIZE by caller
+  5644		 * before credit reservation to ensure accurate credit accounting.
+  5645		 * This is a safety check; should be unreached in normal flow.
+  5646		 */
+  5647		if (WARN_ON(buf_size > SMB2_MAX_QD_DATABUF_SIZE)) {
+  5648			cifs_dbg(VFS, "%s: ERROR: buf_size=%u exceeds max %u - caller should cap before credits\n",
+  5649				 __func__, buf_size, SMB2_MAX_QD_DATABUF_SIZE);
+  5650			return -EINVAL;
+  5651		}
+  5652	
+  5653		/* Allocate response buffer. Since we'll build a combined header+data buffer,
+  5654		 * we need space for both. We'll request a slightly smaller OutputBufferLength
+  5655		 * from the server to ensure the total response fits.
+  5656		 */
+  5657		qd_io->combined_iov.iov_base = kmalloc(buf_size, GFP_KERNEL);
+  5658		if (!qd_io->combined_iov.iov_base)
+  5659			return -ENOMEM;
+  5660		/* Store total capacity in iov_len; updated to actual data length by receive handler */
+  5661		qd_io->combined_iov.iov_len = buf_size;
+  5662	
+  5663		/* Initialize completion */
+  5664		init_completion(&qd_io->done);
+  5665	
+  5666		/* Request less data from server to leave room for the response header.
+  5667		 * Use MAX_CIFS_SMALL_BUFFER_SIZE as a safety margin.
+  5668		 */
+  5669		rc = SMB2_query_directory_init(qd_io->xid, tcon, server,
+  5670					       &rqst, qd_io->persistent_fid,
+  5671					       qd_io->volatile_fid, qd_io->index,
+  5672					       qd_io->srch_inf->info_level,
+  5673					       buf_size - MAX_CIFS_SMALL_BUFFER_SIZE);
+  5674		if (rc) {
+  5675			kfree(qd_io->combined_iov.iov_base);
+  5676			qd_io->combined_iov.iov_base = NULL;
+  5677			return rc;
+  5678		}
+  5679	
+  5680		if (smb3_encryption_required(tcon))
+  5681			flags |= CIFS_TRANSFORM_REQ;
+  5682	
+  5683		buf = rqst.rq_iov[0].iov_base;
+  5684		total_len = rqst.rq_iov[0].iov_len;
+  5685	
+  5686		shdr = (struct smb2_hdr *)buf;
+  5687	
+  5688		if (qd_io->replay) {
+  5689			/* Back-off before retry */
+  5690			if (qd_io->cur_sleep)
+  5691				msleep(qd_io->cur_sleep);
+  5692			smb2_set_replay(server, &rqst);
+  5693		}
+  5694	
+  5695		/* Set credit charge based on buffer size */
+  5696		if (qd_io->credits.value > 0) {
+  5697			shdr->CreditCharge = cpu_to_le16(DIV_ROUND_UP(buf_size,
+  5698							SMB2_MAX_BUFFER_SIZE));
+  5699			credit_request = le16_to_cpu(shdr->CreditCharge) + 8;
+  5700			if (server->credits >= server->max_credits)
+  5701				shdr->CreditRequest = cpu_to_le16(0);
+  5702			else
+  5703				shdr->CreditRequest = cpu_to_le16(
+  5704					min_t(int, server->max_credits -
+  5705							server->credits, credit_request));
+  5706	
+  5707			flags |= CIFS_HAS_CREDITS;
+  5708		}
+  5709	
+  5710		rc = cifs_call_async(server, &rqst,
+  5711				     cifs_query_dir_receive, smb2_query_dir_callback,
+  5712				     smb2_query_dir_handle_data, qd_io, flags,
+  5713				     &qd_io->credits);
+  5714		if (rc) {
+  5715			cifs_stats_fail_inc(tcon, SMB2_QUERY_DIRECTORY_HE);
+  5716			trace_smb3_query_dir_err(qd_io->xid, qd_io->persistent_fid,
+  5717						 tcon->tid, tcon->ses->Suid,
+  5718						 qd_io->index, 0, rc);
+  5719			kfree(qd_io->combined_iov.iov_base);
+  5720			qd_io->combined_iov.iov_base = NULL;
+  5721		}
+  5722	
+  5723		/* Free request buffer immediately after async call */
+  5724		cifs_small_buf_release(buf);
+  5725	
+  5726		if (rc)
+  5727			return rc;
+  5728	
+  5729		/* Wait for the async operation to complete */
+  5730		wait_for_completion(&qd_io->done);
+  5731		return qd_io->result;
+  5732	}
+  5733	
 
 --
 0-DAY CI Kernel Test Service
