@@ -1,93 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC143C6A43
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 08:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D59D34252C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 08:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782201662; cv=none; b=MRJJxjPvddVsRAk8JEXepx3gBMp8I5zHZcSMWLIFzjlZ/ie6sTn44Lmb9ItixuqzcV3qVwIV3SXiOct0Dyqq50VXFBx8xuf4vZl4cUE7NF/FxjJlp4pK6HEeoOkWuhZugeYon/XcCD+HSNAMeKUKvYj/wrDwqAsFvA32VvsI7qM=
+	t=1782202935; cv=none; b=i3YHwsU7bbB4Z8NvA5swnWNcfzQIIOaZlmN87s3IlN3goP7Bro6mteGPLIvMlSHBRX81bWMTq/+UYeVLycTCk0bGAWxT07KUURp4TTGx90aalZ9mz+M7xBHj72hi+sziiR1tigM9HvMQCVVBSI9OppVO9IitLGCk8DnJ4SGC+Y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782201662; c=relaxed/simple;
-	bh=IGOYgdBerpLZrd40i6ZE7Laj3OtY4bLDKAzUR99Sqtk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uC0Ps1iQzhlGgp8aruSL3vpYrfg7P0rNxCGuIp8JLxhUi8DrJ7HNYHLBKZ83rL3zSzgTh1+eEpnsu8DRSEEocsoWF6j7HxjRkSApNsrqs2A4qw10klW4DIcWt8qaa6aZTGMV/y8roRhgMlyPIbD3O2Jc6hI1SXQAB6vgoIeuKzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhiD9OPj; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782202935; c=relaxed/simple;
+	bh=39wXNoIWiOvvqIChs1ODPrHhnqQGDCGxPi5BJ/VZZoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qnVuBdR99JFiJfmkmcdwZN1b1m4iFCpmHlD6vYiTNvbtEeDcX4eWE/ZpEM8NJXzVJZcJNfLN+bDofmb+JqjTqHG7PZEPskTsNeyCCrZ7GF30/Urmb3ABwtb0vLKVPgoXjg+eMZbKPID8/HWZy0ftJWuxXsWZaO08btnC8rbgNXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aS1UCzkp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhiD9OPj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782201661; x=1813737661;
-  h=date:from:to:cc:subject:message-id;
-  bh=IGOYgdBerpLZrd40i6ZE7Laj3OtY4bLDKAzUR99Sqtk=;
-  b=mhiD9OPj7ng8JQpZmV5fMLfZrgjG3iOcTJpyZ5/wEcSTrzauB2tqYOIU
-   SKXWxw43GYhnGylAtaMBYYMFArSjKMhMQTVkEiHgKBoC/AjVaIzrYbjpQ
-   fFv00O4kpLyCFcL9yDjAH8yk3nrlYeb1i++uEyrf8P8yxfvL6KvutZOIv
-   Ax9XmvMA8HeA3cPpm1GiWrNp02vYF6+S3n1clEBMAMlFYvQo86NQ1BeNH
-   l++XTHZb8ivuyca8UHWu78NDNoQlA3qTc9oWN8A95Bg23Cshyo99/nQNZ
-   nN/PwS9imKdy8J1KiBbPCFXGyKr/IZiC/TEMKtEyvTH4iDeLI0LtYrxqN
-   A==;
-X-CSE-ConnectionGUID: rGj3ikB3Q4mHIoaqrQ3RYA==
-X-CSE-MsgGUID: 3k9JPul9RQa+QpZsE28WRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="108481446"
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="108481446"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 01:01:00 -0700
-X-CSE-ConnectionGUID: I0VFhHeVRLiLFGs63iMEnw==
-X-CSE-MsgGUID: A19/2LpZSDSLW6tbQrwleA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="247107937"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Jun 2026 01:00:59 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wbw41-000000006Av-0zl1;
-	Tue, 23 Jun 2026 08:00:57 +0000
-Date: Tue, 23 Jun 2026 10:00:13 +0200
-From: kernel test robot <lkp@intel.com>
-To: Kaitao Cheng <chengkaitao@kylinos.cn>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/core-api/list:775:
- ./include/linux/list.h:793: WARNING: Definition list ends without a blank
- line; unexpected unindent. [docutils]
-Message-ID: <202606230940.yeWFIO56-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aS1UCzkp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 189F21F000E9;
+	Tue, 23 Jun 2026 08:22:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782202934;
+	bh=hMzE+66Q09lDJXjqObjnv3qomD+dbfXZbnfOUw454EU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=aS1UCzkpgxnIEokR3EY27vBfP8PoALGWpjf5R8j9x484PtdhyWLHZFpNMhRXsYj/2
+	 HEPhzF9h5LL4j/lqbSJkH/pBKZ9Eae/3lKzKeTbj2G86JJprKI3nKbIG0WqaOysp6I
+	 qbn601R9j/GSOnrclWDCSYRB3u3m7NyyeVh3d3wRMpmMZK4V774g2TabrMWIMAhGnE
+	 aic3F7pf1XMJ0PZBfoPoxezFE9azrxVuh2q39jr9FsGyJ2vsR2oSJxldltl2/cma6C
+	 iUmNzPp9EcVq2C14c11pzE3azuXch4lHOm7sJ0QWzqj+J9ByGDKsqUiOGOtJYY4nE1
+	 VclscB/NPOfIA==
+Date: Tue, 23 Jun 2026 09:22:07 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Piyush Patle <piyushpatle228@gmail.com>, oe-kbuild-all@lists.linux.dev,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [jic23-iio:testing 36/53] Warning: drivers/iio/adc/hx711.c:90
+ struct member '__counted_by_ptr(num_channels' not described in
+ 'hx711_chip_info'
+Message-ID: <20260623092207.6eeaa1b9@jic23-huawei>
+In-Reply-To: <202606222214.0QOs1Ug4-lkp@intel.com>
+References: <202606222214.0QOs1Ug4-lkp@intel.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Kaitao-Cheng/list-Add-mutable-iterator-variants/20260622-193620
-head:   72faf2855f60a21ac98d3e63d13a20dc1db9d8a1
-commit: 7858c2cc567eace0010e1727aabb1967f14c98f8 list: Add mutable iterator variants
-date:   20 hours ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260623/202606230940.yeWFIO56-lkp@intel.com/reproduce)
+On Mon, 22 Jun 2026 22:40:51 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606230940.yeWFIO56-lkp@intel.com/
+> Hi Piyush,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+> head:   cc746297b23e89bd5df9f91f3a0ca209e8991763
+> commit: b0949f79b8ffa6f02c713cc2b14a16d8f32c08cc [36/53] iio: adc: hx711: introduce hx711_chip_info structure
+> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260622/202606222214.0QOs1Ug4-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 16.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260622/202606222214.0QOs1Ug4-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606222214.0QOs1Ug4-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Warning: drivers/iio/adc/hx711.c:90 struct member '__counted_by_ptr(num_channels' not described in 'hx711_chip_info'
+> >> Warning: drivers/iio/adc/hx711.c:90 struct member '__counted_by_ptr(num_channels' not described in 'hx711_chip_info'  
 
-All warnings (new ones prefixed by >>):
+There is a patch in the docs pull request that I think addresses this:
+Tudor Ambarus (1):
+      docs: kernel-doc: python: strip __counted_by_ptr macro
+https://lore.kernel.org/all/20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org/
 
-   1             automatic adjustment of input current limit
-   0             no adjustment of input current limit. This
-   helps for more unusual power sources like
-   solar modules. [docutils]
-   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
->> Documentation/core-api/list:775: ./include/linux/list.h:793: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/core-api/list:775: ./include/linux/list.h:826: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/core-api/list:775: ./include/linux/list.h:971: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/core-api/list:775: ./include/linux/list.h:1009: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/core-api/list:775: ./include/linux/list.h:1048: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/core-api/list:775: ./include/linux/list.h:1089: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
