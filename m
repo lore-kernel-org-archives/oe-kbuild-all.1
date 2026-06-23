@@ -1,89 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8A23446A7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 04:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9061C5F13
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 05:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782188761; cv=none; b=UUmkYgnwRncVo+65m5WeedQbPZiy8SGuc0v1uVVm4u3wQvIZ3gszpVUhJUSI3XuI+49en3a351hMqBY+b2ea7duzywI5IjAU+4gg9Vw04mV6Y7PB3KgON9H4d0Dqq/Toe+6efdSQLJce5tTs9DLq9uX+Oophojtc2nawWQuOwQw=
+	t=1782190926; cv=none; b=bXUf2kNo45bIf37BMbUdx3cgpAfpoN44y5EjXGHH097Apin9Glipd0ZJY5bmeVQByOgsAM2z/cVX3WmiF4CZg8U7g5hu/vaUr3QY2r29Wy2eY/R+Q9A9BMXn6QiS9j+ToB6/zwFiDIdaoONqTfO5RyUJ/SyRr9pIpA2uNjeZB9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782188761; c=relaxed/simple;
-	bh=wOPa1dqq+mlKJoifwWbp4RjsHBrFsS0BY3T7L5BB4Ro=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Opzd021FxBeUhqBZIymWhoj/Coxq/ZjOCw68HeSRqYFmG9Tu0rMH2ZFGOo7nDv7IADp1qF9cd9tAAc1sIHaYnYaCFO6V9ZmPL6sHyAmm9YQU0Xk9PkVDUXUYGsIUEfxT4FFSFEoUtykujozcjYdHtjjprh2mecNEKGFkbXi++Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqIdEt6i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782190926; c=relaxed/simple;
+	bh=acemllHM3lwEkt0FFCJpU+ThIYPlDG0x9ref8y6Eyx4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ElXpJyPh9vPxWisE4yZYvlsBwM2golirNxhaXOLgN686GnQ6vnE0sXDzyR0ijOMV5ftPao4ZyN42njISo0WcTtjgw9MKwSmT4tsYv2AFIx9gKjn7afgvYrjijSA93xkiXYaPEYXXFg79G7/owsgCrtLpVhItz+7CCibkNZu+qJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pbxb/WRa; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqIdEt6i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9BE11F000E9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 04:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782188759;
-	bh=WImKe0gNySjp3D4JqCdv0qGJ8o/akw0TckF/LbQn0u8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=mqIdEt6iNzTvPHpN0ep6GPsFmKeUfxoxrYt9fqJttuJqbnl9w9Tw92HPaYO+e7tNK
-	 orrG9WX2h5nrVZVdMjYARwDq4b5txT2Mcrg3cNxO3VBivs/ASkL46NVgl9rI3quwIm
-	 fZL8eLLXoQL8iBHOglZgexFryyOu802UjrbEpj7rKe4niE5PYRnNbbiv+b2QtVCRwz
-	 UuWFjZ+Ten2PEztWhlg+YmbZvCQXqGZdhZ343zFacZ3M1oXaTdY91IfI/iyQsjCEh/
-	 0WxmPe+CGuxlx3redp6txtOUhF8z3tMiqkbTJ8w0SocjdDq+yh/Pr+rslV9suhLNe5
-	 Dwg7K7lRRRX2w==
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c07ea058c1aso822062566b.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jun 2026 21:25:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+Sbq+sQrUr3/G8JyQSMsJq/LQlMgfrSOOiGVy50fUcjfzeWYriQtnNFoHNP4cfxkAci42uLlNTY4k9fVvA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx7cpRm8oCK1V0JM0jCoPHpfhSxuL/w4JdhNO8+sbeLuuWfHXQ5
-	qVDEgVlxeDcsMIF02/jLKMqewCDQ70pmUftQUXIOkxJe0GwjCLFwAOBz13nWLuuYpIDWiiqKsRA
-	Qlta+yorOAPUUp/f+OEfl7pN05ZWFxE4=
-X-Received: by 2002:a17:907:1caa:b0:bd1:ba38:c724 with SMTP id
- a640c23a62f3a-c108ecf75dcmr38361366b.32.1782188758450; Mon, 22 Jun 2026
- 21:25:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pbxb/WRa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782190925; x=1813726925;
+  h=date:from:to:cc:subject:message-id;
+  bh=acemllHM3lwEkt0FFCJpU+ThIYPlDG0x9ref8y6Eyx4=;
+  b=Pbxb/WRayM/1tvTIiG74O7udaxv2YnFdATNv6IvBM3p7o+YNNQSIV7Uu
+   4ndL4TQz1/vOFGNEMDa+WCK90v51wXlpQAqN+nsEcf+nccMNPYMaYpnVK
+   +z8tvV2Vgl/4X283G2SmBGdhrXged24O2Zlxj9milMen9SXn0R3M8w8Lz
+   nF7/ryviOJipEbUZNEKxKtR6Qbxq+kO0M4yerg/E41vIuugVddl7CGKL0
+   3StGlgGgMddNtEJXfvNSM8S779gVX0ZmxtxYLCLuWWIOkM/cmdO+4WjzV
+   85T9qhME0Tp18bgd6aBBeNDn7d9RpSY+vND9j8k57BhZt6gczrMfQ0wLO
+   w==;
+X-CSE-ConnectionGUID: RNikTVgWS2mzF/xgRhATbg==
+X-CSE-MsgGUID: nZHEseFKSDymQtsTz5TaMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="100353312"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="100353312"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 22:02:04 -0700
+X-CSE-ConnectionGUID: SFEuksUMRmW37dFLpUXpNQ==
+X-CSE-MsgGUID: +SG5MtJ4T3OfR4sIJDEB+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="273471602"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Jun 2026 22:02:02 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wbtGq-000000002GJ-15kb;
+	Tue, 23 Jun 2026 05:02:00 +0000
+Date: Tue, 23 Jun 2026 13:01:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:cleanups 1/36] arch/x86/lib/msr.c:128:9: error:
+ implicit declaration of function 'rdmsr_on_cpu'; did you mean
+ 'rdmsr_on_cpus'?
+Message-ID: <202606231205.kjltsK1d-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202606231232.Q1v04anI-lkp@intel.com>
-In-Reply-To: <202606231232.Q1v04anI-lkp@intel.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 23 Jun 2026 13:25:45 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8oAmaFo=Df1vfUx--iA5JrdTmNQjJjuzmrV+25YMHK3w@mail.gmail.com>
-X-Gm-Features: AVVi8CfJCG_UuYHKmw7vugRktWd5DKRHawdcUby9I8ObpawwAD9IBgHhe9pwj8E
-Message-ID: <CAKYAXd8oAmaFo=Df1vfUx--iA5JrdTmNQjJjuzmrV+25YMHK3w@mail.gmail.com>
-Subject: Re: [linux-next:master 14744/14955] ERROR: modpost:
- "__hexagon_moddi3" [fs/smb/server/ksmbd.ko] undefined!
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Steve French <stfrench@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 23, 2026 at 1:19=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   948efecf22e49aa4bf55bb73ec79a0ddcfd38571
-> commit: 64ab25180b27fff29912cbf1728bd1ce46119156 [14744/14955] ksmbd: ret=
-urn requested create allocation size
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/202=
-60623/202606231232.Q1v04anI-lkp@intel.com/config)
-> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project a=
-9b492db3d50683e446cd1a5c9ffaf4e92cb77a7)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260623/202606231232.Q1v04anI-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606231232.Q1v04anI-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> >> ERROR: modpost: "__hexagon_moddi3" [fs/smb/server/ksmbd.ko] undefined!
-We have already fixed it and applied it to our tree.
-Thanks for the report.
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git cleanups
+head:   759e4e4e18f43902ea6f66c481a45175490cad0c
+commit: 9fabca1c1950dd3416833e171d8106ce9c1d6cca [1/36] x86: Cleanup include recursion hell
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260623/202606231205.kjltsK1d-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606231205.kjltsK1d-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606231205.kjltsK1d-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/x86/lib/msr.c: In function 'rdmsr_on_cpus':
+>> arch/x86/lib/msr.c:128:9: error: implicit declaration of function 'rdmsr_on_cpu'; did you mean 'rdmsr_on_cpus'? [-Wimplicit-function-declaration]
+     128 |         rdmsr_on_cpu(0, msr_no, raw_cpu_ptr(&msrs->l), raw_cpu_ptr(&msrs->h));
+         |         ^~~~~~~~~~~~
+         |         rdmsr_on_cpus
+   arch/x86/lib/msr.c: In function 'wrmsr_on_cpus':
+>> arch/x86/lib/msr.c:134:9: error: implicit declaration of function 'wrmsr_on_cpu'; did you mean 'wrmsr_on_cpus'? [-Wimplicit-function-declaration]
+     134 |         wrmsr_on_cpu(0, msr_no, raw_cpu_read(msrs->l), raw_cpu_read(msrs->h));
+         |         ^~~~~~~~~~~~
+         |         wrmsr_on_cpus
+
+
+vim +128 arch/x86/lib/msr.c
+
+   124	
+   125	#ifndef CONFIG_SMP
+   126	void rdmsr_on_cpus(const struct cpumask *m, u32 msr_no, struct msr __percpu *msrs)
+   127	{
+ > 128		rdmsr_on_cpu(0, msr_no, raw_cpu_ptr(&msrs->l), raw_cpu_ptr(&msrs->h));
+   129	}
+   130	EXPORT_SYMBOL(rdmsr_on_cpus);
+   131	
+   132	void wrmsr_on_cpus(const struct cpumask *m, u32 msr_no, struct msr __percpu *msrs)
+   133	{
+ > 134		wrmsr_on_cpu(0, msr_no, raw_cpu_read(msrs->l), raw_cpu_read(msrs->h));
+   135	}
+   136	EXPORT_SYMBOL(wrmsr_on_cpus);
+   137	#endif
+   138	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
