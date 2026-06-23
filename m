@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE5E3CCFD8;
-	Tue, 23 Jun 2026 08:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A221523B61B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 09:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782204723; cv=none; b=ejDLPFD74CffLwTP88g7Fy6GUOdIK/OAZAei979XPy34B7JxekHU2W3hjFQ/KGnDhIvlFdRHlilymztAHF7ssGyn9WvjGBJTFlE+OILvZ0c7qjKEXk70XMGFDrzOLxdT7rjLuOApIVvN3AgBBpSiOSwFrl88bFErghfjpwceKZ0=
+	t=1782207411; cv=none; b=PObwe022YDknmwbGdzqv7+4KwXqlXTsDq+pKhAvxsXXJmNntiuqdzxNsj+4p4TFQHFWfWGlfQIze88vpLudhDuARIsnviKagDwujNWifZId9PwJYP/n61GkSuHv0lurn2nnRcYigaFCvjliXOnHj74OplfSqnwJub0Pizua/kYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782204723; c=relaxed/simple;
-	bh=OTCxlHEqbG2Wi/zdqEVbVk9ZvO8Iv8a984+v97hZGMA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TTkCNqbl8DIoNVEIf8M/+XwfnGBtcWy68MgsbTN7kyzVIev2vrzo34aaq3T4MVDhOwcmiaNRYixi5QICffWIbfbWePOretLyc38Bc2gfA4nMs+cKKOYmSZ4d3thL97ifFOKITYiW3FyOV4SVuUL8u5IyGqYXDaO2TG4et1hDUXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JN+/CZ9U; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1782207411; c=relaxed/simple;
+	bh=knfEmjg1szeSxe/hH10t7o+7Wj6JcTA4l74hPDwxbdk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nzotcpcStQjo9dq47uV9uIJS9Wy4W34BTJ1xS+xSoFpGGu3J6kMsAhPayrP7+AiD2ZxiNelq2R2qqoNXNv1Ca+esc71h5ydHyY8q/LtGbpC+Hu+0iLBEjQzZZ2hg5PAyinadf2Wb8439zWlWD5z7omLEB7Dw2uHFrNLzTFV5p60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDOcloWL; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JN+/CZ9U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDOcloWL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782204723; x=1813740723;
+  t=1782207410; x=1813743410;
   h=date:from:to:cc:subject:message-id;
-  bh=OTCxlHEqbG2Wi/zdqEVbVk9ZvO8Iv8a984+v97hZGMA=;
-  b=JN+/CZ9UTfZOFZcaxMiTiJs0QePNxEZPqnNtKo8aylxGzanrrKhZpovb
-   EXKosCzXiqXUP+D/nhOR8rpsMfmiPQ2Gywk7w94gEQuWfyD92lo2G8yOR
-   0ynGkfZdOaIcFWCGfTLxP86hEkrLPW4yO5IrJ5bE1xrRrcLY2Wjn74kNI
-   jTVkOEisKe9XRQOeGYBaUdcQrUp4Bfbz1hbF0OoAc8rt3W/w0ZnKExNh8
-   Ap9jCbhZajshiVqtsaxlg5NJSu6T/NtGrmU+/e1qLPmtIVCD92WzbdhYD
-   IAMAwTZG9QdZusPpAlVQ5C1R8LDuBSPgJFcy47t21eDipATccgjHkPhZT
+  bh=knfEmjg1szeSxe/hH10t7o+7Wj6JcTA4l74hPDwxbdk=;
+  b=VDOcloWLB8xc8w5hSCA6BTJ/wsfg1jGrygd3FI4NnZyF7i0t1DPAG6rb
+   WeDHmUi5q0gdqhgjY8qfewvBNjjtUHr4TDCQvCWCjAd+cJKKZd5K9g/au
+   WOOw/8VQ7JfdOfxU3oAgl47/I6ox2DIx9/t+YT6tEauo8L2YVe+bzSfkF
+   ZhAXPQdtc5kozyDIiMZR6btGfHPDLmb4x69AB7Rdu5/ImsYdrceHxth3R
+   COYaAocijHjMygI+7cW8sUzXgnfL+1WkYrAXDrkwoPXLl09PLvczBev4q
+   fFaxjExR+NIj5eZp7xZKmnum7jXlSOLL/BVjbAAJfs1fAmuQXfM2evDY3
    A==;
-X-CSE-ConnectionGUID: co+ur0vURW2VeBHT/cxurg==
-X-CSE-MsgGUID: 4hZKt5MnTfqSAtL9EANBNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="93306256"
+X-CSE-ConnectionGUID: ECsR2fZBQSOgV8TCTeneGQ==
+X-CSE-MsgGUID: 8cHUCdwwTSSCgjDC/yvV2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="93535017"
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="93306256"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 01:52:02 -0700
-X-CSE-ConnectionGUID: +i/1EcrzTt2uIEYSX01LvQ==
-X-CSE-MsgGUID: GaqP4nNnRoCfjDqCfpD9Sg==
+   d="scan'208";a="93535017"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 02:36:49 -0700
+X-CSE-ConnectionGUID: LAlsBap9S1SUkit9CjY9eA==
+X-CSE-MsgGUID: 3vAvHcfGRRm2OkfuSjWENA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="253805681"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jun 2026 01:51:59 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="279652308"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 23 Jun 2026 02:36:48 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbwrN-000000006B7-1lEl;
-	Tue, 23 Jun 2026 08:51:57 +0000
-Date: Tue, 23 Jun 2026 10:51:28 +0200
+	id 1wbxYj-000000002OD-0pOo;
+	Tue, 23 Jun 2026 09:36:45 +0000
+Date: Tue, 23 Jun 2026 17:36:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: kernel/bpf/diagnostics.c:173:40: warning: diagnostic
- behavior may be improved by adding the 'format(printf, 2, 3)' attribute to
- the declaration of 'bpf_diag_write'
-Message-ID: <202606231057.ZN9yj6BS-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2026-03 1/1]
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c:562:34: warning: result of
+ comparison of constant 17592186040320 with expression of type
+ 'resource_size_t' (aka 'unsigned int') is always false
+Message-ID: <202606231743.3AA872rY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,93 +61,112 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/bpf-Add-verifier-diagnostics-report-helpers/20260623-020036
-head:   f493879d5527a2a895391233ef60947426c29e36
-commit: 3792cb60c085922cb245644004fbaa8eef02e73f bpf: Add verifier diagnostic event log
-date:   15 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260623/202606231057.ZN9yj6BS-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606231057.ZN9yj6BS-lkp@intel.com/reproduce)
+Hi Mercier,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-03
+head:   a8c8c7848fd4d74c1d5323682e5682d1d6679f20
+commit: b1ac27dd8a57803034f8361d820e3f2580714031 [1/1] ANDROID: ABI: refresh, CRC fixups and allowed breaks
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20260623/202606231743.3AA872rY-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606231743.3AA872rY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606231057.ZN9yj6BS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606231743.3AA872rY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/diagnostics.c:173:40: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'bpf_diag_write' [-Wmissing-format-attribute]
-     165 | static void bpf_diag_write(struct bpf_verifier_env *env, const char *fmt, ...)
-         | __attribute__((format(printf, 2, 3))) 
-     166 | {
-     167 |         va_list args;
-     168 | 
-     169 |         if (!bpf_diag_enabled(env))
-     170 |                 return;
-     171 | 
-     172 |         va_start(args, fmt);
-     173 |         bpf_verifier_vlog(&env->log, fmt, args);
-         |                                               ^
-   kernel/bpf/diagnostics.c:165:13: note: 'bpf_diag_write' declared here
-     165 | static void bpf_diag_write(struct bpf_verifier_env *env, const char *fmt, ...)
-         |             ^
-   kernel/bpf/diagnostics.c:310:48: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'bpf_diag_vprint_indented' [-Wmissing-format-attribute]
-     302 | static void bpf_diag_vprint_indented(struct bpf_verifier_env *env,
-         | __attribute__((format(printf, 2, 0))) 
-     303 |                                      const char *fmt, va_list args)
-     304 | {
-     305 |         char *buf;
-     306 | 
-     307 |         if (!bpf_diag_enabled(env))
-     308 |                 return;
-     309 | 
-     310 |         buf = kvasprintf(GFP_KERNEL_ACCOUNT, fmt, args);
-         |                                                       ^
-   kernel/bpf/diagnostics.c:302:13: note: 'bpf_diag_vprint_indented' declared here
-     302 | static void bpf_diag_vprint_indented(struct bpf_verifier_env *env,
-         |             ^
-   kernel/bpf/diagnostics.c:457:20: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'bpf_diag_insn_print' [-Wmissing-format-attribute]
-     446 | static void bpf_diag_insn_print(void *private_data, const char *fmt, ...)
-         | __attribute__((format(printf, 2, 3))) 
-     447 | {
-     448 |         struct bpf_diag_insn_ctx *ctx = private_data;
-     449 |         struct bpf_diag_insn_buf *buf = &ctx->buf;
-     450 |         va_list args;
-     451 | 
-     452 |         if (buf->len >= buf->size)
-     453 |                 return;
-     454 | 
-     455 |         va_start(args, fmt);
-     456 |         buf->len += vscnprintf(buf->buf + buf->len, buf->size - buf->len,
-     457 |                                fmt, args);
-         |                                         ^
-   kernel/bpf/diagnostics.c:446:13: note: 'bpf_diag_insn_print' declared here
-     446 | static void bpf_diag_insn_print(void *private_data, const char *fmt, ...)
-         |             ^
-   kernel/bpf/diagnostics.c:638:13: warning: unused function 'bpf_diag_report_reason' [-Wunused-function]
-     638 | static void bpf_diag_report_reason(struct bpf_verifier_env *env,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/diagnostics.c:653:13: warning: unused function 'bpf_diag_report_suggestion' [-Wunused-function]
-     653 | static void bpf_diag_report_suggestion(struct bpf_verifier_env *env,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_shmem.c:14:
+   In file included from drivers/gpu/drm/i915/i915_drv.h:46:
+   In file included from drivers/gpu/drm/i915/gt/intel_engine.h:18:
+   In file included from drivers/gpu/drm/i915/gt/intel_gt_types.h:19:
+   In file included from drivers/gpu/drm/i915/gt/uc/intel_uc.h:9:
+   In file included from drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h:9:
+   In file included from drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h:12:
+   In file included from drivers/gpu/drm/i915/intel_device_info.h:36:
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_object_types.h:12:
+   In file included from include/drm/drm_gem.h:38:
+   include/linux/dma-buf.h:547:2: error: static assertion failed due to requirement '__alignof(struct dma_buf::(unnamed union)::(unnamed union)::(unnamed at include/linux/dma-buf.h:547:2)) <= __alignof(struct dma_buf::(unnamed union)::(unnamed union)::(unnamed at include/linux/dma-buf.h:547:2))': include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned the same as atomic64_t nr_task_refs
+     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:189:2: note: expanded from macro 'ANDROID_BACKPORT_USE'
+     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:79:3: note: expanded from macro '_ANDROID_KABI_REPLACE'
+      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:66:4: note: expanded from macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
+      66 |                         __alignof__(struct { _new; }) <=                \
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      67 |                                 __alignof__(struct { _orig; }),         \
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-buf.h:547:2: note: expression evaluates to '8 <= 4'
+     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:189:2: note: expanded from macro 'ANDROID_BACKPORT_USE'
+     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:79:3: note: expanded from macro '_ANDROID_KABI_REPLACE'
+      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:66:34: note: expanded from macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
+      66 |                         __alignof__(struct { _new; }) <=                \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+      67 |                                 __alignof__(struct { _orig; }),         \
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/gem/i915_gem_shmem.c:562:34: warning: result of comparison of constant 17592186040320 with expression of type 'resource_size_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     562 |         if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
+         |                                    ~~~~ ^ ~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +173 kernel/bpf/diagnostics.c
+vim +562 drivers/gpu/drm/i915/gem/i915_gem_shmem.c
 
-   164	
-   165	static void bpf_diag_write(struct bpf_verifier_env *env, const char *fmt, ...)
-   166	{
-   167		va_list args;
-   168	
-   169		if (!bpf_diag_enabled(env))
-   170			return;
-   171	
-   172		va_start(args, fmt);
- > 173		bpf_verifier_vlog(&env->log, fmt, args);
-   174		va_end(args);
-   175	}
-   176	
+8475355f7a2645 Chris Wilson    2019-05-28  541  
+da1184cd41d4c6 Matthew Auld    2019-10-18  542  static int __create_shmem(struct drm_i915_private *i915,
+8475355f7a2645 Chris Wilson    2019-05-28  543  			  struct drm_gem_object *obj,
+da1184cd41d4c6 Matthew Auld    2019-10-18  544  			  resource_size_t size)
+8475355f7a2645 Chris Wilson    2019-05-28  545  {
+8475355f7a2645 Chris Wilson    2019-05-28  546  	unsigned long flags = VM_NORESERVE;
+8475355f7a2645 Chris Wilson    2019-05-28  547  	struct file *filp;
+8475355f7a2645 Chris Wilson    2019-05-28  548  
+8475355f7a2645 Chris Wilson    2019-05-28  549  	drm_gem_private_object_init(&i915->drm, obj, size);
+8475355f7a2645 Chris Wilson    2019-05-28  550  
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  551  	/* XXX: The __shmem_file_setup() function returns -EINVAL if size is
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  552  	 * greater than MAX_LFS_FILESIZE.
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  553  	 * To handle the same error as other code that returns -E2BIG when
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  554  	 * the size is too large, we add a code that returns -E2BIG when the
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  555  	 * size is larger than the size that can be handled.
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  556  	 * If BITS_PER_LONG is 32, size > MAX_LFS_FILESIZE is always false,
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  557  	 * so we only needs to check when BITS_PER_LONG is 64.
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  558  	 * If BITS_PER_LONG is 32, E2BIG checks are processed when
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  559  	 * i915_gem_object_size_2big() is called before init_object() callback
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  560  	 * is called.
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  561  	 */
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28 @562  	if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  563  		return -E2BIG;
+662c04e2b8c6fe Gwan-gyeong Mun 2022-12-28  564  
+8475355f7a2645 Chris Wilson    2019-05-28  565  	if (i915->mm.gemfs)
+8475355f7a2645 Chris Wilson    2019-05-28  566  		filp = shmem_file_setup_with_mnt(i915->mm.gemfs, "i915", size,
+8475355f7a2645 Chris Wilson    2019-05-28  567  						 flags);
+8475355f7a2645 Chris Wilson    2019-05-28  568  	else
+8475355f7a2645 Chris Wilson    2019-05-28  569  		filp = shmem_file_setup("i915", size, flags);
+8475355f7a2645 Chris Wilson    2019-05-28  570  	if (IS_ERR(filp))
+8475355f7a2645 Chris Wilson    2019-05-28  571  		return PTR_ERR(filp);
+8475355f7a2645 Chris Wilson    2019-05-28  572  
+8475355f7a2645 Chris Wilson    2019-05-28  573  	obj->filp = filp;
+8475355f7a2645 Chris Wilson    2019-05-28  574  	return 0;
+8475355f7a2645 Chris Wilson    2019-05-28  575  }
+8475355f7a2645 Chris Wilson    2019-05-28  576  
+
+:::::: The code at line 562 was first introduced by commit
+:::::: 662c04e2b8c6fe8eb2f2b88c62e25c8241d0f793 drm/i915: Check if the size is too big while creating shmem file
+
+:::::: TO: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 --
 0-DAY CI Kernel Test Service
