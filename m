@@ -1,152 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3815269D18
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 22:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9832936F426
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 22:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782254453; cv=none; b=YRW1HLPAO1wHU7G8mMiR5u0Rgc1+zDS9/HwZK5tnBP/wVnPGrnGsLA0l9qPV4FcagO5DO8ZSdGolB9Bkay7XDZ/naFKuUj33lNp2hPQuniHwXzI69Vj1QOcPYGBT19vaqgSKVgMy95gRcMmEbvYriLDSemkzIuPeefuORhO2IOI=
+	t=1782255052; cv=none; b=YzQhY3pijPQm6CRw6KwisgSXTT9s5zji7nQXg9v5ORP64bci2imsj+FmOvq750eYmtaI+PTBnqF+ABJpAE6N0JGJycWcD6usnJ3Agxb0PWhk8KTff1Z6i3UrVgyI2kvl825mZG7dcgs5uaNpP76sIYrV7JS7hymNHEn+YPKnnUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782254453; c=relaxed/simple;
-	bh=rXmDV7xBijAczdqSupx23uR9FZq3oPlZo3gCLPkqCa4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cLO+1CovJ6et/vmlvvFzYewKd5c3ZagVUJZeTfnl5GurAXPc6KZFDgMjxasY+MzXubUutBDRtOkunroAQWANIBOCSp/yBVDRBKoMT56V7H/7fFW3vsTBRI3bGg6j518xVzfFznfLjLhfGGoYWgsMVpDCVl1UIBRRV/FsrmwI4lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xkdod2J4; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1782255052; c=relaxed/simple;
+	bh=qej0RT7Pkq6Nud3dQkTN5EI7HPPLnqg2wucs2DbYXUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Elwe+gdbW9pZROi/cK7lyEFHoLxIAvkvAHgFnMmTwelp7N9Dm9o7tmxVMSX1ijQ1PRZKxe7uyrNmDwVsgensWu2VormDSoiB7w2Q20j9cn87UmVCxNEJEwKLGi6bpdb9mm4AU/KFKG2fh/WqhrrjuOAjlQhrmASAoqs2NbH0qlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixTQ+Pzm; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xkdod2J4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixTQ+Pzm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782254451; x=1813790451;
-  h=date:from:to:cc:subject:message-id;
-  bh=rXmDV7xBijAczdqSupx23uR9FZq3oPlZo3gCLPkqCa4=;
-  b=Xkdod2J4MV+SMUrst4XivNbU4ou73rEf0MICVnlllCIG00TvEfwmh1DD
-   desC8+C4wu9PS82t6B8qYj+gSC4YA3Py5xkx8z4/nSQCK+p6qIBi1XG9R
-   zWMq/nMlnIaFzp1bpEwWgjE0BytmcWrvdzgQ0ItKjtPLwGP7nRNc/7uhu
-   bohVhTpbzn1wJM7xXki5GWamgHSVJKAAUwCAG+HMiwC1ZfO1qxM0uV4EX
-   jYsOV4/bqe6O16jSTUiqMhezXIwmMP/WKDtmLRb/rzjQDoTPuY5aG5hnI
-   0525JBSs13c186ocI5Z/avJiqMrUZn5MIssJ3ZmJjsbLR78OUxl6Q3+Am
-   w==;
-X-CSE-ConnectionGUID: vVhKzWjvRVqShvhnCshevw==
-X-CSE-MsgGUID: Za6bxo7aRXOLPIRHKdCBBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="100435001"
+  t=1782255051; x=1813791051;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qej0RT7Pkq6Nud3dQkTN5EI7HPPLnqg2wucs2DbYXUo=;
+  b=ixTQ+PzmKtYTKu7XvexfM/fVI9f/ZrxEnujEU5HGG3yx+pfDrGPKS5Pm
+   ONaoPu9xVH8uHBkhWNvGiXNp/0cfPJ4MxNfgE22oUeUQtuEkzlk9ECa8d
+   1ZnJWyoR5pZmZ0encVD4o5NTlxmrSGAK8GNG/Z7DrlxAA+8KhJYHVV3aL
+   Xh5AdD/0L3RGGg9MfcP5zDwGtutLLVfQC9H8uZSVTvJZLg/miopellNsv
+   kNYRpu+29m9+6mAnp6Sy3meg4khvF0VktGkU+1dP0zwpcAJqxfC94LzGO
+   Onh8QwhJku/Ps3kpNME/In3eBvRXj0HEJ7wNI9bsixUvHOB0BW97n30tJ
+   Q==;
+X-CSE-ConnectionGUID: uWDAukeHTWKWSKwoEtaYFQ==
+X-CSE-MsgGUID: K9StZbUUSGyssneMgMwg0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="94128360"
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="100435001"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 15:40:50 -0700
-X-CSE-ConnectionGUID: MGjgov4SSe+NcVBJj3wehg==
-X-CSE-MsgGUID: 6mKNbFxTT/G3YJdUbTKakQ==
+   d="scan'208";a="94128360"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 15:50:50 -0700
+X-CSE-ConnectionGUID: dUS8Z78UTG2rNxOeWzxHag==
+X-CSE-MsgGUID: +oW2I180SIS+cbH9huxxWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="243267826"
+   d="scan'208";a="273339332"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Jun 2026 15:40:48 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 23 Jun 2026 15:50:48 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wc9nS-000000002wD-0tVQ;
-	Tue, 23 Jun 2026 22:40:46 +0000
-Date: Wed, 24 Jun 2026 06:39:48 +0800
+	id 1wc9x8-000000002wT-1kGV;
+	Tue, 23 Jun 2026 22:50:46 +0000
+Date: Wed, 24 Jun 2026 06:50:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lpieralisi:cca/temp-in-place-conversion 10/102]
- arch/arm64/kernel/rmi.c:371:8: warning: variable 'ret' is used uninitialized
- whenever switch case is taken
-Message-ID: <202606240634.8t8o2Uni-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/b4-sysfs-const-attr-prep-easy 38/57]
+ drivers/pci/slot.c:111:18: error: initialization of 'struct attribute **'
+ from incompatible pointer type 'const struct attribute * const*'
+Message-ID: <202606240616.sDzOjpk2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git cca/temp-in-place-conversion
-head:   4095e546cca85e5558a35176ef689959971f7d70
-commit: f2a98482ff717b6ed2203ecdd1ffeb8d62db875d [10/102] arm64: RMI: Add support for SRO
-config: arm64-randconfig-004-20260624 (https://download.01.org/0day-ci/archive/20260624/202606240634.8t8o2Uni-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project a9b492db3d50683e446cd1a5c9ffaf4e92cb77a7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606240634.8t8o2Uni-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/b4-sysfs-const-attr-prep-easy
+head:   67a3c6abb9033d2ce2a9ac12d4cfb9530148b38f
+commit: e336a966dae35aa3b0795b315b543fb744b61ff0 [38/57] pci
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260624/202606240616.sDzOjpk2-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606240616.sDzOjpk2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606240634.8t8o2Uni-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606240616.sDzOjpk2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kernel/rmi.c:371:8: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-     371 |                 case RMI_OP_MEM_REQ_NONE:
-         |                      ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/rmi_smc.h:159:30: note: expanded from macro 'RMI_OP_MEM_REQ_NONE'
-     159 | #define RMI_OP_MEM_REQ_NONE             0
-         |                                         ^
-   arch/arm64/kernel/rmi.c:389:7: note: uninitialized use occurs here
-     389 |                 if (ret) {
-         |                     ^~~
-   arch/arm64/kernel/rmi.c:368:10: note: initialize the variable 'ret' to silence this warning
-     368 |                 int ret;
-         |                        ^
-         |                         = 0
-   1 warning generated.
+>> drivers/pci/slot.c:111:18: error: initialization of 'struct attribute **' from incompatible pointer type 'const struct attribute * const*' [-Wincompatible-pointer-types]
+     111 |         .attrs = pci_slot_default_attrs,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/slot.c:111:18: note: (near initialization for 'pci_slot_default_group.<anonymous>.attrs')
 
 
-vim +/ret +371 arch/arm64/kernel/rmi.c
+vim +111 drivers/pci/slot.c
 
-   355	
-   356	unsigned long rmi_sro_execute(struct rmi_sro_state *sro, gfp_t gfp)
-   357	{
-   358		unsigned long sro_handle;
-   359		struct arm_smccc_1_2_regs regs;
-   360		struct arm_smccc_1_2_regs *regs_in = &sro->regs;
-   361	
-   362		rmi_smccc_invoke(regs_in, &regs);
-   363	
-   364		sro_handle = regs.a1;
-   365	
-   366		while (RMI_RETURN_STATUS(regs.a0) == RMI_INCOMPLETE) {
-   367			bool can_cancel = RMI_RETURN_CAN_CANCEL(regs.a0);
-   368			int ret;
-   369	
-   370			switch (RMI_RETURN_MEMREQ(regs.a0)) {
- > 371			case RMI_OP_MEM_REQ_NONE:
-   372				regs = (struct arm_smccc_1_2_regs){
-   373					SMC_RMI_OP_CONTINUE, sro_handle, 0
-   374				};
-   375				rmi_smccc_invoke(&regs, &regs);
-   376				break;
-   377			case RMI_OP_MEM_REQ_DONATE:
-   378				ret = rmi_sro_donate(sro, sro_handle, regs.a2, &regs,
-   379						     gfp);
-   380				break;
-   381			case RMI_OP_MEM_REQ_RECLAIM:
-   382				ret = rmi_sro_reclaim(sro, sro_handle, &regs);
-   383				break;
-   384			default:
-   385				ret = WARN_ON(1);
-   386				break;
-   387			}
-   388	
-   389			if (ret) {
-   390				if (can_cancel) {
-   391					/*
-   392					 * FIXME: Handle cancelling properly!
-   393					 *
-   394					 * If the operation has failed due to memory
-   395					 * allocation failure then the information on
-   396					 * the memory allocation should be saved, so
-   397					 * that the allocation can be repeated outside
-   398					 * of any context which prevented the
-   399					 * allocation.
-   400					 */
-   401				}
-   402				if (WARN_ON(ret))
-   403					return ret;
-   404			}
-   405		}
-   406	
-   407		return regs.a0;
-   408	}
-   409	
+e4f9ab031dc86c Niklas Schnelle 2026-04-07  109  
+e4f9ab031dc86c Niklas Schnelle 2026-04-07  110  static const struct attribute_group pci_slot_default_group = {
+e4f9ab031dc86c Niklas Schnelle 2026-04-07 @111  	.attrs = pci_slot_default_attrs,
+e4f9ab031dc86c Niklas Schnelle 2026-04-07  112  };
+e4f9ab031dc86c Niklas Schnelle 2026-04-07  113  
+
+:::::: The code at line 111 was first introduced by commit
+:::::: e4f9ab031dc86c9987c3619e97c5c7d8ad7afda2 PCI: s390: Expose the UID as an arch specific PCI slot attribute
+
+:::::: TO: Niklas Schnelle <schnelle@linux.ibm.com>
+:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
 
 --
 0-DAY CI Kernel Test Service
