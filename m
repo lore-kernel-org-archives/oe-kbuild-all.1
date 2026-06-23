@@ -1,155 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E56A363C6A;
-	Tue, 23 Jun 2026 12:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594641862A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 12:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782218291; cv=none; b=qjgbNkQBLSSxvsRTbVQuHnwZki3bYshE0+0BhkXBga/Vjyex3x/P68xbTfOh/pNXfNYQf87tQ5Rc3DAGO/+h+RHGqrKhQ8LbPkOFN6s8HbfZzgGCdgrt96fvckJ4pI0ku52ckM0UzC4fgX1BDklSnHgc11LXFW/MkJjZSgfc4nA=
+	t=1782218969; cv=none; b=OyeeuIp9ClMlagjXSCwaejKcoLBEeR4pPrjhjlDy5AjI64oLEan/3QUIgCjZyGNQhdodjKJDklgzyG3C5QrXtZbiCyiJJek7gLnbJcPOK25ZtJ6JpAe9ZTescNx3Q5UTwV87h85Zg8wtM/sUZq99zjpADqykhQQCmN9MUoXZsLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782218291; c=relaxed/simple;
-	bh=h653bIgjXltHaURrSBDDbFgYViiGWwyVeGsxyv3j5wA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=itCSi9uOkfrKc+qChPDlNXQhIVmM/JYukZWLFSxf9mUhpEM+/+b65i9ZM3d0VMsU9KdR4IhiHmWtgbVRHa1/5csunRijK3AVQVIA86Eo+ULY5Q0iw/wjNL3L0insfHsc4eGi6b0b/bTrDD43EToWJW9H4QKz8k/H73HOo3HgpII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VYeBQom5; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1782218969; c=relaxed/simple;
+	bh=D/W8SqSya1SIQg610p9SbQxG339t40vDiXepoAEyhWg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AAbpbP1U5aaQHhUgoBYWNaL5vA7N4tqbX09KU/vcVhSPsVtSggyG8zaRHsKwz4rhhqoX6HY4jnxFbtLZ5kY/kZ+YTEBIwBJKapiHVYDiQ3997DpLnPWOt2P8GX9NJ22QZER9t3alWwZYJjEhvdhIJAyTmonhU6COGPGvHkiNUNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3eGRP/K; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYeBQom5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3eGRP/K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782218289; x=1813754289;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h653bIgjXltHaURrSBDDbFgYViiGWwyVeGsxyv3j5wA=;
-  b=VYeBQom5U5fJAUb8m9SNxVqHpIRWWcr5ghXVLCBABnACcdQxkpfbHcKf
-   vivmcqzXVfEJs3MlGj4XDAX456JAnmPk0L3YwvK/HtJCktxvbr/R9Nm+S
-   D1UOWC/ZoAr5/YvDsP+JYslz5Z4Ca8jni7DO1iy6OOSgQvIiQiJ+7vX1h
-   WMpsO46HS3b2X0zr5BxGc4CUour7lNuuRbiX1VrDK2xdnWO0ycc8QpRNP
-   tHO2DRYulWlHxD6uMEkEmlw11FuvdeohqzqvKW3PxQSfU+iB/v2WphELX
-   fhJ1m6gdZg7XaTe4cI121z2b1uKnW9Z/BF+qMXUe8cPT5AZucAfTcMhVa
-   A==;
-X-CSE-ConnectionGUID: +SfgrQu6Q8mNLvrnhPGUaA==
-X-CSE-MsgGUID: +4fHRMEdQb2VU2caUscrBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="82063873"
+  t=1782218967; x=1813754967;
+  h=date:from:to:cc:subject:message-id;
+  bh=D/W8SqSya1SIQg610p9SbQxG339t40vDiXepoAEyhWg=;
+  b=d3eGRP/KNBksMNp3Mj7Fj73pTcK8QLyulMEqTjqO6/nAPBDKV66nRWqH
+   CkQD7oN92avegOYEsA+2aiVM5ewMwkPYDbABdfpYIe36U2KJXOm1dyCgh
+   4C1drKJX9MicvNwc0E9fL+RoWUgC8K+q5sA5VV7h/Q9jaYyYZg2D3Aeww
+   OLhPkpeyYrp9fy0dHT0kG2BY+TVl33hpYaj95GCa5s4d5c8XNMuE2G1XN
+   a6qeBvIoQOejASIeSBoqgasZ/xKUiYB7UYeG+psBhrKRjCfhY2OuLrx4m
+   zDqDJrEc4iOLVbqYuQLjyT9xqxFxgAGEU9coFltSSdpU6k3vw5JU7boJL
+   w==;
+X-CSE-ConnectionGUID: VP+J+9hOTnWVzuxKZD6LdA==
+X-CSE-MsgGUID: wsPYStjrTl6uIV6rjm/IKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="85515478"
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="82063873"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 05:38:08 -0700
-X-CSE-ConnectionGUID: R5zIMnSvTw2+gUuXk1c4CA==
-X-CSE-MsgGUID: DlZxwkCaTxWl1+N3yuucbg==
+   d="scan'208";a="85515478"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 05:49:27 -0700
+X-CSE-ConnectionGUID: ZNQV27twRUidJKCC4AM9xA==
+X-CSE-MsgGUID: ozVzoih8Q9C1qGh0gf3siw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="249366207"
+   d="scan'208";a="247166916"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 23 Jun 2026 05:38:01 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 23 Jun 2026 05:49:25 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wc0O2-000000002WH-1rQC;
-	Tue, 23 Jun 2026 12:37:54 +0000
-Date: Tue, 23 Jun 2026 20:36:49 +0800
+	id 1wc0Z9-000000002Wr-10kD;
+	Tue, 23 Jun 2026 12:49:23 +0000
+Date: Tue, 23 Jun 2026 20:49:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Avinash Duduskar <avinash.duduskar@gmail.com>, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, eddyz87@gmail.com,
-	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org,
-	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com,
-	john.fastabend@gmail.com, sdf@fomichev.me, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, shuah@kernel.org, hawk@kernel.org,
-	yatsenko@meta.com, leon.hwang@linux.dev, kpsingh@kernel.org,
-	a.s.protopopov@gmail.com, ameryhung@gmail.com, rongtao@cestc.cn,
-	eyal.birger@gmail.com, bpf@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH bpf-next v4 3/3] selftests/bpf: Add bpf_fib_lookup() VLAN
- flag tests
-Message-ID: <202606232057.G1fSw98N-lkp@intel.com>
-References: <20260623025147.1001664-4-avinash.duduskar@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2026-06 11/11]
+ include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_375' undeclared; did
+ you mean '__UNIQUE_ID_x_374'?
+Message-ID: <202606232038.NAF0DGeU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260623025147.1001664-4-avinash.duduskar@gmail.com>
 
-Hi Avinash,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a975094bf98ca97be9146f9d3b5681a6f9cf5ce3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Avinash-Duduskar/bpf-Add-BPF_FIB_LOOKUP_VLAN-flag-to-bpf_fib_lookup-helper/20260623-105336
-base:   a975094bf98ca97be9146f9d3b5681a6f9cf5ce3
-patch link:    https://lore.kernel.org/r/20260623025147.1001664-4-avinash.duduskar%40gmail.com
-patch subject: [PATCH bpf-next v4 3/3] selftests/bpf: Add bpf_fib_lookup() VLAN flag tests
-config: i386-buildonly-randconfig-006-20260623 (https://download.01.org/0day-ci/archive/20260623/202606232057.G1fSw98N-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606232057.G1fSw98N-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-06
+head:   edc19b918eeeea29fede8a5284f531859baafff6
+commit: 1d9d3192c3a2b90a68a3ebe4a9b5b0fa27af0b9e [11/11] BACKPORT: locking/local_lock, mm: replace localtry_ helpers with local_trylock_t type
+config: arm-randconfig-004-20260623 (https://download.01.org/0day-ci/archive/20260623/202606232038.NAF0DGeU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606232038.NAF0DGeU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606232057.G1fSw98N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606232038.NAF0DGeU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/core/filter.c:6567:14: warning: unused variable 'net' [-Wunused-variable]
-    6567 |         struct net *net = dev_net(skb->dev);
-         |                     ^~~
-   1 warning generated.
+   In file included from include/linux/blk-crypto.h:127,
+                    from include/linux/blk-crypto-profile.h:10,
+                    from include/linux/mmc/host.h:19,
+                    from drivers/mmc/host/mmci.c:23:
+   include/linux/blkdev.h:1830:24: error: field 'req_list' has incomplete type
+    1830 |         struct rq_list req_list;
+         |                        ^~~~~~~~
+   In file included from <command-line>:
+   drivers/mmc/host/mmci.c: In function 'mmci_probe':
+>> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_375' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_374'?
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:528:23: note: in definition of macro '__compiletime_assert'
+     528 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:548:9: note: in expansion of macro '_compiletime_assert'
+     548 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
+      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
+         |                         ^~~~~~~~~~~~~~
+   include/linux/minmax.h:75:27: note: in expansion of macro '__sign_use'
+      75 |         (__sign_use(ux) & __sign_use(uy))
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:97:22: note: in expansion of macro '___PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:97:22: note: in expansion of macro '___PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:98:55: note: in expansion of macro '__UNIQUE_ID'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:528:23: note: in definition of macro '__compiletime_assert'
+     528 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:548:9: note: in expansion of macro '_compiletime_assert'
+     548 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
+      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
+         |                         ^~~~~~~~~~~~~~
+   include/linux/minmax.h:75:27: note: in expansion of macro '__sign_use'
+      75 |         (__sign_use(ux) & __sign_use(uy))
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:97:22: note: in expansion of macro '___PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:97:22: note: in expansion of macro '___PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:98:55: note: in expansion of macro '__UNIQUE_ID'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/minmax.h:71:17: error: first argument to '__builtin_choose_expr' not a constant
+      71 |         (typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:528:23: note: in definition of macro '__compiletime_assert'
+     528 |                 if (!(condition))                                       \
 
 
-vim +/net +6567 net/core/filter.c
+vim +166 include/linux/compiler.h
 
-87f5fc7e48dd31 David Ahern            2018-05-09  6563  
-87f5fc7e48dd31 David Ahern            2018-05-09  6564  BPF_CALL_4(bpf_skb_fib_lookup, struct sk_buff *, skb,
-87f5fc7e48dd31 David Ahern            2018-05-09  6565  	   struct bpf_fib_lookup *, params, int, plen, u32, flags)
-87f5fc7e48dd31 David Ahern            2018-05-09  6566  {
-4f74fede40df8d David Ahern            2018-05-21 @6567  	struct net *net = dev_net(skb->dev);
-f392520e15094e Avinash Duduskar       2026-06-23  6568  	struct net_device *fwd_dev = NULL;
-4c79579b44b187 David Ahern            2018-06-26  6569  	int rc = -EAFNOSUPPORT;
-2c0a10af688c02 Jesper Dangaard Brouer 2021-02-09  6570  	bool check_mtu = false;
-4f74fede40df8d David Ahern            2018-05-21  6571  
-87f5fc7e48dd31 David Ahern            2018-05-09  6572  	if (plen < sizeof(*params))
-87f5fc7e48dd31 David Ahern            2018-05-09  6573  		return -EINVAL;
-87f5fc7e48dd31 David Ahern            2018-05-09  6574  
-31de4105f00d64 Martin KaFai Lau       2023-02-17  6575  	if (flags & ~BPF_FIB_LOOKUP_MASK)
-9ce64f192d161a David Ahern            2018-05-29  6576  		return -EINVAL;
-9ce64f192d161a David Ahern            2018-05-29  6577  
-2c0a10af688c02 Jesper Dangaard Brouer 2021-02-09  6578  	if (params->tot_len)
-2c0a10af688c02 Jesper Dangaard Brouer 2021-02-09  6579  		check_mtu = true;
-2c0a10af688c02 Jesper Dangaard Brouer 2021-02-09  6580  
-87f5fc7e48dd31 David Ahern            2018-05-09  6581  	switch (params->family) {
-87f5fc7e48dd31 David Ahern            2018-05-09  6582  #if IS_ENABLED(CONFIG_INET)
-87f5fc7e48dd31 David Ahern            2018-05-09  6583  	case AF_INET:
-f392520e15094e Avinash Duduskar       2026-06-23  6584  		rc = bpf_ipv4_fib_lookup(net, params, flags, check_mtu,
-f392520e15094e Avinash Duduskar       2026-06-23  6585  					 &fwd_dev);
-4f74fede40df8d David Ahern            2018-05-21  6586  		break;
-87f5fc7e48dd31 David Ahern            2018-05-09  6587  #endif
-87f5fc7e48dd31 David Ahern            2018-05-09  6588  #if IS_ENABLED(CONFIG_IPV6)
-87f5fc7e48dd31 David Ahern            2018-05-09  6589  	case AF_INET6:
-f392520e15094e Avinash Duduskar       2026-06-23  6590  		rc = bpf_ipv6_fib_lookup(net, params, flags, check_mtu,
-f392520e15094e Avinash Duduskar       2026-06-23  6591  					 &fwd_dev);
-4f74fede40df8d David Ahern            2018-05-21  6592  		break;
-87f5fc7e48dd31 David Ahern            2018-05-09  6593  #endif
-87f5fc7e48dd31 David Ahern            2018-05-09  6594  	}
-4f74fede40df8d David Ahern            2018-05-21  6595  
-2c0a10af688c02 Jesper Dangaard Brouer 2021-02-09  6596  	if (rc == BPF_FIB_LKUP_RET_SUCCESS && !check_mtu) {
-f392520e15094e Avinash Duduskar       2026-06-23  6597  		/* without tot_len, check the skb against the FIB-result
-f392520e15094e Avinash Duduskar       2026-06-23  6598  		 * device's MTU
-2c0a10af688c02 Jesper Dangaard Brouer 2021-02-09  6599  		 */
-f392520e15094e Avinash Duduskar       2026-06-23  6600  		if (!is_skb_forwardable(fwd_dev, skb))
-4c79579b44b187 David Ahern            2018-06-26  6601  			rc = BPF_FIB_LKUP_RET_FRAG_NEEDED;
-e1850ea9bd9eca Jesper Dangaard Brouer 2021-02-09  6602  
-f392520e15094e Avinash Duduskar       2026-06-23  6603  		params->mtu_result = fwd_dev->mtu; /* union with tot_len */
-4f74fede40df8d David Ahern            2018-05-21  6604  	}
-4f74fede40df8d David Ahern            2018-05-21  6605  
-4c79579b44b187 David Ahern            2018-06-26  6606  	return rc;
-87f5fc7e48dd31 David Ahern            2018-05-09  6607  }
-87f5fc7e48dd31 David Ahern            2018-05-09  6608  
+fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
+a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+6f33d58794ef4c Rusty Russell        2012-11-22  167  
+
+:::::: The code at line 166 was first introduced by commit
+:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
+
+:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
