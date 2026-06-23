@@ -1,83 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D59D34252C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 08:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085423CE4B5;
+	Tue, 23 Jun 2026 08:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782202935; cv=none; b=i3YHwsU7bbB4Z8NvA5swnWNcfzQIIOaZlmN87s3IlN3goP7Bro6mteGPLIvMlSHBRX81bWMTq/+UYeVLycTCk0bGAWxT07KUURp4TTGx90aalZ9mz+M7xBHj72hi+sziiR1tigM9HvMQCVVBSI9OppVO9IitLGCk8DnJ4SGC+Y0=
+	t=1782204135; cv=none; b=A4BHBviiOxfLeu+1UP/MTpUlwzC6tkZDtivLcgrzqfsRE6QfT6Bbnvk6Ntvt1gXsvpPciaz1zzoXI7OqRF6yyD7SznS/+ZcZ+glrIqRzSZpW71fq4gIu+MN59hZmdGjW2Y/olCB4B2WmwC76XFa+zs47ljKcaeGcIOeZe4zI8YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782202935; c=relaxed/simple;
-	bh=39wXNoIWiOvvqIChs1ODPrHhnqQGDCGxPi5BJ/VZZoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qnVuBdR99JFiJfmkmcdwZN1b1m4iFCpmHlD6vYiTNvbtEeDcX4eWE/ZpEM8NJXzVJZcJNfLN+bDofmb+JqjTqHG7PZEPskTsNeyCCrZ7GF30/Urmb3ABwtb0vLKVPgoXjg+eMZbKPID8/HWZy0ftJWuxXsWZaO08btnC8rbgNXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aS1UCzkp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782204135; c=relaxed/simple;
+	bh=9xTB+6gln6S/K55A10chCzXmNxS6B3e449glUOd1Jvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q4QFhKmeKsEqUOOdcC1H91+FPgYEnBjSz7IcbAV4Rv2g7pqkMWbmynYS86kLiCZu3Z6lJdooXcDBLwQmu1oZylcRzDwAbccltVAiNI3ga0WQQKG5UNVQJebNezXLsbosy1Lpz3iTAvXUFS28W1WrdGuZ9Tphz51QWn51GLqivb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q6eDKJBf; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aS1UCzkp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 189F21F000E9;
-	Tue, 23 Jun 2026 08:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782202934;
-	bh=hMzE+66Q09lDJXjqObjnv3qomD+dbfXZbnfOUw454EU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=aS1UCzkpgxnIEokR3EY27vBfP8PoALGWpjf5R8j9x484PtdhyWLHZFpNMhRXsYj/2
-	 HEPhzF9h5LL4j/lqbSJkH/pBKZ9Eae/3lKzKeTbj2G86JJprKI3nKbIG0WqaOysp6I
-	 qbn601R9j/GSOnrclWDCSYRB3u3m7NyyeVh3d3wRMpmMZK4V774g2TabrMWIMAhGnE
-	 aic3F7pf1XMJ0PZBfoPoxezFE9azrxVuh2q39jr9FsGyJ2vsR2oSJxldltl2/cma6C
-	 iUmNzPp9EcVq2C14c11pzE3azuXch4lHOm7sJ0QWzqj+J9ByGDKsqUiOGOtJYY4nE1
-	 VclscB/NPOfIA==
-Date: Tue, 23 Jun 2026 09:22:07 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Piyush Patle <piyushpatle228@gmail.com>, oe-kbuild-all@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [jic23-iio:testing 36/53] Warning: drivers/iio/adc/hx711.c:90
- struct member '__counted_by_ptr(num_channels' not described in
- 'hx711_chip_info'
-Message-ID: <20260623092207.6eeaa1b9@jic23-huawei>
-In-Reply-To: <202606222214.0QOs1Ug4-lkp@intel.com>
-References: <202606222214.0QOs1Ug4-lkp@intel.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q6eDKJBf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782204134; x=1813740134;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9xTB+6gln6S/K55A10chCzXmNxS6B3e449glUOd1Jvg=;
+  b=Q6eDKJBfZti0EQZrq/o+/TFYBYeL6rX478emilVEiURShTplsw7K9ngP
+   LII5aaQdTDLz4tbup9iPGaqlvMhwMcRQ0/ACrEGW7eWz0QXsdxkS2ylAZ
+   mXvbBytgK/L8Hbxtmq9sYZlGO9d8hGlvkwhAz3NwY20SlK4GVW9ITdtDO
+   nkLJ7r4e0QIB9/+vW5UMrcs09B352QThmGZw5tXZWA5ttOr9VXVqe7w0D
+   WvTQBKIEzJ/qcQzkg2OrPjc7JbpnR/cMDA64RlFV2gXM0qWqtW5/LssvI
+   jH19eKx3m9hka/ITWmQELRPWz3uE/vyhCHu2PiFKXc6J0yHSWjVHIk1py
+   A==;
+X-CSE-ConnectionGUID: kJiI+GmlRk61qDuHppVMEQ==
+X-CSE-MsgGUID: CTSaEXd8TsG+h6WOnWovLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="81920860"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="81920860"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 01:42:02 -0700
+X-CSE-ConnectionGUID: +hdmNYjZSIOPmooG3fLpVw==
+X-CSE-MsgGUID: 12imsdcKSw2OemUJenOomw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="279640051"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 23 Jun 2026 01:41:59 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wbwhh-000000006Az-1KqZ;
+	Tue, 23 Jun 2026 08:41:57 +0000
+Date: Tue, 23 Jun 2026 10:40:58 +0200
+From: kernel test robot <lkp@intel.com>
+To: Kalpan Jani <kalpan.jani@mpiricsoftware.com>, mptcp@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, matttbe@kernel.org, martineau@kernel.org,
+	pabeni@redhat.com, cuitao@kylinos.cn,
+	syzbot+55c2a5c871441261ed14@syzkaller.appspotmail.com,
+	shardul.b@mpiricsoftware.com, janak@mpiric.us,
+	kalpanjani009@gmail.com, shardulsb08@gmail.com,
+	Kalpan Jani <kalpan.jani@mpiricsoftware.com>
+Subject: Re: [PATCH net v4 2/2] selftests: mptcp: add regression test for
+ stale ADD_ADDR on id 0 removal
+Message-ID: <202606231019.rN367btY-lkp@intel.com>
+References: <20260622092838.1267134-3-kalpan.jani@mpiricsoftware.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622092838.1267134-3-kalpan.jani@mpiricsoftware.com>
 
-On Mon, 22 Jun 2026 22:40:51 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Kalpan,
 
-> Hi Piyush,
-> 
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-> head:   cc746297b23e89bd5df9f91f3a0ca209e8991763
-> commit: b0949f79b8ffa6f02c713cc2b14a16d8f32c08cc [36/53] iio: adc: hx711: introduce hx711_chip_info structure
-> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260622/202606222214.0QOs1Ug4-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 16.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260622/202606222214.0QOs1Ug4-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606222214.0QOs1Ug4-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> Warning: drivers/iio/adc/hx711.c:90 struct member '__counted_by_ptr(num_channels' not described in 'hx711_chip_info'
-> >> Warning: drivers/iio/adc/hx711.c:90 struct member '__counted_by_ptr(num_channels' not described in 'hx711_chip_info'  
+kernel test robot noticed the following build errors:
 
-There is a patch in the docs pull request that I think addresses this:
-Tudor Ambarus (1):
-      docs: kernel-doc: python: strip __counted_by_ptr macro
-https://lore.kernel.org/all/20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org/
+[auto build test ERROR on net/main]
 
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Kalpan-Jani/mptcp-pm-drop-pending-ADD_ADDR-when-removing-id-0-endpoint/20260623-033836
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260622092838.1267134-3-kalpan.jani%40mpiricsoftware.com
+patch subject: [PATCH net v4 2/2] selftests: mptcp: add regression test for stale ADD_ADDR on id 0 removal
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260623/202606231019.rN367btY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606231019.rN367btY-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606231019.rN367btY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   net/mptcp/pm_kernel.c: In function 'mptcp_nl_remove_id_zero_address':
+>> net/mptcp/pm_kernel.c:1154:29: error: implicit declaration of function 'mptcp_remove_anno_list_by_saddr' [-Wimplicit-function-declaration]
+    1154 |                 announced = mptcp_remove_anno_list_by_saddr(msk, &anno_addr);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/mptcp_remove_anno_list_by_saddr +1154 net/mptcp/pm_kernel.c
+
+  1127	
+  1128	static int mptcp_nl_remove_id_zero_address(struct net *net,
+  1129						   struct mptcp_addr_info *addr)
+  1130	{
+  1131		struct mptcp_rm_list list = { .nr = 0 };
+  1132		long s_slot = 0, s_num = 0;
+  1133		struct mptcp_sock *msk;
+  1134	
+  1135		list.ids[list.nr++] = 0;
+  1136	
+  1137		while ((msk = mptcp_token_iter_next(net, &s_slot, &s_num)) != NULL) {
+  1138			struct sock *sk = (struct sock *)msk;
+  1139			struct mptcp_addr_info msk_local;
+  1140			struct mptcp_addr_info anno_addr;
+  1141			bool announced;
+  1142	
+  1143			if (list_empty(&msk->conn_list) || mptcp_pm_is_userspace(msk))
+  1144				goto next;
+  1145	
+  1146			mptcp_local_address((struct sock_common *)msk, &msk_local);
+  1147			if (!mptcp_addresses_equal(&msk_local, addr, addr->port))
+  1148				goto next;
+  1149	
+  1150			lock_sock(sk);
+  1151			/* Drop a possibly pending ADD_ADDR for this address. */
+  1152			anno_addr = msk_local;
+  1153			anno_addr.port = 0;
+> 1154			announced = mptcp_remove_anno_list_by_saddr(msk, &anno_addr);
+  1155			spin_lock_bh(&msk->pm.lock);
+  1156			if (announced)
+  1157				msk->pm.add_addr_signaled--;
+  1158			mptcp_pm_remove_addr(msk, &list);
+  1159			mptcp_pm_rm_subflow(msk, &list);
+  1160			__mark_subflow_endp_available(msk, 0);
+  1161			spin_unlock_bh(&msk->pm.lock);
+  1162			release_sock(sk);
+  1163	
+  1164	next:
+  1165			sock_put(sk);
+  1166			cond_resched();
+  1167		}
+  1168	
+  1169		return 0;
+  1170	}
+  1171	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
