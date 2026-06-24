@@ -1,96 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3838B390CAB;
-	Wed, 24 Jun 2026 07:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C155D3A6B76;
+	Wed, 24 Jun 2026 09:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782285412; cv=none; b=JIm7mt+xa4Rz4YIB1FrWRGB6zdyKyr+sQEJWrLCsvDmccx/lQVK4hkaM5UrpgyIEJ8sSNi/NBUKVWlnJsM61A7IXiDN/+clXjPgpSZefRxAP3kC77rx9Jnsk3E5rLSQobYgcrY0ahjv5h0j41tiJLtXd5ro9nvmF5BhD72BzhjM=
+	t=1782293312; cv=none; b=InEe0mmw98XKT5aIsK6AMw1sBCA5bFCOlhw3ZD3Tr/sMj+Nrfhgv7T0NQq0ilTpQfQYyOPOgieB3nKfFncarn8ioT9bBYUSWJ2YazUreC9IVngsOzvLOkbXvlEczf3Ye3sPZ4rSsir4SnMQzE5BBcMP5hEmyyvR0gFNKAmYVFqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782285412; c=relaxed/simple;
-	bh=SUL6lB0DpNFJ/sQLgopnuIy4TeBvUuvFvAueNcxORtA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Vob3/b22X85iFTh1wHg93YRgJ+Gv4QC5tfy0hW8uWryXYJT/iBA4hWMlwCLKhUd/90qf7v4fXcFV9pvuMaH71BsAEzCrmKLKteTV2oDS7ierTMtOck9pBFsUMn+Q4G85Ekdu0dYvxb6TrVHPducJ78EfUaOs6DQRIwpUOFUCF/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hGpEcBVO; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782293312; c=relaxed/simple;
+	bh=t1nkGQcrJ6jBqiFjk1l/wvIDREH84FU2qpKlKPQ4/MY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PCw8NAXMshZvqaTjetzE874M426rzmXoLAyh4G5RGdS8kLEAzf4lYofDHMuBdK6um5i/0rbCzVEqAEbDlbtUOOZ0FN2jRMjoD0/xrHIFSyfwPPrUfxjRyHukngyHHaFdxAiQo5PyTRtAfE6Ac4BDDebxJUvQZfLdnnhw4LDGDhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SL1bribQ; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGpEcBVO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782285411; x=1813821411;
-  h=date:from:to:cc:subject:message-id;
-  bh=SUL6lB0DpNFJ/sQLgopnuIy4TeBvUuvFvAueNcxORtA=;
-  b=hGpEcBVOwLKkp6I7d1bu5TO/K7oMuqudMGj+WZTwFm+3AW2rgkSzRHYc
-   8MlHtkbf3dOIPajbUdJwx0Hml9cBqNJ+c+AM+5tDpH4kqfbrJCSudw7Ak
-   N3dclW1yjOKcZiozpvGi3Vzu/494H5N9tRaYKJ0SMFl1sGYGoJrjhrV8e
-   kiNFc9pYE0PnLPTppuD8eZIlQ+DfPmp4BQrwgB+2d6pbHhKD5tAQjlHhA
-   fKP7V77MS3iOPqCf+bNhApZ8l3lYUUMiwsA0Cyl+BRYsMJZs9Ygx8mrnP
-   QN5yO8p/AyMEA40oy+SPWvGjjxLLwDdNGouOJhQILVkUXWADKWOuGjbS0
-   w==;
-X-CSE-ConnectionGUID: UbCvP9+CQ+WAtSegDoVjwQ==
-X-CSE-MsgGUID: PqqFPe3iQjqtOWZc0VFXNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="86942729"
-X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="86942729"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 00:16:51 -0700
-X-CSE-ConnectionGUID: /FoCYu9SQp+9fYJoXgQu+g==
-X-CSE-MsgGUID: /YQyJe7aRLiVk8XHIOAXiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="273451013"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Jun 2026 00:16:49 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wcHql-000000003C6-13wW;
-	Wed, 24 Jun 2026 07:16:44 +0000
-Date: Wed, 24 Jun 2026 15:15:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Puranjay Mohan <puranjay@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
-Subject: [paulmck-rcu:puranjay.2026.06.23a 57/62]
- kernel/rcu/rcu_segcblist.c:666:6: error: no member named 'exp' in 'struct
- rcu_gp_seq'
-Message-ID: <202606241542.bgLQweBP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SL1bribQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=IH5pzL7xDJuTGOfUKdXnfgfsXZD4Qs5F0+3YJ8fUfSw=; b=SL1bribQO604ik4nFsO3yOcsvo
+	YP1BVY2dSbw++rnRjFrHq4sp0ILcMSoJtpkWqv/BFxUKdgZrqUz50cSOhlK/dsUSDU7HGkdF1ax9w
+	NFhoW557QX7utwmMe61s4OzzmOuvHsh+DhGeYXXV2V6956QbTH6tOIbBFmEQK3SNmgdOKNnwfBy9R
+	gIsuQii1dUOQvYvcXEtdUs2ZolysyZ+Yp+B0ciScwQhs9KzpGftDNyRI33j4W/QfKEMKdtoLrMKxj
+	I0drGjYnGXCv/T6vWSm+P24fN34dWGHRulcX+XaOegGA9SlgTnKyW97swcyuq5OkmMeUAmciikIVM
+	u/4wzBvQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wcJtw-00000007mR4-2YgN;
+	Wed, 24 Jun 2026 09:28:09 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 11F11300400; Wed, 24 Jun 2026 11:28:07 +0200 (CEST)
+Date: Wed, 24 Jun 2026 11:28:06 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, jpoimboe@kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Subject: Re: [linux-next:master 14191/14955] vmlinux.o: error: objtool:
+ amdgpu_vm_handle_fault+0x186: sibling call from callable instruction with
+ modified stack frame
+Message-ID: <20260624092806.GX48970@noisy.programming.kicks-ass.net>
+References: <202606232356.gwHMAJAW-lkp@intel.com>
+ <CABXGCsMFOo-X_JeZ6qiwN8L=_4wOcf9xeS_RcDAb8XfzA6+WBA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABXGCsMFOo-X_JeZ6qiwN8L=_4wOcf9xeS_RcDAb8XfzA6+WBA@mail.gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git puranjay.2026.06.23a
-head:   6daa08cf676d7c1ff53101073fdedbf3a6762370
-commit: 2a07ef0ff9c70d0889e24fd5df792de66c8ae42c [57/62] rcu: Enable RCU callbacks to benefit from expedited grace periods
-config: i386-randconfig-017-20260624 (https://download.01.org/0day-ci/archive/20260624/202606241542.bgLQweBP-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241542.bgLQweBP-lkp@intel.com/reproduce)
+On Wed, Jun 24, 2026 at 01:57:46AM +0500, Mikhail Gavrilov wrote:
+> [+Josh, +Peter: objtool question below]
+> 
+> On Tue, Jun 23, 2026 at 8:17 PM kernel test robot <lkp@intel.com> wrote:
+> > >> vmlinux.o: error: objtool: amdgpu_vm_handle_fault+0x186: sibling call from callable instruction with modified stack frame
+> 
+> I looked into this. It is an objtool false positive on a computed goto,
+> not a problem in the patch, and not specific to clang 22.1.3.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606241542.bgLQweBP-lkp@intel.com/
+Urrgh, computed gotos :-(
 
-All errors (new ones prefixed by >>):
+> Config has CONFIG_LTO_CLANG_THIN=y, CONFIG_FRAME_POINTER=y, KASAN and
+> OBJTOOL_WERROR=y. objtool runs at the vmlinux.o link stage (per-TU
+> objects are LLVM bitcode under LTO, so the single amdgpu_vm.o never
+> reaches objtool). The robot hit this with clang 22.1.3; I reproduced it
+> on the same config with my system clang 22.1.8 (CONFIG_CLANG_VERSION=
+> 220108), so it is not a 22.1.3-only codegen issue.
+> 
+> What +0x186 actually is (disasm of vmlinux.o, WERROR dropped so the
+> object survives):
+> 
+>   17f: 48 c7 c0 00 00 00 00   mov    $0x0,%rax
+>           R_X86_64_32S  .text.amdgpu_vm_handle_fault+0x196
+>   186: ff e0                  jmp    *%rax
+> 
+> %rax is loaded via an R_X86_64_32S relocation with the address of label
+> .text.amdgpu_vm_handle_fault+0x196, and +0x196 is an unconditional jmp
+> back to +0x13e, the head of the second drm_exec_until_all_locked() loop.
+> This is the drm_exec_retry_on_contention() computed goto
+> (goto *__drm_exec_retry_ptr). There is a second identical pair at +0x194
+> -> +0x188 for the first loop. Both targets are inside the function; this
+> is not a tail call into another function. (svm_range_restore_pages() is
+> the inline stub here, CONFIG_HSA_AMD is not set, so that path is gone.)
+> 
+> So clang materialized the label address as mov $imm(reloc); jmp *%rax
+> instead of folding it into a direct jmp to the label.
 
->> kernel/rcu/rcu_segcblist.c:666:6: error: no member named 'exp' in 'struct rcu_gp_seq'
-     666 |                 gs.exp = RCU_GET_STATE_NOT_TRACKED;
-         |                 ~~ ^
-   1 error generated.
+So, if my heat-addled brain isn't completely gone, then this all boils
+down to something like:
+
+  drm_exec_init(&exec);
+label:
+  for (;drm_exec_cleanup(&exec);) {
+     ...
+     if (unlikely(drm_exec_is_contended(&exec)))
+       goto label;
+     ...
+  }
+  ...
+  drm_exec_fini(&exec);
+
+Except, you've laundered that label through a computed goto to allow
+multiple such constructs in a single function -- because can't have
+multiple identical labels etc.
+
+And then clang, can't untangle the web and makes a mess of it. Which is
+really rather unfortunate, because indirect calls are yuck -- also
+retpolines and cfi and all that jazz.
+
+I do think this is very much a compiler issue, clang should never emit
+an indirect call for this. Doing that is just aweful.
+
+Also, note that if anybody were ever to use a guard() inside this
+drm_exec_until_all_locked() construct, there is no guarantee the
+computed goto will actually trip the __cleanup(). Computed goto's and
+scope do not play well together. And the moment clang emits an indirect
+call, it means it lost track of things and things *will* go sideways.
+
+And the only reason you want that label, is because nested loops,
+because without that, a simple 'continue' would do just fine.
+
+That is, I think this drm_exec_until_all_locked() thing has some
+fundamental problems the moment clang fails to optimize it away.
+Correctness really depends on the compiler not actually ever doing a
+computed goto.
+
+> For the indirect
+> jmp objtool looks for a jump table in .rodata, finds none (this is a
+> single relocated label, not an indexed table), and falls back to
+> treating it as an indirect sibling call. The frame is already set up
+> (push %rbp at +0x5, sub $0x160,%rsp at +0x16), hence "sibling call with
+> modified stack frame". Runtime is fine, the jmp lands on the intended
+> in-function label; this is purely an objtool classification issue.
+> KASAN probably
+> tips the balance: the function is inflated with __asan_* checks
+> and shadow tests, and on that body clang keeps the label in a register
+> rather than folding it.
+
+Right.
+
+> The drm_exec_until_all_locked() / drm_exec_retry_on_contention() macros
+> are used widely (amdgpu_cs, amdgpu_gem, etc.); the patch under bisect is
+> just the first to put such a loop into amdgpu_vm_handle_fault().
+
+It is also the first to cause clang to loose its mind and emit an
+indirect call. Which as I've explained above, really is a problem.
+
+> objtool question: should objtool resolve an indirect jmp whose target
+> register is loaded from a relocation pointing at a .text label inside
+> the same function, and treat it as an intra-function jump rather than a
+> sibling call? That would cover the labels-as-values / computed-goto
+> pattern that this and any future drm_exec user under LTO+KASAN will hit.
+> 
+> I am not respinning the series for this, the page-fault conversion is a
+> pure refactor with no manual stack work. Happy to test an objtool fix,
+> or to help with a drm_exec.h workaround if that is preferred over an
+> objtool change.
+
+While I do think we could teach objtool about this, I also think it
+should still emit a warning, because as stated, this pattern is very
+very suspect and likely broken :-(
 
 
-vim +666 kernel/rcu/rcu_segcblist.c
-
-   660	
-   661	bool srcu_segcblist_accelerate(struct rcu_segcblist *rsclp, unsigned long seq)
-   662	{
-   663		struct rcu_gp_seq gs = { .norm = seq };
-   664	
-   665		if (IS_ENABLED(CONFIG_SMP))
- > 666			gs.exp = RCU_GET_STATE_NOT_TRACKED;
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
