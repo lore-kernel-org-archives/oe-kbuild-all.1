@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC393E5EFA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 21:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF8639B95D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 21:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782336417; cv=none; b=nl+Nt/JHdJtrRsnZCCPST4PZ48reGaSG0yjQbKcRJCGJzYQFgvqryoIeqJjbKhg+dYs7qZeR2XWjws85QRYSdk+WTZ8pmNpCkPfEqUgxFDEMXbXYOy5oxa/rIMAXa/T7fG50kPbhOtLzxJlEGkVWQTb8BETpUrS9aBcODN+Ae34=
+	t=1782337071; cv=none; b=sj6fSMtZIJFEEldvkhDgYvW5+cFgOWqvhPuQOROgDaavYIfVz/uQZWQz3cKPZzvqRZ86gjRdpqdMlzbXnwRBXHsJ0leo4odeiHtIO749vEgG65WXFUiAbqfTYXFXHuW0FBslpoMsdocSTjJpaaxfr6jPA8uXaLoz0fTbbzwyWtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782336417; c=relaxed/simple;
-	bh=9g5UHAEpawLOXxnFab25ECu+ymqsID9m6PiRmhzl1QM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=grKjdllzSpXxR8iNfAQmcJol14B/jEKZ6Is88WQEotSsfxDWpL8QY/T+/klsAmxH2aFm1Yr2Wg+L2f8KG+8uDo0aWkCS+wT0UCPNbkd1I4a9SIeCoLpEJon38l/XEENHkVc/rwgxkQSWufE0TXQMto9P647vSuG6waDMwXFPty0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f0N8iGTQ; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1782337071; c=relaxed/simple;
+	bh=zuJGNQQJHfwJes12bn+NZxbGJrf+VV5+Oqr3fMbcY9I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Lrl5JnI9uhFJY31RAVyxuwmsu5FUbTKmg/RfFljx+vV+eqT0JgAYePDkF/QLo90dAb0QPCvWIk7y7cddxP0ZE76M1kggODm6hfdMEWircyjNfUDUKJF3tB5nrh4ivmMeG8GQ5NJJT0OnE788gp3H0f2QVwL4EfiRAj8yVMCgfPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VIZXraqO; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f0N8iGTQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIZXraqO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782336415; x=1813872415;
+  t=1782337070; x=1813873070;
   h=date:from:to:cc:subject:message-id;
-  bh=9g5UHAEpawLOXxnFab25ECu+ymqsID9m6PiRmhzl1QM=;
-  b=f0N8iGTQBvc3TfU7MyHp10N0KNdzGrLmam4uuGnL8PVYKJV90NN2KJlV
-   +2fdGc8M9fEwKISIlVzz6zLfw25ss7BoGIFIyL7+KtFksgA79x9rrZY5M
-   pI5nM1E1qJDMIszPKguokPV6hQcVoSkceFoWB4YYh4kHkXS8wfJp7eLeZ
-   Rdn9qaqmomn8qq1Ekyr9G5tD3mSlAHcAPxoVkZKIhQuQuQfx3JDuLJ1dV
-   GwIIKI0qTODXUyA0ZFTBQOubnAzUfgL896KRVIc1F9dedyc1h59b5XP7j
-   IngTuamaZkcTSfwRs1SLP4/TjFQ01zzTvFMqa8Azd00CIiYluuTtwvnXw
+  bh=zuJGNQQJHfwJes12bn+NZxbGJrf+VV5+Oqr3fMbcY9I=;
+  b=VIZXraqOvGP9S6hzCto6LUhRHaIwHbw3uKIEhd/fUul0i3MtHT59XcPf
+   aPSM0apqgZwo5sU4T7AU+BTWAVRtrWjVElGMNsEmZH62UPxLewzBpym8i
+   KmrfTa1RYBrzZwRWQjH7JZ33NYLX4QnlQVSkjwHiGG5D3E866w/08kjdl
+   DG1HFmfchPW+roLlO9Mk9dm0ENVNq16iRBn2ABRTP9/j9CTvXnAm3ycqm
+   ou6SQ29Fn1qbnj+ELYr+igcLYUVhTd40UoFj/0pWR9S46wjx48JEsVBsg
+   8+6f38Jli7Nbemm5acCFfZzuFBco/NwEyFFStqBxXITiX5ueccKJkacem
    w==;
-X-CSE-ConnectionGUID: ThZv9GzLRA6PiAQzAc1OJg==
-X-CSE-MsgGUID: C9QlrrBAS8+qHYiaR+gfqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83112005"
+X-CSE-ConnectionGUID: YPd+NFB4SJ6SPE4bIf2SuQ==
+X-CSE-MsgGUID: +0GiJmJUQvqrl+waYRwhDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83113467"
 X-IronPort-AV: E=Sophos;i="6.24,223,1774335600"; 
-   d="scan'208";a="83112005"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 14:26:54 -0700
-X-CSE-ConnectionGUID: +CZaW6omQAW5KidECp6SlQ==
-X-CSE-MsgGUID: scTRAY4bTP2E8oBuUrJL5g==
+   d="scan'208";a="83113467"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 14:37:49 -0700
+X-CSE-ConnectionGUID: epWO+/t3Rbm/jD6/oT+5Xg==
+X-CSE-MsgGUID: xXmcfX2+TqC/dYqV9C/HnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,223,1774335600"; 
-   d="scan'208";a="243686842"
+   d="scan'208";a="254962500"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Jun 2026 14:26:53 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Jun 2026 14:37:48 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcV7T-000000003g9-0H4p;
-	Wed, 24 Jun 2026 21:26:51 +0000
-Date: Thu, 25 Jun 2026 05:26:28 +0800
+	id 1wcVI0-000000003gN-0p5I;
+	Wed, 24 Jun 2026 21:37:45 +0000
+Date: Thu, 25 Jun 2026 05:37:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [paulmckrcu:puranjay.2026.06.24a 54/65] tree.c:undefined
- reference to `rcu_preempt_blocked_readers_cgp_ndqs'
-Message-ID: <202606250524.NuoTnzfd-lkp@intel.com>
+To: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [jic23-iio:testing 23/62] Warning: lib/kstrtox.c:59 function
+ parameter 'init' not described in '_parse_integer_limit'
+Message-ID: <202606250505.W2lYv9PS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,29 +60,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/paulmckrcu/linux puranjay.2026.06.24a
-head:   9f9e05ef4454de1724d65dcc1d45018d0457bd7c
-commit: ab15f8d23a687736b674b3b8669a744dd709d97f [54/65] rcu: Make rcu_gp_cleanup() account for ->dqs_blkd_tasks
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260625/202606250524.NuoTnzfd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606250524.NuoTnzfd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   7667a80340e99fd45357d0c90ae05813b01bbfef
+commit: 521b4ae3b5a47cf4ef5826016eecde08e8740bef [23/62] lib: kstrtox: add initial value to _parse_integer_limit()
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260625/202606250505.W2lYv9PS-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606250505.W2lYv9PS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606250524.NuoTnzfd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606250505.W2lYv9PS-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/rcu/tree.c:69:
->> kernel/rcu/tree.h:498:12: warning: 'rcu_preempt_blocked_readers_cgp_ndqs' used but never defined
-     498 | static int rcu_preempt_blocked_readers_cgp_ndqs(struct rcu_node *rnp);
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: kernel/rcu/tree.o: in function `rcu_gp_cleanup':
->> tree.c:(.text+0x66c0): undefined reference to `rcu_preempt_blocked_readers_cgp_ndqs'
+>> Warning: lib/kstrtox.c:59 function parameter 'init' not described in '_parse_integer_limit'
+>> Warning: lib/kstrtox.c:59 function parameter 'init' not described in '_parse_integer_limit'
 
 --
 0-DAY CI Kernel Test Service
