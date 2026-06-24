@@ -1,136 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7138939C621;
-	Wed, 24 Jun 2026 21:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4063F39C63E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 21:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782337072; cv=none; b=CuaQ+CUwectuhBWRFuaQ2N1aBATMz2owiUxz+9Nk5/+mT9abzg54iFI535bMGtjw4bNPuKeb7NzbQTQViy4LvEQXmYWQNFMMfV/n9xHjs3t1exC+afH/eYf1mQvISXtpgDZXxvoglaGSOND/vJRhmjllzdcGPRm+R06A3zkG/SQ=
+	t=1782337158; cv=none; b=F2raAhNFgo6IoNLscDlIq/m4X1Ul8utUYBq51Jau7jOzWId0s3RVZdFJ9Cbu7HEWkYewlQQfGlShcKeoGkNHIk74xEiH2g4gFbfmKbpJ8Ldjm9gVJS8wxxx/jkpQxhLeFwatxSSV1z4iTcIq+Tn2NAR2k2JE1tfGqVqt6jFzRFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782337072; c=relaxed/simple;
-	bh=T3FrKV07tCX7yz8VAwu5JGuVKVZxSQui/7vqA2rKHGk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J6oONsmuDvcaAx57QYytSgAFPkIFuy6260AWwTeDzNopZH5CXD1NxcjJfkVYcOprFWQ76X1R/Dz4O2KXleeHYsRyfJPw25Sow49+nvacvAMJIMYv0pxEs1FZENh0nOTX2ymQf/siX+ROxz9/gjaYFdpHJHkeYzxNvTt2309rW4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJqB0BBO; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782337158; c=relaxed/simple;
+	bh=9kjeEYwFoGtKbizqf+zCndhQW7fKkhs1/5epG37IYh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LHEOw9terFeH97FZJQIz29d3pjtcsTKsA/tNUylwnbGxB8TMrwN9kVl8r2LPNVc2V+1lZA4WMZbJSPWFG/HmONz4uPdDxnbA37P95JIsjUXBwniUq29xMVxI7tqLb9hx8QDi3I3XHwHbSYXdtM5kfgSv6UE6FXhtQj9FXaGe5u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4LSfB6Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJqB0BBO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782337071; x=1813873071;
-  h=date:from:to:cc:subject:message-id;
-  bh=T3FrKV07tCX7yz8VAwu5JGuVKVZxSQui/7vqA2rKHGk=;
-  b=VJqB0BBO2UGCr1rsa5RsQBM99qObNgTJQwksAHNDiU5NsvbG4+E4I8+X
-   U/tuWq/J2rEbzwX1KIeSWHPaemqqVsIh/jKwBaEPfAav5VftMLdzZS/By
-   B3hqM3ns1s+pLhmZ93NWzPahJjbEzr+rItT0rc4wNbAhUEFvBGSZaQRDs
-   jQ5Eui2YHxEVSEVjt6n2XC3SarHINpYbyutlJi6ayZyZAMPFsTh8dyhpR
-   6rERIbRu6PZ4z5ajkbaH0jerhKdwG3w3te1m485LvrX6hPAkPnms5u+Hj
-   xy5Ec0/g4jHwUrN+EZ9qQP/q5zMhfBltw4iYU9AZrta5tgkb/aR6+Qr9X
-   A==;
-X-CSE-ConnectionGUID: Oi4RTC9sROiPOnhDaYL3PA==
-X-CSE-MsgGUID: gFcDO5p1RiqGk/HAiqT8fQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83113469"
-X-IronPort-AV: E=Sophos;i="6.24,223,1774335600"; 
-   d="scan'208";a="83113469"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 14:37:49 -0700
-X-CSE-ConnectionGUID: OrjIVUYQRRmv5xzfCUX7fQ==
-X-CSE-MsgGUID: Ts6uzsUZSGC4C8SIIXbtGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,223,1774335600"; 
-   d="scan'208";a="254962503"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 24 Jun 2026 14:37:48 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wcVI1-000000003gQ-1jjT;
-	Wed, 24 Jun 2026 21:37:45 +0000
-Date: Thu, 25 Jun 2026 05:37:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [paulmckrcu:puranjay.2026.06.24a 54/65]
- kernel/rcu/tree.h:498:12: warning: function
- 'rcu_preempt_blocked_readers_cgp_ndqs' has internal linkage but is not
- defined
-Message-ID: <202606250529.ZnQlmwsD-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4LSfB6Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D283F1F000E9;
+	Wed, 24 Jun 2026 21:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782337156;
+	bh=ASpZe3MVFBexTHy3VvCUWNprKoeA4hn5GHaq+mIME6E=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=Q4LSfB6QrVrjGPLRPKeOCGbEeP29sEKKdeBH4jCoQkjCJ2+fIap/I/183iaHgoDxo
+	 Yeia8OejT+EShhARXdXZmpd/HTtR2cf1VKzpwG6g88lrQKjGjj0AkH5JUT3J6R1owP
+	 e19a+HA4pNVzgOGLmrKNKTTD0CGvEmz5bEdrZqmRbrZPc3lKawR4tw40XD3192DETR
+	 UEFe0j96iDbqoviYzQQyWW+2MGO4kPhzGK6g952bbuTusClvt6uY7iHGTR5KI2UqYb
+	 uLMfcNn/w7DoW32BgNzlT4M/4ubToOC9jqMfVvCglLEnZPowKHzIhuNeGiyy78lxM/
+	 pDigsPfTMwAOw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 9E456CE04B1; Wed, 24 Jun 2026 14:39:16 -0700 (PDT)
+Date: Wed, 24 Jun 2026 14:39:16 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:puranjay.2026.06.24a 54/65] tree.c:undefined
+ reference to `rcu_preempt_blocked_readers_cgp_ndqs'
+Message-ID: <49461750-0379-43db-a957-297b87fb4fc2@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202606250524.NuoTnzfd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202606250524.NuoTnzfd-lkp@intel.com>
 
-tree:   https://github.com/paulmckrcu/linux puranjay.2026.06.24a
-head:   9f9e05ef4454de1724d65dcc1d45018d0457bd7c
-commit: ab15f8d23a687736b674b3b8669a744dd709d97f [54/65] rcu: Make rcu_gp_cleanup() account for ->dqs_blkd_tasks
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260625/202606250529.ZnQlmwsD-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project a9b492db3d50683e446cd1a5c9ffaf4e92cb77a7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606250529.ZnQlmwsD-lkp@intel.com/reproduce)
+On Thu, Jun 25, 2026 at 05:26:28AM +0800, kernel test robot wrote:
+> tree:   https://github.com/paulmckrcu/linux puranjay.2026.06.24a
+> head:   9f9e05ef4454de1724d65dcc1d45018d0457bd7c
+> commit: ab15f8d23a687736b674b3b8669a744dd709d97f [54/65] rcu: Make rcu_gp_cleanup() account for ->dqs_blkd_tasks
+> config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260625/202606250524.NuoTnzfd-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 16.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606250524.NuoTnzfd-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606250524.NuoTnzfd-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    In file included from kernel/rcu/tree.c:69:
+> >> kernel/rcu/tree.h:498:12: warning: 'rcu_preempt_blocked_readers_cgp_ndqs' used but never defined
+>      498 | static int rcu_preempt_blocked_readers_cgp_ndqs(struct rcu_node *rnp);
+>          |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> --
+>    aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>    aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+>    aarch64-linux-ld: kernel/rcu/tree.o: in function `rcu_gp_cleanup':
+> >> tree.c:(.text+0x66c0): undefined reference to `rcu_preempt_blocked_readers_cgp_ndqs'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606250529.ZnQlmwsD-lkp@intel.com/
+Puranjay is an innocent bystander on this one.  The fix is at:
 
-All warnings (new ones prefixed by >>):
+7c6c1219be4d ("fixup! rcu: Make rcu_gp_cleanup() account for ->dqs_blkd_tasks")
 
-   In file included from kernel/rcu/tree.c:69:
->> kernel/rcu/tree.h:498:12: warning: function 'rcu_preempt_blocked_readers_cgp_ndqs' has internal linkage but is not defined [-Wundefined-internal]
-     498 | static int rcu_preempt_blocked_readers_cgp_ndqs(struct rcu_node *rnp);
-         |            ^
-   kernel/rcu/tree.c:2223:20: note: used here
-    2223 |                 if (WARN_ON_ONCE(rcu_preempt_blocked_readers_cgp_ndqs(rnp)))
-         |                                  ^
-   1 warning generated.
-
-
-vim +/rcu_preempt_blocked_readers_cgp_ndqs +498 kernel/rcu/tree.h
-
-   493	
-   494	/* Forward declarations for tree_plugin.h */
-   495	static void rcu_bootup_announce(void);
-   496	static void rcu_qs(void);
-   497	static int rcu_preempt_blocked_readers_cgp(struct rcu_node *rnp);
- > 498	static int rcu_preempt_blocked_readers_cgp_ndqs(struct rcu_node *rnp);
-   499	static int rcu_print_task_exp_stall(struct rcu_node *rnp);
-   500	static void rcu_preempt_check_blocked_tasks(struct rcu_node *rnp);
-   501	static void rcu_flavor_sched_clock_irq(int user);
-   502	static void dump_blkd_tasks(struct rcu_node *rnp, int ncheck);
-   503	static void rcu_preempt_deferred_qs_init(struct rcu_data *rdp);
-   504	static void rcu_initiate_boost(struct rcu_node *rnp, unsigned long flags);
-   505	static void rcu_preempt_boost_start_gp(struct rcu_node *rnp);
-   506	static bool rcu_is_callbacks_kthread(struct rcu_data *rdp);
-   507	static void rcu_cpu_kthread_setup(unsigned int cpu);
-   508	static void rcu_spawn_one_boost_kthread(struct rcu_node *rnp);
-   509	static bool rcu_preempt_has_tasks(struct rcu_node *rnp);
-   510	static bool rcu_preempt_has_tasks_ndqs(struct rcu_node *rnp);
-   511	static bool rcu_preempt_need_deferred_qs(struct task_struct *t);
-   512	static void zero_cpu_stall_ticks(struct rcu_data *rdp);
-   513	static struct swait_queue_head *rcu_nocb_gp_get(struct rcu_node *rnp);
-   514	static void rcu_nocb_gp_cleanup(struct swait_queue_head *sq);
-   515	static void rcu_init_one_nocb(struct rcu_node *rnp);
-   516	static bool wake_nocb_gp(struct rcu_data *rdp);
-   517	static bool rcu_nocb_flush_bypass(struct rcu_data *rdp, struct rcu_head *rhp,
-   518					  unsigned long j, bool lazy);
-   519	static void call_rcu_nocb(struct rcu_data *rdp, struct rcu_head *head,
-   520				  rcu_callback_t func, unsigned long flags, bool lazy);
-   521	static void __maybe_unused __call_rcu_nocb_wake(struct rcu_data *rdp, bool was_empty,
-   522							unsigned long flags);
-   523	static int rcu_nocb_need_deferred_wakeup(struct rcu_data *rdp, int level);
-   524	static bool do_nocb_deferred_wakeup(struct rcu_data *rdp);
-   525	static void rcu_boot_init_nocb_percpu_data(struct rcu_data *rdp);
-   526	static void rcu_spawn_cpu_nocb_kthread(int cpu);
-   527	static void show_rcu_nocb_state(struct rcu_data *rdp);
-   528	static void rcu_nocb_lock(struct rcu_data *rdp);
-   529	static void rcu_nocb_unlock(struct rcu_data *rdp);
-   530	static void rcu_nocb_unlock_irqrestore(struct rcu_data *rdp,
-   531					       unsigned long flags);
-   532	static void rcu_lockdep_assert_cblist_protected(struct rcu_data *rdp);
-   533	#ifdef CONFIG_RCU_NOCB_CPU
-   534	static void __init rcu_organize_nocb_kthreads(void);
-   535	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+							Thanx, Paul
