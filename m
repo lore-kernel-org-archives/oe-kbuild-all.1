@@ -1,209 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF6E2236F0;
-	Wed, 24 Jun 2026 01:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F1319995E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 02:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782265900; cv=none; b=ptKwEMkgtb/3NwINWZV7d668T2gBwmqb62okiiSh3S1p5KqbKXNj+nRU+u/uOqFRFy3fnLAzZhtvGNm3heIy6GBGwqesH+XjY5e3dHWVwY+f7nRZqQLwLeqDnVsCENFRCkT9EsuHMYd7DoekWd7Z6Iq6tTMmHkG19IYqDAHwLQQ=
+	t=1782267260; cv=none; b=No7h8W0wWvxxlwDJLoteCV89wGlRjjaqvAdk4GvXCTdG5AX4ITpjV+YRsk4YUFm24xIgEz5hYDgqiIESZv0/IE3vDoTfNhGajpDlOk3mUWRgM8XRJQ4gR73Dy9BcwNrRKm91alz0woHTZszVVT8GqEZFVYghhLSQ7iVZGDBRZlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782265900; c=relaxed/simple;
-	bh=YlgPqTFyJmjtQ+5qud7Cj+WUJVCW+Asvb2it3eB2Mzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KBbPJ1JkuciDISUGWMEsJDgPaLN/y3KymvfHV1OWtnmEQfHSCREnW4qpVC7KZzwvhGILl7NhVSh0dNQ+7ouxsn4pozKbnSxD1zxy8UPhOUyJtBWLKHkoiHu2GgWZs5XKWQGpIWAs2/6MCTpflg0FWjGoWh81xjUafUdBlmy8Z70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gsoyge7x; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1782267260; c=relaxed/simple;
+	bh=3txMXZZJU48gw5dsEb68GSapeIZ4cE+qVTDDPiTalBA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nWb18hgJrmieob8z+MRz1pyzM/bNnLlKKpvL8JEVD7LJW+DZ5TksjP3wUWcWwmzDMnO+IuDZ7j/IzERU06dj7+u7XyeFHbjWYVd2XbuN2dqZR/DZzpaJFlLtAUDnUK+HSOjbSjFVYXcYTGjZspv9kIVl12u7SlV5dx4vQf8q7v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OaHhwcFN; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gsoyge7x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OaHhwcFN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782265899; x=1813801899;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YlgPqTFyJmjtQ+5qud7Cj+WUJVCW+Asvb2it3eB2Mzs=;
-  b=Gsoyge7xjvVOIphP9ScqXpGVU8aiSNHBtCGnN0QLhau4wq9ihfb3OjJQ
-   rZ1CRFFTwNKIqrIoQTCKHSZ0Y3XKZoTzFaeKs+WHpzV9wLzFoYjlsbT+W
-   9mDZA4/egUewivq62NIWvpyqy6ESSmyZ9IlcgRHOlVb5DIqdJigKiNstF
-   SwCo5aLYaiW33eMC/V7hr9acM49FIfVJT3pIB6L+qruzTSVi2eDd/B1Ty
-   RAg0g+B2CxqycDDTLGrrk2eNZG3FCT0BYh73QFDobpI2bo0ESQTJqmwsW
-   zmnO2vrUVqt4VHsLM6S7sJEFbU2yoczkv1Wlkk8JZYLbZvJvFFinQZiop
-   A==;
-X-CSE-ConnectionGUID: SlriXNBVReKp6ZjqmI4kmA==
-X-CSE-MsgGUID: InWylg7VQWWgS1/9eNLO8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="100443622"
+  t=1782267258; x=1813803258;
+  h=date:from:to:cc:subject:message-id;
+  bh=3txMXZZJU48gw5dsEb68GSapeIZ4cE+qVTDDPiTalBA=;
+  b=OaHhwcFNE48y5XuChuBFg3GMChBqwY6bBrM/pcLrUQWHMFOjFtBkZHXi
+   N2wGWOu9whGxppGfSCUv7+zcPEqkZwUFvRWah89oQk5gNEvG0JEXMM2Fl
+   z68XNNYTUVjpYDoYcHbH0awR5Omp0LMViywhq03Hm1l/UcQvTEYKcBv2c
+   Vc27/8slbENyhTuYMARR+MRFjWrhlovstRVs3vbZDRhuqNM6GUb30OJ9d
+   aBuidoZCKFnD49jmhopYBA/ZRyCbIVKEPM/n7m4cu4H04C6ucXDhAWrhX
+   UBGzSYCIMZhl+rUuhtUaa9zsJHooXTZMUTbDoQZjd3IXjh5hiEReUC8v/
+   g==;
+X-CSE-ConnectionGUID: 01Z4PDeERnmgD/vlAhsbwA==
+X-CSE-MsgGUID: 88TDtsxfQpuhl6a/9Wap9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="86923006"
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="100443622"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 18:51:38 -0700
-X-CSE-ConnectionGUID: zOZulX3eSkCcuYF3WnP3aw==
-X-CSE-MsgGUID: UROBMCKGQ62dEqQwtR/2iQ==
+   d="scan'208";a="86923006"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 19:14:18 -0700
+X-CSE-ConnectionGUID: Ccf4bUNOSGuBV3qIKHiWbA==
+X-CSE-MsgGUID: RqRXXpdZRCawnVrwbTyciQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="287812282"
+   d="scan'208";a="249708802"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 23 Jun 2026 18:51:35 -0700
+  by orviesa007.jf.intel.com with ESMTP; 23 Jun 2026 19:14:17 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcCm5-0000000032v-07Ea;
-	Wed, 24 Jun 2026 01:51:33 +0000
-Date: Wed, 24 Jun 2026 09:51:24 +0800
+	id 1wcD81-0000000033p-1UKC;
+	Wed, 24 Jun 2026 02:14:13 +0000
+Date: Wed, 24 Jun 2026 10:13:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnav Kapoor <kapoorarnav43@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arnav Kapoor <kapoorarnav43@gmail.com>
-Subject: Re: [staging] staging: sm750fb: fix remaining CamelCase issues
-Message-ID: <202606240916.wIIrdOzC-lkp@intel.com>
-References: <20260621045340.65872-1-kapoorarnav43@gmail.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Joerg Roedel <joerg.roedel@amd.com>, Kevin Tian <kevin.tian@intel.com>,
+ Vasant Hegde <vasant.hegde@amd.com>
+Subject: include/linux/bitops.h:273:19: sparse: sparse: cast
+ truncates bits from constant value (ffffffffff000 becomes fffff000)
+Message-ID: <202606241040.SJ0O1Qs9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260621045340.65872-1-kapoorarnav43@gmail.com>
 
-Hi Arnav,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-linus]
-[also build test ERROR on v7.1]
-[cannot apply to staging/staging-testing staging/staging-next linus/master next-20260623]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnav-Kapoor/staging-sm750fb-fix-remaining-CamelCase-issues/20260622-235207
-base:   staging/staging-linus
-patch link:    https://lore.kernel.org/r/20260621045340.65872-1-kapoorarnav43%40gmail.com
-patch subject: [staging] staging: sm750fb: fix remaining CamelCase issues
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260624/202606240916.wIIrdOzC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606240916.wIIrdOzC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bade58eb0651c84b9b2a074fe4c04f2bba6b933f
+commit: 879ced2bab1ba95e98fac56c9503791183bc7cbb iommupt: Add the AMD IOMMU v1 page table format
+date:   8 months ago
+config: i386-randconfig-062-20260624 (https://download.01.org/0day-ci/archive/20260624/202606241040.SJ0O1Qs9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241040.SJ0O1Qs9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 879ced2bab1b ("iommupt: Add the AMD IOMMU v1 page table format")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606240916.wIIrdOzC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606241040.SJ0O1Qs9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/iommu/generic_pt/fmt/iommu_amdv1.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
+>> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
 
->> drivers/staging/sm750fb/sm750.c:862:23: error: no member named 'power_mode' in 'struct init_status'; did you mean 'powerMode'?
-     862 |         sm750_dev->init_parm.power_mode = 0;
-         |                              ^~~~~~~~~~
-         |                              powerMode
-   drivers/staging/sm750fb/sm750.h:42:9: note: 'powerMode' declared here
-      42 |         ushort powerMode;
-         |                ^
->> drivers/staging/sm750fb/sm750.c:863:23: error: no member named 'set_all_eng_off' in 'struct init_status'
-     863 |         sm750_dev->init_parm.set_all_eng_off = 0;
-         |         ~~~~~~~~~~~~~~~~~~~~ ^
->> drivers/staging/sm750fb/sm750.c:864:23: error: no member named 'reset_memory' in 'struct init_status'; did you mean 'resetMemory'?
-     864 |         sm750_dev->init_parm.reset_memory = 1;
-         |                              ^~~~~~~~~~~~
-         |                              resetMemory
-   drivers/staging/sm750fb/sm750.h:48:9: note: 'resetMemory' declared here
-      48 |         ushort resetMemory;
-         |                ^
->> drivers/staging/sm750fb/sm750.c:883:25: error: use of undeclared identifier 'SM750_DOUBLE_TFT'
-     883 |                         sm750_dev->pnltype = SM750_DOUBLE_TFT;
-         |                                              ^
->> drivers/staging/sm750fb/sm750.c:885:25: error: use of undeclared identifier 'SM750_DUAL_TFT'
-     885 |                         sm750_dev->pnltype = SM750_DUAL_TFT;
-         |                                              ^
-   5 errors generated.
+vim +273 include/linux/bitops.h
 
+c320592f3f2a1e Wolfram Sang       2025-01-07  261  
+952043ac12a117 Steven Whitehouse  2009-04-23  262  /**
+952043ac12a117 Steven Whitehouse  2009-04-23  263   * __ffs64 - find first set bit in a 64 bit word
+952043ac12a117 Steven Whitehouse  2009-04-23  264   * @word: The 64 bit word
+952043ac12a117 Steven Whitehouse  2009-04-23  265   *
+4945cca232ce8b Geert Uytterhoeven 2021-02-25  266   * On 64 bit arches this is a synonym for __ffs
+952043ac12a117 Steven Whitehouse  2009-04-23  267   * The result is not defined if no bits are set, so check that @word
+952043ac12a117 Steven Whitehouse  2009-04-23  268   * is non-zero before calling this.
+952043ac12a117 Steven Whitehouse  2009-04-23  269   */
+6606c8c7e81886 Kees Cook          2025-08-04  270  static inline __attribute_const__ unsigned int __ffs64(u64 word)
+952043ac12a117 Steven Whitehouse  2009-04-23  271  {
+952043ac12a117 Steven Whitehouse  2009-04-23  272  #if BITS_PER_LONG == 32
+952043ac12a117 Steven Whitehouse  2009-04-23 @273  	if (((u32)word) == 0UL)
+952043ac12a117 Steven Whitehouse  2009-04-23  274  		return __ffs((u32)(word >> 32)) + 32;
+952043ac12a117 Steven Whitehouse  2009-04-23  275  #elif BITS_PER_LONG != 64
+952043ac12a117 Steven Whitehouse  2009-04-23  276  #error BITS_PER_LONG not 32 or 64
+952043ac12a117 Steven Whitehouse  2009-04-23  277  #endif
+952043ac12a117 Steven Whitehouse  2009-04-23  278  	return __ffs((unsigned long)word);
+952043ac12a117 Steven Whitehouse  2009-04-23  279  }
+952043ac12a117 Steven Whitehouse  2009-04-23  280  
 
-vim +862 drivers/staging/sm750fb/sm750.c
+:::::: The code at line 273 was first introduced by commit
+:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
 
-   850	
-   851	/*	chip specific g_option configuration routine */
-   852	static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
-   853	{
-   854		char *opt;
-   855		int swap;
-   856	
-   857		swap = 0;
-   858	
-   859		sm750_dev->init_parm.chip_clk = 0;
-   860		sm750_dev->init_parm.mem_clk = 0;
-   861		sm750_dev->init_parm.master_clk = 0;
- > 862		sm750_dev->init_parm.power_mode = 0;
- > 863		sm750_dev->init_parm.set_all_eng_off = 0;
- > 864		sm750_dev->init_parm.reset_memory = 1;
-   865	
-   866		/* defaultly turn g_hwcursor on for both view */
-   867		g_hwcursor = 3;
-   868	
-   869		if (!src || !*src) {
-   870			dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
-   871			goto NO_PARAM;
-   872		}
-   873	
-   874		while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
-   875			dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
-   876			dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
-   877	
-   878			if (!strncmp(opt, "swap", strlen("swap"))) {
-   879				swap = 1;
-   880			} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
-   881				sm750_dev->nocrt = 1;
-   882			} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
- > 883				sm750_dev->pnltype = SM750_DOUBLE_TFT;
-   884			} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
- > 885				sm750_dev->pnltype = SM750_DUAL_TFT;
-   886			} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
-   887				sm750_dev->pnltype = sm750_24TFT;
-   888			} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
-   889				g_hwcursor &= ~0x1;
-   890			} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
-   891				g_hwcursor &= ~0x2;
-   892			} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
-   893				g_hwcursor = 0;
-   894			} else {
-   895				if (!g_fbmode[0]) {
-   896					g_fbmode[0] = opt;
-   897					dev_info(&sm750_dev->pdev->dev,
-   898						 "find fbmode0 : %s\n", g_fbmode[0]);
-   899				} else if (!g_fbmode[1]) {
-   900					g_fbmode[1] = opt;
-   901					dev_info(&sm750_dev->pdev->dev,
-   902						 "find fbmode1 : %s\n", g_fbmode[1]);
-   903				} else {
-   904					dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
-   905				}
-   906			}
-   907		}
-   908	
-   909	NO_PARAM:
-   910		if (sm750_dev->revid != SM750LE_REVISION_ID) {
-   911			if (sm750_dev->fb_count > 1) {
-   912				if (swap)
-   913					sm750_dev->dataflow = sm750_dual_swap;
-   914				else
-   915					sm750_dev->dataflow = sm750_dual_normal;
-   916			} else {
-   917				if (swap)
-   918					sm750_dev->dataflow = sm750_simul_sec;
-   919				else
-   920					sm750_dev->dataflow = sm750_simul_pri;
-   921			}
-   922		} else {
-   923			/* SM750LE only have one crt channel */
-   924			sm750_dev->dataflow = sm750_simul_sec;
-   925			/* sm750le do not have complex attributes */
-   926			sm750_dev->nocrt = 0;
-   927		}
-   928	}
-   929	
+:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
+:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
