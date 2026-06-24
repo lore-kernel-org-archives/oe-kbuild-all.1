@@ -1,65 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2C93016F2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 02:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D192F531B;
+	Wed, 24 Jun 2026 03:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782269721; cv=none; b=c5NdZQkUYgA236JX9g9sCRdDKxCQ2GWRegr6IM7U5qVhee+UxE6wsZ74kkQcyh+5wJ2vTbaMYDfqSCNYSvavRt0SCS+ioInmj0jwgdRWBExUFJaYAFcCL2wWGiieR4wzbxzXvvjcjKBXWxQ3WY9n8UlgQgSZsnOleROtR8PQ6WA=
+	t=1782270435; cv=none; b=YWPAGfx1V2Gb+FFOO9Ko0SweWv2yXYMoYB4HG5AjfwXxAEAqICdeKX6LQYVMy+4HMmtfT51D54MVLSLhqfN9JWVcrljTfRLOLJQRl2rRuTDQcqTxYGCYmQOE5TubduncQJJ7VbtBZsLpacOFT/GSBns/QgMle5XIeIM6pNJ5r2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782269721; c=relaxed/simple;
-	bh=DE7+pF5y28bPYW4IyyFXvEAe/Ac+GbsL6R0nAQuaGik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZA7UxvaWOhxtFEbZcKN90a/9oSQ2jHPv9EsgPD7YG8ze2T0Q4/KPS1XYi8KMxx6YFicQHSiJS5xpDL/3OY4XCYhtl2Gwy1edx4j6Y6+dFvnULjTKSpsQk5XeT0fePEcC1X47jnI+eWGx1Pez/wkMSaKhJJcixO4g8bhwwjxErqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IiDa44CB; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1782270435; c=relaxed/simple;
+	bh=xEa64Y95Rwumd8X1bvjBhev70rDgWeAbfF+qHVNldEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=B6YGrcti/Vv66IJI3hTYwI+Paus4xFJiIylKknUAVWINIzBOV1DuF1Dv2ptKiwWIT3+nTw8HApi8wNFbUiwbQj4qR5AB7w3Q+IjlCseFLwkhR87Vausx2o+91KNx/0UhrCxEAI95jquWqgub2SIN4V/F8aMBJPdAE/1W0Nfp5+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gCqYf+Dy; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IiDa44CB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gCqYf+Dy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782269720; x=1813805720;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DE7+pF5y28bPYW4IyyFXvEAe/Ac+GbsL6R0nAQuaGik=;
-  b=IiDa44CBrqSN/PfVLBAGbrgfgAVkZTFraRLLNLxuGHxBNMN0xRMTGR+g
-   vdfzHzHinmydN5zrMPXW6BEsMeqBNFWdmONSq85sURGCp6H7lGOkbODQP
-   n1OHouIByxxjnrBidWk/+OFEHY7VqVkO4mwalprDBxAdp2u/0PEVqBM36
-   Gb7iCyqj5ZoCrlh0W00ix8EJ+rfVQA4d0hjl/kYL+lkgdF1N0qrT0YHKl
-   1pNWEFmD5AQTAvPxuicJVQWkrgAmXdzy/CNobaBbLhNQG+0GPA5bwiWMj
-   pFlK6Qic2iO899eddWYE9yGEDh4S94fzbus5a5TbV9WCmVKQwT5JfsRW2
-   Q==;
-X-CSE-ConnectionGUID: WYkmLI7nQyGbwmxhHXisqw==
-X-CSE-MsgGUID: AwdKLV2QSaaI8DRXeGXooA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="105814678"
+  t=1782270435; x=1813806435;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xEa64Y95Rwumd8X1bvjBhev70rDgWeAbfF+qHVNldEQ=;
+  b=gCqYf+DyPxeoWwzOB99BCr0+KoV5TPYMUfaIVA4Yyt6kUsZRJCmQeRG5
+   qBgqjTxY1LMh9bocDG3ZvM2TjZArKtcSgPUXMMRumW/Z7jXpDqBlZNqhs
+   oT2A0y6tWxB+aN3HXBOjWk6rUW7WeXhsXe7CGmMriHF2nHcWkYNh/RrkC
+   zMtTPv1zo8NIZsPK8fZeTGB1TCwhTLyiJO0YH8E+uwDdZVQGvkD15FEXY
+   5YBMkZkubQWARIgg6bS6m7JOu5yxMBEvQWG4koD0KwGqF365qgHFYMfp8
+   S97VP3OZjfRukbvJQXjHuWvno1tR5q330Zj4C5K4mkNxebNzj5aswdLYm
+   A==;
+X-CSE-ConnectionGUID: E7OA29Z5RGalrF4rnfogag==
+X-CSE-MsgGUID: NuTMHZKPQMmH6hj4HeAb0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="82906159"
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="105814678"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 19:55:20 -0700
-X-CSE-ConnectionGUID: mz2h8+0eTjKaKuWK0m+VKg==
-X-CSE-MsgGUID: hUnYcgRRSo2xE1n36M2I5w==
+   d="scan'208";a="82906159"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 20:07:14 -0700
+X-CSE-ConnectionGUID: C8AxWRHjRPCin9FzFHIgyA==
+X-CSE-MsgGUID: Xyvz/p5mSwOlQoeuSwbg7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="254676609"
+   d="scan'208";a="245326870"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 23 Jun 2026 19:55:17 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 23 Jun 2026 20:07:12 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcDlh-0000000034T-3RBN;
-	Wed, 24 Jun 2026 02:55:13 +0000
-Date: Wed, 24 Jun 2026 10:54:39 +0800
+	id 1wcDxB-0000000035P-3t5Z;
+	Wed, 24 Jun 2026 03:07:07 +0000
+Date: Wed, 24 Jun 2026 11:05:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrea Cervesato <andrea.cervesato@suse.de>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	David Timber <dxdt@dev.snart.me>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jack@suse.cz, chrubis@suse.cz,
-	Andrea Cervesato <andrea.cervesato@suse.com>
-Subject: Re: [PATCH] exfat: implement swap activate
-Message-ID: <202606241018.4N100hSQ-lkp@intel.com>
-References: <20260618-exfat_swap_activate-v1-1-4c6a465df295@suse.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/b4-sysfs-const-attr-device_attr 7/12]
+ drivers/perf/nvidia_t410_cmem_latency_pmu.c:447:25: error: incompatible
+ function pointer types initializing 'ssize_t (*)(struct device *, struct
+ device_attribute *, char *)' (aka 'long (*)(struct device *, struct
+ device_attribute *, char *)') with an expr...
+Message-ID: <202606241123.ZtjpkcdO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,60 +63,75 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618-exfat_swap_activate-v1-1-4c6a465df295@suse.com>
 
-Hi Andrea,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on e771677c937da5808f7b6c1f0e4a97ec1a84f8a8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Cervesato/exfat-implement-swap-activate/20260622-172327
-base:   e771677c937da5808f7b6c1f0e4a97ec1a84f8a8
-patch link:    https://lore.kernel.org/r/20260618-exfat_swap_activate-v1-1-4c6a465df295%40suse.com
-patch subject: [PATCH] exfat: implement swap activate
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20260624/202606241018.4N100hSQ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241018.4N100hSQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/b4-sysfs-const-attr-device_attr
+head:   bc80ee47805905a6b1e67acf7d467ba57ffb6e7f
+commit: 858ac3375fd495c1c894b364cae0f98d8ce471a9 [7/12] device_string
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260624/202606241123.ZtjpkcdO-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project a9b492db3d50683e446cd1a5c9ffaf4e92cb77a7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241123.ZtjpkcdO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606241018.4N100hSQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606241123.ZtjpkcdO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/exfat/inode.c: In function 'exfat_swap_activate':
->> fs/exfat/inode.c:556:16: error: implicit declaration of function 'generic_swapfile_activate' [-Wimplicit-function-declaration]
-     556 |         return generic_swapfile_activate(sis, file, span);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/perf/nvidia_t410_cmem_latency_pmu.c:447:25: error: incompatible function pointer types initializing 'ssize_t (*)(struct device *, struct device_attribute *, char *)' (aka 'long (*)(struct device *, struct device_attribute *, char *)') with an expression of type 'ssize_t (struct device *, const struct device_attribute *, char *)' (aka 'long (struct device *, const struct device_attribute *, char *)') [-Wincompatible-function-pointer-types]
+     447 |         NV_PMU_EXT_ATTR(event, device_show_string, "config:0-1"),
+         |                                ^~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> drivers/perf/nvidia_t410_c2c_pmu.c:560:2: error: incompatible function pointer types initializing 'ssize_t (*)(struct device *, struct device_attribute *, char *)' (aka 'long (*)(struct device *, struct device_attribute *, char *)') with an expression of type 'ssize_t (struct device *, const struct device_attribute *, char *)' (aka 'long (struct device *, const struct device_attribute *, char *)') [-Wincompatible-function-pointer-types]
+     560 |         NV_C2C_PMU_FORMAT_EVENT_ATTR,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:557:2: note: expanded from macro 'NV_C2C_PMU_FORMAT_EVENT_ATTR'
+     557 |         NV_C2C_PMU_FORMAT_ATTR(event, "config:0-3")
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:29: note: expanded from macro 'NV_C2C_PMU_FORMAT_ATTR'
+     554 |         NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                                    ^~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:561:2: error: incompatible function pointer types initializing 'ssize_t (*)(struct device *, struct device_attribute *, char *)' (aka 'long (*)(struct device *, struct device_attribute *, char *)') with an expression of type 'ssize_t (struct device *, const struct device_attribute *, char *)' (aka 'long (struct device *, const struct device_attribute *, char *)') [-Wincompatible-function-pointer-types]
+     561 |         NV_C2C_PMU_FORMAT_ATTR(gpu_mask, "config1:0-1"),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:29: note: expanded from macro 'NV_C2C_PMU_FORMAT_ATTR'
+     554 |         NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                                    ^~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:571:2: error: incompatible function pointer types initializing 'ssize_t (*)(struct device *, struct device_attribute *, char *)' (aka 'long (*)(struct device *, struct device_attribute *, char *)') with an expression of type 'ssize_t (struct device *, const struct device_attribute *, char *)' (aka 'long (struct device *, const struct device_attribute *, char *)') [-Wincompatible-function-pointer-types]
+     571 |         NV_C2C_PMU_FORMAT_EVENT_ATTR,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:557:2: note: expanded from macro 'NV_C2C_PMU_FORMAT_EVENT_ATTR'
+     557 |         NV_C2C_PMU_FORMAT_ATTR(event, "config:0-3")
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:29: note: expanded from macro 'NV_C2C_PMU_FORMAT_ATTR'
+     554 |         NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                                    ^~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
-vim +/generic_swapfile_activate +556 fs/exfat/inode.c
+vim +447 drivers/perf/nvidia_t410_cmem_latency_pmu.c
 
-   537	
-   538	static int exfat_swap_activate(struct swap_info_struct *sis,
-   539				       struct file *file, sector_t *span)
-   540	{
-   541		struct inode *inode = file_inode(file);
-   542		struct exfat_inode_info *ei = EXFAT_I(inode);
-   543		int ret;
-   544	
-   545		/*
-   546		 * exfat's fallocate allocates clusters without updating valid_size,
-   547		 * leaving them invisible to bmap(). Extend valid_size to i_size so
-   548		 * that generic_swapfile_activate() can map all blocks.
-   549		 */
-   550		if (ei->valid_size < i_size_read(inode)) {
-   551			ret = exfat_extend_valid_size(inode, i_size_read(inode));
-   552			if (ret)
-   553				return ret;
-   554		}
-   555	
- > 556		return generic_swapfile_activate(sis, file, span);
-   557	}
-   558	
+429b7638b2df55 Besar Wicaksono 2026-03-24  437  
+429b7638b2df55 Besar Wicaksono 2026-03-24  438  #define NV_PMU_EXT_ATTR(_name, _func, _config)			\
+429b7638b2df55 Besar Wicaksono 2026-03-24  439  	(&((struct dev_ext_attribute[]){				\
+429b7638b2df55 Besar Wicaksono 2026-03-24  440  		{							\
+429b7638b2df55 Besar Wicaksono 2026-03-24  441  			.attr = __ATTR(_name, 0444, _func, NULL),	\
+429b7638b2df55 Besar Wicaksono 2026-03-24  442  			.var = (void *)_config				\
+429b7638b2df55 Besar Wicaksono 2026-03-24  443  		}							\
+429b7638b2df55 Besar Wicaksono 2026-03-24  444  	})[0].attr.attr)
+429b7638b2df55 Besar Wicaksono 2026-03-24  445  
+429b7638b2df55 Besar Wicaksono 2026-03-24  446  static struct attribute *cmem_lat_pmu_formats[] = {
+429b7638b2df55 Besar Wicaksono 2026-03-24 @447  	NV_PMU_EXT_ATTR(event, device_show_string, "config:0-1"),
+429b7638b2df55 Besar Wicaksono 2026-03-24  448  	NULL
+429b7638b2df55 Besar Wicaksono 2026-03-24  449  };
+429b7638b2df55 Besar Wicaksono 2026-03-24  450  
+
+:::::: The code at line 447 was first introduced by commit
+:::::: 429b7638b2df5538e945aaa2cc189cf0d6e8fb3a perf: add NVIDIA Tegra410 CPU Memory Latency PMU
+
+:::::: TO: Besar Wicaksono <bwicaksono@nvidia.com>
+:::::: CC: Will Deacon <will@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
