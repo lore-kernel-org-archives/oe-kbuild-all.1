@@ -1,78 +1,64 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E65B2F531B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 03:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9707A2701BB;
+	Wed, 24 Jun 2026 03:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782270833; cv=none; b=jQTz4t9eBUfMDV87UEq8ebISbEFTo8OtKec2QWNThE9tkdDlbji+G21aNoUtP4fBgoTpvD+46hBxcGHGqYpu2AkSXm7KqNuZbvuPvA2oZW1g9P3/FjGNLKXh5VsCIAsOvUjUN9oxOZGU4+bE8beoTuJ81RkXnhasm2PWA4AXkCo=
+	t=1782271645; cv=none; b=KYkO8T7W7x+pV/8/j/9YScK+ohoWma0hPhluAvYOSF+S5DJQfnzxjP86Og4lv5uWZ864+9KLD2P+z+/ryO8JV+wecpzqo4zCOBEnrSH/jjKsSVlxdLp5car0CHf9JJiAKWrflMm2KQNJYCHu5ZNqNPebBemXTOmO/Ur/FQ08Znk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782270833; c=relaxed/simple;
-	bh=C4jlcWPhrC0wzybY0QxDLLJr2pfB4v1cPwav+EQZ+Uc=;
+	s=arc-20240116; t=1782271645; c=relaxed/simple;
+	bh=2SS3ol4ylJdY7CvZq08xhkuj5RZgxQvy20V6aDvoQac=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XKcojPDs+xuxFAWKU8noPZa2Bd6l6aoBoy9QAXi4OvX3ZjK46WGi80ei5uts2xabRb32ghyzHaC4Nj3Bsuz13+4D4TvcNfKxhNE5mX7ujwlEyv48owep/NR92FOGQVQ4Y71IcbEx6VxECOh7PFkjwcAZEzI1tyIuZ1CiWl40I08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C3GNtIhG; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=X6nAYGCZC+2zRsKP8cFgTPvpOkKTK4eSCMLrH+fQVdj2r45mHcAdomncEQJGRgBhU9XlgsuyWZ2iooFoRyXsW3o/Qc7Kila3I7rreP6sY9n8h2Xh9lFRoTN2DLEsIFnM8XJfgEpXR9G+8cwFs2u9DfvjJKRi7LDd+/JsbrSLWfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXeVr+8R; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C3GNtIhG"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c0efc7ef797so79206666b.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jun 2026 20:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782270831; x=1782875631; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yQrzuV1rnE++lwljv+0k3oMRhBJ0TRHfGR8h8CiTgyE=;
-        b=C3GNtIhGQWNbscWPNncQPUAQ+Hm64WoyleRZuwicn6GzDfkYAuiVQ3ae1Ny6rgkReT
-         ZbOYLIhR0CVTq8VDeHOanUTA18aQVosb1uNFGUsmvJha2OO9zPouzXf6sMUbt643ni9x
-         +KjiZPoXhGDB23K5epygIajtaGdobrZ4KgslroafqfOv2C9MqlU6XxrpobBj48Q7oaPV
-         I+ln7J1aLdtHpNI04ZgTURR3TIMY7FoKh1BxtsZh9DSp8mB0ooKqho7PBNLIHlwDI1ce
-         IaujPIkFnNak56C1/wEorh1aBoZS64ft3eNOgPAWy8S/cp0JhhhgXxcwgE24gUwNT7nC
-         FETw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782270831; x=1782875631;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQrzuV1rnE++lwljv+0k3oMRhBJ0TRHfGR8h8CiTgyE=;
-        b=Y6Bp4ARJdhMnp2/7NYWfrSbGfkfcyvHq3c8GXb9jkPH1CU9/+ore3X9vHvW5xt4zj2
-         IRfutQJ77mEJxX1gHr7AXVazjBrfWdnUyozIOvcxshY7ZIXQ3wFRPxOAYxNrC5GwIHYa
-         6LfXdOfH2oBv87VSYstpmqwI4shLNwIAR5LqxNjIDUeio1cqCszj0Ndo1OvoNw+oNOKW
-         YaoqeYsVNa+QT45NsESelQfNx5UcQf5VO5Vks6UootKM3g0nYzXFjOuqfRkqS6v1PlkH
-         mW+zFzGikXFK15yhFqPP5QOtJavZJOTAu2aEZIeHyL9RMrXl8iyrgp3oXq5yLrO61lQ/
-         OJUw==
-X-Forwarded-Encrypted: i=1; AFNElJ99Zlo4KjzseiOqd/xLnHlw9F7yRr6RJZG4pXQPBgldaK2pnqaUtJppeGXgdApiRaZC3BGBP0zO7KoQh2d1@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy0W97xFeMKA1hZ/xSc4WDf4KH00daucc2WYYBk2Unu3EyQKSdS
-	luRqN5zqy1icyxjxYJUorQ6SpolblByRQP0lbjIIeYl6MF3rneu0uZtf
-X-Gm-Gg: AfdE7cnhwIdFYY3XCJ4DCz9n3/2r2bdGGcAFNguq5qNnzAzFa6HwWVXLab8Ki3z6aky
-	3MFW/sJ7RUBlZ/NfEgeII/nL25ua5sQrEvwRqaHvm0k6zKa6ALGg+UgoRPdIz1jaKrxnDJxEwf1
-	gu4u4ifkNZ4erI4NeCayAjd4AjuZv489GQjGKLxIIQYK466T7TjcxCDBh5ydOSzaZBF/aZFQS52
-	vOa3U+jQJ9jKlAzFnAobeBqhe3E01C9zZQ4ghQx1IGJFdi03HrhMg3JdubibVhoPAL5iguUVWDA
-	rQ19XkzpYFwx86qWnnGcLPrFSgKK1C/5iRoWz5aNKGnGveZm3GALHZEyH7YJS8ZAyU0qF6l/APZ
-	A9YQC1f7dqJDrixDTTPEEKa+iJ5S70VTn4OY6zXgJTWrGmWF1ZzGvxnwNtPSZEytzSnbz6JSqUZ
-	iuAPZQYKleroo=
-X-Received: by 2002:a17:907:1c1c:b0:c09:4ad0:9a3 with SMTP id a640c23a62f3a-c119ce7c34dmr60766066b.4.1782270830624;
-        Tue, 23 Jun 2026 20:13:50 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-697f3ade18esm362886a12.7.2026.06.23.20.13.48
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 23 Jun 2026 20:13:49 -0700 (PDT)
-Date: Wed, 24 Jun 2026 03:13:47 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
-	david@kernel.org, ljs@kernel.org, riel@surriel.com,
-	liam@infradead.org, vbabka@kernel.org, harry@kernel.org,
-	jannh@google.com, sj@kernel.org, ziy@nvidia.com, balbirs@nvidia.com,
-	oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] mm/page_vma_mapped: revalidate and do proper check
- before return device-private pmd
-Message-ID: <20260624031347.zq2lhnnthuxqcuql@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20260622130651.23359-1-richard.weiyang@gmail.com>
- <202606240042.ffPsEXVc-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXeVr+8R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782271645; x=1813807645;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2SS3ol4ylJdY7CvZq08xhkuj5RZgxQvy20V6aDvoQac=;
+  b=MXeVr+8RHOxParSdSqlvFLGxnkRYhs8IEkwSbxMeYWUkXiC0VfcPBXL5
+   1bglD95ONhgawTT/EuFVCsl6C/qSUb9Yyr295LwohAW5F+3R9APpQp/bM
+   C7oTg+mNmutkOWcKGZ96fnbW3kyq0OTXvFOCzt0eJ6ZMzv5e1ng0Mj/p9
+   0d6RKEdAaeFxfHf9tvkevzQd01S2TL9dgMrfu5l8hUJgjx8IhpKH48T+t
+   1cWkIthip2VuBLsXuumh3YW/2jwC38AnAt3OaT3eWL+UWg7G4nNUBsCem
+   maQ4TSusGFlIlqKqBfJB/vt8rm4ljS870SQx7/ECE7dGhIDoIoBtvUu0f
+   A==;
+X-CSE-ConnectionGUID: HSBqdLSXQz+Giex/H3UtZw==
+X-CSE-MsgGUID: 8NzW8uXQQhOK3ecfRluXSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="85578763"
+X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
+   d="scan'208";a="85578763"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 20:27:24 -0700
+X-CSE-ConnectionGUID: QJ9MHrLBQLuEAJi7Ow/kyg==
+X-CSE-MsgGUID: G5PvuoVCQSKsJM4vqRFECQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
+   d="scan'208";a="248803287"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 23 Jun 2026 20:27:22 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wcEGl-0000000035x-18lo;
+	Wed, 24 Jun 2026 03:27:19 +0000
+Date: Wed, 24 Jun 2026 11:26:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnav Kapoor <kapoorarnav43@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Arnav Kapoor <kapoorarnav43@gmail.com>
+Subject: Re: [staging] staging: sm750fb: fix remaining CamelCase issues
+Message-ID: <202606241142.LlZq0AN1-lkp@intel.com>
+References: <20260621045340.65872-1-kapoorarnav43@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,102 +67,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202606240042.ffPsEXVc-lkp@intel.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20260621045340.65872-1-kapoorarnav43@gmail.com>
 
-On Wed, Jun 24, 2026 at 12:18:20AM +0800, kernel test robot wrote:
->Hi Wei,
->
->kernel test robot noticed the following build errors:
->
+Hi Arnav,
 
-Thanks for reporting.
+kernel test robot noticed the following build errors:
 
->[auto build test ERROR on akpm-mm/mm-everything]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/mm-page_vma_mapped-revalidate-and-do-proper-check-before-return-device-private-pmd/20260623-012838
->base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
->patch link:    https://lore.kernel.org/r/20260622130651.23359-1-richard.weiyang%40gmail.com
->patch subject: [PATCH] mm/page_vma_mapped: revalidate and do proper check before return device-private pmd
->config: parisc-randconfig-002-20260623 (https://download.01.org/0day-ci/archive/20260624/202606240042.ffPsEXVc-lkp@intel.com/config)
+[auto build test ERROR on staging/staging-linus]
+[also build test ERROR on v7.1]
+[cannot apply to staging/staging-testing staging/staging-next linus/master next-20260623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-So this is parisc arch.
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnav-Kapoor/staging-sm750fb-fix-remaining-CamelCase-issues/20260622-235207
+base:   staging/staging-linus
+patch link:    https://lore.kernel.org/r/20260621045340.65872-1-kapoorarnav43%40gmail.com
+patch subject: [staging] staging: sm750fb: fix remaining CamelCase issues
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260624/202606241142.LlZq0AN1-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241142.LlZq0AN1-lkp@intel.com/reproduce)
 
-In the config file, HAVE_ARCH_TRANSPARENT_HUGEPAGE is not defined. Which leads
-to !TRANSPARENT_HUGEPAGE and !PGTABLE_HAS_HUGE_LEAVES.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606241142.LlZq0AN1-lkp@intel.com/
 
-And then trigger the BUILD_BUG().
+All errors (new ones prefixed by >>):
 
->compiler: hppa-linux-gcc (GCC) 8.5.0
->reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606240042.ffPsEXVc-lkp@intel.com/reproduce)
->
->If you fix the issue in a separate patch/commit (i.e. not just a new version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes: https://lore.kernel.org/oe-kbuild-all/202606240042.ffPsEXVc-lkp@intel.com/
->
->All errors (new ones prefixed by >>):
->
->   In file included from <command-line>:
->   In function 'check_pmd.isra.24',
->       inlined from 'page_vma_mapped_walk' at mm/page_vma_mapped.c:283:11:
->>> include/linux/compiler_types.h:699:38: error: call to '__compiletime_assert_406' declared with attribute error: BUILD_BUG failed
->     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->                                         ^
->   include/linux/compiler_types.h:680:4: note: in definition of macro '__compiletime_assert'
->       prefix ## suffix();    \
->       ^~~~~~
->   include/linux/compiler_types.h:699:2: note: in expansion of macro '_compiletime_assert'
->     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->     ^~~~~~~~~~~~~~~~~~~
->   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
->    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->                                        ^~~~~~~~~~~~~~~~~~
->   include/linux/build_bug.h:60:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->    #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
->                        ^~~~~~~~~~~~~~~~
->   include/linux/huge_mm.h:113:28: note: in expansion of macro 'BUILD_BUG'
->    #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
->                               ^~~~~~~~~
->   include/linux/huge_mm.h:117:26: note: in expansion of macro 'HPAGE_PMD_SHIFT'
->    #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
->                             ^~~~~~~~~~~~~~~
->   include/linux/huge_mm.h:118:26: note: in expansion of macro 'HPAGE_PMD_ORDER'
->    #define HPAGE_PMD_NR (1<<HPAGE_PMD_ORDER)
->                             ^~~~~~~~~~~~~~~
->   mm/page_vma_mapped.c:142:13: note: in expansion of macro 'HPAGE_PMD_NR'
->     if ((pfn + HPAGE_PMD_NR - 1) < pvmw->pfn)
->                ^~~~~~~~~~~~
->
+   drivers/staging/sm750fb/sm750.c: In function 'sm750fb_setup':
+>> drivers/staging/sm750fb/sm750.c:862:30: error: 'struct init_status' has no member named 'power_mode'; did you mean 'powerMode'?
+     862 |         sm750_dev->init_parm.power_mode = 0;
+         |                              ^~~~~~~~~~
+         |                              powerMode
+>> drivers/staging/sm750fb/sm750.c:863:30: error: 'struct init_status' has no member named 'set_all_eng_off'; did you mean 'setAllEngOff'?
+     863 |         sm750_dev->init_parm.set_all_eng_off = 0;
+         |                              ^~~~~~~~~~~~~~~
+         |                              setAllEngOff
+>> drivers/staging/sm750fb/sm750.c:864:30: error: 'struct init_status' has no member named 'reset_memory'; did you mean 'resetMemory'?
+     864 |         sm750_dev->init_parm.reset_memory = 1;
+         |                              ^~~~~~~~~~~~
+         |                              resetMemory
+>> drivers/staging/sm750fb/sm750.c:883:46: error: 'SM750_DOUBLE_TFT' undeclared (first use in this function); did you mean 'sm750_doubleTFT'?
+     883 |                         sm750_dev->pnltype = SM750_DOUBLE_TFT;
+         |                                              ^~~~~~~~~~~~~~~~
+         |                                              sm750_doubleTFT
+   drivers/staging/sm750fb/sm750.c:883:46: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/staging/sm750fb/sm750.c:885:46: error: 'SM750_DUAL_TFT' undeclared (first use in this function); did you mean 'sm750_dualTFT'?
+     885 |                         sm750_dev->pnltype = SM750_DUAL_TFT;
+         |                                              ^~~~~~~~~~~~~~
+         |                                              sm750_dualTFT
 
-This is in definition of check_pmd() which is already in kernel for a while.
 
-I will update current version, and take a look to how to fix it.
+vim +862 drivers/staging/sm750fb/sm750.c
 
->
->vim +/__compiletime_assert_406 +699 include/linux/compiler_types.h
->
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  685  
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  686  #define _compiletime_assert(condition, msg, prefix, suffix) \
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  687  	__compiletime_assert(condition, msg, prefix, suffix)
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  688  
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  689  /**
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  690   * compiletime_assert - break build and emit msg if condition is false
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  691   * @condition: a compile-time constant condition to check
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  692   * @msg:       a message to emit if condition is false
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  693   *
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  694   * In tradition of POSIX assert, this macro will break the build if the
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  695   * supplied condition is *false*, emitting the supplied error message if the
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  696   * compiler has support to do so.
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   */
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  698  #define compiletime_assert(condition, msg) \
->eb5c2d4b45e3d2d Will Deacon 2020-07-21 @699  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->eb5c2d4b45e3d2d Will Deacon 2020-07-21  700  
->
->--
->0-DAY CI Kernel Test Service
->https://github.com/intel/lkp-tests/wiki
+   850	
+   851	/*	chip specific g_option configuration routine */
+   852	static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+   853	{
+   854		char *opt;
+   855		int swap;
+   856	
+   857		swap = 0;
+   858	
+   859		sm750_dev->init_parm.chip_clk = 0;
+   860		sm750_dev->init_parm.mem_clk = 0;
+   861		sm750_dev->init_parm.master_clk = 0;
+ > 862		sm750_dev->init_parm.power_mode = 0;
+ > 863		sm750_dev->init_parm.set_all_eng_off = 0;
+ > 864		sm750_dev->init_parm.reset_memory = 1;
+   865	
+   866		/* defaultly turn g_hwcursor on for both view */
+   867		g_hwcursor = 3;
+   868	
+   869		if (!src || !*src) {
+   870			dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
+   871			goto NO_PARAM;
+   872		}
+   873	
+   874		while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
+   875			dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+   876			dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
+   877	
+   878			if (!strncmp(opt, "swap", strlen("swap"))) {
+   879				swap = 1;
+   880			} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
+   881				sm750_dev->nocrt = 1;
+   882			} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
+ > 883				sm750_dev->pnltype = SM750_DOUBLE_TFT;
+   884			} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
+ > 885				sm750_dev->pnltype = SM750_DUAL_TFT;
+   886			} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
+   887				sm750_dev->pnltype = sm750_24TFT;
+   888			} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
+   889				g_hwcursor &= ~0x1;
+   890			} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
+   891				g_hwcursor &= ~0x2;
+   892			} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
+   893				g_hwcursor = 0;
+   894			} else {
+   895				if (!g_fbmode[0]) {
+   896					g_fbmode[0] = opt;
+   897					dev_info(&sm750_dev->pdev->dev,
+   898						 "find fbmode0 : %s\n", g_fbmode[0]);
+   899				} else if (!g_fbmode[1]) {
+   900					g_fbmode[1] = opt;
+   901					dev_info(&sm750_dev->pdev->dev,
+   902						 "find fbmode1 : %s\n", g_fbmode[1]);
+   903				} else {
+   904					dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
+   905				}
+   906			}
+   907		}
+   908	
+   909	NO_PARAM:
+   910		if (sm750_dev->revid != SM750LE_REVISION_ID) {
+   911			if (sm750_dev->fb_count > 1) {
+   912				if (swap)
+   913					sm750_dev->dataflow = sm750_dual_swap;
+   914				else
+   915					sm750_dev->dataflow = sm750_dual_normal;
+   916			} else {
+   917				if (swap)
+   918					sm750_dev->dataflow = sm750_simul_sec;
+   919				else
+   920					sm750_dev->dataflow = sm750_simul_pri;
+   921			}
+   922		} else {
+   923			/* SM750LE only have one crt channel */
+   924			sm750_dev->dataflow = sm750_simul_sec;
+   925			/* sm750le do not have complex attributes */
+   926			sm750_dev->nocrt = 0;
+   927		}
+   928	}
+   929	
 
--- 
-Wei Yang
-Help you, Help me
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
