@@ -1,142 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9859323E325
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 01:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF6E2236F0;
+	Wed, 24 Jun 2026 01:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782265899; cv=none; b=sqvr6nJmSQWGglL2DUEODiyvDQHsgMrDIZGNo8xc3Yp7j8rJhDXL2ZpJ2KoKlbQSk0yHxbfvKHL+dUkwYjuSuKYXldVjZgRm9AlwyCKQ5dUn+rWsqeTu0QWV8dwt9bIF1KbtLNv3mN4kpyxGPuCSd8pIc0V9Ud4j6f3BJyCWblI=
+	t=1782265900; cv=none; b=ptKwEMkgtb/3NwINWZV7d668T2gBwmqb62okiiSh3S1p5KqbKXNj+nRU+u/uOqFRFy3fnLAzZhtvGNm3heIy6GBGwqesH+XjY5e3dHWVwY+f7nRZqQLwLeqDnVsCENFRCkT9EsuHMYd7DoekWd7Z6Iq6tTMmHkG19IYqDAHwLQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782265899; c=relaxed/simple;
-	bh=ZdsBYN2+aH1Ngf0MskZfQnS8PDCiD1OqSU2Hll3OOZE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hFuFIAu0Mq/idWQDbe/GE1u3Rz9MPsAc9reN42Mvrhi8d9/3p6j05q9tUyfa2+elYy8y5FGHnFlSTEFkDQuXJEQRr4UaAY5sp6EWGd+3nm6iqJUQws5XDHwUpd2/ug+IG6DQOtU+QnP3XqX6j8lgookETX9hfCKlrnO7iOV/n8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=js6GaqQb; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1782265900; c=relaxed/simple;
+	bh=YlgPqTFyJmjtQ+5qud7Cj+WUJVCW+Asvb2it3eB2Mzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBbPJ1JkuciDISUGWMEsJDgPaLN/y3KymvfHV1OWtnmEQfHSCREnW4qpVC7KZzwvhGILl7NhVSh0dNQ+7ouxsn4pozKbnSxD1zxy8UPhOUyJtBWLKHkoiHu2GgWZs5XKWQGpIWAs2/6MCTpflg0FWjGoWh81xjUafUdBlmy8Z70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gsoyge7x; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="js6GaqQb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gsoyge7x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782265898; x=1813801898;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZdsBYN2+aH1Ngf0MskZfQnS8PDCiD1OqSU2Hll3OOZE=;
-  b=js6GaqQbDsDI43VBOvlR/S/YsCMx6Kq46v/ifbx55f49l4bOtJXg0qUj
-   Z52B1xLGLhpTFKx5a4TALdoEHn7ZnZRyGO8C0yZlL1Hief4m+Lyz7sat8
-   RBZQN00YFxjX/Rb38PdVPcZJpVMVgKJBay0TJSMF3/CNYG6zJ1miLYMsk
-   JEp2H4uZyyihIURCtCVJPTwhSaaElAn+9+faBk432CRAJyXUVHckkWOYN
-   JiFteYcucsJdmNg7VAi13EQnXTHj1Z8FUEOgNEOJWa5QKrbKfyx60De7y
-   uAJtO2UtqVmtPxpSOtt7VavY1EKf+DTjRP0Df7uKvFYCnxt8xZHnRnYNP
-   w==;
-X-CSE-ConnectionGUID: 65VrrQafToy7HIU+l84oeg==
-X-CSE-MsgGUID: xmATAJqwSUGUyIfVfTVDOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="100569103"
+  t=1782265899; x=1813801899;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YlgPqTFyJmjtQ+5qud7Cj+WUJVCW+Asvb2it3eB2Mzs=;
+  b=Gsoyge7xjvVOIphP9ScqXpGVU8aiSNHBtCGnN0QLhau4wq9ihfb3OjJQ
+   rZ1CRFFTwNKIqrIoQTCKHSZ0Y3XKZoTzFaeKs+WHpzV9wLzFoYjlsbT+W
+   9mDZA4/egUewivq62NIWvpyqy6ESSmyZ9IlcgRHOlVb5DIqdJigKiNstF
+   SwCo5aLYaiW33eMC/V7hr9acM49FIfVJT3pIB6L+qruzTSVi2eDd/B1Ty
+   RAg0g+B2CxqycDDTLGrrk2eNZG3FCT0BYh73QFDobpI2bo0ESQTJqmwsW
+   zmnO2vrUVqt4VHsLM6S7sJEFbU2yoczkv1Wlkk8JZYLbZvJvFFinQZiop
+   A==;
+X-CSE-ConnectionGUID: SlriXNBVReKp6ZjqmI4kmA==
+X-CSE-MsgGUID: InWylg7VQWWgS1/9eNLO8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="100443622"
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="100569103"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 18:51:37 -0700
-X-CSE-ConnectionGUID: cYJfNOmwTUOOLEi5moZ8og==
-X-CSE-MsgGUID: JCwyCRjASTStr3P0gyDHPA==
+   d="scan'208";a="100443622"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 18:51:38 -0700
+X-CSE-ConnectionGUID: zOZulX3eSkCcuYF3WnP3aw==
+X-CSE-MsgGUID: UROBMCKGQ62dEqQwtR/2iQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="249790015"
+   d="scan'208";a="287812282"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 23 Jun 2026 18:51:35 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Jun 2026 18:51:35 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcCm5-0000000032x-0Es3;
+	id 1wcCm5-0000000032v-07Ea;
 	Wed, 24 Jun 2026 01:51:33 +0000
-Date: Wed, 24 Jun 2026 09:51:07 +0800
+Date: Wed, 24 Jun 2026 09:51:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lpieralisi:cca/temp-in-place-conversion 29/102]
- arch/arm64/kvm/rmi.c:608:7: error: duplicate case value '536870912'
-Message-ID: <202606240900.nYFHTn3Y-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Arnav Kapoor <kapoorarnav43@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arnav Kapoor <kapoorarnav43@gmail.com>
+Subject: Re: [staging] staging: sm750fb: fix remaining CamelCase issues
+Message-ID: <202606240916.wIIrdOzC-lkp@intel.com>
+References: <20260621045340.65872-1-kapoorarnav43@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260621045340.65872-1-kapoorarnav43@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git cca/temp-in-place-conversion
-head:   4095e546cca85e5558a35176ef689959971f7d70
-commit: 6a5a96be9d81b6bb481337374716287ba4d7af7d [29/102] arm64: RMI: Runtime faulting of memory
-config: arm64-randconfig-004-20260624 (https://download.01.org/0day-ci/archive/20260624/202606240900.nYFHTn3Y-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project a9b492db3d50683e446cd1a5c9ffaf4e92cb77a7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606240900.nYFHTn3Y-lkp@intel.com/reproduce)
+Hi Arnav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-linus]
+[also build test ERROR on v7.1]
+[cannot apply to staging/staging-testing staging/staging-next linus/master next-20260623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnav-Kapoor/staging-sm750fb-fix-remaining-CamelCase-issues/20260622-235207
+base:   staging/staging-linus
+patch link:    https://lore.kernel.org/r/20260621045340.65872-1-kapoorarnav43%40gmail.com
+patch subject: [staging] staging: sm750fb: fix remaining CamelCase issues
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260624/202606240916.wIIrdOzC-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606240916.wIIrdOzC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606240900.nYFHTn3Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606240916.wIIrdOzC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/rmi.c:608:7: error: duplicate case value '536870912'
-     608 |         case PUD_SIZE:
-         |              ^
-   include/asm-generic/pgtable-nopud.h:20:20: note: expanded from macro 'PUD_SIZE'
-      20 | #define PUD_SIZE        (1UL << PUD_SHIFT)
-         |                         ^
-   arch/arm64/kvm/rmi.c:605:7: note: previous case defined here
-     605 |         case P4D_SIZE:
-         |              ^
-   include/asm-generic/pgtable-nop4d.h:13:19: note: expanded from macro 'P4D_SIZE'
-      13 | #define P4D_SIZE                (1UL << P4D_SHIFT)
-         |                                 ^
-   arch/arm64/kvm/rmi.c:611:7: error: duplicate case value '536870912'
-     611 |         case PMD_SIZE:
-         |              ^
-   include/asm-generic/pgtable-nopmd.h:22:20: note: expanded from macro 'PMD_SIZE'
-      22 | #define PMD_SIZE        (1UL << PMD_SHIFT)
-         |                         ^
-   arch/arm64/kvm/rmi.c:608:7: note: previous case defined here
-     608 |         case PUD_SIZE:
-         |              ^
-   include/asm-generic/pgtable-nopud.h:20:20: note: expanded from macro 'PUD_SIZE'
-      20 | #define PUD_SIZE        (1UL << PUD_SHIFT)
-         |                         ^
-   2 errors generated.
+>> drivers/staging/sm750fb/sm750.c:862:23: error: no member named 'power_mode' in 'struct init_status'; did you mean 'powerMode'?
+     862 |         sm750_dev->init_parm.power_mode = 0;
+         |                              ^~~~~~~~~~
+         |                              powerMode
+   drivers/staging/sm750fb/sm750.h:42:9: note: 'powerMode' declared here
+      42 |         ushort powerMode;
+         |                ^
+>> drivers/staging/sm750fb/sm750.c:863:23: error: no member named 'set_all_eng_off' in 'struct init_status'
+     863 |         sm750_dev->init_parm.set_all_eng_off = 0;
+         |         ~~~~~~~~~~~~~~~~~~~~ ^
+>> drivers/staging/sm750fb/sm750.c:864:23: error: no member named 'reset_memory' in 'struct init_status'; did you mean 'resetMemory'?
+     864 |         sm750_dev->init_parm.reset_memory = 1;
+         |                              ^~~~~~~~~~~~
+         |                              resetMemory
+   drivers/staging/sm750fb/sm750.h:48:9: note: 'resetMemory' declared here
+      48 |         ushort resetMemory;
+         |                ^
+>> drivers/staging/sm750fb/sm750.c:883:25: error: use of undeclared identifier 'SM750_DOUBLE_TFT'
+     883 |                         sm750_dev->pnltype = SM750_DOUBLE_TFT;
+         |                                              ^
+>> drivers/staging/sm750fb/sm750.c:885:25: error: use of undeclared identifier 'SM750_DUAL_TFT'
+     885 |                         sm750_dev->pnltype = SM750_DUAL_TFT;
+         |                                              ^
+   5 errors generated.
 
 
-vim +/536870912 +608 arch/arm64/kvm/rmi.c
+vim +862 drivers/staging/sm750fb/sm750.c
 
-   599	
-   600	static unsigned long addr_range_desc(unsigned long phys, unsigned long size)
-   601	{
-   602		unsigned long out = 0;
-   603	
-   604		switch (size) {
-   605		case P4D_SIZE:
-   606			out = 3 | (1 << 2);
-   607			break;
- > 608		case PUD_SIZE:
-   609			out = 2 | (1 << 2);
-   610			break;
-   611		case PMD_SIZE:
-   612			out = 1 | (1 << 2);
-   613			break;
-   614		case PAGE_SIZE:
-   615			out = 0 | (1 << 2);
-   616			break;
-   617		default:
-   618			/*
-   619			 * Only support mapping at the page level granulatity when
-   620			 * it's an unusual length. This should get us back onto a larger
-   621			 * block size for the subsequent mappings.
-   622			 */
-   623			out = 0 | ((MIN(size >> PAGE_SHIFT, PTRS_PER_PTE - 1)) << 2);
-   624			break;
-   625		}
-   626	
-   627		WARN_ON(phys & ~PAGE_MASK);
-   628	
-   629		out |= phys & PAGE_MASK;
-   630	
-   631		return out;
-   632	}
-   633	
+   850	
+   851	/*	chip specific g_option configuration routine */
+   852	static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+   853	{
+   854		char *opt;
+   855		int swap;
+   856	
+   857		swap = 0;
+   858	
+   859		sm750_dev->init_parm.chip_clk = 0;
+   860		sm750_dev->init_parm.mem_clk = 0;
+   861		sm750_dev->init_parm.master_clk = 0;
+ > 862		sm750_dev->init_parm.power_mode = 0;
+ > 863		sm750_dev->init_parm.set_all_eng_off = 0;
+ > 864		sm750_dev->init_parm.reset_memory = 1;
+   865	
+   866		/* defaultly turn g_hwcursor on for both view */
+   867		g_hwcursor = 3;
+   868	
+   869		if (!src || !*src) {
+   870			dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
+   871			goto NO_PARAM;
+   872		}
+   873	
+   874		while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
+   875			dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+   876			dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
+   877	
+   878			if (!strncmp(opt, "swap", strlen("swap"))) {
+   879				swap = 1;
+   880			} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
+   881				sm750_dev->nocrt = 1;
+   882			} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
+ > 883				sm750_dev->pnltype = SM750_DOUBLE_TFT;
+   884			} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
+ > 885				sm750_dev->pnltype = SM750_DUAL_TFT;
+   886			} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
+   887				sm750_dev->pnltype = sm750_24TFT;
+   888			} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
+   889				g_hwcursor &= ~0x1;
+   890			} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
+   891				g_hwcursor &= ~0x2;
+   892			} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
+   893				g_hwcursor = 0;
+   894			} else {
+   895				if (!g_fbmode[0]) {
+   896					g_fbmode[0] = opt;
+   897					dev_info(&sm750_dev->pdev->dev,
+   898						 "find fbmode0 : %s\n", g_fbmode[0]);
+   899				} else if (!g_fbmode[1]) {
+   900					g_fbmode[1] = opt;
+   901					dev_info(&sm750_dev->pdev->dev,
+   902						 "find fbmode1 : %s\n", g_fbmode[1]);
+   903				} else {
+   904					dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
+   905				}
+   906			}
+   907		}
+   908	
+   909	NO_PARAM:
+   910		if (sm750_dev->revid != SM750LE_REVISION_ID) {
+   911			if (sm750_dev->fb_count > 1) {
+   912				if (swap)
+   913					sm750_dev->dataflow = sm750_dual_swap;
+   914				else
+   915					sm750_dev->dataflow = sm750_dual_normal;
+   916			} else {
+   917				if (swap)
+   918					sm750_dev->dataflow = sm750_simul_sec;
+   919				else
+   920					sm750_dev->dataflow = sm750_simul_pri;
+   921			}
+   922		} else {
+   923			/* SM750LE only have one crt channel */
+   924			sm750_dev->dataflow = sm750_simul_sec;
+   925			/* sm750le do not have complex attributes */
+   926			sm750_dev->nocrt = 0;
+   927		}
+   928	}
+   929	
 
 --
 0-DAY CI Kernel Test Service
