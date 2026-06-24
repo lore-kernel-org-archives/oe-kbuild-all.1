@@ -1,119 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C7E2F7F0A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 02:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2C93016F2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jun 2026 02:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782268475; cv=none; b=bpe4/TkC2IntzkVx8xLxnk8+lRjssXMTPyH9OH2gupYPG6jRFQN6hlhGIB9Brde6ptgAWQg+g1QKlBitzIp1o60OkZkfj/CwrqlLDN1v1XpfwA48NK8c3UvXJXIZ1mgzm+BVCFp4UnBQKOwscaGpW3cmgxAacN7d+hAYIwhFaxw=
+	t=1782269721; cv=none; b=c5NdZQkUYgA236JX9g9sCRdDKxCQ2GWRegr6IM7U5qVhee+UxE6wsZ74kkQcyh+5wJ2vTbaMYDfqSCNYSvavRt0SCS+ioInmj0jwgdRWBExUFJaYAFcCL2wWGiieR4wzbxzXvvjcjKBXWxQ3WY9n8UlgQgSZsnOleROtR8PQ6WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782268475; c=relaxed/simple;
-	bh=++Cy3vwBnIcqfzgjtU0rf2goJUqQ0UdRHlTzVdbwc/U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=drAARnuVDvYh7Ob0xU+0hU3ROZJteHe9/b2J3ec88g4Ifcq8rafVFxjG2xUagp2fIxn5p7PTIHSdcJkpiwpr7L+ngGoR467Ch8agFsBa5bS2kAV0UeNrGyDXzuVvJO/gehLjvtI93rCPMkEFI+JxQee1mEphxzYUmCJupyhCPe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeekL/tH; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1782269721; c=relaxed/simple;
+	bh=DE7+pF5y28bPYW4IyyFXvEAe/Ac+GbsL6R0nAQuaGik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZA7UxvaWOhxtFEbZcKN90a/9oSQ2jHPv9EsgPD7YG8ze2T0Q4/KPS1XYi8KMxx6YFicQHSiJS5xpDL/3OY4XCYhtl2Gwy1edx4j6Y6+dFvnULjTKSpsQk5XeT0fePEcC1X47jnI+eWGx1Pez/wkMSaKhJJcixO4g8bhwwjxErqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IiDa44CB; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeekL/tH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IiDa44CB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782268473; x=1813804473;
-  h=date:from:to:cc:subject:message-id;
-  bh=++Cy3vwBnIcqfzgjtU0rf2goJUqQ0UdRHlTzVdbwc/U=;
-  b=TeekL/tHuM6+x2fX4VkVzYTiYoyCz4mM9nayxLYzrMEINNwbEivdD6a5
-   Ci8dvpXBhqHt1o2nKl8JL7m5osEbRAt754ZD2YknpVo0nuiA3M4S9Xuqm
-   DUBJClyVLQQ1qKGWdiSza90CJEX8997ThDiVE6YkTVDpdjdgUeqxfBpkk
-   a5Wr4N6v5wyhsyIb0fmmrud68F4SDmFanzeotCBTtWGMhIwijFcg+y1m5
-   NldIbiOnvMbcipbDhs0ch8Qjs2cR7PrgOC4GTE9QBJlR8KXkelwqp0q+I
-   j2pfQFOLx1ImaCqxOYNZfcTfOEf+WxMwdzx3et0Vt3MtHAhbKpsaWPsCz
-   A==;
-X-CSE-ConnectionGUID: 7bffCIapRf6iVdxHmXUmWg==
-X-CSE-MsgGUID: n6Fe49LESOqXhskBrPdAWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="86856189"
+  t=1782269720; x=1813805720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DE7+pF5y28bPYW4IyyFXvEAe/Ac+GbsL6R0nAQuaGik=;
+  b=IiDa44CBrqSN/PfVLBAGbrgfgAVkZTFraRLLNLxuGHxBNMN0xRMTGR+g
+   vdfzHzHinmydN5zrMPXW6BEsMeqBNFWdmONSq85sURGCp6H7lGOkbODQP
+   n1OHouIByxxjnrBidWk/+OFEHY7VqVkO4mwalprDBxAdp2u/0PEVqBM36
+   Gb7iCyqj5ZoCrlh0W00ix8EJ+rfVQA4d0hjl/kYL+lkgdF1N0qrT0YHKl
+   1pNWEFmD5AQTAvPxuicJVQWkrgAmXdzy/CNobaBbLhNQG+0GPA5bwiWMj
+   pFlK6Qic2iO899eddWYE9yGEDh4S94fzbus5a5TbV9WCmVKQwT5JfsRW2
+   Q==;
+X-CSE-ConnectionGUID: WYkmLI7nQyGbwmxhHXisqw==
+X-CSE-MsgGUID: AwdKLV2QSaaI8DRXeGXooA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="105814678"
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="86856189"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 19:34:32 -0700
-X-CSE-ConnectionGUID: x2S9RsLUR+utD7lnwTaHwg==
-X-CSE-MsgGUID: SGlZZCWjSuG0Fy4PvuLc/g==
+   d="scan'208";a="105814678"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 19:55:20 -0700
+X-CSE-ConnectionGUID: mz2h8+0eTjKaKuWK0m+VKg==
+X-CSE-MsgGUID: hUnYcgRRSo2xE1n36M2I5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="287819153"
+   d="scan'208";a="254676609"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 23 Jun 2026 19:34:31 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 Jun 2026 19:55:17 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcDRY-00000000349-3NZO;
-	Wed, 24 Jun 2026 02:34:25 +0000
-Date: Wed, 24 Jun 2026 10:34:04 +0800
+	id 1wcDlh-0000000034T-3RBN;
+	Wed, 24 Jun 2026 02:55:13 +0000
+Date: Wed, 24 Jun 2026 10:54:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ankit Agrawal <ankita@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Williamson <alex@shazbot.org>, Zhi Wang <zhiw@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>
-Subject: drivers/vfio/pci/nvgrace-gpu/main.c:167:9: sparse: sparse:
- cast from restricted vm_fault_t
-Message-ID: <202606241043.u5Fe3HZv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Andrea Cervesato <andrea.cervesato@suse.de>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	David Timber <dxdt@dev.snart.me>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jack@suse.cz, chrubis@suse.cz,
+	Andrea Cervesato <andrea.cervesato@suse.com>
+Subject: Re: [PATCH] exfat: implement swap activate
+Message-ID: <202606241018.4N100hSQ-lkp@intel.com>
+References: <20260618-exfat_swap_activate-v1-1-4c6a465df295@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260618-exfat_swap_activate-v1-1-4c6a465df295@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   840ef6c78e6a2f694b578ecb9063241c992aaa9e
-commit: 9db65489b87298f20baef683e70143c108959793 vfio/nvgrace-gpu: Add support for huge pfnmap
-date:   7 months ago
-config: loongarch-randconfig-r134-20260624 (https://download.01.org/0day-ci/archive/20260624/202606241043.u5Fe3HZv-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project a9b492db3d50683e446cd1a5c9ffaf4e92cb77a7)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241043.u5Fe3HZv-lkp@intel.com/reproduce)
+Hi Andrea,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on e771677c937da5808f7b6c1f0e4a97ec1a84f8a8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Cervesato/exfat-implement-swap-activate/20260622-172327
+base:   e771677c937da5808f7b6c1f0e4a97ec1a84f8a8
+patch link:    https://lore.kernel.org/r/20260618-exfat_swap_activate-v1-1-4c6a465df295%40suse.com
+patch subject: [PATCH] exfat: implement swap activate
+config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20260624/202606241018.4N100hSQ-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241018.4N100hSQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9db65489b872 ("vfio/nvgrace-gpu: Add support for huge pfnmap")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606241043.u5Fe3HZv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606241018.4N100hSQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/vfio/pci/nvgrace-gpu/main.c:167:9: sparse: sparse: cast from restricted vm_fault_t
+All errors (new ones prefixed by >>):
 
-vim +167 drivers/vfio/pci/nvgrace-gpu/main.c
+   fs/exfat/inode.c: In function 'exfat_swap_activate':
+>> fs/exfat/inode.c:556:16: error: implicit declaration of function 'generic_swapfile_activate' [-Wimplicit-function-declaration]
+     556 |         return generic_swapfile_activate(sis, file, span);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-   142	
-   143	static vm_fault_t nvgrace_gpu_vfio_pci_huge_fault(struct vm_fault *vmf,
-   144							  unsigned int order)
-   145	{
-   146		struct vm_area_struct *vma = vmf->vma;
-   147		struct nvgrace_gpu_pci_core_device *nvdev = vma->vm_private_data;
-   148		struct vfio_pci_core_device *vdev = &nvdev->core_device;
-   149		unsigned int index =
-   150			vma->vm_pgoff >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
-   151		vm_fault_t ret = VM_FAULT_FALLBACK;
-   152		struct mem_region *memregion;
-   153		unsigned long pfn, addr;
-   154	
-   155		memregion = nvgrace_gpu_memregion(index, nvdev);
-   156		if (!memregion)
-   157			return VM_FAULT_SIGBUS;
-   158	
-   159		addr = ALIGN_DOWN(vmf->address, PAGE_SIZE << order);
-   160		pfn = PHYS_PFN(memregion->memphys) + addr_to_pgoff(vma, addr);
-   161	
-   162		if (is_aligned_for_order(vma, addr, pfn, order)) {
-   163			scoped_guard(rwsem_read, &vdev->memory_lock)
-   164				ret = vfio_pci_vmf_insert_pfn(vdev, vmf, pfn, order);
-   165		}
-   166	
- > 167		dev_dbg_ratelimited(&vdev->pdev->dev,
-   168				    "%s order = %d pfn 0x%lx: 0x%x\n",
-   169				    __func__, order, pfn,
-   170				    (unsigned int)ret);
-   171	
-   172		return ret;
-   173	}
-   174	
+
+vim +/generic_swapfile_activate +556 fs/exfat/inode.c
+
+   537	
+   538	static int exfat_swap_activate(struct swap_info_struct *sis,
+   539				       struct file *file, sector_t *span)
+   540	{
+   541		struct inode *inode = file_inode(file);
+   542		struct exfat_inode_info *ei = EXFAT_I(inode);
+   543		int ret;
+   544	
+   545		/*
+   546		 * exfat's fallocate allocates clusters without updating valid_size,
+   547		 * leaving them invisible to bmap(). Extend valid_size to i_size so
+   548		 * that generic_swapfile_activate() can map all blocks.
+   549		 */
+   550		if (ei->valid_size < i_size_read(inode)) {
+   551			ret = exfat_extend_valid_size(inode, i_size_read(inode));
+   552			if (ret)
+   553				return ret;
+   554		}
+   555	
+ > 556		return generic_swapfile_activate(sis, file, span);
+   557	}
+   558	
 
 --
 0-DAY CI Kernel Test Service
