@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0E236492C;
-	Thu, 25 Jun 2026 16:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AAC3B19B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 17:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782406246; cv=none; b=YfvqY1xcvit+zy8Jb9yArNWT4L9pknC2Igo6JZqYT4cDUCtJH8cBwd5ptBc0Zysi8reRGL1GkaAJEDyOJDc5/FQRZKh8gLup+M/SOkcFTZFQ9tVok8kqhTn3N9D8ImI4DeudMpP5X2aijZk1nRCo+o46ogwe3PbTQ8acm2tyiiI=
+	t=1782407544; cv=none; b=BX8MJNJiq2E/qoQAfVGHC/cHRbNb9NTbHHPMyw2kenqCp2cg6fuTZpZMQQ7xoujhpEzRAzHSytZua2RJdMw1JvjV83wA6B/R6Ass1OHIcSkvlK80bPshTo8/23h+b4KaVHoNGfRAZ5shFPpEQlszTWM443pL5ysUZdSKEbjjqxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782406246; c=relaxed/simple;
-	bh=BrOX+eR8WaF5JSyJ7uPTPxJq6dMCY+pgydAUvkGxYPo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GNLPqZI/XGO8Clr5GPvxRUOZR/cPD7rB9P4WmMCLEK2ECsrq66pL2umX0FMzcFQ8wd7PypQrvipWlJN8+mQiMRGA0sJsRXW84m2UHxvATD+bsv218sqdQ7xLjrWeQLM/AjQN0YK6+PcP1YrB6A9PEonIgCoJYf8DuY/IrCfG8e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=abT6qE+l; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1782407544; c=relaxed/simple;
+	bh=MW80NVEm2MD1nfVSO16WUFH7nGPy7hbHNATKDelkpSc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ug071YgbG7uLC6SgiyuH2D/w5eGPZvgZ3iJcO+Cqv3WJ1AZZ8ODe+YDYfNKWOwQ6OYyY7wkEfcAC63sBcfFJgN3jp5XRBszQ5IMm9pqIB3TdrkKslS2wbqYD5pFgID6dv8Q+LPUazhyvYW0lLbqDlCAfW+zv02cTBtI+rgPqFd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z8nGM3Ru; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="abT6qE+l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z8nGM3Ru"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782406245; x=1813942245;
+  t=1782407542; x=1813943542;
   h=date:from:to:cc:subject:message-id;
-  bh=BrOX+eR8WaF5JSyJ7uPTPxJq6dMCY+pgydAUvkGxYPo=;
-  b=abT6qE+l4qTtiDA8xn9w/EtPoGX7IwBLFm8RKo2RbUUTXoDJouJ6MXqH
-   9hgCNn8OH80/BCxAEIawrfTwGmVvdUohXXRfiHbfZEImvCMgVqmvZ7nh8
-   O83fvCGsOS6J1rZVnGdpYoOnQllb5m3D1nbDgqeO2d4UrMaj2uUrh0j0O
-   B+NHbrWPsZfU2Uh9Dn5kRrsDGRMLdSoG7KHVAXStLCG6LpLl78tW5SUr1
-   jzTTqe0vVYKvPdAexThWr/Mtt72mX2/BQdYQqu+37u64W+LnB36KWYvkx
-   doD1HUJyJmTqnjQxa/1KCjWQGtg5aXWovzgIg1KI8B1Q1NfXyyKbVcAdx
-   g==;
-X-CSE-ConnectionGUID: kQod1wJTRx29FxzCesZDyg==
-X-CSE-MsgGUID: l3K7TdWxSNmtP9xb3ALyQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83190496"
+  bh=MW80NVEm2MD1nfVSO16WUFH7nGPy7hbHNATKDelkpSc=;
+  b=Z8nGM3RuCscdS6yiVrGk+4wO6mS9zbPBC/1yeHidQW4xhu6PyzFMfrl9
+   x6oBEUarqVIhHO5eeGfBP4/P2PPbAZJ7c8Lo0SgFXfYBdu5IpZj0ne+IA
+   yKwK2oHHJtAdcSCjLidt3MdMafsBn+2VTstHewRBXmCnmqjLVWGofmU2n
+   xWelomLXyAdEPObVTuA56q6vZBAu1EOl47iGz2S44Rerss1zPNMbb1TEh
+   mJgpxh325R/gu67Pps2biDOBgTdi0lg/9AQsMZSRl61TERdtGhMfSWrG+
+   Qzb9H7zV7sLb9e54jDw6eeSB51OCEZlu8uZKCFALDlmffRJISxtLr29hv
+   A==;
+X-CSE-ConnectionGUID: KmZS/uwWRVCf0V4FBDYWow==
+X-CSE-MsgGUID: Mo4SLJjNSyy2JvwD16suiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="100742297"
 X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="83190496"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 09:50:45 -0700
-X-CSE-ConnectionGUID: 74u1pl0ESj+/rIGOtyyQVA==
-X-CSE-MsgGUID: SJgU+TNFQaCGGuJPfkxaYQ==
+   d="scan'208";a="100742297"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 10:12:21 -0700
+X-CSE-ConnectionGUID: Kk3bJCWMT+2DU0KrVQLCDw==
+X-CSE-MsgGUID: 3ZUfS4srSeShoE2FoaSaAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="252808702"
+   d="scan'208";a="255795942"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jun 2026 09:50:42 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Jun 2026 10:12:19 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcnHk-000000004Jt-1Jla;
-	Thu, 25 Jun 2026 16:50:40 +0000
-Date: Fri, 26 Jun 2026 00:49:46 +0800
+	id 1wcncb-000000004Kn-1x7Z;
+	Thu, 25 Jun 2026 17:12:15 +0000
+Date: Fri, 26 Jun 2026 01:11:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Codex <jullanggit@proton.me>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:pr/1073 38/65]
- fs/bcachefs/alloc/buckets.c:961:5: warning: stack frame size (1464) exceeds
- limit (1024) in 'bch2_trigger_extent'
-Message-ID: <202606260011.MX1Hg914-lkp@intel.com>
+To: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>
+Subject: [net:main 69/101] net/xfrm/xfrm_state.c:1220: Warning:
+ missing closing `"'
+Message-ID: <202606260102.GcwhFSNK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,83 +60,121 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs pr/1073
-head:   d294b8d3e670ce73e23093e05a92747e0701bf8d
-commit: 34c31c9633661a2b7901a1712d8516633f4fdbb6 [38/65] bcachefs: update reconcile-only backpointer flags in place
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260626/202606260011.MX1Hg914-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606260011.MX1Hg914-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net.git main
+head:   02f144fbb4c86c360495d33debe307cb46a57f95
+commit: e9deb406c10f5a73bcfd62f42ca1187b220bc188 [69/101] Merge tag 'ipsec-2026-06-22' of git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec
+config: s390-randconfig-r133-20260625 (https://download.01.org/0day-ci/archive/20260626/202606260102.GcwhFSNK-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606260102.GcwhFSNK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606260011.MX1Hg914-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606260102.GcwhFSNK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/alloc/buckets.c:961:5: warning: stack frame size (1464) exceeds limit (1024) in 'bch2_trigger_extent' [-Wframe-larger-than]
-     961 | int bch2_trigger_extent(struct btree_trans *trans,
-         |     ^
-   1 warning generated.
+   net/xfrm/xfrm_state.c: Assembler messages:
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
 
 
-vim +/bch2_trigger_extent +961 fs/bcachefs/alloc/buckets.c
+vim +1220 net/xfrm/xfrm_state.c
 
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   960  
-4f9ec59f8fd658 fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28  @961  int bch2_trigger_extent(struct btree_trans *trans,
-f40d13f94df744 fs/bcachefs/buckets.c       Kent Overstreet 2024-04-07   962  			enum btree_id btree, unsigned level,
-717296c34c8d9d fs/bcachefs/buckets.c       Kent Overstreet 2023-12-27   963  			struct bkey_s_c old, struct bkey_s new,
-5dd8c60e1e0448 fs/bcachefs/buckets.c       Kent Overstreet 2024-04-07   964  			enum btree_iter_update_trigger_flags flags)
-523f33efbf406f fs/bcachefs/buckets.c       Kent Overstreet 2023-06-22   965  {
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   966  	struct bkey_ptrs_c new_ptrs = bch2_bkey_ptrs_c(new.s_c);
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   967  	struct bkey_ptrs_c old_ptrs = bch2_bkey_ptrs_c(old);
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   968  	unsigned new_ptrs_bytes = (void *) new_ptrs.end - (void *) new_ptrs.start;
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   969  	unsigned old_ptrs_bytes = (void *) old_ptrs.end - (void *) old_ptrs.start;
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   970  
-f40d13f94df744 fs/bcachefs/buckets.c       Kent Overstreet 2024-04-07   971  	if (unlikely(flags & BTREE_TRIGGER_check_repair))
-f40d13f94df744 fs/bcachefs/buckets.c       Kent Overstreet 2024-04-07   972  		return bch2_check_fix_ptrs(trans, btree, level, new.s_c, flags);
-f40d13f94df744 fs/bcachefs/buckets.c       Kent Overstreet 2024-04-07   973  
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   974  	/*
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   975  	 * Reconcile-only updates keep the same physical pointers.  Update
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   976  	 * their backpointer flags in place so buffered delete+insert churn
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   977  	 * cannot drop the key, then let reconcile accounting/work tracking
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   978  	 * see the logical-state change.
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   979  	 */
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   980  	if (level == 0) {
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   981  		bool handled;
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   982  
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   983  		try(bch2_trigger_extent_same_backpointers(trans, btree, level, old, new, &handled));
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   984  		if (handled)
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   985  			return bch2_trigger_extent_reconcile(trans, btree, level, old, new, flags);
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   986  	}
-34c31c9633661a fs/bcachefs/alloc/buckets.c Codex           2026-04-13   987  
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   988  	if (new_ptrs_bytes == old_ptrs_bytes &&
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   989  	    !memcmp(new_ptrs.start,
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   990  		    old_ptrs.start,
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   991  		    new_ptrs_bytes))
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   992  		return 0;
-f5d4481c3edddf fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28   993  
-49aa7830396bce fs/bcachefs/buckets.c       Kent Overstreet 2024-08-23   994  	if (flags & (BTREE_TRIGGER_transactional|BTREE_TRIGGER_gc)) {
-3c16c1d9609b81 fs/bcachefs/alloc/buckets.c Kent Overstreet 2025-10-05   995  		if (old.k->type)
-3c16c1d9609b81 fs/bcachefs/alloc/buckets.c Kent Overstreet 2025-10-05   996  			try(__trigger_extent(trans, btree, level, old,
-3c16c1d9609b81 fs/bcachefs/alloc/buckets.c Kent Overstreet 2025-10-05   997  					     flags & ~BTREE_TRIGGER_insert));
-49aa7830396bce fs/bcachefs/buckets.c       Kent Overstreet 2024-08-23   998  
-3c16c1d9609b81 fs/bcachefs/alloc/buckets.c Kent Overstreet 2025-10-05   999  		if (new.k->type)
-3c16c1d9609b81 fs/bcachefs/alloc/buckets.c Kent Overstreet 2025-10-05  1000  			try(__trigger_extent(trans, btree, level, new.s_c,
-3c16c1d9609b81 fs/bcachefs/alloc/buckets.c Kent Overstreet 2025-10-05  1001  					     flags & ~BTREE_TRIGGER_overwrite));
-49aa7830396bce fs/bcachefs/buckets.c       Kent Overstreet 2024-08-23  1002  
-581f7e27bc9728 fs/bcachefs/alloc/buckets.c Kent Overstreet 2025-11-12  1003  		try(bch2_trigger_extent_reconcile(trans, btree, level, old, new, flags));
-4f9ec59f8fd658 fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28  1004  	}
-fb3f57bb1177ae fs/bcachefs/buckets.c       Kent Overstreet 2023-10-20  1005  
-4f9ec59f8fd658 fs/bcachefs/buckets.c       Kent Overstreet 2023-12-28  1006  	return 0;
-523f33efbf406f fs/bcachefs/buckets.c       Kent Overstreet 2023-06-22  1007  }
-523f33efbf406f fs/bcachefs/buckets.c       Kent Overstreet 2023-06-22  1008  
+edcd582152090b David S. Miller  2006-08-24  1200  
+81a331a0e72ddc Steffen Klassert 2024-10-23  1201  struct xfrm_state *xfrm_input_state_lookup(struct net *net, u32 mark,
+81a331a0e72ddc Steffen Klassert 2024-10-23  1202  					   const xfrm_address_t *daddr,
+81a331a0e72ddc Steffen Klassert 2024-10-23  1203  					   __be32 spi, u8 proto,
+81a331a0e72ddc Steffen Klassert 2024-10-23  1204  					   unsigned short family)
+81a331a0e72ddc Steffen Klassert 2024-10-23  1205  {
+e952837f3ddb0f Florian Westphal 2024-11-28  1206  	struct xfrm_hash_state_ptrs state_ptrs;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1207  	struct hlist_head *state_cache_input;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1208  	struct xfrm_state *x = NULL;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1209  
+ddd3d013292031 Herbert Xu       2026-06-12  1210  	/* BH is always disabled on the input path. */
+ddd3d013292031 Herbert Xu       2026-06-12  1211  	lockdep_assert_in_softirq();
+ddd3d013292031 Herbert Xu       2026-06-12  1212  
+6c9b7db96db62e Sebastian Sewior 2025-01-23  1213  	state_cache_input = raw_cpu_ptr(net->xfrm.state_cache_input);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1214  
+81a331a0e72ddc Steffen Klassert 2024-10-23  1215  	hlist_for_each_entry_rcu(x, state_cache_input, state_cache_input) {
+81a331a0e72ddc Steffen Klassert 2024-10-23  1216  		if (x->props.family != family ||
+81a331a0e72ddc Steffen Klassert 2024-10-23  1217  		    x->id.spi       != spi ||
+81a331a0e72ddc Steffen Klassert 2024-10-23  1218  		    x->id.proto     != proto ||
+81a331a0e72ddc Steffen Klassert 2024-10-23  1219  		    !xfrm_addr_equal(&x->id.daddr, daddr, family))
+81a331a0e72ddc Steffen Klassert 2024-10-23 @1220  			continue;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1221  
+81a331a0e72ddc Steffen Klassert 2024-10-23  1222  		if ((mark & x->mark.m) != x->mark.v)
+81a331a0e72ddc Steffen Klassert 2024-10-23  1223  			continue;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1224  		if (!xfrm_state_hold_rcu(x))
+81a331a0e72ddc Steffen Klassert 2024-10-23  1225  			continue;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1226  		goto out;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1227  	}
+81a331a0e72ddc Steffen Klassert 2024-10-23  1228  
+e952837f3ddb0f Florian Westphal 2024-11-28  1229  	xfrm_hash_ptrs_get(net, &state_ptrs);
+e952837f3ddb0f Florian Westphal 2024-11-28  1230  
+e952837f3ddb0f Florian Westphal 2024-11-28  1231  	x = __xfrm_state_lookup(&state_ptrs, mark, daddr, spi, proto, family);
+ddd3d013292031 Herbert Xu       2026-06-12  1232  	if (x) {
+ddd3d013292031 Herbert Xu       2026-06-12  1233  		spin_lock(&net->xfrm.xfrm_state_lock);
+ddd3d013292031 Herbert Xu       2026-06-12  1234  		if (x->km.state != XFRM_STATE_VALID) {
+ddd3d013292031 Herbert Xu       2026-06-12  1235  			/*
+ddd3d013292031 Herbert Xu       2026-06-12  1236  			 * The state is about to be destroyed.
+ddd3d013292031 Herbert Xu       2026-06-12  1237  			 *
+ddd3d013292031 Herbert Xu       2026-06-12  1238  			 * Don't add it to the cache but still
+ddd3d013292031 Herbert Xu       2026-06-12  1239  			 * return it to the caller.
+ddd3d013292031 Herbert Xu       2026-06-12  1240  			 */
+ddd3d013292031 Herbert Xu       2026-06-12  1241  		} else if (hlist_unhashed(&x->state_cache_input)) {
+81a331a0e72ddc Steffen Klassert 2024-10-23  1242  			hlist_add_head_rcu(&x->state_cache_input, state_cache_input);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1243  		} else {
+81a331a0e72ddc Steffen Klassert 2024-10-23  1244  			hlist_del_rcu(&x->state_cache_input);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1245  			hlist_add_head_rcu(&x->state_cache_input, state_cache_input);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1246  		}
+ddd3d013292031 Herbert Xu       2026-06-12  1247  		spin_unlock(&net->xfrm.xfrm_state_lock);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1248  	}
+81a331a0e72ddc Steffen Klassert 2024-10-23  1249  
+81a331a0e72ddc Steffen Klassert 2024-10-23  1250  out:
+81a331a0e72ddc Steffen Klassert 2024-10-23  1251  	return x;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1252  }
+81a331a0e72ddc Steffen Klassert 2024-10-23  1253  EXPORT_SYMBOL(xfrm_input_state_lookup);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1254  
 
-:::::: The code at line 961 was first introduced by commit
-:::::: 4f9ec59f8fd658d832460aa25c145bdecfdbaa2d bcachefs: unify extent trigger
+:::::: The code at line 1220 was first introduced by commit
+:::::: 81a331a0e72ddc2f75092603d9577bd1a0ca23ad xfrm: Add an inbound percpu state cache.
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Steffen Klassert <steffen.klassert@secunet.com>
+:::::: CC: Steffen Klassert <steffen.klassert@secunet.com>
 
 --
 0-DAY CI Kernel Test Service
