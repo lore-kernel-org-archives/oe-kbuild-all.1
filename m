@@ -1,157 +1,253 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D31F331A46;
-	Thu, 25 Jun 2026 13:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E472571B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 13:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782394916; cv=none; b=qiKqHWrOQuF2FN6KeTlvh380sYCp43+whnT3hn/29AgHfm3oSaBMseVWOsKPvibJl3AR03ANsTzsori0L6Ndxq/Or0Rn7+4VEyRIbSQI3SgQFBkIsBtiGi8SGA1Yb4nHpkc/5BLHrRz5RBbCPbFXjAaLHjWCoaGY7cCo3VLWgpc=
+	t=1782395637; cv=none; b=Q7/o75Sip67ZVRO+eaDkzCQ2BW6lHa2k2/rYZH1wzEquhN8XYXTAbqQh2DnzIGZxS2+426MYGpEB3wMnqhC+zRB2YGpdg2v2V9v/RDnWlQrBl+zCOlMHQy3Rdd8tko6Kpw37sTbh4zbn0mhfO7Vq2Dw7KDcIsP34v+ZdbCiIhyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782394916; c=relaxed/simple;
-	bh=TvVbeb60/PTySsK4vHDm87zawwXLaZ1FWWETz+89UmM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j/vtA6A+o18BPK53Dos2z/4xMORyB1PBicxIpSGAG6Yns94e6sMzxep59ZjLESVtrgaj/GLqP6U1OFhVR8mF9Pj1PsqGyGSGQ00qFSxoRBFOX7zFK/WaWH3YAcb6h/ye4GNiQ6CPidohUQ9BGr/MK9Mv/IYAHeSKWKKr3ZwPt0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OMgU6W1J; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782395637; c=relaxed/simple;
+	bh=4VLsLPmsOnSm7nDXT0lIfSFTzRLeaQ3MiAdjfHrVnAk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QoQ+qqWrBXoHgljbASy9Y8FMezAh0BM7U4Al4q7wHSnKkMSDoQeLfvJS3mWnfqH596a1vQfP7LL/9r7rmfbn7i8nU+nmDpPMVK1sXGp+sbqwatFzcn08zW/XIuFYQMrO5d+gKk8cd5CFURURHSHpR3HF71HO2bSvs3lIZ+SKruE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aMGOUBp7; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OMgU6W1J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 210461F000E9;
-	Thu, 25 Jun 2026 13:41:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782394915;
-	bh=0bWUv6aewXzurO7voPqDaKjL1PVSd5ivjKvmmQVuGwo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=OMgU6W1J8UaaHltkQr8yvhNuQjdCRSy/MQGMsJxZe2npaynCUYVtOsDpYxNKjj1pI
-	 cWIRfq9qrx7lvhevz0losWRIyl4CnHW0RuLLKdlurT/rmi9DnaFomJlIknz5ZfIIFK
-	 ObEI78dewZOdaFw3V2ZRfBuBmFFguM0i9EoJtIt+PTMlfuavg2FcshpyRh+otRQa1z
-	 nL7Y48uUTkMYoXFEreFugbBOnAyQ2sZGnV80U8CiMnLXC0Si+RXOtyhN9ptWpzgPLU
-	 65pS60SH+XcUDQD5ZQUg0Uqb7UP/9pyMG1e4BA0lQQE737t5T/fHj7lKWkU54hlQ8f
-	 rng88+FLCtOSA==
-Message-ID: <66c2d735-6ef0-4dc4-8483-c6a2e4828b28@kernel.org>
-Date: Thu, 25 Jun 2026 15:41:51 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aMGOUBp7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782395636; x=1813931636;
+  h=date:from:to:cc:subject:message-id;
+  bh=4VLsLPmsOnSm7nDXT0lIfSFTzRLeaQ3MiAdjfHrVnAk=;
+  b=aMGOUBp7Z31TKBFNPVbFb1P9w+vhWLeMXHbUhh7db4uJ7qFTMmVJntsY
+   FVEpGz2uNDTH/06msp/Z1O13vvVQmY6ejaWZeCl3/PhbkDWZHA0MrpKyK
+   dm83xOgd2SXXNe5tD8tOBbTpQ9yd9VLIvefM99y1ccGEa9pVv1r6C7jQW
+   h+GDRffW3dWPwJwCa2R+6gGGsHXxkaEkSik86t3sw8aQM5AgGiienEMuB
+   V64mqjtLAkre/7fNgehqhgJUa5HsAvcbU1EzOMadrzCQiSdKmV2IGfbAz
+   a0KutAutoNSHlpWHash59lH6eI+VXPsehynxfLvgawvNFcBRL5yinbf/5
+   g==;
+X-CSE-ConnectionGUID: gFUfqbtnR7+ujD5b0czb2Q==
+X-CSE-MsgGUID: Mc8wpX6xQOWfBlDlPnGG2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83055818"
+X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
+   d="scan'208";a="83055818"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 06:53:56 -0700
+X-CSE-ConnectionGUID: D1GzafVPSneAg8FLZYVA8A==
+X-CSE-MsgGUID: MccKMI/sS+a7dT6zuYvRCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
+   d="scan'208";a="248158441"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 25 Jun 2026 06:53:53 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wckWd-000000004AN-0aOp;
+	Thu, 25 Jun 2026 13:53:51 +0000
+Date: Thu, 25 Jun 2026 21:53:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 480/799]
+ fs/bcachefs/alloc/check.c:621:1: warning: the frame size of 1824 bytes is
+ larger than 1280 bytes
+Message-ID: <202606252111.08izx0cw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [mptcp:export-net 15/22] include/linux/compiler_types.h:699:45:
- error: call to '__compiletime_assert_784' declared with attribute error:
- BUILD_BUG_ON failed: sizeof_field(struct mptcp_ext, flags) != sizeof(u16)
-Content-Language: fr, en-GB
-To: Frank Ranner <frank.ranner@intel.com>
-Cc: lkp@intel.com, mptcp@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- pabeni@redhat.com
-References: <d5891e2b-2f88-480f-a61e-2fe192d413ad@kernel.org>
- <20260625130953.140040-1-frank.ranner@intel.com>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <20260625130953.140040-1-frank.ranner@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Frank,
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: 1793cc6db8c9956fee64b427113359b3a2df7678 [480/799] bcachefs: errptr_try()
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260625/202606252111.08izx0cw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606252111.08izx0cw-lkp@intel.com/reproduce)
 
-On 25/06/2026 15:09, Frank Ranner wrote:
->> Mmh, I wonder what size this struct group has on ARM 32bit. I tried to
->> reproduce the issue with the config file and the instructions, but I
->> didn't manage to.
-> 
-> The size is 4 bytes there, and the reason is the ABI rather than the
-> patch itself.
-> 
-> arm-collie_defconfig targets the StrongARM SA1100 (ARMv4):
-> 
->     CONFIG_ARCH_MULTI_V4=y
->     CONFIG_ARCH_SA1100=y      # CONFIG_AEABI is not set
-> 
-> Because CONFIG_AEABI is not set, this config is built with the legacy ARM
-> ABI (APCS-GNU / OABI). Its defining difference is
-> -mstructure-size-boundary=32: every struct's size is rounded up to a
-> multiple of 4 bytes (EABI uses 8).
-> 
-> struct_group(flags, ...) expands flags into a named sub-struct. Under
-> EABI that sub-struct is 2 bytes (two u8 bitfield containers), but under OABI
-> it is padded up to 4 bytes. Hence:
-> 
->     sizeof_field(struct mptcp_ext, flags) == 4   !=   sizeof(u16) == 2
-> 
-> and the new BUILD_BUG_ON in net/mptcp/options.c fires. The report is
-> therefore a genuine OABI portability issue, not a false positive.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606252111.08izx0cw-lkp@intel.com/
 
-Thank you for the analysis, I didn't know about this kconfig and its effect.
+All warnings (new ones prefixed by >>):
 
-> The reason your local attempt passed is that the build reused an existing
-> O=build_dir whose .config was not the OABI collie config, so the bitfield
-> group packed to 2 bytes. To reproduce, regenerate the config from scratch so
-> the OABI flags actually take effect:
-> 
->     COMPILER=gcc-15.2.0 ~/lkp/kbuild/make.cross ARCH=arm O=build_dir collie_defconfig
->     COMPILER=gcc-15.2.0 ~/lkp/kbuild/make.cross W=1 ARCH=arm O=build_dir net/mptcp/options.o
+   fs/bcachefs/alloc/check.c: In function 'bch2_check_alloc_info':
+>> fs/bcachefs/alloc/check.c:621:1: warning: the frame size of 1824 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     621 | }
+         | ^
+--
+   fs/bcachefs/data/update.c: In function '__bch2_data_update_index_update':
+>> fs/bcachefs/data/update.c:457:1: warning: the frame size of 1496 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     457 | }
+         | ^
+--
+   fs/bcachefs/fs/check.c: In function 'lookup_lostfound':
+>> fs/bcachefs/fs/check.c:240:1: warning: the frame size of 1632 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     240 | }
+         | ^
+   fs/bcachefs/fs/check.c: In function 'bch2_reattach_inode':
+   fs/bcachefs/fs/check.c:414:1: warning: the frame size of 1832 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     414 | }
+         | ^
+   fs/bcachefs/fs/check.c: In function 'check_inode':
+   fs/bcachefs/fs/check.c:1088:1: warning: the frame size of 1328 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+    1088 | }
+         | ^
+--
+   fs/bcachefs/fs/check_dir_structure.c: In function 'check_path_loop':
+>> fs/bcachefs/fs/check_dir_structure.c:285:1: warning: the frame size of 1616 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     285 | }
+         | ^
+--
+   fs/bcachefs/vfs/fs.c: In function 'bch2_get_name':
+>> fs/bcachefs/vfs/fs.c:2007:1: warning: the frame size of 1320 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+    2007 | }
+         | ^
+   fs/bcachefs/vfs/fs.c: In function 'bch2_rename2':
+   fs/bcachefs/vfs/fs.c:1017:1: warning: the frame size of 1336 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+    1017 | }
+         | ^
 
-Indeed, I confirm that.
 
-> Suggested fix: don't assume the flags group is exactly u16-sized. Clearing
-> it with
-> 
->     memset(&ext->flags, 0, sizeof_field(struct mptcp_ext, flags));
-> 
-> instead of a 16-bit access, and dropping/relaxing the != sizeof(u16)
-> assertion, makes it correct on OABI too (where the group is legitimately
-> 4 bytes).
+vim +621 fs/bcachefs/alloc/check.c
 
-The purpose of these new BUILD_BUG_ON(), etc. was to avoid a memset().
-That's a shame we have to use it for this (exotic?) option, but I guess
-we would prefer that over a non-readable code using #ifdef there.
+3fdc7b4035515f Kent Overstreet 2025-10-04  496  
+3fdc7b4035515f Kent Overstreet 2025-10-04  497  int bch2_check_alloc_info(struct bch_fs *c)
+3fdc7b4035515f Kent Overstreet 2025-10-04  498  {
+3fdc7b4035515f Kent Overstreet 2025-10-04  499  	struct btree_iter iter, discard_iter, freespace_iter, bucket_gens_iter;
+3fdc7b4035515f Kent Overstreet 2025-10-04  500  	struct bch_dev *ca = NULL;
+3fdc7b4035515f Kent Overstreet 2025-10-04  501  	struct bkey hole;
+3fdc7b4035515f Kent Overstreet 2025-10-04  502  	struct bkey_s_c k;
+3fdc7b4035515f Kent Overstreet 2025-10-04  503  	int ret = 0;
+3fdc7b4035515f Kent Overstreet 2025-10-04  504  
+3fdc7b4035515f Kent Overstreet 2025-10-04  505  	struct progress_indicator_state progress;
+3fdc7b4035515f Kent Overstreet 2025-10-04  506  	bch2_progress_init(&progress, c, BIT_ULL(BTREE_ID_alloc));
+3fdc7b4035515f Kent Overstreet 2025-10-04  507  
+3fdc7b4035515f Kent Overstreet 2025-10-04  508  	CLASS(btree_trans, trans)(c);
+3fdc7b4035515f Kent Overstreet 2025-10-04  509  	bch2_trans_iter_init(trans, &iter, BTREE_ID_alloc, POS_MIN,
+3fdc7b4035515f Kent Overstreet 2025-10-04  510  			     BTREE_ITER_prefetch);
+3fdc7b4035515f Kent Overstreet 2025-10-04  511  	bch2_trans_iter_init(trans, &discard_iter, BTREE_ID_need_discard, POS_MIN,
+3fdc7b4035515f Kent Overstreet 2025-10-04  512  			     BTREE_ITER_prefetch);
+3fdc7b4035515f Kent Overstreet 2025-10-04  513  	bch2_trans_iter_init(trans, &freespace_iter, BTREE_ID_freespace, POS_MIN,
+3fdc7b4035515f Kent Overstreet 2025-10-04  514  			     BTREE_ITER_prefetch);
+3fdc7b4035515f Kent Overstreet 2025-10-04  515  	bch2_trans_iter_init(trans, &bucket_gens_iter, BTREE_ID_bucket_gens, POS_MIN,
+3fdc7b4035515f Kent Overstreet 2025-10-04  516  			     BTREE_ITER_prefetch);
+3fdc7b4035515f Kent Overstreet 2025-10-04  517  
+3fdc7b4035515f Kent Overstreet 2025-10-04  518  	while (1) {
+3fdc7b4035515f Kent Overstreet 2025-10-04  519  		struct bpos next;
+3fdc7b4035515f Kent Overstreet 2025-10-04  520  
+3fdc7b4035515f Kent Overstreet 2025-10-04  521  		bch2_trans_begin(trans);
+3fdc7b4035515f Kent Overstreet 2025-10-04  522  
+3fdc7b4035515f Kent Overstreet 2025-10-04  523  		k = bch2_get_key_or_real_bucket_hole(&iter, &ca, &hole);
+3fdc7b4035515f Kent Overstreet 2025-10-04  524  		ret = bkey_err(k);
+3fdc7b4035515f Kent Overstreet 2025-10-04  525  		if (ret)
+3fdc7b4035515f Kent Overstreet 2025-10-04  526  			goto bkey_err;
+3fdc7b4035515f Kent Overstreet 2025-10-04  527  
+3fdc7b4035515f Kent Overstreet 2025-10-04  528  		if (!k.k)
+3fdc7b4035515f Kent Overstreet 2025-10-04  529  			break;
+3fdc7b4035515f Kent Overstreet 2025-10-04  530  
+3fdc7b4035515f Kent Overstreet 2025-10-04  531  		progress_update_iter(trans, &progress, &iter);
+3fdc7b4035515f Kent Overstreet 2025-10-04  532  
+3fdc7b4035515f Kent Overstreet 2025-10-04  533  		if (k.k->type) {
+3fdc7b4035515f Kent Overstreet 2025-10-04  534  			next = bpos_nosnap_successor(k.k->p);
+3fdc7b4035515f Kent Overstreet 2025-10-04  535  
+3fdc7b4035515f Kent Overstreet 2025-10-04  536  			ret = bch2_check_alloc_key(trans,
+3fdc7b4035515f Kent Overstreet 2025-10-04  537  						   k, &iter,
+3fdc7b4035515f Kent Overstreet 2025-10-04  538  						   &discard_iter,
+3fdc7b4035515f Kent Overstreet 2025-10-04  539  						   &freespace_iter,
+3fdc7b4035515f Kent Overstreet 2025-10-04  540  						   &bucket_gens_iter);
+88b348c46561d1 Kent Overstreet 2025-10-05  541  			BUG_ON(ret > 0);
+3fdc7b4035515f Kent Overstreet 2025-10-04  542  			if (ret)
+3fdc7b4035515f Kent Overstreet 2025-10-04  543  				goto bkey_err;
+3fdc7b4035515f Kent Overstreet 2025-10-04  544  		} else {
+3fdc7b4035515f Kent Overstreet 2025-10-04  545  			next = k.k->p;
+3fdc7b4035515f Kent Overstreet 2025-10-04  546  
+3fdc7b4035515f Kent Overstreet 2025-10-04  547  			ret = bch2_check_alloc_hole_freespace(trans, ca,
+3fdc7b4035515f Kent Overstreet 2025-10-04  548  						    bkey_start_pos(k.k),
+3fdc7b4035515f Kent Overstreet 2025-10-04  549  						    &next,
+3fdc7b4035515f Kent Overstreet 2025-10-04  550  						    &freespace_iter) ?:
+3fdc7b4035515f Kent Overstreet 2025-10-04  551  				bch2_check_alloc_hole_bucket_gens(trans,
+3fdc7b4035515f Kent Overstreet 2025-10-04  552  						    bkey_start_pos(k.k),
+3fdc7b4035515f Kent Overstreet 2025-10-04  553  						    &next,
+3fdc7b4035515f Kent Overstreet 2025-10-04  554  						    &bucket_gens_iter);
+88b348c46561d1 Kent Overstreet 2025-10-05  555  			BUG_ON(ret > 0);
+3fdc7b4035515f Kent Overstreet 2025-10-04  556  			if (ret)
+3fdc7b4035515f Kent Overstreet 2025-10-04  557  				goto bkey_err;
+3fdc7b4035515f Kent Overstreet 2025-10-04  558  		}
+3fdc7b4035515f Kent Overstreet 2025-10-04  559  
+3fdc7b4035515f Kent Overstreet 2025-10-04  560  		ret = bch2_trans_commit(trans, NULL, NULL,
+3fdc7b4035515f Kent Overstreet 2025-10-04  561  					BCH_TRANS_COMMIT_no_enospc);
+3fdc7b4035515f Kent Overstreet 2025-10-04  562  		if (ret)
+3fdc7b4035515f Kent Overstreet 2025-10-04  563  			goto bkey_err;
+3fdc7b4035515f Kent Overstreet 2025-10-04  564  
+3fdc7b4035515f Kent Overstreet 2025-10-04  565  		bch2_btree_iter_set_pos(&iter, next);
+3fdc7b4035515f Kent Overstreet 2025-10-04  566  bkey_err:
+3fdc7b4035515f Kent Overstreet 2025-10-04  567  		if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
+3fdc7b4035515f Kent Overstreet 2025-10-04  568  			continue;
+3fdc7b4035515f Kent Overstreet 2025-10-04  569  		if (ret)
+3fdc7b4035515f Kent Overstreet 2025-10-04  570  			break;
+3fdc7b4035515f Kent Overstreet 2025-10-04  571  	}
+3fdc7b4035515f Kent Overstreet 2025-10-04  572  	bch2_trans_iter_exit(&bucket_gens_iter);
+3fdc7b4035515f Kent Overstreet 2025-10-04  573  	bch2_trans_iter_exit(&freespace_iter);
+3fdc7b4035515f Kent Overstreet 2025-10-04  574  	bch2_trans_iter_exit(&discard_iter);
+3fdc7b4035515f Kent Overstreet 2025-10-04  575  	bch2_trans_iter_exit(&iter);
+3fdc7b4035515f Kent Overstreet 2025-10-04  576  	bch2_dev_put(ca);
+3fdc7b4035515f Kent Overstreet 2025-10-04  577  	ca = NULL;
+3fdc7b4035515f Kent Overstreet 2025-10-04  578  
+3fdc7b4035515f Kent Overstreet 2025-10-04  579  	if (ret < 0)
+3fdc7b4035515f Kent Overstreet 2025-10-04  580  		return ret;
+3fdc7b4035515f Kent Overstreet 2025-10-04  581  
+3c16c1d9609b81 Kent Overstreet 2025-10-05  582  	try(for_each_btree_key(trans, iter,
+3fdc7b4035515f Kent Overstreet 2025-10-04  583  			BTREE_ID_need_discard, POS_MIN,
+3fdc7b4035515f Kent Overstreet 2025-10-04  584  			BTREE_ITER_prefetch, k,
+3c16c1d9609b81 Kent Overstreet 2025-10-05  585  		bch2_check_discard_freespace_key(trans, &iter)));
+3fdc7b4035515f Kent Overstreet 2025-10-04  586  
+3fdc7b4035515f Kent Overstreet 2025-10-04  587  	bch2_trans_iter_init(trans, &iter, BTREE_ID_freespace, POS_MIN,
+3fdc7b4035515f Kent Overstreet 2025-10-04  588  			     BTREE_ITER_prefetch);
+3fdc7b4035515f Kent Overstreet 2025-10-04  589  	while (1) {
+3fdc7b4035515f Kent Overstreet 2025-10-04  590  		bch2_trans_begin(trans);
+3fdc7b4035515f Kent Overstreet 2025-10-04  591  		k = bch2_btree_iter_peek(&iter);
+3fdc7b4035515f Kent Overstreet 2025-10-04  592  		if (!k.k)
+3fdc7b4035515f Kent Overstreet 2025-10-04  593  			break;
+3fdc7b4035515f Kent Overstreet 2025-10-04  594  
+3fdc7b4035515f Kent Overstreet 2025-10-04  595  		ret = bkey_err(k) ?:
+3fdc7b4035515f Kent Overstreet 2025-10-04  596  			bch2_check_discard_freespace_key(trans, &iter);
+3fdc7b4035515f Kent Overstreet 2025-10-04  597  		if (bch2_err_matches(ret, BCH_ERR_transaction_restart)) {
+3fdc7b4035515f Kent Overstreet 2025-10-04  598  			ret = 0;
+3fdc7b4035515f Kent Overstreet 2025-10-04  599  			continue;
+3fdc7b4035515f Kent Overstreet 2025-10-04  600  		}
+3fdc7b4035515f Kent Overstreet 2025-10-04  601  		if (ret) {
+3fdc7b4035515f Kent Overstreet 2025-10-04  602  			CLASS(printbuf, buf)();
+3fdc7b4035515f Kent Overstreet 2025-10-04  603  			bch2_bkey_val_to_text(&buf, c, k);
+3fdc7b4035515f Kent Overstreet 2025-10-04  604  			bch_err(c, "while checking %s", buf.buf);
+3fdc7b4035515f Kent Overstreet 2025-10-04  605  			break;
+3fdc7b4035515f Kent Overstreet 2025-10-04  606  		}
+3fdc7b4035515f Kent Overstreet 2025-10-04  607  
+3fdc7b4035515f Kent Overstreet 2025-10-04  608  		bch2_btree_iter_set_pos(&iter, bpos_nosnap_successor(iter.pos));
+3fdc7b4035515f Kent Overstreet 2025-10-04  609  	}
+3fdc7b4035515f Kent Overstreet 2025-10-04  610  	bch2_trans_iter_exit(&iter);
+3fdc7b4035515f Kent Overstreet 2025-10-04  611  	if (ret)
+3fdc7b4035515f Kent Overstreet 2025-10-04  612  		return ret;
+3fdc7b4035515f Kent Overstreet 2025-10-04  613  
+3fdc7b4035515f Kent Overstreet 2025-10-04  614  	ret = for_each_btree_key_commit(trans, iter,
+3fdc7b4035515f Kent Overstreet 2025-10-04  615  			BTREE_ID_bucket_gens, POS_MIN,
+3fdc7b4035515f Kent Overstreet 2025-10-04  616  			BTREE_ITER_prefetch, k,
+3fdc7b4035515f Kent Overstreet 2025-10-04  617  			NULL, NULL, BCH_TRANS_COMMIT_no_enospc,
+3fdc7b4035515f Kent Overstreet 2025-10-04  618  		bch2_check_bucket_gens_key(trans, &iter, k));
+3fdc7b4035515f Kent Overstreet 2025-10-04  619  
+3fdc7b4035515f Kent Overstreet 2025-10-04  620  	return ret;
+3fdc7b4035515f Kent Overstreet 2025-10-04 @621  }
+3fdc7b4035515f Kent Overstreet 2025-10-04  622  
 
-Just to avoid a deadlock: are you planning to send such patch, or do you
-prefer if someone else does it?
+:::::: The code at line 621 was first introduced by commit
+:::::: 3fdc7b4035515f784e1d442bcca383f5c0267e53 bcachefs: move alloc files to subdir
 
-Cheers,
-Matt
--- 
-Sponsored by the NGI0 Core fund.
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
