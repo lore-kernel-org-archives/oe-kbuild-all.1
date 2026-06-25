@@ -1,163 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196071E32A2;
-	Thu, 25 Jun 2026 07:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1C5373BFE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 07:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782374066; cv=none; b=aEadn8ZQRrrVOerwdcwcV3yfMyfOoQHsRwK6Q4mXiujLXIvmAoko3X+efJPYN5HkzGW081UvYcHwMCZNjqGH6HGZuqP30CI9lfGP8dbYNQeC6ZbRCk8WwCLTe4AXhWev16Scq00gbeONF1fVi/d+S/LMuCQuWkWbLMCroXPp1W0=
+	t=1782374179; cv=none; b=c4+WiZnfp8Dkl5QOBED3ce2ZMAdWAJXNRGEJTHi/k9trIQpD1MxnFqLVbjHP2OZFlyMRixhsGqj65TGigEVI/ljP76JLpIBGFFlEHwomg+cz6hkmQr65/CyFT/N/iUFs1CmOJx7sKqsGDe8fLjogfjc3QUSd2e3rMIpn/QR3l3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782374066; c=relaxed/simple;
-	bh=o0TKwT0PKsyCzW8GjNzX99XwTsc291m62WoRSw+vc08=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EIyrt0ad6HV5Zowpc0oe331GrqI5bR6qCm2chiBwg8jgYUvOgg0r5csPPPj0RaJxHAXEHKN2ChvJvsaXDd1YOyn4uV+3VzO/zi7osY2zAa9ZBQOoRNqxXrkfPQcxP2EzurxARMtm+hJvUWtrKp4In36TBeHdIifSluH8Av7G2IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UzCdDwJa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782374179; c=relaxed/simple;
+	bh=0BcF7wvZQc2+bOS0wSRGCDiyVju8njB6a04Sg/Zmlt0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Jh7bDadSw/9OqEg6JtEhDkRF0sSYMk8ia6tFnd3eeKEUFvP+ZXzaFB8Y7KNGiPx1yjqdP/HmLBIDSN93pfrQIsRZrNM4qErf9GtA9v9sSURhqJi2ByF3GBLrRczKceEeuSbP5do5Kxj84KWAwMxvNILE2wkMvDTA5a6q0moRrn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwJTrYN3; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UzCdDwJa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D0E1F000E9;
-	Thu, 25 Jun 2026 07:54:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782374064;
-	bh=WU+cwzv11oA1r4PZBo7/cWtaeUDfFADOwM24rd5Wf4E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UzCdDwJaMRxT6Ty9dADQAfJYjrRCDDsxaL9K5BGYHTqPC3Y2IxTqkLlkB3sja1m4a
-	 bfprmOkTsujYkG+v7SThudFa0sqX2htXOGFfvC08rNrNtOImKwhlXWd+/B3HRsQwYV
-	 g7466d4qhvzZ3u/1T7TG1ecvxubZ72BjEbDFGObYvbsYMt+904cMY0y3SpFFlXYoHJ
-	 WNkO4QNAjplhqOrNGWwlZfu+PZnplMloPU/T3jVLvHK/nTMuITCjvoWouhfs/hub6x
-	 5VJ2xntNkzgBTwkXkUOZA2q1SaU5SC/NIYhYM/vVJHwa9wxqSnRBSGIhggzZE8f174
-	 FH6lZpWGsxS3g==
-Message-ID: <a4fe8ba6-2ecd-4bb9-95a9-27f9f1e87d2e@kernel.org>
-Date: Thu, 25 Jun 2026 09:54:18 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwJTrYN3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782374178; x=1813910178;
+  h=date:from:to:cc:subject:message-id;
+  bh=0BcF7wvZQc2+bOS0wSRGCDiyVju8njB6a04Sg/Zmlt0=;
+  b=cwJTrYN3XeHKt3c4l8qIyx47G6mrXAi9v982vprIVgDm24r/BxMdXIt7
+   ylwkDu8hPh7/43mXIFurElBzXCrp69iqi/h/Ix9oPWXc+Zyl3CxNLlH8F
+   fOlv70HAJdHrvlSJQwu7b/wYaH5hI/RGSHsjBpMIJli7EZ8icGqX8gfZX
+   ga4AdadN0lkmxbBw10sF59caHiNb3ZfgxHoYz74e/gAHsxazwCy8Po9oN
+   Z8Md+/NvsooorjAiAZkCgoT6kt2WMZhiuQQDAePGjwWRkXe9HkN6kbiN0
+   vsUgZzYVQjg7cmIqI/3Wkta3ZiVRCfEeh/TP5SNhNu/x2l03EJbQof8mb
+   w==;
+X-CSE-ConnectionGUID: qT9qYfE9Q5WO5ypRYvDO1w==
+X-CSE-MsgGUID: 4Q0AV6YuR0iG5Wpa9fDPoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83197214"
+X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
+   d="scan'208";a="83197214"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 00:56:14 -0700
+X-CSE-ConnectionGUID: /Z36ucInS9q1DiElsvyKOw==
+X-CSE-MsgGUID: p3Mvuu/FTm2Jzhn7JD0Sfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
+   d="scan'208";a="250160914"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 25 Jun 2026 00:56:12 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wcewT-0000000040T-2zWR;
+	Thu, 25 Jun 2026 07:56:09 +0000
+Date: Thu, 25 Jun 2026 15:55:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:abi-test 26/34] net/sctp/socket.c:7309:13:
+ error: implicit declaration of function 'in_ia32_syscall'; did you mean
+ 'in_compat_syscall'?
+Message-ID: <202606251520.cuVyLXaQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/rmap: use huge_ptep_get() in try_to_unmap_one()
-To: Dev Jain <dev.jain@arm.com>, kernel test robot <lkp@intel.com>,
- akpm@linux-foundation.org, ljs@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, riel@surriel.com,
- liam@infradead.org, vbabka@kernel.org, harry@kernel.org, jannh@google.com,
- kas@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- ryan.roberts@arm.com, anshuman.khandual@arm.com, stable@vger.kernel.org
-References: <20260625042853.2752898-1-dev.jain@arm.com>
- <202606251341.jfIr1D7m-lkp@intel.com>
- <2fd3688b-b4d0-4a2f-8d49-4d4b9c512c66@arm.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <2fd3688b-b4d0-4a2f-8d49-4d4b9c512c66@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 6/25/26 08:59, Dev Jain wrote:
-> 
-> 
-> On 25/06/26 11:15 am, kernel test robot wrote:
->> Hi Dev,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on akpm-mm/mm-everything]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Dev-Jain/mm-rmap-use-huge_ptep_get-in-try_to_unmap_one/20260625-123050
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
->> patch link:    https://lore.kernel.org/r/20260625042853.2752898-1-dev.jain%40arm.com
->> patch subject: [PATCH] mm/rmap: use huge_ptep_get() in try_to_unmap_one()
->> config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260625/202606251341.jfIr1D7m-lkp@intel.com/config)
->> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251341.jfIr1D7m-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202606251341.jfIr1D7m-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>     2100 |                         pteval = huge_ptep_get(mm, address, pvmw.pte);
->>          |                                  ^
->>     2100 |                         pteval = huge_ptep_get(mm, address, pvmw.pte);
->>          |                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    2 errors generated.
-> 
-> Weird that I need a stub. This should do:
-> 
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index 2abaf99321e90..4661f88eee55b 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -1261,6 +1261,16 @@ static inline void hugetlb_count_sub(long l, struct mm_struct *mm)
->  {
->  }
-> 
-> +static inline pte_t huge_ptep_get(struct mm_struct *mm, unsigned long addr,
-> +				  pte_t *ptep)
-> +{
-> +#ifdef CONFIG_MMU
-> +	return ptep_get(ptep);
-> +#else
-> +	return *ptep;
-> +#endif
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git abi-test
+head:   741e95c4b46803e113402223592189848b0ac9c8
+commit: d81a3a57360fb9705dbc00b272573f277717b9fe [26/34] uapi: explict padding for sctp
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260625/202606251520.cuVyLXaQ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251520.cuVyLXaQ-lkp@intel.com/reproduce)
 
-Without CONFIG_HUGETLB_PAGE, folio_test_hugetlb() == false and the compiler will
-never end up actually linking this function.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606251520.cuVyLXaQ-lkp@intel.com/
 
-So probably you can just let the linker deal with that
+All errors (new ones prefixed by >>):
 
-pte_t huge_ptep_get(struct mm_struct *mm, unsigned long addr, pte_t *ptep);
+   net/sctp/socket.c: In function 'sctp_getsockopt_assoc_stats':
+>> net/sctp/socket.c:7309:13: error: implicit declaration of function 'in_ia32_syscall'; did you mean 'in_compat_syscall'? [-Wimplicit-function-declaration]
+    7309 |         if (in_ia32_syscall())
+         |             ^~~~~~~~~~~~~~~
+         |             in_compat_syscall
 
 
-If abused, the linker would complain. In you case, the compiler will optimize it
-out (and be happy) and the linker will never start looking for the symbol (that
-doesn't exist).
+vim +7309 net/sctp/socket.c
 
--- 
-Cheers,
+  7289	
+  7290	/*
+  7291	 * SCTP_GET_ASSOC_STATS
+  7292	 *
+  7293	 * This option retrieves local per endpoint statistics. It is modeled
+  7294	 * after OpenSolaris' implementation
+  7295	 */
+  7296	static int sctp_getsockopt_assoc_stats(struct sock *sk, int len,
+  7297					       char __user *optval,
+  7298					       int __user *optlen)
+  7299	{
+  7300		struct sctp_assoc_stats sas;
+  7301		struct sctp_association *asoc = NULL;
+  7302	
+  7303		/* User must provide at least the assoc id */
+  7304		if (len < sizeof(sctp_assoc_t))
+  7305			return -EINVAL;
+  7306	
+  7307	#ifdef CONFIG_X86_64
+  7308		/* FIXME: need to convert sctp_assoc_stats layout */
+> 7309		if (in_ia32_syscall())
+  7310			return -ENOSYS;
+  7311	#endif
+  7312	
+  7313		/* Allow the struct to grow and fill in as much as possible */
+  7314		len = min_t(size_t, len, sizeof(sas));
+  7315	
+  7316		if (copy_from_user(&sas, optval, len))
+  7317			return -EFAULT;
+  7318	
+  7319		asoc = sctp_id2assoc(sk, sas.sas_assoc_id);
+  7320		if (!asoc)
+  7321			return -EINVAL;
+  7322	
+  7323		sas.sas_rtxchunks = asoc->stats.rtxchunks;
+  7324		sas.sas_gapcnt = asoc->stats.gapcnt;
+  7325		sas.sas_outofseqtsns = asoc->stats.outofseqtsns;
+  7326		sas.sas_osacks = asoc->stats.osacks;
+  7327		sas.sas_isacks = asoc->stats.isacks;
+  7328		sas.sas_octrlchunks = asoc->stats.octrlchunks;
+  7329		sas.sas_ictrlchunks = asoc->stats.ictrlchunks;
+  7330		sas.sas_oodchunks = asoc->stats.oodchunks;
+  7331		sas.sas_iodchunks = asoc->stats.iodchunks;
+  7332		sas.sas_ouodchunks = asoc->stats.ouodchunks;
+  7333		sas.sas_iuodchunks = asoc->stats.iuodchunks;
+  7334		sas.sas_idupchunks = asoc->stats.idupchunks;
+  7335		sas.sas_opackets = asoc->stats.opackets;
+  7336		sas.sas_ipackets = asoc->stats.ipackets;
+  7337	
+  7338		/* New high max rto observed, will return 0 if not a single
+  7339		 * RTO update took place. obs_rto_ipaddr will be bogus
+  7340		 * in such a case
+  7341		 */
+  7342		sas.sas_maxrto = asoc->stats.max_obs_rto;
+  7343		memcpy(&sas.sas_obs_rto_ipaddr, &asoc->stats.obs_rto_ipaddr,
+  7344			sizeof(struct sockaddr_storage));
+  7345	
+  7346		/* Mark beginning of a new observation period */
+  7347		asoc->stats.max_obs_rto = asoc->rto_min;
+  7348	
+  7349		if (put_user(len, optlen))
+  7350			return -EFAULT;
+  7351	
+  7352		pr_debug("%s: len:%d, assoc_id:%d\n", __func__, len, sas.sas_assoc_id);
+  7353	
+  7354		if (copy_to_user(optval, &sas, len))
+  7355			return -EFAULT;
+  7356	
+  7357		return 0;
+  7358	}
+  7359	
 
-David
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
