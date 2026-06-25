@@ -1,64 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAAB36EAAB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 05:46:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B38382F17;
+	Thu, 25 Jun 2026 05:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782366377; cv=none; b=DsYhiWbkOHP44QLXg1kLmVMcBU5eavz8YlGFa0B5B7xYHUr4EiwAce0tCONz88Kt8/1XiM4KVKfp+bDWXNyFnQYPE+EuO8rW8L3zgbR/v/rH9p3AawUI+5vQ5JaGJVRLw6b9LEhxabZKcWLhYEMO7hzR+3+tgHZp2UtU4Q/TNUU=
+	t=1782366381; cv=none; b=qdjBrIXKImeNmtaZ7tFMSdCCLhWxv87upVEhGQBioQBbux8/OeDIE/vuY2at2lrv236sZMI6yx2Eol26cPBA8PQifZSlgZduqX2AoqJAVf/JV7ob9IT+YxeJmYwCVIK/8FG1KJI7yTt6BLUceBvAqZhG2ewmZtbvNxJ22lrCVC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782366377; c=relaxed/simple;
-	bh=CF0Qpif2lRz1peTAm1ADsyGmWCzDr80ARjv0mpc3Kk8=;
+	s=arc-20240116; t=1782366381; c=relaxed/simple;
+	bh=0xMLENcuy5XK64XhlRj6nQreCLFTSuOzxNb7Pm80sPE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAgQgOs3hqsrLIwQfZiN2x4oZ2kIGEl9zrTtZIGq5jBdtjAqrg3efSkL7nyRStUe39tqV8kJbXQNUF3P736lXKIpTEfS366V6mVzvwB4hLimmRFq9hEg6c4FFjhSCh0G11B//Fr8Cmo5o1abJSY/uqLUHFHaRmGIC+BUeCJVSwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwtiQWel; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYy8j/IBqVrTaiR+mjgcJPJyTZderZ8WFcaHgKKX2zW0PVjRq+BifiL8AHRuTL9zpZh8Rh11pa0Ur5tACT/XCSrEfmIhgF6/+R68pcnyO0nq85Wv6wwEXU74ts6eHi4kxNaUTBf4aTORCkcqCXM+kwPADHl5iyXmaDOXAScZk3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJ2FokhT; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwtiQWel"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJ2FokhT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782366372; x=1813902372;
+  t=1782366378; x=1813902378;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CF0Qpif2lRz1peTAm1ADsyGmWCzDr80ARjv0mpc3Kk8=;
-  b=hwtiQWelG/0ZYEiJLiaKVy5YSNrY94ICfqg2Fn9n7dWeKf0NwFLAWXjt
-   kpg+3uK+RggdScndB7df2TA9GSjU7RQ62DjgnHjtQY+YV2p/c/0o6ABIs
-   MVkC91tiEufFQ7TbW/gpMr788i4MUa2zsn4vbLKSrDIa2+imcV2dH68p3
-   531aAYvgPw3E7cv45xhFEwNqreOdnPiJL5818PKXJdtSf3AL3Vdi5I5q0
-   brUvYzeO5V2Pp6ptgF4lPo9SOKgfOlRPlWFTKqATcBt3td+bs/aFvYqeA
-   CgU4Y2OeNzlY7aj7reZue9o1S7DrHelPprPk5hOyi3fR4Ufc5SkthONh+
+  bh=0xMLENcuy5XK64XhlRj6nQreCLFTSuOzxNb7Pm80sPE=;
+  b=UJ2FokhTJW6uM3gfqsXUCKLmUICh33mjPuKFuP3Yx2T8qGMXaIKn4XZ7
+   /eHDEycC94CC1ENB6n2A9z/y0PmEqKAsqk7Eag55LpBOnI0Q+2NoJP1Im
+   zKk15kEfV7le/EGp27lMwY5peHtEFaB6nRpxmPXqrbjumLO9/i1MxcunN
+   FHjfQog4uvuJGSBxfLRZ1hofe29Zz2+eTgXi1Yl7vyW3xvWwBMD6q8e95
+   B7emPGIFi78S8sLF7sEntc8oj68H2hzd40Be/9tMaG6GnzFcUptDDJjKD
+   CSp/8sW7PLBq0Kba9KSGV95L/QasGbPAOGvTa+iT6f6EryN+6CZLRPyJd
    Q==;
-X-CSE-ConnectionGUID: kccOtLR4SaOGWoaUPaSdJA==
-X-CSE-MsgGUID: bEY0DdopQbKzG1IbHX4JaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="82121854"
+X-CSE-ConnectionGUID: TAm2G0/mRrWap+XyH7DKFw==
+X-CSE-MsgGUID: Gb97NstYQc66fRozd1wIBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="82121861"
 X-IronPort-AV: E=Sophos;i="6.24,223,1774335600"; 
-   d="scan'208";a="82121854"
+   d="scan'208";a="82121861"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 22:46:11 -0700
-X-CSE-ConnectionGUID: TgBe4sbNSImv6HMaVV55Ew==
-X-CSE-MsgGUID: 5iiTdnI/RfaHkbwKTp6RZg==
+X-CSE-ConnectionGUID: Ya1fGO+hSQ2qgsRSNC27zQ==
+X-CSE-MsgGUID: fWctwNGFTbexH2ojKAyAIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,223,1774335600"; 
-   d="scan'208";a="280543917"
+   d="scan'208";a="280543918"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
   by orviesa002.jf.intel.com with ESMTP; 24 Jun 2026 22:46:06 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wccua-000000003w9-1qFv;
+	id 1wccua-000000003wB-1xiI;
 	Thu, 25 Jun 2026 05:46:04 +0000
-Date: Thu, 25 Jun 2026 13:45:57 +0800
+Date: Thu, 25 Jun 2026 13:45:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dev Jain <dev.jain@arm.com>, akpm@linux-foundation.org,
 	david@kernel.org, ljs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Dev Jain <dev.jain@arm.com>,
-	riel@surriel.com, liam@infradead.org, vbabka@kernel.org,
-	harry@kernel.org, jannh@google.com, kas@kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dev Jain <dev.jain@arm.com>, riel@surriel.com, liam@infradead.org,
+	vbabka@kernel.org, harry@kernel.org, jannh@google.com,
+	kas@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
 	ryan.roberts@arm.com, anshuman.khandual@arm.com,
 	stable@vger.kernel.org
 Subject: Re: [PATCH] mm/rmap: use huge_ptep_get() in try_to_unmap_one()
-Message-ID: <202606251311.CCKYInqf-lkp@intel.com>
+Message-ID: <202606251341.jfIr1D7m-lkp@intel.com>
 References: <20260625042853.2752898-1-dev.jain@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,23 +80,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Dev-Jain/mm-rmap-use-huge
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20260625042853.2752898-1-dev.jain%40arm.com
 patch subject: [PATCH] mm/rmap: use huge_ptep_get() in try_to_unmap_one()
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260625/202606251311.CCKYInqf-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251311.CCKYInqf-lkp@intel.com/reproduce)
+config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260625/202606251341.jfIr1D7m-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251341.jfIr1D7m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606251311.CCKYInqf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606251341.jfIr1D7m-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/rmap.c: In function 'try_to_unmap_one':
->> mm/rmap.c:2100:34: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
+>> mm/rmap.c:2100:13: error: call to undeclared function 'huge_ptep_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     2100 |                         pteval = huge_ptep_get(mm, address, pvmw.pte);
-         |                                  ^~~~~~~~~~~~~
->> mm/rmap.c:2100:34: error: incompatible types when assigning to type 'pte_t' from type 'int'
-   cc1: some warnings being treated as errors
+         |                                  ^
+>> mm/rmap.c:2100:11: error: assigning to 'pte_t' from incompatible type 'int'
+    2100 |                         pteval = huge_ptep_get(mm, address, pvmw.pte);
+         |                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
 vim +/huge_ptep_get +2100 mm/rmap.c
