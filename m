@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D42A368968
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 09:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7903D332C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 10:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782379115; cv=none; b=STKJ+eyAZjfw5OEu8FzOTLJSyaLg/yo2V1/Vf3rg4nRXdwwrNbR7/dWxr8etnSJYJUiah1A1VNvTocwqRlYSBVYoZ7o07H1hPyhS77JNSN6ArQ+/p1C2kqx37AEa/gGuukBR2H+porctw5hKA/rcREb1sZrgbfY5D7SW5BuYBAQ=
+	t=1782384242; cv=none; b=hxPVss64eN+nWnKVvDR0b0KQmBk+UKohTrL+ASNCqsor9o0UMlNOYTMjVamKQ7mT1iJpMwCG1IL7etTupEx29tYKVr3zThPW1F9LUAYF4EcK8azP1sMss1B1M2yNS2kBYk5wMeHPKeTzlGZLaqB028WGSDv2FMmL5VoEPbpGGoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782379115; c=relaxed/simple;
-	bh=OQeZNEE5yef0PDxtH/PHntXhBBSRhKzC18psRPx2PeA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XjYfe8r8QKSx5gQJBFxodVsBYiiR484r1AKsmq0rdOhTXtZPaeLJwO1aMAjVtNgL3IBEIvWpQE0AnrJwVH4l8xbBIuUkxa47ROSkZaAHtzTGQaqJd93e9OjuxuDpD0b+wjD8mN+kmWZdEwyn5pQ7y6P63eMUT/VT2TSAiVk1tcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWprrp6B; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1782384242; c=relaxed/simple;
+	bh=N/s/fNY16CRIXlDomFBiGJ3je6nFOliHlhWosnDTV7I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z3A9E7p66IeOqJfRQ5FEXBRQVM15eRj4egsaos2w75MyjK6wlHzfG1i+qW1DkQ6Ju5crbgj0+hMCKKLiMKwuvKrgeVOFmnmcEMNHrnyb4z67kSS7LJb82Y8a3Xf/OVqVMa31CRD9PPDqRXnUCFNU//zqvZSEVhEkO/ISLh0WXsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iz/NQGpG; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWprrp6B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iz/NQGpG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782379113; x=1813915113;
+  t=1782384240; x=1813920240;
   h=date:from:to:cc:subject:message-id;
-  bh=OQeZNEE5yef0PDxtH/PHntXhBBSRhKzC18psRPx2PeA=;
-  b=gWprrp6BnLgXqQwPFRoE465lEKip7IE37KnhMARh75GE5WtzP7CSZMkF
-   1LN3+0Z+VsKD2aVq6v6xApV2zivP4rstzbTcCy4OfrPdDK4ZXHvtfPARQ
-   Rx8smWr3I6f/OQsM1Btwka3VlPLubeKn6kGL+6I1bnaFkfHiiSISOVkNu
-   cTtj1aoy7JMGHwcYZUdSI65pPwkwOGrEuUDpZ8aM7Z2oSIfNvX4Es/OX8
-   pZtnOgyhluUN/pDTU1lQZKiJSjSrP/iPN4qieZoC/wWLMMgVT+XD1g3KS
-   fT5CCy/bPPp5Ahi9a06D7HR/kQrfjIerj/clpycxXXhk6RePL0HMjYXdo
-   Q==;
-X-CSE-ConnectionGUID: olCFVfeOTPyGm6aSGlW5Jg==
-X-CSE-MsgGUID: N+qGPB5TQJSpHFha8CtdTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="93804805"
+  bh=N/s/fNY16CRIXlDomFBiGJ3je6nFOliHlhWosnDTV7I=;
+  b=Iz/NQGpG+x58p88v9STv+6vk7LIVYov9ZxAtqh7W720yaVInzvuuVFri
+   4OTG7xayVe4Hx0Tai2VeJD0hcnbqk9OvspyoK5FN7utoLAo7MGquN+E6E
+   EqSJEf9/BlYYl1dAQ3bUP5i0GYVsqd5NDDLdAmMCamanOQIyRqLlVAZPh
+   VdBh+35bhDR5JPJLFdTPJ+z6bfBcNRertjndfLd/WCf5g+70od24M6XZz
+   nDvNdGdsPrhD5OKirZquDHeAoNplTnVOmdRUpeZpgcJL7VDJ6ARcu+X6j
+   k1ydGIZMfSntNFekethNuD6XA8WXKqJUeFS3FhuVFpXaTMN8seJ/Qi59H
+   A==;
+X-CSE-ConnectionGUID: BW6crUc7RbOUYcChTrX3Gw==
+X-CSE-MsgGUID: Jkz/HLM4QxWGe/M77AI5wQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83034424"
 X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="93804805"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 02:18:32 -0700
-X-CSE-ConnectionGUID: VE4tQdA0TaCnT3m7bSkAng==
-X-CSE-MsgGUID: jDMSQQUgSyWHNry3I2z5/w==
+   d="scan'208";a="83034424"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 03:44:00 -0700
+X-CSE-ConnectionGUID: eFFD+KrpRh27qxAvzHWK3A==
+X-CSE-MsgGUID: gwPO69WQR4qZf15lw+Nw/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="250204282"
+   d="scan'208";a="254329068"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 25 Jun 2026 02:18:31 -0700
+  by orviesa003.jf.intel.com with ESMTP; 25 Jun 2026 03:43:59 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcgE8-0000000042b-1P9J;
-	Thu, 25 Jun 2026 09:18:28 +0000
-Date: Thu, 25 Jun 2026 17:18:14 +0800
+	id 1wchYm-0000000045X-1sdP;
+	Thu, 25 Jun 2026 10:43:52 +0000
+Date: Thu, 25 Jun 2026 18:43:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.4.rebased 18/29]
- mm/oom_kill.c:1171:undefined reference to `bpf_handle_oom'
-Message-ID: <202606251737.QIycBOOu-lkp@intel.com>
+Subject: [morimoto:sound-cleanup-2026-06-25 317/326]
+ sound/soc/codecs/max98088.c:1026 max98088_dai2_hw_params() warn: inconsistent
+ indenting
+Message-ID: <202606251819.3mBn1Ow1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,114 +60,296 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.4.rebased
-head:   702dfd9ab6849d59d3521f7c6542c1cf6aac217c
-commit: f8f699c3c785a375e31b42825752cba88f18e1d8 [18/29] mm: introduce BPF OOM struct ops
-config: i386-buildonly-randconfig-005-20260625 (https://download.01.org/0day-ci/archive/20260625/202606251737.QIycBOOu-lkp@intel.com/config)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-25
+head:   9ca97895755dee349aab41b4c74582e22c56c278
+commit: 85901c8d1778f3bdcd2f9bbe8ef832e580496e38 [317/326] dai
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260625/202606251819.3mBn1Ow1-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251737.QIycBOOu-lkp@intel.com/reproduce)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606251737.QIycBOOu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606251819.3mBn1Ow1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+sound/soc/codecs/max98088.c:1026 max98088_dai2_hw_params() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1141 max98088_dai1_set_fmt() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1212 max98088_dai2_set_fmt() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1279 max98088_dai1_mute() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1295 max98088_dai2_mute() warn: inconsistent indenting
 
-   ld: mm/oom_kill.o: in function `out_of_memory':
->> mm/oom_kill.c:1171:(.text+0x10c1): undefined reference to `bpf_handle_oom'
+Old smatch warnings:
+sound/soc/codecs/max98088.c:657 max98088_line_pga() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1096 max98088_dai_set_sysclk() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1100 max98088_dai_set_sysclk() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1112 max98088_dai_set_sysclk() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1434 max98088_setup_eq1() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1482 max98088_setup_eq2() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1537 max98088_put_eq_enum() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1581 max98088_handle_eq_pdata() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1642 max98088_handle_pdata() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1675 max98088_probe() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1736 max98088_remove() warn: inconsistent indenting
 
+vim +1026 sound/soc/codecs/max98088.c
 
-vim +1171 mm/oom_kill.c
-
-  1105	
-  1106	/**
-  1107	 * out_of_memory - kill the "best" process when we run out of memory
-  1108	 * @oc: pointer to struct oom_control
-  1109	 *
-  1110	 * If we run out of memory, we have the choice between either
-  1111	 * killing a random task (bad), letting the system crash (worse)
-  1112	 * OR try to be smart about which process to kill. Note that we
-  1113	 * don't have to be perfect here, we just have to be good.
-  1114	 */
-  1115	bool out_of_memory(struct oom_control *oc)
-  1116	{
-  1117		unsigned long freed = 0;
-  1118	
-  1119		if (oom_killer_disabled)
-  1120			return false;
-  1121	
-  1122		if (!is_memcg_oom(oc)) {
-  1123			blocking_notifier_call_chain(&oom_notify_list, 0, &freed);
-  1124			if (freed > 0 && !is_sysrq_oom(oc))
-  1125				/* Got some memory back in the last second. */
-  1126				return true;
-  1127		}
-  1128	
-  1129		/*
-  1130		 * If current has a pending SIGKILL or is exiting, then automatically
-  1131		 * select it.  The goal is to allow it to allocate so that it may
-  1132		 * quickly exit and free its memory.
-  1133		 */
-  1134		if (task_will_free_mem(current)) {
-  1135			mark_oom_victim(current);
-  1136			queue_oom_reaper(current);
-  1137			return true;
-  1138		}
-  1139	
-  1140		/*
-  1141		 * The OOM killer does not compensate for IO-less reclaim.
-  1142		 * But mem_cgroup_oom() has to invoke the OOM killer even
-  1143		 * if it is a GFP_NOFS allocation.
-  1144		 */
-  1145		if (!(oc->gfp_mask & __GFP_FS) && !is_memcg_oom(oc))
-  1146			return true;
+  1019	
+  1020	static int max98088_dai2_hw_params(struct snd_pcm_substream *substream,
+  1021	                                  struct snd_pcm_hw_params *params,
+  1022	                                  struct snd_soc_dai *dai)
+  1023	{
+  1024		struct snd_soc_component *component = snd_soc_dai_to_component(dai);
+  1025		struct device *dev = snd_soc_component_to_dev(component);
+> 1026	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1027	       struct max98088_cdata *cdata;
+  1028	       unsigned long long ni;
+  1029	       unsigned int rate;
+  1030	       u8 regval;
+  1031	
+  1032	       cdata = &max98088->dai[1];
+  1033	
+  1034	       rate = params_rate(params);
+  1035	
+  1036	       switch (params_width(params)) {
+  1037	       case 16:
+  1038	               snd_soc_component_update_bits(component, M98088_REG_1C_DAI2_FORMAT,
+  1039	                       M98088_DAI_WS, 0);
+  1040	               break;
+  1041	       case 24:
+  1042	               snd_soc_component_update_bits(component, M98088_REG_1C_DAI2_FORMAT,
+  1043	                       M98088_DAI_WS, M98088_DAI_WS);
+  1044	               break;
+  1045	       default:
+  1046	               return -EINVAL;
+  1047	       }
+  1048	
+  1049	       snd_soc_component_update_bits(component, M98088_REG_51_PWR_SYS, M98088_SHDNRUN, 0);
+  1050	
+  1051	       if (rate_value(rate, &regval))
+  1052	               return -EINVAL;
+  1053	
+  1054	       snd_soc_component_update_bits(component, M98088_REG_19_DAI2_CLKMODE,
+  1055	               M98088_CLKMODE_MASK, regval);
+  1056	       cdata->rate = rate;
+  1057	
+  1058	       /* Configure NI when operating as master */
+  1059	       if (snd_soc_component_read(component, M98088_REG_1C_DAI2_FORMAT)
+  1060	               & M98088_DAI_MAS) {
+  1061	               unsigned long pclk;
+  1062	
+  1063	               if (max98088->sysclk == 0) {
+  1064	                       dev_err(dev, "Invalid system clock frequency\n");
+  1065	                       return -EINVAL;
+  1066	               }
+  1067	               ni = 65536ULL * (rate < 50000 ? 96ULL : 48ULL)
+  1068	                               * (unsigned long long int)rate;
+  1069	               pclk = DIV_ROUND_CLOSEST(max98088->sysclk, max98088->mclk_prescaler);
+  1070	               ni = DIV_ROUND_CLOSEST_ULL(ni, pclk);
+  1071	               snd_soc_component_write(component, M98088_REG_1A_DAI2_CLKCFG_HI,
+  1072	                       (ni >> 8) & 0x7F);
+  1073	               snd_soc_component_write(component, M98088_REG_1B_DAI2_CLKCFG_LO,
+  1074	                       ni & 0xFF);
+  1075	       }
+  1076	
+  1077	       /* Update sample rate mode */
+  1078	       if (rate < 50000)
+  1079	               snd_soc_component_update_bits(component, M98088_REG_20_DAI2_FILTERS,
+  1080	                       M98088_DAI_DHF, 0);
+  1081	       else
+  1082	               snd_soc_component_update_bits(component, M98088_REG_20_DAI2_FILTERS,
+  1083	                       M98088_DAI_DHF, M98088_DAI_DHF);
+  1084	
+  1085	       snd_soc_component_update_bits(component, M98088_REG_51_PWR_SYS, M98088_SHDNRUN,
+  1086	               M98088_SHDNRUN);
+  1087	
+  1088	       return 0;
+  1089	}
+  1090	
+  1091	static int max98088_dai_set_sysclk(struct snd_soc_dai *dai,
+  1092	                                  int clk_id, unsigned int freq, int dir)
+  1093	{
+  1094		struct snd_soc_component *component = snd_soc_dai_to_component(dai);
+  1095		struct device *dev = snd_soc_component_to_dev(component);
+  1096	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1097		struct device *dai_dev = snd_soc_component_to_dev(component);
+  1098	
+  1099	       /* Requested clock frequency is already setup */
+  1100	       if (freq == max98088->sysclk)
+  1101	               return 0;
+  1102	
+  1103		if (!IS_ERR(max98088->mclk)) {
+  1104			freq = clk_round_rate(max98088->mclk, freq);
+  1105			clk_set_rate(max98088->mclk, freq);
+  1106		}
+  1107	
+  1108	       /* Setup clocks for slave mode, and using the PLL
+  1109	        * PSCLK = 0x01 (when master clk is 10MHz to 20MHz)
+  1110	        *         0x02 (when master clk is 20MHz to 30MHz)..
+  1111	        */
+  1112	       if ((freq >= 10000000) && (freq < 20000000)) {
+  1113	               snd_soc_component_write(component, M98088_REG_10_SYS_CLK, 0x10);
+  1114	               max98088->mclk_prescaler = 1;
+  1115	       } else if ((freq >= 20000000) && (freq < 30000000)) {
+  1116	               snd_soc_component_write(component, M98088_REG_10_SYS_CLK, 0x20);
+  1117	               max98088->mclk_prescaler = 2;
+  1118	       } else {
+  1119	               dev_err(dev, "Invalid master clock frequency\n");
+  1120	               return -EINVAL;
+  1121	       }
+  1122	
+  1123	       if (snd_soc_component_read(component, M98088_REG_51_PWR_SYS)  & M98088_SHDNRUN) {
+  1124	               snd_soc_component_update_bits(component, M98088_REG_51_PWR_SYS,
+  1125	                       M98088_SHDNRUN, 0);
+  1126	               snd_soc_component_update_bits(component, M98088_REG_51_PWR_SYS,
+  1127	                       M98088_SHDNRUN, M98088_SHDNRUN);
+  1128	       }
+  1129	
+  1130	       dev_dbg(dai_dev, "Clock source is %d at %uHz\n", clk_id, freq);
+  1131	
+  1132	       max98088->sysclk = freq;
+  1133	       return 0;
+  1134	}
+  1135	
+  1136	static int max98088_dai1_set_fmt(struct snd_soc_dai *codec_dai,
+  1137	                                unsigned int fmt)
+  1138	{
+  1139		struct snd_soc_component *component = snd_soc_dai_to_component(codec_dai);
+  1140		struct device *dev = snd_soc_component_to_dev(component);
+> 1141	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1142	       struct max98088_cdata *cdata;
+  1143	       u8 reg15val;
+  1144	       u8 reg14val = 0;
+  1145	
+  1146	       cdata = &max98088->dai[0];
   1147	
-  1148		/*
-  1149		 * Check if there were limitations on the allocation (only relevant for
-  1150		 * NUMA and memcg) that may require different handling.
-  1151		 */
-  1152		oc->constraint = constrained_alloc(oc);
-  1153		if (oc->constraint != CONSTRAINT_MEMORY_POLICY)
-  1154			oc->nodemask = NULL;
-  1155		check_panic_on_oom(oc);
-  1156	
-  1157		if (!is_memcg_oom(oc) && sysctl_oom_kill_allocating_task &&
-  1158		    current->mm && !oom_unkillable_task(current) &&
-  1159		    oom_cpuset_eligible(current, oc) &&
-  1160		    current->signal->oom_score_adj != OOM_SCORE_ADJ_MIN) {
-  1161			get_task_struct(current);
-  1162			oc->chosen = current;
-  1163			oom_kill_process(oc, "Out of memory (oom_kill_allocating_task)");
-  1164			return true;
-  1165		}
-  1166	
-  1167		/*
-  1168		 * Let bpf handle the OOM first. If it was able to free up some memory,
-  1169		 * bail out. Otherwise fall back to the kernel OOM killer.
-  1170		 */
-> 1171		if (bpf_handle_oom(oc))
-  1172			return true;
-  1173	
-  1174		select_bad_process(oc);
-  1175		/* Found nothing?!?! */
-  1176		if (!oc->chosen) {
-  1177			dump_header(oc);
-  1178			pr_warn("Out of memory and no killable processes...\n");
-  1179			/*
-  1180			 * If we got here due to an actual allocation at the
-  1181			 * system level, we cannot survive this and will enter
-  1182			 * an endless loop in the allocator. Bail out now.
-  1183			 */
-  1184			if (!is_sysrq_oom(oc) && !is_memcg_oom(oc))
-  1185				panic("System is deadlocked on memory\n");
-  1186		}
-  1187		if (oc->chosen && oc->chosen != (void *)-1UL)
-  1188			oom_kill_process(oc, !is_memcg_oom(oc) ? "Out of memory" :
-  1189					 "Memory cgroup out of memory");
-  1190		return !!oc->chosen;
-  1191	}
-  1192	
+  1148	       if (fmt != cdata->fmt) {
+  1149	               cdata->fmt = fmt;
+  1150	
+  1151	               switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+  1152	               case SND_SOC_DAIFMT_CBC_CFC:
+  1153	                       /* Consumer mode PLL */
+  1154	                       snd_soc_component_write(component, M98088_REG_12_DAI1_CLKCFG_HI,
+  1155	                               0x80);
+  1156	                       snd_soc_component_write(component, M98088_REG_13_DAI1_CLKCFG_LO,
+  1157	                               0x00);
+  1158	                       break;
+  1159	               case SND_SOC_DAIFMT_CBP_CFP:
+  1160	                       /* Set to provider mode */
+  1161	                       reg14val |= M98088_DAI_MAS;
+  1162	                       break;
+  1163	               default:
+  1164	                       dev_err(dev, "Clock mode unsupported");
+  1165	                       return -EINVAL;
+  1166	               }
+  1167	
+  1168	               switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+  1169	               case SND_SOC_DAIFMT_I2S:
+  1170	                       reg14val |= M98088_DAI_DLY;
+  1171	                       break;
+  1172	               case SND_SOC_DAIFMT_LEFT_J:
+  1173	                       break;
+  1174	               default:
+  1175	                       return -EINVAL;
+  1176	               }
+  1177	
+  1178	               switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
+  1179	               case SND_SOC_DAIFMT_NB_NF:
+  1180	                       break;
+  1181	               case SND_SOC_DAIFMT_NB_IF:
+  1182	                       reg14val |= M98088_DAI_WCI;
+  1183	                       break;
+  1184	               case SND_SOC_DAIFMT_IB_NF:
+  1185	                       reg14val |= M98088_DAI_BCI;
+  1186	                       break;
+  1187	               case SND_SOC_DAIFMT_IB_IF:
+  1188	                       reg14val |= M98088_DAI_BCI|M98088_DAI_WCI;
+  1189	                       break;
+  1190	               default:
+  1191	                       return -EINVAL;
+  1192	               }
+  1193	
+  1194	               snd_soc_component_update_bits(component, M98088_REG_14_DAI1_FORMAT,
+  1195	                       M98088_DAI_MAS | M98088_DAI_DLY | M98088_DAI_BCI |
+  1196	                       M98088_DAI_WCI, reg14val);
+  1197	
+  1198	               reg15val = M98088_DAI_BSEL64;
+  1199	               if (max98088->digmic)
+  1200	                       reg15val |= M98088_DAI_OSR64;
+  1201	               snd_soc_component_write(component, M98088_REG_15_DAI1_CLOCK, reg15val);
+  1202	       }
+  1203	
+  1204	       return 0;
+  1205	}
+  1206	
+  1207	static int max98088_dai2_set_fmt(struct snd_soc_dai *codec_dai,
+  1208	                                unsigned int fmt)
+  1209	{
+  1210		struct snd_soc_component *component = snd_soc_dai_to_component(codec_dai);
+  1211		struct device *dev = snd_soc_component_to_dev(component);
+> 1212	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1213	       struct max98088_cdata *cdata;
+  1214	       u8 reg1Cval = 0;
+  1215	
+  1216	       cdata = &max98088->dai[1];
+  1217	
+  1218	       if (fmt != cdata->fmt) {
+  1219	               cdata->fmt = fmt;
+  1220	
+  1221	               switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+  1222	               case SND_SOC_DAIFMT_CBC_CFC:
+  1223	                       /* Consumer mode PLL */
+  1224	                       snd_soc_component_write(component, M98088_REG_1A_DAI2_CLKCFG_HI,
+  1225	                               0x80);
+  1226	                       snd_soc_component_write(component, M98088_REG_1B_DAI2_CLKCFG_LO,
+  1227	                               0x00);
+  1228	                       break;
+  1229	               case SND_SOC_DAIFMT_CBP_CFP:
+  1230	                       /* Set to provider mode */
+  1231	                       reg1Cval |= M98088_DAI_MAS;
+  1232	                       break;
+  1233	               default:
+  1234	                       dev_err(dev, "Clock mode unsupported");
+  1235	                       return -EINVAL;
+  1236	               }
+  1237	
+  1238	               switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+  1239	               case SND_SOC_DAIFMT_I2S:
+  1240	                       reg1Cval |= M98088_DAI_DLY;
+  1241	                       break;
+  1242	               case SND_SOC_DAIFMT_LEFT_J:
+  1243	                       break;
+  1244	               default:
+  1245	                       return -EINVAL;
+  1246	               }
+  1247	
+  1248	               switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
+  1249	               case SND_SOC_DAIFMT_NB_NF:
+  1250	                       break;
+  1251	               case SND_SOC_DAIFMT_NB_IF:
+  1252	                       reg1Cval |= M98088_DAI_WCI;
+  1253	                       break;
+  1254	               case SND_SOC_DAIFMT_IB_NF:
+  1255	                       reg1Cval |= M98088_DAI_BCI;
+  1256	                       break;
+  1257	               case SND_SOC_DAIFMT_IB_IF:
+  1258	                       reg1Cval |= M98088_DAI_BCI|M98088_DAI_WCI;
+  1259	                       break;
+  1260	               default:
+  1261	                       return -EINVAL;
+  1262	               }
+  1263	
+  1264	               snd_soc_component_update_bits(component, M98088_REG_1C_DAI2_FORMAT,
+  1265	                       M98088_DAI_MAS | M98088_DAI_DLY | M98088_DAI_BCI |
+  1266	                       M98088_DAI_WCI, reg1Cval);
+  1267	
+  1268	               snd_soc_component_write(component, M98088_REG_1D_DAI2_CLOCK,
+  1269	                       M98088_DAI_BSEL64);
+  1270	       }
+  1271	
+  1272	       return 0;
+  1273	}
+  1274	
 
 --
 0-DAY CI Kernel Test Service
