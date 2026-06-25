@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AAC3B19B4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 17:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3363316192;
+	Thu, 25 Jun 2026 20:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782407544; cv=none; b=BX8MJNJiq2E/qoQAfVGHC/cHRbNb9NTbHHPMyw2kenqCp2cg6fuTZpZMQQ7xoujhpEzRAzHSytZua2RJdMw1JvjV83wA6B/R6Ass1OHIcSkvlK80bPshTo8/23h+b4KaVHoNGfRAZ5shFPpEQlszTWM443pL5ysUZdSKEbjjqxg=
+	t=1782421158; cv=none; b=Zagaux5WXrjTXQkxb4t/e6Oz3OZ9wfhFSt2oKH5VfVSj4Ht4mj+6xKLxfU95FvcdqemYoJy3m8v9M4DqnxdVl7C88vHveDBqJ7obmYXxi9QkZZEw6RXwC3m6j6KIH8o9HfQPFQbW7ga4AHMvlgT9om3AEVqPfd/COMqKV29Hp6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782407544; c=relaxed/simple;
-	bh=MW80NVEm2MD1nfVSO16WUFH7nGPy7hbHNATKDelkpSc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ug071YgbG7uLC6SgiyuH2D/w5eGPZvgZ3iJcO+Cqv3WJ1AZZ8ODe+YDYfNKWOwQ6OYyY7wkEfcAC63sBcfFJgN3jp5XRBszQ5IMm9pqIB3TdrkKslS2wbqYD5pFgID6dv8Q+LPUazhyvYW0lLbqDlCAfW+zv02cTBtI+rgPqFd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z8nGM3Ru; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1782421158; c=relaxed/simple;
+	bh=vceNn5dg0LMMyDWw/9f25XnmDxgYL71gZ7Ij3F/7av8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p8dcZNyZNV2S6MVyxxHL3DV1SqIfME4ZouuL8tG5HX9vYoneMZN/6w77cMyVL6dvRBHVHtuGkmDAPFhzcUltaaL8cflFIq2CZtPulTq6zB/SPiCgp87bhTLKTF2lOyaANcf2/ghXGI9Zlt7/6PucEoBQnW5rvhIBS3jO32VleaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hE61N8O/; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z8nGM3Ru"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hE61N8O/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782407542; x=1813943542;
+  t=1782421157; x=1813957157;
   h=date:from:to:cc:subject:message-id;
-  bh=MW80NVEm2MD1nfVSO16WUFH7nGPy7hbHNATKDelkpSc=;
-  b=Z8nGM3RuCscdS6yiVrGk+4wO6mS9zbPBC/1yeHidQW4xhu6PyzFMfrl9
-   x6oBEUarqVIhHO5eeGfBP4/P2PPbAZJ7c8Lo0SgFXfYBdu5IpZj0ne+IA
-   yKwK2oHHJtAdcSCjLidt3MdMafsBn+2VTstHewRBXmCnmqjLVWGofmU2n
-   xWelomLXyAdEPObVTuA56q6vZBAu1EOl47iGz2S44Rerss1zPNMbb1TEh
-   mJgpxh325R/gu67Pps2biDOBgTdi0lg/9AQsMZSRl61TERdtGhMfSWrG+
-   Qzb9H7zV7sLb9e54jDw6eeSB51OCEZlu8uZKCFALDlmffRJISxtLr29hv
+  bh=vceNn5dg0LMMyDWw/9f25XnmDxgYL71gZ7Ij3F/7av8=;
+  b=hE61N8O/EHRgHdIxo8vEO6quySyni13bmVk/6WYmIlR6ifSnXugYUqfN
+   c4jt7dzff37MckbcG3Ukq3i8suJVGd5SvhbcEzINJow8An1UP80Ij7e8l
+   eIfXZFwCoPvjnwXoMmMi1I/TMLEcLLGfEQgk7JPxJ1Qd2O/z5AXY/0UKU
+   GQHJKGnB1HUKCyd017lAJpdHGkF6Qz0XQ291HAKdPoCtixASvXj9C2PJK
+   yHX193BJlEON5KzHAvAwsF2MYcCy9RtE8QZINFJ3+6+6AxCCbEYE8l05C
+   ea08HCWeP1vWkgGrv3zJRsHXy23XuWO5dpr6B+cEfV4C3sPfamy03B0Pt
    A==;
-X-CSE-ConnectionGUID: KmZS/uwWRVCf0V4FBDYWow==
-X-CSE-MsgGUID: Mo4SLJjNSyy2JvwD16suiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="100742297"
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="100742297"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 10:12:21 -0700
-X-CSE-ConnectionGUID: Kk3bJCWMT+2DU0KrVQLCDw==
-X-CSE-MsgGUID: 3ZUfS4srSeShoE2FoaSaAA==
+X-CSE-ConnectionGUID: g7f8XhsZTo2HvkFUaXkPyg==
+X-CSE-MsgGUID: iSvtF3wySgaIVE1Pdw9nRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83339903"
+X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
+   d="scan'208";a="83339903"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 13:59:16 -0700
+X-CSE-ConnectionGUID: 0qPBrgBDTYWsJTcegbeuYA==
+X-CSE-MsgGUID: lbVwgT/TRECcSWwFg+/BtQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="255795942"
+X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
+   d="scan'208";a="274296645"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Jun 2026 10:12:19 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Jun 2026 13:59:14 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcncb-000000004Kn-1x7Z;
-	Thu, 25 Jun 2026 17:12:15 +0000
-Date: Fri, 26 Jun 2026 01:11:54 +0800
+	id 1wcrAD-000000004Vh-0T4u;
+	Thu, 25 Jun 2026 20:59:09 +0000
+Date: Fri, 26 Jun 2026 04:58:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steffen Klassert <steffen.klassert@secunet.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>
-Subject: [net:main 69/101] net/xfrm/xfrm_state.c:1220: Warning:
- missing closing `"'
-Message-ID: <202606260102.GcwhFSNK-lkp@intel.com>
+To: Codex <jullanggit@proton.me>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:pr/1073 60/65]
+ fs/bcachefs/init/dev.c:2241:12: warning: stack frame size (1040) exceeds
+ limit (1024) in 'bch2_dev_resize_thread'
+Message-ID: <202606260416.QM1oynxs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,121 +60,90 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net.git main
-head:   02f144fbb4c86c360495d33debe307cb46a57f95
-commit: e9deb406c10f5a73bcfd62f42ca1187b220bc188 [69/101] Merge tag 'ipsec-2026-06-22' of git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec
-config: s390-randconfig-r133-20260625 (https://download.01.org/0day-ci/archive/20260626/202606260102.GcwhFSNK-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606260102.GcwhFSNK-lkp@intel.com/reproduce)
+Hi Codex,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/koverstreet/bcachefs pr/1073
+head:   d294b8d3e670ce73e23093e05a92747e0701bf8d
+commit: a2c5355977eeeff6c78b444746f448b673689cea [60/65] bcachefs: shrink: bound stalled tail detection on reconcile work
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260626/202606260416.QM1oynxs-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606260416.QM1oynxs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606260102.GcwhFSNK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606260416.QM1oynxs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/xfrm/xfrm_state.c: Assembler messages:
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
->> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
-   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   fs/bcachefs/init/dev.c:1004:5: warning: stack frame size (1072) exceeds limit (1024) in 'bch2_dev_add' [-Wframe-larger-than]
+    1004 | int bch2_dev_add(struct bch_fs *c, const char *path, struct printbuf *err)
+         |     ^
+>> fs/bcachefs/init/dev.c:2241:12: warning: stack frame size (1040) exceeds limit (1024) in 'bch2_dev_resize_thread' [-Wframe-larger-than]
+    2241 | static int bch2_dev_resize_thread(void *arg)
+         |            ^
+   2 warnings generated.
 
 
-vim +1220 net/xfrm/xfrm_state.c
+vim +/bch2_dev_resize_thread +2241 fs/bcachefs/init/dev.c
 
-edcd582152090b David S. Miller  2006-08-24  1200  
-81a331a0e72ddc Steffen Klassert 2024-10-23  1201  struct xfrm_state *xfrm_input_state_lookup(struct net *net, u32 mark,
-81a331a0e72ddc Steffen Klassert 2024-10-23  1202  					   const xfrm_address_t *daddr,
-81a331a0e72ddc Steffen Klassert 2024-10-23  1203  					   __be32 spi, u8 proto,
-81a331a0e72ddc Steffen Klassert 2024-10-23  1204  					   unsigned short family)
-81a331a0e72ddc Steffen Klassert 2024-10-23  1205  {
-e952837f3ddb0f Florian Westphal 2024-11-28  1206  	struct xfrm_hash_state_ptrs state_ptrs;
-81a331a0e72ddc Steffen Klassert 2024-10-23  1207  	struct hlist_head *state_cache_input;
-81a331a0e72ddc Steffen Klassert 2024-10-23  1208  	struct xfrm_state *x = NULL;
-81a331a0e72ddc Steffen Klassert 2024-10-23  1209  
-ddd3d013292031 Herbert Xu       2026-06-12  1210  	/* BH is always disabled on the input path. */
-ddd3d013292031 Herbert Xu       2026-06-12  1211  	lockdep_assert_in_softirq();
-ddd3d013292031 Herbert Xu       2026-06-12  1212  
-6c9b7db96db62e Sebastian Sewior 2025-01-23  1213  	state_cache_input = raw_cpu_ptr(net->xfrm.state_cache_input);
-81a331a0e72ddc Steffen Klassert 2024-10-23  1214  
-81a331a0e72ddc Steffen Klassert 2024-10-23  1215  	hlist_for_each_entry_rcu(x, state_cache_input, state_cache_input) {
-81a331a0e72ddc Steffen Klassert 2024-10-23  1216  		if (x->props.family != family ||
-81a331a0e72ddc Steffen Klassert 2024-10-23  1217  		    x->id.spi       != spi ||
-81a331a0e72ddc Steffen Klassert 2024-10-23  1218  		    x->id.proto     != proto ||
-81a331a0e72ddc Steffen Klassert 2024-10-23  1219  		    !xfrm_addr_equal(&x->id.daddr, daddr, family))
-81a331a0e72ddc Steffen Klassert 2024-10-23 @1220  			continue;
-81a331a0e72ddc Steffen Klassert 2024-10-23  1221  
-81a331a0e72ddc Steffen Klassert 2024-10-23  1222  		if ((mark & x->mark.m) != x->mark.v)
-81a331a0e72ddc Steffen Klassert 2024-10-23  1223  			continue;
-81a331a0e72ddc Steffen Klassert 2024-10-23  1224  		if (!xfrm_state_hold_rcu(x))
-81a331a0e72ddc Steffen Klassert 2024-10-23  1225  			continue;
-81a331a0e72ddc Steffen Klassert 2024-10-23  1226  		goto out;
-81a331a0e72ddc Steffen Klassert 2024-10-23  1227  	}
-81a331a0e72ddc Steffen Klassert 2024-10-23  1228  
-e952837f3ddb0f Florian Westphal 2024-11-28  1229  	xfrm_hash_ptrs_get(net, &state_ptrs);
-e952837f3ddb0f Florian Westphal 2024-11-28  1230  
-e952837f3ddb0f Florian Westphal 2024-11-28  1231  	x = __xfrm_state_lookup(&state_ptrs, mark, daddr, spi, proto, family);
-ddd3d013292031 Herbert Xu       2026-06-12  1232  	if (x) {
-ddd3d013292031 Herbert Xu       2026-06-12  1233  		spin_lock(&net->xfrm.xfrm_state_lock);
-ddd3d013292031 Herbert Xu       2026-06-12  1234  		if (x->km.state != XFRM_STATE_VALID) {
-ddd3d013292031 Herbert Xu       2026-06-12  1235  			/*
-ddd3d013292031 Herbert Xu       2026-06-12  1236  			 * The state is about to be destroyed.
-ddd3d013292031 Herbert Xu       2026-06-12  1237  			 *
-ddd3d013292031 Herbert Xu       2026-06-12  1238  			 * Don't add it to the cache but still
-ddd3d013292031 Herbert Xu       2026-06-12  1239  			 * return it to the caller.
-ddd3d013292031 Herbert Xu       2026-06-12  1240  			 */
-ddd3d013292031 Herbert Xu       2026-06-12  1241  		} else if (hlist_unhashed(&x->state_cache_input)) {
-81a331a0e72ddc Steffen Klassert 2024-10-23  1242  			hlist_add_head_rcu(&x->state_cache_input, state_cache_input);
-81a331a0e72ddc Steffen Klassert 2024-10-23  1243  		} else {
-81a331a0e72ddc Steffen Klassert 2024-10-23  1244  			hlist_del_rcu(&x->state_cache_input);
-81a331a0e72ddc Steffen Klassert 2024-10-23  1245  			hlist_add_head_rcu(&x->state_cache_input, state_cache_input);
-81a331a0e72ddc Steffen Klassert 2024-10-23  1246  		}
-ddd3d013292031 Herbert Xu       2026-06-12  1247  		spin_unlock(&net->xfrm.xfrm_state_lock);
-81a331a0e72ddc Steffen Klassert 2024-10-23  1248  	}
-81a331a0e72ddc Steffen Klassert 2024-10-23  1249  
-81a331a0e72ddc Steffen Klassert 2024-10-23  1250  out:
-81a331a0e72ddc Steffen Klassert 2024-10-23  1251  	return x;
-81a331a0e72ddc Steffen Klassert 2024-10-23  1252  }
-81a331a0e72ddc Steffen Klassert 2024-10-23  1253  EXPORT_SYMBOL(xfrm_input_state_lookup);
-81a331a0e72ddc Steffen Klassert 2024-10-23  1254  
+24a0d1607fa915 Jul Lang 2026-02-17  2240  
+557af95f7f9ec3 Codex    2026-04-14 @2241  static int bch2_dev_resize_thread(void *arg)
+557af95f7f9ec3 Codex    2026-04-14  2242  {
+557af95f7f9ec3 Codex    2026-04-14  2243  	struct bch_dev *ca = arg;
+557af95f7f9ec3 Codex    2026-04-14  2244  	struct bch_fs *c = ca->fs;
+557af95f7f9ec3 Codex    2026-04-14  2245  	u64 seen_seq = 0;
+557af95f7f9ec3 Codex    2026-04-14  2246  
+557af95f7f9ec3 Codex    2026-04-14  2247  	set_freezable();
+557af95f7f9ec3 Codex    2026-04-14  2248  
+557af95f7f9ec3 Codex    2026-04-14  2249  	while (!kthread_should_stop()) {
+557af95f7f9ec3 Codex    2026-04-14  2250  		kthread_wait_freezable(kthread_should_stop() ||
+557af95f7f9ec3 Codex    2026-04-14  2251  				       bch2_dev_resize_seq(ca) != seen_seq);
+557af95f7f9ec3 Codex    2026-04-14  2252  		if (kthread_should_stop())
+557af95f7f9ec3 Codex    2026-04-14  2253  			break;
+557af95f7f9ec3 Codex    2026-04-14  2254  
+557af95f7f9ec3 Codex    2026-04-14  2255  		while (!kthread_should_stop()) {
+557af95f7f9ec3 Codex    2026-04-14  2256  			u64 seq = bch2_dev_resize_seq(ca);
+557af95f7f9ec3 Codex    2026-04-14  2257  			u64 target = bch2_dev_resize_target(ca);
+557af95f7f9ec3 Codex    2026-04-14  2258  			int ret;
+557af95f7f9ec3 Codex    2026-04-14  2259  			CLASS(printbuf, err)();
+557af95f7f9ec3 Codex    2026-04-14  2260  
+557af95f7f9ec3 Codex    2026-04-14  2261  			if (target == ca->mi.nbuckets) {
+557af95f7f9ec3 Codex    2026-04-14  2262  				ret = 0;
+557af95f7f9ec3 Codex    2026-04-14  2263  			} else if (target > ca->mi.nbuckets) {
+557af95f7f9ec3 Codex    2026-04-14  2264  				ret = __bch2_dev_grow(c, ca, target, &err);
+557af95f7f9ec3 Codex    2026-04-14  2265  			} else {
+557af95f7f9ec3 Codex    2026-04-14  2266  				ret = __bch2_dev_shrink(c, ca, target, seq, &err);
+557af95f7f9ec3 Codex    2026-04-14  2267  			}
+557af95f7f9ec3 Codex    2026-04-14  2268  
+557af95f7f9ec3 Codex    2026-04-14  2269  			if (ret == -EAGAIN)
+557af95f7f9ec3 Codex    2026-04-14  2270  				continue;
+557af95f7f9ec3 Codex    2026-04-14  2271  
+557af95f7f9ec3 Codex    2026-04-14  2272  			if (ret && err.pos)
+557af95f7f9ec3 Codex    2026-04-14  2273  				bch_err_dev(ca, "%s", err.buf);
+557af95f7f9ec3 Codex    2026-04-14  2274  			else if (ret && ret != -EINTR)
+557af95f7f9ec3 Codex    2026-04-14  2275  				bch_err_fn_dev(ca, ret);
+557af95f7f9ec3 Codex    2026-04-14  2276  
+557af95f7f9ec3 Codex    2026-04-14  2277  			seen_seq = bch2_dev_resize_seq(ca);
+557af95f7f9ec3 Codex    2026-04-14  2278  			if (ret == -EINTR)
+557af95f7f9ec3 Codex    2026-04-14  2279  				break;
+557af95f7f9ec3 Codex    2026-04-14  2280  			if (!bch2_dev_resize_finish(ca, seq, ret))
+557af95f7f9ec3 Codex    2026-04-14  2281  				continue;
+557af95f7f9ec3 Codex    2026-04-14  2282  			break;
+557af95f7f9ec3 Codex    2026-04-14  2283  		}
+557af95f7f9ec3 Codex    2026-04-14  2284  	}
+557af95f7f9ec3 Codex    2026-04-14  2285  
+557af95f7f9ec3 Codex    2026-04-14  2286  	return 0;
+557af95f7f9ec3 Codex    2026-04-14  2287  }
+557af95f7f9ec3 Codex    2026-04-14  2288  
 
-:::::: The code at line 1220 was first introduced by commit
-:::::: 81a331a0e72ddc2f75092603d9577bd1a0ca23ad xfrm: Add an inbound percpu state cache.
+:::::: The code at line 2241 was first introduced by commit
+:::::: 557af95f7f9ec319e6085541199cc4e936a5778b bcachefs: make device resize converge to the latest target
 
-:::::: TO: Steffen Klassert <steffen.klassert@secunet.com>
-:::::: CC: Steffen Klassert <steffen.klassert@secunet.com>
+:::::: TO: Codex <jullanggit@proton.me>
+:::::: CC: Jul Lang <jullanggit@proton.me>
 
 --
 0-DAY CI Kernel Test Service
