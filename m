@@ -1,147 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C082E3BF680
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 07:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196071E32A2;
+	Thu, 25 Jun 2026 07:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782372199; cv=none; b=RXHGSl6ZUWAn/8nky1Hx8GL3Cy0ca5+OScQdVltpLxcihzif4K50pwBJvkJUxlpLKmaTEbVGtS7DdpXbmBqC4XInBgKUrf4wdLvwxcLHIEGF55npZV6+C/ia6gneFG5oIhj0koZ2GXsAj1hrNLMWJ8dlCi2bWP4i1nxTudyCKTc=
+	t=1782374066; cv=none; b=aEadn8ZQRrrVOerwdcwcV3yfMyfOoQHsRwK6Q4mXiujLXIvmAoko3X+efJPYN5HkzGW081UvYcHwMCZNjqGH6HGZuqP30CI9lfGP8dbYNQeC6ZbRCk8WwCLTe4AXhWev16Scq00gbeONF1fVi/d+S/LMuCQuWkWbLMCroXPp1W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782372199; c=relaxed/simple;
-	bh=UZwYC/56dt+DTkBrkZYbxydc4QZn3l7PBtVxOE7nFjM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=R69a7nfl/DS31EvS1zggNP8UGOfMv0epBuB9/q7Q1BZj0OBjROtONxGdeTeKZIF9MtbhT/8j/2N52PdQ1ms+73zSDVmUdIfUXayRLsw9LIk+s7gm2WvZ0qWyQ1tVRSXLBD4nrHklgJMCvv04yoOiLDRgtaFsDGDmwTKwOJq/VjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=clLSzC6n; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782374066; c=relaxed/simple;
+	bh=o0TKwT0PKsyCzW8GjNzX99XwTsc291m62WoRSw+vc08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EIyrt0ad6HV5Zowpc0oe331GrqI5bR6qCm2chiBwg8jgYUvOgg0r5csPPPj0RaJxHAXEHKN2ChvJvsaXDd1YOyn4uV+3VzO/zi7osY2zAa9ZBQOoRNqxXrkfPQcxP2EzurxARMtm+hJvUWtrKp4In36TBeHdIifSluH8Av7G2IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UzCdDwJa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="clLSzC6n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782372198; x=1813908198;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UZwYC/56dt+DTkBrkZYbxydc4QZn3l7PBtVxOE7nFjM=;
-  b=clLSzC6nzTRjftPh1poQMX4geO+ldQBs6S07IxIwKPveLHciBzVu/e+A
-   jDUIfV+bkdSWxmUg5eHFkiBfiDxWFskKk7N40BKTsrf812RGu8vBvZm5u
-   md1IFUQ80ID2DvfLGBAn2yGeX4Ptdc+aTcZx8GBL6+WMmS+6oxD+kghQF
-   62/AHOP1N4Y6bwzgJKxJoC4Nh5bBto5MoDG+gSmmZsU2z/5dNnXHUkAHV
-   xLZR9qmAgbohFoLaxwf2DSXtgfoWlltRv3BE9wPZCbKgmUb4GokfpqNdE
-   +Rp5rjYRkzUC1nrRASECGzpzWGot82qNcmMM8JK/jSYbw/1En4NRJ1twy
-   A==;
-X-CSE-ConnectionGUID: dCBxTENfTSGqLAAy1Ug5fA==
-X-CSE-MsgGUID: dkh9kxwOR0uJAVsWp7wLUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83334839"
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="83334839"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 00:23:17 -0700
-X-CSE-ConnectionGUID: dPHkHK7rQiqrkLIX3HQjmA==
-X-CSE-MsgGUID: E6DUo6QkQQiQv+5oyjApRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="250144578"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 25 Jun 2026 00:23:15 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wceQR-000000003zh-12hD;
-	Thu, 25 Jun 2026 07:23:05 +0000
-Date: Thu, 25 Jun 2026 15:22:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Gibson <daniel@gibson.sh>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Ilpo =?utf-8?Q?J=C3=A4rvinen"?= <ilpo.jarvinen@linux.intel.com>,
- Hans de Goede <johannes.goede@oss.qualcomm.com>
-Subject: drivers/platform/x86/amd/pmc/pmc.c:717:37: warning: '%s'
- directive argument is null
-Message-ID: <202606251540.Nr2BtaNu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UzCdDwJa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D0E1F000E9;
+	Thu, 25 Jun 2026 07:54:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782374064;
+	bh=WU+cwzv11oA1r4PZBo7/cWtaeUDfFADOwM24rd5Wf4E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UzCdDwJaMRxT6Ty9dADQAfJYjrRCDDsxaL9K5BGYHTqPC3Y2IxTqkLlkB3sja1m4a
+	 bfprmOkTsujYkG+v7SThudFa0sqX2htXOGFfvC08rNrNtOImKwhlXWd+/B3HRsQwYV
+	 g7466d4qhvzZ3u/1T7TG1ecvxubZ72BjEbDFGObYvbsYMt+904cMY0y3SpFFlXYoHJ
+	 WNkO4QNAjplhqOrNGWwlZfu+PZnplMloPU/T3jVLvHK/nTMuITCjvoWouhfs/hub6x
+	 5VJ2xntNkzgBTwkXkUOZA2q1SaU5SC/NIYhYM/vVJHwa9wxqSnRBSGIhggzZE8f174
+	 FH6lZpWGsxS3g==
+Message-ID: <a4fe8ba6-2ecd-4bb9-95a9-27f9f1e87d2e@kernel.org>
+Date: Thu, 25 Jun 2026 09:54:18 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/rmap: use huge_ptep_get() in try_to_unmap_one()
+To: Dev Jain <dev.jain@arm.com>, kernel test robot <lkp@intel.com>,
+ akpm@linux-foundation.org, ljs@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, riel@surriel.com,
+ liam@infradead.org, vbabka@kernel.org, harry@kernel.org, jannh@google.com,
+ kas@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ ryan.roberts@arm.com, anshuman.khandual@arm.com, stable@vger.kernel.org
+References: <20260625042853.2752898-1-dev.jain@arm.com>
+ <202606251341.jfIr1D7m-lkp@intel.com>
+ <2fd3688b-b4d0-4a2f-8d49-4d4b9c512c66@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <2fd3688b-b4d0-4a2f-8d49-4d4b9c512c66@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ab9de95c9cf952332ab79453b4b5d1bfca8e514f
-commit: 428b9fd2dce50b4dc5cd9ade10b92efcf57ce7aa platform/x86/amd/pmc: Add delay_suspend module parameter
-date:   2 weeks ago
-config: x86_64-buildonly-randconfig-006-20260625 (https://download.01.org/0day-ci/archive/20260625/202606251540.Nr2BtaNu-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251540.Nr2BtaNu-lkp@intel.com/reproduce)
+On 6/25/26 08:59, Dev Jain wrote:
+> 
+> 
+> On 25/06/26 11:15 am, kernel test robot wrote:
+>> Hi Dev,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on akpm-mm/mm-everything]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Dev-Jain/mm-rmap-use-huge_ptep_get-in-try_to_unmap_one/20260625-123050
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+>> patch link:    https://lore.kernel.org/r/20260625042853.2752898-1-dev.jain%40arm.com
+>> patch subject: [PATCH] mm/rmap: use huge_ptep_get() in try_to_unmap_one()
+>> config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260625/202606251341.jfIr1D7m-lkp@intel.com/config)
+>> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251341.jfIr1D7m-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202606251341.jfIr1D7m-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     2100 |                         pteval = huge_ptep_get(mm, address, pvmw.pte);
+>>          |                                  ^
+>>     2100 |                         pteval = huge_ptep_get(mm, address, pvmw.pte);
+>>          |                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>    2 errors generated.
+> 
+> Weird that I need a stub. This should do:
+> 
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index 2abaf99321e90..4661f88eee55b 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -1261,6 +1261,16 @@ static inline void hugetlb_count_sub(long l, struct mm_struct *mm)
+>  {
+>  }
+> 
+> +static inline pte_t huge_ptep_get(struct mm_struct *mm, unsigned long addr,
+> +				  pte_t *ptep)
+> +{
+> +#ifdef CONFIG_MMU
+> +	return ptep_get(ptep);
+> +#else
+> +	return *ptep;
+> +#endif
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 428b9fd2dce5 ("platform/x86/amd/pmc: Add delay_suspend module parameter")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606251540.Nr2BtaNu-lkp@intel.com/
+Without CONFIG_HUGETLB_PAGE, folio_test_hugetlb() == false and the compiler will
+never end up actually linking this function.
 
-All warnings (new ones prefixed by >>):
+So probably you can just let the linker deal with that
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:15,
-                    from drivers/platform/x86/amd/pmc/pmc.c:13:
-   In function 'amd_pmc_want_suspend_delay',
-       inlined from 'amd_pmc_s2idle_check' at drivers/platform/x86/amd/pmc/pmc.c:763:6:
->> drivers/platform/x86/amd/pmc/pmc.c:717:37: warning: '%s' directive argument is null [-Wformat-overflow=]
-     717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:160:58: note: in expansion of macro 'dev_fmt'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                          ^~~~~~~
-   drivers/platform/x86/amd/pmc/pmc.c:717:17: note: in expansion of macro 'dev_info'
-     717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
-         |                 ^~~~~~~~
-   drivers/platform/x86/amd/pmc/pmc.c: In function 'amd_pmc_s2idle_check':
-   drivers/platform/x86/amd/pmc/pmc.c:717:279: note: format string is defined here
-     717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
-         |                                                                                                                                                                                                                                                                                       ^~
+pte_t huge_ptep_get(struct mm_struct *mm, unsigned long addr, pte_t *ptep);
 
 
-vim +717 drivers/platform/x86/amd/pmc/pmc.c
+If abused, the linker would complain. In you case, the compiler will optimize it
+out (and be happy) and the linker will never start looking for the symbol (that
+doesn't exist).
 
-   691	
-   692	static bool amd_pmc_want_suspend_delay(struct amd_pmc_dev *pdev)
-   693	{
-   694		/*
-   695		 * Some Lenovo Laptops (like different IdeaPad 3 Slims) need some
-   696		 * me-time before sleeping or they get uncooperative after waking
-   697		 * up and don't send events for keyboard and lid switch anymore.
-   698		 *
-   699		 * Unfortunately this doesn't entirely fix the problem: It can still
-   700		 * happen when resuming with a timer (wakealarm), but at least the
-   701		 * more common usecases (wakeup by opening lid or pressing a key)
-   702		 * work fine with this workaround.
-   703		 *
-   704		 * See https://bugzilla.kernel.org/show_bug.cgi?id=221383
-   705		 */
-   706		if (amd_pmc_quirk_need_suspend_delay(pdev)) {
-   707			/*
-   708			 * delay_suspend=1 force-enables this, otherwise it can be
-   709			 * disabled with disable_workarounds or delay_suspend=0
-   710			 */
-   711			if (delay_suspend == 1 || (delay_suspend == -1 && !disable_workarounds)) {
-   712				dev_info(pdev->dev, "Delaying suspend by 2.5s to avoid platform bug\n");
-   713				return true;
-   714			}
-   715			dev_info(pdev->dev, "Not delaying suspend because of module parameter, even though your device is assumed to need it!\n");
-   716		} else if (delay_suspend == 1) {
- > 717			dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
-   718				 dmi_get_system_info(DMI_SYS_VENDOR),
-   719				 dmi_get_system_info(DMI_PRODUCT_NAME),
-   720				 dmi_get_system_info(DMI_PRODUCT_FAMILY),
-   721				 dmi_get_system_info(DMI_BOARD_VENDOR),
-   722				 dmi_get_system_info(DMI_BOARD_NAME));
-   723			return true;
-   724		}
-   725		return false;
-   726	}
-   727	
+-- 
+Cheers,
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+David
