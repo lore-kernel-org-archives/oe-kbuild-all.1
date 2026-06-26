@@ -1,311 +1,165 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8670D3B7B79
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 21:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11A93BF66D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 21:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782509284; cv=none; b=BS4hQSpAV+lZu1Xv7De8JmXg1HXSxi6PlVb47SIIrXOMZgxpN8WvCN9LMHoMdttDt/yaV2wMU3esGA+mcSEeq2UQCC6T1M9Y3QaQHqVuu+iYQ8lb/CmJZnBYRszhQ8qIos2nmMobCOVOnsXJtcxfhi+ipweD1ar50y5sR7vBlbI=
+	t=1782509284; cv=none; b=t9QN6SfRi/y7wE9WLdAi7Y8kxFnSuVu0Pm7diEqb4ZpOrGjYFLx0/aXYBPlwQVc+rthW/cN6509GaB42HFY3yF9FNioSXJF0rXZ90s7aSfFLtnn5JwLSzhbfcvahXIzo2ULAeOrqnF9Wp1AJdjWaT3GM5MdD8/bD6vAJ9IQ5QTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782509284; c=relaxed/simple;
-	bh=LCUdyxLTdGaB3iMP8KZwbUoNeB3L7nWU7BhNy0JnozE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=URGqkPbOgxgRItjqeb+5v/c09rBGC0QE+6PK5lIUeZECK1tQfu+hPllx2ZDxjKS8d8zDUWnVUyjoMR8YRi4lJjJysPycUMdvaaKshALk+yQGtXfi31TCN0/lk7J4ZROOjGPvc0mNIcAhGBss+pF1vzkmGJbD5FCXv5D/e0gSHX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f5XWLSNM; arc=none smtp.client-ip=192.198.163.13
+	bh=SUpvuHrq1K+cZZyTkZ3NepJZMxW01slSE7YcomHq7H8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=YANKLYpBBlt+4vxUuEDJA+kkB+rzW70b0KIY8scVgQG3bIk9rXA1+9O3k5OK8y8rYJvtF94Gcri1yeOO3iPM2AcmmwMPv+xo1zZ0i4kHQvU6+GHH279rCTx5AG2KkFH2BGIz9Unn6Q70TiS24friC/tKYHQVt+wX3H7yFKqAYuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9TUOsUD; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f5XWLSNM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9TUOsUD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782509281; x=1814045281;
-  h=date:from:to:cc:subject:message-id;
-  bh=LCUdyxLTdGaB3iMP8KZwbUoNeB3L7nWU7BhNy0JnozE=;
-  b=f5XWLSNMbKg6x9nQyO708EIyOqg0EwWiJLKF8OCeDLrlQWnQAnpjJDJC
-   1xlPVgB4pbTE14eXFcKtvnO0jtAmFmD5G+mLjbS9DXwvt4r/bO9MUyIsq
-   nb6s2oNqqtZrQ9xsTmg+cyq3OM157QcY1Kv38ficggpjR49HqeMcTyTuU
-   P6SVZZ3CMiLjcDSJTNFNskv9EcjkxhiB55k6NEjfXVOLpWtV8l9OOkyTr
-   PwONKUjH4+MMDbSvkxUI3sgfjjR7Bl4PEt6AaJYaNRcSRsSR8NvpCVnSz
-   r82eO1FF971SqJ2XbLpayO8yW4pFfuqsS614NueYqsiQtxQVzfUJTwApq
-   A==;
-X-CSE-ConnectionGUID: XOp7zC5JTC2mpsW2uD0cQQ==
-X-CSE-MsgGUID: U98zxBdrQueLVmx7OhrT9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11829"; a="85853943"
+  t=1782509283; x=1814045283;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SUpvuHrq1K+cZZyTkZ3NepJZMxW01slSE7YcomHq7H8=;
+  b=X9TUOsUDfk+tIoWRDJHUMpINLLhwyQthDuXS+iUWa2xRcmWTxoZE7A3I
+   wpVSisB+bsX2Qw3fUIsq9tC9qt3gaUqIXdG5ZUbY5oJgcwY1hNRtVPGGG
+   xH5BolVU/wpWt7JvXa549CepgSOVKB5+08i1ZBDEqn8Dtyh6wKfM+vBzH
+   5vsWWpAIu1Sehty/benDPsvJwfMtrm0q1Nuy6VKD6h7BFkhnQsizwTv4V
+   oi0Etb86xmdfS75CinMz/ggVTO+BcFg3UcHkHoFakMcSmcgzk5ppDGIWI
+   FXsYzttCFSkwU7upNYuYo4UayJNtcNCSwpJA9tmuT9cWiapGUJpwqDWcq
+   Q==;
+X-CSE-ConnectionGUID: daRTv3NHQyGFQz+Y+y4gdA==
+X-CSE-MsgGUID: X8l+YoWER9Kt+eA5GBGWbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11829"; a="85853949"
 X-IronPort-AV: E=Sophos;i="6.24,227,1774335600"; 
-   d="scan'208";a="85853943"
+   d="scan'208";a="85853949"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 14:28:01 -0700
-X-CSE-ConnectionGUID: hzMQqsTKTaKR9ppE9MgXNQ==
-X-CSE-MsgGUID: sIQHX60dQ3yovG+w0bWPhg==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 14:28:02 -0700
+X-CSE-ConnectionGUID: mTAtORp1Qf22Jku2iyczzQ==
+X-CSE-MsgGUID: UsMI/VLOQ/SNKJLVGeTEIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,227,1774335600"; 
-   d="scan'208";a="251030109"
+   d="scan'208";a="251030119"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 26 Jun 2026 14:27:59 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Jun 2026 14:28:00 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wdE5a-000000005RZ-33lI;
-	Fri, 26 Jun 2026 21:27:55 +0000
-Date: Sat, 27 Jun 2026 05:27:43 +0800
+	id 1wdE5c-000000005Rb-1W2k;
+	Fri, 26 Jun 2026 21:27:57 +0000
+Date: Sat, 27 Jun 2026 05:27:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Liam R. Howlett" <liam@infradead.org>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [liam:maple_marks_v7.2 28/31] lib/test_maple_tree.c:299:17:
- error: implicit declaration of function 'mas_next_slot'
-Message-ID: <202606270535.N9AKWzY0-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 32/65]
+ include/asm-generic/percpu.h:141:9: error: implicit declaration of function
+ 'preempt_disable_notrace'
+Message-ID: <202606270525.2VjTL4hN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/liam/linux.git maple_marks_v7.2
-head:   be119ad50e9c87a4a975871d84614f7c6aeaf0de
-commit: d4eb0ef8b516c8492a60a066c467f580ae9c0074 [28/31] maple_tree: Testing code update for triple split
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260627/202606270535.N9AKWzY0-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260627/202606270535.N9AKWzY0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   966d161648444411a43989942a75a398d47275a8
+commit: 382846fc625bfddd6612b6f7038071c9974351a9 [32/65] hrtimer: Remove inclusion of hrtimer_bases.h remove from hrtimer.h
+config: i386-randconfig-017-20260627 (https://download.01.org/0day-ci/archive/20260627/202606270525.2VjTL4hN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260627/202606270525.2VjTL4hN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606270535.N9AKWzY0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606270525.2VjTL4hN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   lib/test_maple_tree.c: In function 'test_mas_next_node':
->> lib/test_maple_tree.c:299:17: error: implicit declaration of function 'mas_next_slot' [-Wimplicit-function-declaration]
-     299 |                 mas_next_slot(mas, ULONG_MAX, true);
-         |                 ^~~~~~~~~~~~~
-   lib/test_maple_tree.c: In function 'test_mas_prev_node':
->> lib/test_maple_tree.c:314:17: error: implicit declaration of function 'mas_prev_slot'; did you mean 'mas_reset'? [-Wimplicit-function-declaration]
-     314 |                 mas_prev_slot(mas, 0, true);
-         |                 ^~~~~~~~~~~~~
-         |                 mas_reset
-   lib/test_maple_tree.c: In function 'mas_node_fill':
->> lib/test_maple_tree.c:356:36: error: implicit declaration of function 'mt_slot_count' [-Wimplicit-function-declaration]
-     356 |         if (mas->max - mas->min <= mt_slot_count(mas->node))
-         |                                    ^~~~~~~~~~~~~
->> lib/test_maple_tree.c:359:15: error: implicit declaration of function 'mas_data_end' [-Wimplicit-function-declaration]
-     359 |         val = mas_data_end(mas) + 1;
-         |               ^~~~~~~~~~~~
-   lib/test_maple_tree.c: In function 'test_mas_node_depth':
->> lib/test_maple_tree.c:420:9: error: implicit declaration of function 'mas_start'; did you mean 'mas_store'? [-Wimplicit-function-declaration]
-     420 |         mas_start(mas);
-         |         ^~~~~~~~~
-         |         mas_store
->> lib/test_maple_tree.c:426:23: error: implicit declaration of function 'ma_pivots' [-Wimplicit-function-declaration]
-     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-         |                       ^~~~~~~~~
->> lib/test_maple_tree.c:426:33: error: implicit declaration of function 'mas_mn' [-Wimplicit-function-declaration]
-     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-         |                                 ^~~~~~
->> lib/test_maple_tree.c:426:46: error: implicit declaration of function 'mte_node_type' [-Wimplicit-function-declaration]
-     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-         |                                              ^~~~~~~~~~~~~
->> lib/test_maple_tree.c:426:21: error: assignment to 'long unsigned int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-         |                     ^
->> lib/test_maple_tree.c:432:17: error: implicit declaration of function 'mas_descend'; did you mean 'mas_reset'? [-Wimplicit-function-declaration]
-     432 |                 mas_descend(mas);
-         |                 ^~~~~~~~~~~
-         |                 mas_reset
-   In file included from lib/test_maple_tree.c:10:
-   lib/test_maple_tree.c: In function 'mas_internal_node_fill':
->> lib/test_maple_tree.c:443:30: error: implicit declaration of function 'mte_is_leaf' [-Wimplicit-function-declaration]
-     443 |         MT_BUG_ON(mas->tree, mte_is_leaf(mas->node));
-         |                              ^~~~~~~~~~~
-   include/linux/maple_tree.h:758:13: note: in definition of macro 'MT_BUG_ON'
-     758 |         if (__x) {                                                      \
-         |             ^~~
-   lib/test_maple_tree.c: In function 'check_ranges':
->> lib/test_maple_tree.c:1528:65: error: subscripted value is neither array nor pointer nor vector
-    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
-         |                                                                 ^
-   lib/test_maple_tree.c:1535:65: error: subscripted value is neither array nor pointer nor vector
-    1535 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[8] + 1;
-         |                                                                 ^
+   In file included from arch/x86/include/asm/bug.h:195,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/smp.h:12,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/hrtimer_rearm.h:6,
+                    from include/linux/hrtimer.h:15,
+                    from kernel/time/vsyscall.c:10:
+   include/linux/hrtimer_rearm.h: In function 'hrtimer_test_and_clear_rearm_deferred_tif':
+>> include/asm-generic/percpu.h:141:9: error: implicit declaration of function 'preempt_disable_notrace' [-Wimplicit-function-declaration]
+     141 |         preempt_disable_notrace();                                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
+     120 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/asm-generic/percpu.h:161:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
+     161 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:399:41: note: in expansion of macro 'this_cpu_generic_read'
+     399 | #define this_cpu_read_8(pcp)            this_cpu_generic_read(pcp)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:328:30: note: in expansion of macro 'this_cpu_read_8'
+     328 |         case 8: pscr_ret__ = stem##8(variable); break;                  \
+         |                              ^~~~
+   include/linux/percpu-defs.h:499:41: note: in expansion of macro '__pcpu_size_call_return'
+     499 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:573:50: note: in expansion of macro 'this_cpu_read'
+     573 | #define __lockdep_enabled       (debug_locks && !this_cpu_read(lockdep_recursion))
+         |                                                  ^~~~~~~~~~~~~
+   include/linux/lockdep.h:582:22: note: in expansion of macro '__lockdep_enabled'
+     582 |         WARN_ON_ONCE(__lockdep_enabled && this_cpu_read(hardirqs_enabled)); \
+         |                      ^~~~~~~~~~~~~~~~~
+   include/linux/hrtimer_rearm.h:18:9: note: in expansion of macro 'lockdep_assert_irqs_disabled'
+      18 |         lockdep_assert_irqs_disabled();
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/percpu.h:143:9: error: implicit declaration of function 'preempt_enable_notrace' [-Wimplicit-function-declaration]
+     143 |         preempt_enable_notrace();                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
+     120 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/asm-generic/percpu.h:161:25: note: in expansion of macro '__this_cpu_generic_read_nopreempt'
+     161 |                 __ret = __this_cpu_generic_read_nopreempt(pcp);         \
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:399:41: note: in expansion of macro 'this_cpu_generic_read'
+     399 | #define this_cpu_read_8(pcp)            this_cpu_generic_read(pcp)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:328:30: note: in expansion of macro 'this_cpu_read_8'
+     328 |         case 8: pscr_ret__ = stem##8(variable); break;                  \
+         |                              ^~~~
+   include/linux/percpu-defs.h:499:41: note: in expansion of macro '__pcpu_size_call_return'
+     499 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:573:50: note: in expansion of macro 'this_cpu_read'
+     573 | #define __lockdep_enabled       (debug_locks && !this_cpu_read(lockdep_recursion))
+         |                                                  ^~~~~~~~~~~~~
+   include/linux/lockdep.h:582:22: note: in expansion of macro '__lockdep_enabled'
+     582 |         WARN_ON_ONCE(__lockdep_enabled && this_cpu_read(hardirqs_enabled)); \
+         |                      ^~~~~~~~~~~~~~~~~
+   include/linux/hrtimer_rearm.h:18:9: note: in expansion of macro 'lockdep_assert_irqs_disabled'
+      18 |         lockdep_assert_irqs_disabled();
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/mas_next_slot +299 lib/test_maple_tree.c
+vim +/preempt_disable_notrace +141 include/asm-generic/percpu.h
 
-   289	
-   290	static noinline void __init test_mas_next_node(struct ma_state *mas)
-   291	{
-   292		struct maple_enode *this_node;
-   293	
-   294		MT_BUG_ON(mas->tree, !mas_is_active(mas));
-   295	
-   296		this_node = mas->node;
-   297	
-   298		while(this_node == mas->node) {
- > 299			mas_next_slot(mas, ULONG_MAX, true);
-   300			MT_BUG_ON(mas->tree, !mas_is_active(mas));
-   301		}
-   302	
-   303	}
-   304	
-   305	static noinline void __init test_mas_prev_node(struct ma_state *mas)
-   306	{
-   307		struct maple_enode *this_node;
-   308	
-   309		MT_BUG_ON(mas->tree, !mas_is_active(mas));
-   310	
-   311		this_node = mas->node;
-   312	
-   313		while(this_node == mas->node) {
- > 314			mas_prev_slot(mas, 0, true);
-   315			MT_BUG_ON(mas->tree, !mas_is_active(mas));
-   316		}
-   317	
-   318	}
-   319	
-   320	static noinline void __init __maybe_unused test_mas_node_last_slot(struct ma_state *mas)
-   321	{
-   322		test_mas_next_node(mas);
-   323		mas_prev_range(mas, 0);
-   324	}
-   325	
-   326	
-   327	static noinline bool __init mas_node_first_split_offset(struct ma_state *mas)
-   328	{
-   329		struct maple_enode *node = mas->node;
-   330		unsigned long high = mas->max;
-   331	
-   332		while (mas_is_active(mas) && node == mas->node) {
-   333			if (mas->index != mas->last)
-   334				return true;
-   335	
-   336			if (mas->last >= high)
-   337				break;
-   338			mas_next_range(mas, high);
-   339		}
-   340	
-   341		return false;
-   342	}
-   343	
-   344	static noinline bool __init mas_node_fill(struct ma_state *mas)
-   345	{
-   346		int target, val;
-   347		void *fill = (void*)0x11111111;
-   348		unsigned long high;
-   349	
-   350		if (!mas_is_active(mas))
-   351			mas_walk(mas);
-   352	
-   353		if (!mas_is_active(mas))
-   354			return false;
-   355	
- > 356		if (mas->max - mas->min <= mt_slot_count(mas->node))
-   357			goto done;
-   358	
- > 359		val = mas_data_end(mas) + 1;
-   360		target = mt_slot_count(mas->node);
-   361		if (val == target)
-   362			goto full;
-   363	
-   364		mas_walk(mas);
-   365		high = mas->max;
-   366		while (target > val && mas_is_active(mas)) {
-   367			unsigned long old_last = mas->last;
-   368			unsigned long new_last;
-   369	
-   370			if (old_last > mas->index) {
-   371				new_last = mas->index + 1;
-   372				if (new_last <= mas->index || new_last > old_last)
-   373					new_last = old_last;
-   374				mas->last = new_last;
-   375				mas_store(mas, fill);
-   376				val = mas_data_end(mas) + 1;
-   377				if (target <= val)
-   378					break;
-   379			}
-   380			mas_next_range(mas, high);
-   381			if (!mas_is_active(mas))
-   382				break;
-   383		}
-   384		return mas_node_first_split_offset(mas);
-   385	
-   386	full:
-   387		if (mas->max - mas->min > mt_slot_count(mas->node))
-   388			return mas_node_first_split_offset(mas);
-   389	done:
-   390		mas_set(mas, mas->max);
-   391		mas_walk(mas);
-   392		return false;
-   393	}
-   394	
-   395	static noinline bool __init mas_node_split(struct ma_state *mas)
-   396	{
-   397		void *fill = (void*)0x22222222;
-   398		unsigned long old_last, new_last;
-   399	
-   400		if (mas_node_fill(mas)) {
-   401			old_last = mas->last;
-   402			if (old_last <= mas->index)
-   403				return false;
-   404	
-   405			new_last = mas->index + 1;
-   406			if (new_last <= mas->index || new_last > old_last)
-   407				new_last = old_last;
-   408			mas->last = new_last;
-   409			mas_store(mas, fill);
-   410			return true;
-   411		}
-   412	
-   413		return false;
-   414	}
-   415	
-   416	static noinline void __init test_mas_node_depth(struct ma_state *mas,
-   417			int depth)
-   418	{
-   419		mas_reset(mas);
- > 420		mas_start(mas);
-   421		while (mas->depth < depth) {
-   422			unsigned long *piv;
-   423			int count, offset;
-   424	
-   425			count = mas_data_end(mas);
- > 426			piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-   427			offset = 0;
-   428			while (offset < count && mas->index > piv[offset]) {
-   429				offset++;
-   430			}
-   431			mas->offset = offset;
- > 432			mas_descend(mas);
-   433			mas->depth++;
-   434		}
-   435	
-   436	}
-   437	
-   438	static noinline void __init mas_internal_node_fill(struct ma_state *mas)
-   439	{
-   440		int val, target, depth;
-   441		unsigned long high, next;
-   442	
- > 443		MT_BUG_ON(mas->tree, mte_is_leaf(mas->node));
-   444		val = mas_data_end(mas) + 1;
-   445		target = mt_slot_count(mas->node);
-   446		if (val == target)
-   447			return;
-   448	
-   449		high = mas->max;
-   450		depth = mas->depth;
-   451		while (mas_data_end(mas) + 1 < target) {
-   452			mas_walk(mas);
-   453			if (mas_node_split(mas)) {
-   454				next = mas->last + 1;
-   455			} else {
-   456				next = mas->max + 1;
-   457			}
-   458			if (!next || next > high)
-   459				return;
-   460	
-   461			mas->index = next;
-   462			test_mas_node_depth(mas, depth);
-   463		}
-   464	
-   465	
+c5c0ba953b8c969 Peter Zijlstra 2023-05-31  137  
+e88d62cd4b2f0b1 Mark Rutland   2017-09-26  138  #define __this_cpu_generic_read_nopreempt(pcp)				\
+eba117889ac444b Tejun Heo      2014-06-17  139  ({									\
+8a3c392388c6a6e Uros Bizjak    2025-01-27  140  	TYPEOF_UNQUAL(pcp) ___ret;					\
+7f8d61f005228fc Heiko Carstens 2016-11-03 @141  	preempt_disable_notrace();					\
+29813a2297910d5 Arnd Bergmann  2020-10-26  142  	___ret = READ_ONCE(*raw_cpu_ptr(&(pcp)));			\
+7f8d61f005228fc Heiko Carstens 2016-11-03 @143  	preempt_enable_notrace();					\
+29813a2297910d5 Arnd Bergmann  2020-10-26  144  	___ret;								\
+9c28278a24c01c0 Tejun Heo      2014-06-17  145  })
+9c28278a24c01c0 Tejun Heo      2014-06-17  146  
+
+:::::: The code at line 141 was first introduced by commit
+:::::: 7f8d61f005228fc48e6e2ca3c9af3302cd4870af percpu: use notrace variant of preempt_disable/preempt_enable
+
+:::::: TO: Heiko Carstens <heiko.carstens@de.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 --
 0-DAY CI Kernel Test Service
