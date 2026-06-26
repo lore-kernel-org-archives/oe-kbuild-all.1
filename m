@@ -1,261 +1,170 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047673EBF16
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 09:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220503EDAAE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 10:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782467392; cv=none; b=dAuypziSUlF+eIrPAT98VRJ4dzVGw6wf40NNX3luMDqxv+G0UTh7VwXun7jYhNOjzPDDnf4k4c/qCgkzJRAnsaMfQlUhswAjqsSOlzWghEOdBrBZqR4zJuEX3fQ2jQM3gJd+ciLa1NO01t4laeV44hYxGrR08BSmCBUI2eeBYTk=
+	t=1782471230; cv=none; b=hyFQXnT4VSMxC2VTnzLobMaI87fv1ccKTHiNW2/lVW01cAjLknWOKnx4xL9joUzUM4QJvE4DMzi1KfScPec1BzNopPrtG0YX49FxMpqgoi79MJg0cYTFomNLsa+viUSjHH8E2CDQjgCIrB0eNxSMHMfAdHrTH/RsqUIj4zK6BD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782467392; c=relaxed/simple;
-	bh=YsXGRe6LmzqkSqYkeyWlm2Y3xPbHNVDJTIhKVXxq1wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WoQbNUS8UrbGFLAGrXGdJCra1KUki09DpH0TvTnDsfFvP1OjYVxfGA/j1FJr6DY/IbbAZaIdaPJDyaLOBfYmbRckXB2rRkZX4HF67NCoxdXWQIf1cE1qZ2ybmZ43twhEMjiegbKmp6LU+GP7nt73p3ZJYb6UMaebmUEQPxYQ/Eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXqPIvuG; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782471230; c=relaxed/simple;
+	bh=VfDQdDYrO50CsXssQhzqZaLJEWJoeenPY6runjkXSKk=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=hT0MMssdpkNohpBU8yCHg7CfzSmSeDxiW/cUMalatZ7wRSPicoPtmbkLM/Gx5WdteV7FX6BfgfnBE1DUTzW9whsD4sJsbewTlxX/haUk+iUs+7F6bYlnAIqAuOzpgdv50zsBlkw6RdPr4XebtPcr6zfeZbLaDBTs9Cn8Z0FhMGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/iq1orJ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXqPIvuG"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-69d8f70cb0cso668258eaf.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 02:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782467390; x=1783072190; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nNulRjoXpig6R94XFBjUYxwXXbGIvQ35c5LNaqA2qds=;
-        b=mXqPIvuGuh1TKhMauAUZxKGS97HOQ2ZDpWNgxJN/p0kfF1a2odweXcFfC7QLTTQhzz
-         cMH1BZFU9PgHMWscb1WGSqOFAjQn03cxBuY5deFo65/B3Wk8BGTVe36i1+bWAizgSKWW
-         dZ5K7UVWp8IAVIPP3wcBhC9atKh2N8HKb4VYi/+HDLVMjERSeTAHUY4vRAXHsuO8rK0x
-         kwmkZzMjYJTixi124DT4MaNOwoLU7wDkRBwIMaJ8gUHbuxuO26uPY64KCkekg6zyxhJl
-         YFv23nND/nJOramuDpuUdLi/iOJEpbQ9XzWAHcpwolMN/O0DqxtGAOvRI7FxUl9TIFb+
-         VFpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782467390; x=1783072190;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nNulRjoXpig6R94XFBjUYxwXXbGIvQ35c5LNaqA2qds=;
-        b=kETGSdRv8RshMHnX14Jeyc7f4hHzScXuwCghkwaKVRL7iKWhuRIkaVq5xGc7eqV6yH
-         WDFqUBXT0wxtTNTGYG1hQrs5nGHUZ27RQ2DTA1M/54fSKaRZY8e2/ta7bPCe2nxyLWUs
-         sKdzOTyb+Gnkg6npEcb8+jv9hDWupMWKY8ISzywY75h8fPPEZJyfLEUCVtKliGQqO1zi
-         E5W6+deQS4Xn2tzTsZLTw7NewqFzxAUDatyH4w61Sxone9rMC5LbirOJxfuhSJ5AgR/8
-         c949d47R2cJof8tJHv8hOBVLxD3AVhCWknZfMPlhAXsg9LniO9IhJjCHP4aP9/cpUK5A
-         +Wwg==
-X-Forwarded-Encrypted: i=1; AFNElJ+aA0h+T3Es+bRGkpw1MMaIv5Yv1yIQRLrfDeWvvB6fBSm5K5AouT2jRH1y1W1BxFzruBRlDkqCYrfHKe3T@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1zkmYj8ZraUdRF0xm4tpPv3T4DXvqFyduDMDCKVlLNAENrZ2T
-	w2Ciw9mIl3GqhRyp2hbva2rceTH7FU9f4OBxprbYF17UNsb61Sr0MYFG
-X-Gm-Gg: AfdE7cnyu+hnS5Y1rfoYCBJFcw81E92hGMUpCIFA3hSyqK5k4MJK2h8eKRrjAiuR4gy
-	ayjg6umrE8/qxXULIdHXIdL+Q3bkmXV+h5iFwj6lcp16KeKuJze3HcaOegVEyAaa62xuEpGd3Df
-	cfleA5TB6o9Bex3a02ooh3BtTs1DiBk0q0h+wH8FQ5qh8sMusiMHC04sH2R8+1IwY6AFZyXawtA
-	2f99nR5tKLUkIMErS4mbOKYvV0D5GkZ5gRW63qlbDCOVHbiKD8bqNg502t3ruv0McZj+uoLY5Tt
-	ezdXNw00cmXNg2rMYwRnKnFOjZbeMX5zI2OngdZmyUzD0spGOaNsw1t2suRhC26FRsMN2LrCIQq
-	yYikO0/CpvJlO8BFFbOtZxLqsEdgaVTWiHjmcez/FATam1BA0sINYO00MybOinawLgSpTklLFAA
-	TBqBEplHpf2h+0aJI=
-X-Received: by 2002:a05:6820:4b89:b0:6a1:1c1:dc84 with SMTP id 006d021491bc7-6a13517b8c1mr5157912eaf.5.1782467389844;
-        Fri, 26 Jun 2026 02:49:49 -0700 (PDT)
-Received: from localhost ([74.80.182.98])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a1414aba15sm1192005eaf.11.2026.06.26.02.49.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 02:49:49 -0700 (PDT)
-Date: Fri, 26 Jun 2026 12:49:42 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Johan Hovold <johan@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>
-Subject: drivers/irqchip/irq-qcom-mpm.c:441 qcom_mpm_probe() warn: missing
- unwind goto?
-Message-ID: <202606261634.IxvXG6n2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/iq1orJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782471227; x=1814007227;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=VfDQdDYrO50CsXssQhzqZaLJEWJoeenPY6runjkXSKk=;
+  b=b/iq1orJemB3cbPVJ14otkHUxi1CKrF2pLUf2BS8PQFjp8jTnW3nkxDE
+   0vbvQ4Jn73gfhMt1lPmCiEWzh1usWsB8oTUD420/+qteC9TeF514MxLpD
+   Us8BySZcQTUm1P5SyG/NA+vrTw7y2a8TnZhk9Sh1NL9dFry0apo3iZism
+   TWOZzEDnN7S+NqX4VykHHqqO9D4j+ISx3VYdhHyvUK/VzIRAMhmg+CfRQ
+   5mxavbJXS+CdU22eOdhjhCTZiNyNU6a9ejtr7sC+r+Kzu1R1VJ+OAnWNV
+   M3E1/MDVegyKiVA9tYP3MAv1eEY/wayOq1f+bUQrOZgcvhGK/T0KM/ZwC
+   w==;
+X-CSE-ConnectionGUID: 0d4wVsTlSIWwZ/9mnXqJWQ==
+X-CSE-MsgGUID: nV9xC7JmQ2ioROIMCa3Prw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83142448"
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="83142448"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 03:53:46 -0700
+X-CSE-ConnectionGUID: sFsmVJ1qTCqWYOHpXdrUJQ==
+X-CSE-MsgGUID: Ir4bylGqQYip5ocjvGA5WA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="244904464"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.71])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 03:53:44 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 26 Jun 2026 13:53:40 +0300 (EEST)
+To: Daniel Gibson <daniel@gibson.sh>
+cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+    LKML <linux-kernel@vger.kernel.org>, 
+    Hans de Goede <johannes.goede@oss.qualcomm.com>
+Subject: Re: drivers/platform/x86/amd/pmc/pmc.c:717:37: warning: '%s' directive
+ argument is null
+In-Reply-To: <586ae889-2716-4a72-8e86-5428149fe34b@gibson.sh>
+Message-ID: <74d8b129-6f7a-9a3c-fb2e-e3f22593f5f1@linux.intel.com>
+References: <202606251540.Nr2BtaNu-lkp@intel.com> <586ae889-2716-4a72-8e86-5428149fe34b@gibson.sh>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4edcdefd4083ae04b1a5656f4be6cd83ae919ef4
-commit: 1e3e330c07076a0582385bbea029c9cc918fa30d irqchip: Pass platform device to platform drivers
-config: arm64-randconfig-r072-20260626 (https://download.01.org/0day-ci/archive/20260626/202606261634.IxvXG6n2-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
-smatch: v0.5.0-9185-gbcc58b9c
+On Fri, 26 Jun 2026, Daniel Gibson wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 1e3e330c0707 ("irqchip: Pass platform device to platform drivers")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606261634.IxvXG6n2-lkp@intel.com/
+> Hi,
+> 
+> On 25.06.26 09:22, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   ab9de95c9cf952332ab79453b4b5d1bfca8e514f
+> > commit: 428b9fd2dce50b4dc5cd9ade10b92efcf57ce7aa platform/x86/amd/pmc: Add delay_suspend module parameter
+> > date:   2 weeks ago
+> > config: x86_64-buildonly-randconfig-006-20260625 (https://download.01.org/0day-ci/archive/20260625/202606251540.Nr2BtaNu-lkp@intel.com/config)
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251540.Nr2BtaNu-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Fixes: 428b9fd2dce5 ("platform/x86/amd/pmc: Add delay_suspend module parameter")
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202606251540.Nr2BtaNu-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    In file included from include/linux/device.h:15,
+> >                     from include/linux/acpi.h:15,
+> >                     from drivers/platform/x86/amd/pmc/pmc.c:13:
+> >    In function 'amd_pmc_want_suspend_delay',
+> >        inlined from 'amd_pmc_s2idle_check' at drivers/platform/x86/amd/pmc/pmc.c:763:6:
+> >>> drivers/platform/x86/amd/pmc/pmc.c:717:37: warning: '%s' directive argument is null [-Wformat-overflow=]
+> >      717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
+> >          |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+> >      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+> >          |                              ^~~
+> >    include/linux/dev_printk.h:160:58: note: in expansion of macro 'dev_fmt'
+> >      160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+> >          |                                                          ^~~~~~~
+> >    drivers/platform/x86/amd/pmc/pmc.c:717:17: note: in expansion of macro 'dev_info'
+> >      717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
+> >          |                 ^~~~~~~~
+> >    drivers/platform/x86/amd/pmc/pmc.c: In function 'amd_pmc_s2idle_check':
+> >    drivers/platform/x86/amd/pmc/pmc.c:717:279: note: format string is defined here
+> >      717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
+> >          |                                                                                                                                                                                                                                                                                       ^~
+> > 
+> > 
+> > vim +717 drivers/platform/x86/amd/pmc/pmc.c
+> > 
+> >    691	
+> >    692	static bool amd_pmc_want_suspend_delay(struct amd_pmc_dev *pdev)
+> >    693	{
+> >    694		/*
+> >    695		 * Some Lenovo Laptops (like different IdeaPad 3 Slims) need some
+> >    696		 * me-time before sleeping or they get uncooperative after waking
+> >    697		 * up and don't send events for keyboard and lid switch anymore.
+> >    698		 *
+> >    699		 * Unfortunately this doesn't entirely fix the problem: It can still
+> >    700		 * happen when resuming with a timer (wakealarm), but at least the
+> >    701		 * more common usecases (wakeup by opening lid or pressing a key)
+> >    702		 * work fine with this workaround.
+> >    703		 *
+> >    704		 * See https://bugzilla.kernel.org/show_bug.cgi?id=221383
+> >    705		 */
+> >    706		if (amd_pmc_quirk_need_suspend_delay(pdev)) {
+> >    707			/*
+> >    708			 * delay_suspend=1 force-enables this, otherwise it can be
+> >    709			 * disabled with disable_workarounds or delay_suspend=0
+> >    710			 */
+> >    711			if (delay_suspend == 1 || (delay_suspend == -1 && !disable_workarounds)) {
+> >    712				dev_info(pdev->dev, "Delaying suspend by 2.5s to avoid platform bug\n");
+> >    713				return true;
+> >    714			}
+> >    715			dev_info(pdev->dev, "Not delaying suspend because of module parameter, even though your device is assumed to need it!\n");
+> >    716		} else if (delay_suspend == 1) {
+> >  > 717			dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
+> >    718				 dmi_get_system_info(DMI_SYS_VENDOR),
+> >    719				 dmi_get_system_info(DMI_PRODUCT_NAME),
+> >    720				 dmi_get_system_info(DMI_PRODUCT_FAMILY),
+> >    721				 dmi_get_system_info(DMI_BOARD_VENDOR),
+> >    722				 dmi_get_system_info(DMI_BOARD_NAME));
+> >    723			return true;
+> >    724		}
+> >    725		return false;
+> >    726	}
+> >    727	
+> > 
+> 
+> Ok, so dmi_get_system_info(DMI_*) can return NULL (not sure if this is
+> more of a theoretical possibility or if it actually happens).
+> 
+> Is this a problem?
+>
+> As far as I know printk() will just print "(null)" or similar then,
+> which IMHO is fine for this usecase.
 
-smatch warnings:
-drivers/irqchip/irq-qcom-mpm.c:441 qcom_mpm_probe() warn: missing unwind goto?
+It triggering warning is problematic, and (null) is not exactly 
+informative to normal user. Since this is "info" level, the message should 
+be compatible with a non-technical user.
 
-vim +441 drivers/irqchip/irq-qcom-mpm.c
+Could you send a patch which adds elvis operator to them, e.g.,:
+	dmi_...() ? : "unavailable"
 
-1e3e330c07076a Johan Hovold      2025-10-13  323  static int qcom_mpm_probe(struct platform_device *pdev, struct device_node *parent)
-a6199bb514d8a6 Shawn Guo         2022-03-08  324  {
-1e3e330c07076a Johan Hovold      2025-10-13  325  	struct device_node *np = pdev->dev.of_node;
-a6199bb514d8a6 Shawn Guo         2022-03-08  326  	struct device *dev = &pdev->dev;
-a6199bb514d8a6 Shawn Guo         2022-03-08  327  	struct irq_domain *parent_domain;
-a6199bb514d8a6 Shawn Guo         2022-03-08  328  	struct generic_pm_domain *genpd;
-221b110d87c2d3 Konrad Dybcio     2023-11-27  329  	struct device_node *msgram_np;
-a6199bb514d8a6 Shawn Guo         2022-03-08  330  	struct qcom_mpm_priv *priv;
-a6199bb514d8a6 Shawn Guo         2022-03-08  331  	unsigned int pin_cnt;
-221b110d87c2d3 Konrad Dybcio     2023-11-27  332  	struct resource res;
-a6199bb514d8a6 Shawn Guo         2022-03-08  333  	int i, irq;
-a6199bb514d8a6 Shawn Guo         2022-03-08  334  	int ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  335  
-a6199bb514d8a6 Shawn Guo         2022-03-08  336  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-a6199bb514d8a6 Shawn Guo         2022-03-08  337  	if (!priv)
-a6199bb514d8a6 Shawn Guo         2022-03-08  338  		return -ENOMEM;
-a6199bb514d8a6 Shawn Guo         2022-03-08  339  
-a6199bb514d8a6 Shawn Guo         2022-03-08  340  	ret = of_property_read_u32(np, "qcom,mpm-pin-count", &pin_cnt);
-a6199bb514d8a6 Shawn Guo         2022-03-08  341  	if (ret) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  342  		dev_err(dev, "failed to read qcom,mpm-pin-count: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  343  		return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  344  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  345  
-a6199bb514d8a6 Shawn Guo         2022-03-08  346  	priv->reg_stride = DIV_ROUND_UP(pin_cnt, 32);
-a6199bb514d8a6 Shawn Guo         2022-03-08  347  
-a6199bb514d8a6 Shawn Guo         2022-03-08  348  	ret = of_property_count_u32_elems(np, "qcom,mpm-pin-map");
-a6199bb514d8a6 Shawn Guo         2022-03-08  349  	if (ret < 0) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  350  		dev_err(dev, "failed to read qcom,mpm-pin-map: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  351  		return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  352  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  353  
-a6199bb514d8a6 Shawn Guo         2022-03-08  354  	if (ret % 2) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  355  		dev_err(dev, "invalid qcom,mpm-pin-map\n");
-a6199bb514d8a6 Shawn Guo         2022-03-08  356  		return -EINVAL;
-a6199bb514d8a6 Shawn Guo         2022-03-08  357  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  358  
-a6199bb514d8a6 Shawn Guo         2022-03-08  359  	priv->map_cnt = ret / 2;
-a6199bb514d8a6 Shawn Guo         2022-03-08  360  	priv->maps = devm_kcalloc(dev, priv->map_cnt, sizeof(*priv->maps),
-a6199bb514d8a6 Shawn Guo         2022-03-08  361  				  GFP_KERNEL);
-a6199bb514d8a6 Shawn Guo         2022-03-08  362  	if (!priv->maps)
-a6199bb514d8a6 Shawn Guo         2022-03-08  363  		return -ENOMEM;
-a6199bb514d8a6 Shawn Guo         2022-03-08  364  
-a6199bb514d8a6 Shawn Guo         2022-03-08  365  	for (i = 0; i < priv->map_cnt; i++) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  366  		u32 pin, hwirq;
-a6199bb514d8a6 Shawn Guo         2022-03-08  367  
-a6199bb514d8a6 Shawn Guo         2022-03-08  368  		of_property_read_u32_index(np, "qcom,mpm-pin-map", i * 2, &pin);
-a6199bb514d8a6 Shawn Guo         2022-03-08  369  		of_property_read_u32_index(np, "qcom,mpm-pin-map", i * 2 + 1, &hwirq);
-a6199bb514d8a6 Shawn Guo         2022-03-08  370  
-a6199bb514d8a6 Shawn Guo         2022-03-08  371  		if (gic_hwirq_is_mapped(priv->maps, i, hwirq)) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  372  			dev_warn(dev, "failed to map pin %d as GIC hwirq %d is already mapped\n",
-a6199bb514d8a6 Shawn Guo         2022-03-08  373  				 pin, hwirq);
-a6199bb514d8a6 Shawn Guo         2022-03-08  374  			continue;
-a6199bb514d8a6 Shawn Guo         2022-03-08  375  		}
-a6199bb514d8a6 Shawn Guo         2022-03-08  376  
-a6199bb514d8a6 Shawn Guo         2022-03-08  377  		priv->maps[i].pin = pin;
-a6199bb514d8a6 Shawn Guo         2022-03-08  378  		priv->maps[i].hwirq = hwirq;
-a6199bb514d8a6 Shawn Guo         2022-03-08  379  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  380  
-a6199bb514d8a6 Shawn Guo         2022-03-08  381  	raw_spin_lock_init(&priv->lock);
-a6199bb514d8a6 Shawn Guo         2022-03-08  382  
-221b110d87c2d3 Konrad Dybcio     2023-11-27  383  	/* If we have a handle to an RPM message ram partition, use it. */
-221b110d87c2d3 Konrad Dybcio     2023-11-27  384  	msgram_np = of_parse_phandle(np, "qcom,rpm-msg-ram", 0);
-221b110d87c2d3 Konrad Dybcio     2023-11-27  385  	if (msgram_np) {
-221b110d87c2d3 Konrad Dybcio     2023-11-27  386  		ret = of_address_to_resource(msgram_np, 0, &res);
-221b110d87c2d3 Konrad Dybcio     2023-11-27  387  		if (ret) {
-221b110d87c2d3 Konrad Dybcio     2023-11-27  388  			of_node_put(msgram_np);
-221b110d87c2d3 Konrad Dybcio     2023-11-27  389  			return ret;
-221b110d87c2d3 Konrad Dybcio     2023-11-27  390  		}
-221b110d87c2d3 Konrad Dybcio     2023-11-27  391  
-221b110d87c2d3 Konrad Dybcio     2023-11-27  392  		/* Don't use devm_ioremap_resource, as we're accessing a shared region. */
-221b110d87c2d3 Konrad Dybcio     2023-11-27  393  		priv->base = devm_ioremap(dev, res.start, resource_size(&res));
-221b110d87c2d3 Konrad Dybcio     2023-11-27  394  		of_node_put(msgram_np);
-8ad032cc8c499a Dan Carpenter     2024-02-01  395  		if (!priv->base)
-8ad032cc8c499a Dan Carpenter     2024-02-01  396  			return -ENOMEM;
-221b110d87c2d3 Konrad Dybcio     2023-11-27  397  	} else {
-221b110d87c2d3 Konrad Dybcio     2023-11-27  398  		/* Otherwise, fall back to simple MMIO. */
-a6199bb514d8a6 Shawn Guo         2022-03-08  399  		priv->base = devm_platform_ioremap_resource(pdev, 0);
-76ff614a79152c Yang Yingliang    2022-03-16  400  		if (IS_ERR(priv->base))
-a6199bb514d8a6 Shawn Guo         2022-03-08  401  			return PTR_ERR(priv->base);
-221b110d87c2d3 Konrad Dybcio     2023-11-27  402  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  403  
-a6199bb514d8a6 Shawn Guo         2022-03-08  404  	for (i = 0; i < priv->reg_stride; i++) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  405  		qcom_mpm_write(priv, MPM_REG_ENABLE, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  406  		qcom_mpm_write(priv, MPM_REG_FALLING_EDGE, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  407  		qcom_mpm_write(priv, MPM_REG_RISING_EDGE, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  408  		qcom_mpm_write(priv, MPM_REG_POLARITY, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  409  		qcom_mpm_write(priv, MPM_REG_STATUS, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  410  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  411  
-a6199bb514d8a6 Shawn Guo         2022-03-08  412  	irq = platform_get_irq(pdev, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  413  	if (irq < 0)
-a6199bb514d8a6 Shawn Guo         2022-03-08  414  		return irq;
-a6199bb514d8a6 Shawn Guo         2022-03-08  415  
-a6199bb514d8a6 Shawn Guo         2022-03-08  416  	genpd = &priv->genpd;
-a6199bb514d8a6 Shawn Guo         2022-03-08  417  	genpd->flags = GENPD_FLAG_IRQ_SAFE;
-a6199bb514d8a6 Shawn Guo         2022-03-08  418  	genpd->power_off = mpm_pd_power_off;
-a6199bb514d8a6 Shawn Guo         2022-03-08  419  
-a6199bb514d8a6 Shawn Guo         2022-03-08  420  	genpd->name = devm_kasprintf(dev, GFP_KERNEL, "%s", dev_name(dev));
-a6199bb514d8a6 Shawn Guo         2022-03-08  421  	if (!genpd->name)
-a6199bb514d8a6 Shawn Guo         2022-03-08  422  		return -ENOMEM;
-a6199bb514d8a6 Shawn Guo         2022-03-08  423  
-a6199bb514d8a6 Shawn Guo         2022-03-08  424  	ret = pm_genpd_init(genpd, NULL, false);
-a6199bb514d8a6 Shawn Guo         2022-03-08  425  	if (ret) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  426  		dev_err(dev, "failed to init genpd: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  427  		return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  428  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  429  
-a6199bb514d8a6 Shawn Guo         2022-03-08  430  	ret = of_genpd_add_provider_simple(np, genpd);
-a6199bb514d8a6 Shawn Guo         2022-03-08  431  	if (ret) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  432  		dev_err(dev, "failed to add genpd provider: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  433  		goto remove_genpd;
-a6199bb514d8a6 Shawn Guo         2022-03-08  434  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  435  
-a6199bb514d8a6 Shawn Guo         2022-03-08  436  	priv->mbox_client.dev = dev;
-a6199bb514d8a6 Shawn Guo         2022-03-08  437  	priv->mbox_chan = mbox_request_channel(&priv->mbox_client, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  438  	if (IS_ERR(priv->mbox_chan)) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  439  		ret = PTR_ERR(priv->mbox_chan);
-a6199bb514d8a6 Shawn Guo         2022-03-08  440  		dev_err(dev, "failed to acquire IPC channel: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08 @441  		return ret;
+If you have better word than unavailable for it, feel free to use it 
+instead.
 
-goto remove_genpd?
-
-a6199bb514d8a6 Shawn Guo         2022-03-08  442  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  443  
-a6199bb514d8a6 Shawn Guo         2022-03-08  444  	parent_domain = irq_find_host(parent);
-a6199bb514d8a6 Shawn Guo         2022-03-08  445  	if (!parent_domain) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  446  		dev_err(dev, "failed to find MPM parent domain\n");
-a6199bb514d8a6 Shawn Guo         2022-03-08  447  		ret = -ENXIO;
-a6199bb514d8a6 Shawn Guo         2022-03-08  448  		goto free_mbox;
-a6199bb514d8a6 Shawn Guo         2022-03-08  449  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  450  
-a6199bb514d8a6 Shawn Guo         2022-03-08  451  	priv->domain = irq_domain_create_hierarchy(parent_domain,
-a6199bb514d8a6 Shawn Guo         2022-03-08  452  				IRQ_DOMAIN_FLAG_QCOM_MPM_WAKEUP, pin_cnt,
-87228532e7e968 Jiri Slaby (SUSE  2025-03-19  453) 				of_fwnode_handle(np), &qcom_mpm_ops, priv);
-a6199bb514d8a6 Shawn Guo         2022-03-08  454  	if (!priv->domain) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  455  		dev_err(dev, "failed to create MPM domain\n");
-a6199bb514d8a6 Shawn Guo         2022-03-08  456  		ret = -ENOMEM;
-a6199bb514d8a6 Shawn Guo         2022-03-08  457  		goto free_mbox;
-a6199bb514d8a6 Shawn Guo         2022-03-08  458  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  459  
-a6199bb514d8a6 Shawn Guo         2022-03-08  460  	irq_domain_update_bus_token(priv->domain, DOMAIN_BUS_WAKEUP);
-a6199bb514d8a6 Shawn Guo         2022-03-08  461  
-a6199bb514d8a6 Shawn Guo         2022-03-08  462  	ret = devm_request_irq(dev, irq, qcom_mpm_handler, IRQF_NO_SUSPEND,
-a6199bb514d8a6 Shawn Guo         2022-03-08  463  			       "qcom_mpm", priv);
-a6199bb514d8a6 Shawn Guo         2022-03-08  464  	if (ret) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  465  		dev_err(dev, "failed to request irq: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  466  		goto remove_domain;
-a6199bb514d8a6 Shawn Guo         2022-03-08  467  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  468  
-a6199bb514d8a6 Shawn Guo         2022-03-08  469  	return 0;
-a6199bb514d8a6 Shawn Guo         2022-03-08  470  
-a6199bb514d8a6 Shawn Guo         2022-03-08  471  remove_domain:
-a6199bb514d8a6 Shawn Guo         2022-03-08  472  	irq_domain_remove(priv->domain);
-a6199bb514d8a6 Shawn Guo         2022-03-08  473  free_mbox:
-a6199bb514d8a6 Shawn Guo         2022-03-08  474  	mbox_free_channel(priv->mbox_chan);
-a6199bb514d8a6 Shawn Guo         2022-03-08  475  remove_genpd:
-a6199bb514d8a6 Shawn Guo         2022-03-08  476  	pm_genpd_remove(genpd);
-a6199bb514d8a6 Shawn Guo         2022-03-08  477  	return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  478  }
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+ i.
 
