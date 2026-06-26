@@ -1,150 +1,151 @@
-Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [45.157.188.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8431714AA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jun 2026 23:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2127318C2C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 00:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782430390; cv=none; b=GwvjARIQDYvd9v1+ajUmKs5k2qUUUjDpWhfRuqzSo0JBBzq1q3x/ydjduiWIvqcmzoA+ljIrRVMJx7SRonUfXkX1hfiZWQE2ilzPJBBy1co3570pgzrGPFbD7mY0R7mbL9k/yIDZozOYR+DfhFvWLIvk3swSi2jBzZ6nIU02/A4=
+	t=1782433360; cv=none; b=nwkAdmEkEFBEGckX/6ahdQXuOQx3QMbSRV5vYE2JRq/efO8Ny5Oq1mPMm/DqwFMxKG+9h8PEiODhWIw0GVsPfXVtiMdozkwm1+HC+BNKjwu2ZFYUXvWUNNf5bcmCUzSL04JWdVeP8DlwOLmZ8I5m6q1YKCIRMXtq3bcdO4yZBac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782430390; c=relaxed/simple;
-	bh=nlfAnlunjSrrdXiCkRsGCPybK2WUIbBi7OjNhv82kpE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nT7tV9vT7mPSAgWFUPl0/yHWNHE2PZYjcMoQj71SRUYoprB1fFDuuRFKJnuXLbrJzq+fNTKqadKrSQgcT8Joy6DVjQeZrB4i02Ga71PQZeIgTIOyEPr80ufpm6RhCloe/WMPnOSc4Uz3aWG9jsA6RWOOzKveqox1sUjUfKwORTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh; spf=pass smtp.mailfrom=gibson.sh; dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b=K6vFUoe5; arc=none smtp.client-ip=45.157.188.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gibson.sh
+	s=arc-20240116; t=1782433360; c=relaxed/simple;
+	bh=0EW4ZG4x1ASqRnfDU1lYhdYVZSJH/HExRy2x9eF6gUk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dJLXiLRonllRU2L/WLMNdlBpaXnbrS3p9fApkwOXvxcctNXISJObfcl12IER7SXu3jkZbxzPklLB+STkDovd+NhRhWYP0D2ALlwG1V76cyQsOlN3q1icV5UIS8afoodH5nwTADRf2K3VwBuGnDpbmAcTdR1eZE+3FeZZqca75Bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GxJZYFCt; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b="K6vFUoe5"
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gmZqJ0yJVzXHx;
-	Fri, 26 Jun 2026 01:33:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gibson.sh;
-	s=20260228; t=1782430379;
-	bh=TKV+kANJDtpt3zL+RSHUUUTQ3uk0yKp8euFAUk8BHUM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=K6vFUoe5B45+G/2DPP6NZlXxUDBGVdmu2a0sgx9eTsZvTJ9JXCL0l4H6z1Q4ZyBn8
-	 P77yUTrqwgXysBBYzhjeTUBoiIXHRbci8Dic9lb67LLd7Gg6NDRX5bdmBHwPPSgM0C
-	 8/B/XTp4ngy8MUsGKwKriVjxWdt6Q7WVM+wi5bhAOWBBuSsFfcSohPIYy6JZPBiLGv
-	 m8XHUuPwfICSaYoMY7t585GPG1HjSW+pXFDdHS+pQFQu0CcIF7i0v/2IZjrCEgAzcg
-	 w4OFr9D8KZX+ie48lubd+HXWLCET7W/6H9Stku708Q2UudKzwt+FhG/0qJmII5wQCW
-	 V1LOMd70fiDXg==
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gmZqH0H5SzvSr;
-	Fri, 26 Jun 2026 01:32:58 +0200 (CEST)
-Message-ID: <586ae889-2716-4a72-8e86-5428149fe34b@gibson.sh>
-Date: Fri, 26 Jun 2026 01:32:58 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxJZYFCt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782433359; x=1813969359;
+  h=date:from:to:cc:subject:message-id;
+  bh=0EW4ZG4x1ASqRnfDU1lYhdYVZSJH/HExRy2x9eF6gUk=;
+  b=GxJZYFCttACqGDBJh4UMTxyRG9Im+5CHEgGPdEHMKDj5bwnO7RR8MEvL
+   e9B6HWo9M5uk4346GSeekyjx5fn5xO+YQQ3ij01Jy4AdYTZuujw46Klso
+   xM12HVRG3VqEgycmx/mDIu1HjoPDBFdUItrdn2jHeMVYqgKVOyieC7OEI
+   nvn+TnDGAgp4KQS6U4w/oMcFhQQ/D0xIaBa7hkZHFevTfmaplU9RqoZiN
+   5DHJk2BnMsqIsDsBcE7E0ka+k8oG+yo7Cs85Uvk6XaskxDj3FGHE/TZCI
+   ykltU7cGUxm7jp3mi35tZVhQMyvYGgvfAoakAsNhOm+XXy2kZZSA8/Ojg
+   A==;
+X-CSE-ConnectionGUID: fEbe2jXwQ3+7aoEPwnewtg==
+X-CSE-MsgGUID: 4SZ1FS46TAWIGZeGvX/olA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83239808"
+X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
+   d="scan'208";a="83239808"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 17:22:38 -0700
+X-CSE-ConnectionGUID: 9tgj2uDxRtaZaVEdrUvMUw==
+X-CSE-MsgGUID: fDPkyR/NS1CxOhYRCI1gFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
+   d="scan'208";a="253087445"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 25 Jun 2026 17:22:37 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wcuL5-000000004fp-042Y;
+	Fri, 26 Jun 2026 00:22:35 +0000
+Date: Fri, 26 Jun 2026 08:22:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [boqun:rust-sync 7/21] kernel/sched/fair.c:7361:76: error:
+ 'class_raw_spinlock_irqsave_t' has no member named 'flags'
+Message-ID: <202606260808.qo1RBpNl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/platform/x86/amd/pmc/pmc.c:717:37: warning: '%s'
- directive argument is null
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Hans de Goede <johannes.goede@oss.qualcomm.com>
-References: <202606251540.Nr2BtaNu-lkp@intel.com>
-Content-Language: de-DE, en-GB
-From: Daniel Gibson <daniel@gibson.sh>
-In-Reply-To: <202606251540.Nr2BtaNu-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Infomaniak-Routing: alpha
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
+head:   9214bf3de496a0c6db1b33bfecf8d4732c060b8e
+commit: a71ac5c74494cca5cc75b846522f22be9f1a2231 [7/21] locking: Switch to _irq_{disable,enable}() variants in cleanup guards
+config: x86_64-randconfig-102-20260625 (https://download.01.org/0day-ci/archive/20260626/202606260808.qo1RBpNl-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606260808.qo1RBpNl-lkp@intel.com/reproduce)
 
-On 25.06.26 09:22, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   ab9de95c9cf952332ab79453b4b5d1bfca8e514f
-> commit: 428b9fd2dce50b4dc5cd9ade10b92efcf57ce7aa platform/x86/amd/pmc: Add delay_suspend module parameter
-> date:   2 weeks ago
-> config: x86_64-buildonly-randconfig-006-20260625 (https://download.01.org/0day-ci/archive/20260625/202606251540.Nr2BtaNu-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606251540.Nr2BtaNu-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Fixes: 428b9fd2dce5 ("platform/x86/amd/pmc: Add delay_suspend module parameter")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606251540.Nr2BtaNu-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/device.h:15,
->                     from include/linux/acpi.h:15,
->                     from drivers/platform/x86/amd/pmc/pmc.c:13:
->    In function 'amd_pmc_want_suspend_delay',
->        inlined from 'amd_pmc_s2idle_check' at drivers/platform/x86/amd/pmc/pmc.c:763:6:
->>> drivers/platform/x86/amd/pmc/pmc.c:717:37: warning: '%s' directive argument is null [-Wformat-overflow=]
->      717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
->          |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
->      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
->          |                              ^~~
->    include/linux/dev_printk.h:160:58: note: in expansion of macro 'dev_fmt'
->      160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
->          |                                                          ^~~~~~~
->    drivers/platform/x86/amd/pmc/pmc.c:717:17: note: in expansion of macro 'dev_info'
->      717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
->          |                 ^~~~~~~~
->    drivers/platform/x86/amd/pmc/pmc.c: In function 'amd_pmc_s2idle_check':
->    drivers/platform/x86/amd/pmc/pmc.c:717:279: note: format string is defined here
->      717 |                 dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
->          |                                                                                                                                                                                                                                                                                       ^~
-> 
-> 
-> vim +717 drivers/platform/x86/amd/pmc/pmc.c
-> 
->    691	
->    692	static bool amd_pmc_want_suspend_delay(struct amd_pmc_dev *pdev)
->    693	{
->    694		/*
->    695		 * Some Lenovo Laptops (like different IdeaPad 3 Slims) need some
->    696		 * me-time before sleeping or they get uncooperative after waking
->    697		 * up and don't send events for keyboard and lid switch anymore.
->    698		 *
->    699		 * Unfortunately this doesn't entirely fix the problem: It can still
->    700		 * happen when resuming with a timer (wakealarm), but at least the
->    701		 * more common usecases (wakeup by opening lid or pressing a key)
->    702		 * work fine with this workaround.
->    703		 *
->    704		 * See https://bugzilla.kernel.org/show_bug.cgi?id=221383
->    705		 */
->    706		if (amd_pmc_quirk_need_suspend_delay(pdev)) {
->    707			/*
->    708			 * delay_suspend=1 force-enables this, otherwise it can be
->    709			 * disabled with disable_workarounds or delay_suspend=0
->    710			 */
->    711			if (delay_suspend == 1 || (delay_suspend == -1 && !disable_workarounds)) {
->    712				dev_info(pdev->dev, "Delaying suspend by 2.5s to avoid platform bug\n");
->    713				return true;
->    714			}
->    715			dev_info(pdev->dev, "Not delaying suspend because of module parameter, even though your device is assumed to need it!\n");
->    716		} else if (delay_suspend == 1) {
->  > 717			dev_info(pdev->dev, "Delaying suspend by 2.5s because delay_suspend=1. If this solves problems on your machine, please report this whole line to: platform-driver-x86@vger.kernel.org so it can be automatically detected as affected in the future. System Vendor: \"%s\" Product Name: \"%s\" Product Family: \"%s\" Board Vendor: \"%s\" Board Name: \"%s\"\n",
->    718				 dmi_get_system_info(DMI_SYS_VENDOR),
->    719				 dmi_get_system_info(DMI_PRODUCT_NAME),
->    720				 dmi_get_system_info(DMI_PRODUCT_FAMILY),
->    721				 dmi_get_system_info(DMI_BOARD_VENDOR),
->    722				 dmi_get_system_info(DMI_BOARD_NAME));
->    723			return true;
->    724		}
->    725		return false;
->    726	}
->    727	
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606260808.qo1RBpNl-lkp@intel.com/
 
-Ok, so dmi_get_system_info(DMI_*) can return NULL (not sure if this is
-more of a theoretical possibility or if it actually happens).
+All errors (new ones prefixed by >>):
 
-Is this a problem?
+   kernel/sched/fair.c: In function 'sched_cfs_period_timer':
+>> kernel/sched/fair.c:7361:76: error: 'class_raw_spinlock_irqsave_t' has no member named 'flags'
+    7361 |                 idle = do_sched_cfs_period_timer(cfs_b, overrun, cfsb_guard.flags);
+         |                                                                            ^
 
-As far as I know printk() will just print "(null)" or similar then,
-which IMHO is fine for this usecase.
 
-Cheers,
-Daniel
+vim +7361 kernel/sched/fair.c
 
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7345  
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7346  static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7347  {
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7348  	struct cfs_bandwidth *cfs_b =
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7349  		container_of(timer, struct cfs_bandwidth, period_timer);
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7350  	int overrun;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7351  	int idle = 0;
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7352  	int count = 0;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7353  
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7354  	CLASS(raw_spinlock_irqsave, cfsb_guard)(&cfs_b->lock);
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7355  
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7356  	for (;;) {
+77a4d1a1b9a122 kernel/sched/fair.c Peter Zijlstra  2015-04-15  7357  		overrun = hrtimer_forward_now(timer, cfs_b->period);
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7358  		if (!overrun)
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7359  			break;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7360  
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02 @7361  		idle = do_sched_cfs_period_timer(cfs_b, overrun, cfsb_guard.flags);
+5a6d6a6ccb5f48 kernel/sched/fair.c Huaixin Chang   2020-04-20  7362  
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7363  		if (++count > 3) {
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7364  			u64 new, old = ktime_to_ns(cfs_b->period);
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7365  
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7366  			/*
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7367  			 * Grow period by a factor of 2 to avoid losing precision.
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7368  			 * Precision loss in the quota/period ratio can cause __cfs_schedulable
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7369  			 * to fail.
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7370  			 */
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7371  			new = old * 2;
+5bc34be478d09c kernel/sched/fair.c Tejun Heo       2025-06-13  7372  			if (new < max_bw_quota_period_us * NSEC_PER_USEC) {
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7373  				cfs_b->period = ns_to_ktime(new);
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7374  				cfs_b->quota *= 2;
+f4183717b370ad kernel/sched/fair.c Huaixin Chang   2021-06-21  7375  				cfs_b->burst *= 2;
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7376  
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7377  				pr_warn_ratelimited(
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7378  	"cfs_period_timer[cpu%d]: period too short, scaling up (new cfs_period_us = %lld, cfs_quota_us = %lld)\n",
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7379  					smp_processor_id(),
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7380  					div_u64(new, NSEC_PER_USEC),
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7381  					div_u64(cfs_b->quota, NSEC_PER_USEC));
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7382  			} else {
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7383  				pr_warn_ratelimited(
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7384  	"cfs_period_timer[cpu%d]: period too short, but cannot scale up without losing precision (cfs_period_us = %lld, cfs_quota_us = %lld)\n",
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7385  					smp_processor_id(),
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7386  					div_u64(old, NSEC_PER_USEC),
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7387  					div_u64(cfs_b->quota, NSEC_PER_USEC));
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7388  			}
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7389  
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7390  			/* reset count so we don't come right back in here */
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7391  			count = 0;
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7392  		}
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7393  	}
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7394  
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7395  	if (idle) {
+4cfafd3082afc7 kernel/sched/fair.c Peter Zijlstra  2015-05-14  7396  		cfs_b->period_active = 0;
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7397  		return HRTIMER_NORESTART;
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7398  	}
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7399  
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7400  	return HRTIMER_RESTART;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7401  }
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7402  
+
+:::::: The code at line 7361 was first introduced by commit
+:::::: 1abbecd1d2d2fdd96e52f541f07ee2b163631bee sched/fair: Convert cfs bandwidth throttling to use guards
+
+:::::: TO: K Prateek Nayak <kprateek.nayak@amd.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
