@@ -1,150 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C982BE644
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 01:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF9E2E738E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 02:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782438336; cv=none; b=tqfTo/oB2XP+6CjJL89T54Yq50C+LCC+swYaaEynw19Cx7nCsCUsKXQX8sXY2XsWGdjWl6D8RjX8fuHmh7kEoBQMpI5XCwtr+xhCRmX1rz6tw2huQxqv3y+SQKMwQfN8MakmYF1YbucbcVjmhGz2MHax/IgC3UeG1w7A6juPonI=
+	t=1782440991; cv=none; b=AiOoAHAjaC4vQNnjm++wWYkzebmnsrY3aHPLfYgO+vMhRspDUJDzjIuZbvf9jZPyQi4EBVc8P3y+/fXTOH648Gr8vGi8fW875Y1amxG+tFigLdR5qu2iQqq2P1lYRVKrLUrCfcmZmtCKXN3s89/00nDRB0J8ha4XXpsF3V+/Y6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782438336; c=relaxed/simple;
-	bh=osMxNcwOmIf1Xb//S2AtHcVwsd5lvnsormAAJuite0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pANe7CNJBJ4IPgO4vuig8yavdH1veWIcgHt1Mn6ZGYeF62N94yRl0h2NPzeW/rt0L4J19lRBdItl+QuRyiWq8t/S7NVZAFab5z/o514PGo1xq2h6bOH+iTTvC2ChcGJRPCpb4RJ2J6yE92LJphfodwSjvr24n/Jze8xpp+et+6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TwNMdkHW; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1782440991; c=relaxed/simple;
+	bh=qFCMGqzAWXTYpcOtnWPipVoxp9/sbg890AtjjHZuYSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SQc6LabQbeyDRl50HHdJBguf1UIwGMvrBZXP4O19L52RoluKBSfYy5dowJl3vgY4izRBlNOmPvdDN8mX4vU25mq8PXFo1mVe1yZdjMy6jnY+o/O4QKthLqGEv3yko2+Z3EfkAu90uWigrRoIqfJzJrZip37O4d51W+u1PJlqHGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6UNxXkP; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TwNMdkHW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6UNxXkP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782438335; x=1813974335;
-  h=date:from:to:cc:subject:message-id;
-  bh=osMxNcwOmIf1Xb//S2AtHcVwsd5lvnsormAAJuite0Q=;
-  b=TwNMdkHWhM1+9xNbRfuEQNcL2fYMKmlY28W0uYmhbRpFbRQ9/3ldVc6X
-   t2lut+vxKsRXRKuMFPoexCpTitL2T0YYTBfFivSXJL+ub96PfMOYetMqQ
-   3SS6l6RRxqm1RL6L1gg7uDI1ooqM38Ij8JIo3swKfM/QgfK8K5bRNtd5c
-   oLksPX4NoSZ/zNGwi7mR0ycAhjGBCY0jdUYk87nOk61HnKJSpnKM166/F
-   Q9RATe4aeOAmuK1TrXyRm2yktbrCT7Jq8zmM8VlFmn9NM1ICP6KVRDKs0
-   7Cyslk5FPkb0Jq9Qt2YSafvTQxHCKWWkWuNAVHnWY+MTmixb6vHnrn6Qh
-   A==;
-X-CSE-ConnectionGUID: Ytqrx3EFSpmo5L44YcXpfA==
-X-CSE-MsgGUID: LZ16HLHAQaWI7c4LdZwYCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83109318"
+  t=1782440989; x=1813976989;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qFCMGqzAWXTYpcOtnWPipVoxp9/sbg890AtjjHZuYSw=;
+  b=l6UNxXkPhRKzCttNlPgPSnxVdWyJk7x9UXVa6lUSvHDW1rVQCBFBbKgG
+   m7kweSIPgotjiysvdrLNzjh0s33/xBJTC0gBwKyKC8wcH/2Ha4g54Tqy7
+   HC9Q8wmwRJa2vHYBoWm3csKpF19YnD/BzoyZA7jGpXU1IM6OKz2AnT95b
+   MSZo8lx5q6Z41BesRkXBds+h6ETmpuPzrhO3bxKg0CYJ1wWJ7kLNa+6s6
+   ZPJhFNn2KZseb5Z9oNYBQnqGYEomrD/Odn3eFQJC1YT9m8hPYGnKjGcfq
+   ymC4T1qAKBSbAgAY4ACOMMxMZ7pg1P932ORlSSCoOLHTUpExqoNt5CVRW
+   g==;
+X-CSE-ConnectionGUID: wtYcAgSORZuRoamNgcLJGg==
+X-CSE-MsgGUID: cmo1SDQ3RW+deg1nFTRdtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="87084419"
 X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
-   d="scan'208";a="83109318"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 18:45:33 -0700
-X-CSE-ConnectionGUID: powKBgEzQs+uH3yh/UJJ3A==
-X-CSE-MsgGUID: vtjriwL0S1KT5FS+tTn4bA==
+   d="scan'208";a="87084419"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 19:29:48 -0700
+X-CSE-ConnectionGUID: oE3D2rIxRui7t60ek32/+Q==
+X-CSE-MsgGUID: nTtqdfPTSLS5+zewcgxwIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
-   d="scan'208";a="250150854"
+   d="scan'208";a="281305017"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 25 Jun 2026 18:45:32 -0700
+  by orviesa002.jf.intel.com with ESMTP; 25 Jun 2026 19:29:45 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcvdJ-000000004jB-2adM;
-	Fri, 26 Jun 2026 01:45:29 +0000
-Date: Fri, 26 Jun 2026 09:44:55 +0800
+	id 1wcwK6-000000004jr-2MrZ;
+	Fri, 26 Jun 2026 02:29:42 +0000
+Date: Fri, 26 Jun 2026 10:28:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [boqun:rust-sync 7/21] kernel/sched/fair.c:7361:63: error:
- no member named 'flags' in 'class_raw_spinlock_irqsave_t'
-Message-ID: <202606260902.yhBVZMkq-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ David Gow <davidgow@google.com>
+Subject: drivers/scsi/qedi/qedi_debugfs.c:109:45: sparse: sparse:
+ incorrect type in argument 2 (different address spaces)
+Message-ID: <202606261021.2zXZiUy4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
-head:   9214bf3de496a0c6db1b33bfecf8d4732c060b8e
-commit: a71ac5c74494cca5cc75b846522f22be9f1a2231 [7/21] locking: Switch to _irq_{disable,enable}() variants in cleanup guards
-config: x86_64-randconfig-103-20260625 (https://download.01.org/0day-ci/archive/20260626/202606260902.yhBVZMkq-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606260902.yhBVZMkq-lkp@intel.com/reproduce)
+Hi Thomas,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4edcdefd4083ae04b1a5656f4be6cd83ae919ef4
+commit: 031cdd3bc3f369553933c1b0f4cb18000162c8ff kunit: Enable PCI on UML without triggering WARN()
+date:   9 months ago
+config: um-randconfig-r111-20260626 (https://download.01.org/0day-ci/archive/20260626/202606261021.2zXZiUy4-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606261021.2zXZiUy4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 031cdd3bc3f3 ("kunit: Enable PCI on UML without triggering WARN()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606260902.yhBVZMkq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606261021.2zXZiUy4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/scsi/qedi/qedi_debugfs.c:109:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected char const *ct @@     got char const [noderef] __user *buffer @@
+   drivers/scsi/qedi/qedi_debugfs.c:109:45: sparse:     expected char const *ct
+   drivers/scsi/qedi/qedi_debugfs.c:109:45: sparse:     got char const [noderef] __user *buffer
+   drivers/scsi/qedi/qedi_debugfs.c:150:41: sparse: sparse: restricted __le16 degrades to integer
+--
+   drivers/net/wireless/ath/wil6210/debugfs.c: note: in included file:
+>> drivers/net/wireless/ath/wil6210/txrx.h:662:23: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/net/wireless/ath/wil6210/debugfs.c:53:31: sparse: signed value source
+>> drivers/net/wireless/ath/wil6210/txrx.h:662:23: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/net/wireless/ath/wil6210/debugfs.c:1123:39: sparse: signed value source
 
->> kernel/sched/fair.c:7361:63: error: no member named 'flags' in 'class_raw_spinlock_irqsave_t'
-    7361 |                 idle = do_sched_cfs_period_timer(cfs_b, overrun, cfsb_guard.flags);
-         |                                                                  ~~~~~~~~~~ ^
-   1 error generated.
+vim +109 drivers/scsi/qedi/qedi_debugfs.c
 
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   13  
+bd571195c9535c Arnd Bergmann      2017-03-02  @14  int qedi_do_not_recover;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   15  static struct dentry *qedi_dbg_root;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   16  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   17  void
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   18  qedi_dbg_host_init(struct qedi_dbg_ctx *qedi,
+779936faf4f121 Arnd Bergmann      2018-02-02   19  		   const struct qedi_debugfs_ops *dops,
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   20  		   const struct file_operations *fops)
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   21  {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   22  	char host_dirname[32];
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   23  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   24  	sprintf(host_dirname, "host%u", qedi->host_no);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   25  	qedi->bdf_dentry = debugfs_create_dir(host_dirname, qedi_dbg_root);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   26  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   27  	while (dops) {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   28  		if (!(dops->name))
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   29  			break;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   30  
+26febfb38c7d67 Greg Kroah-Hartman 2019-01-22   31  		debugfs_create_file(dops->name, 0600, qedi->bdf_dentry, qedi,
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   32  				    fops);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   33  		dops++;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   34  		fops++;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   35  	}
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   36  }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   37  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   38  void
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   39  qedi_dbg_host_exit(struct qedi_dbg_ctx *qedi)
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   40  {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   41  	debugfs_remove_recursive(qedi->bdf_dentry);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   42  	qedi->bdf_dentry = NULL;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   43  }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   44  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   45  void
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   46  qedi_dbg_init(char *drv_name)
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   47  {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   48  	qedi_dbg_root = debugfs_create_dir(drv_name, NULL);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   49  }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   50  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   51  void
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   52  qedi_dbg_exit(void)
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   53  {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   54  	debugfs_remove_recursive(qedi_dbg_root);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   55  	qedi_dbg_root = NULL;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   56  }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   57  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   58  static ssize_t
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   59  qedi_dbg_do_not_recover_enable(struct qedi_dbg_ctx *qedi_dbg)
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   60  {
+bd571195c9535c Arnd Bergmann      2017-03-02   61  	if (!qedi_do_not_recover)
+bd571195c9535c Arnd Bergmann      2017-03-02   62  		qedi_do_not_recover = 1;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   63  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   64  	QEDI_INFO(qedi_dbg, QEDI_LOG_DEBUGFS, "do_not_recover=%d\n",
+bd571195c9535c Arnd Bergmann      2017-03-02   65  		  qedi_do_not_recover);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   66  	return 0;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   67  }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   68  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   69  static ssize_t
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   70  qedi_dbg_do_not_recover_disable(struct qedi_dbg_ctx *qedi_dbg)
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   71  {
+bd571195c9535c Arnd Bergmann      2017-03-02   72  	if (qedi_do_not_recover)
+bd571195c9535c Arnd Bergmann      2017-03-02   73  		qedi_do_not_recover = 0;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   74  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   75  	QEDI_INFO(qedi_dbg, QEDI_LOG_DEBUGFS, "do_not_recover=%d\n",
+bd571195c9535c Arnd Bergmann      2017-03-02   76  		  qedi_do_not_recover);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   77  	return 0;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   78  }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   79  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   80  static struct qedi_list_of_funcs qedi_dbg_do_not_recover_ops[] = {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   81  	{ "enable", qedi_dbg_do_not_recover_enable },
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   82  	{ "disable", qedi_dbg_do_not_recover_disable },
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   83  	{ NULL, NULL }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   84  };
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   85  
+779936faf4f121 Arnd Bergmann      2018-02-02   86  const struct qedi_debugfs_ops qedi_debugfs_ops[] = {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   87  	{ "gbl_ctx", NULL },
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   88  	{ "do_not_recover", qedi_dbg_do_not_recover_ops},
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   89  	{ "io_trace", NULL },
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   90  	{ NULL, NULL }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   91  };
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   92  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   93  static ssize_t
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   94  qedi_dbg_do_not_recover_cmd_write(struct file *filp, const char __user *buffer,
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   95  				  size_t count, loff_t *ppos)
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   96  {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   97  	size_t cnt = 0;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   98  	struct qedi_dbg_ctx *qedi_dbg =
+ace7f46ba5fde7 Manish Rangankar   2016-12-01   99  			(struct qedi_dbg_ctx *)filp->private_data;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  100  	struct qedi_list_of_funcs *lof = qedi_dbg_do_not_recover_ops;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  101  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  102  	if (*ppos)
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  103  		return 0;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  104  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  105  	while (lof) {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  106  		if (!(lof->oper_str))
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  107  			break;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  108  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01 @109  		if (!strncmp(lof->oper_str, buffer, strlen(lof->oper_str))) {
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  110  			cnt = lof->oper_func(qedi_dbg);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  111  			break;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  112  		}
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  113  
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  114  		lof++;
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  115  	}
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  116  	return (count - cnt);
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  117  }
+ace7f46ba5fde7 Manish Rangankar   2016-12-01  118  
 
-vim +7361 kernel/sched/fair.c
+:::::: The code at line 109 was first introduced by commit
+:::::: ace7f46ba5fde7273207c7122b0650ceb72510e0 scsi: qedi: Add QLogic FastLinQ offload iSCSI driver framework.
 
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7345  
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7346  static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7347  {
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7348  	struct cfs_bandwidth *cfs_b =
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7349  		container_of(timer, struct cfs_bandwidth, period_timer);
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7350  	int overrun;
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7351  	int idle = 0;
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7352  	int count = 0;
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7353  
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7354  	CLASS(raw_spinlock_irqsave, cfsb_guard)(&cfs_b->lock);
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7355  
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7356  	for (;;) {
-77a4d1a1b9a122 kernel/sched/fair.c Peter Zijlstra  2015-04-15  7357  		overrun = hrtimer_forward_now(timer, cfs_b->period);
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7358  		if (!overrun)
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7359  			break;
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7360  
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02 @7361  		idle = do_sched_cfs_period_timer(cfs_b, overrun, cfsb_guard.flags);
-5a6d6a6ccb5f48 kernel/sched/fair.c Huaixin Chang   2020-04-20  7362  
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7363  		if (++count > 3) {
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7364  			u64 new, old = ktime_to_ns(cfs_b->period);
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7365  
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7366  			/*
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7367  			 * Grow period by a factor of 2 to avoid losing precision.
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7368  			 * Precision loss in the quota/period ratio can cause __cfs_schedulable
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7369  			 * to fail.
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7370  			 */
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7371  			new = old * 2;
-5bc34be478d09c kernel/sched/fair.c Tejun Heo       2025-06-13  7372  			if (new < max_bw_quota_period_us * NSEC_PER_USEC) {
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7373  				cfs_b->period = ns_to_ktime(new);
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7374  				cfs_b->quota *= 2;
-f4183717b370ad kernel/sched/fair.c Huaixin Chang   2021-06-21  7375  				cfs_b->burst *= 2;
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7376  
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7377  				pr_warn_ratelimited(
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7378  	"cfs_period_timer[cpu%d]: period too short, scaling up (new cfs_period_us = %lld, cfs_quota_us = %lld)\n",
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7379  					smp_processor_id(),
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7380  					div_u64(new, NSEC_PER_USEC),
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7381  					div_u64(cfs_b->quota, NSEC_PER_USEC));
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7382  			} else {
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7383  				pr_warn_ratelimited(
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7384  	"cfs_period_timer[cpu%d]: period too short, but cannot scale up without losing precision (cfs_period_us = %lld, cfs_quota_us = %lld)\n",
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7385  					smp_processor_id(),
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7386  					div_u64(old, NSEC_PER_USEC),
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7387  					div_u64(cfs_b->quota, NSEC_PER_USEC));
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7388  			}
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7389  
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7390  			/* reset count so we don't come right back in here */
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7391  			count = 0;
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7392  		}
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7393  	}
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7394  
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7395  	if (idle) {
-4cfafd3082afc7 kernel/sched/fair.c Peter Zijlstra  2015-05-14  7396  		cfs_b->period_active = 0;
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7397  		return HRTIMER_NORESTART;
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7398  	}
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7399  
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7400  	return HRTIMER_RESTART;
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7401  }
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7402  
-
-:::::: The code at line 7361 was first introduced by commit
-:::::: 1abbecd1d2d2fdd96e52f541f07ee2b163631bee sched/fair: Convert cfs bandwidth throttling to use guards
-
-:::::: TO: K Prateek Nayak <kprateek.nayak@amd.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+:::::: TO: Manish Rangankar <manish.rangankar@cavium.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 --
 0-DAY CI Kernel Test Service
