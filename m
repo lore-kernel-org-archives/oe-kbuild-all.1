@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2127318C2C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 00:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831232D7BF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 00:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782433360; cv=none; b=nwkAdmEkEFBEGckX/6ahdQXuOQx3QMbSRV5vYE2JRq/efO8Ny5Oq1mPMm/DqwFMxKG+9h8PEiODhWIw0GVsPfXVtiMdozkwm1+HC+BNKjwu2ZFYUXvWUNNf5bcmCUzSL04JWdVeP8DlwOLmZ8I5m6q1YKCIRMXtq3bcdO4yZBac=
+	t=1782433361; cv=none; b=T25pvQdmSYR8hVwYjJm4u2Eamc0PctTA0rgz+uiA63XsTnbeXEQhQE3WNXuhxwUzV2AZpi+NacH19E8GYVBBHwyL6ciDuzOvpAr6y51UyEUuczBEI8j28NZXPsyUA2pBofTlPeeIUXbCnxsNkmBTORfVXGBgJbDCkBpdrnyDDbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782433360; c=relaxed/simple;
-	bh=0EW4ZG4x1ASqRnfDU1lYhdYVZSJH/HExRy2x9eF6gUk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dJLXiLRonllRU2L/WLMNdlBpaXnbrS3p9fApkwOXvxcctNXISJObfcl12IER7SXu3jkZbxzPklLB+STkDovd+NhRhWYP0D2ALlwG1V76cyQsOlN3q1icV5UIS8afoodH5nwTADRf2K3VwBuGnDpbmAcTdR1eZE+3FeZZqca75Bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GxJZYFCt; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1782433361; c=relaxed/simple;
+	bh=rTYFDnWDGaMvBtbtmEnAD/lY/AzhYjhcF5A1qxqyA2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UjUjY35lAEDbzGsGF7Pz/olbjfFiADkZNJUaKSxivbwXIQXVmVfPjbtzwUQmdGmvWv1BCQqTyHpIgHlyy08TL1ModU1GD0R1JhsvpF6qKS0Bed580zetbD4Dt08qCHYBiDaeEHgqFxvdg6brrdWg3gKTYT274DjcB2KIiwcIYhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDOZDOrl; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxJZYFCt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDOZDOrl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1782433359; x=1813969359;
   h=date:from:to:cc:subject:message-id;
-  bh=0EW4ZG4x1ASqRnfDU1lYhdYVZSJH/HExRy2x9eF6gUk=;
-  b=GxJZYFCttACqGDBJh4UMTxyRG9Im+5CHEgGPdEHMKDj5bwnO7RR8MEvL
-   e9B6HWo9M5uk4346GSeekyjx5fn5xO+YQQ3ij01Jy4AdYTZuujw46Klso
-   xM12HVRG3VqEgycmx/mDIu1HjoPDBFdUItrdn2jHeMVYqgKVOyieC7OEI
-   nvn+TnDGAgp4KQS6U4w/oMcFhQQ/D0xIaBa7hkZHFevTfmaplU9RqoZiN
-   5DHJk2BnMsqIsDsBcE7E0ka+k8oG+yo7Cs85Uvk6XaskxDj3FGHE/TZCI
-   ykltU7cGUxm7jp3mi35tZVhQMyvYGgvfAoakAsNhOm+XXy2kZZSA8/Ojg
-   A==;
-X-CSE-ConnectionGUID: fEbe2jXwQ3+7aoEPwnewtg==
-X-CSE-MsgGUID: 4SZ1FS46TAWIGZeGvX/olA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83239808"
+  bh=rTYFDnWDGaMvBtbtmEnAD/lY/AzhYjhcF5A1qxqyA2Q=;
+  b=oDOZDOrlBZL+TNfBtyffPxKkeGwBxLUFfNIFmTKl5M7Hev3rqon1IWj2
+   p9FtxcfljKewM5StaLw5Z6y+TXEwSSsrtzT6vug5+xvaxYbFn6qWAQRL3
+   /i8Sk9sXjKfhj6FrJHMz96YbyhiChFTMSoAcQOrc/Y7O6FX9kagzZwpnC
+   5L8v7Mtec2sOf4+bu13CJ58QGX+UeCnawBhLQAXuk1x6Jv2ijkghz2GmZ
+   qLdmJmuwHgoUOUPSLwlIfhL4XtuEyWa72DtxzDPOuHWj/Ok0u01reC9X2
+   OKIp8KZXI0T2tlqUG/mK1dM43IJJfeR7FBB7riCfK0ixVG9hZrRgRce9R
+   g==;
+X-CSE-ConnectionGUID: LKt7n+RBSmyK+qjpUd4DTQ==
+X-CSE-MsgGUID: yUmAebOBQfq+PE3h/mKusg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="94619707"
 X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
-   d="scan'208";a="83239808"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 17:22:38 -0700
-X-CSE-ConnectionGUID: 9tgj2uDxRtaZaVEdrUvMUw==
-X-CSE-MsgGUID: fDPkyR/NS1CxOhYRCI1gFA==
+   d="scan'208";a="94619707"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 17:22:39 -0700
+X-CSE-ConnectionGUID: QQdBLJm4SIWteMzJhtAJfg==
+X-CSE-MsgGUID: H/rf2XVXR6W90MHdpBAoAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
-   d="scan'208";a="253087445"
+   d="scan'208";a="251823323"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jun 2026 17:22:37 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 Jun 2026 17:22:38 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcuL5-000000004fp-042Y;
-	Fri, 26 Jun 2026 00:22:35 +0000
-Date: Fri, 26 Jun 2026 08:22:08 +0800
+	id 1wcuL4-000000004fn-47fk;
+	Fri, 26 Jun 2026 00:22:34 +0000
+Date: Fri, 26 Jun 2026 08:21:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boqun Feng <boqun.feng@gmail.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [boqun:rust-sync 7/21] kernel/sched/fair.c:7361:76: error:
- 'class_raw_spinlock_irqsave_t' has no member named 'flags'
-Message-ID: <202606260808.qo1RBpNl-lkp@intel.com>
+Subject: [bcachefs:master 902/1155]
+ fs/bcachefs/alloc/foreground.c:367:1: warning: the frame size of 1296 bytes
+ is larger than 1280 bytes
+Message-ID: <202606260834.mODQmopR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,92 +60,138 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
-head:   9214bf3de496a0c6db1b33bfecf8d4732c060b8e
-commit: a71ac5c74494cca5cc75b846522f22be9f1a2231 [7/21] locking: Switch to _irq_{disable,enable}() variants in cleanup guards
-config: x86_64-randconfig-102-20260625 (https://download.01.org/0day-ci/archive/20260626/202606260808.qo1RBpNl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606260808.qo1RBpNl-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git master
+head:   ca944a61e079450f82be88c91e349638c75cf4b6
+commit: 906e2e30b6d9cc3e4e8293f8d758e9ff8dc3d8aa [902/1155] bcachefs: fix __bch2_trans_iter_init() ip parameter
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260626/202606260834.mODQmopR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606260834.mODQmopR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606260808.qo1RBpNl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606260834.mODQmopR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/fair.c: In function 'sched_cfs_period_timer':
->> kernel/sched/fair.c:7361:76: error: 'class_raw_spinlock_irqsave_t' has no member named 'flags'
-    7361 |                 idle = do_sched_cfs_period_timer(cfs_b, overrun, cfsb_guard.flags);
-         |                                                                            ^
+   fs/bcachefs/alloc/foreground.c: In function 'bch2_bucket_alloc_early':
+>> fs/bcachefs/alloc/foreground.c:367:1: warning: the frame size of 1296 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     367 | }
+         | ^
+--
+   fs/bcachefs/fs/check_extents.c: In function 'overlapping_extents_found':
+>> fs/bcachefs/fs/check_extents.c:258:1: warning: the frame size of 1400 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     258 | }
+         | ^
+--
+   fs/bcachefs/fs/dirent.c: In function 'bch2_fsck_remove_dirent':
+>> fs/bcachefs/fs/dirent.c:688:1: warning: the frame size of 1312 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     688 | }
+         | ^
+--
+   fs/bcachefs/snapshots/subvolume.c: In function 'check_subvol':
+>> fs/bcachefs/snapshots/subvolume.c:165:1: warning: the frame size of 1408 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     165 | }
+         | ^
 
 
-vim +7361 kernel/sched/fair.c
+vim +367 fs/bcachefs/alloc/foreground.c
 
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7345  
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7346  static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7347  {
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7348  	struct cfs_bandwidth *cfs_b =
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7349  		container_of(timer, struct cfs_bandwidth, period_timer);
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7350  	int overrun;
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7351  	int idle = 0;
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7352  	int count = 0;
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7353  
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7354  	CLASS(raw_spinlock_irqsave, cfsb_guard)(&cfs_b->lock);
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7355  
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7356  	for (;;) {
-77a4d1a1b9a122 kernel/sched/fair.c Peter Zijlstra  2015-04-15  7357  		overrun = hrtimer_forward_now(timer, cfs_b->period);
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7358  		if (!overrun)
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7359  			break;
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7360  
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02 @7361  		idle = do_sched_cfs_period_timer(cfs_b, overrun, cfsb_guard.flags);
-5a6d6a6ccb5f48 kernel/sched/fair.c Huaixin Chang   2020-04-20  7362  
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7363  		if (++count > 3) {
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7364  			u64 new, old = ktime_to_ns(cfs_b->period);
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7365  
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7366  			/*
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7367  			 * Grow period by a factor of 2 to avoid losing precision.
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7368  			 * Precision loss in the quota/period ratio can cause __cfs_schedulable
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7369  			 * to fail.
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7370  			 */
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7371  			new = old * 2;
-5bc34be478d09c kernel/sched/fair.c Tejun Heo       2025-06-13  7372  			if (new < max_bw_quota_period_us * NSEC_PER_USEC) {
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7373  				cfs_b->period = ns_to_ktime(new);
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7374  				cfs_b->quota *= 2;
-f4183717b370ad kernel/sched/fair.c Huaixin Chang   2021-06-21  7375  				cfs_b->burst *= 2;
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7376  
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7377  				pr_warn_ratelimited(
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7378  	"cfs_period_timer[cpu%d]: period too short, scaling up (new cfs_period_us = %lld, cfs_quota_us = %lld)\n",
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7379  					smp_processor_id(),
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7380  					div_u64(new, NSEC_PER_USEC),
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7381  					div_u64(cfs_b->quota, NSEC_PER_USEC));
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7382  			} else {
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7383  				pr_warn_ratelimited(
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7384  	"cfs_period_timer[cpu%d]: period too short, but cannot scale up without losing precision (cfs_period_us = %lld, cfs_quota_us = %lld)\n",
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7385  					smp_processor_id(),
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7386  					div_u64(old, NSEC_PER_USEC),
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7387  					div_u64(cfs_b->quota, NSEC_PER_USEC));
-4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7388  			}
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7389  
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7390  			/* reset count so we don't come right back in here */
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7391  			count = 0;
-2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7392  		}
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7393  	}
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7394  
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7395  	if (idle) {
-4cfafd3082afc7 kernel/sched/fair.c Peter Zijlstra  2015-05-14  7396  		cfs_b->period_active = 0;
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7397  		return HRTIMER_NORESTART;
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7398  	}
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7399  
-1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7400  	return HRTIMER_RESTART;
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7401  }
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7402  
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  280  
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  281  /*
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  282   * This path is for before the freespace btree is initialized:
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  283   */
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  284  static noinline struct open_bucket *
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  285  bch2_bucket_alloc_early(struct btree_trans *trans,
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  286  			struct alloc_request *req,
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  287  			struct closure *cl)
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  288  {
+fbd152bf946987 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-12-06  289  	struct bch_fs *c = trans->c;
+e038213658f09b fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  290  	struct bch_dev *ca = req->ca;
+4a80745da868ac fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-30  291  	struct bkey_s_c k;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  292  	struct open_bucket *ob = NULL;
+828552ca74a458 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-11-24  293  	u64 first_bucket = ca->mi.first_bucket;
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  294  	u64 *dev_alloc_cursor = &ca->alloc_cursor[req->btree_bitmap];
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  295  	u64 alloc_start = max(first_bucket, *dev_alloc_cursor);
+e0fb0dccfd6fd8 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  296  	u64 alloc_cursor = alloc_start;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  297  	int ret;
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  298  
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  299  	/*
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  300  	 * Scan with an uncached iterator to avoid polluting the key cache. An
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  301  	 * uncached iter will return a cached key if one exists, but if not
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  302  	 * there is no other underlying protection for the associated key cache
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  303  	 * slot. To avoid racing bucket allocations, look up the cached key slot
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  304  	 * of any likely allocation candidate before attempting to proceed with
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  305  	 * the allocation. This provides proper exclusion on the associated
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  306  	 * bucket.
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  307  	 */
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  308  again:
+db346e7120a6de fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-07-17  309  	for_each_btree_key_norestart(trans, iter, BTREE_ID_alloc, POS(ca->dev_idx, alloc_cursor),
+5dd8c60e1e0448 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-07  310  			   BTREE_ITER_slots, k, ret) {
+f6ecd9850b5e0b fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-30  311  		u64 bucket = alloc_cursor = k.k->p.offset;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  312  
+e88a75ebe86c1d fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-11-24  313  		if (bkey_ge(k.k->p, POS(ca->dev_idx, ca->mi.nbuckets)))
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  314  			break;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  315  
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  316  		if (req->btree_bitmap != BTREE_BITMAP_ANY &&
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  317  		    req->btree_bitmap != bch2_dev_btree_bitmap_marked_sectors(ca,
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  318  				bucket_to_sector(ca, bucket), ca->mi.bucket_size)) {
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  319  			if (req->btree_bitmap == BTREE_BITMAP_YES &&
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  320  			    bucket_to_sector(ca, bucket) > 64ULL << ca->mi.btree_bitmap_shift)
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  321  				break;
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  322  
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  323  			bucket = sector_to_bucket(ca,
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  324  					round_up(bucket_to_sector(ca, bucket) + 1,
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  325  						 1ULL << ca->mi.btree_bitmap_shift));
+7c84dc243819ab fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-30  326  			bch2_btree_iter_set_pos(&iter, POS(ca->dev_idx, bucket));
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  327  			req->counters.buckets_seen++;
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  328  			req->counters.skipped_mi_btree_bitmap++;
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  329  			continue;
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  330  		}
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  331  
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  332  		struct bch_alloc_v4 a_convert;
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  333  		const struct bch_alloc_v4 *a = bch2_alloc_to_v4(k, &a_convert);
+19a614d2e4beed fs/bcachefs/alloc_foreground.c Kent Overstreet 2023-01-30  334  		if (a->data_type != BCH_DATA_free)
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  335  			continue;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  336  
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  337  		/* now check the cached key to serialize concurrent allocs of the bucket */
+4a80745da868ac fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-30  338  		CLASS(btree_iter, citer)(trans, BTREE_ID_alloc, k.k->p, BTREE_ITER_cached|BTREE_ITER_nopreserve);
+4a80745da868ac fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-30  339  		struct bkey_s_c ck = bch2_btree_iter_peek_slot(&citer);
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  340  		ret = bkey_err(ck);
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  341  		if (ret)
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  342  			break;
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  343  
+385a82f62a9b46 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  344  		a = bch2_alloc_to_v4(ck, &a_convert);
+4a80745da868ac fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-30  345  		if (a->data_type == BCH_DATA_free) {
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  346  			req->counters.buckets_seen++;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  347  
+7f65d1cf5c30cf fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  348  			ob = may_alloc_bucket(c, req, k.k->p)
+e038213658f09b fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  349  				? __try_alloc_bucket(c, req, k.k->p.offset, a->gen, cl)
+fbd152bf946987 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-12-06  350  				: NULL;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  351  			if (ob)
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  352  				break;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  353  		}
+4a80745da868ac fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-30  354  	}
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  355  
+db36c1477d1753 fs/bcachefs/alloc_foreground.c Kent Overstreet 2023-01-23  356  	if (!ob && ret)
+db36c1477d1753 fs/bcachefs/alloc_foreground.c Kent Overstreet 2023-01-23  357  		ob = ERR_PTR(ret);
+db36c1477d1753 fs/bcachefs/alloc_foreground.c Kent Overstreet 2023-01-23  358  
+e0fb0dccfd6fd8 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  359  	if (!ob && alloc_start > first_bucket) {
+e0fb0dccfd6fd8 fs/bcachefs/alloc_foreground.c Brian Foster    2023-11-01  360  		alloc_cursor = alloc_start = first_bucket;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  361  		goto again;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  362  	}
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  363  
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  364  	*dev_alloc_cursor = alloc_cursor;
+c6705091342c06 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-04-20  365  
+db36c1477d1753 fs/bcachefs/alloc_foreground.c Kent Overstreet 2023-01-23  366  	return ob;
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09 @367  }
+f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  368  
 
-:::::: The code at line 7361 was first introduced by commit
-:::::: 1abbecd1d2d2fdd96e52f541f07ee2b163631bee sched/fair: Convert cfs bandwidth throttling to use guards
+:::::: The code at line 367 was first introduced by commit
+:::::: f25d8215f499418c17dfde0b3158a66e03c758dc bcachefs: Kill allocator threads & freelists
 
-:::::: TO: K Prateek Nayak <kprateek.nayak@amd.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 --
 0-DAY CI Kernel Test Service
