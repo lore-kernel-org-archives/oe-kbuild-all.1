@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE49119D07A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jun 2026 14:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EAE37EFEB;
+	Fri, 26 Jun 2026 15:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782482529; cv=none; b=JwXfVG4r8Ss/A5lVnuLsTOeceyati0puU1MGdqSTASLgwgqYAxwaSBetRg6gIsgPoT9Fti+mEuQKeJvTFjsWhRAVIkX2WeZFdGGa1G/We8TyqB0CLNbdFLteq5kTWg18xCZYlRnmyQjYVv4UGAOpr86B8J+a+Nihs2QaZiC0OKY=
+	t=1782486839; cv=none; b=Qm+AyaL2/JaRiPJt6roeuBUgFNRoUprFQAX4NQr08xPxthofwTQnE9BXD958MykU9jYrB/RffXegqBKibwQLEooPNN0kxs5xmZrYQKdfIz4q2zA8eYdJx3KvuZARUOVfqTLnBpJlsvxHmPxitQRg6M8OspRLdaGNA3Fm7qcfkLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782482529; c=relaxed/simple;
-	bh=yzbubqNZ/5KS7QzrGlml3UXKW+XHuMPLPhaWE41YJY8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lMaQOTVkbdXzO0hpmgZyhKGmjXyh/gjCUPCaUyQiJDVJQytMLb+gcXsjWcF5C5gDnDKhc/47TAdH7+voCbyLw9F2rOGSY/YksBbw8H51lb9i7lw8MdXcgo6jCUylZpBiNUcPbOBL7VIATKGSXvkE+ookh3BUnAoT1qkunFqtzEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTylQLKT; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1782486839; c=relaxed/simple;
+	bh=z4o/HCjNcEplIXMubCeVq4CvjWXSQ1MeitIDVefnBM0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=B0xW7/3eol4b3kUaUDshsE26mwM9CgZX+Pn2V4DFA+hGC4qpawDHzOwVgbGs1AoPUMNNN+h/21cFO7/FsG9lqRzu++HOJPXzz9kXGgkXEZlFOV38JOClnk5hzxa9TMLIf5PxxepcoKTEYveM3ZVgkPth0L34FeyYsH/DeIEY3DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QOHKg2Ld; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTylQLKT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QOHKg2Ld"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782482528; x=1814018528;
+  t=1782486829; x=1814022829;
   h=date:from:to:cc:subject:message-id;
-  bh=yzbubqNZ/5KS7QzrGlml3UXKW+XHuMPLPhaWE41YJY8=;
-  b=XTylQLKTwkh4f7rEtAqgpiKUpbNf6btlBKnYCUc1pmz3Pf9uG/fEO8SK
-   nilVWU4Itt8o9Um9iUFQqrcEKEWLglrlZSa+k7JS6QFgCf2kao5U0mMaC
-   fS+wOObX/zjBDNaiOA0ChebZwkfdqsabVp7CqZD1xbDKHRWPgdQQTL1FW
-   zpcrqRNeatX7Zv8ifFmfDoisWps9kFLBmZpAlhtvcqIpQQZoxpuurhGhb
-   abz6eG9+n8FF6CN2RH0+IM4vNR4qPCE4Bqi9HjSuiUpe3AvtZR0e/uG5s
-   MqvpXrYUDU13vJV6QKdY8VsN3NjLykNAA22ua3mZCLzbQ00jsxOrOK4Vv
+  bh=z4o/HCjNcEplIXMubCeVq4CvjWXSQ1MeitIDVefnBM0=;
+  b=QOHKg2Ldb/1m7/CDBBo8/fSExw2a+TfAXFLTrqN2fvr7nw0SGPKfv1Q9
+   70cTEj7nmFvqYsH4itR4A+XJFc45RRo7RXauJ0iqL8ZY5yohCKb5ARP2x
+   qPZFBYoD83s54CersXm1TSFuDF/XC2Tmgtmp4KigRAcJDT4d0s8DwwHHb
+   Gr+gAHZJ4oEHhKUR56mmJQ0/WsyVe/5EPUpYicgyoM8XjOEMF+hb3h75a
+   3mc0HEgmpSRGOvTgg4/iru6tWEGvURTqJUdb9ufmbz1MB2mVOsh6Alq2l
+   mUQsmVW50gIoyfUHXRd/UrDwUKp/OVenZkCp1cS4/bR1uNhYOUMSozaEY
    A==;
-X-CSE-ConnectionGUID: uLZURw1QTl6tHCNVrqjj+g==
-X-CSE-MsgGUID: fIgl6cXHRXqtANpp12vt3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11829"; a="70795115"
+X-CSE-ConnectionGUID: j0pbpptMTZ+5zViGqMcvNg==
+X-CSE-MsgGUID: Bitxe8dSQCGdRfmTO2na4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11829"; a="87126326"
 X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
-   d="scan'208";a="70795115"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 07:02:07 -0700
-X-CSE-ConnectionGUID: rocNLrGcReSU6kmrk92cTw==
-X-CSE-MsgGUID: Coj30XlDRQmooumuAtDIRg==
+   d="scan'208";a="87126326"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 08:13:48 -0700
+X-CSE-ConnectionGUID: tsgQCIb9SaqQ8eSuq4v+/w==
+X-CSE-MsgGUID: /IzD56TASRyDo2yShEJ77g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
-   d="scan'208";a="250944673"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 26 Jun 2026 07:02:05 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Jun 2026 08:13:46 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wd77p-0000000058L-3eqU;
-	Fri, 26 Jun 2026 14:02:00 +0000
-Date: Fri, 26 Jun 2026 22:01:31 +0800
+	id 1wd8FU-000000005B9-14H6;
+	Fri, 26 Jun 2026 15:13:44 +0000
+Date: Fri, 26 Jun 2026 23:13:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ratheesh Kannoth <rkannoth@marvell.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>
-Subject: 
- drivers/net/ethernet/marvell/octeontx2/af/cn20k/debugfs.c:25:32: error:
- 'struct rvu' has no member named 'rvu_dbg'; did you mean 'rvu_dl'?
-Message-ID: <202606262158.Dvc57sU5-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-06-26 328/328]
+ sound/soc/fsl/mpc5200_dma.c:299:35: error: incomplete definition of type
+ 'struct snd_soc_card'
+Message-ID: <202606262303.4pgfRmts-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,38 +58,67 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4edcdefd4083ae04b1a5656f4be6cd83ae919ef4
-commit: 1396771b0b7741d517d591cfb63333d3f97a8f6d octeontx2-af: npc: cn20k: Index management
-date:   4 months ago
-config: s390-randconfig-r134-20260626 (https://download.01.org/0day-ci/archive/20260626/202606262158.Dvc57sU5-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606262158.Dvc57sU5-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-06-26
+head:   3b1a6af55c000fdba23910aeb597cb608b44bed6
+commit: 3b1a6af55c000fdba23910aeb597cb608b44bed6 [328/328] SoC: move struct snd_soc_card/snd_soc_card_driver to soc-card.[hc]
+config: powerpc-randconfig-001-20260626 (https://download.01.org/0day-ci/archive/20260626/202606262303.4pgfRmts-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606262303.4pgfRmts-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 1396771b0b77 ("octeontx2-af: npc: cn20k: Index management")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606262158.Dvc57sU5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606262303.4pgfRmts-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/marvell/octeontx2/af/cn20k/debugfs.c: In function 'npc_cn20k_debugfs_deinit':
->> drivers/net/ethernet/marvell/octeontx2/af/cn20k/debugfs.c:25:32: error: 'struct rvu' has no member named 'rvu_dbg'; did you mean 'rvu_dl'?
-     debugfs_remove_recursive(rvu->rvu_dbg.npc);
-                                   ^~~~~~~
-                                   rvu_dl
+>> sound/soc/fsl/mpc5200_dma.c:299:35: error: incomplete definition of type 'struct snd_soc_card'
+     299 |         struct snd_card *card = rtd->card->snd_card;
+         |                                 ~~~~~~~~~^
+   include/sound/soc.h:417:8: note: forward declaration of 'struct snd_soc_card'
+     417 | struct snd_soc_card;
+         |        ^
+   sound/soc/fsl/mpc5200_dma.c:305:19: error: incomplete definition of type 'struct snd_soc_component'
+     305 |         dev_dbg(component->dev, "psc_dma_new(card=%p, dai=%p, pcm=%p)\n",
+         |                 ~~~~~~~~~^
+   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
+     422 | struct snd_soc_component;
+         |        ^
+   sound/soc/fsl/mpc5200_dma.c:317:3: error: field designator 'name' does not refer to any field in type 'const struct snd_soc_component_driver'
+     317 |         .name           = DRV_NAME,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
-vim +25 drivers/net/ethernet/marvell/octeontx2/af/cn20k/debugfs.c
+vim +299 sound/soc/fsl/mpc5200_dma.c
 
-    22	
-    23	void npc_cn20k_debugfs_deinit(struct rvu *rvu)
-    24	{
-  > 25		debugfs_remove_recursive(rvu->rvu_dbg.npc);
-    26	}
-    27	
+89dd08425273773 Jon Smirl         2009-05-23  295  
+6d1048bc115259b Kuninori Morimoto 2019-10-02  296  static int psc_dma_new(struct snd_soc_component *component,
+6d1048bc115259b Kuninori Morimoto 2019-10-02  297  		       struct snd_soc_pcm_runtime *rtd)
+89dd08425273773 Jon Smirl         2009-05-23  298  {
+552d1ef6b5a98d7 Liam Girdwood     2011-06-07 @299  	struct snd_card *card = rtd->card->snd_card;
+14ec63f678e8bea Kuninori Morimoto 2023-09-11  300  	struct snd_soc_dai *dai = snd_soc_rtd_to_cpu(rtd, 0);
+552d1ef6b5a98d7 Liam Girdwood     2011-06-07  301  	struct snd_pcm *pcm = rtd->pcm;
+dbcc34756234596 Jon Smirl         2009-05-26  302  	size_t size = psc_dma_hardware.buffer_bytes_max;
+c9bd5e690a439df Russell King      2013-06-27  303  	int rc;
+89dd08425273773 Jon Smirl         2009-05-23  304  
+60bceb8029e26c4 Kuninori Morimoto 2018-01-29  305  	dev_dbg(component->dev, "psc_dma_new(card=%p, dai=%p, pcm=%p)\n",
+89dd08425273773 Jon Smirl         2009-05-23  306  		card, dai, pcm);
+89dd08425273773 Jon Smirl         2009-05-23  307  
+c9bd5e690a439df Russell King      2013-06-27  308  	rc = dma_coerce_mask_and_coherent(card->dev, DMA_BIT_MASK(32));
+c9bd5e690a439df Russell King      2013-06-27  309  	if (rc)
+c9bd5e690a439df Russell King      2013-06-27  310  		return rc;
+89dd08425273773 Jon Smirl         2009-05-23  311  
+3610a6d1dbd19b3 Takashi Iwai      2021-08-02  312  	return snd_pcm_set_fixed_buffer_all(pcm, SNDRV_DMA_TYPE_DEV, card->dev,
+3610a6d1dbd19b3 Takashi Iwai      2021-08-02  313  					    size);
+89dd08425273773 Jon Smirl         2009-05-23  314  }
+89dd08425273773 Jon Smirl         2009-05-23  315  
+
+:::::: The code at line 299 was first introduced by commit
+:::::: 552d1ef6b5a98d7b95959d5b139071e3c90cebf1 ASoC: core - Optimise and refactor pcm_new() to pass only rtd
+
+:::::: TO: Liam Girdwood <lrg@ti.com>
+:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
 
 --
 0-DAY CI Kernel Test Service
