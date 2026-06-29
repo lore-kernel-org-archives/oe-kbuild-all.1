@@ -1,116 +1,235 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61131368D41
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 14:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1399F426EDB;
+	Mon, 29 Jun 2026 15:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782744890; cv=none; b=mIoebBrhNbkNCHualH94rt3k6AHUVM5Plju9jt1aua1sh0lNxPj4aplGpCHi4Aqh1X2oLQriS99SycEKQeApBN9GpnFg88LeRpwH28zfoPYlZb9dbw4ANnsy92KOByAyd7pBcq8kKE8TCwRFSkbL8EEWqQyVjp5XYOVqzlmGAZg=
+	t=1782745559; cv=none; b=W+6ydBxV7zKjw5etuZHpdHiyZy6CXrYWXxIIHFO9d/m+93Ix92FvTxlnti79Sy0YFs2uavOdFDuy7dTeiEmuJKIXeBCJ9AFxOr0usJ2abHWdOKyovjTL2s2fotvgBP2I0s/WPqbMhIc7rLC3/aIOzILGWyCjmp9JdpdZWiZE6s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782744890; c=relaxed/simple;
-	bh=Ze4tNaUV+OLzdS8ZB9XqLclZ6IjxX51cMZeNJH7mtrM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S+SEYeDZouX1zQae0y/ImLQygwPCx4PB25i18/ncA9i+ikVtacdox6ZcAMif5FUOKIvb4GC2VgpjKB15I8bSjnxrHilGA4sNmIh97F7mbB9nOSiMVBKah5ZhrAeQamfABowZq432uQ3z+/cq+Z5FIDpuTvPlyZzpLQACKmby4uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ATHGfO0t; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1782745559; c=relaxed/simple;
+	bh=bRzbfqhpmyPBejcqj+nwbdIhOPnJWKOjULbc34cXygA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ARDPVJNLaA5QTHEQhsLy2C71XummWgI/utNJA2TpfbS+KZgZMRnhnI6l3+VKDlc1HTgJqqGFz0H3U43X9ArQp1EsQFTlj4+VpG9pNm4+3JUN4PfgeSmbLTQ+pr7gTVzgw8FPXMk4rMc1vMa/CvGOJn64inXD8Yc/4Lr51iHUuHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=chGXcSAC; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ATHGfO0t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="chGXcSAC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782744888; x=1814280888;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ze4tNaUV+OLzdS8ZB9XqLclZ6IjxX51cMZeNJH7mtrM=;
-  b=ATHGfO0tub7Dmf7O64STYDPKgw/rqh4EhMI4ZFbhw1LOdADd7/S/OUpi
-   YilQwrP8LL1bpYeMmVRP+PCPAvCIavZgOTTU+AHgWV5y9/rJxptE5S856
-   mpTYXqDgJMIPS+5mY/zi7rtMa52XNYCFgwaH/gW1Vnd6HkdsOnCNU93PQ
-   btGVu08eK15mGac6em0gHJaWj6cNVgFTtZbPDEVmlsz5dy3eXjE5Y4Rlh
-   uAv0fpqE/4Pyd8+FhjEtDTsnvUnaWYai0FjjewRQLCY7wizdyRJV1Uaee
-   T7QwnZCODjNb2ZSZPMy62drogqbaULOXG8bOWzeC/Gpeg7g9Lml/Z2ibc
-   w==;
-X-CSE-ConnectionGUID: vjxQ3zlCQpSYDFzflgYgRw==
-X-CSE-MsgGUID: YWthcoxrSWqJBbEpXTUWaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="106229910"
+  t=1782745558; x=1814281558;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bRzbfqhpmyPBejcqj+nwbdIhOPnJWKOjULbc34cXygA=;
+  b=chGXcSACjVyD3z0ZvXqHhy11GlDtHNGerOdd0+4BchCaUhCKuhPmchH7
+   5uKN27M6Q2/Z+sk23jxAFqXE9irA4elo7r30rRYYPIpUlipHiCHYTF285
+   UXvBbzAWT0ZXHPC0hA3bFHSx6a5VUDHl46lNV6UcTj+uQjLots6SeBmLi
+   gDOXpipwmy8PVdIBpcCOpWaynbEo+3Zz8MOq09nqMji0f4yckKCPcwuJQ
+   5c/o5FwbnSYPrtbbWaXFuBzdEbJ4nW8E8rTLzT+w0i1vVQR7wfEIZ1w5d
+   j+Hjl+92fNvT7E1vbK4nmM/mv8kECvPQZuH+lR1NafxUR03a2b45zMsLx
+   g==;
+X-CSE-ConnectionGUID: tyHfHtssQlact9l2+1ojLg==
+X-CSE-MsgGUID: jtU9g5AHTVm4rKmkG3TCZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="87345567"
 X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="106229910"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:54:47 -0700
-X-CSE-ConnectionGUID: yh1N0t3DRauhbZu1lRyrcw==
-X-CSE-MsgGUID: aUzkhk/7Q+qvwnoLvs0Mlw==
+   d="scan'208";a="87345567"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:05:57 -0700
+X-CSE-ConnectionGUID: F9SgGtAaQISMDE7JwrAHgQ==
+X-CSE-MsgGUID: f67Jl0g/RaaF/FFb2vzCnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="250286698"
+   d="scan'208";a="252128943"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 29 Jun 2026 07:54:46 -0700
+  by orviesa007.jf.intel.com with ESMTP; 29 Jun 2026 08:05:50 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weDNi-000000007UP-2njX;
-	Mon, 29 Jun 2026 14:54:42 +0000
-Date: Mon, 29 Jun 2026 22:54:16 +0800
+	id 1weDYQ-000000007Uj-2oSU;
+	Mon, 29 Jun 2026 15:05:46 +0000
+Date: Mon, 29 Jun 2026 23:05:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 480/799]
- fs/bcachefs/alloc/background.c:210:5-8: Unneeded variable: "ret". Return "0"
- on line 218
-Message-ID: <202606292212.55YVp6MG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Fenglin Wu <fenglin.wu@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Guru Das Srinagesh <linux@gurudas.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Collins <david.collins@oss.qualcomm.com>,
+	Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
+	Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
+	kernel@oss.qualcomm.com, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+Subject: Re: [PATCH v3] leds: rgb: leds-qcom-lpg: Fix LED color balancing in
+ HW pattern mode
+Message-ID: <202606292317.3IsR1hhQ-lkp@intel.com>
+References: <20260629-lpg-rgb-color-balance-fix-v3-1-17796a06d799@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260629-lpg-rgb-color-balance-fix-v3-1-17796a06d799@oss.qualcomm.com>
 
-Hi Kent,
+Hi Fenglin,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: 1793cc6db8c9956fee64b427113359b3a2df7678 [480/799] bcachefs: errptr_try()
-config: arc-randconfig-r061-20260629 (https://download.01.org/0day-ci/archive/20260629/202606292212.55YVp6MG-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
+[auto build test ERROR on 1795fd2dbe84ef4d393b69a0b2a3b371f810bde5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fenglin-Wu/leds-rgb-leds-qcom-lpg-Fix-LED-color-balancing-in-HW-pattern-mode/20260629-180250
+base:   1795fd2dbe84ef4d393b69a0b2a3b371f810bde5
+patch link:    https://lore.kernel.org/r/20260629-lpg-rgb-color-balance-fix-v3-1-17796a06d799%40oss.qualcomm.com
+patch subject: [PATCH v3] leds: rgb: leds-qcom-lpg: Fix LED color balancing in HW pattern mode
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260629/202606292317.3IsR1hhQ-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606292317.3IsR1hhQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606292212.55YVp6MG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606292317.3IsR1hhQ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/alloc/background.c:210:5-8: Unneeded variable: "ret". Return "0" on line 218
-   fs/bcachefs/alloc/background.c:225:5-8: Unneeded variable: "ret". Return "0" on line 231
-   fs/bcachefs/alloc/background.c:238:5-8: Unneeded variable: "ret". Return "0" on line 244
-   fs/bcachefs/alloc/background.c:527:5-8: Unneeded variable: "ret". Return "0" on line 534
---
->> fs/bcachefs/data/extents.c:531:5-8: Unneeded variable: "ret". Return "0" on line 537
-   fs/bcachefs/data/extents.c:1460:5-8: Unneeded variable: "ret". Return "0" on line 1584
---
->> fs/bcachefs/alloc/lru.c:23:5-8: Unneeded variable: "ret". Return "0" on line 29
-   fs/bcachefs/alloc/lru.c:86:5-8: Unneeded variable: "ret". Return "0" on line 104
+All errors (new ones prefixed by >>):
 
-vim +210 fs/bcachefs/alloc/background.c
+>> drivers/leds/rgb/leds-qcom-lpg.c:1203:3: error: cannot jump from this goto statement to its label
+    1203 |                 goto free_pattern;
+         |                 ^
+   drivers/leds/rgb/leds-qcom-lpg.c:1216:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1216 |         guard(mutex)(&lpg->lock);
+         |         ^
+   include/linux/cleanup.h:422:2: note: expanded from macro 'guard'
+     422 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
+     303 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:39:1: note: expanded from here
+      39 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:45:1: note: expanded from here
+      45 | __UNIQUE_ID_unlock_324
+         | ^
+   drivers/leds/rgb/leds-qcom-lpg.c:1216:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:422:15: note: expanded from macro 'guard'
+     422 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:165:2: note: expanded from macro '__UNIQUE_ID'
+     165 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:33:1: note: expanded from here
+      33 | __UNIQUE_ID_guard_323
+         | ^
+   1 error generated.
 
-1c6fdbd8f2465d fs/bcachefs/alloc.c            Kent Overstreet 2017-03-16  205  
-d97de0d017cde0 fs/bcachefs/alloc_background.c Kent Overstreet 2024-08-12  206  int bch2_alloc_v1_validate(struct bch_fs *c, struct bkey_s_c k,
-a6f4794fcd8627 fs/bcachefs/alloc_background.c Kent Overstreet 2024-11-27  207  			   struct bkey_validate_context from)
-1c6fdbd8f2465d fs/bcachefs/alloc.c            Kent Overstreet 2017-03-16  208  {
-26609b619fa230 fs/bcachefs/alloc_background.c Kent Overstreet 2018-11-01  209  	struct bkey_s_c_alloc a = bkey_s_c_to_alloc(k);
-b65db750e2bb92 fs/bcachefs/alloc_background.c Kent Overstreet 2023-10-24 @210  	int ret = 0;
-26609b619fa230 fs/bcachefs/alloc_background.c Kent Overstreet 2018-11-01  211  
-e88973373aaabe fs/bcachefs/alloc_background.c Kent Overstreet 2018-11-22  212  	/* allow for unknown fields */
-d97de0d017cde0 fs/bcachefs/alloc_background.c Kent Overstreet 2024-08-12  213  	bkey_fsck_err_on(bkey_val_u64s(a.k) < bch_alloc_v1_val_u64s(a.v),
-d97de0d017cde0 fs/bcachefs/alloc_background.c Kent Overstreet 2024-08-12  214  			 c, alloc_v1_val_size_bad,
-b65db750e2bb92 fs/bcachefs/alloc_background.c Kent Overstreet 2023-10-24  215  			 "incorrect value size (%zu < %u)",
-f0ac7df23d04f3 fs/bcachefs/alloc_background.c Kent Overstreet 2022-04-03  216  			 bkey_val_u64s(a.k), bch_alloc_v1_val_u64s(a.v));
-b65db750e2bb92 fs/bcachefs/alloc_background.c Kent Overstreet 2023-10-24  217  fsck_err:
-b65db750e2bb92 fs/bcachefs/alloc_background.c Kent Overstreet 2023-10-24 @218  	return ret;
-1c6fdbd8f2465d fs/bcachefs/alloc.c            Kent Overstreet 2017-03-16  219  }
-1c6fdbd8f2465d fs/bcachefs/alloc.c            Kent Overstreet 2017-03-16  220  
 
-:::::: The code at line 210 was first introduced by commit
-:::::: b65db750e2bb9252321fd54c284edd73c1595a09 bcachefs: Enumerate fsck errors
+vim +1203 drivers/leds/rgb/leds-qcom-lpg.c
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+  1177	
+  1178	static int lpg_pattern_mc_set(struct led_classdev *cdev,
+  1179				      struct led_pattern *led_pattern, u32 len,
+  1180				      int repeat)
+  1181	{
+  1182		struct led_classdev_mc *mc = lcdev_to_mccdev(cdev);
+  1183		struct lpg_led *led = container_of(mc, struct lpg_led, mcdev);
+  1184		struct lpg *lpg = led->lpg;
+  1185		struct lpg_channel *chan;
+  1186		struct lpg_pattern pattern;
+  1187		unsigned int triled_mask = 0;
+  1188		unsigned int lo_idx;
+  1189		unsigned int hi_idx;
+  1190		unsigned int scale;
+  1191		unsigned int i, j;
+  1192		int ret;
+  1193	
+  1194		ret = lpg_prepare_pattern(lpg, led_pattern, len, repeat, &pattern);
+  1195		if (ret < 0)
+  1196			return ret;
+  1197	
+  1198		/* Allocate buffer for the per-channel scaled pattern copy */
+  1199		struct led_pattern *scaled __free(kfree) =
+  1200				   kmalloc_array(pattern.len, sizeof(*scaled), GFP_KERNEL);
+  1201		if (!scaled) {
+  1202			ret = -ENOMEM;
+> 1203			goto free_pattern;
+  1204		}
+  1205	
+  1206		for (i = 0; i < led->num_channels; i++)
+  1207			triled_mask |= led->channels[i]->triled_mask;
+  1208		triled_set(lpg, triled_mask, 0);
+  1209	
+  1210		led_mc_calc_color_components(mc, LED_FULL);
+  1211	
+  1212		/*
+  1213		 * Each channel gets its own LUT block scaled by subled_info[i].brightness
+  1214		 * so the pattern respects the configured colour balance.
+  1215		 */
+  1216		guard(mutex)(&lpg->lock);
+  1217	
+  1218		for (i = 0; i < led->num_channels; i++) {
+  1219			chan = led->channels[i];
+  1220			scale = mc->subled_info[i].brightness;
+  1221	
+  1222			for (j = 0; j < pattern.len; j++) {
+  1223				scaled[j].brightness = DIV_ROUND_CLOSEST(
+  1224					(u32)pattern.data[j].brightness * scale, LED_FULL);
+  1225				scaled[j].delta_t = pattern.data[j].delta_t;
+  1226			}
+  1227	
+  1228			if (lpg->lut_base)
+  1229				ret = lpg_lut_store(lpg, scaled, pattern.len, &lo_idx, &hi_idx);
+  1230			else
+  1231				ret = lpg_lut_store_sdam(lpg, scaled, pattern.len, &lo_idx, &hi_idx);
+  1232	
+  1233			if (ret < 0) {
+  1234				/* Free LUT slots already allocated for previous channels */
+  1235				while (i-- > 0) {
+  1236					chan = led->channels[i];
+  1237					lpg_lut_free(lpg, chan->pattern_lo_idx, chan->pattern_hi_idx);
+  1238					chan->pattern_lo_idx = 0;
+  1239					chan->pattern_hi_idx = 0;
+  1240				}
+  1241	
+  1242				goto free_pattern;
+  1243			}
+  1244	
+  1245			chan->ramp_tick_ms = pattern.delta_t;
+  1246			chan->ramp_ping_pong = pattern.ping_pong;
+  1247			chan->ramp_oneshot = repeat != -1;
+  1248			chan->ramp_lo_pause_ms = pattern.lo_pause;
+  1249			chan->ramp_hi_pause_ms = pattern.hi_pause;
+  1250			chan->pattern_lo_idx = lo_idx;
+  1251			chan->pattern_hi_idx = hi_idx;
+  1252		}
+  1253	
+  1254	free_pattern:
+  1255		kfree(pattern.data);
+  1256		if (ret < 0)
+  1257			return ret;
+  1258	
+  1259		lpg_brightness_set(led, cdev, mc->subled_info);
+  1260	
+  1261		return 0;
+  1262	}
+  1263	
 
 --
 0-DAY CI Kernel Test Service
