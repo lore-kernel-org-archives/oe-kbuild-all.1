@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4593FDC0E;
-	Mon, 29 Jun 2026 11:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE9E2E7185
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 14:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782734270; cv=none; b=q2qS+VHrW455L3QDTu8S0Z1hKTdobKk4jhjI1OBNGv6RoJGbAx2cq7ncT/jqkzF9KfnMztzFLacVchIkNpPcv8ZbqHcVyrUYscBeQ7DH42B1JkbHdApVB9/vVRqFU6SBdgpkleNXb9fsl36tyo2xh9LsKDLwzyEpgjoXl/vyzU0=
+	t=1782743007; cv=none; b=cTHobmEMiecJjGCsP8otwcpjDltOd5wtLVGj/lKBHtuQVQodnEIXpwJ0/KKRHdeco2Re/vfurGYwkmPX0tvJI08AI0vEgMHKtQZ7JSJjV8sTby4oH3FQcMTtsKEXkHQoCKxQ3sVVEN/loFvhlyaj+XfjopmYLrcglHQjyghTLj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782734270; c=relaxed/simple;
-	bh=NZqUfl1cZE1bkMxsFVuA4dW+8WY84xsrSDPum/dYfPo=;
+	s=arc-20240116; t=1782743007; c=relaxed/simple;
+	bh=+k6KMOdRQAZW1KVW/3phOMtRHvMyYn2umElAQ7z9yts=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tkt2JIF3/kPt8yYznlH+3vGe/QSIrBpKC2MY3AbOmmXowWHCnOuFM42YXSMM5lKKj3sR0XA5S1wKMq6+HVsdukpXSpkzah4+AJCbU+XBpuMSAbGMRBu148uaEL8RtOlaxBt08o3fSnmxViKNQlcE3WxxSrRDflVV7vFhOh1BwJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJ2iKjr/; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=KE4xtkYqW5iNDVuF6Su3hRsqIv2mIy3qAQ/q6IeVdfxEyRb+kLbedLOrUtx5rUqIiXRrbNsAbMM1jIlWRn8fT9rXCzTJYZ9eYWM7SVq8Yzm+9z+z1/C5+wqNtNe+qUo7ifVOyuqniMVw/50pd2BcB0zOK9vfVEYBm60BI4I+VXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ehpyt39K; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJ2iKjr/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ehpyt39K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782734269; x=1814270269;
+  t=1782743006; x=1814279006;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NZqUfl1cZE1bkMxsFVuA4dW+8WY84xsrSDPum/dYfPo=;
-  b=OJ2iKjr/6vxmEP3SvKs34OFDKveb33myjSiUzOUvp3qCNDkqMd1OwmdD
-   qjZfaF3uA43szo2seFYmWzBETpbOvRYs/cQpDPdUL0SzVtME3S3XLkk6z
-   EoFBLQm5zg8yN2f8338irwKHxYMNcBch7BKkSZEh3H8F3LoSo3ro/GU47
-   ceQqDakXUK+6QvM+KGuDawSnrELQLCodCyjl8uGx7LRokPQgsA4HPDyGf
-   uO/7EL0iPlLYbypgv9FkQhbIz1DetIeNee3zx9cLgFo6xUkJ/FhKbeh0A
-   YtJpRujSJx9PVDVYVvfzdRQH+h3iyhlAyMjos8/ouscUsHPoBO/heFqay
-   w==;
-X-CSE-ConnectionGUID: pknV7gwXSAKi8+x0of2UoA==
-X-CSE-MsgGUID: C7aaXP4HRPS78tcfK/dXdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="85967643"
-X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
-   d="scan'208";a="85967643"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 04:57:48 -0700
-X-CSE-ConnectionGUID: uRvrpWgCR6CzXM98XFVcJg==
-X-CSE-MsgGUID: 8ABGAF7oTV28855M5ELmPg==
+  bh=+k6KMOdRQAZW1KVW/3phOMtRHvMyYn2umElAQ7z9yts=;
+  b=Ehpyt39KZ6Z871UHgajwJPSGqBF2X8AS+5mxyyAL+gAzDLVbLH0J1qxl
+   TQDjw1XLRkvJWdFB+itAfPoxTx3eDgVZZr7+lSCRrjd0S+R7lSTkdWNZe
+   LO902JIlf8Fv383/omn1/1mPw6JNapXRd7HOf7GI0t+LlH8c4ceEM3Bap
+   itMZBQv+LHQ8/UQesGWt0Uukp+XirPFJPHEglbSuVFc/AgVRFuMRtVSpl
+   39bNDsCzJIPo0MVBOiOZEo7NrEV34GymvjvkkEcYUwYX4I8WU3Ic31uEV
+   2jFnvJv/mSWEZtwthpfNAPg/JRikNztOqkW1KVYddNsL7wvzZLQ5V3hBT
+   A==;
+X-CSE-ConnectionGUID: CR0ZtjvjRaeq6296LT++wg==
+X-CSE-MsgGUID: snkGGnCRQMSsDx/ADRj1yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83572994"
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="83572994"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:23:19 -0700
+X-CSE-ConnectionGUID: hs5A42O6SdGQlkTPVBCpUA==
+X-CSE-MsgGUID: Yp99o0vcQMyvDm7Gsb6Ifw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="256890686"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Jun 2026 04:57:45 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 29 Jun 2026 07:23:17 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weAcQ-000000007Mj-2oxv;
-	Mon, 29 Jun 2026 11:57:42 +0000
-Date: Mon, 29 Jun 2026 19:57:04 +0800
+	id 1weCtB-000000007SP-1muN;
+	Mon, 29 Jun 2026 14:23:10 +0000
+Date: Mon, 29 Jun 2026 22:23:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Bommarito <michael.bommarito@gmail.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>
-Cc: oe-kbuild-all@lists.linux.dev, v9fs@lists.linux.dev,
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] 9p/trans_virtio: reject mount tags that cannot fit a
- sysfs page
-Message-ID: <202606291938.9FOZRc5c-lkp@intel.com>
-References: <20260626111906.801890-1-michael.bommarito@gmail.com>
+Subject: Re: [PATCH] gpio: swnode: remove deprecated lookup mechanism
+Message-ID: <202606292234.A3QghcWA-lkp@intel.com>
+References: <20260629-gpio-swnode-drop-label-matching-v1-1-db1af36cf883@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,137 +67,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260626111906.801890-1-michael.bommarito@gmail.com>
+In-Reply-To: <20260629-gpio-swnode-drop-label-matching-v1-1-db1af36cf883@oss.qualcomm.com>
 
-Hi Michael,
+Hi Bartosz,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 4edcdefd4083ae04b1a5656f4be6cd83ae919ef4]
+[auto build test WARNING on dc59e4fea9d83f03bad6bddf3fa2e52491777482]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Bommarito/9p-trans_virtio-reject-mount-tags-that-cannot-fit-a-sysfs-page/20260629-093057
-base:   4edcdefd4083ae04b1a5656f4be6cd83ae919ef4
-patch link:    https://lore.kernel.org/r/20260626111906.801890-1-michael.bommarito%40gmail.com
-patch subject: [PATCH v3] 9p/trans_virtio: reject mount tags that cannot fit a sysfs page
-config: arm64-randconfig-r063-20260629 (https://download.01.org/0day-ci/archive/20260629/202606291938.9FOZRc5c-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606291938.9FOZRc5c-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpio-swnode-remove-deprecated-lookup-mechanism/20260629-185811
+base:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
+patch link:    https://lore.kernel.org/r/20260629-gpio-swnode-drop-label-matching-v1-1-db1af36cf883%40oss.qualcomm.com
+patch subject: [PATCH] gpio: swnode: remove deprecated lookup mechanism
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260629/202606292234.A3QghcWA-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606292234.A3QghcWA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606291938.9FOZRc5c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606292234.A3QghcWA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/9p/trans_virtio.c:636:14: warning: result of comparison of constant 65536 with expression of type '__u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-     636 |         if (tag_len >= PAGE_SIZE) {
-         |             ~~~~~~~ ^  ~~~~~~~~~
-   1 warning generated.
+   drivers/gpio/gpiolib-swnode.c: In function 'swnode_get_gpio_device':
+>> drivers/gpio/gpiolib-swnode.c:29:29: warning: unused variable 'gdev' [-Wunused-variable]
+      29 |         struct gpio_device *gdev;
+         |                             ^~~~
 
 
-vim +636 net/9p/trans_virtio.c
+vim +/gdev +29 drivers/gpio/gpiolib-swnode.c
 
-   587	
-   588	/**
-   589	 * p9_virtio_probe - probe for existence of 9P virtio channels
-   590	 * @vdev: virtio device to probe
-   591	 *
-   592	 * This probes for existing virtio channels.
-   593	 *
-   594	 */
-   595	
-   596	static int p9_virtio_probe(struct virtio_device *vdev)
-   597	{
-   598		__u16 tag_len;
-   599		char *tag;
-   600		int err;
-   601		struct virtio_chan *chan;
-   602	
-   603		if (!vdev->config->get) {
-   604			dev_err(&vdev->dev, "%s failure: config access disabled\n",
-   605				__func__);
-   606			return -EINVAL;
-   607		}
-   608	
-   609		chan = kmalloc_obj(struct virtio_chan);
-   610		if (!chan) {
-   611			pr_err("Failed to allocate virtio 9P channel\n");
-   612			err = -ENOMEM;
-   613			goto fail;
-   614		}
-   615	
-   616		chan->vdev = vdev;
-   617	
-   618		/* We expect one virtqueue, for requests. */
-   619		chan->vq = virtio_find_single_vq(vdev, req_done, "requests");
-   620		if (IS_ERR(chan->vq)) {
-   621			err = PTR_ERR(chan->vq);
-   622			goto out_free_chan;
-   623		}
-   624		chan->vq->vdev->priv = chan;
-   625		spin_lock_init(&chan->lock);
-   626	
-   627		sg_init_table(chan->sg, VIRTQUEUE_NUM);
-   628	
-   629		chan->inuse = false;
-   630		if (virtio_has_feature(vdev, VIRTIO_9P_MOUNT_TAG)) {
-   631			virtio_cread(vdev, struct virtio_9p_config, tag_len, &tag_len);
-   632		} else {
-   633			err = -EINVAL;
-   634			goto out_free_vq;
-   635		}
- > 636		if (tag_len >= PAGE_SIZE) {
-   637			dev_err(&vdev->dev, "mount tag too long (%u bytes)\n", tag_len);
-   638			err = -EINVAL;
-   639			goto out_free_vq;
-   640		}
-   641		tag = kzalloc(tag_len + 1, GFP_KERNEL);
-   642		if (!tag) {
-   643			err = -ENOMEM;
-   644			goto out_free_vq;
-   645		}
-   646	
-   647		virtio_cread_bytes(vdev, offsetof(struct virtio_9p_config, tag),
-   648				   tag, tag_len);
-   649		chan->tag = tag;
-   650		err = sysfs_create_file(&(vdev->dev.kobj), &dev_attr_mount_tag.attr);
-   651		if (err) {
-   652			goto out_free_tag;
-   653		}
-   654		chan->vc_wq = kmalloc_obj(wait_queue_head_t);
-   655		if (!chan->vc_wq) {
-   656			err = -ENOMEM;
-   657			goto out_remove_file;
-   658		}
-   659		init_waitqueue_head(chan->vc_wq);
-   660		chan->ring_bufs_avail = 1;
-   661		/* Ceiling limit to avoid denial of service attacks */
-   662		chan->p9_max_pages = nr_free_buffer_pages()/4;
-   663	
-   664		virtio_device_ready(vdev);
-   665	
-   666		mutex_lock(&virtio_9p_lock);
-   667		list_add_tail(&chan->chan_list, &virtio_chan_list);
-   668		mutex_unlock(&virtio_9p_lock);
-   669	
-   670		/* Let udev rules use the new mount_tag attribute. */
-   671		kobject_uevent(&(vdev->dev.kobj), KOBJ_CHANGE);
-   672	
-   673		return 0;
-   674	
-   675	out_remove_file:
-   676		sysfs_remove_file(&vdev->dev.kobj, &dev_attr_mount_tag.attr);
-   677	out_free_tag:
-   678		kfree(tag);
-   679	out_free_vq:
-   680		vdev->config->del_vqs(vdev);
-   681	out_free_chan:
-   682		kfree(chan);
-   683	fail:
-   684		return err;
-   685	}
-   686	
+e7f9ff5dc90c38 Dmitry Torokhov     2022-11-11  25  
+b7b56e64a345e7 Bartosz Golaszewski 2023-09-27  26  static struct gpio_device *swnode_get_gpio_device(struct fwnode_handle *fwnode)
+e7f9ff5dc90c38 Dmitry Torokhov     2022-11-11  27  {
+b7b56e64a345e7 Bartosz Golaszewski 2023-09-27  28  	const struct software_node *gdev_node;
+b7b56e64a345e7 Bartosz Golaszewski 2023-09-27 @29  	struct gpio_device *gdev;
+e7f9ff5dc90c38 Dmitry Torokhov     2022-11-11  30  
+b7b56e64a345e7 Bartosz Golaszewski 2023-09-27  31  	gdev_node = to_software_node(fwnode);
+6774a66d0e103d Bartosz Golaszewski 2025-12-15  32  	if (!gdev_node)
+216c1204757190 Bartosz Golaszewski 2025-11-20  33  		goto fwnode_lookup;
+e7f9ff5dc90c38 Dmitry Torokhov     2022-11-11  34  
+9d50f95bc0d5df Charles Keepax      2024-04-16  35  	/*
+9d50f95bc0d5df Charles Keepax      2024-04-16  36  	 * Check for a special node that identifies undefined GPIOs, this is
+9d50f95bc0d5df Charles Keepax      2024-04-16  37  	 * primarily used as a key for internal chip selects in SPI bindings.
+9d50f95bc0d5df Charles Keepax      2024-04-16  38  	 */
+9d50f95bc0d5df Charles Keepax      2024-04-16  39  	if (IS_ENABLED(CONFIG_GPIO_SWNODE_UNDEFINED) &&
+6774a66d0e103d Bartosz Golaszewski 2025-12-15  40  	    gdev_node == &swnode_gpio_undefined)
+9d50f95bc0d5df Charles Keepax      2024-04-16  41  		return ERR_PTR(-ENOENT);
+9d50f95bc0d5df Charles Keepax      2024-04-16  42  
+216c1204757190 Bartosz Golaszewski 2025-11-20  43  fwnode_lookup:
+ff373b244a4cbb Bartosz Golaszewski 2026-06-29  44  	return gpio_device_find_by_fwnode(fwnode) ?: ERR_PTR(-EPROBE_DEFER);
+e7f9ff5dc90c38 Dmitry Torokhov     2022-11-11  45  }
+e7f9ff5dc90c38 Dmitry Torokhov     2022-11-11  46  
 
 --
 0-DAY CI Kernel Test Service
