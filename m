@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8B933689E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 04:39:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866973B1B3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 05:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782707965; cv=none; b=HlOk37cJ1enuk+CXYwYLbNW1pEVkAh+ZF5HNpKDq/jINtSc48VdmizxQm1Ae1dubEhsSbxVZ/5lbScwIWFMpLwKnjpHJD8zgvqWPwVB/4JE5r3V991P7ptaPCTGXpTHKaVNx9ay5ElV0TShy38Zl/3ijyDGIpWf1qsx1EMSuXu8=
+	t=1782712362; cv=none; b=LMHf8c3Ag4+bL5gAGXYJrrazpgDEKN8GWGAxJKyYC8JO13UMMH/xHXYvdL0ltqwPdRXxbjzEiPBeVEUxRowhytlbuQsF5/MG13I1pvIq9Y/BF4jCF9FLhWuqgTmHMaWQJqbbCnlG63eA+pp5krTx75jw23ZE3iXz04RKmaEwOG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782707965; c=relaxed/simple;
-	bh=OnvMnUubZGPl5THYboeDrm+rlbm466tuN6rglkHAKaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ViUWj+jO123evV2RnSsMarPyyVhR2iW1wBOcdJ7aQQTp337q/UWOYB/cp9q845b0IW5/snCbkoXFKDnyid2CascPlXg7+JbfUW5zZ9zESGNgq6CziD22YZHst4XQmpb3eMPgLB8Q6scZ8/e59ia9ap5t5u91TqM32S3xnBUEs/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iawl3Qt4; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1782712362; c=relaxed/simple;
+	bh=RUPYwElSsxpBBUGohXFnfhwN23Vlr6N5zjR3aFLkQmg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pIJ9hsGandokQKnmJDWRJDCuXA3CbQc0JHZZZ+rml/0T/j42ty4FEjXv5B7RKB6aHA3QW6303SFRbDdoGksQ5b6wDWqgxb3elz/94NVCFd7oM9qmwrrL3F9FvjGslQnaTQyqzsZppVBn3EPQs8tzJ9jHahVEKLR6E+GdgWNdias=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXiiVAyO; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iawl3Qt4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXiiVAyO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782707963; x=1814243963;
+  t=1782712361; x=1814248361;
   h=date:from:to:cc:subject:message-id;
-  bh=OnvMnUubZGPl5THYboeDrm+rlbm466tuN6rglkHAKaQ=;
-  b=Iawl3Qt4Rf3PfZ+OGEgi6Lzxdva0VesOapptKITifMoOP/ko2H8mn5Hp
-   4T+5gH2abUOyhXLES0UoZqJzCRGJIt/0X4rqqOFONYpj8eQCA0MxlGpJ7
-   nDXLbX4c2Avrqd0sxKlptDQDfBWqOCQwyFAccKBgTorc55MMcZxq+rGIP
-   H2vlIrOzn82ZtRCTjM2Vq7RhM/BllKS+87S8j0IyFKQvwmaddQuomXiWA
-   MAfIGWiRskXIhQCROcJx4OBStHd2apGgz7VChFVh0P23Ekq1bGqCrb1fe
-   QclfywRgMcQlT4d2IZxfwJLPZqn+tGeYfa6GSkAvXtK4ra5qg1sXqc72I
-   g==;
-X-CSE-ConnectionGUID: I8h8G+XZQdWlSHHsx+GDZQ==
-X-CSE-MsgGUID: Gm9il9o8SiS3ot8nzsqLvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="93971501"
+  bh=RUPYwElSsxpBBUGohXFnfhwN23Vlr6N5zjR3aFLkQmg=;
+  b=LXiiVAyOif5nLQZYko0PrjFWAwcG3Ebq799JY23U9v12NLMgF/08zgfF
+   VS149wiNX0Krdj5upOFh5LCMClzvUMoJxh5bWxBE++KFVZGW3fbAwdh6A
+   F8M3RQnJpOpRjE5gjjHtj5XfGxoPPTNUFVxay4dn+Uz+uGANNjqlXKqfe
+   0MphRF6Qo109ZSowUD9cKOuK4DbwR6349aDTieyMOMCMc88b851VK1kXk
+   Jl7EjOOR/gQB+T8L7qp2gGfp7rgRtqWf/Pxa9eBOFxO9SiOEZyUvKgfCp
+   ODf0Pr71mFoDCpmnwfJctJC9oHbVeUq+FMLQ0YO0HTHDpSagmO861LhRs
+   Q==;
+X-CSE-ConnectionGUID: v6KWm0qrQMq8l9jLM1fUdw==
+X-CSE-MsgGUID: Thx8V5cxR72/Rcb1cZdntQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="93744188"
 X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
-   d="scan'208";a="93971501"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2026 21:39:22 -0700
-X-CSE-ConnectionGUID: zQH2xewoQSyErD4KpUQcNA==
-X-CSE-MsgGUID: rQ3hvG3MQj6aIMPeeKs5pg==
+   d="scan'208";a="93744188"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2026 22:52:40 -0700
+X-CSE-ConnectionGUID: Zo+OG3qAT1iZqKnW24psjA==
+X-CSE-MsgGUID: hCcbZ/88R4+SH+elEkLH1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
-   d="scan'208";a="276116269"
+   d="scan'208";a="255820609"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Jun 2026 21:39:20 -0700
+  by orviesa004.jf.intel.com with ESMTP; 28 Jun 2026 22:52:38 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1we3m9-000000006vR-2KiS;
-	Mon, 29 Jun 2026 04:39:17 +0000
-Date: Mon, 29 Jun 2026 12:38:29 +0800
+	id 1we4v6-00000000735-1UkR;
+	Mon, 29 Jun 2026 05:52:36 +0000
+Date: Mon, 29 Jun 2026 13:51:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eileen Yoon <eyn@gmx.com>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/240-isp 1/53]
- drivers/media/platform/apple/isp/isp-drv.h:253:29: warning: format '%llx'
- expects argument of type 'long long unsigned int', but argument 4 has type
- 'dma_addr_t' {aka 'unsigned int'}
-Message-ID: <202606291228.yYceMVDS-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.1-main 166/166]
+ include/linux/pcs/pcs.h:95:12: warning: 'unregister_fwnode_pcs_notifier'
+ defined but not used
+Message-ID: <202606291356.YmL2vpUv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,66 +60,62 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux bits/240-isp
-head:   df907add385f43a49d493c59afd3762ae1598548
-commit: 329bf83de183f0558c2e5bb6ba55da3f06a2c980 [1/53] media: apple: Add Apple ISP driver
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260629/202606291228.yYceMVDS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606291228.yYceMVDS-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-main
+head:   6e50e153eb2b19f7ccc5aad3545bee4a7b6faea0
+commit: 7e58cf54169b7bb649742efbbf4a76f2185f07db [166/166] net: ethernet: mediatek: mtkmux: harden mux/phylink lifecycle
+config: sh-randconfig-002-20260629 (https://download.01.org/0day-ci/archive/20260629/202606291356.YmL2vpUv-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606291356.YmL2vpUv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606291228.yYceMVDS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606291356.YmL2vpUv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/writeback.h:13,
-                    from include/linux/memcontrol.h:23,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from include/linux/regulator/consumer.h:35,
-                    from include/linux/i2c.h:19,
-                    from include/media/v4l2-common.h:106,
-                    from include/media/v4l2-subdev.h:15,
-                    from include/media/v4l2-device.h:13,
-                    from drivers/media/platform/apple/isp/isp-drv.h:13,
-                    from drivers/media/platform/apple/isp/isp-iommu.h:7,
-                    from drivers/media/platform/apple/isp/isp-ipc.c:4:
-   include/linux/highmem.h: In function 'clear_user_pages':
-   include/linux/highmem.h:234:63: warning: parameter 'vaddr' set but not used [-Wunused-but-set-parameter=]
-     234 | static inline void clear_user_pages(void *addr, unsigned long vaddr,
-         |                                                 ~~~~~~~~~~~~~~^~~~~
-   In file included from include/linux/device.h:15,
-                    from include/linux/pci.h:37,
-                    from include/media/media-device.h:17,
-                    from include/media/v4l2-device.h:12:
-   drivers/media/platform/apple/isp/isp-ipc.c: In function 'sm_malloc_deferred_worker':
->> drivers/media/platform/apple/isp/isp-drv.h:253:29: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     253 |         dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-         |                             ^~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/apple/isp/isp-drv.h:253:9: note: in expansion of macro 'dev_err'
-     253 |         dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-         |         ^~~~~~~
-   drivers/media/platform/apple/isp/isp-ipc.c:227:17: note: in expansion of macro 'isp_err'
-     227 |                 isp_err(isp, "failed to vmap iova=0x%llx size=0x%llx\n",
-         |                 ^~~~~~~
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
+   include/linux/pcs/pcs.h:107:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
+     107 | fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/pcs/pcs.h:95:12: warning: 'unregister_fwnode_pcs_notifier' defined but not used [-Wunused-function]
+      95 | static int unregister_fwnode_pcs_notifier(struct notifier_block *nb)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pcs/pcs.h:90:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
+      90 | static int register_fwnode_pcs_notifier(struct notifier_block *nb)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+   {standard input}:8103: Error: offset to unaligned destination
+   {standard input}:9134: Error: offset to unaligned destination
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
 
 
-vim +253 drivers/media/platform/apple/isp/isp-drv.h
+vim +/unregister_fwnode_pcs_notifier +95 include/linux/pcs/pcs.h
 
-   251	
-   252	#define isp_err(isp, fmt, ...) \
- > 253		dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-   254	
+    94	
+  > 95	static int unregister_fwnode_pcs_notifier(struct notifier_block *nb)
+    96	{
+    97		return -EOPNOTSUPP;
+    98	}
+    99	
+   100	static inline struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
+   101							 int index)
+   102	{
+   103		return ERR_PTR(-ENOENT);
+   104	}
+   105	
+   106	static struct phylink_pcs *
+ > 107	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+   108					   struct fwnode_handle *pcs_fwnode)
+   109	{
+   110		return ERR_PTR(-ENOENT);
+   111	}
+   112	
 
 --
 0-DAY CI Kernel Test Service
