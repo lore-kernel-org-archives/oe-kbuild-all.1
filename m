@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC5B3F54C5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 09:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7EA3D75BE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 10:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782724292; cv=none; b=GMFLCvWHZjNRKRcSaLtSceh+PiCj1F0Vmx16EBhCkYgmkHbWiysSHF9bPcMB/v89Ke14xwO+D7Tmc2ApLvxGBIwyApuT6N9yNW+GvTXIGteOzm4oY2ZOPJZLwMOXJ7R7h8/Nv4XmfnyUTjFinpNFxEk0GpuJJFRYgRi6zmOkJjc=
+	t=1782727539; cv=none; b=JVvJhK2yZXsdzPdtBps44RTfAoCTDGfmFgJnHRg1VE8LaYycV514LkqPSbtmYugDBDoNQY0NlMsawceV80cNHcibkl3KI/SQvPdC83ECJe3d4jwrgQJhKF7AMm2iTd82J2ZK4z+Qj5LbNvS4xSCK9/kog9jVextUV/dfr4Bu2Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782724292; c=relaxed/simple;
-	bh=DDazMc3hj2WtkYSxoe/ZEStsgU7zx96z6X9BWz7peSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=rfOka2FRwZz9vIDuolx5OMzWxX2F3rkPii1bEb23dr8xJpC2DUQxjLJOkbC7vN7lyK2t8GjmLbdCMvvNOiZ391EeLvlZZZnFVvailfvMdiOfOdFUlF6i0DAoW5AMCN8fkmJ6m6eWI+9JvN/byGQ+AYuaeiez2GjiZ66kVs3Wg6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqNeH22b; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1782727539; c=relaxed/simple;
+	bh=tIiREu5pXy/nUQ9dOW6a3+enIzKKULeLd6hiLgFvlUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S9Bau9S121HyfK1pkjiR65hfdnhob8/lmqdEC47/HLrOvaKKwirxUE7drdLZZ2+r9pxVYqKHQolh/39N5i+92ztA4FT+eEGATYSaPZUiS8SBYCjjpTQ6GJF9QM65zvTc1NHjnDIpgmkZnTbIMncT681QVTpQK13QUGprb+tozU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZeKYU0v5; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqNeH22b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeKYU0v5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782724290; x=1814260290;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DDazMc3hj2WtkYSxoe/ZEStsgU7zx96z6X9BWz7peSU=;
-  b=JqNeH22bP2hkKWY4+lSK7i39fAKZpp5WY7dMRDzc62XGyUgZ/ybuLQ26
-   EmjTcXcVrAhs3UJjrU9o+6zCkosBjcYFDO1KBAfaHGdT5mJXCwilvJqf1
-   Z4DLLuM9hltFjhjJ5Cm8aLFnToQeDrZf1LTsEOWt1YrLnk0weO7kBN9jD
-   MuJUlGKNbFxFT3LFWkE2vkn3m744DDSWmfUUyjNi4rFTHnd7Fq1EjT/B4
-   nH4eywAYY1Z8a1aXi/b/trOU7BuCYFolr82BnNhy4cGYkmal2C9jp51u+
-   A/cXTWjnB9M141IK3l1XHL0GRhYMmb6EI8aYXMosBjlNFvyUf/JbmqQpS
-   w==;
-X-CSE-ConnectionGUID: kPkJMpccTuafZAqItZLqdQ==
-X-CSE-MsgGUID: /Nkbj3tGSI+EfSjBHdQ49w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="93988820"
+  t=1782727537; x=1814263537;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tIiREu5pXy/nUQ9dOW6a3+enIzKKULeLd6hiLgFvlUc=;
+  b=ZeKYU0v5EBppIkx4mP5GOC1EI2Gp9xEqjkkCKbP0cgiBgZ3ig4GFj67M
+   /E0mo1q1vjvcpz+R6vvfy0fAY3lyTb+riT6NTK7mYwyOpQdRurW/MBRRF
+   domdGC3sk2Vhy4D7/gNHdQtI/0/tQQfqlBOW2Cf2B2Tj9nQJCWgbkcfdN
+   1bgKktBJ++QY+4KOSYeAI6Sc6cv+CCvtfW58F0A1EWsnZvDwAJMg8tK9f
+   7+Obazs7Nl+cTOTlUy4INhfWdEx2BoOI4bBeMn4330DHUqQ+BTJSE0/fc
+   SeVjzkon6J8aKw5lyj9L9BkzsCR5nozEJh/LkzHhs97oYevXv84zuF+XG
+   A==;
+X-CSE-ConnectionGUID: f2B7AHdOR2mS0kVHWyAmFg==
+X-CSE-MsgGUID: sEPKo9tpQFWBVQzyjEa+3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="82406329"
 X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
-   d="scan'208";a="93988820"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 02:11:30 -0700
-X-CSE-ConnectionGUID: q7sb8rtcQdOzmWTlOtdK5w==
-X-CSE-MsgGUID: GQgAkMt/QmKKyMQF30Qv1w==
+   d="scan'208";a="82406329"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 03:05:36 -0700
+X-CSE-ConnectionGUID: Ntom/HqKR5qqEM1xpEtHrA==
+X-CSE-MsgGUID: j8RxipM4ToakveL+yLuIIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
-   d="scan'208";a="247923903"
+   d="scan'208";a="255509012"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Jun 2026 02:11:28 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Jun 2026 03:05:33 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1we81C-000000007CX-3NGW;
-	Mon, 29 Jun 2026 09:11:15 +0000
-Date: Mon, 29 Jun 2026 17:10:44 +0800
+	id 1we8rr-000000007Gz-065t;
+	Mon, 29 Jun 2026 10:05:31 +0000
+Date: Mon, 29 Jun 2026 18:04:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Martin =?utf-8?Q?Povi=C5=A1er"?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/070-audio 4/80] sound/soc/soc-ops.c:579:1:
- warning: the frame size of 1296 bytes is larger than 1280 bytes
-Message-ID: <202606291704.vQSMPhfZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jia Wang via B4 Relay <devnull+wangjia.ultrarisc.com@kernel.org>,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jia Wang <wangjia@ultrarisc.com>
+Subject: Re: [PATCH] gpio: dwapb: Defer clock gating until noirq
+Message-ID: <202606291736.mAgOeA65-lkp@intel.com>
+References: <20260629-gpio-dwapb-wakeup-v1-1-3394f02317da@ultrarisc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,62 +65,69 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260629-gpio-dwapb-wakeup-v1-1-3394f02317da@ultrarisc.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   bc632c6dde685e651ff0b034a07dd6bc8b0f10a6
-commit: c46f9e66100bfa95b2593f1df1b9e311ee170ec2 [4/80] ASoC: ops: Introduce 'soc_set_enum_kctl'
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260629/202606291704.vQSMPhfZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606291704.vQSMPhfZ-lkp@intel.com/reproduce)
+Hi Jia,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on dc59e4fea9d83f03bad6bddf3fa2e52491777482]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jia-Wang-via-B4-Relay/gpio-dwapb-Defer-clock-gating-until-noirq/20260629-135404
+base:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
+patch link:    https://lore.kernel.org/r/20260629-gpio-dwapb-wakeup-v1-1-3394f02317da%40ultrarisc.com
+patch subject: [PATCH] gpio: dwapb: Defer clock gating until noirq
+config: sparc64-randconfig-001-20260629 (https://download.01.org/0day-ci/archive/20260629/202606291736.mAgOeA65-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606291736.mAgOeA65-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606291704.vQSMPhfZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606291736.mAgOeA65-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/soc/soc-ops.c: In function 'soc_set_enum_kctl':
->> sound/soc/soc-ops.c:579:1: warning: the frame size of 1296 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     579 | }
-         | ^
+   drivers/gpio/gpio-dwapb.c: In function 'dwapb_irq_set_wake':
+>> drivers/gpio/gpio-dwapb.c:377:7: error: 'struct irq_data' has no member named 'parent_data'
+     if (d->parent_data && !!ctx->wake_en != !!wake_en) {
+          ^~
+>> drivers/gpio/gpio-dwapb.c:378:9: error: implicit declaration of function 'irq_chip_set_wake_parent'; did you mean 'irq_set_parent'? [-Werror=implicit-function-declaration]
+      err = irq_chip_set_wake_parent(d, enable);
+            ^~~~~~~~~~~~~~~~~~~~~~~~
+            irq_set_parent
+   cc1: some warnings being treated as errors
 
 
-vim +579 sound/soc/soc-ops.c
+vim +377 drivers/gpio/gpio-dwapb.c
 
-   548	
-   549	static int soc_set_enum_kctl(struct snd_kcontrol *kctl, const char *strval)
-   550	{
-   551		struct snd_ctl_elem_value value;
-   552		struct snd_ctl_elem_info info;
-   553		int sel, i, ret;
-   554	
-   555		ret = kctl->info(kctl, &info);
-   556		if (ret < 0)
-   557			return ret;
-   558	
-   559		if (info.type != SNDRV_CTL_ELEM_TYPE_ENUMERATED)
-   560			return -EINVAL;
-   561	
-   562		for (sel = 0; sel < info.value.enumerated.items; sel++) {
-   563			info.value.enumerated.item = sel;
-   564			ret = kctl->info(kctl, &info);
-   565			if (ret < 0)
-   566				return ret;
-   567	
-   568			if (!strcmp(strval, info.value.enumerated.name))
-   569				break;
-   570		}
-   571	
-   572		if (sel == info.value.enumerated.items)
-   573			return -EINVAL;
-   574	
-   575		for (i = 0; i < info.count; i++)
-   576			value.value.enumerated.item[i] = sel;
-   577	
-   578		return kctl->put(kctl, &value);
- > 579	}
-   580	
+   362	
+   363	static int dwapb_irq_set_wake(struct irq_data *d, unsigned int enable)
+   364	{
+   365		struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+   366		struct dwapb_gpio *gpio = to_dwapb_gpio(gc);
+   367		struct dwapb_context *ctx = gpio->ports[0].ctx;
+   368		irq_hw_number_t bit = irqd_to_hwirq(d);
+   369		u32 wake_en = ctx->wake_en;
+   370		int err;
+   371	
+   372		if (enable)
+   373			wake_en |= BIT(bit);
+   374		else
+   375			wake_en &= ~BIT(bit);
+   376	
+ > 377		if (d->parent_data && !!ctx->wake_en != !!wake_en) {
+ > 378			err = irq_chip_set_wake_parent(d, enable);
+   379			if (err)
+   380				return err;
+   381		}
+   382	
+   383		ctx->wake_en = wake_en;
+   384	
+   385		return 0;
+   386	}
+   387	
 
 --
 0-DAY CI Kernel Test Service
