@@ -1,122 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4FC390CBF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 17:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D222F8EAE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 17:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782752847; cv=none; b=hvgOY1rR+pHcgzSACl1csZntwO5bae3Mw6kWgdvAJq6Xq9vrDbU/Qc8Z+7tufwzKawHu8wU+6UcUu3/m7RIKgkBpE11tsQ3yxBdtaUG0veg6KGF7u4OjV6IwcN4t9AtXHrU1Ev/YT4z87gTDLkRJnzeQVEegtQQbr8CSF2dekTw=
+	t=1782753640; cv=none; b=q9qDkNUK+YT0kuE3asg7QUF6X4XZ6usyXGcrvYqjHGEwVoOGcYAoN/t6vhNWi0WODq2Ev3HnPBvtHCGPomfYkAP6JAl4RR1cgcV3VXoco7qgrHhIqiewwIGsp5MrmlDAtWJjP5+2f4lmJOFCbtVHKGfE9Zorib1RFQB1bFbkEkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782752847; c=relaxed/simple;
-	bh=tR4pQ8QLLfwFKAwhVTX9Uj80k3veUQzyysegrsSCGQY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZDW+rO+OKDt34lZwdt+Uisa8f3jUl0w66FeWi6aZ2c7SXNibkXpOAP9CAFwImdyJF4aSWZwN7Okw/Nf5lYzdKMXlPsLTJnOi9NnFJURgNk33pyHFhFum7FNtfNDQBAKCKcQygr9uZn+L3GVlDLsN+G3LDn5JjHZgKqiKwVCHQ5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CgXL2aft; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1782753640; c=relaxed/simple;
+	bh=al5yQE0+dYMsecaa6NaCOaeK0Yanl/mTELVPQXEbJIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m+3BtZsVBd+Avq8MrHaa7vDT6RwZIS33PDc6ohcUrmwKtCUHh1UKnTK2wlhC67K4gV6f872PXq3RQkHGZSYGGuhT/P4yc8kYbw0ojUQLA62A8f2Pw5cO38DeRSfWr8tjC4MS8MA5cpX87Y3GZbCFtImXP0TqWyNTwg0SCnzlOZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vb4sF2Wx; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CgXL2aft"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vb4sF2Wx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782752845; x=1814288845;
-  h=date:from:to:cc:subject:message-id;
-  bh=tR4pQ8QLLfwFKAwhVTX9Uj80k3veUQzyysegrsSCGQY=;
-  b=CgXL2aftL2a1qcJhatIHxokoMUCNE5kckg4BOLbqzpjwo2Iw1WlHJ+UP
-   OJ/nJUy9/cF7AePScLiHCwaYcsOSTXT00V65nh6sGZ6KV75dVyFANSBs9
-   2Vyhes/ZJH7V2gpIeSu8mZD+zW6PjLI/5iYsrj8tYRCUzhjeocQk1FnY1
-   n3HqLuUa8nJaRhntyorqEeDx/GrfKa8KBEKGzW16SvtTPbivCmujPy0bH
-   vrgsZTad098koolJ9rX3FQkAvzZfsCq5oVG5WE+9Kvit6aBaoi4/oXrDR
-   CNsyeHCIyGFYG4g9NlD4Nf/yEBfMv+PvsIKH9VD2gTW2DKp0527NoJ4Sj
-   A==;
-X-CSE-ConnectionGUID: bfmcto4uRxymD9DI5yCmvw==
-X-CSE-MsgGUID: LbNgjcxzRN+mW4telsI8nQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="82447112"
+  t=1782753639; x=1814289639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=al5yQE0+dYMsecaa6NaCOaeK0Yanl/mTELVPQXEbJIs=;
+  b=Vb4sF2WxOaICnsuNCJ8qXijkTZHz+/fEE/XSjY6ELFGj5WUGsWXVPWRI
+   5IZuuyvDaOXZlr0HZC8t6CGrcFzPVCA9qbzsZxP/15dp144DM+HisLQHj
+   NMCF3pnQTLTyVdRBcrzSVl1pn6gOi0swPVmnp9PIR8f0rTWlau/I4zHEC
+   4m6le2SEg9cEZ6pyh4tcYWxiS6G0YAWpEuEEhb0e0XQ25knz6MauZJJjK
+   bEiuu7pk07xz9z5xtp74eT+Fw4M2QAO59fSRD49ymtBW6p4/afPy/fxIa
+   UlA7gmwYVepu6oyubMz6dATKVRSG6Gm+ST1vNu0nY1+0Ug0FsUcDAKUdQ
+   Q==;
+X-CSE-ConnectionGUID: NF69CjkyR8up5d9355yT1g==
+X-CSE-MsgGUID: IL021ZCKRQ+u62K7l3ql/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83651021"
 X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="82447112"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 10:07:24 -0700
-X-CSE-ConnectionGUID: zoNafuQlQympL9tdTbNOtQ==
-X-CSE-MsgGUID: jjuc36DzTBqLVWElTYJAjQ==
+   d="scan'208";a="83651021"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 10:20:38 -0700
+X-CSE-ConnectionGUID: 0vRtVAJ/SG22+p1DOcbZCg==
+X-CSE-MsgGUID: sNaMJrLLR/K0VUi71Nij5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="248648304"
+   d="scan'208";a="250315835"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Jun 2026 10:07:22 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Jun 2026 10:20:36 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weFS3-000000007bN-3xRi;
-	Mon, 29 Jun 2026 17:07:19 +0000
-Date: Tue, 30 Jun 2026 01:07:00 +0800
+	id 1weFer-000000007bt-3yh3;
+	Mon, 29 Jun 2026 17:20:33 +0000
+Date: Tue, 30 Jun 2026 01:19:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 216/332]
- fs/bcachefs/data/ec/init.c:240:5-8: Unneeded variable: "ret". Return "0" on
- line 268
-Message-ID: <202606300042.lB1koufY-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Peiyang He <peiyang_he@smail.nju.edu.cn>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, syzkaller@googlegroups.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ntfs: fix mrec_lock ABBA deadlock in rename
+Message-ID: <202606300141.H6Io52CJ-lkp@intel.com>
+References: <53BDDD94CF346272+20260629105036.2137914-1-peiyang_he@smail.nju.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53BDDD94CF346272+20260629105036.2137914-1-peiyang_he@smail.nju.edu.cn>
 
-tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
-head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
-commit: bde39b90107558a6e5c84934716bf171ced1cef5 [216/332] bcachefs: Split up data/ec.c
-config: arc-randconfig-r061-20260629 (https://download.01.org/0day-ci/archive/20260630/202606300042.lB1koufY-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
+Hi Peiyang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1a3746ccbb0a97bed3c06ccde6b880013b1dddc1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peiyang-He/ntfs-fix-mrec_lock-ABBA-deadlock-in-rename/20260629-185343
+base:   1a3746ccbb0a97bed3c06ccde6b880013b1dddc1
+patch link:    https://lore.kernel.org/r/53BDDD94CF346272%2B20260629105036.2137914-1-peiyang_he%40smail.nju.edu.cn
+patch subject: [PATCH] ntfs: fix mrec_lock ABBA deadlock in rename
+config: arm-randconfig-001-20260629 (https://download.01.org/0day-ci/archive/20260630/202606300141.H6Io52CJ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606300141.H6Io52CJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606300042.lB1koufY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606300141.H6Io52CJ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/data/ec/init.c:240:5-8: Unneeded variable: "ret". Return "0" on line 268
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +240 fs/bcachefs/data/ec/init.c
-
-   230	
-   231	static int check_stripe_refs_one(struct btree_trans *trans,
-   232					 struct bkey_s_c k,
-   233					 struct wb_maybe_flush *last_flushed)
-   234	{
-   235		if (k.k->type != KEY_TYPE_stripe)
-   236			return 0;
-   237	
-   238		struct bch_fs *c = trans->c;
-   239		const struct bch_stripe *s = bkey_s_c_to_stripe(k).v;
- > 240		int ret = 0;
-   241	
-   242		u64 lru_idx = stripe_lru_pos(s);
-   243		if (lru_idx)
-   244			try(bch2_lru_check_set(trans, BCH_LRU_STRIPE_FRAGMENTATION,
-   245					       k.k->p.offset, lru_idx, k, last_flushed));
-   246	
-   247		for (unsigned i = 0; i < s->nr_blocks; i++) {
-   248			const struct bch_extent_ptr *ptr = s->ptrs + i;
-   249			CLASS(bch2_dev_tryget_noerror, ca)(c, ptr->dev);
-   250			if (!ca)
-   251				continue;
-   252	
-   253			struct bpos bucket = PTR_BUCKET_POS(ca, ptr);
-   254	
-   255			CLASS(btree_iter, iter)(trans, BTREE_ID_bucket_to_stripe,
-   256						POS(bucket_to_u64(bucket), k.k->p.offset), 0);
-   257			struct bkey_s_c ref = bkey_try(bch2_btree_iter_peek_slot(&iter));
-   258	
-   259			CLASS(printbuf, buf)();
-   260	
-   261			if (fsck_err_on(ref.k->type != KEY_TYPE_set,
-   262					trans, stripe_to_missing_bucket_ref,
-   263					"stripe block %u missing bucket ref\n%s",
-   264					i, (bch2_bkey_val_to_text(&buf, c, k), buf.buf)))
-   265				try(bucket_stripe_ref_mod(trans, bucket, k.k->p.offset, true));
-   266		}
-   267	fsck_err:
- > 268		return ret;
-   269	}
-   270	
+>> ERROR: modpost: "d_ancestor" [fs/ntfs/ntfs.ko] undefined!
 
 --
 0-DAY CI Kernel Test Service
