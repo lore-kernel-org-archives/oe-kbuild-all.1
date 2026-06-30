@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677D53E0245
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 18:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700B63B4EAA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 18:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782843056; cv=none; b=KScLTZNnW8EK8IKCHgPspgfVVBa1EOGrSoI9uxDdcjnLZHoAgJj/HiQi4WeBBQsW2pUtxUE9qD2Uthptt4IngT9X81n6nqy9OAxY2ZgOIrpmkjJfhVvBhrv1uKom+jq6+CfAhLhWieGk9TtfeedBiWuBckmnznuM9iCGanRAV6g=
+	t=1782843457; cv=none; b=WOnAP8CFfPGdQrgbZXYg5iSrUZSUdt1yhOtA39ZperqRegDU06qIefTFd8QNVjoa2UisyAFraAStrjFquMTzZoWqudg9tVkI5dw0bUrlzgENYmJTQLOS9WG5TSKiB1ozoqbSz01KWqn+03evwEq7ydVSIksaMnU6/bAVTdyrBII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782843056; c=relaxed/simple;
-	bh=A3qhiQWr346224EPbGNLRcfnPxfzD1cMce7Q5AkOq9c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hz7nGuOg2mt2aru8hnL12H1pJhLwUDO2jS26U4CP+x9cBUNgo9gbjPvrUxBiGyd5P+FakvMFtsDAwCGU83VY/qcEJzHxIAgvJx/uyGkmHae5AmxdHVgqtFlLsmJuqMziSUiqpL+hBRiyJgBO/L7u4qSCUdjXutefnehS1UZ+GWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DqTphvby; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1782843457; c=relaxed/simple;
+	bh=xycdVR0f3vXPnp023tTEOy1VPRbgvtWh34nwcV8vYyk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p/e5odIoFpB8cQ4zftOlJrpMpPWgw9vX4pNs1aE97xbLpole6LKABt4Lgn6Hhl7txkWPzeeEdYuJLX5cUlDmAu5qloqIsY6sHe9/AcHPMOvMGo2u6TT/JQwmpHE9f+ggJQtEpItVDlZydr+OKB41uSjYbAG8FOJnPzqC8p2foIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HhSJa8Xs; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DqTphvby"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HhSJa8Xs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782843055; x=1814379055;
+  t=1782843455; x=1814379455;
   h=date:from:to:cc:subject:message-id;
-  bh=A3qhiQWr346224EPbGNLRcfnPxfzD1cMce7Q5AkOq9c=;
-  b=DqTphvbybKyu02xl/7QLjiWcwtGu16CCmm5FDZpht9AuZ2xuvKgjYdo/
-   hPDq6Rmb80RTH/FNlt1PkG6FeLn/p3U3FO1VCkcGdAKCapwK2b5CCyKEw
-   dJoC0szkVydPdvNGeJHt9cuPnS3E+867jXOOuGiYXyGwserJQwhOD013U
-   kSPFf0Aboc0G3WYeI7WGaU2XqzKFPi8U1OUUgMefI6CEbXGmjZT7zLYSI
-   0jPKStkTt+MaYWv/rzMRoKzjWxNEspQ+XOE3/oRYaS1hzlAhakPixa8tw
-   1aX54+8bxLfprnzt8ZGeUHxp7SqrgOfsUFab7NSFtPon0DZ+CTyPy/rd5
+  bh=xycdVR0f3vXPnp023tTEOy1VPRbgvtWh34nwcV8vYyk=;
+  b=HhSJa8XsrRklrFfH3LYwjhdzK9M1zx0DfMEXV6ESO56K3hV6C2+oIeu3
+   X3klmqXWSfq5Dzaqd7S2UEzFhjuB+LVJjn2+QtSO9oBMec2Z0cybJTGUc
+   jCfs4dYZXZJzbaJ9yjyMSkzDkmPMrV6ijA5YreoEBKIsac7G373B/zMNy
+   92i2SvBcwv4LuOijWIIIGddZ79orEkbHYp67Qm9OQ/nz0AmHonCzdf8rK
+   ojOXLeKUwBZf7+DZ85g2MPQ32xN4Arj4qze01exQI36NcM9giZAq3gr3b
+   zHep1WGMkFOr8EMMlv6wRaMoaiWDv3QSBLTuSJjYy/GdpgtJMiP+dRBAS
    A==;
-X-CSE-ConnectionGUID: dfNHrPxETTqaV8cDNgsCxA==
-X-CSE-MsgGUID: GbESh2mzR3en5IhQOoZZCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="82680322"
+X-CSE-ConnectionGUID: gylp2FifSAKR3NYfkucssg==
+X-CSE-MsgGUID: s7jrxpJQRLWJAQXxDU/r1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="83763972"
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="82680322"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 11:10:54 -0700
-X-CSE-ConnectionGUID: xwOUxgYQR/2iSL4KwNhCJQ==
-X-CSE-MsgGUID: Ip2ae/AzRWe2Oqo1F3HJqQ==
+   d="scan'208";a="83763972"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 11:16:21 -0700
+X-CSE-ConnectionGUID: 7TI6D/0cTnmjegMQ5dgj3A==
+X-CSE-MsgGUID: tpgUudM2RKmsrp2WC+8mFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="247864270"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Jun 2026 11:10:52 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="290454132"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 30 Jun 2026 11:16:19 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wecv4-000000000WP-0wKo;
-	Tue, 30 Jun 2026 18:10:50 +0000
-Date: Tue, 30 Jun 2026 20:09:51 +0200
+	id 1wed0I-000000008ZP-2ipo;
+	Tue, 30 Jun 2026 18:16:15 +0000
+Date: Wed, 01 Jul 2026 02:15:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-rc 51/160]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb:
- syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of
- the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202606302035.YsO2cZrV-lkp@intel.com>
+Subject: [zen:7.1/prjc 595/670] kernel/sched/alt_core.c:487:33:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202607010246.LJptC3HN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,93 +59,145 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
-head:   39cd8d05e83250c6294b8e0da3ca69359eff8a3c
-commit: 484e08e1b5ffad1afe2db5cf40491ccb6cb13cca [51/160] arm64: dts: mt7988: re-add sgmiisys
-config: arm64-randconfig-2051-20260630 (https://download.01.org/0day-ci/archive/20260630/202606302035.YsO2cZrV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606302035.YsO2cZrV-lkp@intel.com/reproduce)
+Hi Alfred,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/zen-kernel/zen-kernel 7.1/prjc
+head:   bb2b8160912c2185b974596c31e727ae49edf0d4
+commit: bf165aaac06ca8d88bf0b207e7c43684239c5d7c [595/670] sched/alt: [Sync] 653fda7ae73d sched/mmcid: Switch over to the new mechanism
+config: powerpc64-randconfig-r132-20260628 (https://download.01.org/0day-ci/archive/20260701/202607010246.LJptC3HN-lkp@intel.com/config)
+compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607010246.LJptC3HN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606302035.YsO2cZrV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607010246.LJptC3HN-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+sparse warnings: (new ones prefixed by >>)
+>> kernel/sched/alt_core.c:487:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:487:33: sparse:     expected struct task_struct *task
+   kernel/sched/alt_core.c:487:33: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:1694:6: sparse: sparse: symbol 'do_set_cpus_allowed' was not declared. Should it be static?
+>> kernel/sched/alt_core.c:2462:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:2462:36: sparse:     expected struct task_struct const *p
+   kernel/sched/alt_core.c:2462:36: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/alt_core.c:5828:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:5828:43: sparse:     expected struct task_struct *push_task
+   kernel/sched/alt_core.c:5828:43: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/alt_core.c:3861:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:3861:15: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:3861:15: sparse:    struct task_struct [noderef] __rcu *
+>> kernel/sched/alt_core.c:3945:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:3945:38: sparse:     expected struct task_struct *curr
+   kernel/sched/alt_core.c:3945:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:4029:46: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:4029:46: sparse:     expected struct task_struct *curr
+   kernel/sched/alt_core.c:4029:46: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/alt_core.c:4589:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:4589:14: sparse:     expected struct task_struct *prev
+   kernel/sched/alt_core.c:4589:14: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:5132:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:5132:17: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:5132:17: sparse:    struct task_struct [noderef] __rcu *
+>> kernel/sched/alt_core.c:5681:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:5681:25: sparse:     expected struct task_struct *p
+   kernel/sched/alt_core.c:5681:25: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:923:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:923:38: sparse:     expected struct task_struct *curr
+   kernel/sched/alt_core.c:923:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:1140:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1784:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1784:38: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1784:38: sparse:    struct task_struct const *
+   kernel/sched/alt_core.c:1140:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1140:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1140:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1140:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1140:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1140:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1140:37: sparse:    struct task_struct [noderef] __rcu *
+
+vim +487 kernel/sched/alt_core.c
+
+78ae9aedd80b20 Alfred Chen 2021-09-02  450  
+628c9dd0f141e0 Alfred Chen 2019-08-19  451  /*
+628c9dd0f141e0 Alfred Chen 2019-08-19  452   * RQ-clock updating methods:
+628c9dd0f141e0 Alfred Chen 2019-08-19  453   */
+628c9dd0f141e0 Alfred Chen 2019-08-19  454  
+628c9dd0f141e0 Alfred Chen 2019-08-19  455  static void update_rq_clock_task(struct rq *rq, s64 delta)
+628c9dd0f141e0 Alfred Chen 2019-08-19  456  {
+628c9dd0f141e0 Alfred Chen 2019-08-19  457  /*
+628c9dd0f141e0 Alfred Chen 2019-08-19  458   * In theory, the compile should just see 0 here, and optimize out the call
+628c9dd0f141e0 Alfred Chen 2019-08-19  459   * to sched_rt_avg_update. But I don't trust it...
+628c9dd0f141e0 Alfred Chen 2019-08-19  460   */
+628c9dd0f141e0 Alfred Chen 2019-08-19  461  	s64 __maybe_unused steal = 0, irq_delta = 0;
+628c9dd0f141e0 Alfred Chen 2019-08-19  462  
+628c9dd0f141e0 Alfred Chen 2019-08-19  463  #ifdef CONFIG_IRQ_TIME_ACCOUNTING
+f23f196bb512cd Alfred Chen 2025-03-07  464  	if (irqtime_enabled()) {
+628c9dd0f141e0 Alfred Chen 2019-08-19  465  		irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
+628c9dd0f141e0 Alfred Chen 2019-08-19  466  
+628c9dd0f141e0 Alfred Chen 2019-08-19  467  		/*
+628c9dd0f141e0 Alfred Chen 2019-08-19  468  		 * Since irq_time is only updated on {soft,}irq_exit, we might run into
+628c9dd0f141e0 Alfred Chen 2019-08-19  469  		 * this case when a previous update_rq_clock() happened inside a
+b868217725e119 Alfred Chen 2024-09-13  470  		 * {soft,}IRQ region.
+628c9dd0f141e0 Alfred Chen 2019-08-19  471  		 *
+628c9dd0f141e0 Alfred Chen 2019-08-19  472  		 * When this happens, we stop ->clock_task and only update the
+628c9dd0f141e0 Alfred Chen 2019-08-19  473  		 * prev_irq_time stamp to account for the part that fit, so that a next
+628c9dd0f141e0 Alfred Chen 2019-08-19  474  		 * update will consume the rest. This ensures ->clock_task is
+628c9dd0f141e0 Alfred Chen 2019-08-19  475  		 * monotonic.
+628c9dd0f141e0 Alfred Chen 2019-08-19  476  		 *
+b868217725e119 Alfred Chen 2024-09-13  477  		 * It does however cause some slight miss-attribution of {soft,}IRQ
+628c9dd0f141e0 Alfred Chen 2019-08-19  478  		 * time, a more accurate solution would be to update the irq_time using
+628c9dd0f141e0 Alfred Chen 2019-08-19  479  		 * the current rq->clock timestamp, except that would require using
+628c9dd0f141e0 Alfred Chen 2019-08-19  480  		 * atomic ops.
+628c9dd0f141e0 Alfred Chen 2019-08-19  481  		 */
+628c9dd0f141e0 Alfred Chen 2019-08-19  482  		if (irq_delta > delta)
+628c9dd0f141e0 Alfred Chen 2019-08-19  483  			irq_delta = delta;
+628c9dd0f141e0 Alfred Chen 2019-08-19  484  
+628c9dd0f141e0 Alfred Chen 2019-08-19  485  		rq->prev_irq_time += irq_delta;
+628c9dd0f141e0 Alfred Chen 2019-08-19  486  		delta -= irq_delta;
+0c2aa73b691e0c Alfred Chen 2023-06-08 @487  		delayacct_irq(rq->curr, irq_delta);
+f23f196bb512cd Alfred Chen 2025-03-07  488  	}
+628c9dd0f141e0 Alfred Chen 2019-08-19  489  #endif
+628c9dd0f141e0 Alfred Chen 2019-08-19  490  #ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
+628c9dd0f141e0 Alfred Chen 2019-08-19  491  	if (static_key_false((&paravirt_steal_rq_enabled))) {
+094b69eadfa6e8 Alfred Chen 2025-03-07  492  		u64 prev_steal;
+094b69eadfa6e8 Alfred Chen 2025-03-07  493  
+094b69eadfa6e8 Alfred Chen 2025-03-07  494  		steal = prev_steal = paravirt_steal_clock(cpu_of(rq));
+628c9dd0f141e0 Alfred Chen 2019-08-19  495  		steal -= rq->prev_steal_time_rq;
+628c9dd0f141e0 Alfred Chen 2019-08-19  496  
+628c9dd0f141e0 Alfred Chen 2019-08-19  497  		if (unlikely(steal > delta))
+628c9dd0f141e0 Alfred Chen 2019-08-19  498  			steal = delta;
+628c9dd0f141e0 Alfred Chen 2019-08-19  499  
+094b69eadfa6e8 Alfred Chen 2025-03-07  500  		rq->prev_steal_time_rq = prev_steal;
+628c9dd0f141e0 Alfred Chen 2019-08-19  501  		delta -= steal;
+628c9dd0f141e0 Alfred Chen 2019-08-19  502  	}
+628c9dd0f141e0 Alfred Chen 2019-08-19  503  #endif
+628c9dd0f141e0 Alfred Chen 2019-08-19  504  
+628c9dd0f141e0 Alfred Chen 2019-08-19  505  	rq->clock_task += delta;
+628c9dd0f141e0 Alfred Chen 2019-08-19  506  
+
+:::::: The code at line 487 was first introduced by commit
+:::::: 0c2aa73b691e0c04afd5b833c0ca722a76441af3 sched/alt: [Sync] a3b2aeac9d15 delayacct: track delays from IRQ/SOFTIRQ
+
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 --
 0-DAY CI Kernel Test Service
