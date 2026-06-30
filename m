@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D791F43D4FD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 14:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6856A22370A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 14:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782831247; cv=none; b=rq+jduEm9vmhYAPdcTe/o1HxiIeOfx2e+LDeXi3QUclL73dqYAFXRXNP53phIQjPRkHofJMd+0lTpfI49yE/FAI24h+dpjPxQ8gwtk6xjqxk83zahsP/Un3qHM2/hisFUqqRMFv/5iAB9bmD0fkvINy0JaPVCRyGOG29c8DZM58=
+	t=1782831307; cv=none; b=Jt3Y5Ex9AqjHNcXeI/8Luq2Ry7/6lyOinuXxLFa04HtvkjSr4DTACjK8d0mh4i42mogUz/h6FOCFM8ntpbs+0IuwLNrGIvlGTfPwScL0+C7Hs6PJQp5t77YTi3vchJWqraw//1wiCThBax3N0dZ0bYymdUFU+y5G+uzbAJPGflU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782831247; c=relaxed/simple;
-	bh=qw4ePhfZqOnnbwEqeFWaKYowxNHkiMZQUMaCnO4jq+A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TAd2YFVG+gV6KZXVndgwPrsonvemWyGrnaWU2Shg3ioRkmrYFRtR4+vju8Q853EJeVSGfgFUC/1M/4HZ9eDlimMZ2jp98So7mcNd0uT/loo587AfeuIc4icdjn0kJE9eBHNjG6EKcx2NvtOVTjbTogleLU2P+s4LqnKrdy56uH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I/GD9VBJ; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1782831307; c=relaxed/simple;
+	bh=uURz62nZWFFcYJCQgjV5JTfqinMR1RROY0CkiSNsN+s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pxh40ru1zPJ9Z6vFm85MQhBGcnUsuusj25rWGw2K54rit4ZxUEqBAsWqDayvmwB+7ZwaBXh6DuKWoyC1+i2yWR94HcYpPoys0goghzwG7Ms0LzUaXMwTvsbdiXS8HcLP3iSSHnDVCb6NhdFl3b0snof+J7TH/Bv9BVS4ylHkTXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8+EP91G; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/GD9VBJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8+EP91G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782831246; x=1814367246;
+  t=1782831307; x=1814367307;
   h=date:from:to:cc:subject:message-id;
-  bh=qw4ePhfZqOnnbwEqeFWaKYowxNHkiMZQUMaCnO4jq+A=;
-  b=I/GD9VBJsSaxSyEX4q4Hpef5HKcG0ED2DesihhQGE8LNITetzTU5Sda0
-   AmtcKPC0x6hcQZG90k0FolcgCscN3uUKGsepW6Sm7GIg4aJ3fGRrUxGoL
-   RKwisZzvLPhL9OqkwXQuDgvMMx3zB4j+0x1tmEjavxjKqPkDTfckjqneg
-   jmeOMT5zMZrPRrJd9TiqCz/lamCkIklEVUrI6buD+qMEtkKS/DBYK3xUx
-   rU+f2MbVG+CWXGGfjogkI+IkacZNWJv5FsOoKpZbIcr0hpYzyMmU9latV
-   w5GgAUiIA+hsHTfwZEIockXc46f93mZzwr1I1aCdb1j/g8CYE27A9E/DP
+  bh=uURz62nZWFFcYJCQgjV5JTfqinMR1RROY0CkiSNsN+s=;
+  b=D8+EP91GtBi1w/a+tRTwdqwU9HBMPmb2nZvGByMe5I2i1lexpfvk2m9J
+   CznCF/LPNFC/TJGI9cqBJnKhX3raoFcH9lyjfGEZfJ3us/UqP/OmNQxET
+   w4cFlgm80qH2JnmU4DH3MOdUszJGd91Q1th/MX6PEAbrM0H0ux1/0+CZi
+   V7DeD17Ql/3ED2xXx90luJhkAyj7b932Fm/asDX1wvgl+fYB/5/3vQ6D1
+   mN/mVTs+lAJ4uUbCOb6vK+GrV786Pig2IbC7P5BwGPlT8RS08Uzj0X4ai
+   6hDjejxKRhjzxePCYfhBr99IrDrtEdzva2lwF909xlYeBJW6hi4l19FFW
    A==;
-X-CSE-ConnectionGUID: GfLJ2M3QSxqqiTViH/56Pw==
-X-CSE-MsgGUID: SGViOpv0TZCAVAIx7eMuyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83323830"
+X-CSE-ConnectionGUID: e41xDej2RJutzy1PUGFkdw==
+X-CSE-MsgGUID: ip5MepNJSRKJMqp1wJV2sA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83545023"
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="83323830"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 07:53:51 -0700
-X-CSE-ConnectionGUID: 1JLbhS+JR9SHOElBVyn5sA==
-X-CSE-MsgGUID: X30ZXrwFRVGZtmIb4QSq6Q==
+   d="scan'208";a="83545023"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 07:55:06 -0700
+X-CSE-ConnectionGUID: 7rpm1vcVTSec4s1GEMXsFg==
+X-CSE-MsgGUID: 0YQgwlczSaWKJGHwcMXQgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="282352570"
+   d="scan'208";a="252938659"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 30 Jun 2026 07:53:49 -0700
+  by orviesa009.jf.intel.com with ESMTP; 30 Jun 2026 07:54:51 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weZqM-000000008Qk-1M5H;
-	Tue, 30 Jun 2026 14:53:46 +0000
-Date: Tue, 30 Jun 2026 22:53:14 +0800
+	id 1weZrL-000000008Qs-1Yqw;
+	Tue, 30 Jun 2026 14:54:47 +0000
+Date: Tue, 30 Jun 2026 22:53:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>
-Subject: [drm-xe:drm-xe-next 1/3] drivers/gpu/drm/xe/xe_pt.c:1418:13:
- warning: 'xe_pt_svm_userptr_notifier_lock' defined but not used
-Message-ID: <202606302210.QqcLbOEN-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.2-rc 130/160]
+ drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.c:52:2: error:
+ call to undeclared library function 'strncpy' with type 'char *(char *, const
+ char *, __size_t)' (aka 'char *(char *, const char *, unsigned int)'); ISO
+ C99 and later do not support...
+Message-ID: <202606302235.lV3jInZv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,46 +62,77 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   e459a3bdeb117be496d7f229e2ea1f6c9fe4080b
-commit: 80ccbd97ffee8ad2e73167d826fe7be548364365 [1/3] drm/xe/userptr: Hold notifier_lock for write on inject test path
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260630/202606302210.QqcLbOEN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606302210.QqcLbOEN-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
+head:   39cd8d05e83250c6294b8e0da3ca69359eff8a3c
+commit: 5f25c6617c5fa2a6913c15e0c9c7d5c3894a446e [130/160] net: phy: as21xxx: update driver to v1.9.2
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260630/202606302235.lV3jInZv-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606302235.lV3jInZv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606302210.QqcLbOEN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606302235.lV3jInZv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/xe/xe_pt.c:1418:13: warning: 'xe_pt_svm_userptr_notifier_lock' defined but not used [-Wunused-function]
-    1418 | static void xe_pt_svm_userptr_notifier_lock(struct xe_vm *vm)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.c:52:2: error: call to undeclared library function 'strncpy' with type 'char *(char *, const char *, __size_t)' (aka 'char *(char *, const char *, unsigned int)'); ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      52 |         strncpy(buffer, input, sizeof(buffer));
+         |         ^
+   drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.c:52:2: note: include the header <string.h> or explicitly provide a declaration for 'strncpy'
+   1 error generated.
 
 
-vim +/xe_pt_svm_userptr_notifier_lock +1418 drivers/gpu/drm/xe/xe_pt.c
+vim +52 drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.c
 
-  1408	
-  1409	/*
-  1410	 * Acquire/release the svm notifier_lock around xe_pt_svm_userptr_pre_commit()
-  1411	 * and the matching late release in xe_pt_update_ops_run(). Read mode by
-  1412	 * default; write mode when CONFIG_DRM_XE_USERPTR_INVAL_INJECT is on,
-  1413	 * because a userptr op in this critical section may invoke the injected
-  1414	 * xe_vma_userptr_force_invalidate() path that calls
-  1415	 * drm_gpusvm_unmap_pages() with ctx->in_notifier=true, which requires the
-  1416	 * lock held for write.
-  1417	 */
-> 1418	static void xe_pt_svm_userptr_notifier_lock(struct xe_vm *vm)
-  1419	{
-  1420	#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
-  1421		down_write(&vm->svm.gpusvm.notifier_lock);
-  1422	#else
-  1423		xe_svm_notifier_lock(vm);
-  1424	#endif
-  1425	}
-  1426	
+    38	
+    39	/******************************************************************************
+    40	 * Static Function
+    41	 *****************************************************************************/
+    42	static int parse_cmd_args(const char *input, struct parsed_cmd *result, int max_args)
+    43	{
+    44		char buffer[MAX_BUF];
+    45		char *token, *ptr;
+    46		int count = 0;
+    47		size_t len;
+    48	
+    49		if (!input || !result || max_args > MAX_ARGS)
+    50			return -EINVAL;
+    51	
+  > 52		strncpy(buffer, input, sizeof(buffer));
+    53		buffer[sizeof(buffer) - 1] = '\0';
+    54	
+    55		// clear '\n'
+    56		len = strlen(buffer);
+    57		if (len > 0 && buffer[len - 1] == '\n')
+    58			buffer[len - 1] = '\0';
+    59	
+    60		ptr = buffer;
+    61	
+    62		token = strsep(&ptr, " ");
+    63		while (token && *token == '\0')
+    64			token = strsep(&ptr, " ");
+    65	
+    66		if (!token)
+    67			return -EINVAL;
+    68	
+    69		strncpy(result->cmd, token, sizeof(result->cmd) - 1);
+    70		result->cmd[sizeof(result->cmd) - 1] = '\0';
+    71	
+    72		while ((token = strsep(&ptr, " ")) != NULL && count < max_args) {
+    73			if (*token == '\0')
+    74				continue;
+    75	
+    76			if (kstrtol(token, 0, &result->args[count]) != 0)
+    77				return -EINVAL;
+    78	
+    79			count++;
+    80		}
+    81	
+    82		result->argc = count;
+    83		return 0;
+    84	}
+    85	
 
 --
 0-DAY CI Kernel Test Service
