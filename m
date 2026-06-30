@@ -1,138 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6856A22370A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 14:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E9334AB1D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 14:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782831307; cv=none; b=Jt3Y5Ex9AqjHNcXeI/8Luq2Ry7/6lyOinuXxLFa04HtvkjSr4DTACjK8d0mh4i42mogUz/h6FOCFM8ntpbs+0IuwLNrGIvlGTfPwScL0+C7Hs6PJQp5t77YTi3vchJWqraw//1wiCThBax3N0dZ0bYymdUFU+y5G+uzbAJPGflU=
+	t=1782831325; cv=none; b=gbXUcLc2HFGjK8C36Dl6ZN04akIj/RkWERYHJvxtBlNQYD18LZbwaFcv2HR/lkHmFx9qVXnKpfHtOtPbElvDFTnCN0KhvUqhDUJNzfvDwLwRLHCufFXIR7GYH/AB/2xHzs3FdCCwguaifPDiB4pTUWknh6naI1PFunMKEzsJ/ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782831307; c=relaxed/simple;
-	bh=uURz62nZWFFcYJCQgjV5JTfqinMR1RROY0CkiSNsN+s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pxh40ru1zPJ9Z6vFm85MQhBGcnUsuusj25rWGw2K54rit4ZxUEqBAsWqDayvmwB+7ZwaBXh6DuKWoyC1+i2yWR94HcYpPoys0goghzwG7Ms0LzUaXMwTvsbdiXS8HcLP3iSSHnDVCb6NhdFl3b0snof+J7TH/Bv9BVS4ylHkTXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8+EP91G; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1782831325; c=relaxed/simple;
+	bh=mE0oP/y4xpBWzm4e6XW0yF0v0kXReRGF5Bham+rh2N4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=rniUarsOVtagNWoybh0CihrsDk0hNEdxLWLEVJDVjYN0mHQLtZXuienib5HjYKhiZKdbXmL47bTR+yzpb6AL3DL/5YL7++q0qG9WZpRyXJByxAE+rQkEWl1mdaZ51DkCvOmDoYhqSxMAqGHTufszVlcIIdcgHx2ZqUZXHgyTKQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7mi3MnX; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8+EP91G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7mi3MnX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782831307; x=1814367307;
-  h=date:from:to:cc:subject:message-id;
-  bh=uURz62nZWFFcYJCQgjV5JTfqinMR1RROY0CkiSNsN+s=;
-  b=D8+EP91GtBi1w/a+tRTwdqwU9HBMPmb2nZvGByMe5I2i1lexpfvk2m9J
-   CznCF/LPNFC/TJGI9cqBJnKhX3raoFcH9lyjfGEZfJ3us/UqP/OmNQxET
-   w4cFlgm80qH2JnmU4DH3MOdUszJGd91Q1th/MX6PEAbrM0H0ux1/0+CZi
-   V7DeD17Ql/3ED2xXx90luJhkAyj7b932Fm/asDX1wvgl+fYB/5/3vQ6D1
-   mN/mVTs+lAJ4uUbCOb6vK+GrV786Pig2IbC7P5BwGPlT8RS08Uzj0X4ai
-   6hDjejxKRhjzxePCYfhBr99IrDrtEdzva2lwF909xlYeBJW6hi4l19FFW
-   A==;
-X-CSE-ConnectionGUID: e41xDej2RJutzy1PUGFkdw==
-X-CSE-MsgGUID: ip5MepNJSRKJMqp1wJV2sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83545023"
+  t=1782831324; x=1814367324;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mE0oP/y4xpBWzm4e6XW0yF0v0kXReRGF5Bham+rh2N4=;
+  b=F7mi3MnXUsmxuD7Rt2Wn/zlhsbTJU8Qt3db7W8OhHq4NHxznQEzYDVdf
+   RHg+POYxoeVDSo42sar/QWOUUpxy2pQdlxKWEWSfdD3doET3WwKB4Gkh5
+   7HZo7yujUBzZPS2m/Gh+NxCAZZ6IMXl7yfj7gqz6XUQhQYcbWBbtyqi+2
+   Tf/cmiofTDyEYRL/gOrescWEoizdbboFMlUAOgYJvPmpIHx0e+WUwVZ+x
+   qtHnW4uMaV48f2fI2pIxytT0uWSWB5T90Or9fx9t9acq6DDF2pw7we5M5
+   9w83ts6kbqoN4WRTYDcYLiPrssnTgQAlwDht2DfDastI+1PA7wUf1idQs
+   Q==;
+X-CSE-ConnectionGUID: qZmTOifWS9Kc0SPyN9yhaQ==
+X-CSE-MsgGUID: hh9Itx3vS+Gt67e1rMkgLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="71070938"
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="83545023"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 07:55:06 -0700
-X-CSE-ConnectionGUID: 7rpm1vcVTSec4s1GEMXsFg==
-X-CSE-MsgGUID: 0YQgwlczSaWKJGHwcMXQgw==
+   d="scan'208";a="71070938"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 07:55:23 -0700
+X-CSE-ConnectionGUID: N1akEuQzRl26rLVefZZ3ig==
+X-CSE-MsgGUID: MEaakkqxTeG2ZPIYLKDY2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="252938659"
+   d="scan'208";a="251227563"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 30 Jun 2026 07:54:51 -0700
+  by orviesa010.jf.intel.com with ESMTP; 30 Jun 2026 07:55:21 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weZrL-000000008Qs-1Yqw;
-	Tue, 30 Jun 2026 14:54:47 +0000
-Date: Tue, 30 Jun 2026 22:53:57 +0800
+	id 1weZrm-000000008R2-1D2R;
+	Tue, 30 Jun 2026 14:55:17 +0000
+Date: Tue, 30 Jun 2026 22:54:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-rc 130/160]
- drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.c:52:2: error:
- call to undeclared library function 'strncpy' with type 'char *(char *, const
- char *, __size_t)' (aka 'char *(char *, const char *, unsigned int)'); ISO
- C99 and later do not support...
-Message-ID: <202606302235.lV3jInZv-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/b4-sysfs-const-attr-device_attr 7/12]
+ drivers/perf/nvidia_t410_cmem_latency_pmu.c:447:25: error: initialization of
+ 'ssize_t (*)(struct device *, struct device_attribute *, char *)' {aka 'long
+ int (*)(struct device *, struct device_attribute *, char *)'} from
+ incompatible pointer type 'ssize_t...
+Message-ID: <202606302225.46YfF2f1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
-head:   39cd8d05e83250c6294b8e0da3ca69359eff8a3c
-commit: 5f25c6617c5fa2a6913c15e0c9c7d5c3894a446e [130/160] net: phy: as21xxx: update driver to v1.9.2
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260630/202606302235.lV3jInZv-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606302235.lV3jInZv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/b4-sysfs-const-attr-device_attr
+head:   7509ac6ef406a6f342fe4fd8a535be9040c0a6b4
+commit: f0e3526d7effb670e09f41beb6ed08d9d08a2f87 [7/12] device_string
+config: arm64-randconfig-004-20260630 (https://download.01.org/0day-ci/archive/20260630/202606302225.46YfF2f1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606302225.46YfF2f1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606302235.lV3jInZv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606302225.46YfF2f1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.c:52:2: error: call to undeclared library function 'strncpy' with type 'char *(char *, const char *, __size_t)' (aka 'char *(char *, const char *, unsigned int)'); ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      52 |         strncpy(buffer, input, sizeof(buffer));
-         |         ^
-   drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.c:52:2: note: include the header <string.h> or explicitly provide a declaration for 'strncpy'
-   1 error generated.
+   In file included from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/acpi.h:15,
+                    from drivers/perf/nvidia_t410_cmem_latency_pmu.c:8:
+>> drivers/perf/nvidia_t410_cmem_latency_pmu.c:447:25: error: initialization of 'ssize_t (*)(struct device *, struct device_attribute *, char *)' {aka 'long int (*)(struct device *, struct device_attribute *, char *)'} from incompatible pointer type 'ssize_t (*)(struct device *, const struct device_attribute *, char *)' {aka 'long int (*)(struct device *, const struct device_attribute *, char *)'} [-Werror=incompatible-pointer-types]
+     447 |  NV_PMU_EXT_ATTR(event, device_show_string, "config:0-1"),
+         |                         ^~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:243:10: note: in definition of macro '__ATTR'
+     243 |  .show = _show,      \
+         |          ^~~~~
+   drivers/perf/nvidia_t410_cmem_latency_pmu.c:447:2: note: in expansion of macro 'NV_PMU_EXT_ATTR'
+     447 |  NV_PMU_EXT_ATTR(event, device_show_string, "config:0-1"),
+         |  ^~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_cmem_latency_pmu.c:447:25: note: (near initialization for '(anonymous)[0].attr.<anonymous>.show')
+     447 |  NV_PMU_EXT_ATTR(event, device_show_string, "config:0-1"),
+         |                         ^~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:243:10: note: in definition of macro '__ATTR'
+     243 |  .show = _show,      \
+         |          ^~~~~
+   drivers/perf/nvidia_t410_cmem_latency_pmu.c:447:2: note: in expansion of macro 'NV_PMU_EXT_ATTR'
+     447 |  NV_PMU_EXT_ATTR(event, device_show_string, "config:0-1"),
+         |  ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/acpi.h:15,
+                    from drivers/perf/nvidia_t410_c2c_pmu.c:8:
+>> drivers/perf/nvidia_t410_c2c_pmu.c:554:29: error: initialization of 'ssize_t (*)(struct device *, struct device_attribute *, char *)' {aka 'long int (*)(struct device *, struct device_attribute *, char *)'} from incompatible pointer type 'ssize_t (*)(struct device *, const struct device_attribute *, char *)' {aka 'long int (*)(struct device *, const struct device_attribute *, char *)'} [-Werror=incompatible-pointer-types]
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                             ^~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:243:10: note: in definition of macro '__ATTR'
+     243 |  .show = _show,      \
+         |          ^~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:2: note: in expansion of macro 'NV_C2C_PMU_EXT_ATTR'
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |  ^~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:557:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_ATTR'
+     557 |  NV_C2C_PMU_FORMAT_ATTR(event, "config:0-3")
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:560:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_EVENT_ATTR'
+     560 |  NV_C2C_PMU_FORMAT_EVENT_ATTR,
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:29: note: (near initialization for '(anonymous)[0].attr.<anonymous>.show')
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                             ^~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:243:10: note: in definition of macro '__ATTR'
+     243 |  .show = _show,      \
+         |          ^~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:2: note: in expansion of macro 'NV_C2C_PMU_EXT_ATTR'
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |  ^~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:557:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_ATTR'
+     557 |  NV_C2C_PMU_FORMAT_ATTR(event, "config:0-3")
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:560:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_EVENT_ATTR'
+     560 |  NV_C2C_PMU_FORMAT_EVENT_ATTR,
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/perf/nvidia_t410_c2c_pmu.c:554:29: error: initialization of 'ssize_t (*)(struct device *, struct device_attribute *, char *)' {aka 'long int (*)(struct device *, struct device_attribute *, char *)'} from incompatible pointer type 'ssize_t (*)(struct device *, const struct device_attribute *, char *)' {aka 'long int (*)(struct device *, const struct device_attribute *, char *)'} [-Werror=incompatible-pointer-types]
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                             ^~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:243:10: note: in definition of macro '__ATTR'
+     243 |  .show = _show,      \
+         |          ^~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:2: note: in expansion of macro 'NV_C2C_PMU_EXT_ATTR'
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |  ^~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:561:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_ATTR'
+     561 |  NV_C2C_PMU_FORMAT_ATTR(gpu_mask, "config1:0-1"),
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:29: note: (near initialization for '(anonymous)[0].attr.<anonymous>.show')
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                             ^~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:243:10: note: in definition of macro '__ATTR'
+     243 |  .show = _show,      \
+         |          ^~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:2: note: in expansion of macro 'NV_C2C_PMU_EXT_ATTR'
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |  ^~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:561:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_ATTR'
+     561 |  NV_C2C_PMU_FORMAT_ATTR(gpu_mask, "config1:0-1"),
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/perf/nvidia_t410_c2c_pmu.c:554:29: error: initialization of 'ssize_t (*)(struct device *, struct device_attribute *, char *)' {aka 'long int (*)(struct device *, struct device_attribute *, char *)'} from incompatible pointer type 'ssize_t (*)(struct device *, const struct device_attribute *, char *)' {aka 'long int (*)(struct device *, const struct device_attribute *, char *)'} [-Werror=incompatible-pointer-types]
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                             ^~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:243:10: note: in definition of macro '__ATTR'
+     243 |  .show = _show,      \
+         |          ^~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:2: note: in expansion of macro 'NV_C2C_PMU_EXT_ATTR'
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |  ^~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:557:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_ATTR'
+     557 |  NV_C2C_PMU_FORMAT_ATTR(event, "config:0-3")
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:571:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_EVENT_ATTR'
+     571 |  NV_C2C_PMU_FORMAT_EVENT_ATTR,
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:29: note: (near initialization for '(anonymous)[0].attr.<anonymous>.show')
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |                             ^~~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:243:10: note: in definition of macro '__ATTR'
+     243 |  .show = _show,      \
+         |          ^~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:554:2: note: in expansion of macro 'NV_C2C_PMU_EXT_ATTR'
+     554 |  NV_C2C_PMU_EXT_ATTR(_name, device_show_string, _config)
+         |  ^~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:557:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_ATTR'
+     557 |  NV_C2C_PMU_FORMAT_ATTR(event, "config:0-3")
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/nvidia_t410_c2c_pmu.c:571:2: note: in expansion of macro 'NV_C2C_PMU_FORMAT_EVENT_ATTR'
+     571 |  NV_C2C_PMU_FORMAT_EVENT_ATTR,
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +52 drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.c
+vim +447 drivers/perf/nvidia_t410_cmem_latency_pmu.c
 
-    38	
-    39	/******************************************************************************
-    40	 * Static Function
-    41	 *****************************************************************************/
-    42	static int parse_cmd_args(const char *input, struct parsed_cmd *result, int max_args)
-    43	{
-    44		char buffer[MAX_BUF];
-    45		char *token, *ptr;
-    46		int count = 0;
-    47		size_t len;
-    48	
-    49		if (!input || !result || max_args > MAX_ARGS)
-    50			return -EINVAL;
-    51	
-  > 52		strncpy(buffer, input, sizeof(buffer));
-    53		buffer[sizeof(buffer) - 1] = '\0';
-    54	
-    55		// clear '\n'
-    56		len = strlen(buffer);
-    57		if (len > 0 && buffer[len - 1] == '\n')
-    58			buffer[len - 1] = '\0';
-    59	
-    60		ptr = buffer;
-    61	
-    62		token = strsep(&ptr, " ");
-    63		while (token && *token == '\0')
-    64			token = strsep(&ptr, " ");
-    65	
-    66		if (!token)
-    67			return -EINVAL;
-    68	
-    69		strncpy(result->cmd, token, sizeof(result->cmd) - 1);
-    70		result->cmd[sizeof(result->cmd) - 1] = '\0';
-    71	
-    72		while ((token = strsep(&ptr, " ")) != NULL && count < max_args) {
-    73			if (*token == '\0')
-    74				continue;
-    75	
-    76			if (kstrtol(token, 0, &result->args[count]) != 0)
-    77				return -EINVAL;
-    78	
-    79			count++;
-    80		}
-    81	
-    82		result->argc = count;
-    83		return 0;
-    84	}
-    85	
+429b7638b2df55 Besar Wicaksono 2026-03-24  437  
+429b7638b2df55 Besar Wicaksono 2026-03-24  438  #define NV_PMU_EXT_ATTR(_name, _func, _config)			\
+429b7638b2df55 Besar Wicaksono 2026-03-24  439  	(&((struct dev_ext_attribute[]){				\
+429b7638b2df55 Besar Wicaksono 2026-03-24  440  		{							\
+429b7638b2df55 Besar Wicaksono 2026-03-24  441  			.attr = __ATTR(_name, 0444, _func, NULL),	\
+429b7638b2df55 Besar Wicaksono 2026-03-24  442  			.var = (void *)_config				\
+429b7638b2df55 Besar Wicaksono 2026-03-24  443  		}							\
+429b7638b2df55 Besar Wicaksono 2026-03-24  444  	})[0].attr.attr)
+429b7638b2df55 Besar Wicaksono 2026-03-24  445  
+429b7638b2df55 Besar Wicaksono 2026-03-24  446  static struct attribute *cmem_lat_pmu_formats[] = {
+429b7638b2df55 Besar Wicaksono 2026-03-24 @447  	NV_PMU_EXT_ATTR(event, device_show_string, "config:0-1"),
+429b7638b2df55 Besar Wicaksono 2026-03-24  448  	NULL
+429b7638b2df55 Besar Wicaksono 2026-03-24  449  };
+429b7638b2df55 Besar Wicaksono 2026-03-24  450  
+
+:::::: The code at line 447 was first introduced by commit
+:::::: 429b7638b2df5538e945aaa2cc189cf0d6e8fb3a perf: add NVIDIA Tegra410 CPU Memory Latency PMU
+
+:::::: TO: Besar Wicaksono <bwicaksono@nvidia.com>
+:::::: CC: Will Deacon <will@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
