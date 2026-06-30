@@ -1,159 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E053D410A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 03:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D90C2367DF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 03:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782788790; cv=none; b=DfybMzpFFlZpAatJajeuVv46dnZ8dzEy7RADWFwINLi6RZEv2rt5+lbLmX3GY4szG/JelXaQPWr2EIhfV22MZnJedc0DscSQfkCLZNwX32szcRKlH/b06j2XrpTP2DQRsriFh5p2X3SKNglx1sgxUciBbqNihEVG7ctzViCSWqA=
+	t=1782789647; cv=none; b=nD6d3MVFnGwSx7UwxiNgftwWVV6VWbJHN9GmjXtwVyVxWJIOllyDEwGS3wdfyhbmI8zggg8neN6Es1A/+ydWGnVrPiNQptGDxzS/9qugkxNVbgGLPEMnu9xA6zXMQKSrgZNkI3MK4VgySkHH1r/f7reImznnW1rhtSFIKta9J/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782788790; c=relaxed/simple;
-	bh=mR8DP2XZ/1StzxeHsy2i3aZNjuZlRnSSuFmoACgUkak=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H/7tg/zqmXqoCRlgwCOzhEe5y/kecvUj7e4nU+AHBMuTXv01yd6ZMKMguE+YYgUg1ifPOhTqIoA9uSJVomdpIFy1TRA4jtwm5enddRRVv9y7N7axHK5zkmzcBiXKFW5xkLlj+q+709/5lAPoOPFQi+7weUrPZegvB2mTCPNt7q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4G1wMfp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782789647; c=relaxed/simple;
+	bh=3R9Fm5XX2ni9qYeqc3YwmkAsf40PwPtoBGlhwzikQU0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Wp54sUfTas8bwR4E0UDueJom6jX45GWFHIPo9lBqGOHlDivYmqINYCyB/Lr7yYqA1o0oSKGOi6Szn0hTD9a24w2MECnoGCIYktK5iAkumkTFvC2rPFfoFy6PNQD7Zduj1hKDCRQaOxc6n4q/5goL3voPlEkN6tdJ12Jqoc6Iotc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e9BJox0I; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4G1wMfp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F11671F00ACF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 03:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782788782;
-	bh=fzAepXvhPnU3RVO1srqzjPmRiEpd6yJalacgOF/VkH0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=V4G1wMfpqdrFTlqf/mZx519oKTZ/iLrU5sQVvxLgzRVooqRBV2OpUEs2CMcQLGXG8
-	 0E3QAwT5brwXlhsrLl+/tcISCSjNRlIosA5w1C2796Kb/vqCd4ZvMO/gb7xsO3iEgY
-	 cFhLc32ujpT7Ao96pr5bjIOxCZjC62NSzM7E6svWzhPqfEVh9JHnsO1dwCPGFdTk8F
-	 WlCv8hdVZTrkGhWDR1+y/5Tju0/AzpkkKbRov0T051lSuG7N6TiUf3EzHRROV4HXwl
-	 C55HBAOdmd9FwmTmabP4maTaKc85Gy112Ea+NsojFpqSW4LhVis7+fgjraqVCnlAAn
-	 R1Yveb3sZ1JyQ==
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-463f1165e16so3997693f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jun 2026 20:06:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoRHvLRw7RZYHrRxIKXPF32LcJg8KV/VJ+rWE4gXHIG4AV6k1ix5KbQHanGplV06hnGUnbetxDo7/WJU4jI@lists.linux.dev
-X-Gm-Message-State: AOJu0YzktbCbfT8Kpp5dANlFgdk1cjxmV3r560jBLaCTkKhATj9ObIr6
-	rMlkYlgXGggopr8Nvk8s82bwdcdWAnIlE9m9b7bD3OG8DMZIJnItglJj68tTD0EgNKJaV8MJTRP
-	CzEPlFB0BW0j+1ftyLNN+tR/TVo7/XCY=
-X-Received: by 2002:a05:6000:3110:b0:475:806:c5e8 with SMTP id
- ffacd0b85a97d-475506e972cmr2367506f8f.9.1782788780671; Mon, 29 Jun 2026
- 20:06:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e9BJox0I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782789645; x=1814325645;
+  h=date:from:to:cc:subject:message-id;
+  bh=3R9Fm5XX2ni9qYeqc3YwmkAsf40PwPtoBGlhwzikQU0=;
+  b=e9BJox0InWpQ7CS2Gy7AHf8Is1N7Z5KE7P4YjzvKigHYawV0sPp133mi
+   N4X0cKnC3J24ddsLwev20Y6YITETYW4gYUJ7BBF5GQ2gETU7R+eOatQLh
+   s/1zes+O1617aoqjhWx4SHMhO/96T47Jsoef5oCR0QqgyXYND0sFDmvC0
+   P//C8FEI7dMjznSoNaB69GRRvN1TS49FyYPEWr0llOsdo4VBcwWWfY7PQ
+   nlx/+L7eL22IMGA9g4xzUds6HQ1xoVHeT2xgC5u2HEcsbRn8Qy7IGiZHq
+   zpnmrD/3BHFOuEaHhuQu1aGnjhpU7ZDxsoEMRL1p13lUGQolznUU6NlrU
+   A==;
+X-CSE-ConnectionGUID: dtpg9mCuROenZg2QClF5pg==
+X-CSE-MsgGUID: AlI5Fhp8Taao8jv47V5zkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="86043477"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="86043477"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 20:20:45 -0700
+X-CSE-ConnectionGUID: RfwbEOTSRSq3aiIqt3QIPQ==
+X-CSE-MsgGUID: 2mT/0CozTyWtiKASDW2dmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="256068023"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 29 Jun 2026 20:20:43 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1weP1c-000000007yj-3KXF;
+	Tue, 30 Jun 2026 03:20:40 +0000
+Date: Tue, 30 Jun 2026 11:20:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:pr/188 1/1]
+ drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:31: sparse: sparse: Using
+ plain integer as NULL pointer
+Message-ID: <202606301109.cKGVgXgK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202606291606.9h8aGniQ-lkp@intel.com> <20260629171909.1d6e96dd15a80b8f463bb68a@linux-foundation.org>
-In-Reply-To: <20260629171909.1d6e96dd15a80b8f463bb68a@linux-foundation.org>
-From: Guo Ren <guoren@kernel.org>
-Date: Tue, 30 Jun 2026 11:06:08 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTT+Pz51u2ckYQGye_TNbfbvHHiEHb0Ned-k0MFCe4vgEg@mail.gmail.com>
-X-Gm-Features: AVVi8CfpjiHAZxpIu9w2olplIGKjchfQBEYO-NTXILWsnMIEoAgT2ud8VKG7C3U
-Message-ID: <CAJF2gTT+Pz51u2ckYQGye_TNbfbvHHiEHb0Ned-k0MFCe4vgEg@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-new 59/142] mm/vmalloc.c:3590:23: warning: unused
- variable 'start'
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, "Barry Song (Xiaomi)" <baohua@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	David Hildenbrand <david@kernel.org>, Linux Memory Management List <linux-mm@kvack.org>, mm-commits@vger.kernel.org, 
-	Dev Jain <dev.jain@arm.com>, Wen Jiang <jiangwen6@xiaomi.com>, linux-csky@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 30, 2026 at 8:19=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Mon, 29 Jun 2026 16:58:34 +0800 kernel test robot <lkp@intel.com> wrot=
-e:
->
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-=
-new
-> > head:   88cefc306c43b58d9bb65c9e96e284306710d961
-> > commit: 80c453511b6ee1af0e4db83c3db0020215c4eaf0 [59/142] mm/vmalloc: m=
-ap contiguous pages in batches for vmap() if possible
-> > config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20260=
-629/202606291606.9h8aGniQ-lkp@intel.com/config)
-> > compiler: csky-linux-gcc (GCC) 16.1.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20260629/202606291606.9h8aGniQ-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202606291606.9h8aGniQ-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    mm/vmalloc.c: In function 'vmap_batched':
-> > >> mm/vmalloc.c:3590:23: warning: unused variable 'start' [-Wunused-var=
-iable]
-> >     3590 |         unsigned long start =3D addr, map_addr =3D addr;
-> >          |                       ^~~~~
->
-> Sigh.
->
->         unsigned long start =3D addr, map_addr =3D addr;
->         ...
->         flush_cache_vmap(start, end);
->
-> See, this is our punishment for writing kernel code in CPP rather than
-> in C.
->
-> I'll queue (and test) the below.  It should be OK -
-> arch/csky/abiv1/inc/abi/cacheflush.h directly includes asm/cache.h
-> which declares cache_wbinv_all().
->
->
-> From: Andrew Morton <akpm@linux-foundation.org>
-> Subject: csky: implement flush_cache_vmap() in C
-> Date: Mon Jun 29 05:07:51 PM PDT 2026
->
-> To avoid getting an unused-var warning from
->
->         unsigned long start =3D something;
->         ...
->         flush_cache_vmap(start, ...);
->
-> Cc: Guo Ren <guoren@kernel.org>
-> Cc: Andrew Donnellan <ajd@linux.ibm.com>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: "Barry Song (Xiaomi)" <baohua@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: David Hildenbrand <david@kernel.org>
-> Cc: Dev Jain <dev.jain@arm.com>
-> Cc: Leo Yan <leo.yan@arm.com>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> Cc: Uladzislau Rezki <urezki@gmail.com>
-> Cc: Wen Jiang <jiangwen6@xiaomi.com>
-> Cc: Wen Jiang <jiangwenxiaomi@gmail.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Xueyuan Chen <xueyuan.chen21@gmail.com>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
->
->  arch/csky/abiv1/inc/abi/cacheflush.h |    7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> --- a/arch/csky/abiv1/inc/abi/cacheflush.h~csky-implement-flush_cache_vma=
-p-in-c
-> +++ a/arch/csky/abiv1/inc/abi/cacheflush.h
-> @@ -42,7 +42,12 @@ static inline void flush_anon_page(struc
->   * Use cache_wbinv_all() here and need to be improved in future.
->   */
->  extern void flush_cache_range(struct vm_area_struct *vma, unsigned long =
-start, unsigned long end);
-> -#define flush_cache_vmap(start, end)           cache_wbinv_all()
-> +
-> +static inline void flush_cache_vmap(unsigned long start, unsigned long e=
-nd)
-> +{
-> +       cache_wbinv_all();
-> +}
-> +
-Thx for the fixup.
+tree:   https://github.com/frank-w/BPI-R2-4.14 pr/188
+head:   616866fe35b03d003aa74b684a16a24a9e119e2a
+commit: f6261a83d9f211b58713bae33b28f274b6454612 [1/1] net: mediatek: add proprietary debugfs
+config: microblaze-randconfig-r123-20260629 (https://download.01.org/0day-ci/archive/20260630/202606301109.cKGVgXgK-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606301109.cKGVgXgK-lkp@intel.com/reproduce)
 
-Reviewed-by: Guo Ren <guoren@kernel.org>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606301109.cKGVgXgK-lkp@intel.com/
 
---=20
-Best Regards
- Guo Ren
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:33:5: sparse: sparse: symbol 'hw_lro_agg_num_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:34:5: sparse: sparse: symbol 'hw_lro_agg_size_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:35:5: sparse: sparse: symbol 'hw_lro_tot_agg_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:36:5: sparse: sparse: symbol 'hw_lro_tot_flush_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:37:5: sparse: sparse: symbol 'hw_lro_agg_flush_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:38:5: sparse: sparse: symbol 'hw_lro_age_flush_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:39:5: sparse: sparse: symbol 'hw_lro_seq_flush_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:40:5: sparse: sparse: symbol 'hw_lro_timestamp_flush_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:41:5: sparse: sparse: symbol 'hw_lro_norule_flush_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:42:5: sparse: sparse: symbol 'mtk_hwlro_stats_ebl' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:43:5: sparse: sparse: symbol 'dbg_show_level' was not declared. Should it be static?
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:54:16: sparse: sparse: symbol 'g_eth' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:31: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1075:48: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1132:48: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1420:49: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2047:23: sparse: sparse: symbol 'proc_reg_dir' was not declared. Should it be static?
+
+vim +435 drivers/net/ethernet/mediatek/mtk_eth_dbg.c
+
+   431	
+   432	static int mtketh_debug_show(struct seq_file *m, void *private)
+   433	{
+   434		struct mtk_eth *eth = m->private;
+ > 435		struct mtk_mac *mac = 0;
+   436		int  i = 0;
+   437	
+   438		for (i = 0 ; i < MTK_MAX_DEVS ; i++) {
+   439			if (!eth->mac[i] ||
+   440			    of_phy_is_fixed_link(eth->mac[i]->of_node))
+   441				continue;
+   442			mac = eth->mac[i];
+   443	/* FIXME */
+   444	/*
+   445			while (j < 30) {
+   446				d =  _mtk_mdio_read_c22(eth, mac->phy_dev->addr, j);
+   447	
+   448				seq_printf(m, "phy=%d, reg=0x%08x, data=0x%08x\n",
+   449					   mac->phy_dev->addr, j, d);
+   450				j++;
+   451			}
+   452	*/
+   453		}
+   454		return 0;
+   455	}
+   456	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
