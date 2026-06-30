@@ -1,132 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7415E2BB1D;
-	Tue, 30 Jun 2026 00:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F4B487BE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 00:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782778751; cv=none; b=PqDRmUQBGqDop6NO6l4sEreNbBbiOA+F1w58ioDrpKf7wUnFiuK36b+eLVCg3Zg89PL5i4PyRmIkd+zMiTG4qkYZUxFMmCueosEjjHL/I5JGfwg/E+06tIFJZmAWRerjHYW9ON4HZrG47ETXgbJ0N+2ec57vuvPC6p+1Bn3HFMg=
+	t=1782779929; cv=none; b=i3yk2eFQmqTJPC1mYpVwrqJJTrwRt5W4XDl0530bhmx3QTKZUnK85XpHHCnr1JUN+kSgLLNp7NBE77DyokepX8vRVMZTdPt5zjxhYiRQDZ5kgIPvnLYlca3xBtnPJgnKmlJVi25dYfyAQjUJJLmQLSDxtEDsmhTNL7EEXNRUv7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782778751; c=relaxed/simple;
-	bh=EqAg5SzOGJ0RD2yzW+ToK1+4IxCF7uqU9AadQ6uLmqo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=i0vipgy8ky9iS5fjpdgGjURGxSPuOcp43r9d8iI62fY4Z5rWfrDKr0fN4nTckojJckVNCgAhSRfI2/lSa+b2Ar4i96rCnx46IkgHKSCclQgvL5vjSjoDplfKwXm0X8NLbiOZmSjZwMCqieNWBZeDCz5MI4jXl//5bxlSkrIKEV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=nv9rkHwL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782779929; c=relaxed/simple;
+	bh=G3RAFlzVZTFlHweuOz6mpeo0uyRZyvZOu1gVa+zYykE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BgD4kYl4KtjFDj5wfeB8HSwDtWzTfLmcaLUGtAiUthkhE8ZyBmpGdqIAsiLEavGw3nPcL2ZZar9ZR+5Ru4uL6j2ToEXyv7m3ilyksxy6Fumw6ugtyUp0uvnaBCIZsT7DQgeY7JoIcchCOOIYsQb2Hd+LDIV7xCzNddVsPhzQ2CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYTI3Pir; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="nv9rkHwL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A15A1F000E9;
-	Tue, 30 Jun 2026 00:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1782778750;
-	bh=D8J7zyOljJxIqZB5f7uwdIkFI5+z/zXnpkVRuCp1TkU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=nv9rkHwLKumPriu4HCUOBpBwWTkj8j7Oi0Qpx09LjAX42ImcenX3nSswjKvLS9ewS
-	 Rr48m2UzsJKtSW0rKOoiW5ZPJFNxG+cUZgxFtrpIpG6tve4XaoJXIEmck9twg191WB
-	 z7b68thqB94mCvK4qCcrTf33doOMfHBBD42c7rCI=
-Date: Mon, 29 Jun 2026 17:19:09 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: "Barry Song (Xiaomi)" <baohua@kernel.org>,
- oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, Linux
- Memory Management List <linux-mm@kvack.org>, mm-commits@vger.kernel.org,
- Dev Jain <dev.jain@arm.com>, Wen Jiang <jiangwen6@xiaomi.com>, Guo Ren
- <guoren@kernel.org>, linux-csky@vger.kernel.org
-Subject: Re: [akpm-mm:mm-new 59/142] mm/vmalloc.c:3590:23: warning: unused
- variable 'start'
-Message-Id: <20260629171909.1d6e96dd15a80b8f463bb68a@linux-foundation.org>
-In-Reply-To: <202606291606.9h8aGniQ-lkp@intel.com>
-References: <202606291606.9h8aGniQ-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYTI3Pir"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782779927; x=1814315927;
+  h=date:from:to:cc:subject:message-id;
+  bh=G3RAFlzVZTFlHweuOz6mpeo0uyRZyvZOu1gVa+zYykE=;
+  b=aYTI3PirFfMdUKVCD8rsDwcb85Lpr1lBVJBPf8Al4+qzCLpxXT8zJ/hW
+   mFF5d78hBgVesuqP6LH6ekeGrKBo9maOp2U+SLzKfneT2zF9sdMsRuvgk
+   Qjy7TsyGksJm68MxAD55wq9Vg+jQwNK2r97TgXv9cYHYks3ZHSzEXrTmz
+   lVWCXMzr2Bog3ZJmvOF+kxKYxtsCUMqCWy5mLShfgpIbPp5dP2fdjk2iR
+   z+AyaXB0jn04XsYhWzrCU4Ci+1o/ruDqRm2IbOKCmBjN2jlXk5ui9/ZIu
+   qgq1rmCkW0THIdamNbr53V/SB0KFoOqQ5VmbE72aIW+UhInfa/jYl/vQ3
+   Q==;
+X-CSE-ConnectionGUID: NrZuIKURT6O7XrHX8OdzjA==
+X-CSE-MsgGUID: QF9v71BrSMGVZrNhy0DluQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="87399080"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="87399080"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 17:38:46 -0700
+X-CSE-ConnectionGUID: eLYUDhZsSYWqkncnytrAdA==
+X-CSE-MsgGUID: I6hiOqB/S7C+FSAlY10Wuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="251704030"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 29 Jun 2026 17:38:44 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1weMUr-000000007t9-2GIB;
+	Tue, 30 Jun 2026 00:38:41 +0000
+Date: Tue, 30 Jun 2026 08:38:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:pr/188 1/1]
+ drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:109:28: sparse: sparse: incorrect
+ type in initializer (different base types)
+Message-ID: <202606300856.6w9cp7Aq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 29 Jun 2026 16:58:34 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/frank-w/BPI-R2-4.14 pr/188
+head:   616866fe35b03d003aa74b684a16a24a9e119e2a
+commit: 16a78531197cf24d14a4e8551a667b49492aaa93 [1/1] DO NOT SUBMIT: net: dsa: mxl862xx: legacy SFP API fallback for old firmware
+config: microblaze-randconfig-r123-20260629 (https://download.01.org/0day-ci/archive/20260630/202606300856.6w9cp7Aq-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606300856.6w9cp7Aq-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> head:   88cefc306c43b58d9bb65c9e96e284306710d961
-> commit: 80c453511b6ee1af0e4db83c3db0020215c4eaf0 [59/142] mm/vmalloc: map contiguous pages in batches for vmap() if possible
-> config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20260629/202606291606.9h8aGniQ-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 16.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606291606.9h8aGniQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606291606.9h8aGniQ-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    mm/vmalloc.c: In function 'vmap_batched':
-> >> mm/vmalloc.c:3590:23: warning: unused variable 'start' [-Wunused-variable]
->     3590 |         unsigned long start = addr, map_addr = addr;
->          |                       ^~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606300856.6w9cp7Aq-lkp@intel.com/
 
-Sigh.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:109:28: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] port_id @@     got int port @@
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:109:28: sparse:     expected restricted __le16 [usertype] port_id
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:109:28: sparse:     got int port
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:112:28: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] port_id @@     got int port @@
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:112:28: sparse:     expected restricted __le16 [usertype] port_id
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:112:28: sparse:     got int port
+>> drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:128:30: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:128:30: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:128:30: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:128:30: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:128:30: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:152:30: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:165:25: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:165:25: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:165:25: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/dsa/mxl862xx/mxl862xx-phylink.c:165:25: sparse: sparse: restricted __le32 degrades to integer
 
-	unsigned long start = addr, map_addr = addr;
-	...
-	flush_cache_vmap(start, end);
+vim +109 drivers/net/dsa/mxl862xx/mxl862xx-phylink.c
 
-See, this is our punishment for writing kernel code in CPP rather than
-in C.
+   101	
+   102	static void mxl862xx_legacy_pcs_get_state(struct phylink_pcs *pcs,
+   103						  unsigned int neg_mode,
+   104						  struct phylink_link_state *state)
+   105	{
+   106		struct mxl862xx_priv *priv = pcs_to_mxl862xx_pcs(pcs)->priv;
+   107		int port = pcs_to_mxl862xx_pcs(pcs)->port;
+   108		struct mxl862xx_port_link_cfg port_link_cfg = {
+ > 109			.port_id = port,
+   110		};
+   111		struct mxl862xx_port_cfg port_cfg = {
+   112			.port_id = port,
+   113		};
+   114		int ret;
+   115	
+   116		ret = MXL862XX_API_READ(priv, MXL862XX_COMMON_PORTLINKCFGGET,
+   117					port_link_cfg);
+   118		if (ret)
+   119			return;
+   120	
+   121		ret = MXL862XX_API_READ(priv, MXL862XX_COMMON_PORTCFGGET, port_cfg);
+   122		if (ret)
+   123			return;
+   124	
+   125		state->link = (port_link_cfg.link == MXL862XX_PORT_LINK_UP);
+   126		state->an_complete = state->link;
+   127	
+ > 128		switch (port_link_cfg.speed) {
+   129		case MXL862XX_PORT_SPEED_10:
+   130			state->speed = SPEED_10;
+   131			break;
+   132		case MXL862XX_PORT_SPEED_100:
+   133			state->speed = SPEED_100;
+   134			break;
+   135		case MXL862XX_PORT_SPEED_1000:
+   136			state->speed = SPEED_1000;
+   137			break;
+   138		case MXL862XX_PORT_SPEED_2500:
+   139			state->speed = SPEED_2500;
+   140			break;
+   141		case MXL862XX_PORT_SPEED_5000:
+   142			state->speed = SPEED_5000;
+   143			break;
+   144		case MXL862XX_PORT_SPEED_10000:
+   145			state->speed = SPEED_10000;
+   146			break;
+   147		default:
+   148			state->speed = SPEED_UNKNOWN;
+   149			break;
+   150		}
+   151	
+   152		switch (port_link_cfg.duplex) {
+   153		case MXL862XX_DUPLEX_HALF:
+   154			state->duplex = DUPLEX_HALF;
+   155			break;
+   156		case MXL862XX_DUPLEX_FULL:
+   157			state->duplex = DUPLEX_FULL;
+   158			break;
+   159		default:
+   160			state->duplex = DUPLEX_UNKNOWN;
+   161			break;
+   162		}
+   163	
+   164		state->pause &= ~(MLO_PAUSE_RX | MLO_PAUSE_TX);
+   165		switch (port_cfg.flow_ctrl) {
+   166		case MXL862XX_FLOW_RXTX:
+   167			state->pause |= MLO_PAUSE_TXRX_MASK;
+   168			break;
+   169		case MXL862XX_FLOW_TX:
+   170			state->pause |= MLO_PAUSE_TX;
+   171			break;
+   172		case MXL862XX_FLOW_RX:
+   173			state->pause |= MLO_PAUSE_RX;
+   174			break;
+   175		case MXL862XX_FLOW_OFF:
+   176		default:
+   177			break;
+   178		}
+   179	}
+   180	
 
-I'll queue (and test) the below.  It should be OK -
-arch/csky/abiv1/inc/abi/cacheflush.h directly includes asm/cache.h
-which declares cache_wbinv_all().
-
-
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: csky: implement flush_cache_vmap() in C
-Date: Mon Jun 29 05:07:51 PM PDT 2026
-
-To avoid getting an unused-var warning from
-
-	unsigned long start = something;
-	...
-	flush_cache_vmap(start, ...);
-
-Cc: Guo Ren <guoren@kernel.org>
-Cc: Andrew Donnellan <ajd@linux.ibm.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: "Barry Song (Xiaomi)" <baohua@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: David Hildenbrand <david@kernel.org>
-Cc: Dev Jain <dev.jain@arm.com>
-Cc: Leo Yan <leo.yan@arm.com>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Uladzislau Rezki <urezki@gmail.com>
-Cc: Wen Jiang <jiangwen6@xiaomi.com>
-Cc: Wen Jiang <jiangwenxiaomi@gmail.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Xueyuan Chen <xueyuan.chen21@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- arch/csky/abiv1/inc/abi/cacheflush.h |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
---- a/arch/csky/abiv1/inc/abi/cacheflush.h~csky-implement-flush_cache_vmap-in-c
-+++ a/arch/csky/abiv1/inc/abi/cacheflush.h
-@@ -42,7 +42,12 @@ static inline void flush_anon_page(struc
-  * Use cache_wbinv_all() here and need to be improved in future.
-  */
- extern void flush_cache_range(struct vm_area_struct *vma, unsigned long start, unsigned long end);
--#define flush_cache_vmap(start, end)		cache_wbinv_all()
-+
-+static inline void flush_cache_vmap(unsigned long start, unsigned long end)
-+{
-+	cache_wbinv_all();
-+}
-+
- #define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		cache_wbinv_all()
- 
-_
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
