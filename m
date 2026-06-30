@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402A62BEC2B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jun 2026 10:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C803E1696;
+	Tue, 30 Jun 2026 10:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782814112; cv=none; b=ipIUUP9MslzMjrqLowVruf8DMGq80Amnm1mn2pN6RvOfrEKYryyJW3Q4pA+Kse1W8FVoNXloowe36IDCkQVib2sbIeEyNFUEjT+URt27Sc8W8JbmJuiv7j0lyDe8A/RW0/v+muvdB4pE+XHnkoTk5N26nPOn5i/kcbLD5y87vRo=
+	t=1782814113; cv=none; b=Tabw8DXBHzmxXyqvYilBYa/O4eAL5BGjzyRkEBheqMB5lcrQZZi/XA3HcyhXOxz0VugFT0KTsEmhVN6GxXcbmnV/OyWPR9KwO81YIMuRiQ+3UKQNMnFEsffkBOcpnHQEkELTf3WhaTEsInJS89EzbYo4mroNYvu7yJMYGbyfyMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782814112; c=relaxed/simple;
-	bh=W27T5PdUo8NAe3rfcj1N7D8mK/LTuFLlwtiVN3iNTdY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tSjFnoBajpIbMPCokx5UxRm9jp3nPm/TcfjNv7IGdgIngtVa/qNu31iVyRx8Ivn95mYWKuVXJOWpCXLm5ArPlmTou2RrDXzu7nLPMbRaK0oSxJwZ6e01CYCqKPKdu0U1Q3DDqQ++JX/ubmpbwb2JVWDodzabJvmf//B3rhZiLTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTfmQQdB; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1782814113; c=relaxed/simple;
+	bh=XzcH6TmYDkP3T3woCKmGYaFKaBtlFTrf3SFf1DErCMo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kxUDKrEJzvgVuMEESuar2/oSsxgkb06G4oKw+NVg4xw+T3nI0CEgpGLDdkkT9udzIGbTetuAS63xHZNkv4DAFPweKFfXyC5uU+5Vcfesltjco7+4hCZ/vB5AmBY+fmXZVEBw72kGm6xeEedO81Yg0POhsXaWSHYouHvfKEvjIkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jmvPv7v2; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTfmQQdB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jmvPv7v2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782814111; x=1814350111;
+  t=1782814112; x=1814350112;
   h=date:from:to:cc:subject:message-id;
-  bh=W27T5PdUo8NAe3rfcj1N7D8mK/LTuFLlwtiVN3iNTdY=;
-  b=TTfmQQdBIu1dRo5c5PU9q6C883AuihYRYxMPeI0Av+W3aCpZtkgBt1jK
-   I75wCjI+IXh2RqBFj8FRHlJ7erYemFsCweyTbTZbE1T8Kdn82YVx4LXnn
-   yoZEACNmRN9a0QpsXYcnQvMPNgf0eExHN1nGQUnXYf5kn9ge8lGrLGyPZ
-   3HnisXcGstiWZoTSlTaa20cMdZvmEAjp5pwLiDdvddJX4439IuWut7SGk
-   GnauT1AwqxayOxImMrk4KZg57Vbx0/PJlzGTR5Cuh/K6N72eWhNW0JGMH
-   pU13chIjUPE6oCeVhfLlnp7hxiw2Jo0nAGxBMdyGIAP1AOrpaasH2qTnS
-   Q==;
-X-CSE-ConnectionGUID: tUh2yS6qRQahCOSNxeWu3w==
-X-CSE-MsgGUID: MxW3zLliSR+M2eIN9kEHrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83580093"
+  bh=XzcH6TmYDkP3T3woCKmGYaFKaBtlFTrf3SFf1DErCMo=;
+  b=jmvPv7v2dKLU20XKKr7tJCAviazWJT/Jl+6BN/Hup1L2blLRZKC+4eM6
+   gmTDzPGW1vCnqnkjd/BNjwrjjSJJJSD6Expuwt5MVqvi2X93ATM8Doppn
+   1xXL0E9KqsrHLlj3Ow3xfuX0xZTwynb9y9nnr7eKOREiRwU6L64DEJHA6
+   Jl5Fbz+eR7H7y4ZgxrnjEQH4fVgOyFHuViK3y5mH2uN2Bzj1DMHMOSLJn
+   pp+mVn0kCh1kPgEFfGc/eKqvC/Ugjmkvi/xYquDOVnZ4QvtK0Mno113bf
+   3xIkbTguXVR4h1I8jJxx+QtFiPIWxm2C0I3Pr+OjNOaFEY9Cp/fHYXKD9
+   w==;
+X-CSE-ConnectionGUID: z1aH20ywRgu+qLc5JYovDA==
+X-CSE-MsgGUID: hZSppY9BTrKz8eDp2cQ97A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83608568"
 X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
-   d="scan'208";a="83580093"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 03:08:31 -0700
-X-CSE-ConnectionGUID: YLMfNAQNS66T6MHWu9CrmA==
-X-CSE-MsgGUID: MMOTumF+RgqOeKfOq+qWPA==
+   d="scan'208";a="83608568"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 03:08:31 -0700
+X-CSE-ConnectionGUID: UssUnOvPTt20gg45A+xqEA==
+X-CSE-MsgGUID: ZZU9D1XbTzKHKpXLkmPl/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
-   d="scan'208";a="257135873"
+   d="scan'208";a="252360812"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Jun 2026 03:08:29 -0700
+  by orviesa007.jf.intel.com with ESMTP; 30 Jun 2026 03:08:29 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weVOE-000000008Et-1OiO;
+	id 1weVOE-000000008Er-1GYm;
 	Tue, 30 Jun 2026 10:08:26 +0000
-Date: Tue, 30 Jun 2026 18:07:40 +0800
+Date: Tue, 30 Jun 2026 18:07:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 885/1356] include/linux/kasan.h:199:43:
- error: use of undeclared identifier '_RET_IP_'
-Message-ID: <202606301759.hTqHaPuI-lkp@intel.com>
+To: Eileen Yoon <eyn@gmx.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/240-isp 1/53]
+ drivers/media/platform/apple/isp/isp-ipc.c:228:4: warning: format specifies
+ type 'unsigned long long' but the argument has type 'dma_addr_t' (aka
+ 'unsigned int')
+Message-ID: <202606301740.2J4S8vMX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,155 +62,65 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7de6ae9e12207ec146f2f3f1e58d1a99317e88bc
-commit: 9cbc3d9806d31abda2718ceac587ddee3a04849b [885/1356] tracing: Remove trace_printk.h from kernel.h
-config: arm64-randconfig-r123-20260630 (https://download.01.org/0day-ci/archive/20260630/202606301759.hTqHaPuI-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   df907add385f43a49d493c59afd3762ae1598548
+commit: 329bf83de183f0558c2e5bb6ba55da3f06a2c980 [1/53] media: apple: Add Apple ISP driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260630/202606301740.2J4S8vMX-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606301759.hTqHaPuI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606301740.2J4S8vMX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606301759.hTqHaPuI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606301740.2J4S8vMX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/scs.c:9:
->> include/linux/kasan.h:199:43: error: use of undeclared identifier '_RET_IP_'
-     199 |                 return __kasan_slab_pre_free(s, object, _RET_IP_);
-         |                                                         ^~~~~~~~
-   include/linux/kasan.h:244:28: error: use of undeclared identifier '_RET_IP_'
-     244 |                 __kasan_kfree_large(ptr, _RET_IP_);
-         |                                          ^~~~~~~~
-   include/linux/kasan.h:309:52: error: use of undeclared identifier '_RET_IP_'
-     309 |                 return __kasan_mempool_poison_pages(page, order, _RET_IP_);
-         |                                                                  ^~~~~~~~
-   include/linux/kasan.h:331:47: error: use of undeclared identifier '_RET_IP_'
-     331 |                 __kasan_mempool_unpoison_pages(page, order, _RET_IP_);
-         |                                                             ^~~~~~~~
-   include/linux/kasan.h:363:45: error: use of undeclared identifier '_RET_IP_'
-     363 |                 return __kasan_mempool_poison_object(ptr, _RET_IP_);
-         |                                                           ^~~~~~~~
-   include/linux/kasan.h:391:46: error: use of undeclared identifier '_RET_IP_'
-     391 |                 __kasan_mempool_unpoison_object(ptr, size, _RET_IP_);
-         |                                                            ^~~~~~~~
-   include/linux/kasan.h:402:35: error: use of undeclared identifier '_RET_IP_'
-     402 |                 return __kasan_check_byte(addr, _RET_IP_);
-         |                                                 ^~~~~~~~
-   In file included from kernel/scs.c:10:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/scs.c:10:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/scs.c:10:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/scs.c:10:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/scs.c:10:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/scs.c:10:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/scs.c:10:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/scs.c:10:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
+>> drivers/media/platform/apple/isp/isp-ipc.c:228:4: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     227 |                 isp_err(isp, "failed to vmap iova=0x%llx size=0x%llx\n",
+         |                                                     ~~~~
+         |                                                     %x
+     228 |                         surf->iova, surf->size);
+         |                         ^~~~~~~~~~
+   drivers/media/platform/apple/isp/isp-drv.h:253:47: note: expanded from macro 'isp_err'
+     253 |         dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
+         |                                     ~~~              ^~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/_RET_IP_ +199 include/linux/kasan.h
+vim +228 drivers/media/platform/apple/isp/isp-ipc.c
 
-34303244f2615ad Andrey Konovalov 2020-12-22  181  
-b3c34245756adad Jann Horn        2024-08-09  182  bool __kasan_slab_pre_free(struct kmem_cache *s, void *object,
-b3c34245756adad Jann Horn        2024-08-09  183  			unsigned long ip);
-b3c34245756adad Jann Horn        2024-08-09  184  /**
-b3c34245756adad Jann Horn        2024-08-09  185   * kasan_slab_pre_free - Check whether freeing a slab object is safe.
-b3c34245756adad Jann Horn        2024-08-09  186   * @object: Object to be freed.
-b3c34245756adad Jann Horn        2024-08-09  187   *
-b3c34245756adad Jann Horn        2024-08-09  188   * This function checks whether freeing the given object is safe. It may
-b3c34245756adad Jann Horn        2024-08-09  189   * check for double-free and invalid-free bugs and report them.
-b3c34245756adad Jann Horn        2024-08-09  190   *
-b3c34245756adad Jann Horn        2024-08-09  191   * This function is intended only for use by the slab allocator.
-b3c34245756adad Jann Horn        2024-08-09  192   *
-b3c34245756adad Jann Horn        2024-08-09  193   * @Return true if freeing the object is unsafe; false otherwise.
-b3c34245756adad Jann Horn        2024-08-09  194   */
-b3c34245756adad Jann Horn        2024-08-09  195  static __always_inline bool kasan_slab_pre_free(struct kmem_cache *s,
-b3c34245756adad Jann Horn        2024-08-09  196  						void *object)
-b3c34245756adad Jann Horn        2024-08-09  197  {
-b3c34245756adad Jann Horn        2024-08-09  198  	if (kasan_enabled())
-b3c34245756adad Jann Horn        2024-08-09 @199  		return __kasan_slab_pre_free(s, object, _RET_IP_);
-b3c34245756adad Jann Horn        2024-08-09  200  	return false;
-b3c34245756adad Jann Horn        2024-08-09  201  }
-b3c34245756adad Jann Horn        2024-08-09  202  
-
-:::::: The code at line 199 was first introduced by commit
-:::::: b3c34245756adada8a50bdaedbb3965b071c7b0a kasan: catch invalid free before SLUB reinitializes the object
-
-:::::: TO: Jann Horn <jannh@google.com>
-:::::: CC: Vlastimil Babka <vbabka@suse.cz>
+   207	
+   208	/* The kernel accesses exactly two dynamically allocated shared surfaces:
+   209	 * 1) LOG: Surface for terminal logs. Optional, only enabled in debug builds.
+   210	 * 2) STAT: Surface for BUFT2H rendered frame stat buffer. We isp_ioread() in
+   211	 * the BUFT2H ISR below. Since the BUFT2H IRQ is triggered by the BUF_H2T
+   212	 * doorbell, the STAT vmap must complete before the first buffer submission
+   213	 * under VIDIOC_STREAMON(). The CISP_CMD_PRINT_ENABLE completion depends on the
+   214	 * STAT buffer SHAREDMALLOC ISR, which is part of the firmware initialization
+   215	 * sequence. We also call flush_workqueue(), so a fault should not occur.
+   216	 */
+   217	static void sm_malloc_deferred_worker(struct work_struct *work)
+   218	{
+   219		struct isp_sm_deferred_work *dwork =
+   220			container_of(work, struct isp_sm_deferred_work, work);
+   221		struct apple_isp *isp = dwork->isp;
+   222		struct isp_surf *surf = dwork->surf;
+   223		int err;
+   224	
+   225		err = isp_surf_vmap(isp, surf); /* Can't vmap in interrupt ctx */
+   226		if (err < 0) {
+   227			isp_err(isp, "failed to vmap iova=0x%llx size=0x%llx\n",
+ > 228				surf->iova, surf->size);
+   229			goto out;
+   230		}
+   231	
 
 --
 0-DAY CI Kernel Test Service
