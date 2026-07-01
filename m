@@ -1,58 +1,32 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEF627816C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jul 2026 09:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77D3407CF0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jul 2026 10:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782898655; cv=none; b=oN1reZbBntNzVpWCnNfq7kJQgn9Tf5DwAuq55ZjxJ4y4Y0OvuKb0eytAo8Kj9kaGN94zhFoZh50q2mi0pJkh2LU69AQLJyFv7beB7TtYDTRpBYBbagFZKfPGRZyuwMlm/QfqZ34rfU5Nxw6SnVeTqbFTU+3djus950np+XIGc/E=
+	t=1782902094; cv=none; b=VQlDFoxdvgfwycHq7UnzYeLSEfWU2h6dm2JaGYfdxXJ6MnJv+Oa5IMSANPfezoe84Ir7w4gEIM9Eb7HQr0PO74g+6RTe6kVkBP2r0LPlVxpvup33QH3mRxppTGv7UAgUAheGa99YzBjiBEhWnuyvzQVhGRLbPUeBD0AqdooAkSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782898655; c=relaxed/simple;
-	bh=cCfU+9iviEIDmQ73+CVN673eWvvmowvaOpt6XGC7d+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nTYQvrba7k0i8Og5dVwLmmjR31oBlCiTr+4HRSLo6AqWN/5XCcwyPWSOJqLkP8bQITzZoA0/ouOOfbhF0QGx1Cn4Nl+gXMV2sSwkC8iXaVtarqOkOvfo4KtR4etU1ASYbMEd0eAlM4dWY1OTenNRhTMMntA/v1hEGe9e0jKqFQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E4OFQsqu; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E4OFQsqu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782898654; x=1814434654;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cCfU+9iviEIDmQ73+CVN673eWvvmowvaOpt6XGC7d+0=;
-  b=E4OFQsqud5451S9gwiJxSYBrpZoEpCf4zgyyAt3vREKf3v4UsUpc8yZz
-   juMi1BiW4Q/6YM15jXWAgEJqIzfjd92zPWuo1j9XtU81w/vbclUhJPg/P
-   tyWAAGeFzctf2ojFJs5HbFNt3//JopfI+e2HyjYDVp3fHcSwOL3PdtCd3
-   S06/PwmC/meLHOvnN2hlwntrJLdLdUZJHOzZ9Yd4zXIB4S9ai4F6uJ5OU
-   38gvs3Z/pG8b80/V/iTK5Ee6EhHW8FPzkT8nGegW/sIuNG7igtjmw5Z2y
-   +mLD/hbSk0fwaKuns8MeWVuPpyDQC/f2Ue3WSc81eAnZAO04jeaJJxKkD
-   Q==;
-X-CSE-ConnectionGUID: QAzfSYiORQKe0CPHb/RtBg==
-X-CSE-MsgGUID: 4HkRube1QdOKM9Zw+6JxAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="71151220"
-X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="71151220"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 02:37:34 -0700
-X-CSE-ConnectionGUID: er+fntgXR8Se4IGI6/Yasg==
-X-CSE-MsgGUID: /JnnlzgfRZiyWDSoQCv6Pg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="251475226"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 01 Jul 2026 02:37:32 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1werNW-0000000099n-35eb;
-	Wed, 01 Jul 2026 09:37:15 +0000
-Date: Wed, 01 Jul 2026 17:36:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/hrtimer-header-dependencies 6/6]
- kernel/time/tick-internal.h:180:14: error: 'HRTIMER_BASE_REALTIME' undeclared
-Message-ID: <202607011700.zFoqyGs3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1782902094; c=relaxed/simple;
+	bh=fzxoJZmoNbeyh3WjquBo7CCM0FAaACaj6ofPcVilPqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2YVZIbRJHud0GpaKOac+smaI45ac9Jb2Zswz2kQJ3D4iCpGdJRf1I5Qapzoi9bi8LpiGg6Q2qUrJBvwEDr4rAFSBl/EphOoMu17hUSi4lXgK4d2F+zWmJJl569lFDEhYw8387486Ztpx+MtL5BZadH0N2g6LAVOoFIpuKstMg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id DF8AD68BFE; Wed,  1 Jul 2026 12:34:45 +0200 (CEST)
+Date: Wed, 1 Jul 2026 12:34:45 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Christoph Hellwig <hch@lst.de>, oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [brauner-github:vfs-7.3.iomap 3/3] fs/iomap/ioend.c:16:16:
+ sparse: sparse: symbol 'iomap_ioend_split_bioset' was not declared.
+ Should it be static?
+Message-ID: <20260701103445.GD12719@lst.de>
+References: <202607011411.SFoYmRJa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,163 +34,76 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202607011411.SFoYmRJa-lkp@intel.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/hrtimer-header-dependencies
-head:   0e0dec10cf362a392e4fe54d84f43509556d903e
-commit: 0e0dec10cf362a392e4fe54d84f43509556d903e [6/6] hrtimer: Remove inclusion of hrtimer_bases.h remove from hrtimer.h
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260701/202607011700.zFoqyGs3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607011700.zFoqyGs3-lkp@intel.com/reproduce)
+Yes, it should be static, sorry.  Fixed version below:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607011700.zFoqyGs3-lkp@intel.com/
+---
+From b52479040dfc5725698ef396960a5a212d5a08ec Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Mon, 29 Jun 2026 14:10:28 +0200
+Subject: iomap: add a separate bio_set for iomap_split_ioend
 
-All errors (new ones prefixed by >>):
+iomap_split_ioend can split bios that already come from
+iomap_ioend_bioset and thus deadlock when the bioset is exhausted.
 
-   In file included from include/linux/bits.h:5,
-                    from arch/x86/include/asm/percpu.h:26,
-                    from arch/x86/include/asm/current.h:11,
-                    from include/linux/sched.h:12,
-                    from include/linux/audit.h:12,
-                    from kernel/time/timekeeping.c:6:
-   kernel/time/timekeeping.c: In function 'do_settimeofday64':
->> kernel/time/tick-internal.h:180:14: error: 'HRTIMER_BASE_REALTIME' undeclared (first use in this function)
-     180 |         (BIT(HRTIMER_BASE_REALTIME) | BIT(HRTIMER_BASE_REALTIME_SOFT) | \
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1684:23: note: in expansion of macro 'CLOCK_SET_WALL'
-    1684 |         clock_was_set(CLOCK_SET_WALL);
-         |                       ^~~~~~~~~~~~~~
-   kernel/time/tick-internal.h:180:14: note: each undeclared identifier is reported only once for each function it appears in
-     180 |         (BIT(HRTIMER_BASE_REALTIME) | BIT(HRTIMER_BASE_REALTIME_SOFT) | \
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1684:23: note: in expansion of macro 'CLOCK_SET_WALL'
-    1684 |         clock_was_set(CLOCK_SET_WALL);
-         |                       ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:180:43: error: 'HRTIMER_BASE_REALTIME_SOFT' undeclared (first use in this function); did you mean 'HRTIMER_MODE_REL_SOFT'?
-     180 |         (BIT(HRTIMER_BASE_REALTIME) | BIT(HRTIMER_BASE_REALTIME_SOFT) | \
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1684:23: note: in expansion of macro 'CLOCK_SET_WALL'
-    1684 |         clock_was_set(CLOCK_SET_WALL);
-         |                       ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:181:14: error: 'HRTIMER_BASE_TAI' undeclared (first use in this function)
-     181 |          BIT(HRTIMER_BASE_TAI) | BIT(HRTIMER_BASE_TAI_SOFT))
-         |              ^~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1684:23: note: in expansion of macro 'CLOCK_SET_WALL'
-    1684 |         clock_was_set(CLOCK_SET_WALL);
-         |                       ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:181:38: error: 'HRTIMER_BASE_TAI_SOFT' undeclared (first use in this function); did you mean 'HRTIMER_MODE_REL_SOFT'?
-     181 |          BIT(HRTIMER_BASE_TAI) | BIT(HRTIMER_BASE_TAI_SOFT))
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1684:23: note: in expansion of macro 'CLOCK_SET_WALL'
-    1684 |         clock_was_set(CLOCK_SET_WALL);
-         |                       ^~~~~~~~~~~~~~
-   kernel/time/timekeeping.c: In function 'timekeeping_inject_offset':
->> kernel/time/tick-internal.h:180:14: error: 'HRTIMER_BASE_REALTIME' undeclared (first use in this function)
-     180 |         (BIT(HRTIMER_BASE_REALTIME) | BIT(HRTIMER_BASE_REALTIME_SOFT) | \
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1755:31: note: in expansion of macro 'CLOCK_SET_WALL'
-    1755 |                 clock_was_set(CLOCK_SET_WALL);
-         |                               ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:180:43: error: 'HRTIMER_BASE_REALTIME_SOFT' undeclared (first use in this function); did you mean 'HRTIMER_MODE_REL_SOFT'?
-     180 |         (BIT(HRTIMER_BASE_REALTIME) | BIT(HRTIMER_BASE_REALTIME_SOFT) | \
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1755:31: note: in expansion of macro 'CLOCK_SET_WALL'
-    1755 |                 clock_was_set(CLOCK_SET_WALL);
-         |                               ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:181:14: error: 'HRTIMER_BASE_TAI' undeclared (first use in this function)
-     181 |          BIT(HRTIMER_BASE_TAI) | BIT(HRTIMER_BASE_TAI_SOFT))
-         |              ^~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1755:31: note: in expansion of macro 'CLOCK_SET_WALL'
-    1755 |                 clock_was_set(CLOCK_SET_WALL);
-         |                               ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:181:38: error: 'HRTIMER_BASE_TAI_SOFT' undeclared (first use in this function); did you mean 'HRTIMER_MODE_REL_SOFT'?
-     181 |          BIT(HRTIMER_BASE_TAI) | BIT(HRTIMER_BASE_TAI_SOFT))
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:1755:31: note: in expansion of macro 'CLOCK_SET_WALL'
-    1755 |                 clock_was_set(CLOCK_SET_WALL);
-         |                               ^~~~~~~~~~~~~~
-   kernel/time/timekeeping.c: In function 'do_adjtimex':
->> kernel/time/tick-internal.h:180:14: error: 'HRTIMER_BASE_REALTIME' undeclared (first use in this function)
-     180 |         (BIT(HRTIMER_BASE_REALTIME) | BIT(HRTIMER_BASE_REALTIME_SOFT) | \
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:3006:31: note: in expansion of macro 'CLOCK_SET_WALL'
-    3006 |                 clock_was_set(CLOCK_SET_WALL);
-         |                               ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:180:43: error: 'HRTIMER_BASE_REALTIME_SOFT' undeclared (first use in this function); did you mean 'HRTIMER_MODE_REL_SOFT'?
-     180 |         (BIT(HRTIMER_BASE_REALTIME) | BIT(HRTIMER_BASE_REALTIME_SOFT) | \
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:3006:31: note: in expansion of macro 'CLOCK_SET_WALL'
-    3006 |                 clock_was_set(CLOCK_SET_WALL);
-         |                               ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:181:14: error: 'HRTIMER_BASE_TAI' undeclared (first use in this function)
-     181 |          BIT(HRTIMER_BASE_TAI) | BIT(HRTIMER_BASE_TAI_SOFT))
-         |              ^~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:3006:31: note: in expansion of macro 'CLOCK_SET_WALL'
-    3006 |                 clock_was_set(CLOCK_SET_WALL);
-         |                               ^~~~~~~~~~~~~~
->> kernel/time/tick-internal.h:181:38: error: 'HRTIMER_BASE_TAI_SOFT' undeclared (first use in this function); did you mean 'HRTIMER_MODE_REL_SOFT'?
-     181 |          BIT(HRTIMER_BASE_TAI) | BIT(HRTIMER_BASE_TAI_SOFT))
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                            ^~
-   kernel/time/timekeeping.c:3006:31: note: in expansion of macro 'CLOCK_SET_WALL'
-    3006 |                 clock_was_set(CLOCK_SET_WALL);
-         |                               ^~~~~~~~~~~~~~
+Add a separate bio_set to avoid this deadlock.
 
+Fixes: 5fcbd555d483 ("iomap: split bios to zone append limits in the submission handlers")
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/iomap/ioend.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-vim +/HRTIMER_BASE_REALTIME +180 kernel/time/tick-internal.h
+diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+index f7c3e0c70fd7..82eeeadac6d6 100644
+--- a/fs/iomap/ioend.c
++++ b/fs/iomap/ioend.c
+@@ -13,6 +13,7 @@
+ 
+ struct bio_set iomap_ioend_bioset;
+ EXPORT_SYMBOL_GPL(iomap_ioend_bioset);
++static struct bio_set iomap_ioend_split_bioset;
+ 
+ struct iomap_ioend *iomap_init_ioend(struct inode *inode,
+ 		struct bio *bio, loff_t file_offset, u16 ioend_flags)
+@@ -482,7 +483,8 @@ struct iomap_ioend *iomap_split_ioend(struct iomap_ioend *ioend,
+ 	sector_offset = ALIGN_DOWN(sector_offset << SECTOR_SHIFT,
+ 			i_blocksize(ioend->io_inode)) >> SECTOR_SHIFT;
+ 
+-	split = bio_split(bio, sector_offset, GFP_NOFS, &iomap_ioend_bioset);
++	split = bio_split(bio, sector_offset, GFP_NOFS,
++			&iomap_ioend_split_bioset);
+ 	if (IS_ERR(split))
+ 		return ERR_CAST(split);
+ 	split->bi_private = bio->bi_private;
+@@ -505,8 +507,23 @@ EXPORT_SYMBOL_GPL(iomap_split_ioend);
+ 
+ static int __init iomap_ioend_init(void)
+ {
+-	return bioset_init(&iomap_ioend_bioset, 4 * (PAGE_SIZE / SECTOR_SIZE),
++	const unsigned int nr_mempool_entries = 4 * (PAGE_SIZE / SECTOR_SIZE);
++	int error;
++
++	error = bioset_init(&iomap_ioend_bioset, nr_mempool_entries,
+ 			   offsetof(struct iomap_ioend, io_bio),
+ 			   BIOSET_NEED_BVECS);
++	if (error)
++		return error;
++	error = bioset_init(&iomap_ioend_split_bioset, nr_mempool_entries,
++			   offsetof(struct iomap_ioend, io_bio),
++			   BIOSET_NEED_BVECS);
++	if (error)
++		goto out_exit_ioend_bioset;
++	return 0;
++
++out_exit_ioend_bioset:
++	bioset_exit(&iomap_ioend_bioset);
++	return error;
+ }
+ fs_initcall(iomap_ioend_init);
+-- 
+2.53.0
 
-8c3b5e6ec0fee1 Thomas Gleixner 2021-07-13  178  
-17a1b8826b451c Thomas Gleixner 2021-07-13  179  #define CLOCK_SET_WALL							\
-17a1b8826b451c Thomas Gleixner 2021-07-13 @180  	(BIT(HRTIMER_BASE_REALTIME) | BIT(HRTIMER_BASE_REALTIME_SOFT) |	\
-17a1b8826b451c Thomas Gleixner 2021-07-13 @181  	 BIT(HRTIMER_BASE_TAI) | BIT(HRTIMER_BASE_TAI_SOFT))
-17a1b8826b451c Thomas Gleixner 2021-07-13  182  
-
-:::::: The code at line 180 was first introduced by commit
-:::::: 17a1b8826b451c80e7999a7c68e06b70579b2b8f hrtimer: Add bases argument to clock_was_set()
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
