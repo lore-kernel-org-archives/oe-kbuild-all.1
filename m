@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E226312832;
-	Wed,  1 Jul 2026 22:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF5E39A7F6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jul 2026 23:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782946581; cv=none; b=KGsiwYPoYw2D1mpZtPH8EXEdxGLKdz8+PenWdCIH1a4q98Htjt/AFO9XQIyESIS0gJGmj2R7ggVzIxyrRkPAWcP5TA3A2YJCLdUPc0ftOLHeif/4WEEN8BlC9vIEaUgoT3g2xFL3Z01drUVOsEMkyoubaSoSqv+UREab9MYIj7w=
+	t=1782948543; cv=none; b=djeFXXluIx4Wl02DhS/hg8f6jrYmg/Ggn6tYz8blK5zW4b6yainMs0F2oxdMRAeUcTe+0dSdQ06FLGdFYDNGkmki1BEpmO40ESDUXAZS4Tw51fRKNn5elp1PhC7o4tREvi7S2Lo9yAbLJnJhr62nz+DBn8pHa5daP1RmwMHDCQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782946581; c=relaxed/simple;
-	bh=FSOP4zm4cit4g8DmSosxGX2AMoQVEEHnukJPngJ4e/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UNGLGdGMtjjxtG05gpGxmv3/BhqgQED9aNlDAyU7nr29vDgyoxK07R4YcNzu2rPLmgjKul/6KOaL265xqa7neAmdTjDND2DzIXOfqfpAcQ30o/X4GWuWD6111ZDBFUNUKcwZbxRd5z7KdS5sKJYNCTjiuw8KyS/axJ/aOuDaDv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bpcKECuA; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1782948543; c=relaxed/simple;
+	bh=wM71TWaG6SXmSwKACf2H7BLclYTBm+/ZDLUVjHawQi8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=D0QeiZAlbfyZqHtaNja6O9VcgvH0YBZoGD99PcyvZ985xHQMDiFXPSWWdmQ3DDO/00i+Mlp466wogOjh8meNaWCWi+6iuONM9xJvBSnKI80+6PnJIZdPVaIkj9ZO9fPmqlLhw9HiQru6vZ5yq3XEFivnXGWl1kcWUuz6m7HqTxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RqbLLxx4; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpcKECuA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RqbLLxx4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782946579; x=1814482579;
+  t=1782948540; x=1814484540;
   h=date:from:to:cc:subject:message-id;
-  bh=FSOP4zm4cit4g8DmSosxGX2AMoQVEEHnukJPngJ4e/Q=;
-  b=bpcKECuAlA1ODc6sIhkUV3HMpm7IpXEkIZCK0iLp0KT8Wf/Kp37n5Yg6
-   +XPoefrYLapZ0pLw7vs4ly6oySFTtqPkiL/CzYK7XmFFN8aycdNn0gDMA
-   hfXrHFvyqJGC1cRVY3Qb4G7Up24O8BgN9ynvNKS269rBuH36YLHptidBn
-   06gt76jXCUybRJ+le8hXWdlMTI/mo5AfSahJ9wFxWcBqg5rqmtOScRYXg
-   5F1pM7r2uAAlGw/oCjnJl9Lv3U6a39b79Q+5RUNy4RSH+lZSQ2rzaYqXO
-   HYiQMr6kwBDFzN26nIgYkSnR6l0SRXiJQtUl297h/n2gG3PnDQ/0xvmqU
-   g==;
-X-CSE-ConnectionGUID: 7f96YYB3TkCQsHHnqa3SRw==
-X-CSE-MsgGUID: Mf2N8E7+QhOos+FrbfZn2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="87522905"
+  bh=wM71TWaG6SXmSwKACf2H7BLclYTBm+/ZDLUVjHawQi8=;
+  b=RqbLLxx4Tgpm1pOXquDdIHy4EVr/7PXUz011fznB+q2ny0LgFfX+61Mw
+   gqkW1IifP/jN1r0yKshDFCKuzCRznqrL16cNj06bkGeUOtprBM0//tHmv
+   nb3Bk7vjPismKN6Bp3KbWQD+o2IGBFUeOc86pxE9C6PdDFXZBQAGaKbLQ
+   VimdfD6k0HigXq+6pi4MLSRkgxY4VSgiuquMZxOg+suRqsVC+MS5DHpdt
+   WfJblicILapDlAagvhCmB5SgpEl4zgLWnjRTQBo+vSJMdUhbYmOFMTWaK
+   KA1C6nRnmR/byovn9DOM9x6uZ1MdZfsbfCDcA1BWLtJWT+56YNrCgfJv9
+   Q==;
+X-CSE-ConnectionGUID: 7r5BtRfiTOW3w6aIj6Fhyg==
+X-CSE-MsgGUID: qWk80+1ESBWQsczjlb3a3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="87373665"
 X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
-   d="scan'208";a="87522905"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 15:56:19 -0700
-X-CSE-ConnectionGUID: zdm3OqZpRgmKq7+gvnIRHQ==
-X-CSE-MsgGUID: 30G14wY1R+ufIchBoJD+1w==
+   d="scan'208";a="87373665"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 16:28:50 -0700
+X-CSE-ConnectionGUID: GcOmqa46RNGocD/SIEBrKw==
+X-CSE-MsgGUID: Uxm0fqgCRS2gQTfFrCdBJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
-   d="scan'208";a="277003916"
+   d="scan'208";a="282766895"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Jul 2026 15:56:16 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Jul 2026 16:28:49 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wf3qo-000000009hH-1dZG;
-	Wed, 01 Jul 2026 22:56:14 +0000
-Date: Thu, 02 Jul 2026 06:56:08 +0800
+	id 1wf4MH-000000009iF-3gop;
+	Wed, 01 Jul 2026 23:28:45 +0000
+Date: Thu, 02 Jul 2026 07:28:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:b4/acpi_scmi_pcc 9/23]
- drivers/firmware/arm_scmi/transports/mailbox.c:252:1: warning: unused label
- 'err_free_chan_receiver'
-Message-ID: <202607020643.aeL4FIjK-lkp@intel.com>
+To: Luis Chamberlain <mcgrof@do-not-panic.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:blk-iobuf-pool-v2 4/13]
+ include/trace/events/block_iobuf.h:41:1: sparse: sparse: cast to restricted
+ gfp_t
+Message-ID: <202607020739.pqPu3n2S-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,106 +60,60 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/acpi_scmi_pcc
-head:   bdcaa5728f17002c1091efd93dd082c9c23ddd39
-commit: 1bfaf4c65e542a88331bfd51d59d27b827a2282d [9/23] firmware: arm_scmi: Unwind P2A receiver mailbox setup failure
-config: i386-buildonly-randconfig-005-20260702 (https://download.01.org/0day-ci/archive/20260702/202607020643.aeL4FIjK-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607020643.aeL4FIjK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git blk-iobuf-pool-v2
+head:   da75cc2253180af718ba0b7b3684a091b16b14fb
+commit: a808a1089c70f26044745b471dc7174f9b32a415 [4/13] block: add iobuf_pool pointer and limits_gen to request_queue
+config: i386-randconfig-063-20260702 (https://download.01.org/0day-ci/archive/20260702/202607020739.pqPu3n2S-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607020739.pqPu3n2S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607020643.aeL4FIjK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607020739.pqPu3n2S-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   block/blk-iobuf.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/block_iobuf.h):
+>> include/trace/events/block_iobuf.h:41:1: sparse: sparse: cast to restricted gfp_t
+>> include/trace/events/block_iobuf.h:41:1: sparse: sparse: restricted gfp_t degrades to integer
+>> include/trace/events/block_iobuf.h:41:1: sparse: sparse: restricted gfp_t degrades to integer
 
->> drivers/firmware/arm_scmi/transports/mailbox.c:252:1: warning: unused label 'err_free_chan_receiver' [-Wunused-label]
-     252 | err_free_chan_receiver:
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +41 include/trace/events/block_iobuf.h
 
+bfd875145ed055 Luis Chamberlain 2026-06-29  40  
+bfd875145ed055 Luis Chamberlain 2026-06-29 @41  TRACE_EVENT(block_iobuf_alloc,
+bfd875145ed055 Luis Chamberlain 2026-06-29  42  
+bfd875145ed055 Luis Chamberlain 2026-06-29  43  	TP_PROTO(struct request_queue *q, unsigned int order,
+bfd875145ed055 Luis Chamberlain 2026-06-29  44  		 gfp_t gfp, bool success),
+bfd875145ed055 Luis Chamberlain 2026-06-29  45  
+bfd875145ed055 Luis Chamberlain 2026-06-29  46  	TP_ARGS(q, order, gfp, success),
+bfd875145ed055 Luis Chamberlain 2026-06-29  47  
+bfd875145ed055 Luis Chamberlain 2026-06-29  48  	TP_STRUCT__entry(
+bfd875145ed055 Luis Chamberlain 2026-06-29  49  		__field(dev_t,		dev)
+bfd875145ed055 Luis Chamberlain 2026-06-29  50  		__field(unsigned int,	order)
+bfd875145ed055 Luis Chamberlain 2026-06-29  51  		__field(gfp_t,		gfp)
+bfd875145ed055 Luis Chamberlain 2026-06-29  52  		__field(bool,		success)
+bfd875145ed055 Luis Chamberlain 2026-06-29  53  	),
+bfd875145ed055 Luis Chamberlain 2026-06-29  54  
+bfd875145ed055 Luis Chamberlain 2026-06-29  55  	TP_fast_assign(
+bfd875145ed055 Luis Chamberlain 2026-06-29  56  		__entry->dev		= q->disk ? disk_devt(q->disk) : 0;
+bfd875145ed055 Luis Chamberlain 2026-06-29  57  		__entry->order		= order;
+bfd875145ed055 Luis Chamberlain 2026-06-29  58  		__entry->gfp		= gfp;
+bfd875145ed055 Luis Chamberlain 2026-06-29  59  		__entry->success	= success;
+bfd875145ed055 Luis Chamberlain 2026-06-29  60  	),
+bfd875145ed055 Luis Chamberlain 2026-06-29  61  
+bfd875145ed055 Luis Chamberlain 2026-06-29  62  	TP_printk("%d,%d order=%u gfp=0x%x success=%d",
+bfd875145ed055 Luis Chamberlain 2026-06-29  63  		  MAJOR(__entry->dev), MINOR(__entry->dev),
+bfd875145ed055 Luis Chamberlain 2026-06-29  64  		  __entry->order, __entry->gfp, __entry->success)
+bfd875145ed055 Luis Chamberlain 2026-06-29  65  );
+bfd875145ed055 Luis Chamberlain 2026-06-29  66  
 
-vim +/err_free_chan_receiver +252 drivers/firmware/arm_scmi/transports/mailbox.c
+:::::: The code at line 41 was first introduced by commit
+:::::: bfd875145ed05599540bcd911934c8c273726d41 block: introduce per-queue blk_iobuf_pool of higher-order folios
 
-   181	
-   182	static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
-   183				      bool tx)
-   184	{
-   185		const char *desc = tx ? "Tx" : "Rx";
-   186		struct device *cdev = cinfo->dev;
-   187		struct scmi_mailbox *smbox;
-   188		int ret, a2p_rx_chan, p2a_chan, p2a_rx_chan;
-   189		struct mbox_client *cl;
-   190	
-   191		ret = mailbox_chan_validate(cdev, &a2p_rx_chan, &p2a_chan, &p2a_rx_chan);
-   192		if (ret)
-   193			return ret;
-   194	
-   195		if (!tx && !p2a_chan)
-   196			return -ENODEV;
-   197	
-   198		smbox = devm_kzalloc(dev, sizeof(*smbox), GFP_KERNEL);
-   199		if (!smbox)
-   200			return -ENOMEM;
-   201	
-   202		smbox->shmem = core->shmem->setup_iomap(cinfo, dev, tx, NULL,
-   203							&smbox->io_ops);
-   204		if (IS_ERR(smbox->shmem))
-   205			return PTR_ERR(smbox->shmem);
-   206	
-   207		cl = &smbox->cl;
-   208		cl->dev = cdev;
-   209		cl->tx_prepare = tx ? tx_prepare : NULL;
-   210		cl->rx_callback = rx_callback;
-   211		cl->tx_block = false;
-   212		cl->knows_txdone = tx;
-   213	
-   214		smbox->chan = mbox_request_channel(cl, tx ? 0 : p2a_chan);
-   215		if (IS_ERR(smbox->chan)) {
-   216			ret = PTR_ERR(smbox->chan);
-   217			if (ret != -EPROBE_DEFER)
-   218				dev_err(cdev,
-   219					"failed to request SCMI %s mailbox\n", desc);
-   220			return ret;
-   221		}
-   222	
-   223		/* Additional unidirectional channel for TX if needed */
-   224		if (tx && a2p_rx_chan) {
-   225			smbox->chan_receiver = mbox_request_channel(cl, a2p_rx_chan);
-   226			if (IS_ERR(smbox->chan_receiver)) {
-   227				ret = PTR_ERR(smbox->chan_receiver);
-   228				smbox->chan_receiver = NULL;
-   229				if (ret != -EPROBE_DEFER)
-   230					dev_err(cdev, "failed to request SCMI Tx Receiver mailbox\n");
-   231				goto err_free_chan;
-   232			}
-   233		}
-   234	
-   235		if (!tx && p2a_rx_chan) {
-   236			smbox->chan_platform_receiver = mbox_request_channel(cl, p2a_rx_chan);
-   237			if (IS_ERR(smbox->chan_platform_receiver)) {
-   238				ret = PTR_ERR(smbox->chan_platform_receiver);
-   239				smbox->chan_platform_receiver = NULL;
-   240				if (ret != -EPROBE_DEFER)
-   241					dev_err(cdev, "failed to request SCMI P2A Receiver mailbox\n");
-   242				goto err_free_chan;
-   243			}
-   244		}
-   245	
-   246		cinfo->transport_info = smbox;
-   247		smbox->cinfo = cinfo;
-   248		mutex_init(&smbox->chan_lock);
-   249	
-   250		return 0;
-   251	
- > 252	err_free_chan_receiver:
-   253		mbox_free_channel(smbox->chan_receiver);
-   254	err_free_chan:
-   255		mbox_free_channel(smbox->chan);
-   256		return ret;
-   257	}
-   258	
+:::::: TO: Luis Chamberlain <mcgrof@do-not-panic.com>
+:::::: CC: Luis Chamberlain <mcgrof@do-not-panic.com>
 
 --
 0-DAY CI Kernel Test Service
