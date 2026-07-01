@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A021A681E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jul 2026 01:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2447E224FA;
+	Wed,  1 Jul 2026 01:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782867967; cv=none; b=kggyH/G4od9Ae6hmaImosHPvuw53CzAozH8Rly0spshrhdb+bjjCocSnTnZnbMgYFoFisJEs3jfmGEFnPcv91QAMxfFZtxFXKyiAOxTKTQwhhjrPd1Mk0aq3Mrf6jQJIoKbTFSxwkCTAL8nU8RFh6XPPk2IdAoSVpLiB+/h0A/M=
+	t=1782867982; cv=none; b=lbOzTC77/Pm8xeHHEJIMch8XM7JGQH8RRiY8kM295uy8NtUpazKBjGm8u85/1D5f6TNcQkTlGA/zHNnc3ee5im0tjwbHrOppAKgG0TfswVhbScwizMqsu5EC9pQ/vwT2tJuAaQbMPITYJphs6StAlyArMbXLrR5aBlwmmEszI14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782867967; c=relaxed/simple;
-	bh=ekGYsQKzNo1k2zW37sVjnSp7cjPEghLPuOet1Bk/3Qw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HupyOBnRogmvO1QXTpLY8LyOEW9jbiFGJkIm4HnFkFS52es9mu2Pe3rzwt5fgrviQJPjRpsEcI8JoCds7J0oDqiDNHdseJoEXR26aA9lTax8+F0Fr5VnRMu0TTZjvA0kqk8/+zZoa5dYS20JW/FzWtMukt5lN4TtvpzdKpLYURw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kuWZrBXw; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1782867982; c=relaxed/simple;
+	bh=RWunq/rIHb3XcS0oXVlnqi4RyTx0jKyJk+eehVreta8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pJl2j8it5YI+EMCz2lPygzEwZFJXHRRSlrtGE4iX4lgtBBsonZJt+YZ8KjnbYSWFgXsNosctufUDTNrPVQUEKG46LUh6kwdJ7FB4WGMp+4zZwwwPrb0o/pSxIBmhyOxcU0JJThqZC0TEKFgrtX2D1m046tCOHaimPSiVsKExK8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ch1bxWMP; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuWZrBXw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ch1bxWMP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782867966; x=1814403966;
+  t=1782867981; x=1814403981;
   h=date:from:to:cc:subject:message-id;
-  bh=ekGYsQKzNo1k2zW37sVjnSp7cjPEghLPuOet1Bk/3Qw=;
-  b=kuWZrBXwP0ynE4Z6ckv8ygfe58xJq4KbnuI7cYJnkw2HlSAQqvvwSi2Z
-   EgOqZDeLorXP2fxacRkK50Krnp7UVtN2C+HzCkbIm3k1BoxVIB33b9xhN
-   7ri9OMTqTxUhVOrNSTJKyHAHZOUA4bFANxG3SgI+OGrvuDycHqIhiWPn0
-   2Ygcgvw/jHqdOAzPogrb1j34AhGkuEc8T07ORA3POJXOjGXZ0j2z7QkVi
-   5tQugZ3od8pUD7pti5KWK+VRWdMS9SSYChoDcVoHM5X5C6VJe76UAMRZ+
-   37MAttFi/aoce5CWgty9iK3+4aPdr+RQiRs4pU+yJgqLkDgHDGFz6abPH
-   A==;
-X-CSE-ConnectionGUID: H/VWzOsySWaNoMzhd+c3EQ==
-X-CSE-MsgGUID: 0x0XOWQ5TIqBl/vZbctBQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="109138312"
+  bh=RWunq/rIHb3XcS0oXVlnqi4RyTx0jKyJk+eehVreta8=;
+  b=Ch1bxWMPq4lU4a5iIRb4ui0yq43ty1LKq29U9FXsJEMSmes/1V5CFBNc
+   It6gqR46lvhu9cRMhNjpCwzZp8xXfe+uLH+xcpOgHAQtL4ER7/QB2/2jK
+   xAtGlH3EppZqx92klzUi7vQPLIBDpomuZzh8Z7nygb8SiZhN5AU6k/lnL
+   O67dpt6sjfaqu0DP0KNJ6d3VD4loJYUoUw94W05xJZ8tSxHizvoE7Sr5F
+   2fkdbIedzCYBCpcEkorLHmtsC4cwp6t0QHMfVEEfrxnZ9MzkGhNZo+PSG
+   rK1FW/04Tmx8mXB/t9xb6EDKP4ZV3QRlFctG8ZoXu4mGBOChiFOqmIgK4
+   Q==;
+X-CSE-ConnectionGUID: xq5HArubTWiHfqLKNF0qSw==
+X-CSE-MsgGUID: QnkNvuH9RuGtGCN9HaR3pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="82708397"
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="109138312"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 18:06:06 -0700
-X-CSE-ConnectionGUID: RsbL5twMTjqNLuw5NQzX2g==
-X-CSE-MsgGUID: p8fWRGOYQg69FD6XACLvww==
+   d="scan'208";a="82708397"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 18:06:21 -0700
+X-CSE-ConnectionGUID: Hx2zX2OATlymCelOQfmQWA==
+X-CSE-MsgGUID: 8K8MPqzvSB+n9ShbvUEUFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="275634783"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Jun 2026 18:06:04 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="251987301"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 30 Jun 2026 18:06:19 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wejOr-000000008pL-18vA;
-	Wed, 01 Jul 2026 01:06:01 +0000
-Date: Wed, 01 Jul 2026 09:05:24 +0800
+	id 1wejP6-000000000cz-2jvL;
+	Wed, 01 Jul 2026 01:06:16 +0000
+Date: Wed, 01 Jul 2026 03:05:50 +0200
 From: kernel test robot <lkp@intel.com>
 To: Luis Chamberlain <mcgrof@do-not-panic.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [mcgrof:blk-iobuf-pool-v2 8/13] block/blk-map.c:742:1:
- warning: label 'next' defined but not used
-Message-ID: <202607010859.qN6rRcOo-lkp@intel.com>
+ warning: unused label 'next'
+Message-ID: <202607010216.vwudmdmL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,25 +62,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git blk-iobuf-pool-v2
 head:   da75cc2253180af718ba0b7b3684a091b16b14fb
 commit: b88f2bfe111b8778c8bba9e0309c653966171bdd [8/13] block: bounce passthrough bios through iobuf pool folios
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20260701/202607010859.qN6rRcOo-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607010859.qN6rRcOo-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260701/202607010216.vwudmdmL-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607010216.vwudmdmL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607010859.qN6rRcOo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607010216.vwudmdmL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   block/blk-map.c: In function 'blk_rq_map_user_iov':
->> block/blk-map.c:742:1: warning: label 'next' defined but not used [-Wunused-label]
+>> block/blk-map.c:742:1: warning: unused label 'next' [-Wunused-label]
      742 | next:
-         | ^~~~
-   block/blk-map.c: In function 'blk_rq_unmap_user':
->> block/blk-map.c:823:46: warning: unused variable 'bmd' [-Wunused-variable]
+         | ^~~~~
+>> block/blk-map.c:823:25: warning: unused variable 'bmd' [-Wunused-variable]
      823 |                         struct bio_map_data *bmd = bio->bi_private;
          |                                              ^~~
+   2 warnings generated.
 --
    Warning: block/blk-map.c:371 Excess function parameter 'op' description in 'bio_copy_kern'
 >> Warning: block/blk-map.c:540 function parameter 'rq' not described in 'bio_copy_user_iov_iobuf'
