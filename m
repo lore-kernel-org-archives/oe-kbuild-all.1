@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B6648B360
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jul 2026 12:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC020481A86
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Jul 2026 13:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782910671; cv=none; b=c88/9ZJCtyALZJgRJpT+ooooEn0W/OmaWfgEk0YUhsHUouUYX5bXbhsFGcZlK99rmfBTBNpNZFZaG3sLM6HTeLYrf2oMd27tRNHiaRhf29DwW4xgJIvvyEfsEqRCC3xAbEoU0NLFxKi4Fs6B0EqHz0HPtPLuHiz2Jdp2tG2ALJo=
+	t=1782911449; cv=none; b=foKcHmde5X8zx9fK5fDp7YPSWA3UxvEmdtdLsk6NzXSshGgBKy7kbg5kWDeSaZaAlG0cGmIaI3c29zirv1pq11ZJmtu6fBqX3w8y7AMhWatgGCkly5r4RY5TBMDqe2YrLBGXV6rkCO8Fi+vBTbGKdP5Dg5jzlmvR84kbpE9D1tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782910671; c=relaxed/simple;
-	bh=U7bHs1WPiIT/ATI7jFTETiA6lh0e4Do3q+nai9Vtxps=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t3nc273uBrx9N/en/F1lY0N0RvbB0PC6ow6JfPBLdZcs6Me1sWrmZo826/6fUqAUwaaGm5gBLwhQ1kbiXQ4gYqIfkkv8wngsb7LkH0JTQlvKfVnK3DdZn31HJZ2/cmRp3bcjYAsyC0UryHkbHLG6NzMrxPcQiAAGhtsGcPzWEpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jO+aTlFG; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1782911449; c=relaxed/simple;
+	bh=GPvCavdkFkkJnpFy+f5H9kuBaNMHBCfMXh9JL4BopcE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=My7igZC74i6b4OY2BEaY24USGLI4QFDQDeAoEkB/QgfncvZ86xvIPKVMykqvL9G56o2wrREieQ5amChVwwT+a/9o5n1hg+/oZlQxv/qQZvAyAoRNZBrFi2NfHziCRhg4+81jMvPjbhDeoHk/91ri3SQ+vcf2OfndhNbgq9z9gCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SiEw68Du; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jO+aTlFG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SiEw68Du"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782910669; x=1814446669;
+  t=1782911447; x=1814447447;
   h=date:from:to:cc:subject:message-id;
-  bh=U7bHs1WPiIT/ATI7jFTETiA6lh0e4Do3q+nai9Vtxps=;
-  b=jO+aTlFGuXSZVH9K+ph3a4Fz7IOWFUYsm+G8ftUmmJeAb95qBmEzNNzK
-   E7uihAX2G/7SNm/+TlLXiAW5pMXFTr7ak26XalHOLFXrvl8S4YD/cDT9B
-   hHFy6AhU8cjsBOQH1Sj+UElzjlfSUgw2I0qPxhZVud8C4AFmTBxwjy0g2
-   pEWaDCBHld4wH9Piw100Z6X9Z3gRxQwyUrDAompVY0se+L1SRqZhmCZJ2
-   gnnevPVdI7y0w0L47ruXR2kQNs2O7RBBLURwAta6cbmvyJHgEEhVUvoTM
-   FrhKoXq2pflY58OmRlk3BrKbxLlgzPE7ZUIdMgYvOW6xhLDCHPb1LvUac
-   A==;
-X-CSE-ConnectionGUID: /9MW3pFrQRSEEnkLyW70jA==
-X-CSE-MsgGUID: L0TjLMJSQXeWrwdR8wQXmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="86188031"
+  bh=GPvCavdkFkkJnpFy+f5H9kuBaNMHBCfMXh9JL4BopcE=;
+  b=SiEw68DulXWXRj4TSVxI9PRA1u9k4/GZSzqMCitVn3yg2J/PemM40Ymp
+   qB3lsdWjRv77+Uw6AypCTAdJhTnngTyEJPimgDvLstECOzkUXkScN2o+a
+   TOJJ5o//C2u1NibZfx0jHDTy4o9+Ui1Ip5GcEuxMx4P5I80hWeOOhRqAt
+   q4nZxnR6QHxP3FZTclasxiKe+ClMVWZmWdN/Sa86pZtA8EWLgMPhIDL9o
+   nafW7E1W6xXIjOTMCwHYETOKKYDeKXyJQU/Sd6nzzH7PnJcLsIL1va6u5
+   NI6K4ugiEYWQF0iRbBcLPMytJCdnlaBC2sRKOwjPGzdZHlEufFNAGFpqh
+   Q==;
+X-CSE-ConnectionGUID: toL07tqBSBaJr+7L3rmgRA==
+X-CSE-MsgGUID: 8hium3ygT0yAUWV7D11V7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="71167974"
 X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
-   d="scan'208";a="86188031"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 05:57:48 -0700
-X-CSE-ConnectionGUID: RUyBYFS2TuGYyLFVl37PDg==
-X-CSE-MsgGUID: yOaRJvYfRpWGYT/e0r0epQ==
+   d="scan'208";a="71167974"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 06:10:47 -0700
+X-CSE-ConnectionGUID: SULj1GodTqm51hz0aa0/hw==
+X-CSE-MsgGUID: VnUEs8pVSSKazzIF6VlS5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
-   d="scan'208";a="275774768"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Jul 2026 05:57:46 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="248589625"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 01 Jul 2026 06:10:45 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weuVb-000000000mh-44rE;
-	Wed, 01 Jul 2026 12:57:43 +0000
-Date: Wed, 01 Jul 2026 14:57:24 +0200
+	id 1weuhp-000000009JL-2dJO;
+	Wed, 01 Jul 2026 13:10:40 +0000
+Date: Wed, 01 Jul 2026 21:09:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Boqun Feng <boqun.feng@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-rc 66/160]
- arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /:
- failed to match any schema with compatible: ['bananapi,bpi-r4-lite',
- 'mediatek,mt7987a']
-Message-ID: <202607011431.hnpiHc8f-lkp@intel.com>
+Subject: [boqun:rust-sync-old 8/19] kernel/sched/fair.c:7361:76:
+ error: 'class_raw_spinlock_irqsave_t' has no member named 'flags'
+Message-ID: <202607012020.u2JREjhS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,491 +59,92 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
-head:   39cd8d05e83250c6294b8e0da3ca69359eff8a3c
-commit: 010b82dfd8362f9e5b41df353638b717e6e84adb [66/160] arm64: dts: build overlays for bpi-r4-lite emmc/sd + nand/nor
-config: arm64-randconfig-2051-20260630 (https://download.01.org/0day-ci/archive/20260701/202607011431.hnpiHc8f-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607011431.hnpiHc8f-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync-old
+head:   2d07a3ed986f2e6f7f1c3b7f629bd737d5aac43b
+commit: 5d47ed5195ba70f4e725ee56cf4bb5b4c058c4d9 [8/19] locking: Switch to _irq_{disable,enable}() variants in cleanup guards
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260701/202607012020.u2JREjhS-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607012020.u2JREjhS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607011431.hnpiHc8f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607012020.u2JREjhS-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-lite', 'mediatek,mt7987a']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-lite', 'mediatek,mt7987a']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: / (bananapi,bpi-r4-lite): memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: / (bananapi,bpi-r4-lite): oscillator@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: / (bananapi,bpi-r4-lite): sfp@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
---
-   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /reserved-memory/wmcpu-reserved@50000000: failed to match any schema with compatible: ['mediatek,wmcpu-reserved']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: soc (simple-bus): wed: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: soc (simple-bus): trng@1020f000: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/hwver@8000000: failed to match any schema with compatible: ['mediatek,hwver', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/infra_bus_prot@1000310c: failed to match any schema with compatible: ['mediatek,infracfg_ao_bus_hang_prot']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/pinctrl@1001f000: failed to match any schema with compatible: ['mediatek,mt7987-pinctrl']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/boottrap@1001f6f0: failed to match any schema with compatible: ['mediatek,boottrap']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): $nodename:0: 'trng@1020f000' does not match '^rng(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-rng'] is too short
-   	'mediatek,mt7987-rng' is not one of ['mediatek,mt7623-rng', 'mediatek,mt7981-rng']
-   	'mediatek,mt7987-rng' is not one of ['mediatek,mt7622-rng', 'mediatek,mt7629-rng', 'mediatek,mt7986-rng', 'mediatek,mt8365-rng', 'mediatek,mt8516-rng']
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/pwm@10048000: failed to match any schema with compatible: ['mediatek,mt7987-pwm']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: pca9545@70 (nxp,pca9545): $nodename:0: 'pca9545@70' does not match '^(i2c-?)?mux'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: pca9545@70 (nxp,pca9545): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: eeprom@50 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: spi@11007800 (mediatek,mt7987-spi-quad): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	'mediatek,mt6991-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/spi@11007800: failed to match any schema with compatible: ['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: spi@11008800 (mediatek,mt7987-spi-single): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-single', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	'mediatek,mt6991-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: spi@11008800 (mediatek,mt7987-spi-single): '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: spi@11008800 (mediatek,mt7987-spi-single): '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/spi@11008800: failed to match any schema with compatible: ['mediatek,mt7987-spi-single', 'mediatek,spi-ipm']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: spi@11009800 (mediatek,mt7987-spi-quad): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
---
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: mmc@11230000 (mediatek,mt7986-mmc): clock-names:4: 'sys_cg' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: mmc@11230000 (mediatek,mt7986-mmc): clock-names: ['source', 'bus_clk', 'axi_cg', 'hclk', 'source_cg', 'ahb_cg'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: mmc@11230000 (mediatek,mt7986-mmc): clocks: [[4, 76], [22, 45], [22, 47], [22, 46], [22, 21], [22, 48]] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/wed: failed to match any schema with compatible: ['mediatek,wed']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/wed0@15010000: failed to match any schema with compatible: ['mediatek,wed0']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/wdma@15104800: failed to match any schema with compatible: ['mediatek,wed-wdma']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: pcie@11280000 (mediatek,mt7987-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt7981-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt6991-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'mediatek,mt8196-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/pcie@11280000: failed to match any schema with compatible: ['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: pcie@11290000 (mediatek,mt7987-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt7981-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt6991-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'mediatek,mt8196-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/pcie@11290000: failed to match any schema with compatible: ['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nand.dtb: /soc/topmisc@10021000: failed to match any schema with compatible: ['mediatek,mt7987-topmisc', 'syscon', 'mediatek,mt7987-power-controller']
---
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-lite', 'mediatek,mt7987a']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-lite', 'mediatek,mt7987a']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: / (bananapi,bpi-r4-lite): memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: / (bananapi,bpi-r4-lite): oscillator@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: / (bananapi,bpi-r4-lite): sfp@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
---
-   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /reserved-memory/wmcpu-reserved@50000000: failed to match any schema with compatible: ['mediatek,wmcpu-reserved']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: soc (simple-bus): wed: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: soc (simple-bus): trng@1020f000: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/hwver@8000000: failed to match any schema with compatible: ['mediatek,hwver', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/infra_bus_prot@1000310c: failed to match any schema with compatible: ['mediatek,infracfg_ao_bus_hang_prot']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/pinctrl@1001f000: failed to match any schema with compatible: ['mediatek,mt7987-pinctrl']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/boottrap@1001f6f0: failed to match any schema with compatible: ['mediatek,boottrap']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): $nodename:0: 'trng@1020f000' does not match '^rng(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-rng'] is too short
-   	'mediatek,mt7987-rng' is not one of ['mediatek,mt7623-rng', 'mediatek,mt7981-rng']
-   	'mediatek,mt7987-rng' is not one of ['mediatek,mt7622-rng', 'mediatek,mt7629-rng', 'mediatek,mt7986-rng', 'mediatek,mt8365-rng', 'mediatek,mt8516-rng']
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/pwm@10048000: failed to match any schema with compatible: ['mediatek,mt7987-pwm']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: pca9545@70 (nxp,pca9545): $nodename:0: 'pca9545@70' does not match '^(i2c-?)?mux'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: pca9545@70 (nxp,pca9545): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: eeprom@50 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: spi@11007800 (mediatek,mt7987-spi-quad): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	'mediatek,mt6991-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/spi@11007800: failed to match any schema with compatible: ['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: spi@11008800 (mediatek,mt7987-spi-single): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-single', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	'mediatek,mt6991-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: spi@11008800 (mediatek,mt7987-spi-single): '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: spi@11008800 (mediatek,mt7987-spi-single): '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/spi@11008800: failed to match any schema with compatible: ['mediatek,mt7987-spi-single', 'mediatek,spi-ipm']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: spi@11009800 (mediatek,mt7987-spi-quad): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
---
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: mmc@11230000 (mediatek,mt7986-mmc): clock-names:4: 'sys_cg' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: mmc@11230000 (mediatek,mt7986-mmc): clock-names: ['source', 'bus_clk', 'axi_cg', 'hclk', 'source_cg', 'ahb_cg'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: mmc@11230000 (mediatek,mt7986-mmc): clocks: [[4, 76], [22, 45], [22, 47], [22, 46], [22, 21], [22, 48]] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/wed: failed to match any schema with compatible: ['mediatek,wed']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/wed0@15010000: failed to match any schema with compatible: ['mediatek,wed0']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/wdma@15104800: failed to match any schema with compatible: ['mediatek,wed-wdma']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: pcie@11280000 (mediatek,mt7987-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt7981-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt6991-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'mediatek,mt8196-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/pcie@11280000: failed to match any schema with compatible: ['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: pcie@11290000 (mediatek,mt7987-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt7981-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt6991-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'mediatek,mt8196-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/pcie@11290000: failed to match any schema with compatible: ['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-emmc-nor.dtb: /soc/topmisc@10021000: failed to match any schema with compatible: ['mediatek,mt7987-topmisc', 'syscon', 'mediatek,mt7987-power-controller']
---
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-lite', 'mediatek,mt7987a']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-lite', 'mediatek,mt7987a']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: / (bananapi,bpi-r4-lite): memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: / (bananapi,bpi-r4-lite): oscillator@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: / (bananapi,bpi-r4-lite): sfp@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
---
-   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /reserved-memory/wmcpu-reserved@50000000: failed to match any schema with compatible: ['mediatek,wmcpu-reserved']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: soc (simple-bus): wed: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: soc (simple-bus): trng@1020f000: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/hwver@8000000: failed to match any schema with compatible: ['mediatek,hwver', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/infra_bus_prot@1000310c: failed to match any schema with compatible: ['mediatek,infracfg_ao_bus_hang_prot']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/pinctrl@1001f000: failed to match any schema with compatible: ['mediatek,mt7987-pinctrl']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/boottrap@1001f6f0: failed to match any schema with compatible: ['mediatek,boottrap']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): $nodename:0: 'trng@1020f000' does not match '^rng(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: trng@1020f000 (mediatek,mt7987-rng): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-rng'] is too short
-   	'mediatek,mt7987-rng' is not one of ['mediatek,mt7623-rng', 'mediatek,mt7981-rng']
-   	'mediatek,mt7987-rng' is not one of ['mediatek,mt7622-rng', 'mediatek,mt7629-rng', 'mediatek,mt7986-rng', 'mediatek,mt8365-rng', 'mediatek,mt8516-rng']
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/pwm@10048000: failed to match any schema with compatible: ['mediatek,mt7987-pwm']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: pca9545@70 (nxp,pca9545): $nodename:0: 'pca9545@70' does not match '^(i2c-?)?mux'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: pca9545@70 (nxp,pca9545): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: eeprom@50 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: spi@11007800 (mediatek,mt7987-spi-quad): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	'mediatek,mt6991-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/spi@11007800: failed to match any schema with compatible: ['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: spi@11008800 (mediatek,mt7987-spi-single): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-single', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	'mediatek,mt6991-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: spi@11008800 (mediatek,mt7987-spi-single): '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: spi@11008800 (mediatek,mt7987-spi-single): '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/spi@11008800: failed to match any schema with compatible: ['mediatek,mt7987-spi-single', 'mediatek,spi-ipm']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: spi@11009800 (mediatek,mt7987-spi-quad): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
---
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: mmc@11230000 (mediatek,mt7986-mmc): clock-names:4: 'sys_cg' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: mmc@11230000 (mediatek,mt7986-mmc): clock-names: ['source', 'bus_clk', 'axi_cg', 'hclk', 'source_cg', 'ahb_cg'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: mmc@11230000 (mediatek,mt7986-mmc): clocks: [[4, 76], [22, 45], [22, 47], [22, 46], [22, 21], [22, 48]] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/wed: failed to match any schema with compatible: ['mediatek,wed']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/wed0@15010000: failed to match any schema with compatible: ['mediatek,wed0']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/wdma@15104800: failed to match any schema with compatible: ['mediatek,wed-wdma']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: pcie@11280000 (mediatek,mt7987-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt7981-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt6991-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'mediatek,mt8196-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/pcie@11280000: failed to match any schema with compatible: ['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: pcie@11290000 (mediatek,mt7987-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt7981-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt6991-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'mediatek,mt8196-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/pcie@11290000: failed to match any schema with compatible: ['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nand.dtb: /soc/topmisc@10021000: failed to match any schema with compatible: ['mediatek,mt7987-topmisc', 'syscon', 'mediatek,mt7987-power-controller']
---
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-lite', 'mediatek,mt7987a']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-lite', 'mediatek,mt7987a']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: / (bananapi,bpi-r4-lite): memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: / (bananapi,bpi-r4-lite): oscillator@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: / (bananapi,bpi-r4-lite): sfp@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
---
-   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /reserved-memory/wmcpu-reserved@50000000: failed to match any schema with compatible: ['mediatek,wmcpu-reserved']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: soc (simple-bus): wed: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: soc (simple-bus): trng@1020f000: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/hwver@8000000: failed to match any schema with compatible: ['mediatek,hwver', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/infra_bus_prot@1000310c: failed to match any schema with compatible: ['mediatek,infracfg_ao_bus_hang_prot']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/pinctrl@1001f000: failed to match any schema with compatible: ['mediatek,mt7987-pinctrl']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/boottrap@1001f6f0: failed to match any schema with compatible: ['mediatek,boottrap']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): $nodename:0: 'trng@1020f000' does not match '^rng(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: trng@1020f000 (mediatek,mt7987-rng): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-rng'] is too short
-   	'mediatek,mt7987-rng' is not one of ['mediatek,mt7623-rng', 'mediatek,mt7981-rng']
-   	'mediatek,mt7987-rng' is not one of ['mediatek,mt7622-rng', 'mediatek,mt7629-rng', 'mediatek,mt7986-rng', 'mediatek,mt8365-rng', 'mediatek,mt8516-rng']
-   	from schema $id: http://devicetree.org/schemas/rng/mtk-rng.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/pwm@10048000: failed to match any schema with compatible: ['mediatek,mt7987-pwm']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: pca9545@70 (nxp,pca9545): $nodename:0: 'pca9545@70' does not match '^(i2c-?)?mux'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: pca9545@70 (nxp,pca9545): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: eeprom@50 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: spi@11007800 (mediatek,mt7987-spi-quad): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	'mediatek,mt6991-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/spi@11007800: failed to match any schema with compatible: ['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: spi@11008800 (mediatek,mt7987-spi-single): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-single', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-single' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	'mediatek,mt6991-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: spi@11008800 (mediatek,mt7987-spi-single): '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: spi@11008800 (mediatek,mt7987-spi-single): '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/spi@11008800: failed to match any schema with compatible: ['mediatek,mt7987-spi-single', 'mediatek,spi-ipm']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: spi@11009800 (mediatek,mt7987-spi-quad): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-spi-quad', 'mediatek,spi-ipm'] is too long
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7629-spi', 'mediatek,mt8365-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8516-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt6779-spi', 'mediatek,mt8186-spi', 'mediatek,mt8192-spi', 'mediatek,mt8195-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt8196-spi']
-   	'mediatek,mt7987-spi-quad' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt6991-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
-   	'mediatek,mt7622-spi' was expected
-   	'mediatek,mt2712-spi' was expected
---
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: mmc@11230000 (mediatek,mt7986-mmc): clock-names:4: 'sys_cg' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: mmc@11230000 (mediatek,mt7986-mmc): clock-names: ['source', 'bus_clk', 'axi_cg', 'hclk', 'source_cg', 'ahb_cg'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: mmc@11230000 (mediatek,mt7986-mmc): clocks: [[4, 76], [22, 45], [22, 47], [22, 46], [22, 21], [22, 48]] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/wed: failed to match any schema with compatible: ['mediatek,wed']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/wed0@15010000: failed to match any schema with compatible: ['mediatek,wed0']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/wdma@15104800: failed to match any schema with compatible: ['mediatek,wed-wdma']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: pcie@11280000 (mediatek,mt7987-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt7981-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt6991-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'mediatek,mt8196-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/pcie@11280000: failed to match any schema with compatible: ['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: pcie@11290000 (mediatek,mt7987-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt7981-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt7987-pcie' is not one of ['mediatek,mt6991-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'mediatek,mt8196-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/pcie@11290000: failed to match any schema with compatible: ['mediatek,mt7987-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite-sd-nor.dtb: /soc/topmisc@10021000: failed to match any schema with compatible: ['mediatek,mt7987-topmisc', 'syscon', 'mediatek,mt7987-power-controller']
+All errors (new ones prefixed by >>):
+
+   kernel/sched/fair.c: In function 'sched_cfs_period_timer':
+>> kernel/sched/fair.c:7361:76: error: 'class_raw_spinlock_irqsave_t' has no member named 'flags'
+    7361 |                 idle = do_sched_cfs_period_timer(cfs_b, overrun, cfsb_guard.flags);
+         |                                                                            ^
+
+
+vim +7361 kernel/sched/fair.c
+
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7345  
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7346  static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7347  {
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7348  	struct cfs_bandwidth *cfs_b =
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7349  		container_of(timer, struct cfs_bandwidth, period_timer);
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7350  	int overrun;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7351  	int idle = 0;
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7352  	int count = 0;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7353  
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7354  	CLASS(raw_spinlock_irqsave, cfsb_guard)(&cfs_b->lock);
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7355  
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7356  	for (;;) {
+77a4d1a1b9a122 kernel/sched/fair.c Peter Zijlstra  2015-04-15  7357  		overrun = hrtimer_forward_now(timer, cfs_b->period);
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7358  		if (!overrun)
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7359  			break;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7360  
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02 @7361  		idle = do_sched_cfs_period_timer(cfs_b, overrun, cfsb_guard.flags);
+5a6d6a6ccb5f48 kernel/sched/fair.c Huaixin Chang   2020-04-20  7362  
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7363  		if (++count > 3) {
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7364  			u64 new, old = ktime_to_ns(cfs_b->period);
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7365  
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7366  			/*
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7367  			 * Grow period by a factor of 2 to avoid losing precision.
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7368  			 * Precision loss in the quota/period ratio can cause __cfs_schedulable
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7369  			 * to fail.
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7370  			 */
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7371  			new = old * 2;
+5bc34be478d09c kernel/sched/fair.c Tejun Heo       2025-06-13  7372  			if (new < max_bw_quota_period_us * NSEC_PER_USEC) {
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7373  				cfs_b->period = ns_to_ktime(new);
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7374  				cfs_b->quota *= 2;
+f4183717b370ad kernel/sched/fair.c Huaixin Chang   2021-06-21  7375  				cfs_b->burst *= 2;
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7376  
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7377  				pr_warn_ratelimited(
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7378  	"cfs_period_timer[cpu%d]: period too short, scaling up (new cfs_period_us = %lld, cfs_quota_us = %lld)\n",
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7379  					smp_processor_id(),
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7380  					div_u64(new, NSEC_PER_USEC),
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7381  					div_u64(cfs_b->quota, NSEC_PER_USEC));
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7382  			} else {
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7383  				pr_warn_ratelimited(
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7384  	"cfs_period_timer[cpu%d]: period too short, but cannot scale up without losing precision (cfs_period_us = %lld, cfs_quota_us = %lld)\n",
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7385  					smp_processor_id(),
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7386  					div_u64(old, NSEC_PER_USEC),
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7387  					div_u64(cfs_b->quota, NSEC_PER_USEC));
+4929a4e6faa0f1 kernel/sched/fair.c Xuewei Zhang    2019-10-03  7388  			}
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7389  
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7390  			/* reset count so we don't come right back in here */
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7391  			count = 0;
+2e8e19226398db kernel/sched/fair.c Phil Auld       2019-03-19  7392  		}
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7393  	}
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7394  
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7395  	if (idle) {
+4cfafd3082afc7 kernel/sched/fair.c Peter Zijlstra  2015-05-14  7396  		cfs_b->period_active = 0;
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7397  		return HRTIMER_NORESTART;
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7398  	}
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7399  
+1abbecd1d2d2fd kernel/sched/fair.c K Prateek Nayak 2026-06-02  7400  	return HRTIMER_RESTART;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7401  }
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra  2011-10-25  7402  
+
+:::::: The code at line 7361 was first introduced by commit
+:::::: 1abbecd1d2d2fdd96e52f541f07ee2b163631bee sched/fair: Convert cfs bandwidth throttling to use guards
+
+:::::: TO: K Prateek Nayak <kprateek.nayak@amd.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 --
 0-DAY CI Kernel Test Service
