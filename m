@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170C322083
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 00:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB393246781
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 00:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782951265; cv=none; b=fljb79iSRkvNLNh4AJ+XxwaWIb2DiqnDjx1Pc/RjcnG678rImX3uzXJAmFKnjBdHd+UJ/pIahiEyQc70zAevGHYxtnrujnKR1EqYc2hG6LkyPPyw2W48GvmiaWSNXWvbVQVD0l5GaCyT9j7CuBKyFRFeqXJS9vYUaWYrXPM1N6Y=
+	t=1782953836; cv=none; b=FVmW4tnf3zCrRa5i4+TPyAKJAFIjMkJXmamcFyYLk9g1McMQFS7wJtEf3k9UWA7CYLic4uiIA71mfP5qXSmLl0A8Jb3q+GqVknT048sV6ywD/MJ33Q475U76igp6phNFKurKwVnd5PsWzDW17vReeXjJ+t6leUThr0dOz1TRIdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782951265; c=relaxed/simple;
-	bh=Vb1Oksp3/0jxjJJdrqApCSG6ofE4LxTtndEkrjGmw9I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HZXOVwpW3rKjLO1e68mzEK7nGH0QxyQWxP79a8uW9HDRaO230MEcD+1aBbWpDia7VN70aJga53AnstOgzO5Ka67omptQGittqnq7mgh+VpvY3E7X2RHKnOEeXvv5jtZyq19ZfTmi4fR4SEkdrmH59WYuJDTEdoAsbtl3VBlw5NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NXVQWWQ0; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1782953836; c=relaxed/simple;
+	bh=uD4msB2rQRksHUn7qRQK191AppmN7HMuMW6A+tl51+I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FHOpxqaiMaEESzvxnLKh54ZidrSIuTf+rVqCOeLMRH363eQPdzQ7kzVFo3AZ7Qsc0zTcHgmZt2elhNYK6yCpUxT93s0y2HHCwXxshCMmrayqch4p8inEZ26vSotT8He9KAzx2sRkelQhEyoZWQEUXbhT2DzQxRi3IteK/rW3c4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kp1zzD4u; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NXVQWWQ0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kp1zzD4u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782951263; x=1814487263;
+  t=1782953835; x=1814489835;
   h=date:from:to:cc:subject:message-id;
-  bh=Vb1Oksp3/0jxjJJdrqApCSG6ofE4LxTtndEkrjGmw9I=;
-  b=NXVQWWQ0BuKJyCPrZtAu0kdXMU9GbmCecSVQtCPVNAFdOejatev1A6pS
-   LM2pJaGfHTIft1elv4RCaAb3YYL5wtfpnmOE6L6GM6N2kgPTMnge+OqvC
-   8GfZtEtYRtIXv9VCbTHjAEnL21N4UOidsjEUGmJILKqUsDThJkqu7a6vg
-   Z6QqzxXnXAg2yfo2pDLdDnisk2NpQzLffnFXfxVkVf94Rks8+LdRYDslH
-   L1eMJj4cm565/qC1iboXnP51w7ZFzpriMklYVhldRIQ0PGT5XKZ4IAhns
-   UL7HJdkCIrFFN1vlp4Od8fnPPDVcOlP1OZP5rhVCVLtb0uOoPGB6bLgb8
+  bh=uD4msB2rQRksHUn7qRQK191AppmN7HMuMW6A+tl51+I=;
+  b=Kp1zzD4u/x7HGsIS9jcFPWelIh+XNQPFVYTEt4iaSAeUt1jRi8sBadCr
+   hRUDzXw/6W6YLlhihw9zM7Y0Qq0wrVJVS7cbSnArnUFgAYvyOj9lAP3SZ
+   5DSjjeP8stxp8oIsboxbkjfP7LL8nlGfKLJe2bI/Ka6u35JrlV3BPRZYv
+   h0iipF3AVXREOImeeVdsL95KvyXUhSZe/VZChindELs/1JeGq3N5cvbqF
+   2AdTQJQxoB6DdEpjWRz0i/C/3OgIrtS3yXHml0e6C57LDbSAXT+KRego6
+   ley+CxgtXdkpky44ZVJHIEahTOVVVTu9ly2SWE6319W8Dz1Nd7lESRc6i
    Q==;
-X-CSE-ConnectionGUID: EJ8KMea7R0WQ+R52QnW9Zg==
-X-CSE-MsgGUID: Mx/I9fO4RtiCwlf2O5ns2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="109243178"
+X-CSE-ConnectionGUID: fvEX9R76SMGcexotbIw1FQ==
+X-CSE-MsgGUID: lVXoVxwvTTCdgreiXPWIWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83828532"
 X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
-   d="scan'208";a="109243178"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 17:14:22 -0700
-X-CSE-ConnectionGUID: T9oWd5LlTSqVaG6jzmOysA==
-X-CSE-MsgGUID: 1Vont+TjTgyE9D47eBL3Sw==
+   d="scan'208";a="83828532"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 17:57:12 -0700
+X-CSE-ConnectionGUID: LGNHyjIYQai0xPEVD90PCQ==
+X-CSE-MsgGUID: K4919hRETJas6sxpK8Bg0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
-   d="scan'208";a="282776869"
+   d="scan'208";a="254643805"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 01 Jul 2026 17:14:21 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 01 Jul 2026 17:57:10 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wf53j-000000009mh-3tIw;
-	Thu, 02 Jul 2026 00:13:41 +0000
-Date: Thu, 02 Jul 2026 08:13:32 +0800
+	id 1wf5jo-000000009o5-0nvI;
+	Thu, 02 Jul 2026 00:57:08 +0000
+Date: Thu, 02 Jul 2026 08:56:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
+To: Luis Chamberlain <mcgrof@do-not-panic.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:arm64-sve-trap-mitigation 2/3]
- arch/arm64/kernel/fpsimd.c:365:23: warning: unused variable
- 'sve_vq_minus_one'
-Message-ID: <202607020856.jZ0zcIqm-lkp@intel.com>
+Subject: [mcgrof:blk-iobuf-pool-v2 8/13] block/blk-map.c:626:47:
+ sparse: sparse: incorrect type in argument 4 (different base types)
+Message-ID: <202607020854.oEUwARTt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,216 +59,137 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Mark,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-sve-trap-mitigation
-head:   00a72da058c10512a992dd75733d08daed8437fc
-commit: 2927097df60b0ee11007db0ac60ffec3830e8bd3 [2/3] arm64/fpsimd: Suppress SVE access traps when loading FPSIMD state
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260702/202607020856.jZ0zcIqm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607020856.jZ0zcIqm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git blk-iobuf-pool-v2
+head:   da75cc2253180af718ba0b7b3684a091b16b14fb
+commit: b88f2bfe111b8778c8bba9e0309c653966171bdd [8/13] block: bounce passthrough bios through iobuf pool folios
+config: i386-randconfig-063-20260702 (https://download.01.org/0day-ci/archive/20260702/202607020854.oEUwARTt-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607020854.oEUwARTt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607020856.jZ0zcIqm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607020854.oEUwARTt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> block/blk-map.c:626:47: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int op @@     got restricted blk_opf_t enum req_op @@
+   block/blk-map.c:626:47: sparse:     expected unsigned int op
+   block/blk-map.c:626:47: sparse:     got restricted blk_opf_t enum req_op
 
-   arch/arm64/kernel/fpsimd.c: In function 'task_fpsimd_load':
->> arch/arm64/kernel/fpsimd.c:365:23: warning: unused variable 'sve_vq_minus_one' [-Wunused-variable]
-     365 |         unsigned long sve_vq_minus_one;
-         |                       ^~~~~~~~~~~~~~~~
+vim +626 block/blk-map.c
 
-
-vim +/sve_vq_minus_one +365 arch/arm64/kernel/fpsimd.c
-
-   279	
-   280	/*
-   281	 * TIF_SME controls whether a task can use SME without trapping while
-   282	 * in userspace, when TIF_SME is set then we must have storage
-   283	 * allocated in sve_state and sme_state to store the contents of both ZA
-   284	 * and the SVE registers for both streaming and non-streaming modes.
-   285	 *
-   286	 * If both SVCR.ZA and SVCR.SM are disabled then at any point we
-   287	 * may disable TIF_SME and reenable traps.
-   288	 */
-   289	
-   290	
-   291	/*
-   292	 * TIF_SVE controls whether a task can use SVE without trapping while
-   293	 * in userspace, and also (together with TIF_SME) the way a task's
-   294	 * FPSIMD/SVE state is stored in thread_struct.
-   295	 *
-   296	 * The kernel uses this flag to track whether a user task is actively
-   297	 * using SVE, and therefore whether full SVE register state needs to
-   298	 * be tracked.  If not, the cheaper FPSIMD context handling code can
-   299	 * be used instead of the more costly SVE equivalents.
-   300	 *
-   301	 *  * TIF_SVE or SVCR.SM set:
-   302	 *
-   303	 *    The task can execute SVE instructions while in userspace without
-   304	 *    trapping to the kernel.
-   305	 *
-   306	 *    During any syscall, the kernel may optionally clear TIF_SVE and
-   307	 *    discard the vector state except for the FPSIMD subset.
-   308	 *
-   309	 *  * TIF_SVE clear:
-   310	 *
-   311	 *    An attempt by the user task to execute an SVE instruction causes
-   312	 *    do_sve_acc() to be called, which does some preparation and then
-   313	 *    sets TIF_SVE.
-   314	 *
-   315	 * During any syscall, the kernel may optionally clear TIF_SVE and
-   316	 * discard the vector state except for the FPSIMD subset.
-   317	 *
-   318	 * The data will be stored in one of two formats:
-   319	 *
-   320	 *  * FPSIMD only - FP_STATE_FPSIMD:
-   321	 *
-   322	 *    When the FPSIMD only state stored task->thread.fp_type is set to
-   323	 *    FP_STATE_FPSIMD, the FPSIMD registers V0-V31 are encoded in
-   324	 *    task->thread.uw.fpsimd_state; bits [max : 128] for each of Z0-Z31 are
-   325	 *    logically zero but not stored anywhere; P0-P15 and FFR are not
-   326	 *    stored and have unspecified values from userspace's point of
-   327	 *    view.  For hygiene purposes, the kernel zeroes them on next use,
-   328	 *    but userspace is discouraged from relying on this.
-   329	 *
-   330	 *    task->thread.sve_state does not need to be non-NULL, valid or any
-   331	 *    particular size: it must not be dereferenced and any data stored
-   332	 *    there should be considered stale and not referenced.
-   333	 *
-   334	 *  * SVE state - FP_STATE_SVE:
-   335	 *
-   336	 *    When the full SVE state is stored task->thread.fp_type is set to
-   337	 *    FP_STATE_SVE and Z0-Z31 (incorporating Vn in bits[127:0] or the
-   338	 *    corresponding Zn), P0-P15 and FFR are encoded in in
-   339	 *    task->thread.sve_state, formatted appropriately for vector
-   340	 *    length task->thread.sve_vl or, if SVCR.SM is set,
-   341	 *    task->thread.sme_vl. The storage for the vector registers in
-   342	 *    task->thread.uw.fpsimd_state should be ignored.
-   343	 *
-   344	 *    task->thread.sve_state must point to a valid buffer at least
-   345	 *    sve_state_size(task) bytes in size. The data stored in
-   346	 *    task->thread.uw.fpsimd_state.vregs should be considered stale
-   347	 *    and not referenced.
-   348	 *
-   349	 *  * FPSR and FPCR are always stored in task->thread.uw.fpsimd_state
-   350	 *    irrespective of whether TIF_SVE is clear or set, since these are
-   351	 *    not vector length dependent.
-   352	 */
-   353	
-   354	/*
-   355	 * Update current's FPSIMD/SVE registers from thread_struct.
-   356	 *
-   357	 * This function should be called only when the FPSIMD/SVE state in
-   358	 * thread_struct is known to be up to date, when preparing to enter
-   359	 * userspace.
-   360	 */
-   361	static void task_fpsimd_load(void)
-   362	{
-   363		bool restore_sve_regs = false;
-   364		bool restore_ffr;
- > 365		unsigned long sve_vq_minus_one;
-   366	
-   367		WARN_ON(!system_supports_fpsimd());
-   368		WARN_ON(preemptible());
-   369		WARN_ON(test_thread_flag(TIF_KERNEL_FPSTATE));
-   370	
-   371		if (system_supports_sve() || system_supports_sme()) {
-   372			switch (current->thread.fp_type) {
-   373			case FP_STATE_FPSIMD:
-   374				break;
-   375			case FP_STATE_SVE:
-   376				if (!thread_sm_enabled(&current->thread))
-   377					WARN_ON_ONCE(!test_and_set_thread_flag(TIF_SVE));
-   378	
-   379				restore_sve_regs = true;
-   380				restore_ffr = true;
-   381				break;
-   382			default:
-   383				/*
-   384				 * This indicates either a bug in
-   385				 * fpsimd_save_user_state() or memory corruption, we
-   386				 * should always record an explicit format
-   387				 * when we save. We always at least have the
-   388				 * memory allocated for FPSIMD registers so
-   389				 * try that and hope for the best.
-   390				 */
-   391				WARN_ON_ONCE(1);
-   392				clear_thread_flag(TIF_SVE);
-   393				break;
-   394			}
-   395		}
-   396	
-   397		/*
-   398		 * If SVE has been enabled we may keep it enabled even if
-   399		 * loading only FPSIMD state, so always set the VL.
-   400		 */
-   401		if (system_supports_sve() && test_thread_flag(TIF_SVE)) {
-   402			unsigned long vq = sve_vq_from_vl(task_get_sve_vl(current));
-   403			sysreg_clear_set_s(SYS_ZCR_EL1, ZCR_ELx_LEN, vq - 1);
-   404		}
-   405	
-   406		/* Restore SME, override SVE register configuration if needed */
-   407		if (system_supports_sme()) {
-   408			unsigned long sme_vl = task_get_sme_vl(current);
-   409	
-   410			/* Ensure VL is set up for restoring data */
-   411			if (test_thread_flag(TIF_SME)) {
-   412				unsigned long vq = sve_vq_from_vl(sme_vl);
-   413				sysreg_clear_set_s(SYS_SMCR_EL1, SMCR_ELx_LEN, vq - 1);
-   414			}
-   415	
-   416			write_sysreg_s(current->thread.svcr, SYS_SVCR);
-   417	
-   418			if (thread_za_enabled(&current->thread))
-   419				sme_load_state(current->thread.sme_state,
-   420					       system_supports_sme2());
-   421	
-   422			if (thread_sm_enabled(&current->thread))
-   423				restore_ffr = system_supports_fa64();
-   424		}
-   425	
-   426		if (system_supports_fpmr())
-   427			write_sysreg_s(current->thread.uw.fpmr, SYS_FPMR);
-   428	
-   429		if (restore_sve_regs) {
-   430			WARN_ON_ONCE(current->thread.fp_type != FP_STATE_SVE);
-   431			sve_load_state(current->thread.sve_state, restore_ffr);
-   432			fpsimd_load_common(&current->thread.uw.fpsimd_state);
-   433		} else {
-   434			WARN_ON_ONCE(current->thread.fp_type != FP_STATE_FPSIMD);
-   435			fpsimd_load_state(&current->thread.uw.fpsimd_state);
-   436	
-   437			/*
-   438			 * If the task had been using SVE we keep it enabled
-   439			 * when loading FPSIMD only state for a period to
-   440			 * minimise overhead for tasks actively using SVE,
-   441			 * disabling it periodicaly to ensure that tasks that
-   442			 * use SVE intermittently do eventually avoid the
-   443			 * overhead of carrying SVE state.  The timeout is
-   444			 * initialised when we take a SVE trap in do_sve_acc().
-   445			 */
-   446			if (system_supports_sve() && test_thread_flag(TIF_SVE)) {
-   447				if (time_after(jiffies, current->thread.sve_timeout)) {
-   448					clear_thread_flag(TIF_SVE);
-   449					sve_user_disable();
-   450				} else {
-   451					/*
-   452					 * Loading V will have flushed the
-   453					 * rest of the Z register, SVE is
-   454					 * enabled at EL1 and VL was set
-   455					 * above.
-   456					 */
-   457					sve_flush_p();
-   458				}
-   459			}
-   460		}
-   461	}
-   462	
+   529	
+   530	/**
+   531	 * bio_copy_user_iov_iobuf - copy user data using pool-allocated folios
+   532	 *
+   533	 * Maps user I/O into a bio using higher-order folios from the queue's iobuf
+   534	 * pool.  Falls back to page-by-page allocation if pool is exhausted or the
+   535	 * request is not aligned.
+   536	 *
+   537	 * Returns 0 on success (pool or fallback), <0 on hard error.
+   538	 */
+   539	static int bio_copy_user_iov_iobuf(struct request *rq, struct iov_iter *iter,
+   540					   gfp_t gfp_mask)
+   541	{
+   542		struct request_queue *q = rq->q;
+   543		struct bio_iobuf_data *ibd;
+   544		struct folio **folios;
+   545		unsigned long len = iter->count;
+   546		unsigned int folio_size = blk_iobuf_pool_folio_size(q);
+   547		unsigned int nr_folios;
+   548		struct bio *bio;
+   549		unsigned int i;
+   550		int ret;
+   551	
+   552		/* Only handle whole-folio-aligned sizes for now */
+   553		if (!IS_ALIGNED(len, folio_size))
+   554			return -EREMOTEIO;
+   555	
+   556		nr_folios = DIV_ROUND_UP(len, folio_size);
+   557	
+   558		/*
+   559		 * Allocate ibd without the bmd.iov[] flexible array: for writes
+   560		 * we don't need the original iov after copy_from_iter, and for reads
+   561		 * (not yet implemented) we'll revisit.  The separate folios array
+   562		 * tracks pool allocations; iov overlap with flex array is avoided.
+   563		 */
+   564		ibd = kzalloc(sizeof(*ibd), gfp_mask);
+   565		if (!ibd)
+   566			return -ENOMEM;
+   567	
+   568		folios = kcalloc(nr_folios, sizeof(*folios), gfp_mask);
+   569		if (!folios) {
+   570			kfree(ibd);
+   571			return -ENOMEM;
+   572		}
+   573	
+   574		for (i = 0; i < nr_folios; i++) {
+   575			folios[i] = blk_iobuf_alloc_folio(q,
+   576					(gfp_mask | __GFP_NOWARN) & ~__GFP_DIRECT_RECLAIM);
+   577			if (!folios[i]) {
+   578				/* Pool exhausted; log fallback and bail */
+   579				blk_iobuf_inc_fallback(q);
+   580				trace_block_iobuf_fallback(q, "pool_exhausted");
+   581				ret = -EREMOTEIO;
+   582				goto free_folios;
+   583			}
+   584		}
+   585	
+   586		bio = blk_rq_map_bio_alloc(rq, nr_folios, gfp_mask);
+   587		if (!bio) {
+   588			ret = -ENOMEM;
+   589			goto free_folios;
+   590		}
+   591	
+   592		for (i = 0; i < nr_folios; i++) {
+   593			unsigned int chunk = min_t(unsigned long, len, folio_size);
+   594	
+   595			if (!bio_add_folio(bio, folios[i], chunk, 0)) {
+   596				ret = -EINVAL;
+   597				goto put_bio;
+   598			}
+   599			len -= chunk;
+   600		}
+   601	
+   602		ibd->bmd.is_our_pages   = true;
+   603		ibd->bmd.is_null_mapped = false;
+   604		ibd->bmd.is_iobuf       = true;
+   605		ibd->q         = q;
+   606		ibd->folios    = folios;
+   607		ibd->nr_folios = nr_folios;
+   608	
+   609		if (iov_iter_rw(iter) == WRITE) {
+   610			ret = bio_copy_from_iter(bio, iter);
+   611			if (ret)
+   612				goto put_bio;
+   613		} else {
+   614			zero_fill_bio(bio);
+   615			iov_iter_advance(iter, bio->bi_iter.bi_size);
+   616		}
+   617	
+   618		bio->bi_private = ibd;
+   619		bio->bi_end_io = NULL;		/* bio_uncopy_user_iobuf called on unmap */
+   620	
+   621		ret = blk_rq_append_bio(rq, bio);
+   622		if (ret)
+   623			goto put_bio;
+   624	
+   625		trace_block_iobuf_bounce_submit(q, bio->bi_iter.bi_size, nr_folios,
+ > 626						bio_op(bio));
+   627		return 0;
+   628	
+   629	put_bio:
+   630		blk_mq_map_bio_put(bio);
+   631	free_folios:
+   632		for (i = 0; i < nr_folios; i++)
+   633			if (folios[i])
+   634				blk_iobuf_free_folio(q, folios[i]);
+   635		kfree(folios);
+   636		kfree(ibd);
+   637		return ret;
+   638	}
+   639	
 
 --
 0-DAY CI Kernel Test Service
