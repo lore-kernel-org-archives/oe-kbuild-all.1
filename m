@@ -1,59 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48173ED5B3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 11:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613863EA967
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 11:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991003; cv=none; b=nNyGJi1Uk9T4SN08ADvRIsUVCLnvGRYfy9QZFi5zGwiSjZGVJBUL8NC2KKrfI57BmBkF5L7/4UFiAdnzzT/MEvxYs2zQIzrXAGneUM5wz3bwfY5YGj45y6I9cZoZKSKIMbZ2Fm7KPV/QBMybmWogiR1B+PVSTQ/tdO3STReVEwE=
+	t=1782991218; cv=none; b=kkbSzRxHYV8/1I3XihahuSwFRP1U7FeUeULu5Lx57CF817BL47cVMxQR8x/0TZzWpxdtYYnaJ9wLOoOnVNWozFx7ecLdz34dT43iTq9d93kmQA6UZ3sMQBPBkRJ4ujkXqNRe2xqqInPadygM6wYE/TQm+oy8myWsUXvUkjImQQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991003; c=relaxed/simple;
-	bh=ftaYbS5oX9UQIckleQ0FqBqNYgjevcJGHmF0K/Xvc3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=OWK+PgGzQLPoN/INQ7fCML9juhDGr+CnjvyylD+YFfIeuroG2p2jkdKQuDS/rv/AS96cZQRrpNbuYQnRneIsjjoRy3bZxflMrry/jopFwHc7SLGfJRvsjZ9GjGFkSY8zOkEoCBTTBNMyfyIrTpspx/EomULSAF2+nbWGulV4y+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TXY9BT4q; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782991218; c=relaxed/simple;
+	bh=kAnfopNpv/fjnKs20E95RBxudb2XCWa1MC8aLfwzIs4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e7bAXWeZ+V8rZF4J82s8anrssEW1W2z5BZc/ae91uB9axuTpRm67Q/rFNs5mF0uz0QsjXRNIeiD1WwMx94Cbvxw9buyYOKTJE1aZHGGDU8pg5TqCf19evVdhHinfN73j7YxN0h6OfGJ/v2hGPxqAqPWIetzbFJn37maJzKTlLaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=amcGEjCl; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TXY9BT4q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782991001; x=1814527001;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ftaYbS5oX9UQIckleQ0FqBqNYgjevcJGHmF0K/Xvc3Q=;
-  b=TXY9BT4qwQ+hos8PtkPwbaoUWfprYOqzATQ4QzVa2u08LsIrXtaWXK4q
-   RHdRDv5zeQV8JwHn2FQ8qafi3SKm/Bhv/A/7Y0FxsgihGSEBE6Q3LEEYz
-   s+rHvjJayFIDkjysYmzgboNtw6o+6CbInDxai416yCdjSlmleY4oVNic/
-   Q4Qe5Jm9E2mVaBpmgg7prbxNA8TLwqoZ3fvjhZrd7i1YDyYoXmyv2s5FT
-   JX5LcO2235BMOyT5b4u+NKekgJgI0uA5SsOUdBrZrAeDCxvspRViKHWz5
-   XPHkmTJWLwpnQkptDtz0o1PQtpPEB2G+32fXuwp19N9HhAix/5LY3KQj6
-   g==;
-X-CSE-ConnectionGUID: sS5rNxjqSvC7XqU3/UA0Vg==
-X-CSE-MsgGUID: sLFb25xwTCivnKYzCSpIKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="71264353"
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="71264353"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 04:16:40 -0700
-X-CSE-ConnectionGUID: AxLrYiaSTD+WDCOGVpFi6Q==
-X-CSE-MsgGUID: wuyBCKAXQauSHThVRn3ntQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="276047298"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Jul 2026 04:16:39 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wfFPI-00000000AjT-3BFj;
-	Thu, 02 Jul 2026 11:16:36 +0000
-Date: Thu, 02 Jul 2026 19:15:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Maxime =?utf-8?Q?B=C3=A9lair"?= <maxime.belair@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- John Johansen <john.johansen@canonical.com>
-Subject: [linux-next:master 1545/2633] apparmorfs.c:undefined
- reference to `decompress_zstd'
-Message-ID: <202607021954.NMTgaGl9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="amcGEjCl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=KCK1+c1xkLWj0prs2DSC6RdwXYT/SKPIWkQs3ZkYkmY=; b=amcGEjClu8lSQ/WB/bUCrsqvFn
+	Xxtx/mhPOrwU5cbmzcvBzqdhlNXMzs6OR27GU/8A+OGLmi+HzLeHt54vkI53rbzxwLrkVjNb3ZlZ+
+	Y6buK/xoNKLl2Vt7+sb6ayuuyvL5A6gpN5evP2xJwVjr/mki6nuqnJXaCzJZJcpsWq0/E2ZzwuHTe
+	nSB+Y1ROhr7eW3A8XI/SfihT3rPVUKalAOa9XKMqBsIqD777ewBSju6z3KkT2U7gGmY2ZUR8JZbSN
+	0Bevc3WCX2kINUwoPbmXDUKUagDfUDTeJuAuG54HkP3wLJ1Bv7/P4kcBvhiy1WZMItM5jPWP4On4I
+	DpaJOdQQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wfFSm-00000003jN2-3n9q;
+	Thu, 02 Jul 2026 11:20:13 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 0C0F5300128; Thu, 02 Jul 2026 13:20:12 +0200 (CEST)
+Date: Thu, 2 Jul 2026 13:20:11 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Taeyang Lee <0wn@theori.io>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [peterz-queue:perf/urgent 1/4] kernel/events/core.c:4739:1:
+ error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+Message-ID: <20260702112011.GJ751831@noisy.programming.kicks-ass.net>
+References: <202607021949.zL9JHdEP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,25 +47,26 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202607021949.zL9JHdEP-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4f441960e691d37c880d2cc004de06bb5b6bd5e4
-commit: 17b5758bf35c7a113363cd7a350b7e6a251b80f4 [1545/2633] apparmor: Initial support for compressed policies
-config: sparc64-randconfig-r123-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021954.NMTgaGl9-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021954.NMTgaGl9-lkp@intel.com/reproduce)
+On Thu, Jul 02, 2026 at 07:15:35PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/urgent
+> head:   91a15888098678641edd3ef4f5d66fa7e77dcc28
+> commit: f60c8830996ca8e468f96cc3ae79aab1e6fbfb12 [1/4] perf/core: Detach event groups during remove_on_exec
+> config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260702/202607021949.zL9JHdEP-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021949.zL9JHdEP-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202607021949.zL9JHdEP-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    kernel/events/core.c: In function 'perf_event_exit_event':
+> >> kernel/events/core.c:4739:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+>     4739 | {
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607021954.NMTgaGl9-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   sparc64-linux-ld: security/apparmor/apparmorfs.o: in function `aa_get_data_from_compressed':
->> apparmorfs.c:(.text+0x1814): undefined reference to `decompress_zstd'
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bah, I lost a build fix :-( /me goes try again.
