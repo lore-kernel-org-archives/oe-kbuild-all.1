@@ -1,108 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F85536C9D5
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 06:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+Received: from ultrarisc.com (unknown [218.76.62.146])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4A639FD4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 06:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.76.62.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782972353; cv=none; b=WtQbO7vhw9bAtHe30ufalwP5zmkjA2eMPja1G642x85v5Yn8X5uzFVp0KvgJW8onxGH8hthKqgBQ0XELE7hyTjpdX0kFTdHjr0FryoACg6x3G7sop1/U4gISQNgo40LmqHEgFjPTGwFDe0i4bB5ktsPLBuVUoK+EzbyTPhOY9Ug=
+	t=1782973625; cv=none; b=WAWbKYQiVu0NQ78xXymA4AA2pSsPPNhO2ppTD5EZBd/lKWrZaelKc3OMbw/5RNFTWE8lCnFqOEgOydcNo72X0+k+Ke4VMvrbIkWEItkZyyyBmvsMzCuKm+UgyvN16TCSydw1P/HlxSeiWLqt02JVW07y0Ms5I1JqQhmVQhtggzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782972353; c=relaxed/simple;
-	bh=nbkDo8tqGx6uakJAR9LbFju0oijzkJ8+e5UDd1hww/4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qVLa2vy/5FEuxiZ4s+6VWCIiRzS97Nr78G/NX4iS9p0Aq9+sOf9n59xvTjDJgoX203NrLCUj5Y5wOcTrRRg0OXwD512XS++f71bGqNU+I+Ha/WOegB58dZFrYvC24iG93hn/BoF4Nabxs32kpvilhFYpruvXFgCU1X0u7DEF7Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UG1X0Tc5; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782973625; c=relaxed/simple;
+	bh=kUR8YD6WrAPXvJRilFbNNv5nrpqnyztwTDZppV5QxYU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=t0KJJ5cByoXRCt/DLWHZafjryoXjrMhGDX3G5eqCEs3OA/d3M9lUIUnEwcrYrZ0+wr3W8is09e3LbaFWXoxYddRS6OPxlhcgGy4K79aEg5IHgW4wy5CZSpLpuVMUIL9IPGV0ccdHk60I9wt0z0IQWMVMRhdGZ+2RLL/z4ozMsu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com; spf=none smtp.mailfrom=ultrarisc.com; dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b=pOEg/AEv; arc=none smtp.client-ip=218.76.62.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ultrarisc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UG1X0Tc5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782972352; x=1814508352;
-  h=date:from:to:cc:subject:message-id;
-  bh=nbkDo8tqGx6uakJAR9LbFju0oijzkJ8+e5UDd1hww/4=;
-  b=UG1X0Tc5fJMvY9/vVPxiI51ZlINUZrDayywxDleEfQSZ4Ioxom61fWq/
-   C/CU9NUIKOFTi3xsT26o+0aosfWPeK58frHg93IEzq9BU/pBrk63dwT/x
-   76kyQ8NrIvHAZt1WvwGUqtOg1OQePXoW9kuNxqeTaupcf7W6E4vxo+gdC
-   xM04fuXKQ6sutTqQa1tLVf4UbU0YU+SpEGET0HH6jwR4MsY6IzjM9bA8h
-   cG0baLVt+5MUiE8tj12yLo+UtYxhJdWZKojM7iDJa5QUkLaOX6LUu/D+s
-   uub2N8tEGgAYL6Q+2GhnTqNIrbN5McueiwqNfX/L5HS1LwqJkiEFEwPE9
-   g==;
-X-CSE-ConnectionGUID: DaEEtUVySfy5Bk677WGBMg==
-X-CSE-MsgGUID: 9222rpNGSm2cIFue3WuruA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="94312315"
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="94312315"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 23:05:51 -0700
-X-CSE-ConnectionGUID: q+qQZ+yST8O0HZ5inkQyLA==
-X-CSE-MsgGUID: 9pFeL0yURWiP0rKQCtQAqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="275972201"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Jul 2026 23:05:49 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wfAYN-00000000A4z-2VCS;
-	Thu, 02 Jul 2026 06:05:42 +0000
-Date: Thu, 02 Jul 2026 14:04:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: include/asm-generic/tlb.h:609:42: sparse: sparse: cast
- truncates bits from constant value (1000000000 becomes 0)
-Message-ID: <202607021324.e6xUCAYj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b="pOEg/AEv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ultrarisc.com; s=dkim; h=Received:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
+	References:Date:Message-Id; bh=XbRQZYbv+PNVoC9yVR/lElmT8CFhcyXks
+	2dHEFNL0ms=; b=pOEg/AEvrkzYTSvo/dCOovJLcNQwBi7cyJr2AobNc/cIrRCvM
+	vGYGr6+WVRIX4wjdi6rDyL2kmjUoFvn3Y4kC8kms7zSTefgVE0jjMhKY3eWEEpps
+	Ka0e2wLJgu8LlobnqfeNAye5p5AiEf2+LT1ImaviNU5ebicMBlvKqAv9FM=
+Received: from [127.0.0.1] (unknown [192.168.100.1])
+	by localhost.localdomain (Coremail) with SMTP id AQAAfwAnYULOBEZqb5gOAA--.14657S2;
+	Thu, 02 Jul 2026 14:27:26 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] gpio: dwapb: Defer clock gating until noirq
+From: Jia Wang <wangjia@ultrarisc.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Jia Wang via B4 Relay <devnull+wangjia.ultrarisc.com@kernel.org>, 
+ Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij <linusw@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Jia Wang <wangjia@ultrarisc.com>
+In-Reply-To: <202606291736.mAgOeA65-lkp@intel.com>
+References: <20260629-gpio-dwapb-wakeup-v1-1-3394f02317da@ultrarisc.com>
+ <202606291736.mAgOeA65-lkp@intel.com>
+Date: Thu, 02 Jul 2026 14:26:53 +0800
+Message-Id: <178297361311.1082377.388930263384975483.b4-reply@b4>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782973613; l=2927;
+ i=wangjia@ultrarisc.com; s=20260515; h=from:subject:message-id;
+ bh=kUR8YD6WrAPXvJRilFbNNv5nrpqnyztwTDZppV5QxYU=;
+ b=/3p/c9N9Mur2dKmu9ZZzefavmBkgNRdLoE/lt76o42Sszn9ezTSyLbWmIqeIR4aRV95KY54Ne
+ GDG6mh2XY49CC42qU7VS4dOpjB9XKyQaFxL5TXIrS2dh6K1676d6bGP
+X-Developer-Key: i=wangjia@ultrarisc.com; a=ed25519;
+ pk=wGVm18siRScehKOkOz0WKxgxDy7IezHEszhnN4/TUCY=
+X-CM-TRANSID:AQAAfwAnYULOBEZqb5gOAA--.14657S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGFWfWFy5ZFy7WFW7Zr4xJFb_yoW5WF15pa
+	18Ja4qqrW8try0gFW7XF48Zwnxtws3J340kFZ7Cw1fZ3y2vry5AF4I9ry3uFya9rWkKrWY
+	qws0gFyrZw15Aw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvS14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+	6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
+	WxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	Jw0_GFylc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
+	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+	xVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+	8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280
+	aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
+	ZEXa7VUbGQ6JUUUUU==
+X-CM-SenderInfo: pzdqwylld63zxwud2x1vfou0bp/1tbiAQAQEWpF4E0ACQAAsL
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a50a141f05a8d1737661b19ee22ff8455b94409
-commit: c090868f59ce888db838cf543d18f731d13ed498 Revert "hugetlb: make hugetlb depends on SYSFS or SYSCTL"
-date:   10 months ago
-config: arm64-randconfig-r112-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021324.e6xUCAYj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021324.e6xUCAYj-lkp@intel.com/reproduce)
+On 2026-06-29 18:04 +0800, kernel test robot wrote:
+> Hi Jia,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on dc59e4fea9d83f03bad6bddf3fa2e52491777482]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jia-Wang-via-B4-Relay/gpio-dwapb-Defer-clock-gating-until-noirq/20260629-135404
+> base:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> patch link:    https://lore.kernel.org/r/20260629-gpio-dwapb-wakeup-v1-1-3394f02317da%40ultrarisc.com
+> patch subject: [PATCH] gpio: dwapb: Defer clock gating until noirq
+> config: sparc64-randconfig-001-20260629 (https://download.01.org/0day-ci/archive/20260629/202606291736.mAgOeA65-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606291736.mAgOeA65-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606291736.mAgOeA65-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/gpio/gpio-dwapb.c: In function 'dwapb_irq_set_wake':
+> >> drivers/gpio/gpio-dwapb.c:377:7: error: 'struct irq_data' has no member named 'parent_data'
+>      if (d->parent_data && !!ctx->wake_en != !!wake_en) {
+>           ^~
+> >> drivers/gpio/gpio-dwapb.c:378:9: error: implicit declaration of function 'irq_chip_set_wake_parent'; did you mean 'irq_set_parent'? [-Werror=implicit-function-declaration]
+>       err = irq_chip_set_wake_parent(d, enable);
+>             ^~~~~~~~~~~~~~~~~~~~~~~~
+>             irq_set_parent
+>    cc1: some warnings being treated as errors
+> 
+> 
+> vim +377 drivers/gpio/gpio-dwapb.c
+> 
+>    362	
+>    363	static int dwapb_irq_set_wake(struct irq_data *d, unsigned int enable)
+>    364	{
+>    365		struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+>    366		struct dwapb_gpio *gpio = to_dwapb_gpio(gc);
+>    367		struct dwapb_context *ctx = gpio->ports[0].ctx;
+>    368		irq_hw_number_t bit = irqd_to_hwirq(d);
+>    369		u32 wake_en = ctx->wake_en;
+>    370		int err;
+>    371	
+>    372		if (enable)
+>    373			wake_en |= BIT(bit);
+>    374		else
+>    375			wake_en &= ~BIT(bit);
+>    376	
+>  > 377		if (d->parent_data && !!ctx->wake_en != !!wake_en) {
+>  > 378			err = irq_chip_set_wake_parent(d, enable);
+>    379			if (err)
+>    380				return err;
+>    381		}
+>    382	
+>    383		ctx->wake_en = wake_en;
+>    384	
+>    385		return 0;
+>    386	}
+>    387	
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: c090868f59ce ("Revert "hugetlb: make hugetlb depends on SYSFS or SYSCTL"")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607021324.e6xUCAYj-lkp@intel.com/
+Thanks for the report. This is caused by using hierarchical IRQ helpers
+without guarding them with CONFIG_IRQ_DOMAIN_HIERARCHY.
 
-sparse warnings: (new ones prefixed by >>)
-   mm/hugetlb.c:665:12: sparse: sparse: context imbalance in 'allocate_file_region_entries' - wrong count at exit
-   mm/hugetlb.c:736:13: sparse: sparse: context imbalance in 'region_add' - wrong count at exit
-   mm/hugetlb.c:803:13: sparse: sparse: context imbalance in 'region_chg' - wrong count at exit
-   mm/hugetlb.c:5778:20: sparse: sparse: context imbalance in 'move_huge_pte' - different lock contexts for basic block
-   mm/hugetlb.c: note: in included file (through arch/arm64/include/asm/tlb.h):
->> include/asm-generic/tlb.h:609:42: sparse: sparse: cast truncates bits from constant value (1000000000 becomes 0)
-   mm/hugetlb.c: note: in included file (through arch/arm64/include/asm/barrier.h, include/linux/list.h):
-   arch/arm64/include/asm/alternative-macros.h:232:9: sparse: sparse: context imbalance in 'hugetlb_wp' - unexpected unlock
+I'll fix this in the next version of the patch.
+ 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
-vim +609 include/asm-generic/tlb.h
 
-2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  605) 
-2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  606) static inline void tlb_flush_pmd_range(struct mmu_gather *tlb,
-2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  607) 				     unsigned long address, unsigned long size)
-2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  608) {
-2631ed00b04988 Peter Zijlstra (Intel  2020-06-25 @609) 	__tlb_adjust_range(tlb, address, size);
-2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  610) 	tlb->cleared_pmds = 1;
-2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  611) }
-2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  612) 
-
-:::::: The code at line 609 was first introduced by commit
-:::::: 2631ed00b0498810f8d5c2163c6b5270d893687b tlb: mmu_gather: add tlb_flush_*_range APIs
-
-:::::: TO: Peter Zijlstra (Intel) <peterz@infradead.org>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
