@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47B54C0428
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 14:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557D523393F;
+	Thu,  2 Jul 2026 14:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783001183; cv=none; b=eAox/GZwqPjJDEYqZVLXkoDD9bdP5225dJntCH0FZkdUAvQrx+IBk52cTaHNhTcL8FLn/ooUNOudu4sFp4T8Di8KcnA5zjYVuqoTgrXel4sJYxE7T6x/OCLvZ8evkV2rbIlHjlZP8MQDL+JbUpwBun8+yRTl79kucPiH5RQ0x0s=
+	t=1783001948; cv=none; b=lK4/ANDwq4rUBbwYSAe63EG2BJpiNW/DCVTDrcwNtHQoMdfcKhgYJpEpwE0VSzgDeexpHUozJF777jy2ihxm1hx4KAFYsFzChBnvXV2OG1GWzwdkyMZ8VFgBMdzhHEQ7fnZzlwAKWf8cTFJ07GTKdX3oEaXnivIOYi+FfWD/hCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783001183; c=relaxed/simple;
-	bh=eY5mTsIy2QqAaF4zjzKkGA237xSd/ocD7I+hUaf4ksw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UjLcllaKhm93YohQ7EC0HmXmeN5+jtRnq8vRi0+sjutpirnPOyEKxEJtiyPYwHR8YgKyPPoXVFVzVSTekzwGDGss3BxBlBcp8NfJ0Ms5kdTv9/AjIb3tTpBG1YyD1U0MD/wlKJ9SOd1iXgGxQi/X9qz90cjNGvCWpyrvE/frYiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AM77w/7q; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1783001948; c=relaxed/simple;
+	bh=8Ckt8OWwSxUDS3+aZ1wGeZLdt0/wQb2Kt0XypOsnj/w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O+BybeROemwnYYMFFmhc85ZacLVAd8e/qX6jBivzw7GPhomLGI8fF5a0gQqAfY3jJNSIOSmP6zOTZJXR5v56sAkA59T58b0gzAmivD1sVNBu5kaifNE43RfW2+xO0SdtAo4NIfbrrgt8BIrI+f+2onQd/K/RetNpk/wUOBk4f+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HDYIxTtd; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AM77w/7q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDYIxTtd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783001182; x=1814537182;
+  t=1783001947; x=1814537947;
   h=date:from:to:cc:subject:message-id;
-  bh=eY5mTsIy2QqAaF4zjzKkGA237xSd/ocD7I+hUaf4ksw=;
-  b=AM77w/7qakLwUbYICkK0RD3xJPX5DcqLT8cR7BpoGmYgz+nwBPxT9tpo
-   V1QxsgOFhURroej537OnssAIUyXhAX2jAL6mHCCWhSUC0TTjhgDQmeYxR
-   k4c8ldnsT/VClX5Tq3LWfPWJCB/+DUm+QcYwwUpi5nYiqz29nZnZ4RCFF
-   YB5oxCSI7kHRz/YAjRUD2+VN0VDa+SXdRd5MsA6lwIxa0OvuoWR0jBfPM
-   7Rm+w8zAvRQOx2p4eo675Wv5vGDhQBVGB+X3gxReFdEg7x2qV3Q/dvFm9
-   lcekYqilW67HHIyxrhsnkaC2O70UTlJ6KEwQ9y0kKOfVsogR9LVHc+V9y
+  bh=8Ckt8OWwSxUDS3+aZ1wGeZLdt0/wQb2Kt0XypOsnj/w=;
+  b=HDYIxTtdow10C0CySYAqTLbF5w7+9W6v2zWvjbt+YSzxykds0eh/kTR3
+   lIrdR6QjkoJjlzjLjEwV23RwpgCYmfBaxzvRyEmXz7BE5tlx0zMyIrt9l
+   RWIBolTM4pf/cC2KG2H5CZFgggOxa95Ds1WehmKbHOmjGMdQY70nzlJIY
+   Mr1hlcvWo8HUVIebfDPwzHUpiPy8UfvKFb+fJ7wDarhwiZaYlJ72IPmuG
+   v3DeJcX9fDbCHCPs8IgB8wKabt3w81No1qQZjdDRNblNUA3DG2PGcxWMS
+   4EZarZrXOy+rKyTnH7vae87rpXFx1RWAlNeTPf+aJpKyKdTYuM3iFx8ot
    g==;
-X-CSE-ConnectionGUID: K2JoF8k6TRCW2fWjfOGptw==
-X-CSE-MsgGUID: ANhv8BoxTt+ZfkwqRdfB3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="94410970"
+X-CSE-ConnectionGUID: +eosXx/lSoyFHtNkPvKeeg==
+X-CSE-MsgGUID: 7mwJRBbbQdyrgAUwRCJ4nw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="94412167"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="94410970"
+   d="scan'208";a="94412167"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 07:06:06 -0700
-X-CSE-ConnectionGUID: SOOLmyYoQfmWgyrwFLalpg==
-X-CSE-MsgGUID: BKQ/lnXDRH2132kkCOvBBQ==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 07:19:07 -0700
+X-CSE-ConnectionGUID: +CpoN2kFRty9iUI3oQnh/A==
+X-CSE-MsgGUID: Sgvyw5fjR9CF9ABCibqCpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="256459927"
+   d="scan'208";a="256462685"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 02 Jul 2026 07:06:04 -0700
+  by orviesa003.jf.intel.com with ESMTP; 02 Jul 2026 07:19:05 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfI3G-00000000Aq3-0s7x;
-	Thu, 02 Jul 2026 14:06:02 +0000
-Date: Thu, 02 Jul 2026 22:05:44 +0800
+	id 1wfIFq-00000000AqZ-2pEz;
+	Thu, 02 Jul 2026 14:19:02 +0000
+Date: Thu, 02 Jul 2026 22:18:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sonny Jiang <sonjiang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>, Leo Liu <leo.liu@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_2.c:274
- jpeg_v5_0_2_hw_fini() warn: inconsistent indenting
-Message-ID: <202607022154.oRgbWKS5-lkp@intel.com>
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sudeep-holla:b4/acpi_scmi_pcc 19/23]
+ include/acpi/acpi_bus.h:29:28: warning: declaration of 'union acpi_object'
+ will not be visible outside of this function
+Message-ID: <202607022235.pnx44b9j-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,46 +60,127 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a50a141f05a8d1737661b19ee22ff8455b94409
-commit: 855e3e19f69c0133a98dfae3ec9d26089cd50e77 drm/amdgpu: Add JPEG_v5_0_2 IP block
-date:   4 months ago
-config: sparc-randconfig-r071-20260702 (https://download.01.org/0day-ci/archive/20260702/202607022154.oRgbWKS5-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.4.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/acpi_scmi_pcc
+head:   c1daed90f65670f1d0231c3ab8a569b682181b2b
+commit: 7a2657c9e1f143ed73c88d292c22c5225720d100 [19/23] firmware: arm_scmi: Fall back to ACPI HID when "compatible" is absent
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260702/202607022235.pnx44b9j-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607022235.pnx44b9j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 855e3e19f69c ("drm/amdgpu: Add JPEG_v5_0_2 IP block")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607022154.oRgbWKS5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607022235.pnx44b9j-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_2.c:274 jpeg_v5_0_2_hw_fini() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +274 drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_2.c
+   In file included from drivers/firmware/arm_scmi/driver.c:19:
+   include/acpi/acpi_bus.h:24:2: error: unknown type name 'acpi_handle'
+      24 |         acpi_handle *handles;
+         |         ^
+   include/acpi/acpi_bus.h:28:1: error: unknown type name 'acpi_status'
+      28 | acpi_status
+         | ^
+>> include/acpi/acpi_bus.h:29:28: warning: declaration of 'union acpi_object' will not be visible outside of this function [-Wvisibility]
+      29 | acpi_extract_package(union acpi_object *package,
+         |                            ^
+>> include/acpi/acpi_bus.h:30:15: warning: declaration of 'struct acpi_buffer' will not be visible outside of this function [-Wvisibility]
+      30 |                      struct acpi_buffer *format, struct acpi_buffer *buffer);
+         |                             ^
+   include/acpi/acpi_bus.h:31:1: error: unknown type name 'acpi_status'
+      31 | acpi_status
+         | ^
+   include/acpi/acpi_bus.h:32:23: error: unknown type name 'acpi_handle'
+      32 | acpi_evaluate_integer(acpi_handle handle,
+         |                       ^
+   include/acpi/acpi_bus.h:33:9: error: unknown type name 'acpi_string'
+      33 |                       acpi_string pathname,
+         |                       ^
+>> include/acpi/acpi_bus.h:34:16: warning: declaration of 'struct acpi_object_list' will not be visible outside of this function [-Wvisibility]
+      34 |                       struct acpi_object_list *arguments, unsigned long long *data);
+         |                              ^
+   include/acpi/acpi_bus.h:35:30: error: unknown type name 'acpi_handle'
+      35 | bool acpi_evaluate_reference(acpi_handle handle, acpi_string pathname,
+         |                              ^
+   include/acpi/acpi_bus.h:35:50: error: unknown type name 'acpi_string'
+      35 | bool acpi_evaluate_reference(acpi_handle handle, acpi_string pathname,
+         |                                                  ^
+   include/acpi/acpi_bus.h:36:16: warning: declaration of 'struct acpi_object_list' will not be visible outside of this function [-Wvisibility]
+      36 |                              struct acpi_object_list *arguments,
+         |                                     ^
+   include/acpi/acpi_bus.h:43:22: error: unknown type name 'acpi_handle'
+      43 | bool acpi_device_dep(acpi_handle target, acpi_handle match);
+         |                      ^
+   include/acpi/acpi_bus.h:43:42: error: unknown type name 'acpi_handle'
+      43 | bool acpi_device_dep(acpi_handle target, acpi_handle match);
+         |                                          ^
+   include/acpi/acpi_bus.h:44:1: error: unknown type name 'acpi_status'
+      44 | acpi_status
+         | ^
+   include/acpi/acpi_bus.h:45:19: error: unknown type name 'acpi_handle'
+      45 | acpi_evaluate_ost(acpi_handle handle, u32 source_event, u32 status_code,
+         |                   ^
+   include/acpi/acpi_bus.h:46:12: warning: declaration of 'struct acpi_buffer' will not be visible outside of this function [-Wvisibility]
+      46 |                   struct acpi_buffer *status_buf);
+         |                          ^
+   include/acpi/acpi_bus.h:48:22: error: unknown type name 'acpi_handle'
+      48 | bool acpi_has_method(acpi_handle handle, char *name);
+         |                      ^
+   include/acpi/acpi_bus.h:49:1: error: unknown type name 'acpi_status'
+      49 | acpi_status acpi_execute_simple_method(acpi_handle handle, char *method,
+         | ^
+   include/acpi/acpi_bus.h:49:40: error: unknown type name 'acpi_handle'
+      49 | acpi_status acpi_execute_simple_method(acpi_handle handle, char *method,
+         |                                        ^
+   include/acpi/acpi_bus.h:51:1: error: unknown type name 'acpi_status'
+      51 | acpi_status acpi_evaluate_ej0(acpi_handle handle);
+         | ^
+   include/acpi/acpi_bus.h:51:31: error: unknown type name 'acpi_handle'
+      51 | acpi_status acpi_evaluate_ej0(acpi_handle handle);
+         |                               ^
+   include/acpi/acpi_bus.h:52:1: error: unknown type name 'acpi_status'
+      52 | acpi_status acpi_evaluate_lck(acpi_handle handle, int lock);
+         | ^
+   include/acpi/acpi_bus.h:52:31: error: unknown type name 'acpi_handle'
+      52 | acpi_status acpi_evaluate_lck(acpi_handle handle, int lock);
+         |                               ^
+   include/acpi/acpi_bus.h:53:1: error: unknown type name 'acpi_status'
+      53 | acpi_status acpi_evaluate_reg(acpi_handle handle, u8 space_id, u32 function);
+         | ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   5 warnings and 20 errors generated.
 
-   259	
-   260	/**
-   261	 * jpeg_v5_0_2_hw_fini - stop the hardware block
-   262	 *
-   263	 * @ip_block: Pointer to the amdgpu_ip_block for this hw instance.
-   264	 *
-   265	 * Stop the JPEG block, mark ring as not ready any more
-   266	 */
-   267	static int jpeg_v5_0_2_hw_fini(struct amdgpu_ip_block *ip_block)
-   268	{
-   269		struct amdgpu_device *adev = ip_block->adev;
-   270		int ret = 0;
-   271	
-   272		cancel_delayed_work_sync(&adev->jpeg.idle_work);
-   273	
- > 274			if (adev->jpeg.cur_state != AMD_PG_STATE_GATE)
-   275				ret = jpeg_v5_0_2_set_powergating_state(ip_block, AMD_PG_STATE_GATE);
-   276	
-   277		return ret;
-   278	}
-   279	
+
+vim +29 include/acpi/acpi_bus.h
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  26  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  27  /* acpi_utils.h */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  28  acpi_status
+4be44fcd3bf648 Len Brown         2005-08-05 @29  acpi_extract_package(union acpi_object *package,
+4be44fcd3bf648 Len Brown         2005-08-05 @30  		     struct acpi_buffer *format, struct acpi_buffer *buffer);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  31  acpi_status
+4be44fcd3bf648 Len Brown         2005-08-05  32  acpi_evaluate_integer(acpi_handle handle,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  33  		      acpi_string pathname,
+27663c5855b10a Matthew Wilcox    2008-10-10 @34  		      struct acpi_object_list *arguments, unsigned long long *data);
+6909e0f322b052 Rafael J. Wysocki 2023-12-08  35  bool acpi_evaluate_reference(acpi_handle handle, acpi_string pathname,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  36  			     struct acpi_object_list *arguments,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  37  			     struct acpi_handle_list *list);
+2e57d10a659156 Rafael J. Wysocki 2023-09-27  38  bool acpi_handle_list_equal(struct acpi_handle_list *list1,
+2e57d10a659156 Rafael J. Wysocki 2023-09-27  39  			    struct acpi_handle_list *list2);
+2e57d10a659156 Rafael J. Wysocki 2023-09-27  40  void acpi_handle_list_replace(struct acpi_handle_list *dst,
+2e57d10a659156 Rafael J. Wysocki 2023-09-27  41  			      struct acpi_handle_list *src);
+2e57d10a659156 Rafael J. Wysocki 2023-09-27  42  void acpi_handle_list_free(struct acpi_handle_list *list);
+d70d141bb15f32 Rafael J. Wysocki 2023-12-14  43  bool acpi_device_dep(acpi_handle target, acpi_handle match);
+275c58d77062bb Toshi Kani        2012-05-23  44  acpi_status
+05730c1952787f Jiang Liu         2014-02-19  45  acpi_evaluate_ost(acpi_handle handle, u32 source_event, u32 status_code,
+05730c1952787f Jiang Liu         2014-02-19  46  		  struct acpi_buffer *status_buf);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  47  
+
+:::::: The code at line 29 was first introduced by commit
+:::::: 4be44fcd3bf648b782f4460fd06dfae6c42ded4b [ACPI] Lindent all ACPI files
+
+:::::: TO: Len Brown <len.brown@intel.com>
+:::::: CC: Len Brown <len.brown@intel.com>
 
 --
 0-DAY CI Kernel Test Service
