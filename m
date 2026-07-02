@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1A6412266
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 08:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58AF42A79B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 08:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782980104; cv=none; b=L/pU1pqyehKqDlcB82MsMxyn75VfoGu2YXtxXM+qQ3u8iur0eFsgXCOLWM2g+T9RsOXjTK0a3QgJS5LfCXe/Wz2ZwNEb9/wVpWR7Bi/emYsk2agGFqs5qvkb0vdJklR7tkXlxmlgE3yZGALIc0S7wJov6UGj+LQHDB0DCnDQYpE=
+	t=1782981406; cv=none; b=ps7ZEkiKOQ8F/tB950tJKuVrqNbGBpmTpwSG/5ucWOzm2qnJ5DF62KemLyjupLzrG/mdszSAN4bGFX7sA4iUu30eFPyypW3UF6KE5FMIrH5zY6LFHoiasYJ6g55gnRte0NK6Hwl06SdLaSrPiGshp9Vbn9R9p6gsyiait3a9408=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782980104; c=relaxed/simple;
-	bh=krQC1jo0HseU8THdu66GtZ+yXS3T7b5eHfS8Hj7fNJo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=odRfy43hTAnWe5S1AYPz7pNAdult7SjhdX1T2cxF6QJmQ6LG5+4wT0MTVTd7Dmg/fxBjgI8mthnlYUPvsjgmfLRpV0/DBcRV83h9TBXYCDmMrOV/P6bEWv7exdxVfOzg2vM2oG69j2jJZ+0KC+hFTVKT1/IXErkIPlLaT+xTsVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dXZmpkox; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1782981406; c=relaxed/simple;
+	bh=GCE808FFTnLZ4Sn03qLIa4l6n5Bo/CRIAmY9H7HpQdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ec95fc04ZMswG5u5aiW79OsIWnVb8PHde4fvDVGJ7Vu8gYTTjJKlVAClQ2U/tlnIEziE4n3fP5dLgJcj3TYoHcxagUtInNR98ogaVD4HBm2BfspkIwKCm7RF/1pT5Yn7WPIp85JEbfYXODcaK45wQ5hOOxqJ0JS3q8c44N63KXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FEd4QaID; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXZmpkox"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FEd4QaID"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782980102; x=1814516102;
+  t=1782981405; x=1814517405;
   h=date:from:to:cc:subject:message-id;
-  bh=krQC1jo0HseU8THdu66GtZ+yXS3T7b5eHfS8Hj7fNJo=;
-  b=dXZmpkoxo0A3pvaSHvmnyb8l+c6wfAP6dVBKNMYL0CU8g/W4nPifxw/j
-   Al7qE+rfTN09gyjEnTpQQqYjr6JGiA3aiWN93ChdiwyTw4I4LiEXjt0BK
-   JL6hC+R3HFKk54HStZYxCvwC1cYVKenLhU7vKXwKfGmRymWf16CDThq0W
-   37hP4fgeok9uBj92aJN8ieiIy06rBod1AsrqxgdzlXSwHyJowhb3+5Tca
-   yJZbiB4jpQBq5E2mm1tH6Wd7HtAbsDb5/nqqLYGc3sgVwBTo8/zPWRXts
-   h8VWy8/oG19cnYCsmu/dwNZ3Id6Qrb2BvV6+sfrIMPmEaiP7Ql3c08/Fs
-   g==;
-X-CSE-ConnectionGUID: TsxzXOqFQFS87XGAAtj09Q==
-X-CSE-MsgGUID: xzo1+VlMR5+WKrezOUi7jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="71248127"
+  bh=GCE808FFTnLZ4Sn03qLIa4l6n5Bo/CRIAmY9H7HpQdQ=;
+  b=FEd4QaID4+sCM6ShhKk31iLWNOMaNw9ZGwEjs7u8AAaqaDbzAkiXcv7d
+   eO2klD+c0s/kiD5DE+gMac3mm/0KgZ2pSZ2zlSCyO0OUZ+kCZSrJ27hoC
+   npRcEikeQ8M3gcGkkk6brk9IP9SoI69TvrW061mL+TIfr97tet6y5+sRJ
+   a7fD3Jr4Gv3E1pfsxGq9+y/fGMj0iGFCtZNAMl6PW5id+iNhf/DxOG77q
+   pqq426hIwqbSMocyb0AcwSz8bdXD70W7IoAd0KHS7TSIAGvU3rLMLRxOO
+   piifENQlfnrx/W+7znBqTZgnkwr1J3slSO+ieCb8PbEk7WycLli2FHwvP
+   w==;
+X-CSE-ConnectionGUID: jsogRu7/QJiJ+LgsKxaehQ==
+X-CSE-MsgGUID: OxNmxHSDQxy+9ZY2HRPcmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83777433"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="71248127"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 01:15:02 -0700
-X-CSE-ConnectionGUID: kRSEB/hITbeJaaKZY2Ec7A==
-X-CSE-MsgGUID: +0qMMLhmQfOJOWGvi7zFLg==
+   d="scan'208";a="83777433"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 01:36:44 -0700
+X-CSE-ConnectionGUID: DuaOJZa+ScyqbzbUqd3j6w==
+X-CSE-MsgGUID: PEtHunUbSp2A2RS5dDxPxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="251748289"
+   d="scan'208";a="251071725"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 02 Jul 2026 01:15:01 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Jul 2026 01:36:42 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfCZW-00000000AWN-23lh;
-	Thu, 02 Jul 2026 08:14:58 +0000
-Date: Thu, 02 Jul 2026 16:14:48 +0800
+	id 1wfCuV-00000000AXv-0iV0;
+	Thu, 02 Jul 2026 08:36:39 +0000
+Date: Thu, 02 Jul 2026 16:35:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-extra-2026-07-02 3/9] Warning:
- sound/soc/soc-devres.c:33 function parameter 'name' not described in
- 'devm_snd_soc_register_component_with_name6'
-Message-ID: <202607021647.l2COrcZP-lkp@intel.com>
+To: Kir Chou <note351@hotmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, David Gow <davidgow@google.com>
+Subject: [akpm-mm:mm-nonmm-unstable 59/59] ERROR: modpost: module
+ random32_kunit uses symbol prandom_warmup from namespace
+ EXPORTED_FOR_KUNIT_TESTING, but does not import it.
+Message-ID: <202607021628.xt8PbnU0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,22 +63,21 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-extra-2026-07-02
-head:   1c9d94cfc97661b6296c22730145ae0113d72ca2
-commit: 0e0a684747d1eff369dafac687ca1be79d782827 [3/9] ASoC: soc-component: add .priv
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260702/202607021647.l2COrcZP-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021647.l2COrcZP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   2ee1282ed36ff65ff425a4c6d3121bd701dcd547
+commit: 1f9afe351aeb325ebb94489d40d8ab65f30f8d2a [59/59] lib/random32: convert selftest to KUnit
+config: arm-randconfig-004-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021628.xt8PbnU0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021628.xt8PbnU0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607021647.l2COrcZP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607021628.xt8PbnU0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: sound/soc/soc-devres.c:33 function parameter 'name' not described in 'devm_snd_soc_register_component_with_name6'
->> Warning: sound/soc/soc-devres.c:33 function parameter 'name' not described in 'devm_snd_soc_register_component_with_name6'
+>> ERROR: modpost: module random32_kunit uses symbol prandom_warmup from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import it.
 
 --
 0-DAY CI Kernel Test Service
