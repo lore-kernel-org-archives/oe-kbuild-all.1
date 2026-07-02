@@ -1,148 +1,98 @@
-Received: from ultrarisc.com (unknown [218.76.62.146])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4A639FD4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 06:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.76.62.146
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21496367B93
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 06:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782973625; cv=none; b=WAWbKYQiVu0NQ78xXymA4AA2pSsPPNhO2ppTD5EZBd/lKWrZaelKc3OMbw/5RNFTWE8lCnFqOEgOydcNo72X0+k+Ke4VMvrbIkWEItkZyyyBmvsMzCuKm+UgyvN16TCSydw1P/HlxSeiWLqt02JVW07y0Ms5I1JqQhmVQhtggzI=
+	t=1782974256; cv=none; b=iQY7aEXcniNowLId5FIONXvs4xnGQTnVOg6+fStTuXxLmwhajEBc20uyzHmpwsmg/Da0cMvbjKbhhqxyI8bIXu8mZtuhc2yWYipPDgNVj4q0nPXC8m7qvsGt/+1QPs56ac+/qkI4ik8FXtvr2IAKT4a5SWXYllgmow897vSZr14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782973625; c=relaxed/simple;
-	bh=kUR8YD6WrAPXvJRilFbNNv5nrpqnyztwTDZppV5QxYU=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=t0KJJ5cByoXRCt/DLWHZafjryoXjrMhGDX3G5eqCEs3OA/d3M9lUIUnEwcrYrZ0+wr3W8is09e3LbaFWXoxYddRS6OPxlhcgGy4K79aEg5IHgW4wy5CZSpLpuVMUIL9IPGV0ccdHk60I9wt0z0IQWMVMRhdGZ+2RLL/z4ozMsu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com; spf=none smtp.mailfrom=ultrarisc.com; dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b=pOEg/AEv; arc=none smtp.client-ip=218.76.62.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ultrarisc.com
+	s=arc-20240116; t=1782974256; c=relaxed/simple;
+	bh=TQ8FN4WHlyOMPWyQEapW1a3x8HtKn83Z7KW69SMx21U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LyZ0nqxeTByZySJIR5VLG3345mrMD4KjlIh2oHo1w3wZzYGCm5qQX5OXsoCucDCMmLuOPMYA2jcLAeh9r++MHY37W5W3AmghHbQpILbGoOzSIxMR8un6B6CrUPCca2KdajIo6bgFMHQVP76GHx4UZvuY9nLTZHeg6QoGx1Ke3bU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYUpnHic; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b="pOEg/AEv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ultrarisc.com; s=dkim; h=Received:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
-	References:Date:Message-Id; bh=XbRQZYbv+PNVoC9yVR/lElmT8CFhcyXks
-	2dHEFNL0ms=; b=pOEg/AEvrkzYTSvo/dCOovJLcNQwBi7cyJr2AobNc/cIrRCvM
-	vGYGr6+WVRIX4wjdi6rDyL2kmjUoFvn3Y4kC8kms7zSTefgVE0jjMhKY3eWEEpps
-	Ka0e2wLJgu8LlobnqfeNAye5p5AiEf2+LT1ImaviNU5ebicMBlvKqAv9FM=
-Received: from [127.0.0.1] (unknown [192.168.100.1])
-	by localhost.localdomain (Coremail) with SMTP id AQAAfwAnYULOBEZqb5gOAA--.14657S2;
-	Thu, 02 Jul 2026 14:27:26 +0800 (CST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYUpnHic"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782974255; x=1814510255;
+  h=date:from:to:cc:subject:message-id;
+  bh=TQ8FN4WHlyOMPWyQEapW1a3x8HtKn83Z7KW69SMx21U=;
+  b=NYUpnHicfTXY5LzRWiWmWi5kA09ToqNq8nuaJlnPkwzxbjphaWSBAlqR
+   gi97P2dYXVBqm33MqxrvIvwAyZAj+OUwsy87XfKT/4J4ULlFV5pgdfzJj
+   A3m6Swg8+K0bdHn+pl/iVEjr/1dtxT8w0ESCgWN/knTiWKBJHNPf0SO57
+   xQFOjL6hNiLO9VTOhjnYuTwCkNrV4M5+u8H8MI2jF2zRiaY1rbRBJhmtx
+   usDd69O3RGDWhi4ZsBieYX9pwsiyobu5+AOEOrlSFpIDQAmqsSRTYtwKD
+   mA/vwkaAAff8MN5gUFOR2KXqQOXjq7eLFIYRh3aO/7slscqxnGABE+uvf
+   A==;
+X-CSE-ConnectionGUID: y5ht2MmOSFqIViCulPdMEw==
+X-CSE-MsgGUID: 2Y7Sdb4/R7OR0+Pgypvrjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="87630347"
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="87630347"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 23:37:34 -0700
+X-CSE-ConnectionGUID: XCLHzO62QzukQwsK+aepgQ==
+X-CSE-MsgGUID: EMhE4pJERvi8MvNyqrU6vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="246421999"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 01 Jul 2026 23:37:33 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wfB3C-00000000A6F-3hSo;
+	Thu, 02 Jul 2026 06:37:30 +0000
+Date: Thu, 02 Jul 2026 14:37:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-lts 0/1]
+ kernel/sched/core.c:198:35-53: opportunity for
+ str_enabled_disabled(sched_proxy_exec ( ))
+Message-ID: <202607021459.1aY0qhXh-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] gpio: dwapb: Defer clock gating until noirq
-From: Jia Wang <wangjia@ultrarisc.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Jia Wang via B4 Relay <devnull+wangjia.ultrarisc.com@kernel.org>, 
- Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij <linusw@kernel.org>, 
- Bartosz Golaszewski <brgl@kernel.org>, oe-kbuild-all@lists.linux.dev, 
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jia Wang <wangjia@ultrarisc.com>
-In-Reply-To: <202606291736.mAgOeA65-lkp@intel.com>
-References: <20260629-gpio-dwapb-wakeup-v1-1-3394f02317da@ultrarisc.com>
- <202606291736.mAgOeA65-lkp@intel.com>
-Date: Thu, 02 Jul 2026 14:26:53 +0800
-Message-Id: <178297361311.1082377.388930263384975483.b4-reply@b4>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782973613; l=2927;
- i=wangjia@ultrarisc.com; s=20260515; h=from:subject:message-id;
- bh=kUR8YD6WrAPXvJRilFbNNv5nrpqnyztwTDZppV5QxYU=;
- b=/3p/c9N9Mur2dKmu9ZZzefavmBkgNRdLoE/lt76o42Sszn9ezTSyLbWmIqeIR4aRV95KY54Ne
- GDG6mh2XY49CC42qU7VS4dOpjB9XKyQaFxL5TXIrS2dh6K1676d6bGP
-X-Developer-Key: i=wangjia@ultrarisc.com; a=ed25519;
- pk=wGVm18siRScehKOkOz0WKxgxDy7IezHEszhnN4/TUCY=
-X-CM-TRANSID:AQAAfwAnYULOBEZqb5gOAA--.14657S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGFWfWFy5ZFy7WFW7Zr4xJFb_yoW5WF15pa
-	18Ja4qqrW8try0gFW7XF48Zwnxtws3J340kFZ7Cw1fZ3y2vry5AF4I9ry3uFya9rWkKrWY
-	qws0gFyrZw15Aw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvS14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
-	6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
-	WxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	Jw0_GFylc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
-	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
-	xVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
-	8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280
-	aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
-	ZEXa7VUbGQ6JUUUUU==
-X-CM-SenderInfo: pzdqwylld63zxwud2x1vfou0bp/1tbiAQAQEWpF4E0ACQAAsL
 
-On 2026-06-29 18:04 +0800, kernel test robot wrote:
-> Hi Jia,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on dc59e4fea9d83f03bad6bddf3fa2e52491777482]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jia-Wang-via-B4-Relay/gpio-dwapb-Defer-clock-gating-until-noirq/20260629-135404
-> base:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> patch link:    https://lore.kernel.org/r/20260629-gpio-dwapb-wakeup-v1-1-3394f02317da%40ultrarisc.com
-> patch subject: [PATCH] gpio: dwapb: Defer clock gating until noirq
-> config: sparc64-randconfig-001-20260629 (https://download.01.org/0day-ci/archive/20260629/202606291736.mAgOeA65-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260629/202606291736.mAgOeA65-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202606291736.mAgOeA65-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/gpio/gpio-dwapb.c: In function 'dwapb_irq_set_wake':
-> >> drivers/gpio/gpio-dwapb.c:377:7: error: 'struct irq_data' has no member named 'parent_data'
->      if (d->parent_data && !!ctx->wake_en != !!wake_en) {
->           ^~
-> >> drivers/gpio/gpio-dwapb.c:378:9: error: implicit declaration of function 'irq_chip_set_wake_parent'; did you mean 'irq_set_parent'? [-Werror=implicit-function-declaration]
->       err = irq_chip_set_wake_parent(d, enable);
->             ^~~~~~~~~~~~~~~~~~~~~~~~
->             irq_set_parent
->    cc1: some warnings being treated as errors
-> 
-> 
-> vim +377 drivers/gpio/gpio-dwapb.c
-> 
->    362	
->    363	static int dwapb_irq_set_wake(struct irq_data *d, unsigned int enable)
->    364	{
->    365		struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
->    366		struct dwapb_gpio *gpio = to_dwapb_gpio(gc);
->    367		struct dwapb_context *ctx = gpio->ports[0].ctx;
->    368		irq_hw_number_t bit = irqd_to_hwirq(d);
->    369		u32 wake_en = ctx->wake_en;
->    370		int err;
->    371	
->    372		if (enable)
->    373			wake_en |= BIT(bit);
->    374		else
->    375			wake_en &= ~BIT(bit);
->    376	
->  > 377		if (d->parent_data && !!ctx->wake_en != !!wake_en) {
->  > 378			err = irq_chip_set_wake_parent(d, enable);
->    379			if (err)
->    380				return err;
->    381		}
->    382	
->    383		ctx->wake_en = wake_en;
->    384	
->    385		return 0;
->    386	}
->    387	
->
+tree:   https://android.googlesource.com/kernel/common android17-6.18-lts
+head:   1820d6db23bfd13e77fd48752705da1ea203d091
+commit: ab57c5d354dad6e7eebcb10a7c831f4d36d658a8 [0/1] ANDROID: sched/core: Improve boottime output so we can detect if proxy-exec is enabled or not
+config: i386-randconfig-052-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021459.1aY0qhXh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-Thanks for the report. This is caused by using hierarchical IRQ helpers
-without guarding them with CONFIG_IRQ_DOMAIN_HIERARCHY.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607021459.1aY0qhXh-lkp@intel.com/
 
-I'll fix this in the next version of the patch.
- 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+cocci warnings: (new ones prefixed by >>)
+>> kernel/sched/core.c:198:35-53: opportunity for str_enabled_disabled(sched_proxy_exec ( ))
 
+vim +198 kernel/sched/core.c
 
+   193	
+   194	static int __init setup_proxy_exec_toggle(void)
+   195	{
+   196		int retval;
+   197	
+ > 198		pr_info("sched_proxy_exec: %s\n", sched_proxy_exec() ? "enabled" : "disabled");
+   199		sched_proxy_exec_kobj = kobject_create_and_add("sched_proxy_exec", kernel_kobj);
+   200		if (!sched_proxy_exec_kobj)
+   201			return -ENOMEM;
+   202		retval = sysfs_create_group(sched_proxy_exec_kobj, &attr_group);
+   203		if (retval)
+   204			kobject_put(sched_proxy_exec_kobj);
+   205		return 0;
+   206	}
+   207	late_initcall(setup_proxy_exec_toggle);
+   208	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
