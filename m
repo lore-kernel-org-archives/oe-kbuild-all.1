@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EBD34D397;
-	Thu,  2 Jul 2026 04:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CDE356758
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 04:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782965359; cv=none; b=E/ouyJhGyDoqqAxP/GrUzbNkg8j0Ti1fx8JG5holGU/HsJcn2o7IcRYduv6XGjMsvAmvYeUiKzF4unVqB2x9/qzdx9mZ1+46oa2Qw+LixRSPUK9JH1GHKBPZJ9sxegkiSWCY5obPQS9BY2whCXK0iGUA9QAKxDi/H2wTE9ygAtU=
+	t=1782967530; cv=none; b=s70khh5zLo4DY+gwqhbBO2IeF9fCDHXHkzYObm1moQpDcLQ/bd+EjjFRVjH0cL65AG8Ht9hmozeTbd4MXxet2w+COGr2INyeris7vCEdpq05vUgw5V83f4aOsxhVk4tZDoOrRuoGSJOIM+npLnAZNoX/J9XzFtoprAjYvVZBA/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782965359; c=relaxed/simple;
-	bh=N91hSTRvkIO3kD+ETSjc1M6ta7Q20vnWiKJavF/cqXA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=clg8tgwEk0co+SWrt7+Q9QXClPWHJrFIh13Ri88R23QCOMg9OVKTddyk4Pjd7rfstYA4cncsIiVbqSIuN/ZSEuXHxin72uKvoUbxYJMYPKN4ELJkKgdoW4lGfQSFMMQWYhTwguMRqHmo7WMAocOZeqvdQKq1QwGMe2zfbhotQ5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AaGH66q5; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1782967530; c=relaxed/simple;
+	bh=y1DJF6uIYn9xduKrHI66Nd3Ode9m5vdn/6Zv1WBgVTs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=V6OAdXMI+/7yojotuM/hfLoKrMwsKwQmsIoEb1hxFC3nNuLbYwMuYrDJ9Uv0akR8EZOqAUhq9uGPU90jSiXYlFbPZwUQVm9WT09irTp/AUSocH2gZN2fs3JQFJb4VY1Z3HcpchJ2CgkEed6fgkioZ8MUJ1NzBFJ/j12S5CSWfVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1dLQHi1; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AaGH66q5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1dLQHi1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782965359; x=1814501359;
+  t=1782967530; x=1814503530;
   h=date:from:to:cc:subject:message-id;
-  bh=N91hSTRvkIO3kD+ETSjc1M6ta7Q20vnWiKJavF/cqXA=;
-  b=AaGH66q53wRFnI9IVuFtS7utGQ3p6w4rJvsi55udBNvBGKCrIYbmjtDK
-   +Lq4Yj0hNBhGFfCmsdfnTgbJymIzIHH20oAMezblJPCRAGpAIIeuBbyvv
-   F6Eg8BR6oL6zIhihzyNwK8JCO9kUwYxANCYmlIj6Hpv8BcWO/2qje1rnz
-   Pz3/mQJL/kL16g5Xc3ql1AMSKnxkVY2a0vmLqnWNsD2UjyIRyPz96x5jj
-   K53YaoT1x/nk0Ulam2Qc1fUSE74r7KM4/6C17TFOuEDJxayCjJqJrTLIq
-   z/8sfaamAmLz1y1OIvmRUqOXkXAA04rx5Hl+25DvEG7e+PCLdYXH0l6Im
+  bh=y1DJF6uIYn9xduKrHI66Nd3Ode9m5vdn/6Zv1WBgVTs=;
+  b=W1dLQHi1fg2j8vzCfuZ29a9Vf48/MvK0aCexVDXkGH6JE/vLw8EtWaAR
+   Cyb4eekbZ8NDiOOc1J2AhkqJREsZxz/KQyIqEX2ctGfwTEhwQAV4fSkSa
+   i8Dj7tytHqqnStCKnqHXP7hMmxAlIV2dccSPnum2Z3T3iBKjVrEKgNrAZ
+   7pHoANCpM5acIlzYpN1moyPbW6xmmtyKCysdpkT++i0qqamfJkdwyB60D
+   pHZF7ik2II3vShDMb4GFfbhF/+Km3//SXXRhzvEYP39b9FU7vYuy9h7Jc
+   pcrk7QvwM52aJpw1urR7Q1Pz0iosd46cCzVEtIWYPrIZ5+9Uwkp7Dapzk
    g==;
-X-CSE-ConnectionGUID: a0h8vRVPR+ubyqmPtrpSSg==
-X-CSE-MsgGUID: WzA2BJlCTWKataQ3Tn01zQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="106501718"
+X-CSE-ConnectionGUID: /PNPsCk6RneVsLG9nZEa1g==
+X-CSE-MsgGUID: gE3m0TC6Q7yt+sLEd/sACA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83576693"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="106501718"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 21:09:16 -0700
-X-CSE-ConnectionGUID: gIqroMsPQsux2ryJS52QsQ==
-X-CSE-MsgGUID: YFJc261YR5G/Q4Rn+VclFA==
+   d="scan'208";a="83576693"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 21:45:29 -0700
+X-CSE-ConnectionGUID: IVjphjwBTsOoaninrKfAiQ==
+X-CSE-MsgGUID: vwCQRYEVS0mo2zUprYxwfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="252311208"
+   d="scan'208";a="248295744"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 01 Jul 2026 21:09:14 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 01 Jul 2026 21:45:27 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wf8je-000000009yV-2lvt;
-	Thu, 02 Jul 2026 04:09:10 +0000
-Date: Thu, 02 Jul 2026 12:08:56 +0800
+	id 1wf9Ic-000000009zf-0tIp;
+	Thu, 02 Jul 2026 04:45:20 +0000
+Date: Thu, 02 Jul 2026 12:44:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Harry Yoo (Oracle)" <harry@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [harry:kmalloc-no-objext-rfc-v1r2 3/3] mm/slab.h:397:10:
- error: use of undeclared identifier 'KMALLOC_NO_OBJ_EXT'
-Message-ID: <202607021256.JaPXbde2-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [harry:kmalloc-no-objext-rfc-v1r2 3/3] mm/slab.h:397:24:
+ error: 'KMALLOC_NO_OBJ_EXT' undeclared; did you mean 'SLAB_ALLOC_NO_OBJ_EXT'?
+Message-ID: <202607021236.E9QSeOUu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,34 +62,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git kmalloc-no-objext-rfc-v1r2
 head:   a734609d2f387a9e682d352e9f28599744cc300b
 commit: a734609d2f387a9e682d352e9f28599744cc300b [3/3] mm/slab: prevent unbounded recursion in free path with new kmalloc type
-config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260702/202607021256.JaPXbde2-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021256.JaPXbde2-lkp@intel.com/reproduce)
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260702/202607021236.E9QSeOUu-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021236.E9QSeOUu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607021256.JaPXbde2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607021236.E9QSeOUu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    In file included from mm/mempool.c:19:
->> mm/slab.h:397:10: error: use of undeclared identifier 'KMALLOC_NO_OBJ_EXT'
+   mm/slab.h: In function 'kmalloc_slab':
+>> mm/slab.h:397:24: error: 'KMALLOC_NO_OBJ_EXT' undeclared (first use in this function); did you mean 'SLAB_ALLOC_NO_OBJ_EXT'?
      397 |                 type = KMALLOC_NO_OBJ_EXT;
          |                        ^~~~~~~~~~~~~~~~~~
-   1 error generated.
---
-   In file included from mm/oom_kill.c:51:
->> mm/slab.h:397:10: error: use of undeclared identifier 'KMALLOC_NO_OBJ_EXT'
-     397 |                 type = KMALLOC_NO_OBJ_EXT;
-         |                        ^~~~~~~~~~~~~~~~~~
-   mm/oom_kill.c:508:28: warning: variable 'oom_reaper_th' set but not used [-Wunused-but-set-global]
-     508 | static struct task_struct *oom_reaper_th;
-         |                            ^
-   1 warning and 1 error generated.
+         |                        SLAB_ALLOC_NO_OBJ_EXT
+   mm/slab.h:397:24: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/KMALLOC_NO_OBJ_EXT +397 mm/slab.h
+vim +397 mm/slab.h
 
    381	
    382	/*
