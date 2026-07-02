@@ -1,57 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56219349CF2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 16:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEB737A837;
+	Thu,  2 Jul 2026 17:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783010523; cv=none; b=eTXNEg8+Ke94FsF7IStVdjKru3g+PN6FaFuK+C1t+DIb2w/YTqDGAZZp5wHGlQoCxhmeLw4JVnRQ3+t0mwIRdc1c60DAs4qmjFabCcUiVfEjXW6TNGPAvpktKvXg6rIFXK0Kq8Wanr1Wu1d0pGU9cCRL35bcA+rBDeSap9fgJgk=
+	t=1783014220; cv=none; b=eVV+kilGe1F25lYG9tTWKutCmGT2Z+PE1lEwe32bP+9ytuFjvM0IpvkzawJ+tBchKGd3TuKiol9+yObxo6Wsznc0XtGP10gr1AhvB/FfLwa/W1KN9QZKDNrxLtzhTrVFWOoIUmP5gvVU5FiTCz4Zxizdb/Vy17jTopH8lewftw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783010523; c=relaxed/simple;
-	bh=8aVRfnbuiWuZEEU6PjF8gm3N4zo34nmnLBJ4FkI9g8o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S0pC5sp6p2SOI5nRS50wcnRQ8Ge1K3J8bPdbecybE2ZkFC4OVl6E4sGk6ILiHK4OZtlhxCsRW6wnsvbFbNq+03bIgT54nLqNbwGksQNWj0e6E3ZFK88fM4/aQFfwjZTp1ZNscmXSIHwGAltW6rcW/rkEw+Z7m3Ua9+w2W6ycCBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpnFHA9z; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1783014220; c=relaxed/simple;
+	bh=QEGMOc3SpuqbmNd6M2wJK5ocPmc94n1B/IOdlFDjgHY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oiGXQKgrFPKeTqgO57hVmLqmcHP2LeLxBghYXjaRVhXarAFC6ixs1qvT/6sE0dDOQtGwX5vL8tRuvkW94DjJc9B1o3OcHloSAVZOHNMCvJbIptxmrJG+A2tlH20rVPQYM2PDorU+jUaIyyJyOQMvuTOb7wbqdGFMgM7jmZ7ntdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZxFaTxm; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpnFHA9z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZxFaTxm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783010520; x=1814546520;
+  t=1783014218; x=1814550218;
   h=date:from:to:cc:subject:message-id;
-  bh=8aVRfnbuiWuZEEU6PjF8gm3N4zo34nmnLBJ4FkI9g8o=;
-  b=gpnFHA9zKPaxCz0FYNC5tYBrU9sUiM0girk88PjoDuOIP6pOy5QgE4RD
-   6DHpbTMfUKZFN52xLTWr2uuGuaU6BBUh8JO+wqLkxtnqb/j1flMjlSthJ
-   QLLFGrMn+soGZ6di4j1JeDFCoTtNoBhhKIKvVWkeOeNSV+l0cABlOfc4C
-   UFZcJo22PlOvTH9Q2qME4gDnfUBB+tPTKt9S+fheFSlG6QK139eCVGpjV
-   fODEotlX8xQIPDGgV+kFe+Fjxvlh4jkXQhrsdJsuudLau0/RneFPyr7cP
-   O1aRGqUPcpMwLinCyfvKfZoladitb6GuRf3xxovMzFTk40Ke3galoHkw9
+  bh=QEGMOc3SpuqbmNd6M2wJK5ocPmc94n1B/IOdlFDjgHY=;
+  b=gZxFaTxm11B4TOXSVGgpWlV2Tv3+9hcDYcRM0J0dc9+duR9GDSpsHIrd
+   RNO73j/8TQZi4G4rfKJ6gI3S2fhYb6wKPmHUCD6yNxtNp4vLZysqdwsDg
+   91yZZ9ZFfZt8sgT8ZN8QKu2dvvzwzUj2LTduDPaxKarnCLfycW4NBdnDI
+   XT2jw0mKz761UE0tYKjOQLp/+yoPwQKIQ9A1LOiOaEVdLnPTxbPxwhAaj
+   uV8RXg58pJDk9grQKYELMprGrXqISmbxCt7rAlNbDUpLUjIIjEOBnOnsq
+   4r1FClSt8+NPs8SN4t/tQTslT49ZTHvKom54DBCTCVx9+BV3zKBNH2zM0
    A==;
-X-CSE-ConnectionGUID: ldHPz15zSa24LL2AGBY5NA==
-X-CSE-MsgGUID: 11CYMIzIQV2W3JVTiMEncg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="82759051"
+X-CSE-ConnectionGUID: yu81LRs6Tp2T0AtmwUQ8dg==
+X-CSE-MsgGUID: 5Q6QyzwtRrmEM4DJmn4VwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="87688605"
 X-IronPort-AV: E=Sophos;i="6.25,144,1779174000"; 
-   d="scan'208";a="82759051"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 09:41:59 -0700
-X-CSE-ConnectionGUID: 71Ce0rV3Qp2oK+EGpl+kMQ==
-X-CSE-MsgGUID: jHVYUMprT26M6Qcd+G83QQ==
+   d="scan'208";a="87688605"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 10:43:37 -0700
+X-CSE-ConnectionGUID: 7BhZeXN6RvKxoVjeSEDdLA==
+X-CSE-MsgGUID: 7JE9EWfPRHKgCLJ+37a3Qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,144,1779174000"; 
-   d="scan'208";a="252456373"
+   d="scan'208";a="257263034"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Jul 2026 09:41:58 -0700
+  by orviesa005.jf.intel.com with ESMTP; 02 Jul 2026 10:43:35 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfKU7-00000000Azp-2LcV;
-	Thu, 02 Jul 2026 16:41:55 +0000
-Date: Fri, 03 Jul 2026 00:41:16 +0800
+	id 1wfLRj-00000000B2x-1n7W;
+	Thu, 02 Jul 2026 17:43:31 +0000
+Date: Fri, 03 Jul 2026 01:43:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:b4/acpi_scmi_pcc 19/23]
- include/acpi/acpi_bus.h:24:9: error: unknown type name 'acpi_handle'
-Message-ID: <202607030038.quoM6x3B-lkp@intel.com>
+To: Kir Chou <note351@hotmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, David Gow <davidgow@google.com>
+Subject: [akpm-mm:mm-nonmm-unstable 59/59] WARNING: modpost: module
+ random32_kunit uses symbol prandom_warmup from namespace
+ EXPORTED_FOR_KUNIT_TESTING, but does not import it.
+Message-ID: <202607030125.ziX4WI61-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,194 +64,21 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/acpi_scmi_pcc
-head:   c1daed90f65670f1d0231c3ab8a569b682181b2b
-commit: 7a2657c9e1f143ed73c88d292c22c5225720d100 [19/23] firmware: arm_scmi: Fall back to ACPI HID when "compatible" is absent
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260703/202607030038.quoM6x3B-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607030038.quoM6x3B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   2ee1282ed36ff65ff425a4c6d3121bd701dcd547
+commit: 1f9afe351aeb325ebb94489d40d8ab65f30f8d2a [59/59] lib/random32: convert selftest to KUnit
+config: arm-randconfig-001-20260702 (https://download.01.org/0day-ci/archive/20260703/202607030125.ziX4WI61-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607030125.ziX4WI61-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607030038.quoM6x3B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607030125.ziX4WI61-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/firmware/arm_scmi/driver.c:19:
->> include/acpi/acpi_bus.h:24:9: error: unknown type name 'acpi_handle'
-      24 |         acpi_handle *handles;
-         |         ^~~~~~~~~~~
->> include/acpi/acpi_bus.h:28:1: error: unknown type name 'acpi_status'; did you mean 'si_status'?
-      28 | acpi_status
-         | ^~~~~~~~~~~
-         | si_status
-   include/acpi/acpi_bus.h:30:29: warning: 'struct acpi_buffer' declared inside parameter list will not be visible outside of this definition or declaration
-      30 |                      struct acpi_buffer *format, struct acpi_buffer *buffer);
-         |                             ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:29:28: warning: 'union acpi_object' declared inside parameter list will not be visible outside of this definition or declaration
-      29 | acpi_extract_package(union acpi_object *package,
-         |                            ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:31:1: error: unknown type name 'acpi_status'; did you mean 'si_status'?
-      31 | acpi_status
-         | ^~~~~~~~~~~
-         | si_status
-   include/acpi/acpi_bus.h:32:23: error: unknown type name 'acpi_handle'
-      32 | acpi_evaluate_integer(acpi_handle handle,
-         |                       ^~~~~~~~~~~
->> include/acpi/acpi_bus.h:33:23: error: unknown type name 'acpi_string'
-      33 |                       acpi_string pathname,
-         |                       ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:35:30: error: unknown type name 'acpi_handle'
-      35 | bool acpi_evaluate_reference(acpi_handle handle, acpi_string pathname,
-         |                              ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:35:50: error: unknown type name 'acpi_string'
-      35 | bool acpi_evaluate_reference(acpi_handle handle, acpi_string pathname,
-         |                                                  ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:43:22: error: unknown type name 'acpi_handle'
-      43 | bool acpi_device_dep(acpi_handle target, acpi_handle match);
-         |                      ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:43:42: error: unknown type name 'acpi_handle'
-      43 | bool acpi_device_dep(acpi_handle target, acpi_handle match);
-         |                                          ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:44:1: error: unknown type name 'acpi_status'; did you mean 'si_status'?
-      44 | acpi_status
-         | ^~~~~~~~~~~
-         | si_status
-   include/acpi/acpi_bus.h:45:19: error: unknown type name 'acpi_handle'
-      45 | acpi_evaluate_ost(acpi_handle handle, u32 source_event, u32 status_code,
-         |                   ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:48:22: error: unknown type name 'acpi_handle'
-      48 | bool acpi_has_method(acpi_handle handle, char *name);
-         |                      ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:49:1: error: unknown type name 'acpi_status'; did you mean 'si_status'?
-      49 | acpi_status acpi_execute_simple_method(acpi_handle handle, char *method,
-         | ^~~~~~~~~~~
-         | si_status
-   include/acpi/acpi_bus.h:49:40: error: unknown type name 'acpi_handle'
-      49 | acpi_status acpi_execute_simple_method(acpi_handle handle, char *method,
-         |                                        ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:51:1: error: unknown type name 'acpi_status'; did you mean 'si_status'?
-      51 | acpi_status acpi_evaluate_ej0(acpi_handle handle);
-         | ^~~~~~~~~~~
-         | si_status
-   include/acpi/acpi_bus.h:51:31: error: unknown type name 'acpi_handle'
-      51 | acpi_status acpi_evaluate_ej0(acpi_handle handle);
-         |                               ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:52:1: error: unknown type name 'acpi_status'; did you mean 'si_status'?
-      52 | acpi_status acpi_evaluate_lck(acpi_handle handle, int lock);
-         | ^~~~~~~~~~~
-         | si_status
-   include/acpi/acpi_bus.h:52:31: error: unknown type name 'acpi_handle'
-      52 | acpi_status acpi_evaluate_lck(acpi_handle handle, int lock);
-         |                               ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:53:1: error: unknown type name 'acpi_status'; did you mean 'si_status'?
-      53 | acpi_status acpi_evaluate_reg(acpi_handle handle, u8 space_id, u32 function);
-         | ^~~~~~~~~~~
-         | si_status
-   include/acpi/acpi_bus.h:53:31: error: unknown type name 'acpi_handle'
-      53 | acpi_status acpi_evaluate_reg(acpi_handle handle, u8 space_id, u32 function);
-         |                               ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:54:21: error: unknown type name 'acpi_handle'
-      54 | bool acpi_ata_match(acpi_handle handle);
-         |                     ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:55:21: error: unknown type name 'acpi_handle'
-      55 | bool acpi_bay_match(acpi_handle handle);
-         |                     ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:56:22: error: unknown type name 'acpi_handle'
-      56 | bool acpi_dock_match(acpi_handle handle);
-         |                      ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:58:21: error: unknown type name 'acpi_handle'
-      58 | bool acpi_check_dsm(acpi_handle handle, const guid_t *guid, u64 rev, u64 funcs);
-         |                     ^~~~~~~~~~~
->> include/acpi/acpi_bus.h:58:47: error: unknown type name 'guid_t'; did you mean 'kuid_t'?
-      58 | bool acpi_check_dsm(acpi_handle handle, const guid_t *guid, u64 rev, u64 funcs);
-         |                                               ^~~~~~
-         |                                               kuid_t
-   include/acpi/acpi_bus.h:59:38: error: unknown type name 'acpi_handle'
-      59 | union acpi_object *acpi_evaluate_dsm(acpi_handle handle, const guid_t *guid,
-         |                                      ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:59:64: error: unknown type name 'guid_t'; did you mean 'kuid_t'?
-      59 | union acpi_object *acpi_evaluate_dsm(acpi_handle handle, const guid_t *guid,
-         |                                                                ^~~~~~
-         |                                                                kuid_t
-   include/acpi/acpi_bus.h:1021:35: error: unknown type name 'acpi_handle'
-    1021 | acpi_get_physical_device_location(acpi_handle handle, struct acpi_pld_info **pld)
-         |                                   ^~~~~~~~~~~
-   In file included from drivers/firmware/arm_scmi/common.h:12,
-                    from drivers/firmware/arm_scmi/driver.c:42:
->> include/linux/acpi.h:830:20: error: static declaration of 'acpi_dev_found' follows non-static declaration
-     830 | static inline bool acpi_dev_found(const char *hid)
-         |                    ^~~~~~~~~~~~~~
-   include/acpi/acpi_bus.h:89:6: note: previous declaration of 'acpi_dev_found' with type 'bool(const char *)' {aka '_Bool(const char *)'}
-      89 | bool acpi_dev_found(const char *hid);
-         |      ^~~~~~~~~~~~~~
->> include/linux/acpi.h:835:20: error: static declaration of 'acpi_dev_present' follows non-static declaration
-     835 | static inline bool acpi_dev_present(const char *hid, const char *uid, s64 hrv)
-         |                    ^~~~~~~~~~~~~~~~
-   include/acpi/acpi_bus.h:90:6: note: previous declaration of 'acpi_dev_present' with type 'bool(const char *, const char *, s64)' {aka '_Bool(const char *, const char *, long long int)'}
-      90 | bool acpi_dev_present(const char *hid, const char *uid, s64 hrv);
-         |      ^~~~~~~~~~~~~~~~
->> include/linux/acpi.h:853:20: error: static declaration of 'acpi_reduced_hardware' follows non-static declaration
-     853 | static inline bool acpi_reduced_hardware(void)
-         |                    ^~~~~~~~~~~~~~~~~~~~~
-   include/acpi/acpi_bus.h:91:6: note: previous declaration of 'acpi_reduced_hardware' with type 'bool(void)' {aka '_Bool(void)'}
-      91 | bool acpi_reduced_hardware(void);
-         |      ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/acpi_handle +24 include/acpi/acpi_bus.h
-
-ea216d3ae7305ad Bartosz Golaszewski 2026-04-27  21  
-^1da177e4c3f415 Linus Torvalds      2005-04-16  22  struct acpi_handle_list {
-^1da177e4c3f415 Linus Torvalds      2005-04-16  23  	u32 count;
-2e57d10a6591560 Rafael J. Wysocki   2023-09-27 @24  	acpi_handle *handles;
-^1da177e4c3f415 Linus Torvalds      2005-04-16  25  };
-^1da177e4c3f415 Linus Torvalds      2005-04-16  26  
-^1da177e4c3f415 Linus Torvalds      2005-04-16  27  /* acpi_utils.h */
-^1da177e4c3f415 Linus Torvalds      2005-04-16 @28  acpi_status
-4be44fcd3bf648b Len Brown           2005-08-05  29  acpi_extract_package(union acpi_object *package,
-4be44fcd3bf648b Len Brown           2005-08-05  30  		     struct acpi_buffer *format, struct acpi_buffer *buffer);
-^1da177e4c3f415 Linus Torvalds      2005-04-16  31  acpi_status
-4be44fcd3bf648b Len Brown           2005-08-05  32  acpi_evaluate_integer(acpi_handle handle,
-^1da177e4c3f415 Linus Torvalds      2005-04-16 @33  		      acpi_string pathname,
-27663c5855b10af Matthew Wilcox      2008-10-10  34  		      struct acpi_object_list *arguments, unsigned long long *data);
-6909e0f322b0527 Rafael J. Wysocki   2023-12-08  35  bool acpi_evaluate_reference(acpi_handle handle, acpi_string pathname,
-^1da177e4c3f415 Linus Torvalds      2005-04-16  36  			     struct acpi_object_list *arguments,
-^1da177e4c3f415 Linus Torvalds      2005-04-16  37  			     struct acpi_handle_list *list);
-2e57d10a6591560 Rafael J. Wysocki   2023-09-27  38  bool acpi_handle_list_equal(struct acpi_handle_list *list1,
-2e57d10a6591560 Rafael J. Wysocki   2023-09-27  39  			    struct acpi_handle_list *list2);
-2e57d10a6591560 Rafael J. Wysocki   2023-09-27  40  void acpi_handle_list_replace(struct acpi_handle_list *dst,
-2e57d10a6591560 Rafael J. Wysocki   2023-09-27  41  			      struct acpi_handle_list *src);
-2e57d10a6591560 Rafael J. Wysocki   2023-09-27  42  void acpi_handle_list_free(struct acpi_handle_list *list);
-d70d141bb15f328 Rafael J. Wysocki   2023-12-14  43  bool acpi_device_dep(acpi_handle target, acpi_handle match);
-275c58d77062bbb Toshi Kani          2012-05-23  44  acpi_status
-05730c1952787fa Jiang Liu           2014-02-19  45  acpi_evaluate_ost(acpi_handle handle, u32 source_event, u32 status_code,
-05730c1952787fa Jiang Liu           2014-02-19  46  		  struct acpi_buffer *status_buf);
-^1da177e4c3f415 Linus Torvalds      2005-04-16  47  
-952c63e9512b632 Jiang Liu           2013-06-29  48  bool acpi_has_method(acpi_handle handle, char *name);
-0db98202605c3d3 Jiang Liu           2013-06-29  49  acpi_status acpi_execute_simple_method(acpi_handle handle, char *method,
-0db98202605c3d3 Jiang Liu           2013-06-29  50  				       u64 arg);
-7d2421f84b445dc Jiang Liu           2013-06-29  51  acpi_status acpi_evaluate_ej0(acpi_handle handle);
-7d2421f84b445dc Jiang Liu           2013-06-29  52  acpi_status acpi_evaluate_lck(acpi_handle handle, int lock);
-132565d8ec096a5 Hans de Goede       2020-05-07  53  acpi_status acpi_evaluate_reg(acpi_handle handle, u8 space_id, u32 function);
-ebf4df8db0e7e5d Jiang Liu           2013-06-29  54  bool acpi_ata_match(acpi_handle handle);
-ebf4df8db0e7e5d Jiang Liu           2013-06-29  55  bool acpi_bay_match(acpi_handle handle);
-ebf4df8db0e7e5d Jiang Liu           2013-06-29  56  bool acpi_dock_match(acpi_handle handle);
-952c63e9512b632 Jiang Liu           2013-06-29  57  
-94116f8126de976 Andy Shevchenko     2017-06-05 @58  bool acpi_check_dsm(acpi_handle handle, const guid_t *guid, u64 rev, u64 funcs);
-94116f8126de976 Andy Shevchenko     2017-06-05  59  union acpi_object *acpi_evaluate_dsm(acpi_handle handle, const guid_t *guid,
-c7e16e5257ec465 Jerry Hoemann       2016-04-11  60  			u64 rev, u64 func, union acpi_object *argv4);
-2c5a06e5505a716 Kiran K             2023-03-16  61  #ifdef CONFIG_ACPI
-34df77363dff6df Ricardo Ribalda     2024-12-16  62  bool
-34df77363dff6df Ricardo Ribalda     2024-12-16  63  acpi_get_physical_device_location(acpi_handle handle, struct acpi_pld_info **pld);
-34df77363dff6df Ricardo Ribalda     2024-12-16  64  
-
-:::::: The code at line 24 was first introduced by commit
-:::::: 2e57d10a6591560724b80a628235559571f4cb8d ACPI: utils: Dynamically determine acpi_handle_list size
-
-:::::: TO: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>> WARNING: modpost: module random32_kunit uses symbol prandom_warmup from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import it.
 
 --
 0-DAY CI Kernel Test Service
