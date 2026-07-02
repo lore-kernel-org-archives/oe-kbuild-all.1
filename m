@@ -1,58 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9AF175A7D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 03:08:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173E530DEB0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 03:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782961684; cv=none; b=Ti0Q/0SCwE+dFaTXrDk+mcwbGWTUkBVaOmn9vCx+iHFzp5FPOG12/ebd/XTgFaNXfNNX2cq0s0XXskU7zPpLtiUGMjozzJ+KjfTH3f9AWFEVrOXPk+uEKtPpQWmG4qk3JKz+u2MLJhXvufGD706a1QnQRU2y5ctWJtV9T3VHj0o=
+	t=1782961685; cv=none; b=XmEz7x6lwoICDuZZgh1aJ3tA45y1Togf7+I3f7uoGkWUVOK/X4Xv8aSN0jwA2dBCbVPPQmwxzaYM/XXn6lw1z1ewevXKqONdMBtvcUAXh7W6TyAw4kw9HW4/TmKPWXuXr37E6dFw2VeTkG7e4QAlKFblwE41p1Vu2PqaFeUaVxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782961684; c=relaxed/simple;
-	bh=T5B9cnz41vxea6Q5vQ/GCiX96fPhmrcSKdFUXShlJq0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Fy2JorviLnB/iED9UZSar5pyIpGHT5+EJ5FH5XxzxVtWhjZ9USBVL3TMAp4Z5TmLnoVZl/HmlxwZtLa3PfsZnPu2jg8ne2AG1vpoNQFHbB8blSqukGYpcDj62cK7IsSCkPPAZTafk9HhIVKeqE821ZrRhZlSsMnmMRWU5UdLGOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awW1HVJU; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1782961685; c=relaxed/simple;
+	bh=f/ioX1HrENMRjPiGv/fZZrikxRylQTUgGt+pXapfU7E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=N/zHmMIULBjgVnpRof5VFy3Nq6d673bOKUCqeM4LLgxCtobeD6/5qiezwhuzfhpo0CTVnhPDcc5mvgtCJeqJpeRU22JjN6FqsHZgMyPriSzPamvrcoNj2zrP+Q8p/8rVWU2wU6uPCbWipQpjHNEBMNACLxYpIzt5XLLwMWzqx8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oI4SaUso; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awW1HVJU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oI4SaUso"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782961683; x=1814497683;
+  t=1782961685; x=1814497685;
   h=date:from:to:cc:subject:message-id;
-  bh=T5B9cnz41vxea6Q5vQ/GCiX96fPhmrcSKdFUXShlJq0=;
-  b=awW1HVJUpyYXWQ8nI7FjBfdXCX3VgwQOedE01tf4R6eEVqTeBjumTZgC
-   ACudQqWYkP4/hNrySeggrzRNMQXEH0afBlnSgQay/g7Y5sy9CIf71VKj9
-   XRGIpa9ZWUHYxl6zTGnmfTT+UAiWxhl7OEnxhqSXEUwg9u7U1n++fEaHh
-   crgIuYIkVuvIqhFr4O9N/jjy2cS7nB2g4m5AZp9ODl63fKQTBLUAotxmJ
-   F8bda4CQTm1BqXXNkQ15hvBnAB8q2BFnvEJCHq+F2TY33A/YjOLF2D/Ub
-   5xEn71hwbVUTyWKr6L5lnp8lKSWolbaAvY0V+v7ee6HLSXsxwp5V5MLW7
-   A==;
-X-CSE-ConnectionGUID: VLD5U9UESM2Rov4rxI9ocw==
-X-CSE-MsgGUID: WMkW82IvQz6vrabpcFbdFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="101126892"
+  bh=f/ioX1HrENMRjPiGv/fZZrikxRylQTUgGt+pXapfU7E=;
+  b=oI4SaUso+rACH1HvS/nd79YJM2xiIvWYTvsjqL3I/t7oM+8BAY5peELH
+   6seeFhadMWlIGcRgjHdTLSodi8nTXDF4+3d17+3sYpwHbYrzFEw/EobIt
+   ejuXaOgYmf77GiZUc6QFWLmf8GBetUeyNXFVAKPHOVNf57stZOBUbQdY5
+   QrKhkv1Rgl28GoscTz4hii2rUIxuj/4dW/hLz2QB419yh3EQsvP/Q8e0N
+   JNsxIi85FSbkTA2pSErgEzZfgktYtYOdD+YR316Gt+OWWaofUTNICveYt
+   X4zdOBRkWF5brrLoaxrGj7Gpuo6/L8Nv6kj1bmMSReE+YxgPm37uVPS1r
+   g==;
+X-CSE-ConnectionGUID: L8Ruez+KQ42OFc5xFM7sCA==
+X-CSE-MsgGUID: oNYygWX2S/CePVY7+NoSPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="101126900"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="101126892"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 20:08:00 -0700
-X-CSE-ConnectionGUID: CzEwK1oKSi+koxfPPXGMXQ==
-X-CSE-MsgGUID: tWwEdHKRQIGk13qBdvzzhQ==
+   d="scan'208";a="101126900"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 20:08:04 -0700
+X-CSE-ConnectionGUID: VY+FWvnOS/qvI+ZmzmZsfA==
+X-CSE-MsgGUID: cogSlNJiSHmgl6kNSrRYPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="251005905"
+   d="scan'208";a="253394299"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 01 Jul 2026 20:07:58 -0700
+  by orviesa009.jf.intel.com with ESMTP; 01 Jul 2026 20:08:02 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wf7mK-000000009vB-3wNQ;
-	Thu, 02 Jul 2026 03:07:54 +0000
-Date: Thu, 02 Jul 2026 11:07:07 +0800
+	id 1wf7mO-000000009vE-0k8F;
+	Thu, 02 Jul 2026 03:07:57 +0000
+Date: Thu, 02 Jul 2026 11:07:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2026-07 0/1]
- fs/proc/task_mmu.c:1858:8: warning: no previous prototype for
- '__pagemap_lseek'
-Message-ID: <202607021122.C8sowvZw-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1] mm/page_alloc.c:1831:6:
+ warning: no previous prototype for function 'prep_new_page'
+Message-ID: <202607021102.PWyz2smJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,51 +59,66 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Kalesh,
+Hi Wenchao,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-07
-head:   5556e039c32fa02b239611dc8e5ebb958a7f12e1
-commit: 0715c0e2078d5e9bf1b2da50fae4a738cd346016 [0/1] ANDROID: 16K: Emulate /proc/pid/pagemap
-config: i386-randconfig-003-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021122.C8sowvZw-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021122.C8sowvZw-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   030ed2af4ba8ba50d5f3cbbc704bc93df568d84e
+commit: f2c613bbd9ad3f09e4eb94bf541cdfb57423dcc9 [1/1] ANDROID: export symbol prep_new_page for vendor module
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260702/202607021102.PWyz2smJ-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021102.PWyz2smJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607021122.C8sowvZw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607021102.PWyz2smJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/proc/task_mmu.c:1858:8: warning: no previous prototype for '__pagemap_lseek' [-Wmissing-prototypes]
-    1858 | loff_t __pagemap_lseek(struct file *file, loff_t offset, int orig)
-         |        ^~~~~~~~~~~~~~~
+>> mm/page_alloc.c:1831:6: warning: no previous prototype for function 'prep_new_page' [-Wmissing-prototypes]
+    1831 | void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
+         |      ^
+   mm/page_alloc.c:1831:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1831 | void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
+         | ^
+         | static 
+   1 warning generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
 
 
-vim +/__pagemap_lseek +1858 fs/proc/task_mmu.c
+vim +/prep_new_page +1831 mm/page_alloc.c
 
-  1857	
-> 1858	loff_t __pagemap_lseek(struct file *file, loff_t offset, int orig)
-  1859	{
-  1860		unsigned long nr_subpages = __PAGE_SIZE / PAGE_SIZE;
-  1861		loff_t ret;
-  1862	
-  1863		/*
-  1864		 * Userspace thinks the pages are larger than they actually are, so adjust the
-  1865		 * offset to compensate.
-  1866		 */
-  1867		offset *= nr_subpages;
-  1868	
-  1869		ret = mem_lseek(file, offset, orig);  /* borrow this */
-  1870		if (ret < 0)
-  1871			return offset;
-  1872	
-  1873		/* Re-adjust the offset to reflect the larger userspace page size. */
-  1874		return ret / nr_subpages;
-  1875	}
-  1876	
+  1830	
+> 1831	void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
+  1832								unsigned int alloc_flags)
+  1833	{
+  1834		post_alloc_hook(page, order, gfp_flags);
+  1835	
+  1836		if (order && (gfp_flags & __GFP_COMP))
+  1837			prep_compound_page(page, order);
+  1838	
+  1839		/*
+  1840		 * page is set pfmemalloc when ALLOC_NO_WATERMARKS was necessary to
+  1841		 * allocate the page. The expectation is that the caller is taking
+  1842		 * steps that will free more memory. The caller should avoid the page
+  1843		 * being used for !PFMEMALLOC purposes.
+  1844		 */
+  1845		if (alloc_flags & ALLOC_NO_WATERMARKS)
+  1846			set_page_pfmemalloc(page);
+  1847		else
+  1848			clear_page_pfmemalloc(page);
+  1849		trace_android_vh_test_clear_look_around_ref(page);
+  1850	}
+  1851	EXPORT_SYMBOL_GPL(prep_new_page);
+  1852	
 
 --
 0-DAY CI Kernel Test Service
