@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4124B3C65F2;
-	Thu,  2 Jul 2026 09:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE76D480356
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Jul 2026 09:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782983994; cv=none; b=KyTKjhf+R+Y3yBQWTxkuvHz8eQUfITw9fCJ01I40XF3PdMyj3j/I4dAU5aR+bm4Y0YVqne/u0pfyHwaSf++RMyzi4jtJlQuLyuVqi8D0aMzvQZCwt35zdq7nqx3QW1nD16aPn0s4BAwDkXWeYNcMjpUZNzphf41SDlE33lTaRQc=
+	t=1782985172; cv=none; b=YOglRmjU+VX4qgAAmKDr0xzojGcfIWqAJh7oV0YjVwkOhY0iDUlIpW/XwHotMvgJVvIRMFytt7DfzUyeLNYpB/LrQs+l4DXN722ZnYzoZ4LxdhTeg6H9rOmefsyGGwR/Aq08akf+o2x59jn37Qx0Jmg/CkbOBSI8hU5ZWRohkFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782983994; c=relaxed/simple;
-	bh=7RNyh7pjBSpect1XcycrFnoCcOpfQSBeZZfTbSrvCzA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FnPTiGXxaLxnWs+fvAV51jGPnujlsXHpm9aID1vs2PrPd52Ry7foE85vwepfp2zQ9TugKBckF127DyAF0Opo6HtFj0gGwuyCKU/DLc+5+XNlTIgfjtmmdYTnxiHDf7JLZ2fYd0vAxLzY8eGw0y5al+NF6hnxH3ani/5fQY+BjyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0gyR95M; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1782985172; c=relaxed/simple;
+	bh=/lqLmBT7DPDIjxk26INdiFhrHCxmh77B0DSZnpdCFz8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=vDVVQjz8WP3TywJ9RypayaAxivYx6oYYq9GfC5rYyRypSFS+fdwgng2w+CWO1/RE3flQKRv+0Ur8x4r/CcZg5nWatmPg29ub0Um3GARhSVxhJRwLdfE8cdfM3SB9B3IZ6tqEnrk3lMbA9zAUsDJVnL8jaudkhDBbvD8c/mZ9XLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9zferSR; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0gyR95M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9zferSR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782983993; x=1814519993;
+  t=1782985170; x=1814521170;
   h=date:from:to:cc:subject:message-id;
-  bh=7RNyh7pjBSpect1XcycrFnoCcOpfQSBeZZfTbSrvCzA=;
-  b=b0gyR95M2EdgADYWtwViCuwgLeuCloBURHaLlyeETcuJF/QGEAWc7mbK
-   nxSjRJ2RMlqOUYl4JGUoCseLXUxiqbI+qFQzPkJwxB9+WM57EYdJv5pPf
-   owgDzTOlDSvh8iIUjNRInbysxrNMBBfThzGCBCbQLMEvjhaeS1JBct+8Q
-   JIzgRPLwUIjPILilKIBDQoWqnFPB9f9JPAlhk6ArVXT4N/Aa9YeVCQEku
-   UaOS9tLU53ISNXy3JRjpaK1V4qi592kjRb7SmcR59Zco9r+5JhDh7E+/F
-   q2ugIMeIThWPWo8jerbIFD57Hyb4FPAHsJRZzHP8l7FUQtOPHBNdZ+fZj
-   Q==;
-X-CSE-ConnectionGUID: I02H20FgRPy3jzTIHAFChQ==
-X-CSE-MsgGUID: V4/jbYxhQvCNBjhjsmQwkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="109281565"
+  bh=/lqLmBT7DPDIjxk26INdiFhrHCxmh77B0DSZnpdCFz8=;
+  b=A9zferSRB0rfRHSO4Pqrw06HjTQ28e6oZueg5pUCRk1vV/t0Ee/m6/iY
+   Yp1cISeIizj7uLY65mXbocXU0PghGsaPwjtTml5j03fBwqBXzEGHB74m+
+   tnFvAn66xz8ZYoklyOtYjsfkbZBvWzquZ9SER9oPVCeZLQw4AaM739vlw
+   Z1yIzBIx/lHqzmtQ2askm1hAena6oF3F9LQio/NOuuIZjSnksQEkOEJiE
+   nqZv2lBmfKC/B4KHBbrFX6XAx2s2XODJL1M8Iw3fOv4HkAqfb6760F3hU
+   KFByjEGrmHvVYo71vzJDCGVqqdGMP0xnKou/IUO6jFZGiZT0582Pdkp2o
+   g==;
+X-CSE-ConnectionGUID: Wte3850BR7WfDnXZlJpSaA==
+X-CSE-MsgGUID: jLCvDdcaSy+NMXX/tgUR/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="94890045"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="109281565"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:19:52 -0700
-X-CSE-ConnectionGUID: Nx3m5UVtQGa06OLCDavw5w==
-X-CSE-MsgGUID: xXzD611sTcuYBcBYqk9YYw==
+   d="scan'208";a="94890045"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:39:29 -0700
+X-CSE-ConnectionGUID: PqhOk88iSSaZRLr0d4nyNA==
+X-CSE-MsgGUID: b7aesOMLSValf3jyQSEk9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="248359800"
+   d="scan'208";a="276021741"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Jul 2026 02:19:50 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 02 Jul 2026 02:39:27 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfDaF-00000000Aao-2xve;
-	Thu, 02 Jul 2026 09:19:47 +0000
-Date: Thu, 02 Jul 2026 17:18:06 +0800
+	id 1wfDtF-00000000Abz-2nb9;
+	Thu, 02 Jul 2026 09:39:25 +0000
+Date: Thu, 02 Jul 2026 17:39:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Harry Yoo (Oracle)" <harry@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [harry:kmalloc-no-objext-rfc-v1r2 3/3] mm/internal.h:838:26:
- warning: implicit conversion from 'unsigned long long' to 'u32' (aka
- 'unsigned int') changes value from 17179869184 to 0
-Message-ID: <202607021730.dIjpsiXL-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15-2026-07 1/1]
+ include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name'
+ defined but not used
+Message-ID: <202607021733.P5DzVVyP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,82 +60,142 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git kmalloc-no-objext-rfc-v1r2
-head:   a734609d2f387a9e682d352e9f28599744cc300b
-commit: a734609d2f387a9e682d352e9f28599744cc300b [3/3] mm/slab: prevent unbounded recursion in free path with new kmalloc type
-config: x86_64-randconfig-016-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021730.dIjpsiXL-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021730.dIjpsiXL-lkp@intel.com/reproduce)
+Hi JJ,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15-2026-07
+head:   9938d39e2fe99593abe347df3b82ea2f85c83d1d
+commit: 4cbf19a6f8635cd0227ab790ce570d8da7b1564a [1/1] ANDROID: sound: usb: add vendor hook for cpu suspend support
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260702/202607021733.P5DzVVyP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021733.P5DzVVyP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607021730.dIjpsiXL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607021733.P5DzVVyP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from mm/slub.c:23:
-   mm/slab.h:397:10: error: use of undeclared identifier 'KMALLOC_NO_OBJ_EXT'
-     397 |                 type = KMALLOC_NO_OBJ_EXT;
-         |                        ^~~~~~~~~~~~~~~~~~
-   In file included from mm/slub.c:55:
->> mm/internal.h:838:26: warning: implicit conversion from 'unsigned long long' to 'u32' (aka 'unsigned int') changes value from 17179869184 to 0 [-Wconstant-conversion]
-     838 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/mmzone.h:85:33: note: expanded from macro 'MAX_FOLIO_ORDER'
-      85 | #define MAX_FOLIO_ORDER         (ilog2(SZ_16G) - PAGE_SHIFT)
-         |                                  ~~~~~~^~~~~~~
-   include/linux/sizes.h:56:19: note: expanded from macro 'SZ_16G'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~~~~~~
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/log2.h:162:14: note: expanded from macro 'ilog2'
-     162 |         __ilog2_u32(n) :                \
-         |         ~~~~~~~~~~~ ^
-   include/linux/mmdebug.h:123:50: note: expanded from macro 'VM_WARN_ON_ONCE'
-     123 | #define VM_WARN_ON_ONCE(cond) (void)WARN_ON_ONCE(cond)
-         |                                                  ^~~~
-   include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   1 warning and 1 error generated.
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sound.h:18,
+                    from drivers/android/vendor_hooks.c:73:
+>> include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/typec.h:59,
+                    from drivers/android/vendor_hooks.c:72:
+   include/trace/trace_events.h:27:23: warning: 'str__typec__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/suspend.h:26,
+                    from drivers/android/vendor_hooks.c:71:
+   include/trace/trace_events.h:27:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/signal.h:20,
+                    from drivers/android/vendor_hooks.c:70:
+   include/trace/trace_events.h:27:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ipv4.h:33,
+                    from drivers/android/vendor_hooks.c:69:
+   include/trace/trace_events.h:27:23: warning: 'str__ipv4__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/evdev.h:18,
+                    from drivers/android/vendor_hooks.c:68:
+   include/trace/trace_events.h:27:23: warning: 'str__evdev__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +838 mm/internal.h
+vim +/str__sound__trace_system_name +27 include/trace/trace_events.h
 
-904d58578fce531 Kefeng Wang             2023-05-16  822  
-3c605096d315821 Joonsoo Kim             2014-11-13  823  extern int __isolate_free_page(struct page *page, unsigned int order);
-624f58d8f463967 Alexander Duyck         2020-04-06  824  extern void __putback_isolated_page(struct page *page, unsigned int order,
-624f58d8f463967 Alexander Duyck         2020-04-06  825  				    int mt);
-58e3e5265484a1b Shengming Hu            2025-12-29  826  extern void memblock_free_pages(unsigned long pfn, unsigned int order);
-13c526540b31693 David Hildenbrand       2024-06-07  827  extern void __free_pages_core(struct page *page, unsigned int order,
-13c526540b31693 David Hildenbrand       2024-06-07  828  		enum meminit_context context);
-9420f89db2dd611 Mike Rapoport (IBM      2023-03-21  829) 
-1e3be4856f49d55 Tarun Sahu              2023-06-12  830  /*
-1e3be4856f49d55 Tarun Sahu              2023-06-12  831   * This will have no effect, other than possibly generating a warning, if the
-1e3be4856f49d55 Tarun Sahu              2023-06-12  832   * caller passes in a non-large folio.
-1e3be4856f49d55 Tarun Sahu              2023-06-12  833   */
-1e3be4856f49d55 Tarun Sahu              2023-06-12  834  static inline void folio_set_order(struct folio *folio, unsigned int order)
-1e3be4856f49d55 Tarun Sahu              2023-06-12  835  {
-1e3be4856f49d55 Tarun Sahu              2023-06-12  836  	if (WARN_ON_ONCE(!order || !folio_test_large(folio)))
-1e3be4856f49d55 Tarun Sahu              2023-06-12  837  		return;
-99132d24d76511f David Hildenbrand       2025-09-01 @838  	VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-1e3be4856f49d55 Tarun Sahu              2023-06-12  839  
-ebc1baf5c9b46c2 Matthew Wilcox (Oracle  2023-08-16  840) 	folio->_flags_1 = (folio->_flags_1 & ~0xffUL) | order;
-4996fc547f5b49f David Hildenbrand       2025-03-03  841  #ifdef NR_PAGES_IN_LARGE_FOLIO
-4996fc547f5b49f David Hildenbrand       2025-03-03  842  	folio->_nr_pages = 1U << order;
-1e3be4856f49d55 Tarun Sahu              2023-06-12  843  #endif
-1e3be4856f49d55 Tarun Sahu              2023-06-12  844  }
-1e3be4856f49d55 Tarun Sahu              2023-06-12  845  
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
 
-:::::: The code at line 838 was first introduced by commit
-:::::: 99132d24d76511f0f6ded2e25448765b632794aa mm: sanity-check maximum folio size in folio_set_order()
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
 
-:::::: TO: David Hildenbrand <david@redhat.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
