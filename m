@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20793B893C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 11:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38513CAE84
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 11:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783077246; cv=none; b=QFuPGJ7u3/+0/byUkhSLcYdb+IdfKHHrHUFZnghprywOguya9ur+pQXT3k87Tv+8sV7TO0gMXLFnqluBrc+KErJ2JXWzYvf+RyUCDXTd1wVFPiePOw+eRleCBbHrfZL80PKt5pBDTfVXUO70A1yiMmcp9ZH/FuiS6Dcc6JXK8lA=
+	t=1783079474; cv=none; b=qVmcBgSsQtqrzSF1ZkUfiw6U38K9x0uXAjXYBm76cO8+zE7sw5tlJOPIWRCvMDEKkScR9NkOfTuf2rrN8OYQBpZWl61M+ziABCIVrXNs3Xu4L7cIrcBnjqT1nD4QvMkuWyJhs1/zv8xiZaXchXRpjpONO1cInKJqecqjTjnCUJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783077246; c=relaxed/simple;
-	bh=g8NU1zEbzzOkSCXF2RNXWg0TBtRPLPN6c+2SealPD5w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M5Djf+BkOp01L/JxqFANIfFReW2BKKL99q6KG21w/ILjb7cub9GO5mnls6fh0Ubp11yod3tKByy21iNQ79jU4OqcN93FywgiArHXMRpHy5JcHLf+g+qlUOGhAmr8k7eNn3VDVVyXo3GTmvH9efk6MWD9CLpo83lDbhvjD+ZZD1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=isST4IEE; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1783079474; c=relaxed/simple;
+	bh=ZW6M918N/wltVfycRu+mdGBmNGpxrXP2HmqtxzbarQs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rqdoDidP5at5vPuaQB28SASU3TTULezuekMq3sZaCzI9YkzRdxGiFBqleqYklVKotRyZ6DSpobE5+LeyXMOD+/d1OpiyVUguKSqZAtBoz3sBYiQxYDEmA7I7agNLj/trYiHU8+NnZysZSOnXCVUFzMkre+XwGyuFgKnL2BEXCu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MqT3Trk/; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="isST4IEE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MqT3Trk/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783077243; x=1814613243;
+  t=1783079472; x=1814615472;
   h=date:from:to:cc:subject:message-id;
-  bh=g8NU1zEbzzOkSCXF2RNXWg0TBtRPLPN6c+2SealPD5w=;
-  b=isST4IEEmfWOZdADRSxYmiyI7D9cOAckjmWeMvW4jgcD6omKLgSgAssK
-   xYphCossuX7Ugi3JkyFIDnUZuIyS+DXDDIhlZBBrD1yFezAvylZIyvz8J
-   ePVmNa/RIbxRhGv28skeJ8qK5tmJ5I+9HDi1HtsfT/YuU9dbRHc9h6V5P
-   YzyKURal7yr+P1s2ekWuqoWL3fV++cSswhVB8CRx2WfLjuGQIdgYIabID
-   DnIjDm70rztVgY7MYWJNGf/MRBbCFLdB6MognLRLNJqlVHQN3BlMcPyQ8
-   YL2dzLAPpIzKqANp9EoNe3rMrjx6gQoppR/mbkpdDXfER0r8VEWyezXM6
-   A==;
-X-CSE-ConnectionGUID: XFtnpx9GTju5Pb3uEJIJ1w==
-X-CSE-MsgGUID: Jv33/mumTNCbe+eKG/a4/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="87510715"
+  bh=ZW6M918N/wltVfycRu+mdGBmNGpxrXP2HmqtxzbarQs=;
+  b=MqT3Trk/f3W7+rJnrXcfygw7UE+Tc3XxaB8jGgL64gc2ksDrBgXzpOgj
+   pgbjqxxpVsNvxyOKx4in8Nc0dhMAdi4T/BCwakGRWkFiXPACWk+HPpftw
+   tW5lIHfDslKS1QIZ0Jjs/A9Dv4ePq4ERcarVEzCiDVeJGZTRrh+/1ePl2
+   h5RzO/1wi4mHSVthH1hoGcJQQuTZ7zQsfO0vRsZZT9jjaZs21X8lb/ezD
+   ZSpe2bQ0xtx5mmd5yUKSWjZpXpDrAptTD+jyBp4WsKe/3R6VK0FJPgL8J
+   70GnuGmf1zsEr//cU2J0Z7QufNanyTm3g5kNXp+UOaCtpbSGuev8bJIVt
+   w==;
+X-CSE-ConnectionGUID: f1QJdIwBRy+AtbIy/AYmtQ==
+X-CSE-MsgGUID: HndSVUreQtq2qOFP+HZiMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="95210085"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="87510715"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 04:14:03 -0700
-X-CSE-ConnectionGUID: wW0GwMhESPiMRbMPfMEU6Q==
-X-CSE-MsgGUID: AxSkOpGaQpakooncdBPm7Q==
+   d="scan'208";a="95210085"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 04:51:12 -0700
+X-CSE-ConnectionGUID: V3CiooM+StGB+CEIcdRAKw==
+X-CSE-MsgGUID: iLsreynXQfa3WvR6ZUwH3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="246716764"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Jul 2026 04:14:01 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="277426011"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 03 Jul 2026 04:51:10 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfbqI-000000001V3-2zPX;
-	Fri, 03 Jul 2026 11:13:58 +0000
-Date: Fri, 03 Jul 2026 13:12:59 +0200
+	id 1wfcQG-00000000C4t-03OT;
+	Fri, 03 Jul 2026 11:51:08 +0000
+Date: Fri, 03 Jul 2026 19:50:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/gpu/nova/core/tlv.rst: WARNING:
- document isn't included in any toctree [toc.not_included]
-Message-ID: <202607031322.BZaSlip5-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.1-rc 0/167]
+ drivers/net/bareudp.c:288:12: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202607031901.7dWzEObt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,28 +60,44 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Timur-Tabi/rust-firmware-add-request_into_buf/20260703-033738
-head:   7fe1e13ce246645500b8ee008a265a8e1712ab16
-commit: 8fbab058c7d971fd4850555b76f58bc002988f96 gpu: nova-core: add TLV parser for firmware files
-date:   15 hours ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260703/202607031322.BZaSlip5-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
+head:   866eb49750d39fe938dca71acece6f1540bb1123
+commit: bc773b15eb19ae3e27dd3a3377f2fe006ce5f382 [0/167] bareudp: Store struct sock in struct bareudp_dev.
+config: i386-randconfig-062-20260702 (https://download.01.org/0day-ci/archive/20260703/202607031901.7dWzEObt-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607031901.7dWzEObt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: bc773b15eb19 ("bareudp: Store struct sock in struct bareudp_dev.")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607031322.BZaSlip5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607031901.7dWzEObt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/bareudp.c:288:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sock *sk @@     got struct sock [noderef] __rcu *sk @@
+   drivers/net/bareudp.c:288:12: sparse:     expected struct sock *sk
+   drivers/net/bareudp.c:288:12: sparse:     got struct sock [noderef] __rcu *sk
+   drivers/net/bareudp.c:623:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] port @@     got unsigned short @@
+   drivers/net/bareudp.c:623:20: sparse:     expected restricted __be16 [usertype] port
+   drivers/net/bareudp.c:623:20: sparse:     got unsigned short
+   drivers/net/bareudp.c:624:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] ethertype @@     got unsigned short @@
+   drivers/net/bareudp.c:624:25: sparse:     expected restricted __be16 [usertype] ethertype
+   drivers/net/bareudp.c:624:25: sparse:     got unsigned short
 
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:58: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:228: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:251: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/gpu/nova/core/tlv.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+vim +288 drivers/net/bareudp.c
+
+   283	
+   284	static void bareudp_sock_release(struct bareudp_dev *bareudp)
+   285	{
+   286		struct sock *sk;
+   287	
+ > 288		sk = bareudp->sk;
+   289		rcu_assign_pointer(bareudp->sk, NULL);
+   290		synchronize_net();
+   291		udp_tunnel_sock_release(sk);
+   292	}
+   293	
 
 --
 0-DAY CI Kernel Test Service
