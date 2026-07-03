@@ -1,157 +1,132 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7073D953B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 13:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783087030; cv=pass; b=o/0v6oU1E5KaPoBxYo81aKBTu4w9MIkYhmtaDWPVHojiLGwacDLjSINJlmzMbzaZseXGC7CNEoKsj17VK38JdGuaIcm/MeYM6EMylWuATtLTlPVMWGzIXynr2XmoIyY2FacYB79Q29ZidL23IquZB9C9ZEI+f5aUatavU2svKJ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783087030; c=relaxed/simple;
-	bh=hVvP+u6yM5Mqcyx98ZiEMoPB/tESb1RKnQit6hmGlqI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F848Io5glHAq2/QCDtV2cZ5VqS/KXujA47sFgv6qlycSB1r1IdNiJ1rRo5b6EiTtLgrG9ytoIZb1B2eIB5jdJqcdDoHoDT6gebEGwmoyJSuTigAwCduxJjog53wYmZYmIIwZjsJacAsWb2slt2Qnu6ZpQkvJKImoocbolNqYjBU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=scRLmCfB; arc=pass smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2A33DCDAD
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 14:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783088120; cv=none; b=ayOCldJWUOsf6UX0pneWtB6+3r8obAxuaB0V7wmlzAV+ZPAWTBdPM81n3tOJosySBeoCDYOHzQqmaomlcZv+sWLj1V7L0CFwMOYJgw5gCGIoSHJskXhbelOB/Ao9fL0XWWcLfKI23j6Zls+OgbUGbRGwvNfJFRaV1KRiJmNpSHU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783088120; c=relaxed/simple;
+	bh=mssUN9MRux+VdHWpXmTi+DJe1noOKFImv4q9eLM5sbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TmjnpdWf4pD1idfJ+LkRJC5E66AcEr4+kpAKh5SzISUJuOcp8gnuCimVEQA8ukZd/II0ALLKEI8f65AUWSlJNuUcJFu6KGcVC9beocfrxR3DaMl0e69FGS0pQRo0Sj69ggEspWL+zHVIA5/IqYOT9vXkiBXHjTQwDYIv9kYu/oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C+JDrISk; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="scRLmCfB"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7e6b554044fso421591a34.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 03 Jul 2026 06:57:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783087026; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fX0zpnGEqRw+lPEU+S/5bD1Mf8025eofQDg7Fv3u8Abgqmo17KqCdvyJkdQIbpYZn6
-         uuQItCm7HuTcVatgBYK2ti/I7yIbUtaFyU44AsgeqTIy+Zb+pPwcktRUaNqpcymrn6hm
-         QRtNpdvG3nC+BTSWMAnJBRPR+ZU0kxK9CQlgdZBasPuViah79P1Bm/Wml3yoDlhOgXeN
-         2o+PLB5d/M516XmllxflEF1bXjdlMdUTayLqkTH3mMtOI7olx5seKIh17q2p9FMxodKV
-         bSZLuVhVBXs3d4Wg25q9AwBbyUHtP58BMFvHltBkiylDXN7DNUXumjG7pZM/4z066lar
-         AnDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nASBmgGmFajYNDw+sfEzifcL6cg7Q3JMObUhW3cut4I=;
-        fh=ALTt27E5qreRd0vEUJ+Bri3vpM33D2B4pHr9zCVtZgY=;
-        b=LKeFt/rzlPWEMwzdf3MS3Rd6wx1xYxksaA1UzJh1+csXaQBXdbtJGNV5WBC1cQpywV
-         t2RhMuDqtcPZi0+MwFzBUiNSEMS9g7pnfFJ7FG63DXQS1sKTN8rkHcnShCyEx0WUgYAg
-         JdMdYpf5U1Mg08jTRXudG7yTB2e+ihuDsjczgzTQeLnDZOETccR25uz674QUfBxQ+eQf
-         gSkg/UuYD0AIrEr9Nl9Fw2L+txTWWQFQFAYCJbQyDhYCanHjwT7a++zdrByMY0oRcCFz
-         8so5gxanzW+zMJSgfbDSckhZjX4lGZLhIGTOK3D7CxzLjEKRM5nucdXg+m1S1oD9lL4j
-         4omQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783087026; x=1783691826; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nASBmgGmFajYNDw+sfEzifcL6cg7Q3JMObUhW3cut4I=;
-        b=scRLmCfBDB0M/0vnqcrKEuGc0KLgb/ZjwBvCoTeuuoAZnuP9ESMb/r9wD0jdm1lcT4
-         aPNQ3JKEuogt5tmTu5uANZgI4EDEVOrvKCIsBcW//X66S3av+mpvQk2SQ5vAr+EhrPQQ
-         rycI6z611QHIZ/sbXj2IGaGxUBGsypcFidUs+8ZmTM2FqwAVsolelpU91pRQb5uXF7B0
-         uR5vdXbdmRLTHjOM85CZjVIoEDXoo4OZyVfu8Rfx7nDC+PHi4NcusBSmjq8Utb+cZ+By
-         erFPT5bXf1PiX8tZRvKLyAIJQ5KHLGkLBiiuRGnk1ZxUbchx+pIyGO1CFWtd2sBmzRcH
-         RBrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783087026; x=1783691826;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nASBmgGmFajYNDw+sfEzifcL6cg7Q3JMObUhW3cut4I=;
-        b=THnjJZ++TJgENoqnk92bH7uf0odNrEopVBSHJk1likYqLqUmMU6SY1kVqFuOOK/woB
-         PNLOYf1jMPrQy/YpMSfk1UATczMk0fhNxUPQmHHz0+gdvLPxQb/z6Y4g/b8g/x8Xu+Vf
-         YpUErPi8fsbT3h1IqXhNDDhdsUKw1Dh3GG7Ml0oqIk2HX5aFF5Qvd+72u3TAW+BI3GVQ
-         eMlnjy2X1bCCL++KUBzKVkIEc3bxi6Tk/NgcPc80x+u8ptUdh9tVOjilffvv8LWQyvxK
-         yrMUGjICOHshqC+SWuyR10CPVnwe1FjMOrp4qz+ii7knDiYIom8eP5Os4SlEzqsZ9sGo
-         fqIw==
-X-Forwarded-Encrypted: i=1; AFNElJ8SMGrrSunfie3CgZgktGLgBR5dRmbAxQogr9ZSCXtuTElCgpHmgOvOA+sHfbYtaf2YftTYrXac/Y8a4qXC@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzr0LMJoUaPOgKjjQJqymGTDijLLlotJYXJnsF7moCbwDAttgH0
-	PelrNKM/2BMdz83OoRBWKiIZ0yyta5v3ww8eWgLDfN3hydsuzxpHc2zHjiv0g3Jifpr6pw0eA6N
-	djifmBxD3cvPc6QzPeA2PHWPCBVD1LfI=
-X-Gm-Gg: AfdE7ckgIBhyCqGSf3GFquvYizEm4P/Ii7IIRhd/VJyaApuHTrBp4E3Ce+eJkqvCNiM
-	KhE5h/vbkv6CSm89UD6Ct7cqAQ/1QNVKkd+Az1VqGFsJAykDfXe2+rlIEtPfqjBdlJ1fEsUoBUn
-	R6/CsojcJ534fMwpsf54jzrFtURP8Jkc6jswbA7ZUzpbATtNW8n2NtFQSa809B3MDcEXinlQTnU
-	e6jIlQDOSZppfmv4dU1TRio6OXigI/ABqLX5dMYXv5QnnIkq6sKho/CqnDf7eVnTwN0QP0a2Ik=
-X-Received: by 2002:a05:6830:6f45:b0:7e9:b4d0:df75 with SMTP id
- 46e09a7af769-7eb4cc56976mr7034576a34.29.1783087026315; Fri, 03 Jul 2026
- 06:57:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+JDrISk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783088117; x=1814624117;
+  h=date:from:to:cc:subject:message-id;
+  bh=mssUN9MRux+VdHWpXmTi+DJe1noOKFImv4q9eLM5sbQ=;
+  b=C+JDrISkD5FMGw7QsyEI71SkMZnhRTscesW5XubKD2HvpeK8dcYZe7qG
+   TlGDHq8OYRtHYLrAw/u/plSABiK8W6TZrGKDy2dlnz/zsI9db2pP6PYif
+   mFxgP+q/Gm4V2p6e2RSNJf3dKmdyqVZgeAt0OiF9Up64y5EoxyHoR6dXT
+   owUs+F0tgkt3GE6N83X7NZlj6SUk2XOClk06Uv4YwWb0gcdwkwLi7BdYE
+   d1NlJbn+29u5BbxlHxMKPLfq5YeCNvIk30KqI9HrNb06EBbM2x0y3ZmgU
+   8Y+T0Tv7iybHMU23GDsPWBxGUHU//bLvNCOvfrNjnAmDFeSEmLW6d6L/2
+   w==;
+X-CSE-ConnectionGUID: 0w6TGunHTdKqs965sFLDTg==
+X-CSE-MsgGUID: dQnGXC0DSM69rV0zNu63gQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="101263251"
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="101263251"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 07:15:15 -0700
+X-CSE-ConnectionGUID: NvVg7GuqQrquyAbvLICZGw==
+X-CSE-MsgGUID: H10oQFSMQL2oRE56n2HspA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="248675895"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 03 Jul 2026 07:15:12 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wfefe-000000001Wz-3EcE;
+	Fri, 03 Jul 2026 14:15:10 +0000
+Date: Fri, 03 Jul 2026 16:14:58 +0200
+From: kernel test robot <lkp@intel.com>
+To: Wang Yaxin <wang.yaxin@zte.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [akpm-mm:mm-nonmm-unstable 43/44] htmldocs:
+ Documentation/accounting/delay-accounting.rst:237: WARNING: Block quote ends
+ without a blank line; unexpected unindent. [docutils]
+Message-ID: <202607031654.P4fsMqo4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202607031837.HSmBj8pr-lkp@intel.com>
-In-Reply-To: <202607031837.HSmBj8pr-lkp@intel.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Fri, 3 Jul 2026 18:56:54 +0500
-X-Gm-Features: AVVi8CdHQupey23YWEsUas1M0EpNc9-M0aUb-pflQdFjPWNzAQA9rXMMh6ms9WY
-Message-ID: <CABXGCsNFxBF6BJBBOK6Wzm9ELA4_o=yjkkCr7rSbmUQBK24e4w@mail.gmail.com>
-Subject: Re: drivers/gpu/drm/amd/amdgpu/amdgpu.o: error: objtool:
- amdgpu_vm_handle_fault+0x16b: sibling call from callable instruction with
- modified stack frame
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 3, 2026 at 3:17=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   d2c9a99135da931377240942d44f3dea104cedb8
-> commit: 7152b248dc3c8d5fa8629e99ed5655dd41b51562 drm/amdgpu: fix recursiv=
-e ww_mutex acquire in amdgpu_devcoredump_format
-> date:   2 weeks ago
-> config: x86_64-randconfig-004 (https://download.01.org/0day-ci/archive/20=
-260703/202607031837.HSmBj8pr-lkp@intel.com/config)
-> compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e984=
-6648fd6183ee6d8cbdb4502213fcf902a211)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260703/202607031837.HSmBj8pr-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Fixes: 7152b248dc3c ("drm/amdgpu: fix recursive ww_mutex acquire in amd=
-gpu_devcoredump_format")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202607031837.HSmBj8pr-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/gpu/drm/amd/amdgpu/amdgpu.o: error: objtool: amdgpu_vm_handle_=
-fault+0x16b: sibling call from callable instruction with modified stack fra=
-me
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   604ad02caddab12905643d5191b4a301d87033ef
+commit: 7f18b4ec38272a00b16cb2995ebb06281e0f26d0 [43/44] delaytop: sort by max delay to highlight top latency processes
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260703/202607031654.P4fsMqo4-lkp@intel.com/reproduce)
 
-Same drm_exec computed-goto issue as the other two reports, now on
-Linus' master. +0x16b is the drm_exec_retry_on_contention() computed
-goto in amdgpu_vm_handle_fault() lowered to an indirect jmp (jmp *reg
-to an in-function label loaded via an R_X86_64_32S relocation), which
-objtool can't resolve to an intra-function jump and so treats as an
-indirect sibling call. Same mechanism analyzed here for clang and gcc:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607031654.P4fsMqo4-lkp@intel.com/
 
-  https://lore.kernel.org/oe-kbuild-all/20260624092806.GX48970@noisy.progra=
-mming.kicks-ass.net/
-  https://github.com/llvm/llvm-project/issues/205544
+All warnings (new ones prefixed by >>):
 
-Note the bisect: this instance is attributed to 7152b248dc3c
-("drm/amdgpu: fix recursive ww_mutex acquire in amdgpu_devcoredump_
-format"), but that commit only touches amdgpu_dev_coredump.c and does
-not change amdgpu_vm_handle_fault(). The drm_exec conversion that
-introduced the pattern is 9920249a5288 ("drm/amdgpu: convert
-amdgpu_vm_lock_by_pasid() to drm_exec"). The randconfig-004 attribution
-here is a bisect artifact, so the suggested Fixes: tag points at the
-wrong commit.
+   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+   Using alabaster theme
+   Documentation/accounting/delay-accounting.rst:236: ERROR: Unexpected indentation. [docutils]
+>> Documentation/accounting/delay-accounting.rst:237: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/accounting/delay-accounting.rst:237: ERROR: Unexpected section title or transition.
+--
+   Documentation/accounting/delay-accounting.rst:239: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/accounting/delay-accounting.rst:243: ERROR: Unexpected indentation. [docutils]
+   Documentation/accounting/delay-accounting.rst:244: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/accounting/delay-accounting.rst:246: ERROR: Unexpected indentation. [docutils]
+   Documentation/accounting/delay-accounting.rst:247: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/accounting/delay-accounting.rst:249: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/accounting/delay-accounting.rst:246: ERROR: Unknown target name: "pool_workqueue". [docutils]
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
 
-The drm_exec macros are being reworked to drop the computed goto, which
-will fix this on both compilers. Not respinning the series; happy to
-test the drm_exec.h change once it lands.
 
---=20
-Best Regards,
-Mike Gavrilov.
+vim +237 Documentation/accounting/delay-accounting.rst
+
+   224	
+   225		bash# ./delaytop -t cpu
+   226		System Pressure Information: (avg10/avg60/avg300/total)
+   227		CPU some:       0.4%/   0.2%/   0.1%/     220(ms)
+   228		CPU full:       0.0%/   0.0%/   0.0%/       0(ms)
+   229		Memory full:    0.0%/   0.0%/   0.0%/       0(ms)
+   230		Memory some:    0.0%/   0.0%/   0.0%/       0(ms)
+   231		IO full:        0.0%/   0.0%/   0.0%/      12(ms)
+   232		IO some:        0.0%/   0.0%/   0.0%/      13(ms)
+   233		IRQ full:       0.0%/   0.0%/   0.0%/       0(ms)
+   234		[q]quit
+   235		Top 20 processes (sorted by cpu MAX delay, largest first):
+   236		     PID      TGID  COMMAND          AVG(ms)  MAX(ms)   MAX_TIMESTAMP
+ > 237		------------------------------------------------------------------------
+   238		       9         9  kworker/0:0-eve   0.59   16.87  2026-05-27T13:32:39
+ > 239		      30        30  kworker/2:0H-kb   2.87   11.36  2026-05-27T13:32:36
+   240		      27        27  migration/2       1.05    9.51  2026-05-27T13:32:37
+   241		      50        50  kworker/2:1-eve   0.50    9.13  2026-05-27T13:32:37
+   242		      15        15  rcu_preempt       0.11    8.98  2026-05-27T13:32:37
+   243		       1         1  init              0.17    7.12  2026-05-27T13:32:38
+   244		      67        67  scsi_eh_0         1.20    4.23  2026-05-27T13:32:37
+   245		      23        23  ksoftirqd/1       1.12    3.77  2026-05-27T13:32:36
+   246		       3         3  pool_workqueue_   0.72    3.55  2026-05-27T13:32:38
+   247		      62        62  kworker/u20:2-a   0.49    3.03  2026-05-27T13:32:37
+   248		       2         2  kthreadd          0.18    2.82  2026-05-27T13:32:37
+ > 249		      11        11  kworker/0:1       1.42    2.76  2026-05-27T13:32:36
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
