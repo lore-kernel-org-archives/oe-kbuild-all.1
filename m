@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54608417342
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 15:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2A621D3D2;
+	Fri,  3 Jul 2026 16:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783092379; cv=none; b=VhZNXqMxWCcm8UDJfjkQPsVSatSnmMv8NZMMNzkbyL78LWxN8sUOOCcWwUUEQcX2cSk0WBKlPh4kP+EzRC6eL8ZlvvH1zYpy5Mi6jywgEQBpZ/MM6HzEiwlJ3tuNKMoC8jgV7VlYLyW7VFNz/wQINe6sy9WghfjN3fLQwEbds2M=
+	t=1783094838; cv=none; b=R778UgH0rZ+N4/VYh2Ic96RIxDDljjcY/CEC151G2ixrtSRaA0BIvsDaWbXBJA7lP/swhrBeHK9b0pJrh4qJFzG6ZGUmQ0mI2M2x1Ib3MoSU9V7JqJW60wpr7FG3Gn1oTm37bgeNOgWvgmN+4BykzIHadpKFSX/7dyau3Jh17hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783092379; c=relaxed/simple;
-	bh=q72dfMto2H9k5CgU07ACQMAWpo99WoFvfPSY3fgiiYw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OOTxRmMeOHRfzvoGy7n4/3MAyDf9dy9w9vi6rKkowlVT/Hc1V+NsCF27tvzqlZT3ACYAgGWmeQ0jFoscc3XZEHwTIV9Q8anX6j5K9gBTpePXxn/LmgretUSEtJvQAFocc7iTCyM+dliPBBLEIIS8teDj41DndILAKPi4lD2x0Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKf4WT61; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1783094838; c=relaxed/simple;
+	bh=pHyPUUkDzvqglo3vPTWOfCBgIOjVk8sWMzaX0GChg/c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T93T17lUxrCXFd6Mu0cu1DMDgJlFoRIladVggvm9do1NG4hGLUIgFGkqbP93EWj9fiJiVOzbh6BtgZvs8m8UX1Hp1lQ9FFbQp96BoZUpXeaC3Da3E0EAU6x3yyjGB0losH6udYjbj8z6h6rH2IE23zEvqUtmQAOnP2iY9tHf/OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ThPZpm0Z; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKf4WT61"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThPZpm0Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783092377; x=1814628377;
+  t=1783094837; x=1814630837;
   h=date:from:to:cc:subject:message-id;
-  bh=q72dfMto2H9k5CgU07ACQMAWpo99WoFvfPSY3fgiiYw=;
-  b=OKf4WT61wWj5x42dxWfhRjgTaz5OjZBYlzGvjPrXOkyawjQpKoTrfZbz
-   Ap1F8S7QIDbmj1FiVZS+Pm0U20Ysc2N1wTGkL+eqx4KOE+fLcyS2K0dwG
-   5sX6OQ25YOsAu5QCr/H5IRm93RhBdjpe8ZPT5UWxppzrMRMAbvY+k3TGe
-   UcLty2s5KnAG/zZO77yffUTJGnCSVA0fstDXjk9fhNK0EOh0oThhdF1tg
-   7Bdo2w8Ft+7XpxrfZ2+sATP6Wzwm2mTFg9zutdlq3NgdTbwEP82r+IyV2
-   xr+gtEUjTqrAugOljwsLCKWuJW1CUtq5d9UFXMqqJ7+rG0J+OE87ug8F0
-   A==;
-X-CSE-ConnectionGUID: hqshtD29RiqW2j10hd6lEw==
-X-CSE-MsgGUID: ypRRExbFQ92Wqkqm7eieHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="95352295"
+  bh=pHyPUUkDzvqglo3vPTWOfCBgIOjVk8sWMzaX0GChg/c=;
+  b=ThPZpm0ZcrCBA7tsDOdIj8qg1qIZTJTGVd+hHDxp6D8UWa0D+TR7/by3
+   kPAeuNSwTMAqBiPmletxP9LoACMz52k2usF/mK6Gham5ZSDxuNNwMZ0wd
+   IGLS5iLFkyaerROO1f+FYYycDlD4E0L8/lf3g0ZRKy6V4oxaGjrsiGgim
+   wyAxpuWiwKOGeuxM7SicyrKe5hRr+WjgdwoFMH6ic7eyzS4VlyE9Y4UMr
+   nz/UcGzlDwP4Dlr3TlRfWXG3MwpyLd+94tKC5l1VaO1ui81yyK0hT9+XX
+   4lsbrvShCAU9wXaaMs3ER8p7BmMyA5x8HIL7zhtz5yuHELBWJ1LwwzxS7
+   g==;
+X-CSE-ConnectionGUID: SyKqugPiRNmCeefeVl77iw==
+X-CSE-MsgGUID: uZSysIkWR0q67EUmQtZPIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="83712675"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="95352295"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:16 -0700
-X-CSE-ConnectionGUID: V9Tk0trdT+SPpPHcIYznIw==
-X-CSE-MsgGUID: T7yzDAksR/eNvMNAaGr/+A==
+   d="scan'208";a="83712675"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 09:07:16 -0700
+X-CSE-ConnectionGUID: +6UfSMEkQbOPUWAb77pNmQ==
+X-CSE-MsgGUID: kjfhg7lHT7ux9lS+qOQrEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="257466981"
+   d="scan'208";a="277472315"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 03 Jul 2026 08:26:14 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Jul 2026 09:07:15 -0700
 Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wffmN-000000001XV-3qJZ;
-	Fri, 03 Jul 2026 15:26:11 +0000
-Date: Fri, 03 Jul 2026 17:26:08 +0200
+	id 1wfgQ4-000000001Y5-2ztR;
+	Fri, 03 Jul 2026 16:07:12 +0000
+Date: Fri, 03 Jul 2026 18:06:53 +0200
 From: kernel test robot <lkp@intel.com>
-To: Eduard Bostina <egbostina@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [krzk-w1:w1-next 2/3] htmldocs: Warning:
- Documentation/w1/masters/omap-hdq.rst references a file that doesn't exist:
- Documentation/devicetree/bindings/w1/omap-hdq.txt
-Message-ID: <202607031709.owfUeGBJ-lkp@intel.com>
+To: Javen Xu <javen_xu@realsil.com.cn>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: drivers/net/phy/realtek/realtek_main.c:20:10: fatal error:
+ 'net/phy/realtek_phy.h' file not found
+Message-ID: <202607031838.AH9yVOtc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,31 +60,36 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-w1.git w1-next
-head:   487eca6535cab91944ade06a155e9d789591a1e5
-commit: e89bccb295a8880493693e69e091a3668dc0c279 [2/3] dt-bindings: w1: Convert HDQ One Wire to DT schema
+tree:   https://github.com/intel-lab-lkp/linux/commits/javen/r8169-add-speed-in-private-struct/20260703-173649
+head:   4088a221c3a777072eddaf9d63a3b69c2eaf9982
+commit: 4088a221c3a777072eddaf9d63a3b69c2eaf9982 r8169: add phylink support for RTL8127atf
+date:   6 hours ago
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260703/202607031838.AH9yVOtc-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260703/202607031709.owfUeGBJ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607031838.AH9yVOtc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607031709.owfUeGBJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607031838.AH9yVOtc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
->> Warning: Documentation/w1/masters/omap-hdq.rst references a file that doesn't exist: Documentation/devicetree/bindings/w1/omap-hdq.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+>> drivers/net/phy/realtek/realtek_main.c:20:10: fatal error: 'net/phy/realtek_phy.h' file not found
+      20 | #include <net/phy/realtek_phy.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> drivers/net/ethernet/realtek/r8169_main.c:35:10: fatal error: 'net/phy/realtek_phy.h' file not found
+      35 | #include <net/phy/realtek_phy.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +20 drivers/net/phy/realtek/realtek_main.c
+
+c4277d21ab694c drivers/net/phy/realtek/realtek_main.c Heiner Kallweit 2026-01-10 @20  #include <net/phy/realtek_phy.h>
+097c2aa89f22f5 drivers/net/phy/realtek.c              Johnson Leung   2008-02-03  21  
 
 --
 0-DAY CI Kernel Test Service
