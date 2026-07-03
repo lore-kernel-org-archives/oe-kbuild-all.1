@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A51433B6EA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 06:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E442A373C10
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 06:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783059799; cv=none; b=JsS5T8ACwKZp1AhCx3K/1QvMGaLs5kEd3AGVHsqQra/D2x1ffmB1YgKhFdoV5M+AAyO8FKDMoC7NJr/UiYvN3rtUR+1RwgqCQKAUPHKdB4OmJfL0/Snont+HkXvKt6tyw8bSSCCHuXm4gsHA1+2Juhw4Edbd23bMtwh9xvrsh+I=
+	t=1783059876; cv=none; b=KX8f3zEdwGpJn+7oiBgKtwA7XKh6laW1Om3ppsdsdAf/qEbgWsEzpe7kIVLjej+zB37c9wcP7Lg2xU93yaBEauuzVOgFTXNcGr9MEZWnjEm05iJWj2a/8zmncCk0u6yuG42pjzBCGWJHrGJR49tWUk+Fbu1U3rWpMJKCcP0+Tyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783059799; c=relaxed/simple;
-	bh=8o72i3Lc0Ho208mTiXv1/usXLYG5A2vHHsszlyWI8Xc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DjwIdF5Eahn+HyFEVT55pCDMZLv0sVOzH+2balGZyvpcLkGImILFhtlZTBCd+Kq6OiMt0ogqtM9PRpoyVji9w7EJ3NyLSoxNv4T2N6U39PgHh19LZ5tIvhhOEd5r/28yX68q6QImMZ2brINvZjElZrNM+yCkl3fzrEHqOZTbUJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fefynxjh; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1783059876; c=relaxed/simple;
+	bh=054guOh7Crt/8P/24V1DY8lgcCo2uTfw5ovlLPhOzug=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BkODePr8au/TUax9BnGhGyIKzADgUvHT5gxdg/MTi5jYENqoDsN/DB4NwUnRm/nSQAzSpoZa8Pjb/nxfykJh++pHuq8KGIAS6B6aZycm1+zj8TakuJU65HuaSrecCZEpvBQdi1sccRmNr1APt70ReeMO7R5Vq9Qj/+yJkORAuDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AV37IH0F; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fefynxjh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AV37IH0F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783059797; x=1814595797;
+  t=1783059875; x=1814595875;
   h=date:from:to:cc:subject:message-id;
-  bh=8o72i3Lc0Ho208mTiXv1/usXLYG5A2vHHsszlyWI8Xc=;
-  b=fefynxjhaD+QUBdgu8zpmRzgsyXgdOSCZ+LsDj80V7Zj96h6ENFiiF0t
-   QvIPwaJ491v7Ljitd6b9F+iX2W1I+W2W+c46e3R2ZLMktaJX/XOcsZWqc
-   nM6oyzumpjGg+LhDOrRwWil8SdnivBelhs+hCBvbH60jiqJbZlS6Np2y6
-   yW4dm87iAOB/AHS5AtqhGE6W+nXUU3QKVMLklt20TsaTDfJPAuSH35EJ9
-   XXE3cVHHIOAWya0jipm8zz2OC/k76dPqDGsDrOxQDY2JuQUenFerROPNa
-   shhLxUzGvfkIkAMIFVwpsH6WLGUgyLG+jckSBlFwLTN7E38o/Dlhp23hg
-   A==;
-X-CSE-ConnectionGUID: JoUPa4FqS/CUjr6lwjaNgg==
-X-CSE-MsgGUID: rHQE2mfDS+OQSx9xqesJKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="86354598"
+  bh=054guOh7Crt/8P/24V1DY8lgcCo2uTfw5ovlLPhOzug=;
+  b=AV37IH0FNwMK6qg+NN5hNWiERKpVnjiiThL79grfsTHMNx9/EuMMKw1a
+   cNA6LtU+xegnAulTHKVEFoj3CBuHRckeCQiqg5HHIx1V8mszvXAgUc/Hx
+   1ndrq8ban1fztM3xuDu7cIrBlm+sQoPWBssNGUguY0Vi/1pN2k2AKvvEO
+   iXQ+gcsfHVvX4XqZuCVpszAmkCAZyTas9onBdpSMBCbUf2RGO9xC9BZHl
+   KHKhV52JPPfwwRsVVtPd/GQWGA+fliMd/HqRY5kS48lLkBzHgFg96KjLP
+   x1YJexi8bnXnc3dTNFPpvLUUUXHTQgb0xPfRRFiIWRn1yXbdY4Q4faCID
+   Q==;
+X-CSE-ConnectionGUID: DLSS05WmR2iuHdAmzixNlg==
+X-CSE-MsgGUID: 0zyKH5r9Rp+IhHys32EuPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="83794005"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="86354598"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 23:23:16 -0700
-X-CSE-ConnectionGUID: lZpvyeFARr6T8M1XXFeU8A==
-X-CSE-MsgGUID: 0NYekiniSHmzlVAMMw+mpw==
+   d="scan'208";a="83794005"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 23:24:25 -0700
+X-CSE-ConnectionGUID: n6i17uGdQ627luLA83ASCQ==
+X-CSE-MsgGUID: nU0ddjdrSaCinll2eoP3TA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="254953430"
+   d="scan'208";a="251308152"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Jul 2026 23:23:15 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Jul 2026 23:24:23 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfXIf-00000000Bkh-196Q;
-	Fri, 03 Jul 2026 06:23:02 +0000
-Date: Fri, 03 Jul 2026 14:22:40 +0800
+	id 1wfXJs-00000000Bkl-42lk;
+	Fri, 03 Jul 2026 06:24:15 +0000
+Date: Fri, 03 Jul 2026 14:22:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:kvmclock6 35/36] arch/x86/kvm/x86.c:10237:28:
- warning: unused variable 'tk'
-Message-ID: <202607031429.g83v1Wyf-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 1798/1798]
+ include/linux/fortify-string.h:597:25: error: call to
+ '__write_overflow_field' declared with attribute warning: detected write
+ beyond size of field (1st parameter); maybe use struct_group()?
+Message-ID: <202607031423.cZ7q0NN8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,51 +61,162 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/dwmw2/linux kvmclock6
-head:   e1c11e713bdc894d3acf634c88c78c65706e12a1
-commit: a1e0928f3dd8d0151f2c55215bdb6717f95c1e40 [35/36] KVM: x86: Remove pvclock_gtod_data and private timekeeping code
-config: i386-randconfig-r051-20260703 (https://download.01.org/0day-ci/archive/20260703/202607031429.g83v1Wyf-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607031429.g83v1Wyf-lkp@intel.com/reproduce)
+Hi liujie_answer,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   26e57dbe0917e5219807c3f12193fbfe37c3a977
+commit: fb6fc5e1c34166fc6092ff4a41fcc8f7783996c6 [1798/1798] anolis: net: update linkdata ethernet driver features.
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260703/202607031423.cZ7q0NN8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607031423.cZ7q0NN8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607031429.g83v1Wyf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607031423.cZ7q0NN8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/x86.c: In function 'get_kvmclock':
-   arch/x86/kvm/x86.c:3304:1: warning: label 'fallback' defined but not used [-Wunused-label]
-    3304 | fallback:
-         | ^~~~~~~~
-   arch/x86/kvm/x86.c:3243:39: warning: unused variable 'hv_clock' [-Wunused-variable]
-    3243 |         struct pvclock_vcpu_time_info hv_clock;
-         |                                       ^~~~~~~~
-   arch/x86/kvm/x86.c: In function 'pvclock_gtod_notify':
->> arch/x86/kvm/x86.c:10237:28: warning: unused variable 'tk' [-Wunused-variable]
-   10237 |         struct timekeeper *tk = priv;
-         |                            ^~
+   In file included from include/linux/string.h:296,
+                    from include/linux/bitmap.h:12,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/paravirt.h:17,
+                    from arch/x86/include/asm/cpuid.h:63,
+                    from arch/x86/include/asm/processor.h:19,
+                    from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:53,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/percpu.h:6,
+                    from include/linux/prandom.h:13,
+                    from include/linux/random.h:153,
+                    from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:12:
+   In function 'fortify_memcpy_chk',
+       inlined from 'sxe_upgrade_flash' at drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:457:2:
+>> include/linux/fortify-string.h:597:25: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
+     597 |                         __write_overflow_field(p_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/tk +10237 arch/x86/kvm/x86.c
+vim +/__write_overflow_field +597 include/linux/fortify-string.h
 
-3f804f6d201ca9 Thomas Gleixner 2021-05-06  10230  
-16e8d74d2da992 Marcelo Tosatti 2012-11-27  10231  /*
-16e8d74d2da992 Marcelo Tosatti 2012-11-27  10232   * Notification about pvclock gtod data update.
-16e8d74d2da992 Marcelo Tosatti 2012-11-27  10233   */
-16e8d74d2da992 Marcelo Tosatti 2012-11-27  10234  static int pvclock_gtod_notify(struct notifier_block *nb, unsigned long unused,
-16e8d74d2da992 Marcelo Tosatti 2012-11-27  10235  			       void *priv)
-16e8d74d2da992 Marcelo Tosatti 2012-11-27  10236  {
-16e8d74d2da992 Marcelo Tosatti 2012-11-27 @10237  	struct timekeeper *tk = priv;
-16e8d74d2da992 Marcelo Tosatti 2012-11-27  10238  
-16e8d74d2da992 Marcelo Tosatti 2012-11-27  10239  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  541  
+f68f2ff91512c19 Kees Cook      2021-04-20  542  /*
+f68f2ff91512c19 Kees Cook      2021-04-20  543   * To make sure the compiler can enforce protection against buffer overflows,
+f68f2ff91512c19 Kees Cook      2021-04-20  544   * memcpy(), memmove(), and memset() must not be used beyond individual
+f68f2ff91512c19 Kees Cook      2021-04-20  545   * struct members. If you need to copy across multiple members, please use
+f68f2ff91512c19 Kees Cook      2021-04-20  546   * struct_group() to create a named mirror of an anonymous struct union.
+f68f2ff91512c19 Kees Cook      2021-04-20  547   * (e.g. see struct sk_buff.) Read overflow checking is currently only
+f68f2ff91512c19 Kees Cook      2021-04-20  548   * done when a write overflow is also present, or when building with W=1.
+f68f2ff91512c19 Kees Cook      2021-04-20  549   *
+f68f2ff91512c19 Kees Cook      2021-04-20  550   * Mitigation coverage matrix
+f68f2ff91512c19 Kees Cook      2021-04-20  551   *					Bounds checking at:
+f68f2ff91512c19 Kees Cook      2021-04-20  552   *					+-------+-------+-------+-------+
+f68f2ff91512c19 Kees Cook      2021-04-20  553   *					| Compile time  |   Run time    |
+f68f2ff91512c19 Kees Cook      2021-04-20  554   * memcpy() argument sizes:		| write | read  | write | read  |
+f68f2ff91512c19 Kees Cook      2021-04-20  555   *        dest     source   length      +-------+-------+-------+-------+
+f68f2ff91512c19 Kees Cook      2021-04-20  556   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
+f68f2ff91512c19 Kees Cook      2021-04-20  557   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
+f68f2ff91512c19 Kees Cook      2021-04-20  558   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
+f68f2ff91512c19 Kees Cook      2021-04-20  559   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
+f68f2ff91512c19 Kees Cook      2021-04-20  560   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
+f68f2ff91512c19 Kees Cook      2021-04-20  561   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
+f68f2ff91512c19 Kees Cook      2021-04-20  562   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
+f68f2ff91512c19 Kees Cook      2021-04-20  563   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
+f68f2ff91512c19 Kees Cook      2021-04-20  564   *					+-------+-------+-------+-------+
+f68f2ff91512c19 Kees Cook      2021-04-20  565   *
+f68f2ff91512c19 Kees Cook      2021-04-20  566   * y = perform deterministic compile-time bounds checking
+f68f2ff91512c19 Kees Cook      2021-04-20  567   * n = cannot perform deterministic compile-time bounds checking
+f68f2ff91512c19 Kees Cook      2021-04-20  568   * n/a = no run-time bounds checking needed since compile-time deterministic
+f68f2ff91512c19 Kees Cook      2021-04-20  569   * B = can perform run-time bounds checking (currently unimplemented)
+f68f2ff91512c19 Kees Cook      2021-04-20  570   * V = vulnerable to run-time overflow (will need refactoring to solve)
+f68f2ff91512c19 Kees Cook      2021-04-20  571   *
+f68f2ff91512c19 Kees Cook      2021-04-20  572   */
+54d9469bc515dc5 Kees Cook      2021-06-24  573  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
+f68f2ff91512c19 Kees Cook      2021-04-20  574  					 const size_t p_size,
+f68f2ff91512c19 Kees Cook      2021-04-20  575  					 const size_t q_size,
+f68f2ff91512c19 Kees Cook      2021-04-20  576  					 const size_t p_size_field,
+f68f2ff91512c19 Kees Cook      2021-04-20  577  					 const size_t q_size_field,
+f68f2ff91512c19 Kees Cook      2021-04-20  578  					 const char *func)
+a28a6e860c6cf23 Francis Laniel 2021-02-25  579  {
+a28a6e860c6cf23 Francis Laniel 2021-02-25  580  	if (__builtin_constant_p(size)) {
+f68f2ff91512c19 Kees Cook      2021-04-20  581  		/*
+f68f2ff91512c19 Kees Cook      2021-04-20  582  		 * Length argument is a constant expression, so we
+f68f2ff91512c19 Kees Cook      2021-04-20  583  		 * can perform compile-time bounds checking where
+fa35198f39571bb Kees Cook      2022-09-19  584  		 * buffer sizes are also known at compile time.
+f68f2ff91512c19 Kees Cook      2021-04-20  585  		 */
+f68f2ff91512c19 Kees Cook      2021-04-20  586  
+f68f2ff91512c19 Kees Cook      2021-04-20  587  		/* Error when size is larger than enclosing struct. */
+fa35198f39571bb Kees Cook      2022-09-19  588  		if (__compiletime_lessthan(p_size_field, p_size) &&
+fa35198f39571bb Kees Cook      2022-09-19  589  		    __compiletime_lessthan(p_size, size))
+a28a6e860c6cf23 Francis Laniel 2021-02-25  590  			__write_overflow();
+fa35198f39571bb Kees Cook      2022-09-19  591  		if (__compiletime_lessthan(q_size_field, q_size) &&
+fa35198f39571bb Kees Cook      2022-09-19  592  		    __compiletime_lessthan(q_size, size))
+a28a6e860c6cf23 Francis Laniel 2021-02-25  593  			__read_overflow2();
+f68f2ff91512c19 Kees Cook      2021-04-20  594  
+f68f2ff91512c19 Kees Cook      2021-04-20  595  		/* Warn when write size argument larger than dest field. */
+fa35198f39571bb Kees Cook      2022-09-19  596  		if (__compiletime_lessthan(p_size_field, size))
+f68f2ff91512c19 Kees Cook      2021-04-20 @597  			__write_overflow_field(p_size_field, size);
+f68f2ff91512c19 Kees Cook      2021-04-20  598  		/*
+f68f2ff91512c19 Kees Cook      2021-04-20  599  		 * Warn for source field over-read when building with W=1
+f68f2ff91512c19 Kees Cook      2021-04-20  600  		 * or when an over-write happened, so both can be fixed at
+f68f2ff91512c19 Kees Cook      2021-04-20  601  		 * the same time.
+f68f2ff91512c19 Kees Cook      2021-04-20  602  		 */
+fa35198f39571bb Kees Cook      2022-09-19  603  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
+fa35198f39571bb Kees Cook      2022-09-19  604  		     __compiletime_lessthan(p_size_field, size)) &&
+fa35198f39571bb Kees Cook      2022-09-19  605  		    __compiletime_lessthan(q_size_field, size))
+f68f2ff91512c19 Kees Cook      2021-04-20  606  			__read_overflow2_field(q_size_field, size);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  607  	}
+f68f2ff91512c19 Kees Cook      2021-04-20  608  	/*
+f68f2ff91512c19 Kees Cook      2021-04-20  609  	 * At this point, length argument may not be a constant expression,
+f68f2ff91512c19 Kees Cook      2021-04-20  610  	 * so run-time bounds checking can be done where buffer sizes are
+f68f2ff91512c19 Kees Cook      2021-04-20  611  	 * known. (This is not an "else" because the above checks may only
+f68f2ff91512c19 Kees Cook      2021-04-20  612  	 * be compile-time warnings, and we want to still warn for run-time
+f68f2ff91512c19 Kees Cook      2021-04-20  613  	 * overflows.)
+f68f2ff91512c19 Kees Cook      2021-04-20  614  	 */
+f68f2ff91512c19 Kees Cook      2021-04-20  615  
+f68f2ff91512c19 Kees Cook      2021-04-20  616  	/*
+f68f2ff91512c19 Kees Cook      2021-04-20  617  	 * Always stop accesses beyond the struct that contains the
+f68f2ff91512c19 Kees Cook      2021-04-20  618  	 * field, when the buffer's remaining size is known.
+311fb40aa0569ab Kees Cook      2022-09-02  619  	 * (The SIZE_MAX test is to optimize away checks where the buffer
+f68f2ff91512c19 Kees Cook      2021-04-20  620  	 * lengths are unknown.)
+f68f2ff91512c19 Kees Cook      2021-04-20  621  	 */
+311fb40aa0569ab Kees Cook      2022-09-02  622  	if ((p_size != SIZE_MAX && p_size < size) ||
+311fb40aa0569ab Kees Cook      2022-09-02  623  	    (q_size != SIZE_MAX && q_size < size))
+f68f2ff91512c19 Kees Cook      2021-04-20  624  		fortify_panic(func);
+54d9469bc515dc5 Kees Cook      2021-06-24  625  
+54d9469bc515dc5 Kees Cook      2021-06-24  626  	/*
+54d9469bc515dc5 Kees Cook      2021-06-24  627  	 * Warn when writing beyond destination field size.
+54d9469bc515dc5 Kees Cook      2021-06-24  628  	 *
+54d9469bc515dc5 Kees Cook      2021-06-24  629  	 * We must ignore p_size_field == 0 for existing 0-element
+54d9469bc515dc5 Kees Cook      2021-06-24  630  	 * fake flexible arrays, until they are all converted to
+54d9469bc515dc5 Kees Cook      2021-06-24  631  	 * proper flexible arrays.
+54d9469bc515dc5 Kees Cook      2021-06-24  632  	 *
+9f7d69c5cd23904 Kees Cook      2022-09-19  633  	 * The implementation of __builtin_*object_size() behaves
+54d9469bc515dc5 Kees Cook      2021-06-24  634  	 * like sizeof() when not directly referencing a flexible
+54d9469bc515dc5 Kees Cook      2021-06-24  635  	 * array member, which means there will be many bounds checks
+54d9469bc515dc5 Kees Cook      2021-06-24  636  	 * that will appear at run-time, without a way for them to be
+54d9469bc515dc5 Kees Cook      2021-06-24  637  	 * detected at compile-time (as can be done when the destination
+54d9469bc515dc5 Kees Cook      2021-06-24  638  	 * is specifically the flexible array member).
+54d9469bc515dc5 Kees Cook      2021-06-24  639  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
+54d9469bc515dc5 Kees Cook      2021-06-24  640  	 */
+54d9469bc515dc5 Kees Cook      2021-06-24  641  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
+54d9469bc515dc5 Kees Cook      2021-06-24  642  	    p_size != p_size_field && p_size_field < size)
+54d9469bc515dc5 Kees Cook      2021-06-24  643  		return true;
+54d9469bc515dc5 Kees Cook      2021-06-24  644  
+54d9469bc515dc5 Kees Cook      2021-06-24  645  	return false;
+a28a6e860c6cf23 Francis Laniel 2021-02-25  646  }
+a28a6e860c6cf23 Francis Laniel 2021-02-25  647  
 
-:::::: The code at line 10237 was first introduced by commit
-:::::: 16e8d74d2da9920f874b10a3d979fb25c01f518f KVM: x86: notifier for clocksource changes
+:::::: The code at line 597 was first introduced by commit
+:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
 
-:::::: TO: Marcelo Tosatti <mtosatti@redhat.com>
-:::::: CC: Marcelo Tosatti <mtosatti@redhat.com>
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 --
 0-DAY CI Kernel Test Service
