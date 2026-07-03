@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FDC220687
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 01:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70221A6807
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 02:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783042629; cv=none; b=svtcah+OSfaWYVG3Qr1rF/5pwzXBtF6NC0D9lYeXQ8lODP2gxeUucVdNdKeB08eRyAZQ9TOypXAXN8oO5gOjILjU4fNjPvrjdPucXObgNl8n2ULJEa8hR8iFzK5D4sZ3+Gm0nDVJpn5VYgu1zm4ppnJuMYYpChMxoD2x98DEn74=
+	t=1783045592; cv=none; b=C3EsRHclUylf00jbP0dDDhFPNKpWP/W5sax8ZCCCK0TDeEik5ythmOIx6rHxa1fRXpnwzfEFIG0m2wvo+Ms4DUT5f9sxigBhsH/9ns5KrSeY2EdNvLGeHGClNLvNTtcTI6qKkRJGwWi2jfHp1ifdw5lc93FYqsx3eGRFGWo4/iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783042629; c=relaxed/simple;
-	bh=oED4z5Eq9XN3DaNP79DICzkP/KR8U1Oyta6b9IZYPm4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QCe7n8ROWaeIxqajz9j97zEl/jevBb2c+J7MaVHXW8OFndY5YOoNd1R4uXWp2eSOcHD9x9dRQP5bK59dfMZu6+FIoWCoNOPHc9/38bCWCQt4WOasN9TKtRje1Iwj7AR9iqW37OmZIaODyunx8ccAhCGt64k5fB+4N7K9U2Iji4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdqM0Yy4; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1783045592; c=relaxed/simple;
+	bh=McpkGByiU/qpobOPMpnjdrusZ7/ckuiTZdkwkrlOVO4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=h+jZltB4hYu8eCXsLvRNL78NZTYxAmTC3F+rv8s1pQQqeleCvQVlnTY6cIIJHkVpvhbjHTPGHhuCWpHV30IvGVrL6vYyxeRjPYFWNlW4MVKWETiBACrJIslW7fPvn/HhfkJU+5PbFFCNyDRtkcdt+niM4PcNcv907M+QCNK6jrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MRjOmw3Y; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdqM0Yy4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MRjOmw3Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783042627; x=1814578627;
+  t=1783045589; x=1814581589;
   h=date:from:to:cc:subject:message-id;
-  bh=oED4z5Eq9XN3DaNP79DICzkP/KR8U1Oyta6b9IZYPm4=;
-  b=gdqM0Yy4Kc27LkXtCiagCd1rPq/AdRmWLIvnnfZTWgxrBjREvhk1fkeO
-   IINwxON82IrdtK4wJFjJ5uMoGhXHoojIURC3CGjjX1Q6V0iGvbAb+MMjh
-   FmmOiXKaDB88KJjy78jH1lZduxcAHR3SPmugncryBJN3KBol6WYIuLz00
-   pVadrXKTMwo2LH1f3NddLZ6jn0R4jwYJbM+/nSeLpYFy94NfafHLpDrup
-   kcfKxF1xo41JRJE8H2DR+Ib5/ogaspUFZci2B5nGU8nzzRCRoakz7ez4M
-   g+M9rqUkH8/hLe9bDA/nzk1DW+ZV5CCZZlg/2aGzQyaDrx6QyyA43MLlf
-   A==;
-X-CSE-ConnectionGUID: cpBFJ509TeaYTYncbhJQsw==
-X-CSE-MsgGUID: QOcFZGbdRsGfUmtOnsAYoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="95300129"
+  bh=McpkGByiU/qpobOPMpnjdrusZ7/ckuiTZdkwkrlOVO4=;
+  b=MRjOmw3YMsi1O9WDC/Lypy5+w/V+FXxelC8Uwzm7ymT/CTcm7ch/n1HI
+   5gfunfJIT5arq3ul9WEAlbg97kB4ET+1kTzTzrk4TDM/hEus/eQL46IEo
+   KRcQ87U2Mj6aKFJ6X2euaGW4pOF/0XlXENmGvZ2PQrlx/hhkXaudIGpeD
+   ld6W93rb8JLzhmhpvuG3EQg9wDMbAItfhhG41tpXmZeKU5LVs1v45IVyi
+   s9KA/bf4qYlPSPqdVjbKKcccNwH95CtYVEgaRouFZo2ew/5i3EVlY3Wey
+   yWlvJcMbacUgroKnn1QNs08ZPbCwxSAMdjz6bd8XcDJwaqW7mG8mv5BjJ
+   Q==;
+X-CSE-ConnectionGUID: 9aVEqjU2RB6pbjGux8Rwwg==
+X-CSE-MsgGUID: mhMkz+jiRnytM/eatQkNrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="82906250"
 X-IronPort-AV: E=Sophos;i="6.25,144,1779174000"; 
-   d="scan'208";a="95300129"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 18:37:07 -0700
-X-CSE-ConnectionGUID: lXNvGFu7TRaVg0gsCLKDSA==
-X-CSE-MsgGUID: BUg4MbjrRM2J73dOeXgz2Q==
+   d="scan'208";a="82906250"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 19:26:29 -0700
+X-CSE-ConnectionGUID: jyhCMjrXRPSAoVNMfj7kcQ==
+X-CSE-MsgGUID: xvXpoCnVQ16X0943WCl5QA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,144,1779174000"; 
-   d="scan'208";a="250336798"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Jul 2026 18:37:05 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="251931414"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 02 Jul 2026 19:26:28 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfSpz-00000000BWZ-0bNb;
-	Fri, 03 Jul 2026 01:37:03 +0000
-Date: Fri, 03 Jul 2026 09:36:11 +0800
+	id 1wfTbk-000000001PJ-3iwE;
+	Fri, 03 Jul 2026 02:26:24 +0000
+Date: Fri, 03 Jul 2026 04:25:53 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-next 21/21] fs/9p/vfs_addr.c:106:29:
- warning: unused variable 'n'
-Message-ID: <202607030907.wYZTJWGt-lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Subject: arch/arm/boot/dts/broadcom/bcm4709-linksys-ea9200.dtb: leds
+ (gpio-leds): led-0:linux,default-trigger: 'oneOf' conditional failed, one
+ must be fixed:
+Message-ID: <202607030407.1DT5VDLb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,93 +61,37 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   e291bb0346f243b63b5fca4ef35e440585cda032
-commit: e291bb0346f243b63b5fca4ef35e440585cda032 [21/21] netfs: Combine prepare and issue ops and grab the buffers on request
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260703/202607030907.wYZTJWGt-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607030907.wYZTJWGt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   87320be9f0d24fce67631b7eef919f0b79c3e45c
+commit: 6b0cb7b34ba68425abb6b3174cca4a7ee031da6d ARM: dts: BCM5301X: EA9200: add LEDs
+date:   3 months ago
+config: arm-randconfig-2055 (https://download.01.org/0day-ci/archive/20260703/202607030407.1DT5VDLb-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+dtschema: 2026.7.dev1+g2203c1720
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607030407.1DT5VDLb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 6b0cb7b34ba6 ("ARM: dts: BCM5301X: EA9200: add LEDs")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607030907.wYZTJWGt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607030407.1DT5VDLb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   fs/9p/vfs_addr.c: In function 'v9fs_issue_read':
->> fs/9p/vfs_addr.c:106:29: warning: unused variable 'n' [-Wunused-variable]
-     106 |         int total = 0, err, n;
-         |                             ^
-
-
-vim +/n +106 fs/9p/vfs_addr.c
-
-    92	
-    93	/**
-    94	 * v9fs_issue_read - Issue a read from 9P
-    95	 * @subreq: The read to make
-    96	 * @rctx: Read generation context
-    97	 */
-    98	static void v9fs_issue_read(struct netfs_io_subrequest *subreq)
-    99	{
-   100		struct netfs_io_request *rreq = subreq->rreq;
-   101		struct iov_iter iter;
-   102		struct p9_fid *fid = rreq->netfs_priv;
-   103		char *target;
-   104		unsigned long long pos = subreq->start + subreq->transferred;
-   105		size_t len;
- > 106		int total = 0, err, n;
-   107	
-   108		err = netfs_prepare_read_buffer(subreq, INT_MAX);
-   109		if (err < 0)
-   110			goto term;
-   111	
-   112		iov_iter_bvec_queue(&iter, ITER_DEST, subreq->content.bvecq,
-   113				    subreq->content.slot, subreq->content.offset, subreq->len);
-   114	
-   115		if (S_ISLNK(rreq->inode->i_mode)) {
-   116			/* p9_client_readlink() must not be called for legacy protocols
-   117			 * 9p2000 or 9p2000.u.
-   118			 */
-   119			BUG_ON(!p9_is_proto_dotl(fid->clnt));
-   120			if (WARN_ON_ONCE(pos)) {
-   121				/* reading a link at a non null offset should
-   122				 * not happen
-   123				 */
-   124				err = -EIO;
-   125				goto fill_subreq;
-   126			}
-   127			err = p9_client_readlink(fid, &target);
-   128			if (err != 0)
-   129				goto fill_subreq;
-   130			len = min(strlen(target), subreq->len);
-   131			total = copy_to_iter(target, len, &iter);
-   132			kfree(target);
-   133		} else {
-   134			trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
-   135	
-   136			total = p9_client_read(fid, pos, &iter, &err);
-   137		}
-   138	
-   139	fill_subreq:
-   140		/* if we just extended the file size, any portion not in
-   141		 * cache won't be on server and is zeroes */
-   142		if (subreq->rreq->origin != NETFS_UNBUFFERED_READ &&
-   143		    subreq->rreq->origin != NETFS_DIO_READ)
-   144			__set_bit(NETFS_SREQ_CLEAR_TAIL, &subreq->flags);
-   145		if (pos + total >= i_size_read(rreq->inode))
-   146			__set_bit(NETFS_SREQ_HIT_EOF, &subreq->flags);
-   147		if (!err && total) {
-   148			subreq->transferred += total;
-   149			__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
-   150		}
-   151	
-   152	term:
-   153		subreq->error = err;
-   154		return netfs_read_subreq_terminated(subreq);
-   155	}
-   156	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/broadcom/bcm5301x-nand-cs0.dtsi:10.18-19.5: Warning (avoid_unnecessary_addr_size): /nand-controller@18028000/nand@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:24.28-47.4: Warning (unique_unit_address_if_enabled): /chipcommon-a-bus@18000000: duplicate unit-address (also used in node /axi@18000000)
+   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:377.22-382.4: Warning (unique_unit_address_if_enabled): /mdio@18003000: duplicate unit-address (also used in node /mdio-mux@18003000)
+   arch/arm/boot/dts/broadcom/bcm4709-linksys-ea9200.dtb: /axi@18000000: failed to match any schema with compatible: ['brcm,bus-axi']
+   arch/arm/boot/dts/broadcom/bcm4709-linksys-ea9200.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@8: 'phy-mode' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
+   arch/arm/boot/dts/broadcom/bcm4709-linksys-ea9200.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
+>> arch/arm/boot/dts/broadcom/bcm4709-linksys-ea9200.dtb: leds (gpio-leds): led-0:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+   	'rfkill-none' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'kbd-capslock', 'mtd', 'nand-disk', 'netdev', 'none', 'rc-feedback', 'torch', 'usb-gadget', 'usb-host', 'usbport']
+   	'rfkill-none' does not match '^cpu[0-9]*$'
+   	'rfkill-none' does not match '^hci[0-9]+-power$'
+   	'rfkill-none' does not match '^mmc[0-9]+$'
+   	'rfkill-none' does not match '^phy[0-9]+tx$'
+   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml
 
 --
 0-DAY CI Kernel Test Service
