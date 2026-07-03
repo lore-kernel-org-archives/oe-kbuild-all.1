@@ -1,294 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A9C35F8D2
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 07:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77756371893
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Jul 2026 07:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783064430; cv=none; b=Na365EnxU02G3lXGUdbbcX7D9bnW+lWDqf/EDsqQZTmpYwlYC2oTxamRQstrvJd1AOwLfbJiRZlMyXZdU3RU81tQIlsBCAdD5MswPlM06K2/W5wpfQzc2dI+iAAtZbXnXsWfoHvfcqUdkByxaAhqrOIZk0EW4idhZdBp54PMHlA=
+	t=1783065230; cv=none; b=HFVVeb4t+BKNs6TwkMkqmSfs8JfXmR5teyLv7drwGnr0p+LS1aWLtT7KdANAxjyQSnmb/DPIBOCS3fn/lhdL5IM853N+85UucP1pBOOwX9e0IJo0DAKurLMGpL8F7XpSc8862hNDWvrXOriQ2c0kruSlNNarN0PjbRCi2l3CS+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783064430; c=relaxed/simple;
-	bh=9sgUE5gen4toUJgD1I9Gn78LE3tDK8MznRZtEvKZErY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jcWY9tnsgdxp8wVyzx7k4qYG+cIfv0ZPtSESqTzY/+bmzfgUTFWMf5IvdvmU1IelkFLwbr3qpQ6llaqj0+CGHF5nYPxPAfa2srsUV2h21Y+oQfVAcATXfIzqG7ZSR5cUE894OtiTwkLGOTxG2mceJhwVmj97PYUFvaMopbxEzsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqYcKVNR; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783065230; c=relaxed/simple;
+	bh=e8f4eK2XIAXtmv0D3DJUStmAvt+/9psaO5ICbE3bd7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ox1f3XunMzv2fF0a9O1TiO3MjZ2AEsDMC9NtSxHHbnSz5dy0wzA8GbCbY1HUFl2GEGrCW24C4Aq8NdNowkhfcUBduIIWxQaxq4ltYtsdWnY6MUCUcdB3wka6PRTUdW8ce4ynFx6sBmj/nxxhaMDTxIwLy/GzcgxmJ54HPi8ibrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o+b5WAhw; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqYcKVNR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783064428; x=1814600428;
-  h=date:from:to:cc:subject:message-id;
-  bh=9sgUE5gen4toUJgD1I9Gn78LE3tDK8MznRZtEvKZErY=;
-  b=CqYcKVNRv6Z9JsgdGsvrAmdCOfpItBB8QfhREMGbDRq6ItEPNyFZyA+d
-   t0bqipuPJ3uTzzOawxPKjxs+A64i7CT7FvzPee4Zcfa+UCULis2Q2nFhQ
-   b9wefZixKtJE4P+az3XsrN41T7lSRoGmdNLwzW2AQZCPkklDe4MYXzIy2
-   H36qzr1qfjABr/KUHYD/tNVkge5HKNyixvX4wOI+GwqQZvjAdUHCxhdm9
-   UfvMAW+QwcgQBpkkwo/R52+guEo3F6DaAQAMGS408Yd+GdR70SMe+Z4Al
-   y0L6ifC7dvsn1Ppvj9s+DsmfGje9nj0pc+YeqY0hYSAZ4I+b6Kg+vk/lJ
-   g==;
-X-CSE-ConnectionGUID: YdwgL9+PSH2XnHZXZWJUEw==
-X-CSE-MsgGUID: JsngG4ZnQE+UiDIi7A7hxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="83679485"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="83679485"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 00:40:20 -0700
-X-CSE-ConnectionGUID: 1Z1b8KBOTUixBQteVqcxPw==
-X-CSE-MsgGUID: f7Us1wHzSjqk2FOCBzqSZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="249083673"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Jul 2026 00:40:17 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wfYVT-00000000BpH-0GMW;
-	Fri, 03 Jul 2026 07:40:15 +0000
-Date: Fri, 03 Jul 2026 15:39:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Ethan Nelson-Moore" <enelsonmoore@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>
-Subject: drivers/net/arcnet/com20020-pci.c:225:52: warning:
- 'snprintf' output may be truncated before the last format character
-Message-ID: <202607031526.MY7Ztdga-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o+b5WAhw"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493be1b9682so1866165e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 03 Jul 2026 00:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783065227; x=1783670027; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QwNG2xgIYbHo79fkvwrrCIA18FniF81xGtg9vLZ2YD4=;
+        b=o+b5WAhwQfUmNgTK/p17fLBnXr7MvR34+PJVHCydY36tPk9zycw3i278KGYGlraflA
+         LSDi2hPyIaEb5EbcIkatd1hIbl37b0HF0A7KkGWFlF3IWoME6amk6sHLcu/unTcTKek4
+         HQFlpN/Mc2uRVhPkASSh73prXTVw6o7ISePyYhEiTEPW/vkXD/Xq+2/fien6qR78baVI
+         7uJfSMS9iwDAFRzqxnTSNVgwuTWYd4qDipxz5E+WhaGs3o/coWLmYc8W3fI/3ibDkUT6
+         eRUEng9oRC4FApyWT+HLJulsrPDj4cVzvEPQv7V7k6PxUByJPRKetJJFbsMNfuPBppTk
+         UAig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783065227; x=1783670027;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QwNG2xgIYbHo79fkvwrrCIA18FniF81xGtg9vLZ2YD4=;
+        b=ENiKrTHnlHDhCH5PraC5AZKX7fFSXzpkv+ML7DiS9JhKqjS+9i3oVo04evNcjvOUfH
+         QlKczgl+m5037a4DC4o/zD7liwKWVa6BhdBLq55LfYNhqtnGUTKZkGXnW0YuA3Zd+5N9
+         g86DyoVYsELouM7N3LgQENgZEJO7heikhIy06IOT09viAG2BSm7If81hfHL2SqmCBH2Q
+         WeK0vnKwUb2jxO6F630IB4KtxvMehZDHKiFK43AXstD1b/NOMO76aCXC26xUTNN0RrhV
+         shulhDKuqdwjQuQlppYXWujLWHFf+R75TrQXe8pp6a5fN8MC7rqUWYecBZyr5ydr0SRf
+         hjrA==
+X-Forwarded-Encrypted: i=1; AFNElJ9maisx8yzZwhk6Ubiw3uDLjioYZt6MXyCyrXkOaECQPF7s03nUxZZaFWJNX1q+1+xddkEwIw52aNvCaQGb@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1Xm3Nqpop7RG/7bJusSyZ/I4O6pMQvkI1KOBUTXTll+62n5TR
+	DgJ+GXgn1e+aItYXS2pL3KTYivRl+2m3moOE9y5Ib5Xt+3x35wAi48JNR6dLxQQy
+X-Gm-Gg: AfdE7cn7Ihdwxex+fTdPq3lHIyIUWFxAl4AR21vvqED7Lj06o9c22sdz+wRt+p92kC/
+	5i51jxfvFoIhQVa71rz7CjheDst5acj4Zun8YY7oROcaSOjIYcA/ZZ0NXtMPvHlWr2M5vDy13+p
+	q2IJtQ8WMJyVB6pRbwaqaA9J0adECTbU1k5XGabpgmfBfXhyvRb5zCZRBkW9f7I4JGZUEjwOq95
+	bwROyA0XCQVXp67SzsPLqYPvCFLr5GILN3SuqqBKrcddbn6GqtzncPcO31FhnYbfPn/M0RQQVHR
+	hD1Wxg7YvioovpMNraL+Zt8tq5HDzvDnYn0a/UfBty9lkN8hhfK6w9wdxq0uK3RgtSUzBwb/FiA
+	BPiVxQYZ49k0Xu8FT6jbSHzdhHZHHEoivgWoa2K1PZ+OW5QF8+TuZ1XGAAukD4U0h/EgzU9j1pD
+	OW1zGJzZSHx+NtyKfrK8bSmvplVpAUU+G6KzzmnAglqRKInMFIFGTQNTsu
+X-Received: by 2002:a05:600c:5010:b0:493:72d3:4a81 with SMTP id 5b1f17b1804b1-493c2b5161emr122442615e9.16.1783065226523;
+        Fri, 03 Jul 2026 00:53:46 -0700 (PDT)
+Received: from pumpkin (host-92-21-50-228.as13285.net. [92.21.50.228])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c636ea60sm103089575e9.3.2026.07.03.00.53.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 00:53:45 -0700 (PDT)
+Date: Fri, 3 Jul 2026 08:53:42 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Paolo Abeni <pabeni@redhat.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, mptcp@lists.linux.dev,
+ matthieu.baerts@tessares.net, Jakub Kicinski <kuba@kernel.org>, "Matthieu
+ Baerts (NGI0)" <matttbe@kernel.org>
+Subject: Re: include/linux/compiler_types.h:699:45: error: call to
+ '__compiletime_assert_881' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof_field(struct mptcp_ext, flags) != sizeof(u16)
+Message-ID: <20260703085342.1b915f66@pumpkin>
+In-Reply-To: <202607031100.upQfRZTM-lkp@intel.com>
+References: <202607031100.upQfRZTM-lkp@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Ethan,
+On Fri, 03 Jul 2026 11:51:39 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-FYI, the error/warning still remains.
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   51512e22efe813d8223de27f6fd02a8a48ea2323
+> commit: 5e939544f9d2b4d5c052a07cfcde97de44263946 mptcp: fix uninit-value in mptcp_established_options
+> date:   4 weeks ago
+> config: arm-randconfig-r051-20260702 (https://download.01.org/0day-ci/archive/20260703/202607031100.upQfRZTM-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607031100.upQfRZTM-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: 5e939544f9d2 ("mptcp: fix uninit-value in mptcp_established_options")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202607031100.upQfRZTM-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from <command-line>:
+>    In function 'mptcp_established_options_dss',
+>        inlined from 'mptcp_established_options' at net/mptcp/options.c:881:11:
+> >> include/linux/compiler_types.h:699:45: error: call to '__compiletime_assert_881' declared with attribute error: BUILD_BUG_ON failed: sizeof_field(struct mptcp_ext, flags) != sizeof(u16)  
+>      699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>          |                                             ^
+>    include/linux/compiler_types.h:680:25: note: in definition of macro '__compiletime_assert'
+>      680 |                         prefix ## suffix();                             \
+>          |                         ^~~~~~
+>    include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
+>      699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>          |         ^~~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
+>       40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+>          |                                     ^~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+>       51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+>          |         ^~~~~~~~~~~~~~~~
+>    net/mptcp/options.c:576:9: note: in expansion of macro 'BUILD_BUG_ON'
+>      576 |         BUILD_BUG_ON(sizeof_field(struct mptcp_ext, flags) != sizeof(u16));
+>          |         ^~~~~~~~~~~~
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   51512e22efe813d8223de27f6fd02a8a48ea2323
-commit: eb8ffe14a554808eb68cf050ba5343dbbe15bb54 net: arcnet: com20020-pci: avoid -Wformat-truncation warning
-date:   6 weeks ago
-config: alpha-randconfig-r113-20260703 (https://download.01.org/0day-ci/archive/20260703/202607031526.MY7Ztdga-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260703/202607031526.MY7Ztdga-lkp@intel.com/reproduce)
+This is probably the old 32bit arm abi that aligns all structures to 32 bits.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: eb8ffe14a554 ("net: arcnet: com20020-pci: avoid -Wformat-truncation warning")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607031526.MY7Ztdga-lkp@intel.com/
+	David
 
-All warnings (new ones prefixed by >>):
+> 
+> 
+> vim +/__compiletime_assert_881 +699 include/linux/compiler_types.h
+> 
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  685  
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  686  #define _compiletime_assert(condition, msg, prefix, suffix) \
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  687  	__compiletime_assert(condition, msg, prefix, suffix)
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  /**
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  690   * compiletime_assert - break build and emit msg if condition is false
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  691   * @condition: a compile-time constant condition to check
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  692   * @msg:       a message to emit if condition is false
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   *
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * In tradition of POSIX assert, this macro will break the build if the
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * supplied condition is *false*, emitting the supplied error message if the
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   * compiler has support to do so.
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   */
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  698  #define compiletime_assert(condition, msg) \
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @699  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  700  
+> 
+> :::::: The code at line 699 was first introduced by commit
+> :::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+> 
+> :::::: TO: Will Deacon <will@kernel.org>
+> :::::: CC: Will Deacon <will@kernel.org>
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
-   drivers/net/arcnet/com20020-pci.c: In function 'com20020pci_probe':
->> drivers/net/arcnet/com20020-pci.c:225:52: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
-       snprintf(dev->name, sizeof(dev->name), "arc%d-%d", dev->dev_id, i);
-                                                       ^
-   drivers/net/arcnet/com20020-pci.c:225:4: note: 'snprintf' output between 7 and 17 bytes into a destination of size 16
-       snprintf(dev->name, sizeof(dev->name), "arc%d-%d", dev->dev_id, i);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/snprintf +225 drivers/net/arcnet/com20020-pci.c
-
-c51da42a6346c0 Michal Grzeschik   2014-09-29  121  
-d6d7d3ed56e3bf Joe Perches        2015-05-05  122  static int com20020pci_probe(struct pci_dev *pdev,
-d6d7d3ed56e3bf Joe Perches        2015-05-05  123  			     const struct pci_device_id *id)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  124  {
-8c14f9c70327a6 Michal Grzeschik   2014-09-29  125  	struct com20020_pci_card_info *ci;
-5ef216c1f84825 Michal Grzeschik   2014-09-18  126  	struct com20020_pci_channel_map *mm;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  127  	struct net_device *dev;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  128  	struct arcnet_local *lp;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  129  	struct com20020_priv *priv;
-eb8ffe14a55480 Ethan Nelson-Moore 2026-05-20  130  	int ioaddr, ret;
-eb8ffe14a55480 Ethan Nelson-Moore 2026-05-20  131  	u8 i;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  132  	struct resource *r;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  133  
-6577b9a551aedb Tong Zhang         2021-03-14  134  	ret = 0;
-6577b9a551aedb Tong Zhang         2021-03-14  135  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  136  	if (pci_enable_device(pdev))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  137  		return -EIO;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  138  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  139  	priv = devm_kzalloc(&pdev->dev, sizeof(struct com20020_priv),
-c51da42a6346c0 Michal Grzeschik   2014-09-29  140  			    GFP_KERNEL);
-e8a308affcd79d Kiran Padwal       2015-02-05  141  	if (!priv)
-e8a308affcd79d Kiran Padwal       2015-02-05  142  		return -ENOMEM;
-e8a308affcd79d Kiran Padwal       2015-02-05  143  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  144  	ci = (struct com20020_pci_card_info *)id->driver_data;
-bd6f1fd5d33dfe Zheyu Ma           2022-03-02  145  	if (!ci)
-c7d9be66b71af4 Ethan Nelson-Moore 2026-02-12  146  		ci = &card_info_2p5mbit;
-bd6f1fd5d33dfe Zheyu Ma           2022-03-02  147  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  148  	priv->ci = ci;
-5ef216c1f84825 Michal Grzeschik   2014-09-18  149  	mm = &ci->misc_map;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  150  
-6577b9a551aedb Tong Zhang         2021-03-14  151  	pci_set_drvdata(pdev, priv);
-6577b9a551aedb Tong Zhang         2021-03-14  152  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  153  	INIT_LIST_HEAD(&priv->list_dev);
-c51da42a6346c0 Michal Grzeschik   2014-09-29  154  
-5ef216c1f84825 Michal Grzeschik   2014-09-18  155  	if (mm->size) {
-5ef216c1f84825 Michal Grzeschik   2014-09-18  156  		ioaddr = pci_resource_start(pdev, mm->bar) + mm->offset;
-5ef216c1f84825 Michal Grzeschik   2014-09-18  157  		r = devm_request_region(&pdev->dev, ioaddr, mm->size,
-5ef216c1f84825 Michal Grzeschik   2014-09-18  158  					"com20020-pci");
-5ef216c1f84825 Michal Grzeschik   2014-09-18  159  		if (!r) {
-5ef216c1f84825 Michal Grzeschik   2014-09-18  160  			pr_err("IO region %xh-%xh already allocated.\n",
-5ef216c1f84825 Michal Grzeschik   2014-09-18  161  			       ioaddr, ioaddr + mm->size - 1);
-5ef216c1f84825 Michal Grzeschik   2014-09-18  162  			return -EBUSY;
-5ef216c1f84825 Michal Grzeschik   2014-09-18  163  		}
-5ef216c1f84825 Michal Grzeschik   2014-09-18  164  		priv->misc = ioaddr;
-5ef216c1f84825 Michal Grzeschik   2014-09-18  165  	}
-5ef216c1f84825 Michal Grzeschik   2014-09-18  166  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  167  	for (i = 0; i < ci->devcount; i++) {
-c51da42a6346c0 Michal Grzeschik   2014-09-29  168  		struct com20020_pci_channel_map *cm = &ci->chan_map_tbl[i];
-c51da42a6346c0 Michal Grzeschik   2014-09-29  169  		struct com20020_dev *card;
-cb108619f2fc77 Michal Grzeschik   2017-06-28  170  		int dev_id_mask = 0xf;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  171  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  172  		dev = alloc_arcdev(device);
-c51da42a6346c0 Michal Grzeschik   2014-09-29  173  		if (!dev) {
-c51da42a6346c0 Michal Grzeschik   2014-09-29  174  			ret = -ENOMEM;
-6577b9a551aedb Tong Zhang         2021-03-14  175  			break;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  176  		}
-ae8ede6a0cdcf3 Michal Grzeschik   2015-03-20  177  		dev->dev_port = i;
-a1799af4d7deef Stephen Hemminger  2009-01-09  178  
-a1799af4d7deef Stephen Hemminger  2009-01-09  179  		dev->netdev_ops = &com20020_netdev_ops;
-a1799af4d7deef Stephen Hemminger  2009-01-09  180  
-454d7c9b14e20f Wang Chen          2008-11-12  181  		lp = netdev_priv(dev);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  182  
-a34c0932c3b2f2 Joe Perches        2015-05-05  183  		arc_printk(D_NORMAL, dev, "%s Controls\n", ci->name);
-c51da42a6346c0 Michal Grzeschik   2014-09-29  184  		ioaddr = pci_resource_start(pdev, cm->bar) + cm->offset;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  185  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  186  		r = devm_request_region(&pdev->dev, ioaddr, cm->size,
-c51da42a6346c0 Michal Grzeschik   2014-09-29  187  					"com20020-pci");
-c51da42a6346c0 Michal Grzeschik   2014-09-29  188  		if (!r) {
-05a24b234b9dda Joe Perches        2015-05-05  189  			pr_err("IO region %xh-%xh already allocated\n",
-c51da42a6346c0 Michal Grzeschik   2014-09-29  190  			       ioaddr, ioaddr + cm->size - 1);
-c51da42a6346c0 Michal Grzeschik   2014-09-29  191  			ret = -EBUSY;
-6577b9a551aedb Tong Zhang         2021-03-14  192  			goto err_free_arcdev;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  193  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  194  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  195  		/* Dummy access after Reset
-c51da42a6346c0 Michal Grzeschik   2014-09-29  196  		 * ARCNET controller needs
-c51da42a6346c0 Michal Grzeschik   2014-09-29  197  		 * this access to detect bustype
-c51da42a6346c0 Michal Grzeschik   2014-09-29  198  		 */
-e859db8ac49083 Ethan Nelson-Moore 2026-05-20  199  		outb(0x00, ioaddr + COM20020_REG_W_COMMAND);
-e859db8ac49083 Ethan Nelson-Moore 2026-05-20  200  		inb(ioaddr + COM20020_REG_R_DIAGSTAT);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  201  
-2a0ea04c83ab82 Michal Grzeschik   2017-06-28  202  		SET_NETDEV_DEV(dev, &pdev->dev);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  203  		dev->base_addr = ioaddr;
-13b5ffa0e282f3 Jakub Kicinski     2021-10-12  204  		arcnet_set_addr(dev, node);
-ede07a1fc7d70a Michal Grzeschik   2017-06-28  205  		dev->sysfs_groups[0] = &com20020_state_group;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  206  		dev->irq = pdev->irq;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  207  		lp->card_name = "PCI COM20020";
-8c14f9c70327a6 Michal Grzeschik   2014-09-29  208  		lp->card_flags = ci->flags;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  209  		lp->backplane = backplane;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  210  		lp->clockp = clockp & 7;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  211  		lp->clockm = clockm & 3;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  212  		lp->timeout = timeout;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  213  		lp->hw.owner = THIS_MODULE;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  214  
-52ab12e4f99437 Michal Grzeschik   2017-06-28  215  		lp->backplane = (inb(priv->misc) >> (2 + i)) & 0x1;
-52ab12e4f99437 Michal Grzeschik   2017-06-28  216  
-a356ab1c3d4651 Michal Grzeschik   2017-06-28  217  		if (!strncmp(ci->name, "EAE PLX-PCI FB2", 15))
-a356ab1c3d4651 Michal Grzeschik   2017-06-28  218  			lp->backplane = 1;
-a356ab1c3d4651 Michal Grzeschik   2017-06-28  219  
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  220  		if (ci->flags & ARC_HAS_ROTARY) {
-5ef216c1f84825 Michal Grzeschik   2014-09-18  221  			/* Get the dev_id from the PLX rotary coder */
-5ef216c1f84825 Michal Grzeschik   2014-09-18  222  			if (!strncmp(ci->name, "EAE PLX-PCI MA1", 15))
-cb108619f2fc77 Michal Grzeschik   2017-06-28  223  				dev_id_mask = 0x3;
-cb108619f2fc77 Michal Grzeschik   2017-06-28  224  			dev->dev_id = (inb(priv->misc + ci->rotary) >> 4) & dev_id_mask;
-5ef216c1f84825 Michal Grzeschik   2014-09-18 @225  			snprintf(dev->name, sizeof(dev->name), "arc%d-%d", dev->dev_id, i);
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  226  		}
-5ef216c1f84825 Michal Grzeschik   2014-09-18  227  
-e859db8ac49083 Ethan Nelson-Moore 2026-05-20  228  		if (inb(ioaddr + COM20020_REG_R_STATUS) == 0xFF) {
-c51da42a6346c0 Michal Grzeschik   2014-09-29  229  			pr_err("IO address %Xh is empty!\n", ioaddr);
-c51da42a6346c0 Michal Grzeschik   2014-09-29  230  			ret = -EIO;
-6577b9a551aedb Tong Zhang         2021-03-14  231  			goto err_free_arcdev;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  232  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  233  		if (com20020_check(dev)) {
-c51da42a6346c0 Michal Grzeschik   2014-09-29  234  			ret = -EIO;
-6577b9a551aedb Tong Zhang         2021-03-14  235  			goto err_free_arcdev;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  237  
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  238  		ret = com20020_found(dev, IRQF_SHARED);
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  239  		if (ret)
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  240  			goto err_free_arcdev;
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  241  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  242  		card = devm_kzalloc(&pdev->dev, sizeof(struct com20020_dev),
-c51da42a6346c0 Michal Grzeschik   2014-09-29  243  				    GFP_KERNEL);
-01c3521f794ce9 Christophe Jaillet 2017-07-07  244  		if (!card) {
-01c3521f794ce9 Christophe Jaillet 2017-07-07  245  			ret = -ENOMEM;
-6577b9a551aedb Tong Zhang         2021-03-14  246  			goto err_free_arcdev;
-01c3521f794ce9 Christophe Jaillet 2017-07-07  247  		}
-c51da42a6346c0 Michal Grzeschik   2014-09-29  248  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  249  		card->index = i;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  250  		card->pci_priv = priv;
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  251  
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  252  		if (ci->flags & ARC_HAS_LED) {
-8890624a4e8c2c Michal Grzeschik   2014-09-18  253  			card->tx_led.brightness_set = led_tx_set;
-8890624a4e8c2c Michal Grzeschik   2014-09-18  254  			card->tx_led.default_trigger = devm_kasprintf(&pdev->dev,
-8890624a4e8c2c Michal Grzeschik   2014-09-18  255  							GFP_KERNEL, "arc%d-%d-tx",
-8890624a4e8c2c Michal Grzeschik   2014-09-18  256  							dev->dev_id, i);
-fda8c491db2a90 Henry Martin       2025-04-02  257  			if (!card->tx_led.default_trigger) {
-fda8c491db2a90 Henry Martin       2025-04-02  258  				ret = -ENOMEM;
-fda8c491db2a90 Henry Martin       2025-04-02  259  				goto err_free_arcdev;
-fda8c491db2a90 Henry Martin       2025-04-02  260  			}
-8890624a4e8c2c Michal Grzeschik   2014-09-18  261  			card->tx_led.name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
-8890624a4e8c2c Michal Grzeschik   2014-09-18  262  							"pci:green:tx:%d-%d",
-8890624a4e8c2c Michal Grzeschik   2014-09-18  263  							dev->dev_id, i);
-fda8c491db2a90 Henry Martin       2025-04-02  264  			if (!card->tx_led.name) {
-fda8c491db2a90 Henry Martin       2025-04-02  265  				ret = -ENOMEM;
-fda8c491db2a90 Henry Martin       2025-04-02  266  				goto err_free_arcdev;
-fda8c491db2a90 Henry Martin       2025-04-02  267  			}
-8890624a4e8c2c Michal Grzeschik   2014-09-18  268  			card->tx_led.dev = &dev->dev;
-8890624a4e8c2c Michal Grzeschik   2014-09-18  269  			card->recon_led.brightness_set = led_recon_set;
-8890624a4e8c2c Michal Grzeschik   2014-09-18  270  			card->recon_led.default_trigger = devm_kasprintf(&pdev->dev,
-8890624a4e8c2c Michal Grzeschik   2014-09-18  271  							GFP_KERNEL, "arc%d-%d-recon",
-8890624a4e8c2c Michal Grzeschik   2014-09-18  272  							dev->dev_id, i);
-fda8c491db2a90 Henry Martin       2025-04-02  273  			if (!card->recon_led.default_trigger) {
-fda8c491db2a90 Henry Martin       2025-04-02  274  				ret = -ENOMEM;
-fda8c491db2a90 Henry Martin       2025-04-02  275  				goto err_free_arcdev;
-fda8c491db2a90 Henry Martin       2025-04-02  276  			}
-8890624a4e8c2c Michal Grzeschik   2014-09-18  277  			card->recon_led.name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
-8890624a4e8c2c Michal Grzeschik   2014-09-18  278  							"pci:red:recon:%d-%d",
-8890624a4e8c2c Michal Grzeschik   2014-09-18  279  							dev->dev_id, i);
-fda8c491db2a90 Henry Martin       2025-04-02  280  			if (!card->recon_led.name) {
-fda8c491db2a90 Henry Martin       2025-04-02  281  				ret = -ENOMEM;
-fda8c491db2a90 Henry Martin       2025-04-02  282  				goto err_free_arcdev;
-fda8c491db2a90 Henry Martin       2025-04-02  283  			}
-8890624a4e8c2c Michal Grzeschik   2014-09-18  284  			card->recon_led.dev = &dev->dev;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  285  
-8890624a4e8c2c Michal Grzeschik   2014-09-18  286  			ret = devm_led_classdev_register(&pdev->dev, &card->tx_led);
-8890624a4e8c2c Michal Grzeschik   2014-09-18  287  			if (ret)
-6577b9a551aedb Tong Zhang         2021-03-14  288  				goto err_free_arcdev;
-8890624a4e8c2c Michal Grzeschik   2014-09-18  289  
-8890624a4e8c2c Michal Grzeschik   2014-09-18  290  			ret = devm_led_classdev_register(&pdev->dev, &card->recon_led);
-8890624a4e8c2c Michal Grzeschik   2014-09-18  291  			if (ret)
-6577b9a551aedb Tong Zhang         2021-03-14  292  				goto err_free_arcdev;
-8890624a4e8c2c Michal Grzeschik   2014-09-18  293  
-c51da42a6346c0 Michal Grzeschik   2014-09-29  294  			dev_set_drvdata(&dev->dev, card);
-8890624a4e8c2c Michal Grzeschik   2014-09-18  295  			devm_arcnet_led_init(dev, dev->dev_id, i);
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  296  		}
-8890624a4e8c2c Michal Grzeschik   2014-09-18  297  
-6b17a597fc2f13 Thomas Reichinger  2023-11-30  298  		card->dev = dev;
-c51da42a6346c0 Michal Grzeschik   2014-09-29  299  		list_add(&card->list, &priv->list_dev);
-6577b9a551aedb Tong Zhang         2021-03-14  300  		continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  301  
-6577b9a551aedb Tong Zhang         2021-03-14  302  err_free_arcdev:
-6577b9a551aedb Tong Zhang         2021-03-14  303  		free_arcdev(dev);
-6577b9a551aedb Tong Zhang         2021-03-14  304  		break;
-6577b9a551aedb Tong Zhang         2021-03-14  305  	}
-6577b9a551aedb Tong Zhang         2021-03-14  306  	if (ret)
-c51da42a6346c0 Michal Grzeschik   2014-09-29  307  		com20020pci_remove(pdev);
-c51da42a6346c0 Michal Grzeschik   2014-09-29  308  	return ret;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  309  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  310  
-
-:::::: The code at line 225 was first introduced by commit
-:::::: 5ef216c1f84825c6942fdd6c24d12a08ac2df135 arcnet: com20020-pci: add rotary index support
-
-:::::: TO: Michael Grzeschik <m.grzeschik@pengutronix.de>
-:::::: CC: Michael Grzeschik <m.grzeschik@pengutronix.de>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
