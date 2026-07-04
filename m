@@ -1,240 +1,160 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22D239B4A5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jul 2026 08:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B795731E855
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jul 2026 09:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783154498; cv=none; b=nFdr/9A5A9k+JapopkiRnyJHWp+LzH4rp1YNE5cMT28ayyFRXmI1i/VMQUx0Rt25/gP37RNJ7y2br4bzVw8xP4KQ7ZJ3Vu/l+0mm31i/LpKUAirynkKN/E2L6XJSWgZEVC1/uDERAmdcgP9u9QImi0/KsbU7yKku0XREkSwC2ZA=
+	t=1783157012; cv=none; b=MPf8FPGj3Lw+NSTKAqUgs1Ie58RSTWNjZJXXryU2oVpX1JCpjMiLGzqg0Ry+EuRhhiHp7qdUkqxw6SBVng7D7vr/TLICAqgsJYPHoQjvdmtQLOBFbYd+JGBAnlDcme+lvck5cuXo8YwiYsQNL7580gIFy8Dj47XTPCRoYLOt+ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783154498; c=relaxed/simple;
-	bh=Gy+dRhyxucoXfw7UnF8+YYDrnre5sYD78ZuVYjnQOn0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PcTTmJO0xy4yrrZFO/EyngBPewpCaxaqnjbvv6X2gIu3xzOTuLEL8deUvdexFb5xLN8ZYvCZubr7HNuuT4B7lF5jDAzPnLPCJZsq+MZwxuNgpwgLP87sdC5flQ16S6xpnFUdFnTZ7v/m4HIOCfCXmXM0YJw6KcQZbxUmsvlQ4Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6vQBU8l; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783157012; c=relaxed/simple;
+	bh=R2s0VGZ3Ct6pRtVaKbHJfvUMEJxRoi8HgdkKNNYYgao=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=U9CnmwgIAC2FmKwupcnrKEylIUJWDlwE76vMiSKvOoifCQFg/+TiLbP7NfAeVqzSInrQ6hH8kdphkK1ZCd423BPlvUmg7+zKMVgy06m+O9OJg1AMVwh24Vo5GX3Zq9d15wHwLU5HonFGMkiq5y9B/7Aa94E7oshmbODn6tDGPVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d1y6M97p; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6vQBU8l"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4728c12ba97so755005f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Jul 2026 01:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783154495; x=1783759295; darn=lists.linux.dev;
-        h=content-transfer-encoding:reply-to:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2PKlx1RZlE0eFooFNfeW6nXm/sxrhaIM7NVbZ8hGbT4=;
-        b=e6vQBU8l/h3aOsZM4hndIC4D8Baby7PRhXc+ivbTbn3+v8SUukdnW9Yzz/kd9VkaOU
-         YoefDn/e+0Ab7fXNWT5N19BW3nK5EbKIp4oY5EtZs0JOeF7LSYbv8lyUYPChe0K/tF9l
-         Bh6vMbS4uk/eVt2hpe4ajbL16lVLhbX3xFQkKjJ6DZlIiP9i22d+V5NhCKW0knFxngNo
-         QSyDPzcY8f0xeBYWOvADHXN6sPVQwwEWceH4BYzun1nsLrRHECDdpZDYiWVEDaZEFJL/
-         0TG1ehGer/huY36nUAqcZWxXZ0QcQOW8Hh7kU/OUPzJK1L9tcVFZqGDCLbnehyMM3732
-         3XFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783154495; x=1783759295;
-        h=content-transfer-encoding:reply-to:mime-version:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2PKlx1RZlE0eFooFNfeW6nXm/sxrhaIM7NVbZ8hGbT4=;
-        b=J3fmA1Xl17UHs3oClDTcTA73IaXBv98fCZMrrbq5bqCnfTCl7U0s+SkPpYSMUe7vle
-         dUvB3UXB1GMhuVMfYflzsP2Q5A9gLjE4O3tuM5f1gM9+/h/0J0YNZiICdaOESRjwsOeY
-         /N2WcYzBknASowiwl4PYqD7Vnj+TJOuB2EjLRyU6kn4T9NXTEM1IKLfmePmoHj98mZ42
-         Kaf92DiTAK78abT3Jz6vkQtZNBe2KyZ4Wt4JcE8l3Z/lZ5/eU0jNGq1i9nhA04C/YQFE
-         G+Lb8ohxTDSJRECz4gjWHJnFvhYPlA3nSVfNDV5DGFko5JVvNVHYLjl8hnxgmFcBL6ox
-         Kk8Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpNzJFeU8MQZAaCI4HZhu9AnJvFkW6l/rIuBTLjp+T5F6CEWZ4wXC/fUzdusod5AV0tTy1zt9FQpIMZLFiE@lists.linux.dev
-X-Gm-Message-State: AOJu0YxfDtfcvmjb+gWNOdl4wW6ph9E9NgvCbP1CRnr4/FtRnbF7Qpbi
-	3Q18xMtXEpHenQbXIk12UgdSzwJrg/MWior0xm+Xv5Mjyz7HOOdk0ord
-X-Gm-Gg: AfdE7ck0qMGJWVCoweuJjAS77ld5C+SRD8DxlPXgQlnzOcs4wPvfZtP+jMqlEmIJGol
-	Prtd4F3CR6u4nQfqkKplgVndJZ7KQlzupLHlzBZiNV5g6UuRBSFwhHwg4Q6J2v/i38mmQvly6i+
-	1G/Ar3CRZmq5/Zx4VwbJ3DNDjzbPJ2Oykez6a1y++FJvQtAV7+4iRJpswsgD1CTvHcKEJBtou4V
-	9U5ZDm+pKt2mg/XGvhCak4qiOluAVf9c30005a9EMC0MQvBbMaMOEx3+QRtpG2PvPNBJELBv22u
-	+F2RM2NAH3nrlYX+igl0N2hRypH2Y2+ca+WEFfSLr+yoxXKK7Ug/qi4uN+uF//hzOqCSoehni80
-	LuB+mfMQRGZ44tjsryIz9LESaHSqH+HdXN1wyBr8pybeV8fBXFM0GvcOmDZdi1oHpRhMv1z8biA
-	RvZAbHNfPtKSu2m4i+0tHYxazxyA==
-X-Received: by 2002:a05:6000:469b:b0:46e:624e:3c2f with SMTP id ffacd0b85a97d-47aab77082bmr1649075f8f.47.1783154494914;
-        Sat, 04 Jul 2026 01:41:34 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:15be:2e00:3669:f2aa:a674:f340])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039bcdasm6519563f8f.21.2026.07.04.01.41.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 01:41:34 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To: mikhail.v.gavrilov@gmail.com,
-	dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/drm_exec: avoid indirect goto
-Date: Sat,  4 Jul 2026 10:41:33 +0200
-Message-ID: <20260704084133.122053-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d1y6M97p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783157010; x=1814693010;
+  h=date:from:to:cc:subject:message-id;
+  bh=R2s0VGZ3Ct6pRtVaKbHJfvUMEJxRoi8HgdkKNNYYgao=;
+  b=d1y6M97ptyq3I7ALFfD+dFO2fJ+J4TtR72lf55vg2wnxptT1AsFDV1g7
+   2MRiAn2nc9bHSk8pWUg4N2lVK5ydhkuOxHcZwOJpsQ3BUKkrG1Ev4oQSj
+   gyLjC+g3PVWqX1uXIxR4ulBDOkAyhfgv3sPnhK+E4nRWYjdNsw9y0hFUd
+   zkc6REpt4XEZYiICARN7Zufs26ltIoAf+BKni0d5o8XFNv/vO29hwkFfz
+   EeJRsOKB2rTX2u5BG7Sn5+a2c1Z6cnd+8wWBfchuHJigw2RNH6SAUKaxN
+   ya3sb/1cfO/wY8nuzu4cYLBoh4ufsoj1PkF7eW7slKJ31Q3zqj492ykTh
+   A==;
+X-CSE-ConnectionGUID: AJ6h8i+7RfqpDkggvmciFQ==
+X-CSE-MsgGUID: ufJjXAFAQV25Vug0PXBzfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="109422503"
+X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
+   d="scan'208";a="109422503"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 02:23:29 -0700
+X-CSE-ConnectionGUID: MIzxtIa1QweLH1JJ4iTrwA==
+X-CSE-MsgGUID: 1dnJN9bdSFSFoaTt6fWUoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
+   d="scan'208";a="276487246"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Jul 2026 02:23:27 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wfwaq-00000000Cxz-3oOK;
+	Sat, 04 Jul 2026 09:23:24 +0000
+Date: Sat, 04 Jul 2026 17:22:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+ Abel Vesa <abel.vesa@oss.qualcomm.com>
+Subject: 
+ [bod:qcom-laptops-v6.18-rc4-camss-icp-bps-ipe-icp-boots+stats-b4 32/121]
+ drivers/remoteproc/imx_dsp_rproc.c:1161:26: warning: implicit conversion from
+ 'enum <anonymous>' to 'enum rproc_auto_boot'
+Message-ID: <202607041725.aYV2Wi3S-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Reply-To: christian.koenig@amd.com
-Content-Transfer-Encoding: 8bit
 
-The drm_exec component uses a variable with scope limited to the for() and
-an indirect goto to allow instantiating multiple macros in the same
-function.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bod/linux.git qcom-laptops-v6.18-rc4-camss-icp-bps-ipe-icp-boots+stats-b4
+head:   ebd1e440443121d18f730ab2aeea5586a754f36f
+commit: 4c74b4c4ff2b1cbf3a174ccee42cd5668d114225 [32/121] remoteproc: core: Allow restarting detached remoteprocs with new firmware
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260704/202607041725.aYV2Wi3S-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260704/202607041725.aYV2Wi3S-lkp@intel.com/reproduce)
 
-This unfortunately doesn't work well with certain compilers when the
-indirect goto can't be lowered to a direct jump.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607041725.aYV2Wi3S-lkp@intel.com/
 
-Switch the indirect goto to a direct goto, the drawback is that we now
-can't use the dma_exec_until_all_locked() macro in the same function
-multiple times.
+All warnings (new ones prefixed by >>):
 
-The is currently only one user of this and only as a hacky workaround
-which is about to be removed.
+   drivers/remoteproc/imx_dsp_rproc.c: In function 'imx_dsp_rproc_probe':
+>> drivers/remoteproc/imx_dsp_rproc.c:1161:26: warning: implicit conversion from 'enum <anonymous>' to 'enum rproc_auto_boot' [-Wenum-conversion]
+    1161 |         rproc->auto_boot = false;
+         |                          ^
 
-So document that the __label__ statement should be used when the macro is
-used multiple times and fix the tests and the only use case where that is
-necessary.
 
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |  2 ++
- drivers/gpu/drm/tests/drm_exec_test.c  | 24 ++++++++++++------
- include/drm/drm_exec.h                 | 34 ++++++++++++++------------
- 3 files changed, 36 insertions(+), 24 deletions(-)
+vim +1161 drivers/remoteproc/imx_dsp_rproc.c
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index fee4c94c2585..fc28d0fdad37 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -3011,6 +3011,8 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
- 	is_compute_context = vm->is_compute_context;
- 
- 	if (is_compute_context) {
-+		__label__ drm_exec_retry;
-+
- 		/* Release the root PD lock since svm_range_restore_pages
- 		 * might try to take it.
- 		 * TODO: rework svm_range_restore_pages so that this isn't
-diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
-index 2fc47f3b463b..7a374e462348 100644
---- a/drivers/gpu/drm/tests/drm_exec_test.c
-+++ b/drivers/gpu/drm/tests/drm_exec_test.c
-@@ -180,19 +180,27 @@ static void test_multiple_loops(struct kunit *test)
- {
- 	struct drm_exec exec;
- 
--	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
--	drm_exec_until_all_locked(&exec)
- 	{
--		break;
-+		__label__ drm_exec_retry;
-+
-+		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-+		drm_exec_until_all_locked(&exec)
-+		{
-+			break;
-+		}
-+		drm_exec_fini(&exec);
- 	}
--	drm_exec_fini(&exec);
- 
--	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
--	drm_exec_until_all_locked(&exec)
- 	{
--		break;
-+		__label__ drm_exec_retry;
-+
-+		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-+		drm_exec_until_all_locked(&exec)
-+		{
-+			break;
-+		}
-+		drm_exec_fini(&exec);
- 	}
--	drm_exec_fini(&exec);
- 	KUNIT_SUCCEED(test);
- }
- 
-diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-index 8725ba92ff91..cc2937185a9f 100644
---- a/include/drm/drm_exec.h
-+++ b/include/drm/drm_exec.h
-@@ -101,17 +101,6 @@ drm_exec_obj(struct drm_exec *exec, unsigned long index)
- #define drm_exec_for_each_locked_object_reverse(exec, obj)		\
- 	__drm_exec_for_each_locked_object_reverse(exec, obj, __UNIQUE_ID(drm_exec))
- 
--/*
-- * Helper to drm_exec_until_all_locked(). Don't use directly.
-- *
-- * Since labels can't be defined local to the loop's body we use a jump pointer
-- * to make sure that the retry is only used from within the loop's body.
-- */
--#define __drm_exec_until_all_locked(exec, _label)			 \
--_label:									 \
--	for (void *const __maybe_unused __drm_exec_retry_ptr = &&_label; \
--	     drm_exec_cleanup(exec);)
--
- /**
-  * drm_exec_until_all_locked - loop until all GEM objects are locked
-  * @exec: drm_exec object
-@@ -119,9 +108,18 @@ _label:									 \
-  * Core functionality of the drm_exec object. Loops until all GEM objects are
-  * locked and no more contention exists. At the beginning of the loop it is
-  * guaranteed that no GEM object is locked.
-+ *
-+ * A global label name drm_exec_retry is used, if you need to use more than one
-+ * instance of this macro in the same function the label needs to be made local
-+ * to the block with the __label__ keyword.
-  */
- #define drm_exec_until_all_locked(exec)					\
--	__drm_exec_until_all_locked(exec, __UNIQUE_ID(drm_exec))
-+	for (bool const __maybe_unused __drm_exec_loop = false;		\
-+	     drm_exec_cleanup(exec);)					\
-+		if (false) {						\
-+drm_exec_retry: __maybe_unused;						\
-+			continue;					\
-+		} else
- 
- /**
-  * drm_exec_retry_on_contention - restart the loop to grap all locks
-@@ -129,12 +127,14 @@ _label:									 \
-  *
-  * Control flow helper to continue when a contention was detected and we need to
-  * clean up and re-start the loop to prepare all GEM objects.
-+ * The __drm_exec_loop check exists to prevent usage outside of an
-+ * drm_exec_until_all_locked() loop.
-  */
- #define drm_exec_retry_on_contention(exec)			\
- 	do {							\
- 		if (unlikely(drm_exec_is_contended(exec)))	\
--			goto *__drm_exec_retry_ptr;		\
--	} while (0)
-+			goto drm_exec_retry;			\
-+	} while (__drm_exec_loop)
- 
- /**
-  * drm_exec_is_contended - check for contention
-@@ -154,12 +154,14 @@ static inline bool drm_exec_is_contended(struct drm_exec *exec)
-  *
-  * Unconditionally retry the loop to lock all objects. For consistency,
-  * the exec object needs to be newly initialized.
-+ * The __drm_exec_loop check exists to prevent usage outside of an
-+ * drm_exec_until_all_locked() loop.
-  */
- #define drm_exec_retry(_exec)					\
- 	do {							\
- 		WARN_ON((_exec)->contended != DRM_EXEC_DUMMY);	\
--		goto *__drm_exec_retry_ptr;			\
--	} while (0)
-+		goto drm_exec_retry;				\
-+	} while (__drm_exec_loop)
- 
- /**
-  * drm_exec_ticket - return the ww_acquire_ctx for this exec context
--- 
-2.43.0
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1108  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1109  static int imx_dsp_rproc_probe(struct platform_device *pdev)
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1110  {
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1111  	const struct imx_dsp_rproc_dcfg *dsp_dcfg;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1112  	struct device *dev = &pdev->dev;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1113  	struct imx_dsp_rproc *priv;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1114  	struct rproc *rproc;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1115  	const char *fw_name;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1116  	int ret;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1117  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1118  	dsp_dcfg = of_device_get_match_data(dev);
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1119  	if (!dsp_dcfg)
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1120  		return -ENODEV;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1121  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1122  	ret = rproc_of_parse_firmware(dev, 0, &fw_name);
+e819a62d52030a Peng Fan       2025-11-19  1123  	if (ret)
+e819a62d52030a Peng Fan       2025-11-19  1124  		return dev_err_probe(dev, ret, "failed to parse firmware-name property\n");
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1125  
+8f12de7913af99 Andrew Davis   2024-01-23  1126  	rproc = devm_rproc_alloc(dev, "imx-dsp-rproc", &imx_dsp_rproc_ops,
+8f12de7913af99 Andrew Davis   2024-01-23  1127  				 fw_name, sizeof(*priv));
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1128  	if (!rproc)
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1129  		return -ENOMEM;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1130  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1131  	priv = rproc->priv;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1132  	priv->rproc = rproc;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1133  	priv->dsp_dcfg = dsp_dcfg;
+ab7bca5acdb7f7 Iuliana Prodan 2025-04-16  1134  	/* By default, host waits for fw_ready reply */
+ab7bca5acdb7f7 Iuliana Prodan 2025-04-16  1135  	priv->flags |= WAIT_FW_READY;
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1136  
+11bb42a94648af Iuliana Prodan 2023-02-17  1137  	if (no_mailboxes)
+11bb42a94648af Iuliana Prodan 2023-02-17  1138  		imx_dsp_rproc_mbox_init = imx_dsp_rproc_mbox_no_alloc;
+11bb42a94648af Iuliana Prodan 2023-02-17  1139  	else
+11bb42a94648af Iuliana Prodan 2023-02-17  1140  		imx_dsp_rproc_mbox_init = imx_dsp_rproc_mbox_alloc;
+11bb42a94648af Iuliana Prodan 2023-02-17  1141  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1142  	dev_set_drvdata(dev, rproc);
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1143  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1144  	INIT_WORK(&priv->rproc_work, imx_dsp_rproc_vq_work);
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1145  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1146  	ret = imx_dsp_rproc_detect_mode(priv);
+e819a62d52030a Peng Fan       2025-11-19  1147  	if (ret)
+e819a62d52030a Peng Fan       2025-11-19  1148  		return dev_err_probe(dev, ret, "failed on imx_dsp_rproc_detect_mode\n");
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1149  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1150  	/* There are multiple power domains required by DSP on some platform */
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1151  	ret = imx_dsp_attach_pm_domains(priv);
+3003773ad67ace Peng Fan       2025-11-19  1152  	if (ret < 0)
+3003773ad67ace Peng Fan       2025-11-19  1153  		return dev_err_probe(dev, ret, "failed on imx_dsp_attach_pm_domains\n");
+3003773ad67ace Peng Fan       2025-11-19  1154  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1155  	/* Get clocks */
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1156  	ret = imx_dsp_rproc_clk_get(priv);
+3003773ad67ace Peng Fan       2025-11-19  1157  	if (ret)
+3003773ad67ace Peng Fan       2025-11-19  1158  		return dev_err_probe(dev, ret, "failed on imx_dsp_rproc_clk_get\n");
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1159  
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1160  	init_completion(&priv->pm_comp);
+ec0e5549f3586d Shengjiu Wang  2021-10-11 @1161  	rproc->auto_boot = false;
+36951036a72527 Peng Fan       2025-11-19  1162  	ret = devm_rproc_add(dev, rproc);
+3003773ad67ace Peng Fan       2025-11-19  1163  	if (ret)
+3003773ad67ace Peng Fan       2025-11-19  1164  		return dev_err_probe(dev, ret, "rproc_add failed\n");
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1165  
+c4c432dfb00fcb Shengjiu Wang  2025-07-22  1166  	rproc_coredump_set_elf_info(rproc, ELFCLASS32, EM_XTENSA);
+c4c432dfb00fcb Shengjiu Wang  2025-07-22  1167  
+412060242303d3 Peng Fan       2025-11-19  1168  	return devm_pm_runtime_enable(dev);
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1169  }
+ec0e5549f3586d Shengjiu Wang  2021-10-11  1170  
 
+:::::: The code at line 1161 was first introduced by commit
+:::::: ec0e5549f3586d2cb99a05edd006d722ebad912c remoteproc: imx_dsp_rproc: Add remoteproc driver for DSP on i.MX
+
+:::::: TO: Shengjiu Wang <shengjiu.wang@nxp.com>
+:::::: CC: Mathieu Poirier <mathieu.poirier@linaro.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
