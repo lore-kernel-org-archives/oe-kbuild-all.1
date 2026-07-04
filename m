@@ -1,162 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6223939A3
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jul 2026 08:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22D239B4A5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jul 2026 08:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783153836; cv=none; b=K5LBJ1tn+lVzNzfkVGFYZGSk2X8bXpTc+I4H5HVy1bCW3ndn4ULk2tDyZ4x435K1BALJDCTN8n38VVOy1Tm1EUMJErl+Iljvgwa2OAdutnAIm985RFGeccp3RQELV9JKWkxwgJwDApD8jK9Hz+7J4SdnxfshtAFDhqNbyNq5O6Y=
+	t=1783154498; cv=none; b=nFdr/9A5A9k+JapopkiRnyJHWp+LzH4rp1YNE5cMT28ayyFRXmI1i/VMQUx0Rt25/gP37RNJ7y2br4bzVw8xP4KQ7ZJ3Vu/l+0mm31i/LpKUAirynkKN/E2L6XJSWgZEVC1/uDERAmdcgP9u9QImi0/KsbU7yKku0XREkSwC2ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783153836; c=relaxed/simple;
-	bh=t8Wve+zCGKQ9qOCHG69zYigboHkp3m6KJ8RSx4VkhPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7D8lW8k4CEHRxVMAJ2ysz6Yul+ef8IlpPD7vZPx0n0TQojFfGTx8fTa3zqWl1D+wMnAv2GQakWSc1n2vqRWw+W1Lx2ybaLqf6Va+6Df+xjorkoLdDmVzTS+vwv96fr64E+tJ73+B7kfZyXUS+LaIiVytsfH7iRIofMVLjlFbmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtcTCRxd; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783154498; c=relaxed/simple;
+	bh=Gy+dRhyxucoXfw7UnF8+YYDrnre5sYD78ZuVYjnQOn0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PcTTmJO0xy4yrrZFO/EyngBPewpCaxaqnjbvv6X2gIu3xzOTuLEL8deUvdexFb5xLN8ZYvCZubr7HNuuT4B7lF5jDAzPnLPCJZsq+MZwxuNgpwgLP87sdC5flQ16S6xpnFUdFnTZ7v/m4HIOCfCXmXM0YJw6KcQZbxUmsvlQ4Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6vQBU8l; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtcTCRxd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783153833; x=1814689833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t8Wve+zCGKQ9qOCHG69zYigboHkp3m6KJ8RSx4VkhPE=;
-  b=YtcTCRxd+Ab2VUnv4PH3JlCeYdyMVpUni0h0k4PX7i6UTM5m6+lEf84p
-   Bwayi/WXVzoW7q3XWnGLB+lh4MUfRFdRJa0w7O+XCFAgTlFIB/lEqTvuY
-   hs+ormrIWL9Tlxk2mFhJzd/3SQGfys0PbpgNvyQgd7TtguBzytSb1ZDs1
-   RF8rk+zSnUivHuMXCWrBGc3qoOHfcSRgc+yoUIHq1QabwMgck18RCseGN
-   9x6ht/v+9ClV1Uno5kB5xh+a/uIunNjqbjIwPyiv21KJLy15eclH/RQ1F
-   KYTYNMr2nO1YQ+GF2QzQHH3z3I75x3SUAPY/6WHFIUduKLn+16vxeSeij
-   Q==;
-X-CSE-ConnectionGUID: vAbkofEeQLGIL528SE25rw==
-X-CSE-MsgGUID: nLgisgqBSIqFv6DGlp4+CQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="83857652"
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="83857652"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 01:30:31 -0700
-X-CSE-ConnectionGUID: bReUGsfpSlSm2vOZCAt6Tw==
-X-CSE-MsgGUID: WP+DAjrSSTG+XLB+CbU9rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="246889760"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Jul 2026 01:30:26 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wfvlX-000000001iZ-3y0d;
-	Sat, 04 Jul 2026 08:30:23 +0000
-Date: Sat, 4 Jul 2026 10:30:05 +0200
-From: kernel test robot <lkp@intel.com>
-To: Usama Arif <usama.arif@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, david@kernel.org,
-	chrisl@kernel.org, kasong@tencent.com, ljs@kernel.org,
-	ziy@nvidia.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	ying.huang@linux.alibaba.com, Baoquan He <baoquan.he@linux.dev>,
-	willy@infradead.org, youngjun.park@lge.com, hannes@cmpxchg.org,
-	riel@surriel.com, shakeel.butt@linux.dev, alex@ghiti.fr,
-	kas@kernel.org, baohua@kernel.org, dev.jain@arm.com,
-	baolin.wang@linux.alibaba.com, npache@redhat.com,
-	"Liam R. Howlett" <liam@infradead.org>, ryan.roberts@arm.com,
-	Vlastimil Babka <vbabka@kernel.org>, lance.yang@linux.dev,
-	linux-kernel@vger.kernel.org, nphamcs@gmail.com,
-	shikemeng@huaweicloud.com, kernel-team@meta.com,
-	Usama Arif <usama.arif@linux.dev>
-Subject: Re: [PATCH v3 11/11] selftests/mm: add PMD swap entry tests
-Message-ID: <202607041039.WHXO0OYv-lkp@intel.com>
-References: <20260703173903.3789516-12-usama.arif@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6vQBU8l"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4728c12ba97so755005f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Jul 2026 01:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783154495; x=1783759295; darn=lists.linux.dev;
+        h=content-transfer-encoding:reply-to:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2PKlx1RZlE0eFooFNfeW6nXm/sxrhaIM7NVbZ8hGbT4=;
+        b=e6vQBU8l/h3aOsZM4hndIC4D8Baby7PRhXc+ivbTbn3+v8SUukdnW9Yzz/kd9VkaOU
+         YoefDn/e+0Ab7fXNWT5N19BW3nK5EbKIp4oY5EtZs0JOeF7LSYbv8lyUYPChe0K/tF9l
+         Bh6vMbS4uk/eVt2hpe4ajbL16lVLhbX3xFQkKjJ6DZlIiP9i22d+V5NhCKW0knFxngNo
+         QSyDPzcY8f0xeBYWOvADHXN6sPVQwwEWceH4BYzun1nsLrRHECDdpZDYiWVEDaZEFJL/
+         0TG1ehGer/huY36nUAqcZWxXZ0QcQOW8Hh7kU/OUPzJK1L9tcVFZqGDCLbnehyMM3732
+         3XFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783154495; x=1783759295;
+        h=content-transfer-encoding:reply-to:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2PKlx1RZlE0eFooFNfeW6nXm/sxrhaIM7NVbZ8hGbT4=;
+        b=J3fmA1Xl17UHs3oClDTcTA73IaXBv98fCZMrrbq5bqCnfTCl7U0s+SkPpYSMUe7vle
+         dUvB3UXB1GMhuVMfYflzsP2Q5A9gLjE4O3tuM5f1gM9+/h/0J0YNZiICdaOESRjwsOeY
+         /N2WcYzBknASowiwl4PYqD7Vnj+TJOuB2EjLRyU6kn4T9NXTEM1IKLfmePmoHj98mZ42
+         Kaf92DiTAK78abT3Jz6vkQtZNBe2KyZ4Wt4JcE8l3Z/lZ5/eU0jNGq1i9nhA04C/YQFE
+         G+Lb8ohxTDSJRECz4gjWHJnFvhYPlA3nSVfNDV5DGFko5JVvNVHYLjl8hnxgmFcBL6ox
+         Kk8Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpNzJFeU8MQZAaCI4HZhu9AnJvFkW6l/rIuBTLjp+T5F6CEWZ4wXC/fUzdusod5AV0tTy1zt9FQpIMZLFiE@lists.linux.dev
+X-Gm-Message-State: AOJu0YxfDtfcvmjb+gWNOdl4wW6ph9E9NgvCbP1CRnr4/FtRnbF7Qpbi
+	3Q18xMtXEpHenQbXIk12UgdSzwJrg/MWior0xm+Xv5Mjyz7HOOdk0ord
+X-Gm-Gg: AfdE7ck0qMGJWVCoweuJjAS77ld5C+SRD8DxlPXgQlnzOcs4wPvfZtP+jMqlEmIJGol
+	Prtd4F3CR6u4nQfqkKplgVndJZ7KQlzupLHlzBZiNV5g6UuRBSFwhHwg4Q6J2v/i38mmQvly6i+
+	1G/Ar3CRZmq5/Zx4VwbJ3DNDjzbPJ2Oykez6a1y++FJvQtAV7+4iRJpswsgD1CTvHcKEJBtou4V
+	9U5ZDm+pKt2mg/XGvhCak4qiOluAVf9c30005a9EMC0MQvBbMaMOEx3+QRtpG2PvPNBJELBv22u
+	+F2RM2NAH3nrlYX+igl0N2hRypH2Y2+ca+WEFfSLr+yoxXKK7Ug/qi4uN+uF//hzOqCSoehni80
+	LuB+mfMQRGZ44tjsryIz9LESaHSqH+HdXN1wyBr8pybeV8fBXFM0GvcOmDZdi1oHpRhMv1z8biA
+	RvZAbHNfPtKSu2m4i+0tHYxazxyA==
+X-Received: by 2002:a05:6000:469b:b0:46e:624e:3c2f with SMTP id ffacd0b85a97d-47aab77082bmr1649075f8f.47.1783154494914;
+        Sat, 04 Jul 2026 01:41:34 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:15be:2e00:3669:f2aa:a674:f340])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039bcdasm6519563f8f.21.2026.07.04.01.41.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 01:41:34 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To: mikhail.v.gavrilov@gmail.com,
+	dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	peterz@infradead.org,
+	jpoimboe@kernel.org,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/drm_exec: avoid indirect goto
+Date: Sat,  4 Jul 2026 10:41:33 +0200
+Message-ID: <20260704084133.122053-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260703173903.3789516-12-usama.arif@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Reply-To: christian.koenig@amd.com
+Content-Transfer-Encoding: 8bit
 
-Hi Usama,
+The drm_exec component uses a variable with scope limited to the for() and
+an indirect goto to allow instantiating multiple macros in the same
+function.
 
-kernel test robot noticed the following build errors:
+This unfortunately doesn't work well with certain compilers when the
+indirect goto can't be lowered to a direct jump.
 
-[auto build test ERROR on akpm-mm/mm-everything]
+Switch the indirect goto to a direct goto, the drawback is that we now
+can't use the dma_exec_until_all_locked() macro in the same function
+multiple times.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/mm-add-PMD-swap-entry-detection-support/20260704-014151
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260703173903.3789516-12-usama.arif%40linux.dev
-patch subject: [PATCH v3 11/11] selftests/mm: add PMD swap entry tests
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260704/202607041039.WHXO0OYv-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260704/202607041039.WHXO0OYv-lkp@intel.com/reproduce)
+The is currently only one user of this and only as a hacky workaround
+which is about to be removed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607041039.WHXO0OYv-lkp@intel.com/
+So document that the __label__ statement should be used when the macro is
+used multiple times and fix the tests and the only use case where that is
+necessary.
 
-All errors (new ones prefixed by >>):
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |  2 ++
+ drivers/gpu/drm/tests/drm_exec_test.c  | 24 ++++++++++++------
+ include/drm/drm_exec.h                 | 34 ++++++++++++++------------
+ 3 files changed, 36 insertions(+), 24 deletions(-)
 
-   In file included from ./include/linux/mm.h:31,
-                    from ./include/linux/memcontrol.h:21,
-                    from ./include/linux/swap.h:9,
-                    from ./include/linux/suspend.h:5,
-                    from arch/x86/kernel/asm-offsets.c:14:
->> ./include/linux/pgtable.h:1921:21: error: redefinition of 'pmd_swp_mkexclusive'
-    1921 | static inline pmd_t pmd_swp_mkexclusive(pmd_t pmd)
-         |                     ^~~~~~~~~~~~~~~~~~~
-   In file included from ./arch/x86/include/asm/tlbflush.h:17,
-                    from ./arch/x86/include/asm/uaccess.h:17,
-                    from ./include/linux/uaccess.h:13,
-                    from ./include/linux/sched/task.h:13,
-                    from ./include/linux/sched/signal.h:9,
-                    from ./include/linux/rcuwait.h:6,
-                    from ./include/linux/percpu-rwsem.h:7,
-                    from ./include/linux/fs/super_types.h:13,
-                    from ./include/linux/fs/super.h:5,
-                    from ./include/linux/fs.h:5,
-                    from ./include/linux/cgroup.h:17,
-                    from ./include/linux/memcontrol.h:13:
-   ./arch/x86/include/asm/pgtable.h:1532:21: note: previous definition of 'pmd_swp_mkexclusive' with type 'pmd_t(pmd_t)'
-    1532 | static inline pmd_t pmd_swp_mkexclusive(pmd_t pmd)
-         |                     ^~~~~~~~~~~~~~~~~~~
->> ./include/linux/pgtable.h:1926:20: error: conflicting types for 'pmd_swp_exclusive'; have 'bool(pmd_t)' {aka '_Bool(pmd_t)'}
-    1926 | static inline bool pmd_swp_exclusive(pmd_t pmd)
-         |                    ^~~~~~~~~~~~~~~~~
-   ./arch/x86/include/asm/pgtable.h:1537:19: note: previous definition of 'pmd_swp_exclusive' with type 'int(pmd_t)'
-    1537 | static inline int pmd_swp_exclusive(pmd_t pmd)
-         |                   ^~~~~~~~~~~~~~~~~
->> ./include/linux/pgtable.h:1931:21: error: redefinition of 'pmd_swp_clear_exclusive'
-    1931 | static inline pmd_t pmd_swp_clear_exclusive(pmd_t pmd)
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
-   ./arch/x86/include/asm/pgtable.h:1542:21: note: previous definition of 'pmd_swp_clear_exclusive' with type 'pmd_t(pmd_t)'
-    1542 | static inline pmd_t pmd_swp_clear_exclusive(pmd_t pmd)
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index fee4c94c2585..fc28d0fdad37 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -3011,6 +3011,8 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
+ 	is_compute_context = vm->is_compute_context;
+ 
+ 	if (is_compute_context) {
++		__label__ drm_exec_retry;
++
+ 		/* Release the root PD lock since svm_range_restore_pages
+ 		 * might try to take it.
+ 		 * TODO: rework svm_range_restore_pages so that this isn't
+diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
+index 2fc47f3b463b..7a374e462348 100644
+--- a/drivers/gpu/drm/tests/drm_exec_test.c
++++ b/drivers/gpu/drm/tests/drm_exec_test.c
+@@ -180,19 +180,27 @@ static void test_multiple_loops(struct kunit *test)
+ {
+ 	struct drm_exec exec;
+ 
+-	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
+-	drm_exec_until_all_locked(&exec)
+ 	{
+-		break;
++		__label__ drm_exec_retry;
++
++		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
++		drm_exec_until_all_locked(&exec)
++		{
++			break;
++		}
++		drm_exec_fini(&exec);
+ 	}
+-	drm_exec_fini(&exec);
+ 
+-	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
+-	drm_exec_until_all_locked(&exec)
+ 	{
+-		break;
++		__label__ drm_exec_retry;
++
++		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
++		drm_exec_until_all_locked(&exec)
++		{
++			break;
++		}
++		drm_exec_fini(&exec);
+ 	}
+-	drm_exec_fini(&exec);
+ 	KUNIT_SUCCEED(test);
+ }
+ 
+diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+index 8725ba92ff91..cc2937185a9f 100644
+--- a/include/drm/drm_exec.h
++++ b/include/drm/drm_exec.h
+@@ -101,17 +101,6 @@ drm_exec_obj(struct drm_exec *exec, unsigned long index)
+ #define drm_exec_for_each_locked_object_reverse(exec, obj)		\
+ 	__drm_exec_for_each_locked_object_reverse(exec, obj, __UNIQUE_ID(drm_exec))
+ 
+-/*
+- * Helper to drm_exec_until_all_locked(). Don't use directly.
+- *
+- * Since labels can't be defined local to the loop's body we use a jump pointer
+- * to make sure that the retry is only used from within the loop's body.
+- */
+-#define __drm_exec_until_all_locked(exec, _label)			 \
+-_label:									 \
+-	for (void *const __maybe_unused __drm_exec_retry_ptr = &&_label; \
+-	     drm_exec_cleanup(exec);)
+-
+ /**
+  * drm_exec_until_all_locked - loop until all GEM objects are locked
+  * @exec: drm_exec object
+@@ -119,9 +108,18 @@ _label:									 \
+  * Core functionality of the drm_exec object. Loops until all GEM objects are
+  * locked and no more contention exists. At the beginning of the loop it is
+  * guaranteed that no GEM object is locked.
++ *
++ * A global label name drm_exec_retry is used, if you need to use more than one
++ * instance of this macro in the same function the label needs to be made local
++ * to the block with the __label__ keyword.
+  */
+ #define drm_exec_until_all_locked(exec)					\
+-	__drm_exec_until_all_locked(exec, __UNIQUE_ID(drm_exec))
++	for (bool const __maybe_unused __drm_exec_loop = false;		\
++	     drm_exec_cleanup(exec);)					\
++		if (false) {						\
++drm_exec_retry: __maybe_unused;						\
++			continue;					\
++		} else
+ 
+ /**
+  * drm_exec_retry_on_contention - restart the loop to grap all locks
+@@ -129,12 +127,14 @@ _label:									 \
+  *
+  * Control flow helper to continue when a contention was detected and we need to
+  * clean up and re-start the loop to prepare all GEM objects.
++ * The __drm_exec_loop check exists to prevent usage outside of an
++ * drm_exec_until_all_locked() loop.
+  */
+ #define drm_exec_retry_on_contention(exec)			\
+ 	do {							\
+ 		if (unlikely(drm_exec_is_contended(exec)))	\
+-			goto *__drm_exec_retry_ptr;		\
+-	} while (0)
++			goto drm_exec_retry;			\
++	} while (__drm_exec_loop)
+ 
+ /**
+  * drm_exec_is_contended - check for contention
+@@ -154,12 +154,14 @@ static inline bool drm_exec_is_contended(struct drm_exec *exec)
+  *
+  * Unconditionally retry the loop to lock all objects. For consistency,
+  * the exec object needs to be newly initialized.
++ * The __drm_exec_loop check exists to prevent usage outside of an
++ * drm_exec_until_all_locked() loop.
+  */
+ #define drm_exec_retry(_exec)					\
+ 	do {							\
+ 		WARN_ON((_exec)->contended != DRM_EXEC_DUMMY);	\
+-		goto *__drm_exec_retry_ptr;			\
+-	} while (0)
++		goto drm_exec_retry;				\
++	} while (__drm_exec_loop)
+ 
+ /**
+  * drm_exec_ticket - return the ww_acquire_ctx for this exec context
+-- 
+2.43.0
 
-
-vim +/pmd_swp_mkexclusive +1921 ./include/linux/pgtable.h
-
-  1919	
-  1920	#ifndef CONFIG_ARCH_SUPPORTS_PMD_SOFTLEAF
-> 1921	static inline pmd_t pmd_swp_mkexclusive(pmd_t pmd)
-  1922	{
-  1923		return pmd;
-  1924	}
-  1925	
-> 1926	static inline bool pmd_swp_exclusive(pmd_t pmd)
-  1927	{
-  1928		return false;
-  1929	}
-  1930	
-> 1931	static inline pmd_t pmd_swp_clear_exclusive(pmd_t pmd)
-  1932	{
-  1933		return pmd;
-  1934	}
-  1935	#endif
-  1936	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
