@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0A61F3B8A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jul 2026 02:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCE933B6C2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jul 2026 02:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783132165; cv=none; b=bjpmcYqI/M/uArxHWPNtPok0bQkksyICa7i8/xYe0V+a9a93dfgF7xbnFdNiHc98y5Rqidfoncr6afanC8zJk6j8T6p9U1BHfVSGppUmbzDv9syg30y50UcS00AtvDaaV7muDpiep0Sk0E+mNHldT56uG9E0/tdXSBb1quVZIeE=
+	t=1783132531; cv=none; b=FZX6khnAmCfzGtrzZkTe53cbL59hxsrYhiAI5iSWYKMYk40bgq6SrrttQEuCda1y3LSyeJ0qL1GpwqIx46jNhbdweAergI414UwgWU1w1A8ezGqbDlq4zmb2XZKVKZuOpowy19TzAsUGt0IABfBwCGMI+w9MwOj/zsnvUDuUF1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783132165; c=relaxed/simple;
-	bh=YZPxXC6VdganJKZzmNQUDUuDmCdZpS2PjzUJCmteC0s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dpf8nLe5RBxVc/+c56tmevFWxSZ8tBzzookmIgXyhjNNoI3PpGWl/z6M177dKjKDlauyMQrRHXmH3RSMBZyoX7WXYRdmdJnUsgMlzljfKSUxmHbHmMSEysofM3S4iO6zxgQJ2T892y/XyvfeN3xn/E/g950Ea4Vw1Yhf2ZkCoIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DRbRgBLe; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1783132531; c=relaxed/simple;
+	bh=X9Bbd07MX486kBfUb77/gnGosm8+LK5Pt0D383x/ETQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O7Azn9kOTOmVpoouxH84Yle/SsGH6iv47km2kxmyBRVy69+Snig+1FDuxEo1tO+JmWCFeL+BGesVNcgh5kDJTbIP91MsofatOGtpRzbSgwSgB6Jspv7CfA5eCPafLAMydF04uBYuzItH7Fx28bfTEgUtPrOBzR0qEY3fP/8kL4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WycyzolS; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DRbRgBLe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WycyzolS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783132163; x=1814668163;
+  t=1783132529; x=1814668529;
   h=date:from:to:cc:subject:message-id;
-  bh=YZPxXC6VdganJKZzmNQUDUuDmCdZpS2PjzUJCmteC0s=;
-  b=DRbRgBLe5OnATK5jOhD5KqJVxCzQlbk4tF5oczJAcaNXsOzoVrx79s9l
-   o/yqcs4u6QOURu++xAQ0j4+fRKZ23AVuGTsVMoGrtmVnL2LPzQh+lNk9O
-   Syew0xPyle+dz8bBuB9A8pe/kirlocfkdyZc4N01GAZ/29eLD2gHF1+06
-   XVslHpvaDkelOWxwMIfe1YSND/eNGSP6LBT7AdGyKeMgl/SvUE2BudTAz
-   cKekTLlvY9xrAIV9VDgwHK7NsbXF3Fsmmd3jQMdVk+xPFAEUHy+5C1q3S
-   N6mNiz1DW68rzzM5iBGYkZ6BdEgJfXsMYOLuUyWDmGCb9Ee30GT/rVETU
+  bh=X9Bbd07MX486kBfUb77/gnGosm8+LK5Pt0D383x/ETQ=;
+  b=WycyzolSoXsq40rc+ZT7/SoX68i0KgMV6kD0Usy6wWuePFwcJl3WeGsW
+   5z9tKbltRwDdylPSGlhXRuSYNdp6XMR0PYI+DmnvwVjiV9NQuahNZN7jH
+   Sy0qQbzXQ3ZSKo/zbBXhruQ8L2gttiO1Cxzo/uFB6Z3a43t8RuJ/fEMMe
+   Rwc860vvwk6Nrkaf9NS5G0o7LB153fRxapwxR76yfz7n034ghX9dLp5pI
+   Zufcr1v5VEQhveSU1ZVRCqtwGXFjdJsGZtNeSGzIo+gOclGnAhFgLqyaD
+   n09/q492j5rzIqUtRSKG4fbA+z4Fv9v5f/cPdb3C5dlYR2zxb3XL13yM0
    A==;
-X-CSE-ConnectionGUID: ZwLAvYsRTBiTQS6DgAezRQ==
-X-CSE-MsgGUID: Nc0IItr1Tz2R3qUIPyIRjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="109414356"
+X-CSE-ConnectionGUID: Q5PhXda8TDq8K2THyyFTXg==
+X-CSE-MsgGUID: Sb+M13VbQcShEUH2gmCsAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="87550289"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="109414356"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 19:29:23 -0700
-X-CSE-ConnectionGUID: 9Nc+3+ZsTwSqrty96kj/cQ==
-X-CSE-MsgGUID: aLb2xtXqQkSfWhCXc01rew==
+   d="scan'208";a="87550289"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 19:35:29 -0700
+X-CSE-ConnectionGUID: glpBG9qvQlGboD0QOnHiCA==
+X-CSE-MsgGUID: OKekIMe7RHiOes1WmdbAWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="252168030"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 03 Jul 2026 19:29:21 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="252762846"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 03 Jul 2026 19:35:27 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfq86-00000000Cm3-2KjS;
-	Sat, 04 Jul 2026 02:29:18 +0000
-Date: Sat, 04 Jul 2026 10:28:37 +0800
+	id 1wfqE0-000000001fF-02z9;
+	Sat, 04 Jul 2026 02:35:24 +0000
+Date: Sat, 04 Jul 2026 04:34:41 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ronald Claveau <linux-kernel-dev@aliel.fr>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rclaveau:b4/add-adla_npu-t7-vim4 11/12]
- drivers/accel/adla/adla_job.c:251:15-22: WARNING opportunity for memdup_user
-Message-ID: <202607041042.bTOQaUv8-lkp@intel.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: kernel/locking/lockdep.c:727:21: error: 'CONFIG_RUST'
+ undeclared; did you mean 'CONFIG_USB'?
+Message-ID: <202607040403.yLeH4bDF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,102 +59,57 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
-head:   6a683103bab0575a7d69e0120848527b5c9e1fba
-commit: 119db09982ec102b61dafe617a5c1595bea127e1 [11/12] accel: adla: Add driver for Amlogic NPU
-config: openrisc-randconfig-r053-20260704 (https://download.01.org/0day-ci/archive/20260704/202607041042.bTOQaUv8-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.5.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/Gary-Guo/rust-sync-introduce-a-way-to-create-lock-class-from-caller/20260703-220743
+head:   090a8fd3c5e7c50a1ebd6fc2ef51e1dbaaa81378
+commit: 090a8fd3c5e7c50a1ebd6fc2ef51e1dbaaa81378 lockdep: delegate Rust lock class printing to Rust code
+date:   12 hours ago
+config: x86_64-rhel-9.4-kselftests (https://download.01.org/0day-ci/archive/20260704/202607040403.yLeH4bDF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260704/202607040403.yLeH4bDF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607041042.bTOQaUv8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607040403.yLeH4bDF-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/accel/adla/adla_job.c:251:15-22: WARNING opportunity for memdup_user
+All errors (new ones prefixed by >>):
 
-vim +251 drivers/accel/adla/adla_job.c
+   kernel/locking/lockdep.c: In function '__print_lock_name':
+>> kernel/locking/lockdep.c:727:21: error: 'CONFIG_RUST' undeclared (first use in this function); did you mean 'CONFIG_USB'?
+     727 |                 if (CONFIG_RUST && class->name == lockdep_rust_name)
+         |                     ^~~~~~~~~~~
+         |                     CONFIG_USB
+   kernel/locking/lockdep.c:727:21: note: each undeclared identifier is reported only once for each function it appears in
 
-   228	
-   229	int adla_ioctl_submit(struct drm_device *dev, void *data, struct drm_file *filp) {
-   230		struct drm_adla_submit *submit = data;
-   231		struct adla_device *adla = container_of(dev, struct adla_device, drm);
-   232		struct adla_file *afile = filp->driver_priv;
-   233		struct adla_job *job;
-   234		int ret = 0;
-   235		u32 id;
-   236	
-   237		if (/*submit->config_size == 0 || */submit->config_size > SZ_1M)
-   238			return -EINVAL;
-   239	
-   240		job = kzalloc(sizeof (*job), GFP_KERNEL);
-   241		if (!job)
-   242			return -ENOMEM;
-   243	
-   244		job->adla = adla;
-   245		job->output_modules = submit->output_modules;
-   246		job->active_modules = submit->active_modules;
-   247		job->fence_modules = submit->fence_modules;
-   248		job->dep = submit->dep;
-   249	
-   250		job->config_size = submit->config_size;
- > 251		job->config = kmalloc(submit->config_size, GFP_KERNEL);
-   252		if (!job->config) { ret = -ENOMEM; goto err_free_job; }
-   253	
-   254		if (copy_from_user(job->config, u64_to_user_ptr(submit->config_ptr),
-   255				   submit->config_size)) {
-   256			ret = -EFAULT;
-   257			goto err_free_config;
-   258		}
-   259	
-   260		job->fixup_count = submit->fixup_count;
-   261		if (job->fixup_count) {
-   262			job->fixups = kmalloc_array(job->fixup_count,
-   263						    sizeof(struct adla_fixup), GFP_KERNEL);
-   264			if (!job->fixups) { ret = -ENOMEM; goto err_free_config; }
-   265	
-   266			if (copy_from_user(job->fixups, u64_to_user_ptr(submit->fixup_ptr),
-   267					   job->fixup_count * sizeof(struct adla_fixup))) {
-   268				ret = -EFAULT;
-   269				goto err_free_fixups;
-   270			}
-   271		}
-   272	
-   273		ret = xa_alloc(&adla->pending_jobs, &id, job, xa_limit_32b, GFP_KERNEL);
-   274		if (ret) {
-   275			dev_err(adla->drm.dev, "xa_alloc failed: %d\n", ret);
-   276			goto err_free_fixups;
-   277		}
-   278	
-   279		job->id = id;
-   280	
-   281		ret = drm_sched_job_init(&job->base, &afile->entity, 1, filp,
-   282					 filp->client_id);
-   283		if (ret) {
-   284			dev_err(adla->drm.dev, "drm_sched_job_init failed: %d\n", ret);
-   285			goto err_xa_erase;
-   286		}
-   287	
-   288		drm_sched_job_arm(&job->base);
-   289		job->done_fence = dma_fence_get(&job->base.s_fence->finished);
-   290		xa_store(&adla->pending_jobs, id, job->done_fence, GFP_KERNEL);
-   291		drm_sched_entity_push_job(&job->base);
-   292	
-   293		submit->out_job_id = id;
-   294	
-   295		return 0;
-   296	
-   297	err_xa_erase:
-   298		xa_erase(&adla->pending_jobs, id);
-   299	err_free_fixups:
-   300		kfree(job->fixups);
-   301	err_free_config:
-   302		kfree(job->config);
-   303	err_free_job:
-   304		kfree(job);
-   305		return ret;
-   306	}
-   307	
+
+vim +727 kernel/locking/lockdep.c
+
+   716	
+   717	static void __print_lock_name(struct held_lock *hlock, struct lock_class *class)
+   718	{
+   719		char str[KSYM_NAME_LEN];
+   720		const char *name;
+   721	
+   722		name = class->name;
+   723		if (!name) {
+   724			name = __get_key_name(class->key, str);
+   725			printk(KERN_CONT "%s", name);
+   726		} else {
+ > 727			if (CONFIG_RUST && class->name == lockdep_rust_name)
+   728				lockdep_print_rust_name((struct lock_class_key *)(
+   729					class->key - class->subclass
+   730				));
+   731			else
+   732				printk(KERN_CONT "%s", name);
+   733			if (class->name_version > 1)
+   734				printk(KERN_CONT "#%d", class->name_version);
+   735			if (class->subclass)
+   736				printk(KERN_CONT "/%d", class->subclass);
+   737			if (hlock && class->print_fn)
+   738				class->print_fn(hlock->instance);
+   739		}
+   740	}
+   741	
 
 --
 0-DAY CI Kernel Test Service
