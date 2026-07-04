@@ -1,320 +1,163 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6FF3254A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jul 2026 11:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783164756; cv=pass; b=bo1jWM6MP0rOigGK6N/bD9MjJowy2hi4bILHGLhCeAr/NHWq2OVVKiwsgh4z97XC4ttoQWPFgS7PMlOoM7jz8Vw/MJV+BVzf41zs4i1UTuIMwOw51vOlAdj3TvoShmGdxbAsf5A7vGbHj/yw1uQV8Hr7p4HFffOb9kBOoc1qUDo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783164756; c=relaxed/simple;
-	bh=8OTCBWbdCtmuwJeFimchV1AxQzt329vUxOdL5TjRnb8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M8b5IwCSRH6rLtczpRRxSbf+CuyxhtRPyTkXdM5vzvr8BkNWkDf0356bAgNQFxZq1GToinHi9v2MAgWUyh/9dF5x5/2Wjn5O1MVc3gAnyfUWzTfk/aNNmVgFcY/K9FmMd78/tv/3wXE4A1ZIjQ8UQzzclz7MwXS//AOEY+Xmw0M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZUsbuPr; arc=pass smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F376FBF
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Jul 2026 13:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783171170; cv=none; b=iSbHLFNQsrt8CDj70d4m+f+C+/dIPFDaL2JqqHO5FNdwZZ1iOXfN/0qYXeN6PafCCkru6huz3kky5S7494qZn+/zk2lLftKuL4xprfjouhb2sctiFHOwWD8Cs46/q8EFfVCY/eT9fX9Npr82ar/KxSjykz81z8mVsdbpQatj0Qk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783171170; c=relaxed/simple;
+	bh=XDsCH0kXCOo8e422uelNd/e7hHnYJVFLq0S58hdcKlE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sEEHzo26gfIAC4BJR8sdTWmlLM/KCq+aFgizklCqBD95OfA1Ug7qfelyKtkYZGmLJZEjHuuATTDHiP9xbwO1wo6wn67n/2u22FotXqgdHhvZZNMud7HdRMHz/BxpC3YUV+c3EGouchyazw22PeK0n1bBY3s4xrGODcRszPSvWyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hd//JERe; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZUsbuPr"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e9ecd7216cso616180a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Jul 2026 04:32:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783164754; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dHvkv2Yg0jV+U+mOLZZ9MDOoIR7lhwiT1kx21TYUtC4erZUlpErFE/2d5UPAkivzwx
-         EGGZKsJ4sEDTWKJDjLQlrp6Rewi9QoxfXxaUr16ejBe2heYZdtRmbfTLR9Gy9Qm7/CHH
-         mTczJFz6Mz4/weU6z65GnH3Bv1UpNUQJqfsyhHolEf6sCqIsY9i7UdkYV1nlX0CSAQbq
-         JX+JZ5pgFaD/XwyBuGuQLI08GakupeWp3kg15VBdwc3VN7v5/5dova1xEVyr1MrQ59/R
-         Qo7RlEm4+/PPP7S2NJITqUyjTYIcX10WkqUs5SBwyhzCIFPy/rubhvRDwMQfczhmxRPT
-         AUXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EWxbVxt0bUrbMOVyYOzNg2L9Hi49TedpZAPD1zNG07k=;
-        fh=fQfyqHpHJ9MsdE0JGZf4jykhnlPoziBfyY3DUESyHdk=;
-        b=frSWPn6H9pDK6NQlmmsXbd1dyllugVvM48l9SL/Dao3S8+CznvNSkvk60LpE/Z8tfc
-         Og65ZbCa/6pNN8M/KYhIzxkHG4u8Kv1VYDXmAo7ccWt5prj0SZoudLMmJNoPB0zauiyC
-         89TxxM/Ws+MiXk4z/e9BwzaghYDxdmD7P9eOdXm8uS6RnpcsbZiYorn0b7qr/4iU+lDm
-         3R1dACzZbACQixkrduPCw+2K0L04mNWwQqmvxhiBxsi0l4fynnNggPbTBrKtRAZtkPTh
-         t/ck9g5COTNK1rRtIji+VtQsLNzzp3Gef6gXOA8znRLnNpLtscPFO4KHcuEoXW3Q3Hud
-         o2JA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783164754; x=1783769554; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EWxbVxt0bUrbMOVyYOzNg2L9Hi49TedpZAPD1zNG07k=;
-        b=nZUsbuPrqGI4w7/YRNDNiy0RSfz6W+c1M0RZA1h7SFu+0dHMehECc1yRHy1B3sWCcj
-         NSkNKIvyJQnGr4Qcvoyda1BB5vGspTZlJjIk1wcgIhdDJwStg/ioQm/DAT+FppzwDD71
-         67XLB2wBBDDRHkD/d7OaJfoXIhrnLLQrzVkd1MeuhNV8WEk0dfGA9XfUF25WPiEay1sE
-         KiRhsofiPXynHK4EzRz2Nf4uwxxEVi4d+/UumYdj0vzXo/OmaKGngcpG23N0P2/e7aea
-         RMTUEiUaJJy4ojLIKondnfkrEKMDdmQBD9H8KRGsCl4QeLsmBP6J9ijy+7/rORyYd7gE
-         EP7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783164754; x=1783769554;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EWxbVxt0bUrbMOVyYOzNg2L9Hi49TedpZAPD1zNG07k=;
-        b=slgNpuiskgcLkoNhJ017l1hDtcdAHG/IFsBzfCQoIBzxIhdxY9dchDCj4kq1MfbWr9
-         9oJT+mRtctmAzGkjzBLVMwfBuEgKMbwdwQ46jbCE1LBkjGQq6Nu7sgL9hjD2DnukuU4r
-         /hZpyf488gjefeRzmDgav14Ba9vWtF7GwHyQVnAe8vg3k+lOWUvCyWLMrvMEaV/bF27n
-         cQhoByWRQMzdyr/BBzqZVjlwasYdJcBO1pz/LVzUjCA7tSFuh89SqP41Rvnw5x//lCln
-         8lJJf/0YNgr32t4UjjOVHxhXTF0VN0cbpbg5hglv7nsSP9PAOys5okFTqZhY2x9eveyR
-         S/ow==
-X-Forwarded-Encrypted: i=1; AFNElJ+S0mylt5Z03vkJ1sisH+eTV94FahvD3/KN0isdINCe6hspZjlzxWBQl1lSfHtd+JhlXM7ae6tFemkht0cr@lists.linux.dev
-X-Gm-Message-State: AOJu0YzUxOWAQkqQfiyatShh9oM/j9wz/3903j6CUvtM738ZBfMRWzbE
-	8dO/UbN54stc8oUdvu5ah+Ro2l9bKYTQHYCxQ/r+WnZN7KknxytIrZCU+oHRVknrO3ikUbnf2ma
-	uPndQwNbaDig9X8oX0nmLooM6x1lP/SA=
-X-Gm-Gg: AfdE7clMVjDPLCw3knRbnVbRIf/estF2DtrphTaWbMUl4fNnXvLtKRjyQ3CggiX7BHe
-	noS+ExDdel4Dc8b1t6VQL7LNCKgkCrs2Y2rJ81byf/HgZk2QKXgbJcdrNEk4nXF9PiclTHrJhjm
-	vLZsXZIQGfsnhCG6qAjwYnrMIgh8Fcg4xZO98eAs3wQAbndNK5DHB4wMmveV5UbfgpQGSsn/JHu
-	pm3CYQYM6mwiWftmkFW8YVBVva+loUcQlKWJWfH/q6PUnYhbj3X9gMAnGhnjbSgEPrXUczLUto=
-X-Received: by 2002:a05:6830:258e:b0:7e6:f2dd:93c3 with SMTP id
- 46e09a7af769-7eb7ff1bee0mr1941047a34.15.1783164754180; Sat, 04 Jul 2026
- 04:32:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hd//JERe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783171168; x=1814707168;
+  h=date:from:to:cc:subject:message-id;
+  bh=XDsCH0kXCOo8e422uelNd/e7hHnYJVFLq0S58hdcKlE=;
+  b=Hd//JERehAPyxRbb4ghOheCh9bEVbJB4HSvzzjayPqfCuFKionrjx7eC
+   0OtuQyQFy/u3PzMDSKzpWgrKOMdsRDseP8qa/UB6WiyRG6A2JP1ZWqNSQ
+   9a3Dovrk49HJxj+utClTBd8bjmTaAs9tpVJANeKYm61BoUNvH3CtaHIYR
+   XK02/t1buLfPA9L9uQvUKDzySKXQkkdADMNg87M0r+TfmnuMITZCNi9vE
+   si3rGqn54WXYQcXF/Ucjr3B0NKjUocqGCw6MffV+Kue3CiRi4vLRSmK4D
+   07wbgDoP913G30M80E4U5+6Xzbk6bTiAXwU2QQHjiU14yPpCFXtjz4yB5
+   w==;
+X-CSE-ConnectionGUID: 3TAQ/VmuSBqKteVYC19bzQ==
+X-CSE-MsgGUID: 5or8ZWI9QCqJfphoAvHhzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11837"; a="101426904"
+X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
+   d="scan'208";a="101426904"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 06:19:27 -0700
+X-CSE-ConnectionGUID: q+9gsq3aQXaFHtXQEh1aNg==
+X-CSE-MsgGUID: LWZCaBjCSy6zRGUirEkdBg==
+X-ExtLoop1: 1
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 04 Jul 2026 06:19:26 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wg0HD-00000000D4p-2VWF;
+	Sat, 04 Jul 2026 13:19:23 +0000
+Date: Sat, 04 Jul 2026 21:18:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 0/1] fs/binfmt_misc.c:95:
+ warning: Excess function parameter 'misc' description in
+ 'search_binfmt_handler'
+Message-ID: <202607042129.NAOdwIqj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260704084133.122053-1-christian.koenig@amd.com>
-In-Reply-To: <20260704084133.122053-1-christian.koenig@amd.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Sat, 4 Jul 2026 16:32:22 +0500
-X-Gm-Features: AVVi8CcK_S66JOwlm4n0LTy0xr_IGeFKHbpsM77Kmo3cE5f0eLtGIWRvXB6zhGs
-Message-ID: <CABXGCsPB4V6h-vUHwQ0Fo=bsdn66xP4fOOOezwWw2hiKh5TRJQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/drm_exec: avoid indirect goto
-To: christian.koenig@amd.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
-	peterz@infradead.org, jpoimboe@kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 4, 2026 at 1:41=E2=80=AFPM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> The drm_exec component uses a variable with scope limited to the for() an=
-d
-> an indirect goto to allow instantiating multiple macros in the same
-> function.
->
-> This unfortunately doesn't work well with certain compilers when the
-> indirect goto can't be lowered to a direct jump.
->
-> Switch the indirect goto to a direct goto, the drawback is that we now
-> can't use the dma_exec_until_all_locked() macro in the same function
-> multiple times.
->
-> The is currently only one user of this and only as a hacky workaround
-> which is about to be removed.
->
-> So document that the __label__ statement should be used when the macro is
-> used multiple times and fix the tests and the only use case where that is
-> necessary.
->
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |  2 ++
->  drivers/gpu/drm/tests/drm_exec_test.c  | 24 ++++++++++++------
->  include/drm/drm_exec.h                 | 34 ++++++++++++++------------
->  3 files changed, 36 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_vm.c
-> index fee4c94c2585..fc28d0fdad37 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -3011,6 +3011,8 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *a=
-dev, u32 pasid,
->         is_compute_context =3D vm->is_compute_context;
->
->         if (is_compute_context) {
-> +               __label__ drm_exec_retry;
-> +
->                 /* Release the root PD lock since svm_range_restore_pages
->                  * might try to take it.
->                  * TODO: rework svm_range_restore_pages so that this isn'=
-t
-> diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/test=
-s/drm_exec_test.c
-> index 2fc47f3b463b..7a374e462348 100644
-> --- a/drivers/gpu/drm/tests/drm_exec_test.c
-> +++ b/drivers/gpu/drm/tests/drm_exec_test.c
-> @@ -180,19 +180,27 @@ static void test_multiple_loops(struct kunit *test)
->  {
->         struct drm_exec exec;
->
-> -       drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-> -       drm_exec_until_all_locked(&exec)
->         {
-> -               break;
-> +               __label__ drm_exec_retry;
-> +
-> +               drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-> +               drm_exec_until_all_locked(&exec)
-> +               {
-> +                       break;
-> +               }
-> +               drm_exec_fini(&exec);
->         }
-> -       drm_exec_fini(&exec);
->
-> -       drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-> -       drm_exec_until_all_locked(&exec)
->         {
-> -               break;
-> +               __label__ drm_exec_retry;
-> +
-> +               drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-> +               drm_exec_until_all_locked(&exec)
-> +               {
-> +                       break;
-> +               }
-> +               drm_exec_fini(&exec);
->         }
-> -       drm_exec_fini(&exec);
->         KUNIT_SUCCEED(test);
->  }
->
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> index 8725ba92ff91..cc2937185a9f 100644
-> --- a/include/drm/drm_exec.h
-> +++ b/include/drm/drm_exec.h
-> @@ -101,17 +101,6 @@ drm_exec_obj(struct drm_exec *exec, unsigned long in=
-dex)
->  #define drm_exec_for_each_locked_object_reverse(exec, obj)             \
->         __drm_exec_for_each_locked_object_reverse(exec, obj, __UNIQUE_ID(=
-drm_exec))
->
-> -/*
-> - * Helper to drm_exec_until_all_locked(). Don't use directly.
-> - *
-> - * Since labels can't be defined local to the loop's body we use a jump =
-pointer
-> - * to make sure that the retry is only used from within the loop's body.
-> - */
-> -#define __drm_exec_until_all_locked(exec, _label)                       =
-\
-> -_label:                                                                 =
-        \
-> -       for (void *const __maybe_unused __drm_exec_retry_ptr =3D &&_label=
-; \
-> -            drm_exec_cleanup(exec);)
-> -
->  /**
->   * drm_exec_until_all_locked - loop until all GEM objects are locked
->   * @exec: drm_exec object
-> @@ -119,9 +108,18 @@ _label:                                             =
-                        \
->   * Core functionality of the drm_exec object. Loops until all GEM object=
-s are
->   * locked and no more contention exists. At the beginning of the loop it=
- is
->   * guaranteed that no GEM object is locked.
-> + *
-> + * A global label name drm_exec_retry is used, if you need to use more t=
-han one
-> + * instance of this macro in the same function the label needs to be mad=
-e local
-> + * to the block with the __label__ keyword.
->   */
->  #define drm_exec_until_all_locked(exec)                                 =
-       \
-> -       __drm_exec_until_all_locked(exec, __UNIQUE_ID(drm_exec))
-> +       for (bool const __maybe_unused __drm_exec_loop =3D false;        =
- \
-> +            drm_exec_cleanup(exec);)                                   \
-> +               if (false) {                                            \
-> +drm_exec_retry: __maybe_unused;                                         =
-       \
-> +                       continue;                                       \
-> +               } else
->
->  /**
->   * drm_exec_retry_on_contention - restart the loop to grap all locks
-> @@ -129,12 +127,14 @@ _label:                                            =
-                        \
->   *
->   * Control flow helper to continue when a contention was detected and we=
- need to
->   * clean up and re-start the loop to prepare all GEM objects.
-> + * The __drm_exec_loop check exists to prevent usage outside of an
-> + * drm_exec_until_all_locked() loop.
->   */
->  #define drm_exec_retry_on_contention(exec)                     \
->         do {                                                    \
->                 if (unlikely(drm_exec_is_contended(exec)))      \
-> -                       goto *__drm_exec_retry_ptr;             \
-> -       } while (0)
-> +                       goto drm_exec_retry;                    \
-> +       } while (__drm_exec_loop)
->
->  /**
->   * drm_exec_is_contended - check for contention
-> @@ -154,12 +154,14 @@ static inline bool drm_exec_is_contended(struct drm=
-_exec *exec)
->   *
->   * Unconditionally retry the loop to lock all objects. For consistency,
->   * the exec object needs to be newly initialized.
-> + * The __drm_exec_loop check exists to prevent usage outside of an
-> + * drm_exec_until_all_locked() loop.
->   */
->  #define drm_exec_retry(_exec)                                  \
->         do {                                                    \
->                 WARN_ON((_exec)->contended !=3D DRM_EXEC_DUMMY);  \
-> -               goto *__drm_exec_retry_ptr;                     \
-> -       } while (0)
-> +               goto drm_exec_retry;                            \
-> +       } while (__drm_exec_loop)
->
->  /**
->   * drm_exec_ticket - return the ww_acquire_ctx for this exec context
-> --
-> 2.43.0
->
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   a00af2707c1d0a67daa8f91db74300f65d84db3b
+commit: a43edc7abc4fd96c05ef1b8b2c164fa040b4cc6d [0/1] binfmt_misc: cleanup on filesystem umount
+config: i386-randconfig-012-20260702 (https://download.01.org/0day-ci/archive/20260704/202607042129.NAOdwIqj-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260704/202607042129.NAOdwIqj-lkp@intel.com/reproduce)
 
-Tested on the configs that originally tripped objtool, the error is gone
-with this patch:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607042129.NAOdwIqj-lkp@intel.com/
 
-  - gcc, non-LTO: amdgpu_vm.o builds clean
-    (was amdgpu_vm_handle_fault+0x169 / +0x97)
-  - clang, non-LTO: amdgpu_vm.o builds clean
-    (was amdgpu_vm_handle_fault+0x12d)
-  - clang + ThinLTO + KASAN, OBJTOOL_WERROR=3Dy: full vmlinux.o link
-    passes objtool (was amdgpu_vm_handle_fault+0x186 / +0x16b)
+All warnings (new ones prefixed by >>):
 
-x86_64, clang 22.1.8.
+>> fs/binfmt_misc.c:95: warning: Excess function parameter 'misc' description in 'search_binfmt_handler'
+>> fs/binfmt_misc.c:144: warning: Excess function parameter 'misc' description in 'get_binfmt_handler'
+>> fs/binfmt_misc.c:680: warning: Excess function parameter 'misc' description in 'remove_binfmt_handler'
 
-Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 
-FWIW the kernel test robot reported this many times across trees (clang
-LTO, clang non-LTO, and gcc builds); it's all the same drm_exec
-computed-goto pattern. Full list if you want to add Reported-by/Closes:
+vim +95 fs/binfmt_misc.c
 
-Fixes: 9920249a5288 ("drm/amdgpu: convert amdgpu_vm_lock_by_pasid() to
-drm_exec")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202606231854.7LeCtlLe-lkp@int=
-el.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202606232356.gwHMAJAW-lkp@int=
-el.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202606240753.kYjobJVl-lkp@int=
-el.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202606241110.iUga5vVw-lkp@int=
-el.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202607031446.1PWG18mN-lkp@int=
-el.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202607031837.HSmBj8pr-lkp@int=
-el.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202607040159.GopyEswS-lkp@int=
-el.com/
+bbaecc088245e84 Mike Frysinger    2014-10-13   83  
+a43edc7abc4fd96 Christian Brauner 2021-10-28   84  /**
+a43edc7abc4fd96 Christian Brauner 2021-10-28   85   * search_binfmt_handler - search for a binary handler for @bprm
+a43edc7abc4fd96 Christian Brauner 2021-10-28   86   * @misc: handle to binfmt_misc instance
+a43edc7abc4fd96 Christian Brauner 2021-10-28   87   * @bprm: binary for which we are looking for a handler
+a43edc7abc4fd96 Christian Brauner 2021-10-28   88   *
+a43edc7abc4fd96 Christian Brauner 2021-10-28   89   * Search for a binary type handler for @bprm in the list of registered binary
+a43edc7abc4fd96 Christian Brauner 2021-10-28   90   * type handlers.
+a43edc7abc4fd96 Christian Brauner 2021-10-28   91   *
+a43edc7abc4fd96 Christian Brauner 2021-10-28   92   * Return: binary type list entry on success, NULL on failure
+^1da177e4c3f415 Linus Torvalds    2005-04-16   93   */
+a43edc7abc4fd96 Christian Brauner 2021-10-28   94  static Node *search_binfmt_handler(struct linux_binprm *bprm)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  @95  {
+^1da177e4c3f415 Linus Torvalds    2005-04-16   96  	char *p = strrchr(bprm->interp, '.');
+a43edc7abc4fd96 Christian Brauner 2021-10-28   97  	Node *e;
+^1da177e4c3f415 Linus Torvalds    2005-04-16   98  
+6b899c4e9a049df Mike Frysinger    2014-12-10   99  	/* Walk all the registered handlers. */
+a43edc7abc4fd96 Christian Brauner 2021-10-28  100  	list_for_each_entry(e, &entries, list) {
+^1da177e4c3f415 Linus Torvalds    2005-04-16  101  		char *s;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  102  		int j;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  103  
+6b899c4e9a049df Mike Frysinger    2014-12-10  104  		/* Make sure this one is currently enabled. */
+^1da177e4c3f415 Linus Torvalds    2005-04-16  105  		if (!test_bit(Enabled, &e->flags))
+^1da177e4c3f415 Linus Torvalds    2005-04-16  106  			continue;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  107  
+6b899c4e9a049df Mike Frysinger    2014-12-10  108  		/* Do matching based on extension if applicable. */
+^1da177e4c3f415 Linus Torvalds    2005-04-16  109  		if (!test_bit(Magic, &e->flags)) {
+^1da177e4c3f415 Linus Torvalds    2005-04-16  110  			if (p && !strcmp(e->magic, p + 1))
+^1da177e4c3f415 Linus Torvalds    2005-04-16  111  				return e;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  112  			continue;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  113  		}
+^1da177e4c3f415 Linus Torvalds    2005-04-16  114  
+6b899c4e9a049df Mike Frysinger    2014-12-10  115  		/* Do matching based on magic & mask. */
+^1da177e4c3f415 Linus Torvalds    2005-04-16  116  		s = bprm->buf + e->offset;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  117  		if (e->mask) {
+^1da177e4c3f415 Linus Torvalds    2005-04-16  118  			for (j = 0; j < e->size; j++)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  119  				if ((*s++ ^ e->magic[j]) & e->mask[j])
+^1da177e4c3f415 Linus Torvalds    2005-04-16  120  					break;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  121  		} else {
+^1da177e4c3f415 Linus Torvalds    2005-04-16  122  			for (j = 0; j < e->size; j++)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  123  				if ((*s++ ^ e->magic[j]))
+^1da177e4c3f415 Linus Torvalds    2005-04-16  124  					break;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  125  		}
+^1da177e4c3f415 Linus Torvalds    2005-04-16  126  		if (j == e->size)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  127  			return e;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  128  	}
+a43edc7abc4fd96 Christian Brauner 2021-10-28  129  
+^1da177e4c3f415 Linus Torvalds    2005-04-16  130  	return NULL;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  131  }
+^1da177e4c3f415 Linus Torvalds    2005-04-16  132  
+a43edc7abc4fd96 Christian Brauner 2021-10-28  133  /**
+a43edc7abc4fd96 Christian Brauner 2021-10-28  134   * get_binfmt_handler - try to find a binary type handler
+a43edc7abc4fd96 Christian Brauner 2021-10-28  135   * @misc: handle to binfmt_misc instance
+a43edc7abc4fd96 Christian Brauner 2021-10-28  136   * @bprm: binary for which we are looking for a handler
+a43edc7abc4fd96 Christian Brauner 2021-10-28  137   *
+a43edc7abc4fd96 Christian Brauner 2021-10-28  138   * Try to find a binfmt handler for the binary type. If one is found take a
+a43edc7abc4fd96 Christian Brauner 2021-10-28  139   * reference to protect against removal via bm_{entry,status}_write().
+a43edc7abc4fd96 Christian Brauner 2021-10-28  140   *
+a43edc7abc4fd96 Christian Brauner 2021-10-28  141   * Return: binary type list entry on success, NULL on failure
+a43edc7abc4fd96 Christian Brauner 2021-10-28  142   */
+a43edc7abc4fd96 Christian Brauner 2021-10-28  143  static Node *get_binfmt_handler(struct linux_binprm *bprm)
+a43edc7abc4fd96 Christian Brauner 2021-10-28 @144  {
+a43edc7abc4fd96 Christian Brauner 2021-10-28  145  	Node *e;
+a43edc7abc4fd96 Christian Brauner 2021-10-28  146  
+a43edc7abc4fd96 Christian Brauner 2021-10-28  147  	read_lock(&entries_lock);
+a43edc7abc4fd96 Christian Brauner 2021-10-28  148  	e = search_binfmt_handler(bprm);
+a43edc7abc4fd96 Christian Brauner 2021-10-28  149  	if (e)
+a43edc7abc4fd96 Christian Brauner 2021-10-28  150  		refcount_inc(&e->users);
+a43edc7abc4fd96 Christian Brauner 2021-10-28  151  	read_unlock(&entries_lock);
+a43edc7abc4fd96 Christian Brauner 2021-10-28  152  	return e;
+a43edc7abc4fd96 Christian Brauner 2021-10-28  153  }
+a43edc7abc4fd96 Christian Brauner 2021-10-28  154  
 
---=20
-Best Regards,
-Mike Gavrilov.
+:::::: The code at line 95 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
