@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766BE263F4A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jul 2026 20:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A483570AD
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jul 2026 20:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783281880; cv=none; b=g3O1gyvvX92h5OAaB3D4HXg5K9byNFiZOjA8NU5tFkI+jyhMdqqQeYLOceHKjDn1HiD4GKsN3Ac924JYYBhZKcYY+jMtR8hAgy7DKvcYuxD4MdBVW8MWXMKYNIfgxzKyN6HgCvmjm3rZaoUq2M9nnEaNpfnugQCMulX81BdZs6E=
+	t=1783283197; cv=none; b=ozEIJDebGDxyHkMANrY7XcZTRYBHS6LTwhPlagyZJuI7WQ1prg+49uq/MBcb0UvkdJ6JFkn+q4Nh7eOi/Yjwa/5XiF7u7YStf5+V+TcKONNYLdvJ9GtihIwxJ7804waz14Gd9EU02Ls+eMIOemX1fvwNq5NUSNOOfbS5Ke2CrYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783281880; c=relaxed/simple;
-	bh=ec/cr06++CuL/z93+35+P6pgbLl9pnXMvNJ6DLMAO5c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bQFzD1TGPq9wI9yVUO1AxLRsNTf/KBzS2AWBowZ9VVburI8pZ7zxQDOloAXih6yNFPFvk/mIRAcV8VJbI3Nm1dcIOuxowBDnevLeaBjUJI2pihKazNlT/YewXl4Y3vyz/JAkSAyG8o0UXIPGryr8IF+BMKvI2rU/rgfEzu0VoLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nWyYfGru; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1783283197; c=relaxed/simple;
+	bh=VxpSJ/Mo9UZv+pGIPhCepJJMB+7ffW8K1yvllLKxy/M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=c0muqtTS7jmoeuBM7Vtc8g/8RvfUd4m+JyvnZXZsM/0iEWBk9f2kG1brDjsckLooGb3UaIJxCg/Isr/0CZyaWUjY4ThN9EeGpf+0M9GbsjfeLOy4mbIxpoSBKPQG2xvbg1C3ArUGUOCZh54nSbiTR2Mid9t3p9UKvRkqpud4IRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6SAdySr; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nWyYfGru"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6SAdySr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783281878; x=1814817878;
+  t=1783283194; x=1814819194;
   h=date:from:to:cc:subject:message-id;
-  bh=ec/cr06++CuL/z93+35+P6pgbLl9pnXMvNJ6DLMAO5c=;
-  b=nWyYfGruijzt8DJJ+Tl4JpI/2YqfsCFXqZK2FcnyCmuqDmVQWCy3FSjE
-   l7bDiRxAh1LTm9ERdFg1tl/jFdpkGQU0A1gKeU5xdYBrcn1fGkhNY9u56
-   7hvVKwoj4otKaucd5iuIqXkBk/BMh+ZJbSeWCM0clgPOQi54D0fxjT18E
-   xqsYT3SyiaK0q0Hn1p6fcoT/AXHGIDhcHSNz3bevtPab/hv7iMR4+KAKh
-   mH5AjlaAxzQGrmdoGHUh+8DhT9YggTdHihfcI9UOCD8OvczAd2ogg550o
-   R9Xf+6fR5mDfK1r804/k8y9otN4yyf8Mcu7U2niYXjrXjj3ujxpLCqyV6
-   Q==;
-X-CSE-ConnectionGUID: qBzeP3cSTAKhnak67MnOcg==
-X-CSE-MsgGUID: 7tguFdLTQLS+0VGw4vJ3TA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="101468302"
+  bh=VxpSJ/Mo9UZv+pGIPhCepJJMB+7ffW8K1yvllLKxy/M=;
+  b=U6SAdySrwidA+IZNH2cozLY5NRv96LpTrdFNZ+KrYWBcv0GwDXGWd4J5
+   lTMXRPWWzvJJX+7EozrdZTsfBjO1Mx2Pjte8I4zdUGn+xsWyPfzay7Buy
+   g2tJYEsqb9tR/VZjxEfG3luY5PGSWYTYke8/2qxqCY2l394ycDbh8B/d+
+   wFiH/STUKbWyjJPRU3gpzhT9QwQnpxeMM6SfXpq+Cdy6KCaBTyxJ8FRMo
+   PE6cJ/iFjzsutpY92gemN4SFj8mkrkLTSzKUKCV2SxSSjeW7kCZgkgjGM
+   xHtIV9heJCef27BpbwHMnqbob6YAX/aNbVVN3h7qb9Z6TCqqUvzkpJ5Y6
+   g==;
+X-CSE-ConnectionGUID: C0b3szd7QC2r5u9iQctv3w==
+X-CSE-MsgGUID: eq3f0FmsSrGpAcsn8epWDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="71445025"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="101468302"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 13:04:37 -0700
-X-CSE-ConnectionGUID: HhWYUbO/SGqrGvwZ4A8L6w==
-X-CSE-MsgGUID: xr31GBHTRZ6txiEMs/b4uw==
+   d="scan'208";a="71445025"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 13:26:33 -0700
+X-CSE-ConnectionGUID: F0HD6zeKSYSd42r11KZykg==
+X-CSE-MsgGUID: KkJBUGUcS52CRIJOwd5QWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="251803787"
+   d="scan'208";a="252471468"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 05 Jul 2026 13:04:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 05 Jul 2026 13:26:32 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgT4m-00000000Dmb-2Oly;
-	Sun, 05 Jul 2026 20:04:28 +0000
-Date: Mon, 06 Jul 2026 04:03:40 +0800
+	id 1wgTQ5-00000000DnP-115g;
+	Sun, 05 Jul 2026 20:26:29 +0000
+Date: Mon, 06 Jul 2026 04:26:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@kernel.org>
+To: "Bryan O'Donoghue" <bod@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sven:efi-psci 3/6] arch/arm64/kernel/setup.c:323:2: error:
- call to undeclared function 'arm64_efi_init'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202607060311.9uhCpVvG-lkp@intel.com>
+Subject: 
+ [bod:qcom-laptops-v6.18-rc4-camss-icp-bps-ipe-icp-boots+stats-b4 120/121]
+ make[8]: *** No rule to make target
+ 'drivers/media/platform/qcom/camss/camss-icp-hfi.o', needed by
+ 'drivers/media/platform/qcom/camss/qcom-camss-icp.o'.
+Message-ID: <202607060402.mYFx91MW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,115 +62,88 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git efi-psci
-head:   f3e5c7a4c95dadd837bde2519a6226b5cd610415
-commit: c11e5fb532e28ab8f8b418760df31ac7bea7e0ba [3/6] arm64/efi: Add and parse custom PSCI EFI configuration table
-config: arm64-randconfig-002-20260706 (https://download.01.org/0day-ci/archive/20260706/202607060311.9uhCpVvG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607060311.9uhCpVvG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bod/linux.git qcom-laptops-v6.18-rc4-camss-icp-bps-ipe-icp-boots+stats-b4
+head:   ebd1e440443121d18f730ab2aeea5586a754f36f
+commit: 782e70f1ad20204721b37ade4a33837e76ac3b86 [120/121] media: qcom: camss: Switch on ICP and BPS as make options
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260706/202607060402.mYFx91MW-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607060402.mYFx91MW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607060311.9uhCpVvG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607060402.mYFx91MW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> arch/arm64/kernel/setup.c:323:2: error: call to undeclared function 'arm64_efi_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     323 |         arm64_efi_init();
-         |         ^
-   arch/arm64/kernel/setup.c:323:2: note: did you mean 'arm64_rsi_init'?
-   arch/arm64/include/asm/rsi.h:17:13: note: 'arm64_rsi_init' declared here
-      17 | void __init arm64_rsi_init(void);
-         |             ^
-   1 error generated.
-
-
-vim +/arm64_efi_init +323 arch/arm64/kernel/setup.c
-
-   280	
-   281	void __init __no_sanitize_address setup_arch(char **cmdline_p)
-   282	{
-   283		setup_initial_init_mm(_text, _etext, _edata, _end);
-   284	
-   285		*cmdline_p = boot_command_line;
-   286	
-   287		kaslr_init();
-   288	
-   289		early_fixmap_init();
-   290		early_ioremap_init();
-   291	
-   292		setup_machine_fdt(__fdt_pointer);
-   293	
-   294		/*
-   295		 * Initialise the static keys early as they may be enabled by the
-   296		 * cpufeature code and early parameters.
-   297		 */
-   298		jump_label_init();
-   299		parse_early_param();
-   300	
-   301		dynamic_scs_init();
-   302	
-   303		/*
-   304		 * The primary CPU enters the kernel with all DAIF exceptions masked.
-   305		 *
-   306		 * We must unmask Debug and SError before preemption or scheduling is
-   307		 * possible to ensure that these are consistently unmasked across
-   308		 * threads, and we want to unmask SError as soon as possible after
-   309		 * initializing earlycon so that we can report any SErrors immediately.
-   310		 *
-   311		 * IRQ and FIQ will be unmasked after the root irqchip has been
-   312		 * detected and initialized.
-   313		 */
-   314		local_daif_restore(DAIF_PROCCTX_NOIRQ);
-   315	
-   316		/*
-   317		 * TTBR0 is only used for the identity mapping at this stage. Make it
-   318		 * point to zero page to avoid speculatively fetching new entries.
-   319		 */
-   320		cpu_uninstall_idmap();
-   321	
-   322		xen_early_init();
- > 323		arm64_efi_init();
-   324	
-   325		if (!efi_enabled(EFI_BOOT)) {
-   326			if ((u64)_text % MIN_KIMG_ALIGN)
-   327				pr_warn(FW_BUG "Kernel image misaligned at boot, please fix your bootloader!");
-   328			WARN_TAINT(mmu_enabled_at_boot, TAINT_FIRMWARE_WORKAROUND,
-   329				   FW_BUG "Booted with MMU enabled!");
-   330		}
-   331	
-   332		arm64_memblock_init();
-   333	
-   334		paging_init();
-   335	
-   336		acpi_table_upgrade();
-   337	
-   338		/* Parse the ACPI tables for possible boot-time configuration */
-   339		acpi_boot_table_init();
-   340	
-   341		if (acpi_disabled)
-   342			unflatten_device_tree();
-   343	
-   344		bootmem_init();
-   345	
-   346		kasan_init();
-   347	
-   348		request_standard_resources();
-   349	
-   350		early_ioremap_reset();
-   351	
-   352		if (acpi_disabled)
-   353			psci_dt_init();
-   354		else
-   355			psci_acpi_init();
-   356	
-   357		arm64_rsi_init();
-   358	
-   359		init_bootcpu_ops();
-   360		smp_init_cpus();
-   361		smp_build_mpidr_hash();
-   362	
+>> make[8]: *** No rule to make target 'drivers/media/platform/qcom/camss/camss-icp-hfi.o', needed by 'drivers/media/platform/qcom/camss/qcom-camss-icp.o'.
+>> make[8]: *** No rule to make target 'drivers/media/platform/qcom/camss/camss-bps-cmd.o', needed by 'drivers/media/platform/qcom/camss/qcom-camss-bps.o'.
+   make[8]: *** [scripts/Makefile.build:287: drivers/media/platform/qcom/camss/camss-bps.o] Error 1
+   make[8]: Target 'drivers/media/platform/qcom/camss/' not remade because of errors.
+--
+   In file included from drivers/media/platform/qcom/camss/camss-icp.h:14,
+                    from drivers/media/platform/qcom/camss/camss-icp.c:26:
+>> drivers/media/platform/qcom/camss/camss-icp-hfi.h:480:36: warning: 'struct icp_ubwc_cfg' declared inside parameter list will not be visible outside of this definition or declaration
+     480 |                             struct icp_ubwc_cfg *cfg);
+         |                                    ^~~~~~~~~~~~
+>> drivers/media/platform/qcom/camss/camss-icp-hfi.h:479:36: warning: 'struct icp_device' declared inside parameter list will not be visible outside of this definition or declaration
+     479 | int icp_hfi_set_ubwc_config(struct icp_device *icp, u32 dev_type,
+         |                                    ^~~~~~~~~~
+   In file included from include/linux/printk.h:621,
+                    from include/linux/kernel.h:31,
+                    from include/linux/clk.h:13,
+                    from drivers/media/platform/qcom/camss/camss-icp.c:7:
+   drivers/media/platform/qcom/camss/camss-icp.c: In function 'icp_load_firmware':
+>> drivers/media/platform/qcom/camss/camss-icp.c:150:27: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     150 |         dev_dbg(icp->dev, "FW memory: phys=0x%pa size=%llu\n",
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/media/platform/qcom/camss/camss-icp.c:150:9: note: in expansion of macro 'dev_dbg'
+     150 |         dev_dbg(icp->dev, "FW memory: phys=0x%pa size=%llu\n",
+         |         ^~~~~~~
+   drivers/media/platform/qcom/camss/camss-icp.c:150:58: note: format string is defined here
+     150 |         dev_dbg(icp->dev, "FW memory: phys=0x%pa size=%llu\n",
+         |                                                       ~~~^
+         |                                                          |
+         |                                                          long long unsigned int
+         |                                                       %u
+   drivers/media/platform/qcom/camss/camss-icp.c: At top level:
+>> drivers/media/platform/qcom/camss/camss-icp.c:224:6: warning: no previous prototype for 'icp_dump_gp_regs' [-Wmissing-prototypes]
+     224 | void icp_dump_gp_regs(struct camss_icp *icp, const char *label)
+         |      ^~~~~~~~~~~~~~~~
+>> drivers/media/platform/qcom/camss/camss-icp.c:240:6: warning: no previous prototype for 'icp_hfi_latch_regs' [-Wmissing-prototypes]
+     240 | void icp_hfi_latch_regs(struct camss_icp *icp)
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-icp.c: In function 'icp_hfi_latch_regs':
+>> drivers/media/platform/qcom/camss/camss-icp.c:243:24: warning: unused variable 'dev' [-Wunused-variable]
+     243 |         struct device *dev = hfi->dev;
+         |                        ^~~
+   drivers/media/platform/qcom/camss/camss-icp.c: At top level:
+>> drivers/media/platform/qcom/camss/camss-icp.c:578:22: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     578 |         .clk_names = x1e80100_clk_names,
+         |                      ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-icp.c:580:22: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     580 |         .noc_names = x1e80100_noc_names,
+         |                      ^~~~~~~~~~~~~~~~~~
+--
+>> drivers/media/platform/qcom/camss/camss-bps.c:26:10: fatal error: camss-bps-cmd.h: No such file or directory
+      26 | #include "camss-bps-cmd.h"
+         |          ^~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 --
 0-DAY CI Kernel Test Service
