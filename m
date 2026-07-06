@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A483570AD
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Jul 2026 20:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0B615A864;
+	Mon,  6 Jul 2026 01:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783283197; cv=none; b=ozEIJDebGDxyHkMANrY7XcZTRYBHS6LTwhPlagyZJuI7WQ1prg+49uq/MBcb0UvkdJ6JFkn+q4Nh7eOi/Yjwa/5XiF7u7YStf5+V+TcKONNYLdvJ9GtihIwxJ7804waz14Gd9EU02Ls+eMIOemX1fvwNq5NUSNOOfbS5Ke2CrYE=
+	t=1783301955; cv=none; b=VRs4fGOQCF5EzIF0TElLDr6YpaLK1kky9uR3e9/EramSeqje2b4qhxt+u57DkPJyIIqkEqssrrItwsKhSzuVisOd1BNfshEndj9uKHZVEtmTgulJBZNNwERv111wHcKAis6nbBuiWeo0Om6i1Kiap6mTigBKB18CjKcFYuvVXBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783283197; c=relaxed/simple;
-	bh=VxpSJ/Mo9UZv+pGIPhCepJJMB+7ffW8K1yvllLKxy/M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=c0muqtTS7jmoeuBM7Vtc8g/8RvfUd4m+JyvnZXZsM/0iEWBk9f2kG1brDjsckLooGb3UaIJxCg/Isr/0CZyaWUjY4ThN9EeGpf+0M9GbsjfeLOy4mbIxpoSBKPQG2xvbg1C3ArUGUOCZh54nSbiTR2Mid9t3p9UKvRkqpud4IRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6SAdySr; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1783301955; c=relaxed/simple;
+	bh=Op/slMsb5UHOy/HOMqAdSgXqr3CWywrd9wzFnc+0nbs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pBazjt137HJulCYEFgtYbUGSgixnnYuaDwaAUvbFK+It2XrXw7tLDL32OHU0TPWaH3cAn7LzGnLLq/SQwAB4BB4DObGy/leuLEC0BY6y0PmQ5VKhVHx3yva4uyWOwUanVya8/Y9nzwjx8RLuOo5DuBBQp/NhlwBqmhGb6SDAq+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqZcAVF1; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6SAdySr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqZcAVF1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783283194; x=1814819194;
+  t=1783301953; x=1814837953;
   h=date:from:to:cc:subject:message-id;
-  bh=VxpSJ/Mo9UZv+pGIPhCepJJMB+7ffW8K1yvllLKxy/M=;
-  b=U6SAdySrwidA+IZNH2cozLY5NRv96LpTrdFNZ+KrYWBcv0GwDXGWd4J5
-   lTMXRPWWzvJJX+7EozrdZTsfBjO1Mx2Pjte8I4zdUGn+xsWyPfzay7Buy
-   g2tJYEsqb9tR/VZjxEfG3luY5PGSWYTYke8/2qxqCY2l394ycDbh8B/d+
-   wFiH/STUKbWyjJPRU3gpzhT9QwQnpxeMM6SfXpq+Cdy6KCaBTyxJ8FRMo
-   PE6cJ/iFjzsutpY92gemN4SFj8mkrkLTSzKUKCV2SxSSjeW7kCZgkgjGM
-   xHtIV9heJCef27BpbwHMnqbob6YAX/aNbVVN3h7qb9Z6TCqqUvzkpJ5Y6
-   g==;
-X-CSE-ConnectionGUID: C0b3szd7QC2r5u9iQctv3w==
-X-CSE-MsgGUID: eq3f0FmsSrGpAcsn8epWDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="71445025"
+  bh=Op/slMsb5UHOy/HOMqAdSgXqr3CWywrd9wzFnc+0nbs=;
+  b=fqZcAVF14dDBOCpyp/v+Oa6kt2dZD4E34VxeUF2Q5kS1DGo2S1Et2BPh
+   60qp7eyVxh2hQNLL9cC6K7OxZVtvHmRJIavW4RNkHuDO01WRcRwBhstaY
+   lZDu3T0f8B7nK8eIixuspvO4t7WGv/kOneISwlij3mi74krnGXthc/zwW
+   jWFu50L4mKkGapfV07scQq3H/ETDnolgGo6kd7ckpa5Wy1bHIDAaiAgCi
+   8FRiVQVrFNJ26dpkZGqe4NOR2isAcdQ0PFiuxA5aAKG5Q1BfneUjB/70g
+   lxGDAMUW8EzXUvruivu68Vha8qMrO/NMOABBKfIaal4+BwOJTbZcd0bNA
+   Q==;
+X-CSE-ConnectionGUID: G6HQrgKiRoOaV+nE5oNxDA==
+X-CSE-MsgGUID: 5KOZySFCQkatLzA5igmPzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="106726812"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="71445025"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 13:26:33 -0700
-X-CSE-ConnectionGUID: F0HD6zeKSYSd42r11KZykg==
-X-CSE-MsgGUID: KkJBUGUcS52CRIJOwd5QWw==
+   d="scan'208";a="106726812"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 18:39:12 -0700
+X-CSE-ConnectionGUID: hnjZV1+jT1+61gIgUxiBRg==
+X-CSE-MsgGUID: AwAErie/TtuwTU+qu9BczA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="252471468"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 05 Jul 2026 13:26:32 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="250909428"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 05 Jul 2026 18:39:10 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgTQ5-00000000DnP-115g;
-	Sun, 05 Jul 2026 20:26:29 +0000
-Date: Mon, 06 Jul 2026 04:26:08 +0800
+	id 1wgYId-0000000022n-1nhC;
+	Mon, 06 Jul 2026 01:39:07 +0000
+Date: Mon, 06 Jul 2026 03:38:15 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Bryan O'Donoghue" <bod@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: 
- [bod:qcom-laptops-v6.18-rc4-camss-icp-bps-ipe-icp-boots+stats-b4 120/121]
- make[8]: *** No rule to make target
- 'drivers/media/platform/qcom/camss/camss-icp-hfi.o', needed by
- 'drivers/media/platform/qcom/camss/qcom-camss-icp.o'.
-Message-ID: <202607060402.mYFx91MW-lkp@intel.com>
+To: Dan Williams <djbw@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [devsec-tsm:devsec-phase2 13/24]
+ include/linux/pci-tsm.h:190:13: error: no member named 'ide_cap' in 'struct
+ pci_dev'
+Message-ID: <202607060301.XwJgMU3N-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,88 +60,69 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bod/linux.git qcom-laptops-v6.18-rc4-camss-icp-bps-ipe-icp-boots+stats-b4
-head:   ebd1e440443121d18f730ab2aeea5586a754f36f
-commit: 782e70f1ad20204721b37ade4a33837e76ac3b86 [120/121] media: qcom: camss: Switch on ICP and BPS as make options
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260706/202607060402.mYFx91MW-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607060402.mYFx91MW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/devsec/tsm devsec-phase2
+head:   fca18645f5a7726a7d2723322a520ecff3e72b45
+commit: 21936ae130218b2976ee091c948248c5f84dcb71 [13/24] PCI, device core: Add private memory access for DEVICE_TRUST_TCB
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260706/202607060301.XwJgMU3N-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607060301.XwJgMU3N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607060402.mYFx91MW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607060301.XwJgMU3N-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> make[8]: *** No rule to make target 'drivers/media/platform/qcom/camss/camss-icp-hfi.o', needed by 'drivers/media/platform/qcom/camss/qcom-camss-icp.o'.
->> make[8]: *** No rule to make target 'drivers/media/platform/qcom/camss/camss-bps-cmd.o', needed by 'drivers/media/platform/qcom/camss/qcom-camss-bps.o'.
-   make[8]: *** [scripts/Makefile.build:287: drivers/media/platform/qcom/camss/camss-bps.o] Error 1
-   make[8]: Target 'drivers/media/platform/qcom/camss/' not remade because of errors.
---
-   In file included from drivers/media/platform/qcom/camss/camss-icp.h:14,
-                    from drivers/media/platform/qcom/camss/camss-icp.c:26:
->> drivers/media/platform/qcom/camss/camss-icp-hfi.h:480:36: warning: 'struct icp_ubwc_cfg' declared inside parameter list will not be visible outside of this definition or declaration
-     480 |                             struct icp_ubwc_cfg *cfg);
-         |                                    ^~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss-icp-hfi.h:479:36: warning: 'struct icp_device' declared inside parameter list will not be visible outside of this definition or declaration
-     479 | int icp_hfi_set_ubwc_config(struct icp_device *icp, u32 dev_type,
-         |                                    ^~~~~~~~~~
-   In file included from include/linux/printk.h:621,
-                    from include/linux/kernel.h:31,
-                    from include/linux/clk.h:13,
-                    from drivers/media/platform/qcom/camss/camss-icp.c:7:
-   drivers/media/platform/qcom/camss/camss-icp.c: In function 'icp_load_firmware':
->> drivers/media/platform/qcom/camss/camss-icp.c:150:27: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     150 |         dev_dbg(icp->dev, "FW memory: phys=0x%pa size=%llu\n",
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
-     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/media/platform/qcom/camss/camss-icp.c:150:9: note: in expansion of macro 'dev_dbg'
-     150 |         dev_dbg(icp->dev, "FW memory: phys=0x%pa size=%llu\n",
-         |         ^~~~~~~
-   drivers/media/platform/qcom/camss/camss-icp.c:150:58: note: format string is defined here
-     150 |         dev_dbg(icp->dev, "FW memory: phys=0x%pa size=%llu\n",
-         |                                                       ~~~^
-         |                                                          |
-         |                                                          long long unsigned int
-         |                                                       %u
-   drivers/media/platform/qcom/camss/camss-icp.c: At top level:
->> drivers/media/platform/qcom/camss/camss-icp.c:224:6: warning: no previous prototype for 'icp_dump_gp_regs' [-Wmissing-prototypes]
-     224 | void icp_dump_gp_regs(struct camss_icp *icp, const char *label)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss-icp.c:240:6: warning: no previous prototype for 'icp_hfi_latch_regs' [-Wmissing-prototypes]
-     240 | void icp_hfi_latch_regs(struct camss_icp *icp)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-icp.c: In function 'icp_hfi_latch_regs':
->> drivers/media/platform/qcom/camss/camss-icp.c:243:24: warning: unused variable 'dev' [-Wunused-variable]
-     243 |         struct device *dev = hfi->dev;
-         |                        ^~~
-   drivers/media/platform/qcom/camss/camss-icp.c: At top level:
->> drivers/media/platform/qcom/camss/camss-icp.c:578:22: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     578 |         .clk_names = x1e80100_clk_names,
-         |                      ^~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-icp.c:580:22: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     580 |         .noc_names = x1e80100_noc_names,
-         |                      ^~~~~~~~~~~~~~~~~~
---
->> drivers/media/platform/qcom/camss/camss-bps.c:26:10: fatal error: camss-bps-cmd.h: No such file or directory
-      26 | #include "camss-bps-cmd.h"
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from drivers/pci/pci-driver.c:22:
+>> include/linux/pci-tsm.h:190:13: error: no member named 'ide_cap' in 'struct pci_dev'
+     190 |                 if (pdev->ide_cap || (pdev->devcap & PCI_EXP_DEVCAP_TEE))
+         |                     ~~~~  ^
+   1 error generated.
+
+
+vim +190 include/linux/pci-tsm.h
+
+6aa0f2799e2d90 Dan Williams 2026-03-02  166  
+3225f52cde56f4 Dan Williams 2025-10-31  167  /* physical function0 and capable of 'connect' */
+3225f52cde56f4 Dan Williams 2025-10-31  168  static inline bool is_pci_tsm_pf0(struct pci_dev *pdev)
+3225f52cde56f4 Dan Williams 2025-10-31  169  {
+3225f52cde56f4 Dan Williams 2025-10-31  170  	if (!pdev)
+3225f52cde56f4 Dan Williams 2025-10-31  171  		return false;
+3225f52cde56f4 Dan Williams 2025-10-31  172  
+3225f52cde56f4 Dan Williams 2025-10-31  173  	if (!pci_is_pcie(pdev))
+3225f52cde56f4 Dan Williams 2025-10-31  174  		return false;
+3225f52cde56f4 Dan Williams 2025-10-31  175  
+3225f52cde56f4 Dan Williams 2025-10-31  176  	if (pdev->is_virtfn)
+3225f52cde56f4 Dan Williams 2025-10-31  177  		return false;
+3225f52cde56f4 Dan Williams 2025-10-31  178  
+3225f52cde56f4 Dan Williams 2025-10-31  179  	/*
+3225f52cde56f4 Dan Williams 2025-10-31  180  	 * Allow for a Device Security Manager (DSM) associated with function0
+3225f52cde56f4 Dan Williams 2025-10-31  181  	 * of an Endpoint to coordinate TDISP requests for other functions
+3225f52cde56f4 Dan Williams 2025-10-31  182  	 * (physical or virtual) of the device, or allow for an Upstream Port
+3225f52cde56f4 Dan Williams 2025-10-31  183  	 * DSM to accept TDISP requests for the Endpoints downstream of the
+3225f52cde56f4 Dan Williams 2025-10-31  184  	 * switch.
+3225f52cde56f4 Dan Williams 2025-10-31  185  	 */
+3225f52cde56f4 Dan Williams 2025-10-31  186  	switch (pci_pcie_type(pdev)) {
+3225f52cde56f4 Dan Williams 2025-10-31  187  	case PCI_EXP_TYPE_ENDPOINT:
+3225f52cde56f4 Dan Williams 2025-10-31  188  	case PCI_EXP_TYPE_UPSTREAM:
+3225f52cde56f4 Dan Williams 2025-10-31  189  	case PCI_EXP_TYPE_RC_END:
+3225f52cde56f4 Dan Williams 2025-10-31 @190  		if (pdev->ide_cap || (pdev->devcap & PCI_EXP_DEVCAP_TEE))
+3225f52cde56f4 Dan Williams 2025-10-31  191  			break;
+3225f52cde56f4 Dan Williams 2025-10-31  192  		fallthrough;
+3225f52cde56f4 Dan Williams 2025-10-31  193  	default:
+3225f52cde56f4 Dan Williams 2025-10-31  194  		return false;
+3225f52cde56f4 Dan Williams 2025-10-31  195  	}
+3225f52cde56f4 Dan Williams 2025-10-31  196  
+3225f52cde56f4 Dan Williams 2025-10-31  197  	return PCI_FUNC(pdev->devfn) == 0;
+3225f52cde56f4 Dan Williams 2025-10-31  198  }
+3225f52cde56f4 Dan Williams 2025-10-31  199  
+
+:::::: The code at line 190 was first introduced by commit
+:::::: 3225f52cde56f46789a4972d3c54df8a4d75f022 PCI/TSM: Establish Secure Sessions and Link Encryption
+
+:::::: TO: Dan Williams <dan.j.williams@intel.com>
+:::::: CC: Dan Williams <dan.j.williams@intel.com>
 
 --
 0-DAY CI Kernel Test Service
