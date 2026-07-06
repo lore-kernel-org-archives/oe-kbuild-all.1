@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2FC378D68
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 18:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D24221540;
+	Mon,  6 Jul 2026 23:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783363373; cv=none; b=gXZKKXNyYgfb3Csci9nyp9eK8zvxRozEk9EBMzCQPMv5sssGy1CSZjzARkaToyA4Owq4agdQ+0G6uoUwHTS4JTMZl0+2GF9BVtXtQ7d4OoI3ioESUTHjMxW9BuS03YN0gLVT8qe9TPNP2WaTuS9w/PWL8BHTvZsxDK2EG4s7XNo=
+	t=1783379484; cv=none; b=Qcrv2b5b7BPoTAH1iYalFnBBFGxjln5Qtz5n2C/GEeFN6CMi08BdXJfJhf8YaZ/2e6qKUpSIlM4KbHeg71xAAwAxZO+8JAO8JK6/BIWDNqIOyWB2PM40eU5bjoQcizOvEU13rVos4r3gULeEN07kr9xYFq7Uu7Y+XjfhEHb3vR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783363373; c=relaxed/simple;
-	bh=3AnG99AXLLMjWhNtOQ4S0VU5hbKeHjW3XUOMPEEizrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tMRWBjEJLNg7N23rEZtKE7YGCifdjNJxbUJMuhiYZc9RHebt3LnVXWen5cO4aT6qX3JTUG6/bygGnUK52MpgIvZNNhM0D0Sqv/jQSPn/jUAtQWYNlhJCNeCy7nO11iB6VJqpZ2YjAovqk+ZPO2mU7l1kRJlnjZVs9v43ZXOVTD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFBrQ0YM; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1783379484; c=relaxed/simple;
+	bh=DdjUcSkoJUUaJ8pJ6O2OwYbXeYqN0M5zv3GiB8wY9LE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pq3osCQkV43HncbCHrGG8lBQo/3q9Nz9CKYmRYKM7364+9NBNP/nvP3VRHSqat/EFGdNPdkr9f1+RR2jcJYTbZJI+3eSkEpRVsTkhDDXnWDRNYFm/8W5ljCK7CtAywHhMkEPfTfboaawo+/7/RYj+AkRBXC11XfAwsMLUGkImp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NEYEb09N; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFBrQ0YM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NEYEb09N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783363371; x=1814899371;
+  t=1783379482; x=1814915482;
   h=date:from:to:cc:subject:message-id;
-  bh=3AnG99AXLLMjWhNtOQ4S0VU5hbKeHjW3XUOMPEEizrQ=;
-  b=VFBrQ0YM3w95M48dXs9YG0Roa0nCJLi3DY1fV0qGbDEAyOdbIbuTAfMw
-   xxOZndzuBBIJ1nAMXJyEv5s+oEj02lyD2/9lXRRolpm60nrHiYVMEXUbJ
-   EtnI+qgFrjMzngVBnJQfBhAE8pak37ViTgdQxS79jbOFQURBBkxrV7Xtg
-   nuSydnCO75wowLSSqvJbAvNbpk+DMbPkFihEP/U9c8JCu/z2ojh5rw9C/
-   roWgZaZzpdGo7JFWaeq8I6F/SHs2gtHP1ZxoGjWzQuMQGPTY39w7ObW2S
-   FQKYkz0MwggwXxZwMSRphlhzocGkZXM8fB5ocmVHPeVIBRuvJ14iAN0bK
-   A==;
-X-CSE-ConnectionGUID: iGVSC1ReQXW1YWNuO367bA==
-X-CSE-MsgGUID: ejAFcrwoQY6j9RI83zbfLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="86555265"
+  bh=DdjUcSkoJUUaJ8pJ6O2OwYbXeYqN0M5zv3GiB8wY9LE=;
+  b=NEYEb09N3+3z01RvS2UsCL+Lfed4wAxZgwl3+wB417VNdinjalJotA0z
+   /CINSXrtOPPBgDgB3JV+xo6NHmjNtF4laiekQNk6tEHU/aKh8i0kTg26T
+   gJCKQytu/Pd39RuF+IxqhN+swm6mUSUX9nbhu3J4Q5YGSXt4QJEKWcrie
+   5jFGlin3gT+b+qewVgKp1T5kvgcNMuuYA+xht4tKtSaX3npfRoiTwT5WC
+   +Y+Jwjp8z0tjXm7VxDRVFcLJx8LROe4Eeum9o7dLWiQ9qj56zhObGq9mC
+   MjBPMYdNlRizraPqif6DDuPZ+no3WjVoGofBlrFsp8t+e7fCykKitxdY3
+   g==;
+X-CSE-ConnectionGUID: YvDnLB+jTj63HcR++RkGAA==
+X-CSE-MsgGUID: RprL3SuIQv2Jp6HFCgNZtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="94667126"
 X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="86555265"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 11:42:50 -0700
-X-CSE-ConnectionGUID: yztMCe9sTDKHL2jQIEiz/A==
-X-CSE-MsgGUID: MG+g/BtWQsWFZBLVn4fsaA==
+   d="scan'208";a="94667126"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 16:11:22 -0700
+X-CSE-ConnectionGUID: zf99JnljTK6+W9Ow+6ZXoQ==
+X-CSE-MsgGUID: B6fyYSLTQoWsW2db0cx+sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="257657501"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 06 Jul 2026 11:42:49 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="253929516"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 06 Jul 2026 16:11:20 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgoHG-000000002Gn-1boW;
-	Mon, 06 Jul 2026 18:42:46 +0000
-Date: Mon, 06 Jul 2026 20:41:47 +0200
+	id 1wgsSk-00000000Epn-3Qhr;
+	Mon, 06 Jul 2026 23:11:00 +0000
+Date: Tue, 07 Jul 2026 07:09:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [rppt:direct-map/v0 4/7]
- kernel/liveupdate/kexec_handover.c:1074:17: error: implicit declaration of
- function 'get_vm_area_page_order'; did you mean 'get_vm_area_caller'?
-Message-ID: <202607062004.YM0OrOer-lkp@intel.com>
+ kernel/liveupdate/kexec_handover.c:1074:10: error: call to undeclared
+ function 'get_vm_area_page_order'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202607070710.XxP4FQTx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,29 +68,31 @@ FYI, the error/warning was bisected to this commit, please ignore it if it's irr
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git direct-map/v0
 head:   21effbca0418e549e468c2141da5ba1ef83f06fb
 commit: 5990078704982cce2dc9a952fb328771a7e7d991 [4/7] mm: split out vmalloc declarations from internal.h
-config: x86_64-rhel-9.4-kselftests (https://download.01.org/0day-ci/archive/20260706/202607062004.YM0OrOer-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607062004.YM0OrOer-lkp@intel.com/reproduce)
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260707/202607070710.XxP4FQTx-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607070710.XxP4FQTx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607062004.YM0OrOer-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607070710.XxP4FQTx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/liveupdate/kexec_handover.c: In function 'kho_preserve_vmalloc':
->> kernel/liveupdate/kexec_handover.c:1074:17: error: implicit declaration of function 'get_vm_area_page_order'; did you mean 'get_vm_area_caller'? [-Wimplicit-function-declaration]
+>> kernel/liveupdate/kexec_handover.c:1074:10: error: call to undeclared function 'get_vm_area_page_order'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     1074 |         order = get_vm_area_page_order(vm);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 get_vm_area_caller
-   kernel/liveupdate/kexec_handover.c: In function 'kho_restore_vmalloc':
->> kernel/liveupdate/kexec_handover.c:1220:9: error: implicit declaration of function 'clear_vm_uninitialized_flag' [-Wimplicit-function-declaration]
+         |                 ^
+   kernel/liveupdate/kexec_handover.c:1074:10: note: did you mean 'get_vm_area_caller'?
+   include/linux/vmalloc.h:247:26: note: 'get_vm_area_caller' declared here
+     247 | extern struct vm_struct *get_vm_area_caller(unsigned long size,
+         |                          ^
+>> kernel/liveupdate/kexec_handover.c:1220:2: error: call to undeclared function 'clear_vm_uninitialized_flag'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     1220 |         clear_vm_uninitialized_flag(area);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         ^
+   2 errors generated.
 
 
-vim +1074 kernel/liveupdate/kexec_handover.c
+vim +/get_vm_area_page_order +1074 kernel/liveupdate/kexec_handover.c
 
 a667300bd53f27 kernel/kexec_handover.c            Mike Rapoport (Microsoft  2025-09-21  1043) 
 a667300bd53f27 kernel/kexec_handover.c            Mike Rapoport (Microsoft  2025-09-21  1044) /**
