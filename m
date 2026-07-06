@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B962D0C62;
-	Mon,  6 Jul 2026 05:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C2B3AEF2F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 05:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783315546; cv=none; b=SAtnGrAdV/38VznUw4J1jdTuX9nuKqLDXpDNl49cEU9X6nU7HYHfwGlSt6jA/zdIe9waPGq6ZQyBoDnyFtHPi1aG/3hZ/R6XEwblLNYiHJ3ywhKFqwUJ3fUHy+yFu062TqGJo81FU+nOE6TQyQ8eRNC5FZYLU21VmG9TnrC2MaE=
+	t=1783316213; cv=none; b=AjqTJ5ISSoM1I+cC0PIJK8T9VYjqUsXsjwYl8UP/sF7ePt89ZELZaPv2hAkCr2TW2tXU7dkZyUAPxk/gQcdNA6bvPPZPY5JtRw6VP181k5SFxQnDx7FKtWycfI3TrQLXlnREpkrc4aDostd7B/MM7uiz0pctwlORO+fZmNimEGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783315546; c=relaxed/simple;
-	bh=VjpgKAsd8WF1z+sfS9IVUUWQHHjO0kkRrnEGHEBtpSY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C9OjXOoMPksG/Atdso31bjiDBZPPCNpXv5eRhDSHwpSltcCkoYubM7dPI4ZtgbnlbCyH71Q7NZCwQnTxIz66aiUxPHNad2pqbapKr66A0nez+xV8rHqvU1PcxitU+WoEVjvwixZMwyOpXPr8xik5Qnnctt6CE9Fe8z18o2865uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrZdaltU; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1783316213; c=relaxed/simple;
+	bh=oBCxcSoU63EQ83IjKhagRccasgwqu4yfQCd35dEOIMo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WOM0rxgwcefw0oo5r2H2TXZzb0dXjU/Bxf3FrqHkJ60ae3kqu9Rm+dt75weZavOGqdKyr+9xzt0MWawjJ6QbtbMHiMyZMC+v0R3sAaOupNuqa4LfjjNGDZ7DUQdRe5xOKzsMTXR9QTWELvXNwAtZqfNtrkEy5OORayJoIdn2iLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDH132Kj; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrZdaltU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDH132Kj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783315545; x=1814851545;
+  t=1783316211; x=1814852211;
   h=date:from:to:cc:subject:message-id;
-  bh=VjpgKAsd8WF1z+sfS9IVUUWQHHjO0kkRrnEGHEBtpSY=;
-  b=UrZdaltUdmHlbZu5IxV0JpekMOkk5szpzlsH90Bz70P2x1H2iSpKRX4x
-   5xaZRk4xzw4PDcgYfCa/sXjj0OAyTHmvkEE271H563TecvXqHKT5MurPJ
-   +JbKyuviVkkneWEJJT4IgY583OVGytEZgVuWw6rwDiUf3lgjSmLaRvXBN
-   phzhMBwD+pKQv5qpbt2wIP/GJvhmtGxTCrM4H5rt6iZZCnN9tsM0fqalR
-   NMvZ3pgtH9vThrxuZFubcYrnqMnKnM9faUMiWdHgDmDpHxUdZSh7uGdoi
-   EwIAj4I1P7b602dZbkew7czq7CX/xwOU1csmIHuGpa/D1PoJt7mN1397F
-   g==;
-X-CSE-ConnectionGUID: iAyhwl4zR1ajBw9OOdaS8w==
-X-CSE-MsgGUID: K31p17QTQYew6IU6kkKNng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="95096192"
+  bh=oBCxcSoU63EQ83IjKhagRccasgwqu4yfQCd35dEOIMo=;
+  b=nDH132Kjk2nsrIwNr9gZvhcGK5o4tpKyoVe6tFE0xbAURwQfr2gRSdFu
+   umSDoFklhcW66agTAevWvYykSrWYI/hQDyoZ18o8Te5h9o+/D5ox8YSJg
+   Mw7TKJgQsvf9Hde137cIVhTDmgbDBiTFlI+/Cu1GB+BsBFpaWUB3BN9Zo
+   zVtkaUtMbqYBO4wiNOzQ4a7zyXqYRnmxRJBdyxU0SCZAkBK0bW5SBoTcB
+   mjYZCP5YWjvgl+Uyew+jTJ2y8r/L3YW7gE4F4p1VoziZlRPwoFuUhWUoE
+   KHmVy5i6/GmHA8FZpVov/b4fLobbcNPnWePqhX/3LDcycIMe3peHLQvBX
+   A==;
+X-CSE-ConnectionGUID: p9eFv1aiSDaRpg6O47iX4Q==
+X-CSE-MsgGUID: pIdfXkRPQM+BmPIvrR9N1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83920904"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="95096192"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 22:25:44 -0700
-X-CSE-ConnectionGUID: p5hrieDPQeqRkoS5ua3flA==
-X-CSE-MsgGUID: iJggGaz7Qfy5NWl3BG7JAQ==
+   d="scan'208";a="83920904"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 22:36:50 -0700
+X-CSE-ConnectionGUID: YYpF5ZoNQJafUfC5djXDOg==
+X-CSE-MsgGUID: 5y6XNOYMTquwJKJtrU2dHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="251876389"
+   d="scan'208";a="255557204"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 05 Jul 2026 22:25:43 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Jul 2026 22:36:49 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgbpm-00000000E6R-3pcL;
-	Mon, 06 Jul 2026 05:25:36 +0000
-Date: Mon, 06 Jul 2026 13:25:31 +0800
+	id 1wgc0a-00000000E6Z-2Pfi;
+	Mon, 06 Jul 2026 05:36:45 +0000
+Date: Mon, 06 Jul 2026 13:36:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <djbw@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [devsec-tsm:devsec-phase2 13/24]
- include/linux/pci-tsm.h:190:13: error: no member named 'ide_cap' in 'struct
- pci_dev'; did you mean 'devcap'?
-Message-ID: <202607061540.myoxX79B-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/qemu_upst 20/54]
+ drivers/memory/pl353-smc.c:62:34: warning: unused variable
+ 'pl353_smc_supported_children'
+Message-ID: <202607061331.uFgxkVmz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,73 +60,53 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/devsec/tsm devsec-phase2
-head:   fca18645f5a7726a7d2723322a520ecff3e72b45
-commit: a2be27064cb1e7ccb165e331527d1123a4df0fc9 [13/24] PCI, device core: Add private memory access for DEVICE_TRUST_TCB
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260706/202607061540.myoxX79B-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607061540.myoxX79B-lkp@intel.com/reproduce)
+Hi Richard,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_upst
+head:   5e4bb1f393648d68ee1bcf780f3380dd8369e397
+commit: 5840f3f95efe43f7f01794b4445e2827f805fb69 [20/54] hexagon: update build system and Kconfig
+config: hexagon-randconfig-r122-20260706 (https://download.01.org/0day-ci/archive/20260706/202607061331.uFgxkVmz-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607061331.uFgxkVmz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607061540.myoxX79B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607061331.uFgxkVmz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pci/pci-driver.c:22:
->> include/linux/pci-tsm.h:190:13: error: no member named 'ide_cap' in 'struct pci_dev'; did you mean 'devcap'?
-     190 |                 if (pdev->ide_cap || (pdev->devcap & PCI_EXP_DEVCAP_TEE))
-         |                           ^~~~~~~
-         |                           devcap
-   include/linux/pci.h:377:7: note: 'devcap' declared here
-     377 |         u32             devcap;         /* PCIe Device Capabilities */
-         |                         ^
-   1 error generated.
+>> drivers/memory/pl353-smc.c:62:34: warning: unused variable 'pl353_smc_supported_children' [-Wunused-const-variable]
+      62 | static const struct of_device_id pl353_smc_supported_children[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +190 include/linux/pci-tsm.h
+vim +/pl353_smc_supported_children +62 drivers/memory/pl353-smc.c
 
-f224c20c3d76138 Dan Williams 2026-03-02  166  
-3225f52cde56f46 Dan Williams 2025-10-31  167  /* physical function0 and capable of 'connect' */
-3225f52cde56f46 Dan Williams 2025-10-31  168  static inline bool is_pci_tsm_pf0(struct pci_dev *pdev)
-3225f52cde56f46 Dan Williams 2025-10-31  169  {
-3225f52cde56f46 Dan Williams 2025-10-31  170  	if (!pdev)
-3225f52cde56f46 Dan Williams 2025-10-31  171  		return false;
-3225f52cde56f46 Dan Williams 2025-10-31  172  
-3225f52cde56f46 Dan Williams 2025-10-31  173  	if (!pci_is_pcie(pdev))
-3225f52cde56f46 Dan Williams 2025-10-31  174  		return false;
-3225f52cde56f46 Dan Williams 2025-10-31  175  
-3225f52cde56f46 Dan Williams 2025-10-31  176  	if (pdev->is_virtfn)
-3225f52cde56f46 Dan Williams 2025-10-31  177  		return false;
-3225f52cde56f46 Dan Williams 2025-10-31  178  
-3225f52cde56f46 Dan Williams 2025-10-31  179  	/*
-3225f52cde56f46 Dan Williams 2025-10-31  180  	 * Allow for a Device Security Manager (DSM) associated with function0
-3225f52cde56f46 Dan Williams 2025-10-31  181  	 * of an Endpoint to coordinate TDISP requests for other functions
-3225f52cde56f46 Dan Williams 2025-10-31  182  	 * (physical or virtual) of the device, or allow for an Upstream Port
-3225f52cde56f46 Dan Williams 2025-10-31  183  	 * DSM to accept TDISP requests for the Endpoints downstream of the
-3225f52cde56f46 Dan Williams 2025-10-31  184  	 * switch.
-3225f52cde56f46 Dan Williams 2025-10-31  185  	 */
-3225f52cde56f46 Dan Williams 2025-10-31  186  	switch (pci_pcie_type(pdev)) {
-3225f52cde56f46 Dan Williams 2025-10-31  187  	case PCI_EXP_TYPE_ENDPOINT:
-3225f52cde56f46 Dan Williams 2025-10-31  188  	case PCI_EXP_TYPE_UPSTREAM:
-3225f52cde56f46 Dan Williams 2025-10-31  189  	case PCI_EXP_TYPE_RC_END:
-3225f52cde56f46 Dan Williams 2025-10-31 @190  		if (pdev->ide_cap || (pdev->devcap & PCI_EXP_DEVCAP_TEE))
-3225f52cde56f46 Dan Williams 2025-10-31  191  			break;
-3225f52cde56f46 Dan Williams 2025-10-31  192  		fallthrough;
-3225f52cde56f46 Dan Williams 2025-10-31  193  	default:
-3225f52cde56f46 Dan Williams 2025-10-31  194  		return false;
-3225f52cde56f46 Dan Williams 2025-10-31  195  	}
-3225f52cde56f46 Dan Williams 2025-10-31  196  
-3225f52cde56f46 Dan Williams 2025-10-31  197  	return PCI_FUNC(pdev->devfn) == 0;
-3225f52cde56f46 Dan Williams 2025-10-31  198  }
-3225f52cde56f46 Dan Williams 2025-10-31  199  
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  58  
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  59  static SIMPLE_DEV_PM_OPS(pl353_smc_dev_pm_ops, pl353_smc_suspend,
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  60  			 pl353_smc_resume);
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  61  
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06 @62  static const struct of_device_id pl353_smc_supported_children[] = {
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  63  	{
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  64  		.compatible = "cfi-flash"
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  65  	},
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  66  	{
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  67  		.compatible = "arm,pl353-nand-r2p1",
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  68  	},
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  69  	{}
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  70  };
+fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  71  
 
-:::::: The code at line 190 was first introduced by commit
-:::::: 3225f52cde56f46789a4972d3c54df8a4d75f022 PCI/TSM: Establish Secure Sessions and Link Encryption
+:::::: The code at line 62 was first introduced by commit
+:::::: fee10bd2267868f2a3e7ba008ef7665aac5e4412 memory: pl353: Add driver for arm pl353 static memory controller
 
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+:::::: TO: Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
+:::::: CC: Michal Simek <michal.simek@xilinx.com>
 
 --
 0-DAY CI Kernel Test Service
