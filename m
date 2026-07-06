@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C2B3AEF2F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 05:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9433AEF55
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 05:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783316213; cv=none; b=AjqTJ5ISSoM1I+cC0PIJK8T9VYjqUsXsjwYl8UP/sF7ePt89ZELZaPv2hAkCr2TW2tXU7dkZyUAPxk/gQcdNA6bvPPZPY5JtRw6VP181k5SFxQnDx7FKtWycfI3TrQLXlnREpkrc4aDostd7B/MM7uiz0pctwlORO+fZmNimEGY=
+	t=1783316215; cv=none; b=FDahXq5Al1bWPW+2cfT2MV1ZgytcKLWijFjQh9pLd5pm1qtNKijl4upj67yO1JgWRb/tjBvh2JkWV0554MA/crcp9b7wUNxCce//bW3FL0vazICscJ+fjweJ8gDdM8PULR+quEH6FI1MXDZMXESkdvBbYKB8Xyy5CegGE3BZCM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783316213; c=relaxed/simple;
-	bh=oBCxcSoU63EQ83IjKhagRccasgwqu4yfQCd35dEOIMo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WOM0rxgwcefw0oo5r2H2TXZzb0dXjU/Bxf3FrqHkJ60ae3kqu9Rm+dt75weZavOGqdKyr+9xzt0MWawjJ6QbtbMHiMyZMC+v0R3sAaOupNuqa4LfjjNGDZ7DUQdRe5xOKzsMTXR9QTWELvXNwAtZqfNtrkEy5OORayJoIdn2iLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDH132Kj; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1783316215; c=relaxed/simple;
+	bh=Nwr6p2btoMVc9PxTtEMeytZkSAEiea3p3QQgiv/1LH4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WzhN36V/KyZm5J/ocCkXhBPh2twm8ZvjmrnuVlnRd49W1NIrJC7D5Qw2OSVrKMc0z7cwet32Rw2GIZUuYcWTardnaQuLMmu36SooavpGEMnvcWkkGDRR/21uk2fNHC1RuhLA9EeLeTdPQQCYNDdYIXModGVEd1xYciM6WfFJveo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jVRH0YbN; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDH132Kj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVRH0YbN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783316211; x=1814852211;
+  t=1783316213; x=1814852213;
   h=date:from:to:cc:subject:message-id;
-  bh=oBCxcSoU63EQ83IjKhagRccasgwqu4yfQCd35dEOIMo=;
-  b=nDH132Kjk2nsrIwNr9gZvhcGK5o4tpKyoVe6tFE0xbAURwQfr2gRSdFu
-   umSDoFklhcW66agTAevWvYykSrWYI/hQDyoZ18o8Te5h9o+/D5ox8YSJg
-   Mw7TKJgQsvf9Hde137cIVhTDmgbDBiTFlI+/Cu1GB+BsBFpaWUB3BN9Zo
-   zVtkaUtMbqYBO4wiNOzQ4a7zyXqYRnmxRJBdyxU0SCZAkBK0bW5SBoTcB
-   mjYZCP5YWjvgl+Uyew+jTJ2y8r/L3YW7gE4F4p1VoziZlRPwoFuUhWUoE
-   KHmVy5i6/GmHA8FZpVov/b4fLobbcNPnWePqhX/3LDcycIMe3peHLQvBX
-   A==;
-X-CSE-ConnectionGUID: p9eFv1aiSDaRpg6O47iX4Q==
-X-CSE-MsgGUID: pIdfXkRPQM+BmPIvrR9N1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83920904"
+  bh=Nwr6p2btoMVc9PxTtEMeytZkSAEiea3p3QQgiv/1LH4=;
+  b=jVRH0YbN4hI7eYqzx7XUA4y+TEyS8kR8il9x8vS5yUOsqLnaOar74uIA
+   5l3XLqKy0CUvsz6rDJ+9p98o8AsVNsqku1LcuFlRdO/eRZyrtmV0CpY9M
+   c1z75SWv3uUVZ48Y12n2Pq/N/97y5HVb+oJCns3c+eJWwDkiwA772fk8A
+   UC0YdOPp8zBOVdc+12IBdsrKU5rOKvCmpS2X7bc0Uyl6Te1zhTNGuQJiJ
+   7KrM1AKKuJ55YCVVK+A39Ryl/cJ78WgEcBLynjboIPj0z6BoJiexrYp5R
+   O8A20HzOf5R6zJpWktbMKtkephuOTxLfLJBtEg0UWdueaqOZ10W5/gYgT
+   g==;
+X-CSE-ConnectionGUID: vlN5WLfOSHiZBSKhJCDo/g==
+X-CSE-MsgGUID: Q5sn7eUESsa01gdz/vNVUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="84129966"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="83920904"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 22:36:50 -0700
-X-CSE-ConnectionGUID: YYpF5ZoNQJafUfC5djXDOg==
-X-CSE-MsgGUID: 5y6XNOYMTquwJKJtrU2dHw==
+   d="scan'208";a="84129966"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 22:36:52 -0700
+X-CSE-ConnectionGUID: ht06xyQYRNyGsxL1Rxo+ig==
+X-CSE-MsgGUID: WMwASMqmRkWAzwzKB1fLtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="255557204"
+   d="scan'208";a="247222911"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Jul 2026 22:36:49 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 05 Jul 2026 22:36:50 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgc0a-00000000E6Z-2Pfi;
-	Mon, 06 Jul 2026 05:36:45 +0000
-Date: Mon, 06 Jul 2026 13:36:05 +0800
+	id 1wgc0c-00000000E6b-1Mcf;
+	Mon, 06 Jul 2026 05:36:46 +0000
+Date: Mon, 06 Jul 2026 13:36:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Kuo <rkuo@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@kernel.org>
-Subject: [bcain:bcain/qemu_upst 20/54]
- drivers/memory/pl353-smc.c:62:34: warning: unused variable
- 'pl353_smc_supported_children'
-Message-ID: <202607061331.uFgxkVmz-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.2-dango 169/215]
+ drivers/block/fitblk.c:185:27: sparse: sparse: incorrect type in initializer
+ (incompatible argument 2 (different base types))
+Message-ID: <202607061343.MU2bcds4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,53 +60,40 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Richard,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_upst
-head:   5e4bb1f393648d68ee1bcf780f3380dd8369e397
-commit: 5840f3f95efe43f7f01794b4445e2827f805fb69 [20/54] hexagon: update build system and Kconfig
-config: hexagon-randconfig-r122-20260706 (https://download.01.org/0day-ci/archive/20260706/202607061331.uFgxkVmz-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-dango
+head:   d19514df7d0958e914bdb3435ea4d64d2fc5766a
+commit: fded98d6b2974396d028a155643d0d49018fb1d4 [169/215] block: add uImage.FIT subimage block driver
+config: parisc-randconfig-r123-20260706 (https://download.01.org/0day-ci/archive/20260706/202607061343.MU2bcds4-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607061331.uFgxkVmz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607061343.MU2bcds4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607061331.uFgxkVmz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607061343.MU2bcds4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/block/fitblk.c: note: in included file:
+   include/uapi/linux/fitblk.h:10:33: sparse: sparse: no newline at end of file
+>> drivers/block/fitblk.c:185:27: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different base types)) @@     expected int ( *ioctl )( ... ) @@     got int ( * )( ... ) @@
+   drivers/block/fitblk.c:185:27: sparse:     expected int ( *ioctl )( ... )
+   drivers/block/fitblk.c:185:27: sparse:     got int ( * )( ... )
+>> drivers/block/fitblk.c:186:27: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different base types)) @@     expected int ( *open )( ... ) @@     got int ( * )( ... ) @@
+   drivers/block/fitblk.c:186:27: sparse:     expected int ( *open )( ... )
+   drivers/block/fitblk.c:186:27: sparse:     got int ( * )( ... )
 
->> drivers/memory/pl353-smc.c:62:34: warning: unused variable 'pl353_smc_supported_children' [-Wunused-const-variable]
-      62 | static const struct of_device_id pl353_smc_supported_children[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +185 drivers/block/fitblk.c
 
-
-vim +/pl353_smc_supported_children +62 drivers/memory/pl353-smc.c
-
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  58  
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  59  static SIMPLE_DEV_PM_OPS(pl353_smc_dev_pm_ops, pl353_smc_suspend,
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  60  			 pl353_smc_resume);
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  61  
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06 @62  static const struct of_device_id pl353_smc_supported_children[] = {
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  63  	{
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  64  		.compatible = "cfi-flash"
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  65  	},
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  66  	{
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  67  		.compatible = "arm,pl353-nand-r2p1",
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  68  	},
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  69  	{}
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  70  };
-fee10bd2267868f Naga Sureshkumar Relli 2018-12-06  71  
-
-:::::: The code at line 62 was first introduced by commit
-:::::: fee10bd2267868f2a3e7ba008ef7665aac5e4412 memory: pl353: Add driver for arm pl353 static memory controller
-
-:::::: TO: Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
-:::::: CC: Michal Simek <michal.simek@xilinx.com>
+   182	
+   183	static const struct block_device_operations fitblk_fops = {
+   184		.owner		= THIS_MODULE,
+ > 185		.ioctl		= fitblk_ioctl,
+ > 186		.open		= fitblk_open,
+   187		.release	= fitblk_release,
+   188		.submit_bio	= fitblk_submit_bio,
+   189	};
+   190	
 
 --
 0-DAY CI Kernel Test Service
