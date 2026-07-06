@@ -1,105 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9308F374A17;
-	Mon,  6 Jul 2026 13:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019663EB0EC
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 14:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783345310; cv=none; b=XDmVcFfJmgaypwD+8pr5I29OsOQy1Sv3513eZNyJgKMkaxtbnznfrWVinHPmx/CM/E4w3klRzC2pFdBsbMdfR7LF1YfceZz+vh7zverVzkDMK5+CMqV3x7bEiCBX1LG8xHK/u+Yq3LO3VZr/dj71FSGo5NWu83fcdLYb3k0rTw8=
+	t=1783348187; cv=none; b=PlILp3CPExGWJptrn19Q8CkaUpEIi1fLrSoAdKRDZkKMa1QfcElfLkuypvymbwfmX7BPxDwnXhzYZ9SB/VSyBPrbZS7bL0HbgrQvi+5/2kDpOq7HsyfjRKpoyjzFXyOpgk5Ou9c4mPuHEqQmP9RRckK2CKX7dWcjz43jPSHkoWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783345310; c=relaxed/simple;
-	bh=XuJVtHYOyGVQts0dQep90q4IAC2wlpJT9Ps5zVRCQW0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=r7PZykBE0Zxc/eTDzse9l0nxWVNg6ZFNaJSNBeNXm71QpO0bSKWZxNYxPXLcbUsnImSqruyHC+J8hQYArZ3dan2+iODGOEScP8Jf0A/PV+d2PqJqNK2MIb9ZTUNbJ+SJTOcLpl+Cf6RYH7OnPdXXRaTrZdYfVqnL0Y/2b15kGOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QdM2c3Go; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1783348187; c=relaxed/simple;
+	bh=JtKaZzovdHvnPNQrZ9DbvVpd62DLqFCt6RZ5asyXY9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=pVw2sXQVMg8wfa6UbzeSnOUkJfjCJlXD4H0/ZkqvNntrfuwbedlv5Ga/8O/fZubm3f6VLaBZe7NBDj0CyLRWNqV0XYJq/9dsJYKcPq7ROhTRxmUDm/tHgLG+d1RZyuJTW6Bx7GaSjWtDZ+6NLq5n7wq8Le+/J8kl3eLdyiciFko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gjBPS9dj; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdM2c3Go"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gjBPS9dj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783345308; x=1814881308;
-  h=date:from:to:cc:subject:message-id;
-  bh=XuJVtHYOyGVQts0dQep90q4IAC2wlpJT9Ps5zVRCQW0=;
-  b=QdM2c3Goa7eOxNseDJDL5sc3GAUXlJFU4oUZ8hwYXYPFKNhe/RCCC7Vh
-   3GqOM8f+DRReSTC4IIDyOuIpJ7XXJrIBNQV/nMox9UzfhYA4mDN6sUvD4
-   9fr323PoCb2QboQwBMfPDAwe88BR0kFs2xobrYPLyQJwLw3oywrOF2fZI
-   C0v0tXy3gQD8/HboNP+8AjVTXOfclvPp7gw5jJnxBLTVkYB2r7cRbyYd9
-   NY1L06X7FGH5fLRVC8O85h7ceuE+vwcUKjTCptoWS17jpEZSwSWwTey8L
-   I3pCLfsFj5KwM5fhNOWyNVh8MgPPVrtbzR6ASp3egrUDxvBYpK+KJqfu9
-   g==;
-X-CSE-ConnectionGUID: x6+P4yZHQ9+ADhte0b8MOw==
-X-CSE-MsgGUID: t6qUbDmcT6OX0lXbwZK4yA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83087176"
+  t=1783348186; x=1814884186;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JtKaZzovdHvnPNQrZ9DbvVpd62DLqFCt6RZ5asyXY9E=;
+  b=gjBPS9djN2PatfKIuIfS3dORp5P4xL2bSjWEmmr5JxF3z0rQkHk7l8dr
+   OvHq4togMg+IOBhkxL/rz7mNxt+iuTY2CS/BVKdmWvFAlD4c/QU4HbnXa
+   LJ0N6qKDr5KHsS+bx7uMgJULSKDiBrdBG9soJjKVGwoDROFmaZVOhJdPN
+   QGIbsWIVw/CyBjJ5q2P/yT0c2+z1MuNN1gxvsS96r6S85hwngJ2gsKkOQ
+   1cYjedwqr/2pOe5QI9vI5PK35qj+NjEA5Jb5tzx9nPrBNZIQmsiJRgI3t
+   3m17p0Oc8sVPqNic26fWEDgECU9KeR1yBi3botokLWCfVb51a0Unibir2
+   A==;
+X-CSE-ConnectionGUID: QhSwG/P2TWO6VAMgda/m1Q==
+X-CSE-MsgGUID: jkbMBRdNQyeZY699ByulqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="87900409"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="83087176"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 06:41:48 -0700
-X-CSE-ConnectionGUID: tCcSfpWxSAyBUWCJvTP05Q==
-X-CSE-MsgGUID: izO4/IjMTfS3msuXqrrQww==
+   d="scan'208";a="87900409"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 07:29:46 -0700
+X-CSE-ConnectionGUID: O2GW+e2mR1ST4LymiqBzBA==
+X-CSE-MsgGUID: 3FadV+OCQaaVRxxwbUlYBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="249267780"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Jul 2026 06:41:40 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="257309881"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 06 Jul 2026 07:29:45 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgjZq-00000000EP5-1Fn6;
-	Mon, 06 Jul 2026 13:41:38 +0000
-Date: Mon, 06 Jul 2026 21:41:00 +0800
+	id 1wgkKM-000000002EH-2BcA;
+	Mon, 06 Jul 2026 14:29:42 +0000
+Date: Mon, 06 Jul 2026 16:28:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [rppt:direct-map/v0 5/7] mm/vmalloc.h:41:26: error: call to
- undeclared function 'get_vm_area_page_order'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202607062104.DeqKFZxf-lkp@intel.com>
+To: Dileep Sankhla <dileepsankhla.ds@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: 
+ =?us-ascii?Q?[linux-review:Dileep-Sankhla/staging-media-atomisp-Drop-u?=
+ =?us-ascii?Q?nnecessary-else-block-after-return-break/20260706-183345?=
+ 1/1] checkpatch: WARNING:BLOCK_COMMENT_STYLE: Block comments should align
+ the * on each line
+Message-ID: <202607061616.pKnCleyc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git direct-map/v0
-head:   21effbca0418e549e468c2141da5ba1ef83f06fb
-commit: 741e3d404d2d11569c68f713ebd9345e283f8455 [5/7] mm/vmalloc: pull out set_direct_map into mm/vmalloc.h ...
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260706/202607062104.DeqKFZxf-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607062104.DeqKFZxf-lkp@intel.com/reproduce)
+Hi Dileep,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607062104.DeqKFZxf-lkp@intel.com/
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-All errors (new ones prefixed by >>):
+tree:   https://github.com/intel-lab-lkp/linux/commits/Dileep-Sankhla/staging-media-atomisp-Drop-unnecessary-else-block-after-return-break/20260706-183345
+head:   bcb903b3e43406ad5190218f6c9d98a63d22889b
+commit: bcb903b3e43406ad5190218f6c9d98a63d22889b [1/1] staging: media: atomisp: Drop unnecessary else block after return/break
+reproduce: (https://download.01.org/0day-ci/archive/20260706/202607061616.pKnCleyc-lkp@intel.com/reproduce)
 
-   In file included from mm/mm_init.c:38:
->> mm/vmalloc.h:41:26: error: call to undeclared function 'get_vm_area_page_order'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      41 |         unsigned int nr = (1 << get_vm_area_page_order(vm));
-         |                                 ^
-   mm/vmalloc.h:41:26: note: did you mean 'get_vm_area_caller'?
-   include/linux/vmalloc.h:247:26: note: 'get_vm_area_caller' declared here
-     247 | extern struct vm_struct *get_vm_area_caller(unsigned long size,
-         |                          ^
-   1 error generated.
+# many are suggestions rather than must-fix
 
-
-vim +/get_vm_area_page_order +41 mm/vmalloc.h
-
-    37	
-    38	static inline void vm_area_set_direct_map(struct vm_struct *vm,
-    39			int (*set_direct_map)(const void *addr, unsigned long numpages))
-    40	{
-  > 41		unsigned int nr = (1 << get_vm_area_page_order(vm));
-    42		int err = 0;
-    43	
-    44		for (int i = 0; i < vm->nr_pages; i += nr) {
-    45			err = set_direct_map(page_address(vm->pages[i]), nr);
-    46			WARN_ON_ONCE(err);
-    47		}
-    48	}
-    49	
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#455: FILE: drivers/staging/media/atomisp/pci/sh_css_params.c:4115:
++		/* A. Calculate dx/dy based on crop region using in_frame_info
++		* Scale the crop region if in_frame_info to the stage is not same as
 
 --
 0-DAY CI Kernel Test Service
