@@ -1,96 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364C7383C95
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 15:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4491A3A8FEE;
+	Mon,  6 Jul 2026 15:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783350974; cv=none; b=jXkx26HgvxpQYmyJGEtAodFBbhATVr9nRZYb3092z4Dxa6YWxTUqq7tjJ8/I4vVmLVx+MdRo/Ed/hOAA/d5HFP5t0zZiMgwGXp4h/NhrLhsbPRc//wCe35ljQQlrkVqYHqpDc1KwAlzUP+eGOrAEvdBa1NSdo9W45ZtkLm8a8Jg=
+	t=1783351714; cv=none; b=IDinFWV0gvxH1UWD2ubaHRc8oIcXLZqkBr0+mnqaJZcZeUOuBY0GaUcCZokOMjpIffNrt63Ru315bhPFm2tkPIj2U65IBPOWjGW6KQ364zAAw57aCKDE5JZY1FCRavnkJtIYggJ/V6hRJ8Beu2l4Z8tLkWe/pFMB7m3qNoDM7vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783350974; c=relaxed/simple;
-	bh=WOtWgPybXnT/xZm4SwLOipnGNoY1INkhI3y6TculfRc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UaOJAomZ8arfd3rpR2L6xPqxGVKFuEDsrxBMLnepeGe0HzpdEJQ7Bc+dFKsseOj9/NFiw/hUFlyn/axr/JA3B3eQUg5K09BhV65kEXsU/Do45K8bqhc0ElrnVhXXniRBR/ThcGxFDypxn26n9ox+LVphHbUhWA7P+hkI5ByNlx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EivdWmgj; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1783351714; c=relaxed/simple;
+	bh=Kx0R10CEtuT7dVwxzZnlGtk8d2BtAd7kwxR4Q9KdOp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=odPRdKtBMbzUI1Im09Tp36TIjXltTp/KdF/30UtoUUjc4zCsj555XgXNW/z53BnMeLDQEjNnyCnsIfafCzHA+ANHO9ABL+bYBSB/FUUr/WRV2SliojAHa+4JFhSFQWeq2TNX7U+U6bp6HKKUoNRBwgwMhL0jTHyOjWvbtVSWuBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SHPP5DuG; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EivdWmgj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SHPP5DuG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783350973; x=1814886973;
-  h=date:from:to:cc:subject:message-id;
-  bh=WOtWgPybXnT/xZm4SwLOipnGNoY1INkhI3y6TculfRc=;
-  b=EivdWmgj9FCcVwdZB+QEKckcISYR5bBYM2ch87GG70eETbYuVYoXIi9d
-   C3op0mVxJS++e7y28M80U6oE97vVTSOkrBX/OxK87SN1pCCnHKe8L27wz
-   qb2d4KJFEuGobTbu2xiCGYd6BGBpBjCbSe51zlEibD1ftf+p0GlNtyxhD
-   WQr1S5onsz7JCOiuG/6QMwjcosIvrRW4mB0dRYhL6ebnzu6tDGi2WNKjp
-   Vg/DB2OW70pJWgl61yy2tCo0wZQoB3KQ2ArRtIib8WLHwvkJaCKV+1wli
-   L7Eu9p/sNVUb3yYz1TECDxAga46qHUQoXgblsAGq8xjp0RPv6ZBLJVfzW
-   w==;
-X-CSE-ConnectionGUID: AvQ00OxRRPakNrPLIZpVVQ==
-X-CSE-MsgGUID: BShsfyt1TEGCgYo1mRBETA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="84079245"
+  t=1783351712; x=1814887712;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Kx0R10CEtuT7dVwxzZnlGtk8d2BtAd7kwxR4Q9KdOp0=;
+  b=SHPP5DuGhwk3dNMtOkXB+K0b7yop4CuRWyw808+Q93eYU447i5nDjANl
+   vpSu81HAoUgfq+/FO8QMzm0HWCYOMVVkAJHY04mAfz/Ws4TCZi655t9KJ
+   N+v/ZQTPOW7O/o1zGm8wsIjk9QSEHv+wlCloYKkU9/Sv/SZosz0syadiq
+   Ydumest/rdGGgsdd8WP7Dt22lhVPOmyvIDZ2/TZ2vFEKAJ37/xUqPZ478
+   uu0VMs3YbWxDwuxc0iaolBBdgNsVDCgvag9xGkFA/js8HYpRwIzA8niuY
+   DOUcFm1uhf+jSJ4Sf6KXf5vIuEP8kPxDankAKeAnQmwBPEkONMJNv+pGN
+   g==;
+X-CSE-ConnectionGUID: WGCAjOb4QIuLiCKgKjrHpw==
+X-CSE-MsgGUID: UldSrg+2QkGNuXcauzzPpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83760415"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="84079245"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 08:16:10 -0700
-X-CSE-ConnectionGUID: aVrBqcOXRWabS9koENGU3g==
-X-CSE-MsgGUID: cB/G1BcJTru14y/gR4et3w==
+   d="scan'208";a="83760415"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 08:28:32 -0700
+X-CSE-ConnectionGUID: qeSsvuFKQWW/DlBsmwRgrw==
+X-CSE-MsgGUID: Q8NX88hiSP+EOWE0QzcwWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="253274251"
+   d="scan'208";a="283833104"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 06 Jul 2026 08:16:10 -0700
+  by orviesa002.jf.intel.com with ESMTP; 06 Jul 2026 08:28:30 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgl3G-00000000EU3-2vM8;
-	Mon, 06 Jul 2026 15:16:06 +0000
-Date: Mon, 06 Jul 2026 23:15:18 +0800
+	id 1wglEt-00000000EUV-1S9t;
+	Mon, 06 Jul 2026 15:28:07 +0000
+Date: Mon, 6 Jul 2026 23:27:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Kuo <rkuo@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@kernel.org>
-Subject: [bcain:bcain/qemu_boot 24/66]
- arch/hexagon/kernel/hexagon_debug.c:5:5: sparse: sparse: symbol 'sample_u32'
- was not declared. Should it be static?
-Message-ID: <202607062224.avOJtkbw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jedrzej Jagielski <jedrzej.jagielski@intel.com>,
+	intel-wired-lan@lists.osuosl.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	Jedrzej Jagielski <jedrzej.jagielski@intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next v2] ixgbe: E610: force phy
+ link to get down when interface is down
+Message-ID: <202607062312.8lqgVLms-lkp@intel.com>
+References: <20260706094330.186341-1-jedrzej.jagielski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706094330.186341-1-jedrzej.jagielski@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
-head:   29facc8c3b3fe50f4914c90aec24a76217fa35c1
-commit: 8be2af9ea122e286ca475227495296847336bb9d [24/66] hexagon: add debug infrastructure
-config: hexagon-randconfig-r113-20260706 (https://download.01.org/0day-ci/archive/20260706/202607062224.avOJtkbw-lkp@intel.com/config)
+Hi Jedrzej,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tnguy-next-queue/dev-queue]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jedrzej-Jagielski/ixgbe-E610-force-phy-link-to-get-down-when-interface-is-down/20260706-180351
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20260706094330.186341-1-jedrzej.jagielski%40intel.com
+patch subject: [Intel-wired-lan] [PATCH iwl-next v2] ixgbe: E610: force phy link to get down when interface is down
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260706/202607062312.8lqgVLms-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607062224.avOJtkbw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607062312.8lqgVLms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607062224.avOJtkbw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607062312.8lqgVLms-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/hexagon/kernel/hexagon_debug.c: note: in included file (through arch/hexagon/include/asm/timex.h, include/linux/timex.h, include/linux/time32.h, include/linux/time.h, ...):
-   arch/hexagon/include/asm/hexagon_vm.h:51:5: sparse: sparse: undefined preprocessor identifier '__HEXAGON_ARCH__'
->> arch/hexagon/kernel/hexagon_debug.c:5:5: sparse: sparse: symbol 'sample_u32' was not declared. Should it be static?
->> arch/hexagon/kernel/hexagon_debug.c:8:5: sparse: sparse: symbol 'zebu_pmu_dump' was not declared. Should it be static?
->> arch/hexagon/kernel/hexagon_debug.c:9:5: sparse: sparse: symbol 'memory_debug' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/sample_u32 +5 arch/hexagon/kernel/hexagon_debug.c
+>> drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:7572:4: error: call to undeclared function 'e_error'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    7572 |                         e_error(drv, "Cannot set PHY link down\n");
+         |                         ^
+>> drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:7572:12: error: use of undeclared identifier 'drv'
+    7572 |                         e_error(drv, "Cannot set PHY link down\n");
+         |                                 ^~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8928:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    8928 |         cmd_type |= IXGBE_SET_FLAG(tx_flags, IXGBE_TX_FLAGS_HW_VLAN,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    8929 |                                    IXGBE_ADVTXD_DCMD_VLE);
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8918:26: note: expanded from macro 'IXGBE_SET_FLAG'
+    8918 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8932:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    8932 |         cmd_type |= IXGBE_SET_FLAG(tx_flags, IXGBE_TX_FLAGS_TSO,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    8933 |                                    IXGBE_ADVTXD_DCMD_TSE);
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8918:26: note: expanded from macro 'IXGBE_SET_FLAG'
+    8918 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8936:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    8936 |         cmd_type |= IXGBE_SET_FLAG(tx_flags, IXGBE_TX_FLAGS_TSTAMP,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    8937 |                                    IXGBE_ADVTXD_MAC_TSTAMP);
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8918:26: note: expanded from macro 'IXGBE_SET_FLAG'
+    8918 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8940:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    8940 |         cmd_type ^= IXGBE_SET_FLAG(skb->no_fcs, 1, IXGBE_ADVTXD_DCMD_IFCS);
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8918:26: note: expanded from macro 'IXGBE_SET_FLAG'
+    8918 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8951:19: warning: division by zero is undefined [-Wdivision-by-zero]
+    8951 |         olinfo_status |= IXGBE_SET_FLAG(tx_flags,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+    8952 |                                         IXGBE_TX_FLAGS_CSUM,
+         |                                         ~~~~~~~~~~~~~~~~~~~~
+    8953 |                                         IXGBE_ADVTXD_POPTS_TXSM);
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8918:26: note: expanded from macro 'IXGBE_SET_FLAG'
+    8918 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8956:19: warning: division by zero is undefined [-Wdivision-by-zero]
+    8956 |         olinfo_status |= IXGBE_SET_FLAG(tx_flags,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+    8957 |                                         IXGBE_TX_FLAGS_IPV4,
+         |                                         ~~~~~~~~~~~~~~~~~~~~
+    8958 |                                         IXGBE_ADVTXD_POPTS_IXSM);
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8918:26: note: expanded from macro 'IXGBE_SET_FLAG'
+    8918 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8961:19: warning: division by zero is undefined [-Wdivision-by-zero]
+    8961 |         olinfo_status |= IXGBE_SET_FLAG(tx_flags,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+    8962 |                                         IXGBE_TX_FLAGS_IPSEC,
+         |                                         ~~~~~~~~~~~~~~~~~~~~~
+    8963 |                                         IXGBE_ADVTXD_POPTS_IPSEC);
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8918:26: note: expanded from macro 'IXGBE_SET_FLAG'
+    8918 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8969:19: warning: division by zero is undefined [-Wdivision-by-zero]
+    8969 |         olinfo_status |= IXGBE_SET_FLAG(tx_flags,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+    8970 |                                         IXGBE_TX_FLAGS_CC,
+         |                                         ~~~~~~~~~~~~~~~~~~
+    8971 |                                         IXGBE_ADVTXD_CC);
+         |                                         ~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:8918:26: note: expanded from macro 'IXGBE_SET_FLAG'
+    8918 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   8 warnings and 2 errors generated.
 
-     3	
-     4	/*  Skeleton for stuffing stuff in debugfs  */
-   > 5	u32 sample_u32;
-     6	u32 kernel_strace;
-     7	u32 sig_debug;
-   > 8	u32 zebu_pmu_dump;
-   > 9	u32 memory_debug;
-    10	
-    11	
+
+vim +/e_error +7572 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+
+  7544	
+  7545	/**
+  7546	 * ixgbe_close - Disables a network interface
+  7547	 * @netdev: network interface device structure
+  7548	 *
+  7549	 * Returns 0, this is not allowed to fail
+  7550	 *
+  7551	 * The close entry point is called when an interface is de-activated
+  7552	 * by the OS.  The hardware is still under the drivers control, but
+  7553	 * needs to be disabled.  A global MAC reset is issued to stop the
+  7554	 * hardware, and all transmit and receive resources are freed.
+  7555	 **/
+  7556	int ixgbe_close(struct net_device *netdev)
+  7557	{
+  7558		struct ixgbe_adapter *adapter = ixgbe_from_netdev(netdev);
+  7559	
+  7560		ixgbe_ptp_stop(adapter);
+  7561	
+  7562		if (netif_device_present(netdev))
+  7563			ixgbe_close_suspend(adapter);
+  7564	
+  7565		ixgbe_fdir_filter_exit(adapter);
+  7566	
+  7567		if (adapter->flags2 & IXGBE_FLAG2_LINK_DOWN_ON_CLOSE) {
+  7568			int err;
+  7569	
+  7570			err = ixgbe_disable_phy_link(&adapter->hw);
+  7571			if (err)
+> 7572				e_error(drv, "Cannot set PHY link down\n");
+  7573	
+  7574			ixgbe_handle_link_down(adapter);
+  7575		}
+  7576	
+  7577		ixgbe_release_hw_control(adapter);
+  7578	
+  7579		return 0;
+  7580	}
+  7581	
 
 --
 0-DAY CI Kernel Test Service
