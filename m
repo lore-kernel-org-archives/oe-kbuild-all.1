@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1BA41F7CD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 12:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0086440A938
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 13:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783340160; cv=none; b=twm+wXx51JIyZTfZZVGpTRa0s72B4jo1oxRDIUpQCYtYrvlsQeM3+01A7erD/pQhzFdZt3h6Ctj1FGhkXKTBj9lAF9cibcpqTjJJBVQuCiem1ZwidCTdf7B4kVSeM3qametQlKLgmwwvF8grVJZaC7BkoXfctC+BhYGQ3jct8zI=
+	t=1783343952; cv=none; b=BXIIjb9PhjXAYroLmNT3pKNg+yQ8UC6fDeOqbqIU1sDOKmxzMSyJfsfHHzVY0ksPxdY1yiGXX6CJ1COGFBFK9ZWji+Cwm3WXFUXMDJ0/2sr5q/dLVgaaPyP7rYswjUCD6vfU9lrDowPk+nPdfC6Zzug/9mPNpTztMaSSg/pHCcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783340160; c=relaxed/simple;
-	bh=ny9/mbNR0nPQP29e9GF5BCK4u5ZPyuYtmZu6Nw2gMTA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JAoyh6M4bvMhxB+GomJFWmoLU3AeHJjm5D4pSgyu3A3jMSCSwL4UBNVDYJmFNm1vx3hBYsMSTbHMxEnNQXLocbjwbI6AHJcbaWtEHSmWNrsE9x/dvS/jTVl3WiYvMMdgAadtgJExNiEuWBO/ZjyVKK2kjQffuMF8NakW8lqtCTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eu9kmjEF; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1783343952; c=relaxed/simple;
+	bh=5br0P6LN6WY7H1me8+S2CC+NL0rWKdsdxjpvVbb367k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QIaauiFubXfvExuRhaScbW4iZFQWdCLuPupcpikdsu47UlPPUVoiAvC/gVF+GV8kK5uvwd1Bha1jFdtET6DyUZEJQ4dBFKJB+ssRZ6p9jDZROfCl4XSqT0l5xOWW0mRHtM/dwlPOyDDlkNNThIDlmkqEa+OtLpQfS3ISgE/gfoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUXwHZWz; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eu9kmjEF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUXwHZWz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783340158; x=1814876158;
+  t=1783343950; x=1814879950;
   h=date:from:to:cc:subject:message-id;
-  bh=ny9/mbNR0nPQP29e9GF5BCK4u5ZPyuYtmZu6Nw2gMTA=;
-  b=eu9kmjEFoyhkxTIj6cd2JhpocporU35ka70+ltEdpJaV3pgvaAj4Wvsc
-   ttkaUMntFK9yz2wtIEK1S/Ru3ULKzDrJzlzkPZ/wuBH5W7IyolJbbKL9D
-   TafUZ4VKJXgcqibUoen0aaxUlhe5hqiiCsBcOJpj/CgGaU2p3qOSG4FdD
-   JRTCDZpZT7LJZiTt6SWITJgnzLxLJ3yibt8CfLWEZU6xdj+gcjy33ElD+
-   1Izay6WQBAruD+7A0aHksZXy4fSfEiICNbniw0N46pBwr1RJYBZtitS+t
-   K0IdFhbEaBIDBTB7jYPWKdq8XuF7YxsSFPJjKQ5/rwnZnhHE80XDECHV/
+  bh=5br0P6LN6WY7H1me8+S2CC+NL0rWKdsdxjpvVbb367k=;
+  b=WUXwHZWzU9uYhkrZVoYXDr++3IENk1V6VhrrE3u4ZufmwRHeQxuJtG2A
+   kg4PTGC5J7tv1J0x78yjWMaCXGXjizH9/1fZxanHDpo03pTxX9h3oTyrT
+   jVEMeRbg50JAAc8PISXcLZGnXJNfSCxjdVUtdY8qF8F6CNW+TTl5oFgnl
+   CJ/tzSjmEd51gGSK03QP30f3iJk+6rR9GZsvAO3NEtsMYRaljrg8xpwuK
+   7HtNB+/WLWIQyq420nr9YedLkaMWII6ZT3B6sbVoww4Aqr5Me5w79RCj7
+   iOvdbV2mDz+6+IYeJRQhB122BJk+KMQE6qjcdv/vL6DpeKe4PFl5OOeDY
    w==;
-X-CSE-ConnectionGUID: 4ioGArFiSuaOtZ1DX3F6CQ==
-X-CSE-MsgGUID: AzcEcy27RlGodjhnWwo6Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83744642"
+X-CSE-ConnectionGUID: lF9UAMCfTn6SB3BscJsWwg==
+X-CSE-MsgGUID: IgtgXz2wTCubUQZZoIjjTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="101522021"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="83744642"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 05:15:58 -0700
-X-CSE-ConnectionGUID: lqTaxcnQSwqtX6XyAnPwOw==
-X-CSE-MsgGUID: WDvaUl58SdKDKgKCdAa5VA==
+   d="scan'208";a="101522021"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 06:19:09 -0700
+X-CSE-ConnectionGUID: 9y+EjRD2TCC9iNOx4lkMgw==
+X-CSE-MsgGUID: UJKvpgoQRnWjkw+gXTo+Hg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="251964074"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Jul 2026 05:15:56 -0700
+  by orviesa006.jf.intel.com with ESMTP; 06 Jul 2026 06:19:08 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgiEq-00000000ELn-3rsw;
-	Mon, 06 Jul 2026 12:15:53 +0000
-Date: Mon, 06 Jul 2026 20:15:17 +0800
+	id 1wgjDx-00000000ENr-19og;
+	Mon, 06 Jul 2026 13:19:03 +0000
+Date: Mon, 06 Jul 2026 21:18:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Kuo <rkuo@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@kernel.org>
-Subject: [bcain:bcain/qemu_boot 20/66] make[4]: *** No rule to make
- target 'arch/hexagon/boot/dts/fpga.dtb', needed by
- 'arch/hexagon/boot/dts/fpga.dtb.S'.
-Message-ID: <202607061933.DX5LVMeR-lkp@intel.com>
+To: Brian Cain <brian.cain@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bcain:bcain/qemu_upst 27/54] make[4]: *** No rule to make
+ target 'arch/hexagon/boot/dts/qemu.dtb', needed by
+ 'arch/hexagon/boot/dts/qemu.dtb.S'.
+Message-ID: <202607062142.Ecx8vqIY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,22 +60,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
-head:   29facc8c3b3fe50f4914c90aec24a76217fa35c1
-commit: abe97c987224d2686550fd938cd15c284c1132c3 [20/66] hexagon: update build system and Kconfig
-config: hexagon-randconfig-r113-20260706 (https://download.01.org/0day-ci/archive/20260706/202607061933.DX5LVMeR-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_upst
+head:   5e4bb1f393648d68ee1bcf780f3380dd8369e397
+commit: 27e178c4dde2c2c32733818fbed3d1df5a00664b [27/54] hexagon: add minimal QEMU platform support
+config: hexagon-randconfig-r122-20260706 (https://download.01.org/0day-ci/archive/20260706/202607062142.Ecx8vqIY-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607061933.DX5LVMeR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607062142.Ecx8vqIY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607061933.DX5LVMeR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607062142.Ecx8vqIY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> make[4]: *** No rule to make target 'arch/hexagon/boot/dts/fpga.dtb', needed by 'arch/hexagon/boot/dts/fpga.dtb.S'.
+>> make[4]: *** No rule to make target 'arch/hexagon/boot/dts/qemu.dtb', needed by 'arch/hexagon/boot/dts/qemu.dtb.S'.
    make[4]: Target 'arch/hexagon/boot/dts/' not remade because of errors.
 
 --
