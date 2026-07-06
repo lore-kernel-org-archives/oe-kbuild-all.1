@@ -1,84 +1,124 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E6D3ACEE8;
-	Mon,  6 Jul 2026 03:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4BE3AE183
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Jul 2026 03:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783307925; cv=none; b=Cyh+sgTAsZS/aE0FnhJQDnylKJgnCd6YuTEWm/qzg9nK+Ex60qCFTUWvVqZo58TlDKiMFeZGG/fJj+o6mYA8dn0BUAbmrRP2ElIob4qZLAA+Xj/HlWy/OBfNfXDhKkyoW+3bPVVXYLegndEqZXiplgAWsVzfe9LdDaP9c6J9n1k=
+	t=1783309881; cv=none; b=MYg22Pv2QHuQNMlTJ2GDrk1N2d4C+Gew0GVshE5v6/jwFMDAlWyKM23SoKVNTB8QfJ9ypiKptFsbpWleTS6ijFyK+7SdB9OmpzHGyPTkWTAkydndi0Lckee9II3vXD3ygcMSHjXDjCFnIwBh1k+clMbezejjev0nWyZE+VuE0pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783307925; c=relaxed/simple;
-	bh=40ixRCEZTFWYVs2Yo4hM7xFHleu514OT2+i8DMge1mY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BgS59/lTTQWCfXnfZKMLsDt5Q47i2pqmojo9Puo+QK9ggmhLsLrhJXxytq0Bsk2GL1X6gouy4nzo/f5RyUbT6Qjf4dzmj3fW5meIsc9L/e34XdRsX80zvr7md1xhozx939I4huwBzYp29cEv4K5ctbj997WTKjiZDhBJBfB+V5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=Sd4/JLog; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1783309881; c=relaxed/simple;
+	bh=cq5g6da2CYHkUoRG2vKi66RSihnCqh6yinnIylFuw8I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ea6reZhsfu76lpziIRYzBi2rXjsJ+i6PYOwDdujvKspszAuBRyxaAAKMy25c/K1ydquZlUZtAw67FkewC7wHl9Rzg2X+mBgwi2E3M13X0UVWlTEMz1SXCtjcvKSu44dcwGYupJrvG1l4wBILWPHVUxLQQ8MDoFpKMA5s3IQ1SIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVj/xl6V; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="Sd4/JLog"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6663IbyvE128843, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1783307917; bh=+ULaIwdZ2hsy2OF/beB1qypgqqSSKUvyEe1y3pvbSPc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=Sd4/JLogSIYk1CPkQqJHvXz+TNYmeZGuWH3G7cqqq7vyEPiPU3N13K3M6PqfOHmGo
-	 NExmeUjxZ7FYZHsMjts2mU3tcsiXdvTfzLxFTj2d4e2Zf0VYKslHN5DilHs04d6JnD
-	 lJyE6XmZPaiJjx+GKechiGjfgsnvpsORjpBShdKmlHt51acFmEeB802mrwpxn8XQ7c
-	 QurJCY3NwSeRyY2npGJz1hpvqBLwXNjnDR6QUP8BUkIS5KAWQZ+sKjuLoeArPaey2m
-	 XudcpPPZEw8rTFScJ4LYAVMe6mVK6C74i71LWk/CwPuKfOEn3NXS13CKos10hjboCO
-	 RKTqZxpQA346Q==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6663IbyvE128843
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 6 Jul 2026 11:18:37 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 6 Jul 2026 11:18:37 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::e6fd:5a3f:8946:92c4%10]) with mapi id
- 15.02.2562.017; Mon, 6 Jul 2026 11:18:37 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: kernel test robot <lkp@intel.com>, DeanKu <ku920601@realtek.com>
-CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: RE: drivers/net/wireless/realtek/rtw89/coex.c:7957:51: warning:
- overlapping comparisons always evaluate to true
-Thread-Topic: drivers/net/wireless/realtek/rtw89/coex.c:7957:51: warning:
- overlapping comparisons always evaluate to true
-Thread-Index: AQHdCya8oqz6FyY9mk+eniyHuOl4S7Zf1cIA
-Date: Mon, 6 Jul 2026 03:18:37 +0000
-Message-ID: <7ae6279570514de596f7939c93d7bb2a@realtek.com>
-References: <202607032153.rVIyuBbI-lkp@intel.com>
-In-Reply-To: <202607032153.rVIyuBbI-lkp@intel.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVj/xl6V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783309878; x=1814845878;
+  h=date:from:to:cc:subject:message-id;
+  bh=cq5g6da2CYHkUoRG2vKi66RSihnCqh6yinnIylFuw8I=;
+  b=lVj/xl6Vjc4Z4iOCr+ETvrUXxqLf2coNTCpwjfQ8kidabioBxW4cTptv
+   CVEq9jfGx0KVF1eorjUjzm9EmFecC51V9YX22GqyutVeHdQQDUu9XBnuD
+   TqSKOPkHlbP7jixNUeuqM9g3RuFZ4obOxImwlCFn7huc3VEdjnUTOdhgs
+   gwa4VjFEf+D0lBzRpDdznO2pnbPz/ykd8Ig4jHJ5BbGA5waPrpz+5vchq
+   ZRXdPELbt3yoR0fiG991jKLfYgMwt1L0+J9AUzTe+8EyVVfD7nGqCVy9d
+   OJDj5dTlVYqyEwiWBCMolsigDqcp84tOMYuPEPHK88Fc+BHrB8DiRYEDB
+   Q==;
+X-CSE-ConnectionGUID: khKHLDZbSD6duD+SFxsSCQ==
+X-CSE-MsgGUID: G3jOb5b2SZKQkZGUnt1PXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="83985114"
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="83985114"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:51:17 -0700
+X-CSE-ConnectionGUID: WYdCogIdTnGRty/vAL20mQ==
+X-CSE-MsgGUID: 9vaIUU78Rz6pdQIO53qFvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="249150231"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 05 Jul 2026 20:51:16 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wgaMT-0000000025R-3ROv;
+	Mon, 06 Jul 2026 03:51:13 +0000
+Date: Mon, 06 Jul 2026 05:50:52 +0200
+From: kernel test robot <lkp@intel.com>
+To: Dan Williams <djbw@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: ./include/linux/pci-tsm.h:190:27: error: 'struct pci_dev'
+ has no member named 'ide_cap'; did you mean 'devcap'?
+Message-ID: <202607060515.wyuwMYg6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
 
-kernel test robot <lkp@intel.com> wrote:
->=20
-> >> drivers/net/wireless/realtek/rtw89/coex.c:7957:51: warning: overlappin=
-g comparisons always
-> evaluate to true [-Wtautological-overlap-compare]
->     7957 |                 if (wl->role_info.link_mode !=3D BTC_WLINK_2G_=
-MCC ||
->          |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~^~
->     7958 |                     wl->role_info.link_mode !=3D BTC_WLINK_25G=
-_MCC ||
->          |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
+tree:   https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/netlink-specs-Introduce-multi-message-blobs-for-SPDM/20260706-061114
+head:   7b0e3368e5752b280b3e103dc5c66344b4127b08
+commit: 75a7f7785a2652c0a4cf4a34ed858dfd556f62fb PCI, device core: Add private memory access for DEVICE_TRUST_TCB
+date:   6 hours ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260706/202607060515.wyuwMYg6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607060515.wyuwMYg6-lkp@intel.com/reproduce)
 
-Fixed by v2 [1]. Thanks.=20
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607060515.wyuwMYg6-lkp@intel.com/
 
-[1] https://lore.kernel.org/linux-wireless/20260706025445.18428-1-pkshih@re=
-altek.com/T/#t
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/pci/pci-driver.c:22:
+   ./include/linux/pci-tsm.h: In function 'is_pci_tsm_pf0':
+>> ./include/linux/pci-tsm.h:190:27: error: 'struct pci_dev' has no member named 'ide_cap'; did you mean 'devcap'?
+     190 |                 if (pdev->ide_cap || (pdev->devcap & PCI_EXP_DEVCAP_TEE))
+         |                           ^~~~~~~
+         |                           devcap
 
 
+vim +190 ./include/linux/pci-tsm.h
+
+aec427df4c0da0 Dan Williams 2026-07-05  166  
+3225f52cde56f4 Dan Williams 2025-10-31  167  /* physical function0 and capable of 'connect' */
+3225f52cde56f4 Dan Williams 2025-10-31  168  static inline bool is_pci_tsm_pf0(struct pci_dev *pdev)
+3225f52cde56f4 Dan Williams 2025-10-31  169  {
+3225f52cde56f4 Dan Williams 2025-10-31  170  	if (!pdev)
+3225f52cde56f4 Dan Williams 2025-10-31  171  		return false;
+3225f52cde56f4 Dan Williams 2025-10-31  172  
+3225f52cde56f4 Dan Williams 2025-10-31  173  	if (!pci_is_pcie(pdev))
+3225f52cde56f4 Dan Williams 2025-10-31  174  		return false;
+3225f52cde56f4 Dan Williams 2025-10-31  175  
+3225f52cde56f4 Dan Williams 2025-10-31  176  	if (pdev->is_virtfn)
+3225f52cde56f4 Dan Williams 2025-10-31  177  		return false;
+3225f52cde56f4 Dan Williams 2025-10-31  178  
+3225f52cde56f4 Dan Williams 2025-10-31  179  	/*
+3225f52cde56f4 Dan Williams 2025-10-31  180  	 * Allow for a Device Security Manager (DSM) associated with function0
+3225f52cde56f4 Dan Williams 2025-10-31  181  	 * of an Endpoint to coordinate TDISP requests for other functions
+3225f52cde56f4 Dan Williams 2025-10-31  182  	 * (physical or virtual) of the device, or allow for an Upstream Port
+3225f52cde56f4 Dan Williams 2025-10-31  183  	 * DSM to accept TDISP requests for the Endpoints downstream of the
+3225f52cde56f4 Dan Williams 2025-10-31  184  	 * switch.
+3225f52cde56f4 Dan Williams 2025-10-31  185  	 */
+3225f52cde56f4 Dan Williams 2025-10-31  186  	switch (pci_pcie_type(pdev)) {
+3225f52cde56f4 Dan Williams 2025-10-31  187  	case PCI_EXP_TYPE_ENDPOINT:
+3225f52cde56f4 Dan Williams 2025-10-31  188  	case PCI_EXP_TYPE_UPSTREAM:
+3225f52cde56f4 Dan Williams 2025-10-31  189  	case PCI_EXP_TYPE_RC_END:
+3225f52cde56f4 Dan Williams 2025-10-31 @190  		if (pdev->ide_cap || (pdev->devcap & PCI_EXP_DEVCAP_TEE))
+3225f52cde56f4 Dan Williams 2025-10-31  191  			break;
+3225f52cde56f4 Dan Williams 2025-10-31  192  		fallthrough;
+3225f52cde56f4 Dan Williams 2025-10-31  193  	default:
+3225f52cde56f4 Dan Williams 2025-10-31  194  		return false;
+3225f52cde56f4 Dan Williams 2025-10-31  195  	}
+3225f52cde56f4 Dan Williams 2025-10-31  196  
+3225f52cde56f4 Dan Williams 2025-10-31  197  	return PCI_FUNC(pdev->devfn) == 0;
+3225f52cde56f4 Dan Williams 2025-10-31  198  }
+3225f52cde56f4 Dan Williams 2025-10-31  199  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
