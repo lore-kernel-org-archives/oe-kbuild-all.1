@@ -1,87 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84943A0EB8;
-	Tue,  7 Jul 2026 09:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783416914; cv=none; b=F5QrkzfqD/AsEaOSebfzXhPaUxkj1wgmKQy1Lc0xKBA+lPL03b8+VMovw8GWxIUfey9Z6ou07lruDIHuqh1yw5PUESOkRaxpk/mN38+PPwPYrfcSiu6gfKqkYUirs2XtEAF57L5tDtGPD2H3hVQD6qEIG9fBTWOG/iWbWKBi9Tk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783416914; c=relaxed/simple;
-	bh=zh6bfRZDR21O0hQCv9y1kWHf08ejX5KBHXPErVczrlA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iPexK9AS+WqGzlyZptcu74QY81fNalo8+bZSJLJrRcRkDfNysW13WPumRRrlCavl4MRpW/78008xi4isWqhyfPtrqvEcCPEoFnBNItq9XpKdyV3hNYDR5E2/anHCu3ttgNQjALhblUZn3VVDORM34p9oPmDJMkuW919JUR8Xy98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WRNvHVBI; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7008B37D12E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 11:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783424652; cv=pass; b=kA60W6KRMVjw5yQUKWR6+CGg9jaT6zuP//WvspUt83rbpunLbmgUvtlovt7Ni5bK34rBn1JGE4iZjIjR16y91Z0hEA1iTK12xn57QYxNDw/q1JHy/Vm2gFvhOTbS4jNRZDmelXWuMIxHvUZcbweTq4HC5YreXMhezhCuiJdQO3o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783424652; c=relaxed/simple;
+	bh=67hEAJ0W8TbXP17az7LLoVoZORX8tOcszaeupEwlAiY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=geZkqFIc4I4T9jcbVBMIJpEpg2D33SIf2RW4LlsuaadNgqdnncJ26P9EEQz5orarzw5awAyAZyeVxRLrVwPedkLGWPn5VCtoVcFbehlXIkNiljpmII9ZIijcvGAoNrs5NgApiPmnLT+hV60VtDGhjNyk0Zpq4ejXobjv6E8MtzQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VZt14qAn; arc=pass smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WRNvHVBI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783416913; x=1814952913;
-  h=date:from:to:cc:subject:message-id;
-  bh=zh6bfRZDR21O0hQCv9y1kWHf08ejX5KBHXPErVczrlA=;
-  b=WRNvHVBIH84/QlJwjBVIj43LZ5qEuv6D8B1+21Ds2NktoQhKiyBJfF+C
-   r4PQPH/x15RL/HOjBXf/u48Qk0tXE4xJ2n2zhDHFueisfhEJ8dAzTViEb
-   2OXVT/Gx/6XERwpGlsTPdldXOWEdrRONSiq9najyY1z/1nLWff8MLMBB1
-   zv3PonEKRh931fz43CfL9qyEfZ5nV1AdotospIfYcJV32MCVoEn6lAGzn
-   s/GWmrB1pISvc0Cy0usmJ7JT0ltIamzBJfTx0mJPfNFfMbpWFQF43Bc4Q
-   NAgIxEUpp6KqecxfYnkI45R2WFwvvJ3UTjGg0iqZTAShB26AQhDw0/3GO
-   g==;
-X-CSE-ConnectionGUID: APrcuUEAQImY1ckJrEqwzw==
-X-CSE-MsgGUID: CH7LHCVXQfS2hF+II4ITNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="71580926"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="71580926"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 02:35:12 -0700
-X-CSE-ConnectionGUID: LaDsnf7jTqKJ+07SmPCEUA==
-X-CSE-MsgGUID: IkVccCUeSOiKf12FJp4rRg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="278319047"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Jul 2026 02:35:10 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wh2Cq-00000000FCf-1kS4;
-	Tue, 07 Jul 2026 09:35:08 +0000
-Date: Tue, 07 Jul 2026 17:34:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jan Polensky <japo@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Alexander Gordeev <agordeev@linux.ibm.com>
-Subject: warning: unstable feature specified for `-Ctarget-feature`:
- `backchain`
-Message-ID: <202607071750.4f5d6hPj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VZt14qAn"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7dbcb505578so35418407b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Jul 2026 04:44:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783424650; cv=none;
+        d=google.com; s=arc-20260327;
+        b=l89bzBRI7C9Fs+Rdwd8lLNcwsBFBq5Uo1Q+egMWlb0Rx1ifuKcQmF5NK0Dw/07hEzu
+         y+mSmcNki/7REZehAUGGX8JnaLT8dAg1Z8w2PHXZTS2oJm9/MeYeZ7nUbqDnJE2OwNxi
+         p+JWxAlw1QtlXrV+k5pkC9VKhN6GKj5DhRP98ZMOiSupPpeFNFwUfHAha8vXvlViwqLf
+         ok36wA83okye/PgoSm2rYgKbIpp08T1S8M1drPADL2iGSZnS639+vTeDQT7inoRhEqNj
+         7qwqkp/ePuTp1g9gcxf/YFGjWDAh3vC2D2cO0jco+Cp/SNuPbqjU8n9gym9ZQ3gG/eBe
+         0DyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=67hEAJ0W8TbXP17az7LLoVoZORX8tOcszaeupEwlAiY=;
+        fh=Gc5aODKx7OWJKG1z9QciE0//S9VTp0DmGXO7HklMpoo=;
+        b=VR6AyLUVAFD9QKxmiCboddfiDxo9s16dtWzEOydDqVxMX5mIihIqmRxwjT2GJOx78L
+         TOlVsHJ34FYkt+Cz7giE9N8YHu3PW4IQ79B6KCUtqvRXTkWLXGO+PkzYwWHxJuMCcdHF
+         QYtyZyukriIOLeWrXoq6rLSIITRL1YTdqHXXGrlSvYYHJA9Ofbxd5OMHSUKSKiDm4pU7
+         71gqzW52kAsonDXKjwQnsdb73n+Dys1i3ER3QG7LnuvMdvhOh+C3pl8ZtwOW21MnYv1R
+         SVI8z/3WZ6X05ZmOG63+0WL7i+o6Pxx71xpL2gAqIvYa7FsmR+6qkFYyRmIJbiPMHkX/
+         FwEQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783424650; x=1784029450; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=67hEAJ0W8TbXP17az7LLoVoZORX8tOcszaeupEwlAiY=;
+        b=VZt14qAnjTH/rG1xtpu7haVLOErUg3n4Nufo37Tq4rd4tlsCxbwMqH6COUfpe3JBYp
+         gcX/fBy3nwLz5RoWMq7EPdiSVZD80abNl1jXtZ0bM1ovEKp+U1kT9NZQD8sbtAJKoWeE
+         l3MVvpDBJ1g4wu7vnGCZdIf+/Zf15TjfcIbWnsBQe0J0OKpbBA6+nrSUN4ogyVOeUeuN
+         Z7gMwdlkhNpLITXA/GejPoN6l3aRDGhJIWM6XcPVzkJsCVTz+V5zlwu7WEsekI3+MwCJ
+         JL/pIm7s6SilRLMusq7im5SxPGlX20EPuHmM8EuI5A7EA1tj7Dgj0l9OXpAyVTx5GGOc
+         RsUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783424650; x=1784029450;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=67hEAJ0W8TbXP17az7LLoVoZORX8tOcszaeupEwlAiY=;
+        b=gZNlyHri/LIHbJcOskojqhRAohyrA1OZ+iOn+6NDyOzfJcRdC7NpXZ/xSE1m033dKA
+         9J8jewhtITbrbvvmVOweb6OYEFbcnHxf6lcKz0+RNujTBYIy6CkzvOX6EuF+UzHKnZXz
+         Qk1HGKr6NgMNbOycPidN2fil7IlToy9iZuk9CO9TCeJl3U6B5+Es/qeNg1bRcoYPB1TY
+         lgOPS7ac4tcksuW3dGreXGL9oO9kGsBD4gt4XMNSHXrV7E3L6frhPTqTSQHryAB9BlLG
+         13iLIdS6Kh1pXRynSK0NqSKMiLwZrTO/9bUmwTR/1+a8anOyQbu7BKQC1PZhWgcOTjLh
+         52Cg==
+X-Forwarded-Encrypted: i=1; AHgh+RrI6/JoZTngzaHoS4o/wXwUrCqaawYc6wpmHZMzoLhXszCWy3im/YQoeFCUbhxAll9lzTLGFjvbr/iHd9Gu@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPEwwpj1yuqGCSUjhDp9kJHjYZFutmoI6NIDu1EnW+AmPkAMhz
+	yqTUbZ7lBXnutEqhbNoX7lVrXlJEc0WK4IigP2ncZD+SK0GFqRl4psMDMqAco5FvaMKvd2iyono
+	abj/QT8O76n9Anv9AZ7uOx65M4otlfsA=
+X-Gm-Gg: AfdE7cmdLIi2v7B9sctGhAauv7UUc2g1F4admd5DmgqpHrqi7/1sgjkiUFkb9vy+fkY
+	dzxb8BtR4syW9PcJHG3PMvLP+aTs8+CSFxA0xapL6Ekbk0AOjyG0k++jtORVPhwGR4mkBr0ECho
+	m3V4RTx1M280JwssRbG6ZraqccBMyEZiBtvHAGwvKGY3UZeq7aCtTJCgO/1ooJFI9FzJwbsIk4i
+	oJXMc2Os9MBVNkr1rW0I48i9rO/6YAoDhUA9iCC/UbFVRCPCWBqEcxwR5bmsjiEZpbymjhwCgba
+	NremXabOH+0/3jqoMuuACLj9mGIlAlKYeNVjIprsfrKWfB46EakN0Zp6xw==
+X-Received: by 2002:a05:690c:47c4:b0:81c:bd45:478a with SMTP id
+ 00721157ae682-81cbd455201mr8632077b3.41.1783424650492; Tue, 07 Jul 2026
+ 04:44:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260704084133.122053-1-christian.koenig@amd.com> <c575453f-d798-4745-b67d-4476825dfa64@amd.com>
+In-Reply-To: <c575453f-d798-4745-b67d-4476825dfa64@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 7 Jul 2026 21:43:58 +1000
+X-Gm-Features: AVVi8Ce7O0KwC_YSOIzySDPamgDjtTYnQvuH_iwtOUZsxhnymDAqU3HCRhQKPB8
+Message-ID: <CAPM=9tz38o_p--FGjgkcDCV43jwmbx_zYDyc8fyHKBteiHDRrQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/drm_exec: avoid indirect goto
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: mikhail.v.gavrilov@gmail.com, dri-devel@lists.freedesktop.org, 
+	amd-gfx@lists.freedesktop.org, peterz@infradead.org, jpoimboe@kernel.org, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
-commit: 3f70ebe638581e73c8df6b3fa7eed9b45d90b083 s390: Enable Rust support
-date:   4 weeks ago
-config: s390-randconfig-001-20260707 (https://download.01.org/0day-ci/archive/20260707/202607071750.4f5d6hPj-lkp@intel.com/config)
-compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607071750.4f5d6hPj-lkp@intel.com/reproduce)
+On Tue, 7 Jul 2026 at 19:11, Christian K=C3=B6nig <christian.koenig@amd.com=
+> wrote:
+>
+> Adding a few more people to comment and review.
+>
+> Thanks Mike for the pointers, going to add them to the patch before pushi=
+ng it to drm-misc-fixes.
+>
+> @Thomas, Maxime, Simona, Dave can anybody give me an rb or comment?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 3f70ebe63858 ("s390: Enable Rust support")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607071750.4f5d6hPj-lkp@intel.com/
+I don't like it, but I also don't think the thing it replaces was
+spectacular, so until we can figure out a nicer way let's go with it,
 
-All warnings (new ones prefixed by >>):
+Like I was wondering if putting the label in a macro would make it
+more explainable, but I don't think it would help much.
 
->> warning: unstable feature specified for `-Ctarget-feature`: `backchain`
-   |
-   = note: this feature is not stably supported; its behavior can change in the future
+Reviewed-by: Dave Airlie <airlied@redhat.com>
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dave.
