@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D69E42087C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 23:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753F421638D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 23:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783466091; cv=none; b=Ae8sDvSTy6nAK8rynKi8YcMBi4LVLar13wS1j1dKR4/1ehiEX1GR+xeOWq9PZqKf5qsg6CVI6Z97hArhUK5thpqKjCwWY219VonADHn8+ebnbq1Pbs2EuyWJQHUfa7/aeao5Yc2IO7Z3VZD++TgDuHvYLB10ovEX7mpg2BKGlMk=
+	t=1783466167; cv=none; b=qF3jweIcz9vdeA0rNZoYxvdIwkG5voJAYwaUjgaLgCJqrobLFOFVDJBdPu/DplJwA/7P9l8/eRsbkO1PCJRb2Y+QwqzExGl0PtD+nBy4GhPXkIrnUtcYGYL0+UbP7XG8NBwwilsqVM/Hz+Xe3EhpTvPZTGwgcVi9d53by0w/W1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783466091; c=relaxed/simple;
-	bh=Cfyi27CNEYczrb9LbWZWSmk9BPPkEVHckMP08M9X5/I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fE4vEUJ1xSY6/9cdl8VZukl413756h2JZOor2wOVms+1tHXmXiNcCF6looHMqssehoSXIlcE2Zzl/mGl4n0Ex+ksO9yDXeE8ucVQ9cNo1bdUkdq1LnDdMBzl7z0xUckaypy+lwaVNPF7nfMGKgd2wOO0A9gKmxxS4LV6vOArY0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+LzVabG; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1783466167; c=relaxed/simple;
+	bh=cpnEPG3PP+Gfe5H++1TYb4QQsNeO8yd5Hv7jV7HJl/o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GuuOnYRATyvPyLsnqo5oefgykkfF9Mrr7dBgw2c8srC+LH69CP84ZklOuJhYv+zqh7DyjzQ7CHIZ9hKHX6nzb+vzigKjrYkjHpkHw0O3Vngb6nXMxd8FTGglPS8aJzDxo1D2lYkxU2KxGmjAzx7L2XWvbP/z2nGjxf4scUcMdqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mqv5atK+; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+LzVabG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mqv5atK+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783466089; x=1815002089;
+  t=1783466165; x=1815002165;
   h=date:from:to:cc:subject:message-id;
-  bh=Cfyi27CNEYczrb9LbWZWSmk9BPPkEVHckMP08M9X5/I=;
-  b=c+LzVabG3DhhYFWALN9r3qOu4oifWyTGlvmV+cVa4VVn66LDb3J0ETLJ
-   ARr81tCF9W6TaMsGeZ/jitsqDlTxTsPGsDepd+2W4ZxSbPkek7d2ZmMjn
-   tYh+G+2cUCH6KycZA7aKgDVq2PIYThpVTlGr57bzsNPHSTs3JJsvqj4Iv
-   +qOurGlO/8vTyMfq7mhqbGPgH03y1PbOwpgfp7HFSowhPV1vFXDei2ktv
-   Q2KA1l/b1GyL4+o7xudjdGfVMIH5nhhwNJpZvPQTiOpgOb/U06C60fFrp
-   On0guv0vluw4+QFXQwTroFS3/FZMLoUQOgKYHWFIBxqXxqZq1/E7ojT4z
-   Q==;
-X-CSE-ConnectionGUID: cV8actxvQcqb1azu4cujTA==
-X-CSE-MsgGUID: B1GgOqtCSFmNscmLmyMDjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84317165"
+  bh=cpnEPG3PP+Gfe5H++1TYb4QQsNeO8yd5Hv7jV7HJl/o=;
+  b=mqv5atK++Zv3y2hm3tCXeCHAflDz9OS8hRzHKj/ZQD5W/RGkUR9IOmkD
+   hXhb9oyhXxpN17JGGeZkBr26LhXt/LCv2CXi7KxHcrIyhMbCyR1p+SsWA
+   mQERCvpr/23W7UhY986ONPFBYSN8CyjGMNcjkYRHXduTcOpunKVRqUPrh
+   uUc1gB2stzl1RT/Vw5eJD3GFaIyqPK23sMw64O50jguRXc8T1KVc6kDlv
+   3OSAhz5XaSM/ZYYOzPFft5q0OlyUkzY+jrnVShohfeo6zx8FVh25wyh5u
+   bU7zMtNe/hg0IJ+PmjHLvOxGP9rEPPTMAGK6OHNHNkCRsJQsv/7vsJW3E
+   g==;
+X-CSE-ConnectionGUID: oihW1jd5Tm6T2Y5OS+399Q==
+X-CSE-MsgGUID: aqq7ezZKQ+SsRNOZA4LuMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84096639"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="84317165"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 16:14:48 -0700
-X-CSE-ConnectionGUID: gPExAE+jT8OnIiDx1Od3rA==
-X-CSE-MsgGUID: Ox6r/K6aSW2oYPlGTTytBQ==
+   d="scan'208";a="84096639"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 16:16:05 -0700
+X-CSE-ConnectionGUID: pKj5cjvISki3M5lV4PDiBA==
+X-CSE-MsgGUID: tb1DElV0TFmKuSixK/KEKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="256046477"
+   d="scan'208";a="254773567"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Jul 2026 16:14:47 -0700
+  by orviesa009.jf.intel.com with ESMTP; 07 Jul 2026 16:16:04 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whEzy-00000000Fkp-3UhW;
-	Tue, 07 Jul 2026 23:14:43 +0000
-Date: Wed, 08 Jul 2026 07:14:17 +0800
+	id 1whF1C-00000000FlE-3T7Q;
+	Tue, 07 Jul 2026 23:15:59 +0000
+Date: Wed, 08 Jul 2026 07:15:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Subject: [avpatel:riscv_trace_support_v4 43/58]
- arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for
- 'sbi_mpxy_read_attrs'
-Message-ID: <202607080702.F6uDqahb-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:kvm-arm64-sme 4/30]
+ include/linux/kern_levels.h:5:18: warning: format '%llu' expects argument of
+ type 'long long unsigned int', but argument 2 has type 'int'
+Message-ID: <202607080736.WYo1RXif-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,101 +60,104 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v4
-head:   077795f92007de48afcaeab45f9e9217537966d8
-commit: d114c0cd70da2e1a20620050e0fa8e512b2d24c4 [43/58] RISC-V: Move common MPXY helper routines to arch/riscv
-config: riscv-randconfig-001-20260707 (https://download.01.org/0day-ci/archive/20260708/202607080702.F6uDqahb-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607080702.F6uDqahb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git kvm-arm64-sme
+head:   489202b3db0a02f59477f8ec63009dc3d998341f
+commit: b77633efe7c6ef49465e89432b3fd7d1541d3b3a [4/30] arm64/fpsimd: Decide to save ZT0 and streaming mode FFR at bind time
+config: arm64-randconfig-003-20260708 (https://download.01.org/0day-ci/archive/20260708/202607080736.WYo1RXif-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607080736.WYo1RXif-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607080702.F6uDqahb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607080736.WYo1RXif-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12,
-                    from arch/riscv/include/asm/kvm_host.h:25,
-                    from arch/riscv/kernel/asm-offsets.c:13:
->> arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     799 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:805:5: warning: no previous prototype for 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     805 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:811:5: warning: no previous prototype for 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     811 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:819:5: warning: no previous prototype for 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     819 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:826:39: warning: 'struct sbi_mpxy_notification_data' declared inside parameter list will not be visible outside of this definition or declaration
-     826 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:825:5: warning: no previous prototype for 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     825 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12,
-                    from arch/riscv/include/asm/kvm_host.h:25,
-                    from arch/riscv/kernel/asm-offsets.c:13:
->> arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     799 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:805:5: warning: no previous prototype for 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     805 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:811:5: warning: no previous prototype for 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     811 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:819:5: warning: no previous prototype for 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     819 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:826:39: warning: 'struct sbi_mpxy_notification_data' declared inside parameter list will not be visible outside of this definition or declaration
-     826 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:825:5: warning: no previous prototype for 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     825 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/instrumented.h:10,
+                    from include/linux/atomic/atomic-instrumented.h:17,
+                    from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:25,
+                    from include/linux/bitops.h:67,
+                    from include/linux/bitmap.h:8,
+                    from arch/arm64/kernel/fpsimd.c:9:
+   arch/arm64/kernel/fpsimd.c: In function 'fpsimd_save_user_state':
+>> include/linux/kern_levels.h:5:18: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 2 has type 'int' [-Wformat=]
+       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
+         |                  ^~~~~~
+   include/linux/printk.h:483:11: note: in definition of macro 'printk_index_wrap'
+     483 |   _p_func(_fmt, ##__VA_ARGS__);    \
+         |           ^~~~
+   include/linux/printk.h:544:2: note: in expansion of macro 'printk'
+     544 |  printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
+         |  ^~~~~~
+   include/linux/kern_levels.h:10:19: note: in expansion of macro 'KERN_SOH'
+      10 | #define KERN_CRIT KERN_SOH "2" /* critical conditions */
+         |                   ^~~~~~~~
+   include/linux/printk.h:544:9: note: in expansion of macro 'KERN_CRIT'
+     544 |  printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   arch/arm64/kernel/fpsimd.c:517:4: note: in expansion of macro 'pr_crit'
+     517 |    pr_crit("%llu %llu\n",
+         |    ^~~~~~~
+   arch/arm64/kernel/fpsimd.c:517:16: note: format string is defined here
+     517 |    pr_crit("%llu %llu\n",
+         |             ~~~^
+         |                |
+         |                long long unsigned int
+         |             %u
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/instrumented.h:10,
+                    from include/linux/atomic/atomic-instrumented.h:17,
+                    from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:25,
+                    from include/linux/bitops.h:67,
+                    from include/linux/bitmap.h:8,
+                    from arch/arm64/kernel/fpsimd.c:9:
+>> include/linux/kern_levels.h:5:18: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
+       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
+         |                  ^~~~~~
+   include/linux/printk.h:483:11: note: in definition of macro 'printk_index_wrap'
+     483 |   _p_func(_fmt, ##__VA_ARGS__);    \
+         |           ^~~~
+   include/linux/printk.h:544:2: note: in expansion of macro 'printk'
+     544 |  printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
+         |  ^~~~~~
+   include/linux/kern_levels.h:10:19: note: in expansion of macro 'KERN_SOH'
+      10 | #define KERN_CRIT KERN_SOH "2" /* critical conditions */
+         |                   ^~~~~~~~
+   include/linux/printk.h:544:9: note: in expansion of macro 'KERN_CRIT'
+     544 |  printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   arch/arm64/kernel/fpsimd.c:517:4: note: in expansion of macro 'pr_crit'
+     517 |    pr_crit("%llu %llu\n",
+         |    ^~~~~~~
+   arch/arm64/kernel/fpsimd.c:517:21: note: format string is defined here
+     517 |    pr_crit("%llu %llu\n",
+         |                  ~~~^
+         |                     |
+         |                     long long unsigned int
 
 
-vim +/sbi_mpxy_read_attrs +799 arch/riscv/include/asm/sbi.h
+vim +5 include/linux/kern_levels.h
 
-   798	
- > 799	int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-   800				u32 *attrs_buf)
-   801	{
-   802		return -ENODEV;
-   803	}
-   804	
- > 805	int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-   806				 u32 *attrs_buf)
-   807	{
-   808		return -ENODEV;
-   809	}
-   810	
- > 811	int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-   812					    void *tx, unsigned long tx_len,
-   813					    void *rx, unsigned long max_rx_len,
-   814					    unsigned long *rx_len)
-   815	{
-   816		return -ENODEV;
-   817	}
-   818	
- > 819	int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-   820					       void *tx, unsigned long tx_len)
-   821	{
-   822		return -ENODEV;
-   823	}
-   824	
- > 825	int sbi_mpxy_get_notifications(u32 channel_id,
-   826				       struct sbi_mpxy_notification_data *notif_data,
-   827				       unsigned long *events_data_len)
-   828	{
-   829		return -ENODEV;
-   830	}
-   831	
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
