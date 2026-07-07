@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFDF7081E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 03:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05E51DDC33
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 04:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783395911; cv=none; b=bZRxnTX1ISWvg1DPGI4ueY1HEs1fTQUC/oIy5+6TWlIuiTbqIuOaCdgm+uxnOgTz3jYPjTDQqvnaUAEMW3xoWxZeA8sPI2CoFi4cS4ZxdPCLP/tAIN9GJA5TplQtO4dn+Xs5LbGAERP98lnbXreLyrofU2UC8VJw+9knWv7E/so=
+	t=1783397310; cv=none; b=bcyHirS8peTAkf4FOqpmoHwe3QT80tTqsdQ0qLBVCJnFpZzT7HO6MSs0AoMnlDMxR5r1jzgYQX83ehr5p8oMiHQuZ3z2JcH59+Gm3P9yuNjZgQmhm8CUfcam+6UhCp1MOsfAKg2ZP+UuDyy1DMBx/ZQIt6GbHRwOtjtdrswHSvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783395911; c=relaxed/simple;
-	bh=qSjOCLZtQjW3ySyjPlYSJLazPvAWo1iRwHu9jV5VxXM=;
-	h=Date:From:Cc:Subject:Message-ID; b=Tc37IktapaK8kljFDEfKbYDxfDuT4kF10kStOtnwE/aSGh0AhJknMqhXl44SBZTFh/fgE60rmI2ycp8hOEuxGtGM2qPGCGe8OXaKFQuGNKaa+MzAwzy2NeZHsbdHYvJewGg3lZzvZcssrnmWkMWoUcATCz9+u3KQ7Oy/sVP/fHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CLIqSvDC; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1783397310; c=relaxed/simple;
+	bh=BkgKExhA+8f3svUKc+OZEZdzbRlII/nigVy1hSFY+AY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mtppw8ElUxxFBWYmWY8L72P5b95otHQyOy72EtCcHuyJ2jztOaiP8BtxHWSzw7znl6rnD11OXeQl9ImbzM2Fw4jb+j+4NIVqkuS/y+NCE3Vt3YM8dhusOKjTgmo5toydBeoq7kkqxbFzDCj7ndillcP7OrAx81ZJWFdF8VMMGwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYh8p4gE; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CLIqSvDC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYh8p4gE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783395909; x=1814931909;
-  h=date:from:cc:subject:message-id;
-  bh=qSjOCLZtQjW3ySyjPlYSJLazPvAWo1iRwHu9jV5VxXM=;
-  b=CLIqSvDCgrEhyjJWaqsrOK5hjD3hCHgFcmVCDTRe+ryoP/2kgIJm1WXz
-   Wdjz9qev4ffkukU4rZGyd8KVkEaWg+r70QY5e7RYiY2CAF00vDEYMaBN9
-   sCwfvyBz+TuQLNZSSIlZTGnGheciwkmHs8AEcIW01pLpDUG6k62fKh/sl
-   x361GnR4uRHsNWCG3qRbuj2SFgaNji35/unu0kqEsTSEFZUdyb6++KDx4
-   f/CjXMVbmu0U81Kp2ITnJiHWooKdZH4KQKUhV3/csCXifPNXBeOHfAKsT
-   mbdAu2Vq1an/aSf/swPuukcdap0SZcVt6XqCTCyFjDs0wFGgCaXYrhI+o
+  t=1783397309; x=1814933309;
+  h=date:from:to:cc:subject:message-id;
+  bh=BkgKExhA+8f3svUKc+OZEZdzbRlII/nigVy1hSFY+AY=;
+  b=XYh8p4gEXrQANMv0y7knkvaDAWghVm23OBwbLTulUMKlYcViRd4C12Q7
+   Gx3P52JpUCzKs1ENhujGunw7l3Kg/NKRsD7vQQd3hCZPZadnfK7inHBWF
+   5I1kj/kgEXWzbtfsdN2Hw13PoNjN7uj73pox0i1BL+eUYTQdAqJERXHY2
+   cA0+HXVpynw5meJyiFocZq6W8EpU7dhi6hzXuVRhP5DpjpUZMviX8zeT5
+   leLszjl6lLz5oMnXgnpFScyMuXNSFZr3YMhoG61yZD5sUJb+NWyobyLRq
+   nEPmhTQQaMCt6goX8LeAx2ZFJaULUWXLgcItNkkhKYlRLvy7NJlL2YPeU
    w==;
-X-CSE-ConnectionGUID: dAD4P7FERSGS36EcOwp0jA==
-X-CSE-MsgGUID: KPHWZ0kYT/eE18bzMMHbjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="71557859"
+X-CSE-ConnectionGUID: FADJQrbWTHWtxM2DU/h5eA==
+X-CSE-MsgGUID: lhx3E/BOQ1+XAObnzJBfEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="87718217"
 X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="71557859"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 20:45:08 -0700
-X-CSE-ConnectionGUID: hUA5HeHdSR6/vAmxM5j7JA==
-X-CSE-MsgGUID: k17BHci6Tlmsqsa4Mgt7mQ==
+   d="scan'208";a="87718217"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 21:08:29 -0700
+X-CSE-ConnectionGUID: edb5gea0TlK3N3NhSUJmVg==
+X-CSE-MsgGUID: 2a4pJqrMSnW5+gROqF5Fkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="255811431"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Jul 2026 20:45:07 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="253976033"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 06 Jul 2026 21:08:27 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgwk4-00000000F1D-3ORQ;
-	Tue, 07 Jul 2026 03:45:04 +0000
-Date: Tue, 07 Jul 2026 11:44:43 +0800
+	id 1wgx6d-000000002SH-15Z0;
+	Tue, 07 Jul 2026 04:08:23 +0000
+Date: Tue, 07 Jul 2026 06:07:37 +0200
 From: kernel test robot <lkp@intel.com>
+To: Steve French <stfrench@microsoft.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.18/linux 1/1] error[E0432]: unresolved imports
- `core::sync::atomic::AtomicI64`, `core::sync::atomic::AtomicU64`
-Message-ID: <202607071113.GHdTtHVz-lkp@intel.com>
+Subject: [smfrench-smb3:pr/255 1/1] fs/smb/client/reparse.c:434:33:
+ error: too many arguments to function call, expected 8, have 9
+Message-ID: <202607070617.CHVxp8by-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,81 +59,91 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
-head:   5100e1c74efeba843945492f8d5840e6166c0392
-commit: f843be76420412fd987d9ec945fbd46a72fe095b [1/1] rust: kbuild: pass `-Zunstable-options` for Rust 1.95.0
-config: um-randconfig-001 (https://download.01.org/0day-ci/archive/20260707/202607071113.GHdTtHVz-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607071113.GHdTtHVz-lkp@intel.com/reproduce)
+tree:   https://github.com/smfrench/smb3-kernel.git pr/255
+head:   7ad4ba8846086dd14f26bed6dd56de6d0050dfb4
+commit: 7ad4ba8846086dd14f26bed6dd56de6d0050dfb4 [1/1] cifs: Create native Window socket file compatible also with WSL subsystem
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260707/202607070617.CHVxp8by-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607070617.CHVxp8by-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607071113.GHdTtHVz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607070617.CHVxp8by-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   scripts/dtc/dtc-lexer.lex.c:641:12: warning: variable 'dts_version' set but not used [-Wunused-but-set-global]
-   641 | static int dts_version = 1;
-   |            ^
-   1 warning generated.
-   scripts/mod/modpost.c:59:13: warning: variable 'extra_warn' set but not used [-Wunused-but-set-global]
-   59 | static bool extra_warn;
-   |             ^
-   1 warning generated.
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:29:
-   In file included from include/linux/cgroup_api.h:1:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-   |                                                   ~~~~~~~~~~ ^
-   1 warning generated.
-   In file included from rust/helpers/helpers.c:16:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-   |                                                   ~~~~~~~~~~ ^
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   1 warning generated.
->> error[E0432]: unresolved imports `core::sync::atomic::AtomicI64`, `core::sync::atomic::AtomicU64`
-   --> rust/kernel/debugfs/traits.rs:12:27
-   |
-   12 |     AtomicI16, AtomicI32, AtomicI64, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU64,
-   |                           ^^^^^^^^^ no `AtomicI64` in `sync::atomic`              ^^^^^^^^^ no `AtomicU64` in `sync::atomic`
-   |
-   help: a similar name exists in the module
-   |
-   12 -     AtomicI16, AtomicI32, AtomicI64, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU64,
-   12 +     AtomicI16, AtomicI32, AtomicI32, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU64,
-   |
-   help: a similar name exists in the module
-   |
-   12 -     AtomicI16, AtomicI32, AtomicI64, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU64,
-   12 +     AtomicI16, AtomicI32, AtomicI64, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU32,
-   |
+>> fs/smb/client/reparse.c:434:33: error: too many arguments to function call, expected 8, have 9
+     429 |                 tcon->ses->server->ops->set_EA(xid, tcon, full_path,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     430 |                                                true /* open reparse point */,
+     431 |                                                SMB2_WSL_XATTR_MODE,
+     432 |                                                &xattr_mode_val,
+     433 |                                                SMB2_WSL_XATTR_MODE_SIZE,
+     434 |                                                cifs_sb->local_nls, cifs_sb);
+         |                                                                    ^~~~~~~
+   1 error generated.
+
+
+vim +434 fs/smb/client/reparse.c
+
+   384	
+   385	static int create_native_socket(const unsigned int xid, struct inode *inode,
+   386					struct dentry *dentry, struct cifs_tcon *tcon,
+   387					const char *full_path, umode_t mode)
+   388	{
+   389		struct reparse_data_buffer buf = {
+   390			.ReparseTag = cpu_to_le32(IO_REPARSE_TAG_AF_UNIX),
+   391			.ReparseDataLength = cpu_to_le16(0),
+   392		};
+   393		struct cifs_open_info_data data = {
+   394			.reparse_point = true,
+   395			.reparse = { .tag = IO_REPARSE_TAG_AF_UNIX, .buf = &buf, },
+   396		};
+   397		struct kvec iov = {
+   398			.iov_base = &buf,
+   399			.iov_len = sizeof(buf),
+   400		};
+   401	#ifdef CONFIG_CIFS_XATTR
+   402		const __le64 xattr_mode_val = cpu_to_le64(mode);
+   403		struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+   404	#endif
+   405		struct inode *new;
+   406		int rc = 0;
+   407	
+   408		new = tcon->ses->server->ops->create_reparse_inode(
+   409					     &data, inode->i_sb, xid,
+   410					     tcon, full_path, false, &iov, NULL);
+   411		if (!IS_ERR(new))
+   412			d_instantiate(dentry, new);
+   413		else
+   414			rc = PTR_ERR(new);
+   415	
+   416		/*
+   417		 * Try to set also optional WSL EA $LXMOD but ignore errors.
+   418		 * WSL socket and native Win32/NT sockets uses same reparse point
+   419		 * tag IO_REPARSE_TAG_AF_UNIX. WSL subsystem additionally requires
+   420		 * EA $LXMOD to be set with the S_IFSOCK value. So setting this EA
+   421		 * allows native socket to be recognized also by WSL subsystem.
+   422		 * Note that setting of both EAs and reparse points is not supported
+   423		 * by NTFS filesystem on Windows 8 / Windows Server 2012 and always
+   424		 * fails. So ignore failures from this set_EA call.
+   425		 */
+   426	#ifdef CONFIG_CIFS_XATTR
+   427		if (!rc && tcon->ses->server->ops->set_EA &&
+   428		    (le32_to_cpu(tcon->fsAttrInfo.Attributes) & FILE_SUPPORTS_EXTENDED_ATTRIBUTES))
+   429			tcon->ses->server->ops->set_EA(xid, tcon, full_path,
+   430						       true /* open reparse point */,
+   431						       SMB2_WSL_XATTR_MODE,
+   432						       &xattr_mode_val,
+   433						       SMB2_WSL_XATTR_MODE_SIZE,
+ > 434						       cifs_sb->local_nls, cifs_sb);
+   435	#endif
+   436	
+   437		cifs_free_open_info(&data);
+   438		return rc;
+   439	}
+   440	
 
 --
 0-DAY CI Kernel Test Service
