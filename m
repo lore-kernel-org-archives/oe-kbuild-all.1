@@ -1,193 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF72D34B1A3;
-	Tue,  7 Jul 2026 18:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B5535898
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 18:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783449067; cv=none; b=i3lQceHsPob2KkSaz+Npvoub3812yr7NZIzYITjUevOj1OfKnNP1r/RLk6bar2FIBveKriueZVLBWX3bYZDFru7MN53XXy5kue3YztknKQtF2Zx1bv0nzTlqbtDSwKByVnWnmNJqcdn1GiPPR0pTnBnTw2U+oSWdxsZQAZAeWSA=
+	t=1783450185; cv=none; b=m6VbPJUL4KuLeE+7/VezAVAMCCrHvplPmsvrNQY7dlRUwqqLPnJJHVuZHbmt+ZYc9fQsoHt55YiIg6Gue6x/lCjInSUpwJ+LITHpoebTOliDzkKBV0haURNmsuvM70BvH/2kHdTIME/u5PsLtK5W2r8sSoxYs8Glwj0RIz9ONuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783449067; c=relaxed/simple;
-	bh=xyLiC1Mxei9/XpWir9Y65Ho+I8GXJyHl2yKOusLk7aE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Hr+KksDCKJx7aHmirOsRPZDRrnB85uSs+M4EwDVu2wV1WdXlWq0Cr0RooH4iuCE9+bj8yjdJEihXM0gJBUTzNuX64Eab0zBCgQtxI2H/RoQMrfz1QDiMj4DSbHVXhLQJqdF9eBqcFiZw+Vx6ySBlgnaP9ndQntpwrE0mweQOXLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8V2kOzl; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1783450185; c=relaxed/simple;
+	bh=oinqraJQYcV8zRs1ZaMbDIRCMLtDhRnZMUeGosn2rbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KGWtsQViAROyTj8VI022AdhmC0W7mMGZ4FOZ0EXTPlW2eNdGoYzRlvvOYbUfN0U46q8wxiAriyxv5zGEF/4CjK+uEmMUHlmvHhCNX1Zv+AHnj3nv+yp6QW1sO+sbpQ8htBhwAzP/vbzXSSoALek1ynfiVknVLjI/n2JYwsrBRBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nA4dwM8o; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8V2kOzl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nA4dwM8o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783449065; x=1814985065;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xyLiC1Mxei9/XpWir9Y65Ho+I8GXJyHl2yKOusLk7aE=;
-  b=N8V2kOzlbAfZhyBaPNTFV7lyR+JiYBgDKRs6cgnaYAf3vK+yt5c58cQL
-   qxgvg3sQeO6aSV1XKaFPzz2LGTbETQVt5CZK7uPPhHX4ZvoIUEcVxrBWl
-   vzftbAhIKBO6yF41O+3kvs7o4Ch8H7uR9T/P3hphBkLHe/IKDSkTWwZBO
-   ELMCxha6Q190GWjx31bZHbUbNRt9YOgxuN28hVbF+Ge6kaGD2Q65u+Ivn
-   tuEx1vQrkbnn9oZheMzXnA73BQq0dm9lEizLRvWOSSvrhWZELz81XjH/V
-   Hcb1aJPhazjj17EebDwdAMJz/SxHlG0YaeFuVNPa/hZrqyC8oUXYjj1nx
+  t=1783450184; x=1814986184;
+  h=date:from:to:cc:subject:message-id;
+  bh=oinqraJQYcV8zRs1ZaMbDIRCMLtDhRnZMUeGosn2rbQ=;
+  b=nA4dwM8o9wjNbXqXNcAxbFUGGCnYySkXOc1ZP4j7NzexSpifXzd1oMEt
+   /xL2lDT2Sh7aaOJrCHlDfWr2VrsOdTb4gbKB1sjsw0h9/OaxaAV22RZ93
+   V4NpS78ea8WHZSmonBL6iYo3ipGFh1lvZKfDYnWhRUWTx37qHzUdj20Mf
+   DBdsDdeDnE2R3CJzeMRA+qqqLfRYewDB8ce0eomvCT3YGPUnGQ6BRZo7l
+   ocbKKQ+Xc/b4EoYWeRdWikFxLfKmZ8hXdaFn1UKnVs68meVunbpxM2TDP
+   AIdhNhvEZaL/omVt3lDY6Ecrt8PPJV3oOtthjbdkT0xAqC8bhnj1dG/LK
    w==;
-X-CSE-ConnectionGUID: 8tLiP311RcGUFoOHwYySyg==
-X-CSE-MsgGUID: AZUxLALBQKSLqSJ4l2QiJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84161128"
+X-CSE-ConnectionGUID: 1ZMVpe5eRSmt08WUPnv4/A==
+X-CSE-MsgGUID: ziZrJZ3fQ5CfJ0f//hp/TA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="83085241"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="84161128"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:31:04 -0700
-X-CSE-ConnectionGUID: FhoXgeHTQK+QkePPK4aq7w==
-X-CSE-MsgGUID: VhU86E7PSGmQJoaAx920jw==
+   d="scan'208";a="83085241"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:49:43 -0700
+X-CSE-ConnectionGUID: K7W5G9clSkCNqLlW3AP7JA==
+X-CSE-MsgGUID: KTovbdegQ+aqDLHi7EHB6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="250713317"
+   d="scan'208";a="255992784"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Jul 2026 11:31:02 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 07 Jul 2026 11:49:41 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whAZP-00000000FZb-34Pm;
-	Tue, 07 Jul 2026 18:30:59 +0000
-Date: Wed, 08 Jul 2026 02:30:53 +0800
+	id 1whAqf-00000000FaE-2hxa;
+	Tue, 07 Jul 2026 18:49:01 +0000
+Date: Wed, 08 Jul 2026 02:47:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-sysfs 2/2]
- arch/x86/include/asm/asm-offsets.h:1:10: fatal error:
- 'generated/asm-offsets.h' file not found
-Message-ID: <202607080233.LnYBhKdu-lkp@intel.com>
+To: Sanghyun Park <sanghyun.park.cnu@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Puranjay Mohan <puranjay@kernel.org>
+Subject: [linux-next:master 4051/4300] kernel/bpf/task_iter.c:759:14:
+ warning: variable 'mmput_needed' set but not used
+Message-ID: <202607080254.6qrH5NrH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-sysfs
-head:   8ae6b40fd6f555925afd049732cb12e502f22a4d
-commit: 8ae6b40fd6f555925afd049732cb12e502f22a4d [2/2] vDSO, kbuild: Provide debug variants of vDSO at runtime
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260708/202607080233.LnYBhKdu-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607080233.LnYBhKdu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5c73cd9f0819c1c44e373e3dabb68318b1de1a12
+commit: 311e11cfbfbf3bf8030de95b831d5c45766b847a [4051/4300] bpf: Fix use-after-free on mm_struct in bpf_find_vma()
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260708/202607080254.6qrH5NrH-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607080254.6qrH5NrH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607080233.LnYBhKdu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607080254.6qrH5NrH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:1:
-   In file included from arch/x86/entry/vdso/vdso32/../common/vclock_gettime.c:11:
-   In file included from include/linux/time.h:6:
-   In file included from include/linux/math64.h:6:
-   In file included from include/linux/math.h:6:
-   In file included from arch/x86/include/asm/div64.h:8:
-   In file included from include/linux/log2.h:12:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/x86/include/asm/barrier.h:5:
-   In file included from arch/x86/include/asm/alternative.h:8:
-   In file included from arch/x86/include/asm/asm.h:130:
->> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
-       1 | #include <generated/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:1:
-   In file included from arch/x86/entry/vdso/vdso32/../common/vgetcpu.c:8:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/x86/include/asm/barrier.h:5:
-   In file included from arch/x86/include/asm/alternative.h:8:
-   In file included from arch/x86/include/asm/asm.h:130:
->> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
-       1 | #include <generated/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/entry/vdso/vdso64/vclock_gettime.c:1:
-   In file included from arch/x86/entry/vdso/vdso64/../common/vclock_gettime.c:11:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:5:
-   In file included from arch/x86/include/asm/processor.h:5:
-   In file included from arch/x86/include/asm/processor-flags.h:6:
-   In file included from include/linux/mem_encrypt.h:17:
-   In file included from arch/x86/include/asm/mem_encrypt.h:18:
-   In file included from arch/x86/include/asm/asm.h:130:
->> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
-       1 | #include <generated/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso32/vgetcpu.o] Error 1
-   In file included from arch/x86/entry/vdso/vdso64/vgetrandom.c:7:
-   In file included from lib/vdso/getrandom.c:12:
-   In file included from arch/x86/include/asm/barrier.h:5:
-   In file included from arch/x86/include/asm/alternative.h:8:
-   In file included from arch/x86/include/asm/asm.h:130:
->> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
-       1 | #include <generated/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/entry/vdso/vdso32/system_call.S:9:
-   In file included from arch/x86/include/asm/alternative.h:8:
-   In file included from arch/x86/include/asm/asm.h:130:
->> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
-       1 | #include <generated/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-   In file included from arch/x86/entry/vdso/vdso64/vgetrandom-chacha.S:7:
-   In file included from arch/x86/include/asm/frame.h:5:
-   In file included from arch/x86/include/asm/asm.h:130:
->> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
-       1 | #include <generated/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/entry/vdso/vdso64/vgetcpu.c:1:
-   In file included from arch/x86/entry/vdso/vdso64/../common/vgetcpu.c:8:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/x86/include/asm/barrier.h:5:
-   In file included from arch/x86/include/asm/alternative.h:8:
-   In file included from arch/x86/include/asm/asm.h:130:
->> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
-       1 | #include <generated/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:435: arch/x86/entry/vdso/vdso32/system_call.o] Error 1
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:435: arch/x86/entry/vdso/vdso64/vgetrandom-chacha.o] Error 1
-   In file included from arch/x86/entry/vdso/vdso32/sigreturn.S:5:
->> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
-       1 | #include <generated/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:435: arch/x86/entry/vdso/vdso32/sigreturn.o] Error 1
-   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso64/vgetrandom.o] Error 1
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso64/vgetcpu.o] Error 1
-   1 error generated.
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso32/vclock_gettime.o] Error 1
-   make[3]: Target 'arch/x86/entry/vdso/vdso32/vdso32.so.dbg' not remade because of errors.
-   make[2]: *** [Makefile:1551: arch/x86/entry/vdso/vdso32/vdso32.so.dbg] Error 2
-   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso64/vclock_gettime.o] Error 1
-   make[3]: Target 'arch/x86/entry/vdso/vdso64/vdso64.so.dbg' not remade because of errors.
-   make[2]: *** [Makefile:1551: arch/x86/entry/vdso/vdso64/vdso64.so.dbg] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   kernel/bpf/task_iter.c: In function '____bpf_find_vma':
+>> kernel/bpf/task_iter.c:759:14: warning: variable 'mmput_needed' set but not used [-Wunused-but-set-variable=]
+     759 |         bool mmput_needed = false;
+         |              ^~~~~~~~~~~~
 
 
-vim +1 arch/x86/include/asm/asm-offsets.h
+vim +/mmput_needed +759 kernel/bpf/task_iter.c
 
-559df2e0210352 Sam Ravnborg 2009-04-19 @1  #include <generated/asm-offsets.h>
-
-:::::: The code at line 1 was first introduced by commit
-:::::: 559df2e0210352f83926d178c40c51142292a18c kbuild: move asm-offsets.h to include/generated
-
-:::::: TO: Sam Ravnborg <sam@ravnborg.org>
-:::::: CC: Michal Marek <mmarek@suse.cz>
+   752	
+   753	BPF_CALL_5(bpf_find_vma, struct task_struct *, task, u64, start,
+   754		   bpf_callback_t, callback_fn, void *, callback_ctx, u64, flags)
+   755	{
+   756		struct mmap_unlock_irq_work *work = NULL;
+   757		struct vm_area_struct *vma;
+   758		bool irq_work_busy = false;
+ > 759		bool mmput_needed = false;
+   760		struct mm_struct *mm;
+   761		int ret = -ENOENT;
+   762	
+   763		if (flags)
+   764			return -EINVAL;
+   765	
+   766		if (!task)
+   767			return -ENOENT;
+   768	
+   769		if (task == current) {
+   770			mm = task->mm;
+   771		} else {
+   772			/*
+   773			 * Foreign task: pin task->mm against a concurrent exit_mm().
+   774			 * Use trylock on alloc_lock instead of get_task_mm()'s
+   775			 * blocking task_lock() to avoid deadlocking the target task.
+   776			 */
+   777			if (!IS_ENABLED(CONFIG_MMU))
+   778				return -EOPNOTSUPP;
+   779			if (irqs_disabled())
+   780				return -EBUSY;
+   781			if (!spin_trylock(&task->alloc_lock))
+   782				return -EBUSY;
+   783			mm = task->mm;
+   784			if (mm && !(task->flags & PF_KTHREAD)) {
+   785				mmget(mm);
+   786				mmput_needed = true;
+   787			} else {
+   788				mm = NULL;
+   789			}
+   790			spin_unlock(&task->alloc_lock);
+   791		}
+   792		if (!mm)
+   793			return -ENOENT;
+   794	
+   795		irq_work_busy = bpf_mmap_unlock_get_irq_work(&work);
+   796	
+   797		if (irq_work_busy || !mmap_read_trylock(mm)) {
+   798			ret = -EBUSY;
+   799			goto out;
+   800		}
+   801	
+   802		vma = find_vma(mm, start);
+   803	
+   804		if (vma && vma->vm_start <= start && vma->vm_end > start) {
+   805			callback_fn((u64)(long)task, (u64)(long)vma,
+   806				    (u64)(long)callback_ctx, 0, 0);
+   807			ret = 0;
+   808		}
+   809		bpf_mmap_unlock_mm(work, mm);
+   810	out:
+   811	#ifdef CONFIG_MMU
+   812		if (mmput_needed)
+   813			mmput_async(mm);
+   814	#endif
+   815		return ret;
+   816	}
+   817	
 
 --
 0-DAY CI Kernel Test Service
