@@ -1,206 +1,193 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A497188713
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 17:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF72D34B1A3;
+	Tue,  7 Jul 2026 18:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783444106; cv=none; b=tNQMrKQxYCJdfXrGAvJhDYEusED4akeh7R/GhR4wB7sGc2SoEKbtapxpJp9xBMwKQUf/9ebqu4PtbgZHAbpWcTt7FHnGx0/kUkf38xnTSZM2h1cSYyIsBHG7c9aktzca/tnnSDCfN1K7pTOwBxi3HX+B7QVM83fuRUOc/YLIigU=
+	t=1783449067; cv=none; b=i3lQceHsPob2KkSaz+Npvoub3812yr7NZIzYITjUevOj1OfKnNP1r/RLk6bar2FIBveKriueZVLBWX3bYZDFru7MN53XXy5kue3YztknKQtF2Zx1bv0nzTlqbtDSwKByVnWnmNJqcdn1GiPPR0pTnBnTw2U+oSWdxsZQAZAeWSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783444106; c=relaxed/simple;
-	bh=vh5FQzOG3AxnmtmprIOK76hBWbpAdVv/14odokKzKqM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BgsBI6ObhSs1jFE9TMiJ/RG3Dtp3J1QtZ+5f2zI382/+lXEDp/uYQiYBxFQXqqJXKHOVxPnntlHR9+Faf/6BFJ2LUJCeBG4hqQ9gFjVJIoLdInbH29D+v61qWBSn9JT2SQm4TY248xXEOH8UQZj4m5Q1gYNRF7/W2xp5BjUF2YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kUcjZNwT; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1783449067; c=relaxed/simple;
+	bh=xyLiC1Mxei9/XpWir9Y65Ho+I8GXJyHl2yKOusLk7aE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Hr+KksDCKJx7aHmirOsRPZDRrnB85uSs+M4EwDVu2wV1WdXlWq0Cr0RooH4iuCE9+bj8yjdJEihXM0gJBUTzNuX64Eab0zBCgQtxI2H/RoQMrfz1QDiMj4DSbHVXhLQJqdF9eBqcFiZw+Vx6ySBlgnaP9ndQntpwrE0mweQOXLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8V2kOzl; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kUcjZNwT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8V2kOzl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783444105; x=1814980105;
-  h=date:from:to:cc:subject:message-id;
-  bh=vh5FQzOG3AxnmtmprIOK76hBWbpAdVv/14odokKzKqM=;
-  b=kUcjZNwTkIZocX+f0TbUXmZYyV338DcCkNV2qF5KnrIwiH+en+zrbR3i
-   Ipf7rmG5SMBl3q9vcGah1xM6AIExhgTKyigvFYcuI0m6B3GqSRXM3gbfF
-   RlCQRqfJolRflTtNDr2b2jD8bSkYcjE+LMEbGkqGTxDhNfriVD1wyF3Wk
-   e8RGaFN4/re3mMuqfs1pOoWGh2YfjgYGQKTumxHMvvZmy4xF3RfQ8GhrK
-   lOtSYQGBqAVTP0TEKGh780r6+tpRXGqg8Hy615DIw2nhO5HfIZHnO93k6
-   daoQ3s15oTRMA0xKC8cX2e9HI2mLAkId/RaDllvstt/H4ZGRoLaVXqjqg
+  t=1783449065; x=1814985065;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xyLiC1Mxei9/XpWir9Y65Ho+I8GXJyHl2yKOusLk7aE=;
+  b=N8V2kOzlbAfZhyBaPNTFV7lyR+JiYBgDKRs6cgnaYAf3vK+yt5c58cQL
+   qxgvg3sQeO6aSV1XKaFPzz2LGTbETQVt5CZK7uPPhHX4ZvoIUEcVxrBWl
+   vzftbAhIKBO6yF41O+3kvs7o4Ch8H7uR9T/P3hphBkLHe/IKDSkTWwZBO
+   ELMCxha6Q190GWjx31bZHbUbNRt9YOgxuN28hVbF+Ge6kaGD2Q65u+Ivn
+   tuEx1vQrkbnn9oZheMzXnA73BQq0dm9lEizLRvWOSSvrhWZELz81XjH/V
+   Hcb1aJPhazjj17EebDwdAMJz/SxHlG0YaeFuVNPa/hZrqyC8oUXYjj1nx
    w==;
-X-CSE-ConnectionGUID: bHbQYF5dSrORUlG4x4Z0HA==
-X-CSE-MsgGUID: n8Q7mvPPQtS0S8m8Q/a2xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84153688"
+X-CSE-ConnectionGUID: 8tLiP311RcGUFoOHwYySyg==
+X-CSE-MsgGUID: AZUxLALBQKSLqSJ4l2QiJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84161128"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="84153688"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 10:08:24 -0700
-X-CSE-ConnectionGUID: q+2DhnAlTa2lnblDG421sg==
-X-CSE-MsgGUID: 9zEQxOE1QTKfavKINVvc2Q==
+   d="scan'208";a="84161128"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 11:31:04 -0700
+X-CSE-ConnectionGUID: FhoXgeHTQK+QkePPK4aq7w==
+X-CSE-MsgGUID: VhU86E7PSGmQJoaAx920jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="258354082"
+   d="scan'208";a="250713317"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 07 Jul 2026 10:08:21 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Jul 2026 11:31:02 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wh9Fc-00000000FVZ-0lpd;
-	Tue, 07 Jul 2026 17:07:00 +0000
-Date: Wed, 08 Jul 2026 01:01:52 +0800
+	id 1whAZP-00000000FZb-34Pm;
+	Tue, 07 Jul 2026 18:30:59 +0000
+Date: Wed, 08 Jul 2026 02:30:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Subject: arch/mips/ralink/mt7621.c:68:13: sparse: sparse: cast
- removes address space '__iomem' of expression
-Message-ID: <202607080050.SEfypmVB-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/vdso-sysfs 2/2]
+ arch/x86/include/asm/asm-offsets.h:1:10: fatal error:
+ 'generated/asm-offsets.h' file not found
+Message-ID: <202607080233.LnYBhKdu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
-commit: 4ddaf88aadd3bd09c2eb3734c53d2864af6b144e mips: ralink: mt7621: add missing __iomem
-date:   6 weeks ago
-config: mips-randconfig-r121-20260707 (https://download.01.org/0day-ci/archive/20260708/202607080050.SEfypmVB-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607080050.SEfypmVB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-sysfs
+head:   8ae6b40fd6f555925afd049732cb12e502f22a4d
+commit: 8ae6b40fd6f555925afd049732cb12e502f22a4d [2/2] vDSO, kbuild: Provide debug variants of vDSO at runtime
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260708/202607080233.LnYBhKdu-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607080233.LnYBhKdu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4ddaf88aadd3 ("mips: ralink: mt7621: add missing __iomem")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607080050.SEfypmVB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607080233.LnYBhKdu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/mips/ralink/mt7621.c:68:13: sparse: sparse: cast removes address space '__iomem' of expression
-   arch/mips/ralink/mt7621.c: note: in included file (through arch/mips/include/asm/mips-cps.h):
-   arch/mips/include/asm/mips-cm.h:186:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:186:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:165:1: sparse:     got void [noderef] __iomem *
-   arch/mips/ralink/mt7621.c: note: in included file (through arch/mips/include/asm/mips-cps.h):
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     got void *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     got void *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     got void *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     got void *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cpc.h:100:1: sparse:     got void [noderef] __iomem *
-   arch/mips/ralink/mt7621.c: note: in included file (through arch/mips/include/asm/mips-cps.h):
-   arch/mips/include/asm/mips-cm.h:237:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     expected void volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     expected void volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     expected void volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     expected void volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:237:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:244:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
+All errors (new ones prefixed by >>):
 
-vim +/__iomem +68 arch/mips/ralink/mt7621.c
+   In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:1:
+   In file included from arch/x86/entry/vdso/vdso32/../common/vclock_gettime.c:11:
+   In file included from include/linux/time.h:6:
+   In file included from include/linux/math64.h:6:
+   In file included from include/linux/math.h:6:
+   In file included from arch/x86/include/asm/div64.h:8:
+   In file included from include/linux/log2.h:12:
+   In file included from include/linux/bitops.h:28:
+   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
+   In file included from arch/x86/include/asm/barrier.h:5:
+   In file included from arch/x86/include/asm/alternative.h:8:
+   In file included from arch/x86/include/asm/asm.h:130:
+>> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:1:
+   In file included from arch/x86/entry/vdso/vdso32/../common/vgetcpu.c:8:
+   In file included from include/linux/kernel.h:23:
+   In file included from include/linux/bitops.h:28:
+   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
+   In file included from arch/x86/include/asm/barrier.h:5:
+   In file included from arch/x86/include/asm/alternative.h:8:
+   In file included from arch/x86/include/asm/asm.h:130:
+>> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/entry/vdso/vdso64/vclock_gettime.c:1:
+   In file included from arch/x86/entry/vdso/vdso64/../common/vclock_gettime.c:11:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:5:
+   In file included from arch/x86/include/asm/processor.h:5:
+   In file included from arch/x86/include/asm/processor-flags.h:6:
+   In file included from include/linux/mem_encrypt.h:17:
+   In file included from arch/x86/include/asm/mem_encrypt.h:18:
+   In file included from arch/x86/include/asm/asm.h:130:
+>> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso32/vgetcpu.o] Error 1
+   In file included from arch/x86/entry/vdso/vdso64/vgetrandom.c:7:
+   In file included from lib/vdso/getrandom.c:12:
+   In file included from arch/x86/include/asm/barrier.h:5:
+   In file included from arch/x86/include/asm/alternative.h:8:
+   In file included from arch/x86/include/asm/asm.h:130:
+>> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/entry/vdso/vdso32/system_call.S:9:
+   In file included from arch/x86/include/asm/alternative.h:8:
+   In file included from arch/x86/include/asm/asm.h:130:
+>> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+   In file included from arch/x86/entry/vdso/vdso64/vgetrandom-chacha.S:7:
+   In file included from arch/x86/include/asm/frame.h:5:
+   In file included from arch/x86/include/asm/asm.h:130:
+>> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/entry/vdso/vdso64/vgetcpu.c:1:
+   In file included from arch/x86/entry/vdso/vdso64/../common/vgetcpu.c:8:
+   In file included from include/linux/kernel.h:23:
+   In file included from include/linux/bitops.h:28:
+   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
+   In file included from arch/x86/include/asm/barrier.h:5:
+   In file included from arch/x86/include/asm/alternative.h:8:
+   In file included from arch/x86/include/asm/asm.h:130:
+>> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:435: arch/x86/entry/vdso/vdso32/system_call.o] Error 1
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:435: arch/x86/entry/vdso/vdso64/vgetrandom-chacha.o] Error 1
+   In file included from arch/x86/entry/vdso/vdso32/sigreturn.S:5:
+>> arch/x86/include/asm/asm-offsets.h:1:10: fatal error: 'generated/asm-offsets.h' file not found
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:435: arch/x86/entry/vdso/vdso32/sigreturn.o] Error 1
+   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso64/vgetrandom.o] Error 1
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso64/vgetcpu.o] Error 1
+   1 error generated.
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso32/vclock_gettime.o] Error 1
+   make[3]: Target 'arch/x86/entry/vdso/vdso32/vdso32.so.dbg' not remade because of errors.
+   make[2]: *** [Makefile:1551: arch/x86/entry/vdso/vdso32/vdso32.so.dbg] Error 2
+   make[3]: *** [scripts/Makefile.build:289: arch/x86/entry/vdso/vdso64/vclock_gettime.o] Error 1
+   make[3]: Target 'arch/x86/entry/vdso/vdso64/vdso64.so.dbg' not remade because of errors.
+   make[2]: *** [Makefile:1551: arch/x86/entry/vdso/vdso64/vdso64.so.dbg] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-1df7addb9671ac John Crispin    2016-01-04  63  
-cc19db8b312a6c Chuanhong Guo   2022-02-11  64  static bool __init mt7621_addr_wraparound_test(phys_addr_t size)
-cc19db8b312a6c Chuanhong Guo   2022-02-11  65  {
-4ddaf88aadd3bd Rosen Penev     2026-05-07  66  	void __iomem *dm = (void __iomem *)KSEG1ADDR(&detect_magic);
-cc19db8b312a6c Chuanhong Guo   2022-02-11  67  
-cc19db8b312a6c Chuanhong Guo   2022-02-11 @68  	if (CPHYSADDR(dm + size) >= MT7621_LOWMEM_MAX_SIZE)
-cc19db8b312a6c Chuanhong Guo   2022-02-11  69  		return true;
-cc19db8b312a6c Chuanhong Guo   2022-02-11  70  	__raw_writel(MT7621_MEM_TEST_PATTERN, dm);
-cc19db8b312a6c Chuanhong Guo   2022-02-11  71  	if (__raw_readl(dm) != __raw_readl(dm + size))
-cc19db8b312a6c Chuanhong Guo   2022-02-11  72  		return false;
-5d8965704fe566 Ilya Lipnitskiy 2022-02-28  73  	__raw_writel(~MT7621_MEM_TEST_PATTERN, dm);
-cc19db8b312a6c Chuanhong Guo   2022-02-11  74  	return __raw_readl(dm) == __raw_readl(dm + size);
-cc19db8b312a6c Chuanhong Guo   2022-02-11  75  }
-cc19db8b312a6c Chuanhong Guo   2022-02-11  76  
 
-:::::: The code at line 68 was first introduced by commit
-:::::: cc19db8b312a6c75645645f5cc1b45166b109006 MIPS: ralink: mt7621: do memory detection on KSEG1
+vim +1 arch/x86/include/asm/asm-offsets.h
 
-:::::: TO: Chuanhong Guo <gch981213@gmail.com>
-:::::: CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+559df2e0210352 Sam Ravnborg 2009-04-19 @1  #include <generated/asm-offsets.h>
+
+:::::: The code at line 1 was first introduced by commit
+:::::: 559df2e0210352f83926d178c40c51142292a18c kbuild: move asm-offsets.h to include/generated
+
+:::::: TO: Sam Ravnborg <sam@ravnborg.org>
+:::::: CC: Michal Marek <mmarek@suse.cz>
 
 --
 0-DAY CI Kernel Test Service
