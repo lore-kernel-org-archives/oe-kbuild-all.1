@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05E51DDC33
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 04:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAFF379C37
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 05:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783397310; cv=none; b=bcyHirS8peTAkf4FOqpmoHwe3QT80tTqsdQ0qLBVCJnFpZzT7HO6MSs0AoMnlDMxR5r1jzgYQX83ehr5p8oMiHQuZ3z2JcH59+Gm3P9yuNjZgQmhm8CUfcam+6UhCp1MOsfAKg2ZP+UuDyy1DMBx/ZQIt6GbHRwOtjtdrswHSvs=
+	t=1783400970; cv=none; b=Ql0DgSY/FtTFnsL/eb7jk8SntCXHmnH9+wsmKbhC//aDvm8YkAsuM8e1F8aJfzyUb404hyvO0TWB8rcKQ3XwZf2ZfUQoZldf7RguErZ+LECJQNgihjvNTQv3esdmwV4dfU/xMAWXHeBxcWiONcHHPXiP1l/6mQ9sHvJ+EY0WsD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783397310; c=relaxed/simple;
-	bh=BkgKExhA+8f3svUKc+OZEZdzbRlII/nigVy1hSFY+AY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mtppw8ElUxxFBWYmWY8L72P5b95otHQyOy72EtCcHuyJ2jztOaiP8BtxHWSzw7znl6rnD11OXeQl9ImbzM2Fw4jb+j+4NIVqkuS/y+NCE3Vt3YM8dhusOKjTgmo5toydBeoq7kkqxbFzDCj7ndillcP7OrAx81ZJWFdF8VMMGwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYh8p4gE; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1783400970; c=relaxed/simple;
+	bh=X1hZgRQZQrNVk50AgWBc34qL/E1pFA6ww+tGZWjfjM0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TDmpU2VD1x6W7AwUlS4Rg7R1Ipc8gVwUh2jyA3pZ9OZA+BdsysHYycsKxv6sHuv4Qlkj6obqcLvZfx7aIlZdHuZmlHDf5LUf7JblVUx5fJwQuesmLOsCmDbW3kKBc0QoRgaRNvWKjt48SjjVmXConALkPAXna6VVFC26IvTF0KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WKZ00gRP; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYh8p4gE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WKZ00gRP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783397309; x=1814933309;
+  t=1783400970; x=1814936970;
   h=date:from:to:cc:subject:message-id;
-  bh=BkgKExhA+8f3svUKc+OZEZdzbRlII/nigVy1hSFY+AY=;
-  b=XYh8p4gEXrQANMv0y7knkvaDAWghVm23OBwbLTulUMKlYcViRd4C12Q7
-   Gx3P52JpUCzKs1ENhujGunw7l3Kg/NKRsD7vQQd3hCZPZadnfK7inHBWF
-   5I1kj/kgEXWzbtfsdN2Hw13PoNjN7uj73pox0i1BL+eUYTQdAqJERXHY2
-   cA0+HXVpynw5meJyiFocZq6W8EpU7dhi6hzXuVRhP5DpjpUZMviX8zeT5
-   leLszjl6lLz5oMnXgnpFScyMuXNSFZr3YMhoG61yZD5sUJb+NWyobyLRq
-   nEPmhTQQaMCt6goX8LeAx2ZFJaULUWXLgcItNkkhKYlRLvy7NJlL2YPeU
-   w==;
-X-CSE-ConnectionGUID: FADJQrbWTHWtxM2DU/h5eA==
-X-CSE-MsgGUID: lhx3E/BOQ1+XAObnzJBfEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="87718217"
+  bh=X1hZgRQZQrNVk50AgWBc34qL/E1pFA6ww+tGZWjfjM0=;
+  b=WKZ00gRPSfJtiIOO0t7gEuZKnL2Ba8j0dNvN4rrSDesya64CX0Y7D5PD
+   TJU6XSUJwuAEhVnc6XQeA1bLrpIYv6D0NLfWX2iAo24vgprpib3nfBELy
+   Kz2xg3Zd5jjqMz8i8efKkWn8uP6lbbK/JqdPQGQwH7Io24Slz3hlwzIGk
+   nSs6nhcfMdf2TaNlT/nl9d51WF9zjg5h8JfsHupGvEiKJHTOfmRKHBnzD
+   3D830Wwqe+ul+Cs8yHzcr1r4pQ5GDlNaSfBmDCPNjyM54vwaUbLJBS6vI
+   3XTuTnhd83rWckBEGZFSrDj0nvfKYDD5HqvGwJORNuv/474Jm5MD8bNZp
+   g==;
+X-CSE-ConnectionGUID: IjdkmGZnTt6WNVXOKuyHvg==
+X-CSE-MsgGUID: J/VVxZszSuWfeQXMkK04LA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="84130926"
 X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="87718217"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 21:08:29 -0700
-X-CSE-ConnectionGUID: edb5gea0TlK3N3NhSUJmVg==
-X-CSE-MsgGUID: 2a4pJqrMSnW5+gROqF5Fkw==
+   d="scan'208";a="84130926"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 22:09:29 -0700
+X-CSE-ConnectionGUID: WwkjCN3gTJ2np9hsrvw69g==
+X-CSE-MsgGUID: jVL28xIITCGeL6FsilMnOw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="253976033"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 06 Jul 2026 21:08:27 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 06 Jul 2026 22:09:27 -0700
 Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgx6d-000000002SH-15Z0;
-	Tue, 07 Jul 2026 04:08:23 +0000
-Date: Tue, 07 Jul 2026 06:07:37 +0200
+	id 1wgy3h-000000002U1-1J3I;
+	Tue, 07 Jul 2026 05:09:25 +0000
+Date: Tue, 07 Jul 2026 07:08:32 +0200
 From: kernel test robot <lkp@intel.com>
 To: Steve French <stfrench@microsoft.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [smfrench-smb3:pr/255 1/1] fs/smb/client/reparse.c:434:33:
- error: too many arguments to function call, expected 8, have 9
-Message-ID: <202607070617.CHVxp8by-lkp@intel.com>
+Subject: [smfrench-smb3:pr/255 1/1] fs/smb/client/reparse.c:430:48:
+ error: passing argument 4 of 'tcon->ses->server->ops->set_EA' makes pointer
+ from integer without a cast
+Message-ID: <202607070719.WShV68RF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,30 +61,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/smfrench/smb3-kernel.git pr/255
 head:   7ad4ba8846086dd14f26bed6dd56de6d0050dfb4
 commit: 7ad4ba8846086dd14f26bed6dd56de6d0050dfb4 [1/1] cifs: Create native Window socket file compatible also with WSL subsystem
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260707/202607070617.CHVxp8by-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607070617.CHVxp8by-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260707/202607070719.WShV68RF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607070719.WShV68RF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607070617.CHVxp8by-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607070719.WShV68RF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/smb/client/reparse.c:434:33: error: too many arguments to function call, expected 8, have 9
-     429 |                 tcon->ses->server->ops->set_EA(xid, tcon, full_path,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/smb/client/reparse.c: In function 'create_native_socket':
+>> fs/smb/client/reparse.c:430:48: error: passing argument 4 of 'tcon->ses->server->ops->set_EA' makes pointer from integer without a cast [-Wint-conversion]
      430 |                                                true /* open reparse point */,
-     431 |                                                SMB2_WSL_XATTR_MODE,
+         |                                                ^~~~
+         |                                                |
+         |                                                int
+   fs/smb/client/reparse.c:430:48: note: expected 'const char *' but argument is of type 'int'
+>> fs/smb/client/reparse.c:432:48: error: passing argument 6 of 'tcon->ses->server->ops->set_EA' makes integer from pointer without a cast [-Wint-conversion]
      432 |                                                &xattr_mode_val,
+         |                                                ^~~~~~~~~~~~~~~
+         |                                                |
+         |                                                const __le64 * {aka const long long unsigned int *}
+   fs/smb/client/reparse.c:432:48: note: expected '__u16' {aka 'const short unsigned int'} but argument is of type 'const __le64 *' {aka 'const long long unsigned int *'}
+   In file included from fs/smb/client/cifsglob.h:30,
+                    from fs/smb/client/reparse.c:9:
+>> fs/smb/client/smb2pdu.h:323:41: error: passing argument 7 of 'tcon->ses->server->ops->set_EA' makes pointer from integer without a cast [-Wint-conversion]
+     323 | #define SMB2_WSL_XATTR_MODE_SIZE        4
+         |                                         ^
+         |                                         |
+         |                                         int
+   fs/smb/client/reparse.c:433:48: note: in expansion of macro 'SMB2_WSL_XATTR_MODE_SIZE'
      433 |                                                SMB2_WSL_XATTR_MODE_SIZE,
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/smb/client/smb2pdu.h:323:41: note: expected 'const struct nls_table *' but argument is of type 'int'
+     323 | #define SMB2_WSL_XATTR_MODE_SIZE        4
+         |                                         ^
+   fs/smb/client/reparse.c:433:48: note: in expansion of macro 'SMB2_WSL_XATTR_MODE_SIZE'
+     433 |                                                SMB2_WSL_XATTR_MODE_SIZE,
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/smb/client/reparse.c:434:55: error: passing argument 8 of 'tcon->ses->server->ops->set_EA' from incompatible pointer type [-Wincompatible-pointer-types]
      434 |                                                cifs_sb->local_nls, cifs_sb);
-         |                                                                    ^~~~~~~
-   1 error generated.
+         |                                                ~~~~~~~^~~~~~~~~~~
+         |                                                       |
+         |                                                       struct nls_table *
+   fs/smb/client/reparse.c:434:55: note: expected 'struct cifs_sb_info *' but argument is of type 'struct nls_table *'
+>> fs/smb/client/reparse.c:429:17: error: too many arguments to function 'tcon->ses->server->ops->set_EA'
+     429 |                 tcon->ses->server->ops->set_EA(xid, tcon, full_path,
+         |                 ^~~~
 
 
-vim +434 fs/smb/client/reparse.c
+vim +430 fs/smb/client/reparse.c
 
    384	
    385	static int create_native_socket(const unsigned int xid, struct inode *inode,
@@ -132,10 +159,10 @@ vim +434 fs/smb/client/reparse.c
    426	#ifdef CONFIG_CIFS_XATTR
    427		if (!rc && tcon->ses->server->ops->set_EA &&
    428		    (le32_to_cpu(tcon->fsAttrInfo.Attributes) & FILE_SUPPORTS_EXTENDED_ATTRIBUTES))
-   429			tcon->ses->server->ops->set_EA(xid, tcon, full_path,
-   430						       true /* open reparse point */,
+ > 429			tcon->ses->server->ops->set_EA(xid, tcon, full_path,
+ > 430						       true /* open reparse point */,
    431						       SMB2_WSL_XATTR_MODE,
-   432						       &xattr_mode_val,
+ > 432						       &xattr_mode_val,
    433						       SMB2_WSL_XATTR_MODE_SIZE,
  > 434						       cifs_sb->local_nls, cifs_sb);
    435	#endif
