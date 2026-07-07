@@ -1,176 +1,234 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAFF379C37
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 05:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035D2320A34
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 08:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783400970; cv=none; b=Ql0DgSY/FtTFnsL/eb7jk8SntCXHmnH9+wsmKbhC//aDvm8YkAsuM8e1F8aJfzyUb404hyvO0TWB8rcKQ3XwZf2ZfUQoZldf7RguErZ+LECJQNgihjvNTQv3esdmwV4dfU/xMAWXHeBxcWiONcHHPXiP1l/6mQ9sHvJ+EY0WsD8=
+	t=1783413012; cv=none; b=IcfzdvV+yKuv5ZpbfNLiojfYWsaQfucSqd1h1GGuLwgUHDdxl7Urw/f3veZoJqgatbJmZd776SBf/3NYp1d0kD7pgkYA2Jmthsxb2CFrPPH5zizNP/kTF2J/nzCYxIrvIGkXoQnUS5meNcOphGFigMJBia28UsYJdQhtSBVhwkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783400970; c=relaxed/simple;
-	bh=X1hZgRQZQrNVk50AgWBc34qL/E1pFA6ww+tGZWjfjM0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TDmpU2VD1x6W7AwUlS4Rg7R1Ipc8gVwUh2jyA3pZ9OZA+BdsysHYycsKxv6sHuv4Qlkj6obqcLvZfx7aIlZdHuZmlHDf5LUf7JblVUx5fJwQuesmLOsCmDbW3kKBc0QoRgaRNvWKjt48SjjVmXConALkPAXna6VVFC26IvTF0KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WKZ00gRP; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1783413012; c=relaxed/simple;
+	bh=Ze+ANnQUIwr46aU74TbA7FHFUG8IWDdiP1FTqSPOwvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBBoWrB5LNzpUgAHbz8TsY7ckcwe3IdLGzpzzqpdu4Q7f6XkbbFGVz+O0MkVzkqFF7RdmOxh8wyYCA2TMnC7+08fommD3IYzemAt0z19k/GDLdUpbJR/Gt6TZXtHAFS7VnUSHkK9Rc9KUZIbwFvm6iCmujzrWXpyj2kplbzCbqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkndNvuZ; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WKZ00gRP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkndNvuZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783400970; x=1814936970;
-  h=date:from:to:cc:subject:message-id;
-  bh=X1hZgRQZQrNVk50AgWBc34qL/E1pFA6ww+tGZWjfjM0=;
-  b=WKZ00gRPSfJtiIOO0t7gEuZKnL2Ba8j0dNvN4rrSDesya64CX0Y7D5PD
-   TJU6XSUJwuAEhVnc6XQeA1bLrpIYv6D0NLfWX2iAo24vgprpib3nfBELy
-   Kz2xg3Zd5jjqMz8i8efKkWn8uP6lbbK/JqdPQGQwH7Io24Slz3hlwzIGk
-   nSs6nhcfMdf2TaNlT/nl9d51WF9zjg5h8JfsHupGvEiKJHTOfmRKHBnzD
-   3D830Wwqe+ul+Cs8yHzcr1r4pQ5GDlNaSfBmDCPNjyM54vwaUbLJBS6vI
-   3XTuTnhd83rWckBEGZFSrDj0nvfKYDD5HqvGwJORNuv/474Jm5MD8bNZp
-   g==;
-X-CSE-ConnectionGUID: IjdkmGZnTt6WNVXOKuyHvg==
-X-CSE-MsgGUID: J/VVxZszSuWfeQXMkK04LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="84130926"
-X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="84130926"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 22:09:29 -0700
-X-CSE-ConnectionGUID: WwkjCN3gTJ2np9hsrvw69g==
-X-CSE-MsgGUID: jVL28xIITCGeL6FsilMnOw==
+  t=1783413011; x=1814949011;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ze+ANnQUIwr46aU74TbA7FHFUG8IWDdiP1FTqSPOwvU=;
+  b=NkndNvuZ5QJyo7XJMJhjaEcasu7FIP+ATfaUrUJYhlIKIXZVlgZssslT
+   T3lHcfLs5vX8eFmGX5Jxzg5v1SXXeXq6VJePB62hlZbkmty9y776ip0dU
+   xeqSF/vZn+bBzlxev9tZLNjdltzdEreuTKaIwtJ1F562aLNC1z8mkY6ru
+   7C7d6EHWc6Ka03lvBIZAKqpD05BdbL8Qji6/H52Fok7fXKXNCVK1WdO0w
+   haZgaVbfUaJFcHnpiRJ5u1hSZPRX+gac0cA1hlkCBMmvnK6oxCvmSdsvI
+   enDishHdT2Mn79J+0mXWuUQpfaEucomPE1M5f7d0kF03NNNBFJg0uqRNU
+   Q==;
+X-CSE-ConnectionGUID: IbslxdcqTGWMKOZfh+BGPg==
+X-CSE-MsgGUID: 6urw+lDWSAWwsoH8D9wzBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="83917432"
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="83917432"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 01:30:10 -0700
+X-CSE-ConnectionGUID: mkngk2JnRnSFUA3t3b2XFw==
+X-CSE-MsgGUID: l7WTvBfYQWidl96AzgvsGA==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Jul 2026 22:09:27 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="254024832"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 07 Jul 2026 01:30:08 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgy3h-000000002U1-1J3I;
-	Tue, 07 Jul 2026 05:09:25 +0000
-Date: Tue, 07 Jul 2026 07:08:32 +0200
+	id 1wh1Bq-00000000F9r-29MM;
+	Tue, 07 Jul 2026 08:30:03 +0000
+Date: Tue, 7 Jul 2026 16:29:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [smfrench-smb3:pr/255 1/1] fs/smb/client/reparse.c:430:48:
- error: passing argument 4 of 'tcon->ses->server->ops->set_EA' makes pointer
- from integer without a cast
-Message-ID: <202607070719.WShV68RF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Qiliang Yuan <realwujing@gmail.com>, Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-bcache@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Qiliang Yuan <yuanql9@chinatelecom.cn>,
+	Jing Wu <realwujing@gmail.com>
+Subject: Re: [PATCH RESEND v2] bcache: convert bch_register_lock to
+ rw_semaphore
+Message-ID: <202607071617.e4elNFQN-lkp@intel.com>
+References: <20260706-feat-bcache-v2-1-70a4b6e246c0@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706-feat-bcache-v2-1-70a4b6e246c0@gmail.com>
 
-tree:   https://github.com/smfrench/smb3-kernel.git pr/255
-head:   7ad4ba8846086dd14f26bed6dd56de6d0050dfb4
-commit: 7ad4ba8846086dd14f26bed6dd56de6d0050dfb4 [1/1] cifs: Create native Window socket file compatible also with WSL subsystem
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260707/202607070719.WShV68RF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607070719.WShV68RF-lkp@intel.com/reproduce)
+Hi Qiliang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 502d801f0ab03e4f32f9a33d203154ce84887921]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qiliang-Yuan/bcache-convert-bch_register_lock-to-rw_semaphore/20260706-212031
+base:   502d801f0ab03e4f32f9a33d203154ce84887921
+patch link:    https://lore.kernel.org/r/20260706-feat-bcache-v2-1-70a4b6e246c0%40gmail.com
+patch subject: [PATCH RESEND v2] bcache: convert bch_register_lock to rw_semaphore
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260707/202607071617.e4elNFQN-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260707/202607071617.e4elNFQN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607070719.WShV68RF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607071617.e4elNFQN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/smb/client/reparse.c: In function 'create_native_socket':
->> fs/smb/client/reparse.c:430:48: error: passing argument 4 of 'tcon->ses->server->ops->set_EA' makes pointer from integer without a cast [-Wint-conversion]
-     430 |                                                true /* open reparse point */,
-         |                                                ^~~~
-         |                                                |
-         |                                                int
-   fs/smb/client/reparse.c:430:48: note: expected 'const char *' but argument is of type 'int'
->> fs/smb/client/reparse.c:432:48: error: passing argument 6 of 'tcon->ses->server->ops->set_EA' makes integer from pointer without a cast [-Wint-conversion]
-     432 |                                                &xattr_mode_val,
-         |                                                ^~~~~~~~~~~~~~~
-         |                                                |
-         |                                                const __le64 * {aka const long long unsigned int *}
-   fs/smb/client/reparse.c:432:48: note: expected '__u16' {aka 'const short unsigned int'} but argument is of type 'const __le64 *' {aka 'const long long unsigned int *'}
-   In file included from fs/smb/client/cifsglob.h:30,
-                    from fs/smb/client/reparse.c:9:
->> fs/smb/client/smb2pdu.h:323:41: error: passing argument 7 of 'tcon->ses->server->ops->set_EA' makes pointer from integer without a cast [-Wint-conversion]
-     323 | #define SMB2_WSL_XATTR_MODE_SIZE        4
-         |                                         ^
-         |                                         |
-         |                                         int
-   fs/smb/client/reparse.c:433:48: note: in expansion of macro 'SMB2_WSL_XATTR_MODE_SIZE'
-     433 |                                                SMB2_WSL_XATTR_MODE_SIZE,
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/smb/client/smb2pdu.h:323:41: note: expected 'const struct nls_table *' but argument is of type 'int'
-     323 | #define SMB2_WSL_XATTR_MODE_SIZE        4
-         |                                         ^
-   fs/smb/client/reparse.c:433:48: note: in expansion of macro 'SMB2_WSL_XATTR_MODE_SIZE'
-     433 |                                                SMB2_WSL_XATTR_MODE_SIZE,
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~
->> fs/smb/client/reparse.c:434:55: error: passing argument 8 of 'tcon->ses->server->ops->set_EA' from incompatible pointer type [-Wincompatible-pointer-types]
-     434 |                                                cifs_sb->local_nls, cifs_sb);
-         |                                                ~~~~~~~^~~~~~~~~~~
-         |                                                       |
-         |                                                       struct nls_table *
-   fs/smb/client/reparse.c:434:55: note: expected 'struct cifs_sb_info *' but argument is of type 'struct nls_table *'
->> fs/smb/client/reparse.c:429:17: error: too many arguments to function 'tcon->ses->server->ops->set_EA'
-     429 |                 tcon->ses->server->ops->set_EA(xid, tcon, full_path,
-         |                 ^~~~
+   drivers/md/bcache/sysfs.c: In function 'bch_cached_dev_show':
+>> drivers/md/bcache/sysfs.c:290:28: warning: unused variable 'dc' [-Wunused-variable]
+     290 |         struct cached_dev *dc = container_of(kobj, struct cached_dev,
+         |                            ^~
 
 
-vim +430 fs/smb/client/reparse.c
+vim +/dc +290 drivers/md/bcache/sysfs.c
 
-   384	
-   385	static int create_native_socket(const unsigned int xid, struct inode *inode,
-   386					struct dentry *dentry, struct cifs_tcon *tcon,
-   387					const char *full_path, umode_t mode)
-   388	{
-   389		struct reparse_data_buffer buf = {
-   390			.ReparseTag = cpu_to_le32(IO_REPARSE_TAG_AF_UNIX),
-   391			.ReparseDataLength = cpu_to_le16(0),
-   392		};
-   393		struct cifs_open_info_data data = {
-   394			.reparse_point = true,
-   395			.reparse = { .tag = IO_REPARSE_TAG_AF_UNIX, .buf = &buf, },
-   396		};
-   397		struct kvec iov = {
-   398			.iov_base = &buf,
-   399			.iov_len = sizeof(buf),
-   400		};
-   401	#ifdef CONFIG_CIFS_XATTR
-   402		const __le64 xattr_mode_val = cpu_to_le64(mode);
-   403		struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
-   404	#endif
-   405		struct inode *new;
-   406		int rc = 0;
-   407	
-   408		new = tcon->ses->server->ops->create_reparse_inode(
-   409					     &data, inode->i_sb, xid,
-   410					     tcon, full_path, false, &iov, NULL);
-   411		if (!IS_ERR(new))
-   412			d_instantiate(dentry, new);
-   413		else
-   414			rc = PTR_ERR(new);
-   415	
-   416		/*
-   417		 * Try to set also optional WSL EA $LXMOD but ignore errors.
-   418		 * WSL socket and native Win32/NT sockets uses same reparse point
-   419		 * tag IO_REPARSE_TAG_AF_UNIX. WSL subsystem additionally requires
-   420		 * EA $LXMOD to be set with the S_IFSOCK value. So setting this EA
-   421		 * allows native socket to be recognized also by WSL subsystem.
-   422		 * Note that setting of both EAs and reparse points is not supported
-   423		 * by NTFS filesystem on Windows 8 / Windows Server 2012 and always
-   424		 * fails. So ignore failures from this set_EA call.
-   425		 */
-   426	#ifdef CONFIG_CIFS_XATTR
-   427		if (!rc && tcon->ses->server->ops->set_EA &&
-   428		    (le32_to_cpu(tcon->fsAttrInfo.Attributes) & FILE_SUPPORTS_EXTENDED_ATTRIBUTES))
- > 429			tcon->ses->server->ops->set_EA(xid, tcon, full_path,
- > 430						       true /* open reparse point */,
-   431						       SMB2_WSL_XATTR_MODE,
- > 432						       &xattr_mode_val,
-   433						       SMB2_WSL_XATTR_MODE_SIZE,
- > 434						       cifs_sb->local_nls, cifs_sb);
-   435	#endif
-   436	
-   437		cifs_free_open_info(&data);
-   438		return rc;
-   439	}
-   440	
+   178	
+   179		if (attr == &sysfs_cache_mode)
+   180			return bch_snprint_string_list(buf, PAGE_SIZE,
+   181						       bch_cache_modes,
+   182						       BDEV_CACHE_MODE(&dc->sb));
+   183	
+   184		if (attr == &sysfs_readahead_cache_policy)
+   185			return bch_snprint_string_list(buf, PAGE_SIZE,
+   186						      bch_reada_cache_policies,
+   187						      dc->cache_readahead_policy);
+   188	
+   189		if (attr == &sysfs_stop_when_cache_set_failed)
+   190			return bch_snprint_string_list(buf, PAGE_SIZE,
+   191						       bch_stop_on_failure_modes,
+   192						       dc->stop_when_cache_set_failed);
+   193	
+   194	
+   195		sysfs_printf(data_csum,		"%i", dc->disk.data_csum);
+   196		var_printf(verify,		"%i");
+   197		var_printf(bypass_torture_test,	"%i");
+   198		var_printf(writeback_metadata,	"%i");
+   199		var_printf(writeback_running,	"%i");
+   200		var_printf(writeback_consider_fragment,	"%i");
+   201		var_print(writeback_delay);
+   202		var_print(writeback_percent);
+   203		sysfs_hprint(writeback_rate,
+   204			     wb ? atomic_long_read(&dc->writeback_rate.rate) << 9 : 0);
+   205		sysfs_printf(io_errors,		"%i", atomic_read(&dc->io_errors));
+   206		sysfs_printf(io_error_limit,	"%i", dc->error_limit);
+   207		sysfs_printf(io_disable,	"%i", dc->io_disable);
+   208		var_print(writeback_rate_update_seconds);
+   209		var_print(writeback_rate_i_term_inverse);
+   210		var_print(writeback_rate_p_term_inverse);
+   211		var_print(writeback_rate_fp_term_low);
+   212		var_print(writeback_rate_fp_term_mid);
+   213		var_print(writeback_rate_fp_term_high);
+   214		var_print(writeback_rate_minimum);
+   215	
+   216		if (attr == &sysfs_writeback_rate_debug) {
+   217			char rate[20];
+   218			char dirty[20];
+   219			char target[20];
+   220			char proportional[20];
+   221			char integral[20];
+   222			char change[20];
+   223			s64 next_io;
+   224	
+   225			/*
+   226			 * Except for dirty and target, other values should
+   227			 * be 0 if writeback is not running.
+   228			 */
+   229			bch_hprint(rate,
+   230				   wb ? atomic_long_read(&dc->writeback_rate.rate) << 9
+   231				      : 0);
+   232			bch_hprint(dirty, bcache_dev_sectors_dirty(&dc->disk) << 9);
+   233			bch_hprint(target, dc->writeback_rate_target << 9);
+   234			bch_hprint(proportional,
+   235				   wb ? dc->writeback_rate_proportional << 9 : 0);
+   236			bch_hprint(integral,
+   237				   wb ? dc->writeback_rate_integral_scaled << 9 : 0);
+   238			bch_hprint(change, wb ? dc->writeback_rate_change << 9 : 0);
+   239			next_io = wb ? div64_s64(dc->writeback_rate.next-local_clock(),
+   240						 NSEC_PER_MSEC) : 0;
+   241	
+   242			return sprintf(buf,
+   243				       "rate:\t\t%s/sec\n"
+   244				       "dirty:\t\t%s\n"
+   245				       "target:\t\t%s\n"
+   246				       "proportional:\t%s\n"
+   247				       "integral:\t%s\n"
+   248				       "change:\t\t%s/sec\n"
+   249				       "next io:\t%llims\n",
+   250				       rate, dirty, target, proportional,
+   251				       integral, change, next_io);
+   252		}
+   253	
+   254		sysfs_hprint(dirty_data,
+   255			     bcache_dev_sectors_dirty(&dc->disk) << 9);
+   256	
+   257		sysfs_hprint(stripe_size,	 ((uint64_t)dc->disk.stripe_size) << 9);
+   258		var_printf(partial_stripes_expensive,	"%u");
+   259	
+   260		var_hprint(sequential_cutoff);
+   261	
+   262		sysfs_print(running,		atomic_read(&dc->running));
+   263		sysfs_print(state,		states[BDEV_STATE(&dc->sb)]);
+   264	
+   265		if (attr == &sysfs_label) {
+   266			memcpy(buf, dc->sb.label, SB_LABEL_SIZE);
+   267			buf[SB_LABEL_SIZE + 1] = '\0';
+   268			strcat(buf, "\n");
+   269			return strlen(buf);
+   270		}
+   271	
+   272		if (attr == &sysfs_backing_dev_name) {
+   273			snprintf(buf, BDEVNAME_SIZE + 1, "%pg", dc->bdev);
+   274			strcat(buf, "\n");
+   275			return strlen(buf);
+   276		}
+   277	
+   278		if (attr == &sysfs_backing_dev_uuid) {
+   279			/* convert binary uuid into 36-byte string plus '\0' */
+   280			snprintf(buf, 36+1, "%pU", dc->sb.uuid);
+   281			strcat(buf, "\n");
+   282			return strlen(buf);
+   283		}
+   284	
+   285	#undef var
+   286		return 0;
+   287	}
+   288	SHOW(bch_cached_dev)
+   289	{
+ > 290		struct cached_dev *dc = container_of(kobj, struct cached_dev,
+   291						     disk.kobj);
+   292		ssize_t ret;
+   293	
+   294		/*
+   295		 * Statistics attributes like dirty_data read atomic variables and
+   296		 * can be shown without holding the global bch_register_lock.
+   297		 */
+   298		if (attr == &sysfs_dirty_data ||
+   299		    attr == &sysfs_writeback_rate_debug)
+   300			return __bch_cached_dev_show(kobj, attr, buf);
+   301	
+   302		down_read(&bch_register_lock);
+   303		ret = __bch_cached_dev_show(kobj, attr, buf);
+   304		up_read(&bch_register_lock);
+   305	
+   306		return ret;
+   307	}
+   308	
 
 --
 0-DAY CI Kernel Test Service
