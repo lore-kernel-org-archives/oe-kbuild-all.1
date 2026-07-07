@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753F421638D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 23:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998CB2D9780
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Jul 2026 23:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783466167; cv=none; b=qF3jweIcz9vdeA0rNZoYxvdIwkG5voJAYwaUjgaLgCJqrobLFOFVDJBdPu/DplJwA/7P9l8/eRsbkO1PCJRb2Y+QwqzExGl0PtD+nBy4GhPXkIrnUtcYGYL0+UbP7XG8NBwwilsqVM/Hz+Xe3EhpTvPZTGwgcVi9d53by0w/W1s=
+	t=1783467501; cv=none; b=u3wfiJq+vPWmjl/R/9tOX/mgA8OEb3SwgnvgiuoKIWS5rlWbS/MPckVMlYIJ6lvlJp6BwiuwlVRnoW7ZXHCxMu+bPQtIqV8ICNB78J74MYvep3qwCX8EM6QPxlaxwJ8UWCM/C594mMk5+XXqYMJAoW5Ey+SREsQQuuE2OmxBvkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783466167; c=relaxed/simple;
-	bh=cpnEPG3PP+Gfe5H++1TYb4QQsNeO8yd5Hv7jV7HJl/o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GuuOnYRATyvPyLsnqo5oefgykkfF9Mrr7dBgw2c8srC+LH69CP84ZklOuJhYv+zqh7DyjzQ7CHIZ9hKHX6nzb+vzigKjrYkjHpkHw0O3Vngb6nXMxd8FTGglPS8aJzDxo1D2lYkxU2KxGmjAzx7L2XWvbP/z2nGjxf4scUcMdqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mqv5atK+; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1783467501; c=relaxed/simple;
+	bh=DrMYk4WrlYgpx1D3qU762lVFesNzgW2eNvdSKNeYtAM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DmlCbjO7pz9Xc5Ku4bk3IHxh5Bgdk5w6vBeNyBBmSt5sY3ONoxyS4zhDNdH7Sgai1wnvCoFlHQ/uNbXMMZOlXkiN7L2nyg6NifPBu0NU9h+fM8A4SEsapLgD+liLN7ptYCQ3LefFkukd89d6ZU3yC0hbYo1+X02yHqn8GL4i6mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EDjROIY6; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mqv5atK+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EDjROIY6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783466165; x=1815002165;
+  t=1783467500; x=1815003500;
   h=date:from:to:cc:subject:message-id;
-  bh=cpnEPG3PP+Gfe5H++1TYb4QQsNeO8yd5Hv7jV7HJl/o=;
-  b=mqv5atK++Zv3y2hm3tCXeCHAflDz9OS8hRzHKj/ZQD5W/RGkUR9IOmkD
-   hXhb9oyhXxpN17JGGeZkBr26LhXt/LCv2CXi7KxHcrIyhMbCyR1p+SsWA
-   mQERCvpr/23W7UhY986ONPFBYSN8CyjGMNcjkYRHXduTcOpunKVRqUPrh
-   uUc1gB2stzl1RT/Vw5eJD3GFaIyqPK23sMw64O50jguRXc8T1KVc6kDlv
-   3OSAhz5XaSM/ZYYOzPFft5q0OlyUkzY+jrnVShohfeo6zx8FVh25wyh5u
-   bU7zMtNe/hg0IJ+PmjHLvOxGP9rEPPTMAGK6OHNHNkCRsJQsv/7vsJW3E
+  bh=DrMYk4WrlYgpx1D3qU762lVFesNzgW2eNvdSKNeYtAM=;
+  b=EDjROIY6pFCw8RN92sLJsHlhBfnO0MNtSPxujNbsm3jTy18NZt3R9uPk
+   Wv+OJK19ZaRuEIk/pKu2H1E41LlYpwwndDggWILrwgrz+lFIvFTYZpcAc
+   HS2I4tHA9zcrTvN92quehR0+/EX1T4bGAdaInkxzFYGPlIBPhTtK+E7OD
+   ZJP6ixPFhqNeN8XZc1rEg9l9Lmp8ScbY+dMIEcX3NamOGfPK8L2N8C60P
+   cdNJZAJI02syZF8wKZ0RhRIlcI2n2dmJOR6O6HJsiLeyKWATaGN2TQ2Wj
+   j5tlTFuC+zWdWorLSjOUIeL2Qd+lm/ddXKDxj02Dh9mr1hB+pY1Meq+Vm
    g==;
-X-CSE-ConnectionGUID: oihW1jd5Tm6T2Y5OS+399Q==
-X-CSE-MsgGUID: aqq7ezZKQ+SsRNOZA4LuMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84096639"
+X-CSE-ConnectionGUID: OXvIRJ9MRsGWz78QI7ZKlQ==
+X-CSE-MsgGUID: kKeY7sdiSTKZ4l7rSLwkhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84149718"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="84096639"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 16:16:05 -0700
-X-CSE-ConnectionGUID: pKj5cjvISki3M5lV4PDiBA==
-X-CSE-MsgGUID: tb1DElV0TFmKuSixK/KEKQ==
+   d="scan'208";a="84149718"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 16:38:15 -0700
+X-CSE-ConnectionGUID: Xha9yFp7TOOBcTzT0GZd3w==
+X-CSE-MsgGUID: PnW8bGiLSzmC/7CHhg4NRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="254773567"
+   d="scan'208";a="250771400"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 07 Jul 2026 16:16:04 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Jul 2026 16:38:12 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whF1C-00000000FlE-3T7Q;
-	Tue, 07 Jul 2026 23:15:59 +0000
-Date: Wed, 08 Jul 2026 07:15:15 +0800
+	id 1whFMf-00000000Fmd-476j;
+	Tue, 07 Jul 2026 23:38:09 +0000
+Date: Wed, 08 Jul 2026 07:37:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:kvm-arm64-sme 4/30]
- include/linux/kern_levels.h:5:18: warning: format '%llu' expects argument of
- type 'long long unsigned int', but argument 2 has type 'int'
-Message-ID: <202607080736.WYo1RXif-lkp@intel.com>
+To: Oliver Upton <oupton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Marc Zyngier <maz@kernel.org>,
+ "Wei-Lin Chang" <weilin.chang@arm.com>
+Subject: [linux-next:master 3509/4300] include/vdso/limits.h:8:25:
+ warning: overflow in conversion from 'int' to 's8' {aka 'signed char'}
+ changes value from '2147483647' to '-1'
+Message-ID: <202607080709.kE9W2GbI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,104 +61,76 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git kvm-arm64-sme
-head:   489202b3db0a02f59477f8ec63009dc3d998341f
-commit: b77633efe7c6ef49465e89432b3fd7d1541d3b3a [4/30] arm64/fpsimd: Decide to save ZT0 and streaming mode FFR at bind time
-config: arm64-randconfig-003-20260708 (https://download.01.org/0day-ci/archive/20260708/202607080736.WYo1RXif-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607080736.WYo1RXif-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5c73cd9f0819c1c44e373e3dabb68318b1de1a12
+commit: 100baf0184896f859290a684f864b8200d8ac872 [3509/4300] KVM: arm64: Ensure level is always initialized when relaxing perms
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260708/202607080709.kE9W2GbI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607080709.kE9W2GbI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607080736.WYo1RXif-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607080709.kE9W2GbI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from include/linux/instrumented.h:10,
-                    from include/linux/atomic/atomic-instrumented.h:17,
-                    from include/linux/atomic.h:82,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/arm64/include/asm/bitops.h:25,
-                    from include/linux/bitops.h:67,
-                    from include/linux/bitmap.h:8,
-                    from arch/arm64/kernel/fpsimd.c:9:
-   arch/arm64/kernel/fpsimd.c: In function 'fpsimd_save_user_state':
->> include/linux/kern_levels.h:5:18: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 2 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-         |                  ^~~~~~
-   include/linux/printk.h:483:11: note: in definition of macro 'printk_index_wrap'
-     483 |   _p_func(_fmt, ##__VA_ARGS__);    \
-         |           ^~~~
-   include/linux/printk.h:544:2: note: in expansion of macro 'printk'
-     544 |  printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
-         |  ^~~~~~
-   include/linux/kern_levels.h:10:19: note: in expansion of macro 'KERN_SOH'
-      10 | #define KERN_CRIT KERN_SOH "2" /* critical conditions */
-         |                   ^~~~~~~~
-   include/linux/printk.h:544:9: note: in expansion of macro 'KERN_CRIT'
-     544 |  printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   arch/arm64/kernel/fpsimd.c:517:4: note: in expansion of macro 'pr_crit'
-     517 |    pr_crit("%llu %llu\n",
-         |    ^~~~~~~
-   arch/arm64/kernel/fpsimd.c:517:16: note: format string is defined here
-     517 |    pr_crit("%llu %llu\n",
-         |             ~~~^
-         |                |
-         |                long long unsigned int
-         |             %u
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from include/linux/instrumented.h:10,
-                    from include/linux/atomic/atomic-instrumented.h:17,
-                    from include/linux/atomic.h:82,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/arm64/include/asm/bitops.h:25,
-                    from include/linux/bitops.h:67,
-                    from include/linux/bitmap.h:8,
-                    from arch/arm64/kernel/fpsimd.c:9:
->> include/linux/kern_levels.h:5:18: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
-       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-         |                  ^~~~~~
-   include/linux/printk.h:483:11: note: in definition of macro 'printk_index_wrap'
-     483 |   _p_func(_fmt, ##__VA_ARGS__);    \
-         |           ^~~~
-   include/linux/printk.h:544:2: note: in expansion of macro 'printk'
-     544 |  printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
-         |  ^~~~~~
-   include/linux/kern_levels.h:10:19: note: in expansion of macro 'KERN_SOH'
-      10 | #define KERN_CRIT KERN_SOH "2" /* critical conditions */
-         |                   ^~~~~~~~
-   include/linux/printk.h:544:9: note: in expansion of macro 'KERN_CRIT'
-     544 |  printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   arch/arm64/kernel/fpsimd.c:517:4: note: in expansion of macro 'pr_crit'
-     517 |    pr_crit("%llu %llu\n",
-         |    ^~~~~~~
-   arch/arm64/kernel/fpsimd.c:517:21: note: format string is defined here
-     517 |    pr_crit("%llu %llu\n",
-         |                  ~~~^
-         |                     |
-         |                     long long unsigned int
+   In file included from include/linux/limits.h:7,
+                    from include/linux/overflow.h:6,
+                    from include/linux/bits.h:32,
+                    from arch/arm64/include/asm/kvm_pgtable.h:10,
+                    from arch/arm64/kvm/hyp/pgtable.c:11:
+   arch/arm64/kvm/hyp/pgtable.c: In function 'kvm_pgtable_stage2_relax_perms':
+>> include/vdso/limits.h:8:25: warning: overflow in conversion from 'int' to 's8' {aka 'signed char'} changes value from '2147483647' to '-1' [-Woverflow]
+       8 | #define INT_MAX         ((int)(~0U >> 1))
+         |                         ^
+   arch/arm64/include/asm/tlbflush.h:163:33: note: in expansion of macro 'INT_MAX'
+     163 | #define TLBI_TTL_UNKNOWN        INT_MAX
+         |                                 ^~~~~~~
+   arch/arm64/kvm/hyp/pgtable.c:1359:20: note: in expansion of macro 'TLBI_TTL_UNKNOWN'
+    1359 |         s8 level = TLBI_TTL_UNKNOWN;
+         |                    ^~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/limits.h:7,
+                    from include/linux/overflow.h:6,
+                    from include/linux/bits.h:32,
+                    from arch/arm64/include/asm/kvm_pgtable.h:10,
+                    from arch/arm64/kvm/hyp/nvhe/../pgtable.c:11:
+   arch/arm64/kvm/hyp/nvhe/../pgtable.c: In function 'kvm_pgtable_stage2_relax_perms':
+>> include/vdso/limits.h:8:25: warning: overflow in conversion from 'int' to 's8' {aka 'signed char'} changes value from '2147483647' to '-1' [-Woverflow]
+       8 | #define INT_MAX         ((int)(~0U >> 1))
+         |                         ^
+   arch/arm64/include/asm/tlbflush.h:163:33: note: in expansion of macro 'INT_MAX'
+     163 | #define TLBI_TTL_UNKNOWN        INT_MAX
+         |                                 ^~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../pgtable.c:1359:20: note: in expansion of macro 'TLBI_TTL_UNKNOWN'
+    1359 |         s8 level = TLBI_TTL_UNKNOWN;
+         |                    ^~~~~~~~~~~~~~~~
 
 
-vim +5 include/linux/kern_levels.h
+vim +8 include/vdso/limits.h
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20   4  
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20   5  #define USHRT_MAX	((unsigned short)~0U)
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20   6  #define SHRT_MAX	((short)(USHRT_MAX >> 1))
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20   7  #define SHRT_MIN	((short)(-SHRT_MAX - 1))
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  @8  #define INT_MAX		((int)(~0U >> 1))
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20   9  #define INT_MIN		(-INT_MAX - 1)
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  10  #define UINT_MAX	(~0U)
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  11  #define LONG_MAX	((long)(~0UL >> 1))
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  12  #define LONG_MIN	(-LONG_MAX - 1)
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  13  #define ULONG_MAX	(~0UL)
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  14  #define LLONG_MAX	((long long)(~0ULL >> 1))
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  15  #define LLONG_MIN	(-LLONG_MAX - 1)
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  16  #define ULLONG_MAX	(~0ULL)
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  17  #define UINTPTR_MAX	ULONG_MAX
+3e0e9f8c6e3ca92 Vincenzo Frascino 2020-03-20  18  
 
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+:::::: The code at line 8 was first introduced by commit
+:::::: 3e0e9f8c6e3ca92154a74edc23a8872da921d2b6 linux/limits.h: Extract common header for vDSO
 
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 --
 0-DAY CI Kernel Test Service
