@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A86437131
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 16:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DD04315F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 17:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783529540; cv=none; b=k6roUDQNz/fnXUnIXW62zFqmcRKa0yu9el8HVwlGA6Se63T3JJBTAC6BP7ZoBVeJxrumjdF5YtxNlXa7oPk/jGiuFwP1skWgd8NPY2tRgVSExO7TG/biQwYUSeELIkFPJVg5Q05A21+ZuCD4HH6Wey5a6pLGcCcNUUboGk0NgN0=
+	t=1783531775; cv=none; b=fCHcIrth0b8/OPXnv421xwfQSBzO1AxNPP+0+tntz1/nNwXpZohLv0orLovkttEQziri7bhTl0O5AUqL4VkEaxsFeVTzYCq9OebaJY7f3uRVkwjQsuPi02isjL0Ww6bndExH9OXftFSOdcUpJiymFgtxInN41GKsTCVLpSxJESc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783529540; c=relaxed/simple;
-	bh=TVoTchNUY6F7IzwOOEi/DVJeKrRptluqYxqEQUTajA4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=puyoKK4DzBLZMX1RuK98n5idQX4TVla4V7QIwlafiU6kiQF40S+vT1J4xj2szS8+lKXVzTG6OTzcKcTQFfYwjGUYaDXJk8uaan9zj8DL7EcIak95OiGQ6q1lP0r6J5dloaaDiMdO5DT/7HKOGsS8VxSe2B9JmhXC9ILTjP2szN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aLXrc+o3; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1783531775; c=relaxed/simple;
+	bh=Cs+PZ6YDcY/BOayonSN1L+9GZW+gJTMwoaReirrliEU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Mh/E/ZvRR1i9WpsVDA3Fq1eJeNYHBe7QHhT3dQ/TtzAkPcv4RQehNM2ybHVS9Yvy6v34R2hWWdr/ZFJ4TwRGpbpF3RWQwbCfx4H/owKr21IK3MSIAFrO5hfLQ7TXrLZPjVEPVpwF+a5rpEObCLy4g+5sC/ixASkT+wFAxHxNUcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=noKuxI0K; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aLXrc+o3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="noKuxI0K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783529533; x=1815065533;
+  t=1783531774; x=1815067774;
   h=date:from:to:cc:subject:message-id;
-  bh=TVoTchNUY6F7IzwOOEi/DVJeKrRptluqYxqEQUTajA4=;
-  b=aLXrc+o3cPzks4/jVU2+6+2KNB5bgWGHrZcAk5mlw0OraNzqoCsyRTG1
-   JqJqoMwGDRKPPrxjhmPbmIUJxh5ncj+H4OgO/lQLhgakEgnnoRCJNTuS9
-   zJ2WSS0UXaalKWkESzp1r8dSWxQ/SETTngDv4SEPrELmwi2OGY6X9Au4/
-   OI6TpTVfnmap5T7s56DWJU3mWSN7IS4y3mFqli51t/TpwU7iCI7XKZahd
-   +RIy2o+oQX6kzhf1bOedVsAbUpQyunhmQ6sHkYl95QZWO+KIng7eVkIgT
-   Pco1tgtSB4xmkNrUj2M1ZoSKORz3colunIH1GgIRKKdEWWuD5aZqR0QEd
-   g==;
-X-CSE-ConnectionGUID: rIu2WLFLS4aKOetMZd5CtA==
-X-CSE-MsgGUID: N+I0iNFeS8W+qBZYdtYcCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94553442"
+  bh=Cs+PZ6YDcY/BOayonSN1L+9GZW+gJTMwoaReirrliEU=;
+  b=noKuxI0KmSoCRQsg1wsfyxTYONfLUcdOkMKxUX0Kt/gF8CWieFEtogaY
+   jks+xN2kUZw9FfQR7CLlbSCTVCsQ3Aw0KW+QnVY+Bv4I3lPsomaQb5eH/
+   GNVnpMpNWLhBvSiyIOMvgfbMi1inei4FFryxVJbky7rTLk9gSFLg50dya
+   az73OkEoJjIEpQ2rhDRh3HymMREW9tjxHjTi3QVT3lZHKRj+rln6mxzE5
+   V+3+1qdEAeFzjC0Cm9D8DJxvsbd6Er81yIQ0WTLUfC7L6nPNyX0XA9smT
+   m3/GaHXV8KgunFbZroW+mKiQIMtN/anITTA1TC2m7DAIrST1zn54ZiUlq
+   w==;
+X-CSE-ConnectionGUID: AYLp6d/SSD2V+oWlk4MKGg==
+X-CSE-MsgGUID: cGtGfYJ0SDKCgt8gOKgghg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88118084"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="94553442"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 09:52:05 -0700
-X-CSE-ConnectionGUID: mjuAoKx4QMmKIFY3NoJy3w==
-X-CSE-MsgGUID: 9VuGQxtnTB+vH5C6bus+Dw==
+   d="scan'208";a="88118084"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 10:29:33 -0700
+X-CSE-ConnectionGUID: iKYQzfKNQA6PZRQbiYGCUA==
+X-CSE-MsgGUID: MbbmWT9PT4ecpfs1dAIj1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="277558099"
+   d="scan'208";a="253264801"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Jul 2026 09:52:03 -0700
+  by orviesa010.jf.intel.com with ESMTP; 08 Jul 2026 10:29:33 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whVVA-00000000GdH-2MZ9;
-	Wed, 08 Jul 2026 16:52:00 +0000
-Date: Thu, 09 Jul 2026 00:51:14 +0800
+	id 1whW5R-00000000Gfn-3Oeg;
+	Wed, 08 Jul 2026 17:29:29 +0000
+Date: Thu, 09 Jul 2026 01:28:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2026-01 1/1]
- kernel/bpf/dmabuf_iter.c:117:17: warning: no previous prototype for function
- 'bpf_iter_dmabuf_new'
-Message-ID: <202607090141.RMFcN5KQ-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 166/166]
+ include/trace/stages/init.h:2:23: warning: 'str__futex__trace_system_name'
+ defined but not used
+Message-ID: <202607090156.n4TYtl03-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,75 +60,142 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Mercier,
+Hi JianMin,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-01
-head:   438a142b9dc1da06a555c9853456f23e76cfb744
-commit: 755db8b11c512ff80570c0a57821350f2ba67937 [1/1] BACKPORT: bpf: Add open coded dmabuf iterator
-config: i386-buildonly-randconfig-001-20260708 (https://download.01.org/0day-ci/archive/20260709/202607090141.RMFcN5KQ-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090141.RMFcN5KQ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   7b80053b707666e258e504127dd1bf5ac555f5e1
+commit: 634004c4c8a476c46bda197b0067e9b9a5fd7188 [166/166] ANDROID: futex: Add vendor hook for wait queue
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260709/202607090156.n4TYtl03-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090156.n4TYtl03-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607090141.RMFcN5KQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090156.n4TYtl03-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/dmabuf_iter.c:117:17: warning: no previous prototype for function 'bpf_iter_dmabuf_new' [-Wmissing-prototypes]
-     117 | __bpf_kfunc int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it)
-         |                 ^
-   kernel/bpf/dmabuf_iter.c:117:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     117 | __bpf_kfunc int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it)
-         |             ^
-         |             static 
->> kernel/bpf/dmabuf_iter.c:128:29: warning: no previous prototype for function 'bpf_iter_dmabuf_next' [-Wmissing-prototypes]
-     128 | __bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it)
-         |                             ^
-   kernel/bpf/dmabuf_iter.c:128:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     128 | __bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it)
-         |             ^
-         |             static 
->> kernel/bpf/dmabuf_iter.c:140:18: warning: no previous prototype for function 'bpf_iter_dmabuf_destroy' [-Wmissing-prototypes]
-     140 | __bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
-         |                  ^
-   kernel/bpf/dmabuf_iter.c:140:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     140 | __bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
-         |             ^
-         |             static 
-   3 warnings generated.
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/futex.h:26,
+                    from drivers/android/vendor_hooks.c:40:
+>> include/trace/stages/init.h:2:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/rwsem.h:30,
+                    from drivers/android/vendor_hooks.c:39:
+   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/remoteproc.h:26,
+                    from drivers/android/vendor_hooks.c:38:
+   include/trace/stages/init.h:2:23: warning: 'str__remoteproc__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/syscall_check.h:30,
+                    from drivers/android/vendor_hooks.c:37:
+   include/trace/stages/init.h:2:23: warning: 'str__syscall_check__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/selinux.h:20,
+                    from drivers/android/vendor_hooks.c:36:
+   include/trace/stages/init.h:2:23: warning: 'str__selinux__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/module.h:32,
+                    from drivers/android/vendor_hooks.c:35:
+   include/trace/stages/init.h:2:23: warning: 'str__module__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +/bpf_iter_dmabuf_new +117 kernel/bpf/dmabuf_iter.c
+vim +/str__futex__trace_system_name +2 include/trace/stages/init.h
 
-   116	
- > 117	__bpf_kfunc int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it)
-   118	{
-   119		struct bpf_iter_dmabuf_kern *kit = (void *)it;
-   120	
-   121		BUILD_BUG_ON(sizeof(*kit) > sizeof(*it));
-   122		BUILD_BUG_ON(__alignof__(*kit) != __alignof__(*it));
-   123	
-   124		kit->dmabuf = NULL;
-   125		return 0;
-   126	}
-   127	
- > 128	__bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it)
-   129	{
-   130		struct bpf_iter_dmabuf_kern *kit = (void *)it;
-   131	
-   132		if (kit->dmabuf)
-   133			kit->dmabuf = dma_buf_iter_next(kit->dmabuf);
-   134		else
-   135			kit->dmabuf = dma_buf_iter_begin();
-   136	
-   137		return kit->dmabuf;
-   138	}
-   139	
- > 140	__bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
