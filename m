@@ -1,222 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D6D3D969E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 19:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE773B8D41
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 19:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783539025; cv=none; b=Op8uGd7l6I9ZxF2SV6AjuOTZYJXEarJwGpFaFenrtpTmdeE/O9+M2pruQ0DqMZGzeP1+BBlV0Auq3FNn9ndyLEu6f9upArIb7pJDfkWBWpaucTtftQQsnKgbi84kQdxrzkmK2VuWqr506wIuFIrMhhze0Wlced+AO7aGT9qjY3Y=
+	t=1783540284; cv=none; b=K/srZOnDILOms/fQ1RqWhU0wwiaO+V6dkghd31jUWdcpsIXaq44z+bgwMAt1XMypbSW7h0MU7IJ+mQLZH/6lC7Ajx8Xda+YmIeTrM+OrLJDPKFtrVd+tNiVjMWiJMhkGU6kysaJFRHf6i1A2ffCByhTDHWOzTb4ra8c7MXxub1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783539025; c=relaxed/simple;
-	bh=Zh8BPVOWPHeFnwq+2Tb/03A/z2T74CSg5uGaWLyH7Pk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NU6X1Ec6HxAHOvAK6lD6+5B04Mcjw2j+NbEKwDkBkbg9BY7eMlT/TYk6Pixt3/NZyp3uRK4bU8LoFte2V3RNESug4X6Va35Cv6yhDYh5hdYPS31JX2/7bQ1YWhaNNWqKF0og31I3WNh/nlD1XnWtXobdHp1dlKaJ0MtXv1QErfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJB0ZCP5; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1783540284; c=relaxed/simple;
+	bh=sOn5wa94AgBwNB0vZrJUvVDvvahI1IheX7eQTbwyQxM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cAUPyWtzvAyTS5VJQHpJ9eWjSutdMkgB37zia6YMsZPad4qdPmXwUjyPRMEp4zFRFl7EMhrKOLu9O+YZ3KYXDUUpWVtb6JWPDzpbws35KsoHjANyQIk7PMmwzLL8ElI540tlwWi8CQz8v0MRHvnuaP/eJWQKGVBkCcaNQUAZEmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X81tuyZC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJB0ZCP5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X81tuyZC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783539021; x=1815075021;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Zh8BPVOWPHeFnwq+2Tb/03A/z2T74CSg5uGaWLyH7Pk=;
-  b=fJB0ZCP5F7sgcCrH4bgqzBnpwLkyyzx7f9a20OZ05nJaQbZY0CdW2ic3
-   CJmrGECRN+upPNkCvmB15MyIkH9JX5Di6aqkGiC54YlNxtAVlPE/GreNQ
-   6WuDQ1s4ratBdT5Hy9VBo2QAZ7Ox0Vgl02OioN9gOw+DlQ11I86wcybcC
-   Fb/9YwCsl7nAqc5cLwEYvcOZSlyEkhfzHaCe32KnFyOPV6UirGt2V0G5u
-   nPlnLqWQmpzMzuF5jYt7n2l0lF82R4+BqZsBSuAvM7CPQ7Xns8zmSkXqr
-   ocoqLhhzBG3Vdvk2pVPilyztsc49ReF6MzsbpAF1DjBG7XL2RobdRYPIa
-   g==;
-X-CSE-ConnectionGUID: ECrVRossTQCQ8AvoZohPfg==
-X-CSE-MsgGUID: 4R80ANkESPCAdvza1kOFtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94570583"
+  t=1783540282; x=1815076282;
+  h=date:from:to:cc:subject:message-id;
+  bh=sOn5wa94AgBwNB0vZrJUvVDvvahI1IheX7eQTbwyQxM=;
+  b=X81tuyZCHy/k2+08mD0S2+AmC+rwOUhLxxpbkJbmd4FndYlVMxTSjBkm
+   KIQGvYR9Z/mL0pVn9sx4JfLvP6DCWUKla57JAhnSRkhAXx/omRVah3yZL
+   Y/h9bYGOWnsuMOOZa8CnNKjForV/7/8DhUB7QBZAOcNFDUXf6+l1K7JXg
+   M/U7ENP6LsePdzmf13hKv9UZO481yQTR9tgX7MClBMtBC0v8pAtGJBvw9
+   WMFUXIk+Khxd3heVZ2Lc6MTH3zR11yo7AlKP6V7raAVdCWd3s54SfY9Yn
+   xR9YeuWrVPoslaaIEkE2e4VHS4amImS95fyHZhaC6FaRActKjFZMsYoCw
+   w==;
+X-CSE-ConnectionGUID: 7vlAGrLZRreQrO7AOgu11A==
+X-CSE-MsgGUID: JX8MdJL3Qe+uJP2nU6GJrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94823203"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="94570583"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 12:30:19 -0700
-X-CSE-ConnectionGUID: sQ3vE6ioTbaXfPybP/lVPw==
-X-CSE-MsgGUID: d7v6pJDpQi2KysHIhsDSZw==
+   d="scan'208";a="94823203"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 12:51:22 -0700
+X-CSE-ConnectionGUID: TKmn9tUgRvKYgtteiusVfQ==
+X-CSE-MsgGUID: QqGxCw1vTSip4abSGKaDiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="252626113"
+   d="scan'208";a="277603925"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 08 Jul 2026 12:30:17 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 Jul 2026 12:51:20 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whXyI-00000000Gmd-3LAq;
-	Wed, 08 Jul 2026 19:30:14 +0000
-Date: Thu, 09 Jul 2026 03:29:23 +0800
+	id 1whYIf-00000000Gnp-2n1o;
+	Wed, 08 Jul 2026 19:51:17 +0000
+Date: Thu, 09 Jul 2026 03:50:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-desktop 1/1]
- mm/hmm.c:667:7: error: implicit declaration of function
- 'mmu_interval_check_retry'; did you mean 'vma_interval_tree_remove'?
-Message-ID: <202607090325.KOVc9nta-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1]
+ drivers/usb/host/xhci-sideband.c:263: warning: Function parameter or struct
+ member 'imod_interval' not described in 'xhci_sideband_create_interrupter'
+Message-ID: <202607090352.d0Mdrdsp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-des=
-ktop
-head:   adf8bc5941e7beff5b8ba6f64385d50c6b4d32c5
-commit: ad36ecd6081db9827f1ebaa41671b0b336fd83bf [1/1] ANDROID: GKI: Enable=
- HMM_MIRROR config for all arch
-config: arm64-randconfig-004-20260709 (https://download.01.org/0day-ci/arch=
-ive/20260709/202607090325.KOVc9nta-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260709/202607090325.KOVc9nta-lkp@intel.com/reproduce)
+Hi Mathias,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   6417b973d924236b080ef26fbfee42586a7b3704
+commit: 7b946a32948f90b198e3e51c824576458ceda3a4 [1/1] FROMLIST: xhci: sideband: add initial api to register a secondary interrupter entity
+config: x86_64-buildonly-randconfig-002-20260708 (https://download.01.org/0day-ci/archive/20260709/202607090352.d0Mdrdsp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090352.d0Mdrdsp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607090325.KOVc9nta-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090352.d0Mdrdsp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/hmm.c: In function 'hmm_range_fault':
->> mm/hmm.c:667:7: error: implicit declaration of function 'mmu_interval_ch=
-eck_retry'; did you mean 'vma_interval_tree_remove'? [-Werror=3Dimplicit-fu=
-nction-declaration]
-      if (mmu_interval_check_retry(range->notifier,
-          ^~~~~~~~~~~~~~~~~~~~~~~~
-          vma_interval_tree_remove
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for INTERCONNECT_QCOM
-   Depends on [n]: INTERCONNECT [=3Dn] && ARCH_QCOM [=3Dy]
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=3Dy] && ARCH_QCOM [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=3Dy] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=3Dn] && CAN_DEV [=3Dn] && CAN_NETLINK [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=3Dy]
+>> drivers/usb/host/xhci-sideband.c:263: warning: Function parameter or struct member 'imod_interval' not described in 'xhci_sideband_create_interrupter'
+   drivers/usb/host/xhci-sideband.c:345: warning: Function parameter or struct member 'type' not described in 'xhci_sideband_register'
 
 
-vim +667 mm/hmm.c
+vim +263 drivers/usb/host/xhci-sideband.c
 
-7b86ac3371b70c Christoph Hellwig 2019-08-28  634 =20
-9a4903e49e495b Christoph Hellwig 2019-07-25  635  /**
-9a4903e49e495b Christoph Hellwig 2019-07-25  636   * hmm_range_fault - try =
-to fault some address in a virtual address range
-f970b977e068aa Jason Gunthorpe   2020-03-27  637   * @range:	argument struc=
-ture
-9a4903e49e495b Christoph Hellwig 2019-07-25  638   *
-be957c886d92aa Jason Gunthorpe   2020-05-01  639   * Returns 0 on success o=
-r one of the following error codes:
-73231612dc7c90 J=C3=A9r=C3=B4me Glisse     2019-05-13  640   *
-9a4903e49e495b Christoph Hellwig 2019-07-25  641   * -EINVAL:	Invalid argum=
-ents or mm or virtual address is in an invalid vma
-9a4903e49e495b Christoph Hellwig 2019-07-25  642   *		(e.g., device file vm=
-a).
-73231612dc7c90 J=C3=A9r=C3=B4me Glisse     2019-05-13  643   * -ENOMEM:	Out=
- of memory.
-9a4903e49e495b Christoph Hellwig 2019-07-25  644   * -EPERM:	Invalid permis=
-sion (e.g., asking for write and range is read
-9a4903e49e495b Christoph Hellwig 2019-07-25  645   *		only).
-9a4903e49e495b Christoph Hellwig 2019-07-25  646   * -EBUSY:	The range has =
-been invalidated and the caller needs to wait for
-9a4903e49e495b Christoph Hellwig 2019-07-25  647   *		the invalidation to f=
-inish.
-f970b977e068aa Jason Gunthorpe   2020-03-27  648   * -EFAULT:     A page wa=
-s requested to be valid and could not be made valid
-f970b977e068aa Jason Gunthorpe   2020-03-27  649   *              ie it has=
- no backing VMA or it is illegal to access
-74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  650   *
-f970b977e068aa Jason Gunthorpe   2020-03-27  651   * This is similar to get=
-_user_pages(), except that it can read the page tables
-f970b977e068aa Jason Gunthorpe   2020-03-27  652   * without mutating them =
-(ie causing faults).
-74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  653   */
-be957c886d92aa Jason Gunthorpe   2020-05-01  654  int hmm_range_fault(struc=
-t hmm_range *range)
-74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  655  {
-d28c2c9a487708 Ralph Campbell    2019-11-04  656  	struct hmm_vma_walk hmm_=
-vma_walk =3D {
-d28c2c9a487708 Ralph Campbell    2019-11-04  657  		.range =3D range,
-d28c2c9a487708 Ralph Campbell    2019-11-04  658  		.last =3D range->start,
-d28c2c9a487708 Ralph Campbell    2019-11-04  659  	};
-a22dd506400d0f Jason Gunthorpe   2019-11-12  660  	struct mm_struct *mm =3D =
-range->notifier->mm;
-74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  661  	int ret;
-74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  662 =20
-42fc541404f249 Michel Lespinasse 2020-06-08  663  	mmap_assert_locked(mm);
-74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  664 =20
-a3e0d41c2b1f86 J=C3=A9r=C3=B4me Glisse     2019-05-13  665  	do {
-a3e0d41c2b1f86 J=C3=A9r=C3=B4me Glisse     2019-05-13  666  		/* If range i=
-s no longer valid force retry. */
-a22dd506400d0f Jason Gunthorpe   2019-11-12 @667  		if (mmu_interval_check_=
-retry(range->notifier,
-a22dd506400d0f Jason Gunthorpe   2019-11-12  668  					     range->notifier=
-_seq))
-2bcbeaefde2f03 Christoph Hellwig 2019-07-24  669  			return -EBUSY;
-d28c2c9a487708 Ralph Campbell    2019-11-04  670  		ret =3D walk_page_range=
-(mm, hmm_vma_walk.last, range->end,
-7b86ac3371b70c Christoph Hellwig 2019-08-28  671  				      &hmm_walk_ops, =
-&hmm_vma_walk);
-be957c886d92aa Jason Gunthorpe   2020-05-01  672  		/*
-be957c886d92aa Jason Gunthorpe   2020-05-01  673  		 * When -EBUSY is retur=
-ned the loop restarts with
-be957c886d92aa Jason Gunthorpe   2020-05-01  674  		 * hmm_vma_walk.last se=
-t to an address that has not been stored
-be957c886d92aa Jason Gunthorpe   2020-05-01  675  		 * in pfns. All entries=
- < last in the pfn array are set to their
-be957c886d92aa Jason Gunthorpe   2020-05-01  676  		 * output, and all >=3D =
-are still at their input values.
-be957c886d92aa Jason Gunthorpe   2020-05-01  677  		 */
-d28c2c9a487708 Ralph Campbell    2019-11-04  678  	} while (ret =3D=3D -EBU=
-SY);
-73231612dc7c90 J=C3=A9r=C3=B4me Glisse     2019-05-13  679  	return ret;
-74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  680  }
-73231612dc7c90 J=C3=A9r=C3=B4me Glisse     2019-05-13  681  EXPORT_SYMBOL(h=
-mm_range_fault);
-8cad4713056612 Leon Romanovsky   2025-04-28  682 =20
-
-:::::: The code at line 667 was first introduced by commit
-:::::: a22dd506400d0f4784ad596f073b9eb5ed7c6a2a mm/hmm: remove hmm_mirror a=
-nd related
-
-:::::: TO: Jason Gunthorpe <jgg@mellanox.com>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+   244	
+   245	/**
+   246	 * xhci_sideband_create_interrupter - creates a new interrupter for this sideband
+   247	 * @sb: sideband instance for this usb device
+   248	 * @num_seg: number of event ring segments to allocate
+   249	 * @ip_autoclear: IP autoclearing support such as MSI implemented
+   250	 *
+   251	 * Sets up a xhci interrupter that can be used for this sideband accessed usb
+   252	 * device. Transfer events for this device can be routed to this interrupters
+   253	 * event ring by setting the 'Interrupter Target' field correctly when queueing
+   254	 * the transfer TRBs.
+   255	 * Once this interrupter is created the interrupter target ID can be obtained
+   256	 * by calling xhci_sideband_interrupter_id()
+   257	 *
+   258	 * Returns 0 on success, negative error otherwise
+   259	 */
+   260	int
+   261	xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+   262					 bool ip_autoclear, u32 imod_interval)
+ > 263	{
+   264		int ret = 0;
+   265	
+   266		if (!sb || !sb->xhci)
+   267			return -ENODEV;
+   268	
+   269		mutex_lock(&sb->mutex);
+   270		if (sb->ir) {
+   271			ret = -EBUSY;
+   272			goto out;
+   273		}
+   274	
+   275		sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
+   276							   num_seg, imod_interval);
+   277		if (!sb->ir) {
+   278			ret = -ENOMEM;
+   279			goto out;
+   280		}
+   281	
+   282		sb->ir->ip_autoclear = ip_autoclear;
+   283	
+   284	out:
+   285		mutex_unlock(&sb->mutex);
+   286	
+   287		return ret;
+   288	}
+   289	EXPORT_SYMBOL_GPL(xhci_sideband_create_interrupter);
+   290	
 
 --
 0-DAY CI Kernel Test Service
