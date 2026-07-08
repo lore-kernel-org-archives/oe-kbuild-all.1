@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597773438A2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 17:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAAA4AEEF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 18:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783533131; cv=none; b=PvJB9LWML88fWlY5a2va8AHTB4hkZvyh1szf//0tpzfrm1HdZ9BCqRK5I4r0K3KLwThX0C07peaHrdN4Q5HBFdbjZqZI2QKoNJd3RMuOvDA+M+Z/In9b1vhxIPUPr8FcWPHv0EW0vQuC4ag4iR8IV8itBV0g/omPj1zloEa7hqY=
+	t=1783533912; cv=none; b=IGmpv3xk5VuPv8pNpd8ZZ1ilF2n3rHIOPR2MlEzhrPbvr+8oHB7TwaSlr4Us/cYVi+NLpKTmqJ7pFX/avw5HlZTqgsgyiS1SBeuxEwuEd+YIfZO0566QComO7u1TFd4c85FaGX4XQ27JnhraEXbWnzMRFW4n945GGJJZNTZqdjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783533131; c=relaxed/simple;
-	bh=wA/YdVUzkwafxWEwmcy/fgQX2Lri39DGr2ptD++h1U8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=W3m44+piEay+MIrkbeGQqQkt8k7aOAaWOPuzWhKy39oCHn11NsDiTzdZXDyPBIQandQaRwwFI83ViBCIyL3YeUVy9CVCUwpfpoJIUhpvm5gIOpDrw3sLgQcQVroRuwjiqN3geO9/NH3G0gWZH1fZQa50kaUk6W/kOXSrw8/u1S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N3pTejEl; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1783533912; c=relaxed/simple;
+	bh=w8YZfzSYmLjuVSvhGwmj/GE7s4AQATearYgxjsD7kTI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QwWJ4KY5/dbXz3RGpMfIynnW8iLYMWqEQ5bdWlIExAqgFXmPefPtrsluU96N1yXWSAkid9gPtlUPnhL1zYa2TXmPkDHvsgx6qk8qaOn3dAL4i1u0QsUPICIex2aVVJLXJ0UYcbGSOTVo4I9BboeIaOKN2YwDxSvfiKY5VqBlNuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jZhpYwLS; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N3pTejEl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZhpYwLS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783533129; x=1815069129;
+  t=1783533910; x=1815069910;
   h=date:from:to:cc:subject:message-id;
-  bh=wA/YdVUzkwafxWEwmcy/fgQX2Lri39DGr2ptD++h1U8=;
-  b=N3pTejElwxGHAkaz6LB/ZLmts95IazpZ3T9UuyO6c9bU6pZPOpLGNvdT
-   2GGY7yR0cyDKLtZHX7ytfIAFkDe6Y4QsoepWIq5KAbEo4TFDf3mwe9s1V
-   AzFQ+dXlkGDAs4JhAA75kKbNCur1eauA/LLF1d2CUJdTZswghifSETpcp
-   28xg3AoRB3Rb4a5wSLKugZXKRgWQpNT7o2cWPNiGP6QdL3Caye9OsD45/
-   WzC5cagtkVvoQYEiK3A50wG9MIbjt4f7sxy2UwkgD+EOZeuK4yxglxLCN
-   t+thIAYcVu1ou9BkeHTKaI+tBlwlmtx6LRDL56gbVEHidqM1wpWehKFvw
-   g==;
-X-CSE-ConnectionGUID: W8sHsJzqSki2KveOAKL37Q==
-X-CSE-MsgGUID: lBYhRV3WTHmuHyaRQl89xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="109751810"
+  bh=w8YZfzSYmLjuVSvhGwmj/GE7s4AQATearYgxjsD7kTI=;
+  b=jZhpYwLSkw+jNgrru90QmpWrQL+HEexfUbo8nfnQXGgFw7+Rs2Kp5p7q
+   u9x2CTBKiA/DhXwbvTN+bJPg+RtPy32aCxscriXRLL7MtMV9mTW2J9X+a
+   YU8eZYCt4OGvY++4Smi2WDTsoXysq+A40+j0YR9Gppx+TTYLOEMQiFlyx
+   xyQDD+xuy+Zf8dB0WnmIBnuLuFLI+XytkZzVtVEeHArCpSlfyZ83UwO0G
+   bvOsEy8yhVmFCci6Xqz27bgyRNX/hyxngoV4FJC2uEpuCpbUxnBBQc5qa
+   zs6PtL1sjirNf3qgWZaO43MizxH/tEAbWa2qICN/TCV5I1AMvNdnFnVr7
+   A==;
+X-CSE-ConnectionGUID: gmobZQejQI2mFIa/0kF6SQ==
+X-CSE-MsgGUID: 9EAmtAszQMS6VOfE0T3CLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88030806"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="109751810"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 10:52:08 -0700
-X-CSE-ConnectionGUID: fk2bqTxYSz+OkuN+uu1FPg==
-X-CSE-MsgGUID: a6YIslGgTVy9DxeMc5PPIw==
+   d="scan'208";a="88030806"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 11:05:10 -0700
+X-CSE-ConnectionGUID: HBcPJ82sRXeheDGnFpThSw==
+X-CSE-MsgGUID: NJDAoCBvTj2YuQ7cXSgbPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="277570274"
+   d="scan'208";a="250359977"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Jul 2026 10:52:06 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 08 Jul 2026 11:05:08 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whWRD-00000000Gh9-1lJd;
-	Wed, 08 Jul 2026 17:52:00 +0000
-Date: Thu, 09 Jul 2026 01:51:25 +0800
+	id 1whWdt-00000000Ghz-42M9;
+	Wed, 08 Jul 2026 18:05:05 +0000
+Date: Thu, 09 Jul 2026 02:04:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kyle Zeng <kylebot@openai.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>
-Subject: [jack-fs:for_next 1/4] fs/udf/inode.c:2302:44: error: 'sbi'
- undeclared
-Message-ID: <202607090123.R8ME5MFP-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/qemu_boot 26/69]
+ arch/hexagon/kernel/devtree.c:130:12: error: call to undeclared function
+ 'of_get_flat_dt_root'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202607090147.zIkmN0f0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,99 +61,127 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git for_next
-head:   b0961edc5667d36af3667a2ff07c4804dadecf99
-commit: 107eb175cbc8115811b223f7ea63ca6afa607fe3 [1/4] udf: validate extent partition references in udf_current_aext()
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260709/202607090123.R8ME5MFP-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090123.R8ME5MFP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
+head:   89efd48e5609f41280973bc49df20ffe80177690
+commit: c01c2aee2f3a158faf365c893a4578a5a0dee73f [26/69] hexagon: add memory management enhancements
+config: hexagon-randconfig-r121-20260708 (https://download.01.org/0day-ci/archive/20260709/202607090147.zIkmN0f0-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c279890c85da307abe34f10333442bbf72a60644)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090147.zIkmN0f0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607090123.R8ME5MFP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090147.zIkmN0f0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/udf/inode.c: In function 'udf_current_aext':
->> fs/udf/inode.c:2302:44: error: 'sbi' undeclared (first use in this function)
-    2302 |         if (eloc->partitionReferenceNum >= sbi->s_partitions) {
-         |                                            ^~~
-   fs/udf/inode.c:2302:44: note: each undeclared identifier is reported only once for each function it appears in
+   arch/hexagon/kernel/devtree.c:17:13: warning: no previous prototype for function 'early_init_dt_add_memory_arch' [-Wmissing-prototypes]
+      17 | void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+         |             ^
+   arch/hexagon/kernel/devtree.c:17:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      17 | void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+         | ^
+         | static 
+   arch/hexagon/kernel/devtree.c:50:6: error: call to undeclared function 'of_get_flat_dt_prop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      50 |         p = of_get_flat_dt_prop(node, "bootargs", &l);
+         |             ^
+   arch/hexagon/kernel/devtree.c:50:4: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
+      50 |         p = of_get_flat_dt_prop(node, "bootargs", &l);
+         |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/kernel/devtree.c:104:29: warning: attribute declaration must precede definition [-Wignored-attributes]
+     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
+         |                             ^
+   include/linux/init.h:45:17: note: expanded from macro '__init'
+      45 | #define __init          __section(".init.text") __cold __latent_entropy \
+         |                         ^
+   include/linux/compiler_attributes.h:330:56: note: expanded from macro '__section'
+     330 | #define __section(section)              __attribute__((__section__(section)))
+         |                                                        ^
+   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
+      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
+         |                                          ^
+   arch/hexagon/kernel/devtree.c:104:29: warning: attribute declaration must precede definition [-Wignored-attributes]
+     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
+         |                             ^
+   include/linux/init.h:45:41: note: expanded from macro '__init'
+      45 | #define __init          __section(".init.text") __cold __latent_entropy \
+         |                                                 ^
+   include/linux/compiler_types.h:112:34: note: expanded from macro '__cold'
+     112 | #define __cold                          __attribute__((__cold__))
+         |                                                        ^
+   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
+      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
+         |                                          ^
+   arch/hexagon/kernel/devtree.c:104:36: error: redefinition of 'setup_machine_fdt'
+     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
+         |                                    ^
+   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
+      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
+         |                                          ^
+   arch/hexagon/kernel/devtree.c:120:2: error: use of undeclared identifier 'initial_boot_params'
+     120 |         initial_boot_params = dt_phys;
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/hexagon/kernel/devtree.c:126:23: error: use of undeclared identifier 'initial_boot_params'
+     126 |         if (fdt_magic(initial_boot_params) != OF_DT_HEADER) {
+         |                       ^~~~~~~~~~~~~~~~~~~
+>> arch/hexagon/kernel/devtree.c:130:12: error: call to undeclared function 'of_get_flat_dt_root'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     130 |         dt_root = of_get_flat_dt_root();
+         |                   ^
+>> arch/hexagon/kernel/devtree.c:132:15: error: call to undeclared function 'of_flat_dt_match_machine'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     132 |         mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
+         |                      ^
+>> arch/hexagon/kernel/devtree.c:132:13: error: incompatible integer to pointer conversion assigning to 'const struct machine_desc *' from 'int' [-Wint-conversion]
+     132 |         mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/hexagon/kernel/devtree.c:142:9: error: call to undeclared function 'early_init_dt_scan_root'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     142 |         early_init_dt_scan_root();
+         |         ^
+>> arch/hexagon/kernel/devtree.c:147:2: error: call to undeclared function 'early_init_dt_scan_chosen'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     147 |         early_init_dt_scan_chosen(boot_command_line);
+         |         ^
+   3 warnings and 10 errors generated.
 
 
-vim +/sbi +2302 fs/udf/inode.c
+vim +/of_get_flat_dt_root +130 arch/hexagon/kernel/devtree.c
 
-  2241	
-  2242	/*
-  2243	 * Returns 1 on success, -errno on error, 0 on hit EOF.
-  2244	 */
-  2245	int udf_current_aext(struct inode *inode, struct extent_position *epos,
-  2246			     struct kernel_lb_addr *eloc, uint32_t *elen, int8_t *etype,
-  2247			     int inc)
-  2248	{
-  2249		int alen;
-  2250		uint8_t *ptr;
-  2251		struct short_ad *sad;
-  2252		struct long_ad *lad;
-  2253		struct udf_inode_info *iinfo = UDF_I(inode);
-  2254	
-  2255		if (!epos->bh) {
-  2256			if (!epos->offset)
-  2257				epos->offset = udf_file_entry_alloc_offset(inode);
-  2258			ptr = iinfo->i_data + epos->offset -
-  2259				udf_file_entry_alloc_offset(inode) +
-  2260				iinfo->i_lenEAttr;
-  2261			alen = udf_file_entry_alloc_offset(inode) +
-  2262								iinfo->i_lenAlloc;
-  2263		} else {
-  2264			struct allocExtDesc *header =
-  2265				(struct allocExtDesc *)epos->bh->b_data;
-  2266	
-  2267			if (!epos->offset)
-  2268				epos->offset = sizeof(struct allocExtDesc);
-  2269			ptr = epos->bh->b_data + epos->offset;
-  2270			if (check_add_overflow(sizeof(struct allocExtDesc),
-  2271					le32_to_cpu(header->lengthAllocDescs), &alen))
-  2272				return -1;
-  2273	
-  2274			if (alen > epos->bh->b_size)
-  2275				return -1;
-  2276		}
-  2277	
-  2278		switch (iinfo->i_alloc_type) {
-  2279		case ICBTAG_FLAG_AD_SHORT:
-  2280			sad = udf_get_fileshortad(ptr, alen, &epos->offset, inc);
-  2281			if (!sad)
-  2282				return 0;
-  2283			*etype = le32_to_cpu(sad->extLength) >> 30;
-  2284			eloc->logicalBlockNum = le32_to_cpu(sad->extPosition);
-  2285			eloc->partitionReferenceNum =
-  2286					iinfo->i_location.partitionReferenceNum;
-  2287			*elen = le32_to_cpu(sad->extLength) & UDF_EXTENT_LENGTH_MASK;
-  2288			break;
-  2289		case ICBTAG_FLAG_AD_LONG:
-  2290			lad = udf_get_filelongad(ptr, alen, &epos->offset, inc);
-  2291			if (!lad)
-  2292				return 0;
-  2293			*etype = le32_to_cpu(lad->extLength) >> 30;
-  2294			*eloc = lelb_to_cpu(lad->extLocation);
-  2295			*elen = le32_to_cpu(lad->extLength) & UDF_EXTENT_LENGTH_MASK;
-  2296			break;
-  2297		default:
-  2298			udf_debug("alloc_type = %u unsupported\n", iinfo->i_alloc_type);
-  2299			return -EINVAL;
-  2300		}
-  2301	
-> 2302		if (eloc->partitionReferenceNum >= sbi->s_partitions) {
-  2303			udf_debug("invalid partition reference %u (partitions %u)\n",
-  2304				  eloc->partitionReferenceNum, sbi->s_partitions);
-  2305			return -EFSCORRUPTED;
-  2306		}
-  2307	
-  2308		return 1;
-  2309	}
-  2310	
+288801685d7137 Richard Kuo 2025-08-18  124  
+288801685d7137 Richard Kuo 2025-08-18  125          /* check device tree validity */
+288801685d7137 Richard Kuo 2025-08-18  126          if (fdt_magic(initial_boot_params) != OF_DT_HEADER) {
+288801685d7137 Richard Kuo 2025-08-18  127                  return NULL;
+288801685d7137 Richard Kuo 2025-08-18  128  	}
+288801685d7137 Richard Kuo 2025-08-18  129  
+288801685d7137 Richard Kuo 2025-08-18 @130  	dt_root = of_get_flat_dt_root();
+288801685d7137 Richard Kuo 2025-08-18  131  
+5d4b53d10af44d Brian Cain  2026-01-24 @132  	mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
+288801685d7137 Richard Kuo 2025-08-18  133  
+288801685d7137 Richard Kuo 2025-08-18  134  	if (!mdesc_best) {
+288801685d7137 Richard Kuo 2025-08-18  135  		panic("Unrecognized device tree\n");
+288801685d7137 Richard Kuo 2025-08-18  136  	}
+288801685d7137 Richard Kuo 2025-08-18  137  
+288801685d7137 Richard Kuo 2025-08-18  138          /*
+288801685d7137 Richard Kuo 2025-08-18  139  	 * Sets the top level address and size cells which are stored
+288801685d7137 Richard Kuo 2025-08-18  140  	 * in globals by the devtree infrastructure.
+288801685d7137 Richard Kuo 2025-08-18  141  	 */
+288801685d7137 Richard Kuo 2025-08-18 @142          early_init_dt_scan_root();
+288801685d7137 Richard Kuo 2025-08-18  143  
+288801685d7137 Richard Kuo 2025-08-18  144          /*  Retrieve various information from the /chosen node  */
+288801685d7137 Richard Kuo 2025-08-18  145  #ifndef CONFIG_HEXAGON_MSM8974_FLUID
+288801685d7137 Richard Kuo 2025-08-18  146  	//  Fixme:  do this consistently for platforms
+288801685d7137 Richard Kuo 2025-08-18 @147  	early_init_dt_scan_chosen(boot_command_line);
+288801685d7137 Richard Kuo 2025-08-18  148  #endif
+288801685d7137 Richard Kuo 2025-08-18  149          /*  Setup memory  */
+288801685d7137 Richard Kuo 2025-08-18  150  	//of_scan_flat_dt(early_init_dt_scan_memory, NULL);
+288801685d7137 Richard Kuo 2025-08-18  151  
+288801685d7137 Richard Kuo 2025-08-18  152  	return mdesc_best;
+288801685d7137 Richard Kuo 2025-08-18  153  }
+288801685d7137 Richard Kuo 2025-08-18  154  
+
+:::::: The code at line 130 was first introduced by commit
+:::::: 288801685d71376da5644b5f11ea806fc06ccea1 hexagon: add device tree support
+
+:::::: TO: Richard Kuo <rkuo@quicinc.com>
+:::::: CC: Brian Cain <brian.cain@oss.qualcomm.com>
 
 --
 0-DAY CI Kernel Test Service
