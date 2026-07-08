@@ -1,158 +1,109 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944DF31355C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 04:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3413B8BA1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 05:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783484382; cv=none; b=dvSJPOPrrIURLgvgppQ3uSFxs1cvAmVHI/3SlDaYyVYiBuZfJ+arvM0nIK60nBDN552mduvEVwp+ENclq/VuMVxXfS/S9z81XgXMnPOeuSx/PLQHjoZPUsdUVtPwOYBt/0r+vX3f8wmTx/8X9AdM7d7l4DMc6A/1VoXPTAx5Ia8=
+	t=1783487770; cv=none; b=KueAHAx/Diqze+anbctPSdpTxnj1+pCuu8NoDNhKr2GzzIP7yxQ/2/5haTLlbw42mhmsa/b6qc3kpjKND4W+akI2ulxiCa2y+SV8WHl3wC84JubXyKhOpxxVoqS5F4XVb3RADsDpeJBULIIQKx/8nEHyPxxll8IUeaO0Tzh+swA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783484382; c=relaxed/simple;
-	bh=0eKQVml0TaItxopUMWFBS5QiXZWm70ce8c3gCqwlplk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qzyFccIMu2LhQ4MeHqx39rKpefgv81MC4ymRqPwMXMERrEw6WSd/Ra3Z5//+9un7HyAlDlG+CSbAuPquG3fK9uRa13f869/I0iIzBsS8C19WFCq5WUJt05/PrdmpXN4rwiEmwnoX1XszZ/WFEtqwu6g+AVBCCMFzmse4EN06Nmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lk0p7zAD; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1783487770; c=relaxed/simple;
+	bh=MR6Iu6D/1tgZuFmXVfRknoQ6Yhh0VHPYGspTosWqVyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIqhvi4+bW7Ogg1rwD+sQhbsIhSXOB2tbrCPSFnMvtBGzFmbNYcsMy5b2FhOL8vzTzBG5g903kt2p/mldGfdQ4pthCY3Gh2z3Uj4apm7TmpRQA/Bpt8dvjNoOKR8w3cvTEg+JQBedQDA20FmqYL/rFRcDeMMSifc7PYI4r0wg7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y4C5omGR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lk0p7zAD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4C5omGR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783484380; x=1815020380;
-  h=date:from:to:cc:subject:message-id;
-  bh=0eKQVml0TaItxopUMWFBS5QiXZWm70ce8c3gCqwlplk=;
-  b=Lk0p7zADYXouJ8eom9qRzcN2EDYFVHjkM3ZScgA3dWwRrJiABR4EL23C
-   V0Xs8LUGg76IzStI9VYVDapUczoaLFQWS6CZ12HrrpFoEJKS4RSzqoVzh
-   5EQySyLCjxqUKls6s707Mt972kVmoQovlul7SKXZbIRPACyiV6hQfWiId
-   WgaPb5SyTaUv2UjIS2iK3XTWxl+rUsJ1utWWYBjxcxwOVHlFMt5I+hmCW
-   9DkYBcI7yb+dy3k9f0m0yw+FS0y3955TZKYkGlMUYcT4PYmJ2P5ZEwdeW
-   3S0+LwdpqYrdxHlYTBUgfXfMqmRNVU7vgYq255nGsTNIGfi28AdfFlalA
-   w==;
-X-CSE-ConnectionGUID: KdaE9kEqSqylzmf0ZI5d/Q==
-X-CSE-MsgGUID: hvKdu8sjSKuRuKg4O/gYaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="95655889"
+  t=1783487766; x=1815023766;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MR6Iu6D/1tgZuFmXVfRknoQ6Yhh0VHPYGspTosWqVyM=;
+  b=Y4C5omGR0UeFGMb/rN+QTqeNMQX1P+YRAImO1/6kbwsow4Fg+0mGl0w1
+   PLZ2O082yXFI0m1CTvI4qS1ou88Pk4YJ9q5nTPkK3sucK4pcFHpOlwkpz
+   SSivilPzZMiqc1PLOKlVf2fR24846h8mSyjUN6pw1Bu4khD+W9q8tsJpW
+   LqBih4T085YbTrXVazztvgpc4Zxn+VaP/puNxrytcL6zr+CdA14L8qfbc
+   iL5votKL1P5SsLpYkUrZ102j+kTznkWgDyLxTnWV7cXZe8tQ2isz8sW3j
+   OEdNPEmUWhJq7b+2xYCowiujCdEjB7JYVhJSIlNjJ3VEieDDIKnhHmTw+
+   A==;
+X-CSE-ConnectionGUID: 5BXZjCjtRdudI7KKf71sLg==
+X-CSE-MsgGUID: ga+321f7Q/uyDOyS9E90QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="95658507"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="95655889"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 21:19:40 -0700
-X-CSE-ConnectionGUID: slO4xKDZQmClNG1Mqwp1wA==
-X-CSE-MsgGUID: C+CiTwivQqyogM6I2CaRdw==
+   d="scan'208";a="95658507"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 22:16:05 -0700
+X-CSE-ConnectionGUID: 1QCxjVsPQjSVcU2VkQIKRQ==
+X-CSE-MsgGUID: sMGg6LCBTnqNN65ZafzhqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="253086116"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 07 Jul 2026 21:19:39 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="247812743"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 07 Jul 2026 22:16:03 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whJkz-00000000G1t-1vD4;
-	Wed, 08 Jul 2026 04:19:33 +0000
-Date: Wed, 08 Jul 2026 12:18:57 +0800
+	id 1whKdd-000000002h3-09Ni;
+	Wed, 08 Jul 2026 05:16:01 +0000
+Date: Wed, 8 Jul 2026 07:15:51 +0200
 From: kernel test robot <lkp@intel.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:folded_pgtable 28/28]
- include/asm-generic/pgtable-nopmd.h:60:25: error: invalid type argument of
- unary '*' (have 'pud_t')
-Message-ID: <202607081246.Z9NhVAt6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Bhargav Joshi <j.bhargav.u@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	goledhruva@gmail.com, m-chawdhry@ti.com, daniel.baluta@gmail.com,
+	simona.toaca@nxp.com, j.bhargav.u@gmail.com
+Subject: Re: [PATCH] dt-bindings: dma: ti,dma-crossbar: Convert to DT schema
+Message-ID: <202607080708.nM6GUXuA-lkp@intel.com>
+References: <20260708-ti-dma-crossbar-v1-1-f62796428f13@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260708-ti-dma-crossbar-v1-1-f62796428f13@gmail.com>
 
-tree:   https://github.com/davidhildenbrand/linux folded_pgtable
-head:   710c0f29eb829f67c4c0d1c2a3f764b286282229
-commit: 710c0f29eb829f67c4c0d1c2a3f764b286282229 [28/28] mm/pgtable: catch abuse of folded dummy pgd_t/p4d_t/pud_t
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260708/202607081246.Z9NhVAt6-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607081246.Z9NhVAt6-lkp@intel.com/reproduce)
+Hi Bhargav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bhargav-Joshi/dt-bindings-dma-ti-dma-crossbar-Convert-to-DT-schema/20260708-053027
+base:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
+patch link:    https://lore.kernel.org/r/20260708-ti-dma-crossbar-v1-1-f62796428f13%40gmail.com
+patch subject: [PATCH] dt-bindings: dma: ti,dma-crossbar: Convert to DT schema
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260708/202607080708.nM6GUXuA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607081246.Z9NhVAt6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607080708.nM6GUXuA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/nios2/mm/fault.c: In function 'do_page_fault':
-   arch/nios2/mm/fault.c:231:39: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'p4d_k'
-     231 |                 p4d_t *p4dp, *p4dp_k  p4d_k;
-         |                                       ^~~~~
-   arch/nios2/mm/fault.c:245:17: error: 'p4dp_k' undeclared (first use in this function); did you mean 'pmdp_k'?
-     245 |                 p4dp_k = p4d_offset(pgdp_k, address);
-         |                 ^~~~~~
-         |                 pmdp_k
-   arch/nios2/mm/fault.c:245:17: note: each undeclared identifier is reported only once for each function it appears in
-   arch/nios2/mm/fault.c:246:17: error: 'p4d_k' undeclared (first use in this function); did you mean 'pmd_k'?
-     246 |                 p4d_k = p4dp_get(p4dp_k);
-         |                 ^~~~~
-         |                 pmd_k
-   arch/nios2/mm/fault.c:252:17: error: 'pud' undeclared (first use in this function); did you mean 'pudp'?
-     252 |                 pud = pud_offset(p4dp, address);
-         |                 ^~~
-         |                 pudp
-   In file included from <command-line>:
->> include/asm-generic/pgtable-nopmd.h:60:25: error: invalid type argument of unary '*' (have 'pud_t')
-      60 |         pud_check_dummy(*(pudp));                                       \
-         |                         ^~~~~~~
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/asm-generic/pgtable-nopmd.h:51:30: note: in expansion of macro 'BUILD_BUG_ON'
-      51 | #define pud_check_dummy(pud) BUILD_BUG_ON(__builtin_constant_p(pud_val(pud)))
-         |                              ^~~~~~~~~~~~
-   include/asm-generic/pgtable-nop4d.h:67:50: note: in expansion of macro 'pgd_val'
-      67 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/asm-generic/pgtable-nopud.h:74:50: note: in expansion of macro 'p4d_val'
-      74 | #define pud_val(x)                              (p4d_val((x).p4d))
-         |                                                  ^~~~~~~
-   include/asm-generic/pgtable-nopmd.h:51:64: note: in expansion of macro 'pud_val'
-      51 | #define pud_check_dummy(pud) BUILD_BUG_ON(__builtin_constant_p(pud_val(pud)))
-         |                                                                ^~~~~~~
-   include/asm-generic/pgtable-nopmd.h:60:9: note: in expansion of macro 'pud_check_dummy'
-      60 |         pud_check_dummy(*(pudp));                                       \
-         |         ^~~~~~~~~~~~~~~
-   arch/nios2/mm/fault.c:261:26: note: in expansion of macro 'pmd_offset'
-     261 |                 pmdp_k = pmd_offset(pud_k, address);
-         |                          ^~~~~~~~~~
-   In file included from arch/nios2/include/asm/pgtable.h:25,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:31,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from arch/nios2/mm/fault.c:22:
->> arch/nios2/mm/fault.c:261:37: error: incompatible type for argument 1 of '__pmd_offset'
-     261 |                 pmdp_k = pmd_offset(pud_k, address);
-         |                                     ^~~~~
-         |                                     |
-         |                                     pud_t
-   include/asm-generic/pgtable-nopmd.h:61:22: note: in definition of macro 'pmd_offset'
-      61 |         __pmd_offset(pudp, address);                                    \
-         |                      ^~~~
-   include/asm-generic/pgtable-nopmd.h:53:51: note: expected 'pud_t *' but argument is of type 'pud_t'
-      53 | static __always_inline pmd_t *__pmd_offset(pud_t *pudp, unsigned long address)
-         |                                            ~~~~~~~^~~~
-
-
-vim +60 include/asm-generic/pgtable-nopmd.h
-
-    57	
-    58	#define pmd_offset(pudp, address)					\
-    59	({									\
-  > 60		pud_check_dummy(*(pudp));					\
-    61		__pmd_offset(pudp, address);					\
-    62	})
-    63	
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/dma/ti-dma-crossbar.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
 
 --
 0-DAY CI Kernel Test Service
