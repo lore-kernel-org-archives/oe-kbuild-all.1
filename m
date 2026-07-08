@@ -1,115 +1,93 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5416C370ACF
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 16:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EFC423760
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 16:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783527660; cv=none; b=L3JeXTzrCiVpjvcwabGfBa60WFkf//e1KhkPi66JFecEsP0pzLqGCmsVgRaKEf7sBxfqHdLWdg0efHleXe3iVDXal+8maAJjDpGauQbePkofvtSZhqJxxg1On7uRbd21zZD83StvwdGMiKv1fxqrUdTZer8Db/WRfZPFaref+dM=
+	t=1783528687; cv=none; b=g/w18VzalMm0o6uCEnIYdiy77bqSPpHAGHlxBrLrcpfG9eCwFry5Mhkvs6sG/UnnUbkyHDyvBExWs1aLQ17ZaDOttxYn7fRhwCzFXzrNYT+xkiiOK8zmANClnQQc+08Av1gtmswbqTia1jcGobkhW0a+FNzdP8bpx343KzhCFuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783527660; c=relaxed/simple;
-	bh=PPjhDWa+0AEAs/Q0tIcWkxY7V7zsF1IrAWp1MaUwiDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QzVM2ADba3/f6oxCzyosV8tAJ0aw2fcHRblOMgN3Z5o6gg07TnoVHXTN39BtSVVmHaDrrmaVQib1f7tY4l8YFqmtJNrI7mRN3UtnlBihtLCLMjlilojQ73NzV5Vh4ZDnRIK0Z8npPo13R1PNGgX8FT+mbK2EmSHxZeWOUeP5N1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=bIGlaoTP; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1783528687; c=relaxed/simple;
+	bh=vUJlYOhha+ymfEeUJONjYWkiPwCXQJ+RJ2y1CyqXVLI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TJp1sDnikKFJuAzu5ooSt01kcaaimQYv6TrNFceCLUKQeTFqdZlzCfYUItdZejw0VmdaDmDAjgVcyGCbOqf9BxZKB/3uspGdtrhdjVNmv4nc5VdwWhMCyiW+lwp/x1nd+JgNXkiAR5LC3ZT5HEUWJ+A3L6EqLi+luQ3jPo+aUkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=adwDB8Qa; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="bIGlaoTP"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-92e7c6ec9dbso481185a.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jul 2026 09:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783527657; x=1784132457; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aNrEM48/kUAtSeWbSxXUhqAsANl+gd1l+W0ysjw18Qo=;
-        b=bIGlaoTPm/lhbL9+Vm4Q54At3pAVwKVK5KjaLfyPr4C0rgHZFLdWGEd3al2xthr+zk
-         MRe4mzAiVMI9aTEZ+eEzQrdJlWjy35uEwwqedQbYDz+crMnD3Dd1MaSJJk2hJ4FqUCDn
-         zrQ0+RqlLxx6CbYsgMfHtYBEK4QSYzKEAr5kV7hgv6uDe/CR1JmElKNhSHaZq9z8yooz
-         wBxmTllvxd9ahn0KX23cujouhIJGflyHwuSDpJkRLjT4bZ1IbDRynUtNsZx4c5PUjdg1
-         G8ledpIPBBT2KHu8bKKV0hnmSnHh2HfFISVwRUCkozvC2O8n9x0atIE8S9xZbQPpxg66
-         dtGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783527657; x=1784132457;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aNrEM48/kUAtSeWbSxXUhqAsANl+gd1l+W0ysjw18Qo=;
-        b=WVHBuR3sHngE0nXZ+nsqWA1Per1i7w2V2CGuAwFpTFcv7pX+aVZDNGYCkabA+1qSgT
-         MDR6B9v+pQOm007/XKiCoiN1tjIlntt1aqsdOz5H1iY1OSTc7iyq4aTRpBf/VQRVPVoY
-         67afNZ9+uG3nDKcUZ9dCV5Y2HjnNkOY1s5FkL3G6VnolYpJ01LB9chKJLgOuV4WKEn6K
-         NtJMxzOdV0+Lwpo1aDC7QoEBGUDF1M637CyNsaI1QqhusU3pRpAjVURCzAp/eUYeE4Nl
-         zf9BKIoDIiA52IZRhP2j2wjnXYBok3MGocQOipPyKTbP69ZqSaMw31P8X4yHnXWPbE1C
-         o3+w==
-X-Forwarded-Encrypted: i=1; AHgh+Rqezfj9PBKH1e3w/jXeA8a0rh4PR1asVpetsB8j15J2FVVlCPkYjIDIIvYuTRWscg6MGjMBecylNM3TxLlS@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBjFS0zWQxooYioburFhRyrwXJw+9E8WhGMiwcDf1A6GVdHBJC
-	2RRk9gnaEb+/Rp0EfkmTsP4jgGMizqlYAenvXNe42httL5OeSX5UV3hOFRezp6dfpfQ=
-X-Gm-Gg: AfdE7clNGCPi09gaRpn3YUkce651PU1pN/RjE/0ii71ylHaOUw+BGgBL1ILO+cYIOFm
-	NzyzCC/G2zSBtfka76L6ZZ09Gym4C4Ur2sZKe/D3a77G2s6c2oyZuy3XbpO6AjOYN0kH5tn3esL
-	AftNCjtPeb3DJzLVYpTNhqXm5TcrFbyI6cFquu/rmnnPnZbueCQbLtV21B/SJNdD16a7V3RNpkz
-	ldT1KofAh86Ux88uNCG0WgQWzwbWkF2Kftth/XGlOQYfuumoeN399M+AQsMQOGCnyJ8yR5456RN
-	0aF5RNuhwp6gFh2RRBaqRdaVb9KPt2gwpb0cV0AQdfZsIuckrxzl/tHJLeyW28MGJQPAYcJryz5
-	UHHekheKDyTEvGfxyXRP+rIs4RSQuAogkWK7D48Pc2Kk7tKzFewL6OAKOtqPXiNQabjlO6MrY8l
-	dZYCw1P7cNAacDUY27CP/6Oi4+NNGVlB9O/sPuiyRqov7T+RBEHH7fYcIYfzxB51SnpEgv
-X-Received: by 2002:a05:620a:4041:b0:92b:67e6:8ab4 with SMTP id af79cd13be357-92ecf671299mr280183485a.62.1783527657124;
-        Wed, 08 Jul 2026 09:20:57 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90ba1a3dsm1471710285a.15.2026.07.08.09.20.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 09:20:56 -0700 (PDT)
-Date: Wed, 8 Jul 2026 12:20:52 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [tip:core/entry 2/3] arch/s390/include/asm/entry-common.h:49:18:
- error: call to undeclared function 'task_stack_page'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <ak545Coj9ogxnt4_@gourry-fedora-PF4VCD3F>
-References: <202607081402.DO1ePla3-lkp@intel.com>
- <877bn5sxl3.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="adwDB8Qa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783528685; x=1815064685;
+  h=date:from:to:cc:subject:message-id;
+  bh=vUJlYOhha+ymfEeUJONjYWkiPwCXQJ+RJ2y1CyqXVLI=;
+  b=adwDB8QaF8RzjTyj3fbrGaZ5a8DFpSlktHDx1ZEp9Uix1W36Dg7HPvmt
+   WsFPesFhbtzkENOWkFX6wjOQA+xnh0m+WnhJpFRIRsotGv+tTpAqourG8
+   ohqwLTwq37lrsbM2oZooQtJSnKnLKzLYhG1qjbXaidO9+jwzi/7Qgikgd
+   Zj7t9rrAtrbixqHJFDCCrJJManR/Rv8xXd6f5jGwrfkqf4m6h3bubCHRk
+   qoXr7fD0KMJWYdWYJtk76vxyWrgOsvMZqjmxWW9gt+zLy81Is6bDEn7h1
+   ekyYZDU7q/CRBE0YEMHxGcDCAV6YbM0qn9BbXkZeCGurE5pYNNdobV/8T
+   Q==;
+X-CSE-ConnectionGUID: doia6a84TRyl3cnZeP9Eqg==
+X-CSE-MsgGUID: dmWPewgGTbqPqQ0Vnt39yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="87879931"
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="87879931"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 09:38:04 -0700
+X-CSE-ConnectionGUID: 8PAKWrFSQku7HtHL9FFPYw==
+X-CSE-MsgGUID: VVZlKNF9QEyUrolAhu3pGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="254973932"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 08 Jul 2026 09:38:02 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1whVHc-00000000Gcv-0Z0L;
+	Wed, 08 Jul 2026 16:38:00 +0000
+Date: Thu, 09 Jul 2026 00:37:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/qemu_boot 24/69]
+ arch/hexagon/kernel/smp.c:25:1: sparse: sparse: symbol '__pcpu_scope_ipi_irq'
+ was not declared. Should it be static?
+Message-ID: <202607090058.qXwCQYnf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <877bn5sxl3.ffs@fw13>
 
-On Wed, Jul 08, 2026 at 10:19:04AM +0200, Thomas Gleixner wrote:
-> On Wed, Jul 08 2026 at 14:56, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/entry
-> > head:   34ef6308418f138395a664bf9f5d80ace9825ac6
-> > commit: 7fc04d7044aaa5ffe2afe78979fe6ddd5da24f10 [2/3] syscall_user_dispatch: Make it configurable in Kconfig
-> > config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260708/202607081402.DO1ePla3-lkp@intel.com/config)
-> > compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607081402.DO1ePla3-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202607081402.DO1ePla3-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    In file included from arch/s390/kernel/traps.c:24:
-> >    In file included from include/linux/entry-common.h:5:
-> >>> arch/s390/include/asm/entry-common.h:49:18: error: call to undeclared function 'task_stack_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-> >       49 |         pai_kernel_exit(current_pt_regs());
-> 
-> Bah. I missed to spot the header ordering change putting the
-> asm/... includes in front. I really hate our include mess.
-> 
-> Let me fix that up.
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
+head:   89efd48e5609f41280973bc49df20ffe80177690
+commit: 8be2af9ea122e286ca475227495296847336bb9d [24/69] hexagon: add debug infrastructure
+config: hexagon-randconfig-r121-20260707 (https://download.01.org/0day-ci/archive/20260709/202607090058.qXwCQYnf-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090058.qXwCQYnf-lkp@intel.com/reproduce)
 
-Ah, I wasn't 100% sure on this - noted for the future.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090058.qXwCQYnf-lkp@intel.com/
 
-Sorry about the headache and thank you for the fixup.
+sparse warnings: (new ones prefixed by >>)
+   arch/hexagon/kernel/smp.c: note: in included file (through arch/hexagon/include/asm/processor.h, arch/hexagon/include/asm/thread_info.h, include/linux/thread_info.h, ...):
+   arch/hexagon/include/asm/hexagon_vm.h:51:5: sparse: sparse: undefined preprocessor identifier '__HEXAGON_ARCH__'
+>> arch/hexagon/kernel/smp.c:25:1: sparse: sparse: symbol '__pcpu_scope_ipi_irq' was not declared. Should it be static?
+>> arch/hexagon/kernel/smp.c:28:1: sparse: sparse: symbol '__pcpu_scope_vpid' was not declared. Should it be static?
 
-~Gregory
+vim +/__pcpu_scope_ipi_irq +25 arch/hexagon/kernel/smp.c
+
+    24	
+  > 25	DEFINE_PER_CPU(u32, ipi_irq);
+    26	
+    27	/*  Virtual Processor ID storage  */
+  > 28	DEFINE_PER_CPU(u32, vpid);
+    29	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
