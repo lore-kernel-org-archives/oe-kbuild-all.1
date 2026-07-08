@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDC6348C5E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 10:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38016374721
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 10:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783505310; cv=none; b=ta3QOCvDauf7B4RFKNbIUTae5OREKEfPcf2NZ4p8Lo5I+GIg/Pzfzu65HrRki+XJwjM36ceKUwl2iwjDzE5P6qsgrEI/7RNUAMk6C0oCmnBPGt+XuMvKzivmH+rDpquAzDIjmBfBPfLoIkrYySwrpRqTO5jxKP8wMcNswl1v8nM=
+	t=1783507960; cv=none; b=Xe6y1uz9fZah9lPgj453slTs6Qcaq1Pt0oapAtDdr4K2cBWN4gJHoeatqkJXf+VKByfnkSebaN0Mz0Mn6rp1gsPMo81UlHFzSVRz/f66Goi0UY1HGPT8Ve/sGsDc3b/usyM7NLC0mgv1brTvMaF/4EpC/shvsbxHnveeV9B50IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783505310; c=relaxed/simple;
-	bh=THTzkp4vRaY2xldYkwy0TjUKiTjm0dWN+EeRWXnqDGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UHLOGAtpTQayA0HVtBg1jFtnWrLpDgjDLZZqoJXdv2/XuencOHcELzdk8sM2mbZ/hIJJci/FZIQ8G/LD2dmeNVEG40fwegAKT4vG+l8V4rVd1Dpd3HduPtm6n78KEHHmMK+3OIsCUe7DzmMUceotDiL4hDLYSS6YTlno/FwNyOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4ksamiQ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1783507960; c=relaxed/simple;
+	bh=0zEhojez4h7ndAGgGf//WAqfj5VGdSaa1pwpMuVas7A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XIyJ4gcwHD5zPMkmtImEVRG/xRXw70fNOfcngW7l/8F/a2NnblEr6BZC0fZyHSIZLwZ4VtyvLEMekAOgsGcO/Gyz5nDNKEvJgiN46e1qMnFKvHLMjCzSu4eMWAx1TbqYILrA/6wF1LCj/AxCcNY7R0G4oW4cegt9bIhFGb+H1Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DAhAaki9; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4ksamiQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DAhAaki9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783505308; x=1815041308;
+  t=1783507952; x=1815043952;
   h=date:from:to:cc:subject:message-id;
-  bh=THTzkp4vRaY2xldYkwy0TjUKiTjm0dWN+EeRWXnqDGQ=;
-  b=m4ksamiQSvie7sRytxKiXLLj2C6s5jcSzlAi6iAp29XJLwwmBV2JVKD5
-   TGX0041wIqnqQFQgZfKzawZrvrGqmtO2hq+CGL62KBmBWMdawsLuqUgG8
-   8Zxe484/8yf7/me453j66ljiWqvakM+T/xSofujmjLd/dcqkZ2/e/TYbA
-   jLVeEx3jEzZGSmTZginUu0txyk1o3JmZT5Dx9eNI1ekXlk2xfaN0l8Rim
-   JajyfS0bjLsAxfdEOjQ60u3eGqQgEuizpoU8/MLsfr9nNQon7/4qsTJXO
-   JAEHKGSgVzCdJ+s8LW7Flgk/V2bxxe0B6rGh3JcZNk2HnR5K98qbxq9lu
-   g==;
-X-CSE-ConnectionGUID: CzYfMpWyTcGF9jvweRlpNw==
-X-CSE-MsgGUID: hElRBOqwQlKziZJbME2rUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84037729"
+  bh=0zEhojez4h7ndAGgGf//WAqfj5VGdSaa1pwpMuVas7A=;
+  b=DAhAaki90nzQoicnkSlls7r8jhdvupNpqQLHbk8pnTcUdidWZOFEQORE
+   LzpgUBVd8utJMjlzOtdiS/xc5a7i7AZXgDDMuZPgPxSVktvLCe4zo7W60
+   EFHBb8rs2RN/KuN160tnfpjJpQMVFlPaEqC55yMUAvRvd169kYAYzZ+78
+   UGmNmDP7xbtibZ51mezKH6nPmH4dDFulxvqHwLhSeCU0lnUEX1zLiUkHJ
+   8DZDluSi9J7t86OXBvq2TzvPOB2ou8awojX42egEzDwKAniILU+95vueI
+   iezXLAFnTGopIuMYov8VerBhQsgM95K+eAEVWWTJJqBbHDBgtfYTB+8re
+   Q==;
+X-CSE-ConnectionGUID: F05Q3nEGS2K+hggf07sYYQ==
+X-CSE-MsgGUID: /mC/NBViTJidJobPhQd6MA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="86715170"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="84037729"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 03:08:28 -0700
-X-CSE-ConnectionGUID: NTihVFCBSdejakyQ9q5MPA==
-X-CSE-MsgGUID: O+fivszVSDmToFJtI/1SZA==
+   d="scan'208";a="86715170"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 03:52:29 -0700
+X-CSE-ConnectionGUID: Jut7rAgySWGGDHlGc9CqwQ==
+X-CSE-MsgGUID: JJonv0UHTBSn7p5ubUX+dQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="278623012"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Jul 2026 03:08:26 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 08 Jul 2026 03:52:26 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whPCZ-00000000GEd-3KnP;
-	Wed, 08 Jul 2026 10:08:23 +0000
-Date: Wed, 08 Jul 2026 18:07:27 +0800
+	id 1whPt9-00000000GGZ-3UJa;
+	Wed, 08 Jul 2026 10:52:23 +0000
+Date: Wed, 08 Jul 2026 18:52:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 166/166]
- include/trace/stages/init.h:2:23: warning: 'str__module__trace_system_name'
- defined but not used
-Message-ID: <202607081705.6SVVrkOU-lkp@intel.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
+ Bradley Morgan <include@grrlz.net>
+Subject: [tip:timers/core 2/31]
+ kernel/time/posix-cpu-timers.c:1307:9: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202607081829.RPQBe6Fs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,207 +60,151 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Kuan-Ying,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   7b80053b707666e258e504127dd1bf5ac555f5e1
-commit: 60e6687899e0f2244a9854444f4fdb940dba350d [166/166] ANDROID: module: Add vendor hooks
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260708/202607081705.6SVVrkOU-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607081705.6SVVrkOU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/core
+head:   aca60c717492c858814f74d4403aeb37643eef78
+commit: a73d7f98e41a96d6e1bcb0e731ab185d9d67878e [2/31] posix-cpu-timers: Don't abuse lock_task_sighand() in handle_posix_cpu_timers()
+config: i386-randconfig-063-20260708 (https://download.01.org/0day-ci/archive/20260708/202607081829.RPQBe6Fs-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607081829.RPQBe6Fs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607081705.6SVVrkOU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607081829.RPQBe6Fs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/time/posix-cpu-timers.c:1307:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/time/posix-cpu-timers.c:1307:9: sparse:     expected struct spinlock [usertype] *lock
+   kernel/time/posix-cpu-timers.c:1307:9: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/time/posix-cpu-timers.c:1367:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/time/posix-cpu-timers.c:1367:36: sparse:     expected struct spinlock [usertype] *lock
+   kernel/time/posix-cpu-timers.c:1367:36: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/time/posix-cpu-timers.c: note: in included file:
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/remoteproc.h:26,
-                    from drivers/android/vendor_hooks.c:38:
-   include/trace/stages/init.h:2:23: warning: 'str__remoteproc__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/syscall_check.h:30,
-                    from drivers/android/vendor_hooks.c:37:
-   include/trace/stages/init.h:2:23: warning: 'str__syscall_check__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/selinux.h:20,
-                    from drivers/android/vendor_hooks.c:36:
-   include/trace/stages/init.h:2:23: warning: 'str__selinux__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/module.h:32,
-                    from drivers/android/vendor_hooks.c:35:
->> include/trace/stages/init.h:2:23: warning: 'str__module__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/creds.h:33,
-                    from drivers/android/vendor_hooks.c:34:
-   include/trace/stages/init.h:2:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/avc.h:32,
-                    from drivers/android/vendor_hooks.c:33:
-   include/trace/stages/init.h:2:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/vmscan.h:17,
-                    from drivers/android/vendor_hooks.c:32:
-   include/trace/stages/init.h:2:23: warning: 'str__vmscan__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpuidle_psci.h:24,
-                    from drivers/android/vendor_hooks.c:31:
-   include/trace/stages/init.h:2:23: warning: 'str__cpuidle_psci__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/pm_domain.h:20,
-                    from drivers/android/vendor_hooks.c:30:
-   include/trace/stages/init.h:2:23: warning: 'str__pm_domain__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+vim +1307 kernel/time/posix-cpu-timers.c
 
-
-vim +/str__module__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   4) 
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   5) #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   6) 
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   7) #define TRACE_MAKE_SYSTEM_STR()				\
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   8) 	static const char TRACE_SYSTEM_STRING[] =	\
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   9) 		__stringify(TRACE_SYSTEM)
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  10) 
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03 @11) TRACE_MAKE_SYSTEM_STR();
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  12) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+  1296	
+  1297	static void handle_posix_cpu_timers(struct task_struct *tsk)
+  1298	{
+  1299		struct k_itimer *timer, *next;
+  1300		unsigned long flags, start;
+  1301		LIST_HEAD(firing);
+  1302	
+  1303		/*
+  1304		 * tsk is current and ->sighand is stable, see the
+  1305		 * tsk->exit_state check in run_posix_cpu_timers()
+  1306		 */
+> 1307		spin_lock_irqsave(&tsk->sighand->siglock, flags);
+  1308	
+  1309		do {
+  1310			/*
+  1311			 * On RT locking sighand lock does not disable interrupts,
+  1312			 * so this needs to be careful vs. ticks. Store the current
+  1313			 * jiffies value.
+  1314			 */
+  1315			start = READ_ONCE(jiffies);
+  1316			barrier();
+  1317	
+  1318			/*
+  1319			 * Here we take off tsk->signal->cpu_timers[N] and
+  1320			 * tsk->cpu_timers[N] all the timers that are firing, and
+  1321			 * put them on the firing list.
+  1322			 */
+  1323			check_thread_timers(tsk, &firing);
+  1324	
+  1325			check_process_timers(tsk, &firing);
+  1326	
+  1327			/*
+  1328			 * The above timer checks have updated the expiry cache and
+  1329			 * because nothing can have queued or modified timers after
+  1330			 * sighand lock was taken above it is guaranteed to be
+  1331			 * consistent. So the next timer interrupt fastpath check
+  1332			 * will find valid data.
+  1333			 *
+  1334			 * If timer expiry runs in the timer interrupt context then
+  1335			 * the loop is not relevant as timers will be directly
+  1336			 * expired in interrupt context. The stub function below
+  1337			 * returns always true which allows the compiler to
+  1338			 * optimize the loop out.
+  1339			 *
+  1340			 * If timer expiry is deferred to task work context then
+  1341			 * the following rules apply:
+  1342			 *
+  1343			 * - On !RT kernels no tick can have happened on this CPU
+  1344			 *   after sighand lock was acquired because interrupts are
+  1345			 *   disabled. So reenabling task work before dropping
+  1346			 *   sighand lock and reenabling interrupts is race free.
+  1347			 *
+  1348			 * - On RT kernels ticks might have happened but the tick
+  1349			 *   work ignored posix CPU timer handling because the
+  1350			 *   CPUTIMERS_WORK_SCHEDULED bit is set. Reenabling work
+  1351			 *   must be done very carefully including a check whether
+  1352			 *   ticks have happened since the start of the timer
+  1353			 *   expiry checks. posix_cpu_timers_enable_work() takes
+  1354			 *   care of that and eventually lets the expiry checks
+  1355			 *   run again.
+  1356			 */
+  1357		} while (!posix_cpu_timers_enable_work(tsk, start));
+  1358	
+  1359		/*
+  1360		 * We must release sighand lock before taking any timer's lock.
+  1361		 * There is a potential race with timer deletion here, as the
+  1362		 * siglock now protects our private firing list.  We have set
+  1363		 * the firing flag in each timer, so that a deletion attempt
+  1364		 * that gets the timer lock before we do will give it up and
+  1365		 * spin until we've taken care of that timer below.
+  1366		 */
+  1367		spin_unlock_irqrestore(&tsk->sighand->siglock, flags);
+  1368	
+  1369		/*
+  1370		 * Now that all the timers on our list have the firing flag,
+  1371		 * no one will touch their list entries but us.  We'll take
+  1372		 * each timer's lock before clearing its firing flag, so no
+  1373		 * timer call will interfere.
+  1374		 */
+  1375		list_for_each_entry_safe(timer, next, &firing, it.cpu.elist) {
+  1376			bool cpu_firing;
+  1377	
+  1378			/*
+  1379			 * spin_lock() is sufficient here even independent of the
+  1380			 * expiry context. If expiry happens in hard interrupt
+  1381			 * context it's obvious. For task work context it's safe
+  1382			 * because all other operations on timer::it_lock happen in
+  1383			 * task context (syscall or exit).
+  1384			 */
+  1385			spin_lock(&timer->it_lock);
+  1386			list_del_init(&timer->it.cpu.elist);
+  1387			cpu_firing = timer->it.cpu.firing;
+  1388			timer->it.cpu.firing = false;
+  1389			/*
+  1390			 * If the firing flag is cleared then this raced with a
+  1391			 * timer rearm/delete operation. So don't generate an
+  1392			 * event.
+  1393			 */
+  1394			if (likely(cpu_firing))
+  1395				cpu_timer_fire(timer);
+  1396			/* See posix_cpu_timer_wait_running() */
+  1397			rcu_assign_pointer(timer->it.cpu.handling, NULL);
+  1398			spin_unlock(&timer->it_lock);
+  1399		}
+  1400	}
+  1401	
 
 --
 0-DAY CI Kernel Test Service
