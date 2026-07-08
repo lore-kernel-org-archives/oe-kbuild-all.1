@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792003FE37A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 09:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C413DEAC3
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 09:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783501469; cv=none; b=m8WkZMYeQM+yj8YV22qbK7BbLrZTdhjj2A2uLBfcId+mQGJi0miA3Fgkf1XG1fWQHtku3F+ebR0O5AeBgF9l/tzPMLn9RKaI/JVwkZEpCxoAhu8uwyAClCi6c+w6eg70G4KqL5RM8XlWz0ALP8MKFrdpfy1Xm69ss/BeIftBfFs=
+	t=1783501529; cv=none; b=rnoa7qKdSiWQ2w5AjK2njDcqfBTXp9Qw49FWspXaoKZH5/CnUvoSYSzYtQrBNLqYIi0r9NWbk3KgQjO8ErNWAq9jrpcBiH7ff/BqcOX16f+2NrWDmRyqd3LKuM8EkWDM6vLuira+RcmMVT/iWKlOFdd3RUxxAa3p7GNjk99h07M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783501469; c=relaxed/simple;
-	bh=MnvECqvAkFwt/JicwNZ8r+n3wekC/bucfhsHGceqCXo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KsQTai1XP3eToZS97E9DdmQz4+csHGGzMiiY+pnQ7qqnwkmj2GjceIrp70zdmRDSCmEoqqihFgOvPbV5gK6wi0z1QJ+7RwF0xY6catZru8PfBRshdadpkYZ5XRWeyycD0MeJ94rGeS7r6/Sx2Ikl0TlnGeE3f0lfCjn7sEd1Tz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5yOIHCz; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1783501529; c=relaxed/simple;
+	bh=EgiwreYYIoZYLs9c1+YGldAAsQedP9Jh1F4cmJhQoy4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cc0TFPJptdMBZMaf5XIhrzqbA4w4A4BD2mBOeWY+evGDZj21mZr/vstOv1tjio9wRdB72z38j6d7U7bA3xJ3V3jkLpZF1jn9W4ZPmkqEO9Ow7XGn28wdTamCsPRionfut7g3yvICzMQ4Ji3NRLC7PHjvAz2JroHm3+a8zISDay0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDaffJs+; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5yOIHCz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDaffJs+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783501467; x=1815037467;
+  t=1783501527; x=1815037527;
   h=date:from:to:cc:subject:message-id;
-  bh=MnvECqvAkFwt/JicwNZ8r+n3wekC/bucfhsHGceqCXo=;
-  b=d5yOIHCzk6wtzfh6DGl+ex+4XkVzfzNdXOJxwGgi9bKg6fvHwmNtn1VT
-   PWJ+fpKTbP9mVDipvfyDkM0Hov2by10H5CIKF6Q+iTF/otVnKHeKGOTTh
-   UOiDp0j8ioY5icgQg7B4XHjHFa1DEjh1JnIoR7SpcN1Q/xmJq2S+240KF
-   fPZiOFt/rDdMyL/rBRgD922M93FtML2M7UceHCSog9rxYdyMSSqcUdE42
-   /Qa3qXet7crQaqgiWfsFIaScsV06Bc/32gbePyb93tmbgzmbKBinkS0V8
-   bQBaH8Qtbk30E+G9c84NxA9MUj/HACi2F8nJwp2m00L1s15i/n7MQBEvS
+  bh=EgiwreYYIoZYLs9c1+YGldAAsQedP9Jh1F4cmJhQoy4=;
+  b=TDaffJs+18IvwCPJWKmqrheqCf179bH7ZJxO3P9fl8bhOjVjHlkWvs3f
+   nfHZ6DzImDXXSEqf0Py1vVUlpbqAzSgP2jSOYp5CbtElZyaz0EoLeGVgk
+   wK75M+urOym0okDxKLQuuc93fr8GU0on3B0Va6Uai60VS4/nn8AdpOoiS
+   ojErSgtMQs2sMCHVEpc6wijngixah+fvLDJNafVmveW9S90PjIS66DGTj
+   9H426YgMNvF5qDwjndAPdNjaW6q34G0VjCQJ5Ptum/3WHbIVehS+QKh4Y
+   wLLXfMd3c4CGboLmTAQOU4n+pFkv7pgoBIjpe2y6DQGpCEVRegE2UiWUS
    A==;
-X-CSE-ConnectionGUID: xNGjLF8gTjyjwbYdHCnfZA==
-X-CSE-MsgGUID: z8uxuWPHS6O7eXUPLZMmSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84277607"
+X-CSE-ConnectionGUID: cfeUdU17RFqO14bXE5W5Gw==
+X-CSE-MsgGUID: +KdzGZ8wQQa+w4YGR/GyiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="95673736"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="84277607"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 02:04:25 -0700
-X-CSE-ConnectionGUID: Iug1oSWxTlKHeU+kEHydrw==
-X-CSE-MsgGUID: kGrAMDtYTdO2nhUS5pYWGg==
+   d="scan'208";a="95673736"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 02:05:27 -0700
+X-CSE-ConnectionGUID: omdqSJ+PSaisbtSdTl5HNQ==
+X-CSE-MsgGUID: 719LtlAQTYytFJHa4BFLwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="253742211"
+   d="scan'208";a="247867883"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 08 Jul 2026 02:04:24 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 08 Jul 2026 02:05:25 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whOCa-00000000GBn-3OWj;
-	Wed, 08 Jul 2026 09:04:20 +0000
-Date: Wed, 08 Jul 2026 17:03:49 +0800
+	id 1whODa-00000000GC7-3UWT;
+	Wed, 08 Jul 2026 09:05:22 +0000
+Date: Wed, 08 Jul 2026 17:04:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15-2025-10 4/4]
- drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: warning: braces around
- scalar initializer
-Message-ID: <202607081715.wrW3ZWYt-lkp@intel.com>
+Subject: [android-common:android15-6.6-2025-07 1/1]
+ kernel/trace/bpf_trace.c:3110:10: warning: default initialization of an
+ object of type 'typeof ((attr->link_create.uprobe_multi.path))' (aka 'const
+ unsigned long long') leaves the object uninitialized
+Message-ID: <202607081745.ZXvZMKw9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,115 +61,95 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15-2025-10
-head:   4c0914b864b51decdd7928c67acb2d938279911e
-commit: d2dca14b9f2c3e17c56ed5380f1c7cbf16c4870e [4/4] BACKPORT: bpf: Allow fall back to interpreter for programs with stack size <= 512
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260708/202607081715.wrW3ZWYt-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607081715.wrW3ZWYt-lkp@intel.com/reproduce)
+Hi Jiri,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-07
+head:   37d6d309e99289fe4afaf756aa8d98a11d1642f3
+commit: 89ae89f53d201143560f1e9ed4bfa62eee34f88e [1/1] bpf: Add multi uprobe link
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260708/202607081745.ZXvZMKw9-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607081745.ZXvZMKw9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 89ae89f53d20 ("bpf: Add multi uprobe link")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607081715.wrW3ZWYt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607081745.ZXvZMKw9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/net/inet_sock.h:22,
-                    from include/linux/udp.h:16,
-                    from drivers/net/ethernet/qlogic/qede/qede_main.c:23:
-   include/net/sock.h: In function '__dst_negative_advice':
-   include/net/sock.h:2125:35: warning: cast between incompatible function types from 'struct dst_entry * (*)(struct dst_entry *)' to 'void (*)(struct sock *, struct dst_entry *)' [-Wcast-function-type]
-    2125 |                 negative_advice = (android_dst_ops_negative_advice_new_t)dst->ops->negative_advice;
-         |                                   ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c: At top level:
->> drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: warning: braces around scalar initializer
-     197 |         {
+>> kernel/trace/bpf_trace.c:3110:10: warning: default initialization of an object of type 'typeof ((attr->link_create.uprobe_multi.path))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    3110 |         upath = u64_to_user_ptr(attr->link_create.uprobe_multi.path);
+         |                 ^
+   include/linux/kernel.h:62:2: note: expanded from macro 'u64_to_user_ptr'
+      62 |         typecheck(u64, (x));            \
          |         ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:199:17: error: field name not in record or union initializer
-     199 |                 .arfs_filter_op = qede_arfs_filter_op,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:199:17: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:199:35: error: initialization of 'void (*)(void *, u8 *, bool)' {aka 'void (*)(void *, unsigned char *, _Bool)'} from incompatible pointer type 'void (*)(void *, void *, u8)' {aka 'void (*)(void *, void *, unsigned char)'} [-Werror=incompatible-pointer-types]
-     199 |                 .arfs_filter_op = qede_arfs_filter_op,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:199:35: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:201:17: error: field name not in record or union initializer
-     201 |                 .link_update = qede_link_update,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:201:17: note: (near initialization for 'qede_ll_ops.force_mac')
->> drivers/net/ethernet/qlogic/qede/qede_main.c:201:32: warning: excess elements in scalar initializer
-     201 |                 .link_update = qede_link_update,
-         |                                ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:201:32: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:202:17: error: field name not in record or union initializer
-     202 |                 .schedule_recovery_handler = qede_schedule_recovery_handler,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:202:17: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:202:46: warning: excess elements in scalar initializer
-     202 |                 .schedule_recovery_handler = qede_schedule_recovery_handler,
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:202:46: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:203:17: error: field name not in record or union initializer
-     203 |                 .schedule_hw_err_handler = qede_schedule_hw_err_handler,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:203:17: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:203:44: warning: excess elements in scalar initializer
-     203 |                 .schedule_hw_err_handler = qede_schedule_hw_err_handler,
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:203:44: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:204:17: error: field name not in record or union initializer
-     204 |                 .get_generic_tlv_data = qede_get_generic_tlv_data,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:204:17: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:204:41: warning: excess elements in scalar initializer
-     204 |                 .get_generic_tlv_data = qede_get_generic_tlv_data,
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:204:41: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:205:17: error: field name not in record or union initializer
-     205 |                 .get_protocol_tlv_data = qede_get_eth_tlv_data,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:205:17: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:205:42: warning: excess elements in scalar initializer
-     205 |                 .get_protocol_tlv_data = qede_get_eth_tlv_data,
-         |                                          ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:205:42: note: (near initialization for 'qede_ll_ops.force_mac')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-     197 |         {
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+>> kernel/trace/bpf_trace.c:3111:13: warning: default initialization of an object of type 'typeof ((attr->link_create.uprobe_multi.offsets))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    3111 |         uoffsets = u64_to_user_ptr(attr->link_create.uprobe_multi.offsets);
+         |                    ^
+   include/linux/kernel.h:62:2: note: expanded from macro 'u64_to_user_ptr'
+      62 |         typecheck(u64, (x));            \
          |         ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: note: (near initialization for 'qede_ll_ops')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:207:22: warning: initialized field overwritten [-Woverride-init]
-     207 |         .force_mac = qede_force_mac,
-         |                      ^~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:207:22: note: (near initialization for 'qede_ll_ops.force_mac')
-   cc1: some warnings being treated as errors
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+>> kernel/trace/bpf_trace.c:3117:21: warning: default initialization of an object of type 'typeof ((attr->link_create.uprobe_multi.ref_ctr_offsets))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    3117 |         uref_ctr_offsets = u64_to_user_ptr(attr->link_create.uprobe_multi.ref_ctr_offsets);
+         |                            ^
+   include/linux/kernel.h:62:2: note: expanded from macro 'u64_to_user_ptr'
+      62 |         typecheck(u64, (x));            \
+         |         ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   3 warnings generated.
 
 
-vim +197 drivers/net/ethernet/qlogic/qede/qede_main.c
+vim +3110 kernel/trace/bpf_trace.c
 
-e712d52b9f2a8ec Yuval Mintz             2015-10-26  195  
-a2ec6172d29cf3a Sudarsana Kalluru       2015-10-26  196  static struct qed_eth_cb_ops qede_ll_ops = {
-a2ec6172d29cf3a Sudarsana Kalluru       2015-10-26 @197  	{
-e4917d46a6537c5 Chopra, Manish          2017-04-13  198  #ifdef CONFIG_RFS_ACCEL
-e4917d46a6537c5 Chopra, Manish          2017-04-13  199  		.arfs_filter_op = qede_arfs_filter_op,
-e4917d46a6537c5 Chopra, Manish          2017-04-13  200  #endif
-a2ec6172d29cf3a Sudarsana Kalluru       2015-10-26 @201  		.link_update = qede_link_update,
-ccc67ef50b9085b Tomer Tayar             2019-01-28  202  		.schedule_recovery_handler = qede_schedule_recovery_handler,
-a8736ea83b80526 Igor Russkikh           2020-05-14  203  		.schedule_hw_err_handler = qede_schedule_hw_err_handler,
-d25b859ccd614d2 Sudarsana Reddy Kalluru 2018-05-22  204  		.get_generic_tlv_data = qede_get_generic_tlv_data,
-d25b859ccd614d2 Sudarsana Reddy Kalluru 2018-05-22  205  		.get_protocol_tlv_data = qede_get_eth_tlv_data,
-a2ec6172d29cf3a Sudarsana Kalluru       2015-10-26  206  	},
-eff169608c25019 Yuval Mintz             2016-05-11  207  	.force_mac = qede_force_mac,
-97379f15c21e7ae Chopra, Manish          2017-04-24  208  	.ports_update = qede_udp_ports_update,
-a2ec6172d29cf3a Sudarsana Kalluru       2015-10-26  209  };
-a2ec6172d29cf3a Sudarsana Kalluru       2015-10-26  210  
-
-:::::: The code at line 197 was first introduced by commit
-:::::: a2ec6172d29cf3aed92e9db40e83e36329db1dd5 qede: Add support for link
-
-:::::: TO: Sudarsana Kalluru <Sudarsana.Kalluru@qlogic.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+  3080	
+  3081	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+  3082	{
+  3083		struct bpf_uprobe_multi_link *link = NULL;
+  3084		unsigned long __user *uref_ctr_offsets;
+  3085		unsigned long *ref_ctr_offsets = NULL;
+  3086		struct bpf_link_primer link_primer;
+  3087		struct bpf_uprobe *uprobes = NULL;
+  3088		unsigned long __user *uoffsets;
+  3089		void __user *upath;
+  3090		u32 flags, cnt, i;
+  3091		struct path path;
+  3092		char *name;
+  3093		int err;
+  3094	
+  3095		/* no support for 32bit archs yet */
+  3096		if (sizeof(u64) != sizeof(void *))
+  3097			return -EOPNOTSUPP;
+  3098	
+  3099		if (prog->expected_attach_type != BPF_TRACE_UPROBE_MULTI)
+  3100			return -EINVAL;
+  3101	
+  3102		flags = attr->link_create.uprobe_multi.flags;
+  3103		if (flags & ~BPF_F_UPROBE_MULTI_RETURN)
+  3104			return -EINVAL;
+  3105	
+  3106		/*
+  3107		 * path, offsets and cnt are mandatory,
+  3108		 * ref_ctr_offsets is optional
+  3109		 */
+> 3110		upath = u64_to_user_ptr(attr->link_create.uprobe_multi.path);
+> 3111		uoffsets = u64_to_user_ptr(attr->link_create.uprobe_multi.offsets);
+  3112		cnt = attr->link_create.uprobe_multi.cnt;
+  3113	
+  3114		if (!upath || !uoffsets || !cnt)
+  3115			return -EINVAL;
+  3116	
+> 3117		uref_ctr_offsets = u64_to_user_ptr(attr->link_create.uprobe_multi.ref_ctr_offsets);
 
 --
 0-DAY CI Kernel Test Service
