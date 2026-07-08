@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FCF3FFAAA
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 14:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C19372B25
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 14:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783520154; cv=none; b=tuBFW5kWNbS0z2LJayqz1I3O4XC8i/SDyJ7rvX+ZwcXNoB0KYynHQSoHbXMS01Z6gqQl7Ot7LJd9g1zDe4TjCWotwRa7dlKYZ52FoOwtvhXkUNhzzTGAIdxeUeZTzU/FVmZnQ+3Jxc4W81fNHEj9Xs2m74jTqCHXizh4RJQ/FKA=
+	t=1783522290; cv=none; b=N9x9tf7J6BIrMT6Kuy0jU7xPCyA1+J5E3RMEzDKvLu8UU1AT4navEAneN/lsWCnR5zy9DJOcPWDKiaIUGeH08K51FrqnCeogZCzqGwp9H6Xyamezk2tsj0D2HbqKNgEDyH+yNt/hsYNFC8tLZq54yGDwc0UUHODnshU/qD+/Ltw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783520154; c=relaxed/simple;
-	bh=cN7Jam+Boa+p2HoIaguM/+wtqYmroFp+9cqzdzU4dkU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=r+deGGTsiXQxRSZViOnewPD+QbY4smH6rfSoeNScQhhCRwUWH09LmMmhEqvB4KeXgZfrFnOvnnRIml6LSrqJ0BxmUA1XghX+jrXa/MkTIZ6c3UR8K99VRNfH20RDx2/U4kR6cX4ztEiUmFVe9o/Fn4TnitjySNjjMBJL/usHH3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IF7n4Hh+; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1783522290; c=relaxed/simple;
+	bh=+Sr7STkRDd5EB/IQuksLGdBXEJYxRc8xquMWJYPyKAg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OOrMIGFBqhGS1jJRLMbopNJdC4GbZZaKp7EQY2m3XRqTpm2XzVvBwaswC3c/DTGYQBr3Ji5Yia7z9okcYtgz4Zy+sTT5bRkZVERVtE9YTDWod1OdKyE+p86vaHlO4TMcQaVeUSQ4DvsscerxCGwJ+rX/ZVeA4DvDoes6ph1djqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hd7VEMWN; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IF7n4Hh+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hd7VEMWN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783520151; x=1815056151;
+  t=1783522289; x=1815058289;
   h=date:from:to:cc:subject:message-id;
-  bh=cN7Jam+Boa+p2HoIaguM/+wtqYmroFp+9cqzdzU4dkU=;
-  b=IF7n4Hh+kU5ax52dYPtFQhVJcwUWkJ0TrsH+kHLPQTKdKSr37viqCkpW
-   493XcG9Cbul4XjrwF3X8b2ESig5l/TSNb1fZANfNAMxvGQ5a5pGKhS73w
-   Vg7QB6Mywtn6PVZ6UU8AxmV59+mGbvrV/cIfeu87XJZYht3C47QNO6nm8
-   BhTXRrpD2BMsWbbpGkiFA99x1i51awy1ZjHzkJN+NDd+JpF5LjmCSGavp
-   ifNOcaPEjpVeH5jgoCJMkYbdCBkkXmdOHyhH+5j5gSlIz0NBeiEe115TP
-   JwrtQRKw2omIdCTyhvlHmc0F1lvbdC46tHQfgQjuZ3eY0rzPR6Rg0IFg6
-   Q==;
-X-CSE-ConnectionGUID: LHWjE8RLTtuqBPgS/Op6Eg==
-X-CSE-MsgGUID: DvE/pZfMRoKLFV5YwmP9tA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95698964"
+  bh=+Sr7STkRDd5EB/IQuksLGdBXEJYxRc8xquMWJYPyKAg=;
+  b=Hd7VEMWNLXOibIxEvx/hljgy57XN0BdZBpbRpu3eyJmXEVbmc8KMxrrA
+   elO9cBlR6BD7AriipnlZuyPDGSXucijumeAbiw84pRfv2flyyfNc+73uI
+   rI6ojgEMZwb9AUwPpWc2Jb2LRgG/qGMyzp6jM4Ce0XpIcUW/0Jdo7vZwb
+   Umbs5qdhLdPuf7LDxybMhm/5Q5qmc5Cx/5hqnHJWyo2FzBO7CDrIdDM5X
+   PvEliNN6USrofrgyx2gwbmG+u784Mlsju1jgDo0mvbc5RBScv166/GXnp
+   CuiE/+PJj8m4QlHUJRDWTj5giIcKtujHNXrh0WCdCDpd3O5znF4dATdxP
+   g==;
+X-CSE-ConnectionGUID: CSTCFfVgTxCeWw2L97PncA==
+X-CSE-MsgGUID: ufk2vG+MQemcQTSq6fGpiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101732895"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="95698964"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 07:15:41 -0700
-X-CSE-ConnectionGUID: Xh4lXKGjSOizyzJPVjhX8A==
-X-CSE-MsgGUID: c66eXLgYRNaDi4g3eGd5Eg==
+   d="scan'208";a="101732895"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 07:51:28 -0700
+X-CSE-ConnectionGUID: r+hZ8lfxSKuru948vu3mSA==
+X-CSE-MsgGUID: ix/z/f5bR1mz/wSfxh2tUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="259205890"
+   d="scan'208";a="257897049"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Jul 2026 07:15:39 -0700
+  by orviesa003.jf.intel.com with ESMTP; 08 Jul 2026 07:51:27 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whT3h-00000000GUR-0GfQ;
-	Wed, 08 Jul 2026 14:15:31 +0000
-Date: Wed, 08 Jul 2026 22:15:21 +0800
+	id 1whTcS-00000000GXN-00N4;
+	Wed, 08 Jul 2026 14:51:24 +0000
+Date: Wed, 08 Jul 2026 22:50:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-10 0/1]
- kernel/trace/ring_buffer.c:1821: warning: Function parameter or member
- 'writer' not described in '__ring_buffer_alloc'
-Message-ID: <202607082235.y5EhJi3s-lkp@intel.com>
+Subject: [zen:7.1/prjc 21/21] kernel/sched/psi.c:871:13: sparse:
+ sparse: dereference of noderef expression
+Message-ID: <202607082228.uU1oG5oc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,120 +59,129 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Vincent,
+Hi Steven,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-10
-head:   a03fb833a7fa2cc2276b3c45eb0672ecb2ca3234
-commit: bc115ff00f4cd4d21ddf7e6e200f389d81acc69e [0/1] ANDROID: ring-buffer: Introducing ring-buffer writer
-config: i386-buildonly-randconfig-004-20260708 (https://download.01.org/0day-ci/archive/20260708/202607082235.y5EhJi3s-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607082235.y5EhJi3s-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 7.1/prjc
+head:   e19a2fd1a698f9cef6627172cf26123993ec3774
+commit: 554af5ca804c16da84a47b49a517697a9b81bb54 [21/21] sched/alt: Reintroduce psi support
+config: mips-randconfig-r131-20260708 (https://download.01.org/0day-ci/archive/20260708/202607082228.uU1oG5oc-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607082228.uU1oG5oc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607082235.y5EhJi3s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607082228.uU1oG5oc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/build_utility.c: note: in included file:
+>> kernel/sched/psi.c:871:13: sparse: sparse: dereference of noderef expression
 
->> kernel/trace/ring_buffer.c:1821: warning: Function parameter or member 'writer' not described in '__ring_buffer_alloc'
+vim +871 kernel/sched/psi.c
 
+eb414681d5a07d Johannes Weiner    2018-10-26  792  
+570c8efd5eb79c Peter Zijlstra     2025-05-23  793  #define for_each_group(iter, group) \
+570c8efd5eb79c Peter Zijlstra     2025-05-23  794  	for (typeof(group) iter = group; iter; iter = iter->parent)
+570c8efd5eb79c Peter Zijlstra     2025-05-23  795  
+36b238d5717279 Johannes Weiner    2020-03-16  796  static void psi_group_change(struct psi_group *group, int cpu,
+3840cbe24cf060 Johannes Weiner    2024-10-03  797  			     unsigned int clear, unsigned int set,
+570c8efd5eb79c Peter Zijlstra     2025-05-23  798  			     u64 now, bool wake_clock)
+eb414681d5a07d Johannes Weiner    2018-10-26  799  {
+eb414681d5a07d Johannes Weiner    2018-10-26  800  	struct psi_group_cpu *groupc;
+eb414681d5a07d Johannes Weiner    2018-10-26  801  	unsigned int t, m;
+71dbdde7914d32 Johannes Weiner    2022-08-26  802  	u32 state_mask;
+eb414681d5a07d Johannes Weiner    2018-10-26  803  
+ddae0ca2a8fe12 John Stultz        2024-06-18  804  	lockdep_assert_rq_held(cpu_rq(cpu));
+eb414681d5a07d Johannes Weiner    2018-10-26  805  	groupc = per_cpu_ptr(group->pcpu, cpu);
+eb414681d5a07d Johannes Weiner    2018-10-26  806  
+71dbdde7914d32 Johannes Weiner    2022-08-26  807  	/*
+71dbdde7914d32 Johannes Weiner    2022-08-26  808  	 * Start with TSK_ONCPU, which doesn't have a corresponding
+71dbdde7914d32 Johannes Weiner    2022-08-26  809  	 * task count - it's just a boolean flag directly encoded in
+71dbdde7914d32 Johannes Weiner    2022-08-26  810  	 * the state mask. Clear, set, or carry the current state if
+71dbdde7914d32 Johannes Weiner    2022-08-26  811  	 * no changes are requested.
+71dbdde7914d32 Johannes Weiner    2022-08-26  812  	 */
+71dbdde7914d32 Johannes Weiner    2022-08-26  813  	if (unlikely(clear & TSK_ONCPU)) {
+71dbdde7914d32 Johannes Weiner    2022-08-26  814  		state_mask = 0;
+71dbdde7914d32 Johannes Weiner    2022-08-26  815  		clear &= ~TSK_ONCPU;
+71dbdde7914d32 Johannes Weiner    2022-08-26  816  	} else if (unlikely(set & TSK_ONCPU)) {
+71dbdde7914d32 Johannes Weiner    2022-08-26  817  		state_mask = PSI_ONCPU;
+71dbdde7914d32 Johannes Weiner    2022-08-26  818  		set &= ~TSK_ONCPU;
+71dbdde7914d32 Johannes Weiner    2022-08-26  819  	} else {
+71dbdde7914d32 Johannes Weiner    2022-08-26  820  		state_mask = groupc->state_mask & PSI_ONCPU;
+71dbdde7914d32 Johannes Weiner    2022-08-26  821  	}
+eb414681d5a07d Johannes Weiner    2018-10-26  822  
+71dbdde7914d32 Johannes Weiner    2022-08-26  823  	/*
+71dbdde7914d32 Johannes Weiner    2022-08-26  824  	 * The rest of the state mask is calculated based on the task
+71dbdde7914d32 Johannes Weiner    2022-08-26  825  	 * counts. Update those first, then construct the mask.
+71dbdde7914d32 Johannes Weiner    2022-08-26  826  	 */
+eb414681d5a07d Johannes Weiner    2018-10-26  827  	for (t = 0, m = clear; m; m &= ~(1 << t), t++) {
+eb414681d5a07d Johannes Weiner    2018-10-26  828  		if (!(m & (1 << t)))
+eb414681d5a07d Johannes Weiner    2018-10-26  829  			continue;
+9d10a13d1e4c34 Charan Teja Reddy  2021-04-16  830  		if (groupc->tasks[t]) {
+9d10a13d1e4c34 Charan Teja Reddy  2021-04-16  831  			groupc->tasks[t]--;
+9d10a13d1e4c34 Charan Teja Reddy  2021-04-16  832  		} else if (!psi_bug) {
+71dbdde7914d32 Johannes Weiner    2022-08-26  833  			printk_deferred(KERN_ERR "psi: task underflow! cpu=%d t=%d tasks=[%u %u %u %u] clear=%x set=%x\n",
+eb414681d5a07d Johannes Weiner    2018-10-26  834  					cpu, t, groupc->tasks[0],
+eb414681d5a07d Johannes Weiner    2018-10-26  835  					groupc->tasks[1], groupc->tasks[2],
+71dbdde7914d32 Johannes Weiner    2022-08-26  836  					groupc->tasks[3], clear, set);
+eb414681d5a07d Johannes Weiner    2018-10-26  837  			psi_bug = 1;
+eb414681d5a07d Johannes Weiner    2018-10-26  838  		}
+eb414681d5a07d Johannes Weiner    2018-10-26  839  	}
+eb414681d5a07d Johannes Weiner    2018-10-26  840  
+eb414681d5a07d Johannes Weiner    2018-10-26  841  	for (t = 0; set; set &= ~(1 << t), t++)
+eb414681d5a07d Johannes Weiner    2018-10-26  842  		if (set & (1 << t))
+eb414681d5a07d Johannes Weiner    2018-10-26  843  			groupc->tasks[t]++;
+eb414681d5a07d Johannes Weiner    2018-10-26  844  
+34f26a15611afb Chengming Zhou     2022-09-07  845  	if (!group->enabled) {
+34f26a15611afb Chengming Zhou     2022-09-07  846  		/*
+34f26a15611afb Chengming Zhou     2022-09-07  847  		 * On the first group change after disabling PSI, conclude
+34f26a15611afb Chengming Zhou     2022-09-07  848  		 * the current state and flush its time. This is unlikely
+34f26a15611afb Chengming Zhou     2022-09-07  849  		 * to matter to the user, but aggregation (get_recent_times)
+34f26a15611afb Chengming Zhou     2022-09-07  850  		 * may have already incorporated the live state into times_prev;
+34f26a15611afb Chengming Zhou     2022-09-07  851  		 * avoid a delta sample underflow when PSI is later re-enabled.
+34f26a15611afb Chengming Zhou     2022-09-07  852  		 */
+34f26a15611afb Chengming Zhou     2022-09-07  853  		if (unlikely(groupc->state_mask & (1 << PSI_NONIDLE)))
+34f26a15611afb Chengming Zhou     2022-09-07  854  			record_times(groupc, now);
+34f26a15611afb Chengming Zhou     2022-09-07  855  
+34f26a15611afb Chengming Zhou     2022-09-07  856  		groupc->state_mask = state_mask;
+34f26a15611afb Chengming Zhou     2022-09-07  857  
+34f26a15611afb Chengming Zhou     2022-09-07  858  		return;
+34f26a15611afb Chengming Zhou     2022-09-07  859  	}
+34f26a15611afb Chengming Zhou     2022-09-07  860  
+0ec208ce983492 Tvrtko Ursulin     2024-06-25  861  	state_mask = test_states(groupc->tasks, state_mask);
+7fae6c8171d20a Chengming Zhou     2021-03-03  862  
+7fae6c8171d20a Chengming Zhou     2021-03-03  863  	/*
+7fae6c8171d20a Chengming Zhou     2021-03-03  864  	 * Since we care about lost potential, a memstall is FULL
+7fae6c8171d20a Chengming Zhou     2021-03-03  865  	 * when there are no other working tasks, but also when
+7fae6c8171d20a Chengming Zhou     2021-03-03  866  	 * the CPU is actively reclaiming and nothing productive
+7fae6c8171d20a Chengming Zhou     2021-03-03  867  	 * could run even if it were runnable. So when the current
+7fae6c8171d20a Chengming Zhou     2021-03-03  868  	 * task in a cgroup is in_memstall, the corresponding groupc
+7fae6c8171d20a Chengming Zhou     2021-03-03  869  	 * on that cpu is in PSI_MEM_FULL state.
+7fae6c8171d20a Chengming Zhou     2021-03-03  870  	 */
+71dbdde7914d32 Johannes Weiner    2022-08-26 @871  	if (unlikely((state_mask & PSI_ONCPU) && cpu_curr(cpu)->in_memstall))
+7fae6c8171d20a Chengming Zhou     2021-03-03  872  		state_mask |= (1 << PSI_MEM_FULL);
+7fae6c8171d20a Chengming Zhou     2021-03-03  873  
+34f26a15611afb Chengming Zhou     2022-09-07  874  	record_times(groupc, now);
+34f26a15611afb Chengming Zhou     2022-09-07  875  
+33b2d6302abc4c Suren Baghdasaryan 2019-05-14  876  	groupc->state_mask = state_mask;
+33b2d6302abc4c Suren Baghdasaryan 2019-05-14  877  
+65457b74aa9437 Domenico Cerasuolo 2023-03-30  878  	if (state_mask & group->rtpoll_states)
+65457b74aa9437 Domenico Cerasuolo 2023-03-30  879  		psi_schedule_rtpoll_work(group, 1, false);
+36b238d5717279 Johannes Weiner    2020-03-16  880  
+36b238d5717279 Johannes Weiner    2020-03-16  881  	if (wake_clock && !delayed_work_pending(&group->avgs_work))
+36b238d5717279 Johannes Weiner    2020-03-16  882  		schedule_delayed_work(&group->avgs_work, PSI_FREQ);
+eb414681d5a07d Johannes Weiner    2018-10-26  883  }
+eb414681d5a07d Johannes Weiner    2018-10-26  884  
 
-vim +1821 kernel/trace/ring_buffer.c
+:::::: The code at line 871 was first introduced by commit
+:::::: 71dbdde7914d32e86f01ac1f6e54e964c9dfdbd9 sched/psi: Remove NR_ONCPU task accounting
 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1806  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1807  /**
-d611851b421731 zhangwei(Jovi             2013-07-15  1808)  * __ring_buffer_alloc - allocate a new ring_buffer
-68814b58c52077 Robert Richter            2008-11-24  1809   * @size: the size in bytes per cpu that is needed.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1810   * @flags: attributes to set for the ring buffer.
-59e7cffe5cca6f Fabian Frederick          2014-06-05  1811   * @key: ring buffer reader_lock_key.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1812   *
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1813   * Currently the only flag that is available is the RB_FL_OVERWRITE
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1814   * flag. This flag means that the buffer will overwrite old data
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1815   * when the buffer wraps. If this flag is not set, the buffer will
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1816   * drop data when the tail hits the head.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1817   */
-13292494379f92 Steven Rostedt (VMware    2019-12-13  1818) struct trace_buffer *__ring_buffer_alloc(unsigned long size, unsigned flags,
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1819  					struct lock_class_key *key,
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1820  					struct ring_buffer_writer *writer)
-7a8e76a3829f10 Steven Rostedt            2008-09-29 @1821  {
-13292494379f92 Steven Rostedt (VMware    2019-12-13  1822) 	struct trace_buffer *buffer;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  1823) 	long nr_pages;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1824  	int bsize;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  1825) 	int cpu;
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1826  	int ret;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1827  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1828  	/* keep it in its own cache line */
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1829  	buffer = kzalloc(ALIGN(sizeof(*buffer), cache_line_size()),
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1830  			 GFP_KERNEL);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1831  	if (!buffer)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1832  		return NULL;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1833  
-b18cc3de00ec34 Sebastian Andrzej Siewior 2016-12-07  1834  	if (!zalloc_cpumask_var(&buffer->cpumask, GFP_KERNEL))
-9e01c1b74c9531 Rusty Russell             2009-01-01  1835  		goto fail_free_buffer;
-9e01c1b74c9531 Rusty Russell             2009-01-01  1836  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1837  	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1838  	buffer->flags = flags;
-37886f6a9f62d2 Steven Rostedt            2009-03-17  1839  	buffer->clock = trace_clock_local;
-1f8a6a10fb9437 Peter Zijlstra            2009-06-08  1840  	buffer->reader_lock_key = key;
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1841  	if (writer) {
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1842  		buffer->writer = writer;
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1843  		atomic_inc(&buffer->record_disabled);
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1844  	}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1845  
-15693458c4bc06 Steven Rostedt (Red Hat   2013-02-28  1846) 	init_irq_work(&buffer->irq_work.work, rb_wake_up_waiters);
-f1dc6725882b5c Steven Rostedt (Red Hat   2013-03-04  1847) 	init_waitqueue_head(&buffer->irq_work.waiters);
-15693458c4bc06 Steven Rostedt (Red Hat   2013-02-28  1848) 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1849  	/* need at least two pages */
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1850  	if (nr_pages < 2)
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1851  		nr_pages = 2;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1852  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1853  	buffer->cpus = nr_cpu_ids;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1854  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1855  	bsize = sizeof(void *) * nr_cpu_ids;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1856  	buffer->buffers = kzalloc(ALIGN(bsize, cache_line_size()),
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1857  				  GFP_KERNEL);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1858  	if (!buffer->buffers)
-9e01c1b74c9531 Rusty Russell             2009-01-01  1859  		goto fail_free_cpumask;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1860  
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1861  	cpu = raw_smp_processor_id();
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1862  	cpumask_set_cpu(cpu, buffer->cpumask);
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1863  	buffer->buffers[cpu] = rb_allocate_cpu_buffer(buffer, nr_pages, cpu);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1864  	if (!buffer->buffers[cpu])
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1865  		goto fail_free_buffers;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1866  
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1867  	ret = cpuhp_state_add_instance(CPUHP_TRACE_RB_PREPARE, &buffer->node);
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1868  	if (ret < 0)
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1869  		goto fail_free_buffers;
-554f786e284a6c Steven Rostedt            2009-03-11  1870  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1871  	mutex_init(&buffer->mutex);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1872  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1873  	return buffer;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1874  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1875   fail_free_buffers:
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1876  	for_each_buffer_cpu(buffer, cpu) {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1877  		if (buffer->buffers[cpu])
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1878  			rb_free_cpu_buffer(buffer->buffers[cpu]);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1879  	}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1880  	kfree(buffer->buffers);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1881  
-9e01c1b74c9531 Rusty Russell             2009-01-01  1882   fail_free_cpumask:
-9e01c1b74c9531 Rusty Russell             2009-01-01  1883  	free_cpumask_var(buffer->cpumask);
-9e01c1b74c9531 Rusty Russell             2009-01-01  1884  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1885   fail_free_buffer:
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1886  	kfree(buffer);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1887  	return NULL;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1888  }
-1f8a6a10fb9437 Peter Zijlstra            2009-06-08  1889  EXPORT_SYMBOL_GPL(__ring_buffer_alloc);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1890  
-
-:::::: The code at line 1821 was first introduced by commit
-:::::: 7a8e76a3829f1067b70f715771ff88baf2fbf3c3 tracing: unified trace buffer
-
-:::::: TO: Steven Rostedt <rostedt@goodmis.org>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 --
 0-DAY CI Kernel Test Service
