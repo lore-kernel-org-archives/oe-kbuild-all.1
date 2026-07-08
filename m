@@ -1,98 +1,115 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961B636F903
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 15:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5416C370ACF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 16:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783525529; cv=none; b=qpDnLrge14BI2B15EHMw1VAJyKL+QxiVpXR314Pqs2px7+yPfIL046Y+ZNz2g46u4uXoB/RjxFxJ77RsJFFXiSTTFdANLktbEgQ71RgWeVWsXvpaAqznV+BxUC9CC0jiQDrE2YG0E5esh1L14LWAakDjM/8V84yGcCjvLJhkSNs=
+	t=1783527660; cv=none; b=L3JeXTzrCiVpjvcwabGfBa60WFkf//e1KhkPi66JFecEsP0pzLqGCmsVgRaKEf7sBxfqHdLWdg0efHleXe3iVDXal+8maAJjDpGauQbePkofvtSZhqJxxg1On7uRbd21zZD83StvwdGMiKv1fxqrUdTZer8Db/WRfZPFaref+dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783525529; c=relaxed/simple;
-	bh=rtJUv4iZDaCzEUrSRD2Rsgtlx4m18MDf7E65kBmgxFY=;
+	s=arc-20240116; t=1783527660; c=relaxed/simple;
+	bh=PPjhDWa+0AEAs/Q0tIcWkxY7V7zsF1IrAWp1MaUwiDk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=IrNh2IUY4ccsulxNNOy7V98A9LXaKReQWFhldDumtFtfoZnokg4sLJTNCvzV7Td3g/cp+vZJdT0/BXVIw8MzfQCSwtrv42RNbFYrlezpSPITt+SqBU4v8J5fmEa+nWOOL03gT+xACJLGzp2CRoog1VrJmUXSrJ8MNLrJwL0pzb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=caa/ycOD; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QzVM2ADba3/f6oxCzyosV8tAJ0aw2fcHRblOMgN3Z5o6gg07TnoVHXTN39BtSVVmHaDrrmaVQib1f7tY4l8YFqmtJNrI7mRN3UtnlBihtLCLMjlilojQ73NzV5Vh4ZDnRIK0Z8npPo13R1PNGgX8FT+mbK2EmSHxZeWOUeP5N1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=bIGlaoTP; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="caa/ycOD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783525526;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VUswxolQH+G7Pvrkxx/sNgz3/Sf530ro9ZtzpYrttA8=;
-	b=caa/ycODKtSG7TI9wLxA5e0rltqfCue1j0wEVvnvLS3bVnOnBz2JatTF5VBDnFKhDYNTpk
-	cEWeBNfe0uttlmt4HVEMcvsmk6syLDyiYo8uVt14mG8tZYrkWWrN3PmHOz8YxpcyGFFd5s
-	xOP35IqIfgbw3k4XsF30dfQM1dXsaOo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-496-84uXnu2wMhG3oO4ksUDIVQ-1; Wed,
- 08 Jul 2026 11:45:23 -0400
-X-MC-Unique: 84uXnu2wMhG3oO4ksUDIVQ-1
-X-Mimecast-MFC-AGG-ID: 84uXnu2wMhG3oO4ksUDIVQ_1783525521
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3045519560B7;
-	Wed,  8 Jul 2026 15:45:21 +0000 (UTC)
-Received: from fedora (unknown [10.44.33.83])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1F0CF195606C;
-	Wed,  8 Jul 2026 15:45:17 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Wed,  8 Jul 2026 17:45:20 +0200 (CEST)
-Date: Wed, 8 Jul 2026 17:45:16 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	Bradley Morgan <include@grrlz.net>
-Subject: Re: [tip:timers/core 2/31] kernel/time/posix-cpu-timers.c:1307:9:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <ak5wjJSOyqpXKBdj@redhat.com>
-References: <202607081829.RPQBe6Fs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="bIGlaoTP"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-92e7c6ec9dbso481185a.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Jul 2026 09:20:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1783527657; x=1784132457; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aNrEM48/kUAtSeWbSxXUhqAsANl+gd1l+W0ysjw18Qo=;
+        b=bIGlaoTPm/lhbL9+Vm4Q54At3pAVwKVK5KjaLfyPr4C0rgHZFLdWGEd3al2xthr+zk
+         MRe4mzAiVMI9aTEZ+eEzQrdJlWjy35uEwwqedQbYDz+crMnD3Dd1MaSJJk2hJ4FqUCDn
+         zrQ0+RqlLxx6CbYsgMfHtYBEK4QSYzKEAr5kV7hgv6uDe/CR1JmElKNhSHaZq9z8yooz
+         wBxmTllvxd9ahn0KX23cujouhIJGflyHwuSDpJkRLjT4bZ1IbDRynUtNsZx4c5PUjdg1
+         G8ledpIPBBT2KHu8bKKV0hnmSnHh2HfFISVwRUCkozvC2O8n9x0atIE8S9xZbQPpxg66
+         dtGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783527657; x=1784132457;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aNrEM48/kUAtSeWbSxXUhqAsANl+gd1l+W0ysjw18Qo=;
+        b=WVHBuR3sHngE0nXZ+nsqWA1Per1i7w2V2CGuAwFpTFcv7pX+aVZDNGYCkabA+1qSgT
+         MDR6B9v+pQOm007/XKiCoiN1tjIlntt1aqsdOz5H1iY1OSTc7iyq4aTRpBf/VQRVPVoY
+         67afNZ9+uG3nDKcUZ9dCV5Y2HjnNkOY1s5FkL3G6VnolYpJ01LB9chKJLgOuV4WKEn6K
+         NtJMxzOdV0+Lwpo1aDC7QoEBGUDF1M637CyNsaI1QqhusU3pRpAjVURCzAp/eUYeE4Nl
+         zf9BKIoDIiA52IZRhP2j2wjnXYBok3MGocQOipPyKTbP69ZqSaMw31P8X4yHnXWPbE1C
+         o3+w==
+X-Forwarded-Encrypted: i=1; AHgh+Rqezfj9PBKH1e3w/jXeA8a0rh4PR1asVpetsB8j15J2FVVlCPkYjIDIIvYuTRWscg6MGjMBecylNM3TxLlS@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBjFS0zWQxooYioburFhRyrwXJw+9E8WhGMiwcDf1A6GVdHBJC
+	2RRk9gnaEb+/Rp0EfkmTsP4jgGMizqlYAenvXNe42httL5OeSX5UV3hOFRezp6dfpfQ=
+X-Gm-Gg: AfdE7clNGCPi09gaRpn3YUkce651PU1pN/RjE/0ii71ylHaOUw+BGgBL1ILO+cYIOFm
+	NzyzCC/G2zSBtfka76L6ZZ09Gym4C4Ur2sZKe/D3a77G2s6c2oyZuy3XbpO6AjOYN0kH5tn3esL
+	AftNCjtPeb3DJzLVYpTNhqXm5TcrFbyI6cFquu/rmnnPnZbueCQbLtV21B/SJNdD16a7V3RNpkz
+	ldT1KofAh86Ux88uNCG0WgQWzwbWkF2Kftth/XGlOQYfuumoeN399M+AQsMQOGCnyJ8yR5456RN
+	0aF5RNuhwp6gFh2RRBaqRdaVb9KPt2gwpb0cV0AQdfZsIuckrxzl/tHJLeyW28MGJQPAYcJryz5
+	UHHekheKDyTEvGfxyXRP+rIs4RSQuAogkWK7D48Pc2Kk7tKzFewL6OAKOtqPXiNQabjlO6MrY8l
+	dZYCw1P7cNAacDUY27CP/6Oi4+NNGVlB9O/sPuiyRqov7T+RBEHH7fYcIYfzxB51SnpEgv
+X-Received: by 2002:a05:620a:4041:b0:92b:67e6:8ab4 with SMTP id af79cd13be357-92ecf671299mr280183485a.62.1783527657124;
+        Wed, 08 Jul 2026 09:20:57 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90ba1a3dsm1471710285a.15.2026.07.08.09.20.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 09:20:56 -0700 (PDT)
+Date: Wed, 8 Jul 2026 12:20:52 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [tip:core/entry 2/3] arch/s390/include/asm/entry-common.h:49:18:
+ error: call to undeclared function 'task_stack_page'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <ak545Coj9ogxnt4_@gourry-fedora-PF4VCD3F>
+References: <202607081402.DO1ePla3-lkp@intel.com>
+ <877bn5sxl3.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202607081829.RPQBe6Fs-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: Q1nVbhKHp4K_jGVef1Tf4Ma4jDCeeaJroWtrKPiOPec_1783525521
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <877bn5sxl3.ffs@fw13>
 
-On 07/08, kernel test robot wrote:
+On Wed, Jul 08, 2026 at 10:19:04AM +0200, Thomas Gleixner wrote:
+> On Wed, Jul 08 2026 at 14:56, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/entry
+> > head:   34ef6308418f138395a664bf9f5d80ace9825ac6
+> > commit: 7fc04d7044aaa5ffe2afe78979fe6ddd5da24f10 [2/3] syscall_user_dispatch: Make it configurable in Kconfig
+> > config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260708/202607081402.DO1ePla3-lkp@intel.com/config)
+> > compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260708/202607081402.DO1ePla3-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202607081402.DO1ePla3-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    In file included from arch/s390/kernel/traps.c:24:
+> >    In file included from include/linux/entry-common.h:5:
+> >>> arch/s390/include/asm/entry-common.h:49:18: error: call to undeclared function 'task_stack_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> >       49 |         pai_kernel_exit(current_pt_regs());
+> 
+> Bah. I missed to spot the header ordering change putting the
+> asm/... includes in front. I really hate our include mess.
+> 
+> Let me fix that up.
 >
-> sparse warnings: (new ones prefixed by >>)
-> >> kernel/time/posix-cpu-timers.c:1307:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
->    kernel/time/posix-cpu-timers.c:1307:9: sparse:     expected struct spinlock [usertype] *lock
->    kernel/time/posix-cpu-timers.c:1307:9: sparse:     got struct spinlock [noderef] __rcu *
->    kernel/time/posix-cpu-timers.c:1367:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
->    kernel/time/posix-cpu-timers.c:1367:36: sparse:     expected struct spinlock [usertype] *lock
->    kernel/time/posix-cpu-timers.c:1367:36: sparse:     got struct spinlock [noderef] __rcu *
->    kernel/time/posix-cpu-timers.c: note: in included file:
->    include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
->    include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
->    include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
->    include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
->    include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
->    include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
->    include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
->    include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
->    include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
->    include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
->    include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
->    include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
->    include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
->    include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
->    include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
 
-IMO, we should remove this __rcu annotation, it doesn't really help.
+Ah, I wasn't 100% sure on this - noted for the future.
 
-Oleg.
+Sorry about the headache and thank you for the fixup.
 
+~Gregory
