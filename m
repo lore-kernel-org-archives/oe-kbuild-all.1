@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E592D8773
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 18:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D6D3D969E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 19:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783534573; cv=none; b=OqaznI3c6NcTQ1T0Hb0msm+Gc6UHiO+PjhdcSnau51wHdN6r/2z/pbdLhKsX62A0LxrlfsIlqthGT0BP54qHepRvihYh21Y/cwxYrpSLaoKTtP0SCoxv3OLGPCkfd16/IiDvRvcGTR00KpiXbPC+Q+RxTQrGRca1V/h7Lh9qw5M=
+	t=1783539025; cv=none; b=Op8uGd7l6I9ZxF2SV6AjuOTZYJXEarJwGpFaFenrtpTmdeE/O9+M2pruQ0DqMZGzeP1+BBlV0Auq3FNn9ndyLEu6f9upArIb7pJDfkWBWpaucTtftQQsnKgbi84kQdxrzkmK2VuWqr506wIuFIrMhhze0Wlced+AO7aGT9qjY3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783534573; c=relaxed/simple;
-	bh=bJYViAWDqqxfDxalW40czCNOQBu/06EEW6/8snQ5ro4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hzq9WUUQueU9VO5pgAYgZgzdV4f/Xi7OMZN6JrGBj/Dh5lZkSVcudJo2IjCL1fLeNAT4uW0mHy2RN0fxmvX7TIv9NleT9rxuVa0+/721iI+3COKtQ5VVH+l6tI/dBlU5V7Gtkr37j8cDcqqNYxZeg8a3d+cxZ81c/+LoHx/teT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hjd6htcg; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1783539025; c=relaxed/simple;
+	bh=Zh8BPVOWPHeFnwq+2Tb/03A/z2T74CSg5uGaWLyH7Pk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NU6X1Ec6HxAHOvAK6lD6+5B04Mcjw2j+NbEKwDkBkbg9BY7eMlT/TYk6Pixt3/NZyp3uRK4bU8LoFte2V3RNESug4X6Va35Cv6yhDYh5hdYPS31JX2/7bQ1YWhaNNWqKF0og31I3WNh/nlD1XnWtXobdHp1dlKaJ0MtXv1QErfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJB0ZCP5; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hjd6htcg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJB0ZCP5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783534571; x=1815070571;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bJYViAWDqqxfDxalW40czCNOQBu/06EEW6/8snQ5ro4=;
-  b=Hjd6htcgWgYTrD465WB1nRr488/AhPWddUkg5pDG/sA6rGc2P/xlrxBW
-   CFCBxFQvjOyICHz4SxPNeKT9qNEV1Bj8weZLoSCnOOZ4a4qQFnc+M4sO4
-   j7J+u3j2UFPAzfYMrw09UpUau/tKVimXWsAnmM7n9X0VymCNLHP46JqED
-   6IQMOG/wNg9VLY8U05nS8q+T8IQAjwLdOC+HuYpMY1Myus5VUaU4xrSEb
-   Ig22HHfJiVydQwGXLSfw+ynuBYJbJwT601HsM/tz/KiQCi6zgMfQRZT6s
-   uz+fTQK2gKDG6/HhaQdzBLP8WH+hDJmzKGNd/TmI8yRuogqsptlys4Epv
+  t=1783539021; x=1815075021;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Zh8BPVOWPHeFnwq+2Tb/03A/z2T74CSg5uGaWLyH7Pk=;
+  b=fJB0ZCP5F7sgcCrH4bgqzBnpwLkyyzx7f9a20OZ05nJaQbZY0CdW2ic3
+   CJmrGECRN+upPNkCvmB15MyIkH9JX5Di6aqkGiC54YlNxtAVlPE/GreNQ
+   6WuDQ1s4ratBdT5Hy9VBo2QAZ7Ox0Vgl02OioN9gOw+DlQ11I86wcybcC
+   Fb/9YwCsl7nAqc5cLwEYvcOZSlyEkhfzHaCe32KnFyOPV6UirGt2V0G5u
+   nPlnLqWQmpzMzuF5jYt7n2l0lF82R4+BqZsBSuAvM7CPQ7Xns8zmSkXqr
+   ocoqLhhzBG3Vdvk2pVPilyztsc49ReF6MzsbpAF1DjBG7XL2RobdRYPIa
    g==;
-X-CSE-ConnectionGUID: YFy5y9YuSKG55mI8iCyj3w==
-X-CSE-MsgGUID: AMKcZjTwRMyMa+r4NPO7Yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="107003303"
+X-CSE-ConnectionGUID: ECrVRossTQCQ8AvoZohPfg==
+X-CSE-MsgGUID: 4R80ANkESPCAdvza1kOFtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94570583"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="107003303"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 11:16:11 -0700
-X-CSE-ConnectionGUID: UeA1cpH4Sb+3fo2fC0oqHg==
-X-CSE-MsgGUID: imENJcoBSRS3t9GAffH8qQ==
+   d="scan'208";a="94570583"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 12:30:19 -0700
+X-CSE-ConnectionGUID: sQ3vE6ioTbaXfPybP/lVPw==
+X-CSE-MsgGUID: d7v6pJDpQi2KysHIhsDSZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="259259657"
+   d="scan'208";a="252626113"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Jul 2026 11:16:09 -0700
+  by orviesa006.jf.intel.com with ESMTP; 08 Jul 2026 12:30:17 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whWoZ-00000000Git-0Wde;
-	Wed, 08 Jul 2026 18:16:07 +0000
-Date: Thu, 09 Jul 2026 02:15:17 +0800
+	id 1whXyI-00000000Gmd-3LAq;
+	Wed, 08 Jul 2026 19:30:14 +0000
+Date: Thu, 09 Jul 2026 03:29:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-sysfs 2/2]
- arch/riscv/kernel/vdso/vgettimeofday.c:15:9: error: implicit declaration of
- function '__cvdso_clock_gettime'; did you mean '__vdso_clock_gettime'?
-Message-ID: <202607090258.iSAUYlO1-lkp@intel.com>
+Subject: [android-common:android-mainline-desktop 1/1]
+ mm/hmm.c:667:7: error: implicit declaration of function
+ 'mmu_interval_check_retry'; did you mean 'vma_interval_tree_remove'?
+Message-ID: <202607090325.KOVc9nta-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,169 +61,162 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-sysfs
-head:   b186f35d4f4cdb6063d48192faa54c8ca0773543
-commit: b186f35d4f4cdb6063d48192faa54c8ca0773543 [2/2] vDSO, kbuild: Provide debug variants of vDSO at runtime
-config: riscv-randconfig-002-20260709 (https://download.01.org/0day-ci/archive/20260709/202607090258.iSAUYlO1-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090258.iSAUYlO1-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline-des=
+ktop
+head:   adf8bc5941e7beff5b8ba6f64385d50c6b4d32c5
+commit: ad36ecd6081db9827f1ebaa41671b0b336fd83bf [1/1] ANDROID: GKI: Enable=
+ HMM_MIRROR config for all arch
+config: arm64-randconfig-004-20260709 (https://download.01.org/0day-ci/arch=
+ive/20260709/202607090325.KOVc9nta-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260709/202607090325.KOVc9nta-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607090258.iSAUYlO1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090325.KOVc9nta-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
-      55 |  struct riscv_hwprobe *end = pairs + pair_count;
-         |                                    ^
-   arch/riscv/kernel/vdso/hwprobe.c:71:29: error: 'RISCV_HWPROBE_WHICH_CPUS' undeclared (first use in this function)
-      71 |  if (empty_cpus || flags != RISCV_HWPROBE_WHICH_CPUS || !avd->homogeneous_cpus)
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:71:29: note: each undeclared identifier is reported only once for each function it appears in
-   arch/riscv/kernel/vdso/hwprobe.c:71:61: error: 'const struct vdso_arch_data' has no member named 'homogeneous_cpus'
-      71 |  if (empty_cpus || flags != RISCV_HWPROBE_WHICH_CPUS || !avd->homogeneous_cpus)
-         |                                                             ^~
-   arch/riscv/kernel/vdso/hwprobe.c:72:24: error: passing argument 1 of 'riscv_hwprobe' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      72 |   return riscv_hwprobe(pairs, pair_count, cpusetsize, cpus, flags);
-         |                        ^~~~~
-         |                        |
-         |                        struct riscv_hwprobe *
-   arch/riscv/kernel/vdso/hwprobe.c:11:48: note: expected 'struct riscv_hwprobe *' but argument is of type 'struct riscv_hwprobe *'
-      11 | extern int riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
-         |                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:75:35: error: invalid use of undefined type 'struct riscv_hwprobe'
-      75 |   if (riscv_hwprobe_key_is_valid(p->key)) {
-         |                                   ^~
-   arch/riscv/kernel/vdso/hwprobe.c:76:11: error: variable 't' has initializer but incomplete type
-      76 |    struct riscv_hwprobe t = {
-         |           ^~~~~~~~~~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:77:6: error: 'struct riscv_hwprobe' has no member named 'key'
-      77 |     .key = p->key,
-         |      ^~~
-   arch/riscv/kernel/vdso/hwprobe.c:77:13: error: invalid use of undefined type 'struct riscv_hwprobe'
-      77 |     .key = p->key,
-         |             ^~
-   arch/riscv/kernel/vdso/hwprobe.c:77:12: warning: excess elements in struct initializer
-      77 |     .key = p->key,
-         |            ^
-   arch/riscv/kernel/vdso/hwprobe.c:77:12: note: (near initialization for 't')
-   arch/riscv/kernel/vdso/hwprobe.c:78:6: error: 'struct riscv_hwprobe' has no member named 'value'
-      78 |     .value = avd->all_cpu_hwprobe_values[p->key],
-         |      ^~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:78:17: error: 'const struct vdso_arch_data' has no member named 'all_cpu_hwprobe_values'
-      78 |     .value = avd->all_cpu_hwprobe_values[p->key],
-         |                 ^~
-   arch/riscv/kernel/vdso/hwprobe.c:78:43: error: invalid use of undefined type 'struct riscv_hwprobe'
-      78 |     .value = avd->all_cpu_hwprobe_values[p->key],
-         |                                           ^~
-   arch/riscv/kernel/vdso/hwprobe.c:78:14: warning: excess elements in struct initializer
-      78 |     .value = avd->all_cpu_hwprobe_values[p->key],
-         |              ^~~
-   arch/riscv/kernel/vdso/hwprobe.c:78:14: note: (near initialization for 't')
-   arch/riscv/kernel/vdso/hwprobe.c:76:25: error: storage size of 't' isn't known
-      76 |    struct riscv_hwprobe t = {
-         |                         ^
-   arch/riscv/kernel/vdso/hwprobe.c:81:9: error: implicit declaration of function 'riscv_hwprobe_pair_cmp' [-Werror=implicit-function-declaration]
-      81 |    if (!riscv_hwprobe_pair_cmp(&t, p))
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:76:25: warning: unused variable 't' [-Wunused-variable]
-      76 |    struct riscv_hwprobe t = {
-         |                         ^
-   arch/riscv/kernel/vdso/hwprobe.c:85:5: error: invalid use of undefined type 'struct riscv_hwprobe'
-      85 |    p->key = -1;
-         |     ^~
-   arch/riscv/kernel/vdso/hwprobe.c:86:5: error: invalid use of undefined type 'struct riscv_hwprobe'
-      86 |    p->value = 0;
-         |     ^~
-   arch/riscv/kernel/vdso/hwprobe.c:88:4: error: increment of pointer to an incomplete type 'struct riscv_hwprobe'
-      88 |   p++;
-         |    ^~
-   arch/riscv/kernel/vdso/hwprobe.c: At top level:
-   arch/riscv/kernel/vdso/hwprobe.c:100:33: warning: 'struct riscv_hwprobe' declared inside parameter list will not be visible outside of this definition or declaration
-     100 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
-         |                                 ^~~~~~~~~~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:104:33: warning: 'struct riscv_hwprobe' declared inside parameter list will not be visible outside of this definition or declaration
-     104 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
-         |                                 ^~~~~~~~~~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:104:5: error: conflicting types for '__vdso_riscv_hwprobe'
-     104 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:100:5: note: previous declaration of '__vdso_riscv_hwprobe' was here
-     100 | int __vdso_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/vdso/hwprobe.c: In function '__vdso_riscv_hwprobe':
-   arch/riscv/kernel/vdso/hwprobe.c:108:14: error: 'RISCV_HWPROBE_WHICH_CPUS' undeclared (first use in this function)
-     108 |  if (flags & RISCV_HWPROBE_WHICH_CPUS)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:109:30: error: passing argument 1 of 'riscv_vdso_get_cpus' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     109 |   return riscv_vdso_get_cpus(pairs, pair_count, cpusetsize,
-         |                              ^~~~~
-         |                              |
-         |                              struct riscv_hwprobe *
-   arch/riscv/kernel/vdso/hwprobe.c:49:54: note: expected 'struct riscv_hwprobe *' but argument is of type 'struct riscv_hwprobe *'
-      49 | static int riscv_vdso_get_cpus(struct riscv_hwprobe *pairs, size_t pair_count,
-         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   arch/riscv/kernel/vdso/hwprobe.c:112:31: error: passing argument 1 of 'riscv_vdso_get_values' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     112 |  return riscv_vdso_get_values(pairs, pair_count, cpusetsize,
-         |                               ^~~~~
-         |                               |
-         |                               struct riscv_hwprobe *
-   arch/riscv/kernel/vdso/hwprobe.c:15:56: note: expected 'struct riscv_hwprobe *' but argument is of type 'struct riscv_hwprobe *'
-      15 | static int riscv_vdso_get_values(struct riscv_hwprobe *pairs, size_t pair_count,
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   mm/hmm.c: In function 'hmm_range_fault':
+>> mm/hmm.c:667:7: error: implicit declaration of function 'mmu_interval_ch=
+eck_retry'; did you mean 'vma_interval_tree_remove'? [-Werror=3Dimplicit-fu=
+nction-declaration]
+      if (mmu_interval_check_retry(range->notifier,
+          ^~~~~~~~~~~~~~~~~~~~~~~~
+          vma_interval_tree_remove
    cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:289: arch/riscv/kernel/vdso/hwprobe.o] Error 1 shuffle=275821313
-   arch/riscv/kernel/vdso/vgettimeofday.c: In function '__vdso_clock_gettime':
->> arch/riscv/kernel/vdso/vgettimeofday.c:15:9: error: implicit declaration of function '__cvdso_clock_gettime'; did you mean '__vdso_clock_gettime'? [-Werror=implicit-function-declaration]
-      15 |  return __cvdso_clock_gettime(clock, ts);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-         |         __vdso_clock_gettime
-   arch/riscv/kernel/vdso/vgettimeofday.c: In function '__vdso_gettimeofday':
->> arch/riscv/kernel/vdso/vgettimeofday.c:20:9: error: implicit declaration of function '__cvdso_gettimeofday'; did you mean '__vdso_gettimeofday'? [-Werror=implicit-function-declaration]
-      20 |  return __cvdso_gettimeofday(tv, tz);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         __vdso_gettimeofday
-   arch/riscv/kernel/vdso/vgettimeofday.c: In function '__vdso_clock_getres':
->> arch/riscv/kernel/vdso/vgettimeofday.c:25:9: error: implicit declaration of function '__cvdso_clock_getres'; did you mean '__vdso_clock_getres'? [-Werror=implicit-function-declaration]
-      25 |  return __cvdso_clock_getres(clock_id, res);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         __vdso_clock_getres
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:289: arch/riscv/kernel/vdso/vgettimeofday.o] Error 1 shuffle=275821313
-   make[3]: Target 'arch/riscv/kernel/vdso/vdso.so.dbg' not remade because of errors.
-   make[2]: *** [Makefile:1551: arch/riscv/kernel/vdso/vdso.so.dbg] Error 2 shuffle=275821313
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=275821313
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=275821313
-   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=3Dy]
+   WARNING: unmet direct dependencies detected for INTERCONNECT_QCOM
+   Depends on [n]: INTERCONNECT [=3Dn] && ARCH_QCOM [=3Dy]
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=3Dy] && ARCH_QCOM [=3Dy]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=3Dy] && SND [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=3Dy]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=3Dn] && CAN_DEV [=3Dn] && CAN_NETLINK [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=3Dy]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
+   WARNING: unmet direct dependencies detected for DIMLIB
+   Depends on [n]: NET [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=3Dy]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=3Dy]
 
 
-vim +15 arch/riscv/kernel/vdso/vgettimeofday.c
+vim +667 mm/hmm.c
 
-ad5d1122b82fbd Vincent Chen 2020-06-09  12  
-ad5d1122b82fbd Vincent Chen 2020-06-09  13  int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
-ad5d1122b82fbd Vincent Chen 2020-06-09  14  {
-ad5d1122b82fbd Vincent Chen 2020-06-09 @15  	return __cvdso_clock_gettime(clock, ts);
-ad5d1122b82fbd Vincent Chen 2020-06-09  16  }
-ad5d1122b82fbd Vincent Chen 2020-06-09  17  
-ad5d1122b82fbd Vincent Chen 2020-06-09  18  int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
-ad5d1122b82fbd Vincent Chen 2020-06-09  19  {
-ad5d1122b82fbd Vincent Chen 2020-06-09 @20  	return __cvdso_gettimeofday(tv, tz);
-ad5d1122b82fbd Vincent Chen 2020-06-09  21  }
-ad5d1122b82fbd Vincent Chen 2020-06-09  22  
-ad5d1122b82fbd Vincent Chen 2020-06-09  23  int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res)
-ad5d1122b82fbd Vincent Chen 2020-06-09  24  {
-ad5d1122b82fbd Vincent Chen 2020-06-09 @25  	return __cvdso_clock_getres(clock_id, res);
+7b86ac3371b70c Christoph Hellwig 2019-08-28  634 =20
+9a4903e49e495b Christoph Hellwig 2019-07-25  635  /**
+9a4903e49e495b Christoph Hellwig 2019-07-25  636   * hmm_range_fault - try =
+to fault some address in a virtual address range
+f970b977e068aa Jason Gunthorpe   2020-03-27  637   * @range:	argument struc=
+ture
+9a4903e49e495b Christoph Hellwig 2019-07-25  638   *
+be957c886d92aa Jason Gunthorpe   2020-05-01  639   * Returns 0 on success o=
+r one of the following error codes:
+73231612dc7c90 J=C3=A9r=C3=B4me Glisse     2019-05-13  640   *
+9a4903e49e495b Christoph Hellwig 2019-07-25  641   * -EINVAL:	Invalid argum=
+ents or mm or virtual address is in an invalid vma
+9a4903e49e495b Christoph Hellwig 2019-07-25  642   *		(e.g., device file vm=
+a).
+73231612dc7c90 J=C3=A9r=C3=B4me Glisse     2019-05-13  643   * -ENOMEM:	Out=
+ of memory.
+9a4903e49e495b Christoph Hellwig 2019-07-25  644   * -EPERM:	Invalid permis=
+sion (e.g., asking for write and range is read
+9a4903e49e495b Christoph Hellwig 2019-07-25  645   *		only).
+9a4903e49e495b Christoph Hellwig 2019-07-25  646   * -EBUSY:	The range has =
+been invalidated and the caller needs to wait for
+9a4903e49e495b Christoph Hellwig 2019-07-25  647   *		the invalidation to f=
+inish.
+f970b977e068aa Jason Gunthorpe   2020-03-27  648   * -EFAULT:     A page wa=
+s requested to be valid and could not be made valid
+f970b977e068aa Jason Gunthorpe   2020-03-27  649   *              ie it has=
+ no backing VMA or it is illegal to access
+74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  650   *
+f970b977e068aa Jason Gunthorpe   2020-03-27  651   * This is similar to get=
+_user_pages(), except that it can read the page tables
+f970b977e068aa Jason Gunthorpe   2020-03-27  652   * without mutating them =
+(ie causing faults).
+74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  653   */
+be957c886d92aa Jason Gunthorpe   2020-05-01  654  int hmm_range_fault(struc=
+t hmm_range *range)
+74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  655  {
+d28c2c9a487708 Ralph Campbell    2019-11-04  656  	struct hmm_vma_walk hmm_=
+vma_walk =3D {
+d28c2c9a487708 Ralph Campbell    2019-11-04  657  		.range =3D range,
+d28c2c9a487708 Ralph Campbell    2019-11-04  658  		.last =3D range->start,
+d28c2c9a487708 Ralph Campbell    2019-11-04  659  	};
+a22dd506400d0f Jason Gunthorpe   2019-11-12  660  	struct mm_struct *mm =3D =
+range->notifier->mm;
+74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  661  	int ret;
+74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  662 =20
+42fc541404f249 Michel Lespinasse 2020-06-08  663  	mmap_assert_locked(mm);
+74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  664 =20
+a3e0d41c2b1f86 J=C3=A9r=C3=B4me Glisse     2019-05-13  665  	do {
+a3e0d41c2b1f86 J=C3=A9r=C3=B4me Glisse     2019-05-13  666  		/* If range i=
+s no longer valid force retry. */
+a22dd506400d0f Jason Gunthorpe   2019-11-12 @667  		if (mmu_interval_check_=
+retry(range->notifier,
+a22dd506400d0f Jason Gunthorpe   2019-11-12  668  					     range->notifier=
+_seq))
+2bcbeaefde2f03 Christoph Hellwig 2019-07-24  669  			return -EBUSY;
+d28c2c9a487708 Ralph Campbell    2019-11-04  670  		ret =3D walk_page_range=
+(mm, hmm_vma_walk.last, range->end,
+7b86ac3371b70c Christoph Hellwig 2019-08-28  671  				      &hmm_walk_ops, =
+&hmm_vma_walk);
+be957c886d92aa Jason Gunthorpe   2020-05-01  672  		/*
+be957c886d92aa Jason Gunthorpe   2020-05-01  673  		 * When -EBUSY is retur=
+ned the loop restarts with
+be957c886d92aa Jason Gunthorpe   2020-05-01  674  		 * hmm_vma_walk.last se=
+t to an address that has not been stored
+be957c886d92aa Jason Gunthorpe   2020-05-01  675  		 * in pfns. All entries=
+ < last in the pfn array are set to their
+be957c886d92aa Jason Gunthorpe   2020-05-01  676  		 * output, and all >=3D =
+are still at their input values.
+be957c886d92aa Jason Gunthorpe   2020-05-01  677  		 */
+d28c2c9a487708 Ralph Campbell    2019-11-04  678  	} while (ret =3D=3D -EBU=
+SY);
+73231612dc7c90 J=C3=A9r=C3=B4me Glisse     2019-05-13  679  	return ret;
+74eee180b935fc J=C3=A9r=C3=B4me Glisse     2017-09-08  680  }
+73231612dc7c90 J=C3=A9r=C3=B4me Glisse     2019-05-13  681  EXPORT_SYMBOL(h=
+mm_range_fault);
+8cad4713056612 Leon Romanovsky   2025-04-28  682 =20
 
-:::::: The code at line 15 was first introduced by commit
-:::::: ad5d1122b82fbd6a816d1b9d26ee01a6dbc2d757 riscv: use vDSO common flow to reduce the latency of the time-related functions
+:::::: The code at line 667 was first introduced by commit
+:::::: a22dd506400d0f4784ad596f073b9eb5ed7c6a2a mm/hmm: remove hmm_mirror a=
+nd related
 
-:::::: TO: Vincent Chen <vincent.chen@sifive.com>
-:::::: CC: Palmer Dabbelt <palmerdabbelt@google.com>
+:::::: TO: Jason Gunthorpe <jgg@mellanox.com>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
 
 --
 0-DAY CI Kernel Test Service
