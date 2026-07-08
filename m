@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B9130D41D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 22:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE8F13A86C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Jul 2026 22:15:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783548288; cv=none; b=EtnXljiBAtxTJOhzxOgGIQ/dq/SXHgwKJxVoOFDLCBcuEqJVU5zBFdni2ea0NuXzKQymXaVbE1aYFuuRDejsjRgXiKCvbzprTSEPk/I7+kFaYJIOgIcquEOdLdGRoc5bqCtb5oRz1Def/YqZ8Hfcb/Z7P3t9BFw6A37Z7odzn00=
+	t=1783548955; cv=none; b=ULgR5rPLrO8HfLJ48gfUakzGOdqYCAqfLUJk0k+6NP+bnK+ggHvVV99M/6FbUrRAaqAW5sFajH6294Jag4sft0hStE6f5bFWsTaACR5nSxXbUQa3nxLvpYVkTSse/fxo23OZ8rjljrXfn3h2P39QNJOJ5ZxUP356znwMAqZUj88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783548288; c=relaxed/simple;
-	bh=NsZXvQoKL7XkmosQii2VStviB7mp0YrjWUZsgpcjMV4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NP+OnzcZ7bQkoJuctydgD6wQRoppP9y5LWjPXoTznYWMmu+ThKV3+3qmsu0YfcxDc3Rz7PFhElxLgZ/mUFqZ/PJix+rB2WWzBm+KYd4z+Sg8zXVr447bhnSxg5DwEuRnS9oB1epgTphfH97PH+umjPn2YG6vUd95hvPSCpw1xK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cp1q7MTh; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1783548955; c=relaxed/simple;
+	bh=X+6ltkYpMiOg40c5aYAEeo1mVqxkmsLOzmeb45A2V0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=G4jTqHoUfhrdMmb9nqP2kIFSAsAtXZx2rOK7N5ABqeLrIQST4XGkGLGKGTt8M2g1NgaS39U8UjMcl08BNU1vqC4g72vNAti7H1wSWNEd5OsWhsamArdXI1jEWueAX5hQMo5bVommF5m/Kqo7gqoztBhLy19UWm7bz70M0omARQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SBzvw3zj; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cp1q7MTh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SBzvw3zj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783548286; x=1815084286;
+  t=1783548954; x=1815084954;
   h=date:from:to:cc:subject:message-id;
-  bh=NsZXvQoKL7XkmosQii2VStviB7mp0YrjWUZsgpcjMV4=;
-  b=cp1q7MThjGN8kx/rLSsCnaxhKPxi+l+NViCOHGYKNM673/9CwjTC7oLV
-   c9SXIu4Cz0RQ6SfM9zWDfXQde01+fPLSOO55nIpp6gXZLMJ8n2jwx2s7F
-   yDB4wBArM3E4RmcVYN3230jLwbeHeSPyOQlrPZh6B9k49wRMcjC4hNmkB
-   cY+W4WnLHDypURuU+UMiF+MsH1WIDkWN4+ao9mqPFbFyxUxXnyhZNr6Ra
-   WTz4COO+swLfSJWZys+wEN/N6NOCzduRDTyBTtoq/11OILlifOElNR8tn
-   2CDwTMHTY4kjMPNSeqEFxhKiwaEAh5sV2J7FZvmoytHwmSyhgxds9QBTS
+  bh=X+6ltkYpMiOg40c5aYAEeo1mVqxkmsLOzmeb45A2V0Y=;
+  b=SBzvw3zjiC7SJGxBIpJ78AIs2iVMuf6SRHYHoag7R1VihElc2463bgM0
+   Glo+Ik+DeVXyyVeTlwjgcnC4ZJjW8Yy8fdwywZiCpDMi+G9AqkD3wa9B1
+   HHXqHLD1aPDRd7LYJ4QsEeLfIH3NhfW5Vk5RogLv05MDJraViE67iEEbT
+   if8/B8ZskPfkUCLvDys69aIoLzheM1f4UApM4/WbfIRv8qlaTD2n+xQtX
+   JUZxebBmnXadfLLbDEj+R/AktE9OcRiGwNBgPgewbuN3DBVZ3XLqBebEX
+   +blTTNaW9dUJWbvYlt5V9mvYxL+x8vKwq2G9JxYlSA8dDerEDIw6L2WAE
    g==;
-X-CSE-ConnectionGUID: mQA+OhvBQZSds0obHe7nUA==
-X-CSE-MsgGUID: KxwGOIVzQ2S4trrv0oETlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94830661"
+X-CSE-ConnectionGUID: KA6qWh4MSXSoOiS1JSnWmg==
+X-CSE-MsgGUID: m2cifq8PQR6x+j4MkQC/FA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94831582"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="94830661"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 15:04:45 -0700
-X-CSE-ConnectionGUID: 9jvz9WoGQ/yn9y5TJr9FnQ==
-X-CSE-MsgGUID: eNl3rKQKTHySYcMVuokB6Q==
+   d="scan'208";a="94831582"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 15:15:53 -0700
+X-CSE-ConnectionGUID: Iq1Q8x+UQJeHB5aXJqxoOg==
+X-CSE-MsgGUID: /PA9JogdTa2N2vVpY4Eo2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="278795324"
+   d="scan'208";a="251754198"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Jul 2026 15:04:43 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 08 Jul 2026 15:15:51 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whaNk-00000000GvX-1qBp;
-	Wed, 08 Jul 2026 22:04:40 +0000
-Date: Thu, 09 Jul 2026 06:04:27 +0800
+	id 1whaYW-00000000Gvj-426h;
+	Wed, 08 Jul 2026 22:15:48 +0000
+Date: Thu, 09 Jul 2026 06:15:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2026-06 1/1]
- include/trace/stages/init.h:2:23: warning: 'str__kasan__trace_system_name'
- defined but not used
-Message-ID: <202607090548.aYR1TSWG-lkp@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse:
+ sparse: incompatible types for operation (==):
+Message-ID: <202607090601.odxc3iTj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,142 +60,110 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi qinglin.li,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-06
-head:   390b7edeb81f88e84084ff2e63d8db892e9f2414
-commit: 4b324ceb0c412ab134e13e3d20c8e313918c046c [1/1] ANDROID: vendor_hooks: Add hooks for slab
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260709/202607090548.aYR1TSWG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090548.aYR1TSWG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
+commit: ce5971773651ad5c7e26aea29d72ea8887428774 drm/xe: Introduce IF_ARGS macro utility
+date:   7 months ago
+config: powerpc-randconfig-r131-20260708 (https://download.01.org/0day-ci/archive/20260709/202607090601.odxc3iTj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090601.odxc3iTj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ce5971773651 ("drm/xe: Introduce IF_ARGS macro utility")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607090548.aYR1TSWG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090601.odxc3iTj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/xe/tests/xe_args_test.c:89:9: sparse: sparse: Expected ) after typeof
+   drivers/gpu/drm/xe/tests/xe_args_test.c:89:9: sparse: sparse: got Q
+   drivers/gpu/drm/xe/tests/xe_args_test.c:90:9: sparse: sparse: Expected ) after typeof
+   drivers/gpu/drm/xe/tests/xe_args_test.c:90:9: sparse: sparse: got Q
+   drivers/gpu/drm/xe/tests/xe_args_test.c:225:9: sparse: sparse: Expected ) in expression
+   drivers/gpu/drm/xe/tests/xe_args_test.c:225:9: sparse: sparse: got false
+   drivers/gpu/drm/xe/tests/xe_args_test.c:226:9: sparse: sparse: Expected ) in expression
+   drivers/gpu/drm/xe/tests/xe_args_test.c:226:9: sparse: sparse: got false
+   drivers/gpu/drm/xe/tests/xe_args_test.c:228:9: sparse: sparse: Expected ) in expression
+   drivers/gpu/drm/xe/tests/xe_args_test.c:228:9: sparse: sparse: got no_args
+   drivers/gpu/drm/xe/tests/xe_args_test.c:229:9: sparse: sparse: Expected ) in expression
+   drivers/gpu/drm/xe/tests/xe_args_test.c:229:9: sparse: sparse: got no_args
+   drivers/gpu/drm/xe/tests/xe_args_test.c:89:9: sparse: sparse: undefined identifier '__left'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:89:9: sparse: sparse: undefined identifier '__left'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:90:9: sparse: sparse: undefined identifier '__left'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:90:9: sparse: sparse: undefined identifier '__left'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:225:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:226:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:228:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:229:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse: sparse: undefined identifier '__VA_OPT__'
+>> drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse: sparse: incompatible types for operation (==):
+   drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse:    bad type const __left
+   drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse:    int const __right
+   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse: sparse: incompatible types for operation (==):
+   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse:    bad type const __left
+   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse:    int const __right
+   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse: sparse: incompatible types for operation (==):
+   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse:    bad type const __left
+   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse:    int const __right
+   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse: sparse: incompatible types for operation (==):
+   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse:    bad type const __left
+   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse:    int const __right
+   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse: sparse: incompatible types for operation (==):
+   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse:    bad type const __left
+   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse:    int const __right
+   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse: sparse: incompatible types for operation (==):
+   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse:    bad type const __left
+   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse:    int const __right
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/kasan.h:18,
-                    from drivers/android/vendor_hooks.c:80:
->> include/trace/stages/init.h:2:23: warning: 'str__kasan__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/usb.h:29,
-                    from drivers/android/vendor_hooks.c:79:
-   include/trace/stages/init.h:2:23: warning: 'str__usb__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/gzvm.h:29,
-                    from drivers/android/vendor_hooks.c:78:
-   include/trace/stages/init.h:2:23: warning: 'str__gzvm__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/user.h:21,
-                    from drivers/android/vendor_hooks.c:77:
-   include/trace/stages/init.h:2:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/suspend.h:28,
-                    from drivers/android/vendor_hooks.c:76:
-   include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/ogki_honor.h:31,
-                    from drivers/android/vendor_hooks.c:75:
-   include/trace/stages/init.h:2:23: warning: 'str__ogki_honor__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+vim +234 drivers/gpu/drm/xe/tests/xe_args_test.c
 
-
-vim +/str__kasan__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   218	
+   219	static void if_args_test(struct kunit *test)
+   220	{
+   221		bool with_args = true;
+   222		bool no_args = false;
+   223		enum { X = 100 };
+   224	
+   225		KUNIT_EXPECT_TRUE(test, IF_ARGS(true, false, FOO_ARGS));
+   226		KUNIT_EXPECT_FALSE(test, IF_ARGS(true, false, NO_ARGS));
+   227	
+   228		KUNIT_EXPECT_TRUE(test, CONCATENATE(IF_ARGS(with, no, FOO_ARGS), _args));
+   229		KUNIT_EXPECT_FALSE(test, CONCATENATE(IF_ARGS(with, no, NO_ARGS), _args));
+   230	
+   231		KUNIT_EXPECT_STREQ(test, __stringify(IF_ARGS(yes, no, FOO_ARGS)), "yes");
+   232		KUNIT_EXPECT_STREQ(test, __stringify(IF_ARGS(yes, no, NO_ARGS)), "no");
+   233	
+ > 234		KUNIT_EXPECT_EQ(test, IF_ARGS(CALL_ARGS(COUNT_ARGS, FOO_ARGS), -1, FOO_ARGS), 4);
+   235		KUNIT_EXPECT_EQ(test, IF_ARGS(CALL_ARGS(COUNT_ARGS, FOO_ARGS), -1, NO_ARGS), -1);
+   236		KUNIT_EXPECT_EQ(test, IF_ARGS(CALL_ARGS(COUNT_ARGS, NO_ARGS), -1, FOO_ARGS), 0);
+   237		KUNIT_EXPECT_EQ(test, IF_ARGS(CALL_ARGS(COUNT_ARGS, NO_ARGS), -1, NO_ARGS), -1);
+   238	
+   239		KUNIT_EXPECT_EQ(test,
+   240				CALL_ARGS(FIRST_ARG,
+   241					  CALL_ARGS(CONCATENATE, IF_ARGS(FOO, MAX, FOO_ARGS), _ARGS)), X);
+   242		KUNIT_EXPECT_EQ(test,
+   243				CALL_ARGS(FIRST_ARG,
+   244					  CALL_ARGS(CONCATENATE, IF_ARGS(FOO, MAX, NO_ARGS), _ARGS)), -1);
+   245		KUNIT_EXPECT_EQ(test,
+   246				CALL_ARGS(COUNT_ARGS,
+   247					  CALL_ARGS(CONCATENATE, IF_ARGS(FOO, MAX, FOO_ARGS), _ARGS)), 4);
+   248		KUNIT_EXPECT_EQ(test,
+   249				CALL_ARGS(COUNT_ARGS,
+   250					  CALL_ARGS(CONCATENATE, IF_ARGS(FOO, MAX, NO_ARGS), _ARGS)), 12);
+   251	}
+   252	
 
 --
 0-DAY CI Kernel Test Service
