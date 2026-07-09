@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1711C35E956
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 02:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D1236DA0F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 02:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783565264; cv=none; b=eaf/aOYroSBO+sxJMOk8hiDdmMI8ZTi8uFKVdB+hp8nah76feORBrdi+EhgsgCmFVX4Tdd+eOh1/jdsqsWHl70UqHgLRjvZJmtBVeGFNr4K+WDz6XpnitdyW5v7PtJBtuwV6JPW422PyRr62FGU3sur98UVuj+YTsG5irLNG5/U=
+	t=1783565925; cv=none; b=AXZcSBDmk2PfvtC1sBzvwGo9BQvVNn15jtVPc/+0TQWeHP8I6RDKr47CL6haQUy88Q6U5oca5Fq90KnHzjLR8D7DZQHL/mzJ0cAc/nG29Vsk5fI9yKPF8qOXRrKwso4vI05iGesmy9KYO18UpknhDHkcX32R1JLT7qx+BRu52TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783565264; c=relaxed/simple;
-	bh=oVMofs2atwJROOSeReyjoAEquPI0h2KlQshkX6vPJks=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Pzxl0sbBTXj48+eZlzHVFxDPHdnMI4r40GgFtRQIqYuj1ePpVqgxenIdor+MKQQRBDpHdwd+E6HAfDIR74oJIw5dPUonnVd5w+Gvm2IaCcVopANoe07tU0kmI1BY0lbwTLo+lE+Egc18Lf7mDmR4AzYAKKRv6sGUEHI8WLLch5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsbwQLbP; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1783565925; c=relaxed/simple;
+	bh=x0XPmvOOvrdQcArDnmpc8drsjLTVBpg0glx3e3wwxc0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GENJSzS3N6FKQJYRMgha88ndfvj3TjYDGjz+U/AklsT8ouz1/azutjKg46ziUfMgGsO0Km5I7hKP5GcO81fTLzMECm/BgkdkvrKg5dfpnt5ECmL2hR0TWQRYCXaZ1Trt9+/H09zLgUP6IJsYT9Gb7T7jjKXYj8s+dpt8yhawAdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOyTm+pb; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsbwQLbP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOyTm+pb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783565262; x=1815101262;
+  t=1783565924; x=1815101924;
   h=date:from:to:cc:subject:message-id;
-  bh=oVMofs2atwJROOSeReyjoAEquPI0h2KlQshkX6vPJks=;
-  b=GsbwQLbPDeg9qbgSa/mjgSOGOZrJI5Xy75vuNTIeMeH84EuCPLLoHiMc
-   /xJVRwaj/E0HzXCtloyA5BX7RCRn4047h9PARQBim7ZLqiLKcqKRKCZzv
-   ASNpqNmyB43JYUVaiDHAXplDn1KEST1BzOCgZG4Vq/JdwfYHRb9ImuBMy
-   /92JiOFR64g1//u/MSnXAIq8y64FYpzyQLIEGk4x3Txp0muD56IkJY9HT
-   ImJpgazxzy4HQBiqC34S3hDeMDK/GVTqYiIhK4U5R2uReqewHXeLxJ2zo
-   wHI70YpsXoa4MhR4AeqSF+iX8Z/AKw3pTEinyTLNwql3Kx1RQqoa8/HG1
-   A==;
-X-CSE-ConnectionGUID: X183EavFTgC6+jJVlSwq9Q==
-X-CSE-MsgGUID: xCO/9GzvTwWCKz30DY/4hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88153640"
+  bh=x0XPmvOOvrdQcArDnmpc8drsjLTVBpg0glx3e3wwxc0=;
+  b=NOyTm+pbMtggawS9lVmkPM8eAIhdCuzQBDHfXCJQkKc+d9AP6OzAplCw
+   63lf72JTQDkF29ds5NHe7z39o4gRh7vvVFHHddDdg0E4U8C0KkqX5sMBC
+   CTkXNGfTUyk/w49rvKEAUlTs9PLrhXbJYyWywYZgfE6zEu4ea4kiGde5M
+   FhNtzFq3Yu5wC1jtcWDvgyEYxmHuAnzUgEHyXWQz5UekACsQwN86/5ulA
+   Upfy+xKkeux3+3h5tb8aqSENuySk2Jfk/LHi4sDO6B3Sbq6ObASRubjdx
+   a6W4Zdh0/L3snY7S5rwQTq1sYWLBFFLpZiOZvOtJyDh5Ae39z9bShmpHL
+   Q==;
+X-CSE-ConnectionGUID: fT852JC3RFKEG6bVFRwrlg==
+X-CSE-MsgGUID: be5JUehPSkqbu2k+E6mBwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84211469"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="88153640"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 19:47:42 -0700
-X-CSE-ConnectionGUID: 2e7JKA1mSd2LTnJnleuZTg==
-X-CSE-MsgGUID: iw5CpKEJTFOnvjQSdeIYTg==
+   d="scan'208";a="84211469"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 19:58:43 -0700
+X-CSE-ConnectionGUID: 5eQlKbW4Sy66rkDobiPdMQ==
+X-CSE-MsgGUID: kQtsnYSGSKqNwwqXFsSDkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="251803592"
+   d="scan'208";a="278850418"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 08 Jul 2026 19:47:40 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 08 Jul 2026 19:58:41 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whenZ-00000000HDR-3mrh;
-	Thu, 09 Jul 2026 02:47:37 +0000
-Date: Thu, 09 Jul 2026 10:47:00 +0800
+	id 1wheyE-00000000HDp-3USd;
+	Thu, 09 Jul 2026 02:58:38 +0000
+Date: Thu, 09 Jul 2026 10:57:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:pr/192 6/6]
- drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:25: warning: variable 'mac'
- set but not used
-Message-ID: <202607091036.u7NFLeXX-lkp@intel.com>
+To: Rosalie Wanders <rosalie@mailbox.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jiri Kosina <jikos@kernel.org>
+Subject: include/linux/build_bug.h:80:41: error: static assertion
+ failed: "sizeof(struct motion_output_report_02) == 7"
+Message-ID: <202607091026.R9Pxd3PG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,62 +60,69 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 pr/192
-head:   2406221a9e06d563d7a7dba094afe4ba8187d5f7
-commit: f6261a83d9f211b58713bae33b28f274b6454612 [6/6] net: mediatek: add proprietary debugfs
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260709/202607091036.u7NFLeXX-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091036.u7NFLeXX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
+commit: 4b9c410e7d6dacef1a27baddb176fece2c6a6a30 HID: sony: fix style issues
+date:   3 months ago
+config: arm-randconfig-003-20260709 (https://download.01.org/0day-ci/archive/20260709/202607091026.R9Pxd3PG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091026.R9Pxd3PG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 4b9c410e7d6d ("HID: sony: fix style issues")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607091036.u7NFLeXX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607091026.R9Pxd3PG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'mtketh_debug_show':
->> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:25: warning: variable 'mac' set but not used [-Wunused-but-set-variable=]
-     435 |         struct mtk_mac *mac = 0;
-         |                         ^~~
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_auto_tlb_write':
->> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1810:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable=]
-    1810 |         int ret;
-         |             ^~~
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_auto_tlb_dump_v2':
->> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1903:13: warning: variable 'score' set but not used [-Wunused-but-set-variable=]
-    1903 |         u32 score = 0, ipv4 = 0;
-         |             ^~~~~
+   In file included from include/linux/bits.h:30,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/hid/hid-sony.c:32:
+>> include/linux/build_bug.h:80:41: error: static assertion failed: "sizeof(struct motion_output_report_02) == 7"
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:79:34: note: in expansion of macro '__static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/hid/hid-sony.c:506:1: note: in expansion of macro 'static_assert'
+     506 | static_assert(sizeof(struct motion_output_report_02) == 7);
+         | ^~~~~~~~~~~~~
 
 
-vim +/mac +435 drivers/net/ethernet/mediatek/mtk_eth_dbg.c
+vim +80 include/linux/build_bug.h
 
-   431	
-   432	static int mtketh_debug_show(struct seq_file *m, void *private)
-   433	{
-   434		struct mtk_eth *eth = m->private;
- > 435		struct mtk_mac *mac = 0;
-   436		int  i = 0;
-   437	
-   438		for (i = 0 ; i < MTK_MAX_DEVS ; i++) {
-   439			if (!eth->mac[i] ||
-   440			    of_phy_is_fixed_link(eth->mac[i]->of_node))
-   441				continue;
-   442			mac = eth->mac[i];
-   443	/* FIXME */
-   444	/*
-   445			while (j < 30) {
-   446				d =  _mtk_mdio_read_c22(eth, mac->phy_dev->addr, j);
-   447	
-   448				seq_printf(m, "phy=%d, reg=0x%08x, data=0x%08x\n",
-   449					   mac->phy_dev->addr, j, d);
-   450				j++;
-   451			}
-   452	*/
-   453		}
-   454		return 0;
-   455	}
-   456	
+bc6245e5efd70c Ian Abbott       2017-07-10  61  
+6bab69c65013be Rasmus Villemoes 2019-03-07  62  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   * static_assert - check integer constant expression at build time
+6ffd853b0b10e1 Randy Dunlap     2026-03-01  64   * @expr: expression to be checked
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  77   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  78   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @80  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  81  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  82  
+
+:::::: The code at line 80 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
