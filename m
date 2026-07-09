@@ -1,84 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B354A199D8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 14:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783606687; cv=none; b=jySbaiLpPn+bKjt2te7Tn3bQF+UXM7jl/BKrv7gtfdfCH9wlEPyswzdpxE+R3QZ5H+eCycqjPcPdR4OUZG6AosvcZKdsB5cEd3QL5cnN7uzAB+bjJR2F6AynY1ItI7q+9PkIz5QepyJf2veTY43ynYH12ymjBFzUXC+JzFdQiUY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783606687; c=relaxed/simple;
-	bh=+k4tqqPK2Mt2Ukpo2bDKp6dzsqQ4g2tr5LKoT0wlF/g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kD4/mmV5OG4OcVYU7sGBRxHrKIMyjABkt8lYzAw2MPpxnppo12jQn/3kZJXJwLl05fWwVrpDpxQbApH/kLmIx90pCV7ghOx4bgjPU19oZEvrNFNZwKpTZmYOgMA/AJSHbGIwEP8P7kf0bQMhbLKbGLWEZ7iJLLBWgqS9pFyEXYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEkDAOKq; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBFE1E8332
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 14:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783608317; cv=pass; b=dUYPoJN3uFNXXtEyHFaGiMvQKLbm9xTCOoo/WFvGE4JfVaycxLelSZ8XmfkSSmq5Jzj2DY6Mhxq7VRK0+X7FpvCZLE/CCdmWoHSqNO8WieNWgoVXrG+DSqKVnXyytGun/Bac6wlXYDDKGoT9k2Lo5vzD3uTOcig5eEY6V+EDPEc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783608317; c=relaxed/simple;
+	bh=51QJHitYo0D2EhVGNC7I9TulMG+PQspEKqbVmVaR7k4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HZ1E4upwVTbi1hRt7rPB1R7HwWkOhwmDPxDhm5fL6xzT6cd8MtcLxUi3eE85tU0TDzQWflUKqfIjNPGOl16tXYaM7XxiH/n+ugiIsJWuIwnvs8UZhr61uJNKiY/quMY6AQfSoYF6+sajTIYFBcn9T22nTBdxJtKNdYfOdfIyR3Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QEnmavQh; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEkDAOKq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783606685; x=1815142685;
-  h=date:from:to:cc:subject:message-id;
-  bh=+k4tqqPK2Mt2Ukpo2bDKp6dzsqQ4g2tr5LKoT0wlF/g=;
-  b=HEkDAOKqz6+65HisvLDGZW+/snf5NLHZLmOy2xHQS7y1tApgTWcY0VvK
-   Wy2svO2bWkXDK8OBguRaI9NCxkqdpWqwXmfJ9oXBF6x0OWzHO0pSTqONS
-   PzsEe3+9/LCz1huipHyl74IuIv/mcVg6GD0LG/SwAzuaUsa5HLtWpR66E
-   UD4eQBHHOheXnYUjd77KMZ31VXvHhYCVJV6XhpJRTyYJUgNNDh5lvEYFc
-   nfz4+Ga2jYCr/MHzq2SndQ9IDq5cpIL+Hivu7UA8Zw6l7e0sN79A5n8kv
-   f45tCtFIMdSa03BQ9fSC3UEuwiE6QDKrpPJJCpqBAEam0s4wyIwGWnWP3
-   g==;
-X-CSE-ConnectionGUID: RfeAmEi5QFOfxC/cL6aNog==
-X-CSE-MsgGUID: VAK/fp2KSMGnQuHQ3kiimg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95802521"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="95802521"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 07:18:05 -0700
-X-CSE-ConnectionGUID: 0OKB/MgZS+imGOzIKdKvYA==
-X-CSE-MsgGUID: 4mjox98sTd2O1Q6krgYShg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="250611506"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Jul 2026 07:18:03 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1whpZY-00000000HkO-0AMq;
-	Thu, 09 Jul 2026 14:17:54 +0000
-Date: Thu, 09 Jul 2026 22:17:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amit Sunil Dhamne <amitsd@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- Badhri Jagan Sridharan <badhri@google.com>
-Subject: [usb:usb-testing 23/28] tcpm.c:undefined reference to
- `__udivdi3'
-Message-ID: <202607092212.lINETdSF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QEnmavQh"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-698b78c05b0so11607a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Jul 2026 07:45:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783608314; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JsfgVHZcEVrno+2c+kr4myZKNNP+cHgJY016Otwi6PJE0VjSLnfqfwE+2qOhyf19j8
+         9u6kSGX1YCldfBS+poIw/rpacNPWgCol2VqxibZXZt3Gd1xQL05UQpCXAE9Y5zg4OX+T
+         IbsOYxfm7OBSD5h2aIZtoZ2+DhS6TLkzucCB+YDb4zTVCwLGEkqZaEwnIRwNGEyqJEYL
+         DkqsXpQMsZvx78fo9awF7aHbE9xgJ5R0YB2b1BGCxnUtejwOLxy/2uPM/QS8pJC8fGpf
+         DfRT7UfgEoPNaleBk0ys0XvZxr8HTCr8m1QpOgy/Xi6AhX1Ql8x0xcjg0nFCUddrnF/1
+         amWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Zd5VoNhWPJ5FEzML0KqVlaL2mS6uuL6nYiz9sQZLNME=;
+        fh=dhj89vI5lQoEYYv9QS96/qdAJul0yFAEPBtrPDv4J9Y=;
+        b=HHcNpJf/USWNsimeqvMKCFNSGDinHCCSeRRtAaJV8U1kWAsQ42kPnfRUG4zuDjSJYs
+         2511hmLb6AyLQ/dBO8+yIMkLv+6vslIwZLDezgZdvv8+2jchb0cvMBPQHQU3e24Xny63
+         c9FmHT6uhAUbzNZiFczMlrpgsl9ph7mdAAvZZ/2/dQAONLSOsGnyb9WOhNK8Y4yhsnRi
+         aLF42/xmXzJZ7f5ZkiTpurNXnfwUSBW0gsgZYDj3nty2KPbLFbIj0lLSbVDWSiPWWpI7
+         CsAB5AVtf6BTmmWrmX1NZwDX6Iw258ydemEI9eAee23L44+4eTjiaBlj4B3zUgliijXn
+         tGOA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783608314; x=1784213114; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Zd5VoNhWPJ5FEzML0KqVlaL2mS6uuL6nYiz9sQZLNME=;
+        b=QEnmavQhV4FO5cGWyXO0+y03haXPm9OM0Ta+isgF2QcjOVqLPO7bxjgCGMe6H2aTQ0
+         x4GWckZhfwSFKVTbPEz3JCGuePrDCrwmHIvo0UmVoE7/OfhMUWsThnTDacilHrOwi8nL
+         77jq30gBpGQxuDOSSVMMVi6aOi4mnl+dnCOa4awHBeMV1BLJhnuB5xjKPpP9GTvCJsKR
+         80UwJBItlGm2yYSnKp+u6rYKbAtA7O7kw91cCHt9kJhivsdVemaS0+DQLbvUk9vDCEmY
+         b13KIlY8zu7dVnmlYEkCRcn+ZlRGM+ZlcZoyl06x03GpKdhHgSloBOt8cNrXLmN1eN2+
+         Aneg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783608314; x=1784213114;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Zd5VoNhWPJ5FEzML0KqVlaL2mS6uuL6nYiz9sQZLNME=;
+        b=ZucwXdqzZeiviP6GIeghcau0jB/pgo5fCb5xxjJgyjLSYlPJvqOSzstSczEBYP6J9A
+         Z57ugEr6w+kPzGt+sG+tJD4adLXASz1ZhUJ8SEepM5wu3j9aUiSwy24mwhS3XLCU60fm
+         pLNL1M2YLX/CEcJPwNTjpiDrI4zbjt0YB5NFm7Jd5kMbsXUJW0u+7hGuVEMRJRnW5V/R
+         jXezHzDShR/VDwQVjP8T2s/Z26sXBuk5mBE2JUz55AFX4oiqF9TjVNXdZ4lAp6ipm7ow
+         R5mgVu3rEZVTXL9Ft5mI5zx4IgWmnFzTUhCQg2x4LBhDPafu/xmGv1k+l4F5beXqxXaI
+         tWVg==
+X-Gm-Message-State: AOJu0YwDJmnWLYUnBePGyuYe+JKd8R0GKgz/xAdbD+EMiDZS2NZ4uE/j
+	CLntARmbb45rZkWL4EwGc24aXMzRO1m6U9EYuXCQUQTEddTCS4GasNT02mLe9c56bqQ4FaClMqg
+	JpNtQ2NeSFs7keqN2AsDYhd96P9slsA8z3bjJPNC8
+X-Gm-Gg: AfdE7cnTavoK5a5nwG6ofdMBMqvghjYewtuay/orr220d6DtQlvM+ap/sYbosRP2ePE
+	g9cCh4HfumytDCrcckevd6ItQI740RQlPZ5CcSpCKpz9/lLgj3frzacuwxWwwwm/FgcSWduHCZT
+	EPHgAegQSlVVD5QSMNg5OTeRPYPyjyPaH5IDlUePWbLkZPcGit5WPbtSXmqni9AvidDcAKubtHW
+	s8P6SUw6qwXmwLhHAMxwk29vv1nH0jX9TeD/PXJgr9Eup8+8JTrazKib9ORNVg0ygbfTfDAG27a
+	9gHsQxM8eOpxJcfO1g/Ge3nGOlY=
+X-Received: by 2002:aa7:d50f:0:b0:69a:fb2d:e84b with SMTP id
+ 4fb4d7f45d1cf-69c0702dbf7mr41178a12.9.1783608313884; Thu, 09 Jul 2026
+ 07:45:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202607091820.qbjlGhKK-lkp@intel.com>
+In-Reply-To: <202607091820.qbjlGhKK-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 9 Jul 2026 07:44:59 -0700
+X-Gm-Features: AUfX_mxdaahI1V6-jyyKE3lUbvW_nBZksjAKzczctwG_EjEihAxbOStFVHjycmM
+Message-ID: <CAJuCfpHjUij9kkD6QiWxYvsYD3iKga9rzJZWnN9vCf3bhp-dXA@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-new 344/369] mm/alloc_tag.c:356:58: error: implicit
+ declaration of function 'compat_ptr'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, mm-commits@vger.kernel.org, 
+	Abhishek Bapat <abhishekbapat@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   472ce6621e371aafc03c0704d1d940f51d8159db
-commit: b3c9b6925ca2e02ef2fd77d0aa5e0ca6b2a67f5a [23/28] usb: typec: tcpm: Add support for Battery Status response message
-config: i386-buildonly-randconfig-005 (https://download.01.org/0day-ci/archive/20260709/202607092212.lINETdSF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607092212.lINETdSF-lkp@intel.com/reproduce)
+On Thu, Jul 9, 2026 at 3:00=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ne=
+w
+> head:   59e34180e138a293260301c139cf7ee800978533
+> commit: 27ace96bf8195484c9e9e1a08eb5af5a4e81f9f0 [344/369] alloc_tag: add=
+ ioctl to /proc/allocinfo
+> config: sparc64-randconfig-001-20260709 (https://download.01.org/0day-ci/=
+archive/20260709/202607091820.qbjlGhKK-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260709/202607091820.qbjlGhKK-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202607091820.qbjlGhKK-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    mm/alloc_tag.c: In function 'allocinfo_compat_ioctl':
+> >> mm/alloc_tag.c:356:58: error: implicit declaration of function 'compat=
+_ptr' [-Wimplicit-function-declaration]
+>      356 |         return allocinfo_ioctl(file, cmd, (unsigned long)compa=
+t_ptr(arg));
+>          |                                                          ^~~~~=
+~~~~~
+>
+>
+> vim +/compat_ptr +356 mm/alloc_tag.c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607092212.lINETdSF-lkp@intel.com/
+Missing #include <linux/compat.h>
+After adding it the error goes away.
 
-All errors (new ones prefixed by >>):
-
-   ld: drivers/usb/typec/tcpm/tcpm.o: in function `tcpm_pd_send_batt_status.constprop.0':
->> tcpm.c:(.text+0x6743): undefined reference to `__udivdi3'
->> ld: tcpm.c:(.text+0x6764): undefined reference to `__udivdi3'
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>    351
+>    352  #ifdef CONFIG_COMPAT
+>    353  static long allocinfo_compat_ioctl(struct file *file, unsigned in=
+t cmd,
+>    354                                     unsigned long arg)
+>    355  {
+>  > 356          return allocinfo_ioctl(file, cmd, (unsigned long)compat_p=
+tr(arg));
+>    357  }
+>    358  #endif
+>    359
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
