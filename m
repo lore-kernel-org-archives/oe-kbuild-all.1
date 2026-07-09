@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EE32D3A60
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 16:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AA83B4EB7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 19:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783615918; cv=none; b=UEaA1d/K+PeKWOyuvxTrTdQEQo3EuEO2BYvAm/CpjKTr+fnXSbwz3ll054iBXduiCiJqBAcDXzhInodrcEParzTrSjk9BjXD+y28VqAOOv/g1QbGLN3mLfKwbV1PrHIpmskzdCM3LKbUZIbpaX9HNEgC8UQUMAxdYMWjHELYjeM=
+	t=1783625198; cv=none; b=nXHDRE0Whv9jheWCL9+GsXJTPswp/vdfuIqR2Tki6/vmLGSkROHJBHNGJ8SaVji/jvpmiCq70SwO1GVmm1oW3700E/PMFiOJc1n5w06WkIPX3sssgVKlDo8hxNZ9mVbNIrquKttMNidt+9lD1eQMHBSIO87j5FhI5Ytot44OYTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783615918; c=relaxed/simple;
-	bh=DRfdt9iyqnCotYx/09cwK46B3rqdtM8lxMlQgJ0wlik=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e5g3yNqEbuBWclLIlrNEnlgT3Ge5XH1nimofYP4yujmwRjn1vDn4B72cceLqx/CWS3LnMQvqGmwe9kshhcI8BrxTckHWH70x8VLrCIvouorKv1gAZIgcpTLPw5Xw4Z/Tiikx46lm63mKwRdZY5xwDt6RZLTF+d7uNwyQQUyUCuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mh1grVp+; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1783625198; c=relaxed/simple;
+	bh=wXJmD69eMdHfeU5U/PKdtXPEC60+eNpqBe0XR0dNPZk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PnxY1XwzDkU0bAMtZhnmYz07yu8Qg7DUZPRHbUIlqgIByhcSNslZ7QeFnVrPB0vbUY0/U8OQO161RbGyakJLkRNZDQWcx0LTi7aWiK70V1kHp9PkWsQRCYYhSWjJvAuRipl/akCNYLhtfxD/oo5FB7P1XSSysAPdpB/XI3U/cgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BbspRrpi; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mh1grVp+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BbspRrpi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783615916; x=1815151916;
+  t=1783625196; x=1815161196;
   h=date:from:to:cc:subject:message-id;
-  bh=DRfdt9iyqnCotYx/09cwK46B3rqdtM8lxMlQgJ0wlik=;
-  b=mh1grVp+k2jDDnnC92NMmk/FfC2ZuaqjEOZWH0KCzI5RlyDhPW8U4Q7g
-   H/76vymgwnRw9r3XxYO6PrlB9+KnUYGBsf1syPn/ap97kwgvLj6ApvPDs
-   PC0uzukzFRBqJYIWVa3V62QHXTZUZ99HSkZ0D3yyzZd4x/+lo0FccB5Ah
-   7rn2xyO+cI0httR/svlN5bZmjfXlqJX71zHL2XvjhQjGqNQ6TgwYpXzsk
-   bCRW6NEJAf3vc40yIj64voyxRnKv1EBPn30H+ei/OFFeT9ur7fXEIdSjS
-   2rpjZ7VLBxowx9AIfv2Lbq7/wlHNNAyltuy9qHZztHlMSUBQbTcDFWfhp
+  bh=wXJmD69eMdHfeU5U/PKdtXPEC60+eNpqBe0XR0dNPZk=;
+  b=BbspRrpinNmTYkuYMV+1V+Qh4rH5Kux4vBLo+epWFG2ccV35Osy88Ud+
+   A4fj1ZOdSfTAfgVf7vAqyZDxYmQ9WvU2pIKmwhkQ9ZeX54/zL4hs7bPxF
+   he6OI0uV3kOqLhAyNsj0YGvl94/vKXL3EGCBxJcvQNn0Rouup4Cw36nri
+   Zirz8UQId84YgwiZCmJtvDOghGiUTZlAQ4FlixdNM3dTa7jE7U8l5gw76
+   ak5LHxhY1nr2uthqGjjB3fL9S7edEnMbGUHaqtab6bwRn4WZxXgXFk5sY
+   19jL/aHN1bolTxK714EU2eoZLnS4gu7AQ7dEUXD+H7mcwmkvMNsFGvmY2
    A==;
-X-CSE-ConnectionGUID: VJ+UzpmvQhC8DwFoILKPSw==
-X-CSE-MsgGUID: LpeaxgKQTPyuzceY74uFrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="86849749"
+X-CSE-ConnectionGUID: NbYxqnt8SjmcZrQYB8pZ+g==
+X-CSE-MsgGUID: mK/TdNvKTe+HW35Dc/3Q/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88149634"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="86849749"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 09:51:55 -0700
-X-CSE-ConnectionGUID: L61qBDTYT0uYRbugIj8VKQ==
-X-CSE-MsgGUID: m5tev51KTxu7bw7rN/0Qrg==
+   d="scan'208";a="88149634"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 12:26:36 -0700
+X-CSE-ConnectionGUID: LoAhtLKrQ46fasFR1H8I0Q==
+X-CSE-MsgGUID: 6p6j3hMKRCGSsvE168IbYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="277870399"
+   d="scan'208";a="258981054"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Jul 2026 09:51:52 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Jul 2026 12:26:34 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whryC-00000000Huc-1ZU7;
-	Thu, 09 Jul 2026 16:51:46 +0000
-Date: Fri, 10 Jul 2026 00:50:18 +0800
+	id 1whuOF-00000000I2l-2TXW;
+	Thu, 09 Jul 2026 19:26:31 +0000
+Date: Fri, 10 Jul 2026 03:25:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kevin Brodsky <kevin.brodsky@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Yeoreum Yun <yeoreum.yun@arm.com>,
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: arch/powerpc/mm/book3s64/hash_tlb.c:45:42: sparse: sparse:
- incorrect type in initializer (different address spaces)
-Message-ID: <202607100031.EC6akrDW-lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 2888/4669]
+ drivers/mtd/maps/uclinux.c:58:15: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202607100227.esCbqJWc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,141 +60,113 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
-commit: ee628d9cc8d5b96fdceeb270cf662efc4f85f2b6 mm: add basic tests for lazy_mmu
-date:   6 months ago
-config: powerpc64-randconfig-r113-20260709 (https://download.01.org/0day-ci/archive/20260710/202607100031.EC6akrDW-lkp@intel.com/config)
-compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b9810cd75b9fb56a3425d391cba3f608502bd474
+commit: 2b533e775aec580cf60074417f4ca00ac9cf3580 [2888/4669] Revert "mtd: maps: remove uclinux map driver"
+config: riscv-randconfig-r122-20260709 (https://download.01.org/0day-ci/archive/20260710/202607100227.esCbqJWc-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.3.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607100031.EC6akrDW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607100227.esCbqJWc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ee628d9cc8d5 ("mm: add basic tests for lazy_mmu")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607100031.EC6akrDW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607100227.esCbqJWc-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/mm/book3s64/hash_tlb.c:45:42: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ppc64_tlb_batch * @@
-   arch/powerpc/mm/book3s64/hash_tlb.c:45:42: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/powerpc/mm/book3s64/hash_tlb.c:45:42: sparse:     got struct ppc64_tlb_batch *
-   arch/powerpc/mm/book3s64/hash_tlb.c:162:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ppc64_tlb_batch * @@
-   arch/powerpc/mm/book3s64/hash_tlb.c:162:45: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/powerpc/mm/book3s64/hash_tlb.c:162:45: sparse:     got struct ppc64_tlb_batch *
+>> drivers/mtd/maps/uclinux.c:58:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   drivers/mtd/maps/uclinux.c:58:15: sparse:     expected void *
+   drivers/mtd/maps/uclinux.c:58:15: sparse:     got void [noderef] __iomem *
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+   drivers/mtd/maps/uclinux.c:80:30: sparse: sparse: cast to restricted __be32
+>> drivers/mtd/maps/uclinux.c:92:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *virt @@     got void * @@
+   drivers/mtd/maps/uclinux.c:92:20: sparse:     expected void [noderef] __iomem *virt
+   drivers/mtd/maps/uclinux.c:92:20: sparse:     got void *
+>> drivers/mtd/maps/uclinux.c:94:27: sparse: sparse: Using plain integer as NULL pointer
 
-vim +45 arch/powerpc/mm/book3s64/hash_tlb.c
+vim +58 drivers/mtd/maps/uclinux.c
 
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16   34  
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16   35  /*
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   36   * A linux PTE was changed and the corresponding hash table entry
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   37   * neesd to be flushed. This function will either perform the flush
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   38   * immediately or will batch it up if the current CPU has an active
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   39   * batch on it.
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16   40   */
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   41  void hpte_need_flush(struct mm_struct *mm, unsigned long addr,
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07   42  		     pte_t *ptep, unsigned long pte, int huge)
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16   43  {
-5524a27d39b6877 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2012-09-10   44  	unsigned long vpn;
-f342552b917a18a arch/powerpc/mm/tlb_hash64.c        Peter Zijlstra         2011-02-24  @45  	struct ppc64_tlb_batch *batch = &get_cpu_var(ppc64_tlb_batch);
-5524a27d39b6877 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2012-09-10   46  	unsigned long vsid;
-bf72aeba2ffef59 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2006-06-15   47  	unsigned int psize;
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11   48  	int ssize;
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   49  	real_pte_t rpte;
-ff31e105464d8c8 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2018-02-11   50  	int i, offset;
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16   51  
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16   52  	i = batch->index;
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16   53  
-47d99948eee48a8 arch/powerpc/mm/book3s64/hash_tlb.c Christophe Leroy       2019-03-29   54  	/*
-47d99948eee48a8 arch/powerpc/mm/book3s64/hash_tlb.c Christophe Leroy       2019-03-29   55  	 * Get page size (maybe move back to caller).
-16c2d4762325232 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-05-08   56  	 *
-16c2d4762325232 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-05-08   57  	 * NOTE: when using special 64K mappings in 4K environment like
-16c2d4762325232 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-05-08   58  	 * for SPEs, we obtain the page size from the slice, which thus
-16c2d4762325232 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-05-08   59  	 * must still exist (and thus the VMA not reused) at the time
-16c2d4762325232 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-05-08   60  	 * of this call
-16c2d4762325232 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-05-08   61  	 */
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07   62  	if (huge) {
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07   63  #ifdef CONFIG_HUGETLB_PAGE
-d258e64ef595792 arch/powerpc/mm/tlb_hash64.c        Joe Perches            2009-06-28   64  		psize = get_slice_psize(mm, addr);
-77058e1adcc4391 arch/powerpc/mm/tlb_hash64.c        David Gibson           2010-02-08   65  		/* Mask the address for the correct page size */
-77058e1adcc4391 arch/powerpc/mm/tlb_hash64.c        David Gibson           2010-02-08   66  		addr &= ~((1UL << mmu_psize_defs[psize].shift) - 1);
-ff31e105464d8c8 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2018-02-11   67  		if (unlikely(psize == MMU_PAGE_16G))
-ff31e105464d8c8 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2018-02-11   68  			offset = PTRS_PER_PUD;
-ff31e105464d8c8 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2018-02-11   69  		else
-ff31e105464d8c8 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2018-02-11   70  			offset = PTRS_PER_PMD;
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07   71  #else
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07   72  		BUG();
-16c2d4762325232 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-05-08   73  		psize = pte_pagesize_index(mm, addr, pte); /* shutup gcc */
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07   74  #endif
-77058e1adcc4391 arch/powerpc/mm/tlb_hash64.c        David Gibson           2010-02-08   75  	} else {
-16c2d4762325232 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-05-08   76  		psize = pte_pagesize_index(mm, addr, pte);
-47d99948eee48a8 arch/powerpc/mm/book3s64/hash_tlb.c Christophe Leroy       2019-03-29   77  		/*
-47d99948eee48a8 arch/powerpc/mm/book3s64/hash_tlb.c Christophe Leroy       2019-03-29   78  		 * Mask the address for the standard page size.  If we
-77058e1adcc4391 arch/powerpc/mm/tlb_hash64.c        David Gibson           2010-02-08   79  		 * have a 64k page kernel, but the hardware does not
-77058e1adcc4391 arch/powerpc/mm/tlb_hash64.c        David Gibson           2010-02-08   80  		 * support 64k pages, this might be different from the
-47d99948eee48a8 arch/powerpc/mm/book3s64/hash_tlb.c Christophe Leroy       2019-03-29   81  		 * hardware page size encoded in the slice table.
-47d99948eee48a8 arch/powerpc/mm/book3s64/hash_tlb.c Christophe Leroy       2019-03-29   82  		 */
-77058e1adcc4391 arch/powerpc/mm/tlb_hash64.c        David Gibson           2010-02-08   83  		addr &= PAGE_MASK;
-ff31e105464d8c8 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2018-02-11   84  		offset = PTRS_PER_PTE;
-77058e1adcc4391 arch/powerpc/mm/tlb_hash64.c        David Gibson           2010-02-08   85  	}
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07   86  
-f71dc176aa06359 arch/powerpc/mm/tlb_hash64.c        David Gibson           2009-10-26   87  
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   88  	/* Build full vaddr */
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   89  	if (!is_kernel_addr(addr)) {
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11   90  		ssize = user_segment_size(addr);
-f384796c40dc55b arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2018-03-26   91  		vsid = get_user_vsid(&mm->context, addr, ssize);
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11   92  	} else {
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11   93  		vsid = get_kernel_vsid(addr, mmu_kernel_ssize);
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11   94  		ssize = mmu_kernel_ssize;
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11   95  	}
-c60ac5693c47df3 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2013-03-13   96  	WARN_ON(vsid == 0);
-5524a27d39b6877 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2012-09-10   97  	vpn = hpt_vpn(addr, vsid, ssize);
-ff31e105464d8c8 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2018-02-11   98  	rpte = __real_pte(__pte(pte), ptep, offset);
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10   99  
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  100  	/*
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  101  	 * Check if we have an active batch on this CPU. If not, just
-c5cee6421cd6514 arch/powerpc/mm/tlb_hash64.c        Balbir Singh           2017-05-25  102  	 * flush now and return.
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  103  	 */
-313a05a15a1b29c arch/powerpc/mm/book3s64/hash_tlb.c Kevin Brodsky          2025-12-15  104  	if (!is_lazy_mmu_mode_active()) {
-c5cee6421cd6514 arch/powerpc/mm/tlb_hash64.c        Balbir Singh           2017-05-25  105  		flush_hash_page(vpn, rpte, psize, ssize, mm_is_thread_local(mm));
-f342552b917a18a arch/powerpc/mm/tlb_hash64.c        Peter Zijlstra         2011-02-24  106  		put_cpu_var(ppc64_tlb_batch);
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  107  		return;
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  108  	}
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  109  
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  110  	/*
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  111  	 * This can happen when we are in the middle of a TLB batch and
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  112  	 * we encounter memory pressure (eg copy_page_range when it tries
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  113  	 * to allocate a new pte). If we have to reclaim memory and end
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  114  	 * up scanning and resetting referenced bits then our batch context
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  115  	 * will change mid stream.
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07  116  	 *
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07  117  	 * We also need to ensure only one page size is present in a given
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07  118  	 * batch
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  119  	 */
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11  120  	if (i != 0 && (mm != batch->mm || batch->psize != psize ||
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11  121  		       batch->ssize != ssize)) {
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  122  		__flush_tlb_pending(batch);
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  123  		i = 0;
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  124  	}
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  125  	if (i == 0) {
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  126  		batch->mm = mm;
-3c726f8dee6f55e arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2005-11-07  127  		batch->psize = psize;
-1189be6508d4518 arch/powerpc/mm/tlb_64.c            Paul Mackerras         2007-10-11  128  		batch->ssize = ssize;
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  129  	}
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  130  	batch->pte[i] = rpte;
-5524a27d39b6877 arch/powerpc/mm/tlb_hash64.c        Aneesh Kumar K.V       2012-09-10  131  	batch->vpn[i] = vpn;
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  132  	batch->index = ++i;
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  133  	if (i >= PPC64_TLB_BATCH_NR)
-a741e6796957716 arch/powerpc/mm/tlb_64.c            Benjamin Herrenschmidt 2007-04-10  134  		__flush_tlb_pending(batch);
-f342552b917a18a arch/powerpc/mm/tlb_hash64.c        Peter Zijlstra         2011-02-24  135  	put_cpu_var(ppc64_tlb_batch);
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  136  }
-^1da177e4c3f415 arch/ppc64/mm/tlb.c                 Linus Torvalds         2005-04-16  137  
-
-:::::: The code at line 45 was first introduced by commit
-:::::: f342552b917a18a7a1fa2c10625df85fac828c36 powerpc/mm: Make hpte_need_flush() safe for preemption
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+    53	
+    54	static int uclinux_point(struct mtd_info *mtd, loff_t from, size_t len,
+    55		size_t *retlen, void **virt, resource_size_t *phys)
+    56	{
+    57		struct map_info *map = mtd->priv;
+  > 58		*virt = map->virt + from;
+    59		if (phys)
+    60			*phys = map->phys + from;
+    61		*retlen = len;
+    62		return(0);
+    63	}
+    64	
+    65	/****************************************************************************/
+    66	
+    67	static int __init uclinux_mtd_init(void)
+    68	{
+    69		struct mtd_info *mtd;
+    70		struct map_info *mapp;
+    71	
+    72		mapp = &uclinux_ram_map;
+    73	
+    74		if (physaddr == -1)
+    75			mapp->phys = (resource_size_t)__bss_stop;
+    76		else
+    77			mapp->phys = physaddr;
+    78	
+    79		if (!mapp->size)
+    80			mapp->size = PAGE_ALIGN(ntohl(*((unsigned long *)(mapp->phys + 8))));
+    81		mapp->bankwidth = 4;
+    82	
+    83		printk("uclinux[mtd]: probe address=0x%x size=0x%x\n",
+    84		       	(int) mapp->phys, (int) mapp->size);
+    85	
+    86		/*
+    87		 * The filesystem is guaranteed to be in direct mapped memory. It is
+    88		 * directly following the kernels own bss region. Following the same
+    89		 * mechanism used by architectures setting up traditional initrds we
+    90		 * use phys_to_virt to get the virtual address of its start.
+    91		 */
+  > 92		mapp->virt = phys_to_virt(mapp->phys);
+    93	
+  > 94		if (mapp->virt == 0) {
+    95			printk("uclinux[mtd]: no virtual mapping?\n");
+    96			return(-EIO);
+    97		}
+    98	
+    99		simple_map_init(mapp);
+   100	
+   101		mtd = do_map_probe("map_" MAP_NAME, mapp);
+   102		if (!mtd) {
+   103			printk("uclinux[mtd]: failed to find a mapping?\n");
+   104			return(-ENXIO);
+   105		}
+   106	
+   107		mtd->owner = THIS_MODULE;
+   108		mtd->_point = uclinux_point;
+   109		mtd->priv = mapp;
+   110	
+   111		uclinux_ram_mtdinfo = mtd;
+   112		mtd_device_register(mtd, uclinux_romfs, NUM_PARTITIONS);
+   113	
+   114		return(0);
+   115	}
+   116	device_initcall(uclinux_mtd_init);
+   117	
 
 --
 0-DAY CI Kernel Test Service
