@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26592388E45
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 01:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6429715B998
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 02:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783560223; cv=none; b=QUdBE1iTluLoptT93QuoWRrFfwOyRJKVoU77aGlu1BgBl5mzRhWeOX034wgpIQg0T7zRgumLMWdxpobzFi+zUF0NeWeIDbCKXXq1SXNtw+3lfPI5m4kxqR9kghPb/SIC++iWhzVpfni8YvzePOB/tVlDFylLLtF0uekO4881lYU=
+	t=1783563726; cv=none; b=R7AP56Y/OtS4WgOPwMx1i3ye/LDXEnTyFxkNq9H9+RmWBOkhy2mOqVEfvnIm/pW06zKq5P5JnkumWaq7vsAso6dDG6cOaPsaq0kOH27F6SqhMEbb+37PXL/3opK3FetYYM0IDiEJo3JMDyK13eucHbkfqCZ/LxRtDbO80YAV/cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783560223; c=relaxed/simple;
-	bh=gQ4GbaqYJPGKv0lb7TbNmHqDdQEXNsO5jKFMcKqT9XY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jVOpZ1gI21oP/Y/AH0drA+oJ93Ob2oSVhfGq52VHC28XxgmNj2anzzhUk/MiMkq2FCRec/g/pDCMiCpdvazGRH+Gz82De6H+/PTrPfrBrsrhW7LtonUGDlctYthXolocjnZLvIuWdBFiZqFvByzSTsnxEjmx780zZIyn7/4p5iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmFnPcgE; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1783563726; c=relaxed/simple;
+	bh=/K4lQH4a07AlBu5XP97+ux+9dmpq0SN+m00v226EYpc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KrsU0fIB9av2nPrKUKvtOjw6Km2VOM98EEQH3TlMZbzBAB2nOkz/nzKMpRSk3hE4yBNLozQe045RmEcxn9757yFoQStEh2TJGDBa943C1z6gCQXdgG5I3RT5QtPNEd1sl7ezT6V49MPPXyD3rlVGR+WAZOyrySaUm6TE+/26SMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ELsqvQJN; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmFnPcgE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ELsqvQJN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783560222; x=1815096222;
+  t=1783563724; x=1815099724;
   h=date:from:to:cc:subject:message-id;
-  bh=gQ4GbaqYJPGKv0lb7TbNmHqDdQEXNsO5jKFMcKqT9XY=;
-  b=fmFnPcgEw2qzjQsEcFGGY+dZk5gnGB+Nwo3/gmDkz32B9Tv7d/ejFeDo
-   3WI5zcBrVW0/0X4Qvf2Q4PvVzriUerOpWhcQrL2cqDAXTrI68/ZdsMQMd
-   tPqXsQfyyXUeoHU+pZx/ZMp4A2BQAx39u6yYIGqwQyA86+BUAMaidpmmX
-   hSiwnIeIYlJY+QrnQWtWTrvGSgoi3QwAlXXNBr3j+hY8ndHurrYxFx/5y
-   3ofe3dw4yVjiT8udvA37NS0UfWUkaM5fUyUi7Jkg6CHXyom6hw2sRVqFt
-   tbGUQeegDBRJmaaQGc4Hoqpgu03DoPCQY8CH3vdvJkyboEK9kfZH26hMS
-   g==;
-X-CSE-ConnectionGUID: p2LfMSl0T2O9VHasjW+mSg==
-X-CSE-MsgGUID: lm0H6GxURDeCKFr4hKMuoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="71756011"
+  bh=/K4lQH4a07AlBu5XP97+ux+9dmpq0SN+m00v226EYpc=;
+  b=ELsqvQJNU49CYi7fP/dzZ2ruYHD62Vqfw09l/n3mKexaRa3II2V84d0g
+   Kq758tEET69xx48VuJiQz4ABK0hqiPj97KNqjhT4/QsO7wXRXQmIDbiFj
+   twKcgOl1SUzuToZaUrS+M1ilTwmdnG+ot0oKOdlvr9ym13F4Y26NdiJjS
+   9Z7ojlLk1fM3CYdk6IVvbomqtoJtsPtRokX40TCjjVS3PYFXtiwlVtSp7
+   eZjtNbKABC4uSMRNuYnF258ip/Pg/YYfHf3zAMBtC5/bhaeA9Ca6q7mEw
+   4lWijM9HsJy3weh+4fwuEEbtZXTKNoOLC1gaJu7GIQTycU+9s8qYUt7q9
+   A==;
+X-CSE-ConnectionGUID: ka3VhGyGTh+nApZVXvPnXA==
+X-CSE-MsgGUID: 1yvpN8vySzOD1dxSp5+iZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84094100"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="71756011"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 18:23:40 -0700
-X-CSE-ConnectionGUID: kOwU7xEaS8irIlj2hxgYEQ==
-X-CSE-MsgGUID: bG92+gabS2aEY1QqnPHWpw==
+   d="scan'208";a="84094100"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 19:22:04 -0700
+X-CSE-ConnectionGUID: xGod3+fzRt6Roven3oJFAw==
+X-CSE-MsgGUID: nYisfddyRc2BGPxIV7iXcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="253959932"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 08 Jul 2026 18:23:39 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="250032203"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Jul 2026 19:22:02 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whdUF-00000000H7n-3ZOy;
-	Thu, 09 Jul 2026 01:23:35 +0000
-Date: Thu, 09 Jul 2026 09:23:18 +0800
+	id 1wheOm-000000002sP-2oUk;
+	Thu, 09 Jul 2026 02:22:00 +0000
+Date: Thu, 09 Jul 2026 04:21:50 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: "David Hildenbrand (Arm)" <david@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 166/166]
- include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name'
- defined but not used
-Message-ID: <202607090917.4pIYhZqm-lkp@intel.com>
+Subject: [davidhildenbrand:folded_pgtable 29/32]
+ arch/x86/mm/pgtable.c:250:23: warning: variable 'pudp_s' set but not used
+Message-ID: <202607090449.nuF7ILjx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,142 +59,82 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Huang,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   7b80053b707666e258e504127dd1bf5ac555f5e1
-commit: 1c28907d7396680dbbfcb341340369e69aa670f4 [166/166] ANDROID: timer: Add vendor hook for timer calc index
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260709/202607090917.4pIYhZqm-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090917.4pIYhZqm-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux folded_pgtable
+head:   0551ca68b7552b7d71f1d2882635809a573d6c79
+commit: 0963570e536ad72776105fbd404b09e35b19927a [29/32] mm/pgtable: disallow calling folded (pgd|p4d|pud)_page, pgd_page_vaddr() and (p4d|pud)_pgtable
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260709/202607090449.nuF7ILjx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090449.nuF7ILjx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607090917.4pIYhZqm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090449.nuF7ILjx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/timer.h:18,
-                    from drivers/android/vendor_hooks.c:46:
->> include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dmabuf.h:21,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/stages/init.h:2:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fips140.h:50,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/stages/init.h:2:23: warning: 'str__fips140__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/futex.h:26,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/stages/init.h:2:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/rwsem.h:30,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/remoteproc.h:26,
-                    from drivers/android/vendor_hooks.c:41:
-   include/trace/stages/init.h:2:23: warning: 'str__remoteproc__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+   arch/x86/mm/pgtable.c: In function 'pgd_prepopulate_pmd':
+>> arch/x86/mm/pgtable.c:250:23: warning: variable 'pudp_s' set but not used [-Wunused-but-set-variable]
+     250 |         pud_t *pudp, *pudp_s;
+         |                       ^~~~~~
+   In file included from <command-line>:
+   arch/x86/mm/pgtable.c: In function 'pudp_set_access_flags':
+   ././include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_484' declared with attribute error: BUILD_BUG failed
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   ././include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
+     683 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   ././include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:60:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      60 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^~~~~~~~~~~~~~~~
+   ./include/asm-generic/pgtable-nopmd.h:41:49: note: in expansion of macro 'BUILD_BUG'
+      41 | #define set_pud(pudptr, pudval)                 BUILD_BUG()
+         |                                                 ^~~~~~~~~
+   arch/x86/mm/pgtable.c:434:17: note: in expansion of macro 'set_pud'
+     434 |                 set_pud(pudp, entry);
+         |                 ^~~~~~~
 
 
-vim +/str__timer__trace_system_name +2 include/trace/stages/init.h
+vim +/pudp_s +250 arch/x86/mm/pgtable.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  246  
+0a3c7e279b112f Yeoreum Yun         2026-07-08  247  static void pgd_prepopulate_pmd(struct mm_struct *mm, pgd_t *pgdp, pmd_t *pmds[])
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  248  {
+0a3c7e279b112f Yeoreum Yun         2026-07-08  249  	p4d_t *p4dp, *p4dp_s;
+0a3c7e279b112f Yeoreum Yun         2026-07-08 @250  	pud_t *pudp, *pudp_s;
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  251  	int i;
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  252  
+0a3c7e279b112f Yeoreum Yun         2026-07-08  253  	p4dp = p4d_offset(pgdp, 0);
+0a3c7e279b112f Yeoreum Yun         2026-07-08  254  	pudp = pud_offset(p4dp, 0);
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  255  
+0a3c7e279b112f Yeoreum Yun         2026-07-08  256  	for (i = 0; i < PREALLOCATED_PMDS; i++, pudp++) {
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  257  		pmd_t *pmd = pmds[i];
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  258  
+0a3c7e279b112f Yeoreum Yun         2026-07-08  259  		if (i >= KERNEL_PGD_BOUNDARY) {
+0a3c7e279b112f Yeoreum Yun         2026-07-08  260  			p4dp_s = p4d_offset(&swapper_pg_dir[i], 0);
+0a3c7e279b112f Yeoreum Yun         2026-07-08  261  			pudp_s = pud_offset(p4dp_s, 0);
+0a3c7e279b112f Yeoreum Yun         2026-07-08  262  
+0a3c7e279b112f Yeoreum Yun         2026-07-08  263  			memcpy(pmd, (pmd_t *)pud_pgtable(pudp_get(pudp_s)),
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  264  			       sizeof(pmd_t) * PTRS_PER_PMD);
+0a3c7e279b112f Yeoreum Yun         2026-07-08  265  		}
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  266  
+0a3c7e279b112f Yeoreum Yun         2026-07-08  267  		pud_populate(mm, pudp, pmd);
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  268  	}
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  269  }
+1ec1fe73dfb711 Ingo Molnar         2008-03-19  270  
 
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+:::::: The code at line 250 was first introduced by commit
+:::::: 0a3c7e279b112f82e4a7a2a24e499fe971b871a3 x86: mm: remove usage of pgd_page_vaddr() for CONFIG_x86_PAE
 
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: TO: Yeoreum Yun <yeoreum.yun@arm.com>
+:::::: CC: David Hildenbrand (Arm) <david@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
