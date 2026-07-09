@@ -1,73 +1,72 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171EC3E7BBB
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 10:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37153EC2FF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 10:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783593444; cv=none; b=gZQi0m5+/S0Cq0sNDvI/fUmn3GAzsvsPgxKB58Ewt2L+8CN2LfDxkYhMmekVFTCbM/Bkev5F7HC1yZxqD6fHACxs1EI7y6sk2PVfZT+TMRjcD+VzXA8L4PQfkJjTbDr21rXtiBYBetREYzghAM23OqDd2mEZv7uzEBQThBAFInE=
+	t=1783593620; cv=none; b=s/3ZXRXb2AtUFHDgGB8Az4E13+1Q/hYqpmVd6p6zwwiE/nE0JtAUJvVtWrK1AT+Zd1eoXff/r0Ixj7IC55eIX7POx1UuhaAKbMDt55CdU0RrMnaQdXQBzdOwDZJE88tCq6Iacyd4bRvUeWLmJJ8DoFdY+oJoZSwOuEY79SXm1jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783593444; c=relaxed/simple;
-	bh=NHtqz9oIRl9tOwnzyplBsSIEsyZlsEDbyJayOyG6x1U=;
+	s=arc-20240116; t=1783593620; c=relaxed/simple;
+	bh=P/9frszRQMakq6rP5ZGKnqg5po7DL2Q/XbvzX/5O6c8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ESO0BMaCdd2A99L+327gaB/wmLte/ToSno88lmU395Sx/dbPOBF9hqNmgwi6ofOnO1qY/vQ3yZ0HKLFiYaXVozdayle/TlGMDEDwaRKBDr4mM+gDI7wzMBUgblJxnBiiIR7P308ED8WRbRdJkJr87uVA54XvT+Zwn5bsJsyqmtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bK2FAEYa; arc=none smtp.client-ip=209.85.210.48
+	 Content-Disposition; b=kO2CYMsKzRbv++OjoKaNynqDXhs1lqBDH7qT10K1orOIH3SOpJAYrZ9dJjFwiiPAdqmXAiHgWECC+1/VPdE5UYhbtvfTXqY9KkZUzIVo2DZss6cAoCmYQYOQgK+BNYHC38TpvjLDM7gQyFZgFZHgGDykj3nfVtoGXY3LoHpaLs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gfkdhkpx; arc=none smtp.client-ip=209.85.167.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bK2FAEYa"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7eb64085c45so1012402a34.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Jul 2026 03:37:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gfkdhkpx"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-489795617e9so909295b6e.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Jul 2026 03:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783593442; x=1784198242; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783593618; x=1784198418; darn=lists.linux.dev;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=fwqQQlt7bfetmW8kry4/TUBjnsZkk8XLprYNoxOM8HE=;
-        b=bK2FAEYapUWz+uB1McMzolbTYpMcEwyeumzjftoH5k1Q1a0q7m8F7lcHTM7rnspo/A
-         b1dm8CmVXJgTZT6stkfGkhvYBg3psSp+BgDQ5ouKzH1q2Jm3lqIVtiSRDhzgnDooA8jF
-         661wQVG3LOx7ZPuFbtes7E/abQBs3cjGP1rgAudTliUx0Cmu6EbznkKWb1oAA4aCQTyQ
-         syrpeYME9hBR9JZEsxsGe8rVMgDwhDXwwLyh9edKKrpiBMwXPaqnPmjhRNxgZAw8DVJB
-         VkbbEBgw3e8YuEnWDG/k+WuRFkYPSobaeA6xFqwBapbCvq6kf0h3Rt4HIMJia22N/QJ0
-         SPdw==
+        bh=/sRIoL7V8Ni/joRex0fbhmsiGIOha2+4T7QCV85MKdE=;
+        b=gfkdhkpxNX7R5ji8XXGX/9xDhMYPftbAdqNbu5iw2Gp9z2LKkWTyQ/VzkcIngLG+eF
+         0/wIUcRvSc5cd5pcr5f/wcqBcWIMfAX6GtGPrv1bKqt9fC08FQ3cpwXfFx/R+TTdAVCK
+         9oP731nmwS0t+HeNau/mG2GEdvh8dpFRsNopA4v9uXCcCnUBLoeMHrA7A4ABpM9+OaDK
+         n+fcSYXWA705mG1xTTjXoxYGjOEonxdDy2mg7PPL+vuEHcvf9BTXHVM2cz3JpDl5M144
+         5VJi0j2Migx/dGcJRUQBsuJ5WsVXIX0k80Bmib6f8kfu/JBK3xJtqj/AVFrjCh16cn5H
+         qkLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783593442; x=1784198242;
+        d=1e100.net; s=20251104; t=1783593618; x=1784198418;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fwqQQlt7bfetmW8kry4/TUBjnsZkk8XLprYNoxOM8HE=;
-        b=BHJt5cVdMUJ4mHKd6w6/v/iWO8hGq6B7KJEEvLzjnEhQoqcsgVwq7ZjCv0Xur8S3k0
-         6cml36kDBR0WaFF83gQWuV/Oq/8mjuIc9EsqB88O1Nwpf3O3dtZfuYgfdIJ6gUD4++Ae
-         3IR/oEv4sC9HNr4KKqMiRhH3MzuqI34REOQ5XLLywL4sR/+JqX5OGOkvgYDsbdBNwork
-         YSTEliqK5oKrrENxoVeQj0kGG2rU6NyTsKYzH57xSP3VDYPYHMQgDsXSs8DPDnS8YhEU
-         KpGy1D9u23GoXkIpyQoTGCKL4QJThci/nhmXlHKlUqaT2tjXGDMk+VgMyjeiAWzBEchG
-         uB1w==
-X-Forwarded-Encrypted: i=1; AFNElJ+UmejNfL/0ICiErFHPDiWQmZgPoFKgfc4S+xD5xv5a6fgrEbE1ZkFDO1vtxjGw9lyVHoTTsOkVWc3uyioJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5lBRuDHAuynAx3zFsvbnLdPzAYcjSz3t8T1Yy3b8Pi2qHjDoz
-	EaVGts/pb9faaRMH+NRVHUF9jgbhgE6DGv6RvtBfMX1eigGomEk6utpL
-X-Gm-Gg: AfdE7cn4VfTuPS6R7aqijE3bAwGLB40PtZHcP7X0YHGA5urzb2NL1ce6MwxeTU9uNK+
-	s7yO+4rj+gtqaM2bADEsx9A2QwfEpzQ6MUfpjwmR2/sm7DXKGlijQqQjX4wAGSGhA+WpRlKMoOF
-	KLRReP9s+S9b8EVs6+FfK/Tdr1Vb+hsJh/DnLiWWN00rvwoCZW1j11buiKp2nxVpc+ZhcgwUbKS
-	ozoC670j3fWxZqEYZJHD6oyBRcbm9lZ38m321qzD6s2cJTsrnvMf+F8uuy8ttqk60jN16nXK0Dl
-	3ME9NaUn3do4W2dUZhg7LVIwBAyKvQDRwc3rTPOlWNuLX9efXqCGYuP6RG2qfSUpmdBKHt3QpS3
-	8D3edV2VpWQAu4e4Jo0CGjhqMCtusjpgQdDcm5GMyjscEboia0anUAy655bY3bvwpeiasWDQm5G
-	lM7DpGOyq5+ZO9bio=
-X-Received: by 2002:a05:6830:7316:b0:7e5:6c74:b295 with SMTP id 46e09a7af769-7ebcfea2707mr4532467a34.14.1783593441824;
-        Thu, 09 Jul 2026 03:37:21 -0700 (PDT)
+        bh=/sRIoL7V8Ni/joRex0fbhmsiGIOha2+4T7QCV85MKdE=;
+        b=RfzeU+647eweU5s9kX+o50A3JGjawW4dkeSA3MlmHPoLYq1fhxfLLxTsu0DFq0KuZq
+         MMOTxUOZqq3zrAHIw7T/BkmWbyafBLmWBQCV6CIfCmcgcWzgPJs2VN77irm/F/7hLgbC
+         im41Cs0OPRglpaFEhIbUvYpGHKHwUjkkteX8N8Bnvmzg8Ynm4iO9ZF/RNh+1KByl2MGf
+         d/TxWgomiRPx4sk0BTevP1GDLiY0WJH6AROF+cF6ClRCMGpz9lJ4xLs+O5RyennyO06S
+         58/2yiyu3eze9vi0ZyUfK3wdB1JoqGFWOyrdz7Ow2pQvYwXJ2E1g/+3SomTtOo+4pVWm
+         Uv5w==
+X-Forwarded-Encrypted: i=1; AFNElJ/6QBu+0Dj4ZtMmsKbHMfNDQngNYareJ/8J8BPmWzW6gvui47vMS26Ppy9k3+17ni0M0+2jc7DbjQUfhw8G@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSYiVLdo4PQo7f02dUsi9eHFdWFT8aOoIMC9ZMgzhdnx+bQEU9
+	kgawvDHh2VDxs1DfGwLqDINRHXJPWSzoj2GfJydTJ+AssVg+lfQ1QIfn
+X-Gm-Gg: AfdE7cmuWHJRHcELFzx41OZKgr+X6PntPrqgLO/K/pLSwTMSgp/phrtvUHcQOzpYSfn
+	l6xSiy0dmzM5bfZ04jViSC0EHnSGfR8NsXJQoDuPcbQPjMAfA1jULP9rd7LIbDfUud4rZZDsAbY
+	35CsjMJZYoDACKgtHRKkD1HI611iRLLM5gf/B1LelfjYJp8I+5cCuXxgvxrpoCRcGjihYb8HQhm
+	7xzkMpKaLO52cijGv5lHmRpHiaE6gjMwKl//0+/gTcmBdpGNMU+CsDIPf91ovJmWo/VO01H0WHQ
+	p13BC7kez7270xrB6TXLnL73qarZbe5vdUnuZzWeskDEdtS/jobKXMnN3ZIW5cGLWTRd72vEYhl
+	ceOXqL+tJtz8EJ5L/Rf7ZfqNOtmpiil3Gsuzl7s+eAfqSO+AzlKBC3X9E7/YOYkkj1gW22ml6uv
+	lfKVQtTmR75NFUxT4=
+X-Received: by 2002:a05:6808:1b24:b0:495:dea9:3b6 with SMTP id 5614622812f47-4a203dbf803mr4963728b6e.26.1783593616928;
+        Thu, 09 Jul 2026 03:40:16 -0700 (PDT)
 Received: from localhost ([74.80.182.70])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcb2bae7fsm4084912a34.21.2026.07.09.03.37.18
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a1ad6b73c1sm3495895b6e.7.2026.07.09.03.40.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 03:37:20 -0700 (PDT)
-Date: Thu, 9 Jul 2026 13:37:14 +0300
+        Thu, 09 Jul 2026 03:40:15 -0700 (PDT)
+Date: Thu, 9 Jul 2026 13:40:09 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/cros_ec-hwmon-locking 2/6]
- drivers/hwmon/cros_ec_hwmon.c:578 cros_ec_hwmon_probe() warn: passing zero
- to 'PTR_ERR'
-Message-ID: <202607031558.090AWNd1-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Xu Yang <xu.yang_2@nxp.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
+Subject: drivers/usb/chipidea/ci_hdrc_imx.c:532 ci_hdrc_imx_probe() warn:
+ missing error code 'ret'
+Message-ID: <202607031656.FR3Xrved-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,68 +77,106 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/cros_ec-hwmon-locking
-head:   95003896306434c5e2d6cae819f38179e0f5048f
-commit: d54d63ebb10e19d82a484c16372173926c021022 [2/6] priv
-config: sparc-randconfig-r071-20260702 (https://download.01.org/0day-ci/archive/20260703/202607031558.090AWNd1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.4.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   51512e22efe813d8223de27f6fd02a8a48ea2323
+commit: 2e9762f45efb53e7e7fc61f4ebf7a3507f5daa45 usb: chipidea: ci_hdrc_imx: use "wakeup" suffix for wakeup interrupt name
+config: microblaze-randconfig-r072-20260703 (https://download.01.org/0day-ci/archive/20260703/202607031656.FR3Xrved-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.3.0
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 2e9762f45efb ("usb: chipidea: ci_hdrc_imx: use "wakeup" suffix for wakeup interrupt name")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607031558.090AWNd1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607031656.FR3Xrved-lkp@intel.com/
 
 smatch warnings:
-drivers/hwmon/cros_ec_hwmon.c:578 cros_ec_hwmon_probe() warn: passing zero to 'PTR_ERR'
+drivers/usb/chipidea/ci_hdrc_imx.c:532 ci_hdrc_imx_probe() warn: missing error code 'ret'
 
-vim +/PTR_ERR +578 drivers/hwmon/cros_ec_hwmon.c
+vim +/ret +532 drivers/usb/chipidea/ci_hdrc_imx.c
 
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  546  static int cros_ec_hwmon_probe(struct platform_device *pdev)
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  547  {
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  548  	struct device *dev = &pdev->dev;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  549  	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  550  	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  551  	struct cros_ec_hwmon_priv *priv;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  552  	struct device *hwmon_dev;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  553  	u8 thermal_version;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  554  	int ret;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  555  
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  556  	ret = cros_ec_cmd_readmem(cros_ec, EC_MEMMAP_THERMAL_VERSION, 1, &thermal_version);
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  557  	if (ret < 0)
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  558  		return ret;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  559  
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  560  	/* Covers both fan and temp sensors */
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  561  	if (thermal_version == 0)
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  562  		return -ENODEV;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  563  
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  564  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  565  	if (!priv)
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  566  		return -ENOMEM;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  567  
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  568  	priv->cros_ec = cros_ec;
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  569  
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  570  	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  571  	cros_ec_hwmon_probe_fans(priv);
-fb8e659309f72e Sung-Chi Li      2025-09-11  572  	priv->fan_control_supported = cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
-afa7c56ec44731 Thomas Weiﬂschuh 2026-01-18  573  	priv->temp_threshold_supported = is_cros_ec_cmd_available(priv->cros_ec,
-afa7c56ec44731 Thomas Weiﬂschuh 2026-01-18  574  								  EC_CMD_THERMAL_GET_THRESHOLD, 1);
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  575  
-d54d63ebb10e19 Thomas Weiﬂschuh 2026-07-01  576  	priv->hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  577  							       &cros_ec_hwmon_chip_info, NULL);
-d54d63ebb10e19 Thomas Weiﬂschuh 2026-07-01 @578  	if (PTR_ERR(priv->hwmon_dev))
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  527  	data->wakeup_irq = platform_get_irq_optional(pdev, 1);
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  528  	if (data->wakeup_irq > 0) {
+2e9762f45efb53 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2026-01-12  529  		irq_name = devm_kasprintf(dev, GFP_KERNEL, "%s:wakeup", pdata.name);
+2e9762f45efb53 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2026-01-12  530  		if (!irq_name) {
+2e9762f45efb53 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2026-01-12  531  			dev_err_probe(dev, -ENOMEM, "failed to create irq_name\n");
+2e9762f45efb53 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2026-01-12 @532  			goto err_clk;
 
-s/PTR_ERR/IS_ERR/
+ret = -ENOMEM;
 
-d54d63ebb10e19 Thomas Weiﬂschuh 2026-07-01  579  		return PTR_ERR(priv->hwmon_dev);
-d54d63ebb10e19 Thomas Weiﬂschuh 2026-07-01  580  
-d54d63ebb10e19 Thomas Weiﬂschuh 2026-07-01  581  	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
-d54d63ebb10e19 Thomas Weiﬂschuh 2026-07-01  582  
-fb8e659309f72e Sung-Chi Li      2025-09-11  583  	platform_set_drvdata(pdev, priv);
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  584  
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  585  	return PTR_ERR_OR_ZERO(hwmon_dev);
-bc3e45258096f2 Thomas Weiﬂschuh 2024-05-29  586  }
+2e9762f45efb53 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2026-01-12  533  		}
+2e9762f45efb53 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2026-01-12  534  
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  535  		ret = devm_request_threaded_irq(dev, data->wakeup_irq,
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  536  						NULL, ci_wakeup_irq_handler,
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  537  						IRQF_ONESHOT | IRQF_NO_AUTOEN,
+2e9762f45efb53 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2026-01-12  538  						irq_name, data);
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  539  		if (ret)
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  540  			goto err_clk;
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  541  	}
+ee0dc2f7d52279 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2025-03-18  542  
+05986ba9b025ae drivers/usb/chipidea/ci_hdrc_imx.c Sascha Hauer        2013-08-14  543  	ret = imx_usbmisc_init(data->usbmisc_data);
+d142d6be231713 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-09-12  544  	if (ret) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  545  		dev_err(dev, "usbmisc init failed, ret=%d\n", ret);
+8c531e0a8c2d82 drivers/usb/chipidea/ci_hdrc_imx.c Fedor Pchelkin      2025-03-16  546  		goto phy_shutdown;
+d142d6be231713 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-09-12  547  	}
+d142d6be231713 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-09-12  548  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  549  	data->ci_pdev = ci_hdrc_add_device(dev,
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  550  				pdev->resource, pdev->num_resources,
+f6a3b3a37c4772 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-06-13  551  				&pdata);
+770719df7b2cee drivers/usb/chipidea/ci13xxx_imx.c Fabio Estevam       2013-06-13  552  	if (IS_ERR(data->ci_pdev)) {
+770719df7b2cee drivers/usb/chipidea/ci13xxx_imx.c Fabio Estevam       2013-06-13  553  		ret = PTR_ERR(data->ci_pdev);
+18171cfc3c236a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2022-06-14  554  		dev_err_probe(dev, ret, "ci_hdrc_add_device failed\n");
+8c531e0a8c2d82 drivers/usb/chipidea/ci_hdrc_imx.c Fedor Pchelkin      2025-03-16  555  		goto phy_shutdown;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  556  	}
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  557  
+df17aa9fb31f6a drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-10-09  558  	if (data->usbmisc_data) {
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  559  		if (!IS_ERR(pdata.id_extcon.edev) ||
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  560  		    of_property_read_bool(np, "usb-role-switch"))
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  561  			data->usbmisc_data->ext_id = 1;
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  562  
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  563  		if (!IS_ERR(pdata.vbus_extcon.edev) ||
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  564  		    of_property_read_bool(np, "usb-role-switch"))
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  565  			data->usbmisc_data->ext_vbus = 1;
+d6f93d21001e43 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2020-07-28  566  
+d6f93d21001e43 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2020-07-28  567  		/* usbmisc needs to know dr mode to choose wakeup setting */
+d6f93d21001e43 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2020-07-28  568  		data->usbmisc_data->available_role =
+d6f93d21001e43 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2020-07-28  569  			ci_hdrc_query_available_role(data->ci_pdev);
+df17aa9fb31f6a drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-10-09  570  	}
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  571  
+05986ba9b025ae drivers/usb/chipidea/ci_hdrc_imx.c Sascha Hauer        2013-08-14  572  	ret = imx_usbmisc_init_post(data->usbmisc_data);
+a068533079a0a1 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-03-30  573  	if (ret) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  574  		dev_err(dev, "usbmisc post failed, ret=%d\n", ret);
+770719df7b2cee drivers/usb/chipidea/ci13xxx_imx.c Fabio Estevam       2013-06-13  575  		goto disable_device;
+a068533079a0a1 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-03-30  576  	}
+a068533079a0a1 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-03-30  577  
+e14db48dfcf3ab drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-02-11  578  	if (data->supports_runtime_pm) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  579  		pm_runtime_set_active(dev);
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  580  		pm_runtime_enable(dev);
+e14db48dfcf3ab drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-02-11  581  	}
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  582  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  583  	device_set_wakeup_capable(dev, true);
+6d6531104d2069 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-02-11  584  
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  585  	return 0;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  586  
+770719df7b2cee drivers/usb/chipidea/ci13xxx_imx.c Fabio Estevam       2013-06-13  587  disable_device:
+8e22978c57087a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Shishkin  2013-06-24  588  	ci_hdrc_remove_device(data->ci_pdev);
+8c531e0a8c2d82 drivers/usb/chipidea/ci_hdrc_imx.c Fedor Pchelkin      2025-03-16  589  phy_shutdown:
+8c531e0a8c2d82 drivers/usb/chipidea/ci_hdrc_imx.c Fedor Pchelkin      2025-03-16  590  	if (data->override_phy_control)
+8c531e0a8c2d82 drivers/usb/chipidea/ci_hdrc_imx.c Fedor Pchelkin      2025-03-16  591  		usb_phy_shutdown(data->phy);
+ea1418b5f1a394 drivers/usb/chipidea/ci13xxx_imx.c Sascha Hauer        2013-06-13  592  err_clk:
+5dbe9ac28355fd drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2023-12-28  593  	clk_disable_unprepare(data->clk_wakeup);
+5dbe9ac28355fd drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2023-12-28  594  err_wakeup_clk:
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  595  	imx_disable_unprepare_clks(dev);
+8cab0e9a3f3e8d drivers/usb/chipidea/ci_hdrc_imx.c Fedor Pchelkin      2025-03-16  596  qos_remove_request:
+d1609c312d42f3 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-04-28  597  	if (pdata.flags & CI_HDRC_PMQOS)
+77b352456941e8 drivers/usb/chipidea/ci_hdrc_imx.c Rafael J. Wysocki   2020-02-12  598  		cpu_latency_qos_remove_request(&data->pm_qos_req);
+141822aa3f79ef drivers/usb/chipidea/ci_hdrc_imx.c AndrÈ Draszik       2019-08-10  599  	data->ci_pdev = NULL;
+74adad500346fb drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-16  600  err_put:
+4e28f79e3dffa5 drivers/usb/chipidea/ci_hdrc_imx.c Fedor Pchelkin      2025-03-16  601  	if (data->usbmisc_data)
+74adad500346fb drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-16  602  		put_device(data->usbmisc_data->dev);
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  603  	return ret;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  604  }
 
 --
 0-DAY CI Kernel Test Service
