@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B44379C32;
-	Thu,  9 Jul 2026 11:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744B242E8E9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 12:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783597218; cv=none; b=f4C5hBNq2jNiBttGFt/6XwfkdFDz1CWmzl7ckN1UdeVuyTpXJiRzOj1g0zfxGPUTwKjHkEYEtyq5frTvK3Avin//jwMjfuSSJZ0Fc1RbHYPYkXPaoej3nUHOj00SFZxtxfP4tcQxB+ONH8qzjvCBesWk4yIu6WMaEgoMM4tIsRA=
+	t=1783600692; cv=none; b=a1wA24+QpUQgpPIKehVKaA/FbF3Ft4TEcKCPfEZIJ3YGIecOidrNCSZSQ60xkrs8sUCrCLbas5pjRP5kakeSzNW++2KLe4STPOQEP0cl8TzqoNUPYjyyRmFgE0m3fMgjfFJa/iFU3ef0eQ3NBVpet4bdiQ2mjp+2isOlSwUEHnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783597218; c=relaxed/simple;
-	bh=3dgnVPhdiNpvwEeeOSIVBGfnP7BYD/duLG9C3U70PVA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=o5hrqIh0CfC4Sh9GPonf4ZnrgJFDXsmZSkDajaiP6Zzsrd4Gxr4mFh/ZEZyoUbnqm4bYeEPcM2bmZmoQC2YJCrR90hxj/ZxavvjuKaC9alIOoYBvvYTCylSHij/eW1hxRv3QcjlZYWm/01X95c0QHxwqLZJ7j/2Z162c8sEQzfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k/U73edG; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1783600692; c=relaxed/simple;
+	bh=CvMW/162P9k6XYurScoGj3PNfGe/kS/IntF2z/lMs7A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Rw/bKMg8a9wF0umWpbGbXbLfDAxA76skm79yOXBkpoVY3IWNxyhgQNEhkCT32WJPCfSEWg8Tpuz9pbzijsJSNu9u3ULO0YTUZdEjIfL/CjOKuULw7+DRaQyWCnrF/WX/xm/G5rCqt6YbKY1xORKsOYHwIAQds5kw2cNh5fvyn24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nkWinoMX; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/U73edG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nkWinoMX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783597215; x=1815133215;
+  t=1783600690; x=1815136690;
   h=date:from:to:cc:subject:message-id;
-  bh=3dgnVPhdiNpvwEeeOSIVBGfnP7BYD/duLG9C3U70PVA=;
-  b=k/U73edGgquXZdyVyvgs0sGYQlMsURHhttSsE3en/bPwRmyEZGZd2WXT
-   7GM+jCvmI1ECxUfR5yAju7FTKpuLFJYWeCLdl/jdztIxaXsFIX4YDwdkl
-   nV08gGXolH0ju1vEBimYAVgf4lgQBZmp0OX+GsXiobCmZL3LJOS35YGCr
-   IcdL6/+bKfV1/5QRQKBtIB1EZNICggD1HkAaPO7vyG44DmHm8wPppmnNY
-   sT964YYCX5zSokysnw5sQXPD6pHM5xR/kNWI2eEOUaqc9j27jSRjBuKGq
-   9W4RvZrgdIR6wzOBGbLiDLVi1wcIynsdFoKsPUGQ/iVeVRLXS6wNuGbMf
+  bh=CvMW/162P9k6XYurScoGj3PNfGe/kS/IntF2z/lMs7A=;
+  b=nkWinoMXLvBteIT0ahlp4SLc7TwTp60jzi6ihFrTKdhH7fDIp7/2LpsU
+   AsfFgFfSZfs8W/jR43R47G+g5kTGlBLOrAyhTAuovKDWmJA16NZpa4MEj
+   SxIvYrjX6S5KqdEj4WfrSopO4etBFtrtDzfo+XdPm/HWndZr1cPGRXCSn
+   XRm0K9C1Cs5Sttwnf2fzlFvuiYtvG55lzMRb6XOAgdT9NtshqHBXVKosg
+   2rDX9xcuqpk6l5U/MToxTKd67hNX5CihxSTxsLigQyZEpJKfZyi7e6PQV
+   b7KjclVksjAZEOyyQui7EAbMFtwOHnuSKkIljuEvZ5cu9wGeO4W1ByfjG
    Q==;
-X-CSE-ConnectionGUID: Bql5SDyyQqOu/p/R3NZwcA==
-X-CSE-MsgGUID: +6Uu/b/+QNmPa6UDz3KDBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="86816964"
+X-CSE-ConnectionGUID: 5bRD9FTFRwy2K0r006YTvw==
+X-CSE-MsgGUID: 4zAE8VTMQvOQHX63qlp3WA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="109826255"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="86816964"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 04:40:15 -0700
-X-CSE-ConnectionGUID: nrZvI1NbTnqJZ2TZz6MO9w==
-X-CSE-MsgGUID: 1yV6akxeTs6OFkQl7NGBBQ==
+   d="scan'208";a="109826255"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 05:38:09 -0700
+X-CSE-ConnectionGUID: EqosAjhqRy6Q/mcQY9IvOg==
+X-CSE-MsgGUID: 70AzKzgqQBO1Wf8aKckmaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="258167362"
+   d="scan'208";a="253480709"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 09 Jul 2026 04:40:13 -0700
+  by orviesa010.jf.intel.com with ESMTP; 09 Jul 2026 05:38:08 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whn6v-00000000HdH-3OmJ;
-	Thu, 09 Jul 2026 11:40:09 +0000
-Date: Thu, 09 Jul 2026 19:39:29 +0800
+	id 1who0z-00000000HgT-43jM;
+	Thu, 09 Jul 2026 12:38:05 +0000
+Date: Thu, 09 Jul 2026 20:37:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- ceph-devel@vger.kernel.org, Alex Markuze <amarkuze@redhat.com>
-Subject: [ceph-client:testing 25/27] fs/ceph/file.c:2573:7: error:
- use of undeclared identifier 'CEPH_MOUNT_OPT_NEARFULL_SYNC'
-Message-ID: <202607091959.qta0A0pW-lkp@intel.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:folded_pgtable 28/32]
+ arch/x86/platform/olpc/olpc_ofw.c:26:16: warning: variable 'ofw_pde' set but
+ not used
+Message-ID: <202607092037.bS6aWcUf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,246 +60,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/ceph/ceph-client.git testing
-head:   fc67edb66b3c9924c4e0bb366a92b32ea13c526a
-commit: cb4ac0e6565fe667dba2760b6a012306e6f796e0 [25/27] ceph: fix hanging __ceph_get_caps() with stale `mds_wanted`
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260709/202607091959.qta0A0pW-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091959.qta0A0pW-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux folded_pgtable
+head:   0551ca68b7552b7d71f1d2882635809a573d6c79
+commit: 4d449742015c33fd18a4aebf1ee795675c2b532f [28/32] mm/pgtable: disallow calling folded set_pgd/set_p4d/set_pud
+config: i386-randconfig-r131-20260709 (https://download.01.org/0day-ci/archive/20260709/202607092037.bS6aWcUf-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607092037.bS6aWcUf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607091959.qta0A0pW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607092037.bS6aWcUf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/ceph/file.c:11:
-   In file included from include/linux/writeback.h:13:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> fs/ceph/file.c:2573:7: error: use of undeclared identifier 'CEPH_MOUNT_OPT_NEARFULL_SYNC'
-    2573 |                 if (ceph_test_mount_opt(fsc, NEARFULL_SYNC) &&
-         |                     ^
-   fs/ceph/super.h:60:36: note: expanded from macro 'ceph_test_mount_opt'
-      60 |         (!!((fsc)->mount_options->flags & CEPH_MOUNT_OPT_##opt))
-         |                                           ^
-   <scratch space>:131:1: note: expanded from here
-     131 | CEPH_MOUNT_OPT_NEARFULL_SYNC
-         | ^
-   1 warning and 1 error generated.
+>> arch/x86/platform/olpc/olpc_ofw.c:26:16: warning: variable 'ofw_pde' set but not used [-Wunused-but-set-variable]
+      26 |         pgd_t *base, *ofw_pde;
+         |                       ^
+   1 warning generated.
 
 
-vim +/CEPH_MOUNT_OPT_NEARFULL_SYNC +2573 fs/ceph/file.c
+vim +/ofw_pde +26 arch/x86/platform/olpc/olpc_ofw.c
 
-  2395	
-  2396	/*
-  2397	 * Take cap references to avoid releasing caps to MDS mid-write.
-  2398	 *
-  2399	 * If we are synchronous, and write with an old snap context, the OSD
-  2400	 * may return EOLDSNAPC.  In that case, retry the write.. _after_
-  2401	 * dropping our cap refs and allowing the pending snap to logically
-  2402	 * complete _before_ this write occurs.
-  2403	 *
-  2404	 * If requested, nearfull writes are synced to preserve the legacy
-  2405	 * client-side backpressure behavior.
-  2406	 */
-  2407	static ssize_t ceph_write_iter(struct kiocb *iocb, struct iov_iter *from)
-  2408	{
-  2409		struct file *file = iocb->ki_filp;
-  2410		struct ceph_file_info *fi = file->private_data;
-  2411		struct inode *inode = file_inode(file);
-  2412		struct ceph_inode_info *ci = ceph_inode(inode);
-  2413		struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
-  2414		struct ceph_client *cl = fsc->client;
-  2415		struct ceph_osd_client *osdc = &fsc->client->osdc;
-  2416		struct ceph_cap_flush *prealloc_cf;
-  2417		ssize_t count, written = 0;
-  2418		int err, want = 0, got;
-  2419		bool direct_lock = false;
-  2420		u32 map_flags;
-  2421		u64 pool_flags;
-  2422		loff_t pos;
-  2423		loff_t limit = max(i_size_read(inode), fsc->max_file_size);
-  2424	
-  2425		if (ceph_inode_is_shutdown(inode))
-  2426			return -ESTALE;
-  2427	
-  2428		if (ceph_snap(inode) != CEPH_NOSNAP)
-  2429			return -EROFS;
-  2430	
-  2431		prealloc_cf = ceph_alloc_cap_flush();
-  2432		if (!prealloc_cf)
-  2433			return -ENOMEM;
-  2434	
-  2435		if ((iocb->ki_flags & (IOCB_DIRECT | IOCB_APPEND)) == IOCB_DIRECT)
-  2436			direct_lock = true;
-  2437	
-  2438	retry_snap:
-  2439		err = direct_lock ? ceph_start_io_direct(inode) :
-  2440				    ceph_start_io_write(inode);
-  2441		if (err)
-  2442			goto out_unlocked;
-  2443	
-  2444		if (iocb->ki_flags & IOCB_APPEND) {
-  2445			err = ceph_do_getattr(inode, CEPH_STAT_CAP_SIZE, false);
-  2446			if (err < 0)
-  2447				goto out;
-  2448		}
-  2449	
-  2450		err = generic_write_checks(iocb, from);
-  2451		if (err <= 0)
-  2452			goto out;
-  2453	
-  2454		pos = iocb->ki_pos;
-  2455		if (unlikely(pos >= limit)) {
-  2456			err = -EFBIG;
-  2457			goto out;
-  2458		} else {
-  2459			iov_iter_truncate(from, limit - pos);
-  2460		}
-  2461	
-  2462		count = iov_iter_count(from);
-  2463		if (ceph_quota_is_max_bytes_exceeded(inode, pos + count)) {
-  2464			err = -EDQUOT;
-  2465			goto out;
-  2466		}
-  2467	
-  2468		down_read(&osdc->lock);
-  2469		map_flags = osdc->osdmap->flags;
-  2470		pool_flags = ceph_pg_pool_flags(osdc->osdmap, ci->i_layout.pool_id);
-  2471		up_read(&osdc->lock);
-  2472		if ((map_flags & CEPH_OSDMAP_FULL) ||
-  2473		    (pool_flags & CEPH_POOL_FLAG_FULL)) {
-  2474			err = -ENOSPC;
-  2475			goto out;
-  2476		}
-  2477	
-  2478		err = file_remove_privs(file);
-  2479		if (err)
-  2480			goto out;
-  2481	
-  2482		doutc(cl, "%p %llx.%llx %llu~%zd getting caps. i_size %llu\n",
-  2483		      inode, ceph_vinop(inode), pos, count,
-  2484		      i_size_read(inode));
-  2485		if (!(fi->flags & CEPH_F_SYNC) && !direct_lock)
-  2486			want |= CEPH_CAP_FILE_BUFFER;
-  2487		if (fi->fmode & CEPH_FILE_MODE_LAZY)
-  2488			want |= CEPH_CAP_FILE_LAZYIO;
-  2489		got = 0;
-  2490		err = ceph_get_caps(file, CEPH_CAP_FILE_WR, want, pos + count, &got);
-  2491		if (err < 0)
-  2492			goto out;
-  2493	
-  2494		err = file_update_time(file);
-  2495		if (err)
-  2496			goto out_caps;
-  2497	
-  2498		inode_inc_iversion_raw(inode);
-  2499	
-  2500		doutc(cl, "%p %llx.%llx %llu~%zd got cap refs on %s\n",
-  2501		      inode, ceph_vinop(inode), pos, count, ceph_cap_string(got));
-  2502	
-  2503		if ((got & (CEPH_CAP_FILE_BUFFER|CEPH_CAP_FILE_LAZYIO)) == 0 ||
-  2504		    (iocb->ki_flags & IOCB_DIRECT) || (fi->flags & CEPH_F_SYNC) ||
-  2505		    test_bit(CEPH_I_ERROR_WRITE_BIT, &ci->i_ceph_flags)) {
-  2506			struct ceph_snap_context *snapc;
-  2507			struct iov_iter data;
-  2508	
-  2509			spin_lock(&ci->i_ceph_lock);
-  2510			if (__ceph_have_pending_cap_snap(ci)) {
-  2511				struct ceph_cap_snap *capsnap =
-  2512						list_last_entry(&ci->i_cap_snaps,
-  2513								struct ceph_cap_snap,
-  2514								ci_item);
-  2515				snapc = ceph_get_snap_context(capsnap->context);
-  2516			} else {
-  2517				BUG_ON(!ci->i_head_snapc);
-  2518				snapc = ceph_get_snap_context(ci->i_head_snapc);
-  2519			}
-  2520			spin_unlock(&ci->i_ceph_lock);
-  2521	
-  2522			/* we might need to revert back to that point */
-  2523			data = *from;
-  2524			if ((iocb->ki_flags & IOCB_DIRECT) && !IS_ENCRYPTED(inode))
-  2525				written = ceph_direct_read_write(iocb, &data, snapc,
-  2526								 &prealloc_cf);
-  2527			else
-  2528				written = ceph_sync_write(iocb, &data, pos, snapc);
-  2529			if (direct_lock)
-  2530				ceph_end_io_direct(inode);
-  2531			else
-  2532				ceph_end_io_write(inode);
-  2533			if (written > 0)
-  2534				iov_iter_advance(from, written);
-  2535			ceph_put_snap_context(snapc);
-  2536		} else {
-  2537			/*
-  2538			 * No need to acquire the i_truncate_mutex. Because
-  2539			 * the MDS revokes Fwb caps before sending truncate
-  2540			 * message to us. We can't get Fwb cap while there
-  2541			 * are pending vmtruncate. So write and vmtruncate
-  2542			 * can not run at the same time
-  2543			 */
-  2544			written = generic_perform_write(iocb, from);
-  2545			ceph_end_io_write(inode);
-  2546		}
-  2547	
-  2548		if (written >= 0) {
-  2549			int dirty;
-  2550	
-  2551			spin_lock(&ci->i_ceph_lock);
-  2552			dirty = __ceph_mark_dirty_caps(ci, CEPH_CAP_FILE_WR,
-  2553						       &prealloc_cf);
-  2554			spin_unlock(&ci->i_ceph_lock);
-  2555			if (dirty)
-  2556				__mark_inode_dirty(inode, dirty);
-  2557			if (ceph_quota_is_max_bytes_approaching(inode, iocb->ki_pos))
-  2558				ceph_check_caps(ci, CHECK_CAPS_FLUSH);
-  2559		}
-  2560	
-  2561		doutc(cl, "%p %llx.%llx %llu~%u  dropping cap refs on %s\n",
-  2562		      inode, ceph_vinop(inode), pos, (unsigned)count,
-  2563		      ceph_cap_string(got));
-  2564		ceph_put_cap_refs(ci, got);
-  2565	
-  2566		if (written == -EOLDSNAPC) {
-  2567			doutc(cl, "%p %llx.%llx %llu~%u" "got EOLDSNAPC, retrying\n",
-  2568			      inode, ceph_vinop(inode), pos, (unsigned)count);
-  2569			goto retry_snap;
-  2570		}
-  2571	
-  2572		if (written >= 0) {
-> 2573			if (ceph_test_mount_opt(fsc, NEARFULL_SYNC) &&
-  2574			    ((map_flags & CEPH_OSDMAP_NEARFULL) ||
-  2575			     (pool_flags & CEPH_POOL_FLAG_NEARFULL)))
-  2576				iocb->ki_flags |= IOCB_DSYNC;
-  2577			written = generic_write_sync(iocb, written);
-  2578		}
-  2579	
-  2580		goto out_unlocked;
-  2581	out_caps:
-  2582		ceph_put_cap_refs(ci, got);
-  2583	out:
-  2584		if (direct_lock)
-  2585			ceph_end_io_direct(inode);
-  2586		else
-  2587			ceph_end_io_write(inode);
-  2588	out_unlocked:
-  2589		ceph_free_cap_flush(prealloc_cf);
-  2590		return written ? written : err;
-  2591	}
-  2592	
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  23  
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  24  void __init setup_olpc_ofw_pgd(void)
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  25  {
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18 @26  	pgd_t *base, *ofw_pde;
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  27  
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  28  	if (!olpc_ofw_cif)
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  29  		return;
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  30  
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  31  	/* fetch OFW's PDE */
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  32  	base = early_ioremap(olpc_ofw_pgd, sizeof(olpc_ofw_pgd) * PTRS_PER_PGD);
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  33  	if (!base) {
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  34  		printk(KERN_ERR "failed to remap OFW's pgd - disabling OFW!\n");
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  35  		olpc_ofw_cif = NULL;
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  36  		return;
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  37  	}
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  38  	ofw_pde = &base[OLPC_OFW_PDE_NR];
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  39  
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  40  	/* install OFW's PDE permanently into the kernel's pgtable */
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  41  	set_pgd(&swapper_pg_dir[OLPC_OFW_PDE_NR], *ofw_pde);
+75a9cac430a1bd arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-23  42  	/* implicit optimization barrier here due to uninline function return */
+75a9cac430a1bd arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-23  43  
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  44  	early_iounmap(base, sizeof(olpc_ofw_pgd) * PTRS_PER_PGD);
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  45  }
+fd699c76552bbf arch/x86/kernel/olpc_ofw.c Andres Salomon 2010-06-18  46  
+
+:::::: The code at line 26 was first introduced by commit
+:::::: fd699c76552bbfa66631f019be415a87dbb08237 x86, olpc: Add support for calling into OpenFirmware
+
+:::::: TO: Andres Salomon <dilinger@queued.net>
+:::::: CC: H. Peter Anvin <hpa@linux.intel.com>
 
 --
 0-DAY CI Kernel Test Service
