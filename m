@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1006B3F12D1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 08:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD00F3E9C29
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 08:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783586233; cv=none; b=NLAKKoyQQqXXVmy26120DA78n+3rmX4+VPy6lzrz6sVuZkUkaJs1j/tOUK4x6YmPhn6/LQQx5ClO+bgYrujZmyt71SHJOYHDrZXgWMgumW7UEySOzFrIWkPGLOEo2O954KKhHOv5yqeqwusT4Yt8rD+9VpjQVbUI5scRuyuCjFY=
+	t=1783587497; cv=none; b=McrXAnIFfGxPkrxkeFBjGiNZBrl00AigpDjN9BQM9DpbaKXKYvLAqKT5PQxl6xtIRBR0GaNtZfbVcxk4OpYqpv6zfBy7kEaysUv2xmrmUmqSfyN4rKtF33tMuET/DgAnOynoiL9Hx6YT50I3rwKO+GrFhQ/fTq+4OMdVyDNVFgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783586233; c=relaxed/simple;
-	bh=bBtRckxICMns956WhplLllCTNpkmCGpvwM0FdxRO6RQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NbbJgG6q6pt8ufKCoy6QvJ7mN6EPrq8pbYO1Wt9ARddeq0/6jUzTuz677TmiKdkw2H+diiLq40q8klBDl+huzcZOgVi5U8dYTc0QRfYMR8twIvQxQTIO4HKPRBUZs/DTllFuYW/fWw9uaUyylpNHxPedL87V5xv2Gc8aMezg7qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WI2JoI23; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1783587497; c=relaxed/simple;
+	bh=xGM+yYyiql09nFukgQUmeIV679B6z3u7qKHo5m7/9+8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=h9BEpgO7n1INPSkm4WGSXBShTogKSYqtwwF4XMAR1qlFgYvAM9yQm4s2SxNmWAV4b00KufLpt0ZS7eLhjcP8BVxNrpKC7DSxcWhqqpZTDXAQUH/HWK3lBQLZ85iZ0Uw+r+9LjvT/2DWMzNnD3Mhaa9Yb1+EZOuIYOHV7le9/SV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmNea9OG; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WI2JoI23"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmNea9OG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783586232; x=1815122232;
+  t=1783587494; x=1815123494;
   h=date:from:to:cc:subject:message-id;
-  bh=bBtRckxICMns956WhplLllCTNpkmCGpvwM0FdxRO6RQ=;
-  b=WI2JoI23wJEL3mosX4C1RBrRfBHAWBQCOAH8IH75r9cenkWjIYlKnspz
-   hkI7jZDrXalpHr8tk+G1hrLPeUOYtkCs1dYQ+H1B6v9MZooY3bIEMVh50
-   ZtBQWbQFdFCsnVOte3T3sRt/ZNCI/7XUVuW42KbJwZgQbJwS0+EwAgmrZ
-   VKi/iQUK8dBAmIS1rRhJPArQUQYHCP9A9pl0H/y0VGLrpoZZCECMteTyh
-   IJ5+1cS4T78Nm8gk0+7gz60MHJr2ZnhCYfqEveeeapj7mSeuFy3hhNsfL
-   1X9wk6BnSaXggjH0a5XKTGDPhFW51Y8S9K5bfm30XYVAVI1Sr6t0rwwo8
+  bh=xGM+yYyiql09nFukgQUmeIV679B6z3u7qKHo5m7/9+8=;
+  b=kmNea9OGuCBX8cK5/c6YMCW+qw124aQAB2B7H83w0wmpeIUPjjIfrwSm
+   D+SQVMR5T5qr1oUSBQW9bTYG6H5tC8+S84IpjH9QU7GpozRBfPppRRzcG
+   5WTAQwSWOFjAKK/XijIfnWZP7MMXfKFs+g5Do21Uk700QAZr9n93ijJbr
+   fEX2odRMuodr9sPFnbRSweWYRJN26jo0NZ0xaRqwUhTK+8aCcoiBIAvdU
+   adeAp5bEgcku4fd84L5NAZzjXraHGy/boMFuxE0zmyDEnD9oGfGN0axgj
+   ksY0MBt/K1S6LCk2q0LzCkmc320lFQpXwrYtfmpMAjFapVoswefVjP0S2
    Q==;
-X-CSE-ConnectionGUID: /Q737CnDS0GqhaGEWlAslQ==
-X-CSE-MsgGUID: zPPAnvuQSGGT0U2EUF04Sw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="87946461"
+X-CSE-ConnectionGUID: Ilj8MEg/RiStJ8JbZIJmXw==
+X-CSE-MsgGUID: QPNkH3suTFybO8BbzDINow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="109811318"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="87946461"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 01:37:10 -0700
-X-CSE-ConnectionGUID: 3KTZ5+JsQLOqv620G5igjw==
-X-CSE-MsgGUID: jYIJo2gPTdSD7AKUSn67lA==
+   d="scan'208";a="109811318"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 01:58:12 -0700
+X-CSE-ConnectionGUID: IQhwabR8RbypZEffuVo99Q==
+X-CSE-MsgGUID: 4YB0d2keTKGeVLga0DSp+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="248152402"
+   d="scan'208";a="278917593"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Jul 2026 01:37:08 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 09 Jul 2026 01:58:10 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whkFl-00000000HSF-3pj2;
-	Thu, 09 Jul 2026 08:37:05 +0000
-Date: Thu, 09 Jul 2026 16:36:13 +0800
+	id 1whka7-00000000HTn-3nTy;
+	Thu, 09 Jul 2026 08:58:07 +0000
+Date: Thu, 09 Jul 2026 16:57:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 166/166]
- include/trace/stages/init.h:2:23: warning: 'str__gic__trace_system_name'
- defined but not used
-Message-ID: <202607091601.hlbprE2W-lkp@intel.com>
+To: Nabige Aala <nabige.aala@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: [qcom:drivers-for-7.3 22/23]
+ drivers/soc/qcom/ubwc_config.c:148:3: error: expected expression before '{'
+ token
+Message-ID: <202607091635.CzQ2eL1t-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,199 +62,127 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Guru,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   7b80053b707666e258e504127dd1bf5ac555f5e1
-commit: 4cd99f6a6f7ea9b97e219062560534ca685a34a6 [166/166] ANDROID: gic: Add affinity-setting vendor hooks to gic
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260709/202607091601.hlbprE2W-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091601.hlbprE2W-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux drivers-for-7.3
+head:   05b03f88af1fe82d23b5f88b286b1ac2987b3177
+commit: a45af9d6e6175473c8744c0f1cf2348f641e3029 [22/23] soc: qcom: ubwc: Add Shikra UBWC config
+config: arm64-randconfig-004-20260709 (https://download.01.org/0day-ci/archive/20260709/202607091635.CzQ2eL1t-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091635.CzQ2eL1t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607091601.hlbprE2W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607091635.CzQ2eL1t-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/hung_task.h:23,
-                    from drivers/android/vendor_hooks.c:49:
-   include/trace/stages/init.h:2:23: warning: 'str__hung_task__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/topology.h:29,
-                    from drivers/android/vendor_hooks.c:48:
-   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/timer.h:18,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/gic.h:20,
-                    from drivers/android/vendor_hooks.c:46:
->> include/trace/stages/init.h:2:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dmabuf.h:21,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/stages/init.h:2:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fips140.h:50,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/stages/init.h:2:23: warning: 'str__fips140__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/futex.h:26,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/stages/init.h:2:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/rwsem.h:30,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/remoteproc.h:26,
-                    from drivers/android/vendor_hooks.c:41:
-   include/trace/stages/init.h:2:23: warning: 'str__remoteproc__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+>> drivers/soc/qcom/ubwc_config.c:148:3: error: expected expression before '{' token
+    + { .compatible = "qcom,shikra", .data = &ubwc_0_0_hbb15, },
+      ^
+>> drivers/soc/qcom/ubwc_config.c:75:40: warning: 'ubwc_5_0_hbb16' defined but not used [-Wunused-const-variable=]
+    static const struct qcom_ubwc_cfg_data ubwc_5_0_hbb16 = {
+                                           ^~~~~~~~~~~~~~
 
 
-vim +/str__gic__trace_system_name +2 include/trace/stages/init.h
+vim +148 drivers/soc/qcom/ubwc_config.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+    74	
+  > 75	static const struct qcom_ubwc_cfg_data ubwc_5_0_hbb16 = {
+    76		.ubwc_enc_version = UBWC_5_0,
+    77		.highest_bank_bit = 16,
+    78	};
+    79	
+    80	static const struct qcom_ubwc_cfg_data ubwc_6_0_hbb16 = {
+    81		.ubwc_enc_version = UBWC_6_0,
+    82		.highest_bank_bit = 16,
+    83	};
+    84	
+    85	static const struct qcom_ubwc_cfg_data sa8775p_data = {
+    86		.ubwc_enc_version = UBWC_4_0,
+    87		.flags = UBWC_FLAG_DISABLE_SWIZZLE_LVL2,
+    88		.highest_bank_bit = 13,
+    89	};
+    90	
+    91	static const struct qcom_ubwc_cfg_data glymur_data = {
+    92		.ubwc_enc_version = UBWC_5_0,
+    93		.flags = UBWC_FLAG_DISABLE_SWIZZLE_LVL2 |
+    94			 UBWC_FLAG_DISABLE_SWIZZLE_LVL3,
+    95		/* TODO: highest_bank_bit = 15 for LP_DDR4 */
+    96		.highest_bank_bit = 16,
+    97	};
+    98	
+    99	static const struct qcom_ubwc_cfg_data milos_data = {
+   100		.ubwc_enc_version = UBWC_4_0,
+   101		.flags = UBWC_SWIZZLE_ENABLE_LVL2 |
+   102			 UBWC_SWIZZLE_ENABLE_LVL3,
+   103		/* TODO: highest_bank_bit = 14 for LP_DDR4 */
+   104		.highest_bank_bit = 15,
+   105	};
+   106	
+   107	static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
+   108		{ .compatible = "qcom,apq8016", .data = &no_ubwc_data },
+   109		{ .compatible = "qcom,apq8026", .data = &no_ubwc_data },
+   110		{ .compatible = "qcom,apq8074", .data = &no_ubwc_data },
+   111		{ .compatible = "qcom,apq8096", .data = &ubwc_1_0_hbb15 },
+   112		{ .compatible = "qcom,eliza", .data = &ubwc_5_0_hbb15 },
+   113		{ .compatible = "qcom,glymur", .data = &glymur_data},
+   114		{ .compatible = "qcom,kaanapali", .data = &ubwc_6_0_hbb16 },
+   115		{ .compatible = "qcom,mahua", .data = &glymur_data },
+   116		{ .compatible = "qcom,milos", .data = &milos_data },
+   117		{ .compatible = "qcom,msm8226", .data = &no_ubwc_data },
+   118		{ .compatible = "qcom,msm8916", .data = &no_ubwc_data },
+   119		{ .compatible = "qcom,msm8917", .data = &no_ubwc_data },
+   120		{ .compatible = "qcom,msm8937", .data = &ubwc_1_0_hbb14 },
+   121		{ .compatible = "qcom,msm8929", .data = &no_ubwc_data },
+   122		{ .compatible = "qcom,msm8939", .data = &no_ubwc_data },
+   123		{ .compatible = "qcom,msm8953", .data = &ubwc_1_0_hbb14 },
+   124		{ .compatible = "qcom,msm8956", .data = &no_ubwc_data },
+   125		{ .compatible = "qcom,msm8974", .data = &no_ubwc_data },
+   126		{ .compatible = "qcom,msm8976", .data = &no_ubwc_data },
+   127		{ .compatible = "qcom,msm8996", .data = &ubwc_1_0_hbb15 },
+   128		{ .compatible = "qcom,msm8998", .data = &ubwc_1_0_hbb15 },
+   129		{ .compatible = "qcom,qcm2290", .data = &ubwc_0_0_hbb15, },
+   130		{ .compatible = "qcom,qcm6490", .data = &ubwc_3_1_hbb14, },
+   131		{ .compatible = "qcom,qcs8300", .data = &ubwc_4_0_hbb16, },
+   132		{ .compatible = "qcom,sa8155p", .data = &ubwc_3_0_hbb15, },
+   133		{ .compatible = "qcom,sa8540p", .data = &ubwc_4_0_hbb16, },
+   134		{ .compatible = "qcom,sa8775p", .data = &sa8775p_data, },
+   135		{ .compatible = "qcom,sar2130p", .data = &ubwc_3_1_hbb13 },
+   136		{ .compatible = "qcom,sc7180", .data = &ubwc_2_0_hbb14, },
+   137		{ .compatible = "qcom,sc7280", .data = &ubwc_3_1_hbb14, },
+   138		{ .compatible = "qcom,sc8180x", .data = &ubwc_3_1_hbb16, },
+   139		{ .compatible = "qcom,sc8280xp", .data = &ubwc_4_0_hbb16, },
+   140		{ .compatible = "qcom,sda660", .data = &ubwc_1_0_hbb14 },
+   141		{ .compatible = "qcom,sdm450", .data = &ubwc_1_0_hbb14 },
+   142		{ .compatible = "qcom,sdm630", .data = &ubwc_1_0_hbb14 },
+   143		{ .compatible = "qcom,sdm632", .data = &ubwc_1_0_hbb14 },
+   144		{ .compatible = "qcom,sdm636", .data = &ubwc_1_0_hbb14 },
+   145		{ .compatible = "qcom,sdm660", .data = &ubwc_1_0_hbb14 },
+   146		{ .compatible = "qcom,sdm670", .data = &ubwc_2_0_hbb14, },
+   147		{ .compatible = "qcom,sdm845", .data = &ubwc_2_0_hbb15, },
+ > 148	+	{ .compatible = "qcom,shikra", .data = &ubwc_0_0_hbb15, },
+   149		{ .compatible = "qcom,sm4250", .data = &ubwc_1_0_hbb14, },
+   150		{ .compatible = "qcom,sm6115", .data = &ubwc_1_0_hbb14, },
+   151		{ .compatible = "qcom,sm6125", .data = &ubwc_1_0_hbb14, },
+   152		{ .compatible = "qcom,sm6150", .data = &ubwc_2_0_hbb14, },
+   153		{ .compatible = "qcom,sm6350", .data = &ubwc_2_0_hbb14, },
+   154		{ .compatible = "qcom,sm6375", .data = &ubwc_2_0_hbb14, },
+   155		{ .compatible = "qcom,sm7125", .data = &ubwc_2_0_hbb14, },
+   156		{ .compatible = "qcom,sm7150", .data = &ubwc_2_0_hbb14, },
+   157		{ .compatible = "qcom,sm7225", .data = &ubwc_2_0_hbb14, },
+   158		{ .compatible = "qcom,sm7325", .data = &ubwc_3_1_hbb14, },
+   159		{ .compatible = "qcom,sm8150", .data = &ubwc_3_0_hbb15, },
+   160		{ .compatible = "qcom,sm8250", .data = &ubwc_4_0_hbb16, },
+   161		{ .compatible = "qcom,sm8350", .data = &ubwc_4_0_hbb16, },
+   162		{ .compatible = "qcom,sm8450", .data = &ubwc_4_0_hbb16, },
+   163		{ .compatible = "qcom,sm8550", .data = &ubwc_4_0_hbb16, },
+   164		{ .compatible = "qcom,sm8650", .data = &ubwc_4_0_hbb16, },
+   165		{ .compatible = "qcom,sm8750", .data = &ubwc_5_0_hbb16, },
+   166		{ .compatible = "qcom,x1e80100", .data = &ubwc_4_0_hbb16, },
+   167		{ .compatible = "qcom,x1p42100", .data = &ubwc_4_0_hbb16, },
+   168		{ }
+   169	};
+   170	
 
 --
 0-DAY CI Kernel Test Service
