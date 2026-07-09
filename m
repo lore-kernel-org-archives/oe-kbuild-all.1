@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459BA2ED872
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 01:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26592388E45
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 01:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783560222; cv=none; b=uBoBYkxRvBaGpXNJA0E2BQ1/cGITVb88Kv0/5bfZQxA/nw9TNvTVcDj318aA/AiffrRq0wZzSNBeXZ7yQsOhfnFSfASFQj2b5dpMeImMtvW4nj6fG2s5fYKy7W/yGD1zcapx7RdZlV89mdAXa6Qr+/DBiyQ0R2YnZchW5f5RNoM=
+	t=1783560223; cv=none; b=QUdBE1iTluLoptT93QuoWRrFfwOyRJKVoU77aGlu1BgBl5mzRhWeOX034wgpIQg0T7zRgumLMWdxpobzFi+zUF0NeWeIDbCKXXq1SXNtw+3lfPI5m4kxqR9kghPb/SIC++iWhzVpfni8YvzePOB/tVlDFylLLtF0uekO4881lYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783560222; c=relaxed/simple;
-	bh=97X1OZPQ34Ej/2bPjKTh6UUlMWtTesUtvVHitw2eSO4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uWu9pTH1ukMmz9dpZbbTdN3EQ6CAciEf6TebVIPM04WjmT8bpRLXOaLZGVMyM4qQ8JHy5ygg+YxNmnCr6uNtVrSw2pfwbDMHL0eIFE6bfFQ+FMBt1qwjkhI8FgMNTwx7ItHaQLhJX76Ljtyjxq7FKK3FHK9OHX+smnpMTO8PVeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aj3lodgX; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1783560223; c=relaxed/simple;
+	bh=gQ4GbaqYJPGKv0lb7TbNmHqDdQEXNsO5jKFMcKqT9XY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jVOpZ1gI21oP/Y/AH0drA+oJ93Ob2oSVhfGq52VHC28XxgmNj2anzzhUk/MiMkq2FCRec/g/pDCMiCpdvazGRH+Gz82De6H+/PTrPfrBrsrhW7LtonUGDlctYthXolocjnZLvIuWdBFiZqFvByzSTsnxEjmx780zZIyn7/4p5iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmFnPcgE; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aj3lodgX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmFnPcgE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783560220; x=1815096220;
+  t=1783560222; x=1815096222;
   h=date:from:to:cc:subject:message-id;
-  bh=97X1OZPQ34Ej/2bPjKTh6UUlMWtTesUtvVHitw2eSO4=;
-  b=aj3lodgXkXoVqcgAqbOX+bZUCAi4AWfJnbqm9373c4XMoEHBlF7Cc89N
-   84py/869gB8292QRyN4JSNnqHnICvicxoXiqBri4cVrfXJav4yq/gKMce
-   XnfGoo7qHpb7kuQZRKbbWPEVUSgljy8CwCg0zS9hiykDhFIowGwYRfAjZ
-   WCv4veaqkHGwOB04gOyrav4ELmb2nbkn4tlXgAaKbJqDqVtn8uR6of8Be
-   QKin5Sj1MsCFCFh7jRLh6mWknyX9MsFTs2/vLkEX0pPUCdYET/9FlD0Ag
-   J75LyZCP5aSLdQqGqYY1gXwjR0WqvyrynbTMCFLIDYST7LZynmnfwCbGF
-   w==;
-X-CSE-ConnectionGUID: 5pMubCYHQTeZewj9xZAC1A==
-X-CSE-MsgGUID: HR5dbSAjRVaRQldeoYNggw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="71756009"
+  bh=gQ4GbaqYJPGKv0lb7TbNmHqDdQEXNsO5jKFMcKqT9XY=;
+  b=fmFnPcgEw2qzjQsEcFGGY+dZk5gnGB+Nwo3/gmDkz32B9Tv7d/ejFeDo
+   3WI5zcBrVW0/0X4Qvf2Q4PvVzriUerOpWhcQrL2cqDAXTrI68/ZdsMQMd
+   tPqXsQfyyXUeoHU+pZx/ZMp4A2BQAx39u6yYIGqwQyA86+BUAMaidpmmX
+   hSiwnIeIYlJY+QrnQWtWTrvGSgoi3QwAlXXNBr3j+hY8ndHurrYxFx/5y
+   3ofe3dw4yVjiT8udvA37NS0UfWUkaM5fUyUi7Jkg6CHXyom6hw2sRVqFt
+   tbGUQeegDBRJmaaQGc4Hoqpgu03DoPCQY8CH3vdvJkyboEK9kfZH26hMS
+   g==;
+X-CSE-ConnectionGUID: p2LfMSl0T2O9VHasjW+mSg==
+X-CSE-MsgGUID: lm0H6GxURDeCKFr4hKMuoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="71756011"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="71756009"
+   d="scan'208";a="71756011"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 18:23:40 -0700
-X-CSE-ConnectionGUID: J8dHz8JAR+KqBT5hVvSRMA==
-X-CSE-MsgGUID: 723AxbDBQNyaJgoOofPDEQ==
+X-CSE-ConnectionGUID: kOwU7xEaS8irIlj2hxgYEQ==
+X-CSE-MsgGUID: bG92+gabS2aEY1QqnPHWpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="253959930"
+   d="scan'208";a="253959932"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
   by orviesa008.jf.intel.com with ESMTP; 08 Jul 2026 18:23:39 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whdUF-00000000H7p-3jFh;
+	id 1whdUF-00000000H7n-3ZOy;
 	Thu, 09 Jul 2026 01:23:35 +0000
-Date: Thu, 09 Jul 2026 09:23:20 +0800
+Date: Thu, 09 Jul 2026 09:23:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:pr/192 6/6]
- drivers/net/phy/as21xx_1.9.2/as21xxx.c:645:27: warning: variable 'ret' set
- but not used
-Message-ID: <202607090930.JHrgzS8O-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 166/166]
+ include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name'
+ defined but not used
+Message-ID: <202607090917.4pIYhZqm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,93 +60,142 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 pr/192
-head:   442be472436b2a1112b636884afd0423584c868a
-commit: c1089adb7bea566821aa2fdcef60972966056099 [6/6] net: phy: as21xxx: update driver to v1.9.2
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260709/202607090930.JHrgzS8O-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090930.JHrgzS8O-lkp@intel.com/reproduce)
+Hi Huang,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   7b80053b707666e258e504127dd1bf5ac555f5e1
+commit: 1c28907d7396680dbbfcb341340369e69aa670f4 [166/166] ANDROID: timer: Add vendor hook for timer calc index
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260709/202607090917.4pIYhZqm-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090917.4pIYhZqm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607090930.JHrgzS8O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090917.4pIYhZqm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/phy/as21xx_1.9.2/as21xxx.c: In function 'aeon_set_default_value':
->> drivers/net/phy/as21xx_1.9.2/as21xxx.c:645:27: warning: variable 'ret' set but not used [-Wunused-but-set-variable=]
-     645 |         int pos = 0, val, ret = 0, remaining;
-         |                           ^~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/timer.h:18,
+                    from drivers/android/vendor_hooks.c:46:
+>> include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/dmabuf.h:21,
+                    from drivers/android/vendor_hooks.c:45:
+   include/trace/stages/init.h:2:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fips140.h:50,
+                    from drivers/android/vendor_hooks.c:44:
+   include/trace/stages/init.h:2:23: warning: 'str__fips140__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/futex.h:26,
+                    from drivers/android/vendor_hooks.c:43:
+   include/trace/stages/init.h:2:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/rwsem.h:30,
+                    from drivers/android/vendor_hooks.c:42:
+   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/remoteproc.h:26,
+                    from drivers/android/vendor_hooks.c:41:
+   include/trace/stages/init.h:2:23: warning: 'str__remoteproc__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +/ret +645 drivers/net/phy/as21xx_1.9.2/as21xxx.c
+vim +/str__timer__trace_system_name +2 include/trace/stages/init.h
 
-   637	
-   638	static int aeon_set_default_value(struct phy_device *phydev)
-   639	{
-   640		static const unsigned char base_data[] = {0x32, 0x30, 0x32, 0x33, 0x30, 0x37, 0x31, 0x34};
-   641		unsigned char bytebuf[16];
-   642		unsigned short *wdata;
-   643		unsigned int mask;
-   644		int byte_count, wdata_count = 0;
- > 645		int pos = 0, val, ret = 0, remaining;
-   646		unsigned char padded_bytes[MEM_WORD_SIZE] = {0};
-   647	
-   648		mask = param1 | 14;
-   649		memcpy(bytebuf, base_data, sizeof(base_data));
-   650		bytebuf[8] = mask & 0xff;
-   651		bytebuf[9] = (mask >> 8) & 0xff;
-   652		byte_count = 10;
-   653	
-   654		wdata = kmalloc(MAX_WDATA_SIZE * sizeof(unsigned short), GFP_KERNEL);
-   655		if (!wdata)
-   656			return -ENOMEM;
-   657	
-   658		while (pos + MEM_WORD_SIZE <= byte_count) {
-   659			if (wdata_count + 2 > MAX_WDATA_SIZE) {
-   660				pr_err("wdata array overflow\n");
-   661				ret = -ENOSPC;
-   662				goto cleanup;
-   663			}
-   664			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos]);
-   665			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos + 2]);
-   666			pos += MEM_WORD_SIZE;
-   667		}
-   668	
-   669		remaining = byte_count - pos;
-   670		if (remaining > 0) {
-   671			if (wdata_count + 2 <= MAX_WDATA_SIZE) {
-   672				// Here we just need padded_bytes once, otherwise we need to read from mem
-   673				memcpy(padded_bytes, &bytebuf[pos], remaining);
-   674				wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[0]);
-   675				wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[2]);
-   676			}
-   677		}
-   678	
-   679		val = phy_read_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
-   680		val |= 0x12;
-   681		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
-   682		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_FW_START_ADDR,
-   683				(u16)(AEON_MEM_DEFAULT_ADDR & 0xFFFF));
-   684		phy_modify_mmd(phydev, MDIO_MMD_VEND1,
-   685				VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD,
-   686				0x3ffc, 0xc000);
-   687		aeon_cl45_write_burst(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_LOAD,
-   688				(unsigned char *)wdata, wdata_count*2);
-   689		val = phy_read_mmd(phydev, MDIO_MMD_VEND1,
-   690				VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD); //GLB_REG_MDIO_INDIRECT_ADDRCMD
-   691		val &= 0x3FFF;
-   692		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD, val);
-   693		val = phy_read_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
-   694		val &= 0xFFED;
-   695		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
-   696	
-   697	cleanup:
-   698		kfree(wdata);
-   699		return 0;
-   700	}
-   701	
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
