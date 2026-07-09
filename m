@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD00F3E9C29
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 08:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901B03EDACC;
+	Thu,  9 Jul 2026 09:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783587497; cv=none; b=McrXAnIFfGxPkrxkeFBjGiNZBrl00AigpDjN9BQM9DpbaKXKYvLAqKT5PQxl6xtIRBR0GaNtZfbVcxk4OpYqpv6zfBy7kEaysUv2xmrmUmqSfyN4rKtF33tMuET/DgAnOynoiL9Hx6YT50I3rwKO+GrFhQ/fTq+4OMdVyDNVFgA=
+	t=1783588278; cv=none; b=SDd/qIOmXmeMvPsKpTnWrnZreg7e7PN5ogv/cFM0yCtXkbXbxE23Bu2tuf1gYRMUoJDj31uhKNrNZnfQR/L5ais8nYVKVXcKTDcTbBS9ZwWS3NR5Ppjk1+pHHR12wGVAXEncIn6qv3aiqsc3WFMeIk4I0PwE2/OBCnGUz+46Cw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783587497; c=relaxed/simple;
-	bh=xGM+yYyiql09nFukgQUmeIV679B6z3u7qKHo5m7/9+8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=h9BEpgO7n1INPSkm4WGSXBShTogKSYqtwwF4XMAR1qlFgYvAM9yQm4s2SxNmWAV4b00KufLpt0ZS7eLhjcP8BVxNrpKC7DSxcWhqqpZTDXAQUH/HWK3lBQLZ85iZ0Uw+r+9LjvT/2DWMzNnD3Mhaa9Yb1+EZOuIYOHV7le9/SV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmNea9OG; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1783588278; c=relaxed/simple;
+	bh=qImldtwQcmZ9mUR0zxQV4DvRCcGx0tCto0V4v5TyQ24=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BE6D80s2e7DXDIACmIBRLj8xp9UHNKOgCuiIioYj+0mlXtifk3fAXw+L79s1/jlLPdhv5JX5tspQvhfSdpp/ozrB5JRGvAEjQENQX4NNu7mwXehrfiSr2ZhC+eK4fFmiZccc1Ub0MOymDxFUqCiHTY5gnZO9qEoP3HLpxvzvlE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hjf2C9Vk; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmNea9OG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hjf2C9Vk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783587494; x=1815123494;
+  t=1783588277; x=1815124277;
   h=date:from:to:cc:subject:message-id;
-  bh=xGM+yYyiql09nFukgQUmeIV679B6z3u7qKHo5m7/9+8=;
-  b=kmNea9OGuCBX8cK5/c6YMCW+qw124aQAB2B7H83w0wmpeIUPjjIfrwSm
-   D+SQVMR5T5qr1oUSBQW9bTYG6H5tC8+S84IpjH9QU7GpozRBfPppRRzcG
-   5WTAQwSWOFjAKK/XijIfnWZP7MMXfKFs+g5Do21Uk700QAZr9n93ijJbr
-   fEX2odRMuodr9sPFnbRSweWYRJN26jo0NZ0xaRqwUhTK+8aCcoiBIAvdU
-   adeAp5bEgcku4fd84L5NAZzjXraHGy/boMFuxE0zmyDEnD9oGfGN0axgj
-   ksY0MBt/K1S6LCk2q0LzCkmc320lFQpXwrYtfmpMAjFapVoswefVjP0S2
-   Q==;
-X-CSE-ConnectionGUID: Ilj8MEg/RiStJ8JbZIJmXw==
-X-CSE-MsgGUID: QPNkH3suTFybO8BbzDINow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="109811318"
+  bh=qImldtwQcmZ9mUR0zxQV4DvRCcGx0tCto0V4v5TyQ24=;
+  b=Hjf2C9VkqBbJDlyYf7h8z4iSKzJpqcpPsaE1mcmAV4aT//EeCkMthru5
+   3uaWELnx04QbeGL73PIWjHU7Ps9eDTqXuBn8eyZeWDKy2h4XQ4P6PScKo
+   4qSgbfsI11yn2/cSfOO/anQjMJUxMd2pVkpKnwPLm3r04m0fMVSQFQcfG
+   cW/WdH/vv5Kj4uM14AgOQVkcoKIm9iee3zDiH/GmEFGly0/ICf6731/hB
+   PvQpCEQOOFFNavpQcwUUXit5JL5N5gx84pU2Q6Ma0c0FY/VQUJAFTa2ut
+   git27gKW6tx4EQWdM3cdyaJxGM/FDC2bYi/UYpcoNs7QroHQ282kXwBG5
+   g==;
+X-CSE-ConnectionGUID: XwpqdJ/HRzmmF2MZ65AbSw==
+X-CSE-MsgGUID: RmtbrfQHS1+cZv0xKBTEXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84141515"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="109811318"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 01:58:12 -0700
-X-CSE-ConnectionGUID: IQhwabR8RbypZEffuVo99Q==
-X-CSE-MsgGUID: 4YB0d2keTKGeVLga0DSp+w==
+   d="scan'208";a="84141515"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 02:11:16 -0700
+X-CSE-ConnectionGUID: c9uD7gtTRYODHIZaYGuAtw==
+X-CSE-MsgGUID: O4hMbCS5QeKK41luCJSbWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="278917593"
+   d="scan'208";a="292722922"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Jul 2026 01:58:10 -0700
+  by orviesa001.jf.intel.com with ESMTP; 09 Jul 2026 02:11:14 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whka7-00000000HTn-3nTy;
-	Thu, 09 Jul 2026 08:58:07 +0000
-Date: Thu, 09 Jul 2026 16:57:28 +0800
+	id 1whkmi-00000000HUh-2e5G;
+	Thu, 09 Jul 2026 09:11:09 +0000
+Date: Thu, 09 Jul 2026 17:10:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nabige Aala <nabige.aala@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: [qcom:drivers-for-7.3 22/23]
- drivers/soc/qcom/ubwc_config.c:148:3: error: expected expression before '{'
- token
-Message-ID: <202607091635.CzQ2eL1t-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/qemu_boot 20/69] Makefile:1629: warning:
+ overriding recipe for target 'dtbs'
+Message-ID: <202607091634.UXr9Ddde-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,127 +60,78 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux drivers-for-7.3
-head:   05b03f88af1fe82d23b5f88b286b1ac2987b3177
-commit: a45af9d6e6175473c8744c0f1cf2348f641e3029 [22/23] soc: qcom: ubwc: Add Shikra UBWC config
-config: arm64-randconfig-004-20260709 (https://download.01.org/0day-ci/archive/20260709/202607091635.CzQ2eL1t-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091635.CzQ2eL1t-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
+head:   89efd48e5609f41280973bc49df20ffe80177690
+commit: abe97c987224d2686550fd938cd15c284c1132c3 [20/69] hexagon: update build system and Kconfig
+config: hexagon-randconfig-001 (https://download.01.org/0day-ci/archive/20260709/202607091634.UXr9Ddde-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091634.UXr9Ddde-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607091635.CzQ2eL1t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607091634.UXr9Ddde-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/soc/qcom/ubwc_config.c:148:3: error: expected expression before '{' token
-    + { .compatible = "qcom,shikra", .data = &ubwc_0_0_hbb15, },
-      ^
->> drivers/soc/qcom/ubwc_config.c:75:40: warning: 'ubwc_5_0_hbb16' defined but not used [-Wunused-const-variable=]
-    static const struct qcom_ubwc_cfg_data ubwc_5_0_hbb16 = {
-                                           ^~~~~~~~~~~~~~
+>> Makefile:1629: warning: overriding recipe for target 'dtbs'
+   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+   make[2]: *** [Makefile:2184: .] Error 2 shuffle=2075589911
+   make[2]: Target '__all' not remade because of errors.
+--
+>> Makefile:1629: warning: overriding recipe for target 'dtbs'
+   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+   scripts/Makefile.clean:12: arch/hexagon/platform/sm8150/Makefile: No such file or directory
+   make[3]: *** No rule to make target 'arch/hexagon/platform/sm8150/Makefile'.
+   scripts/Makefile.clean:12: Failed to remake makefile 'arch/hexagon/platform/sm8150/Makefile'.
+   make[2]: *** [Makefile:2189: _clean_arch/hexagon/platform/sm8150] Error 2 shuffle=2075589911
+   make[2]: Target 'distclean' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2075589911
+   make[1]: Target 'distclean' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2075589911
+   make: Target 'distclean' not remade because of errors.
+--
+>> Makefile:1629: warning: overriding recipe for target 'dtbs'
+   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+--
+>> Makefile:1629: warning: overriding recipe for target 'dtbs'
+   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+--
+>> /kbuild/src/Makefile:1629: warning: overriding recipe for target 'dtbs'
+   /kbuild/src/arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+   /kbuild/src/scripts/Makefile.clean:12: /kbuild/src/arch/hexagon/platform/sm8150/Makefile: No such file or directory
+   make[3]: *** No rule to make target '/kbuild/src/arch/hexagon/platform/sm8150/Makefile'.
+   /kbuild/src/scripts/Makefile.clean:12: Failed to remake makefile '/kbuild/src/arch/hexagon/platform/sm8150/Makefile'.
+   make[2]: *** [/kbuild/src/Makefile:2189: _clean_arch/hexagon/platform/sm8150] Error 2 shuffle=2075589911
+   make[2]: Target 'mrproper' not remade because of errors.
+   make[1]: *** [/kbuild/src/Makefile:248: __sub-make] Error 2 shuffle=2075589911
+   make[1]: Target 'mrproper' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2075589911
+   make: Target 'mrproper' not remade because of errors.
+--
+>> Makefile:1629: warning: overriding recipe for target 'dtbs'
+   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
 
 
-vim +148 drivers/soc/qcom/ubwc_config.c
+vim +/dtbs +1629 Makefile
 
-    74	
-  > 75	static const struct qcom_ubwc_cfg_data ubwc_5_0_hbb16 = {
-    76		.ubwc_enc_version = UBWC_5_0,
-    77		.highest_bank_bit = 16,
-    78	};
-    79	
-    80	static const struct qcom_ubwc_cfg_data ubwc_6_0_hbb16 = {
-    81		.ubwc_enc_version = UBWC_6_0,
-    82		.highest_bank_bit = 16,
-    83	};
-    84	
-    85	static const struct qcom_ubwc_cfg_data sa8775p_data = {
-    86		.ubwc_enc_version = UBWC_4_0,
-    87		.flags = UBWC_FLAG_DISABLE_SWIZZLE_LVL2,
-    88		.highest_bank_bit = 13,
-    89	};
-    90	
-    91	static const struct qcom_ubwc_cfg_data glymur_data = {
-    92		.ubwc_enc_version = UBWC_5_0,
-    93		.flags = UBWC_FLAG_DISABLE_SWIZZLE_LVL2 |
-    94			 UBWC_FLAG_DISABLE_SWIZZLE_LVL3,
-    95		/* TODO: highest_bank_bit = 15 for LP_DDR4 */
-    96		.highest_bank_bit = 16,
-    97	};
-    98	
-    99	static const struct qcom_ubwc_cfg_data milos_data = {
-   100		.ubwc_enc_version = UBWC_4_0,
-   101		.flags = UBWC_SWIZZLE_ENABLE_LVL2 |
-   102			 UBWC_SWIZZLE_ENABLE_LVL3,
-   103		/* TODO: highest_bank_bit = 14 for LP_DDR4 */
-   104		.highest_bank_bit = 15,
-   105	};
-   106	
-   107	static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
-   108		{ .compatible = "qcom,apq8016", .data = &no_ubwc_data },
-   109		{ .compatible = "qcom,apq8026", .data = &no_ubwc_data },
-   110		{ .compatible = "qcom,apq8074", .data = &no_ubwc_data },
-   111		{ .compatible = "qcom,apq8096", .data = &ubwc_1_0_hbb15 },
-   112		{ .compatible = "qcom,eliza", .data = &ubwc_5_0_hbb15 },
-   113		{ .compatible = "qcom,glymur", .data = &glymur_data},
-   114		{ .compatible = "qcom,kaanapali", .data = &ubwc_6_0_hbb16 },
-   115		{ .compatible = "qcom,mahua", .data = &glymur_data },
-   116		{ .compatible = "qcom,milos", .data = &milos_data },
-   117		{ .compatible = "qcom,msm8226", .data = &no_ubwc_data },
-   118		{ .compatible = "qcom,msm8916", .data = &no_ubwc_data },
-   119		{ .compatible = "qcom,msm8917", .data = &no_ubwc_data },
-   120		{ .compatible = "qcom,msm8937", .data = &ubwc_1_0_hbb14 },
-   121		{ .compatible = "qcom,msm8929", .data = &no_ubwc_data },
-   122		{ .compatible = "qcom,msm8939", .data = &no_ubwc_data },
-   123		{ .compatible = "qcom,msm8953", .data = &ubwc_1_0_hbb14 },
-   124		{ .compatible = "qcom,msm8956", .data = &no_ubwc_data },
-   125		{ .compatible = "qcom,msm8974", .data = &no_ubwc_data },
-   126		{ .compatible = "qcom,msm8976", .data = &no_ubwc_data },
-   127		{ .compatible = "qcom,msm8996", .data = &ubwc_1_0_hbb15 },
-   128		{ .compatible = "qcom,msm8998", .data = &ubwc_1_0_hbb15 },
-   129		{ .compatible = "qcom,qcm2290", .data = &ubwc_0_0_hbb15, },
-   130		{ .compatible = "qcom,qcm6490", .data = &ubwc_3_1_hbb14, },
-   131		{ .compatible = "qcom,qcs8300", .data = &ubwc_4_0_hbb16, },
-   132		{ .compatible = "qcom,sa8155p", .data = &ubwc_3_0_hbb15, },
-   133		{ .compatible = "qcom,sa8540p", .data = &ubwc_4_0_hbb16, },
-   134		{ .compatible = "qcom,sa8775p", .data = &sa8775p_data, },
-   135		{ .compatible = "qcom,sar2130p", .data = &ubwc_3_1_hbb13 },
-   136		{ .compatible = "qcom,sc7180", .data = &ubwc_2_0_hbb14, },
-   137		{ .compatible = "qcom,sc7280", .data = &ubwc_3_1_hbb14, },
-   138		{ .compatible = "qcom,sc8180x", .data = &ubwc_3_1_hbb16, },
-   139		{ .compatible = "qcom,sc8280xp", .data = &ubwc_4_0_hbb16, },
-   140		{ .compatible = "qcom,sda660", .data = &ubwc_1_0_hbb14 },
-   141		{ .compatible = "qcom,sdm450", .data = &ubwc_1_0_hbb14 },
-   142		{ .compatible = "qcom,sdm630", .data = &ubwc_1_0_hbb14 },
-   143		{ .compatible = "qcom,sdm632", .data = &ubwc_1_0_hbb14 },
-   144		{ .compatible = "qcom,sdm636", .data = &ubwc_1_0_hbb14 },
-   145		{ .compatible = "qcom,sdm660", .data = &ubwc_1_0_hbb14 },
-   146		{ .compatible = "qcom,sdm670", .data = &ubwc_2_0_hbb14, },
-   147		{ .compatible = "qcom,sdm845", .data = &ubwc_2_0_hbb15, },
- > 148	+	{ .compatible = "qcom,shikra", .data = &ubwc_0_0_hbb15, },
-   149		{ .compatible = "qcom,sm4250", .data = &ubwc_1_0_hbb14, },
-   150		{ .compatible = "qcom,sm6115", .data = &ubwc_1_0_hbb14, },
-   151		{ .compatible = "qcom,sm6125", .data = &ubwc_1_0_hbb14, },
-   152		{ .compatible = "qcom,sm6150", .data = &ubwc_2_0_hbb14, },
-   153		{ .compatible = "qcom,sm6350", .data = &ubwc_2_0_hbb14, },
-   154		{ .compatible = "qcom,sm6375", .data = &ubwc_2_0_hbb14, },
-   155		{ .compatible = "qcom,sm7125", .data = &ubwc_2_0_hbb14, },
-   156		{ .compatible = "qcom,sm7150", .data = &ubwc_2_0_hbb14, },
-   157		{ .compatible = "qcom,sm7225", .data = &ubwc_2_0_hbb14, },
-   158		{ .compatible = "qcom,sm7325", .data = &ubwc_3_1_hbb14, },
-   159		{ .compatible = "qcom,sm8150", .data = &ubwc_3_0_hbb15, },
-   160		{ .compatible = "qcom,sm8250", .data = &ubwc_4_0_hbb16, },
-   161		{ .compatible = "qcom,sm8350", .data = &ubwc_4_0_hbb16, },
-   162		{ .compatible = "qcom,sm8450", .data = &ubwc_4_0_hbb16, },
-   163		{ .compatible = "qcom,sm8550", .data = &ubwc_4_0_hbb16, },
-   164		{ .compatible = "qcom,sm8650", .data = &ubwc_4_0_hbb16, },
-   165		{ .compatible = "qcom,sm8750", .data = &ubwc_5_0_hbb16, },
-   166		{ .compatible = "qcom,x1e80100", .data = &ubwc_4_0_hbb16, },
-   167		{ .compatible = "qcom,x1p42100", .data = &ubwc_4_0_hbb16, },
-   168		{ }
-   169	};
-   170	
+37c8a5fafa3bb7 Rob Herring     2018-01-10  1620  
+ee47620367d5b5 Masahiro Yamada 2022-07-24  1621  %.dtb: dtbs_prepare
+75e895343d5a2f Rob Herring     2021-12-08  1622  	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+37c8a5fafa3bb7 Rob Herring     2018-01-10  1623  
+ee47620367d5b5 Masahiro Yamada 2022-07-24  1624  %.dtbo: dtbs_prepare
+75e895343d5a2f Rob Herring     2021-12-08  1625  	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+ce88c9c79455fb Viresh Kumar    2021-01-29  1626  
+ee47620367d5b5 Masahiro Yamada 2022-07-24  1627  PHONY += dtbs dtbs_prepare dtbs_install dtbs_check
+ee47620367d5b5 Masahiro Yamada 2022-07-24  1628  dtbs: dtbs_prepare
+24507871c3c6ae Masahiro Yamada 2024-01-09 @1629  	$(Q)$(MAKE) $(build)=$(dtstree) need-dtbslist=1
+37c8a5fafa3bb7 Rob Herring     2018-01-10  1630  
+
+:::::: The code at line 1629 was first introduced by commit
+:::::: 24507871c3c6ae4f6b460b016da7ff434cd34149 kbuild: create a list of all built DTB files
+
+:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
+:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
