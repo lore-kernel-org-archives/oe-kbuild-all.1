@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA46226738C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 07:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73F3285CAD;
+	Thu,  9 Jul 2026 07:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783582866; cv=none; b=LoSa0d05Y/UC9nuNqaBnfO1nCtZW2tq7+M79gKNs+VRvv73fS5G0/QbsTujehCMmJHP+26KAf8qDlUJOaiWXq/1KKRikodf0UuPoqGzmVUU9dhKpBosG+9DQ0206VvYlndFSrjZY0YoHdDg2N1KgyHTRsGd9BZMQjuKX0Y0hG3c=
+	t=1783583231; cv=none; b=lUw5EDU0pOcuhOMVyM4lybBI7nxIhJRzwRzgGD6a1tY56GVgXcuDROxlzFCzU7K5DXt7gmmPMT6FSXj0MqODrZkt6j5CINCNtn5uTFVHDOKXWdCuwBBi8YVQX1O01BszRhFD9j8aiAHK8Z4gmv25qmP1mkQqXn1EQ0ZqbCDee6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783582866; c=relaxed/simple;
-	bh=Q7sv7zcr5kr/Xbi8tagZ3sMpLFFSFDLim/PA2jCQ39U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gd57lK0YjULPzQ7Uq8xQ5pzCYaFi309KRyrttZ++eDqqrafgAD1VTJjVmA4ixykackrwAKpeODWpYl0ODff+mosIZO2mgu1xElrQLnHNNHlzpsh2bBcGMKxwTrI2Hv8Zihnh74qmYT/B+xn73GwYS/r5gO4/HuHTo2EjeIqkM3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ddOQfPcj; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1783583231; c=relaxed/simple;
+	bh=XDiT+tIOIk0brL7tKqyT3t9lZBpkiLYMsQSLugJ8oPE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aU0XEg8HOSMyPZjB5MMOfIBZJ4kEuvgLo1VUI3rpDSNycGWdoqQ9Qt5sPqtUPkEX/rHEoE+848Fjo2hhbKTgTxDf0FOS4/T71Kb1M0yLSAvPJxSxl+K+XvD7QD5eZftOhp6BhnfhVsDCYxfpoQvTIV/DwzEqQoOWdr5BJ95CZCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9hAtIbn; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ddOQfPcj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9hAtIbn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783582865; x=1815118865;
+  t=1783583230; x=1815119230;
   h=date:from:to:cc:subject:message-id;
-  bh=Q7sv7zcr5kr/Xbi8tagZ3sMpLFFSFDLim/PA2jCQ39U=;
-  b=ddOQfPcj1q2gpDLdRf8rn17B9oxsLVxJQgTRsQ5VQ7HBI38UQxm116rf
-   12/5MH4q2+PHbuwoZmp3JPh0uFTBYh0t20BI69SzBRX9yrxmuOykOBN59
-   3zRs+5FF9UPqoxgSD3YgQ+4RqprxuW0J+6l3C+sDOSY+CAPh4ffJN04fJ
-   HdP3RaLFrFPHvizgTXG+Je2+7/HMHKcB//PaBOJcfez9L/f7QI1zAiSb6
-   wfCAHUPOqaFzyiJJouheybNOTgaRVpf5VlQc3JUMh7vl4FNZKijAKuCXg
-   gxHofXej8QSva/SUu2VkowAP9yXddTJ+OcrC4qdAoIEPkcxk32rN12ov5
-   g==;
-X-CSE-ConnectionGUID: 77vjLW73QyeShAq6cJ2QNA==
-X-CSE-MsgGUID: JxoRRJRuQmafp5PYD4HivQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94863078"
+  bh=XDiT+tIOIk0brL7tKqyT3t9lZBpkiLYMsQSLugJ8oPE=;
+  b=i9hAtIbnLI0OuShDG/eVtzjoGVHKOo2amYSQR91cqiTC2fITWB+ruU/l
+   GkDaVu4EAvchpnfzrH8zZmcNDLPYuoUJk5OGVtToSC/nEhH0JPbBop7ey
+   HQ5A06kcv093v6/4+ThEFmKabH/kQ5JFV/OKb6w56sXAHvR2TuQHiXg62
+   dHHr9pskHrOtzzfnlSwP1+bR7sx3tUnACVu/mcxAzCbHg191RrkSM8zPJ
+   EO4EzlJOw8HtRuOZbYdo1eE06OoDzXwqlPRrKXeozGMZygvLIhVG/B2U4
+   7jPFkDmgg6kD/8nQkuDtCzAb2oClZZy8boh+MY6BJ395YEno4uhIduq26
+   w==;
+X-CSE-ConnectionGUID: RxpXJPpcTq6wTXLZY1Vj/A==
+X-CSE-MsgGUID: BkGxc5sVS3GWcZQGeaor4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101684402"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="94863078"
+   d="scan'208";a="101684402"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 00:40:02 -0700
-X-CSE-ConnectionGUID: w6QkXM9YRB2ZEBsrxUH55w==
-X-CSE-MsgGUID: kpR41yMbTc6YSmwpt0F9yg==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 00:47:10 -0700
+X-CSE-ConnectionGUID: 59cavj57Rri+6jDaU6ZOsA==
+X-CSE-MsgGUID: MBl1TSD/T3SWjKdXxv/ejA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="253418687"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 09 Jul 2026 00:39:59 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="253421851"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 09 Jul 2026 00:47:08 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whjMJ-00000000HOx-31y8;
-	Thu, 09 Jul 2026 07:39:48 +0000
-Date: Thu, 09 Jul 2026 15:38:52 +0800
+	id 1whjTO-000000002wv-0WVa;
+	Thu, 09 Jul 2026 07:47:06 +0000
+Date: Thu, 09 Jul 2026 09:46:15 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:objext_split 11/14] mm/slub.c:1201:13: error:
- implicit declaration of function 'obj_exts_in_object'; did you mean
- 'obj_exts_in_slab'?
-Message-ID: <202607091514.vb217Kmc-lkp@intel.com>
+To: Phil Sutter <phil@nwl.cc>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: net/netfilter/nfnetlink_hook.c:375:16: error: expected ';'
+ after expression
+Message-ID: <202607090956.vur8s2T9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,77 +60,72 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Vlastimil,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git objext_split
-head:   8bd682e28958694beba958e2a3af94c6e1789819
-commit: 0923358e166406daf2533102ff371c4ba7f93bf3 [11/14] mm/slab: replace stride with obj_exts_in_object flag
-config: xtensa-allnoconfig (https://download.01.org/0day-ci/archive/20260709/202607091514.vb217Kmc-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091514.vb217Kmc-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Phil-Sutter/netfilter-nfnetlink_hook-Pass-cb-object-to-nfnl_hook_dump_nat/20260709-004129
+head:   82b3ae63423bde6a0a2c963376b2feab3c1d404b
+commit: 82b3ae63423bde6a0a2c963376b2feab3c1d404b netfilter: nfnetlink_hook: Fix for concurrent NAT hooks dump and change
+date:   15 hours ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260709/202607090956.vur8s2T9-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607090956.vur8s2T9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607091514.vb217Kmc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607090956.vur8s2T9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/slub.c: In function 'print_trailer':
->> mm/slub.c:1201:13: error: implicit declaration of function 'obj_exts_in_object'; did you mean 'obj_exts_in_slab'? [-Wimplicit-function-declaration]
-    1201 |         if (obj_exts_in_object(slab))
-         |             ^~~~~~~~~~~~~~~~~~
-         |             obj_exts_in_slab
+>> net/netfilter/nfnetlink_hook.c:375:16: error: expected ';' after expression
+     375 |                 ctx->natv = 0
+         |                              ^
+         |                              ;
+   1 error generated.
 
 
-vim +1201 mm/slub.c
+vim +375 net/netfilter/nfnetlink_hook.c
 
-  1166	
-  1167	static void print_trailer(struct kmem_cache *s, struct slab *slab, u8 *p)
-  1168	{
-  1169		unsigned int off;	/* Offset of last byte */
-  1170		u8 *addr = slab_address(slab);
-  1171	
-  1172		print_tracking(s, p);
-  1173	
-  1174		print_slab_info(slab);
-  1175	
-  1176		pr_err("Object 0x%p @offset=%tu fp=0x%p\n\n",
-  1177		       p, p - addr, get_freepointer(s, p));
-  1178	
-  1179		if (s->flags & SLAB_RED_ZONE)
-  1180			print_section(KERN_ERR, "Redzone  ", p - s->red_left_pad,
-  1181				      s->red_left_pad);
-  1182		else if (p > addr + 16)
-  1183			print_section(KERN_ERR, "Bytes b4 ", p - 16, 16);
-  1184	
-  1185		print_section(KERN_ERR,         "Object   ", p,
-  1186			      min_t(unsigned int, s->object_size, PAGE_SIZE));
-  1187		if (s->flags & SLAB_RED_ZONE)
-  1188			print_section(KERN_ERR, "Redzone  ", p + s->object_size,
-  1189				s->inuse - s->object_size);
-  1190	
-  1191		off = get_info_end(s);
-  1192	
-  1193		if (s->flags & SLAB_STORE_USER)
-  1194			off += 2 * sizeof(struct track);
-  1195	
-  1196		if (slub_debug_orig_size(s))
-  1197			off += sizeof(unsigned long);
-  1198	
-  1199		off += kasan_metadata_size(s, false);
-  1200	
-> 1201		if (obj_exts_in_object(slab))
-  1202			off += sizeof(struct slabobj_ext);
-  1203	
-  1204		if (off != size_from_object(s))
-  1205			/* Beginning of the filler is the free pointer */
-  1206			print_section(KERN_ERR, "Padding  ", p + off,
-  1207				      size_from_object(s) - off);
-  1208	}
-  1209	
+   340	
+   341	static int nfnl_hook_dump_nat(struct sk_buff *nlskb,
+   342				      struct netlink_callback *cb,
+   343				      const struct nf_hook_ops *ops, int family)
+   344	{
+   345		struct nf_nat_lookup_hook_priv *priv = ops->priv;
+   346		struct nf_hook_entries *e = rcu_dereference(priv->entries);
+   347		struct nfnl_dump_hook_data *ctx = cb->data;
+   348		struct nf_hook_ops **nat_ops;
+   349		unsigned int i = cb->args[1];
+   350		int err = 0;
+   351	
+   352		if (!e)
+   353			return 0;
+   354	
+   355		if (!ctx->natv)
+   356			ctx->natv = (unsigned long)e;
+   357	
+   358		if (i >= e->num_hook_entries ||
+   359		    ctx->natv != (unsigned long)e) {
+   360			cb->seq++;
+   361			return -EINTR;
+   362		}
+   363	
+   364		nat_ops = nf_hook_entries_get_hook_ops(e);
+   365	
+   366		for (; i < e->num_hook_entries; i++) {
+   367			err = nfnl_hook_dump_one(nlskb, ctx, nat_ops[i],
+   368						 ops->priority, family,
+   369						 cb->nlh->nlmsg_seq);
+   370			if (err)
+   371				break;
+   372		}
+   373	
+   374		if (!err) {
+ > 375			ctx->natv = 0
+   376			i = 0;
+   377		}
+   378		cb->args[1] = i;
+   379		return err;
+   380	}
+   381	
 
 --
 0-DAY CI Kernel Test Service
