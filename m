@@ -1,102 +1,86 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9DC3D6CB8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 20:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575623ADBAD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 21:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783630132; cv=none; b=sFQsCtNlqOgzF8VMbKyO5z4UfIbdP0Gyno4A74XrAbsDDsfTvKtRP6r25GB75FZvL/ZOF1s95/r7sw1b9AMYIRhAtmLfhfhrh6vp/wKJm8tlYCpU3D40LZDHbSOWHTwFkloX0YVMf93U8uh/XPLbn7Nt1nmQNbmPDYrs5dPaDmc=
+	t=1783631675; cv=none; b=cl7vsgiHNi4gO0cYjmC5eEoNZCQagm0AFbtpkND7aU9rRjmp9zQmcerD/i3BwnjxQXd/uR+6F6yNdWEN+bhKjed295hdwSeHMlW2Zy2hIovDZox2voPVB96yT3wZz1AnfN6rz1VekuO3XWAWNDJO5jjUJDAVw2cJccykfW4ak7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783630132; c=relaxed/simple;
-	bh=DuXwyifht1p5OOBJAt+1EzIQhN/D8uHDlyum/3h1hXs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gp30WPEmgmRteNo8rE4FTLZziXXUkalLcpYHA2J6x27yrEJRJ87lPL1AVDmF5/mOheSLDd+MtgVljn4BTQ36nX6dbiFjIqNBKs/mgFip5hrkskTB4Ke82k/Nx5RFHMkkBUm2HQseo87ivYdCw0ZjCBd6Rg3dTuqJEZAy82kUkRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aj4hVuC9; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1783631675; c=relaxed/simple;
+	bh=XcUpua6HSUWB/ivBbQGzkQx2wGgqnOKe8G+JHsYRKb8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YQLRUDwVf6lF605iNF1FKdXA8LxwJ8W3ICZfISm6t2xioEZu8tEbOCxHs6f06r5IXLnlzRTO1thxN8LWvhSMyWvcqomNTINDcn7E63VYiUR+FEVivaWv+6he+yPmOKaCWkkkJh4H00EEqWFRy8hOX4MSV8r7KTOGvdUc5BJKEJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5/+kJwG; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aj4hVuC9"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gx6WL509cz8v2B;
-	Thu, 09 Jul 2026 22:48:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783630126;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zp6buoIPY6d/G+h76UehrOogrmvSPdhVMgLud2G+3Tc=;
-	b=aj4hVuC9TVYEm1P0v7sn/IMqoHz0fL0V3L7C9eZfcylcv0c+MhjCTy8R1CKaUgbTzFQKFP
-	sHqWAy6ov41MosolGL6naUlqMXyflB4cipgZLLsNk73sQNC/AS0mrWDmaf8iUewOL8ca2K
-	VvgnoFidLS20Vtpx33xwEieWVa7sWhBQKVjCP5eLs9cMEkzs6wIEdCdjqWlWBrXHbkh5s4
-	CQvJIH18I8msWqMmagUOlorfz1+46ZtiXqPkM39ZTtXwmor4XhXOlXpj9nVQciERVhkNOV
-	kGTiBEKOGmsx9hYDeE9Zy6GOqvP02BVju1Rx9PCQqZQ3Sl4O+MPYdwqoLWr6Xg==
-Message-ID: <d1fe1c68-a362-4fdf-a493-94b779a31f9f@mailbox.org>
-Date: Thu, 9 Jul 2026 22:48:44 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5/+kJwG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783631673; x=1815167673;
+  h=date:from:to:cc:subject:message-id;
+  bh=XcUpua6HSUWB/ivBbQGzkQx2wGgqnOKe8G+JHsYRKb8=;
+  b=F5/+kJwGrUHXt9MKVuxSMsa3Uu7zdtqUoJqLURXorVq7dAqOCdo+DZcF
+   lNZb/BausHsBrKSYUth28ictZQtVtwk/sI9caxCHzS/w2/rvXHbSskM/4
+   XTFwxRvP4u0JfuDLCKzrIhoFvuGi3yovvNcUf1ILHpIMIuYvu3XvKxGGM
+   I6NOmoFb37xzVXhJQao1v0IVcX1lanZRLj+bc9GuWn/khZitZacbYj3t5
+   O5+3GkrsQiu4O3JGw4c009u2RykaVsA5FIHJHGBm4e0czFdNEUiK/F398
+   cmEAIogT5CvVksWMoVKdy70jIlxgHNOMA6TVvIsKZxbccKW2BjG8Su7IR
+   Q==;
+X-CSE-ConnectionGUID: Md6W0mUgSFCOzuLB9uwjMQ==
+X-CSE-MsgGUID: MWTwESMoTT+ApEB3KBnugg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="71855040"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="71855040"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 14:14:32 -0700
+X-CSE-ConnectionGUID: dMbwgOYhSNCK6hef30N1LQ==
+X-CSE-MsgGUID: ndilxYP9QASmL0PJ1VPDPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="259004217"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 09 Jul 2026 14:14:30 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1whw4h-00000000I9X-2a8q;
+	Thu, 09 Jul 2026 21:14:27 +0000
+Date: Fri, 10 Jul 2026 05:14:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org,
+ Ard Biesheuvel <ardb@kernel.org>
+Subject: [efi:next 2/7] ld:
+ drivers/firmware/efi/runtime-wrappers.o:(.debug_addr+0x104): undefined
+ reference to `efi_runtime_lock_owner'
+Message-ID: <202607100518.uMJJPDfP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Subject: Re: [pci:controller/dwc-rcar-gen4 2/4]
- include/linux/irqchip/arm-gic-v3.h:605:10: fatal error: asm/arch_gicv3.h: No
- such file or directory
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
- Manivannan Sadhasivam <mani@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <202607100424.xo06gLTB-lkp@intel.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <202607100424.xo06gLTB-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: c455d0b45bcbf3a6081
-X-MBO-RS-META: fzxbmurb5ccb5is93brhko9ickb6rsei
 
-On 7/9/26 10:38 PM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc-rcar-gen4
-> head:   14e8394423ffd4fd28884ec8b4d5ba15be6e7e0d
-> commit: 8ba5de8db3acd06e35c42ecd0becc38134348df3 [2/4] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX is not used
-> config: parisc-randconfig-r071-20260709 (https://download.01.org/0day-ci/archive/20260710/202607100424.xo06gLTB-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 16.1.0
-> smatch: v0.5.0-9185-gbcc58b9c
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607100424.xo06gLTB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202607100424.xo06gLTB-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from drivers/pci/controller/dwc/pcie-rcar-gen4.c:16:
->>> include/linux/irqchip/arm-gic-v3.h:605:10: fatal error: asm/arch_gicv3.h: No such file or directory
->       605 | #include <asm/arch_gicv3.h>
->           |          ^~~~~~~~~~~~~~~~~~
->     compilation terminated.
-> 
-> 
-> vim +605 include/linux/irqchip/arm-gic-v3.h
-> 
-> 7e5802781c3e109 Andre Przywara        2014-11-12  604
-> 7936e914f7b0827 Jean-Philippe Brucker 2015-10-01 @605  #include <asm/arch_gicv3.h>
-> 021f653791ad17e Marc Zyngier          2014-06-30  606
-> 
-> :::::: The code at line 605 was first introduced by commit
-> :::::: 7936e914f7b0827c2dcfe63fbefdc21de2d61dcb irqchip/gic-v3: Refactor the arm64 specific parts
-> 
-> :::::: TO: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-> :::::: CC: Marc Zyngier <marc.zyngier@arm.com>
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Hi Breno,
 
-Patch is already posted as
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[PATCH] PCI: rcar-gen4: Inline GIC_TRANSLATER offset macro
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+head:   cf790fdb851867532b9a0f88588dcce648dbffe9
+commit: 3e5ba97c181e32ca9b810414272b57bb7600998e [2/7] efi/runtime-wrappers: factor out efi_rts_park_worker()
+config: i386-buildonly-randconfig-001-20260709 (https://download.01.org/0day-ci/archive/20260710/202607100518.uMJJPDfP-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607100518.uMJJPDfP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607100518.uMJJPDfP-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld: drivers/firmware/efi/runtime-wrappers.o:(.debug_addr+0x104): undefined reference to `efi_runtime_lock_owner'
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
