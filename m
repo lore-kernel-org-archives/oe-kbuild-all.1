@@ -1,103 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557453F9F3B;
-	Thu,  9 Jul 2026 10:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CD3406281
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 10:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783593205; cv=none; b=NldsjeZQ7NEABEZjq6fCbjqq+QwW/0oQAdtk15aNCK0TK2Wdv16+0MdZIQl6y1UmMagZrr7WR8LjApFI/Odk2cTpZCMxj9PbbdbWZmRNbZ64vp/+vYeWFJpgZONE2zFCNpXJOFJz8+Az2hKlNyXDwAee+03PedZVSzlcwIXqK9k=
+	t=1783593308; cv=none; b=pHAJvoRzC0BXnjZEnpTkdg2FzxZ+VbPi4AyvhA4V+edCymOSWWysAHt/8/NrbqqGfL2sjmI/pLh4dH/+ic4CLPfVHiDXV5UzUKk7yMbabrkO6Xy8/+2L7yIL2Yl7y4pWFXo1VhCqy7sBba6WPkeIEjR721M79uvxWhPkfv59q2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783593205; c=relaxed/simple;
-	bh=Tl5Vdvw4+K4gcbt3f3cppUmiHH89J3NUhYF9ZJqnEyI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AByr3qCRw8jLc84BSmN0Nmx9Adsz/jcDQe0dcintLTYx71JMU9XknNwdAnb+4s/uKAOgD1PVeMXrV2eTcAsYdQp55lsjwULQ/XUnhFeHsvDfTgDkzkMJFs3zkzUHsJR/dg8BV9w+vqF93LiPv0ANB1uQH1ZOu0WlU5MgyZ4DAt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyXhWJ9p; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783593308; c=relaxed/simple;
+	bh=0QDK1iivm9Jl7vw4rLEvvLBYp+kMh33uXjAbk41wjpc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PgRha76dmWeryDgEIHv1yCDAfyPVPSJ0Rr5BainkA5XGogtX9ghoJgJtMtT/3CEXx72NsX7FhHwZLXC07BKyRGAXWx4hGwV/6BiA+a6xIodOl0OYCDxglxIIW38djAqwV0VoG4Tl0kuXgkpo+Ta9IDSKFrE89xiLeEHccI9ZzSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BgBErz5S; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyXhWJ9p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783593204; x=1815129204;
-  h=date:from:to:cc:subject:message-id;
-  bh=Tl5Vdvw4+K4gcbt3f3cppUmiHH89J3NUhYF9ZJqnEyI=;
-  b=kyXhWJ9pB0DXcjJMYFmJZmGrjwUfmVokvHbsIXF0HwbfimKECuOqZpAj
-   SHdp2h3uwlMQeOyT9i9GIra3JxR7UdtYJnqv5qkaCYadXmmJ/NJI729ai
-   KZ4Ims47rd+i7bXJ6g+v9zbDTDa5w76OQdZarZkCk0Mcz8m8agBhys9/J
-   KTaeERYzd2oK+dZR4zCez1c8ejFHUd/RW5qVC3/yq+h53oEfFiEtsHoww
-   5UlF03JmCuPs+80CTHdgjd9YOsOkN3deaAEpyBdBPBoQm/DSSORz2h9gu
-   h0MyAedRb/h1IoDWCPw4uH5sQ+Bcyud5XnvFP3m45VdIM02djmJSWmkIH
-   w==;
-X-CSE-ConnectionGUID: bmuV4El3RcyeseNb/VUaBg==
-X-CSE-MsgGUID: lBNBQ21KQA+3wEIZQ41t+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88097378"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="88097378"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 03:33:24 -0700
-X-CSE-ConnectionGUID: IJj1xcI4REqXtfnI/gYJYg==
-X-CSE-MsgGUID: 9Z6cbZbGQlaZKy4doa2C0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="292739549"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 09 Jul 2026 03:33:22 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1whm45-00000000HZB-3RD6;
-	Thu, 09 Jul 2026 10:33:13 +0000
-Date: Thu, 09 Jul 2026 18:32:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:objext_split 10/14] mm/kasan/../slab.h:702:47:
- error: no member named '_ctref' in 'struct slabobj_ext'
-Message-ID: <202607091829.wC2chgp4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BgBErz5S"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-43cce34c881so931090fac.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Jul 2026 03:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783593306; x=1784198106; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=47gLJRE6JnV9YXtBC0v5YMmfEZTQ1aXbN/gct6MbuK4=;
+        b=BgBErz5SbD6ljT0efrj0tMPyLHz06bBAm5C+H2XolXIfpgJHudd7kTjL8x3spiO6FE
+         OBeyze7gCRJAyTG60F1kjW7p3sLxqSZ7jUotP01A5AXbZMRoQeR3uMiKTEIdNaJryNZ6
+         S7cb5rXBcBy0t78SO04CXJjU08M+6vS0jIoBVF+DqBkXXSr8caPQeE4wip1eRgMz32Rq
+         yp4ValJR2RQOlMSUqy5ggRQD01veStkyBw7e48EcluHFvddr4SL9qtY4bjjBg3RdP/l6
+         yCNLN+s9LAz9U0Guw/F3Tq7XcDlESMt5cDrDI10P3fFHFocOI/ynFYSwvmbwi+R1W4Ss
+         bWdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783593306; x=1784198106;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=47gLJRE6JnV9YXtBC0v5YMmfEZTQ1aXbN/gct6MbuK4=;
+        b=XFizkYNdfXYr44HmNL40pxIdRmMb7HQy4WAp57WOBuTMnxrHjuFAVyvjEetJZqs/z6
+         3DB/jahj/VItf41pXgtUIHVVY2uRlXhefyC0zp93a3LfLjFVSCqTSvIP4otfEv0J6p/i
+         IvOCY/LDmkwsBXoCx6eilM2Nkv58Fbq4Zb7251bKBeNwVF8rhUTcEIyzhj7FUpjwHwVP
+         Yhd6b5OF3SmOJ1T0tNkkfwyJH9J3z9hSKnGcxBy92WmaTZ7dJy8Pu2iOO7EaKgIUR3aA
+         XhAYjDhUsDRnWEqooFdlNMpD0SeOnChSWFypThIwRpe/Lazx+bxeSlYR5tfLhs6VteA0
+         py6A==
+X-Forwarded-Encrypted: i=1; AFNElJ8febU3kC7LdqlfsekLGkWEsFvO4XspV0ugw/R+iiQRAONDHm8sZaeGunuRW7eqVpwMSqXRnVBA/iStP/dY@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxvkki0KMUHfuHwvWrhL2eEBLGQDXJ1gvKB5AYL6ir4yHwicPoI
+	RYksL6+LhDpqYYj4SO8uLWDEkkSXMDLtYYz5s1MWv3XD5ZgsP5CiUtkC
+X-Gm-Gg: AfdE7cmFcgubx0GQGuIgF0rYT25IG9ympn4DpsVs+VqcvZppIjPZk/+offzSMG50n4q
+	NOIYsVVKj7Cc3hnx1HbOMsg7vJjKMCOduQ7N+PleZOqcZB7qDxCwNRhdmxiNYlRnUJ2C7Yw83F0
+	xRfmbccqDtyH/OCOuXvuzXsb8XJOTYpHi4iNAR6e9YT8aoBnb4NboQ7QT9I6pF7FTHy2AQWvbCo
+	llx6vpgFQB33+Jrri6DoAvf4V+6KH9y2kQ68PYt7DwYFPHmPZxf6Dlj74ZjJZdfl/yXrnmVL2M3
+	7c7ZdOZdCRpCFCA6A5ioUCvkfa/aRDX1Q+NFu6skmmtkK4My4VzdxXXetZtZdV5q3G+JOCGsdxL
+	bXwWiBlfZyTbS9/8oj4YMbXnRedzFM9D1QtpRWkgaPGgesgss3RnoH/pz0vSZ/v03wlw0QK3fap
+	xIcuBa
+X-Received: by 2002:a05:6870:3482:b0:43d:bcb:3b0b with SMTP id 586e51a60fabf-45163cafa98mr4402739fac.23.1783593305673;
+        Thu, 09 Jul 2026 03:35:05 -0700 (PDT)
+Received: from localhost ([74.80.182.70])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-45191644669sm1556016fac.12.2026.07.09.03.35.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 03:35:03 -0700 (PDT)
+Date: Thu, 9 Jul 2026 13:34:58 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Valerio Setti <vsetti@baylibre.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Jerome Brunet <jbrunet@baylibre.com>
+Subject: [linux-next:master 1679/3422] sound/soc/meson/aiu.c:313 aiu_probe()
+ warn: missing unwind goto?
+Message-ID: <202607031022.4wWDCjAs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Vlastimil,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git objext_split
-head:   8bd682e28958694beba958e2a3af94c6e1789819
-commit: 510dc45196b1495bba6f15a6f3348ace5c983136 [10/14] mm/slab: abstract slabobj_ext.ref access
-config: x86_64-buildonly-randconfig-006-20260709 (https://download.01.org/0day-ci/archive/20260709/202607091829.wC2chgp4-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091829.wC2chgp4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6eb8711ece2ce27e52e327a5b7a628ed39b97f45
+commit: 83b83024cdbfdddee104f4a84c2c2f1f8e6659f3 [1679/3422] ASoC: meson: aiu: use aiu-formatter-i2s to format I2S output data
+config: riscv-randconfig-r071-20260703 (https://download.01.org/0day-ci/archive/20260703/202607031022.4wWDCjAs-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.4.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607091829.wC2chgp4-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607031022.4wWDCjAs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+sound/soc/meson/aiu.c:313 aiu_probe() warn: missing unwind goto?
 
-   In file included from mm/kasan/generic.c:37:
->> mm/kasan/../slab.h:702:47: error: no member named '_ctref' in 'struct slabobj_ext'
-     702 |         return &slab_obj_ext(slab, obj_exts, index)->_ctref;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
-   1 error generated.
+vim +313 sound/soc/meson/aiu.c
 
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  254  static int aiu_probe(struct platform_device *pdev)
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  255  {
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  256  	struct device *dev = &pdev->dev;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  257  	void __iomem *regs;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  258  	struct regmap *map;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  259  	struct aiu *aiu;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  260  	int ret;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  261  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  262  	aiu = devm_kzalloc(dev, sizeof(*aiu), GFP_KERNEL);
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  263  	if (!aiu)
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  264  		return -ENOMEM;
+edc761805302db Martin Blumenstingl 2020-02-20  265  
+edc761805302db Martin Blumenstingl 2020-02-20  266  	aiu->platform = device_get_match_data(dev);
+edc761805302db Martin Blumenstingl 2020-02-20  267  	if (!aiu->platform)
+edc761805302db Martin Blumenstingl 2020-02-20  268  		return -ENODEV;
+edc761805302db Martin Blumenstingl 2020-02-20  269  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  270  	platform_set_drvdata(pdev, aiu);
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  271  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  272  	ret = device_reset(dev);
+2ff4e003e8e105 Kuninori Morimoto   2021-12-14  273  	if (ret)
+2ff4e003e8e105 Kuninori Morimoto   2021-12-14  274  		return dev_err_probe(dev, ret, "Failed to reset device\n");
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  275  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  276  	regs = devm_platform_ioremap_resource(pdev, 0);
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  277  	if (IS_ERR(regs))
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  278  		return PTR_ERR(regs);
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  279  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  280  	map = devm_regmap_init_mmio(dev, regs, &aiu_regmap_cfg);
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  281  	if (IS_ERR(map)) {
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  282  		dev_err(dev, "failed to init regmap: %ld\n",
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  283  			PTR_ERR(map));
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  284  		return PTR_ERR(map);
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  285  	}
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  286  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  287  	aiu->i2s.irq = platform_get_irq_byname(pdev, "i2s");
+6e700f0672199f Jerome Brunet       2020-02-14  288  	if (aiu->i2s.irq < 0)
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  289  		return aiu->i2s.irq;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  290  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  291  	aiu->spdif.irq = platform_get_irq_byname(pdev, "spdif");
+6e700f0672199f Jerome Brunet       2020-02-14  292  	if (aiu->spdif.irq < 0)
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  293  		return aiu->spdif.irq;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  294  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  295  	ret = aiu_clk_get(dev);
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  296  	if (ret)
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  297  		return ret;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  298  
+83b83024cdbfdd Valerio Setti       2026-06-10  299  	/* Allocate the aiu-formatter into its widget */
+83b83024cdbfdd Valerio Setti       2026-06-10  300  	ret = gx_formatter_create(dev, &aiu_cpu_dapm_widgets[AIU_WIDGET_I2S_FORMATTER],
+83b83024cdbfdd Valerio Setti       2026-06-10  301  				  &aiu_formatter_i2s_drv, map);
+83b83024cdbfdd Valerio Setti       2026-06-10  302  	if (ret) {
+83b83024cdbfdd Valerio Setti       2026-06-10  303  		dev_err(dev, "Failed to allocate aiu formatter\n");
+83b83024cdbfdd Valerio Setti       2026-06-10  304  		goto err;
 
-vim +702 mm/kasan/../slab.h
+This error handling seems wrong.  Goto
 
-   694	
-   695	static inline union codetag_ref *slab_obj_ext_codetag_ref(struct slab *slab,
-   696						unsigned long obj_exts, const void *obj)
-   697	{
-   698		unsigned int index;
-   699	
-   700		index = obj_to_index(slab->slab_cache, slab, obj);
-   701	
- > 702		return &slab_obj_ext(slab, obj_exts, index)->_ctref;
-   703	}
-   704	
+83b83024cdbfdd Valerio Setti       2026-06-10  305  	}
+83b83024cdbfdd Valerio Setti       2026-06-10  306  
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  307  	/* Register the cpu component of the aiu */
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  308  	ret = snd_soc_register_component(dev, &aiu_cpu_component,
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  309  					 aiu_cpu_dai_drv,
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  310  					 ARRAY_SIZE(aiu_cpu_dai_drv));
+b82b734c0e9a75 Jerome Brunet       2020-02-13  311  	if (ret) {
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  312  		dev_err(dev, "Failed to register cpu component\n");
+b82b734c0e9a75 Jerome Brunet       2020-02-13 @313  		return ret;
+
+followed by a direct return
+
+b82b734c0e9a75 Jerome Brunet       2020-02-13  314  	}
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  315  
+b82b734c0e9a75 Jerome Brunet       2020-02-13  316  	/* Register the hdmi codec control component */
+b82b734c0e9a75 Jerome Brunet       2020-02-13  317  	ret = aiu_hdmi_ctrl_register_component(dev);
+b82b734c0e9a75 Jerome Brunet       2020-02-13  318  	if (ret) {
+b82b734c0e9a75 Jerome Brunet       2020-02-13  319  		dev_err(dev, "Failed to register hdmi control component\n");
+b82b734c0e9a75 Jerome Brunet       2020-02-13  320  		goto err;
+b82b734c0e9a75 Jerome Brunet       2020-02-13  321  	}
+b82b734c0e9a75 Jerome Brunet       2020-02-13  322  
+65816025d46169 Jerome Brunet       2020-02-13  323  	/* Register the internal dac control component on gxl */
+edc761805302db Martin Blumenstingl 2020-02-20  324  	if (aiu->platform->has_acodec) {
+65816025d46169 Jerome Brunet       2020-02-13  325  		ret = aiu_acodec_ctrl_register_component(dev);
+65816025d46169 Jerome Brunet       2020-02-13  326  		if (ret) {
+65816025d46169 Jerome Brunet       2020-02-13  327  			dev_err(dev,
+65816025d46169 Jerome Brunet       2020-02-13  328  			    "Failed to register acodec control component\n");
+65816025d46169 Jerome Brunet       2020-02-13  329  			goto err;
+65816025d46169 Jerome Brunet       2020-02-13  330  		}
+65816025d46169 Jerome Brunet       2020-02-13  331  	}
+65816025d46169 Jerome Brunet       2020-02-13  332  
+b82b734c0e9a75 Jerome Brunet       2020-02-13  333  	return 0;
+b82b734c0e9a75 Jerome Brunet       2020-02-13  334  err:
+83b83024cdbfdd Valerio Setti       2026-06-10  335  	gx_formatter_free(&aiu_cpu_dapm_widgets[AIU_WIDGET_I2S_FORMATTER]);
+b82b734c0e9a75 Jerome Brunet       2020-02-13  336  	snd_soc_unregister_component(dev);
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  337  	return ret;
+6ae9ca9ce986bf Jerome Brunet       2020-02-13  338  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
