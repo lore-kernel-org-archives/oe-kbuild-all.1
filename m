@@ -1,150 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC28939936D;
-	Thu,  9 Jul 2026 07:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC633CB8E5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 07:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783581457; cv=none; b=j0brIGh21lNPh3OUsEBi8HvYDFTY/6QJgq4Z7h+enqTzGxsJoq4ye/fnuIyR+Y0jV/p2NVvxDl6X/TXu7Y/OKPFFwzRiIt0fVe7Gjxvw5yZ75CcdYihA0na1yvwZmOO9586pelMpD4/xyV9i+5Ceef8RotfD3bY2zP8QGJZwoaI=
+	t=1783582105; cv=none; b=mj4WYe5hvpZpxz2zGCEFwPtObrvhBEi8faPdvbVwzDr6R5Ck/sx6i6NRnLYi5Swd6oD9J7kc5wUc2IUEUP54C35V7T75T9HEQnOq3RNgeLARdYAiMvpy5MxAz71Alz286tqnpiin8QmVc4T61ROAWPHLqoIGmYAFLH4SehLvRYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783581457; c=relaxed/simple;
-	bh=3uJPVOYFFByp5XYeV+VKrq6D2H+v3HXAPTE3FjbuUqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BQQq4XCU31fzxont+dAGGHFYrrAJxSu1k7uxCqNGHXsrhLIHWcsx2kqbV2yDqR8DAuw0ZFoRlfTA9OMmkG8hevI7zHj1WCTxxVhK99S+XhqC08ZCrkf7PJOGqaPg9TWw/poLYJxqmYFZoU8vMQAbCIfOIofWyuALi0oLDLZlanw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B94WpBlo; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1783582105; c=relaxed/simple;
+	bh=ZF6hahlVR6EAxE6wIl6oSfFd/7M7sJI3MCuXLJ9sLCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GO25F7Z3cNutmeNSWCFCZ5YHdB2G2vKKNZ8aMzr7l9haoxvuqcoykbe4QMRpH4aslg7g9nUaa+ukJcK2jbGOYGjHf0TkRWf8xd8ZOvz4A2r0LoHUYQk2PF7uCHP6cgEL2UMg7/rzx+Vnau/MtkdfRD09eshr0cPNe/XkOj//JNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXHsaZ23; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B94WpBlo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXHsaZ23"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783581455; x=1815117455;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3uJPVOYFFByp5XYeV+VKrq6D2H+v3HXAPTE3FjbuUqk=;
-  b=B94WpBloL6wfa/4qe0fhKupLphjJP7tCZDqXxN/zzCxb2JrcBFm3zSyo
-   NKC8MCyszOkxq7Wf/FlycmSgyj3mfhTSb+4h8/scbX9NoaXgZa8r1vtke
-   GJ9hpu0gRJrFc15uTLQyig5qE7KaHgdtAVxRdGxDPqWOZFkhxIYQbhtpw
-   JvA6iNB67P+DdN2/JD3hrtJ5EzSiNsGFUULoYekHHKrU0MENbRil4XG6i
-   HyKyvgFEzyEqnL/0w4Q5xsRtvCaJd+AxbSE+iJOV1etzjqxmpZLSycjHA
-   F0HlTW1vJhaTCQWNMZH0F2UWeuMn5luIGmkcUGRVclAmnsYWyLZaxABUF
-   w==;
-X-CSE-ConnectionGUID: pozE6bqmSDyX/W+CAQRliA==
-X-CSE-MsgGUID: IGENf08ZSjaPGCMDf4H3wA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84132332"
+  t=1783582104; x=1815118104;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZF6hahlVR6EAxE6wIl6oSfFd/7M7sJI3MCuXLJ9sLCQ=;
+  b=jXHsaZ23AM1MD84BXWbVaO3tozaEv0nK/EnoyFaKw3x+DO2ZxqNTY3HU
+   794r5F55FeR6+cKZ4IY6zXpQdG5emyHeUu0bl7vdRTuasQf7hHF0MnXuN
+   1qDsTBaBUcf8vKK9XVdvSJpe/6P5dbzJZAsPdYURLJh8WndqUItROdxR5
+   uO29aQXrOQMeYitNBjgscqmh7+A0udwU5Juv4UR40zQsiAuwZTduUjQtL
+   WGxFfeM5i24lzVyWXliLRG8T0aMQEQuPTjJXmgyElPlpGgkv0GjE3XiXp
+   vjNnBdzXAOB29swaUpXZzEnBwd20MnooyOMh+5D+UbFRZ0VpdImh2eEkQ
+   g==;
+X-CSE-ConnectionGUID: slR0z62ORfCitaLYaElRLQ==
+X-CSE-MsgGUID: hK/Olcp/Ty6Wek01ENaFxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84308297"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84132332"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 00:17:34 -0700
-X-CSE-ConnectionGUID: PViMM8NITLePp/f3rFYlFw==
-X-CSE-MsgGUID: 6GoYpkNyRSaNNWTMaMJ4Sw==
+   d="scan'208";a="84308297"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 00:28:23 -0700
+X-CSE-ConnectionGUID: nUY/4AlSTw6YA0WR15rcoQ==
+X-CSE-MsgGUID: cgBORSHVS5+nnetqeCkVTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="252757503"
+   d="scan'208";a="251852704"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 09 Jul 2026 00:17:28 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 09 Jul 2026 00:28:21 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whj0e-00000000HNz-1eD1;
-	Thu, 09 Jul 2026 07:17:24 +0000
-Date: Thu, 9 Jul 2026 15:16:59 +0800
+	id 1whjAz-00000000HON-2QEW;
+	Thu, 09 Jul 2026 07:28:08 +0000
+Date: Thu, 09 Jul 2026 15:27:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: FUJITA Tomonori <tomo@aliasing.net>, ojeda@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, a.hindborg@kernel.org,
-	acourbot@nvidia.com, aliceryhl@google.com, bjorn3_gh@protonmail.com,
-	boqun@kernel.org, dakr@kernel.org, daniel.almeida@collabora.com,
-	gary@garyguo.net, lossin@kernel.org, tamird@kernel.org,
-	tmgross@umich.edu, work@onurozkan.dev,
-	rust-for-linux@vger.kernel.org,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Subject: Re: [PATCH v2] rust: bug: Add bug macro
-Message-ID: <202607091512.wQmfg8U1-lkp@intel.com>
-References: <20260709000103.2912159-1-tomo@aliasing.net>
+To: Dongcheng Yan <dongcheng.yan@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "sys_oak" <sys_oak@intel.com>
+Subject: [intel-lts:6.18/linux 1/1]
+ drivers/media/i2c/max9x/max9296.c:35:5: sparse: sparse: symbol
+ 'max9296_serial_link_timeout_ms' was not declared. Should it be static?
+Message-ID: <202607091552.a2uOdoXc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260709000103.2912159-1-tomo@aliasing.net>
 
-Hi FUJITA,
+Hi Dongcheng,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on dc59e4fea9d83f03bad6bddf3fa2e52491777482]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/FUJITA-Tomonori/rust-bug-Add-bug-macro/20260709-080347
-base:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
-patch link:    https://lore.kernel.org/r/20260709000103.2912159-1-tomo%40aliasing.net
-patch subject: [PATCH v2] rust: bug: Add bug macro
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260709/202607091512.wQmfg8U1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091512.wQmfg8U1-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
+head:   5100e1c74efeba843945492f8d5840e6166c0392
+commit: baa76709460c288499d118e2daa55ca3df5a6436 [1/1] media: i2c: add gmsl & isx031 support
+config: x86_64-randconfig-r113-20260708 (https://download.01.org/0day-ci/archive/20260709/202607091552.a2uOdoXc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091552.a2uOdoXc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607091512.wQmfg8U1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607091552.a2uOdoXc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/i2c/max9x/max9296.c:35:5: sparse: sparse: symbol 'max9296_serial_link_timeout_ms' was not declared. Should it be static?
+--
+>> drivers/media/i2c/max9x/max96724.c:37:5: sparse: sparse: symbol 'max96724_serial_link_timeout_ms' was not declared. Should it be static?
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:28:
-   In file included from include/linux/cgroup_api.h:1:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-   |                                                   ~~~~~~~~~~ ^
-   1 warning generated.
-   In file included from rust/helpers/helpers.c:49:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-   |                                                   ~~~~~~~~~~ ^
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   1 warning generated.
->> error[E0599]: no method named `as_char_ptr` found for reference `&ffi::CStr` in the current scope
-   --> rust/kernel/bug.rs:94:53
-   |
-   94 |                     $crate::c_str!(::core::file!()).as_char_ptr(),
-   |                                                     ^^^^^^^^^^^
-   |
-   ::: rust/kernel/lib.rs:220:5
-   |
-   220 |     crate::bug!();
-   |     ------------- in this macro invocation
-   |
-   = help: items from traits can only be used if the trait is in scope
-   = note: this error originates in the macro `$crate::warn_flags` which comes from the expansion of the macro `crate::bug` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: trait `CStrExt` which provides `as_char_ptr` is implemented but not in scope; perhaps you want to import it
-   --> rust/kernel/lib.rs:35:1
-   |
-   35 + use crate::str::CStrExt;
-   |
+vim +/max9296_serial_link_timeout_ms +35 drivers/media/i2c/max9x/max9296.c
+
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  33  
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  34  // Params
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08 @35  int max9296_serial_link_timeout_ms = MAX9296_DEFAULT_SERIAL_LINK_TIMEOUT_MS;
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  36  module_param(max9296_serial_link_timeout_ms, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  37  MODULE_PARM_DESC(max9296_serial_link_timeout_ms, "Timeout for serial link in milliseconds");
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  38  
+
+:::::: The code at line 35 was first introduced by commit
+:::::: 2445b17eae1d5356936a0a598940dfaad469c29d Add serdes drivers
+
+:::::: TO: Shahidan, Muhammad Shahmil <muhammad.shahmil.shahidan@intel.com>
+:::::: CC: sys_oak <sys_oak@intel.com>
 
 --
 0-DAY CI Kernel Test Service
