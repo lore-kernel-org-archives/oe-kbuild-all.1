@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901B03EDACC;
-	Thu,  9 Jul 2026 09:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68153FF1B9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Jul 2026 09:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783588278; cv=none; b=SDd/qIOmXmeMvPsKpTnWrnZreg7e7PN5ogv/cFM0yCtXkbXbxE23Bu2tuf1gYRMUoJDj31uhKNrNZnfQR/L5ais8nYVKVXcKTDcTbBS9ZwWS3NR5Ppjk1+pHHR12wGVAXEncIn6qv3aiqsc3WFMeIk4I0PwE2/OBCnGUz+46Cw4=
+	t=1783589013; cv=none; b=JR2XX9c0ttrxGMMaStmGcg0tiXqnJMbFoX2zjMRpxUJlUgZHoESHusi83SgVsdO/KeU4h83QkrSrWdjPmDzEckjXX1tdOZ60eVM1ddoM+43ui/aBxuCXPVw9vYwNVCJXEDjk//hamaOOgmCii501Q6k7OeayeACqVjTBCWpm5rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783588278; c=relaxed/simple;
-	bh=qImldtwQcmZ9mUR0zxQV4DvRCcGx0tCto0V4v5TyQ24=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BE6D80s2e7DXDIACmIBRLj8xp9UHNKOgCuiIioYj+0mlXtifk3fAXw+L79s1/jlLPdhv5JX5tspQvhfSdpp/ozrB5JRGvAEjQENQX4NNu7mwXehrfiSr2ZhC+eK4fFmiZccc1Ub0MOymDxFUqCiHTY5gnZO9qEoP3HLpxvzvlE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hjf2C9Vk; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1783589013; c=relaxed/simple;
+	bh=/gLbpp91qve9HDDXSfKpVBGC9qzJoQxtJJlTndOXwOI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KzFpCfyVTh9PiGgTG7kmJByoDrSlx4BvqsSfwk8TURfBB76I1P0BP3yh61F3GHSiwinQjD3Vz6MMxVOcsJPAQ+iLlYEAq98QrLjzp7hZeqy/Z4wDVHqyf+OQBOwxA7aXyxw8GeCfbFmfbkqdmNwovviJoSO05MokRwt1Pi+JGKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWwIEfun; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hjf2C9Vk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWwIEfun"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783588277; x=1815124277;
+  t=1783589011; x=1815125011;
   h=date:from:to:cc:subject:message-id;
-  bh=qImldtwQcmZ9mUR0zxQV4DvRCcGx0tCto0V4v5TyQ24=;
-  b=Hjf2C9VkqBbJDlyYf7h8z4iSKzJpqcpPsaE1mcmAV4aT//EeCkMthru5
-   3uaWELnx04QbeGL73PIWjHU7Ps9eDTqXuBn8eyZeWDKy2h4XQ4P6PScKo
-   4qSgbfsI11yn2/cSfOO/anQjMJUxMd2pVkpKnwPLm3r04m0fMVSQFQcfG
-   cW/WdH/vv5Kj4uM14AgOQVkcoKIm9iee3zDiH/GmEFGly0/ICf6731/hB
-   PvQpCEQOOFFNavpQcwUUXit5JL5N5gx84pU2Q6Ma0c0FY/VQUJAFTa2ut
-   git27gKW6tx4EQWdM3cdyaJxGM/FDC2bYi/UYpcoNs7QroHQ282kXwBG5
-   g==;
-X-CSE-ConnectionGUID: XwpqdJ/HRzmmF2MZ65AbSw==
-X-CSE-MsgGUID: RmtbrfQHS1+cZv0xKBTEXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84141515"
+  bh=/gLbpp91qve9HDDXSfKpVBGC9qzJoQxtJJlTndOXwOI=;
+  b=iWwIEfun35fH3fJ86CZbEUSmRja2GAIkXn6S5K5e3iJd3gbV/OXqizuG
+   C9P87/Q4asKTzy3K1mW4DzhucRlENQQDbBY2P1yvTKpS6Zs+cHsdAsYG4
+   veFoEP9gkMsWqevx5ZOmEDQDr2Z4v3eLnydyygy90ssk5/cDGmhfeUBYP
+   SOVi7JmdTQH0L0NU+bNFHuYNofRd7bXtC1jhR06vBMpuXD95kXuF5HGwG
+   Ipyq1sWM6uryy3kASdcQkZeIwfC/p3+NF+WfRXirhRFbNuKQJa77sD+Ln
+   Q7DA92Q8B5vpS8AfLd9wZTxTDVBeog3fL2e9TdN3hbmqTUAeATEaPMxFC
+   w==;
+X-CSE-ConnectionGUID: dOelqHp9T+KKjZ3zToOKMA==
+X-CSE-MsgGUID: SHEMqYJaQ8Sx2FcBbPqtXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94618014"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84141515"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 02:11:16 -0700
-X-CSE-ConnectionGUID: c9uD7gtTRYODHIZaYGuAtw==
-X-CSE-MsgGUID: O4hMbCS5QeKK41luCJSbWw==
+   d="scan'208";a="94618014"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 02:23:31 -0700
+X-CSE-ConnectionGUID: rH6eMHj1QfGMbytIXG31MQ==
+X-CSE-MsgGUID: 6Y9qJWECQvadxrxUc2N4bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="292722922"
+   d="scan'208";a="259436148"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 09 Jul 2026 02:11:14 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Jul 2026 02:23:29 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whkmi-00000000HUh-2e5G;
-	Thu, 09 Jul 2026 09:11:09 +0000
-Date: Thu, 09 Jul 2026 17:10:17 +0800
+	id 1whkyc-00000000HV2-2OYg;
+	Thu, 09 Jul 2026 09:23:26 +0000
+Date: Thu, 09 Jul 2026 17:23:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Kuo <rkuo@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Brian Cain <bcain@kernel.org>
-Subject: [bcain:bcain/qemu_boot 20/69] Makefile:1629: warning:
- overriding recipe for target 'dtbs'
-Message-ID: <202607091634.UXr9Ddde-lkp@intel.com>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:objext_split 12/14] mm/slab.h:720:46: error:
+ 'slabobj_ext_idx_ctref' undeclared; did you mean 'slabobj_ext_idx_objcg'?
+Message-ID: <202607091729.PhhcpvSA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,78 +59,105 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
-head:   89efd48e5609f41280973bc49df20ffe80177690
-commit: abe97c987224d2686550fd938cd15c284c1132c3 [20/69] hexagon: update build system and Kconfig
-config: hexagon-randconfig-001 (https://download.01.org/0day-ci/archive/20260709/202607091634.UXr9Ddde-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091634.UXr9Ddde-lkp@intel.com/reproduce)
+Hi Vlastimil,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git objext_split
+head:   8bd682e28958694beba958e2a3af94c6e1789819
+commit: ac7896437e39eb47ba7cbf00c39915e87e04398f [12/14] mm/slab: change layout of struct slabobj_ext arrays
+config: arm64-randconfig-002-20260709 (https://download.01.org/0day-ci/archive/20260709/202607091729.PhhcpvSA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091729.PhhcpvSA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607091634.UXr9Ddde-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607091729.PhhcpvSA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> Makefile:1629: warning: overriding recipe for target 'dtbs'
-   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
-   make[2]: *** [Makefile:2184: .] Error 2 shuffle=2075589911
-   make[2]: Target '__all' not remade because of errors.
+   In file included from mm/slab_common.c:35:
+   mm/slab.h: In function 'slab_obj_ext_codetag_ref':
+>> mm/slab.h:720:46: error: 'slabobj_ext_idx_ctref' undeclared (first use in this function); did you mean 'slabobj_ext_idx_objcg'?
+     return &slab_obj_ext(slab, obj_exts, index, slabobj_ext_idx_ctref)->_ctref;
+                                                 ^~~~~~~~~~~~~~~~~~~~~
+                                                 slabobj_ext_idx_objcg
+   mm/slab.h:720:46: note: each undeclared identifier is reported only once for each function it appears in
+   mm/slab.h: In function 'obj_ext_codetag_ref_start':
+   mm/slab.h:731:19: error: 'slabobj_ext_idx_ctref' undeclared (first use in this function); did you mean 'slabobj_ext_idx_objcg'?
+     return obj_ext + slabobj_ext_idx_ctref * slab->objects;
+                      ^~~~~~~~~~~~~~~~~~~~~
+                      slabobj_ext_idx_objcg
 --
->> Makefile:1629: warning: overriding recipe for target 'dtbs'
-   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
-   scripts/Makefile.clean:12: arch/hexagon/platform/sm8150/Makefile: No such file or directory
-   make[3]: *** No rule to make target 'arch/hexagon/platform/sm8150/Makefile'.
-   scripts/Makefile.clean:12: Failed to remake makefile 'arch/hexagon/platform/sm8150/Makefile'.
-   make[2]: *** [Makefile:2189: _clean_arch/hexagon/platform/sm8150] Error 2 shuffle=2075589911
-   make[2]: Target 'distclean' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2075589911
-   make[1]: Target 'distclean' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2075589911
-   make: Target 'distclean' not remade because of errors.
+   In file included from mm/slub.c:23:
+   mm/slab.h: In function 'slab_obj_ext_codetag_ref':
+>> mm/slab.h:720:46: error: 'slabobj_ext_idx_ctref' undeclared (first use in this function); did you mean 'slabobj_ext_idx_objcg'?
+     return &slab_obj_ext(slab, obj_exts, index, slabobj_ext_idx_ctref)->_ctref;
+                                                 ^~~~~~~~~~~~~~~~~~~~~
+                                                 slabobj_ext_idx_objcg
+   mm/slab.h:720:46: note: each undeclared identifier is reported only once for each function it appears in
+   mm/slab.h: In function 'obj_ext_codetag_ref_start':
+   mm/slab.h:731:19: error: 'slabobj_ext_idx_ctref' undeclared (first use in this function); did you mean 'slabobj_ext_idx_objcg'?
+     return obj_ext + slabobj_ext_idx_ctref * slab->objects;
+                      ^~~~~~~~~~~~~~~~~~~~~
+                      slabobj_ext_idx_objcg
+>> mm/slab.h:732:1: warning: control reaches end of non-void function [-Wreturn-type]
+    }
+    ^
 --
->> Makefile:1629: warning: overriding recipe for target 'dtbs'
-   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+   In file included from mm/kasan/generic.c:37:
+   mm/kasan/../slab.h: In function 'slab_obj_ext_codetag_ref':
+>> mm/kasan/../slab.h:720:46: error: 'slabobj_ext_idx_ctref' undeclared (first use in this function); did you mean 'slabobj_ext_idx_objcg'?
+     return &slab_obj_ext(slab, obj_exts, index, slabobj_ext_idx_ctref)->_ctref;
+                                                 ^~~~~~~~~~~~~~~~~~~~~
+                                                 slabobj_ext_idx_objcg
+   mm/kasan/../slab.h:720:46: note: each undeclared identifier is reported only once for each function it appears in
+   mm/kasan/../slab.h: In function 'obj_ext_codetag_ref_start':
+   mm/kasan/../slab.h:731:19: error: 'slabobj_ext_idx_ctref' undeclared (first use in this function); did you mean 'slabobj_ext_idx_objcg'?
+     return obj_ext + slabobj_ext_idx_ctref * slab->objects;
+                      ^~~~~~~~~~~~~~~~~~~~~
+                      slabobj_ext_idx_objcg
 --
->> Makefile:1629: warning: overriding recipe for target 'dtbs'
-   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
---
->> /kbuild/src/Makefile:1629: warning: overriding recipe for target 'dtbs'
-   /kbuild/src/arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
-   /kbuild/src/scripts/Makefile.clean:12: /kbuild/src/arch/hexagon/platform/sm8150/Makefile: No such file or directory
-   make[3]: *** No rule to make target '/kbuild/src/arch/hexagon/platform/sm8150/Makefile'.
-   /kbuild/src/scripts/Makefile.clean:12: Failed to remake makefile '/kbuild/src/arch/hexagon/platform/sm8150/Makefile'.
-   make[2]: *** [/kbuild/src/Makefile:2189: _clean_arch/hexagon/platform/sm8150] Error 2 shuffle=2075589911
-   make[2]: Target 'mrproper' not remade because of errors.
-   make[1]: *** [/kbuild/src/Makefile:248: __sub-make] Error 2 shuffle=2075589911
-   make[1]: Target 'mrproper' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2075589911
-   make: Target 'mrproper' not remade because of errors.
---
->> Makefile:1629: warning: overriding recipe for target 'dtbs'
-   arch/hexagon/Makefile:83: warning: ignoring old recipe for target 'dtbs'
+   In file included from mm/kfence/kfence.h:17,
+                    from mm/kfence/core.c:39:
+   mm/kfence/../slab.h: In function 'slab_obj_ext_codetag_ref':
+>> mm/kfence/../slab.h:720:46: error: 'slabobj_ext_idx_ctref' undeclared (first use in this function); did you mean 'slabobj_ext_idx_objcg'?
+     return &slab_obj_ext(slab, obj_exts, index, slabobj_ext_idx_ctref)->_ctref;
+                                                 ^~~~~~~~~~~~~~~~~~~~~
+                                                 slabobj_ext_idx_objcg
+   mm/kfence/../slab.h:720:46: note: each undeclared identifier is reported only once for each function it appears in
+   mm/kfence/../slab.h: In function 'obj_ext_codetag_ref_start':
+   mm/kfence/../slab.h:731:19: error: 'slabobj_ext_idx_ctref' undeclared (first use in this function); did you mean 'slabobj_ext_idx_objcg'?
+     return obj_ext + slabobj_ext_idx_ctref * slab->objects;
+                      ^~~~~~~~~~~~~~~~~~~~~
+                      slabobj_ext_idx_objcg
 
 
-vim +/dtbs +1629 Makefile
+vim +720 mm/slab.h
 
-37c8a5fafa3bb7 Rob Herring     2018-01-10  1620  
-ee47620367d5b5 Masahiro Yamada 2022-07-24  1621  %.dtb: dtbs_prepare
-75e895343d5a2f Rob Herring     2021-12-08  1622  	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-37c8a5fafa3bb7 Rob Herring     2018-01-10  1623  
-ee47620367d5b5 Masahiro Yamada 2022-07-24  1624  %.dtbo: dtbs_prepare
-75e895343d5a2f Rob Herring     2021-12-08  1625  	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-ce88c9c79455fb Viresh Kumar    2021-01-29  1626  
-ee47620367d5b5 Masahiro Yamada 2022-07-24  1627  PHONY += dtbs dtbs_prepare dtbs_install dtbs_check
-ee47620367d5b5 Masahiro Yamada 2022-07-24  1628  dtbs: dtbs_prepare
-24507871c3c6ae Masahiro Yamada 2024-01-09 @1629  	$(Q)$(MAKE) $(build)=$(dtstree) need-dtbslist=1
-37c8a5fafa3bb7 Rob Herring     2018-01-10  1630  
-
-:::::: The code at line 1629 was first introduced by commit
-:::::: 24507871c3c6ae4f6b460b016da7ff434cd34149 kbuild: create a list of all built DTB files
-
-:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
-:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
+   712	
+   713	static inline union codetag_ref *slab_obj_ext_codetag_ref(struct slab *slab,
+   714						unsigned long obj_exts, const void *obj)
+   715	{
+   716		unsigned int index;
+   717	
+   718		index = obj_to_index(slab->slab_cache, slab, obj);
+   719	
+ > 720		return &slab_obj_ext(slab, obj_exts, index, slabobj_ext_idx_ctref)->_ctref;
+   721	}
+   722	
+   723	/*
+   724	 * Given slabobj_ext, return the first entry where codetag entries start.
+   725	 *
+   726	 * Can only be used on slabobj_ext allocated by kmalloc, not in-obj.
+   727	 */
+   728	static inline struct slabobj_ext *obj_ext_codetag_ref_start(struct slab *slab,
+   729							struct slabobj_ext *obj_ext)
+   730	{
+   731		return obj_ext + slabobj_ext_idx_ctref * slab->objects;
+ > 732	}
+   733	
 
 --
 0-DAY CI Kernel Test Service
