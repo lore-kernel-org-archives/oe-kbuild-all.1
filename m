@@ -1,93 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764BB264619;
-	Fri, 10 Jul 2026 14:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2132C3C4154;
+	Fri, 10 Jul 2026 15:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783693854; cv=none; b=qQkCNSoBdRkq/DatvTi/X4CemGzqnANu0HQRMnmb1qbOjw52iluVwuzMtr/iUZTRrajY2o479ave4FOAGaHSUzbvNY/3s7Zi7S0QfRR1knwhLLmyWpWV9l5gzlhzhuGOIgAYFm+ywkkcIQq6zjOH8pkxjqvGbKy/jGq/hj7FpVM=
+	t=1783698874; cv=none; b=DGOZ/TIrvRsm/KQfNSp2QlH8uuCGVbDSCquHFQbXpPbK2LS0CzKs3T7z/ml6mh434xxca4Bh+Xe6cxvieI1aNob8BEnffSzZurUX8D0tw2kpyn+raxaLF6W06TIyL1bpIo+e8ZSADYHlVJcIuowqd/1SFbMArzmG89EcBAsSAp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783693854; c=relaxed/simple;
-	bh=BBd2jpoQfJoYh66l59f8fnRCUabNYQcVFWqh1k7vXac=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZFq7Bb23Zu8UvDtY1W8w3yNJY8gXMzcJtzcGvtoCV1nGlGSUZhT3vrP32lICZtftjCZudf20eNi9m4PZ7u11ivnzjb+MM7q8tDvzS6mcx27wtNA6WO1fRV8T2dEubrTSrcpF13ZVugWk6grxquB2ymzPyyvrSvQW2huHEYGimHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8TUY1ZG; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783698874; c=relaxed/simple;
+	bh=s5T2JjqqaqbIxAPQ50lDYsTnJonVhiMf2bwb7GQIwUw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rpS4a0B81XljrbNpZj7owjaQu3AxDYp7JiLJtV0wgMANxAHOBfJ/yOvnMHIZ4K1IYnASAeB+eFUfNT4d2/mVmdoO9WvIzCQmX/6hRfGFHb4T06ZVt42RJUZpZ3aOJHc31ZMIQurVzCzJg0ZozKLaP2/B7eqwk0apet7Z8JSJLPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mdEMVgMY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8TUY1ZG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783693852; x=1815229852;
-  h=date:from:to:cc:subject:message-id;
-  bh=BBd2jpoQfJoYh66l59f8fnRCUabNYQcVFWqh1k7vXac=;
-  b=D8TUY1ZGttYoPMiIPhVCiQARidiyl+RhqBTyDgz7f4aFdgXlT9kMv9U2
-   SaXxNZygXwzC59WTevvXCZZFGU9wkCYF0NUlqkODcAO3wMGnZJc48T0YN
-   QEeRLV93sWw+M2bH9vsfWcwG8J0HOmWfrv6s1h0gNzSltGvYDgjj0SJ5h
-   HF73fUF04mhASP6Rm4Q6/84zApUAT5G7lLQ1c1gvFMOaluJidXLI5kgV+
-   ycAiHKmBUe5UShoyKfDjJpoK5OyuKdoiru9gvrZRxuPRTQSXgLmXiJ3um
-   ZisrhKz4tOxiEyZznyyX3iq9XQ1YrJB/kITKJDXwS93scweuzX9aqRvjn
-   w==;
-X-CSE-ConnectionGUID: MS4fV4OQR3+sX98JQfoh+A==
-X-CSE-MsgGUID: djcFzoU/Q1WMwQyKDAV0Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="71916051"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="71916051"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 07:30:52 -0700
-X-CSE-ConnectionGUID: ssS7/uLWSg6K3xVUKNh5mQ==
-X-CSE-MsgGUID: iDIbgkR+THOvhzAfBJBCLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="255555596"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 10 Jul 2026 07:30:50 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wiCFb-00000000J0p-0WCy;
-	Fri, 10 Jul 2026 14:30:47 +0000
-Date: Fri, 10 Jul 2026 22:29:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- mptcp@lists.linux.dev, matthieu.baerts@tessares.net
-Subject: [mptcp:export-net 5/9] .github/ISSUE_TEMPLATE/01-bug.yml:
- warning: ignored by one of the .gitignore files
-Message-ID: <202607102243.qOGZxnoE-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mdEMVgMY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD731F000E9;
+	Fri, 10 Jul 2026 15:54:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783698872;
+	bh=q8JFJnGL7bYpyB0Nd3W5/BlyuGxY4w1vWSoT+qn+jRM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mdEMVgMY2egcdqlOZigj3izdHYytjawO2k2ygqW3cDtSggkUddybGs7MVLp1gRLwN
+	 FndXB9O6qhc0HGX2m/T4If2s6wGGmq96KeD6xltV8BtFx8P0wrcYGjiWXo9jhtUNHC
+	 ZmpkuLZfwvbhyJLxPd1AcbWTgdlm2ihoJPsjmMuZ9xAxPTVoMScvZiKgGW4Q9rEvSA
+	 C2nI0ruQHsVaGC9xpsnF6siroLYz7Eh7zPToog1Y7lytJtVyonnistw74HbxuMyvkW
+	 peDK8erA3A6KdiEQ85rNEKqsUU2FdWFZAnTR9SmMc4RJjMD+4fEdJ/cwSfCAIPMHY5
+	 Z34bqaUvJsJXw==
+Date: Fri, 10 Jul 2026 08:54:28 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Bobby Eshleman <bobbyeshleman@meta.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>
+Subject: Re: ld.lld: error: vmlinux.a(af_vsock.o at 1186296) <inline
+ asm>:5:8: unpredictable STXR instruction, status is also a source
+Message-ID: <20260710155428.GA3149665@ax162>
+References: <202607061644.jD93AjWc-lkp@intel.com>
+ <CAGxU2F5KvtLSgT9pzhv8YxcP_j9L7usXqKY+W446XxLAovdbog@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGxU2F5KvtLSgT9pzhv8YxcP_j9L7usXqKY+W446XxLAovdbog@mail.gmail.com>
 
-tree:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
-head:   8a5c23d533d1691aadfed5c6324c68228ba7f24b
-commit: 9e002ca3e688e4248d6337c1b9945d8b9237b3f8 [5/9] DO-NOT-MERGE: mptcp: add CI support
-config: sparc64-randconfig-002-20260708 (https://download.01.org/0day-ci/archive/20260710/202607102243.qOGZxnoE-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607102243.qOGZxnoE-lkp@intel.com/reproduce)
+On Fri, Jul 10, 2026 at 04:22:20PM +0200, Stefano Garzarella wrote:
+> On Mon, 6 Jul 2026 at 10:44, kernel test robot <lkp@intel.com> wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   8cdeaa50eae8dad34885515f62559ee83e7e8dda
+> > commit: 102eab95f025b4d3f3a6c0a858400aca2af2fe52 vsock: lock down child_ns_mode as write-once
+> > date:   4 months ago
+> > config: arm64-randconfig-001-20260706 (https://download.01.org/0day-ci/archive/20260706/202607061644.jD93AjWc-lkp@intel.com/config)
+> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607061644.jD93AjWc-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Fixes: 102eab95f025 ("vsock: lock down child_ns_mode as write-once")
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202607061644.jD93AjWc-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> ld.lld: error: vmlinux.a(af_vsock.o at 1186296) <inline asm>:5:8: unpredictable STXR instruction, status is also a source
+> >    stlxr   w8, w8, [x21]
+> >    ^
+> >
+> 
+> Could this be related to https://github.com/llvm/llvm-project/issues/106380 ?
+> That issue seems fixed in llvm >= 20
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607102243.qOGZxnoE-lkp@intel.com/
+Indeed, this is resolved by
 
-All warnings (new ones prefixed by >>):
+  https://github.com/llvm/llvm-project/commit/7183771834d9035ffbedd8f1ff9233b16722b986
 
-   .b4-config: warning: ignored by one of the .gitignore files
-   .git_markup: warning: ignored by one of the .gitignore files
-   .github/FUNDING.yml: warning: ignored by one of the .gitignore files
->> .github/ISSUE_TEMPLATE/01-bug.yml: warning: ignored by one of the .gitignore files
->> .github/ISSUE_TEMPLATE/02-feature.yml: warning: ignored by one of the .gitignore files
->> .github/ISSUE_TEMPLATE/03-question.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/build-validation.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/checkpatch.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/notif.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/stable.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/tests.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/update-tg-tree.yml: warning: ignored by one of the .gitignore files
-   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+in LLVM 20.1.0, I confirmed with a reverse bisect. It looks like
+this issue triggers on undefined values being passed to inline asm but I
+don't see where there is an undefined value in the blamed commit but I
+did not look too hard. Presumably this is around the try_cmpxchg() in
+vsock_net_set_child_mode(). I am not sure this will be easily to
+workaround so we might just have to leave it broken.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+Cheers,
+Nathan
