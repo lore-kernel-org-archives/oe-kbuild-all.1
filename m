@@ -1,112 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6903E1A5B9D;
-	Fri, 10 Jul 2026 04:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDFB129994B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 04:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783658036; cv=none; b=O2C8OffFFqrwabyWUYAOl12wb3E+pUvzy+hUQWuRpfbLI917MgSJD9n+KhO1/EhdSy1TZiXEqvP+US5HvFlbyL0NKfGhi+2oqlUawb9wkCWHTuEcvMfBZhBU2nrTq5D6MAZhGyqS6QijvnHhpDvEjak9pxKUOEjZB2DhpmE7cPY=
+	t=1783659227; cv=none; b=i5K0TXY6o2YWY65+HDcNhMZvrT7iZDlWFDVllkyl0FlzmwhtGuGAsBJd8zHLWm/BDRAh8DT/4A/lIzNOiGninBe54IOalQhVTQnPee7DgcqVwPmit6z2Qr+FCwxako5/W9ixcuc8bPdj3wspIETcnBkqlp2Yco4kLWBld0SL3wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783658036; c=relaxed/simple;
-	bh=LPaSdsixsSVj6VDnntI7MLVb+crnJbkx6D4kjn6aKY0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fb6XVUz/QBIqun15U6Xlc5K42V3p3CquO+IRlya2XOkttu+9W6W6BUWqM2XzzKWs75meHMYtbDTEHlV6OZiikCXMDw/fXWZoE0OqWlCheCMLf+kh5gO7iFOMnV0nncfeq+/8IPD9aqiaJdcT4O9T+lnb6DBHHi2BB72rgskohz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSECNj3N; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783659227; c=relaxed/simple;
+	bh=jdK18C2wbBtQ1VXaLzaMpGiVDEBwQd0AUfvnpJAXKNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AXG20DrIZ6I7ktT+sKdOmxdp4b26EYUkHdU6xb0rcEJCD0d35QHCclDiqJhPW2Yn1wE3oCkJY8hC7y4X7adBJvbt+vfu42799Soi0mJM4qiEyP7WVOlzDpQ4zDDHVBNS/FL8jjmL9VK+mDqxgcZaxQa65O+e9bSU/Kn8sZAbdEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VNYBJ6gD; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSECNj3N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16F761F000E9;
-	Fri, 10 Jul 2026 04:33:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783658035;
-	bh=oDBx1prP1r+KyhbLRp9EDnb+CE6bU/Pm9048fM8t044=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ZSECNj3N7sw5xo9g2AfAczpoYZHGudwGo0EajEzi6iiU4qMUjUfC8SbntfAsJB+PC
-	 GikhM8tMttqZcti9cIIaZxpNamhDvlzYi2KTS6yPIzBX26rPlrkwmXSI7ZByVu6Y0f
-	 x9D2IXxMn6+xZEUJiQF4bcYWOS+ZIQjtMgMLr5h3i/70O9GRhNEqljpiGGTX38wVij
-	 WQd22JxetHQSwE5ipxCx0riINXkyrt0N7urCD6f/3x8FMMTVaHM+/aQK8vxYQr8GAq
-	 ggie6p3vpmsrRK1YBhjWEZ5tiCq9GmaxYqeTpz3h+u1J9YCmAeQNpz84kFT0eHVQLI
-	 kEtLHqn67pWnw==
-Message-ID: <37fe4a15-e51b-411e-9667-a1c670f413e1@kernel.org>
-Date: Fri, 10 Jul 2026 06:33:49 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VNYBJ6gD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783659225; x=1815195225;
+  h=date:from:to:cc:subject:message-id;
+  bh=jdK18C2wbBtQ1VXaLzaMpGiVDEBwQd0AUfvnpJAXKNQ=;
+  b=VNYBJ6gDZHr2941YzEEAXrPXvhkX/CBnqQiHYH/ICocpEjdSWGPmJFTk
+   4py7QlPfQ43eMbZgMhMHBssBYHhJ86SSuKWCAIrmQNthdz6ddh0kktuhd
+   R81NFEoBD99h9rz+TRw+Dwf82ijf1KZtoW5MHb9MjUgNT5M9bmik8trwe
+   PE0airW6mGwIRQzaxadEYUIaUt+i9YDH2xHUUlEHGu6IToLawN/gUztN9
+   k5zzZAxPzTgWsibEIEf6VDY5ae+2yVfQAHTbyGnfgLQcHtybpnWs/VDcR
+   GQh1bWpVp7I7MfPdcOW67XesqntzlNx9bMHckozRjg+gc5cMxdRwpklg+
+   g==;
+X-CSE-ConnectionGUID: ORbP5YaOS8KqMD+GY2qN3A==
+X-CSE-MsgGUID: pywrIbtnSqKwN9Riuyk2KQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="83333381"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="83333381"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 21:53:44 -0700
+X-CSE-ConnectionGUID: DVA2kFaEQX2XYxlHcLNpSQ==
+X-CSE-MsgGUID: zycQEZS1TpqX+Kp+XSxXWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="259092591"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 09 Jul 2026 21:53:42 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wi3F5-00000000IVN-0ChO;
+	Fri, 10 Jul 2026 04:53:39 +0000
+Date: Fri, 10 Jul 2026 12:53:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Namhyung Kim <namhyung@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: kernel/events/core.c:5424:21: sparse: sparse: cast removes
+ address space '__rcu' of expression
+Message-ID: <202607101249.dHZOuAbx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against
- symbol 'init_task'; recompile with -fPIC
-To: Feng Tang <feng.tang@linux.alibaba.com>, kernel test robot
- <lkp@intel.com>, linuxppc-dev@lists.ozlabs.org,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- clang-built-linux@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-References: <202607100652.WPUlEAfx-lkp@intel.com>
- <alBeJUafPKhx8RMS@U-2FWC9VHC-2323.local>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <alBeJUafPKhx8RMS@U-2FWC9VHC-2323.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-+ Clang
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
+commit: 4960626f956d63dce57f099016c2ecbe637a8229 perf/core: Fix slow perf_event_task_exit() with LBR callstacks
+date:   6 months ago
+config: riscv-randconfig-r112-20260708 (https://download.01.org/0day-ci/archive/20260710/202607101249.dHZOuAbx-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607101249.dHZOuAbx-lkp@intel.com/reproduce)
 
-Le 10/07/2026 à 04:51, Feng Tang a écrit :
-> Thanks for the report!
-> 
-> Add Powerpc list.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 4960626f956d ("perf/core: Fix slow perf_event_task_exit() with LBR callstacks")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607101249.dHZOuAbx-lkp@intel.com/
 
-This is a Clang build with Clang linker, did you reproduce the problem 
-with a normal GCC build ?
+sparse warnings: (new ones prefixed by >>)
+   kernel/events/core.c:1585:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1585:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1585:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:1598:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1598:28: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1598:28: sparse:    struct perf_event_context *
+   kernel/events/core.c:3776:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3776:20: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3776:20: sparse:    struct perf_event_context *
+   kernel/events/core.c:3780:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3780:18: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3780:18: sparse:    struct perf_event_context *
+   kernel/events/core.c:3781:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3781:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3781:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:3834:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3834:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3834:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3835:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3835:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3835:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:4252:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4252:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4252:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4660:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4660:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4660:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:5149:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:5149:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:5149:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:6927:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6927:9: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6927:9: sparse:    struct perf_buffer *
+   kernel/events/core.c:5424:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu **___op @@     got struct perf_ctx_data **__ai_oldp @@
+   kernel/events/core.c:5424:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu *__new @@     got struct perf_ctx_data *[assigned] cd @@
+>> kernel/events/core.c:5424:21: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/events/core.c:5435:37: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu **___op @@     got struct perf_ctx_data **__ai_oldp @@
+   kernel/events/core.c:5435:37: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/events/core.c:6310:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] events @@     got int @@
+   kernel/events/core.c:6678:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6678:22: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6678:22: sparse:    struct perf_buffer *
+   kernel/events/core.c:6802:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6802:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6802:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6835:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6835:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6835:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6948:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6948:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6948:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6964:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6964:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6964:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:8946:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8946:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:8946:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:9034:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9034:13: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:9034:13: sparse:    struct perf_buffer *
+   kernel/events/core.c:9138:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:9138:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:9138:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:9140:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:9140:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:9140:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:9876:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9876:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:9876:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:11071:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11071:9: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11071:9: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11110:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11110:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11110:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11385:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11385:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:11385:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:14496:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:14496:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:14496:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:15016:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:15016:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:15016:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:197:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
+   kernel/events/core.c:213:9: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
+   kernel/events/core.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
+   kernel/events/core.c:1632:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
+   kernel/events/core.c:3106:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
+   kernel/events/core.c:5123:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
+   kernel/events/core.c: note: in included file:
+   kernel/events/internal.h:204:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *src @@
+   kernel/events/core.c:10924:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10924:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10924:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10944:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10944:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10944:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11060:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11060:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11060:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist *
 
-Thanks
-Christophe
+vim +/__rcu +5424 kernel/events/core.c
 
-> 
-> On Fri, Jul 10, 2026 at 06:18:50AM +0800, kernel test robot wrote:
->> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094863506%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=fQm6QfsJ2ggaKoRJWCz4dsaquz7Wo3uhRnOexVUrTnQ%3D&reserved=0 master
->> head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
->> commit: d5cae2261b86913e602452ce4a07e6aefc0f603b dma-contiguous: simplify numa cma area handling
->> date:   6 weeks ago
->> config: powerpc-randconfig-r133-20260709 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20260710%2F202607100652.WPUlEAfx-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094899182%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=BkT0BYyJtniz6YPzGpYbO0jn2T7vBDBLaK2Tsh1LcnE%3D&reserved=0)
->> compiler: clang version 21.1.8 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fllvm%2Fllvm-project&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094917538%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=5%2BLVtRoojuNbhEMr3BhM2xF50PV%2FIYh%2FWw3ipDIWG%2FY%3D&reserved=0 2078da43e25a4623cab2d0d60decddf709aaea28)
->> sparse: v0.6.5-rc1
->> reproduce (this is a W=1 build): (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20260710%2F202607100652.WPUlEAfx-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094935016%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2BrpcCLuNecZIfyF6N5X%2FFcHhdG9YzLBAErvBGHyjjak%3D&reserved=0)
-> 
-> 
->> All errors (new ones prefixed by >>):
->>
->>>> ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'init_task'; recompile with -fPIC
->>     >>> defined in vmlinux.a(init/init_task.o)
->>     >>> referenced by head_44x.S:101 (arch/powerpc/kernel/head_44x.S:101)
->>     >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x42) in archive vmlinux.a
->> --
->>>> ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against symbol 'init_thread_union'; recompile with -fPIC
->>     >>> defined in ./arch/powerpc/kernel/vmlinux.lds:133
->>     >>> referenced by head_44x.S:108 (arch/powerpc/kernel/head_44x.S:108)
->>     >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x4e) in archive vmlinux.a
-> 
-> I checked the patch and couldn't find obvious clue between the patch and
-> the error.
-> 
-> commit d5cae2261b8691 only changes kernel/dma/contiguous.c, which is under
-> CONFIG_DMA_CMA per kernel/dma/Makefile. In your config above, CONFIG_DMA_CMA
-> is not even set, so the contigous.c should not be compiled. Could you help
-> to double check? thanks!
-> 
-> - Feng
-> 
->> Kconfig warnings: (for reference only)
->>     WARNING: unmet direct dependencies detected for HOTPLUG_CPU
->>     Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
->>     Selected by [y]:
->>     - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
->>
->> --
->> 0-DAY CI Kernel Test Service
->> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fintel%2Flkp-tests%2Fwiki&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094952205%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=sqz%2BJ2dpT3ZZjlQyyvAhgPdP9jS0kJLpbRKTcV4rM50%3D&reserved=0
-> 
+  5412	
+  5413	static int
+  5414	attach_task_ctx_data(struct task_struct *task, struct kmem_cache *ctx_cache,
+  5415			     bool global)
+  5416	{
+  5417		struct perf_ctx_data *cd, *old = NULL;
+  5418	
+  5419		cd = alloc_perf_ctx_data(ctx_cache, global);
+  5420		if (!cd)
+  5421			return -ENOMEM;
+  5422	
+  5423		for (;;) {
+> 5424			if (try_cmpxchg(&task->perf_ctx_data, &old, cd)) {
+  5425				if (old)
+  5426					perf_free_ctx_data_rcu(old);
+  5427				/*
+  5428				 * Above try_cmpxchg() pairs with try_cmpxchg() from
+  5429				 * detach_task_ctx_data() such that
+  5430				 * if we race with perf_event_exit_task(), we must
+  5431				 * observe PF_EXITING.
+  5432				 */
+  5433				if (task->flags & PF_EXITING) {
+  5434					/* detach_task_ctx_data() may free it already */
+  5435					if (try_cmpxchg(&task->perf_ctx_data, &cd, NULL))
+  5436						perf_free_ctx_data_rcu(cd);
+  5437				}
+  5438				return 0;
+  5439			}
+  5440	
+  5441			if (!old) {
+  5442				/*
+  5443				 * After seeing a dead @old, we raced with
+  5444				 * removal and lost, try again to install @cd.
+  5445				 */
+  5446				continue;
+  5447			}
+  5448	
+  5449			if (refcount_inc_not_zero(&old->refcount)) {
+  5450				free_perf_ctx_data(cd); /* unused */
+  5451				return 0;
+  5452			}
+  5453	
+  5454			/*
+  5455			 * @old is a dead object, refcount==0 is stable, try and
+  5456			 * replace it with @cd.
+  5457			 */
+  5458		}
+  5459		return 0;
+  5460	}
+  5461	
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
