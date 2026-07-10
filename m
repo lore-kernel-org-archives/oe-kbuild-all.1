@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C4836DA1F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 13:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84CF229B18;
+	Fri, 10 Jul 2026 13:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783690465; cv=none; b=Qc6FktiRH2KLSS8WR/M1+VC1pT5vrrofzO6b8rp6c7TDzAToBpdIEa/RWNchS0ik91GdinbAe1q+7QCEbIarCYsMuE8c735lTRMbH9ir7N24El3kViyv++V7GIa+yLVpFceXjhL3CFAizePSljqiGf1FWcdvyDajD+s2S7yVc7s=
+	t=1783691574; cv=none; b=up+5iMo1mN3wDj8PEn9gSzq8rt0bGxe2T2XwODhlDxv66wICRYMFC+9ssbgG2z0vIMlTMnZl+C9PtqtqJj4lxN25gpkZ2xnF9aCP2vxI3R89YU3BYvyiG3EkrWeXrKhD8BgSFSSur8KTN8eQTR/YuKRDhz070Vpyd1zSqZS6cgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783690465; c=relaxed/simple;
-	bh=V22oatiGeSh7phoT2Q3qVMDJ/XKMuG/i/91Bv+lNoIg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OCh2CZ/alUUhB4oXsbkXzy7Hw/FtOIIZUGoORpMi+oHx+YDiK5ep+FlHsVhQ/QIQWUeCTyy/aPnmtwcgHPf9M+elL6F8f3lrBE+si+VFCSGPDNT3zZxzX2v2Q6LFxR2hW2ARYtNtE2xb7oHq5FUbE03hu2z7+LKmpOxUHsfPAFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QPbbwz8z; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1783691574; c=relaxed/simple;
+	bh=6vyJPeh/vhz5GZ1KM/8N8l5B2AaVxU9M5qT5lD73yRA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MsYV3p0OOhwST03EZhEIy5ukjLn9184HygoRW1eMrMV+tUEiH6kHuwHwYj7GT71eaSuqU3IdNJT3JNWv6d78yrxYHRtvVcP9GyPOCctGNygEQqDQInugsDcdL8R4meUd4ZPlJCdz3aFDNzctmkmnwl342wD0+V9xUT/3rGe4ShQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cs6Q4/js; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPbbwz8z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cs6Q4/js"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783690463; x=1815226463;
+  t=1783691569; x=1815227569;
   h=date:from:to:cc:subject:message-id;
-  bh=V22oatiGeSh7phoT2Q3qVMDJ/XKMuG/i/91Bv+lNoIg=;
-  b=QPbbwz8zcloVnO0pSGZQMGXG/eHbf8NYiIcgybnxLQyt4mcgx2sTuOgd
-   xq/FI65swYuE4VN2jmewZD7MN5ksnLI7421mzkJkp++5KJ0HXPu/7PVkr
-   yNHjDtw5uW882h/omVw2vBKrVr7FMePDm3p2UXGqV+ZpAQsylz2J2oQWl
-   aAT9a1VgQ76tLELj5nRym/dIBxgWQZFbeaInTs6IvxZZjk1tMA19HE9wV
-   FZgLG9dvTqCL5WbLBKCowbLdLZe537QRBgvsBQga75+ABzQ3TKY+L7S1s
-   saEJuGjlqSjiwwIOpmT9OJ2T82REtPhNI70XqZavsTTb+wPXc1MaLgnUn
+  bh=6vyJPeh/vhz5GZ1KM/8N8l5B2AaVxU9M5qT5lD73yRA=;
+  b=Cs6Q4/jsEOXQosvcKCJVjpHTyuGVquuVs+2S4t3eia4ib31INtTxUKc9
+   qKdgwSePxVM7UhYwTvBAx1h+IKzgLEGaORSBv9LywC7PPuT2yh+pstouB
+   FolzoeCF8H2IqOJaIcVFXI+Eq41cclBsXZI2wiWDSsTOipkwVU/mFjRli
+   1Pki1a9PfxXdJQTT9F45HHCDJb64ffrEkFCKW6xLH8KrcWOicf54mxnmz
+   aej0TZQ12StL/yuuKfJMAKCSu43pFxAVNoI2xzAxr5CcieWMD+1wP5fk0
+   NZa+f9ls4uPzMu8/aWzUmZoNwL8rzulingBWhLZ3obfYzI+FihdEoNisP
    Q==;
-X-CSE-ConnectionGUID: tgI13M9NTCWKp01+fW7XFA==
-X-CSE-MsgGUID: CkV/a6KwQca9412nfCRm0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95759846"
+X-CSE-ConnectionGUID: W9ZD0VluS8WkMR3oLNJZwg==
+X-CSE-MsgGUID: gZSEUaFlS7y31Yajdt87yQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95033378"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="95759846"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 06:34:21 -0700
-X-CSE-ConnectionGUID: 9uYm4GkOQw68Cb4M8+IfYg==
-X-CSE-MsgGUID: AcPxuAjJQ4uVxP2jWm5ovw==
+   d="scan'208";a="95033378"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 06:52:46 -0700
+X-CSE-ConnectionGUID: A6vMkCXETremf+cWiDGDrA==
+X-CSE-MsgGUID: KRjGN+TlRmy6LaFJCXLgXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="250888826"
+   d="scan'208";a="284993226"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 10 Jul 2026 06:34:20 -0700
+  by orviesa002.jf.intel.com with ESMTP; 10 Jul 2026 06:52:44 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiBMv-00000000Iy2-2igb;
-	Fri, 10 Jul 2026 13:34:17 +0000
-Date: Fri, 10 Jul 2026 21:33:31 +0800
+	id 1wiBeg-00000000IzP-1L4b;
+	Fri, 10 Jul 2026 13:52:39 +0000
+Date: Fri, 10 Jul 2026 21:51:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-riscv64 1/1]
- include/linux/pgtable.h:8:20: error: 'PMD_SHIFT' undeclared; did you mean
- 'PUD_SHIFT'?
-Message-ID: <202607102112.naC3jGI0-lkp@intel.com>
+To: "Liam R. Howlett" <liam@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [liam:maple_marks_v7.2_fixes 27/31]
+ lib/test_maple_tree.c:356:29: error: call to undeclared function
+ 'mt_slot_count'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202607102143.a8ULhyOo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,85 +61,206 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
-head:   c8bd194f277ae6d43833ef16baa205e4c67629b4
-commit: 0cc6f52b2aab23f59b9b92188194b0847105ceee [1/1] Merge 0bcb517f0a70 ("Merge tag 'mm-hotfixes-stable-2026-03-28-10-45' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm") into android-mainline
-config: arm-randconfig-001-20260710 (https://download.01.org/0day-ci/archive/20260710/202607102112.naC3jGI0-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607102112.naC3jGI0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/liam/linux.git maple_marks_v7.2_fixes
+head:   bad7721b2ef18bd6c1361bff214b8323cef1296f
+commit: 5dc6e2040f47d163de17af84a26609cee99f962e [27/31] maple_tree: Testing code update for triple split
+config: hexagon-randconfig-001-20260710 (https://download.01.org/0day-ci/archive/20260710/202607102143.a8ULhyOo-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607102143.a8ULhyOo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607102112.naC3jGI0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607102143.a8ULhyOo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/mm.h:32,
-                    from include/linux/scatterlist.h:8,
-                    from include/linux/dma-buf.h:19,
-                    from drivers/gpu/drm/drm_gem_shmem_helper.c:6:
-   drivers/gpu/drm/drm_gem_shmem_helper.c: In function 'drm_gem_shmem_any_fault':
->> include/linux/pgtable.h:8:20: error: 'PMD_SHIFT' undeclared (first use in this function); did you mean 'PUD_SHIFT'?
-    #define PMD_ORDER (PMD_SHIFT - PAGE_SHIFT)
-                       ^~~~~~~~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c:584:24: note: in expansion of macro 'PMD_ORDER'
-     if (order && order != PMD_ORDER)
-                           ^~~~~~~~~
-   include/linux/pgtable.h:8:20: note: each undeclared identifier is reported only once for each function it appears in
-    #define PMD_ORDER (PMD_SHIFT - PAGE_SHIFT)
-                       ^~~~~~~~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c:584:24: note: in expansion of macro 'PMD_ORDER'
-     if (order && order != PMD_ORDER)
-                           ^~~~~~~~~
+>> lib/test_maple_tree.c:356:29: error: call to undeclared function 'mt_slot_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     356 |         if (mas->max - mas->min <= mt_slot_count(mas->node))
+         |                                    ^
+>> lib/test_maple_tree.c:359:8: error: call to undeclared function 'mas_data_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     359 |         val = mas_data_end(mas) + 1;
+         |               ^
+>> lib/test_maple_tree.c:420:2: error: call to undeclared function 'mas_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     420 |         mas_start(mas);
+         |         ^
+   lib/test_maple_tree.c:420:2: note: did you mean 'mas_store'?
+   include/linux/maple_tree.h:640:7: note: 'mas_store' declared here
+     640 | void *mas_store(struct ma_state *mas, void *entry);
+         |       ^
+   lib/test_maple_tree.c:425:11: error: call to undeclared function 'mas_data_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     425 |                 count = mas_data_end(mas);
+         |                         ^
+>> lib/test_maple_tree.c:426:9: error: call to undeclared function 'ma_pivots'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+         |                       ^
+>> lib/test_maple_tree.c:426:19: error: call to undeclared function 'mas_mn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+         |                                 ^
+>> lib/test_maple_tree.c:426:32: error: call to undeclared function 'mte_node_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+         |                                              ^
+>> lib/test_maple_tree.c:426:7: error: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'int' [-Wint-conversion]
+     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/test_maple_tree.c:432:3: error: call to undeclared function 'mas_descend'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     432 |                 mas_descend(mas);
+         |                 ^
+>> lib/test_maple_tree.c:443:23: error: call to undeclared function 'mte_is_leaf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     443 |         MT_BUG_ON(mas->tree, mte_is_leaf(mas->node));
+         |                              ^
+   lib/test_maple_tree.c:444:8: error: call to undeclared function 'mas_data_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     444 |         val = mas_data_end(mas) + 1;
+         |               ^
+   lib/test_maple_tree.c:445:11: error: call to undeclared function 'mt_slot_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     445 |         target = mt_slot_count(mas->node);
+         |                  ^
+   lib/test_maple_tree.c:1522:2: error: call to undeclared function 'mas_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1522 |         mas_start(&mas);
+         |         ^
+   lib/test_maple_tree.c:1528:10: error: call to undeclared function 'ma_pivots'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
+         |                 ^
+   lib/test_maple_tree.c:1528:20: error: call to undeclared function 'mas_mn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
+         |                           ^
+   lib/test_maple_tree.c:1528:34: error: call to undeclared function 'mte_node_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
+         |                                         ^
+>> lib/test_maple_tree.c:1528:58: error: subscripted value is not an array, pointer, or vector
+    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   lib/test_maple_tree.c:1535:58: error: subscripted value is not an array, pointer, or vector
+    1535 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[8] + 1;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   18 errors generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=y]
-   WARNING: unmet direct dependencies detected for DRM_TTM
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HMM_MIRROR
-   Depends on [n]: MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=y]
 
+vim +/mt_slot_count +356 lib/test_maple_tree.c
 
-vim +8 include/linux/pgtable.h
-
-f25748e3c34eb8b include/asm-generic/pgtable.h Dan Williams            2016-01-15   7  
-051ddcfeb1bdbae include/linux/pgtable.h       Matthew Wilcox (Oracle  2023-08-18  @8) #define PMD_ORDER	(PMD_SHIFT - PAGE_SHIFT)
-051ddcfeb1bdbae include/linux/pgtable.h       Matthew Wilcox (Oracle  2023-08-18   9) #define PUD_ORDER	(PUD_SHIFT - PAGE_SHIFT)
-051ddcfeb1bdbae include/linux/pgtable.h       Matthew Wilcox (Oracle  2023-08-18  10) 
-
-:::::: The code at line 8 was first introduced by commit
-:::::: 051ddcfeb1bdbae45e660c0db2468d29ca15c6c2 mm: move PMD_ORDER to pgtable.h
-
-:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   343	
+   344	static noinline bool __init mas_node_fill(struct ma_state *mas)
+   345	{
+   346		int target, val;
+   347		void *fill = (void*)0x11111111;
+   348		unsigned long high;
+   349	
+   350		if (!mas_is_active(mas))
+   351			mas_walk(mas);
+   352	
+   353		if (!mas_is_active(mas))
+   354			return false;
+   355	
+ > 356		if (mas->max - mas->min <= mt_slot_count(mas->node))
+   357			goto done;
+   358	
+ > 359		val = mas_data_end(mas) + 1;
+   360		target = mt_slot_count(mas->node);
+   361		if (val == target)
+   362			goto full;
+   363	
+   364		mas_walk(mas);
+   365		high = mas->max;
+   366		while (target > val && mas_is_active(mas)) {
+   367			unsigned long old_last = mas->last;
+   368			unsigned long new_last;
+   369	
+   370			if (old_last > mas->index) {
+   371				new_last = mas->index + 1;
+   372				if (new_last <= mas->index || new_last > old_last)
+   373					new_last = old_last;
+   374				mas->last = new_last;
+   375				mas_store(mas, fill);
+   376				val = mas_data_end(mas) + 1;
+   377				if (target <= val)
+   378					break;
+   379			}
+   380			mas_next_range(mas, high);
+   381			if (!mas_is_active(mas))
+   382				break;
+   383		}
+   384		return mas_node_first_split_offset(mas);
+   385	
+   386	full:
+   387		if (mas->max - mas->min > mt_slot_count(mas->node))
+   388			return mas_node_first_split_offset(mas);
+   389	done:
+   390		mas_set(mas, mas->max);
+   391		mas_walk(mas);
+   392		return false;
+   393	}
+   394	
+   395	static noinline bool __init mas_node_split(struct ma_state *mas)
+   396	{
+   397		void *fill = (void*)0x22222222;
+   398		unsigned long old_last, new_last;
+   399	
+   400		if (mas_node_fill(mas)) {
+   401			old_last = mas->last;
+   402			if (old_last <= mas->index)
+   403				return false;
+   404	
+   405			new_last = mas->index + 1;
+   406			if (new_last <= mas->index || new_last > old_last)
+   407				new_last = old_last;
+   408			mas->last = new_last;
+   409			mas_store(mas, fill);
+   410			return true;
+   411		}
+   412	
+   413		return false;
+   414	}
+   415	
+   416	static noinline void __init test_mas_node_depth(struct ma_state *mas,
+   417			int depth)
+   418	{
+   419		mas_reset(mas);
+ > 420		mas_start(mas);
+   421		while (mas->depth < depth) {
+   422			unsigned long *piv;
+   423			int count, offset;
+   424	
+   425			count = mas_data_end(mas);
+ > 426			piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+   427			offset = 0;
+   428			while (offset < count && mas->index > piv[offset]) {
+   429				offset++;
+   430			}
+   431			mas->offset = offset;
+ > 432			mas_descend(mas);
+   433			mas->depth++;
+   434		}
+   435	
+   436	}
+   437	
+   438	static noinline void __init mas_internal_node_fill(struct ma_state *mas)
+   439	{
+   440		int val, target, depth;
+   441		unsigned long high, next;
+   442	
+ > 443		MT_BUG_ON(mas->tree, mte_is_leaf(mas->node));
+   444		val = mas_data_end(mas) + 1;
+   445		target = mt_slot_count(mas->node);
+   446		if (val == target)
+   447			return;
+   448	
+   449		high = mas->max;
+   450		depth = mas->depth;
+   451		while (mas_data_end(mas) + 1 < target) {
+   452			mas_walk(mas);
+   453			if (mas_node_split(mas)) {
+   454				next = mas->last + 1;
+   455			} else {
+   456				next = mas->max + 1;
+   457			}
+   458			if (!next || next > high)
+   459				return;
+   460	
+   461			mas->index = next;
+   462			test_mas_node_depth(mas, depth);
+   463		}
+   464	
+   465	
 
 --
 0-DAY CI Kernel Test Service
