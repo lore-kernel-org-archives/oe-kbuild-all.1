@@ -1,125 +1,128 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A020E36EAAD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 17:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF6535C1A6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 17:14:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783703697; cv=none; b=J2v23oGlto5oEUKElQL/7HsVw2eRlUNqQ1O+j33dRD+C+hk7LEjvP63zHkux/rjeoipQdllwOzNACuaOLcMWgeYBvboYKjp3w6JnfJ/rpdqUvv+9RJhmNvWaPHgwrBqS25gPe105ByyFlfdFilOLpOKihBkAu62q5eZS/vaddak=
+	t=1783703698; cv=none; b=nu6hgAiX/r35Tpi99lhuPrsIPhH2j4im4MeoMKp5tsehffnGfPXC7A76htaQMNL4hQRV1kF4WNt6gjbUpGgZHN4O9TKfLjuRYd/C61nB4AOyYEvlIbVW2VIcX0jBjfGL5CXX3S9eG0TkOVBQ7wgg+4vATcRFHb5wofux+15EURA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783703697; c=relaxed/simple;
-	bh=G2Um9OxP7k1+j96+55KUbOuC99sIt+xphTIOI5G7A+k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tGjoyfJMGqZ62dENb/XY7E4mSj419cLSAj/BOjpHxQdF1cERSQ9Zujj/JnR8QjKhhfGO+gBAW+KCD394A/M59nyIkrN6g7RUzxKEJPprtPy13USflTeqdIR1hwUU6/cVAq/eu76BDrNDmwD8LzhBic5O5bSNmBqvU6NNgkNXrTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6eB3PZA; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1783703698; c=relaxed/simple;
+	bh=UEk58ujqPzAcbcK00uYPo/5tSzpIGjm8wEJduX8C9Vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AzUkIoK+BGQopL2U0nEkpZgYHD/Rw1WKtPUmhX//icOxSZM30sRpXASGRSCCbnVbEt/H5wkOLRY3uBM8q0537VmHz9hCeHVQtmEYepJavOid9peXDHIwQ/fEQ4NB0rZklwGnvBulpT7f+f2tOOKi6m/8cpAT4bI7kMEGbexRhBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lu6DwVRs; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6eB3PZA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lu6DwVRs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783703695; x=1815239695;
-  h=date:from:to:cc:subject:message-id;
-  bh=G2Um9OxP7k1+j96+55KUbOuC99sIt+xphTIOI5G7A+k=;
-  b=n6eB3PZADZBwcMybXVGdGvShXkhh3yvp1obudH3re/E/AvZmn7YsRSms
-   Zz35nH/9oOIEiAowMrox0YluJEyrqTYBFcbuuTVaNGrYHNLVHE0J5/x8Z
-   jGGIBzvlKQL4GxFwPivQSv4XgyJDF11uOiF/15Nk90JmdIk+h+cY98rb/
-   zm5oZMWivCIMzWohCJuEqGeCJ6mjwsZfFaZrOx/KGUJpKaR2wy/zN0BUL
-   WyptQw82QK5+9MgAIE6ncHbwmx4NCvtzdcWk6wAAUQsILJr8dKR88GFze
-   ttVQumcsUrCrlirGV/1b0+oBj0QsxUHOdAUnH93BdpmgQGO5mnIIoJmO7
-   A==;
-X-CSE-ConnectionGUID: AG8OYYZnTT6VkodwmfzpDA==
-X-CSE-MsgGUID: 6bkMrXanRJqNO+Wc0T092w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101956406"
+  t=1783703697; x=1815239697;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UEk58ujqPzAcbcK00uYPo/5tSzpIGjm8wEJduX8C9Vc=;
+  b=lu6DwVRsDf+IPlO3Cu6qxaTwV37FziTB0zwzcw3m4qcKrnU+5j040Qch
+   UhFHSMDSdPHdebq7QXYnrc5LjNezWN8w/IpUeqgszxLeeJYELDd9DhAlL
+   g5zdkWJ14/QdQxByKVQl2z7H5DETSnvaBnnvIT75J4dqf/wXy/5HyGTX7
+   N76MZc3W55FZSOt4qU6Xx4QpjA5IHA9VHaM3cteB0rSBKL8/JUT/tHr/D
+   HAGNN6vTGu+0wNScx3tTbEJjYdscJNNwuvS21anPcWcGXIQQY4LFaycro
+   jKzSDNydL/WoBkVO6dCjlw9sQ7oJ1SPPBomucjJauzLAfbnSVHjT636AC
+   Q==;
+X-CSE-ConnectionGUID: tPjvirSqR7WX6sQU8Lsxgg==
+X-CSE-MsgGUID: QbZNsx+9SjuhMl1ZzphPVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101956420"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="101956406"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 10:14:55 -0700
-X-CSE-ConnectionGUID: EU07YymkRtOxfxbUGxPZrQ==
-X-CSE-MsgGUID: eNyf3Uy8TM6qlzGxnlrfgQ==
+   d="scan'208";a="101956420"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 10:14:56 -0700
+X-CSE-ConnectionGUID: OazDl0iMTjSvv5VarzvHHw==
+X-CSE-MsgGUID: Ojf6J2zMTtql3uXyy2Jdgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="248565281"
+   d="scan'208";a="255592851"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Jul 2026 10:14:54 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Jul 2026 10:14:54 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiEoN-00000000J9x-24N7;
+	id 1wiEoN-00000000J9v-1u6M;
 	Fri, 10 Jul 2026 17:14:51 +0000
-Date: Sat, 11 Jul 2026 01:14:21 +0800
+Date: Sat, 11 Jul 2026 01:14:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:anfe_v1 /5] drivers/pci/pcie/aer.c:1307:17: error: too
- few arguments to function call, expected 6, have 5
-Message-ID: <202607110138.TRmMYqFO-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Deepak Kumar Singh <deepak.singh@oss.qualcomm.com>,
+	Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
+Subject: Re: [PATCH] usb: typec: ucsi: ucsi_glink: Prevent suspend during
+ UCSI notification handling
+Message-ID: <202607110115.YSVz17MH-lkp@intel.com>
+References: <20260710-ucsi_glink_wakeup-v1-1-7d97ea628d92@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710-ucsi_glink_wakeup-v1-1-7d97ea628d92@oss.qualcomm.com>
 
-Hi Lukas,
+Hi Jishnu,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/l1k/linux anfe_v1
-head:   f15ae58edfcc50e3200b605a83bf295e556532bb
-commit: 29e8cfead5a6747a5ad5f5846f1e286fe3ec7e86 [/5] PCI/AER: Move retrieval of FEP and TLP Log into helper
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260711/202607110138.TRmMYqFO-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607110138.TRmMYqFO-lkp@intel.com/reproduce)
+[auto build test ERROR on 2cb6eac064c8334418a76999468f68696a8dfe71]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jishnu-Prakash/usb-typec-ucsi-ucsi_glink-Prevent-suspend-during-UCSI-notification-handling/20260710-182232
+base:   2cb6eac064c8334418a76999468f68696a8dfe71
+patch link:    https://lore.kernel.org/r/20260710-ucsi_glink_wakeup-v1-1-7d97ea628d92%40oss.qualcomm.com
+patch subject: [PATCH] usb: typec: ucsi: ucsi_glink: Prevent suspend during UCSI notification handling
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260711/202607110115.YSVz17MH-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607110115.YSVz17MH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607110138.TRmMYqFO-lkp@intel.com/
-
-Note: the l1k/anfe_v1 HEAD f15ae58edfcc50e3200b605a83bf295e556532bb builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607110115.YSVz17MH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/pci/pcie/aer.c:1307:17: error: too few arguments to function call, expected 6, have 5
-    1304 |                 pcie_read_tlp_log(dev, aer + PCI_ERR_HEADER_LOG,
-         |                 ~~~~~~~~~~~~~~~~~
-    1305 |                                   aer + PCI_ERR_PREFIX_LOG,
-    1306 |                                   aercc & PCI_ERR_CAP_TLP_LOG_FLIT,
-    1307 |                                   &info->tlp);
-         |                                             ^
-   drivers/pci/pcie/../pci.h:864:5: note: 'pcie_read_tlp_log' declared here
-     864 | int pcie_read_tlp_log(struct pci_dev *dev, int where, int where2,
-         |     ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     865 |                       unsigned int tlp_len, bool flit,
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     866 |                       struct pcie_tlp_log *log);
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   drivers/usb/typec/ucsi/ucsi_glink.c: In function 'pmic_glink_ucsi_callback':
+>> drivers/usb/typec/ucsi/ucsi_glink.c:352:53: error: 'struct dev_pm_info' has no member named 'wakeup'; did you mean 'can_wakeup'?
+     352 |                 pm_wakeup_ws_event(ucsi->dev->power.wakeup,
+         |                                                     ^~~~~~
+         |                                                     can_wakeup
 
 
-vim +1307 drivers/pci/pcie/aer.c
+vim +352 drivers/usb/typec/ucsi/ucsi_glink.c
 
-  1290	
-  1291	static void aer_get_uncor_info(struct pci_dev *dev, struct aer_err_info *info,
-  1292				       u32 status)
-  1293	{
-  1294		u16 aer = dev->aer_cap;
-  1295		u32 aercc;
-  1296	
-  1297		/* Get First Error Pointer */
-  1298		pci_read_config_dword(dev, aer + PCI_ERR_CAP, &aercc);
-  1299		info->first_error = PCI_ERR_CAP_FEP(aercc);
-  1300	
-  1301		/* Get TLP Prefix/Header Log */
-  1302		if (tlp_header_logged(status, aercc)) {
-  1303			info->tlp_header_valid = 1;
-  1304			pcie_read_tlp_log(dev, aer + PCI_ERR_HEADER_LOG,
-  1305					  aer + PCI_ERR_PREFIX_LOG,
-  1306					  aercc & PCI_ERR_CAP_TLP_LOG_FLIT,
-> 1307					  &info->tlp);
-  1308		}
-  1309	}
-  1310	
+   338	
+   339	static void pmic_glink_ucsi_callback(const void *data, size_t len, void *priv)
+   340	{
+   341		struct pmic_glink_ucsi *ucsi = priv;
+   342		const struct pmic_glink_hdr *hdr = data;
+   343	
+   344		switch (le32_to_cpu(hdr->opcode)) {
+   345		case UC_UCSI_READ_BUF_REQ:
+   346			pmic_glink_ucsi_read_ack(ucsi, data, len);
+   347			break;
+   348		case UC_UCSI_WRITE_BUF_REQ:
+   349			pmic_glink_ucsi_write_ack(ucsi, data, len);
+   350			break;
+   351		case UC_UCSI_USBC_NOTIFY_IND:
+ > 352			pm_wakeup_ws_event(ucsi->dev->power.wakeup,
+   353					   UCSI_GLINK_WAKEUP_TIMEOUT_MS, true);
+   354			schedule_work(&ucsi->notify_work);
+   355			break;
+   356		}
+   357	}
+   358	
 
 --
 0-DAY CI Kernel Test Service
