@@ -1,126 +1,157 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8385A3DC4A4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 09:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8913FC5AB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 09:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783676690; cv=none; b=RLOP/1l2te4l8uwU5SE6/gMzru1Xf0Ig5kOcFoTtrs1n46RrNy8foHtqcUoT/sUAV6HQKQ8Iath8kYHKmSVNZEgIrhQOMJQwEvkcpbUjeZKuPG8a96QFkGwSoYnujGQF4bwlXGf9U2leBIvNsKQRnDBZONTh66/+rFIYImwWhn8=
+	t=1783677527; cv=none; b=SBETQLptaFe2poN0b0O35fRFtQ0Uw/iYtYDuZKlVHEOvHOogrNeeOwjxxYFA8AHfy4kTvh5r6Lifnw6kgUjgnqsVqaW6r539dBFSHb3TaXddFJEmauaATykTg7bR78wFkejfQPIe2n2XkbMX+HLKXCfzourKNuok9+x1UqBmTYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783676690; c=relaxed/simple;
-	bh=n5dVZR56QrTg/Ul60zta0d41rZ5y/rUxhI7osvzotYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XB0cpOOP/z5eW6zGoKvdKb8+SJ/Opg8AVMo6I4KU6QssiQWrjLrGzuOyNvPY+jJFNbYCW7car1U55yUfnuJyQNAyVmvZ3M4nJAys/KiiUMFQwOAZF8LLcKcWXJMnpYYOPYYk8r/teNr/3NV3jQ96U4JM/Xk+8yr7U7+Yut5BasE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=PJdGSXWo; arc=none smtp.client-ip=115.124.30.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1783677527; c=relaxed/simple;
+	bh=giWgPJS3XBLvIpsREXxBNm+9t6umopkDuBVxImXMZWk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IqWaLXUI8LQXD+UP0LvRsi3tVK71YeEU7rylZiuJbMZHNjELUUMkuK85Jpr/Xu3iBOAcXmACLZIp5z517mp4IAd0h/OuIh7OJELIzfRG7wM+Yfah/hwddXdXCEAB6pOBeGPKcAibXnIpl5Gptj2Dj5krQps5dCcoa4S2/DdTFQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ltl8XRTW; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="PJdGSXWo"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1783676685; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=0SCLf4a0Hf1R30pugtjRiY04P2OQ/nfMJ2OjDravk6A=;
-	b=PJdGSXWoQ7i2lVTubjZXD/xu26/rUFpAACLLnxKVRMlOrjYNURFe+6/0j9paP6Z89nMdmKXl5duXE0fcAwYkuSc5DWEZM3IIMTWaBrVr4htoX/B4CcAbRwQ9zSAFOIkvQ37KS4i57Okl/mf1hgzIgpbsk56JqFCiEWbn+HEFrj4=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=feng.tang@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X6nI9ux_1783676684;
-Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0X6nI9ux_1783676684 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 10 Jul 2026 17:44:44 +0800
-Date: Fri, 10 Jul 2026 17:44:43 +0800
-From: Feng Tang <feng.tang@linux.alibaba.com>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, lkp@intel.com
-Cc: kernel test robot <lkp@intel.com>, linuxppc-dev@lists.ozlabs.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	clang-built-linux@googlegroups.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against
- symbol 'init_task'; recompile with -fPIC
-Message-ID: <alC_C8KmO0F0Mh6X@U-2FWC9VHC-2323.local>
-References: <202607100652.WPUlEAfx-lkp@intel.com>
- <alBeJUafPKhx8RMS@U-2FWC9VHC-2323.local>
- <37fe4a15-e51b-411e-9667-a1c670f413e1@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ltl8XRTW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783677524; x=1815213524;
+  h=date:from:to:cc:subject:message-id;
+  bh=giWgPJS3XBLvIpsREXxBNm+9t6umopkDuBVxImXMZWk=;
+  b=Ltl8XRTWlA5zuFqnEk/KJBkymgm9AbyCxzIx0v3Qx77mARpwZfcyYxJF
+   TpHTB/R+SGLN6xmPTIm9Pj0xXLaXEXiDt9tNLCFl+1KRk4riUshpdCPk3
+   N1Kq24WeGb3+ovC/PLYkLaEZpfz8EiizuglWeYONP1w9weAd7r1yYbcpf
+   8RG3gLytSxQkMmRwsrgtfDFFj4KDOGjb5b54qXK+ZRpsgZj0EneOt2Mrn
+   jbk8M8atHAEEDqa/hgCMCNd+/NLIG9goIp7KzFWx7gWidRh6VPzUSG8ns
+   jsfipFuedvQWcgPg7On2gQBx7Vv8njP7mxVcjXWl3sJdeS+B0CLCNHdlJ
+   A==;
+X-CSE-ConnectionGUID: HE2Z1vY9R3SGmOPOaFGaUg==
+X-CSE-MsgGUID: qfwvznziTS64gpip8ky+zQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101923799"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="101923799"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 02:58:44 -0700
+X-CSE-ConnectionGUID: IVYLu44mSqOSAvIjq5qk9Q==
+X-CSE-MsgGUID: rX/df2TWT8yeCLdHcv8inQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="250841218"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 10 Jul 2026 02:58:42 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wi80C-00000000IoB-2oyw;
+	Fri, 10 Jul 2026 09:58:38 +0000
+Date: Fri, 10 Jul 2026 17:57:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-riscv64 1/1]
+ drivers/interconnect/debugfs-client.c:60:15: sparse: sparse: incompatible
+ types in comparison expression (different address spaces):
+Message-ID: <202607101703.CIB6ytPN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <37fe4a15-e51b-411e-9667-a1c670f413e1@kernel.org>
 
-On Fri, Jul 10, 2026 at 06:33:49AM +0200, Christophe Leroy (CS GROUP) wrote:
-> + Clang
-> 
-> Le 10/07/2026 à 04:51, Feng Tang a écrit :
-> > Thanks for the report!
-> > 
-> > Add Powerpc list.
-> 
-> This is a Clang build with Clang linker, did you reproduce the problem with
-> a normal GCC build ?
+tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
+head:   c8bd194f277ae6d43833ef16baa205e4c67629b4
+commit: 4439db7b8f941e4e418fc4d07e84a2eb31c6f339 [1/1] ANDROID: interconnect: Enable debugfs client
+config: i386-randconfig-061-20260708 (https://download.01.org/0day-ci/archive/20260710/202607101703.CIB6ytPN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607101703.CIB6ytPN-lkp@intel.com/reproduce)
 
-I tried the 'reproduce' provided by 0day bot, but it failed early:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607101703.CIB6ytPN-lkp@intel.com/
 
-	/workspace/feng/ws2/projects/linux-2.6/Makefile:1244: C=1 specified, but sparse is not available or not up to date
-	Documentation/.renames.txt: warning: ignored by one of the .gitignore files
-	../arch/powerpc/lib/sstep.c:1346:31: error: variable 'rc' set but not used [-Werror,-Wunused-but-set-variable]
-	 1346 |         unsigned int opcode, ra, rb, rc, rd, spr, u;
-		  |                                      ^
-	../arch/powerpc/lib/sstep.c:1350:21: error: variable 'suffix' set but not used [-Werror,-Wunused-but-set-variable]
-	 1350 |         unsigned int word, suffix;
-		  |                            ^
-	2 errors generated.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/interconnect/debugfs-client.c:60:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/interconnect/debugfs-client.c:60:15: sparse:    char [noderef] __rcu *
+   drivers/interconnect/debugfs-client.c:60:15: sparse:    char *
+   drivers/interconnect/debugfs-client.c:61:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/interconnect/debugfs-client.c:61:15: sparse:    char [noderef] __rcu *
+   drivers/interconnect/debugfs-client.c:61:15: sparse:    char *
 
-0day folks, could you help to check? thanks
+vim +60 drivers/interconnect/debugfs-client.c
 
+770c69f037c18c Mike Tipton 2023-08-07   50  
+770c69f037c18c Mike Tipton 2023-08-07   51  static int icc_get_set(void *data, u64 val)
+770c69f037c18c Mike Tipton 2023-08-07   52  {
+770c69f037c18c Mike Tipton 2023-08-07   53  	struct debugfs_path *debugfs_path;
+770c69f037c18c Mike Tipton 2023-08-07   54  	char *src, *dst;
+770c69f037c18c Mike Tipton 2023-08-07   55  	int ret = 0;
+770c69f037c18c Mike Tipton 2023-08-07   56  
+770c69f037c18c Mike Tipton 2023-08-07   57  	mutex_lock(&debugfs_lock);
+770c69f037c18c Mike Tipton 2023-08-07   58  
+770c69f037c18c Mike Tipton 2023-08-07   59  	rcu_read_lock();
+770c69f037c18c Mike Tipton 2023-08-07  @60  	src = rcu_dereference(src_node);
+770c69f037c18c Mike Tipton 2023-08-07   61  	dst = rcu_dereference(dst_node);
+770c69f037c18c Mike Tipton 2023-08-07   62  
+770c69f037c18c Mike Tipton 2023-08-07   63  	/*
+770c69f037c18c Mike Tipton 2023-08-07   64  	 * If we've already looked up a path, then use the existing one instead
+770c69f037c18c Mike Tipton 2023-08-07   65  	 * of calling icc_get() again. This allows for updating previous BW
+770c69f037c18c Mike Tipton 2023-08-07   66  	 * votes when "get" is written to multiple times for multiple paths.
+770c69f037c18c Mike Tipton 2023-08-07   67  	 */
+770c69f037c18c Mike Tipton 2023-08-07   68  	cur_path = get_path(src, dst);
+770c69f037c18c Mike Tipton 2023-08-07   69  	if (cur_path) {
+770c69f037c18c Mike Tipton 2023-08-07   70  		rcu_read_unlock();
+770c69f037c18c Mike Tipton 2023-08-07   71  		goto out;
+770c69f037c18c Mike Tipton 2023-08-07   72  	}
+770c69f037c18c Mike Tipton 2023-08-07   73  
+770c69f037c18c Mike Tipton 2023-08-07   74  	src = kstrdup(src, GFP_ATOMIC);
+770c69f037c18c Mike Tipton 2023-08-07   75  	dst = kstrdup(dst, GFP_ATOMIC);
+770c69f037c18c Mike Tipton 2023-08-07   76  	rcu_read_unlock();
+770c69f037c18c Mike Tipton 2023-08-07   77  
+770c69f037c18c Mike Tipton 2023-08-07   78  	if (!src || !dst) {
+770c69f037c18c Mike Tipton 2023-08-07   79  		ret = -ENOMEM;
+770c69f037c18c Mike Tipton 2023-08-07   80  		goto err_free;
+770c69f037c18c Mike Tipton 2023-08-07   81  	}
+770c69f037c18c Mike Tipton 2023-08-07   82  
+770c69f037c18c Mike Tipton 2023-08-07   83  	cur_path = icc_get(&pdev->dev, src, dst);
+770c69f037c18c Mike Tipton 2023-08-07   84  	if (IS_ERR(cur_path)) {
+770c69f037c18c Mike Tipton 2023-08-07   85  		ret = PTR_ERR(cur_path);
+770c69f037c18c Mike Tipton 2023-08-07   86  		goto err_free;
+770c69f037c18c Mike Tipton 2023-08-07   87  	}
+770c69f037c18c Mike Tipton 2023-08-07   88  
+770c69f037c18c Mike Tipton 2023-08-07   89  	debugfs_path = kzalloc(sizeof(*debugfs_path), GFP_KERNEL);
+770c69f037c18c Mike Tipton 2023-08-07   90  	if (!debugfs_path) {
+770c69f037c18c Mike Tipton 2023-08-07   91  		ret = -ENOMEM;
+770c69f037c18c Mike Tipton 2023-08-07   92  		goto err_put;
+770c69f037c18c Mike Tipton 2023-08-07   93  	}
+770c69f037c18c Mike Tipton 2023-08-07   94  
+770c69f037c18c Mike Tipton 2023-08-07   95  	debugfs_path->path = cur_path;
+770c69f037c18c Mike Tipton 2023-08-07   96  	debugfs_path->src = src;
+770c69f037c18c Mike Tipton 2023-08-07   97  	debugfs_path->dst = dst;
+770c69f037c18c Mike Tipton 2023-08-07   98  	list_add_tail(&debugfs_path->list, &debugfs_paths);
+770c69f037c18c Mike Tipton 2023-08-07   99  
+770c69f037c18c Mike Tipton 2023-08-07  100  	goto out;
+770c69f037c18c Mike Tipton 2023-08-07  101  
+770c69f037c18c Mike Tipton 2023-08-07  102  err_put:
+770c69f037c18c Mike Tipton 2023-08-07  103  	icc_put(cur_path);
+770c69f037c18c Mike Tipton 2023-08-07  104  err_free:
+770c69f037c18c Mike Tipton 2023-08-07  105  	kfree(src);
+770c69f037c18c Mike Tipton 2023-08-07  106  	kfree(dst);
+770c69f037c18c Mike Tipton 2023-08-07  107  out:
+770c69f037c18c Mike Tipton 2023-08-07  108  	mutex_unlock(&debugfs_lock);
+770c69f037c18c Mike Tipton 2023-08-07  109  	return ret;
+770c69f037c18c Mike Tipton 2023-08-07  110  }
+770c69f037c18c Mike Tipton 2023-08-07  111  
 
-> Thanks
-> Christophe
-> 
-> > 
-> > On Fri, Jul 10, 2026 at 06:18:50AM +0800, kernel test robot wrote:
-> > > tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094863506%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=fQm6QfsJ2ggaKoRJWCz4dsaquz7Wo3uhRnOexVUrTnQ%3D&reserved=0 master
-> > > head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
-> > > commit: d5cae2261b86913e602452ce4a07e6aefc0f603b dma-contiguous: simplify numa cma area handling
-> > > date:   6 weeks ago
-> > > config: powerpc-randconfig-r133-20260709 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20260710%2F202607100652.WPUlEAfx-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094899182%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=BkT0BYyJtniz6YPzGpYbO0jn2T7vBDBLaK2Tsh1LcnE%3D&reserved=0)
-> > > compiler: clang version 21.1.8 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fllvm%2Fllvm-project&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094917538%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=5%2BLVtRoojuNbhEMr3BhM2xF50PV%2FIYh%2FWw3ipDIWG%2FY%3D&reserved=0 2078da43e25a4623cab2d0d60decddf709aaea28)
-> > > sparse: v0.6.5-rc1
-> > > reproduce (this is a W=1 build): (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20260710%2F202607100652.WPUlEAfx-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094935016%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2BrpcCLuNecZIfyF6N5X%2FFcHhdG9YzLBAErvBGHyjjak%3D&reserved=0)
-> > 
-> > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > > > > ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'init_task'; recompile with -fPIC
-> > >     >>> defined in vmlinux.a(init/init_task.o)
-> > >     >>> referenced by head_44x.S:101 (arch/powerpc/kernel/head_44x.S:101)
-> > >     >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x42) in archive vmlinux.a
-> > > --
-> > > > > ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against symbol 'init_thread_union'; recompile with -fPIC
-> > >     >>> defined in ./arch/powerpc/kernel/vmlinux.lds:133
-> > >     >>> referenced by head_44x.S:108 (arch/powerpc/kernel/head_44x.S:108)
-> > >     >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x4e) in archive vmlinux.a
-> > 
-> > I checked the patch and couldn't find obvious clue between the patch and
-> > the error.
-> > 
-> > commit d5cae2261b8691 only changes kernel/dma/contiguous.c, which is under
-> > CONFIG_DMA_CMA per kernel/dma/Makefile. In your config above, CONFIG_DMA_CMA
-> > is not even set, so the contigous.c should not be compiled. Could you help
-> > to double check? thanks!
-> > 
-> > - Feng
-> > 
-> > > Kconfig warnings: (for reference only)
-> > >     WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-> > >     Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-> > >     Selected by [y]:
-> > >     - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
-> > > 
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fintel%2Flkp-tests%2Fwiki&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C016c05b801ba48f2593f08dede2e29c2%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639192487094952205%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=sqz%2BJ2dpT3ZZjlQyyvAhgPdP9jS0kJLpbRKTcV4rM50%3D&reserved=0
-> > 
+:::::: The code at line 60 was first introduced by commit
+:::::: 770c69f037c18cfaa37c3d6c6ef8bd257635513f interconnect: Add debugfs test client
+
+:::::: TO: Mike Tipton <quic_mdtipton@quicinc.com>
+:::::: CC: Georgi Djakov <djakov@kernel.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
