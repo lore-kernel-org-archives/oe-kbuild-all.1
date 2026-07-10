@@ -1,169 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142C71A268
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 01:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0368335E953
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 02:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783646503; cv=none; b=LBh0K/+HtI9CaqmBXUYWzEo8jVd2Gq8+mpOOcRaNLFG3RsCQctU0n04vWVB4hjUAH5x6rFNkeY3rkkgmOScANx4cVUnIXh9dBZuu6WdrsgDcIuqhzHPYtr8oLNWwACMcGjE8hBA1TYx2cJNHDe920bQBPh+H2if1TaBCDIaVcJk=
+	t=1783651889; cv=none; b=DdLwqdx4sNQMBxzX1ZeW9CJYchBweL92lcCZBiE6avcgtSCJ4BtKHPnP+k1hmTvJg229hHDzij+76ZWq1Cwu+Qvc78SlbH8YBoBruJLjQNKKg+x66VE1eqCSX5D5WSwzPsvfWOHuA5bEV8PIalzZYvdt8d4ih6Hg4SkqwsHkR4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783646503; c=relaxed/simple;
-	bh=0IdgSURdKXr+oX0p64fAw04dLOkAEtit0ALsPMGKbhI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AIrJqO107rGiQ0ZQAc/CO0WYBNr/o2JnTDaBC2KTf7aVWsXJTPPvsIXHDFJ+ymTjsgCO90rfS1p1+Wx3s/ZQkdHaXhFruZS2652PC9J4SnWtg8P/CyNlwawTKKiYmIKv8SZz8WuPM9lqVy1juawIaqtsKLIVHw7+SRNqFvEbNRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HT6wP0MN; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783651889; c=relaxed/simple;
+	bh=ldLrbVu1CrDZlABh6sQCF2O6+FC7TBAzDRxOjyIlTUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DLyodU9prYxI5YZrMkhq8iSrEXK9TUivDBtvlaGXF5QtZtjh4huIQ/IrQGd9qOXDcdS77B8IgDs1pbWCi78THP6jjpun3yVBX0ps5jEJ35mAtPmisDiqCM7hNsu+zuWTAYg3bIsTFoz9Zm+sD3THIqs8jzAlKxGIwdKodVTya6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=sbwoLXAX; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HT6wP0MN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783646501; x=1815182501;
-  h=date:from:to:cc:subject:message-id;
-  bh=0IdgSURdKXr+oX0p64fAw04dLOkAEtit0ALsPMGKbhI=;
-  b=HT6wP0MNivKoZYzJ4yIatB12RpF/FrM+T3qG+rlJnHTCV7iHMTFpGwIT
-   7TtXTdqStLUrkol3yTKWOAo5vvMvTN2bG1na1OGj0IGkc2ePNXaC3gd94
-   Jylu+GdQ25zgjiYOf5NySZNtIwnURE4v3YP+H926pKKxYXwxJleCYodn0
-   4s2wh+RrpTH91gTVYdYkZDPw+1Va/5ZkGZeFWf5w+XQsmyYc4BA5I1NUn
-   ldhiXFouQvSE1f8Nq9zie5oowT2VGWHP8qrborz4nnYdiRNQg/1RoLxim
-   rMBg+Mu+4DfFoR7d1qohI0k2PocxZ+/dYljtIs/9/r6R/7+bzLw24RQxI
-   A==;
-X-CSE-ConnectionGUID: THJzHZTvSSqLDQA1B5Z8XQ==
-X-CSE-MsgGUID: 4ybs6UURSD6lSXXqQhNwlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="107142977"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="107142977"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 18:21:40 -0700
-X-CSE-ConnectionGUID: /t1Gu+8kS8uWz9PUYDcArA==
-X-CSE-MsgGUID: 8/gONSfSQNey4oQtiWWr7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="248377548"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Jul 2026 18:21:39 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1whzvs-00000000ILr-19so;
-	Fri, 10 Jul 2026 01:21:36 +0000
-Date: Fri, 10 Jul 2026 09:20:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Subject: [avpatel:riscv_trace_support_v4 43/58]
- arch/riscv/kernel/sbi_mpxy.c:287:5: error: call to undeclared function
- 'memdesc_section'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202607100920.4mX8HxCL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="sbwoLXAX"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1783651879; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=lUrJGNdkgOLm/MDj00ePOaZ/7kLX0+V9Jpn17brXOZc=;
+	b=sbwoLXAXpohyRU18GT1x04RnY3U2YQUEiEsMpaTaLWnUHJAw5cuG2u5EGPta2zSNzBAYWvuxEO/lABv2UHjkwefh3edC8M0y9jl24iCucaMSAsyyYCFAbgxwc2Qrm3EpBF73rF1V/48orayCg0bUfZK6NuBYqKRMJTY5ps55rAY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=feng.tang@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X6mEdSu_1783651878;
+Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0X6mEdSu_1783651878 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 10 Jul 2026 10:51:18 +0800
+Date: Fri, 10 Jul 2026 10:51:17 +0800
+From: Feng Tang <feng.tang@linux.alibaba.com>
+To: kernel test robot <lkp@intel.com>, linuxppc-dev@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against
+ symbol 'init_task'; recompile with -fPIC
+Message-ID: <alBeJUafPKhx8RMS@U-2FWC9VHC-2323.local>
+References: <202607100652.WPUlEAfx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202607100652.WPUlEAfx-lkp@intel.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v4
-head:   077795f92007de48afcaeab45f9e9217537966d8
-commit: d114c0cd70da2e1a20620050e0fa8e512b2d24c4 [43/58] RISC-V: Move common MPXY helper routines to arch/riscv
-config: riscv-randconfig-r051-20260710 (https://download.01.org/0day-ci/archive/20260710/202607100920.4mX8HxCL-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607100920.4mX8HxCL-lkp@intel.com/reproduce)
+Thanks for the report!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607100920.4mX8HxCL-lkp@intel.com/
+Add Powerpc list.
 
-All errors (new ones prefixed by >>):
-
->> arch/riscv/kernel/sbi_mpxy.c:287:5: error: call to undeclared function 'memdesc_section'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     287 |                          page_to_phys(shmem_page), 0, 0, 0, 0, 0);
-         |                          ^
-   include/asm-generic/memory_model.h:85:37: note: expanded from macro 'page_to_phys'
-      85 | #define page_to_phys(page)      PFN_PHYS(page_to_pfn(page))
-         |                                          ^
-   include/asm-generic/memory_model.h:73:21: note: expanded from macro 'page_to_pfn'
-      73 | #define page_to_pfn __page_to_pfn
-         |                     ^
-   include/asm-generic/memory_model.h:56:14: note: expanded from macro '__page_to_pfn'
-      56 |         int __sec = memdesc_section(__pg->flags);               \
-         |                     ^
-   arch/riscv/kernel/sbi_mpxy.c:289:29: error: call to undeclared function 'memdesc_section'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     289 |                 free_pages((unsigned long)page_to_virt(shmem_page),
-         |                                           ^
-   arch/riscv/include/asm/page.h:160:41: note: expanded from macro 'page_to_virt'
-     160 | #define page_to_virt(page)      (pfn_to_virt(page_to_pfn(page)))
-         |                                              ^
-   include/asm-generic/memory_model.h:73:21: note: expanded from macro 'page_to_pfn'
-      73 | #define page_to_pfn __page_to_pfn
-         |                     ^
-   include/asm-generic/memory_model.h:56:14: note: expanded from macro '__page_to_pfn'
-      56 |         int __sec = memdesc_section(__pg->flags);               \
-         |                     ^
-   arch/riscv/kernel/sbi_mpxy.c:294:16: error: call to undeclared function 'memdesc_section'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     294 |         mpxy->shmem = page_to_virt(shmem_page);
-         |                       ^
-   arch/riscv/include/asm/page.h:160:41: note: expanded from macro 'page_to_virt'
-     160 | #define page_to_virt(page)      (pfn_to_virt(page_to_pfn(page)))
-         |                                              ^
-   include/asm-generic/memory_model.h:73:21: note: expanded from macro 'page_to_pfn'
-      73 | #define page_to_pfn __page_to_pfn
-         |                     ^
-   include/asm-generic/memory_model.h:56:14: note: expanded from macro '__page_to_pfn'
-      56 |         int __sec = memdesc_section(__pg->flags);               \
-         |                     ^
-   arch/riscv/kernel/sbi_mpxy.c:295:26: error: call to undeclared function 'memdesc_section'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     295 |         mpxy->shmem_phys_addr = page_to_phys(shmem_page);
-         |                                 ^
-   include/asm-generic/memory_model.h:85:37: note: expanded from macro 'page_to_phys'
-      85 | #define page_to_phys(page)      PFN_PHYS(page_to_pfn(page))
-         |                                          ^
-   include/asm-generic/memory_model.h:73:21: note: expanded from macro 'page_to_pfn'
-      73 | #define page_to_pfn __page_to_pfn
-         |                     ^
-   include/asm-generic/memory_model.h:56:14: note: expanded from macro '__page_to_pfn'
-      56 |         int __sec = memdesc_section(__pg->flags);               \
-         |                     ^
-   4 errors generated.
+On Fri, Jul 10, 2026 at 06:18:50AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
+> commit: d5cae2261b86913e602452ce4a07e6aefc0f603b dma-contiguous: simplify numa cma area handling
+> date:   6 weeks ago
+> config: powerpc-randconfig-r133-20260709 (https://download.01.org/0day-ci/archive/20260710/202607100652.WPUlEAfx-lkp@intel.com/config)
+> compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607100652.WPUlEAfx-lkp@intel.com/reproduce)
 
 
-vim +/memdesc_section +287 arch/riscv/kernel/sbi_mpxy.c
+> All errors (new ones prefixed by >>):
+> 
+> >> ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'init_task'; recompile with -fPIC
+>    >>> defined in vmlinux.a(init/init_task.o)
+>    >>> referenced by head_44x.S:101 (arch/powerpc/kernel/head_44x.S:101)
+>    >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x42) in archive vmlinux.a
+> --
+> >> ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against symbol 'init_thread_union'; recompile with -fPIC
+>    >>> defined in ./arch/powerpc/kernel/vmlinux.lds:133
+>    >>> referenced by head_44x.S:108 (arch/powerpc/kernel/head_44x.S:108)
+>    >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x4e) in archive vmlinux.a
 
-   267	
-   268	static int mpxy_setup_shmem(unsigned int cpu)
-   269	{
-   270		struct page *shmem_page;
-   271		struct mpxy_local *mpxy;
-   272		struct sbiret sret;
-   273	
-   274		mpxy = per_cpu_ptr(&mpxy_local, cpu);
-   275		if (mpxy->shmem_active)
-   276			return 0;
-   277	
-   278		shmem_page = alloc_pages(GFP_KERNEL | __GFP_ZERO, get_order(mpxy_shmem_size));
-   279		if (!shmem_page)
-   280			return -ENOMEM;
-   281	
-   282		/*
-   283		 * Linux setup of shmem is done in mpxy OVERWRITE mode.
-   284		 * flags[1:0] = 00b
-   285		 */
-   286		sret = sbi_ecall(SBI_EXT_MPXY, SBI_EXT_MPXY_SET_SHMEM,
- > 287				 page_to_phys(shmem_page), 0, 0, 0, 0, 0);
-   288		if (sret.error) {
-   289			free_pages((unsigned long)page_to_virt(shmem_page),
-   290				   get_order(mpxy_shmem_size));
-   291			return sbi_err_map_linux_errno(sret.error);
-   292		}
-   293	
-   294		mpxy->shmem = page_to_virt(shmem_page);
-   295		mpxy->shmem_phys_addr = page_to_phys(shmem_page);
-   296		mpxy->shmem_active = true;
-   297	
-   298		return 0;
-   299	}
-   300	
+I checked the patch and couldn't find obvious clue between the patch and
+the error.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+commit d5cae2261b8691 only changes kernel/dma/contiguous.c, which is under
+CONFIG_DMA_CMA per kernel/dma/Makefile. In your config above, CONFIG_DMA_CMA
+is not even set, so the contigous.c should not be compiled. Could you help
+to double check? thanks!
+
+- Feng
+
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+>    Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+>    Selected by [y]:
+>    - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
