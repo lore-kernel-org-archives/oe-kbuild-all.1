@@ -1,267 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84CF229B18;
-	Fri, 10 Jul 2026 13:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60797348886
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 14:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783691574; cv=none; b=up+5iMo1mN3wDj8PEn9gSzq8rt0bGxe2T2XwODhlDxv66wICRYMFC+9ssbgG2z0vIMlTMnZl+C9PtqtqJj4lxN25gpkZ2xnF9aCP2vxI3R89YU3BYvyiG3EkrWeXrKhD8BgSFSSur8KTN8eQTR/YuKRDhz070Vpyd1zSqZS6cgI=
+	t=1783693356; cv=none; b=J6JmtOAHUTgxdih+nDBaPJxt5Ik4lU1c6WCyUIlt/x2a89IhblYDsHMOgxA61EUR1rqlstC/r76lIbsv4n2GRHgXYWsPalzVqMxUgNQ2h80PqgmEH8mQlNyuGC74LlSPTnZPXOSjcXpIEtfBLjsiyR3g0/z7hnoipc/RRc4Kl7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783691574; c=relaxed/simple;
-	bh=6vyJPeh/vhz5GZ1KM/8N8l5B2AaVxU9M5qT5lD73yRA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MsYV3p0OOhwST03EZhEIy5ukjLn9184HygoRW1eMrMV+tUEiH6kHuwHwYj7GT71eaSuqU3IdNJT3JNWv6d78yrxYHRtvVcP9GyPOCctGNygEQqDQInugsDcdL8R4meUd4ZPlJCdz3aFDNzctmkmnwl342wD0+V9xUT/3rGe4ShQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cs6Q4/js; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783693356; c=relaxed/simple;
+	bh=j8ztexVeHJ/lysG+dS4FCIohew2jdzXXgg6ocizaIc8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nhF3/hz28kQYgtKWUmYRZPOVQb63kxV1w/gcNM+vy3WS5MpEsJvJ821ftfSStZ1lvvkFSojN0RVGBs2/R2u3BNsOrrwSP47gHEwIi6UjWPhyiTJZS9qrXpnrdqz1SEJqO5/ml+ChNK38Aq1binti88QpJ8zx9uKWc1MpysWkYPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FpnM4SiW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cs6Q4/js"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783691569; x=1815227569;
-  h=date:from:to:cc:subject:message-id;
-  bh=6vyJPeh/vhz5GZ1KM/8N8l5B2AaVxU9M5qT5lD73yRA=;
-  b=Cs6Q4/jsEOXQosvcKCJVjpHTyuGVquuVs+2S4t3eia4ib31INtTxUKc9
-   qKdgwSePxVM7UhYwTvBAx1h+IKzgLEGaORSBv9LywC7PPuT2yh+pstouB
-   FolzoeCF8H2IqOJaIcVFXI+Eq41cclBsXZI2wiWDSsTOipkwVU/mFjRli
-   1Pki1a9PfxXdJQTT9F45HHCDJb64ffrEkFCKW6xLH8KrcWOicf54mxnmz
-   aej0TZQ12StL/yuuKfJMAKCSu43pFxAVNoI2xzAxr5CcieWMD+1wP5fk0
-   NZa+f9ls4uPzMu8/aWzUmZoNwL8rzulingBWhLZ3obfYzI+FihdEoNisP
-   Q==;
-X-CSE-ConnectionGUID: W9ZD0VluS8WkMR3oLNJZwg==
-X-CSE-MsgGUID: gZSEUaFlS7y31Yajdt87yQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95033378"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="95033378"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 06:52:46 -0700
-X-CSE-ConnectionGUID: A6vMkCXETremf+cWiDGDrA==
-X-CSE-MsgGUID: KRjGN+TlRmy6LaFJCXLgXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="284993226"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 10 Jul 2026 06:52:44 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wiBeg-00000000IzP-1L4b;
-	Fri, 10 Jul 2026 13:52:39 +0000
-Date: Fri, 10 Jul 2026 21:51:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Liam R. Howlett" <liam@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [liam:maple_marks_v7.2_fixes 27/31]
- lib/test_maple_tree.c:356:29: error: call to undeclared function
- 'mt_slot_count'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202607102143.a8ULhyOo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FpnM4SiW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783693354;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6Pii6+VUNSkz8RIoUJXNDNW7Hti+cX+eNSorBDf5XVU=;
+	b=FpnM4SiWHhZNNuGi8YZwB1IJ/vT5sY1BkqL6zkmFHnhDFNurPnF8Maz9Ax5NjNCw4GRP4m
+	Yo7GuCtWGfHZKKubBs3ACQ1oyEPWfHcCoQtjG2QmvhCBlQA3Ruh2vMiD8CzTmQAWqCrqAM
+	wpK67o5py5RfCPBCAmb2LLEe9Eg26PU=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-582-X-FbYPrjO4qEThDI7kPabg-1; Fri, 10 Jul 2026 10:22:33 -0400
+X-MC-Unique: X-FbYPrjO4qEThDI7kPabg-1
+X-Mimecast-MFC-AGG-ID: X-FbYPrjO4qEThDI7kPabg_1783693352
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cc6dd43737so21152185ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Jul 2026 07:22:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783693352; x=1784298152;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=6Pii6+VUNSkz8RIoUJXNDNW7Hti+cX+eNSorBDf5XVU=;
+        b=jAXA27QbYZrpeeZF+dylD2pnium8Px2VQVmKw1UfTI72czPL1i3or8ISAMFhq8UU05
+         BGxVnqcHmRXFhOu/fgiYvh2U9VtibM8d1kj+CxUmGdbVxOsnkVt7w6KUYexDyxvZN5CV
+         OIJhtVKc4WqMMVHH95yyXV/fCixM18P6fYnMyHnWGQf7pY0EvTo4MUl1mC8mYiHVi07G
+         9ZvoICD0JmQUcfWIdreWE+NzE86nHniaHQ/dEFbPsOaEV/QkdQvpGVNopfj1jdAq1nqE
+         GEguH9mHrtjhAjKe1m+nFd6pKSG0JnVbtHrEB2axlaijvpzCB8iArC5B313agZ6sII7S
+         dSbA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrfre3b0/ts9wDZvNDrhPiFU/MSdvKvNlJlQeIrbJ6UWCP1D7zw4gV4Znrp1rodECW6HQOdo762VlLziCAx@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFKNlhnMgomMJPuIrSq7gp6rsJizdIxL+t8mqOkzAX9LFx2SEk
+	njFveqIfRZXaHsXecOvm8USOvEcyb2A+lkywtzDxyjdNwV3lgn/FYellW5V7I8gF6tBIHGSWCiP
+	aIF8zyfHVIWa8IixK2qoy2UV34HHSZTgM6J9Z50/vgPPWT0vFqnTktbEP+1+j0TRxb2gGJ6c5tc
+	qMSeIHqZBcggmN7DOqIr8Bk6MzRHpLYwuaSSHDswiwYg==
+X-Gm-Gg: AfdE7cnnd3PU5hm0B2dOk5MWqDBlmb4TcyUxmiXICVPRPrj2aECMy9KvZbfNEUBA0Pd
+	M3Mc7wvcEO44g1QRPGTqFsPyjEpZ2S5IzXnTHfv2GpXGID5iih+ILs/bcVBiN56DvC7/DcKinCC
+	1uzPErSdaRNh50Hy+pBlS+ueRHBKUFuXRNnAwrB9HHSjayAcmLv6qxC5XwUE64FS6f
+X-Received: by 2002:a17:902:e74a:b0:2ca:e08e:9e70 with SMTP id d9443c01a7336-2ccea47fc80mr112578785ad.46.1783693351920;
+        Fri, 10 Jul 2026 07:22:31 -0700 (PDT)
+X-Received: by 2002:a17:902:e74a:b0:2ca:e08e:9e70 with SMTP id
+ d9443c01a7336-2ccea47fc80mr112578445ad.46.1783693351374; Fri, 10 Jul 2026
+ 07:22:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202607061644.jD93AjWc-lkp@intel.com>
+In-Reply-To: <202607061644.jD93AjWc-lkp@intel.com>
+From: Stefano Garzarella <sgarzare@redhat.com>
+Date: Fri, 10 Jul 2026 16:22:20 +0200
+X-Gm-Features: AVVi8Cdjins50MTVFIvNiRiNn1jueuFwuqMPkbhEgZBeMXEs5Gzf-VNpsD_OXzo
+Message-ID: <CAGxU2F5KvtLSgT9pzhv8YxcP_j9L7usXqKY+W446XxLAovdbog@mail.gmail.com>
+Subject: Re: ld.lld: error: vmlinux.a(af_vsock.o at 1186296) <inline asm>:5:8:
+ unpredictable STXR instruction, status is also a source
+To: kernel test robot <lkp@intel.com>
+Cc: Bobby Eshleman <bobbyeshleman@meta.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Paolo Abeni <pabeni@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: HXO_viPl2SsNmolzDM4ftDvJwsPmXOGM2sooC7luyXc_1783693352
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/liam/linux.git maple_marks_v7.2_fixes
-head:   bad7721b2ef18bd6c1361bff214b8323cef1296f
-commit: 5dc6e2040f47d163de17af84a26609cee99f962e [27/31] maple_tree: Testing code update for triple split
-config: hexagon-randconfig-001-20260710 (https://download.01.org/0day-ci/archive/20260710/202607102143.a8ULhyOo-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260710/202607102143.a8ULhyOo-lkp@intel.com/reproduce)
+On Mon, 6 Jul 2026 at 10:44, kernel test robot <lkp@intel.com> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   8cdeaa50eae8dad34885515f62559ee83e7e8dda
+> commit: 102eab95f025b4d3f3a6c0a858400aca2af2fe52 vsock: lock down child_ns_mode as write-once
+> date:   4 months ago
+> config: arm64-randconfig-001-20260706 (https://download.01.org/0day-ci/archive/20260706/202607061644.jD93AjWc-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607061644.jD93AjWc-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: 102eab95f025 ("vsock: lock down child_ns_mode as write-once")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202607061644.jD93AjWc-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> ld.lld: error: vmlinux.a(af_vsock.o at 1186296) <inline asm>:5:8: unpredictable STXR instruction, status is also a source
+>    stlxr   w8, w8, [x21]
+>    ^
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607102143.a8ULhyOo-lkp@intel.com/
+Could this be related to https://github.com/llvm/llvm-project/issues/106380 ?
+That issue seems fixed in llvm >= 20
 
-All errors (new ones prefixed by >>):
+Stefano
 
->> lib/test_maple_tree.c:356:29: error: call to undeclared function 'mt_slot_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     356 |         if (mas->max - mas->min <= mt_slot_count(mas->node))
-         |                                    ^
->> lib/test_maple_tree.c:359:8: error: call to undeclared function 'mas_data_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     359 |         val = mas_data_end(mas) + 1;
-         |               ^
->> lib/test_maple_tree.c:420:2: error: call to undeclared function 'mas_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     420 |         mas_start(mas);
-         |         ^
-   lib/test_maple_tree.c:420:2: note: did you mean 'mas_store'?
-   include/linux/maple_tree.h:640:7: note: 'mas_store' declared here
-     640 | void *mas_store(struct ma_state *mas, void *entry);
-         |       ^
-   lib/test_maple_tree.c:425:11: error: call to undeclared function 'mas_data_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     425 |                 count = mas_data_end(mas);
-         |                         ^
->> lib/test_maple_tree.c:426:9: error: call to undeclared function 'ma_pivots'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-         |                       ^
->> lib/test_maple_tree.c:426:19: error: call to undeclared function 'mas_mn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-         |                                 ^
->> lib/test_maple_tree.c:426:32: error: call to undeclared function 'mte_node_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-         |                                              ^
->> lib/test_maple_tree.c:426:7: error: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'int' [-Wint-conversion]
-     426 |                 piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/test_maple_tree.c:432:3: error: call to undeclared function 'mas_descend'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     432 |                 mas_descend(mas);
-         |                 ^
->> lib/test_maple_tree.c:443:23: error: call to undeclared function 'mte_is_leaf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     443 |         MT_BUG_ON(mas->tree, mte_is_leaf(mas->node));
-         |                              ^
-   lib/test_maple_tree.c:444:8: error: call to undeclared function 'mas_data_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     444 |         val = mas_data_end(mas) + 1;
-         |               ^
-   lib/test_maple_tree.c:445:11: error: call to undeclared function 'mt_slot_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     445 |         target = mt_slot_count(mas->node);
-         |                  ^
-   lib/test_maple_tree.c:1522:2: error: call to undeclared function 'mas_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1522 |         mas_start(&mas);
-         |         ^
-   lib/test_maple_tree.c:1528:10: error: call to undeclared function 'ma_pivots'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
-         |                 ^
-   lib/test_maple_tree.c:1528:20: error: call to undeclared function 'mas_mn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
-         |                           ^
-   lib/test_maple_tree.c:1528:34: error: call to undeclared function 'mte_node_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
-         |                                         ^
->> lib/test_maple_tree.c:1528:58: error: subscripted value is not an array, pointer, or vector
-    1528 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-   lib/test_maple_tree.c:1535:58: error: subscripted value is not an array, pointer, or vector
-    1535 |         index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[8] + 1;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-   18 errors generated.
-
-
-vim +/mt_slot_count +356 lib/test_maple_tree.c
-
-   343	
-   344	static noinline bool __init mas_node_fill(struct ma_state *mas)
-   345	{
-   346		int target, val;
-   347		void *fill = (void*)0x11111111;
-   348		unsigned long high;
-   349	
-   350		if (!mas_is_active(mas))
-   351			mas_walk(mas);
-   352	
-   353		if (!mas_is_active(mas))
-   354			return false;
-   355	
- > 356		if (mas->max - mas->min <= mt_slot_count(mas->node))
-   357			goto done;
-   358	
- > 359		val = mas_data_end(mas) + 1;
-   360		target = mt_slot_count(mas->node);
-   361		if (val == target)
-   362			goto full;
-   363	
-   364		mas_walk(mas);
-   365		high = mas->max;
-   366		while (target > val && mas_is_active(mas)) {
-   367			unsigned long old_last = mas->last;
-   368			unsigned long new_last;
-   369	
-   370			if (old_last > mas->index) {
-   371				new_last = mas->index + 1;
-   372				if (new_last <= mas->index || new_last > old_last)
-   373					new_last = old_last;
-   374				mas->last = new_last;
-   375				mas_store(mas, fill);
-   376				val = mas_data_end(mas) + 1;
-   377				if (target <= val)
-   378					break;
-   379			}
-   380			mas_next_range(mas, high);
-   381			if (!mas_is_active(mas))
-   382				break;
-   383		}
-   384		return mas_node_first_split_offset(mas);
-   385	
-   386	full:
-   387		if (mas->max - mas->min > mt_slot_count(mas->node))
-   388			return mas_node_first_split_offset(mas);
-   389	done:
-   390		mas_set(mas, mas->max);
-   391		mas_walk(mas);
-   392		return false;
-   393	}
-   394	
-   395	static noinline bool __init mas_node_split(struct ma_state *mas)
-   396	{
-   397		void *fill = (void*)0x22222222;
-   398		unsigned long old_last, new_last;
-   399	
-   400		if (mas_node_fill(mas)) {
-   401			old_last = mas->last;
-   402			if (old_last <= mas->index)
-   403				return false;
-   404	
-   405			new_last = mas->index + 1;
-   406			if (new_last <= mas->index || new_last > old_last)
-   407				new_last = old_last;
-   408			mas->last = new_last;
-   409			mas_store(mas, fill);
-   410			return true;
-   411		}
-   412	
-   413		return false;
-   414	}
-   415	
-   416	static noinline void __init test_mas_node_depth(struct ma_state *mas,
-   417			int depth)
-   418	{
-   419		mas_reset(mas);
- > 420		mas_start(mas);
-   421		while (mas->depth < depth) {
-   422			unsigned long *piv;
-   423			int count, offset;
-   424	
-   425			count = mas_data_end(mas);
- > 426			piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
-   427			offset = 0;
-   428			while (offset < count && mas->index > piv[offset]) {
-   429				offset++;
-   430			}
-   431			mas->offset = offset;
- > 432			mas_descend(mas);
-   433			mas->depth++;
-   434		}
-   435	
-   436	}
-   437	
-   438	static noinline void __init mas_internal_node_fill(struct ma_state *mas)
-   439	{
-   440		int val, target, depth;
-   441		unsigned long high, next;
-   442	
- > 443		MT_BUG_ON(mas->tree, mte_is_leaf(mas->node));
-   444		val = mas_data_end(mas) + 1;
-   445		target = mt_slot_count(mas->node);
-   446		if (val == target)
-   447			return;
-   448	
-   449		high = mas->max;
-   450		depth = mas->depth;
-   451		while (mas_data_end(mas) + 1 < target) {
-   452			mas_walk(mas);
-   453			if (mas_node_split(mas)) {
-   454				next = mas->last + 1;
-   455			} else {
-   456				next = mas->max + 1;
-   457			}
-   458			if (!next || next > high)
-   459				return;
-   460	
-   461			mas->index = next;
-   462			test_mas_node_depth(mas, depth);
-   463		}
-   464	
-   465	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
