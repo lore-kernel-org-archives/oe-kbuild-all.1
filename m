@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784001A2C0B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 12:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B023C09F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 12:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783774135; cv=none; b=kk1GNHGobiUY19QFKannp1M6DnIB1elsV2DPMHkKRTC9o/lXtv6V0D2LEYHqCuYMC00vrOdXtSE8zRqsKuwTWLNXDvd0nqACfw6OK4kQ99GHLxjfMTfgqk2bWYhRYRSanI4OCjLqNe9QDW+dZFrXI1ctuudEBL6evRFJ+paLgb0=
+	t=1783774138; cv=none; b=ObqYECHpEe/hhKGUhOEWX0FSqQVbZDbmCzsRNy5LNfzXctyHsJfmqGMUtTDG3s5sQCbK91jR2Un5v9c2XZEfCdgrqQgWqsGOB2hRfnPMTws+UQrqTa9odLWXIdRNvDBVHoPYYBtKeK0zqN7cEXYeXOfHZRa7JPdTbDez/abY2XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783774135; c=relaxed/simple;
-	bh=yP6sm3VGPDqXsBH27nsd2Fy63EQVSJbCisfk3j7xVOI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JZkJmt/WdaMAO3KFjy0v3JC0sWDDJ2kN3CUc6qpyV+UQarWYswDN1WMp63UUH8+mTZyf3XQ/ZjlDivxYLT+/vXD+gbbpYkylph/H2lpLqi3dz8XwKjPcS2gNjk8McsHj5FvqbkLX2QX82RcXGgam1MPD6aqkE2sgEAk9A4doXdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kQ+2KxEg; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1783774138; c=relaxed/simple;
+	bh=xoBbv3OifO/aCckBQJUrA3vQoiFhFecUYd4ZIoAFwTw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pv5RwI00kCfQiVaZCALyurLlOSV3dXMAv5HJEOaTta13wOYHBuozxhbj2yU4wfBZAOUhdVIrl15zIsw8J1bJKSLpHMMIfZy9h1XUsOpOoHTqR6J/ABAuqMQcAPkPcGy8BgHyXzbL5vO4zzqfIgCQmdQThLQETnSD2/kPhYa2rks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VvXIwy3y; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQ+2KxEg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvXIwy3y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783774133; x=1815310133;
+  t=1783774137; x=1815310137;
   h=date:from:to:cc:subject:message-id;
-  bh=yP6sm3VGPDqXsBH27nsd2Fy63EQVSJbCisfk3j7xVOI=;
-  b=kQ+2KxEg78gUKHrOMJQDajHKyYVFRWK0KP8kwcf+kvwJOjwhnUkql2ZW
-   I9ZIfGIu6M/5/Mnl+Qk3HykUo8YVfyxVtptr6XJM63DmxssfWhc1Wv5nL
-   mkj9ix5Xu4fP+f/K//ljoud3GHZcNKAnEsZH4zOeqCStE4KP0miXDUGuo
-   Vhp1H1328odk1ip3fhx8OmpehOgaxFiif6ui73Uei4h/kxMMUJ1F13Y7i
-   xJexsxU2Y+NyAeH9y/F6TZMllzTdKMhjJ3p1/av92xnBNRP5+atB+486r
-   99khLPR7rSm+8TnE++Izy2GafhFKI3B+81iBO7sZAt4zJQQY3Z5XV1Lqo
+  bh=xoBbv3OifO/aCckBQJUrA3vQoiFhFecUYd4ZIoAFwTw=;
+  b=VvXIwy3yIrr2pNsFyN5Am2qtnykJdGIp+WSyWkFc7M2mkzhwGVtLQDIG
+   1Tc5WLfJJdxzox0Q1WXOtPG9vHkAua8r/O7QX43m+ypt89504LMJ/iZdz
+   ypLlONpfBaiDnDFGVs8crVI3vznGA+sE5c+JGC+SmCbwiHomg6Bks9ZLL
+   wkIVI2d/Nvn7stfBaDuTM6WJFk5DALB4RqdncTFxZvcgPvDNTzmV0bsr2
+   3QiE5XX6AtbNC8G1VSYU80lhJno8MHljVFsvRRH7RhlbNOZXiyerOBpS8
+   zoU3EHkJJ53g5Hb82dCSBDEYVit2XZnCURT6fCF3w0bWTXKMw8xg0pW4w
    w==;
-X-CSE-ConnectionGUID: fnawMtmASsynxC1/NoR8TA==
-X-CSE-MsgGUID: vNWmqaxES5GEVC2JAuMTVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="83433579"
+X-CSE-ConnectionGUID: yaaxF66tQ7+yOZxOJGWWsA==
+X-CSE-MsgGUID: Mr7KUj7MSX+KLX7lX5bMZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94807639"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="83433579"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 05:48:53 -0700
-X-CSE-ConnectionGUID: pa4KWt5nTQGdfsPg5qRNNg==
-X-CSE-MsgGUID: 1y+QkS8fQb2CjmOUJ/hnpg==
+   d="scan'208";a="94807639"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 05:48:57 -0700
+X-CSE-ConnectionGUID: o20dK1EISTmUh/kRKturzA==
+X-CSE-MsgGUID: eAinuB6sREuKYxduDqo2mQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="252487194"
+   d="scan'208";a="250707349"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Jul 2026 05:48:51 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2026 05:48:55 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiX8P-00000000K3d-1BRe;
-	Sat, 11 Jul 2026 12:48:45 +0000
-Date: Sat, 11 Jul 2026 20:47:38 +0800
+	id 1wiX8T-00000000K3g-3Iw9;
+	Sat, 11 Jul 2026 12:48:50 +0000
+Date: Sat, 11 Jul 2026 20:47:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Andrea Righi <arighi@nvidia.com>
-Subject: [tj-sched-ext:for-7.3 18/29] kernel/sched/ext/sub.c:279:40:
- sparse: sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202607111938.h8gidi20-lkp@intel.com>
+To: Elson Serrao <elson.serrao@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: [usb:usb-next 23/66] drivers/usb/dwc3/core.c:2501: undefined
+ reference to `power_supply_unreg_notifier'
+Message-ID: <202607112037.tVbaUKOJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,144 +60,64 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Tejun,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git for-7.3
-head:   cbcda14b12fbc8c89546bfe4568df9b984238687
-commit: daf8e166ba59ddf1dacb080228cb42e5d1de30ae [18/29] sched_ext: Split sub-scheduler implementation into sub.c
-config: arm64-randconfig-r132-20260711 (https://download.01.org/0day-ci/archive/20260711/202607111938.h8gidi20-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111938.h8gidi20-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+head:   1db5c6b0b9834aee2f14e39764becfcc29d09ccf
+commit: 7c87ef27af79b3f905aed2edf9f60ce2a75d38e3 [23/66] usb: dwc3: avoid probe deferral when USB power supply is not available
+config: parisc-randconfig-001-20260710 (https://download.01.org/0day-ci/archive/20260711/202607112037.tVbaUKOJ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607112037.tVbaUKOJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607111938.h8gidi20-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607112037.tVbaUKOJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/ext/ext.c:2596:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:2596:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:2732:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:2732:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:2732:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:2879:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext/ext.c:2879:38: sparse:     expected struct task_struct *prev
-   kernel/sched/ext/ext.c:2879:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext/ext.c:3110:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:3110:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:3110:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:3521:62: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *scx_sched @@
-   kernel/sched/ext/ext.c:3521:62: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:3521:62: sparse:     got struct scx_sched [noderef] __rcu *scx_sched
-   kernel/sched/ext/ext.c:6051:57: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext/ext.c:6051:57: sparse:     expected struct task_struct const *p
-   kernel/sched/ext/ext.c:6051:57: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext/ext.c:6052:51: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext/ext.c:6052:51: sparse:     expected struct task_struct *p
-   kernel/sched/ext/ext.c:6052:51: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext/ext.c:7443:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext/ext.c:7443:32: sparse:     expected struct task_struct const *p
-   kernel/sched/ext/ext.c:7443:32: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext/ext.c:8776:18: sparse: sparse: symbol 'scx_bpf_reenqueue_local___v2' was not declared. Should it be static?
-   kernel/sched/ext/ext.c:9221:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext/ext.c:9221:33: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext/ext.c:9221:33: sparse:    struct task_struct const *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/ext/idle.c:751:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [assigned] [toplevel] scx_root @@
-   kernel/sched/ext/idle.c:771:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/build_policy.c: note: in included file:
->> kernel/sched/ext/sub.c:279:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *parent @@     got struct scx_sched [noderef] __rcu *scx_sched @@
->> kernel/sched/ext/sub.c:595:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *scx_sched @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:1418:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:1313:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:1313:23: sparse:    struct task_struct *
-   kernel/sched/rt.c:1313:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2462:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2462:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:1423:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1423:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1423:25: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/deadline.c:2339:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2339:15: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2339:15: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2462:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2462:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:1423:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1423:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1423:25: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:1343:11: sparse: sparse: dereference of noderef expression
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:1676:15: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +279 kernel/sched/ext/sub.c
+   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_core_remove':
+>> drivers/usb/dwc3/core.c:2501: undefined reference to `power_supply_unreg_notifier'
+   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_get_usb_power_supply':
+>> drivers/usb/dwc3/core.c:2245: undefined reference to `power_supply_reg_notifier'
+   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_core_probe':
+   drivers/usb/dwc3/core.c:2443: undefined reference to `power_supply_unreg_notifier'
 
-   275	
-   276	/* verify that a scheduler can be attached to @cgrp and return the parent */
-   277	static struct scx_sched *find_parent_sched(struct cgroup *cgrp)
-   278	{
- > 279		struct scx_sched *parent = cgrp->scx_sched;
-   280		struct scx_sched *pos;
-   281	
-   282		lockdep_assert_held(&scx_sched_lock);
-   283	
-   284		/* can't attach twice to the same cgroup */
-   285		if (parent->cgrp == cgrp)
-   286			return ERR_PTR(-EBUSY);
-   287	
-   288		/* does $parent allow sub-scheds? */
-   289		if (!parent->ops.sub_attach)
-   290			return ERR_PTR(-EOPNOTSUPP);
-   291	
-   292		/* can't insert between $parent and its exiting children */
-   293		list_for_each_entry(pos, &parent->children, sibling)
-   294			if (cgroup_is_descendant(pos->cgrp, cgrp))
-   295				return ERR_PTR(-EBUSY);
-   296	
-   297		return parent;
-   298	}
-   299	
+
+vim +2501 drivers/usb/dwc3/core.c
+
+  2476	
+  2477	void dwc3_core_remove(struct dwc3 *dwc)
+  2478	{
+  2479		pm_runtime_get_sync(dwc->dev);
+  2480	
+  2481		dwc3_core_exit_mode(dwc);
+  2482		dwc3_debugfs_exit(dwc);
+  2483	
+  2484		dwc3_core_exit(dwc);
+  2485		dwc3_ulpi_exit(dwc);
+  2486	
+  2487		pm_runtime_allow(dwc->dev);
+  2488		pm_runtime_disable(dwc->dev);
+  2489		pm_runtime_dont_use_autosuspend(dwc->dev);
+  2490		pm_runtime_put_noidle(dwc->dev);
+  2491		/*
+  2492		 * HACK: Clear the driver data, which is currently accessed by parent
+  2493		 * glue drivers, before allowing the parent to suspend.
+  2494		 */
+  2495		dev_set_drvdata(dwc->dev, NULL);
+  2496		pm_runtime_set_suspended(dwc->dev);
+  2497	
+  2498		dwc3_free_event_buffers(dwc);
+  2499	
+  2500		if (dwc->psy_nb.notifier_call)
+> 2501			power_supply_unreg_notifier(&dwc->psy_nb);
+  2502	
+  2503		if (dwc->usb_psy) {
+  2504			cancel_work_sync(&dwc->vbus_draw_work);
+  2505			power_supply_put(dwc->usb_psy);
+  2506		}
+  2507	}
+  2508	EXPORT_SYMBOL_GPL(dwc3_core_remove);
+  2509	
 
 --
 0-DAY CI Kernel Test Service
