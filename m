@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B023C09F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 12:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04ED42066DE;
+	Sat, 11 Jul 2026 12:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783774138; cv=none; b=ObqYECHpEe/hhKGUhOEWX0FSqQVbZDbmCzsRNy5LNfzXctyHsJfmqGMUtTDG3s5sQCbK91jR2Un5v9c2XZEfCdgrqQgWqsGOB2hRfnPMTws+UQrqTa9odLWXIdRNvDBVHoPYYBtKeK0zqN7cEXYeXOfHZRa7JPdTbDez/abY2XE=
+	t=1783774512; cv=none; b=MPpqCYNI3JOyOkzOeL+mWEAL9N10jCoQAi9RKexR3Uc+vZcGLBHAO4O2Q6yXrjqNEibO7jm4ZxR1gdasWMrPB6xfD+i63RcMRMKruWxKlcwFew6NRLd4jakwgZmY24J5KlFO+mw3G/tsLTGNQskOhuKO93kgCI7CA0nEKH7nrK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783774138; c=relaxed/simple;
-	bh=xoBbv3OifO/aCckBQJUrA3vQoiFhFecUYd4ZIoAFwTw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pv5RwI00kCfQiVaZCALyurLlOSV3dXMAv5HJEOaTta13wOYHBuozxhbj2yU4wfBZAOUhdVIrl15zIsw8J1bJKSLpHMMIfZy9h1XUsOpOoHTqR6J/ABAuqMQcAPkPcGy8BgHyXzbL5vO4zzqfIgCQmdQThLQETnSD2/kPhYa2rks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VvXIwy3y; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1783774512; c=relaxed/simple;
+	bh=KLvfqxDQOgWJJEPKl5IOol6BRLJi1B+sGPcW7aM2dUk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=h9iiCAyEAssCAxfnLIEAFIEv7qrkeil1SLUiBiqpmJTTb5x6ScI8oWHV+roh02QLSc9IpNL/e5f/v5cyU9ibyscym7k7BuwtkZkpsF3TPQpR1jghubuvpnUCYyAGTUNqqWJ5K9DvzdCsProo3RtlCx8CiSbFzhdvNyxr2wDfx8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URc5m1ht; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvXIwy3y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URc5m1ht"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783774137; x=1815310137;
+  t=1783774511; x=1815310511;
   h=date:from:to:cc:subject:message-id;
-  bh=xoBbv3OifO/aCckBQJUrA3vQoiFhFecUYd4ZIoAFwTw=;
-  b=VvXIwy3yIrr2pNsFyN5Am2qtnykJdGIp+WSyWkFc7M2mkzhwGVtLQDIG
-   1Tc5WLfJJdxzox0Q1WXOtPG9vHkAua8r/O7QX43m+ypt89504LMJ/iZdz
-   ypLlONpfBaiDnDFGVs8crVI3vznGA+sE5c+JGC+SmCbwiHomg6Bks9ZLL
-   wkIVI2d/Nvn7stfBaDuTM6WJFk5DALB4RqdncTFxZvcgPvDNTzmV0bsr2
-   3QiE5XX6AtbNC8G1VSYU80lhJno8MHljVFsvRRH7RhlbNOZXiyerOBpS8
-   zoU3EHkJJ53g5Hb82dCSBDEYVit2XZnCURT6fCF3w0bWTXKMw8xg0pW4w
-   w==;
-X-CSE-ConnectionGUID: yaaxF66tQ7+yOZxOJGWWsA==
-X-CSE-MsgGUID: Mr7KUj7MSX+KLX7lX5bMZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94807639"
+  bh=KLvfqxDQOgWJJEPKl5IOol6BRLJi1B+sGPcW7aM2dUk=;
+  b=URc5m1htAkXJsUbJrTJXe1i665WpthNNlWSWDYQVVEMa0cD35dio00x/
+   +P5uRy67URGfuVpyyrxgMEWrFuEuAymutqclNjcBRFJ2stui97VmxZdvP
+   3hFLbHrbPhJHzkzj2YHyIjNnN0qZLbGuvPYRRCOhx1m1A3PWrw7LUfTtP
+   92vb7CPCENBLb5+RjKrb9BhSPJ0e5lvXqJrtT83bcbIObvHnEKcpalnF+
+   SoCfwBqy8P6yZdaau+MTEsEmUfLhdFkEYNSvesaRPdVr3QcWsyTo7PZJq
+   uaYDuNDrxVPuQPazG1L0Bt/m1gJVl2aSnLmiuIC2cL9oCggK9GX3+3DBK
+   Q==;
+X-CSE-ConnectionGUID: 10HBA+skRcyw1QaUoHyzgg==
+X-CSE-MsgGUID: omf5CqpfQsOvrdGxlvR3PQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95605786"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="94807639"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 05:48:57 -0700
-X-CSE-ConnectionGUID: o20dK1EISTmUh/kRKturzA==
-X-CSE-MsgGUID: eAinuB6sREuKYxduDqo2mQ==
+   d="scan'208";a="95605786"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 05:55:11 -0700
+X-CSE-ConnectionGUID: VBFrEblqSnOL1GWm5YF4Og==
+X-CSE-MsgGUID: kocAmlEoQQOSsoWhbxCp9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="250707349"
+   d="scan'208";a="251146345"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2026 05:48:55 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Jul 2026 05:55:08 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiX8T-00000000K3g-3Iw9;
-	Sat, 11 Jul 2026 12:48:50 +0000
-Date: Sat, 11 Jul 2026 20:47:45 +0800
+	id 1wiXEU-00000000K3p-3XMg;
+	Sat, 11 Jul 2026 12:55:03 +0000
+Date: Sat, 11 Jul 2026 20:54:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elson Serrao <elson.serrao@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [usb:usb-next 23/66] drivers/usb/dwc3/core.c:2501: undefined
- reference to `power_supply_unreg_notifier'
-Message-ID: <202607112037.tVbaUKOJ-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/frpc_demo 16/88] make[3]: *** No rule to make
+ target 'arch/hexagon/boot/dts/comet.dtb', needed by 'arch/hexagon/boot/dts/'.
+Message-ID: <202607112040.ts5clvyD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,64 +60,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-head:   1db5c6b0b9834aee2f14e39764becfcc29d09ccf
-commit: 7c87ef27af79b3f905aed2edf9f60ce2a75d38e3 [23/66] usb: dwc3: avoid probe deferral when USB power supply is not available
-config: parisc-randconfig-001-20260710 (https://download.01.org/0day-ci/archive/20260711/202607112037.tVbaUKOJ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607112037.tVbaUKOJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/frpc_demo
+head:   c465ecabc7dee9cfb5640b25a4d75a5cad9f33da
+commit: 288801685d71376da5644b5f11ea806fc06ccea1 [16/88] hexagon: add device tree support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260711/202607112040.ts5clvyD-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c279890c85da307abe34f10333442bbf72a60644)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607112040.ts5clvyD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607112037.tVbaUKOJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607112040.ts5clvyD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_core_remove':
->> drivers/usb/dwc3/core.c:2501: undefined reference to `power_supply_unreg_notifier'
-   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_get_usb_power_supply':
->> drivers/usb/dwc3/core.c:2245: undefined reference to `power_supply_reg_notifier'
-   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_core_probe':
-   drivers/usb/dwc3/core.c:2443: undefined reference to `power_supply_unreg_notifier'
-
-
-vim +2501 drivers/usb/dwc3/core.c
-
-  2476	
-  2477	void dwc3_core_remove(struct dwc3 *dwc)
-  2478	{
-  2479		pm_runtime_get_sync(dwc->dev);
-  2480	
-  2481		dwc3_core_exit_mode(dwc);
-  2482		dwc3_debugfs_exit(dwc);
-  2483	
-  2484		dwc3_core_exit(dwc);
-  2485		dwc3_ulpi_exit(dwc);
-  2486	
-  2487		pm_runtime_allow(dwc->dev);
-  2488		pm_runtime_disable(dwc->dev);
-  2489		pm_runtime_dont_use_autosuspend(dwc->dev);
-  2490		pm_runtime_put_noidle(dwc->dev);
-  2491		/*
-  2492		 * HACK: Clear the driver data, which is currently accessed by parent
-  2493		 * glue drivers, before allowing the parent to suspend.
-  2494		 */
-  2495		dev_set_drvdata(dwc->dev, NULL);
-  2496		pm_runtime_set_suspended(dwc->dev);
-  2497	
-  2498		dwc3_free_event_buffers(dwc);
-  2499	
-  2500		if (dwc->psy_nb.notifier_call)
-> 2501			power_supply_unreg_notifier(&dwc->psy_nb);
-  2502	
-  2503		if (dwc->usb_psy) {
-  2504			cancel_work_sync(&dwc->vbus_draw_work);
-  2505			power_supply_put(dwc->usb_psy);
-  2506		}
-  2507	}
-  2508	EXPORT_SYMBOL_GPL(dwc3_core_remove);
-  2509	
+>> make[3]: *** No rule to make target 'arch/hexagon/boot/dts/comet.dtb', needed by 'arch/hexagon/boot/dts/'.
+   make[3]: Target 'arch/hexagon/boot/dts/' not remade because of errors.
 
 --
 0-DAY CI Kernel Test Service
