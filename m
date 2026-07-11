@@ -1,183 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990A92E7165
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 07:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930F737A84F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 07:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783755649; cv=none; b=Mbb24BlLY5XOR7nYa6FKRkRnfkWOqPIUxR3ua7TDpk0nWa12KBuUjzkKLNnV05lLG8TyjgLTDQ+Ce6GRQIjB1PdNSsPwEPuxchoa9kkHbe4WiuRwgygmNuOyhyiJzAeEeiXSN5GKL03tNy/hvgPoMcZNHPWYK+VE/jjjJ3KUNd0=
+	t=1783756549; cv=none; b=LopfFoz/r3gOaDU3fCJvDrDODPwx67FE5oy+NuDsxqTfDRKfgE8BFNoNwfI7y1+MfJgDJP2r4ymomm2YzfQ2A4vraEs+fSBPKf+TgIgUFpWhL7fy+QOP54V7HbA/l5uEnBTO5t4eYMehAOTYnzML8OZVyGVc9eP80TnSFgivL04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783755649; c=relaxed/simple;
-	bh=G0zqZhW3PhuAwVZ3suwc5WGEAfKDiEeCWxxPcRDDNzw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sBwMXV4Uk4Yb7ezmB3OWps20aiONLk4xDNRHXGSVbja4DUVUcTsktw3aFt0dyW5ldG75HvLe2xER5Q6JxbrkxvhyxKuTwAbO2/H70Gje0WC+UBmPJZQrSzH4fWiAFrxEggmjf+J1+EhQHOPtpq5gZlAlK6SImuGWc03u7gPZv4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWyKi7ml; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783756549; c=relaxed/simple;
+	bh=MaUB4Yu3+2BvGflEPSWRarBmj8GdZshDDjnJ5bKjS4w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gHm/0ZTG4UYbPRpQCPsFmfMh8Mn1HHPSgR0B6muH5VHBJ/DoMusKLAdIE8ySt886PneAh5uCqsM/m0Z+xrc6DlAtJQkAJ+YH4/oQeNQcOiwn/A6JB8sq1OULMaXwFkshiDQeT/OGJqCH7YLcZ/V1lPOa37SWBhnV38VzRryA38A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDpARt3T; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWyKi7ml"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4E11F00A3A;
-	Sat, 11 Jul 2026 07:40:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783755647;
-	bh=2/7VqtZM9eXOWcQYQomZRp6vg3C7ps+yJ24JkWv1U8U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=iWyKi7mlmzdH/fxBmzalDY+4IY7DH0rkpEbogtp+wUSLLsjqypUVPoT+cJcCtTTCG
-	 G3L/bXhEjSKF7UC5II+hDmw42eHkdn9S3cU9hIh+6JOHQqDc3CP5qkdLHyDFU+bmiw
-	 6pnsLhe9Qz07Xt5ADxS+l9XRSRzZhWwkG5CgP0077tuMu18rgiFwENjtA0RafQ5H3/
-	 HVNlSmAv9C4apryPSEP82kB7WVbg3PIXqmjlO2as0hY4YO2Zus/pYr/YzMNBaoifo9
-	 fa2IS+6pSsIdQEBgeztVglFGYcP/7ZCjCvagH/zWaKAys3lenLOyH/ex5MGOyEAMO/
-	 A78D26wvAn4TA==
-Message-ID: <621a46b3-74a3-4a1f-b81f-f50ea18a541e@kernel.org>
-Date: Sat, 11 Jul 2026 09:40:42 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDpARt3T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783756548; x=1815292548;
+  h=date:from:to:cc:subject:message-id;
+  bh=MaUB4Yu3+2BvGflEPSWRarBmj8GdZshDDjnJ5bKjS4w=;
+  b=lDpARt3TMtLlhRDJSVl8u4oxspmCDk1qF5itu2vlkn+EbxK6S+LnfPmt
+   ack+kNcOFzOXRBwSgQZN+nLVPUTFX8EcwT78zDK4DiZ0t7HHyevUYBS81
+   QZ3b+gsTxLK6VHNCOqAnGQwtJ09a98C9QI3tVVqEwjw56hMgeKedfrcTH
+   inksZE1qWP/vjDKqyY0g/e1W49gV144NFvXZsmKbyUS4Wvjwf3ge06Swg
+   Y6uCdSBa8Qo8h/2m43L3c17ZcIQFnLLm7LkwLUvmCOmyFU2bn5p9cyLHZ
+   M9zgXUhx/mpKN3Pb7MS3Qsqimg4cb+VxTxCBqhSL11r0rYBixWODxR3Y8
+   g==;
+X-CSE-ConnectionGUID: fB4l1s4yT8CaGgXdzKUduQ==
+X-CSE-MsgGUID: f0TC6n3BRoqnISNWYFCoUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84543730"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="84543730"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 00:55:47 -0700
+X-CSE-ConnectionGUID: 8AB0UxKcRxqx2VdvgKJevw==
+X-CSE-MsgGUID: BZIZ33ZuRWGDMKMGizX1Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="279493132"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 11 Jul 2026 00:55:45 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wiSYp-00000000Jsl-1wse;
+	Sat, 11 Jul 2026 07:55:43 +0000
+Date: Sat, 11 Jul 2026 15:55:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-09 1/1]
+ drivers/usb/gadget/android_configfs_uevent.c:231:6: warning: no previous
+ prototype for function '__android_set_connected'
+Message-ID: <202607111521.oSV2u64Y-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [powerpc:fixes-test 10/12] include/linux/static_call.h:223:9:
- warning: data definition has no type or storage class
-To: kernel test robot <lkp@intel.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- Shrikanth Hegde <sshegde@linux.ibm.com>, Josh Poimboeuf <jpoimboe@redhat.com>
-References: <202607110847.u4TL0RJC-lkp@intel.com>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <202607110847.u4TL0RJC-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-09
+head:   5e24956e1547fe617dada6fb3e853a856914ed20
+commit: c6f183ea8e2b26be3fd296bd096c4cc579e891c3 [1/1] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
+config: i386-randconfig-r073-20260708 (https://download.01.org/0day-ci/archive/20260711/202607111521.oSV2u64Y-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111521.oSV2u64Y-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607111521.oSV2u64Y-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/usb/gadget/android_configfs_uevent.c:5:
+   In file included from drivers/usb/gadget/android_configfs_uevent.h:9:
+   In file included from include/linux/usb/android_configfs_uevent.h:9:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:8:
+   In file included from include/linux/page_size_compat.h:27:
+   In file included from include/linux/mman.h:5:
+   In file included from include/linux/mm.h:2180:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/usb/gadget/android_configfs_uevent.c:231:6: warning: no previous prototype for function '__android_set_connected' [-Wmissing-prototypes]
+     231 | void __android_set_connected(struct android_uevent_opts *opts,
+         |      ^
+   drivers/usb/gadget/android_configfs_uevent.c:231:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     231 | void __android_set_connected(struct android_uevent_opts *opts,
+         | ^
+         | static 
+>> drivers/usb/gadget/android_configfs_uevent.c:245:6: warning: no previous prototype for function '__android_set_configured' [-Wmissing-prototypes]
+     245 | void __android_set_configured(struct android_uevent_opts *opts,
+         |      ^
+   drivers/usb/gadget/android_configfs_uevent.c:245:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     245 | void __android_set_configured(struct android_uevent_opts *opts,
+         | ^
+         | static 
+   3 warnings generated.
 
 
+vim +/__android_set_connected +231 drivers/usb/gadget/android_configfs_uevent.c
 
-Le 11/07/2026 à 03:52, kernel test robot a écrit :
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes-test
-> head:   afc2830892a128a13a65f677271a0a48aeb61b5e
-> commit: 4747e17fe063720a30b1c0075bae3e8f8acd26f4 [10/12] powerpc/32: Use HAVE_PREEMPT_DYNAMIC_CALL instead of HAVE_PREEMPT_DYNAMIC_KEY
-> config: powerpc-randconfig-001-20260711 (https://download.01.org/0day-ci/archive/20260711/202607110847.u4TL0RJC-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607110847.u4TL0RJC-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202607110847.u4TL0RJC-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     In file included from include/linux/tracepoint.h:22,
->                      from include/trace/syscall.h:5,
->                      from include/linux/syscalls.h:95,
->                      from include/linux/syscalls_api.h:1,
->                      from kernel/sched/core.c:16:
->>> include/linux/static_call.h:223:9: warning: data definition has no type or storage class
->       223 |         ARCH_ADD_TRAMP_KEY(name)
+   230	
+ > 231	void __android_set_connected(struct android_uevent_opts *opts,
+   232			bool connected)
+   233	{
+   234		unsigned long flags;
+   235	
+   236		spin_lock_irqsave(&opts_lock, flags);
+   237		// Don't send the uevent if connected state is not changed
+   238		if (opts->connected != connected) {
+   239			opts->connected = connected;
+   240			schedule_work(&opts->work);
+   241		}
+   242		spin_unlock_irqrestore(&opts_lock, flags);
+   243	}
+   244	
+ > 245	void __android_set_configured(struct android_uevent_opts *opts,
+   246			bool configured)
+   247	{
+   248		unsigned long flags;
+   249	
+   250		spin_lock_irqsave(&opts_lock, flags);
+   251		// Don't send the uevent if configure state is not changed
+   252		if (opts->configured != configured) {
+   253			opts->configured = configured;
+   254			schedule_work(&opts->work);
+   255		}
+   256		spin_unlock_irqrestore(&opts_lock, flags);
+   257	}
+   258	
 
-Looks like powerpc is missing ARCH_ADD_TRAMP() macro, introduced by 
-commit 73f44fe19d35 ("static_call: Allow module use without exposing 
-static_call_key") for x86. I missed it when adding inline static calls 
-with commit f50b45626e05 ("powerpc/static_call: Implement inline static 
-calls").
-
-I will have to fix that before we can activate HAVE_PREEMPT_DYNAMIC_CALL.
-
-Christophe
-
-
->           |         ^~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7449:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
->      7449 | EXPORT_STATIC_CALL_TRAMP(preempt_schedule);
->           | ^~~~~~~~~~~~~~~~~~~~~~~~
->     include/linux/static_call.h:223:9: error: type defaults to 'int' in declaration of 'ARCH_ADD_TRAMP_KEY' [-Werror=implicit-int]
->       223 |         ARCH_ADD_TRAMP_KEY(name)
->           |         ^~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7449:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
->      7449 | EXPORT_STATIC_CALL_TRAMP(preempt_schedule);
->           | ^~~~~~~~~~~~~~~~~~~~~~~~
->>> kernel/sched/core.c:7449:1: warning: parameter names (without types) in function declaration
->     In file included from include/linux/tracepoint.h:22,
->                      from include/trace/syscall.h:5,
->                      from include/linux/syscalls.h:95,
->                      from include/linux/syscalls_api.h:1,
->                      from kernel/sched/core.c:16:
->>> include/linux/static_call.h:223:9: warning: data definition has no type or storage class
->       223 |         ARCH_ADD_TRAMP_KEY(name)
->           |         ^~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7522:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
->      7522 | EXPORT_STATIC_CALL_TRAMP(preempt_schedule_notrace);
->           | ^~~~~~~~~~~~~~~~~~~~~~~~
->     include/linux/static_call.h:223:9: error: type defaults to 'int' in declaration of 'ARCH_ADD_TRAMP_KEY' [-Werror=implicit-int]
->       223 |         ARCH_ADD_TRAMP_KEY(name)
->           |         ^~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7522:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
->      7522 | EXPORT_STATIC_CALL_TRAMP(preempt_schedule_notrace);
->           | ^~~~~~~~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7522:1: warning: parameter names (without types) in function declaration
->     In file included from include/linux/tracepoint.h:22,
->                      from include/trace/syscall.h:5,
->                      from include/linux/syscalls.h:95,
->                      from include/linux/syscalls_api.h:1,
->                      from kernel/sched/core.c:16:
->>> include/linux/static_call.h:223:9: warning: data definition has no type or storage class
->       223 |         ARCH_ADD_TRAMP_KEY(name)
->           |         ^~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7769:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
->      7769 | EXPORT_STATIC_CALL_TRAMP(cond_resched);
->           | ^~~~~~~~~~~~~~~~~~~~~~~~
->     include/linux/static_call.h:223:9: error: type defaults to 'int' in declaration of 'ARCH_ADD_TRAMP_KEY' [-Werror=implicit-int]
->       223 |         ARCH_ADD_TRAMP_KEY(name)
->           |         ^~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7769:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
->      7769 | EXPORT_STATIC_CALL_TRAMP(cond_resched);
->           | ^~~~~~~~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7769:1: warning: parameter names (without types) in function declaration
->     In file included from include/linux/tracepoint.h:22,
->                      from include/trace/syscall.h:5,
->                      from include/linux/syscalls.h:95,
->                      from include/linux/syscalls_api.h:1,
->                      from kernel/sched/core.c:16:
->>> include/linux/static_call.h:223:9: warning: data definition has no type or storage class
->       223 |         ARCH_ADD_TRAMP_KEY(name)
->           |         ^~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7774:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
->      7774 | EXPORT_STATIC_CALL_TRAMP(might_resched);
->           | ^~~~~~~~~~~~~~~~~~~~~~~~
->     include/linux/static_call.h:223:9: error: type defaults to 'int' in declaration of 'ARCH_ADD_TRAMP_KEY' [-Werror=implicit-int]
->       223 |         ARCH_ADD_TRAMP_KEY(name)
->           |         ^~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7774:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
->      7774 | EXPORT_STATIC_CALL_TRAMP(might_resched);
->           | ^~~~~~~~~~~~~~~~~~~~~~~~
->     kernel/sched/core.c:7774:1: warning: parameter names (without types) in function declaration
->     cc1: some warnings being treated as errors
-> 
-> 
-> vim +223 include/linux/static_call.h
-> 
-> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  212
-> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  213  #define EXPORT_STATIC_CALL(name)					\
-> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  214  	EXPORT_SYMBOL(STATIC_CALL_KEY(name));				\
-> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  215  	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name))
-> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  216  #define EXPORT_STATIC_CALL_GPL(name)					\
-> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  217  	EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));			\
-> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  218  	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
-> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  219
-> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  220  /* Leave the key unexported, so modules can't change static call targets: */
-> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  221  #define EXPORT_STATIC_CALL_TRAMP(name)					\
-> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  222  	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name));				\
-> 73f44fe19d35963 Josh Poimboeuf 2021-01-27 @223  	ARCH_ADD_TRAMP_KEY(name)
-> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  224  #define EXPORT_STATIC_CALL_TRAMP_GPL(name)				\
-> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  225  	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name));			\
-> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  226  	ARCH_ADD_TRAMP_KEY(name)
-> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  227
-> 
-> :::::: The code at line 223 was first introduced by commit
-> :::::: 73f44fe19d359635a607e8e8daa0da4001c1cfc2 static_call: Allow module use without exposing static_call_key
-> 
-> :::::: TO: Josh Poimboeuf <jpoimboe@redhat.com>
-> :::::: CC: Ingo Molnar <mingo@kernel.org>
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
