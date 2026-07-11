@@ -1,79 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968012D617
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 07:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990A92E7165
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 07:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783754050; cv=none; b=cSNZpWTANQ1BFYCe+Af6/5wHSvU8yPe4RNA79j5Dtum5ypuA6eYQ9usPQDwDPu3HjEhDIpZzYfWmhsf80L2L1hRXJ3QT4yZHyxoXxyAlEvrBBhKYdHQLRUd2FsUWwQCLdhbPdYnE5bHJ+VtksC4ahyBDDO2PBzGwP50Y5ADansQ=
+	t=1783755649; cv=none; b=Mbb24BlLY5XOR7nYa6FKRkRnfkWOqPIUxR3ua7TDpk0nWa12KBuUjzkKLNnV05lLG8TyjgLTDQ+Ce6GRQIjB1PdNSsPwEPuxchoa9kkHbe4WiuRwgygmNuOyhyiJzAeEeiXSN5GKL03tNy/hvgPoMcZNHPWYK+VE/jjjJ3KUNd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783754050; c=relaxed/simple;
-	bh=i7bAYBy1yZBZCnAphxSgOCn/klw0hXauPcaPRMy2EpU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JHXTA85F2SNno6f8tg6xfEFKumNmmguJPT9aALiIzkFCIXu673D9Mcd9zVuUZzlVTInfAdaziibCmp/ZwhE8VHPJQyWrfZ8meltTrOCumz1UntbqmfEvfGVX8dzouc3joqnd4fuB+C+Lw++NljUM8uzZYc5TvXnRXk6AeJ0lq7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SANxukbl; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783755649; c=relaxed/simple;
+	bh=G0zqZhW3PhuAwVZ3suwc5WGEAfKDiEeCWxxPcRDDNzw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sBwMXV4Uk4Yb7ezmB3OWps20aiONLk4xDNRHXGSVbja4DUVUcTsktw3aFt0dyW5ldG75HvLe2xER5Q6JxbrkxvhyxKuTwAbO2/H70Gje0WC+UBmPJZQrSzH4fWiAFrxEggmjf+J1+EhQHOPtpq5gZlAlK6SImuGWc03u7gPZv4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWyKi7ml; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SANxukbl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783754047; x=1815290047;
-  h=date:from:to:cc:subject:message-id;
-  bh=i7bAYBy1yZBZCnAphxSgOCn/klw0hXauPcaPRMy2EpU=;
-  b=SANxukblKBOOTUsPLq7bZ7WkS2KIoRXMfNeXX16zShj8E3Uxpt3FXXOH
-   XdRF46Jlh7VjtK/Z2XBTjlR3Rl6K25UQAsSQdR/Ik8KLvRxm4T5EYhBQh
-   l1ELugjXZ08WsVblq6/+XPTQCQaUUnm/6ZFgPsktJBYZCn+p7y2tIJUO5
-   VajuFYJ7N3W87vOj5MP1iNpiAB4fE/9N36DeOa/ouQ07h/4A+fvIR+Bhf
-   HL9YzG5psIOOmzOA9rAg1NcDIMNB85CeONfuN8Kv764LDMa5CInXV/F8N
-   ssHMXdYzg5NsJ5A0eXzGEZUK+rtl0jC6Mpgn4PBJtMgfyfhrtK7BqhOFi
-   Q==;
-X-CSE-ConnectionGUID: 2B4EnkF8TtaCPd1wIAnluQ==
-X-CSE-MsgGUID: rCeWPYZeTyCDUnLlsksDsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84493359"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84493359"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 00:14:06 -0700
-X-CSE-ConnectionGUID: AHvpfeYdSKeHapXLch7ucg==
-X-CSE-MsgGUID: 4AprfZolTpSroQAFalYXYQ==
-X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Jul 2026 00:14:06 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wiRuW-000000003Jl-01rV;
-	Sat, 11 Jul 2026 07:14:04 +0000
-Date: Sat, 11 Jul 2026 09:13:16 +0200
-From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djiang:apei-sashiko-fixes 5/5] ERROR: modpost: module
- acpi_extlog uses symbol cxl_cper_post_prot_err from namespace CXL, but does
- not import it.
-Message-ID: <202607110935.W0TPpfLI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWyKi7ml"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4E11F00A3A;
+	Sat, 11 Jul 2026 07:40:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783755647;
+	bh=2/7VqtZM9eXOWcQYQomZRp6vg3C7ps+yJ24JkWv1U8U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=iWyKi7mlmzdH/fxBmzalDY+4IY7DH0rkpEbogtp+wUSLLsjqypUVPoT+cJcCtTTCG
+	 G3L/bXhEjSKF7UC5II+hDmw42eHkdn9S3cU9hIh+6JOHQqDc3CP5qkdLHyDFU+bmiw
+	 6pnsLhe9Qz07Xt5ADxS+l9XRSRzZhWwkG5CgP0077tuMu18rgiFwENjtA0RafQ5H3/
+	 HVNlSmAv9C4apryPSEP82kB7WVbg3PIXqmjlO2as0hY4YO2Zus/pYr/YzMNBaoifo9
+	 fa2IS+6pSsIdQEBgeztVglFGYcP/7ZCjCvagH/zWaKAys3lenLOyH/ex5MGOyEAMO/
+	 A78D26wvAn4TA==
+Message-ID: <621a46b3-74a3-4a1f-b81f-f50ea18a541e@kernel.org>
+Date: Sat, 11 Jul 2026 09:40:42 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [powerpc:fixes-test 10/12] include/linux/static_call.h:223:9:
+ warning: data definition has no type or storage class
+To: kernel test robot <lkp@intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ Shrikanth Hegde <sshegde@linux.ibm.com>, Josh Poimboeuf <jpoimboe@redhat.com>
+References: <202607110847.u4TL0RJC-lkp@intel.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <202607110847.u4TL0RJC-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git apei-sashiko-fixes
-head:   477881d6ab1d71be7860a41b4979a5d8817d3caa
-commit: 477881d6ab1d71be7860a41b4979a5d8817d3caa [5/5] ACPI: extlog: Defer CXL protocol error handling to avoid lock inversion
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260711/202607110935.W0TPpfLI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607110935.W0TPpfLI-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607110935.W0TPpfLI-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Le 11/07/2026 à 03:52, kernel test robot a écrit :
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes-test
+> head:   afc2830892a128a13a65f677271a0a48aeb61b5e
+> commit: 4747e17fe063720a30b1c0075bae3e8f8acd26f4 [10/12] powerpc/32: Use HAVE_PREEMPT_DYNAMIC_CALL instead of HAVE_PREEMPT_DYNAMIC_KEY
+> config: powerpc-randconfig-001-20260711 (https://download.01.org/0day-ci/archive/20260711/202607110847.u4TL0RJC-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607110847.u4TL0RJC-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202607110847.u4TL0RJC-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     In file included from include/linux/tracepoint.h:22,
+>                      from include/trace/syscall.h:5,
+>                      from include/linux/syscalls.h:95,
+>                      from include/linux/syscalls_api.h:1,
+>                      from kernel/sched/core.c:16:
+>>> include/linux/static_call.h:223:9: warning: data definition has no type or storage class
+>       223 |         ARCH_ADD_TRAMP_KEY(name)
 
->> ERROR: modpost: module acpi_extlog uses symbol cxl_cper_post_prot_err from namespace CXL, but does not import it.
+Looks like powerpc is missing ARCH_ADD_TRAMP() macro, introduced by 
+commit 73f44fe19d35 ("static_call: Allow module use without exposing 
+static_call_key") for x86. I missed it when adding inline static calls 
+with commit f50b45626e05 ("powerpc/static_call: Implement inline static 
+calls").
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I will have to fix that before we can activate HAVE_PREEMPT_DYNAMIC_CALL.
+
+Christophe
+
+
+>           |         ^~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7449:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
+>      7449 | EXPORT_STATIC_CALL_TRAMP(preempt_schedule);
+>           | ^~~~~~~~~~~~~~~~~~~~~~~~
+>     include/linux/static_call.h:223:9: error: type defaults to 'int' in declaration of 'ARCH_ADD_TRAMP_KEY' [-Werror=implicit-int]
+>       223 |         ARCH_ADD_TRAMP_KEY(name)
+>           |         ^~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7449:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
+>      7449 | EXPORT_STATIC_CALL_TRAMP(preempt_schedule);
+>           | ^~~~~~~~~~~~~~~~~~~~~~~~
+>>> kernel/sched/core.c:7449:1: warning: parameter names (without types) in function declaration
+>     In file included from include/linux/tracepoint.h:22,
+>                      from include/trace/syscall.h:5,
+>                      from include/linux/syscalls.h:95,
+>                      from include/linux/syscalls_api.h:1,
+>                      from kernel/sched/core.c:16:
+>>> include/linux/static_call.h:223:9: warning: data definition has no type or storage class
+>       223 |         ARCH_ADD_TRAMP_KEY(name)
+>           |         ^~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7522:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
+>      7522 | EXPORT_STATIC_CALL_TRAMP(preempt_schedule_notrace);
+>           | ^~~~~~~~~~~~~~~~~~~~~~~~
+>     include/linux/static_call.h:223:9: error: type defaults to 'int' in declaration of 'ARCH_ADD_TRAMP_KEY' [-Werror=implicit-int]
+>       223 |         ARCH_ADD_TRAMP_KEY(name)
+>           |         ^~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7522:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
+>      7522 | EXPORT_STATIC_CALL_TRAMP(preempt_schedule_notrace);
+>           | ^~~~~~~~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7522:1: warning: parameter names (without types) in function declaration
+>     In file included from include/linux/tracepoint.h:22,
+>                      from include/trace/syscall.h:5,
+>                      from include/linux/syscalls.h:95,
+>                      from include/linux/syscalls_api.h:1,
+>                      from kernel/sched/core.c:16:
+>>> include/linux/static_call.h:223:9: warning: data definition has no type or storage class
+>       223 |         ARCH_ADD_TRAMP_KEY(name)
+>           |         ^~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7769:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
+>      7769 | EXPORT_STATIC_CALL_TRAMP(cond_resched);
+>           | ^~~~~~~~~~~~~~~~~~~~~~~~
+>     include/linux/static_call.h:223:9: error: type defaults to 'int' in declaration of 'ARCH_ADD_TRAMP_KEY' [-Werror=implicit-int]
+>       223 |         ARCH_ADD_TRAMP_KEY(name)
+>           |         ^~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7769:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
+>      7769 | EXPORT_STATIC_CALL_TRAMP(cond_resched);
+>           | ^~~~~~~~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7769:1: warning: parameter names (without types) in function declaration
+>     In file included from include/linux/tracepoint.h:22,
+>                      from include/trace/syscall.h:5,
+>                      from include/linux/syscalls.h:95,
+>                      from include/linux/syscalls_api.h:1,
+>                      from kernel/sched/core.c:16:
+>>> include/linux/static_call.h:223:9: warning: data definition has no type or storage class
+>       223 |         ARCH_ADD_TRAMP_KEY(name)
+>           |         ^~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7774:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
+>      7774 | EXPORT_STATIC_CALL_TRAMP(might_resched);
+>           | ^~~~~~~~~~~~~~~~~~~~~~~~
+>     include/linux/static_call.h:223:9: error: type defaults to 'int' in declaration of 'ARCH_ADD_TRAMP_KEY' [-Werror=implicit-int]
+>       223 |         ARCH_ADD_TRAMP_KEY(name)
+>           |         ^~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7774:1: note: in expansion of macro 'EXPORT_STATIC_CALL_TRAMP'
+>      7774 | EXPORT_STATIC_CALL_TRAMP(might_resched);
+>           | ^~~~~~~~~~~~~~~~~~~~~~~~
+>     kernel/sched/core.c:7774:1: warning: parameter names (without types) in function declaration
+>     cc1: some warnings being treated as errors
+> 
+> 
+> vim +223 include/linux/static_call.h
+> 
+> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  212
+> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  213  #define EXPORT_STATIC_CALL(name)					\
+> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  214  	EXPORT_SYMBOL(STATIC_CALL_KEY(name));				\
+> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  215  	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name))
+> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  216  #define EXPORT_STATIC_CALL_GPL(name)					\
+> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  217  	EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));			\
+> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  218  	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+> 9183c3f9ed710a8 Josh Poimboeuf 2020-08-18  219
+> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  220  /* Leave the key unexported, so modules can't change static call targets: */
+> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  221  #define EXPORT_STATIC_CALL_TRAMP(name)					\
+> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  222  	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name));				\
+> 73f44fe19d35963 Josh Poimboeuf 2021-01-27 @223  	ARCH_ADD_TRAMP_KEY(name)
+> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  224  #define EXPORT_STATIC_CALL_TRAMP_GPL(name)				\
+> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  225  	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name));			\
+> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  226  	ARCH_ADD_TRAMP_KEY(name)
+> 73f44fe19d35963 Josh Poimboeuf 2021-01-27  227
+> 
+> :::::: The code at line 223 was first introduced by commit
+> :::::: 73f44fe19d359635a607e8e8daa0da4001c1cfc2 static_call: Allow module use without exposing static_call_key
+> 
+> :::::: TO: Josh Poimboeuf <jpoimboe@redhat.com>
+> :::::: CC: Ingo Molnar <mingo@kernel.org>
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
