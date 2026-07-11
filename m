@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B17128DC4;
-	Sat, 11 Jul 2026 19:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0F52C21FF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 20:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783799746; cv=none; b=ArFqzNKj5BJH96KOvdioKUXIcUWMM8Pazmp4j8yQvj6BWqMAgRKXFbBd7wt5XRoK6uajW6eEPfA1ToOkcTK8V2nVB5RcNyHIDHdM+fEHsuhRhQ8a+aidWR5X48j498EWP5CED6igGgunkq5Fp0Y8sO8x05HnfOFLRzjm8kILA0I=
+	t=1783801595; cv=none; b=RxjaDizQ2Cqtr9BXak9UcBK9gOlBhguZr3/lIzAx5nvSwj5wuEUh2QdEK5LIJQphWdAeDubQ/Rw6TMgQTM+RwIiG+hyaGIlavGsp0HNwH/kpuVYFH6GVUaG4MZS6U4Hq/KstQkcyqYEJY61XivLh0PhptuhZw12fqXM00oH+9A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783799746; c=relaxed/simple;
-	bh=G5bQDDm1hW3Vzwfp7wD2hg24BFAicJWOOkUJG68ZnPs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q5IjtQT09NWmQgPkXif6aaKUy/qXCohxUZt6DnhLa34p2zSWQLzta0IbDte9socnVqsDR03268yCyVgCt+M9cqXMm4Ao1YphS3ktwLNdrCZEVUhjZpu7y9B4Zp0/TDIKSXQgwqp/0QHw5m1ZL+U9/Qg0ObIQWDb6e7/eGiXVbgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsVJo+Ax; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1783801595; c=relaxed/simple;
+	bh=/L2kgVRLkC3KAMotA0FPfSUXnUOrWEsTEYaEHHK+AI4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YEFC5ToMOxN3p0yYC5MO+xS4rcrNZ8j3WifFKtVClULh41i9TViP8+C9YKc9XytbE8In/w1jIwtAm54qywNnx+e3MR6V08fj7wbotKIgCKR5nfS3CmaqciPeY1wQt7RXkdM3wSTj1NMxpED8D80aNHNOkCdiQ/MVqTeS1Y/6TOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Be9yjrkq; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsVJo+Ax"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Be9yjrkq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783799745; x=1815335745;
+  t=1783801593; x=1815337593;
   h=date:from:to:cc:subject:message-id;
-  bh=G5bQDDm1hW3Vzwfp7wD2hg24BFAicJWOOkUJG68ZnPs=;
-  b=nsVJo+AxyoxWTcQ0ErrIiOT54u6OzbaLvyX7M8s2XNS7OSwoH0NmWnjX
-   vYQi91jEVZU8kGekpDdI90ys2vmeuhNBol5xWSu/4LTkFmlPkcg4H5Pit
-   z4dMjoY6mS1h4YLk8uNLkNNGQ58ahhwInp7H0397WhBj6eLkowNw8EzOr
-   vHkNejmNORbiyjnG2XwP+MdJ17IjA4E0uBKEjV/4S+RzCztU/Ggc8vWMA
-   8Ml+opvDDY/yVRLZ5mDL+Bc7VrJuMbyH3sTox1miusMADoAeXXitNJFok
-   4qsMqVSaypSIedyO3fZrDJFNoyvsJAKWUgXDuoGiu2uxuVZINT8sJAGPe
-   w==;
-X-CSE-ConnectionGUID: aQo2xXqrS7mzoKUro4ebSA==
-X-CSE-MsgGUID: tDcSeWC4TcqgFJl2RkaJKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="107270861"
+  bh=/L2kgVRLkC3KAMotA0FPfSUXnUOrWEsTEYaEHHK+AI4=;
+  b=Be9yjrkqgvbNyhjflqoNUNxzvOXeoVmIs7gB79oZd3r8O1Q1MncxT/Di
+   n5B6qsBqfhsmsrr8xkMiYGsUwd7BcEa+gazwv+ZyAdU3A/d4EyDRG5lqf
+   Mod06opJwpvuCna0Qs4QvrHNGyj85XIYSgbsc5HJ9B5OLympyq9ISJoSC
+   tcfUOI107e7z6vRFuYBj952NnWYa0wYblQ+GMKHTgqvSotl35HDTciX8I
+   KqJkF/QcwJ2mIN3FmpTnLKhihEcb7xdejpUPuTV5eNkqlgXk2rtlr170n
+   /k7bjbiuxX3p1k/nMFYuoZohWIkPTT0NiHfqpmdUavMprGWPkPcwI+usu
+   Q==;
+X-CSE-ConnectionGUID: sZF1ZcIZTCCl23IvxEp2CQ==
+X-CSE-MsgGUID: /jLkY7YtQvq6+RgeObyktA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="87013642"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="107270861"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 12:55:44 -0700
-X-CSE-ConnectionGUID: uLauX8/XSXi9niDotQgMGw==
-X-CSE-MsgGUID: ADmFVInmT1WE65ZGqyf3KQ==
+   d="scan'208";a="87013642"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 13:26:32 -0700
+X-CSE-ConnectionGUID: PktHKqw3RhCPJ48DYEYywA==
+X-CSE-MsgGUID: 3t9fQKs3Qn+cfWfnt2xTTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="251200213"
+   d="scan'208";a="279587502"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Jul 2026 12:55:41 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 11 Jul 2026 13:26:30 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1widnX-00000000KMg-1egY;
-	Sat, 11 Jul 2026 19:55:39 +0000
-Date: Sun, 12 Jul 2026 03:55:05 +0800
+	id 1wieHM-00000000KNe-26hq;
+	Sat, 11 Jul 2026 20:26:28 +0000
+Date: Sun, 12 Jul 2026 04:25:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [avpatel:riscv_kvm_nested_v2 22/22]
- arch/riscv/kvm/vcpu_nested_swtlb.c:116:8: warning: variable 'gstage_gpa' set
- but not used
-Message-ID: <202607120314.kpuwkBUA-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/1]
+ drivers/android/binder.c:7311:5: warning: no previous prototype for
+ 'unload_binder'
+Message-ID: <202607120431.1gubp8zt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,92 +60,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_kvm_nested_v2
-head:   8f3684e0c4a0188f47cba12c50d419fdf6c5a69e
-commit: 8f3684e0c4a0188f47cba12c50d419fdf6c5a69e [22/22] RISC-V: KVM: Emulate G-stage using software walks for nested guest
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20260712/202607120314.kpuwkBUA-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260712/202607120314.kpuwkBUA-lkp@intel.com/reproduce)
+Hi Alice,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   0026e4ecedf04706daa23af4ba4b973ff966a55e
+commit: dd55f146240edebbe004b5bf964fed6c1a0bea98 [0/1] ANDROID: binder: change how Rust Binder is loaded
+config: i386-randconfig-014-20260708 (https://download.01.org/0day-ci/archive/20260712/202607120431.1gubp8zt-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260712/202607120431.1gubp8zt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607120314.kpuwkBUA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607120431.1gubp8zt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/riscv/kvm/vcpu_nested_swtlb.c:116:8: warning: variable 'gstage_gpa' set but not used [-Wunused-but-set-variable]
-     116 |         gpa_t gstage_gpa;
-         |               ^
-   1 warning generated.
+>> drivers/android/binder.c:7311:5: warning: no previous prototype for 'unload_binder' [-Wmissing-prototypes]
+    7311 | int unload_binder(void)
+         |     ^~~~~~~~~~~~~
 
 
-vim +/gstage_gpa +116 arch/riscv/kvm/vcpu_nested_swtlb.c
+vim +/unload_binder +7311 drivers/android/binder.c
 
-   107	
-   108	int kvm_riscv_vcpu_nested_swtlb_xlate(struct kvm_vcpu *vcpu,
-   109					      const struct kvm_cpu_trap *trap,
-   110					      struct kvm_gstage_mapping *out_map,
-   111					      struct kvm_cpu_trap *out_trap)
-   112	{
-   113		struct riscv_guest_gstage_walk_data wdata = { 0 };
-   114		unsigned long page_size, fault_addr;
-   115		struct kvm_vcpu_nested_csr *nsc;
- > 116		gpa_t gstage_gpa;
-   117		int rc = 0;
-   118	
-   119		if (!kvm_riscv_nested_available())
-   120			return -ENOENT;
-   121	
-   122		nsc = vcpu->arch.nested.csr;
-   123		switch ((nsc->hgatp & HGATP_MODE) >> HGATP_MODE_SHIFT) {
-   124		case HGATP_MODE_OFF:
-   125			wdata.pgd_levels = 0;
-   126			break;
-   127	#ifdef CONFIG_32BIT
-   128		case HGATP_MODE_SV32X4:
-   129			wdata.pgd_levels = 2;
-   130			break;
-   131	#else
-   132		case HGATP_MODE_SV39X4:
-   133			wdata.pgd_levels = 3;
-   134			break;
-   135		case HGATP_MODE_SV48X4:
-   136			wdata.pgd_levels = 4;
-   137			break;
-   138		case HGATP_MODE_SV57X4:
-   139			wdata.pgd_levels = 5;
-   140			break;
-   141	#endif
-   142		default:
-   143			return -EINVAL;
-   144		}
-   145		wdata.out_trap = out_trap;
-   146	
-   147		fault_addr = (trap->htval << 2) | (trap->stval & 0x3);
-   148		if (wdata.pgd_levels) {
-   149			/* TODO: */
-   150			gstage_gpa = (nsc->hgatp & HGATP_PPN) << PAGE_SHIFT;
-   151			rc = riscv_guest_pgtbl_walk(&riscv_guest_gstage_ops, &wdata, vcpu,
-   152						    0, wdata.pgd_levels - 1, fault_addr, out_map);
-   153		} else {
-   154			out_map->level = wdata.pgd_levels - 1;
-   155			page_size = kvm_riscv_gstage_level_to_page_size(out_map->level);
-   156			out_map->addr = fault_addr & ~(page_size - 1);
-   157			out_map->pte = pfn_pte(PFN_DOWN(out_map->addr),
-   158					       __pgprot(_PAGE_PRESENT |
-   159							_PAGE_READ |
-   160							_PAGE_WRITE |
-   161							_PAGE_EXEC |
-   162							_PAGE_USER |
-   163							_PAGE_GLOBAL |
-   164							_PAGE_ACCESSED |
-   165							_PAGE_DIRTY));
-   166		}
-   167	
-   168		return rc;
-   169	}
-   170	
+  7307	
+  7308	/*
+  7309	 * Called by Rust Binder to unload the C Binder driver.
+  7310	 */
+> 7311	int unload_binder(void)
+  7312	{
+  7313		int ret = 0;
+  7314	
+  7315		if (!IS_ENABLED(CONFIG_ANDROID_BINDERFS))
+  7316			return -EINVAL;
+  7317	
+  7318		mutex_lock(&binder_use_rust_lock);
+  7319		if (binder_use_rust == BINDER_USE_RUST)
+  7320			binder_use_rust = BINDER_USE_RUST_LOADED;
+  7321		else
+  7322			ret = -EINVAL;
+  7323		mutex_unlock(&binder_use_rust_lock);
+  7324	
+  7325		if (!ret) {
+  7326			unload_binderfs();
+  7327			debugfs_remove_recursive(binder_debugfs_dir_entry_root);
+  7328			binder_alloc_shrinker_exit();
+  7329		}
+  7330	
+  7331		return ret;
+  7332	}
+  7333	EXPORT_SYMBOL_GPL(unload_binder);
+  7334	
 
 --
 0-DAY CI Kernel Test Service
