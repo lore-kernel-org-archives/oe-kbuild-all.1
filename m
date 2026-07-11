@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913EF233956
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 03:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2C018AE2;
+	Sat, 11 Jul 2026 04:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783741765; cv=none; b=Yd3pQP60EsvO3fydZBroQVZhbTN4AwjL5iRyTh6b1DHmLGDS/Cudg6YInwREnVXpc466yT0g9cGJvIg7OssLCwVoaYKv/Fe5Bqqqu+lRtjcuuG5A4fEMpHiXkE3JvvsHpJpKQ/PzWJlsHxrCYFZ3fU/p8HNRgC1/zDPlOetr5zQ=
+	t=1783743490; cv=none; b=BSVUPhMHMYYIaD+LJWtjqeJLA8oI2m6K6htGYe2Yo8QqOpays9WSWe87vCpfIglF3aeBKV5BI5Hu5+tauSXicMY4w7LhuQKRYD+N5cTSl88InwqHUl+yrDNG5PrnRxmlaE9OEQHBIVNC7Cizh1ru7+t44AgrM1dadP728Tkr31o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783741765; c=relaxed/simple;
-	bh=4jQE6pbDV+FoYS5UvuW/QhoCXc0fTtiUbe+/dSRcrkk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Y8vSiHXoT0DytokhUD2hzhqCiLK4vlbdfoAk2sikl8g63EZbu3uZEkKuU4vhaj7d0oFk8ezpDVy5kEvK7QRNzDTaTljZ40X74upu/W7dqfJxTFoVUTLrFtjzq/QkOkHIND2mXZGdATMYRGNmavJM/mHFihZS0V3Xt5dCDA5En48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IN5qD7zH; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1783743490; c=relaxed/simple;
+	bh=FA52AUVYUu1KxUNTvrjbXYcbMfQrisdyqxKyYHJ/9mc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qh6dXswx/3jM4iHSZGF4fJyPLIkKckb0f37r/f+tW+XUbdwHWoAfiyiQLZ3GziKQWpM9JHSWnmkFCiUPE+3A4IYELzjDvTzl5/mSFb3Tp06Ms2iEZHDDdfTRFoG7av21xZJubBVNz3FW9RK5kLDgvRLI9ifO6UpFZ8b8Qfmr5SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UaDQ38cT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IN5qD7zH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UaDQ38cT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783741762; x=1815277762;
+  t=1783743488; x=1815279488;
   h=date:from:to:cc:subject:message-id;
-  bh=4jQE6pbDV+FoYS5UvuW/QhoCXc0fTtiUbe+/dSRcrkk=;
-  b=IN5qD7zHaC4K6OOGA4fcrha6JubOhqrqcmCYN3ujbl8CAUHCNinAELOM
-   jnAQZBStPoz71J7Wi3pTngFPB25yaEnmqF7/qGPzRxX2/XXbz2JgSCNt3
-   jErmR3rI6hhYwbVMP23snhgIK47H+BwN+/3e9/wGpGfrw+WxZimGpS4nI
-   Iz6tJvHgBxzTLRUWghZYck0i/Udstyrl/0A3qDgJpmqVYtIr60vjgo2f2
-   rNQXYw2jFcUmkkpnpCagSOt7L/n2YdKeD77Q+jojf3gDAgoXhUXVAdkvS
-   Mfzf9Y20m5j3ZfDvATt9qie+t9nvwXMcKPgve0hllrmIYKubjjljkuWQ6
+  bh=FA52AUVYUu1KxUNTvrjbXYcbMfQrisdyqxKyYHJ/9mc=;
+  b=UaDQ38cTLJgSGf9Fj3JCObF+RdCOO3zptFsD8w+yvqL7ie8BO6iMYAd6
+   I73FBLwGiFzL6cloQ7PwXUOoGk8DNqAfKhb3fN8bK7URYCTDo1Fboxeg2
+   UQj3qiqqxNtR7a/vG5EnWuxe30ScG/+J6+jxDEHNnTcNZa8ZLOS+2tSh3
+   l+LgSJIPtVvOkuCIrNBvxGRe1LLCGATTwkBI+SIApegDdI3JJPiN9XlkX
+   OSZ3uA4XvxTrf7MC67LG3hFvtsLVf0sfxwpudJqylJxZqFzngY0J/L1Uz
+   Plfj7Dsw2lnOWgskDmhFYRFhV+wfG1RkGpTEKjbx26pQL63xApLyrwDzh
    w==;
-X-CSE-ConnectionGUID: xHyo0qdNREW0BPIt6GuPBg==
-X-CSE-MsgGUID: uQOJpEN/TBys39AWFGRVaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84551877"
+X-CSE-ConnectionGUID: a4vlYiO4Sj2GRdrXEqb3Hw==
+X-CSE-MsgGUID: pKdc/DQWQlKnmPfw9KRhqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84488378"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84551877"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 20:49:21 -0700
-X-CSE-ConnectionGUID: 4sajkIqgRviJIFFUoYeseA==
-X-CSE-MsgGUID: euXKCrMLQVOzXx+je9hLYw==
+   d="scan'208";a="84488378"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 21:18:07 -0700
+X-CSE-ConnectionGUID: At6aBBfOTr+tBEgO2+29cg==
+X-CSE-MsgGUID: 8E5SAngsRi6Iy/uv9zd7Hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="278295068"
+   d="scan'208";a="258927963"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Jul 2026 20:49:19 -0700
+  by orviesa004.jf.intel.com with ESMTP; 10 Jul 2026 21:18:06 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiOiK-00000000JhS-2vIf;
-	Sat, 11 Jul 2026 03:49:16 +0000
-Date: Sat, 11 Jul 2026 11:49:09 +0800
+	id 1wiPAA-00000000Jih-4976;
+	Sat, 11 Jul 2026 04:18:02 +0000
+Date: Sat, 11 Jul 2026 12:17:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [rafael-pm:bleeding-edge 56/59]
- drivers/thermal/intel/therm_throt.c:545:17: warning: 'msr_val' is used
- uninitialized
-Message-ID: <202607111159.OKnM0OJu-lkp@intel.com>
+To: sofus <sofus.c@icloud.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/240-isp 55/56]
+ drivers/media/platform/apple/avd/avd-hw.c:96:58: warning: shift count >=
+ width of type
+Message-ID: <202607111256.m7DRIagP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,88 +61,58 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   29ef85e24c475132363ab956dea5db1b2600ef75
-commit: 9d8ba97052b6d613819ae217cc406228a5799df1 [56/59] thermal: intel: Enable the Directed Package-level Thermal Interrupt
-config: x86_64-buildonly-randconfig-002-20260711 (https://download.01.org/0day-ci/archive/20260711/202607111159.OKnM0OJu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111159.OKnM0OJu-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   edd1529cbf30f69240acea99fa8225683c555200
+commit: 9d77b27426e338bbf4f4df0676c1e064e046527e [55/56] media: apple: add avd driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260711/202607111256.m7DRIagP-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111256.m7DRIagP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607111159.OKnM0OJu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607111256.m7DRIagP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/thermal/intel/therm_throt.c: In function 'check_directed_thermal_pkg_intr_ack':
-   drivers/thermal/intel/therm_throt.c:545:17: error: implicit declaration of function 'rdmsrl'; did you mean 'rdmsrq'? [-Werror=implicit-function-declaration]
-     545 |                 rdmsrl(MSR_IA32_PACKAGE_THERM_STATUS, msr_val);
-         |                 ^~~~~~
-         |                 rdmsrq
-   drivers/thermal/intel/therm_throt.c: In function 'config_directed_thermal_pkg_intr':
-   drivers/thermal/intel/therm_throt.c:570:9: error: implicit declaration of function 'wrmsrl'; did you mean 'wrmsrq'? [-Werror=implicit-function-declaration]
-     570 |         wrmsrl(MSR_IA32_THERM_INTERRUPT, msr_val);
-         |         ^~~~~~
-         |         wrmsrq
-   drivers/thermal/intel/therm_throt.c: In function 'check_directed_thermal_pkg_intr_ack':
->> drivers/thermal/intel/therm_throt.c:545:17: warning: 'msr_val' is used uninitialized [-Wuninitialized]
-     545 |                 rdmsrl(MSR_IA32_PACKAGE_THERM_STATUS, msr_val);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/thermal/intel/therm_throt.c:538:13: note: 'msr_val' was declared here
-     538 |         u64 msr_val;
-         |             ^~~~~~~
-   drivers/thermal/intel/therm_throt.c: In function 'config_directed_thermal_pkg_intr':
-   drivers/thermal/intel/therm_throt.c:563:9: warning: 'msr_val' is used uninitialized [-Wuninitialized]
-     563 |         rdmsrl(MSR_IA32_THERM_INTERRUPT, msr_val);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/thermal/intel/therm_throt.c:561:13: note: 'msr_val' was declared here
-     561 |         u64 msr_val;
-         |             ^~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/media/platform/apple/avd/avd-hw.c:96:58: warning: shift count >= width of type [-Wshift-count-overflow]
+      96 |                 w32(AVD_V4_VP_INSN_FIFO_IOVA_HI + (fifo_idx * 4), addr >> 32);
+         |                                                                        ^  ~~
+   drivers/media/platform/apple/avd/avd-hw.c:110:57: warning: shift count >= width of type [-Wshift-count-overflow]
+     110 |         w32(AVD_V5_VP_INSN_FIFO_IOVA_HI + (fifo_idx * 4), addr >> 32);
+         |                                                                ^  ~~
+   2 warnings generated.
+--
+   In file included from drivers/media/platform/apple/avd/avd-h264.c:24:
+>> drivers/media/platform/apple/avd/avd-inst.h:41:29: warning: shift count >= width of type [-Wshift-count-overflow]
+      41 |                 push(avd, ctx, (u32)(addr >> 32));
+         |                                           ^  ~~
+>> drivers/media/platform/apple/avd/avd-h264.c:383:20: warning: shift count >= width of type [-Wshift-count-overflow]
+     383 |                         | (u32)(slc_a84 >> 32), "slc_a7c_cmd_set_coded_slice");
+         |                                         ^  ~~
+   2 warnings generated.
 
 
-vim +/msr_val +545 drivers/thermal/intel/therm_throt.c
+vim +96 drivers/media/platform/apple/avd/avd-hw.c
 
-   534	
-   535	static int check_directed_thermal_pkg_intr_ack(void)
-   536	{
-   537		unsigned int count = 15000;
-   538		u64 msr_val;
-   539	
-   540		/*
-   541		 * Hardware acknowledges the directed interrupt setup in 10ms or less.
-   542		 * Wait 15ms to be safe.
-   543		 */
-   544		do {
- > 545			rdmsrl(MSR_IA32_PACKAGE_THERM_STATUS, msr_val);
-   546			udelay(1);
-   547		} while (!(msr_val & PACKAGE_THERM_STATUS_DPTI_ACK) && --count);
-   548	
-   549		if (!count)
-   550			return -ETIMEDOUT;
-   551	
-   552		thermal_clear_package_intr_status(PACKAGE_LEVEL,
-   553						  PACKAGE_THERM_STATUS_DPTI_ACK);
-   554	
-   555		return 0;
-   556	}
-   557	
-   558	static void config_directed_thermal_pkg_intr(void *info)
-   559	{
-   560		bool enable = *((bool *)info);
-   561		u64 msr_val;
-   562	
-   563		rdmsrl(MSR_IA32_THERM_INTERRUPT, msr_val);
-   564	
-   565		if (enable)
-   566			msr_val |= THERM_INT_DPTI_ENABLE;
-   567		else
-   568			msr_val &= ~THERM_INT_DPTI_ENABLE;
-   569	
- > 570		wrmsrl(MSR_IA32_THERM_INTERRUPT, msr_val);
-   571	}
-   572	
+    89	
+    90	void t8112_configure_stream(struct avd_dev *avd, dma_addr_t addr, u8 fifo_idx,
+    91				  u32 vp_slot)
+    92	{
+    93		if (avd->variant->quirks & AVD_QUIRK_LSR) {
+    94			w32(AVD_V4_VP_INSN_FIFO_IOVA_LO + (fifo_idx * 4), addr >> 8);
+    95		} else {
+  > 96			w32(AVD_V4_VP_INSN_FIFO_IOVA_HI + (fifo_idx * 4), addr >> 32);
+    97			w32(AVD_V4_VP_INSN_FIFO_IOVA_LO + (fifo_idx * 4), addr & 0xffffffff);
+    98		}
+    99		w32(AVD_V4_VP_INSN_FIFO_MASK + (fifo_idx * 4), 0);
+   100		w32(AVD_V4_VP_INSN_FIFO_CACH + (fifo_idx * 4), 0);
+   101		w32(AVD_V4_VP_INSN_FIFO_XFER + (fifo_idx * 4), 0);
+   102	
+   103		m32(AVD_V4_VP_CTRL_CM3_IRQ_MASK + (vp_slot * 4), AVD_VP_CM3_MASK);
+   104		m32(AVD_V4_PP_CTRL_CM3_IRQ_MASK, AVD_PP_CM3_MASK);
+   105	}
+   106	
 
 --
 0-DAY CI Kernel Test Service
