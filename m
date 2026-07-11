@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930F737A84F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 07:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C4F35B631
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 09:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783756549; cv=none; b=LopfFoz/r3gOaDU3fCJvDrDODPwx67FE5oy+NuDsxqTfDRKfgE8BFNoNwfI7y1+MfJgDJP2r4ymomm2YzfQ2A4vraEs+fSBPKf+TgIgUFpWhL7fy+QOP54V7HbA/l5uEnBTO5t4eYMehAOTYnzML8OZVyGVc9eP80TnSFgivL04=
+	t=1783763066; cv=none; b=ZxKUAWwHdtgQV6pmV2CvLs+xhEvfYCCjEL03l780Gf+YtZX3QWGe1lnvfcLnAFrKrdMv3flbqngNQKU/CtZpMRmcc8CZp9W+TlpD4kWTobj2H7rz8TTPjAR+aspZSarbdPFVNWOkY5M0fZmp4PPO0IDJoiqKZQkMnmHDiq06u3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783756549; c=relaxed/simple;
-	bh=MaUB4Yu3+2BvGflEPSWRarBmj8GdZshDDjnJ5bKjS4w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gHm/0ZTG4UYbPRpQCPsFmfMh8Mn1HHPSgR0B6muH5VHBJ/DoMusKLAdIE8ySt886PneAh5uCqsM/m0Z+xrc6DlAtJQkAJ+YH4/oQeNQcOiwn/A6JB8sq1OULMaXwFkshiDQeT/OGJqCH7YLcZ/V1lPOa37SWBhnV38VzRryA38A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDpARt3T; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1783763066; c=relaxed/simple;
+	bh=ImDOT96qWLByF7RtdLH1lGVRTTqioKw8WcjhLVZI03w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qU9qze7oyQ5qUS54vP9Glj5NJGocBHIBAV8psi9TdZw+uPqIJqsfSXmLYN9Jp5rZSF6wgGTlFVFXYBIRe5sQH0MAV0HxO51yhKhxyyXBZRyZ84iObS+NzICTdxv17w0wqDSLuEe2Q9x3mr1KtYSkFPzjq6560v4UK9DhGw8UcZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZFrO0niL; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDpARt3T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFrO0niL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783756548; x=1815292548;
+  t=1783763065; x=1815299065;
   h=date:from:to:cc:subject:message-id;
-  bh=MaUB4Yu3+2BvGflEPSWRarBmj8GdZshDDjnJ5bKjS4w=;
-  b=lDpARt3TMtLlhRDJSVl8u4oxspmCDk1qF5itu2vlkn+EbxK6S+LnfPmt
-   ack+kNcOFzOXRBwSgQZN+nLVPUTFX8EcwT78zDK4DiZ0t7HHyevUYBS81
-   QZ3b+gsTxLK6VHNCOqAnGQwtJ09a98C9QI3tVVqEwjw56hMgeKedfrcTH
-   inksZE1qWP/vjDKqyY0g/e1W49gV144NFvXZsmKbyUS4Wvjwf3ge06Swg
-   Y6uCdSBa8Qo8h/2m43L3c17ZcIQFnLLm7LkwLUvmCOmyFU2bn5p9cyLHZ
-   M9zgXUhx/mpKN3Pb7MS3Qsqimg4cb+VxTxCBqhSL11r0rYBixWODxR3Y8
-   g==;
-X-CSE-ConnectionGUID: fB4l1s4yT8CaGgXdzKUduQ==
-X-CSE-MsgGUID: f0TC6n3BRoqnISNWYFCoUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84543730"
+  bh=ImDOT96qWLByF7RtdLH1lGVRTTqioKw8WcjhLVZI03w=;
+  b=ZFrO0niLoH0GIyT1ziG0exgS6sdhSmEWfbVB5TTFyfLp7q1k9hejuRUG
+   t5mPVb+T3yZmDm//DOVzqHmPl5eJ13cP9h+6Gy/krvHVaa3NPCvPqrZF2
+   yulS1tQXdtJQDzuZutscj1ZXeU0/0WVTBDXQ8m5xXYueW6JcXDa7k4BXE
+   HI77PakUFyzlyEd543JtZ9ZZ8Z+kHGBlc9Fy2P1Mq3NQPCT3pYs310Q1B
+   XYsaXYIVOnpPxXLZuk0ivPO38HqxakDremal5FXlI+/+1vrwBGwznv7tV
+   3c/LfUvlIMXnBqIz4F4KVwLn84AsXtzCawP2H7qkbMBkyep4R5t8ZjCqk
+   Q==;
+X-CSE-ConnectionGUID: z/HtSSSETv6g8oV9EbqAZw==
+X-CSE-MsgGUID: 8n48OHtLSkOMQmc/HDNfNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95819135"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84543730"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 00:55:47 -0700
-X-CSE-ConnectionGUID: 8AB0UxKcRxqx2VdvgKJevw==
-X-CSE-MsgGUID: BZIZ33ZuRWGDMKMGizX1Sw==
+   d="scan'208";a="95819135"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 02:44:24 -0700
+X-CSE-ConnectionGUID: EVAEvV7nRXyzEgg+ScMMWw==
+X-CSE-MsgGUID: LV50Og8AR2CTotzjKyNdiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="279493132"
+   d="scan'208";a="251724986"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Jul 2026 00:55:45 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 11 Jul 2026 02:44:22 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiSYp-00000000Jsl-1wse;
-	Sat, 11 Jul 2026 07:55:43 +0000
-Date: Sat, 11 Jul 2026 15:55:04 +0800
+	id 1wiUFv-00000000Jx6-3cUH;
+	Sat, 11 Jul 2026 09:44:19 +0000
+Date: Sat, 11 Jul 2026 17:44:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-09 1/1]
- drivers/usb/gadget/android_configfs_uevent.c:231:6: warning: no previous
- prototype for function '__android_set_connected'
-Message-ID: <202607111521.oSV2u64Y-lkp@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 5603/5655] arch/x86/kvm/msrs.c:654:14:
+ error: implicit declaration of function 'static_cpu_has'; did you mean
+ '_static_cpu_has'?
+Message-ID: <202607111739.l56LQlCE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,83 +60,76 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-09
-head:   5e24956e1547fe617dada6fb3e853a856914ed20
-commit: c6f183ea8e2b26be3fd296bd096c4cc579e891c3 [1/1] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
-config: i386-randconfig-r073-20260708 (https://download.01.org/0day-ci/archive/20260711/202607111521.oSV2u64Y-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111521.oSV2u64Y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bee763d5f341b99cf472afeb508d4988f62a6ca1
+commit: d9b292f64e4bc5ab3e14dc0b89a7b0cc47c11e00 [5603/5655] Merge branch 'next' of git://git.kernel.org/pub/scm/virt/kvm/kvm.git
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260711/202607111739.l56LQlCE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111739.l56LQlCE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607111521.oSV2u64Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607111739.l56LQlCE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linux-next/master HEAD bee763d5f341b99cf472afeb508d4988f62a6ca1 builds fine.
+      It may have been fixed somewhere.
 
-   In file included from drivers/usb/gadget/android_configfs_uevent.c:5:
-   In file included from drivers/usb/gadget/android_configfs_uevent.h:9:
-   In file included from include/linux/usb/android_configfs_uevent.h:9:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:8:
-   In file included from include/linux/page_size_compat.h:27:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2180:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/usb/gadget/android_configfs_uevent.c:231:6: warning: no previous prototype for function '__android_set_connected' [-Wmissing-prototypes]
-     231 | void __android_set_connected(struct android_uevent_opts *opts,
-         |      ^
-   drivers/usb/gadget/android_configfs_uevent.c:231:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     231 | void __android_set_connected(struct android_uevent_opts *opts,
-         | ^
-         | static 
->> drivers/usb/gadget/android_configfs_uevent.c:245:6: warning: no previous prototype for function '__android_set_configured' [-Wmissing-prototypes]
-     245 | void __android_set_configured(struct android_uevent_opts *opts,
-         |      ^
-   drivers/usb/gadget/android_configfs_uevent.c:245:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     245 | void __android_set_configured(struct android_uevent_opts *opts,
-         | ^
-         | static 
-   3 warnings generated.
+All errors (new ones prefixed by >>):
+
+   arch/x86/kvm/msrs.c: In function 'set_efer':
+>> arch/x86/kvm/msrs.c:654:14: error: implicit declaration of function 'static_cpu_has'; did you mean '_static_cpu_has'? [-Wimplicit-function-declaration]
+     654 |         if (!static_cpu_has(X86_FEATURE_XSAVES) &&
+         |              ^~~~~~~~~~~~~~
+         |              _static_cpu_has
 
 
-vim +/__android_set_connected +231 drivers/usb/gadget/android_configfs_uevent.c
+vim +654 arch/x86/kvm/msrs.c
 
-   230	
- > 231	void __android_set_connected(struct android_uevent_opts *opts,
-   232			bool connected)
-   233	{
-   234		unsigned long flags;
-   235	
-   236		spin_lock_irqsave(&opts_lock, flags);
-   237		// Don't send the uevent if connected state is not changed
-   238		if (opts->connected != connected) {
-   239			opts->connected = connected;
-   240			schedule_work(&opts->work);
-   241		}
-   242		spin_unlock_irqrestore(&opts_lock, flags);
-   243	}
-   244	
- > 245	void __android_set_configured(struct android_uevent_opts *opts,
-   246			bool configured)
-   247	{
-   248		unsigned long flags;
-   249	
-   250		spin_lock_irqsave(&opts_lock, flags);
-   251		// Don't send the uevent if configure state is not changed
-   252		if (opts->configured != configured) {
-   253			opts->configured = configured;
-   254			schedule_work(&opts->work);
-   255		}
-   256		spin_unlock_irqrestore(&opts_lock, flags);
-   257	}
-   258	
+7a268308015843 Sean Christopherson 2026-06-12  623  
+7a268308015843 Sean Christopherson 2026-06-12  624  static int set_efer(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
+7a268308015843 Sean Christopherson 2026-06-12  625  {
+7a268308015843 Sean Christopherson 2026-06-12  626  	u64 old_efer = vcpu->arch.efer;
+7a268308015843 Sean Christopherson 2026-06-12  627  	u64 efer = msr_info->data;
+7a268308015843 Sean Christopherson 2026-06-12  628  	int r;
+7a268308015843 Sean Christopherson 2026-06-12  629  
+7a268308015843 Sean Christopherson 2026-06-12  630  	if (efer & efer_reserved_bits)
+7a268308015843 Sean Christopherson 2026-06-12  631  		return 1;
+7a268308015843 Sean Christopherson 2026-06-12  632  
+7a268308015843 Sean Christopherson 2026-06-12  633  	if (!msr_info->host_initiated) {
+7a268308015843 Sean Christopherson 2026-06-12  634  		if (!__kvm_valid_efer(vcpu, efer))
+7a268308015843 Sean Christopherson 2026-06-12  635  			return 1;
+7a268308015843 Sean Christopherson 2026-06-12  636  
+7a268308015843 Sean Christopherson 2026-06-12  637  		if (is_paging(vcpu) &&
+7a268308015843 Sean Christopherson 2026-06-12  638  		    (vcpu->arch.efer & EFER_LME) != (efer & EFER_LME))
+7a268308015843 Sean Christopherson 2026-06-12  639  			return 1;
+7a268308015843 Sean Christopherson 2026-06-12  640  	}
+7a268308015843 Sean Christopherson 2026-06-12  641  
+7a268308015843 Sean Christopherson 2026-06-12  642  	efer &= ~EFER_LMA;
+7a268308015843 Sean Christopherson 2026-06-12  643  	efer |= vcpu->arch.efer & EFER_LMA;
+7a268308015843 Sean Christopherson 2026-06-12  644  
+7a268308015843 Sean Christopherson 2026-06-12  645  	r = kvm_x86_call(set_efer)(vcpu, efer);
+7a268308015843 Sean Christopherson 2026-06-12  646  	if (r) {
+7a268308015843 Sean Christopherson 2026-06-12  647  		WARN_ON(r > 0);
+7a268308015843 Sean Christopherson 2026-06-12  648  		return r;
+7a268308015843 Sean Christopherson 2026-06-12  649  	}
+7a268308015843 Sean Christopherson 2026-06-12  650  
+7a268308015843 Sean Christopherson 2026-06-12  651  	if ((efer ^ old_efer) & KVM_MMU_EFER_ROLE_BITS)
+7a268308015843 Sean Christopherson 2026-06-12  652  		kvm_mmu_reset_context(vcpu);
+7a268308015843 Sean Christopherson 2026-06-12  653  
+7a268308015843 Sean Christopherson 2026-06-12 @654  	if (!static_cpu_has(X86_FEATURE_XSAVES) &&
+7a268308015843 Sean Christopherson 2026-06-12  655  	    (efer & EFER_SVME))
+7a268308015843 Sean Christopherson 2026-06-12  656  		kvm_hv_xsaves_xsavec_maybe_warn(vcpu);
+7a268308015843 Sean Christopherson 2026-06-12  657  
+7a268308015843 Sean Christopherson 2026-06-12  658  	return 0;
+7a268308015843 Sean Christopherson 2026-06-12  659  }
+7a268308015843 Sean Christopherson 2026-06-12  660  
+
+:::::: The code at line 654 was first introduced by commit
+:::::: 7a268308015843c7e8b15dda588b2e9adf45223f KVM: x86: Move the bulk of MSR specific code from x86.c to msrs.{c,h}
+
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
