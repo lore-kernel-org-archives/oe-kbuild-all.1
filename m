@@ -1,161 +1,165 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10473C661A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 13:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0B938D6A2;
+	Sat, 11 Jul 2026 13:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783776086; cv=none; b=Zx7a5sK27ZdNXA9jp73U6ES1wRgrLdk8JPASxcOUpZjrQ5lfxW8KBnqqaXk8vUdthMl9ZvoIk46ezHMIZIRvMVxxGg5SExe0UF+WbGQ59dhlmLDnKXyoVHxVC2eU22Vfz29zcxxebJ4cNmmihrlifLLe2IVClV5q3PQdHVHMOX0=
+	t=1783776438; cv=none; b=VvDHwc1eH8NsirUuVMR45Gs45wLhhuAfZXOUspvxI2te5RcIDjABoJBvkMGhOA+M1XL6S/xLpvWVwIkDESOpxEp3Aog8yf5/GcPWuVIl7roXT1Hob1+YY7pBUOMPqNkn1xBO47T8wzpvgwF7T94N0e9ZCU2D0aWBkcHDuw8pb4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783776086; c=relaxed/simple;
-	bh=bq2Fu6RZtjHzu4/pas0YFn0rfgSLJIssAv+HNFQDNNY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ujlmm9b5DOx9Mi736lzz7cRhvNN6jfDQO/WtA5zc909SYT9cokwNaxRIGt0Q+ADDicVSQr6YsQx1BmmT//eIOS1EPH5NEbN6bmNeC/yGoUwlNp17F88oPdXjA3EzXlxILLDTCfWqeYm/tcnZXQeOrRPrjcyilqAC+sM+kSIykCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Y8/X9YQc; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1783776438; c=relaxed/simple;
+	bh=QMRwmmcabKQsDt2EYSGPCKTrdu5/Efzn6kpB0nGGT5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AJLNt5e2bWSWyBEg8AtNKnSRHE9JX/o0dfgm+J2aV/hYoWC39czGQGd/Kyz1i79Ei7RVn8a9TnETB6udFYQxnJ5dnm47HCMZFPixqEp40MyRUiSg+jxV0MhOOcjNjnaZkuwxIwfdPFPL2bZfy6x61N4qTlXT8UNY0+1e+oHW4Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djXpW8DF; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Y8/X9YQc"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66BBBrUp800067;
-	Sat, 11 Jul 2026 13:21:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=O7lnCK
-	XnQW2QPH2AldFO23uDPdCuDkc7c/nYmFujzPY=; b=Y8/X9YQc9yU/XnaCLjWF7r
-	uUchAEqouSYg7cSx9WNzAx96N+iqCSfOpP3UnByT6n9dbYYziAafmSgkfmy1zMzK
-	qtxEWXuPZZISpmaSgQ4LL2GGJ3+Vj/A+dMuvM3BWn3QvHw4r5mLXqt0Gf8A1LiSd
-	dp+1hyRtPk8PCt2vDXHqBcJlNH5i2LO1mXtU6CrPHXx/TiVDuvbQH9cVIX0JtMKj
-	Svr4f59X79PxpbHWltrDnGJPCJ2fYPOBg6sxJ/Tk4jehyJRHzifbFP+koZIRG05L
-	XvTBy234TLv+BrQnzGLqPxPT1GsIZ4Kr9iD8nNzY1Lnfwb4xw4fnvztA+a09vDWg
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fber8168p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 11 Jul 2026 13:21:14 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66BDK1MD007646;
-	Sat, 11 Jul 2026 13:21:13 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7e0hxc8w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 11 Jul 2026 13:21:13 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66BDLBFj50069844
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 11 Jul 2026 13:21:11 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A66A320043;
-	Sat, 11 Jul 2026 13:21:11 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E83D020040;
-	Sat, 11 Jul 2026 13:21:09 +0000 (GMT)
-Received: from [9.39.28.176] (unknown [9.39.28.176])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 11 Jul 2026 13:21:09 +0000 (GMT)
-Message-ID: <8e6869e6-4d7b-4cbe-93f4-d3ee242fea6a@linux.ibm.com>
-Date: Sat, 11 Jul 2026 18:50:40 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djXpW8DF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783776436; x=1815312436;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QMRwmmcabKQsDt2EYSGPCKTrdu5/Efzn6kpB0nGGT5U=;
+  b=djXpW8DFMmytLvE1Cx8JRGjkJNqI+wiQpFIdY3cG8EKt05qqArilIeCo
+   FNNHV1NyX22lJkrJxU+u/aIFYWuxolBg2PZoE43bgrXN0ZS/gBavJDq3S
+   ESDXUXlFgB1A287pafKKoYlLIfcBAtjLJTpxCK+pP+0EXBW1KXh65DRHr
+   yCexhtb7boIkS7aYr0McrQIJhPi2NPpbi8XaUcPgR4jkey1H30pvgJTYG
+   IWfoFLxHShzVacVLH3UfTIi4Su9btUz/YVrSISVaNkQ+CMttilBu+zzZQ
+   w8jWXbd0Tr5K0PuQUWVdNePP/X2Y2Tyh5/4Y+HWBCYg39RB5a5RMinBNf
+   w==;
+X-CSE-ConnectionGUID: rNydQeP0T2GoXHjovX2ehQ==
+X-CSE-MsgGUID: MIIqw+EqTDadVLI7gG2NaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84649711"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="84649711"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 06:27:15 -0700
+X-CSE-ConnectionGUID: km0FdE8EQwS8E6vFC4DnIw==
+X-CSE-MsgGUID: AFD9okqYQpmb3ZBBQN83ew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="250711149"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2026 06:27:13 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wiXja-000000003M9-3DKs;
+	Sat, 11 Jul 2026 13:27:10 +0000
+Date: Sat, 11 Jul 2026 15:27:06 +0200
+From: kernel test robot <lkp@intel.com>
+To: Hongling Zeng <zenghongling@kylinos.cn>, akpm@linux-foundation.org,
+	david@fromorbit.com, qi.zheng@linux.dev, roman.gushchin@linux.dev,
+	muchun.song@linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] mm: shrinker: fix double-free in alloc_shrinker_info
+ error path
+Message-ID: <202607111559.uTGMAUhC-lkp@intel.com>
+References: <20260711041823.95135-1-zenghongling@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [powerpc:fixes-test 10/12] include/linux/static_call.h:223:9:
- warning: data definition has no type or storage class
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-References: <202607110847.u4TL0RJC-lkp@intel.com>
- <621a46b3-74a3-4a1f-b81f-f50ea18a541e@kernel.org>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <621a46b3-74a3-4a1f-b81f-f50ea18a541e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzExMDEzMCBTYWx0ZWRfXx6GfIUTh6iXd
- QGwn5xcm/UmCT2hDYNzV8k4aHxhAH2u5z02JAmFACE5eHwvyITSnawZDPv2ivaHg6W44UJd1EPi
- bznFR/Jzs1mg/W9o4gv+iV5n0+vK3RuIEOGFsRb1YsDAXFBOHKPulToeW6faVTABvbTb3BnLNUe
- xhNSWMMiLGkL7rFf41dhUXVC2L/4XJIpbQSdQJCWZLHg7W3cQ3aB5q9o9dSiuIGkndQ9kmFVTrg
- hOneOSOLlkwNtXHKO5hcgvdGE+CrQdUD3fKLAEVGzlsFfFLQW/w4u+RKRdJWS9JYrMqFwFYuA2U
- zAJoFiPAkVfcdQzP2dalxJelT/+oCOVmApI7r1rFCjUTKgTX3QxEzXP6ChK0NAvsudgYYNCcY4/
- +4FcuAUEqvrvCCyVCLrJdK/CC3cIegXPNYdE07Hl46+x50fb1ASu5wcM95iQWKillSQUllVbQRa
- vgSZNbNGPrgkLkB8ECA==
-X-Proofpoint-ORIG-GUID: V0otMKFZ1wVeNx_I_OVpQ3vuExixvjPp
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzExMDEzMCBTYWx0ZWRfX+2oFb/gbwxps
- 81XGxChyhfFTIp0Bsb0cdq81GFfiQBhQNHSDFktJ8mvGs84zvVreKJWva5jCDT3LZh7PMqUp0JF
- yiGiJMMuFSGeKJKgoJKM5hyctCsbM/o=
-X-Authority-Analysis: v=2.4 cv=TpzWQjXh c=1 sm=1 tr=0 ts=6a52434b cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
- a=i3X5FwGiAAAA:8 a=7CQSdrXTAAAA:8 a=QyXUC8HyAAAA:8 a=yH6aI7yIYFAsTmX0VQgA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=mmqRlSCDY2ywfjPLJ4af:22
- a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-GUID: V0otMKFZ1wVeNx_I_OVpQ3vuExixvjPp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-11_03,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 clxscore=1011 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607110130
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260711041823.95135-1-zenghongling@kylinos.cn>
 
-Hi Christophe,
+Hi Hongling,
 
-On 7/11/26 1:10 PM, Christophe Leroy (CS GROUP) wrote:
-> 
-> 
-> Le 11/07/2026 à 03:52, kernel test robot a écrit :
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/ 
->> linux.git fixes-test
->> head:   afc2830892a128a13a65f677271a0a48aeb61b5e
->> commit: 4747e17fe063720a30b1c0075bae3e8f8acd26f4 [10/12] powerpc/32: 
->> Use HAVE_PREEMPT_DYNAMIC_CALL instead of HAVE_PREEMPT_DYNAMIC_KEY
->> config: powerpc-randconfig-001-20260711 (https://download.01.org/0day- 
->> ci/archive/20260711/202607110847.u4TL0RJC-lkp@intel.com/config)
->> compiler: powerpc-linux-gcc (GCC) 11.5.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/ 
->> archive/20260711/202607110847.u4TL0RJC-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new 
->> version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202607110847.u4TL0RJC- 
->> lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     In file included from include/linux/tracepoint.h:22,
->>                      from include/trace/syscall.h:5,
->>                      from include/linux/syscalls.h:95,
->>                      from include/linux/syscalls_api.h:1,
->>                      from kernel/sched/core.c:16:
->>>> include/linux/static_call.h:223:9: warning: data definition has no 
->>>> type or storage class
->>       223 |         ARCH_ADD_TRAMP_KEY(name)
-> 
-> Looks like powerpc is missing ARCH_ADD_TRAMP() macro, introduced by 
-> commit 73f44fe19d35 ("static_call: Allow module use without exposing 
-> static_call_key") for x86. I missed it when adding inline static calls 
-> with commit f50b45626e05 ("powerpc/static_call: Implement inline static 
-> calls").
-> 
-> I will have to fix that before we can activate HAVE_PREEMPT_DYNAMIC_CALL.
-> 
-> Christophe
-> 
+kernel test robot noticed the following build errors:
 
-One more thing to note,
+[auto build test ERROR on v7.2-rc2]
+[cannot apply to akpm-mm/mm-everything linus/master next-20260710]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Below series would remove all the EXPORT_STATIC_CALL_TRAMP
-instances in scheduler.
-That series make sense given that none/voluntary can't be selected now.
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongling-Zeng/mm-shrinker-fix-double-free-in-alloc_shrinker_info-error-path/20260711-122040
+base:   v7.2-rc2
+patch link:    https://lore.kernel.org/r/20260711041823.95135-1-zenghongling%40kylinos.cn
+patch subject: [PATCH] mm: shrinker: fix double-free in alloc_shrinker_info error path
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260711/202607111559.uTGMAUhC-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111559.uTGMAUhC-lkp@intel.com/reproduce)
 
-https://lore.kernel.org/all/20260703133358.698078-1-mark.rutland@arm.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607111559.uTGMAUhC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> mm/shrinker.c:108:10: error: call to undeclared function 'shrinker_info_protected'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     108 |                 info = shrinker_info_protected(memcg, nid);
+         |                        ^
+>> mm/shrinker.c:108:8: error: incompatible integer to pointer conversion assigning to 'struct shrinker_info *' from 'int' [-Wint-conversion]
+     108 |                 info = shrinker_info_protected(memcg, nid);
+         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/shrinker.c:117:30: error: conflicting types for 'shrinker_info_protected'
+     117 | static struct shrinker_info *shrinker_info_protected(struct mem_cgroup *memcg,
+         |                              ^
+   mm/shrinker.c:108:10: note: previous implicit declaration is here
+     108 |                 info = shrinker_info_protected(memcg, nid);
+         |                        ^
+   3 errors generated.
+
+
+vim +/shrinker_info_protected +108 mm/shrinker.c
+
+    76	
+    77	int alloc_shrinker_info(struct mem_cgroup *memcg)
+    78	{
+    79		int nid, ret = 0;
+    80		int array_size = 0;
+    81		int failed_nid;
+    82	
+    83		mutex_lock(&shrinker_mutex);
+    84		array_size = shrinker_unit_size(shrinker_nr_max);
+    85		for_each_node(nid) {
+    86			struct shrinker_info *info = kvzalloc_node(sizeof(*info) + array_size,
+    87								   GFP_KERNEL, nid);
+    88			if (!info)
+    89				goto err;
+    90			info->map_nr_max = shrinker_nr_max;
+    91			if (shrinker_unit_alloc(info, NULL, nid)) {
+    92				kvfree(info);
+    93				goto err;
+    94			}
+    95			rcu_assign_pointer(memcg->nodeinfo[nid]->shrinker_info, info);
+    96		}
+    97		mutex_unlock(&shrinker_mutex);
+    98	
+    99		return ret;
+   100	
+   101	err:
+   102		failed_nid = nid;
+   103		for_each_node(nid) {
+   104			struct shrinker_info *info;
+   105	
+   106			if (nid >= failed_nid)
+   107				break;
+ > 108			info = shrinker_info_protected(memcg, nid);
+   109			rcu_assign_pointer(memcg->nodeinfo[nid]->shrinker_info, NULL);
+   110			shrinker_unit_free(info, 0);
+   111			kvfree(info);
+   112		}
+   113		mutex_unlock(&shrinker_mutex);
+   114		return -ENOMEM;
+   115	}
+   116	
+ > 117	static struct shrinker_info *shrinker_info_protected(struct mem_cgroup *memcg,
+   118							     int nid)
+   119	{
+   120		return rcu_dereference_protected(memcg->nodeinfo[nid]->shrinker_info,
+   121						 lockdep_is_held(&shrinker_mutex));
+   122	}
+   123	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
