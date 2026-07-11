@@ -1,75 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191F1282F0C;
-	Sat, 11 Jul 2026 03:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913EF233956
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Jul 2026 03:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783741490; cv=none; b=C0jtiOtJdncwmk0Y6NXGZbHSPOueBZx/tnAv8kl0CJ+rLuFNZH4zXzu5ItLm2LAXemdr5j1QdakfirxgAf5VIOYm5T0InEvsLbJVXeX52tT9Xjj3RoZaCNoKbuQaQ1GwySrLBP9N5ON0OQefr+08+2k0Jx4wB/DU4EBhHC21bVY=
+	t=1783741765; cv=none; b=Yd3pQP60EsvO3fydZBroQVZhbTN4AwjL5iRyTh6b1DHmLGDS/Cudg6YInwREnVXpc466yT0g9cGJvIg7OssLCwVoaYKv/Fe5Bqqqu+lRtjcuuG5A4fEMpHiXkE3JvvsHpJpKQ/PzWJlsHxrCYFZ3fU/p8HNRgC1/zDPlOetr5zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783741490; c=relaxed/simple;
-	bh=lowi9IqD1dJQZbR21/xALdGC3zgG8No6AfNlnW8BU8U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hhmvU1ClCBoG4uXrjKIjIjwcSwrNY2aLezqJ2YB5oLuXMEfugIr3qLaPHXTrc3sn0KZZBHBFQG47WFZ7PPMFuAeG0hAsqeAbvk6zNKrCENsCeqBSLQwOR0vWGHMe/fZtoE7rZUGO11nubkMy267sVGnKLfQl27WJqhsj0VVZsS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N2i9TPF9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783741765; c=relaxed/simple;
+	bh=4jQE6pbDV+FoYS5UvuW/QhoCXc0fTtiUbe+/dSRcrkk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Y8vSiHXoT0DytokhUD2hzhqCiLK4vlbdfoAk2sikl8g63EZbu3uZEkKuU4vhaj7d0oFk8ezpDVy5kEvK7QRNzDTaTljZ40X74upu/W7dqfJxTFoVUTLrFtjzq/QkOkHIND2mXZGdATMYRGNmavJM/mHFihZS0V3Xt5dCDA5En48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IN5qD7zH; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N2i9TPF9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC9981F00A3A;
-	Sat, 11 Jul 2026 03:44:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783741489;
-	bh=BTaZPCJkshbVC0cjDuIaqPS/hoZ0+n2t+cgmTXTNVGQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=N2i9TPF94kk+zeAntmEO9cTW7EMqqfAQNGx/e+WlWkZTiNISt/Dqcurhpc2DgUdCy
-	 6IoSMXrv5ZMjIhUtsVT07M0c4VtflQdKoeopWzXxO+XG0ntjaXaC4Az65v+ol4vYsJ
-	 t3woP6eh7XnUkJ495yD+ic4JAN5CWyyXsf+HZvwp03Nqo9/Y6mkwm9lZGSpB/iqdfi
-	 un6hQwGPn5b1S+VnZm5DQsPRiRATUVkRmWYm/eGHQ1XQLFhensKGdgVrgQSI6g6lCi
-	 eA/C2HW6tnXoDyIszoAuhLMhXR9aP8UUzTAxjKVGZIH1Ll+6f8Rqqt3WOa77/bQ6QA
-	 3rnofq7sxLs4Q==
-From: SJ Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SJ Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 151/151] mm/damon/vaddr.c:196:13: warning: variable 'tidx' set but not used
-Date: Fri, 10 Jul 2026 20:43:37 -0700
-Message-ID: <20260711034339.63677-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202607111055.NqcvApT6-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IN5qD7zH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783741762; x=1815277762;
+  h=date:from:to:cc:subject:message-id;
+  bh=4jQE6pbDV+FoYS5UvuW/QhoCXc0fTtiUbe+/dSRcrkk=;
+  b=IN5qD7zHaC4K6OOGA4fcrha6JubOhqrqcmCYN3ujbl8CAUHCNinAELOM
+   jnAQZBStPoz71J7Wi3pTngFPB25yaEnmqF7/qGPzRxX2/XXbz2JgSCNt3
+   jErmR3rI6hhYwbVMP23snhgIK47H+BwN+/3e9/wGpGfrw+WxZimGpS4nI
+   Iz6tJvHgBxzTLRUWghZYck0i/Udstyrl/0A3qDgJpmqVYtIr60vjgo2f2
+   rNQXYw2jFcUmkkpnpCagSOt7L/n2YdKeD77Q+jojf3gDAgoXhUXVAdkvS
+   Mfzf9Y20m5j3ZfDvATt9qie+t9nvwXMcKPgve0hllrmIYKubjjljkuWQ6
+   w==;
+X-CSE-ConnectionGUID: xHyo0qdNREW0BPIt6GuPBg==
+X-CSE-MsgGUID: uQOJpEN/TBys39AWFGRVaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84551877"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="84551877"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 20:49:21 -0700
+X-CSE-ConnectionGUID: 4sajkIqgRviJIFFUoYeseA==
+X-CSE-MsgGUID: euXKCrMLQVOzXx+je9hLYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="278295068"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Jul 2026 20:49:19 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wiOiK-00000000JhS-2vIf;
+	Sat, 11 Jul 2026 03:49:16 +0000
+Date: Sat, 11 Jul 2026 11:49:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: [rafael-pm:bleeding-edge 56/59]
+ drivers/thermal/intel/therm_throt.c:545:17: warning: 'msr_val' is used
+ uninitialized
+Message-ID: <202607111159.OKnM0OJu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Sat, 11 Jul 2026 10:36:45 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   29ef85e24c475132363ab956dea5db1b2600ef75
+commit: 9d8ba97052b6d613819ae217cc406228a5799df1 [56/59] thermal: intel: Enable the Directed Package-level Thermal Interrupt
+config: x86_64-buildonly-randconfig-002-20260711 (https://download.01.org/0day-ci/archive/20260711/202607111159.OKnM0OJu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111159.OKnM0OJu-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   b617f1f8428697a2583fb6882864224d59a91bf2
-> commit: b617f1f8428697a2583fb6882864224d59a91bf2 [151/151] mm/damon/vaddr: remove debug message
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260711/202607111055.NqcvApT6-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 16.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607111055.NqcvApT6-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202607111055.NqcvApT6-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    mm/damon/vaddr.c: In function '__damon_va_init_regions':
-> >> mm/damon/vaddr.c:196:13: warning: variable 'tidx' set but not used [-Wunused-but-set-variable=]
->      196 |         int tidx = 0;
->          |             ^~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607111159.OKnM0OJu-lkp@intel.com/
 
-Thank you for this report.  I just pushed a fix to damon/next.
+All warnings (new ones prefixed by >>):
+
+   drivers/thermal/intel/therm_throt.c: In function 'check_directed_thermal_pkg_intr_ack':
+   drivers/thermal/intel/therm_throt.c:545:17: error: implicit declaration of function 'rdmsrl'; did you mean 'rdmsrq'? [-Werror=implicit-function-declaration]
+     545 |                 rdmsrl(MSR_IA32_PACKAGE_THERM_STATUS, msr_val);
+         |                 ^~~~~~
+         |                 rdmsrq
+   drivers/thermal/intel/therm_throt.c: In function 'config_directed_thermal_pkg_intr':
+   drivers/thermal/intel/therm_throt.c:570:9: error: implicit declaration of function 'wrmsrl'; did you mean 'wrmsrq'? [-Werror=implicit-function-declaration]
+     570 |         wrmsrl(MSR_IA32_THERM_INTERRUPT, msr_val);
+         |         ^~~~~~
+         |         wrmsrq
+   drivers/thermal/intel/therm_throt.c: In function 'check_directed_thermal_pkg_intr_ack':
+>> drivers/thermal/intel/therm_throt.c:545:17: warning: 'msr_val' is used uninitialized [-Wuninitialized]
+     545 |                 rdmsrl(MSR_IA32_PACKAGE_THERM_STATUS, msr_val);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/intel/therm_throt.c:538:13: note: 'msr_val' was declared here
+     538 |         u64 msr_val;
+         |             ^~~~~~~
+   drivers/thermal/intel/therm_throt.c: In function 'config_directed_thermal_pkg_intr':
+   drivers/thermal/intel/therm_throt.c:563:9: warning: 'msr_val' is used uninitialized [-Wuninitialized]
+     563 |         rdmsrl(MSR_IA32_THERM_INTERRUPT, msr_val);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/intel/therm_throt.c:561:13: note: 'msr_val' was declared here
+     561 |         u64 msr_val;
+         |             ^~~~~~~
+   cc1: some warnings being treated as errors
 
 
-Thanks,
-SJ
+vim +/msr_val +545 drivers/thermal/intel/therm_throt.c
 
-[...]
+   534	
+   535	static int check_directed_thermal_pkg_intr_ack(void)
+   536	{
+   537		unsigned int count = 15000;
+   538		u64 msr_val;
+   539	
+   540		/*
+   541		 * Hardware acknowledges the directed interrupt setup in 10ms or less.
+   542		 * Wait 15ms to be safe.
+   543		 */
+   544		do {
+ > 545			rdmsrl(MSR_IA32_PACKAGE_THERM_STATUS, msr_val);
+   546			udelay(1);
+   547		} while (!(msr_val & PACKAGE_THERM_STATUS_DPTI_ACK) && --count);
+   548	
+   549		if (!count)
+   550			return -ETIMEDOUT;
+   551	
+   552		thermal_clear_package_intr_status(PACKAGE_LEVEL,
+   553						  PACKAGE_THERM_STATUS_DPTI_ACK);
+   554	
+   555		return 0;
+   556	}
+   557	
+   558	static void config_directed_thermal_pkg_intr(void *info)
+   559	{
+   560		bool enable = *((bool *)info);
+   561		u64 msr_val;
+   562	
+   563		rdmsrl(MSR_IA32_THERM_INTERRUPT, msr_val);
+   564	
+   565		if (enable)
+   566			msr_val |= THERM_INT_DPTI_ENABLE;
+   567		else
+   568			msr_val &= ~THERM_INT_DPTI_ENABLE;
+   569	
+ > 570		wrmsrl(MSR_IA32_THERM_INTERRUPT, msr_val);
+   571	}
+   572	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
