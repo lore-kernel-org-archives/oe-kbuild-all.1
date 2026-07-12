@@ -1,79 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261CB25B090
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jul 2026 05:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69211A262A;
+	Sun, 12 Jul 2026 08:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783835733; cv=none; b=uoy5vvgVyX6BVtHFuj0m3pTuIHVHihKAVuZjvcR8iXAS1hHyv6uMkde3GqJhVhAbKsqzPyin5eCANQnUdT4yaEwS+dXNTGW7eKZA+u+Rr/YZsgmplXMp1t9pG46rTstQMKlR92MQEfdECgPCcRbPWUWhk2HE1mYPzCOJ6lfrsyY=
+	t=1783843251; cv=none; b=HC7HXjBhYeqxXeXwDaY/GdSnmr5LM7apjmq4Tw3DJleFtYIlRn7gM7uUOWm1DvF0f6Cf3WYbJkKUZbogO9uMirKr3zgwqKL3jqxGcIX0As4qI/ntxn+mKtexQpc57EccspuO9kuAJo8p0MvhOATIvu71AzmykpKnNDziuZVf6WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783835733; c=relaxed/simple;
-	bh=UViAVnWlDkgtWcSpX0bwXuJUYt/kKaS1PY+r3Zm6qGk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sSaBRk7LluoyBxDiQD8l6+lNRfYmmzFV0B97v1o6i/et/Fovj2nNcS/J/0UhiY8FS51HqlvakyoZNGMHyE1CxNJhe8ziPg/dzPguOubXB5XZkSwoMXvFVGkHSmUBIuAwpn52PAekdtR17I9/D3m+YcpMafrGzBFQFr7XxLaJFgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpYZvUah; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783843251; c=relaxed/simple;
+	bh=fYDmYoYAhY5gXsV4QC8FYwe5sp9yEmsrULj6U6BOCaU=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Coi3Ox3AFtp2RLXH5h11avlFn/ggA1JCa4kjpVfN7N2ogtd+49oTAei1OKhxpWCXpukhQVkQiNqr0EZ2VmVZ0lyfI+lEolC62DP/jegjyfg44whV0/M/aOx+fdHGNR/PGINxGorih9BWeszZF28j2EcpgnTx5q7WtPWRU7nY6JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TugY1ONT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpYZvUah"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783835731; x=1815371731;
-  h=date:from:to:cc:subject:message-id;
-  bh=UViAVnWlDkgtWcSpX0bwXuJUYt/kKaS1PY+r3Zm6qGk=;
-  b=fpYZvUahJzRPEXyavPfqLtsRfidJHBBdfjP3XkPo+lNw4sSp3TMSV19i
-   Dx1xH1IybaPEsd7B4uBbojteR9tBY1uDdorMvjNYGdtKObpttQiRH+PYL
-   LWwnQdSbt4ZXzKiRbM4kq/dcSmpda5n5dqYvj05h4WIFRJawZ9Jaz/3pI
-   fzCP3VavCqu4lJ6X8sLxXI0lkVxcwLcqk2ffPjiZdcAyJrdFLQJuJNh8H
-   Ri7onUuoaVoVm9wqFjxaR+o/wJDm+v179kfYSVInh2uudDZ4T1wTVsy5B
-   b6QzPujPQyy4J57WuF7RstjotJHYJeND6S0cD0nevX4jLnziPOc8WTlOG
-   Q==;
-X-CSE-ConnectionGUID: FvgpcieiR0S0qfWLqcVkvw==
-X-CSE-MsgGUID: BFaFk5MgSC+1ewI3rS392g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94834427"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="94834427"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 22:55:31 -0700
-X-CSE-ConnectionGUID: EmBcwYLCSIKUq/o+bZ08ww==
-X-CSE-MsgGUID: Jr6CPhN9QCeIWivSoRD2+g==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Jul 2026 22:55:30 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1win9z-00000000KjS-1lmV;
-	Sun, 12 Jul 2026 05:55:27 +0000
-Date: Sun, 12 Jul 2026 13:55:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djiang:apei-sashiko-fixes 5/5] WARNING: modpost: module
- acpi_extlog uses symbol cxl_cper_post_prot_err from namespace CXL, but does
- not import it.
-Message-ID: <202607121304.cJGerpzK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TugY1ONT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8464F1F000E9;
+	Sun, 12 Jul 2026 08:00:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1783843250;
+	bh=1zUEryVLxD22Xe/mTi/wJsFGalkeyjdnEUKUmdqQvrM=;
+	h=Date:From:To:Subject:References:In-Reply-To;
+	b=TugY1ONTR5HgvL1o2L/nLT7TdaL/4cmemRPGmnOzCdblaM/cvtc8GVw4bQyznxIil
+	 pEofo1KxHf2ZDfHh65iUIsT6eMVW3AyfclsTktMKYLRm8SC9c5lRieKCqQmhp+huI+
+	 ILEhItXKk+KlIxrp1PP7E21HWMzQ6hYKKL/0vjvA=
+Date: Sun, 12 Jul 2026 10:00:16 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: kernel test robot <lkp@intel.com>,
+	Elson Serrao <elson.serrao@oss.qualcomm.com>,
+	oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org
+Subject: Re: [usb:usb-next 23/66] drivers/usb/dwc3/core.c:2501: undefined
+ reference to `power_supply_unreg_notifier'
+Message-ID: <2026071253-evaporate-hunchback-b2b8@gregkh>
+References: <202607112037.tVbaUKOJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202607112037.tVbaUKOJ-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git apei-sashiko-fixes
-head:   477881d6ab1d71be7860a41b4979a5d8817d3caa
-commit: 477881d6ab1d71be7860a41b4979a5d8817d3caa [5/5] ACPI: extlog: Defer CXL protocol error handling to avoid lock inversion
-config: i386-buildonly-randconfig-006-20260711 (https://download.01.org/0day-ci/archive/20260712/202607121304.cJGerpzK-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260712/202607121304.cJGerpzK-lkp@intel.com/reproduce)
+On Sat, Jul 11, 2026 at 08:47:45PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+> head:   1db5c6b0b9834aee2f14e39764becfcc29d09ccf
+> commit: 7c87ef27af79b3f905aed2edf9f60ce2a75d38e3 [23/66] usb: dwc3: avoid probe deferral when USB power supply is not available
+> config: parisc-randconfig-001-20260710 (https://download.01.org/0day-ci/archive/20260711/202607112037.tVbaUKOJ-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 9.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607112037.tVbaUKOJ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202607112037.tVbaUKOJ-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_core_remove':
+> >> drivers/usb/dwc3/core.c:2501: undefined reference to `power_supply_unreg_notifier'
+>    hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_get_usb_power_supply':
+> >> drivers/usb/dwc3/core.c:2245: undefined reference to `power_supply_reg_notifier'
+>    hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_core_probe':
+>    drivers/usb/dwc3/core.c:2443: undefined reference to `power_supply_unreg_notifier'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607121304.cJGerpzK-lkp@intel.com/
+Elson, can you please provide a patch to fix this, or a revert of your
+patch so that the build gets fixed?
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+thanks,
 
->> WARNING: modpost: module acpi_extlog uses symbol cxl_cper_post_prot_err from namespace CXL, but does not import it.
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
