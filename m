@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D7338B147;
-	Sun, 12 Jul 2026 22:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECA254785
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jul 2026 23:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783896827; cv=none; b=fAL4bfRiSjaE67fiZIeG8pHNpbqd8ntYOHBoOaeE1OGQkdmtRTrPVt09DB6k7711dx1hvkkb7Ecx/6HHcXVs7zA25XsWDOQy2lkx8SkT+sBIqh++Rf+Kw0oRKsNgwF/cwa/yHVPQk33X2Dmxf9FqY/cve26CQfU2KazpyTtJqMo=
+	t=1783897330; cv=none; b=Hm5kzEFuHe6DE+Qm42WxcTexC8AnZPGF0iaIUkhVdxA+0K41u1XhpmzUiCAMu3jkzcPvS8jB//CG5MgYKxiMlTJyQUBhg4Y2lm9B4w5Q+nlhh5Wdxami+ec/PAHvIJie3x/tLfAI9SCKOn9Xxqu92PFJ6GRy5ioO7Ied9FphGCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783896827; c=relaxed/simple;
-	bh=tSmyDJ+WLgj6BWUEHdNb+oxEMw6jl56UVVWU9OnYkuU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ClaHdYuAYlcIBws5ICulGz50BDl76HDrBdlBoaFwOZcyDRMmDwgIk8wxaFWHlFyZh61b4OTRR5gxtqbmLF3eQKBicaTvOWbo1pAnBK8zeqGY1wtRgZ2M1rN45fBVzPxszcMZBz3Ovkqx43dAsAcDPUMTFE6MIl8uQ6oEs8xvThI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUMMDgqj; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1783897330; c=relaxed/simple;
+	bh=O/YcYRDafzWB5F7yjTDS9bKwMABaHXOn2DXAuBMOVWE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kisdLDXvgUBM97lffaTmIISRkMN9cPJzyC51RIz5Gg5xykeWclLTF6VCLKMAEgfe/H7cvQbI2LfoGOWdt1eHTEN/v1caaemKqHuiBSWVm8WknIWp2ul1PXI8Y3aoG95xgYEcyQttdJE+r+qEX1DC795tn7bJy0vHsIHu3c4BwWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mD/IO25k; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUMMDgqj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mD/IO25k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783896826; x=1815432826;
+  t=1783897329; x=1815433329;
   h=date:from:to:cc:subject:message-id;
-  bh=tSmyDJ+WLgj6BWUEHdNb+oxEMw6jl56UVVWU9OnYkuU=;
-  b=SUMMDgqj3HX7tfQSzj2PJ2NdbxQBfT2QVcWzqxC36uqhvTZlqYidxsP2
-   PrjoOczItNzPA2e2yFG8EeZoT7MUgmPmFaZQVUM+jEmFLaW2qqM7/abWV
-   icXqr2Oy7ykuVD5reDlvDtQ5B6IkHH1L+j5rQA9nrctm9KLRox0caFHYm
-   GpUybLmFfehJeV3KdNp4KEg0nppvsmB7iBZbxXG3IfwtQj7saoGeMo4b2
-   2G8Mr70JcPOt9t3/FLcVEbQYL4a6iOkqCdmOYTJBV04+Gsm1nguNEUS1R
-   KYvdFrg5Y6gTVgFx0NiNPOSLkHRBPEIgdhYFK2dkhgnTavA3cZOqjVzVe
+  bh=O/YcYRDafzWB5F7yjTDS9bKwMABaHXOn2DXAuBMOVWE=;
+  b=mD/IO25kL1u28rOjaa64PiYTBNTmX/UsE3V0dsYlJupC4FJzeHlz68s4
+   rXsTHRd3zSlhDzjE1ZQ8kxY7fXXDsRt56WpFD1HAlCrPFTcQiVz+mXVEU
+   AtJFC4mXF3qZYDomlugLuUwfbreLZWRxSBt3Avv3g2CSyQqPo9EsVz/kn
+   vQ+Jb2l630sBKKQeEQ/urfhOyNhlG+6Po0OLmgHyZGhJaa0cdJu1nA2+2
+   slEK7moziU3+An4ylgfgE6QBgXM5pAQFSViaKK/ya6TyUlcKykmGsX/F6
+   ZmgfHMn8ji5MhQL/2qWflXh6Nizw4nM/D3wh106G7O33jApLHeSlsX1Gz
    w==;
-X-CSE-ConnectionGUID: 5aayGqsCQf6GyxRmbW8J8g==
-X-CSE-MsgGUID: PrXun0QFRAuNHHaXp6MOyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95109656"
+X-CSE-ConnectionGUID: jw5BTDiqQXSiXqQEsdXrqQ==
+X-CSE-MsgGUID: 7lCoWx04TNuOl9ELtN+WQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88335562"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="95109656"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 15:53:40 -0700
-X-CSE-ConnectionGUID: p5xjLpkeR/+r0v62iNi4tw==
-X-CSE-MsgGUID: tjAr1fh0QG6OwIhhTmtqLQ==
+   d="scan'208";a="88335562"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 16:02:08 -0700
+X-CSE-ConnectionGUID: 5vun3Sg3R3eP9TI3FPIwXg==
+X-CSE-MsgGUID: E8sPNHTnSSqcZzJx/ZrqUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="250980746"
+   d="scan'208";a="279800571"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Jul 2026 15:53:38 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 12 Jul 2026 16:02:07 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wj33I-00000000LBa-1N92;
-	Sun, 12 Jul 2026 22:53:36 +0000
-Date: Mon, 13 Jul 2026 06:52:44 +0800
+	id 1wj3BU-00000000LBx-41xM;
+	Sun, 12 Jul 2026 23:02:04 +0000
+Date: Mon, 13 Jul 2026 07:01:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas Gleixner <tglx@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:timers/cleanup 59/59]
- arch/s390/kernel/early.c:230:2: error: call to undeclared function
- 'time_early_init'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202607130621.lg3dg2Y0-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:timers/cleanup 58/59]
+ arch/x86/hyperv/hv_init.c:204:9: error: 'tsc_khz' undeclared
+Message-ID: <202607130651.vQHR3Of7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,136 +61,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/cleanup
 head:   0ad363c8e014568032d53fe2c7ab288de68373f4
-commit: 0ad363c8e014568032d53fe2c7ab288de68373f4 [59/59] treewide: Remove asm/timex.h includes from generic code
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260713/202607130621.lg3dg2Y0-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260713/202607130621.lg3dg2Y0-lkp@intel.com/reproduce)
+commit: 27019f00127af90a16c3b8c54e976cdc8a711b0a [58/59] x86: Select ARCH_HAS_RANDOM_ENTROPY
+config: i386-randconfig-014-20260713 (https://download.01.org/0day-ci/archive/20260713/202607130651.vQHR3Of7-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260713/202607130651.vQHR3Of7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607130621.lg3dg2Y0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607130651.vQHR3Of7-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/s390/kernel/early.c:230:2: error: call to undeclared function 'time_early_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     230 |         time_early_init();
-         |         ^
-   1 error generated.
+   arch/x86/hyperv/hv_init.c: In function 'hyperv_stop_tsc_emulation':
+>> arch/x86/hyperv/hv_init.c:204:9: error: 'tsc_khz' undeclared (first use in this function)
+     204 |         tsc_khz = div64_u64(freq, 1000);
+         |         ^~~~~~~
+   arch/x86/hyperv/hv_init.c:204:9: note: each undeclared identifier is reported only once for each function it appears in
 --
->> arch/s390/kernel/debug.c:1187:2: error: call to undeclared function 'store_tod_clock_ext'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1187 |         store_tod_clock_ext(&clk);
-         |         ^
->> arch/s390/kernel/debug.c:1189:15: error: use of undeclared identifier 'TOD_UNIX_EPOCH'
-    1189 |         timestamp -= TOD_UNIX_EPOCH >> 12;
-         |                      ^~~~~~~~~~~~~~
-   2 errors generated.
---
->> arch/s390/kernel/smp.c:178:17: error: call to undeclared function 'get_tod_clock_fast'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     178 |         pcpu->ec_clk = get_tod_clock_fast();
-         |                        ^
->> arch/s390/kernel/smp.c:434:8: error: call to undeclared function 'get_tod_clock_monotonic'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     434 |         end = get_tod_clock_monotonic() + (1000000UL << 12);
-         |               ^
->> arch/s390/kernel/smp.c:828:26: error: call to undeclared function 'get_tod_clock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     828 |         lc->last_update_clock = get_tod_clock();
-         |                                 ^
->> arch/s390/kernel/smp.c:837:2: error: call to undeclared function 'init_cpu_timer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     837 |         init_cpu_timer();
-         |         ^
-   arch/s390/kernel/smp.c:837:2: note: did you mean 'get_cpu_timer'?
-   arch/s390/include/asm/processor.h:107:38: note: 'get_cpu_timer' declared here
-     107 | static __always_inline unsigned long get_cpu_timer(void)
-         |                                      ^
-   4 errors generated.
---
->> drivers/s390/char/sclp.c:730:13: error: call to undeclared function 'get_tod_clock_monotonic'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     730 |                 timeout = get_tod_clock_monotonic() +
-         |                           ^
->> drivers/s390/char/sclp.c:740:13: error: call to undeclared function 'local_tick_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     740 |         old_tick = local_tick_disable();
-         |                    ^
-   drivers/s390/char/sclp.c:740:13: note: did you mean 'local_mcck_disable'?
-   arch/s390/include/asm/processor.h:362:20: note: 'local_mcck_disable' declared here
-     362 | static inline void local_mcck_disable(void)
-         |                    ^
-   drivers/s390/char/sclp.c:750:7: error: call to undeclared function 'get_tod_clock_monotonic'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     750 |                 if (get_tod_clock_monotonic() > timeout && timer_delete(&sclp_request_timer))
-         |                     ^
->> drivers/s390/char/sclp.c:758:2: error: call to undeclared function 'local_tick_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     758 |         local_tick_enable(old_tick);
-         |         ^
-   drivers/s390/char/sclp.c:758:2: note: did you mean 'local_mcck_enable'?
-   arch/s390/include/asm/processor.h:367:20: note: 'local_mcck_enable' declared here
-     367 | static inline void local_mcck_enable(void)
-         |                    ^
-   4 errors generated.
---
->> drivers/s390/cio/css.c:971:32: error: call to undeclared function 'get_tod_clock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     971 |         css_generate_pgid(css, (u32) (get_tod_clock() >> 32));
-         |                                       ^
->> drivers/s390/cio/css.c:971:48: warning: shift count >= width of type [-Wshift-count-overflow]
-     971 |         css_generate_pgid(css, (u32) (get_tod_clock() >> 32));
-         |                                                       ^  ~~
-   1 warning and 1 error generated.
---
->> drivers/s390/cio/device_fsm.c:53:34: error: call to undeclared function 'get_tod_clock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      53 |                "device information:\n", get_tod_clock());
-         |                                         ^
->> drivers/s390/cio/device_fsm.c:53:34: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-      52 |         printk(KERN_WARNING "cio: ccw device timeout occurred at %lx, "
-         |                                                                  ~~~
-         |                                                                  %x
-      53 |                "device information:\n", get_tod_clock());
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/printk.h:511:60: note: expanded from macro 'printk'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning and 1 error generated.
---
->> drivers/s390/cio/cmf.c:290:26: error: call to undeclared function 'get_tod_clock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     290 |         cmb_data->last_update = get_tod_clock();
-         |                                 ^
-   drivers/s390/cio/cmf.c:365:34: error: call to undeclared function 'get_tod_clock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     365 |         cdev->private->cmb_start_time = get_tod_clock();
-         |                                         ^
-   drivers/s390/cio/cmf.c:588:17: error: call to undeclared function 'get_tod_clock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     588 |         elapsed_time = get_tod_clock() - start_time;
-         |                        ^
->> drivers/s390/cio/cmf.c:589:17: error: call to undeclared function 'tod_to_ns'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     589 |         elapsed_time = tod_to_ns(elapsed_time);
-         |                        ^
-   drivers/s390/cio/cmf.c:675:23: error: call to undeclared function 'tod_to_ns'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     675 |         data->elapsed_time = tod_to_ns(time);
-         |                              ^
-   drivers/s390/cio/cmf.c:934:23: error: call to undeclared function 'tod_to_ns'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     934 |         data->elapsed_time = tod_to_ns(time);
-         |                              ^
-   drivers/s390/cio/cmf.c:993:14: error: call to undeclared function 'get_tod_clock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     993 |                 interval = get_tod_clock() - cdev->private->cmb_start_time;
-         |                            ^
-   drivers/s390/cio/cmf.c:994:14: error: call to undeclared function 'tod_to_ns'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     994 |                 interval = tod_to_ns(interval);
-         |                            ^
-   8 errors generated.
+   arch/x86/kernel/cpu/mce/core.c: In function 'machine_check_poll':
+>> arch/x86/kernel/cpu/mce/core.c:804:26: error: implicit declaration of function 'rdtsc' [-Werror=implicit-function-declaration]
+     804 |                 m->tsc = rdtsc();
+         |                          ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/time_early_init +230 arch/s390/kernel/early.c
+vim +/tsc_khz +204 arch/x86/hyperv/hv_init.c
 
-a156f09c9063bc Heiko Carstens     2022-02-28  226  
-ab14de6c37fae2 Heiko Carstens     2007-02-05  227  void __init startup_init(void)
-ab14de6c37fae2 Heiko Carstens     2007-02-05  228  {
-557b19709da97b Vasily Gorbik      2023-02-09  229  	kasan_early_init();
-b1c0854d168cc5 Martin Schwidefsky 2016-10-10 @230  	time_early_init();
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  193  
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  194  void hyperv_stop_tsc_emulation(void)
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  195  {
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  196  	u64 freq;
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  197  	struct hv_tsc_emulation_status emu_status;
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  198  
+c435e608cf59ff Ingo Molnar      2025-04-09  199  	rdmsrq(HV_X64_MSR_TSC_EMULATION_STATUS, *(u64 *)&emu_status);
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  200  	emu_status.inprogress = 0;
+78255eb2397332 Ingo Molnar      2025-04-09  201  	wrmsrq(HV_X64_MSR_TSC_EMULATION_STATUS, *(u64 *)&emu_status);
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  202  
+c435e608cf59ff Ingo Molnar      2025-04-09  203  	rdmsrq(HV_X64_MSR_TSC_FREQUENCY, freq);
+93286261de1b46 Vitaly Kuznetsov 2018-01-24 @204  	tsc_khz = div64_u64(freq, 1000);
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  205  }
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  206  EXPORT_SYMBOL_GPL(hyperv_stop_tsc_emulation);
+93286261de1b46 Vitaly Kuznetsov 2018-01-24  207  
 
-:::::: The code at line 230 was first introduced by commit
-:::::: b1c0854d168cc5741e9568556e7d7cc3873c9cdc s390/time: refactor clock sync
+:::::: The code at line 204 was first introduced by commit
+:::::: 93286261de1b46339aa27cd4c639b21778f6cade x86/hyperv: Reenlightenment notifications support
 
-:::::: TO: Martin Schwidefsky <schwidefsky@de.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+:::::: TO: Vitaly Kuznetsov <vkuznets@redhat.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 --
 0-DAY CI Kernel Test Service
