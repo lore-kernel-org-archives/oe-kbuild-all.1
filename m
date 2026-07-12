@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A853E1FF5E3;
-	Sun, 12 Jul 2026 14:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA991F30A9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Jul 2026 15:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783866108; cv=none; b=uYYuekteapnWJPuWw6vpSXcW30zbimSgFk0taCpGd+7TI5jqIfhOzOMtsxC/rhjOyR1xylkohM+tySSS9J58EES7821VLEQgRMeht6dAIHPp2ivAgP3zgG57RDTCeVRrANKatWfMQ7SgCL+HBJGJKe7SASNZrEKCaPgHytupsik=
+	t=1783870569; cv=none; b=Y/2QS5Ay099lWYq/KFJNWkXZOW8ekXpYDmfB1s9Vqcwc1D/17VT6MqH2HGpUeNm8IhU3lg72v4UjdkZBjqeBkK5+9FNFVpFd7iRVrYXKcUqz+miuWrJ3qvpiMuNObjmk39ihMXomKz+cPpUs5X3QLjpLVjNONVGD2tK0e7cXs/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783866108; c=relaxed/simple;
-	bh=jMCw8F7y3IsWsV/qUMov2Qw2sODxS7+VwrTywsNWQ+w=;
-	h=Date:From:Cc:Subject:Message-ID; b=oWaQDjw1ti93RS8RpPTg/H9tz4b9QvR94PMLcL27LVqsL+QEL3LOg8VJ80amzeM5w+WlCAok/jhHw/nBumYqE0xr/++79PJZXCVmECaJls2L1hTmx1DYj8Oe0JWsqMRcK6u7FYxULA7+cNI7skoMgtXhk43YfWeVhjAiVWMHgfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RAIfEgQ+; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1783870569; c=relaxed/simple;
+	bh=kR5fLsvKjjiAOBObPv5mU8vQuqiEkBu9zeF/oxKh45M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UP+OPpfj0P7uSPh+FlCsI8QpSmDR4VZz/3Nm9njBMCUmgI+a/oTdXSuu8RvUcD6t+wnnTxYIqgbZs7DbTlk03KDMa9nAiIdi6TJ6ICMGnd4iywHIfZLW6bUs2N2WhD1s6Ncqhc/k5J3de21Ccspw3XZMZDRRJcNdEck8S07lWy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQVIs9KC; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RAIfEgQ+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQVIs9KC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783866105; x=1815402105;
-  h=date:from:cc:subject:message-id;
-  bh=jMCw8F7y3IsWsV/qUMov2Qw2sODxS7+VwrTywsNWQ+w=;
-  b=RAIfEgQ+JModzYl3GoFp+f/hyAHRqsJhVwclS2n3wM8c40FKxgXctDJK
-   mhEBugsnl7LI/MHDx5w8omO5xbcnO7j89C4xIVhUd8EmZvkfZuTn4xkij
-   mPQCLu/QC+MtBQepiaqxJ9stmv2mucdZ+bfWPoIiVTX4o77v4y01vVJGr
-   V7ZUPo8NshJqCqfV/QqSp9kgz6YtYUYxqGX7R/fvcL8k81wTPM3sf9zGY
-   eev170rDvXFcWZaXXulRrgvwRj20jcwgBR8ZcybOQdFSoT92qbWs7Dky2
-   0A9DhQHrX0fsjgXVCk77zHjBFyW+qhMZp9WHq6MKIjNA++pQvgCSUrG+1
-   A==;
-X-CSE-ConnectionGUID: /FMGR1fcQSGMYvDGFk/KIQ==
-X-CSE-MsgGUID: AmEXxRICTmSFmgYetv2aLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="107295123"
+  t=1783870568; x=1815406568;
+  h=date:from:to:cc:subject:message-id;
+  bh=kR5fLsvKjjiAOBObPv5mU8vQuqiEkBu9zeF/oxKh45M=;
+  b=GQVIs9KCvnZ2ctPkI1lxFp++GZQoz8SUGn7RBsVNxvKHsvI0eYFjEjPS
+   /1fQd5DE5TtCMZ9OZQ+HhUc/Tj0m9OVq7Ua1kEHlbQ4lrioxZ8s1BrOXR
+   gWcQoKvLJYQEqXgOo6I7tWrVBqfNHxuiGRYXGhwLeQJ3FWSpSzs3GgFPj
+   bIbKBvuEzG3sG/9ffG2ph3G6e+U0tbCh2henzSs2ECEa/tLZ7ndryI3gP
+   eXwy/VrZollsgp2d5pQlVxt9692AEMCppF73ly4txUEhJ4X2FRZiQWFcC
+   UzsnhzQm/fIVnPOpfIzBP/KXVrioLDUr8jNOPiKFmUvpCYZGBS8UC39+a
+   g==;
+X-CSE-ConnectionGUID: 0WZDUWgZRqyW3ucPkr7P1g==
+X-CSE-MsgGUID: DTZTx1pOSZeVnxJr84oRAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="87040280"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="107295123"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 07:21:45 -0700
-X-CSE-ConnectionGUID: C/ez+rxdStu5jT20Hld1gQ==
-X-CSE-MsgGUID: nFhdxqgfToqn6tZsCnjVNA==
+   d="scan'208";a="87040280"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 08:36:07 -0700
+X-CSE-ConnectionGUID: gpe6DPajRi2oOJe7W7Jr9g==
+X-CSE-MsgGUID: fVL5EYzYSSOv0a8yTmZ0mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="293520610"
+   d="scan'208";a="259198988"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 12 Jul 2026 07:21:44 -0700
+  by orviesa004.jf.intel.com with ESMTP; 12 Jul 2026 08:36:06 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiv3t-00000000KuM-27Kn;
-	Sun, 12 Jul 2026 14:21:41 +0000
-Date: Sun, 12 Jul 2026 22:21:14 +0800
+	id 1wiwDj-00000000Kwo-2VY7;
+	Sun, 12 Jul 2026 15:35:57 +0000
+Date: Sun, 12 Jul 2026 23:35:02 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [peterz-queue:locking/core 4/9] ld.lld: error:
- vmlinux.a(fs/namei.o):(function getname_flags: .text+0x1c): relocation
- R_RISCV_HI20 out of range: 563901 is not in [-524288, 524287]; references ''
-Message-ID: <202607122232.5iBywkxh-lkp@intel.com>
+To: Sumit Garg <sumit.garg@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ Harshal Dev <harshal.dev@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [linux-next:master 4886/5655] depmod: ERROR: Cycle detected:
+ qcom_scm -> qcom_tzmem -> qcom_scm
+Message-ID: <202607122327.3zkZCUaB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,36 +62,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-TO: K Prateek Nayak <kprateek.nayak@amd.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Charlie Jenkins <thecharlesjenkins@gmail.com>
-CC: Guo Ren <guoren@kernel.org>
-
-Hi Prateek,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/core
-head:   79d3fca9230cbd2108fa34ec54f2b1a319057252
-commit: af9ae17c5bcc45648d9acf85b28369ed66e31e0f [4/9] riscv/runtime-const: Replace open-coded placeholder with RUNTIME_MAGIC
-config: riscv-randconfig-002-20260712 (https://download.01.org/0day-ci/archive/20260712/202607122232.5iBywkxh-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260712/202607122232.5iBywkxh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bee763d5f341b99cf472afeb508d4988f62a6ca1
+commit: 5c1a2975d23c51c01aca51945d0f10a4ee4c9020 [4886/5655] firmware: qcom_scm: Migrate to generic PAS service
+config: i386-randconfig-003-20260712 (https://download.01.org/0day-ci/archive/20260712/202607122327.3zkZCUaB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260712/202607122327.3zkZCUaB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607122232.5iBywkxh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607122327.3zkZCUaB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(fs/namei.o):(function getname_flags: .text+0x1c): relocation R_RISCV_HI20 out of range: 563901 is not in [-524288, 524287]; references ''
-   >>> referenced by namei.c:147 (fs/namei.c:147)
-   >>> defined in vmlinux.a(fs/namei.o)
---
->> ld.lld: error: vmlinux.a(fs/namei.o):(function getname_uflags: .text+0xdc): relocation R_RISCV_HI20 out of range: 563901 is not in [-524288, 524287]; references ''
-   >>> referenced by namei.c:188 (fs/namei.c:188)
-   >>> defined in vmlinux.a(fs/namei.o)
+>> depmod: ERROR: Cycle detected: qcom_scm -> qcom_tzmem -> qcom_scm
+>> depmod: ERROR: Found 2 modules in dependency cycles!
+   make[3]: *** [scripts/Makefile.modinst:132: depmod] Error 1 shuffle=4014285631
+   make[3]: Target '__modinst' not remade because of errors.
+   make[2]: *** [Makefile:2090: modules_install] Error 2 shuffle=4014285631
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=4014285631
+   make[1]: Target 'modules_install' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=4014285631
+   make: Target 'modules_install' not remade because of errors.
 
 --
 0-DAY CI Kernel Test Service
