@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D753E4502F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jul 2026 02:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C67A2C0F8C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jul 2026 02:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783908133; cv=none; b=L/N2Hxsdn4axPp5j3e0+w03Yjqh3k3W1v4fdwas4eQG6u34pd6jf73lwquiMe+JOThhkPCPCY5r9DxfNDn5+i45F3VPVGvTMfTwU0KXQ60QMLDGh/tKiT6C9GfqYnODs61ukEOaDjzsnIsuoyFgKFC+bULwHXMLT5MMhwB+ehpA=
+	t=1783908148; cv=none; b=uHGpsMLS//ng67FzpoCDuoAsQRBdhTK/mUMgwqbi9Pr8bRC13j24UH3E+LfIGUAkDay7G3K7U596EsIRXH+AznF030yRkULmGvn5l5/c7obXChRtBuFOXxkAi8000Gg0X3aVbLr+1cYSaRvENre98n4ALh+xDnRk4+BO2UfiURk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783908133; c=relaxed/simple;
-	bh=P8OBYkMfgHKfs8/39DHS9exNIJeTGGsno18fB1lPg5E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lg93o1AYm3H2fXNPAuh8kJMd6F0hjqNbomXd0TnYUIhdJ8HHcsvKSpfh9E5fo9V6sxcxOYu18oU9TnVNqc/B5nWYQDHYmjAwUeXk12y1mh4z5NxMmM+PGMNTkaCAJJG/z1xgpqgeDexF58baJie5QixQHn1+Rogy/j82U0/uJys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6P6Q2l9; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1783908148; c=relaxed/simple;
+	bh=HwsJLO026WUccT01XknYDxwCnbY7+yb4vrlqVNM45lo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iw13GIzK/9JDb2ebCWg6QXYQS3BkcNqxR/OKPxM1PpVyW2GDNIDJ0tk73vBo9unnsxZw3i0k5UpB6RSCIOdK6cNA2kwRsRRsMq5gNUjBhncD9s2yhqr4YflZAj7ZPSIU/whoLqX7VRmkX2iJWQmh85Lff2ympie/vQjBBh7y+uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=leu6gVDb; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6P6Q2l9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="leu6gVDb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783908131; x=1815444131;
+  t=1783908146; x=1815444146;
   h=date:from:to:cc:subject:message-id;
-  bh=P8OBYkMfgHKfs8/39DHS9exNIJeTGGsno18fB1lPg5E=;
-  b=C6P6Q2l9y6IjMZ/GB+2UbPOCTEnLiOYxoOgGhZNBnyOP8CDkqUMFSiDC
-   eZw4TJ2KqZlER93lDmkaIqN4/y3RqXDvO56PR/Ucl/UgQ0rzHTRoiAP4t
-   qW2/4DOJXKlz8lWlcFkSYagQlCHD0oINbwgODL4YcZbkdfe6f+RdnYJeV
-   btF7kY9zlyA2GHzHifXqBmWtklK+v9vznFucs/qGKPx74cJtELPrN9aKy
-   YzZdT2af5/OShQTdkd9LEtt8Pjv5YhiDpPWUjKGgVsPevsV2ImTmt7T+6
-   ob+JAjg7d6n7Vu14bzk2I3irCUqnrSEdpJAg4YpPp4sW+pr/usvi7SLAR
+  bh=HwsJLO026WUccT01XknYDxwCnbY7+yb4vrlqVNM45lo=;
+  b=leu6gVDbUgLH6ShTYQUGmFCf+bHtKqrAQLtHWUyVvyyCBspTWO9gLCPK
+   PdFOPOllR3MtNQWL/g3YVqINkXufA3kc6QirImA51X2O2tpYx5SPYNHCL
+   pStdPAbdYvADdAmgjHbXGFTFZl9sdpW/sYMP7VFHt0RSJcR5aFe/fDz6S
+   H+inygiHOTMyMBU6eubhkuHHJWVMQREk9G8CscbLonY5WOinhCjiB0wX2
+   +IDMQLiBUiaP2eeXTaSX0kdTvffT+nB9SsgAAqNCChMYkNOZiFxcrvLxs
+   QGihoV0rWf4CQvxgF9U+J1Q61nl7BXQHo6YrT2y+SRqIoYbYJf0rSJBiu
    w==;
-X-CSE-ConnectionGUID: aBvdiu01Qtmf0kohrop7eQ==
-X-CSE-MsgGUID: UVAFH9lVQAqsdMci1I9Ffw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88340371"
+X-CSE-ConnectionGUID: NLYN4/yNTvyDR8/+dI8MeQ==
+X-CSE-MsgGUID: an4vIz9VTKaP0wNvZE/TQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84480185"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="88340371"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 19:02:11 -0700
-X-CSE-ConnectionGUID: jlVCw/m/RF6XdKbwq8SCnQ==
-X-CSE-MsgGUID: HmrmeG+rSVOJ3Jf+VEYyZA==
+   d="scan'208";a="84480185"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 19:02:10 -0700
+X-CSE-ConnectionGUID: 2hRglUt+RGSoPGC7zWDCnQ==
+X-CSE-MsgGUID: SkKadC7rQ4OwSpZ9thD+Eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="278674795"
+   d="scan'208";a="256048627"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Jul 2026 19:02:09 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Jul 2026 19:02:09 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wj5zi-00000000LHX-3Rvt;
+	id 1wj5zi-00000000LHU-1foX;
 	Mon, 13 Jul 2026 02:02:06 +0000
-Date: Mon, 13 Jul 2026 10:00:59 +0800
+Date: Mon, 13 Jul 2026 10:01:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas Gleixner <tglx@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:timers/cleanup 58/59] kernel/seccomp.c:1439:9:
- error: implicit declaration of function 'disable_TSC'; did you mean
- 'disable_irq'?
-Message-ID: <202607130849.ENunLLPz-lkp@intel.com>
+Subject: [tglx-devel:timers/cleanup 49/59]
+ arch/mips/bcm63xx/cpu.c:303:10: error: call to undeclared function
+ 'current_cpu_type'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202607130847.2rL2I7BS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,63 +63,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/cleanup
 head:   0ad363c8e014568032d53fe2c7ab288de68373f4
-commit: 27019f00127af90a16c3b8c54e976cdc8a711b0a [58/59] x86: Select ARCH_HAS_RANDOM_ENTROPY
-config: x86_64-buildonly-randconfig-006-20260713 (https://download.01.org/0day-ci/archive/20260713/202607130849.ENunLLPz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260713/202607130849.ENunLLPz-lkp@intel.com/reproduce)
+commit: dc057dc5f95cb914748472aedcb49ebc5953debf [49/59] mips: Select ARCH_HAS_RANDOM_ENTROPY
+config: mips-randconfig-r071-20260713 (https://download.01.org/0day-ci/archive/20260713/202607130847.2rL2I7BS-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260713/202607130847.2rL2I7BS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607130849.ENunLLPz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607130847.2rL2I7BS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/seccomp.c: In function 'seccomp_set_mode_strict':
->> kernel/seccomp.c:1439:9: error: implicit declaration of function 'disable_TSC'; did you mean 'disable_irq'? [-Wimplicit-function-declaration]
-    1439 |         disable_TSC();
-         |         ^~~~~~~~~~~
-         |         disable_irq
+>> arch/mips/bcm63xx/cpu.c:303:10: error: call to undeclared function 'current_cpu_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     303 |         switch (current_cpu_type()) {
+         |                 ^
+   1 error generated.
 
 
-vim +1439 kernel/seccomp.c
+vim +/current_cpu_type +303 arch/mips/bcm63xx/cpu.c
 
-1d9d02feeee89e Andrea Arcangeli 2007-07-15  1420  
-e2cfabdfd07564 Will Drewry      2012-04-12  1421  /**
-3b23dd12846215 Kees Cook        2014-06-25  1422   * seccomp_set_mode_strict: internal function for setting strict seccomp
-e2cfabdfd07564 Will Drewry      2012-04-12  1423   *
-e2cfabdfd07564 Will Drewry      2012-04-12  1424   * Once current->seccomp.mode is non-zero, it may not be changed.
-e2cfabdfd07564 Will Drewry      2012-04-12  1425   *
-e2cfabdfd07564 Will Drewry      2012-04-12  1426   * Returns 0 on success or -EINVAL on failure.
-e2cfabdfd07564 Will Drewry      2012-04-12  1427   */
-3b23dd12846215 Kees Cook        2014-06-25  1428  static long seccomp_set_mode_strict(void)
-1d9d02feeee89e Andrea Arcangeli 2007-07-15  1429  {
-3b23dd12846215 Kees Cook        2014-06-25  1430  	const unsigned long seccomp_mode = SECCOMP_MODE_STRICT;
-e2cfabdfd07564 Will Drewry      2012-04-12  1431  	long ret = -EINVAL;
-1d9d02feeee89e Andrea Arcangeli 2007-07-15  1432  
-dbd952127d11bb Kees Cook        2014-06-27  1433  	spin_lock_irq(&current->sighand->siglock);
-dbd952127d11bb Kees Cook        2014-06-27  1434  
-1f41b450416e68 Kees Cook        2014-06-25  1435  	if (!seccomp_may_assign_mode(seccomp_mode))
-1d9d02feeee89e Andrea Arcangeli 2007-07-15  1436  		goto out;
-1d9d02feeee89e Andrea Arcangeli 2007-07-15  1437  
-cf99abace7e07d Andrea Arcangeli 2007-07-15  1438  #ifdef TIF_NOTSC
-cf99abace7e07d Andrea Arcangeli 2007-07-15 @1439  	disable_TSC();
-cf99abace7e07d Andrea Arcangeli 2007-07-15  1440  #endif
-00a02d0c502a06 Kees Cook        2018-05-03  1441  	seccomp_assign_mode(current, seccomp_mode, 0);
-3b23dd12846215 Kees Cook        2014-06-25  1442  	ret = 0;
-3b23dd12846215 Kees Cook        2014-06-25  1443  
-3b23dd12846215 Kees Cook        2014-06-25  1444  out:
-dbd952127d11bb Kees Cook        2014-06-27  1445  	spin_unlock_irq(&current->sighand->siglock);
-3b23dd12846215 Kees Cook        2014-06-25  1446  
-3b23dd12846215 Kees Cook        2014-06-25  1447  	return ret;
-3b23dd12846215 Kees Cook        2014-06-25  1448  }
-3b23dd12846215 Kees Cook        2014-06-25  1449  
+e7300d04bd0809 Maxime Bizon     2009-08-18  293  
+e7300d04bd0809 Maxime Bizon     2009-08-18  294  void __init bcm63xx_cpu_init(void)
+e7300d04bd0809 Maxime Bizon     2009-08-18  295  {
+13be798c57ebe5 Jonas Gorski     2013-03-21  296  	unsigned int tmp;
+2b5b9b786c177f Florian Fainelli 2009-10-14  297  	unsigned int cpu = smp_processor_id();
+13be798c57ebe5 Jonas Gorski     2013-03-21  298  	u32 chipid_reg;
+e7300d04bd0809 Maxime Bizon     2009-08-18  299  
+e7300d04bd0809 Maxime Bizon     2009-08-18  300  	/* soc registers location depends on cpu type */
+13be798c57ebe5 Jonas Gorski     2013-03-21  301  	chipid_reg = 0;
+e7300d04bd0809 Maxime Bizon     2009-08-18  302  
+d7b12056bc9cbd Wu Zhangjin      2010-12-26 @303  	switch (current_cpu_type()) {
 
-:::::: The code at line 1439 was first introduced by commit
-:::::: cf99abace7e07dd8491e7093a9a9ef11d48838ed make seccomp zerocost in schedule
+:::::: The code at line 303 was first introduced by commit
+:::::: d7b12056bc9cbd7f0c0ae5bc52f2b049d48c4314 MIPS: Use current_cpu_type() instead of c->cputype
 
-:::::: TO: Andrea Arcangeli <andrea@cpushare.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+:::::: TO: Wu Zhangjin <wuzhangjin@gmail.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 --
 0-DAY CI Kernel Test Service
