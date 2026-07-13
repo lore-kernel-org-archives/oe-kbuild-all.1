@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C67A2C0F8C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jul 2026 02:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297FE2D1913
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jul 2026 02:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783908148; cv=none; b=uHGpsMLS//ng67FzpoCDuoAsQRBdhTK/mUMgwqbi9Pr8bRC13j24UH3E+LfIGUAkDay7G3K7U596EsIRXH+AznF030yRkULmGvn5l5/c7obXChRtBuFOXxkAi8000Gg0X3aVbLr+1cYSaRvENre98n4ALh+xDnRk4+BO2UfiURk=
+	t=1783908149; cv=none; b=AkSVrirgvhrn19CKJ8PJfiildH2MXIVeD0gfc3wU+f4tOWRCBf8bnN4RwoV7G+fLdZ5Nl6Xt/hzmKv9wSOpsZRMl/FkLyCRbRgDjyhHwjKcbyOXAcI4o9SSF9Zz9iUz1+uAEZGFq74W8Swp7benvyenDyTuH+Yb7ffBmHO090S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783908148; c=relaxed/simple;
-	bh=HwsJLO026WUccT01XknYDxwCnbY7+yb4vrlqVNM45lo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iw13GIzK/9JDb2ebCWg6QXYQS3BkcNqxR/OKPxM1PpVyW2GDNIDJ0tk73vBo9unnsxZw3i0k5UpB6RSCIOdK6cNA2kwRsRRsMq5gNUjBhncD9s2yhqr4YflZAj7ZPSIU/whoLqX7VRmkX2iJWQmh85Lff2ympie/vQjBBh7y+uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=leu6gVDb; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1783908149; c=relaxed/simple;
+	bh=yrx3k9cE2I/GVXGnqB3HexoXv1yY27sineGLoZSH7Ik=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z3xpaBNOxg3HLEez2CXjGjQJqYvLqtCv3cs4Sp/93Tm1IKkRX3OhT44GXqrvE2NxqBmIsJUOCaNY8Y2fQQUDOMsfoU+xuw6JtvaYcGvouPSmc4Oe8EU/PXiiBkMwtC46zZENitHkIRqXZJoZ8eQQZ3o3F3MHN3+NCSZQpt6JJyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jP/BNhMp; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="leu6gVDb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jP/BNhMp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783908146; x=1815444146;
+  t=1783908149; x=1815444149;
   h=date:from:to:cc:subject:message-id;
-  bh=HwsJLO026WUccT01XknYDxwCnbY7+yb4vrlqVNM45lo=;
-  b=leu6gVDbUgLH6ShTYQUGmFCf+bHtKqrAQLtHWUyVvyyCBspTWO9gLCPK
-   PdFOPOllR3MtNQWL/g3YVqINkXufA3kc6QirImA51X2O2tpYx5SPYNHCL
-   pStdPAbdYvADdAmgjHbXGFTFZl9sdpW/sYMP7VFHt0RSJcR5aFe/fDz6S
-   H+inygiHOTMyMBU6eubhkuHHJWVMQREk9G8CscbLonY5WOinhCjiB0wX2
-   +IDMQLiBUiaP2eeXTaSX0kdTvffT+nB9SsgAAqNCChMYkNOZiFxcrvLxs
-   QGihoV0rWf4CQvxgF9U+J1Q61nl7BXQHo6YrT2y+SRqIoYbYJf0rSJBiu
+  bh=yrx3k9cE2I/GVXGnqB3HexoXv1yY27sineGLoZSH7Ik=;
+  b=jP/BNhMp9iEkx3qOQcQqoLGiE2lPTHjJFBqJHZ2Q+ZdAVgH5xGyU+wWf
+   dA+8gDcLg31Riaqd6X7rKlEuqlDlohbPQ5jrwAFXbZsB6O8iQKXIlHCVk
+   h3UmGn70gCkabrC4lUncxX+IraMFMYSiHESe5ESnHhJvs8hJo2xg0dvnV
+   GKLTsKuZ3t9ZyCGz+HfwhNu23w2C8ontZkgVD5bGsn2IY557OqGdRVIpW
+   FTFPPV5IQGKrTsVBGcD6gHcEfbbvIBHjAUsNwsFYpqKsDwIkrtvI7nTya
+   8GIyhN7Lzp5KSuu8YBuQz/rBBXZcTl1ASqmy5tTS2z+ChyNVkFPamp4qG
    w==;
-X-CSE-ConnectionGUID: NLYN4/yNTvyDR8/+dI8MeQ==
-X-CSE-MsgGUID: an4vIz9VTKaP0wNvZE/TQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84480185"
+X-CSE-ConnectionGUID: 0l+cYdrZT1GpuxgiVeCMhQ==
+X-CSE-MsgGUID: 9l9WPBR9RpKudrpaALKQyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84480189"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84480185"
+   d="scan'208";a="84480189"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 19:02:10 -0700
-X-CSE-ConnectionGUID: 2hRglUt+RGSoPGC7zWDCnQ==
-X-CSE-MsgGUID: SkKadC7rQ4OwSpZ9thD+Eg==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 19:02:12 -0700
+X-CSE-ConnectionGUID: v594oBVTRNuF1EOG5EGafQ==
+X-CSE-MsgGUID: UAla3/ErRRiLCpmRvU6S9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="256048627"
+   d="scan'208";a="256048644"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 12 Jul 2026 19:02:09 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Jul 2026 19:02:10 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wj5zi-00000000LHU-1foX;
+	id 1wj5zi-00000000LHZ-3t05;
 	Mon, 13 Jul 2026 02:02:06 +0000
-Date: Mon, 13 Jul 2026 10:01:06 +0800
+Date: Mon, 13 Jul 2026 10:01:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:timers/cleanup 49/59]
- arch/mips/bcm63xx/cpu.c:303:10: error: call to undeclared function
- 'current_cpu_type'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202607130847.2rL2I7BS-lkp@intel.com>
+To: Swarna Prabhu <sw.prabhu6@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Damien Le Moal <dlemoal@kernel.org>,
+ Pankaj Raghav <p.raghav@samsung.com>
+Subject: drivers/scsi/sd.c:4493:2-17: WARNING: NULL check before some
+ freeing functions is not needed.
+Message-ID: <202607130828.bp1CccX4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,46 +62,47 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/cleanup
-head:   0ad363c8e014568032d53fe2c7ab288de68373f4
-commit: dc057dc5f95cb914748472aedcb49ebc5953debf [49/59] mips: Select ARCH_HAS_RANDOM_ENTROPY
-config: mips-randconfig-r071-20260713 (https://download.01.org/0day-ci/archive/20260713/202607130847.2rL2I7BS-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260713/202607130847.2rL2I7BS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   44696aa3a489d2baf58efa61b37833f100072bee
+commit: 7179e626b76eb42f2529c6f6dd6ba88ea2445372 scsi: sd: Enable sector size > PAGE_SIZE in SCSI sd driver
+date:   4 months ago
+config: hexagon-randconfig-r051-20260709 (https://download.01.org/0day-ci/archive/20260713/202607130828.bp1CccX4-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c279890c85da307abe34f10333442bbf72a60644)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 7179e626b76e ("scsi: sd: Enable sector size > PAGE_SIZE in SCSI sd driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607130847.2rL2I7BS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607130828.bp1CccX4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/scsi/sd.c:4493:2-17: WARNING: NULL check before some freeing functions is not needed.
 
->> arch/mips/bcm63xx/cpu.c:303:10: error: call to undeclared function 'current_cpu_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     303 |         switch (current_cpu_type()) {
-         |                 ^
-   1 error generated.
+vim +4493 drivers/scsi/sd.c
 
-
-vim +/current_cpu_type +303 arch/mips/bcm63xx/cpu.c
-
-e7300d04bd0809 Maxime Bizon     2009-08-18  293  
-e7300d04bd0809 Maxime Bizon     2009-08-18  294  void __init bcm63xx_cpu_init(void)
-e7300d04bd0809 Maxime Bizon     2009-08-18  295  {
-13be798c57ebe5 Jonas Gorski     2013-03-21  296  	unsigned int tmp;
-2b5b9b786c177f Florian Fainelli 2009-10-14  297  	unsigned int cpu = smp_processor_id();
-13be798c57ebe5 Jonas Gorski     2013-03-21  298  	u32 chipid_reg;
-e7300d04bd0809 Maxime Bizon     2009-08-18  299  
-e7300d04bd0809 Maxime Bizon     2009-08-18  300  	/* soc registers location depends on cpu type */
-13be798c57ebe5 Jonas Gorski     2013-03-21  301  	chipid_reg = 0;
-e7300d04bd0809 Maxime Bizon     2009-08-18  302  
-d7b12056bc9cbd Wu Zhangjin      2010-12-26 @303  	switch (current_cpu_type()) {
-
-:::::: The code at line 303 was first introduced by commit
-:::::: d7b12056bc9cbd7f0c0ae5bc52f2b049d48c4314 MIPS: Use current_cpu_type() instead of c->cputype
-
-:::::: TO: Wu Zhangjin <wuzhangjin@gmail.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+  4478	
+  4479	/**
+  4480	 *	exit_sd - exit point for this driver (when it is a module).
+  4481	 *
+  4482	 *	Note: this function unregisters this driver from the scsi mid-level.
+  4483	 **/
+  4484	static void __exit exit_sd(void)
+  4485	{
+  4486		int i;
+  4487	
+  4488		SCSI_LOG_HLQUEUE(3, printk("exit_sd: exiting sd driver\n"));
+  4489	
+  4490		scsi_unregister_driver(&sd_template);
+  4491		mempool_destroy(sd_page_pool);
+  4492		if (sd_large_page_pool)
+> 4493			mempool_destroy(sd_large_page_pool);
+  4494	
+  4495		class_unregister(&sd_disk_class);
+  4496	
+  4497		for (i = 0; i < SD_MAJORS; i++)
+  4498			unregister_blkdev(sd_major(i), "sd");
+  4499	}
+  4500	
 
 --
 0-DAY CI Kernel Test Service
