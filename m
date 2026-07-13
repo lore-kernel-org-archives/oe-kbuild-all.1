@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1039522ACFA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jul 2026 03:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE995233928;
+	Mon, 13 Jul 2026 04:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783914349; cv=none; b=r8R7gdriD3DVy9940+WrCqg5uxCCzdJs3yYxRkXtJkrek1TD0rkXSFKc9iZZdk8QqsP/Jexp2i4Yz0SVnQ2YRI/7HnTgnFjBaLqtwN+jG0gTk2EyMCeq5f0LIrKE731XFkr6jrYQCt1Ve9Z5vffMj2jwGerU+vHtD643bYHGt1E=
+	t=1783917921; cv=none; b=uhVKJHtlv4NZqDa+vBJU6AHqPCdbr7LC48TQFg0tMGSk6VsGo0MjmuzAzv8GpXnSOMQGlcAV8XtKsoGuBa4mCEh7Pnl8SMTpQ68nG/QsdXt3UVRvK/3VBoz2UaUZYIFhXo3r2qGytJJ9LUNDCd7jadaCLzbn4bRJYk8kLBUmZHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783914349; c=relaxed/simple;
-	bh=1HJsv8806HffQVtcK1JQZ+2h+uaOmSqVV4gu8ZjDOG0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q6Aj0/LxlemRbO2lVVY9bFwSfFdONeUQaLlMTsYBxpyPbAM+6RZuMmd431zfU+iPUJvxZOmKleoisambvtfK09GDwuU+1r2dlyOYPHpEXrFfdOdzb++tMAfKAIZo99VjEw9PR23VWqIWBxK95VXo+ZYwHiyyawHflpidj31wvgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDq+pfmd; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1783917921; c=relaxed/simple;
+	bh=F6ciM0lvHbhnxl6Bm9DQ1C/gXXl2IIcOnB2hSCm4Onk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=n7kxyHUHhJmI/MuRPU4Mjeh80oJWxisoBQ1mH/bmNZHvXH4tJw3bgpR3og5t5XE/q39PspPn101LwwNWHwJL6r9TbwAp64/2lc65LzqcTgANkSfGFzbkHIKqsa4Kuw/+UkIFDgrr8r71nbJ2zptSbIszM/izPEWuPYWbc2DtYcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b+JaCBm4; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDq+pfmd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+JaCBm4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783914347; x=1815450347;
+  t=1783917918; x=1815453918;
   h=date:from:to:cc:subject:message-id;
-  bh=1HJsv8806HffQVtcK1JQZ+2h+uaOmSqVV4gu8ZjDOG0=;
-  b=gDq+pfmdMZGT/p6ruZ5vgGoHbGQMsLtww3UnxZmzrVh/nM+yaO2iUrZP
-   S3AbrusyQIYzidJzVTvZIHG9FnI34a/axf0Zk5DnoNrh8MyMXDa1wCNxp
-   N3i6j6DxQ0xVxUCTqaFQ/zBrpQR92uO0unSL/4nh4OzO0824JmcExOq95
-   B0tezkJawALHShFc7eaE4C75WyM0WzBX4e9MnsismysMJh4P08vHxIiij
-   tYMo3PLSr7lUFNb7bKCwZQHz4IOrsBus05pWfdJaYDYqBMxfL7qw5W3vR
-   lwk21aRAxxbMWcMEhpihzBHQAfSlGE700vcoHYZJVyW8brwu68xu1VhLw
+  bh=F6ciM0lvHbhnxl6Bm9DQ1C/gXXl2IIcOnB2hSCm4Onk=;
+  b=b+JaCBm4yXsnPezjKM5iotfY9eM1zHEzGOSPYMjaqAPIWDIb4+XxyToI
+   EJ/urgj5zCXYbAKucsh2BnKY/x7STSq4IQDt+nHoaArGo7XmnLeOdrTX5
+   gFbeB73rCPEqXPjvIVYoUmFdyHstGzFsKEtZJCJbCqjhENyBlnVBXXJcG
+   uIQynbT/uC6VbwJRB55jlTTMqCLJ5bd4eKWGdyHi08SOK8Gl6p+vPJjTI
+   JMg+l6jhV44ZDvmd4Gmc0U9Glp3aVxE+odmvucWJEGa4dwm+VQu9q+s7W
+   N3rgeFJspWdpJV6YGZK+lt73ME57cLWjMJzLk7aoO3xpRu4U9kmnlgCjx
    g==;
-X-CSE-ConnectionGUID: PCyMLMufQf+Tfm77owC49w==
-X-CSE-MsgGUID: J2fmipGxQ6aBv5dz2BX9+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="83497731"
+X-CSE-ConnectionGUID: YY5RZ4NMTPiJpSndTfI+cg==
+X-CSE-MsgGUID: S+OVIHkiSVeI4SMpHmu7Qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="102069946"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="83497731"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 20:45:46 -0700
-X-CSE-ConnectionGUID: IyjjFGGQTaeR3YqAI/QyhQ==
-X-CSE-MsgGUID: v0lYdtP8SoWHlUcjsaAnTQ==
+   d="scan'208";a="102069946"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 21:45:16 -0700
+X-CSE-ConnectionGUID: L+udsOsCR+y5gXV77Ncpbg==
+X-CSE-MsgGUID: ibsw+P4KS+6frJGZ/Ftd/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="259737339"
+   d="scan'208";a="254932171"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 12 Jul 2026 20:45:44 -0700
+  by orviesa008.jf.intel.com with ESMTP; 12 Jul 2026 21:45:14 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wj7bx-00000000LLo-1jfh;
-	Mon, 13 Jul 2026 03:45:41 +0000
-Date: Mon, 13 Jul 2026 11:44:50 +0800
+	id 1wj8XX-00000000LNs-1woa;
+	Mon, 13 Jul 2026 04:45:11 +0000
+Date: Mon, 13 Jul 2026 12:45:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@kernel.org>
-Subject: [drm-misc:for-linux-next 1/1]
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:161:34: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202607131152.I6V37eg6-lkp@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Boqun Feng <boqun@kernel.org>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Gary Guo <gary@garyguo.net>
+Subject: [boqun:rust-rcu 14/27] rust/helpers/interrupt.c:17:9:
+ warning: static function 'arch_local_save_flags' is used in an inline
+ function with external linkage
+Message-ID: <202607131219.euJHPSJ5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,284 +62,85 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git for-linux-next
-head:   34e27b90552acf21bd73aac395667c8aae6da480
-commit: 34e27b90552acf21bd73aac395667c8aae6da480 [1/1] nouveau/instmem: use iomapping interface for instmem handling
-config: alpha-randconfig-r122-20260713 (https://download.01.org/0day-ci/archive/20260713/202607131152.I6V37eg6-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260713/202607131152.I6V37eg6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-rcu
+head:   dcecd5f6e71e2437c8abe333ee2426fbe63e6398
+commit: 27e30521043c39ca18ea3e28f825f9c7bd30b580 [14/27] rust: Introduce interrupt module
+config: s390-randconfig-002-20260713 (https://download.01.org/0day-ci/archive/20260713/202607131219.euJHPSJ5-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260713/202607131219.euJHPSJ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607131152.I6V37eg6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607131219.euJHPSJ5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:109:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:109:58: sparse:     expected void [noderef] __iomem *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:109:58: sparse:     got void *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:115:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:115:58: sparse:     expected void const [noderef] __iomem *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:115:58: sparse:     got void *
->> drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:161:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void *[assigned] emap @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:161:34: sparse:     expected void [noderef] __iomem *vaddr
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:161:34: sparse:     got void *[assigned] emap
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:178:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *map @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:178:19: sparse:     expected void *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:178:19: sparse:     got void [noderef] __iomem *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:28: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void *map @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:28: sparse:     expected void [noderef] __iomem *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:28: sparse:     got void *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:249:28: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void *map @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:249:28: sparse:     expected void [noderef] __iomem *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:249:28: sparse:     got void *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:256:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *map @@     got void *map @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:256:21: sparse:     expected void [noderef] __iomem *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:256:21: sparse:     got void *map
->> drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:350:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void *[assigned] map @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:350:34: sparse:     expected void [noderef] __iomem *vaddr
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:350:34: sparse:     got void *[assigned] map
+All warnings (new ones prefixed by >>):
 
-vim +161 drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
+   In file included from rust/helpers/helpers.c:68:
+>> rust/helpers/interrupt.c:17:9: warning: static function 'arch_local_save_flags' is used in an inline function with external linkage [-Wstatic-in-inline]
+      17 |         return irqs_disabled();
+         |                ^
+   include/linux/irqflags.h:256:3: note: expanded from macro 'irqs_disabled'
+     256 |                 raw_local_save_flags(_flags);           \
+         |                 ^
+   include/linux/irqflags.h:184:11: note: expanded from macro 'raw_local_save_flags'
+     184 |                 flags = arch_local_save_flags();        \
+         |                         ^
+   rust/helpers/interrupt.c:15:1: note: use 'static' to give inline function 'rust_helper_irqs_disabled' internal linkage
+      15 | __rust_helper bool rust_helper_irqs_disabled(void)
+         | ^
+         | static 
+   rust/helpers/helpers.c:38:23: note: expanded from macro '__rust_helper'
+      38 | #define __rust_helper __always_inline
+         |                       ^
+   include/linux/compiler_attributes.h:55:41: note: expanded from macro '__always_inline'
+      55 | #define __always_inline                 inline __attribute__((__always_inline__))
+         |                                         ^
+   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
+     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
+         |                ^
+   arch/s390/include/asm/irqflags.h:46:48: note: 'arch_local_save_flags' declared here
+      46 | static arch_local_irq_attributes unsigned long arch_local_save_flags(void)
+         |                                                ^
+   1 warning generated.
+--
+   In file included from rust/helpers/helpers.c:68:
+>> rust/helpers/interrupt.c:17:9: warning: static function 'arch_local_save_flags' is used in an inline function with external linkage [-Wstatic-in-inline]
+   17 |         return irqs_disabled();
+   |                ^
+   include/linux/irqflags.h:256:3: note: expanded from macro 'irqs_disabled'
+   256 |                 raw_local_save_flags(_flags);           \
+   |                 ^
+   include/linux/irqflags.h:184:11: note: expanded from macro 'raw_local_save_flags'
+   184 |                 flags = arch_local_save_flags();        \
+   |                         ^
+   rust/helpers/interrupt.c:15:1: note: use 'static' to give inline function 'rust_helper_irqs_disabled' internal linkage
+   15 | __rust_helper bool rust_helper_irqs_disabled(void)
+   | ^
+   | static
+   rust/helpers/helpers.c:38:23: note: expanded from macro '__rust_helper'
+   38 | #define __rust_helper __always_inline
+   |                       ^
+   include/linux/compiler_attributes.h:55:41: note: expanded from macro '__always_inline'
+   55 | #define __always_inline                 inline __attribute__((__always_inline__))
+   |                                         ^
+   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
+   235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
+   |                ^
+   arch/s390/include/asm/irqflags.h:46:48: note: 'arch_local_save_flags' declared here
+   46 | static arch_local_irq_attributes unsigned long arch_local_save_flags(void)
+   |                                                ^
+   1 warning generated.
+   warning: 1 warning emitted
 
-   123	
-   124	static void
-   125	nv50_instobj_kmap(struct nv50_instobj *iobj, struct nvkm_vmm *vmm)
-   126	{
-   127		struct nv50_instmem *imem = iobj->imem;
-   128		struct nv50_instobj *eobj;
-   129		struct nvkm_memory *memory = &iobj->base.memory;
-   130		struct nvkm_subdev *subdev = &imem->base.subdev;
-   131		struct nvkm_vma *bar = NULL, *ebar;
-   132		u64 size = nvkm_memory_size(memory);
-   133		void *emap;
-   134		int ret;
-   135	
-   136		/* Attempt to allocate BAR2 address-space and map the object
-   137		 * into it.  The lock has to be dropped while doing this due
-   138		 * to the possibility of recursion for page table allocation.
-   139		 */
-   140		mutex_unlock(&imem->base.mutex);
-   141		while ((ret = nvkm_vmm_get(vmm, 12, size, &bar))) {
-   142			/* Evict unused mappings, and keep retrying until we either
-   143			 * succeed,or there's no more objects left on the LRU.
-   144			 */
-   145			mutex_lock(&imem->base.mutex);
-   146			eobj = list_first_entry_or_null(&imem->lru, typeof(*eobj), lru);
-   147			if (eobj) {
-   148				nvkm_debug(subdev, "evict %016llx %016llx @ %016llx\n",
-   149					   nvkm_memory_addr(&eobj->base.memory),
-   150					   nvkm_memory_size(&eobj->base.memory),
-   151					   eobj->bar->addr);
-   152				list_del_init(&eobj->lru);
-   153				ebar = eobj->bar;
-   154				eobj->bar = NULL;
-   155				emap = eobj->map;
-   156				eobj->map = NULL;
-   157			}
-   158			mutex_unlock(&imem->base.mutex);
-   159			if (!eobj)
-   160				break;
- > 161			io_mapping_unmap(emap);
-   162			nvkm_vmm_put(vmm, &ebar);
-   163		}
-   164	
-   165		if (ret == 0)
-   166			ret = nvkm_memory_map(memory, 0, vmm, bar, NULL, 0);
-   167		mutex_lock(&imem->base.mutex);
-   168		if (ret || iobj->bar) {
-   169			/* We either failed, or another thread beat us. */
-   170			mutex_unlock(&imem->base.mutex);
-   171			nvkm_vmm_put(vmm, &bar);
-   172			mutex_lock(&imem->base.mutex);
-   173			return;
-   174		}
-   175	
-   176		/* Make the mapping visible to the host. */
-   177		iobj->bar = bar;
-   178		iobj->map = io_mapping_map_wc(&imem->iomap, (u32)iobj->bar->addr, size);
-   179		if (!iobj->map) {
-   180			nvkm_warn(subdev, "PRAMIN ioremap failed\n");
-   181			nvkm_vmm_put(vmm, &iobj->bar);
-   182		}
-   183	}
-   184	
-   185	static int
-   186	nv50_instobj_map(struct nvkm_memory *memory, u64 offset, struct nvkm_vmm *vmm,
-   187			 struct nvkm_vma *vma, void *argv, u32 argc)
-   188	{
-   189		memory = nv50_instobj(memory)->ram;
-   190		return nvkm_memory_map(memory, offset, vmm, vma, argv, argc);
-   191	}
-   192	
-   193	static bool
-   194	check_io_mapping(struct nv50_instmem *imem)
-   195	{
-   196		struct nvkm_device *device = imem->base.subdev.device;
-   197	
-   198		return io_mapping_init_wc(&imem->iomap,
-   199					  device->func->resource_addr(device, NVKM_BAR2_INST),
-   200					  device->func->resource_size(device, NVKM_BAR2_INST)) != NULL;
-   201	}
-   202	
-   203	static void
-   204	nv50_instobj_release(struct nvkm_memory *memory)
-   205	{
-   206		struct nv50_instobj *iobj = nv50_instobj(memory);
-   207		struct nv50_instmem *imem = iobj->imem;
-   208		struct nvkm_subdev *subdev = &imem->base.subdev;
-   209	
-   210		wmb();
-   211		nvkm_bar_flush(subdev->device->bar);
-   212	
-   213		if (refcount_dec_and_mutex_lock(&iobj->maps, &imem->base.mutex)) {
-   214			/* Add the now-unused mapping to the LRU instead of directly
-   215			 * unmapping it here, in case we need to map it again later.
-   216			 */
-   217			if (likely(iobj->lru.next) && iobj->map) {
-   218				BUG_ON(!list_empty(&iobj->lru));
-   219				list_add_tail(&iobj->lru, &imem->lru);
-   220			}
-   221	
-   222			/* Switch back to NULL accessors when last map is gone. */
-   223			iobj->base.memory.ptrs = NULL;
-   224			mutex_unlock(&imem->base.mutex);
-   225		}
-   226	}
-   227	
-   228	static void __iomem *
-   229	nv50_instobj_acquire(struct nvkm_memory *memory)
-   230	{
-   231		struct nv50_instobj *iobj = nv50_instobj(memory);
-   232		struct nvkm_instmem *imem = &iobj->imem->base;
-   233		struct nvkm_vmm *vmm;
-   234		void __iomem *map = NULL;
-   235	
-   236		/* Already mapped? */
-   237		if (refcount_inc_not_zero(&iobj->maps)) {
-   238			/* read barrier match the wmb on refcount set */
-   239			smp_rmb();
-   240			return iobj->map;
-   241		}
-   242	
-   243		/* Take the lock, and re-check that another thread hasn't
-   244		 * already mapped the object in the meantime.
-   245		 */
-   246		mutex_lock(&imem->mutex);
-   247		if (refcount_inc_not_zero(&iobj->maps)) {
-   248			mutex_unlock(&imem->mutex);
-   249			return iobj->map;
-   250		}
-   251	
-   252		/* Attempt to get a direct CPU mapping of the object. */
-   253		if ((vmm = nvkm_bar_bar2_vmm(imem->subdev.device))) {
-   254			if (!iobj->map && iobj->imem->iomap.size)
-   255				nv50_instobj_kmap(iobj, vmm);
-   256			map = iobj->map;
-   257		}
-   258	
-   259		if (!refcount_inc_not_zero(&iobj->maps)) {
-   260			/* Exclude object from eviction while it's being accessed. */
-   261			if (likely(iobj->lru.next))
-   262				list_del_init(&iobj->lru);
-   263	
-   264			if (map)
-   265				iobj->base.memory.ptrs = &nv50_instobj_fast;
-   266			else
-   267				iobj->base.memory.ptrs = &nv50_instobj_slow;
-   268			/* barrier to ensure the ptrs are written before refcount is set */
-   269			smp_wmb();
-   270			refcount_set(&iobj->maps, 1);
-   271		}
-   272	
-   273		mutex_unlock(&imem->mutex);
-   274		return map;
-   275	}
-   276	
-   277	static void
-   278	nv50_instobj_boot(struct nvkm_memory *memory, struct nvkm_vmm *vmm)
-   279	{
-   280		struct nv50_instobj *iobj = nv50_instobj(memory);
-   281		struct nvkm_instmem *imem = &iobj->imem->base;
-   282	
-   283		/* Exclude bootstrapped objects (ie. the page tables for the
-   284		 * instmem BAR itself) from eviction.
-   285		 */
-   286		mutex_lock(&imem->mutex);
-   287		if (likely(iobj->lru.next)) {
-   288			list_del_init(&iobj->lru);
-   289			iobj->lru.next = NULL;
-   290		}
-   291	
-   292		/*
-   293		 * boot is only called on BAR2, if we can't remap the complete
-   294		 * BAR it's unlikely things are functioning well.
-   295		 */
-   296		if (check_io_mapping(iobj->imem))
-   297			nv50_instobj_kmap(iobj, vmm);
-   298		nvkm_instmem_boot(imem);
-   299		mutex_unlock(&imem->mutex);
-   300	}
-   301	
-   302	static u64
-   303	nv50_instobj_size(struct nvkm_memory *memory)
-   304	{
-   305		return nvkm_memory_size(nv50_instobj(memory)->ram);
-   306	}
-   307	
-   308	static u64
-   309	nv50_instobj_addr(struct nvkm_memory *memory)
-   310	{
-   311		return nvkm_memory_addr(nv50_instobj(memory)->ram);
-   312	}
-   313	
-   314	static u64
-   315	nv50_instobj_bar2(struct nvkm_memory *memory)
-   316	{
-   317		struct nv50_instobj *iobj = nv50_instobj(memory);
-   318		u64 addr = ~0ULL;
-   319		if (nv50_instobj_acquire(&iobj->base.memory)) {
-   320			iobj->lru.next = NULL; /* Exclude from eviction. */
-   321			addr = iobj->bar->addr;
-   322		}
-   323		nv50_instobj_release(&iobj->base.memory);
-   324		return addr;
-   325	}
-   326	
-   327	static enum nvkm_memory_target
-   328	nv50_instobj_target(struct nvkm_memory *memory)
-   329	{
-   330		return nvkm_memory_target(nv50_instobj(memory)->ram);
-   331	}
-   332	
-   333	static void *
-   334	nv50_instobj_dtor(struct nvkm_memory *memory)
-   335	{
-   336		struct nv50_instobj *iobj = nv50_instobj(memory);
-   337		struct nvkm_instmem *imem = &iobj->imem->base;
-   338		struct nvkm_vma *bar;
-   339		void *map;
-   340	
-   341		mutex_lock(&imem->mutex);
-   342		if (likely(iobj->lru.next))
-   343			list_del(&iobj->lru);
-   344		map = iobj->map;
-   345		bar = iobj->bar;
-   346		mutex_unlock(&imem->mutex);
-   347	
-   348		if (map) {
-   349			struct nvkm_vmm *vmm = nvkm_bar_bar2_vmm(imem->subdev.device);
- > 350			io_mapping_unmap(map);
-   351			if (likely(vmm)) /* Can be NULL during BAR destructor. */
-   352				nvkm_vmm_put(vmm, &bar);
-   353		}
-   354	
-   355		nvkm_memory_unref(&iobj->ram);
-   356		nvkm_instobj_dtor(imem, &iobj->base);
-   357		return iobj;
-   358	}
-   359	
+
+vim +/arch_local_save_flags +17 rust/helpers/interrupt.c
+
+    14	
+    15	__rust_helper bool rust_helper_irqs_disabled(void)
+    16	{
+  > 17		return irqs_disabled();
 
 --
 0-DAY CI Kernel Test Service
