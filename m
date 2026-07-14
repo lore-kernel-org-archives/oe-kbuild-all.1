@@ -1,204 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2EC37E5EC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jul 2026 22:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA93368D5A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jul 2026 23:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784068050; cv=none; b=uWJAGGiL+FF6HEf8j/QhHklj2XYZd++eeHcEwS0oNic38Fxqfj0abIjHFhNYFFPNn0FSfUzETtY9ModHG+ZjkWnK+DNJFKYJltOi55Kp5XCxcNMrCWtLNZkeTsle/c0wwJDZBLyDvMesLmLUR8RCr/Lbz+MqQq9/26c50mqJ/cs=
+	t=1784071825; cv=none; b=HNC4dZN+c9TZYSuTpst0oSX7Y4B4RMY9paqViB52bILKnD4yNFbsDor+LTS54xSU6C5IVHzS4UD+Z+dDSgFpq8R6UOlxjcNmfSJi2U0ZVuFR6MXIFiuvC9CiWNc2/Lj+NUQiP7N2hudEnNjsGXcjl9a6Lk8CnnJj+6J1D0v1yt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784068050; c=relaxed/simple;
-	bh=eS7weUHccKmcxG10A7cz/wI12Hn/QpdOc1wTo6mv1hI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UmIX7/gZeT56YA3f9xu+zb89ki6qg0YeZT4njJBVnGOg++gFGeO3fGEyihhKUHp2ApxJU5n7uP3NLBlOJLtMQpMh/LfQuciTh5yVyScNDshaSu46QAPh8x6+eEGCOQDX5vDwqa3IVTGz5lTIrHtMrwk10PNWznxXNgpgDjioQQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTkeFOlP; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1784071825; c=relaxed/simple;
+	bh=4Bu4Tb7dt7tzVwOTUARy4v7x4j87vM5f7fdTVHLTOE4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=D5zz/Y4vvhspD3mgNO9TBp2NgU89XkKaupSEWdrnuwKuKiOA346pPdZFxAxlVy7f1tGXKjkDy1fwkUEJUASWyhqrxg0jqdmQRXM7LH3NJw47BKtGlnP1xULUn5JdvyiBPkZxqfZVP8x4Onn0uslTc/ZbyDq05c+cA9JZUiQzgwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ST4BtIpB; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTkeFOlP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ST4BtIpB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784068047; x=1815604047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eS7weUHccKmcxG10A7cz/wI12Hn/QpdOc1wTo6mv1hI=;
-  b=YTkeFOlPvewa/hheHo2iacylfJ/eUmNhxUp8PB80/I2q2W1uWZ2i4sDV
-   0qsGe3WSPlBXh+fvtRMSsuRLRs5SbMUCjKtOYG5346cHXirwmpuJOFLiy
-   m+Ti7ZtsFs7VOJpf3uWIXgeVqSRJsApSu4CCsIfuOCdhhzakXNCdSjA9g
-   21zeAnD3IEUcQpCmmwy7jxiaT7sxGrZN/zTy+xormEf68XOiREZEehoM3
-   UT30mjBTc2h+0QvpPj+GEE14I9Meb02/q8h/836sFj5GMLvGUjodtNf7r
-   1UiCLSs9+FeZR47p6Y9y52mesKxmhP4v5PIbaGDe4iEiYYKNEwwZ1hll0
-   A==;
-X-CSE-ConnectionGUID: qfwYn8fRTSephp0F5x6BqQ==
-X-CSE-MsgGUID: cx/Qpi+eRTGmqmuGvo7shg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="102122554"
+  t=1784071823; x=1815607823;
+  h=date:from:to:cc:subject:message-id;
+  bh=4Bu4Tb7dt7tzVwOTUARy4v7x4j87vM5f7fdTVHLTOE4=;
+  b=ST4BtIpBMHpr9HtD4ox0l3zPqEFaGHoIL3bwu40a1L8wG83TRhKyYQar
+   Bef+nSxcvgDWDAL+0Ql5iBEj3ZxKxlyITDU9MGk5Xr4JRGScMvEV4wqXj
+   StDdyoGK9/qQCgUdvcuTlHSIBIntacMSDt5Cwl9caoS7IdDnQpF7aAwlX
+   hj/J9jzHLtdhc47JKVgjlBy3QMF801eVWh2UZGfSHLtC+F3PDVoCW46F/
+   5OOkAx55At8OY9rSfXBoVjcoJ9KnJfHFhDg9JAYaym1V0eG7+P4Dje5/J
+   7zpYsTBiqdbyG+CGHrima2T1VzsSRMNnLH6K6SdRhgwmHl4I8NRslHViy
+   Q==;
+X-CSE-ConnectionGUID: YRplryInSr2xQPYIG7nBLQ==
+X-CSE-MsgGUID: Y/k+g+7lQMSKfuDJpTPaMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84662551"
 X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="102122554"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 15:27:27 -0700
-X-CSE-ConnectionGUID: 9JXcEjX7RVa+fgtvK1EfQQ==
-X-CSE-MsgGUID: xz62DWtHSfGIpQEiT3vF/Q==
+   d="scan'208";a="84662551"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 16:30:23 -0700
+X-CSE-ConnectionGUID: oLiabGWdQ0yQmm+h8Ibt0A==
+X-CSE-MsgGUID: CsWBzPblR0K/i7pv/eIBhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="252021695"
+   d="scan'208";a="256645056"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jul 2026 15:27:24 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 Jul 2026 16:30:22 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wjlax-00000000N4C-1GZD;
-	Tue, 14 Jul 2026 22:27:19 +0000
-Date: Wed, 15 Jul 2026 06:26:42 +0800
+	id 1wjmZr-00000000N7B-0sQr;
+	Tue, 14 Jul 2026 23:30:16 +0000
+Date: Wed, 15 Jul 2026 07:29:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhixing Chen <running910@gmail.com>, Florian Westphal <fw@strlen.de>,
-	Pablo Neira Ayuso <pablo@netfilter.org>, Phil Sutter <phil@nwl.cc>
-Cc: oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, netdev@vger.kernel.org,
-	Zhixing Chen <running910@gmail.com>
-Subject: Re: [PATCH nf v2] netfilter: ip6tables: set hotdrop for malformed
- extension header matches
-Message-ID: <202607150533.nQvx3zgH-lkp@intel.com>
-References: <20260714032124.7042-1-running910@gmail.com>
+To: James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 6232/6263] drivers/scsi/gvp11.c:444:51:
+ warning: missing braces around initializer
+Message-ID: <202607150709.CagVDeyK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714032124.7042-1-running910@gmail.com>
 
-Hi Zhixing,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on netfilter-nf/main]
-[also build test WARNING on nf-next/main linus/master v7.2-rc3 next-20260713]
-[cannot apply to linux-review/Zhixing-Chen/netfilter-ip6tables-set-hotdrop-for-malformed-extension-header-matches/20260709-143240 horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhixing-Chen/netfilter-ip6tables-set-hotdrop-for-malformed-extension-header-matches/20260714-114506
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20260714032124.7042-1-running910%40gmail.com
-patch subject: [PATCH nf v2] netfilter: ip6tables: set hotdrop for malformed extension header matches
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260715/202607150533.nQvx3zgH-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260715/202607150533.nQvx3zgH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cc2b5f627e8ccbae1188ef2d8be3e451d7f933a5
+commit: 715be7838dd1e961032686bbc71e92fef8397537 [6232/6263] Merge branch 'for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260715/202607150709.CagVDeyK-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260715/202607150709.CagVDeyK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607150533.nQvx3zgH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607150709.CagVDeyK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/ipv6/netfilter/ip6t_ipv6header.c: In function 'ipv6header_mt6':
->> net/ipv6/netfilter/ip6t_ipv6header.c:31:13: warning: variable 'len' set but not used [-Wunused-but-set-variable=]
-      31 |         int len;
-         |             ^~~
+>> drivers/scsi/gvp11.c:444:51: warning: missing braces around initializer [-Wmissing-braces]
+     444 | static struct zorro_device_id gvp11_zorro_tbl[] = {
+         |                                                   ^
+     445 |         { ZORRO_PROD_GVP_COMBO_030_R3_SCSI,     ~0x00ffffff },
+         |                                                 {           }
+>> drivers/scsi/gvp11.c:444:51: warning: missing braces around initializer [-Wmissing-braces]
+     444 | static struct zorro_device_id gvp11_zorro_tbl[] = {
+         |                                                   ^
+     445 |         { ZORRO_PROD_GVP_COMBO_030_R3_SCSI,     ~0x00ffffff },
+         |                                                 {           }
+     446 |         { ZORRO_PROD_GVP_SERIES_II,             ~0x00ffffff },
+         |                                                 {           }
+>> drivers/scsi/gvp11.c:444:51: warning: missing braces around initializer [-Wmissing-braces]
+     444 | static struct zorro_device_id gvp11_zorro_tbl[] = {
+         |                                                   ^
+     445 |         { ZORRO_PROD_GVP_COMBO_030_R3_SCSI,     ~0x00ffffff },
+         |                                                 {           }
+     446 |         { ZORRO_PROD_GVP_SERIES_II,             ~0x00ffffff },
+         |                                                 {           }
+     447 |         { ZORRO_PROD_GVP_GFORCE_030_SCSI,       ~0x01ffffff },
+         |                                                 {           }
+>> drivers/scsi/gvp11.c:444:51: warning: missing braces around initializer [-Wmissing-braces]
+     444 | static struct zorro_device_id gvp11_zorro_tbl[] = {
+         |                                                   ^
+     445 |         { ZORRO_PROD_GVP_COMBO_030_R3_SCSI,     ~0x00ffffff },
+         |                                                 {           }
+     446 |         { ZORRO_PROD_GVP_SERIES_II,             ~0x00ffffff },
+         |                                                 {           }
+     447 |         { ZORRO_PROD_GVP_GFORCE_030_SCSI,       ~0x01ffffff },
+         |                                                 {           }
+     448 |         { ZORRO_PROD_GVP_A530_SCSI,             ~0x01ffffff },
+         |                                                 {           }
+>> drivers/scsi/gvp11.c:444:51: warning: missing braces around initializer [-Wmissing-braces]
+     444 | static struct zorro_device_id gvp11_zorro_tbl[] = {
+         |                                                   ^
+     445 |         { ZORRO_PROD_GVP_COMBO_030_R3_SCSI,     ~0x00ffffff },
+         |                                                 {           }
+     446 |         { ZORRO_PROD_GVP_SERIES_II,             ~0x00ffffff },
+         |                                                 {           }
+     447 |         { ZORRO_PROD_GVP_GFORCE_030_SCSI,       ~0x01ffffff },
+         |                                                 {           }
+     448 |         { ZORRO_PROD_GVP_A530_SCSI,             ~0x01ffffff },
+         |                                                 {           }
+     449 |         { ZORRO_PROD_GVP_COMBO_030_R4_SCSI,     ~0x01ffffff },
+         |                                                 {           }
+>> drivers/scsi/gvp11.c:444:51: warning: missing braces around initializer [-Wmissing-braces]
+     444 | static struct zorro_device_id gvp11_zorro_tbl[] = {
+         |                                                   ^
+     445 |         { ZORRO_PROD_GVP_COMBO_030_R3_SCSI,     ~0x00ffffff },
+         |                                                 {           }
+     446 |         { ZORRO_PROD_GVP_SERIES_II,             ~0x00ffffff },
+         |                                                 {           }
+     447 |         { ZORRO_PROD_GVP_GFORCE_030_SCSI,       ~0x01ffffff },
+         |                                                 {           }
+     448 |         { ZORRO_PROD_GVP_A530_SCSI,             ~0x01ffffff },
+         |                                                 {           }
+     449 |         { ZORRO_PROD_GVP_COMBO_030_R4_SCSI,     ~0x01ffffff },
+         |                                                 {           }
+     450 |         { ZORRO_PROD_GVP_A1291,                 ~0x07ffffff },
+         |                                                 {           }
+>> drivers/scsi/gvp11.c:444:51: warning: missing braces around initializer [-Wmissing-braces]
+     444 | static struct zorro_device_id gvp11_zorro_tbl[] = {
+         |                                                   ^
+     445 |         { ZORRO_PROD_GVP_COMBO_030_R3_SCSI,     ~0x00ffffff },
+         |                                                 {           }
+     446 |         { ZORRO_PROD_GVP_SERIES_II,             ~0x00ffffff },
+         |                                                 {           }
+     447 |         { ZORRO_PROD_GVP_GFORCE_030_SCSI,       ~0x01ffffff },
+         |                                                 {           }
+     448 |         { ZORRO_PROD_GVP_A530_SCSI,             ~0x01ffffff },
+         |                                                 {           }
+     449 |         { ZORRO_PROD_GVP_COMBO_030_R4_SCSI,     ~0x01ffffff },
+         |                                                 {           }
+     450 |         { ZORRO_PROD_GVP_A1291,                 ~0x07ffffff },
+         |                                                 {           }
+     451 |         { ZORRO_PROD_GVP_GFORCE_040_SCSI_1,     ~0x07ffffff },
+         |                                                 {           }
+>> drivers/scsi/gvp11.c:444:51: warning: missing braces around initializer [-Wmissing-braces]
+     444 | static struct zorro_device_id gvp11_zorro_tbl[] = {
+         |                                                   ^
+     445 |         { ZORRO_PROD_GVP_COMBO_030_R3_SCSI,     ~0x00ffffff },
+         |                                                 {           }
+     446 |         { ZORRO_PROD_GVP_SERIES_II,             ~0x00ffffff },
+         |                                                 {           }
+     447 |         { ZORRO_PROD_GVP_GFORCE_030_SCSI,       ~0x01ffffff },
+         |                                                 {           }
+     448 |         { ZORRO_PROD_GVP_A530_SCSI,             ~0x01ffffff },
+         |                                                 {           }
+     449 |         { ZORRO_PROD_GVP_COMBO_030_R4_SCSI,     ~0x01ffffff },
+         |                                                 {           }
+     450 |         { ZORRO_PROD_GVP_A1291,                 ~0x07ffffff },
+         |                                                 {           }
+     451 |         { ZORRO_PROD_GVP_GFORCE_040_SCSI_1,     ~0x07ffffff },
+         |                                                 {           }
 
 
-vim +/len +31 net/ipv6/netfilter/ip6t_ipv6header.c
+vim +444 drivers/scsi/gvp11.c
 
-^1da177e4c3f41 Linus Torvalds           2005-04-16   25  
-1d93a9cbad608f Jan Engelhardt           2007-07-07   26  static bool
-62fc8051083a33 Jan Engelhardt           2009-07-07   27  ipv6header_mt6(const struct sk_buff *skb, struct xt_action_param *par)
-^1da177e4c3f41 Linus Torvalds           2005-04-16   28  {
-f7108a20dee44e Jan Engelhardt           2008-10-08   29  	const struct ip6t_ipv6header_info *info = par->matchinfo;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   30  	unsigned int temp;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  @31  	int len;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   32  	u8 nexthdr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   33  	unsigned int ptr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   34  
-^1da177e4c3f41 Linus Torvalds           2005-04-16   35  	/* Make sure this isn't an evil packet */
-^1da177e4c3f41 Linus Torvalds           2005-04-16   36  
-^1da177e4c3f41 Linus Torvalds           2005-04-16   37  	/* type of the 1st exthdr */
-0660e03f6b18f1 Arnaldo Carvalho de Melo 2007-04-25   38  	nexthdr = ipv6_hdr(skb)->nexthdr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   39  	/* pointer to the 1st exthdr */
-^1da177e4c3f41 Linus Torvalds           2005-04-16   40  	ptr = sizeof(struct ipv6hdr);
-^1da177e4c3f41 Linus Torvalds           2005-04-16   41  	/* available length */
-^1da177e4c3f41 Linus Torvalds           2005-04-16   42  	len = skb->len - ptr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   43  	temp = 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   44  
-44dde23698a7a8 Jeremy Sowden            2019-09-13   45  	while (nf_ip6_ext_hdr(nexthdr)) {
-3cf93c96af7adf Jan Engelhardt           2008-04-14   46  		const struct ipv6_opt_hdr *hp;
-3cf93c96af7adf Jan Engelhardt           2008-04-14   47  		struct ipv6_opt_hdr _hdr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   48  		int hdrlen;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   49  
-^1da177e4c3f41 Linus Torvalds           2005-04-16   50  		/* No more exthdr -> evaluate */
-^1da177e4c3f41 Linus Torvalds           2005-04-16   51  		if (nexthdr == NEXTHDR_NONE) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16   52  			temp |= MASK_NONE;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   53  			break;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   54  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16   55  		/* ESP -> evaluate */
-^1da177e4c3f41 Linus Torvalds           2005-04-16   56  		if (nexthdr == NEXTHDR_ESP) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16   57  			temp |= MASK_ESP;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   58  			break;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   59  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16   60  
-^1da177e4c3f41 Linus Torvalds           2005-04-16   61  		hp = skb_header_pointer(skb, ptr, sizeof(_hdr), &_hdr);
-70c0eb1ca016f7 Florian Westphal         2018-09-04   62  		if (!hp) {
-70c0eb1ca016f7 Florian Westphal         2018-09-04   63  			par->hotdrop = true;
-70c0eb1ca016f7 Florian Westphal         2018-09-04   64  			return false;
-70c0eb1ca016f7 Florian Westphal         2018-09-04   65  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16   66  
-^1da177e4c3f41 Linus Torvalds           2005-04-16   67  		/* Calculate the header length */
-7c4e36bc172ae1 Jan Engelhardt           2007-07-07   68  		if (nexthdr == NEXTHDR_FRAGMENT)
-^1da177e4c3f41 Linus Torvalds           2005-04-16   69  			hdrlen = 8;
-7c4e36bc172ae1 Jan Engelhardt           2007-07-07   70  		else if (nexthdr == NEXTHDR_AUTH)
-416e8126a2672f yangxingwu               2019-07-10   71  			hdrlen = ipv6_authlen(hp);
-^1da177e4c3f41 Linus Torvalds           2005-04-16   72  		else
-^1da177e4c3f41 Linus Torvalds           2005-04-16   73  			hdrlen = ipv6_optlen(hp);
-^1da177e4c3f41 Linus Torvalds           2005-04-16   74  
-^1da177e4c3f41 Linus Torvalds           2005-04-16   75  		/* set the flag */
-^1da177e4c3f41 Linus Torvalds           2005-04-16   76  		switch (nexthdr) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16   77  		case NEXTHDR_HOP:
-^1da177e4c3f41 Linus Torvalds           2005-04-16   78  			temp |= MASK_HOPOPTS;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   79  			break;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   80  		case NEXTHDR_ROUTING:
-^1da177e4c3f41 Linus Torvalds           2005-04-16   81  			temp |= MASK_ROUTING;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   82  			break;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   83  		case NEXTHDR_FRAGMENT:
-^1da177e4c3f41 Linus Torvalds           2005-04-16   84  			temp |= MASK_FRAGMENT;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   85  			break;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   86  		case NEXTHDR_AUTH:
-^1da177e4c3f41 Linus Torvalds           2005-04-16   87  			temp |= MASK_AH;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   88  			break;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   89  		case NEXTHDR_DEST:
-^1da177e4c3f41 Linus Torvalds           2005-04-16   90  			temp |= MASK_DSTOPTS;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   91  			break;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   92  		default:
-1d93a9cbad608f Jan Engelhardt           2007-07-07   93  			return false;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   94  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16   95  
-^1da177e4c3f41 Linus Torvalds           2005-04-16   96  		nexthdr = hp->nexthdr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   97  		len -= hdrlen;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   98  		ptr += hdrlen;
-aebe9616a67760 Zhixing Chen             2026-07-14   99  		if (ptr > skb->len) {
-aebe9616a67760 Zhixing Chen             2026-07-14  100  			par->hotdrop = true;
-aebe9616a67760 Zhixing Chen             2026-07-14  101  			return false;
-aebe9616a67760 Zhixing Chen             2026-07-14  102  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  103  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  104  
-7c4e36bc172ae1 Jan Engelhardt           2007-07-07  105  	if (nexthdr != NEXTHDR_NONE && nexthdr != NEXTHDR_ESP)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  106  		temp |= MASK_PROTO;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  107  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  108  	if (info->modeflag)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  109  		return !((temp ^ info->matchflags ^ info->invflags)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  110  			 & info->matchflags);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  111  	else {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  112  		if (info->invflags)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  113  			return temp != info->matchflags;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  114  		else
-^1da177e4c3f41 Linus Torvalds           2005-04-16  115  			return temp == info->matchflags;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  116  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  117  }
-^1da177e4c3f41 Linus Torvalds           2005-04-16  118  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  437  
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  438  	/*
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  439  	 * This should (hopefully) be the correct way to identify
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  440  	 * all the different GVP SCSI controllers (except for the
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  441  	 * SERIES I though).
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  442  	 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  443  
+6f039790510fd6 Greg Kroah-Hartman 2012-12-21 @444  static struct zorro_device_id gvp11_zorro_tbl[] = {
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  445  	{ ZORRO_PROD_GVP_COMBO_030_R3_SCSI,	~0x00ffffff },
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  446  	{ ZORRO_PROD_GVP_SERIES_II,		~0x00ffffff },
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  447  	{ ZORRO_PROD_GVP_GFORCE_030_SCSI,	~0x01ffffff },
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  448  	{ ZORRO_PROD_GVP_A530_SCSI,		~0x01ffffff },
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  449  	{ ZORRO_PROD_GVP_COMBO_030_R4_SCSI,	~0x01ffffff },
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  450  	{ ZORRO_PROD_GVP_A1291,			~0x07ffffff },
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  451  	{ ZORRO_PROD_GVP_GFORCE_040_SCSI_1,	~0x07ffffff },
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  452  	{ 0 }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  453  };
+c1d288a58936cd Geert Uytterhoeven 2009-08-16  454  MODULE_DEVICE_TABLE(zorro, gvp11_zorro_tbl);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  455  
+
+:::::: The code at line 444 was first introduced by commit
+:::::: 6f039790510fd630ff348efe8c4802dbaa041fba Drivers: scsi: remove __dev* attributes.
+
+:::::: TO: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
