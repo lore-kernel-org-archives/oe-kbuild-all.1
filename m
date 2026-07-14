@@ -1,145 +1,131 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D39B3BBFC4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jul 2026 13:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4A9477E2A;
+	Tue, 14 Jul 2026 13:47:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784036853; cv=none; b=bj/jwHao4c8NpnmS2QahWqXSNg0hScqcay1omPstmTYYu0wmpYgWBprntO4SCPsJjtUNm5dY6FdMBWGrZR/hga4aXPPCSoNs7Je/ntPXRpG5HN8txACQOij6FiPa61y6bYO0LxwVegFL9QXjHB3Wxca8yYJBowXjoRjv+2Z8X48=
+	t=1784036857; cv=none; b=kkO7KvOARfmmFN5zNEDmeLyF3nrb26kgZ6G4Q7xKpe/zVgtcjMja6vNYZRwcc7tah0Q2ROBPig0cNyG9sC9gs1N5K6hu+JqPob02t/5vgHpwr3Vd024WumIBiILV7SKW4gwvrxaV5YH+p0rR7uly3uyPqis0f/wX9puK0wddn7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784036853; c=relaxed/simple;
-	bh=4R2wf1Jabi1klxv8UqZUDuiuFG39sGfoS5TsM+ceJAY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A0p89OfplK6S8mQL78CnTa7dxIwzYUlSWjeuYu/x5xftbyt0piIlw09fkmTnnK6hyPCF4elH6F9ZL98vmMMoRN83hbCKa9l3oQQ+cL/2a7ZwgRS1610dxwC/YVZEsuDaLJejiXHKPg1kDetAppvvjlMfk5M1byFj9r1oTtEdsJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vqq8nkWF; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1784036857; c=relaxed/simple;
+	bh=n9cCVYuuPM0Dnz0kn/VctvAQ6WLJatsDO30dDYNF2u0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JfKD3UkAXddNYRzuk8LP+Ldt9UkjqEcIvLznNBAoTMZyHxfIzcfpGybTaxRtW6Oz94yemKqdl4gfXGJ1tJW5dat+QOGzgE0WX6OwG4TC6KeQTlUdvtLtRtDTpbV4DFpd09Hgt7YEYFbvberD6jvftouL+h2D1CnHsmEMe7/FNbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eq9DrFNT; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vqq8nkWF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eq9DrFNT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784036852; x=1815572852;
-  h=date:from:to:cc:subject:message-id;
-  bh=4R2wf1Jabi1klxv8UqZUDuiuFG39sGfoS5TsM+ceJAY=;
-  b=Vqq8nkWFIjPPSiwesEJTLJ4SKsEo8f4cVRqWR4mBTjU0q3gm1KOYnYy1
-   ALAQQqA2S4X6lmXd17Noj90GmjYB8WXY0ouoBWkSbh6beKCClcRlINsOP
-   Zv+0Kunzi6SHzXNjlX7INmoEsIuOp+JHgaGzFTmpdWgRHfkt/J/Y4yoCZ
-   4C1T4MsT+TNwI3RjFBgv+SW8kCwGfXFjg4tOSLf0Y9NBrZW38UxrESJ33
-   L6tUpFNBI7n5gFQKM6HFLyR8yj11Bd6tz3U+BqnQys5423G5hfxxa4TZ2
-   CGasC3MtSbi+Sg5X7tYKJRzKpRmT9JPiUvAD9AFRa58ieLvjZvO3br6UX
-   w==;
-X-CSE-ConnectionGUID: g1YPVnegSuufHb9Mh3D8dw==
-X-CSE-MsgGUID: LUrhMtaYQhSrrWOGYlQJhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="84679894"
+  t=1784036857; x=1815572857;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n9cCVYuuPM0Dnz0kn/VctvAQ6WLJatsDO30dDYNF2u0=;
+  b=eq9DrFNT4Czi4+HNJUy6CFHuqjlT4rTfjLXDaib9TWRUL93+I+SS910Q
+   T5DOUXNiUJMVQkKuQJabLHQRyjg9EX9EM/s4kikt+NqHxV6hW2pQXY0WI
+   BrLj1EqRqP/GpXGy15+w+XMTYQsDv2ANOrHhUzUIM9mQ9cUpBJGDAKLky
+   5A4Bw6mg4OLTJxFwV8F/sYZihhE7H4FOTOCcmNhZA4UYtHUqEsnIdZlzK
+   oB4ZucabqfWBPA2RC2do6vBHwXUz2ylHRBiqs7c2+0ESdhq4jz/PKLjRf
+   KnrlISwwmAjBzhuvsqnh3TcpGf7hBTvGpOIHg1SdkBtyrWWMhitXj0DKE
+   A==;
+X-CSE-ConnectionGUID: oH4J7TYqQuWiiYHR2LNLBA==
+X-CSE-MsgGUID: dszoxxnXQDO+UaVfJijIJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="84679898"
 X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
-   d="scan'208";a="84679894"
+   d="scan'208";a="84679898"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 06:47:32 -0700
-X-CSE-ConnectionGUID: b4/3+F91TByIdYIjE21jDQ==
-X-CSE-MsgGUID: 6DA+yplpQnqWfUkr+rtL3Q==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 06:47:36 -0700
+X-CSE-ConnectionGUID: 8znTZVoHTtav2Iqu6z5n4w==
+X-CSE-MsgGUID: dsEiQAvhQAGBdknanV7u9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
-   d="scan'208";a="256506740"
+   d="scan'208";a="256506736"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 14 Jul 2026 06:47:29 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 Jul 2026 06:47:30 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wjdTq-00000000MgA-2xyw;
+	id 1wjdTq-00000000Mg8-2pQS;
 	Tue, 14 Jul 2026 13:47:26 +0000
-Date: Tue, 14 Jul 2026 21:47:15 +0800
+Date: Tue, 14 Jul 2026 21:47:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Machhiwal <amachhiw@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Vaibhav Jain <vaibhav@linux.ibm.com>,
- "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>,
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: [linuxppc:merge-test 8/10]
- arch/powerpc/kvm/powerpc.c:262:33: error: invalid use of undefined type
- 'struct kvmppc_vcore'
-Message-ID: <202607142107.CrgQhmsx-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Gary Guo <gary@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Eliot Courtney <ecourtney@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH] rust: device: make lifetime on `Core` and `CoreInternal`
+ invariant
+Message-ID: <202607142146.1EoHdPGy-lkp@intel.com>
+References: <20260713201455.640151-1-gary@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713201455.640151-1-gary@kernel.org>
 
-tree:   https://github.com/linuxppc/linux merge-test
-head:   3ca739706580462a132d3a0706e801d9893aaa9e
-commit: a7452640914469676b5fcffee80ee045525bddb8 [8/10] KVM: PPC: Book3S HV: Validate arch_compat against host compatibility mode
-config: powerpc64-randconfig-002-20260713 (https://download.01.org/0day-ci/archive/20260714/202607142107.CrgQhmsx-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607142107.CrgQhmsx-lkp@intel.com/reproduce)
+Hi Gary,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a13c140cc289c0b7b3770bce5b3ad42ab35074aa]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Guo/rust-device-make-lifetime-on-Core-and-CoreInternal-invariant/20260714-041724
+base:   a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+patch link:    https://lore.kernel.org/r/20260713201455.640151-1-gary%40kernel.org
+patch subject: [PATCH] rust: device: make lifetime on `Core` and `CoreInternal` invariant
+config: x86_64-buildonly-randconfig-002-20260714 (https://download.01.org/0day-ci/archive/20260714/202607142146.1EoHdPGy-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607142146.1EoHdPGy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607142107.CrgQhmsx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607142146.1EoHdPGy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/powerpc/kvm/powerpc.c: In function 'kvmppc_sanity_check':
->> arch/powerpc/kvm/powerpc.c:262:33: error: invalid use of undefined type 'struct kvmppc_vcore'
-     262 |                 vcpu->arch.vcore->arch_compat == PVR_ARCH_INVALID)
-         |                                 ^~
-   arch/powerpc/kvm/powerpc.c: In function 'kvmppc_set_vmx_dword':
-   arch/powerpc/kvm/powerpc.c:1047:9: error: implicit declaration of function 'kvmppc_get_vsx_vr'; did you mean 'kvmppc_get_sr'? [-Werror=implicit-function-declaration]
-    1047 |         kvmppc_get_vsx_vr(vcpu, index, &val.vval);
-         |         ^~~~~~~~~~~~~~~~~
-         |         kvmppc_get_sr
-   arch/powerpc/kvm/powerpc.c:1049:9: error: implicit declaration of function 'kvmppc_set_vsx_vr'; did you mean 'kvmppc_set_sr'? [-Werror=implicit-function-declaration]
-    1049 |         kvmppc_set_vsx_vr(vcpu, index, &val.vval);
-         |         ^~~~~~~~~~~~~~~~~
-         |         kvmppc_set_sr
-   In file included from arch/powerpc/kvm/powerpc.c:25:
-   arch/powerpc/kvm/powerpc.c: In function 'kvm_vcpu_ioctl_get_one_reg':
-   arch/powerpc/kvm/powerpc.c:1715:52: error: implicit declaration of function 'kvmppc_get_vscr'; did you mean 'kvmppc_get_sr'? [-Werror=implicit-function-declaration]
-    1715 |                         val = get_reg_val(reg->id, kvmppc_get_vscr(vcpu));
-         |                                                    ^~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/kvm_ppc.h:411:29: note: in definition of macro 'get_reg_val'
-     411 |         case 4: __u.wval = (reg); break;        \
-         |                             ^~~
-   arch/powerpc/kvm/powerpc.c:1718:52: error: implicit declaration of function 'kvmppc_get_vrsave'; did you mean 'kvmppc_get_sr'? [-Werror=implicit-function-declaration]
-    1718 |                         val = get_reg_val(reg->id, kvmppc_get_vrsave(vcpu));
-         |                                                    ^~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/kvm_ppc.h:411:29: note: in definition of macro 'get_reg_val'
-     411 |         case 4: __u.wval = (reg); break;        \
-         |                             ^~~
-   arch/powerpc/kvm/powerpc.c: In function 'kvm_vcpu_ioctl_set_one_reg':
-   arch/powerpc/kvm/powerpc.c:1766:25: error: implicit declaration of function 'kvmppc_set_vscr'; did you mean 'kvmppc_set_sr'? [-Werror=implicit-function-declaration]
-    1766 |                         kvmppc_set_vscr(vcpu, set_reg_val(reg->id, val));
-         |                         ^~~~~~~~~~~~~~~
-         |                         kvmppc_set_sr
-   arch/powerpc/kvm/powerpc.c:1773:25: error: implicit declaration of function 'kvmppc_set_vrsave'; did you mean 'kvmppc_set_sr'? [-Werror=implicit-function-declaration]
-    1773 |                         kvmppc_set_vrsave(vcpu, set_reg_val(reg->id, val));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         kvmppc_set_sr
-   cc1: some warnings being treated as errors
-
-
-vim +262 arch/powerpc/kvm/powerpc.c
-
-   252	
-   253	int kvmppc_sanity_check(struct kvm_vcpu *vcpu)
-   254	{
-   255		int r = false;
-   256	
-   257		/* We have to know what CPU to virtualize */
-   258		if (!vcpu->arch.pvr)
-   259			goto out;
-   260	
-   261		if (vcpu->arch.vcore &&
- > 262			vcpu->arch.vcore->arch_compat == PVR_ARCH_INVALID)
-   263			goto out;
-   264	
-   265		/* PAPR only works with book3s_64 */
-   266		if ((vcpu->arch.cpu_type != KVM_CPU_3S_64) && vcpu->arch.papr_enabled)
-   267			goto out;
-   268	
-   269		/* HV KVM can only do PAPR mode for now */
-   270		if (!vcpu->arch.papr_enabled && is_kvmppc_hv_enabled(vcpu->kvm))
-   271			goto out;
-   272	
+>> error[E0700]: hidden type for `impl pin_init::PinInit<RustDebugFs, kernel::error::Error> + 'a` captures lifetime that does not appear in bounds
+   --> samples/rust/rust_debugfs.rs:154:9
+   |
+   150 |       fn new<'a>(pdev: &'a platform::Device<Core<'_>>) -> impl PinInit<Self, Error> + 'a {
+   |                                             --------      ------------------------------ opaque type defined here
+   |                                             |
+>> |                                             hidden type `impl pin_init::PinInit<RustDebugFs, kernel::error::Error>` captures the anonymous lifetime defined here
+   ...
+   154 | /         try_pin_init! {
+   155 | |             Self {
+   156 | |                 _compatible <- debugfs.read_only_file(
+   157 | |                     c"compatible",
+   ...   |
+   176 | |         }
+   | |_________^
+   |
+   = note: this error originates in the macro `::pin_init::pin_init` which comes from the expansion of the macro `try_pin_init` (in Nightly builds, run with -Z macro-backtrace for more info)
+   help: add a `use<...>` bound to explicitly capture `'_`
+   |
+   150 |     fn new<'a>(pdev: &'a platform::Device<Core<'_>>) -> impl PinInit<Self, Error> + 'a + use<'a, '_> {
+   |                                                                                        +++++++++++++
 
 --
 0-DAY CI Kernel Test Service
