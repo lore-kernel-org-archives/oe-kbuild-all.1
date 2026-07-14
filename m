@@ -1,141 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63033B6BFD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Jul 2026 22:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16667370D6D;
+	Tue, 14 Jul 2026 03:36:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783981960; cv=none; b=ndFa4CjJHCJBMb2p+iSuSUKi1UtQEzBgnjg6ab2kaBCqen6mXUlepCKNfHCfV3uU7pwcnXD1dqwZwGBsUXPRTv1rfiPxuJV1xdRlzSdlKGjO5KhqfR2mNadGiXQh5meKr+yn58WLLSUSEfbFYYmJawjRVX1AVFQiu+476ZZrP1w=
+	t=1784000211; cv=none; b=PX8v75QeUe7Du4o1R9XHH2WnWMqVVPvYnH9A5WuW0DjVSbFHKcx7rddYCJZdpVTH3J5PAWNiVZFE5UYmppaJN7RhJFb+1GAG+lsKb8O+P0ygO0jB2sp+s6CL5lP0rnTNCH/cX8gPR1nx7LF+trG0bw1if7ECms4ks+x+V6RfjVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783981960; c=relaxed/simple;
-	bh=WjpVJPaBzPWTOH77uheP7TfcCbGHWX8D7EIVZ/Rrm10=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ufBtwj0BwexrWX78fj+PVP1A0B0zFvXsPNhsTKQ+oTnRD+zSea158GuXjHAvxYT2wjhWkMGRoQP86bP6D0nuYEx+ly6IuFhLxSSVWzmDbkGbEHVVA/UD21L04CBnNijog/JaIJshXlvusy4vtx20vgGJ59UMFij4kAlDDv0fWfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMwYpiHx; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1784000211; c=relaxed/simple;
+	bh=5eCcIL4oxMV+SkkS0K44HVewVkr6API4IPwHUXYMYU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jWjHNDMFqaaE2gcYGAQOEESQWchgz0McdRJT3W6t03OHW7dUaYnwm2SqBzRk1BwIgmwLQHN0ax4qALow4aZjdQARa2KX3LVnY4g1Mf8MPMOmo1wA26TtBQjhzKzq/rGgRara1DWN6sAQa9LGhcX+zAKkMFKE0c4Jch34MQpMQ+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0E+4kzm; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMwYpiHx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0E+4kzm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783981958; x=1815517958;
-  h=date:from:to:cc:subject:message-id;
-  bh=WjpVJPaBzPWTOH77uheP7TfcCbGHWX8D7EIVZ/Rrm10=;
-  b=OMwYpiHxHvKnKJ8tZCq8Kfh6CfLVs40JOo6lutVttre3IVWKdp9p653i
-   VzA59vbHa7a20XzAYSUXGfvlVCvwbJpldFxT6GFwQNKWFCFnEnwoukZBt
-   9jFDrjYLs0CcElUBFv4n7aAvTFHkN42yhqrHEuWJfZKXiRu6zSOEzFYlD
-   YI5MWrlFKkMhM/BrEd5GYF6ZbjP4ChgZCUMd4AgDXC3CYzxpe3MWzstVT
-   WZsoE35Jfm36cSFgCyXCxtia0AcyirMP25/Fp7s/3ch/zSiiMH7fri+q4
-   S9vxoBcRxGYDYhJxvki6MmKKImSoLSecdUZmhO01n3vXHDEYnId/OSqTn
+  t=1784000208; x=1815536208;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5eCcIL4oxMV+SkkS0K44HVewVkr6API4IPwHUXYMYU0=;
+  b=W0E+4kzm3Jxrbyyy0aIsQuEoNWYJf17D8cCXa8QTKyk4todDPJHOjafD
+   /C9kOSTjP4A1jG16Eq3YGtF186dOnCFRl3NzeNX74JhEL43hrdqUnykwM
+   PHHLTt4GYl6nPtTUbDirAJOiT0sDcfzH/owSeELtioJM8QbIMNaeSBebX
+   +E4sslrbmDgxNX3wGRs0kT/M82TGns+BCu6Oh4stcPMJSe7ZEyZGsNPw+
+   ar+6CWGqxvJDJTn/uw/Vzyvl3dElTgdVBnZUiG8m+nu60nADdsTcYZVND
+   D95JC24/EhLV7scHdGM1YxHwhPtRpON8bOHwZa6TYivKZ5WJqGMtu1wXE
    Q==;
-X-CSE-ConnectionGUID: QFJ63B1PT9mXTBXf7jzElQ==
-X-CSE-MsgGUID: z7RqmT/4RBSOGFWDIyyV9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95748206"
+X-CSE-ConnectionGUID: enf+W3KjRO6+9wAxsWdlew==
+X-CSE-MsgGUID: r0LGn+YLQEmkboyOUTZ1AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="110162107"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="95748206"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP; 13 Jul 2026 15:32:37 -0700
-X-CSE-ConnectionGUID: pTUwJzyZSzu363uDCQ2Utw==
-X-CSE-MsgGUID: PXY0QBtwTcac6cQVVnpN4A==
+   d="scan'208";a="110162107"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 20:36:47 -0700
+X-CSE-ConnectionGUID: VzoiWrt2TreOTxJFUMVWJA==
+X-CSE-MsgGUID: xq3MnKdWQwO5PsCiajxmbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="251249352"
+   d="scan'208";a="259308756"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Jul 2026 15:32:36 -0700
+  by orviesa003.jf.intel.com with ESMTP; 13 Jul 2026 20:36:45 -0700
 Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wjPCT-000000003p5-3tUb;
-	Mon, 13 Jul 2026 22:32:33 +0000
-Date: Tue, 14 Jul 2026 00:32:28 +0200
+	id 1wjTwo-000000003rt-2uLo;
+	Tue, 14 Jul 2026 03:36:42 +0000
+Date: Tue, 14 Jul 2026 05:36:18 +0200
 From: kernel test robot <lkp@intel.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [trace:probes/core 21/21] kernel/trace/trace_probe.c:361:14:
- warning: variable 'is_ptr' set but not used
-Message-ID: <202607140039.FAsx49CS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>, kkd@meta.com,
+	kernel-team@meta.com
+Subject: Re: [PATCH bpf-next v3 17/17] bpf: Gate verifier diagnostics on log
+ level
+Message-ID: <202607140517.PEmgml8m-lkp@intel.com>
+References: <20260713153910.2556007-18-memxor@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713153910.2556007-18-memxor@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace probes/core
-head:   744d07442f343166a6eaee73361b039fa9ec5b7f
-commit: 744d07442f343166a6eaee73361b039fa9ec5b7f [21/21] tracing/probes: Eliminate recursion in parse_probe_arg()
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260714/202607140039.FAsx49CS-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607140039.FAsx49CS-lkp@intel.com/reproduce)
+Hi Kumar,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9a3a07d06e7d74f4aecc51396c771149336ac55d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/bpf-Add-verifier-diagnostics-report-helpers/20260713-235352
+base:   9a3a07d06e7d74f4aecc51396c771149336ac55d
+patch link:    https://lore.kernel.org/r/20260713153910.2556007-18-memxor%40gmail.com
+patch subject: [PATCH bpf-next v3 17/17] bpf: Gate verifier diagnostics on log level
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260714/202607140517.PEmgml8m-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607140517.PEmgml8m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607140039.FAsx49CS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607140517.PEmgml8m-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/trace/trace_probe.c: In function 'parse_this_cpu':
->> kernel/trace/trace_probe.c:361:14: warning: variable 'is_ptr' set but not used [-Wunused-but-set-variable]
-     361 |         bool is_ptr = false;
-         |              ^~~~~~
+   kernel/bpf/diagnostics.c:38:40: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'diag_log' [-Wmissing-format-attribute]
+      30 | static void diag_log(struct bpf_verifier_env *env, const char *fmt, ...)
+         | __attribute__((format(printf, 2, 3))) 
+      31 | {
+      32 |         va_list args;
+      33 | 
+      34 |         if (!bpf_diag_enabled(env))
+      35 |                 return;
+      36 | 
+      37 |         va_start(args, fmt);
+      38 |         bpf_verifier_vlog(&env->log, fmt, args);
+         |                                               ^
+   kernel/bpf/diagnostics.c:30:13: note: 'diag_log' declared here
+      30 | static void diag_log(struct bpf_verifier_env *env, const char *fmt, ...)
+         |             ^
+>> kernel/bpf/diagnostics.c:89:48: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'diag_vprint_indented' [-Wmissing-format-attribute]
+      82 | static void diag_vprint_indented(struct bpf_verifier_env *env, const char *fmt, va_list args)
+         | __attribute__((format(printf, 2, 0))) 
+      83 | {
+      84 |         char *buf;
+      85 | 
+      86 |         if (!bpf_diag_enabled(env))
+      87 |                 return;
+      88 | 
+      89 |         buf = kvasprintf(GFP_KERNEL_ACCOUNT, fmt, args);
+         |                                                       ^
+   kernel/bpf/diagnostics.c:82:13: note: 'diag_vprint_indented' declared here
+      82 | static void diag_vprint_indented(struct bpf_verifier_env *env, const char *fmt, va_list args)
+         |             ^
+   kernel/bpf/diagnostics.c:130:13: warning: unused function 'diag_report_reason' [-Wunused-function]
+     130 | static void diag_report_reason(struct bpf_verifier_env *env, const char *fmt, ...)
+         |             ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/diagnostics.c:144:13: warning: unused function 'diag_report_suggestion' [-Wunused-function]
+     144 | static void diag_report_suggestion(struct bpf_verifier_env *env, const char *fmt, ...)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
 
 
-vim +/is_ptr +361 kernel/trace/trace_probe.c
+vim +89 kernel/bpf/diagnostics.c
 
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  353) 
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  354) static int
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  355) parse_probe_arg(char *arg, const struct fetch_type *type,
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  356) 		struct fetch_insn **pcode, struct fetch_insn *end,
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  357) 		struct traceprobe_parse_context *ctx);
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  358) 
-744d07442f3431 Masami Hiramatsu          2026-07-13  359  static int parse_this_cpu(char *arg, struct traceprobe_parse_context *ctx)
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  360) {
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02 @361) 	bool is_ptr = false;
-744d07442f3431 Masami Hiramatsu          2026-07-13  362  	bool is_read = false;
-744d07442f3431 Masami Hiramatsu          2026-07-13  363  	char *tmp;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  364) 
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  365) 	/*
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  366) 	 * This is only for kernel probes, excluding eprobe, because per-cpu
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  367) 	 * pointer should not be recorded by events.
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  368) 	 */
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  369) 	if (!(ctx->flags & TPARG_FL_KERNEL) ||
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  370) 	    (ctx->flags & TPARG_FL_TEVENT)) {
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  371) 		trace_probe_log_err(ctx->offset, NOSUP_PERCPU);
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  372) 		return -EINVAL;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  373) 	}
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  374) 	if (str_has_prefix(arg, THIS_CPU_PTR_PREFIX)) {
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  375) 		arg += THIS_CPU_PTR_LEN;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  376) 		ctx->offset += THIS_CPU_PTR_LEN;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  377) 		is_ptr = true;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  378) 	} else if (str_has_prefix(arg, THIS_CPU_READ_PREFIX)) {
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  379) 		arg += THIS_CPU_READ_LEN;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  380) 		ctx->offset += THIS_CPU_READ_LEN;
-744d07442f3431 Masami Hiramatsu          2026-07-13  381  		is_read = true;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  382) 	} else
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  383) 		return -EINVAL;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  384) 
-744d07442f3431 Masami Hiramatsu          2026-07-13  385  	tmp = strrchr(arg, ')');
-744d07442f3431 Masami Hiramatsu          2026-07-13  386  	if (!tmp) {
-744d07442f3431 Masami Hiramatsu          2026-07-13  387  		trace_probe_log_err(ctx->offset + strlen(arg),
-744d07442f3431 Masami Hiramatsu          2026-07-13  388  					DEREF_OPEN_BRACE);
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  389) 		return -EINVAL;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  390) 	}
-744d07442f3431 Masami Hiramatsu          2026-07-13  391  	*tmp = '\0';
-744d07442f3431 Masami Hiramatsu          2026-07-13  392  
-744d07442f3431 Masami Hiramatsu          2026-07-13  393  	ctx->stack[ctx->depth].type = STATE_DEREF;
-744d07442f3431 Masami Hiramatsu          2026-07-13  394  	ctx->stack[ctx->depth].deref.deref = FETCH_OP_CPU_PTR;
-744d07442f3431 Masami Hiramatsu          2026-07-13  395  	ctx->stack[ctx->depth].deref.offset = 0;
-744d07442f3431 Masami Hiramatsu          2026-07-13  396  	ctx->stack[ctx->depth].deref.cur_offs = ctx->offset;
-744d07442f3431 Masami Hiramatsu          2026-07-13  397  	ctx->stack[ctx->depth].deref.inner_arg = arg;
-744d07442f3431 Masami Hiramatsu          2026-07-13  398  	ctx->stack[ctx->depth].deref.is_cpu_read = is_read;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  399) 	return 0;
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  400) }
-2c84fb76749e66 Masami Hiramatsu (Google  2026-07-02  401) 
-
-:::::: The code at line 361 was first introduced by commit
-:::::: 2c84fb76749e66bfd95259930c8ed7bc29633aca tracing/probes: Add this_cpu_read() and this_cpu_ptr() dereference method to fetcharg
-
-:::::: TO: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-:::::: CC: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+    81	
+    82	static void diag_vprint_indented(struct bpf_verifier_env *env, const char *fmt, va_list args)
+    83	{
+    84		char *buf;
+    85	
+    86		if (!bpf_diag_enabled(env))
+    87			return;
+    88	
+  > 89		buf = kvasprintf(GFP_KERNEL_ACCOUNT, fmt, args);
+    90		if (!buf) {
+    91			diag_log(env, "%s<failed to allocate diagnostic text>\n", BPF_DIAG_TEXT_INDENT);
+    92			return;
+    93		}
+    94	
+    95		diag_print_wrapped_text(env, buf);
+    96		kfree(buf);
+    97	}
+    98	
 
 --
 0-DAY CI Kernel Test Service
