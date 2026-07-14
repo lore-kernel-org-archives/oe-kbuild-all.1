@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F8A38D3E0;
-	Tue, 14 Jul 2026 12:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D39B3BBFC4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jul 2026 13:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784030599; cv=none; b=PLnZSDSyrKj7ePBarQlYPi4Nm0Vt+hPujPzLJ0hxBKjNpVIRGpYexy734+cpfqpZee2BDzmiP73iIgDdVsU0RjkqOB1pLS7sQJnfVUHWm3QMr3EjW642hh1Usk66/AXWZn51puca5FYlAASvfS9CjkgvS5fucoJUcFLtscWS3A8=
+	t=1784036853; cv=none; b=bj/jwHao4c8NpnmS2QahWqXSNg0hScqcay1omPstmTYYu0wmpYgWBprntO4SCPsJjtUNm5dY6FdMBWGrZR/hga4aXPPCSoNs7Je/ntPXRpG5HN8txACQOij6FiPa61y6bYO0LxwVegFL9QXjHB3Wxca8yYJBowXjoRjv+2Z8X48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784030599; c=relaxed/simple;
-	bh=yPXzGXrlMBlFsvgWTxIdJ2RO/Qu0nGNJycckS51pV8A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nCymMs5jjtlKq0s85PN0R6FY+gKfzLtmS79mH//P0eixe2DhjztZvOe394CfXYp6aZyhLHHMKhz3xzN2sfiSQMGl9bI9kEP7OA/VgIfGkLN7ZOWFinJr4rDW3ZWi9U9+hX48CA95GSOLEnPUSfpk9+bm29bKtEbeQJrnRoQav2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DhKTT1ZN; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1784036853; c=relaxed/simple;
+	bh=4R2wf1Jabi1klxv8UqZUDuiuFG39sGfoS5TsM+ceJAY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=A0p89OfplK6S8mQL78CnTa7dxIwzYUlSWjeuYu/x5xftbyt0piIlw09fkmTnnK6hyPCF4elH6F9ZL98vmMMoRN83hbCKa9l3oQQ+cL/2a7ZwgRS1610dxwC/YVZEsuDaLJejiXHKPg1kDetAppvvjlMfk5M1byFj9r1oTtEdsJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vqq8nkWF; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DhKTT1ZN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vqq8nkWF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784030595; x=1815566595;
+  t=1784036852; x=1815572852;
   h=date:from:to:cc:subject:message-id;
-  bh=yPXzGXrlMBlFsvgWTxIdJ2RO/Qu0nGNJycckS51pV8A=;
-  b=DhKTT1ZNDowxO4XIKmbTeaxQqL4IrSay8+CjILBRfunp2zjegS7Gqcwd
-   nAjxmCFvbqugVPlQG1Q3xLKVejJIMWk4vV8+a6n/dwBcbgGPKkL5vikeC
-   lNzhk05uDYLaHzUUhGck8wfhfBZoWVU3VyckOm9hbI+GOQzH1tAsCSVJ+
-   PTsha7MKH1jf1fWNpvDwD/nGNEGMBFYMidzHpR783xdm4af6rjKxRSYMl
-   JTLgDm2gjF1hDjAYxePHQmLyEeSrJRDrqksSL8uUWuzLmqGkXTuyuNZQw
-   a1lh4ANaNRwenWJDwYZZem1vb3sJiv2T2/9Ej/ynWx9ilyJvsHwa7PH+N
-   Q==;
-X-CSE-ConnectionGUID: gw8FBwKQSYmHVteJ+UQEXQ==
-X-CSE-MsgGUID: teVxfOxuQKGbqzNBera0ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="110197024"
+  bh=4R2wf1Jabi1klxv8UqZUDuiuFG39sGfoS5TsM+ceJAY=;
+  b=Vqq8nkWFIjPPSiwesEJTLJ4SKsEo8f4cVRqWR4mBTjU0q3gm1KOYnYy1
+   ALAQQqA2S4X6lmXd17Noj90GmjYB8WXY0ouoBWkSbh6beKCClcRlINsOP
+   Zv+0Kunzi6SHzXNjlX7INmoEsIuOp+JHgaGzFTmpdWgRHfkt/J/Y4yoCZ
+   4C1T4MsT+TNwI3RjFBgv+SW8kCwGfXFjg4tOSLf0Y9NBrZW38UxrESJ33
+   L6tUpFNBI7n5gFQKM6HFLyR8yj11Bd6tz3U+BqnQys5423G5hfxxa4TZ2
+   CGasC3MtSbi+Sg5X7tYKJRzKpRmT9JPiUvAD9AFRa58ieLvjZvO3br6UX
+   w==;
+X-CSE-ConnectionGUID: g1YPVnegSuufHb9Mh3D8dw==
+X-CSE-MsgGUID: LUrhMtaYQhSrrWOGYlQJhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="84679894"
 X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
-   d="scan'208";a="110197024"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 05:03:14 -0700
-X-CSE-ConnectionGUID: cRIzMZcrSOScpeK6Cuorxw==
-X-CSE-MsgGUID: Uz61meS/TKKs+xvCMAI1Zw==
+   d="scan'208";a="84679894"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 06:47:32 -0700
+X-CSE-ConnectionGUID: b4/3+F91TByIdYIjE21jDQ==
+X-CSE-MsgGUID: 6DA+yplpQnqWfUkr+rtL3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
-   d="scan'208";a="254090929"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 14 Jul 2026 05:03:12 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="256506740"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 14 Jul 2026 06:47:29 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wjbqv-000000003z3-3qTu;
-	Tue, 14 Jul 2026 12:03:09 +0000
-Date: Tue, 14 Jul 2026 14:02:45 +0200
+	id 1wjdTq-00000000MgA-2xyw;
+	Tue, 14 Jul 2026 13:47:26 +0000
+Date: Tue, 14 Jul 2026 21:47:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivank Garg <shivankg@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: mm/rmap.c:2522:7: error: call to undeclared function
- 'huge_pte_dirty'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202607141439.zBAJhYoU-lkp@intel.com>
+To: Amit Machhiwal <amachhiw@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Vaibhav Jain <vaibhav@linux.ibm.com>,
+ "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>,
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Subject: [linuxppc:merge-test 8/10]
+ arch/powerpc/kvm/powerpc.c:262:33: error: invalid use of undefined type
+ 'struct kvmppc_vcore'
+Message-ID: <202607142107.CrgQhmsx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,175 +64,82 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Shivank-Garg/mm-rmap-Add-batched-version-of-folio_try_share_anon_rmap_pte/20260712-154356
-head:   f8b98e18fdb1e935473b34c81c54112651ac2e3d
-commit: b1567f49975671161a4df476e9068bda9c3df9ae mm/rmap: split try_to_migrate_hugetlb_one() out of try_to_migrate_one()
-date:   2 days ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260714/202607141439.zBAJhYoU-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607141439.zBAJhYoU-lkp@intel.com/reproduce)
+tree:   https://github.com/linuxppc/linux merge-test
+head:   3ca739706580462a132d3a0706e801d9893aaa9e
+commit: a7452640914469676b5fcffee80ee045525bddb8 [8/10] KVM: PPC: Book3S HV: Validate arch_compat against host compatibility mode
+config: powerpc64-randconfig-002-20260713 (https://download.01.org/0day-ci/archive/20260714/202607142107.CrgQhmsx-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607142107.CrgQhmsx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607141439.zBAJhYoU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607142107.CrgQhmsx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/rmap.c:2522:7: error: call to undeclared function 'huge_pte_dirty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2522 |                 if (huge_pte_dirty(pteval))
-         |                     ^
-   1 error generated.
+   arch/powerpc/kvm/powerpc.c: In function 'kvmppc_sanity_check':
+>> arch/powerpc/kvm/powerpc.c:262:33: error: invalid use of undefined type 'struct kvmppc_vcore'
+     262 |                 vcpu->arch.vcore->arch_compat == PVR_ARCH_INVALID)
+         |                                 ^~
+   arch/powerpc/kvm/powerpc.c: In function 'kvmppc_set_vmx_dword':
+   arch/powerpc/kvm/powerpc.c:1047:9: error: implicit declaration of function 'kvmppc_get_vsx_vr'; did you mean 'kvmppc_get_sr'? [-Werror=implicit-function-declaration]
+    1047 |         kvmppc_get_vsx_vr(vcpu, index, &val.vval);
+         |         ^~~~~~~~~~~~~~~~~
+         |         kvmppc_get_sr
+   arch/powerpc/kvm/powerpc.c:1049:9: error: implicit declaration of function 'kvmppc_set_vsx_vr'; did you mean 'kvmppc_set_sr'? [-Werror=implicit-function-declaration]
+    1049 |         kvmppc_set_vsx_vr(vcpu, index, &val.vval);
+         |         ^~~~~~~~~~~~~~~~~
+         |         kvmppc_set_sr
+   In file included from arch/powerpc/kvm/powerpc.c:25:
+   arch/powerpc/kvm/powerpc.c: In function 'kvm_vcpu_ioctl_get_one_reg':
+   arch/powerpc/kvm/powerpc.c:1715:52: error: implicit declaration of function 'kvmppc_get_vscr'; did you mean 'kvmppc_get_sr'? [-Werror=implicit-function-declaration]
+    1715 |                         val = get_reg_val(reg->id, kvmppc_get_vscr(vcpu));
+         |                                                    ^~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/kvm_ppc.h:411:29: note: in definition of macro 'get_reg_val'
+     411 |         case 4: __u.wval = (reg); break;        \
+         |                             ^~~
+   arch/powerpc/kvm/powerpc.c:1718:52: error: implicit declaration of function 'kvmppc_get_vrsave'; did you mean 'kvmppc_get_sr'? [-Werror=implicit-function-declaration]
+    1718 |                         val = get_reg_val(reg->id, kvmppc_get_vrsave(vcpu));
+         |                                                    ^~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/kvm_ppc.h:411:29: note: in definition of macro 'get_reg_val'
+     411 |         case 4: __u.wval = (reg); break;        \
+         |                             ^~~
+   arch/powerpc/kvm/powerpc.c: In function 'kvm_vcpu_ioctl_set_one_reg':
+   arch/powerpc/kvm/powerpc.c:1766:25: error: implicit declaration of function 'kvmppc_set_vscr'; did you mean 'kvmppc_set_sr'? [-Werror=implicit-function-declaration]
+    1766 |                         kvmppc_set_vscr(vcpu, set_reg_val(reg->id, val));
+         |                         ^~~~~~~~~~~~~~~
+         |                         kvmppc_set_sr
+   arch/powerpc/kvm/powerpc.c:1773:25: error: implicit declaration of function 'kvmppc_set_vrsave'; did you mean 'kvmppc_set_sr'? [-Werror=implicit-function-declaration]
+    1773 |                         kvmppc_set_vrsave(vcpu, set_reg_val(reg->id, val));
+         |                         ^~~~~~~~~~~~~~~~~
+         |                         kvmppc_set_sr
+   cc1: some warnings being treated as errors
 
 
-vim +/huge_pte_dirty +2522 mm/rmap.c
+vim +262 arch/powerpc/kvm/powerpc.c
 
-  2443	
-  2444	/*
-  2445	 * Replace the hugetlb page table mapping for folio with migration entries.
-  2446	 *
-  2447	 * @arg: enum ttu_flags will be passed to this argument.
-  2448	 */
-  2449	static bool try_to_migrate_hugetlb_one(struct folio *folio,
-  2450			struct vm_area_struct *vma, unsigned long address, void *arg)
-  2451	{
-  2452		const unsigned long hsz = huge_page_size(hstate_vma(vma));
-  2453		DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, 0);
-  2454		enum ttu_flags flags = (enum ttu_flags)(long)arg;
-  2455		bool anon_exclusive, writable, ret = true;
-  2456		bool anon = folio_test_anon(folio);
-  2457		struct mm_struct *mm = vma->vm_mm;
-  2458		struct mmu_notifier_range range;
-  2459		unsigned long pfn;
-  2460		struct page *page;
-  2461		pte_t pteval;
-  2462	
-  2463		range.end = vma_address_end(&pvmw);
-  2464		mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma->vm_mm,
-  2465					address, range.end);
-  2466		/* If sharing is possible, start and end will be adjusted accordingly. */
-  2467		adjust_range_if_pmd_sharing_possible(vma, &range.start, &range.end);
-  2468		mmu_notifier_invalidate_range_start(&range);
-  2469	
-  2470		if (page_vma_mapped_walk(&pvmw)) {
-  2471			address = pvmw.address;
-  2472			pteval = huge_ptep_get(mm, address, pvmw.pte);
-  2473			if (likely(pte_present(pteval)))
-  2474				pfn = pte_pfn(pteval);
-  2475			else
-  2476				pfn = softleaf_to_pfn(softleaf_from_pte(pteval));
-  2477	
-  2478			page = folio_page(folio, pfn - folio_pfn(folio));
-  2479			anon_exclusive = anon && PageAnonExclusive(page);
-  2480	
-  2481			/*
-  2482			 * huge_pmd_unshare may unmap an entire PMD page. There is no
-  2483			 * way of knowing exactly which PMDs may be cached for this mm,
-  2484			 * so we must flush them all. start/end were already adjusted
-  2485			 * above to cover this range.
-  2486			 */
-  2487			flush_cache_range(vma, range.start, range.end);
-  2488	
-  2489			/*
-  2490			 * To call huge_pmd_unshare, i_mmap_rwsem must be held in write
-  2491			 * mode. Caller needs to explicitly do this outside rmap
-  2492			 * routines. We also must hold hugetlb vma_lock in write mode.
-  2493			 * Lock order dictates acquiring vma_lock BEFORE i_mmap_rwsem.
-  2494			 * We can only try lock here and fail if unsuccessful.
-  2495			 */
-  2496			if (!anon) {
-  2497				struct mmu_gather tlb;
-  2498	
-  2499				VM_WARN_ON_ONCE(!(flags & TTU_RMAP_LOCKED));
-  2500				if (!hugetlb_vma_trylock_write(vma)) {
-  2501					ret = false;
-  2502					goto walk_done;
-  2503				}
-  2504	
-  2505				tlb_gather_mmu_vma(&tlb, vma);
-  2506				if (huge_pmd_unshare(&tlb, vma, address, pvmw.pte)) {
-  2507					hugetlb_vma_unlock_write(vma);
-  2508					huge_pmd_unshare_flush(&tlb, vma);
-  2509					tlb_finish_mmu(&tlb);
-  2510					/*
-  2511					 * The PMD table was unmapped,
-  2512					 * consequently unmapping the folio.
-  2513					 */
-  2514					goto walk_done;
-  2515				}
-  2516				hugetlb_vma_unlock_write(vma);
-  2517				tlb_finish_mmu(&tlb);
-  2518			}
-  2519	
-  2520			/* Nuke the hugetlb page table entry */
-  2521			pteval = huge_ptep_clear_flush(vma, address, pvmw.pte);
-> 2522			if (huge_pte_dirty(pteval))
-  2523				folio_mark_dirty(folio);
-  2524			writable = pte_write(pteval);
-  2525	
-  2526			VM_WARN_ON_FOLIO(writable && anon && !anon_exclusive, folio);
-  2527	
-  2528			if (PageHWPoison(page)) {
-  2529				pteval = swp_entry_to_pte(make_hwpoison_entry(page));
-  2530				hugetlb_count_sub(folio_nr_pages(folio), mm);
-  2531				set_huge_pte_at(mm, address, pvmw.pte, pteval, hsz);
-  2532			} else if (likely(pte_present(pteval)) && pte_unused(pteval) &&
-  2533				   !userfaultfd_armed(vma)) {
-  2534				/*
-  2535				 * The guest indicated that the page content is of no
-  2536				 * interest anymore. Simply discard the pte, vmscan
-  2537				 * will take care of the rest.
-  2538				 */
-  2539				dec_mm_counter(mm, mm_counter(folio));
-  2540			} else {
-  2541				pte_t swp_pte;
-  2542	
-  2543				/*
-  2544				 * arch_unmap_one() is expected to be a NOP on
-  2545				 * architectures where we could have PFN swap PTEs,
-  2546				 * so we'll not check/care.
-  2547				 */
-  2548				if (arch_unmap_one(mm, vma, address, pteval) < 0) {
-  2549					set_huge_pte_at(mm, address, pvmw.pte,
-  2550							pteval, hsz);
-  2551					ret = false;
-  2552					goto walk_done;
-  2553				}
-  2554	
-  2555				/* See folio_try_share_anon_rmap_pte(): clear PTE first. */
-  2556				if (anon_exclusive &&
-  2557				    hugetlb_try_share_anon_rmap(folio)) {
-  2558					set_huge_pte_at(mm, address, pvmw.pte,
-  2559							pteval, hsz);
-  2560					ret = false;
-  2561					goto walk_done;
-  2562				}
-  2563	
-  2564				/*
-  2565				 * Store the pfn of the page in a special migration
-  2566				 * pte. do_swap_page() will wait until the migration
-  2567				 * pte is removed and then restart fault handling.
-  2568				 */
-  2569				swp_pte = make_migration_swp_pte(page, pteval,
-  2570								 writable, anon_exclusive);
-  2571				set_huge_pte_at(mm, address, pvmw.pte, swp_pte, hsz);
-  2572				trace_set_migration_pte(address, pte_val(swp_pte),
-  2573							folio_order(folio));
-  2574			}
-  2575	
-  2576			hugetlb_remove_rmap(folio);
-  2577			if (vma->vm_flags & VM_LOCKED)
-  2578				mlock_drain_local();
-  2579			folio_put(folio);
-  2580	walk_done:
-  2581			page_vma_mapped_walk_done(&pvmw);
-  2582		}
-  2583	
-  2584		mmu_notifier_invalidate_range_end(&range);
-  2585	
-  2586		return ret;
-  2587	}
-  2588	
+   252	
+   253	int kvmppc_sanity_check(struct kvm_vcpu *vcpu)
+   254	{
+   255		int r = false;
+   256	
+   257		/* We have to know what CPU to virtualize */
+   258		if (!vcpu->arch.pvr)
+   259			goto out;
+   260	
+   261		if (vcpu->arch.vcore &&
+ > 262			vcpu->arch.vcore->arch_compat == PVR_ARCH_INVALID)
+   263			goto out;
+   264	
+   265		/* PAPR only works with book3s_64 */
+   266		if ((vcpu->arch.cpu_type != KVM_CPU_3S_64) && vcpu->arch.papr_enabled)
+   267			goto out;
+   268	
+   269		/* HV KVM can only do PAPR mode for now */
+   270		if (!vcpu->arch.papr_enabled && is_kvmppc_hv_enabled(vcpu->kvm))
+   271			goto out;
+   272	
 
 --
 0-DAY CI Kernel Test Service
