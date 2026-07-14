@@ -1,100 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3450377A8E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jul 2026 18:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2EC37E5EC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Jul 2026 22:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784055339; cv=none; b=jlwTA+hTAhqhbHMteNIstxqjwfcXiAVdonNIhlp6uJqTrpdAAGvY0aTCASQcVmI57fws6G9/QtxElvlpCqs0asmR2XxdPQCKRQdhtJKQdx5gDD/tons3pJSeobrsCsqaQeY/QqQOF/vd6e5+OW5gT1RfKnvbqDHuMXzxnDwbtKk=
+	t=1784068050; cv=none; b=uWJAGGiL+FF6HEf8j/QhHklj2XYZd++eeHcEwS0oNic38Fxqfj0abIjHFhNYFFPNn0FSfUzETtY9ModHG+ZjkWnK+DNJFKYJltOi55Kp5XCxcNMrCWtLNZkeTsle/c0wwJDZBLyDvMesLmLUR8RCr/Lbz+MqQq9/26c50mqJ/cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784055339; c=relaxed/simple;
-	bh=e6PGcqgyBR9HSkXu0mj+E8eqfOoUDo7FwOy0Ed8nasg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EEJ/yvu8ouBBDoyEpFQu7TRboP8NbuGFzOrq8Ei0ijCjexXPQswb+vZFTpc/XCcXcPYRV0Hz+3rWoF2QuSPaxyHCYbPbSx9B+CPkkGajBRvhISAHWt8uR2hAyn2nyhePWITdQAgsFKZRa466mf3EfqIXvXvsmionLYrFDUkdKKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7lP+Emm; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1784068050; c=relaxed/simple;
+	bh=eS7weUHccKmcxG10A7cz/wI12Hn/QpdOc1wTo6mv1hI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UmIX7/gZeT56YA3f9xu+zb89ki6qg0YeZT4njJBVnGOg++gFGeO3fGEyihhKUHp2ApxJU5n7uP3NLBlOJLtMQpMh/LfQuciTh5yVyScNDshaSu46QAPh8x6+eEGCOQDX5vDwqa3IVTGz5lTIrHtMrwk10PNWznxXNgpgDjioQQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTkeFOlP; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7lP+Emm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTkeFOlP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784055336; x=1815591336;
-  h=date:from:to:cc:subject:message-id;
-  bh=e6PGcqgyBR9HSkXu0mj+E8eqfOoUDo7FwOy0Ed8nasg=;
-  b=A7lP+EmmshGgfzgPFzRCdqE271HijCEnfC+Wjb8H0KDTG4HdIFeta+iM
-   lY0Lx6w5KY45GOxCMviWS54FAD83y+6snV45Qlt+GDvVjiL1EzcjhUulA
-   8r4KfGmEmKMzNtb+vHbKq0SY1/lZKObMIIt9Ww8IHLCFQukfzvoR8elex
-   ivmAyzZqOYWFIfjA8A47OS54HeIilBgnLydEWf32Mhgemcg9hTTBz3Vd0
-   ha4jL/GbxHUF2g0DV+WlkHKTU9RmhiyYxVQfsHS8fpbhwr0UniPyDDhZe
-   Cle738aCyyk8RSRR3V5YujETHA/5K2bN7wdQnnr0Ce0OaOVZjk7QDhCX1
-   g==;
-X-CSE-ConnectionGUID: b4BTDSgWQDi+Qf48NVpXwg==
-X-CSE-MsgGUID: 2iTRIytrSdeIrny+H6A/Xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="96050293"
+  t=1784068047; x=1815604047;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eS7weUHccKmcxG10A7cz/wI12Hn/QpdOc1wTo6mv1hI=;
+  b=YTkeFOlPvewa/hheHo2iacylfJ/eUmNhxUp8PB80/I2q2W1uWZ2i4sDV
+   0qsGe3WSPlBXh+fvtRMSsuRLRs5SbMUCjKtOYG5346cHXirwmpuJOFLiy
+   m+Ti7ZtsFs7VOJpf3uWIXgeVqSRJsApSu4CCsIfuOCdhhzakXNCdSjA9g
+   21zeAnD3IEUcQpCmmwy7jxiaT7sxGrZN/zTy+xormEf68XOiREZEehoM3
+   UT30mjBTc2h+0QvpPj+GEE14I9Meb02/q8h/836sFj5GMLvGUjodtNf7r
+   1UiCLSs9+FeZR47p6Y9y52mesKxmhP4v5PIbaGDe4iEiYYKNEwwZ1hll0
+   A==;
+X-CSE-ConnectionGUID: qfwYn8fRTSephp0F5x6BqQ==
+X-CSE-MsgGUID: cx/Qpi+eRTGmqmuGvo7shg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="102122554"
 X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="96050293"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 11:55:35 -0700
-X-CSE-ConnectionGUID: rk2fAMjDTTGXNAOzuGGDMg==
-X-CSE-MsgGUID: +YjK5+DvRlyzTdsC3NioSg==
+   d="scan'208";a="102122554"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 15:27:27 -0700
+X-CSE-ConnectionGUID: 9JXcEjX7RVa+fgtvK1EfQQ==
+X-CSE-MsgGUID: xz62DWtHSfGIpQEiT3vF/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="280362751"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Jul 2026 11:55:34 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="252021695"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 14 Jul 2026 15:27:24 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wjiI0-0000000043d-0KC8;
-	Tue, 14 Jul 2026 18:55:32 +0000
-Date: Tue, 14 Jul 2026 20:54:53 +0200
+	id 1wjlax-00000000N4C-1GZD;
+	Tue, 14 Jul 2026 22:27:19 +0000
+Date: Wed, 15 Jul 2026 06:26:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: aarch64-linux-gnu-ld:
- drivers/net/usb/r8153_ecm.c:64:undefined reference to `usbnet_write_cmd'
-Message-ID: <202607142019.GO61MX9u-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Zhixing Chen <running910@gmail.com>, Florian Westphal <fw@strlen.de>,
+	Pablo Neira Ayuso <pablo@netfilter.org>, Phil Sutter <phil@nwl.cc>
+Cc: oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org, netdev@vger.kernel.org,
+	Zhixing Chen <running910@gmail.com>
+Subject: Re: [PATCH nf v2] netfilter: ip6tables: set hotdrop for malformed
+ extension header matches
+Message-ID: <202607150533.nQvx3zgH-lkp@intel.com>
+References: <20260714032124.7042-1-running910@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260714032124.7042-1-running910@gmail.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/net-usb-centralize-usbnet_cdc_zte_rx_fixup-in-usbnet/20260714-200029
-head:   01c24668a6e35556ec573ceb5a3b709515946bc4
-commit: fb17c1fe5a30a284abcb7bebbdd178d3dddc5f8d net: usb: remove dependencies on cdc_ether
-date:   7 hours ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260714/202607142019.GO61MX9u-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607142019.GO61MX9u-lkp@intel.com/reproduce)
+Hi Zhixing,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on netfilter-nf/main]
+[also build test WARNING on nf-next/main linus/master v7.2-rc3 next-20260713]
+[cannot apply to linux-review/Zhixing-Chen/netfilter-ip6tables-set-hotdrop-for-malformed-extension-header-matches/20260709-143240 horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhixing-Chen/netfilter-ip6tables-set-hotdrop-for-malformed-extension-header-matches/20260714-114506
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20260714032124.7042-1-running910%40gmail.com
+patch subject: [PATCH nf v2] netfilter: ip6tables: set hotdrop for malformed extension header matches
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260715/202607150533.nQvx3zgH-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260715/202607150533.nQvx3zgH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607142019.GO61MX9u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607150533.nQvx3zgH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o: in function `r8153_bind':
-   drivers/net/usb/r8153_ecm.c:102:(.text+0x20): undefined reference to `usbnet_cdc_bind'
-   aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o: in function `pla_write_word':
-   drivers/net/usb/r8153_ecm.c:55:(.text+0x15c): undefined reference to `usbnet_read_cmd'
->> aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.c:64:(.text+0x1a4): undefined reference to `usbnet_write_cmd'
-   aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o: in function `pla_read_word':
-   drivers/net/usb/r8153_ecm.c:24:(.text+0x2ac): undefined reference to `usbnet_read_cmd'
-   aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o: in function `rtl8153_ecm_probe':
-   drivers/net/usb/r8153_ecm.c:157:(.text+0x318): undefined reference to `usbnet_probe'
-   aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o: in function `pla_write_word':
-   drivers/net/usb/r8153_ecm.c:55:(.text+0x3bc): undefined reference to `usbnet_read_cmd'
-   aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.c:64:(.text+0x3fc): undefined reference to `usbnet_write_cmd'
->> aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o:(.data+0x10): undefined reference to `usbnet_disconnect'
->> aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o:(.data+0x20): undefined reference to `usbnet_suspend'
->> aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o:(.data+0x28): undefined reference to `usbnet_resume'
-   aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o:(.data+0x30): undefined reference to `usbnet_resume'
->> aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o:(.rodata+0x98): undefined reference to `usbnet_cdc_unbind'
->> aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o:(.rodata+0xb8): undefined reference to `usbnet_manage_power'
->> aarch64-linux-gnu-ld: drivers/net/usb/r8153_ecm.o:(.rodata+0xc0): undefined reference to `usbnet_cdc_status'
+   net/ipv6/netfilter/ip6t_ipv6header.c: In function 'ipv6header_mt6':
+>> net/ipv6/netfilter/ip6t_ipv6header.c:31:13: warning: variable 'len' set but not used [-Wunused-but-set-variable=]
+      31 |         int len;
+         |             ^~~
+
+
+vim +/len +31 net/ipv6/netfilter/ip6t_ipv6header.c
+
+^1da177e4c3f41 Linus Torvalds           2005-04-16   25  
+1d93a9cbad608f Jan Engelhardt           2007-07-07   26  static bool
+62fc8051083a33 Jan Engelhardt           2009-07-07   27  ipv6header_mt6(const struct sk_buff *skb, struct xt_action_param *par)
+^1da177e4c3f41 Linus Torvalds           2005-04-16   28  {
+f7108a20dee44e Jan Engelhardt           2008-10-08   29  	const struct ip6t_ipv6header_info *info = par->matchinfo;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   30  	unsigned int temp;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  @31  	int len;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   32  	u8 nexthdr;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   33  	unsigned int ptr;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   34  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   35  	/* Make sure this isn't an evil packet */
+^1da177e4c3f41 Linus Torvalds           2005-04-16   36  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   37  	/* type of the 1st exthdr */
+0660e03f6b18f1 Arnaldo Carvalho de Melo 2007-04-25   38  	nexthdr = ipv6_hdr(skb)->nexthdr;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   39  	/* pointer to the 1st exthdr */
+^1da177e4c3f41 Linus Torvalds           2005-04-16   40  	ptr = sizeof(struct ipv6hdr);
+^1da177e4c3f41 Linus Torvalds           2005-04-16   41  	/* available length */
+^1da177e4c3f41 Linus Torvalds           2005-04-16   42  	len = skb->len - ptr;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   43  	temp = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   44  
+44dde23698a7a8 Jeremy Sowden            2019-09-13   45  	while (nf_ip6_ext_hdr(nexthdr)) {
+3cf93c96af7adf Jan Engelhardt           2008-04-14   46  		const struct ipv6_opt_hdr *hp;
+3cf93c96af7adf Jan Engelhardt           2008-04-14   47  		struct ipv6_opt_hdr _hdr;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   48  		int hdrlen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   49  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   50  		/* No more exthdr -> evaluate */
+^1da177e4c3f41 Linus Torvalds           2005-04-16   51  		if (nexthdr == NEXTHDR_NONE) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16   52  			temp |= MASK_NONE;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   53  			break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   54  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16   55  		/* ESP -> evaluate */
+^1da177e4c3f41 Linus Torvalds           2005-04-16   56  		if (nexthdr == NEXTHDR_ESP) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16   57  			temp |= MASK_ESP;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   58  			break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   59  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16   60  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   61  		hp = skb_header_pointer(skb, ptr, sizeof(_hdr), &_hdr);
+70c0eb1ca016f7 Florian Westphal         2018-09-04   62  		if (!hp) {
+70c0eb1ca016f7 Florian Westphal         2018-09-04   63  			par->hotdrop = true;
+70c0eb1ca016f7 Florian Westphal         2018-09-04   64  			return false;
+70c0eb1ca016f7 Florian Westphal         2018-09-04   65  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16   66  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   67  		/* Calculate the header length */
+7c4e36bc172ae1 Jan Engelhardt           2007-07-07   68  		if (nexthdr == NEXTHDR_FRAGMENT)
+^1da177e4c3f41 Linus Torvalds           2005-04-16   69  			hdrlen = 8;
+7c4e36bc172ae1 Jan Engelhardt           2007-07-07   70  		else if (nexthdr == NEXTHDR_AUTH)
+416e8126a2672f yangxingwu               2019-07-10   71  			hdrlen = ipv6_authlen(hp);
+^1da177e4c3f41 Linus Torvalds           2005-04-16   72  		else
+^1da177e4c3f41 Linus Torvalds           2005-04-16   73  			hdrlen = ipv6_optlen(hp);
+^1da177e4c3f41 Linus Torvalds           2005-04-16   74  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   75  		/* set the flag */
+^1da177e4c3f41 Linus Torvalds           2005-04-16   76  		switch (nexthdr) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16   77  		case NEXTHDR_HOP:
+^1da177e4c3f41 Linus Torvalds           2005-04-16   78  			temp |= MASK_HOPOPTS;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   79  			break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   80  		case NEXTHDR_ROUTING:
+^1da177e4c3f41 Linus Torvalds           2005-04-16   81  			temp |= MASK_ROUTING;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   82  			break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   83  		case NEXTHDR_FRAGMENT:
+^1da177e4c3f41 Linus Torvalds           2005-04-16   84  			temp |= MASK_FRAGMENT;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   85  			break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   86  		case NEXTHDR_AUTH:
+^1da177e4c3f41 Linus Torvalds           2005-04-16   87  			temp |= MASK_AH;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   88  			break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   89  		case NEXTHDR_DEST:
+^1da177e4c3f41 Linus Torvalds           2005-04-16   90  			temp |= MASK_DSTOPTS;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   91  			break;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   92  		default:
+1d93a9cbad608f Jan Engelhardt           2007-07-07   93  			return false;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   94  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16   95  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   96  		nexthdr = hp->nexthdr;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   97  		len -= hdrlen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   98  		ptr += hdrlen;
+aebe9616a67760 Zhixing Chen             2026-07-14   99  		if (ptr > skb->len) {
+aebe9616a67760 Zhixing Chen             2026-07-14  100  			par->hotdrop = true;
+aebe9616a67760 Zhixing Chen             2026-07-14  101  			return false;
+aebe9616a67760 Zhixing Chen             2026-07-14  102  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  103  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  104  
+7c4e36bc172ae1 Jan Engelhardt           2007-07-07  105  	if (nexthdr != NEXTHDR_NONE && nexthdr != NEXTHDR_ESP)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  106  		temp |= MASK_PROTO;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  107  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  108  	if (info->modeflag)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  109  		return !((temp ^ info->matchflags ^ info->invflags)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  110  			 & info->matchflags);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  111  	else {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  112  		if (info->invflags)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  113  			return temp != info->matchflags;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  114  		else
+^1da177e4c3f41 Linus Torvalds           2005-04-16  115  			return temp == info->matchflags;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  116  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  117  }
+^1da177e4c3f41 Linus Torvalds           2005-04-16  118  
 
 --
 0-DAY CI Kernel Test Service
