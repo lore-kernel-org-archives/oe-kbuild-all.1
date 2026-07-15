@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBC0221DAE;
-	Wed, 15 Jul 2026 00:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971237AA6A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jul 2026 01:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784076134; cv=none; b=S/5NfpcZ05JQiLaBD7f5IF9ktc5OYNjBOsKzjk6KufqazmLD08jK9QuaK0zQZ2T/vvhWzLkIb+fK3RAEPc9LlZjBP/2WNykfpUgebrFr4TClFjxkvpeGUqgOCUO0QpKfHlsXJxjrh2yqQwKgx9egDjaY+z6Rpfm76jkZsxJACvc=
+	t=1784080787; cv=none; b=Z0cVhXLLbS2OlCra5cjQHY29L28ChOaaN+C0pjtEZu1mIswQQF+OczKq+BguXXJ8GIQvJ0vEUnPDwaUbRSbqyJjiOYzXaH7aDc7cnz6UrZetZZfEgK78E9XWxqGjOPNyk3YYTcUys6KLetHOmj8BjUhfAo8jkOXofhqI2gGvvBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784076134; c=relaxed/simple;
-	bh=sL+necVGTYvUx/eD7gGzK0wo54TyzhOOpdT7Ea+Go4o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GQCYUiT92RkTJstxhC3jTIz9JnGBZBnmW8IjTOi6HUPiwIjifz2u9OXZT754e3mKe6HPMQ9Y3vU066TalQS0TnFjPoQWSHyS7wka9p5uhPwL036bcZJr4KNQ5IaZUAvbAzc05wKcTDoVuPiYAygCC5wVr17STibv06RIMg8lhUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nWju8Fmy; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1784080787; c=relaxed/simple;
+	bh=i3FHOd85NXf/P8TqVlV1YPqi1ZFzIeBKpmZ+ORr9itw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TSB3uCF6S6BZPUoKfTaR1QIbNUNQaAI7aOJ/7yUL7shJ+lKxnHUXYgzaBzDNAUtBas5pRoGQeEm1QjVQMzg37OT7A37Hn1e92FC4pzTQb35ZnRiDx8AikMC8ZywvbTKoHMhJvYhYTZKO2G0K0rdeLEngshNTyeZA9JJIH1u9n5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8rm7gA9; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nWju8Fmy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8rm7gA9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784076129; x=1815612129;
+  t=1784080785; x=1815616785;
   h=date:from:to:cc:subject:message-id;
-  bh=sL+necVGTYvUx/eD7gGzK0wo54TyzhOOpdT7Ea+Go4o=;
-  b=nWju8FmyXGsgTS7j0ZMth8drxdqpRHK3g/p2bqN3clHTaipdEqhpYomo
-   zJcts2hfM9grTGobRDlUItQCsF6+0FIqOkcVuh5cSSyJVJFHDMr/ZeWGL
-   b1MhBo4mc2ayGI0fkNCaJvDpeqxYWBN0XPiwDVNCYBfshfCSQVgc3aXS3
-   W960wepevAe10Cjyg1XZiGLIJZO4OYLggQuEUP7sj+iXakzCuisWRG6xU
-   +M0XzqKiYnRi7AtXo0KH2VXH0tQiVv672QmOnqe/zApueQW+c6wtCPHwD
-   b/3iUWft5/i+ul9/7PWeqnSaMGek0eZBzkU6ec8VWS0EhjaNSXfLGNmct
-   g==;
-X-CSE-ConnectionGUID: Bdo8rjMhQ4S09gaYPd1OoA==
-X-CSE-MsgGUID: uXeEYuJMS6eNWAjHT+PrLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="102129578"
+  bh=i3FHOd85NXf/P8TqVlV1YPqi1ZFzIeBKpmZ+ORr9itw=;
+  b=D8rm7gA99afntmeV/2WApGd1enNIPFKX7uJ/eo2eaLWa4S4ICGWOiSe1
+   Eg5DWoqniOReSjoBChbRmdf00pl6OQCOjcnMxRQUgBNoJ8I1pT0jMh7cd
+   9jUDorNLlk+PewJcGEx4/WKmLkf4HLzldgvmuUNPP9hvC/wRbDQlHqkTI
+   gTHneKJvTsRukBMxzrgsP9srpcUw/9ztUQ7h/o4yAr6TW/zD/Nkg8G4RZ
+   QuAiPkUUjqXeNubzwnt8eXyKcLKriPmW71C/xM0lQsmFN949fwQV2434t
+   mbrxWCbIfZOo7B8MXaUkcBMlYist+v+g/0oia3UDnm6qWDjyCgwvuLWT8
+   Q==;
+X-CSE-ConnectionGUID: HrSCk31bTvGQAm+ud7RSJQ==
+X-CSE-MsgGUID: yU88BNrhQQ+aSMQGYPgP4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="110258092"
 X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="102129578"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 17:42:09 -0700
-X-CSE-ConnectionGUID: YPP8cwCCRHam6RenG3U4uA==
-X-CSE-MsgGUID: QU00GT3LSiOO2h6l6jaJIw==
+   d="scan'208";a="110258092"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 18:59:45 -0700
+X-CSE-ConnectionGUID: 6fVtmw5PTDiNAuykQxr2yA==
+X-CSE-MsgGUID: FfCBz5PXQDC2wl2zi/cqdw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="280434822"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Jul 2026 17:42:06 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 14 Jul 2026 18:59:43 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wjnhK-00000000NAz-10gc;
-	Wed, 15 Jul 2026 00:42:02 +0000
-Date: Wed, 15 Jul 2026 08:41:02 +0800
+	id 1wjouT-00000000493-384J;
+	Wed, 15 Jul 2026 01:59:41 +0000
+Date: Wed, 15 Jul 2026 03:58:56 +0200
 From: kernel test robot <lkp@intel.com>
-To: Praveen Talari <praveen.talari@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-serial@vger.kernel.org,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [tty:tty-next 31/41]
- drivers/tty/serial/qcom_geni_serial.c:1925:4: error: cannot jump from this
- goto statement to its label
-Message-ID: <202607150830.LsNxeVYw-lkp@intel.com>
+To: "Chen-Yu Tsai" <wenst@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [wens:mtk-wip 28/60]
+ drivers/input/mouse/elan_i2c_core.c:1258:17: error: implicit declaration of
+ function 'regulator_bulk_enable_and_wait'; did you mean
+ 'regulator_bulk_enable'?
+Message-ID: <202607150355.NpBNEw7Z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,234 +59,169 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
-head:   c1d4ce2d9eaeccd7e8aef7ec1109df49eaf4f503
-commit: 3d71f8d7eeb374d0eb84c64c6ffd68bdcc0d42d4 [31/41] serial: qcom-geni: remove .pm callback, use runtime PM in startup/shutdown
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260715/202607150830.LsNxeVYw-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260715/202607150830.LsNxeVYw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
+head:   6bb13b3f06e1186263e25a011225629d221dcf65
+commit: d6806397b23038f2497ae717bc64bd25c22c1e07 [28/60] Input: elan_i2c: Support vddio regulator supply
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260715/202607150355.NpBNEw7Z-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260715/202607150355.NpBNEw7Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607150830.LsNxeVYw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607150355.NpBNEw7Z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/tty/serial/qcom_geni_serial.c:1925:4: error: cannot jump from this goto statement to its label
-    1925 |                         goto error;
-         |                         ^
-   drivers/tty/serial/qcom_geni_serial.c:1931:44: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1931 |         PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-         |                                                   ^
-   drivers/tty/serial/qcom_geni_serial.c:1916:3: error: cannot jump from this goto statement to its label
-    1916 |                 goto error;
-         |                 ^
-   drivers/tty/serial/qcom_geni_serial.c:1931:44: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1931 |         PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-         |                                                   ^
-   drivers/tty/serial/qcom_geni_serial.c:1911:3: error: cannot jump from this goto statement to its label
-    1911 |                 goto error;
-         |                 ^
-   drivers/tty/serial/qcom_geni_serial.c:1931:44: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1931 |         PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-         |                                                   ^
-   drivers/tty/serial/qcom_geni_serial.c:1887:3: error: cannot jump from this goto statement to its label
-    1887 |                 goto error;
-         |                 ^
-   drivers/tty/serial/qcom_geni_serial.c:1931:44: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1931 |         PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-         |                                                   ^
-   drivers/tty/serial/qcom_geni_serial.c:1881:3: error: cannot jump from this goto statement to its label
-    1881 |                 goto error;
-         |                 ^
-   drivers/tty/serial/qcom_geni_serial.c:1931:44: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1931 |         PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-         |                                                   ^
-   drivers/tty/serial/qcom_geni_serial.c:1872:4: error: cannot jump from this goto statement to its label
-    1872 |                         goto error;
-         |                         ^
-   drivers/tty/serial/qcom_geni_serial.c:1931:44: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1931 |         PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-         |                                                   ^
-   drivers/tty/serial/qcom_geni_serial.c:1864:4: error: cannot jump from this goto statement to its label
-    1864 |                         goto error;
-         |                         ^
-   drivers/tty/serial/qcom_geni_serial.c:1931:44: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1931 |         PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-         |                                                   ^
-   drivers/tty/serial/qcom_geni_serial.c:1848:3: error: cannot jump from this goto statement to its label
-    1848 |                 goto error;
-         |                 ^
-   drivers/tty/serial/qcom_geni_serial.c:1931:44: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1931 |         PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-         |                                                   ^
-   8 errors generated.
+   drivers/input/mouse/elan_i2c_core.c: In function 'elan_probe':
+>> drivers/input/mouse/elan_i2c_core.c:1258:17: error: implicit declaration of function 'regulator_bulk_enable_and_wait'; did you mean 'regulator_bulk_enable'? [-Wimplicit-function-declaration]
+    1258 |         error = regulator_bulk_enable_and_wait(ARRAY_SIZE(data->supplies), data->supplies,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 regulator_bulk_enable
 
 
-vim +1925 drivers/tty/serial/qcom_geni_serial.c
+vim +1258 drivers/input/mouse/elan_i2c_core.c
 
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1799  
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1800  static int qcom_geni_serial_probe(struct platform_device *pdev)
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1801  {
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1802  	int ret = 0;
-71581242164f112 Colin Ian King              2021-04-23  1803  	int line;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1804  	struct qcom_geni_serial_port *port;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1805  	struct uart_port *uport;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1806  	struct resource *res;
-066cd1c4e4b9b43 Karthikeyan Ramasubramanian 2018-04-06  1807  	int irq;
-8a8a66a1a18a1db Girish Mahadevan            2018-07-13  1808  	struct uart_driver *drv;
-40ec6d41c841e27 Bartosz Golaszewski         2022-12-29  1809  	const struct qcom_geni_device_data *data;
-8a8a66a1a18a1db Girish Mahadevan            2018-07-13  1810  
-40ec6d41c841e27 Bartosz Golaszewski         2022-12-29  1811  	data = of_device_get_match_data(&pdev->dev);
-40ec6d41c841e27 Bartosz Golaszewski         2022-12-29  1812  	if (!data)
-40ec6d41c841e27 Bartosz Golaszewski         2022-12-29  1813  		return -EINVAL;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1814  
-40ec6d41c841e27 Bartosz Golaszewski         2022-12-29  1815  	if (data->console) {
-8a8a66a1a18a1db Girish Mahadevan            2018-07-13  1816  		drv = &qcom_geni_console_driver;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1817  		line = of_alias_get_id(pdev->dev.of_node, "serial");
-8a8a66a1a18a1db Girish Mahadevan            2018-07-13  1818  	} else {
-8a8a66a1a18a1db Girish Mahadevan            2018-07-13  1819  		drv = &qcom_geni_uart_driver;
-08b0adb1ae5456a Dmitry Baryshkov            2021-06-22  1820  		line = of_alias_get_id(pdev->dev.of_node, "serial");
-08b0adb1ae5456a Dmitry Baryshkov            2021-06-22  1821  		if (line == -ENODEV) /* compat with non-standard aliases */
-8a8a66a1a18a1db Girish Mahadevan            2018-07-13  1822  			line = of_alias_get_id(pdev->dev.of_node, "hsuart");
-8a8a66a1a18a1db Girish Mahadevan            2018-07-13  1823  	}
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1824  
-c3e7966c60745f8 Zong Jiang                  2025-08-12  1825  	port = get_port_from_line(line, data->console, &pdev->dev);
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1826  	if (IS_ERR(port)) {
-6a10635e90e8cb0 Karthikeyan Ramasubramanian 2018-05-03  1827  		dev_err(&pdev->dev, "Invalid line %d\n", line);
-6a10635e90e8cb0 Karthikeyan Ramasubramanian 2018-05-03  1828  		return PTR_ERR(port);
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1829  	}
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1830  
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1831  	uport = &port->uport;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1832  	/* Don't allow 2 drivers to access the same port */
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1833  	if (uport->private_data)
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1834  		return -ENODEV;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1835  
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1836  	uport->dev = &pdev->dev;
-40ec6d41c841e27 Bartosz Golaszewski         2022-12-29  1837  	port->dev_data = data;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1838  	port->se.dev = &pdev->dev;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1839  	port->se.wrapper = dev_get_drvdata(pdev->dev.parent);
-4b2601ae3066dab Praveen Talari              2025-07-21  1840  
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1841  	ret = port->dev_data->resources_init(uport);
-4b2601ae3066dab Praveen Talari              2025-07-21  1842  	if (ret)
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1843  		return ret;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1844  
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1845  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1846  	if (!res) {
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1847  		ret = -EINVAL;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1848  		goto error;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1849  	}
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1850  
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1851  	uport->mapbase = res->start;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1852  
-4fcc287f3c69245 Anup Kulkarni               2025-06-03  1853  	uport->rs485_config = qcom_geni_rs485_config;
-4fcc287f3c69245 Anup Kulkarni               2025-06-03  1854  	uport->rs485_supported = qcom_geni_rs485_supported;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1855  	port->tx_fifo_depth = DEF_FIFO_DEPTH_WORDS;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1856  	port->rx_fifo_depth = DEF_FIFO_DEPTH_WORDS;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1857  	port->tx_fifo_width = DEF_FIFO_WIDTH_BITS;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1858  
-40ec6d41c841e27 Bartosz Golaszewski         2022-12-29  1859  	if (!data->console) {
-2aaa43c70778333 Bartosz Golaszewski         2022-12-29  1860  		port->rx_buf = devm_kzalloc(uport->dev,
-2aaa43c70778333 Bartosz Golaszewski         2022-12-29  1861  					    DMA_RX_BUF_SIZE, GFP_KERNEL);
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1862  		if (!port->rx_buf) {
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1863  			ret = -ENOMEM;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1864  			goto error;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1865  		}
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1866  
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1867  		port->rx_dma_addr = dma_map_single(pdev->dev.parent, port->rx_buf,
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1868  						   DMA_RX_BUF_SIZE, DMA_FROM_DEVICE);
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1869  		if (dma_mapping_error(pdev->dev.parent, port->rx_dma_addr)) {
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1870  			ret = -EIO;
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1871  			dev_err(&pdev->dev, "Failed to map RX DMA buffer: %d\n", ret);
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1872  			goto error;
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1873  		}
-f9d690b6ece7ec9 satya priya                 2020-03-06  1874  	}
-f9d690b6ece7ec9 satya priya                 2020-03-06  1875  
-f3974413cf0209b Akash Asthana               2020-01-06  1876  	port->name = devm_kasprintf(uport->dev, GFP_KERNEL,
-f3974413cf0209b Akash Asthana               2020-01-06  1877  			"qcom_geni_serial_%s%d",
-f3974413cf0209b Akash Asthana               2020-01-06  1878  			uart_console(uport) ? "console" : "uart", uport->line);
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1879  	if (!port->name) {
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1880  		ret = -ENOMEM;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1881  		goto error;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1882  	}
-f3974413cf0209b Akash Asthana               2020-01-06  1883  
-066cd1c4e4b9b43 Karthikeyan Ramasubramanian 2018-04-06  1884  	irq = platform_get_irq(pdev, 0);
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1885  	if (irq < 0) {
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1886  		ret = irq;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1887  		goto error;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1888  	}
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1889  
-066cd1c4e4b9b43 Karthikeyan Ramasubramanian 2018-04-06  1890  	uport->irq = irq;
-8f122698a64b877 Dmitry Safonov              2019-12-13  1891  	uport->has_sysrq = IS_ENABLED(CONFIG_SERIAL_QCOM_GENI_CONSOLE);
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1892  
-40ec6d41c841e27 Bartosz Golaszewski         2022-12-29  1893  	if (!data->console)
-f3974413cf0209b Akash Asthana               2020-01-06  1894  		port->wakeup_irq = platform_get_irq_optional(pdev, 1);
-f3974413cf0209b Akash Asthana               2020-01-06  1895  
-9fa3c4b1fa379f2 Roja Rani Yarubandi         2020-03-04  1896  	if (of_property_read_bool(pdev->dev.of_node, "rx-tx-swap"))
-9fa3c4b1fa379f2 Roja Rani Yarubandi         2020-03-04  1897  		port->rx_tx_swap = true;
-9fa3c4b1fa379f2 Roja Rani Yarubandi         2020-03-04  1898  
-9fa3c4b1fa379f2 Roja Rani Yarubandi         2020-03-04  1899  	if (of_property_read_bool(pdev->dev.of_node, "cts-rts-swap"))
-9fa3c4b1fa379f2 Roja Rani Yarubandi         2020-03-04  1900  		port->cts_rts_swap = true;
-9fa3c4b1fa379f2 Roja Rani Yarubandi         2020-03-04  1901  
-e42d6c3ec0c7ade Douglas Anderson            2020-06-26  1902  	port->private_data.drv = drv;
-e42d6c3ec0c7ade Douglas Anderson            2020-06-26  1903  	uport->private_data = &port->private_data;
-f3974413cf0209b Akash Asthana               2020-01-06  1904  	platform_set_drvdata(pdev, port);
-f3974413cf0209b Akash Asthana               2020-01-06  1905  
-3e4aaea7a0391d4 Akash Asthana               2019-10-10  1906  	irq_set_status_flags(uport->irq, IRQ_NOAUTOEN);
-3e4aaea7a0391d4 Akash Asthana               2019-10-10  1907  	ret = devm_request_irq(uport->dev, uport->irq, qcom_geni_serial_isr,
-3e4aaea7a0391d4 Akash Asthana               2019-10-10  1908  			IRQF_TRIGGER_HIGH, port->name, uport);
-3e4aaea7a0391d4 Akash Asthana               2019-10-10  1909  	if (ret) {
-3e4aaea7a0391d4 Akash Asthana               2019-10-10  1910  		dev_err(uport->dev, "Failed to get IRQ ret %d\n", ret);
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1911  		goto error;
-3e4aaea7a0391d4 Akash Asthana               2019-10-10  1912  	}
-3e4aaea7a0391d4 Akash Asthana               2019-10-10  1913  
-4fcc287f3c69245 Anup Kulkarni               2025-06-03  1914  	ret = uart_get_rs485_mode(uport);
-4fcc287f3c69245 Anup Kulkarni               2025-06-03  1915  	if (ret)
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1916  		goto error;
-4fcc287f3c69245 Anup Kulkarni               2025-06-03  1917  
-f3974413cf0209b Akash Asthana               2020-01-06  1918  	if (port->wakeup_irq > 0) {
-f3974413cf0209b Akash Asthana               2020-01-06  1919  		device_init_wakeup(&pdev->dev, true);
-f3974413cf0209b Akash Asthana               2020-01-06  1920  		ret = dev_pm_set_dedicated_wake_irq(&pdev->dev,
-8b7103f31950443 Akash Asthana               2019-10-10  1921  						port->wakeup_irq);
-8b7103f31950443 Akash Asthana               2019-10-10  1922  		if (ret) {
-f3974413cf0209b Akash Asthana               2020-01-06  1923  			device_init_wakeup(&pdev->dev, false);
-a53be6945f5123c Viken Dadhaniya             2025-03-27  1924  			ida_free(&port_ida, uport->line);
-abffd1e6c4f1c97 Praveen Talari              2025-11-10 @1925  			goto error;
-8b7103f31950443 Akash Asthana               2019-10-10  1926  		}
-8b7103f31950443 Akash Asthana               2019-10-10  1927  	}
-f3974413cf0209b Akash Asthana               2020-01-06  1928  
-fb47423dc7bf433 Praveen Talari              2026-01-08  1929  	devm_pm_runtime_enable(port->se.dev);
-fb47423dc7bf433 Praveen Talari              2026-01-08  1930  
-3d71f8d7eeb374d Praveen Talari              2026-07-10  1931  	PM_RUNTIME_ACQUIRE_IF_ENABLED(uport->dev, pm);
-3d71f8d7eeb374d Praveen Talari              2026-07-10  1932  	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-3d71f8d7eeb374d Praveen Talari              2026-07-10  1933  	if (ret < 0) {
-3d71f8d7eeb374d Praveen Talari              2026-07-10  1934  		dev_err(uport->dev, "Failed to resume and get %d\n", ret);
-3d71f8d7eeb374d Praveen Talari              2026-07-10  1935  		goto error;
-3d71f8d7eeb374d Praveen Talari              2026-07-10  1936  	}
-3d71f8d7eeb374d Praveen Talari              2026-07-10  1937  
-fb47423dc7bf433 Praveen Talari              2026-01-08  1938  	ret = uart_add_one_port(drv, uport);
-fb47423dc7bf433 Praveen Talari              2026-01-08  1939  	if (ret)
-fb47423dc7bf433 Praveen Talari              2026-01-08  1940  		goto error;
-fb47423dc7bf433 Praveen Talari              2026-01-08  1941  
-f3974413cf0209b Akash Asthana               2020-01-06  1942  	return 0;
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1943  
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1944  error:
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1945  	if (port->rx_dma_addr) {
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1946  		dma_unmap_single(pdev->dev.parent, port->rx_dma_addr,
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1947  				 DMA_RX_BUF_SIZE, DMA_FROM_DEVICE);
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1948  		port->rx_dma_addr = 0;
-bafe277d6c5a8bc Praveen Talari              2026-07-01  1949  	}
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1950  	dev_pm_domain_detach_list(port->pd_list);
-abffd1e6c4f1c97 Praveen Talari              2025-11-10  1951  	return ret;
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1952  }
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1953  
-
-:::::: The code at line 1925 was first introduced by commit
-:::::: abffd1e6c4f1c9746ffd3fb5c659668efc221714 serial: qcom-geni: Enable Serial on SA8255p Qualcomm platforms
-
-:::::: TO: Praveen Talari <praveen.talari@oss.qualcomm.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  1218	
+  1219	static int elan_probe(struct i2c_client *client)
+  1220	{
+  1221		const struct elan_transport_ops *transport_ops;
+  1222		struct device *dev = &client->dev;
+  1223		struct elan_tp_data *data;
+  1224		unsigned long irqflags;
+  1225		int error;
+  1226	
+  1227		if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_I2C) &&
+  1228		    i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+  1229			transport_ops = &elan_i2c_ops;
+  1230		} else if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_SMBUS) &&
+  1231			   i2c_check_functionality(client->adapter,
+  1232						   I2C_FUNC_SMBUS_BYTE_DATA |
+  1233							I2C_FUNC_SMBUS_BLOCK_DATA |
+  1234							I2C_FUNC_SMBUS_I2C_BLOCK)) {
+  1235			transport_ops = &elan_smbus_ops;
+  1236		} else {
+  1237			dev_err(dev, "not a supported I2C/SMBus adapter\n");
+  1238			return -EIO;
+  1239		}
+  1240	
+  1241		data = devm_kzalloc(dev, sizeof(struct elan_tp_data), GFP_KERNEL);
+  1242		if (!data)
+  1243			return -ENOMEM;
+  1244	
+  1245		i2c_set_clientdata(client, data);
+  1246	
+  1247		data->ops = transport_ops;
+  1248		data->client = client;
+  1249		init_completion(&data->fw_completion);
+  1250		mutex_init(&data->sysfs_mutex);
+  1251	
+  1252		data->supplies[0].supply = "vcc";
+  1253		data->supplies[1].supply = "vddio";
+  1254		error = devm_regulator_bulk_get(dev, ARRAY_SIZE(data->supplies), data->supplies);
+  1255		if (error)
+  1256			return dev_err_probe(dev, error, "Failed to get regulators\n");
+  1257	
+> 1258		error = regulator_bulk_enable_and_wait(ARRAY_SIZE(data->supplies), data->supplies,
+  1259						       ETP_POWER_ON_DELAY_US);
+  1260		if (error) {
+  1261			dev_err(dev, "Failed to enable regulators: %d\n", error);
+  1262			return error;
+  1263		}
+  1264	
+  1265		error = devm_add_action_or_reset(dev, elan_disable_regulator, data);
+  1266		if (error) {
+  1267			dev_err(dev, "Failed to add disable regulator action: %d\n",
+  1268				error);
+  1269			return error;
+  1270		}
+  1271	
+  1272		/* Make sure there is something at this address */
+  1273		error = i2c_smbus_read_byte(client);
+  1274		if (error < 0) {
+  1275			dev_dbg(&client->dev, "nothing at this address: %d\n", error);
+  1276			return -ENXIO;
+  1277		}
+  1278	
+  1279		/* Initialize the touchpad. */
+  1280		error = elan_initialize(data, false);
+  1281		if (error)
+  1282			return error;
+  1283	
+  1284		error = elan_query_device_info(data);
+  1285		if (error)
+  1286			return error;
+  1287	
+  1288		error = elan_query_device_parameters(data);
+  1289		if (error)
+  1290			return error;
+  1291	
+  1292		dev_info(dev,
+  1293			 "Elan Touchpad: Module ID: 0x%04x, Firmware: 0x%04x, Sample: 0x%04x, IAP: 0x%04x\n",
+  1294			 data->product_id,
+  1295			 data->fw_version,
+  1296			 data->sm_version,
+  1297			 data->iap_version);
+  1298	
+  1299		dev_dbg(dev,
+  1300			"Elan Touchpad Extra Information:\n"
+  1301			"    Max ABS X,Y:   %d,%d\n"
+  1302			"    Width X,Y:   %d,%d\n"
+  1303			"    Resolution X,Y:   %d,%d (dots/mm)\n"
+  1304			"    ic type: 0x%x\n"
+  1305			"    info pattern: 0x%x\n",
+  1306			data->max_x, data->max_y,
+  1307			data->width_x, data->width_y,
+  1308			data->x_res, data->y_res,
+  1309			data->ic_type, data->pattern);
+  1310	
+  1311		/* Set up input device properties based on queried parameters. */
+  1312		error = elan_setup_input_device(data);
+  1313		if (error)
+  1314			return error;
+  1315	
+  1316		if (device_property_read_bool(&client->dev, "elan,trackpoint")) {
+  1317			error = elan_setup_trackpoint_input_device(data);
+  1318			if (error)
+  1319				return error;
+  1320		}
+  1321	
+  1322		/*
+  1323		 * Platform code (ACPI, DTS) should normally set up interrupt
+  1324		 * for us, but in case it did not let's fall back to using falling
+  1325		 * edge to be compatible with older Chromebooks.
+  1326		 */
+  1327		irqflags = irq_get_trigger_type(client->irq);
+  1328		if (!irqflags)
+  1329			irqflags = IRQF_TRIGGER_FALLING;
+  1330	
+  1331		error = devm_request_threaded_irq(dev, client->irq, NULL, elan_isr,
+  1332						  irqflags | IRQF_ONESHOT,
+  1333						  client->name, data);
+  1334		if (error) {
+  1335			dev_err(dev, "cannot register irq=%d\n", client->irq);
+  1336			return error;
+  1337		}
+  1338	
+  1339		error = input_register_device(data->input);
+  1340		if (error) {
+  1341			dev_err(dev, "failed to register input device: %d\n", error);
+  1342			return error;
+  1343		}
+  1344	
+  1345		if (data->tp_input) {
+  1346			error = input_register_device(data->tp_input);
+  1347			if (error) {
+  1348				dev_err(&client->dev,
+  1349					"failed to register TrackPoint input device: %d\n",
+  1350					error);
+  1351				return error;
+  1352			}
+  1353		}
+  1354	
+  1355		return 0;
+  1356	}
+  1357	
 
 --
 0-DAY CI Kernel Test Service
