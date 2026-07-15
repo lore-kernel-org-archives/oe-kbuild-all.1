@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971237AA6A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jul 2026 01:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018D92931D0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jul 2026 03:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784080787; cv=none; b=Z0cVhXLLbS2OlCra5cjQHY29L28ChOaaN+C0pjtEZu1mIswQQF+OczKq+BguXXJ8GIQvJ0vEUnPDwaUbRSbqyJjiOYzXaH7aDc7cnz6UrZetZZfEgK78E9XWxqGjOPNyk3YYTcUys6KLetHOmj8BjUhfAo8jkOXofhqI2gGvvBs=
+	t=1784085655; cv=none; b=lCQlUfKv5D5BAU/uiZcVRgB/rrYz5BLOrVN+xHq4W+v6NIVuwMqkSic+e78mLhTrTfr5424/ftp6L6ZWS4Fmsel+qZCEVyHYMQJ0lcMbyOPEJ9NLlruTJb5dnBkIE6ANhLwm0J6nssXncIWYQjx72Ox6XiHakyqaTUDAl+/8kIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784080787; c=relaxed/simple;
-	bh=i3FHOd85NXf/P8TqVlV1YPqi1ZFzIeBKpmZ+ORr9itw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TSB3uCF6S6BZPUoKfTaR1QIbNUNQaAI7aOJ/7yUL7shJ+lKxnHUXYgzaBzDNAUtBas5pRoGQeEm1QjVQMzg37OT7A37Hn1e92FC4pzTQb35ZnRiDx8AikMC8ZywvbTKoHMhJvYhYTZKO2G0K0rdeLEngshNTyeZA9JJIH1u9n5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8rm7gA9; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1784085655; c=relaxed/simple;
+	bh=6kx4dZINQj2G3tBMB81EP8wpjoytJQ508TrY6HcruEk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bGtwLDTA1eM/8f3BOYIGLzN/iQt29Fw04Buyz97LbF2uKkoKjQTRzUyTX/T8dweoeO51bqiAPsAY+D90D8zLEGISOzW3r82fsNagGu1xpCGwuT75L3hSpy91r867/EQdLrmLxalNPQN0nS2iDaUCAfZeFQV7fNtahl71/Nz6vQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFgye8xR; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8rm7gA9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFgye8xR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784080785; x=1815616785;
+  t=1784085653; x=1815621653;
   h=date:from:to:cc:subject:message-id;
-  bh=i3FHOd85NXf/P8TqVlV1YPqi1ZFzIeBKpmZ+ORr9itw=;
-  b=D8rm7gA99afntmeV/2WApGd1enNIPFKX7uJ/eo2eaLWa4S4ICGWOiSe1
-   Eg5DWoqniOReSjoBChbRmdf00pl6OQCOjcnMxRQUgBNoJ8I1pT0jMh7cd
-   9jUDorNLlk+PewJcGEx4/WKmLkf4HLzldgvmuUNPP9hvC/wRbDQlHqkTI
-   gTHneKJvTsRukBMxzrgsP9srpcUw/9ztUQ7h/o4yAr6TW/zD/Nkg8G4RZ
-   QuAiPkUUjqXeNubzwnt8eXyKcLKriPmW71C/xM0lQsmFN949fwQV2434t
-   mbrxWCbIfZOo7B8MXaUkcBMlYist+v+g/0oia3UDnm6qWDjyCgwvuLWT8
-   Q==;
-X-CSE-ConnectionGUID: HrSCk31bTvGQAm+ud7RSJQ==
-X-CSE-MsgGUID: yU88BNrhQQ+aSMQGYPgP4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="110258092"
+  bh=6kx4dZINQj2G3tBMB81EP8wpjoytJQ508TrY6HcruEk=;
+  b=TFgye8xRxKqOhDj19XqWd9oRq2ePsb+wxn+vfdRw0+2YEet9H/eJHqwp
+   DvAR6pxonetbC43ViBj3VDzF1LRRVIpsQl7CEcQjNSJBoneDqKUG09dub
+   aZindGXD4sJG+iMUeqiSzMGj5AnbdkoFxnfykRZm45VZjyYe/q+vDDSNm
+   p54UIkLE805PadmxmT5K3OBhmfiVKSpiA0++G9feubYpMKL0dxhWqKkbD
+   rH50gRvRsE9KQ1WP4MTwPGvdXXzvsAOmuC8fXKO+umlWlrWLg3H0jAXY1
+   SNPnHyonk+tN1IlIFY17M7rY7oWDtOO5orxD09ad74vsueSo9xGedLEbq
+   A==;
+X-CSE-ConnectionGUID: 7XBmyaJVRPGR9QBcDPAe1A==
+X-CSE-MsgGUID: U02NNeRgSMuVx0D0PtHtOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84674782"
 X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
-   d="scan'208";a="110258092"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 18:59:45 -0700
-X-CSE-ConnectionGUID: 6fVtmw5PTDiNAuykQxr2yA==
-X-CSE-MsgGUID: FfCBz5PXQDC2wl2zi/cqdw==
+   d="scan'208";a="84674782"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 20:20:52 -0700
+X-CSE-ConnectionGUID: pf71QAclQVC+b03GZ6omLA==
+X-CSE-MsgGUID: jZ5Xe/laQJCueiPwOwndZQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,164,1779174000"; 
+   d="scan'208";a="252073156"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Jul 2026 18:59:43 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Jul 2026 20:20:51 -0700
 Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wjouT-00000000493-384J;
-	Wed, 15 Jul 2026 01:59:41 +0000
-Date: Wed, 15 Jul 2026 03:58:56 +0200
+	id 1wjqAy-0000000049h-391k;
+	Wed, 15 Jul 2026 03:20:48 +0000
+Date: Wed, 15 Jul 2026 05:20:03 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Chen-Yu Tsai" <wenst@chromium.org>
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [wens:mtk-wip 28/60]
- drivers/input/mouse/elan_i2c_core.c:1258:17: error: implicit declaration of
- function 'regulator_bulk_enable_and_wait'; did you mean
- 'regulator_bulk_enable'?
-Message-ID: <202607150355.NpBNEw7Z-lkp@intel.com>
+Subject: [jlayton:btrfs-enomem 2/4] fs/btrfs/dir-item.c:108:12:
+ error: static declaration of '__btrfs_insert_dir_item' follows non-static
+ declaration
+Message-ID: <202607150522.cdKYAZae-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,169 +60,128 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
-head:   6bb13b3f06e1186263e25a011225629d221dcf65
-commit: d6806397b23038f2497ae717bc64bd25c22c1e07 [28/60] Input: elan_i2c: Support vddio regulator supply
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260715/202607150355.NpBNEw7Z-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git btrfs-enomem
+head:   746fbc9ddb34e692540b3700e9c96edb73788460
+commit: cc25c3e12a57d763b9d88429f09d28547d5eff68 [2/4] btrfs: pre-allocate delayed dir index before btree modification
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260715/202607150522.cdKYAZae-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260715/202607150355.NpBNEw7Z-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260715/202607150522.cdKYAZae-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607150355.NpBNEw7Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607150522.cdKYAZae-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/input/mouse/elan_i2c_core.c: In function 'elan_probe':
->> drivers/input/mouse/elan_i2c_core.c:1258:17: error: implicit declaration of function 'regulator_bulk_enable_and_wait'; did you mean 'regulator_bulk_enable'? [-Wimplicit-function-declaration]
-    1258 |         error = regulator_bulk_enable_and_wait(ARRAY_SIZE(data->supplies), data->supplies,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 regulator_bulk_enable
+>> fs/btrfs/dir-item.c:108:12: error: static declaration of '__btrfs_insert_dir_item' follows non-static declaration
+     108 | static int __btrfs_insert_dir_item(struct btrfs_trans_handle *trans,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/btrfs/dir-item.c:11:
+   fs/btrfs/dir-item.h:20:5: note: previous declaration of '__btrfs_insert_dir_item' with type 'int(struct btrfs_trans_handle *, const struct fscrypt_str *, struct btrfs_inode *, const struct btrfs_key *, u8,  u64,  struct btrfs_dir_index_prealloc *)' {aka 'int(struct btrfs_trans_handle *, const struct fscrypt_str *, struct btrfs_inode *, const struct btrfs_key *, unsigned char,  long long unsigned int,  struct btrfs_dir_index_prealloc *)'}
+      20 | int __btrfs_insert_dir_item(struct btrfs_trans_handle *trans,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1258 drivers/input/mouse/elan_i2c_core.c
+vim +/__btrfs_insert_dir_item +108 fs/btrfs/dir-item.c
 
-  1218	
-  1219	static int elan_probe(struct i2c_client *client)
-  1220	{
-  1221		const struct elan_transport_ops *transport_ops;
-  1222		struct device *dev = &client->dev;
-  1223		struct elan_tp_data *data;
-  1224		unsigned long irqflags;
-  1225		int error;
-  1226	
-  1227		if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_I2C) &&
-  1228		    i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-  1229			transport_ops = &elan_i2c_ops;
-  1230		} else if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_SMBUS) &&
-  1231			   i2c_check_functionality(client->adapter,
-  1232						   I2C_FUNC_SMBUS_BYTE_DATA |
-  1233							I2C_FUNC_SMBUS_BLOCK_DATA |
-  1234							I2C_FUNC_SMBUS_I2C_BLOCK)) {
-  1235			transport_ops = &elan_smbus_ops;
-  1236		} else {
-  1237			dev_err(dev, "not a supported I2C/SMBus adapter\n");
-  1238			return -EIO;
-  1239		}
-  1240	
-  1241		data = devm_kzalloc(dev, sizeof(struct elan_tp_data), GFP_KERNEL);
-  1242		if (!data)
-  1243			return -ENOMEM;
-  1244	
-  1245		i2c_set_clientdata(client, data);
-  1246	
-  1247		data->ops = transport_ops;
-  1248		data->client = client;
-  1249		init_completion(&data->fw_completion);
-  1250		mutex_init(&data->sysfs_mutex);
-  1251	
-  1252		data->supplies[0].supply = "vcc";
-  1253		data->supplies[1].supply = "vddio";
-  1254		error = devm_regulator_bulk_get(dev, ARRAY_SIZE(data->supplies), data->supplies);
-  1255		if (error)
-  1256			return dev_err_probe(dev, error, "Failed to get regulators\n");
-  1257	
-> 1258		error = regulator_bulk_enable_and_wait(ARRAY_SIZE(data->supplies), data->supplies,
-  1259						       ETP_POWER_ON_DELAY_US);
-  1260		if (error) {
-  1261			dev_err(dev, "Failed to enable regulators: %d\n", error);
-  1262			return error;
-  1263		}
-  1264	
-  1265		error = devm_add_action_or_reset(dev, elan_disable_regulator, data);
-  1266		if (error) {
-  1267			dev_err(dev, "Failed to add disable regulator action: %d\n",
-  1268				error);
-  1269			return error;
-  1270		}
-  1271	
-  1272		/* Make sure there is something at this address */
-  1273		error = i2c_smbus_read_byte(client);
-  1274		if (error < 0) {
-  1275			dev_dbg(&client->dev, "nothing at this address: %d\n", error);
-  1276			return -ENXIO;
-  1277		}
-  1278	
-  1279		/* Initialize the touchpad. */
-  1280		error = elan_initialize(data, false);
-  1281		if (error)
-  1282			return error;
-  1283	
-  1284		error = elan_query_device_info(data);
-  1285		if (error)
-  1286			return error;
-  1287	
-  1288		error = elan_query_device_parameters(data);
-  1289		if (error)
-  1290			return error;
-  1291	
-  1292		dev_info(dev,
-  1293			 "Elan Touchpad: Module ID: 0x%04x, Firmware: 0x%04x, Sample: 0x%04x, IAP: 0x%04x\n",
-  1294			 data->product_id,
-  1295			 data->fw_version,
-  1296			 data->sm_version,
-  1297			 data->iap_version);
-  1298	
-  1299		dev_dbg(dev,
-  1300			"Elan Touchpad Extra Information:\n"
-  1301			"    Max ABS X,Y:   %d,%d\n"
-  1302			"    Width X,Y:   %d,%d\n"
-  1303			"    Resolution X,Y:   %d,%d (dots/mm)\n"
-  1304			"    ic type: 0x%x\n"
-  1305			"    info pattern: 0x%x\n",
-  1306			data->max_x, data->max_y,
-  1307			data->width_x, data->width_y,
-  1308			data->x_res, data->y_res,
-  1309			data->ic_type, data->pattern);
-  1310	
-  1311		/* Set up input device properties based on queried parameters. */
-  1312		error = elan_setup_input_device(data);
-  1313		if (error)
-  1314			return error;
-  1315	
-  1316		if (device_property_read_bool(&client->dev, "elan,trackpoint")) {
-  1317			error = elan_setup_trackpoint_input_device(data);
-  1318			if (error)
-  1319				return error;
-  1320		}
-  1321	
-  1322		/*
-  1323		 * Platform code (ACPI, DTS) should normally set up interrupt
-  1324		 * for us, but in case it did not let's fall back to using falling
-  1325		 * edge to be compatible with older Chromebooks.
-  1326		 */
-  1327		irqflags = irq_get_trigger_type(client->irq);
-  1328		if (!irqflags)
-  1329			irqflags = IRQF_TRIGGER_FALLING;
-  1330	
-  1331		error = devm_request_threaded_irq(dev, client->irq, NULL, elan_isr,
-  1332						  irqflags | IRQF_ONESHOT,
-  1333						  client->name, data);
-  1334		if (error) {
-  1335			dev_err(dev, "cannot register irq=%d\n", client->irq);
-  1336			return error;
-  1337		}
-  1338	
-  1339		error = input_register_device(data->input);
-  1340		if (error) {
-  1341			dev_err(dev, "failed to register input device: %d\n", error);
-  1342			return error;
-  1343		}
-  1344	
-  1345		if (data->tp_input) {
-  1346			error = input_register_device(data->tp_input);
-  1347			if (error) {
-  1348				dev_err(&client->dev,
-  1349					"failed to register TrackPoint input device: %d\n",
-  1350					error);
-  1351				return error;
-  1352			}
-  1353		}
-  1354	
-  1355		return 0;
-  1356	}
-  1357	
+    99	
+   100	/*
+   101	 * insert a directory item in the tree, doing all the magic for
+   102	 * both indexes. 'dir' indicates which objectid to insert it into,
+   103	 * 'location' is the key to stuff into the directory item, 'type' is the
+   104	 * type of the inode we're pointing to, and 'index' is the sequence number
+   105	 * to use for the second index (if one is created).
+   106	 * Will return 0 or -ENOMEM
+   107	 */
+ > 108	static int __btrfs_insert_dir_item(struct btrfs_trans_handle *trans,
+   109					   const struct fscrypt_str *name,
+   110					   struct btrfs_inode *dir,
+   111					   const struct btrfs_key *location, u8 type,
+   112					   u64 index,
+   113					   struct btrfs_dir_index_prealloc *prealloc)
+   114	{
+   115		int ret = 0;
+   116		int ret2 = 0;
+   117		struct btrfs_root *root = dir->root;
+   118		BTRFS_PATH_AUTO_FREE(path);
+   119		struct btrfs_dir_item *dir_item;
+   120		struct extent_buffer *leaf;
+   121		unsigned long name_ptr;
+   122		struct btrfs_key key;
+   123		struct btrfs_disk_key disk_key;
+   124		u32 data_size;
+   125		const bool need_delayed_index = (root != root->fs_info->tree_root);
+   126		struct btrfs_dir_index_prealloc local_prealloc;
+   127	
+   128		key.objectid = btrfs_ino(dir);
+   129		key.type = BTRFS_DIR_ITEM_KEY;
+   130		key.offset = btrfs_name_hash(name->name, name->len);
+   131	
+   132		path = btrfs_alloc_path();
+   133		if (!path)
+   134			return -ENOMEM;
+   135	
+   136		btrfs_cpu_key_to_disk(&disk_key, location);
+   137	
+   138		/*
+   139		 * Pre-allocate the delayed dir index before modifying the btree so
+   140		 * that ENOMEM is returned before any on-disk state changes, allowing
+   141		 * the caller to handle it gracefully instead of aborting.
+   142		 */
+   143		if (need_delayed_index && !prealloc) {
+   144			ret = btrfs_prealloc_delayed_dir_index(dir, name->name,
+   145							       name->len,
+   146							       &local_prealloc);
+   147			if (ret)
+   148				return ret;
+   149			memcpy(local_prealloc.item->data + sizeof(struct btrfs_dir_item),
+   150			       name->name, name->len);
+   151			prealloc = &local_prealloc;
+   152		}
+   153	
+   154		data_size = sizeof(*dir_item) + name->len;
+   155		dir_item = insert_with_overflow(trans, root, path, &key, data_size,
+   156						name->name, name->len);
+   157		if (IS_ERR(dir_item)) {
+   158			ret = PTR_ERR(dir_item);
+   159			if (ret == -EEXIST)
+   160				goto second_insert;
+   161			if (need_delayed_index)
+   162				btrfs_free_delayed_dir_index_prealloc(trans, prealloc);
+   163			goto out_free;
+   164		}
+   165	
+   166		if (IS_ENCRYPTED(&dir->vfs_inode))
+   167			type |= BTRFS_FT_ENCRYPTED;
+   168	
+   169		leaf = path->nodes[0];
+   170		btrfs_set_dir_item_key(leaf, dir_item, &disk_key);
+   171		btrfs_set_dir_flags(leaf, dir_item, type);
+   172		btrfs_set_dir_data_len(leaf, dir_item, 0);
+   173		btrfs_set_dir_name_len(leaf, dir_item, name->len);
+   174		btrfs_set_dir_transid(leaf, dir_item, trans->transid);
+   175		name_ptr = (unsigned long)(dir_item + 1);
+   176	
+   177		write_extent_buffer(leaf, name->name, name_ptr, name->len);
+   178	
+   179	second_insert:
+   180		if (!need_delayed_index) {
+   181			ret = 0;
+   182			goto out_free;
+   183		}
+   184		btrfs_release_path(path);
+   185	
+   186		ret2 = btrfs_insert_delayed_dir_index_prealloc(trans, dir, prealloc,
+   187							       &disk_key, type, index);
+   188	out_free:
+   189		if (ret)
+   190			return ret;
+   191		if (ret2)
+   192			return ret2;
+   193		return 0;
+   194	}
+   195	
 
 --
 0-DAY CI Kernel Test Service
