@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2988B392828
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Jul 2026 22:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944BB346FAD;
+	Wed, 15 Jul 2026 23:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784156394; cv=none; b=vGHocoKdnFocDjgV9zwXOZGG7UtC1CgxB09QeX+dL/rpdUcNv1lLrFQvuVCeTpWTnqBs2bMKbhD7AjEgbsb7eW9Ckd8aDuBAoFHg7McKs6UhcRbhaPFDpv3e/Zn8PZfqc1mG7oS8/US4A+DbOfwDI6AdK+Tgcbthx/3ndt76Dqo=
+	t=1784156513; cv=none; b=eaF7DGMiBoC83J1nvqNgNkeyJAgYdQAZmQBXQeLRlz/po40I6nBQGcPiUxNsCl3DecUl5Udna41xUFaUntEaNSgWkT+uUvLzm/UpnNlszBDEOHsPMiTYaf9sfbaIvRgWZ/rihubnTIJ0Q/R6uzC5Q1j01NtaEycDGvaHdckzYdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784156394; c=relaxed/simple;
-	bh=jR7Q0RzdG/FWdL0NBuWrb4gBn/wPdpZd+Kauk2QIUwA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QyUhKcOX2as83SbSwUtHzVTlovWtRzJZvDoIQeC/gAm2dkBGiJbuxABob4ifYT5W2m6s4Z/lPe9uWrrYYhFY5NpK1DcSvcnSUeqNJczjsTjoXxsblYMgyPPYXos9uK5yejJHlcndgGi8EcUIC0TvQrG0041DBmsLQgly6mQhtGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ng+5jZ8a; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1784156513; c=relaxed/simple;
+	bh=pbpLMZKQ9vVqEQt0Ph3zMyy2nYXjk9R39ObJoqHatAA=;
+	h=Date:From:Cc:Subject:Message-ID; b=rVCsZM0s4PQJWnh8cKmSXsjCRDHqD4WMCn3kVNOuFfN/DanAw7IWhu5udGPR+PE27vck3YbtiIfeJF3hjv1eXLD2DZHFhtC5KH0Y8qLKpXMOeV0IjzVxj77KA1iUr3svHz/WgDX8wUwzzxJgkYVdBeQf6VjX5CfiFesyN60Jo/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f15zp4Ii; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ng+5jZ8a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f15zp4Ii"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784156392; x=1815692392;
-  h=date:from:to:cc:subject:message-id;
-  bh=jR7Q0RzdG/FWdL0NBuWrb4gBn/wPdpZd+Kauk2QIUwA=;
-  b=ng+5jZ8amaxvcAlLdCznJWssC248kmJ/fGL2SKg1NYxvyXW6NNzafoz7
-   hjdgUo6LAEcSpsAnvggzAWmsFXNx2d3+ZHG0/JE85aj7pDKefwFGj2oHI
-   UW7jEkjnIDaXcznWq1qvcZYA8HOPSkxQP/8nLo7nK9oPfGW8h2ESuBH8l
-   A6x7hMou6vx1dKRxNXJlqY9R0RvN5tOvSiAcvpMdFcG+uul6c9J3Wwe7C
-   4z/LIbXa1LX6K80ymjVusWiHFAv5H4Opg+PsUuSveLeng9dfioK4IB1l3
-   u7dx+GW6fA0RtZBhH/Rxgpt66Jx9/KpXF93G9r09/ZncsWMSi8qK7Sm66
-   g==;
-X-CSE-ConnectionGUID: gRSFVu6ER7Ss7Z7O7gChTA==
-X-CSE-MsgGUID: MFOhkbN0TnyYiV8Dk8E3bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="88636196"
+  t=1784156512; x=1815692512;
+  h=date:from:cc:subject:message-id;
+  bh=pbpLMZKQ9vVqEQt0Ph3zMyy2nYXjk9R39ObJoqHatAA=;
+  b=f15zp4IicbWvEytEKeo5cAeAD4oEZczR6fc8yH5vTpEz3pc05gm/3G7X
+   HpvfpXtMuJXX1ylDXAHoGZ4uwQmE5Cjx5UNbdpzj6fYTsYI7imNRIOyyj
+   ++UM5Oi1tkFQuoQbn4EFntwvI5O/uyk1f25d6AytJdtuBfCtMamTdMPEr
+   LgBhmU8g6PBsBDVF00FEz5MmUvv/NgPWaolNfrPolp+K5yz1y/OPeVRpC
+   crchNJ+/knLZoGcb8OubECVgYSIMSemsLnXRaq0/uKklKeB+hZicH1tuQ
+   09KrI0zxstRDMx97tC/Fe9IJrkqfgCww35+rEEr5Bf7zGtOl0fXWvVeH9
+   w==;
+X-CSE-ConnectionGUID: vlQb80VKSPuTol5sCc7Cqw==
+X-CSE-MsgGUID: KgLtefzWQNWr8rjD6zIyQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="83795376"
 X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="88636196"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 15:59:51 -0700
-X-CSE-ConnectionGUID: iAH+l0+bT3ekNSQcOFcRGg==
-X-CSE-MsgGUID: 2zlKsY7dQnW7bkbnig+K1w==
+   d="scan'208";a="83795376"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 16:01:51 -0700
+X-CSE-ConnectionGUID: N1ku6JjQTOe4kX8PWQ9V7w==
+X-CSE-MsgGUID: +yW4emMORJegm8p/nRXwsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="256378223"
+   d="scan'208";a="260133887"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 15 Jul 2026 15:59:50 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Jul 2026 16:01:50 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wk8Zu-00000000O4A-3nSO;
-	Wed, 15 Jul 2026 22:59:46 +0000
-Date: Thu, 16 Jul 2026 06:58:47 +0800
+	id 1wk8br-00000000O4Q-2Hbq;
+	Wed, 15 Jul 2026 23:01:47 +0000
+Date: Thu, 16 Jul 2026 07:00:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Paul Walmsley <pjw@kernel.org>
-Subject: arch/riscv/include/asm/timex.h:31:16: sparse: sparse: cast
- removes address space '__iomem' of expression
-Message-ID: <202607160619.14G8GHp5-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [pci:controller/cadence 4/4]
+ drivers/pci/controller/cadence/pcie-cadence-debugfs.c:230:18: warning:
+ conditional expression between different enumeration types ('enum
+ cdns_pcie_hpa_ltssm' and 'enum cdns_pcie_lga_ltssm')
+Message-ID: <202607160602.7AOJf7Sj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,61 +60,58 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   58717b2a1365d06c8c64b72aa948541b53fe31eb
-commit: c03ad15f7cf60999681a3e5784404a73a93e6506 riscv: Reuse measure_cycles() in check_vector_unaligned_access()
-date:   3 months ago
-config: riscv-randconfig-r111-20260715 (https://download.01.org/0day-ci/archive/20260716/202607160619.14G8GHp5-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e6e6dabdc02153552a64fc74ff5c7532447eed)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260716/202607160619.14G8GHp5-lkp@intel.com/reproduce)
+CC: linux-pci@vger.kernel.org
+TO: Hans Zhang <18255117159@163.com>
+CC: Manivannan Sadhasivam <mani@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/cadence
+head:   d70e964dc099821f6c159d8f40aa7be2c62ecfd2
+commit: d70e964dc099821f6c159d8f40aa7be2c62ecfd2 [4/4] PCI: cadence: Add LGA IP debugfs for LTSSM status
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260716/202607160602.7AOJf7Sj-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260716/202607160602.7AOJf7Sj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c03ad15f7cf6 ("riscv: Reuse measure_cycles() in check_vector_unaligned_access()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607160619.14G8GHp5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607160602.7AOJf7Sj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
-   arch/riscv/kernel/unaligned_access_speed.c: note: in included file (through include/linux/timex.h, include/linux/time32.h, include/linux/time.h, include/linux/jiffies.h, ...):
->> arch/riscv/include/asm/timex.h:31:16: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/riscv/include/asm/timex.h:31:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:31:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:31:16: sparse:     got unsigned int [usertype] *
->> arch/riscv/include/asm/timex.h:31:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:31:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:31:16: sparse:     got unsigned int [usertype] *
-   arch/riscv/include/asm/timex.h:25:16: sparse: sparse: cast removes address space '__iomem' of expression
-   arch/riscv/include/asm/timex.h:25:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:25:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:25:16: sparse:     got unsigned int [usertype] *
->> arch/riscv/include/asm/timex.h:31:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:31:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:31:16: sparse:     got unsigned int [usertype] *
->> arch/riscv/include/asm/timex.h:31:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:31:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:31:16: sparse:     got unsigned int [usertype] *
-   arch/riscv/include/asm/timex.h:25:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:25:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:25:16: sparse:     got unsigned int [usertype] *
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +31 arch/riscv/include/asm/timex.h
+>> drivers/pci/controller/cadence/pcie-cadence-debugfs.c:230:18: warning: conditional expression between different enumeration types ('enum cdns_pcie_hpa_ltssm' and 'enum cdns_pcie_lga_ltssm') [-Wenum-compare-conditional]
+     230 |                    pci->is_hpa ? hpa_ltssm : lga_ltssm);
+         |                                ^ ~~~~~~~~~   ~~~~~~~~~
+   1 warning generated.
 
-d5be89a8d118a8e Palmer Dabbelt 2020-09-14  28  
-d5be89a8d118a8e Palmer Dabbelt 2020-09-14  29  static inline u32 get_cycles_hi(void)
-d5be89a8d118a8e Palmer Dabbelt 2020-09-14  30  {
-d5be89a8d118a8e Palmer Dabbelt 2020-09-14 @31  	return readl_relaxed(((u32 *)clint_time_val) + 1);
-d5be89a8d118a8e Palmer Dabbelt 2020-09-14  32  }
-d5be89a8d118a8e Palmer Dabbelt 2020-09-14  33  #define get_cycles_hi get_cycles_hi
-d5be89a8d118a8e Palmer Dabbelt 2020-09-14  34  #endif /* CONFIG_64BIT */
-d5be89a8d118a8e Palmer Dabbelt 2020-09-14  35  
 
-:::::: The code at line 31 was first introduced by commit
-:::::: d5be89a8d118a8e8d09cd74a921a808f17fbdd09 RISC-V: Resurrect the MMIO timer implementation for M-mode systems
+vim +230 drivers/pci/controller/cadence/pcie-cadence-debugfs.c
 
-:::::: TO: Palmer Dabbelt <palmerdabbelt@google.com>
-:::::: CC: Palmer Dabbelt <palmerdabbelt@google.com>
+   209	
+   210	static int ltssm_status_show(struct seq_file *s, void *v)
+   211	{
+   212		struct cdns_pcie *pci = s->private;
+   213		enum cdns_pcie_lga_ltssm lga_ltssm;
+   214		enum cdns_pcie_hpa_ltssm hpa_ltssm;
+   215		const char *str_ltssm;
+   216		u32 val;
+   217	
+   218		if (pci->is_hpa) {
+   219			val = cdns_pcie_hpa_readl(pci, REG_BANK_IP_REG,
+   220						  CDNS_PCIE_HPA_PHY_DBG_STS_REG0);
+   221			hpa_ltssm = FIELD_GET(CDNS_PCIE_HPA_LTSSM_STATUS_MASK, val);
+   222			str_ltssm = cdns_pcie_hpa_ltssm_status_string(hpa_ltssm);
+   223		} else {
+   224			val = cdns_pcie_readl(pci, CDNS_PCIE_LM_BASE);
+   225			lga_ltssm = FIELD_GET(CDNS_PCIE_LGA_LTSSM_STATUS_MASK, val);
+   226			str_ltssm = cdns_pcie_lga_ltssm_status_string(lga_ltssm);
+   227		}
+   228	
+   229		seq_printf(s, "%s (0x%02x)\n", str_ltssm,
+ > 230			   pci->is_hpa ? hpa_ltssm : lga_ltssm);
+   231	
+   232		return 0;
+   233	}
+   234	
 
 --
 0-DAY CI Kernel Test Service
