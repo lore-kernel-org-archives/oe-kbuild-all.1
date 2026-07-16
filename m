@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A0130C14A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jul 2026 06:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7A1347BC6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jul 2026 07:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784181980; cv=none; b=SSRRradH8Jqe/hIYMXNADeIRJqFmncSFjIQvNP5a6N0FJwLIxR++Sbi8KDvao8b5Q/uGik8UDnBa84wnYJOAvZJKDh+vU/5UxG9Q+CCHFme9KrJoISHwifFQ+dQ4vMS+oYJ5riY75XCJmSxvztEKoXI9hPuoZE4E9BQB9bZE/YE=
+	t=1784185470; cv=none; b=L1jihnDtUM6aRuSBXhW49bPRV8Szgp+1k46kF5Qim6lI4l8J7E/xQNkI9qZ8tqyFA+USWnT36oBU62J3kK+esDg4BnpfDKvRwADHsLudHOYMMlQdCC9AGlE+lvvdsfbBpXiNeVPstAa1NeratlN0WIUQ5wztjBNdclx9GNuvp4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784181980; c=relaxed/simple;
-	bh=ecbctJ1UWGHkBKpCin6tjYr1ra/MHhGRrKcNHuuu7gY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t81haEmle6ESesvRc8CBug3dW+0Ll12v0KjN3qNTrJpT1qj7Dkw5SkiB9hhmdnG/BcIDS7oOPC8hJAvU+icDjrJHNakoc6A84X02+A2hsITrrx9pB0aa5s/DU0PUjYJ4Levz8fCj7xpPIqIAvQQNnRWGQJsZHOfJbeZommIedQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UayYhk8Q; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1784185470; c=relaxed/simple;
+	bh=o2nvfTB5ks8yBSN8AtUn4vGS/Ay1sW0cVn4ykxZG5So=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Qc6GMnsbHDQibRF9b4OuSy3wsn7dK8fgSIg/VUj4RJnlyF4AvGq5Wj2Sq/Cxeo3bzj67r3eaie4Gf1X1+17M95NeVHWHFO4ziqTM0NgSiRgw/c6hLSN2u/DmRCQMkD6+62d9MSKtPktEJhK7Eeg0n8qp4GUkEsjHveJXN2De+No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1np8OUl; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UayYhk8Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1np8OUl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784181978; x=1815717978;
+  t=1784185467; x=1815721467;
   h=date:from:to:cc:subject:message-id;
-  bh=ecbctJ1UWGHkBKpCin6tjYr1ra/MHhGRrKcNHuuu7gY=;
-  b=UayYhk8QAkRw7pBF1tjgY8Qe72vR9wv5AN7kAPoGZABUcbNXZydmYmeP
-   S+s/n+mIuCZ6HWjrBhRGcXOvOAop8LQsBlMnDLAz9RZ/qjlTjhBptsJfK
-   8JPz4bmLEKxYTbXUBCoDX+d+qqYlpK1OL2mgo7y0eL+TXDYw5S2+c6vCc
-   V3NSAAZce5wBdibKnqCdaMjbL4fHewyQsfB8H26HHZZGg0himJh3MhjlJ
-   KhikoE6G0g4p0zFb43Ru2RCOj4yFjRHjIkIs3zDpjYnaT5bAB8DHmfy4E
-   8qcsA+fdiT9K1M5D6vRbL9A6vJVhnTnDVOyOqotMOlZOn3I08bO9+0McP
+  bh=o2nvfTB5ks8yBSN8AtUn4vGS/Ay1sW0cVn4ykxZG5So=;
+  b=B1np8OUl+O78jRWgs3oR2YzYJpNr7a4dFttUWvY2ObJJm/rHKfFJ3JBi
+   DWajgJXHeXpuy20hSaMTgOOzy0Z1pnjZpgJGgF47cSz86MlFGIgmP7hYo
+   eK89OMoGF8Q8Pcb7SljeuoEBEu88OkD2rhDkyEEeJMhA74Tk1+PF2WFdP
+   GTJAYsNEdROztsveunlwDd+Mc2y/9U1ZesmE6oDkN3oC5Ip0woO6rVCeh
+   G18Mb8bgpA4CGSO1CTKsQlgA2y2nbRxD2Z1AR33WiL2q5xJFHbt/NIyhN
+   tY1ewaJP7kS7nmWkXdQlVAJvinHVxeEzl8UAezlaXgWTi41g3B9K+OPqe
    A==;
-X-CSE-ConnectionGUID: XFkOvXZYRa2kU9caDPFKbQ==
-X-CSE-MsgGUID: 7w5SNnT3SP6eNWGnlH7WfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84686799"
-X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="84686799"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 23:06:18 -0700
-X-CSE-ConnectionGUID: 1O76APMiQxq4KuAyec3j7g==
-X-CSE-MsgGUID: 2tPFfNESRXaoZ2u8gKeLUQ==
+X-CSE-ConnectionGUID: rFiAK0MxQ1yv/lUWpCj12w==
+X-CSE-MsgGUID: 1sE69wl1T9evXMQ3QorfKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="102386863"
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="102386863"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 00:04:26 -0700
+X-CSE-ConnectionGUID: kFNpk3QtTtu0lHlSiJX2yQ==
+X-CSE-MsgGUID: jtVKZdUjQ3qodKrZ+eyzMA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="260211704"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 15 Jul 2026 23:06:16 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="294646578"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 16 Jul 2026 00:04:25 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkFEc-00000000OMk-14Re;
-	Thu, 16 Jul 2026 06:06:14 +0000
-Date: Thu, 16 Jul 2026 14:05:23 +0800
+	id 1wkG8s-000000004VF-3lWc;
+	Thu, 16 Jul 2026 07:04:22 +0000
+Date: Thu, 16 Jul 2026 09:04:03 +0200
 From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
-Subject: [linux-next:master 4043/6789] vmlinux.o: error: objtool:
- efi_crash_gracefully_on_page_fault+0xc4: efi_rts_park_worker() missing
- __noreturn in .c/.h or NORETURN() in noreturns.h
-Message-ID: <202607161357.1gRSAwY4-lkp@intel.com>
+To: Dave Seddon <dave.seddon.ca@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/admin-guide/sysctl/net.rst:464:
+ WARNING: Title underline too short.
+Message-ID: <202607160858.yHDU0SH2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,28 +60,35 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Breno,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b8809969e1d7a591e0f49dd464a5d04b3cf02ab1
-commit: 3e5ba97c181e32ca9b810414272b57bb7600998e [4043/6789] efi/runtime-wrappers: factor out efi_rts_park_worker()
-config: x86_64-randconfig-101-20260715 (https://download.01.org/0day-ci/archive/20260716/202607161357.1gRSAwY4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260716/202607161357.1gRSAwY4-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Dave-Seddon/net-flow_dissector-gate-BPF-program-lookup-behind-a-static-key/20260716-084819
+head:   f64b3df6ea030dea756aeec684e912b5be756369
+commit: f1976833abb3facab59bb7c1155abbd1e466dcd0 net: flow_dissector: opt-in fast-path for eth + IPv{4,6} + {TCP,UDP}
+date:   6 hours ago
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260716/202607160858.yHDU0SH2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607161357.1gRSAwY4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607160858.yHDU0SH2-lkp@intel.com/
 
-Note: the linux-next/master HEAD b8809969e1d7a591e0f49dd464a5d04b3cf02ab1 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   ============  ===========================================
+   1             automatic adjustment of input current limit
+   0             no adjustment of input current limit. This
+   helps for more unusual power sources like
+   solar modules. [docutils]
+>> Documentation/admin-guide/sysctl/net.rst:464: WARNING: Title underline too short.
 
->> vmlinux.o: error: objtool: efi_crash_gracefully_on_page_fault+0xc4: efi_rts_park_worker() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+
+vim +464 Documentation/admin-guide/sysctl/net.rst
+
+   462	
+   463	2. /proc/sys/net/flow_dissector - Flow dissector fast-path per-shape sysctls
+ > 464	---------------------------------------------------------------------------
+   465	
 
 --
 0-DAY CI Kernel Test Service
