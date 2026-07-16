@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AB52D2385
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jul 2026 02:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ED627FB05
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jul 2026 02:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784167271; cv=none; b=Vf+PmNXNUtNWwMSUQXOAQ1If97c7+RRYvVWoQhLSjNHfUz/O6nHihZeg4u280xro/7UrBd01MqLIkBVKeKGxO1P4LZzIFYHZBB0fN9McfiYzEQrEOEcZhrvtrE3mr2xMKaEArMoFF3dGcfJdVc7xYU/VgSBDUTF/VlnKjGS15oc=
+	t=1784167930; cv=none; b=dVAdpbcuUA8YqgCC84TpHrdgjTQFV/EOGGpLw0jRAHhAqRBPddsch2BUPjynUB7weHJ8jb+GNgobYJuC+aGTaYtOOCUslKztId3hFWJq/UEwHSsUOSS1Flfr5wcFra/V/+EXqXjMex6Bh3Vc7wOh4OOzaWxWwFp0LmRR0FnIOVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784167271; c=relaxed/simple;
-	bh=5sYBvXIZaZcc+vbLWIylqObRlnikdR29DCfzHkEZHhY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FVdyi4PgDblZ+pUt25QV9A0HmmXzcyLqG0WrMkoRUGzORn2f2EZXIEvpbuHW/iEuEHKeho+gyZRwUY0/95QJ5tT5/emOQF5Zku/1u848eh1macfslGe2b400/ij8XNbIORGQ3sVPtHHlK5SJQ8t/bqX8xP4jnwD4iOyBq1H/V/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mSuW7kRv; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1784167930; c=relaxed/simple;
+	bh=10EHYwyib+ehNo1mdggpUJVe9jLzNS0jpDIQmQGjiNc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=boQrXLVrTxekSeb1I9FaxL2UMk9ZLfa6EbRGtTYpLJEmzuudJexroxalrMc+GNWNFfjXrorKB55xnkRSG/gbPmJF7aAlVoDfJOEIDGzwl87RcgQfZo9apImENWbO8GwF8HzbWAnnco383cVK1LC5OM3ajHNODKCv9MspA7ZRxps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WZICv4MC; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mSuW7kRv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZICv4MC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784167269; x=1815703269;
+  t=1784167929; x=1815703929;
   h=date:from:to:cc:subject:message-id;
-  bh=5sYBvXIZaZcc+vbLWIylqObRlnikdR29DCfzHkEZHhY=;
-  b=mSuW7kRvEbHOuGhT+KUa6Qi2sAvbLPKGEXu94hPmF37b8NzGTl4QdMw4
-   guRP2ZlZ2tDFuzaHTvo8afw/EkKVGlOOcsJJgUCxFdW9qPeYdaoCkw2Rz
-   tT2QIMvUsvr1ZmdNtedRQk8Y36jg6QDeDGuS6y/FiAakqhzRiS7hQwPV/
-   U8XPX9eA0Vr7jhHDARmJjBzAOTXjjxqh/TDrQM9Ko7Ym1lvFg9oXz+II2
-   LTL2IYZJW5l68CZNZeA3dfYN7cMfQiwqX+tJFFzjbwcLiQBBs55qmjByP
-   n50AJ99zHCfP8DpGkYTXjOhfSlyVam+fXiRl1Nbf215t7NPeDaSXn2a7B
-   g==;
-X-CSE-ConnectionGUID: 0WuyiQc2R3C+/914TxFqeg==
-X-CSE-MsgGUID: y6Z0CLz9Siq8Yq66hPtyqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="95960511"
+  bh=10EHYwyib+ehNo1mdggpUJVe9jLzNS0jpDIQmQGjiNc=;
+  b=WZICv4MCtQe0XxHkpMKVI780JByWbGn5D0Nat3YJbOfh3fxc/MWa7RUG
+   V0dHrGbVWgv3bRb2G4ec5k8lZ8g67uisihI7GGxyb1L8jvADUtQ710xoW
+   x5KuJ84R84/PVxR+YVFygahHN9O7NRjAhedQrmZK3exEagTGKbD6lVyZ3
+   jYaPboNH7ups7WspvldmO0JV8V/KAeTE5+j8nAp3KbhNxB8tARGwm8vTm
+   l4UqB7a2N3QNvxalGvMoOU6ZOlrYrsdG3wCq+9DBlxMkjqqpkDWXOIdQU
+   6SFCSj5E6xWOBimPf+9xB9Ov5FnA977Pwvo7T7Y+DZIUbhmS3a4RhN9vG
+   A==;
+X-CSE-ConnectionGUID: 4p9nsS3HSFO9U+Wxjkt4xA==
+X-CSE-MsgGUID: 3N9kx3PKTvKqjcrBbC3DJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84602895"
 X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="95960511"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 19:01:09 -0700
-X-CSE-ConnectionGUID: 5RSRJqaPS4qXZuf/g0zzsw==
-X-CSE-MsgGUID: BdIlgbX6TauI38bG62ag/Q==
+   d="scan'208";a="84602895"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 19:12:08 -0700
+X-CSE-ConnectionGUID: 4iUv+Gp/TbG4Xv5cjG88og==
+X-CSE-MsgGUID: KoxCXkuuRaqF/Pgbm9B3JA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="261269734"
+   d="scan'208";a="251935857"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Jul 2026 19:01:07 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 15 Jul 2026 19:12:07 -0700
 Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkBPM-000000004TJ-3ePQ;
-	Thu, 16 Jul 2026 02:01:04 +0000
-Date: Thu, 16 Jul 2026 04:00:38 +0200
+	id 1wkBa0-000000004TN-3toQ;
+	Thu, 16 Jul 2026 02:12:04 +0000
+Date: Thu, 16 Jul 2026 04:11:08 +0200
 From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bcain:bcain/qemu_boot 47/70] mm/mm_init.c:936:37: error:
- 'struct zone' has no member named 'pageblock_flags'
-Message-ID: <202607160306.Rfvcv11C-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 53/53] versioncheck:
+ ./drivers/scsi/hisi_raid/hiraid_main.c: 9 linux/version.h not needed.
+Message-ID: <202607160403.9erz0XRI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,80 +59,61 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
-head:   a8a4b998ba937d19200cfad69da3029fd54a8f5a
-commit: 8d43a66fdb5007eb7f368b20a2ca44395e8e47d9 [47/70] mm: guard pageblock init against missing pageblock_flags
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260716/202607160306.Rfvcv11C-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260716/202607160306.Rfvcv11C-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   b658e42e98bd653dd7820285330ff7f1a6af0374
+commit: 6fdbc7ffdfed1f7878a532e80efd61869a0dd1b2 [53/53] SCSI: hisi_raid: support SPxxx serial RAID/HBA controllers
+reproduce: (https://download.01.org/0day-ci/archive/20260716/202607160403.9erz0XRI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607160306.Rfvcv11C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607160403.9erz0XRI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from mm/mm_init.c:9:
-   mm/mm_init.c: In function 'memmap_init_range':
->> mm/mm_init.c:936:37: error: 'struct zone' has no member named 'pageblock_flags'
-     936 |                         if (likely(z->pageblock_flags)) {
-         |                                     ^~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-
-
-vim +936 mm/mm_init.c
-
-   903	
-   904		for (pfn = start_pfn; pfn < end_pfn; ) {
-   905			/*
-   906			 * There can be holes in boot-time mem_map[]s handed to this
-   907			 * function.  They do not exist on hotplugged memory.
-   908			 */
-   909			if (context == MEMINIT_EARLY) {
-   910				if (overlap_memmap_init(zone, &pfn))
-   911					continue;
-   912				if (defer_init(nid, pfn, zone_end_pfn)) {
-   913					deferred_struct_pages = true;
-   914					break;
-   915				}
-   916			}
-   917	
-   918			page = pfn_to_page(pfn);
-   919			__init_single_page(page, pfn, zone, nid);
-   920			if (context == MEMINIT_HOTPLUG) {
-   921	#ifdef CONFIG_ZONE_DEVICE
-   922				if (zone == ZONE_DEVICE)
-   923					__SetPageReserved(page);
-   924				else
-   925	#endif
-   926					__SetPageOffline(page);
-   927			}
-   928	
-   929			/*
-   930			 * Usually, we want to mark the pageblock MIGRATE_MOVABLE,
-   931			 * such that unmovable allocations won't be scattered all
-   932			 * over the place during system boot.
-   933			 */
-   934			if (pageblock_aligned(pfn)) {
-   935				struct zone *z = page_zone(page);
- > 936				if (likely(z->pageblock_flags)) {
-   937					init_pageblock_migratetype(page, migratetype,
-   938							isolate_pageblock);
-   939				} else {
-   940					pr_warn_once("memmap_init_range: skipping pageblock init for pfn 0x%lx (zone %s has no pageblock_flags)\n",
-   941						     pfn, z->name);
-   942				}
-   943				cond_resched();
-   944			}
-   945			pfn++;
-   946		}
-   947	}
-   948	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j384 ARCH=x86_64 versioncheck 
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/char/ipmi/ipmi_si_ls2k500.c: 19 linux/version.h not needed.
+   ./drivers/crypto/ccp/hygon/ccp-mdev.c: 12 linux/version.h not needed.
+   ./drivers/crypto/ccp/hygon/hct.c: 6 linux/version.h not needed.
+   ./drivers/crypto/ccp/hygon/tdm-dev.h: 29 linux/version.h not needed.
+   ./drivers/crypto/montage/tsse/tsse_vuart.c: 21 linux/version.h not needed.
+   ./drivers/gpu/drm/phytium/phytium_gem.c: 9 linux/version.h not needed.
+   ./drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h: 6 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-zhaoxin.c: 18 linux/version.h not needed.
+   ./drivers/net/ethernet/linkdata/sxe/base/compat/sxe_compat.h: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/linkdata/sxevf/base/compat/sxe_compat.h: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-ethtool.c: 1114: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: 6256: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c: 2329: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-os.h: 27 linux/version.h not needed.
+   ./drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h: 26 linux/version.h not needed.
+>> ./drivers/scsi/hisi_raid/hiraid_main.c: 9 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_base.c: 11 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_cli.c: 14 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_driver_log.c: 3 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_device_manager.h: 9 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_device_manager_sas.h: 6 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_qos.c: 6 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_rb_tree.h: 7 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_sas_transport.h: 9 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c: 9 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 --
 0-DAY CI Kernel Test Service
