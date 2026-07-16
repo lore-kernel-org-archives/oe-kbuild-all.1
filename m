@@ -1,161 +1,182 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E168D2FFDEA;
-	Thu, 16 Jul 2026 13:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E835A37757C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jul 2026 19:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784210093; cv=none; b=IK2u0fpuWzhvprx72/7Z5MG2SBiz0rwZJyoitE8dBqJD7u+ltl/E2uDQ9vZ2iWwXfvfODfjn9BqWVd6Pmfa2zt7uwsmqF3ok+ZpV5WaZrr9sSjKQw1cPd4ieg2flJ5XnQq3gotAY9uz/tpc9Ksmb38B1fiVoo7Od0MoIuA0PPPU=
+	t=1784229106; cv=none; b=pvoAQq4zM6zuvB8QBiiDUcNab+dqxnKtD3onng+1poKdx+MK2XWNaYZCuHqm6JH+6Gk+r1zQRkYDSfGM7UzRSZ18fVgv4TfEi9yRYrLYA30QuyeEQFXWK8RShPbBDkgcz5nBLVYR6QbIvHTSjLddAbojmfu9rE0rey5e2tWBlTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784210093; c=relaxed/simple;
-	bh=iVeIG0h7n3P2rGEmrJDmWjRK/vnwVF0SnpjZFa2iN6g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XH/CVpcBD0eSnK7TU95PYJsFwkiGZDVmMryk7t7MqF+y0r4sNiikWw7l7unP0xSJndOIUw12io8jIITHNyfxVWfLLD5RcTtsVvfZ09IUh2VcqEk8CVuBD77x4jlC/6msfZcV7HVXOyXEmnUZqViEXkGYObe+7pewSe8Yggyo9y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Wm0AKunS; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1784229106; c=relaxed/simple;
+	bh=qog0WLBnLSMOFqz5DVOImCf8keK6H6qp5JCd0LiGi3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M0o9sWanhGABn3L2o3/8UjsVw4mZZL94/oPjgMKLlsiiG/Lnx36tv2V+CIkLnEkCS8r1N7+RCcBicMtPZs7LD4BdzlM/8udd1R/Gv9CFHcZEwQx55LZOgXeKSkcx3Leri29hLRKSyfW8+2Ho9WVKUGvuJWbSHIR4cUWBGRHcuYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GgIgDSAJ; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Wm0AKunS"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66GDfgRS1469841;
-	Thu, 16 Jul 2026 13:54:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=V6uFoj
-	vM4zr5zCdUb4O5iQuVgE+kVe9me2sV3lRFtyk=; b=Wm0AKunSAzru7wYK1chTuC
-	gNIME/LO/hJ15VxJkhqUlvlkkhRxIUhYsgfmlUzMu+bFAwXaU8R2/BWxlw7ehbzq
-	T1L8SsmZ3LyxgH+USyzd5zs/VhUvwQrwAlWK432IeHMFcJrH763xVImQgZbKMSLS
-	qjTEhihNZuPKS9lZBABvxYjjwh5DrdMfyAfWzX/ZXVRGuzii+0jMTC7tXOSnQbtv
-	QeX38/vruvH54z5vK2CLM8Cp1mRvkauAbwkHzm87jlZDpd1hpoyK+OROb8X2qHRS
-	YvDylDHIAuO7ujuv4+PgaGfxFxdlhwBiXi0wXO6O4Xk3knhtQikewRdgTfzcPuBA
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fcv33hpgy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Jul 2026 13:54:45 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66GDYfPW017584;
-	Thu, 16 Jul 2026 13:54:44 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fc05qdf8v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Jul 2026 13:54:44 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66GDsfW344892642
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 16 Jul 2026 13:54:41 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 40AD020043;
-	Thu, 16 Jul 2026 13:54:41 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CCCFD20040;
-	Thu, 16 Jul 2026 13:54:40 +0000 (GMT)
-Received: from [0.0.0.0] (unknown [9.87.134.210])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 16 Jul 2026 13:54:40 +0000 (GMT)
-Message-ID: <6b6eab2e-8324-4173-9896-89f13127d042@linux.ibm.com>
-Date: Thu, 16 Jul 2026 15:54:40 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GgIgDSAJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784229103; x=1815765103;
+  h=date:from:to:cc:subject:message-id;
+  bh=qog0WLBnLSMOFqz5DVOImCf8keK6H6qp5JCd0LiGi3Q=;
+  b=GgIgDSAJhQtkqsVQDTDbwq9IGjq9i1y7V6dCUeadbVYLwrJpr1RYytVq
+   0K7D0sigzr6buC3Cn/+T+k4MCV1w2mh1Uanq6tBCIxVwhkVbWMoVErBc4
+   3VBPoy993WaPsDZB43qYBAo1VNihebywa1qJYM46f1rUJP2RX92pOQHi4
+   vADwSYi5uhcBGwGyi/KBaCZ1W6flUm3+ex9QgVCOWjfKgqib8zS4ZndOg
+   5zcdW1e4MGaWaKWdXxxhS2/X6oWYMCe0D35Mn0Mq0sNuvid/U9dwTp9u3
+   4i46/XzZG4a7aov5DklbtAIrisHDyfeatXAeJiBVCOVSnKzSdZOgfn4xZ
+   w==;
+X-CSE-ConnectionGUID: MtuBIc9jRcu433mbol/gWA==
+X-CSE-MsgGUID: Cgxrp3vkTdiEavyjSFJ6hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="84927508"
+X-IronPort-AV: E=Sophos;i="6.25,168,1779174000"; 
+   d="scan'208";a="84927508"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 12:11:43 -0700
+X-CSE-ConnectionGUID: leMq9xCCSjCe589QqcVkow==
+X-CSE-MsgGUID: rLiETo3cST+Cp3zu92kKKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,168,1779174000"; 
+   d="scan'208";a="286646101"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 16 Jul 2026 12:11:42 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wkRUh-00000000PTg-1vwL;
+	Thu, 16 Jul 2026 19:11:39 +0000
+Date: Fri, 17 Jul 2026 03:11:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 12/12]
+ drivers/irqchip/irq-gic-v3-its.c:3810:30: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202607170254.arvLbfKV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [boqun:rust-rcu 14/27] rust/helpers/interrupt.c:17:9: warning:
- static function 'arch_local_save_flags' is used in an inline function with
- external linkage
-To: Heiko Carstens <hca@linux.ibm.com>, Boqun Feng <boqun@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Lyude Paul <lyude@redhat.com>,
-        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Benno Lossin <lossin@kernel.org>,
-        Andreas Hindborg <a.hindborg@kernel.org>, Gary Guo <gary@garyguo.net>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
-References: <202607131219.euJHPSJ5-lkp@intel.com>
- <alfbtUKkXANyGyYf@tardis.local> <20260716115652.25491C83-hca@linux.ibm.com>
-Content-Language: en-US
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-In-Reply-To: <20260716115652.25491C83-hca@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE2MDE0MSBTYWx0ZWRfX83oHPeftlP27
- EMIaRAiqt3nmBZbMwm9mO7eDaCdx/zir+zf3pxdx+jKKQxbszk9q08yA4ql8ve7tHSMOKcMxg1t
- H2ggv0xNPjzje0gCqU+6/sLpnaQOBS0=
-X-Authority-Analysis: v=2.4 cv=Mp1iLWae c=1 sm=1 tr=0 ts=6a58e2a5 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=yDg0MXncU-FSiYKy0mAA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: zkEpa3DXTOxGIm-_RXiAQBMxHcR4AqR9
-X-Proofpoint-ORIG-GUID: zkEpa3DXTOxGIm-_RXiAQBMxHcR4AqR9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE2MDE0MSBTYWx0ZWRfX2aGN3ji6Ah8P
- Uth9zLTPR2ToRNYZQ6FAUXPjiNI4bmObNrvm185OxjS85qNebtWEQMcvmZmyKcAIlK62Mho5OWK
- Y6ERi37GcodNgkj4bmtuzKGG/g8IpnQD/ICER16LxMm4CALQR0Y8vhJ8wO3cKnfcvCmMMInDPXq
- KN/7YmYpNjPIb7aEeTSa6IbtLglXv9GBeO0NjPUs2cKcpAZ7EilZNk6iaKFztY1qwHq5PT2Wp8w
- mVtcUBhv9lSaFKcPuU/kbbXCueS5WTH+2dUgrO4aZdNJ5t1dLzKQN5/kgFuQxWJVrXnzpV1pZF6
- XgWA5rMemVEn3tbTrOH0DJi+Bl16Cx8ITab+Ytdf3I2HFItPGZF/p0cqmLEzmAPH8lo+H9JpmMz
- 2LykZj7kDNtwLt0PBb/1q3/TQ9aEz4UCCvcZAf9kkyX8e2EIgnkmf75f6/xsPxMmp+KHRCgrAEO
- Yo/m5dKLH+xuoiGcbzA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-16_05,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607160141
 
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   c6f9cfff7e5303d62cede4879db0c6a80745aefb
+commit: 9ac8c1da9f82e622cbe1d4422848c324d3706787 [12/12] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
+config: arm-randconfig-r133-20260716 (https://download.01.org/0day-ci/archive/20260717/202607170254.arvLbfKV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607170254.arvLbfKV-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607170254.arvLbfKV-lkp@intel.com/
 
-On 7/16/26 13:56, Heiko Carstens wrote:
-> On Wed, Jul 15, 2026 at 12:12:53PM -0700, Boqun Feng wrote:
->> [Cc s390]
->>>     In file included from rust/helpers/helpers.c:68:
->>>>> rust/helpers/interrupt.c:17:9: warning: static function 'arch_local_save_flags' is used in an inline function with external linkage [-Wstatic-in-inline]
->>>     17 |         return irqs_disabled();
->>>     |                ^
->>>     include/linux/irqflags.h:256:3: note: expanded from macro 'irqs_disabled'
->>>     256 |                 raw_local_save_flags(_flags);           \
->>>     |                 ^
->>>     include/linux/irqflags.h:184:11: note: expanded from macro 'raw_local_save_flags'
->>>     184 |                 flags = arch_local_save_flags();        \
->>>     |                         ^
->>>     rust/helpers/interrupt.c:15:1: note: use 'static' to give inline function 'rust_helper_irqs_disabled' internal linkage
->>>     15 | __rust_helper bool rust_helper_irqs_disabled(void)
->>>     | ^
->>>     | static
->>>     rust/helpers/helpers.c:38:23: note: expanded from macro '__rust_helper'
->>>     38 | #define __rust_helper __always_inline
->>>     |                       ^
->>>     include/linux/compiler_attributes.h:55:41: note: expanded from macro '__always_inline'
->>>     55 | #define __always_inline                 inline __attribute__((__always_inline__))
->>>     |                                         ^
->>>     include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
->>>     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
->>>     |                ^
->>>     arch/s390/include/asm/irqflags.h:46:48: note: 'arch_local_save_flags' declared here
->>>     46 | static arch_local_irq_attributes unsigned long arch_local_save_flags(void)
->>>     |                                                ^
->>>     1 warning generated.
->>>     warning: 1 warning emitted
->>>
->>
->> This seems not a Rust-only issue to me, basically you got the warning
->> whenever you have an inline function calling irqs_disabled(). I'm a bit
->> curious why 1b301f5f28ba ("s390/irqflags: do not instrument
->> arch_local_irq_*() with KMSAN") wanted to add noinline when KMSAN=y, all
->> you need is noinstr, no?
-> 
-> While the combination of __always_inline and noinstr _seems_ to work
-> with clang, this looks just wrong to me. I guess we really would need
-> a (single) out-of-line variant of the affected functions in question
-> for KMSAN.
-> 
-> Ilya, since that was your commit, does that sound sane?
+sparse warnings: (new ones prefixed by >>)
+   drivers/irqchip/irq-gic-v3-its.c:1468:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-v3-its.c:1468:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-v3-its.c:1468:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-v3-its.c:1474:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-v3-its.c:1474:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-v3-its.c:1474:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-v3-its.c:2843:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cpumask [usertype] **mask @@     got struct cpumask [usertype] *[noderef] __percpu * @@
+   drivers/irqchip/irq-gic-v3-its.c:2843:45: sparse:     expected struct cpumask [usertype] **mask
+   drivers/irqchip/irq-gic-v3-its.c:2843:45: sparse:     got struct cpumask [usertype] *[noderef] __percpu *
+>> drivers/irqchip/irq-gic-v3-its.c:3810:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *l @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-v3-its.c:3810:30: sparse:     expected struct raw_spinlock [usertype] *l
+   drivers/irqchip/irq-gic-v3-its.c:3810:30: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-v3-its.c:4338:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-v3-its.c:4338:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-v3-its.c:4338:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-v3-its.c:4356:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-v3-its.c:4356:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-v3-its.c:4356:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-v3-its.c:269:12: sparse: sparse: context imbalance in 'vpe_to_cpuid_lock' - wrong count at exit
+   drivers/irqchip/irq-gic-v3-its.c:275:13: sparse: sparse: context imbalance in 'vpe_to_cpuid_unlock' - unexpected unlock
+   drivers/irqchip/irq-gic-v3-its.c:1319:13: sparse: sparse: context imbalance in 'its_send_vmovp' - wrong count at exit
+   drivers/irqchip/irq-gic-v3-its.c:1470:18: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:1791:13: sparse: sparse: context imbalance in 'its_map_vm' - different lock contexts for basic block
+   drivers/irqchip/irq-gic-v3-its.c:1818:13: sparse: sparse: context imbalance in 'its_unmap_vm' - different lock contexts for basic block
+   drivers/irqchip/irq-gic-v3-its.c:1955:12: sparse: sparse: context imbalance in 'its_irq_set_vcpu_affinity' - wrong count at exit
+   drivers/irqchip/irq-gic-v3-its.c:2241:23: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2241:23: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2658:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2658:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2679:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2715:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2715:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2719:38: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2737:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2737:49: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2738:25: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2748:30: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2791:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2818:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c: note: in included file (through include/linux/irqchip/arm-gic-v3.h):
+   arch/arm/include/asm/arch_gicv3.h:146:9: sparse: sparse: cast truncates bits from constant value (2000000000000000 becomes 0)
+   drivers/irqchip/irq-gic-v3-its.c:2847:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2848:14: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2918:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2932:45: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2932:45: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2934:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2986:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:2986:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3001:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3001:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3026:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3074:31: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3079:13: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3098:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3103:21: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3163:43: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3197:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3198:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3229:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3232:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3232:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3784:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3811:18: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3802:13: sparse: sparse: context imbalance in 'its_vpe_4_1_invall_locked' - wrong count at exit
+   drivers/irqchip/irq-gic-v3-its.c:3864:22: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3900:9: sparse: sparse: context imbalance in 'its_vpe_set_affinity' - different lock contexts for basic block
+   drivers/irqchip/irq-gic-v3-its.c:3905:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3919:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3955:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:3964:13: sparse: sparse: context imbalance in 'its_vpe_invall' - wrong count at exit
+   drivers/irqchip/irq-gic-v3-its.c:4067:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:4147:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:4162:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:4339:16: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5239:19: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5239:19: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5244:31: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5264:14: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5341:13: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5344:21: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5354:13: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5356:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-v3-its.c:5368:9: sparse: sparse: dereference of noderef expression
 
-Hi, sure, making them out-of-line would make life easier.
-I will look into it.
+vim +3810 drivers/irqchip/irq-gic-v3-its.c
+
+  3801	
+  3802	static void its_vpe_4_1_invall_locked(int cpu, struct its_vpe *vpe)
+  3803	{
+  3804		void __iomem *rdbase;
+  3805		u64 val;
+  3806	
+  3807		val  = GICR_INVALLR_V;
+  3808		val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
+  3809	
+> 3810		guard(raw_spinlock)(&gic_data_rdist_cpu(cpu)->rd_lock);
+  3811		rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
+  3812		gic_write_lpir(val, rdbase + GICR_INVALLR);
+  3813		wait_for_syncr(rdbase);
+  3814	}
+  3815	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
