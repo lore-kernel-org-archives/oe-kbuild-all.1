@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD293D9542
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jul 2026 09:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFF4145A1F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Jul 2026 09:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784193260; cv=none; b=LR+tO5YysHyD31XjcLgMINVQW26l6brV1LVu1F76vv5IBEmB5S3L7QuDYQ1HhecQueyJz0gS/e8I4V1KA9C8iP+hUhpAjXJCePXtyi3+5nII4s/aXQw0SyrYLIbZnm6dTVgLAoF9SXJrgKOMiPPFfRp+54j4KIxFsOOkP6aN7uo=
+	t=1784194517; cv=none; b=ROfGZCICNgOWw/tyYkuPoBsCFooSCbCNAh4Sr9WUi76FGP0aezo/9rPIJTfSrgsBHSUb/sEOa4jX9T+qINaI1VCoTGUYmx8KU2DkTOHAR5qt4ul0g8J2TyNzMJjyLaeHSqEn+SDfxj4WcifDc6GZtP5tKbwV5wz4UIOQloJ6GWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784193260; c=relaxed/simple;
-	bh=GQ8jDPgyKNPrGubZ0EMx/dy7Tq0WbHxjY1jE+mhI56M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ul9sQNgoTpTfDFzPmJlRR5A542Poxn2Y7DQY+Hl2S7E3J/zBhSSHe9mCzChapAWy7pnU6nuTetM14VDUFeVuNBiup7+mEB4UnJE07BSc2k4w1V979pQ93I2jjTRc3eo325XG9kVUm5h0oI76LqTColpKCBeswt8egXVGLmYYK9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTir+9jT; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1784194517; c=relaxed/simple;
+	bh=ps60PKXXo8zJKKImmqM9kOP8NIW5DOJG4mTdUsnUn2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uxGUQvaG+QfLipFFSa3NWwyRJjvBrTpgkmuichVXDyfoJMjQ2pHFlUAIKFvKPDtHTWgGziCZAuHowTl1ByrmmgSvo8yEzYHZNXgHQSdSxgQRkFgsQJIkroOuCgHOOaGcBOy+KGhRwE6l9Uw116PQyGF9ejv66YPJ8EbLK3dgzo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mb8hgcVd; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTir+9jT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mb8hgcVd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784193256; x=1815729256;
+  t=1784194516; x=1815730516;
   h=date:from:to:cc:subject:message-id;
-  bh=GQ8jDPgyKNPrGubZ0EMx/dy7Tq0WbHxjY1jE+mhI56M=;
-  b=cTir+9jTyV7cKM6p64ojT54p86uOHIb3lOf1GFjw5b2FosArxXY7+7UF
-   OXtavkLVO2YT9bAPTJTbHvOUpsw0OnPINUQpM+6OHMTUqDtCEKKk2XPXv
-   EazQpJ66Mt0AYJKy4q6XlbUIow1esdt2U+lF773Q3rgiurLyNRsA4zv0S
-   JigFMOysUoleg6DrJXIPEtRkwQTJYNhYgkgkoEHfHxVKtLWfzftqkU6a6
-   ICb8oJXwOXBQDvv6FbIXZ8f7yTdMAaqgRZCU5ryDos9AQZlNYZA8tgYbF
-   E7OSXvwSVY0fVE7m2eEEnghayvRE7ybPojsz/I0xWr/6lMWefzlow5mWI
-   g==;
-X-CSE-ConnectionGUID: YWTdUNCHTlmo0SQ1jvJ0mg==
-X-CSE-MsgGUID: EOcBKWrvSnuphOzLxntE3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="95199992"
+  bh=ps60PKXXo8zJKKImmqM9kOP8NIW5DOJG4mTdUsnUn2Y=;
+  b=mb8hgcVd8XJFb+Dp+YTkMwxpLQ4q4wF4nodfhorhLwMFR7w7H3j2oHrp
+   EHq9CAIPwQp4lyFSR96zkwQLr/9ARvVXeYzm9gs9cTlZfhuG3GbGJez6H
+   Rz7leZqV75TFG5LPAXc3dspcBFe5NaV/klZTl6RsTmHqW7JMrVL9WoR3/
+   5x6U67YHuGQ9JkKMbDrduw6YjflFLAAPTgv+TNSRBxer3jWCgjSsYkPwm
+   Khfs/rSpILuTlcd6KdwOpg0jjdF7luEdRoErhGp4YfC7beP9xpcVFfP3W
+   ZBaLJ4RE7g4lsEir5bBvxu5ZjZAGJtIwUVlVUGpINZNmaSO0FrUQg8xLc
+   Q==;
+X-CSE-ConnectionGUID: 0VEIU0TBQxOk60keguQhvA==
+X-CSE-MsgGUID: Pymns1XSTBOZnHCUM6yR8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="110396171"
 X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="95199992"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 02:14:14 -0700
-X-CSE-ConnectionGUID: 85hoQRIcRKuQci18GKJKeA==
-X-CSE-MsgGUID: vskIANmWTQyay670/OzFEQ==
+   d="scan'208";a="110396171"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 02:35:15 -0700
+X-CSE-ConnectionGUID: BXP91K4lS8CWc8NJ1FObtQ==
+X-CSE-MsgGUID: 10HkG42kRMy+qrrvoPL+Ag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="256489997"
+   d="scan'208";a="255925894"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 16 Jul 2026 02:14:13 -0700
+  by orviesa008.jf.intel.com with ESMTP; 16 Jul 2026 02:35:13 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkIAT-00000000Ocg-3WY6;
-	Thu, 16 Jul 2026 09:14:09 +0000
-Date: Thu, 16 Jul 2026 17:13:31 +0800
+	id 1wkIUo-00000000Odi-3bXU;
+	Thu, 16 Jul 2026 09:35:10 +0000
+Date: Thu, 16 Jul 2026 17:34:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: fs/file_table.c:241:13: sparse: sparse: cast truncates bits
- from constant value (123456789abcdef becomes 89abcdef)
-Message-ID: <202607161708.OwceDeuL-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-2026-06 6/6]
+ mm/vmscan.c:905:15: warning: no previous prototype for 'shrink_slab'
+Message-ID: <202607161757.POma50EB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,89 +59,112 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   58717b2a1365d06c8c64b72aa948541b53fe31eb
-commit: 1f1651d6dc2ac282d07043358824273c15a1cac4 fs: hide file and bfile caches behind runtime const machinery
-date:   4 months ago
-config: i386-randconfig-061-20260716 (https://download.01.org/0day-ci/archive/20260716/202607161708.OwceDeuL-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+Hi Peifeng,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2026-06
+head:   7e8c257a4ec10d7fb33263300a521590d71c1fb1
+commit: 606b947630cb44c739336184df9ffd7d2cda34f3 [6/6] ANDROID: vendor_hooks: export shrink_slab
+config: i386-randconfig-062-20260715 (https://download.01.org/0day-ci/archive/20260716/202607161757.POma50EB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260716/202607161708.OwceDeuL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260716/202607161757.POma50EB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 1f1651d6dc2a ("fs: hide file and bfile caches behind runtime const machinery")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607161708.OwceDeuL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607161757.POma50EB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/file_table.c:241:13: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/file_table.c:241:13: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:247:33: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:275:13: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:275:13: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:281:33: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:302:14: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:302:14: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:308:33: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:81:33: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/file_table.c:83:33: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+All warnings (new ones prefixed by >>):
 
-vim +241 fs/file_table.c
+>> mm/vmscan.c:905:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
+     905 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^~~~~~~~~~~
+   mm/vmscan.c: In function 'demote_page_list':
+   mm/vmscan.c:1357:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+    1357 |         int err;
+         |             ^~~
 
-   211	
-   212	/* Find an unused file structure and return a pointer to it.
-   213	 * Returns an error pointer if some error happend e.g. we over file
-   214	 * structures limit, run out of memory or operation is not permitted.
-   215	 *
-   216	 * Be very careful using this.  You are responsible for
-   217	 * getting write access to any mount that you might assign
-   218	 * to this filp, if it is opened for write.  If this is not
-   219	 * done, you will imbalance int the mount's writer count
-   220	 * and a warning at __fput() time.
-   221	 */
-   222	struct file *alloc_empty_file(int flags, const struct cred *cred)
-   223	{
-   224		static long old_max;
-   225		struct file *f;
-   226		int error;
-   227	
-   228		/*
-   229		 * Privileged users can go above max_files
-   230		 */
-   231		if (unlikely(get_nr_files() >= files_stat.max_files) &&
-   232		    !capable(CAP_SYS_ADMIN)) {
-   233			/*
-   234			 * percpu_counters are inaccurate.  Do an expensive check before
-   235			 * we go and fail.
-   236			 */
-   237			if (percpu_counter_sum_positive(&nr_files) >= files_stat.max_files)
-   238				goto over;
-   239		}
-   240	
- > 241		f = kmem_cache_alloc(filp_cache, GFP_KERNEL);
-   242		if (unlikely(!f))
-   243			return ERR_PTR(-ENOMEM);
-   244	
-   245		error = init_file(f, flags, cred);
-   246		if (unlikely(error)) {
-   247			kmem_cache_free(filp_cache, f);
-   248			return ERR_PTR(error);
-   249		}
-   250	
-   251		percpu_counter_inc(&nr_files);
-   252	
-   253		return f;
-   254	
-   255	over:
-   256		/* Ran out of filps - report that */
-   257		if (get_nr_files() > old_max) {
-   258			pr_info("VFS: file-max limit %lu reached\n", get_max_files());
-   259			old_max = get_nr_files();
-   260		}
-   261		return ERR_PTR(-ENFILE);
-   262	}
-   263	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_HAS_NONLEAF_PMD_YOUNG
+   Depends on [n]: PGTABLE_LEVELS [=2]>2
+   Selected by [y]:
+   - X86 [=y]
+
+
+vim +/shrink_slab +905 mm/vmscan.c
+
+   884	
+   885	/**
+   886	 * shrink_slab - shrink slab caches
+   887	 * @gfp_mask: allocation context
+   888	 * @nid: node whose slab caches to target
+   889	 * @memcg: memory cgroup whose slab caches to target
+   890	 * @priority: the reclaim priority
+   891	 *
+   892	 * Call the shrink functions to age shrinkable caches.
+   893	 *
+   894	 * @nid is passed along to shrinkers with SHRINKER_NUMA_AWARE set,
+   895	 * unaware shrinkers will receive a node id of 0 instead.
+   896	 *
+   897	 * @memcg specifies the memory cgroup to target. Unaware shrinkers
+   898	 * are called only if it is the root cgroup.
+   899	 *
+   900	 * @priority is sc->priority, we take the number of objects and >> by priority
+   901	 * in order to get the scan target.
+   902	 *
+   903	 * Returns the number of reclaimed slab objects.
+   904	 */
+ > 905	unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+   906					 struct mem_cgroup *memcg,
+   907					 int priority)
+   908	{
+   909		unsigned long ret, freed = 0;
+   910		struct shrinker *shrinker;
+   911	
+   912		/*
+   913		 * The root memcg might be allocated even though memcg is disabled
+   914		 * via "cgroup_disable=memory" boot parameter.  This could make
+   915		 * mem_cgroup_is_root() return false, then just run memcg slab
+   916		 * shrink, but skip global shrink.  This may result in premature
+   917		 * oom.
+   918		 */
+   919		if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
+   920			return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
+   921	
+   922		if (!down_read_trylock(&shrinker_rwsem))
+   923			goto out;
+   924	
+   925		list_for_each_entry(shrinker, &shrinker_list, list) {
+   926			struct shrink_control sc = {
+   927				.gfp_mask = gfp_mask,
+   928				.nid = nid,
+   929				.memcg = memcg,
+   930			};
+   931	
+   932			ret = do_shrink_slab(&sc, shrinker, priority);
+   933			if (ret == SHRINK_EMPTY)
+   934				ret = 0;
+   935			freed += ret;
+   936			/*
+   937			 * Bail out if someone want to register a new shrinker to
+   938			 * prevent the registration from being stalled for long periods
+   939			 * by parallel ongoing shrinking.
+   940			 */
+   941			if (rwsem_is_contended(&shrinker_rwsem)) {
+   942				freed = freed ? : 1;
+   943				break;
+   944			}
+   945		}
+   946	
+   947		up_read(&shrinker_rwsem);
+   948	out:
+   949		cond_resched();
+   950		return freed;
+   951	}
+   952	EXPORT_SYMBOL_GPL(shrink_slab);
+   953	
 
 --
 0-DAY CI Kernel Test Service
