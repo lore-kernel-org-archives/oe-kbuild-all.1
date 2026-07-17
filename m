@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3490631326B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 14:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4737E3F889E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 14:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784297137; cv=none; b=kRdZ9beJvj1Q+XRnWZLeiOsYVr6TSGvGcXpLu0h/mhaLDql0vOkbZ51aHxpDm5q3vWlYQHxg8euXgW/0l08hPYiT2LMieThFwG0c0kg1KZrjSRn1Tf0Oy9GGdZRUukPzkAjKBBQTp0qiVPQmr7rdrA3LJi0ZrZ3JBUEyrOvUOhc=
+	t=1784297499; cv=none; b=hFt+5flLjSjC39WhaoNssqZJ7vu/N5MFunvtIOri+ArXsNTIBBBOwcxjGV6UzGtDxCNfJnFs9Wz7Xl48Cul1ZuK4ivW1ON2VdGh2ydG2veig+Q7pia/5feEaAUUz+wQCAWwZHav+2GjJJnQdSPyG9IeWruO/YqRO0ydxOqg+nEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784297137; c=relaxed/simple;
-	bh=xebEEN0Oy0m/nx8YakjXA7i1fZgxqwAU8bclUAQzHVU=;
-	h=Date:From:Cc:Subject:Message-ID; b=NVhTDQKUWftgbaW+AGiqlY3yJsHqQq7OcLQLU8LCGa2qE+UF5RQtvrgRmmrIBptfN4yyTAzg77byX+TB+Nb+fidxhOPpyZuNcCwKq+lU3V8SngQCJm0WMxl79jvZTTi0sgu5GaiBifu7/fwM9gDAedx4Ic0e2CGBUSXfJ79WzYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrE4W4oy; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1784297499; c=relaxed/simple;
+	bh=7eO7+1HxRvc+JHdU0R42bzMRiVcsJ5isdph+BzZkAEE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Obbo0rd9ZCgLZ+sS9ZW5eIZMeUyfNyO3gbaucrOck10y71G4Rmrs8vK5UXeiwW2tbctUsuZdaDVnbpbhTT/+TfkjNM6BNPmVjo9+bOj5edwaua9KIZmOvUtzzaPYzXTxtH+1GH8rU+71U26qnoCuW34lNCsy1mm1V7SRc9xhz1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=noBYrjdP; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrE4W4oy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="noBYrjdP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784297136; x=1815833136;
-  h=date:from:cc:subject:message-id;
-  bh=xebEEN0Oy0m/nx8YakjXA7i1fZgxqwAU8bclUAQzHVU=;
-  b=SrE4W4oyDH1KfM+69213dfN5XCULUZPxP/XPjPEoQXShD5rSGSbriEBY
-   Era3QxNOyt+qyUv0D1mfmEel8SEr2WYGiUXyB+wSrBB5yuTcCpvuSVYzJ
-   0AC8OzFSGoNPGG2Zd5g20A+fET2TmOp7pEswm//GO1ZvQQ6U/pNGpeVX8
-   B8zrxi8gFrDerUudfpA/hXNG9M+74GelG5yt5hhyl4rMOR3whMu5X6Ou2
-   lB6h/UbWpa8DUPgkOoC+8qcsbaOdBLfVVz404oLIBmQjbTqJPWMU2m0p3
-   XH4jp8s3VGe50E4GdIW49HEPLnMcP35Q8ns2nAFp+cObsGkO30m78l8MH
-   w==;
-X-CSE-ConnectionGUID: hgjlc/8LT1aythsfVb/RAw==
-X-CSE-MsgGUID: J32FME0XTK2OrvrMz9vsbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="88644201"
+  t=1784297498; x=1815833498;
+  h=date:from:to:cc:subject:message-id;
+  bh=7eO7+1HxRvc+JHdU0R42bzMRiVcsJ5isdph+BzZkAEE=;
+  b=noBYrjdP9Mh0/i/4fX05pPAJruqsOAvpt3pJpCzKs4G1OhVAh2YUQC1Z
+   vHn8eSLr2JJUwcgXzHhdcXRcAIR1HM0KWRWZ9JXLIdrwdMZ0NO9cndzUj
+   mYZbNvV+q/ra3YLtbGNKcda2WSspZX6khS30ZnmGvXjAS6fkT2HRZFUx4
+   zNI6NPDNhhBmnFyCzJcf08cLiolC6Kq9Uj0EZFSMmO9cbr3YrL2wVesTJ
+   DNZIE6atfrUhBxaF/szlfuTvohvljMhzM3Ygwii4X3FBv/kdY/wv1svJU
+   L0Y8nUtlWW6tk1URiXrPg3+9nj3EHjtf/LQOcNXXe8/kfQhTaU9VxXb3r
+   Q==;
+X-CSE-ConnectionGUID: BIUAqkK7TEW51/tZrZqLKA==
+X-CSE-MsgGUID: BzWeLZK8Q62kbFAVHczqgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="84995343"
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="88644201"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 07:05:35 -0700
-X-CSE-ConnectionGUID: btqEOVqCTaKK1aVEoJAzeg==
-X-CSE-MsgGUID: AFuBUnaGShiOBOx6hFJhkg==
+   d="scan'208";a="84995343"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 07:11:37 -0700
+X-CSE-ConnectionGUID: oLkufuHQSO6VyBcTtlXOrg==
+X-CSE-MsgGUID: bV3Htt8kTGypbs9ZjKJ/cQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="254164622"
+   d="scan'208";a="255030435"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Jul 2026 07:05:33 -0700
+  by orviesa006.jf.intel.com with ESMTP; 17 Jul 2026 07:11:36 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkjBy-00000000Sng-2U1b;
-	Fri, 17 Jul 2026 14:05:30 +0000
-Date: Fri, 17 Jul 2026 22:04:41 +0800
+	id 1wkjHn-00000000Sno-48eA;
+	Fri, 17 Jul 2026 14:11:32 +0000
+Date: Fri, 17 Jul 2026 22:11:05 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [agd5f:amd-staging-drm-next 1160/1989]
- drivers/gpu/drm/panthor/panthor_gem.c:1498:35: error: passing argument 1 of
- 'drm_gem_lru_scan' from incompatible pointer type
-Message-ID: <202607172155.v1cI6uUU-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2026-07 8/8]
+ lib/test_ubsan.c:43:4: warning: variable 'data' set but not used
+Message-ID: <202607172142.46bQ8Fn9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,316 +59,60 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   04764d6c56dbf1efec626716b7b36ac121f014e0
-commit: 03ad9467e6567c258264a72fd5ef4694e7995149 [1160/1989] Merge tag 'v7.1-rc6' into amd-staging-drm-next
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260717/202607172155.v1cI6uUU-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607172155.v1cI6uUU-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-07
+head:   407989faed8855296b26bfb40a621f478331816c
+commit: aa0cf04b6959adbb54b536307d590d2a350d02d7 [8/8] ubsan: Fix panic from test_ubsan_out_of_bounds
+config: arm-randconfig-001-20260716 (https://download.01.org/0day-ci/archive/20260717/202607172142.46bQ8Fn9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607172142.46bQ8Fn9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607172155.v1cI6uUU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607172142.46bQ8Fn9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/panthor/panthor_gem.c: In function 'panthor_gem_shrinker_scan':
->> drivers/gpu/drm/panthor/panthor_gem.c:1498:35: error: passing argument 1 of 'drm_gem_lru_scan' from incompatible pointer type [-Wincompatible-pointer-types]
-    1498 |         freed += drm_gem_lru_scan(&ptdev->reclaim.unused,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   struct drm_gem_lru *
-   In file included from include/drm/drm_gpuvm.h:35,
-                    from include/drm/drm_debugfs.h:38,
-                    from drivers/gpu/drm/panthor/panthor_gem.c:15:
-   include/drm/drm_gem.h:615:37: note: expected 'struct drm_device *' but argument is of type 'struct drm_gem_lru *'
-     615 | drm_gem_lru_scan(struct drm_device *dev,
-         |                  ~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/panthor/panthor_gem.c:1499:50: error: passing argument 2 of 'drm_gem_lru_scan' makes pointer from integer without a cast [-Wint-conversion]
-    1499 |                                   sc->nr_to_scan - freed, &remaining,
-         |                                   ~~~~~~~~~~~~~~~^~~~~~~
-         |                                                  |
-         |                                                  long unsigned int
-   include/drm/drm_gem.h:616:38: note: expected 'struct drm_gem_lru *' but argument is of type 'long unsigned int'
-     616 |                  struct drm_gem_lru *lru,
-         |                  ~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/panthor/panthor_gem.c:1499:59: error: passing argument 3 of 'drm_gem_lru_scan' makes integer from pointer without a cast [-Wint-conversion]
-    1499 |                                   sc->nr_to_scan - freed, &remaining,
-         |                                                           ^~~~~~~~~~
-         |                                                           |
-         |                                                           long unsigned int *
-   include/drm/drm_gem.h:617:31: note: expected 'unsigned int' but argument is of type 'long unsigned int *'
-     617 |                  unsigned int nr_to_scan,
-         |                  ~~~~~~~~~~~~~^~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1500:35: error: passing argument 4 of 'drm_gem_lru_scan' from incompatible pointer type [-Wincompatible-pointer-types]
-    1500 |                                   panthor_gem_try_evict_no_resv_wait, NULL);
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *) {aka _Bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)}
-   include/drm/drm_gem.h:618:33: note: expected 'long unsigned int *' but argument is of type 'bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)' {aka '_Bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)'}
-     618 |                  unsigned long *remaining,
-         |                  ~~~~~~~~~~~~~~~^~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1389:13: note: 'panthor_gem_try_evict_no_resv_wait' declared here
-    1389 | static bool panthor_gem_try_evict_no_resv_wait(struct drm_gem_object *obj,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_gem.c:1498:18: error: too few arguments to function 'drm_gem_lru_scan'; expected 6, have 5
-    1498 |         freed += drm_gem_lru_scan(&ptdev->reclaim.unused,
-         |                  ^~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:615:1: note: declared here
-     615 | drm_gem_lru_scan(struct drm_device *dev,
-         | ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1504:35: error: passing argument 1 of 'drm_gem_lru_scan' from incompatible pointer type [-Wincompatible-pointer-types]
-    1504 |         freed += drm_gem_lru_scan(&ptdev->reclaim.mmapped,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   struct drm_gem_lru *
-   include/drm/drm_gem.h:615:37: note: expected 'struct drm_device *' but argument is of type 'struct drm_gem_lru *'
-     615 | drm_gem_lru_scan(struct drm_device *dev,
-         |                  ~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1505:50: error: passing argument 2 of 'drm_gem_lru_scan' makes pointer from integer without a cast [-Wint-conversion]
-    1505 |                                   sc->nr_to_scan - freed, &remaining,
-         |                                   ~~~~~~~~~~~~~~~^~~~~~~
-         |                                                  |
-         |                                                  long unsigned int
-   include/drm/drm_gem.h:616:38: note: expected 'struct drm_gem_lru *' but argument is of type 'long unsigned int'
-     616 |                  struct drm_gem_lru *lru,
-         |                  ~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1505:59: error: passing argument 3 of 'drm_gem_lru_scan' makes integer from pointer without a cast [-Wint-conversion]
-    1505 |                                   sc->nr_to_scan - freed, &remaining,
-         |                                                           ^~~~~~~~~~
-         |                                                           |
-         |                                                           long unsigned int *
-   include/drm/drm_gem.h:617:31: note: expected 'unsigned int' but argument is of type 'long unsigned int *'
-     617 |                  unsigned int nr_to_scan,
-         |                  ~~~~~~~~~~~~~^~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1506:35: error: passing argument 4 of 'drm_gem_lru_scan' from incompatible pointer type [-Wincompatible-pointer-types]
-    1506 |                                   panthor_gem_try_evict_no_resv_wait, NULL);
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *) {aka _Bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)}
-   include/drm/drm_gem.h:618:33: note: expected 'long unsigned int *' but argument is of type 'bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)' {aka '_Bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)'}
-     618 |                  unsigned long *remaining,
-         |                  ~~~~~~~~~~~~~~~^~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1389:13: note: 'panthor_gem_try_evict_no_resv_wait' declared here
-    1389 | static bool panthor_gem_try_evict_no_resv_wait(struct drm_gem_object *obj,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1504:18: error: too few arguments to function 'drm_gem_lru_scan'; expected 6, have 5
-    1504 |         freed += drm_gem_lru_scan(&ptdev->reclaim.mmapped,
-         |                  ^~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:615:1: note: declared here
-     615 | drm_gem_lru_scan(struct drm_device *dev,
-         | ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1518:35: error: passing argument 1 of 'drm_gem_lru_scan' from incompatible pointer type [-Wincompatible-pointer-types]
-    1518 |         freed += drm_gem_lru_scan(&ptdev->reclaim.gpu_mapped_shared,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   struct drm_gem_lru *
-   include/drm/drm_gem.h:615:37: note: expected 'struct drm_device *' but argument is of type 'struct drm_gem_lru *'
-     615 | drm_gem_lru_scan(struct drm_device *dev,
-         |                  ~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1519:50: error: passing argument 2 of 'drm_gem_lru_scan' makes pointer from integer without a cast [-Wint-conversion]
-    1519 |                                   sc->nr_to_scan - freed, &remaining,
-         |                                   ~~~~~~~~~~~~~~~^~~~~~~
-         |                                                  |
-         |                                                  long unsigned int
-   include/drm/drm_gem.h:616:38: note: expected 'struct drm_gem_lru *' but argument is of type 'long unsigned int'
-     616 |                  struct drm_gem_lru *lru,
-         |                  ~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1519:59: error: passing argument 3 of 'drm_gem_lru_scan' makes integer from pointer without a cast [-Wint-conversion]
-    1519 |                                   sc->nr_to_scan - freed, &remaining,
-         |                                                           ^~~~~~~~~~
-         |                                                           |
-         |                                                           long unsigned int *
-   include/drm/drm_gem.h:617:31: note: expected 'unsigned int' but argument is of type 'long unsigned int *'
-     617 |                  unsigned int nr_to_scan,
-         |                  ~~~~~~~~~~~~~^~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1520:35: error: passing argument 4 of 'drm_gem_lru_scan' from incompatible pointer type [-Wincompatible-pointer-types]
-    1520 |                                   panthor_gem_try_evict, NULL);
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *) {aka _Bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)}
-   include/drm/drm_gem.h:618:33: note: expected 'long unsigned int *' but argument is of type 'bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)' {aka '_Bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)'}
-     618 |                  unsigned long *remaining,
-         |                  ~~~~~~~~~~~~~~~^~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1476:13: note: 'panthor_gem_try_evict' declared here
-    1476 | static bool panthor_gem_try_evict(struct drm_gem_object *obj,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1518:18: error: too few arguments to function 'drm_gem_lru_scan'; expected 6, have 5
-    1518 |         freed += drm_gem_lru_scan(&ptdev->reclaim.gpu_mapped_shared,
-         |                  ^~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:615:1: note: declared here
-     615 | drm_gem_lru_scan(struct drm_device *dev,
-         | ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c: In function 'panthor_gem_shrinker_init':
->> drivers/gpu/drm/panthor/panthor_gem.c:1554:9: error: too many arguments to function 'drm_gem_lru_init'; expected 1, have 2
-    1554 |         drm_gem_lru_init(&ptdev->reclaim.unused, &ptdev->reclaim.lock);
-         |         ^~~~~~~~~~~~~~~~                         ~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:610:6: note: declared here
-     610 | void drm_gem_lru_init(struct drm_gem_lru *lru);
-         |      ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1555:9: error: too many arguments to function 'drm_gem_lru_init'; expected 1, have 2
-    1555 |         drm_gem_lru_init(&ptdev->reclaim.mmapped, &ptdev->reclaim.lock);
-         |         ^~~~~~~~~~~~~~~~                          ~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:610:6: note: declared here
-     610 | void drm_gem_lru_init(struct drm_gem_lru *lru);
-         |      ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_gem.c:1556:9: error: too many arguments to function 'drm_gem_lru_init'; expected 1, have 2
-    1556 |         drm_gem_lru_init(&ptdev->reclaim.gpu_mapped_shared, &ptdev->reclaim.lock);
-         |         ^~~~~~~~~~~~~~~~                                    ~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:610:6: note: declared here
-     610 | void drm_gem_lru_init(struct drm_gem_lru *lru);
-         |      ^~~~~~~~~~~~~~~~
---
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_vm_create':
->> drivers/gpu/drm/panthor/panthor_mmu.c:2777:9: error: too many arguments to function 'drm_gem_lru_init'; expected 1, have 2
-    2777 |         drm_gem_lru_init(&vm->reclaim.lru, &ptdev->reclaim.lock);
-         |         ^~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drm_gpuvm.h:35,
-                    from include/drm/drm_debugfs.h:38,
-                    from drivers/gpu/drm/panthor/panthor_mmu.c:6:
-   include/drm/drm_gem.h:610:6: note: declared here
-     610 | void drm_gem_lru_init(struct drm_gem_lru *lru);
-         |      ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_mmu_reclaim_priv_bos':
->> drivers/gpu/drm/panthor/panthor_mmu.c:3161:43: error: passing argument 1 of 'drm_gem_lru_scan' from incompatible pointer type [-Wincompatible-pointer-types]
-    3161 |                 freed += drm_gem_lru_scan(&vm->reclaim.lru, nr_to_scan - freed,
-         |                                           ^~~~~~~~~~~~~~~~
-         |                                           |
-         |                                           struct drm_gem_lru *
-   include/drm/drm_gem.h:615:37: note: expected 'struct drm_device *' but argument is of type 'struct drm_gem_lru *'
-     615 | drm_gem_lru_scan(struct drm_device *dev,
-         |                  ~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/panthor/panthor_mmu.c:3161:72: error: passing argument 2 of 'drm_gem_lru_scan' makes pointer from integer without a cast [-Wint-conversion]
-    3161 |                 freed += drm_gem_lru_scan(&vm->reclaim.lru, nr_to_scan - freed,
-         |                                                             ~~~~~~~~~~~^~~~~~~
-         |                                                                        |
-         |                                                                        long unsigned int
-   include/drm/drm_gem.h:616:38: note: expected 'struct drm_gem_lru *' but argument is of type 'long unsigned int'
-     616 |                  struct drm_gem_lru *lru,
-         |                  ~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/panthor/panthor_mmu.c:3162:43: error: passing argument 3 of 'drm_gem_lru_scan' makes integer from pointer without a cast [-Wint-conversion]
-    3162 |                                           remaining, shrink, NULL);
-         |                                           ^~~~~~~~~
-         |                                           |
-         |                                           long unsigned int *
-   include/drm/drm_gem.h:617:31: note: expected 'unsigned int' but argument is of type 'long unsigned int *'
-     617 |                  unsigned int nr_to_scan,
-         |                  ~~~~~~~~~~~~~^~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_mmu.c:3162:54: error: passing argument 4 of 'drm_gem_lru_scan' from incompatible pointer type [-Wincompatible-pointer-types]
-    3162 |                                           remaining, shrink, NULL);
-         |                                                      ^~~~~~
-         |                                                      |
-         |                                                      bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *) {aka _Bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)}
-   include/drm/drm_gem.h:618:33: note: expected 'long unsigned int *' but argument is of type 'bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)' {aka '_Bool (*)(struct drm_gem_object *, struct ww_acquire_ctx *)'}
-     618 |                  unsigned long *remaining,
-         |                  ~~~~~~~~~~~~~~~^~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_mmu.c:3161:26: error: too few arguments to function 'drm_gem_lru_scan'; expected 6, have 5
-    3161 |                 freed += drm_gem_lru_scan(&vm->reclaim.lru, nr_to_scan - freed,
-         |                          ^~~~~~~~~~~~~~~~
-   include/drm/drm_gem.h:615:1: note: declared here
-     615 | drm_gem_lru_scan(struct drm_device *dev,
-         | ^~~~~~~~~~~~~~~~
+   lib/test_ubsan.c: In function 'test_ubsan_out_of_bounds':
+>> lib/test_ubsan.c:43:4: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+     } data;
+       ^~~~
+   lib/test_ubsan.c: In function 'test_ubsan_load_invalid_value':
+   lib/test_ubsan.c:66:37: warning: variable 'eptr' set but not used [-Wunused-but-set-variable]
+     enum ubsan_test_enum eval, eval2, *eptr;
+                                        ^~~~
+   lib/test_ubsan.c:65:19: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
+     bool val, val2, *ptr;
+                      ^~~
+   At top level:
+   lib/test_ubsan.c:104:28: warning: 'skip_ubsan_array' defined but not used [-Wunused-const-variable=]
+    static const test_ubsan_fp skip_ubsan_array[] = {
+                               ^~~~~~~~~~~~~~~~
 
 
-vim +/drm_gem_lru_scan +1498 drivers/gpu/drm/panthor/panthor_gem.c
+vim +/data +43 lib/test_ubsan.c
 
-e06177ec7a3639 Boris Brezillon 2025-12-08  1487  
-fb42964e2a76f6 Akash Goel      2026-04-01  1488  static unsigned long
-fb42964e2a76f6 Akash Goel      2026-04-01  1489  panthor_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-fb42964e2a76f6 Akash Goel      2026-04-01  1490  {
-fb42964e2a76f6 Akash Goel      2026-04-01  1491  	struct panthor_device *ptdev = shrinker->private_data;
-fb42964e2a76f6 Akash Goel      2026-04-01  1492  	unsigned long remaining = 0;
-fb42964e2a76f6 Akash Goel      2026-04-01  1493  	unsigned long freed = 0;
-fb42964e2a76f6 Akash Goel      2026-04-01  1494  
-fb42964e2a76f6 Akash Goel      2026-04-01  1495  	if (!can_swap())
-fb42964e2a76f6 Akash Goel      2026-04-01  1496  		goto out;
-fb42964e2a76f6 Akash Goel      2026-04-01  1497  
-fb42964e2a76f6 Akash Goel      2026-04-01 @1498  	freed += drm_gem_lru_scan(&ptdev->reclaim.unused,
-fb42964e2a76f6 Akash Goel      2026-04-01 @1499  				  sc->nr_to_scan - freed, &remaining,
-fb42964e2a76f6 Akash Goel      2026-04-01  1500  				  panthor_gem_try_evict_no_resv_wait, NULL);
-fb42964e2a76f6 Akash Goel      2026-04-01  1501  	if (freed >= sc->nr_to_scan)
-fb42964e2a76f6 Akash Goel      2026-04-01  1502  		goto out;
-fb42964e2a76f6 Akash Goel      2026-04-01  1503  
-fb42964e2a76f6 Akash Goel      2026-04-01  1504  	freed += drm_gem_lru_scan(&ptdev->reclaim.mmapped,
-fb42964e2a76f6 Akash Goel      2026-04-01  1505  				  sc->nr_to_scan - freed, &remaining,
-fb42964e2a76f6 Akash Goel      2026-04-01  1506  				  panthor_gem_try_evict_no_resv_wait, NULL);
-fb42964e2a76f6 Akash Goel      2026-04-01  1507  	if (freed >= sc->nr_to_scan)
-fb42964e2a76f6 Akash Goel      2026-04-01  1508  		goto out;
-fb42964e2a76f6 Akash Goel      2026-04-01  1509  
-fb42964e2a76f6 Akash Goel      2026-04-01  1510  	if (!can_block(sc))
-fb42964e2a76f6 Akash Goel      2026-04-01  1511  		goto out;
-fb42964e2a76f6 Akash Goel      2026-04-01  1512  
-fb42964e2a76f6 Akash Goel      2026-04-01  1513  	freed += panthor_mmu_reclaim_priv_bos(ptdev, sc->nr_to_scan - freed,
-fb42964e2a76f6 Akash Goel      2026-04-01  1514  					      &remaining, panthor_gem_try_evict);
-fb42964e2a76f6 Akash Goel      2026-04-01  1515  	if (freed >= sc->nr_to_scan)
-fb42964e2a76f6 Akash Goel      2026-04-01  1516  		goto out;
-fb42964e2a76f6 Akash Goel      2026-04-01  1517  
-fb42964e2a76f6 Akash Goel      2026-04-01  1518  	freed += drm_gem_lru_scan(&ptdev->reclaim.gpu_mapped_shared,
-fb42964e2a76f6 Akash Goel      2026-04-01  1519  				  sc->nr_to_scan - freed, &remaining,
-fb42964e2a76f6 Akash Goel      2026-04-01  1520  				  panthor_gem_try_evict, NULL);
-fb42964e2a76f6 Akash Goel      2026-04-01  1521  
-fb42964e2a76f6 Akash Goel      2026-04-01  1522  out:
-fb42964e2a76f6 Akash Goel      2026-04-01  1523  #ifdef CONFIG_DEBUG_FS
-fb42964e2a76f6 Akash Goel      2026-04-01  1524  	/* This is racy, but that's okay, because this is just debugfs
-fb42964e2a76f6 Akash Goel      2026-04-01  1525  	 * reporting and doesn't need to be accurate.
-fb42964e2a76f6 Akash Goel      2026-04-01  1526  	 */
-fb42964e2a76f6 Akash Goel      2026-04-01  1527  	ptdev->reclaim.nr_pages_reclaimed_on_last_scan = freed;
-fb42964e2a76f6 Akash Goel      2026-04-01  1528  #endif
-fb42964e2a76f6 Akash Goel      2026-04-01  1529  
-fb42964e2a76f6 Akash Goel      2026-04-01  1530  	/* If there are things to reclaim, try a couple times before giving up. */
-fb42964e2a76f6 Akash Goel      2026-04-01  1531  	if (!freed && remaining > 0 &&
-fb42964e2a76f6 Akash Goel      2026-04-01  1532  	    atomic_inc_return(&ptdev->reclaim.retry_count) < 2)
-fb42964e2a76f6 Akash Goel      2026-04-01  1533  		return 0;
-fb42964e2a76f6 Akash Goel      2026-04-01  1534  
-fb42964e2a76f6 Akash Goel      2026-04-01  1535  	atomic_set(&ptdev->reclaim.retry_count, 0);
-fb42964e2a76f6 Akash Goel      2026-04-01  1536  
-fb42964e2a76f6 Akash Goel      2026-04-01  1537  	if (freed)
-fb42964e2a76f6 Akash Goel      2026-04-01  1538  		return freed;
-fb42964e2a76f6 Akash Goel      2026-04-01  1539  
-fb42964e2a76f6 Akash Goel      2026-04-01  1540  	/* There's nothing left to reclaim, or the resources are contended. Give up now. */
-fb42964e2a76f6 Akash Goel      2026-04-01  1541  	return SHRINK_STOP;
-fb42964e2a76f6 Akash Goel      2026-04-01  1542  }
-fb42964e2a76f6 Akash Goel      2026-04-01  1543  
-fb42964e2a76f6 Akash Goel      2026-04-01  1544  int panthor_gem_shrinker_init(struct panthor_device *ptdev)
-fb42964e2a76f6 Akash Goel      2026-04-01  1545  {
-fb42964e2a76f6 Akash Goel      2026-04-01  1546  	struct shrinker *shrinker;
-fb42964e2a76f6 Akash Goel      2026-04-01  1547  	int ret;
-fb42964e2a76f6 Akash Goel      2026-04-01  1548  
-fb42964e2a76f6 Akash Goel      2026-04-01  1549  	ret = drmm_mutex_init(&ptdev->base, &ptdev->reclaim.lock);
-fb42964e2a76f6 Akash Goel      2026-04-01  1550  	if (ret)
-fb42964e2a76f6 Akash Goel      2026-04-01  1551  		return ret;
-fb42964e2a76f6 Akash Goel      2026-04-01  1552  
-fb42964e2a76f6 Akash Goel      2026-04-01  1553  	INIT_LIST_HEAD(&ptdev->reclaim.vms);
-fb42964e2a76f6 Akash Goel      2026-04-01 @1554  	drm_gem_lru_init(&ptdev->reclaim.unused, &ptdev->reclaim.lock);
-fb42964e2a76f6 Akash Goel      2026-04-01  1555  	drm_gem_lru_init(&ptdev->reclaim.mmapped, &ptdev->reclaim.lock);
-fb42964e2a76f6 Akash Goel      2026-04-01  1556  	drm_gem_lru_init(&ptdev->reclaim.gpu_mapped_shared, &ptdev->reclaim.lock);
-fb42964e2a76f6 Akash Goel      2026-04-01  1557  	ptdev->reclaim.gpu_mapped_count = 0;
-fb42964e2a76f6 Akash Goel      2026-04-01  1558  
-fb42964e2a76f6 Akash Goel      2026-04-01  1559  	/* Teach lockdep about lock ordering wrt. shrinker: */
-fb42964e2a76f6 Akash Goel      2026-04-01  1560  	fs_reclaim_acquire(GFP_KERNEL);
-fb42964e2a76f6 Akash Goel      2026-04-01  1561  	might_lock(&ptdev->reclaim.lock);
-fb42964e2a76f6 Akash Goel      2026-04-01  1562  	fs_reclaim_release(GFP_KERNEL);
-fb42964e2a76f6 Akash Goel      2026-04-01  1563  
-fb42964e2a76f6 Akash Goel      2026-04-01  1564  	shrinker = shrinker_alloc(0, "drm-panthor-gem");
-fb42964e2a76f6 Akash Goel      2026-04-01  1565  	if (!shrinker)
-fb42964e2a76f6 Akash Goel      2026-04-01  1566  		return -ENOMEM;
-fb42964e2a76f6 Akash Goel      2026-04-01  1567  
-fb42964e2a76f6 Akash Goel      2026-04-01  1568  	shrinker->count_objects = panthor_gem_shrinker_count;
-fb42964e2a76f6 Akash Goel      2026-04-01  1569  	shrinker->scan_objects = panthor_gem_shrinker_scan;
-fb42964e2a76f6 Akash Goel      2026-04-01  1570  	shrinker->private_data = ptdev;
-fb42964e2a76f6 Akash Goel      2026-04-01  1571  	ptdev->reclaim.shrinker = shrinker;
-fb42964e2a76f6 Akash Goel      2026-04-01  1572  
-fb42964e2a76f6 Akash Goel      2026-04-01  1573  	shrinker_register(shrinker);
-e06177ec7a3639 Boris Brezillon 2025-12-08  1574  	return 0;
-e06177ec7a3639 Boris Brezillon 2025-12-08  1575  }
-e06177ec7a3639 Boris Brezillon 2025-12-08  1576  
-
-:::::: The code at line 1498 was first introduced by commit
-:::::: fb42964e2a76f68a5fb581d382b5d2be2d5bda9b drm/panthor: Add a GEM shrinker
-
-:::::: TO: Akash Goel <akash.goel@arm.com>
-:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
+    35	
+    36	static void test_ubsan_out_of_bounds(void)
+    37	{
+    38		int i = 4, j = 4, k = -1;
+    39		volatile struct {
+    40			char above[4]; /* Protect surrounding memory. */
+    41			int arr[4];
+    42			char below[4]; /* Protect surrounding memory. */
+  > 43		} data;
+    44	
+    45		OPTIMIZER_HIDE_VAR(i);
+    46		OPTIMIZER_HIDE_VAR(j);
+    47		OPTIMIZER_HIDE_VAR(k);
+    48	
+    49		UBSAN_TEST(CONFIG_UBSAN_BOUNDS, "above");
+    50		data.arr[j] = i;
+    51	
+    52		UBSAN_TEST(CONFIG_UBSAN_BOUNDS, "below");
+    53		data.arr[k] = i;
+    54	}
+    55	
 
 --
 0-DAY CI Kernel Test Service
