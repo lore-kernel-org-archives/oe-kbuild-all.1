@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4737E3F889E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 14:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C6942A7A0;
+	Fri, 17 Jul 2026 14:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784297499; cv=none; b=hFt+5flLjSjC39WhaoNssqZJ7vu/N5MFunvtIOri+ArXsNTIBBBOwcxjGV6UzGtDxCNfJnFs9Wz7Xl48Cul1ZuK4ivW1ON2VdGh2ydG2veig+Q7pia/5feEaAUUz+wQCAWwZHav+2GjJJnQdSPyG9IeWruO/YqRO0ydxOqg+nEU=
+	t=1784299280; cv=none; b=MdvJFItnE1IyNUXd/q96B4XKqjQ5loOlw9plf2r44SfweAAD9DLQIJzmoFVC1mxy9khm0LVL0iuZRxtyAk4E3la4D8wjb1taXjhCpHqeLyvgULtEu44gw+echavnsZL4q4ybAQpUnCvJeEAHKltMj2rviAfbiDE8VRkh4EyXZ9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784297499; c=relaxed/simple;
-	bh=7eO7+1HxRvc+JHdU0R42bzMRiVcsJ5isdph+BzZkAEE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Obbo0rd9ZCgLZ+sS9ZW5eIZMeUyfNyO3gbaucrOck10y71G4Rmrs8vK5UXeiwW2tbctUsuZdaDVnbpbhTT/+TfkjNM6BNPmVjo9+bOj5edwaua9KIZmOvUtzzaPYzXTxtH+1GH8rU+71U26qnoCuW34lNCsy1mm1V7SRc9xhz1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=noBYrjdP; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1784299280; c=relaxed/simple;
+	bh=P7+weuB8QPihtexURhNCZhXnN56KXtsnnE8UOHMwujY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ie9UGjlSsX1vc7JtraD6XnpC66+BgGZ/C4AZ3hTA5L1WPcmBW5njyStLIMoYjgeYPXDYwYf99+sTYjld3CV94Z/OWjvGgu9Qma9OMX2DpcnzRnCXtPcyBp7Q25TVm7E8WWtGD5c9gZYl7TuM0d3DYrBdbAF2ylwA1QsAFKHnRBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FwUvlr6T; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="noBYrjdP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FwUvlr6T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784297498; x=1815833498;
+  t=1784299277; x=1815835277;
   h=date:from:to:cc:subject:message-id;
-  bh=7eO7+1HxRvc+JHdU0R42bzMRiVcsJ5isdph+BzZkAEE=;
-  b=noBYrjdP9Mh0/i/4fX05pPAJruqsOAvpt3pJpCzKs4G1OhVAh2YUQC1Z
-   vHn8eSLr2JJUwcgXzHhdcXRcAIR1HM0KWRWZ9JXLIdrwdMZ0NO9cndzUj
-   mYZbNvV+q/ra3YLtbGNKcda2WSspZX6khS30ZnmGvXjAS6fkT2HRZFUx4
-   zNI6NPDNhhBmnFyCzJcf08cLiolC6Kq9Uj0EZFSMmO9cbr3YrL2wVesTJ
-   DNZIE6atfrUhBxaF/szlfuTvohvljMhzM3Ygwii4X3FBv/kdY/wv1svJU
-   L0Y8nUtlWW6tk1URiXrPg3+9nj3EHjtf/LQOcNXXe8/kfQhTaU9VxXb3r
-   Q==;
-X-CSE-ConnectionGUID: BIUAqkK7TEW51/tZrZqLKA==
-X-CSE-MsgGUID: BzWeLZK8Q62kbFAVHczqgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="84995343"
+  bh=P7+weuB8QPihtexURhNCZhXnN56KXtsnnE8UOHMwujY=;
+  b=FwUvlr6TJ+Dk5nrQ9/mUZiyOdbklmS/ePmDHm7wWSpgbYGSReSlkjddH
+   VqVxXV5PQobCxyzO+z1pKNc6DtHZ1tEcrb4btl4suvcNV5EXfahv8dimK
+   E5hWtXHX7EqHur5BNErXgGnzvHyjIjJ+1MYypKf0AAjMZI4+KgEyGMMFQ
+   EzxZc9fCcTFDBca8f9bowL4b/0OWkQb0/HnwgK2RkZKstDo2GCh3twCJ8
+   LN9r0OKaWdYtVqiZeUXEw+WPylJ00xzIZlqvQW/2GWi26mG0L7jvOpP+h
+   QEVu9m/J1BZfLQVyUzwrJF47WTs2WH9Gn9Lo3Y/fRC7BueYtQADeDBZUO
+   g==;
+X-CSE-ConnectionGUID: U3EVK4yeRBabfB+6FK5ThA==
+X-CSE-MsgGUID: 9RYf95X/Qn+CvAgcjWRDrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="87516902"
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="84995343"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 07:11:37 -0700
-X-CSE-ConnectionGUID: oLkufuHQSO6VyBcTtlXOrg==
-X-CSE-MsgGUID: bV3Htt8kTGypbs9ZjKJ/cQ==
+   d="scan'208";a="87516902"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 07:41:15 -0700
+X-CSE-ConnectionGUID: NbWLz20BQ0uSL4KXeslg7g==
+X-CSE-MsgGUID: XhVPiD5pQQyqU9PKjzYiTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="255030435"
+   d="scan'208";a="281255464"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 17 Jul 2026 07:11:36 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 Jul 2026 07:41:13 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkjHn-00000000Sno-48eA;
-	Fri, 17 Jul 2026 14:11:32 +0000
-Date: Fri, 17 Jul 2026 22:11:05 +0800
+	id 1wkjkP-00000000SpM-18SS;
+	Fri, 17 Jul 2026 14:41:07 +0000
+Date: Fri, 17 Jul 2026 22:40:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2026-07 8/8]
- lib/test_ubsan.c:43:4: warning: variable 'data' set but not used
-Message-ID: <202607172142.46bQ8Fn9-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-07-16 311/311]
+ sound/soc/soc-component.c:1889:2: error: call to undeclared function
+ 'snd_soc_unregister_component_by_driver'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202607172252.wSErSxwz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,60 +61,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-07
-head:   407989faed8855296b26bfb40a621f478331816c
-commit: aa0cf04b6959adbb54b536307d590d2a350d02d7 [8/8] ubsan: Fix panic from test_ubsan_out_of_bounds
-config: arm-randconfig-001-20260716 (https://download.01.org/0day-ci/archive/20260717/202607172142.46bQ8Fn9-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607172142.46bQ8Fn9-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-07-16
+head:   e51d2e02d8d4c974132f00eec9d2215a476084f0
+commit: e5f6e49182359560489330edda8ea8db0fe3e07b [311/311] ASoC: soc-component: remove compatible definition
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260717/202607172252.wSErSxwz-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607172252.wSErSxwz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607172142.46bQ8Fn9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607172252.wSErSxwz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   lib/test_ubsan.c: In function 'test_ubsan_out_of_bounds':
->> lib/test_ubsan.c:43:4: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-     } data;
-       ^~~~
-   lib/test_ubsan.c: In function 'test_ubsan_load_invalid_value':
-   lib/test_ubsan.c:66:37: warning: variable 'eptr' set but not used [-Wunused-but-set-variable]
-     enum ubsan_test_enum eval, eval2, *eptr;
-                                        ^~~~
-   lib/test_ubsan.c:65:19: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
-     bool val, val2, *ptr;
-                      ^~~
-   At top level:
-   lib/test_ubsan.c:104:28: warning: 'skip_ubsan_array' defined but not used [-Wunused-const-variable=]
-    static const test_ubsan_fp skip_ubsan_array[] = {
-                               ^~~~~~~~~~~~~~~~
+>> sound/soc/soc-component.c:1889:2: error: call to undeclared function 'snd_soc_unregister_component_by_driver'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1889 |         snd_soc_unregister_component_by_driver(dev, *cmpnt_drv);
+         |         ^
+   1 error generated.
 
 
-vim +/data +43 lib/test_ubsan.c
+vim +/snd_soc_unregister_component_by_driver +1889 sound/soc/soc-component.c
 
-    35	
-    36	static void test_ubsan_out_of_bounds(void)
-    37	{
-    38		int i = 4, j = 4, k = -1;
-    39		volatile struct {
-    40			char above[4]; /* Protect surrounding memory. */
-    41			int arr[4];
-    42			char below[4]; /* Protect surrounding memory. */
-  > 43		} data;
-    44	
-    45		OPTIMIZER_HIDE_VAR(i);
-    46		OPTIMIZER_HIDE_VAR(j);
-    47		OPTIMIZER_HIDE_VAR(k);
-    48	
-    49		UBSAN_TEST(CONFIG_UBSAN_BOUNDS, "above");
-    50		data.arr[j] = i;
-    51	
-    52		UBSAN_TEST(CONFIG_UBSAN_BOUNDS, "below");
-    53		data.arr[k] = i;
-    54	}
-    55	
+f547a858c9abcb1 Kuninori Morimoto 2026-07-08  1884  
+f547a858c9abcb1 Kuninori Morimoto 2026-07-08  1885  static void devm_component_release(struct device *dev, void *res)
+f547a858c9abcb1 Kuninori Morimoto 2026-07-08  1886  {
+f547a858c9abcb1 Kuninori Morimoto 2026-07-08  1887  	const struct snd_soc_component_driver **cmpnt_drv = res;
+f547a858c9abcb1 Kuninori Morimoto 2026-07-08  1888  
+f547a858c9abcb1 Kuninori Morimoto 2026-07-08 @1889  	snd_soc_unregister_component_by_driver(dev, *cmpnt_drv);
+f547a858c9abcb1 Kuninori Morimoto 2026-07-08  1890  }
+f547a858c9abcb1 Kuninori Morimoto 2026-07-08  1891  
+
+:::::: The code at line 1889 was first introduced by commit
+:::::: f547a858c9abcb132c18ff0f09700d925b069c21 ASoC: soc-component: move devm_snd_soc_component_register()
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 --
 0-DAY CI Kernel Test Service
