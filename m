@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729723064A9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 15:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA88723536B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 15:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784300978; cv=none; b=aA9fYIqfLPlg3KZ3lJP6L4G11xCG6JyxTygpQHSTs59dvrCiIbLDEBJSFnQlJi1AW5pbafaMzjcBI+IVtTWK+5gPtp+W17r0dkwWqM1NmRPJlorNiB8Sp9Ylo7fjzE88H3TqvwPR2F5KcU1O6XJmINxOuoNPBoXwy98//Mkj7ug=
+	t=1784301914; cv=none; b=ZBHw6NjgwRjP/n+g+vmcNi4s49mygsCp+7Pn86hkKze1EaK5p6cxBLd2G08MFoh8ut/xzugrArs7WF8PmFqoFWvoyGaO/C+pWtKNciZuDDOlH21vlDoJaPEc55tKbuxn5H6shszhpg8hpxyc0xpeIm3MTnrdIIxAUm/vL8kY7Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784300978; c=relaxed/simple;
-	bh=ACSjpSQn+Hzgjg30/g2sNwHWpSFSd7E8c6GFh0vY22o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=R19l/9bfaMxJ5xGmlvo7jiVFfmFOcGbqs14d5IgBUd6X6frbSPeGQ/Zwd0hV2BvCw1Sw34+QuLxHJ+shDBWpeT2Kg3opcumTC8LSpZpR3hThLGzre7pM0rxVnlfm+yKYVQuGY7bQYQsdsIPN402YNeCzAoo0rng707R6c0rSDz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jC3rRDqm; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1784301914; c=relaxed/simple;
+	bh=bIEOHLlYK64kvNbBgwDRVn5vkdyDjc8bYPHYiPhBb5A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O6cR1S4w3QZ6oyryXQZUi9xpER97goDIkNjqaXzH7phABd6Y5V7mAr68qz/RPu72phkSDe4EQNUNTe/gHn8GC4NtrpVHm2RxqVYygfdr8oeN/8hrSF5KVPDMF5dcrd/M4lPpEiyxMTZPEUnkzg0EVHqJVOKurJROBaCZiMLHoJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czETKb9r; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jC3rRDqm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czETKb9r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784300977; x=1815836977;
+  t=1784301910; x=1815837910;
   h=date:from:to:cc:subject:message-id;
-  bh=ACSjpSQn+Hzgjg30/g2sNwHWpSFSd7E8c6GFh0vY22o=;
-  b=jC3rRDqmlbcfQ76Bp+7HPJJ0q0PM//RRGCqmgDTUYufIOOtAEnOLnoj6
-   ikhtr04/fJyiTtw9a/K6Au2iihdblr+DRjmXfvaviV8g3HU+voolLvccj
-   GEbMEQp20Dq+dmtgNQ/BN6a9V6QIaNoB6iLxNviTJ4lWQ/Q+fS2Pyx0wf
-   48eiRLST8MdYZEgYeog9kqIBUgdiQ1vsrRPH0qbAYa/9aPlGmpF3NfrDX
-   SCeGNLFQKpjIo1YNxXXcvwwOlnahPRjQ/E1pTtDIeyNjkyl5a4iZtkH5u
-   OUyphOudrV76ycdhOFlbapCoDnHYmNE+yKKhZpLtKI2RQSC5BuYSziCME
+  bh=bIEOHLlYK64kvNbBgwDRVn5vkdyDjc8bYPHYiPhBb5A=;
+  b=czETKb9rnzjQclr8Jnorp7yTyth6uRWmB7twVVWFR6fy8v6FWhIJIxRL
+   h+Ci2ZcHLEk4dWkyujmIeQBsOSYwR9cFzy/d0UGnRNUb8dY2ZQajnVa/K
+   3KE0Z1KdCOPlxsR7o4xQhjIaYew4m00+UaTfYHbyXxSgPhH+fDXJ7xQsK
+   lTplDCWUdzrLK4n6uXfCx02UeUVNbSvVqUBrjOqHnYiQXi9trk321aIrt
+   xN1Z2WYjHNocAXIESD1u4aPKmJhbLTYGhDQTCEQWbaTUZrPVV/VQO5tMZ
+   WVa7dymaSs4u4CfEq2AEBGRrBW7mspw6Gle5higPukyxVxBBuTEb2+H6I
    A==;
-X-CSE-ConnectionGUID: Su9CEc23Qh6vYHCuPMncwA==
-X-CSE-MsgGUID: ivkRnzquR6uLPyMUlFkTOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="83957211"
+X-CSE-ConnectionGUID: J+aiBj6HRfWUP4HxmdgxQQ==
+X-CSE-MsgGUID: 3n3I08b4Rq6PlmHphdEM3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="85175155"
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="83957211"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 08:09:36 -0700
-X-CSE-ConnectionGUID: 5gh8bRCET/aoMEJlXsNf9g==
-X-CSE-MsgGUID: sTtzaENwT6GEVJT+IabCtA==
+   d="scan'208";a="85175155"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 08:25:07 -0700
+X-CSE-ConnectionGUID: EvtYajHzSFi2TS3Ft8yG3w==
+X-CSE-MsgGUID: RArhtiZcRWGx1629WAgQBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="286880241"
+   d="scan'208";a="256894341"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 17 Jul 2026 08:09:34 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Jul 2026 08:25:05 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkkBq-00000000SrS-140S;
-	Fri, 17 Jul 2026 15:09:27 +0000
-Date: Fri, 17 Jul 2026 23:08:44 +0800
+	id 1wkkQx-00000000SsF-0Yzj;
+	Fri, 17 Jul 2026 15:25:03 +0000
+Date: Fri, 17 Jul 2026 23:24:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 0/28]
- drivers/ufs/host/tc-dwc-g210-pltfrm.c:36:34: warning: unused variable
- 'tc_dwc_g210_pltfm_match'
-Message-ID: <202607172347.0bKaenbi-lkp@intel.com>
+Subject: [morimoto:sound-cleanup-2026-07-16 311/311]
+ sound/soc/amd/acp-da7219-max98357a.c:781:37: error: invalid use of undefined
+ type 'struct snd_soc_card'
+Message-ID: <202607172311.I4bqIEMV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,66 +60,289 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Bart,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   ced98912a0d86b6d7c7365664b2df779bf159018
-commit: 2d74ff4319d1c8a4254635d7a611562571a8e39f [0/28] UPSTREAM: scsi: ufs: Split the drivers/scsi/ufs directory
-config: i386-randconfig-052-20260717 (https://download.01.org/0day-ci/archive/20260717/202607172347.0bKaenbi-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607172347.0bKaenbi-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-07-16
+head:   e51d2e02d8d4c974132f00eec9d2215a476084f0
+commit: e51d2e02d8d4c974132f00eec9d2215a476084f0 [311/311] ASoC: move struct snd_soc_card/snd_soc_card_driver to soc-card.[hc]
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260717/202607172311.I4bqIEMV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607172311.I4bqIEMV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607172347.0bKaenbi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607172311.I4bqIEMV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/ufs/host/tc-dwc-g210-pltfrm.c:36:34: warning: unused variable 'tc_dwc_g210_pltfm_match' [-Wunused-const-variable]
-      36 | static const struct of_device_id tc_dwc_g210_pltfm_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   sound/soc/amd/acp-da7219-max98357a.c: In function 'cz_probe':
+   sound/soc/amd/acp-da7219-max98357a.c:776:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
+     776 |         snd_soc_card_set_drvdata(card, machine);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         snd_soc_card_set_priv
+>> sound/soc/amd/acp-da7219-max98357a.c:781:37: error: invalid use of undefined type 'struct snd_soc_card'
+     781 |                                 card->name);
+         |                                     ^~
+--
+   sound/soc/amd/acp-es8336.c: In function 'st_es8336_probe':
+   sound/soc/amd/acp-es8336.c:289:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
+     289 |         snd_soc_card_set_drvdata(card, machine);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         snd_soc_card_set_priv
+>> sound/soc/amd/acp-es8336.c:294:42: error: invalid use of undefined type 'struct snd_soc_card'
+     294 |                                      card->name);
+         |                                          ^~
+--
+   sound/soc/amd/acp3x-rt5682-max9836.c: In function 'acp3x_probe':
+   sound/soc/amd/acp3x-rt5682-max9836.c:520:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
+     520 |         snd_soc_card_set_drvdata(card, machine);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         snd_soc_card_set_priv
+>> sound/soc/amd/acp3x-rt5682-max9836.c:533:37: error: invalid use of undefined type 'struct snd_soc_card'
+     533 |                                 card->name);
+         |                                     ^~
+--
+   sound/soc/sdw_utils/soc_sdw_utils.c: In function 'asoc_sdw_mc_dailink_exit_loop':
+   sound/soc/sdw_utils/soc_sdw_utils.c:1686:43: error: implicit declaration of function 'snd_soc_card_get_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
+    1686 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                           snd_soc_card_set_priv
+   sound/soc/sdw_utils/soc_sdw_utils.c:1686:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   In file included from include/linux/device.h:15,
+                    from sound/soc/sdw_utils/soc_sdw_utils.c:9:
+>> sound/soc/sdw_utils/soc_sdw_utils.c:1706:54: error: invalid use of undefined type 'struct snd_soc_card'
+    1706 |                                         dev_warn(card->dev,
+         |                                                      ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:1706:41: note: in expansion of macro 'dev_warn'
+    1706 |                                         dev_warn(card->dev,
+         |                                         ^~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c: In function 'asoc_sdw_count_sdw_endpoints':
+   sound/soc/sdw_utils/soc_sdw_utils.c:1847:34: error: invalid use of undefined type 'struct snd_soc_card'
+    1847 |         struct device *dev = card->dev;
+         |                                  ^~
+--
+   sound/soc/sdw_utils/soc_sdw_rt_dmic.c: In function 'asoc_sdw_rt_dmic_rtd_init':
+>> sound/soc/sdw_utils/soc_sdw_rt_dmic.c:81:18: error: invalid use of undefined type 'struct snd_soc_card'
+      81 |         if (!card->components)
+         |                  ^~
+   In file included from include/linux/printk.h:620,
+                    from include/asm-generic/bug.h:31,
+                    from arch/x86/include/asm/bug.h:195,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/segment.h:6,
+                    from arch/x86/include/asm/ptrace.h:5,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from include/linux/sched.h:13,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from sound/soc/sdw_utils/soc_sdw_rt_dmic.c:10:
+   sound/soc/sdw_utils/soc_sdw_rt_dmic.c:84:57: error: invalid use of undefined type 'struct snd_soc_card'
+      84 |         dev_dbg(card_dev, "card->components: %s\n", card->components);
+         |                                                         ^~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_rt_dmic.c:84:9: note: in expansion of macro 'dev_dbg'
+      84 |         dev_dbg(card_dev, "card->components: %s\n", card->components);
+         |         ^~~~~~~
+--
+   sound/soc/sdw_utils/soc_sdw_rt711.c: In function 'asoc_sdw_rt711_rtd_init':
+>> sound/soc/sdw_utils/soc_sdw_rt711.c:77:18: error: invalid use of undefined type 'struct snd_soc_card'
+      77 |         if (!card->components)
+         |                  ^~
+   sound/soc/sdw_utils/soc_sdw_rt711.c: In function 'asoc_sdw_rt711_exit':
+   sound/soc/sdw_utils/soc_sdw_rt711.c:118:43: error: implicit declaration of function 'snd_soc_card_get_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
+     118 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                           snd_soc_card_set_priv
+   sound/soc/sdw_utils/soc_sdw_rt711.c:118:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/sdw_utils/soc_sdw_rt711.c: In function 'asoc_sdw_rt711_init':
+   sound/soc/sdw_utils/soc_sdw_rt711.c:135:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     135 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c: In function 'asoc_sdw_rt_sdca_jack_rtd_init':
+>> sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c:109:18: error: invalid use of undefined type 'struct snd_soc_card'
+     109 |         if (!card->components)
+         |                  ^~
+   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c: In function 'asoc_sdw_rt_sdca_jack_exit':
+   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c:178:43: error: implicit declaration of function 'snd_soc_card_get_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
+     178 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                           snd_soc_card_set_priv
+   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c:178:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c: In function 'asoc_sdw_rt_sdca_jack_init':
+   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c:199:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     199 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/device.h:15,
+                    from sound/soc/sdw_utils/soc_sdw_maxim.c:9:
+   sound/soc/sdw_utils/soc_sdw_maxim.c: In function 'asoc_sdw_maxim_init':
+>> sound/soc/sdw_utils/soc_sdw_maxim.c:137:29: error: invalid use of undefined type 'struct snd_soc_card'
+     137 |                 dev_err(card->dev, "Invalid maxim_part_id %#x\n", maxim_part_id);
+         |                             ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   sound/soc/sdw_utils/soc_sdw_maxim.c:137:17: note: in expansion of macro 'dev_err'
+     137 |                 dev_err(card->dev, "Invalid maxim_part_id %#x\n", maxim_part_id);
+         |                 ^~~~~~~
+--
+   sound/soc/sdw_utils/soc_sdw_ti_amp.c: In function 'asoc_sdw_ti_dmic_rtd_init':
+>> sound/soc/sdw_utils/soc_sdw_ti_amp.c:171:62: error: invalid use of undefined type 'struct snd_soc_card'
+     171 |         snd_soc_card_set_components(card, devm_kasprintf(card->dev, GFP_KERNEL,
+         |                                                              ^~
+--
+   sound/soc/intel/boards/sof_sdw.c: In function 'create_sdw_dailink':
+>> sound/soc/intel/boards/sof_sdw.c:889:34: error: invalid use of undefined type 'struct snd_soc_card'
+     889 |         struct device *dev = card->dev;
+         |                                  ^~
+   sound/soc/intel/boards/sof_sdw.c:890:63: error: invalid use of undefined type 'struct snd_soc_card'
+     890 |         struct snd_soc_acpi_mach *mach = dev_get_platdata(card->dev);
+         |                                                               ^~
+   sound/soc/intel/boards/sof_sdw.c:891:43: error: implicit declaration of function 'snd_soc_card_get_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
+     891 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                           snd_soc_card_set_priv
+   sound/soc/intel/boards/sof_sdw.c:891:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/intel/boards/sof_sdw.c: In function 'create_sdw_dailinks':
+   sound/soc/intel/boards/sof_sdw.c:1037:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1037 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/boards/sof_sdw.c: In function 'create_ssp_dailinks':
+   sound/soc/intel/boards/sof_sdw.c:1068:34: error: invalid use of undefined type 'struct snd_soc_card'
+    1068 |         struct device *dev = card->dev;
+         |                                  ^~
+   sound/soc/intel/boards/sof_sdw.c: In function 'create_dmic_dailinks':
+   sound/soc/intel/boards/sof_sdw.c:1104:34: error: invalid use of undefined type 'struct snd_soc_card'
+    1104 |         struct device *dev = card->dev;
+         |                                  ^~
+   sound/soc/intel/boards/sof_sdw.c: In function 'create_hdmi_dailinks':
+   sound/soc/intel/boards/sof_sdw.c:1135:34: error: invalid use of undefined type 'struct snd_soc_card'
+    1135 |         struct device *dev = card->dev;
+         |                                  ^~
+   sound/soc/intel/boards/sof_sdw.c:1136:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1136 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/boards/sof_sdw.c: In function 'create_bt_dailinks':
+   sound/soc/intel/boards/sof_sdw.c:1177:34: error: invalid use of undefined type 'struct snd_soc_card'
+    1177 |         struct device *dev = card->dev;
+         |                                  ^~
+   sound/soc/intel/boards/sof_sdw.c: In function 'create_echoref_dailink':
+   sound/soc/intel/boards/sof_sdw.c:1209:34: error: invalid use of undefined type 'struct snd_soc_card'
+    1209 |         struct device *dev = card->dev;
+         |                                  ^~
+   sound/soc/intel/boards/sof_sdw.c: In function 'sof_card_dai_links_create':
+   sound/soc/intel/boards/sof_sdw.c:1237:34: error: invalid use of undefined type 'struct snd_soc_card'
+    1237 |         struct device *dev = card->dev;
+         |                                  ^~
+   sound/soc/intel/boards/sof_sdw.c:1238:63: error: invalid use of undefined type 'struct snd_soc_card'
+    1238 |         struct snd_soc_acpi_mach *mach = dev_get_platdata(card->dev);
+         |                                                               ^~
+   sound/soc/intel/boards/sof_sdw.c:1240:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1240 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:15,
+                    from sound/soc/intel/boards/sof_sdw.c:8:
+   sound/soc/intel/boards/sof_sdw.c: In function 'mc_probe':
+   sound/soc/intel/boards/sof_sdw.c:1486:30: error: invalid use of undefined type 'struct snd_soc_card'
+    1486 |                 dev_info(card->dev, "Overriding quirk 0x%lx => 0x%x\n",
+         |                              ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   sound/soc/intel/boards/sof_sdw.c:1486:17: note: in expansion of macro 'dev_info'
+    1486 |                 dev_info(card->dev, "Overriding quirk 0x%lx => 0x%x\n",
+         |                 ^~~~~~~~
+   sound/soc/intel/boards/sof_sdw.c:1491:24: error: invalid use of undefined type 'struct snd_soc_card'
+    1491 |         log_quirks(card->dev);
+         |                        ^~
+   sound/soc/intel/boards/sof_sdw.c:1510:41: error: invalid use of undefined type 'struct snd_soc_card'
+    1510 |         components = devm_kasprintf(card->dev, GFP_KERNEL,
+         |                                         ^~
+   sound/soc/intel/boards/sof_sdw.c:1518:49: error: invalid use of undefined type 'struct snd_soc_card'
+    1518 |                 components = devm_kasprintf(card->dev, GFP_KERNEL,
+         |                                                 ^~
+   sound/soc/intel/boards/sof_sdw.c:1531:35: error: invalid use of undefined type 'struct snd_soc_card'
+    1531 |                 dev_err_probe(card->dev, ret, "snd_soc_card_register() failed %d\n", ret);
+         |                                   ^~
+--
+   sound/soc/amd/vangogh/acp5x-mach.c: In function 'acp5x_probe':
+   sound/soc/amd/vangogh/acp5x-mach.c:479:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
+     479 |         snd_soc_card_set_drvdata(card, machine);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         snd_soc_card_set_priv
+>> sound/soc/amd/vangogh/acp5x-mach.c:483:83: error: invalid use of undefined type 'struct snd_soc_card'
+     483 |                 return dev_err_probe(dev, ret, "Register card (%s) failed\n", card->name);
+         |                                                                                   ^~
+..
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
-   Depends on [n]: DMADEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DMA_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for ARCH_HAS_NONLEAF_PMD_YOUNG
-   Depends on [n]: PGTABLE_LEVELS [=2]>2
-   Selected by [y]:
-   - X86 [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
 
+vim +781 sound/soc/amd/acp-da7219-max98357a.c
 
-vim +/tc_dwc_g210_pltfm_match +36 drivers/ufs/host/tc-dwc-g210-pltfrm.c
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  746  
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  747  static int cz_probe(struct platform_device *pdev)
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  748  {
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  749  	int ret;
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  750  	struct snd_soc_card *card;
+8f1f0b7409e27f Kuninori Morimoto    2026-04-20  751  	struct snd_soc_card_driver *card_driver;
+ccfbb4f5723736 Mukunda, Vijendar    2018-05-08  752  	struct acp_platform_info *machine;
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  753  	struct regulator_dev *rdev;
+7e71b48f9e27e4 Vijendar Mukunda     2021-03-19  754  	struct device *dev = &pdev->dev;
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  755  
+8f1f0b7409e27f Kuninori Morimoto    2026-04-20  756  	card = snd_soc_card_alloc(&pdev->dev);
+8f1f0b7409e27f Kuninori Morimoto    2026-04-20  757  	card_driver = (struct snd_soc_card_driver *)acp_soc_is_rltk_max(dev);
+8f1f0b7409e27f Kuninori Morimoto    2026-04-20  758  	if (!card || !card_driver)
+7e71b48f9e27e4 Vijendar Mukunda     2021-03-19  759  		return -ENODEV;
+8f1f0b7409e27f Kuninori Morimoto    2026-04-20  760  	if (!strcmp(card_driver->default_name, "acpd7219m98357")) {
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  761  		acp_da7219_cfg.dev = &pdev->dev;
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  762  		rdev = devm_regulator_register(&pdev->dev, &acp_da7219_desc,
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  763  					       &acp_da7219_cfg);
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  764  		if (IS_ERR(rdev)) {
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  765  			dev_err(&pdev->dev, "Failed to register regulator: %d\n",
+7699676081ded2 Akshu Agrawal        2018-07-26  766  				(int)PTR_ERR(rdev));
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  767  			return -EINVAL;
+c183fec10ae6b3 Akshu Agrawal        2018-07-25  768  		}
+7e71b48f9e27e4 Vijendar Mukunda     2021-03-19  769  	}
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  770  
+ccfbb4f5723736 Mukunda, Vijendar    2018-05-08  771  	machine = devm_kzalloc(&pdev->dev, sizeof(struct acp_platform_info),
+ccfbb4f5723736 Mukunda, Vijendar    2018-05-08  772  			       GFP_KERNEL);
+ccfbb4f5723736 Mukunda, Vijendar    2018-05-08  773  	if (!machine)
+ccfbb4f5723736 Mukunda, Vijendar    2018-05-08  774  		return -ENOMEM;
+8f1f0b7409e27f Kuninori Morimoto    2026-04-20  775  
+ccfbb4f5723736 Mukunda, Vijendar    2018-05-08  776  	snd_soc_card_set_drvdata(card, machine);
+8f1f0b7409e27f Kuninori Morimoto    2026-04-20  777  	ret = devm_snd_soc_card_register(card, card_driver);
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  778  	if (ret) {
+718693352d8bce Mario Limonciello    2021-07-22  779  		return dev_err_probe(&pdev->dev, ret,
+8f1f0b7409e27f Kuninori Morimoto    2026-04-20  780  				"devm_snd_soc_card_register(%s) failed\n",
+718693352d8bce Mario Limonciello    2021-07-22 @781  				card->name);
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  782  	}
+198433023ef962 Pierre-Louis Bossart 2021-09-07  783  	acp_bt_uart_enable = !device_property_read_bool(&pdev->dev,
+ccfbb4f5723736 Mukunda, Vijendar    2018-05-08  784  							"bt-pad-enable");
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  785  	return 0;
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  786  }
+608a300fc1f0e0 Akshu Agrawal        2018-02-16  787  
 
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  35  
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11 @36  static const struct of_device_id tc_dwc_g210_pltfm_match[] = {
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  37  	{
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  38  		.compatible = "snps,g210-tc-6.00-20bit",
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  39  		.data = &tc_dwc_g210_20bit_pltfm_hba_vops,
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  40  	},
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  41  	{
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  42  		.compatible = "snps,g210-tc-6.00-40bit",
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  43  		.data = &tc_dwc_g210_40bit_pltfm_hba_vops,
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  44  	},
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  45  	{ },
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  46  };
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  47  MODULE_DEVICE_TABLE(of, tc_dwc_g210_pltfm_match);
-fc040a3fc47cad drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  48  
+:::::: The code at line 781 was first introduced by commit
+:::::: 718693352d8bcea65276615f4f8c8d531246b644 ASoC: amd: Use dev_probe_err helper
 
-:::::: The code at line 36 was first introduced by commit
-:::::: fc040a3fc47cad038f774275ea61fe6d5b57d7cc ufs: add TC G210 platform driver
-
-:::::: TO: Joao Pinto <Joao.Pinto@synopsys.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+:::::: TO: Mario Limonciello <mario.limonciello@amd.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
