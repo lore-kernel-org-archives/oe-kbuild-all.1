@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCED3CC7D3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 11:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94510388377
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 11:59:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784289463; cv=none; b=XneqX2ltUebutlLJPe+W+Wc3wI5x9Gv+6fbVhF+OgtGlMzqS1R5bIZjhRyXWLgMeleaAdvtfmMrEaol4jh0qUI3Iol2r+pRur66NqCgVzd8BxL+VOo2CbcWCXoAc6gH79S4YyUEKDfro/yitHwe4QrkSI/Al+gq1CMe3EALdRFw=
+	t=1784289576; cv=none; b=jB6vM95FCjc5/Gi3ECIeM7mh7WI7WlCES7TV5yBJwH+j+LzI/2eM0bcvepZqqfsTJIhdpDFAL+B2K4QvRUjkUQrpDw4jcOAVs/xe4uIwfBrt5ZouSrdR9R4VUbI25ep2jRbeTQmHefn+wObn1+LTbuCKGQrHezt910oCoO6kJWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784289463; c=relaxed/simple;
-	bh=WmuTw2ODrFBivc9MD9vQntjzuN4yJHaPt3B6T/L57X8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AbY1hq7dr7f1qRs8bLnzcSWXcW+qEOlGEesh90y0zoslvclx3ZDgHSM5s2ndeDPqprZqbvAMlo30YlFL8em4UWecfaeZCmr3lUczchVKG7fSsFJpc9glhtygbWaJXxewzy0ABylxc8iOfpIOvE98wT/ZL384sPlXAw3ks1y3DyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NEOlwT+8; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1784289576; c=relaxed/simple;
+	bh=vkO0D25BuurESSmBL1OBlM2Bqw3lVmgCTjK/1DH94D8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fq1BhSR3jG1W4gQkvEazWCMs+GJGiPMvvZfGnIwkavAaqzXbr5M2cQEhDoad5s1GilDHeE808Q7o2Mn+6x/zihrQRAq8CoAQsYAlLZApltSNzrjWllPegv1GtVx8ihdAXZY1JI50NFCBG58TrbMCK29z7CM2wLx9qjWeo5pRa2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XgSziyTl; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NEOlwT+8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XgSziyTl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784289458; x=1815825458;
+  t=1784289575; x=1815825575;
   h=date:from:to:cc:subject:message-id;
-  bh=WmuTw2ODrFBivc9MD9vQntjzuN4yJHaPt3B6T/L57X8=;
-  b=NEOlwT+8I3BpuCXflWdZ7SXOVRu+QVWREFNY1/K3ghU72hJ7eEJM+B+W
-   SqOa5MNSRd6aYCxy493MlJw4jy7N3XO47qQp3zGOiiOrUfSfVgQAFPXoB
-   1MtqwKpvxqYdopFKM0k+UTMIIlbf5jzJ+kGIR16GQxxDsCKXq4FiUjN37
-   EJTWKpe0mE2pJbx91p2UfGLT68QvT5eGXObVfxVNH0q12mDm3+TkGGtuT
-   VYlVt3Ig5BuLZTT85DThpqsWvct9wtQkDT9PWcZM3/AD0F+O215J5VxRX
-   +Oj8F4JPF38y0VrtjRtbAIy3OpePV1lvv0eXVLfNb8ZDtF7cHbsPZRjVe
-   A==;
-X-CSE-ConnectionGUID: hUhHh1BjSvqv47c66RPFBw==
-X-CSE-MsgGUID: /4OHwk/0TE6JaOqUOVo6Ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="85157936"
+  bh=vkO0D25BuurESSmBL1OBlM2Bqw3lVmgCTjK/1DH94D8=;
+  b=XgSziyTlWKNiCSwUNmRZ+7T3pP+2NPaVW4nW6VnbXqOOZXof0uVEtX/0
+   DWXlz/x0nh0lW363E8FYjh04XwLGvHKUVy6WnrJOHaDAFuAvrlK9VARuX
+   pzCmltlSObY9vXitGUZgqTG+tRCmufm6RhzCNdG7rX9ZPjVNroexST5+o
+   fQuGpPPDJgv/qxmClQCTmhykdIDzALP04VQT7oWzFN5N5E0a0NPskpeX8
+   j1tjsQB6XjPesa14h9edQ7XDYhFtZlQXipXzzlpPXvgJh0jXMW2vkzIyP
+   NoIiQPE000sAmNTlvpDOzRWiajUpFN7dCtVLaTqZARJjFehrhyInRHkD6
+   g==;
+X-CSE-ConnectionGUID: 2/etT4DCSQemZdMWLckRNw==
+X-CSE-MsgGUID: xyJWAZHdSm6FqRLL58geig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="85158196"
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="85157936"
+   d="scan'208";a="85158196"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 04:57:33 -0700
-X-CSE-ConnectionGUID: wJh1/da9QG+kt1gkg65fcw==
-X-CSE-MsgGUID: zrChz4zVQB6DDoqN9HUThA==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 04:59:35 -0700
+X-CSE-ConnectionGUID: coG0HLpBQ3CeLe0URI/4ow==
+X-CSE-MsgGUID: byVKbEqTQqmtCThpVHmjIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="258759626"
+   d="scan'208";a="258759722"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Jul 2026 04:57:31 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Jul 2026 04:59:33 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkhC2-00000000Si6-0uCf;
-	Fri, 17 Jul 2026 11:57:26 +0000
-Date: Fri, 17 Jul 2026 19:57:10 +0800
+	id 1wkhE3-00000000SiG-0Jo8;
+	Fri, 17 Jul 2026 11:59:31 +0000
+Date: Fri, 17 Jul 2026 19:59:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-kminext 1/1]
- drivers/vfio/vfio_main.c:65:6: sparse: sparse: symbol 'allow_non_coherent'
- was not declared. Should it be static?
-Message-ID: <202607171935.pzIPaD2n-lkp@intel.com>
+To: Roman Vivchar <rva333@protonmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>
+Subject: [srini-nvmem:for-next 28/34]
+ drivers/nvmem/mt6323-efuse.c:6:10: fatal error: linux/device-id/of.h: No such
+ file or directory
+Message-ID: <202607171922.uQxiA3uv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,29 +62,36 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-kminext
-head:   9a6f48bb2f89b94bc6857fece1131c450c0d5bee
-commit: 88e59f90e918a5d074d07e6f6c5af7a58317a1d4 [1/1] ANDROID: drivers/vfio: Allow non-coherent device for pKVM
-config: i386-randconfig-r133-20260717 (https://download.01.org/0day-ci/archive/20260717/202607171935.pzIPaD2n-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607171935.pzIPaD2n-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git for-next
+head:   2a3ed29b053137a91af7963038d437657065e57e
+commit: b3c090960d86901bd4e41447744fd532d6e1d7f9 [28/34] nvmem: add mt6323 PMIC EFUSE driver
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260717/202607171922.uQxiA3uv-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607171922.uQxiA3uv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607171935.pzIPaD2n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607171922.uQxiA3uv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/vfio/vfio_main.c:65:6: sparse: sparse: symbol 'allow_non_coherent' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/allow_non_coherent +65 drivers/vfio/vfio_main.c
+>> drivers/nvmem/mt6323-efuse.c:6:10: fatal error: linux/device-id/of.h: No such file or directory
+       6 | #include <linux/device-id/of.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-    64	
-  > 65	bool allow_non_coherent __read_mostly;
-    66	module_param(allow_non_coherent, bool, 0444);
-    67	MODULE_PARM_DESC(allow_non_coherent, "Allow binding of non-coherent devices, not supported with type1 IOMMU. (default: false)");
-    68	
+
+vim +6 drivers/nvmem/mt6323-efuse.c
+
+   > 6	#include <linux/device-id/of.h>
+     7	#include <linux/err.h>
+     8	#include <linux/module.h>
+     9	#include <linux/nvmem-provider.h>
+    10	#include <linux/platform_device.h>
+    11	#include <linux/regmap.h>
+    12	#include <linux/types.h>
+    13	
 
 --
 0-DAY CI Kernel Test Service
