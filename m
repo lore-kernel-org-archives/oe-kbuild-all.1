@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455B93DFC9C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 08:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B2730568E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 08:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784275481; cv=none; b=GOFyXWJAMPXLd6Jjw/xwOWSdxZF1rY/0Pv5FZ4q+iMqkocSv6GOHYlUpARF+s4+GZkSY+Rsgew3A9tpFKeO2gRXFoc2MzCb8fognaQ3T+TL0ssNkKxvRj88R/Msg9sEUTvRtkFhF/HH55paOWNMxzRdvI140Om+3IiXA/gVnqF8=
+	t=1784278291; cv=none; b=sc9ssDGfZtiRJ+rOKD2LyxvobcxBFR+dqjzj22gE8GT5Dch6rXPBFWyrBHEBI83OOsoESBJv2RLA+mcc9cHV12r4Tw35vSzO7fkhcCM3wcNL7PO9cASauqGa6qgykqEkrqCU9hcFMObClFfV/Z16PCk7oRHm9R+Q9JMge6pNI7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784275481; c=relaxed/simple;
-	bh=ZGE+tMUkMAoguDmD1y4UAdvAioTlQ6f1il3GXJdaURs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gqUUYh69G7ESLEMJZe+i9bvD0lwNzmU3y+vXzKH/osCwZAMNryVUWV9VLYXeU29ycD5KNuAZfWCc2uH7N3r60XmkqJIQk4awge6U0dnJKVI0pbMmtp+qgjtAYwzkL2b5tU5SxxQqnBCn/ZzWz5a/1JwWv6QgLOaaTVPRhKls48o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lm0YIaV6; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1784278291; c=relaxed/simple;
+	bh=6b32ExehFWap7XfKD0IKuIEV8svGMrnFK68fxh3tRAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SAILOlhQIMKlEKZoHOl3R5rT62LGTLaQkBCgO7u6osmq4NvAPQDIXf1fWkwhWRtn+lG6DHz9cdTnwaME1e2joc1o9w85YrjkBkG6hgOe6japJQM6ZwTCDj/AUP16dPcmK7CV7ce06oDLwBiT5VPOVKhT4wHCtHOc7vcrOzBrmoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ao+S3J/m; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lm0YIaV6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ao+S3J/m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784275477; x=1815811477;
+  t=1784278289; x=1815814289;
   h=date:from:to:cc:subject:message-id;
-  bh=ZGE+tMUkMAoguDmD1y4UAdvAioTlQ6f1il3GXJdaURs=;
-  b=Lm0YIaV6z7A8qUgoDyLvCs9GJ54JwkQC5z3k3xtN+bKuaMZKjmaoXJxu
-   ep1JhdMSlJ+CU0av1YDgZPmHfEOaVG9fizxgeCZswTXkjlInjBaC9wjN5
-   LTLJG/8vdC/6IWFx/h/w9L7CvSU+iI5aFYgHjBTSeO9Efe8wQ0vQBo9as
-   ur0tJ1D5jHglYZTqobo2pC8jy5OX0nhTaqK2TXvE9AoMfaOOyRRps8yk7
-   zNyEpVwkpZIt/S4BwNz8vLQr295CJangm1crxf+nEvEIakkfIFINy76pO
-   M0InYX6z2Wx/KOnxlQQGx3B/p9WdPepD4tDwkldRTsTIeEOeQ4NbkV0z2
-   w==;
-X-CSE-ConnectionGUID: nWt3CSGGRjKUpXc33as/Pw==
-X-CSE-MsgGUID: XgY7Fr1cT9y+vGQZJed2aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="83927977"
+  bh=6b32ExehFWap7XfKD0IKuIEV8svGMrnFK68fxh3tRAQ=;
+  b=ao+S3J/mWRouBxvAvBxDUJCxyH974P0sNGYcSYFYBeSWDdMz1QSx/lTa
+   qKc1QKHfaUcZWHnAASa2tmawAjRE6QyPp2jWOm1u/iNGolPmrv28+8wZN
+   rJOTJlZSAFP8f/RI7VmmZUECNIQHJWOJJgtBwnD6v131kln9LgtFhHkeo
+   kFF4VawXk1ESbwecHRl82ipbkAMk3MZZ0+cQMFac/U3GKe60GKVdMr8pZ
+   K7K8s20ljgo7qzngK2tWDUUAPCYq0LEolbyeSIbsGkSmHv1wtHSZUSVuA
+   pwJlS0pZNHpBVzuEXkc/DvsVyZdq5Ncf3KRAvUKTPgilc1mS9J11tiTJ8
+   A==;
+X-CSE-ConnectionGUID: VrUvnh+4RKqn9c0Q0pPjYA==
+X-CSE-MsgGUID: gRPuUjyBQhO913F4O/Sq7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="102373603"
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="83927977"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 01:04:36 -0700
-X-CSE-ConnectionGUID: nUaoYMGkRT6rOQBFqj2dwA==
-X-CSE-MsgGUID: K2303ehzQsmC83OYTOQ3bQ==
+   d="scan'208";a="102373603"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 01:51:28 -0700
+X-CSE-ConnectionGUID: S55DOuRXQ2qvOkxTMUQIUQ==
+X-CSE-MsgGUID: omva/VFKRde9VlEpN+En1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="254952859"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 17 Jul 2026 01:04:35 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="258728348"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 17 Jul 2026 01:51:25 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkdYd-000000005Tx-3eI3;
-	Fri, 17 Jul 2026 08:04:31 +0000
-Date: Fri, 17 Jul 2026 10:04:07 +0200
+	id 1wkeHu-00000000Sae-05e0;
+	Fri, 17 Jul 2026 08:51:19 +0000
+Date: Fri, 17 Jul 2026 16:50:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-07-16 310/311]
- sound/soc/amd/vangogh/acp5x-mach.c:479:9: error: implicit declaration of
- function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'?
-Message-ID: <202607170909.n7YYzrpQ-lkp@intel.com>
+Subject: [android-common:android16-6.12-kminext 1/1]
+ arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous
+ prototype for function 'module_handle_host_perm_fault'
+Message-ID: <202607171652.hHnIPUqm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,149 +60,158 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-07-16
-head:   e51d2e02d8d4c974132f00eec9d2215a476084f0
-commit: f582a99aba2473d5c49ad8088a35dda42539f6af [310/311] ASoC: soc-card.h: remove compatible definition
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260717/202607170909.n7YYzrpQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607170909.n7YYzrpQ-lkp@intel.com/reproduce)
+Hi Vincent,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
+head:   133d9641e9477c7e0c05a3fc18eb81d7579675b9
+commit: 0a901ecd7f9ffbc4169811c90a0f26ed1ee1df7a [1/1] ANDROID: KVM: arm64: Rework pKVM module fault handler
+config: arm64-randconfig-004 (https://download.01.org/0day-ci/archive/20260717/202607171652.hHnIPUqm-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607171652.hHnIPUqm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607170909.n7YYzrpQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607171652.hHnIPUqm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sound/soc/amd/vangogh/acp5x-mach.c: In function 'acp5x_probe':
->> sound/soc/amd/vangogh/acp5x-mach.c:479:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     479 |         snd_soc_card_set_drvdata(card, machine);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_card_set_priv
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:24:
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous prototype for function 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+      31 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         |      ^
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:31:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      31 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:86:6: warning: no previous prototype for function '__pkvm_unmask_serror' [-Wmissing-prototypes]
+      86 | void __pkvm_unmask_serror(void)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:86:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      86 | void __pkvm_unmask_serror(void)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:472:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     472 |         [ESR_ELx_EC_WFx]                = handle_pvm_entry_wfx,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
+     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     473 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
+     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:474:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     474 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
+     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     475 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
+     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     476 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
+     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:481:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     481 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
+     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     482 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
+     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:483:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     483 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
+     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:484:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     484 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
+     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     485 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
+     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
+         |                                           ^~~~
 --
-   sound/soc/intel/boards/sof_es8336.c: In function 'sof_es8336_probe':
->> sound/soc/intel/boards/sof_es8336.c:768:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     768 |         snd_soc_card_set_drvdata(card, priv);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_card_set_priv
---
-   sound/soc/intel/boards/sof_pcm512x.c: In function 'sof_audio_probe':
->> sound/soc/intel/boards/sof_pcm512x.c:414:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     414 |         snd_soc_card_set_drvdata(card, ctx);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_card_set_priv
---
-   sound/soc/intel/boards/sof_wm8804.c: In function 'sof_wm8804_probe':
->> sound/soc/intel/boards/sof_wm8804.c:279:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     279 |         snd_soc_card_set_drvdata(card, ctx);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_card_set_priv
---
-   sound/soc/intel/boards/cht_bsw_rt5645.c: In function 'snd_cht_mc_probe':
->> sound/soc/intel/boards/cht_bsw_rt5645.c:683:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     683 |         snd_soc_card_set_drvdata(card, drv);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_card_set_priv
---
-   sound/soc/intel/boards/skl_hda_dsp_generic.c: In function 'skl_hda_audio_probe':
->> sound/soc/intel/boards/skl_hda_dsp_generic.c:163:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     163 |         snd_soc_card_set_drvdata(card, ctx);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_card_set_priv
---
-   sound/soc/intel/boards/ehl_rt5660.c: In function 'snd_ehl_rt5660_probe':
->> sound/soc/intel/boards/ehl_rt5660.c:282:9: error: implicit declaration of function 'snd_soc_card_set_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     282 |         snd_soc_card_set_drvdata(card, ctx);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_card_set_priv
---
-   sound/soc/intel/boards/sof_sdw.c: In function 'create_sdw_dailink':
->> sound/soc/intel/boards/sof_sdw.c:891:43: error: implicit declaration of function 'snd_soc_card_get_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     891 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                           snd_soc_card_set_priv
->> sound/soc/intel/boards/sof_sdw.c:891:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/intel/boards/sof_sdw.c: In function 'create_sdw_dailinks':
-   sound/soc/intel/boards/sof_sdw.c:1037:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1037 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/intel/boards/sof_sdw.c: In function 'create_hdmi_dailinks':
-   sound/soc/intel/boards/sof_sdw.c:1136:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1136 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/intel/boards/sof_sdw.c: In function 'sof_card_dai_links_create':
-   sound/soc/intel/boards/sof_sdw.c:1240:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1240 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   sound/soc/sdw_utils/soc_sdw_utils.c: In function 'asoc_sdw_mc_dailink_exit_loop':
->> sound/soc/sdw_utils/soc_sdw_utils.c:1686:43: error: implicit declaration of function 'snd_soc_card_get_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-    1686 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                           snd_soc_card_set_priv
->> sound/soc/sdw_utils/soc_sdw_utils.c:1686:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
---
-   sound/soc/sdw_utils/soc_sdw_rt711.c: In function 'asoc_sdw_rt711_exit':
->> sound/soc/sdw_utils/soc_sdw_rt711.c:118:43: error: implicit declaration of function 'snd_soc_card_get_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     118 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                           snd_soc_card_set_priv
->> sound/soc/sdw_utils/soc_sdw_rt711.c:118:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/sdw_utils/soc_sdw_rt711.c: In function 'asoc_sdw_rt711_init':
-   sound/soc/sdw_utils/soc_sdw_rt711.c:135:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     135 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c: In function 'asoc_sdw_rt_sdca_jack_exit':
->> sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c:178:43: error: implicit declaration of function 'snd_soc_card_get_drvdata'; did you mean 'snd_soc_card_set_priv'? [-Wimplicit-function-declaration]
-     178 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                           snd_soc_card_set_priv
->> sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c:178:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c: In function 'asoc_sdw_rt_sdca_jack_init':
-   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c:199:43: error: initialization of 'struct asoc_sdw_mc_private *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     199 |         struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-..
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:23:
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous prototype for function 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+      31 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         |      ^
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:31:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      31 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +479 sound/soc/amd/vangogh/acp5x-mach.c
+vim +/module_handle_host_perm_fault +31 arch/arm64/kvm/hyp/include/nvhe/modules.h
 
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  459  
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  460  static int acp5x_probe(struct platform_device *pdev)
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  461  {
-3dd26e27ccb4f1 Cristian Ciocaltea 2023-07-06  462  	const struct dmi_system_id *dmi_id;
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  463  	struct acp5x_platform_info *machine;
-ddd42a12a33eb4 Lucas Tanure       2023-02-17  464  	struct device *dev = &pdev->dev;
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  465  	struct snd_soc_card *card;
-ffd8dcfcd05c65 Kuninori Morimoto  2026-04-20  466  	struct snd_soc_card_driver *card_driver;
-ddd42a12a33eb4 Lucas Tanure       2023-02-17  467  	int ret;
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  468  
-3dd26e27ccb4f1 Cristian Ciocaltea 2023-07-06  469  	dmi_id = dmi_first_match(acp5x_vg_quirk_table);
-ddd1ee12a8fb6e Cristian Ciocaltea 2023-12-09  470  	if (!dmi_id || !dmi_id->driver_data)
-3dd26e27ccb4f1 Cristian Ciocaltea 2023-07-06  471  		return -ENODEV;
-3dd26e27ccb4f1 Cristian Ciocaltea 2023-07-06  472  
-ffd8dcfcd05c65 Kuninori Morimoto  2026-04-20  473  	card = snd_soc_card_alloc(dev);
-50e81116ef576b Lucas Tanure       2023-02-17  474  	machine = devm_kzalloc(dev, sizeof(*machine), GFP_KERNEL);
-ffd8dcfcd05c65 Kuninori Morimoto  2026-04-20  475  	if (!card || !machine)
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  476  		return -ENOMEM;
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  477  
-ffd8dcfcd05c65 Kuninori Morimoto  2026-04-20  478  	card_driver = dmi_id->driver_data;
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14 @479  	snd_soc_card_set_drvdata(card, machine);
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  480  
-ffd8dcfcd05c65 Kuninori Morimoto  2026-04-20  481  	ret = devm_snd_soc_card_register(card, card_driver);
-ddd42a12a33eb4 Lucas Tanure       2023-02-17  482  	if (ret)
-ddd42a12a33eb4 Lucas Tanure       2023-02-17  483  		return dev_err_probe(dev, ret, "Register card (%s) failed\n", card->name);
-ddd42a12a33eb4 Lucas Tanure       2023-02-17  484  
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  485  	return 0;
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  486  }
-34a0094b9ff7b7 Vijendar Mukunda   2021-10-14  487  
-
-:::::: The code at line 479 was first introduced by commit
-:::::: 34a0094b9ff7b7544591a6841f9b61747033f292 ASoC: amd: add vangogh machine driver
-
-:::::: TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+    14	
+    15	#ifdef CONFIG_MODULES
+    16	int __pkvm_init_module(void *module_init);
+    17	int __pkvm_register_hcall(unsigned long hfn_hyp_va);
+    18	int handle_host_dynamic_hcall(struct user_pt_regs *regs, int id);
+    19	void __pkvm_close_module_registration(void);
+    20	bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr);
+    21	#else
+    22	static inline int __pkvm_init_module(void *module_init) { return -EOPNOTSUPP; }
+    23	static inline int
+    24	__pkvm_register_hcall(unsigned long hfn_hyp_va) { return -EOPNOTSUPP; }
+    25	static inline int
+    26	handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+    27	{
+    28		return HCALL_UNHANDLED;
+    29	}
+    30	static inline void __pkvm_close_module_registration(void) { }
+  > 31	bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
 
 --
 0-DAY CI Kernel Test Service
