@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC743A9615
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 23:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10A83A75A7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 23:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784332707; cv=none; b=pLxUhNR/952m2a8GcnS+WKdrmRCIL/7NpEaXxmbj2SWf9gWr+sfbrwgaQODrGMNT93HQiYsowr8i2Oac+Od8c4nXEMElj8NROmGsnD6D/xdLsZFYQTsVJid5g9NwLXPduGEX8YGVhIgCZbrOStBi0O1lr+jiVYNxMfDD+M4Jsoc=
+	t=1784332778; cv=none; b=IXNKWJKhwn0nEr4vVkDFkEj3th9JSIqDLkxM7ptCIkmQXj1ZfI3NYISoFuSgK/61UKGtkfD4GDzHlw2J89hmtCfRzgqwWFa/tHy/N0H1jeTMCUsiaektBdLFmxfgska9P18O5OUH91vK68teBPxJfvdZ9ckXQcH8CnTHQ2UhjVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784332707; c=relaxed/simple;
-	bh=HyQRtwPJ+f3kGMojmDB0EE6NpywDOC8GijkWO6hwnKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NcxRsZ14mQw1XkFgGIVudPY8HwF2g7ObmaeTMlk4Fjg1wBKJ3cR3f8aNfUnBxlTz+FrjLZEy07zwyeskGtol7t93l5H+F8BTmkzgdTzjCcc4JsU4itKFAqjZtvuM1kTCKHF+cHlaDRlOAjfm4ljqsTRTfLqhjoLZebB6uIvmAQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J51o2eVi; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1784332778; c=relaxed/simple;
+	bh=d9wyFpMcEFIBNpItTImFOrICadTLz5bUkOs7/vGzjBU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=C7+MJLf9QpDo1f9Ne7U9KS3wJXxpls19DiPByOTZskhVDruPdqmk7akKSsly+6EP0ZQPHp5M+FLBRNJvWQQ1jEbYPVWczFJCmg0JUn4At3diovh4RLwQYupEZNBVWFqf9vpvN1HXaK1bxK7kY46YcAqCM9aAR2jKWf2pMyzf02Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSL8iKzc; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J51o2eVi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSL8iKzc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784332707; x=1815868707;
+  t=1784332777; x=1815868777;
   h=date:from:to:cc:subject:message-id;
-  bh=HyQRtwPJ+f3kGMojmDB0EE6NpywDOC8GijkWO6hwnKQ=;
-  b=J51o2eViEBGfTNtEkfMxuAxpHZzCwUTVt3KgWI2Ec6O12JZJ5YHunhkI
-   Nil9wk72IDQPNz3tQ9t3UDSq9i5h7PcUnSfB+CoJIgC41mxTUsq95yM7H
-   KQHkPLsmf3B+6MmErn2P/zPhWrBvcg5aIoYesJNAnrUUApVEbAp8o4h9d
-   0d6qexhsZgQ9E+bgNtYxQ3dy3aNKZVkizU2NZz0dAn71X+CmT26bmMJuS
-   DwduZnHopSFRzAYqFC+SWDLn9nAxKUQgZKdKdX9ViRRlib5iKgakmQ28/
-   9B3T3HH4x81sZpgtxiaHXM/t0OdkvVwA7LikHMMPjSqw0uDK0o0RKjT3z
-   Q==;
-X-CSE-ConnectionGUID: 3Zto7Su5TqKGw20ijUVA6A==
-X-CSE-MsgGUID: Pd6iSNyWQayyuJBs+8TP4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="102430158"
+  bh=d9wyFpMcEFIBNpItTImFOrICadTLz5bUkOs7/vGzjBU=;
+  b=nSL8iKzcP3NJdszXhuKxDJw81QaSKevsEKNakHkVedfF1nkoz971SD2B
+   a6YDOXAF2kv8KAF5+LNY/EZ5YC/EMRScOsDhCdCr1NHdeQTrZb5281lml
+   KK1DScysi0ERsWVh1lc+bmPKiwmKsKJY/f3uUbotvzSCYJiHS4GZGAYRY
+   QCOMcGABIqip4FCFN8uH90QjMUdf/04cW75+OqEZdZooeh51so0ko7EO4
+   iEfH42S1V54AwhfIfoOFamlontkEGqDE2411qwj/xLNFkoV7m+JorQ5kS
+   AM8UmpgUtTQ5+GO+NsN4pBM/20uMWXmJDLczn/99wDr0yR1CwVLYtw/oP
+   w==;
+X-CSE-ConnectionGUID: yW31BLFQQ6Ol5hZC+Njo9Q==
+X-CSE-MsgGUID: d3HzzAXCTW2jU1H5EAa2XQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="84887465"
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="102430158"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 16:58:26 -0700
-X-CSE-ConnectionGUID: tMff+BMKRJ6CpvqCxV0NIQ==
-X-CSE-MsgGUID: S1tmQAkfSjO3Qz5XTDbSXQ==
+   d="scan'208";a="84887465"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 16:59:36 -0700
+X-CSE-ConnectionGUID: 02XLj403QXeBLA/faY49wg==
+X-CSE-MsgGUID: RkZQwDXnRUON2re0Qnw5FQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="286975773"
+   d="scan'208";a="261881978"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 17 Jul 2026 16:58:24 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 17 Jul 2026 16:59:34 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wksRf-00000000TGS-3ZYe;
-	Fri, 17 Jul 2026 23:58:20 +0000
-Date: Sat, 18 Jul 2026 07:58:01 +0800
+	id 1wksSm-00000000TGe-27rD;
+	Fri, 17 Jul 2026 23:59:29 +0000
+Date: Sat, 18 Jul 2026 07:58:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-07 2/2]
- kernel/kallsyms.c:503:17: warning: 'strcpy' source argument is the same as
- destination
-Message-ID: <202607180745.QGy1LHlp-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: [linux-next:master 5823/6789]
+ drivers/gpu/drm/radeon/radeon_bios.c:614:12: warning:
+ 'radeon_acpi_vfct_match' defined but not used
+Message-ID: <202607180712.nxVJeXl9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,81 +61,67 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Arnd,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-07
-head:   78af4078ece5032768bb0bc9282e26ca123d7679
-commit: 26030cb984dd65e0cb2d0c2489d94941cf8897b4 [2/2] extrawarn: move -Wrestrict into W=1 warnings
-config: arm64-randconfig-001-20260717 (https://download.01.org/0day-ci/archive/20260718/202607180745.QGy1LHlp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607180745.QGy1LHlp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b8809969e1d7a591e0f49dd464a5d04b3cf02ab1
+commit: 33a18ecd2fbf6bcbf803836e94eb31c26f4c7f41 [5823/6789] drm/radeon: Fix VFCT bus number matching with soft filter
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260718/202607180712.nxVJeXl9-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607180712.nxVJeXl9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 26030cb984dd ("extrawarn: move -Wrestrict into W=1 warnings")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607180745.QGy1LHlp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607180712.nxVJeXl9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/kallsyms.c: In function '__sprint_symbol.constprop':
->> kernel/kallsyms.c:503:17: warning: 'strcpy' source argument is the same as destination [-Wrestrict]
-     503 |                 strcpy(buffer, name);
-         |                 ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_bios.c:614:12: warning: 'radeon_acpi_vfct_match' defined but not used [-Wunused-function]
+     614 | static int radeon_acpi_vfct_match(struct radeon_device *rdev,
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/strcpy +503 kernel/kallsyms.c
+vim +/radeon_acpi_vfct_match +614 drivers/gpu/drm/radeon/radeon_bios.c
 
-9d65cb4a1718a0 Alexey Dobriyan 2007-05-08  485  
-42e380832a6911 Robert Peterson 2007-04-30  486  /* Look up a kernel symbol and return it in a text buffer. */
-0f77a8d378254f Namhyung Kim    2011-03-24  487  static int __sprint_symbol(char *buffer, unsigned long address,
-9294523e376803 Stephen Boyd    2021-07-07  488  			   int symbol_offset, int add_offset, int add_buildid)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  489  {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  490  	char *modname;
-9294523e376803 Stephen Boyd    2021-07-07  491  	const unsigned char *buildid;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  492  	const char *name;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  493  	unsigned long offset, size;
-966c8c12dc9e77 Hugh Dickins    2008-11-19  494  	int len;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  495  
-0f77a8d378254f Namhyung Kim    2011-03-24  496  	address += symbol_offset;
-9294523e376803 Stephen Boyd    2021-07-07  497  	name = kallsyms_lookup_buildid(address, &size, &offset, &modname, &buildid,
-9294523e376803 Stephen Boyd    2021-07-07  498  				       buffer);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  499  	if (!name)
-b86280aa48b67c Namhyung Kim    2014-08-08  500  		return sprintf(buffer, "0x%lx", address - symbol_offset);
-19769b762607fe Andrew Morton   2007-07-15  501  
-966c8c12dc9e77 Hugh Dickins    2008-11-19  502  	if (name != buffer)
-966c8c12dc9e77 Hugh Dickins    2008-11-19 @503  		strcpy(buffer, name);
-966c8c12dc9e77 Hugh Dickins    2008-11-19  504  	len = strlen(buffer);
-0f77a8d378254f Namhyung Kim    2011-03-24  505  	offset -= symbol_offset;
-966c8c12dc9e77 Hugh Dickins    2008-11-19  506  
-4796dd200db943 Stephen Boyd    2012-05-29  507  	if (add_offset)
-4796dd200db943 Stephen Boyd    2012-05-29  508  		len += sprintf(buffer + len, "+%#lx/%#lx", offset, size);
-4796dd200db943 Stephen Boyd    2012-05-29  509  
-9294523e376803 Stephen Boyd    2021-07-07  510  	if (modname) {
-9294523e376803 Stephen Boyd    2021-07-07  511  		len += sprintf(buffer + len, " [%s", modname);
-9294523e376803 Stephen Boyd    2021-07-07  512  #if IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
-9294523e376803 Stephen Boyd    2021-07-07  513  		if (add_buildid && buildid) {
-9294523e376803 Stephen Boyd    2021-07-07  514  			/* build ID should match length of sprintf */
-9294523e376803 Stephen Boyd    2021-07-07  515  #if IS_ENABLED(CONFIG_MODULES)
-9294523e376803 Stephen Boyd    2021-07-07  516  			static_assert(sizeof(typeof_member(struct module, build_id)) == 20);
-9294523e376803 Stephen Boyd    2021-07-07  517  #endif
-9294523e376803 Stephen Boyd    2021-07-07  518  			len += sprintf(buffer + len, " %20phN", buildid);
-9294523e376803 Stephen Boyd    2021-07-07  519  		}
-9294523e376803 Stephen Boyd    2021-07-07  520  #endif
-9294523e376803 Stephen Boyd    2021-07-07  521  		len += sprintf(buffer + len, "]");
-9294523e376803 Stephen Boyd    2021-07-07  522  	}
-966c8c12dc9e77 Hugh Dickins    2008-11-19  523  
-966c8c12dc9e77 Hugh Dickins    2008-11-19  524  	return len;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  525  }
-0f77a8d378254f Namhyung Kim    2011-03-24  526  
-
-:::::: The code at line 503 was first introduced by commit
-:::::: 966c8c12dc9e77f931e2281ba25d2f0244b06949 sprint_symbol(): use less stack
-
-:::::: TO: Hugh Dickins <hugh@veritas.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   598	
+   599	/**
+   600	 * radeon_acpi_vfct_match() - Check if a VFCT entry matches the device
+   601	 * @rdev: Radeon device
+   602	 * @vhdr: VFCT image header to check
+   603	 *
+   604	 * VFCT entries contain the PCI bus number as recorded during BIOS POST.
+   605	 * On systems where the kernel renumbers PCI buses (e.g. pci=realloc or
+   606	 * resource conflicts), the runtime bus number may differ from the POST
+   607	 * value.  Match by device identity (vendor + device + function) and use
+   608	 * the bus number as a preference: exact bus match is preferred, but when
+   609	 * the bus numbers disagree we accept the entry if the device identity
+   610	 * matches.
+   611	 *
+   612	 * Returns: 0 on match, -ENODEV on no match
+   613	 */
+ > 614	static int radeon_acpi_vfct_match(struct radeon_device *rdev,
+   615					  VFCT_IMAGE_HEADER *vhdr)
+   616	{
+   617		/* Vendor and device IDs must always match */
+   618		if (vhdr->VendorID != rdev->pdev->vendor ||
+   619		    vhdr->DeviceID != rdev->pdev->device)
+   620			return -ENODEV;
+   621	
+   622		if (vhdr->PCIDevice != PCI_SLOT(rdev->pdev->devfn) ||
+   623		    vhdr->PCIFunction != PCI_FUNC(rdev->pdev->devfn))
+   624			return -ENODEV;
+   625	
+   626		/* Exact bus number match - preferred */
+   627		if (vhdr->PCIBus == rdev->pdev->bus->number)
+   628			return 0;
+   629	
+   630		/* Bus mismatch but device identity matches (PCI renumbering case) */
+   631		dev_notice(&rdev->pdev->dev,
+   632			   "VFCT bus number mismatch: table %u != runtime %u, matching by device identity (vendor 0x%04x device 0x%04x)\n",
+   633			   vhdr->PCIBus, rdev->pdev->bus->number,
+   634			   rdev->pdev->vendor, rdev->pdev->device);
+   635		return 0;
+   636	}
+   637	
 
 --
 0-DAY CI Kernel Test Service
