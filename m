@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B2730568E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 08:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921F43E6DD0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Jul 2026 09:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784278291; cv=none; b=sc9ssDGfZtiRJ+rOKD2LyxvobcxBFR+dqjzj22gE8GT5Dch6rXPBFWyrBHEBI83OOsoESBJv2RLA+mcc9cHV12r4Tw35vSzO7fkhcCM3wcNL7PO9cASauqGa6qgykqEkrqCU9hcFMObClFfV/Z16PCk7oRHm9R+Q9JMge6pNI7I=
+	t=1784282183; cv=none; b=SRcWJGBqbkN46lqVfVlWo/Q7wSOGXCfrbdDnJVuk0nOy+7hoUwRVTQjgffubVh5a8FkaQwR4a6lyKNSmXdOvXiZwuqDtx6cOHIHlLEsquKcB/d6IxCEsx+UEUe84NIo4gKxq23XArw362BEDeHxL2hDPwS6DjrD3NMBwkaLpZIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784278291; c=relaxed/simple;
-	bh=6b32ExehFWap7XfKD0IKuIEV8svGMrnFK68fxh3tRAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SAILOlhQIMKlEKZoHOl3R5rT62LGTLaQkBCgO7u6osmq4NvAPQDIXf1fWkwhWRtn+lG6DHz9cdTnwaME1e2joc1o9w85YrjkBkG6hgOe6japJQM6ZwTCDj/AUP16dPcmK7CV7ce06oDLwBiT5VPOVKhT4wHCtHOc7vcrOzBrmoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ao+S3J/m; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1784282183; c=relaxed/simple;
+	bh=sNigEbRnp/SNBGfrq5GGRT9QCcXyf5NPs3eFCpTdQEg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kdrTmRjoe4rr76OGu9s5yM+N00xL6S6nf2d+jbKiU9aFweXoWbjKQFH2t4TZc25Bv8RqcuSiRuN4bBi9BHUiwyNgJRfDO4cjqhPicKJETPKyOesJnGu1q/0f6DCMm4r8TRabFH7zQcttEBghqNvv+9wc/fz/FoTh6JDamE+xC10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxedV1+h; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ao+S3J/m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxedV1+h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784278289; x=1815814289;
+  t=1784282181; x=1815818181;
   h=date:from:to:cc:subject:message-id;
-  bh=6b32ExehFWap7XfKD0IKuIEV8svGMrnFK68fxh3tRAQ=;
-  b=ao+S3J/mWRouBxvAvBxDUJCxyH974P0sNGYcSYFYBeSWDdMz1QSx/lTa
-   qKc1QKHfaUcZWHnAASa2tmawAjRE6QyPp2jWOm1u/iNGolPmrv28+8wZN
-   rJOTJlZSAFP8f/RI7VmmZUECNIQHJWOJJgtBwnD6v131kln9LgtFhHkeo
-   kFF4VawXk1ESbwecHRl82ipbkAMk3MZZ0+cQMFac/U3GKe60GKVdMr8pZ
-   K7K8s20ljgo7qzngK2tWDUUAPCYq0LEolbyeSIbsGkSmHv1wtHSZUSVuA
-   pwJlS0pZNHpBVzuEXkc/DvsVyZdq5Ncf3KRAvUKTPgilc1mS9J11tiTJ8
-   A==;
-X-CSE-ConnectionGUID: VrUvnh+4RKqn9c0Q0pPjYA==
-X-CSE-MsgGUID: gRPuUjyBQhO913F4O/Sq7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="102373603"
+  bh=sNigEbRnp/SNBGfrq5GGRT9QCcXyf5NPs3eFCpTdQEg=;
+  b=IxedV1+haPDW1PCwaLmuB24e7fik6fPBUja7i8I1by9NIwBIspnbW4sf
+   c2s93sKArvX76dho6WdbIRuxsy6wMx//S09U1FTRrxnsqCbshNqoUpWRI
+   d5LgbMDgv5WT6j1EWjxLv2N1FrvUK0o1z5pXIE+2lDACYjy9MtbmrOLcq
+   sVT6WLQbykZJhE9xWVFQ/gmUSkDpw7e2R8VnSCu8BB61+BBUA4u9frZCG
+   L3Jj/Ci6OH2p4XrfYBZ6zEKuRYd/r2p2f0A5ZBHHb2QBph/m0szhOJ51Q
+   GayiPJtC3dWYcyt4UctD7dhIG+RvvmFxuDm3/xGAcn+Q0g6WmB/hKvT7s
+   g==;
+X-CSE-ConnectionGUID: UjZdfkb/SAeKuDRt/Z1UzA==
+X-CSE-MsgGUID: 2UfycFRoRAWLgiDEcNP5KQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="84729608"
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="102373603"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 01:51:28 -0700
-X-CSE-ConnectionGUID: S55DOuRXQ2qvOkxTMUQIUQ==
-X-CSE-MsgGUID: omva/VFKRde9VlEpN+En1A==
+   d="scan'208";a="84729608"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 02:56:20 -0700
+X-CSE-ConnectionGUID: /FbP810KQsWawhj3t/KSiw==
+X-CSE-MsgGUID: qNyGb80VTa+dpW5MAt8N9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,169,1779174000"; 
-   d="scan'208";a="258728348"
+   d="scan'208";a="261708507"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Jul 2026 01:51:25 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 17 Jul 2026 02:56:18 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkeHu-00000000Sae-05e0;
-	Fri, 17 Jul 2026 08:51:19 +0000
-Date: Fri, 17 Jul 2026 16:50:29 +0800
+	id 1wkfIm-00000000Sc4-0GvH;
+	Fri, 17 Jul 2026 09:56:16 +0000
+Date: Fri, 17 Jul 2026 17:55:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-kminext 1/1]
- arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous
- prototype for function 'module_handle_host_perm_fault'
-Message-ID: <202607171652.hHnIPUqm-lkp@intel.com>
+Subject: [morimoto:sound-cleanup-2026-07-16 311/311]
+ include/linux/fortify-string.h:208:9: error: first argument to
+ '__builtin_choose_expr' not a constant
+Message-ID: <202607171708.wv5p5jRi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,158 +60,158 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Vincent,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
-head:   133d9641e9477c7e0c05a3fc18eb81d7579675b9
-commit: 0a901ecd7f9ffbc4169811c90a0f26ed1ee1df7a [1/1] ANDROID: KVM: arm64: Rework pKVM module fault handler
-config: arm64-randconfig-004 (https://download.01.org/0day-ci/archive/20260717/202607171652.hHnIPUqm-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607171652.hHnIPUqm-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-07-16
+head:   e51d2e02d8d4c974132f00eec9d2215a476084f0
+commit: e5cb44e887fc27a5ca0bcbcc673b11edb01174f8 [311/311] ASoC: soc-component: capsuling Component
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260717/202607171708.wv5p5jRi-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607171708.wv5p5jRi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607171652.hHnIPUqm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607171708.wv5p5jRi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:24:
->> arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous prototype for function 'module_handle_host_perm_fault' [-Wmissing-prototypes]
-      31 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
-         |      ^
-   arch/arm64/kvm/hyp/include/nvhe/modules.h:31:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      31 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
-         | ^
-         | static 
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:86:6: warning: no previous prototype for function '__pkvm_unmask_serror' [-Wmissing-prototypes]
-      86 | void __pkvm_unmask_serror(void)
-         |      ^
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:86:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      86 | void __pkvm_unmask_serror(void)
-         | ^
-         | static 
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:472:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     472 |         [ESR_ELx_EC_WFx]                = handle_pvm_entry_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
-     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     473 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
-     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:474:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     474 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
-     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     475 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
-     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     476 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:471:28: note: previous initialization is here
-     471 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:481:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     481 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
-     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     482 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
-     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:483:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     483 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
-     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:484:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     484 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
-     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     485 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:28: note: previous initialization is here
-     480 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
---
-   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:23:
->> arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous prototype for function 'module_handle_host_perm_fault' [-Wmissing-prototypes]
-      31 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
-         |      ^
-   arch/arm64/kvm/hyp/include/nvhe/modules.h:31:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      31 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
-         | ^
-         | static 
-   1 warning generated.
+   In file included from include/trace/define_trace.h:132,
+                    from include/trace/events/asoc.h:280,
+                    from sound/soc/soc-core.c:43:
+   include/trace/events/asoc.h: In function 'trace_event_get_offsets_snd_soc_dapm':
+   include/trace/events/asoc.h:31:114: error: invalid use of undefined type 'struct snd_soc_component'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                                                                                                                  ^~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:59:29: note: in expansion of macro '__dynamic_array'
+      59 | #define __string(item, src) __dynamic_array(char, item,                 \
+         |                             ^~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:208:31: note: in expansion of macro '__is_constexpr'
+     208 |         __builtin_choose_expr(__is_constexpr(__builtin_strlen(p)),      \
+         |                               ^~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:60:21: note: in expansion of macro 'strlen'
+      60 |                     strlen(__string_src(src)) + 1)                      \
+         |                     ^~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+   include/trace/events/asoc.h:31:114: error: invalid use of undefined type 'struct snd_soc_component'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                                                                                                                  ^~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:59:29: note: in expansion of macro '__dynamic_array'
+      59 | #define __string(item, src) __dynamic_array(char, item,                 \
+         |                             ^~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:60:21: note: in expansion of macro 'strlen'
+      60 |                     strlen(__string_src(src)) + 1)                      \
+         |                     ^~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+   include/trace/events/asoc.h:31:114: error: invalid use of undefined type 'struct snd_soc_component'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                                                                                                                  ^~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:59:29: note: in expansion of macro '__dynamic_array'
+      59 | #define __string(item, src) __dynamic_array(char, item,                 \
+         |                             ^~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:60:21: note: in expansion of macro 'strlen'
+      60 |                     strlen(__string_src(src)) + 1)                      \
+         |                     ^~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+>> include/linux/fortify-string.h:208:9: error: first argument to '__builtin_choose_expr' not a constant
+     208 |         __builtin_choose_expr(__is_constexpr(__builtin_strlen(p)),      \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:59:29: note: in expansion of macro '__dynamic_array'
+      59 | #define __string(item, src) __dynamic_array(char, item,                 \
+         |                             ^~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:60:21: note: in expansion of macro 'strlen'
+      60 |                     strlen(__string_src(src)) + 1)                      \
+         |                     ^~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+   include/trace/events/asoc.h:31:114: error: invalid use of undefined type 'struct snd_soc_component'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                                                                                                                  ^~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
 
 
-vim +/module_handle_host_perm_fault +31 arch/arm64/kvm/hyp/include/nvhe/modules.h
+vim +/__builtin_choose_expr +208 include/linux/fortify-string.h
 
-    14	
-    15	#ifdef CONFIG_MODULES
-    16	int __pkvm_init_module(void *module_init);
-    17	int __pkvm_register_hcall(unsigned long hfn_hyp_va);
-    18	int handle_host_dynamic_hcall(struct user_pt_regs *regs, int id);
-    19	void __pkvm_close_module_registration(void);
-    20	bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr);
-    21	#else
-    22	static inline int __pkvm_init_module(void *module_init) { return -EOPNOTSUPP; }
-    23	static inline int
-    24	__pkvm_register_hcall(unsigned long hfn_hyp_va) { return -EOPNOTSUPP; }
-    25	static inline int
-    26	handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
-    27	{
-    28		return HCALL_UNHANDLED;
-    29	}
-    30	static inline void __pkvm_close_module_registration(void) { }
-  > 31	bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+369cd2165d7bea Kees Cook      2021-08-04  188  
+67ebc3ab446230 Kees Cook      2022-02-08  189  /*
+67ebc3ab446230 Kees Cook      2022-02-08  190   * Defined after fortified strnlen to reuse it. However, it must still be
+67ebc3ab446230 Kees Cook      2022-02-08  191   * possible for strlen() to be used on compile-time strings for use in
+67ebc3ab446230 Kees Cook      2022-02-08  192   * static initializers (i.e. as a constant expression).
+67ebc3ab446230 Kees Cook      2022-02-08  193   */
+03699f271de1f4 Kees Cook      2022-09-02  194  /**
+03699f271de1f4 Kees Cook      2022-09-02  195   * strlen - Return count of characters in a NUL-terminated string
+03699f271de1f4 Kees Cook      2022-09-02  196   *
+03699f271de1f4 Kees Cook      2022-09-02  197   * @p: pointer to NUL-terminated string to count.
+03699f271de1f4 Kees Cook      2022-09-02  198   *
+03699f271de1f4 Kees Cook      2022-09-02  199   * Do not use this function unless the string length is known at
+03699f271de1f4 Kees Cook      2022-09-02  200   * compile-time. When @p is unterminated, this function may crash
+03699f271de1f4 Kees Cook      2022-09-02  201   * or return unexpected counts that could lead to memory content
+03699f271de1f4 Kees Cook      2022-09-02  202   * exposures. Prefer strnlen().
+03699f271de1f4 Kees Cook      2022-09-02  203   *
+03699f271de1f4 Kees Cook      2022-09-02  204   * Returns number of characters in @p (NOT including the final NUL).
+03699f271de1f4 Kees Cook      2022-09-02  205   *
+03699f271de1f4 Kees Cook      2022-09-02  206   */
+67ebc3ab446230 Kees Cook      2022-02-08  207  #define strlen(p)							\
+67ebc3ab446230 Kees Cook      2022-02-08 @208  	__builtin_choose_expr(__is_constexpr(__builtin_strlen(p)),	\
+67ebc3ab446230 Kees Cook      2022-02-08  209  		__builtin_strlen(p), __fortify_strlen(p))
+92df138a8d663c Kees Cook      2022-02-08  210  __FORTIFY_INLINE __diagnose_as(__builtin_strlen, 1)
+281d0c962752fb Kees Cook      2022-02-08  211  __kernel_size_t __fortify_strlen(const char * const POS p)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  212  {
+21a2c74b0a2a78 Kees Cook      2023-04-07  213  	const size_t p_size = __member_size(p);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  214  	__kernel_size_t ret;
+a28a6e860c6cf2 Francis Laniel 2021-02-25  215  
+3009f891bb9f32 Kees Cook      2021-08-02  216  	/* Give up if we don't know how large p is. */
+311fb40aa0569a Kees Cook      2022-09-02  217  	if (p_size == SIZE_MAX)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  218  		return __underlying_strlen(p);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  219  	ret = strnlen(p, p_size);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  220  	if (p_size <= ret)
+3d965b33e40d97 Kees Cook      2023-04-07  221  		fortify_panic(FORTIFY_FUNC_strlen, FORTIFY_READ, p_size, ret + 1, ret);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  222  	return ret;
+a28a6e860c6cf2 Francis Laniel 2021-02-25  223  }
+a28a6e860c6cf2 Francis Laniel 2021-02-25  224  
+
+:::::: The code at line 208 was first introduced by commit
+:::::: 67ebc3ab446230c77fe3b545a9d8a11cac1cfb6e fortify: Make sure strlen() may still be used as a constant expression
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 --
 0-DAY CI Kernel Test Service
