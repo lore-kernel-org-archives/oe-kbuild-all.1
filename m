@@ -1,124 +1,221 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C78733D4E5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 07:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AEF29B8CF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 07:52:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784361019; cv=none; b=a1TJly/1y3E4klZMrzh9k9ynEZ9miX/HbgwW2XP2rlhsDNSB/AvNci+cJK0YFiTKV8QG8Euur6tm9SGd563hv/WDVeQl9FQSUtG7puOj20RTjcUUy3dDJiaZWB52IED8ySOihEvyP7ETyJ4jkt7CumQISWBfDONOY3PDYBjPT04=
+	t=1784361177; cv=none; b=fLIA0Fx6NBeVMeo/hSr2LEFuF7JQJ9l4Bx3103R9c3WpnAR2ICqLr8lj6J9OG1WKS2MUR+tUnxYlDLlJnhTdMaR/bmiJBv2rzwSFebnuvaT2B2L9QzlE33bfy26aOHQ3OVa81GcF56cR486fpB37kKM+Ant2Q3kV/MCOz8wGW1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784361019; c=relaxed/simple;
-	bh=gT8GXfUF9E6AiMvOrGnO1dIYUXUcF2eSy/IX3ToDCX8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NxKr24cYKtbGMQz1KxOoMam4pCDUsJVLxHVfGldwMgGvA8QD2rF1bIQq91rrFKX4UbXEZbL6qJs4y1gNEYcpatzUERwkbBfnngmG6HnL17Fwwr6UMkefXQoRSiGITkTn7tWyqhLki2DPdciALrjIcJy4PKYyY6YH/z0rXHr9Vks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAPzHzIY; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1784361177; c=relaxed/simple;
+	bh=usp4xS76WrIMBZsPgWMPfQLaX/5OcCg0dIj3qNtrdlU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TwPTzXFaC/0e108p4Uw0yqapZjxsa0R/mBn2uvyErMqpQOFJsvszmLqSNVSN+2zqKIIm2NDD/Az1aL2h78nFYJYCSkNsRRlDNLZbmTMwlZ8mtPCeOwPVIykaneCbMCgKVnSxmJgjiajT01TZT6VqGTy9d6C9hv1GVJvdOZOwMwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bv2arvYJ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAPzHzIY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bv2arvYJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784361017; x=1815897017;
-  h=date:from:to:cc:subject:message-id;
-  bh=gT8GXfUF9E6AiMvOrGnO1dIYUXUcF2eSy/IX3ToDCX8=;
-  b=NAPzHzIYijpJfeTz3PGT2SJBQJMCAntJZnxSa31VN9/EqLCObegeAqpo
-   BljYO0twitCNgypLIgn9udWi+SQ0oQDHYznsvVoLyVunQ6ayY+Md+J6YH
-   QK3oNDqHn5Z2aREf2ZTjiST/cvoqsRELEJqJmZYivJddEZAPp+a9BI99T
-   rmul9ZfYZmYauSej9grx/GjPjnrWPjZMDn8zSEXpUgQp83tX8J3/AcM4x
-   8XJ014gD71uoPwnYa83vc6CDPDdxLLTDBr21xu6lnxh/dYtlRfFj27Yb3
-   3KboiyhUiRihL6RxrNRWoM8WCqbV5Phb/4hS+c9aIHgiumk8zqs2RERvg
+  t=1784361176; x=1815897176;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=usp4xS76WrIMBZsPgWMPfQLaX/5OcCg0dIj3qNtrdlU=;
+  b=bv2arvYJSpIActEHYnlx7bqSgI5ymtRTFP+2ZyLO6NtZpxO8ouDrrU6c
+   7O81dMwKHIk45lRcn6JD8j5gDbmb4jvyMjvl3HCA+vFxFaK0GsDzgt1ms
+   leJvGE5bWGvh8kW/5j4GM5RjvFmzKR7NMbJN5uyvwC13YRoYmYxnsgxQi
+   MAv7MO1aeYTR0i1Dy+BK0UiwopB2QQvHjGZglULj6COfhAOqBIqSuRRKV
+   4KpObfy4za4nOmyMMniKRcySBG3xZlVvfD5LjwEungArkp7VcxRIalSdX
+   SKS+2+qilRR0HdynWDpr47/hTLdqjc3rEfVWuSZ/LxIVpJGfMYhV4lb4l
    A==;
-X-CSE-ConnectionGUID: QJ/zf4sKTCGGcSFxVUjA+Q==
-X-CSE-MsgGUID: YosgpetyQzCrGzYC9BW0TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="84003495"
+X-CSE-ConnectionGUID: j8We1ZBOTJKRdbq/Xqv4Ig==
+X-CSE-MsgGUID: QVq6FLrNTnS8fihVKV4Lag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="84004319"
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="84003495"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 00:50:16 -0700
-X-CSE-ConnectionGUID: yW1qMh1tSmCpd/kY9myk/g==
-X-CSE-MsgGUID: wb9RtT76T2CqefLUQ8/WMA==
+   d="scan'208";a="84004319"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 00:52:12 -0700
+X-CSE-ConnectionGUID: q3MvSoYmSUS3UFc1e5d6Zg==
+X-CSE-MsgGUID: Mcy5IvL5R7mdhJgb5RSr7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="255210882"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 18 Jul 2026 00:50:14 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="261948990"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 18 Jul 2026 00:52:09 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkzoJ-00000000TYm-30du;
-	Sat, 18 Jul 2026 07:50:11 +0000
-Date: Sat, 18 Jul 2026 15:49:42 +0800
+	id 1wkzqB-000000005kH-33kf;
+	Sat, 18 Jul 2026 07:52:07 +0000
+Date: Sat, 18 Jul 2026 09:51:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: Peter Chen <peter.chen@cixtech.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>
-Subject: drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse: sparse: cast
- from restricted __le32
-Message-ID: <202607181505.CVpdSKHV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Yonggil Song <yonggil.song@samsung.com>,
+	"jaegeuk@kernel.org" <jaegeuk@kernel.org>,
+	"chao@kernel.org" <chao@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, Yonggil Song <yonggil.song@samsung.com>,
+	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Dongjin Kim <dongjin_.kim@samsung.com>,
+	Seokhwan Kim <sukka.kim@samsung.com>,
+	Daejun Park <daejun7.park@samsung.com>
+Subject: Re: [PATCH] f2fs: introduce gcless mount option to avoid foreground
+ GC
+Message-ID: <202607180917.doNNtTXN-lkp@intel.com>
+References: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   94515f3a7d4256a5062176b7d6ed0471938cd51a
-commit: e4d7362dc9cd50b0fc74c8649aa241376c48936c usb: cdns3: Add USBSSP platform driver support
-date:   3 months ago
-config: arc-randconfig-r123-20260716 (https://download.01.org/0day-ci/archive/20260718/202607181505.CVpdSKHV-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607181505.CVpdSKHV-lkp@intel.com/reproduce)
+Hi Yonggil,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on cb8ff3ead9a3fc43727980be58c7099506f65261]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yonggil-Song/f2fs-introduce-gcless-mount-option-to-avoid-foreground-GC/20260706-154229
+base:   cb8ff3ead9a3fc43727980be58c7099506f65261
+patch link:    https://lore.kernel.org/r/20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe%40epcms2p1
+patch subject: [PATCH] f2fs: introduce gcless mount option to avoid foreground GC
+config: i386-randconfig-2006-20250825 (https://download.01.org/0day-ci/archive/20260718/202607180917.doNNtTXN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607180917.doNNtTXN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e4d7362dc9cd ("usb: cdns3: Add USBSSP platform driver support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607181505.CVpdSKHV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607180917.doNNtTXN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to restricted __le32
-   drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to restricted __le32
-   drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to restricted __le32
-   drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to restricted __le32
-   drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to restricted __le32
-   drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to restricted __le32
-   drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse:     expected unsigned int [usertype] val
-   drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse:     got restricted __le32 [usertype]
->> drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse: sparse: cast from restricted __le32
->> drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse: sparse: cast from restricted __le32
->> drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse: sparse: cast from restricted __le32
->> drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse: sparse: cast from restricted __le32
+All warnings (new ones prefixed by >>):
 
-vim +168 drivers/usb/cdns3/cdnsp-gadget.c
+   In file included from include/linux/bits.h:5,
+                    from include/linux/bitops.h:6,
+                    from include/linux/log2.h:12,
+                    from arch/x86/include/asm/div64.h:8,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/fs_dirent.h:5,
+                    from include/linux/fs/super_types.h:5,
+                    from include/linux/fs/super.h:5,
+                    from include/linux/fs.h:5,
+                    from fs/f2fs/dir.c:9:
+   fs/f2fs/f2fs.h: In function 'inc_valid_node_count':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~
+   fs/f2fs/f2fs.h:2945:25: note: in expansion of macro 'test_opt'
+    2945 |                         test_opt(sbi, RESERVE_NODE));
+         |                         ^~~~~~~~
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~
+   fs/f2fs/f2fs.h:2953:13: note: in expansion of macro 'test_opt'
+    2953 |         if (test_opt(sbi, RESERVE_NODE) &&
+         |             ^~~~~~~~
+--
+   In file included from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from arch/x86/include/asm/bug.h:193,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from fs/f2fs/super.c:8:
+   fs/f2fs/f2fs.h: In function 'inc_valid_node_count':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~
+   fs/f2fs/f2fs.h:2945:25: note: in expansion of macro 'test_opt'
+    2945 |                         test_opt(sbi, RESERVE_NODE));
+         |                         ^~~~~~~~
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~
+   fs/f2fs/f2fs.h:2953:13: note: in expansion of macro 'test_opt'
+    2953 |         if (test_opt(sbi, RESERVE_NODE) &&
+         |             ^~~~~~~~
+   fs/f2fs/super.c: In function 'limit_reserve_root':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~
+   fs/f2fs/super.c:520:13: note: in expansion of macro 'test_opt'
+     520 |         if (test_opt(sbi, RESERVE_NODE) &&
+         |             ^~~~~~~~
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~
+   fs/f2fs/super.c:526:46: note: in expansion of macro 'test_opt'
+     526 |         if (!test_opt(sbi, RESERVE_ROOT) && !test_opt(sbi, RESERVE_NODE) &&
+         |                                              ^~~~~~~~
+   fs/f2fs/super.c: In function 'f2fs_check_opt_consistency':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~
+   fs/f2fs/super.c:1528:13: note: in expansion of macro 'test_opt'
+    1528 |         if (test_opt(sbi, RESERVE_NODE) &&
+         |             ^~~~~~~~
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/super.c:1529:42: note: in expansion of macro 'BIT'
+    1529 |                         (ctx->opt_mask & BIT(F2FS_MOUNT_RESERVE_NODE)) &&
+         |                                          ^~~
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/super.c:1534:35: note: in expansion of macro 'BIT'
+    1534 |                 ctx->opt_mask &= ~BIT(F2FS_MOUNT_RESERVE_NODE);
+         |                                   ^~~
+   fs/f2fs/super.c: In function 'f2fs_show_options':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
+     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~
+   fs/f2fs/super.c:2475:44: note: in expansion of macro 'test_opt'
+    2475 |         if (test_opt(sbi, RESERVE_ROOT) || test_opt(sbi, RESERVE_NODE))
+         |                                            ^~~~~~~~
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07  150  
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  151  static void cdnsp_set_apb_timeout_value(struct cdnsp_device *pdev)
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  152  {
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  153  	struct cdns *cdns = dev_get_drvdata(pdev->dev);
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  154  	__le32 __iomem *reg;
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  155  	void __iomem *base;
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  156  	u32 offset = 0;
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  157  	u32 val;
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  158  
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  159  	if (!cdns->override_apb_timeout)
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  160  		return;
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  161  
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  162  	base = &pdev->cap_regs->hc_capbase;
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  163  	offset = cdnsp_find_next_ext_cap(base, offset, D_XEC_PRE_REGS_CAP);
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  164  	reg = base + offset + REG_CHICKEN_BITS_3_OFFSET;
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  165  
-241e2ce88e5a49 Pawel Laszczak 2025-04-18 @166  	val  = le32_to_cpu(readl(reg));
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  167  	val = CHICKEN_APB_TIMEOUT_SET(val, cdns->override_apb_timeout);
-241e2ce88e5a49 Pawel Laszczak 2025-04-18 @168  	writel(cpu_to_le32(val), reg);
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  169  }
-241e2ce88e5a49 Pawel Laszczak 2025-04-18  170  
 
-:::::: The code at line 168 was first introduced by commit
-:::::: 241e2ce88e5a494be7a5d44c0697592f1632fbee usb: cdnsp: Fix issue with resuming from L1
+vim +7 include/vdso/bits.h
 
-:::::: TO: Pawel Laszczak <pawell@cadence.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
+3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
+cbdb1f163af2bb Andy Shevchenko   2022-11-28  8  #define BIT_ULL(nr)		(ULL(1) << (nr))
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
 
 --
 0-DAY CI Kernel Test Service
