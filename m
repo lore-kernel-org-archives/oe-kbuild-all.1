@@ -1,221 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AEF29B8CF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 07:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6600633D4E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 07:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784361177; cv=none; b=fLIA0Fx6NBeVMeo/hSr2LEFuF7JQJ9l4Bx3103R9c3WpnAR2ICqLr8lj6J9OG1WKS2MUR+tUnxYlDLlJnhTdMaR/bmiJBv2rzwSFebnuvaT2B2L9QzlE33bfy26aOHQ3OVa81GcF56cR486fpB37kKM+Ant2Q3kV/MCOz8wGW1g=
+	t=1784361203; cv=none; b=Ow8n9Z3dNss34rWXjM226n7UF1+TKC9WZnTBjPZT4CUikgK7h8AEAy0d1J1+K3ptgCs6n4rpYAMAvs77Jnflr5rZYHQOk8+xMyuyX0HvkQTIIUMmZxYiSJs9+VCG7MUN1mKyX/gcjcSbb22D5+pLqLsuXNcunPBYeR3mhLjW4iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784361177; c=relaxed/simple;
-	bh=usp4xS76WrIMBZsPgWMPfQLaX/5OcCg0dIj3qNtrdlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TwPTzXFaC/0e108p4Uw0yqapZjxsa0R/mBn2uvyErMqpQOFJsvszmLqSNVSN+2zqKIIm2NDD/Az1aL2h78nFYJYCSkNsRRlDNLZbmTMwlZ8mtPCeOwPVIykaneCbMCgKVnSxmJgjiajT01TZT6VqGTy9d6C9hv1GVJvdOZOwMwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bv2arvYJ; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1784361203; c=relaxed/simple;
+	bh=TMbxvp1UvPnyhdYlx+nqiD4lslG8cjSEUik95u2hba8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=B3A9Bzo9fll/Fw818YFd/ZAaR/M1kU8e/xeBFzEhYaIANerVMaT3MBJ9DoNJLSKePKP66oKkgqLy0xXPgwkwwOuF0xEl55uNKZCF3iVezaJ4uCJeSJceAwYxdXZ5XOrKcK+RyuA3HyK5fKBE1IgZA+/wN7f/gKdVS2cCFxYOBV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JJs/sSU3; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bv2arvYJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JJs/sSU3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784361176; x=1815897176;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=usp4xS76WrIMBZsPgWMPfQLaX/5OcCg0dIj3qNtrdlU=;
-  b=bv2arvYJSpIActEHYnlx7bqSgI5ymtRTFP+2ZyLO6NtZpxO8ouDrrU6c
-   7O81dMwKHIk45lRcn6JD8j5gDbmb4jvyMjvl3HCA+vFxFaK0GsDzgt1ms
-   leJvGE5bWGvh8kW/5j4GM5RjvFmzKR7NMbJN5uyvwC13YRoYmYxnsgxQi
-   MAv7MO1aeYTR0i1Dy+BK0UiwopB2QQvHjGZglULj6COfhAOqBIqSuRRKV
-   4KpObfy4za4nOmyMMniKRcySBG3xZlVvfD5LjwEungArkp7VcxRIalSdX
-   SKS+2+qilRR0HdynWDpr47/hTLdqjc3rEfVWuSZ/LxIVpJGfMYhV4lb4l
-   A==;
-X-CSE-ConnectionGUID: j8We1ZBOTJKRdbq/Xqv4Ig==
-X-CSE-MsgGUID: QVq6FLrNTnS8fihVKV4Lag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="84004319"
+  t=1784361202; x=1815897202;
+  h=date:from:to:cc:subject:message-id;
+  bh=TMbxvp1UvPnyhdYlx+nqiD4lslG8cjSEUik95u2hba8=;
+  b=JJs/sSU3hfvdyg9BtZ77Qt8EFPS5JHg54DJiqPd8XCHOj4Yhj8vAwHnh
+   jNkD3AH4YaEGADGc1X8WacmX1EGwVAkxCcV5v9ByMfK9X/1ZHkJGyirw5
+   0GGAu99u7ef1eiRw5FDwF+7nfEPCb9JN1NpMFeyMwauEj/yIaND9SAtQd
+   6yKWDjIM2c1247WDBRL+dISyfIEH7tiDsSM0Zj6JfI2kf6cDhLYDVBr8Y
+   76cPGtiCQt1R2WH0Kls0CQvpcS+qqFhpSv6HH+ed2pZTfxgNlkSDTrLfH
+   2xsdxFDcRSwchSNRv/f+9gZtKlQBqxMqVmcclXbfJVGyCKBFJUUzFSQ7z
+   g==;
+X-CSE-ConnectionGUID: gBcBBAReSf6P9640BITDag==
+X-CSE-MsgGUID: N/uiW+cMQyON1NzA6MKfSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="95617192"
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="84004319"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 00:52:12 -0700
-X-CSE-ConnectionGUID: q3MvSoYmSUS3UFc1e5d6Zg==
-X-CSE-MsgGUID: Mcy5IvL5R7mdhJgb5RSr7A==
+   d="scan'208";a="95617192"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 00:53:21 -0700
+X-CSE-ConnectionGUID: PQs8wz30R3S1V3OOSk+UNw==
+X-CSE-MsgGUID: XEKuTZ2JSAWnc0/u6UQQuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="261948990"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Jul 2026 00:52:09 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="255808050"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 18 Jul 2026 00:53:19 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkzqB-000000005kH-33kf;
-	Sat, 18 Jul 2026 07:52:07 +0000
-Date: Sat, 18 Jul 2026 09:51:48 +0200
+	id 1wkzrG-00000000TYt-1AYg;
+	Sat, 18 Jul 2026 07:53:14 +0000
+Date: Sat, 18 Jul 2026 15:52:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yonggil Song <yonggil.song@samsung.com>,
-	"jaegeuk@kernel.org" <jaegeuk@kernel.org>,
-	"chao@kernel.org" <chao@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, Yonggil Song <yonggil.song@samsung.com>,
-	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Dongjin Kim <dongjin_.kim@samsung.com>,
-	Seokhwan Kim <sukka.kim@samsung.com>,
-	Daejun Park <daejun7.park@samsung.com>
-Subject: Re: [PATCH] f2fs: introduce gcless mount option to avoid foreground
- GC
-Message-ID: <202607180917.doNNtTXN-lkp@intel.com>
-References: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-2025-09 6/6]
+ drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member
+ 'pm_nb' not described in 'gh_rm'
+Message-ID: <202607181530.sLBbBtSw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe@epcms2p1>
 
-Hi Yonggil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cb8ff3ead9a3fc43727980be58c7099506f65261]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yonggil-Song/f2fs-introduce-gcless-mount-option-to-avoid-foreground-GC/20260706-154229
-base:   cb8ff3ead9a3fc43727980be58c7099506f65261
-patch link:    https://lore.kernel.org/r/20260706062043epcms2p16928216befdca1242bc2d3cd7cb34afe%40epcms2p1
-patch subject: [PATCH] f2fs: introduce gcless mount option to avoid foreground GC
-config: i386-randconfig-2006-20250825 (https://download.01.org/0day-ci/archive/20260718/202607180917.doNNtTXN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607180917.doNNtTXN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-09
+head:   3280cd302df134b0017482f1a83de4325885e4b3
+commit: 49a4719b693e7a7d3452677b31a1f32228da3887 [6/6] ANDROID: virt: gunyah: Fetch fresh Gunyah information after restore
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260718/202607181530.sLBbBtSw-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607181530.sLBbBtSw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607180917.doNNtTXN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607181530.sLBbBtSw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bits.h:5,
-                    from include/linux/bitops.h:6,
-                    from include/linux/log2.h:12,
-                    from arch/x86/include/asm/div64.h:8,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from fs/f2fs/dir.c:9:
-   fs/f2fs/f2fs.h: In function 'inc_valid_node_count':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/f2fs.h:2945:25: note: in expansion of macro 'test_opt'
-    2945 |                         test_opt(sbi, RESERVE_NODE));
-         |                         ^~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/f2fs.h:2953:13: note: in expansion of macro 'test_opt'
-    2953 |         if (test_opt(sbi, RESERVE_NODE) &&
-         |             ^~~~~~~~
---
-   In file included from include/linux/bits.h:5,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from fs/f2fs/super.c:8:
-   fs/f2fs/f2fs.h: In function 'inc_valid_node_count':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/f2fs.h:2945:25: note: in expansion of macro 'test_opt'
-    2945 |                         test_opt(sbi, RESERVE_NODE));
-         |                         ^~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/f2fs.h:2953:13: note: in expansion of macro 'test_opt'
-    2953 |         if (test_opt(sbi, RESERVE_NODE) &&
-         |             ^~~~~~~~
-   fs/f2fs/super.c: In function 'limit_reserve_root':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/super.c:520:13: note: in expansion of macro 'test_opt'
-     520 |         if (test_opt(sbi, RESERVE_NODE) &&
-         |             ^~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/super.c:526:46: note: in expansion of macro 'test_opt'
-     526 |         if (!test_opt(sbi, RESERVE_ROOT) && !test_opt(sbi, RESERVE_NODE) &&
-         |                                              ^~~~~~~~
-   fs/f2fs/super.c: In function 'f2fs_check_opt_consistency':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/super.c:1528:13: note: in expansion of macro 'test_opt'
-    1528 |         if (test_opt(sbi, RESERVE_NODE) &&
-         |             ^~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/super.c:1529:42: note: in expansion of macro 'BIT'
-    1529 |                         (ctx->opt_mask & BIT(F2FS_MOUNT_RESERVE_NODE)) &&
-         |                                          ^~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/super.c:1534:35: note: in expansion of macro 'BIT'
-    1534 |                 ctx->opt_mask &= ~BIT(F2FS_MOUNT_RESERVE_NODE);
-         |                                   ^~~
-   fs/f2fs/super.c: In function 'f2fs_show_options':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   fs/f2fs/f2fs.h:150:33: note: in expansion of macro 'BIT'
-     150 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
-         |                                 ^~~
-   fs/f2fs/super.c:2475:44: note: in expansion of macro 'test_opt'
-    2475 |         if (test_opt(sbi, RESERVE_ROOT) || test_opt(sbi, RESERVE_NODE))
-         |                                            ^~~~~~~~
+   drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member 'adev' not described in 'gh_rm'
+>> drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member 'pm_nb' not described in 'gh_rm'
+   drivers/virt/gunyah/rsc_mgr.c:669: warning: Function parameter or member '_rm' not described in 'gh_rm_call'
+   drivers/virt/gunyah/rsc_mgr.c:669: warning: Excess function parameter 'rm' description in 'gh_rm_call'
 
 
-vim +7 include/vdso/bits.h
+vim +194 drivers/virt/gunyah/rsc_mgr.c
 
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
-3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
-cbdb1f163af2bb Andy Shevchenko   2022-11-28  8  #define BIT_ULL(nr)		(ULL(1) << (nr))
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  155  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  156  /**
+d5e8df2cc4a170 Elliot Berman           2022-08-10  157   * struct gh_rm - private data for communicating w/Gunyah resource manager
+705a9b5feb1ba9 Elliot Berman           2023-06-12  158   * @dev: pointer to RM platform device
+d5e8df2cc4a170 Elliot Berman           2022-08-10  159   * @tx_ghrsc: message queue resource to TX to RM
+d5e8df2cc4a170 Elliot Berman           2022-08-10  160   * @rx_ghrsc: message queue resource to RX from RM
+9a9fc8d1b2882c Elliot Berman           2023-04-17  161   * @msgq: mailbox instance of TX/RX resources above
+9a9fc8d1b2882c Elliot Berman           2023-04-17  162   * @msgq_client: mailbox client of above msgq
+d5e8df2cc4a170 Elliot Berman           2022-08-10  163   * @active_rx_connection: ongoing gh_rm_connection for which we're receiving fragments
+d5e8df2cc4a170 Elliot Berman           2022-08-10  164   * @last_tx_ret: return value of last mailbox tx
+d5e8df2cc4a170 Elliot Berman           2022-08-10  165   * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
+d5e8df2cc4a170 Elliot Berman           2022-08-10  166   * @next_seq: next ID to allocate (for xa_alloc_cyclic)
+d5e8df2cc4a170 Elliot Berman           2022-08-10  167   * @cache: cache for allocating Tx messages
+d5e8df2cc4a170 Elliot Berman           2022-08-10  168   * @send_lock: synchronization to allow only one request to be sent at a time
+d5e8df2cc4a170 Elliot Berman           2022-08-10  169   * @nh: notifier chain for clients interested in RM notification messages
+f251362242ba3e Elliot Berman           2022-10-14  170   * @miscdev: /dev/gunyah
+4cf9feacb7e4ba Elliot Berman           2022-12-13  171   * @irq_domain: Domain to translate Gunyah hwirqs to Linux irqs
+d5e8df2cc4a170 Elliot Berman           2022-08-10  172   */
+d5e8df2cc4a170 Elliot Berman           2022-08-10  173  struct gh_rm {
+d5e8df2cc4a170 Elliot Berman           2022-08-10  174  	struct device *dev;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  175  	struct gh_resource tx_ghrsc;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  176  	struct gh_resource rx_ghrsc;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  177  	struct gh_msgq msgq;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  178  	struct mbox_client msgq_client;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  179  	struct gh_rm_connection *active_rx_connection;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  180  	int last_tx_ret;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  181  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  182  	struct xarray call_xarray;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  183  	u32 next_seq;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  184  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  185  	struct kmem_cache *cache;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  186  	struct mutex send_lock;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  187  	struct blocking_notifier_head nh;
+f251362242ba3e Elliot Berman           2022-10-14  188  
+1dce9d7d4deea1 Prakruthi Deepak Heragu 2023-02-27  189  	struct auxiliary_device adev;
+f251362242ba3e Elliot Berman           2022-10-14  190  	struct miscdevice miscdev;
+4cf9feacb7e4ba Elliot Berman           2022-12-13  191  	struct irq_domain *irq_domain;
+49a4719b693e7a Hrishabh Rajput         2025-08-13  192  
+49a4719b693e7a Hrishabh Rajput         2025-08-13  193  	struct notifier_block pm_nb;
+d5e8df2cc4a170 Elliot Berman           2022-08-10 @194  };
+d5e8df2cc4a170 Elliot Berman           2022-08-10  195  
+
+:::::: The code at line 194 was first introduced by commit
+:::::: d5e8df2cc4a17063dcebc67a939356ad49a665bd FROMLIST: gunyah: rsc_mgr: Add resource manager RPC core
+
+:::::: TO: Elliot Berman <quic_eberman@quicinc.com>
+:::::: CC: Aleksei Vetrov <vvvvvv@google.com>
 
 --
 0-DAY CI Kernel Test Service
