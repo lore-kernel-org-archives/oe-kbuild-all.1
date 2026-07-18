@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5812D2727FD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 03:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545C719DF62
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 03:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784345905; cv=none; b=V/IdV0Vpo2J8XkKyFT5tlEx6GqsqmrB5gODKoMsZzkU+/ZEx1iwgP5zct3+c8sbXSHcRe0y54L/XVi246tCdDLd/eyYk37j+O/jeY58xuoY40fbjYQA/GFVAbIj38a3IxzQTRbu1rPUWpovnfdHFBogQkyCPxJpfNwzSrBsNz7I=
+	t=1784346512; cv=none; b=TdHsS3B96gosVef1HqWIP5nsK43xIsuB3jcv6YPMjRIzuz6wdyonBEHoXsWQ/2RIFFr9ZoaULvrGSwycpPLpDNdYfvv3LaZ+fXcG5DqC2LJPewvvf3iifEHvpaReE3ygGYJ9+ckECspfgYVwmuxt3DJ+XS5Ow0jN+NaAu1xU6T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784345905; c=relaxed/simple;
-	bh=vV99gpyUlDsQK5q+R2EJXgRbqgRhZzWMQnQUYIOfRqw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uWpwsVOCJ2Fm+m7pd12axQtolcvLqU3+gcF9kp2w0gYeJOZPVnng/0zG1F6mK8NLS9cquGKQ87FBTAZbxCHQm9X7dsU93mk3tj3ifw4BXlD8PgYGnqspCOXKp7ZNJEE8qS6qeRYRAxqEqpllTqrDiv8eO/da6DK+vWWbyGUeMH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXVkDMBC; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1784346512; c=relaxed/simple;
+	bh=K9/VLNnJOu2zmau/xuUrpiOLyP7PUqYFtQXfjIdlVmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=shwA7otyT3VSx5ACG/XpqrNQ+5psjk0YrKHz2is97I1VY0jEHtNGNMGg1kS5VrmeHJc9NMDnoJd5rB8nSSyTVtnthcCra1V8RXdhbW1OiKHFRDlQ4/Yo6cGiy6+TcG6goYE7BySJdKQiDeQtUqbULy71IbgKSE9nqC7jy9wmEIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j4jczH7I; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXVkDMBC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j4jczH7I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784345903; x=1815881903;
+  t=1784346511; x=1815882511;
   h=date:from:to:cc:subject:message-id;
-  bh=vV99gpyUlDsQK5q+R2EJXgRbqgRhZzWMQnQUYIOfRqw=;
-  b=LXVkDMBCuQHRNRfeZ6HQS2H3A1pIacnZxqFocgaAu9BFD5qQ9L/UWDRM
-   9XXMFmoxP1NWGyPEaonUyOjBtkw9EsvF6ThWWCetTlrjtONAXLggldp6n
-   drn+xIhdI6TbnoV6WV8vZT3u3xyiXrEfiC7lAvgkrPZ4gERtcBqXptykE
-   JQ9Je79Y7i62o2U5Q0xTlsC1YGBEiUoYaoQKwlRDGXiC3wQwCup930+P8
-   BhPwRBulNxjWlLt+5xmI3zCC21WmKohqkfIgAvONOKh14zawfZCLkbTbW
-   eI0S9e2cNuN5Md/avCHHtgDN0iM1PyLVa+WqPJDaBh6FS+plOy9iiRaiM
+  bh=K9/VLNnJOu2zmau/xuUrpiOLyP7PUqYFtQXfjIdlVmQ=;
+  b=j4jczH7IyGnZ77V5ROi39fC2jpATTmwom3Pj+KIoCB/Sd+jV5/23kkhW
+   vgcrwBELJCepFwL9Zv77ZGRYhHqZsZ464qBqOmv3EgQUYcFix6S5LwmVY
+   9k+gS3o1iCbX53f9XsKrDO9dhm2drxZGs0y6x0t7VnfF7kPbdhz+kDqT4
+   UafjLlcxUd8P60IRbwmJnjY9JLMOihUz/oNqy8Q0MC5w8a04X/qqrvpfz
+   7jsDSyRr5nnQyPYJgCHTWmMnZbWXVxDWr/pZFmMlU5d4EH0Ji7a7IxI5n
+   KppNuZXuQsCjT8R8wbe1koQVbaXaUwh/SElY7XFPBM94bJz3bf/7HtWBi
    A==;
-X-CSE-ConnectionGUID: /GpqaR2vT9SPyTrsrI4zHQ==
-X-CSE-MsgGUID: uqcYpHEcTVmlp425iHSv4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="83998304"
+X-CSE-ConnectionGUID: EsU2NNH4RnGqdOprlloZyw==
+X-CSE-MsgGUID: msLdXdSeQoG4OOLy7gJK+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="84894394"
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="83998304"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 20:38:18 -0700
-X-CSE-ConnectionGUID: GUGz6VJeQWi1ib35tRAikw==
-X-CSE-MsgGUID: T18cBFsMTxGaq5HehVRUcw==
+   d="scan'208";a="84894394"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 20:48:30 -0700
+X-CSE-ConnectionGUID: 3uigKEolQ+222muZMdTCCw==
+X-CSE-MsgGUID: 67CVAHniQ3+f35+8zF7cHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="250596955"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Jul 2026 20:38:17 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="255777197"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 17 Jul 2026 20:48:29 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkvsU-00000000TQR-3wH0;
-	Sat, 18 Jul 2026 03:38:14 +0000
-Date: Sat, 18 Jul 2026 11:37:34 +0800
+	id 1wkw2M-000000005iP-31R7;
+	Sat, 18 Jul 2026 03:48:26 +0000
+Date: Sat, 18 Jul 2026 05:48:12 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Eric Biggers <ebiggers@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/12]
- include/trace/hooks/binder.h:131:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202607181141.GklHqxFa-lkp@intel.com>
+Subject: [ebiggers:wip-rng 5/5] crypto/drbg.c:415:35: error: implicit
+ declaration of function 'kzalloc_obj'
+Message-ID: <202607180543.hizYYRNj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,241 +59,281 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   0fd55a309793adc6b8cddb5c29e80caa545ba4bb
-commit: b13ee5ea88c0090e686cc168a5905f15a7cadc46 [0/12] ANDROID: vendor_hooks: add hook to record binder transaction info
-config: i386-randconfig-062 (https://download.01.org/0day-ci/archive/20260718/202607181141.GklHqxFa-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-rng
+head:   2087a31445f0be98a499611a2d0bd798d21a76c4
+commit: 2087a31445f0be98a499611a2d0bd798d21a76c4 [5/5] [WIP] crypto: rng - Remove crypto_rng
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260718/202607180543.hizYYRNj-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607181141.GklHqxFa-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607180543.hizYYRNj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607181141.GklHqxFa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607180543.hizYYRNj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/android/binderfs.c: note: in included file:
->> include/trace/hooks/binder.h:131:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/binder.h:131:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/binder.h:131:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
---
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/binder.h):
->> include/trace/hooks/binder.h:131:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/binder.h:131:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/binder.h:131:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/wqlockup.h):
-   include/trace/hooks/wqlockup.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/wqlockup.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/wqlockup.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/wqlockup.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/wqlockup.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/wqlockup.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpufreq.h):
-   include/trace/hooks/cpufreq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cpufreq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cpufreq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/cpufreq.h:41:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cpufreq.h:41:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cpufreq.h:41:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/preemptirq.h):
-   include/trace/hooks/preemptirq.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cgroup.h):
-   include/trace/hooks/cgroup.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cgroup.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cgroup.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/cgroup.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cgroup.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cgroup.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/iommu.h):
-   include/trace/hooks/iommu.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/iommu.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/iommu.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/iommu.h:42:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:42:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:42:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/iommu.h:46:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:46:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:46:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fs.h):
-   include/trace/hooks/fs.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/fs.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/fs.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/fs.h:64:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/fs.h:64:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/fs.h:64:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
-   include/trace/hooks/vmscan.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/vmscan.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/vmscan.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/vmscan.h:88:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/vmscan.h:88:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/vmscan.h:88:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/vmscan.h:91:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/vmscan.h:91:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/vmscan.h:91:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
-   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
-   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
-   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
+All errors (new ones prefixed by >>):
 
-vim +131 include/trace/hooks/binder.h
+   crypto/drbg.c: In function 'crypto_drbg_alloc':
+>> crypto/drbg.c:415:35: error: implicit declaration of function 'kzalloc_obj' [-Wimplicit-function-declaration]
+     415 |         struct drbg_state *drbg = kzalloc_obj(*drbg);
+         |                                   ^~~~~~~~~~~
+>> crypto/drbg.c:415:35: error: initialization of 'struct drbg_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   crypto/drbg.c: In function 'crypto_drbg_free':
+>> crypto/drbg.c:521:17: error: implicit declaration of function 'kfree_sensitive' [-Wimplicit-function-declaration]
+     521 |                 kfree_sensitive(drbg);
+         |                 ^~~~~~~~~~~~~~~
+   crypto/drbg.c: In function 'drbg_healthcheck_sanity':
+>> crypto/drbg.c:605:28: error: expected expression before 'struct'
+     605 |         drbg = kzalloc_obj(struct drbg_state);
+         |                            ^~~~~~
+>> crypto/drbg.c:636:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+     636 |         kfree(drbg);
+         |         ^~~~~
+   crypto/drbg.c: In function 'drbg_selftest_one_vec':
+>> crypto/drbg.c:644:9: error: cleanup argument not a function
+     644 |         unsigned char *buf __free(kfree_sensitive) = NULL;
+         |         ^~~~~~~~
+>> crypto/drbg.c:647:15: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+     647 |         buf = kzalloc(test->expectedlen, GFP_KERNEL);
+         |               ^~~~~~~
+>> crypto/drbg.c:647:13: error: assignment to 'unsigned char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     647 |         buf = kzalloc(test->expectedlen, GFP_KERNEL);
+         |             ^
 
-    21	
-    22	DECLARE_HOOK(android_vh_binder_transaction_init,
-    23		TP_PROTO(struct binder_transaction *t),
-    24		TP_ARGS(t));
-    25	DECLARE_HOOK(android_vh_binder_set_priority,
-    26		TP_PROTO(struct binder_transaction *t, struct task_struct *task),
-    27		TP_ARGS(t, task));
-    28	DECLARE_HOOK(android_vh_binder_restore_priority,
-    29		TP_PROTO(struct binder_transaction *t, struct task_struct *task),
-    30		TP_ARGS(t, task));
-    31	DECLARE_HOOK(android_vh_binder_alloc_new_buf_locked,
-    32		TP_PROTO(size_t size, size_t *free_async_space, int is_async, bool *should_fail),
-    33		TP_ARGS(size, free_async_space, is_async, should_fail));
-    34	DECLARE_HOOK(android_vh_binder_wait_for_work,
-    35		TP_PROTO(bool do_proc_work, struct binder_thread *tsk, struct binder_proc *proc),
-    36		TP_ARGS(do_proc_work, tsk, proc));
-    37	DECLARE_HOOK(android_vh_sync_txn_recvd,
-    38		TP_PROTO(struct task_struct *tsk, struct task_struct *from),
-    39		TP_ARGS(tsk, from));
-    40	DECLARE_HOOK(android_vh_binder_proc_transaction_finish,
-    41		TP_PROTO(struct binder_proc *proc, struct binder_transaction *t,
-    42			struct task_struct *binder_th_task, bool pending_async, bool sync),
-    43		TP_ARGS(proc, t, binder_th_task, pending_async, sync));
-    44	DECLARE_HOOK(android_vh_binder_select_special_worklist,
-    45		TP_PROTO(struct list_head **list, struct binder_thread *thread, struct binder_proc *proc,
-    46		int wait_for_proc_work, bool *nothing_to_do),
-    47		TP_ARGS(list, thread, proc, wait_for_proc_work, nothing_to_do));
-    48	DECLARE_HOOK(android_vh_alloc_oem_binder_struct,
-    49		TP_PROTO(struct binder_transaction_data *tr, struct binder_transaction *t,
-    50			struct binder_proc *proc),
-    51		TP_ARGS(tr, t, proc));
-    52	DECLARE_HOOK(android_vh_binder_transaction_received,
-    53		TP_PROTO(struct binder_transaction *t, struct binder_proc *proc,
-    54			struct binder_thread *thread, uint32_t cmd),
-    55		TP_ARGS(t, proc, thread, cmd));
-    56	DECLARE_HOOK(android_vh_free_oem_binder_struct,
-    57		TP_PROTO(struct binder_transaction *t),
-    58		TP_ARGS(t));
-    59	DECLARE_HOOK(android_vh_binder_special_task,
-    60		TP_PROTO(struct binder_transaction *t, struct binder_proc *proc,
-    61			struct binder_thread *thread, struct binder_work *w,
-    62			struct list_head *head, bool sync, bool *special_task),
-    63		TP_ARGS(t, proc, thread, w, head, sync, special_task));
-    64	DECLARE_HOOK(android_vh_binder_buffer_release,
-    65		TP_PROTO(struct binder_proc *proc, struct binder_thread *thread,
-    66			struct binder_buffer *buffer, bool has_transaction),
-    67		TP_ARGS(proc, thread, buffer, has_transaction));
-    68	DECLARE_HOOK(android_vh_binder_ioctl_end,
-    69		TP_PROTO(struct task_struct *caller_task,
-    70			unsigned int cmd,
-    71			unsigned long arg,
-    72			struct binder_thread *thread,
-    73			struct binder_proc *proc,
-    74			int *ret),
-    75		TP_ARGS(caller_task, cmd, arg, thread, proc, ret));
-    76	DECLARE_HOOK(android_vh_binder_looper_exited,
-    77		TP_PROTO(struct binder_thread *thread, struct binder_proc *proc),
-    78		TP_ARGS(thread, proc));
-    79	DECLARE_HOOK(android_vh_binder_spawn_new_thread,
-    80		TP_PROTO(struct binder_thread *thread, struct binder_proc *proc, bool *force_spawn),
-    81		TP_ARGS(thread, proc, force_spawn));
-    82	DECLARE_HOOK(android_vh_binder_has_special_work_ilocked,
-    83		TP_PROTO(struct binder_thread *thread, bool do_proc_work, bool *has_work),
-    84		TP_ARGS(thread, do_proc_work, has_work));
-    85	DECLARE_HOOK(android_vh_binder_list_add_work,
-    86		TP_PROTO(struct binder_work *work, struct list_head *target_list),
-    87		TP_ARGS(work, target_list));
-    88	DECLARE_HOOK(android_vh_binder_has_proc_work_ilocked,
-    89		TP_PROTO(struct binder_thread *thread, bool do_proc_work, bool *has_work),
-    90		TP_ARGS(thread, do_proc_work, has_work));
-    91	DECLARE_HOOK(android_vh_binder_check_special_work,
-    92		TP_PROTO(struct binder_proc *proc, struct list_head **special_list),
-    93		TP_ARGS(proc, special_list));
-    94	DECLARE_HOOK(android_vh_binder_free_proc,
-    95		TP_PROTO(struct binder_proc *proc),
-    96		TP_ARGS(proc));
-    97	DECLARE_HOOK(android_vh_binder_preset,
-    98		TP_PROTO(struct hlist_head *hhead, struct mutex *lock, struct binder_proc *proc),
-    99		TP_ARGS(hhead, lock, proc));
-   100	DECLARE_HOOK(android_vh_binder_reply,
-   101		TP_PROTO(struct binder_proc *target_proc, struct binder_proc *proc,
-   102			struct binder_thread *thread, struct binder_transaction_data *tr),
-   103		TP_ARGS(target_proc, proc, thread, tr));
-   104	DECLARE_HOOK(android_vh_binder_trans,
-   105		TP_PROTO(struct binder_proc *target_proc, struct binder_proc *proc,
-   106			struct binder_thread *thread, struct binder_transaction_data *tr),
-   107		TP_ARGS(target_proc, proc, thread, tr));
-   108	DECLARE_HOOK(android_vh_binder_proc_transaction,
-   109		TP_PROTO(struct task_struct *caller_task, struct task_struct *binder_proc_task,
-   110			struct task_struct *binder_th_task, int node_debug_id,
-   111			struct binder_transaction *t, bool pending_async),
-   112		TP_ARGS(caller_task, binder_proc_task, binder_th_task, node_debug_id, t, pending_async));
-   113	DECLARE_HOOK(android_vh_binder_thread_read,
-   114		TP_PROTO(struct list_head **list, struct binder_proc *proc,
-   115			struct binder_thread *thread),
-   116		TP_ARGS(list, proc, thread));
-   117	DECLARE_HOOK(android_vh_binder_transaction_record,
-   118		TP_PROTO(struct binder_transaction_data *tr,
-   119			struct binder_transaction *t,
-   120			struct binder_transaction *in_reply_to),
-   121		TP_ARGS(tr, t, in_reply_to));
-   122	DECLARE_HOOK(android_vh_binder_data_preset,
-   123		TP_PROTO(struct hlist_head *binder_procs,
-   124			struct mutex *binder_procs_lock,
-   125			struct binder_transaction_log *binder_transaction_log,
-   126			struct binder_transaction_log *binder_transaction_log_failed,
-   127			size_t size),
-   128		TP_ARGS(binder_procs,
-   129			binder_procs_lock, binder_transaction_log,
-   130			binder_transaction_log_failed, size));
- > 131	DECLARE_RESTRICTED_HOOK(android_rvh_init_binder_logs,
+
+vim +/kzalloc_obj +415 crypto/drbg.c
+
+   408	
+   409	/***************************************************************
+   410	 * Public API
+   411	 ***************************************************************/
+   412	
+   413	struct drbg_state *crypto_drbg_alloc(void)
+   414	{
+ > 415		struct drbg_state *drbg = kzalloc_obj(*drbg);
+   416	
+   417		if (!drbg)
+   418			return NULL;
+   419	
+   420		mutex_init(&drbg->drbg_mutex);
+   421		return drbg;
+   422	}
+   423	EXPORT_SYMBOL_GPL(crypto_drbg_alloc);
+   424	
+   425	/* Set test entropy in the DRBG. */
+   426	void crypto_drbg_set_entropy(struct drbg_state *drbg, const u8 *data,
+   427				     size_t len)
+   428	{
+   429		mutex_lock(&drbg->drbg_mutex);
+   430		drbg->test_entropy = data;
+   431		drbg->test_entropylen = len;
+   432		mutex_unlock(&drbg->drbg_mutex);
+   433	}
+   434	EXPORT_SYMBOL_GPL(crypto_drbg_set_entropy);
+   435	
+   436	/* Seed (i.e. instantiate) or re-seed the DRBG. */
+   437	int crypto_drbg_seed(struct drbg_state *drbg, const u8 *pers, size_t pers_len)
+   438	{
+   439		static const u8 initial_key[DRBG_STATE_LEN]; /* all zeroes */
+   440		int ret;
+   441	
+   442		pr_devel("DRBG: Initializing DRBG\n");
+   443		guard(mutex)(&drbg->drbg_mutex);
+   444	
+   445		if (drbg->instantiated)
+   446			return drbg_seed(drbg, pers, pers_len, /* reseed= */ true);
+   447	
+   448		/* 9.1 step 1 is implicit with the selected DRBG type */
+   449	
+   450		/*
+   451		 * 9.1 step 2 is implicit, as this implementation doesn't support
+   452		 * prediction resistance
+   453		 */
+   454	
+   455		/* 9.1 step 4 is implicit in DRBG_SEC_STRENGTH */
+   456	
+   457		memset(drbg->V, 1, DRBG_STATE_LEN);
+   458		hmac_sha512_preparekey(&drbg->key, initial_key, DRBG_STATE_LEN);
+   459	
+   460		/* Allocate jitterentropy if not in test mode. */
+   461		if (drbg->test_entropylen == 0) {
+   462			drbg->jent = crypto_jent_alloc();
+   463			if (!drbg->jent) {
+   464				if (fips_enabled)
+   465					return -ENOMEM;
+   466				pr_info("DRBG: Continuing without Jitter RNG\n");
+   467			}
+   468		}
+   469	
+   470		ret = drbg_seed(drbg, pers, pers_len, /* reseed= */ false);
+   471		if (ret) {
+   472			crypto_jent_free(drbg->jent);
+   473			drbg->jent = NULL;
+   474			return ret;
+   475		}
+   476		drbg->instantiated = true;
+   477		return 0;
+   478	}
+   479	EXPORT_SYMBOL_GPL(crypto_drbg_seed);
+   480	
+   481	/**
+   482	 * crypto_drbg_get_bytes() - Generate random numbers
+   483	 *
+   484	 * @drbg: a DRBG instance.  crypto_drbg_seed() must have been called.
+   485	 * @out: the output buffer where random data is to be stored
+   486	 * @out_len: number of random bytes to generate
+   487	 * @addtl: optional additional input supplied to the RNG
+   488	 * @addtl_len: length of addtl in bytes, possibly 0
+   489	 *
+   490	 * Context: May sleep
+   491	 * Return: 0 on success, -errno on error
+   492	 */
+   493	int crypto_drbg_get_bytes(struct drbg_state *drbg, u8 *out, size_t out_len,
+   494				  const u8 *addtl, size_t addtl_len)
+   495	{
+   496		/*
+   497		 * Break the request into multiple requests if needed, to avoid
+   498		 * exceeding the maximum request length of the core algorithm.
+   499		 */
+   500		do {
+   501			size_t n = min(out_len, DRBG_MAX_REQUEST_BYTES);
+   502			int err;
+   503	
+   504			mutex_lock(&drbg->drbg_mutex);
+   505			err = drbg_generate(drbg, out, n, addtl, addtl_len);
+   506			mutex_unlock(&drbg->drbg_mutex);
+   507			if (err < 0)
+   508				return err;
+   509			out += n;
+   510			out_len -= n;
+   511		} while (out_len);
+   512		return 0;
+   513	}
+   514	EXPORT_SYMBOL_GPL(crypto_drbg_get_bytes);
+   515	
+   516	/* Uninstantiate the DRBG. */
+   517	void crypto_drbg_free(struct drbg_state *drbg)
+   518	{
+   519		if (drbg) {
+   520			crypto_jent_free(drbg->jent);
+ > 521			kfree_sensitive(drbg);
+   522		}
+   523	}
+   524	EXPORT_SYMBOL_GPL(crypto_drbg_free);
+   525	
+   526	static DEFINE_MUTEX(crypto_default_rng_lock);
+   527	static struct drbg_state *crypto_default_rng;
+   528	static int crypto_default_rng_refcnt;
+   529	
+   530	static int crypto_get_default_rng(void)
+   531	{
+   532		struct drbg_state *drbg;
+   533		int err;
+   534	
+   535		guard(mutex)
+   536			(&crypto_default_rng_lock);
+   537		if (!crypto_default_rng) {
+   538			drbg = crypto_drbg_alloc();
+   539			if (!drbg)
+   540				return -ENOMEM;
+   541	
+   542			err = crypto_drbg_seed(drbg, NULL, 0);
+   543			if (err) {
+   544				crypto_drbg_free(drbg);
+   545				return err;
+   546			}
+   547			crypto_default_rng = drbg;
+   548		}
+   549	
+   550		crypto_default_rng_refcnt++;
+   551		return 0;
+   552	}
+   553	
+   554	static void crypto_put_default_rng(void)
+   555	{
+   556		guard(mutex)
+   557			(&crypto_default_rng_lock);
+   558		crypto_default_rng_refcnt--;
+   559	}
+   560	
+   561	int __crypto_stdrng_get_bytes(void *buf, size_t len)
+   562	{
+   563		int err;
+   564	
+   565		err = crypto_get_default_rng();
+   566		if (err)
+   567			return err;
+   568	
+   569		err = crypto_drbg_get_bytes(crypto_default_rng, buf, len, NULL, 0);
+   570		crypto_put_default_rng();
+   571		return err;
+   572	}
+   573	EXPORT_SYMBOL_GPL(__crypto_stdrng_get_bytes);
+   574	
+   575	int crypto_del_default_rng(void)
+   576	{
+   577		guard(mutex)
+   578			(&crypto_default_rng_lock);
+   579		if (crypto_default_rng_refcnt)
+   580			return -EBUSY;
+   581	
+   582		crypto_drbg_free(crypto_default_rng);
+   583		crypto_default_rng = NULL;
+   584		return 0;
+   585	}
+   586	EXPORT_SYMBOL_GPL(crypto_del_default_rng);
+   587	
+   588	/*
+   589	 * Tests as defined in 11.3.2 in addition to the cipher tests: testing
+   590	 * of the error handling.
+   591	 *
+   592	 * Note: testing of failing seed source as defined in 11.3.2 is not applicable
+   593	 * as seed source of get_random_bytes does not fail.
+   594	 *
+   595	 * Note 2: There is no sensible way of testing the reseed counter
+   596	 * enforcement, so skip it.
+   597	 */
+   598	static void __init drbg_healthcheck_sanity(void)
+   599	{
+   600	#define OUTBUFLEN 16
+   601		u8 buf[OUTBUFLEN];
+   602		struct drbg_state *drbg = NULL;
+   603		int ret;
+   604	
+ > 605		drbg = kzalloc_obj(struct drbg_state);
+   606		if (!drbg)
+   607			panic("Out of memory");
+   608	
+   609		guard(mutex_init)(&drbg->drbg_mutex);
+   610		drbg->instantiated = true;
+   611	
+   612		/*
+   613		 * if the following tests fail, it is likely that there is a buffer
+   614		 * overflow as buf is much smaller than the requested or provided
+   615		 * string lengths -- in case the error handling does not succeed
+   616		 * we may get an OOPS. And we want to get an OOPS as this is a
+   617		 * grave bug.
+   618		 */
+   619	
+   620		/* overflow addtllen with additional info string */
+   621		ret = drbg_generate(drbg, buf, OUTBUFLEN, buf,
+   622				    DRBG_MAX_ADDTL_BYTES + 1);
+   623		BUG_ON(ret == 0);
+   624		/* overflow max_bits */
+   625		ret = drbg_generate(drbg, buf, DRBG_MAX_REQUEST_BYTES + 1, NULL, 0);
+   626		BUG_ON(ret == 0);
+   627	
+   628		/* overflow max addtllen with personalization string */
+   629		ret = drbg_seed(drbg, buf, DRBG_MAX_ADDTL_BYTES + 1, false);
+   630		BUG_ON(ret == 0);
+   631		/* all tests passed */
+   632	
+   633		pr_devel("DRBG: Sanity tests for failure code paths successfully "
+   634			 "completed\n");
+   635	
+   636		kfree(drbg);
+   637	}
+   638	
 
 --
 0-DAY CI Kernel Test Service
