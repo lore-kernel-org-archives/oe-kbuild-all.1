@@ -1,99 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5E831619C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 08:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298C8369D4E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 09:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784364139; cv=none; b=d1X/7MaipwOoFW+juV+vyQkhhj41idjp6xQV8nCR2wIONQKuuLKv4kDBlwIdm/vazy6svBpz6G2RJTeYPCsHQHlVhXJUcHDqk0X9xH6x6p+LIfO2BwnNxcuB9bs2k3WS0rNWH2vC+cgvr2M0ope78M9bh4nZ9FKZtCLXL9fPjqc=
+	t=1784365334; cv=none; b=U0lYUuPv2lvMAKtoaTzfKVo7MYTj7D2vcX6UV280aDxWX2LEwp9iSUoQrkvDsgF2dwUkxUdy+uu1nWDytQI1uzGT8iHdxGzPNr9lhi0SYtyKDqb2Cy43F6V/BhWDuNiFwh+qBkmmqIpTykMDb5X4FQX7csn/2b5i6fxKY58KtSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784364139; c=relaxed/simple;
-	bh=c//YNgFoihPMzU/kpTugttPUvNMuVe1yqUpJAS7gW7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=JTeTUBqFYQuAx+H6FiPW0hKfH+U9LhurF5HV2Rxcsv+8SIoBynehzIE4RsYcN7fvvAuwKquGwdF0hya/m5R3ZaekHm4MVSH7i2oDQT2H3DEnXviXs8+vX21lUSbW9zcbDSsgHUxGoeFGbJlsueOkQA4+arThfo69LGwD4HDgWaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MB/zxzSO; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1784365334; c=relaxed/simple;
+	bh=kcqUSELEK1fBcvieKgJVbovbs3tZCdVizn6UceEEzcM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Koj2FZkYU0f8C+osqDzT5J9GYB2ur1REbmq7EfjYdio/xM72y7vOmpPt7+Nu0A2C2lYZsPiXJkzCka/hMHrPR72XpiZYS31jWbWDQ6w6/DfQxTwOr+eSN7vQ6IquBH0zEml3nhqVL0fsEXeXtRsSNt55REHvNwWPJkPCstCgRCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1AllJ03; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MB/zxzSO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1AllJ03"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784364138; x=1815900138;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=c//YNgFoihPMzU/kpTugttPUvNMuVe1yqUpJAS7gW7A=;
-  b=MB/zxzSONFF7D+AFdpSnJs2VnhKWk1VfCL0bPJ7PCs86IANzCU/s3cRT
-   gRQRXXTICVdpqiWeUj/+5TMxi0mPB4gpX8dxMayAxMcWzWlyjQV0K2xq6
-   hj0mPKOkWf9vYbKGTcX4Z0Jq/bO2UBdReCThsvoay99SWJFFkWOGPn0RC
-   +vtXd6IrfOiBlKhFt4eNpC15oJKWpziJzqu+FQJxp1wYAZJLNdtiFDNaQ
-   3muNCm3uNdgMIuV9aF/521DM94w+3GlLxQnS+C6la7ZY/+4rzeL/zxcrV
-   DTb/sJLetKL3qJc8Cc/PYEP0toKgEUKxGYODAKHFGfSeA8L1ekr29B+j1
-   A==;
-X-CSE-ConnectionGUID: 74L9GnuRT7+TGws8ob9M+g==
-X-CSE-MsgGUID: rs2cutiKQR2XBJ2214VeyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="85047269"
+  t=1784365333; x=1815901333;
+  h=date:from:to:cc:subject:message-id;
+  bh=kcqUSELEK1fBcvieKgJVbovbs3tZCdVizn6UceEEzcM=;
+  b=K1AllJ03R8YjGLrZ+MzRZN7Kx+AB46MrsdGFlyh6eJrVVArT2FyA+Ioa
+   Iqe/i75bJbyh2W2AN/dO8SjXIaeRV4syT8acg3bouWU5zDegyRak71fmi
+   IqNlhwQw0Jh/dxzI/7srTJ+rrkW7s1Ydc520BuKHXfT9jOZBbLmStO+bP
+   M/yvQEtEvgg8oHuo8z03SSwQiunX9udztyOGKbHrmL9DgQvgMDE8DtRJc
+   kI7fbdpAiWTHuxHcU0ixWerc+ziM34yx2UIGlRHDF4fU3t3Vhss/CI8a8
+   Hi+fl/ViF6arZDRETJSBBudorCenPSBP/oZvTB9fFXld8k1xxD9d0VMCt
+   w==;
+X-CSE-ConnectionGUID: Bc8iQqrGRMqL5VuJx9oLlg==
+X-CSE-MsgGUID: Wy5XJQGCTgqij6i6QDHi4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="87563121"
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="85047269"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 01:42:18 -0700
-X-CSE-ConnectionGUID: N+dEAGSjTSC6Uqlc8mrSxg==
-X-CSE-MsgGUID: 2uUR5SUXQBelnKCVN7LKdA==
+   d="scan'208";a="87563121"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 02:02:12 -0700
+X-CSE-ConnectionGUID: M6njTZIVQtS8frDFM65Icw==
+X-CSE-MsgGUID: x8P0rNA6TzOu8dpNT5H3sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="295177555"
+   d="scan'208";a="250635991"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2026 01:42:16 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 18 Jul 2026 02:02:10 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wl0cX-00000000TbN-1YPN;
-	Sat, 18 Jul 2026 08:42:07 +0000
-Date: Sat, 18 Jul 2026 16:41:46 +0800
+	id 1wl0vu-00000000Tbf-3wA1;
+	Sat, 18 Jul 2026 09:02:07 +0000
+Date: Sat, 18 Jul 2026 16:58:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Ma=C3=ADra?= Canal" <mcanal@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [linux-next:master 267/7584] Warning:
- drivers/gpu/drm/v3d/v3d_submit.c:85 function parameter 'submit' not described
- in 'v3d_lookup_bos'
-Message-ID: <202607181640.bUHG2rbh-lkp@intel.com>
+To: Xu Yang <xu.yang_2@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
+ Danilo Krummrich <dakr@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: [driver-core:driver-core-testing 75/90] ERROR: modpost:
+ "of_node_ktype" [drivers/base/test/property-entry-test.ko] undefined!
+Message-ID: <202607181651.RnUuV8n6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi Ma=C3=ADra,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git driver-core-testing
+head:   25acf039a5dbb40b6865d9392e05be8e713a39f3
+commit: 4a9d084962d0f4ab6b261482d157702d83f170fd [75/90] device property: add test cases for fwnode_for_each_child_node()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260718/202607181651.RnUuV8n6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607181651.RnUuV8n6-lkp@intel.com/reproduce)
 
-FYI, the error/warning was bisected to this commit, please ignore it if it'=
-s irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   0718283ab28bc3907e10b61a6b4be6fefa1cbb2f
-commit: f59d986943afbb97443cf91f45b1dc2c6fb6bebc [267/7584] drm/v3d: Conver=
-t submit helpers to operate on struct v3d_submit
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/2026071=
-8/202607181640.bUHG2rbh-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260718/202607181640.bUHG2rbh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607181640.bUHG2rbh-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607181651.RnUuV8n6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: drivers/gpu/drm/v3d/v3d_submit.c:85 function parameter 'submit'=
- not described in 'v3d_lookup_bos'
->> Warning: drivers/gpu/drm/v3d/v3d_submit.c:85 function parameter 'submit'=
- not described in 'v3d_lookup_bos'
+>> ERROR: modpost: "of_node_ktype" [drivers/base/test/property-entry-test.ko] undefined!
 
 --
 0-DAY CI Kernel Test Service
