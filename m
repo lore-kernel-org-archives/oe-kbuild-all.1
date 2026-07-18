@@ -1,100 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C58E385D6A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 09:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802D01DC985
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 09:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784365402; cv=none; b=PRkJ3wzWRG9S9CKLAvT4SC2kNuF9edx71BxOKZzLDu9m+avtZQhAytaRoWARlE+nkmeLWyIvmt6GttDDgqJh2f3JmxeKS5qs0FFD3r7JT1t5cEV9QuhmiOxSNWKHoH11eUUfd5q/8W0WnFfvpNgcm8xfE3oq7ZtO++Vs475oLSo=
+	t=1784367072; cv=none; b=pF4sNwwWbuvRpFXbVwgjICxL0NrX7b6Osha3jQ22CIx2mm16YGpBoqgoq5Vg4DE+pqNkBJEOSE6tB7F0cZCqIKGhHWPpIO8bjUPtVv09XpLwrkzUG8ZfkVNq66EoSQlSZQLMgf1uQT2XyS1hPrtkhUeZtD63MDVtwNEiT2fibek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784365402; c=relaxed/simple;
-	bh=Q9o1Wo4egx6u2xNCRQ53PjfoRgN+ltQzUSZTsM2hQZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iwXUWm3yZZrDV0elH0W60X7iRA+LKhKUhEU8xyoP/1+StMZ5Mz69lfpH6jhKb7wPgbhJQwEaYo/8qX8ymjNJ3Pdj0HU/XexQAXExQDYXJwsVsz3bxluzj4wosC6/s+lLCt4KBqm0dwL0/H//55iyGMNr5EcE3qAoR2ZPTQiTtMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9j9tNqu; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784367072; c=relaxed/simple;
+	bh=4q5btQvEBdSsXusGFv+0rGuB0tlwROTK8t4UvZN6aqI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=mIBz4zZUOdHAkDGhGcXIfscNngnM1LGmECG+GRM7fDvY5DLBUF2UF7g/6dbNtUjZvC6EdO4zyr586iUHJTE4Ey+QHfPkH290LfHOI+PRZxAcV2HnH+ykC+jHP0rqG486NOR4L9zv7RUN6p8DUVTzmqAGxubYaG0OWv7iG9jmrIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=wYjK0atK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OrDYz2Cq; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9j9tNqu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784365400; x=1815901400;
-  h=date:from:to:cc:subject:message-id;
-  bh=Q9o1Wo4egx6u2xNCRQ53PjfoRgN+ltQzUSZTsM2hQZ8=;
-  b=U9j9tNquX1cdyShvdEbgxr3fY472TA2kG5aR1b/+4gDn/VoqqQfQgHkR
-   WF+tZ9kWBAaOWeOsNxPN+Dq+r+S6g3ZOL1INACdEjh5RybS0R+tSyz/q4
-   M7bUpuJSOmL1R1PvX2FpdhHGp1HYo4FDNRh0vTX9qmuniIVS2udBo6o1X
-   hVwXZstlNBT9DOGcOino4YBon+TKnbpB1P+e4jqkGPL/64H1xnVFSKDXb
-   uEGfbBT+PK00S/QdalO7aGVlRaVQEkzFUgw+1kQA684t1dMAx7yfgX+Dg
-   4lxZFS3JK7dZOxfUcWmtU5jwaEIVP4osy94GjiRh/r9tMSClb16/Y8Th3
-   g==;
-X-CSE-ConnectionGUID: +abDvYW5RsuxrF0h336J0A==
-X-CSE-MsgGUID: dxQnIFh3SkKar1TjsFlp4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="85222299"
-X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="85222299"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 02:03:20 -0700
-X-CSE-ConnectionGUID: dJzud4sxRbCyXiXWyIzW7w==
-X-CSE-MsgGUID: rbqgRRbMRa2+m3pD6KlTfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="253021343"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Jul 2026 02:03:18 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wl0x2-000000005lJ-0bID;
-	Sat, 18 Jul 2026 09:03:16 +0000
-Date: Sat, 18 Jul 2026 11:03:12 +0200
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/105] htmldocs: Warning:
- anolis/rpm/kernel.spec.template references a file that doesn't exist:
- linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-Message-ID: <202607181051.n71Kg53S-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="wYjK0atK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OrDYz2Cq"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 954CA1D00037;
+	Sat, 18 Jul 2026 05:31:09 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Sat, 18 Jul 2026 05:31:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1784367069;
+	 x=1784453469; bh=BmGJVTRnK0o1xognu95i7O8PDjEVISBb7XUxQLnNbZ0=; b=
+	wYjK0atKYbVwnt7I1j0TgnDw9NtICw1+irJ0JoqPKR2vMX/u3agCJeu9kCY2/Cus
+	2fqQUOlF3/DqZ+uBw1dMzNnyWRgmKE7SAkYN17GhWTDQ9MhQUwh/hvT+T+8AHUvH
+	XivIdaPreKhXyIsqv/IBPsHSsQ7wn1qPpPEF/kjKXzRDoBz55Z0MldVCXi1hrFgj
+	gCmUOgwWUidgxQOU+r0tPOgiOuEY8oIliWEuusYqQGHND8a0D6pqJyQaA1uApOFf
+	lyGw2gQ0R5yX7r/xRdnGNNFSQXlL5uSkDPyEr4DR+WGGqD15Z5dsPmC0RysR9pMs
+	wSc6okZ/djcNmI+1vLnOEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784367069; x=
+	1784453469; bh=BmGJVTRnK0o1xognu95i7O8PDjEVISBb7XUxQLnNbZ0=; b=O
+	rDYz2CqdcCbTNS6XdPkqidLrvry5Cm9JGYLPnZ55AjrR+Qi7ReEntVhWgzm5YtN5
+	SVK2lEbfxEcxrwy0foIlm2enVKMhq9oU2V+97AAz1UnpYSrt+0+pTjqhzkbgQyT8
+	KWUv7VtHGMMeV9RTo8+i1Da8qccByZBtutmDdJoCNkTGTsUHfamEWov5Mj+DW1KU
+	YZx2Zb0NcVW51AcyS5mTLMzDCCqbUKpNhY1dmrN7pPGnTSsdfW/Y0npmJxQucSIK
+	0DKZ9e5OhZlS1Ix0ZvY3uEfxvd8N9HKCOhE0/12oQAY4BZGj7YuCZWmWdvdz+wjY
+	fILKStKbsI2BhCo26z6JA==
+X-ME-Sender: <xms:3Edbaq7KR1YzNp15hbut_t3LVpqnD8rV6A7HO08N4ALrNxnL0QmOXQ>
+    <xme:3EdbautzoNQf7bzaXFUQD40c0ExPnbUeq0TOvrPiZf6YvaYTm9hwYyVJtyqN_O-bG
+    Kr6hebfgqKzizECY5gqqqxFAOEOPx04VgviyH6_qOv9jMehxaI9T20>
+X-ME-Proxy-Cause: dmFkZTEl7RdWhluT2sAssQh2NC90EtUZz92+Kp+i5jQy1i6NB4Wc62n60xj7naOz6/HayF
+    kLXr0ebHJyoZUMW4Vq+6FAR45cvaJbP4zDr8Qa5ygax/MxUALx2AeGgmxrzKQvfYKHL/MU
+    /Fa7FqQfCo3q64OV97bLJz6//TfoLwi+TJqTnSSv4aM6nbc9upp7DXs1LC+5uad4xiJoB+
+    j9TWGMhxJ/4vkkGDdjEpBUzQuHaQ4hOTcLGnBuLNDsdEpKZWqp4aAsk0wT9OOY2+zyZHOF
+    vKMF2JChQoxx2zjS5THldiCRXdS3EBj03Mkaz8LjUoBzgmwjdXf0aSMBZ23IY3AhxgXsGW
+    haqTn/9uKBl0dLSXIIeWeC3uM+/ryGxg0GvpXbBiT765QQGO7DV+W40Az5YuRDi1CtGywD
+    0grTIOfGrU8qrPY0nyM/f4yTlsfNNpdlfL7aIMiGz6TO/nb78/Ar/lZBiLOuOArXJBiwtO
+    9xE0UiNLLQDcDlK75nYlLqPo+TSHb+Eol3BjH9tvTtIIuZg9gfFchaX8WZBz3UJIU3tdjs
+    /Vuo94ZetqNzTtIAtRKU+3XhBY8CuoKTB+bRbp3kMcyic9CmNWUsn39lElHc3limZWRXUh
+    JpTkaUZ9xSx6Bqh9p/ZECXlFwfdPfUBSaMLCPFBvWnxUPLwsxhFphPD078MQ
+X-ME-Proxy: <xmx:3EdbagFI7IVzV7WmdbRBMV6FeWoi7xw3qnMWgnhPnB28A2h_EAbH8w>
+    <xmx:3EdbaiToM5HgfcYunyZXS3uRRiC-w_siZzrgA7O-FFsE6xcYy8v3zQ>
+    <xmx:3Edbalt3EwWbyf87xeoFNi0kJo8hBqwBbW6NmzXxeeFNr8fc2aJRiA>
+    <xmx:3EdbaiLV2o9g-xWaR0xTBzB6WE-NIYyQPDb8r1yStz6uNdjM5vUZTg>
+    <xmx:3UdbapQxxgO-YPE4BABv1cDoHiZTvzcX5HGBqnHKQQlKE5IjrMLPRDWC>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id D085D182007E; Sat, 18 Jul 2026 05:31:08 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-ThreadId: AJTyniAy0Y33
+Date: Sat, 18 Jul 2026 11:30:48 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>, "Peter Chen" <peter.chen@cixtech.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Pawel Laszczak" <pawell@cadence.com>
+Message-Id: <7d51cfb9-0d7a-455f-9bb2-0211b6e9c090@app.fastmail.com>
+In-Reply-To: <202607181505.CVpdSKHV-lkp@intel.com>
+References: <202607181505.CVpdSKHV-lkp@intel.com>
+Subject: Re: drivers/usb/cdns3/cdnsp-gadget.c:168:9: sparse: sparse: cast from
+ restricted __le32
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Qiao,
+On Sat, Jul 18, 2026, at 09:49, kernel test robot wrote:
+> sparse warnings: (new ones prefixed by >>)
+>    drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to 
+> restricted __le32
+>    drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to 
+> restricted __le32
+>    drivers/usb/cdns3/cdnsp-gadget.c:166:16: sparse: sparse: cast to 
+> restricted __le32
 
-FYI, the error/warning still remains.
+This is clearly a bug in the driver, introduced in commit
+241e2ce88e5a ("usb: cdnsp: Fix issue with resuming from L1"):
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   4f8a6ab0f5f0b5f85efcae83321abf317723182d
-commit: b59c41852684e0cfcf198cb3ded58b8b37413a47 [0/105] anolis: spec: add basic framework to generate rpm tree
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260718/202607181051.n71Kg53S-lkp@intel.com/reproduce)
+> 241e2ce88e5a49 Pawel Laszczak 2025-04-18  165  
+> 241e2ce88e5a49 Pawel Laszczak 2025-04-18 @166  	val  = 
+> le32_to_cpu(readl(reg));
+> 241e2ce88e5a49 Pawel Laszczak 2025-04-18  167  	val = 
+> CHICKEN_APB_TIMEOUT_SET(val, cdns->override_apb_timeout);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607181051.n71Kg53S-lkp@intel.com/
+This is broken on big-endian machines, because readl() contains
+an implicit byteswap, and the extra le32_to_cpu() swaps the
+value back.
 
-All warnings (new ones prefixed by >>):
+Pawel, can you fix this and address any additional sparse warnings
+you see in this file?
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
->> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Using alabaster theme
---
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
->> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Arnd
