@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1043122FE0E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 01:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61451347DD;
+	Sat, 18 Jul 2026 02:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784339648; cv=none; b=mAsA/Yvw5G9IgN+3Wk6ovoz1Htx4S17SpP/zJvpTz+0ILrps0BdWjFJhKVlBZwIzApqd+Dty7AIPkvejcnL4TYKPFQJg+dFdOg75mr45xqWrJ3srQ1qSHbi2OYv7zSNdytw3MfXZj3Oc9JEygXva5jzX2+6joV70s1zWWTSInHQ=
+	t=1784342015; cv=none; b=EDNUxKJIZkOYqoR4NsNzPhhtOy3MWaJnDrmMI6NYUod0IgKqfiG2lo6VamgcERlXn55t/D3wUat3m2HLRCaB9O6FeGEiR6+aWYysXlORgBcdCBwZ62y/cpb/9d84Gd6v5icoiir7lZmMBTuUfvFqisvI6JLZnrpE0bbLSZlFrbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784339648; c=relaxed/simple;
-	bh=1eC89LOSR0Xvf+Kb7r7qCqTJrI+NpKKSztOJVmaC3is=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hOsUuY3z8GkTpISgxHEr2QVYmmG0b2xUR5qCKZNVbIQCgWYj/xkVLYwulDoep9zrvuRELWh1E727NRhQNEgaPYqIIWySh82C4ZsJyz9Qf+olisYqkPmgD7wERKycdGKSNkP553lcL3M5Xe/3ptqcwdSiEY6bWGDx7gSYAQbHbEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ActT4+C9; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1784342015; c=relaxed/simple;
+	bh=zHbvgx1zOOTeJy6+W9qFKtskfyJraM57PAVjIwKCVts=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=noguOUTjYQpmbDfxX0Y/sqOZPerYn7dX5GptXXtTn5sUmyl66HssbY5HtnrrfKtHxNCUoJ/u2wlEWEUpS6WT9uQWHV4ujlh6ditLA85heiiIjtKBYUphFC2jsn/7G6ZqHnvecZE+iuOsQnzwiIraSQXbxNbQuWvQZ8FKWBeGy5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hAu41PHO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ActT4+C9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hAu41PHO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784339648; x=1815875648;
+  t=1784342012; x=1815878012;
   h=date:from:to:cc:subject:message-id;
-  bh=1eC89LOSR0Xvf+Kb7r7qCqTJrI+NpKKSztOJVmaC3is=;
-  b=ActT4+C9wwcZTSE3AC3sCqzd4CMbZyLgrQRQRxzmnKhGdgUckFpt+i4H
-   9kwCWk1dW8QxIs80cZkONDOHRtCTxXchtKoUQHkLrSpJaw36eIZiqpz5M
-   gl+sfpJ+yJ9hBHMiXf0/WjURjwTru3k68Z4OFOOoUQ0BYLL+pvNX8Ci3N
-   hxopIrl46/unP41241phc/28EpV40rLjW8y93aKmJvRIPaUOBfK4GpeUY
-   QaQ9JY5tpXVVFxvXS8FQkfM1Wk1ZFzf2RVaIavneeLe/H/vsk3Ge9TMUA
-   Q7WbCkBWT3WE3GbOED+FDIYHIiS3P7ps8zTZ6KmZFjPB3I3lJ0f5FV1DH
+  bh=zHbvgx1zOOTeJy6+W9qFKtskfyJraM57PAVjIwKCVts=;
+  b=hAu41PHOUKYolBXNBexFXr7e4uRIbzb49asyJS4dyVRTyKSKfdwngKGM
+   iTt6R63Zhux7PR+vTw0dlkTCHIHz6fMgK696VioBDXYHV7UmzIr1vpWNf
+   nO6LcUlVnFExQw9qIp7s/YskUNBvq0zlTtaMN5mgdEN9Jd5k1Tp74U+Zz
+   YLK4wGgrnQ6Xy/YtK+tTRmg2HlyRNzVJJlaeKlmmVNu9HOycjXKlBm2zj
+   e3HMLmpREOqkchcM7uncrobbCUu7c2ARysejCui68i6L1pinMjt1rtgzH
+   8AG8SaEC7NZ0/lYJGLM7caDWMjUSUciEHiyHzS9lBXPxXdnhM9878mZLJ
    g==;
-X-CSE-ConnectionGUID: P3wdZNKtQZefVC6hZ0X20Q==
-X-CSE-MsgGUID: ndbvS+8AT8S4NPvvy7D9wA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="84864516"
+X-CSE-ConnectionGUID: QYXpPfTRQiquxWQebMYs+w==
+X-CSE-MsgGUID: 6M/m17ToR4+lNNZSldUTvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="72549531"
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="84864516"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 18:54:07 -0700
-X-CSE-ConnectionGUID: 1jGKfOytQ5W0EUvcQrSQhA==
-X-CSE-MsgGUID: TcscwW2LQz2i0rqxQj9Y3g==
+   d="scan'208";a="72549531"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 19:33:31 -0700
+X-CSE-ConnectionGUID: MJIC5jnUQjSIJkqw3gHzPw==
+X-CSE-MsgGUID: gEvqLVYpRlOw7xnq5/Eo8A==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
+   d="scan'208";a="255164838"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Jul 2026 18:54:05 -0700
+  by orviesa006.jf.intel.com with ESMTP; 17 Jul 2026 19:33:30 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkuFa-00000000TMh-21fH;
-	Sat, 18 Jul 2026 01:53:59 +0000
-Date: Sat, 18 Jul 2026 09:53:22 +0800
+	id 1wkurn-00000000TNb-2D92;
+	Sat, 18 Jul 2026 02:33:27 +0000
+Date: Sat, 18 Jul 2026 10:33:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-crc 39/51] ld.lld: error: undefined symbol:
- xfs_rtcsum_mount
-Message-ID: <202607180934.R8PFZpDV-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:arm64-gcs 5/9]
+ arch/arm64/include/asm/kvm_nested.h:281:3: error: use of undeclared
+ identifier 'elr'
+Message-ID: <202607180927.HAmB6swe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -57,23 +60,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-crc
-head:   ef3d55d014b3a800421b9dae3ac182577bfe2bd7
-commit: ac76f4f1f7ef9c32cbd6f5cd8163ba542ca02726 [39/51] xfs: core RT data checksum support
-config: arm64-randconfig-003-20260718 (https://download.01.org/0day-ci/archive/20260718/202607180934.R8PFZpDV-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607180934.R8PFZpDV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-gcs
+head:   a26aa760586e73f8bb0a6cf67438ad0d89c486f5
+commit: b2c35cdee47a019777aa9f9216b49a6392cc79e3 [5/9] KVM: arm64: Validate GCS exception lock when emulating ERET
+config: arm64-randconfig-004-20260718 (https://download.01.org/0day-ci/archive/20260718/202607180927.HAmB6swe-lkp@intel.com/config)
+compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607180927.HAmB6swe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607180934.R8PFZpDV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607180927.HAmB6swe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: xfs_rtcsum_mount
-   >>> referenced by xarray.c
-   >>>               vmlinux.o:(xfs_fs_fill_super)
+   In file included from arch/arm64/kernel/smp.c:46:
+   In file included from arch/arm64/include/asm/kvm_mmu.h:99:
+   In file included from arch/arm64/include/asm/kvm_emulate.h:21:
+>> arch/arm64/include/asm/kvm_nested.h:281:3: error: use of undeclared identifier 'elr'
+     281 |         *elr = 0xbad9acc0debadbad;
+         |          ^~~
+   1 error generated.
+
+
+vim +/elr +281 arch/arm64/include/asm/kvm_nested.h
+
+   274	
+   275	#else
+   276	static inline bool kvm_check_illegal_exlock_return(struct kvm_vcpu *vcpu,
+   277							   u64 spsr)
+   278	{
+   279		/* We really should never execute this... */
+   280		WARN_ON_ONCE(1);
+ > 281		*elr = 0xbad9acc0debadbad;
+   282		return false;
+   283	}
+   284	#endif
+   285	
 
 --
 0-DAY CI Kernel Test Service
