@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F061E369980
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 06:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EF2230BDB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 07:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784357609; cv=none; b=BKOnAq09uY2nyzc9yfseoi2Ly3Fk/BJrqSDydPnrHqIZXYElNqL8+2N0x/WLzC9VpWIFXhU4VdGFOJG55vNpE1JVpsldZXZlWY2emJnojVFQIhCmnJrlR6XiEJp3ePnjE217wmLyLw6dF3X+jMteq+onE6vVazd5VzeGfuJAaFY=
+	t=1784359193; cv=none; b=Di997lqtF7dTkFJWMUvBx63k80Z96n0eVg6gLysIWRMshHC7O+YIkOGOpwei6EPKTrEPhFEHGxIgiEkpjVPNB/GRKCu51fWQh9QPGXD446WkDCoevxKL4iNnvLaXmhgqdIdUlNBv2AIy1O6vUAgQk/spPFOWEvFW1va+7pgdFro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784357609; c=relaxed/simple;
-	bh=N9ADIgk9Nz4dCbIjH7kHB/bVJ35OVWu1Jg0ffX7jH/8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cOYl6Lg5/vVBvv2fuxVcsMTQPNsEvb7YPuX2/bxns5gb+D+Vpsqp1cPpO4xRGqVPktyxBC98MHbe4nofEO7V2dpSEOVaK3eJCCRC9SCGX6rF55xTc6ynKkdDpSSh4iHhG7sjMba19VAATpAi/+OzphYlyPVofTP63cZVaxeBaUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HCb3VAIz; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1784359193; c=relaxed/simple;
+	bh=ekNdAlfUrfV4G7NrrQ4wr6KN6sCQLd2Q/hLjHZLJscY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RaUseZvGUYFUPweOgL5Rcz+gOb9GDkk1aD31oXscudWSKhlOzgHhYH/7qUHjEkMbcWWMb4+3AYgJ5+U/hpGRNXEjKJ6J4i+TQ4Q2No3h3o33q6cWRdujB4Gg6OKZix3QgrcrLJIG/f6EAW1tGteNuZ85Hcen7x3w7V5sSSYtFoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j1w8d95g; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HCb3VAIz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j1w8d95g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784357608; x=1815893608;
+  t=1784359192; x=1815895192;
   h=date:from:to:cc:subject:message-id;
-  bh=N9ADIgk9Nz4dCbIjH7kHB/bVJ35OVWu1Jg0ffX7jH/8=;
-  b=HCb3VAIzVFVeIxfXJXFsltFj1GYIZeXvh35e3gXuH7+/2Hh+Q7T16gWn
-   Lfh2pwd0VMBCRcYigVl1J8R6r1G34Zfhwf/OU0MGdvBs+3e1K/kWjcnHZ
-   KKRrfTyi3rsxKEKQeBDcVoiA6tYXIhCJVCZNgjqRw50EjEL37IGtVkXkp
-   enHUnB9AiYGea+rr6DHCyTnWPpMniO9Ra9qZwwymQgARYcvcvw5jdRUYu
-   vd2PMEG/Xk6EiX4QHJiX+Xlyp8bIDwCjsNM7hknbrC1pwTjKUkqAeIt9+
-   n0DYyIAPKxG/pHWCLWBquUbwklpKEdwBkCfmGYtS9bWGoXKOpM0SfJM1V
-   Q==;
-X-CSE-ConnectionGUID: mBr3RV76QPmv4DoBtluKtw==
-X-CSE-MsgGUID: 8IgeF5CiS6GyV1qedshmlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="85137050"
+  bh=ekNdAlfUrfV4G7NrrQ4wr6KN6sCQLd2Q/hLjHZLJscY=;
+  b=j1w8d95gKiy7KI2dRtf/sgzziv8x6/BFGpsvsYKBPbkQLY3CluqRf2e7
+   sQXhMGcYY8oON72tAihEWJ34QWYqqI27WUcfmwz3WHQt7bs1CrDUcjXPa
+   Id99zv/kxXR73mu884r6F5kbKyitgIIrwv20c5e6PfTH8i2y2oHF/ZCDy
+   ILEJrFF0K7HwkB0CrfmAN8Oj9R7mJBMQpQ5zTMr7JQGaAWP2Ar5dPwcIC
+   ZOY7yz+wySwzlzBV600LEzDahwuUEs7A7h0sOdvxOPRVaXuIgt23DMJau
+   x86aNHsrJLRBXeUlBcnOzh7hRlTmtft9hIeG/ro37Yx4wjDh3pZGhccoq
+   A==;
+X-CSE-ConnectionGUID: yrSHCT3KRYiKeRZxe7thFg==
+X-CSE-MsgGUID: l/rvzJByRoG5Yx5SG1LhYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="96529703"
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="85137050"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 23:53:26 -0700
-X-CSE-ConnectionGUID: HFwdKJvdSFO4Bpq1PxhYPw==
-X-CSE-MsgGUID: EmkmAvTpRIeHsnF0RF0FDw==
+   d="scan'208";a="96529703"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 00:19:51 -0700
+X-CSE-ConnectionGUID: HLyMCmDuRj6JGDkhZP4r+Q==
+X-CSE-MsgGUID: yX8UBkQsTcKptfCYrHRWXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="261241707"
+   d="scan'208";a="257059706"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 17 Jul 2026 23:53:24 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Jul 2026 00:19:50 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wkyvJ-00000000TXT-1sPc;
-	Sat, 18 Jul 2026 06:53:21 +0000
-Date: Sat, 18 Jul 2026 14:52:32 +0800
+	id 1wkzKs-00000000TY2-0vEN;
+	Sat, 18 Jul 2026 07:19:46 +0000
+Date: Sat, 18 Jul 2026 15:19:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prike Liang <Prike.Liang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>,
- Michael Chen <michael.chen@amd.com>
-Subject: [linux-next:master 5911/6789] Warning:
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1087 function parameter 'mes' not
- described in 'amdgpu_mes_alloc_gang_ctx_index'
-Message-ID: <202607181432.Ajk3exBD-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Joerg Roedel <joerg.roedel@amd.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>
+Subject: include/linux/bitops.h:273:19: sparse: sparse: cast
+ truncates bits from constant value (fffffffffff000 becomes fffff000)
+Message-ID: <202607181548.5lnNf99t-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,36 +61,56 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0718283ab28bc3907e10b61a6b4be6fefa1cbb2f
-commit: 7ca36e897bceeedf917bf98f024f5d2c8e87324d [5911/6789] drm/amdgpu: add mes gang contex alloc/free helper
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260718/202607181432.Ajk3exBD-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607181432.Ajk3exBD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   94515f3a7d4256a5062176b7d6ed0471938cd51a
+commit: e71e00127110dedc6a9e746178282b4dac97ed96 iommupt: Add the RISC-V page table format
+date:   4 months ago
+config: um-randconfig-r121-20260716 (https://download.01.org/0day-ci/archive/20260718/202607181548.5lnNf99t-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607181548.5lnNf99t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e71e00127110 ("iommupt: Add the RISC-V page table format")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607181432.Ajk3exBD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607181548.5lnNf99t-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/iommu/generic_pt/fmt/iommu_riscv64.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
+>> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+>> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
 
-   Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:958 function parameter 'mes' not described in 'amdgpu_mes_rs64mem_fini'
-   Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1046 function parameter 'queue' not described in 'amdgpu_mes_alloc_proc_ctx_index'
-   Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1071 function parameter 'mes' not described in 'amdgpu_mes_free_proc_ctx_index'
-   Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1071 function parameter 'queue' not described in 'amdgpu_mes_free_proc_ctx_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1087 function parameter 'mes' not described in 'amdgpu_mes_alloc_gang_ctx_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1087 function parameter 'queue' not described in 'amdgpu_mes_alloc_gang_ctx_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1112 function parameter 'mes' not described in 'amdgpu_mes_free_gang_ctx_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1112 function parameter 'queue' not described in 'amdgpu_mes_free_gang_ctx_index'
-   Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:958 function parameter 'mes' not described in 'amdgpu_mes_rs64mem_fini'
-   Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1046 function parameter 'queue' not described in 'amdgpu_mes_alloc_proc_ctx_index'
-   Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1071 function parameter 'mes' not described in 'amdgpu_mes_free_proc_ctx_index'
-   Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1071 function parameter 'queue' not described in 'amdgpu_mes_free_proc_ctx_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1087 function parameter 'mes' not described in 'amdgpu_mes_alloc_gang_ctx_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1087 function parameter 'queue' not described in 'amdgpu_mes_alloc_gang_ctx_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1112 function parameter 'mes' not described in 'amdgpu_mes_free_gang_ctx_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1112 function parameter 'queue' not described in 'amdgpu_mes_free_gang_ctx_index'
+vim +273 include/linux/bitops.h
+
+c320592f3f2a1e Wolfram Sang       2025-01-07  261  
+952043ac12a117 Steven Whitehouse  2009-04-23  262  /**
+952043ac12a117 Steven Whitehouse  2009-04-23  263   * __ffs64 - find first set bit in a 64 bit word
+952043ac12a117 Steven Whitehouse  2009-04-23  264   * @word: The 64 bit word
+952043ac12a117 Steven Whitehouse  2009-04-23  265   *
+4945cca232ce8b Geert Uytterhoeven 2021-02-25  266   * On 64 bit arches this is a synonym for __ffs
+952043ac12a117 Steven Whitehouse  2009-04-23  267   * The result is not defined if no bits are set, so check that @word
+952043ac12a117 Steven Whitehouse  2009-04-23  268   * is non-zero before calling this.
+952043ac12a117 Steven Whitehouse  2009-04-23  269   */
+6606c8c7e81886 Kees Cook          2025-08-04  270  static inline __attribute_const__ unsigned int __ffs64(u64 word)
+952043ac12a117 Steven Whitehouse  2009-04-23  271  {
+952043ac12a117 Steven Whitehouse  2009-04-23  272  #if BITS_PER_LONG == 32
+952043ac12a117 Steven Whitehouse  2009-04-23 @273  	if (((u32)word) == 0UL)
+952043ac12a117 Steven Whitehouse  2009-04-23  274  		return __ffs((u32)(word >> 32)) + 32;
+952043ac12a117 Steven Whitehouse  2009-04-23  275  #elif BITS_PER_LONG != 64
+952043ac12a117 Steven Whitehouse  2009-04-23  276  #error BITS_PER_LONG not 32 or 64
+952043ac12a117 Steven Whitehouse  2009-04-23  277  #endif
+952043ac12a117 Steven Whitehouse  2009-04-23  278  	return __ffs((unsigned long)word);
+952043ac12a117 Steven Whitehouse  2009-04-23  279  }
+952043ac12a117 Steven Whitehouse  2009-04-23  280  
+
+:::::: The code at line 273 was first introduced by commit
+:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
+
+:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
+:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
