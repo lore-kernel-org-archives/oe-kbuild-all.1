@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4458B3DE45D;
-	Sat, 18 Jul 2026 15:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA40E3DC878
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 16:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784389937; cv=none; b=TQ/siQ0/Rmtx5IPk3LjMSr6A4ShA5IPwDNMOShJFoXKMU5WyeqJXMxFxtDrYVHe3vX+VK/rwj/HZkpE2leDl1gV/6EyDXDpqSFk35dzs8WKFC9yIwznmiWjwKPm7ssgDsCmJYpmsUE2sQgQvevgF1vndZvPaNb8ZT0XWoIv10PI=
+	t=1784390720; cv=none; b=bWeYUCGhtx/TfqlHFTRhG8QANA7evJUT6CPpW7aRLJk/Nau3LbA2omXpNwinve+23W/wuM5BnJ330dVhsxIFp2NWClj8V1uSSMEc5iVijNhDW3HVgcuagqIkeJGBgn3kvBnW6voYlT0tMYqI9yCLNwIdkig75Eso4hpzlWdEBbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784389937; c=relaxed/simple;
-	bh=XgMcIFKAsf0OR6EX7YQLLGyQmHL/gMLGAAjxc7QCq9A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mTmse3nTpFEPEmZYlFKbfpRPNlooOLRFXxFcqrrcLYXXe6OyVOwZvPzl4vcmMxF1gm9ltGyKMTC7lrBfuyREpRf/eFkf0zNCYCl655U/rO7Mc5CXDXbMeSBD91Istoi16iVibN2kZtBlu3Z530kPzxxu4HIGA/LVqRSv3+3Uol0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gsohVk40; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1784390720; c=relaxed/simple;
+	bh=w6ws6Q2XN2FnoxH12vIu29XyVbBiBFsjzFV6mEEPvfE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S7/adnJfbew+OG45RoVsUMnUi9N72WEnaUd7IVpVW2N2xzQRsq9YRVJkx8l98GKIqcJFCyxc/8/WGYL/slG/o1+gqEURlv4AVAJLdXhtCoTWpO9ACcezGPbUxvWZQTqkkJ6cXWhkQGWgJILD8RUPJW6Pd1FJGcEgUr0tBEjEpcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lp3BDRFl; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gsohVk40"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lp3BDRFl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784389928; x=1815925928;
+  t=1784390715; x=1815926715;
   h=date:from:to:cc:subject:message-id;
-  bh=XgMcIFKAsf0OR6EX7YQLLGyQmHL/gMLGAAjxc7QCq9A=;
-  b=gsohVk40QKB9D/6dxXUqYlAz3Zo9Sx6J5Lx2uy1LF+sKyMjH9e81W3So
-   9ntcQJQiV+Tg+0jKeY/YA+jg9Eh0UNNIqmUMHv+Upwp8RzdFbBDLkwz63
-   bApEJH+aiYpwwCseOstfsHqJ0jW9hLjPiLMVmeDlNZvoGn3uvLJEGYjLR
-   6DqmcWfGDWvqJ+ZjumQzbCqNnrVVNQdP0YuWe/TTFMAx5PgYed7UtU9Km
-   TsAixrPjpOOWeidi5Ow/pHdmh4cgfNR2pvp5qrrAZxoGLwonrwE5w/ukl
-   Ryns4/13vFg1k4h3AEayH4SyJ64R1lUzQd3Jr6nkjd0/OV2IG4oX9FPFw
-   g==;
-X-CSE-ConnectionGUID: dHlaNwb5RU6ycy6SEHd6oQ==
-X-CSE-MsgGUID: lucGnzxqTp+P/zwON0zgnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11850"; a="84016032"
+  bh=w6ws6Q2XN2FnoxH12vIu29XyVbBiBFsjzFV6mEEPvfE=;
+  b=Lp3BDRFlSdMoOcjJTMkNuDKUuDb39/jK6j8wJbuRDkx0JOzfRDOm1Y4F
+   7L4TbNjeblOPIvLKDCj9zHUBeZYb+pOxKQAd2YrZx69OHFGURK6jZpzLd
+   3TXr4ZC6dwHKVvU+CqIChtFVbHrUknN7UmTzb6+RCCZW8dBS8dl4Fr8yL
+   kuZ6WK0FpDGhdnO99cRR3DOy4MX0ZkO2shY3oj0wYwtczFGiS6yEUzsfm
+   V/Ivz72eTNCR2Cn12oKMopzf6LIAU1Bjhb+vZ6MsrQ4UzmvjdNjJPUEKy
+   1mUMUldsXjiV1CwPO1Hn+SQq/B+wTDHY3tfsv6QnYkJbr9sAyxLBrKvvK
+   Q==;
+X-CSE-ConnectionGUID: gVhh9oUxRbCnjye4UjBIGw==
+X-CSE-MsgGUID: otOYzOBiRFanDE4H19aDeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11850"; a="96169968"
 X-IronPort-AV: E=Sophos;i="6.25,171,1779174000"; 
-   d="scan'208";a="84016032"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 08:51:57 -0700
-X-CSE-ConnectionGUID: OmpOVNNcRISyiGLt3prWeg==
-X-CSE-MsgGUID: AWe0nQXBSF+VK3FPUOPLTg==
+   d="scan'208";a="96169968"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 09:05:11 -0700
+X-CSE-ConnectionGUID: +itk6SppS3mJztYJob0vXA==
+X-CSE-MsgGUID: EFQ9JK7IQW64z/ShbCkm8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,171,1779174000"; 
-   d="scan'208";a="253632574"
+   d="scan'208";a="254415845"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Jul 2026 08:51:55 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 18 Jul 2026 09:05:09 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wl7KS-00000000UrK-3vrh;
-	Sat, 18 Jul 2026 15:51:52 +0000
-Date: Sat, 18 Jul 2026 23:51:16 +0800
+	id 1wl7XG-00000000Usc-3bza;
+	Sat, 18 Jul 2026 16:05:06 +0000
+Date: Sun, 19 Jul 2026 00:04:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bcain:bcain/qemu_boot 61/73] arch/hexagon/mm/init.c:200:23:
- error: use of undeclared identifier 'initial_boot_params'
-Message-ID: <202607182319.4N2Dgvm9-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 192/192]
+ arch/arm64/kvm/hyp_trace.c:245:6: warning: no previous prototype for function
+ 'hyp_poke_tracing'
+Message-ID: <202607182313.Xpz9UR86-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,104 +60,58 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
-head:   7196a17b7cc2f15ed74704ba70164832b84a1a42
-commit: 00029c0cc1e12984035d2f6387de53addfacb922 [61/73] hexagon: harden adoption of a bootloader-provided DTB
-config: hexagon-randconfig-001-20260717 (https://download.01.org/0day-ci/archive/20260718/202607182319.4N2Dgvm9-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   15bdff0dd01eed4ffc4ae138c5a611d8b102a4b6
+commit: a262be0c417b3b3b6c6390f34b468049fab254e1 [192/192] ANDROID: KVM: arm64: Flush hyp trace pipe when tracing stops
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260718/202607182313.Xpz9UR86-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607182319.4N2Dgvm9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260718/202607182313.Xpz9UR86-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607182319.4N2Dgvm9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607182313.Xpz9UR86-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/hexagon/mm/init.c:200:23: error: use of undeclared identifier 'initial_boot_params'
-     200 |         if (boot_dtb_phys && initial_boot_params)
-         |                              ^~~~~~~~~~~~~~~~~~~
-   arch/hexagon/mm/init.c:202:20: error: use of undeclared identifier 'initial_boot_params'
-     202 |                                  fdt_totalsize(initial_boot_params));
-         |                                                ^~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:94:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:371:9: note: previous definition is here
+     371 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> arch/arm64/kvm/hyp_trace.c:245:6: warning: no previous prototype for function 'hyp_poke_tracing' [-Wmissing-prototypes]
+     245 | void hyp_poke_tracing(int cpu, const struct cpumask *cpus)
+         |      ^
+   arch/arm64/kvm/hyp_trace.c:245:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     245 | void hyp_poke_tracing(int cpu, const struct cpumask *cpus)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp_trace.c:713:5: warning: no previous prototype for function 'hyp_trace_release' [-Wmissing-prototypes]
+     713 | int hyp_trace_release(struct inode *inode, struct file *file)
+         |     ^
+   arch/arm64/kvm/hyp_trace.c:713:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     713 | int hyp_trace_release(struct inode *inode, struct file *file)
+         | ^
+         | static 
+   3 warnings generated.
 
 
-vim +/initial_boot_params +200 arch/hexagon/mm/init.c
+vim +/hyp_poke_tracing +245 arch/arm64/kvm/hyp_trace.c
 
-   188	
-   189		memblock_add(PHYS_OFFSET,
-   190			     (bootmem_lastpg - ARCH_PFN_OFFSET) << PAGE_SHIFT);
-   191	
-   192		/* Reserve kernel text/data/bss */
-   193		memblock_reserve(PHYS_OFFSET,
-   194				 (bootmem_startpg - ARCH_PFN_OFFSET) << PAGE_SHIFT);
-   195	
-   196		/*
-   197		 * A bootloader-provided DTB sits in our RAM until it is
-   198		 * unflattened; keep the allocator away from it.
-   199		 */
- > 200		if (boot_dtb_phys && initial_boot_params)
-   201			memblock_reserve(boot_dtb_phys,
-   202					 fdt_totalsize(initial_boot_params));
-   203		/*
-   204		 * Reserve the top DMA_RESERVE bytes of RAM for DMA (uncached)
-   205		 * memory allocation
-   206		 */
-   207		max_low_pfn = bootmem_lastpg - PFN_DOWN(DMA_RESERVED_BYTES);
-   208		min_low_pfn = ARCH_PFN_OFFSET;
-   209		memblock_reserve(PFN_PHYS(max_low_pfn), DMA_RESERVED_BYTES);
-   210	
-   211		printk(KERN_INFO "bootmem_startpg:  0x%08lx\n", bootmem_startpg);
-   212		printk(KERN_INFO "bootmem_lastpg:  0x%08lx\n", bootmem_lastpg);
-   213		printk(KERN_INFO "min_low_pfn:  0x%08lx\n", min_low_pfn);
-   214		printk(KERN_INFO "max_low_pfn:  0x%08lx\n", max_low_pfn);
-   215	
-   216		/*
-   217		 * The default VM page tables (will be) populated with
-   218		 * VA=PA+PAGE_OFFSET mapping.  We go in and invalidate entries
-   219		 * higher than what we have memory for.
-   220		 */
-   221	
-   222		/*  this is pointer arithmetic; each entry covers 4MB  */
-   223		segtable = segtable + (PAGE_OFFSET >> 22);
-   224		//  probably should do something more graceful than this
-   225	#ifdef CONFIG_HEXAGON_SPLIT_2GB
-   226	#define KERNEL_BIGPAGES_GB (2)
-   227	#else
-   228	#define KERNEL_BIGPAGES_GB (1)
-   229	#endif
-   230	
-   231		segtable_end = segtable + (KERNEL_BIGPAGES_GB<<(30-22));
-   232	
-   233		/*
-   234		 * Move forward to the start of empty pages; take into account
-   235		 * phys_offset shift.
-   236		 */
-   237	
-   238		segtable += (bootmem_lastpg-ARCH_PFN_OFFSET)>>(22-PAGE_SHIFT);
-   239		{
-   240			int i;
-   241			for (i = 1 ; i <= DMA_RESERVE ; i++)
-   242				segtable[-i] = ((segtable[-i] & __HVM_PTE_PGMASK_4MB)
-   243					| __HVM_PTE_R | __HVM_PTE_W | __HVM_PTE_X
-   244					| __HEXAGON_C_UNC << 6
-   245					| __HVM_PDE_S_4MB);
-   246		}
-   247	
-   248		printk(KERN_INFO "clearing segtable from %p to %p\n", segtable,
-   249			segtable_end);
-   250		while (segtable < (segtable_end-8))
-   251			*(segtable++) = __HVM_PDE_S_INVALID;
-   252		/* stop the pointer at the device I/O 4MB page  */
-   253	
-   254		printk(KERN_INFO "segtable = %p (should be equal to _K_io_map; %p)\n",
-   255			segtable, &_K_io_map);
-   256	
-   257		//  Should use set_pmd or whatever, but whatevs
-   258		//  these are fixed 4k regardless of what the kernel is using for everything else
-   259		*segtable = __pa(&_K_init_devicetable) | __HVM_PDE_S_4KB;
-   260	
+   244	
+ > 245	void hyp_poke_tracing(int cpu, const struct cpumask *cpus)
+   246	{
+   247		if (cpu == RING_BUFFER_ALL_CPUS) {
+   248			for_each_cpu(cpu, cpus)
+   249				WARN_ON_ONCE(ring_buffer_poke(hyp_trace_buffer, cpu));
+   250		} else {
+   251			WARN_ON_ONCE(ring_buffer_poke(hyp_trace_buffer, cpu));
+   252		}
+   253	}
+   254	
 
 --
 0-DAY CI Kernel Test Service
