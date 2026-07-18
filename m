@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10BC368287
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 20:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2171F30170F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Jul 2026 20:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784405432; cv=none; b=bQYmcN1LIq2tf6ueYqaJLlXBI6RtoztK92FvTmJu5J8ao5fuTv0rtJ+QXhuI8NvWFPcFxILnMONPdoEF+Nqc2PJFiNijcMeHdEWRbZ5hcU/Yc7kwGKyLbTWS0JZVnRnaeU4zamYVYRzkuUMDvC4o+Hjxrs7XVh07/9/iPjQ0tZU=
+	t=1784406776; cv=none; b=Jjl19nsyraemK7noGozYeQcxKLCiEA6rw5AvjlmIs52yFWwjuGsTs2j4BZEusSJp6SWqrf4Su83nUl/rCeVNbKI03LKFLZOYlqhuuI7ges+RZN4xmdRllYVBsEsUDtnqvZUF93Oqu9/4CiRoQ8IAMlWxtnUIJ0xkzFjk9nDDiw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784405432; c=relaxed/simple;
-	bh=2bhkg2zhWKzrobMGHWO20WDnFwxfyRj1hGyjLLFgnHY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QitcVEOiGELJvSf3B03SH2+KyPIyzw5Su4cF/1+Iq/Pqqp+/JPx4uL2AEI5gCVALTDw9XURYizNE3cNy++J3xlobItk4JfKsvQrmKLj0/Lhxc+NXh9g5W2n0qbD6kiHwMycgt2Bs18R6AO+lKdfcUyK1v79dmy1zQ7bBj/RIjSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mTx5Ymhd; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1784406776; c=relaxed/simple;
+	bh=dd6TV0M1jmbkEvM/xF+FFsXhwYGo7bIpVHB5TA2o3Y4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lRW6+xtArNiYU848VTCS6J9uYRtJk4Dg2/EHreP3KO4a35NR4En2nTqwbXMceozxGt5ZK50ZK1sEYRaOwL3yFMPxeTipJdQmoeXShlohFPSs3nZ26xB5Sq19igEWNH61UyrCSdrOVjkr8f5f7/2QofgeqEIDUsyOwmvCamcJamw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/MPm+Ke; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mTx5Ymhd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/MPm+Ke"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784405429; x=1815941429;
+  t=1784406774; x=1815942774;
   h=date:from:to:cc:subject:message-id;
-  bh=2bhkg2zhWKzrobMGHWO20WDnFwxfyRj1hGyjLLFgnHY=;
-  b=mTx5YmhdE+cU9PZisKvDPSZrCw6FEbnrLv6Mq/vFzGESQo7zhn6qRDXd
-   wJU2qUziEiMQNkgjgkiEQZYWYpIp8tTRzqzK9eTdajNnd8yWdPZuW67vu
-   dlk/DWWXVp/Vs+S1g1aAvhSqr0XWFXCWWcyAQ3ZoMlPxWSqKfngCknvgW
-   le/3weGSpHrCB4coplfKSjR6dRJnp3rL2H6+YeCpM2m5zUUJaTjxxdRzF
-   U4+tbCYFPukccxq+BjTm4ixvlbPjEGt9E5fViYnFJIHJsDsx9qddzQYm4
-   bvEmINCAd9bSsy9d4BRFGkqVpojQU2JbcLg+s4Gndir04AzGtKIuUcVNQ
-   A==;
-X-CSE-ConnectionGUID: LV0n/j26TNmHE6yXKzNhdw==
-X-CSE-MsgGUID: lFR3qOcFQUSW1eZsJh0JLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11850"; a="95637462"
+  bh=dd6TV0M1jmbkEvM/xF+FFsXhwYGo7bIpVHB5TA2o3Y4=;
+  b=H/MPm+KeYMHLWltX4UajK9snC05g4OxTH5NeZbhxEYybiTXL3z9aJsNl
+   bEc3BYvNfgcvNj935yLl16oYMfR9KuM2P0vF+L8PWXUL291+dOkQv2IUt
+   SLfgwxbt5O51pwV/tLJF6RTnxSBOpjvKT8ZBrRsd6SoGu0LDiFvV2rCmI
+   yokacYnuMwtKJGNVdcGSaO1tdDZIfnNf2zSdxdcIX50vMOT/uIP8L//aj
+   1UjUefQsDml07Nrr67CAHgU+h0cM3PuXOJksbMJcklXexwEmAtYTsSykw
+   jOMtsa+rL4d8CR3l7JwgtDws5tO+CfD5jLjh5qkqOOyMYeOuFaqaF2qEb
+   w==;
+X-CSE-ConnectionGUID: dmpcmB9jScGTCP6qnIyGWw==
+X-CSE-MsgGUID: UFuNAvqNSVymxoQlMv4h6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11850"; a="84166041"
 X-IronPort-AV: E=Sophos;i="6.25,171,1779174000"; 
-   d="scan'208";a="95637462"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 13:10:29 -0700
-X-CSE-ConnectionGUID: I52RU+SbTt2AqBjHiWW8JQ==
-X-CSE-MsgGUID: IMEcWmk1SzGMogFYGDVp7Q==
+   d="scan'208";a="84166041"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 13:32:53 -0700
+X-CSE-ConnectionGUID: mTOp32JRSqyjI+PJCnE+0Q==
+X-CSE-MsgGUID: PJvrx0zlQNynSlPi8eoC3w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,171,1779174000"; 
+   d="scan'208";a="261360945"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Jul 2026 13:10:27 -0700
+  by orviesa005.jf.intel.com with ESMTP; 18 Jul 2026 13:32:52 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wlBMO-00000000V5F-3ysG;
-	Sat, 18 Jul 2026 20:10:18 +0000
-Date: Sun, 19 Jul 2026 04:09:42 +0800
+	id 1wlBiL-00000000V61-1D9x;
+	Sat, 18 Jul 2026 20:32:49 +0000
+Date: Sun, 19 Jul 2026 04:32:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xu Lu <luxu.kernel@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Walmsley <pjw@kernel.org>
-Subject: [linux-next:master 6206/7584]
- arch/riscv/include/asm/pgtable.h:584:47: error: variable 'asid' is
- uninitialized when used here
-Message-ID: <202607190303.yJvChj80-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 192/192]
+ arch/arm64/kvm/hyp_trace.c:595:36: warning: unused variable 'hyp_trace_ops'
+Message-ID: <202607190424.4it7LZtK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,86 +59,61 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0718283ab28bc3907e10b61a6b4be6fefa1cbb2f
-commit: 6dfbb04908eb630ae6a592454b28c2f666a20a5a [6206/7584] riscv: mm: Apply Svinval in update_mmu_cache()
-config: riscv-randconfig-r063-20260718 (https://download.01.org/0day-ci/archive/20260719/202607190303.yJvChj80-lkp@intel.com/config)
+Hi Vincent,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   15bdff0dd01eed4ffc4ae138c5a611d8b102a4b6
+commit: a6af57723d00e6d80d21f6171f3cb4574aba159d [192/192] ANDROID: KVM: arm64: Remove the non-consuming hyp trace interface
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260719/202607190424.4it7LZtK-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260719/202607190303.yJvChj80-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260719/202607190424.4it7LZtK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607190303.yJvChj80-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607190424.4it7LZtK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from lib/test_bitops.c:10:
-   In file included from include/linux/module.h:20:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/riscv/include/asm/elf.h:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:9:
-   In file included from include/linux/sched/task.h:13:
-   In file included from include/linux/uaccess.h:13:
-   In file included from arch/riscv/include/asm/uaccess.h:13:
->> arch/riscv/include/asm/pgtable.h:584:47: error: variable 'asid' is uninitialized when used here [-Werror,-Wuninitialized]
-     584 |                         local_sinval_vma(address + nr * PAGE_SIZE, asid);
-         |                                                                    ^~~~
-   arch/riscv/include/asm/pgtable.h:571:20: note: initialize the variable 'asid' to silence this warning
-     571 |         unsigned long asid;
-         |                           ^
-         |                            = 0
-   1 error generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:94:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:371:9: note: previous definition is here
+     371 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   arch/arm64/kvm/hyp_trace.c:245:6: warning: no previous prototype for function 'hyp_poke_tracing' [-Wmissing-prototypes]
+     245 | void hyp_poke_tracing(int cpu, const struct cpumask *cpus)
+         |      ^
+   arch/arm64/kvm/hyp_trace.c:245:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     245 | void hyp_poke_tracing(int cpu, const struct cpumask *cpus)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp_trace.c:595:36: warning: unused variable 'hyp_trace_ops' [-Wunused-const-variable]
+     595 | static const struct seq_operations hyp_trace_ops = {
+         |                                    ^~~~~~~~~~~~~
+   3 warnings generated.
 
 
-vim +/asid +584 arch/riscv/include/asm/pgtable.h
+vim +/hyp_trace_ops +595 arch/arm64/kvm/hyp_trace.c
 
-   561	
-   562	#define pgd_ERROR(e) \
-   563		pr_err("%s:%d: bad pgd " PTE_FMT ".\n", __FILE__, __LINE__, pgd_val(e))
-   564	
-   565	
-   566	/* Commit new configuration to MMU hardware */
-   567	static inline void update_mmu_cache_range(struct vm_fault *vmf,
-   568			struct vm_area_struct *vma, unsigned long address,
-   569			pte_t *ptep, unsigned int nr)
-   570	{
-   571		unsigned long asid;
-   572	
-   573		/*
-   574		 * Svvptc guarantees that the new valid pte will be visible within
-   575		 * a bounded timeframe, so when the uarch does not cache invalid
-   576		 * entries, we don't have to do anything.
-   577		 */
-   578		if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SVVPTC))
-   579			return;
-   580	
-   581		if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SVINVAL)) {
-   582			local_sfence_w_inval();
-   583			while (nr--)
- > 584				local_sinval_vma(address + nr * PAGE_SIZE, asid);
-   585			local_sfence_inval_ir();
-   586			return;
-   587		}
-   588	
-   589		/*
-   590		 * The kernel assumes that TLBs don't cache invalid entries, but
-   591		 * in RISC-V, SFENCE.VMA specifies an ordering constraint, not a
-   592		 * cache flush; it is necessary even after writing invalid entries.
-   593		 * Relying on flush_tlb_fix_spurious_fault would suffice, but
-   594		 * the extra traps reduce performance.  So, eagerly SFENCE.VMA.
-   595		 */
-   596		asid = get_mm_asid(vma->vm_mm);
-   597		while (nr--)
-   598			local_flush_tlb_page_asid(address + nr * PAGE_SIZE, asid);
-   599	}
-   600	
+34305ad4b1bbf0 Vincent Donnefort 2022-08-25  594  
+34305ad4b1bbf0 Vincent Donnefort 2022-08-25 @595  static const struct seq_operations hyp_trace_ops = {
+34305ad4b1bbf0 Vincent Donnefort 2022-08-25  596  	.start	= ht_start,
+34305ad4b1bbf0 Vincent Donnefort 2022-08-25  597  	.next	= ht_next,
+34305ad4b1bbf0 Vincent Donnefort 2022-08-25  598  	.stop	= ht_stop,
+34305ad4b1bbf0 Vincent Donnefort 2022-08-25  599  	.show	= ht_show,
+34305ad4b1bbf0 Vincent Donnefort 2022-08-25  600  };
+34305ad4b1bbf0 Vincent Donnefort 2022-08-25  601  
+
+:::::: The code at line 595 was first introduced by commit
+:::::: 34305ad4b1bbf0b1938712ef0070a78d8b2c3583 ANDROID: KVM: arm64: Add host support for the nVHE hyp tracing
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Vincent Donnefort <vdonnefort@google.com>
 
 --
 0-DAY CI Kernel Test Service
