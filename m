@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55C41C5F1B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jul 2026 17:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C33175A6D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Jul 2026 18:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784482562; cv=none; b=u5WoYrjLISI/53/jcmRoIxkOfrzHCDW6SZRp3BhlGO4tQd5ozAuLYftTc3yGzblBRL49X3FJO6iQSvABJgbo+fJN7YS2hZz+CQ/jBrtD+axaopHWNOlJK05C08CAtipry3AjTPfbpFxfleY3LDHoC/8IVVv4pMxqeWOFB5h9VN4=
+	t=1784487262; cv=none; b=PtjJivmWbd6Vvb46gnGGwNZ6F3ot9NibU0OfHJSwQqMcUOBnCAzCgJ5zK/ZqduOkQVPY3Bj6uwi7bEXz06xzebWae7sVOQqAtpK/mOVUiSJZERQmSG2D+V4WSYcleUd5Rro7bGqeJzYMUiMo3UEYur/wtdcdAXPcw4xtGLzyHqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784482562; c=relaxed/simple;
-	bh=0IYXZr6f80XVI53YeFokJuxoa9Lc+HP6Mos/duR/QgE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i9FVg5+mQ2n2zLZmpfbMdImBOBvbLwKjy8IBI9QnnxdS+CDxz689APQmcdgVvObT14t93F+Z8zYLUoo6IMRHlzp58anla4oX3L+f/TQ1AHjeN8uoF5re9puvJSRFvpHdiNpbYLbjTQE1hLOQQcr2XSeSDJMp8dbQF3vULGC0Vaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOHdTkr2; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1784487262; c=relaxed/simple;
+	bh=6gzre39debsmYDD2X8lvAMoqSxEkNJeovcnEw39Nae4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bI6+2Lh35sVh0GnynM2C1bPA94RXFHoSu6tggIHPuomA/DK57FEDaSX5F4DtfmTKuJ73q4PahGsn00yJZEdGkbAxS+EBmNYV6J4wpfR4sDlIMwOlhxSiO4hZ+wwwtXUBrzNgtKBcJWNH3GadCHhx/975vbHsIJn0J0M1pva8Chg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BvuUBhu1; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOHdTkr2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BvuUBhu1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784482560; x=1816018560;
+  t=1784487260; x=1816023260;
   h=date:from:to:cc:subject:message-id;
-  bh=0IYXZr6f80XVI53YeFokJuxoa9Lc+HP6Mos/duR/QgE=;
-  b=bOHdTkr2TPVdM9ZFr0Iq3gOyg+UcFvFlaOGm+Ir7I/2IzUBs0gDnxYyf
-   Ul1DMVM8QUCcmXELqVFBfdQaAwwX6fDfCHdDrh4B8oLgdKrnp+3RO8brc
-   9VihHANmdq6c1M78l4hRHxF4Q8jl9O2chVbwo6z+REZFoJV+oWpTXywbv
-   CR1R73vCqpVzEQ9uMY5QIlmeC19gHGbk/TaN+RxgjqI50gafO686WCGNj
-   /O4pLmIkENWWtcfzOitZzr39my0VjascgSH3VfOBFCh+u3ov4/ULp4zY3
-   sXh9uicWJnsG8B9vzhXiAQD8RBRh+eqMYavcIs+zkM31K0YiU5R2BKBHr
-   Q==;
-X-CSE-ConnectionGUID: dfFfCkOfTi+T3UB+OaW90Q==
-X-CSE-MsgGUID: sGHpS+46S72TEQ9ocKOSkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11851"; a="102624509"
+  bh=6gzre39debsmYDD2X8lvAMoqSxEkNJeovcnEw39Nae4=;
+  b=BvuUBhu1Bmz2NOfVzISeXVzkJbmxZK2iZep4qowEsIGr63fW8TeEGPai
+   LqK9wLThfcA57SC/EoH65Rm+axMJ2jk/KmVu37Cy64kNHv41RKeStw1Ad
+   2rFrWOvKfG0KfJZTrZ46M1dbo8EwB2DP+44jRREe5Iqsz5kb5GtWoffHR
+   rQ/+tdWQ/p22fLWXOQocYo6NhyUyIVKfRHgkYJjU/n4+p/Ib9GWe7na6Q
+   bjan2qVjdf0emRo3jjDUM2m1nSiq/ZsAzV+rSSivp8rMGIV2lbP9f8cR3
+   UR+EqW+SezVRc5WSLQ2rxzv5Shkih8wnI4Txo+QX8JiCf76TSO/jD+MkS
+   A==;
+X-CSE-ConnectionGUID: oKf7/FVRQSKI4M9xQgMPqg==
+X-CSE-MsgGUID: sugUJ8xdQEO5KCVkx7nQMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11851"; a="110628026"
 X-IronPort-AV: E=Sophos;i="6.25,173,1779174000"; 
-   d="scan'208";a="102624509"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2026 10:35:59 -0700
-X-CSE-ConnectionGUID: oE48BiEQQ52hgmFW4wP1Zg==
-X-CSE-MsgGUID: akjP/pDeRSKenhG2PS7kjw==
+   d="scan'208";a="110628026"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2026 11:54:19 -0700
+X-CSE-ConnectionGUID: 9+ZnxboFS2OO6Wgn8gmvuA==
+X-CSE-MsgGUID: X2WiUUQCS+2cYmNbju8Brw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,173,1779174000"; 
-   d="scan'208";a="280536089"
+   d="scan'208";a="281730906"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Jul 2026 10:35:57 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 19 Jul 2026 11:54:18 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wlVQa-00000000VcO-3Jor;
-	Sun, 19 Jul 2026 17:35:50 +0000
-Date: Mon, 20 Jul 2026 01:35:20 +0800
+	id 1wlWeV-00000000VfJ-2PHa;
+	Sun, 19 Jul 2026 18:54:15 +0000
+Date: Mon, 20 Jul 2026 02:54:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rong Xu <xur@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Nathan Chancellor <nathan@kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>
-Subject: vmlinux.o: warning: objtool: gdb_serial_stub+0x6d8:
- machine_restart() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-Message-ID: <202607200359.Zpe4HXfO-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 12/12]
+ fs/bcachefs/btree_key_cache.c:759:9: sparse: sparse: dereference of noderef
+ expression
+Message-ID: <202607200235.qLbdM3rk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,24 +60,124 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   94515f3a7d4256a5062176b7d6ed0471938cd51a
-commit: 9f2aee8f7d1842be08da860e45265d30dba0d1f7 kbuild: distributed build support for Clang ThinLTO
-date:   7 weeks ago
-config: loongarch-randconfig-r064-20260719 (https://download.01.org/0day-ci/archive/20260720/202607200359.Zpe4HXfO-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260720/202607200359.Zpe4HXfO-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   0fd55a309793adc6b8cddb5c29e80caa545ba4bb
+commit: f2bfe7e83765f3bd84382cc75d8ac3ca619de39a [12/12] bcachefs: Rip out freelists from btree key cache
+config: x86_64-randconfig-r111-20260716 (https://download.01.org/0day-ci/archive/20260720/202607200235.qLbdM3rk-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260720/202607200235.qLbdM3rk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9f2aee8f7d18 ("kbuild: distributed build support for Clang ThinLTO")
+| Fixes: f2bfe7e83765 ("bcachefs: Rip out freelists from btree key cache")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607200359.Zpe4HXfO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607200235.qLbdM3rk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/btree_key_cache.c: note: in included file:
+   fs/bcachefs/bcachefs.h:996:9: sparse: sparse: array of flexible structures
+   fs/bcachefs/btree_key_cache.c:688:32: sparse: sparse: context imbalance in 'bch2_fs_btree_key_cache_exit' - different lock contexts for basic block
+>> fs/bcachefs/btree_key_cache.c:759:9: sparse: sparse: dereference of noderef expression
 
->> vmlinux.o: warning: objtool: gdb_serial_stub+0x6d8: machine_restart() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: kernel_entry+0xec: start_kernel() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+vim +759 fs/bcachefs/btree_key_cache.c
+
+   673	
+   674	void bch2_fs_btree_key_cache_exit(struct btree_key_cache *bc)
+   675	{
+   676		struct bch_fs *c = container_of(bc, struct bch_fs, btree_key_cache);
+   677		struct bucket_table *tbl;
+   678		struct bkey_cached *ck;
+   679		struct rhash_head *pos;
+   680		LIST_HEAD(items);
+   681		unsigned i;
+   682	
+   683		shrinker_free(bc->shrink);
+   684	
+   685		/*
+   686		 * The loop is needed to guard against racing with rehash:
+   687		 */
+ > 688		while (atomic_long_read(&bc->nr_keys)) {
+   689			rcu_read_lock();
+   690			tbl = rht_dereference_rcu(bc->table.tbl, &bc->table);
+   691			if (tbl) {
+   692				if (tbl->nest) {
+   693					/* wait for in progress rehash */
+   694					rcu_read_unlock();
+   695					mutex_lock(&bc->table.mutex);
+   696					mutex_unlock(&bc->table.mutex);
+   697					rcu_read_lock();
+   698					continue;
+   699				}
+   700				for (i = 0; i < tbl->size; i++)
+   701					while (pos = rht_ptr_rcu(&tbl->buckets[i]), !rht_is_a_nulls(pos)) {
+   702						ck = container_of(pos, struct bkey_cached, hash);
+   703						BUG_ON(!bkey_cached_evict(bc, ck));
+   704						kfree(ck->k);
+   705						kmem_cache_free(bch2_key_cache, ck);
+   706					}
+   707			}
+   708			rcu_read_unlock();
+   709		}
+   710	
+   711		if (atomic_long_read(&bc->nr_dirty) &&
+   712		    !bch2_journal_error(&c->journal) &&
+   713		    test_bit(BCH_FS_was_rw, &c->flags))
+   714			panic("btree key cache shutdown error: nr_dirty nonzero (%li)\n",
+   715			      atomic_long_read(&bc->nr_dirty));
+   716	
+   717		if (atomic_long_read(&bc->nr_keys))
+   718			panic("btree key cache shutdown error: nr_keys nonzero (%li)\n",
+   719			      atomic_long_read(&bc->nr_keys));
+   720	
+   721		if (bc->table_init_done)
+   722			rhashtable_destroy(&bc->table);
+   723	}
+   724	
+   725	void bch2_fs_btree_key_cache_init_early(struct btree_key_cache *c)
+   726	{
+   727	}
+   728	
+   729	int bch2_fs_btree_key_cache_init(struct btree_key_cache *bc)
+   730	{
+   731		struct bch_fs *c = container_of(bc, struct bch_fs, btree_key_cache);
+   732		struct shrinker *shrink;
+   733	
+   734		if (rhashtable_init(&bc->table, &bch2_btree_key_cache_params))
+   735			return -BCH_ERR_ENOMEM_fs_btree_cache_init;
+   736	
+   737		bc->table_init_done = true;
+   738	
+   739		shrink = shrinker_alloc(0, "%s-btree_key_cache", c->name);
+   740		if (!shrink)
+   741			return -BCH_ERR_ENOMEM_fs_btree_cache_init;
+   742		bc->shrink = shrink;
+   743		shrink->count_objects	= bch2_btree_key_cache_count;
+   744		shrink->scan_objects	= bch2_btree_key_cache_scan;
+   745		shrink->batch		= 1 << 14;
+   746		shrink->seeks		= 0;
+   747		shrink->private_data	= c;
+   748		shrinker_register(shrink);
+   749		return 0;
+   750	}
+   751	
+   752	void bch2_btree_key_cache_to_text(struct printbuf *out, struct btree_key_cache *bc)
+   753	{
+   754		printbuf_tabstop_push(out, 24);
+   755		printbuf_tabstop_push(out, 12);
+   756	
+   757		prt_printf(out, "keys:\t%lu\r\n",		atomic_long_read(&bc->nr_keys));
+   758		prt_printf(out, "dirty:\t%lu\r\n",		atomic_long_read(&bc->nr_dirty));
+ > 759		prt_printf(out, "table size:\t%u\r\n",		bc->table.tbl->size);
+   760	
+   761		prt_printf(out, "\nshrinker:\n");
+   762		prt_printf(out, "requested_to_free:\t%lu\r\n",	bc->requested_to_free);
+   763		prt_printf(out, "freed:\t%lu\r\n",		bc->freed);
+   764		prt_printf(out, "skipped_dirty:\t%lu\r\n",	bc->skipped_dirty);
+   765		prt_printf(out, "skipped_accessed:\t%lu\r\n",	bc->skipped_accessed);
+   766		prt_printf(out, "skipped_lock_fail:\t%lu\r\n",	bc->skipped_lock_fail);
+   767	}
+   768	
 
 --
 0-DAY CI Kernel Test Service
