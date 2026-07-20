@@ -1,209 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20474285068
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Jul 2026 02:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9104E3A542B;
+	Mon, 20 Jul 2026 04:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784513936; cv=none; b=UTWtwyM7QXH1bDYqf7FcMvqxMQoETVM0L5i/0263P2Qn4fKd+TUz2Ehrqv4MV4bfbswX0FbrKrVjLOkitnukv+CdLSo59wP3V/yvRDxcg9uicz63fpiANR+TJ42KUG6T3kpAZMWhy7PNhTD85B6Ev6HWx9t5cnfBCoLua3lvCqQ=
+	t=1784520013; cv=none; b=nWsOsIEhyGf/ZPbfoxEtqmoIfV4tAl46gpzov+qbiYicLOCh5gnYNpX4gsxOG9rvtdHMsmdQCRGTe6b6AuSjmofp1vcpNyDUb1jVkuPOly3/d5M0R6h8D4XfHIYuRss+eFRhRFyyOYfYjrYPodKc4rR/rTPUjrFGdOwhsNfAmhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784513936; c=relaxed/simple;
-	bh=IYdxmSA8McXpCUu/m9nPrOGLNT6f2AStCwMnyfIBC3g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KHzAZR6t0ewRxVdRj9ElHAWm0D+WQPqO/mNUv7xYgQzMDFn5nWD7gsD4xmrYdePjLAButj3m4Fs9/f8ZT6/7nh+kFf0Bk9D9w2DexBlBC4bG2Gw0LKKiuBeOcOziYVTurjCuWfz17/YgNAXup/bURCRo5werc07RVLHfkre54Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gd0lBu9S; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784520013; c=relaxed/simple;
+	bh=8hxwepvwRNJWG6kAFHYrlks8EgP7LT+DhNIq5eyZkgA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=fMgO4RSPX0Pia9nypowi2JEajlobgIDMKMJeDdtgPMpcnx0STh0Er21n8LZYGYn3vAdz4A6IQ6T6OsZOaaKc0x8X+c7SXTeJU2cYM5bl2v4XXxyOdcplf9iFcbFgcZml5e7tvwNlT4VwDHRbTVkc5ynpRlMgaqFDx86WGIlTCcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flapping.org; spf=pass smtp.mailfrom=flapping.org; dkim=pass (2048-bit key) header.d=flapping.org header.i=@flapping.org header.b=T+pZl7Aj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Cx/HANVw; arc=none smtp.client-ip=202.12.124.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flapping.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flapping.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gd0lBu9S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784513933; x=1816049933;
-  h=date:from:to:cc:subject:message-id;
-  bh=IYdxmSA8McXpCUu/m9nPrOGLNT6f2AStCwMnyfIBC3g=;
-  b=Gd0lBu9Sjp53VGVdPIrDkGnDmqFbbjMn4ZgxAceqQn4+IoDNRITgm9U3
-   MEBZynxuMrh/taHu4pDqjxF1LwGKlHzp+PKM1Dwbdha5iIqZqo0hnBBM0
-   KeiY0Ka9+7r4XWH6LKvXeEelzxtNxlfcLzed7+vN6dR8/Qj+pyKpWWcmq
-   /5sI7zqNvxd355R4HTFGlcIah7cMV/q9r7MgMJ7Vw/x+ZnGZIaU+WxybL
-   fe+FF9sLBeZE+/9DgzMeffRESfXud+Gst2X4KG/41S1RZ7fV5h4PXN+oS
-   WX11BXK9Cm3KYMnC8Yloo59PXMbAj/hTBD5cFNAYs9fylAV2CX7M6GTHe
-   w==;
-X-CSE-ConnectionGUID: 9DZNuM3BQHS+QiwWm53HVg==
-X-CSE-MsgGUID: YXk4LXVvRkCj3uu8DspM7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11851"; a="88915926"
-X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
-   d="scan'208";a="88915926"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2026 19:18:52 -0700
-X-CSE-ConnectionGUID: H0S3k9sKTd6Pb/gCXCdr+A==
-X-CSE-MsgGUID: CI/h1+yAS5SMfBlf76N74g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
-   d="scan'208";a="295529207"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 19 Jul 2026 19:18:51 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wldai-0000000067Z-2aRl;
-	Mon, 20 Jul 2026 02:18:48 +0000
-Date: Mon, 20 Jul 2026 04:18:44 +0200
-From: kernel test robot <lkp@intel.com>
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: net/knod/knod_core.c:129:1: warning: control reaches end of
- non-void function
-Message-ID: <202607200420.w4KyVXtV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=flapping.org header.i=@flapping.org header.b="T+pZl7Aj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Cx/HANVw"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailflow.stl.internal (Postfix) with ESMTP id 49E7B13002DC;
+	Mon, 20 Jul 2026 00:00:09 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-09.internal (MEProxy); Mon, 20 Jul 2026 00:00:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flapping.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1784520009;
+	 x=1784523609; bh=pks8NSaA+5EntNYd31Fvj/x0Gef6lBSUxpuNusRUtWU=; b=
+	T+pZl7AjzIgv6+NN9omjPqra4NuZVQcoCFJ736hpUfKXeBwc5NmbBo3lpfyG/5fV
+	RtxZaD/5DySUCxVsp100Yvs+PcadEVnkyaKGyhV8k55lUFMYsyDTukIztHKMfm/R
+	3pgUFwsyRqjmtZ8nXm7ERw6S6ToSlQ3e6UMoUYHvotKnbvUbrQ0wLO5k4lzS+gP0
+	D7SmPKavqrue4nZflXjTKTWOOqK5Ek2VkrVFH1sYQE/PX9H/IFuy3xEndBvsSzcF
+	6ds+zFJKkMORs6YI2eHu9+BTBtorlF72OO2jSafRWTUDALBYCKHK28l+WQIbDiM0
+	fhHT5Lw46FvfMeQp+xo0DQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784520009; x=
+	1784523609; bh=pks8NSaA+5EntNYd31Fvj/x0Gef6lBSUxpuNusRUtWU=; b=C
+	x/HANVwJgobuQWErE2hyvUaqO5ECWZRo1/VSTi6kTN4JjKz++zZ9w/MElIqJNCK0
+	DHsjK1myWbL0sMwRy32UuLuY+RqXwn8B+rlAlB7b/er2N1x7E+Bi1OV9Gt9P/ebr
+	4izEJUzVk5rCW1XzIJ6+xZ7QbfyOT/Q+3NJKOuTetUrxqcxw9J1RFFDpdL2vmXKZ
+	c8IEDh9djJd6GyQQQjnbvM5N32LMxT9gheAYDOeuY/fDV8NBewmRZNXhBRCru/ef
+	1vBpSB4uh2HUd1DEHVV1YBoGzNrZWPWWf5mLAl/4ECZ6FD5v5DfeNuo4A6P6ZoTS
+	CiV0H1yH7EsElHe8QeNHQ==
+X-ME-Sender: <xms:SJ1dauwqv5VsVQdq005ZXBCsO3guKUa8CIwUQ6RvZ3b8oEPheH5o5w>
+    <xme:SJ1dalEiFJgscsSxXyCgFqywjKSWlgPi-ucqselVJtfxFiLHsEJV-b1yA_R5pHCZJ
+    cFOkyvh0lomDK3sb-taILuCZKDD0J96lIWVpIAOYt2_s-_Nk2qzZAg>
+X-ME-Proxy-Cause: dmFkZTGhKstYLaAN2GiTT4l29zGUepsRdOtJZ7qimrgY64/Gb+a/5gas8/+eDhM00XjHp7
+    FdFd8OKRBQeyW6Ocazq5drep90p2XPJuVbyS1ccaMgljLDLzD7DyRQuy+Ka/8hSxTSIEkN
+    kjzgSUwL5RCljSLRR6ODL+DaeL7OIQv+5CFN3cO/m8VQaB+MApx3ndo7QaVmwhrAsY8XbY
+    JeqAprDQ2qDyqmtgAaDhPzwUXZpJmDAV8pdDTRi+4duvaFZWZVTzOuMIksETMwbI3KdC7N
+    IQ1fIZ8yPsyZvqLeX5id55yxh3qzNZxtHSmcnNvnFxHDuqp8fsPTF1SOAYX+FpjP7FLaKg
+    NuVNY5k8k0suv7tMg7xJHjpzYmDA/l1OzeCxYNWrcXgAah1fNKgKqSxojNJpagv8ZHSOgc
+    mMWB07cqM8MgY+RFks1B3uCuJ8tXJtKJBp+TgrPjqj41hDVfh54rI5Fa+dDhvvCAiZ8/LD
+    dt84wEO9HziKNNUh6ib9vkohZjRzGzrYmsT9usIZf8Ryw3EkOV8XnGELj6d91fadnf9LAa
+    2WleP4ILslRGpPpMqatVL7KUtKhLpJOEWRKq5h/AfvCuc/9NWSbo5WaVvmPwOwhG2yPR/4
+    KkuFss4FILLkpcDU7A8DOj7L3rSQp9aikLV5wKrA6Vj5bGGaVLgw6vla5pKQ
+X-ME-Proxy: <xmx:SJ1dakAH59F2MIM6M7flSldqL3yS0ILIaK-Dmktaqqtre0MFrXuz-w>
+    <xmx:SJ1dam9MgzDcx7R3TpCs9lHQNXTisAYSf_Wpj-SegESJFSOhQMuw2A>
+    <xmx:SJ1daoRB7h9HwGJjzICkQNs1xum0NYOoP6J8YehVQyczLL4HhaMM3Q>
+    <xmx:SJ1daiVkyvyYJnll183BOuBwADivEG0TcjaKi_Q8TFT_WHE-65-eZQ>
+    <xmx:SJ1daq5oXPJLMhnkIyFZOQ42Od3ngN9LJdLSzXWMpQC0xnJoVpkWWQnN>
+Feedback-ID: i51fe4b43:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 2A4E62CC0083; Mon, 20 Jul 2026 00:00:08 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-ThreadId: AtrZI9yLaAjF
+Date: Mon, 20 Jul 2026 12:59:46 +0900
+From: "FUJITA Tomonori" <tomo@flapping.org>
+To: "Boqun Feng" <boqun@kernel.org>, "kernel test robot" <lkp@intel.com>
+Cc: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>,
+ "Gary Guo" <gary@garyguo.net>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>
+Message-Id: <378be3c6-2789-49f0-95bf-44f0f61a24b4@app.fastmail.com>
+In-Reply-To: <al15JgmfEzQHF3YA@MacBook-0RXW5>
+References: <202607190048.vAGhOcAV-lkp@intel.com>
+ <al15JgmfEzQHF3YA@MacBook-0RXW5>
+Subject: Re: [paulmckrcu:dev.2026.07.13b 75/86] warning: constant `WARN_ON_FLAGS` is
+ never used
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Taehee-Yoo/net-knod-add-uapi-and-core-headers/20260720-021105
-head:   d65f8a646efeabb7098a8c9a5b586ad3580fe13e
-commit: 326530f9cd40b4a123881f1dcc8832b2691c58e4 net: knod: add offload device core and control plane
-date:   8 hours ago
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260720/202607200420.w4KyVXtV-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260720/202607200420.w4KyVXtV-lkp@intel.com/reproduce)
+Hi,
+Thanks for the report.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607200420.w4KyVXtV-lkp@intel.com/
+On Mon, Jul 20, 2026, at 10:25 AM, Boqun Feng wrote:
+> On Sun, Jul 19, 2026 at 12:38:20AM +0800, kernel test robot wrote:
+>> tree:   https://github.com/paulmckrcu/linux dev.2026.07.13b
+>> head:   04b88652be5bc3b092a63198d1b2bebaf46b9e72
+>> commit: f41634950050921c691e1fabdafc0304c2aedfdf [75/86] rust: sync: add SRCU abstraction
+>> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260719/202607190048.vAGhOcAV-lkp@intel.com/config)
+>> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+>> rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260719/202607190048.vAGhOcAV-lkp@intel.com/reproduce)
+>> 
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202607190048.vAGhOcAV-lkp@intel.com/
+>> 
+>> All warnings (new ones prefixed by >>):
+>> 
+>> >> warning: constant `WARN_ON_FLAGS` is never used
+>>    --> rust/kernel/bug.rs:126:19
+>>    |
+>>    126 |               const WARN_ON_FLAGS: u32 = $crate::bug::bugflag_taint($crate::bindings::TAINT_WARN);
+>>    |                     ^^^^^^^^^^^^^
+>
+> [Cc Miguel and Tomo]
+>
+> Is this one supposed to fix the issue?
+>
+> 	https://lore.kernel.org/rust-for-linux/20260712102802.3013600-1-tomo@flapping.org/
 
-All warnings (new ones prefixed by >>):
+It doesn't. I've just sent a fix:
 
-    1044 |                         base_pool = knodev->accel_ops->alloc_mem(knodev, total,
-         |                                           ^~
-   net/knod/knod_core.c:1054:31: error: 'struct knod_dev' has no member named 'wpriv'
-    1054 |                         knodev->wpriv[0].spsc_pool_priv = pool_priv;
-         |                               ^~
-   net/knod/knod_core.c:1059:39: error: 'struct knod_dev' has no member named 'wpriv'
-    1059 |                                 knodev->wpriv[i].spsc_pool_gaddr =
-         |                                       ^~
-   net/knod/knod_core.c:1061:58: error: 'struct knod_dev' has no member named 'wpriv'
-    1061 |                                 err = __spsc_init(&knodev->wpriv[i].spsc_bds,
-         |                                                          ^~
-   net/knod/knod_core.c:1073:56: error: 'struct knod_dev' has no member named 'wpriv'
-    1073 |                                 err = spsc_init(&knodev->wpriv[i].spsc_bds,
-         |                                                        ^~
-   net/knod/knod_core.c:1089:37: error: 'struct knod_dev' has no member named 'wpriv'
-    1089 |                 spsc_destroy(&knodev->wpriv[i].spsc_bds);
-         |                                     ^~
-   net/knod/knod_core.c:1090:19: error: 'struct knod_dev' has no member named 'wpriv'
-    1090 |         if (knodev->wpriv[0].spsc_pool_priv)
-         |                   ^~
-   net/knod/knod_core.c:1091:23: error: 'struct knod_dev' has no member named 'accel_ops'
-    1091 |                 knodev->accel_ops->free_mem(knodev,
-         |                       ^~
-   net/knod/knod_core.c:1092:39: error: 'struct knod_dev' has no member named 'wpriv'
-    1092 |                                 knodev->wpriv[0].spsc_pool_priv);
-         |                                       ^~
-   net/knod/knod_core.c:1093:15: error: 'struct knod_dev' has no member named 'accel_ops'
-    1093 |         knodev->accel_ops->detach(knodev);
-         |               ^~
-   net/knod/knod_core.c:1117:19: error: 'struct knod_dev' has no member named 'accel_ops'
-    1117 |         if (knodev->accel_ops->xdp_ops && knodev->accel_ops->xdp_ops->init) {
-         |                   ^~
-   net/knod/knod_core.c:1117:49: error: 'struct knod_dev' has no member named 'accel_ops'
-    1117 |         if (knodev->accel_ops->xdp_ops && knodev->accel_ops->xdp_ops->init) {
-         |                                                 ^~
-   net/knod/knod_core.c:1118:29: error: 'struct knod_dev' has no member named 'accel_ops'
-    1118 |                 err = knodev->accel_ops->xdp_ops->init(knodev);
-         |                             ^~
-   net/knod/knod_core.c:1133:19: error: 'struct knod_dev' has no member named 'accel_ops'
-    1133 |         if (knodev->accel_ops->mp_map) {
-         |                   ^~
-   net/knod/knod_core.c:1134:29: error: 'struct knod_dev' has no member named 'accel_ops'
-    1134 |                 err = knodev->accel_ops->mp_map(knodev);
-         |                             ^~
-   net/knod/knod_core.c:1153:37: error: 'struct knod_dev' has no member named 'wpriv'
-    1153 |                 spsc_destroy(&knodev->wpriv[i].spsc_bds);
-         |                                     ^~
-   net/knod/knod_core.c:1154:19: error: 'struct knod_dev' has no member named 'wpriv'
-    1154 |         if (knodev->wpriv[0].spsc_pool_priv)
-         |                   ^~
-   net/knod/knod_core.c:1155:23: error: 'struct knod_dev' has no member named 'accel_ops'
-    1155 |                 knodev->accel_ops->free_mem(knodev,
-         |                       ^~
-   net/knod/knod_core.c:1156:39: error: 'struct knod_dev' has no member named 'wpriv'
-    1156 |                                 knodev->wpriv[0].spsc_pool_priv);
-         |                                       ^~
-   net/knod/knod_core.c:1157:15: error: 'struct knod_dev' has no member named 'accel_ops'
-    1157 |         knodev->accel_ops->detach(knodev);
-         |               ^~
-   net/knod/knod_core.c:1159:15: error: 'struct knod_dev' has no member named 'nic_ops'
-    1159 |         knodev->nic_ops->detach(knodev);
-         |               ^~
-   net/knod/knod_core.c:1162:21: error: 'struct knod_dev' has no member named 'wpriv'
-    1162 |         kfree(knodev->wpriv);
-         |                     ^~
-   net/knod/knod_core.c:1164:27: error: 'struct knod_dev' has no member named 'stats'
-    1164 |         free_percpu(knodev->stats);
-         |                           ^~
-   net/knod/knod_core.c: In function 'knod_dev_detach':
-   net/knod/knod_core.c:1197:19: error: 'struct knod_dev' has no member named 'accel_ops'
-    1197 |         if (knodev->accel_ops->pre_detach)
-         |                   ^~
-   net/knod/knod_core.c:1198:23: error: 'struct knod_dev' has no member named 'accel_ops'
-    1198 |                 knodev->accel_ops->pre_detach(knodev);
-         |                       ^~
-   net/knod/knod_core.c:1203:37: error: 'struct knod_dev' has no member named 'wpriv'
-    1203 |                 spsc_destroy(&knodev->wpriv[i].spsc_bds);
-         |                                     ^~
-   net/knod/knod_core.c:1204:19: error: 'struct knod_dev' has no member named 'wpriv'
-    1204 |         if (knodev->wpriv[0].spsc_pool_priv)
-         |                   ^~
-   net/knod/knod_core.c:1205:23: error: 'struct knod_dev' has no member named 'accel_ops'
-    1205 |                 knodev->accel_ops->free_mem(knodev,
-         |                       ^~
-   net/knod/knod_core.c:1206:39: error: 'struct knod_dev' has no member named 'wpriv'
-    1206 |                                 knodev->wpriv[0].spsc_pool_priv);
-         |                                       ^~
-   net/knod/knod_core.c:1207:15: error: 'struct knod_dev' has no member named 'nic_ops'
-    1207 |         knodev->nic_ops->detach(knodev);
-         |               ^~
-   net/knod/knod_core.c:1208:15: error: 'struct knod_dev' has no member named 'accel_ops'
-    1208 |         knodev->accel_ops->detach(knodev);
-         |               ^~
-   net/knod/knod_core.c:1216:21: error: 'struct knod_dev' has no member named 'wpriv'
-    1216 |         kfree(knodev->wpriv);
-         |                     ^~
-   net/knod/knod_core.c:1217:27: error: 'struct knod_dev' has no member named 'stats'
-    1217 |         free_percpu(knodev->stats);
-         |                           ^~
-   net/knod/knod_core.c: In function 'knod_dev_xdp_install':
->> net/knod/knod_core.c:129:1: warning: control reaches end of non-void function [-Wreturn-type]
-     129 | }
-         | ^
-   net/knod/knod_core.c: In function 'knod_ipsec_xdo_policy_add':
-   net/knod/knod_core.c:474:1: warning: control reaches end of non-void function [-Wreturn-type]
-     474 | }
-         | ^
-   net/knod/knod_core.c: In function 'knod_ipsec_xdo_offload_ok':
-   net/knod/knod_core.c:433:1: warning: control reaches end of non-void function [-Wreturn-type]
-     433 | }
-         | ^
-   net/knod/knod_core.c: In function 'knod_ipsec_xdo_state_add':
-   net/knod/knod_core.c:400:1: warning: control reaches end of non-void function [-Wreturn-type]
-     400 | }
-         | ^
-
-
-vim +129 net/knod/knod_core.c
-
-   122	
-   123	int knod_dev_xdp_install(struct knod_dev *knodev, struct netdev_bpf *xdp)
-   124	{
-   125		if (!knodev->accel_ops->xdp_ops ||
-   126		    !knodev->accel_ops->xdp_ops->xdp_install)
-   127			return -EOPNOTSUPP;
-   128		return knodev->accel_ops->xdp_ops->xdp_install(knodev, xdp);
- > 129	}
-   130	EXPORT_SYMBOL(knod_dev_xdp_install);
-   131	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://lore.kernel.org/rust-for-linux/20260720035510.4048145-1-tomo@flapping.org/
