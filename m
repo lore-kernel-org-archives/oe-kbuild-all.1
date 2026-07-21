@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C7946D0B2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jul 2026 18:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5433B42F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jul 2026 20:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784656951; cv=none; b=fkL0dKFHrWa8czqW+U+ReH0pIrFfZh4R9hee/fYaEyR5retQozCjAeJm9eAeDr8qCdmVB4GElZ8N/ulMYzeEI+4RNLv77p49Sk7ykQ3Vq50BD/z5NFPioKfG85E6KAE6le6wMeA4ejU//uu89TZe45xjG+QN42KLjwJLF0f5XOI=
+	t=1784666152; cv=none; b=UOIUhIztgjEWcTBn1hdolUnUePTfc/OG2xnME8XTVrKxcv60gsMxgYiMDoD8EFEq2TzBXSJt0NVRywzkNVZZhBqD1Hh6e8nFFhZ1FBNbYNiegcpO7vtI/JH4kxosM9aDaqZARGT/6YZ6OCNJxvM/jGCw6WdmvRF71O+dy+mt2lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784656951; c=relaxed/simple;
-	bh=Uqv4pWB6POuafH7u4CYAzGmJyHKjh8asnKm1bTokhzA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nLEp44DgEJt8u+/Lw3PqN5AD4z0CAT/hICH+eK6+bJaa4FNbMcGMyVjWgOKeCX/CTBEvx42gz2qCbIGAs2kWePQNPwl4RGRShln9T4ud65Aofl61yB+Y6orDMIY7PWJVxC8CzeCMhNWbNHwfyVDPmns9j9I8bOQNawMcMuXld2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZduNrMVU; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1784666152; c=relaxed/simple;
+	bh=/jY1d7rew5FCSKTeEUF6IUBaEWkZWlbMggjLNQ5oIc4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eqDCBGvDmgXvmpKgxIEXbHzKRoctdq3sDx2VM8m3agKPSSVqjP6Yu0u05G/gNtlqrt3dV+NGH4Thd/hJvCoRc418iM76kooZUc3H9IqBHVIuDJtpQxUxTXf3I+RcrLdQpFNEumjuSAZ5Q8kcB2/wK3IrIiffso8SUWh/gUwGB2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTKAtlZn; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZduNrMVU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTKAtlZn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784656949; x=1816192949;
+  t=1784666150; x=1816202150;
   h=date:from:to:cc:subject:message-id;
-  bh=Uqv4pWB6POuafH7u4CYAzGmJyHKjh8asnKm1bTokhzA=;
-  b=ZduNrMVUnA3icty6IyVI466D98H+sMOJ0Szuiz+scvCt5pPEZ60GUn0k
-   W7CFOu93DMR99J45t2xbkF/NeDBveneq5910cmk/kUzGS45n8X3Dxt37T
-   iOdfPvrZ/POQW6t62sObK/ibB0uOJFKXHqX5Qqn6bTr2BY+ecr9nw8hUC
-   N3zMsKOtGq9aP+obFRY4czOJ8TlfrviTyutFk3f84857yZk8hOUuwm6+R
-   8XUnrB+nHwqJfnqiWNDZ6RCE9M+Ai7q3aMrz8+OgJWO5uIYf7ZsDuZ5Yv
-   dv4sczpnNVHmxW51I7dvq0JvdwWaCq3Xf0Lf/43d9ixBXmJc+DcowpU4U
-   A==;
-X-CSE-ConnectionGUID: pI1wPscLT3WYADalNM+jCA==
-X-CSE-MsgGUID: JntAUDAEQNC6iWBoahfJxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="102819775"
+  bh=/jY1d7rew5FCSKTeEUF6IUBaEWkZWlbMggjLNQ5oIc4=;
+  b=XTKAtlZnhyyUQjJyIjoyoQf6ePUQomG8HZFTsZ6NRt8EOMJ9QH2JG4GU
+   rEMKfXaGTzhOsH9+mb3fqaNerzVXEP+ZSa8tOgtxsG3k6huKvDsmHXWDt
+   Zo5kov1aqB5Te231faYXt1N8Rcr6TexOmjghht/E2Gmhmi5YKzQBNa3tU
+   IQng4FDO7YeWRGJRpA/OhH3uKB4TKTV6aQm7Sjj++Rw95Xq6LFJ1m38ug
+   hb69sNcBOk2pjKOlyYOFGIy/riq16HbwWH11zFzUYEO9NZL5RBLs+6SBr
+   cw7tf3zieKOL9DpJzeg/gErIrTB4R6KuD2M/tmNoVqW7V6tUZtwUJkmPc
+   g==;
+X-CSE-ConnectionGUID: J8indumtQh2O7xTOiv5HfA==
+X-CSE-MsgGUID: 3B2XAk/wQxq3dDiM99TtKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="96418489"
 X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
-   d="scan'208";a="102819775"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 11:02:28 -0700
-X-CSE-ConnectionGUID: hxf4ebapTIWJKSkVcjlt2A==
-X-CSE-MsgGUID: 1tMiv1UqRQmUZoOd6X0/WQ==
+   d="scan'208";a="96418489"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 13:35:50 -0700
+X-CSE-ConnectionGUID: sY/PJeRyRKSfrNLISe2JBw==
+X-CSE-MsgGUID: fU/x4PgESSGisDJUJV1QTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
-   d="scan'208";a="262114167"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 21 Jul 2026 11:02:28 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="255226747"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 21 Jul 2026 13:35:47 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wmEnR-00000000XpO-0XWw;
-	Tue, 21 Jul 2026 18:02:25 +0000
-Date: Wed, 22 Jul 2026 02:02:14 +0800
+	id 1wmHBp-0000000004B-3UPC;
+	Tue, 21 Jul 2026 20:35:45 +0000
+Date: Tue, 21 Jul 2026 22:35:17 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 192/192]
- lib/maple_tree.c:4736:6: sparse: sparse: symbol 'mas_next_slot' was not
- declared. Should it be static?
-Message-ID: <202607220119.JlXyR83b-lkp@intel.com>
+To: Yun Zhou <yun.zhou@windriver.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org,
+ Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>
+Subject: [xfs-linux:xfs-7.3-merge 37/54]
+ fs/xfs/libxfs/xfs_sb.c:1473:34: warning: variable 'bp' set but not used
+Message-ID: <202607212237.Pzw1sr5k-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,108 +60,87 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   b3c531e1677cf574dd7ffc9bfce3a298c74ef2f8
-commit: 84719794e06c13fd9a3fd0c547af5bf9d76f7c3b [192/192] FROMGIT: maple_tree: introduce mas_next_slot() interface
-config: arm64-randconfig-r123-20260716 (https://download.01.org/0day-ci/archive/20260722/202607220119.JlXyR83b-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260722/202607220119.JlXyR83b-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git xfs-7.3-merge
+head:   97f34168769238b1fe4412229c99f1a78364f6f9
+commit: b9ad0b9891dd0ddbfd8d9bfc7a55b0b70e9871f2 [37/54] xfs: don't hold buffer locks across sync transaction commit in xfs_sync_sb_buf
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260721/202607212237.Pzw1sr5k-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260721/202607212237.Pzw1sr5k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607220119.JlXyR83b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607212237.Pzw1sr5k-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/maple_tree.c:4736:6: sparse: sparse: symbol 'mas_next_slot' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/mas_next_slot +4736 lib/maple_tree.c
+   In file included from fs/xfs/libxfs/xfs_rtbitmap.h:9,
+                    from fs/xfs/libxfs/xfs_sb.c:28:
+   fs/xfs/libxfs/xfs_sb.c: In function 'xfs_sync_sb_buf':
+>> fs/xfs/libxfs/xfs_rtgroup.h:362:41: warning: statement with no effect [-Wunused-value]
+     362 | # define xfs_log_rtsb(tp, sb_bp)        (NULL)
+         |                                         ^
+   fs/xfs/libxfs/xfs_sb.c:1483:17: note: in expansion of macro 'xfs_log_rtsb'
+    1483 |                 xfs_log_rtsb(tp, bp);
+         |                 ^~~~~~~~~~~~
+>> fs/xfs/libxfs/xfs_sb.c:1473:34: warning: variable 'bp' set but not used [-Wunused-but-set-variable]
+    1473 |         struct xfs_buf          *bp;
+         |                                  ^~
 
-  4726	
-  4727	/*
-  4728	 * mas_next_slot() - Get the entry in the next slot
-  4729	 *
-  4730	 * @mas: The maple state
-  4731	 * @max: The maximum starting range
-  4732	 * @empty: Can be empty
-  4733	 *
-  4734	 * Return: The entry in the next slot which is possibly NULL
-  4735	 */
-> 4736	void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
-  4737	{
-  4738		void __rcu **slots;
-  4739		unsigned long *pivots;
-  4740		unsigned long pivot;
-  4741		enum maple_type type;
-  4742		struct maple_node *node;
-  4743		unsigned char data_end;
-  4744		unsigned long save_point = mas->last;
-  4745		void *entry;
-  4746	
-  4747	retry:
-  4748		node = mas_mn(mas);
-  4749		type = mte_node_type(mas->node);
-  4750		pivots = ma_pivots(node, type);
-  4751		data_end = ma_data_end(node, type, pivots, mas->max);
-  4752		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4753			goto retry;
-  4754	
-  4755	again:
-  4756		if (mas->max >= max) {
-  4757			if (likely(mas->offset < data_end))
-  4758				pivot = pivots[mas->offset];
-  4759			else
-  4760				return NULL; /* must be mas->max */
-  4761	
-  4762			if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4763				goto retry;
-  4764	
-  4765			if (pivot >= max)
-  4766				return NULL;
-  4767		}
-  4768	
-  4769		if (likely(mas->offset < data_end)) {
-  4770			mas->index = pivots[mas->offset] + 1;
-  4771			mas->offset++;
-  4772			if (likely(mas->offset < data_end))
-  4773				mas->last = pivots[mas->offset];
-  4774			else
-  4775				mas->last = mas->max;
-  4776		} else  {
-  4777			if (mas_next_node(mas, node, max)) {
-  4778				mas_rewalk(mas, save_point);
-  4779				goto retry;
-  4780			}
-  4781	
-  4782			if (mas_is_none(mas))
-  4783				return NULL;
-  4784	
-  4785			mas->offset = 0;
-  4786			mas->index = mas->min;
-  4787			node = mas_mn(mas);
-  4788			type = mte_node_type(mas->node);
-  4789			pivots = ma_pivots(node, type);
-  4790			mas->last = pivots[0];
-  4791		}
-  4792	
-  4793		slots = ma_slots(node, type);
-  4794		entry = mt_slot(mas->tree, slots, mas->offset);
-  4795		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4796			goto retry;
-  4797	
-  4798		if (entry)
-  4799			return entry;
-  4800	
-  4801		if (!empty) {
-  4802			if (!mas->offset)
-  4803				data_end = 2;
-  4804			goto again;
-  4805		}
-  4806	
-  4807		return entry;
-  4808	}
-  4809	
+
+vim +/bp +1473 fs/xfs/libxfs/xfs_sb.c
+
+b16817b66b6c97 Dave Chinner      2018-05-13  1462  
+f7664b31975bd8 Eric Sandeen      2018-05-15  1463  /*
+f7664b31975bd8 Eric Sandeen      2018-05-15  1464   * Same behavior as xfs_sync_sb, except that it is always synchronous and it
+f7664b31975bd8 Eric Sandeen      2018-05-15  1465   * also writes the superblock buffer to disk sector 0 immediately.
+f7664b31975bd8 Eric Sandeen      2018-05-15  1466   */
+f7664b31975bd8 Eric Sandeen      2018-05-15  1467  int
+f7664b31975bd8 Eric Sandeen      2018-05-15  1468  xfs_sync_sb_buf(
+76d3be00df91a5 Darrick J. Wong   2024-11-03  1469  	struct xfs_mount	*mp,
+76d3be00df91a5 Darrick J. Wong   2024-11-03  1470  	bool			update_rtsb)
+f7664b31975bd8 Eric Sandeen      2018-05-15  1471  {
+f7664b31975bd8 Eric Sandeen      2018-05-15  1472  	struct xfs_trans	*tp;
+89c2e71123badc Eric Sandeen      2018-06-04 @1473  	struct xfs_buf		*bp;
+f7664b31975bd8 Eric Sandeen      2018-05-15  1474  	int			error;
+f7664b31975bd8 Eric Sandeen      2018-05-15  1475  
+f7664b31975bd8 Eric Sandeen      2018-05-15  1476  	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_sb, 0, 0, 0, &tp);
+f7664b31975bd8 Eric Sandeen      2018-05-15  1477  	if (error)
+f7664b31975bd8 Eric Sandeen      2018-05-15  1478  		return error;
+f7664b31975bd8 Eric Sandeen      2018-05-15  1479  
+cead0b10f557a2 Christoph Hellwig 2020-09-01  1480  	bp = xfs_trans_getsb(tp);
+f7664b31975bd8 Eric Sandeen      2018-05-15  1481  	xfs_log_sb(tp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1482  	if (update_rtsb)
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1483  		xfs_log_rtsb(tp, bp);
+f7664b31975bd8 Eric Sandeen      2018-05-15  1484  	xfs_trans_set_sync(tp);
+f7664b31975bd8 Eric Sandeen      2018-05-15  1485  	error = xfs_trans_commit(tp);
+f7664b31975bd8 Eric Sandeen      2018-05-15  1486  	if (error)
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1487  		return error;
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1488  
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1489  	/* Re-acquire and write the sb and rtsb to disk. */
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1490  	xfs_buf_lock(mp->m_sb_bp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1491  	xfs_buf_hold(mp->m_sb_bp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1492  	error = xfs_bwrite(mp->m_sb_bp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1493  	xfs_buf_relse(mp->m_sb_bp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1494  	if (error)
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1495  		return error;
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1496  
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1497  	if (update_rtsb && mp->m_rtsb_bp) {
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1498  		xfs_buf_lock(mp->m_rtsb_bp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1499  		xfs_buf_hold(mp->m_rtsb_bp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1500  		error = xfs_bwrite(mp->m_rtsb_bp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1501  		xfs_buf_relse(mp->m_rtsb_bp);
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1502  	}
+b9ad0b9891dd0d Yun Zhou          2026-07-13  1503  
+f7664b31975bd8 Eric Sandeen      2018-05-15  1504  	return error;
+f7664b31975bd8 Eric Sandeen      2018-05-15  1505  }
+f7664b31975bd8 Eric Sandeen      2018-05-15  1506  
+
+:::::: The code at line 1473 was first introduced by commit
+:::::: 89c2e71123badc1e75316ccd969ee8a5c6fd921a xfs: use xfs_trans_getsb in xfs_sync_sb_buf
+
+:::::: TO: Eric Sandeen <sandeen@redhat.com>
+:::::: CC: Darrick J. Wong <darrick.wong@oracle.com>
 
 --
 0-DAY CI Kernel Test Service
