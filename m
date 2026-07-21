@@ -1,164 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DD430B53E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jul 2026 12:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7A43750CA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Jul 2026 13:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784638091; cv=none; b=QuRKnLp0TIaSw+8f7+OEHhRK7Zi9iS+Hz5+KhdVcuJj/R1yVhnrMRt21K+dZB4AnaYZUV02WKX1VDKtHoJ88MyY1WCGlSGL4UI3DNSeR68ClXRY5tweDJKRWsVYRvVoU6m11o0iu8UT+7vUp3z9EDsysOnpZ4cyGZlsn/DEMmJE=
+	t=1784641774; cv=none; b=Eb0E1bZyHlm7i8comTwlrng35gJiSOw+DZWKkr7xTjdmcLni9NK+VsMtXm8NiBU0ecNH1ZEdPMUnGFpEPrhFIMOpBGMfEPliE4OTBUZbi1kxyObkyiH0Bcp6Cpv6zHlrQs2IkqJtnUkzh8ZZ74pU2/L8EprmRh12D3oWdsPFSCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784638091; c=relaxed/simple;
-	bh=3hb3MJA1XeYJMyWxNd0a24N9Rx19kjRJVv2oCwEAeZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VJb6PmeWBxIGW0u0e8taT1dC30/sw5OdqzXqpypUsBoj7o3UN8gA+CCXIYuBCUG1gSvgwMQogjSzO4RSUXsOHwhMhNJ//zRR25uDjrig48vI2f6HcyqgneFrul2BCe2e3NRfbH4p+hzHyTRfg4iUYDyFh5nxZn9/5vLPUMgCjTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=liULPMML; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1784641774; c=relaxed/simple;
+	bh=v/y29VJ2iiyaFEZQ3Q+9gPiAmZdhM1tSYps0CcXCf18=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XyxgpQ1KYlsf/CQVwCAvE4/3ZT1jw7OuyQQ8YRlLTbjjRiV20TWoG4Q+08I8reC9cyy8McyswirtevgJBidLEf8IxeyQgNH2sm63Wr9YHYVmT6htYdZOWWVb4SHgxoPehUlsIDaTA4/ePhA0j+LEkgje1OR+tp/cGF5nicn4HsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MoYyM2Ay; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="liULPMML"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MoYyM2Ay"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784638090; x=1816174090;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3hb3MJA1XeYJMyWxNd0a24N9Rx19kjRJVv2oCwEAeZM=;
-  b=liULPMMLaypMkBVZfB5IpmuDvz5TSbM0JKQohgmW3DNP5N+zpGNec1m2
-   tObYwLcWltoAQ0952zUsjKIJBxFSx5M9+0KxIW3mb4kw1NMYeROyb3uGb
-   rs32QX1EQ8FnKrzBLZnLCPxviNI3Z5CtaAoXmfH++ZbPl6wNg3CgrBLGU
-   emO+hUaRMtslxGz1aTL+0GE0b3yeN8VSlVv+uPXJuQW9T9MGurc49lj9O
-   kru+zBlsbexn8Cizs7X0/EdmU8OyB0PTvToTBnTEobmK+CczpuT3u85+H
-   12In25yhLL9ybVJRBr7ELIO05bcq76sBLExNP6J2CEraFbOzHppftgt/G
+  t=1784641773; x=1816177773;
+  h=date:from:to:cc:subject:message-id;
+  bh=v/y29VJ2iiyaFEZQ3Q+9gPiAmZdhM1tSYps0CcXCf18=;
+  b=MoYyM2AyeMaLIOI5eVtv07fEP0JZbfGjSYhLVv6mSq1CXHhfbFA6lt4Y
+   H8EjkostwrRyIcG/qrOrboAxManlK3imYNo5lCuGTy6A4aVsa3Rt3Qped
+   S+a3Y9ox8UO9Vi5PrEn8DtSLcafo7M1/3FdnJL3s+2zT+zZ/TnYqwLg4K
+   DrTUbd2tgkq3cLCwmu3Jsz2LN4B+YwDH1G/VLlyRralLsOGs0xhJHC534
+   ma3FOAu8kYabhAStxuXGFm62qOdhpK123W982rxJR/KwSJj98Lyt6OMMd
+   vu7dkdF9IwyRzs5D5rPRXULo5gCMa8qy+176pyAmYEoX4oHZ3/E5z1wjj
    A==;
-X-CSE-ConnectionGUID: mdZDJgQrQmmCF+1lOgo/3Q==
-X-CSE-MsgGUID: VkShg2cHSYeXRpjw6xtkIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="85275224"
+X-CSE-ConnectionGUID: lSIRMc/KSZOVsg9R70oHwQ==
+X-CSE-MsgGUID: EJ3tjzDITYq3eSWq64SyuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="85360191"
 X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="85275224"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 05:48:09 -0700
-X-CSE-ConnectionGUID: bl2i8qpmTOm3x0zynrViPw==
-X-CSE-MsgGUID: 2aqjFEavRPyyFE4qv33RIQ==
+   d="scan'208";a="85360191"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 06:49:32 -0700
+X-CSE-ConnectionGUID: uxNlzew8SGagFbrw2IHmeA==
+X-CSE-MsgGUID: FjUI1ME4RPyxsIwH56STDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="261315092"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 21 Jul 2026 05:48:07 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="255130578"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 21 Jul 2026 06:49:30 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wm9tE-000000006Nh-1inf;
-	Tue, 21 Jul 2026 12:48:04 +0000
-Date: Tue, 21 Jul 2026 14:47:53 +0200
+	id 1wmAqe-00000000Xc7-13NQ;
+	Tue, 21 Jul 2026 13:49:28 +0000
+Date: Tue, 21 Jul 2026 21:49:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Myeonghun Pak <mhun512@gmail.com>, Ido Schimmel <idosch@nvidia.com>,
-	Petr Machata <petrm@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Myeonghun Pak <mhun512@gmail.com>, Ijae Kim <ae878000@gmail.com>
-Subject: Re: [PATCH net] mlxsw: pci: Quiesce EQ tasklet and CQ NAPI before
- teardown
-Message-ID: <202607211419.DxdkHKb7-lkp@intel.com>
-References: <20260721062105.55014-1-mhun512@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-2026-04 14/14]
+ fs/fuse/dir.c:365:13: warning: 'fuse_dentry_release' defined but not used
+Message-ID: <202607212136.NJMMrW69-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260721062105.55014-1-mhun512@gmail.com>
 
-Hi Myeonghun,
+Hi Paul,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Myeonghun-Pak/mlxsw-pci-Quiesce-EQ-tasklet-and-CQ-NAPI-before-teardown/20260721-142527
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260721062105.55014-1-mhun512%40gmail.com
-patch subject: [PATCH net] mlxsw: pci: Quiesce EQ tasklet and CQ NAPI before teardown
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260721/202607211419.DxdkHKb7-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-04
+head:   bbf6a2e83ab5d0b5043355d606cd75cc141d23a0
+commit: be926e6761d28d105ba672242e81e911e0d7e5e0 [14/14] ANDROID: fuse-bpf: fuse-bpf v1.3
+config: i386-randconfig-141-20260721 (https://download.01.org/0day-ci/archive/20260721/202607212136.NJMMrW69-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260721/202607211419.DxdkHKb7-lkp@intel.com/reproduce)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260721/202607212136.NJMMrW69-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607211419.DxdkHKb7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607212136.NJMMrW69-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlxsw/pci.c: In function 'mlxsw_pci_cq_init':
->> drivers/net/ethernet/mellanox/mlxsw/pci.c:1077:32: error: 'truea' undeclared (first use in this function); did you mean 'true'?
-    1077 |         q->u.cq.napi_enabled = truea
-         |                                ^~~~~
-         |                                true
-   drivers/net/ethernet/mellanox/mlxsw/pci.c:1077:32: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/net/ethernet/mellanox/mlxsw/pci.c:1077:37: error: expected ';' before 'mlxsw_pci_queue_doorbell_consumer_ring'
-    1077 |         q->u.cq.napi_enabled = truea
-         |                                     ^
-         |                                     ;
-    1078 |         mlxsw_pci_queue_doorbell_consumer_ring(mlxsw_pci, q);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/fuse/dir.c:365:13: warning: 'fuse_dentry_release' defined but not used [-Wunused-function]
+     365 | static void fuse_dentry_release(struct dentry *dentry)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> fs/fuse/dir.c:358:12: warning: 'fuse_dentry_init' defined but not used [-Wunused-function]
+     358 | static int fuse_dentry_init(struct dentry *dentry)
+         |            ^~~~~~~~~~~~~~~~
 
 
-vim +1077 drivers/net/ethernet/mellanox/mlxsw/pci.c
+vim +/fuse_dentry_release +365 fs/fuse/dir.c
 
-  1036	
-  1037	static int mlxsw_pci_cq_init(struct mlxsw_pci *mlxsw_pci, char *mbox,
-  1038				     struct mlxsw_pci_queue *q)
-  1039	{
-  1040		enum mlxsw_pci_cq_type cq_type = mlxsw_pci_cq_type(mlxsw_pci, q);
-  1041		int i;
-  1042		int err;
-  1043	
-  1044		q->consumer_counter = 0;
-  1045	
-  1046		for (i = 0; i < q->count; i++) {
-  1047			char *elem = mlxsw_pci_queue_elem_get(q, i);
-  1048	
-  1049			mlxsw_pci_cqe_owner_set(q->u.cq.v, elem, 1);
-  1050		}
-  1051	
-  1052		if (q->u.cq.v == MLXSW_PCI_CQE_V1)
-  1053			mlxsw_cmd_mbox_sw2hw_cq_cqe_ver_set(mbox,
-  1054					MLXSW_CMD_MBOX_SW2HW_CQ_CQE_VER_1);
-  1055		else if (q->u.cq.v == MLXSW_PCI_CQE_V2)
-  1056			mlxsw_cmd_mbox_sw2hw_cq_cqe_ver_set(mbox,
-  1057					MLXSW_CMD_MBOX_SW2HW_CQ_CQE_VER_2);
-  1058	
-  1059		mlxsw_cmd_mbox_sw2hw_cq_c_eqn_set(mbox, MLXSW_PCI_EQ_COMP_NUM);
-  1060		mlxsw_cmd_mbox_sw2hw_cq_st_set(mbox, 0);
-  1061		mlxsw_cmd_mbox_sw2hw_cq_log_cq_size_set(mbox, ilog2(q->count));
-  1062		for (i = 0; i < MLXSW_PCI_AQ_PAGES; i++) {
-  1063			dma_addr_t mapaddr = __mlxsw_pci_queue_page_get(q, i);
-  1064	
-  1065			mlxsw_cmd_mbox_sw2hw_cq_pa_set(mbox, i, mapaddr);
-  1066		}
-  1067		err = mlxsw_cmd_sw2hw_cq(mlxsw_pci->core, mbox, q->num);
-  1068		if (err)
-  1069			return err;
-  1070		mlxsw_pci_cq_napi_setup(q, cq_type);
-  1071	
-  1072		err = mlxsw_pci_cq_page_pool_init(q, cq_type);
-  1073		if (err)
-  1074			goto err_page_pool_init;
-  1075	
-  1076		napi_enable(&q->u.cq.napi);
-> 1077		q->u.cq.napi_enabled = truea
-  1078		mlxsw_pci_queue_doorbell_consumer_ring(mlxsw_pci, q);
-  1079		mlxsw_pci_queue_doorbell_arm_consumer_ring(mlxsw_pci, q);
-  1080		return 0;
-  1081	
-  1082	err_page_pool_init:
-  1083		mlxsw_pci_cq_napi_teardown(q);
-  1084		return err;
-  1085	}
-  1086	
+e5e5558e923f358 Miklos Szeredi     2005-09-09  356  
+be926e6761d28d1 Paul Lawrence      2021-12-02  357  #if BITS_PER_LONG < 64 || defined(CONFIG_FUSE_BPF)
+f75fdf22b0a8470 Miklos Szeredi     2016-10-01 @358  static int fuse_dentry_init(struct dentry *dentry)
+f75fdf22b0a8470 Miklos Szeredi     2016-10-01  359  {
+be926e6761d28d1 Paul Lawrence      2021-12-02  360  	dentry->d_fsdata = kzalloc(sizeof(struct fuse_dentry),
+dc69e98c241e145 Khazhismel Kumykov 2019-09-17  361  				   GFP_KERNEL_ACCOUNT | __GFP_RECLAIMABLE);
+f75fdf22b0a8470 Miklos Szeredi     2016-10-01  362  
+f75fdf22b0a8470 Miklos Szeredi     2016-10-01  363  	return dentry->d_fsdata ? 0 : -ENOMEM;
+f75fdf22b0a8470 Miklos Szeredi     2016-10-01  364  }
+f75fdf22b0a8470 Miklos Szeredi     2016-10-01 @365  static void fuse_dentry_release(struct dentry *dentry)
+f75fdf22b0a8470 Miklos Szeredi     2016-10-01  366  {
+be926e6761d28d1 Paul Lawrence      2021-12-02  367  	struct fuse_dentry *fd = dentry->d_fsdata;
+be926e6761d28d1 Paul Lawrence      2021-12-02  368  
+
+:::::: The code at line 365 was first introduced by commit
+:::::: f75fdf22b0a84702d1b72fc1ccd53dcdde121c16 fuse: don't use ->d_time
+
+:::::: TO: Miklos Szeredi <mszeredi@redhat.com>
+:::::: CC: Miklos Szeredi <mszeredi@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
