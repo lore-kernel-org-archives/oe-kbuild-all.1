@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7805A3812DA;
-	Wed, 22 Jul 2026 06:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289F2403EB5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Jul 2026 07:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784702057; cv=none; b=jH17Vozc46xeEC/wHDJfuXuc/MQCiYY+lHlR2Gjzn554VIjqHUu/HcPdMSvVL4kB4nhF3VRD2YpU7Bu2FTTKs/VfY+RLm+gWgL3usxtFWWyYEwW62APvn4Vyx9mG0K9w1yJLWGIsBMCBEIMYL7evsLuOrAl+QrTeLyr2yY7P0U4=
+	t=1784705100; cv=none; b=pM28f9H3nd80Bn+JFtnhKo9Hq3ON31b/QAiGcNDOrk6tZhxk2iyKI2BFFruJYoVZRo2QD3wIqR3siI7K5cCL/MqA7Kl9CGzpCmyzKWzUDs6cCsZxw4MF/8xmEhPiszr+DGIYqZ0w1Fq++DzddGe5BdQX1jSxht1Oik6FeimR2ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784702057; c=relaxed/simple;
-	bh=N4fwxtkvE1mX2EhVOQpUgCUAchnwuyshEFSuuDBiDT0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bnz02TYg2nbsWnxPHO+XCsso9TMqbtNjxEYWhg090YU0Qxk5JNuehi+mxJmjMDRUzNlCGDPAfroYFVc4UVtmwm0d9dvJOtfuJQcP2XSQVIX0HZLaer7u3Z2+azCwOPe7in/QIEsdWuZLenBEm+YTT49lauIKwi8bmVRcMXrwnt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRkrfbqr; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1784705100; c=relaxed/simple;
+	bh=I2impT9CYqtc0d6+EABepV8LLcEx3fZ/HhnqyzIMqXs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DrUx2HBiXCyjsF9e6OMTZqqYxPWwGakBCRpuF1yKWajh65vVOGlwOXNgVnBpou5M+mm24ZqqIVxwiZ6iYUFuyPG4/JxuDjT54gIjmGFrgzIkaR+UvQbRpQWhAbHe6dRJdnenRXutBtSiBhDXF3nBdVPGDekBAlmdL24LHiAaluA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=exGExnz6; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRkrfbqr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="exGExnz6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784702055; x=1816238055;
+  t=1784705098; x=1816241098;
   h=date:from:to:cc:subject:message-id;
-  bh=N4fwxtkvE1mX2EhVOQpUgCUAchnwuyshEFSuuDBiDT0=;
-  b=KRkrfbqrImD1PKbsP8tPtcN5tiLdXPMFbvW3cCBUaJtXRSs+yr120zVP
-   cHkK7/GKFf1y7KRB7nElBPQ5BR+CyMztbA5wnO0vJLOYeHfP6YV14jXtU
-   WafSgL0N4agJS2zDfYS7xgICclFtOUFzNggdOqDa7jn5LvTTI0ACavcyf
-   LEWK0+4pYdaJusAnavXYogmg8695WYli2iuTY2bEm8jobGSzQHHxzXEVl
-   3L6CkCGkOyr3yF6Wd5jSUKwlRMKLq6PiR20T2mY0ghYW+5ePOqjBfBkUw
-   6Yjdn5PEuqGilc3apshNh3r1pxOiKaLO7mLCLc6lgV4BsemUdJ9vZBZDc
-   Q==;
-X-CSE-ConnectionGUID: gUsdzQSbRciNgphdBBMiYw==
-X-CSE-MsgGUID: brQNM/xvRImZNc03/KciFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="85369500"
+  bh=I2impT9CYqtc0d6+EABepV8LLcEx3fZ/HhnqyzIMqXs=;
+  b=exGExnz6ew4XCTenR1EDW0C6s4KoN6RC+8O3TKBBLX2vgSz6MAXr+u/l
+   MIdndC1mCDOaGhmjDs0iE4aFx8A9HFnsoiqv1W6Cb7uHGWpJ5UYgJLqH7
+   7MI0H3724Nird42M/6iq9kUMB5Q1sGpBNM9ixzyPhBX6HDgt6qe1bi6S9
+   Pr9GQ7Rt29ICltXf1A6C+JB2CbvI242x9P27NpOhNF1c7p1YQb94Bv7CL
+   g3H1BX15lYH8wRfbYeWJvSjXI2fFz2g6Xbkb4zLqgF5D1DzBkpbgw9uPN
+   HlSM3e6wgww8Ta+8EMZJSoIAVUNf8OGM+8F97cPC3Ofog4Jsk3d/0fR/I
+   w==;
+X-CSE-ConnectionGUID: vsGRtwsHREqYXapNGHeG5w==
+X-CSE-MsgGUID: R867hGkhRUGJKfiyxQaL4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="96849534"
 X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
-   d="scan'208";a="85369500"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 23:34:15 -0700
-X-CSE-ConnectionGUID: eKB2BT14SbK7tCA8sUSIcg==
-X-CSE-MsgGUID: JV5/S/hwQy+00F5bcBM6eQ==
+   d="scan'208";a="96849534"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 00:24:58 -0700
+X-CSE-ConnectionGUID: ZUXnNQUOSZexjhhs/ipyMA==
+X-CSE-MsgGUID: aaXdXc+QRwyVp5cFsfwwdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
-   d="scan'208";a="251678226"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Jul 2026 23:34:13 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="282536759"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Jul 2026 00:24:56 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wmQWw-00000000YVl-3uRk;
-	Wed, 22 Jul 2026 06:34:10 +0000
-Date: Wed, 22 Jul 2026 14:34:01 +0800
+	id 1wmRK2-000000000Fm-0ZS3;
+	Wed, 22 Jul 2026 07:24:54 +0000
+Date: Wed, 22 Jul 2026 09:24:35 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tomer Maimon <tmaimon77@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Guenter Roeck <linux@roeck-us.net>
-Subject: [linux-next:master 6905/8209]
- drivers/watchdog/npcm_wdt.c:103:35: warning: unused variable 'npcm750_data'
-Message-ID: <202607221427.uOhZCcPN-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:bitmap_param 20/21] error[E0308]: mismatched types
+Message-ID: <202607220950.H3Z5brzF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,61 +58,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   290aaf24a551d5a0dce037e3fab30820f9113a10
-commit: b483970ee8c9bc2a2dde70776e6c8902ed331674 [6905/8209] watchdog: npcm: add bootstatus support
-config: x86_64-buildonly-randconfig-004-20260722 (https://download.01.org/0day-ci/archive/20260722/202607221427.uOhZCcPN-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260722/202607221427.uOhZCcPN-lkp@intel.com/reproduce)
+Hi Yury,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/norov/linux bitmap_param
+head:   2ebf9d0d17a23d79cfabad902c9bf18f47c2adc9
+commit: a13ae5f39450bd51f39aa7519689c3372e8225f0 [20/21] bitmap: use unsigned long for bit indices and sizes
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260722/202607220950.H3Z5brzF-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260722/202607220950.H3Z5brzF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607221427.uOhZCcPN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607220950.H3Z5brzF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/watchdog/npcm_wdt.c:103:35: warning: unused variable 'npcm750_data' [-Wunused-const-variable]
-     103 | static const struct npcm_wdt_data npcm750_data = {
-         |                                   ^~~~~~~~~~~~
->> drivers/watchdog/npcm_wdt.c:125:35: warning: unused variable 'npcm845_data' [-Wunused-const-variable]
-     125 | static const struct npcm_wdt_data npcm845_data = {
-         |                                   ^~~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +/npcm750_data +103 drivers/watchdog/npcm_wdt.c
-
-   102	
- > 103	static const struct npcm_wdt_data npcm750_data = {
-   104		.rst_map = npcm750_rst_map,
-   105		.rst_map_size = ARRAY_SIZE(npcm750_rst_map),
-   106		.status_map = npcm750_status_map,
-   107		.status_map_size = ARRAY_SIZE(npcm750_status_map),
-   108	};
-   109	
-   110	static const struct npcm_wdt_rst_map npcm845_rst_map[] = {
-   111		{ 0xf000801c, NPCM_WD0RST },
-   112		{ 0xf000901c, NPCM_WD1RST },
-   113		{ 0xf000a01c, NPCM_WD2RST },
-   114	};
-   115	
-   116	static const struct npcm_wdt_status_map npcm845_status_map[] = {
-   117		{ NPCM_PORST, WDIOF_OVERHEAT },
-   118		{ NPCM_CORST, WDIOF_FANFAULT },
-   119		{ NPCM_SWR1RST, WDIOF_EXTERN1 },
-   120		{ NPCM_SWR2RST, WDIOF_EXTERN2 },
-   121		{ NPCM_SWR3RST, WDIOF_POWERUNDER },
-   122		{ NPCM8XX_TIP_RESET, WDIOF_POWEROVER },
-   123	};
-   124	
- > 125	static const struct npcm_wdt_data npcm845_data = {
-   126		.rst_map = npcm845_rst_map,
-   127		.rst_map_size = ARRAY_SIZE(npcm845_rst_map),
-   128		.status_map = npcm845_status_map,
-   129		.status_map_size = ARRAY_SIZE(npcm845_status_map),
-   130	};
-   131	
+>> error[E0308]: mismatched types
+   --> rust/kernel/bitmap.rs:260:52
+   |
+   260 |         let ptr = unsafe { bindings::bitmap_zalloc(nbits_u32, flags.as_raw()) };
+   |                            ----------------------- ^^^^^^^^^ expected `usize`, found `u32`
+   |                            |
+   |                            arguments to this function are incorrect
+   |
+   note: function defined here
+   --> rust/bindings/bindings_generated.rs:24157:12
+   |
+   24157 |     pub fn bitmap_zalloc(nbits: ffi::c_ulong, flags: gfp_t) -> *mut ffi::c_ulong;
+   |            ^^^^^^^^^^^^^
+   help: you can convert a `u32` to a `usize` and panic if the converted value doesn't fit
+   |
+   260 |         let ptr = unsafe { bindings::bitmap_zalloc(nbits_u32.try_into().unwrap(), flags.as_raw()) };
+   |                                                             ++++++++++++++++++++
 
 --
 0-DAY CI Kernel Test Service
