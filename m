@@ -1,85 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0D1485CDD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jul 2026 17:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E163B47F0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jul 2026 18:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784828246; cv=none; b=DxopFHifnO4t5VYIZ3Fd5YIdoPiVHtE3HeNdXeaGPHG/bslRCfq8Q5oDdCSRIOkYdJ2v+1MJZKsPG3xA2kqi6mutlUzZW21VPQG4M5EKzFfCYFhWqQzGjNuLi0jZf88hExw8ApImtA2U1HliZINJ/X22ULb3a8hs0qHTtfPBcyk=
+	t=1784830923; cv=none; b=WSv1Aq0YU/0BZ/nJvwlfkUiqozH25XEM8aTvaGxOhRagmCKU+MTLMkHD/YpfMksgAaq6DSzHe1bTPkmhGJtnozheP9upWTxBuJrF6bHVNgAPOMXSJdoYR5dql36lXBKf+QHNsgbPbkHe7JIT+aRccXrWxnAB7n9+aozrg5MXdNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784828246; c=relaxed/simple;
-	bh=HS/5R1qLB/4G7pjTW/spJABkKzMXaARU/Sdiuc/mbn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Zf6U0S3iXX2XI3nrXtPjnR5b0Iu7fsmkL7KrzW9HDneTTC07/ikDQWT3Na2TbmaX4i2La5F1UwGPoP7VICGe1acipgtcoEhuNJ0QRZcVi4PHuXJmMw0l2qFeZb64Xqv+8brF3EEZm201gqy7qtwCRst6Bfu8HxHEFOVsHZUI+oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIHMPtJv; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1784830923; c=relaxed/simple;
+	bh=IumcKfXyfh/wqgydSMDjMY1cb9pAskBjlt8lzoGEDEM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LuWbIFdcIPDUWp7eD0ojQWGHdGYT11RgA0liTFYTIveelcM3ieRS+BwYXAJ+vfOUXG8A4C3o5W+ACOCqC4hhoF3nP85fs7V9yPKkpdIlgTE4wej2vdBK+H7NZsD/gnr93DKi8F6RFE8HTDMlSgZtmbkMIEcX5dVzEO30qSN37IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKeVT33q; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIHMPtJv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKeVT33q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784828237; x=1816364237;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HS/5R1qLB/4G7pjTW/spJABkKzMXaARU/Sdiuc/mbn8=;
-  b=mIHMPtJv3KTlhXdUJAiUAV1X6IuVmYBilPnHLO339XuZgxKQopOp2ZpM
-   uTNugrZQmfrLWGvgQNV7Ot9k8SFTMy7mJiSE4YtUaRSuDYfUYE2HtVUGe
-   FiFRKgQYzpmPO4w8wMyP9qDRQ6oy68a5Z7nZoiy4o8D8/AP/bqjr/Pfiz
-   Y0jPBVgUd/Hgt1PwS4AQQINKoXq+TehN8CStMZG2I6aWGqg6NWkWsvm2H
-   GMXHofFvBMo/EodFBfPB4lvGxlTS3DTpWXS7mBhGuyUtk/oNG0lEKplEp
-   +O2i/NfPakyYSnw282VEQ78B88+y6khqiGE7pCe7HPm0fkGAujyvKy7XH
-   g==;
-X-CSE-ConnectionGUID: NZpPH28wT1uxWYcXvlumKw==
-X-CSE-MsgGUID: ypsrRqbKRm+81xBmTVIlDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="95845811"
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="95845811"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 10:37:11 -0700
-X-CSE-ConnectionGUID: aAVXbxJ2QRyWTdl32HWvXw==
-X-CSE-MsgGUID: CPVqhI6UQgaitU7rAfy48Q==
+  t=1784830920; x=1816366920;
+  h=date:from:to:cc:subject:message-id;
+  bh=IumcKfXyfh/wqgydSMDjMY1cb9pAskBjlt8lzoGEDEM=;
+  b=SKeVT33qiMaryoOiSjzmv9R04akWqtXc9ePV8g5hh3gRL/ahdYaAjsdW
+   SJfGzxeyffCjtwHo/gdK8q8Bg4m4y6wM3C+JnvCoOSwN7ebCBPthuD+jk
+   QY9NsyTMPo2DoMs5aL6CL41agOCC7OIouqyW72kOu8i+/BVp8laEqxOAm
+   XV86SkeY4FFuOjElvrb8Ln9GHMhkr9Xj621wf+ekch3IiVZebmVaINaKj
+   m44nsKOqxUSZukUqh20vLAIMk69yXvtb5qGKj8etNk/vFs0oa5PYz8QiF
+   UPUPVW6+lq0yl8Tb07eaq6ygSrJKoOuv8mXYiGf7IsKo3rbq375kr5Rr8
+   w==;
+X-CSE-ConnectionGUID: 1vjXr53bQg+s/JNdR7XcvQ==
+X-CSE-MsgGUID: 7pxIPp8tRHG4ulFxL4H8Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="111038382"
+X-IronPort-AV: E=Sophos;i="6.25,181,1779174000"; 
+   d="scan'208";a="111038382"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 11:21:52 -0700
+X-CSE-ConnectionGUID: xTievKl/Q6WjRnOCFfteXA==
+X-CSE-MsgGUID: l4mxTiuSQUi9SJfeVRQSvg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="258544208"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 23 Jul 2026 10:37:10 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,181,1779174000"; 
+   d="scan'208";a="252183066"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 23 Jul 2026 11:21:50 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wmxM3-00000000Zwy-3JxZ;
-	Thu, 23 Jul 2026 17:37:07 +0000
-Date: Fri, 24 Jul 2026 01:36:12 +0800
+	id 1wmy3I-000000000oI-0sQW;
+	Thu, 23 Jul 2026 18:21:48 +0000
+Date: Thu, 23 Jul 2026 20:21:32 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Maxime =?utf-8?Q?B=C3=A9lair"?= <maxime.belair@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- John Johansen <john.johansen@canonical.com>
-Subject: [linux-next:master 1239/8209] Warning:
- security/apparmor/apparmorfs.c:501 function parameter 'compressed_data' not
- described in 'aa_get_data_from_compressed'
-Message-ID: <202607240144.4iqulDF1-lkp@intel.com>
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, git@amd.com,
+ Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:master 168/176] kismet: WARNING: unmet direct
+ dependencies detected for DRM_XLNX_BRIDGE_VTC when selected by DRM_XLNX_AVPG
+Message-ID: <202607232009.mSXWD7BT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   290aaf24a551d5a0dce037e3fab30820f9113a10
-commit: 17b5758bf35c7a113363cd7a350b7e6a251b80f4 [1239/8209] apparmor: Initial support for compressed policies
-config: xtensa-randconfig-r121-20260723 (https://download.01.org/0day-ci/archive/20260724/202607240144.4iqulDF1-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260724/202607240144.4iqulDF1-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   3128e0f044012bb39c8e24551d72e4a72e0808f0
+commit: 317bbf6a2ab3aa4c3d6421fd943a3cc69ee69665 [168/176] drm: xlnx: Implement AV PG driver
+config: alpha-kismet-CONFIG_DRM_XLNX_BRIDGE_VTC-CONFIG_DRM_XLNX_AVPG-0-0 (https://download.01.org/0day-ci/archive/20260723/202607232009.mSXWD7BT-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260723/202607232009.mSXWD7BT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607240144.4iqulDF1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607232009.mSXWD7BT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: security/apparmor/apparmorfs.c:501 function parameter 'compressed_data' not described in 'aa_get_data_from_compressed'
->> Warning: security/apparmor/apparmorfs.c:501 function parameter 'compressed_data' not described in 'aa_get_data_from_compressed'
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_XLNX_BRIDGE_VTC when selected by DRM_XLNX_AVPG
+   WARNING: unmet direct dependencies detected for DRM_XLNX_BRIDGE_VTC
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_XLNX_BRIDGE [=n]
+     Selected by [y]:
+     - DRM_XLNX_AVPG [=y] && HAS_IOMEM [=y] && DRM [=y] && OF [=y]
 
 --
 0-DAY CI Kernel Test Service
