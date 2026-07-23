@@ -1,75 +1,73 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3B0438014
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jul 2026 10:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8636B23393C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jul 2026 10:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784801439; cv=none; b=RyCYrlTmHVfh/jG5uZl7OmfTSwA6pNaOlyoo+qKoQel9u4OnuDHrHeIcDlO/q59LZ2OTG8XG/1Lioaig7wBzTIuxdNCmWun3kyj8QkV3aN9YoWEdGEPf1eOriwFAu6VLVQ8b4hW3Zz+nb4YK6QmulcqE7nG4QcfUpfuT05kbeWY=
+	t=1784801444; cv=none; b=Wt6NNQ2Eitsw+pl0D7OK39XWZj6/JwkMgU4JSyew0QdeDt3BaQAXBL6L9MwgaEJN+Wj9+tD4/JK5Wnj3F3rsAlZO7RXLlpPpOWnSX2mOfb7Hydd4mtKI4f9RUEP35V79rjqpJYvPscb4XKxynk8TICUk0tNx+Rf11dzS2vJiTAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784801439; c=relaxed/simple;
-	bh=q1O2QXkBv8QuYn1SHREgbhRruAYGV/++q/ngeTn4oP4=;
+	s=arc-20240116; t=1784801444; c=relaxed/simple;
+	bh=Lrccgm+Sai81MWikEO1xuuoxujw1PcDuqCFTEx8Kci8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nvTzHdQ/i1kbg/JtB5cQrO+pyvmHs1gkIzXdQponflaSmIMub4AC27TLLC9vB8xbKMiyyuTvq2JcjWxtVTmrE4F5UqZqNGzQY/TDd9Chgrju36cq4B8237LuNuQZf2prAWSrrTsWP8QfIMhxJF0r3Hgpp6C7buUwtNppd2id6IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gLPuIvS8; arc=none smtp.client-ip=209.85.221.50
+	 Content-Disposition; b=CDSu/iK8I+XESxTnayKmBrfFbx3qGg9Gvc1193Rr4RihzEnI+jgQH+1H3B7q575dXKClvw27wy6VZjq5xWqFqZyNpD1Tq4sNkGHwSwaKitnp7cbNGewE2e+hmG1+46/22z/7duCXid9l9b2//Fd76ZYu/LNtxPsb0Ty1o1+AnSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzgDIYFL; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gLPuIvS8"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so305526f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jul 2026 03:10:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzgDIYFL"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so482717f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Jul 2026 03:10:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784801436; x=1785406236; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784801441; x=1785406241; darn=lists.linux.dev;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Jnast4lTTFuERWKfxK3aibnv+2Qqz5yf1iG+SlSyfMA=;
-        b=gLPuIvS8+AgQgBgj0HHZi710fklszTdvkFcK/s39lsJSYCYeH1hgK+snqV2UC+vpTb
-         TBluhTgmo/fjoPmriA+7hc4eUIJLk6RZRmgGsBIazZfW/v5KAXOjka8erl+ljGRv4mRR
-         84P7o/LWLyC5EynSpGAH8LJ4iSEmqf3PCuDpFJ4A9umKnaSUY/ws5N2Y0m7UtJcKFZ9F
-         Pm3AwlDzKflK18G4KhxZ2TMW4eIrAraosDEOHhBSEpapEBP05GDhlWRYWOkbX5rBp785
-         0lgcRRAFUa2DFkZjOkOn12Mzm1Az4LUmZ3ENv5f6jX1/pks69CGL5L9PoCo7lo7Vr5uP
-         i9Lw==
+        bh=RAjHZU7KutdIcENZyCMKTZmcMUSGgjomFPIzWQXU0T4=;
+        b=DzgDIYFL3VCWIpOhwxmd6aHW55qmJmMImAkboDSEwbuUztG2//T3YKa6RXYLr0LZmn
+         l0W/1dy7fKvQwruNYAevtXABaVFE5Vh7C108OKUFcqoISbWAv9rRifS5UGlyNDmCq789
+         U0edLqvmmWtpYQqxB+z9/NZXsr88oBngfEEJGFS2YrRZjU7K9KOuPjprypaaDTReJ5Ot
+         3s/o295+PBzY9hQGVKupVtADz8pPfMVR31k+AXn+yDxn0LfmpfN71l6TDUn37jit80mf
+         i7ZELkgO4QmSVhC+WCuIpxv/psN42uNeL9rBwQDOxC1L2hAuPKAV3CAcZ5vbpnY80P3F
+         Ds6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784801436; x=1785406236;
+        d=1e100.net; s=20251104; t=1784801441; x=1785406241;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Jnast4lTTFuERWKfxK3aibnv+2Qqz5yf1iG+SlSyfMA=;
-        b=ineYmcCHKLFaFGmcVllDbiWoLKNC0396fuLADDFb3bDMB5SlDbLPDCfN3YHwilvttq
-         qvHlxnX0DMIxEquzd18feqVV8HxbuGT3EILzDLDznO82IHnUZKVKSwsF7Q4uX9+Pu3Yg
-         sqaHj0lIMbs0LkU1ReyDxfJredDkf6GVKM2llARNc5vf+UC1Pl3blJNrjdccuxueh5z1
-         Xw4EGt76Q3fIGGg1t4yx9AJFnBDV2m/rzDG3j3976N02pKNQwgEQj3vg9HQ8Y9pT+/Fa
-         6p0n0YZJTOFYSkY5l5RZDwLYC8I0iCWYQ1UYYdxyVSzyEL+7EeEDcNj0DXfB7Gb5/iYo
-         Q3cw==
-X-Forwarded-Encrypted: i=1; AHgh+RoyMQlAGE4zayOykE23hlNljtvOyc7xCAb50/I8Uw49pLdeQoYvQtxVGUbrRaFrMRsQJ3enonNAOGIVAYl3@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGjM8ALqJNCvLIPQ6PtfN5Oe0jAuL/39C2ukHUcbRuF9Rj4HMH
-	+5PoCceKyYhix2D5gruH6vdq0cmqOrykRAluHlZu6aw7/5HQOTRD5azl
-X-Gm-Gg: AR+sD10ZT5lkPAQcnd8Fk4k91L+LJIQbb2gnEH8HgZFgYaLDAPn76plzAGkJRSum/Y+
-	Bygt4kLl1nIBTpCuWh4+axYO/jWklVuZ93Idbu20hd0Nq6dUuzqCcWwxfqgE4IMyA380gUMFN9u
-	yXIPPEAi/e5WXEfpz8cHCHKMKnvGRttecP+kqjVWXk4t1CN06psPl7PGZa8Ke05B//YMGC80Y6X
-	AjHrfHfolBn22ywt5Tmg7+/QJHkcWcjktxHeZa0fbFauvbBgo3lEpKZ5q4fiQGNaOHatlCvIHJM
-	IXDnkgYB+r1UKkB6FPm8xq9hLNp93ywL07ZbKhnwo0KzmCjjAQe5OBvzeufTogDCFIhrA4ZtqGN
-	67WEmW4s4LNwY9UBwNyNXbAMbfUDPcTlMcDZB/P7HaI6qGf8VxD57oDjf1JFGzxPv3EGzcBEA6Q
+        bh=RAjHZU7KutdIcENZyCMKTZmcMUSGgjomFPIzWQXU0T4=;
+        b=mYh3JM8fQpLNvwkIQnXRlc2n8Xxc/ont9Y0+ad/75Wmz3yF0mywsNFiKlB7+6XP5lL
+         Z8dIQB7mWzd0ZoI7vOLvHdwhgaTu4iEoZv6xwzBqPkbc+PcboIusrbu6mpgUIN82vLL1
+         t9At8YwIWiJoVo27hwuXQrwQx9JBQJgSCaPV8nwB9PcMQUCHOPhMvXLmpzJsW/AuSr6F
+         cGF+yAVPTEsutreKCgiO8/PysUCKDfMB4xWmQYHFO93JtKzD9UV+eXhq986Y7ssxqjFV
+         kBmRfGDRRt9xOQoNmvWcmBLd1ZptkVe6hxqiWdNhDy10EFzW2ppM+8PwY2IWmqUNm8EW
+         Z/PA==
+X-Forwarded-Encrypted: i=1; AHgh+RqIAm8GbGjfnFrbz/+trZyhb+igimoKsLFeFKyK5p12X1FczkEPodLnE4cjVEJfl0hIeIBEfRJ6pBbpvMhq@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdJXnY9yaoJYENSE5i1Qps3G0MTD/03Dw0GQjLL2fQigJ6KR2e
+	s4wYOu5QfYhYncCNM4yHc0pwXkum3ym7K7Xay2LLq2caCRXyd0MwXTl3
+X-Gm-Gg: AR+sD13LOF10GTaAaN6zphvCK4nFo1aOPgaPcRrcdqh7WfFAO0qs6tFh2D79np8Auzd
+	PQphKYWduJzU5paTamjIiEJhhHVQ2696DrlG01W+0m525bB4xhd/IabMFgFIlpX6BSMb29MOkF2
+	1JTpXbjEM0XIBOOb9W0JRJ3TqhmEhvy7lDghXDh8pxIgSajEhwePwXGaqUOchpZnTbGt1FdWVEH
+	k9Uj/Y0TP5SKgxZR0doUHtoihTyRdPPh51BmzwyNb2iuktHqssbiwGuyR80BRdM8BcSY2XEXuJ5
+	K6YJbBhmb3rebjrA72IKmNVYiOQFqb7B7GsqMLXAn3CXiA+tPBrIt4AiCS2gjtH1cl2a8V8nXlp
+	DGYc4+mIgUIK0N2T8OykjdOCXO6xYlciS0QJHdMOXRRJtwcXa3zJcMlK6zfBlSRrmHpkelaPZpw
 	==
-X-Received: by 2002:a05:600c:350f:b0:495:6f6b:127 with SMTP id 5b1f17b1804b1-49573cb9f95mr24793795e9.6.1784801435817;
-        Thu, 23 Jul 2026 03:10:35 -0700 (PDT)
+X-Received: by 2002:a05:6000:18a2:b0:47f:7531:3e6d with SMTP id ffacd0b85a97d-47f8dc8cc77mr2890129f8f.38.1784801440784;
+        Thu, 23 Jul 2026 03:10:40 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a64d4b6sm128760015e9.15.2026.07.23.03.10.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bc62basm14104470f8f.13.2026.07.23.03.10.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 03:10:35 -0700 (PDT)
-Date: Thu, 23 Jul 2026 11:31:55 +0300
+        Thu, 23 Jul 2026 03:10:40 -0700 (PDT)
+Date: Thu, 23 Jul 2026 11:34:00 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Charlene Liu <Charlene.Liu@amd.com>
+To: oe-kbuild@lists.linux.dev, Harry Wentland <harry.wentland@amd.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	Alex Deucher <alexander.deucher@amd.com>,
-	Gabe Teeger <gabe.teeger@amd.com>,
-	George Zhang <george.zhang@amd.com>
-Subject: [linux-next:master 5141/7793]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dio/dcn10/dcn10_link_encoder.c:1192
- dcn10_link_encoder_dp_set_phy_pattern() warn: variable dereferenced before
- check 'param' (see line 1169)
-Message-ID: <202607220316.QHZEudqb-lkp@intel.com>
+	Alex Hung <alex.hung@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3415
+ dm_suspend() warn: inconsistent returns '&dm->dc_lock'.
+Message-ID: <202607220433.GXC845n9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,91 +77,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3fe08b9796f36ef437ab9328e7dd1e5ff2d66603
-commit: b6f466c509ad2f390b3fc91cd0de4783554f5f98 [5141/7793] drm/amd/display: add null pointer access check
-config: x86_64-randconfig-161-20260721 (https://download.01.org/0day-ci/archive/20260722/202607220316.QHZEudqb-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b95f03f04d475aa6719d15a636ddf32222d55657
+commit: af3f2f5db2659a13c256d2fb096c473eb50412ef drm/amdgpu: Remove UML build exclusion from Kconfig
+config: um-randconfig-r071-20260721 (https://download.01.org/0day-ci/archive/20260722/202607220433.GXC845n9-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: af3f2f5db265 ("drm/amdgpu: Remove UML build exclusion from Kconfig")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607220316.QHZEudqb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607220433.GXC845n9-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dio/dcn10/dcn10_link_encoder.c:1192 dcn10_link_encoder_dp_set_phy_pattern() warn: variable dereferenced before check 'param' (see line 1169)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3415 dm_suspend() warn: inconsistent returns '&dm->dc_lock'.
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dio/dcn10/dcn10_link_encoder.c:1206 dcn10_link_encoder_dp_set_phy_pattern() warn: variable dereferenced before check 'param' (see line 1169)
+vim +3415 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
 
-vim +/param +1192 drivers/gpu/drm/amd/amdgpu/../display/dc/dio/dcn10/dcn10_link_encoder.c
+982d7f9bfe4a503 Sunil Khatri      2024-09-30  3359  static int dm_suspend(struct amdgpu_ip_block *ip_block)
+4562236b3bc0a28 Harry Wentland    2017-09-12  3360  {
+982d7f9bfe4a503 Sunil Khatri      2024-09-30  3361  	struct amdgpu_device *adev = ip_block->adev;
+4562236b3bc0a28 Harry Wentland    2017-09-12  3362  	struct amdgpu_display_manager *dm = &adev->dm;
+4562236b3bc0a28 Harry Wentland    2017-09-12  3363  
+53b3f8f40e6cff3 Dennis Li         2020-08-19  3364  	if (amdgpu_in_reset(adev)) {
+3cf7a0bc87f028b Mario Limonciello 2025-02-17  3365  		enum dc_status res;
+3cf7a0bc87f028b Mario Limonciello 2025-02-17  3366  
+cdaae8371aa9d4e Bhawanpreet Lakha 2020-05-11  3367  		mutex_lock(&dm->dc_lock);
 
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1163  void dcn10_link_encoder_dp_set_phy_pattern(
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1164  	struct link_encoder *enc,
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1165  	const struct encoder_set_dp_phy_pattern_param *param)
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1166  {
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1167  	struct dcn10_link_encoder *enc10 = TO_DCN10_LINK_ENC(enc);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1168  
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26 @1169  	switch (param->dp_phy_pattern) {
-                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^
-Dereference
+I guess this lock was supposed to be deleted when we converted to
+scoped locks?  Bad merge???
 
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1170  	case DP_TEST_PATTERN_TRAINING_PATTERN1:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1171  		dcn10_link_encoder_set_dp_phy_pattern_training_pattern(enc, 0);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1172  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1173  	case DP_TEST_PATTERN_TRAINING_PATTERN2:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1174  		dcn10_link_encoder_set_dp_phy_pattern_training_pattern(enc, 1);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1175  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1176  	case DP_TEST_PATTERN_TRAINING_PATTERN3:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1177  		dcn10_link_encoder_set_dp_phy_pattern_training_pattern(enc, 2);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1178  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1179  	case DP_TEST_PATTERN_TRAINING_PATTERN4:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1180  		dcn10_link_encoder_set_dp_phy_pattern_training_pattern(enc, 3);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1181  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1182  	case DP_TEST_PATTERN_D102:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1183  		set_dp_phy_pattern_d102(enc10);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1184  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1185  	case DP_TEST_PATTERN_SYMBOL_ERROR:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1186  		set_dp_phy_pattern_symbol_error(enc10);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1187  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1188  	case DP_TEST_PATTERN_PRBS7:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1189  		set_dp_phy_pattern_prbs7(enc10);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1190  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1191  	case DP_TEST_PATTERN_80BIT_CUSTOM:
-b6f466c509ad2f drivers/gpu/drm/amd/display/dc/dio/dcn10/dcn10_link_encoder.c Charlene Liu   2026-06-22 @1192  		if (param)
-                                                                                                                            ^^^^^
-The patch adds a pointless check.
+98ab5f3513f90f1 Bhawanpreet Lakha 2021-01-11  3368  
+754003486c3cc95 Ray Wu            2025-12-17  3369  		amdgpu_dm_ism_disable(dm);
+98ab5f3513f90f1 Bhawanpreet Lakha 2021-01-11  3370  		dc_allow_idle_optimizations(adev->dm.dc, false);
+98ab5f3513f90f1 Bhawanpreet Lakha 2021-01-11  3371  
+09a4ec5da92c849 Dillon Varone     2023-11-17  3372  		dm->cached_dc_state = dc_state_create_copy(dm->dc->current_state);
+cdaae8371aa9d4e Bhawanpreet Lakha 2020-05-11  3373  
+8092aa3ab8f7b73 Alex Hung         2024-06-04  3374  		if (dm->cached_dc_state)
+cdaae8371aa9d4e Bhawanpreet Lakha 2020-05-11  3375  			dm_gpureset_toggle_interrupts(adev, dm->cached_dc_state, false);
+cdaae8371aa9d4e Bhawanpreet Lakha 2020-05-11  3376  
+3cf7a0bc87f028b Mario Limonciello 2025-02-17  3377  		res = amdgpu_dm_commit_zero_streams(dm->dc);
+3cf7a0bc87f028b Mario Limonciello 2025-02-17  3378  		if (res != DC_OK) {
+3cf7a0bc87f028b Mario Limonciello 2025-02-17  3379  			drm_err(adev_to_drm(adev), "Failed to commit zero streams: %d\n", res);
+3cf7a0bc87f028b Mario Limonciello 2025-02-17  3380  			return -EINVAL;
 
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1193  			set_dp_phy_pattern_80bit_custom(
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1194  				enc10, param->custom_pattern);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1195  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1196  	case DP_TEST_PATTERN_CP2520_1:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1197  		set_dp_phy_pattern_hbr2_compliance_cp2520_2(enc10, 1);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1198  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1199  	case DP_TEST_PATTERN_CP2520_2:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1200  		set_dp_phy_pattern_hbr2_compliance_cp2520_2(enc10, 2);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1201  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1202  	case DP_TEST_PATTERN_CP2520_3:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1203  		set_dp_phy_pattern_hbr2_compliance_cp2520_2(enc10, 3);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1204  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1205  	case DP_TEST_PATTERN_VIDEO_MODE: {
-b6f466c509ad2f drivers/gpu/drm/amd/display/dc/dio/dcn10/dcn10_link_encoder.c Charlene Liu   2026-06-22  1206  		if (param)
+mutex_unlock(&dm->dc_lock); before returning.
 
-And another.
+3cf7a0bc87f028b Mario Limonciello 2025-02-17  3381  		}
+cdaae8371aa9d4e Bhawanpreet Lakha 2020-05-11  3382  
+cdaae8371aa9d4e Bhawanpreet Lakha 2020-05-11  3383  		amdgpu_dm_irq_suspend(adev);
+cdaae8371aa9d4e Bhawanpreet Lakha 2020-05-11  3384  
+8e794421bc98158 Wayne Lin         2021-07-23  3385  		hpd_rx_irq_work_suspend(dm);
+8e794421bc98158 Wayne Lin         2021-07-23  3386  
+65890cad2edb53b Mario Limonciello 2025-02-17  3387  		return 0;
+cdaae8371aa9d4e Bhawanpreet Lakha 2020-05-11  3388  	}
+4562236b3bc0a28 Harry Wentland    2017-09-12  3389  
+50e0bae34fa6b8b Mario Limonciello 2025-02-13  3390  	if (!adev->dm.cached_state) {
+709a37ab9c63297 Mario Limonciello 2025-06-01  3391  		int r = dm_cache_state(adev);
+709a37ab9c63297 Mario Limonciello 2025-06-01  3392  
+709a37ab9c63297 Mario Limonciello 2025-06-01  3393  		if (r)
+709a37ab9c63297 Mario Limonciello 2025-06-01  3394  			return r;
+50e0bae34fa6b8b Mario Limonciello 2025-02-13  3395  	}
+d2f0b53bda31938 Leo (Hanghong  Ma 2019-01-24  3396) 
+7594874227e1b04 Kun Liu           2025-01-08  3397  	s3_handle_hdmi_cec(adev_to_drm(adev), true);
+7594874227e1b04 Kun Liu           2025-01-08  3398  
+4a580877bdcb837 Luben Tuikov      2020-08-24  3399  	s3_handle_mst(adev_to_drm(adev), true);
+4562236b3bc0a28 Harry Wentland    2017-09-12  3400  
+4562236b3bc0a28 Harry Wentland    2017-09-12  3401  	amdgpu_dm_irq_suspend(adev);
+4562236b3bc0a28 Harry Wentland    2017-09-12  3402  
+754003486c3cc95 Ray Wu            2025-12-17  3403  	scoped_guard(mutex, &dm->dc_lock)
+754003486c3cc95 Ray Wu            2025-12-17  3404  		amdgpu_dm_ism_disable(dm);
 
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1207  			set_dp_phy_pattern_passthrough_mode(
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1208  				enc10, param->dp_panel_mode);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1209  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1210  	}
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1211  
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1212  	default:
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1213  		/* invalid phy pattern */
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1214  		ASSERT_CRITICAL(false);
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1215  		break;
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1216  	}
-f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1217  }
+double lock.  What?
+
+754003486c3cc95 Ray Wu            2025-12-17  3405  
+8e794421bc98158 Wayne Lin         2021-07-23  3406  	hpd_rx_irq_work_suspend(dm);
+8e794421bc98158 Wayne Lin         2021-07-23  3407  
+32f5062d1c7dc2a Tom St Denis      2017-10-17  3408  	dc_set_power_state(dm->dc, DC_ACPI_CM_POWER_STATE_D3);
+2fe79508d9c393b Hamza Mahfooz     2024-10-04  3409  
+2fe79508d9c393b Hamza Mahfooz     2024-10-04  3410  	if (dm->dc->caps.ips_support && adev->in_s0ix)
+2fe79508d9c393b Hamza Mahfooz     2024-10-04  3411  		dc_allow_idle_optimizations(dm->dc, true);
+2fe79508d9c393b Hamza Mahfooz     2024-10-04  3412  
+0f657938e4345a7 Samson Tam        2023-11-28  3413  	dc_dmub_srv_set_power_state(dm->dc->ctx->dmub_srv, DC_ACPI_CM_POWER_STATE_D3);
+4562236b3bc0a28 Harry Wentland    2017-09-12  3414  
+1c2075d401f06a2 Jason Yan         2020-05-04 @3415  	return 0;
+4562236b3bc0a28 Harry Wentland    2017-09-12  3416  }
 
 --
 0-DAY CI Kernel Test Service
