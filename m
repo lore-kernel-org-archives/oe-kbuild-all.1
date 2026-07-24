@@ -1,189 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E1C34676D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jul 2026 16:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2DD2AEE1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Jul 2026 17:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784911391; cv=none; b=W/KY1I5W7En5KZJEeGQPQhXDtpqt4lgz4CG1Kg0wnq/w3J5FtZB2rPvKGh0gxvC/7FRODliNyho7eMs9qTKzG7Uv/tcOGHQBK10z89x/CiGYv3gQinJSRK2Vm+PKZAOIkett023Ou9EDDN/58/vPC8fjx8o8ob1c/NAkX7PjMXQ=
+	t=1784912804; cv=none; b=C+YdEe+N0sUjFCvgo+jmxn6isjMs78m1ZnFefyBbjJ2YCfj+/4a+/2Gy3Og7n/X7lD4a2FrPj+Yf0+P9MgmS/MIPxOtoUZxbFVJ54aICMQT1O3v0B/jOIxSkvGcUl9Nq287B3MOsXp7mtYNf5EETJCe4T2dlmjcrk1XFtgkVYa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784911391; c=relaxed/simple;
-	bh=CaBRByJyeB/hVr06+/CEKhgjTy1iahZTAyeWo9dn8hE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fFQ1rA5Io+2prn6698f7uwQ96bb36l+G8XL+6UO+5RyTGtjwAGC/6kk7nWh+hn+Rmz4LdGCrNFfVbwryQBIgy+tDpH8C9pgJaRTTYCxrodm0ReDD6KkJr6uvjWx+F4nNEESq2PEacUAsnvuTvheDlltWaBodbjJs1J/vQg2+2pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQt2kTQr; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1784912804; c=relaxed/simple;
+	bh=et0UWU7GWJFC1gjDPbpE9qllm2y/YzAgaFxgHja6Us0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q069S+AdFMucFkdEA2wquE67j9WZX/TB+ZZsgmFYfb+YniEulRRuBrGUF4pt5pUFMsFTRe7WV5z0A/Emxo2XcdnQqyQpV6XVy0VtUYoapd9ofx7fKvx53Dhye5g65dLFqkwGW5aBYLm5zXSeZ7tu171oHtjFQ+mJVRZHoPUJKTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WPSJi8tZ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQt2kTQr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WPSJi8tZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784911389; x=1816447389;
-  h=date:from:to:cc:subject:message-id;
-  bh=CaBRByJyeB/hVr06+/CEKhgjTy1iahZTAyeWo9dn8hE=;
-  b=JQt2kTQr/5uyy5mOM9Qvz1mvBc9taP8+/9Qv56NN5M55nH2j4XesEtbG
-   TJJncpMfG2ws3OsNuMoa7WE6MXaboXp7M+Y6clcVHFesEIHLzsbfubSvm
-   99N6TyCmOQRuXjVMrFcuHmG9RbiQdDDm8U8/Dicvd4GCGrYtXDe2BH+73
-   MUm2H9Jhacv+ck5t8Iy+q4qQ6zKQwISHFSKPs86A0ddTRJZK+J4ZlwrVD
-   lHdx7e9vkRnMaseruYvgLd/g6F3JUQ2M8uYYaq4OlQDEi6bagn5vFPaaE
-   aC+Sl4KkJcEe609m92+5vTDfzX/ag/MDk51pnK5MUujBlnO3BDT5gJ8qJ
-   A==;
-X-CSE-ConnectionGUID: 67XPLrOJTSuhqETnzrUXJg==
-X-CSE-MsgGUID: Wb4JKJz+TZ6jzTnpdqrfMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="108371787"
+  t=1784912803; x=1816448803;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=et0UWU7GWJFC1gjDPbpE9qllm2y/YzAgaFxgHja6Us0=;
+  b=WPSJi8tZTmhG4fdU96gfmJkTeUFiSgnDmEIYUOb8n4q1WAQ3dB74GSbq
+   PWNmSqjJ2XCioNiFnEn/B26+dmaVlensjY9R2DNm/lfaXh6ZSKteKY7Mi
+   zXbSC0A/kC/fPpUz3U9gwhfKn5PxMbGAcrNjDNu2wzpb9hh/b+9vEiwGQ
+   mN+JxwTY6BeZKM87vhk7gfRUEiyWA6T7Ve0s5QQgOCx/5RWZHaUax+Hpn
+   ECcEunSeoh6D3JqaqNrLjzz6ke7/fQczKT/Vv8u735BhOfHYfXE0z7/Ra
+   T4+NBFjXdT3GyEBpAOF9H78nHJRLudQJmul0Jv4JL8jwL6chyJ9QoJnI7
+   Q==;
+X-CSE-ConnectionGUID: y6C84ANFQTqW2qLTrdAVDA==
+X-CSE-MsgGUID: VXWQW6SITQO46Y8fqpe2wA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="85699573"
 X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
-   d="scan'208";a="108371787"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 09:43:09 -0700
-X-CSE-ConnectionGUID: 1o7QZjIvTwqEWxF2OUZ8Hg==
-X-CSE-MsgGUID: BNpi6d2aTXGuoCfmMuxkCw==
+   d="scan'208";a="85699573"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 10:06:42 -0700
+X-CSE-ConnectionGUID: 0Olbifv3SQGISQFQH44YYw==
+X-CSE-MsgGUID: mR8xJkYlS+WK7oBFT9Sivg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
-   d="scan'208";a="282061492"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Jul 2026 09:43:06 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="254835244"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Jul 2026 10:06:35 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wnIzI-00000000b03-2PcR;
-	Fri, 24 Jul 2026 16:43:04 +0000
-Date: Sat, 25 Jul 2026 00:42:47 +0800
+	id 1wnJM1-000000000z4-0zCh;
+	Fri, 24 Jul 2026 17:06:33 +0000
+Date: Fri, 24 Jul 2026 19:06:07 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-next 29/29] fs/netfs/write_issue.c:785:1:
- error: label at end of compound statement
-Message-ID: <202607250039.FCYLgIol-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pedro Falcato <pfalcato@suse.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Kevin Brodsky <kevin.brodsky@arm.com>,
+	Muhammad Usama Anjum <usama.anjum@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] mm: constify the pte_offset_map_ro_nolock() return
+ value
+Message-ID: <202607241905.9UNne8Y8-lkp@intel.com>
+References: <20260724102017.141532-6-pfalcato@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260724102017.141532-6-pfalcato@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   ddfc7002233eb9ca7143c363820b7480d5f705de
-commit: ddfc7002233eb9ca7143c363820b7480d5f705de [29/29] netfs: Combine prepare and issue ops and grab the buffers on request
-config: parisc-randconfig-r073-20260724 (https://download.01.org/0day-ci/archive/20260725/202607250039.FCYLgIol-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260725/202607250039.FCYLgIol-lkp@intel.com/reproduce)
+Hi Pedro,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pedro-Falcato/mm-constify-generic-pte_get/20260724-184321
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260724102017.141532-6-pfalcato%40suse.de
+patch subject: [PATCH 5/5] mm: constify the pte_offset_map_ro_nolock() return value
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260724/202607241905.9UNne8Y8-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260724/202607241905.9UNne8Y8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607250039.FCYLgIol-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607241905.9UNne8Y8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/netfs/write_issue.c: In function 'netfs_writepages':
->> fs/netfs/write_issue.c:785:1: error: label at end of compound statement
-     785 | end_loop:
-         | ^~~~~~~~
+   In file included from arch/s390/kernel/asm-offsets.c:12:
+   ./include/linux/pgtable.h: In function 'ptep_get_lockless':
+>> ./include/linux/pgtable.h:782:25: warning: passing argument 1 of 'ptep_get' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     782 |         return ptep_get(ptep);
+         |                         ^~~~
+   In file included from ./include/linux/pgtable.h:6:
+   ./arch/s390/include/asm/pgtable.h:989:37: note: expected 'pte_t *' {aka 'long unsigned int *'} but argument is of type 'const pte_t *' {aka 'const long unsigned int *'}
+     989 | static inline pte_t ptep_get(pte_t *ptep)
+         |                              ~~~~~~~^~~~
+--
+   In file included from ./include/linux/mm.h:31,
+                    from ./arch/s390/include/asm/pgalloc.h:18,
+                    from ./arch/s390/include/asm/mmu_context.h:11,
+                    from ./arch/s390/include/asm/elf.h:173,
+                    from ./include/linux/elf.h:6,
+                    from ./include/linux/module.h:20,
+                    from net/8021q/vlan.c:20:
+   ./include/linux/pgtable.h: In function 'ptep_get_lockless':
+>> ./include/linux/pgtable.h:782:25: warning: passing argument 1 of 'ptep_get' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     782 |         return ptep_get(ptep);
+         |                         ^~~~
+   In file included from ./include/linux/pgtable.h:6:
+   ./arch/s390/include/asm/pgtable.h:989:37: note: expected 'pte_t *' {aka 'long unsigned int *'} but argument is of type 'const pte_t *' {aka 'const long unsigned int *'}
+     989 | static inline pte_t ptep_get(pte_t *ptep)
+         |                              ~~~~~~~^~~~
+   net/8021q/vlan.c: In function 'register_vlan_device':
+   net/8021q/vlan.c:249:46: warning: '%i' directive output may be truncated writing between 1 and 4 bytes into a region of size between 0 and 15 [-Wformat-truncation=]
+     249 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
+         |                                              ^~
+   net/8021q/vlan.c:249:42: note: directive argument in the range [0, 4094]
+     249 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
+         |                                          ^~~~~~~
+   net/8021q/vlan.c:249:17: note: 'snprintf' output between 3 and 21 bytes into a destination of size 16
+     249 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/8021q/vlan.c:237:46: warning: '%.4i' directive output may be truncated writing 4 bytes into a region of size between 0 and 15 [-Wformat-truncation=]
+     237 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
+         |                                              ^~~~
+   net/8021q/vlan.c:237:42: note: directive argument in the range [0, 4094]
+     237 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
+         |                                          ^~~~~~~~~
+   net/8021q/vlan.c:237:17: note: 'snprintf' output between 6 and 21 bytes into a destination of size 16
+     237 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from ./include/linux/mm.h:31,
+                    from ./arch/s390/include/asm/pgalloc.h:18,
+                    from ./arch/s390/include/asm/mmu_context.h:11,
+                    from ./arch/s390/include/asm/elf.h:173,
+                    from ./include/linux/elf.h:6,
+                    from ./include/linux/module.h:20,
+                    from net/netfilter/ipvs/ip_vs_core.c:24:
+   ./include/linux/pgtable.h: In function 'ptep_get_lockless':
+>> ./include/linux/pgtable.h:782:25: warning: passing argument 1 of 'ptep_get' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     782 |         return ptep_get(ptep);
+         |                         ^~~~
+   In file included from ./include/linux/pgtable.h:6:
+   ./arch/s390/include/asm/pgtable.h:989:37: note: expected 'pte_t *' {aka 'long unsigned int *'} but argument is of type 'const pte_t *' {aka 'const long unsigned int *'}
+     989 | static inline pte_t ptep_get(pte_t *ptep)
+         |                              ~~~~~~~^~~~
+   net/netfilter/ipvs/ip_vs_core.c: In function 'ip_vs_in_icmp':
+   net/netfilter/ipvs/ip_vs_core.c:1768:15: warning: variable 'outer_proto' set but not used [-Wunused-but-set-variable]
+    1768 |         char *outer_proto = "IPIP";
+         |               ^~~~~~~~~~~
 
 
-vim +785 fs/netfs/write_issue.c
+vim +782 ./include/linux/pgtable.h
 
-   717	
-   718	/*
-   719	 * Write some of the pending data back to the server
-   720	 */
-   721	int netfs_writepages(struct address_space *mapping,
-   722			     struct writeback_control *wbc)
-   723	{
-   724		struct netfs_inode *ictx = netfs_inode(mapping->host);
-   725		struct netfs_io_request *wreq = NULL;
-   726		struct netfs_wb_params params = {};
-   727		struct folio *folio;
-   728		int error = 0;
-   729	
-   730		if (!netfs_wb_begin(ictx, wbc->sync_mode == WB_SYNC_NONE))
-   731			return 0;
-   732	
-   733		/* Need the first folio to be able to set up the op. */
-   734		folio = writeback_iter(mapping, wbc, NULL, &error);
-   735		if (!folio)
-   736			goto out;
-   737	
-   738		wreq = netfs_create_write_req(mapping, NULL, folio_pos(folio), NETFS_WRITEBACK);
-   739		if (IS_ERR(wreq)) {
-   740			error = PTR_ERR(wreq);
-   741			goto couldnt_start;
-   742		}
-   743	
-   744		if (bvecq_buffer_init(&wreq->load_cursor, GFP_NOFS) < 0)
-   745			goto nomem;
-   746		bvecq_pos_set(&params.dispatch_cursor, &wreq->load_cursor);
-   747		bvecq_pos_set(&wreq->collect_cursor, &wreq->load_cursor);
-   748	
-   749		__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &wreq->flags);
-   750		trace_netfs_write(wreq, netfs_write_trace_writeback);
-   751		netfs_stat(&netfs_n_wh_writepages);
-   752	
-   753		if (wreq->io_streams[1].avail)
-   754			params.notes |= NOTE_CACHE_AVAIL;
-   755	
-   756		do {
-   757			_debug("wbiter %lx", folio->index);
-   758	
-   759			if (!wreq->spare) {
-   760				wreq->spare = bvecq_alloc_one(BVECQ_STD_SLOTS, GFP_NOFS);
-   761				if (!wreq->spare) {
-   762					folio_redirty_for_writepage(wbc, folio);
-   763					folio_unlock(folio);
-   764					error = -ENOMEM;
-   765					goto end_loop;
-   766				}
-   767			}
-   768	
-   769			if (netfs_folio_group(folio) != NETFS_FOLIO_COPY_TO_CACHE &&
-   770			    unlikely(!test_bit(NETFS_RREQ_UPLOAD_TO_SERVER, &wreq->flags))) {
-   771				set_bit(NETFS_RREQ_UPLOAD_TO_SERVER, &wreq->flags);
-   772				wreq->netfs_ops->begin_writeback(wreq);
-   773				if (wreq->io_streams[0].avail) {
-   774					params.notes |= NOTE_UPLOAD_AVAIL;
-   775					/* Order setting the active flag after other fields. */
-   776					smp_store_release(&wreq->io_streams[0].active, true);
-   777				}
-   778			}
-   779	
-   780			params.notes &= NOTES__KEEP_MASK;
-   781			netfs_queue_wb_folio(wreq, wbc, folio, &params);
-   782			error = netfs_issue_streams(wreq, &params);
-   783			if (!error)
-   784				bvecq_pos_step(&params.dispatch_cursor);
- > 785	end_loop:
-   786		} while ((folio = writeback_iter(mapping, wbc, folio, &error)));
-   787	
-   788		netfs_end_issue_write(wreq, &params);
-   789	
-   790		bvecq_pos_unset(&wreq->load_cursor);
-   791		bvecq_pos_unset(&params.dispatch_cursor);
-   792		for (int i = 0; i < NR_IO_STREAMS; i++)
-   793			bvecq_pos_unset(&wreq->io_streams[i].dispatch_cursor);
-   794		netfs_wake_collector(wreq);
-   795	
-   796		netfs_put_request(wreq, netfs_rreq_trace_put_return);
-   797		_leave(" = %d", error);
-   798		return error;
-   799	
-   800	nomem:
-   801		error = -ENOMEM;
-   802		netfs_put_failed_request(wreq);
-   803	couldnt_start:
-   804		if (error == -ENOMEM) {
-   805			folio_redirty_for_writepage(wbc, folio);
-   806			folio_unlock(folio);
-   807			folio = writeback_iter(mapping, wbc, folio, &error);
-   808			WARN_ON_ONCE(folio != NULL);
-   809		} else {
-   810			netfs_kill_dirty_pages(mapping, wbc, folio);
-   811		}
-   812	out:
-   813		netfs_wb_end(ictx);
-   814		_leave(" = %d", error);
-   815		return error;
-   816	}
-   817	EXPORT_SYMBOL(netfs_writepages);
-   818	
+024d232ae4fcd7 Peter Zijlstra 2020-11-26  775  
+2a4a06da8a4b93 Peter Zijlstra 2020-11-13  776  /*
+2a4a06da8a4b93 Peter Zijlstra 2020-11-13  777   * We require that the PTE can be read atomically.
+2a4a06da8a4b93 Peter Zijlstra 2020-11-13  778   */
+024d232ae4fcd7 Peter Zijlstra 2020-11-26  779  #ifndef ptep_get_lockless
+3cfe4c8a2f30c7 Pedro Falcato  2026-07-24  780  static inline pte_t ptep_get_lockless(const pte_t *ptep)
+2a4a06da8a4b93 Peter Zijlstra 2020-11-13  781  {
+2a4a06da8a4b93 Peter Zijlstra 2020-11-13 @782  	return ptep_get(ptep);
+2a4a06da8a4b93 Peter Zijlstra 2020-11-13  783  }
+024d232ae4fcd7 Peter Zijlstra 2020-11-26  784  #endif
+024d232ae4fcd7 Peter Zijlstra 2020-11-26  785  
 
 --
 0-DAY CI Kernel Test Service
