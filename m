@@ -1,151 +1,221 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2533C3F39CB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jul 2026 16:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB1C2690F9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jul 2026 18:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784997082; cv=none; b=YliLpy/eEedQ5+E2Hi3d5vzbQhplVL4ebEvgnFZYAURn9hW1fiTKx0Po3n+aEBEJ6sy2xeUGdgMG2MLgdHh4LgSFldeS9wq9R2qYigK2EDQX5khk+HSIfR0fNGfPu0HKKcVPaLl0XLhXiu9ueXltx6i+gKAqDoE1QbRBPr/+/js=
+	t=1785003852; cv=none; b=oz4qYqz+eLkwbA9ziWojXeYzckU59Fe1JEAgX/BfJNvDKxLoHrWV4D0fKXFyscrZfulLbcbP/SJ5JoW3LIL2CZg+IMno6S4KJ6JgLY4DDBnKP8meK2rn6IDUDQI2Mp466rQntzwEppaDSXmMsIdp2w46bIbS3NvZ7mft5T/aG04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784997082; c=relaxed/simple;
-	bh=/Qa1inmzanAneq/BsqpNt71srsHmc3Q9wzFTfyUU/Kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jFLi2TZ0waO/FT/S4WE/JqLww+XuXEp7y144FtH/zaMwfwBSV0VUyaU4qKpPgtbDp8SsTz5EiQHXuSzAOQ4v/IpppdFf5NvOhtiJRQ2ZC7KsEnBRnYb8cms2Dia/AkvVqKHCI/528tAEjs37p6BRpxBtz5ks6AsXmnV1C4ZJ7rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDqn5qsN; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785003852; c=relaxed/simple;
+	bh=CL+lq1/Tse3Vrz/Q75+tOOIzHdsNBd+q54oqxWIwaGA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TpJaL6UoaDFgc0Jisd7DVQ2b1qPJJTvKrzRZL0h5Iw84Q/SC1n+ANPgoTSpfzooaIEz+85vPhGSbUQ2RslkcDldfj2Lj+w+HDdROPet4WUvksPi3nd7RCHePj0+C2lqNW264lN5H4eYyvf551i79ve8/52yhZAx0QH6TPE0U6HY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RegJXjZM; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDqn5qsN"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ceab75934dso17851025ad.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jul 2026 09:31:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784997080; x=1785601880; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K1Xu6gB2hPvfzPeGIegNJ8tUDHaIiJU8rBYzwhmih9I=;
-        b=DDqn5qsNhPqV1FmC+PwhOihA7n9AI6C2nRgnzT2d/KyWzNDGHsYBMtCulz+UB+8KFO
-         9SiQxbeZ8y6eag49hA8p0I36+HB7ursEjd9ujhdeeWPlpBQ8Lfdvv0fO3x9Q5pF0TzRh
-         x/DKIegBqK1ndEjqhumqxHeQm6bBvzcunHu4iDJ0heMFpgWYVM6PArjKMI7XgmH/tO6f
-         H4Hy+80H2ekoP/9YbyvyxvyXV8iXlCEGicWebhhdnlFTi7A4ciKvVjzsoI6JZXefsjTY
-         Q5axm11RYgunjCs/Ey7tz+y4tTV1mOeDM7cbhRh07swzU5+sWLNciELyPYD3WkQqtFfc
-         sr8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784997080; x=1785601880;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=K1Xu6gB2hPvfzPeGIegNJ8tUDHaIiJU8rBYzwhmih9I=;
-        b=BwBfDU0aKfwfi/dEzppGm3RGCK0XSjE3qIS4c0lpSHEeM0imSqHjWSK2HAO2SwOKry
-         fzUcnT45PKzYmW+OZre1hQnLOMDSgB4z1fCCnBXAF9yBsgsO4uqXfs9h2of6NcRZMuJy
-         8DCpCrPnujii6ya/R1wGXT0vzw5+6iBt0Btn+jNUhOquVdtZyvxgeDkCudTfpB+yPFPk
-         HMWBIYP9Za2RZwyLaTYxE/VyI1A8c0/DJUwNnLlWMs7aZJ04s2j3IC7+m/vixb60OVer
-         qhtlmqXFBkbW/xIa2CwtAyaO2xCWlCQfjhHaz0Z8YBKFt0gK/qMi5SaXm660VCVcumC8
-         Wk9Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrysyK9ldpLp8tnHRxCtMe/uoUmWJYNGlEYNF3Xx3yV8XxwfV1D1QEPSb34RMQ0NALmM5KOvj0rYl4af+SF@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw7vtfw3H07jJjeXHaX9CNY3wuaDUrRcH0GRwvqg93Dq4nHAbNv
-	AHztA2M9826bHT93pD1okPirDSoRgV5mrENptHOHWb+YGnIKKfS+kC9B
-X-Gm-Gg: AR+sD11fby5ej8XEBsINKuJGy4T+h7vb1NLpghWrvnRX5xgj3QCQKKrSbJSJf//DuZR
-	2Y32C6daRz3cQBB6Kiljwl0mrqusLAAXcfG8Tv94+dBHExecqKWDODUBY4aKHIWV7jl5pe27Cca
-	/7G3H3YxdBm5X+Jo/35Hhh4a+SU4TNbj6pe+k+lUrS9Yle9tKaWiftIJvJqkzsFAorYQzUNO2x0
-	FS5QA1pUsaNbmoX1dGbr7P1E0IsL4pVHDW3MBEhjllFdp/g84KzQO87bVh2OXQyhR07Hz/CT6Dw
-	x84vhpsSJ39sFF5tRwMK42OU3aVHlSDktr7Mf5AXc10GUNsJFwMjt4gVDJVOSO5lu05QnNRv8Ep
-	60xliI2l7SNcBO0eFdTxtXIxLztJrnFdFw2mZMBkp5LSizCU7hzXCBi/KQYyzwrkbx0ArINKB
-X-Received: by 2002:a17:903:19ee:b0:2c8:2808:3ec4 with SMTP id d9443c01a7336-2cfde866afcmr24786625ad.24.1784997080266;
-        Sat, 25 Jul 2026 09:31:20 -0700 (PDT)
-Received: from localhost ([172.216.252.11])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7bc57asm10874305ad.45.2026.07.25.09.31.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 09:31:18 -0700 (PDT)
-Date: Sat, 25 Jul 2026 19:31:12 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.18/linux 1/1] kernel/kexec_handover.c:941
- kho_preserve_vmalloc() warn: missing error code 'err'
-Message-ID: <202607260054.fmMWCkfT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RegJXjZM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785003849; x=1816539849;
+  h=date:from:to:cc:subject:message-id;
+  bh=CL+lq1/Tse3Vrz/Q75+tOOIzHdsNBd+q54oqxWIwaGA=;
+  b=RegJXjZM7/1HjuwOZrw3qL9mTVyDafgdHnl8P4q+veQx+7dGfwgK3dO6
+   sqobl6zkNeoPquHjmqy7/RpVk1gUdyPvGc+wfkajLH4Q7crwbNl/4vhtl
+   kORwubv9ocdQ9A6Y5Nm+waPY7yNQKa4GsQFJYfMKyey+ucbLmyyb/p+SK
+   xgeBAzfHD2dCEh408fgbScGAyRU4GzFtSIGsbGi3PUD2Pj6Zs1Xtnpo7q
+   NT4y1vrcZxa4AyF2Y2bzVez7tHfmjD2cgxxTvXT7sSeLg9uuVZPdJwiSL
+   65uEIdA703xZth/jau6aYy5uotTl/8RFeo6xuA5ajKCKKn3B4bTEfl95x
+   g==;
+X-CSE-ConnectionGUID: yXm9hpihSbipVpxlq0I8GQ==
+X-CSE-MsgGUID: LUP4EUoZRP2w4NGFJLAAKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="85723472"
+X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
+   d="scan'208";a="85723472"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2026 11:24:08 -0700
+X-CSE-ConnectionGUID: p4TWw3PCSLiDbzsSxDQdnA==
+X-CSE-MsgGUID: dB9OENHZSl2i31h1gAFkuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
+   d="scan'208";a="256345279"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 25 Jul 2026 11:24:06 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wnh2a-000000001Ek-14ZT;
+	Sat, 25 Jul 2026 18:24:04 +0000
+Date: Sat, 25 Jul 2026 20:23:39 +0200
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-ioctl-cleanups 8/11]
+ ./arch/s390/include/asm/uaccess.h:319:21: error: void value not ignored as it
+ ought to be
+Message-ID: <202607252046.8AFGFpuw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
-head:   af406d75818b912a1b72efa75a20f8bf3e9a3f01
-commit: a667300bd53f272a3055238bcefe108f88836270 [1/1] kho: add support for preserving vmalloc allocations
-config: x86_64-randconfig-161-20260725 (https://download.01.org/0day-ci/archive/20260726/202607260054.fmMWCkfT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   git://git.infradead.org/users/hch/xfs xfs-ioctl-cleanups
+head:   918653f059a2c63c9ed5316428d963be8a1d072a
+commit: 254f860b51b8d3b64bf5660c9028edd4fc248bfe [8/11] xfs: split out the handler for XFS_IOC_GOINGDOWN
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260725/202607252046.8AFGFpuw-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260725/202607252046.8AFGFpuw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: a667300bd53f ("kho: add support for preserving vmalloc allocations")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607260054.fmMWCkfT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607252046.8AFGFpuw-lkp@intel.com/
 
-smatch warnings:
-kernel/kexec_handover.c:941 kho_preserve_vmalloc() warn: missing error code 'err'
+All error/warnings (new ones prefixed by >>):
 
-vim +/err +941 kernel/kexec_handover.c
+   fs/xfs/xfs_ioctl.c: In function 'xfs_ioc_growfs_rt':
+   fs/xfs/xfs_ioctl.c:1329:34: warning: unused variable 'mp' [-Wunused-variable]
+    1329 |         struct xfs_mount        *mp = XFS_I(file_inode(file))->i_mount;
+         |                                  ^~
+   In file included from ./include/linux/uaccess.h:13,
+                    from ./include/linux/sched/task.h:13,
+                    from ./include/linux/sched/signal.h:9,
+                    from ./include/linux/rcuwait.h:6,
+                    from ./include/linux/mm.h:36,
+                    from fs/xfs/xfs_platform.h:12,
+                    from fs/xfs/xfs_ioctl.c:6:
+   fs/xfs/xfs_ioctl.c: In function 'xfs_ioc_goingdown':
+>> ./arch/s390/include/asm/uaccess.h:319:23: warning: dereferencing 'void *' pointer
+     319 |                 (x) = *(__force __typeof__(*(ptr)) *)&__x;              \
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:356:9: note: in expansion of macro '__get_user'
+     356 |         __get_user(x, ptr);                                             \
+         |         ^~~~~~~~~~
+   fs/xfs/xfs_ioctl.c:1353:13: note: in expansion of macro 'get_user'
+    1353 |         if (get_user(in, arg))
+         |             ^~~~~~~~
+>> ./arch/s390/include/asm/uaccess.h:319:21: error: void value not ignored as it ought to be
+     319 |                 (x) = *(__force __typeof__(*(ptr)) *)&__x;              \
+         |                     ^
+   ./arch/s390/include/asm/uaccess.h:356:9: note: in expansion of macro '__get_user'
+     356 |         __get_user(x, ptr);                                             \
+         |         ^~~~~~~~~~
+   fs/xfs/xfs_ioctl.c:1353:13: note: in expansion of macro 'get_user'
+    1353 |         if (get_user(in, arg))
+         |             ^~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:327:23: warning: dereferencing 'void *' pointer
+     327 |                 (x) = *(__force __typeof__(*(ptr)) *)&__x;              \
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:356:9: note: in expansion of macro '__get_user'
+     356 |         __get_user(x, ptr);                                             \
+         |         ^~~~~~~~~~
+   fs/xfs/xfs_ioctl.c:1353:13: note: in expansion of macro 'get_user'
+    1353 |         if (get_user(in, arg))
+         |             ^~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:327:21: error: void value not ignored as it ought to be
+     327 |                 (x) = *(__force __typeof__(*(ptr)) *)&__x;              \
+         |                     ^
+   ./arch/s390/include/asm/uaccess.h:356:9: note: in expansion of macro '__get_user'
+     356 |         __get_user(x, ptr);                                             \
+         |         ^~~~~~~~~~
+   fs/xfs/xfs_ioctl.c:1353:13: note: in expansion of macro 'get_user'
+    1353 |         if (get_user(in, arg))
+         |             ^~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:335:23: warning: dereferencing 'void *' pointer
+     335 |                 (x) = *(__force __typeof__(*(ptr)) *)&__x;              \
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:356:9: note: in expansion of macro '__get_user'
+     356 |         __get_user(x, ptr);                                             \
+         |         ^~~~~~~~~~
+   fs/xfs/xfs_ioctl.c:1353:13: note: in expansion of macro 'get_user'
+    1353 |         if (get_user(in, arg))
+         |             ^~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:335:21: error: void value not ignored as it ought to be
+     335 |                 (x) = *(__force __typeof__(*(ptr)) *)&__x;              \
+         |                     ^
+   ./arch/s390/include/asm/uaccess.h:356:9: note: in expansion of macro '__get_user'
+     356 |         __get_user(x, ptr);                                             \
+         |         ^~~~~~~~~~
+   fs/xfs/xfs_ioctl.c:1353:13: note: in expansion of macro 'get_user'
+    1353 |         if (get_user(in, arg))
+         |             ^~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:343:23: warning: dereferencing 'void *' pointer
+     343 |                 (x) = *(__force __typeof__(*(ptr)) *)&__x;              \
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:356:9: note: in expansion of macro '__get_user'
+     356 |         __get_user(x, ptr);                                             \
+         |         ^~~~~~~~~~
+   fs/xfs/xfs_ioctl.c:1353:13: note: in expansion of macro 'get_user'
+    1353 |         if (get_user(in, arg))
+         |             ^~~~~~~~
+   ./arch/s390/include/asm/uaccess.h:343:21: error: void value not ignored as it ought to be
+     343 |                 (x) = *(__force __typeof__(*(ptr)) *)&__x;              \
+         |                     ^
+   ./arch/s390/include/asm/uaccess.h:356:9: note: in expansion of macro '__get_user'
+     356 |         __get_user(x, ptr);                                             \
+         |         ^~~~~~~~~~
+   fs/xfs/xfs_ioctl.c:1353:13: note: in expansion of macro 'get_user'
+    1353 |         if (get_user(in, arg))
+         |             ^~~~~~~~
 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  907) int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  908) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  909) 	struct kho_vmalloc_chunk *chunk;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  910) 	struct vm_struct *vm = find_vm_area(ptr);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  911) 	unsigned int order, flags, nr_contig_pages;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  912) 	unsigned int idx = 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  913) 	int err;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  914) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  915) 	if (!vm)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  916) 		return -EINVAL;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  917) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  918) 	if (vm->flags & ~KHO_VMALLOC_SUPPORTED_FLAGS)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  919) 		return -EOPNOTSUPP;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  920) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  921) 	flags = vmalloc_flags_to_kho(vm->flags);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  922) 	order = get_vm_area_page_order(vm);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  923) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  924) 	chunk = new_vmalloc_chunk(NULL);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  925) 	if (!chunk)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  926) 		return -ENOMEM;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  927) 	KHOSER_STORE_PTR(preservation->first, chunk);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  928) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  929) 	nr_contig_pages = (1 << order);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  930) 	for (int i = 0; i < vm->nr_pages; i += nr_contig_pages) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  931) 		phys_addr_t phys = page_to_phys(vm->pages[i]);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  932) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  933) 		err = kho_preserve_pages(vm->pages[i], nr_contig_pages);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  934) 		if (err)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  935) 			goto err_free;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  936) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  937) 		chunk->phys[idx++] = phys;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  938) 		if (idx == ARRAY_SIZE(chunk->phys)) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  939) 			chunk = new_vmalloc_chunk(chunk);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  940) 			if (!chunk)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21 @941) 				goto err_free;
 
-err = -ENOMEM;
+vim +319 ./arch/s390/include/asm/uaccess.h
 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  942) 			idx = 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  943) 		}
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  944) 	}
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  945) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  946) 	preservation->total_pages = vm->nr_pages;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  947) 	preservation->flags = flags;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  948) 	preservation->order = order;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  949) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  950) 	return 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  951) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  952) err_free:
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  953) 	kho_vmalloc_free_chunks(preservation);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  954) 	return err;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  955) }
+454ede3f1424c3 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-01  306  
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  307  #define __get_user(x, ptr)						\
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  308  ({									\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  309  	const __user void *____guptr = (ptr);				\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  310  	int __grc;							\
+d144182ed19af0 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-29  311  									\
+17566c3c5ed3ea include/asm-s390/uaccess.h      Al Viro            2005-08-23  312  	__chk_user_ptr(ptr);						\
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  313  	switch (sizeof(*(ptr))) {					\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  314  	case 1: {							\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  315  		const unsigned char __user *__guptr = ____guptr;	\
+454ede3f1424c3 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-01  316  		unsigned char __x;					\
+d144182ed19af0 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-29  317  									\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  318  		__grc = __get_user_char(&__x, __guptr, sizeof(*(ptr)));	\
+97fa5a664e69f2 include/asm-s390/uaccess.h      Al Viro            2006-02-03 @319  		(x) = *(__force __typeof__(*(ptr)) *)&__x;		\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  320  		break;							\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  321  	};								\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  322  	case 2: {							\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  323  		const unsigned short __user *__guptr = ____guptr;	\
+454ede3f1424c3 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-01  324  		unsigned short __x;					\
+d144182ed19af0 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-29  325  									\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  326  		__grc = __get_user_short(&__x, __guptr, sizeof(*(ptr)));\
+97fa5a664e69f2 include/asm-s390/uaccess.h      Al Viro            2006-02-03  327  		(x) = *(__force __typeof__(*(ptr)) *)&__x;		\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  328  		break;							\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  329  	};								\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  330  	case 4: {							\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  331  		const unsigned int __user *__guptr = ____guptr;		\
+454ede3f1424c3 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-01  332  		unsigned int __x;					\
+d144182ed19af0 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-29  333  									\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  334  		__grc = __get_user_int(&__x, __guptr, sizeof(*(ptr)));	\
+97fa5a664e69f2 include/asm-s390/uaccess.h      Al Viro            2006-02-03  335  		(x) = *(__force __typeof__(*(ptr)) *)&__x;		\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  336  		break;							\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  337  	};								\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  338  	case 8: {							\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  339  		const unsigned long __user *__guptr = ____guptr;	\
+454ede3f1424c3 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-01  340  		unsigned long __x;					\
+d144182ed19af0 arch/s390/include/asm/uaccess.h Heiko Carstens     2022-05-29  341  									\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  342  		__grc = __get_user_long(&__x, __guptr, sizeof(*(ptr)));	\
+97fa5a664e69f2 include/asm-s390/uaccess.h      Al Viro            2006-02-03  343  		(x) = *(__force __typeof__(*(ptr)) *)&__x;		\
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  344  		break;							\
+1047aa77239976 include/asm-s390/uaccess.h      Martin Schwidefsky 2005-11-07  345  	};								\
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  346  	default:							\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  347  		__grc = __get_user_bad();				\
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  348  		break;							\
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  349  	}								\
+718056f9d96872 arch/s390/include/asm/uaccess.h Heiko Carstens     2025-01-13  350  	__builtin_expect(__grc, 0);					\
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  351  })
+^1da177e4c3f41 include/asm-s390/uaccess.h      Linus Torvalds     2005-04-16  352  
+
+:::::: The code at line 319 was first introduced by commit
+:::::: 97fa5a664e69f2fcdd2120e7f4765f8c1df56282 [PATCH] s390 __get_user() bogus warnings removal
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
