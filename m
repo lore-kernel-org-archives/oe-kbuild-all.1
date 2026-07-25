@@ -1,92 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E6530566D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jul 2026 01:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A800938E8A5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jul 2026 03:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784944426; cv=none; b=IHT0gMw7roa5Mr3UfcJsZmSsBk0jHOoGwRSFJREPdEGIpfWXiwGrdGW0ejM5uLk9TNBlu7aHxcnehzXSWujzENSQEAbQaJiZTUwtFhp68Z17OVGQQzclYsRmTmtxBumDHGrLdIIOXjTh7rF1mKkv3GTGiGfHy8t5xSW+P9ggFKE=
+	t=1784951747; cv=none; b=FTyYnS9VFoYD8gM0g9gWr87t17h+7W9tcV2e+4XaXIlqiRkUxS5INw1p8i1/9HydQHF3WE8slURYQtHmcv26ha2YQ8IpG/jCBPaaeAZ5FcViCRlopRW75BAemsQ4aKyA2uCybCPqMTgzuHD/nQqeW/8nq/4Pms1xik5qJEdl6Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784944426; c=relaxed/simple;
-	bh=EVWJkojZO52mkVzCbZmrcB80QNeySjokJV3l7SdAtGk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=f83ENFju3SRlRRkt8ydWaa4RZv9TEUDus2FZGFl6zk0myUNH81Adhpb0W8ZwOiHHm45prowYNzyc02DlTGvUyDR3pYqu6ZI7M/di09cKBVXUxJqmgayZFOh24os+kKL3FRl5PTbg7+Pas2iZpbohKlSArdWAUYQwonFdKcPA2nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ToSnDa+L; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1784951747; c=relaxed/simple;
+	bh=a/8RwzmKLG7uwZieP9EWP8WEah6Qds0ZpbVQgqjvNhY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d0wID9ukrA0Yri4cbpdLbVY+M061PVSXOAGajEXyEXhh1Kf1ZnZ5rmq7+kfB6OsCE3S7rAKqc48PvvHNzioFMfrWgA3NBAMpOQ0mm5O7d3OE67L7R1FSuq56CI1qANoOVeUTMlSDeujsZO/o1Yx7esBPJd9ex4AzcXJ8wEuopX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WR1b41KS; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ToSnDa+L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WR1b41KS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784944423; x=1816480423;
-  h=date:from:to:cc:subject:message-id;
-  bh=EVWJkojZO52mkVzCbZmrcB80QNeySjokJV3l7SdAtGk=;
-  b=ToSnDa+LAuYJ7CqvB1GX6LXH7oP+Y1w3cTTkMhf0ijSOWS2N8MZ62KgO
-   PJzIWQPUxjemfdzvEeFC6NKCJxvaQz9+c6D5l8aX0+S65KzxvkKbROtSz
-   3up3I4i8Z0iOdNsY+sUoG5W+KK74fhYXWiWdkxFOr3mJvEdpy1EYFBHoZ
-   rUgSkjtb66emVkQZls0G+h5yzNnupKk6mbJYG/kVzJ0F0LDiIGzGtQEYT
-   ZZ1GF52qDPH/aTpurqZr2WfRxk5rI4M9wrEIvSRw9Q1XTVNxgOnTxuzdJ
-   jjC85UEm9vlSbCaAIdLoTIpITLcNU71Dr/JED9JcZi9ThuT/yjfAXx6tv
-   w==;
-X-CSE-ConnectionGUID: Mrm76bq/SP+DjjVibokNRA==
-X-CSE-MsgGUID: WdrD55kcT2qNHZLJ3cYvtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11855"; a="85657406"
+  t=1784951746; x=1816487746;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a/8RwzmKLG7uwZieP9EWP8WEah6Qds0ZpbVQgqjvNhY=;
+  b=WR1b41KSnr0Ej6c8pPTLT8UPFV9Vi48gICKz14QZgqDCQn68jJhm4TAg
+   A8IWh1KZK/MIl3c+Spb4+/toTVkyQ4YnXNAeg8EkeAFNbLD/ZNGbo1nAb
+   amRPjqaQgX1UDUvvYhscXKQcOlCh+6D9g+93Dor6eeCsKbW4tv4y1PvHx
+   PiEtQk0JKJ9VHA7Ejn5x+vnP4P77IHbOhUb5mLPjI1XYel3ulV3jf699+
+   0BhduKKhYUEJSrX/ticbSMg7mPaBRokaqKl1/wNG6U1Bu8KYy957o8cFz
+   2ZfxmWR1QQSN9fPQBuVO0NP+8KiYvVpajCxltSKjMk9mcxG4b1apFchJv
+   Q==;
+X-CSE-ConnectionGUID: lqEIw+34RzGVmlKXGBlzvA==
+X-CSE-MsgGUID: VakcjiK8RFeSubTe81gMDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11855"; a="96768693"
 X-IronPort-AV: E=Sophos;i="6.25,183,1779174000"; 
-   d="scan'208";a="85657406"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 18:53:43 -0700
-X-CSE-ConnectionGUID: MTWCEHgxTc+FVuuMIwjdMA==
-X-CSE-MsgGUID: C63snb3nTUaug66PPwp81A==
+   d="scan'208";a="96768693"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 20:55:45 -0700
+X-CSE-ConnectionGUID: O/Gy6JJMTbGNFEXK9Dd95Q==
+X-CSE-MsgGUID: pPPnVE9DSSiy0os5Kk3LLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,183,1779174000"; 
-   d="scan'208";a="259513964"
+   d="scan'208";a="256226623"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 24 Jul 2026 18:53:41 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 24 Jul 2026 20:55:41 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wnRa7-0000000015K-0ME8;
-	Sat, 25 Jul 2026 01:53:39 +0000
-Date: Sat, 25 Jul 2026 03:53:17 +0200
+	id 1wnTUB-00000000162-2zlA;
+	Sat, 25 Jul 2026 03:55:39 +0000
+Date: Sat, 25 Jul 2026 05:54:43 +0200
 From: kernel test robot <lkp@intel.com>
-To: Zhentao Guo <zhentao.guo@amlogic.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Warning: MAINTAINERS references a file that
- doesn't exist:
- Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
-Message-ID: <202607250303.Vsr3uQ9k-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: JB Tsai <jb.tsai@mediatek.com>, nbd@nbd.name, lorenzo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, Sean.Wang@mediatek.com,
+	Quan.Zhou@mediatek.com, Ryder.Lee@mediatek.com,
+	litien.chang@mediatek.com, Charlie-cy.Wu@mediatek.com,
+	jb.tsai@mediatek.com
+Subject: Re: [PATCH] wifi: mt76: connac3: refactor CLC header type validation
+ logic
+Message-ID: <202607250538.5NE4yF8u-lkp@intel.com>
+References: <20260724085124.3156143-1-jb.tsai@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260724085124.3156143-1-jb.tsai@mediatek.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Zhentao-Guo-via-B4-Relay/firmware-meson-sm-Add-video-firmware-loading-SMC-call/20260724-151850
-head:   21bdff1f88f29045f82144a2c7c233522fff4249
-commit: 9146431a9be1f4fc394bd783b4617b9c948b0505 decoder: Add V4L2 stateless H.264 decoder driver
-date:   18 hours ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260725/202607250303.Vsr3uQ9k-lkp@intel.com/reproduce)
+Hi JB,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v7.2-rc4 next-20260723]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/JB-Tsai/wifi-mt76-connac3-refactor-CLC-header-type-validation-logic/20260724-170015
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260724085124.3156143-1-jb.tsai%40mediatek.com
+patch subject: [PATCH] wifi: mt76: connac3: refactor CLC header type validation logic
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260725/202607250538.5NE4yF8u-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260725/202607250538.5NE4yF8u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607250303.Vsr3uQ9k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607250538.5NE4yF8u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   drivers/net/wireless/mediatek/mt76/mt7925/mcu.c: In function 'mt7925_load_clc':
+>> drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:866:68: error: 'MT792x_CLC_REGD' undeclared (first use in this function); did you mean 'MT7925_CLC_CHAN'?
+     866 |                 if ((clc->idx == MT792x_CLC_BE_CTRL || clc->idx == MT792x_CLC_REGD) &&
+         |                                                                    ^~~~~~~~~~~~~~~
+         |                                                                    MT7925_CLC_CHAN
+   drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:866:68: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +866 drivers/net/wireless/mediatek/mt76/mt7925/mcu.c
+
+   797	
+   798	static int mt7925_load_clc(struct mt792x_dev *dev, const char *fw_name)
+   799	{
+   800		const struct mt76_connac2_fw_trailer *hdr;
+   801		const struct mt76_connac2_fw_region *region;
+   802		const struct mt7925_clc *clc;
+   803		struct mt76_dev *mdev = &dev->mt76;
+   804		struct mt792x_phy *phy = &dev->phy;
+   805		const struct firmware *fw;
+   806		u8 *clc_base = NULL, hw_encap = 0;
+   807		int ret, i, len, offset = 0;
+   808	
+   809		dev->phy.clc_chan_conf = 0xff;
+   810		dev->regd_user = false;
+   811		if (!mt7925_regd_clc_supported(dev))
+   812			return 0;
+   813	
+   814		if (mt76_is_mmio(&dev->mt76)) {
+   815			ret = mt7925_mcu_read_eeprom(dev, MT_EE_HW_TYPE, &hw_encap);
+   816			if (ret)
+   817				return ret;
+   818			hw_encap = u8_get_bits(hw_encap, MT_EE_HW_TYPE_ENCAP);
+   819		}
+   820	
+   821		ret = request_firmware(&fw, fw_name, mdev->dev);
+   822		if (ret)
+   823			return ret;
+   824	
+   825		if (!fw || !fw->data || fw->size < sizeof(*hdr)) {
+   826			dev_err(mdev->dev, "Invalid firmware\n");
+   827			ret = -EINVAL;
+   828			goto out;
+   829		}
+   830	
+   831		hdr = (const void *)(fw->data + fw->size - sizeof(*hdr));
+   832		for (i = 0; i < hdr->n_region; i++) {
+   833			region = (const void *)((const u8 *)hdr -
+   834						(hdr->n_region - i) * sizeof(*region));
+   835			len = le32_to_cpu(region->len);
+   836	
+   837			/* check if we have valid buffer size */
+   838			if (offset + len > fw->size) {
+   839				dev_err(mdev->dev, "Invalid firmware region\n");
+   840				ret = -EINVAL;
+   841				goto out;
+   842			}
+   843	
+   844			if ((region->feature_set & FW_FEATURE_NON_DL) &&
+   845			    region->type == FW_TYPE_CLC) {
+   846				clc_base = (u8 *)(fw->data + offset);
+   847				break;
+   848			}
+   849			offset += len;
+   850		}
+   851	
+   852		if (!clc_base)
+   853			goto out;
+   854	
+   855		for (offset = 0; offset < len; offset += le32_to_cpu(clc->len)) {
+   856			clc = (const struct mt7925_clc *)(clc_base + offset);
+   857	
+   858			if (clc->idx >= ARRAY_SIZE(phy->clc))
+   859				break;
+   860	
+   861			/* do not init buf again if chip reset triggered */
+   862			if (phy->clc[clc->idx])
+   863				continue;
+   864	
+   865			/* header content sanity */
+ > 866			if ((clc->idx == MT792x_CLC_BE_CTRL || clc->idx == MT792x_CLC_REGD) &&
+   867			    u8_get_bits(clc->t2.type, MT_EE_HW_TYPE_ENCAP) != hw_encap)
+   868				continue;
+   869	
+   870			if (clc->idx != MT792x_CLC_BE_CTRL && clc->idx != MT792x_CLC_REGD &&
+   871			    u8_get_bits(clc->t0.type, MT_EE_HW_TYPE_ENCAP) != hw_encap)
+   872				continue;
+   873	
+   874			phy->clc[clc->idx] = devm_kmemdup(mdev->dev, clc,
+   875							  le32_to_cpu(clc->len),
+   876							  GFP_KERNEL);
+   877	
+   878			if (!phy->clc[clc->idx]) {
+   879				ret = -ENOMEM;
+   880				goto out;
+   881			}
+   882		}
+   883	
+   884		ret = mt7925_regd_init(phy);
+   885	out:
+   886		release_firmware(fw);
+   887	
+   888		return ret;
+   889	}
+   890	
 
 --
 0-DAY CI Kernel Test Service
