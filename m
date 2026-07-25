@@ -1,97 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7631C1E4BE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jul 2026 00:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409A130E83F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Jul 2026 00:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784939565; cv=none; b=ZadkbDPZ+zsb/JSjuL5WHryvJn5EmRlIuf/or4czrRbf+VJUZcEKW658hwk48wj6xUpiYGJumLQMtRSZLTtjWugEGeeN/LOwU6QL4USX2h7cl73wusvrBwkENzNV5XmGG62crMYdtIPhnmhWBsplRY31romjsnwl5ovG8IczQr4=
+	t=1784941083; cv=none; b=OA4m4C9b4yVxsM6FkUNyyZBngkjx8ueL757chEreYmwIxoI3MC7pCfPmc6ZX7SbkEaEpshqruwdaYocBsWawVtJyShGqsQQL+4wfe6yZQYVZvs1g6jlmPLGQysDUjaZwC2JcGklcdp2TjvACzXyZCSpI9uNqRGzsDj5knlKBPGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784939565; c=relaxed/simple;
-	bh=RpfCYvezedGz6YNTkORIhQTO1cBgKNHgVbQgsN6lqe0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=f3tDj9PBQtrzG1uUAGW7d6tvXkxr+rLntZbUQ+MAffnylUj+52Srq7RLt3J0LkdzdIkf9unEtGOGLG6GHlrrcUOhNjZAKMZ0FgTTO1/HwhChZTy7xhD/XBmFAWXOW5l9RYHqcz34iXMEXHv0OZ9y+PScTauAAS10s/QYeD+Zwe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AcsOp5za; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1784941083; c=relaxed/simple;
+	bh=OAC6lBYbl8VKrUKfiQCex2CU2yUl/JiNEBgpQiMRODM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=knk8kjnRx9HY/PBkUm6uGDGzdZNA3kitO8GuUU6xTwBUQuErHghaTifrrW3m4lyzkv9wIUV9xAPZJ9R8YWq64m1MmiJm5PDJPJ63mrpwk9/LDNuWTFSeYrTbwLIBd3qzqTJhHgb1mg6gwmSJ0tsXBls8e8fwGxmz8il68H+O0DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mSwVacUg; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AcsOp5za"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mSwVacUg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784939563; x=1816475563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RpfCYvezedGz6YNTkORIhQTO1cBgKNHgVbQgsN6lqe0=;
-  b=AcsOp5zagd/h95sSrvGcpKF3fxyucsLDXiWnDB+Urh3YW7kIJSYmGy5a
-   mS/9bZxzgv+IsUcFb9BHBgAuzylGXeuz5KwbP03wRDf1zIiwt0jLeTwW1
-   +tIGtpyE4AX1xsA3m9qH8VAhp8C1QE9vYH4saA9Bh6ZE4kU/06cpJFe1r
-   WVtwgF0aN4vDdQvdZ9kGuje89Wf6tUuqOHtCObbkIyAzzwvoFLxdtpwhk
-   sJuTmFKvZRD4oMTags6a+yWZqeLbZoip2cjfS/0T2PNExHUzMSpKXfPI4
-   JOLrqH/5yFJrBqXRU3g1Q2qtsIDZ2iiPUZerSuvVjwm6nnaps22CwxUPW
-   Q==;
-X-CSE-ConnectionGUID: bCERF/DKRHORDWURSFlr+Q==
-X-CSE-MsgGUID: ZAr53b1zSeCRbo8XVaMDdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11855"; a="96272775"
+  t=1784941081; x=1816477081;
+  h=date:from:to:cc:subject:message-id;
+  bh=OAC6lBYbl8VKrUKfiQCex2CU2yUl/JiNEBgpQiMRODM=;
+  b=mSwVacUgqVGE3K3lQyNith4rOM99IRWhwfqjHtgoEyxIqQJlrryBeOCS
+   XHHH0zvKyCYO/PdrCVZU+YQWktgmt6NRiUZcnpfmGAstwT2FT0/to2CEY
+   /P7H+T0SSORthGwCOWQPH5BR488zPVLGt6rxdsoLCr0U40M7Cr57aQ4BX
+   0kCq+SVr7ai3iqLhPzz/77RmlaIjrmQNP0N7YXmH3HSclhPR2uGTEXLSf
+   10aZ3VhgkJziO9PhNOmOXr7AJIJcCq71r/EqZHqngXoWilzcWrZfm3FoN
+   PDyyVEVMIXTMEEKJKCf8nQcYL0YTGbHYNeTNRiQt/DVLMNn47jqQ+eFXp
+   g==;
+X-CSE-ConnectionGUID: ieFC+KtUTyeT/1BZH/gONg==
+X-CSE-MsgGUID: sDZ+0AndQIqeRpqbQXch2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11855"; a="96984159"
 X-IronPort-AV: E=Sophos;i="6.25,183,1779174000"; 
-   d="scan'208";a="96272775"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 17:32:42 -0700
-X-CSE-ConnectionGUID: Qy8xrx1GQ823VYyJeFvchA==
-X-CSE-MsgGUID: RYIneGnDSpuDcehCR2YR4w==
+   d="scan'208";a="96984159"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 17:58:00 -0700
+X-CSE-ConnectionGUID: WWJvxTpxS3yqv0N+7GfukQ==
+X-CSE-MsgGUID: HVpGNqwLR3q7V+kGTWL2/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,183,1779174000"; 
-   d="scan'208";a="263156556"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 24 Jul 2026 17:32:41 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="263850546"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jul 2026 17:57:58 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wnQJi-0000000014k-2WsJ;
-	Sat, 25 Jul 2026 00:32:38 +0000
-Date: Sat, 25 Jul 2026 02:31:45 +0200
+	id 1wnQiB-00000000bNy-2WA9;
+	Sat, 25 Jul 2026 00:57:55 +0000
+Date: Sat, 25 Jul 2026 08:56:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Andr=C3=A9?= Almeida" <andrealmeid@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: /kbuild/src/scripts/syscallhdr.sh: 77: [[: not found
-Message-ID: <202607250219.bC2cMCLq-lkp@intel.com>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org
+Subject: [akpm-mm:mm-unstable 340/601]
+ include/linux/compiler_types.h:702:38: error: call to
+ '__compiletime_assert_501' declared with attribute error: BUILD_BUG failed
+Message-ID: <202607250853.VaJWGLeA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/syscalls-Create-unified-partial-table-for-all-archs/20260725-040333
-head:   8c63d3ddb37ca9ef5da08071f85493dd0b281816
-commit: ee3a650b2d887e916d8d644af5416769b7f63f16 syscalls: Add support for x86_x32 for the common syscall table
-date:   4 hours ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce: (https://download.01.org/0day-ci/archive/20260725/202607250219.bC2cMCLq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   c04df384b55dd9dcf72c36b661becb5aaba371a9
+commit: d2aed7c02fafacb9d055a2f683ac12e977ef16e0 [340/601] mm: preserve RWP marker across PTE rewrites
+config: sparc64-randconfig-r134-20260725 (https://download.01.org/0day-ci/archive/20260725/202607250853.VaJWGLeA-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260725/202607250853.VaJWGLeA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607250219.bC2cMCLq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607250853.VaJWGLeA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> /kbuild/src/scripts/syscallhdr.sh: 77: [[: not found
->> /kbuild/src/scripts/syscallhdr.sh: 77: [[: not found
->> /kbuild/src/scripts/syscallhdr.sh: 77: [[: not found
-   /kbuild/src/scripts/syscalltbl.sh: 100: Syntax error: redirection unexpected
-   make[3]: *** [/kbuild/src/arch/x86/entry/syscalls/Makefile:52: arch/x86/include/generated/asm/syscalls_32.h] Error 2
-   /kbuild/src/scripts/syscallhdr.sh: 120: Syntax error: redirection unexpected
-   /kbuild/src/scripts/syscallhdr.sh: 120: Syntax error: redirection unexpected
-   make[3]: *** [/kbuild/src/arch/x86/entry/syscalls/Makefile:43: arch/x86/include/generated/uapi/asm/unistd_64.h] Error 2
-   make[3]: *** [/kbuild/src/arch/x86/entry/syscalls/Makefile:29: arch/x86/include/generated/uapi/asm/unistd_32.h] Error 2
-   /kbuild/src/scripts/syscallhdr.sh: 120: Syntax error: redirection unexpected
-   make[3]: *** [/kbuild/src/arch/x86/entry/syscalls/Makefile:39: arch/x86/include/generated/uapi/asm/unistd_x32.h] Error 2
-   make[3]: Target 'all' not remade because of errors.
-   make[2]: *** [/kbuild/src/arch/x86/Makefile:256: archheaders] Error 2
-   make[2]: Target 'headers' not remade because of errors.
-   make[1]: *** [/kbuild/src/Makefile:248: __sub-make] Error 2
-   make[1]: Target 'headers' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'headers' not remade because of errors.
+   In file included from <command-line>:
+   mm/huge_memory.c: In function 'move_pages_huge_pmd':
+>> include/linux/compiler_types.h:702:38: error: call to '__compiletime_assert_501' declared with attribute error: BUILD_BUG failed
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                                         ^
+   include/linux/compiler_types.h:683:4: note: in definition of macro '__compiletime_assert'
+       prefix ## suffix();    \
+       ^~~~~~
+   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:60:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+    #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+                        ^~~~~~~~~~~~~~~~
+   include/linux/pgtable.h:2145:22: note: in expansion of macro 'BUILD_BUG'
+    #define PAGE_NONE ({ BUILD_BUG(); (pgprot_t){0}; })
+                         ^~~~~~~~~
+   mm/huge_memory.c:2874:35: note: in expansion of macro 'PAGE_NONE'
+      _dst_pmd = pmd_modify(_dst_pmd, PAGE_NONE);
+                                      ^~~~~~~~~
+
+
+vim +/__compiletime_assert_501 +702 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  691  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  703  
+
+:::::: The code at line 702 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
