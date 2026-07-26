@@ -1,105 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFB437FF43
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Jul 2026 11:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B6D1A6822
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Jul 2026 23:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785064568; cv=none; b=JTwk9fYe+/mox9VgIGaxwm7I6ddVBWr4lqYh6NMoYwtqPfS/XVXMpQFiOTNUOCDRUY/lTZmvsFkmfi6e8GymIj0puMYhEDjMCDTYT//QpdvBdMWyqVfSh4Na0xnYKvgbYHTWLtYHXmYc6MvRmixROnJOG6rLFUmnh+TlyLmaUU8=
+	t=1785108612; cv=none; b=Y7ItbLgtZx3lTyAD44bUIs5AanvqWfXBnHA72V83y2GqHPi+G26DmGPTbRaJXz2GcYcBswhDLRyi0xDNxO+EkvbKwwJ6Xdv6FoOjTlp6RCj9+umucfnDB9u5UOOavctShu2UFU/Zxw+kxG6Dibyc+qpf6WDJeKsgGDSLlMaoI4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785064568; c=relaxed/simple;
-	bh=2DgdTk5/8QCZu/Twf5U9Umbtjfbv0js3EcPQ4Lj7Iec=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Jssf38/4hvUllVnTM010zsy9PzRlhQ/2iqtrm4e5DHqB8QKJR+Mcuh8bglEQRueBrx3kAx67yWBpTZbEWEux6CGlt3gXzQ8oKwaG/bDV/74UWrrjNFFzLDNF9AJCTS8tFPRRe1Nr21uH4h7kWP2ASZhRd9lUCy5UcCgRsKOT2Ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sbur6d0l; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785108612; c=relaxed/simple;
+	bh=6xV4GJITgK9DJkU8ZJnUhE5P0Gb8xfybThNB26RMQsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gEfcKxz/htqBSzru9v9DUAVoLo4JpIIbG+1f/uvxvYiOM9y+EdVVCmHTtQ2qWi82y6CGUjfa8J7RDjSSZQBz98O3ZhnvFIHAJ0ywBNoqNXWJbKfqHSGtMe6J+9eAxgYGXi1eYQFLrmyJd1JPTcXKdJka5wHqDBINQ9JIlRvz44I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RtCdlVVd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sbur6d0l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785064565; x=1816600565;
-  h=date:from:to:cc:subject:message-id;
-  bh=2DgdTk5/8QCZu/Twf5U9Umbtjfbv0js3EcPQ4Lj7Iec=;
-  b=Sbur6d0lnT8bgp91Vvnx/iF5aSzEjR28QeIE7f5Rlu1Jj2ce7sJ4Ws8E
-   mdbF2OUSdN/NDkeEOFV9F6+kleXkZHYFkb3i8O2TghIQbjeDk3jQbUEPS
-   d+GlhjFikbQySTqB8W3CDcth28A+WNU9uVJEkEC/r9q6MC5EFoI1u0VG7
-   MZ8htNA/fQz9KjV5e3N8MaGoNPfbCJyFMSp/VHAjFzDxWbgbWBeBQfw+P
-   rgh1YyidXrG3FyZCpnZX8BEzmj6L5e0TXC9LKgrFazOlInpTyYD/tOMMU
-   3LtnZnZJp6jBaFXuljcloi0KXWgj3A7hrdNrNsTMPm9QuYVoZO5sP5U9u
-   w==;
-X-CSE-ConnectionGUID: uv1F9pp+SS+JZHqmxf6p/w==
-X-CSE-MsgGUID: R9ulPU59TNW7ZHI8UW9I1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="97172879"
-X-IronPort-AV: E=Sophos;i="6.25,186,1779174000"; 
-   d="scan'208";a="97172879"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 04:16:04 -0700
-X-CSE-ConnectionGUID: 6rJv32zkSnmnwwS4Udl7vQ==
-X-CSE-MsgGUID: 2lbJgFx8Ssic1JMG3vCGYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,186,1779174000"; 
-   d="scan'208";a="282484412"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Jul 2026 04:16:02 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wnwpl-00000000cUe-2SWn;
-	Sun, 26 Jul 2026 11:15:54 +0000
-Date: Sun, 26 Jul 2026 19:15:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrea della Porta <andrea.porta@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Rob Herring <robh@kernel.org>
-Subject: drivers/pinctrl/pinctrl-rp1.c:343:39-40: WARNING: Use
- ARRAY_SIZE
-Message-ID: <202607261949.XhxCx28Z-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RtCdlVVd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 328251F00A3D;
+	Sun, 26 Jul 2026 23:30:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785108610;
+	bh=SIRBAupJ4CWfp9gil41OP9lpGcXQgkWuzOXj+vDV42I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RtCdlVVdowMzbn8oWVqIY8bNW2ue9gqKctalXY53yLM3qYgfh2xgf4R9yuoZVi2c6
+	 a+4k/Eq2a6ENEJkpL/pe4pLLXdMNA4DyhpDHpjiG7dihea/a/ESQwk/NyrkQvGgh6S
+	 ts5OVVIpWajZmG4+ROmSYS6vDsJDoVMt9rdlswTbGzliFHXXkZGuo443PKEvHyCeij
+	 J1aMuFVaVVSUaON7d1tDr2/CadCobWPwk5rL9LOTVd5jLsPruiV1WUMSDKft/CjsCa
+	 lqEi3WflVJeYCIEEOWeO8Hzxwt9iHeSV9U0eJlHSgEALCZt82G+U+f2mm8uV53Wtpf
+	 yz2Ri/D6u4SMQ==
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 3FAE2F4006E;
+	Sun, 26 Jul 2026 19:30:09 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Sun, 26 Jul 2026 19:30:09 -0400
+X-ME-Sender: <xms:gZhmal7pWsDtWfr_tyDdEok55kc4ph6vuakyQywWvlpQnSXfujD8yw>
+    <xme:gZhmalLV1TkvYIYqkCt9gIGUXuNQYxYQCxpLi06D2_Tz5_o49uKoWlz61YbGSF2wf
+    1DVKBSCdDrUqV6KciltYG0blrjusguRcMdRo2Qcfaw13vM6izVtkw>
+X-ME-Received: <xmr:gZhmautbj2wRHo4lmT41B6yGgQFq__oxMLx0SBsfh2WbnslqWWOhx6XPhQ>
+X-ME-Proxy-Cause: dmFkZTEbsb2OqAjujPLW+jvGUueQhwPa8QvsH9eeLSdvuRT/ax7yC8NVTwBljLEaaUBAXf
+    okrPcWFWtSuXxZlW+xH3WbjGesfK0no/fvHHSpXDxuivil383AGyvWFmNIqoTgevN48v3k
+    7vMebKR1j7wdY/DNyrpDMRlcbpI+XXijjtZfm3u9xlwNTTCuDBiOuztybsMyt8RsTDNi2V
+    M03ctdviaMixKXsmPHYm1a++raYd1ZGhjA7H12hKiCytZrbQL0K21pH/M8r062kdsj5p5X
+    htpEbQ15kEGc/OtUOUu8svBVOojwETfI/Z7ig5w8i1b8Z/idcyEK3QiwYJ+J4w1PMQdrq0
+    Y5lzLDkJnf9ROPc+MNYvdW54vY/nQ0N/HemSkHMCKAVDKFyq6fDJen/oQ8sDSk7UwAMPzg
+    /1qmwxxCPVRt1+eZLpxMb3d9gZbkDTa23uxLGsYtQbJVa9hGO+MFcxKv6SyjlTx11z3a7n
+    M2Md1GRpzkDJNNyfIha09j5iqZ/I+k+elJO6qT3SbmpbaZEi3BxJEWlJmSufFMXL+Nq4xT
+    B/kbKyZ4b4q2QnXVwTVzTQNsVI+sc/srLDzu/3JPv78ysv/GSIXr3qRbD5ICT7HC33R53V
+    0yS9NVz50srBjKyok00Kj2zHyBY21zmzTjnqVcRPxVMji/3yXyVI/5XRVriQ
+X-ME-Proxy: <xmx:gZhmakKz8hrzg4mGka8ktoLDhOtjTNEHKZ8ytp652Jg24MW9bT9uFQ>
+    <xmx:gZhman9z8Eq2cKutJI6d6D9qN56SJsXziYD3qO2qrUkvQPnmNu6iaQ>
+    <xmx:gZhmatymht01RXTTvJpvFfgNWgemtaO2Yu9BCK6eMESPjaQuopGFbA>
+    <xmx:gZhmak4P6VqaB30gjoro9_MCHayCSJyevSpnOxfMm1h4bfs23qLHtw>
+    <xmx:gZhmak-TTGfgkTF2xYnaylB0g1IJaAXhYsBu8PR5j11e8fXUeNBRTn6E>
+Feedback-ID: i8dbe485b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Jul 2026 19:30:08 -0400 (EDT)
+Date: Sun, 26 Jul 2026 16:30:06 -0700
+From: Boqun Feng <boqun@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Philipp Stanner <phasta@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>
+Subject: Re: [boqun:rust-sync 19/24] warning: unresolved link to `rcu::Guard`
+Message-ID: <amaYfo35n4am1caP@MacBook-0RXW5>
+References: <202607251809.JZpaswzZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202607251809.JZpaswzZ-lkp@intel.com>
 
-Hi Andrea,
+On Sat, Jul 25, 2026 at 06:22:13PM +0200, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
+> head:   6f6629ab2185d27cbc65d7d85908159b1293c082
+> commit: f27758ba5f0adefa226d8fc91c73e2300cf97ca9 [19/24] rust: sync: Add abstraction for synchronize_rcu()
+> config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260725/202607251809.JZpaswzZ-lkp@intel.com/config)
+> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+> rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260725/202607251809.JZpaswzZ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202607251809.JZpaswzZ-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
 
-First bad commit (maybe != root cause):
+Thanks! I've fixed in my tree.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0ce37745d4bfbc493f718169c3974898ffec8ee7
-commit: ce26f588c8310e0fdd1bc7524a86fdf0ef6b1c85 misc: rp1: drop overlay support
-date:   7 months ago
-config: powerpc-randconfig-r051-20260726 (https://download.01.org/0day-ci/archive/20260726/202607261949.XhxCx28Z-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 16.1.0
+Regards,
+Boqun
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: ce26f588c831 ("misc: rp1: drop overlay support")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607261949.XhxCx28Z-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/pinctrl/pinctrl-rp1.c:343:39-40: WARNING: Use ARRAY_SIZE
-   drivers/pinctrl/pinctrl-rp1.c:444:33-34: WARNING: Use ARRAY_SIZE
-
-vim +343 drivers/pinctrl/pinctrl-rp1.c
-
-e3ce7b897388339 Andrea della Porta 2025-06-24  339  
-e3ce7b897388339 Andrea della Porta 2025-06-24  340  #define PIN_ARRAY(...) \
-e3ce7b897388339 Andrea della Porta 2025-06-24  341  	(const unsigned int []) {__VA_ARGS__}
-e3ce7b897388339 Andrea della Porta 2025-06-24  342  #define PIN_ARRAY_SIZE(...) \
-e3ce7b897388339 Andrea della Porta 2025-06-24 @343  	(sizeof((unsigned int[]) {__VA_ARGS__}) / sizeof(unsigned int))
-e3ce7b897388339 Andrea della Porta 2025-06-24  344  #define RP1_GROUP(name, ...) \
-e3ce7b897388339 Andrea della Porta 2025-06-24  345  	PINCTRL_PINGROUP(#name, PIN_ARRAY(__VA_ARGS__), \
-e3ce7b897388339 Andrea della Porta 2025-06-24  346  			 PIN_ARRAY_SIZE(__VA_ARGS__))
-e3ce7b897388339 Andrea della Porta 2025-06-24  347  
-
-:::::: The code at line 343 was first introduced by commit
-:::::: e3ce7b897388339b407d57969acaa26063e38209 pinctrl: rp1: Implement RaspberryPi RP1 pinmux/pinconf support
-
-:::::: TO: Andrea della Porta <andrea.porta@suse.com>
-:::::: CC: Florian Fainelli <florian.fainelli@broadcom.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> >> warning: unresolved link to `rcu::Guard`
+>    --> rust/kernel/sync/rcu.rs:57:9
+>    |
+>    57 | /// a [`rcu::Guard`]) at the moment of the function call to finish.
+>    |         ^^^^^^^^^^ no item named `rcu` in scope
+>    |
+>    = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
