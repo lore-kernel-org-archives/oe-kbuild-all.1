@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D7F3C456F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 06:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AB93CC7FF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 06:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785133431; cv=none; b=rEkOiXPW/07Z97E9Ct8ufDyWE2N6iwZDk7BSG/wRIfrahaX3jIqbCWSUFcGBK3RouEStQlkIX2ORONeC6DjaZnzb8DJtY6ikEnfIGB6+fCxyQUmO8eGP+z7nvXwp4DPuYMVG8drurgdR6VpXw5uJBMHnjJuzwf1Eoi32O1gWKJc=
+	t=1785133492; cv=none; b=IZmK2jPJB1OLUgGUq+ajxp6r7/d+Hw3qRsedtuad2CUShV0GTmPTNrPhblo18cYxSy69faUdDrFguUPusiwxKhlwmQFUtmYYbAkrG0/Flhr/4a6Nz7wm2/zSjSUtU6iQSmsN7piZIQXy9t5w3okymooqSv0x4sIENrZVjyMqMQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785133431; c=relaxed/simple;
-	bh=rGc1yIU8OuyNJdYN8VTSRlidpeqzu72W8BfJ06+erMs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JjhUdBxjG8Uzna4Jd+fvHDmnhVFoWMTXY5BcI3gnVpVdDZc1JgJJC+gZxqIugRfiuX41/m0uARn5df10tyddtqvBKQlAXN54Ay1GyTfMk4Ii7D03SB8bv6HgBQutpCXdSlpukhUUZX/wSLb/E2pj+eGiCwVtC7cumi0FAThN9b8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=izI649+/; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1785133492; c=relaxed/simple;
+	bh=DBjVVkA5nSpONDCfTS7gqYYDU+hKdke3rZQCepkASlE=;
+	h=Date:From:Cc:Subject:Message-ID; b=MqiiFOaKfSN6T7gB1cJ+wymA6RemHy1RinmX3ObsQERwbf5NUmF/fUTYd9XANv0MSI/1NCnBj8ZYrxwUL3NW+PPCb8NoGsNSP5G+otpTvIlB84nRKR3zrurCUqyh7hUtFemhFrhAzafPhCP7qqq4cOtDxw6I1akeRI3IA9HwaMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEnLn1KK; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izI649+/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEnLn1KK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785133427; x=1816669427;
-  h=date:from:to:cc:subject:message-id;
-  bh=rGc1yIU8OuyNJdYN8VTSRlidpeqzu72W8BfJ06+erMs=;
-  b=izI649+/FesfnxXlvQsw8hlPAlP6JgheymqM6UcVWp5dsv6WWheW1pvn
-   tkj/vo6HsBR4nWwxZHaTYNUiRkst+ejv0T9Qleww2fjsoZQ0yihUe03pE
-   6GWmdHilOKNvghX0/xfoQCPD4Uottu0tJIzY8AoWnrJ33mYdWb8qQ7LFT
-   NxcNYpfev6LjnbM8jNu1Z1bP89USx4MRD3kBBQ0nStnIuuOBVtIRSP5c1
-   YYC3v/fk0ocbL1tBpI/WOhmr674tV3o36Cn/VLXtc93eDGfm7h4bkYuCO
-   w6RLaveSPL8WE0pVR93flTLmpaPuI32+nsMf9kRRr4dNeeHCZiomkp9lR
-   g==;
-X-CSE-ConnectionGUID: goEnJJnNRoeV+l3P5jRVuA==
-X-CSE-MsgGUID: l+qeGRv1QCC06l3lHixX7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="97209782"
+  t=1785133489; x=1816669489;
+  h=date:from:cc:subject:message-id;
+  bh=DBjVVkA5nSpONDCfTS7gqYYDU+hKdke3rZQCepkASlE=;
+  b=YEnLn1KKiG1RcRXrtrlxBSJklGqRchhrAGRjry2SR3d4vFpMT9hxWlyV
+   7gqb3uUB4rGgOtQyQ6xJVN6iv7iuFNslBWGbX92MIOzcmt0ccWn45lcZM
+   IrOARcsh6yICYOpwbhiy7/dNwj/g+axidieEZnbJy+2niofs8Nomq1/VT
+   vx25FfDzR7ZeJoTQjgqSvmCpurWEv8V5OLLPbdEir0yUVOm+giuxYjYhF
+   bpMwKbUbwfYIoogt1E3To/Rn1tVG7tlZ5tGUrKIS7zzUZmDIBG9pUoBdf
+   CtEI8YBCV8tot1cFQA2cMUdM7Yh/lkLjbYSv+lN403uIME3VbaK6rdtiq
+   w==;
+X-CSE-ConnectionGUID: WVqv1zeyQZGIXVfy/kv35w==
+X-CSE-MsgGUID: hkTEemGKTuqwiMcszGTwKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="96355307"
 X-IronPort-AV: E=Sophos;i="6.25,187,1779174000"; 
-   d="scan'208";a="97209782"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 23:23:44 -0700
-X-CSE-ConnectionGUID: Wx/IMu+4QP++nv8liUhvXQ==
-X-CSE-MsgGUID: g3wHoQXJS7qxYAV6zXj8eA==
+   d="scan'208";a="96355307"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 23:24:47 -0700
+X-CSE-ConnectionGUID: 0QQHoJHoRHiNDFxuY8Dtbw==
+X-CSE-MsgGUID: gNIjhwFgQd+Qef4eIytBQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,187,1779174000"; 
-   d="scan'208";a="282657272"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Jul 2026 23:23:42 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="256661144"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 26 Jul 2026 23:24:47 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woEkV-00000000d10-20DY;
-	Mon, 27 Jul 2026 06:23:39 +0000
-Date: Mon, 27 Jul 2026 14:23:04 +0800
+	id 1woElY-000000001Xe-3mZg;
+	Mon, 27 Jul 2026 06:24:44 +0000
+Date: Mon, 27 Jul 2026 08:24:34 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jan Kara <jack@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>,
- Christian Brauner <brauner@kernel.org>
-Subject: [brauner-github:vfs.all 224/271] fs/bfs/inode.c:180:48:
- error: 'struct inode' has no member named 'ino'
-Message-ID: <202607271427.VTf9zUoq-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [xinli-intel-fred-public:pr/1 1/1] checkpatch:
+ WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+Message-ID: <202607270804.00idARlw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,51 +58,17 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/brauner/linux.git vfs.all
-head:   000710393edad9c9974ee19ce0e95459137b3c3b
-commit: 763d78b5dbba67952960a5f40ad15518c79fae86 [224/271] bfs: Fix data integrity writeout issues
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260727/202607271427.VTf9zUoq-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607271427.VTf9zUoq-lkp@intel.com/reproduce)
+tree:   https://github.com/xinli-intel/linux-fred-public.git pr/1
+head:   f64bcba190b37131571dea0b8e0df0ed251a2e99
+commit: f64bcba190b37131571dea0b8e0df0ed251a2e99 [1/1] KVM: selftests: Add FRED event data migration test
+reproduce: (https://download.01.org/0day-ci/archive/20260727/202607270804.00idARlw-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607271427.VTf9zUoq-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-All errors (new ones prefixed by >>):
-
-   fs/bfs/inode.c: In function 'bfs_sync_inode_metadata':
->> fs/bfs/inode.c:180:48: error: 'struct inode' has no member named 'ino'
-     180 |         di = find_inode(inode->i_sb, (u16)inode->ino, &bh);
-         |                                                ^~
-
-
-vim +180 fs/bfs/inode.c
-
-   172	
-   173	static int bfs_sync_inode_metadata(struct inode *inode,
-   174					   struct writeback_control *wbc)
-   175	{
-   176		int err = 0;
-   177		struct bfs_inode *di;
-   178		struct buffer_head *bh;
-   179	
- > 180		di = find_inode(inode->i_sb, (u16)inode->ino, &bh);
-   181		if (IS_ERR(di))
-   182			return PTR_ERR(di);
-   183	
-   184		sync_dirty_buffer(bh);
-   185		if (buffer_write_io_error(bh)) {
-   186			err = -EIO;
-   187			goto out;
-   188		}
-   189		err = mmb_sync(&BFS_I(inode)->i_metadata_bhs);
-   190	out:
-   191		brelse(bh);
-   192		return err;
-   193	}
-   194	
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#347: FILE: tools/testing/selftests/kvm/x86/fred_event_data_test.c:192:
++	/*
++     * Map the stack page in the guest page table but do NOT back it
 
 --
 0-DAY CI Kernel Test Service
