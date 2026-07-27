@@ -1,64 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76D2322C67
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 08:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9443ED3CC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 09:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785142674; cv=none; b=TUDduvhV75jRFOObi0unnCkqtyQ5sbgZWcWvELPVdd99swDyC3YqBdd1+TxdkJbZD0M8nRaRS45BfMV57LNtrvIMchkQiFApg6LhpghSTS7apWoqw1uO2jkhA2dxmIKxyrjliQ1HAkFnLGljgzRso9AC4IiOZhpFFmsGkg+OirE=
+	t=1785144347; cv=none; b=mmIWx9DCP4+sq1cYEg4+AWIyGtqpgZcILxnRikWwlJ2vAGrtiVvqafOrx8NS/hiXcqAWHx3e1uQCtNVA+rrkYCh93/0JJc5pqheNECfOU7fYK6OrnA+ArbYTpHoOEPVWxWwdiI9I9GkXC2llte+MHD/G+Y8qXdv8eAc2EyvWUGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785142674; c=relaxed/simple;
-	bh=mxpP9sPzkaYZexQunonZZ90WRjtP2+ZYEK6ntiR06rQ=;
+	s=arc-20240116; t=1785144347; c=relaxed/simple;
+	bh=fXcHZndGpDuRPAU/M0K/xrc8q4z5CwSiEM6/Dma01TY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vwg4gVPvJsZTpE2k1RdO7skaVrLC2XvWSu/+nR/OgLtW+3u2tXXi5ZNYMiLED4nwWLAg/mvAlALksr2EfTMdE9S5q7anijZM5cbbgarN+pTITVVPdpA1xX5vTY4o0C7qbdoh8mFRMIR6K8hnCMlv4InWIx/ZU05+53MiHkrf9Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEhqtWA6; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LvNDFsTclDfRKx76HskB1nJv5jhbbaOE+m4h4Ux+/XZnkUrSFtNZy8nee9cBmSlp03TwxXThmqCIyy1pa194DIX8/H14Ozhv8vqmJ8QPZeYRWPgzUpLiM+NFWnQZVJbLfaN5fImJdZoeLb7wmV9z8n3V19cO2E6TF5FY7qBWhIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a7xMnQRN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEhqtWA6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785142673; x=1816678673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mxpP9sPzkaYZexQunonZZ90WRjtP2+ZYEK6ntiR06rQ=;
-  b=IEhqtWA6yj6YVUetwBlGt6VcAF/e/OdXoLAL6uIgyWSvHhMoKin7yUDt
-   lYqLJ+nlGuDmXV2mOduk8h688i2sWtZLgEG4JC2FDCUCqpExYfLIJWodo
-   cxEP1IY4KbeQ/6QEYzTQ6KSZoxRCYj+LPRHBiWXJx5Tbdyq/LT63o0oyS
-   afuVufbflEBf9jbcm7FEvUEDf6YjKEhUwo9svNH/KGuiEjHby56851tBH
-   4H/MXaknw9cLDy4sAVQmO4B0uVOKnZkN+bqsGqPzI1WtxWT7RHTEkflPL
-   PGNrYNQpwD5LalVbO6kw2oqghQTXY2mdgFiHtLV1zi2aA4CFkP+cHriOh
-   w==;
-X-CSE-ConnectionGUID: 5cXQpuHATy67fZqCBOVkfg==
-X-CSE-MsgGUID: S7e7uPzRQU6jtN42feDJkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="108501653"
-X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="108501653"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 01:57:53 -0700
-X-CSE-ConnectionGUID: zpKmsKZ+SX+xdZipXCDNXQ==
-X-CSE-MsgGUID: 3azGLN+mQri82v+vZegZlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="257568330"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 27 Jul 2026 01:57:51 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1woH9g-000000001YE-1ZVi;
-	Mon, 27 Jul 2026 08:57:48 +0000
-Date: Mon, 27 Jul 2026 10:57:25 +0200
-From: kernel test robot <lkp@intel.com>
-To: jipinghuang <jipihuan@qti.qualcomm.com>, rafael@kernel.org,
-	daniel.lezcano@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, rui.zhang@intel.com, lukasz.luba@arm.com,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jipinghuang <jipihuan@qti.qualcomm.com>
-Subject: Re: [PATCH] Fixed a bug related to thermal framework boundary
- conditions: trip points do not need to be updated when polling is active,
- whereas they must be update to re-enable the irq when polling is inactive
-Message-ID: <202607271036.K1hH4r4a-lkp@intel.com>
-References: <20260727035037.554303-1-jipihuan@qti.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a7xMnQRN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F37F1F000E9;
+	Mon, 27 Jul 2026 09:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785144345;
+	bh=ZeOjwA9t/b3Je6sX4+S34MGC+EZsj/Dlu+d1YmsigK0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=a7xMnQRNYEjbJw6KtqPchvYngvNf1Pq+80yK44ek3q6dMBlnVTUMfEAk2UlbqQqcL
+	 0LwDDPxGbxE4DXPia/2e0uQMj4tgZO8o9VtgjKYDpagu3gFKElCuP/RlvJjzDoViHb
+	 5BxDkTfxMxaQfCgc1YplUlaMG8CXW6C2nahYaQvZMOvhqjB12Ndj7lE6kiC1pEHVJT
+	 R8lW1dq94SxIUW2WRIVZSVw88qVuhleHLy2Ar1qdprqVataBG+r02CjRqq77YHy+Kj
+	 2qlKUkdHz+eOJcaFMKCgQkbAmhdSBl9+7tYrqevWpuOwi/im3xTdLzxX8dIEnUwbrd
+	 2f3DjM7x3iheQ==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 541EFF40071;
+	Mon, 27 Jul 2026 05:25:44 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 27 Jul 2026 05:25:44 -0400
+X-ME-Sender: <xms:GCRnapGpc8G8xDRocQsk1V4NnQxQLcLPYcf2OiQ3D23_R2pKR0WB1Q>
+    <xme:GCRnakv3raqEs8kjfcEwegfIIQti1zpVtkK7VNyJwbYX_YQX-Inm1hEeaqpz0WLaA
+    2WZx-r-BB91NYRhxFded897CJ1Ex3t7Y9UV0aYHUMsshhMM7_-1Dl0>
+X-ME-Received: <xmr:GCRnanbOU3goIgvfrUSMn91hz3Tgz7IjKbfG26Jg2KjrNibIlkJZDc_rHZsamQ>
+X-ME-Proxy-Cause: dmFkZTFpz/2JwI3MEXG1r/8nVb0TskSPs5i5gwuz69w9zqKCiMODWqD60GWIWd5xHt/GZz
+    bEbmj/+Nb4XsL7rjWvsbd9bBkjopeMZJ7iCxp/cJrc+IFwkUZga/gpEn29PO0vp6MEmCwl
+    ySzOJSwLInVs3aLv0ytRjnlnSKgHSwjomHDpYveKe3nTS+vLW0t27dd2KRGUs60uBYfZ3l
+    6aJ/GBJEiQqNr/IAa8VlUbTZuY15ia5GNA1tylLuM0utfROe0pUUFNs6zhwRgRloHEAPve
+    BPEiJ2KMYZMiKNLOFf0xUrk0Jg62fbtDDFJMFsSnPJWyG/hK8ru3JrO9ek79XqD+q6SdX3
+    oDfnzh/sD/fYbG+CEVxajND+2TNiYEJVnYivTVv/I25ZTAXb8KF+9Y8X5k3FUAjQcu8D3l
+    hZjHLrxGiN1pAQc22AROxH5Kyi2Wf56D3P/cGZ0HeRN3lkG976U7RaKqk+RmCNCCM5NeLG
+    BDV3BA8RhBkRKe2mSzwRJB5v43Fie+LvJdK3ckZMz2524HnG9woiyRx8IS3VB6hgGk+BAE
+    zwqa9YEfIcckuiOQ6XsXPJnRah+AhH/FabWzaraqSMHyqphdLfc3FYckX+j2YwG+iVg9UM
+    rW3RMh4rMl16gvYCWbXS6CEf5EOQ9vIb9LWQ/i/7calq9lPxIFihCXNjqixg
+X-ME-Proxy: <xmx:GCRnas6LYpUbLUlyP6VW-DyPxZcUDih5fQYS6UtiEaK4Fh6TH4MU1Q>
+    <xmx:GCRnan-lYkMIlObNIiPFUK2JXtMlTthajeu8LjGiQTGg0qOXLiwY6A>
+    <xmx:GCRnagbdbhLPMvj-n7xHdPveFxNzSUFDjVoN3D4cta9xEvAR2ui9tg>
+    <xmx:GCRnao5iPePR4OZ8C-R-ozBenHeVqFkmJk684yuGlZSS9H3HYu46Qw>
+    <xmx:GCRnatl9XITxj_x5Ff4qP1m4b73vz80sg-nYZSI3FQgdFT6LZ9RALAuq>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Jul 2026 05:25:43 -0400 (EDT)
+Date: Mon, 27 Jul 2026 10:25:42 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	David Hildenbrand <david@kernel.org>, Linux Memory Management List <linux-mm@kvack.org>, 
+	mm-commits@vger.kernel.org
+Subject: Re: [akpm-mm:mm-unstable 340/601]
+ include/linux/compiler_types.h:702:38: error: call to
+ '__compiletime_assert_501' declared with attribute error: BUILD_BUG failed
+Message-ID: <amcitKvUvFYr8W38@thinkstation>
+References: <202607250853.VaJWGLeA-lkp@intel.com>
+ <20260725195108.3f31c2641b0689d344e55400@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,72 +73,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260727035037.554303-1-jipihuan@qti.qualcomm.com>
+In-Reply-To: <20260725195108.3f31c2641b0689d344e55400@linux-foundation.org>
 
-Hi jipinghuang,
+On Sat, Jul 25, 2026 at 07:51:08PM -0700, Andrew Morton wrote:
+> On Sat, 25 Jul 2026 08:56:41 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> > head:   c04df384b55dd9dcf72c36b661becb5aaba371a9
+> > commit: d2aed7c02fafacb9d055a2f683ac12e977ef16e0 [340/601] mm: preserve RWP marker across PTE rewrites
+> > config: sparc64-randconfig-r134-20260725 (https://download.01.org/0day-ci/archive/20260725/202607250853.VaJWGLeA-lkp@intel.com/config)
+> > compiler: sparc64-linux-gcc (GCC) 8.5.0
+> > sparse: v0.6.5-rc1
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260725/202607250853.VaJWGLeA-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202607250853.VaJWGLeA-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    In file included from <command-line>:
+> >    mm/huge_memory.c: In function 'move_pages_huge_pmd':
+> > >> include/linux/compiler_types.h:702:38: error: call to '__compiletime_assert_501' declared with attribute error: BUILD_BUG failed
+> >      _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+> >                                          ^
+> >    include/linux/compiler_types.h:683:4: note: in definition of macro '__compiletime_assert'
+> >        prefix ## suffix();    \
+> 
+> Well dang.
+> 
+> I can't reproduce with sparc64 gcc-15.2.0. 
+> Documentation/process/changes.rst says we support 8,1, released in
+> 2018.  Your 8.5 was released in 2021 so perhaps three other people are
+> still using it :(
+> 
+> https://www.kernel.org/pub/tools/crosstool/ doesn't appear to have
+> sparc64 gcc-8.5 so I gave up.
+> 
+> So I dunno.  I'm inclined to ignore and assume that if someone else hits
+> this one day, they'll either fix it or provide us with enough details
+> to figure it out.
 
-kernel test robot noticed the following build errors:
+I cannot reproduce it either. Maybe we can help compiler to derive that the
+code is dead?
 
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on linus/master v7.2-rc5 next-20260726]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+-- >8 --
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Date: Mon, 27 Jul 2026 10:16:11 +0100
+Subject: [PATCH] mm: fold userfaultfd_rwp() to false without
+ CONFIG_ARCH_HAS_PTE_PROTNONE
 
-url:    https://github.com/intel-lab-lkp/linux/commits/jipinghuang/Fixed-a-bug-related-to-thermal-framework-boundary-conditions-trip-points-do-not-need-to-be-updated-when-polling-is-activ/20260727-115235
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20260727035037.554303-1-jipihuan%40qti.qualcomm.com
-patch subject: [PATCH] Fixed a bug related to thermal framework boundary conditions: trip points do not need to be updated when polling is active, whereas they must be update to re-enable the irq when polling is inactive
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260727/202607271036.K1hH4r4a-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607271036.K1hH4r4a-lkp@intel.com/reproduce)
+RWP tracks accesses by installing PAGE_NONE (protnone) PTEs, so its code
+paths are gated on userfaultfd_rwp(). Without CONFIG_ARCH_HAS_PTE_PROTNONE
+there is no PAGE_NONE -- <linux/pgtable.h> defines it to a BUILD_BUG()
+stub, relying on callers folding such paths to dead code via
+IS_ENABLED(CONFIG_ARCH_HAS_PTE_PROTNONE).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607271036.K1hH4r4a-lkp@intel.com/
+userfaultfd_rwp() was not a compile-time constant, so the compiler could
+not fold those paths. With an older compiler (gcc 8.5.0, sparc64) the
+PAGE_NONE reference in move_pages_huge_pmd() survived to codegen:
 
-All errors (new ones prefixed by >>):
+  mm/huge_memory.c:2874: _dst_pmd = pmd_modify(_dst_pmd, PAGE_NONE);
+  compiler_types.h:702: error: call to '__compiletime_assert_501'
+    declared with attribute error: BUILD_BUG failed
 
-   drivers/thermal/thermal_trip.c: In function 'thermal_zone_set_trips':
->> drivers/thermal/thermal_trip.c:64:90: error: 'trip_temp' undeclared (first use in this function)
-      64 |         if (tz->prev_low_trip == low && tz->prev_high_trip == high && tz->temperature >= trip_temp)
-         |                                                                                          ^~~~~~~~~
-   drivers/thermal/thermal_trip.c:64:90: note: each undeclared identifier is reported only once for each function it appears in
+RWP cannot exist without protnone, so return a compile-time false when
+CONFIG_ARCH_HAS_PTE_PROTNONE is unset; every RWP path then folds away.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+---
+ include/linux/userfaultfd_k.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-vim +/trip_temp +64 drivers/thermal/thermal_trip.c
+diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
+index bfbd6a59909f..0ce438ec294f 100644
+--- a/include/linux/userfaultfd_k.h
++++ b/include/linux/userfaultfd_k.h
+@@ -221,6 +221,12 @@ static inline bool userfaultfd_minor(struct vm_area_struct *vma)
+ 
+ static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
+ {
++	/*
++	 * Callers gate PAGE_NONE usage on this; PAGE_NONE is a BUILD_BUG()
++	 * without CONFIG_ARCH_HAS_PTE_PROTNONE, so fold to false.
++	 */
++	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_PROTNONE))
++		return false;
+ 	return vma_test_single_mask(vma, VMA_UFFD_RWP);
+ }
+ 
 
-    53	
-    54	void thermal_zone_set_trips(struct thermal_zone_device *tz, int low, int high)
-    55	{
-    56		int ret;
-    57	
-    58		lockdep_assert_held(&tz->lock);
-    59	
-    60		if (!tz->ops.set_trips)
-    61			return;
-    62	
-    63		/* No need to change trip points */
-  > 64		if (tz->prev_low_trip == low && tz->prev_high_trip == high && tz->temperature >= trip_temp)
-    65			return;
-    66	
-    67		tz->prev_low_trip = low;
-    68		tz->prev_high_trip = high;
-    69	
-    70		dev_dbg(&tz->device,
-    71			"new temperature boundaries: %d < x < %d\n", low, high);
-    72	
-    73		/*
-    74		 * Set a temperature window. When this window is left the driver
-    75		 * must inform the thermal core via thermal_zone_device_update.
-    76		 */
-    77		ret = tz->ops.set_trips(tz, low, high);
-    78		if (ret)
-    79			dev_err(&tz->device, "Failed to set trips: %d\n", ret);
-    80	}
-    81	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+base-commit: 505f6bc5c6c6db7d6390ea33c4e2ab44379e6f49
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
