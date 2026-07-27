@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA743DAACB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 06:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656E23546D6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 07:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785135352; cv=none; b=Usx1ajx8wGLg/iO4beHB8t3eewAYn6ZlnE2eUhMFlUdtu2wPJHL/7ZljGClmo2CxlM3f/QLlmnNSCc0+rRK5HbS5MTC38wY7swkmpjphM0dvz4EORCwpSEwg6tqReijpPrqqWokroFvrA8l70I2HOCln5d5A0vrpFGSZ5/1GZRc=
+	t=1785136069; cv=none; b=UxUHoOI5NMtAat15vipUEvoDIMDUedhJe2WQse5yCMYSAYnVFRuVztlKSPNE0QVzx0GEIa68X/rOsFZsqYyJcrEoFWPYUadzExPpgIUGoWqW7WdhJF9uVY9wy1lPdk8yySpsTPf7Xs8LJAOxto4m6PaMMtROaErJgXHDrbA0zug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785135352; c=relaxed/simple;
-	bh=yf/wmBSvZ6rKWzfjbGGIl/bqQkl0fCjPvjAnw2NNjy4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NX0HspHVRB5vcKt0dZ/q4KZws1qLcBiu3KQ1GTveCDIY/EuLA7rAg3PBlC8No3CSw1k6xMEJ0WvfWoxcmXfvOB2vaP4/mr/bjKsg3U8FYLpebQtuqPkQl4RBanKzr8H4LmM2gEv0AWL/EhyV7OXRXis7IZmsOqjOJXrJuhXAD20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZzow/3S; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1785136069; c=relaxed/simple;
+	bh=IzVFBz2ouinBgxQKOFDaebe4iVmMu6/JxigZLaZVRSc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q8ggcxgIlZrW+Sv8ZzVpCUpgNeD93LMgUbbN1g1z04uPJ5GZjXQctS4y+AnVMeqAxJ84CKZaHOSqsozD7Sq6nXoNNaOHQSR0OxM/yBQnd0UFA/w/5jtyM5wg9C8hJNmZRN8paw7a5ZSIzf8phHDWZwqFMAfTHq4WybwHYYxDyoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E8R8IB7P; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZzow/3S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8R8IB7P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785135350; x=1816671350;
+  t=1785136068; x=1816672068;
   h=date:from:to:cc:subject:message-id;
-  bh=yf/wmBSvZ6rKWzfjbGGIl/bqQkl0fCjPvjAnw2NNjy4=;
-  b=YZzow/3SXXnCrsYJPMtbxdq1PIbypqMmBZOu325wB/FBd3a6hzzVXgb0
-   w4fn0TkW8+Tobp3oQ/5YaDX2ItGsUVm0LeEHTl3l00DepEQXV1XkExN5z
-   Txp97JgDlA2MQFMJ2ODn0HVY55ElonRL8t1Y0d3GfotqdB8vR4+3LkADs
-   hc4LhSOm6grGTNTTsZfEnj+b9uggJt22g36YVwBB94++AuVa2MWERTBat
-   e4BHUgZOiyLpUnZLvvt7bniA9UPe+tS3ozZyKV4cfaFDEXzmU58yBrPu8
-   xejBhOm99zn6GuGfQs13mxRieAXB0mPV+GNEVghP+jOU7IwyK3iXXNqZF
+  bh=IzVFBz2ouinBgxQKOFDaebe4iVmMu6/JxigZLaZVRSc=;
+  b=E8R8IB7P+7qMQRfzgFO9Wsyx5s9k4OYbiMG/6albvf6nguiLqDXhXpgi
+   xI6/9nlbsfkUur4lhusrFw7GCHmWmQdbvC2i1qLaxAssce3VwpDJPS6vj
+   0o/Q7BypV6JnTcvUz2ylAXLCO+05yXr00My7mBA8v+IO7exALobHmYCzs
+   I0JnM3JPN3eeEpHKcYpMqHqQ4i0eJ4Q3a9TeBBkYS+oXySOPOMiwJcotS
+   VBeV77rze22lPiBvYdzevYT83b8qe/bZkDF28Ls/c+4UjoYz8Slk73RN4
+   QDyxAjsNSV8QioGtu9rU72K/uV1JPsfV1BbS6O7lAj4IjQzrqS21lIv+L
    w==;
-X-CSE-ConnectionGUID: 5SJuo5P3QnGitb8uC/r+AQ==
-X-CSE-MsgGUID: 1xo0FEsbRJC0Ejd+qWFD1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="85547576"
+X-CSE-ConnectionGUID: 8ndI++7lRouX/nM6P2PHyA==
+X-CSE-MsgGUID: xAzL10cxRfiZY0LnY19Y6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="84821224"
 X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="85547576"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 23:55:50 -0700
-X-CSE-ConnectionGUID: yNX1QHqZSPW3EUERvoO/Aw==
-X-CSE-MsgGUID: HosotmMQTh2J1XB76PZ4Zw==
+   d="scan'208";a="84821224"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 00:07:47 -0700
+X-CSE-ConnectionGUID: POO6o9d/QqOcrdekChJwFg==
+X-CSE-MsgGUID: PYSsKsKTQ0qkQ4jfv/E3xQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="263621101"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 26 Jul 2026 23:55:48 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="259400272"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 27 Jul 2026 00:07:45 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woFFZ-000000001Xu-24aG;
-	Mon, 27 Jul 2026 06:55:45 +0000
-Date: Mon, 27 Jul 2026 08:55:16 +0200
+	id 1woFR5-00000000d22-0Ol8;
+	Mon, 27 Jul 2026 07:07:42 +0000
+Date: Mon, 27 Jul 2026 15:07:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- Rohan G Thomas <rohan.g.thomas@altera.com>
-Subject: drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:759:40:
- error: 'struct plat_stmmacenet_data' has no member named 'has_xgmac'
-Message-ID: <202607270831.Vtbf2KFv-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrea Righi <arighi@nvidia.com>
+Subject: kernel/sched/ext/ext.c:7890 scx_enable() warn: inconsistent
+ indenting
+Message-ID: <202607271419.z9wpaqdd-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,232 +60,73 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/muhammad-nazim-amirul-nazle-asmade-altera-com/net-stmmac-Fix-E2E-delay-mechanism/20260727-102730
-head:   e2c5d928bebc00f481da4c3b8ccfa884cb36faef
-commit: e2c5d928bebc00f481da4c3b8ccfa884cb36faef net: stmmac: Fix E2E delay mechanism
-date:   4 hours ago
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260727/202607270831.Vtbf2KFv-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607270831.Vtbf2KFv-lkp@intel.com/reproduce)
+Hi Tejun,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0ce37745d4bfbc493f718169c3974898ffec8ee7
+commit: bba2c3615bd6cfee7456d1130f2e6b01b3f4e9ba sched_ext: Move sources under kernel/sched/ext/
+date:   5 weeks ago
+config: parisc-randconfig-r073-20260727 (https://download.01.org/0day-ci/archive/20260727/202607271419.z9wpaqdd-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 9.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: bba2c3615bd6 ("sched_ext: Move sources under kernel/sched/ext/")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607270831.Vtbf2KFv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607271419.z9wpaqdd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/sched/ext/ext.c:7890 scx_enable() warn: inconsistent indenting
 
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_hwtstamp_set':
->> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:759:40: error: 'struct plat_stmmacenet_data' has no member named 'has_xgmac'
-     759 |                             !priv->plat->has_xgmac)
-         |                                        ^~
+vim +7890 kernel/sched/ext/ext.c
 
+ebeca1f930eac8f kernel/sched/ext.c Tejun Heo    2026-03-06  7859  
+c97ce728bcc43ad kernel/sched/ext.c Tejun Heo    2026-04-29  7860  static s32 scx_enable(struct scx_enable_cmd *cmd, struct bpf_link *link)
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7861  {
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7862  	static struct kthread_worker *helper;
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7863  	static DEFINE_MUTEX(helper_mutex);
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7864  
+6ae315d37924435 kernel/sched/ext.c Andrea Righi 2026-05-13  7865  	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT)) {
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7866  		pr_err("sched_ext: Not compatible with \"isolcpus=\" domain isolation\n");
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7867  		return -EINVAL;
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7868  	}
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7869  
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7870  	if (!READ_ONCE(helper)) {
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7871  		mutex_lock(&helper_mutex);
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7872  		if (!helper) {
+2fcfe5951eb2e84 kernel/sched/ext.c zhidao su    2026-03-09  7873  			struct kthread_worker *w =
+2fcfe5951eb2e84 kernel/sched/ext.c zhidao su    2026-03-09  7874  				kthread_run_worker(0, "scx_enable_helper");
+2fcfe5951eb2e84 kernel/sched/ext.c zhidao su    2026-03-09  7875  			if (IS_ERR_OR_NULL(w)) {
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7876  				mutex_unlock(&helper_mutex);
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7877  				return -ENOMEM;
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7878  			}
+2fcfe5951eb2e84 kernel/sched/ext.c zhidao su    2026-03-09  7879  			sched_set_fifo(w->task);
+2fcfe5951eb2e84 kernel/sched/ext.c zhidao su    2026-03-09  7880  			WRITE_ONCE(helper, w);
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7881  		}
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7882  		mutex_unlock(&helper_mutex);
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7883  	}
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7884  
+ebeca1f930eac8f kernel/sched/ext.c Tejun Heo    2026-03-06  7885  #ifdef CONFIG_EXT_SUB_SCHED
+c97ce728bcc43ad kernel/sched/ext.c Tejun Heo    2026-04-29  7886  	if (cmd->ops->sub_cgroup_id > 1)
+c97ce728bcc43ad kernel/sched/ext.c Tejun Heo    2026-04-29  7887  		kthread_init_work(&cmd->work, scx_sub_enable_workfn);
+ebeca1f930eac8f kernel/sched/ext.c Tejun Heo    2026-03-06  7888  	else
+ebeca1f930eac8f kernel/sched/ext.c Tejun Heo    2026-03-06  7889  #endif	/* CONFIG_EXT_SUB_SCHED */
+c97ce728bcc43ad kernel/sched/ext.c Tejun Heo    2026-04-29 @7890  		kthread_init_work(&cmd->work, scx_root_enable_workfn);
+b06ccbabe2506fd kernel/sched/ext.c Tejun Heo    2026-03-03  7891  
+c97ce728bcc43ad kernel/sched/ext.c Tejun Heo    2026-04-29  7892  	kthread_queue_work(READ_ONCE(helper), &cmd->work);
+c97ce728bcc43ad kernel/sched/ext.c Tejun Heo    2026-04-29  7893  	kthread_flush_work(&cmd->work);
+c97ce728bcc43ad kernel/sched/ext.c Tejun Heo    2026-04-29  7894  	return cmd->ret;
+f0e1a0643a59bf1 kernel/sched/ext.c Tejun Heo    2024-06-18  7895  }
+f0e1a0643a59bf1 kernel/sched/ext.c Tejun Heo    2024-06-18  7896  
 
-vim +759 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+:::::: The code at line 7890 was first introduced by commit
+:::::: c97ce728bcc43adcc861375f48433ac7adfd4e2e sched_ext: Make scx_enable() take scx_enable_cmd
 
-   630	
-   631	/**
-   632	 *  stmmac_hwtstamp_set - control hardware timestamping.
-   633	 *  @dev: device pointer.
-   634	 *  @config: the timestamping configuration.
-   635	 *  @extack: netlink extended ack structure for error reporting.
-   636	 *  Description:
-   637	 *  This function configures the MAC to enable/disable both outgoing(TX)
-   638	 *  and incoming(RX) packets time stamping based on user input.
-   639	 *  Return Value:
-   640	 *  0 on success and an appropriate -ve integer on failure.
-   641	 */
-   642	static int stmmac_hwtstamp_set(struct net_device *dev,
-   643				       struct kernel_hwtstamp_config *config,
-   644				       struct netlink_ext_ack *extack)
-   645	{
-   646		struct stmmac_priv *priv = netdev_priv(dev);
-   647		u32 ptp_v2 = 0;
-   648		u32 tstamp_all = 0;
-   649		u32 ptp_over_ipv4_udp = 0;
-   650		u32 ptp_over_ipv6_udp = 0;
-   651		u32 ptp_over_ethernet = 0;
-   652		u32 snap_type_sel = 0;
-   653		u32 ts_master_en = 0;
-   654		u32 ts_event_en = 0;
-   655	
-   656		if (!(priv->dma_cap.time_stamp || priv->adv_ts)) {
-   657			NL_SET_ERR_MSG_MOD(extack, "No support for HW time stamping");
-   658			priv->hwts_tx_en = 0;
-   659			priv->hwts_rx_en = 0;
-   660	
-   661			return -EOPNOTSUPP;
-   662		}
-   663	
-   664		if (!netif_running(dev)) {
-   665			NL_SET_ERR_MSG_MOD(extack,
-   666					   "Cannot change timestamping configuration while down");
-   667			return -ENODEV;
-   668		}
-   669	
-   670		netdev_dbg(priv->dev, "%s config flags:0x%x, tx_type:0x%x, rx_filter:0x%x\n",
-   671			   __func__, config->flags, config->tx_type, config->rx_filter);
-   672	
-   673		if (config->tx_type != HWTSTAMP_TX_OFF &&
-   674		    config->tx_type != HWTSTAMP_TX_ON)
-   675			return -ERANGE;
-   676	
-   677		if (priv->adv_ts) {
-   678			switch (config->rx_filter) {
-   679			case HWTSTAMP_FILTER_NONE:
-   680				/* time stamp no incoming packet at all */
-   681				config->rx_filter = HWTSTAMP_FILTER_NONE;
-   682				break;
-   683	
-   684			case HWTSTAMP_FILTER_PTP_V1_L4_EVENT:
-   685				/* PTP v1, UDP, any kind of event packet */
-   686				config->rx_filter = HWTSTAMP_FILTER_PTP_V1_L4_EVENT;
-   687				/* 'xmac' hardware can support Sync, Pdelay_Req and
-   688				 * Pdelay_resp by setting bit14 and bits17/16 to 01
-   689				 * This leaves Delay_Req timestamps out.
-   690				 * Enable all events *and* general purpose message
-   691				 * timestamping
-   692				 */
-   693				snap_type_sel = PTP_TCR_SNAPTYPSEL_1;
-   694				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   695				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   696				break;
-   697	
-   698			case HWTSTAMP_FILTER_PTP_V1_L4_SYNC:
-   699				/* PTP v1, UDP, Sync packet */
-   700				config->rx_filter = HWTSTAMP_FILTER_PTP_V1_L4_SYNC;
-   701				/* take time stamp for SYNC messages only */
-   702				ts_event_en = PTP_TCR_TSEVNTENA;
-   703	
-   704				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   705				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   706				break;
-   707	
-   708			case HWTSTAMP_FILTER_PTP_V1_L4_DELAY_REQ:
-   709				/* PTP v1, UDP, Delay_req packet */
-   710				config->rx_filter = HWTSTAMP_FILTER_PTP_V1_L4_DELAY_REQ;
-   711				/* take time stamp for Delay_Req messages only */
-   712				ts_master_en = PTP_TCR_TSMSTRENA;
-   713				ts_event_en = PTP_TCR_TSEVNTENA;
-   714	
-   715				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   716				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   717				break;
-   718	
-   719			case HWTSTAMP_FILTER_PTP_V2_L4_EVENT:
-   720				/* PTP v2, UDP, any kind of event packet */
-   721				config->rx_filter = HWTSTAMP_FILTER_PTP_V2_L4_EVENT;
-   722				ptp_v2 = PTP_TCR_TSVER2ENA;
-   723				/* take time stamp for all event messages */
-   724				snap_type_sel = PTP_TCR_SNAPTYPSEL_1;
-   725	
-   726				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   727				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   728				break;
-   729	
-   730			case HWTSTAMP_FILTER_PTP_V2_L4_SYNC:
-   731				/* PTP v2, UDP, Sync packet */
-   732				config->rx_filter = HWTSTAMP_FILTER_PTP_V2_L4_SYNC;
-   733				ptp_v2 = PTP_TCR_TSVER2ENA;
-   734				/* take time stamp for SYNC messages only */
-   735				ts_event_en = PTP_TCR_TSEVNTENA;
-   736	
-   737				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   738				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   739				break;
-   740	
-   741			case HWTSTAMP_FILTER_PTP_V2_L4_DELAY_REQ:
-   742				/* PTP v2, UDP, Delay_req packet */
-   743				config->rx_filter = HWTSTAMP_FILTER_PTP_V2_L4_DELAY_REQ;
-   744				ptp_v2 = PTP_TCR_TSVER2ENA;
-   745				/* take time stamp for Delay_Req messages only */
-   746				ts_master_en = PTP_TCR_TSMSTRENA;
-   747				ts_event_en = PTP_TCR_TSEVNTENA;
-   748	
-   749				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   750				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   751				break;
-   752	
-   753			case HWTSTAMP_FILTER_PTP_V2_EVENT:
-   754				/* PTP v2/802.AS1 any layer, any kind of event packet */
-   755				config->rx_filter = HWTSTAMP_FILTER_PTP_V2_EVENT;
-   756				ptp_v2 = PTP_TCR_TSVER2ENA;
-   757				snap_type_sel = PTP_TCR_SNAPTYPSEL_1;
-   758				if (priv->synopsys_id < DWMAC_CORE_3_70 &&
- > 759				    !priv->plat->has_xgmac)
-   760					ts_event_en = PTP_TCR_TSEVNTENA;
-   761				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   762				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   763				ptp_over_ethernet = PTP_TCR_TSIPENA;
-   764				break;
-   765	
-   766			case HWTSTAMP_FILTER_PTP_V2_SYNC:
-   767				/* PTP v2/802.AS1, any layer, Sync packet */
-   768				config->rx_filter = HWTSTAMP_FILTER_PTP_V2_SYNC;
-   769				ptp_v2 = PTP_TCR_TSVER2ENA;
-   770				/* take time stamp for SYNC messages only */
-   771				ts_event_en = PTP_TCR_TSEVNTENA;
-   772	
-   773				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   774				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   775				ptp_over_ethernet = PTP_TCR_TSIPENA;
-   776				break;
-   777	
-   778			case HWTSTAMP_FILTER_PTP_V2_DELAY_REQ:
-   779				/* PTP v2/802.AS1, any layer, Delay_req packet */
-   780				config->rx_filter = HWTSTAMP_FILTER_PTP_V2_DELAY_REQ;
-   781				ptp_v2 = PTP_TCR_TSVER2ENA;
-   782				/* take time stamp for Delay_Req messages only */
-   783				ts_master_en = PTP_TCR_TSMSTRENA;
-   784				ts_event_en = PTP_TCR_TSEVNTENA;
-   785	
-   786				ptp_over_ipv4_udp = PTP_TCR_TSIPV4ENA;
-   787				ptp_over_ipv6_udp = PTP_TCR_TSIPV6ENA;
-   788				ptp_over_ethernet = PTP_TCR_TSIPENA;
-   789				break;
-   790	
-   791			case HWTSTAMP_FILTER_NTP_ALL:
-   792			case HWTSTAMP_FILTER_ALL:
-   793				/* time stamp any incoming packet */
-   794				config->rx_filter = HWTSTAMP_FILTER_ALL;
-   795				tstamp_all = PTP_TCR_TSENALL;
-   796				break;
-   797	
-   798			default:
-   799				return -ERANGE;
-   800			}
-   801		} else {
-   802			switch (config->rx_filter) {
-   803			case HWTSTAMP_FILTER_NONE:
-   804				config->rx_filter = HWTSTAMP_FILTER_NONE;
-   805				break;
-   806			default:
-   807				/* PTP v1, UDP, any kind of event packet */
-   808				config->rx_filter = HWTSTAMP_FILTER_PTP_V1_L4_EVENT;
-   809				break;
-   810			}
-   811		}
-   812		priv->hwts_rx_en = config->rx_filter != HWTSTAMP_FILTER_NONE;
-   813		priv->hwts_tx_en = config->tx_type == HWTSTAMP_TX_ON;
-   814	
-   815		priv->systime_flags = STMMAC_HWTS_ACTIVE;
-   816		if (!priv->tsfupdt_coarse)
-   817			priv->systime_flags |= PTP_TCR_TSCFUPDT;
-   818	
-   819		if (priv->hwts_tx_en || priv->hwts_rx_en) {
-   820			priv->systime_flags |= tstamp_all | ptp_v2 |
-   821					       ptp_over_ethernet | ptp_over_ipv6_udp |
-   822					       ptp_over_ipv4_udp | ts_event_en |
-   823					       ts_master_en | snap_type_sel;
-   824		}
-   825	
-   826		stmmac_config_hw_tstamping(priv, priv->ptpaddr, priv->systime_flags);
-   827	
-   828		priv->tstamp_config = *config;
-   829	
-   830		return 0;
-   831	}
-   832	
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
