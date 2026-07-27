@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F3A3CF1EF;
-	Mon, 27 Jul 2026 06:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA743DAACB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 06:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785133497; cv=none; b=PBkQudKEcm8B4pUuHZrDStO0AipMmpuX9M+Gp1+zezxjlGIIXD70tMT97DltwB1QDDnahkC9d+XYIFIf935TdC7wrR7wr5iH2UkKFkUJo5voB2DycOYe0JUVxJ5h/LEHnWNk81MDj69TT2alIVTcIjUtZqW/nItrodhBjjuErFI=
+	t=1785135352; cv=none; b=Usx1ajx8wGLg/iO4beHB8t3eewAYn6ZlnE2eUhMFlUdtu2wPJHL/7ZljGClmo2CxlM3f/QLlmnNSCc0+rRK5HbS5MTC38wY7swkmpjphM0dvz4EORCwpSEwg6tqReijpPrqqWokroFvrA8l70I2HOCln5d5A0vrpFGSZ5/1GZRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785133497; c=relaxed/simple;
-	bh=F59xRCqinCTQyIVjreHLU9TLql0Xu9mcLLFuZk767lQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dewr5hdvmwY1hI6rTVEChiBF0ShDrAfJba9QD0yU37w88KGpBvO7AU51pg+iTH39TuwAwLZled7tTHMUNzytjwgjwbCMiHZ9ed6iBAyem0cK1L55NZEOiUsCF90tzPNmK9w1LPpiTk9ZjYaHxIiviB21O3lJTYYNXYCkP7bV/nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfiGFh0m; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1785135352; c=relaxed/simple;
+	bh=yf/wmBSvZ6rKWzfjbGGIl/bqQkl0fCjPvjAnw2NNjy4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NX0HspHVRB5vcKt0dZ/q4KZws1qLcBiu3KQ1GTveCDIY/EuLA7rAg3PBlC8No3CSw1k6xMEJ0WvfWoxcmXfvOB2vaP4/mr/bjKsg3U8FYLpebQtuqPkQl4RBanKzr8H4LmM2gEv0AWL/EhyV7OXRXis7IZmsOqjOJXrJuhXAD20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZzow/3S; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfiGFh0m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZzow/3S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785133493; x=1816669493;
+  t=1785135350; x=1816671350;
   h=date:from:to:cc:subject:message-id;
-  bh=F59xRCqinCTQyIVjreHLU9TLql0Xu9mcLLFuZk767lQ=;
-  b=kfiGFh0m8oHLdU3DSSeL7GcR2R5UZvi1sGne22GGrdrJgKL2WTKEIuq4
-   faAXruq0jMKUUE/iijvUKXMx2H3a3dAdGaZtt8s3BHplw2RXnO/uMkrIB
-   wDHxqfNLTNeg4DzENaJxm28P8wcGtFbpB2FzSvcXJcT6493vQRqtpLKTL
-   z10eznK2bcRW/Okc54KS6GyyVnuHqOixnPQGZ/G1CD4sN4OdpahuLeG8N
-   E4qZiqS8yknEauEqthdD8Z38R9lKkGW9uPJDKSCrcNk+4SkpFK8LkU6Q0
-   lf01nfI0ZD9CngNW5vic9ecd8JKh01zl2Dfl+HkhCG7oQq2C7lJZ/cybp
+  bh=yf/wmBSvZ6rKWzfjbGGIl/bqQkl0fCjPvjAnw2NNjy4=;
+  b=YZzow/3SXXnCrsYJPMtbxdq1PIbypqMmBZOu325wB/FBd3a6hzzVXgb0
+   w4fn0TkW8+Tobp3oQ/5YaDX2ItGsUVm0LeEHTl3l00DepEQXV1XkExN5z
+   Txp97JgDlA2MQFMJ2ODn0HVY55ElonRL8t1Y0d3GfotqdB8vR4+3LkADs
+   hc4LhSOm6grGTNTTsZfEnj+b9uggJt22g36YVwBB94++AuVa2MWERTBat
+   e4BHUgZOiyLpUnZLvvt7bniA9UPe+tS3ozZyKV4cfaFDEXzmU58yBrPu8
+   xejBhOm99zn6GuGfQs13mxRieAXB0mPV+GNEVghP+jOU7IwyK3iXXNqZF
    w==;
-X-CSE-ConnectionGUID: tdhpn7s/Ttq20D0e+4xnJw==
-X-CSE-MsgGUID: CL1Hcn4LQYendAt90PQ1rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="96355309"
-X-IronPort-AV: E=Sophos;i="6.25,187,1779174000"; 
-   d="scan'208";a="96355309"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 23:24:48 -0700
-X-CSE-ConnectionGUID: syY+LzycRxaYfXV3y7b0pg==
-X-CSE-MsgGUID: fCRzqhlpSgm1oWUX/xr4ww==
+X-CSE-ConnectionGUID: 5SJuo5P3QnGitb8uC/r+AQ==
+X-CSE-MsgGUID: 1xo0FEsbRJC0Ejd+qWFD1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="85547576"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="85547576"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 23:55:50 -0700
+X-CSE-ConnectionGUID: yNX1QHqZSPW3EUERvoO/Aw==
+X-CSE-MsgGUID: HosotmMQTh2J1XB76PZ4Zw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,187,1779174000"; 
-   d="scan'208";a="256661149"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="263621101"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Jul 2026 23:24:47 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Jul 2026 23:55:48 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woElY-000000001Xg-3yvV;
-	Mon, 27 Jul 2026 06:24:44 +0000
-Date: Mon, 27 Jul 2026 08:24:35 +0200
+	id 1woFFZ-000000001Xu-24aG;
+	Mon, 27 Jul 2026 06:55:45 +0000
+Date: Mon, 27 Jul 2026 08:55:16 +0200
 From: kernel test robot <lkp@intel.com>
 To: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>, Rohan G Thomas <rohan.g.thomas@altera.com>
-Subject: drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:759:21:
- error: no member named 'has_xgmac' in 'struct plat_stmmacenet_data'
-Message-ID: <202607270825.cLNsCjUl-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ Rohan G Thomas <rohan.g.thomas@altera.com>
+Subject: drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:759:40:
+ error: 'struct plat_stmmacenet_data' has no member named 'has_xgmac'
+Message-ID: <202607270831.Vtbf2KFv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,21 +64,21 @@ tree:   https://github.com/intel-lab-lkp/linux/commits/muhammad-nazim-amirul-naz
 head:   e2c5d928bebc00f481da4c3b8ccfa884cb36faef
 commit: e2c5d928bebc00f481da4c3b8ccfa884cb36faef net: stmmac: Fix E2E delay mechanism
 date:   4 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260727/202607270825.cLNsCjUl-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607270825.cLNsCjUl-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260727/202607270831.Vtbf2KFv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607270831.Vtbf2KFv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607270825.cLNsCjUl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607270831.Vtbf2KFv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:759:21: error: no member named 'has_xgmac' in 'struct plat_stmmacenet_data'
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_hwtstamp_set':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:759:40: error: 'struct plat_stmmacenet_data' has no member named 'has_xgmac'
      759 |                             !priv->plat->has_xgmac)
-         |                              ~~~~~~~~~~  ^
-   1 error generated.
+         |                                        ^~
 
 
 vim +759 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
