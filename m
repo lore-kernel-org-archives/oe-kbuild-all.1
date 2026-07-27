@@ -1,137 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9961823393B;
-	Mon, 27 Jul 2026 08:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC63233944
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 08:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785139614; cv=none; b=Y64Sb9T+GK0bzi+erHnVvWkX/LB+fzscJClfQ9hF3IOOnuHEO8RUq/pvodU8onudslZgX+TGbbSDJy8/+VrutzDDYy/a5leyHehNqvHHQiDSsqyr8+kYIDj7Lafwq+PgoGNnqkBlepm7E2jM6Lf2/beayWylXlnY6HU7q3sgZuM=
+	t=1785140212; cv=none; b=Y+rC/t43lqTG9EhKVhJof+UiUfNCOu39PJUfl4t/O3fBwAnrFAZfnB6FDWKzlLXYPJ9Gm7uBQJcwhhqrVphA97auawhAJug/gVUrMNMcBD9r9dUg/wULNv4NmnMs9bPWVbiGLIF1ZlUGYBCwhoYCLHesuHc6d6Ybrxc92sdusMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785139614; c=relaxed/simple;
-	bh=KnU0D/LiroEaALd+3d0b3S9nheiF6IAaanFOXkI4ehc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=egxT5rv9awShCRuUCv85ji0BaV8mq8QSxagDQHoUeWsT4q3lz64fF0yHCBel/bqKA5Xi//H6ikcl0UavTujn/7VPbhJTW6V2m4Oe0roE9NMMPRzaP2kR7DNfpkLTV74DfryMCppJ6K6+Ujim0cz2q77ybMlMgQhkE9IVEb6vV0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dNR1IUIc; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1785140212; c=relaxed/simple;
+	bh=RdekNtR2VcIGeP61XNbZwSawkL41X7QJ5Iq9qAzYAYc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=awFOpjayrPOpH8Dzmc23BhO2TS/xuQUauCmjRzTU8PokP+yfNxBB0Oa7DJ/ACbfbvNBbreTWUMy/KoQJRMt0KM3PGrPhZaX1m11mpcSxYue9MIulHV49ritUYKM8GsYWB0HvwlVsQIs0dx1WlX6AbBEid5ShdUgXh0a8WEDmTd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z6L36Oup; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNR1IUIc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z6L36Oup"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785139611; x=1816675611;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KnU0D/LiroEaALd+3d0b3S9nheiF6IAaanFOXkI4ehc=;
-  b=dNR1IUIcGjqPluL6K7GT/lsgnn26R7KzMyJJrbqFJhtz8P9hUzAqLgv3
-   xk4Jd59BhLiGimuyIBYK2w4+gG38VFLwYEWKJY60kA1oriGdYkOFLXz2Y
-   pjmCtQf8Z0gIECOnnw0ewJZyN+KBUtOK+gvvDbwtj8YpVjItEer9dkS9J
-   ht1IG4k/+9DTlEhZmvEMeRL6niZYjMiq+O7wHlV20qeHEskIpFoney3bF
-   iXQXbL479dRU8nwcO8yYKEwBItJTORXTQWWAD8+r4Nu9WElsylxAyeWaN
-   uooZyFtkL7kkSiKrMe+tpmCGeC5jA5pT+AOHXJM3A3ZRF7lx5VSwM87F9
+  t=1785140210; x=1816676210;
+  h=date:from:to:cc:subject:message-id;
+  bh=RdekNtR2VcIGeP61XNbZwSawkL41X7QJ5Iq9qAzYAYc=;
+  b=Z6L36OupORaSTuhl7clhaTY6MspHPyYYzPu1qhjWix5x/vOrLfrNMUTD
+   Ug8WzdLkbgg3OyZhlriCsxN//it9duXhbAtcMeZTUPprRg0TqJAYjW0b3
+   ZA/Bnp+dPeCq0wMq4M9D8HiZOUvm7xzVqVP0/ySQR7RCAWyTWW4Rliinj
+   Z03Xg7ehNquqATIRHqk3V42Q/sKfvURijaqifcAt6waRlXSe3+8UYG8gD
+   P7rt+2nXGMlWe+v6HwhdZOOZ69D+z5qiKjtl4qDctOdM5EOyvL9INYnY8
+   Q79H6yILMVb+hqqFkAxnFSjyL95VVdyd8IEMtIpQm8qHmaxkWv8oBMvhw
    A==;
-X-CSE-ConnectionGUID: kgAOpWQcR0OsV3JBj9zDzQ==
-X-CSE-MsgGUID: y5C7FgPgRPup+90JziahxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="89526921"
+X-CSE-ConnectionGUID: NgzUEdO9Tv6axEIXp7R4tg==
+X-CSE-MsgGUID: 76mx4W/bQ/OHmMS/FzZk1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="85571790"
 X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="89526921"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 01:06:50 -0700
-X-CSE-ConnectionGUID: AXbDLOhyQtmBf/KFE0UOwA==
-X-CSE-MsgGUID: rxkjCoCgTg+tR2ivBWo7IQ==
+   d="scan'208";a="85571790"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 01:16:49 -0700
+X-CSE-ConnectionGUID: JkTo2ClbQzis6zUJF3r4og==
+X-CSE-MsgGUID: 86Eaq/ajQfadEi5jejKFIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="259412904"
+   d="scan'208";a="262838833"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 27 Jul 2026 01:06:48 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Jul 2026 01:16:48 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woGMH-000000001Y2-3J6W;
-	Mon, 27 Jul 2026 08:06:45 +0000
-Date: Mon, 27 Jul 2026 10:06:13 +0200
+	id 1woGVx-000000001Y6-3YkJ;
+	Mon, 27 Jul 2026 08:16:45 +0000
+Date: Mon, 27 Jul 2026 10:16:39 +0200
 From: kernel test robot <lkp@intel.com>
-To: jipinghuang <jipihuan@qti.qualcomm.com>, rafael@kernel.org,
-	daniel.lezcano@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rui.zhang@intel.com, lukasz.luba@arm.com, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jipinghuang <jipihuan@qti.qualcomm.com>
-Subject: Re: [PATCH] Fixed a bug related to thermal framework boundary
- conditions: trip points do not need to be updated when polling is active,
- whereas they must be update to re-enable the irq when polling is inactive
-Message-ID: <202607271050.J6ZhMOwT-lkp@intel.com>
-References: <20260727035037.554303-1-jipihuan@qti.qualcomm.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:llm-fixes-24 132/140]
+ fs/xfs/scrub/dir_repair.c:777:73: error: 'ino' undeclared; did you mean
+ 'int'?
+Message-ID: <202607271004.nV4Uz9yC-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260727035037.554303-1-jipihuan@qti.qualcomm.com>
 
-Hi jipinghuang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on linus/master v7.2-rc5 next-20260726]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/jipinghuang/Fixed-a-bug-related-to-thermal-framework-boundary-conditions-trip-points-do-not-need-to-be-updated-when-polling-is-activ/20260727-115235
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20260727035037.554303-1-jipihuan%40qti.qualcomm.com
-patch subject: [PATCH] Fixed a bug related to thermal framework boundary conditions: trip points do not need to be updated when polling is active, whereas they must be update to re-enable the irq when polling is inactive
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260727/202607271050.J6ZhMOwT-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607271050.J6ZhMOwT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git llm-fixes-24
+head:   a0c02c40791d6f966d57e1054cb802a6016933c0
+commit: c709e2bbff2c468b5adc159df3b51d3eddbe05a4 [132/140] xfs: be extra careful about replacement directory construction
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260727/202607271004.nV4Uz9yC-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607271004.nV4Uz9yC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607271050.J6ZhMOwT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607271004.nV4Uz9yC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/thermal/thermal_trip.c:64:83: error: use of undeclared identifier 'trip_temp'
-      64 |         if (tz->prev_low_trip == low && tz->prev_high_trip == high && tz->temperature >= trip_temp)
-         |                                                                                          ^~~~~~~~~
-   1 error generated.
+   fs/xfs/scrub/dir_repair.c: In function 'xrep_dir_replay_update':
+>> fs/xfs/scrub/dir_repair.c:777:73: error: 'ino' undeclared (first use in this function); did you mean 'int'?
+     777 |                 error = xchk_dir_lookup(rd->sc, rd->sc->tempip, xname, &ino);
+         |                                                                         ^~~
+         |                                                                         int
+   fs/xfs/scrub/dir_repair.c:777:73: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/trip_temp +64 drivers/thermal/thermal_trip.c
+vim +777 fs/xfs/scrub/dir_repair.c
 
-    53	
-    54	void thermal_zone_set_trips(struct thermal_zone_device *tz, int low, int high)
-    55	{
-    56		int ret;
-    57	
-    58		lockdep_assert_held(&tz->lock);
-    59	
-    60		if (!tz->ops.set_trips)
-    61			return;
-    62	
-    63		/* No need to change trip points */
-  > 64		if (tz->prev_low_trip == low && tz->prev_high_trip == high && tz->temperature >= trip_temp)
-    65			return;
-    66	
-    67		tz->prev_low_trip = low;
-    68		tz->prev_high_trip = high;
-    69	
-    70		dev_dbg(&tz->device,
-    71			"new temperature boundaries: %d < x < %d\n", low, high);
-    72	
-    73		/*
-    74		 * Set a temperature window. When this window is left the driver
-    75		 * must inform the thermal core via thermal_zone_device_update.
-    76		 */
-    77		ret = tz->ops.set_trips(tz, low, high);
-    78		if (ret)
-    79			dev_err(&tz->device, "Failed to set trips: %d\n", ret);
-    80	}
-    81	
+8559b21a64d983 Darrick J. Wong   2024-04-22  741  
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  742  /*
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  743   * Add this stashed incore directory entry to the temporary directory.
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  744   * The caller must hold the tempdir's IOLOCK, must not hold any ILOCKs, and
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  745   * must not be in transaction context.
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  746   */
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  747  STATIC int
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  748  xrep_dir_replay_update(
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  749  	struct xrep_dir			*rd,
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  750  	const struct xfs_name		*xname,
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  751  	const struct xrep_dirent	*dirent)
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  752  {
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  753  	struct xfs_mount		*mp = rd->sc->mp;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  754  #ifdef DEBUG
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  755  	xfs_ino_t			ino;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  756  #endif
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  757  	uint				resblks;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  758  	int				error;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  759  
+f1097be220fa93 Allison Henderson 2024-04-22  760  	resblks = xfs_link_space_res(mp, xname->len);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  761  	error = xchk_trans_alloc(rd->sc, resblks);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  762  	if (error)
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  763  		return error;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  764  
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  765  	/* Lock the temporary directory and join it to the transaction */
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  766  	xrep_tempfile_ilock(rd->sc);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  767  	xfs_trans_ijoin(rd->sc->tp, rd->sc->tempip, 0);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  768  
+8559b21a64d983 Darrick J. Wong   2024-04-22  769  	switch (dirent->action) {
+8559b21a64d983 Darrick J. Wong   2024-04-22  770  	case XREP_DIRENT_ADD:
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  771  		/*
+8559b21a64d983 Darrick J. Wong   2024-04-22  772  		 * Create a replacement dirent in the temporary directory.
+8559b21a64d983 Darrick J. Wong   2024-04-22  773  		 * Note that _createname doesn't check for existing entries.
+8559b21a64d983 Darrick J. Wong   2024-04-22  774  		 * There shouldn't be any in the temporary dir, but we'll
+8559b21a64d983 Darrick J. Wong   2024-04-22  775  		 * verify this in debug mode.
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  776  		 */
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15 @777  		error = xchk_dir_lookup(rd->sc, rd->sc->tempip, xname, &ino);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  778  		if (error != -ENOENT) {
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  779  			ASSERT(error != -ENOENT);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  780  			goto out_cancel;
+c709e2bbff2c46 Darrick J. Wong   2026-07-23  781  			error = -EIO;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  782  		}
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  783  
+8559b21a64d983 Darrick J. Wong   2024-04-22  784  		error = xrep_dir_replay_createname(rd, xname, dirent->ino,
+8559b21a64d983 Darrick J. Wong   2024-04-22  785  				resblks);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  786  		if (error)
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  787  			goto out_cancel;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  788  
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  789  		if (xname->type == XFS_DIR3_FT_DIR)
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  790  			rd->subdirs++;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  791  		rd->dirents++;
+8559b21a64d983 Darrick J. Wong   2024-04-22  792  		break;
+8559b21a64d983 Darrick J. Wong   2024-04-22  793  	case XREP_DIRENT_REMOVE:
+8559b21a64d983 Darrick J. Wong   2024-04-22  794  		/*
+8559b21a64d983 Darrick J. Wong   2024-04-22  795  		 * Remove a dirent from the temporary directory.  Note that
+8559b21a64d983 Darrick J. Wong   2024-04-22  796  		 * _removename doesn't check the inode target of the exist
+8559b21a64d983 Darrick J. Wong   2024-04-22  797  		 * entry.  There should be a perfect match in the temporary
+8559b21a64d983 Darrick J. Wong   2024-04-22  798  		 * dir, but we'll verify this in debug mode.
+8559b21a64d983 Darrick J. Wong   2024-04-22  799  		 */
+8559b21a64d983 Darrick J. Wong   2024-04-22  800  		error = xchk_dir_lookup(rd->sc, rd->sc->tempip, xname, &ino);
+8559b21a64d983 Darrick J. Wong   2024-04-22  801  		if (error) {
+8559b21a64d983 Darrick J. Wong   2024-04-22  802  			ASSERT(error != 0);
+c709e2bbff2c46 Darrick J. Wong   2026-07-23  803  			error = -EIO;
+8559b21a64d983 Darrick J. Wong   2024-04-22  804  			goto out_cancel;
+8559b21a64d983 Darrick J. Wong   2024-04-22  805  		}
+8559b21a64d983 Darrick J. Wong   2024-04-22  806  		if (ino != dirent->ino) {
+8559b21a64d983 Darrick J. Wong   2024-04-22  807  			ASSERT(ino == dirent->ino);
+8559b21a64d983 Darrick J. Wong   2024-04-22  808  			error = -EIO;
+8559b21a64d983 Darrick J. Wong   2024-04-22  809  			goto out_cancel;
+8559b21a64d983 Darrick J. Wong   2024-04-22  810  		}
+8559b21a64d983 Darrick J. Wong   2024-04-22  811  
+8559b21a64d983 Darrick J. Wong   2024-04-22  812  		error = xrep_dir_replay_removename(rd, xname, resblks);
+8559b21a64d983 Darrick J. Wong   2024-04-22  813  		if (error)
+8559b21a64d983 Darrick J. Wong   2024-04-22  814  			goto out_cancel;
+8559b21a64d983 Darrick J. Wong   2024-04-22  815  
+8559b21a64d983 Darrick J. Wong   2024-04-22  816  		if (xname->type == XFS_DIR3_FT_DIR)
+8559b21a64d983 Darrick J. Wong   2024-04-22  817  			rd->subdirs--;
+8559b21a64d983 Darrick J. Wong   2024-04-22  818  		rd->dirents--;
+8559b21a64d983 Darrick J. Wong   2024-04-22  819  		break;
+8559b21a64d983 Darrick J. Wong   2024-04-22  820  	default:
+8559b21a64d983 Darrick J. Wong   2024-04-22  821  		ASSERT(0);
+8559b21a64d983 Darrick J. Wong   2024-04-22  822  		error = -EIO;
+8559b21a64d983 Darrick J. Wong   2024-04-22  823  		goto out_cancel;
+8559b21a64d983 Darrick J. Wong   2024-04-22  824  	}
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  825  
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  826  	/* Commit and unlock. */
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  827  	error = xrep_trans_commit(rd->sc);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  828  	if (error)
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  829  		return error;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  830  
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  831  	xrep_tempfile_iunlock(rd->sc);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  832  	return 0;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  833  out_cancel:
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  834  	xchk_trans_cancel(rd->sc);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  835  	xrep_tempfile_iunlock(rd->sc);
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  836  	return error;
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  837  }
+b1991ee3e7cf85 Darrick J. Wong   2024-04-15  838  
+
+:::::: The code at line 777 was first introduced by commit
+:::::: b1991ee3e7cf852e95a3498801303cfbb4468681 xfs: online repair of directories
+
+:::::: TO: Darrick J. Wong <djwong@kernel.org>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
