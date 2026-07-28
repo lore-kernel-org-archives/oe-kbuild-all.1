@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EE3311958
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 14:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D6424CEEA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 14:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785247231; cv=none; b=TFhAZEPKchcy7nO+b74siRpt2/9OtVSx+tDPQl8CWtG0E05vrtxCqaLr+A9367QyHZorqkYzTe9RA5JQhfwcGoJVMSGRiGah/NPX2DCZO/KwayHeKH8YIQcaEMrPlKILlbmLfTny2LAkI8fgzJexrGBWyUiUGA5RILqICCmuJFY=
+	t=1785247903; cv=none; b=YsgndQxouPUWYbMXM6STQHnqe5+BrFyCVI/lhKIpwMf8edPaTnaDzpelimaYmEOzMIYlhVY0esVxHlbmZCt3/SpgGHN2S1oXJO15ALbdReFGBg/oqy+ESLNAYmK4dR85QvtMuNpLJC2bu2PUy32inUeqvrVTWjDqKemQyL1jzuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785247231; c=relaxed/simple;
-	bh=6mK5SkBWXYIBbxx0oqnM/n5dsYiyxtUrCfM/P133yxg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MyOLIjlqF6sIZRjYa+uKPvPGPVCX5KcQz39uTyfeUb6Ci5ANY0OT3mWWS7DEUWlZU3MVhGq/+5teG+S2AuYB+d7voLGKRlwRESELe+T+IeMepU4TH56M3CSFry36XGEH17/QxOaf4cxa0qqZ8RIL1t8RbA3vePIkoHfxVM1Q2lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QVmUQcrP; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1785247903; c=relaxed/simple;
+	bh=rYwiiE14mVjIVeU9oqYW3s+ZOY1Z1Sk4+pAk28KT1e8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=I4GsBInaXabeJZD5Y4ebAmnhHce3ScCU4hgQR13ot37GQU9svdoLbJ3qBmoXgaErE6tYhcIOpSW2yOhKELotqyQB3B1IhE8mvh8Sg7kZTUHHSzcY8hG1U6lQMlgG9/CCsty8wlG2/vsFNUhz19qj50QqFztEbU3MRkGviZv2AHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q06rgGDm; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QVmUQcrP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q06rgGDm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785247230; x=1816783230;
+  t=1785247901; x=1816783901;
   h=date:from:to:cc:subject:message-id;
-  bh=6mK5SkBWXYIBbxx0oqnM/n5dsYiyxtUrCfM/P133yxg=;
-  b=QVmUQcrP2U/FlNiQ/XLCCIfyVHnWT9Zlb7nnUqAp+haanuBM854NlCOJ
-   wbcXGqIEZ6TR+VBOj05bfQSiyApVsDDC6OfJHVDhe9IWdkxuN40xOOuAm
-   bq6JiMgXXgB6JJ4rgvITqq8vnQMx+9ArT/nLccQsaw1okXY8FgMHWjCNQ
-   tFJ18jFMIV7rIIa478H4xhLPYg8PqBVCBRrib8bujRgz3fNollRdeN9id
-   rUXuaKcSMlDlwFNgkLh5c9DqKNf5Qa8/PP7cyt9Pj2bA0TjuqyyXC+9qV
-   8q3QZjV/5Zy/zgq0ycBJGXOYnfir7V7cIGE7/Xh74V8JS+vrewtqDrbt1
-   Q==;
-X-CSE-ConnectionGUID: kI5cSAK9TU2l6uPxmgN2zQ==
-X-CSE-MsgGUID: ZN9U4LLQQTqwUP8G9aMhow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97344800"
+  bh=rYwiiE14mVjIVeU9oqYW3s+ZOY1Z1Sk4+pAk28KT1e8=;
+  b=Q06rgGDmQRToQtw0E8VsRqqMnUQgiQu+GzfL7tDUSPC3vg9jcuHcZxcF
+   kzukNLL8LWM7fDJcMxWRzIAiT8ZLJUGKul/n8fngR0Mu6DXZiYvp36Fi/
+   rSqgdKrFEUXDf6IgAg1LaiHbU8PHxjEIE018GfUffisFtisSUUdt8I/8I
+   2GNdWyY1RaAr3IGs2IABdFutTCNO3B8IL1vlBvjDmnli/t0k18E1Cfscp
+   K00EaH5rbUo2SClnOARQy31Mtd6fnaUN39OkGb+LBDwee8tiODWYlhTeP
+   xFweYCGcG80OiC1zQcZN+4RlMeENJwZNXwGByxR1iklyaY8iILwtp088B
+   A==;
+X-CSE-ConnectionGUID: sHIFaJOKSvuYgswTKqXQeA==
+X-CSE-MsgGUID: ybWRi2kmSui1jlKC8WzZBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97205790"
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="97344800"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 07:00:29 -0700
-X-CSE-ConnectionGUID: LxUD4J/YSaWHRFEbp5PxWQ==
-X-CSE-MsgGUID: PRELwxK0SiWQsOO7jUx52w==
+   d="scan'208";a="97205790"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 07:11:40 -0700
+X-CSE-ConnectionGUID: fqiN51pYTySu4Cpes08Z4w==
+X-CSE-MsgGUID: PkLOp4G3R3eEfoWM1oQiLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="283047845"
+   d="scan'208";a="257916667"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Jul 2026 07:00:27 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 Jul 2026 07:11:38 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woiM5-00000000ePn-0JjB;
-	Tue, 28 Jul 2026 14:00:25 +0000
-Date: Tue, 28 Jul 2026 22:00:18 +0800
+	id 1woiWu-00000000eQJ-353P;
+	Tue, 28 Jul 2026 14:11:36 +0000
+Date: Tue, 28 Jul 2026 22:10:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@do-not-panic.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof:blk-iobuf-pool-v5 6/9] block/ioctl.c:958:15: error:
- implicit declaration of function 'blk_uring_cmd_alloc_iobuf'; did you mean
- 'blkdev_cmd_alloc_iobuf'?
-Message-ID: <202607282158.kSJTNTZa-lkp@intel.com>
+Subject: [android-common:android17-6.18-2026-06 1/1]
+ arch/arm64/kvm/hyp/include/nvhe/modules.h:33:6: warning: no previous
+ prototype for 'module_handle_host_perm_fault'
+Message-ID: <202607282242.6ZmZpAfK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,45 +60,144 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git blk-iobuf-pool-v5
-head:   de80bacbf04a137715357b6a2948d9f29a18d990
-commit: 37ff77d98dbfae93b246dadfe1d25b768b9e8798 [6/9] block: add a uring command for pool-backed fixed buffers
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260728/202607282158.kSJTNTZa-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607282158.kSJTNTZa-lkp@intel.com/reproduce)
+Hi Vincent,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-06
+head:   f957accaf5634f841071adb4f35286ef2779d5b1
+commit: c141eb26c3393517c536d0db42f53d258d5cc3a4 [1/1] ANDROID: KVM: arm64: Rework pKVM module fault handler
+config: arm64-randconfig-001-20260728 (https://download.01.org/0day-ci/archive/20260728/202607282242.6ZmZpAfK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607282242.6ZmZpAfK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607282158.kSJTNTZa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607282242.6ZmZpAfK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   block/ioctl.c: In function 'blkdev_cmd_alloc_iobuf':
->> block/ioctl.c:958:15: error: implicit declaration of function 'blk_uring_cmd_alloc_iobuf'; did you mean 'blkdev_cmd_alloc_iobuf'? [-Wimplicit-function-declaration]
-     958 |         ret = blk_uring_cmd_alloc_iobuf(cmd, pool, buf_index, len, issue_flags);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |               blkdev_cmd_alloc_iobuf
+   In file included from arch/arm64/kvm/hyp/nvhe/psci-relay.c:17:
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:33:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:30:58: error: parameter 1 ('notif') has incomplete type
+    static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:30:13: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+    static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+                ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'pkvm_psci_notify':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:33:22: error: type of formal parameter 1 is incomplete
+      pkvm_psci_notifier(notif, &host_ctxt->regs);
+                         ^~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'psci_cpu_suspend':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:192:19: error: 'PKVM_PSCI_CPU_SUSPEND' undeclared (first use in this function); did you mean 'KVM_PSCI_FN_CPU_SUSPEND'?
+     pkvm_psci_notify(PKVM_PSCI_CPU_SUSPEND, host_ctxt);
+                      ^~~~~~~~~~~~~~~~~~~~~
+                      KVM_PSCI_FN_CPU_SUSPEND
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:192:19: note: each undeclared identifier is reported only once for each function it appears in
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'psci_system_suspend':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:223:19: error: 'PKVM_PSCI_SYSTEM_SUSPEND' undeclared (first use in this function); did you mean 'KVM_PSCI_FN_CPU_SUSPEND'?
+     pkvm_psci_notify(PKVM_PSCI_SYSTEM_SUSPEND, host_ctxt);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~
+                      KVM_PSCI_FN_CPU_SUSPEND
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function '__kvm_host_psci_cpu_entry':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:254:19: error: 'PKVM_PSCI_CPU_ENTRY' undeclared (first use in this function); did you mean 'KVM_PSCI_RET_DENIED'?
+     pkvm_psci_notify(PKVM_PSCI_CPU_ENTRY, host_ctxt);
+                      ^~~~~~~~~~~~~~~~~~~
+                      KVM_PSCI_RET_DENIED
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/mm.c:19:
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:33:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:24:
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:33:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:22: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_WFx]  = handle_pvm_entry_wfx,
+                         ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:22: note: (near initialization for 'entry_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:477:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_HVC64]  = handle_pvm_entry_hvc64,
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:477:24: note: (near initialization for 'entry_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:478:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_SYS64]  = handle_pvm_entry_sys64,
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:478:24: note: (near initialization for 'entry_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:479:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_pvm_entry_iabt,
+                              ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:479:27: note: (near initialization for 'entry_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_pvm_entry_dabt,
+                              ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:480:27: note: (near initialization for 'entry_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:22: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_WFx]  = handle_pvm_exit_wfx,
+                         ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:22: note: (near initialization for 'exit_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:486:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_HVC64]  = handle_pvm_exit_hvc64,
+                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:486:24: note: (near initialization for 'exit_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:487:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_SYS64]  = handle_pvm_exit_sys64,
+                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:487:24: note: (near initialization for 'exit_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:488:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_pvm_exit_iabt,
+                              ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:488:27: note: (near initialization for 'exit_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:489:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_pvm_exit_dabt,
+                              ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:489:27: note: (near initialization for 'exit_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:498:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_vm_exit_abt,
+                              ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:498:27: note: (near initialization for 'exit_hyp_vm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:499:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_vm_exit_abt,
+                              ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:499:27: note: (near initialization for 'exit_hyp_vm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c: In function 'handle_host_hcall':
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:1686:32: error: passing argument 1 of 'handle_host_dynamic_hcall' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+                                   ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:24:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:28:51: note: expected 'struct kvm_cpu_context *' but argument is of type 'struct user_pt_regs *'
+    handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+                              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +958 block/ioctl.c
+vim +/module_handle_host_perm_fault +33 arch/arm64/kvm/hyp/include/nvhe/modules.h
 
-   947	
-   948	static int blkdev_cmd_alloc_iobuf(struct io_uring_cmd *cmd,
-   949					  struct block_device *bdev, u64 buf_index,
-   950					  u64 len, unsigned int issue_flags)
-   951	{
-   952		struct blk_iobuf_pool *pool;
-   953		int ret;
-   954	
-   955		pool = blk_queue_get_iobuf_pool(bdev_get_queue(bdev));
-   956		if (!pool)
-   957			return -EOPNOTSUPP;
- > 958		ret = blk_uring_cmd_alloc_iobuf(cmd, pool, buf_index, len, issue_flags);
-   959		blk_iobuf_pool_put(pool);
-   960		return ret;
-   961	}
-   962	
+    16	
+    17	#ifdef CONFIG_MODULES
+    18	int __pkvm_init_module(void *host_mod);
+    19	int __pkvm_register_hcall(unsigned long hfn_hyp_va);
+    20	int handle_host_dynamic_hcall(struct user_pt_regs *regs, int id);
+    21	void __pkvm_close_module_registration(void);
+    22	bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr);
+    23	#else
+    24	static inline int __pkvm_init_module(void *module_init) { return -EOPNOTSUPP; }
+    25	static inline int
+    26	__pkvm_register_hcall(unsigned long hfn_hyp_va) { return -EOPNOTSUPP; }
+    27	static inline int
+    28	handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+    29	{
+    30		return HCALL_UNHANDLED;
+    31	}
+    32	static inline void __pkvm_close_module_registration(void) { }
+  > 33	bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
 
 --
 0-DAY CI Kernel Test Service
