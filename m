@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE801427A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Jul 2026 23:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E912B9B7;
+	Tue, 28 Jul 2026 00:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785195441; cv=none; b=amodO+6CNLarXU0NG7JRvmUnudWp0LcFEba85xD011AbZyD52/ipP17JPZYox0DTC6k0Fog3UWfVTMnN91dpU3e4PYRBzZ9RftoyBlRrkgdz6epuWLlK/Vryt+5/VY9ykQ2PpG06ZVN3laEjAqffVDDkf3nshixuh3aWj4tj8ZY=
+	t=1785197909; cv=none; b=pTwRtmWykj4q1fB6TjdyEBysMhI9w/huHknJKZawLHj0k+syD3x2kz2oNBDLwNXDvJXtyJ5DX8NKu20G6gGYOOWShyBUoYJUrBK7iC4zh4vX7iFOHaMMinorVD01x41eashfWxpi1GaytZ2hdVhTLEn4iqrfdtLYw8bwdNA3Iug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785195441; c=relaxed/simple;
-	bh=Q/pN3zg6HdO8zochy9Hk41hmNU9i75Jct1yl6Rh1gJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GlHbSWnKAEoKxUmbAQxTMwVfgkDAMGOhFcOKoi6uF/gzAGKIsBbsC6l0vBctaD7btzbNxy/yl3HfrTgTp3z8nYHQSUg8HlvR/qLZJlnm5EBOwjdr7lUS+HP0/knXvBrQ3NYH2CywKdsgwsXs36rMXdzo54Q5YDKzRSFut4Z8cUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SprsnQhl; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1785197909; c=relaxed/simple;
+	bh=1mRsYpISSnVCF6D+M/UKACIP6oDEl/yc1/eRE31qjXg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AG1f4i9yZrMlRUU1kS47SrBmOnHgm8prG3f5/8dbb9Je4Dk4z3q/VDcdWGLDMupt1CkIDqOw/9D5K6LkKKLzUMGB7ABIVPaTJqf7ndL1YXTEEXyJyeMgSINVcr5E1Tds9lysFqm83FiT/JDSQF+3kM+h2/bz4XV7wl+tYz/wNbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bNq6V8xS; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SprsnQhl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bNq6V8xS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785195440; x=1816731440;
+  t=1785197907; x=1816733907;
   h=date:from:to:cc:subject:message-id;
-  bh=Q/pN3zg6HdO8zochy9Hk41hmNU9i75Jct1yl6Rh1gJ4=;
-  b=SprsnQhloJYNl5PEgW+IvbhbNjGXIbpwUIzmr1tREa4E6XowD7b3ytuA
-   IhlqpSxn0rJE0ad7diK38W3FyJHe+tPqXcjPrB3Dpmey4kTx9eEws1YtT
-   kr6WiPSIb3qmh0qjHbs3xZwgug5ftFneRvq1/quIiIIxSNtn+Pg92+MNq
-   m7/zisahwuKzIVcJXJvGyvXnNvtpoyU5ozvAqFh5Nq8McNO5wpMcEIWns
-   jPtsUEi9JPqNPmYr0fZwngB+pFRyrPE+wbm3UkWdz3XXJ3JTRMr5M24/c
-   zEyyvAjKqiIhAzpwQKG14i0So3khSZq26Ge1Nt4SnZ6/z54LzUJjc0Xzl
+  bh=1mRsYpISSnVCF6D+M/UKACIP6oDEl/yc1/eRE31qjXg=;
+  b=bNq6V8xSY2dFFVyxRtGokZV72Gi4IaBSfb6yfcciAu/2YBuJ81nehGZZ
+   cY3R0X1YQv/3YNJVmQjYT2vdxMnUO45kc/i/SRBwZ2VAYTafnSCLrv6Va
+   +7N3wmujUJfBoiERsEXb/xYNYarMzMeFYY/RhLmaQ6WAmLObQsAhfkgrA
+   lGrL9BuBPSV2uZ81DlnrmB/3CglHkXfq+HuP0cPgFQHitb4M6M3dlHa0V
+   ZmjizTHS57yz7MSzvKxSdSYySDjNQ8KnLFPv5frMppgRraBiuK5K8rX2w
+   46aGQUB+m8JHfTvHGg4AQ0sxiM/HoiyWTKQSDYauCDYjkZYhCfoiUxgl7
    w==;
-X-CSE-ConnectionGUID: rKJbI75STr+5DKK+go2EaQ==
-X-CSE-MsgGUID: R7TR9ZfASPeE3zJnJSOejA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="97284789"
+X-CSE-ConnectionGUID: C0E1IySkQsGneYObz8pL/g==
+X-CSE-MsgGUID: I1aw5q7/SyakvRBrqhtS1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="111319392"
 X-IronPort-AV: E=Sophos;i="6.25,189,1779174000"; 
-   d="scan'208";a="97284789"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 16:37:19 -0700
-X-CSE-ConnectionGUID: Lk1TS24aRgSe/SSDst8evg==
-X-CSE-MsgGUID: w8Iu6mYYTT2p47Pggk3nlg==
+   d="scan'208";a="111319392"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 17:18:26 -0700
+X-CSE-ConnectionGUID: MLokgi5STLOJHTxu1bI+Ug==
+X-CSE-MsgGUID: Xu/VFChcQISv3cdMF1uH5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,189,1779174000"; 
-   d="scan'208";a="255601194"
+   d="scan'208";a="263859221"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Jul 2026 16:37:17 -0700
+  by orviesa005.jf.intel.com with ESMTP; 27 Jul 2026 17:18:24 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woUsl-000000001ms-0yR7;
-	Mon, 27 Jul 2026 23:37:15 +0000
-Date: Tue, 28 Jul 2026 01:36:49 +0200
+	id 1woVWY-000000001ny-1C3S;
+	Tue, 28 Jul 2026 00:18:22 +0000
+Date: Tue, 28 Jul 2026 02:17:36 +0200
 From: kernel test robot <lkp@intel.com>
 To: Luis Chamberlain <mcgrof@do-not-panic.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof:blk-iobuf-pool-v5 8/9]
- drivers/nvme/host/ioctl.c:668:15: error: implicit declaration of function
- 'blk_uring_cmd_alloc_iobuf'
-Message-ID: <202607280157.e53UIAbB-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:blk-iobuf-pool-v5 6/9] block/ioctl.c:958:8: error:
+ call to undeclared function 'blk_uring_cmd_alloc_iobuf'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202607280222.VZqM8mZL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,51 +62,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git blk-iobuf-pool-v5
 head:   de80bacbf04a137715357b6a2948d9f29a18d990
-commit: 7b61092440add7fbe6d72ae7ede11080113e193e [8/9] nvme: allocate pool-backed fixed buffers through namespace char devices
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260728/202607280157.e53UIAbB-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607280157.e53UIAbB-lkp@intel.com/reproduce)
+commit: 37ff77d98dbfae93b246dadfe1d25b768b9e8798 [6/9] block: add a uring command for pool-backed fixed buffers
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260728/202607280222.VZqM8mZL-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607280222.VZqM8mZL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607280157.e53UIAbB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607280222.VZqM8mZL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/nvme/host/ioctl.c: In function 'nvme_ns_alloc_iobuf':
->> drivers/nvme/host/ioctl.c:668:15: error: implicit declaration of function 'blk_uring_cmd_alloc_iobuf' [-Wimplicit-function-declaration]
-     668 |         ret = blk_uring_cmd_alloc_iobuf(ioucmd, pool, buf_index, len,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/ioctl.c:958:8: error: call to undeclared function 'blk_uring_cmd_alloc_iobuf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     958 |         ret = blk_uring_cmd_alloc_iobuf(cmd, pool, buf_index, len, issue_flags);
+         |               ^
+   block/ioctl.c:958:8: note: did you mean 'blkdev_cmd_alloc_iobuf'?
+   block/ioctl.c:948:12: note: 'blkdev_cmd_alloc_iobuf' declared here
+     948 | static int blkdev_cmd_alloc_iobuf(struct io_uring_cmd *cmd,
+         |            ^
+     949 |                                   struct block_device *bdev, u64 buf_index,
+     950 |                                   u64 len, unsigned int issue_flags)
+     951 | {
+     952 |         struct blk_iobuf_pool *pool;
+     953 |         int ret;
+     954 | 
+     955 |         pool = blk_queue_get_iobuf_pool(bdev_get_queue(bdev));
+     956 |         if (!pool)
+     957 |                 return -EOPNOTSUPP;
+     958 |         ret = blk_uring_cmd_alloc_iobuf(cmd, pool, buf_index, len, issue_flags);
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               blkdev_cmd_alloc_iobuf
+   1 error generated.
 
 
-vim +/blk_uring_cmd_alloc_iobuf +668 drivers/nvme/host/ioctl.c
+vim +/blk_uring_cmd_alloc_iobuf +958 block/ioctl.c
 
-   649	
-   650	static int nvme_ns_alloc_iobuf(struct nvme_ns *ns, struct io_uring_cmd *ioucmd,
-   651				       unsigned int issue_flags)
-   652	{
-   653		const struct io_uring_sqe *sqe = ioucmd->sqe;
-   654		struct blk_iobuf_pool *pool;
-   655		u64 buf_index, len;
-   656		int ret;
-   657	
-   658		if (READ_ONCE(sqe->ioprio) || READ_ONCE(sqe->__pad1) ||
-   659		    READ_ONCE(sqe->len) || READ_ONCE(sqe->rw_flags) ||
-   660		    READ_ONCE(sqe->file_index))
-   661			return -EINVAL;
-   662		buf_index = READ_ONCE(sqe->addr);
-   663		len = READ_ONCE(sqe->addr3);
-   664	
-   665		pool = blk_queue_get_iobuf_pool(ns->queue);
-   666		if (!pool)
-   667			return -EOPNOTSUPP;
- > 668		ret = blk_uring_cmd_alloc_iobuf(ioucmd, pool, buf_index, len,
-   669					       issue_flags);
-   670		blk_iobuf_pool_put(pool);
-   671		return ret;
-   672	}
-   673	
+   947	
+   948	static int blkdev_cmd_alloc_iobuf(struct io_uring_cmd *cmd,
+   949					  struct block_device *bdev, u64 buf_index,
+   950					  u64 len, unsigned int issue_flags)
+   951	{
+   952		struct blk_iobuf_pool *pool;
+   953		int ret;
+   954	
+   955		pool = blk_queue_get_iobuf_pool(bdev_get_queue(bdev));
+   956		if (!pool)
+   957			return -EOPNOTSUPP;
+ > 958		ret = blk_uring_cmd_alloc_iobuf(cmd, pool, buf_index, len, issue_flags);
+   959		blk_iobuf_pool_put(pool);
+   960		return ret;
+   961	}
+   962	
 
 --
 0-DAY CI Kernel Test Service
