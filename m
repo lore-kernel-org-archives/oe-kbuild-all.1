@@ -1,93 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECDB3A7D63
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 05:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3EA224AF9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 05:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785217422; cv=none; b=swDvMfJ3JkeK04fxhQJv8en2mE7fKtVCdAqcz2WmaXEYfgKj/xM15dlyunJineZmG9Vk9Uryme5OrX+y4heEY2XlBX0ljTFX9BazWQw1SrqCA3JSo6pKZ2ocaM2M0i8ib8T6mDGFWgvUMQ4nVNil07a2qcJsDXUU4wG5kqOWbE4=
+	t=1785217732; cv=none; b=irZc7WeHVcHDCDOASTO1773h8JZlFvNlISxxJB/JhudXcvGY9OIrPPCEOpLXodqHvaJ8puwdrqDz+BD3I3BtqAMR9gsjQF7EKjeW9rPAeH6G2kzQzzB1zDZiqp/et8tRUHkPikJ4aTx4Yb+HcOj3IlYr6NQ1yKkhc4sNqUIcYXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785217422; c=relaxed/simple;
-	bh=F9yEtZyeho+FY12MENJKS7bgNWiXDCvFOAX2HwQwedc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gc+oAf9TRRSUyoT92a38fUjiZxVVWq8uQDQ9xMrfevEdAHawHNOAV7t7L37Msymnd/SmyYm7LWtcioduyvfhiYPJv3aZG8dUVsGD6XaVlpA3aK6ehgq9MFh4KWgyNb+7jobxBpx8j4235sdQPrMRzf9AQn0WXlpYLPgWgo2rRPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPa/SJLR; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1785217732; c=relaxed/simple;
+	bh=gX9+MfK6d4Y9vYqs9lkrAu1mwfFkA9zxw5T1VleAa4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=pRqJh93GZ/V49YLk22Qx+D2B5hAIQJ7/qsJ/hJB1qXs3th0N39p9zn6SOHlgF+n8KUwUWJAkHaI2YKp/BmnFXT15nzZzri2wKApmbhnkilsE3WYTD6YBsCBYSu+CvKjlQowsGfuxnMJM0wTfnhJj/ORNC3q5CICzzuW0mhH+XGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dlU8z3CM; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPa/SJLR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dlU8z3CM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785217419; x=1816753419;
-  h=date:from:to:cc:subject:message-id;
-  bh=F9yEtZyeho+FY12MENJKS7bgNWiXDCvFOAX2HwQwedc=;
-  b=ZPa/SJLRIf1m8/YFJBynK1R5agTVVP3Fy35P1LQ3G0+9NkOnetXzpRfv
-   F3wsRXu2oRBmL5gfxaQioOCsTYL3I/IRmjSQLEak70v5eHZXHCkyMKsNm
-   ZEgM6xvfmUfpUbjzLFtjD/cjGjUc0amFpuL2wX4AVYfQutbL3ad9X+pN8
-   PfmhaARgbEM1D0rLBHBKqTcOvwwZeJZErCgJrUyp5PdAK8JLxNCRcT4AG
-   XfZ8T/LQwz8TtohbfbASeHs+N+vYWAGNQQEta390X2pg5xHi9+RKm3jV4
-   HRBFOOLWQnBjChNVzJ/Ir4bKFTYSYqFAlQoVKmZ2znc7WnPVei64LyP5k
-   g==;
-X-CSE-ConnectionGUID: kHexAYVxSbu4XSL8lRtNmg==
-X-CSE-MsgGUID: SMHmpLQWT0ulFebxLTUsCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="84919780"
+  t=1785217730; x=1816753730;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gX9+MfK6d4Y9vYqs9lkrAu1mwfFkA9zxw5T1VleAa4E=;
+  b=dlU8z3CMJwSFzJ9YE2KStYBbIxCMVIX3IwNgVdha2/tda5KDtLlz4RA1
+   ldbD2uTdy7mar6D3TG9NX7qtpRlDdZ5JYrme2EbMXpI8U+G88yqSCOqG6
+   HtdZ9qbsnSh0QELcgkjV3kaYne4SEDc3cKzNMOalE4LcI+G9CyuSByzKB
+   b9Cqk3VWPo+p6SLvNqsXgTJrLIOYQe27bWcxFXPJILAqm4hxogdJqfBH9
+   fkilNCfDh4tJPyzBiUbkat9Xw8Rc1EQlbyEsSdGkc/k4PK5DIEJ90ZxwQ
+   +apWrJzqEGNT+k3vfTKsBxf/J5UxN1DGfYUsI+uxZG5hJgrAJBfCtlXXF
+   w==;
+X-CSE-ConnectionGUID: fDvebaeoS46jEg2VY/obhA==
+X-CSE-MsgGUID: wSRLt6N7RFCWFQ6xC7tjXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="85985373"
 X-IronPort-AV: E=Sophos;i="6.25,189,1779174000"; 
-   d="scan'208";a="84919780"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 22:43:38 -0700
-X-CSE-ConnectionGUID: uD0qElgJT1SwJ4pJS40Raw==
-X-CSE-MsgGUID: t3F+Q3pqRPuh2QzDv2HPLA==
+   d="scan'208";a="85985373"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 22:48:49 -0700
+X-CSE-ConnectionGUID: 4NriZRCKRUSE2V5HpYp76g==
+X-CSE-MsgGUID: fLyF9SQnSQOL5WJcSaPufA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,189,1779174000"; 
-   d="scan'208";a="256941276"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Jul 2026 22:43:36 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="253281418"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 27 Jul 2026 22:48:48 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woabG-000000001sO-2Yxo;
-	Tue, 28 Jul 2026 05:43:34 +0000
-Date: Tue, 28 Jul 2026 07:43:13 +0200
+	id 1woagD-00000000e2N-4Afp;
+	Tue, 28 Jul 2026 05:48:43 +0000
+Date: Tue, 28 Jul 2026 13:48:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jack Allister <jalliste@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Sean Christopherson <seanjc@google.com>,
- David Woodhouse <dwmw@amazon.co.uk>, Paul Durrant <paul@xen.org>
-Subject: [sean-jc:rev/get_set_guest_clock 112/112]
- usr/include/asm/kvm.h:15:10: fatal error: asm/pvclock-abi.h: No such file or
- directory
-Message-ID: <202607280712.Keg8YVi4-lkp@intel.com>
+To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [stefandoesinger-zx297520:dlink 60/130]
+ drivers/rpmsg/zx29_smd.c:130:13: warning: 'zx29_smd_release_device' defined
+ but not used
+Message-ID: <202607281337.O6FGBykU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/sean-jc/linux rev/get_set_guest_clock
-head:   9796c520977c647c82515987b362119c7c4593ed
-commit: 9796c520977c647c82515987b362119c7c4593ed [112/112] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for accurate KVM clock migration
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260728/202607280712.Keg8YVi4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607280712.Keg8YVi4-lkp@intel.com/reproduce)
+tree:   https://gitlab.com/stefandoesinger/zx297520-kernel dlink
+head:   3d8eb1c72ad9937912307a2d4f3de812b572b9b3
+commit: 486c263f0e7ecd325e530c4fe8d876755f8f8988 [60/130] rpmsg v1
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260728/202607281337.O6FGBykU-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607281337.O6FGBykU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607280712.Keg8YVi4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607281337.O6FGBykU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from ./usr/include/linux/kvm.h:16,
-                    from <command-line>:
->> usr/include/asm/kvm.h:15:10: fatal error: asm/pvclock-abi.h: No such file or directory
-      15 | #include <asm/pvclock-abi.h>
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from <command-line>:
->> ./usr/include/asm/kvm.h:15:10: fatal error: asm/pvclock-abi.h: No such file or directory
-      15 | #include <asm/pvclock-abi.h>
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   drivers/rpmsg/zx29_smd.c: In function 'zx29_smd_trysend':
+   drivers/rpmsg/zx29_smd.c:98:31: warning: unused variable 'zx29_ept' [-Wunused-variable]
+      98 |         struct zx29_endpoint *zx29_ept = to_zx29_rpmsg_endpoint(ept);
+         |                               ^~~~~~~~
+   drivers/rpmsg/zx29_smd.c: In function 'zx29_smd_probe':
+   drivers/rpmsg/zx29_smd.c:147:22: warning: unused variable 'i' [-Wunused-variable]
+     147 |         unsigned int i;
+         |                      ^
+   drivers/rpmsg/zx29_smd.c: At top level:
+>> drivers/rpmsg/zx29_smd.c:130:13: warning: 'zx29_smd_release_device' defined but not used [-Wunused-function]
+     130 | static void zx29_smd_release_device(struct device *dev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/zx29_smd_release_device +130 drivers/rpmsg/zx29_smd.c
+
+   129	
+ > 130	static void zx29_smd_release_device(struct device *dev)
+   131	{
+   132		dev_info(dev, "zx29_smd_release_device\n");
+   133	}
+   134	
 
 --
 0-DAY CI Kernel Test Service
