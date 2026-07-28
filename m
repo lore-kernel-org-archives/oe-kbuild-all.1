@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC06275AFD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 10:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BF842A167
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 10:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785234697; cv=none; b=eoIm6SCgw0AwcQA+8eis1M1nC+mADp2RstthFAF4Pmfu+NFGa2SEWhinG+Y03SxU0EPbJA2+70DM0hk45aRP8ZIyTJu5dFsuc0UJDFGg40aPEr0uAVqc1wjFNcJ3fC7Simfgod04CUOzzgXlFUNKpKW/jK/kY6dEj9/43avuSgs=
+	t=1785235365; cv=none; b=q0hf5ngK5t/wYt1ylIDuLAwhq4YuPIOkNGUQRkyMeFDXycYjNvnFtaRW3kswgmAwhHT/XL2G/MqIBAaSXOgvObf+GhBOaaXbXlthWoIgFkxb6TEJZKBh3wHj06/KhywbVgosLy1N4ZaO/N79uCEz9+s2Ey4rU2qp61rx/Kcnr+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785234697; c=relaxed/simple;
-	bh=GrFh5wOo67sdaPMHSi8bNxjXSGmeI5uHZr7upHVlgVg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pC3bCe3NxSFWqg1CCy0hRFSaBBHMCvb0DRVktjDWGLNCaUEbAmAlG33rRRsN9TN6lkRsOibG4sLB0aN+bPQVvcP3+Tgz79hrhqVOcOAFNR7ZeVS/EiDkZs/+b6MNRe2OFNscOE+9Z/6IHdv8WXzjCMKHIDX2aqS/1rfBwC3cnz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJ7/kYiT; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1785235365; c=relaxed/simple;
+	bh=cvBXze/G6TC++oiTptAKPb7pO28EM3OkjRZlLyRY8fc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Zq9Qyz09ZFNGlfVJl08iiM9YPxnxatCGfBZfOjb43PkGjx3KR1YSi/06E3p4keUr0+0BhTlSELIi07cpQ9LgQGoI1e2uw4RzlqginufA9Wt+zQuXfBf1AVwXuwzKc0npr/1F0lciHG+lLaGg1C70yi9xjRdV10htdOsP8W2KplM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k7h9lYB4; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJ7/kYiT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k7h9lYB4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785234695; x=1816770695;
+  t=1785235364; x=1816771364;
   h=date:from:to:cc:subject:message-id;
-  bh=GrFh5wOo67sdaPMHSi8bNxjXSGmeI5uHZr7upHVlgVg=;
-  b=CJ7/kYiTMEiBveE6zpZE8FwPJxRc0GTofS6cPt9I+oLbMORiE/k6fHzm
-   r04p+uv/tIGflacRN3G5sb8SxD53nqRWu81FWCwFf9sEHZTNFye1x5JlC
-   a5Fc2ouLtuTxapW+6wyNxNw3QMi8pTC1JuWPOFwMu8tpv2eueVp9ogdqA
-   Pd+LWOATV5GyP+Vr7gb1KSV07gf0PkmrOciQPcWepQHt0GijJZgp1dzPZ
-   wm/WIpVSZAPIqNxkhyIXmjpmBGJtRV+CTreM/fQ3v/+ByNGjkhoMTWKbN
-   rz3o6ecz5kkIhVPNuHGFoCLEH0sMs8GpTWz8/7CxvL9LEhxgAJo8m1zHe
-   A==;
-X-CSE-ConnectionGUID: Oix1ORyAS0arPSiIglmE3A==
-X-CSE-MsgGUID: gYH/A1wbQ72g5QphynqR2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="85854886"
+  bh=cvBXze/G6TC++oiTptAKPb7pO28EM3OkjRZlLyRY8fc=;
+  b=k7h9lYB4gX2Uo1boxh+8nxwcnyBqpap3phqfK97zv9v6kpWh9mF3hNkB
+   YkIUNEgowZuZv18DAk8ebSrm7VVpW7ictI4U8c7ER3dWildSL2tcIGVN6
+   1rkw/hSdf7v1gQ6lfunJJAivNHYUi4GCv6dkLX7FlaJVSvH+iUhKcG/oI
+   q2XQxgPXiDmnEOcDfpzshHcHXCECHqbx8fslkQPD1h9AyZqdKerkSifqF
+   J7HoLr5SS5y9TboltdN6wGwVkRKmiY9qY6sSu4siLrlmzhhPKsHX1exwv
+   EewAWMHviErc3MqMT8H7/idajZ6y47xobEnow5XePoxL7zAGkzgyPJEuK
+   w==;
+X-CSE-ConnectionGUID: Yd9CWYBQST+ZWzg3ApCklA==
+X-CSE-MsgGUID: sKPYgm4NSg+oZ2xtPtbntA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="84794332"
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="85854886"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 03:31:34 -0700
-X-CSE-ConnectionGUID: ZprX9Z00RVCDEE4dT4wtMA==
-X-CSE-MsgGUID: tDfL6ox+T4Kz9uGgj9hMDA==
+   d="scan'208";a="84794332"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 03:42:43 -0700
+X-CSE-ConnectionGUID: bJEUVYxlQ+ipjm3Ln1RqUA==
+X-CSE-MsgGUID: 8KyxP+wFRamMFWfgAKLWKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="257004594"
+   d="scan'208";a="263453273"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Jul 2026 03:31:33 -0700
+  by orviesa004.jf.intel.com with ESMTP; 28 Jul 2026 03:42:42 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wof5u-00000000eFT-3Ggh;
-	Tue, 28 Jul 2026 10:31:30 +0000
-Date: Tue, 28 Jul 2026 18:31:22 +0800
+	id 1wofGh-00000000eFr-35D0;
+	Tue, 28 Jul 2026 10:42:39 +0000
+Date: Tue, 28 Jul 2026 18:42:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:main-16k-gs-shusky-5.15 35/35]
- drivers/cma/mm/mem_phys_layout.c:252:39: warning: initialization of 'struct
- mem_section *' from 'int' makes pointer from integer without a cast
-Message-ID: <202607281822.PQ5lousk-lkp@intel.com>
+Subject: [android-common:android14-6.1 0/1]
+ drivers/firmware/arm_scmi/shmem.c:190:9: warning: 'reg_io_width' is used
+ uninitialized
+Message-ID: <202607281819.jg2NEySd-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,171 +60,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
-head:   d0ed0375a65ca817f907805e163e103822348f02
-commit: 90b05bcbb174b28bb0bc20f6d7f68c092a66a64f [35/35] ANDROID: mm: Get Physical memory model for the system
-config: i386-randconfig-005-20260728 (https://download.01.org/0day-ci/archive/20260728/202607281822.PQ5lousk-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607281822.PQ5lousk-lkp@intel.com/reproduce)
+Hi Florian,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   a6fc30b246f0d8be1c91e0d37c8b3bc859b1b2bc
+commit: fa34bcaf9e7b5bd86a417a14ea86bb88d9ea524e [0/1] BACKPORT: firmware: arm_scmi: Support 'reg-io-width' property for shared memory
+config: x86_64-buildonly-randconfig-003-20260728 (https://download.01.org/0day-ci/archive/20260728/202607281819.jg2NEySd-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607281819.jg2NEySd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607281822.PQ5lousk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607281819.jg2NEySd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+   drivers/firmware/arm_scmi/shmem.c: In function 'shmem_get_io_ops':
+>> drivers/firmware/arm_scmi/shmem.c:190:9: warning: 'reg_io_width' is used uninitialized [-Wuninitialized]
+     190 |         switch (reg_io_width) {
          |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:112:9: note: in expansion of macro 'pr_info'
-     112 |         pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
-         |         ^~~~~~~
-   drivers/cma/mm/mem_phys_layout.c: In function 'print_page_flags':
-   drivers/cma/mm/mem_phys_layout.c:189:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     189 |                 struct page *page = pfn_to_page(pfn);
-         |                 ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c: In function 'print_phys_memory_model':
-   drivers/cma/mm/mem_phys_layout.c:237:55: error: 'MAX_PAGE_ORDER' undeclared (first use in this function)
-     237 |         pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-         |                                                       ^~~~~~~~~~~~~~
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:237:9: note: in expansion of macro 'pr_info'
-     237 |         pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-         |         ^~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:237:55: note: each undeclared identifier is reported only once for each function it appears in
-     237 |         pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-         |                                                       ^~~~~~~~~~~~~~
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:237:9: note: in expansion of macro 'pr_info'
-     237 |         pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-         |         ^~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:239:55: error: 'PFN_SECTION_SHIFT' undeclared (first use in this function); did you mean 'SECTIONS_SHIFT'?
-     239 |         pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
-         |                                                       ^~~~~~~~~~~~~~~~~
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:239:9: note: in expansion of macro 'pr_info'
-     239 |         pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
-         |         ^~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:241:55: error: 'SECTION_SIZE_BITS' undeclared (first use in this function)
-     241 |         pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
-         |                                                       ^~~~~~~~~~~~~~~~~
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:241:9: note: in expansion of macro 'pr_info'
-     241 |         pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
-         |         ^~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:243:56: error: 'SUBSECTION_SIZE' undeclared (first use in this function)
-     243 |         pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:243:9: note: in expansion of macro 'pr_info'
-     243 |         pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
-         |         ^~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:244:56: error: 'SUBSECTIONS_PER_SECTION' undeclared (first use in this function)
-     244 |         pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:244:9: note: in expansion of macro 'pr_info'
-     244 |         pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
-         |         ^~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:248:50: error: 'PAGES_PER_SUBSECTION' undeclared (first use in this function)
-     248 |         pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
-         |                                                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:248:9: note: in expansion of macro 'pr_info'
-     248 |         pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
-         |         ^~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:250:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     250 |         phys_addr_t start_addr = memblock_start_of_DRAM();
-         |         ^~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:252:39: error: implicit declaration of function '__pfn_to_section' [-Werror=implicit-function-declaration]
-     252 |         struct mem_section *section = __pfn_to_section(start_pfn);
-         |                                       ^~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:252:39: warning: initialization of 'struct mem_section *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/cma/mm/mem_phys_layout.c:253:29: error: implicit declaration of function '__section_mem_map_addr' [-Werror=implicit-function-declaration]
-     253 |         struct page *page = __section_mem_map_addr(section);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:253:29: warning: initialization of 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/cma/mm/mem_phys_layout.c:259:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     259 |                         (u64) page,
-         |                         ^
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:256:9: note: in expansion of macro 'pr_info'
-     256 |         pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
-         |         ^~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/firmware/arm_scmi/shmem.c:187:13: note: 'reg_io_width' was declared here
+     187 |         u32 reg_io_width;
+         |             ^~~~~~~~~~~~
 
 
-vim +252 drivers/cma/mm/mem_phys_layout.c
+vim +/reg_io_width +190 drivers/firmware/arm_scmi/shmem.c
 
-   234	
-   235	static void print_phys_memory_model(void)
-   236	{
-   237		pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-   238		pr_info("pageblock_order               = %d", pageblock_order);
-   239		pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
-   240		pr_info("(MAX_PAGE_ORDER + PAGE_SHIFT) = %d", (MAX_PAGE_ORDER + PAGE_SHIFT));
-   241		pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
-   242		pr_info("2 ^ SECTION_SIZE_BITS         = %d", (1 << SECTION_SIZE_BITS));
-   243		pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
-   244		pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
-   245		pr_info("SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION = %ld = %ldMiB",
-   246				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
-   247				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
-   248		pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
-   249	
-   250		phys_addr_t start_addr = memblock_start_of_DRAM();
-   251		unsigned long start_pfn = PHYS_PFN(start_addr);
- > 252		struct mem_section *section = __pfn_to_section(start_pfn);
- > 253		struct page *page = __section_mem_map_addr(section);
-   254	
-   255		pr_info("Using struct mem_section");
-   256		pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
-   257				(u64)start_pfn,
-   258				(u64)start_pfn,
-   259				(u64) page,
-   260				(u64)PFN_PHYS(start_pfn));
-   261	}
-   262	
+   184	
+   185	struct scmi_shmem_io_ops *shmem_get_io_ops(struct device_node *shmem)
+   186	{
+   187		u32 reg_io_width;
+   188	
+   189		of_property_read_u32(shmem, "reg-io-width", &reg_io_width);
+ > 190		switch (reg_io_width) {
 
 --
 0-DAY CI Kernel Test Service
