@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429D841D64E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 22:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B4E284B4F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 23:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785277562; cv=none; b=EkZO9YsDSh5i8a3yHxaQ2eaHF5eh2ov+5C2GIYMK0SWFSx68+d1bA0QnRI5HyJb7bxI1tMuXZuxFbHHZ2oH4VSlwKqlmEh0DnazUu99dJj9b473xE0Gv/qUNhcLy+8ldS9pNOol43OKlSCNUr+0zlnGKf3hJ08wq3263D0sJ3bY=
+	t=1785280021; cv=none; b=RRCm48iPmXaMK8s6xndGruWeuo+SsFCJUUgKor1YK4hOoNqc3hEpcMvKbamZ0TmluKizsz+DuHZ9pn1JlPwjUnBaHtlTkVEqqHk0/1QYcVVItqupc7oWTU2LR7E+8crfi/Yz/T8qi8DZJwPemcm9aDLMWzET06OHglWu0HKuIc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785277562; c=relaxed/simple;
-	bh=OZWPQvLkHr7CDJ4jJ8Zpr9lbLQA/5one/rswchEF4wc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gw9nbJQPo3FOiJM0NuALiK9WxDWclSFJ/CamW1w1HZavG9wVMU+tuAPbg7Da9SoL/yHQpQPN0Th8ASPsofNjJxaPKZVKiTJEOzniFvDV/y2Mfd7wcb3G3UecI8KjrrNl8iBzGKOskYwcbXe8J4ZnaGW0IEQuPpx2/1WDZSM3+c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OH9md2nR; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1785280021; c=relaxed/simple;
+	bh=3aW3XndYi0yUh48Y6/CBdACLD6cSOFJ4F2aoiq2+8ao=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=g18TSSkM3iugEOd/rHKhCqT/GSXKUP/MQVukwc4uJOFAYJFKVxk8oMPsYwNRuwr7j0FhcE8BT5FpRu/d02GDWxJf9p1LKbhi6SX9TbhumZg7k6yBbTQ40iQOF1+z2bQHGfCL+7z6jI71aPM/goA6AFe8I+YosZYIRYdMaPcZ9RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iST38GIb; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OH9md2nR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iST38GIb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785277560; x=1816813560;
+  t=1785280019; x=1816816019;
   h=date:from:to:cc:subject:message-id;
-  bh=OZWPQvLkHr7CDJ4jJ8Zpr9lbLQA/5one/rswchEF4wc=;
-  b=OH9md2nRLuORqd5WatUBfP0UMdCoZfWIXVSDEYUhR+3+Unl5iCebXFg1
-   VaPcKDKmS+swnExXvjbLHj6EEkpc9C399TLLAdrGkAWZ3sYd05dC2cC/+
-   cPaMBH44nllt+PwlpB/6wWLgHuVclTzzFqdss4FugFSOUONLkKCcMvVHs
-   7v//d/D5TzgNpCRRkxei7LngQ9nObftjD3yoO2SXVNhsEtc08lHdp4SQx
-   JXSh7XRGqVKfX0AwXfCNIbvqos/rt5h0HRg4rMrr/yBgLKV0jr2iM0ZLe
-   p0FeNL8VDFfunZAT5MpvRnud1zS+hvKUqBaHi8YkqiniQcu+8ZjvKAQpS
+  bh=3aW3XndYi0yUh48Y6/CBdACLD6cSOFJ4F2aoiq2+8ao=;
+  b=iST38GIbAVEIFRkfvGnE6eL8HNOompGxEKoLUlpal45yMAyp9LSFoFMk
+   j1UwXxE8VlASj0H7dFmMZXPUfpFhDy+QeYuxTGkuB7TJ2IRls0+OxJzFy
+   SP2krIP/BWjwe7QDW3FVjcnu7+yOcYMI0PQzQKUOlv/SuH+kPsR3FlVZH
+   Yfwvm9Z0GJeHVsNt4zgH8dNhW52MOT9SefN+0S+mmXRXZkcv2B3FO3W3c
+   RTspOsWsN8R8+E8j5zlfrXYbn2g3I+ou953Jtb8VoQTYxul2XFzHM7LJr
+   LTyVQiOIeKeHG5dpkFAUh9kJsW2asGLwt12GzC7Pb47pGxDww9U/56Ysb
    g==;
-X-CSE-ConnectionGUID: IrVOP5OyTbynCOxqVeRMVA==
-X-CSE-MsgGUID: 7a/OqfmeQwqpp53yzRqaOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86068391"
+X-CSE-ConnectionGUID: t1HhPpQNT4q4PEildkkSqQ==
+X-CSE-MsgGUID: 1ap9RqxrSC+9pRo8EDcTdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85007170"
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="86068391"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 15:25:59 -0700
-X-CSE-ConnectionGUID: oUpdJAqBSC6Szkl/koF+oQ==
-X-CSE-MsgGUID: E7rwFjhmSTGl1jEhwcZFgA==
+   d="scan'208";a="85007170"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 16:06:58 -0700
+X-CSE-ConnectionGUID: Cox5/1ddTJakSP1NkGTd6w==
+X-CSE-MsgGUID: WJX4GdvaSKiTo4499TMBxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="253498300"
+   d="scan'208";a="284370916"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Jul 2026 15:25:57 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 28 Jul 2026 16:06:57 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woqFG-0000000021i-3teI;
-	Tue, 28 Jul 2026 22:25:54 +0000
-Date: Wed, 29 Jul 2026 00:25:17 +0200
+	id 1woqsx-0000000022E-1lFi;
+	Tue, 28 Jul 2026 23:06:55 +0000
+Date: Wed, 29 Jul 2026 01:06:03 +0200
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
+To: Sean Christopherson <seanjc@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:hugetlb-20260728 6/22]
- mm/memory-failure.c:2751:17: error: incompatible pointer types passing 'pte_t
- *(*)(struct vm_area_struct *, unsigned long, unsigned long)' to parameter of
- type 'spinlock_t *' (aka 'struct spinlock *')
-Message-ID: <202607290031.jbqmE0Tw-lkp@intel.com>
+Subject: [sean-jc:x86/no_bug_on_bad_eoi_vector 120/120]
+ arch/x86/kvm/lapic.c:1625:6: error: conflicting types for
+ 'kvm_apic_set_eoi_accelerated'; have 'void(struct kvm_vcpu *, u8)' {aka
+ 'void(struct kvm_vcpu *, unsigned char)'}
+Message-ID: <202607290105.TCwZYQef-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,190 +61,77 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/willy/pagecache hugetlb-20260728
-head:   9d175837a52482ede820b73b06d16914dfe184b9
-commit: 4e9ba443c27579c311e9cc43d1ed6d4c01abcccf [6/22] hugetlb: Use the has_hwpoisoned flag
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260729/202607290031.jbqmE0Tw-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290031.jbqmE0Tw-lkp@intel.com/reproduce)
+Hi Sean,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/sean-jc/linux x86/no_bug_on_bad_eoi_vector
+head:   49569850d8b90a3da31a4d3e2518ce4aa618c242
+commit: 49569850d8b90a3da31a4d3e2518ce4aa618c242 [120/120] KVM: x86: Track kvm_vcpu_arch.pending_ioapic_eoi as a u8 to drop dead BUG_ON()
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260729/202607290105.TCwZYQef-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290105.TCwZYQef-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607290031.jbqmE0Tw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607290105.TCwZYQef-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory-failure.c:2751:18: error: use of undeclared identifier 'hugetlb_lock'; did you mean 'hugetlb_walk'?
-    2751 |                 spin_lock_irq(&hugetlb_lock);
-         |                                ^~~~~~~~~~~~
-         |                                hugetlb_walk
-   include/linux/hugetlb.h:1349:1: note: 'hugetlb_walk' declared here
-    1349 | hugetlb_walk(struct vm_area_struct *vma, unsigned long addr, unsigned long sz)
-         | ^
->> mm/memory-failure.c:2751:17: error: incompatible pointer types passing 'pte_t *(*)(struct vm_area_struct *, unsigned long, unsigned long)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
-    2751 |                 spin_lock_irq(&hugetlb_lock);
-         |                               ^~~~~~~~~~~~~
-   include/linux/spinlock.h:369:55: note: passing argument to parameter 'lock' here
-     369 | static __always_inline void spin_lock_irq(spinlock_t *lock)
-         |                                                       ^
-   mm/memory-failure.c:2756:22: error: use of undeclared identifier 'hugetlb_lock'; did you mean 'hugetlb_walk'?
-    2756 |                                 spin_unlock_irq(&hugetlb_lock);
-         |                                                  ^~~~~~~~~~~~
-         |                                                  hugetlb_walk
-   include/linux/hugetlb.h:1349:1: note: 'hugetlb_walk' declared here
-    1349 | hugetlb_walk(struct vm_area_struct *vma, unsigned long addr, unsigned long sz)
-         | ^
-   mm/memory-failure.c:2756:21: error: incompatible pointer types passing 'pte_t *(*)(struct vm_area_struct *, unsigned long, unsigned long)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
-    2756 |                                 spin_unlock_irq(&hugetlb_lock);
-         |                                                 ^~~~~~~~~~~~~
-   include/linux/spinlock.h:399:57: note: passing argument to parameter 'lock' here
-     399 | static __always_inline void spin_unlock_irq(spinlock_t *lock)
-         |                                                         ^
-   mm/memory-failure.c:2763:20: error: use of undeclared identifier 'hugetlb_lock'; did you mean 'hugetlb_walk'?
-    2763 |                 spin_unlock_irq(&hugetlb_lock);
-         |                                  ^~~~~~~~~~~~
-         |                                  hugetlb_walk
-   include/linux/hugetlb.h:1349:1: note: 'hugetlb_walk' declared here
-    1349 | hugetlb_walk(struct vm_area_struct *vma, unsigned long addr, unsigned long sz)
-         | ^
-   mm/memory-failure.c:2763:19: error: incompatible pointer types passing 'pte_t *(*)(struct vm_area_struct *, unsigned long, unsigned long)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
-    2763 |                 spin_unlock_irq(&hugetlb_lock);
-         |                                 ^~~~~~~~~~~~~
-   include/linux/spinlock.h:399:57: note: passing argument to parameter 'lock' here
-     399 | static __always_inline void spin_unlock_irq(spinlock_t *lock)
-         |                                                         ^
-   6 errors generated.
+>> arch/x86/kvm/lapic.c:1625:6: error: conflicting types for 'kvm_apic_set_eoi_accelerated'; have 'void(struct kvm_vcpu *, u8)' {aka 'void(struct kvm_vcpu *, unsigned char)'}
+    1625 | void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, u8 vector)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/irq.h:19,
+                    from arch/x86/kvm/lapic.c:41:
+   arch/x86/kvm/lapic.h:180:6: note: previous declaration of 'kvm_apic_set_eoi_accelerated' with type 'void(struct kvm_vcpu *, int)'
+     180 | void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, int vector);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/resume_user_mode.h:6,
+                    from include/linux/entry-virt.h:6,
+                    from include/linux/kvm_host.h:5,
+                    from arch/x86/kvm/lapic.c:20:
+   arch/x86/kvm/lapic.c:1634:32: error: conflicting types for 'kvm_apic_set_eoi_accelerated'; have 'void(struct kvm_vcpu *, u8)' {aka 'void(struct kvm_vcpu *, unsigned char)'}
+    1634 | EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_apic_set_eoi_accelerated);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:76:28: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/kvm_types.h:13:9: note: in expansion of macro 'EXPORT_SYMBOL_FOR_MODULES'
+      13 |         EXPORT_SYMBOL_FOR_MODULES(symbol, __stringify(KVM_SUB_MODULES))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/lapic.c:1634:1: note: in expansion of macro 'EXPORT_SYMBOL_FOR_KVM_INTERNAL'
+    1634 | EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_apic_set_eoi_accelerated);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/lapic.h:180:6: note: previous declaration of 'kvm_apic_set_eoi_accelerated' with type 'void(struct kvm_vcpu *, int)'
+     180 | void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, int vector);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2751 mm/memory-failure.c
+vim +1625 arch/x86/kvm/lapic.c
 
-  2677	
-  2678	/**
-  2679	 * unpoison_memory - Unpoison a previously poisoned page
-  2680	 * @pfn: Page number of the to be unpoisoned page
-  2681	 *
-  2682	 * Software-unpoison a page that has been poisoned by
-  2683	 * memory_failure() earlier.
-  2684	 *
-  2685	 * This is only done on the software-level, so it only works
-  2686	 * for linux injected failures, not real hardware failures
-  2687	 *
-  2688	 * Returns 0 for success, otherwise -errno.
-  2689	 */
-  2690	int unpoison_memory(unsigned long pfn)
-  2691	{
-  2692		struct folio *folio;
-  2693		struct page *p;
-  2694		int ret = -EBUSY, ghp;
-  2695		unsigned long count;
-  2696		bool huge = false;
-  2697		static DEFINE_RATELIMIT_STATE(unpoison_rs, DEFAULT_RATELIMIT_INTERVAL,
-  2698						DEFAULT_RATELIMIT_BURST);
-  2699	
-  2700		p = pfn_to_online_page(pfn);
-  2701		if (!p)
-  2702			return -EIO;
-  2703		folio = page_folio(p);
-  2704	
-  2705		mutex_lock(&mf_mutex);
-  2706	
-  2707		if (hw_memory_failure) {
-  2708			unpoison_pr_info("%#lx: disabled after HW memory failure\n",
-  2709					 pfn, &unpoison_rs);
-  2710			ret = -EOPNOTSUPP;
-  2711			goto unlock_mutex;
-  2712		}
-  2713	
-  2714		if (is_huge_zero_folio(folio)) {
-  2715			unpoison_pr_info("%#lx: huge zero page is not supported\n",
-  2716					 pfn, &unpoison_rs);
-  2717			ret = -EOPNOTSUPP;
-  2718			goto unlock_mutex;
-  2719		}
-  2720	
-  2721		if (!is_page_hwpoison(p)) {
-  2722			unpoison_pr_info("%#lx: page is not poisoned\n",
-  2723					 pfn, &unpoison_rs);
-  2724			goto unlock_mutex;
-  2725		}
-  2726	
-  2727		if (folio_ref_count(folio) > 1) {
-  2728			unpoison_pr_info("%#lx: someone grabs the hwpoison page\n",
-  2729					 pfn, &unpoison_rs);
-  2730			goto unlock_mutex;
-  2731		}
-  2732	
-  2733		if (folio_test_slab(folio) || folio_test_pgtable(folio) ||
-  2734		    folio_test_reserved(folio) || folio_test_offline(folio))
-  2735			goto unlock_mutex;
-  2736	
-  2737		if (folio_mapped(folio)) {
-  2738			unpoison_pr_info("%#lx: someone maps the hwpoison page\n",
-  2739					 pfn, &unpoison_rs);
-  2740			goto unlock_mutex;
-  2741		}
-  2742	
-  2743		if (folio_mapping(folio)) {
-  2744			unpoison_pr_info("%#lx: the hwpoison page has non-NULL mapping\n",
-  2745					 pfn, &unpoison_rs);
-  2746			goto unlock_mutex;
-  2747		}
-  2748	
-  2749		ghp = get_hwpoison_page(p, MF_UNPOISON);
-  2750		if (!ghp) {
-> 2751			spin_lock_irq(&hugetlb_lock);
-  2752			if (folio_test_hugetlb(folio)) {
-  2753				huge = true;
-  2754				count = folio_free_raw_hwp(folio, false);
-  2755				if (count == 0) {
-  2756					spin_unlock_irq(&hugetlb_lock);
-  2757					goto unlock_mutex;
-  2758				}
-  2759				ret = hugetlb_clear_poison(folio);
-  2760			} else {
-  2761				ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
-  2762			}
-  2763			spin_unlock_irq(&hugetlb_lock);
-  2764		} else if (ghp < 0) {
-  2765			if (ghp == -EHWPOISON) {
-  2766				ret = put_page_back_buddy(p) ? 0 : -EBUSY;
-  2767			} else {
-  2768				ret = ghp;
-  2769				unpoison_pr_info("%#lx: failed to grab page\n",
-  2770						 pfn, &unpoison_rs);
-  2771			}
-  2772		} else if (folio_test_hugetlb(folio)) {
-  2773			huge = true;
-  2774			count = folio_free_raw_hwp(folio, false);
-  2775			if (count == 0) {
-  2776				folio_put(folio);
-  2777				goto unlock_mutex;
-  2778			}
-  2779			ret = hugetlb_clear_poison(folio);
-  2780			folio_put(folio);
-  2781			if (!ret)
-  2782				folio_put(folio);
-  2783		} else {
-  2784			folio_put(folio);
-  2785			if (TestClearPageHWPoison(p)) {
-  2786				folio_put(folio);
-  2787				ret = 0;
-  2788			}
-  2789		}
-  2790	
-  2791	unlock_mutex:
-  2792		mutex_unlock(&mf_mutex);
-  2793		if (!ret) {
-  2794			if (!huge)
-  2795				num_poisoned_pages_sub(pfn, 1);
-  2796			unpoison_pr_info("%#lx: software-unpoisoned page\n",
-  2797					 page_to_pfn(p), &unpoison_rs);
-  2798		}
-  2799		return ret;
-  2800	}
-  2801	EXPORT_SYMBOL(unpoison_memory);
-  2802	
+  1620	
+  1621	/*
+  1622	 * this interface assumes a trap-like exit, which has already finished
+  1623	 * desired side effect including vISR and vPPR update.
+  1624	 */
+> 1625	void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, u8 vector)
+  1626	{
+  1627		struct kvm_lapic *apic = vcpu->arch.apic;
+  1628	
+  1629		trace_kvm_eoi(apic, vector);
+  1630	
+  1631		kvm_ioapic_send_eoi(apic, vector);
+  1632		kvm_make_request(KVM_REQ_EVENT, apic->vcpu);
+  1633	}
+  1634	EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_apic_set_eoi_accelerated);
+  1635	
 
 --
 0-DAY CI Kernel Test Service
