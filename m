@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0F22DEA93
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 23:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE94347A87D;
+	Tue, 28 Jul 2026 23:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785280589; cv=none; b=MU3qbegefiy5i8w8BRfIZeD5dxB7/O0i8dtO9+7IFumIAJF8Z8kDBvAbcXWK9RWt+qS1wew9dtSmyWU2dVVfV+lLRJh7a+G7HLhBNj6S7XpwZk3rnp+akPMQI45n26j9VHZhxUaE6i4xeYfZUgS6g9YkFZjG2CtfN67Di3UDCzQ=
+	t=1785280968; cv=none; b=TEC+JCXEyNG8nXKrS9rhKDP5J/OmSAFLzanTVg3l51Lbp5GgM5rweYlqUtQvfWP4SsK2RJ9PkHI4eyGljdvT2Vb5LUHyMvpFVqdMAczNZS3mNAjddlLfiIzEhe2qujMiuMydVW1Gl8rtVBU71tYRbZvjH81OAwx9aZvKzKF1pxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785280589; c=relaxed/simple;
-	bh=WcwZfmXHnbXYtKOe6u2XVAdAOlsoNW4OAVDFntR+NqY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jclR04F6soXoPPot0mnwpqEjU32TnxbaqNF/SZikoHBpnCHToBzEzGikzuE3qjL9MApkWkhnsA8wGjFyEuSB1k4N+nCdBWrsU1IWRkiWINNCwgaQcG1aPZylGO/66fKo5EMB1KcDLjx2fwayUQlFNywIgimcb47LNQb5RlOPEKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVZt/Aqq; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1785280968; c=relaxed/simple;
+	bh=IVr/M0qs+ii2dzfXtIZevgLJzrmOW3E+LFrPlqsdMc4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NdvrIAlz5vWWKjhOvSoZoPvXb8+nSI9v8ck742e+veiFgynCOERumxME9CZlD2tSu4fcC33HA88dMFvpV0qtUq0OzF6AXNPlwJmIzls26AKsX+hWK4uDlVYpSNAOEhwfW+8IC5XOaxAf2KXZals6TIvGFQDRP7US4SmfPg5M4yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=biIki4Kh; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVZt/Aqq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="biIki4Kh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785280587; x=1816816587;
+  t=1785280966; x=1816816966;
   h=date:from:to:cc:subject:message-id;
-  bh=WcwZfmXHnbXYtKOe6u2XVAdAOlsoNW4OAVDFntR+NqY=;
-  b=GVZt/AqqjQ6jsJPXTt9Lnh4Dp/QSPZp2HAFP35kRBYiI89LtBoaGXMle
-   4BXZExE8TXbCeQT70HrI99UqEHLFE7+92T66MokuCt5xWPCNSQZBLkM6x
-   ZEelFSEefHWLPzv/+xurC3PLqQl/pg2xg/guiMCrBKXqpEa1EYqTGuxup
-   heUuiYiDt/r7zl/u1SRqplVHywV7La2Ap2mWYtnVtDmLLH2kYHm59hTJc
-   kk1h6EZdXADKmKvkRuVKRugHsLiJANr3ZhMCo6//kzr4EPhxmxKxOlzw9
-   KXAQqZq4ZgVD2Cf+vz3saeqORp96i1G1LW+/0NRuFOrflR20UfqW137nw
-   A==;
-X-CSE-ConnectionGUID: SGqZD2fCREqXg6Lqztm/Nw==
-X-CSE-MsgGUID: RE1mv9dLSaaqyTPMaCfhEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85920733"
+  bh=IVr/M0qs+ii2dzfXtIZevgLJzrmOW3E+LFrPlqsdMc4=;
+  b=biIki4Khr5mNZJYeBZveD4JPbj2xb2BNOIyiDaIPO+SZ8lRJc+wwvoVr
+   5Aacg4xS4YBFTy/YqeZmKEsaYgwcWYN5Z1hpAH/fUcY5n75fSK4F5PETF
+   sorexBPdQKEnf2aDBRczWePRfT5VRxWt/vYAzexs894Wa7tghfKZctZwr
+   NWojnLLwELoR4xdtsQ3SkwuWhi8pvWqVEF3K9oNdeTYx6AxNhL/F08lcS
+   mJpf03ExmgLN4fYgdZsgAQM+YZqy7AmKb1eciC54ECrEt7kq33U6/sYDU
+   /nQYfE+Kok3/yuIsES5kCYU1cenH0/aWeFXGHcJ8Ijd9KQZkfzX2egdir
+   w==;
+X-CSE-ConnectionGUID: 2o+q9OXcQ8Okum3sHqY5Uw==
+X-CSE-MsgGUID: MltMCF3DRJqnlmKEkdBzbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="108676306"
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="85920733"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 16:16:25 -0700
-X-CSE-ConnectionGUID: GiXIjMKCS+eSwdbkGnl3Jw==
-X-CSE-MsgGUID: Evn4kA9TQ16QnojivNnRqA==
+   d="scan'208";a="108676306"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 16:22:45 -0700
+X-CSE-ConnectionGUID: L5ONUnO1Q9WkhkPvtJJ2kA==
+X-CSE-MsgGUID: ESfimJCRS/2jAfFMzhZFZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="259272910"
+   d="scan'208";a="289796876"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 28 Jul 2026 16:16:25 -0700
+  by orviesa002.jf.intel.com with ESMTP; 28 Jul 2026 16:22:43 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wor26-00000000eqT-0nu8;
-	Tue, 28 Jul 2026 23:16:22 +0000
-Date: Wed, 29 Jul 2026 07:15:49 +0800
+	id 1wor8D-00000000eqh-0OXn;
+	Tue, 28 Jul 2026 23:22:41 +0000
+Date: Wed, 29 Jul 2026 07:21:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [sean-jc:x86/no_bug_on_bad_eoi_vector 120/120]
  arch/x86/kvm/lapic.c:1625:6: error: conflicting types for
- 'kvm_apic_set_eoi_accelerated'; have 'void(struct kvm_vcpu *, u8)' {aka
- 'void(struct kvm_vcpu *, unsigned char)'}
-Message-ID: <202607290650.dU7xZ2eC-lkp@intel.com>
+ 'kvm_apic_set_eoi_accelerated'
+Message-ID: <202607290705.MVp63a8U-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -68,53 +67,27 @@ FYI, the error/warning was bisected to this commit, please ignore it if it's irr
 tree:   https://github.com/sean-jc/linux x86/no_bug_on_bad_eoi_vector
 head:   49569850d8b90a3da31a4d3e2518ce4aa618c242
 commit: 49569850d8b90a3da31a4d3e2518ce4aa618c242 [120/120] KVM: x86: Track kvm_vcpu_arch.pending_ioapic_eoi as a u8 to drop dead BUG_ON()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260729/202607290650.dU7xZ2eC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290650.dU7xZ2eC-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260729/202607290705.MVp63a8U-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290705.MVp63a8U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607290650.dU7xZ2eC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607290705.MVp63a8U-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/lapic.c:1625:6: error: conflicting types for 'kvm_apic_set_eoi_accelerated'; have 'void(struct kvm_vcpu *, u8)' {aka 'void(struct kvm_vcpu *, unsigned char)'}
+>> arch/x86/kvm/lapic.c:1625:6: error: conflicting types for 'kvm_apic_set_eoi_accelerated'
     1625 | void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, u8 vector)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kvm/irq.h:19,
-                    from arch/x86/kvm/lapic.c:41:
-   arch/x86/kvm/lapic.h:180:6: note: previous declaration of 'kvm_apic_set_eoi_accelerated' with type 'void(struct kvm_vcpu *, int)'
+         |      ^
+   arch/x86/kvm/lapic.h:180:6: note: previous declaration is here
      180 | void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, int vector);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from arch/x86/include/asm/cache.h:5,
-                    from include/vdso/cache.h:5,
-                    from include/linux/cache.h:6,
-                    from arch/x86/include/asm/current.h:10,
-                    from include/linux/sched.h:12,
-                    from include/linux/resume_user_mode.h:6,
-                    from include/linux/entry-virt.h:6,
-                    from include/linux/kvm_host.h:5,
-                    from arch/x86/kvm/lapic.c:20:
-   arch/x86/kvm/lapic.c:1634:32: error: conflicting types for 'kvm_apic_set_eoi_accelerated'; have 'void(struct kvm_vcpu *, u8)' {aka 'void(struct kvm_vcpu *, unsigned char)'}
-    1634 | EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_apic_set_eoi_accelerated);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:76:28: note: in definition of macro '__EXPORT_SYMBOL'
-      76 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/kvm_types.h:13:9: note: in expansion of macro 'EXPORT_SYMBOL_FOR_MODULES'
-      13 |         EXPORT_SYMBOL_FOR_MODULES(symbol, __stringify(KVM_SUB_MODULES))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/lapic.c:1634:1: note: in expansion of macro 'EXPORT_SYMBOL_FOR_KVM_INTERNAL'
-    1634 | EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_apic_set_eoi_accelerated);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/lapic.h:180:6: note: previous declaration of 'kvm_apic_set_eoi_accelerated' with type 'void(struct kvm_vcpu *, int)'
-     180 | void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, int vector);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |      ^
+   1 error generated.
 
 
-vim +1625 arch/x86/kvm/lapic.c
+vim +/kvm_apic_set_eoi_accelerated +1625 arch/x86/kvm/lapic.c
 
   1620	
   1621	/*
