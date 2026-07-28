@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B323AA4EB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 09:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3717041D10F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 09:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785229559; cv=none; b=JclisurubJAZc266XjGGvJSwlbWPDC9eFvWAD09uldN3FgBfmA6xZtvxrRPM4X8ibO+5DUMq+a1VNaLzqTX3/e0XGlLPrTxQtlOvTZKEqLb2w2AH9hYatA4/YcJNQfsOJJGIC+u3lsuKauQgIeW9QczsU/eMc/jYqzGz5n/B5pk=
+	t=1785230858; cv=none; b=Yprn1JmQDpQVYBNIiLyG825jZMvqBIzDsxoIqLhAkIHukbGSIMPNO2uDpU4YJJlhdekO2rUur0tEbG1uZR9HwiCxeffWxXD+WLde3akf/ZdoXfdm0BhxdIeeehzHktXOcJZ6jFFVGleDg52bOx3l7f+x7aZx722I8uU8kIgQmw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785229559; c=relaxed/simple;
-	bh=IV0MhVPmec0gzN+9Xh5d52kEWZNpv4fT7wOlAWIWBCw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hmsvJq9Bwtfl/84xw/5POKA4fUvZWKwlop8ESUDJz8cY7mOeWQNUOs8KKF7Ve+Zvogm7+ktVJuvCinXyG+9VRXkMPSdsh8APhsoqSV9jMaenGffR09dS0DAxJUQOBxV9FBoxoabKbZSpLbXzW97T8E8URovAk35QhY+DKEiZOxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aSGFQ6x7; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1785230858; c=relaxed/simple;
+	bh=VpOMoZiCz4Y4JPD9wV0uTQPh8pSShqsSIxayBBogCME=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q39R4ZFKz+SyfkRCU+lLyJbht+FiDUNTzbG1lnBTO9e6FNYvOctTrG+OyGpL+Ym0rcrt565sLK3jNkIP7cbrftA5NehZVz+lnYGQ9Z/KgH5ZbUs7vOGkXedsuWZ7M1C06CRI/TNx6syIPM1xarlQk+XYI0qkiXQORlLn6idqGJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zqch6xBx; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aSGFQ6x7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zqch6xBx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785229558; x=1816765558;
+  t=1785230857; x=1816766857;
   h=date:from:to:cc:subject:message-id;
-  bh=IV0MhVPmec0gzN+9Xh5d52kEWZNpv4fT7wOlAWIWBCw=;
-  b=aSGFQ6x7I6PaKllufiVrE3pCsTVjjhe6LQo7YAoGcWiyi0h+Em1CXAXy
-   2OEfE5v1GVCPfQoJfy/Xw+snvvLnGP148P3Y0e4ExG6w8c6ii5llhx4Yl
-   Zr1/tm3L+x2L0Ty7IHjjCG0UFDd0X8r2RzC3h1f19yTQBnRTl7T6u8HYk
-   EKzk/Yw7Lsfrx7XKHfkCCGxvw6BGhThC4yN+2GJsw3xx5yFgqeu+POQgH
-   5V4xhVzQJJ5XEdNLWWZrEh7J4VEFW1MCqOgsMUE9QBviYvrQeJAVpYrxS
-   7fYARgRkYTKuK5LSrVaCWLXRsANQ19qsRwkO0+n4Akt6j3gTrm88Xc6FQ
-   w==;
-X-CSE-ConnectionGUID: C2FhLXzYTrmuQVnEU2ngZA==
-X-CSE-MsgGUID: g8fTaLMiTPm/1Wqv8iQIBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="96467847"
+  bh=VpOMoZiCz4Y4JPD9wV0uTQPh8pSShqsSIxayBBogCME=;
+  b=Zqch6xBx5m+ck/jRkzIBOI/E2FUhlbeeQksi9ZULBK96FedszipJNmgD
+   eC5Lbe3CfLY3o4HdJgJJoZ1GrM+NqiADro/NSIAwauplgVpwjmcG+Kwck
+   VsrpLWA9Z9tGOwzWJ3AngabXt0HxCTwCloPn0ozRP5svYZ10aQcSvturH
+   ofi+RHHSuwP9doZq5KCKJpW34fEwoqCcvigkSyyboIA61fSmS2CGSTMbp
+   1Ei5DNncvpKGW7bl9fKIqy5Tq2juuk6gttbS8LcVNepUkwj8t+uvu/Eq1
+   RL/X9bNIYzZJVTgOnLu31wpXa4mcO4Zjhj5vgnLsMp0LSy6v1Qlnepxn7
+   g==;
+X-CSE-ConnectionGUID: IlXobtiESeqVKXt3fX/C+g==
+X-CSE-MsgGUID: xct4x0RQTAukUu0rp7hXGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="84936825"
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="96467847"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 02:05:57 -0700
-X-CSE-ConnectionGUID: v56RkhFcTVmIcq9faMC/qw==
-X-CSE-MsgGUID: TUK9Bj9zTfiIDmPviIta7g==
+   d="scan'208";a="84936825"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 02:27:36 -0700
+X-CSE-ConnectionGUID: nbqV0hqWRHa9Ymz/NnuKcA==
+X-CSE-MsgGUID: xatpN9CTSfSAixDNn/npYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="261623431"
+   d="scan'208";a="260306470"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Jul 2026 02:05:55 -0700
+  by orviesa009.jf.intel.com with ESMTP; 28 Jul 2026 02:27:36 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wodl3-00000000eAZ-1k1Q;
-	Tue, 28 Jul 2026 09:05:53 +0000
-Date: Tue, 28 Jul 2026 17:04:54 +0800
+	id 1woe5x-00000000eBv-1jEv;
+	Tue, 28 Jul 2026 09:27:30 +0000
+Date: Tue, 28 Jul 2026 17:26:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:main-16k-gs-shusky-5.15 35/35]
- drivers/cma/mm/mem_phys_layout.c:86:25: warning: cast from pointer to integer
- of different size
-Message-ID: <202607281727.49iqY734-lkp@intel.com>
+Subject: [android-common:android13-5.10 1/1]
+ kernel/sched/psi.c:1147:6: warning: no previous prototype for
+ 'psi_trigger_destroy'
+Message-ID: <202607281748.z5BN1zK8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,124 +60,105 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Juan,
+Hi Suren,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
-head:   d0ed0375a65ca817f907805e163e103822348f02
-commit: 2a9a81f53ac75526c6b30e27ee151e978b0830c4 [35/35] ANDROID: mm: Use vmemmap to get the address of the first page
-config: i386-randconfig-005-20260728 (https://download.01.org/0day-ci/archive/20260728/202607281727.49iqY734-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607281727.49iqY734-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   68b45855d7865a3c7836a9f017f8c337f3a15367
+commit: d4e4e61d4a5b87bfc9953c306a11d35d869417fd [1/1] psi: Fix uaf issue when psi trigger is destroyed while being polled
+config: arm-randconfig-004-20260728 (https://download.01.org/0day-ci/archive/20260728/202607281748.z5BN1zK8-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607281748.z5BN1zK8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607281727.49iqY734-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607281748.z5BN1zK8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:86,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:9,
-                    from include/linux/memblock.h:13,
-                    from drivers/cma/mm/mem_phys_layout.c:14:
-   drivers/cma/mm/mem_phys_layout.c: In function 'print_pfn_start_address':
->> drivers/cma/mm/mem_phys_layout.c:86:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      86 |                         (unsigned long long)first_page);
-         |                         ^
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:85:9: note: in expansion of macro 'pr_info'
-      85 |         pr_info("First struct page starts at: pfn_to_page(0) [mem %#010Lx]\n",
-         |         ^~~~~~~
+   kernel/sched/psi.c:1077:21: warning: no previous prototype for 'psi_trigger_create' [-Wmissing-prototypes]
+    1077 | struct psi_trigger *psi_trigger_create(struct psi_group *group,
+         |                     ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/psi.c:1147:6: warning: no previous prototype for 'psi_trigger_destroy' [-Wmissing-prototypes]
+    1147 | void psi_trigger_destroy(struct psi_trigger *t)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/psi.c:1214:10: warning: no previous prototype for 'psi_trigger_poll' [-Wmissing-prototypes]
+    1214 | __poll_t psi_trigger_poll(void **trigger_ptr,
+         |          ^~~~~~~~~~~~~~~~
 
 
-vim +86 drivers/cma/mm/mem_phys_layout.c
+vim +/psi_trigger_destroy +1147 kernel/sched/psi.c
 
-    12	
-    13	#include <linux/init.h>
-  > 14	#include <linux/memblock.h>
-    15	#include <linux/module.h>
-    16	#include <linux/nodemask.h>
-    17	#include <linux/pfn.h>
-    18	#include <linux/printk.h>
-    19	#include <linux/types.h>
-    20	
-    21	/*
-    22	 * Print the start and end of the RAM as well as the size.
-    23	 *
-    24	 * This information is found in the device tree.
-    25	 *
-    26	 *   memory@40000000 {
-    27	 *       reg = <0x00 0x40000000 0x02 0x00>;
-    28	 *       device_type = "memory";
-    29	 *   };
-    30	 */
-    31	static void print_ram_info(void)
-    32	{
-    33		phys_addr_t start_addr = memblock_start_of_DRAM();
-    34		phys_addr_t end_addr = memblock_end_of_DRAM();
-    35		phys_addr_t mem_size = memblock_phys_mem_size();
-    36		// What does the reserved memory includes.
-    37		phys_addr_t reserved_size = memblock_reserved_size();
-    38	
-    39		pr_info("    start_addr:    %10llu == %#010Lx", (u64)start_addr, (u64)start_addr);
-    40		pr_info("    end_addr:      %10llu == %#010Lx", (u64)end_addr, (u64)end_addr);
-    41		pr_info("    mem_size:      %10llu == %#010Lx", (u64)mem_size, (u64)mem_size);
-    42		pr_info("    reserved_size: %10llu == %#010Lx", (u64)reserved_size, (u64)reserved_size);
-    43	}
-    44	
-    45	// Prints the node information in:
-    46	//
-    47	//     struct pglist_data *node_data;
-    48	//
-    49	// It uses NODE_DATA to access node_data.
-    50	//
-    51	//     #define NODE_DATA(nid)		(node_data[(nid)])
-    52	static void print_node_data(void)
-    53	{
-    54		// Note: NUMA nodes are configured in the device tree.
-    55		int nodeId;
-    56		unsigned long phys_pages = get_num_physpages();
-    57	
-    58		for_each_online_node(nodeId) {
-    59			// Number of Physical pages including holes in the node.
-    60			uint64_t num_spanned_pages = NODE_DATA(nodeId)->node_spanned_pages;
-    61			// Number of Physical pages in the node.
-    62			uint64_t num_present_pages = NODE_DATA(nodeId)->node_present_pages;
-    63			uint64_t start_pfn = NODE_DATA(nodeId)->node_start_pfn;
-    64			uint64_t end_pfn = NODE_DATA(nodeId)->node_start_pfn + num_spanned_pages;
-    65	
-    66			pr_info("Node %d", nodeId);
-    67			pr_info("    Page frames numbers (range): [pfn %#010Lx-%#010Lx)\n",
-    68					start_pfn, end_pfn);
-    69			pr_info("    Number of Page Spanned pages (includes holes): %#010Lx : %llu\n",
-    70					num_spanned_pages, num_spanned_pages);
-    71			pr_info("    Number of Page Present pages:                  %#010Lx : %llu",
-    72					num_present_pages, num_present_pages);
-    73			pr_info("    Number of Page frames (end_pfn - start_pfn):   %#010Lx : %llu",
-    74					end_pfn - start_pfn, end_pfn - start_pfn);
-    75		}
-    76	
-    77		pr_info("Total number of Physical Pages in all nodes (DO NOT include holes) %lu",
-    78				phys_pages);
-    79	}
-    80	
-    81	static void print_pfn_start_address(void)
-    82	{
-    83		struct page *first_page = pfn_to_page(0);
-    84	
-    85		pr_info("First struct page starts at: pfn_to_page(0) [mem %#010Lx]\n",
-  > 86				(unsigned long long)first_page);
-    87	
+  1146	
+> 1147	void psi_trigger_destroy(struct psi_trigger *t)
+  1148	{
+  1149		struct psi_group *group;
+  1150		struct task_struct *task_to_destroy = NULL;
+  1151	
+  1152		/*
+  1153		 * We do not check psi_disabled since it might have been disabled after
+  1154		 * the trigger got created.
+  1155		 */
+  1156		if (!t)
+  1157			return;
+  1158	
+  1159		group = t->group;
+  1160		/*
+  1161		 * Wakeup waiters to stop polling. Can happen if cgroup is deleted
+  1162		 * from under a polling process.
+  1163		 */
+  1164		wake_up_interruptible(&t->event_wait);
+  1165	
+  1166		mutex_lock(&group->trigger_lock);
+  1167	
+  1168		if (!list_empty(&t->node)) {
+  1169			struct psi_trigger *tmp;
+  1170			u64 period = ULLONG_MAX;
+  1171	
+  1172			list_del(&t->node);
+  1173			group->nr_triggers[t->state]--;
+  1174			if (!group->nr_triggers[t->state])
+  1175				group->poll_states &= ~(1 << t->state);
+  1176			/* reset min update period for the remaining triggers */
+  1177			list_for_each_entry(tmp, &group->triggers, node)
+  1178				period = min(period, div_u64(tmp->win.size,
+  1179						UPDATES_PER_WINDOW));
+  1180			group->poll_min_period = period;
+  1181			/* Destroy poll_task when the last trigger is destroyed */
+  1182			if (group->poll_states == 0) {
+  1183				group->polling_until = 0;
+  1184				task_to_destroy = rcu_dereference_protected(
+  1185						group->poll_task,
+  1186						lockdep_is_held(&group->trigger_lock));
+  1187				rcu_assign_pointer(group->poll_task, NULL);
+  1188				del_timer(&group->poll_timer);
+  1189			}
+  1190		}
+  1191	
+  1192		mutex_unlock(&group->trigger_lock);
+  1193	
+  1194		/*
+  1195		 * Wait for psi_schedule_poll_work RCU to complete its read-side
+  1196		 * critical section before destroying the trigger and optionally the
+  1197		 * poll_task.
+  1198		 */
+  1199		synchronize_rcu();
+  1200		/*
+  1201		 * Stop kthread 'psimon' after releasing trigger_lock to prevent a
+  1202		 * deadlock while waiting for psi_poll_work to acquire trigger_lock
+  1203		 */
+  1204		if (task_to_destroy) {
+  1205			/*
+  1206			 * After the RCU grace period has expired, the worker
+  1207			 * can no longer be found through group->poll_task.
+  1208			 */
+  1209			kthread_stop(task_to_destroy);
+  1210		}
+  1211		kfree(t);
+  1212	}
+  1213	
 
 --
 0-DAY CI Kernel Test Service
