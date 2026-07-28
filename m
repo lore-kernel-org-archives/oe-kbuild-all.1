@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A68473C91
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 20:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DE044BC9F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 20:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785269703; cv=none; b=oJQwj69q0LOZT4YwAEN1lbUuTXpuu8TLvjVFDqaVNY5Ulwk7GElZmu5nUYIuRp1sJyKdESyOf5hwB1s+smTK1eBhoT9tpFoEZ5FibJu7g6alklzmPWU+0PxJtluo5RZbOKkXrpMy/2koMDB/utxZNf5Lty00Q+M/fIbGqiqETTQ=
+	t=1785270489; cv=none; b=IdgPDonS7TA0SiEG+3s8yxiQrQ7EUI9G8U1/5ITAJE4h9pMIFfZ46fqOuzG4TNpxXVoqZw97cPpH9RBxc/63hz/SLAx7xW9j8aieWKsM9LRyTs3LdnWCgU9QH1EuONQ/jLQRrpDN3+EnyqxoF7iTLgNsFbbFGYrI+b0AeOtxQVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785269703; c=relaxed/simple;
-	bh=U9xbLbzN6icy6/r3+baQzRZV9tU5OH+3v6fp2mO7lxU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=j7Fwb5w4yAcT6NOuH/LjtcSNlCGCGCWbbVqKn4CPCIX/R7tvMBYKmtoNdtWyG20rlHkEpl38NKYMk37YkKuxQwmpCUqfcFnzkRkBQgAGsPxvYEIxq8siN/o+LslxEzHFgFiS2878Zn1MdDBQaYz39H0cQwQL/IC3OYu5Gsq1+08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KSS3GKt5; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1785270489; c=relaxed/simple;
+	bh=UehfeGSumhp6ZB507kjm3Z6IlLnUKGbA3mV81IcCfw4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Uj99v7qOfTAVHJcK9nIm8fl8/cD41UdqBvtdJEI1f3IuhFW+RPzynFD7Wy3g2Hw5AAkE1IlVBwZItMm6KGCOiF4esiog2F50RnXpHyKB0+T4XU5JecTqDHywM3Q8VXJ4yQe258qPA03e2COwCFgdqQPbfuDD/rJWcL5ugbzdT4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=amHdnRtv; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSS3GKt5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="amHdnRtv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785269701; x=1816805701;
+  t=1785270487; x=1816806487;
   h=date:from:to:cc:subject:message-id;
-  bh=U9xbLbzN6icy6/r3+baQzRZV9tU5OH+3v6fp2mO7lxU=;
-  b=KSS3GKt5imLIYgKCLzwLaV18Ur3A9lhIMnaGO1SYQi7ummRlUUDqQ4JK
-   ziEsGHmTqTPKAk6/ryaaXftpgnFXpQAqhun57+rOJkgYIizWSiF89vGSG
-   LesBu+q57lu3XOWgbnRyv/ge1ADg2NFZdpo4A14cFg7QMG10/k9SHWRFp
-   qdI/TNTxQd1fCGA38Y3jfSwqa33KDVemIXOGo/apuCMK62zzMzugewwPy
-   nu/OVCigPhZFC61ZyVsJKOOcxEmbrhvILjxVO1ZU08q7pXQuY6AzsMoof
-   m1tYxcvV5Pzknv9YUMkK3jx3eVtYJAgIlqLGa/KvU26erpZYppNu474sl
+  bh=UehfeGSumhp6ZB507kjm3Z6IlLnUKGbA3mV81IcCfw4=;
+  b=amHdnRtvVz+IZvdiCnzaOY+tx4aMVu6UB37mtfRV7HOeYZRAJG+0ur/+
+   UOnHqRk/9IL2AxgK1ANYlwK0L84EKbY4xfcc1U9bviH45rtVzlM5/TDfz
+   HiCK5nIl8NT4XcF3TTYg5Rb0GtfhWov6PuWvDXmska2Hj76yUENO0hsN3
+   FN+f6kmwcU2NbSEvMiXEQApWO6s5GjiacxdoWOSBJXbFbdHsGxDag+uCM
+   FoOAr0LS8Q4Ksa4j0Z2Kfosck/9zw4En0Ap4oUl9vf5Dl1HszG9cRcTE+
+   I9dCU9jkCcAIFAyzaw0owYd/V5EIdepS511A2xmGinowpTvIJR4oK0hh0
    A==;
-X-CSE-ConnectionGUID: bc6HK8hURuKDChLuLcqWEw==
-X-CSE-MsgGUID: 2F40lxlXTxyu3efJusau9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="103409429"
+X-CSE-ConnectionGUID: rFhb6wBBSFe6/gs0iKwtgw==
+X-CSE-MsgGUID: G31i/hhuReSOed+9jgr4Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="89691348"
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="103409429"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 13:15:00 -0700
-X-CSE-ConnectionGUID: /lRwT2swRu+AMnAW3zvY7A==
-X-CSE-MsgGUID: 6vOw3e8wRVKssKJlPX42cA==
+   d="scan'208";a="89691348"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 13:28:07 -0700
+X-CSE-ConnectionGUID: 8xOOq6yTQ/i1aS0HeN+jDA==
+X-CSE-MsgGUID: hLpD7tIMTiGJ4DPAL7WO0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="259869133"
+   d="scan'208";a="298027701"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 28 Jul 2026 13:15:00 -0700
+  by orviesa001.jf.intel.com with ESMTP; 28 Jul 2026 13:28:06 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wooCS-00000000ekN-3Hf1;
-	Tue, 28 Jul 2026 20:14:53 +0000
-Date: Wed, 29 Jul 2026 04:14:12 +0800
+	id 1wooPD-00000000el5-1Nos;
+	Tue, 28 Jul 2026 20:28:03 +0000
+Date: Wed, 29 Jul 2026 04:27:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-crc 52/62] fs/xfs/xfs_rtcsum.c:67:undefined
- reference to `crc64_nvme'
-Message-ID: <202607290449.Hx0zH3cA-lkp@intel.com>
+Subject: [android-common:main-16k-gs-shusky-5.15 35/35]
+ drivers/cma/mm/mem_phys_layout.c:151:16: warning: mixing declarations and
+ code is a C99 extension
+Message-ID: <202607290450.JmyQtPQt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,41 +60,100 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-crc
-head:   18cbb272aa91aeb23eb1284cb2ea278e932a5272
-commit: 1319f7ba751b3fc086d1e1e9b81aca6ceb2b4bfc [52/62] xfs: core RT data checksum support
-config: x86_64-randconfig-016-20260728 (https://download.01.org/0day-ci/archive/20260729/202607290449.Hx0zH3cA-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290449.Hx0zH3cA-lkp@intel.com/reproduce)
+Hi Juan,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
+head:   d0ed0375a65ca817f907805e163e103822348f02
+commit: b6f7366938c4d377ba5179501f82eea795a17bc2 [35/35] ANDROID: mm: Calculate struct page address given the PFN and vemmap
+config: x86_64-randconfig-161-20260728 (https://download.01.org/0day-ci/archive/20260729/202607290450.JmyQtPQt-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 890b11e09e45e9d8b29f2f94f22052be3934e757)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290450.JmyQtPQt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607290449.Hx0zH3cA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607290450.JmyQtPQt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: fs/xfs/xfs_rtcsum.o: in function `xfs_csum_gen':
->> fs/xfs/xfs_rtcsum.c:67:(.text+0x4d2): undefined reference to `crc64_nvme'
->> ld: fs/xfs/xfs_rtcsum.c:67:(.text+0xca2): undefined reference to `crc64_nvme'
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:356:9: note: previous definition is here
+     356 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/cma/mm/mem_phys_layout.c:151:16: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+     151 |         unsigned long last_pfn = pfn - 1;
+         |                       ^
+   2 warnings generated.
 
 
-vim +67 fs/xfs/xfs_rtcsum.c
+vim +151 drivers/cma/mm/mem_phys_layout.c
 
-    56	
-    57	static __always_inline void
-    58	xfs_csum_gen(
-    59		struct xfs_mount	*mp,
-    60		void			*data,
-    61		unsigned int		len,
-    62		union xfs_csum		*csum)
-    63	{
-    64		if (mp->m_sb.sb_rtcsum == XFS_CSUM_TYPE_CRC32C)
-    65			csum->crc32c = crc32c(csum->crc32c, data, len);
-    66		else
-  > 67			csum->crc64 = crc64_nvme(csum->crc64, data, len);
-    68	}
-    69	
+   116	
+   117	static void print_page_info(void)
+   118	{
+   119		unsigned long pfn;
+   120		int valid = 0;
+   121		int invalid = 0;
+   122		unsigned long num_physpages = get_num_physpages();
+   123	
+   124		// Start address as per DTS memory@40000000. The first valid PFN represents
+   125		// this page frame.
+   126		phys_addr_t start_addr = memblock_start_of_DRAM();
+   127		unsigned long start_pfn = PHYS_PFN(start_addr);
+   128	
+   129		for (pfn = start_pfn; pfn < (start_pfn + num_physpages); pfn++) {
+   130			if (pfn_valid(pfn))
+   131				valid++;
+   132			else
+   133				invalid++;
+   134		}
+   135	
+   136		pr_info("get_num_physpages() = %lu", num_physpages);
+   137		pr_info("valid %d, invalid %d, physpages %lu", valid, invalid, num_physpages);
+   138	
+   139		pr_info("Start PFN");
+   140		print_mem_model(start_pfn);
+   141		pr_info("End PFN");
+   142		print_mem_model(pfn - 1);
+   143	
+   144	#ifdef CONFIG_SPARSEMEM_VMEMMAP
+   145		// CALCULATE STRUCT *P GIVEN THE PFN and vmemmap address
+   146		pr_info("First struct page starts at: vmemmap        [mem %#010Lx]\n",
+   147				(unsigned long long)vmemmap);
+   148	
+   149		// How to calculate Physical Address of the Page Frame and the struct page
+   150		// given the PFN.
+ > 151		unsigned long last_pfn = pfn - 1;
+   152		struct page *page = vmemmap + last_pfn;
+   153		phys_addr_t addr = last_pfn << PAGE_SHIFT;
+   154	
+   155		pr_info("Calculating physical address given vmemmap and PFN %10llu == %#010Lx",
+   156					(u64)last_pfn, (u64)last_pfn);
+   157		pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
+   158				(u64)last_pfn,
+   159				(u64)last_pfn,
+   160				(u64)page,
+   161				addr);
+   162	#endif
+   163	}
+   164	static int __init mem_phys_layout_init(void)
+   165	{
+   166		print_ram_info();
+   167		print_node_data();
+   168		print_pfn_start_address();
+   169		print_pageblock_info();
+   170		print_page_info();
+   171	
+   172		return 0;
+   173	}
+   174	
 
 --
 0-DAY CI Kernel Test Service
