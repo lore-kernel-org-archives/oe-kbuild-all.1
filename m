@@ -1,299 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369E341A515
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 09:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E590341DEEE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 10:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785231789; cv=none; b=nRhHPyjqhMHi1Xyd4784+Z+FP1d8krtROtyavvhnojWOIKXYOdA99CL2B3/vTI/V4o/7WYzUznSTGgLlqL9eVUSvx0dbSSJSsVGX+zhkNSsx5XMUgj7k2f4rHDsqe626+W9hAl7Pk4MX2RIgqNRqN1yUefxTfVhUceUkTety244=
+	t=1785233330; cv=none; b=ae529OuTQiPrJJl0twWn7LiUqxp9SNmbfJ7hZFeM3U5EcZWmmnV8kmceFXt9af7zy/CSgZVchUW0u0rZPNmqkTLb96BrX7AYrMjErWJbV18CAenxlaeed+WMrvTzRjNjeE+jmdpLHNOA64P5qavsjzPX6SEw9/51t93S/C1kqIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785231789; c=relaxed/simple;
-	bh=ZagAELgZPaL8DeHBD5lqLr8l35BvEk9B2BaVKQix8cw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=O1an8aFzBkFnVzgIir5Cd+2KNhLSqd6LB+yeK1Q3ao4v14TTAj+sq+Cj1SGVJKYzQff3F7z+dWcjG3LP1M8jSSgXtzZH3FOdm30EBu5bhqDPHgqKDTeIivawTSyFDeCcI8pNKdJxMiO6HHXJoTHrhJdxMagAAHNr45TKb4+OqeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kw9HMiDi; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785233330; c=relaxed/simple;
+	bh=vlcAPvX8JdUFJMF6LbJur6MslBFqfDypT2+Opb/WJe0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dmTCreI8t3BcFJ+ypjAve1I3MDfMcfNg7dBduL4VbbbbRay2uIibpbh2Ah9xUGYsoX4izN+iTva1ycb+oCENFo5Uc2h1EcHWBjWekcsb7gCwS6uhF5XDBY/YWImNtPB9yu4SLica58H0rLtmFVOlvEhHDZdFZLWNH8fIdWMKSsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hwVncGTm; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kw9HMiDi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785231786; x=1816767786;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZagAELgZPaL8DeHBD5lqLr8l35BvEk9B2BaVKQix8cw=;
-  b=Kw9HMiDiPKy77SF2Y/bfef0iEpE6sgBXfdonkQDkFvruUTBoNqPD9f5v
-   TDUgBa2t8zRuHExa6j4OF2iWiyYwwSpOeCjg2KCq92drndQ6cYhBA73Sn
-   zMEdRiBg2FiSYO1cR5wFRGBskAa3DgEYaWv6QCc5q7zewH800CWk+3xyB
-   5x3X7Yy8mOI6cVKn8bge48e1YQzhB7YaBj3v0YFCPpnEwIFuMuK2BOA1R
-   69hlewzlPoYj3BnQExvB7kz2TeIA/vHFeLYTgYyshRnviADZ4GAYNZUrt
-   tup+aPPqFrfF9yoF7ltSn5Aeafbrf3lX9c3dL7DXo3PYh20XqgpzQi0cI
-   A==;
-X-CSE-ConnectionGUID: X5viHmSRR4O88MShCHTHcw==
-X-CSE-MsgGUID: TS6I++eLTLaUiBDPd7Iaxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="103217410"
-X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="103217410"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 02:43:06 -0700
-X-CSE-ConnectionGUID: AT8qYTRnR8+LblRq0V/uLg==
-X-CSE-MsgGUID: LkoZShPQSc6dcAVgtwsqfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="253331165"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Jul 2026 02:43:04 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1woeKz-00000000eCl-2sVt;
-	Tue, 28 Jul 2026 09:43:01 +0000
-Date: Tue, 28 Jul 2026 17:42:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10-2025-10 31/31]
- include/trace/trace_events.h:27:23: warning:
- 'str__workqueue__trace_system_name' defined but not used
-Message-ID: <202607281730.fTWG5QBa-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hwVncGTm"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38deea72eebso4177232a91.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 03:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785233322; x=1785838122; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AW03QCwb4tZ4pZU7Z0s76TiVdNSC8GQ9AsKNW3dlvqU=;
+        b=hwVncGTmLnKSMMw5hjHwpzWVfJx0p78wtIqjupSWNkknKcajeBfhPw+nmngYYLDHAr
+         Uf2fo26Mvu264UnInhX9W3XL3R1XDnTYCsmEI7GjQXDZoh2fIZXzTry8LSavxlxO/Q+I
+         K+HUNoooZD10LFu/W539uIjY7reYH9/G/xFXDBroGOzlI9JH6xCJsGah+jFHS2rjnfv4
+         O2FeBNG9hAg5I3JI+MDLugpL6Jb/cV9uFXg5+tvWAH2QEelqEBKGejOgonLUvqyk8w8S
+         1QYK48ejoPsurT3GkP0Whm3S1E3RjeCZs9m2kR5x4wz1oapX+qWTMYXxuEkzJj56YisF
+         mLWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785233322; x=1785838122;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AW03QCwb4tZ4pZU7Z0s76TiVdNSC8GQ9AsKNW3dlvqU=;
+        b=Ycy9s4U10o0k7r9/CyqjObf+KKZ8lj8qLwiz2oCy4zWEZUa7mGsLYnQ/A4ZvGEETLf
+         RnFPLv/OZBECx/HcaR1qMmVRBVThk90su4LiYPwlgfkTzZM3u97rS4g2WXwsT1Vrus6x
+         ylPs8+FFd+6uKdVyw+qqb4ZwA+RuPLDrM9uOJfQX1oj/u3YoLmK3Uz81C4Y+qY9bmDxP
+         3O515iwa4HuGtSQ7fuVofUQRLMeExMLyVPdbtWOcTwmf8NqVn7buxjSzFH8WjhZHh0iA
+         t9djgeVzFNAdiq9z3xp6NkaFPTovFxR8gYE/YdMSPqsekl6ZIVHaxZ8SU/72c4ItZF2S
+         d3Ng==
+X-Forwarded-Encrypted: i=1; AHgh+Roy/cLe9CWkxH0X1oF9Z44AVXpwU5uBdH8FtQKe259L1GS9iFZ2QpjGJwSjfkbtZPPknjIPjOnDo6ytdnVA@lists.linux.dev
+X-Gm-Message-State: AOJu0YxRfbK+zXAYGIaQ+D6o0tyC+t9d/XSL360mSY1PkilYORu2Ep6C
+	cGs/rMsW4fPApBr2rWP+XjUSlNnNgjWodsYonzGn9aC7ZGog9CryVIs/4MFoq5Kqbvs=
+X-Gm-Gg: AR+sD13w9f/zyWX1N+lzGP7qdIOxlewzAkZEgS22GsxGfoYKCZnbgsWjcPDAAqNsK/T
+	P1OfcHCojtb7GxO4DWETl4IFOQTpGTS2aadHah/aSnKpVCAyc/m1gQLVchPt6kzspTDUHW5E8F+
+	pj5t+1G2g5Or6HJ77IhM0I1c/aym7kN19wppOeTKsUXhStPjL+8NMYkHMBsQ0xBB+heJR6a2xOF
+	83yjDkxdEGfgbXXw1K89HlJBpuFBOFQU05z/xRQ/kkNiLb5X3s9yy4t5jYJywPjC/23H+SlORZ8
+	0jbvsn5tA1i9lnyQfyeUJdnuPTh3JxnvHT/TbC184l3KNmivhvcrrvoBa3YHWzrdp/kI83cgEVP
+	BG8t9F/7JQeveiWR57hPTvhlLgZtG2nLljJdovICuQZi6QnAcsBeLY+d72Sohz/ZxRHWEqJVY
+X-Received: by 2002:a17:90b:4c41:b0:38e:9045:babe with SMTP id 98e67ed59e1d1-38f6a425c43mr1834995a91.7.1785233321770;
+        Tue, 28 Jul 2026 03:08:41 -0700 (PDT)
+Received: from localhost ([172.216.252.23])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f6412a92bsm1082326a91.5.2026.07.28.03.08.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 03:08:40 -0700 (PDT)
+Date: Tue, 28 Jul 2026 13:08:34 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 5/5]
+ drivers/usb/gadget/configfs.c:2050 gadgets_make() error: double free of
+ 'gi->composite.gadget_driver.driver.name' (line 2048)
+Message-ID: <202607281748.tMhAiK8E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Liujie,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.10-2025-10
-head:   71a1caa36f29e1d3957fa68451187e212bfe1954
-commit: 8f3f46d77c8133ccce52e055a8b4b577699acc5f [31/31] ANDROID: vendor_hooks: Add hooks to recognize special worker thread.
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260728/202607281730.fTWG5QBa-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   579215f16d4e5c3062e423a583897e83473e1435
+commit: 957b40b3b769bc23db3d6491db267e3166f91316 [5/5] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260728/202607281748.tMhAiK8E-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607281730.fTWG5QBa-lkp@intel.com/reproduce)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607281730.fTWG5QBa-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607281748.tMhAiK8E-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/usb/gadget/configfs.c:2050 gadgets_make() error: double free of 'gi->composite.gadget_driver.driver.name' (line 2048)
 
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/module.h:25,
-                    from drivers/android/vendor_hooks.c:48:
-   include/trace/trace_events.h:27:23: warning: 'str__module__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/creds.h:34,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/trace_events.h:27:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/avc.h:33,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:32,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/trace_events.h:27:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sys.h:17,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/workqueue.h:22,
-                    from drivers/android/vendor_hooks.c:43:
->> include/trace/trace_events.h:27:23: warning: 'str__workqueue__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cgroup.h:17,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ufshcd.h:60,
-                    from drivers/android/vendor_hooks.c:41:
-   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/thermal.h:19,
-                    from drivers/android/vendor_hooks.c:40:
-   include/trace/trace_events.h:27:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/iommu.h:30,
-                    from drivers/android/vendor_hooks.c:39:
-   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:36,
-                    from drivers/android/vendor_hooks.c:38:
-   include/trace/trace_events.h:27:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+vim +2050 drivers/usb/gadget/configfs.c
 
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1981  static struct config_group *gadgets_make(
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1982  		struct config_group *group,
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1983  		const char *name)
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1984  {
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1985  	struct gadget_info *gi;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1986  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1987  	gi = kzalloc(sizeof(*gi), GFP_KERNEL);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1988  	if (!gi)
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1989  		return ERR_PTR(-ENOMEM);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1990  
+1ae1602de028aca Christoph Hellwig         2016-02-26  1991  	config_group_init_type_name(&gi->group, name, &gadget_root_type);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1992  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1993  	config_group_init_type_name(&gi->functions_group, "functions",
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1994  			&functions_type);
+1ae1602de028aca Christoph Hellwig         2016-02-26  1995  	configfs_add_default_group(&gi->functions_group, &gi->group);
+1ae1602de028aca Christoph Hellwig         2016-02-26  1996  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1997  	config_group_init_type_name(&gi->configs_group, "configs",
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  1998  			&config_desc_type);
+1ae1602de028aca Christoph Hellwig         2016-02-26  1999  	configfs_add_default_group(&gi->configs_group, &gi->group);
+1ae1602de028aca Christoph Hellwig         2016-02-26  2000  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2001  	config_group_init_type_name(&gi->strings_group, "strings",
+6e2a512d9532c51 Daniel Scally             2023-02-06  2002  			&gadget_language_strings_type);
+1ae1602de028aca Christoph Hellwig         2016-02-26  2003  	configfs_add_default_group(&gi->strings_group, &gi->group);
+1ae1602de028aca Christoph Hellwig         2016-02-26  2004  
+87213d388e927aa Andrzej Pietrasiewicz     2014-05-08  2005  	config_group_init_type_name(&gi->os_desc_group, "os_desc",
+87213d388e927aa Andrzej Pietrasiewicz     2014-05-08  2006  			&os_desc_type);
+1ae1602de028aca Christoph Hellwig         2016-02-26  2007  	configfs_add_default_group(&gi->os_desc_group, &gi->group);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2008  
+93c473948c58897 Jó Ágila Bitsch           2023-01-13  2009  	config_group_init_type_name(&gi->webusb_group, "webusb",
+93c473948c58897 Jó Ágila Bitsch           2023-01-13  2010  			&webusb_type);
+93c473948c58897 Jó Ágila Bitsch           2023-01-13  2011  	configfs_add_default_group(&gi->webusb_group, &gi->group);
+93c473948c58897 Jó Ágila Bitsch           2023-01-13  2012  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2013  	gi->composite.bind = configfs_do_nothing;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2014  	gi->composite.unbind = configfs_do_nothing;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2015  	gi->composite.suspend = NULL;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2016  	gi->composite.resume = NULL;
+e2459108b5a0604 taehyun.cho               2021-01-07  2017  	gi->composite.max_speed = USB_SPEED_SUPER_PLUS;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2018  
+093edc2baad2c25 Wei Yongjun               2019-10-30  2019  	spin_lock_init(&gi->spinlock);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2020  	mutex_init(&gi->lock);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2021  	INIT_LIST_HEAD(&gi->string_list);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2022  	INIT_LIST_HEAD(&gi->available_func);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2023  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2024  	composite_init_dev(&gi->cdev);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2025  	gi->cdev.desc.bLength = USB_DT_DEVICE_SIZE;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2026  	gi->cdev.desc.bDescriptorType = USB_DT_DEVICE;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2027  	gi->cdev.desc.bcdDevice = cpu_to_le16(get_default_bcdDevice());
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2028  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2029  	gi->composite.gadget_driver = configfs_driver_template;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2030  
+7c07553807c5125 Chanh Nguyen              2023-01-11  2031  	gi->composite.gadget_driver.driver.name = kasprintf(GFP_KERNEL,
+7c07553807c5125 Chanh Nguyen              2023-01-11  2032  							    "configfs-gadget.%s", name);
+7c07553807c5125 Chanh Nguyen              2023-01-11  2033  	if (!gi->composite.gadget_driver.driver.name)
+7c07553807c5125 Chanh Nguyen              2023-01-11  2034  		goto err;
+7c07553807c5125 Chanh Nguyen              2023-01-11  2035  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2036  	gi->composite.gadget_driver.function = kstrdup(name, GFP_KERNEL);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2037  	gi->composite.name = gi->composite.gadget_driver.function;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2038  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2039  	if (!gi->composite.gadget_driver.function)
+7c07553807c5125 Chanh Nguyen              2023-01-11  2040  		goto out_free_driver_name;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2041  
+957b40b3b769bc2 Neill Kapron              2024-02-01  2042  	if (android_device_create(&gi->cdev.android_opts))
+957b40b3b769bc2 Neill Kapron              2024-02-01  2043  		goto out_free_driver_name_and_function;
+957b40b3b769bc2 Neill Kapron              2024-02-01  2044  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2045  	return &gi->group;
+7c07553807c5125 Chanh Nguyen              2023-01-11  2046  
+7c07553807c5125 Chanh Nguyen              2023-01-11  2047  out_free_driver_name:
+7c07553807c5125 Chanh Nguyen              2023-01-11 @2048  	kfree(gi->composite.gadget_driver.driver.name);
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+957b40b3b769bc2 Neill Kapron              2024-02-01  2049  out_free_driver_name_and_function:
+957b40b3b769bc2 Neill Kapron              2024-02-01 @2050  	kfree(gi->composite.gadget_driver.driver.name);
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Double free.
 
-vim +/str__workqueue__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+957b40b3b769bc2 Neill Kapron              2024-02-01  2051  	kfree(gi->composite.gadget_driver.function);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2052  err:
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2053  	kfree(gi);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2054  	return ERR_PTR(-ENOMEM);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2055  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
