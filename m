@@ -1,65 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8133A7F7A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 12:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8F83AFD17
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 12:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785240583; cv=none; b=e9wndBbRAKOONU7lwiU4In4++QXBC/IBJfve64Dj6fjZn2DcQdNqQLkkF9KojZHGVkNF+lpaIsvmXyf4TTed9NvuWkNUEbyWlQLcT/APp3escf7j97Fd+XU2+RQ2t8smg85UDnUCjbNosaVEAUBiNMoh7Zw0o/0b3ksVC2KY5wY=
+	t=1785240688; cv=none; b=K/g0r2WekisHRuo/p/793/hjK4rTSIyNk7Y9yUpGjh2pcAAr1QPrjif8zq4PgXWWZzxgqGGys2GoYZBc8PXCa8OnwNhxG0qH4+QTg1kpREWYJbYgzKzIFPhAbd6tCf92zFoQj5EyXnEaYAXrICX7tsEUcsp6dFxVQMQzjWdyVAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785240583; c=relaxed/simple;
-	bh=7kf9Te8DMvLlsariR8Wr76uxbL6UNe5Y+jaC6bsSFQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QbhuAUAACM6KySICaXNrnFAFapRVrrxcD8KJO9bNy+kcfEBwOrLhq3zzfphwkR0dMAGHAgZGCyrX3rEPmgddcYt3CLEGjjqnmnvPjWWAmCZ17XRRZxNcwno+A/0i68pQp2fe5U3e5lKxpsHfMzFZ55SsUpqynU/g9ZDWAuE6TMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RVhGmCQr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785240688; c=relaxed/simple;
+	bh=8r5lkMKWDBlmyJ+uAdo1N6sRGDeSudWsIz8OOPhRitc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=o+FBHmSMeFJCH917dqRXtNaC8rPumkl1yYIAemBjsSqI1/ybWzwLnJqbAYWhOXkaGym1sEOV0Gawn0IuzDYwsuP4GzBqgVpUs2c36Ew5pCti27h4lCc6f/+1YscJIZqP9fz2ChEPsiA9VyJ2pmN4Anm5tWvLjI9kld0bc1ngFys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSpaz+2U; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RVhGmCQr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA6E1F000E9;
-	Tue, 28 Jul 2026 12:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785240582;
-	bh=P88dCM2lHUR3MSjLBw5X3fur7lQTKPPKUxYx0y4glFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RVhGmCQrvqfjLkvPGrknWuwqOd99+Ezy+taMZhvqKeGsbGgKF9YtpfKp9XjGqcmHe
-	 RuGVmIKVEZePwbMrCs5cTlF5mCV4OdEnYDAyypu8EnatG+nfCSlVXIZ08/4yEdE5gq
-	 TNKVRR05r4o6KCZvbKwps2wMHl6NvtgiOqWK3UtPsP1Y9BnV+w0OLYCax24eks/vjR
-	 QP9jiBsBKmJoTuc5LKUgagTseRehJpFZWqRXK0wgGVUvqdWO3AEVpvkdXQf/3nfALJ
-	 jv7HLQy03Mq61ET5lBlJ3Gzlg2FJ5Egb2ZsFlExdKehlYELKxt131orjgMkU7RkjJJ
-	 tIso9Dyuif0Ew==
-Date: Tue, 28 Jul 2026 14:09:38 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Jan Kara <jack@suse.cz>, oe-kbuild-all@lists.linux.dev, 
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: Re: [brauner-vfs:vfs.all 208/263] ERROR: modpost:
- "__inode_attach_wb" [fs/ext4/ext4.ko] undefined!
-Message-ID: <20260728-kringeln-gaspedal-wertung-4ecd0e2f8bbe@brauner>
-References: <202607281811.F3c6kRvX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSpaz+2U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785240685; x=1816776685;
+  h=date:from:to:cc:subject:message-id;
+  bh=8r5lkMKWDBlmyJ+uAdo1N6sRGDeSudWsIz8OOPhRitc=;
+  b=VSpaz+2U3l0PpH7dcqeMm907GITpmDY8pBZsyQv65FG3K/TB+nsZTIYQ
+   hPNPQeftsyVKTUpx/oLj+KEHiCjnoWjsrB6lKa824a9OtmZMR5Xc+twxg
+   f4QfWp0OPV2GLTUVN66Ft31yK1EAHfGr+ZM0nEv1qYJ2u7tJTOncOYBtH
+   ndTVguj8aKn0MghgGwjKrQ1F+SrGdAoO6CPiJ8W5gkusVeBwd0cTpo3OK
+   gkTQfgykRQhvbXOM3WzOWYZvjofZtDEL6I/5P4oa9XAdkJceSPYlfQe3g
+   LDyClU7NtyGKaB3ehiq/+p4HyHhvdcjgvxoWAeGAw5exAFR7YcLQGGrpi
+   g==;
+X-CSE-ConnectionGUID: pj5s7rvYRraZ//UZRGDRJg==
+X-CSE-MsgGUID: A5HUJ9TTSlKMtovERVj8dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="89492054"
+X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
+   d="scan'208";a="89492054"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 05:11:25 -0700
+X-CSE-ConnectionGUID: g7gof4xMQ2+2BAoVbxP8iQ==
+X-CSE-MsgGUID: XIbzFL9oQXe0GXpt/bGNjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
+   d="scan'208";a="297917269"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 28 Jul 2026 05:11:24 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wogeX-00000000eJz-2zSu;
+	Tue, 28 Jul 2026 12:11:21 +0000
+Date: Tue, 28 Jul 2026 20:10:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-fixes 4/4]
+ fs/netfs/rolling_buffer.c:31:25: error: incomplete definition of type
+ 'mempool_t' (aka 'struct mempool')
+Message-ID: <202607281939.mhmJ2cnE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202607281811.F3c6kRvX-lkp@intel.com>
 
-On Tue, Jul 28, 2026 at 07:14:17PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-> head:   e6f9ac7f8b2d4704a972e843688fa736ea0431db
-> commit: c26339e1df335423bcbb83d6fa6ff94b1545b8ed [208/263] ext4: Fix data integrity writeout issues in nojournal mode
-> config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260728/202607281811.F3c6kRvX-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607281811.F3c6kRvX-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202607281811.F3c6kRvX-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> >> ERROR: modpost: "__inode_attach_wb" [fs/ext4/ext4.ko] undefined!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-fixes
+head:   6836db8d3babf7ae82597d516f89848e5652b957
+commit: 6836db8d3babf7ae82597d516f89848e5652b957 [4/4] netfs: Fix folio_queue ENOMEM in writeback by adding a mempool
+config: i386-randconfig-141-20260728 (https://download.01.org/0day-ci/archive/20260728/202607281939.mhmJ2cnE-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607281939.mhmJ2cnE-lkp@intel.com/reproduce)
 
-Fixed in-tree.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607281939.mhmJ2cnE-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> fs/netfs/rolling_buffer.c:31:25: error: incomplete definition of type 'mempool_t' (aka 'struct mempool')
+      31 |                 fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
+         |                      ~~~~~~~~~~~~~~~~~^
+   include/linux/netfs.h:24:16: note: forward declaration of 'struct mempool'
+      24 | typedef struct mempool mempool_t;
+         |                ^
+   fs/netfs/rolling_buffer.c:31:54: error: incomplete definition of type 'mempool_t' (aka 'struct mempool')
+      31 |                 fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
+         |                                                   ~~~~~~~~~~~~~~~~~^
+   include/linux/netfs.h:24:16: note: forward declaration of 'struct mempool'
+      24 | typedef struct mempool mempool_t;
+         |                ^
+   fs/netfs/rolling_buffer.c:33:8: error: call to undeclared function 'mempool_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      33 |                 fq = mempool_alloc(&netfs_folioq_pool, gfp);
+         |                      ^
+   fs/netfs/rolling_buffer.c:33:6: error: incompatible integer to pointer conversion assigning to 'struct folio_queue *' from 'int' [-Wint-conversion]
+      33 |                 fq = mempool_alloc(&netfs_folioq_pool, gfp);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/rolling_buffer.c:56:2: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      56 |         mempool_free(folioq, &netfs_folioq_pool);
+         |         ^
+   5 errors generated.
+
+
+vim +31 fs/netfs/rolling_buffer.c
+
+    15	
+    16	/**
+    17	 * netfs_folioq_alloc - Allocate a folio_queue struct
+    18	 * @rreq_id: Associated debugging ID for tracing purposes
+    19	 * @gfp: Allocation constraints
+    20	 * @trace: Trace tag to indicate the purpose of the allocation
+    21	 *
+    22	 * Allocate, initialise and account the folio_queue struct and log a trace line
+    23	 * to mark the allocation.
+    24	 */
+    25	struct folio_queue *netfs_folioq_alloc(unsigned int rreq_id, gfp_t gfp,
+    26					       unsigned int /*enum netfs_folioq_trace*/ trace)
+    27	{
+    28		struct folio_queue *fq;
+    29	
+    30		if (gfp == GFP_KERNEL)
+  > 31			fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
+    32		else
+    33			fq = mempool_alloc(&netfs_folioq_pool, gfp);
+    34		if (fq) {
+    35			netfs_stat(&netfs_n_folioq);
+    36			folioq_init(fq, rreq_id);
+    37			fq->debug_id = atomic_inc_return(&debug_ids);
+    38			trace_netfs_folioq(fq, trace);
+    39		}
+    40		return fq;
+    41	}
+    42	EXPORT_SYMBOL(netfs_folioq_alloc);
+    43	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
