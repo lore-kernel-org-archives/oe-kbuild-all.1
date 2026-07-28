@@ -1,256 +1,293 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE903D6CC6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 13:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49BB0446C1B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 13:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785246581; cv=none; b=OhHWHdPkXIchMJlQ5OwoxUkF5VHCvvbTUOpSN2SRKfSRRXfxznYxBressE10Z2nru8QCySn9nNBXKIbMk3ksQ2fNdz09TCa5XBgBJ3UMITKoNxe0MeuHJ6orAx0JiQuoR3zeBsyCvWQH8Jc8okJli3dj64WeTU8ZoB9+D6uUFlI=
+	t=1785246583; cv=none; b=Wc6R1uxBo/v/Ll0v7H042LtGRuS5pnjWye6/hcybF8cecnpCALXFSW35jVtv7eMesWkYYrso5Z1brUz6nADexhDY6Tj2BmLcMBSHnTwOvI0ncGhbMZm9lZHXzEalT0f2VsbKKQcANAVm6BR78DFwtKVdv5rbHydUToA5Eifqda0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785246581; c=relaxed/simple;
-	bh=Wqcog1eQz2bjqrcbyCO/StsIOH92zkNMMirrehER1h4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=RlkRT9VVKtxSCaWwHRU9L6loY0oS8JJBfdLoAeUESkVedIM9Ok1XYYAkFGyl6BAzMrisG3vfNHEjc65bSPg8dxsfy0lMFgmxWlz61D7/3jCRWRwXC1bHoH8UGsOBigjRw3S6FB11peeDx1hukHxtVe+GA5DAS7JcnpiMrHab2DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dj8n4eWM; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1785246583; c=relaxed/simple;
+	bh=w0xGDA8eqAuD/KPk72u60iw7uKrO9ELPBLuh+xW/3gg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eJVbttByD5wjr4a0VNrzx57X8CCx4gU+NhoxDc8ZXmO/UhY0u9xkzwH5GRCdwD3ifrY09iYYaoIqOSs/ZoKo8ISq/3BP2hG+UfSj6yE4rftim8lNOVwYX5tBXfLG80rk5MEMYLr7t8OSGh4Tq57s2d0YqDC3rlwO4ITBK09YjAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJXBctp8; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dj8n4eWM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJXBctp8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785246578; x=1816782578;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wqcog1eQz2bjqrcbyCO/StsIOH92zkNMMirrehER1h4=;
-  b=dj8n4eWMRjLRZ6IMGpqKojrSVc4RZ7u2j5c3pZ/hnLRh/HtWcXDmI/na
-   pMZzmJj7GPToSY02hd4GyWB6wnXTL6C0/KLm6Y4Lm75Xo3qhP6AoDXmrd
-   uBhG+WxoskggI1SFh+lQY8g/uV9T5QfhatGmwrViRAKYIr+df6WpMg7Yd
-   VFyM9uP9jDx5DGoTidDWvFx/fDLLAeJuOhzMRmwncasSH/xBxZHTyHw9s
-   TgpEKqrXv86A3IMKbXp7IlZhjHcYwVvY4uFJz4vT0sQO1QfGZkta/qb/m
-   gzzFmukcrLbV2eFAiLn2GnpOt7LbcxsYNRnJCh3yPX2kyFC9g3rSZQna8
+  t=1785246581; x=1816782581;
+  h=date:from:to:cc:subject:message-id;
+  bh=w0xGDA8eqAuD/KPk72u60iw7uKrO9ELPBLuh+xW/3gg=;
+  b=QJXBctp8+96U67pM5Y+cuzKe1H0ZGn10cDNzfUMunJe510KQi2nm2J12
+   IVkQaJWEeb9lP4I3kqLwVj93oKZTNKvSsgRcrWr7jhzGOMqQTwuLhxQ37
+   lTx3y7gTQQsji0q1Qck2WJqFMh7gFQ8EPJEnlqdeUMGqQSjHRbu+WepLC
+   EmyR/10XsIguP/TcwocKkeIadVsWZXGpwQCLVLjILcrxAADq5WHZJQ8qe
+   BE6iLftz1FJhKd48cYTuVj+O3ddpkICumjJfnDKxS5IIAy6U14ctV0VYf
+   rux6mahB156VlxAVNtio4lWAlxufv9z8aOlkMZKqxW19bt2nsrnK4izdd
    Q==;
-X-CSE-ConnectionGUID: p4ZKr0gwRBaQaj5zXkEupA==
-X-CSE-MsgGUID: 9gd6+ssRSm+b7Q7/3avF9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96983786"
+X-CSE-ConnectionGUID: tTSLFwFQT5eAUtmoKmmFgg==
+X-CSE-MsgGUID: sLtHR++QRFK6UexozO1cbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96983787"
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="96983786"
+   d="scan'208";a="96983787"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 06:49:38 -0700
-X-CSE-ConnectionGUID: u9IGlDVTQuKYJas/bRrrtw==
-X-CSE-MsgGUID: /hYH3CqgS6+YmQspiDEHCw==
+X-CSE-ConnectionGUID: 99YXM2MWTDqev5wZ1nWYhA==
+X-CSE-MsgGUID: TlFi2EsrRsSjc+hnjbv+WQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="257913814"
+   d="scan'208";a="257913816"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
   by orviesa006.jf.intel.com with ESMTP; 28 Jul 2026 06:49:37 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woiBa-00000000ePD-0nG2;
+	id 1woiBa-00000000ePF-2BAD;
 	Tue, 28 Jul 2026 13:49:34 +0000
-Date: Tue, 28 Jul 2026 21:49:11 +0800
+Date: Tue, 28 Jul 2026 21:49:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [stefandoesinger-zx297520:dlink 71/130]
- drivers/spi/spi-zx.c:426:119: warning: cast from pointer to integer of
- different size
-Message-ID: <202607282130.2COgYHjO-lkp@intel.com>
+Subject: [zen:7.1/prjc 36/39] kernel/sched/alt_core.c:6442:50: error:
+ passing argument 2 of 'cpumask_weight_and' makes pointer from integer without
+ a cast
+Message-ID: <202607282116.6hdxgctZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://gitlab.com/stefandoesinger/zx297520-kernel dlink
-head:   3d8eb1c72ad9937912307a2d4f3de812b572b9b3
-commit: f3a829851803ba7951a100df6355bfdaf1cba32a [71/130] QSPI DMA somewhat working
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260728/202607282130.2COgYHjO-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607282130.2COgYHjO-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 7.1/prjc
+head:   a87d4f75d93e513e42f498eae7214c385874cf8e
+commit: 4878c61929d676359794533c9e16d420c5f24b26 [36/39] sched/alt: Auto-detect heterogeneous CPU topology
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260728/202607282116.6hdxgctZ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260728/202607282116.6hdxgctZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607282130.2COgYHjO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607282116.6hdxgctZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:620,
-                    from include/linux/kernel.h:30,
-                    from include/linux/clk.h:13,
-                    from drivers/spi/spi-zx.c:14:
-   drivers/spi/spi-zx.c: In function 'zx_qspi_exec_op':
->> drivers/spi/spi-zx.c:426:119: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     426 |                 dev_dbg(dev, "Attempting DMA %x %s qspi 0x%08x...\n", ctrl0, ctrl0 & ZX_QSPI_TX_DMA_EN ? "tx" : "rx", (unsigned int)qspi);
-         |                                                                                                                       ^
-   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+   kernel/sched/alt_core.c: In function 'finish_task_switch':
+   kernel/sched/alt_core.c:3714:9: error: too few arguments to function 'blk_plug_invalidate_ts'; expected 1, have 0
+    3714 |         blk_plug_invalidate_ts();
          |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
-     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/spi/spi-zx.c:426:17: note: in expansion of macro 'dev_dbg'
-     426 |                 dev_dbg(dev, "Attempting DMA %x %s qspi 0x%08x...\n", ctrl0, ctrl0 & ZX_QSPI_TX_DMA_EN ? "tx" : "rx", (unsigned int)qspi);
-         |                 ^~~~~~~
-   drivers/spi/spi-zx.c: In function 'zx_qspi_remove':
-   drivers/spi/spi-zx.c:615:24: warning: conversion from 'long unsigned int' to 'u32' {aka 'unsigned int'} changes value from '18446744073709551614' to '4294967294' [-Woverflow]
-     615 |         writel_relaxed(~ZX_QSPI_EN, qspi->io_base + ZX_QSPI_EN_REG);
+   In file included from kernel/sched/alt_core.c:28:
+   include/linux/blkdev.h:1220:20: note: declared here
+    1220 | static inline void blk_plug_invalidate_ts(struct task_struct *tsk)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/sched.h:37,
+                    from kernel/sched/alt_core.c:15:
+   kernel/sched/alt_core.c: In function 'sched_assign_llc_id':
+   kernel/sched/alt_core.c:6376:32: error: implicit declaration of function 'cpu_coregroup_mask' [-Wimplicit-function-declaration]
+    6376 |         for_each_cpu_and(peer, cpu_coregroup_mask(cpu), active_mask) {
+         |                                ^~~~~~~~~~~~~~~~~~
+   include/linux/find.h:588:41: note: in definition of macro 'for_each_and_bit'
+     588 |              (bit) = find_next_and_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+         |                                         ^~~~~
+   include/linux/cpumask.h:410:31: note: in expansion of macro 'cpumask_bits'
+     410 |         for_each_and_bit(cpu, cpumask_bits(mask1), cpumask_bits(mask2), small_cpumask_bits)
+         |                               ^~~~~~~~~~~~
+   kernel/sched/alt_core.c:6376:9: note: in expansion of macro 'for_each_cpu_and'
+    6376 |         for_each_cpu_and(peer, cpu_coregroup_mask(cpu), active_mask) {
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/cpumask_types.h:18:37: error: invalid type argument of '->' (have 'int')
+      18 | #define cpumask_bits(maskp) ((maskp)->bits)
+         |                                     ^~
+   include/linux/find.h:588:41: note: in definition of macro 'for_each_and_bit'
+     588 |              (bit) = find_next_and_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+         |                                         ^~~~~
+   include/linux/cpumask.h:410:31: note: in expansion of macro 'cpumask_bits'
+     410 |         for_each_and_bit(cpu, cpumask_bits(mask1), cpumask_bits(mask2), small_cpumask_bits)
+         |                               ^~~~~~~~~~~~
+   kernel/sched/alt_core.c:6376:9: note: in expansion of macro 'for_each_cpu_and'
+    6376 |         for_each_cpu_and(peer, cpu_coregroup_mask(cpu), active_mask) {
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/find.h:588:72: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     588 |              (bit) = find_next_and_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+         |                                                                        ^
+   include/linux/cpumask.h:410:9: note: in expansion of macro 'for_each_and_bit'
+     410 |         for_each_and_bit(cpu, cpumask_bits(mask1), cpumask_bits(mask2), small_cpumask_bits)
+         |         ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:6376:9: note: in expansion of macro 'for_each_cpu_and'
+    6376 |         for_each_cpu_and(peer, cpu_coregroup_mask(cpu), active_mask) {
+         |         ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'sched_build_topology_cpumask':
+   kernel/sched/alt_core.c:6429:21: error: passing argument 3 of 'cpumask_and' makes pointer from integer without a cast [-Wint-conversion]
+    6429 |                     cpu_coregroup_mask(cpu));
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     int
+   include/linux/cpumask.h:714:40: note: expected 'const struct cpumask *' but argument is of type 'int'
+     714 |                  const struct cpumask *src2p)
+         |                  ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   In file included from include/linux/nodemask.h:92,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15:
+>> kernel/sched/alt_core.c:6442:50: error: passing argument 2 of 'cpumask_weight_and' makes pointer from integer without a cast [-Wint-conversion]
+    6442 |                                                  cpu_coregroup_mask(cpu)));
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                  |
+         |                                                  int
+   include/linux/minmax.h:86:38: note: in definition of macro '__cmp_once_unique'
+      86 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                                      ^
+   include/linux/minmax.h:169:27: note: in expansion of macro '__cmp_once'
+     169 | #define max_t(type, x, y) __cmp_once(max, type, x, y)
+         |                           ^~~~~~~~~~
+   kernel/sched/alt_core.c:6441:17: note: in expansion of macro 'max_t'
+    6441 |                 max_t(int, 1, cpumask_weight_and(active_mask,
+         |                 ^~~~~
+   include/linux/cpumask.h:881:84: note: expected 'const struct cpumask *' but argument is of type 'int'
+     881 | unsigned int cpumask_weight_and(const struct cpumask *srcp1, const struct cpumask *srcp2)
+         |                                                              ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   kernel/sched/alt_core.c: In function 'sched_topology_add_cpu':
+>> kernel/sched/alt_core.c:6460:41: error: passing argument 2 of 'cpumask_test_cpu' makes pointer from integer without a cast [-Wint-conversion]
+    6460 |         if (cpumask_test_cpu(added_cpu, cpu_coregroup_mask(cpu)))
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                         |
+         |                                         int
+   include/linux/cpumask.h:647:54: note: expected 'const struct cpumask *' but argument is of type 'int'
+     647 | bool cpumask_test_cpu(int cpu, const struct cpumask *cpumask)
+         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   kernel/sched/alt_core.c: In function 'sched_topology_update_llc_size':
+   include/linux/cpumask_types.h:18:37: error: invalid type argument of '->' (have 'int')
+      18 | #define cpumask_bits(maskp) ((maskp)->bits)
+         |                                     ^~
+   include/linux/find.h:588:41: note: in definition of macro 'for_each_and_bit'
+     588 |              (bit) = find_next_and_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+         |                                         ^~~~~
+   include/linux/cpumask.h:410:31: note: in expansion of macro 'cpumask_bits'
+     410 |         for_each_and_bit(cpu, cpumask_bits(mask1), cpumask_bits(mask2), small_cpumask_bits)
+         |                               ^~~~~~~~~~~~
+   kernel/sched/alt_core.c:6483:9: note: in expansion of macro 'for_each_cpu_and'
+    6483 |         for_each_cpu_and(cpu, cpu_coregroup_mask(changed_cpu), active_mask)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/find.h:588:72: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     588 |              (bit) = find_next_and_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+         |                                                                        ^
+   include/linux/cpumask.h:410:9: note: in expansion of macro 'for_each_and_bit'
+     410 |         for_each_and_bit(cpu, cpumask_bits(mask1), cpumask_bits(mask2), small_cpumask_bits)
+         |         ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:6483:9: note: in expansion of macro 'for_each_cpu_and'
+    6483 |         for_each_cpu_and(cpu, cpu_coregroup_mask(changed_cpu), active_mask)
+         |         ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:6486:58: error: passing argument 2 of 'cpumask_weight_and' makes pointer from integer without a cast [-Wint-conversion]
+    6486 |                                                          cpu_coregroup_mask(cpu)));
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                          |
+         |                                                          int
+   include/linux/minmax.h:86:38: note: in definition of macro '__cmp_once_unique'
+      86 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                                      ^
+   include/linux/minmax.h:169:27: note: in expansion of macro '__cmp_once'
+     169 | #define max_t(type, x, y) __cmp_once(max, type, x, y)
+         |                           ^~~~~~~~~~
+   kernel/sched/alt_core.c:6485:25: note: in expansion of macro 'max_t'
+    6485 |                         max_t(int, 1, cpumask_weight_and(active_mask,
+         |                         ^~~~~
+   include/linux/cpumask.h:881:84: note: expected 'const struct cpumask *' but argument is of type 'int'
+     881 | unsigned int cpumask_weight_and(const struct cpumask *srcp1, const struct cpumask *srcp2)
+         |                                                              ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   kernel/sched/alt_core.c: In function 'sched_topology_activate_update':
+   kernel/sched/alt_core.c:6526:48: error: passing argument 2 of 'cpumask_test_cpu' makes pointer from integer without a cast [-Wint-conversion]
+    6526 |                 if (cpumask_test_cpu(incoming, cpu_coregroup_mask(cpu)))
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                |
+         |                                                int
+   include/linux/cpumask.h:647:54: note: expected 'const struct cpumask *' but argument is of type 'int'
+     647 | bool cpumask_test_cpu(int cpu, const struct cpumask *cpumask)
+         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   kernel/sched/alt_core.c:6530:58: error: passing argument 2 of 'cpumask_weight_and' makes pointer from integer without a cast [-Wint-conversion]
+    6530 |                                                          cpu_coregroup_mask(cpu)));
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                          |
+         |                                                          int
+   include/linux/minmax.h:86:38: note: in definition of macro '__cmp_once_unique'
+      86 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                                      ^
+   include/linux/minmax.h:169:27: note: in expansion of macro '__cmp_once'
+     169 | #define max_t(type, x, y) __cmp_once(max, type, x, y)
+         |                           ^~~~~~~~~~
+   kernel/sched/alt_core.c:6528:33: note: in expansion of macro 'max_t'
+    6528 |                                 max_t(int, 1,
+         |                                 ^~~~~
+   include/linux/cpumask.h:881:84: note: expected 'const struct cpumask *' but argument is of type 'int'
+     881 | unsigned int cpumask_weight_and(const struct cpumask *srcp1, const struct cpumask *srcp2)
+         |                                                              ~~~~~~~~~~~~~~~~~~~~~~^~~~~
 
 
-vim +426 drivers/spi/spi-zx.c
+vim +/cpumask_weight_and +6442 kernel/sched/alt_core.c
 
-   341	
-   342	static int zx_qspi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
-   343	{
-   344		struct zx_qspi *qspi = spi_controller_get_devdata(mem->spi->controller);
-   345		u32 ctrl0, ctrl1 = 0, ctrl2 = 0, txstatus;
-   346		struct device *dev = &qspi->ctrl->dev;
-   347		dma_cookie_t cookie;
-   348		int ret = 0;
-   349	
-   350		dev_dbg(dev, "zx_qspi_exec_op cmd:%#x buswidth:%d.%d.%d.%d addr:%#llx nbytes:%#x\n",
-   351			op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
-   352			op->dummy.buswidth, op->data.buswidth,
-   353			op->addr.val, op->data.nbytes);
-   354	
-   355		ctrl0 = readl_relaxed(qspi->io_base + ZX_QSPI_CTRL0_REG);
-   356		dev_dbg(dev, "ZX_QSPI_CTRL0_REG = 0x%08x\n", ctrl0);
-   357		ctrl0 &= ~(ZX_QSPI_TX_DMA_EN | ZX_QSPI_RX_DMA_EN);
-   358		ctrl0 |= (ZX_QSPI_RXFIFO_CLR | ZX_QSPI_TXFIFO_CLR);
-   359		/* What are these for? I don't know, the ZTE driver sets them. Removing them here makes it
-   360		 * possible to operate with a smaller burst size but presumably comes at a performance cost.
-   361		 * In simple benchmarking I have not found an impact though.
-   362		 */
-   363		ctrl0 |= ZX_QSPI_TXFIFO_THRES | ZX_QSPI_RXFIFO_THRES;
-   364	
-   365		if (op->addr.nbytes && op->addr.buswidth) {
-   366			ctrl1 |= ZX_QSPI_ADDR_TX_EN;
-   367			switch (op->addr.buswidth * op->addr.nbytes) {
-   368				case 1: ctrl2 |= (ADDR_BYTE_WIDTH_8 << ZX_QSPI_ADDR_BYTE_NUM); break;
-   369				case 2: ctrl2 |= (ADDR_BYTE_WIDTH_16 << ZX_QSPI_ADDR_BYTE_NUM); break;
-   370				case 3: ctrl2 |= (ADDR_BYTE_WIDTH_24 << ZX_QSPI_ADDR_BYTE_NUM); break;
-   371				case 4: ctrl2 |= (ADDR_BYTE_WIDTH_32 << ZX_QSPI_ADDR_BYTE_NUM); break;
-   372				default:
-   373					dev_err(dev, "Unexpected addr.buswidth %u\n",
-   374						op->addr.buswidth * op->addr.nbytes);	
-   375					return -EIO;
-   376			}	
-   377		}
-   378	
-   379		ctrl0 |= zx_qspi_setup_dma(qspi, op);
-   380	
-   381		/* dummy config */
-   382		if (op->dummy.nbytes && op->dummy.buswidth) {
-   383			ctrl1 |= ZX_QSPI_DUMMY_TX_EN;
-   384			ctrl2 |= (0x1 << ZX_QSPI_DUMMY_BYTE_NUM);
-   385		}
-   386	
-   387		/* data config */
-   388		if (op->data.nbytes) {
-   389			if (op->data.dir == SPI_MEM_DATA_IN) {
-   390				ctrl1 |= ZX_QSPI_READ_DATA_EN;
-   391			} else {
-   392				ctrl1 |= ZX_QSPI_WRITE_DATA_EN;
-   393			}
-   394	
-   395			if (op->data.buswidth == 0x4) {
-   396				ctrl2 |= ZX_QSPI_DATA_MULTI_LINE_EN | ZX_QSPI_TRANS_MOD;
-   397			} else if (op->data.buswidth == 0x2) {
-   398				ctrl2 |= ZX_QSPI_DATA_MULTI_LINE_EN;
-   399			}
-   400		}
-   401	
-   402		writel_relaxed(ctrl0, qspi->io_base + ZX_QSPI_CTRL0_REG);
-   403		writel_relaxed(ctrl1, qspi->io_base + ZX_QSPI_CTRL1_REG);
-   404		writel_relaxed(ctrl2, qspi->io_base + ZX_QSPI_CTRL2_REG);
-   405	
-   406		/* clear int */
-   407		writel_relaxed(ZX_QSPI_INT_ALL_MASK, qspi->io_base + ZX_QSPI_INT_SW_CLR_REG);
-   408	
-   409		/* data len */
-   410		if (op->data.nbytes) {
-   411			writel_relaxed(op->data.nbytes - 1, qspi->io_base + ZX_QSPI_BYTE_NUM_REG);
-   412		}
-   413	
-   414		/* addr */
-   415		if (op->addr.nbytes && op->addr.buswidth) {
-   416			writel_relaxed(op->addr.val, qspi->io_base + ZX_QSPI_ADDR_REG);
-   417		}
-   418	
-   419		/* cmd */
-   420		writel_relaxed(op->cmd.opcode, qspi->io_base + ZX_QSPI_INS_REG);
-   421	
-   422		/* spifc start */
-   423		writel_relaxed(ZX_QSPI_START, qspi->io_base + ZX_QSPI_START_REG);
-   424	
-   425		if (op->data.nbytes && ctrl0 & (ZX_QSPI_TX_DMA_EN | ZX_QSPI_RX_DMA_EN)) {
- > 426			dev_dbg(dev, "Attempting DMA %x %s qspi 0x%08x...\n", ctrl0, ctrl0 & ZX_QSPI_TX_DMA_EN ? "tx" : "rx", (unsigned int)qspi);
-   427			// qspi->dma_desc->callback = zx_qspi_dma_callback;
-   428			qspi->dma_desc->callback_result = zx_qspi_callback_result;
-   429			qspi->dma_desc->callback_param = qspi;
-   430			cookie = dmaengine_submit(qspi->dma_desc);
-   431			ret = dma_submit_error(cookie);
-   432			if (ret) {
-   433				/* FIXME: Does this kind of fallback to PIO work? How do I provoke it to
-   434				 * test it?
-   435				 */
-   436				dev_err(dev, "dmaengine_submit = %d, falling back to PIO\n", ret);
-   437				ctrl0 &= ~(ZX_QSPI_TX_DMA_EN | ZX_QSPI_RX_DMA_EN);
-   438				writel_relaxed(ctrl0, qspi->io_base + ZX_QSPI_CTRL0_REG);
-   439			} else {
-   440				dma_async_issue_pending(qspi->cur_dma_ch);
-   441	
-   442				if (!wait_for_completion_io_timeout(&qspi->dma_completion,
-   443						 msecs_to_jiffies(2000))) {
-   444					dev_err(dev, "DMA timed out\n");
-   445					spi_controller_dma_unmap_mem_op_data(qspi->ctrl, op, &qspi->sgt);
-   446					return -EIO;
-   447				}
-   448			}
-   449			qspi->dma_desc = NULL;
-   450	
-   451			spi_controller_dma_unmap_mem_op_data(qspi->ctrl, op, &qspi->sgt);
-   452			writel_relaxed(ctrl0 & ~(ZX_QSPI_TX_DMA_EN | ZX_QSPI_RX_DMA_EN), qspi->io_base + ZX_QSPI_CTRL0_REG);
-   453		}
-   454	
-   455		if (op->data.nbytes && !(ctrl0 & (ZX_QSPI_TX_DMA_EN | ZX_QSPI_RX_DMA_EN))) {
-   456			ret = zx_qspi_tx(qspi, op);
-   457			if (ret) 
-   458			{
-   459				pr_err("zx_qspi_tx error %d.\n", ret);
-   460				return ret;	
-   461			}
-   462		}
-   463	
-   464		/* With DMA the result is ready by the time we receive the DMA complete callback. With PIO,
-   465		 * the highest wait time I have seen was 1 us.
-   466		 */
-   467		ret = readl_relaxed_poll_timeout_atomic(qspi->io_base + ZX_QSPI_INT_RAW_REG,
-   468							txstatus, txstatus & ZX_QSPI_INT_CMD_END, 1,
-   469							1000);
-   470		if (ret) {
-   471			dev_err(dev, "Wait for transfer end failed: %u.\n", ret);
-   472			return ret;
-   473		}
-   474	
-   475		if (txstatus & ZX_QSPI_INT_FMT_ERR) {
-   476			dev_err(dev, "SPI controller reported an error, status 0x%08x\n", txstatus);
-   477			return -EIO;
-   478		}
-   479		if (txstatus & ZX_QSPI_INT_CMD_END) {
-   480			return 0;
-   481		}
-   482		dev_err(dev, "Unexpected status 0x%08x\n", txstatus);
-   483		return -EIO;
-   484	}
-   485	
+  6411	
+  6412	static bool sched_build_topology_cpumask(int cpu,
+  6413						 const struct cpumask *active_mask)
+  6414	{
+  6415		cpumask_t *topo = per_cpu(sched_cpu_topo_masks, cpu);
+  6416		bool llc_id_merged;
+  6417		int level;
+  6418	
+  6419		for (level = 0; level < NR_CPU_AFFINITY_LEVELS; level++)
+  6420			cpumask_clear(topo + level);
+  6421	
+  6422	#ifdef CONFIG_SCHED_SMT
+  6423		cpumask_and(topo + SCHED_CPU_AFFINITY_SMT, active_mask,
+  6424			    topology_sibling_cpumask(cpu));
+  6425	#endif /* CONFIG_SCHED_SMT */
+  6426		cpumask_and(topo + SCHED_CPU_AFFINITY_CLUSTER, active_mask,
+  6427			    topology_cluster_cpumask(cpu));
+  6428		cpumask_and(topo + SCHED_CPU_AFFINITY_LLC, active_mask,
+  6429			    cpu_coregroup_mask(cpu));
+  6430		cpumask_and(topo + SCHED_CPU_AFFINITY_CORE, active_mask,
+  6431			    topology_core_cpumask(cpu));
+  6432		cpumask_copy(topo + SCHED_CPU_AFFINITY_OTHER, active_mask);
+  6433	
+  6434		per_cpu(sched_cpu_llc_mask, cpu) =
+  6435			topo + SCHED_CPU_AFFINITY_LLC;
+  6436		per_cpu(sched_cpu_topo_end_mask, cpu) =
+  6437			topo + NR_CPU_AFFINITY_LEVELS;
+  6438	
+  6439		llc_id_merged = sched_assign_llc_id(cpu, active_mask);
+  6440		per_cpu(sd_llc_size, cpu) =
+  6441			max_t(int, 1, cpumask_weight_and(active_mask,
+> 6442							 cpu_coregroup_mask(cpu)));
+  6443		per_cpu(sched_cpu_topology_valid, cpu) = true;
+  6444	
+  6445		return llc_id_merged;
+  6446	}
+  6447	
+  6448	static void sched_topology_add_cpu(int cpu, int added_cpu)
+  6449	{
+  6450		cpumask_t *topo = per_cpu(sched_cpu_topo_masks, cpu);
+  6451	
+  6452	#ifdef CONFIG_SCHED_SMT
+  6453		if (cpumask_test_cpu(added_cpu, topology_sibling_cpumask(cpu)))
+  6454			cpumask_set_cpu(added_cpu,
+  6455					topo + SCHED_CPU_AFFINITY_SMT);
+  6456	#endif
+  6457		if (cpumask_test_cpu(added_cpu, topology_cluster_cpumask(cpu)))
+  6458			cpumask_set_cpu(added_cpu,
+  6459					topo + SCHED_CPU_AFFINITY_CLUSTER);
+> 6460		if (cpumask_test_cpu(added_cpu, cpu_coregroup_mask(cpu)))
+  6461			cpumask_set_cpu(added_cpu,
+  6462					topo + SCHED_CPU_AFFINITY_LLC);
+  6463		if (cpumask_test_cpu(added_cpu, topology_core_cpumask(cpu)))
+  6464			cpumask_set_cpu(added_cpu,
+  6465					topo + SCHED_CPU_AFFINITY_CORE);
+  6466		cpumask_set_cpu(added_cpu, topo + SCHED_CPU_AFFINITY_OTHER);
+  6467	}
+  6468	
 
 --
 0-DAY CI Kernel Test Service
