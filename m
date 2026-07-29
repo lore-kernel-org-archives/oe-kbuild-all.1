@@ -1,249 +1,215 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568883B9DAD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 07:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA2741B37D;
+	Wed, 29 Jul 2026 07:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785308706; cv=none; b=gvYs3syBR6X1EJoEeV6nKr2pmTuXwtTNRxhLjPCHk3jUKupn6HBCtFBqxWv1WZ9iZpeWnd6zu66rgSbFwPjM1tgDITKN3CQEbApYITwZ1+Qt06Aj1k/V9NWmCp9sQ9sw6VEdx7mlyS7/Eo9QCa/89M5s4ekDI6L4ZsUZ2/9QVGI=
+	t=1785310563; cv=none; b=d+y7OOHKtqvBDCKGxF54V2Dk3LVmjvW+TupzpV5itlwGZfllSmPbUUpmMnQj0R0dKdcUWNP3b32kSd66mjO6vUdg3mJxAihdaaBxZAsYGkcoFYST84rd9C+i0JPZj2pzqYHqieUhAm6C3E88mIrCPZUnVBCWegG1bDcj7A2ABG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785308706; c=relaxed/simple;
-	bh=s2NtY+8guCxUjCQ4cNkEEkse6EC6qBhoocp/+onG7y8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dBsJqc54ofh84Xxl6lluc8Hf2sQW/uODCChaaVak7jZaqbKwNT5xwMt8GC+mn1tBwZ2Uop/Cj0zgwBUhcgHMbUaGLBWeKorMnGq+fE6GzOeyLbJkt+vkZFz0vdEoZ4EBmKQTfCZNaAHEGazn94CDUnicIYNZ9oz8iPrqiZ8WpgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PTdNx8hW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FanetNBU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aHPmh/A+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SU7gGfQq; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785310563; c=relaxed/simple;
+	bh=TsjGW0UuMUcn5jkr82soNCNPgOetVobgpzQlm6cDbDk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jTMeWqSU6gaY+Vv60VDyQA/ZOew9K3JS+nq2iDR0h4a9POBdzGEAoc1LW4OfKeCU6HvEhbvPLZhy6zmJiW6yB9pa86LIuBPCgPXEIbNuX/l9SYtJ2eh01o7c4sR6MC8Eh5Z5/4k8Rls/DZeZ1Wox/kqEADk3VIDD9s3dHrPmx/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjCTzEn3; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PTdNx8hW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FanetNBU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aHPmh/A+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SU7gGfQq"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2B85C7C900;
-	Wed, 29 Jul 2026 07:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785308697; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spXwGubkjNqbrFU+PWVsLMlpX78xo9bIotdwjKpARBs=;
-	b=PTdNx8hWkkgnxomTqoggLjIvZWrhIrN8qwGhzP3GzALkR2IUhwGNaSeGvhCFGBZfl+pdng
-	oZYMKo1d5by9f1RabF+lHq78f0nE1LfdRcya1gD5uoDMjSz/5zxMJfsJLXhjq1r5FAv7vB
-	4v4ldyKwRNusGj62dScBtDkObj60x3s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785308697;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spXwGubkjNqbrFU+PWVsLMlpX78xo9bIotdwjKpARBs=;
-	b=FanetNBUlqsnuMuy9qXQ1gWjPHpxwKGOHmlZ0ZOJTF9gfYkwvRAzzqg8Msxer0ysEInqSF
-	+4bYWSbqAaaD+nAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="aHPmh/A+";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SU7gGfQq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785308693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spXwGubkjNqbrFU+PWVsLMlpX78xo9bIotdwjKpARBs=;
-	b=aHPmh/A+5tXHpcvXWKon7SsVoDIoCbSTB4Qfjo8Ug6HsHl9lpZWDGhdoLqOv/J3WnQ0w8c
-	C6BknN7m/zWmsUjojm+0nikbQTryMpvtCXMNV6ILkRvyxxwfwYx2z5aJ1Hl9TBCCY4cliY
-	M3RY4wl0SBpQnoV1imPQJsB3NwzxZCg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785308693;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spXwGubkjNqbrFU+PWVsLMlpX78xo9bIotdwjKpARBs=;
-	b=SU7gGfQqIDaAc3QLYuAduS6SmTlSANV3SB33QeKahVmQ9c+XZhMYdrRuiGEOsJyFSdPMF6
-	/58Faej7y1O0RhDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1235779A1;
-	Wed, 29 Jul 2026 07:04:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id c0ZbORSmaWorfAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 29 Jul 2026 07:04:52 +0000
-Date: Wed, 29 Jul 2026 09:04:52 +0200
-Message-ID: <87jyqe5l9n.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev,
-	Takashi Iwai <tiwai@suse.de>,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 7970/9778] sound/usb/6fire/chip.c:154 usb6fire_chip_probe() warn: variable dereferenced before check 'card' (see line 123)
-In-Reply-To: <202607291057.eO0PgxqY-lkp@intel.com>
-References: <202607291057.eO0PgxqY-lkp@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjCTzEn3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785310534; x=1816846534;
+  h=date:from:to:cc:subject:message-id;
+  bh=TsjGW0UuMUcn5jkr82soNCNPgOetVobgpzQlm6cDbDk=;
+  b=jjCTzEn3Z2lr89SbxQk+33nfIubz0nJaSeMAwKBfRhOM/q1/q9e8hrhm
+   MbuMWsYldLHYXQ2lKDWWV9gIRamesd3AcyaRksAPVT7RiHQ0cRTFfGadE
+   JRQdvol1qilax+JzXmrZx+GWv+hITpPJB+ojt6Bilkxv9N3lCOTrHEOOO
+   /Bdoh2douGRiWIGFM58WkmGf8vjQmGtp77npg22InFyFt3KIEmGCMp4ha
+   +uEjvVcKI6CpQ025PWhmzM0674NVef4Yu7kcd5eAnZ4qiSzQku0PdriZE
+   fALOkX1/sHmK7NaEfAvPfP5J/K2hAQy3yCybOZ6VnSkfed/XTk0C7QSLG
+   g==;
+X-CSE-ConnectionGUID: xcRySan2SoSL5srQENkrxQ==
+X-CSE-MsgGUID: ngc1Y/wKSp6aci5MDZs+tQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97420289"
+X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
+   d="scan'208";a="97420289"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 00:35:29 -0700
+X-CSE-ConnectionGUID: CHnG8Hs4Rmejx/ISVeq/+A==
+X-CSE-MsgGUID: 9mD7SVvgTnC6DAzcSCKnUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
+   d="scan'208";a="264217244"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 29 Jul 2026 00:35:26 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1woyp2-0000000026o-0cX1;
+	Wed, 29 Jul 2026 07:35:24 +0000
+Date: Wed, 29 Jul 2026 09:34:41 +0200
+From: kernel test robot <lkp@intel.com>
+To: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>, Rohan G Thomas <rohan.g.thomas@altera.com>
+Subject: include/linux/bitfield.h:221:3: error: call to '__bad_mask'
+ declared with 'error' attribute: bad bitfield mask
+Message-ID: <202607290915.ZeI9TCug-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 2B85C7C900
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,suse.de:mid,suse.de:dkim,intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
 
-On Wed, 29 Jul 2026 07:43:10 +0200,
-Dan Carpenter wrote:
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   3652b49adac266a3d27cb41cdfdb7d8790fc3633
-> commit: a54bf16965f896415c3337bc4fbb40fb11941d99 [7970/9778] ALSA: 6fire: Fix UAF at error handling during probe
-> config: i386-randconfig-141-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291057.eO0PgxqY-lkp@intel.com/config)
-> compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-> smatch: v0.5.0-9187-g5189e3fb
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202607291057.eO0PgxqY-lkp@intel.com/
-> 
-> smatch warnings:
-> sound/usb/6fire/chip.c:154 usb6fire_chip_probe() warn: variable dereferenced before check 'card' (see line 123)
-> 
-> vim +/card +154 sound/usb/6fire/chip.c
-> 
-> 87f9796a0336ef Bill Pemberton 2012-12-06   70  static int usb6fire_chip_probe(struct usb_interface *intf,
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   71  			       const struct usb_device_id *usb_id)
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   72  {
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   73  	int ret;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   74  	int i;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   75  	struct sfire_chip *chip = NULL;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   76  	struct usb_device *device = interface_to_usbdev(intf);
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   77  	int regidx = -1; /* index in module parameter array */
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   78  	struct snd_card *card = NULL;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   79  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   80  	/* look if we already serve this card and return if so */
-> f3c80e76a0e94c Takashi Iwai   2026-04-14   81  	guard(mutex)(&register_mutex);
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   82  	for (i = 0; i < SNDRV_CARDS; i++) {
-> 4d5de85b6a9961 Takashi Iwai   2026-04-14   83  		if (chips[i] && chips[i]->dev == device) {
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   84  			chips[i]->intf_count++;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   85  			usb_set_intfdata(intf, chips[i]);
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   86  			return 0;
-> 4d5de85b6a9961 Takashi Iwai   2026-04-14   87  		} else if (!chips[i] && regidx < 0)
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   88  			regidx = i;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   89  	}
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   90  	if (regidx < 0) {
-> e3b3757b92a4df Takashi Iwai   2014-02-26   91  		dev_err(&intf->dev, "too many cards registered.\n");
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   92  		return -ENODEV;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   93  	}
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   94  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   95  	/* check, if firmware is present on device, upload it if not */
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   96  	ret = usb6fire_fw_init(intf);
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   97  	if (ret < 0)
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   98  		return ret;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24   99  	else if (ret == FW_NOT_READY) /* firmware update performed */
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  100  		return 0;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  101  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  102  	/* if we are here, card can be registered in alsa. */
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  103  	if (usb_set_interface(device, 0, 0) != 0) {
-> e3b3757b92a4df Takashi Iwai   2014-02-26  104  		dev_err(&intf->dev, "can't set first interface.\n");
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  105  		return -EIO;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  106  	}
-> 874b8d422e26e2 Takashi Iwai   2014-01-29  107  	ret = snd_card_new(&intf->dev, index[regidx], id[regidx],
-> 874b8d422e26e2 Takashi Iwai   2014-01-29  108  			   THIS_MODULE, sizeof(struct sfire_chip), &card);
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  109  	if (ret < 0) {
-> e3b3757b92a4df Takashi Iwai   2014-02-26  110  		dev_err(&intf->dev, "cannot create alsa card.\n");
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  111  		return ret;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  112  	}
-> 19a28b8c7f9f63 Takashi Iwai   2025-07-10  113  	strscpy(card->driver, "6FireUSB");
-> 19a28b8c7f9f63 Takashi Iwai   2025-07-10  114  	strscpy(card->shortname, "TerraTec DMX6FireUSB");
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  115  	sprintf(card->longname, "%s at %d:%d", card->shortname,
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  116  			device->bus->busnum, device->devnum);
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  117  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  118  	chip = card->private_data;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  119  	chip->dev = device;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  120  	chip->regidx = regidx;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  121  	chip->intf_count = 1;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  122  	chip->card = card;
-> a0810c3d6dd2d2 Takashi Iwai   2024-11-13 @123  	card->private_free = usb6fire_card_free;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  124  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  125  	ret = usb6fire_comm_init(chip);
-> f804fff1361c9d Markus Elfring 2017-09-06  126  	if (ret < 0)
-> f804fff1361c9d Markus Elfring 2017-09-06  127  		goto destroy_chip;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  128  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  129  	ret = usb6fire_midi_init(chip);
-> f804fff1361c9d Markus Elfring 2017-09-06  130  	if (ret < 0)
-> f804fff1361c9d Markus Elfring 2017-09-06  131  		goto destroy_chip;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  132  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  133  	ret = usb6fire_pcm_init(chip);
-> f804fff1361c9d Markus Elfring 2017-09-06  134  	if (ret < 0)
-> f804fff1361c9d Markus Elfring 2017-09-06  135  		goto destroy_chip;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  136  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  137  	ret = usb6fire_control_init(chip);
-> f804fff1361c9d Markus Elfring 2017-09-06  138  	if (ret < 0)
-> f804fff1361c9d Markus Elfring 2017-09-06  139  		goto destroy_chip;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  140  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  141  	ret = snd_card_register(card);
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  142  	if (ret < 0) {
-> e3b3757b92a4df Takashi Iwai   2014-02-26  143  		dev_err(&intf->dev, "cannot register card.");
-> f804fff1361c9d Markus Elfring 2017-09-06  144  		goto destroy_chip;
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  145  	}
-> 4d5de85b6a9961 Takashi Iwai   2026-04-14  146  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  147  	usb_set_intfdata(intf, chip);
-> 4d5de85b6a9961 Takashi Iwai   2026-04-14  148  	chips[regidx] = chip;
-> 4d5de85b6a9961 Takashi Iwai   2026-04-14  149  
-> c6d43ba816d1cf Torsten Schenk 2011-01-24  150  	return 0;
-> f804fff1361c9d Markus Elfring 2017-09-06  151  
-> f804fff1361c9d Markus Elfring 2017-09-06  152  destroy_chip:
-> a54bf16965f896 Takashi Iwai   2026-07-26  153  	chip->shutdown = true;
-> a54bf16965f896 Takashi Iwai   2026-07-26 @154  	if (card)
-> 
-> You could delete this check if you want.
+tree:   https://github.com/intel-lab-lkp/linux/commits/muhammad-nazim-amirul-nazle-asmade-altera-com/net-stmmac-fpe-Enforce-pmac_enabled-in-set_mm-and-keep-it-on-at-init/20260729-100008
+head:   8a04b4757aed73457fdc91c3f61946a624832ba6
+commit: 8a04b4757aed73457fdc91c3f61946a624832ba6 net: stmmac: fpe: Move fprq configuration to stmmac_fpe_configure_pmac()
+date:   6 hours ago
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260729/202607290915.ZeI9TCug-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290915.ZeI9TCug-lkp@intel.com/reproduce)
 
-Yes, the NULL check is superfluous and can be dropped.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607290915.ZeI9TCug-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c:6:
+   In file included from drivers/net/ethernet/stmicro/stmmac/stmmac.h:17:
+   In file included from include/linux/stmmac.h:16:
+   In file included from include/linux/phylink.h:4:
+   In file included from include/linux/phy.h:20:
+   In file included from include/linux/mdio.h:10:
+>> include/linux/bitfield.h:221:3: error: call to '__bad_mask' declared with 'error' attribute: bad bitfield mask
+     221 |                 __bad_mask();
+         |                 ^
+>> include/linux/bitfield.h:221:3: error: call to '__bad_mask' declared with 'error' attribute: bad bitfield mask
+   2 errors generated.
 
 
-> a54bf16965f896 Takashi Iwai   2026-07-26  155  		snd_card_disconnect(card);
-> 
-> Setting chip->shutdown = true means that it's pointless to
-> call snd_card_disconnect().  It's a no-op.  snd_card_disconnect()
-> has a "card->shutdown = 1;"
+vim +221 include/linux/bitfield.h
 
-No, the above is chip->shutdown and it's different from
-card->shutdown.
+e2192de59e457a Johannes Berg      2023-01-18  142  
+e2192de59e457a Johannes Berg      2023-01-18  143  /**
+e2192de59e457a Johannes Berg      2023-01-18  144   * FIELD_PREP_CONST() - prepare a constant bitfield element
+e2192de59e457a Johannes Berg      2023-01-18  145   * @_mask: shifted mask defining the field's length and position
+e2192de59e457a Johannes Berg      2023-01-18  146   * @_val:  value to put in the field
+e2192de59e457a Johannes Berg      2023-01-18  147   *
+e2192de59e457a Johannes Berg      2023-01-18  148   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
+e2192de59e457a Johannes Berg      2023-01-18  149   * be combined with other fields of the bitfield using logical OR.
+e2192de59e457a Johannes Berg      2023-01-18  150   *
+e2192de59e457a Johannes Berg      2023-01-18  151   * Unlike FIELD_PREP() this is a constant expression and can therefore
+e2192de59e457a Johannes Berg      2023-01-18  152   * be used in initializers. Error checking is less comfortable for this
+e2192de59e457a Johannes Berg      2023-01-18  153   * version, and non-constant masks cannot be used.
+e2192de59e457a Johannes Berg      2023-01-18  154   */
+e2192de59e457a Johannes Berg      2023-01-18  155  #define FIELD_PREP_CONST(_mask, _val)					\
+e2192de59e457a Johannes Berg      2023-01-18  156  	(								\
+e2192de59e457a Johannes Berg      2023-01-18  157  		/* mask must be non-zero */				\
+e2192de59e457a Johannes Berg      2023-01-18  158  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
+e2192de59e457a Johannes Berg      2023-01-18  159  		/* check if value fits */				\
+e2192de59e457a Johannes Berg      2023-01-18  160  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
+e2192de59e457a Johannes Berg      2023-01-18  161  		/* check if mask is contiguous */			\
+e2192de59e457a Johannes Berg      2023-01-18  162  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
+e2192de59e457a Johannes Berg      2023-01-18  163  		/* and create the value */				\
+e2192de59e457a Johannes Berg      2023-01-18  164  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
+e2192de59e457a Johannes Berg      2023-01-18  165  	)
+e2192de59e457a Johannes Berg      2023-01-18  166  
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  167  /**
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  168   * FIELD_GET() - extract a bitfield element
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  169   * @_mask: shifted mask defining the field's length and position
+7240767450d6d8 Masahiro Yamada    2017-10-03  170   * @_reg:  value of entire bitfield
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  171   *
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  172   * FIELD_GET() extracts the field specified by @_mask from the
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  173   * bitfield passed in as @_reg by masking and shifting it down.
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  174   */
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  175  #define FIELD_GET(_mask, _reg)						\
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  176  	({								\
+2a6c045640c38a Geert Uytterhoeven 2025-11-06  177  		__BF_FIELD_CHECK_REG(_mask, _reg, "FIELD_GET: ");	\
+2a6c045640c38a Geert Uytterhoeven 2025-11-06  178  		__FIELD_GET(_mask, _reg, "FIELD_GET: ");		\
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  179  	})
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  180  
+2c3f0541b99c60 Yury Norov         2026-04-27  181  /**
+2c3f0541b99c60 Yury Norov         2026-04-27  182   * FIELD_GET_SIGNED() - extract a signed bitfield element
+2c3f0541b99c60 Yury Norov         2026-04-27  183   * @mask: shifted mask defining the field's length and position
+2c3f0541b99c60 Yury Norov         2026-04-27  184   * @reg:  value of entire bitfield
+2c3f0541b99c60 Yury Norov         2026-04-27  185   *
+2c3f0541b99c60 Yury Norov         2026-04-27  186   * Returns the sign-extended field specified by @_mask from the
+2c3f0541b99c60 Yury Norov         2026-04-27  187   * bitfield passed in as @reg by masking and shifting it down.
+2c3f0541b99c60 Yury Norov         2026-04-27  188   */
+2c3f0541b99c60 Yury Norov         2026-04-27  189  #define FIELD_GET_SIGNED(mask, reg)					\
+2c3f0541b99c60 Yury Norov         2026-04-27  190  	({								\
+2c3f0541b99c60 Yury Norov         2026-04-27  191  		__BF_FIELD_CHECK(mask, reg, 0U, "FIELD_GET_SIGNED: ");	\
+2c3f0541b99c60 Yury Norov         2026-04-27  192  		 ((__signed_scalar_typeof(mask))			\
+2c3f0541b99c60 Yury Norov         2026-04-27  193  		  (((long long)(reg) << __builtin_clzll(mask)) >>	\
+2c3f0541b99c60 Yury Norov         2026-04-27  194  		   (__builtin_clzll(mask) + __builtin_ctzll(mask))));	\
+2c3f0541b99c60 Yury Norov         2026-04-27  195  	})
+2c3f0541b99c60 Yury Norov         2026-04-27  196  
+a256ae22570ee4 Luo Jie            2025-04-17  197  /**
+a256ae22570ee4 Luo Jie            2025-04-17  198   * FIELD_MODIFY() - modify a bitfield element
+a256ae22570ee4 Luo Jie            2025-04-17  199   * @_mask: shifted mask defining the field's length and position
+a256ae22570ee4 Luo Jie            2025-04-17  200   * @_reg_p: pointer to the memory that should be updated
+a256ae22570ee4 Luo Jie            2025-04-17  201   * @_val: value to store in the bitfield
+a256ae22570ee4 Luo Jie            2025-04-17  202   *
+a256ae22570ee4 Luo Jie            2025-04-17  203   * FIELD_MODIFY() modifies the set of bits in @_reg_p specified by @_mask,
+a256ae22570ee4 Luo Jie            2025-04-17  204   * by replacing them with the bitfield value passed in as @_val.
+a256ae22570ee4 Luo Jie            2025-04-17  205   */
+a256ae22570ee4 Luo Jie            2025-04-17  206  #define FIELD_MODIFY(_mask, _reg_p, _val)						\
+a256ae22570ee4 Luo Jie            2025-04-17  207  	({										\
+a256ae22570ee4 Luo Jie            2025-04-17  208  		typecheck_pointer(_reg_p);						\
+a256ae22570ee4 Luo Jie            2025-04-17  209  		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
+a256ae22570ee4 Luo Jie            2025-04-17  210  		*(_reg_p) &= ~(_mask);							\
+a256ae22570ee4 Luo Jie            2025-04-17  211  		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
+a256ae22570ee4 Luo Jie            2025-04-17  212  	})
+a256ae22570ee4 Luo Jie            2025-04-17  213  
+e7d4a95da86e0b Johannes Berg      2018-06-20  214  extern void __compiletime_error("value doesn't fit into mask")
+00b0c9b82663ac Al Viro            2017-12-14  215  __field_overflow(void);
+00b0c9b82663ac Al Viro            2017-12-14  216  extern void __compiletime_error("bad bitfield mask")
+00b0c9b82663ac Al Viro            2017-12-14  217  __bad_mask(void);
+00b0c9b82663ac Al Viro            2017-12-14  218  static __always_inline u64 field_multiplier(u64 field)
+00b0c9b82663ac Al Viro            2017-12-14  219  {
+00b0c9b82663ac Al Viro            2017-12-14  220  	if ((field | (field - 1)) & ((field | (field - 1)) + 1))
+00b0c9b82663ac Al Viro            2017-12-14 @221  		__bad_mask();
+00b0c9b82663ac Al Viro            2017-12-14  222  	return field & -field;
+00b0c9b82663ac Al Viro            2017-12-14  223  }
+00b0c9b82663ac Al Viro            2017-12-14  224  static __always_inline u64 field_mask(u64 field)
+00b0c9b82663ac Al Viro            2017-12-14  225  {
+00b0c9b82663ac Al Viro            2017-12-14  226  	return field / field_multiplier(field);
+00b0c9b82663ac Al Viro            2017-12-14  227  }
+e31a50162feb35 Alex Elder         2020-03-12  228  #define field_max(field)	((typeof(field))field_mask(field))
+00b0c9b82663ac Al Viro            2017-12-14  229  #define ____MAKE_OP(type,base,to,from)					\
+e2b02d382ae0cb Ben Horgan         2025-07-09  230  static __always_inline __##type __must_check type##_encode_bits(base v, base field)	\
+00b0c9b82663ac Al Viro            2017-12-14  231  {									\
+e7d4a95da86e0b Johannes Berg      2018-06-20  232  	if (__builtin_constant_p(v) && (v & ~field_mask(field)))	\
+00b0c9b82663ac Al Viro            2017-12-14  233  		__field_overflow();					\
+00b0c9b82663ac Al Viro            2017-12-14  234  	return to((v & field_mask(field)) * field_multiplier(field));	\
+00b0c9b82663ac Al Viro            2017-12-14  235  }									\
+e2b02d382ae0cb Ben Horgan         2025-07-09  236  static __always_inline __##type __must_check type##_replace_bits(__##type old,	\
+00b0c9b82663ac Al Viro            2017-12-14  237  							base val, base field)	\
+00b0c9b82663ac Al Viro            2017-12-14  238  {									\
+00b0c9b82663ac Al Viro            2017-12-14  239  	return (old & ~to(field)) | type##_encode_bits(val, field);	\
+00b0c9b82663ac Al Viro            2017-12-14  240  }									\
+00b0c9b82663ac Al Viro            2017-12-14  241  static __always_inline void type##p_replace_bits(__##type *p,		\
+00b0c9b82663ac Al Viro            2017-12-14  242  					base val, base field)		\
+00b0c9b82663ac Al Viro            2017-12-14  243  {									\
+00b0c9b82663ac Al Viro            2017-12-14  244  	*p = (*p & ~to(field)) | type##_encode_bits(val, field);	\
+00b0c9b82663ac Al Viro            2017-12-14  245  }									\
+e2b02d382ae0cb Ben Horgan         2025-07-09  246  static __always_inline base __must_check type##_get_bits(__##type v, base field)	\
+00b0c9b82663ac Al Viro            2017-12-14  247  {									\
+00b0c9b82663ac Al Viro            2017-12-14  248  	return (from(v) & field)/field_multiplier(field);		\
+00b0c9b82663ac Al Viro            2017-12-14  249  }
+00b0c9b82663ac Al Viro            2017-12-14  250  #define __MAKE_OP(size)							\
+00b0c9b82663ac Al Viro            2017-12-14  251  	____MAKE_OP(le##size,u##size,cpu_to_le##size,le##size##_to_cpu)	\
+00b0c9b82663ac Al Viro            2017-12-14  252  	____MAKE_OP(be##size,u##size,cpu_to_be##size,be##size##_to_cpu)	\
+00b0c9b82663ac Al Viro            2017-12-14  253  	____MAKE_OP(u##size,u##size,,)
+37a3862e123826 Johannes Berg      2018-06-20  254  ____MAKE_OP(u8,u8,,)
+00b0c9b82663ac Al Viro            2017-12-14  255  __MAKE_OP(16)
+00b0c9b82663ac Al Viro            2017-12-14  256  __MAKE_OP(32)
+00b0c9b82663ac Al Viro            2017-12-14  257  __MAKE_OP(64)
+00b0c9b82663ac Al Viro            2017-12-14  258  #undef __MAKE_OP
+00b0c9b82663ac Al Viro            2017-12-14  259  #undef ____MAKE_OP
+00b0c9b82663ac Al Viro            2017-12-14  260  
 
-
-thanks,
-
-Takashi
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
