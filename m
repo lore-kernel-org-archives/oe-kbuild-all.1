@@ -1,72 +1,63 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7A03612CF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 05:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9017B25C804
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 06:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785303965; cv=none; b=J1gluYBHFnIro/pT9SMNUHUXT2pVDHboC6GID6jd94aKGvL09kyuCRqItaVpEkKeoXBwQlQuVa70dA5cwRu8N41IT4EwZAQg7+ZvQUN5W6ZY06xLmz7XX39gpE6pBr8iDF63KAC+gkOGHJhKbgSA1KpoY5a5D0bR4ilRKbaxg7Y=
+	t=1785305070; cv=none; b=IBsxmqfXNoF7IXS2O4T2PutDLFF6y5SNfIK50TFjqL+Vx0GF8opjcFzG/tE40NoZIfXW6WxqSYH4BTWIWJqIA8JNwbSbmrAOxd8IhHnJpQMCXSj+/r4iRjuyq+mH66mbyzQRrAFEtM8tOv0Dx1BgnDsEcFF9W/Ow4SmTn/6EIlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785303965; c=relaxed/simple;
-	bh=NNRhx5kCrh7KxH5C17Ma8caUSEtsaxgQsdVLvCvhiCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Msp2SCTqdeCHX769JeDUhIMErLfMzDQaGhDfiSiLhsCPFwQ5an41kz3iJ53zogUfzMfHZBOOyzhPwjQWrXphHmJruRbD45apG3A6DQDDqc45642CgVh+eizeIWYgfkSjosZlz+mA9m0JEAmeyKW7C4+264eXheMm/fZGmFDZ9Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VXXSfQZG; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785305070; c=relaxed/simple;
+	bh=JxXtO3Jg2Y+sqXXnuimd0Rjf96ozt/Scs3Zky+dtv58=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=eWsp4i2BfFP04mEwj72l8UhFdsHAshab7TO7Dyrx5J+jb7nEUmHpl4BbSMRlrRfXczmriUgRp98WQzB+ueNhbzOkjRm6t1KsApDclz4UZfV5CApEGqL3PRU+z8JMthFwkwYAiE1QLFmeFyIcoFVCIA94mLmm8pjVixV+iubxzDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHfOne6+; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VXXSfQZG"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4957eefd361so3610095e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 22:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785303962; x=1785908762; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hVwpUPi151eolMFYb/dgE7OHy6q7d6NUaiE4xjATEk0=;
-        b=VXXSfQZGMLPcheQBMcIr29BchM6PXAQSq7ywOCSE2hUTNI3jlllMQlfWvDvKlG6coA
-         Krt76L1fR2MjsZV2zbU14+WXU3pCFYt928b4SYuVoRVr0TZCEjJ9PjbH1cOu1/IPBNdA
-         kpYf7Nh/6qdBlj5DA5pjVnHbUrPl30BHuLAi8wQolqs1pMIszqgQx2YKjBvQR8XBPcty
-         AYKVfwjeWmVqjO1dOqGHyYOIO6ZboBf4Hz7hps8ZN70ZOi/3Nk4n01OCntOIZJS44cs8
-         riJjTiQ0vLBdJ9ji9/IE0mDWP/QLUFpjStWpy3I38QhLutOneAtSmjNIeTg/RtUqCngP
-         gWtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785303962; x=1785908762;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hVwpUPi151eolMFYb/dgE7OHy6q7d6NUaiE4xjATEk0=;
-        b=PAx9irdxb3m611NMs+zxmHmTdxsGsnatCWyNcq1AQj/fiGcx7+PA4UEo6j0fh+uQ7n
-         ndgUvFKL5sIEKreqzNOKC5djv0FKdGQLY/uYscgvYT+JJNhzq7wdCggc3KBsm8hSnbPW
-         QlrEoYmcYQuR5vsT6QTBznvJRCwz/09/r1UoxE1RUQfcRZ7cVq7d5Q1mnPscHep3STFy
-         XUkAqqW9oiH+8y7mFXDkgfP/gAs53qut0ew7DnD7w30Y/Nz08nMoqEOhenZW/pQzZus4
-         vENJVf46baP/mWr8B68im+vb9vXzpPHUkKbBW9xG2n8zLISdQ2jlF8eN2k6RZ14Sv8pM
-         S7RQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrq2e8+OtZVj3HQbY3s0cfp/QMT6HTkqxvlRCGogjbFfmbiKYerwWdJy6+UI5YHaEJj7KQfnk8js94aGCZ/@lists.linux.dev
-X-Gm-Message-State: AOJu0YzrpFPZQ7Uf4hXF0qRx9x3Uif2r3N+ODsbRvpwU7YjmYlBu2kf8
-	2YUtaHDwn8pxLHhbkCqQHMcM4AOdGJIkJ876WlcItTLhxwbo330eMcfp
-X-Gm-Gg: AR+sD12lVsRZ9WKr5aDxLoFbShq13yf4jZCOVvYVkxLGEpF8BTXTYNcNx9kknZPKMy1
-	VqhNMCSh3ZF410lnM0c78qtYo/NuJ6EMMIAW3uXRAVsbHyD3HHxUq94BbKLs9yYWLxqGLkh672H
-	jQy1Ri8tKX2jXGkNcoU13tSfAwIpqqAxJ8JDjGp2p6B7kHazt/0viuw8qzeQd92PB1CKGmhJfRH
-	UdGmFfZtSixCeRoUpB1N1wSWQ3tQOTPCtz/orrS4Eiiin5HQn1F2oEKDfFvKr9OX15hxvZBsBv+
-	bWkg7YEG8/0xw2/jtCHsFKSwTBzUKVHBtJhLF+00gf5MCcnVV4W0fnslAAqzpmleIPgpOPN/ySp
-	rrooHBkHLJvc4S5A8kQYYyriKuDgKSWBnwSWlRqnItUQyBMnHDLy46nCI/9tdSJ7J+HnLowM1nu
-	I8YLWj7ikeWDcDp4jVbQ9RHgsw2S+aDmnkONFCG+gXepgjpOwmJNZmDtOB
-X-Received: by 2002:a05:600c:4f91:b0:495:7eab:3abd with SMTP id 5b1f17b1804b1-496c65a26bemr53982335e9.33.1785303962326;
-        Tue, 28 Jul 2026 22:46:02 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49764d77970sm31931095e9.5.2026.07.28.22.46.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 22:46:01 -0700 (PDT)
-Date: Wed, 29 Jul 2026 08:45:58 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Niranjan H Y <niranjan.hy@ti.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn: missing
- error code 'ret'
-Message-ID: <202607291308.8OeeiyIv-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHfOne6+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785305069; x=1816841069;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JxXtO3Jg2Y+sqXXnuimd0Rjf96ozt/Scs3Zky+dtv58=;
+  b=nHfOne6+pGiR/xl08rvS+f7WO2gd80J2FAA9sUSyQtsfkLgNTkOrH2jM
+   sZF1gtB3GVW0TD9zxpPMgv4RL9ADDXpkgWiPknb9CA2eAaL4QT97g1qXz
+   sSgnmU6ofliZY0bbkoZQghkYPlcibnjFQv9UXaivYoJB46y4Y6BJsO4Fw
+   wcb2V0QYPlKLXoO3YmCxEkxDFMq+TdqtODbQ//kdFLw532OJGZbTGhqiT
+   UlORckz5PJWDJZ28VmTXi3JBY+97GOwCYrjwtdlHxvbZrfbMJfqr7cBRQ
+   sAlFlBch78Bolt873D4OhaoQpTtvbh6Kn33K0wBIoGdB2nIIViLIyti6/
+   w==;
+X-CSE-ConnectionGUID: 70R3n0UVQn+0OXkbc7UcJw==
+X-CSE-MsgGUID: 5m5I74miRRG+0Nt5jd95WQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="84881637"
+X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
+   d="scan'208";a="84881637"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 23:04:28 -0700
+X-CSE-ConnectionGUID: c/6zE/zTQ22BZwk0/Rn6wQ==
+X-CSE-MsgGUID: keanABOBScWgqoxbioxwBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
+   d="scan'208";a="298136111"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 28 Jul 2026 23:04:26 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1woxOx-0000000026Y-3F84;
+	Wed, 29 Jul 2026 06:04:23 +0000
+Date: Wed, 29 Jul 2026 08:03:30 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Niklas =?utf-8?Q?S=C3=B6derlund"?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+ linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:v4l2-isp 15/25] htmldocs:
+ Documentation/userspace-api/media/v4l/metafmt-rppx1.rst: WARNING: document
+ isn't included in any toctree [toc.not_included]
+Message-ID: <202607290801.lvfV5aeM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,66 +65,33 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fc02acf6ac0ccde0c805c2daa9148683cdd01ba8
-commit: 38c89fededd5a9472e8222a20aa066058585f7b2 ASoC: tac5xx2-sdw: add soundwire based codec driver
-date:   3 months ago
-config: i386-randconfig-r073-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291308.8OeeiyIv-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   git://linuxtv.org/sailus/media_tree.git v4l2-isp
+head:   7abfe3e3b2e2ecba8132ae60033d4ea1238c1f1e
+commit: fae87ce4d08adbcc6274681ea6377698519bcd61 [15/25] media: rppx1: Add framework to support Dreamchip RPPX1 ISP
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260729/202607290801.lvfV5aeM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 38c89fededd5 ("ASoC: tac5xx2-sdw: add soundwire based codec driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607291308.8OeeiyIv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607290801.lvfV5aeM-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn: missing error code 'ret'
+All warnings (new ones prefixed by >>):
 
-vim +/ret +984 sound/soc/codecs/tac5xx2-sdw.c
-
-38c89fededd5a9 Niranjan H Y 2026-05-05   979  static int tac5xx2_jack_init(struct tac5xx2_prv *tac_dev)
-38c89fededd5a9 Niranjan H Y 2026-05-05   980  {
-38c89fededd5a9 Niranjan H Y 2026-05-05   981  	int ret = 0;
-38c89fededd5a9 Niranjan H Y 2026-05-05   982  
-38c89fededd5a9 Niranjan H Y 2026-05-05   983  	if (!tac_dev->hs_jack)
-38c89fededd5a9 Niranjan H Y 2026-05-05  @984  		goto disable_interrupts;
-
-Is this supposed to be an error path?  tac_dev->hs_jack can't be NULL
-in real life.
-
-38c89fededd5a9 Niranjan H Y 2026-05-05   985  
-38c89fededd5a9 Niranjan H Y 2026-05-05   986  	ret = regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK2,
-38c89fededd5a9 Niranjan H Y 2026-05-05   987  			   SDW_SCP_SDCA_INTMASK_SDCA_11);
-38c89fededd5a9 Niranjan H Y 2026-05-05   988  	if (ret) {
-38c89fededd5a9 Niranjan H Y 2026-05-05   989  		dev_err(tac_dev->dev,
-38c89fededd5a9 Niranjan H Y 2026-05-05   990  			"Failed to register jack detection interrupt: %d\n", ret);
-38c89fededd5a9 Niranjan H Y 2026-05-05   991  		goto disable_interrupts;
-38c89fededd5a9 Niranjan H Y 2026-05-05   992  	}
-38c89fededd5a9 Niranjan H Y 2026-05-05   993  
-38c89fededd5a9 Niranjan H Y 2026-05-05   994  	ret = regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK3,
-38c89fededd5a9 Niranjan H Y 2026-05-05   995  			   SDW_SCP_SDCA_INTMASK_SDCA_16);
-38c89fededd5a9 Niranjan H Y 2026-05-05   996  	if (ret) {
-38c89fededd5a9 Niranjan H Y 2026-05-05   997  		dev_err(tac_dev->dev,
-38c89fededd5a9 Niranjan H Y 2026-05-05   998  			"Failed to register for button detect interrupt: %d\n", ret);
-38c89fededd5a9 Niranjan H Y 2026-05-05   999  		goto disable_interrupts;
-38c89fededd5a9 Niranjan H Y 2026-05-05  1000  	}
-38c89fededd5a9 Niranjan H Y 2026-05-05  1001  
-38c89fededd5a9 Niranjan H Y 2026-05-05  1002  	return 0;
-38c89fededd5a9 Niranjan H Y 2026-05-05  1003  
-38c89fededd5a9 Niranjan H Y 2026-05-05  1004  disable_interrupts:
-38c89fededd5a9 Niranjan H Y 2026-05-05  1005  	/* ignore errors while disabling interrupts */
-38c89fededd5a9 Niranjan H Y 2026-05-05  1006  	regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK2, 0);
-38c89fededd5a9 Niranjan H Y 2026-05-05  1007  	regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK3, 0);
-38c89fededd5a9 Niranjan H Y 2026-05-05  1008  
-38c89fededd5a9 Niranjan H Y 2026-05-05  1009  	return ret;
-38c89fededd5a9 Niranjan H Y 2026-05-05  1010  }
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:58: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:228: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:251: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/userspace-api/media/v4l/metafmt-rppx1.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+   include/uapi/linux/videodev2.h:893: WARNING: Invalid xref: std:ref:`v4l2-meta-fmt-rpp-x1-params`. Possible alternatives:
+   std:label:`v4l2-meta-fmt-rppx1-params` (from userspace-api/media/v4l/metafmt-rppx1)
+   std:label:`v4l2-meta-fmt-rk-isp1-params` (from userspace-api/media/v4l/metafmt-rkisp1)
+   std:label:`v4l2-meta-fmt-params` (from userspace-api/media/v4l/metafmt-intel-ipu3) [ref.missing]
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
