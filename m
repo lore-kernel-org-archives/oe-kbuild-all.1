@@ -1,71 +1,72 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DE73AD50F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 05:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7A03612CF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 05:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785303798; cv=none; b=iDpgdmcEdJDlLx8evYt7OstlXflbRQreY0WDwREw/ClUWxtTLrpm6lvE0GWS5+cw+6Iios6z8J0pmmDDOenfJMx0rgvQXMFB+ArXvzkVoWurm+3GKbDgDPrQYdmzqK3luHE18PbipsI6j9k8rOtmhJ/p2oQiVraXAvVVP7NUZxM=
+	t=1785303965; cv=none; b=J1gluYBHFnIro/pT9SMNUHUXT2pVDHboC6GID6jd94aKGvL09kyuCRqItaVpEkKeoXBwQlQuVa70dA5cwRu8N41IT4EwZAQg7+ZvQUN5W6ZY06xLmz7XX39gpE6pBr8iDF63KAC+gkOGHJhKbgSA1KpoY5a5D0bR4ilRKbaxg7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785303798; c=relaxed/simple;
-	bh=Qz3dPx3bwthAf+do+I7uz9VE6eCMPEJZNQSprXGgthc=;
+	s=arc-20240116; t=1785303965; c=relaxed/simple;
+	bh=NNRhx5kCrh7KxH5C17Ma8caUSEtsaxgQsdVLvCvhiCw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tdvT3g6ZDjR4t4HzN3Egpa+jwrgtE+WVWyUjfKOKT040yiJ/k71ioUJcrXQBKdem6xpuRrKSALcrqUxbOneR+5JfnNkQ8z7sH7jbEDMaKhkSHtmN0gXAu+Nup9/qc7fu8FG7iXhFgu+xz5ARr1sppm9AYAJdUGCLSIOgE9a/Uj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jDkrIE8+; arc=none smtp.client-ip=209.85.128.54
+	 Content-Disposition; b=Msp2SCTqdeCHX769JeDUhIMErLfMzDQaGhDfiSiLhsCPFwQ5an41kz3iJ53zogUfzMfHZBOOyzhPwjQWrXphHmJruRbD45apG3A6DQDDqc45642CgVh+eizeIWYgfkSjosZlz+mA9m0JEAmeyKW7C4+264eXheMm/fZGmFDZ9Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VXXSfQZG; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDkrIE8+"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4956242332dso4306665e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 22:43:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VXXSfQZG"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4957eefd361so3610095e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 22:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785303795; x=1785908595; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785303962; x=1785908762; darn=lists.linux.dev;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=swvhDz3kyJ/SlqLpZE3Jh0FZynfZghCEQng/U4Gd79I=;
-        b=jDkrIE8+JivD7cJhJYUSZuEkkCSOR2Gmt1PwSDQHimLT7d28LifFNd4kvZm58pggOY
-         +D2MVp8xqHqvVdwbniX+vvp42uUXPhRNYY6IL2KRkIGrHjVxk+ntZubPmTfVfpblmFcZ
-         ks7hlbRMkN6YPu+1iLsuuxSHR9NtUR7AhWi1xYs1PzxW70Qo33LhH1phZ8mCTshyf93l
-         fXDO3gPcomtrIWRARCY/9Mc99uWf/91OCbnHenq4Th4zm3nXaQQPw+Ncxpk+XxkPw6Na
-         iePgKzk+qpjBRbw2pAEspWGmoapzlldlmTwLF/2of66JCek+H1GcKGwhRqdAgr9A5FJo
-         fxuA==
+        bh=hVwpUPi151eolMFYb/dgE7OHy6q7d6NUaiE4xjATEk0=;
+        b=VXXSfQZGMLPcheQBMcIr29BchM6PXAQSq7ywOCSE2hUTNI3jlllMQlfWvDvKlG6coA
+         Krt76L1fR2MjsZV2zbU14+WXU3pCFYt928b4SYuVoRVr0TZCEjJ9PjbH1cOu1/IPBNdA
+         kpYf7Nh/6qdBlj5DA5pjVnHbUrPl30BHuLAi8wQolqs1pMIszqgQx2YKjBvQR8XBPcty
+         AYKVfwjeWmVqjO1dOqGHyYOIO6ZboBf4Hz7hps8ZN70ZOi/3Nk4n01OCntOIZJS44cs8
+         riJjTiQ0vLBdJ9ji9/IE0mDWP/QLUFpjStWpy3I38QhLutOneAtSmjNIeTg/RtUqCngP
+         gWtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785303795; x=1785908595;
+        d=1e100.net; s=20251104; t=1785303962; x=1785908762;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=swvhDz3kyJ/SlqLpZE3Jh0FZynfZghCEQng/U4Gd79I=;
-        b=ovaRZB+KE+hkk8O6h3Vg9D9SMlLk1jIBq9bk4Xn+BDmRM5J/davR6yIkSP04xMuTNp
-         sw69IbKq6nGN/RLwIzuD+fytQusCQ/g8Hz8BI3YOZXjbuPy04EyqdJfrh88Y9fafkYFW
-         OcmqC4NwUTlwfEf1H1SQdjSDlzdJpmUXpZaBf3TZQLmvkoLjm3T09MbOrfqFRgVqQ2F2
-         xjG9wsKds6K5/GGBDT+8Oc6EQWQTi/rZGfA+YcXNuid7XSoGatZHEupmm4prMRRWCLn6
-         z0v5xeqCJr+K2cPHfmap0lXNOVqjEurM8NQvzI/10yUakUIyP5lQ1Tu8KU0RWp2tOra3
-         pF5g==
-X-Forwarded-Encrypted: i=1; AHgh+RqQJoVyUyi56/HJ2NijWOedoF345foRCEWb/eju9/WzYuyoJlHROX1qKUUHphaxP3lC+Ae6J39q+jPFXrrU@lists.linux.dev
-X-Gm-Message-State: AOJu0YyOpUio2oHsD3HpYpygH4SWF0HanQYnZFvE5RMuNU/JfBW1t0TG
-	qWJkZP53oWwCN1XuUGuEBH2T4LwMYWY/9MburcOYI5VtV1RuU6foi6J7BCm2qZntY90=
-X-Gm-Gg: AR+sD10ku5R4kV27EzOS3PaFQGGveXC58ttR3LjTTpKURxf2R/qmM3plPx6cIpaMTGn
-	tx/JUU/K+uq1CUPaX6WyMEIQaY43J4YN5QpsVu5dSD05xUsAlA2H42uSAjUUMfBNqhq6mSMoueo
-	EaWK7WtAnX+o2az6Gvjr0alGU8ZwEXiFAaSUdHXjzylIR1PzoFvZWe+6Oa7eEueEB4O9lDL5u59
-	tUOoJinoz1XhiWpXirUrA/r/CwW7AnXT0YgAVQtoTYssYs2fhXn2WBKK3+qRvi8KeNiWSGs7lKb
-	hfM1v188rWxF5zkf9hD4WYQYQ1+yoHhp9/txkwUSC/+VdFwo+Ksu1cVkBqE3FhlsN1Bo5ftr5Vg
-	43zXwwQ4uScLagvd+qUe9t5/EfE+f3oIJjuafb6yh0FW3J26ZzlPTo1NvCrLe35ztG+iZRbJ1at
-	Fezn+edeDxmFfQK2MQCeGoxEBedEvFDc7X98I8Q+dkkvxfECGBuOA6fWmf9Hw3RcI43QE=
-X-Received: by 2002:a05:600c:b85:b0:493:f0f5:f2d7 with SMTP id 5b1f17b1804b1-496c653c8cfmr64279375e9.7.1785303795387;
-        Tue, 28 Jul 2026 22:43:15 -0700 (PDT)
+        bh=hVwpUPi151eolMFYb/dgE7OHy6q7d6NUaiE4xjATEk0=;
+        b=PAx9irdxb3m611NMs+zxmHmTdxsGsnatCWyNcq1AQj/fiGcx7+PA4UEo6j0fh+uQ7n
+         ndgUvFKL5sIEKreqzNOKC5djv0FKdGQLY/uYscgvYT+JJNhzq7wdCggc3KBsm8hSnbPW
+         QlrEoYmcYQuR5vsT6QTBznvJRCwz/09/r1UoxE1RUQfcRZ7cVq7d5Q1mnPscHep3STFy
+         XUkAqqW9oiH+8y7mFXDkgfP/gAs53qut0ew7DnD7w30Y/Nz08nMoqEOhenZW/pQzZus4
+         vENJVf46baP/mWr8B68im+vb9vXzpPHUkKbBW9xG2n8zLISdQ2jlF8eN2k6RZ14Sv8pM
+         S7RQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrq2e8+OtZVj3HQbY3s0cfp/QMT6HTkqxvlRCGogjbFfmbiKYerwWdJy6+UI5YHaEJj7KQfnk8js94aGCZ/@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrpFPZQ7Uf4hXF0qRx9x3Uif2r3N+ODsbRvpwU7YjmYlBu2kf8
+	2YUtaHDwn8pxLHhbkCqQHMcM4AOdGJIkJ876WlcItTLhxwbo330eMcfp
+X-Gm-Gg: AR+sD12lVsRZ9WKr5aDxLoFbShq13yf4jZCOVvYVkxLGEpF8BTXTYNcNx9kknZPKMy1
+	VqhNMCSh3ZF410lnM0c78qtYo/NuJ6EMMIAW3uXRAVsbHyD3HHxUq94BbKLs9yYWLxqGLkh672H
+	jQy1Ri8tKX2jXGkNcoU13tSfAwIpqqAxJ8JDjGp2p6B7kHazt/0viuw8qzeQd92PB1CKGmhJfRH
+	UdGmFfZtSixCeRoUpB1N1wSWQ3tQOTPCtz/orrS4Eiiin5HQn1F2oEKDfFvKr9OX15hxvZBsBv+
+	bWkg7YEG8/0xw2/jtCHsFKSwTBzUKVHBtJhLF+00gf5MCcnVV4W0fnslAAqzpmleIPgpOPN/ySp
+	rrooHBkHLJvc4S5A8kQYYyriKuDgKSWBnwSWlRqnItUQyBMnHDLy46nCI/9tdSJ7J+HnLowM1nu
+	I8YLWj7ikeWDcDp4jVbQ9RHgsw2S+aDmnkONFCG+gXepgjpOwmJNZmDtOB
+X-Received: by 2002:a05:600c:4f91:b0:495:7eab:3abd with SMTP id 5b1f17b1804b1-496c65a26bemr53982335e9.33.1785303962326;
+        Tue, 28 Jul 2026 22:46:02 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c4615f5fsm122297915e9.9.2026.07.28.22.43.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49764d77970sm31931095e9.5.2026.07.28.22.46.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 22:43:14 -0700 (PDT)
-Date: Wed, 29 Jul 2026 08:43:10 +0300
+        Tue, 28 Jul 2026 22:46:01 -0700 (PDT)
+Date: Wed, 29 Jul 2026 08:45:58 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 7970/9778] sound/usb/6fire/chip.c:154
- usb6fire_chip_probe() warn: variable dereferenced before check 'card' (see
- line 123)
-Message-ID: <202607291057.eO0PgxqY-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Niranjan H Y <niranjan.hy@ti.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Subject: sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn: missing
+ error code 'ret'
+Message-ID: <202607291308.8OeeiyIv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,122 +76,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3652b49adac266a3d27cb41cdfdb7d8790fc3633
-commit: a54bf16965f896415c3337bc4fbb40fb11941d99 [7970/9778] ALSA: 6fire: Fix UAF at error handling during probe
-config: i386-randconfig-141-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291057.eO0PgxqY-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fc02acf6ac0ccde0c805c2daa9148683cdd01ba8
+commit: 38c89fededd5a9472e8222a20aa066058585f7b2 ASoC: tac5xx2-sdw: add soundwire based codec driver
+date:   3 months ago
+config: i386-randconfig-r073-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291308.8OeeiyIv-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 38c89fededd5 ("ASoC: tac5xx2-sdw: add soundwire based codec driver")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607291057.eO0PgxqY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607291308.8OeeiyIv-lkp@intel.com/
 
 smatch warnings:
-sound/usb/6fire/chip.c:154 usb6fire_chip_probe() warn: variable dereferenced before check 'card' (see line 123)
+sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn: missing error code 'ret'
 
-vim +/card +154 sound/usb/6fire/chip.c
+vim +/ret +984 sound/soc/codecs/tac5xx2-sdw.c
 
-87f9796a0336ef Bill Pemberton 2012-12-06   70  static int usb6fire_chip_probe(struct usb_interface *intf,
-c6d43ba816d1cf Torsten Schenk 2011-01-24   71  			       const struct usb_device_id *usb_id)
-c6d43ba816d1cf Torsten Schenk 2011-01-24   72  {
-c6d43ba816d1cf Torsten Schenk 2011-01-24   73  	int ret;
-c6d43ba816d1cf Torsten Schenk 2011-01-24   74  	int i;
-c6d43ba816d1cf Torsten Schenk 2011-01-24   75  	struct sfire_chip *chip = NULL;
-c6d43ba816d1cf Torsten Schenk 2011-01-24   76  	struct usb_device *device = interface_to_usbdev(intf);
-c6d43ba816d1cf Torsten Schenk 2011-01-24   77  	int regidx = -1; /* index in module parameter array */
-c6d43ba816d1cf Torsten Schenk 2011-01-24   78  	struct snd_card *card = NULL;
-c6d43ba816d1cf Torsten Schenk 2011-01-24   79  
-c6d43ba816d1cf Torsten Schenk 2011-01-24   80  	/* look if we already serve this card and return if so */
-f3c80e76a0e94c Takashi Iwai   2026-04-14   81  	guard(mutex)(&register_mutex);
-c6d43ba816d1cf Torsten Schenk 2011-01-24   82  	for (i = 0; i < SNDRV_CARDS; i++) {
-4d5de85b6a9961 Takashi Iwai   2026-04-14   83  		if (chips[i] && chips[i]->dev == device) {
-c6d43ba816d1cf Torsten Schenk 2011-01-24   84  			chips[i]->intf_count++;
-c6d43ba816d1cf Torsten Schenk 2011-01-24   85  			usb_set_intfdata(intf, chips[i]);
-c6d43ba816d1cf Torsten Schenk 2011-01-24   86  			return 0;
-4d5de85b6a9961 Takashi Iwai   2026-04-14   87  		} else if (!chips[i] && regidx < 0)
-c6d43ba816d1cf Torsten Schenk 2011-01-24   88  			regidx = i;
-c6d43ba816d1cf Torsten Schenk 2011-01-24   89  	}
-c6d43ba816d1cf Torsten Schenk 2011-01-24   90  	if (regidx < 0) {
-e3b3757b92a4df Takashi Iwai   2014-02-26   91  		dev_err(&intf->dev, "too many cards registered.\n");
-c6d43ba816d1cf Torsten Schenk 2011-01-24   92  		return -ENODEV;
-c6d43ba816d1cf Torsten Schenk 2011-01-24   93  	}
-c6d43ba816d1cf Torsten Schenk 2011-01-24   94  
-c6d43ba816d1cf Torsten Schenk 2011-01-24   95  	/* check, if firmware is present on device, upload it if not */
-c6d43ba816d1cf Torsten Schenk 2011-01-24   96  	ret = usb6fire_fw_init(intf);
-c6d43ba816d1cf Torsten Schenk 2011-01-24   97  	if (ret < 0)
-c6d43ba816d1cf Torsten Schenk 2011-01-24   98  		return ret;
-c6d43ba816d1cf Torsten Schenk 2011-01-24   99  	else if (ret == FW_NOT_READY) /* firmware update performed */
-c6d43ba816d1cf Torsten Schenk 2011-01-24  100  		return 0;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  101  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  102  	/* if we are here, card can be registered in alsa. */
-c6d43ba816d1cf Torsten Schenk 2011-01-24  103  	if (usb_set_interface(device, 0, 0) != 0) {
-e3b3757b92a4df Takashi Iwai   2014-02-26  104  		dev_err(&intf->dev, "can't set first interface.\n");
-c6d43ba816d1cf Torsten Schenk 2011-01-24  105  		return -EIO;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  106  	}
-874b8d422e26e2 Takashi Iwai   2014-01-29  107  	ret = snd_card_new(&intf->dev, index[regidx], id[regidx],
-874b8d422e26e2 Takashi Iwai   2014-01-29  108  			   THIS_MODULE, sizeof(struct sfire_chip), &card);
-c6d43ba816d1cf Torsten Schenk 2011-01-24  109  	if (ret < 0) {
-e3b3757b92a4df Takashi Iwai   2014-02-26  110  		dev_err(&intf->dev, "cannot create alsa card.\n");
-c6d43ba816d1cf Torsten Schenk 2011-01-24  111  		return ret;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  112  	}
-19a28b8c7f9f63 Takashi Iwai   2025-07-10  113  	strscpy(card->driver, "6FireUSB");
-19a28b8c7f9f63 Takashi Iwai   2025-07-10  114  	strscpy(card->shortname, "TerraTec DMX6FireUSB");
-c6d43ba816d1cf Torsten Schenk 2011-01-24  115  	sprintf(card->longname, "%s at %d:%d", card->shortname,
-c6d43ba816d1cf Torsten Schenk 2011-01-24  116  			device->bus->busnum, device->devnum);
-c6d43ba816d1cf Torsten Schenk 2011-01-24  117  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  118  	chip = card->private_data;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  119  	chip->dev = device;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  120  	chip->regidx = regidx;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  121  	chip->intf_count = 1;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  122  	chip->card = card;
-a0810c3d6dd2d2 Takashi Iwai   2024-11-13 @123  	card->private_free = usb6fire_card_free;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  124  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  125  	ret = usb6fire_comm_init(chip);
-f804fff1361c9d Markus Elfring 2017-09-06  126  	if (ret < 0)
-f804fff1361c9d Markus Elfring 2017-09-06  127  		goto destroy_chip;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  128  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  129  	ret = usb6fire_midi_init(chip);
-f804fff1361c9d Markus Elfring 2017-09-06  130  	if (ret < 0)
-f804fff1361c9d Markus Elfring 2017-09-06  131  		goto destroy_chip;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  132  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  133  	ret = usb6fire_pcm_init(chip);
-f804fff1361c9d Markus Elfring 2017-09-06  134  	if (ret < 0)
-f804fff1361c9d Markus Elfring 2017-09-06  135  		goto destroy_chip;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  136  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  137  	ret = usb6fire_control_init(chip);
-f804fff1361c9d Markus Elfring 2017-09-06  138  	if (ret < 0)
-f804fff1361c9d Markus Elfring 2017-09-06  139  		goto destroy_chip;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  140  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  141  	ret = snd_card_register(card);
-c6d43ba816d1cf Torsten Schenk 2011-01-24  142  	if (ret < 0) {
-e3b3757b92a4df Takashi Iwai   2014-02-26  143  		dev_err(&intf->dev, "cannot register card.");
-f804fff1361c9d Markus Elfring 2017-09-06  144  		goto destroy_chip;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  145  	}
-4d5de85b6a9961 Takashi Iwai   2026-04-14  146  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  147  	usb_set_intfdata(intf, chip);
-4d5de85b6a9961 Takashi Iwai   2026-04-14  148  	chips[regidx] = chip;
-4d5de85b6a9961 Takashi Iwai   2026-04-14  149  
-c6d43ba816d1cf Torsten Schenk 2011-01-24  150  	return 0;
-f804fff1361c9d Markus Elfring 2017-09-06  151  
-f804fff1361c9d Markus Elfring 2017-09-06  152  destroy_chip:
-a54bf16965f896 Takashi Iwai   2026-07-26  153  	chip->shutdown = true;
-a54bf16965f896 Takashi Iwai   2026-07-26 @154  	if (card)
+38c89fededd5a9 Niranjan H Y 2026-05-05   979  static int tac5xx2_jack_init(struct tac5xx2_prv *tac_dev)
+38c89fededd5a9 Niranjan H Y 2026-05-05   980  {
+38c89fededd5a9 Niranjan H Y 2026-05-05   981  	int ret = 0;
+38c89fededd5a9 Niranjan H Y 2026-05-05   982  
+38c89fededd5a9 Niranjan H Y 2026-05-05   983  	if (!tac_dev->hs_jack)
+38c89fededd5a9 Niranjan H Y 2026-05-05  @984  		goto disable_interrupts;
 
-You could delete this check if you want.
+Is this supposed to be an error path?  tac_dev->hs_jack can't be NULL
+in real life.
 
-a54bf16965f896 Takashi Iwai   2026-07-26  155  		snd_card_disconnect(card);
-
-Setting chip->shutdown = true means that it's pointless to
-call snd_card_disconnect().  It's a no-op.  snd_card_disconnect()
-has a "card->shutdown = 1;"
-
-a54bf16965f896 Takashi Iwai   2026-07-26  156  	usb6fire_chip_abort(chip);
-a0810c3d6dd2d2 Takashi Iwai   2024-11-13  157  	snd_card_free(card);
-f804fff1361c9d Markus Elfring 2017-09-06  158  	return ret;
-c6d43ba816d1cf Torsten Schenk 2011-01-24  159  }
+38c89fededd5a9 Niranjan H Y 2026-05-05   985  
+38c89fededd5a9 Niranjan H Y 2026-05-05   986  	ret = regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK2,
+38c89fededd5a9 Niranjan H Y 2026-05-05   987  			   SDW_SCP_SDCA_INTMASK_SDCA_11);
+38c89fededd5a9 Niranjan H Y 2026-05-05   988  	if (ret) {
+38c89fededd5a9 Niranjan H Y 2026-05-05   989  		dev_err(tac_dev->dev,
+38c89fededd5a9 Niranjan H Y 2026-05-05   990  			"Failed to register jack detection interrupt: %d\n", ret);
+38c89fededd5a9 Niranjan H Y 2026-05-05   991  		goto disable_interrupts;
+38c89fededd5a9 Niranjan H Y 2026-05-05   992  	}
+38c89fededd5a9 Niranjan H Y 2026-05-05   993  
+38c89fededd5a9 Niranjan H Y 2026-05-05   994  	ret = regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK3,
+38c89fededd5a9 Niranjan H Y 2026-05-05   995  			   SDW_SCP_SDCA_INTMASK_SDCA_16);
+38c89fededd5a9 Niranjan H Y 2026-05-05   996  	if (ret) {
+38c89fededd5a9 Niranjan H Y 2026-05-05   997  		dev_err(tac_dev->dev,
+38c89fededd5a9 Niranjan H Y 2026-05-05   998  			"Failed to register for button detect interrupt: %d\n", ret);
+38c89fededd5a9 Niranjan H Y 2026-05-05   999  		goto disable_interrupts;
+38c89fededd5a9 Niranjan H Y 2026-05-05  1000  	}
+38c89fededd5a9 Niranjan H Y 2026-05-05  1001  
+38c89fededd5a9 Niranjan H Y 2026-05-05  1002  	return 0;
+38c89fededd5a9 Niranjan H Y 2026-05-05  1003  
+38c89fededd5a9 Niranjan H Y 2026-05-05  1004  disable_interrupts:
+38c89fededd5a9 Niranjan H Y 2026-05-05  1005  	/* ignore errors while disabling interrupts */
+38c89fededd5a9 Niranjan H Y 2026-05-05  1006  	regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK2, 0);
+38c89fededd5a9 Niranjan H Y 2026-05-05  1007  	regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK3, 0);
+38c89fededd5a9 Niranjan H Y 2026-05-05  1008  
+38c89fededd5a9 Niranjan H Y 2026-05-05  1009  	return ret;
+38c89fededd5a9 Niranjan H Y 2026-05-05  1010  }
 
 --
 0-DAY CI Kernel Test Service
