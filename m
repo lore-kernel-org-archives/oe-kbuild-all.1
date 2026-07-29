@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6493BB139;
-	Tue, 28 Jul 2026 23:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CCE4F5E0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 01:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785281902; cv=none; b=Ug/aOiiLA8gA34xLEo1QJPpUtxefbsCCYG4xVwIMqHjrLgMynwmtfVzTN3m86drv/X47dHi0fDFO+rmKBtePjfAUqeBcqlBz2Le5TLnpD0WZVMkw/E3axWJE50OMPKMLX+V4fU5RbbyP/VAGpAatTsCdny34Q/8HqIsdrKlNMwY=
+	t=1785286816; cv=none; b=f5RnshT7aOimcFFw4FJUUbJPhauru3cK03siH8aWsSioLOA0wirlIoZiWcCYnPjfT89K0U1cUe0iwl2a9tfJCBUxM6JmndLYJHiy8jcd2bWIx4c/YXC8ps9I8NG1SsacKTuwxk/rntM+kVaqNc10n9R5oqoZcpgQwxLMzgQ1Lvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785281902; c=relaxed/simple;
-	bh=Ntnlp3Q2sP4vbsOjkVW+KfqnWdd1rqrFOkQIDl8VGsc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CMC1A+zWrAIcQHM4+IUm7kYmlsjt4rtbXEBbDrByVSQ5/QMOav6rG1MOTtGJILeitlLEK6jSbE66nMqbhrImCU/HFlN4RzClIKzhMLGaw8U2IfuzdoYiJiPYTDZwDO4tMSlB4Ercv5a1tto04EmnH3DPQ0B014v8RPkIatFANdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGTOIEBd; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1785286816; c=relaxed/simple;
+	bh=rYpFeEi80VIMUSd1BDxRzWIBfvg0LwSfGE+5L1xtn8c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NfzShz/UgSZW5OGZlnXXfqdiYJwUGqATtH5kh3qTHophrJEmuWOeEc6XzL9eCK8TLZg3LNImvq7RolcITT5gFlZg7dPFKaOwEYvrIZN90lf2ABDieBFPMhAJcqOTS8Epg55aQGxQdci1suokNP4HM1iIb0f2REqF8NCa2ZGfweo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvFxtCnr; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGTOIEBd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvFxtCnr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785281898; x=1816817898;
+  t=1785286815; x=1816822815;
   h=date:from:to:cc:subject:message-id;
-  bh=Ntnlp3Q2sP4vbsOjkVW+KfqnWdd1rqrFOkQIDl8VGsc=;
-  b=QGTOIEBdTUvysAKfKEOJEmCpRiPFk6hp3AlzNYPrLEEBCEgS6j0gy55J
-   RIPhVQf+0roDqkwwk2c4FzOtCyhfCttbvv6NEjXSgll+5jg0RJwLchlJL
-   N8Xn0JqhQvb4iuDRRVDuGiJLgv/yPZS+xlifECKK2qs3KKgV4DEUXD/bx
-   qQKt63caEJtNyxcAkBGoBW5BQ1/pm8KUZpcdgvYcMN9dvP0GeHd7zbl1A
-   KekGfqpwQCi3pv9h7eZERgS+GCfKEJAOaf3fzev3h3QjLe+8CRpQlKRA6
-   19FB6/CB4Km9fv/oroI34QBIeLIpsOZIpiAERt2i7OUCAsa944XPVm8af
+  bh=rYpFeEi80VIMUSd1BDxRzWIBfvg0LwSfGE+5L1xtn8c=;
+  b=jvFxtCnrvC/AC5AK4qx4Yqa3BbnUnjNy1hl3VUTvBppT/yATiK1xxLed
+   UayT0HCZ5eauVJhLNpEF8HN8kxwHmpuxeKDQY6dYfLQwMG+1nsPjFxIDP
+   L9G05R2Y8GVf3XvpDSSagsncEbcDtJwul7oCTgXy8aqdJxiyziitiSULh
+   xH24eleaf75GbWT/RN37FOueEVwqDbkEpaGwY5Zcuwg7J4xaopSbQmSUl
+   xfhSib8fa7BnopuDAFse+9mn/ZbizWzSWj1mvQiRAhe/y0SYg3yZ8BURd
+   Bbaf0DcSrhVLZQZXkxaSv5zFjr3/W1nxqpebiu3fSqX8MncbmXWZywhVo
    w==;
-X-CSE-ConnectionGUID: J3/OgdHjTtGXnkjv2x35PQ==
-X-CSE-MsgGUID: mQ0Pmx0OSJ+I+nMkVhfI6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97392355"
+X-CSE-ConnectionGUID: IW/wdR9MSxi4qrQw0GiknA==
+X-CSE-MsgGUID: e9LqNFnhRi2lM0URxqpIAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="103426413"
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="97392355"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 16:38:13 -0700
-X-CSE-ConnectionGUID: L0Q3gQuETBubwYVbGOjqSw==
-X-CSE-MsgGUID: jZOScUZTQWWPxuOrFGfKEA==
+   d="scan'208";a="103426413"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 18:00:14 -0700
+X-CSE-ConnectionGUID: qXFH57HMTf6lV+TnMsZMAA==
+X-CSE-MsgGUID: Nhhf5Xt9Tfu2UHKhltr7Mw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="260486504"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 28 Jul 2026 16:38:11 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 Jul 2026 18:00:12 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1worNB-0000000022W-2PqL;
-	Tue, 28 Jul 2026 23:38:09 +0000
-Date: Wed, 29 Jul 2026 01:38:08 +0200
+	id 1woseY-0000000023a-2xrk;
+	Wed, 29 Jul 2026 01:00:10 +0000
+Date: Wed, 29 Jul 2026 02:59:35 +0200
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/no_bug_on_bad_eoi_vector 120/120]
- arch/x86/kvm/lapic.c:1625:6: error: conflicting types for
- 'kvm_apic_set_eoi_accelerated'
-Message-ID: <202607290113.C6cbGCss-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:rw-dmabuf-v4 7/14] error[E0063]: missing field
+ `init_dma_buf_io_ctx` in initializer of `bindings::block_device_operations`
+Message-ID: <202607290232.DkVlPTEc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,51 +57,26 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Sean,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/sean-jc/linux x86/no_bug_on_bad_eoi_vector
-head:   49569850d8b90a3da31a4d3e2518ce4aa618c242
-commit: 49569850d8b90a3da31a4d3e2518ce4aa618c242 [120/120] KVM: x86: Track kvm_vcpu_arch.pending_ioapic_eoi as a u8 to drop dead BUG_ON()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260729/202607290113.C6cbGCss-lkp@intel.com/config)
+tree:   https://github.com/isilence/linux rw-dmabuf-v4
+head:   26dcd0ae5c87a3ada5710b14b6894ef343cec6fe
+commit: e0cc82a15419ba7b38eb0bb00ae34cf3d0c3a938 [7/14] block: forward init_dma_buf_io_ctx to drivers
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260729/202607290232.DkVlPTEc-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290113.C6cbGCss-lkp@intel.com/reproduce)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607290232.DkVlPTEc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607290113.C6cbGCss-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607290232.DkVlPTEc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/lapic.c:1625:6: error: conflicting types for 'kvm_apic_set_eoi_accelerated'
-    1625 | void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, u8 vector)
-         |      ^
-   arch/x86/kvm/lapic.h:180:6: note: previous declaration is here
-     180 | void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, int vector);
-         |      ^
-   1 error generated.
-
-
-vim +/kvm_apic_set_eoi_accelerated +1625 arch/x86/kvm/lapic.c
-
-  1620	
-  1621	/*
-  1622	 * this interface assumes a trap-like exit, which has already finished
-  1623	 * desired side effect including vISR and vPPR update.
-  1624	 */
-> 1625	void kvm_apic_set_eoi_accelerated(struct kvm_vcpu *vcpu, u8 vector)
-  1626	{
-  1627		struct kvm_lapic *apic = vcpu->arch.apic;
-  1628	
-  1629		trace_kvm_eoi(apic, vector);
-  1630	
-  1631		kvm_ioapic_send_eoi(apic, vector);
-  1632		kvm_make_request(KVM_REQ_EVENT, apic->vcpu);
-  1633	}
-  1634	EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_apic_set_eoi_accelerated);
-  1635	
+>> error[E0063]: missing field `init_dma_buf_io_ctx` in initializer of `bindings::block_device_operations`
+   --> rust/kernel/block/mq/gen_disk.rs:128:58
+   |
+   128 |         const TABLE: bindings::block_device_operations = bindings::block_device_operations {
+   |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `init_dma_buf_io_ctx`
 
 --
 0-DAY CI Kernel Test Service
