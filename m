@@ -1,76 +1,95 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C1232E141
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 15:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF35F411A15
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 16:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785339342; cv=none; b=XUfgzWRj5X6GvGs7QUqdaYTNcNKSkxtwx2/kWCq6na6s3c1yMVsTbVBU92aCwdF009lv1inM0YfR1Mm3xU4xufooJtzzUIjadeykEKYwetsKgskafBz5XsWZ7Q8ej6EkJnKWA8pyEtC0IP3YyvuN/nmhp8/SGZZxJS/NupfspuU=
+	t=1785342103; cv=none; b=KBUnxNTJ1fm/8fwZ1yBoX4HS8L6RQCSvr4KARGQfoIi5NCYZnKapVHAqx29YRX9h1A8ZRA26k6tKvOF7UFvrjBwx1wrDDKtWdr7+Vw1ugTBYWa50dhL1e0LHlTBqujD27YsHVSS1dkyrkuSG8UCWO56z+pwim7Tbba1U9Ok1TKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785339342; c=relaxed/simple;
-	bh=AGEnXGh9ttrVSJlR16iHHX3V1y9DBIPi3oCx+IYAdrg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DcpoDtTPyKA+cANOyXLMt704KOBI12V3Vv7oIjaXjSjSfL2Bwwceie+GoFM4S3Rb5d3kD4FYp1gHkZLudIdi0PhkW67QMAtDK1Xg9StE3g0PrcfALETN5kAL8XOm359qBbko6yknwmjdluzQJb7qKA/UrJg/+j//1DFyexuWbCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf18.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id A7DBA806E4;
-	Wed, 29 Jul 2026 15:35:39 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 154B02F;
-	Wed, 29 Jul 2026 15:35:38 +0000 (UTC)
-Date: Wed, 29 Jul 2026 11:36:13 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>,
+	s=arc-20240116; t=1785342103; c=relaxed/simple;
+	bh=muVZmz0NG1/5SFI0xSMewb/5uHf9adrna+dF0VAHUso=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=A4uvF1wNCHOzXRhFcYylCHQx0NfbF+eJFS7K6MasXf/Jga4RVwh2O7kWvbPcTLsXRTcg+z7wu+j95ogt1HJRrZ7FjwPR77bfcRDs1B9GZ0Ueetd3r/6ICT44YDMiM7yncgfmpdOGUEVYlUwaj6WX61bSl7ZnMqjAvxr1mxTje1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDVsZ+hc; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDVsZ+hc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785342102; x=1816878102;
+  h=date:from:to:cc:subject:message-id;
+  bh=muVZmz0NG1/5SFI0xSMewb/5uHf9adrna+dF0VAHUso=;
+  b=WDVsZ+hcMeXge5C4uWLM45dcSnSC0cB5aHpHMtZNyduPzYH86hJtxVui
+   ia0z6xTePFAl3ZROyjGz07C80nrst0LJSR37EmaIl6fl4zjbpER6kFlV1
+   hCSTPnDhUi9uGOUzQQvLRow+dPiXncvzcFiRTkQidC/u+D7gnB7BBXmDb
+   8Uuw3TVomdHkVHngVO70sYyA7mnLe6veUBoFEA8u4z37YlqhB2Ltal/MT
+   LkQqi6qG8eQ8EJPpgUmGKcTgPMuCNU0OnrYgfzpnzHyVXQHoVgW4d3C9C
+   MQkr2bUGh4HOLpG7HnBgom+sObE19FLemXqUJFNgLnPqiLqTGTpA4RIDK
+   g==;
+X-CSE-ConnectionGUID: aYay68gzRNaT11OdxNKjBw==
+X-CSE-MsgGUID: izQk5CHdQgGVf6vdwnViDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96313819"
+X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
+   d="scan'208";a="96313819"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 09:21:41 -0700
+X-CSE-ConnectionGUID: Q5AaD8mqRjSu2YM0cc5oqQ==
+X-CSE-MsgGUID: AGMkeOWST9WP/K/fT8B2gQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
+   d="scan'208";a="265089912"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Jul 2026 09:21:40 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wp72H-000000002B8-3nG5;
+	Wed, 29 Jul 2026 16:21:37 +0000
+Date: Wed, 29 Jul 2026 18:20:48 +0200
+From: kernel test robot <lkp@intel.com>
+To: Daniel Palmer <daniel@0x0f.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
  oe-kbuild-all@lists.linux.dev
-Subject: Re: [trace:trace/core 16/16] WARNING: modpost: vmlinux: section
- mismatch in reference: trace_printk_init_buffers.part.0+0xc8 (section:
- .text.unlikely) -> initcall_level_names (section: .init.data)
-Message-ID: <20260729113613.7f6af519@gandalf.local.home>
-In-Reply-To: <202607291326.Dr0maCyu-lkp@intel.com>
-References: <202607291326.Dr0maCyu-lkp@intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Subject: [chenxing:mstar_v6_5_reorder 344/700] kismet: WARNING: unmet
+ direct dependencies detected for GENERIC_PINMUX_FUNCTIONS when selected by
+ MSC313E_SAR
+Message-ID: <202607291822.YxFqMUlK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 154B02F
-X-Stat-Signature: mgd4caxonb5h4un1ifbhjs6be4j8pdeb
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18STmQF8rYKA+7AqTDp82FphauO9pYBb6c=
-X-HE-Tag: 1785339337-541150
-X-HE-Meta: U2FsdGVkX19NYE7hCYo/KIZdSVHLNdK1vXXLuF7+ab5OqfriUhgNe8w/KFUIGeiQia/XFHmofxOc5Sivd+bka4PGjVlkhk8QZDWARnRC8hbU70rxABrGLv4XLq3Zh7chdxWBEoD1WExRI8lEkbCR8Fa3wOKDbYUqPYurHa9AAp9aNvfq6GDB/rMWiS2Cv65hskyChWcePOaOeqn9k35Wx/zg5ApVBnSit/dl59TbgG9RmGNSJw5D5qMPL/usX3fSPPYSytguDit2Ha2L7TSmnliMwXQj4llaa/BiG5HCF0rS3G5ONWLuR7WNmK0C1tz7r+X4lM78ay7C+4BBh1bS5rBIiDwpRrWODkYmM8sSDCSllbqhdSc85St0vd4PT4pr+SahxAu6SCPiEzmUXuvdid05hO6S//moxb6EysM1EkR9JpMAkya0hXyTnwdFuGFNjCcDIXkGGr4=
 
-On Wed, 29 Jul 2026 13:14:23 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/linux-chenxing/linux.git mstar_v6_5_reorder
+head:   1a5c60e65ea399670a5384b869c4958338af2799
+commit: 88c3adc69c81ffc51dcc5902ec2f4b50e72ce948 [344/700] iio: adc: Add driver for mstar SAR
+config: alpha-kismet-CONFIG_GENERIC_PINMUX_FUNCTIONS-CONFIG_MSC313E_SAR-0-0 (https://download.01.org/0day-ci/archive/20260729/202607291822.YxFqMUlK-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260729/202607291822.YxFqMUlK-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/core
-> head:   c33330b2ec170dd38b3284a72bc6a07a49cc9a65
-> commit: c33330b2ec170dd38b3284a72bc6a07a49cc9a65 [16/16] tracing: Use seq_buf for string concatenation
-> config: xtensa-randconfig-001-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291326.Dr0maCyu-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 12.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291326.Dr0maCyu-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202607291326.Dr0maCyu-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> >> WARNING: modpost: vmlinux: section mismatch in reference: trace_printk_init_buffers.part.0+0xc8 (section: .text.unlikely) -> initcall_level_names (section: .init.data)  
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607291822.YxFqMUlK-lkp@intel.com/
 
-This looks to be a false positive. I have no idea how the above commit
-could cause that warning.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GENERIC_PINMUX_FUNCTIONS when selected by MSC313E_SAR
+   WARNING: unmet direct dependencies detected for GENERIC_PINCTRL_GROUPS
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - MSC313E_SAR [=y] && IIO [=y] && (ARCH_MSTARV7 || COMPILE_TEST [=y]) && HAS_IOMEM [=y]
+   
+   WARNING: unmet direct dependencies detected for GENERIC_PINCONF
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - MSC313E_SAR [=y] && IIO [=y] && (ARCH_MSTARV7 || COMPILE_TEST [=y]) && HAS_IOMEM [=y]
+   
+   WARNING: unmet direct dependencies detected for GENERIC_PINMUX_FUNCTIONS
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - MSC313E_SAR [=y] && IIO [=y] && (ARCH_MSTARV7 || COMPILE_TEST [=y]) && HAS_IOMEM [=y]
 
--- Steve
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
