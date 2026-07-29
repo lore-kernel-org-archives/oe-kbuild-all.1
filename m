@@ -1,443 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17C74446E1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 09:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785317800; cv=none; b=LISVYTiVFWWYkRuFLWPli7RACwYOCbCe1fVN8eTzyYXwdIZPcm8yWoHkq4Z0Rsnq5ilbAeo6t4KJ5/BCSgHp5/ncOttR7MViuWiSUH9FxJGfIrKtun2S7JIq5TT8vXM0cyRPR9CgPvcdwc7ErV7YbvSoTiHPM6TLVL1ADRs8Rtg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785317800; c=relaxed/simple;
-	bh=T4Y98U5S1RxsfYpFo7ObJDUrPJgQpMfgJNY365YY+8k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oWuqLWhximOI9juf4kZHwha4zl09cavDmuXFpMdSU/pMeHPb1WJRAli7Bv7Atz78+gZc+isOWQ2cHMCsmq2m9Z+PGdTod5OEbGHlDCoAOQ/tV/zBUyx/OMhOwfQ1eqb9bVYgW13J3hJ1TiHWSHAEHq0zE9OOC7RtQ04Bhg7aKUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwsH9DMJ; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC48C4457B0;
+	Wed, 29 Jul 2026 09:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.154.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785319045; cv=fail; b=PF80OoEEZVK1AFd8RofHflaUkryjwsxwIRxc1OOzsdPehLKOa9zfrxqkf+x6iL7d8yVMNGFO11/zy5KuwX2sIdRpP64gLrdWUgivlh/45Tez4jeOKFJAsg/GmM/pim2+BKvzrJXA4gg652K69PYMPLudY9ecZbZ4MJhh9IyFFqs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785319045; c=relaxed/simple;
+	bh=SLM2pP9Ns0NC8CqjQ+6JI+qgnm8Y8a63b2A8CR1iRZY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=MIBwkGHcd6XeufU2GR+JvGhSmq5Vk2fRv+Lgyd+9idW+w/I1FF3FHRWSGpuowEVKyb5XPKgQ8yjGVjAWczmnnvSv/0D7F5ZmUYI1YwdmNrwoVVR3jyngNPjgR5cuTbDEbnVB3b/6mpx0sQN7b2l/nWOkwJ4d6X8S25wGfRHht+E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=I1+vwTQC; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=N/taEP2o; arc=fail smtp.client-ip=148.163.154.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwsH9DMJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785317798; x=1816853798;
-  h=date:from:to:cc:subject:message-id;
-  bh=T4Y98U5S1RxsfYpFo7ObJDUrPJgQpMfgJNY365YY+8k=;
-  b=nwsH9DMJxa2hLgIFnyzwvFDMbwECcn8Gd6akkVoV+2VD11YxXv5rT7or
-   ljSnkeoc/A987Ld3RTMlR/Ob9U5jCeSMCu/4FMU9zIr95KGGOXb3IdMZt
-   k7rf8UqOF1hnGueoOzGndzv8YQt1CroGPJT7OChr58UDMW5olc4csIvBy
-   WZ+QctcaKP2UWnHdBLo1f+8dmLQC4V8tFCjkKIAzovNLzR5IT+nAhVXEL
-   jVX/N96oNte/GVj1sD15pKcGUsVsTVgjxQYIBE1yD+CwLwBqvT6cXdKbL
-   qzXG7Xg89R+s3YHmvSbg/KDmoDSVV2+n3s1FbgF1HRPchYLNPIJi78MxV
-   w==;
-X-CSE-ConnectionGUID: DpJlQFegQ9+Xje7Ps4z/RA==
-X-CSE-MsgGUID: Ogo+rJFCQsWBpokQ6jxymA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96578517"
-X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="96578517"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 02:36:34 -0700
-X-CSE-ConnectionGUID: AtZnTHluQiKHP/IlP0nCtg==
-X-CSE-MsgGUID: qkVuC1h0TBGUj68Y7OvkJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="256625696"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Jul 2026 02:36:32 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wp0iD-00000000fEX-3q86;
-	Wed, 29 Jul 2026 09:36:29 +0000
-Date: Wed, 29 Jul 2026 17:35:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Palmer <daniel@0x0f.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chenxing:mstar_v6_5_reorder 561/700]
- drivers/gpu/drm/panel/panel-simple.c:4058:32: warning: 'arm_rtsm' defined but
- not used
-Message-ID: <202607291732.S14HjiLW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="I1+vwTQC";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="N/taEP2o"
+Received: from pps.filterd (m0374955.ppops.net [127.0.0.1])
+	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66T7ebsq2161968;
+	Wed, 29 Jul 2026 04:57:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	proofpoint-05-2026; bh=SLM2pP9Ns0NC8CqjQ+6JI+qgnm8Y8a63b2A8CR1iR
+	ZY=; b=I1+vwTQCYHgkfGW2AFZee5J/WTx3t8X507e49IyD4OK2uAoWWOv0nsWm0
+	iC7xcySKBYx688D0XZ1MS69dZolSCqOxE1nMN+SCZy2khf0Ro2XyP6YGKyA/0XCS
+	sPjbaTIPshcLLeEU651LkJo3XfK/LHuZvqMFyL7hIDESURNP2Myfi0+dJsk/nBdT
+	+CXsTYQei8/FO+M9YBn7upEdnP6A0iFq3I14Gw3GKjKZ/vDv37afdUxNlHY1wWiy
+	WRI6PcmXkgacC/fsOXfpR7ZDhE40mkKJjSRJFfzcjcyUR6W6IAReUJSmhfm8OySQ
+	hvLRzsrCx9vFpo99+PTOd/DxPGYMw==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010038.outbound.protection.outlook.com [52.101.85.38])
+	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4fqcwv0tcn-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 29 Jul 2026 04:57:01 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UEa2HUG9OtdGT6/UIw8emwxi+E9/HFy4Sv7jiJ6vplRVJZ8APWL9/aCWWTCYKU3xSeGXbCS/PT/nFy4IuzlkbAZD2NKJVP6k6HX76BtJ1HXU6raQqGMQX8yu5vy1mqkYJ8rlgb6oyrhD181iLeZ0lbdmpjDOn+Jjt6Iuy62GQA64EmI5RNRslmL+gJGV0sg9v2dW/4zSyvqBUhsNeZa7XMiUwpaKChGONCeH9pTriIZ0CY5HWSntox9Kzh7p/GJOPd9j2a9EOvm4VjhjLDu+Qgwm3WMDYTq43pVVg5Lk3OYkOLi3NVOGZ6VrXna7mvno0+wllkhE/+Z+y706Ofx5Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SLM2pP9Ns0NC8CqjQ+6JI+qgnm8Y8a63b2A8CR1iRZY=;
+ b=dykzeB/PkaQkCC5EzwgjVpFBx2CPVCrGFI5Fmzft2I0MNNTYK/04Bi+GlKePrDMukZAxTR3eQHDZlxBD/H+VCfE6XBWpbrwI6y34cB+5FufZ8csqvQIyRgcTZVls93sJo4cC88BXg/LIzfQRX7IXxd2kGzw1maROGY+n1nPDfCZlUIOfpyBeTb2+M5yl7921BN4vKZR7pVHwVo0ioYA36KQHUOVC2reGzbeD35ekzXxZOzFRO74JiOyQKojDQisqn0x2bMm3sHU6Tjk8MZiMimU2x6IlRSjPgVXpqEuaB4f32EnxIP75sKSpvP6fcFCOF4WEBfrePcdhLoVVNDd9aA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=gmail.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SLM2pP9Ns0NC8CqjQ+6JI+qgnm8Y8a63b2A8CR1iRZY=;
+ b=N/taEP2o0cEEH2C5M2rqrQ3awVbKd6C9oVggCqVNprnLc/rQE3VPqgfdFBEuL2sX7iKsBkYCLScFKipx5hljr7hkzmDnM2JTHiSHxaWXFoJuHUEfA9NTy/gWDjKAJBk24VFkLa1FDb/HIjKaZojgBpz1ljt7cKbDRZ3IzMFi30c=
+Received: from SJ0PR05CA0126.namprd05.prod.outlook.com (2603:10b6:a03:33d::11)
+ by MW4PR10MB5677.namprd10.prod.outlook.com (2603:10b6:303:18e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Wed, 29 Jul
+ 2026 09:56:58 +0000
+Received: from SJ1PEPF00002310.namprd03.prod.outlook.com
+ (2603:10b6:a03:33d:cafe::2c) by SJ0PR05CA0126.outlook.office365.com
+ (2603:10b6:a03:33d::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.12 via Frontend Transport; Wed,
+ 29 Jul 2026 09:56:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SJ1PEPF00002310.mail.protection.outlook.com (10.167.242.164) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.270.5 via Frontend Transport; Wed, 29 Jul 2026 09:56:58 +0000
+Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 29 Jul
+ 2026 04:56:58 -0500
+Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 29 Jul
+ 2026 04:56:57 -0500
+Received: from DLEE204.ent.ti.com ([fe80::d7f6:c8c9:f453:6bdf]) by
+ DLEE204.ent.ti.com ([fe80::d7f6:c8c9:f453:6bdf%14]) with mapi id
+ 15.02.2562.037; Wed, 29 Jul 2026 04:56:57 -0500
+From: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
+To: Dan Carpenter <error27@gmail.com>
+CC: "lkp@intel.com" <lkp@intel.com>,
+        "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Pierre-Louis
+ Bossart <pierre-louis.bossart@linux.dev>,
+        "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>
+Subject: RE: sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn:
+ missing error code 'ret'
+Thread-Topic: sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn:
+ missing error code 'ret'
+Thread-Index: AQHdH0CXGGfEtMgjGU29cvbpjYmUKg==
+Date: Wed, 29 Jul 2026 09:56:57 +0000
+Message-ID: <8a416f4caf9d41168a38e04140486aef@ti.com>
+References: <202607291308.8OeeiyIv-lkp@intel.com>
+In-Reply-To: <202607291308.8OeeiyIv-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002310:EE_|MW4PR10MB5677:EE_
+X-MS-Office365-Filtering-Correlation-Id: c344dec4-79bb-4742-c941-08deed57baf3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|36860700016|1800799024|23010399003|18002099003|22082099003|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	24/MdwjW3wWKK9Zfu52WhAWcIPbdDnKez635HEt8E727iawrYCznEM+4ExK5AE+HoTJy7o0HQ8h7VD11HQwD/Vi+Q20M1PS70Hf/pkwg0YszgjbLpaKIXx8dQP0gWbj/HvaOK9Wx9vMAlXQrtK7jD7nwBa67vyqW0hfQhBP2wkAdTDNdSqE7TNwpDYuZefHpBJvwtnBPD/FNVnoQJRgnuA4hf5zmVJ3P4uZASRXE5+LkTBlsRX/0IPmUUxSODo2z31o0D/HxumLf1FcBEghsOI1yS0qNUn5hJaX1mrGcKA4ibnkkp+NEcm4ZeDKjG4vSH/rh/Jttu1AMwFIsKM690c8v0K4AEmEymXZW4yt7dMxyc/2nvvY+OCXrTjtKMAJWUfaXBjnKkw4A5qQ4nlV8UcqkrrrUR0jv80S7Q0sLtsjDZVMFer2OVYJ6mWtUUbb/WaGYhyYcwzRMuUG1n96FBEvnoFcONi256fuCJ02Iiq528BNkJS4RaDPocWPLkS/MzdzGMcNJ1pAnwdjFeFw+sBHQxVnTBoU7y46HP9hqC4/y1w13ECbPsMWIO7XH4aIFUZqOz26DDGwbxzdJg2sBIIoyEo/KnUO/zQ/M2dXG4yYyL/aGTRIv7tytL2NJWlsenieq3PuLYzmoAEY1p6eAkHOHAqcT70qNPM1o4fdTWdKWYzdaayVln/npt8hlKrgc
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(1800799024)(23010399003)(18002099003)(22082099003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	mBh1cSALMw2yw/OlbmHth7t6riJaG4xGkA1ixdPvpagdvHTvuKPWH5rv2fTKR2Qoj/pJwuTXOBxheJ39zk9GxvCVYAXrVU5oHGhLQNHlr4PfYzoqgJds/YGNVFOSw8HGbrnmkz5JaX+oqiU35zEN4F7ViQUuAdpUwg4liFvX2VX4QhOS7sABWIW/66xaDwgNyPaJrNJBnX0rivKKxsc4QhEjPxncW7Lz5pNWe6+W9XY0epo5MRggVJGm62WnpDGwlcaX1idV/Fdw/UGBI2+yxaUFcZwTII8/+WV5VcCd4ISv5NOLIsa5jUcRSDxnDegG6DMdhjtyH7lXBP+n4tHkwVadOq6JZU0eZ5gDq5zphoIIv5z4xwT3ZKUmAytD/Lipp62UNNc6w1KAQxb732lN+PdkLW76Pg8r7nqM655jDg0alPwIX5jb5uirsv6RiLoY
+X-Exchange-RoutingPolicyChecked:
+	p7edivBa7qkLLU4ntY3ZRbSbzNVFIxKrffwle5e/CnvYhPUTXGE2KJUENfye5ZNb+yvgAHCRJlvjf15x2MJOQSKvlhGBplYe6Zl/ZXOM6knw47q0bg1OdAZ942Ypnu89Q9SqoRuRAcqhRSTm3b3gqe3IrY9n+dGsxl9t4OLBq68vqnam3/yZ9KK8xoiOfuuW3ML26ovabIfDXARmrAWy6HgA9ZnWpTWeTrTl3vb1lNR7NnpHB67CK5Rb5VAhiLmKBbsMr12fwx+3TlJ98dkM8JZamBILwH+1yKeCrIfDZy9xPcMuzERFSrIzjiBQb0QMs3qSYf4N1qmFg3NHJfrccQ==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2026 09:56:58.6257
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c344dec4-79bb-4742-c941-08deed57baf3
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00002310.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5677
+X-Proofpoint-ORIG-GUID: Df4AnQv1SxRyARqepE1tiX7RyKVRAbpu
+X-Proofpoint-GUID: Df4AnQv1SxRyARqepE1tiX7RyKVRAbpu
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDA4MSBTYWx0ZWRfX+nTsGYuUM1YA
+ hUZyYgbfirSsB2AdbHY7CtOWCPkxu1klp6sw1V5amGCYfW1hsJivo5cxeUxDjSlyA+/sHnsXx2R
+ eEcBVS89EBCdFrqwdCVfWxx5Cetv8xM=
+X-Authority-Analysis: v=2.4 cv=PsijqQM3 c=1 sm=1 tr=0 ts=6a69ce6d cx=c_pps
+ a=EPZJxM4MYJNUcCtligPUUQ==:117 a=f+v6EHfkeJbVwR46tk4DMg==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=xqWC_Br6kY4A:10 a=hd59Zx_pdMwA:10
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=V5UXEbMT0ywA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22 a=fPAWb5peG099m5CrUpKH:22
+ a=x-cJyfQxICJ8NWX9D6gA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDA4MSBTYWx0ZWRfX21lDARqhdGkA
+ L0z4LBwZNpS0pclMLj1dgToKdXr3I9yniWkNwKGZg8NFkfKHGr08gWBk/8oEqEYP+1KJZsxBLuO
+ v1w+VCpeiNxb2ezeP8/Htx1CuHDZ9wlkdL+o/wSbbqy1Px0DPtNeNVca/H+6oxrGvisFU5JU+mw
+ F0gODgG0bz6K6Th2WvhN727CafjEfZNtXNzDBDfTYTbSwg8VVUuX0JyN7w2xJX8o/5aFqTUo91X
+ hVhcGM3E2JEpXe+rx5G6H3gfr1hf57A0ncQyb78CKqbTQWAyBk/kq0c3sfrD0ZaUM6ik1koy8Zn
+ D28GcCkEd/sLAuB7uhk/jdyMwC8aKJbVWHysCvd7enN9BRiiM7DqSF9/ydsAiC+ys13Rib0oFXo
+ o36fmc5hn00VaGS4p2A2oQ8oWxZ1Ty6SOa3QvhVqdCRaIrhnVcjZmdFhn8RE58pvYulXWuSp8TL
+ paSdt7CWNjr1IPYzy8A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-29_03,2026-07-28_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 spamscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607290081
 
-tree:   https://github.com/linux-chenxing/linux.git mstar_v6_5_reorder
-head:   1a5c60e65ea399670a5384b869c4958338af2799
-commit: 9005883099902f77e90ca8d790a45433e2a041d6 [561/700] drm/panel: panel-simple: Size reduction
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260729/202607291732.S14HjiLW-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291732.S14HjiLW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607291732.S14HjiLW-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/panel/panel-simple.c:4058:32: warning: 'arm_rtsm' defined but not used [-Wunused-const-variable=]
-    4058 | static const struct panel_desc arm_rtsm = {
-         |                                ^~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:4030:32: warning: 'yes_optoelectronics_ytc700tlag_05_201c' defined but not used [-Wunused-const-variable=]
-    4030 | static const struct panel_desc yes_optoelectronics_ytc700tlag_05_201c = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:4006:32: warning: 'winstar_wf35ltiacd' defined but not used [-Wunused-const-variable=]
-    4006 | static const struct panel_desc winstar_wf35ltiacd = {
-         |                                ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3981:32: warning: 'vl050_8048nt_c01' defined but not used [-Wunused-const-variable=]
-    3981 | static const struct panel_desc vl050_8048nt_c01 = {
-         |                                ^~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3955:32: warning: 'vivax_tpc9150_panel' defined but not used [-Wunused-const-variable=]
-    3955 | static const struct panel_desc vivax_tpc9150_panel = {
-         |                                ^~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3932:32: warning: 'urt_umsh_8596md_parallel' defined but not used [-Wunused-const-variable=]
-    3932 | static const struct panel_desc urt_umsh_8596md_parallel = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3920:32: warning: 'urt_umsh_8596md_lvds' defined but not used [-Wunused-const-variable=]
-    3920 | static const struct panel_desc urt_umsh_8596md_lvds = {
-         |                                ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3897:32: warning: 'tpk_f10a_0102' defined but not used [-Wunused-const-variable=]
-    3897 | static const struct panel_desc tpk_f10a_0102 = {
-         |                                ^~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3875:32: warning: 'tpk_f07a_0102' defined but not used [-Wunused-const-variable=]
-    3875 | static const struct panel_desc tpk_f07a_0102 = {
-         |                                ^~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3851:32: warning: 'toshiba_lt089ac29000' defined but not used [-Wunused-const-variable=]
-    3851 | static const struct panel_desc toshiba_lt089ac29000 = {
-         |                                ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3825:32: warning: 'ti_nspire_classic_lcd_panel' defined but not used [-Wunused-const-variable=]
-    3825 | static const struct panel_desc ti_nspire_classic_lcd_panel = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3798:32: warning: 'ti_nspire_cx_lcd_panel' defined but not used [-Wunused-const-variable=]
-    3798 | static const struct panel_desc ti_nspire_cx_lcd_panel = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3771:32: warning: 'tianma_tm070rvhg71' defined but not used [-Wunused-const-variable=]
-    3771 | static const struct panel_desc tianma_tm070rvhg71 = {
-         |                                ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3746:32: warning: 'tianma_tm070jvhg33' defined but not used [-Wunused-const-variable=]
-    3746 | static const struct panel_desc tianma_tm070jvhg33 = {
-         |                                ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3734:32: warning: 'tianma_tm070jdhg30' defined but not used [-Wunused-const-variable=]
-    3734 | static const struct panel_desc tianma_tm070jdhg30 = {
-         |                                ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3709:32: warning: 'tfc_s9700rtwv43tr_01b' defined but not used [-Wunused-const-variable=]
-    3709 | static const struct panel_desc tfc_s9700rtwv43tr_01b = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3685:32: warning: 'tsd_tst043015cmhx' defined but not used [-Wunused-const-variable=]
-    3685 | static const struct panel_desc tsd_tst043015cmhx = {
-         |                                ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3650:32: warning: 'startek_kd070wvfpa' defined but not used [-Wunused-const-variable=]
-    3650 | static const struct panel_desc startek_kd070wvfpa = {
-         |                                ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3622:32: warning: 'starry_kr070pe2t' defined but not used [-Wunused-const-variable=]
-    3622 | static const struct panel_desc starry_kr070pe2t = {
-         |                                ^~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-simple.c:3600:32: warning: 'shelly_sca07010_bfn_lnn' defined but not used [-Wunused-const-variable=]
-    3600 | static const struct panel_desc shelly_sca07010_bfn_lnn = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3574:32: warning: 'sharp_ls020b1dd01d' defined but not used [-Wunused-const-variable=]
-    3574 | static const struct panel_desc sharp_ls020b1dd01d = {
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3535:32: warning: 'sharp_lq101k1ly04' defined but not used [-Wunused-const-variable=]
-    3535 | static const struct panel_desc sharp_lq101k1ly04 = {
-         |                                ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3511:32: warning: 'sharp_lq035q7db03' defined but not used [-Wunused-const-variable=]
-    3511 | static const struct panel_desc sharp_lq035q7db03 = {
-         |                                ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3486:32: warning: 'sharp_lq070y3dg3b' defined but not used [-Wunused-const-variable=]
-    3486 | static const struct panel_desc sharp_lq070y3dg3b = {
-         |                                ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3461:32: warning: 'satoz_sat050at40h12r2' defined but not used [-Wunused-const-variable=]
-    3461 | static const struct panel_desc satoz_sat050at40h12r2 = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3436:32: warning: 'samsung_ltn101nt05' defined but not used [-Wunused-const-variable=]
-    3436 | static const struct panel_desc samsung_ltn101nt05 = {
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3406:32: warning: 'samsung_ltl101al01' defined but not used [-Wunused-const-variable=]
-    3406 | static const struct panel_desc samsung_ltl101al01 = {
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3376:32: warning: 'rocktech_rk101ii01d_ct' defined but not used [-Wunused-const-variable=]
-    3376 | static const struct panel_desc rocktech_rk101ii01d_ct = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3347:32: warning: 'rocktech_rk070er9427' defined but not used [-Wunused-const-variable=]
-    3347 | static const struct panel_desc rocktech_rk070er9427 = {
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3322:32: warning: 'rocktech_rk043fn48h' defined but not used [-Wunused-const-variable=]
-    3322 | static const struct panel_desc rocktech_rk043fn48h = {
-         |                                ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3295:32: warning: 'qishenglong_gopher2b_lcd' defined but not used [-Wunused-const-variable=]
-    3295 | static const struct panel_desc qishenglong_gopher2b_lcd = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3257:32: warning: 'qd43003c0_40' defined but not used [-Wunused-const-variable=]
-    3257 | static const struct panel_desc qd43003c0_40 = {
-         |                                ^~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3231:32: warning: 'powertip_ph800480t013_idf02' defined but not used [-Wunused-const-variable=]
-    3231 | static const struct panel_desc powertip_ph800480t013_idf02  = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3208:32: warning: 'pda_91_00156_a0' defined but not used [-Wunused-const-variable=]
-    3208 | static const struct panel_desc pda_91_00156_a0  = {
-         |                                ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3182:32: warning: 'osddisplays_osd070t1718_19ts' defined but not used [-Wunused-const-variable=]
-    3182 | static const struct panel_desc osddisplays_osd070t1718_19ts = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3156:32: warning: 'ortustech_com43h4m85ulc' defined but not used [-Wunused-const-variable=]
-    3156 | static const struct panel_desc ortustech_com43h4m85ulc = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3131:32: warning: 'ortustech_com37h3m' defined but not used [-Wunused-const-variable=]
-    3131 | static const struct panel_desc ortustech_com37h3m = {
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3107:32: warning: 'ontat_yx700wv03' defined but not used [-Wunused-const-variable=]
-    3107 | static const struct panel_desc ontat_yx700wv03 = {
-         |                                ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3075:32: warning: 'olimex_lcd_olinuxino_43ts' defined but not used [-Wunused-const-variable=]
-    3075 | static const struct panel_desc olimex_lcd_olinuxino_43ts = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3046:32: warning: 'okaya_rs800480t_7x0gp' defined but not used [-Wunused-const-variable=]
-    3046 | static const struct panel_desc okaya_rs800480t_7x0gp = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:3021:32: warning: 'nvd_9128' defined but not used [-Wunused-const-variable=]
-    3021 | static const struct panel_desc nvd_9128 = {
-         |                                ^~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2994:32: warning: 'nlt_nl192108ac18_02d' defined but not used [-Wunused-const-variable=]
-    2994 | static const struct panel_desc nlt_nl192108ac18_02d = {
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2968:32: warning: 'newhaven_nhd_43_480272ef_atxl' defined but not used [-Wunused-const-variable=]
-    2968 | static const struct panel_desc newhaven_nhd_43_480272ef_atxl = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2945:32: warning: 'netron_dy_e231732' defined but not used [-Wunused-const-variable=]
-    2945 | static const struct panel_desc netron_dy_e231732 = {
-         |                                ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2921:32: warning: 'nec_nl4827hc19_05b' defined but not used [-Wunused-const-variable=]
-    2921 | static const struct panel_desc nec_nl4827hc19_05b = {
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2892:32: warning: 'nec_nl12880bc20_05' defined but not used [-Wunused-const-variable=]
-    2892 | static const struct panel_desc nec_nl12880bc20_05 = {
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2863:32: warning: 'multi_inno_mi1010ait_1cp' defined but not used [-Wunused-const-variable=]
-    2863 | static const struct panel_desc multi_inno_mi1010ait_1cp = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2834:32: warning: 'multi_inno_mi0800ft_9' defined but not used [-Wunused-const-variable=]
-    2834 | static const struct panel_desc multi_inno_mi0800ft_9 = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2804:32: warning: 'multi_inno_mi0700s4t_6' defined but not used [-Wunused-const-variable=]
-    2804 | static const struct panel_desc multi_inno_mi0700s4t_6 = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2770:32: warning: 'mitsubishi_aa070mc01' defined but not used [-Wunused-const-variable=]
-    2770 | static const struct panel_desc mitsubishi_aa070mc01 = {
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2737:32: warning: 'logicpd_type_28' defined but not used [-Wunused-const-variable=]
-    2737 | static const struct panel_desc logicpd_type_28 = {
-         |                                ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2704:32: warning: 'logictechno_lttd800480070_l6wh_rt' defined but not used [-Wunused-const-variable=]
-    2704 | static const struct panel_desc logictechno_lttd800480070_l6wh_rt = {
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-simple.c:2672:32: warning: 'logictechno_lttd800480070_l2rt' defined but not used [-Wunused-const-variable=]
-    2672 | static const struct panel_desc logictechno_lttd800480070_l2rt = {
-
-
-vim +/arm_rtsm +4058 drivers/gpu/drm/panel/panel-simple.c
-
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3874  
-227e4f4079e198 Bhuvanchandra DV    2016-05-05 @3875  static const struct panel_desc tpk_f07a_0102 = {
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3876  	.modes = &tpk_f07a_0102_mode,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3877  	.num_modes = 1,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3878  	.size = {
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3879  		.width = 152,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3880  		.height = 91,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3881  	},
-88bc4178568b8e Laurent Pinchart    2018-09-22  3882  	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3883  };
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3884  
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3885  static const struct drm_display_mode tpk_f10a_0102_mode = {
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3886  	.clock = 45000,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3887  	.hdisplay = 1024,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3888  	.hsync_start = 1024 + 176,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3889  	.hsync_end = 1024 + 176 + 5,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3890  	.htotal = 1024 + 176 + 5 + 88,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3891  	.vdisplay = 600,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3892  	.vsync_start = 600 + 20,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3893  	.vsync_end = 600 + 20 + 5,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3894  	.vtotal = 600 + 20 + 5 + 25,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3895  };
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3896  
-227e4f4079e198 Bhuvanchandra DV    2016-05-05 @3897  static const struct panel_desc tpk_f10a_0102 = {
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3898  	.modes = &tpk_f10a_0102_mode,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3899  	.num_modes = 1,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3900  	.size = {
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3901  		.width = 223,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3902  		.height = 125,
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3903  	},
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3904  };
-227e4f4079e198 Bhuvanchandra DV    2016-05-05  3905  
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3906  static const struct display_timing urt_umsh_8596md_timing = {
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3907  	.pixelclock = { 33260000, 33260000, 33260000 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3908  	.hactive = { 800, 800, 800 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3909  	.hfront_porch = { 41, 41, 41 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3910  	.hback_porch = { 216 - 128, 216 - 128, 216 - 128 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3911  	.hsync_len = { 71, 128, 128 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3912  	.vactive = { 480, 480, 480 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3913  	.vfront_porch = { 10, 10, 10 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3914  	.vback_porch = { 35 - 2, 35 - 2, 35 - 2 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3915  	.vsync_len = { 2, 2, 2 },
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3916  	.flags = DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_NEGEDGE |
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3917  		DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3918  };
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3919  
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13 @3920  static const struct panel_desc urt_umsh_8596md_lvds = {
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3921  	.timings = &urt_umsh_8596md_timing,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3922  	.num_timings = 1,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3923  	.bpc = 6,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3924  	.size = {
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3925  		.width = 152,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3926  		.height = 91,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3927  	},
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3928  	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-9a2654c0f62a17 Laurent Pinchart    2019-09-04  3929  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3930  };
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3931  
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13 @3932  static const struct panel_desc urt_umsh_8596md_parallel = {
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3933  	.timings = &urt_umsh_8596md_timing,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3934  	.num_timings = 1,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3935  	.bpc = 6,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3936  	.size = {
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3937  		.width = 152,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3938  		.height = 91,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3939  	},
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3940  	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3941  };
-06a9dc65afbd9d Maciej S. Szmigiero 2016-02-13  3942  
-1a84a308acda28 Nikola Pavlica      2021-10-11  3943  static const struct drm_display_mode vivax_tpc9150_panel_mode = {
-1a84a308acda28 Nikola Pavlica      2021-10-11  3944  	.clock = 60000,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3945  	.hdisplay = 1024,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3946  	.hsync_start = 1024 + 160,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3947  	.hsync_end = 1024 + 160 + 100,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3948  	.htotal = 1024 + 160 + 100 + 60,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3949  	.vdisplay = 600,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3950  	.vsync_start = 600 + 12,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3951  	.vsync_end = 600 + 12 + 10,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3952  	.vtotal = 600 + 12 + 10 + 13,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3953  };
-1a84a308acda28 Nikola Pavlica      2021-10-11  3954  
-1a84a308acda28 Nikola Pavlica      2021-10-11 @3955  static const struct panel_desc vivax_tpc9150_panel = {
-1a84a308acda28 Nikola Pavlica      2021-10-11  3956  	.modes = &vivax_tpc9150_panel_mode,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3957  	.num_modes = 1,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3958  	.bpc = 6,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3959  	.size = {
-1a84a308acda28 Nikola Pavlica      2021-10-11  3960  		.width = 200,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3961  		.height = 115,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3962  	},
-1a84a308acda28 Nikola Pavlica      2021-10-11  3963  	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3964  	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3965  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-1a84a308acda28 Nikola Pavlica      2021-10-11  3966  };
-1a84a308acda28 Nikola Pavlica      2021-10-11  3967  
-04206185a16007 Fabio Estevam       2019-02-18  3968  static const struct drm_display_mode vl050_8048nt_c01_mode = {
-04206185a16007 Fabio Estevam       2019-02-18  3969  	.clock = 33333,
-04206185a16007 Fabio Estevam       2019-02-18  3970  	.hdisplay = 800,
-04206185a16007 Fabio Estevam       2019-02-18  3971  	.hsync_start = 800 + 210,
-04206185a16007 Fabio Estevam       2019-02-18  3972  	.hsync_end = 800 + 210 + 20,
-04206185a16007 Fabio Estevam       2019-02-18  3973  	.htotal = 800 + 210 + 20 + 46,
-04206185a16007 Fabio Estevam       2019-02-18  3974  	.vdisplay =  480,
-04206185a16007 Fabio Estevam       2019-02-18  3975  	.vsync_start = 480 + 22,
-04206185a16007 Fabio Estevam       2019-02-18  3976  	.vsync_end = 480 + 22 + 10,
-04206185a16007 Fabio Estevam       2019-02-18  3977  	.vtotal = 480 + 22 + 10 + 23,
-04206185a16007 Fabio Estevam       2019-02-18  3978  	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-04206185a16007 Fabio Estevam       2019-02-18  3979  };
-04206185a16007 Fabio Estevam       2019-02-18  3980  
-04206185a16007 Fabio Estevam       2019-02-18 @3981  static const struct panel_desc vl050_8048nt_c01 = {
-04206185a16007 Fabio Estevam       2019-02-18  3982  	.modes = &vl050_8048nt_c01_mode,
-04206185a16007 Fabio Estevam       2019-02-18  3983  	.num_modes = 1,
-04206185a16007 Fabio Estevam       2019-02-18  3984  	.bpc = 8,
-04206185a16007 Fabio Estevam       2019-02-18  3985  	.size = {
-04206185a16007 Fabio Estevam       2019-02-18  3986  		.width = 120,
-04206185a16007 Fabio Estevam       2019-02-18  3987  		.height = 76,
-04206185a16007 Fabio Estevam       2019-02-18  3988  	},
-04206185a16007 Fabio Estevam       2019-02-18  3989  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-f5436f77488654 Sam Ravnborg        2020-06-30  3990  	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
-04206185a16007 Fabio Estevam       2019-02-18  3991  };
-04206185a16007 Fabio Estevam       2019-02-18  3992  
-e4bac408b08437 Richard Genoud      2017-03-27  3993  static const struct drm_display_mode winstar_wf35ltiacd_mode = {
-e4bac408b08437 Richard Genoud      2017-03-27  3994  	.clock = 6410,
-e4bac408b08437 Richard Genoud      2017-03-27  3995  	.hdisplay = 320,
-e4bac408b08437 Richard Genoud      2017-03-27  3996  	.hsync_start = 320 + 20,
-e4bac408b08437 Richard Genoud      2017-03-27  3997  	.hsync_end = 320 + 20 + 30,
-e4bac408b08437 Richard Genoud      2017-03-27  3998  	.htotal = 320 + 20 + 30 + 38,
-e4bac408b08437 Richard Genoud      2017-03-27  3999  	.vdisplay = 240,
-e4bac408b08437 Richard Genoud      2017-03-27  4000  	.vsync_start = 240 + 4,
-e4bac408b08437 Richard Genoud      2017-03-27  4001  	.vsync_end = 240 + 4 + 3,
-e4bac408b08437 Richard Genoud      2017-03-27  4002  	.vtotal = 240 + 4 + 3 + 15,
-e4bac408b08437 Richard Genoud      2017-03-27  4003  	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-e4bac408b08437 Richard Genoud      2017-03-27  4004  };
-e4bac408b08437 Richard Genoud      2017-03-27  4005  
-e4bac408b08437 Richard Genoud      2017-03-27 @4006  static const struct panel_desc winstar_wf35ltiacd = {
-e4bac408b08437 Richard Genoud      2017-03-27  4007  	.modes = &winstar_wf35ltiacd_mode,
-e4bac408b08437 Richard Genoud      2017-03-27  4008  	.num_modes = 1,
-e4bac408b08437 Richard Genoud      2017-03-27  4009  	.bpc = 8,
-e4bac408b08437 Richard Genoud      2017-03-27  4010  	.size = {
-e4bac408b08437 Richard Genoud      2017-03-27  4011  		.width = 70,
-e4bac408b08437 Richard Genoud      2017-03-27  4012  		.height = 53,
-e4bac408b08437 Richard Genoud      2017-03-27  4013  	},
-e4bac408b08437 Richard Genoud      2017-03-27  4014  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-e4bac408b08437 Richard Genoud      2017-03-27  4015  };
-e4bac408b08437 Richard Genoud      2017-03-27  4016  
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4017  static const struct drm_display_mode yes_optoelectronics_ytc700tlag_05_201c_mode = {
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4018  	.clock = 51200,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4019  	.hdisplay = 1024,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4020  	.hsync_start = 1024 + 100,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4021  	.hsync_end = 1024 + 100 + 100,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4022  	.htotal = 1024 + 100 + 100 + 120,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4023  	.vdisplay = 600,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4024  	.vsync_start = 600 + 10,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4025  	.vsync_end = 600 + 10 + 10,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4026  	.vtotal = 600 + 10 + 10 + 15,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4027  	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4028  };
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4029  
-7a1f4fa4a62933 Jagan Teki          2020-09-04 @4030  static const struct panel_desc yes_optoelectronics_ytc700tlag_05_201c = {
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4031  	.modes = &yes_optoelectronics_ytc700tlag_05_201c_mode,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4032  	.num_modes = 1,
-44379b986424b0 Jagan Teki          2021-07-25  4033  	.bpc = 8,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4034  	.size = {
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4035  		.width = 154,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4036  		.height = 90,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4037  	},
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4038  	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4039  	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4040  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4041  };
-7a1f4fa4a62933 Jagan Teki          2020-09-04  4042  
-fcec4163afa5f3 Linus Walleij       2018-10-26  4043  static const struct drm_display_mode arm_rtsm_mode[] = {
-fcec4163afa5f3 Linus Walleij       2018-10-26  4044  	{
-fcec4163afa5f3 Linus Walleij       2018-10-26  4045  		.clock = 65000,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4046  		.hdisplay = 1024,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4047  		.hsync_start = 1024 + 24,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4048  		.hsync_end = 1024 + 24 + 136,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4049  		.htotal = 1024 + 24 + 136 + 160,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4050  		.vdisplay = 768,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4051  		.vsync_start = 768 + 3,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4052  		.vsync_end = 768 + 3 + 6,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4053  		.vtotal = 768 + 3 + 6 + 29,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4054  		.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4055  	},
-fcec4163afa5f3 Linus Walleij       2018-10-26  4056  };
-fcec4163afa5f3 Linus Walleij       2018-10-26  4057  
-fcec4163afa5f3 Linus Walleij       2018-10-26 @4058  static const struct panel_desc arm_rtsm = {
-fcec4163afa5f3 Linus Walleij       2018-10-26  4059  	.modes = arm_rtsm_mode,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4060  	.num_modes = 1,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4061  	.bpc = 8,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4062  	.size = {
-fcec4163afa5f3 Linus Walleij       2018-10-26  4063  		.width = 400,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4064  		.height = 300,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4065  	},
-fcec4163afa5f3 Linus Walleij       2018-10-26  4066  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-fcec4163afa5f3 Linus Walleij       2018-10-26  4067  };
-fcec4163afa5f3 Linus Walleij       2018-10-26  4068  
-
-:::::: The code at line 4058 was first introduced by commit
-:::::: fcec4163afa5f32a4aa31245a699c743fa33e2e7 drm/panel: Add simple panel mode for the ARM RTSM
-
-:::::: TO: Linus Walleij <linus.walleij@linaro.org>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+PiBPbiAxMToxNi0yMDI2MDcyOSwgRGFuIENhcnBlbnRlciB3cm90ZToNCj4gU3ViamVjdDogc291
+bmQvc29jL2NvZGVjcy90YWM1eHgyLXNkdy5jOjk4NCB0YWM1eHgyX2phY2tfaW5pdCgpIHdhcm46
+IG1pc3NpbmcgZXJyb3IgY29kZSAncmV0J3MNCj4gDQo+IHNtYXRjaCB3YXJuaW5nczoNCj4gc291
+bmQvc29jL2NvZGVjcy90YWM1eHgyLXNkdy5jOjk4NCB0YWM1eHgyX2phY2tfaW5pdCgpIHdhcm46
+IG1pc3NpbmcgZXJyb3INCj4gY29kZSAncmV0Jw0KPiANCj4gdmltICsvcmV0ICs5ODQgc291bmQv
+c29jL2NvZGVjcy90YWM1eHgyLXNkdy5jDQo+IA0KPiAzOGM4OWZlZGVkZDVhOSBOaXJhbmphbiBI
+IFkgMjAyNi0wNS0wNSAgIDk3OSAgc3RhdGljIGludCB0YWM1eHgyX2phY2tfaW5pdChzdHJ1Y3Qg
+dGFjNXh4Ml9wcnYgKnRhY19kZXYpDQo+IDM4Yzg5ZmVkZWRkNWE5IE5pcmFuamFuIEggWSAyMDI2
+LTA1LTA1ICAgOTgwICB7DQo+IDM4Yzg5ZmVkZWRkNWE5IE5pcmFuamFuIEggWSAyMDI2LTA1LTA1
+ICAgOTgxICAJaW50IHJldCA9IDA7DQo+IDM4Yzg5ZmVkZWRkNWE5IE5pcmFuamFuIEggWSAyMDI2
+LTA1LTA1ICAgOTgyDQo+IDM4Yzg5ZmVkZWRkNWE5IE5pcmFuamFuIEggWSAyMDI2LTA1LTA1ICAg
+OTgzICAJaWYgKCF0YWNfZGV2LT5oc19qYWNrKQ0KPiAzOGM4OWZlZGVkZDVhOSBOaXJhbmphbiBI
+IFkgMjAyNi0wNS0wNSAgQDk4NCAgCQlnb3RvIGRpc2FibGVfaW50ZXJydXB0czsNCj4gDQo+IElz
+IHRoaXMgc3VwcG9zZWQgdG8gYmUgYW4gZXJyb3IgcGF0aD8gIHRhY19kZXYtPmhzX2phY2sgY2Fu
+J3QgYmUgTlVMTA0KPiBpbiByZWFsIGxpZmUuDQoNCldlIGFkZGVkIHRoaXMgYXMgZGVmZW5zaXZl
+IHN0cmF0ZWd5IGluIGNhc2Ugc29tZW9uZSBjYWxscyBsaWtlIHRoaXMNCiAgIHNuZF9zb2NfY29t
+cG9uZW50X3NldF9qYWNrKGNvbXBvbmVudCwgTlVMTCwgTlVMTCk7DQoNClJlZ2FyZHMNCk5pcmFu
+amFuDQoNCg0K
