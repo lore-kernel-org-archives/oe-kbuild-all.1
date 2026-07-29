@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA09743C7C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 08:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF4F248F7C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 08:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785313452; cv=none; b=D2tyx1NyiY/A+ebaTXfCyfKZXY4yVjxnEj2TUYX4Fm+h+Ktr69PaucS15+/RfYTNTTKPlaWtmdyOA6TcpnXUPji5IOs9ja6ctXI8yLoIyK6Cu1NYsWJ+tKvLz4t8OuMTsCmw3DPHVURAPepUI9AHSWsXVWyqmOpUDFhrWQ+FAj0=
+	t=1785314250; cv=none; b=IjZxk9sLAxPeLtANuyfHc52Nce7CT1Iy66ji2lEJO30ZhVQNuGRMLXoXZegEMSw/mPH8ZehzPY8nIQXZ0X1BLh3zBYtbnbo1wBWlMNxVdF7sLuE8Uoms1UajZv6LQwhaTGusioK1DAXYhk2ZyxR0LpWISIYy2pKxMZH//u3ITKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785313452; c=relaxed/simple;
-	bh=tq9vrjtTvviLiTiJWodCEXWw658FXyeV3V9zaHJ3TWA=;
+	s=arc-20240116; t=1785314250; c=relaxed/simple;
+	bh=dB5K+/Xq9QaqHEbLAYZyoL6lCfrYbTpgTEMSzgQfflo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=STWIgjxeYQSnOgq5m2zhR/ALIi19621kO76vMc36c01qDFVF8EgbKvks+jhrEiF66+1oDTQgzeE9IYzdZAPFWSACuSI/L9VVJXdiMI3m1D59804OC6uI58gONum6Z+nhr5otBAzKn5tGm4BYIaWnJ+pdeoH9ZThkPGnRS6BTBo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TbW46o3G; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZuBLsk60j945+KttNR+A5R8c88FnD46xEVjxDL9xI3tamFLZW7TLkVJON3LYeVuaQsutGrzyNCbwT3p75+VT8v7YTpeA8eti5IYFEnkCAzjKVfsazNUArQAsVuIWcomz/3gucYgBdcSCeppYMbsnPgI1PZ1uOa7xwfcy+tFLy4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRvuiJ4t; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TbW46o3G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRvuiJ4t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785313443; x=1816849443;
+  t=1785314248; x=1816850248;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tq9vrjtTvviLiTiJWodCEXWw658FXyeV3V9zaHJ3TWA=;
-  b=TbW46o3GBylJBDJp8D6YeR7cywSjzfg+PyiEozjWzAUNJJ06JKqw8EqB
-   gMgIU2JPE9QGcRgSHWs0m8SogdNHQPsK4zqhwS+D3QeDlLMS2eOiEsgW4
-   xfZn9z29dkTZ1QEaVL1fpkVku0/8PjKE1mg+JMvef50ZtOiO4SX5i0AKg
-   tHCCM2BETcAXEKVLu4Iz2/2aKP15uRsCHPsLKwEX62/jNtU8C+VpH0/Hf
-   mrZmFWxZaMexkA7bsJFVwqcV91FGIWF7sSTv5i5/5gykGfskBAIF/23Tt
-   H66iDCu2ec/dykAZSlmU5Wa1kwhvDYGoMQ5z9IUZQ9XP6TnMpFnfyt445
+  bh=dB5K+/Xq9QaqHEbLAYZyoL6lCfrYbTpgTEMSzgQfflo=;
+  b=JRvuiJ4tkl46fvYkxSarD4nFmAR1PJ0kTnTmhia/FnFVljKcKL9LOk+b
+   vhUeJQN5iT7nOcT2HPSZxnWRHdn0NyGfVyFGvuSPJLaj19YboXZ1AyDmK
+   ZgQl/eNKqF3noc/iXEeszCdM9tinFNUyK1Y6qfUy4eLmTRBBahUOWhBgv
+   0od/w9c6uOqfYaNFkcWTLBVRDrs8wp5wMtFgP8yXl/dqg9ogqBhO/Vco+
+   M5zAxJS4JG1vWu65WpXqvwt8Q+8+dScA91NdAXheOgDL/VlOgcyZhg3n0
+   BqsDUtKNJ6PWRHkYOcgadnw2JB9yvNO8EjEZwhALJXZfQsQkXbR8r3cE2
    Q==;
-X-CSE-ConnectionGUID: rfOyg5LvTwKyX4rUIdFoLg==
-X-CSE-MsgGUID: qnC2NxG0T6udpxgxPb2lyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86103446"
+X-CSE-ConnectionGUID: 6gsbHTYNR8+wX3OO6ZYI2w==
+X-CSE-MsgGUID: weDjGqBJTNCfBT/Rmhm7Gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85765572"
 X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="86103446"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 01:23:48 -0700
-X-CSE-ConnectionGUID: H65rOXbXSOCubY5zfAe9NQ==
-X-CSE-MsgGUID: /I8oDHGVQWWODkE8Rq9NHw==
+   d="scan'208";a="85765572"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 01:37:27 -0700
+X-CSE-ConnectionGUID: o8f25oJqTmutMbHcGPVAvA==
+X-CSE-MsgGUID: qJEvWb5PTL+m2C0M/1qjCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="258179306"
+   d="scan'208";a="298167910"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 29 Jul 2026 01:23:46 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Jul 2026 01:37:26 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wozZn-00000000fC3-4BbB;
-	Wed, 29 Jul 2026 08:23:44 +0000
-Date: Wed, 29 Jul 2026 16:22:57 +0800
+	id 1wozmr-00000000fCR-46DF;
+	Wed, 29 Jul 2026 08:37:15 +0000
+Date: Wed, 29 Jul 2026 16:36:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Simone Chifari <simone.chifari@gmail.com>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>,
-	Stefan Schaeckeler <schaecsn@gmx.net>,
-	Simone Chifari <simone.chifari@gmail.com>
-Subject: Re: [PATCH v3 1/1] i2c: imc-skylake: add Intel Skylake-X iMC SMBus
- adapter
-Message-ID: <202607291626.TnSyWh0f-lkp@intel.com>
-References: <20260728122423.358416-2-simone.chifari@gmail.com>
+To: Song Liu <song@kernel.org>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
+	kernel-team@meta.com, Song Liu <song@kernel.org>
+Subject: Re: [PATCH v3 bpf-next 1/1] bpf: Populate mmap-able array map memory
+ lazily
+Message-ID: <202607291608.xeQ99Iqz-lkp@intel.com>
+References: <20260729001033.3433328-2-song@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,85 +65,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260728122423.358416-2-simone.chifari@gmail.com>
+In-Reply-To: <20260729001033.3433328-2-song@kernel.org>
 
-Hi Simone,
+Hi Song,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 8cd9520d35a6c38db6567e97dd93b1f11f185dc6]
+[auto build test ERROR on fdec474c65fd35d5a6e1497ed50a9f98c07192f0]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Simone-Chifari/i2c-imc-skylake-add-Intel-Skylake-X-iMC-SMBus-adapter/20260729-033603
-base:   8cd9520d35a6c38db6567e97dd93b1f11f185dc6
-patch link:    https://lore.kernel.org/r/20260728122423.358416-2-simone.chifari%40gmail.com
-patch subject: [PATCH v3 1/1] i2c: imc-skylake: add Intel Skylake-X iMC SMBus adapter
-config: um-randconfig-r133-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291626.TnSyWh0f-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291626.TnSyWh0f-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/bpf-Populate-mmap-able-array-map-memory-lazily/20260729-093241
+base:   fdec474c65fd35d5a6e1497ed50a9f98c07192f0
+patch link:    https://lore.kernel.org/r/20260729001033.3433328-2-song%40kernel.org
+patch subject: [PATCH v3 bpf-next 1/1] bpf: Populate mmap-able array map memory lazily
+config: arm-randconfig-002-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291608.xeQ99Iqz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291608.xeQ99Iqz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607291626.TnSyWh0f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607291608.xeQ99Iqz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/i2c/busses/i2c-imc-skylake.c:49:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/i2c/busses/i2c-imc-skylake.c:331:28: warning: implicit conversion from 'unsigned long' to 'u32' (aka 'unsigned int') changes value from 18446744073171697664 to 3757113344 [-Wconstant-conversion]
-     331 |                 u32 mask = i == c->idx ? ~COMMAND_OUR_BITS : ~0U;
-         |                     ~~~~                 ^~~~~~~~~~~~~~~~~
-   2 warnings generated.
+   kernel/bpf/arraymap.c: In function 'array_map_mmap_pages':
+>> kernel/bpf/arraymap.c:659:6: error: implicit declaration of function 'pmd_none'; did you mean 'p4d_none'? [-Werror=implicit-function-declaration]
+     if (pmd_none(*vmf->pmd))
+         ^~~~~~~~
+         p4d_none
+>> kernel/bpf/arraymap.c:673:8: error: implicit declaration of function 'pte_none'; did you mean 'p4d_none'? [-Werror=implicit-function-declaration]
+      if (!pte_none(ptep_get(vmf->pte)))
+           ^~~~~~~~
+           p4d_none
+>> kernel/bpf/arraymap.c:673:17: error: implicit declaration of function 'ptep_get'; did you mean 'btf_get'? [-Werror=implicit-function-declaration]
+      if (!pte_none(ptep_get(vmf->pte)))
+                    ^~~~~~~~
+                    btf_get
+>> kernel/bpf/arraymap.c:682:3: error: implicit declaration of function 'set_pte_range'; did you mean 'free_pgd_range'? [-Werror=implicit-function-declaration]
+      set_pte_range(vmf, folio, page, 1, addr);
+      ^~~~~~~~~~~~~
+      free_pgd_range
+   In file included from include/linux/kallsyms.h:13,
+                    from include/linux/bpf.h:23,
+                    from kernel/bpf/arraymap.c:5:
+>> include/linux/mm.h:3848:2: error: implicit declaration of function 'pte_unmap'; did you mean 'memunmap'? [-Werror=implicit-function-declaration]
+     pte_unmap(pte);     \
+     ^~~~~~~~~
+   kernel/bpf/arraymap.c:689:2: note: in expansion of macro 'pte_unmap_unlock'
+     pte_unmap_unlock(start_pte, vmf->ptl);
+     ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +331 drivers/i2c/busses/i2c-imc-skylake.c
+vim +659 kernel/bpf/arraymap.c
 
-   317	
-   318	/*
-   319	 * Detect a second master.  Compare the command registers against what this
-   320	 * driver left in them: for the channel it drove, only the bits it does not own;
-   321	 * for the other channel, all of them.  A difference means firmware, a BMC or
-   322	 * CLTT touched the engine while the transfer was in flight, so the result
-   323	 * cannot be trusted.
-   324	 */
-   325	static int imc_check_interference(struct imc_smbus *s, const struct imc_chan *c,
-   326					  const struct imc_xfer_state *state)
-   327	{
-   328		int i;
-   329	
-   330		for (i = 0; i < ARRAY_SIZE(imc_chans); i++) {
- > 331			u32 mask = i == c->idx ? ~COMMAND_OUR_BITS : ~0U;
-   332			u32 expect = state->command[i] & COMMAND_KEEP_MASK;
-   333			u32 now = imc_reg(s, imc_chans[i].data);
-   334	
-   335			if (!((now ^ expect) & mask))
-   336				continue;
-   337	
-   338			dev_warn_ratelimited(s->dev,
-   339					     "ch%d command changed under us (0x%08x -> 0x%08x): another master is using the engine\n",
-   340					     i, expect, now);
-   341			return -EAGAIN;
-   342		}
-   343	
-   344		return 0;
-   345	}
-   346	
+   637	
+   638	/*
+   639	 * Fault-around handler: install PTEs for the whole [start_pgoff, end_pgoff]
+   640	 * window under a single page-table lock, so that populating a large mapping
+   641	 * (e.g. mmap(MAP_POPULATE) or a linear access pattern) does not take one full
+   642	 * fault per page.
+   643	 */
+   644	static vm_fault_t array_map_mmap_pages(struct bpf_map *map, struct vm_fault *vmf,
+   645					       pgoff_t start_pgoff, pgoff_t end_pgoff)
+   646	{
+   647		struct bpf_array *array = container_of(map, struct bpf_array, map);
+   648		struct vm_area_struct *vma = vmf->vma;
+   649		unsigned long addr, rss = 0;
+   650		vm_fault_t ret = 0;
+   651		pte_t *start_pte;
+   652		pgoff_t pgoff;
+   653	
+   654		/*
+   655		 * The PTE table for this PMD must already exist; installing it needs
+   656		 * mm-internal helpers. If it is missing, let the regular ->fault path
+   657		 * install it and rely on the next fault-around to batch the rest.
+   658		 */
+ > 659		if (pmd_none(*vmf->pmd))
+   660			return 0;
+   661	
+   662		addr = vma->vm_start + ((start_pgoff - vma->vm_pgoff) << PAGE_SHIFT);
+   663		start_pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, addr, &vmf->ptl);
+   664		if (!start_pte)
+   665			return 0;
+   666		vmf->pte = start_pte;
+   667	
+   668		for (pgoff = start_pgoff; pgoff <= end_pgoff;
+   669		     pgoff++, vmf->pte++, addr += PAGE_SIZE) {
+   670			struct folio *folio;
+   671			struct page *page;
+   672	
+ > 673			if (!pte_none(ptep_get(vmf->pte)))
+   674				continue;
+   675	
+   676			page = array_map_fault_page(array, pgoff);
+   677			if (!page)
+   678				continue;
+   679	
+   680			folio = page_folio(page);
+   681			folio_get(folio);
+ > 682			set_pte_range(vmf, folio, page, 1, addr);
+   683			rss++;
+   684			if (addr == vmf->address)
+   685				ret = VM_FAULT_NOPAGE;
+   686		}
+   687	
+   688		add_mm_counter(vma->vm_mm, MM_FILEPAGES, rss);
+   689		pte_unmap_unlock(start_pte, vmf->ptl);
+   690	
+   691		return ret;
+   692	}
+   693	
 
 --
 0-DAY CI Kernel Test Service
