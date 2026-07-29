@@ -1,185 +1,250 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2482351C2F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 02:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C666285CB4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 04:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785293917; cv=none; b=aBggvSUKOoAW1QsgpZEy0hear+p2a/VCdBZFA3EDl+tY6KVLo+pViwwMdmdIlR7Ota/+YOEtDHV+4+cDon+TPNuZY74+fUypJdFjYWWoExctskHBJgD+uYPdC5nZB2ifrIov+0cHMSYoakT+a3csG31NGlrIkDBuT2LGrzdfQM8=
+	t=1785300470; cv=none; b=HJmabGdKWSYMmQLFIsI3Pe/cHm0ZO0aUr09dBk8S4IFNVRfGTwyoHfce54sG+wBpdSJQPwvjG+cCE1wAogOfh/lvZT2ibu+GzjPg74eMs2bZsCWNQnPqcNJd2WGEjZNPSGlv3Cn8Yh0jStYa/8lZrUn1lSpwikIW/B4l8t/Mhvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785293917; c=relaxed/simple;
-	bh=xkb4GIivScV4se/WyVXd1oVPUvnfwiUEQHw2c+NyjuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=DsBDYdy7H9Po3afjsvoqgJ6kugrZs7+NMBGe3/jQhkoCmgNomRSc3LE7aXKTR8qPQs0cTQgaWMg4qPRb9Z978HqBtWuZ3+UD09EDEBRrj3Abl3A/AOEAd/urAn/rj4NuwQCj4+YhLieFi1ZBQK8LON2ZcpX6SL9wegpvpY2iVsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QmeQ+PAV; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1785300470; c=relaxed/simple;
+	bh=rLGF2OiHkq7JEFt7vVbzBxtjElHK3tsSo7/AVCRNRBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HcIauELQ6K6Jo2bRRGN/O0WbpprG8T8xdEQyN0LlA+p02dCiSh0PdcawxnlxPsLbEMXxXv11IufnqxoK42sbz7XOU0U6kZCykefCT0AL+eklvaRLk3XlghJsjE3W0cV904q9h07TM4vfHVcaJZoW2ELLSF1QaYmS8PZNvWJef+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLI4clcK; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QmeQ+PAV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLI4clcK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785293916; x=1816829916;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xkb4GIivScV4se/WyVXd1oVPUvnfwiUEQHw2c+NyjuM=;
-  b=QmeQ+PAV+ZvBf+pLa4BLY/6ey9AO/20HPs+ywL/2BywuWF7rA2dQWbp9
-   8gXWc3PAMGKgYUceeDXoMK23v28piB+2Sgvop50qk+ho3CPMBUwVVtOMx
-   CAVpN5zJpGEZQf5CFlmWSi2DyIqXHb6EkJ4G5azsGQxjcomgnarOsRkBA
-   rA7ox0qy3HvkzXJ3601EMohy/MmvfxHtcm3sorgdRtq7PvZ8i0peyqZOG
-   OQiWryrWPViFtbHtE4B17xMyKlKwNuT9zvO/gPP8vmt0a4nAtT7fdWvXy
-   0Zk+Sj2ZVV0BuEUsu+EdxbRe1siEMIN0ViunI2XPexzGKyGzj65eN3iw6
-   A==;
-X-CSE-ConnectionGUID: bI56NsidSSKxUcqu7Ap++Q==
-X-CSE-MsgGUID: G407anO+T1SvpnFC2PacRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="84871447"
+  t=1785300468; x=1816836468;
+  h=date:from:to:cc:subject:message-id;
+  bh=rLGF2OiHkq7JEFt7vVbzBxtjElHK3tsSo7/AVCRNRBQ=;
+  b=mLI4clcKSIV7I1tFwQ04dNvhCNNOrF0Bd0Eg8sIxoYIHFwVIeCS0PYyc
+   y5iSBdDYQGu9+4Y1338pObSFpLtLofldNnjSr44LbK7/grYFKL7QDEUog
+   XGTd+grSP38WCHvS0Ybm39U7i8jsj+dPI0iZC4+2c0k4oqy1ofu14QTwW
+   G6fppIQ40nLgR63XtXqoz0Lg9AHYfLNZZ7GTjrDqZ8fjvFCIjhslP0kgm
+   5hpakkBbw5guisEE30IK4zVRUsUpwGspZeYntCir2JriM2R10fINkCJyh
+   9rX8TxyiwvKfDYZXnLXiJmvnSd7RrzOwkz/KTausN0cKxmdqNLW9oelJH
+   w==;
+X-CSE-ConnectionGUID: +OZNuzE9SD6OOgnJq5M84A==
+X-CSE-MsgGUID: PHG+QlGwSeC++ZfWs03Pyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97055714"
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="84871447"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 19:58:35 -0700
-X-CSE-ConnectionGUID: 66xOd0r7SLGUTEM3ZUdx0w==
-X-CSE-MsgGUID: mRPfI18TSdCCzAB9TFvoyQ==
+   d="scan'208";a="97055714"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 21:47:48 -0700
+X-CSE-ConnectionGUID: YgBLKrLRS96Rv4pcsFP5wg==
+X-CSE-MsgGUID: ikxO0g4jTvKNM4IwYzQa0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="256544527"
+   d="scan'208";a="284444531"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Jul 2026 19:58:33 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 28 Jul 2026 21:47:46 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wouV4-00000000ezb-1POb;
-	Wed, 29 Jul 2026 02:58:30 +0000
-Date: Wed, 29 Jul 2026 10:58:10 +0800
+	id 1wowCU-00000000f2h-2A9q;
+	Wed, 29 Jul 2026 04:47:30 +0000
+Date: Wed, 29 Jul 2026 12:46:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Niklas =?utf-8?Q?S=C3=B6derlund"?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Subject: [sailus-media-tree:v4l2-isp 20/25]
- drivers/media/platform/dreamchip/rppx1/rppx1_hist.c:158:26: error: implicit
- declaration of function 'FIELD_PREP'
-Message-ID: <202607291018.jk0mic6Q-lkp@intel.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [willy-pagecache:hugetlb-20260728 6/22]
+ mm/memory-failure.c:2751:17: error: incompatible pointer types passing 'pte_t
+ *(*)(struct vm_area_struct *, unsigned long, unsigned long)' to parameter of
+ type 'spinlock_t *' (aka 'struct spinlock *')
+Message-ID: <202607291228.V4u5fLJF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   git://linuxtv.org/sailus/media_tree.git v4l2-isp
-head:   7abfe3e3b2e2ecba8132ae60033d4ea1238c1f1e
-commit: fbc6568564c45d128e03e578c53b7e12f03214f0 [20/25] media: rppx1: hist: Add support histogram measurement
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260729/202607291018.jk0mic6Q-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291018.jk0mic6Q-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/willy/pagecache hugetlb-20260728
+head:   9d175837a52482ede820b73b06d16914dfe184b9
+commit: 4e9ba443c27579c311e9cc43d1ed6d4c01abcccf [6/22] hugetlb: Use the has_hwpoisoned flag
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260729/202607291228.V4u5fLJF-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291228.V4u5fLJF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607291018.jk0mic6Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607291228.V4u5fLJF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/platform/dreamchip/rppx1/rppx1_hist.c: In function 'rppx1_hist_fill_params':
->> drivers/media/platform/dreamchip/rppx1/rppx1_hist.c:158:26: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     158 |         u32 sample_reg = FIELD_PREP(HIST_SAMPLE_RANGE_SAMPLE_SHIFT_MASK,
-         |                          ^~~~~~~~~~
+   mm/memory-failure.c:2751:18: error: use of undeclared identifier 'hugetlb_lock'; did you mean 'hugetlb_walk'?
+    2751 |                 spin_lock_irq(&hugetlb_lock);
+         |                                ^~~~~~~~~~~~
+         |                                hugetlb_walk
+   include/linux/hugetlb.h:1349:1: note: 'hugetlb_walk' declared here
+    1349 | hugetlb_walk(struct vm_area_struct *vma, unsigned long addr, unsigned long sz)
+         | ^
+>> mm/memory-failure.c:2751:17: error: incompatible pointer types passing 'pte_t *(*)(struct vm_area_struct *, unsigned long, unsigned long)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
+    2751 |                 spin_lock_irq(&hugetlb_lock);
+         |                               ^~~~~~~~~~~~~
+   include/linux/spinlock.h:369:55: note: passing argument to parameter 'lock' here
+     369 | static __always_inline void spin_lock_irq(spinlock_t *lock)
+         |                                                       ^
+   mm/memory-failure.c:2756:22: error: use of undeclared identifier 'hugetlb_lock'; did you mean 'hugetlb_walk'?
+    2756 |                                 spin_unlock_irq(&hugetlb_lock);
+         |                                                  ^~~~~~~~~~~~
+         |                                                  hugetlb_walk
+   include/linux/hugetlb.h:1349:1: note: 'hugetlb_walk' declared here
+    1349 | hugetlb_walk(struct vm_area_struct *vma, unsigned long addr, unsigned long sz)
+         | ^
+   mm/memory-failure.c:2756:21: error: incompatible pointer types passing 'pte_t *(*)(struct vm_area_struct *, unsigned long, unsigned long)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
+    2756 |                                 spin_unlock_irq(&hugetlb_lock);
+         |                                                 ^~~~~~~~~~~~~
+   include/linux/spinlock.h:399:57: note: passing argument to parameter 'lock' here
+     399 | static __always_inline void spin_unlock_irq(spinlock_t *lock)
+         |                                                         ^
+   mm/memory-failure.c:2763:20: error: use of undeclared identifier 'hugetlb_lock'; did you mean 'hugetlb_walk'?
+    2763 |                 spin_unlock_irq(&hugetlb_lock);
+         |                                  ^~~~~~~~~~~~
+         |                                  hugetlb_walk
+   include/linux/hugetlb.h:1349:1: note: 'hugetlb_walk' declared here
+    1349 | hugetlb_walk(struct vm_area_struct *vma, unsigned long addr, unsigned long sz)
+         | ^
+   mm/memory-failure.c:2763:19: error: incompatible pointer types passing 'pte_t *(*)(struct vm_area_struct *, unsigned long, unsigned long)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
+    2763 |                 spin_unlock_irq(&hugetlb_lock);
+         |                                 ^~~~~~~~~~~~~
+   include/linux/spinlock.h:399:57: note: passing argument to parameter 'lock' here
+     399 | static __always_inline void spin_unlock_irq(spinlock_t *lock)
+         |                                                         ^
+   6 errors generated.
 
 
-vim +/FIELD_PREP +158 drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+vim +2751 mm/memory-failure.c
 
-    76	
-    77	#define RPPX1_HIST_WEIGHT(v0, v1, v2, v3) \
-    78		(((v0) & 0x1f) | (((v1) & 0x1f) << 8)  | \
-    79		(((v2) & 0x1f) << 16) | \
-    80		(((v3) & 0x1f) << 24))
-    81	
-    82	static int rppx1_hist_fill_params(struct rpp_module *mod,
-    83					  const union rppx1_params_block *block,
-    84					  rppx1_reg_write write, void *priv)
-    85	{
-    86		const struct rppx1_hist_params *cfg = &block->hist;
-    87		u32 h_offs, v_offs, h_size, v_size;
-    88	
-    89		/* If the modules is disabled, simply bypass it. */
-    90		if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-    91			write(priv, mod->base + HIST_MODE_REG,
-    92			      HIST_MODE_HIST_MODE_DISABLE);
-    93			return 0;
-    94		}
-    95	
-    96		/* Select sample point */
-    97		write(priv, mod->base + HIST_CHANNEL_SEL_REG,
-    98		      cfg->channel_sel & HIST_CHANNEL_SEL_CHANNEL_SELECT_MASK);
-    99	
-   100		/*
-   101		 * Configure the input subsampling.
-   102		 *
-   103		 * In Bayer mode the vertical and horizontal subsampling counters are
-   104		 * only incremented for color channels selected by hist_mode.
-   105		 */
-   106		write(priv, mod->base + HIST_SUBSAMPLING_REG,
-   107		      HIST_SUBSAMPLING_V_STEPSIZE(cfg->v_stepsize) |
-   108		      HIST_SUBSAMPLING_H_STEP_INC(cfg->h_step_inc));
-   109	
-   110		/*
-   111		 * Adjust and set measurement window to hardware limitations,
-   112		 * - Offsets must be even.
-   113		 * - Width and height must be even and divisible in 5 windows.
-   114		 */
-   115		h_offs = cfg->wnd.h_offs & 0x1ffe;
-   116		v_offs = cfg->wnd.v_offs & 0x1ffe;
-   117		h_size = cfg->wnd.h_size - cfg->wnd.h_size % 10;
-   118		v_size = cfg->wnd.v_size - cfg->wnd.v_size % 10;
-   119	
-   120		write(priv, mod->base + HIST_H_OFFS_REG, h_offs);
-   121		write(priv, mod->base + HIST_V_OFFS_REG, v_offs);
-   122		write(priv, mod->base + HIST_H_SIZE_REG, h_size / 5);
-   123		write(priv, mod->base + HIST_V_SIZE_REG, v_size / 5);
-   124	
-   125		/*
-   126		 * Set last measurement line for ready interrupt. Ignore the value
-   127		 * from the parameters as it is only useful for fast-channel switching.
-   128		 */
-   129		write(priv, mod->base + HIST_LAST_MEAS_LINE_REG, v_offs + v_size + 1);
-   130	
-   131		/* Set measurement window weights. */
-   132		write(priv, mod->base + HIST_WEIGHT_00TO30_REG,
-   133		      RPPX1_HIST_WEIGHT(cfg->weights[0], cfg->weights[1],
-   134					cfg->weights[2], cfg->weights[3]));
-   135		write(priv, mod->base + HIST_WEIGHT_40TO21_REG,
-   136		      RPPX1_HIST_WEIGHT(cfg->weights[4], cfg->weights[5],
-   137					cfg->weights[6], cfg->weights[7]));
-   138		write(priv, mod->base + HIST_WEIGHT_31TO12_REG,
-   139		      RPPX1_HIST_WEIGHT(cfg->weights[8], cfg->weights[9],
-   140					cfg->weights[10], cfg->weights[11]));
-   141		write(priv, mod->base + HIST_WEIGHT_22TO03_REG,
-   142		      RPPX1_HIST_WEIGHT(cfg->weights[12], cfg->weights[13],
-   143					cfg->weights[14], cfg->weights[15]));
-   144		write(priv, mod->base + HIST_WEIGHT_13TO43_REG,
-   145		      RPPX1_HIST_WEIGHT(cfg->weights[16], cfg->weights[17],
-   146					cfg->weights[18], cfg->weights[19]));
-   147		write(priv, mod->base + HIST_WEIGHT_04TO34_REG,
-   148		      RPPX1_HIST_WEIGHT(cfg->weights[20], cfg->weights[21],
-   149					cfg->weights[22], cfg->weights[23]));
-   150		write(priv, mod->base + HIST_WEIGHT_44_REG,
-   151		      RPPX1_HIST_WEIGHT(cfg->weights[24], 0, 0, 0));
-   152	
-   153		write(priv, mod->base + HIST_MODE_REG, cfg->mode);
-   154		write(priv, mod->base + HIST_COEFF_R_REG, cfg->coeff[0]);
-   155		write(priv, mod->base + HIST_COEFF_G_REG, cfg->coeff[1]);
-   156		write(priv, mod->base + HIST_COEFF_B_REG, cfg->coeff[2]);
-   157	
- > 158		u32 sample_reg = FIELD_PREP(HIST_SAMPLE_RANGE_SAMPLE_SHIFT_MASK,
-   159					    cfg->sample_shift) |
-   160				 FIELD_PREP(HIST_SAMPLE_RANGE_SAMPLE_OFFSET_MASK,
-   161					    cfg->sample_offs);
-   162		write(priv, mod->base + HIST_SAMPLE_RANGE_REG, sample_reg);
-   163	
-   164		write(priv, mod->base + HIST_FORCED_UPDATE_REG, 1);
-   165	
-   166		return 0;
-   167	}
-   168	
+  2677	
+  2678	/**
+  2679	 * unpoison_memory - Unpoison a previously poisoned page
+  2680	 * @pfn: Page number of the to be unpoisoned page
+  2681	 *
+  2682	 * Software-unpoison a page that has been poisoned by
+  2683	 * memory_failure() earlier.
+  2684	 *
+  2685	 * This is only done on the software-level, so it only works
+  2686	 * for linux injected failures, not real hardware failures
+  2687	 *
+  2688	 * Returns 0 for success, otherwise -errno.
+  2689	 */
+  2690	int unpoison_memory(unsigned long pfn)
+  2691	{
+  2692		struct folio *folio;
+  2693		struct page *p;
+  2694		int ret = -EBUSY, ghp;
+  2695		unsigned long count;
+  2696		bool huge = false;
+  2697		static DEFINE_RATELIMIT_STATE(unpoison_rs, DEFAULT_RATELIMIT_INTERVAL,
+  2698						DEFAULT_RATELIMIT_BURST);
+  2699	
+  2700		p = pfn_to_online_page(pfn);
+  2701		if (!p)
+  2702			return -EIO;
+  2703		folio = page_folio(p);
+  2704	
+  2705		mutex_lock(&mf_mutex);
+  2706	
+  2707		if (hw_memory_failure) {
+  2708			unpoison_pr_info("%#lx: disabled after HW memory failure\n",
+  2709					 pfn, &unpoison_rs);
+  2710			ret = -EOPNOTSUPP;
+  2711			goto unlock_mutex;
+  2712		}
+  2713	
+  2714		if (is_huge_zero_folio(folio)) {
+  2715			unpoison_pr_info("%#lx: huge zero page is not supported\n",
+  2716					 pfn, &unpoison_rs);
+  2717			ret = -EOPNOTSUPP;
+  2718			goto unlock_mutex;
+  2719		}
+  2720	
+  2721		if (!is_page_hwpoison(p)) {
+  2722			unpoison_pr_info("%#lx: page is not poisoned\n",
+  2723					 pfn, &unpoison_rs);
+  2724			goto unlock_mutex;
+  2725		}
+  2726	
+  2727		if (folio_ref_count(folio) > 1) {
+  2728			unpoison_pr_info("%#lx: someone grabs the hwpoison page\n",
+  2729					 pfn, &unpoison_rs);
+  2730			goto unlock_mutex;
+  2731		}
+  2732	
+  2733		if (folio_test_slab(folio) || folio_test_pgtable(folio) ||
+  2734		    folio_test_reserved(folio) || folio_test_offline(folio))
+  2735			goto unlock_mutex;
+  2736	
+  2737		if (folio_mapped(folio)) {
+  2738			unpoison_pr_info("%#lx: someone maps the hwpoison page\n",
+  2739					 pfn, &unpoison_rs);
+  2740			goto unlock_mutex;
+  2741		}
+  2742	
+  2743		if (folio_mapping(folio)) {
+  2744			unpoison_pr_info("%#lx: the hwpoison page has non-NULL mapping\n",
+  2745					 pfn, &unpoison_rs);
+  2746			goto unlock_mutex;
+  2747		}
+  2748	
+  2749		ghp = get_hwpoison_page(p, MF_UNPOISON);
+  2750		if (!ghp) {
+> 2751			spin_lock_irq(&hugetlb_lock);
+  2752			if (folio_test_hugetlb(folio)) {
+  2753				huge = true;
+  2754				count = folio_free_raw_hwp(folio, false);
+  2755				if (count == 0) {
+  2756					spin_unlock_irq(&hugetlb_lock);
+  2757					goto unlock_mutex;
+  2758				}
+  2759				ret = hugetlb_clear_poison(folio);
+  2760			} else {
+  2761				ret = TestClearPageHWPoison(p) ? 0 : -EBUSY;
+  2762			}
+  2763			spin_unlock_irq(&hugetlb_lock);
+  2764		} else if (ghp < 0) {
+  2765			if (ghp == -EHWPOISON) {
+  2766				ret = put_page_back_buddy(p) ? 0 : -EBUSY;
+  2767			} else {
+  2768				ret = ghp;
+  2769				unpoison_pr_info("%#lx: failed to grab page\n",
+  2770						 pfn, &unpoison_rs);
+  2771			}
+  2772		} else if (folio_test_hugetlb(folio)) {
+  2773			huge = true;
+  2774			count = folio_free_raw_hwp(folio, false);
+  2775			if (count == 0) {
+  2776				folio_put(folio);
+  2777				goto unlock_mutex;
+  2778			}
+  2779			ret = hugetlb_clear_poison(folio);
+  2780			folio_put(folio);
+  2781			if (!ret)
+  2782				folio_put(folio);
+  2783		} else {
+  2784			folio_put(folio);
+  2785			if (TestClearPageHWPoison(p)) {
+  2786				folio_put(folio);
+  2787				ret = 0;
+  2788			}
+  2789		}
+  2790	
+  2791	unlock_mutex:
+  2792		mutex_unlock(&mf_mutex);
+  2793		if (!ret) {
+  2794			if (!huge)
+  2795				num_poisoned_pages_sub(pfn, 1);
+  2796			unpoison_pr_info("%#lx: software-unpoisoned page\n",
+  2797					 page_to_pfn(p), &unpoison_rs);
+  2798		}
+  2799		return ret;
+  2800	}
+  2801	EXPORT_SYMBOL(unpoison_memory);
+  2802	
 
 --
 0-DAY CI Kernel Test Service
