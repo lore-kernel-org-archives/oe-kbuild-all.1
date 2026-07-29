@@ -1,167 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3844039A062
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 05:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DE73AD50F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Jul 2026 05:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785302096; cv=none; b=bj+HFn0483R/1DoE7xSa+voyYmPQxmcnOvBwQtUJw58GXmcO9Ug1xl8sj0FUWBLiiig3x/Dc8cfYxREWIXUeQGux5V6h80gyUtWnK0YpedHFvjdHJ9/tGJqK87lf0GvPYIDL/YbPQ/r2oycEKigzIva2WWkmmxYKZHkEUhTaQXA=
+	t=1785303798; cv=none; b=iDpgdmcEdJDlLx8evYt7OstlXflbRQreY0WDwREw/ClUWxtTLrpm6lvE0GWS5+cw+6Iios6z8J0pmmDDOenfJMx0rgvQXMFB+ArXvzkVoWurm+3GKbDgDPrQYdmzqK3luHE18PbipsI6j9k8rOtmhJ/p2oQiVraXAvVVP7NUZxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785302096; c=relaxed/simple;
-	bh=pET1fcUJN6lXpRTIueiDf3U01VlzkZ3BuYz2OZK1k5A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=atIezZl3SSzL3yiCnJ3hvD9fT/vuKipqtanNos0/aSeBJOg6lo5xxExh4pZECI2gpWodgMcudyksHX2wsxV0JUaRrBFsGcYdpghOSxYQN/Fger4WsxwBVxFom8ljLEirrrAdomXGkcu8ibZSCu60x5EsCGVJlx7ow/APplZbMYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wu8upLKQ; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785303798; c=relaxed/simple;
+	bh=Qz3dPx3bwthAf+do+I7uz9VE6eCMPEJZNQSprXGgthc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tdvT3g6ZDjR4t4HzN3Egpa+jwrgtE+WVWyUjfKOKT040yiJ/k71ioUJcrXQBKdem6xpuRrKSALcrqUxbOneR+5JfnNkQ8z7sH7jbEDMaKhkSHtmN0gXAu+Nup9/qc7fu8FG7iXhFgu+xz5ARr1sppm9AYAJdUGCLSIOgE9a/Uj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jDkrIE8+; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wu8upLKQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785302094; x=1816838094;
-  h=date:from:to:cc:subject:message-id;
-  bh=pET1fcUJN6lXpRTIueiDf3U01VlzkZ3BuYz2OZK1k5A=;
-  b=Wu8upLKQOiR9B8UVKFivQmyhu56xpd7OX1oBElw1GAQeovti5vOqgAd8
-   ljNFUAlvVV2PzcenZFWIMY2zbSm+OIhvCCCQuD2nvxa2cKTMF7ae6o9j7
-   ANHt5cxTn39vqU8zUzvUqifRBk2CtRonhcsaieOeBdL5omsYPYiB4zTOe
-   yFFyLk26AizeTqlHV/qyc62kzEifbdpeUEtTY4ZJ6WUa91hE1HhjpadW4
-   mrjEb6/+4uH7brNPLKgBe3qdrLxp8Ff/CvbyNx87VmPo3NPibBg7YqTC3
-   cFkJPH3st4M2MCWK6teTC1fmO4fy2aNRAEZS3LDH2hoy5lY0LNkCqJlR7
-   w==;
-X-CSE-ConnectionGUID: iDxsWp4HRU+ebZA+VmUkVg==
-X-CSE-MsgGUID: w/Q5CJCdRhWjfv3NVXn5pQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85914145"
-X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="85914145"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 22:14:51 -0700
-X-CSE-ConnectionGUID: E+DE1lrBThK6fm6JzZXHnQ==
-X-CSE-MsgGUID: DEiYuSddQd6RY45YULF9+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="283241012"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Jul 2026 22:14:50 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wowcx-00000000f3X-3DUk;
-	Wed, 29 Jul 2026 05:14:47 +0000
-Date: Wed, 29 Jul 2026 13:13:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master 8490/9778]
- sound/soc/sdca/sdca_interrupts.c:460:56: error: 'sdca_fdl_free_state'
- undeclared; did you mean 'sdca_jack_free_state'?
-Message-ID: <202607291304.FE3mOcJF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDkrIE8+"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4956242332dso4306665e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Jul 2026 22:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785303795; x=1785908595; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=swvhDz3kyJ/SlqLpZE3Jh0FZynfZghCEQng/U4Gd79I=;
+        b=jDkrIE8+JivD7cJhJYUSZuEkkCSOR2Gmt1PwSDQHimLT7d28LifFNd4kvZm58pggOY
+         +D2MVp8xqHqvVdwbniX+vvp42uUXPhRNYY6IL2KRkIGrHjVxk+ntZubPmTfVfpblmFcZ
+         ks7hlbRMkN6YPu+1iLsuuxSHR9NtUR7AhWi1xYs1PzxW70Qo33LhH1phZ8mCTshyf93l
+         fXDO3gPcomtrIWRARCY/9Mc99uWf/91OCbnHenq4Th4zm3nXaQQPw+Ncxpk+XxkPw6Na
+         iePgKzk+qpjBRbw2pAEspWGmoapzlldlmTwLF/2of66JCek+H1GcKGwhRqdAgr9A5FJo
+         fxuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785303795; x=1785908595;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=swvhDz3kyJ/SlqLpZE3Jh0FZynfZghCEQng/U4Gd79I=;
+        b=ovaRZB+KE+hkk8O6h3Vg9D9SMlLk1jIBq9bk4Xn+BDmRM5J/davR6yIkSP04xMuTNp
+         sw69IbKq6nGN/RLwIzuD+fytQusCQ/g8Hz8BI3YOZXjbuPy04EyqdJfrh88Y9fafkYFW
+         OcmqC4NwUTlwfEf1H1SQdjSDlzdJpmUXpZaBf3TZQLmvkoLjm3T09MbOrfqFRgVqQ2F2
+         xjG9wsKds6K5/GGBDT+8Oc6EQWQTi/rZGfA+YcXNuid7XSoGatZHEupmm4prMRRWCLn6
+         z0v5xeqCJr+K2cPHfmap0lXNOVqjEurM8NQvzI/10yUakUIyP5lQ1Tu8KU0RWp2tOra3
+         pF5g==
+X-Forwarded-Encrypted: i=1; AHgh+RqQJoVyUyi56/HJ2NijWOedoF345foRCEWb/eju9/WzYuyoJlHROX1qKUUHphaxP3lC+Ae6J39q+jPFXrrU@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOpUio2oHsD3HpYpygH4SWF0HanQYnZFvE5RMuNU/JfBW1t0TG
+	qWJkZP53oWwCN1XuUGuEBH2T4LwMYWY/9MburcOYI5VtV1RuU6foi6J7BCm2qZntY90=
+X-Gm-Gg: AR+sD10ku5R4kV27EzOS3PaFQGGveXC58ttR3LjTTpKURxf2R/qmM3plPx6cIpaMTGn
+	tx/JUU/K+uq1CUPaX6WyMEIQaY43J4YN5QpsVu5dSD05xUsAlA2H42uSAjUUMfBNqhq6mSMoueo
+	EaWK7WtAnX+o2az6Gvjr0alGU8ZwEXiFAaSUdHXjzylIR1PzoFvZWe+6Oa7eEueEB4O9lDL5u59
+	tUOoJinoz1XhiWpXirUrA/r/CwW7AnXT0YgAVQtoTYssYs2fhXn2WBKK3+qRvi8KeNiWSGs7lKb
+	hfM1v188rWxF5zkf9hD4WYQYQ1+yoHhp9/txkwUSC/+VdFwo+Ksu1cVkBqE3FhlsN1Bo5ftr5Vg
+	43zXwwQ4uScLagvd+qUe9t5/EfE+f3oIJjuafb6yh0FW3J26ZzlPTo1NvCrLe35ztG+iZRbJ1at
+	Fezn+edeDxmFfQK2MQCeGoxEBedEvFDc7X98I8Q+dkkvxfECGBuOA6fWmf9Hw3RcI43QE=
+X-Received: by 2002:a05:600c:b85:b0:493:f0f5:f2d7 with SMTP id 5b1f17b1804b1-496c653c8cfmr64279375e9.7.1785303795387;
+        Tue, 28 Jul 2026 22:43:15 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c4615f5fsm122297915e9.9.2026.07.28.22.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 22:43:14 -0700 (PDT)
+Date: Wed, 29 Jul 2026 08:43:10 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 7970/9778] sound/usb/6fire/chip.c:154
+ usb6fire_chip_probe() warn: variable dereferenced before check 'card' (see
+ line 123)
+Message-ID: <202607291057.eO0PgxqY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   3652b49adac266a3d27cb41cdfdb7d8790fc3633
-commit: 0880082c27b6251cc3fea307dffa6899ad163e8b [8490/9778] ASoC: SDCA: Remove devm from primary IRQ cleanup
-config: i386-randconfig-016-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291304.FE3mOcJF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291304.FE3mOcJF-lkp@intel.com/reproduce)
+commit: a54bf16965f896415c3337bc4fbb40fb11941d99 [7970/9778] ALSA: 6fire: Fix UAF at error handling during probe
+config: i386-randconfig-141-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291057.eO0PgxqY-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607291304.FE3mOcJF-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607291057.eO0PgxqY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+sound/usb/6fire/chip.c:154 usb6fire_chip_probe() warn: variable dereferenced before check 'card' (see line 123)
 
-   sound/soc/sdca/sdca_interrupts.c: In function 'sdca_irq_populate_early':
->> sound/soc/sdca/sdca_interrupts.c:460:56: error: 'sdca_fdl_free_state' undeclared (first use in this function); did you mean 'sdca_jack_free_state'?
-     460 |                                 interrupt->free_priv = sdca_fdl_free_state;
-         |                                                        ^~~~~~~~~~~~~~~~~~~
-         |                                                        sdca_jack_free_state
-   sound/soc/sdca/sdca_interrupts.c:460:56: note: each undeclared identifier is reported only once for each function it appears in
-   sound/soc/sdca/sdca_interrupts.c: In function 'sdca_irq_populate':
-   sound/soc/sdca/sdca_interrupts.c:543:56: error: 'sdca_fdl_free_state' undeclared (first use in this function); did you mean 'sdca_jack_free_state'?
-     543 |                                 interrupt->free_priv = sdca_fdl_free_state;
-         |                                                        ^~~~~~~~~~~~~~~~~~~
-         |                                                        sdca_jack_free_state
+vim +/card +154 sound/usb/6fire/chip.c
 
+87f9796a0336ef Bill Pemberton 2012-12-06   70  static int usb6fire_chip_probe(struct usb_interface *intf,
+c6d43ba816d1cf Torsten Schenk 2011-01-24   71  			       const struct usb_device_id *usb_id)
+c6d43ba816d1cf Torsten Schenk 2011-01-24   72  {
+c6d43ba816d1cf Torsten Schenk 2011-01-24   73  	int ret;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   74  	int i;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   75  	struct sfire_chip *chip = NULL;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   76  	struct usb_device *device = interface_to_usbdev(intf);
+c6d43ba816d1cf Torsten Schenk 2011-01-24   77  	int regidx = -1; /* index in module parameter array */
+c6d43ba816d1cf Torsten Schenk 2011-01-24   78  	struct snd_card *card = NULL;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   79  
+c6d43ba816d1cf Torsten Schenk 2011-01-24   80  	/* look if we already serve this card and return if so */
+f3c80e76a0e94c Takashi Iwai   2026-04-14   81  	guard(mutex)(&register_mutex);
+c6d43ba816d1cf Torsten Schenk 2011-01-24   82  	for (i = 0; i < SNDRV_CARDS; i++) {
+4d5de85b6a9961 Takashi Iwai   2026-04-14   83  		if (chips[i] && chips[i]->dev == device) {
+c6d43ba816d1cf Torsten Schenk 2011-01-24   84  			chips[i]->intf_count++;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   85  			usb_set_intfdata(intf, chips[i]);
+c6d43ba816d1cf Torsten Schenk 2011-01-24   86  			return 0;
+4d5de85b6a9961 Takashi Iwai   2026-04-14   87  		} else if (!chips[i] && regidx < 0)
+c6d43ba816d1cf Torsten Schenk 2011-01-24   88  			regidx = i;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   89  	}
+c6d43ba816d1cf Torsten Schenk 2011-01-24   90  	if (regidx < 0) {
+e3b3757b92a4df Takashi Iwai   2014-02-26   91  		dev_err(&intf->dev, "too many cards registered.\n");
+c6d43ba816d1cf Torsten Schenk 2011-01-24   92  		return -ENODEV;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   93  	}
+c6d43ba816d1cf Torsten Schenk 2011-01-24   94  
+c6d43ba816d1cf Torsten Schenk 2011-01-24   95  	/* check, if firmware is present on device, upload it if not */
+c6d43ba816d1cf Torsten Schenk 2011-01-24   96  	ret = usb6fire_fw_init(intf);
+c6d43ba816d1cf Torsten Schenk 2011-01-24   97  	if (ret < 0)
+c6d43ba816d1cf Torsten Schenk 2011-01-24   98  		return ret;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   99  	else if (ret == FW_NOT_READY) /* firmware update performed */
+c6d43ba816d1cf Torsten Schenk 2011-01-24  100  		return 0;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  101  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  102  	/* if we are here, card can be registered in alsa. */
+c6d43ba816d1cf Torsten Schenk 2011-01-24  103  	if (usb_set_interface(device, 0, 0) != 0) {
+e3b3757b92a4df Takashi Iwai   2014-02-26  104  		dev_err(&intf->dev, "can't set first interface.\n");
+c6d43ba816d1cf Torsten Schenk 2011-01-24  105  		return -EIO;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  106  	}
+874b8d422e26e2 Takashi Iwai   2014-01-29  107  	ret = snd_card_new(&intf->dev, index[regidx], id[regidx],
+874b8d422e26e2 Takashi Iwai   2014-01-29  108  			   THIS_MODULE, sizeof(struct sfire_chip), &card);
+c6d43ba816d1cf Torsten Schenk 2011-01-24  109  	if (ret < 0) {
+e3b3757b92a4df Takashi Iwai   2014-02-26  110  		dev_err(&intf->dev, "cannot create alsa card.\n");
+c6d43ba816d1cf Torsten Schenk 2011-01-24  111  		return ret;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  112  	}
+19a28b8c7f9f63 Takashi Iwai   2025-07-10  113  	strscpy(card->driver, "6FireUSB");
+19a28b8c7f9f63 Takashi Iwai   2025-07-10  114  	strscpy(card->shortname, "TerraTec DMX6FireUSB");
+c6d43ba816d1cf Torsten Schenk 2011-01-24  115  	sprintf(card->longname, "%s at %d:%d", card->shortname,
+c6d43ba816d1cf Torsten Schenk 2011-01-24  116  			device->bus->busnum, device->devnum);
+c6d43ba816d1cf Torsten Schenk 2011-01-24  117  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  118  	chip = card->private_data;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  119  	chip->dev = device;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  120  	chip->regidx = regidx;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  121  	chip->intf_count = 1;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  122  	chip->card = card;
+a0810c3d6dd2d2 Takashi Iwai   2024-11-13 @123  	card->private_free = usb6fire_card_free;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  124  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  125  	ret = usb6fire_comm_init(chip);
+f804fff1361c9d Markus Elfring 2017-09-06  126  	if (ret < 0)
+f804fff1361c9d Markus Elfring 2017-09-06  127  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  128  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  129  	ret = usb6fire_midi_init(chip);
+f804fff1361c9d Markus Elfring 2017-09-06  130  	if (ret < 0)
+f804fff1361c9d Markus Elfring 2017-09-06  131  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  132  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  133  	ret = usb6fire_pcm_init(chip);
+f804fff1361c9d Markus Elfring 2017-09-06  134  	if (ret < 0)
+f804fff1361c9d Markus Elfring 2017-09-06  135  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  136  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  137  	ret = usb6fire_control_init(chip);
+f804fff1361c9d Markus Elfring 2017-09-06  138  	if (ret < 0)
+f804fff1361c9d Markus Elfring 2017-09-06  139  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  140  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  141  	ret = snd_card_register(card);
+c6d43ba816d1cf Torsten Schenk 2011-01-24  142  	if (ret < 0) {
+e3b3757b92a4df Takashi Iwai   2014-02-26  143  		dev_err(&intf->dev, "cannot register card.");
+f804fff1361c9d Markus Elfring 2017-09-06  144  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  145  	}
+4d5de85b6a9961 Takashi Iwai   2026-04-14  146  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  147  	usb_set_intfdata(intf, chip);
+4d5de85b6a9961 Takashi Iwai   2026-04-14  148  	chips[regidx] = chip;
+4d5de85b6a9961 Takashi Iwai   2026-04-14  149  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  150  	return 0;
+f804fff1361c9d Markus Elfring 2017-09-06  151  
+f804fff1361c9d Markus Elfring 2017-09-06  152  destroy_chip:
+a54bf16965f896 Takashi Iwai   2026-07-26  153  	chip->shutdown = true;
+a54bf16965f896 Takashi Iwai   2026-07-26 @154  	if (card)
 
-vim +460 sound/soc/sdca/sdca_interrupts.c
+You could delete this check if you want.
 
-   414	
-   415	/**
-   416	 * sdca_irq_populate_early - process pre-audio card IRQ registrations
-   417	 * @dev: Device pointer for SDCA Function.
-   418	 * @regmap: Regmap pointer for the SDCA Function.
-   419	 * @function: Pointer to the SDCA Function.
-   420	 * @info: Pointer to the SDCA interrupt info for this device.
-   421	 *
-   422	 * This is intended to be used as part of the Function boot process. It
-   423	 * can be called before the soundcard is registered (ie. doesn't depend
-   424	 * on component) and will register the FDL interrupts.
-   425	 *
-   426	 * Return: Zero on success, and a negative error code on failure.
-   427	 */
-   428	int sdca_irq_populate_early(struct device *dev, struct regmap *regmap,
-   429				    struct sdca_function_data *function,
-   430				    struct sdca_interrupt_info *info)
-   431	{
-   432		int i, j;
-   433	
-   434		guard(mutex)(&info->irq_lock);
-   435	
-   436		for (i = 0; i < function->num_entities; i++) {
-   437			struct sdca_entity *entity = &function->entities[i];
-   438	
-   439			for (j = 0; j < entity->num_controls; j++) {
-   440				struct sdca_control *control = &entity->controls[j];
-   441				int irq = control->interrupt_position;
-   442				struct sdca_interrupt *interrupt;
-   443				int ret;
-   444	
-   445				interrupt = get_interrupt_data(dev, irq, info);
-   446				if (IS_ERR(interrupt))
-   447					return PTR_ERR(interrupt);
-   448				else if (!interrupt)
-   449					continue;
-   450	
-   451				switch (SDCA_CTL_TYPE(entity->type, control->sel)) {
-   452				case SDCA_CTL_TYPE_S(XU, FDL_CURRENTOWNER):
-   453					ret = sdca_irq_data_populate(dev, regmap, NULL,
-   454								     function, entity,
-   455								     control, interrupt);
-   456					if (ret)
-   457						return ret;
-   458	
-   459					interrupt->early_request = true;
- > 460					interrupt->free_priv = sdca_fdl_free_state;
-   461	
-   462					ret = sdca_fdl_alloc_state(interrupt);
-   463					if (ret)
-   464						return ret;
-   465	
-   466					ret = sdca_irq_request_locked(dev, info, irq,
-   467								      interrupt->name,
-   468								      fdl_owner_handler,
-   469								      interrupt);
-   470					if (ret) {
-   471						dev_err(dev, "failed to request irq %s: %d\n",
-   472							interrupt->name, ret);
-   473						return ret;
-   474					}
-   475					break;
-   476				default:
-   477					break;
-   478				}
-   479			}
-   480		}
-   481	
-   482		return 0;
-   483	}
-   484	EXPORT_SYMBOL_NS_GPL(sdca_irq_populate_early, "SND_SOC_SDCA");
-   485	
+a54bf16965f896 Takashi Iwai   2026-07-26  155  		snd_card_disconnect(card);
+
+Setting chip->shutdown = true means that it's pointless to
+call snd_card_disconnect().  It's a no-op.  snd_card_disconnect()
+has a "card->shutdown = 1;"
+
+a54bf16965f896 Takashi Iwai   2026-07-26  156  	usb6fire_chip_abort(chip);
+a0810c3d6dd2d2 Takashi Iwai   2024-11-13  157  	snd_card_free(card);
+f804fff1361c9d Markus Elfring 2017-09-06  158  	return ret;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  159  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
