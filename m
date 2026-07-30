@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BAA446846
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 17:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF643AC0E6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 17:51:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785433499; cv=none; b=ZWIZ0kGg/mHAs2Lp4rhg3K6uYhSIzjEDxw69hQ9swige+funDO+QgX4q1IIUAkIvw27RvVoUUerP+DFR7uowIUPpV7gpR15X5n7Cz1Y85RFxZMtaRDqs6PpEkNlyqj/G946x4VHEsdHJ38QH+CIWGx9n+Fi8wUqzN5+fXGJ3dSk=
+	t=1785433884; cv=none; b=AZa3sM7udAF/s9DeiktoP9N5vI6kRrlABjvBg167Dk3YqLi/M6UQfz8HYwVQvy4oRjxfYEvsjh0pQ1dtj/vzG/EVo2f4llZRehoiH2fgNVeajnGVS04r+q5+rXIs5xeZ+Ykr6gAddJYzJ4EIxKEdx35cs5NVpkk59ZrWXb8v+LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785433499; c=relaxed/simple;
-	bh=sT6YI5zqTctMVs22OX8486db+wyGPjobvLLvriLi7VU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IvVutTLa0+ZgDAjfZwpHvo8xskDipMrNQ78NbbVMryblbPD/pFmQGdFzzaqy5DvCH82snums60iHOKC71N2utT+ji9TuSQbvh1v+giSTxkMcdqxEDBg1/yVkApSsqoJO3BZKpeWoW+uQ1BsVe40+eoOqPff5trxUOO2mOSD96jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mOiAuzFE; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1785433884; c=relaxed/simple;
+	bh=FASLl6LxeUAlo0j+aDfxRRRP4K8r4hONFNnrQOwjuUU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=r4Xmt89isNViJj8PSeD1ZGoA7vD89aHzA+oA6qgyg1UHeJkDNb1pRBDFNbVL5tHzXVHRmLxzjxOEQgg4kOudF3gkbn+P9OvjaBWaUGTXS6rcM/oBUn51cQF1N9P7XHDgnjbgX4hlU9cnH61CBXBowP1YOizB4x5rYOxWgZyJ2aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VF2gTvJs; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mOiAuzFE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VF2gTvJs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785433498; x=1816969498;
+  t=1785433883; x=1816969883;
   h=date:from:to:cc:subject:message-id;
-  bh=sT6YI5zqTctMVs22OX8486db+wyGPjobvLLvriLi7VU=;
-  b=mOiAuzFEqKaxY34DPV16kbSBLWsszAVpfUb5BB1zyQN/bmO6c5zehqbU
-   KNQ5Y2JxjiihP/1oH3M/fmDX6h6+pabyPJyKuYrKk01QAJKnr3IWyzkQg
-   X6BFQa039kk5z2ZLHrYWBqRWmavD808IaK2xvuguGv3rSKTThDewecFLR
-   7VY+KcyOoIMxckBQrx9pknypMviCQOLfUKnjJrXRp4bmxelvNWYrvSWrz
-   mrhksXenatCkZ7RVydTGLdLaaVCwsBc1Ur8nLJ4rAvsJ1VSKNNyFTYeiI
-   hcrJfHLNwjeBCx6Xlz0OTtFehhZIzuVffywPb0v8UOYAPd+VCiqrr+U+s
-   g==;
-X-CSE-ConnectionGUID: FVyWUiEBR/a7PCMawsjsjA==
-X-CSE-MsgGUID: tzgLINEjT0WDLzNvu9oPTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="89949230"
+  bh=FASLl6LxeUAlo0j+aDfxRRRP4K8r4hONFNnrQOwjuUU=;
+  b=VF2gTvJshFOHusq2sN8fsM2LaiCMH/H6gI1QUpLNwA5djplEryEgpQ7o
+   qh9pmEaTaYqnTkUj0GUvlujRZkte2ICB5qEpIQizbTbjthcFzWOxsTuIw
+   WszXlEth4ufxMGDzTVPEDtjzktDL9FYtUwDHK9X5z8PyHSD90e+CXOnYe
+   3qulftxtA+YM5hO864yLPoSvTlxM0otBoEEyJE5cBELxTuNKNVUpzXYEz
+   5ObVM7bEQdg77yWf3VmlJdD7oZMcDkJW0cl7mjFPespwaxKRsBRpnsWx5
+   Jx8AXe53U0XcBq9Desw8aOY8B+TZ+8J6wpcsMZcRr7qubqjyKXRRF62Kv
+   Q==;
+X-CSE-ConnectionGUID: Tgd5+0reSVCl9DlCQ5Eghw==
+X-CSE-MsgGUID: jK9okqcOSVWEPDazWJT/Ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="89950203"
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="89949230"
+   d="scan'208";a="89950203"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 10:44:58 -0700
-X-CSE-ConnectionGUID: ERYEFH81T8mIvtf/JpgYkQ==
-X-CSE-MsgGUID: KbDPwyCQTOmHmZ3g0qhlHw==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 10:51:15 -0700
+X-CSE-ConnectionGUID: ouUaZAIXTi2p94UHA+aTvQ==
+X-CSE-MsgGUID: EkUkp95vT0uXchLqaLqrjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="260970033"
+   d="scan'208";a="260971086"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 30 Jul 2026 10:44:56 -0700
+  by orviesa009.jf.intel.com with ESMTP; 30 Jul 2026 10:51:13 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpUoQ-00000000hOX-133K;
-	Thu, 30 Jul 2026 17:44:54 +0000
-Date: Fri, 31 Jul 2026 01:44:25 +0800
+	id 1wpUuO-00000000hOj-3J40;
+	Thu, 30 Jul 2026 17:51:06 +0000
+Date: Fri, 31 Jul 2026 01:50:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
+To: Will Deacon <will@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [paulmckrcu:dev 36/44] arch/x86/kernel/nmi.c:88:15: sparse:
- sparse: symbol 'toolong_nmi_panic' was not declared. Should it be static?
-Message-ID: <202607310118.XAgMp4qi-lkp@intel.com>
+Subject: [arm-perf:overflow-stack 10/13]
+ include/linux/arm_sdei.h:16:45: error: expected identifier or '(' before
+ numeric constant
+Message-ID: <202607310155.mQ3CM2r1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,30 +60,52 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/paulmckrcu/linux dev
-head:   9df1c10e4ddffa50d054112facefa25376c7a219
-commit: 2203ef58a5e3cd2a8b4879488d25a52afebaf64f [36/44] x86/nmi: Enable panic() when NMI handler runs too long
-config: i386-randconfig-r131-20260730 (https://download.01.org/0day-ci/archive/20260731/202607310118.XAgMp4qi-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310118.XAgMp4qi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git overflow-stack
+head:   7c0748c59a858f301fc801a9818ea1c11ff88ff0
+commit: d017f75e2f157a38b824c8f4253f07fac65622eb [10/13] arm64: entry: Point SP_EL0 at the overflow stack
+config: arm64-randconfig-003-20260730 (https://download.01.org/0day-ci/archive/20260731/202607310155.mQ3CM2r1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310155.mQ3CM2r1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607310118.XAgMp4qi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607310155.mQ3CM2r1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/nmi.c:88:15: sparse: sparse: symbol 'toolong_nmi_panic' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/toolong_nmi_panic +88 arch/x86/kernel/nmi.c
+   In file included from arch/arm64/kernel/smp.c:10:
+>> include/linux/arm_sdei.h:16:45: error: expected identifier or '(' before numeric constant
+    #define sdei_arch_get_entry_point(conduit) (0)
+                                                ^
+   arch/arm64/include/asm/sdei.h:49:15: note: in expansion of macro 'sdei_arch_get_entry_point'
+    unsigned long sdei_arch_get_entry_point(int conduit);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/stacktrace.h:16,
+                    from arch/arm64/kernel/smp.c:52:
+   arch/arm64/include/asm/sdei.h:50: warning: "sdei_arch_get_entry_point" redefined
+    #define sdei_arch_get_entry_point(x) sdei_arch_get_entry_point(x)
+    
+   In file included from arch/arm64/kernel/smp.c:10:
+   include/linux/arm_sdei.h:16: note: this is the location of the previous definition
+    #define sdei_arch_get_entry_point(conduit) (0)
+    
 
-    86	
-    87	int unknown_nmi_panic;
-  > 88	unsigned long toolong_nmi_panic = 0;
-    89	int panic_on_unrecovered_nmi;
-    90	int panic_on_io_nmi;
-    91	
+
+vim +16 include/linux/arm_sdei.h
+
+ad6eb31ef90355 James Morse 2018-01-08  13  
+ad6eb31ef90355 James Morse 2018-01-08  14  /* Arch code should override this to set the entry point from firmware... */
+ad6eb31ef90355 James Morse 2018-01-08  15  #ifndef sdei_arch_get_entry_point
+ad6eb31ef90355 James Morse 2018-01-08 @16  #define sdei_arch_get_entry_point(conduit)	(0)
+ad6eb31ef90355 James Morse 2018-01-08  17  #endif
+ad6eb31ef90355 James Morse 2018-01-08  18  
+
+:::::: The code at line 16 was first introduced by commit
+:::::: ad6eb31ef90355993eb55ff77e0e855ae7d91e4c firmware: arm_sdei: Add driver for Software Delegated Exceptions
+
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 --
 0-DAY CI Kernel Test Service
