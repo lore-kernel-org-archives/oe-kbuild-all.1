@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EFD3431E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 19:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6AC46AF0A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 19:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785440032; cv=none; b=m6XCYtbvaKqa6Hc5xNbyDvMIc/ONjnvcVvxrp5hR1irTWH6Qtsx7XAnO2Bax7hL2cUOI2ryLlaD9aBaJtfl5YwFLbWV6yF/Fx+SnhKTe50UbguE+BKr6LOQz6mO4XzHZDGtli6+g2B2opVw8R1ijXMxD1vTYUlD7jimLRjJtDPA=
+	t=1785440036; cv=none; b=FM/hZ/ScV00t3KGhJBLy3sS5QCSJxIa4ihWi8ZPs/M++tT2qcuPpgxAnHtb1MX//pZHxLFXy0F4PelNtQ0c15PIrMTBLg7+4tN777JWfYU1vQpAG14Gngz8512fUw17JZFtW3YjGztT/0UdKwFmK3v4f+/FKgdeil7x80GUkjxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785440032; c=relaxed/simple;
-	bh=lEWZ8zev1WzzCQnjfXCIcy1wQx2qiCZNoE9US96LpLI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MDynlN84R4igUmDHnI6wam/Xb99eAlXhiHH3pYQnAhA2WPWLBEWlOQJfwZ95slMuNjb9WKk3TRaNXKymirLS28mXxjCG4+M0CJvygTKRG8Bazg+7emWFUyOKlRexF4JG1vfY9ABE6p0tf9eawscywK1tWBSjTC+87snDOCSlK5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3Hm+W61; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1785440036; c=relaxed/simple;
+	bh=cH2GnlV7YIf6VzjReq7zFU8cIhszr9XUHhJIAXVGWEc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kX2hzpV218ugHnqhGiym1pPNhK/2ssdCj09gpmoQbhbSVkYQEP7Z+QDaEfkfLwMSDdRbM5et4pVa7Y5RWeua+BeGlRLcN84MrA+tSqOYRHhhqUkwk/Kfhx3QHg+/HOMOxGmew7wMXZFQx6pGOjSpNjJNde39jPbK4mgVt6H7sqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=knfvs0ji; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3Hm+W61"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="knfvs0ji"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785440029; x=1816976029;
+  t=1785440033; x=1816976033;
   h=date:from:to:cc:subject:message-id;
-  bh=lEWZ8zev1WzzCQnjfXCIcy1wQx2qiCZNoE9US96LpLI=;
-  b=X3Hm+W61KYKHAWk3Em53Femc/lB6GH4f9kbmWi6YJYNzm3dv9D3zMmEg
-   PciK9tls3KB6mOpyJIKR3/7CuDtB3E3sBF5tElsSQq6v3TmuEO9QkguKC
-   wA398sMuf+WtxhVqUnY940Y3oviEnOhEPJYvUbtW02WxWfduly8+gjOzy
-   c9Mu1brw7SRnI8ZXXtbyOZNDvPrOkTbMI5yoEzri/WqeLHGtbb+nXl23K
-   O6rvukK7NdxszLMtp+zRIxvSN8CpVDiINGkaKonT1yyYmojOa8bmiMmSt
-   dxCOSfWQx+KMNMLbSkGdwKi38AC6heowDACQ1p/Mz5LpfYr8wnOCvFQkZ
-   g==;
-X-CSE-ConnectionGUID: fc2K3IXlQb2l0iFuxfmiZw==
-X-CSE-MsgGUID: 7Amnk/ExSUGUf1gk64CdwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="103477831"
+  bh=cH2GnlV7YIf6VzjReq7zFU8cIhszr9XUHhJIAXVGWEc=;
+  b=knfvs0jiCGvZR4hcZDCMga0lE7L/dG+taS7lf9dr9sSNsijmRCxkTOjZ
+   fRlT2+g/LXaTUkEYoWKKZ2Df7XiyAT/43hFB8GeDCo8+5N3HYl45YNyiq
+   FoCIqsSgOmLUnT9fuvfXHUE5NHKy/EI7lyUxlu5D2v4oH2RFqizmkINV1
+   RmfS8AhL9rZw/LtotDY2e8J9u7S7HIQ02691M+IhkA22dHaG1GvPGjyLo
+   AXUil4aXJYR7SmT7tary9ozyqXfFcTaOxZ4+kF5h8he88QclJtLrVa5v4
+   CdyMHp4vItRXnLF+ZJQBjWioMPt6DtFar2C40A/IdrhrCP7wN4Rj/mfYw
+   A==;
+X-CSE-ConnectionGUID: ALVNNVe6QHGv5s1+AWIWqA==
+X-CSE-MsgGUID: XTZfQlGlRE6te84JgNisBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="96653644"
 X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="103477831"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 12:33:48 -0700
-X-CSE-ConnectionGUID: WOkn82WrQLWaVuDdBWW/vw==
-X-CSE-MsgGUID: VbfKLn52SBCvnQzHHElSWQ==
+   d="scan'208";a="96653644"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 12:33:51 -0700
+X-CSE-ConnectionGUID: 1qV8rNPVT+2w55g8Pb+0gQ==
+X-CSE-MsgGUID: 1LHKTEq3R9aKkKhvmXlyzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="254063796"
+   d="scan'208";a="284978228"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Jul 2026 12:33:45 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jul 2026 12:33:49 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpWVg-00000000hWD-0vNT;
-	Thu, 30 Jul 2026 19:33:41 +0000
-Date: Fri, 31 Jul 2026 03:33:06 +0800
+	id 1wpWVi-00000000hWF-46Yv;
+	Thu, 30 Jul 2026 19:33:44 +0000
+Date: Fri, 31 Jul 2026 03:33:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shubhankar Milind Sardeshpande <Shubhankar.MilindSardeshpande@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>,
- Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
- "Mario Limonciello (AMD)" <superm1@kernel.org>
-Subject: [agd5f:drm-fixes-7.2 14/28]
- drivers/gpu/drm/amd/amdgpu/psp_v15_0.c:149 psp_v15_0_0_ring_create() warn:
- inconsistent indenting
-Message-ID: <202607310338.dhtAssro-lkp@intel.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:llm-fixes-26 145/152]
+ fs/xfs/scrub/inode_repair.c:584:42: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202607310357.kvo4TqJT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,125 +60,79 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-fixes-7.2
-head:   114b42507b6a23d9d24e24e4ef165233332c64d4
-commit: a8d234a1133f02bfbbdaac18b889219949f28108 [14/28] drm/amdgpu: Enable support for PSP 15_0_5
-config: x86_64-randconfig-161-20260730 (https://download.01.org/0day-ci/archive/20260731/202607310338.dhtAssro-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git llm-fixes-26
+head:   7f719c581807433d0c722404bea24449515f2c41
+commit: a8cbef31a928e0bc0c07cf1c04878f47c0014b6c [145/152] xfs: zero out di_metatype when removing the metadir file iflag
+config: mips-randconfig-r132-20260730 (https://download.01.org/0day-ci/archive/20260731/202607310357.kvo4TqJT-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project bacfe2950f8218268fcc0a8765644ea0c15f0360)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310357.kvo4TqJT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607310338.dhtAssro-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607310357.kvo4TqJT-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/psp_v15_0.c:149 psp_v15_0_0_ring_create() warn: inconsistent indenting
+sparse warnings: (new ones prefixed by >>)
+>> fs/xfs/scrub/inode_repair.c:584:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] di_metatype @@     got restricted __be32 [usertype] @@
+   fs/xfs/scrub/inode_repair.c:584:42: sparse:     expected restricted __be16 [usertype] di_metatype
+   fs/xfs/scrub/inode_repair.c:584:42: sparse:     got restricted __be32 [usertype]
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/psp_v15_0.c:184 psp_v15_0_0_ring_create() warn: inconsistent indenting
+vim +584 fs/xfs/scrub/inode_repair.c
 
-vim +149 drivers/gpu/drm/amd/amdgpu/psp_v15_0.c
-
-   110	
-   111	static int psp_v15_0_0_ring_create(struct psp_context *psp,
-   112					 enum psp_ring_type ring_type)
-   113	{
-   114		int ret = 0;
-   115		unsigned int psp_ring_reg = 0;
-   116		struct psp_ring *ring = &psp->km_ring;
-   117		struct amdgpu_device *adev = psp->adev;
-   118	
-   119		if (amdgpu_sriov_vf(adev)) {
-   120			ret = psp_v15_0_0_ring_stop(psp, ring_type);
-   121			if (ret) {
-   122				DRM_ERROR("psp_v14_0_ring_stop_sriov failed!\n");
-   123				return ret;
-   124			}
-   125	
-   126			/* Write low address of the ring to C2PMSG_102 */
-   127			psp_ring_reg = lower_32_bits(ring->ring_mem_mc_addr);
-   128			WREG32_SOC15(MP0, 0, regMPASP_SMN_C2PMSG_102, psp_ring_reg);
-   129			/* Write high address of the ring to C2PMSG_103 */
-   130			psp_ring_reg = upper_32_bits(ring->ring_mem_mc_addr);
-   131			WREG32_SOC15(MP0, 0, regMPASP_SMN_C2PMSG_103, psp_ring_reg);
-   132	
-   133			/* Write the ring initialization command to C2PMSG_101 */
-   134			WREG32_SOC15(MP0, 0, regMPASP_SMN_C2PMSG_101,
-   135				     GFX_CTRL_CMD_ID_INIT_GPCOM_RING);
-   136	
-   137			/* there might be handshake issue with hardware which needs delay */
-   138			mdelay(20);
-   139	
-   140			/* Wait for response flag (bit 31) in C2PMSG_101 */
-   141			ret = psp_wait_for(psp, SOC15_REG_OFFSET(MP0, 0, regMPASP_SMN_C2PMSG_101),
-   142					   0x80000000, 0x8000FFFF, false);
-   143	
-   144		} else {
-   145			if (amdgpu_ip_version(adev, MP0_HWIP, 0) == IP_VERSION(15, 0, 5)) {
-   146				/* Wait for sOS ready for ring creation */
-   147				ret = psp_wait_for(psp, SOC15_REG_OFFSET(MP0, 0, regMPASP_PCRU0_MPASP_C2PMSG_64),
-   148						0x80000000, 0x80000000, false);
- > 149			if (ret) {
-   150				DRM_ERROR("Failed to wait for trust OS ready for ring creation\n");
-   151				return ret;
-   152			}
-   153	
-   154			/* Write low address of the ring to C2PMSG_69 */
-   155			psp_ring_reg = lower_32_bits(ring->ring_mem_mc_addr);
-   156			WREG32_SOC15(MP0, 0, regMPASP_PCRU0_MPASP_C2PMSG_69, psp_ring_reg);
-   157			/* Write high address of the ring to C2PMSG_70 */
-   158			psp_ring_reg = upper_32_bits(ring->ring_mem_mc_addr);
-   159			WREG32_SOC15(MP0, 0, regMPASP_PCRU0_MPASP_C2PMSG_70, psp_ring_reg);
-   160			/* Write size of ring to C2PMSG_71 */
-   161			psp_ring_reg = ring->ring_size;
-   162			WREG32_SOC15(MP0, 0, regMPASP_PCRU0_MPASP_C2PMSG_71, psp_ring_reg);
-   163			/* Write the ring initialization command to C2PMSG_64 */
-   164			psp_ring_reg = ring_type;
-   165			psp_ring_reg = psp_ring_reg << 16;
-   166			WREG32_SOC15(MP0, 0, regMPASP_PCRU0_MPASP_C2PMSG_64, psp_ring_reg);
-   167	
-   168			/* there might be handshake issue with hardware which needs delay */
-   169			mdelay(20);
-   170	
-   171			/* Wait for response flag (bit 31) in C2PMSG_64 */
-   172			ret = psp_wait_for(psp, SOC15_REG_OFFSET(MP0, 0, regMPASP_PCRU0_MPASP_C2PMSG_64),
-   173					   0x80000000, 0x8000FFFF, false);
-   174			} else {
-   175				/* Wait for sOS ready for ring creation */
-   176				ret = psp_wait_for(psp, SOC15_REG_OFFSET(MP0, 0, regMPASP_PCRU1_MPASP_C2PMSG_64),
-   177						   0x80000000, 0x80000000, false);
-   178				if (ret) {
-   179					DRM_ERROR("Failed to wait for trust OS ready for ring creation\n");
-   180					return ret;
-   181				}
-   182	
-   183			/* Write low address of the ring to C2PMSG_69 */
-   184			psp_ring_reg = lower_32_bits(ring->ring_mem_mc_addr);
-   185			WREG32_SOC15(MP0, 0, regMPASP_PCRU1_MPASP_C2PMSG_69, psp_ring_reg);
-   186			/* Write high address of the ring to C2PMSG_70 */
-   187			psp_ring_reg = upper_32_bits(ring->ring_mem_mc_addr);
-   188			WREG32_SOC15(MP0, 0, regMPASP_PCRU1_MPASP_C2PMSG_70, psp_ring_reg);
-   189			/* Write size of ring to C2PMSG_71 */
-   190			psp_ring_reg = ring->ring_size;
-   191			WREG32_SOC15(MP0, 0, regMPASP_PCRU1_MPASP_C2PMSG_71, psp_ring_reg);
-   192			/* Write the ring initialization command to C2PMSG_64 */
-   193			psp_ring_reg = ring_type;
-   194			psp_ring_reg = psp_ring_reg << 16;
-   195			WREG32_SOC15(MP0, 0, regMPASP_PCRU1_MPASP_C2PMSG_64, psp_ring_reg);
-   196	
-   197			/* there might be handshake issue with hardware which needs delay */
-   198			mdelay(20);
-   199	
-   200			/* Wait for response flag (bit 31) in C2PMSG_64 */
-   201			ret = psp_wait_for(psp, SOC15_REG_OFFSET(MP0, 0, regMPASP_PCRU1_MPASP_C2PMSG_64),
-   202					   0x80000000, 0x8000FFFF, false);
-   203			}
-   204		}
-   205	
-   206		return ret;
-   207	}
-   208	
+   539	
+   540	/* Fix any conflicting flags that the verifiers complain about. */
+   541	STATIC void
+   542	xrep_dinode_flags(
+   543		struct xfs_scrub	*sc,
+   544		struct xfs_dinode	*dip,
+   545		bool			isrt)
+   546	{
+   547		struct xfs_mount	*mp = sc->mp;
+   548		uint64_t		flags2 = be64_to_cpu(dip->di_flags2);
+   549		uint16_t		flags = be16_to_cpu(dip->di_flags);
+   550		uint16_t		mode = be16_to_cpu(dip->di_mode);
+   551	
+   552		trace_xrep_dinode_flags(sc, dip);
+   553	
+   554		if (isrt)
+   555			flags |= XFS_DIFLAG_REALTIME;
+   556		else
+   557			flags &= ~XFS_DIFLAG_REALTIME;
+   558	
+   559		/*
+   560		 * For regular files on a reflink filesystem, set the REFLINK flag to
+   561		 * protect shared extents.  A later stage will actually check those
+   562		 * extents and clear the flag if possible.
+   563		 */
+   564		if (xfs_has_reflink(mp) && S_ISREG(mode))
+   565			flags2 |= XFS_DIFLAG2_REFLINK;
+   566		else
+   567			flags2 &= ~(XFS_DIFLAG2_REFLINK | XFS_DIFLAG2_COWEXTSIZE);
+   568		if (!xfs_has_bigtime(mp))
+   569			flags2 &= ~XFS_DIFLAG2_BIGTIME;
+   570		if (!xfs_has_large_extent_counts(mp))
+   571			flags2 &= ~XFS_DIFLAG2_NREXT64;
+   572		if (flags2 & XFS_DIFLAG2_NREXT64)
+   573			dip->di_nrext64_pad = 0;
+   574		else if (dip->di_version >= 3)
+   575			dip->di_v3_pad = 0;
+   576	
+   577		if (flags2 & XFS_DIFLAG2_METADATA) {
+   578			xfs_failaddr_t	fa;
+   579	
+   580			fa = xfs_dinode_verify_metadir(sc->mp, dip, mode, flags,
+   581					flags2);
+   582			if (fa) {
+   583				flags2 &= ~XFS_DIFLAG2_METADATA;
+ > 584				dip->di_metatype = cpu_to_be32(XFS_METAFILE_UNKNOWN);
+   585			}
+   586		}
+   587	
+   588		dip->di_flags = cpu_to_be16(flags);
+   589		dip->di_flags2 = cpu_to_be64(flags2);
+   590	}
+   591	
 
 --
 0-DAY CI Kernel Test Service
