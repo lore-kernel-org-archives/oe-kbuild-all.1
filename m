@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A349043F0A7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 15:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20023914FF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 16:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785427061; cv=none; b=YBhRn9io33Xaf61z6XFVoFJRHg7ZtgJ0NI+ptO010w0eXhAC2GBRyou1PogCEf3KpKFtHx6ndQTv2ZqmaWTpOOExQfz4baT0BDCHd8AciWHRvhKCaijESV8jwVblJczJU1NZuDXCcbGrTY8j01F5r7R4JuoMonGy/hUBmCXI7TU=
+	t=1785430122; cv=none; b=Z7jaLmoBJJ0medSPpwIgk0rfKeEdkbBMdQHSC2YbnkNLpEDvZrDMWgXpSdA0Z9EZSGC+VahVl4pS5a/yI7QdqUXZSOtzr+aPS2LPDTnKN8jxXaoK6ScPweKjDv6rAcdQxLVsj/wtQpYWzfgcp0aYeHudb/1zaSyUVZ++CtKKyfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785427061; c=relaxed/simple;
-	bh=BCcZB4BZTvwoNskjCfKwK1foa9R1eBXlh3HaWWIwb0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=W61ST4g+x3NE/b22+veMRiIVZstNB0UPRPG6t1bAiE3c/o3CSNeK6wriI5bCmp/Slkmb/ovBr8fLKVvVJYDLOrFUb3lzibej9KEs3EwcZ8QDNmEQuDaHE/9HiqmXo4XSglf9mKnMCF23Uas/YXOiUutFWou0e8GEQGSUAqhYWV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DueWatc5; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1785430122; c=relaxed/simple;
+	bh=PX/q65DcMbGvu0ObmQKL4hFS2pOetUfR7QGcvC93DUs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S/A+ydQh3UMbXmL1gt/1dbXpMQl29vPzb9SnwdDD1r7BwPc3pe+eG6sQHu73mRkXRFVh0PCYbQrx0gA7fjn1TQX2f2p4h90RtrBck4Wx5BXFnVp3tI1GODhJmA/eEL/ugPs8YBsPcuKqt1wl14XpF/CrR0I0jZ5BT+23+0B0Idg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eq4NErd1; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DueWatc5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eq4NErd1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785427059; x=1816963059;
+  t=1785430120; x=1816966120;
   h=date:from:to:cc:subject:message-id;
-  bh=BCcZB4BZTvwoNskjCfKwK1foa9R1eBXlh3HaWWIwb0Q=;
-  b=DueWatc50SIjf/qUsq5fOjYZsJNczGmH6tSJukhBdy0Dmyr4Pjjv8ZzI
-   nO0uClEKDZSBlx6OKIBn1zv5gzsmauHe7B0jOsEThtEgNa7QXgIb/4loi
-   EfjkL8tBl6ujM6B1QS9piW8+jQIsnfKwr9mKUfjgRiHBU6ltzEOUT0I7I
-   BBtEB1WZ7iSW7Yq8UzHzGtuRxkKoy0DOXm2YPzkXa+qdIyFREjP3U/avL
-   /bWrYgXi/nvnRtmSjn9NsiN38VZjPnGtj1R3BgxBCGiUecKzw0EHwV3A9
-   +h+xiHjn++yERldl+CKakIphCzptRl5OutpkM7eBGBDy1i2EJGQSzmPTU
+  bh=PX/q65DcMbGvu0ObmQKL4hFS2pOetUfR7QGcvC93DUs=;
+  b=eq4NErd1RwggPoxvv/BR6MRsQjQUMYalhHR4E/xqXGy2pnNIxg37susy
+   TkNRQOhqRo+0I7yNakNgkEJMNFmmeKdL9u9HOPF3WPmAVnuPzh2fMwaZ/
+   8/05YDZdNG2WCRrEUhCAptJUHYF9l4BbcI5cIK2bEHmdUD2iLgRoiEdUs
+   s2a5MxRnH7WXidmdyInlIW10QuTPTk+kK8/PWPCyAJy2N/s1NsxU0wIru
+   6TX1z1Zwd1iF5HcxR5Zo5XwifApEUToBQElSaiMktvOwznq4f9NpWHwxH
+   TImFjOQkGzNfl5mUq1NcTFNlvPtKWI3YOpx77gtWTSMzhxe+tOo1C7Vz0
    A==;
-X-CSE-ConnectionGUID: KoDBg88RRkuxSJjJa83+Vw==
-X-CSE-MsgGUID: 5BaNjy8UTvaNlGKPV53HGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="85175995"
+X-CSE-ConnectionGUID: TGSRjoHKTzq6E1EDcPIiGA==
+X-CSE-MsgGUID: ykgFZkUwThCN2DJ32xn4BQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="96641001"
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="85175995"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 08:57:38 -0700
-X-CSE-ConnectionGUID: mgnJW7ZaTmGvBqUBi2g7AQ==
-X-CSE-MsgGUID: bkaPHHYGSX23fCxJiHyhPw==
+   d="scan'208";a="96641001"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 09:48:39 -0700
+X-CSE-ConnectionGUID: Z+fOG+a9QguOf2JSahrZ3w==
+X-CSE-MsgGUID: 93jgKzdyRPq4DFjOvpjgTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="298531125"
+   d="scan'208";a="256045295"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 30 Jul 2026 08:57:36 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 Jul 2026 09:48:38 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpT8X-000000002PK-3MDQ;
-	Thu, 30 Jul 2026 15:57:33 +0000
-Date: Thu, 30 Jul 2026 17:57:32 +0200
+	id 1wpTvw-000000002Pa-0wzA;
+	Thu, 30 Jul 2026 16:48:36 +0000
+Date: Thu, 30 Jul 2026 18:48:18 +0200
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-rc 86/168]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb:
- ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not
- match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-Message-ID: <202607301747.qLwp6YsA-lkp@intel.com>
+Subject: [l1k:doe-7.2-rc1-wip 7/21] drivers/pci/pcie/aer.c:987:3:
+ error: member reference base type 'char' is not a structure or union
+Message-ID: <202607301819.PnBnoMP9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,115 +59,91 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
-head:   1953c4d64c0da95dd5833d59a20a9f1f456fec31
-commit: ff3018942adc310b90b7b80cdade8cdfb5268ed2 [86/168] arm64: dts: r4pro: fix switch label
-config: arm64-randconfig-2054-20260728 (https://download.01.org/0day-ci/archive/20260730/202607301747.qLwp6YsA-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 9521d0c03324fb5950727522cdf71d94fd3f68b1)
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260730/202607301747.qLwp6YsA-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux doe-7.2-rc1-wip
+head:   3ff494368f930bbd2364d93688549fcbd02a3881
+commit: 7dde1844d2677e5a1c1f086d6f91294255ff571a [7/21] PCI/AER: Prettify error source logging
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260730/202607301819.PnBnoMP9-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260730/202607301819.PnBnoMP9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607301747.qLwp6YsA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607301819.PnBnoMP9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: switch@15020000 (mediatek,mt7988-switch): Unevaluated properties are not allowed ('ds-mux-bus', 'dsa,member' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: /soc/switch@15020000/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: ethernet@15100000 (mediatek,mt7988-eth): Unevaluated properties are not allowed ('mux-bus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: switch@10 (maxlinear,mxl86252): ports:port@9:dsa-tag-protocol:0: 'mxl862xx-8021q' is not one of ['dsa', 'edsa', 'ocelot', 'ocelot-8021q', 'rtl8_4', 'rtl8_4t', 'seville']
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: switch@10 (maxlinear,mxl86252): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dsa,member', 'ports', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: /soc/ethernet@15100000/mux-bus/ethernet-mux@1: failed to match any schema with compatible: ['mediatek,eth-mux']
---
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: switch@15020000 (mediatek,mt7988-switch): Unevaluated properties are not allowed ('ds-mux-bus', 'dsa,member' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: /soc/switch@15020000/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet@15100000 (mediatek,mt7988-eth): Unevaluated properties are not allowed ('mux-bus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: switch@10 (maxlinear,mxl86252): ports:port@9:dsa-tag-protocol:0: 'mxl862xx-8021q' is not one of ['dsa', 'edsa', 'ocelot', 'ocelot-8021q', 'rtl8_4', 'rtl8_4t', 'seville']
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: switch@10 (maxlinear,mxl86252): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dsa,member', 'ports', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: /soc/ethernet@15100000/mux-bus/ethernet-mux@1: failed to match any schema with compatible: ['mediatek,eth-mux']
---
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: switch@15020000 (mediatek,mt7988-switch): Unevaluated properties are not allowed ('ds-mux-bus', 'dsa,member' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: /soc/switch@15020000/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet@15100000 (mediatek,mt7988-eth): Unevaluated properties are not allowed ('mux-bus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: switch@10 (maxlinear,mxl86252): ports:port@9:dsa-tag-protocol:0: 'mxl862xx-8021q' is not one of ['dsa', 'edsa', 'ocelot', 'ocelot-8021q', 'rtl8_4', 'rtl8_4t', 'seville']
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: switch@10 (maxlinear,mxl86252): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dsa,member', 'ports', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: /soc/ethernet@15100000/mux-bus/ethernet-mux@1: failed to match any schema with compatible: ['mediatek,eth-mux']
---
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: switch@15020000 (mediatek,mt7988-switch): Unevaluated properties are not allowed ('ds-mux-bus', 'dsa,member' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: /soc/switch@15020000/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet@15100000 (mediatek,mt7988-eth): Unevaluated properties are not allowed ('mux-bus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: switch@10 (maxlinear,mxl86252): ports:port@9:dsa-tag-protocol:0: 'mxl862xx-8021q' is not one of ['dsa', 'edsa', 'ocelot', 'ocelot-8021q', 'rtl8_4', 'rtl8_4t', 'seville']
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: switch@10 (maxlinear,mxl86252): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dsa,member', 'ports', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: /soc/ethernet@15100000/mux-bus/ethernet-mux@1: failed to match any schema with compatible: ['mediatek,eth-mux']
---
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: switch@15020000 (mediatek,mt7988-switch): Unevaluated properties are not allowed ('ds-mux-bus', 'dsa,member' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: /soc/switch@15020000/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet@15100000 (mediatek,mt7988-eth): Unevaluated properties are not allowed ('mux-bus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: switch@10 (maxlinear,mxl86252): ports:port@9:dsa-tag-protocol:0: 'mxl862xx-8021q' is not one of ['dsa', 'edsa', 'ocelot', 'ocelot-8021q', 'rtl8_4', 'rtl8_4t', 'seville']
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: switch@10 (maxlinear,mxl86252): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dsa,member', 'ports', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: /soc/ethernet@15100000/mux-bus/ethernet-mux@1: failed to match any schema with compatible: ['mediatek,eth-mux']
---
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: switch@15020000 (mediatek,mt7988-switch): Unevaluated properties are not allowed ('ds-mux-bus', 'dsa,member' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: /soc/switch@15020000/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: ethernet@15100000 (mediatek,mt7988-eth): Unevaluated properties are not allowed ('mux-bus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: switch@10 (maxlinear,mxl86252): ports:port@9:dsa-tag-protocol:0: 'mxl862xx-8021q' is not one of ['dsa', 'edsa', 'ocelot', 'ocelot-8021q', 'rtl8_4', 'rtl8_4t', 'seville']
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: switch@10 (maxlinear,mxl86252): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dsa,member', 'ports', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/maxlinear,mxl862xx.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: /soc/ethernet@15100000/mux-bus/ethernet-mux@1: failed to match any schema with compatible: ['mediatek,eth-mux']
+All errors (new ones prefixed by >>):
+
+>> drivers/pci/pcie/aer.c:987:3: error: member reference base type 'char' is not a structure or union
+     987 |                 aer_printk(dev, "%s Bus Error: severity=%s (Inaccessible)\n",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     988 |                            bus_type, aer_error_severity_string[info->severity]);
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/pcie/aer.c:42:27: note: expanded from macro 'aer_printk'
+      42 |         dev_printk(level, &(pdev)->dev, fmt, ##arg)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:129:22: note: expanded from macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                    ^~~
+   1 error generated.
+
+
+vim +/char +987 drivers/pci/pcie/aer.c
+
+   961	
+   962	void aer_print_error(struct aer_err_info *info, int i)
+   963	{
+   964		struct pci_dev *dev;
+   965		const char *level = info->level;
+   966		const char *bus_type = aer_err_bus(info);
+   967	
+   968		if (WARN_ON_ONCE(i >= AER_MAX_MULTI_ERR_DEVICES))
+   969			return;
+   970	
+   971		dev = info->dev[i];
+   972	
+   973		pci_dev_aer_stats_incr(dev, info);
+   974		trace_aer_event(pci_name(dev), (info->status & ~info->mask),
+   975				info->severity, info->tlp_header_valid &&
+   976				info->severity != AER_CORRECTABLE, &info->tlp,
+   977				bus_type);
+   978	
+   979		/*
+   980		 * For Advisory Non-Fatal Errors, record statistics and tracing
+   981		 * even if ratelimited
+   982		 */
+   983		if (!info->ratelimit_print[i])
+   984			goto anfe;
+   985	
+   986		if (!info->status) {
+ > 987			aer_printk(dev, "%s Bus Error: severity=%s (Inaccessible)\n",
+   988				   bus_type, aer_error_severity_string[info->severity]);
+   989			return;
+   990		}
+   991	
+   992		aer_printk(level, dev, "%s Bus Error: severity=%s\n",
+   993			   bus_type, aer_error_severity_string[info->severity]);
+   994	
+   995		aer_printk(level, dev, "  device [%04x:%04x] error status/mask=%08x/%08x\n",
+   996			   dev->vendor, dev->device, info->status, info->mask);
+   997	
+   998		__aer_print_error(dev, info);
+   999	
+  1000		if (info->tlp_header_valid && info->severity != AER_CORRECTABLE)
+  1001			pcie_print_tlp_log(dev, &info->tlp, level, dev_fmt("  "));
+  1002	
+  1003	anfe:
+  1004		/* Recursive invocation for Advisory Non-Fatal Errors */
+  1005		if (info->anfe_status && info->severity == AER_CORRECTABLE) {
+  1006			info->severity = AER_NONFATAL;
+  1007			info->status = info->anfe_status;
+  1008			info->mask = 0;
+  1009	
+  1010			aer_print_error(info, i);
+  1011	
+  1012			info->severity = AER_CORRECTABLE;
+  1013		}
+  1014	}
+  1015	
 
 --
 0-DAY CI Kernel Test Service
