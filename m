@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E3F3CD8B8;
-	Thu, 30 Jul 2026 21:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EBF3988E2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 21:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785446306; cv=none; b=RA+JlLOsK7J91OpLsg11OYMiTBai+r5WAKZH7OY825Ij+VdHuBXkSwlRJqfLGDDSvCkgT2xunwY0xtAM4FkLRrKvYIbhYQHz3mbaw+Ft1Kei4bR7eGBMconUyPzi0XguTioT1ZsQkScE8jkSJABuipTP9sXkA6k4WRXoRLflpf0=
+	t=1785448181; cv=none; b=HfCX4VwuFNzrO3KgqMxFTOFhcIuw09U+uj0noLLy1yVpB6PnPmYUlaJxy3STVXi8rUPo1PUL1VW4VIBcpVR5l1ZL8mZ5v0nUbsMfYJdhOQ8W1irZDozc5bvEHLGXjdz7QsXLJlQpKOxP9gVeXw3VGHyG2M/uOd7Dz87k8P2E8KU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785446306; c=relaxed/simple;
-	bh=j/Q+8LiALBeiAxFLx1UWmZS7VTwWQX3eKGAMLXazzK8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QYI6iXHsHR7Ly8pCtsAN/R0au9vrHxJWKs1M0ImSaBq7thk5/CZB7M9WUa2Pg8nzkUryqD8WecWzmpQ/qLqGNGxT32lO9+ELA3Fljsh1zfsdB4+mZ7CSJwtINJ+3+HYEQQcKBUH2C+7HfikKtoSXQNm8JpxC4fVhMROv+lk8lMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtN1fteJ; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1785448181; c=relaxed/simple;
+	bh=2zTPAOKW8fs3aKT7Hn1QcyrThzovsqQoU9T24fjUmS8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VPIWbkt4tg1+eJwDDuRaXRvsAJGhHaxOgDuWBJZJpLE+QPegMA2iIhkhOxrWIM8ammTQ3wzLRMuLhFFjRC1UbJr6Tt4VChhkH+CyXLIPoOPAS1iEzFMhyxmpdyf2mf2rmAr6Wl+Sng8KlbMJzlEOj1Qk2b4zPMGn+L2L5zVpXdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ad1ZoU+S; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtN1fteJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ad1ZoU+S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785446301; x=1816982301;
+  t=1785448178; x=1816984178;
   h=date:from:to:cc:subject:message-id;
-  bh=j/Q+8LiALBeiAxFLx1UWmZS7VTwWQX3eKGAMLXazzK8=;
-  b=VtN1fteJv80DOmkFcWDapVZpHvX0ypNE6Gk5HTBN5hYdRpw8qlVX89on
-   ZhziQJLHZ+5/AwHO9F4g1kdnZ4DXnh96J7VRDPpg1se2g2+3xbIdu2mj6
-   KqokL5Spdh+34sEAMzbflGZmMcSGA3RgA9igM+LD7tzWWW7GjvI6L/xHj
-   kQJxiqOLyehDIGXJDl78+B+FK14NnCNzHUN2Ciaz+xmCvE92wJvk7Uw1M
-   poVi/GLz6y9nKpOkrxbQ/dRcsgVHDLov3kh2iJK4X4TbaXi+RbnW074jc
-   GlpH9o1cXIeKBr+mDGze7KjdXqITSqbnjMooAPy9Qmivf0dmNPCfwwhcQ
-   w==;
-X-CSE-ConnectionGUID: gISAvqUxRRuJ94dRXTiWsQ==
-X-CSE-MsgGUID: FquTbPiCRcmTC/l0TVSQ1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="97232504"
+  bh=2zTPAOKW8fs3aKT7Hn1QcyrThzovsqQoU9T24fjUmS8=;
+  b=Ad1ZoU+SXsPTYj14DExSdEkd7Ocr+jBqc8fuGnxW9vNv4Vl1aPYysFsT
+   oTkf6QhI5Af3rlhb+oGMfrHl+Ybw4LuDCm5OjX/S24e0sZHmRKNlv6vhw
+   vpYeFF7XQlRRv7ymhcCsxxse6Y+d0PmisfiOT6qmf4C7TLvSdXGvL5Q5/
+   cR/4A/CyvnPD7CO1HIEnpm8mxXWnJXR8oqC1qhY9fMb9stUmPFj5ZkOfM
+   C639koYFHhe3rseaT9lWzek+9yXi2QuORlqcBGhAueL+JBTHS4IKYcUwb
+   uf/SbBjafo8VDMwfYAno1qbyA1S+y1OGfW5EvB1sIofl8asDBdmTUpq96
+   g==;
+X-CSE-ConnectionGUID: LVpWySFST/m+7jW7wxdg7A==
+X-CSE-MsgGUID: 7aUvRanuQ6WxzEG65zb9fQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="108868614"
 X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="97232504"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 14:18:18 -0700
-X-CSE-ConnectionGUID: f4D166+MRzqfHCQuQWy6Dw==
-X-CSE-MsgGUID: GxCcr6YCSmqEmVUvTv3T/Q==
+   d="scan'208";a="108868614"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 14:49:38 -0700
+X-CSE-ConnectionGUID: hBhyhsCzS3+cW5Wj3IHHmw==
+X-CSE-MsgGUID: l5pRHzVMSeGYG9qHXjSRDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="264684403"
+   d="scan'208";a="283747840"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 30 Jul 2026 14:18:17 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Jul 2026 14:49:35 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpY8t-00000000hb7-0kaG;
-	Thu, 30 Jul 2026 21:18:15 +0000
-Date: Fri, 31 Jul 2026 05:18:07 +0800
+	id 1wpYd2-00000000hcL-41OQ;
+	Thu, 30 Jul 2026 21:49:28 +0000
+Date: Fri, 31 Jul 2026 05:48:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fred Treven <fred.treven@cirrus.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [cirruslogic-drivers:v6.12-cs40l26 28/694]
- include/linux/mfd/cs40l26.h:37:10: fatal error:
- 'linux/firmware/cirrus/cl_dsp.h' file not found
-Message-ID: <202607310503.xsrGeQe1-lkp@intel.com>
+To: Lachlan Hodges <lachlan.hodges@morsemicro.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Andrew Pope <andrew.pope@morsemicro.com>,
+ Arien Judge <arien.judge@morsemicro.com>,
+ Ayman Grais <ayman.grais@morsemicro.com>,
+ Bassem Dawood <bassem@morsemicro.com>,
+ Chetan Mistry <chetan.mistry@morsemicro.com>,
+ Dan Callaghan <dan.callaghan@morsemicro.com>,
+ James Herbert <james.herbert@morsemicro.com>,
+ Sahand Maleki <sahand.maleki@morsemicro.com>,
+ Simon Wadsworth <simon@morsemicro.com>
+Subject: [linux-next:master 3244/10444] {standard input}:191: Error:
+ Insn b has an instruction mpyuw with limm in its delay slot.
+Message-ID: <202607310532.ggqUOCi6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,85 +68,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/CirrusLogic/linux-drivers v6.12-cs40l26
-head:   bc4ed91198ba7fae8ede7cb90ba2496dfe9a377f
-commit: 10f91c81a4d7f2a41526d9e27c4c83681f0d12b1 [28/694] input: cs40l26: Change include location of CL DSP
-config: hexagon-randconfig-001-20260731 (https://download.01.org/0day-ci/archive/20260731/202607310503.xsrGeQe1-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project bacfe2950f8218268fcc0a8765644ea0c15f0360)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310503.xsrGeQe1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   78bc8af4affb9a732504eb22eeac7d1e50883853
+commit: b1906cea00b021acea22460225401d5b27bc7c36 [3244/10444] wifi: mm81x: add mm81x Wi-Fi HaLow driver
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607310532.ggqUOCi6-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310532.ggqUOCi6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607310503.xsrGeQe1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607310532.ggqUOCi6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/input/misc/cs40l26-tables.c:14:
-   In file included from include/linux/mfd/cs40l26.h:15:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/input/misc/cs40l26-tables.c:14:
-   In file included from include/linux/mfd/cs40l26.h:15:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/input/misc/cs40l26-tables.c:14:
-   In file included from include/linux/mfd/cs40l26.h:15:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/input/misc/cs40l26-tables.c:14:
-   In file included from include/linux/mfd/cs40l26.h:22:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/input/misc/cs40l26-tables.c:14:
->> include/linux/mfd/cs40l26.h:37:10: fatal error: 'linux/firmware/cirrus/cl_dsp.h' file not found
-      37 | #include <linux/firmware/cirrus/cl_dsp.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   7 warnings and 1 error generated.
-
-
-vim +37 include/linux/mfd/cs40l26.h
-
-    36	
-  > 37	#include <linux/firmware/cirrus/cl_dsp.h>
-    38	
+   Assembler messages:
+>> {standard input}:191: Error: Insn b has an instruction mpyuw with limm in its delay slot.
 
 --
 0-DAY CI Kernel Test Service
