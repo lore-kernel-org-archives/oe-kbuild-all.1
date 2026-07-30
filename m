@@ -1,93 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4A3430CC8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 13:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308F52FE074
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 13:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785417152; cv=none; b=ZpYdBxA4N5zjRIqLxZQpRRWE71qZzQ6L6D5IRn1TG+DreH+rIc0iype08cVl8MdvxcR0XlcqF0DBVYuLd+CSggFPOaLpfjXlb2VGjsYoxhm2bpfynmfSyYKUeQrwyZy7IzExUS/6lgDtms9UB9GRqPZFym5Zf37Pj4WEmekEz+0=
+	t=1785418093; cv=none; b=oMNIpmEaEBo2FCLf6ddU/9/tCEtaEIKjp9EOAzz/GTsFj77+vinvTUL7GP4aaPrYlLt1lOKApkP5JAfKFrlyEuqkFqDE7ywGCa18lb+8D+YDdtd1R0WpibvoEk6bwY7jgVwzx/7DsTCCB70Fx2iew9TCTEQHWqptdcJs5eWnnls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785417152; c=relaxed/simple;
-	bh=d3CbBnsZP0LjXGsddmop8LCkt2qLGBWMaLWP5I4WaTM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e8Zpj30eWXT/0a+KI0aP6wg9KMesAuJQ85OJmVhGZooXXnlqDOmIYLWf58PWQa/UzkztVcS3KdwUithnxabUxCne8qkr/2VWhXZJyCiBRw+Hi60cWvUq7pTlQmGh7hvXcuXoBjWyN0+ppWCq2NGGhLcY/L7J2i/qTtwS5qCulfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3qZys3u; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3qZys3u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785417150; x=1816953150;
-  h=date:from:to:cc:subject:message-id;
-  bh=d3CbBnsZP0LjXGsddmop8LCkt2qLGBWMaLWP5I4WaTM=;
-  b=l3qZys3umiX5QLu7Lda7I/gn+DoHEJGsOncu+b+E7u6lYq3UZ5awr5Tf
-   9znUySrng/hYyi9hpJFaNKs+RGqs90GTN/sPln0xKMlEC4LFJqEYkYIMo
-   m99Z7wJb+cM8AjnXnIpxF+bP9NNiC/88FJiH6oQdFrbNNcRpzIUug3fhp
-   4sIAUXsbifaCPzff5XFWW4kBW0F9JWV6JLC/zaBcgHGVvo7Plhcfn1NFW
-   t1HgJsp3rwb+YYGHEyLtGpVQrrj22fMdu0yuTkWxEmnURqj+GyR3tNJfi
-   a/8MyXH+fVAUxy7IfGGutmXnfwWH+PaikU60d9h1vhN1MOhXc9fXUYvfV
-   A==;
-X-CSE-ConnectionGUID: ytDDGeZSQV2pCTUP+jTwig==
-X-CSE-MsgGUID: IAPsz6NOTRGy90Qe5QEOVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="111582003"
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="111582003"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 06:12:29 -0700
-X-CSE-ConnectionGUID: mgP5zX6aSzSY1picNVV+rA==
-X-CSE-MsgGUID: YrflrwB8R52tRcgUjMX1Sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="264101354"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 30 Jul 2026 06:12:28 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wpQYk-000000002NS-0jxA;
-	Thu, 30 Jul 2026 13:12:26 +0000
-Date: Thu, 30 Jul 2026 15:12:00 +0200
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-rc 68/168]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb:
- pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match
- any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202607301541.PladSmFs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1785418093; c=relaxed/simple;
+	bh=DLtepxdHNTrDoHKaU8A6SAaSKElG7xlHgFFQcWofWxs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YtqSy7mbGRDo1bpJX50sGgVV3uabYAutoT4tQtDuMIwFvJOZWXT4mKWsowSSwQ4ZznnCfKaVYIMaAgvTgEoTFnF9Fn7cawd7cFeJ/NW2sg6ifKdYa/XVTd4TcsSlIgRVvwGoXbA3DWj49anIeHpzZhwakxCuSrUxTHyNuj41Ms8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf02.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id D6F72A0100;
+	Thu, 30 Jul 2026 13:28:09 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id 54B1980013;
+	Thu, 30 Jul 2026 13:28:08 +0000 (UTC)
+Date: Thu, 30 Jul 2026 09:28:45 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [trace:trace/core 16/16] WARNING: modpost: vmlinux: section
+ mismatch in reference: trace_printk_init_buffers.part.0+0xc8 (section:
+ .text.unlikely) -> initcall_level_names (section: .init.data)
+Message-ID: <20260730092845.4b889ccb@gandalf.local.home>
+In-Reply-To: <087e006b-d856-4307-8429-f8225273a785@gmail.com>
+References: <202607291326.Dr0maCyu-lkp@intel.com>
+	<20260729113613.7f6af519@gandalf.local.home>
+	<087e006b-d856-4307-8429-f8225273a785@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 54B1980013
+X-Stat-Signature: 8mtuti9s9hkhhc1cmh5o57xzm1znr1by
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+62sSmn8XcKpZRds9V9v6cUXbSOnKmjAY=
+X-HE-Tag: 1785418088-683819
+X-HE-Meta: U2FsdGVkX18Ptd/Ckk9KQxU5bKdIXrlmpmCx+9Kj5TPxOIV5MZ+Hee2i5eu7MnT/FDfslfT0t2HlveL/drtxu0I0dfzsvtr3oVAQQtgZ+pAHvWGAkgEkM9Nj48mwTuIxCFxxdY2V5WWuJsj101szeQb2M6vpRjF0Wb1LCuRYACHMNuXPiGeyMsU8iVlKvoH7pRTHIJCJtrhlPkfFoOQBkap4f6ml//s2/50XlX19XxMzUHc6bE99fyfLManLhyXTp18dCmO7VDjR0ySDd15G2GaoAd0kjtnegmEUcdJisyQK5s2q5CEClM/o4PFaFTbYGTGcdHqJ/YZSPmYWG21qRCF/y0qlpU4+
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
-head:   1953c4d64c0da95dd5833d59a20a9f1f456fec31
-commit: 33f49c21b3a80ed82e1bda492ea263b0ac3e7983 [68/168] arm64: dts: mediatek: apply bpi-r4 nopcie2 overlay
-config: arm64-randconfig-2054-20260728 (https://download.01.org/0day-ci/archive/20260730/202607301541.PladSmFs-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 9521d0c03324fb5950727522cdf71d94fd3f68b1)
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260730/202607301541.PladSmFs-lkp@intel.com/reproduce)
+On Thu, 30 Jul 2026 14:04:20 +0700
+Woradorn Laodhanadhaworn <woradorn.laon@gmail.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607301541.PladSmFs-lkp@intel.com/
+> I reproduced this locally with commit
+> `c33330b2ec170dd38b3284a72bc6a07a49cc9a65`, and it also reports:
+> 
+> WARNING: modpost: vmlinux: section mismatch in reference:
+> trace_printk_init_buffers.part.0+0xc8 (section: .text.unlikely) ->
+> initcall_level_names (section: .init.data)
+> 
+> Then I tried the same configuration and reproduction steps with the parent
+> commit, `b6ccdca8d11c28338776811f0b9024d92c4bedb4`. It doesn't report anything
+> related to `modpost: vmlinux: section mismatch in reference:
+> trace_printk_init_buffers.part`.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-nopcie2.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+Did you do a "make mrproper" between both builds?
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> So it looks like this commit introduced the warning. I'm not sure where to look
+> yet, but I'll dig into `modpost.c` to understand the root cause. If you have any 
+> suggestions on where I should start looking, I'd really appreciate them.
+> 
+> Also, I'd like to ask how urgent this issue is. It might take me some time to
+> find the root cause.
+
+It's only a warning with the W=1 build. There's many other warnings there
+too, so I don't think it's high priority.
+
+Thanks,
+
+-- Steve
