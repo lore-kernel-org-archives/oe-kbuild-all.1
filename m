@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517DA3CF047
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 21:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F46468C17
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 23:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785448188; cv=none; b=Y0V1XBrNXVCmiJ2X5AwYMMxy4rmp9nlIePm1oZsRJY/F6iMtuwuYrypG33BJnOP/Stf0I8CJcFE80yhVOjXiuDl4zf0FdmuCAj+3Drcl1vod09RE92oyF1t8Mj50vGGx5pP7GMzZMGxD6UsOjsGVJh9GEG+kbPOZdQG53BVfGHE=
+	t=1785452414; cv=none; b=ATrRTQxKBTduvnnxoOgQo8ZeHZuLPe4Zeu2twz52zDhcTfZ2/TGO8L5OuMxlNsW/g6g4ZwjEJINunqfE62J9hHJ3EsGYE4BptBH+osCOQ+IXzRCiebPQQFS6y+7pmLGyeCqTZlTWSu6BZEPC3NtVYgIwtc2enPX1iHDRXYSrXYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785448188; c=relaxed/simple;
-	bh=M4bGps/K9GizQOF6Khf4vocpUO3PU2b7R1l1GN6wkrs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Uu1rOYNxsi1N/B1mdwUtYvbn0vx4ynmctJYSpNMBrhZfUFfv+STSs1AOA83Q7nB6WWk7kiUq0Tcy22oAOz/gnFe/XJOHskHBe/1O854IqCqI+OviqMGDXOoGbNDKmdqVp6UO87d+QLEgTePTx+80tt/M0n/TrgbPXmv9S61rH/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZpYc+2n8; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1785452414; c=relaxed/simple;
+	bh=nhhdsQlVfK0ediEJ8ETmowv/lgxSJMHJiedXL7bN7no=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UeFzys1opNT6GFJjOFEr5MMLtR91g0W4cko1LWOypdUaC/bDtILwnP9R5vt5BY3rdhWXhppfzVxMx27KXpnMxqKwv5L6xkY0rZmsFwsu1VdgCJkDc1/cUGsbt+DR/qAhXHgu3+UoMt+EkIQs5PqbYVIdQruNcfiZNYjJfs1lQfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=akl4YrtL; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZpYc+2n8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="akl4YrtL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785448186; x=1816984186;
+  t=1785452412; x=1816988412;
   h=date:from:to:cc:subject:message-id;
-  bh=M4bGps/K9GizQOF6Khf4vocpUO3PU2b7R1l1GN6wkrs=;
-  b=ZpYc+2n8v1gSvVs0Ko/xuRkwFhR1BKCnw8eNFN4u6AuNUyepkpen5ZqT
-   d3LDEQvCdZFo1f3ePNgXVSKzG41Xk+PV1tB19aU7/av786ppr2slC1XOQ
-   7BT7epaBqooQwqMP9weQz3Udz845j3nGalMBitj2aS8Q/O2OGY3x3u0PF
-   ibedWwKlJrH+oo/x8XCudvwFaJITCt1ZNZHUGSpUTXkS/JBt6pB5Y9hUL
-   Pv3EcaZysO0ec967H63yvMQSu3e8GBCtIYL35Zkq2K3iExQTGkB+XPvbe
-   S+FMnCzjNmbbF0jDVesfoshaIlvq282jhWBvHheYeNSSSRyeQU0zCITHp
+  bh=nhhdsQlVfK0ediEJ8ETmowv/lgxSJMHJiedXL7bN7no=;
+  b=akl4YrtLqge066uFhuzG+2Er1qGa1eE5AsXKwELumwJaNxXDp7wXfrDy
+   zlIvk7v2nkrOi+/sE1mjPEL4CVZPMQNBsSghz7I4QhSMtYpbH5O4HYkWn
+   D5nMemTmhjumLDlp3w6fP8WgY4cmDlT1H4zryefUn681MpMBJt+fs9FZp
+   d6J49CA7qg/3vjsUw6PUBmWZsqhTwFB3Kk9KM2oVbAJIY7nOHbw0fc6Qg
+   tIAr1kG+sMfg1qkmdgJgE4oTgWQnKf4wvjnG6er9DxbHWW0Rbpn9fVmMC
+   gfytd0VWRSl0LpmxxDKc5JTb6cRTKrMUiCxL531rfKK7DJwrcT1c8l5Xh
    g==;
-X-CSE-ConnectionGUID: eVCi3m6PSzKVgMNXDpXZGg==
-X-CSE-MsgGUID: w+GTIfW9R8aGdLLHxXcsgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="85202662"
+X-CSE-ConnectionGUID: xyzTIHagQWOU+gf5mvYqFQ==
+X-CSE-MsgGUID: 1E16LLMiTNSBYpwdgHBIzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="89893717"
 X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="85202662"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 14:49:45 -0700
-X-CSE-ConnectionGUID: tpkxGa7NTjK4NpIQ7UVsfQ==
-X-CSE-MsgGUID: Agkx0JH+QAyS2WT9QmNDSA==
+   d="scan'208";a="89893717"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 16:00:11 -0700
+X-CSE-ConnectionGUID: rKhiYg5mQKyfY13ofiTDhQ==
+X-CSE-MsgGUID: dvAZC4J8RSuI0tvyIJvdxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="257738604"
+   d="scan'208";a="285024849"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Jul 2026 14:49:43 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jul 2026 16:00:09 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpYdE-00000000hcQ-01ED;
-	Thu, 30 Jul 2026 21:49:37 +0000
-Date: Fri, 31 Jul 2026 05:48:50 +0800
+	id 1wpZjT-00000000hgn-0Iyr;
+	Thu, 30 Jul 2026 23:00:07 +0000
+Date: Fri, 31 Jul 2026 06:59:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/bpf/fixups.c:1021:44: sparse: sparse: cast truncates
- bits from constant value (fffffe0000000000 becomes 0)
-Message-ID: <202607310520.PqeDNj6t-lkp@intel.com>
+To: NeilBrown <neil@brown.name>
+Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <cel@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>
+Subject: [cel:nfsd-testing 198/222] fs/nfsd/nfs4proc.c:179:24:
+ sparse: sparse: incorrect type in return expression (different base types)
+Message-ID: <202607310652.yD0h0jyw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,318 +60,310 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Alexei,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   11028ab62899e4191e074ee364c712b77823a9c4
-commit: 449f08fa59dda5da40317b6976604b877c4ecd63 bpf: Move fixup/post-processing logic from verifier.c into fixups.c
-date:   4 months ago
-config: arm64-randconfig-r113-20260730 (https://download.01.org/0day-ci/archive/20260731/202607310520.PqeDNj6t-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project bacfe2950f8218268fcc0a8765644ea0c15f0360)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
+head:   67be65963a6470b667125cc648b56161ed3dfdce
+commit: 6f6cc614db9825508ef60da80deb5190cf813c75 [198/222] nfsd: move v0 checking out of nfsd_check_obj_isreg()
+config: m68k-randconfig-r122-20260730 (https://download.01.org/0day-ci/archive/20260731/202607310652.yD0h0jyw-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.4.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310520.PqeDNj6t-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310652.yD0h0jyw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 449f08fa59dd ("bpf: Move fixup/post-processing logic from verifier.c into fixups.c")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607310520.PqeDNj6t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607310652.yD0h0jyw-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/fixups.c:2202:38: sparse: sparse: subtraction of functions? Share your drugs
->> kernel/bpf/fixups.c:1021:44: sparse: sparse: cast truncates bits from constant value (fffffe0000000000 becomes 0)
+>> fs/nfsd/nfs4proc.c:179:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __be32 @@     got int @@
+   fs/nfsd/nfs4proc.c:179:24: sparse:     expected restricted __be32
+   fs/nfsd/nfs4proc.c:179:24: sparse:     got int
+   fs/nfsd/nfs4proc.c:181:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __be32 @@     got int @@
+   fs/nfsd/nfs4proc.c:181:24: sparse:     expected restricted __be32
+   fs/nfsd/nfs4proc.c:181:24: sparse:     got int
+   fs/nfsd/nfs4proc.c:182:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __be32 @@     got int @@
+   fs/nfsd/nfs4proc.c:182:16: sparse:     expected restricted __be32
+   fs/nfsd/nfs4proc.c:182:16: sparse:     got int
+>> fs/nfsd/nfs4proc.c:350:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int errno @@     got restricted __be32 @@
+   fs/nfsd/nfs4proc.c:350:55: sparse:     expected int errno
+   fs/nfsd/nfs4proc.c:350:55: sparse:     got restricted __be32
+   fs/nfsd/nfs4proc.c:530:47: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int errno @@     got restricted __be32 @@
+   fs/nfsd/nfs4proc.c:530:47: sparse:     expected int errno
+   fs/nfsd/nfs4proc.c:530:47: sparse:     got restricted __be32
 
-vim +1021 kernel/bpf/fixups.c
+vim +179 fs/nfsd/nfs4proc.c
 
-   975	
-   976	int bpf_jit_subprogs(struct bpf_verifier_env *env)
-   977	{
-   978		struct bpf_prog *prog = env->prog, **func, *tmp;
-   979		int i, j, subprog_start, subprog_end = 0, len, subprog;
-   980		struct bpf_map *map_ptr;
-   981		struct bpf_insn *insn;
-   982		void *old_bpf_func;
-   983		int err, num_exentries;
-   984		int old_len, subprog_start_adjustment = 0;
-   985	
-   986		if (env->subprog_cnt <= 1)
-   987			return 0;
-   988	
-   989		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
-   990			if (!bpf_pseudo_func(insn) && !bpf_pseudo_call(insn))
-   991				continue;
-   992	
-   993			/* Upon error here we cannot fall back to interpreter but
-   994			 * need a hard reject of the program. Thus -EFAULT is
-   995			 * propagated in any case.
-   996			 */
-   997			subprog = bpf_find_subprog(env, i + insn->imm + 1);
-   998			if (verifier_bug_if(subprog < 0, env, "No program to jit at insn %d",
-   999					    i + insn->imm + 1))
-  1000				return -EFAULT;
-  1001			/* temporarily remember subprog id inside insn instead of
-  1002			 * aux_data, since next loop will split up all insns into funcs
-  1003			 */
-  1004			insn->off = subprog;
-  1005			/* remember original imm in case JIT fails and fallback
-  1006			 * to interpreter will be needed
-  1007			 */
-  1008			env->insn_aux_data[i].call_imm = insn->imm;
-  1009			/* point imm to __bpf_call_base+1 from JITs point of view */
-  1010			insn->imm = 1;
-  1011			if (bpf_pseudo_func(insn)) {
-  1012	#if defined(MODULES_VADDR)
-  1013				u64 addr = MODULES_VADDR;
-  1014	#else
-  1015				u64 addr = VMALLOC_START;
-  1016	#endif
-  1017				/* jit (e.g. x86_64) may emit fewer instructions
-  1018				 * if it learns a u32 imm is the same as a u64 imm.
-  1019				 * Set close enough to possible prog address.
-  1020				 */
-> 1021				insn[0].imm = (u32)addr;
-  1022				insn[1].imm = addr >> 32;
-  1023			}
-  1024		}
-  1025	
-  1026		err = bpf_prog_alloc_jited_linfo(prog);
-  1027		if (err)
-  1028			goto out_undo_insn;
-  1029	
-  1030		err = -ENOMEM;
-  1031		func = kzalloc_objs(prog, env->subprog_cnt);
-  1032		if (!func)
-  1033			goto out_undo_insn;
-  1034	
-  1035		for (i = 0; i < env->subprog_cnt; i++) {
-  1036			subprog_start = subprog_end;
-  1037			subprog_end = env->subprog_info[i + 1].start;
-  1038	
-  1039			len = subprog_end - subprog_start;
-  1040			/* bpf_prog_run() doesn't call subprogs directly,
-  1041			 * hence main prog stats include the runtime of subprogs.
-  1042			 * subprogs don't have IDs and not reachable via prog_get_next_id
-  1043			 * func[i]->stats will never be accessed and stays NULL
-  1044			 */
-  1045			func[i] = bpf_prog_alloc_no_stats(bpf_prog_size(len), GFP_USER);
-  1046			if (!func[i])
-  1047				goto out_free;
-  1048			memcpy(func[i]->insnsi, &prog->insnsi[subprog_start],
-  1049			       len * sizeof(struct bpf_insn));
-  1050			func[i]->type = prog->type;
-  1051			func[i]->len = len;
-  1052			if (bpf_prog_calc_tag(func[i]))
-  1053				goto out_free;
-  1054			func[i]->is_func = 1;
-  1055			func[i]->sleepable = prog->sleepable;
-  1056			func[i]->aux->func_idx = i;
-  1057			/* Below members will be freed only at prog->aux */
-  1058			func[i]->aux->btf = prog->aux->btf;
-  1059			func[i]->aux->subprog_start = subprog_start + subprog_start_adjustment;
-  1060			func[i]->aux->func_info = prog->aux->func_info;
-  1061			func[i]->aux->func_info_cnt = prog->aux->func_info_cnt;
-  1062			func[i]->aux->poke_tab = prog->aux->poke_tab;
-  1063			func[i]->aux->size_poke_tab = prog->aux->size_poke_tab;
-  1064			func[i]->aux->main_prog_aux = prog->aux;
-  1065	
-  1066			for (j = 0; j < prog->aux->size_poke_tab; j++) {
-  1067				struct bpf_jit_poke_descriptor *poke;
-  1068	
-  1069				poke = &prog->aux->poke_tab[j];
-  1070				if (poke->insn_idx < subprog_end &&
-  1071				    poke->insn_idx >= subprog_start)
-  1072					poke->aux = func[i]->aux;
-  1073			}
-  1074	
-  1075			func[i]->aux->name[0] = 'F';
-  1076			func[i]->aux->stack_depth = env->subprog_info[i].stack_depth;
-  1077			if (env->subprog_info[i].priv_stack_mode == PRIV_STACK_ADAPTIVE)
-  1078				func[i]->aux->jits_use_priv_stack = true;
-  1079	
-  1080			func[i]->jit_requested = 1;
-  1081			func[i]->blinding_requested = prog->blinding_requested;
-  1082			func[i]->aux->kfunc_tab = prog->aux->kfunc_tab;
-  1083			func[i]->aux->kfunc_btf_tab = prog->aux->kfunc_btf_tab;
-  1084			func[i]->aux->linfo = prog->aux->linfo;
-  1085			func[i]->aux->nr_linfo = prog->aux->nr_linfo;
-  1086			func[i]->aux->jited_linfo = prog->aux->jited_linfo;
-  1087			func[i]->aux->linfo_idx = env->subprog_info[i].linfo_idx;
-  1088			func[i]->aux->arena = prog->aux->arena;
-  1089			func[i]->aux->used_maps = env->used_maps;
-  1090			func[i]->aux->used_map_cnt = env->used_map_cnt;
-  1091			num_exentries = 0;
-  1092			insn = func[i]->insnsi;
-  1093			for (j = 0; j < func[i]->len; j++, insn++) {
-  1094				if (BPF_CLASS(insn->code) == BPF_LDX &&
-  1095				    (BPF_MODE(insn->code) == BPF_PROBE_MEM ||
-  1096				     BPF_MODE(insn->code) == BPF_PROBE_MEM32 ||
-  1097				     BPF_MODE(insn->code) == BPF_PROBE_MEM32SX ||
-  1098				     BPF_MODE(insn->code) == BPF_PROBE_MEMSX))
-  1099					num_exentries++;
-  1100				if ((BPF_CLASS(insn->code) == BPF_STX ||
-  1101				     BPF_CLASS(insn->code) == BPF_ST) &&
-  1102				     BPF_MODE(insn->code) == BPF_PROBE_MEM32)
-  1103					num_exentries++;
-  1104				if (BPF_CLASS(insn->code) == BPF_STX &&
-  1105				     BPF_MODE(insn->code) == BPF_PROBE_ATOMIC)
-  1106					num_exentries++;
-  1107			}
-  1108			func[i]->aux->num_exentries = num_exentries;
-  1109			func[i]->aux->tail_call_reachable = env->subprog_info[i].tail_call_reachable;
-  1110			func[i]->aux->exception_cb = env->subprog_info[i].is_exception_cb;
-  1111			func[i]->aux->changes_pkt_data = env->subprog_info[i].changes_pkt_data;
-  1112			func[i]->aux->might_sleep = env->subprog_info[i].might_sleep;
-  1113			if (!i)
-  1114				func[i]->aux->exception_boundary = env->seen_exception;
-  1115	
-  1116			/*
-  1117			 * To properly pass the absolute subprog start to jit
-  1118			 * all instruction adjustments should be accumulated
-  1119			 */
-  1120			old_len = func[i]->len;
-  1121			func[i] = bpf_int_jit_compile(func[i]);
-  1122			subprog_start_adjustment += func[i]->len - old_len;
-  1123	
-  1124			if (!func[i]->jited) {
-  1125				err = -ENOTSUPP;
-  1126				goto out_free;
-  1127			}
-  1128			cond_resched();
-  1129		}
-  1130	
-  1131		/* at this point all bpf functions were successfully JITed
-  1132		 * now populate all bpf_calls with correct addresses and
-  1133		 * run last pass of JIT
-  1134		 */
-  1135		for (i = 0; i < env->subprog_cnt; i++) {
-  1136			insn = func[i]->insnsi;
-  1137			for (j = 0; j < func[i]->len; j++, insn++) {
-  1138				if (bpf_pseudo_func(insn)) {
-  1139					subprog = insn->off;
-  1140					insn[0].imm = (u32)(long)func[subprog]->bpf_func;
-  1141					insn[1].imm = ((u64)(long)func[subprog]->bpf_func) >> 32;
-  1142					continue;
-  1143				}
-  1144				if (!bpf_pseudo_call(insn))
-  1145					continue;
-  1146				subprog = insn->off;
-  1147				insn->imm = BPF_CALL_IMM(func[subprog]->bpf_func);
-  1148			}
-  1149	
-  1150			/* we use the aux data to keep a list of the start addresses
-  1151			 * of the JITed images for each function in the program
-  1152			 *
-  1153			 * for some architectures, such as powerpc64, the imm field
-  1154			 * might not be large enough to hold the offset of the start
-  1155			 * address of the callee's JITed image from __bpf_call_base
-  1156			 *
-  1157			 * in such cases, we can lookup the start address of a callee
-  1158			 * by using its subprog id, available from the off field of
-  1159			 * the call instruction, as an index for this list
-  1160			 */
-  1161			func[i]->aux->func = func;
-  1162			func[i]->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
-  1163			func[i]->aux->real_func_cnt = env->subprog_cnt;
-  1164		}
-  1165		for (i = 0; i < env->subprog_cnt; i++) {
-  1166			old_bpf_func = func[i]->bpf_func;
-  1167			tmp = bpf_int_jit_compile(func[i]);
-  1168			if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
-  1169				verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
-  1170				err = -ENOTSUPP;
-  1171				goto out_free;
-  1172			}
-  1173			cond_resched();
-  1174		}
-  1175	
-  1176		/*
-  1177		 * Cleanup func[i]->aux fields which aren't required
-  1178		 * or can become invalid in future
-  1179		 */
-  1180		for (i = 0; i < env->subprog_cnt; i++) {
-  1181			func[i]->aux->used_maps = NULL;
-  1182			func[i]->aux->used_map_cnt = 0;
-  1183		}
-  1184	
-  1185		/* finally lock prog and jit images for all functions and
-  1186		 * populate kallsysm. Begin at the first subprogram, since
-  1187		 * bpf_prog_load will add the kallsyms for the main program.
-  1188		 */
-  1189		for (i = 1; i < env->subprog_cnt; i++) {
-  1190			err = bpf_prog_lock_ro(func[i]);
-  1191			if (err)
-  1192				goto out_free;
-  1193		}
-  1194	
-  1195		for (i = 1; i < env->subprog_cnt; i++)
-  1196			bpf_prog_kallsyms_add(func[i]);
-  1197	
-  1198		/* Last step: make now unused interpreter insns from main
-  1199		 * prog consistent for later dump requests, so they can
-  1200		 * later look the same as if they were interpreted only.
-  1201		 */
-  1202		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
-  1203			if (bpf_pseudo_func(insn)) {
-  1204				insn[0].imm = env->insn_aux_data[i].call_imm;
-  1205				insn[1].imm = insn->off;
-  1206				insn->off = 0;
-  1207				continue;
-  1208			}
-  1209			if (!bpf_pseudo_call(insn))
-  1210				continue;
-  1211			insn->off = env->insn_aux_data[i].call_imm;
-  1212			subprog = bpf_find_subprog(env, i + insn->off + 1);
-  1213			insn->imm = subprog;
-  1214		}
-  1215	
-  1216		prog->jited = 1;
-  1217		prog->bpf_func = func[0]->bpf_func;
-  1218		prog->jited_len = func[0]->jited_len;
-  1219		prog->aux->extable = func[0]->aux->extable;
-  1220		prog->aux->num_exentries = func[0]->aux->num_exentries;
-  1221		prog->aux->func = func;
-  1222		prog->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
-  1223		prog->aux->real_func_cnt = env->subprog_cnt;
-  1224		prog->aux->bpf_exception_cb = (void *)func[env->exception_callback_subprog]->bpf_func;
-  1225		prog->aux->exception_boundary = func[0]->aux->exception_boundary;
-  1226		bpf_prog_jit_attempt_done(prog);
-  1227		return 0;
-  1228	out_free:
-  1229		/* We failed JIT'ing, so at this point we need to unregister poke
-  1230		 * descriptors from subprogs, so that kernel is not attempting to
-  1231		 * patch it anymore as we're freeing the subprog JIT memory.
-  1232		 */
-  1233		for (i = 0; i < prog->aux->size_poke_tab; i++) {
-  1234			map_ptr = prog->aux->poke_tab[i].tail_call.map;
-  1235			map_ptr->ops->map_poke_untrack(map_ptr, prog->aux);
-  1236		}
-  1237		/* At this point we're guaranteed that poke descriptors are not
-  1238		 * live anymore. We can just unlink its descriptor table as it's
-  1239		 * released with the main prog.
-  1240		 */
-  1241		for (i = 0; i < env->subprog_cnt; i++) {
-  1242			if (!func[i])
-  1243				continue;
-  1244			func[i]->aux->poke_tab = NULL;
-  1245			bpf_jit_free(func[i]);
-  1246		}
-  1247		kfree(func);
-  1248	out_undo_insn:
-  1249		/* cleanup main prog to be interpreted */
-  1250		prog->jit_requested = 0;
-  1251		prog->blinding_requested = 0;
-  1252		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
-  1253			if (!bpf_pseudo_call(insn))
-  1254				continue;
-  1255			insn->off = 0;
-  1256			insn->imm = env->insn_aux_data[i].call_imm;
-  1257		}
-  1258		bpf_prog_jit_attempt_done(prog);
-  1259		return err;
-  1260	}
-  1261	
+   171	
+   172	static __be32 nfsd_check_obj_isreg(struct dentry *child)
+   173	{
+   174		umode_t mode = d_inode(child)->i_mode;
+   175	
+   176		if (S_ISREG(mode))
+   177			return 0;
+   178		if (S_ISDIR(mode))
+ > 179			return -EISDIR;
+   180		if (S_ISLNK(mode))
+   181			return -ELOOP;
+   182		return -EFTYPE;
+   183	}
+   184	
+   185	static void nfsd4_set_open_owner_reply_cache(struct nfsd4_compound_state *cstate, struct nfsd4_open *open, struct svc_fh *resfh)
+   186	{
+   187		if (nfsd4_has_session(cstate))
+   188			return;
+   189		fh_copy_shallow(&open->op_openowner->oo_owner.so_replay.rp_openfh,
+   190				&resfh->fh_handle);
+   191	}
+   192	
+   193	static inline bool nfsd4_create_is_exclusive(int createmode)
+   194	{
+   195		return createmode == NFS4_CREATE_EXCLUSIVE ||
+   196			createmode == NFS4_CREATE_EXCLUSIVE4_1;
+   197	}
+   198	
+   199	/*
+   200	 * Implement NFSv4's unchecked, guarded, and exclusive create
+   201	 * semantics for regular files. Open state for this new file is
+   202	 * subsequently fabricated in nfsd4_process_open2().
+   203	 *
+   204	 * Upon return, caller must release @fhp and @resfhp.
+   205	 */
+   206	static __be32
+   207	nfsd4_create_file(struct svc_rqst *rqstp, struct svc_fh *fhp,
+   208			  struct svc_fh *resfhp, struct nfsd4_open *open)
+   209	{
+   210		struct iattr *iap = &open->op_iattr;
+   211		struct nfsd_attrs attrs = {
+   212			.na_iattr	= iap,
+   213			.na_seclabel	= &open->op_label,
+   214		};
+   215		int oflags = O_CREAT | O_LARGEFILE;
+   216		struct dentry *parent, *child = ERR_PTR(-EINVAL);
+   217		struct path path = {
+   218			.mnt = fhp->fh_export->ex_path.mnt,
+   219		};
+   220		__u32 v_mtime, v_atime;
+   221		struct inode *inode;
+   222		__be32 status, create_status;
+   223		int want_write_err;
+   224	
+   225		if (name_is_dot_dotdot(open->op_fname, open->op_fnamelen))
+   226			return nfserr_exist;
+   227		if (!(iap->ia_valid & ATTR_MODE))
+   228			iap->ia_mode = 0;
+   229	
+   230		status = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_EXEC);
+   231		if (status != nfs_ok)
+   232			return status;
+   233		parent = fhp->fh_dentry;
+   234		inode = d_inode(parent);
+   235	
+   236		if (open->op_createmode == NFS4_CREATE_UNCHECKED) {
+   237			/*
+   238			 * If name is already in dcache we need to check for mountpoints
+   239			 */
+   240			child = try_lookup_noperm(&QSTR_LEN(open->op_fname,
+   241							    open->op_fnamelen),
+   242						  parent);
+   243			if (child && !IS_ERR(child) && d_is_reg(child) &&
+   244			    unlikely(nfsd_mountpoint(child, fhp->fh_export))) {
+   245				struct svc_export *exp = exp_get(fhp->fh_export);
+   246	
+   247				status = nfsd_cross_mnt(rqstp, &child, &exp);
+   248				if (status == nfs_ok)
+   249					status = fh_compose(resfhp, exp,
+   250							    child, fhp);
+   251				fh_fill_post_noop(fhp);
+   252				open->op_truncate =
+   253					(iap->ia_valid & ATTR_SIZE) &&
+   254					!iap->ia_size;
+   255				dput(child);
+   256				exp_put(exp);
+   257				return status;
+   258			}
+   259			if (!IS_ERR(child))
+   260				dput(child);
+   261		}
+   262	
+   263		if (!IS_POSIXACL(inode))
+   264			iap->ia_mode &= ~current_umask();
+   265	
+   266		/*
+   267		 * For the EXCLUSIVE modes we do our own uniqueness tests
+   268		 * so don't want O_EXCL.
+   269		 */
+   270		if (open->op_createmode == NFS4_CREATE_GUARDED)
+   271			oflags |= O_EXCL;
+   272	
+   273		switch (open->op_share_access & NFS4_SHARE_ACCESS_BOTH) {
+   274		case NFS4_SHARE_ACCESS_WRITE:
+   275			oflags |= O_WRONLY;
+   276			break;
+   277		case NFS4_SHARE_ACCESS_BOTH:
+   278			oflags |= O_RDWR;
+   279			break;
+   280		default:
+   281			oflags |= O_RDONLY;
+   282		}
+   283	
+   284		if (!is_create_with_attrs(open)) {
+   285			/* No attrs to check */
+   286		} else if (open->op_acl) {
+   287			if (open->op_dpacl || open->op_pacl) {
+   288				/* Cannot specify both NFSv4 and Posix ACLs */
+   289				return nfserr_inval;
+   290			}
+   291			status = nfsd4_acl_to_attr(NF4REG, open->op_acl,
+   292							   &attrs);
+   293			if (status)
+   294				return status;
+   295		} else {
+   296			/* The dpacl and pacl will get released by nfsd_attrs_free(). */
+   297			attrs.na_dpacl = open->op_dpacl;
+   298			attrs.na_pacl = open->op_pacl;
+   299			open->op_dpacl = NULL;
+   300			open->op_pacl = NULL;
+   301		}
+   302	
+   303		v_mtime = 0;
+   304		v_atime = 0;
+   305		if (nfsd4_create_is_exclusive(open->op_createmode)) {
+   306			u32 *verifier = (u32 *)open->op_verf.data;
+   307	
+   308			/*
+   309			 * Solaris 7 gets confused (bugid 4218508) if these have
+   310			 * the high bit set, as do xfs filesystems without the
+   311			 * "bigtime" feature. So just clear the high bits. If this
+   312			 * is ever changed to use different attrs for storing the
+   313			 * verifier, then do_open_lookup() will also need to be
+   314			 * fixed accordingly.
+   315			 */
+   316			v_mtime = verifier[0] & 0x7fffffff;
+   317			v_atime = verifier[1] & 0x7fffffff;
+   318	
+   319			iap->ia_valid |= ATTR_MTIME | ATTR_ATIME |
+   320					 ATTR_MTIME_SET|ATTR_ATIME_SET;
+   321			iap->ia_mtime.tv_sec = v_mtime;
+   322			iap->ia_atime.tv_sec = v_atime;
+   323			iap->ia_mtime.tv_nsec = 0;
+   324			iap->ia_atime.tv_nsec = 0;
+   325		}
+   326	
+   327		create_status = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_CREATE);
+   328	
+   329		want_write_err = fh_want_write(fhp);
+   330		if (want_write_err)
+   331			/* Might still succeed if no create is needed */
+   332			create_status = nfserrno(want_write_err);
+   333	
+   334		child = start_creating(&nop_mnt_idmap, parent,
+   335				       &QSTR_LEN(open->op_fname, open->op_fnamelen));
+   336		if (IS_ERR(child)) {
+   337			status = nfserrno(PTR_ERR(child));
+   338			if (!want_write_err)
+   339				fh_drop_write(fhp);
+   340			goto out;
+   341		}
+   342		path.dentry = child;
+   343	
+   344		if (d_really_is_positive(child)) {
+   345			/*
+   346			 * open the file so that we consistently have a valid
+   347			 * op_filp and consequently a valid ->f_path.dentry.
+   348			 */
+   349	
+ > 350			status = nfserrno(nfsd_check_obj_isreg(child));
+   351			if (!status) {
+   352				open->op_filp = dentry_open(&path, oflags,
+   353							    current_cred());
+   354				if (IS_ERR(open->op_filp)) {
+   355					status = nfserrno(PTR_ERR(open->op_filp));
+   356					open->op_filp = NULL;
+   357				}
+   358			}
+   359		} else if (create_status) {
+   360			status = create_status;
+   361		} else {
+   362			open->op_filp = dentry_create(&path, oflags, open->op_iattr.ia_mode,
+   363						      current_cred());
+   364			child = path.dentry;
+   365	
+   366			if (IS_ERR(open->op_filp)) {
+   367				status = nfserrno(PTR_ERR(open->op_filp));
+   368				open->op_filp = NULL;
+   369			} else {
+   370				open->op_created = open->op_filp->f_mode & FMODE_CREATED;
+   371			}
+   372		}
+   373		end_creating(child);
+   374		if (!want_write_err)
+   375			fh_drop_write(fhp);
+   376		if (status != nfs_ok)
+   377			goto out;
+   378	
+   379		child = open->op_filp->f_path.dentry;
+   380	
+   381		status = fh_compose(resfhp, fhp->fh_export, child, fhp);
+   382		if (status != nfs_ok)
+   383			goto out;
+   384	
+   385		if (!open->op_created &&
+   386		    nfsd4_create_is_exclusive(open->op_createmode) &&
+   387		    inode_get_mtime_sec(d_inode(child)) == v_mtime &&
+   388		    inode_get_atime_sec(d_inode(child)) == v_atime &&
+   389		    d_inode(child)->i_size == 0)
+   390			open->op_created = true;
+   391	
+   392		if (!open->op_created) {
+   393			if (open->op_createmode == NFS4_CREATE_UNCHECKED) {
+   394				/* NFSv4 protocol requires change attributes
+   395				 * even though no change happened.
+   396				 */
+   397				fh_fill_post_noop(fhp);
+   398	
+   399				/*
+   400				 * In NFSv4, we don't want to truncate the file
+   401				 * now. This would be wrong if the OPEN fails for
+   402				 * some other reason. Furthermore, if the size is
+   403				 * nonzero, we should ignore it according to spec!
+   404				 */
+   405				open->op_truncate = (d_is_reg(child) &&
+   406						     (iap->ia_valid & ATTR_SIZE) &&
+   407						     !iap->ia_size);
+   408			} else
+   409				status = nfserr_exist;
+   410			goto out;
+   411		}
+   412		/* file was created */
+   413		fh_fill_post_attrs(fhp);
+   414	
+   415		/* A newly created file already has a file size of zero. */
+   416		if ((iap->ia_valid & ATTR_SIZE) && (iap->ia_size == 0))
+   417			iap->ia_valid &= ~ATTR_SIZE;
+   418	
+   419		/* We will need write access to set the attrs */
+   420		want_write_err = fh_want_write(fhp);
+   421		if (!want_write_err) {
+   422			status = nfsd_create_setattr(rqstp, fhp,
+   423						     resfhp, &attrs);
+   424			fh_drop_write(fhp);
+   425		} else if (nfsd_attrs_valid(&attrs)) {
+   426			/* Needed write access */
+   427			status = nfserrno(want_write_err);
+   428		}
+   429	
+   430		if (attrs.na_labelerr)
+   431			open->op_bmval[2] &= ~FATTR4_WORD2_SECURITY_LABEL;
+   432		if (attrs.na_paclerr || attrs.na_dpaclerr)
+   433			open->op_bmval[0] &= ~FATTR4_WORD0_ACL;
+   434		if (attrs.na_dpaclerr)
+   435			open->op_bmval[2] &= ~FATTR4_WORD2_POSIX_DEFAULT_ACL;
+   436		if (attrs.na_paclerr)
+   437			open->op_bmval[2] &= ~FATTR4_WORD2_POSIX_ACCESS_ACL;
+   438	out:
+   439		nfsd_attrs_free(&attrs);
+   440		return status;
+   441	}
+   442	
 
 --
 0-DAY CI Kernel Test Service
