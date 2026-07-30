@@ -1,136 +1,136 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350ED296BD3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 07:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA18939E16B;
+	Thu, 30 Jul 2026 07:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785395080; cv=none; b=sM9BZpfzHqtphdwPZRAPM67Bn+ScXWg43ykoZNhjm/EF8STyQ5q6/z4RceVfA7SXH0zLm8kUZo1Z5kw7rFqUZ4lAQJuHTv4XVXzr3OijjtIrPd27UQaRPVBH2AhgiDQLYsW6KgFRI2Mvn786VQmoP9hxrhfh+VxHSBvYdT18Hi8=
+	t=1785396896; cv=none; b=ZGaVDv5I7uo7IJBfPteffqr74ijPuIrsgEf6VygvSKQsSQgoUUTOuZcIjerYpRxECGH9C+PRI40ruwcwZ9n7UPcb7umF1KAO6sNEYdAbdQHN5xehlcZra/4k/XTF/DeOyY/zxtFVP/i55x5cw5DiPbmGxbv6/tz1ILwyeTqSjYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785395080; c=relaxed/simple;
-	bh=eUub1WOBurKKQMdurADrgZ9S4PQ0v0mV3n9D7ObL4Mo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SwriRCLNsFn9eKed3zOZGYGm+6jzX0eqqsfIEaRvp3SNXBoBgl3/X+kD/2+PJTC37I3hXamVvfmYVl7lkjrYZmeC2IGzip1OmG3MAs5CEbezmih4GWKmqqxcQ8q/MJXv5R1qXGuK8bkIAPxOZLzLheALPfkEhbQmDnESvAIoAn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oBiPovu8; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785396896; c=relaxed/simple;
+	bh=0NnEL7t9mYliAl/90LxghoUM8VkO/IJ8DOhEM4Wt6tM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rWj16XoLWzG62JDEvBAbdtGa/bqL9LjfpluNyFVaXeYYFy4ZpnH5h343n7+B14T+KWQHrcsi/8lU90MZ439TdlaQ1RHJhIk0cLp25uuVbtjrGEwc4fJUkobxnaG8E3+ye5BzvoUDSkiEOLNaHGiq1ZO7lRUd7ViWYVaasYfEMu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1Wj1jeg; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oBiPovu8"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cc97653887so20801045ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Jul 2026 00:04:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785395070; x=1785999870; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nBXwj4w+J4M7SdOCVORvHTOCgnxjV4DAZX2+4ULF/2w=;
-        b=oBiPovu8kj+Oy8oJL8DUpnHA1EWhkCVCk91HDhzcgyEveMrdpOsLxaaXFw4UMd6cdu
-         3BDkmoH+aSmh3po8xNrhitlGrQlYcGBo7otWPwCwgorihtFIHboj3l4CNjKyqsQaZHHW
-         wKWaK78Ifg62pGxXLFY6IYB5NUepsUwuPClR3LJiRrfKj/+qFH+zzvm5DK8bcoEjBJ6c
-         yKSPL0C/GywTatIHNl4ruNV+xLZASOHr/vgJUpxvt9zDaC56spIbuJHlVb61Hc5Lz9RI
-         Rta86Wfj3E1gFXSXXzUe1qtgfHkg8ASA0cgqatbXKSBwxLwqDj4+CySLWNYkORNHfPTm
-         t45g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785395070; x=1785999870;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nBXwj4w+J4M7SdOCVORvHTOCgnxjV4DAZX2+4ULF/2w=;
-        b=JXOEpCSapIbHFagxeEP8LpeO6ViF6rJUbc4OaBlOil5q6WnFHVbpux70WgPKmbYt9p
-         TTNv0dbCJPWMfwNzHvPLVZMal6dOv6+/L1Uc9JMqWSgREvYVRDzbSftE3b6hFZuFTy8J
-         Gxz3YHlO1P+bQ4eCEk+n1imRQVmGtb7lCCN6M0FqXMr06plaIEZx/4P9p9E5A6qGscuP
-         DI8e46U16dOh7/K3Wk837rdBcSG+ALc3nRmrHrzssrMdsW3e8RDbcM4YcfnXR0iJKFLk
-         M2SqB8IkZX/J6HOTthx3SWoesYatCsoam3lXKsfTmCUaNvq3CkyeT8VZRrDJv5y8xpl/
-         6DEA==
-X-Gm-Message-State: AOJu0YwSgcOUk6MLAqN9/BT0rP4STfBEgGUWaUSryAfEG3v7sUsWe1mR
-	DE5Z7Lic3MeefylxN9coNngPyg+XjY88Al0WKIHEHsMN7ydXpzUz3Qu6EACG5A==
-X-Gm-Gg: AR+sD12lBhAWcBiD8yglQRpF+it5rOkNowwi9xX4Z9uLQHUczbJKddqVXGRG7NwmBlO
-	ICmLVm5aqDIcPG91nWEbohyCxXXrmT3RQ5H9LGOPzrbe2AgfV+E3Bb4yjKJ8tW+b8VMgAQjJb0w
-	aQv1pyDbIWtUWZTa5GLeWmhiS7D3rMmNcupe9GTt1Yhxcjpbo6FepPwp0O7BYYmlNcpi7lq0fcp
-	a71itEdppZUI87TF1S3OGa2aQB10flhFmKqBjpqxonmf04DrMzcdYNZSOC5k8hTiI+UA/LBhonK
-	7gIpNc26ONByHEstN6UACQm6cUdHSYbixQNCkOzbczD/Ilx7pRBl0hPERrxxU5pdOvRkqoPqir2
-	PezLYIFCPpy1YLlXuiayfvLvSwXCInbdn3FZVl+yMcHRwuUqJXR3nH8F0V1/Gz7fzCHmZL9MNob
-	PCbNFLby/T09rpEIMPXsSXTvYPugZgsO/dBROv6+XcUHXNW3QUEXLViE2wG2wBPBMRzP268zKc5
-	SJ18hIM4d25nCT93upny4SfxiYGwFx8nZlbyyVmdp7LRrm0XuCXYw0=
-X-Received: by 2002:a17:902:ebc3:b0:2ce:9c48:22d3 with SMTP id d9443c01a7336-2d035bbb13cmr17251075ad.11.1785395069985;
-        Thu, 30 Jul 2026 00:04:29 -0700 (PDT)
-Received: from [192.168.1.34] (cm-171-100-253-168.revip10.asianet.co.th. [171.100.253.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022c3721esm21968545ad.77.2026.07.30.00.04.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2026 00:04:29 -0700 (PDT)
-Message-ID: <087e006b-d856-4307-8429-f8225273a785@gmail.com>
-Date: Thu, 30 Jul 2026 14:04:20 +0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1Wj1jeg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785396895; x=1816932895;
+  h=date:from:to:cc:subject:message-id;
+  bh=0NnEL7t9mYliAl/90LxghoUM8VkO/IJ8DOhEM4Wt6tM=;
+  b=K1Wj1jegl1fx0wCFzbBgeooFBYEu5PeRwZGtxVmQIgTW+3W8I/JO7nQa
+   IloDJtoe3hNrknG4Fn9pzzufVfQm4V/2cGmRgXgF8ZtJzM4tGD0Rn2/rl
+   v/sFmxHyLJPCB02KkL2nJyRTKrEQMPhvEDiF3Ndkx3/xPXJuEGqjl47fx
+   gbiolD9VP7FnJZ/Nln5tLy3ptJFPqMJlBMTA/O8eLQ68MSb+TmBXYP9iD
+   fAfPlACEU0TGPa6ca4Cnk3XxB3POD6RQX7/l0XggW3izTBYuIzPag6riw
+   8JZU7yWMAI2Ow+mS7SHVDdzx7dlfZNwfEodurOQP/+Ff+kIaHXH5KtuwJ
+   Q==;
+X-CSE-ConnectionGUID: N7VQtKNGQw6SvgortiUElg==
+X-CSE-MsgGUID: v7xmOEblQneKb9D5AqzsnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="88548467"
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="88548467"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 00:34:54 -0700
+X-CSE-ConnectionGUID: jrCWci+yTUO6OqEJ/WRZ+g==
+X-CSE-MsgGUID: txRjD7hwThaisih5zObNdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="259649287"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 30 Jul 2026 00:34:52 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wpLHu-00000000gCQ-291x;
+	Thu, 30 Jul 2026 07:34:44 +0000
+Date: Thu, 30 Jul 2026 15:33:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <brauner@kernel.org>
+Subject: [dhowells-fs:afs-sticky-2 8/14]
+ fs/netfs/rolling_buffer.c:31:25: error: incomplete definition of type 'struct
+ mempool'
+Message-ID: <202607301453.QxDoO1xs-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [trace:trace/core 16/16] WARNING: modpost: vmlinux: section
- mismatch in reference: trace_printk_init_buffers.part.0+0xc8 (section:
- .text.unlikely) -> initcall_level_names (section: .init.data)
-To: Steven Rostedt <rostedt@goodmis.org>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-References: <202607291326.Dr0maCyu-lkp@intel.com>
- <20260729113613.7f6af519@gandalf.local.home>
-Content-Language: en-US
-From: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
-In-Reply-To: <20260729113613.7f6af519@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 29/7/2569 BE 22:36, Steven Rostedt wrote:
-> On Wed, 29 Jul 2026 13:14:23 +0800
-> kernel test robot <lkp@intel.com> wrote:
-> 
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/core
->> head:   c33330b2ec170dd38b3284a72bc6a07a49cc9a65
->> commit: c33330b2ec170dd38b3284a72bc6a07a49cc9a65 [16/16] tracing: Use seq_buf for string concatenation
->> config: xtensa-randconfig-001-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291326.Dr0maCyu-lkp@intel.com/config)
->> compiler: xtensa-linux-gcc (GCC) 12.5.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291326.Dr0maCyu-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202607291326.Dr0maCyu-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>, old ones prefixed by <<):
->>
->>>> WARNING: modpost: vmlinux: section mismatch in reference: trace_printk_init_buffers.part.0+0xc8 (section: .text.unlikely) -> initcall_level_names (section: .init.data)  
->>
->> --
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
-> 
-> This looks to be a false positive. I have no idea how the above commit
-> could cause that warning.
-> 
-> -- Steve
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git afs-sticky-2
+head:   1c608665edb5162ebe8c59325c02049995458c42
+commit: fc6965676202afb4e7a7c4975418b73918d4c5c3 [8/14] netfs: Fix folio_queue ENOMEM in writeback by adding a mempool
+config: s390-randconfig-001-20260730 (https://download.01.org/0day-ci/archive/20260730/202607301453.QxDoO1xs-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260730/202607301453.QxDoO1xs-lkp@intel.com/reproduce)
 
-Hi Steven,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607301453.QxDoO1xs-lkp@intel.com/
 
-I reproduced this locally with commit
-`c33330b2ec170dd38b3284a72bc6a07a49cc9a65`, and it also reports:
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: section mismatch in reference:
-trace_printk_init_buffers.part.0+0xc8 (section: .text.unlikely) ->
-initcall_level_names (section: .init.data)
+>> fs/netfs/rolling_buffer.c:31:25: error: incomplete definition of type 'struct mempool'
+      31 |                 fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
+         |                      ~~~~~~~~~~~~~~~~~^
+   include/linux/netfs.h:24:16: note: forward declaration of 'struct mempool'
+      24 | typedef struct mempool mempool_t;
+         |                ^
+   fs/netfs/rolling_buffer.c:31:54: error: incomplete definition of type 'struct mempool'
+      31 |                 fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
+         |                                                   ~~~~~~~~~~~~~~~~~^
+   include/linux/netfs.h:24:16: note: forward declaration of 'struct mempool'
+      24 | typedef struct mempool mempool_t;
+         |                ^
+   fs/netfs/rolling_buffer.c:33:8: error: call to undeclared function 'mempool_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      33 |                 fq = mempool_alloc(&netfs_folioq_pool, gfp);
+         |                      ^
+   fs/netfs/rolling_buffer.c:33:6: error: incompatible integer to pointer conversion assigning to 'struct folio_queue *' from 'int' [-Wint-conversion]
+      33 |                 fq = mempool_alloc(&netfs_folioq_pool, gfp);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/rolling_buffer.c:56:2: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      56 |         mempool_free(folioq, &netfs_folioq_pool);
+         |         ^
+   5 errors generated.
 
-Then I tried the same configuration and reproduction steps with the parent
-commit, `b6ccdca8d11c28338776811f0b9024d92c4bedb4`. It doesn't report anything
-related to `modpost: vmlinux: section mismatch in reference:
-trace_printk_init_buffers.part`.
 
-So it looks like this commit introduced the warning. I'm not sure where to look
-yet, but I'll dig into `modpost.c` to understand the root cause. If you have any 
-suggestions on where I should start looking, I'd really appreciate them.
+vim +31 fs/netfs/rolling_buffer.c
 
-Also, I'd like to ask how urgent this issue is. It might take me some time to
-find the root cause.
+    15	
+    16	/**
+    17	 * netfs_folioq_alloc - Allocate a folio_queue struct
+    18	 * @rreq_id: Associated debugging ID for tracing purposes
+    19	 * @gfp: Allocation constraints
+    20	 * @trace: Trace tag to indicate the purpose of the allocation
+    21	 *
+    22	 * Allocate, initialise and account the folio_queue struct and log a trace line
+    23	 * to mark the allocation.
+    24	 */
+    25	struct folio_queue *netfs_folioq_alloc(unsigned int rreq_id, gfp_t gfp,
+    26					       unsigned int /*enum netfs_folioq_trace*/ trace)
+    27	{
+    28		struct folio_queue *fq;
+    29	
+    30		if (gfp == GFP_KERNEL)
+  > 31			fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
+    32		else
+    33			fq = mempool_alloc(&netfs_folioq_pool, gfp);
+    34		if (fq) {
+    35			netfs_stat(&netfs_n_folioq);
+    36			folioq_init(fq, rreq_id);
+    37			fq->debug_id = atomic_inc_return(&debug_ids);
+    38			trace_netfs_folioq(fq, trace);
+    39		}
+    40		return fq;
+    41	}
+    42	EXPORT_SYMBOL(netfs_folioq_alloc);
+    43	
 
-Thanks,
-Woradorn
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
