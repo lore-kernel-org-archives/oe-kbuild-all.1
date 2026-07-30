@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C2D280A56;
-	Thu, 30 Jul 2026 10:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF1F40244D;
+	Thu, 30 Jul 2026 10:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785405677; cv=none; b=NHwZ7JKZSjjDWPdQFYJ8X7XeTQAJDqtCwwadVxX7j2Y0nunWDhkH0Q1Kw+AHQTScR1Ss8DUSBprC5naLEIFvopWSnX0Hi1FP7hxLXjh1gZh/HZTS2kRBpUg8umhzYdnUoUOLH7jQL+H4GmW3A4i44Go/7Kz2uOJ9d1NoaJbbq+E=
+	t=1785407148; cv=none; b=h5YQicpP4jOR6E/0DzsNBlREdAnLaC2s/+MlDidRCg8KnDgNfhFqQ6DzkGDl7V/TVUwupWF2V/cy+6cB2Z26mgsSM5tWhAQsOAkqDgq9eBVwoTViF7wxTNFJANdowOgvJhdtp8pnx4BhYPIo0URJOiO34M3fPjaEowpXZ3T6X0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785405677; c=relaxed/simple;
-	bh=oFydtNBmo1XYDH7j817qXbomst2TT+5XY2ktn+4xRM4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NfneMU1RQwm43tnppHpkiHknJTZ36UBDcHQEy6mMne63L5FgEJ6pDkCPnRe2iSRd1tFfx5CqLn8XAWFmLbP+aFn8MySist4nN78p32hOglAeATIXPOaISQYVKk9yBdiU1MuPk8fKbfnVXQipiCx+5wvPAOme6+Ink8rBuiA5I6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtQdgdOC; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1785407148; c=relaxed/simple;
+	bh=YLu1OmXmOLxasB9Y9fG74RIP2RaBxn+NOB2o3PCyFBY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dqK9/tEloORMB3SovkLRtmmXElaVCAlO5qBXvvpC1uUd4EVVc9qL8IoHu5+HosETxqhwxTMnxVFRAfNZ8p6/aQy/HzTr5t/wO1UzYJ4L5Gd4qQEEd9xQeNIKHBFWdwVgtIxaGqAN+GTH4hMOOoH8u6rC6+Cmd36ZXsxJ4oHOeKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxQxW6S5; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtQdgdOC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxQxW6S5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785405676; x=1816941676;
+  t=1785407145; x=1816943145;
   h=date:from:to:cc:subject:message-id;
-  bh=oFydtNBmo1XYDH7j817qXbomst2TT+5XY2ktn+4xRM4=;
-  b=YtQdgdOC+EwwDyexkzOaODW7GEf6tleTvw/e8AxOhf/pF4IJ7euYiRF1
-   N+EOlAgLTxitEz0Y9PnEwmoI+EH2bbXs6kdutRdvuCqla3+8JKH6GEwZm
-   80XnvpRlevGXLdXsUTMuQlEu+pLcjSTfoX934/v6jypgVo78VzgzEa9OG
-   rY6sEvw0TSuyPQHruaS31w7hHzGeIicx55dUmB/bvVCyC2Fb2m0gR89DO
-   5fstXKNxwz8+c1r3+350TLglqwyVLnaNQqBFL2E5CT0Csv67F0U8eGO3q
-   ug1ZaDKSsi5LtWH1+xFJrehQKcBDrVKnBH4u5sQc+qOLb+VN5juxFyOe3
-   Q==;
-X-CSE-ConnectionGUID: CG6mrqaSR5mTyr3AwdBvMg==
-X-CSE-MsgGUID: fBR623qgSJaSN0GVDHbhDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86036364"
+  bh=YLu1OmXmOLxasB9Y9fG74RIP2RaBxn+NOB2o3PCyFBY=;
+  b=CxQxW6S5+GCxG4973pGtMW6O8vu+13KJSY6Kr+79AhTVP5OBZayKstpf
+   p2/QBdIWpccqRsbydKBNpws8+seblFMzNp/l/WRie8KcCXS8Ss/Jxo+FI
+   xpD8emTafrpGkrC4QKXQ/Z+W76v80ScNCbjpgP8NMG2RFa6FEEB5zAnS3
+   TCaSjdVcKnXvcK75sXEAwcNKJ2jAtTZ1WyhXhgi6CH0Swez+aR8Tz5shO
+   7AI12VzsnCm2BL9r53NJYuk/n+mnf/TpVQuvA8IzKnqPmb7qfgaMyCoH3
+   19fj14LEZYZ+BATPo1bgsCTkZh1GS8Zjt92T6khqSv+gra9O+PNUSsq1t
+   g==;
+X-CSE-ConnectionGUID: Zs6tlRSzRwy1vAV5BwhQrQ==
+X-CSE-MsgGUID: q19K3gMMShWX2z/coLPm+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85786756"
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="86036364"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 03:01:16 -0700
-X-CSE-ConnectionGUID: 24sBpFwpQLap3Pod0hwSFw==
-X-CSE-MsgGUID: b0t3d9xfQJCoCYwG35nxCA==
+   d="scan'208";a="85786756"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 03:25:44 -0700
+X-CSE-ConnectionGUID: s4rQs0YiQ5eJNZkveKVJ2Q==
+X-CSE-MsgGUID: 39eOkAAzQJmVSdL1adQarQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="265310732"
+   d="scan'208";a="263746785"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Jul 2026 03:01:13 -0700
+  by orviesa003.jf.intel.com with ESMTP; 30 Jul 2026 03:25:43 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpNZM-00000000gOA-0lD2;
-	Thu, 30 Jul 2026 10:01:01 +0000
-Date: Thu, 30 Jul 2026 18:00:05 +0800
+	id 1wpNxM-00000000gPe-2SAe;
+	Thu, 30 Jul 2026 10:25:40 +0000
+Date: Thu, 30 Jul 2026 18:24:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mark:arm64/percpu-fixup 17/17]
- arch/arm64/include/asm/percpu.h:330:1: warning: value size does not match
- register size specified by the constraint and modifier
-Message-ID: <202607301718.iVkRNJ8y-lkp@intel.com>
+To: "Ethan Nelson-Moore" <enelsonmoore@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Ulf Hansson <ulfh@kernel.org>
+Subject: [linux-next:master 2795/10444]
+ arch/arm/mach-pxa/generic.c:55:6: error: expected ';' after expression
+Message-ID: <202607301822.cl0lEkQt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,284 +60,88 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/percpu-fixup
-head:   d1bf23b2ad173d4e8810016cbc69f2fb8f33ca93
-commit: d1bf23b2ad173d4e8810016cbc69f2fb8f33ca93 [17/17] WIP: improve extension in this_cpu_cmpxchg*()
-config: arm64-randconfig-002-20260730 (https://download.01.org/0day-ci/archive/20260730/202607301718.iVkRNJ8y-lkp@intel.com/config)
-compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260730/202607301718.iVkRNJ8y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   78bc8af4affb9a732504eb22eeac7d1e50883853
+commit: ab9c44bbf6d7df22518ea66329595023c00be1bc [2795/10444] ARM: PXA: remove remnants of PXA93x support
+config: arm-pxa3xx_defconfig (https://download.01.org/0day-ci/archive/20260730/202607301822.cl0lEkQt-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260730/202607301822.cl0lEkQt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607301718.iVkRNJ8y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607301822.cl0lEkQt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/asm-offsets.c:11:
-   In file included from include/linux/arm_sdei.h:8:
-   In file included from include/acpi/ghes.h:5:
-   In file included from include/acpi/apei.h:9:
-   In file included from include/linux/acpi.h:14:
-   In file included from include/linux/resource_ext.h:11:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:59:
-   In file included from include/linux/irqflags.h:19:
->> arch/arm64/include/asm/percpu.h:330:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     330 | PERCPU_CMPXCHG_OP(w, b, 8)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:330:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:331:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     331 | PERCPU_CMPXCHG_OP(w, h, 16)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:331:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:332:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     332 | PERCPU_CMPXCHG_OP(w,  , 32)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:332:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   3 warnings generated.
+>> arch/arm/mach-pxa/generic.c:55:6: error: expected ';' after expression
+      55 |         if (cpu_is_pxa3xx())
+         |             ^
+   include/linux/soc/pxa/cpu.h:193:3: note: expanded from macro 'cpu_is_pxa3xx'
+     193 |                 __cpu_is_pxa3xx(read_cpuid_id());       \
+         |                 ^
+   include/linux/soc/pxa/cpu.h:181:3: note: expanded from macro '__cpu_is_pxa3xx'
+     181 |          })
+         |          ^
+   1 error generated.
 --
-   In file included from drivers/gpu/drm/pl111/pl111_versatile.c:13:
-   In file included from include/linux/device.h:15:
-   In file included from include/linux/dev_printk.h:16:
-   In file included from include/linux/ratelimit.h:6:
-   In file included from include/linux/sched.h:13:
-   In file included from arch/arm64/include/asm/processor.h:47:
-   In file included from arch/arm64/include/asm/spectre.h:17:
->> arch/arm64/include/asm/percpu.h:330:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     330 | PERCPU_CMPXCHG_OP(w, b, 8)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:330:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:331:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     331 | PERCPU_CMPXCHG_OP(w, h, 16)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:331:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:332:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     332 | PERCPU_CMPXCHG_OP(w,  , 32)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:332:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   drivers/gpu/drm/pl111/pl111_versatile.c:489:24: warning: cast to smaller integer type 'enum versatile_clcd' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-     489 |         versatile_clcd_type = (enum versatile_clcd)clcd_id->data;
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/pl111/pl111_versatile.c:509:26: warning: cast to smaller integer type 'enum versatile_clcd' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-     509 |                         versatile_clcd_type = (enum versatile_clcd)clcd_id->data;
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
+>> arch/arm/mach-pxa/pxa3xx.c:402:6: error: expected ';' after expression
+     402 |         if (cpu_is_pxa3xx()) {
+         |             ^
+   include/linux/soc/pxa/cpu.h:193:3: note: expanded from macro 'cpu_is_pxa3xx'
+     193 |                 __cpu_is_pxa3xx(read_cpuid_id());       \
+         |                 ^
+   include/linux/soc/pxa/cpu.h:181:3: note: expanded from macro '__cpu_is_pxa3xx'
+     181 |          })
+         |          ^
+   1 error generated.
 --
-   In file included from arch/arm64/kernel/asm-offsets.c:11:
-   In file included from include/linux/arm_sdei.h:8:
-   In file included from include/acpi/ghes.h:5:
-   In file included from include/acpi/apei.h:9:
-   In file included from include/linux/acpi.h:14:
-   In file included from include/linux/resource_ext.h:11:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:59:
-   In file included from include/linux/irqflags.h:19:
->> arch/arm64/include/asm/percpu.h:330:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     330 | PERCPU_CMPXCHG_OP(w, b, 8)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:330:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:331:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     331 | PERCPU_CMPXCHG_OP(w, h, 16)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:331:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:332:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     332 | PERCPU_CMPXCHG_OP(w,  , 32)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:332:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   3 warnings generated.
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/prandom.h:13:
-   In file included from include/linux/percpu.h:5:
-   In file included from include/linux/alloc_tag.h:12:
->> arch/arm64/include/asm/percpu.h:330:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     330 | PERCPU_CMPXCHG_OP(w, b, 8)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:330:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:331:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     331 | PERCPU_CMPXCHG_OP(w, h, 16)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:331:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:332:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     332 | PERCPU_CMPXCHG_OP(w,  , 32)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:332:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   3 warnings generated.
-   In file included from <built-in>:4:
-   In file included from lib/vdso/gettimeofday.c:24:
-   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:15:
-   In file included from arch/arm64/include/asm/arch_timer.h:18:
-   In file included from include/linux/percpu.h:5:
-   In file included from include/linux/alloc_tag.h:12:
->> arch/arm64/include/asm/percpu.h:330:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     330 | PERCPU_CMPXCHG_OP(w, b, 8)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:330:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:331:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     331 | PERCPU_CMPXCHG_OP(w, h, 16)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:331:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   arch/arm64/include/asm/percpu.h:332:1: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     332 | PERCPU_CMPXCHG_OP(w,  , 32)
-         | ^
-   arch/arm64/include/asm/percpu.h:317:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     317 |           [old] "r" (xw_zero_extend(old, sz)),                          \
-         |                      ^
-   arch/arm64/include/asm/atomic_ll_sc.h:248:31: note: expanded from macro 'xw_zero_extend'
-     248 | #define xw_zero_extend(v, sz)   ((xwreg_t_##sz)(u##sz)(v))
-         |                                 ^
-   arch/arm64/include/asm/percpu.h:332:1: note: use constraint modifier "w"
-   arch/arm64/include/asm/percpu.h:306:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
-     306 |         "       mov     %[oldval], %[old]\n"                            \
-         |                                    ^
-   3 warnings generated.
+>> arch/arm/mach-pxa/smemc.c:60:6: error: expected ';' after expression
+      60 |         if (cpu_is_pxa3xx()) {
+         |             ^
+   include/linux/soc/pxa/cpu.h:193:3: note: expanded from macro 'cpu_is_pxa3xx'
+     193 |                 __cpu_is_pxa3xx(read_cpuid_id());       \
+         |                 ^
+   include/linux/soc/pxa/cpu.h:181:3: note: expanded from macro '__cpu_is_pxa3xx'
+     181 |          })
+         |          ^
+   1 error generated.
+--
+>> drivers/video/fbdev/pxafb.c:2270:6: error: expected ';' after expression
+    2270 |         if (cpu_is_pxa3xx() && inf->acceleration_enabled)
+         |             ^
+   include/linux/soc/pxa/cpu.h:193:3: note: expanded from macro 'cpu_is_pxa3xx'
+     193 |                 __cpu_is_pxa3xx(read_cpuid_id());       \
+         |                 ^
+   include/linux/soc/pxa/cpu.h:181:3: note: expanded from macro '__cpu_is_pxa3xx'
+     181 |          })
+         |          ^
+   1 error generated.
 
 
-vim +330 arch/arm64/include/asm/percpu.h
+vim +55 arch/arm/mach-pxa/generic.c
 
-c03dfaa3c7ed10 Mark Rutland 2026-07-22  329  
-27fb4c5ba7a4fb Mark Rutland 2026-07-22 @330  PERCPU_CMPXCHG_OP(w, b, 8)
-27fb4c5ba7a4fb Mark Rutland 2026-07-22  331  PERCPU_CMPXCHG_OP(w, h, 16)
-27fb4c5ba7a4fb Mark Rutland 2026-07-22  332  PERCPU_CMPXCHG_OP(w,  , 32)
-27fb4c5ba7a4fb Mark Rutland 2026-07-22  333  PERCPU_CMPXCHG_OP(x,  , 64)
-27fb4c5ba7a4fb Mark Rutland 2026-07-22  334  
+04fef228fb00dd Eric Miao      2008-07-29  45  
+a38b1f60b5245a Robert Jarzmik 2014-07-14  46  /*
+a38b1f60b5245a Robert Jarzmik 2014-07-14  47   * For non device-tree builds, keep legacy timer init
+a38b1f60b5245a Robert Jarzmik 2014-07-14  48   */
+3d3c6a5f3de2c7 Arnd Bergmann  2014-07-26  49  void __init pxa_timer_init(void)
+a38b1f60b5245a Robert Jarzmik 2014-07-14  50  {
+5e1d01285140a8 Robert Jarzmik 2014-12-27  51  	if (cpu_is_pxa25x())
+3c816d950a494a Arnd Bergmann  2019-09-18  52  		pxa25x_clocks_init(io_p2v(0x41300000));
+5e1d01285140a8 Robert Jarzmik 2014-12-27  53  	if (cpu_is_pxa27x())
+3c816d950a494a Arnd Bergmann  2019-09-18  54  		pxa27x_clocks_init(io_p2v(0x41300000));
+a1c0a6adbc705a Robert Jarzmik 2015-02-07 @55  	if (cpu_is_pxa3xx())
+3c816d950a494a Arnd Bergmann  2019-09-18  56  		pxa3xx_clocks_init(io_p2v(0x41340000), io_p2v(0x41350000));
+f4e14edf25661f Robert Jarzmik 2016-09-19  57  	pxa_timer_nodt_init(IRQ_OST0, io_p2v(0x40a00000));
+a38b1f60b5245a Robert Jarzmik 2014-07-14  58  }
+a38b1f60b5245a Robert Jarzmik 2014-07-14  59  
 
-:::::: The code at line 330 was first introduced by commit
-:::::: 27fb4c5ba7a4fb529f6ad0ae5ea0ea4197cb477d arm64: percpu: Implement preemptible CMPXCHG ops
+:::::: The code at line 55 was first introduced by commit
+:::::: a1c0a6adbc705a9a760416796ce9cb3349fd476f ARM: pxa: Transition pxa25x, pxa27x, pxa3xx to clk framework
 
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Mark Rutland <mark.rutland@arm.com>
+:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
+:::::: CC: Robert Jarzmik <robert.jarzmik@free.fr>
 
 --
 0-DAY CI Kernel Test Service
