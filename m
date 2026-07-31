@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E8537997A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A89225B0B9
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 20:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785529805; cv=none; b=gKJ9cv1fDoSkBtb+awcF0L87Aff0IGo36ptCaaDFsNmZICrFLKstotH128FT+ytkPZ9NEFDVgU3BVqR3fHFg8wc+igXabJW9Cce/vfBrNb9lRbV7pUj07jcZGWqlXVTvnGi5KsO7bourRuPZX9K4V+/5mp53KlFykcLJp31nPLg=
+	t=1785529806; cv=none; b=cVMzRximVR/5hH2GA4q+qzzZzponNoRdiNZ/bMy+nIrSQxJRJynMlEKCKVCu+OA2giDAryKDS/9/erQrkItKSxMq71htp5krLVze5dk2wA3j4dbLO784FqjFhSbOKyXzkFJS1GOHLtB4La9esbcJmt+rhV6/6SJ70LMEGw9JGRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785529805; c=relaxed/simple;
-	bh=RULOuNty4gLh4Av03kezlPA23T7RK4XQ6m679Ta/JC0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nG7Mja+Zl3qqLoFLR3Znt/AAnY8VlTl/D2wXSMdGdvrkLIn+qyvdUtJXp+xTzetMkezl7MN1kstV8vhTVL+GKMDx6/Xjp+qz8QFWO7CHM4WPKXSin5UzliIwf9Yh6XRA9OHlLA08K2ISFBmgKDPeEUA5YMMnBWhgiORipYBUJLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bjq2R5hX; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1785529806; c=relaxed/simple;
+	bh=yI6IQK/GeEk13NO9sbeyCmjqZM7xMaY7YOLpszHv1iQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CdRom4R4ue/Tl56mnU0eM4empGCq6/KTtL/QqhhbYQiDP9wzfY4EPX4Wewc1vxYaOp8CYyaf0O5B7Y4vUwPPe04KGw/sdJkQAK4I0cGhvSGazdn+DN3RYeFaT6cCGMdpJoeVy1T1NpwmQ3FBngl96YkuPsnK+bgsfIVwTu2gnTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbVV2YP+; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bjq2R5hX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbVV2YP+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785529804; x=1817065804;
+  t=1785529803; x=1817065803;
   h=date:from:to:cc:subject:message-id;
-  bh=RULOuNty4gLh4Av03kezlPA23T7RK4XQ6m679Ta/JC0=;
-  b=Bjq2R5hXKUReTx2Bz4p//MKebF8nuGNnXW5TAlBMC3k+wSkFPTZVIGVS
-   N+XRWpQV7IWCTL9YIkBn5lLvVIYvlYfGYA6L3ZBw6iMinyoSRNyEM41qW
-   QS0V/T7ibxLs5yeEgFlIaVD1WPUl6eS8638MtWJIMNTU9XrJ4uuk/9/6G
-   kAlY8vbxgP6dzdMvMx3VzdPb4scfY5J//k6Ti4uanXp2B89ZVqD3tMc2/
-   CZmWsqkCB3xdoyTiTg3jqzLSD2wU3uqSvnOhAGw9hOPBoYjtesGE/NCcE
-   X5febDTIrjo5p9ycZI1esIfQ/rjyUArXWceRSZqHTcypnLw0St0HYFrer
-   w==;
-X-CSE-ConnectionGUID: v5DJ5DGqR4y+G9yyJZAXug==
-X-CSE-MsgGUID: Br+jx8p8QNuBofSPTdMfJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86175765"
+  bh=yI6IQK/GeEk13NO9sbeyCmjqZM7xMaY7YOLpszHv1iQ=;
+  b=VbVV2YP+Z9I8ZCEQttSJgYySiFOsGaKiQ+LA+5S615/uv7Y18Jqef9N/
+   7ckW32r18K6ZZCyV/F+utea/zrDltDGPIr2tTidH05pkUO6mk9SHrwQ/j
+   3HQHN4HpHs6XAVfVTjkhv5g+gI5QhHhuOQbwXAOVQWnRt+v4npXzpn0BF
+   LwYyNhUOVgm66g7Wv0CDyZC7cj97wsnGeBob0YIvB/8xGxb3gLJpFDNvP
+   Z5U3DbgZVkrxn5t4wd0FPlUWg5LWBzguS3c6XxLav7PZFtlNtSrJq9zvk
+   POBYQ9l+1bgcZ5JXnuCH+SMH5tEjYa+CFu8kMQabPbpO5az4G+PYQAWGI
+   A==;
+X-CSE-ConnectionGUID: oekEAW6fRbisRgdlF0YbGQ==
+X-CSE-MsgGUID: u4zbvVDVQaqwvRsirWwyLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="89970946"
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="86175765"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:30:04 -0700
-X-CSE-ConnectionGUID: Ou2xad8RQ1WRLraWEPjgPg==
-X-CSE-MsgGUID: aTt5vhkyR2W46VUvPfNc+A==
+   d="scan'208";a="89970946"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:30:03 -0700
+X-CSE-ConnectionGUID: I3lTA6mLTde94RFcSLxGtA==
+X-CSE-MsgGUID: zj44G+pRTx2ZBsRL871avA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="258869353"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 31 Jul 2026 13:30:02 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 31 Jul 2026 13:30:01 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wptrj-000000002C7-3KlE;
+	id 1wptrj-000000002C3-031T;
 	Fri, 31 Jul 2026 20:29:59 +0000
-Date: Sat, 01 Aug 2026 04:29:09 +0800
+Date: Sat, 01 Aug 2026 04:29:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@uclinux.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:armnommu 3/3]
- arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202608010410.aN1TXznM-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 2/2]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__cdc_ether__trace_system_name' defined but not used
+Message-ID: <202608010447.dj1nV9bN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,66 +58,142 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
-head:   c3abc5777e04ce2e70f0d1f870409b9332e3b8ea
-commit: c3abc5777e04ce2e70f0d1f870409b9332e3b8ea [3/3] ARM: versatile: support configuring versatile machine for no-MMU
-config: arm-randconfig-r133-20260731 (https://download.01.org/0day-ci/archive/20260801/202608010410.aN1TXznM-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010410.aN1TXznM-lkp@intel.com/reproduce)
+Hi yenchia.chen,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   b10e5e5b5c5e01d49829aec34b65a0d717d6f2f5
+commit: bd4dfcd275f371e3d65b7896148151aed16a6c80 [2/2] ANDROID: vendor_hooks: Add hooks to support rndis_host
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260801/202608010447.dj1nV9bN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010447.dj1nV9bN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608010410.aN1TXznM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010447.dj1nV9bN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *ip @@
-   arch/arm/mm/alignment.c:776:25: sparse:     expected void const volatile [noderef] __user *ptr
-   arch/arm/mm/alignment.c:776:25: sparse:     got unsigned int [usertype] *ip
->> arch/arm/mm/alignment.c:791:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] *ip @@
-   arch/arm/mm/alignment.c:791:25: sparse:     expected void const volatile [noderef] __user *ptr
-   arch/arm/mm/alignment.c:791:25: sparse:     got unsigned short [usertype] *ip
+All warnings (new ones prefixed by >>):
 
-vim +776 arch/arm/mm/alignment.c
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cdc_ether.h:17,
+                    from drivers/android/vendor_hooks.c:81:
+>> include/trace/trace_events.h:27:23: warning: 'str__cdc_ether__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bl_hib.h:44,
+                    from drivers/android/vendor_hooks.c:80:
+   include/trace/trace_events.h:27:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/delayacct.h:65,
+                    from drivers/android/vendor_hooks.c:79:
+   include/trace/trace_events.h:27:23: warning: 'str__delayacct__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/user.h:21,
+                    from drivers/android/vendor_hooks.c:78:
+   include/trace/trace_events.h:27:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sound.h:18,
+                    from drivers/android/vendor_hooks.c:77:
+   include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/typec.h:59,
+                    from drivers/android/vendor_hooks.c:76:
+   include/trace/trace_events.h:27:23: warning: 'str__typec__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
-c2860d43f5dfab George G. Davis   2009-06-04  769  
-1bb9fb0a147f9d Russell King      2019-09-06  770  static int alignment_get_arm(struct pt_regs *regs, u32 *ip, u32 *inst)
-67e15fa5b487ad Russell King      2019-08-31  771  {
-67e15fa5b487ad Russell King      2019-08-31  772  	u32 instr = 0;
-67e15fa5b487ad Russell King      2019-08-31  773  	int fault;
-67e15fa5b487ad Russell King      2019-08-31  774  
-67e15fa5b487ad Russell King      2019-08-31  775  	if (user_mode(regs))
-67e15fa5b487ad Russell King      2019-08-31 @776  		fault = get_user(instr, ip);
-67e15fa5b487ad Russell King      2019-08-31  777  	else
-25f12ae45fc193 Christoph Hellwig 2020-06-17  778  		fault = get_kernel_nofault(instr, ip);
-67e15fa5b487ad Russell King      2019-08-31  779  
-67e15fa5b487ad Russell King      2019-08-31  780  	*inst = __mem_to_opcode_arm(instr);
-67e15fa5b487ad Russell King      2019-08-31  781  
-67e15fa5b487ad Russell King      2019-08-31  782  	return fault;
-67e15fa5b487ad Russell King      2019-08-31  783  }
-67e15fa5b487ad Russell King      2019-08-31  784  
-67e15fa5b487ad Russell King      2019-08-31  785  static int alignment_get_thumb(struct pt_regs *regs, u16 *ip, u16 *inst)
-67e15fa5b487ad Russell King      2019-08-31  786  {
-67e15fa5b487ad Russell King      2019-08-31  787  	u16 instr = 0;
-67e15fa5b487ad Russell King      2019-08-31  788  	int fault;
-67e15fa5b487ad Russell King      2019-08-31  789  
-67e15fa5b487ad Russell King      2019-08-31  790  	if (user_mode(regs))
-67e15fa5b487ad Russell King      2019-08-31 @791  		fault = get_user(instr, ip);
-67e15fa5b487ad Russell King      2019-08-31  792  	else
-25f12ae45fc193 Christoph Hellwig 2020-06-17  793  		fault = get_kernel_nofault(instr, ip);
-67e15fa5b487ad Russell King      2019-08-31  794  
-67e15fa5b487ad Russell King      2019-08-31  795  	*inst = __mem_to_opcode_thumb16(instr);
-67e15fa5b487ad Russell King      2019-08-31  796  
-67e15fa5b487ad Russell King      2019-08-31  797  	return fault;
-67e15fa5b487ad Russell King      2019-08-31  798  }
-67e15fa5b487ad Russell King      2019-08-31  799  
 
-:::::: The code at line 776 was first introduced by commit
-:::::: 67e15fa5b487adb9b78a92789eeff2d6ec8f5cee ARM: mm: fix alignment handler faults under memory pressure
+vim +/str__cdc_ether__trace_system_name +27 include/trace/trace_events.h
 
-:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
