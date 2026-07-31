@@ -1,226 +1,82 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C448443E3C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 16:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86196446836
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 17:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514489; cv=none; b=seQXq+tjVntp0/wwsQWZ3txgg7d5Fchf7VmEBiLc0K1mCV37Zh6yV4pBHEsQcl7wJE+u5XS23dagXwlVWxfA4iQ40N2kU3grs3mYBnEXOQSXnqhAvytKpStA3gcWHa11+ZjZDmxOlWY/J9vb0qiAEsUCFgPKkHaGkodc7AnjUgs=
+	t=1785517245; cv=none; b=XNlBySQgfcdrRSd0ZN4kyUTyKaaWuqV9smpqwGr5jksVwwntqlJEneuvzkCRm80IIPVdlW710MIOyMiVXxyDY8VXNgYrXuBsZjDASgkxXCXvjmsHPb7w5AnHdhI22ulcvBmJGQDBgKm03LjMM8mU44OoFIs2mO/1q7j2Tx0l29s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785514489; c=relaxed/simple;
-	bh=r3BvI6Ro7+PERPYgF16V/v3XkCSxqE29J0AJHNOpytI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YX5BXpLYEO3XuZGn9QArrNifSqoANSx1bV6iSLEElCKJAiuU56u4pHCjkD57oCs7dCVxfsNrGTnr64kLqYAXw689XFEJ71IwRwU3f9gsQqiQ20qOHCTVmx82VjVC1NeAvXWtS9H2dHdOjBh5DusW/M5bopLBHEIO1x0wX3G1L70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=D8/LMflP; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1785517245; c=relaxed/simple;
+	bh=DdEw/LaNqLxzMpWbazRcgc9JomDX3uYZxCgN46mzIPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=fEvhsyQoQpzLN7iSt56FmFaUJyhvzCzrCqCWt5hROrARnIXH0ihFrUWZYMVAuANAJoQk1cq0lxw+rDcfLf4fkUWutfcGPpg/VWIrDkTn4YWBBFNX0yPmYXBfcH/iIiWZ4CRtcV3fvpgqDVYZY76rpgLNepgrmSvzGMHpBpDdPL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TcB72tTO; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="D8/LMflP"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id EA5AB26;
-	Fri, 31 Jul 2026 16:15:05 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=D8/LMflP;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 43F901D0D;
-	Fri, 31 Jul 2026 16:14:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1785514477;
-	bh=kS3j5y9jDATNRGSgOdztAUwSD/87/qmHJpHdbERAjTs=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=D8/LMflPJu/fpYJSf4o7yDAjRQs97v14vnqGme4+j24oTzoPfvoX4mghcayqrN5y6
-	 KkmHZSH85Jx8aL1j7VkhK+8WQxXXY9j6CG/jQIRg5sdv5qAYQy7YzUSjvaMblNsAXe
-	 RC3GfRPZVPmqeKUxWkWuQBV/EMVVqbfQrJ2UhAuM=
-Received: from [192.168.95.128] (172.30.20.148) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 31 Jul 2026 19:14:36 +0300
-Message-ID: <4e502b8d-b9fa-44cb-9917-84afad34f454@paragon-software.com>
-Date: Fri, 31 Jul 2026 18:14:34 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TcB72tTO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785517244; x=1817053244;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DdEw/LaNqLxzMpWbazRcgc9JomDX3uYZxCgN46mzIPo=;
+  b=TcB72tTOr+TGtMMOZtlihsVuDNxlkuOFz26WmUhFvIRYrH0rGza7mrT3
+   7gkrMJs6FXfnTAf2g6yFrZxFSmL7Op54/NJQPwmK1WGiZOARaLZEug5Xd
+   ShQulnVvpE9M/PON8jwH/lWt+qFru25Q6SGlaD+StyWDeuDKyXnpgMQ7H
+   VpmmrPXyXjoRQ24f7SczgJUxe4Id+bIBRGb59csY3+1f0q/SYEX/TlHjB
+   EHxjJwCE5plTGxOsGiVY4huGQhThB1nhFbZu5gwvBxQAdmfHD4wYF4Qoh
+   KS6JQfeqiwjgFTVG8g59I2mqmSCCYc6ttaVzPLbYE06uLzwpuPPe5eGKL
+   A==;
+X-CSE-ConnectionGUID: DwdJoY5pQLu7c3lCFqCGZw==
+X-CSE-MsgGUID: 3EfXoMIQS46PecBOa8sF4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86265613"
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="86265613"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 10:00:42 -0700
+X-CSE-ConnectionGUID: aUiAQwcjThG344uz/JpPcA==
+X-CSE-MsgGUID: q6MWDf0zRSmH41YdSe8kLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="261238771"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 31 Jul 2026 10:00:41 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wpqb8-000000003EU-2jrr;
+	Fri, 31 Jul 2026 17:00:38 +0000
+Date: Fri, 31 Jul 2026 19:00:33 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 55/55] checkpatch:
+ ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+Message-ID: <202607311826.5Y0AGjKL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] fs/ntfs3: Add basic support for alternative data
- streams
-To: kernel test robot <lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-References: <20260724111601.14804-1-almaz.alexandrovich@paragon-software.com>
- <202607312142.aahnA9Zj-lkp@intel.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <202607312142.aahnA9Zj-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
 
-On 7/31/26 15:25, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   c2edf72f8ebcec4268393789859f789bb12ea5d0
+commit: c2edf72f8ebcec4268393789859f789bb12ea5d0 [55/55] debug
+reproduce: (https://download.01.org/0day-ci/archive/20260731/202607311826.5Y0AGjKL-lkp@intel.com/reproduce)
 
-> Hi Konstantin,
->
-> [This is a private test report for your RFC patch.]
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on next-20260721]
-> [also build test ERROR on linus/master v7.2-rc5]
-> [cannot apply to brauner-vfs/vfs.all v7.2-rc4 v7.2-rc3 v7.2-rc2]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Komarov/fs-ntfs3-Add-basic-support-for-alternative-data-streams/20260724-193931
-> base:   next-20260721
-> patch link:    https://lore.kernel.org/r/20260724111601.14804-1-almaz.alexandrovich%40paragon-software.com
-> patch subject: [RFC PATCH] fs/ntfs3: Add basic support for alternative data streams
-> config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607312142.aahnA9Zj-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312142.aahnA9Zj-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202607312142.aahnA9Zj-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     fs/ntfs3/file.c: In function 'ntfs_file_read_iter':
->>> fs/ntfs3/file.c:845:17: error: 'ret' undeclared (first use in this function); did you mean 'net'?
->       845 |                 ret = ni_query_ads(ni, &iocb->ki_pos, iter);
->           |                 ^~~
->           |                 net
->     fs/ntfs3/file.c:845:17: note: each undeclared identifier is reported only once for each function it appears in
->
->
-> vim +845 fs/ntfs3/file.c
->
->     813	
->     814	/*
->     815	 * ntfs_file_read_iter - file_operations::read_iter
->     816	 */
->     817	static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
->     818	{
->     819		struct file *file = iocb->ki_filp;
->     820		struct inode *inode = file_inode(file);
->     821		struct ntfs_inode *ni = ntfs_i(inode);
->     822		size_t bytes = iov_iter_count(iter);
->     823		loff_t valid, i_size, vbo, end;
->     824		unsigned int dio_flags;
->     825		ssize_t err;
->     826	
->     827		err = check_read_restriction(inode);
->     828		if (err)
->     829			return err;
->     830	
->     831		if (!bytes)
->     832			return 0; /* skip atime */
->     833	
->     834		if (ni->file.ads.len == ARRAY_SIZE(QUERY_STREAMS) &&
->     835		    !memcmp(ni->file.ads.name, QUERY_STREAMS, sizeof(QUERY_STREAMS))) {
->     836			/* Query ADS. */
->     837			if (unlikely(iocb->ki_flags & IOCB_DIRECT)) {
->     838				ntfs_inode_warn(
->     839					inode,
->     840					"direct I/O for streams is not supported");
->     841				return -EOPNOTSUPP;
->     842			}
->     843	
->     844			inode_lock_shared(inode);
->   > 845			ret = ni_query_ads(ni, &iocb->ki_pos, iter);
->     846			inode_unlock_shared(inode);
->     847			return ret;
->     848		}
->     849	
->     850		if (is_compressed(ni)) {
->     851			if (iocb->ki_flags & IOCB_DIRECT) {
->     852				ntfs_inode_warn(
->     853					inode, "direct i/o + compressed not supported");
->     854				return -EOPNOTSUPP;
->     855			}
->     856			/* Turn off readahead for compressed files. */
->     857			file->f_ra.ra_pages = 0;
->     858		}
->     859	
->     860		/* Fallback to buffered I/O if the inode does not support direct I/O. */
->     861		if (!(iocb->ki_flags & IOCB_DIRECT) ||
->     862		    !ntfs_should_use_dio(iocb, iter)) {
->     863			iocb->ki_flags &= ~IOCB_DIRECT;
->     864			return generic_file_read_iter(iocb, iter);
->     865		}
->     866	
->     867		if (iocb->ki_flags & IOCB_NOWAIT) {
->     868			if (!inode_trylock_shared(inode))
->     869				return -EAGAIN;
->     870		} else {
->     871			inode_lock_shared(inode);
->     872		}
->     873	
->     874		vbo = iocb->ki_pos;
->     875		end = vbo + bytes;
->     876		dio_flags = 0;
->     877		valid = ni->i_valid;
->     878		i_size = inode->i_size;
->     879	
->     880		if (vbo < valid) {
->     881			if (valid < end) {
->     882				/* read cross 'valid' size. */
->     883				dio_flags |= IOMAP_DIO_FORCE_WAIT;
->     884			}
->     885	
->     886			if (ni->file.run_da.count) {
->     887				/* Direct I/O is not compatible with delalloc. */
->     888				err = ni_allocate_da_blocks(ni);
->     889				if (err)
->     890					goto out;
->     891			}
->     892	
->     893			err = iomap_dio_rw(iocb, iter, &ntfs_iomap_ops, NULL, dio_flags,
->     894					   NULL, 0);
->     895	
->     896			if (err <= 0)
->     897				goto out;
->     898			end = vbo + err;
->     899			if (valid < end) {
->     900				size_t to_zero = end - valid;
->     901				/* Fix iter. */
->     902				iov_iter_revert(iter, to_zero);
->     903				iov_iter_zero(to_zero, iter);
->     904			}
->     905		} else if (vbo < i_size) {
->     906			if (end > i_size)
->     907				bytes = i_size - vbo;
->     908			iov_iter_zero(bytes, iter);
->     909			iocb->ki_pos += bytes;
->     910			err = bytes;
->     911		}
->     912	
->     913	out:
->     914		inode_unlock_shared(inode);
->     915		file_accessed(file);
->     916		return err;
->     917	}
->     918	
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+# many are suggestions rather than must-fix
 
-Hello,
+ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+#32: FILE: kernel/time/hrtimer.c:1685:
++		switch (reprogram) {
++			case HRTIMER_REPROGRAM:
+[...]
++			case HRTIMER_REPROGRAM_FORCE:
+[...]
++			case HRTIMER_REPROGRAM_NONE:
 
-The 'ret' variable is introduced by "fs/ntfs3: Rename 'err' to 'ret' in
-read paths" [1], which is applied immediately before "fs/ntfs3: Add basic
-support for alternative data streams" [2] in the ntfs3 tree.
-
-The two patches were posted separately. I can resend them as a numbered
-series, so the dependency is visible.
-
-[1] https://lore.kernel.org/ntfs3/20260724111513.14766-1-almaz.alexandrovich@paragon-software.com/
-[2] https://lore.kernel.org/ntfs3/20260724111601.14804-1-almaz.alexandrovich@paragon-software.com/
-
-Regards,
-Konstantin
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
