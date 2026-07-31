@@ -1,108 +1,143 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D8E37A498
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 20:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9341137B3FE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 20:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785530409; cv=none; b=KyDBYeY5WH/NlAWAxZ+8OuFDJ1P1clPnuuUccyPbYP+3cIJ7Cv2U6axFvki1wvk8gsYj8r8WBSoAQ1/bgtu2kRLAfjWk0xQIlecGLVDBekY/jE/eVslt3UmUr7XY06yC/89RrQHWY/dH/UB+cEjJC0nlLM4/QxMxnxmvIyYbrR4=
+	t=1785530410; cv=none; b=lXGMN3rFVUhP4p5CAtssJlowOmIoSlDD7q2MZG8jZ3NUb5nAnrZFKuHCn2i0cjEScEDTpSXNmmYH+baO1rtAr0Wb5bYwA22E5DARW3k1/bW0YE/7DwzfszlfbJHc8MI56ZqYqhyzQlTrh2a9P+f39eApX4erLNqJUVqcgamcmIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785530409; c=relaxed/simple;
-	bh=dmboL9gEhRIl6I8X1AdpVrVVS3zkw/fKnlbJuQHHK8E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RUu+oFbHfR5rjXEqg2Brc1//7VrScluNGx4wM7PVszIt+LWeHIv8GnapP6mcjU5wyNO0XP3+4u2b5LOqOvF4i8ysU+PDrl/yNj3Ae4JwnLtG1K+8w6rEFBK7X5HsyixYfEFXK7S5HT1ILjVpqry4jBkKSHYmRwB5ArF6MXCplsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IAVmM69w; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1785530410; c=relaxed/simple;
+	bh=6mYe3jqOi0M6Xn+VyM0LLp7zc54Z8kTjN1Y1zm6tmqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UTqPt8+fuGH/FF183mbOj3Hq9ZE8oP4C4rug7hXUNYEVkkI6o+FNgwAgKAHGO1FRgLz0JWlAOJT/52ZG1U51uyLtXD6OE/6tvAfUgjdg/rRM5zYJm/VbCPdkkfF5a/pZMuvu6UkvGxaTHw/OVJB6VzODaDrI/8DluA8lzuaI9/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYbS3ZZl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IAVmM69w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYbS3ZZl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785530408; x=1817066408;
-  h=date:from:to:cc:subject:message-id;
-  bh=dmboL9gEhRIl6I8X1AdpVrVVS3zkw/fKnlbJuQHHK8E=;
-  b=IAVmM69wkh6DEZ49YEuc5hkw4OqGVkeaJ1zX1Aa0MHc/AyLko6ilI/oY
-   aHkqHAHhJb3SsaWL3yCarZjLlfnpDw+Sv72y/3/dJkxmK7j0Tslqlfxg9
-   /dQFBieTzpexDTJ0hNK/JZ7hy8d7tY34OOEwfeXz6tGvIqtTvinOgdKFK
-   Whaa0sTDZClN9h0B+B67uutvPPwi2yomQoklYCXdm5RRr4T1ai5OJP2LH
-   FrrxxMg4XwEczXeblT1+wHSiayIi0oxBzSdErg5Pd5pvYP1oh3yinTgSS
-   FHfyAmw9eqnyfaoLZAwME89TRXM3ezO56lzdN4QNv5lNwR88iBYBZlJBv
-   Q==;
-X-CSE-ConnectionGUID: JdlpRWEMRjq+KKKdlZpoKQ==
-X-CSE-MsgGUID: LxQuB7SXSzqVsYh/Zc2bbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86021086"
+  t=1785530410; x=1817066410;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6mYe3jqOi0M6Xn+VyM0LLp7zc54Z8kTjN1Y1zm6tmqY=;
+  b=MYbS3ZZlOlbKFThAOPvdd3Gku8tdn81NDX88fedFDK8e6n8MGZT0Q3cD
+   9EGnesDeqdA9KwhbI23HYpoc35mjI+z2PJxyZJTvZRRkJ1TVF4W/1eFI7
+   uAbRkLFqcM/kzEUasP6vgS2Uq1N7YoVabG/7hSF2aPcSB8hYoLkQ2R7nN
+   8lIL4ns/How2ZdQgIDdL0joQW2UjR07dhuQpv194rJLSan2k6c9RR2K5G
+   uFgzWMqFY27G4ej4/60jZIYz5qeTVopRwtZQYkqzLGVK8Pmu8ge4/EQH8
+   MdJjPD/+mJo99knHnA3+G2awWs58QyXjYpRbfgsF3ew+Hs9fECEbMOB7M
+   A==;
+X-CSE-ConnectionGUID: pdzTjlbCTPmoENFIK+nzQQ==
+X-CSE-MsgGUID: yVPzM/MNReiF9UAYLMzGzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86021088"
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="86021086"
+   d="scan'208";a="86021088"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:40:08 -0700
-X-CSE-ConnectionGUID: +k1wh7rCQsSi6Wj13wEUzw==
-X-CSE-MsgGUID: ZvzJ7k2jSuqLn0cJPAKJNA==
+X-CSE-ConnectionGUID: 3hRSjK/ZRY2zB84NvBbGtQ==
+X-CSE-MsgGUID: 1f9ct3fhRjOVP8SBkynCVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="264483821"
+   d="scan'208";a="264483800"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 31 Jul 2026 13:40:07 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpu1U-000000002Cz-0Olm;
-	Fri, 31 Jul 2026 20:40:04 +0000
-Date: Sat, 01 Aug 2026 04:39:52 +0800
+	id 1wpu1T-000000002Cv-43W5;
+	Fri, 31 Jul 2026 20:40:03 +0000
+Date: Sat, 1 Aug 2026 04:39:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Disseldorp <ddiss@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <brauner@kernel.org>
-Subject: [linux-next:master 11199/11507]
- init/initramfs_test.c:580:22: error: implicit declaration of function
- '__override_init_fs'
-Message-ID: <202608010401.kTQlgqPH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Arbab Haider <arbabhaider649@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Cc: oe-kbuild-all@lists.linux.dev, Arbab Haider <arbabhaider649@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	John Garry <john.g.garry@oracle.com>, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH] crypto: hisilicon/sec - Fix element drop and UAF in
+ sec_send_request()
+Message-ID: <202608010642.kGjbBrg7-lkp@intel.com>
+References: <20260730215449.299311-1-arbabhaider649@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260730215449.299311-1-arbabhaider649@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   415606a7be939835db9b0d6b711887586646346d
-commit: da46f0e1053c98355c2d7803ff1cc46617ca81bf [11199/11507] initramfs_test: use test init/exit hooks to override init fs
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260801/202608010401.kTQlgqPH-lkp@intel.com/config)
+Hi Arbab,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v7.2-rc5 next-20260731]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arbab-Haider/crypto-hisilicon-sec-Fix-element-drop-and-UAF-in-sec_send_request/20260731-234619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20260730215449.299311-1-arbabhaider649%40gmail.com
+patch subject: [PATCH] crypto: hisilicon/sec - Fix element drop and UAF in sec_send_request()
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260801/202608010642.kGjbBrg7-lkp@intel.com/config)
 compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010401.kTQlgqPH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010642.kGjbBrg7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608010401.kTQlgqPH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010642.kGjbBrg7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   init/initramfs_test.c: In function 'initramfs_test_init':
->> init/initramfs_test.c:580:22: error: implicit declaration of function '__override_init_fs' [-Wimplicit-function-declaration]
-     580 |         test->priv = __override_init_fs();
-         |                      ^~~~~~~~~~~~~~~~~~
->> init/initramfs_test.c:580:20: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     580 |         test->priv = __override_init_fs();
-         |                    ^
-   init/initramfs_test.c: In function 'initramfs_test_exit':
->> init/initramfs_test.c:586:9: error: implicit declaration of function '__revert_init_fs' [-Wimplicit-function-declaration]
-     586 |         __revert_init_fs(test->priv);
-         |         ^~~~~~~~~~~~~~~~
+   drivers/crypto/hisilicon/sec/sec_algs.c: In function 'sec_send_request':
+>> drivers/crypto/hisilicon/sec/sec_algs.c:406:33: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     406 |                                 ;
+         |                                 ^
+   drivers/crypto/hisilicon/sec/sec_algs.c:410:33: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     410 |                                 ;
+         |                                 ^
 
 
-vim +/__override_init_fs +580 init/initramfs_test.c
+vim +/if +406 drivers/crypto/hisilicon/sec/sec_algs.c
 
-   576	
-   577	/* Tests run in a nullfs kthread; always use the init fs for path resolution. */
-   578	static int __init initramfs_test_init(struct kunit *test)
-   579	{
- > 580		test->priv = __override_init_fs();
-   581		return 0;
-   582	}
-   583	
-   584	static void __init initramfs_test_exit(struct kunit *test)
-   585	{
- > 586		__revert_init_fs(test->priv);
-   587	}
-   588	
+   382	
+   383	/* queuelock must be held */
+   384	static void sec_send_request(struct sec_request *sec_req, struct sec_queue *queue)
+   385	{
+   386		struct sec_request_el *el, *temp;
+   387	
+   388		mutex_lock(&sec_req->lock);
+   389		list_for_each_entry_safe(el, temp, &sec_req->elements, head) {
+   390			/*
+   391			 * Add to hardware queue only under following circumstances
+   392			 * 1) Software and hardware queue empty so no chain dependencies
+   393			 * 2) No dependencies as new IV - (check software queue empty
+   394			 *    to maintain order)
+   395			 * 3) No dependencies because the mode does no chaining.
+   396			 *
+   397			 * In other cases first insert onto the software queue which
+   398			 * is then emptied as requests complete
+   399			 */
+   400			if (!queue->havesoftqueue ||
+   401			    (kfifo_is_empty(&queue->softqueue) &&
+   402			     sec_queue_empty(queue))) {
+   403				if (WARN_ON_ONCE(sec_queue_send(queue, &el->req,
+   404								sec_req)))
+   405					/* Should not happen with proper capacity check */
+ > 406					;
+   407			} else {
+   408				if (WARN_ON_ONCE(!kfifo_put(&queue->softqueue, el)))
+   409					/* Should not happen with proper capacity check */
+   410					;
+   411			}
+   412		}
+   413		mutex_unlock(&sec_req->lock);
+   414	}
+   415	
 
 --
 0-DAY CI Kernel Test Service
