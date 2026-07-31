@@ -1,109 +1,121 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC143B440F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 15:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785510812; cv=pass; b=asEA5BZ6qpBDfDCeN4v83y+zmY9fwoZOlyHM+fT9v3yWgskTQ/KLEqO+ltv/0mepEb8nqN3OZZpa4Q+QJZRJgMjgqHS7574pZu1S39ctdVzs6swcu78171duJMQ17m8sblfHc4ZAm3E2M3qmTvBEHBoblnYGMSL7l5gp+Z31HGE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785510812; c=relaxed/simple;
-	bh=j29T6C2HDgifm3l7fOE7DlV8uu3qURs8bKG7v3t1fYE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EIrWtpEGavIIzjXQATyNjDUTcF8sXorLV/wusikWbDK8jvzb6wXkojaNwyGVozu4Kfe8fh+IQSJzjqxDjaSpc3zd/jgYYxvbASamNcdWOvYwYUpO5PzcxvXK5/GFcmiQ3OMhazUsQc3tieUMTpmQyITjoosbLlOfhKMOw0D4Rsk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HOigwtl/; arc=pass smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B624F43D4E9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 15:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785511540; cv=none; b=OBoTe5EfZB8/68r/+bQx1GRPFaI1Zn+3EJ+32sSysUFkzPB4Q2PEbbIgxX+n57wVYMAFfxQ3haFwJI11AQBj8C7WsTC64tyPDx4eBDv8SAu+7oKLSIHf4OKjgBSkWqdNS46JeEjak//kz64gRLaLe2XvlDs3nLOpirwcvNTxQao=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785511540; c=relaxed/simple;
+	bh=tBIoEqDaw+yQdBVa1ypePFuVNwtDK1wweHuDsf9qBCU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gWj7xQs0vIJilnX7l41IbwnaNqW9DHrmuzg8IuSv9FWcKVFDmKWoOjZp+EVpmzb5Mfw+MOag43p3wplD1d6Z1wJkfG3qeN4COiYzfVvk1zpf3pd/nBvKZUnQDexW8+QbKtMYnmaF/8riblLG6FTKVoFZCnaengEzsj2Ml53OTkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlBs+/+z; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HOigwtl/"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ca6d9c91206so95314a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 08:13:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785510811; cv=none;
-        d=google.com; s=arc-20260327;
-        b=bYBlY/i6FdIF4W7/KvkthbjHdYgnPomrdnhiuycM6/neLenF6I2ErVmac9woti1Sjv
-         UwZmWZbdtx3yBJ6WWhXEzG1e3EQnUErRpmX8SZns0rOXZZEuxOT4znpFxDyVLRKUAnSf
-         JSQ+kU9S0y1PW1wpQgIPs2NUCDMsrO9FoN10XXmUfM4GUcc1wZnS5QH7M8BZ9qXdzd7+
-         npZpl/zTEaIGBF0An2ETP8Mad1ezlJD88fRc39ARiPU0K4OaNBM82IbdYgMcaLs0T9v+
-         PmD49eOFYHlwGcAlFTaeUlU5/Fq1MRgnpChK8iG9HJ9HhC8Ak+y6yroIM0hs0Iau4QhB
-         Z6fA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=j29T6C2HDgifm3l7fOE7DlV8uu3qURs8bKG7v3t1fYE=;
-        fh=tjuzvSiazRd5usZTkJsKPN5psAtFcoK9s5d6ClxeC9o=;
-        b=Qg7f2SBk3LLneN1HwTOQeLOlvgiX4FUr4DZA/Whwde4f8JacfLcTtbPhNL1idMOjdP
-         fur7v3swAA9l8oFy7ukBYFJeIlYmBN4zZ3Pc/FgXlOzI/fShAZBX28Pc417W+ouwYjHa
-         oaDaEsT0CNfZo8jGpa2V6sxsEuEz0uXUY/p2tNRH4K8Esae0hR+I9C2/IqS33nByj2S+
-         Ix7LjcGgBD49AH4465Wc5uaXLUpG9SLvxHUNe7YLYP+2O1PTldG5mz7zJI/z392D5IpB
-         huxIIHciPTw3AOik1CUWBYfaKxcMgH847iMD4ELNyU7/DRfHLKUqtjzTl453jKTEYOuc
-         GmhQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785510811; x=1786115611; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=j29T6C2HDgifm3l7fOE7DlV8uu3qURs8bKG7v3t1fYE=;
-        b=HOigwtl/dbKiAm1KLeRpqGk5h/UFQwhPH3nVygmsvDdQ0+ZgHnq/KtBeLmkIvBNQwX
-         +EYlP+fml2Z8axTkf/bVWX5P9m9mlsfRvMFymn0Jbx9R6Id2AeISM6+hJaIBQ9BscJNS
-         P/iiiWi/UFCNJjJWSMd3+SL89Um+paejleooScNqhKlUHfBFYnDFvLBBO6cAeBUrMYEx
-         DT70i02T3fh7ffdy9zGZA70RCKNkcmcm0dnzlBlpD0dwDZ6MEK1o1DKG7d8HPHsw5SLp
-         UssiNiGvrWTw5kvFwJLFu6YVEsfAjS4K+guLjeNko0rjGXoUUDVgerGxm8xpIP6qEM70
-         AqAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785510811; x=1786115611;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=j29T6C2HDgifm3l7fOE7DlV8uu3qURs8bKG7v3t1fYE=;
-        b=q21RLFKsTUQlHk6RZnLG3KwLKKT7B6YuA6Jb8Xn0Xqyr+Ze+zsK1ZSzFejTRIe94AB
-         c3q3oz8+4y+STmUVYSeHI/ufbVcwh8zrYsNhRK/w7xOCY77A+b5+L8Ts2LmVkT1HdSMH
-         YqB9rwynLj1CAk9EXfZbO7UoFO9Y5Q1uyb/V4UVHrWC0Fs9aaKTedpdj8R/pkVP4Ue3q
-         M+AHtg04+IjiLaPJyQMSNn8mpnsRrCPwwpNZ36J0ADiC4Jp6LSQ5hrCrWX3VID1j0yLl
-         VnFp/vY0rbGI7p0ypqashXaEeO7pNptml8pvwJK/PMqlXh3A13a5b9yr81KL7LL30yD7
-         xzlw==
-X-Forwarded-Encrypted: i=1; AHgh+RoNbl4X+UzwI400lEHP7DYmF0KJ5nZTs8U2C3VpYnIrN8KSlfeMyfEuG48BgLQhTtggfYe4eIbH9w/6Ii+W@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0cZTm1S0gvuJStkzG/q+5NlWGScKv+FePKnz7Q8SKlxmMd1aJ
-	cHGTUv2TAetAx9sVYKCbxm5w1Q+hDzVweis8g3D82kLAcRNB0COU/piyIkLmQ92XdGsi3pvs8yd
-	63cG+29LayRlFDJNQmoZ8VnKr6u6xCks=
-X-Gm-Gg: AR+sD10lZVyEYCgQot8nrFDPWg2HDrCdpfSbeykfYT3MBrM4sGY610eCBuf/unRKOT0
-	VUzZroZuzc8ZULNOFGeANZTPWYngNntI7QwCeo2I9P2x2Sy2xUhF4uOcWj8d+YLqSwsfTtW6WM3
-	m+sw6PpowmuGVvBiReaq234570rMRFOWTvxVp0yDfSCe9U6Y0I8GScCq3lG7eCJkXOZdF+aHdh7
-	/VtLXFKgdOu1+0TBX2nRAyb7dcpBx8iAXqHJwGF0XbJSoKBEsZH8HNolXYFhnKaq/iAlj4/dgk4
-	1sEgb+V/FhTGa0B72iIunsbSuQW687DoEXN4GRtAl/s9YWQI4NGymYhmDEroeGTgj6Y+T49jm66
-	G2+MBn7e4mV9anqUft1Ja2czHyPrHQbU+gthNmsVUpGCzaW7SnrjYN23wJGusUyGTizpYKSg=
-X-Received: by 2002:a17:902:f78b:b0:2c9:e846:a582 with SMTP id
- d9443c01a7336-2d05206277emr6050695ad.0.1785510810738; Fri, 31 Jul 2026
- 08:13:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlBs+/+z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785511538; x=1817047538;
+  h=date:from:to:cc:subject:message-id;
+  bh=tBIoEqDaw+yQdBVa1ypePFuVNwtDK1wweHuDsf9qBCU=;
+  b=XlBs+/+znQx6MGCxTBi8TEfthlrf0+kH9NpsYuPjDyZCvCuPVR5YMDqu
+   wGST8AsBNpNtlhyBAXx1VB0HKGW4tlunN46jO/D9B06/n1oI1Ku/EvmDC
+   AOzzQIAb2ZYvb+XJvs7MeEgZ2zJIh9g8RpVbUPAs6aJuK8Py6ygs/ToUQ
+   rIZxo6BHa+8gEYgBDbwNBDTTbo8uQrMtAXzmwK/sf3Y2NlmL+dZLNkcKs
+   i+WYioprkChM5WUBs31YzLFhiXuvbOv9A7gTylBsH6/uPCnHSddpG3dNC
+   DgNLzPTdEr7L8hc0GnoK3t4hbWHY0zAYgUM+uTVd/1modUtHkKGPXQ8qY
+   g==;
+X-CSE-ConnectionGUID: CkWN9Mm9TKyn2B/YHxkjzw==
+X-CSE-MsgGUID: qHJWDO8qT4KEGImR4+/Z4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="96725693"
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="96725693"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 08:25:36 -0700
+X-CSE-ConnectionGUID: fvuRZJw8SGub/QJ07bmAbw==
+X-CSE-MsgGUID: YrZxYD0vTDO4xXl02W8IQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="298825372"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 31 Jul 2026 08:25:35 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wpp76-000000001O1-2Sf4;
+	Fri, 31 Jul 2026 15:25:32 +0000
+Date: Fri, 31 Jul 2026 23:25:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 2/2] mm/swap.c:778: warning:
+ Function parameter or member 'tail' not described in
+ 'mark_page_lazyfree_movetail'
+Message-ID: <202607312302.NvrNuo1y-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202607311850.6p0ZUVq4-lkp@intel.com> <amy2RIReGPFzDSVW@lore-desk>
-In-Reply-To: <amy2RIReGPFzDSVW@lore-desk>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 31 Jul 2026 17:13:18 +0200
-X-Gm-Features: AUfX_mzV5YdpsTyhkA4IWD2DZsnjJYS5s09tasm0ljwol0yZLuOuBYodZ2UDeME
-Message-ID: <CANiq72nFoPshLi_8OAYxpda-rJnRCh=UpB2CovMZXj+vo3BDeA@mail.gmail.com>
-Subject: Re: [linux-next:master 10570/10862] drivers/net/ethernet/airoha/airoha_eth.c:3470:18:
- warning: division by zero is undefined
-To: Lorenzo Bianconi <lorenzo@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Paolo Abeni <pabeni@redhat.com>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	Simon Horman <horms@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 31, 2026 at 5:03=E2=80=AFPM Lorenzo Bianconi <lorenzo@kernel.or=
-g> wrote:
->
-> Is it a false-positive? I can't see how sizeof((arr)[0]) can be 0 here.
+Hi Charan,
 
-`CONFIG_SMP` is not set, so the spinlock is empty, no?
+FYI, the error/warning still remains.
 
-Cheers,
-Miguel
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   1290154c48656bd1012a837076a0fbe379330eb3
+commit: 8011eb22150e5bb6eb1834ce9913f36081d48ab5 [2/2] ANDROID: mm: provision to add shmem pages to inactive file lru head
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607312302.NvrNuo1y-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312302.NvrNuo1y-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607312302.NvrNuo1y-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   mm/swap.c:502: warning: Function parameter or member 'vma_flags' not described in '__lru_cache_add_inactive_or_unevictable'
+   mm/swap.c:502: warning: Excess function parameter 'vma' description in '__lru_cache_add_inactive_or_unevictable'
+>> mm/swap.c:778: warning: Function parameter or member 'tail' not described in 'mark_page_lazyfree_movetail'
+
+
+vim +778 mm/swap.c
+
+10853a039208c4a Minchan Kim       2016-01-15  769  
+9975da5f43bb72a Vinayak Menon     2021-03-18  770  /**
+9975da5f43bb72a Vinayak Menon     2021-03-18  771   * mark_page_lazyfree_movetail - make a swapbacked page lazyfree
+9975da5f43bb72a Vinayak Menon     2021-03-18  772   * @page: page to deactivate
+9975da5f43bb72a Vinayak Menon     2021-03-18  773   *
+9975da5f43bb72a Vinayak Menon     2021-03-18  774   * mark_page_lazyfree_movetail() moves @page to the tail of inactive file list.
+9975da5f43bb72a Vinayak Menon     2021-03-18  775   * This is done to accelerate the reclaim of @page.
+9975da5f43bb72a Vinayak Menon     2021-03-18  776   */
+8011eb22150e5bb Charan Teja Reddy 2021-06-25  777  void mark_page_lazyfree_movetail(struct page *page, bool tail)
+9975da5f43bb72a Vinayak Menon     2021-03-18 @778  {
+9975da5f43bb72a Vinayak Menon     2021-03-18  779  	if (PageLRU(page) && !PageUnevictable(page) && PageSwapBacked(page) &&
+9975da5f43bb72a Vinayak Menon     2021-03-18  780  		!PageSwapCache(page)) {
+9975da5f43bb72a Vinayak Menon     2021-03-18  781  		struct pagevec *pvec;
+9975da5f43bb72a Vinayak Menon     2021-03-18  782  
+9975da5f43bb72a Vinayak Menon     2021-03-18  783  		local_lock(&lru_pvecs.lock);
+9975da5f43bb72a Vinayak Menon     2021-03-18  784  		pvec = this_cpu_ptr(&lru_pvecs.lru_lazyfree_movetail);
+9975da5f43bb72a Vinayak Menon     2021-03-18  785  		get_page(page);
+9975da5f43bb72a Vinayak Menon     2021-03-18  786  		if (pagevec_add_and_need_flush(pvec, page))
+9975da5f43bb72a Vinayak Menon     2021-03-18  787  			pagevec_lru_move_fn(pvec,
+8011eb22150e5bb Charan Teja Reddy 2021-06-25  788  					lru_lazyfree_movetail_fn, &tail);
+9975da5f43bb72a Vinayak Menon     2021-03-18  789  		local_unlock(&lru_pvecs.lock);
+9975da5f43bb72a Vinayak Menon     2021-03-18  790  	}
+9975da5f43bb72a Vinayak Menon     2021-03-18  791  }
+9975da5f43bb72a Vinayak Menon     2021-03-18  792  
+
+:::::: The code at line 778 was first introduced by commit
+:::::: 9975da5f43bb72a37faf3981709fff766ab4ca15 ANDROID: mm: allow fast reclaim of shmem pages
+
+:::::: TO: Vinayak Menon <vinmenon@codeaurora.org>
+:::::: CC: Suren Baghdasaryan <surenb@google.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
