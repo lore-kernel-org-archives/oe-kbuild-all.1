@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507D524DCF9;
-	Fri, 31 Jul 2026 21:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3266B1799F;
+	Fri, 31 Jul 2026 22:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785533692; cv=none; b=EuKo1pCNOQVnI2TvrKEgvcP1Bwv2R1yGdtRn6x+r8anchgv9xYskPzNMwD8cRGtmFlKB60Kun3yIxfCUl1Qyg9cqRZ9x233yAAJQ8tCwNfupqWyY2fGoocjqudpHVxLinp+PViR3B+yaQtP5sefgRxhV4c2Jr2tmhyIGuWRiaC8=
+	t=1785536715; cv=none; b=pCRYWReQu/HBOyV3HTBJtBFWmFGWOBkyrDcTBQpcNC1QIPiASSwAlQM6WktG4bvSfzuEZIeO4JENLH17ttr8ay8xMV/CuMhMd4n6fhpiND4OKC8cmD2831NDXvKFO9p7QHTPmYy6d3kkNGodz+kD/hcphpgk/+Xyp25AJ7Z19vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785533692; c=relaxed/simple;
-	bh=3L6XyO8IHMddg4Cu4NVaj72WNg74WX1edAVlzsbBR9E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mP/8QkbF8ER9ugT2bogQXn6fFs3JpeMoaBZpvvKfH8DsfOi33Z3blKztErmZ4ATY0IV8A0ywoOg97tpAeuYU5XRh08785rrhFgXfjBRoErFX1mKAtrTYPm6zwqaYOzMxE6lrXVTTByyYfvWoVgwc+E4bLuHrk+o/759eAB878ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFziIc98; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1785536715; c=relaxed/simple;
+	bh=8uLa+aBy84lQ8Ar85C22DzL1eNjKio6ZGnagqriymYo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jEMujU70TS9gHQIM/MBOWoqXJ41pRBVb97saN0eyI2EtaFjwKLXhGzh8qPGJNjU5gTTgmgu+Nl2EcwRiQAF6pvYK0wLGJRKhx3D1RAqlXWdW1fOkOnBZId6GWhbUuZD/T4yodbnkT6SDi3VnX620z6lEViuQ/A2VxApykWy8JGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Th2t3B19; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFziIc98"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Th2t3B19"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785533691; x=1817069691;
+  t=1785536712; x=1817072712;
   h=date:from:to:cc:subject:message-id;
-  bh=3L6XyO8IHMddg4Cu4NVaj72WNg74WX1edAVlzsbBR9E=;
-  b=oFziIc98i9xdcfuR5xeSd8Iw9VruhOnhOsxfwpxP4pJ7W+ID0hr23j3i
-   hal+Nx3F40u1wVo9GXl+UhEbgjUQk8Oa8pZYILb7seyqY6UNWgY/OKDBc
-   t0PGfGCIdp6WsQpFAkhnDchsQHnV9dk1uODrbC8Dx1Q0gTtidSmuawVmT
-   HUySKnvzb9XJ7U9Nd4k18DMMfzCoQ/sJSOCF+yD54W0is9CnhQY7+jKc6
-   1iSewS0Y7k3qmQfsj3ztAbwO8WdaI2rte12vybtSdePmHGl6AE5DDEILI
-   63Dy/M/AwpMJ9jsiAB6FzyNdVNIvehBD0MYD1ayzMTcvw+MnuRCe33Zpn
+  bh=8uLa+aBy84lQ8Ar85C22DzL1eNjKio6ZGnagqriymYo=;
+  b=Th2t3B196VIA5JXLv/SYzNlKgdKbJEhdbJlEcEhXMAp9l+kteAWQcAnj
+   Kcn6+2gtDvH5tHvfHzhu+RPRm5mA0A1+VFvA08c3qROMu+PsanUo/+IxZ
+   cnD41/iGnvPQajfzU6B3xrlIXNoo70gYEotukpMf/AEUoSbpKxKK9ST14
+   CawK3/0q2ciHpe9tS0k3TYzqkdZ4ZLYZnoBSuStKuEk9Z/qR1y8r42tmz
+   ckYD2G95JbOPw4+yIfoB/i0sVOK01+/hiAeo1SZWdaCtbCJZsO0M76niC
+   vR+waxHVOksmcSeRlyVAeHTEamzOQ9UITWJzquKFgBexPbOCapr++weWh
    w==;
-X-CSE-ConnectionGUID: 7fB2xlSyTuKojFZOt73aBw==
-X-CSE-MsgGUID: MnR/dGoiQQmRc5JyGTfuhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="85930025"
+X-CSE-ConnectionGUID: dJFinNZbRLmqXDAQ4zytAg==
+X-CSE-MsgGUID: 6vzbA6qxTpOLx21P9lbPNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86038804"
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="85930025"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 14:34:50 -0700
-X-CSE-ConnectionGUID: JTmDpwUuRn6Krl2hZlPaxg==
-X-CSE-MsgGUID: pDfD08S4TXeFwM/+Ibjp6A==
+   d="scan'208";a="86038804"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 15:25:11 -0700
+X-CSE-ConnectionGUID: TA3q+lBJQnC5h8rhE3z6FQ==
+X-CSE-MsgGUID: Jh3k+NhbT4C9uLqsXfAecQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="257307647"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Jul 2026 14:34:48 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="262642815"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 31 Jul 2026 15:25:10 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpusQ-000000003Is-2H5c;
-	Fri, 31 Jul 2026 21:34:46 +0000
-Date: Fri, 31 Jul 2026 23:34:32 +0200
+	id 1wpvf9-000000002K9-1lSJ;
+	Fri, 31 Jul 2026 22:25:07 +0000
+Date: Sat, 01 Aug 2026 06:25:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yang Shi <yang@os.amperecomputing.com>
+To: YoungSoo Shin <shinys000114@gmail.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: Warning: mm/percpu.c:2568 function parameter 'local_base'
- not described in 'pcpu_setup_first_chunk'
-Message-ID: <202607312317.Zo37Hk1v-lkp@intel.com>
+ Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-7.2.y 1/58]
+ drivers/video/fbdev/sh1106fb.c:20:10: fatal error: 'linux/of_gpio.h' file not
+ found
+Message-ID: <202608010536.efb85MQE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,23 +61,31 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Yang-Shi/drivers-arch_numa-move-percpu-set-up-code-to-arch/20260731-215335
-head:   d4b4b34a585268944101ba7da2e1307d82850de9
-commit: 863a2eb5549facc8785c9c78a24563f3c31896fa mm: percpu: set up first chunk and reserve chunk
-date:   8 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260731/202607312317.Zo37Hk1v-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312317.Zo37Hk1v-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-7.2.y
+head:   b975acfb39259020dffed242fcfba388a6f4e354
+commit: a7f14d616999ff734886c89b75b3f701b77ffd2d [1/58] ODROID-COMMON: fbdev: add support for Sino Wealth SH1106 OLED controller
+config: i386-randconfig-006-20260801 (https://download.01.org/0day-ci/archive/20260801/202608010536.efb85MQE-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010536.efb85MQE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607312317.Zo37Hk1v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010536.efb85MQE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: mm/percpu.c:2568 function parameter 'local_base' not described in 'pcpu_setup_first_chunk'
->> Warning: mm/percpu.c:2568 function parameter 'local_base' not described in 'pcpu_setup_first_chunk'
+>> drivers/video/fbdev/sh1106fb.c:20:10: fatal error: 'linux/of_gpio.h' file not found
+      20 | #include <linux/of_gpio.h>
+         |          ^~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +20 drivers/video/fbdev/sh1106fb.c
+
+  > 20	#include <linux/of_gpio.h>
+    21	#include <linux/uaccess.h>
+    22	
 
 --
 0-DAY CI Kernel Test Service
