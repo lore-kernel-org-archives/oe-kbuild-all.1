@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC1230C158
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 09:21:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1788E3AE6FC;
+	Fri, 31 Jul 2026 09:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785489686; cv=none; b=UG5Lx+b0Up8D1IHlR34w2T5GCKY8y7HRx+uWtSkjC74xJgvf5kAoRrM+YQ1U8zKm8/4FPaVFsNqwQCAqPAb6CXPmhXB9MJvTWqwKZytXklV0/z4QiqD3plODRbzebaSzv+aftPXkS0sqXCURhRe0JBsE+7detGAW8kejgcVrjK4=
+	t=1785489687; cv=none; b=Bg2HiH2rNGesxwGePOXKEO/swRULQFKnsKi6sT5rmA7pNdZrKKQdphkr24G7ab8HTT6C2lpzMzuQTjVQxAIgO2zMIqdB6YNTNujui/wWkmbNp6CyVl8ZezZGpTMMkHujen0A2Ql4km4Foa/U7SR7n3/0+enYnLius2XCfielKJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785489686; c=relaxed/simple;
-	bh=Nb1QcRDly/lPGzcjYyuI6KUrRV0w5iUw2fFLSqEQIR4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pNfqwsN/gnX/PXS8ld1//flS7U+klzX47U21NB0/dHypaL64ivF6WKA0DRsQDU7eW+a4ySp9XV9oLEq3ADh4THK92P9p4FdP3zu7yGg9O4FmM+o5f5xQsR2LDCwGc+3uJIdJg+YA4m2UY4UncF9PVr/bt8V9W7048OPHZ2kd/bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jv6WKpMT; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1785489687; c=relaxed/simple;
+	bh=dBwh3FSpTXPqmDQs1570AnW24Y7QPdbYUdzqfmXhm4M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hIfyqb8aIjHjigDLYxeFBgLQ4EvPMWNzCAI0BfTbS0mjiYJhWhi+KRigJAUelEqZFHBwnYrxLoc7eJ7LbhmL9Vlv9uS0PLAgDhm8AhxumZkws41j6rnPMOe1g/XAKaID5PoK0UxfQS7tNjugyywThuAVVMMi+73LPfOJlA/g3/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R7Y0P892; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jv6WKpMT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R7Y0P892"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785489684; x=1817025684;
+  t=1785489686; x=1817025686;
   h=date:from:to:cc:subject:message-id;
-  bh=Nb1QcRDly/lPGzcjYyuI6KUrRV0w5iUw2fFLSqEQIR4=;
-  b=Jv6WKpMTjn/BHme6xmvSJg+Yl2MQ3uQ5OT0C35jQlKbSdHu2gdYclQnx
-   9UovEFy8XgycALeFkK6IPzFX+Bb3d7mx2gxsHRAsVjicAReU791SElIu5
-   ItqBa/rY+RZQnyDSmokiSqMQU+58jVk8FjA3KEPqzXCP+B+VuQu2t+LPp
-   3aD07yT2ML8G4ZmjHz7zPCaQL0IsttluzXSLCM+LfaC5+DO7QHx8vf8jl
-   9BPbXdJJsznaA0obl0x229NnIuUTC4ZmQ4I2gUHX10kPO6Kx4ClWyFvwH
-   /Pt34dtyz7PHk+rUpRCnp4bNLzG2AsPn4J6HtML4hH5O6cb9s7FEbd/yi
+  bh=dBwh3FSpTXPqmDQs1570AnW24Y7QPdbYUdzqfmXhm4M=;
+  b=R7Y0P892/bhoTKN8ArNgW5k8i75QeF9+0xBhcNWymyCp0DTw9QxzHC88
+   0I0J7ONvESKugPOexqRwuuDFtFYWCt1MYNKsNV+p8yd3sLu//tADRxqaU
+   6RkAbBGEz8peWdhTSW52ytEC5MEtZ7VJwJjr+XjzUNw/BHeZpRaKFLN46
+   HnksytNswPzpx7/oIWvysEpni0h8WvpraE6XD0mDVk4NWDU5DMgERgZGb
+   wHxmY17s0uhslwZjTpUXgGNx6a91r6sav5Km7Dupsi72Gykvf5NUDu7lX
+   yBA75BWxjA5m+L4fz+I73W6yFuylH96Y7ch772x8FWRJVQh+g+cSF1rBM
    g==;
-X-CSE-ConnectionGUID: P38gobyRTOqUEl4NUGtkug==
-X-CSE-MsgGUID: 4jpmWVJTTOyO6pSymrhK1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="97629150"
+X-CSE-ConnectionGUID: MonweJkUTemaTOAxPEA6xQ==
+X-CSE-MsgGUID: V9U7fKZUQ7ew9KXNBDasaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="97629151"
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="97629150"
+   d="scan'208";a="97629151"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 02:21:24 -0700
-X-CSE-ConnectionGUID: d6osuJdUT6uzm/XXIfZYCA==
-X-CSE-MsgGUID: w/zEcsweRtq2+yth6oUQoA==
+X-CSE-ConnectionGUID: cU9Wyj7HQrGQYCaoqzUoMQ==
+X-CSE-MsgGUID: UZcSoJ+7QSSXdFkwRA8V8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="264348242"
+   d="scan'208";a="264348245"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 31 Jul 2026 02:21:23 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpjQe-000000000Qj-2Hye;
+	id 1wpjQe-000000000Ql-2fX7;
 	Fri, 31 Jul 2026 09:21:20 +0000
-Date: Fri, 31 Jul 2026 17:20:51 +0800
+Date: Fri, 31 Jul 2026 17:20:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/managed_nodes/node_features_v6
- 18/37] mm/gup.c:2418:21: error: implicit declaration of function
- 'folio_longterm_pin_forbidden'
-Message-ID: <202607311759.lyVHf7cr-lkp@intel.com>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 10847/10862] error[E0308]: mismatched
+ types
+Message-ID: <202607311740.f7GJKZ7y-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,43 +60,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/managed_nodes/node_features_v6
-head:   2a91be748ebcfd653985fa1c6c41371d45953e93
-commit: b44aca34818ebf7e2ef962e85b23c05bb7882c05 [18/37] mm: add N_MEMORY_LTPIN node state for longterm-pin eligible nodes
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607311759.lyVHf7cr-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607311759.lyVHf7cr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   95d6a9ccef99117115e41e9adb271243bd5e985b
+commit: 2de2d480c5235c48d8b94f8cdce480df4d57073e [10847/10862] Merge branch 'slab/for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git
+config: x86_64-buildonly-randconfig-004-20260731 (https://download.01.org/0day-ci/archive/20260731/202607311740.f7GJKZ7y-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607311740.f7GJKZ7y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607311759.lyVHf7cr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607311740.f7GJKZ7y-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/gup.c: In function 'pofs_has_ltpin_forbidden':
->> mm/gup.c:2418:21: error: implicit declaration of function 'folio_longterm_pin_forbidden' [-Wimplicit-function-declaration]
-    2418 |                 if (folio_longterm_pin_forbidden(folio))
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> error[E0308]: mismatched types
+   --> rust/kernel/sync/poll.rs:175:44
+   |
+   175 |         unsafe { bindings::kvfree_call_rcu((*ptr).rcu.get(), ptr.cast::<ffi::c_void>()) };
+   |                  ------------------------- ^^^^^^^^^^^^^^^^ expected `*mut kvfree_rcu_head`, found `*mut callback_head`
+   |                  |
+   |                  arguments to this function are incorrect
+   |
+   = note: expected raw pointer `*mut bindings::kvfree_rcu_head`
+   found raw pointer `*mut bindings::callback_head`
+   note: function defined here
+   --> rust/bindings/bindings_generated.rs:75494:12
+   |
+   75494 |     pub fn kvfree_call_rcu(head: *mut kvfree_rcu_head, ptr: *mut ffi::c_void);
+   |            ^^^^^^^^^^^^^^^
 
-
-vim +/folio_longterm_pin_forbidden +2418 mm/gup.c
-
-  2409	
-  2410	/* True if any folio sits on a node that doesn't support longterm pinning */
-  2411	static bool pofs_has_ltpin_forbidden(struct pages_or_folios *pofs)
-  2412	{
-  2413		struct folio *folio;
-  2414		long i = 0;
-  2415	
-  2416		for (folio = pofs_get_folio(pofs, i); folio;
-  2417		     folio = pofs_next_folio(folio, pofs, &i)) {
-> 2418			if (folio_longterm_pin_forbidden(folio))
-  2419				return true;
-  2420		}
-  2421		return false;
-  2422	}
-  2423	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for QCOM_PDR_MSG
+   Depends on [n]: QCOM_SOC [=n]
+   Selected by [y]:
+   - QCOM_PDR_HELPERS [=y] && NET [=y]
 
 --
 0-DAY CI Kernel Test Service
