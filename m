@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F43431D372
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 09:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752AF351C3D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 09:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785490875; cv=none; b=eyFx0QdG1NtAIFuyFbcKVUKwDsk5qh0VbOkhOnXTMNFZwM9+HE5ovHMYS+gmHxCv1RQaZKlu/gaU6V787Vs8eyDwZacisC2nB6V6YLMTObpO0fO9dvccu+S2wAMPuqZlFNjMpzWkM86i6U4JQm8mrSsYN97gKoyGgH092xdpq44=
+	t=1785490877; cv=none; b=i0aj/19RbpDM0FWx24Lyl6JvUvy8dm+icMHiZB6YlZddBmpSiXT1qheFkZX8a/SyGno+RSi0j7T3lu6MLr2+Mk08db6Ihyu5k+jqHSeknOHIhvrwAcZdH8lZYgX4hANXqKm1YOBYvGzWyHeDliTzqCr1NhvmdUxmiCbWyRJq/4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785490875; c=relaxed/simple;
-	bh=ptofUNg7T3DCSUHGRRGljmQe7DKaHcYrXY6dnCyJUEI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gv8qzRTaPW1BtIVrJluovVTreKiurGqMaVGJYYxujYf+BcSEgQby+8FQc9ca1EbXvxSZRRgvkcWsHpr3/5TJJPcgfBmJF/w6lqaTbVkrESz6n3hW61SaKuK3hiTqI3UBPHy0wcqtCqni1mv/F4VkZHOBSVW8tTs7gsg04W4WBnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eAd9sM4f; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1785490877; c=relaxed/simple;
+	bh=zpMWS0lWEZKswGbL8Rg9YIb+gH0JEhhO8L8RjB/52Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EMlqiCjKN2BR1kNZeOG4BAHxXyYIKvL/m5PGh/DU2mEF/a5U9HXd4KAfvcVXCLqbF0zIXp04WBJMHzjpDGIAluiw7f/uTGocspi2bW3RhpMs/gsnAKQVfKkl3NmXxOcQiHiuoyyDWA2h7yGJYzZ1TvjCVHb7d8rpUfu/6lckN8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MEzotiE6; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eAd9sM4f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MEzotiE6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785490874; x=1817026874;
+  t=1785490876; x=1817026876;
   h=date:from:to:cc:subject:message-id;
-  bh=ptofUNg7T3DCSUHGRRGljmQe7DKaHcYrXY6dnCyJUEI=;
-  b=eAd9sM4fe5iouz5dJwMKar76cVLWcJ0fLlG7NJedkr6jHqybTw7WS7bZ
-   EgK9eP0Zm0DJ++OB3qd+oRx02q3cc3r1QfVz+VlHT8L4sc9d0moBq3Egk
-   EQyUcTIvcwyrzCw9zkhOHu3EzmMbIm86UcPIsyLEr+2wlmklRqH9gI+Y0
-   hlm9HaYmlG8G6fqSHqknnDkYvjqyeXYLb77Z7ncMQqv3I7y1yRDL+E7Nw
-   cvImyzB7apnyHE/IjhCPgW9XghokKQ6z3UrLa2FDsAV3JUckWl89E7V5c
-   ePyXuHUjMyrfVmsHS3qFREUJgdlkm2UpikxIC7ONJZnpl0c7pBhXvbjdq
+  bh=zpMWS0lWEZKswGbL8Rg9YIb+gH0JEhhO8L8RjB/52Ng=;
+  b=MEzotiE6zlINDmR/XWCeYPD+w+MuvP5CjqY8hVy9n/eqFWIGcYC9GazI
+   h1gS3NKpxQtRqd8aJsWtFdu9782yohmtgc4r4x6PKmibJcfAZXOhXfQGO
+   1+CKixPFTMU0MRfU4LbaazicFTlpsAJshB+4c3yPlsh2lmqBED6VFIwny
+   PhgrvKsd6uakG2Nmm5ghCCxBUfRWEGB35A/BYUuFkWMI7UdhqZdzNYX+u
+   NAYDcXu3xu5S4XroZrEWEIIB1EvRhFTh9AWGWY75laa6smzjmA5a0h9aC
+   hxpULuLaTR2rOz0E0ud2rMDg1CyL2i17Ls2vs0D80LODs3S7e5nIdYwhx
    g==;
-X-CSE-ConnectionGUID: dutgAaBXSGGlLiFJz3CJHw==
-X-CSE-MsgGUID: W6aHoAAWT6aTaDYwC+utPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="96473621"
+X-CSE-ConnectionGUID: wEbuJ7GUTf+rxtjIdhag4g==
+X-CSE-MsgGUID: dhWO7w3KSYW83Aeo2gqJwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="96473622"
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="96473621"
+   d="scan'208";a="96473622"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 02:41:13 -0700
-X-CSE-ConnectionGUID: dNMhuhBCSrWXlZ9ldUqvMA==
-X-CSE-MsgGUID: Dj7EynkSS2mUf+hzDqLe4Q==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 02:41:14 -0700
+X-CSE-ConnectionGUID: /HdLCivGTIelcrDvxQsvgA==
+X-CSE-MsgGUID: /F3aW5znRP2mlS9q9NEsUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="259295176"
+   d="scan'208";a="259295178"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
   by orviesa010.jf.intel.com with ESMTP; 31 Jul 2026 02:41:11 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpjjp-000000002iM-1tvy;
+	id 1wpjjp-000000002iO-24ZS;
 	Fri, 31 Jul 2026 09:41:09 +0000
-Date: Fri, 31 Jul 2026 11:41:05 +0200
+Date: Fri, 31 Jul 2026 11:41:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: Priya Bala Govindasamy <pgovind2@uci.edu>
-Cc: oe-kbuild-all@lists.linux.dev,
- Viresh Kumar <viresh.kumar@linaro.org>
-Subject: [linux-next:master 8890/10862] Diff in
- rust/kernel/cpufreq.rs:1361:
-Message-ID: <202607311127.vrars8ja-lkp@intel.com>
+To: Alexandre Courbot <gnurou@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Brian Daniels <briandaniels@google.com>
+Subject: [mst-vhost:linux-next 16/73]
+ tools/include/linux/types.h:13:10: fatal error: asm/types.h: No such file or
+ directory
+Message-ID: <202607311151.aaQcykcR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,56 +63,267 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   95d6a9ccef99117115e41e9adb271243bd5e985b
-commit: 8aa931819543aaed39215a8ee39af4b1ed44cfa8 [8890/10862] rust: cpufreq: Fix temporary write in Registration::bios_limit_callback
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260731/202607311127.vrars8ja-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607311127.vrars8ja-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+head:   a8a2a266a5d6d5a9e839422eea6ba3986e25801b
+commit: cbd7147ab405921843903c72ff7b7e2066d9ba78 [16/73] media: virtio: Add skeleton virtio-media driver
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260731/202607311151.aaQcykcR-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607311151.aaQcykcR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607311127.vrars8ja-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607311151.aaQcykcR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j384 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/cpufreq.rs:1361:
-                let mut policy = PolicyCpu::from_cpu(cpu_id)?;
-                let val = T::bios_limit(&mut policy)?;
-                // SAFETY: `limit` is guaranteed by the C code to be valid.
-   -            unsafe { *limit = val; }
-   +            unsafe {
-   +                *limit = val;
-   +            }
-                Ok(0)
-            })
-        }
->> Diff in rust/kernel/cpufreq.rs:1361:
-                let mut policy = PolicyCpu::from_cpu(cpu_id)?;
-                let val = T::bios_limit(&mut policy)?;
-                // SAFETY: `limit` is guaranteed by the C code to be valid.
-   -            unsafe { *limit = val; }
-   +            unsafe {
-   +                *limit = val;
-   +            }
-                Ok(0)
-            })
-        }
-   make[2]: *** [Makefile:1993: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src'
+   testcases/testcases.c: In function 'validate_reserved':
+>> testcases/testcases.c:201:22: error: 'GCS_MAGIC' undeclared (first use in this function); did you mean 'ZT_MAGIC'?
+     201 |                 case GCS_MAGIC:
+         |                      ^~~~~~~~~
+         |                      ZT_MAGIC
+   testcases/testcases.c:201:22: note: each undeclared identifier is reported only once for each function it appears in
+>> testcases/testcases.c:204:50: error: invalid application of 'sizeof' to incomplete type 'struct gcs_context'
+     204 |                         if (head->size != sizeof(struct gcs_context))
+         |                                                  ^~~~~~
+--
+   testcases/gcs_frame.c: In function 'gcs_regs':
+>> testcases/gcs_frame.c:53:33: error: 'GCS_MAGIC' undeclared (first use in this function); did you mean 'ZA_MAGIC'?
+      53 |         head = get_header(head, GCS_MAGIC, GET_BUF_RESV_SIZE(context),
+         |                                 ^~~~~~~~~
+         |                                 ZA_MAGIC
+   testcases/gcs_frame.c:53:33: note: each undeclared identifier is reported only once for each function it appears in
+>> testcases/gcs_frame.c:64:16: error: invalid use of undefined type 'struct gcs_context'
+      64 |         if (gcs->features_enabled != expected) {
+         |                ^~
+   testcases/gcs_frame.c:66:28: error: invalid use of undefined type 'struct gcs_context'
+      66 |                         gcs->features_enabled, expected);
+         |                            ^~
+   testcases/gcs_frame.c:70:16: error: invalid use of undefined type 'struct gcs_context'
+      70 |         if (gcs->gcspr != gcspr) {
+         |                ^~
+   testcases/gcs_frame.c:72:28: error: invalid use of undefined type 'struct gcs_context'
+      72 |                         gcs->gcspr, gcspr);
+         |                            ^~
+   testcases/testcases.c: In function 'validate_reserved':
+>> testcases/testcases.c:201:22: error: 'GCS_MAGIC' undeclared (first use in this function); did you mean 'ZT_MAGIC'?
+     201 |                 case GCS_MAGIC:
+         |                      ^~~~~~~~~
+         |                      ZT_MAGIC
+   testcases/testcases.c:201:22: note: each undeclared identifier is reported only once for each function it appears in
+>> testcases/testcases.c:204:50: error: invalid application of 'sizeof' to incomplete type 'struct gcs_context'
+     204 |                         if (head->size != sizeof(struct gcs_context))
+         |                                                  ^~~~~~
+--
+   mte_common_util.c: In function 'mte_default_setup':
+>> mte_common_util.c:376:39: error: 'HWCAP3_MTE_FAR' undeclared (first use in this function); did you mean 'HWCAP2_MTE'?
+     376 |         mtefar_support = !!(hwcaps3 & HWCAP3_MTE_FAR);
+         |                                       ^~~~~~~~~~~~~~
+         |                                       HWCAP2_MTE
+   mte_common_util.c:376:39: note: each undeclared identifier is reported only once for each function it appears in
+>> mte_common_util.c:378:23: error: 'HWCAP3_MTE_STORE_ONLY' undeclared (first use in this function); did you mean 'PR_MTE_STORE_ONLY'?
+     378 |         if (hwcaps3 & HWCAP3_MTE_STORE_ONLY)
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+         |                       PR_MTE_STORE_ONLY
+--
+>> check_prctl.c:112:79: error: 'HWCAP3_MTE_STORE_ONLY' undeclared here (not in a function); did you mean 'PR_MTE_STORE_ONLY'?
+     112 |         { PR_MTE_TCF_SYNC | PR_MTE_STORE_ONLY,                    HWCAP2_MTE, HWCAP3_MTE_STORE_ONLY, "SYNC+STONLY" },
+         |                                                                               ^~~~~~~~~~~~~~~~~~~~~
+         |                                                                               PR_MTE_STORE_ONLY
+   mte_common_util.c: In function 'mte_default_setup':
+>> mte_common_util.c:376:39: error: 'HWCAP3_MTE_FAR' undeclared (first use in this function); did you mean 'HWCAP2_MTE'?
+     376 |         mtefar_support = !!(hwcaps3 & HWCAP3_MTE_FAR);
+         |                                       ^~~~~~~~~~~~~~
+         |                                       HWCAP2_MTE
+   mte_common_util.c:376:39: note: each undeclared identifier is reported only once for each function it appears in
+>> mte_common_util.c:378:23: error: 'HWCAP3_MTE_STORE_ONLY' undeclared (first use in this function); did you mean 'PR_MTE_STORE_ONLY'?
+     378 |         if (hwcaps3 & HWCAP3_MTE_STORE_ONLY)
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+         |                       PR_MTE_STORE_ONLY
+--
+>> hwcap.c:720:30: error: 'HWCAP_CMPBR' undeclared here (not in a function)
+     720 |                 .hwcap_bit = HWCAP_CMPBR,
+         |                              ^~~~~~~~~~~
+>> hwcap.c:781:30: error: 'HWCAP_F8MM8' undeclared here (not in a function); did you mean 'HWCAP_FCMA'?
+     781 |                 .hwcap_bit = HWCAP_F8MM8,
+         |                              ^~~~~~~~~~~
+         |                              HWCAP_FCMA
+>> hwcap.c:788:30: error: 'HWCAP_F8MM4' undeclared here (not in a function); did you mean 'HWCAP2_F8DP4'?
+     788 |                 .hwcap_bit = HWCAP_F8MM4,
+         |                              ^~~~~~~~~~~
+         |                              HWCAP2_F8DP4
+>> hwcap.c:795:30: error: 'HWCAP3_F16MM' undeclared here (not in a function); did you mean 'HWCAP_FCMA'?
+     795 |                 .hwcap_bit = HWCAP3_F16MM,
+         |                              ^~~~~~~~~~~~
+         |                              HWCAP_FCMA
+>> hwcap.c:802:30: error: 'HWCAP3_F16F32DOT' undeclared here (not in a function)
+     802 |                 .hwcap_bit = HWCAP3_F16F32DOT,
+         |                              ^~~~~~~~~~~~~~~~
+>> hwcap.c:809:30: error: 'HWCAP3_F16F32MM' undeclared here (not in a function); did you mean 'HWCAP2_SVEF32MM'?
+     809 |                 .hwcap_bit = HWCAP3_F16F32MM,
+         |                              ^~~~~~~~~~~~~~~
+         |                              HWCAP2_SVEF32MM
+>> hwcap.c:838:30: error: 'HWCAP_FPRCVT' undeclared here (not in a function); did you mean 'HWCAP_JSCVT'?
+     838 |                 .hwcap_bit = HWCAP_FPRCVT,
+         |                              ^~~~~~~~~~~~
+         |                              HWCAP_JSCVT
+>> hwcap.c:904:30: error: 'HWCAP3_LSFE' undeclared here (not in a function); did you mean 'HWCAP_SVE'?
+     904 |                 .hwcap_bit = HWCAP3_LSFE,
+         |                              ^~~~~~~~~~~
+         |                              HWCAP_SVE
+>> hwcap.c:998:30: error: 'HWCAP_SME2P2' undeclared here (not in a function); did you mean 'HWCAP2_SME2P1'?
+     998 |                 .hwcap_bit = HWCAP_SME2P2,
+         |                              ^~~~~~~~~~~~
+         |                              HWCAP2_SME2P1
+>> hwcap.c:1005:30: error: 'HWCAP3_SME2P3' undeclared here (not in a function); did you mean 'HWCAP2_SME2P1'?
+    1005 |                 .hwcap_bit = HWCAP3_SME2P3,
+         |                              ^~~~~~~~~~~~~
+         |                              HWCAP2_SME2P1
+>> hwcap.c:1012:30: error: 'HWCAP_SME_AES' undeclared here (not in a function); did you mean 'HWCAP2_SVEAES'?
+    1012 |                 .hwcap_bit = HWCAP_SME_AES,
+         |                              ^~~~~~~~~~~~~
+         |                              HWCAP2_SVEAES
+>> hwcap.c:1061:30: error: 'HWCAP3_SME_LUT6' undeclared here (not in a function); did you mean 'HWCAP2_SME_LUTV2'?
+    1061 |                 .hwcap_bit = HWCAP3_SME_LUT6,
+         |                              ^~~~~~~~~~~~~~~
+         |                              HWCAP2_SME_LUTV2
+>> hwcap.c:1075:30: error: 'HWCAP_SME_SBITPERM' undeclared here (not in a function); did you mean 'HWCAP2_SVEBITPERM'?
+    1075 |                 .hwcap_bit = HWCAP_SME_SBITPERM,
+         |                              ^~~~~~~~~~~~~~~~~~
+         |                              HWCAP2_SVEBITPERM
+>> hwcap.c:1103:30: error: 'HWCAP_SME_SFEXPA' undeclared here (not in a function); did you mean 'HWCAP2_SME_SF8FMA'?
+    1103 |                 .hwcap_bit = HWCAP_SME_SFEXPA,
+         |                              ^~~~~~~~~~~~~~~~
+         |                              HWCAP2_SME_SF8FMA
+>> hwcap.c:1110:30: error: 'HWCAP_SME_SMOP4' undeclared here (not in a function); did you mean 'HWCAP2_SME_SF8DP4'?
+    1110 |                 .hwcap_bit = HWCAP_SME_SMOP4,
+         |                              ^~~~~~~~~~~~~~~
+         |                              HWCAP2_SME_SF8DP4
+>> hwcap.c:1117:30: error: 'HWCAP_SME_STMOP' undeclared here (not in a function); did you mean 'HWCAP2_SME_SF8DP2'?
+    1117 |                 .hwcap_bit = HWCAP_SME_STMOP,
+         |                              ^~~~~~~~~~~~~~~
+         |                              HWCAP2_SME_SF8DP2
+>> hwcap.c:1146:30: error: 'HWCAP_SVE2P2' undeclared here (not in a function); did you mean 'HWCAP2_SVE2P1'?
+    1146 |                 .hwcap_bit = HWCAP_SVE2P2,
+         |                              ^~~~~~~~~~~~
+         |                              HWCAP2_SVE2P1
+>> hwcap.c:1153:30: error: 'HWCAP3_SVE2P3' undeclared here (not in a function); did you mean 'HWCAP2_SVE2P1'?
+    1153 |                 .hwcap_bit = HWCAP3_SVE2P3,
+         |                              ^~~~~~~~~~~~~
+         |                              HWCAP2_SVE2P1
+>> hwcap.c:1167:30: error: 'HWCAP_SVE_AES2' undeclared here (not in a function); did you mean 'HWCAP2_SVEAES'?
+    1167 |                 .hwcap_bit = HWCAP_SVE_AES2,
+         |                              ^~~~~~~~~~~~~~
+         |                              HWCAP2_SVEAES
+>> hwcap.c:1174:30: error: 'HWCAP3_SVE_B16MM' undeclared here (not in a function); did you mean 'HWCAP2_SVE_B16B16'?
+    1174 |                 .hwcap_bit = HWCAP3_SVE_B16MM,
+         |                              ^~~~~~~~~~~~~~~~
+         |                              HWCAP2_SVE_B16B16
+   hwcap.c:1181:30: error: 'HWCAP_SVE_BFSCALE' undeclared here (not in a function)
+    1181 |                 .hwcap_bit = HWCAP_SVE_BFSCALE,
+         |                              ^~~~~~~~~~~~~~~~~
+   hwcap.c:1188:30: error: 'HWCAP_SVE_ELTPERM' undeclared here (not in a function); did you mean 'HWCAP2_SVEBITPERM'?
+    1188 |                 .hwcap_bit = HWCAP_SVE_ELTPERM,
+         |                              ^~~~~~~~~~~~~~~~~
+         |                              HWCAP2_SVEBITPERM
+   hwcap.c:1195:30: error: 'HWCAP_SVE_F16MM' undeclared here (not in a function); did you mean 'HWCAP2_SVEF32MM'?
+    1195 |                 .hwcap_bit = HWCAP_SVE_F16MM,
+         |                              ^~~~~~~~~~~~~~~
+         |                              HWCAP2_SVEF32MM
+   hwcap.c:1202:30: error: 'HWCAP3_SVE_LUT6' undeclared here (not in a function); did you mean 'HWCAP2_SME_LUTV2'?
+    1202 |                 .hwcap_bit = HWCAP3_SVE_LUT6,
+         |                              ^~~~~~~~~~~~~~~
+         |                              HWCAP2_SME_LUTV2
+   hwcap.c:1286:30: error: 'HWCAP3_MTE_FAR' undeclared here (not in a function); did you mean 'HWCAP2_MTE'?
+    1286 |                 .hwcap_bit = HWCAP3_MTE_FAR,
+         |                              ^~~~~~~~~~~~~~
+         |                              HWCAP2_MTE
+   hwcap.c:1292:30: error: 'HWCAP3_MTE_STORE_ONLY' undeclared here (not in a function); did you mean 'PR_MTE_STORE_ONLY'?
+    1292 |                 .hwcap_bit = HWCAP3_MTE_STORE_ONLY,
+         |                              ^~~~~~~~~~~~~~~~~~~~~
+         |                              PR_MTE_STORE_ONLY
+   hwcap.c:1298:30: error: 'HWCAP3_LS64' undeclared here (not in a function); did you mean 'HWCAP_SM4'?
+    1298 |                 .hwcap_bit = HWCAP3_LS64,
+         |                              ^~~~~~~~~~~
+         |                              HWCAP_SM4
+--
+   In file included from ./../../../../include/nolibc/std.h:19,
+                    from ./../../../../include/nolibc/nolibc.h:95,
+                    from <command-line>:
+>> tools/include/linux/types.h:13:10: fatal error: asm/types.h: No such file or directory
+      13 | #include <asm/types.h>
+         |          ^~~~~~~~~~~~~
+   compilation terminated.
+--
+   libc-gcs.c: In function 'ptrace_read_write':
+>> libc-gcs.c:143:25: error: storage size of 'child_gcs' isn't known
+     143 |         struct user_gcs child_gcs;
+         |                         ^~~~~~~~~
+   libc-gcs.c:143:25: warning: unused variable 'child_gcs' [-Wunused-variable]
+--
+>> arm64/hypercalls.c:48:21: error: 'KVM_REG_ARM_VENDOR_HYP_BMAP_2' undeclared here (not in a function); did you mean 'KVM_REG_ARM_VENDOR_HYP_BMAP'?
+      48 |         FW_REG_INFO(KVM_REG_ARM_VENDOR_HYP_BMAP_2),
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arm64/hypercalls.c:39:24: note: in definition of macro 'FW_REG_INFO'
+      39 |                 .reg = r,                       \
+         |                        ^
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+--
+   In file included from include/kvm_util.h:8,
+                    from arm64/psci_test.c:18:
+   arm64/psci_test.c: In function 'host_test_system_off2':
+>> arm64/psci_test.c:264:57: error: 'KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2' undeclared (first use in this function); did you mean 'KVM_SYSTEM_EVENT_RESET_FLAG_PSCI_RESET2'?
+     264 |                 TEST_ASSERT(run->system_event.data[0] & KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2,
+         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/test_util.h:60:22: note: in definition of macro 'TEST_ASSERT'
+      60 |         test_assert((e), #e, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+         |                      ^
+   arm64/psci_test.c:264:57: note: each undeclared identifier is reported only once for each function it appears in
+     264 |                 TEST_ASSERT(run->system_event.data[0] & KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2,
+         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/test_util.h:60:22: note: in definition of macro 'TEST_ASSERT'
+      60 |         test_assert((e), #e, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+         |                      ^
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+--
+   arm64/vgic_v5.c: In function 'test_vgic_v5_ppis':
+>> arm64/vgic_v5.c:124:29: error: 'KVM_DEV_ARM_VGIC_USERSPACE_PPIS' undeclared (first use in this function); did you mean 'KVM_DEV_ARM_VGIC_GRP_CPU_REGS'?
+     124 |                             KVM_DEV_ARM_VGIC_USERSPACE_PPIS, &user_ppis);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                             KVM_DEV_ARM_VGIC_GRP_CPU_REGS
+   arm64/vgic_v5.c:124:29: note: each undeclared identifier is reported only once for each function it appears in
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+--
+   arm64/vpmu_counter_access.c: In function 'test_create_vpmu_vm_with_nr_counters':
+>> arm64/vpmu_counter_access.c:476:38: error: 'KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS' undeclared (first use in this function); did you mean 'KVM_ARM_VCPU_PMU_V3_SET_PMU'?
+     476 |                                      KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS, &nr_counters);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      KVM_ARM_VCPU_PMU_V3_SET_PMU
+   arm64/vpmu_counter_access.c:476:38: note: each undeclared identifier is reported only once for each function it appears in
+   arm64/vpmu_counter_access.c: In function 'kvm_supports_nr_counters_attr':
+   arm64/vpmu_counter_access.c:619:45: error: 'KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS' undeclared (first use in this function); did you mean 'KVM_ARM_VCPU_PMU_V3_SET_PMU'?
+     619 |                                             KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                             KVM_ARM_VCPU_PMU_V3_SET_PMU
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+..
+
+
+vim +13 tools/include/linux/types.h
+
+190d1c921ad086 tools/include/linux/types.h              Tiezhu Yang              2021-01-25  12  
+5634bd7d2ab14f tools/lib/lockdep/uinclude/linux/types.h Sasha Levin              2013-06-13 @13  #include <asm/types.h>
+67ef28794d7e30 tools/include/linux/types.h              Arnaldo Carvalho de Melo 2017-03-30  14  #include <asm/posix_types.h>
+5634bd7d2ab14f tools/lib/lockdep/uinclude/linux/types.h Sasha Levin              2013-06-13  15  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: 5634bd7d2ab14fbf736b62b0788fb68e2cb0fde2 liblockdep: Wrap kernel/locking/lockdep.c to allow usage from userspace
+
+:::::: TO: Sasha Levin <sasha.levin@oracle.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
