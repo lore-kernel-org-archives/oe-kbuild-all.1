@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A513002B3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE81C36A367
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 20:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785529021; cv=none; b=H9qFbbrjviyUDhegppnDs1bzg94zOlknYdm3tzTNTQ4CML220ThTg8nQWTFFAgSjP1ZAomk4HLr7GMCkvnlsNJn+OvbelsLp8V9B6dBBVn3pvH5hNEWLBSb+iLiu4rXCc9qVcrNIfSFzBb4INTC2XgMFb+umwqKmHy8rhQ7ySJ0=
+	t=1785529021; cv=none; b=UJkLuzalCCxWiJNaYw54XjMXRvRo4+O2IhCCDBZMj29+VlZ/6FJbDIViFqhYmC0nZ2gS526/wtQGnJqyhM94/kF3w/WMFBKpJVYcoBm5wzz5ionF7PTES9F3Gew8Pq4wcYhsSA7aTzR2MiZj5KTH0f/bZhbMITvRgJdxcRTfJyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785529021; c=relaxed/simple;
-	bh=/9+3xveCyIJ0MvsYhfsRuz53O2I+bMIX57g5fVWrsps=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=bBq6d+TO1qG927CFmOja3Mpyd9vulx8Bgnyy1GlD4TamxJb+6xx3VX6pEYAtorYkZ3mjsKKV+nYQ+DWuab8GvQzAWb1iX0NmfASW2o9vElAiCE2opy124K69eYzZqtE3ROAHk3Lc4a2sfdl41l7WYjtj2L+AaZrL+STz481h0dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AdHOS7dd; arc=none smtp.client-ip=198.175.65.11
+	bh=7+RCl6sOaS8beco2eXk/Eg/8NcFwc9TrfrzdwIP3wWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=iEc7gpBs0MNSFnDCqoxPqfGSDVCfcImEQTCis4bqxQS2ljWv7/aNDM0qwqb9OWx3P6fdC7MG7v9aA4Oj/arQAHR/N4LHpmgIsrMsAcQNVAO3oTs0KouhMjR4gyukfPSlQulFcA0T/7vCEniGcD9uDxmQJ08b2LwC+vwFnpls1UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKVCHWAo; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AdHOS7dd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKVCHWAo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1785529019; x=1817065019;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/9+3xveCyIJ0MvsYhfsRuz53O2I+bMIX57g5fVWrsps=;
-  b=AdHOS7ddRAzpHXR3nvIp+S7zJGX7W1XSn+Dx4dF28jaJSzbElHRLgYei
-   idylH48XByfecIZmLETzBBHhE2hkwQi1U7yDvL7cASf7XMtZ2MqfQvg5H
-   4jfvLBWW+urOrzG9ZU0xZAhim2KRPvQJfw6NkLHbbW1tnglVKO9qHzP+3
-   6KEAM9HO0BTjBEedbVzWKjif1hBd2A07XruIDmTgb049JyuCkjxPkdnfY
-   yl4zpU6HTYug7ghlYyuvBfjdTkatgN50Thet4m84XQsFEMcOUQ1zrvIAQ
-   u76XRkU22nSjgHOOWwjpOJYJHQEXQ2dw5KSZcoknGiuTmSiCCkRCo+fpa
-   w==;
-X-CSE-ConnectionGUID: V5CCmzNhQZWJC9AW9kLpEw==
-X-CSE-MsgGUID: jk0e1AGyRhm/967eglkqOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="96516056"
+  bh=7+RCl6sOaS8beco2eXk/Eg/8NcFwc9TrfrzdwIP3wWk=;
+  b=YKVCHWAoy6L1EbcEu7SSfMv6HwjqyepS891QtQG19t3slbnntmYVpGfR
+   E1Z46qubypkfyY3bOnlMAksdOnOMyJqiUvyZGtddy4QVdwFIQr7nnpuj/
+   gABDvLhmVHpnzOBxO64Uym7VeZWL64rsrJ1RPO8Mea9NH+yd201qS6XNG
+   +MFp16BUe7HwnHpZLSwNi6OQoFPwfn6Z5NlO67uQMDmAarPG/R5biP2LU
+   17AvYYa57YYnLpyWewZxtAfHLi7hLPR8oEAIHS7zbsVDbQeh/HIRVD0qW
+   x7pcn48joiA7EI8DHy/8MOzXRw4WqZowa7ApfuTWnwCC5kakVjPdyZFd5
+   g==;
+X-CSE-ConnectionGUID: 9FD1eLnuRIuMvSVIps1IhQ==
+X-CSE-MsgGUID: 3b6gr4c+TySBciNO0NM0Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86109032"
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="96516056"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:16:58 -0700
-X-CSE-ConnectionGUID: WJZKdYKYQeeOMe5VUEycXQ==
-X-CSE-MsgGUID: InUQH28mS7K2gunre7O4iw==
+   d="scan'208";a="86109032"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:16:59 -0700
+X-CSE-ConnectionGUID: nJH3f0dpTPWQjMibkPpzRQ==
+X-CSE-MsgGUID: 64eEHAhyTomEQS4umxnRHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="285274984"
+   d="scan'208";a="256755617"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2026 13:16:57 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 31 Jul 2026 13:16:57 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wptf5-000000002Ar-0avk;
+	id 1wptf5-000000002Au-1nWR;
 	Fri, 31 Jul 2026 20:16:55 +0000
-Date: Sat, 01 Aug 2026 04:16:02 +0800
+Date: Sat, 01 Aug 2026 04:16:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [thomas-weissschuh:b4/auxclock-nanosleep 32/55]
  kernel/time/time_test.c:183:16: error: implicit declaration of function
  'tk_aux_capture_mono_conv'
-Message-ID: <202608010434.VsbM8KfG-lkp@intel.com>
+Message-ID: <202608010419.ZmmWN03i-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,14 +65,14 @@ Content-Type: text/plain; charset=us-ascii
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
 head:   c2edf72f8ebcec4268393789859f789bb12ea5d0
 commit: 56f649dd45f9cd0a5e11c8c45dcae8ac5572c67d [32/55] timekeeping: time_test: Add a test for auxiliary to monotonic clock conversions
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260801/202608010434.VsbM8KfG-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010434.VsbM8KfG-lkp@intel.com/reproduce)
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260801/202608010419.ZmmWN03i-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010419.ZmmWN03i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608010434.VsbM8KfG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010419.ZmmWN03i-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
