@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247BA2BEFF5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 18:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433DF369D54;
+	Fri, 31 Jul 2026 18:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785520907; cv=none; b=Q4wBywwM1/px/GxZwfxFItE/tJfrx/j6EvakT/XDmeYSN7JcyregoEz6p9+kCRF6zV6FnOV9LrivU4OR0xgeXGxjOZHiobd2noaeP4u28QWtbzkOVjnenDSJ4UTEmOM4QUIiuZh1Ux7klQeVLcfAxUzgXL0YPdLn34f6tnmx5Ns=
+	t=1785522169; cv=none; b=NQDXU9hgPFBJYVM0ewEog1W5wK/IdOOLtklTsM5tOLGvxByjzUTJM7+yHP5bUlsDpQTWNMY51sbOVN7CSVyuzBIRHS9ataDm0EFl82203i3Mqa6gMin16XjG6rBdvMWdRZc/C2yFf1ZFctV2xT4Nd4yj7ore9K5S/Ml4IQPe/g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785520907; c=relaxed/simple;
-	bh=V+5hmRRzM1yfTeOPDl8OXZtLchmWiv+IZUwx8vcmEo0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mKnvxxNZsvACGWGA842O4ZWG5Gjog3ojuJnpQJMiHVmohf930XmVgwKQtf7e6y9+fB6IoXWl3mtVWfNVNVFlMh20umkQdqzb9l2ISSM+ugYXXnGN2/NMxBU8lGc4DFsk5w38gw2P50VvUjd8DffBuGqmtkzn+vCsjKhWxn0gu9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VCU3Gfz3; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1785522169; c=relaxed/simple;
+	bh=l0UYV6v99l4kayaDyVsaa3EEMIjdVs53AKYspVyykdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qpCUF7S7vrBdREqyxL2iLnMcY0JOO7Y2aSYgGLguAVqeHSay0gYFMMm6RgTb/OMRcNWp2HJ+B0+57R7d7EEcfnNqgnPYGo6q5SgBJdqu/Hs0NkjcPUVtsE3hba18WqVULIV1jNAuA8uD0hgtLNNRtl6c1qWCH2J/G3mdTHlk3M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RUp1QjnA; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCU3Gfz3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUp1QjnA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785520905; x=1817056905;
+  t=1785522167; x=1817058167;
   h=date:from:to:cc:subject:message-id;
-  bh=V+5hmRRzM1yfTeOPDl8OXZtLchmWiv+IZUwx8vcmEo0=;
-  b=VCU3Gfz3NTTOqVubFrwkaxOS7ETaCcnmoqZVCbPmsHMYrz7JPHu4TmB6
-   Hu7FcLG1xbDhdzIUspfloYam7fEKeLbPzN3rlzg/foYERiYuZZ9DRNlvW
-   xKac1wydbvRVBPSRnOHWq8tDTnVohfjj8Ofu5ad5fg22T/jhf00g3Ip0j
-   na8PWApoC4Y/PSU1ehGtOyUzqMZQHi5MQ3FmX0oPmAZFn7o39PXU1+g37
-   wL5eRrwk4arMuFG9GGg+OVwQo3X/tM6HfFCkUMQ7oZMReRisrX5g++NWo
-   xwgKV8IpdW11VEJOAhOXxQCqinNhCrtGkZfei5cbv66Sga8jXSwif0mAw
-   A==;
-X-CSE-ConnectionGUID: kVmeTBTBSz+dCbD5ppsSeA==
-X-CSE-MsgGUID: ZMDncuiBTIiOg2rYetVS4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="85281209"
+  bh=l0UYV6v99l4kayaDyVsaa3EEMIjdVs53AKYspVyykdQ=;
+  b=RUp1QjnAjuRFhzI/uo9sHKXn8/V86IdApUEUhQMwru9cnm82SbyLoX+y
+   hCy3NN6zQ03Uw+fABrJZijTN6Ai98WxqmvQSJs/BkQMMx5XaIkDkOCmWC
+   66ajM7ORZwfBFRObXEDGwTv2CmncatPqsse5L/sWPr6jjsjMBhpqnaAh9
+   HwThhAY5kIQ2b0qM7VxWYNKNrnIw/4fdpx9w/GpFmDwUTR4I3bLo1dGOd
+   GEMoZq1JGinNsnQLXCuH3dshCjbXvavGk5gx1D0bTO6DjYNVlG+OUJ77Y
+   SAsTexmtn4PZ+7sVMjU31Yuo4oseDRmZz9bpxvoqaCMzvzobXu/D4wL/l
+   w==;
+X-CSE-ConnectionGUID: 9sEERp8FRA2yxifUoRotGQ==
+X-CSE-MsgGUID: S8x5hYUNSfWbf+0rGT8YMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="97526556"
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="85281209"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 11:01:45 -0700
-X-CSE-ConnectionGUID: kiaQ8+zmQdyo62gpcwJCSw==
-X-CSE-MsgGUID: 9rZ9WiLsRJy4n8si2E41KA==
+   d="scan'208";a="97526556"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 11:22:46 -0700
+X-CSE-ConnectionGUID: aRT1qm6iT5uwlu1gED8IRA==
+X-CSE-MsgGUID: 1ruQRTDaSY2hpAdqC0WJ5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="298869125"
+   d="scan'208";a="261256406"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 31 Jul 2026 11:01:43 -0700
+  by orviesa009.jf.intel.com with ESMTP; 31 Jul 2026 11:22:45 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wprYC-000000003Eq-1ckq;
-	Fri, 31 Jul 2026 18:01:40 +0000
-Date: Fri, 31 Jul 2026 20:01:30 +0200
+	id 1wprsY-000000003FC-2g1K;
+	Fri, 31 Jul 2026 18:22:42 +0000
+Date: Fri, 31 Jul 2026 20:22:06 +0200
 From: kernel test robot <lkp@intel.com>
-To: Chengwen Feng <fengchengwen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: drivers/vfio/pci/vfio_pci_config.c:1178:16: error: implicit
- declaration of function 'FIELD_GET'
-Message-ID: <202607311948.8g4FkmbJ-lkp@intel.com>
+To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev,
+ matthieu.baerts@tessares.net, 0day robot <lkp@intel.com>
+Subject: net/mptcp/options.c:1207:39: warning: implicit conversion
+ from 'enum <anonymous>' to 'enum linux_mptcp_mib_field'
+Message-ID: <202607312002.iM0J3v4Q-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,92 +60,56 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Chengwen-Feng/PCI-TPH-Fix-pcie_tph_get_st_table_loc-field-extraction/20260731-191036
-head:   e577f39fe33bc6418fdf32ae8285e95107a3ed2d
-commit: 3071264b1b7974b90971cab472f711328a207c65 vfio/pci: Implement VFIO_DEVICE_FEATURE_TPH and valid TPH config write support
-date:   7 hours ago
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260731/202607311948.8g4FkmbJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607311948.8g4FkmbJ-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Matthieu-Baerts-NGI0/Squash-to-mptcp-explicitly-drop-over-memory-limits/20260731-182110
+head:   85f8043c37254556a09478e4f26c2012a1c92fc6
+commit: 79d68403b0c660279617aeb43ee4265c72640fd3 Squash to "mptcp: explicitly drop over memory limits"
+date:   8 hours ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260731/202607312002.iM0J3v4Q-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312002.iM0J3v4Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607311948.8g4FkmbJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607312002.iM0J3v4Q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/vfio/pci/vfio_pci_config.c: In function 'vfio_tph_config_write':
->> drivers/vfio/pci/vfio_pci_config.c:1178:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-    1178 |         mode = FIELD_GET(PCI_TPH_CTRL_MODE_SEL_MASK, new_ctrl);
-         |                ^~~~~~~~~
+   net/mptcp/options.c: In function 'mptcp_over_limit':
+>> net/mptcp/options.c:1207:39: warning: implicit conversion from 'enum <anonymous>' to 'enum linux_mptcp_mib_field' [-Wenum-conversion]
+    1207 |         MPTCP_INC_STATS(sock_net(sk), LINUX_MIB_TCPRCVQDROP);
+         |                                       ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/FIELD_GET +1178 drivers/vfio/pci/vfio_pci_config.c
+vim +1207 net/mptcp/options.c
 
-  1147	
-  1148	static int vfio_find_cap_start(struct vfio_pci_core_device *vdev, int pos);
-  1149	static int vfio_tph_config_write(struct vfio_pci_core_device *vdev, int pos,
-  1150					 int count, struct perm_bits *perm,
-  1151					 int offset, __le32 val)
-  1152	{
-  1153		u16 start = vfio_find_cap_start(vdev, pos);
-  1154		struct pci_dev *pdev = vdev->pdev;
-  1155		u32 org_ctrl, new_ctrl, cap;
-  1156		u8 mode, req, org_req;
-  1157		__le32 org_val = 0;
-  1158		bool extended;
-  1159		int ret;
-  1160	
-  1161		if (!vdev->tph_permit)
-  1162			return count;
-  1163	
-  1164		down_write(&vdev->memory_lock);
-  1165	
-  1166		org_ctrl = le32_to_cpu(*(__le32 *)&vdev->vconfig[start + PCI_TPH_CTRL]);
-  1167		vfio_default_config_read(vdev, pos, count, perm, offset, &org_val);
-  1168	
-  1169		ret = vfio_default_config_write(vdev, pos, count, perm, offset, val);
-  1170		if (ret != count)
-  1171			goto out;
-  1172	
-  1173		new_ctrl = le32_to_cpu(*(__le32 *)&vdev->vconfig[start + PCI_TPH_CTRL]);
-  1174		if (new_ctrl == org_ctrl)
-  1175			goto out; /* Only care about changes in TPH_CTRL. */
-  1176	
-  1177		cap = le32_to_cpu(*(__le32 *)&vdev->vconfig[start + PCI_TPH_CAP]);
-> 1178		mode = FIELD_GET(PCI_TPH_CTRL_MODE_SEL_MASK, new_ctrl);
-  1179		req = FIELD_GET(PCI_TPH_CTRL_REQ_EN_MASK, new_ctrl);
-  1180		if (mode > PCI_TPH_ST_DS_MODE || !(cap & (1u << mode)) || req == 0x2 ||
-  1181			(req == PCI_TPH_REQ_EXT_TPH && !(cap & PCI_TPH_CAP_EXT_TPH)))
-  1182			goto restore; /* Drop invalid or unsupported write value */
-  1183	
-  1184		org_req = FIELD_GET(PCI_TPH_CTRL_REQ_EN_MASK, org_ctrl);
-  1185		if (req == org_req)
-  1186			goto out; /* Only care about requester enable */
-  1187	
-  1188		ret = vfio_pci_set_power_state(vdev, PCI_D0);
-  1189		if (ret)
-  1190			goto restore; /* Drop this write */
+  1185	
+  1186	static bool mptcp_over_limit(struct sock *sk, struct sock *ssk,
+  1187				     const struct sk_buff *skb)
+  1188	{
+  1189		struct mptcp_sock *msk = mptcp_sk(sk);
+  1190		u64 mem = sk_rmem_alloc_get(sk);
   1191	
-  1192		if (req == PCI_TPH_REQ_TPH_ONLY || req == PCI_TPH_REQ_EXT_TPH) {
-  1193			extended = !!(req == PCI_TPH_REQ_EXT_TPH);
-  1194			ret = pcie_enable_tph_explicit(pdev, mode, extended);
-  1195			if (ret)
-  1196				goto restore;
-  1197		} else if (req == PCI_TPH_REQ_DISABLE) {
-  1198			pcie_disable_tph(vdev->pdev);
-  1199		}
-  1200	
-  1201		goto out;
-  1202	
-  1203	restore:
-  1204		vfio_default_config_write(vdev, pos, count, perm, offset, org_val);
-  1205	out:
-  1206		up_write(&vdev->memory_lock);
-  1207		return count;
-  1208	}
-  1209	
+  1192		mem += READ_ONCE(msk->backlog_len);
+  1193		if (likely(mem <= READ_ONCE(sk->sk_rcvbuf)))
+  1194			return false;
+  1195	
+  1196		/* Avoid silently dropping pure acks, fin or already-acked segments. */
+  1197		if (TCP_SKB_CB(skb)->seq == TCP_SKB_CB(skb)->end_seq ||
+  1198		    TCP_SKB_CB(skb)->tcp_flags & TCPHDR_FIN ||
+  1199		    !after(TCP_SKB_CB(skb)->end_seq, tcp_sk(ssk)->rcv_nxt))
+  1200			return false;
+  1201	
+  1202		/* Dropped due to memory constraints, schedule an ack. */
+  1203		inet_csk(ssk)->icsk_ack.pending |= ICSK_ACK_NOMEM | ICSK_ACK_NOW;
+  1204		inet_csk_schedule_ack(ssk);
+  1205	
+  1206		/* In fallback mode: skb is dropped before the TCP recv queue. */
+> 1207		MPTCP_INC_STATS(sock_net(sk), LINUX_MIB_TCPRCVQDROP);
+  1208	
+  1209		return true;
+  1210	}
+  1211	
 
 --
 0-DAY CI Kernel Test Service
