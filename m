@@ -1,121 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B624F43D4E9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 15:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1ABE4418CA;
+	Fri, 31 Jul 2026 15:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785511540; cv=none; b=OBoTe5EfZB8/68r/+bQx1GRPFaI1Zn+3EJ+32sSysUFkzPB4Q2PEbbIgxX+n57wVYMAFfxQ3haFwJI11AQBj8C7WsTC64tyPDx4eBDv8SAu+7oKLSIHf4OKjgBSkWqdNS46JeEjak//kz64gRLaLe2XvlDs3nLOpirwcvNTxQao=
+	t=1785511991; cv=none; b=eYa9Af5mApk/2Euo6EpuFhkWnqmbMfkL2yLULryJNsoMJG6y3qZkm9dpQKV9cpJk//yIBLfQJd5+AZyBkAyE37C9nkaFDwozfihLrS9iFPzL0vFitaN8gxCc4FKfOdOMJPrgnkHXo774fE+hCL5FJE1YyICl8TwveJbrVa3TbqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785511540; c=relaxed/simple;
-	bh=tBIoEqDaw+yQdBVa1ypePFuVNwtDK1wweHuDsf9qBCU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gWj7xQs0vIJilnX7l41IbwnaNqW9DHrmuzg8IuSv9FWcKVFDmKWoOjZp+EVpmzb5Mfw+MOag43p3wplD1d6Z1wJkfG3qeN4COiYzfVvk1zpf3pd/nBvKZUnQDexW8+QbKtMYnmaF/8riblLG6FTKVoFZCnaengEzsj2Ml53OTkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlBs+/+z; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785511991; c=relaxed/simple;
+	bh=0dWQj9ihmGFFtSxlkvXIgi9q6aif89ZggO8Om1VmpdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2KsN52Qorz+cmlJ2jHSxrtxhqpZFlZCpvf9YxaweK7z1U2hKgfeI1ge/aYKZRO0T7DJJSLNpgngemO3p7eqlxd50tpibI7Q45V5Fq2y7oV4vWxker4hEy0CF93QfHD+vf3hFQcT9Qz5t52/RuhsnjBinEgeyuwrVhGr8gXiGTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G5ztE7ec; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlBs+/+z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785511538; x=1817047538;
-  h=date:from:to:cc:subject:message-id;
-  bh=tBIoEqDaw+yQdBVa1ypePFuVNwtDK1wweHuDsf9qBCU=;
-  b=XlBs+/+znQx6MGCxTBi8TEfthlrf0+kH9NpsYuPjDyZCvCuPVR5YMDqu
-   wGST8AsBNpNtlhyBAXx1VB0HKGW4tlunN46jO/D9B06/n1oI1Ku/EvmDC
-   AOzzQIAb2ZYvb+XJvs7MeEgZ2zJIh9g8RpVbUPAs6aJuK8Py6ygs/ToUQ
-   rIZxo6BHa+8gEYgBDbwNBDTTbo8uQrMtAXzmwK/sf3Y2NlmL+dZLNkcKs
-   i+WYioprkChM5WUBs31YzLFhiXuvbOv9A7gTylBsH6/uPCnHSddpG3dNC
-   DgNLzPTdEr7L8hc0GnoK3t4hbWHY0zAYgUM+uTVd/1modUtHkKGPXQ8qY
-   g==;
-X-CSE-ConnectionGUID: CkWN9Mm9TKyn2B/YHxkjzw==
-X-CSE-MsgGUID: qHJWDO8qT4KEGImR4+/Z4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="96725693"
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="96725693"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 08:25:36 -0700
-X-CSE-ConnectionGUID: fvuRZJw8SGub/QJ07bmAbw==
-X-CSE-MsgGUID: YrZxYD0vTDO4xXl02W8IQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="298825372"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 31 Jul 2026 08:25:35 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wpp76-000000001O1-2Sf4;
-	Fri, 31 Jul 2026 15:25:32 +0000
-Date: Fri, 31 Jul 2026 23:25:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 2/2] mm/swap.c:778: warning:
- Function parameter or member 'tail' not described in
- 'mark_page_lazyfree_movetail'
-Message-ID: <202607312302.NvrNuo1y-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G5ztE7ec"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8724E1F000E9;
+	Fri, 31 Jul 2026 15:33:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785511985;
+	bh=KhDy/vBNcEPq+mP7p3WoUkWGMGgv5pEJANZTYx2EKn0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G5ztE7ecZEoSK0y08pA79fMk55/KLod3GsfhqlbCxUaf7hHZBeUSZ6/lgz5bwPTT2
+	 G0WwWAL9zeexepe4ga4DyhEF9W03kD7WYnksH8LqJbu+HEQzgAAqHYuAHWCF+NjH7R
+	 tIxegUTUlWGLSHPA+CqCTpS18NRb1eqzt5MbGAcEAabGY2rosoqZr+2+yYEpt6YJLe
+	 F80s6KqcDvtYndkVUVqxhZG0exTQSx/rHenQMa0eQSyVBofMogy02dKzZyYG8OXwAk
+	 SSMwPqdm2U5ztb2oZTjOkNPTvDUupgbyfkjm529v4EdpA6bPwsiEprcWw9UmczpWvC
+	 JmxwiZAhZBwZg==
+Date: Fri, 31 Jul 2026 17:33:02 +0200
+From: Lorenzo Bianconi <lorenzo@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Simon Horman <horms@kernel.org>
+Subject: Re: [linux-next:master 10570/10862]
+ drivers/net/ethernet/airoha/airoha_eth.c:3470:18: warning: division by zero
+ is undefined
+Message-ID: <amzALtFffHRXcefS@lore-desk>
+References: <202607311850.6p0ZUVq4-lkp@intel.com>
+ <amy2RIReGPFzDSVW@lore-desk>
+ <CANiq72nFoPshLi_8OAYxpda-rJnRCh=UpB2CovMZXj+vo3BDeA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UEYi+ZA98FZUsaLc"
+Content-Disposition: inline
+In-Reply-To: <CANiq72nFoPshLi_8OAYxpda-rJnRCh=UpB2CovMZXj+vo3BDeA@mail.gmail.com>
 
-Hi Charan,
+--UEYi+ZA98FZUsaLc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-FYI, the error/warning still remains.
+> On Fri, Jul 31, 2026 at 5:03=E2=80=AFPM Lorenzo Bianconi <lorenzo@kernel.=
+org> wrote:
+> >
+> > Is it a false-positive? I can't see how sizeof((arr)[0]) can be 0 here.
+>=20
+> `CONFIG_SMP` is not set, so the spinlock is empty, no?
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   1290154c48656bd1012a837076a0fbe379330eb3
-commit: 8011eb22150e5bb6eb1834ce9913f36081d48ab5 [2/2] ANDROID: mm: provision to add shmem pages to inactive file lru head
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607312302.NvrNuo1y-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312302.NvrNuo1y-lkp@intel.com/reproduce)
+ack, right. We can just use AIROHA_NUM_NETDEV_TX_RINGS instead of ARRAY_SIZ=
+E().
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607312302.NvrNuo1y-lkp@intel.com/
+diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/etherne=
+t/airoha/airoha_eth.c
+index dba7c52c0896..64619e9a704d 100644
+--- a/drivers/net/ethernet/airoha/airoha_eth.c
++++ b/drivers/net/ethernet/airoha/airoha_eth.c
+@@ -3467,7 +3467,7 @@ static int airoha_alloc_gdm_device(struct airoha_eth =
+*eth,
+ 	netdev->dev.of_node =3D of_node_get(np);
+ 	dev =3D netdev_priv(netdev);
+ 	u64_stats_init(&dev->stats.syncp);
+-	for (i =3D 0; i < ARRAY_SIZE(dev->txq_lock); i++)
++	for (i =3D 0; i < AIROHA_NUM_NETDEV_TX_RINGS; i++)
+ 		spin_lock_init(&dev->txq_lock[i]);
+ 	dev->port =3D port;
+ 	dev->eth =3D eth;
 
-All warnings (new ones prefixed by >>):
+Regards,
+Lorenzo
 
-   mm/swap.c:502: warning: Function parameter or member 'vma_flags' not described in '__lru_cache_add_inactive_or_unevictable'
-   mm/swap.c:502: warning: Excess function parameter 'vma' description in '__lru_cache_add_inactive_or_unevictable'
->> mm/swap.c:778: warning: Function parameter or member 'tail' not described in 'mark_page_lazyfree_movetail'
+>=20
+> Cheers,
+> Miguel
 
+--UEYi+ZA98FZUsaLc
+Content-Type: application/pgp-signature; name=signature.asc
 
-vim +778 mm/swap.c
+-----BEGIN PGP SIGNATURE-----
 
-10853a039208c4a Minchan Kim       2016-01-15  769  
-9975da5f43bb72a Vinayak Menon     2021-03-18  770  /**
-9975da5f43bb72a Vinayak Menon     2021-03-18  771   * mark_page_lazyfree_movetail - make a swapbacked page lazyfree
-9975da5f43bb72a Vinayak Menon     2021-03-18  772   * @page: page to deactivate
-9975da5f43bb72a Vinayak Menon     2021-03-18  773   *
-9975da5f43bb72a Vinayak Menon     2021-03-18  774   * mark_page_lazyfree_movetail() moves @page to the tail of inactive file list.
-9975da5f43bb72a Vinayak Menon     2021-03-18  775   * This is done to accelerate the reclaim of @page.
-9975da5f43bb72a Vinayak Menon     2021-03-18  776   */
-8011eb22150e5bb Charan Teja Reddy 2021-06-25  777  void mark_page_lazyfree_movetail(struct page *page, bool tail)
-9975da5f43bb72a Vinayak Menon     2021-03-18 @778  {
-9975da5f43bb72a Vinayak Menon     2021-03-18  779  	if (PageLRU(page) && !PageUnevictable(page) && PageSwapBacked(page) &&
-9975da5f43bb72a Vinayak Menon     2021-03-18  780  		!PageSwapCache(page)) {
-9975da5f43bb72a Vinayak Menon     2021-03-18  781  		struct pagevec *pvec;
-9975da5f43bb72a Vinayak Menon     2021-03-18  782  
-9975da5f43bb72a Vinayak Menon     2021-03-18  783  		local_lock(&lru_pvecs.lock);
-9975da5f43bb72a Vinayak Menon     2021-03-18  784  		pvec = this_cpu_ptr(&lru_pvecs.lru_lazyfree_movetail);
-9975da5f43bb72a Vinayak Menon     2021-03-18  785  		get_page(page);
-9975da5f43bb72a Vinayak Menon     2021-03-18  786  		if (pagevec_add_and_need_flush(pvec, page))
-9975da5f43bb72a Vinayak Menon     2021-03-18  787  			pagevec_lru_move_fn(pvec,
-8011eb22150e5bb Charan Teja Reddy 2021-06-25  788  					lru_lazyfree_movetail_fn, &tail);
-9975da5f43bb72a Vinayak Menon     2021-03-18  789  		local_unlock(&lru_pvecs.lock);
-9975da5f43bb72a Vinayak Menon     2021-03-18  790  	}
-9975da5f43bb72a Vinayak Menon     2021-03-18  791  }
-9975da5f43bb72a Vinayak Menon     2021-03-18  792  
+iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCamzALgAKCRA6cBh0uS2t
+rIj+AP998czAY3FErj3QecQmqgheoFOtcZ5wa/cDA6iyG8UgpAEAlDhfQPBDnZHG
+pBHqEVuvCiAcdQsQ78iLgkZ6TgtIkAc=
+=hcT8
+-----END PGP SIGNATURE-----
 
-:::::: The code at line 778 was first introduced by commit
-:::::: 9975da5f43bb72a37faf3981709fff766ab4ca15 ANDROID: mm: allow fast reclaim of shmem pages
-
-:::::: TO: Vinayak Menon <vinmenon@codeaurora.org>
-:::::: CC: Suren Baghdasaryan <surenb@google.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--UEYi+ZA98FZUsaLc--
