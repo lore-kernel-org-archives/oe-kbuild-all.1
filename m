@@ -1,127 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE81C36A367
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 20:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E8537997A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 20:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785529021; cv=none; b=UJkLuzalCCxWiJNaYw54XjMXRvRo4+O2IhCCDBZMj29+VlZ/6FJbDIViFqhYmC0nZ2gS526/wtQGnJqyhM94/kF3w/WMFBKpJVYcoBm5wzz5ionF7PTES9F3Gew8Pq4wcYhsSA7aTzR2MiZj5KTH0f/bZhbMITvRgJdxcRTfJyQ=
+	t=1785529805; cv=none; b=gKJ9cv1fDoSkBtb+awcF0L87Aff0IGo36ptCaaDFsNmZICrFLKstotH128FT+ytkPZ9NEFDVgU3BVqR3fHFg8wc+igXabJW9Cce/vfBrNb9lRbV7pUj07jcZGWqlXVTvnGi5KsO7bourRuPZX9K4V+/5mp53KlFykcLJp31nPLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785529021; c=relaxed/simple;
-	bh=7+RCl6sOaS8beco2eXk/Eg/8NcFwc9TrfrzdwIP3wWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=iEc7gpBs0MNSFnDCqoxPqfGSDVCfcImEQTCis4bqxQS2ljWv7/aNDM0qwqb9OWx3P6fdC7MG7v9aA4Oj/arQAHR/N4LHpmgIsrMsAcQNVAO3oTs0KouhMjR4gyukfPSlQulFcA0T/7vCEniGcD9uDxmQJ08b2LwC+vwFnpls1UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKVCHWAo; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1785529805; c=relaxed/simple;
+	bh=RULOuNty4gLh4Av03kezlPA23T7RK4XQ6m679Ta/JC0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nG7Mja+Zl3qqLoFLR3Znt/AAnY8VlTl/D2wXSMdGdvrkLIn+qyvdUtJXp+xTzetMkezl7MN1kstV8vhTVL+GKMDx6/Xjp+qz8QFWO7CHM4WPKXSin5UzliIwf9Yh6XRA9OHlLA08K2ISFBmgKDPeEUA5YMMnBWhgiORipYBUJLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bjq2R5hX; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKVCHWAo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bjq2R5hX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785529019; x=1817065019;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7+RCl6sOaS8beco2eXk/Eg/8NcFwc9TrfrzdwIP3wWk=;
-  b=YKVCHWAoy6L1EbcEu7SSfMv6HwjqyepS891QtQG19t3slbnntmYVpGfR
-   E1Z46qubypkfyY3bOnlMAksdOnOMyJqiUvyZGtddy4QVdwFIQr7nnpuj/
-   gABDvLhmVHpnzOBxO64Uym7VeZWL64rsrJ1RPO8Mea9NH+yd201qS6XNG
-   +MFp16BUe7HwnHpZLSwNi6OQoFPwfn6Z5NlO67uQMDmAarPG/R5biP2LU
-   17AvYYa57YYnLpyWewZxtAfHLi7hLPR8oEAIHS7zbsVDbQeh/HIRVD0qW
-   x7pcn48joiA7EI8DHy/8MOzXRw4WqZowa7ApfuTWnwCC5kakVjPdyZFd5
-   g==;
-X-CSE-ConnectionGUID: 9FD1eLnuRIuMvSVIps1IhQ==
-X-CSE-MsgGUID: 3b6gr4c+TySBciNO0NM0Mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86109032"
+  t=1785529804; x=1817065804;
+  h=date:from:to:cc:subject:message-id;
+  bh=RULOuNty4gLh4Av03kezlPA23T7RK4XQ6m679Ta/JC0=;
+  b=Bjq2R5hXKUReTx2Bz4p//MKebF8nuGNnXW5TAlBMC3k+wSkFPTZVIGVS
+   N+XRWpQV7IWCTL9YIkBn5lLvVIYvlYfGYA6L3ZBw6iMinyoSRNyEM41qW
+   QS0V/T7ibxLs5yeEgFlIaVD1WPUl6eS8638MtWJIMNTU9XrJ4uuk/9/6G
+   kAlY8vbxgP6dzdMvMx3VzdPb4scfY5J//k6Ti4uanXp2B89ZVqD3tMc2/
+   CZmWsqkCB3xdoyTiTg3jqzLSD2wU3uqSvnOhAGw9hOPBoYjtesGE/NCcE
+   X5febDTIrjo5p9ycZI1esIfQ/rjyUArXWceRSZqHTcypnLw0St0HYFrer
+   w==;
+X-CSE-ConnectionGUID: v5DJ5DGqR4y+G9yyJZAXug==
+X-CSE-MsgGUID: Br+jx8p8QNuBofSPTdMfJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86175765"
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="86109032"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:16:59 -0700
-X-CSE-ConnectionGUID: nJH3f0dpTPWQjMibkPpzRQ==
-X-CSE-MsgGUID: 64eEHAhyTomEQS4umxnRHQ==
+   d="scan'208";a="86175765"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:30:04 -0700
+X-CSE-ConnectionGUID: Ou2xad8RQ1WRLraWEPjgPg==
+X-CSE-MsgGUID: aTt5vhkyR2W46VUvPfNc+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="256755617"
+   d="scan'208";a="258869353"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 31 Jul 2026 13:16:57 -0700
+  by orviesa006.jf.intel.com with ESMTP; 31 Jul 2026 13:30:02 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wptf5-000000002Au-1nWR;
-	Fri, 31 Jul 2026 20:16:55 +0000
-Date: Sat, 01 Aug 2026 04:16:03 +0800
+	id 1wptrj-000000002C7-3KlE;
+	Fri, 31 Jul 2026 20:29:59 +0000
+Date: Sat, 01 Aug 2026 04:29:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 32/55]
- kernel/time/time_test.c:183:16: error: implicit declaration of function
- 'tk_aux_capture_mono_conv'
-Message-ID: <202608010419.ZmmWN03i-lkp@intel.com>
+To: Greg Ungerer <gerg@uclinux.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:armnommu 3/3]
+ arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202608010410.aN1TXznM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   c2edf72f8ebcec4268393789859f789bb12ea5d0
-commit: 56f649dd45f9cd0a5e11c8c45dcae8ac5572c67d [32/55] timekeeping: time_test: Add a test for auxiliary to monotonic clock conversions
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260801/202608010419.ZmmWN03i-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010419.ZmmWN03i-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
+head:   c3abc5777e04ce2e70f0d1f870409b9332e3b8ea
+commit: c3abc5777e04ce2e70f0d1f870409b9332e3b8ea [3/3] ARM: versatile: support configuring versatile machine for no-MMU
+config: arm-randconfig-r133-20260731 (https://download.01.org/0day-ci/archive/20260801/202608010410.aN1TXznM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010410.aN1TXznM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608010419.ZmmWN03i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010410.aN1TXznM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *ip @@
+   arch/arm/mm/alignment.c:776:25: sparse:     expected void const volatile [noderef] __user *ptr
+   arch/arm/mm/alignment.c:776:25: sparse:     got unsigned int [usertype] *ip
+>> arch/arm/mm/alignment.c:791:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] *ip @@
+   arch/arm/mm/alignment.c:791:25: sparse:     expected void const volatile [noderef] __user *ptr
+   arch/arm/mm/alignment.c:791:25: sparse:     got unsigned short [usertype] *ip
 
-   kernel/time/time_test.c: In function 'aux_mono_conv':
->> kernel/time/time_test.c:183:16: error: implicit declaration of function 'tk_aux_capture_mono_conv' [-Wimplicit-function-declaration]
-     183 |         conv = tk_aux_capture_mono_conv(params->mono_base, mono_mult, params->aux_base, aux_mult, shift);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/time/time_test.c:183:16: error: incompatible types when assigning to type 'struct tk_aux_mono_conv' from type 'int'
+vim +776 arch/arm/mm/alignment.c
 
+c2860d43f5dfab George G. Davis   2009-06-04  769  
+1bb9fb0a147f9d Russell King      2019-09-06  770  static int alignment_get_arm(struct pt_regs *regs, u32 *ip, u32 *inst)
+67e15fa5b487ad Russell King      2019-08-31  771  {
+67e15fa5b487ad Russell King      2019-08-31  772  	u32 instr = 0;
+67e15fa5b487ad Russell King      2019-08-31  773  	int fault;
+67e15fa5b487ad Russell King      2019-08-31  774  
+67e15fa5b487ad Russell King      2019-08-31  775  	if (user_mode(regs))
+67e15fa5b487ad Russell King      2019-08-31 @776  		fault = get_user(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  777  	else
+25f12ae45fc193 Christoph Hellwig 2020-06-17  778  		fault = get_kernel_nofault(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  779  
+67e15fa5b487ad Russell King      2019-08-31  780  	*inst = __mem_to_opcode_arm(instr);
+67e15fa5b487ad Russell King      2019-08-31  781  
+67e15fa5b487ad Russell King      2019-08-31  782  	return fault;
+67e15fa5b487ad Russell King      2019-08-31  783  }
+67e15fa5b487ad Russell King      2019-08-31  784  
+67e15fa5b487ad Russell King      2019-08-31  785  static int alignment_get_thumb(struct pt_regs *regs, u16 *ip, u16 *inst)
+67e15fa5b487ad Russell King      2019-08-31  786  {
+67e15fa5b487ad Russell King      2019-08-31  787  	u16 instr = 0;
+67e15fa5b487ad Russell King      2019-08-31  788  	int fault;
+67e15fa5b487ad Russell King      2019-08-31  789  
+67e15fa5b487ad Russell King      2019-08-31  790  	if (user_mode(regs))
+67e15fa5b487ad Russell King      2019-08-31 @791  		fault = get_user(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  792  	else
+25f12ae45fc193 Christoph Hellwig 2020-06-17  793  		fault = get_kernel_nofault(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  794  
+67e15fa5b487ad Russell King      2019-08-31  795  	*inst = __mem_to_opcode_thumb16(instr);
+67e15fa5b487ad Russell King      2019-08-31  796  
+67e15fa5b487ad Russell King      2019-08-31  797  	return fault;
+67e15fa5b487ad Russell King      2019-08-31  798  }
+67e15fa5b487ad Russell King      2019-08-31  799  
 
-vim +/tk_aux_capture_mono_conv +183 kernel/time/time_test.c
+:::::: The code at line 776 was first introduced by commit
+:::::: 67e15fa5b487adb9b78a92789eeff2d6ec8f5cee ARM: mm: fix alignment handler faults under memory pressure
 
-   168	
-   169	static void aux_mono_conv(struct kunit *test)
-   170	{
-   171		const struct aux_mono_conv_test_case *params = test->param_value;
-   172		u32 mono_mult, aux_mult, shift;
-   173		struct tk_aux_mono_conv conv;
-   174	
-   175		if (__is_defined(MODULE) || !IS_ENABLED(CONFIG_POSIX_AUX_CLOCKS)) {
-   176			kunit_skip(test, "CONFIG_POSIX_AUX_CLOCKS is not reachable");
-   177			return;
-   178		}
-   179	
-   180		clocks_calc_mult_shift(&mono_mult, &shift, 1, 1, 200);
-   181		aux_mult = mult_frac(mono_mult, 100 + params->speed_difference_percentage, 100);
-   182	
- > 183		conv = tk_aux_capture_mono_conv(params->mono_base, mono_mult, params->aux_base, aux_mult, shift);
-   184	
-   185		for (size_t i = 0; i < ARRAY_SIZE(params->timestamps); i++) {
-   186			ktime_t mono = params->timestamps[i].mono;
-   187			ktime_t aux = params->timestamps[i].aux;
-   188			kunit_info(test, "timestamp mono=%lld aux=%lld\n", mono, aux);
-   189	
-   190			ktime_t expected_aux = mult_frac(mono - conv.mono_base, 100 + params->speed_difference_percentage, 100) + conv.aux_base;
-   191	
-   192			KUNIT_ASSERT_EQ(test, aux, expected_aux);
-   193	
-   194			ktime_t converted_aux = ktime_mono_to_aux(mono, &conv);
-   195			kunit_info(test, "converted_aux=%lld\n", converted_aux);
-   196			KUNIT_EXPECT_GE(test, converted_aux, aux - 1);
-   197			KUNIT_EXPECT_LE(test, converted_aux, aux + 1);
-   198	
-   199			ktime_t converted_mono = ktime_aux_to_mono(aux, &conv);
-   200			kunit_info(test, "converted_mono=%lld\n", converted_mono);
-   201			KUNIT_EXPECT_GE(test, converted_mono, mono - 1);
-   202			KUNIT_EXPECT_LE(test, converted_mono, mono + 1);
-   203		}
-   204	
+:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
+:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
 
 --
 0-DAY CI Kernel Test Service
