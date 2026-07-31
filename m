@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0E93FCB2C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 13:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC373EE1C5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 13:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785504365; cv=none; b=buzg6hpHb67vnv6Ve4p5duCCFVf+wfd14lQJVDmVb6DP9uxL6MRhcHIHz0GqrO0FQOwj2UEZP9PqqtsejIsFCH9hk8LErQIL4t2JRFZEnwpAKv8/Yau3UzpvBmT1oYnizy29OPMTUJDezbTdlSt5RN4JZDI4JqEpR/FqTELu4E0=
+	t=1785504365; cv=none; b=Zc4rWhexg/LQ6GDHD3ONyWTOEwstvTXnwDQE/652oO0zfH7eeewcgQ0awruwGtH1dQ65Daonw2/I6z6X6lVGI+iqtcM92nP0J32caCXF9766HaOVPPf0p563oZP951DeKXpTojoLNgK+sfzlj2Az9xkBD2784Vd7NeNwxgRcc6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785504365; c=relaxed/simple;
-	bh=BjCdaZuVMkVK5vfU1ujC7C6uCmV6zs0qXobgKysmL3k=;
+	bh=nIG1qcZnbAITJ9F8ZcApjWSQKYFtXcVE4l1QYZI96G0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dp+wrR+kTKgkRGs+rkVwY4LhQ6XYxKBZkgcDrA30QpeOGB19fLmm2iXHAMJ6buskD902qjk+UCteL1boO1b7w4kii9HVvsGojGSLSQHOwNeTNO3lqLMjXFi1itFrsoRRvXQeF/qa5E9rBuUpvr5+miIRwtyIjELu14L08/pgjJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dNtxKo9E; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=PEbjyEELFuZUKWTzBNzvsRH3XHDWV+9bVzTS7dR7nk2rNwweaLTWNO32D2/V993CVC/NwUOYoaL6XPH9SUzVzxGFGc350g0bGeKP82+oiWJb8ZVTPcOpOeAaOfcetc5wAEqIsi1YTl3sDFi6v5lqYvs2iRwUwR9VEpG28vPDhVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKdYqz7p; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNtxKo9E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKdYqz7p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785504363; x=1817040363;
+  t=1785504365; x=1817040365;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BjCdaZuVMkVK5vfU1ujC7C6uCmV6zs0qXobgKysmL3k=;
-  b=dNtxKo9E0a2XzvVKusNpFOBP3RZfsLD06ZPcU7CXYlDl0jFjmXAuvHnr
-   wDVNsgHNCIf5DmD7JyKhOzwLASMcwwq/TIBeBGydrVmA8YyTyi6Z0IRG9
-   hu4UGHRMvp9SF6Os2Pk8+uKIAKwLvYCx4BTDXyvPLN63Lc5LFEY1qgacg
-   Iyu805R+llSXh0LjWdPAp8mObv/FJiBCLVIGgbsEwwlc978MMh3vUABsI
-   pP4EgYL11bTDe49KtreFIpkNTmPFcpAsTTsXoRnxJxX9AGSQh2BxrHQRo
-   RhW7a5kaBdvTUJ0Az4FgR+Wn3QNy7YYRtRH3Pah57RNfz1DTUVVB805wR
-   w==;
-X-CSE-ConnectionGUID: envH087bQqOp2URtHnTBOQ==
-X-CSE-MsgGUID: Ftve607nSCWFkltTXCWTaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="111675804"
+  bh=nIG1qcZnbAITJ9F8ZcApjWSQKYFtXcVE4l1QYZI96G0=;
+  b=YKdYqz7pdlNGW3HVCRol62V5OLDSZ4PggX2hDRmlFqa+jvNQdAIeWgkH
+   h/5C3D/2Msswx8ytDooTQQ9MQ4SIvE7+eqhF3qeDxGQw6Zln1Eo3UhK/E
+   4jHNl0qZh7v6e+J9EEfDqrlTI3BHzxmFKgh+vpwkJGxquOmEn3Vp/0dMt
+   1a6TkvGnwOdiT8pVw3MuJmUD6jjFGvhW/wUj5QkA9SuL/036VaZxLZMx6
+   a3gFcj+Htobon2VM6kO5Dlb9KL65Io5+iJ+vVenEdjWXAPHINbkw6nITH
+   4I2RGNXWGoyENSZVaQVprtdNBQYDhtw9bfzyBw1bvqcmMnkuL9YjnOMZk
+   g==;
+X-CSE-ConnectionGUID: rEAh4/4YT/aHLrYdYIDnLg==
+X-CSE-MsgGUID: RBePb5lHQ1mvngvcFwOzdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="108923136"
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="111675804"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 06:26:03 -0700
-X-CSE-ConnectionGUID: 5VWVTkDPSDygGfPC6dwydg==
-X-CSE-MsgGUID: +0w0GLSvRJKSOiVHos64og==
+   d="scan'208";a="108923136"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 06:26:04 -0700
+X-CSE-ConnectionGUID: UxNIjUXkTquD1ugO/6HpYw==
+X-CSE-MsgGUID: 0PL/vfzxSYKNYmgmepgoRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="258793421"
+   d="scan'208";a="262544045"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 31 Jul 2026 06:26:01 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 31 Jul 2026 06:26:02 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpnFP-000000000yp-1hIC;
+	id 1wpnFP-000000000yn-132C;
 	Fri, 31 Jul 2026 13:25:59 +0000
-Date: Fri, 31 Jul 2026 21:25:11 +0800
+Date: Fri, 31 Jul 2026 21:25:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] fs/ntfs3: Add basic support for alternative data
- streams
-Message-ID: <202607312142.aahnA9Zj-lkp@intel.com>
-References: <20260724111601.14804-1-almaz.alexandrovich@paragon-software.com>
+To: Ashwin Gundarapu <linuxuser509@zohomail.in>,
+	netdev <netdev@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb <linux-usb@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	andrew <andrew@lunn.ch>
+Subject: Re: [PATCH v2] net: usb: net1080: add error handling to
+ nc_vendor_write()
+Message-ID: <202607312111.RaYDdcfw-lkp@intel.com>
+References: <19fa888e049.512e8c5e24030.7986824281565553606@zohomail.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,151 +66,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260724111601.14804-1-almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <19fa888e049.512e8c5e24030.7986824281565553606@zohomail.in>
 
-Hi Konstantin,
+Hi Ashwin,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on next-20260721]
-[also build test ERROR on linus/master v7.2-rc5]
-[cannot apply to brauner-vfs/vfs.all v7.2-rc4 v7.2-rc3 v7.2-rc2]
+[auto build test ERROR on net/main]
+[also build test ERROR on net-next/main linus/master horms-ipvs/master v7.2-rc5 next-20260730]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Komarov/fs-ntfs3-Add-basic-support-for-alternative-data-streams/20260724-193931
-base:   next-20260721
-patch link:    https://lore.kernel.org/r/20260724111601.14804-1-almaz.alexandrovich%40paragon-software.com
-patch subject: [RFC PATCH] fs/ntfs3: Add basic support for alternative data streams
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607312142.aahnA9Zj-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312142.aahnA9Zj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/net-usb-net1080-add-error-handling-to-nc_vendor_write/20260731-180509
+base:   net/main
+patch link:    https://lore.kernel.org/r/19fa888e049.512e8c5e24030.7986824281565553606%40zohomail.in
+patch subject: [PATCH v2] net: usb: net1080: add error handling to nc_vendor_write()
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607312111.RaYDdcfw-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312111.RaYDdcfw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607312142.aahnA9Zj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607312111.RaYDdcfw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/ntfs3/file.c: In function 'ntfs_file_read_iter':
->> fs/ntfs3/file.c:845:17: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-     845 |                 ret = ni_query_ads(ni, &iocb->ki_pos, iter);
-         |                 ^~~
-         |                 net
-   fs/ntfs3/file.c:845:17: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/usb/net1080.c:132:2: error: '#endif' without '#if'
+     132 | #endif
+         |  ^~~~~
 
 
-vim +845 fs/ntfs3/file.c
+vim +132 drivers/net/usb/net1080.c
 
-   813	
-   814	/*
-   815	 * ntfs_file_read_iter - file_operations::read_iter
-   816	 */
-   817	static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
-   818	{
-   819		struct file *file = iocb->ki_filp;
-   820		struct inode *inode = file_inode(file);
-   821		struct ntfs_inode *ni = ntfs_i(inode);
-   822		size_t bytes = iov_iter_count(iter);
-   823		loff_t valid, i_size, vbo, end;
-   824		unsigned int dio_flags;
-   825		ssize_t err;
-   826	
-   827		err = check_read_restriction(inode);
-   828		if (err)
-   829			return err;
-   830	
-   831		if (!bytes)
-   832			return 0; /* skip atime */
-   833	
-   834		if (ni->file.ads.len == ARRAY_SIZE(QUERY_STREAMS) &&
-   835		    !memcmp(ni->file.ads.name, QUERY_STREAMS, sizeof(QUERY_STREAMS))) {
-   836			/* Query ADS. */
-   837			if (unlikely(iocb->ki_flags & IOCB_DIRECT)) {
-   838				ntfs_inode_warn(
-   839					inode,
-   840					"direct I/O for streams is not supported");
-   841				return -EOPNOTSUPP;
-   842			}
-   843	
-   844			inode_lock_shared(inode);
- > 845			ret = ni_query_ads(ni, &iocb->ki_pos, iter);
-   846			inode_unlock_shared(inode);
-   847			return ret;
-   848		}
-   849	
-   850		if (is_compressed(ni)) {
-   851			if (iocb->ki_flags & IOCB_DIRECT) {
-   852				ntfs_inode_warn(
-   853					inode, "direct i/o + compressed not supported");
-   854				return -EOPNOTSUPP;
-   855			}
-   856			/* Turn off readahead for compressed files. */
-   857			file->f_ra.ra_pages = 0;
-   858		}
-   859	
-   860		/* Fallback to buffered I/O if the inode does not support direct I/O. */
-   861		if (!(iocb->ki_flags & IOCB_DIRECT) ||
-   862		    !ntfs_should_use_dio(iocb, iter)) {
-   863			iocb->ki_flags &= ~IOCB_DIRECT;
-   864			return generic_file_read_iter(iocb, iter);
-   865		}
-   866	
-   867		if (iocb->ki_flags & IOCB_NOWAIT) {
-   868			if (!inode_trylock_shared(inode))
-   869				return -EAGAIN;
-   870		} else {
-   871			inode_lock_shared(inode);
-   872		}
-   873	
-   874		vbo = iocb->ki_pos;
-   875		end = vbo + bytes;
-   876		dio_flags = 0;
-   877		valid = ni->i_valid;
-   878		i_size = inode->i_size;
-   879	
-   880		if (vbo < valid) {
-   881			if (valid < end) {
-   882				/* read cross 'valid' size. */
-   883				dio_flags |= IOMAP_DIO_FORCE_WAIT;
-   884			}
-   885	
-   886			if (ni->file.run_da.count) {
-   887				/* Direct I/O is not compatible with delalloc. */
-   888				err = ni_allocate_da_blocks(ni);
-   889				if (err)
-   890					goto out;
-   891			}
-   892	
-   893			err = iomap_dio_rw(iocb, iter, &ntfs_iomap_ops, NULL, dio_flags,
-   894					   NULL, 0);
-   895	
-   896			if (err <= 0)
-   897				goto out;
-   898			end = vbo + err;
-   899			if (valid < end) {
-   900				size_t to_zero = end - valid;
-   901				/* Fix iter. */
-   902				iov_iter_revert(iter, to_zero);
-   903				iov_iter_zero(to_zero, iter);
-   904			}
-   905		} else if (vbo < i_size) {
-   906			if (end > i_size)
-   907				bytes = i_size - vbo;
-   908			iov_iter_zero(bytes, iter);
-   909			iocb->ki_pos += bytes;
-   910			err = bytes;
-   911		}
-   912	
-   913	out:
-   914		inode_unlock_shared(inode);
-   915		file_accessed(file);
-   916		return err;
-   917	}
-   918	
+904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  129  
+904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  130  
+904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  131  
+904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31 @132  #endif
+904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  133  
+904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  134  
 
 --
 0-DAY CI Kernel Test Service
