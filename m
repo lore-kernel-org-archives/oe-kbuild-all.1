@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4ED82773CA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 06:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551E735C6B5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 07:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785480329; cv=none; b=D/rXIlx/FqtGp6MGZD0uIfNBG5lYpQ9+HWel5rz0WKDMwt4HFaE4OscDVsjRbqjn74qAbctpwtQtLX0TBMemyguKjNfhpSAOCGtJNRcvqun5bG5fdGkzpVOm/qCjR3laN4N67TJdA4SUwYZthB/W1yJGwOIMYhfKzbCLab6mbXc=
+	t=1785481712; cv=none; b=HK3RK2eRQ2ILEWF4IaiO1gYfZjNWXM+e5HaWaaH50/iESvPobOpPJs35ubn7kGamBkrywqkAfcpBIGkVzM9UESuTVWgu7Z5zxsiXTLo3lhM5TAQHDVRe4PKl1HKPPO0cFHIOxr7kAqd3I3o1eDkSl9qxWAzxM/kksZfwqnLrBYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785480329; c=relaxed/simple;
-	bh=ne3qgJQCX8y0y6o0L9eg9usyqnOHeV6CTa+t2HcqYfI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DiEpYbN13Hd0Gs/tzP+gQrd8XNpZzgJGv7fR8UR3w5y4V68zz98N5K+peLDhiigspSGAS4FSJybAaKd+2M5PrBD9xW7JFgV6/4fRAzAMdMW2gxKkPg9gdJZ0cO3zBSkTM6vUweppF3hFcGneWreWW1V6wWAWq0qpo9BRsODoDAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jl1hYu2h; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1785481712; c=relaxed/simple;
+	bh=GLsGKnHzfdH4Df6fOi4WVCZbX+FujTdygR8UgjIk5S0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RTmx0NFNYeIcdzUXjeCVFcI7x72MIGrWNFgLjEczlIO0hBBqmsFzWdLEgnNxsSmCPCPKvNgGPUKvzLszdjELrDaVgHL2w8oQCf2xNJOJ02m1C47HNe9PHYKU4ggF2gfIWCuEFeSUgLh8GLeF43LmigOsANY9dcdFL1cjddVDYxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e7g0higH; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jl1hYu2h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e7g0higH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785480326; x=1817016326;
+  t=1785481710; x=1817017710;
   h=date:from:to:cc:subject:message-id;
-  bh=ne3qgJQCX8y0y6o0L9eg9usyqnOHeV6CTa+t2HcqYfI=;
-  b=Jl1hYu2hvYxIxfpJElZH8jayqSUsXSCaVFpcwXFB61QQbjmSDwjPHl3a
-   oXQ1q4EW6rPcTUjNcs18MnLfC/xKidy2fkOGfwW601mzj5OKRAIuQngAM
-   8XecKIU+zpCD2YTQE5W4BPh/AcI8bOvkoV5jq+SjNcp2clsCgWGZR39Sb
-   RYNR1vQzR9n2SMz2d55Xg1gjwDdywdD2RMcR1MYK2gjxokdCjsS/CnBtz
-   CmjU+UeVLjsMcKtZjbxOs+xtJnJyT3Gz8ZgpQRp/gncGXiTwYe3RUutaG
-   ltMp8SUR1B2Bukiv2bqzMR8r5MnwAUUKqYYJLzI0y3bBx1rtjDJ+3UR+T
-   A==;
-X-CSE-ConnectionGUID: 0AVneBo0TMW49g4j8D0DSw==
-X-CSE-MsgGUID: fUFe12e5TfakIsJ4F6dnzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="88636962"
+  bh=GLsGKnHzfdH4Df6fOi4WVCZbX+FujTdygR8UgjIk5S0=;
+  b=e7g0higHidrMM0QUyCQ6Rzt2f/BVC64GXV6IIyzEQPJUrXP/t/QPLOvb
+   zfWkXhvvdpGyy1lvAsUtjOxzwMbuyArvOw8Q+8Vg8Oh776x0aVlJ47rko
+   sPYIDYQhOZp/ZHP7gB/8Mv2SGcGLIbbzll5JL1hmaAaTleuTh1v5Ru35i
+   crDFCzYksbt0EwUFSr6SMaTELvQeZAoacuT6u91oJX2/qh6N8yhRO/fWN
+   J3xcPhKLdkx91vKnnA83CDEjI/iKTtsGEyxQZyXBgpahTuzTrg6I11TIl
+   tO+R+VCi41vXqptRzblmANfdDwV3rmv9kB7cpshlWSS6vc7hL5MOV6e+J
+   Q==;
+X-CSE-ConnectionGUID: 1SkSt34ESGuvlojGPGylJA==
+X-CSE-MsgGUID: 3rLozTMoTpKRqLtGwd0JIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="108897914"
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="88636962"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 23:45:22 -0700
-X-CSE-ConnectionGUID: +zlboeHKQK6FhnWTCSFwaA==
-X-CSE-MsgGUID: P2f+tO3+QD6bM3MRWJ/j/g==
+   d="scan'208";a="108897914"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 00:08:30 -0700
+X-CSE-ConnectionGUID: gVeNdemyQ9aPCL1xSkBBiw==
+X-CSE-MsgGUID: pMLq/j59TvmSeRyrFnpLkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="254185271"
+   d="scan'208";a="263997017"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Jul 2026 23:45:20 -0700
+  by orviesa003.jf.intel.com with ESMTP; 31 Jul 2026 00:08:28 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpgze-000000000FF-1rGn;
-	Fri, 31 Jul 2026 06:45:18 +0000
-Date: Fri, 31 Jul 2026 14:45:01 +0800
+	id 1wphM2-000000000Gj-0DR3;
+	Fri, 31 Jul 2026 07:08:26 +0000
+Date: Fri, 31 Jul 2026 15:08:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_sbi_dbtr_v3 71/72]
- arch/riscv/kernel/hw_breakpoint.c:441:22: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202607311439.40kEo7v8-lkp@intel.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ard Biesheuvel <ardb@kernel.org>
+Subject: crypto/aes.c:38:1: sparse: sparse: static assertion failed:
+ "__alignof__(struct aes_cmac_key) <= CRYPTO_MINALIGN"
+Message-ID: <202607311436.r2LOv1zf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,99 +60,83 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_dbtr_v3
-head:   beda8d39b4166d1ca21e78d4ff92e8e8ec11ea6a
-commit: d24c3a0af904b9db5fdfddac9594f357e94d426d [71/72] riscv: Introduce support for hardware break/watchpoints
-config: riscv-randconfig-r112-20260731 (https://download.01.org/0day-ci/archive/20260731/202607311439.40kEo7v8-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8ba098e6b6ff0db8edf28528d1552be261af30d4
+commit: 7137cbf2b5c9feb6302d6da116eab2047c5f05d2 crypto: aes - Add cmac, xcbc, and cbcmac algorithms using library
+date:   5 months ago
+config: powerpc-randconfig-r131-20260731 (https://download.01.org/0day-ci/archive/20260731/202607311436.r2LOv1zf-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 9.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607311439.40kEo7v8-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607311436.r2LOv1zf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 7137cbf2b5c9 ("crypto: aes - Add cmac, xcbc, and cbcmac algorithms using library")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607311439.40kEo7v8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607311436.r2LOv1zf-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> arch/riscv/kernel/hw_breakpoint.c:441:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata1 @@     got restricted __le64 [usertype] @@
-   arch/riscv/kernel/hw_breakpoint.c:441:22: sparse:     expected unsigned long tdata1
-   arch/riscv/kernel/hw_breakpoint.c:441:22: sparse:     got restricted __le64 [usertype]
->> arch/riscv/kernel/hw_breakpoint.c:442:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata2 @@     got restricted __le64 [usertype] @@
-   arch/riscv/kernel/hw_breakpoint.c:442:22: sparse:     expected unsigned long tdata2
-   arch/riscv/kernel/hw_breakpoint.c:442:22: sparse:     got restricted __le64 [usertype]
->> arch/riscv/kernel/hw_breakpoint.c:443:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata3 @@     got restricted __le64 [usertype] @@
-   arch/riscv/kernel/hw_breakpoint.c:443:22: sparse:     expected unsigned long tdata3
-   arch/riscv/kernel/hw_breakpoint.c:443:22: sparse:     got restricted __le64 [usertype]
->> arch/riscv/kernel/hw_breakpoint.c:454:15: sparse: sparse: cast to restricted __le64
-   arch/riscv/kernel/hw_breakpoint.c:558:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata1 @@     got restricted __le64 [usertype] @@
-   arch/riscv/kernel/hw_breakpoint.c:558:22: sparse:     expected unsigned long tdata1
-   arch/riscv/kernel/hw_breakpoint.c:558:22: sparse:     got restricted __le64 [usertype]
-   arch/riscv/kernel/hw_breakpoint.c:559:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata2 @@     got restricted __le64 [usertype] @@
-   arch/riscv/kernel/hw_breakpoint.c:559:22: sparse:     expected unsigned long tdata2
-   arch/riscv/kernel/hw_breakpoint.c:559:22: sparse:     got restricted __le64 [usertype]
-   arch/riscv/kernel/hw_breakpoint.c:560:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata3 @@     got restricted __le64 [usertype] @@
-   arch/riscv/kernel/hw_breakpoint.c:560:22: sparse:     expected unsigned long tdata3
-   arch/riscv/kernel/hw_breakpoint.c:560:22: sparse:     got restricted __le64 [usertype]
+   crypto/aes.c:14:1: sparse: sparse: static assertion failed: "__alignof__(struct aes_key) <= CRYPTO_MINALIGN"
+>> crypto/aes.c:38:1: sparse: sparse: static assertion failed: "__alignof__(struct aes_cmac_key) <= CRYPTO_MINALIGN"
+>> crypto/aes.c:88:1: sparse: sparse: static assertion failed: "__alignof__(struct aes_enckey) <= CRYPTO_MINALIGN"
 
-vim +441 arch/riscv/kernel/hw_breakpoint.c
+vim +38 crypto/aes.c
 
-   423	
-   424	/* atomic: counter->ctx->lock is held */
-   425	int arch_install_hw_breakpoint(struct perf_event *event)
-   426	{
-   427		struct arch_hw_breakpoint *bp = counter_arch_bp(event);
-   428		union sbi_dbtr_shmem_entry *shmem = this_cpu_ptr(sbi_dbtr_shmem);
-   429		struct sbi_dbtr_data_msg *xmit;
-   430		struct sbi_dbtr_id_msg *recv;
-   431		struct perf_event **slot;
-   432		unsigned long idx;
-   433		struct sbiret ret;
-   434		int err = 0;
-   435	
-   436		raw_spin_lock_irqsave(this_cpu_ptr(&ecall_lock),
-   437				      *this_cpu_ptr(&ecall_lock_flags));
-   438	
-   439		xmit = &shmem->data;
-   440		recv = &shmem->id;
- > 441		xmit->tdata1 = cpu_to_le(bp->tdata1);
- > 442		xmit->tdata2 = cpu_to_le(bp->tdata2);
- > 443		xmit->tdata3 = cpu_to_le(bp->tdata3);
-   444	
-   445		ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_INSTALL,
-   446				1, 0, 0, 0, 0, 0);
-   447	
-   448		if (ret.error) {
-   449			pr_warn("%s: failed to install trigger\n", __func__);
-   450			err = -EIO;
-   451			goto done;
-   452		}
-   453	
- > 454		idx = le_to_cpu(recv->idx);
-   455		if (idx >= dbtr_total_num) {
-   456			pr_warn("%s: invalid trigger index %lu\n", __func__, idx);
-   457			err = -EINVAL;
-   458			goto done;
-   459		}
-   460	
-   461		slot = this_cpu_ptr(&pcpu_hw_bp_events[idx]);
-   462		if (*slot) {
-   463			pr_warn("%s: slot %lu is in use\n", __func__, idx);
-   464			err = -EBUSY;
-   465			goto done;
-   466		}
-   467	
-   468		pr_debug("Trigger %lu installed at index 0x%lx\n", bp->tdata2, idx);
-   469	
-   470		/* Save the event - to be looked up in handler */
-   471		*slot = event;
-   472	
-   473	done:
-   474		raw_spin_unlock_irqrestore(this_cpu_ptr(&ecall_lock),
-   475					   *this_cpu_ptr(&ecall_lock_flags));
-   476		return err;
-   477	}
-   478	
+    37	
+  > 38	static_assert(__alignof__(struct aes_cmac_key) <= CRYPTO_MINALIGN);
+    39	#define AES_CMAC_KEY(tfm) ((struct aes_cmac_key *)crypto_shash_ctx(tfm))
+    40	#define AES_CMAC_CTX(desc) ((struct aes_cmac_ctx *)shash_desc_ctx(desc))
+    41	
+    42	static int __maybe_unused crypto_aes_cmac_setkey(struct crypto_shash *tfm,
+    43							 const u8 *in_key,
+    44							 unsigned int key_len)
+    45	{
+    46		return aes_cmac_preparekey(AES_CMAC_KEY(tfm), in_key, key_len);
+    47	}
+    48	
+    49	static int __maybe_unused crypto_aes_xcbc_setkey(struct crypto_shash *tfm,
+    50							 const u8 *in_key,
+    51							 unsigned int key_len)
+    52	{
+    53		if (key_len != AES_KEYSIZE_128)
+    54			return -EINVAL;
+    55		aes_xcbcmac_preparekey(AES_CMAC_KEY(tfm), in_key);
+    56		return 0;
+    57	}
+    58	
+    59	static int __maybe_unused crypto_aes_cmac_init(struct shash_desc *desc)
+    60	{
+    61		aes_cmac_init(AES_CMAC_CTX(desc), AES_CMAC_KEY(desc->tfm));
+    62		return 0;
+    63	}
+    64	
+    65	static int __maybe_unused crypto_aes_cmac_update(struct shash_desc *desc,
+    66							 const u8 *data,
+    67							 unsigned int len)
+    68	{
+    69		aes_cmac_update(AES_CMAC_CTX(desc), data, len);
+    70		return 0;
+    71	}
+    72	
+    73	static int __maybe_unused crypto_aes_cmac_final(struct shash_desc *desc,
+    74							u8 *out)
+    75	{
+    76		aes_cmac_final(AES_CMAC_CTX(desc), out);
+    77		return 0;
+    78	}
+    79	
+    80	static int __maybe_unused crypto_aes_cmac_digest(struct shash_desc *desc,
+    81							 const u8 *data,
+    82							 unsigned int len, u8 *out)
+    83	{
+    84		aes_cmac(AES_CMAC_KEY(desc->tfm), data, len, out);
+    85		return 0;
+    86	}
+    87	
+  > 88	static_assert(__alignof__(struct aes_enckey) <= CRYPTO_MINALIGN);
+    89	#define AES_CBCMAC_KEY(tfm) ((struct aes_enckey *)crypto_shash_ctx(tfm))
+    90	#define AES_CBCMAC_CTX(desc) ((struct aes_cbcmac_ctx *)shash_desc_ctx(desc))
+    91	
 
 --
 0-DAY CI Kernel Test Service
