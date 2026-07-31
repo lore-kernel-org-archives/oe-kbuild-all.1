@@ -1,42 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3292F7EE0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 19:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A513002B3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 20:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785526506; cv=none; b=Torzw+rsVHyhdRvC+Mvu8fJnQIhtdtFc9G8z9v1cRv1Eh5d51zfNqmACSYbMYTBSgmgnXoZ02+LUcWSSIq+fNVeRePhkPRCTIzo3ilAR2tOCATWyKdfIN3xZmEUi2ydAziKxqNbUE/ksUhi4AzVqA7uH9LeUx+hTifU2DhpLsB4=
+	t=1785529021; cv=none; b=H9qFbbrjviyUDhegppnDs1bzg94zOlknYdm3tzTNTQ4CML220ThTg8nQWTFFAgSjP1ZAomk4HLr7GMCkvnlsNJn+OvbelsLp8V9B6dBBVn3pvH5hNEWLBSb+iLiu4rXCc9qVcrNIfSFzBb4INTC2XgMFb+umwqKmHy8rhQ7ySJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785526506; c=relaxed/simple;
-	bh=vY+Hv9AR/IO1itcmTOLGZYji7LrYKAxD4sP1MsxHyeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZOLOR8E/x2eeDuvKT8TUVrs6unw/5zX7/68wXydOBednELPoo+H0Ozo/V4+nfvXcvHDWhTj8Y3u8pr9FuoeT+gpzUbIwjLQ6kUh7Hjyz2MHAsKwLAz1dVxAAEVEF9MTog7pQSNRs9yHHWQKXt7f9uf9gBxbNCERZhks459VgfJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMa7trea; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785529021; c=relaxed/simple;
+	bh=/9+3xveCyIJ0MvsYhfsRuz53O2I+bMIX57g5fVWrsps=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=bBq6d+TO1qG927CFmOja3Mpyd9vulx8Bgnyy1GlD4TamxJb+6xx3VX6pEYAtorYkZ3mjsKKV+nYQ+DWuab8GvQzAWb1iX0NmfASW2o9vElAiCE2opy124K69eYzZqtE3ROAHk3Lc4a2sfdl41l7WYjtj2L+AaZrL+STz481h0dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AdHOS7dd; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMa7trea"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 311B91F00AC4;
-	Fri, 31 Jul 2026 19:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785526505;
-	bh=LzkhwayHTTh5Nyd/H92DjatXM/FS6NrHSu7zfBpvMdw=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=nMa7treaXQYelXU7T3jbiDQ2EAq05pIblFVgHjAycNCd89nX3s7QB4fOmYE+H0iSV
-	 rkBUacPqFmUaxSmqC7JbouGpHQA/oxLMP6AseiZ2ys902SzzGY7Nu5pynmiVg8UryL
-	 ZJ112m5JY/aY2bYDwz/SFvfKDh1ZKkLyvzgzs/tEi7pp+TP9fIdcAoqqnVmDFpFbKo
-	 fkSy75S5cTz5EI8VPgNhwZLPBRlEkpietFaQMv75wlJvrUPhjkoU5aqA/riAdxSk0/
-	 WxhDHKYJIaR/fAXvo9HSZGDNW8z1kfRffNebI/Gs3E0E7QRt38MjMmVUK4Uqty3mxV
-	 l06g+mOUaJ9/g==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 030F6CE11BE; Fri, 31 Jul 2026 12:35:05 -0700 (PDT)
-Date: Fri, 31 Jul 2026 12:35:04 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AdHOS7dd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785529019; x=1817065019;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/9+3xveCyIJ0MvsYhfsRuz53O2I+bMIX57g5fVWrsps=;
+  b=AdHOS7ddRAzpHXR3nvIp+S7zJGX7W1XSn+Dx4dF28jaJSzbElHRLgYei
+   idylH48XByfecIZmLETzBBHhE2hkwQi1U7yDvL7cASf7XMtZ2MqfQvg5H
+   4jfvLBWW+urOrzG9ZU0xZAhim2KRPvQJfw6NkLHbbW1tnglVKO9qHzP+3
+   6KEAM9HO0BTjBEedbVzWKjif1hBd2A07XruIDmTgb049JyuCkjxPkdnfY
+   yl4zpU6HTYug7ghlYyuvBfjdTkatgN50Thet4m84XQsFEMcOUQ1zrvIAQ
+   u76XRkU22nSjgHOOWwjpOJYJHQEXQ2dw5KSZcoknGiuTmSiCCkRCo+fpa
+   w==;
+X-CSE-ConnectionGUID: V5CCmzNhQZWJC9AW9kLpEw==
+X-CSE-MsgGUID: jk0e1AGyRhm/967eglkqOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="96516056"
+X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
+   d="scan'208";a="96516056"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:16:58 -0700
+X-CSE-ConnectionGUID: WJZKdYKYQeeOMe5VUEycXQ==
+X-CSE-MsgGUID: InUQH28mS7K2gunre7O4iw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
+   d="scan'208";a="285274984"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2026 13:16:57 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wptf5-000000002Ar-0avk;
+	Fri, 31 Jul 2026 20:16:55 +0000
+Date: Sat, 01 Aug 2026 04:16:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev 36/44] arch/x86/kernel/nmi.c:88:15: sparse:
- sparse: symbol 'toolong_nmi_panic' was not declared. Should it be static?
-Message-ID: <0dbcaf7f-ac67-43cc-9216-1f021b3ab5bb@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202607310118.XAgMp4qi-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 32/55]
+ kernel/time/time_test.c:183:16: error: implicit declaration of function
+ 'tk_aux_capture_mono_conv'
+Message-ID: <202608010434.VsbM8KfG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,35 +61,68 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202607310118.XAgMp4qi-lkp@intel.com>
 
-On Fri, Jul 31, 2026 at 01:44:25AM +0800, kernel test robot wrote:
-> tree:   https://github.com/paulmckrcu/linux dev
-> head:   9df1c10e4ddffa50d054112facefa25376c7a219
-> commit: 2203ef58a5e3cd2a8b4879488d25a52afebaf64f [36/44] x86/nmi: Enable panic() when NMI handler runs too long
-> config: i386-randconfig-r131-20260730 (https://download.01.org/0day-ci/archive/20260731/202607310118.XAgMp4qi-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310118.XAgMp4qi-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202607310118.XAgMp4qi-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/x86/kernel/nmi.c:88:15: sparse: sparse: symbol 'toolong_nmi_panic' was not declared. Should it be static?
-> 
-> vim +/toolong_nmi_panic +88 arch/x86/kernel/nmi.c
-> 
->     86	
->     87	int unknown_nmi_panic;
->   > 88	unsigned long toolong_nmi_panic = 0;
->     89	int panic_on_unrecovered_nmi;
->     90	int panic_on_io_nmi;
->     91	
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   c2edf72f8ebcec4268393789859f789bb12ea5d0
+commit: 56f649dd45f9cd0a5e11c8c45dcae8ac5572c67d [32/55] timekeeping: time_test: Add a test for auxiliary to monotonic clock conversions
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260801/202608010434.VsbM8KfG-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010434.VsbM8KfG-lkp@intel.com/reproduce)
 
-Good catch, and I will fix on my next rebase.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010434.VsbM8KfG-lkp@intel.com/
 
-							Thanx, Paul
+All errors (new ones prefixed by >>):
+
+   kernel/time/time_test.c: In function 'aux_mono_conv':
+>> kernel/time/time_test.c:183:16: error: implicit declaration of function 'tk_aux_capture_mono_conv' [-Wimplicit-function-declaration]
+     183 |         conv = tk_aux_capture_mono_conv(params->mono_base, mono_mult, params->aux_base, aux_mult, shift);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/time/time_test.c:183:16: error: incompatible types when assigning to type 'struct tk_aux_mono_conv' from type 'int'
+
+
+vim +/tk_aux_capture_mono_conv +183 kernel/time/time_test.c
+
+   168	
+   169	static void aux_mono_conv(struct kunit *test)
+   170	{
+   171		const struct aux_mono_conv_test_case *params = test->param_value;
+   172		u32 mono_mult, aux_mult, shift;
+   173		struct tk_aux_mono_conv conv;
+   174	
+   175		if (__is_defined(MODULE) || !IS_ENABLED(CONFIG_POSIX_AUX_CLOCKS)) {
+   176			kunit_skip(test, "CONFIG_POSIX_AUX_CLOCKS is not reachable");
+   177			return;
+   178		}
+   179	
+   180		clocks_calc_mult_shift(&mono_mult, &shift, 1, 1, 200);
+   181		aux_mult = mult_frac(mono_mult, 100 + params->speed_difference_percentage, 100);
+   182	
+ > 183		conv = tk_aux_capture_mono_conv(params->mono_base, mono_mult, params->aux_base, aux_mult, shift);
+   184	
+   185		for (size_t i = 0; i < ARRAY_SIZE(params->timestamps); i++) {
+   186			ktime_t mono = params->timestamps[i].mono;
+   187			ktime_t aux = params->timestamps[i].aux;
+   188			kunit_info(test, "timestamp mono=%lld aux=%lld\n", mono, aux);
+   189	
+   190			ktime_t expected_aux = mult_frac(mono - conv.mono_base, 100 + params->speed_difference_percentage, 100) + conv.aux_base;
+   191	
+   192			KUNIT_ASSERT_EQ(test, aux, expected_aux);
+   193	
+   194			ktime_t converted_aux = ktime_mono_to_aux(mono, &conv);
+   195			kunit_info(test, "converted_aux=%lld\n", converted_aux);
+   196			KUNIT_EXPECT_GE(test, converted_aux, aux - 1);
+   197			KUNIT_EXPECT_LE(test, converted_aux, aux + 1);
+   198	
+   199			ktime_t converted_mono = ktime_aux_to_mono(aux, &conv);
+   200			kunit_info(test, "converted_mono=%lld\n", converted_mono);
+   201			KUNIT_EXPECT_GE(test, converted_mono, mono - 1);
+   202			KUNIT_EXPECT_LE(test, converted_mono, mono + 1);
+   203		}
+   204	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
