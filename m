@@ -1,106 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4EA414A34
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 14:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF6B3E6394
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 14:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785508107; cv=none; b=BnMLan95jAgNcqQpXxDJX7Iz45BiB0tlYDDKSznJi5RIsKOZi7SFIGozrEniJMMC9YCwo8XiTWEWwVMEj2/6cXfxvD+9cvf/RdnpZDoJsM0ddXBDkzccOxNab3ROr6mIpPXGSQ/myA+tjFTHJOARhCxb3q82igUR9WxfsVQhYaE=
+	t=1785508562; cv=none; b=OncpBIDix5kJIoO9JLuRHBtZWm3HMUnoiWQgg1eRwpDsVyulg0Qdzahca+OtFFih2ZzaTkc+yT2VxqFiGSG2SVSC2ISQpY12vsU+sl9GCSD/h+aX5Zy8e8BtxtxrzEdJ3q/O22FaSIE8JOFOrDQ27GygExav5CxjbE5AaD9phBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785508107; c=relaxed/simple;
-	bh=M7Z2odYEJK1/qlXOz4HkiiBkzUjN9SA6y342wFhmNY4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dWZC/jZwFaQQ2bDLLjSGM0o3KerQTWqwpfCbJn+KTWK/ilP1pUvu7KyYuVatZ/RtxTxOaCi54cWxjWc56mpkSZ1F9fkTWNUlTfbofVaODIiuQIxGwhLZwHWuNFugv03Qyx4K6aTGTm0/nNv82xxwVOju6ONI2GbsprCN0rCXhes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TotThs1A; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785508562; c=relaxed/simple;
+	bh=Cov8Lg0TfG18yds2x09ps4wHxWN6NhsEdhAlENnU7Kc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=pQyknNa1nb3X4wDbW8KvZGQMI0A32uoTg/DUQIYlEJhVagP1MuIav9lCd/xS47RTN5SCD+zuFyJQk3O8yHvsczz0qQoIgfQ6pahfciVFMaCEcP0FkTVQDAnw+kQQW1Yg5XUc1C7307GniC+PYxqPKs20Y8vEbNnX5rpew7PV2mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMhl3TFf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TotThs1A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785508104; x=1817044104;
-  h=date:from:to:cc:subject:message-id;
-  bh=M7Z2odYEJK1/qlXOz4HkiiBkzUjN9SA6y342wFhmNY4=;
-  b=TotThs1A4UVSwQm1xdfJW5GlGJ4WWmtBMUZgW1PgzU1Aq+H396UZd4QV
-   Kf9oB9/A1x3SyzhGr20GFrXBJaLcA8zMa79Yjjq5OjNbBOkWbhxLXLZNp
-   Pjg9GKUwiF0sZK/o93UGISxxuzRa25Isxu8yVb9ZH367nBYGIShEeYE0/
-   x3rPCtsJzGMuvSTdYyT+8UMeLBlpQ5EYg3e44j8mjHGWSRr/ffXPAGvza
-   71S43S/Dja2J7p1t0xY60LWSgxdu/WznwBZJUBVZvAY8/MUxQkxnuvler
-   sKTJlBeRx4Gc1o0KZGFjmjgutzPKl2DUehCwRG9wbqZuK9yHak8EniNlj
-   A==;
-X-CSE-ConnectionGUID: 7xOVIqJaRNK5kGdMboBHrA==
-X-CSE-MsgGUID: ZOKRaHR8R+C7lSzRaJZTnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86085045"
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="86085045"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 07:28:24 -0700
-X-CSE-ConnectionGUID: r82W+/F7TVSccC+rsDbFtg==
-X-CSE-MsgGUID: h8sWQwzQTpGqq8XpJ10Rmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="264858963"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 31 Jul 2026 07:28:23 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wpoDk-000000001Eh-2u2C;
-	Fri, 31 Jul 2026 14:28:20 +0000
-Date: Fri, 31 Jul 2026 22:28:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [i3c:i3c/next 83/92] drivers/i3c/master.c:2710:28: error:
- 'struct acpi_resource_i2c_serialbus' has no member named 'lvr'
-Message-ID: <202607312240.9wXswUSm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMhl3TFf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 779091F00A3D;
+	Fri, 31 Jul 2026 14:36:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785508560;
+	bh=R2EnRU2XbMdOzBxANCEtGrh8v+oqT4U2Kjm8UB6xdmk=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=oMhl3TFfjOwUhNQQYOi7lZ5fVUATQeaIsCUvQcWE6rT28kz75wq90VOXFkOzkJ5DE
+	 4k//VQaQXy+4MEDmi4M5ZZCWsLt7kFpvVJsNa6JbfrQA8Zilt10DookhA60qzADV3H
+	 GakMEkurzorI9oTyxMZXb5Y2zlxYJxvVtJtyO96wcjazR2BtNJPxmQrfk1fbs6EM0t
+	 B+hkJedXUPUrjlTi81REwK8h04qwL6oZFZhFNl1O79qZMMJf67uch6Tdk6qkusNUl6
+	 fjTYGnA9hC9/HO+vQW0HnD9qgs9vtiH3K/NBkRy882Hve//NixITcz3QqSqDzyjQIW
+	 zsnUIHicgwmNQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 507A7F4006B;
+	Fri, 31 Jul 2026 10:35:59 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Fri, 31 Jul 2026 10:35:59 -0400
+X-ME-Sender: <xms:z7JsajVxBbrtE5HcAgzd6cmoQIyGtfb4dyx3jDaY2iWwUAciY1qCfw>
+    <xme:z7JsamalcUb7rAKBbgPprLeayRUsr347HnFrXEPTgzYLzQdyZIdjKy5oBikRA6JiK
+    xcfVpcryc0zs5ti3sSIVfNC72QyiZIsPhhBVZKO3Nuxz4JmRJoab44y>
+X-ME-Proxy-Cause: dmFkZTGZKOa5CEXnJ+eG1P+bpQHDlEvNb2lwIx2GuA7P7SS/z1uxLZhR42zW4lXpBioikK
+    4L3Vu2rrMAFx3yzj8Oq6LlfPHonOzDoK7AbL33dFq6qjqZ4aEnFEVB0q1Qf7oszV+8bxpr
+    YSyzqwt3XD37qmXLM/6hbPOiy+sU52qIm6s5RJGHBFo1LejqdjB+imzd0velNxpC/YNLZ2
+    AygOhLb3FLkb7SF9sKMGBkyQUGtrJDdmJCBOW668VYqaKLA7DlWK+u1Mq2h4hKelU7QCxI
+    M0Z75S4novziiAsRSH5bCe+e64lKPdLhMFNdPF1qYbuHaKvETfirCwzF3u3CmVeROM7yTZ
+    5rZYuoCBgHC0dLWYMJIWlLY9a8a/0/Jaxd+TUTkcOMEqPIJISuVscgjzo5C6w72+x0SZFa
+    2EvYyHoRt7KeOKJZyHS8KI3KIw0tuWNmMvH52m3H6x7dbXC8QjuLxhYainISEf5EiclkM/
+    eFIoHLOhwLnDPmEBFma8AfGm9FysT/E2w/Uw/hM2xffTgPTmomwbU1ie/1QAwTDR7JyWYr
+    EO6I1SMA3JUBI1lany+tihqZomvK1aDbueYkP8zNbAa3hQl60aWPN1+ww1DpPfCeY6tA+1
+    EFBmmUWWaG0+kSVyRPUxbDsBUTiDwIw2qYc+loneIvfj7N6C7+6VT6nCxuxA
+X-ME-Proxy: <xmx:z7JsaiQaVfAWZwpZl3Q7rtNMg_qHGjgiWjW-sLGveOWD_LHae5joEA>
+    <xmx:z7Jsavj8sgMBZMybXc3MmjG0MBJFmVywzk5hRMfViG4tq7JkFOP9-g>
+    <xmx:z7Jsai4BfhGVh_d-FPhSrwmRJKesUz2Dz8GB-X3hZF7Nkiau-28AJg>
+    <xmx:z7JsasBVr6wH3uoUAV89O9ySTccINy1ihjodwGJ-jV1QeZRUraZXag>
+    <xmx:z7JsapYMhQgWzbtp38nOKXb146UZcMYLugMNCo4EUsvpZnGLQIf179cx>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 2FE8A780070; Fri, 31 Jul 2026 10:35:59 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git i3c/next
-head:   279a9de1bb1b9e0cb1a8f68c00740c7ad5d07479
-commit: c5cc24aebe83528e160724e6d2bcda8e839f0bd0 [83/92] i3c: master: Support ACPI enumeration of child devices
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607312240.9wXswUSm-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312240.9wXswUSm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607312240.9wXswUSm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/i3c/master.c: In function 'i3c_acpi_get_i2c_resource':
->> drivers/i3c/master.c:2710:28: error: 'struct acpi_resource_i2c_serialbus' has no member named 'lvr'
-    2710 |         boardinfo->lvr = sb->lvr;
-         |                            ^~
+MIME-Version: 1.0
+X-ThreadId: ARZpCn6pkYu3
+Date: Fri, 31 Jul 2026 10:35:39 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, "kernel test robot" <lkp@intel.com>
+Message-Id: <c79b1736-efbf-4e0d-ac8f-15fe113778d5@app.fastmail.com>
+In-Reply-To: <202607310455.AT0GoC5j-lkp@intel.com>
+References: <202607310455.AT0GoC5j-lkp@intel.com>
+Subject: Re: [cel:nfsd-testing 110/222] fs/nfsd/nfs4xdr.c:4200:18: sparse: sparse:
+ incorrect type in assignment (different base types)
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
-vim +2710 drivers/i3c/master.c
 
-  2696	
-  2697	#ifdef CONFIG_ACPI
-  2698	static int i3c_acpi_get_i2c_resource(struct acpi_resource *ares, void *data)
-  2699	{
-  2700		struct i2c_dev_boardinfo *boardinfo = data;
-  2701		struct acpi_resource_i2c_serialbus *sb;
-  2702	
-  2703		if (boardinfo->base.addr || !i2c_acpi_get_i2c_resource(ares, &sb))
-  2704			return 1;
-  2705	
-  2706		boardinfo->base.addr = sb->slave_address;
-  2707		if (sb->access_mode == ACPI_I2C_10BIT_MODE)
-  2708			boardinfo->base.flags |= I2C_CLIENT_TEN;
-  2709	
-> 2710		boardinfo->lvr = sb->lvr;
-  2711	
-  2712		return 1;
-  2713	}
-  2714	
+On Thu, Jul 30, 2026, at 4:37 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux 
+> nfsd-testing
+> head:   67be65963a6470b667125cc648b56161ed3dfdce
+> commit: 4b64b811f368bcd98a5a11f7079f863db3a2e1c5 [110/222] nfsd: add 
+> notification handlers for dir events
+> config: m68k-randconfig-r122-20260730 
+> (https://download.01.org/0day-ci/archive/20260731/202607310455.AT0GoC5j-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.4.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20260731/202607310455.AT0GoC5j-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202607310455.AT0GoC5j-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> fs/nfsd/nfs4xdr.c:4200:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] *attrmask @@     got restricted __be32 [usertype] * @@
+>    fs/nfsd/nfs4xdr.c:4200:18: sparse:     expected unsigned int 
+> [usertype] *attrmask
+>    fs/nfsd/nfs4xdr.c:4200:18: sparse:     got restricted __be32 
+> [usertype] *
+>
+> vim +4200 fs/nfsd/nfs4xdr.c
+>
+>   4191	
+>   4192	static bool
+>   4193	nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct 
+> xdr_stream *xdr,
+>   4194				  struct dentry *dentry, struct nfs4_delegation *dp,
+>   4195				  struct nfsd_file *nf, char *name, u32 namelen)
+>   4196	{
+>   4197		uint32_t *attrmask;
+>   4198	
+>   4199		/* Reserve space for attrmask */
+>> 4200		attrmask = xdr_reserve_space(xdr, 3 * sizeof(uint32_t));
+>   4201		if (!attrmask)
+>   4202			return false;
+>   4203	
+>   4204		ne->ne_file.data = name;
+>   4205		ne->ne_file.len = namelen;
+>   4206		ne->ne_attrs.attrmask.element = attrmask;
+>   4207	
+>   4208		attrmask[0] = 0;
+>   4209		attrmask[1] = 0;
+>   4210		attrmask[2] = 0;
+>   4211		ne->ne_attrs.attr_vals.data = NULL;
+>   4212		ne->ne_attrs.attr_vals.len = 0;
+>   4213		ne->ne_attrs.attrmask.count = 1;
+>   4214		return true;
+>   4215	}
+>   4216	
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jeff, I actually can't tell how to fix this.
+
+The obvious problem is that xdr_reserve_space() returns a
+__be32 * not a uint32_t * ... then the code sets the values
+of the attribute mask, in an XDR buffer, to host-endian
+zeroes instead of network-endian zeroes. (equivalent but
+not semantically the same). If the attrmask.count is 1,
+why set three bitmask4 entries? Or is this reserving
+buffer space for more than just the bitmask4 ?
+
+
+-- 
+Chuck Lever
