@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433DF369D54;
-	Fri, 31 Jul 2026 18:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0026E429CD7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Jul 2026 18:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785522169; cv=none; b=NQDXU9hgPFBJYVM0ewEog1W5wK/IdOOLtklTsM5tOLGvxByjzUTJM7+yHP5bUlsDpQTWNMY51sbOVN7CSVyuzBIRHS9ataDm0EFl82203i3Mqa6gMin16XjG6rBdvMWdRZc/C2yFf1ZFctV2xT4Nd4yj7ore9K5S/Ml4IQPe/g0=
+	t=1785524180; cv=none; b=IBKMeWQrqrxY+ge/g0cF8kWbIlcofBebuEwP+LaC2RejesxJ9h4VKqSnK2rsoufu4tfp+XSew49MApPlAmfRP3LZXcrwXz5WyS0ugL422lMDx2ODKQ2LHNyyvq8eZ8q5YHJGQ3bW8SrrjpG1jfRddazGP1BZ+T+8u8/SNkXbUho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785522169; c=relaxed/simple;
-	bh=l0UYV6v99l4kayaDyVsaa3EEMIjdVs53AKYspVyykdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qpCUF7S7vrBdREqyxL2iLnMcY0JOO7Y2aSYgGLguAVqeHSay0gYFMMm6RgTb/OMRcNWp2HJ+B0+57R7d7EEcfnNqgnPYGo6q5SgBJdqu/Hs0NkjcPUVtsE3hba18WqVULIV1jNAuA8uD0hgtLNNRtl6c1qWCH2J/G3mdTHlk3M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RUp1QjnA; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1785524180; c=relaxed/simple;
+	bh=Zki5rUEsY3vrXrpOj5xNINV7lhYuvEYs1Sx8B7vSLVk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ujCk7brf+1xHWll3IOwXxMZbOVD6HjEHZjhTD24xm5QovuJPN4qLlXTH76ksZtJKeFtLng8V4lot1vVyBuCX5SURKJh0/kZlOsobqoaNCQlSuRGUlytujktr/vuAXlpPcyhB6ppjsGsoXLM9c0tQf9zepLCN8/cZRziZY1UGaQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fK/ivfdb; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUp1QjnA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fK/ivfdb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785522167; x=1817058167;
+  t=1785524179; x=1817060179;
   h=date:from:to:cc:subject:message-id;
-  bh=l0UYV6v99l4kayaDyVsaa3EEMIjdVs53AKYspVyykdQ=;
-  b=RUp1QjnAjuRFhzI/uo9sHKXn8/V86IdApUEUhQMwru9cnm82SbyLoX+y
-   hCy3NN6zQ03Uw+fABrJZijTN6Ai98WxqmvQSJs/BkQMMx5XaIkDkOCmWC
-   66ajM7ORZwfBFRObXEDGwTv2CmncatPqsse5L/sWPr6jjsjMBhpqnaAh9
-   HwThhAY5kIQ2b0qM7VxWYNKNrnIw/4fdpx9w/GpFmDwUTR4I3bLo1dGOd
-   GEMoZq1JGinNsnQLXCuH3dshCjbXvavGk5gx1D0bTO6DjYNVlG+OUJ77Y
-   SAsTexmtn4PZ+7sVMjU31Yuo4oseDRmZz9bpxvoqaCMzvzobXu/D4wL/l
+  bh=Zki5rUEsY3vrXrpOj5xNINV7lhYuvEYs1Sx8B7vSLVk=;
+  b=fK/ivfdbeZjetND1I0nNY0+jrwBXDn77ZHOeBr2TA6KCHuPg6vIkg7p5
+   t6cvMjmGTzHnETBktzC3p8fvvuA0CtO4Nobqv8xqagrvYb7J4yyYdJrKw
+   rfj6HSUGEbtGahP+g8bZ0mYrNbJPXn7ZCt2GITLzQV2Oaf62IojcW6FLs
+   wTspDOLazqKB+YtC9nytYWYMpPWv3A1Bk5R3hTJFqShPBwXpKjxEdeZ97
+   REZ9LJxwGoZxvwAMHzG89fAvEk8W+fIvBjP8sCIqwTpjkCxNzv1VPJtAx
+   9AAfuLwQpWSRmnwMX2DYeCMr6DEyFV7dIyYkxptckCasx40PUzrktY0KA
    w==;
-X-CSE-ConnectionGUID: 9sEERp8FRA2yxifUoRotGQ==
-X-CSE-MsgGUID: S8x5hYUNSfWbf+0rGT8YMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="97526556"
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="97526556"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 11:22:46 -0700
-X-CSE-ConnectionGUID: aRT1qm6iT5uwlu1gED8IRA==
-X-CSE-MsgGUID: 1ruQRTDaSY2hpAdqC0WJ5Q==
+X-CSE-ConnectionGUID: X/twRM3WS/yLYgJql1ag2w==
+X-CSE-MsgGUID: 797//N9SQ6CyEFMpl9qS4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="103694713"
+X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
+   d="scan'208";a="103694713"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 11:56:18 -0700
+X-CSE-ConnectionGUID: Fc5VZuyJTfuQnAlzoT1oAQ==
+X-CSE-MsgGUID: OW4kzuNrSkSrXUJQZ1n5kg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="261256406"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 31 Jul 2026 11:22:45 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
+   d="scan'208";a="285252635"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2026 11:56:17 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wprsY-000000003FC-2g1K;
-	Fri, 31 Jul 2026 18:22:42 +0000
-Date: Fri, 31 Jul 2026 20:22:06 +0200
+	id 1wpsP0-0000000022b-2T3H;
+	Fri, 31 Jul 2026 18:56:14 +0000
+Date: Sat, 01 Aug 2026 02:55:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev,
- matthieu.baerts@tessares.net, 0day robot <lkp@intel.com>
-Subject: net/mptcp/options.c:1207:39: warning: implicit conversion
- from 'enum <anonymous>' to 'enum linux_mptcp_mib_field'
-Message-ID: <202607312002.iM0J3v4Q-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 2/2]
+ drivers/scsi/ufs/ufs-mediatek.c:1142:5: warning: no previous prototype for
+ function 'ufs_mtk_system_suspend'
+Message-ID: <202608010213.u5N6zxnN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,56 +60,112 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Matthieu-Baerts-NGI0/Squash-to-mptcp-explicitly-drop-over-memory-limits/20260731-182110
-head:   85f8043c37254556a09478e4f26c2012a1c92fc6
-commit: 79d68403b0c660279617aeb43ee4265c72640fd3 Squash to "mptcp: explicitly drop over memory limits"
-date:   8 hours ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260731/202607312002.iM0J3v4Q-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312002.iM0J3v4Q-lkp@intel.com/reproduce)
+Hi Po-Wen,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   e64da38e2e7380b65b4bda2884ee5e287656588f
+commit: 4d6bab8d366a10751b50a8cce88f9b91bf207795 [2/2] scsi: ufs: ufs-mediatek: Fix the timing of configuring device regulators
+config: arm-randconfig-003-20260731 (https://download.01.org/0day-ci/archive/20260801/202608010213.u5N6zxnN-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project bacfe2950f8218268fcc0a8765644ea0c15f0360)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010213.u5N6zxnN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607312002.iM0J3v4Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010213.u5N6zxnN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/mptcp/options.c: In function 'mptcp_over_limit':
->> net/mptcp/options.c:1207:39: warning: implicit conversion from 'enum <anonymous>' to 'enum linux_mptcp_mib_field' [-Wenum-conversion]
-    1207 |         MPTCP_INC_STATS(sock_net(sk), LINUX_MIB_TCPRCVQDROP);
-         |                                       ^~~~~~~~~~~~~~~~~~~~~
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:370:9: note: previous definition is here
+     370 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/scsi/ufs/ufs-mediatek.c:1142:5: warning: no previous prototype for function 'ufs_mtk_system_suspend' [-Wmissing-prototypes]
+    1142 | int ufs_mtk_system_suspend(struct device *dev)
+         |     ^
+   drivers/scsi/ufs/ufs-mediatek.c:1142:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1142 | int ufs_mtk_system_suspend(struct device *dev)
+         | ^
+         | static 
+>> drivers/scsi/ufs/ufs-mediatek.c:1156:5: warning: no previous prototype for function 'ufs_mtk_system_resume' [-Wmissing-prototypes]
+    1156 | int ufs_mtk_system_resume(struct device *dev)
+         |     ^
+   drivers/scsi/ufs/ufs-mediatek.c:1156:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1156 | int ufs_mtk_system_resume(struct device *dev)
+         | ^
+         | static 
+>> drivers/scsi/ufs/ufs-mediatek.c:1165:5: warning: no previous prototype for function 'ufs_mtk_runtime_suspend' [-Wmissing-prototypes]
+    1165 | int ufs_mtk_runtime_suspend(struct device *dev)
+         |     ^
+   drivers/scsi/ufs/ufs-mediatek.c:1165:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1165 | int ufs_mtk_runtime_suspend(struct device *dev)
+         | ^
+         | static 
+>> drivers/scsi/ufs/ufs-mediatek.c:1179:5: warning: no previous prototype for function 'ufs_mtk_runtime_resume' [-Wmissing-prototypes]
+    1179 | int ufs_mtk_runtime_resume(struct device *dev)
+         |     ^
+   drivers/scsi/ufs/ufs-mediatek.c:1179:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1179 | int ufs_mtk_runtime_resume(struct device *dev)
+         | ^
+         | static 
+   5 warnings generated.
 
 
-vim +1207 net/mptcp/options.c
+vim +/ufs_mtk_system_suspend +1142 drivers/scsi/ufs/ufs-mediatek.c
 
-  1185	
-  1186	static bool mptcp_over_limit(struct sock *sk, struct sock *ssk,
-  1187				     const struct sk_buff *skb)
-  1188	{
-  1189		struct mptcp_sock *msk = mptcp_sk(sk);
-  1190		u64 mem = sk_rmem_alloc_get(sk);
-  1191	
-  1192		mem += READ_ONCE(msk->backlog_len);
-  1193		if (likely(mem <= READ_ONCE(sk->sk_rcvbuf)))
-  1194			return false;
-  1195	
-  1196		/* Avoid silently dropping pure acks, fin or already-acked segments. */
-  1197		if (TCP_SKB_CB(skb)->seq == TCP_SKB_CB(skb)->end_seq ||
-  1198		    TCP_SKB_CB(skb)->tcp_flags & TCPHDR_FIN ||
-  1199		    !after(TCP_SKB_CB(skb)->end_seq, tcp_sk(ssk)->rcv_nxt))
-  1200			return false;
-  1201	
-  1202		/* Dropped due to memory constraints, schedule an ack. */
-  1203		inet_csk(ssk)->icsk_ack.pending |= ICSK_ACK_NOMEM | ICSK_ACK_NOW;
-  1204		inet_csk_schedule_ack(ssk);
-  1205	
-  1206		/* In fallback mode: skb is dropped before the TCP recv queue. */
-> 1207		MPTCP_INC_STATS(sock_net(sk), LINUX_MIB_TCPRCVQDROP);
-  1208	
-  1209		return true;
-  1210	}
-  1211	
+  1141	
+> 1142	int ufs_mtk_system_suspend(struct device *dev)
+  1143	{
+  1144		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1145		int ret;
+  1146	
+  1147		ret = ufshcd_system_suspend(dev);
+  1148		if (ret)
+  1149			return ret;
+  1150	
+  1151		ufs_mtk_vreg_set_lpm(hba, true);
+  1152	
+  1153		return 0;
+  1154	}
+  1155	
+> 1156	int ufs_mtk_system_resume(struct device *dev)
+  1157	{
+  1158		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1159	
+  1160		ufs_mtk_vreg_set_lpm(hba, false);
+  1161	
+  1162		return ufshcd_system_resume(dev);
+  1163	}
+  1164	
+> 1165	int ufs_mtk_runtime_suspend(struct device *dev)
+  1166	{
+  1167		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1168		int ret = 0;
+  1169	
+  1170		ret = ufshcd_runtime_suspend(dev);
+  1171		if (ret)
+  1172			return ret;
+  1173	
+  1174		ufs_mtk_vreg_set_lpm(hba, true);
+  1175	
+  1176		return 0;
+  1177	}
+  1178	
+> 1179	int ufs_mtk_runtime_resume(struct device *dev)
+  1180	{
+  1181		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1182	
+  1183		ufs_mtk_vreg_set_lpm(hba, false);
+  1184	
+  1185		return ufshcd_runtime_resume(dev);
+  1186	}
+  1187	
 
 --
 0-DAY CI Kernel Test Service
