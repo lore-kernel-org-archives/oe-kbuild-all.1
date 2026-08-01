@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1A63812EC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Aug 2026 11:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180B1334C3D;
+	Sat,  1 Aug 2026 11:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785582887; cv=none; b=RGmiZ8hS+dcYeHUdvLVOsQZT3rQM7jg+iyjf3k7PCDXY3gNWDUQ9H4uSYmgaKTnjdDzxGaZUTYi0s1aAq/0Qdq34Cqxj37FpaSpXNzRXlz0JTAOKxnoKWizS71IzCy5o93uxT2wvPSwJ6QxDhTmq/In/TsTk0olqQz4zsfhWpN4=
+	t=1785584457; cv=none; b=XIGsvTD8BL1eZV7J/Wd7jr855lFSNrvvW01w34ECgpZqmgfvhb+PTAVBX3V2uCcxhcM9orDiLpInJcSMuLJJmTJ1b7Ns5Qb+O8dcPL3GM58a9eqTGjQlmKjGlGBzIKyU/uNWQmD8jtXSPP9AaNNzhBn5zS+W2Oih1gym8c8tABU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785582887; c=relaxed/simple;
-	bh=8b7CmUsaX67ewhgqWmhFhOGVyjsQTq0THaCfV5zTyek=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eZsSqqhlqSU4Jw4bX64T4NJabLBgRc0ElgwOqoNHDuuP/nqwfCKeUQxH4JFDIji2+l65rLoHrvS0UnCBk2D6bTn+L0x/Z6chVOLaWjni2J2RLHORXMKaoNdo8shaxxeLEvve8zrxk/erFVtiLYWsej1QWFbkW6fdECTHfkGAtcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J97okGSB; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1785584457; c=relaxed/simple;
+	bh=AA9FQCSt4p0BHZOR/V4hAOOh6rmg/5ju1gxJfMHHjiA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rBvUiw4ZPQk6d4zBs4IEX7aHcOspPvEhXW5mJtzTknOgFFoEIjdztUQkSJ0u802XgHm4OK1i6g6D+v1KxBBS9bi/ilR5JAdpnnXbDdqXMx1e0JWPx2crPQT4u4HvfVe56fraEhXj4P0oMV1jmbix7EiAphcIFqHP16n42YWQnQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBt77f4Q; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J97okGSB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBt77f4Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785582885; x=1817118885;
+  t=1785584456; x=1817120456;
   h=date:from:to:cc:subject:message-id;
-  bh=8b7CmUsaX67ewhgqWmhFhOGVyjsQTq0THaCfV5zTyek=;
-  b=J97okGSBVOyRFvmythq6hY9haCE8gRQLCrKEMOXD4qbpY4FYVIB/fcba
-   80KvNrlwHAgSyG8bVtolggqHRpHrDfQ6PHIxYzYEIxNx3mmHSXxuHWcX3
-   chpcD/+gIMRhDR9TZTTUBAq/NVsLk1S9CzGs8ZdCSjZD5IKVBULqM0joV
-   rAKmTJSHb5g2gHCgHX65qZjZlDPqPm1j9xz7QdZqsehu/B3JiU0RUFQRO
-   f7wEOQlBMl9MoiePNaV7KBGVs7BfWnufExWwKHIZaOM336Fyi3ZpEJKHe
-   qlctFcxA59610drUsMWfGwTlCagE5ap+L1F/XFu4hsVT3HTFO2Y5IG6Q3
-   A==;
-X-CSE-ConnectionGUID: 5fi48Q4lStqwTRfpf434Ww==
-X-CSE-MsgGUID: TO78h0C9QdOUAth6uFzdFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86145553"
+  bh=AA9FQCSt4p0BHZOR/V4hAOOh6rmg/5ju1gxJfMHHjiA=;
+  b=VBt77f4Q0tsgZe2Cfreb7JwaLHrU+3HyTsXXVVWMPU/xU+ArSN93NbD7
+   W6vEUtCPa2GOTUM3MKpo1xnrwp1YRMQqq/xJjYnBT5KqOwLo/CJc858Kh
+   9dWrnfnev+aIbWnKwluoZVJ3hB8lpTNuY1v8YqIyxmQGKmHhf4G6Kftak
+   fG8RxhuFri3W/xH2pVO9zARHyEACNDCyXgneaoW3IUIMoltB1L3AfhMFF
+   X8ioiPXAa85NXol4tqmum+Gk92PVPjOgQZAV4SEOXC+4BlJ1CGkRhbggs
+   annCqUobuRZ6ngdbyLkUPOhvUec0QsTSdAtoAyO/AkvdcFLYH1QmY6Wu3
+   Q==;
+X-CSE-ConnectionGUID: PpMfjWcORYOpHoFklYtGjQ==
+X-CSE-MsgGUID: Zoypy3JrRxi7BHRX4j5N7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="97711914"
 X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
-   d="scan'208";a="86145553"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2026 04:14:42 -0700
-X-CSE-ConnectionGUID: eSvojG5STeCrM9f+rKo87g==
-X-CSE-MsgGUID: YC/HmQRUSS+3vVb/rYhw4A==
+   d="scan'208";a="97711914"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2026 04:40:55 -0700
+X-CSE-ConnectionGUID: G/6YLXYQR6G7R3DW2TcQrA==
+X-CSE-MsgGUID: o8u4TBmvSmi+b8ZXQ4lwdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
-   d="scan'208";a="259554328"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 01 Aug 2026 04:14:41 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="256891916"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 01 Aug 2026 04:40:53 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wq7fq-000000003SW-3GGm;
-	Sat, 01 Aug 2026 11:14:38 +0000
-Date: Sat, 01 Aug 2026 13:13:49 +0200
+	id 1wq85C-000000003Ff-0XQm;
+	Sat, 01 Aug 2026 11:40:50 +0000
+Date: Sat, 01 Aug 2026 19:39:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 0/159] htmldocs: Warning:
- Documentation/userspace-api/ioasid.rst references a file that doesn't exist:
- Documentation/driver-api/ioasid.rst
-Message-ID: <202608011347.VkZ7pWky-lkp@intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+ Nathan Chancellor <nathan@kernel.org>
+Subject: ld.lld: error: undefined symbol:
+ __kcfi_typeid_aria_aesni_avx_encrypt_16way
+Message-ID: <202608011933.kBOt88Q2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,45 +61,49 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Liu,
+Hi Kees,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   8604b0d9bc72c082338f572a56f18732ece59a5a
-commit: 0ebb438216c3881f28b16c9e29df4f27e1a4c50f [0/159] ioasid: Add /dev/ioasid for userspace
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260801/202608011347.VkZ7pWky-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8ba098e6b6ff0db8edf28528d1552be261af30d4
+commit: 23ef9d439769d5f35353650e771c63d13824235b kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+date:   10 months ago
+config: x86_64-randconfig-011-20260731 (https://download.01.org/0day-ci/archive/20260801/202608011933.kBOt88Q2-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608011933.kBOt88Q2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 23ef9d439769 ("kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608011347.VkZ7pWky-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608011933.kBOt88Q2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
->> Warning: Documentation/userspace-api/ioasid.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: Documentation/virt/kvm/api.rst references a file that doesn't exist: Documentation/x86/sgx/2.Kernel-internals.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
-   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
-   Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
+>> ld.lld: error: undefined symbol: __kcfi_typeid_aria_aesni_avx_encrypt_16way
+   >>> referenced by aria-aesni-avx-asm_64.S:970 (arch/x86/crypto/aria-aesni-avx-asm_64.S:970)
+   >>>               vmlinux.o:(__cfi_aria_aesni_avx_encrypt_16way)
 --
-   Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
->> Warning: Documentation/userspace-api/ioasid.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: Documentation/virt/kvm/api.rst references a file that doesn't exist: Documentation/x86/sgx/2.Kernel-internals.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
-   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
-   Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
+>> ld.lld: error: undefined symbol: __kcfi_typeid_aria_aesni_avx_decrypt_16way
+   >>> referenced by aria-aesni-avx-asm_64.S:995 (arch/x86/crypto/aria-aesni-avx-asm_64.S:995)
+   >>>               vmlinux.o:(__cfi_aria_aesni_avx_decrypt_16way)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid_aria_aesni_avx_ctr_crypt_16way
+   >>> referenced by aria-aesni-avx-asm_64.S:1096 (arch/x86/crypto/aria-aesni-avx-asm_64.S:1096)
+   >>>               vmlinux.o:(__cfi_aria_aesni_avx_ctr_crypt_16way)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid_aria_aesni_avx_gfni_encrypt_16way
+   >>> referenced by aria-aesni-avx-asm_64.S:1266 (arch/x86/crypto/aria-aesni-avx-asm_64.S:1266)
+   >>>               vmlinux.o:(__cfi_aria_aesni_avx_gfni_encrypt_16way)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid_aria_aesni_avx_gfni_decrypt_16way
+   >>> referenced by aria-aesni-avx-asm_64.S:1291 (arch/x86/crypto/aria-aesni-avx-asm_64.S:1291)
+   >>>               vmlinux.o:(__cfi_aria_aesni_avx_gfni_decrypt_16way)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid_aria_aesni_avx_gfni_ctr_crypt_16way
+   >>> referenced by aria-aesni-avx-asm_64.S:1316 (arch/x86/crypto/aria-aesni-avx-asm_64.S:1316)
+   >>>               vmlinux.o:(__cfi_aria_aesni_avx_gfni_ctr_crypt_16way)
 
 --
 0-DAY CI Kernel Test Service
