@@ -1,82 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561E023E325
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Aug 2026 00:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489843148DA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Aug 2026 01:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785544297; cv=none; b=ZU+EK+PFRyMl+FTyjcwd1xSJtOIfqhgJKqnorKdFqABRJxI1+M3fqlrhfHdCrZb5+SXeoPJG9k2A21UjOLts5djAbZAd1NOWZBdGANbmqZg3ooc1X9ou22CpYU2vDD9K6scU5AnRkJVwmk14G7I/cQKU4QlVo1el1ggEiAeEs78=
+	t=1785546127; cv=none; b=eXncV0UY5sOnu37CRnoW3MWDIlODw8EavA5erZp242YnmU1ZdXorLBXxsTUbODX1QK9N9qUZr4wzWaSgYyMGTmDvzlxesEwUgKwqQYbtY6hXGIqy6I+FNcdUugFmLLBmAbjbE5YK+iL9tgw5CC0CYtRf3DeIjOuMz37goQAVQdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785544297; c=relaxed/simple;
-	bh=Taa4U/lzc2pqNRaG2QrYkBWmKjN0udP3ljruXc3/iYA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uUw4pPQm4o0m9ggwpgRc+GwrNUtOLXSZLUhHOUq5y5O8Tnr7xc6R+X91H0O8ayT1Zuc+m4eHTze94FY0neLYdmqYAdfaQhPDNKH+beTA/uv+pHq/0LGClQuBIN3ptZS2hM7pohIPdieYOaFyHlQduYEgcdXOPfgNoZaTEyeyi3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpaOr2SE; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1785546127; c=relaxed/simple;
+	bh=8uami1JZ98jEEVX2RifxoHz17GVE7lLrJMHHTlwMkQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tto5jC5SZjnRCGrkcmcI275Pl8VgafSotw4rPDls+IQFNl//ApiECtp0yJsOyvLHtRBMDsi5aQkb51vLn+721CZNq3A2uCBUibSJJRTY/mo0KjNKDIpqmJjs0r2pTU//qWxyqI7ZVZBs0woFKhAnvICq9XVz5YvUZDQZGUYc/Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g48YrFK7; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpaOr2SE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g48YrFK7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785544295; x=1817080295;
-  h=date:from:to:cc:subject:message-id;
-  bh=Taa4U/lzc2pqNRaG2QrYkBWmKjN0udP3ljruXc3/iYA=;
-  b=jpaOr2SEf94cYdFlYvdbEhAa23k7XJpm7l1plonB51qnALFZMiBkLtO6
-   B7qt+F11UbuJ5LjYJIfJ5Nd7mHM7Ctf+/eflYPhN8ovxwtQgcYZgwrdrh
-   SBExA6HM4TnkPZahy50yHSQ1IUTgKhCZspbKTKANts+PPBLJHy4NBILxb
-   ZM7g9VNSrPPQ0x6si16+mI/cjkntgk+1iVZFfBDpO+sRi4seLbwXHNRGq
-   IdJteS35UfSm5qCW1SJzcGtuxJJsEfwVvdlErvQOPNPm1Rq5FxT9OgQo3
-   zsnoTGPx7cSKqacBHcunITd9ysf17xaZZn5PyBsvb0S5XSkU1oThWI9i2
+  t=1785546125; x=1817082125;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8uami1JZ98jEEVX2RifxoHz17GVE7lLrJMHHTlwMkQc=;
+  b=g48YrFK7Ahso3SgM6yzxtayQ5zn4yp2wE9Skkw+bL2TyLn13rfSl35SN
+   XNtoCf/t3Px/LgJ06eW32zI7QiSHW4AObeWLNXEQ/69nPtwaw9OkEA34E
+   knrdrVb8EpJ3eeWXwL3/ih5/PMpYLW09rHopB+4JyFEh+T/B4kGrhqt8v
+   RjJzcyZfa/9vNZAk9nKBLFmpoyU4vyHT12F1cd3xGemGh4e8DkLeWi0h+
+   bKAkgNCku5I5kGf2ofIKdivV70pKHF52KVA9unVZ8zwqNsfobeEEEpm6W
+   tRnfKmvcWmASfqEY5By1NPTZ6SyACmbOnNR8NtVP4Ihgy+sYJ1R3MhUDz
    w==;
-X-CSE-ConnectionGUID: Z1iFX3YST0yl4vgiD76W+w==
-X-CSE-MsgGUID: xXJfh2t8SUio2K5h7u8fKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="97330267"
+X-CSE-ConnectionGUID: HZ2rrtisQ+CRFLFlHet5GA==
+X-CSE-MsgGUID: BDdZwlyWSUy2ci3TOabUUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="96760893"
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="97330267"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 17:31:35 -0700
-X-CSE-ConnectionGUID: N2Qi22rfTmySh/GiPe2WJw==
-X-CSE-MsgGUID: 3ZUyWT6nRfS1D5UN+dZVmQ==
+   d="scan'208";a="96760893"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 18:02:04 -0700
+X-CSE-ConnectionGUID: vNZVlXgzQ560r01QjC7xRw==
+X-CSE-MsgGUID: 0BaM+TEsR2eQEwjWxo4+XQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="262664898"
+   d="scan'208";a="258915099"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 31 Jul 2026 17:31:33 -0700
+  by orviesa006.jf.intel.com with ESMTP; 31 Jul 2026 18:02:03 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpxdS-000000002UF-3oBh;
-	Sat, 01 Aug 2026 00:31:30 +0000
-Date: Sat, 01 Aug 2026 08:30:58 +0800
+	id 1wpy6y-000000002Vp-2Ywo;
+	Sat, 01 Aug 2026 01:02:00 +0000
+Date: Sat, 1 Aug 2026 09:01:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Bjorn Andersson <andersson@kernel.org>
-Subject: [linux-next:master 10281/11507] ubwc_config.c:undefined
- reference to `qcom_smem_is_available'
-Message-ID: <202608010846.8FKDM5ec-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Maarten Lankhorst <dev@lankhorst.se>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <dev@lankhorst.se>
+Subject: Re: [PATCH v9.6] drm/i915: Disable "busy" pmu event on
+ CONFIG_PREEMPT_RT
+Message-ID: <202608010845.CPpXaIeD-lkp@intel.com>
+References: <20260623132734.227322-1-dev@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623132734.227322-1-dev@lankhorst.se>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   415606a7be939835db9b0d6b711887586646346d
-commit: 1b445022d1d0ec7431b6f8fe0054ae8ccf33d60a [10281/11507] soc: qcom: ubwc: Get HBB from SMEM
-config: sparc64-randconfig-002-20260801 (https://download.01.org/0day-ci/archive/20260801/202608010846.8FKDM5ec-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010846.8FKDM5ec-lkp@intel.com/reproduce)
+Hi Maarten,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-i915/for-linux-next]
+[also build test WARNING on drm-i915/for-linux-next-fixes drm-tip/drm-tip drm/drm-next drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next linus/master v7.2-rc5 next-20260731]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-i915-Disable-busy-pmu-event-on-CONFIG_PREEMPT_RT/20260731-223850
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20260623132734.227322-1-dev%40lankhorst.se
+patch subject: [PATCH v9.6] drm/i915: Disable "busy" pmu event on CONFIG_PREEMPT_RT
+config: i386-randconfig-141-20260801 (https://download.01.org/0day-ci/archive/20260801/202608010845.CPpXaIeD-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010845.CPpXaIeD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608010846.8FKDM5ec-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010845.CPpXaIeD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sparc64-linux-ld: drivers/soc/qcom/ubwc_config.o: in function `qcom_ubwc_config_get_data':
->> ubwc_config.c:(.text+0x30): undefined reference to `qcom_smem_is_available'
->> sparc64-linux-ld: ubwc_config.c:(.text+0x54): undefined reference to `qcom_smem_dram_get_hbb'
+>> drivers/gpu/drm/i915/i915_pmu.c:560:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     560 |         case I915_SAMPLE_WAIT:
+         |         ^
+   drivers/gpu/drm/i915/i915_pmu.c:560:2: note: insert 'break;' to avoid fall-through
+     560 |         case I915_SAMPLE_WAIT:
+         |         ^
+         |         break; 
+   1 warning generated.
+
+
+vim +560 drivers/gpu/drm/i915/i915_pmu.c
+
+b46a33e271ed81b Tvrtko Ursulin    2017-11-21  550  
+109ec558370f781 Tvrtko Ursulin    2018-01-11  551  static int
+109ec558370f781 Tvrtko Ursulin    2018-01-11  552  engine_event_status(struct intel_engine_cs *engine,
+109ec558370f781 Tvrtko Ursulin    2018-01-11  553  		    enum drm_i915_pmu_engine_sample sample)
+b46a33e271ed81b Tvrtko Ursulin    2017-11-21  554  {
+109ec558370f781 Tvrtko Ursulin    2018-01-11  555  	switch (sample) {
+b46a33e271ed81b Tvrtko Ursulin    2017-11-21  556  	case I915_SAMPLE_BUSY:
+ae7243df39c4099 Maarten Lankhorst 2026-06-23  557  		/* The guc submission engine->busyness() callback has issues with CONFIG_PREEMPT_RT */
+ae7243df39c4099 Maarten Lankhorst 2026-06-23  558  		if (IS_ENABLED(CONFIG_PREEMPT_RT) && intel_uc_uses_guc_submission(&engine->gt->uc))
+ae7243df39c4099 Maarten Lankhorst 2026-06-23  559  			return -ENODEV;
+b46a33e271ed81b Tvrtko Ursulin    2017-11-21 @560  	case I915_SAMPLE_WAIT:
+b46a33e271ed81b Tvrtko Ursulin    2017-11-21  561  		break;
+b46a33e271ed81b Tvrtko Ursulin    2017-11-21  562  	case I915_SAMPLE_SEMA:
+651e7d48577ae28 Lucas De Marchi   2021-06-05  563  		if (GRAPHICS_VER(engine->i915) < 6)
+109ec558370f781 Tvrtko Ursulin    2018-01-11  564  			return -ENODEV;
+109ec558370f781 Tvrtko Ursulin    2018-01-11  565  		break;
+109ec558370f781 Tvrtko Ursulin    2018-01-11  566  	default:
+109ec558370f781 Tvrtko Ursulin    2018-01-11  567  		return -ENOENT;
+109ec558370f781 Tvrtko Ursulin    2018-01-11  568  	}
+109ec558370f781 Tvrtko Ursulin    2018-01-11  569  
+109ec558370f781 Tvrtko Ursulin    2018-01-11  570  	return 0;
+109ec558370f781 Tvrtko Ursulin    2018-01-11  571  }
+109ec558370f781 Tvrtko Ursulin    2018-01-11  572  
 
 --
 0-DAY CI Kernel Test Service
