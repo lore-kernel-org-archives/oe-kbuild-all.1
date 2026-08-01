@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3C9361971
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Aug 2026 10:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6566831E830;
+	Sat,  1 Aug 2026 11:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785578624; cv=none; b=doiBgyqrdkKzMKOXjhioGrGt+aTdn8l0dW8KlacmekstoorrKn9lONGIZzCwgBf7ERFmE150uHFAfNWK3HwQs3CiA6jOnDErw8Rjl9NOGmEHr8Y+IieRzCkOGuhCKagrhbadznYqt21A/RxjaCSpscu89KcBRbqlkpzb98P05tA=
+	t=1785582136; cv=none; b=OGONM/ElLdoWIMM/rewPPykA9sYFvTii0YRokovYk8uCDlPvGyfK7t28rX2JZTxR4qHQr1r9jxMin0+EI34sKqBj0FA4zteumD+Qk+NFCDdDKFxXB9elDr9h/AOIUDX1kPRwJMFXSzwjMBLyi9blCmn6URXmHkUdg+h2rYDd7b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785578624; c=relaxed/simple;
-	bh=A4JxTkn2i8ywgnNMjLBpVr18Rz4kBlM5P5yMIvn4oOI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sBY/Ew8etx/jGJZj1sI/lzSI4XQNfNbtbggsEocLgqwj/bnXkGvastXddNIZMWHIjj+Z///QQEH2TxvrelkPVJd+935ILKPcmEwTXyocRujuWKf4koLbPTiQkH1z/d1Tjs6rKkygUYNC8PTVHnmVLfZ6zr6CBMXKUkNbSL9LtLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWwZI9oD; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1785582136; c=relaxed/simple;
+	bh=ThAiP80UbNnXaRLKaLcsuzy0tJSZW/e5XwuQmV5u2CE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cOqIvncOMaB6BS5C12wnYHI1j8cdVe6lJCFLHNgVGg05MxShN1h2mX9mjR5I793z6IkDoSW0/YY2SgiGaVM/2bQC8wWDinPoDpc8BZIzgzQVEQ4aulZl15hTwdpzFfkDyiuwp618r+2FBZhrSPJmG71N7DssOGaiNGcesHhTPb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeynveZi; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWwZI9oD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeynveZi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785578622; x=1817114622;
+  t=1785582133; x=1817118133;
   h=date:from:to:cc:subject:message-id;
-  bh=A4JxTkn2i8ywgnNMjLBpVr18Rz4kBlM5P5yMIvn4oOI=;
-  b=jWwZI9oDjGrUdmgc4VmxBHcgXX+2s4UCIpTLzc656+Ou5qziFg15hKzH
-   3tkmxJRKoAxlofcZmGkLoAnBXLe4fAG9emOOWuRZD9yWc1JhtLtu8oHV3
-   e+m0jHEUC3QjwaSxQbkk7G8XLyRmsOcnuIsEy2rx8nVLiJREeyOHsqIUT
-   Rjo30dKcQRpn4TmHO+spHgoJsE+pfND9P25OrlwIIDLqk8a/MLtp3FNNF
-   GorEIlcyYunvMRrhNE2gKrcEqWLF+rOZkgl3p5xBoQSHuv8Af7aCotkjS
-   QLwuzIUCnLDpjKNmFnXog/VRjBaEVg0HfbzQzSWSTLGsQ9OtXVemShZRu
-   g==;
-X-CSE-ConnectionGUID: YT8VAxbqQ9WP+9pJJiw3Ww==
-X-CSE-MsgGUID: O6WXb2ltQl6oTeQig6oT+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="96855199"
+  bh=ThAiP80UbNnXaRLKaLcsuzy0tJSZW/e5XwuQmV5u2CE=;
+  b=HeynveZiuRvMbACEsc4aMf6VKKeT+hl/tReFGIsgNCu30Up9zkX1tDer
+   g3BRg140rIrZwSCDCBLJkbEpbh2jL8Eqnbzu4aelnPGDBkejPjiLft/RP
+   yxR/JFrU9Zb6kF8iiZm7sA3Gl/Bz/jTl5/gln8paf9HL/iBGH38zuFiBQ
+   y/vwSZbP5M5MqYMwGDD94+DYyh7sAyWBKdKhxq9G9m2511rhPJM1sj1wt
+   ek7ZyyevR3OJpjn9nJp9Sabm9shbr16CBKcQ/bMshEMmHjMc5Y0AnTSu5
+   S31ZX6bnuRO1clWGheo8nLO+odvgbO8d6HReTIgfz+C9Pzryl/InTTVab
+   w==;
+X-CSE-ConnectionGUID: L6QmV+5RRJKru5ylNESLFQ==
+X-CSE-MsgGUID: EfExiGfwQPeNzOhj3WrxXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="90008032"
 X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
-   d="scan'208";a="96855199"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2026 03:03:41 -0700
-X-CSE-ConnectionGUID: wJkVni4/Rs6zuF2uPerG7Q==
-X-CSE-MsgGUID: qQRSikx/RZO1gjdrRwIpcw==
+   d="scan'208";a="90008032"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2026 04:02:12 -0700
+X-CSE-ConnectionGUID: 0oXMRMHERMGWywrfxdQYCw==
+X-CSE-MsgGUID: xa/ZuVZ9Sf2d1Gpb+M7Hew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
-   d="scan'208";a="264604003"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 01 Aug 2026 03:03:40 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="284159847"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 01 Aug 2026 04:02:11 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wq6Z7-000000003RG-2302;
-	Sat, 01 Aug 2026 10:03:37 +0000
-Date: Sat, 01 Aug 2026 12:02:39 +0200
+	id 1wq7Tk-000000003Dt-47De;
+	Sat, 01 Aug 2026 11:02:08 +0000
+Date: Sat, 01 Aug 2026 18:46:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 0/159] htmldocs: Warning:
- Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that
- doesn't exist: Documentation/driver-api/ioasid.rst
-Message-ID: <202608011129.fqoc7qKb-lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/percpu-fixup 15/17]
+ arch/arm64/include/asm/percpu.h:341:1: error: value size does not match
+ register size specified by the constraint and modifier
+Message-ID: <202608011803.FrWG8JeW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,37 +60,81 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Jacob,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   8604b0d9bc72c082338f572a56f18732ece59a5a
-commit: 44bd8d48687633f2db2d10e687152ba61273db47 [0/159] docs: cgroup-v1: Add IOASIDs controller
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260801/202608011129.fqoc7qKb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/percpu-fixup
+head:   f118f6b23da9a83459d961ce6fffa6af0ec1bf39
+commit: 77d5cf0c2a25eeec3bd2e5ade17d5be8b91ea05f [15/17] arm64: percpu: Implement preemptible CMPXCHG ops
+config: arm64-randconfig-001-20260801 (https://download.01.org/0day-ci/archive/20260801/202608011803.FrWG8JeW-lkp@intel.com/config)
+compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608011803.FrWG8JeW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608011129.fqoc7qKb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608011803.FrWG8JeW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: Documentation/virt/kvm/api.rst references a file that doesn't exist: Documentation/x86/sgx/2.Kernel-internals.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
---
->> Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: Documentation/virt/kvm/api.rst references a file that doesn't exist: Documentation/x86/sgx/2.Kernel-internals.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+   In file included from lib/test_bitops.c:10:
+   In file included from include/linux/module.h:13:
+   In file included from include/linux/stat.h:6:
+   In file included from arch/arm64/include/asm/stat.h:12:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/arm64/include/asm/timex.h:8:
+   In file included from arch/arm64/include/asm/arch_timer.h:18:
+   In file included from include/linux/percpu.h:5:
+   In file included from include/linux/alloc_tag.h:12:
+>> arch/arm64/include/asm/percpu.h:341:1: error: value size does not match register size specified by the constraint and modifier [-Werror,-Wasm-operand-widths]
+     341 | PERCPU_CMPXCHG_OP(w, b, 8)
+         | ^
+   arch/arm64/include/asm/percpu.h:328:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
+     328 |           [old] "r" (xwreg_zero_extend(old, w, sz)),                    \
+         |                      ^
+   arch/arm64/include/asm/xwreg.h:11:38: note: expanded from macro 'xwreg_zero_extend'
+      11 | #define xwreg_zero_extend(v, xw, sz)    ((xwreg_t(xw))(u##sz)(v))
+         |                                         ^
+   arch/arm64/include/asm/percpu.h:341:1: note: use constraint modifier "w"
+   arch/arm64/include/asm/percpu.h:317:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
+     317 |         "       mov     %[oldval], %[old]\n"                            \
+         |                                    ^
+   arch/arm64/include/asm/percpu.h:342:1: error: value size does not match register size specified by the constraint and modifier [-Werror,-Wasm-operand-widths]
+     342 | PERCPU_CMPXCHG_OP(w, h, 16)
+         | ^
+   arch/arm64/include/asm/percpu.h:328:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
+     328 |           [old] "r" (xwreg_zero_extend(old, w, sz)),                    \
+         |                      ^
+   arch/arm64/include/asm/xwreg.h:11:38: note: expanded from macro 'xwreg_zero_extend'
+      11 | #define xwreg_zero_extend(v, xw, sz)    ((xwreg_t(xw))(u##sz)(v))
+         |                                         ^
+   arch/arm64/include/asm/percpu.h:342:1: note: use constraint modifier "w"
+   arch/arm64/include/asm/percpu.h:317:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
+     317 |         "       mov     %[oldval], %[old]\n"                            \
+         |                                    ^
+   arch/arm64/include/asm/percpu.h:343:1: error: value size does not match register size specified by the constraint and modifier [-Werror,-Wasm-operand-widths]
+     343 | PERCPU_CMPXCHG_OP(w,  , 32)
+         | ^
+   arch/arm64/include/asm/percpu.h:328:15: note: expanded from macro 'PERCPU_CMPXCHG_OP'
+     328 |           [old] "r" (xwreg_zero_extend(old, w, sz)),                    \
+         |                      ^
+   arch/arm64/include/asm/xwreg.h:11:38: note: expanded from macro 'xwreg_zero_extend'
+      11 | #define xwreg_zero_extend(v, xw, sz)    ((xwreg_t(xw))(u##sz)(v))
+         |                                         ^
+   arch/arm64/include/asm/percpu.h:343:1: note: use constraint modifier "w"
+   arch/arm64/include/asm/percpu.h:317:19: note: expanded from macro 'PERCPU_CMPXCHG_OP'
+     317 |         "       mov     %[oldval], %[old]\n"                            \
+         |                                    ^
+   3 errors generated.
+
+
+vim +341 arch/arm64/include/asm/percpu.h
+
+   340	
+ > 341	PERCPU_CMPXCHG_OP(w, b, 8)
+   342	PERCPU_CMPXCHG_OP(w, h, 16)
+   343	PERCPU_CMPXCHG_OP(w,  , 32)
+   344	PERCPU_CMPXCHG_OP(x,  , 64)
+   345	
 
 --
 0-DAY CI Kernel Test Service
