@@ -1,133 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489843148DA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Aug 2026 01:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6562EEE77;
+	Sat,  1 Aug 2026 02:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785546127; cv=none; b=eXncV0UY5sOnu37CRnoW3MWDIlODw8EavA5erZp242YnmU1ZdXorLBXxsTUbODX1QK9N9qUZr4wzWaSgYyMGTmDvzlxesEwUgKwqQYbtY6hXGIqy6I+FNcdUugFmLLBmAbjbE5YK+iL9tgw5CC0CYtRf3DeIjOuMz37goQAVQdA=
+	t=1785551177; cv=none; b=G6ARvSM5ESp1/8EhaH/BwC3boibjf0AI29MEkJV8xgqZnZI/NneEYLxA2JWIeH5ACEaPcQl3Y0fc9vxqfW0ISLahNv0me5thKzRXeH+fVT1tT5ATgKFadtja+25vyIBIAKJXVJdmm5/R8rbsRDspdjQ6QzlsKfH2wCz1Ej/2n44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785546127; c=relaxed/simple;
-	bh=8uami1JZ98jEEVX2RifxoHz17GVE7lLrJMHHTlwMkQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tto5jC5SZjnRCGrkcmcI275Pl8VgafSotw4rPDls+IQFNl//ApiECtp0yJsOyvLHtRBMDsi5aQkb51vLn+721CZNq3A2uCBUibSJJRTY/mo0KjNKDIpqmJjs0r2pTU//qWxyqI7ZVZBs0woFKhAnvICq9XVz5YvUZDQZGUYc/Q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g48YrFK7; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1785551177; c=relaxed/simple;
+	bh=fG5QvWBSrqUNf/LQCbJA+fBJDng0xodfbhGRsUNNzEM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q/9P1NuV9l3TTKq9hdvDmYIOSiha+zJ7AG38m+agmjRmlxy+XbwWDE7U+mEm6xuu7qSlwi9H8fjzNpCGDaGdV/fU7zhggYrHcn0H+RYma1cjQseQK34y/Mk4E+U6qbNZoSpnKE92R5C6b2JEIcW7e+i+FN6W5Qm+zqcX9sPQbqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V34tGgdj; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g48YrFK7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V34tGgdj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785546125; x=1817082125;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8uami1JZ98jEEVX2RifxoHz17GVE7lLrJMHHTlwMkQc=;
-  b=g48YrFK7Ahso3SgM6yzxtayQ5zn4yp2wE9Skkw+bL2TyLn13rfSl35SN
-   XNtoCf/t3Px/LgJ06eW32zI7QiSHW4AObeWLNXEQ/69nPtwaw9OkEA34E
-   knrdrVb8EpJ3eeWXwL3/ih5/PMpYLW09rHopB+4JyFEh+T/B4kGrhqt8v
-   RjJzcyZfa/9vNZAk9nKBLFmpoyU4vyHT12F1cd3xGemGh4e8DkLeWi0h+
-   bKAkgNCku5I5kGf2ofIKdivV70pKHF52KVA9unVZ8zwqNsfobeEEEpm6W
-   tRnfKmvcWmASfqEY5By1NPTZ6SyACmbOnNR8NtVP4Ihgy+sYJ1R3MhUDz
-   w==;
-X-CSE-ConnectionGUID: HZ2rrtisQ+CRFLFlHet5GA==
-X-CSE-MsgGUID: BDdZwlyWSUy2ci3TOabUUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="96760893"
+  t=1785551175; x=1817087175;
+  h=date:from:to:cc:subject:message-id;
+  bh=fG5QvWBSrqUNf/LQCbJA+fBJDng0xodfbhGRsUNNzEM=;
+  b=V34tGgdj28BJEDLeQ/XbgKLokyB9LiEeTESgYN9vZ4lafqMNDl4JJ9bx
+   3jDnfMPr6eucJYKLJYBPj0OuCZhEjj3BX8SPyrvfEevuwxAStRlZbOKnA
+   QHK/ze+XD8ka3jtnhwRWSKTdQ0rX3MX+iNBBhFccpS5ouzuNU3IaXH8q2
+   OId2ZNNyji5AsxJw7DxTA3k+MMEZ9yoYF3inbXPr6KFu7NWpfzciXrLEI
+   kjdSCzXb5q8JQ9PYMJp63ufAk4ewN/kBYmf4VjXDVitecYql3vPlV6hKf
+   Xx9e5howYjs4NWDpmx+Bk2wM1IOhYrZxEiXyRH12VcR/vIsB4g5qxumS2
+   Q==;
+X-CSE-ConnectionGUID: jxQC2/5BS12zcpGDY+93qw==
+X-CSE-MsgGUID: NhEKnXujSgeOeUKjM/t6Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="96837806"
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="96760893"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 18:02:04 -0700
-X-CSE-ConnectionGUID: vNZVlXgzQ560r01QjC7xRw==
-X-CSE-MsgGUID: 0BaM+TEsR2eQEwjWxo4+XQ==
+   d="scan'208";a="96837806"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 19:26:14 -0700
+X-CSE-ConnectionGUID: yiqvNRygQBS5qXSy3/MARw==
+X-CSE-MsgGUID: 3FchK3U5QiyimeXb5JPZyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,197,1779174000"; 
-   d="scan'208";a="258915099"
+   d="scan'208";a="260771589"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 31 Jul 2026 18:02:03 -0700
+  by orviesa007.jf.intel.com with ESMTP; 31 Jul 2026 19:26:13 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpy6y-000000002Vp-2Ywo;
-	Sat, 01 Aug 2026 01:02:00 +0000
-Date: Sat, 1 Aug 2026 09:01:42 +0800
+	id 1wpzQQ-000000002cX-32k2;
+	Sat, 01 Aug 2026 02:26:10 +0000
+Date: Sat, 01 Aug 2026 10:26:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <dev@lankhorst.se>, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <dev@lankhorst.se>
-Subject: Re: [PATCH v9.6] drm/i915: Disable "busy" pmu event on
- CONFIG_PREEMPT_RT
-Message-ID: <202608010845.CPpXaIeD-lkp@intel.com>
-References: <20260623132734.227322-1-dev@lankhorst.se>
+To: David Disseldorp <ddiss@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <brauner@kernel.org>
+Subject: [linux-next:master 11199/11507]
+ init/initramfs_test.c:580:15: error: call to undeclared function
+ '__override_init_fs'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202608010904.q5YsN4ye-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260623132734.227322-1-dev@lankhorst.se>
 
-Hi Maarten,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-i915/for-linux-next]
-[also build test WARNING on drm-i915/for-linux-next-fixes drm-tip/drm-tip drm/drm-next drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next linus/master v7.2-rc5 next-20260731]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-i915-Disable-busy-pmu-event-on-CONFIG_PREEMPT_RT/20260731-223850
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
-patch link:    https://lore.kernel.org/r/20260623132734.227322-1-dev%40lankhorst.se
-patch subject: [PATCH v9.6] drm/i915: Disable "busy" pmu event on CONFIG_PREEMPT_RT
-config: i386-randconfig-141-20260801 (https://download.01.org/0day-ci/archive/20260801/202608010845.CPpXaIeD-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010845.CPpXaIeD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   415606a7be939835db9b0d6b711887586646346d
+commit: da46f0e1053c98355c2d7803ff1cc46617ca81bf [11199/11507] initramfs_test: use test init/exit hooks to override init fs
+config: arm64-randconfig-001-20260801 (https://download.01.org/0day-ci/archive/20260801/202608010904.q5YsN4ye-lkp@intel.com/config)
+compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010904.q5YsN4ye-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608010845.CPpXaIeD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010904.q5YsN4ye-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linux-next/master HEAD 415606a7be939835db9b0d6b711887586646346d builds fine.
+      It may have been fixed somewhere.
 
->> drivers/gpu/drm/i915/i915_pmu.c:560:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     560 |         case I915_SAMPLE_WAIT:
+All errors (new ones prefixed by >>):
+
+>> init/initramfs_test.c:580:15: error: call to undeclared function '__override_init_fs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     580 |         test->priv = __override_init_fs();
+         |                      ^
+>> init/initramfs_test.c:580:13: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+     580 |         test->priv = __override_init_fs();
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~
+>> init/initramfs_test.c:586:2: error: call to undeclared function '__revert_init_fs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     586 |         __revert_init_fs(test->priv);
          |         ^
-   drivers/gpu/drm/i915/i915_pmu.c:560:2: note: insert 'break;' to avoid fall-through
-     560 |         case I915_SAMPLE_WAIT:
-         |         ^
-         |         break; 
-   1 warning generated.
+   3 errors generated.
 
 
-vim +560 drivers/gpu/drm/i915/i915_pmu.c
+vim +/__override_init_fs +580 init/initramfs_test.c
 
-b46a33e271ed81b Tvrtko Ursulin    2017-11-21  550  
-109ec558370f781 Tvrtko Ursulin    2018-01-11  551  static int
-109ec558370f781 Tvrtko Ursulin    2018-01-11  552  engine_event_status(struct intel_engine_cs *engine,
-109ec558370f781 Tvrtko Ursulin    2018-01-11  553  		    enum drm_i915_pmu_engine_sample sample)
-b46a33e271ed81b Tvrtko Ursulin    2017-11-21  554  {
-109ec558370f781 Tvrtko Ursulin    2018-01-11  555  	switch (sample) {
-b46a33e271ed81b Tvrtko Ursulin    2017-11-21  556  	case I915_SAMPLE_BUSY:
-ae7243df39c4099 Maarten Lankhorst 2026-06-23  557  		/* The guc submission engine->busyness() callback has issues with CONFIG_PREEMPT_RT */
-ae7243df39c4099 Maarten Lankhorst 2026-06-23  558  		if (IS_ENABLED(CONFIG_PREEMPT_RT) && intel_uc_uses_guc_submission(&engine->gt->uc))
-ae7243df39c4099 Maarten Lankhorst 2026-06-23  559  			return -ENODEV;
-b46a33e271ed81b Tvrtko Ursulin    2017-11-21 @560  	case I915_SAMPLE_WAIT:
-b46a33e271ed81b Tvrtko Ursulin    2017-11-21  561  		break;
-b46a33e271ed81b Tvrtko Ursulin    2017-11-21  562  	case I915_SAMPLE_SEMA:
-651e7d48577ae28 Lucas De Marchi   2021-06-05  563  		if (GRAPHICS_VER(engine->i915) < 6)
-109ec558370f781 Tvrtko Ursulin    2018-01-11  564  			return -ENODEV;
-109ec558370f781 Tvrtko Ursulin    2018-01-11  565  		break;
-109ec558370f781 Tvrtko Ursulin    2018-01-11  566  	default:
-109ec558370f781 Tvrtko Ursulin    2018-01-11  567  		return -ENOENT;
-109ec558370f781 Tvrtko Ursulin    2018-01-11  568  	}
-109ec558370f781 Tvrtko Ursulin    2018-01-11  569  
-109ec558370f781 Tvrtko Ursulin    2018-01-11  570  	return 0;
-109ec558370f781 Tvrtko Ursulin    2018-01-11  571  }
-109ec558370f781 Tvrtko Ursulin    2018-01-11  572  
+   576	
+   577	/* Tests run in a nullfs kthread; always use the init fs for path resolution. */
+   578	static int __init initramfs_test_init(struct kunit *test)
+   579	{
+ > 580		test->priv = __override_init_fs();
+   581		return 0;
+   582	}
+   583	
+   584	static void __init initramfs_test_exit(struct kunit *test)
+   585	{
+ > 586		__revert_init_fs(test->priv);
+   587	}
+   588	
 
 --
 0-DAY CI Kernel Test Service
