@@ -1,148 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D7822576E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Aug 2026 06:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244551F2380
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Aug 2026 07:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785567041; cv=none; b=eo32o4UBW0sqEN3QaoxXQrktcalI5O0V0ELF/SzGzgQ/+2L8W3TmsgxxcF/aRm9mfagklLDGHU9a0UBlCQ701NK06ZeABnPSrS97kty9zu1Eidqm4D9HikJzoyyej200j68ZYrMxfNLIEwy2X+VIsfIm1V6H+3OythK3E+kHLoo=
+	t=1785567924; cv=none; b=Y5JF4MLE+Zq4qSPYyHd9kL2aa7SqdOqATxwREGENoZ5wKShQP79Sxb/rQJx+DX//1J9TxckdJd3KN7YMM4bqk/NQ/PgFOWSj07vYWEZdcSP+u27lcg82o4XHVnfMxNkj8V3hOUtO4CJYnn+4aF7zMmdWcVzC1zO2d48dh6OyM8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785567041; c=relaxed/simple;
-	bh=K1LTJB8B+VFrYPw3h9IRyJGtWY9ACglE+phogWj1iTs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=g0RDAj8sfNqCC3gTxQSePUPHP4lGFK4hVHz3vYMs6WYaXZqYC+z4Lnt2epyUjKwFW+lEMrvk9+hwUzTm3zTrZgtjVeSVWS/TySvnRtRAq4rNSdjzjfbNPvAOGExpbGW8wrPc7+NCMG/tLjBAYTl64+vKLPpeg2FeJD6pC5+pafc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfawsX1m; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785567924; c=relaxed/simple;
+	bh=am0riPfODqIMDM9hZdy3pArjS3vkrd3tLbS2fFJ40vk=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=P5dhNJWjm+Mss8Ybl2geedd2UCij0GVJnQEAzIfRtWs158/PdnPoeZaGOc3+5wHkEMWNtW7EsEiO2ZRIuCzgB9NoFUPUt040B1x8Kcx5zCAxvq2mz1H4TjR5CFnybTssyYMC9wZlKG84TFxv2+VwwU7kyBPvVNkRumTTSQTQKc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=D6f70+zf; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfawsX1m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785567037; x=1817103037;
-  h=date:from:to:cc:subject:message-id;
-  bh=K1LTJB8B+VFrYPw3h9IRyJGtWY9ACglE+phogWj1iTs=;
-  b=cfawsX1m9mxLgnhKuvvpLBgH3u8h8Dz6d/cISttCE6E5XXH/lc0MNX46
-   wpTCZrA4q5qpr1wtt0A9kejDSsb8nya60O2+/juyu2k04thqmIsGjxO3y
-   dfbkSEOlQ1AxQ9egSIQ+smrYGeSVGJugZ4Ir2TWOFHAmCs+8lVZlzKmRU
-   b+xkEZ1hC7yWctlaHrdYpFsANU9xYNpxgYe9A7EM0NKlV7dvssnUFOZp8
-   fckVaokTqaUnTxfucb+swF5YQtLdrgiLGn+UR1oNWnxuZ+9P1h9aaavO1
-   C01LKbmpuSxXPS6aT/+hKxUtfZ+niXiLEVbkq+/veqs463sGzKg2epwkL
-   w==;
-X-CSE-ConnectionGUID: 0vU0w/1tRGCoOb3FZlSLtw==
-X-CSE-MsgGUID: X7vmQfbAQSW3DUrXIf4phg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86135237"
-X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
-   d="scan'208";a="86135237"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 23:50:37 -0700
-X-CSE-ConnectionGUID: DfUC4hdURWiV7CDQhwhaIw==
-X-CSE-MsgGUID: kS7eHYLiSKOgOJQqoNUFHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
-   d="scan'208";a="285379507"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2026 23:50:35 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wq3YH-000000003OY-0aji;
-	Sat, 01 Aug 2026 06:50:33 +0000
-Date: Sat, 01 Aug 2026 08:49:45 +0200
-From: kernel test robot <lkp@intel.com>
-To: "David Lechner (TI)" <dlechner@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [dlech:b4/iio-adc-ti-ads122c14 1/14] htmldocs:
- Documentation/iio/ads112c14.rst:57: WARNING: Block quote ends without a blank
- line; unexpected unindent. [docutils]
-Message-ID: <202608010857.ceqTcPRr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="D6f70+zf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=w3RkLM/0yGEu4E0MjM4IaQHj7fllD0s7FzKqdYdMCyA=;
+  b=D6f70+zfnKH1qO5VALUoaJ/pXq3Bn+p1W7oBLiRSgZDwqsbRG/pjCgMD
+   JxyEIVqCF7cLy0H3DClyFqLfIHeXmUeUw8p/r1fkp2x5OVJTLcBD2CS6l
+   Eu48bALS2IN06wndd8R1OwpnmuqKDicp0FdZ0q0tSqi/a3yS4vCmW7boa
+   Q=;
+X-CSE-ConnectionGUID: bCUquvU1SleLuiF8DhBLzA==
+X-CSE-MsgGUID: MP6jftIiQ2K5gfxdhkI3zg==
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.25,198,1779141600"; 
+   d="scan'208";a="153416252"
+Received: from 88-188-149-159.subs.proxad.net (HELO hadrien.home) ([88.188.149.159])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2026 09:05:10 +0200
+Date: Sat, 1 Aug 2026 09:05:10 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Steven Rostedt <rostedt@goodmis.org>
+cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: kernel/trace/ring_buffer.c:412:29-47: WARNING: casting value
+ returned by memory allocation function to (struct buffer_page *) is
+ useless.
+In-Reply-To: <20260731202804.06a4056f@robin>
+Message-ID: <8395acdb-9a3-cb8c-853-43f238ffc15@inria.fr>
+References: <202608010824.vc7vATf0-lkp@intel.com> <20260731202804.06a4056f@robin>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-
-tree:   https://github.com/dlech/linux b4/iio-adc-ti-ads122c14
-head:   c0c226e06d7019964f60738cde5a3eae4f0c0814
-commit: 368fd704de0b90a9f9c30683d25db116ef8308bc [1/14] WIP
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260801/202608010857.ceqTcPRr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608010857.ceqTcPRr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Runtime Survivability
-   ===================== [docutils]
-   Documentation/iio/ads112c14.rst:56: ERROR: Unexpected indentation. [docutils]
->> Documentation/iio/ads112c14.rst:57: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   WARNING: ./include/linux/damon.h:909 struct member 'probes' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'rnd_state' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'probes' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'rnd_state' not described in 'damon_ctx'
-   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
---
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:228: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:251: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/networking/netlink_spec/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
->> Documentation/iio/ads112c14.rst:22: WARNING: unknown document: '../devicetree/bindings/iio/adc/ti,ads112c14' [ref.doc]
-   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
 
-vim +57 Documentation/iio/ads112c14.rst
 
-    21	
-  > 22	See :doc:`../devicetree/bindings/iio/adc/ti,ads112c14` for the complete
-    23	binding description.
-    24	
-    25	The minimal device tree node looks like this::
-    26	
-    27	    adc@40 {
-    28	        compatible = "ti,ads122c14";
-    29	        reg = <0x40>;
-    30	        avdd-supply = <&avdd>;
-    31	        dvdd-supply = <&dvdd>;
-    32	
-    33	        /* TODO: add channel@ nodes here */
-    34	    };
-    35	
-    36	Effect of devicetree on registers
-    37	---------------------------------
-    38	
-    39	Device properties have the following effects on registers:
-    40	
-    41	* ``CLK_SEL`` and ``GPIO3_CFG`` are set if the ``clocks`` property is present.
-    42	* ``GPIO2_SRC`` may be set when ``interrupts`` and ``interrupt-names`` for
-    43	  "fault" is present.
-    44	* ``GPIO3_SRC`` may be set when ``interrupts`` and ``interrupt-names`` for
-    45	  "drdy" is present.
-    46	
-    47	Channel-specific properties have the following effects on registers only when
-    48	a measurement is active on the channel:
-    49	
-    50	* ``AINP`` and ``AINN`` are set according to the ``single-channel`` or
-    51	  ``diff-channel`` properties of each channel.
-    52	* ``REF_SEL`` and ``REF_VAL`` will be set according to the value of the
-    53	  ``reference-sources`` property.
-    54	* When ``reference-sources`` is set to "external":
-    55	  * If ``refp-supply`` is given and not the same phandle as ``avdd-supply``,
-    56	    ``REFP_BUF_EN`` will be set to 1, otherwise it will be 0.
-  > 57	  * If ``refn-supply`` is given, ``REFN_BUF_EN`` will be set to 1, otherwise it
-    58	    will be 0.
-    59	* ``I1MUX`` and ``I2MUX`` will be set to the values of the ``excitation-channels``
-    60	   property.
-    61	* ``IUNIT``, ``I1MAG`` and ``I2MAG`` will be set to best fit according to the
-    62	   values of the ``excitation-current-nanoamp`` property.
-    63	* ``GC_EN`` will be set to 1 if the ``input-chopping`` property is present,
-    64	  otherwise it will be 0.
-    65	* ``CODING`` is set based on the ``bipolar`` property.
-    66	* ``DELAY`` is set based on the ``settling-time-us`` property.
-    67	
+On Fri, 31 Jul 2026, Steven Rostedt wrote:
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> On Sat, 01 Aug 2026 08:10:14 +0800
+> kernel test robot <lkp@intel.com> wrote:
+>
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   8ba098e6b6ff0db8edf28528d1552be261af30d4
+> > commit: b1e7a590a0133606d3efd41aee38cdeac630b52f ring-buffer: Add helper functions for allocations
+> > date:   8 months ago
+> > config: openrisc-randconfig-r062-20260801 (https://download.01.org/0day-ci/archive/20260801/202608010824.vc7vATf0-lkp@intel.com/config)
+> > compiler: or1k-linux-gcc (GCC) 9.5.0
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Fixes: b1e7a590a013 ("ring-buffer: Add helper functions for allocations")
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202608010824.vc7vATf0-lkp@intel.com/
+> >
+> > cocci warnings: (new ones prefixed by >>)
+> > >> kernel/trace/ring_buffer.c:412:29-47: WARNING: casting value returned by memory allocation function to (struct buffer_page *) is useless.
+> > >> kernel/trace/ring_buffer.c:408:31-57: WARNING: casting value returned by memory allocation function to (struct ring_buffer_per_cpu *) is useless.
+>
+> No, whatever Coccinelle script that reported this is broken.
+>
+> The typecast is in a macro. The macro is adding the typecast to make
+> sure that what it is being assigned to is of the proper type.
+>
+> Hence, it is very *useful*!
+
+Thanks for the report.  I will remove the warning in the case of a macro
+body.
+
+Is there some reason why it is not an inline function?
+
+julia
+
+>
+> -- Steve
+>
+>
+> >
+> > vim +412 kernel/trace/ring_buffer.c
+> >
+> >    403
+> >    404	/*
+> >    405	 * For best performance, allocate cpu buffer data cache line sized
+> >    406	 * and per CPU.
+> >    407	 */
+> >  > 408	#define alloc_cpu_buffer(cpu) (struct ring_buffer_per_cpu *)		\
+> >    409		kzalloc_node(ALIGN(sizeof(struct ring_buffer_per_cpu),		\
+> >    410				   cache_line_size()), GFP_KERNEL, cpu_to_node(cpu));
+> >    411
+> >  > 412	#define alloc_cpu_page(cpu) (struct buffer_page *)			\
+> >    413		kzalloc_node(ALIGN(sizeof(struct buffer_page),			\
+> >    414				   cache_line_size()), GFP_KERNEL, cpu_to_node(cpu));
+> >    415
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+>
+>
