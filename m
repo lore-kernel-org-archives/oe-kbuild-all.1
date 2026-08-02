@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D252AE76
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Aug 2026 21:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05B829C35A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Aug 2026 22:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785704841; cv=none; b=CRuUj/a0CYmY9fLJdZ5IbEYfkmOgVjHKnqmVfZBhrvWvf7gFOJmOmvmWWGj2N0YJnh6jCX3YpwUmO6oQ9z9Xi3az+iHK+SOfled/0/OTNpGPlEwJZY3w5jrPFRxuBe+As1ABDPCd1i18G7L7caOfbfXoy2WZZIppyeAwqOVWgw0=
+	t=1785709632; cv=none; b=gtf0mekwpaKlg55AgPC48TWE2k1jCzWtnKjkYqw8fWUqtYt3HTnabpvlQCMKYiznt6ZoY9UOa9zEStmlVmnkYZAvqXdoDtrR8nXu5s6YUQu1Af9/Lbrvgf8zkbKXp1cjh8Z1egfUJHj/+2K/A3FxTOfbBvWpQl8hsBYBNShUdf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785704841; c=relaxed/simple;
-	bh=46aNJD/mlIlgKok5hQ/LJ/ltlkF0C+U38DLNJRAUbn8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=b+lt3FBM/Cyu4MZ+RJQB9SieanRwjYEo21Tz020lMDggGgWXkWnDivaK+4gjEuSihOuNzIxrjpkUVMcxiiq3HfCRxPKfxEer5HkNTpbf8gqQ/NrxVn8ZSQ7UjC4eZfUL72wcljRK0sU6gMP2P+++TZ5MvaGNxZBlAvxrH/1l67I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vu3IQ8qC; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1785709632; c=relaxed/simple;
+	bh=ORspprpyv8VxUf0X6zEKUGmda84NZi4zFuevuriDZh4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YVC7rE31SHxpQPfiv5H7K9o/0TTsND0Ovod/LrB2NwGsOsdsrCLwP23CjrXRhhQa2OYsFwcMH5F8DP+gqN4sH+kObcC2Y+SMCKawFNFOxWxvfa0PLkBHSt0vhkfNH3cXY/OJPpxxkMQvlIjgUCkAfAs8O+8KGSX5ScB+JjOdvpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FsdjXRVZ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vu3IQ8qC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FsdjXRVZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785704840; x=1817240840;
+  t=1785709630; x=1817245630;
   h=date:from:to:cc:subject:message-id;
-  bh=46aNJD/mlIlgKok5hQ/LJ/ltlkF0C+U38DLNJRAUbn8=;
-  b=Vu3IQ8qCbN+tCTx5TOzRWOYLFe6SBOxx7z5boavmloP6hUxMeubCWOJz
-   D7sMs0bvvHfDgWbpx54qkQTzKfcRhe6ASB1oyfDBZQgT8vwpFyHN/GVe9
-   ezP3GzDxXVI2tNjPQ7EdAQ7RXWG9yPa2PfQGtekOTJtRka9sArbNGvDnX
-   DYtBN08VFFVQdLKFWk/xJBeb/LsVtZHDJ5bHLmhKMq0/nagsst00+nBqj
-   dD7xN4/JF0kVGlL7228a9WK20HEpBcPhNJbrMM/hiVb4Su+/OLGLvOcFc
-   ZL8rsWEl19UpJqXSnhMdT/1IwdqVoVYX4+wrcJOJD8g5xcIxD04uSP8DT
+  bh=ORspprpyv8VxUf0X6zEKUGmda84NZi4zFuevuriDZh4=;
+  b=FsdjXRVZ/f/iTg2DvEn6zZ03Z8GR3kUmGCjnXC9PAcvqOpKbN24I6Vqa
+   /8VyTt4uQNLI+S5seap6uNJmjV82Y7TM/9dx0UbOlcp1F+0ZlqfdS12FA
+   i7k4WG/QR/3LP8yJxxFN/NiEMTb21nAAXJiI8XzY5LEPiD+0lPTatLkRN
+   JUfLpY4JDS0zkfXx4/IXaTN7Al4oU99da8+T+e/XN4TAJsX3fNeROJxmw
+   K8StcncqkCcx57da6CH1yi8pUTrzPQlFCUXmiKUnFXSF5+bhR7YsjHFR9
+   5Sh+8Gjet4CMHaN/3NF1Mox3nvfxSEAR5lmCTX2R2YxHG3uheP9B5ODom
    g==;
-X-CSE-ConnectionGUID: cpBBPlGDTKapM/CKS+bdwQ==
-X-CSE-MsgGUID: i+KeU5iaSIKZ4nVqkgzUVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="96907539"
+X-CSE-ConnectionGUID: EHbeGXMjQs22ZlXx0h7UlQ==
+X-CSE-MsgGUID: 3gYwwwKAT4WE3kgUIw1pDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="97409004"
 X-IronPort-AV: E=Sophos;i="6.25,201,1779174000"; 
-   d="scan'208";a="96907539"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 14:07:19 -0700
-X-CSE-ConnectionGUID: FntQnKfCQq2vUQODmwQ35w==
-X-CSE-MsgGUID: moKSpB0HRcmkQxzp6tH1/w==
+   d="scan'208";a="97409004"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 15:27:09 -0700
+X-CSE-ConnectionGUID: mIf5r6QSQwOpa5uUT35zgA==
+X-CSE-MsgGUID: FyFKJMmIRKCCD+6ta33TwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,201,1779174000"; 
-   d="scan'208";a="259817857"
+   d="scan'208";a="299291175"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 02 Aug 2026 14:07:18 -0700
+  by orviesa001.jf.intel.com with ESMTP; 02 Aug 2026 15:27:08 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wqdOt-000000005XR-1fNX;
-	Sun, 02 Aug 2026 21:07:15 +0000
-Date: Mon, 03 Aug 2026 05:06:16 +0800
+	id 1wqee9-000000005bj-1w0R;
+	Sun, 02 Aug 2026 22:27:05 +0000
+Date: Mon, 03 Aug 2026 06:26:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mhiramat:topic/wprobe-v2 8/11]
- kernel/trace/trace_wprobe.c:230:16: error: assignment from pointer to
- non-enclosed address space
-Message-ID: <202608030531.NHDXx42Q-lkp@intel.com>
+To: Amit Machhiwal <amachhiw@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Vaibhav Jain <vaibhav@linux.ibm.com>,
+ "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>,
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Subject: [linuxppc:merge-test 6/19]
+ arch/powerpc/kvm/powerpc.c:262:19: error: dereferencing pointer to incomplete
+ type 'struct kvmppc_vcore'
+Message-ID: <202608030623.cXr4111l-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,74 +64,49 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/wprobe-v2
-head:   a4397d5c0abf35acc79a3324139364deaf5883ec
-commit: d83c23ec2a39f1ae346bbce351cb004be5c58c1e [8/11] tracing: wprobe: Add wprobe event trigger
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260803/202608030531.NHDXx42Q-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608030531.NHDXx42Q-lkp@intel.com/reproduce)
+tree:   https://github.com/linuxppc/linux merge-test
+head:   f5ee8a918bf98d0bb46b91ffbb4283a64f17c3fd
+commit: a7452640914469676b5fcffee80ee045525bddb8 [6/19] KVM: PPC: Book3S HV: Validate arch_compat against host compatibility mode
+config: powerpc64-randconfig-002-20260803 (https://download.01.org/0day-ci/archive/20260803/202608030623.cXr4111l-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608030623.cXr4111l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608030531.NHDXx42Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608030623.cXr4111l-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/trace/trace_wprobe.c: In function 'trace_wprobe_update_local':
->> kernel/trace/trace_wprobe.c:230:16: error: assignment from pointer to non-enclosed address space
-     230 |         pevent = READ_ONCE(tw->bp_event);
-         |                ^
-   kernel/trace/trace_wprobe.c:230:16: note: expected 'struct perf_event **' but pointer is of type 'struct perf_event * __seg_fs*'
-   In file included from include/asm-generic/percpu.h:9,
-                    from arch/x86/include/asm/percpu.h:593,
-                    from arch/x86/include/asm/current.h:11,
-                    from include/linux/sched.h:12,
-                    from include/linux/ptrace.h:6,
-                    from include/uapi/asm-generic/bpf_perf_event.h:4,
-                    from ./arch/x86/include/generated/uapi/asm/bpf_perf_event.h:1,
-                    from include/uapi/linux/bpf_perf_event.h:11,
-                    from include/linux/perf_event.h:18,
-                    from include/linux/hw_breakpoint.h:5,
-                    from kernel/trace/trace_wprobe.c:12:
->> include/linux/percpu-defs.h:221:45: error: initialization from pointer to non-enclosed address space
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                             ^
-   include/linux/percpu-defs.h:252:9: note: in expansion of macro '__verify_pcpu_ptr'
-     252 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   kernel/trace/trace_wprobe.c:234:15: note: in expansion of macro 'this_cpu_ptr'
-     234 |         bp = *this_cpu_ptr(pevent);
-         |               ^~~~~~~~~~~~
-   include/linux/percpu-defs.h:221:45: note: expected 'const __seg_fs void *' but pointer is of type 'struct perf_event **'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                             ^
-   include/linux/percpu-defs.h:252:9: note: in expansion of macro '__verify_pcpu_ptr'
-     252 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   kernel/trace/trace_wprobe.c:234:15: note: in expansion of macro 'this_cpu_ptr'
-     234 |         bp = *this_cpu_ptr(pevent);
-         |               ^~~~~~~~~~~~
+   arch/powerpc/kvm/powerpc.c: In function 'kvmppc_sanity_check':
+>> arch/powerpc/kvm/powerpc.c:262:19: error: dereferencing pointer to incomplete type 'struct kvmppc_vcore'
+      vcpu->arch.vcore->arch_compat == PVR_ARCH_INVALID)
+                      ^~
 
 
-vim +230 kernel/trace/trace_wprobe.c
+vim +262 arch/powerpc/kvm/powerpc.c
 
-   225	
-   226	static int trace_wprobe_update_local(struct trace_wprobe *tw, unsigned long addr)
-   227	{
-   228		struct perf_event **pevent, *bp;
-   229	
- > 230		pevent = READ_ONCE(tw->bp_event);
-   231		if (!pevent)
-   232			return -EINVAL;
-   233	
-   234		bp = *this_cpu_ptr(pevent);
-   235		if (!bp)
-   236			return -EINVAL;
-   237	
-   238		return modify_local_hw_breakpoint_addr(bp, addr);
-   239	}
-   240	
+   252	
+   253	int kvmppc_sanity_check(struct kvm_vcpu *vcpu)
+   254	{
+   255		int r = false;
+   256	
+   257		/* We have to know what CPU to virtualize */
+   258		if (!vcpu->arch.pvr)
+   259			goto out;
+   260	
+   261		if (vcpu->arch.vcore &&
+ > 262			vcpu->arch.vcore->arch_compat == PVR_ARCH_INVALID)
+   263			goto out;
+   264	
+   265		/* PAPR only works with book3s_64 */
+   266		if ((vcpu->arch.cpu_type != KVM_CPU_3S_64) && vcpu->arch.papr_enabled)
+   267			goto out;
+   268	
+   269		/* HV KVM can only do PAPR mode for now */
+   270		if (!vcpu->arch.papr_enabled && is_kvmppc_hv_enabled(vcpu->kvm))
+   271			goto out;
+   272	
 
 --
 0-DAY CI Kernel Test Service
