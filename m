@@ -1,62 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05B829C35A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Aug 2026 22:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC6429C35A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Aug 2026 22:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785709632; cv=none; b=gtf0mekwpaKlg55AgPC48TWE2k1jCzWtnKjkYqw8fWUqtYt3HTnabpvlQCMKYiznt6ZoY9UOa9zEStmlVmnkYZAvqXdoDtrR8nXu5s6YUQu1Af9/Lbrvgf8zkbKXp1cjh8Z1egfUJHj/+2K/A3FxTOfbBvWpQl8hsBYBNShUdf0=
+	t=1785709634; cv=none; b=bWnDMu1vg1xbFLWeOBaeVV3jW9mdQ2dp2tn64V9lCLTlHwiG+VWmK8Ldia2GT1i51v2gahnsvF9SSCQ8iaycVICfAI25xX/ARyoXKkIohX2S1ppBZETqNCtV4tfxpr58ZV6+qhjgHypwyztkZzYNRbCd9IZIEl62oXojnzq7R18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785709632; c=relaxed/simple;
-	bh=ORspprpyv8VxUf0X6zEKUGmda84NZi4zFuevuriDZh4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YVC7rE31SHxpQPfiv5H7K9o/0TTsND0Ovod/LrB2NwGsOsdsrCLwP23CjrXRhhQa2OYsFwcMH5F8DP+gqN4sH+kObcC2Y+SMCKawFNFOxWxvfa0PLkBHSt0vhkfNH3cXY/OJPpxxkMQvlIjgUCkAfAs8O+8KGSX5ScB+JjOdvpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FsdjXRVZ; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1785709634; c=relaxed/simple;
+	bh=XvpcUCqESE+VlosEmHL08gHeCS3C1F65Bmduv5ZELLY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Zm7Wn8VoLlXyUx1t0MGYXO2ZztgYJoLQtZZdA/vn/dAET5YsrS2iAUWlfAjGRigABcz54CQCkp6mzJXxHA5EIhaztrEjMALu3ntvuVcNrVcCM8brOXuL0XSoTdeB7CfeO7Kd1Y3RGSfZ9GT1bLtOAKVk5viaDd+JNTbETWRWMKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ajhJtLEe; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FsdjXRVZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ajhJtLEe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785709630; x=1817245630;
+  t=1785709633; x=1817245633;
   h=date:from:to:cc:subject:message-id;
-  bh=ORspprpyv8VxUf0X6zEKUGmda84NZi4zFuevuriDZh4=;
-  b=FsdjXRVZ/f/iTg2DvEn6zZ03Z8GR3kUmGCjnXC9PAcvqOpKbN24I6Vqa
-   /8VyTt4uQNLI+S5seap6uNJmjV82Y7TM/9dx0UbOlcp1F+0ZlqfdS12FA
-   i7k4WG/QR/3LP8yJxxFN/NiEMTb21nAAXJiI8XzY5LEPiD+0lPTatLkRN
-   JUfLpY4JDS0zkfXx4/IXaTN7Al4oU99da8+T+e/XN4TAJsX3fNeROJxmw
-   K8StcncqkCcx57da6CH1yi8pUTrzPQlFCUXmiKUnFXSF5+bhR7YsjHFR9
-   5Sh+8Gjet4CMHaN/3NF1Mox3nvfxSEAR5lmCTX2R2YxHG3uheP9B5ODom
-   g==;
-X-CSE-ConnectionGUID: EHbeGXMjQs22ZlXx0h7UlQ==
-X-CSE-MsgGUID: 3gYwwwKAT4WE3kgUIw1pDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="97409004"
+  bh=XvpcUCqESE+VlosEmHL08gHeCS3C1F65Bmduv5ZELLY=;
+  b=ajhJtLEeq+qArIrno7p4J61kGIjspISQ4PKUBMFzNc2hWzTqICsIieEi
+   5zktISvuS0bdEzdYYtU5o0+zrIPNu3Wh7+bAi5MrtDf129SIWCVh20mhM
+   8a+oGN0HMkZpELMLsDMRIxEQCOFeczXTwZvqlOmCi0cz2YfHAghqi/SxV
+   r62pV5V0jOwIxzdFhARtm3oxNCF7MpySlZPnuou8KtAa8aOQGN9yIOe2Q
+   hPAHb4Jv3PEePdEWfhkTEy/AdRcPY/vCV2Bq2KeNp0P8oLth+NqcYqieB
+   ioB0NIDfeCyxXX3pnLkTchV82RZtF+xgB1BMKfoiUMZHzd25LGsRjpuAw
+   Q==;
+X-CSE-ConnectionGUID: MFMT44XBRkm4Tb2HNVgtKQ==
+X-CSE-MsgGUID: XEaPlxntTD2kn678hz/7cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="86200298"
 X-IronPort-AV: E=Sophos;i="6.25,201,1779174000"; 
-   d="scan'208";a="97409004"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 15:27:09 -0700
-X-CSE-ConnectionGUID: mIf5r6QSQwOpa5uUT35zgA==
-X-CSE-MsgGUID: FyFKJMmIRKCCD+6ta33TwQ==
+   d="scan'208";a="86200298"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 15:27:12 -0700
+X-CSE-ConnectionGUID: KkHH2pR4SziU3C37r+t40w==
+X-CSE-MsgGUID: Aqt6+j6kQeWzDQFIplTxgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,201,1779174000"; 
-   d="scan'208";a="299291175"
+   d="scan'208";a="259827009"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 02 Aug 2026 15:27:08 -0700
+  by orviesa010.jf.intel.com with ESMTP; 02 Aug 2026 15:27:11 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wqee9-000000005bj-1w0R;
-	Sun, 02 Aug 2026 22:27:05 +0000
-Date: Mon, 03 Aug 2026 06:26:20 +0800
+	id 1wqeeC-000000005br-3Pop;
+	Sun, 02 Aug 2026 22:27:08 +0000
+Date: Mon, 03 Aug 2026 06:26:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Machhiwal <amachhiw@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Vaibhav Jain <vaibhav@linux.ibm.com>,
- "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>,
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: [linuxppc:merge-test 6/19]
- arch/powerpc/kvm/powerpc.c:262:19: error: dereferencing pointer to incomplete
- type 'struct kvmppc_vcore'
-Message-ID: <202608030623.cXr4111l-lkp@intel.com>
+To: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>
+Subject: net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+Message-ID: <202608030650.n4Edlu7I-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,49 +59,126 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/linuxppc/linux merge-test
-head:   f5ee8a918bf98d0bb46b91ffbb4283a64f17c3fd
-commit: a7452640914469676b5fcffee80ee045525bddb8 [6/19] KVM: PPC: Book3S HV: Validate arch_compat against host compatibility mode
-config: powerpc64-randconfig-002-20260803 (https://download.01.org/0day-ci/archive/20260803/202608030623.cXr4111l-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608030623.cXr4111l-lkp@intel.com/reproduce)
+Hi Jakub,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bd1dde877520385f6638af2d0f2bd4f212eb8f34
+commit: e9deb406c10f5a73bcfd62f42ca1187b220bc188 Merge tag 'ipsec-2026-06-22' of git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec
+date:   6 weeks ago
+config: s390-randconfig-r062-20260802 (https://download.01.org/0day-ci/archive/20260803/202608030650.n4Edlu7I-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608030650.n4Edlu7I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e9deb406c10f ("Merge tag 'ipsec-2026-06-22' of git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608030623.cXr4111l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608030650.n4Edlu7I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/powerpc/kvm/powerpc.c: In function 'kvmppc_sanity_check':
->> arch/powerpc/kvm/powerpc.c:262:19: error: dereferencing pointer to incomplete type 'struct kvmppc_vcore'
-      vcpu->arch.vcore->arch_compat == PVR_ARCH_INVALID)
-                      ^~
+   net/xfrm/xfrm_state.c: Assembler messages:
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+>> net/xfrm/xfrm_state.c:1220: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
+   net/xfrm/xfrm_state.c:1225: Warning: missing closing `"'
 
 
-vim +262 arch/powerpc/kvm/powerpc.c
+vim +1220 net/xfrm/xfrm_state.c
 
-   252	
-   253	int kvmppc_sanity_check(struct kvm_vcpu *vcpu)
-   254	{
-   255		int r = false;
-   256	
-   257		/* We have to know what CPU to virtualize */
-   258		if (!vcpu->arch.pvr)
-   259			goto out;
-   260	
-   261		if (vcpu->arch.vcore &&
- > 262			vcpu->arch.vcore->arch_compat == PVR_ARCH_INVALID)
-   263			goto out;
-   264	
-   265		/* PAPR only works with book3s_64 */
-   266		if ((vcpu->arch.cpu_type != KVM_CPU_3S_64) && vcpu->arch.papr_enabled)
-   267			goto out;
-   268	
-   269		/* HV KVM can only do PAPR mode for now */
-   270		if (!vcpu->arch.papr_enabled && is_kvmppc_hv_enabled(vcpu->kvm))
-   271			goto out;
-   272	
+edcd582152090b David S. Miller  2006-08-24  1200  
+81a331a0e72ddc Steffen Klassert 2024-10-23  1201  struct xfrm_state *xfrm_input_state_lookup(struct net *net, u32 mark,
+81a331a0e72ddc Steffen Klassert 2024-10-23  1202  					   const xfrm_address_t *daddr,
+81a331a0e72ddc Steffen Klassert 2024-10-23  1203  					   __be32 spi, u8 proto,
+81a331a0e72ddc Steffen Klassert 2024-10-23  1204  					   unsigned short family)
+81a331a0e72ddc Steffen Klassert 2024-10-23  1205  {
+e952837f3ddb0f Florian Westphal 2024-11-28  1206  	struct xfrm_hash_state_ptrs state_ptrs;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1207  	struct hlist_head *state_cache_input;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1208  	struct xfrm_state *x = NULL;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1209  
+ddd3d013292031 Herbert Xu       2026-06-12  1210  	/* BH is always disabled on the input path. */
+ddd3d013292031 Herbert Xu       2026-06-12  1211  	lockdep_assert_in_softirq();
+ddd3d013292031 Herbert Xu       2026-06-12  1212  
+6c9b7db96db62e Sebastian Sewior 2025-01-23  1213  	state_cache_input = raw_cpu_ptr(net->xfrm.state_cache_input);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1214  
+81a331a0e72ddc Steffen Klassert 2024-10-23  1215  	hlist_for_each_entry_rcu(x, state_cache_input, state_cache_input) {
+81a331a0e72ddc Steffen Klassert 2024-10-23  1216  		if (x->props.family != family ||
+81a331a0e72ddc Steffen Klassert 2024-10-23  1217  		    x->id.spi       != spi ||
+81a331a0e72ddc Steffen Klassert 2024-10-23  1218  		    x->id.proto     != proto ||
+81a331a0e72ddc Steffen Klassert 2024-10-23  1219  		    !xfrm_addr_equal(&x->id.daddr, daddr, family))
+81a331a0e72ddc Steffen Klassert 2024-10-23 @1220  			continue;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1221  
+81a331a0e72ddc Steffen Klassert 2024-10-23  1222  		if ((mark & x->mark.m) != x->mark.v)
+81a331a0e72ddc Steffen Klassert 2024-10-23  1223  			continue;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1224  		if (!xfrm_state_hold_rcu(x))
+81a331a0e72ddc Steffen Klassert 2024-10-23  1225  			continue;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1226  		goto out;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1227  	}
+81a331a0e72ddc Steffen Klassert 2024-10-23  1228  
+e952837f3ddb0f Florian Westphal 2024-11-28  1229  	xfrm_hash_ptrs_get(net, &state_ptrs);
+e952837f3ddb0f Florian Westphal 2024-11-28  1230  
+e952837f3ddb0f Florian Westphal 2024-11-28  1231  	x = __xfrm_state_lookup(&state_ptrs, mark, daddr, spi, proto, family);
+ddd3d013292031 Herbert Xu       2026-06-12  1232  	if (x) {
+ddd3d013292031 Herbert Xu       2026-06-12  1233  		spin_lock(&net->xfrm.xfrm_state_lock);
+ddd3d013292031 Herbert Xu       2026-06-12  1234  		if (x->km.state != XFRM_STATE_VALID) {
+ddd3d013292031 Herbert Xu       2026-06-12  1235  			/*
+ddd3d013292031 Herbert Xu       2026-06-12  1236  			 * The state is about to be destroyed.
+ddd3d013292031 Herbert Xu       2026-06-12  1237  			 *
+ddd3d013292031 Herbert Xu       2026-06-12  1238  			 * Don't add it to the cache but still
+ddd3d013292031 Herbert Xu       2026-06-12  1239  			 * return it to the caller.
+ddd3d013292031 Herbert Xu       2026-06-12  1240  			 */
+ddd3d013292031 Herbert Xu       2026-06-12  1241  		} else if (hlist_unhashed(&x->state_cache_input)) {
+81a331a0e72ddc Steffen Klassert 2024-10-23  1242  			hlist_add_head_rcu(&x->state_cache_input, state_cache_input);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1243  		} else {
+81a331a0e72ddc Steffen Klassert 2024-10-23  1244  			hlist_del_rcu(&x->state_cache_input);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1245  			hlist_add_head_rcu(&x->state_cache_input, state_cache_input);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1246  		}
+ddd3d013292031 Herbert Xu       2026-06-12  1247  		spin_unlock(&net->xfrm.xfrm_state_lock);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1248  	}
+81a331a0e72ddc Steffen Klassert 2024-10-23  1249  
+81a331a0e72ddc Steffen Klassert 2024-10-23  1250  out:
+81a331a0e72ddc Steffen Klassert 2024-10-23  1251  	return x;
+81a331a0e72ddc Steffen Klassert 2024-10-23  1252  }
+81a331a0e72ddc Steffen Klassert 2024-10-23  1253  EXPORT_SYMBOL(xfrm_input_state_lookup);
+81a331a0e72ddc Steffen Klassert 2024-10-23  1254  
+
+:::::: The code at line 1220 was first introduced by commit
+:::::: 81a331a0e72ddc2f75092603d9577bd1a0ca23ad xfrm: Add an inbound percpu state cache.
+
+:::::: TO: Steffen Klassert <steffen.klassert@secunet.com>
+:::::: CC: Steffen Klassert <steffen.klassert@secunet.com>
 
 --
 0-DAY CI Kernel Test Service
