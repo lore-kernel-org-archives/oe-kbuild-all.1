@@ -1,81 +1,149 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083403A453F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 19:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC55A38E8B2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 20:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785787134; cv=none; b=E5qB/ncJYlTSIoIRBOt7lyd0ibh+DlPjxOCRmmDoIhukL/GketNoRF/Fojtjbqfa21dRp0IcMF9zbTuPwRBveOSJseeWKVr+lGnvjLPf7sDfuSbM57VoLqwTeYQMQKNugxFJApS0+MYWY6EUV0iLJbKEu2Zh1zufLx4dtaRGusM=
+	t=1785790217; cv=none; b=cuBDpnDhLeOeColo4pE9XZf0kHRlum5jChSxNPIqL811tnE34bzAhdG3yrB42HYDP5foRzICRVtspB1+xc22IDuJYHJi3TziXkygTBY/GBmnWDHfCJG2QtAND3J/A+irlcnR+CsSN7zSNsBoAIqafjCXcANZ38vnc64FMtJui7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785787134; c=relaxed/simple;
-	bh=EDIid9sh/Gk94ENRccyhjaWjLZOfMYwXckyUQhkjXqw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S/Yo1IK2tr2PBa16qsqWKG53DiwKIfMNcjp+/f2NeJhJnDHYhnOSalg6XDJL1Pvq4zJX1lP80CkNWS3U7F1jnpgO+T0oiRLW8JP56YJDlGZb3r2NH7rrY8mNb21vy3DF6euf8D7cM8FsfwxJtdeW78kOmh55nQ4h3EzvhbuY0T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/DZx16T; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1785790217; c=relaxed/simple;
+	bh=zw0jw+MmhJGVFhtB4L36YUou+bvgYnqyzVL349oNL2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QD9ZWbN5DNi1/PQslS87WkF5UIN/LBqYun/ZBxItWCTFZM+wFBxdzxm4qmGqelZYuUACX5saGD8iPVuGUsJONzuJVXOOr5zV/nRRGi5rcmuKJUKoaLpEFeRRt5oMpRZFmZwLPPzyoWX7hqB1AUB7mq5SjUt+ScwG2WTYJr30gHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jxRS5BHL; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/DZx16T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jxRS5BHL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785787133; x=1817323133;
-  h=date:from:to:cc:subject:message-id;
-  bh=EDIid9sh/Gk94ENRccyhjaWjLZOfMYwXckyUQhkjXqw=;
-  b=m/DZx16Tv31lCqvX3865SztufFvKLEnITEZ6q7hIPasfAVdr+KmLzciK
-   z+j9KJNEpEYBAL2H5Q478jVUnPiF4kJr+aSO2kIdAMgqb+z+fB2Vjes25
-   RdSqWr/6l2H7VdqigCpJdBNgFdsyBPYgJH/RpnyqYsXQ10E1RmD14EXeE
-   bItwTzveetNLc1DCToaNdKYIovAHdLqO/wuRkdUlSaMCTRvJqJ12rlDyi
-   wLJqvgHD+yGxuK+v5fphc2gRkiKbNtjS4Cj8NB1MR2Z/zRbW5CY5wXCvx
-   U8sz/KOCDgAWwhAV0TZooeRE81Eb/WbE/fhnEDNeQBMesx176uc0G7ouP
+  t=1785790216; x=1817326216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zw0jw+MmhJGVFhtB4L36YUou+bvgYnqyzVL349oNL2c=;
+  b=jxRS5BHLenJDGvlrdQMxdgTUfJKYJRNuT0BZcigV34HLLa+aNdUKSPlA
+   YzZW0wkUaclGK0H6UvnCDTkHYcrd3R7LT6LUprFPxGiAQIyJqAJbfgDGa
+   miURPmOUkmFdBlZyclye4mhqgo4pPkSkUJj2Y0kiIXw/lyq8W0Dibk7Hs
+   NF9UhBMcH4htqrCxNhC/PAjNYD/9wDY0uQS0F93F8vHvgkAsD1s1g6ouS
+   s09oUJr1F030yX5lT56kzaasGYYeeB4zaOkDZfheHoBz22V3enqY8iKLN
+   05KGHvG1JbbpEviJJtSqkGyuw71OFsCzYYzTg7nZblWdfssne7LPZm6DE
    g==;
-X-CSE-ConnectionGUID: al4K2V5EQvW67e9u2JbIEA==
-X-CSE-MsgGUID: Regu30fHSl6SXYCkkSFUBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="111888544"
+X-CSE-ConnectionGUID: 6Xm5ivtFTwmZzKgihqL2Gw==
+X-CSE-MsgGUID: dUDaJdl1RJOS9KCmCUfpSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="111892061"
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="111888544"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 12:58:52 -0700
-X-CSE-ConnectionGUID: 4768zNuoQ+CAF9jgw0x1ow==
-X-CSE-MsgGUID: PYcLcDPeQVS8ne8JHdkd8Q==
+   d="scan'208";a="111892061"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 13:50:15 -0700
+X-CSE-ConnectionGUID: l/m9YQ+STkukDebFA6p/tA==
+X-CSE-MsgGUID: gsVFvw7DRbCc9ZAFZyqcAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="299531639"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 03 Aug 2026 12:58:51 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="260717370"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 03 Aug 2026 13:50:09 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wqyoC-0000000040O-34De;
-	Mon, 03 Aug 2026 19:58:48 +0000
-Date: Mon, 03 Aug 2026 21:58:10 +0200
+	id 1wqzbp-000000007xd-3ABe;
+	Mon, 03 Aug 2026 20:50:05 +0000
+Date: Tue, 4 Aug 2026 04:49:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Morgan <macromorgan@hotmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>
-Subject: [linux-next:master 11606/12137]
- arch/arm64/boot/dts/rockchip/rk3568-anbernic-rg-ds.dtb: /i2c@fe5b0000/imu@68:
- failed to match any schema with compatible: ['invensense,icm42607p']
-Message-ID: <202608032147.AcElFYvh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Xin Zhao <jackzxcui1989@163.com>, brauner@kernel.org, ljs@kernel.org,
+	rppt@kernel.org, pfalcato@suse.de, viro@zeniv.linux.org.uk,
+	corbet@lwn.net, skhan@linuxfoundation.org,
+	akpm@linux-foundation.org, liam@infradead.org, david@kernel.org,
+	vbabka@kernel.org, surenb@google.com, mhocko@suse.com,
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, mjguzik@gmail.com,
+	ebiederm@xmission.com, jack@suse.cz, jlayton@kernel.org,
+	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de,
+	keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com,
+	allen.lkml@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5] coredump: Add bit 9 of coredump_filter for pre-exit
+ files before dumping
+Message-ID: <202608040457.QGCptUZD-lkp@intel.com>
+References: <20260630075604.52533-1-jackzxcui1989@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260630075604.52533-1-jackzxcui1989@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9a4cdc958dd79fc6c3b20b51a10debec6ca09fec
-commit: 264429dfe5294b76c7c3b4ed2c9e6cea1042255c [11606/12137] arm64: dts: rockchip: Add icm42607p IMU for RG-DS
-config: arm64-randconfig-2054-20260802 (https://download.01.org/0day-ci/archive/20260803/202608032147.AcElFYvh-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ade128740327db281859708ddcb3b072903b3414)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608032147.AcElFYvh-lkp@intel.com/reproduce)
+Hi Xin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on akpm-mm/mm-everything linus/master v7.2-rc6 next-20260803]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Zhao/coredump-Add-bit-9-of-coredump_filter-for-pre-exit-files-before-dumping/20260804-021808
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260630075604.52533-1-jackzxcui1989%40163.com
+patch subject: [PATCH v5] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608040457.QGCptUZD-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608040457.QGCptUZD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608032147.AcElFYvh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608040457.QGCptUZD-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3568-anbernic-rg-ds.dtb: /i2c@fe5b0000/imu@68: failed to match any schema with compatible: ['invensense,icm42607p']
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/string.h:6,
+                    from fs/file_table.c:9:
+   fs/file_table.c: In function '__fput_deferred':
+>> fs/file_table.c:576:53: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
+     576 |         if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD | PF_DUMPCORE))) {
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+
+
+vim +576 fs/file_table.c
+
+   561	
+   562	static void __fput_deferred(struct file *file)
+   563	{
+   564		struct task_struct *task = current;
+   565	
+   566		if (unlikely(!(file->f_mode & (FMODE_BACKING | FMODE_OPENED)))) {
+   567			file_free(file);
+   568			return;
+   569		}
+   570	
+   571		/*
+   572		 * coredump_pre_exit() may release files before dumping core.
+   573		 * Cannot use task_work in the case, needs to release files
+   574		 * earlier."
+   575		 */
+ > 576		if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD | PF_DUMPCORE))) {
+   577			init_task_work(&file->f_task_work, ____fput);
+   578			if (!task_work_add(task, &file->f_task_work, TWA_RESUME))
+   579				return;
+   580			/*
+   581			 * After this task has run exit_task_work(),
+   582			 * task_work_add() will fail.  Fall through to delayed
+   583			 * fput to avoid leaking *file.
+   584			 */
+   585		}
+   586	
+   587		if (llist_add(&file->f_llist, &delayed_fput_list))
+   588			schedule_delayed_work(&delayed_fput_work, 1);
+   589	}
+   590	
 
 --
 0-DAY CI Kernel Test Service
