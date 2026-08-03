@@ -1,185 +1,117 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDB12DEA64
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 04:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35FA3845D5
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 06:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785732937; cv=none; b=LQVCrnm/BBfHkWUlCTQnKBC0j7T8d+a74kijz/iLaOZkbLZgsoUw7yk51PqBykwqpwf1iGtK+0CDPXxM4ONWtty+p81QJdMLRkcyL67ELlCcongqKMPbSrR5qBpGNEQgaLa+90ExcS5zhEFcBk0G1+X2Z9l8k8NcEJZBWgIwB/M=
+	t=1785737475; cv=none; b=uRHlPW7AIh/y7btWP+eui5PurSyxuh0NLTNc27Oz8q/J2niDDUWfL6IGaAyIeHGiO1MKDrE+TdenoTBO2SLN+CC1vPEaTf9kLddvTcVAdQzC391MWqCmebpqo0Ftx8tzXs8q+YexnbGIeqoHIFg4Tc90hFiaK3IEh4vnimTuy0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785732937; c=relaxed/simple;
-	bh=fRJj015EwMjGldfpjrYNn5WsphdExP9SmZFsg+szH3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KEac56SfV366FOUIrYuDFwbwPtitQhjCR3KZZZcWmKIQP+2QUckgx5yYAwWXq9BH7jEtZe1AJCH//zfKEB+aVfelkRpLkrzPEUqSigNpACUjRQt4L32/Id2LF51KrhX2Kpkt5rCHw8Sq5b3/v+oR6fMw1nMbyqOWRSlUBlrNNpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qHlVhtJt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dGBQYC5d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QF6K++kc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DF+YIjls; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785737475; c=relaxed/simple;
+	bh=0SewAGq4WthTX89Olu7uUxRKkcoXnJgdkGEt9Qd+1rs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Yahhsxv/Ttvwpv88L7Vvti/muElCCHuu9Y6uZOVDrey6JvjaWxnRrpXSm41jxBqSvGiU8dxOPur0eVeXTgYVqf0YT9LJ0GXyc7JkIL/XaSM9aUe0PF2j4/lsLNIf2nZ1MJe4RfrSgXtFOK+33LmCtHjItuvjyAfMhCvAKKeSois=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hIYJ10iO; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qHlVhtJt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dGBQYC5d";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QF6K++kc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DF+YIjls"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 09E2D7EE96;
-	Mon,  3 Aug 2026 04:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785732924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JL687k9UJ80Ji/EnHGuBbxZo/4lxjPoihzqXv/O2HDA=;
-	b=qHlVhtJt1i6irEG2tm1eAtGfS/UDVSPhpplsJVni2OfaolXcfX3fmkyE9bjn/K7mXwNMaC
-	hy4/jKVYit8YaPPVj6Y7HGNeVZNRI0wOMxXDPZW2pvY9tHmY8ujoK0O6rG7dzrLCZ1Gjy5
-	ZCCB+e1h5dgpANpxyfEVPS3/pAVJbpM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785732924;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JL687k9UJ80Ji/EnHGuBbxZo/4lxjPoihzqXv/O2HDA=;
-	b=dGBQYC5dvy8R9qfKXSYLkAtuitEcFr1e/VfzB3S6P4n6p98wwkGfT6FVdwviV2I9JkUEim
-	mhIw/CBICqnY+MCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785732920; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JL687k9UJ80Ji/EnHGuBbxZo/4lxjPoihzqXv/O2HDA=;
-	b=QF6K++kcUBc4kdPJlyunEQlF72aucwsB/5oHl6fGGpn6Y4/GQPOz9zjgot2vO8Uimpf0Sy
-	+oR0Ia5qPMRu+DJyjLd6EmmXBVnqWtWKIEo9cSERpl2xamQBN70wzeOAXGiDezYQl1kQZz
-	4wd+/2lndktrbYNeYqzNrHQvmCZUgaQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785732920;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JL687k9UJ80Ji/EnHGuBbxZo/4lxjPoihzqXv/O2HDA=;
-	b=DF+YIjlssn6ttnTEVtJvrW6pQ3PDQsV55YN8HOVvg0N9kZDXN16+iurz0ZOEcAwEWo2wSo
-	s1gf1tN+5Yu3hwAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4BFE9779A1;
-	Mon,  3 Aug 2026 04:55:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ruCVATYfcGrFEAAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Mon, 03 Aug 2026 04:55:18 +0000
-Date: Mon, 3 Aug 2026 14:55:12 +1000
-From: David Disseldorp <ddiss@suse.de>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Christian Brauner
- <brauner@kernel.org>
-Subject: Re: [linux-next:master 11199/11507] init/initramfs_test.c:580:15:
- error: call to undeclared function '__override_init_fs'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <20260803145512.6b2e6c18.ddiss@suse.de>
-In-Reply-To: <202608010904.q5YsN4ye-lkp@intel.com>
-References: <202608010904.q5YsN4ye-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hIYJ10iO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785737474; x=1817273474;
+  h=date:from:to:cc:subject:message-id;
+  bh=0SewAGq4WthTX89Olu7uUxRKkcoXnJgdkGEt9Qd+1rs=;
+  b=hIYJ10iO9V7H0+9FfIiualj1FpzF+FbY9/GWPtAiBqiAFNsg80t7ZLMS
+   npeXgwy/+wA5f/hW1E9t8GdOmnOSVMRilh2Y+PXLXu+Vomg7JoatbycaJ
+   fwlJSf/vm7sgKp5VCOMX37JFtGKFQDyvm5Jad8dPBnGBABIluOBkeMCvB
+   I+7+3e6ZAT8gh+WNUBThe460DICpOgK7Or07OHKDKXggimZhjwy+o6q/a
+   nmNKUjKaGTvp8w/nYGMR2D2dpC+li7YdDi1Qy0S4xmRfdnCFYANMGjVFt
+   33l0IABOf5I9X6u3bSfP1p+BTAWyaI6T70WlUvciy77aKXwbiPClY1nPP
+   A==;
+X-CSE-ConnectionGUID: 15bbItIDQFmUpFORqiPB/g==
+X-CSE-MsgGUID: QodoKGuPQbGBErvW7UV5/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="85239696"
+X-IronPort-AV: E=Sophos;i="6.25,201,1779174000"; 
+   d="scan'208";a="85239696"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 23:11:13 -0700
+X-CSE-ConnectionGUID: +Ompez4/QeuAZ5MukI+9uQ==
+X-CSE-MsgGUID: mgkODW86S+qnQrdmVEbxsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,201,1779174000"; 
+   d="scan'208";a="256803918"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Aug 2026 23:11:11 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wqltF-000000006FF-2Sfu;
+	Mon, 03 Aug 2026 06:11:09 +0000
+Date: Mon, 03 Aug 2026 14:10:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.1-main 192/192]
+ include/linux/pcs/pcs.h:95:12: warning: 'unregister_fwnode_pcs_notifier'
+ defined but not used
+Message-ID: <202608031438.Hs7mI9p5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[intel.com:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,intel.com:email]
 
-Thanks for the report.
+Hi Rudy,
 
-The vfs-7.3.misc commit da46f0e1053c9 ("initramfs_test: use test
-init/exit hooks to override init fs") is bogus: it is supposed to be
-applied / squashed atop Christian's ("kunit: use scoped_with_init_fs()
-in tests that resolve paths") change, which includes fs_struct.h .
+FYI, the error/warning still remains.
 
-Christian's vfs-7.3.kthread branch has a correctly squashed version as:
-b4343aebd3a4d ("initramfs_test: use test init/exit hooks to override
-init fs").
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-main
+head:   2bb2b958e8885c95fc2cab2e3d81e6bb2184fc3d
+commit: 7e58cf54169b7bb649742efbbf4a76f2185f07db [192/192] net: ethernet: mediatek: mtkmux: harden mux/phylink lifecycle
+config: x86_64-buildonly-randconfig-005-20260803 (https://download.01.org/0day-ci/archive/20260803/202608031438.Hs7mI9p5-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608031438.Hs7mI9p5-lkp@intel.com/reproduce)
 
-@Christian: could you pleasee fix or drop the bogus da46f0e1053c9
-vfs-7.3.misc commit?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608031438.Hs7mI9p5-lkp@intel.com/
 
-Cheers, David
+All warnings (new ones prefixed by >>):
 
-On Sat, 01 Aug 2026 10:26:10 +0800, kernel test robot wrote:
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
+   include/linux/pcs/pcs.h:107:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
+     107 | fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/pcs/pcs.h:95:12: warning: 'unregister_fwnode_pcs_notifier' defined but not used [-Wunused-function]
+      95 | static int unregister_fwnode_pcs_notifier(struct notifier_block *nb)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pcs/pcs.h:90:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
+      90 | static int register_fwnode_pcs_notifier(struct notifier_block *nb)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   415606a7be939835db9b0d6b711887586646346d
-> commit: da46f0e1053c98355c2d7803ff1cc46617ca81bf [11199/11507] initramfs_test: use test init/exit hooks to override init fs
-> config: arm64-randconfig-001-20260801 (https://download.01.org/0day-ci/archive/20260801/202608010904.q5YsN4ye-lkp@intel.com/config)
-> compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260801/202608010904.q5YsN4ye-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202608010904.q5YsN4ye-lkp@intel.com/
-> 
-> Note: the linux-next/master HEAD 415606a7be939835db9b0d6b711887586646346d builds fine.
->       It may have been fixed somewhere.
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> init/initramfs_test.c:580:15: error: call to undeclared function '__override_init_fs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]  
->      580 |         test->priv = __override_init_fs();
->          |                      ^
-> >> init/initramfs_test.c:580:13: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]  
->      580 |         test->priv = __override_init_fs();
->          |                    ^ ~~~~~~~~~~~~~~~~~~~~
-> >> init/initramfs_test.c:586:2: error: call to undeclared function '__revert_init_fs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]  
->      586 |         __revert_init_fs(test->priv);
->          |         ^
->    3 errors generated.
-> 
-> 
-> vim +/__override_init_fs +580 init/initramfs_test.c
-> 
->    576	
->    577	/* Tests run in a nullfs kthread; always use the init fs for path resolution. */
->    578	static int __init initramfs_test_init(struct kunit *test)
->    579	{
->  > 580		test->priv = __override_init_fs();  
->    581		return 0;
->    582	}
->    583	
->    584	static void __init initramfs_test_exit(struct kunit *test)
->    585	{
->  > 586		__revert_init_fs(test->priv);  
->    587	}
->    588	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
 
+vim +/unregister_fwnode_pcs_notifier +95 include/linux/pcs/pcs.h
+
+    94	
+  > 95	static int unregister_fwnode_pcs_notifier(struct notifier_block *nb)
+    96	{
+    97		return -EOPNOTSUPP;
+    98	}
+    99	
+   100	static inline struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
+   101							 int index)
+   102	{
+   103		return ERR_PTR(-ENOENT);
+   104	}
+   105	
+   106	static struct phylink_pcs *
+ > 107	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+   108					   struct fwnode_handle *pcs_fwnode)
+   109	{
+   110		return ERR_PTR(-ENOENT);
+   111	}
+   112	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
