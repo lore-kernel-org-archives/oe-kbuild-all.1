@@ -1,149 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC55A38E8B2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 20:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A873B6BF1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 21:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785790217; cv=none; b=cuBDpnDhLeOeColo4pE9XZf0kHRlum5jChSxNPIqL811tnE34bzAhdG3yrB42HYDP5foRzICRVtspB1+xc22IDuJYHJi3TziXkygTBY/GBmnWDHfCJG2QtAND3J/A+irlcnR+CsSN7zSNsBoAIqafjCXcANZ38vnc64FMtJui7E=
+	t=1785791659; cv=none; b=pBMtzzSYzj7LMygFROkQewGfgOPN9bYscF0RkLncYMzeIcUGUvEK5kXCAkNjljbKhnBig/8J/F+v/0ojfehv/fjlj5ReCaOtpcjUQInKVmoql/DZqhwD3VrcH2BApUPHO3KXtfS2FaPGBImy0bwZXe/y5oRiZXnAt+Gr7t2aGz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785790217; c=relaxed/simple;
-	bh=zw0jw+MmhJGVFhtB4L36YUou+bvgYnqyzVL349oNL2c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QD9ZWbN5DNi1/PQslS87WkF5UIN/LBqYun/ZBxItWCTFZM+wFBxdzxm4qmGqelZYuUACX5saGD8iPVuGUsJONzuJVXOOr5zV/nRRGi5rcmuKJUKoaLpEFeRRt5oMpRZFmZwLPPzyoWX7hqB1AUB7mq5SjUt+ScwG2WTYJr30gHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jxRS5BHL; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1785791659; c=relaxed/simple;
+	bh=/RRAIYi5gdJAE6MjxyMsJMfJEVplFnBmQkFdJ+33GNo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=C+rcdv3F/JF24yNO64rthpIO5la2eTDmufJWomeabW92NYnOMU8Zd9FMSZKNrgwGv+WcpubVsVweu6mzfFP8lziFDc9bMZleEPyo86P21lk1NJ2+gemKOOvcmjX1v+aUJKBF9MB82BZuJkTbVnr2gsR9vdEl1l7XPsh1oHWjUj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ei6ReDT5; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jxRS5BHL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ei6ReDT5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785790216; x=1817326216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zw0jw+MmhJGVFhtB4L36YUou+bvgYnqyzVL349oNL2c=;
-  b=jxRS5BHLenJDGvlrdQMxdgTUfJKYJRNuT0BZcigV34HLLa+aNdUKSPlA
-   YzZW0wkUaclGK0H6UvnCDTkHYcrd3R7LT6LUprFPxGiAQIyJqAJbfgDGa
-   miURPmOUkmFdBlZyclye4mhqgo4pPkSkUJj2Y0kiIXw/lyq8W0Dibk7Hs
-   NF9UhBMcH4htqrCxNhC/PAjNYD/9wDY0uQS0F93F8vHvgkAsD1s1g6ouS
-   s09oUJr1F030yX5lT56kzaasGYYeeB4zaOkDZfheHoBz22V3enqY8iKLN
-   05KGHvG1JbbpEviJJtSqkGyuw71OFsCzYYzTg7nZblWdfssne7LPZm6DE
-   g==;
-X-CSE-ConnectionGUID: 6Xm5ivtFTwmZzKgihqL2Gw==
-X-CSE-MsgGUID: dUDaJdl1RJOS9KCmCUfpSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="111892061"
+  t=1785791657; x=1817327657;
+  h=date:from:to:cc:subject:message-id;
+  bh=/RRAIYi5gdJAE6MjxyMsJMfJEVplFnBmQkFdJ+33GNo=;
+  b=ei6ReDT5XcoQS7F0fJ+yrGSZmgzuZDMWFYGp3wz6y1LIC30WnYqyBfY5
+   yuHw+Kn9ewE04HwUktuOz2mtR4sNQztyx1YNB8ufWXpN7surzyaOqOJC+
+   wBPUpmZ+ym7RgoaN37bH3rzIdJoWIY9j+flzpObCr/gFbp2jilpO4cINH
+   gTdCEjPD4/7h++E1bkLTgnmbS1uR3NyGqZIvMVdfZjoEu3QqJnPpvyz2l
+   sfAXu/w9GNYYy9ZHivNP7rc5B8Y9q1ACdXqWDvgf//1ro7OtBnr8wUKbS
+   JdEW8F1FTH7jOFkYq00vyAmLGg037s3LCMZ+uo1WegDQhr3MUOuuXnCHP
+   A==;
+X-CSE-ConnectionGUID: QWcb5geFQd+w7+QF3ITJgg==
+X-CSE-MsgGUID: 3H9iBDD4TDCC1amKqx7HEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="96988867"
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="111892061"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 13:50:15 -0700
-X-CSE-ConnectionGUID: l/m9YQ+STkukDebFA6p/tA==
-X-CSE-MsgGUID: gsVFvw7DRbCc9ZAFZyqcAA==
+   d="scan'208";a="96988867"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 14:14:16 -0700
+X-CSE-ConnectionGUID: mOI0ulVKQFOI975n1Pig1Q==
+X-CSE-MsgGUID: lx7z2mMITX2IySiPzrdCqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="260717370"
+   d="scan'208";a="291266052"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 Aug 2026 13:50:09 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 Aug 2026 14:14:15 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wqzbp-000000007xd-3ABe;
-	Mon, 03 Aug 2026 20:50:05 +0000
-Date: Tue, 4 Aug 2026 04:49:16 +0800
+	id 1wqzzA-00000000800-3YqU;
+	Mon, 03 Aug 2026 21:14:12 +0000
+Date: Tue, 04 Aug 2026 05:13:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin Zhao <jackzxcui1989@163.com>, brauner@kernel.org, ljs@kernel.org,
-	rppt@kernel.org, pfalcato@suse.de, viro@zeniv.linux.org.uk,
-	corbet@lwn.net, skhan@linuxfoundation.org,
-	akpm@linux-foundation.org, liam@infradead.org, david@kernel.org,
-	vbabka@kernel.org, surenb@google.com, mhocko@suse.com,
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, mjguzik@gmail.com,
-	ebiederm@xmission.com, jack@suse.cz, jlayton@kernel.org,
-	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de,
-	keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com,
-	allen.lkml@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5] coredump: Add bit 9 of coredump_filter for pre-exit
- files before dumping
-Message-ID: <202608040457.QGCptUZD-lkp@intel.com>
-References: <20260630075604.52533-1-jackzxcui1989@163.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Subject: [vbabka:objext_split-v3-bench 7/20] mm/slub.c:9389:72:
+ warning: parameter 'si' set but not used
+Message-ID: <202608040412.uHCMpAwJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630075604.52533-1-jackzxcui1989@163.com>
 
-Hi Xin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on akpm-mm/mm-everything linus/master v7.2-rc6 next-20260803]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Zhao/coredump-Add-bit-9-of-coredump_filter-for-pre-exit-files-before-dumping/20260804-021808
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260630075604.52533-1-jackzxcui1989%40163.com
-patch subject: [PATCH v5] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608040457.QGCptUZD-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git objext_split-v3-bench
+head:   00a963c6f8935eea26a26878ee6ddeedb456d5ba
+commit: bef53663aa280f0a087ff3e10344c5734cf357da [7/20] slub_kunit: sheaves microbenchmark
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260804/202608040412.uHCMpAwJ-lkp@intel.com/config)
 compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608040457.QGCptUZD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608040412.uHCMpAwJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608040457.QGCptUZD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608040412.uHCMpAwJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/string.h:6,
-                    from fs/file_table.c:9:
-   fs/file_table.c: In function '__fput_deferred':
->> fs/file_table.c:576:53: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-     576 |         if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD | PF_DUMPCORE))) {
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
+   In file included from include/asm-generic/percpu.h:9,
+                    from arch/alpha/include/asm/percpu.h:16,
+                    from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:8,
+                    from mm/slub.c:15:
+   mm/slub.c: In function 'get_stat_sum':
+   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                                      ^~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+   In file included from include/linux/compiler_types.h:173,
+                    from <command-line>:
+   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/compiler-gcc.h:34:41: note: in definition of macro 'RELOC_HIDE'
+      34 |         __asm__ ("" : "=r"(__ptr) : "0"(ptr));                          \
+         |                                         ^~~
+   include/linux/percpu-defs.h:226:10: note: in expansion of macro 'TYPEOF_UNQUAL'
+     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
+         |          ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
+     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
+         |                    ^~~~~~~~~~
+   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
+         |         ^~~~~~~~~~~~~~~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/compiler-gcc.h:34:41: note: in definition of macro 'RELOC_HIDE'
+      34 |         __asm__ ("" : "=r"(__ptr) : "0"(ptr));                          \
+         |                                         ^~~
+   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
+     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
+         |                    ^~~~~~~~~~
+   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
+         |         ^~~~~~~~~~~~~~~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/compiler-gcc.h:35:17: note: in definition of macro 'RELOC_HIDE'
+      35 |         (typeof(ptr)) (__ptr + (off));                                  \
+         |                 ^~~
+   include/linux/percpu-defs.h:226:10: note: in expansion of macro 'TYPEOF_UNQUAL'
+     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
+         |          ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
+     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
+         |                    ^~~~~~~~~~
+   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
+         |         ^~~~~~~~~~~~~~~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/compiler-gcc.h:35:17: note: in definition of macro 'RELOC_HIDE'
+      35 |         (typeof(ptr)) (__ptr + (off));                                  \
+         |                 ^~~
+   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
+     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
+         |                    ^~~~~~~~~~
+   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
+         |         ^~~~~~~~~~~~~~~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+>> mm/slub.c:9389:72: warning: parameter 'si' set but not used [-Wunused-but-set-parameter=]
+    9389 | static unsigned long get_stat_sum(struct kmem_cache *s, enum stat_item si)
+         |                                                         ~~~~~~~~~~~~~~~^~
+--
+   lib/tests/slub_kunit.c: In function 'test_bench':
+>> lib/tests/slub_kunit.c:457:28: warning: variable 'base' set but not used [-Wunused-but-set-variable=]
+     457 |         unsigned long long base;
+         |                            ^~~~
 
 
-vim +576 fs/file_table.c
+vim +/si +9389 mm/slub.c
 
-   561	
-   562	static void __fput_deferred(struct file *file)
-   563	{
-   564		struct task_struct *task = current;
-   565	
-   566		if (unlikely(!(file->f_mode & (FMODE_BACKING | FMODE_OPENED)))) {
-   567			file_free(file);
-   568			return;
-   569		}
-   570	
-   571		/*
-   572		 * coredump_pre_exit() may release files before dumping core.
-   573		 * Cannot use task_work in the case, needs to release files
-   574		 * earlier."
-   575		 */
- > 576		if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD | PF_DUMPCORE))) {
-   577			init_task_work(&file->f_task_work, ____fput);
-   578			if (!task_work_add(task, &file->f_task_work, TWA_RESUME))
-   579				return;
-   580			/*
-   581			 * After this task has run exit_task_work(),
-   582			 * task_work_add() will fail.  Fall through to delayed
-   583			 * fput to avoid leaking *file.
-   584			 */
-   585		}
-   586	
-   587		if (llist_add(&file->f_llist, &delayed_fput_list))
-   588			schedule_delayed_work(&delayed_fput_work, 1);
-   589	}
-   590	
+  9388	
+> 9389	static unsigned long get_stat_sum(struct kmem_cache *s, enum stat_item si)
+  9390	{
+  9391		unsigned long sum = 0;
+  9392		int cpu;
+  9393	
+  9394		for_each_online_cpu(cpu) {
+  9395			sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+  9396		}
+  9397	
+  9398		return sum;
+  9399	}
+  9400	
 
 --
 0-DAY CI Kernel Test Service
