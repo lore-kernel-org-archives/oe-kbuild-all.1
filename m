@@ -1,226 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B28B396572
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 08:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7443B8BA1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 09:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785746404; cv=none; b=eSVmLR5/6DZAHtYEGUeCpLXGN8wzkCpX3lZQLVLFh8SEVhMjhmmcaFfCRR1lOxEUhQRMZJhBNEjVnyXOTS+zcjhxFkMRnGkR19580CmP6E4G/Wc7/MJ4zVXnjKmB7ds7CQeNCJE/Y/gnCq1BBg5Q68M7rdDpqZeHfbrb5BiGJZ0=
+	t=1785747986; cv=none; b=dfDbrfBwK07g2hC/9Zq55h8a1RmOwIGF3n/zG9iR9Avuv9mJs6beb5MZAiD9zR6Lj1jCf7KzgsfYpmFKk7xIIeQkjZo02muOn7HL2ZwslxdFlD/bK85y9AHpNUQ58XHFNq6/3OGwfcO5a4IflXUW5VrquiYXmBEAMHFuY0ZHoZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785746404; c=relaxed/simple;
-	bh=vPZcRPTPRJzbUHm/7XGlR/I6U12FilzQyMCk/q3ZEOg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YCv6EYg004uGCnmQaVzgkO0I5T3l22wTwrSnZDzgbAFHQLWYTfJjuyeQtfb8ZpjtxMjX7pBBnav3vHRJp9Nzc+5DZiFP0/Bk3tlbTBHgZlc6L2A5x/6P8cZZqnlmwDhziaJgt9gPAFR14MwhRC80trbhGhUT2x/XaQE6hDF4nFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ngQZNUV8; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1785747986; c=relaxed/simple;
+	bh=5r34M1HHBdLNcPvzBryAdGoZIZUgWkfLIrG031AonBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RLs8UbPYT6rFVHkkVvUqCI7H7Itof1wzVYod5JxCkOrYXo8SrRE0tuEnIY3TteqSsCErAG2Ety68BlD5SbQexhat87NgA77BN2TJGSX0jwXXoTUaZeO1pt1oB5Jw6GlHFTThagGY4UV3cG66XgLOWPYh22HO/7mTfW1czK+jPIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anJoxh47; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ngQZNUV8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anJoxh47"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785746400; x=1817282400;
-  h=date:from:to:cc:subject:message-id;
-  bh=vPZcRPTPRJzbUHm/7XGlR/I6U12FilzQyMCk/q3ZEOg=;
-  b=ngQZNUV8XCLZK50An0JSmOT1E4aHJOP9//iSmhwQ8EAC9RLDG/J8oiPk
-   gw+ntbvz9tNCQYW35tL2CshTi9WWhCbB4ky3Vwd/VhOFP+vK2nM0UUX/m
-   yMf+xbEDlQPFvS48kht9vHU2EokAPOPNX2omVbUFIRYJv0IxGFxQfRjR5
-   lm3N27ovycs4qR6Pmwv+h6cSKPnLCTCBhPweJNk8rrsvbxgsM3bTJ1Azs
-   90wGoB8wBqmbj5lKik9fR1FNcI0FSP2qr7CVNy8/CY1LfLtjWdwXkx6cj
-   ESiXsWpeRRgwezwWlUgdV/aNXY99lcrxr2ZRj5+QM1JsILvKtTPUSL6dh
-   w==;
-X-CSE-ConnectionGUID: ePfapl9DQ++99/iNuYktMw==
-X-CSE-MsgGUID: VBZ55BMRRKqn9lqPIiuPlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="86360934"
+  t=1785747984; x=1817283984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5r34M1HHBdLNcPvzBryAdGoZIZUgWkfLIrG031AonBo=;
+  b=anJoxh47vGCUd2RroYGejbrkw2jCqf2noF06oWIvyRQ6+kSTldwQmwgX
+   jCw1AZhNq00YJTPM2M1R8ig9EsA41++GPdbOhXjG6V+aD/NK/4VynaUtI
+   iombpDb9h+vAWID0gSMeZv/n+KyezOJZAO5Ik6QSfVk2LO0njvpauU1p3
+   1iO6S1xYJ88ZqT9C6TGXGgVpG5vNDsqDv1++1ifX8CtxvEjipIMhRam/H
+   FyTWWTx4Hqbq7FR74jrpPCMblpTbfdCgL0m//Ck3r2+19Ld7Y+BHLZCzr
+   BGXXEjAUyHtka8N14zYiE/pbR2ac66cufbloczJXkYvO42JYS059itOzz
+   Q==;
+X-CSE-ConnectionGUID: sV/n58hxSNW+QnSgjdt+8Q==
+X-CSE-MsgGUID: buqsd0ftSE2aTi4WuD0x7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="89957989"
 X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
-   d="scan'208";a="86360934"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 01:40:00 -0700
-X-CSE-ConnectionGUID: zuUbMf4oQ3yUhvCp0CTa/Q==
-X-CSE-MsgGUID: JotUAAajTy6VcUALAaTcgQ==
+   d="scan'208";a="89957989"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 02:06:24 -0700
+X-CSE-ConnectionGUID: HcefI9CnSy2NxCgotPKkRg==
+X-CSE-MsgGUID: WdfcalN0TOm7U5TS4Q+O/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
-   d="scan'208";a="264634694"
+   d="scan'208";a="266281795"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 03 Aug 2026 01:39:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 03 Aug 2026 02:06:20 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wqoDD-000000006YH-4BY2;
-	Mon, 03 Aug 2026 08:39:55 +0000
-Date: Mon, 03 Aug 2026 16:39:15 +0800
+	id 1wqocj-000000006Zh-2RBr;
+	Mon, 03 Aug 2026 09:06:17 +0000
+Date: Mon, 3 Aug 2026 17:05:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Palmer <daniel@0x0f.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chenxing:mstar_v6_5_reorder 533/700]
- drivers/mfd/ip6xxx.c:82:26: error: 'i2c_device_id' undeclared here (not in a
- function)
-Message-ID: <202608031643.BVZlXqQG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Guangshuo Li <lgs201920130244@gmail.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Fan Wu <fanwu01@zju.edu.cn>, Hans Verkuil <hverkuil@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Guangshuo Li <lgs201920130244@gmail.com>
+Subject: Re: [PATCH] media: mtk-jpeg: drain hardware completion before
+ freeing context
+Message-ID: <202608031631.Ha5cORQG-lkp@intel.com>
+References: <20260708120833.755998-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260708120833.755998-1-lgs201920130244@gmail.com>
 
-tree:   https://github.com/linux-chenxing/linux.git mstar_v6_5_reorder
-head:   1a5c60e65ea399670a5384b869c4958338af2799
-commit: 2b98b69c0553e63ab0a875f2a14b7f2e1cd10c5e [533/700] regulator: basic driver for the injoinic ip6303
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260803/202608031643.BVZlXqQG-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608031643.BVZlXqQG-lkp@intel.com/reproduce)
+Hi Guangshuo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on media-tree/master linus/master v7.2-rc5 next-20260731]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-mtk-jpeg-drain-hardware-completion-before-freeing-context/20260803-143440
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20260708120833.755998-1-lgs201920130244%40gmail.com
+patch subject: [PATCH] media: mtk-jpeg: drain hardware completion before freeing context
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260803/202608031631.Ha5cORQG-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608031631.Ha5cORQG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608031643.BVZlXqQG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608031631.Ha5cORQG-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/mfd/ip6xxx.c:9:
->> drivers/mfd/ip6xxx.c:82:26: error: 'i2c_device_id' undeclared here (not in a function)
-      82 | MODULE_DEVICE_TABLE(i2c, i2c_device_id);
-         |                          ^~~~~~~~~~~~~
-   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:244:21: error: '__mod_i2c__i2c_device_id_device_table' aliased to undefined symbol 'i2c_device_id'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/mfd/ip6xxx.c:82:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-      82 | MODULE_DEVICE_TABLE(i2c, i2c_device_id);
-         | ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/mfd/ip6xxx.c:16:
->> include/linux/mfd/ip6xxx.h:119:31: warning: 'ip6303_io8_mfp' defined but not used [-Wunused-const-variable=]
-     119 | static const struct reg_field ip6303_io8_mfp = {
-         |                               ^~~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:113:31: warning: 'ip6303_chg_en' defined but not used [-Wunused-const-variable=]
-     113 | static const struct reg_field ip6303_chg_en = {
-         |                               ^~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:107:31: warning: 'ip6303_batext_ok' defined but not used [-Wunused-const-variable=]
-     107 | static const struct reg_field ip6303_batext_ok = {
-         |                               ^~~~~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:101:31: warning: 'ip6303_charge_state' defined but not used [-Wunused-const-variable=]
-     101 | static const struct reg_field ip6303_charge_state = {
-         |                               ^~~~~~~~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:95:31: warning: 'ip6303_r_chgis' defined but not used [-Wunused-const-variable=]
-      95 | static const struct reg_field ip6303_r_chgis = {
-         |                               ^~~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:89:31: warning: 'ip6303_adc_data_vbat' defined but not used [-Wunused-const-variable=]
-      89 | static const struct reg_field ip6303_adc_data_vbat = {
-         |                               ^~~~~~~~~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:83:31: warning: 'ip6303_ichg_adc_en' defined but not used [-Wunused-const-variable=]
-      83 | static const struct reg_field ip6303_ichg_adc_en = {
-         |                               ^~~~~~~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:77:31: warning: 'ip6303_ibat_adc_en' defined but not used [-Wunused-const-variable=]
-      77 | static const struct reg_field ip6303_ibat_adc_en = {
-         |                               ^~~~~~~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:71:31: warning: 'ip6303_vbat_adc_en' defined but not used [-Wunused-const-variable=]
-      71 | static const struct reg_field ip6303_vbat_adc_en = {
-         |                               ^~~~~~~~~~~~~~~~~~
---
-   drivers/power/supply/ip6xxx-charger.c: In function 'ip6xxx_charger_get_property':
->> drivers/power/supply/ip6xxx-charger.c:41:33: error: 'struct ip6xxx' has no member named 'chg_en'
-      41 |         regmap_field_read(ip6xxx->chg_en, &chg_en);
-         |                                 ^~
->> drivers/power/supply/ip6xxx-charger.c:42:33: error: 'struct ip6xxx' has no member named 'batext_ok'
-      42 |         regmap_field_read(ip6xxx->batext_ok, &batext_ok);
-         |                                 ^~
->> drivers/power/supply/ip6xxx-charger.c:43:33: error: 'struct ip6xxx' has no member named 'vbat_adc_en'
-      43 |         regmap_field_read(ip6xxx->vbat_adc_en, &vbat_adc_en);
-         |                                 ^~
->> drivers/power/supply/ip6xxx-charger.c:48:33: error: 'struct ip6xxx' has no member named 'adc_data_vbat'
-      48 |         regmap_field_read(ip6xxx->adc_data_vbat, &vbat);
-         |                                 ^~
->> drivers/power/supply/ip6xxx-charger.c:54:41: error: 'struct ip6xxx' has no member named 'charge_state'
-      54 |                 regmap_field_read(ip6xxx->charge_state, &regval);
-         |                                         ^~
-   drivers/power/supply/ip6xxx-charger.c:72:41: error: 'struct ip6xxx' has no member named 'charge_state'
-      72 |                 regmap_field_read(ip6xxx->charge_state, &regval);
-         |                                         ^~
->> drivers/power/supply/ip6xxx-charger.c:86:41: error: 'struct ip6xxx' has no member named 'r_chgis'
-      86 |                 regmap_field_read(ip6xxx->r_chgis, &regval);
-         |                                         ^~
-   drivers/power/supply/ip6xxx-charger.c: In function 'ip6xxx_charger_probe':
->> drivers/power/supply/ip6xxx-charger.c:111:15: error: 'struct ip6xxx' has no member named 'charger_desc'
-     111 |         ip6xxx->charger_desc.properties = ip6xxx_charger_properties;
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:112:15: error: 'struct ip6xxx' has no member named 'charger_desc'
-     112 |         ip6xxx->charger_desc.num_properties = ARRAY_SIZE(ip6xxx_charger_properties);
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:113:15: error: 'struct ip6xxx' has no member named 'charger_desc'
-     113 |         ip6xxx->charger_desc.get_property = ip6xxx_charger_get_property;
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:114:15: error: 'struct ip6xxx' has no member named 'charger_desc'
-     114 |         ip6xxx->charger_desc.name = pdev->dev.parent->of_node->name;
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:115:15: error: 'struct ip6xxx' has no member named 'charger_desc'
-     115 |         ip6xxx->charger_desc.type = 0;
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:120:15: error: 'struct ip6xxx' has no member named 'vbat_adc_en'
-     120 |         ip6xxx->vbat_adc_en = devm_regmap_field_alloc(pdev->dev.parent,
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:123:15: error: 'struct ip6xxx' has no member named 'adc_data_vbat'
-     123 |         ip6xxx->adc_data_vbat = devm_regmap_field_alloc(pdev->dev.parent,
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:126:15: error: 'struct ip6xxx' has no member named 'r_chgis'
-     126 |         ip6xxx->r_chgis = devm_regmap_field_alloc(pdev->dev.parent,
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:129:15: error: 'struct ip6xxx' has no member named 'charge_state'
-     129 |         ip6xxx->charge_state = devm_regmap_field_alloc(pdev->dev.parent,
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:132:15: error: 'struct ip6xxx' has no member named 'batext_ok'
-     132 |         ip6xxx->batext_ok = devm_regmap_field_alloc(pdev->dev.parent,
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:135:15: error: 'struct ip6xxx' has no member named 'chg_en'
-     135 |         ip6xxx->chg_en = devm_regmap_field_alloc(pdev->dev.parent,
-         |               ^~
->> drivers/power/supply/ip6xxx-charger.c:138:15: error: 'struct ip6xxx' has no member named 'io8_mfp'
-     138 |         ip6xxx->io8_mfp = devm_regmap_field_alloc(pdev->dev.parent,
-         |               ^~
->> drivers/power/supply/ip6xxx-charger.c:141:15: error: 'struct ip6xxx' has no member named 'charger'
-     141 |         ip6xxx->charger = devm_power_supply_register(pdev->dev.parent,
-         |               ^~
-   drivers/power/supply/ip6xxx-charger.c:142:32: error: 'struct ip6xxx' has no member named 'charger_desc'
-     142 |                         &ip6xxx->charger_desc, &psy_cfg);
-         |                                ^~
-   drivers/power/supply/ip6xxx-charger.c:144:34: error: 'struct ip6xxx' has no member named 'r_chgis'
-     144 |         regmap_field_write(ip6xxx->r_chgis, 0x8);
-         |                                  ^~
-   drivers/power/supply/ip6xxx-charger.c:145:34: error: 'struct ip6xxx' has no member named 'chg_en'
-     145 |         regmap_field_write(ip6xxx->chg_en, 0x1);
-         |                                  ^~
-   drivers/power/supply/ip6xxx-charger.c:146:34: error: 'struct ip6xxx' has no member named 'vbat_adc_en'
-     146 |         regmap_field_write(ip6xxx->vbat_adc_en, 0x1);
-         |                                  ^~
-   drivers/power/supply/ip6xxx-charger.c:147:34: error: 'struct ip6xxx' has no member named 'io8_mfp'
-     147 |         regmap_field_write(ip6xxx->io8_mfp, 0x2);
-         |                                  ^~
-   drivers/power/supply/ip6xxx-charger.c:149:26: error: 'struct ip6xxx' has no member named 'charger'
-     149 |         if (IS_ERR(ip6xxx->charger)) {
-         |                          ^~
-   drivers/power/supply/ip6xxx-charger.c:150:37: error: 'struct ip6xxx' has no member named 'charger'
-     150 |                 ret = PTR_ERR(ip6xxx->charger);
-         |                                     ^~
->> drivers/power/supply/ip6xxx-charger.c:106:43: warning: unused variable 'charger_data' [-Wunused-variable]
-     106 |         const struct ip6xxx_charger_data *charger_data =
-         |                                           ^~~~~~~~~~~~
-   In file included from drivers/power/supply/ip6xxx-charger.c:13:
-   At top level:
->> include/linux/mfd/ip6xxx.h:83:31: warning: 'ip6303_ichg_adc_en' defined but not used [-Wunused-const-variable=]
-      83 | static const struct reg_field ip6303_ichg_adc_en = {
-         |                               ^~~~~~~~~~~~~~~~~~
->> include/linux/mfd/ip6xxx.h:77:31: warning: 'ip6303_ibat_adc_en' defined but not used [-Wunused-const-variable=]
-      77 | static const struct reg_field ip6303_ibat_adc_en = {
-         |                               ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c: In function 'mtk_jpeg_release':
+>> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1207:17: error: implicit declaration of function 'mtk_jpeg_release_hw'; did you mean 'mtk_jpeg_release'? [-Wimplicit-function-declaration]
+    1207 |                 mtk_jpeg_release_hw(jpeg, ctx);
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 mtk_jpeg_release
 
 
-vim +/i2c_device_id +82 drivers/mfd/ip6xxx.c
+vim +1207 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
 
-    77	
-    78	static const struct i2c_device_id ip6xxx_i2c_id[] = {
-    79		{ "ip6303", 0 },
-    80		{ },
-    81	};
-  > 82	MODULE_DEVICE_TABLE(i2c, i2c_device_id);
-    83	
+  1199	
+  1200	static int mtk_jpeg_release(struct file *file)
+  1201	{
+  1202		struct mtk_jpeg_dev *jpeg = video_drvdata(file);
+  1203		struct mtk_jpeg_ctx *ctx = mtk_jpeg_file_to_ctx(file);
+  1204	
+  1205		if (jpeg->variant->jpeg_worker) {
+  1206			cancel_work_sync(&ctx->jpeg_work);
+> 1207			mtk_jpeg_release_hw(jpeg, ctx);
+  1208		}
+  1209	
+  1210		mutex_lock(&jpeg->lock);
+  1211		v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+  1212		v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+  1213		v4l2_fh_del(&ctx->fh, file);
+  1214		v4l2_fh_exit(&ctx->fh);
+  1215		kfree(ctx);
+  1216		mutex_unlock(&jpeg->lock);
+  1217		return 0;
+  1218	}
+  1219	
 
 --
 0-DAY CI Kernel Test Service
