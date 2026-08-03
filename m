@@ -1,94 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3862FF657
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 08:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BEE3AFD02
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 08:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785745012; cv=none; b=IazWfhy73vXr5mseCa2nn7PIp7964sYt7SdMQiPSvptl1YzikwzunEnbGnXM55wsgSzjb1nVb9BQKiCNU1csWJPJlvSQMpN9NtCuAS3fmf67z71bND9Lj5EfYs6yJYkKkczTPvARtU2zpsuRFSnRE6n8rQKlFojNEo9yeYrfzyI=
+	t=1785745738; cv=none; b=Ulabu1Lw2YvYarCy0pN+QmAXKRTzcYC5Y+IMbe5I6JIi5zhl0GPMUtLSsA5Twtg3xOg2qLh/ihKaYU+K+0T0N1ZwAKxwf+wbszlOJ0bb+bbX8k8gcxtwSzQPr66d7tz86HX342UdVgmta+7h0H0sY3o/eQRPsYekO5AXxXio+Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785745012; c=relaxed/simple;
-	bh=CdrM/fN6t9hFnIsPNs/T8LrSyXZChHteYj4d5HOG+68=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uBc0KnBdy9jxreqpDqKsufLCl1LArG4OyOxkGrf3X//MrzSAJTVdQZUFPSfyO8T0YDtfZWb00SbOBX6+q0OFA0PvQ9rt2CKCmTftwkNQVk+2TeGsqgEyNovW76chjTZrT1TODp6DoeDIqmv5FIMyjiQujnH7nGhYjhV/nK9jGo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eaX658UM; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1785745738; c=relaxed/simple;
+	bh=xC3OrNnP/G/fQTfG7vaW1/GEapYnFwmRXLB2yIGlMC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=icQLHJovuBv/X2sF07sBxOVp3F8/HeO+TZ3NJp6ugBSmyi5h0Tb52VknHkKnIYK/uZqzj4hHYuGnlllPMZKAsRYNkmKYM7GL27fngj+8vLunTLp+ei/DW8eyMFeKJj22pxS39Z3fg01LHJX0W2ykraIBOrGO3Y5j11MT0TV6EuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hk7siMCm; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eaX658UM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hk7siMCm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785745010; x=1817281010;
-  h=date:from:to:cc:subject:message-id;
-  bh=CdrM/fN6t9hFnIsPNs/T8LrSyXZChHteYj4d5HOG+68=;
-  b=eaX658UMnb/shTRRef59DtzVB4xP3DqKPitwDxb6WRCwH5lYaQY/Cyp6
-   vqYDotszCpl83D+0n5/Vhh7Eo+w/JQZnicWa1hy4caa5J7PwTrOp5T72g
-   dUKtPZrvP05g6l4N0oJg0L2Qr+y/BdI6MZMAukCeRJxlvCRDxDOM1D16T
-   Lkq3HXJIaLpvitIZ84r+RNvJ8rQNNoENMxY8NbJJXJNWAIVS7b6Q6Oo8O
-   sagPuUqGtTRQjbv0uAx5gBv2Iv2dr13GA4kZgomm15zpLJ/QmjcQQBtsu
-   zbm5uiUEfiJdBFdsWSALcsiHrrSDGF2ZSG6sgqIOTX1fWsfjOjSo/wccf
-   Q==;
-X-CSE-ConnectionGUID: e4hkKy7rTp+ZPicaKiS2Ug==
-X-CSE-MsgGUID: zVQ+ySlSSpequSio2w4QGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="86045786"
+  t=1785745736; x=1817281736;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xC3OrNnP/G/fQTfG7vaW1/GEapYnFwmRXLB2yIGlMC8=;
+  b=hk7siMCmiJK1idYtxJqkcQc1JMVSQIxTqCJ33TgFF0Y7f9TW4QvqSW9N
+   DvCe7AVy4MOLkMDADxh2RX9TLIawRqqOyP0fKlzkCjFzNeQMxZZpEIJ1E
+   VjsJVLoT1dNqKXW5DdDYeeZReOKGKHQ+7lrZ4I09bVnEdpkuntwn2bGZM
+   ASnqF2OV59MwR6vnNcBtnbk9sARyBoViHLC+ktNzJbxQ9G8w3dXYZZloT
+   dA5gEYYe/+64ixZH8grAkvH/GXQnoYBznB/Zo7IZirhROmPBcm/gLVxS/
+   dj1Xzu4fM0xaA3V7kFZE8LpTx3pTPsMwwHbvhMZ872VXE1bTc0vERRQ6V
+   w==;
+X-CSE-ConnectionGUID: PrOaLhloQj+j2oDvTVU5BQ==
+X-CSE-MsgGUID: jQ7i58byShmmqyYS098sXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="111828635"
 X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
-   d="scan'208";a="86045786"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 01:16:50 -0700
-X-CSE-ConnectionGUID: rYsE6+8ISfWCluA6jTn0AA==
-X-CSE-MsgGUID: fidOHhkHSYiGgMJ7TuwE8A==
+   d="scan'208";a="111828635"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 01:28:55 -0700
+X-CSE-ConnectionGUID: Ag1Csky0THygb39DjHKQlg==
+X-CSE-MsgGUID: Q3rjCMSzRxy8JGh8k8BaNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
-   d="scan'208";a="264987247"
+   d="scan'208";a="254882189"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 Aug 2026 01:16:48 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Aug 2026 01:28:53 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wqnqo-000000006VB-0ynG;
-	Mon, 03 Aug 2026 08:16:46 +0000
-Date: Mon, 03 Aug 2026 16:16:06 +0800
+	id 1wqo2U-000000006WT-0ms4;
+	Mon, 03 Aug 2026 08:28:50 +0000
+Date: Mon, 3 Aug 2026 16:28:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:timers/arm64-arch-timer-errata-sk 1/8]
- include/clocksource/arm_arch_timer.h:113:13: warning:
- 'read_sched_clock_is_arch_counter' defined but not used
-Message-ID: <202608031502.QbZfDhXn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Aniket Randive <aniket.randive@oss.qualcomm.com>,
+	mukesh.savaliya@oss.qualcomm.com, viken.dadhaniya@oss.qualcomm.com,
+	andi.shyti@kernel.org, sumit.semwal@linaro.org,
+	christian.koenig@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, naresh.maramaina@oss.qualcomm.com,
+	aniket.randive@oss.qualcomm.com
+Subject: Re: [PATCH V5] i2c: qcom-geni: Add dynamic transfer timeout based on
+ transfer length and frequency
+Message-ID: <202608031643.mPIeogxp-lkp@intel.com>
+References: <20260715101805.3615166-1-aniket.randive@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715101805.3615166-1-aniket.randive@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git timers/arm64-arch-timer-errata-sk
-head:   93953a96f1d16c9f07597b46642d3e61581a6c85
-commit: 0e8b09c97ac7de82054327e5d29eae6dedc6002e [1/8] clocksource/drivers/arm_arch_timer: Add read_sched_clock_is_arch_counter() predicate
-config: xtensa-randconfig-002-20260803 (https://download.01.org/0day-ci/archive/20260803/202608031502.QbZfDhXn-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608031502.QbZfDhXn-lkp@intel.com/reproduce)
+Hi Aniket,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[cannot apply to linus/master v7.2-rc5 next-20260731]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aniket-Randive/i2c-qcom-geni-Add-dynamic-transfer-timeout-based-on-transfer-length-and-frequency/20260803-151058
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20260715101805.3615166-1-aniket.randive%40oss.qualcomm.com
+patch subject: [PATCH V5] i2c: qcom-geni: Add dynamic transfer timeout based on transfer length and frequency
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260803/202608031643.mPIeogxp-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608031643.mPIeogxp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608031502.QbZfDhXn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608031643.mPIeogxp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/soc/qcom/rpmh-rsc.c:30:
->> include/clocksource/arm_arch_timer.h:113:13: warning: 'read_sched_clock_is_arch_counter' defined but not used [-Wunused-function]
-    static bool read_sched_clock_is_arch_counter(const struct clock_read_data *crd)
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/read_sched_clock_is_arch_counter +113 include/clocksource/arm_arch_timer.h
-
-   112	
- > 113	static bool read_sched_clock_is_arch_counter(const struct clock_read_data *crd)
-   114	{
-   115		return false;
-   116	}
-   117	#endif
-   118	
+>> Warning: drivers/i2c/busses/i2c-qcom-geni.c:622 function parameter 'timeout_jiffies' not described in 'geni_i2c_gpi_multi_xfer_timeout_handler'
+>> Warning: drivers/i2c/busses/i2c-qcom-geni.c:622 Excess function parameter 'transfer_timeout_msecs' description in 'geni_i2c_gpi_multi_xfer_timeout_handler'
+>> Warning: drivers/i2c/busses/i2c-qcom-geni.c:622 function parameter 'timeout_jiffies' not described in 'geni_i2c_gpi_multi_xfer_timeout_handler'
+>> Warning: drivers/i2c/busses/i2c-qcom-geni.c:622 Excess function parameter 'transfer_timeout_msecs' description in 'geni_i2c_gpi_multi_xfer_timeout_handler'
 
 --
 0-DAY CI Kernel Test Service
