@@ -1,191 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A873B6BF1
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 21:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0B03D6CC9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Aug 2026 21:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785791659; cv=none; b=pBMtzzSYzj7LMygFROkQewGfgOPN9bYscF0RkLncYMzeIcUGUvEK5kXCAkNjljbKhnBig/8J/F+v/0ojfehv/fjlj5ReCaOtpcjUQInKVmoql/DZqhwD3VrcH2BApUPHO3KXtfS2FaPGBImy0bwZXe/y5oRiZXnAt+Gr7t2aGz4=
+	t=1785793009; cv=none; b=CaM0QOfzkBJZ7VaSzKtFKB+dp9ADr975zW1mwyp/UlMNjbq3ft0f5yLmRLqLmuUTrLGKfDwa04h42K1yUe7WXRHm44LNI3To9qje6vQcpEBIBNbdxh1xgztl5eNqfUuKAWCkssP8ivWN1AZLYf5qmxBx8/IhC2XfuJd6GNrBcro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785791659; c=relaxed/simple;
-	bh=/RRAIYi5gdJAE6MjxyMsJMfJEVplFnBmQkFdJ+33GNo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C+rcdv3F/JF24yNO64rthpIO5la2eTDmufJWomeabW92NYnOMU8Zd9FMSZKNrgwGv+WcpubVsVweu6mzfFP8lziFDc9bMZleEPyo86P21lk1NJ2+gemKOOvcmjX1v+aUJKBF9MB82BZuJkTbVnr2gsR9vdEl1l7XPsh1oHWjUj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ei6ReDT5; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785793009; c=relaxed/simple;
+	bh=qDfMsUIbbSJ3sV1yui6BOY9/QkqKd4R74mrTeWlNq+Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Yb+nRe0zRWyU+WyfI8RI/UKW67RQzCUH01lFNZ9tG1z7W75fdguKKS1sBao3gVt8RYaFL7Xcp9jGcwrqdteVQsyFY1TkUYjPD/jnDUW5d2wLyf+OY5JNb5VOb4dXF//xT5xIG+ma2x4W/UMM3EMaJd3ehTwnj0z26baCDtE2cns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=lukffWQK; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ei6ReDT5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785791657; x=1817327657;
-  h=date:from:to:cc:subject:message-id;
-  bh=/RRAIYi5gdJAE6MjxyMsJMfJEVplFnBmQkFdJ+33GNo=;
-  b=ei6ReDT5XcoQS7F0fJ+yrGSZmgzuZDMWFYGp3wz6y1LIC30WnYqyBfY5
-   yuHw+Kn9ewE04HwUktuOz2mtR4sNQztyx1YNB8ufWXpN7surzyaOqOJC+
-   wBPUpmZ+ym7RgoaN37bH3rzIdJoWIY9j+flzpObCr/gFbp2jilpO4cINH
-   gTdCEjPD4/7h++E1bkLTgnmbS1uR3NyGqZIvMVdfZjoEu3QqJnPpvyz2l
-   sfAXu/w9GNYYy9ZHivNP7rc5B8Y9q1ACdXqWDvgf//1ro7OtBnr8wUKbS
-   JdEW8F1FTH7jOFkYq00vyAmLGg037s3LCMZ+uo1WegDQhr3MUOuuXnCHP
-   A==;
-X-CSE-ConnectionGUID: QWcb5geFQd+w7+QF3ITJgg==
-X-CSE-MsgGUID: 3H9iBDD4TDCC1amKqx7HEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="96988867"
-X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="96988867"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 14:14:16 -0700
-X-CSE-ConnectionGUID: mOI0ulVKQFOI975n1Pig1Q==
-X-CSE-MsgGUID: lx7z2mMITX2IySiPzrdCqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="291266052"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Aug 2026 14:14:15 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wqzzA-00000000800-3YqU;
-	Mon, 03 Aug 2026 21:14:12 +0000
-Date: Tue, 04 Aug 2026 05:13:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Subject: [vbabka:objext_split-v3-bench 7/20] mm/slub.c:9389:72:
- warning: parameter 'si' set but not used
-Message-ID: <202608040412.uHCMpAwJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="lukffWQK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=aQyu2YhdMj+Ucz91Qm1lwCrCW2EgrnvTO15g6p8z0cY=; b=lukffWQKrwn2E/75Xct9op5Bed
+	ZmSNCeyuK+AyEXqcDreuZ4Nx94MTBsPBBsdlt50EQt+rm34NGpSzc8jHTnyXK/Oa4W72jwUiUdY/p
+	YFbKcLc3XKeReEUpISI0UUcp5u+n4oYr1FPfExeJ2Aumvaj1FquuWrdJJZqcDa9htVxZiuk9kgZPA
+	IHufwzROyt370OlXghbs407euoZcrgnn+ytdcmy4/tJA/Me5W9Sx1ohpmhnINZhL7k0RbDPrICvFY
+	YgP2slZ2ltqX0wo31yr3UJMEMWNNyMCGGizdW/KlcuZAihIzNIJvH5zc6nCzWVUieqs/FvkLK2YTf
+	JCcOIxHQ==;
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Chris Morgan <macromorgan@hotmail.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>
+Subject:
+ Re: [linux-next:master 11606/12137]
+ arch/arm64/boot/dts/rockchip/rk3568-anbernic-rg-ds.dtb: /i2c@fe5b0000/imu@68:
+ failed to match any schema with compatible: ['invensense,icm42607p']
+Date: Mon, 03 Aug 2026 23:36:10 +0200
+Message-ID: <9266549.DvuYhMxLoT@diego>
+In-Reply-To: <202608032147.AcElFYvh-lkp@intel.com>
+References: <202608032147.AcElFYvh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git objext_split-v3-bench
-head:   00a963c6f8935eea26a26878ee6ddeedb456d5ba
-commit: bef53663aa280f0a087ff3e10344c5734cf357da [7/20] slub_kunit: sheaves microbenchmark
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260804/202608040412.uHCMpAwJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608040412.uHCMpAwJ-lkp@intel.com/reproduce)
+Am Montag, 3. August 2026, 21:58:10 Mitteleurop=C3=A4ische Sommerzeit schri=
+eb kernel test robot:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   9a4cdc958dd79fc6c3b20b51a10debec6ca09fec
+> commit: 264429dfe5294b76c7c3b4ed2c9e6cea1042255c [11606/12137] arm64: dts=
+: rockchip: Add icm42607p IMU for RG-DS
+> config: arm64-randconfig-2054-20260802 (https://download.01.org/0day-ci/a=
+rchive/20260803/202608032147.AcElFYvh-lkp@intel.com/config)
+> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a=
+de128740327db281859708ddcb3b072903b3414)
+> rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+> dtschema: 2026.7.dev1+g2203c1720
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260803/202608032147.AcElFYvh-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202608032147.AcElFYvh-lkp=
+@intel.com/
+>=20
+> dtcheck warnings: (new ones prefixed by >>)
+> >> arch/arm64/boot/dts/rockchip/rk3568-anbernic-rg-ds.dtb: /i2c@fe5b0000/=
+imu@68: failed to match any schema with compatible: ['invensense,icm42607p']
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608040412.uHCMpAwJ-lkp@intel.com/
+The series/patch introducing the compatible has been added to the
+iio-tree at:
+https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=3Dt=
+esting&id=3D2ffc35d202d82e5335900e93ac57496a7c492ae6
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/asm-generic/percpu.h:9,
-                    from arch/alpha/include/asm/percpu.h:16,
-                    from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:8,
-                    from mm/slub.c:15:
-   mm/slub.c: In function 'get_stat_sum':
-   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                                        ^~~~~~~~
-   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                         ^~~~~~~~~~~
-   In file included from include/linux/compiler_types.h:173,
-                    from <command-line>:
-   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                                        ^~~~~~~~
-   include/linux/compiler-gcc.h:34:41: note: in definition of macro 'RELOC_HIDE'
-      34 |         __asm__ ("" : "=r"(__ptr) : "0"(ptr));                          \
-         |                                         ^~~
-   include/linux/percpu-defs.h:226:10: note: in expansion of macro 'TYPEOF_UNQUAL'
-     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
-         |          ^~~~~~~~~~~~~
-   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
-     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
-         |                    ^~~~~~~~~~
-   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |         ^~~~~~~~~~~~~~~~
-   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                         ^~~~~~~~~~~
-   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                                        ^~~~~~~~
-   include/linux/compiler-gcc.h:34:41: note: in definition of macro 'RELOC_HIDE'
-      34 |         __asm__ ("" : "=r"(__ptr) : "0"(ptr));                          \
-         |                                         ^~~
-   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
-     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
-         |                    ^~~~~~~~~~
-   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |         ^~~~~~~~~~~~~~~~
-   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                         ^~~~~~~~~~~
-   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                                        ^~~~~~~~
-   include/linux/compiler-gcc.h:35:17: note: in definition of macro 'RELOC_HIDE'
-      35 |         (typeof(ptr)) (__ptr + (off));                                  \
-         |                 ^~~
-   include/linux/percpu-defs.h:226:10: note: in expansion of macro 'TYPEOF_UNQUAL'
-     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
-         |          ^~~~~~~~~~~~~
-   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
-     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
-         |                    ^~~~~~~~~~
-   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |         ^~~~~~~~~~~~~~~~
-   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                         ^~~~~~~~~~~
-   mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                                        ^~~~~~~~
-   include/linux/compiler-gcc.h:35:17: note: in definition of macro 'RELOC_HIDE'
-      35 |         (typeof(ptr)) (__ptr + (off));                                  \
-         |                 ^~~
-   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
-     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
-         |                    ^~~~~~~~~~
-   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
-     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
-         |         ^~~~~~~~~~~~~~~~
-   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
-    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-         |                         ^~~~~~~~~~~
->> mm/slub.c:9389:72: warning: parameter 'si' set but not used [-Wunused-but-set-parameter=]
-    9389 | static unsigned long get_stat_sum(struct kmem_cache *s, enum stat_item si)
-         |                                                         ~~~~~~~~~~~~~~~^~
---
-   lib/tests/slub_kunit.c: In function 'test_bench':
->> lib/tests/slub_kunit.c:457:28: warning: variable 'base' set but not used [-Wunused-but-set-variable=]
-     457 |         unsigned long long base;
-         |                            ^~~~
+So this should hopefully still make in time for the next merge-window.
 
 
-vim +/si +9389 mm/slub.c
+Heiko
 
-  9388	
-> 9389	static unsigned long get_stat_sum(struct kmem_cache *s, enum stat_item si)
-  9390	{
-  9391		unsigned long sum = 0;
-  9392		int cpu;
-  9393	
-  9394		for_each_online_cpu(cpu) {
-  9395			sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-  9396		}
-  9397	
-  9398		return sum;
-  9399	}
-  9400	
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
