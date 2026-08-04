@@ -1,144 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6597B468C3A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 13:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A0C3D411A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 15:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785851486; cv=none; b=rGYKiHl2FBNZQbLu08ZEDN8Nv/45MTkoueDUhly+fLPBU00+igrwuc8lweBYTS7GFSZyFMgT7lkCZtCL6qZhuk7ZJUAvwUHs8UOB8nPhFfo2wKjHANLXQYh+s9LYO2ySN1Q9wJ1gzkwETc2W2MUhJL9E5pq0o8Nn2VvR+SxJL0o=
+	t=1785856098; cv=none; b=mpxmKLy/l+ZHSk10erJoUWxtkZ2jgT29CUV7mjFTeCFy1fwcWshnnGOAJ0HIiP4PJnOZ4I27vlNdgKSGdYO7xqCBdhw8/yNTgUbphJxnLKuFiQZZEBJwEO0uggRghsJ3ToI6YVHa9F3GlUF2XsQIdMpfwVJDXmEaQ87VN8WkJv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785851486; c=relaxed/simple;
-	bh=g/oeuzHJTp6p2Kg+TcyoIwTq+xGnpxb++S4vJxv6Mro=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mbWhgPMEL9KOvOSVo4XYZEi61taS/LirogqZ14tIUg6fyv28zP02G63jyDtqCS8M1GmVK0Lsdq2qxFr29lgY8C+0tBa32pXzAG1tABvqvUOPlb1gHMA8LE80fQcNhzrH7sZKjkW14dUAadkN0+yutLhbtDb0SXxJMaBJVE1UF80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kdz//khR; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785856098; c=relaxed/simple;
+	bh=s4p6juCwQ475aHXTn+wYPeV0BPHhmlo0G++9AOmJWt0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=inWIZXYpG/BRT+VSFIcHXhJvhcwPLyHEjb4UewhksSUScMHt+M2+j49SPM1CHfQGqxP2K0TS7vzWyg3rIjbjHOvWgZqmvkspoh8io96K40TEedjDdUCobUE8hCx2J/ucBi+Un2Gki/URwJ/D/kSaNuAuuQNjIaYxEsVBLEDzEjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mDtdfUMy; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kdz//khR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785851485; x=1817387485;
-  h=date:from:to:cc:subject:message-id;
-  bh=g/oeuzHJTp6p2Kg+TcyoIwTq+xGnpxb++S4vJxv6Mro=;
-  b=Kdz//khRZb+2Ho8Da0T1Etg6Iyk4yho+8cjNUOB9nz9OQTdzDn0tjBR2
-   2VZ9TQQPJggXX1NAtNaoMdDEnJqzVYU8fZ9YDR6jcW+75MiZ0PrAjq8sF
-   RGvCpXqNfTQCfm18IqxbPBYtL9qupY1XV9INgV8kTX5bTVudz1jSRVY3S
-   OoUF/qwdXwdKFKWOs2VG81w6KyHKHNVgy5kENFqdSm9kT1aUcrtYK04XZ
-   KI3xjqsNXzZUARtMNHEfvDAr1j7le7nbajTf/dcf8HxirXFsUih1Pdjpa
-   orloEpenNmHi0PLWg1Jha/eMiYIg99U79rtzewOjFSwCx0cRriYzobTLc
-   g==;
-X-CSE-ConnectionGUID: ZRcysIhpT/yl5HkPWDyAWQ==
-X-CSE-MsgGUID: 5RkLicYyRhyblCcYMSBR+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="97908591"
-X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="97908591"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 06:51:23 -0700
-X-CSE-ConnectionGUID: Pmt003YtQOqcba0mzcXQjg==
-X-CSE-MsgGUID: CPd4NCNkSQ6GGfieK1KbbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="257185785"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Aug 2026 06:51:06 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wrFXr-000000009zz-3pv8;
-	Tue, 04 Aug 2026 13:51:03 +0000
-Date: Tue, 04 Aug 2026 21:50:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:arm64/percpu-fixup 11/18]
- arch/arm64/kernel/entry.S:1064: Error: operand 1 must be an integer register
- -- `ldrh w,[,#320]'
-Message-ID: <202608042017.clUz6dYs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mDtdfUMy"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-848761b5897so3274619b3a.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Aug 2026 08:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785856097; x=1786460897; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=S4Qg2o+emc3m6rF47B2E/svsOXDIcQrkgOFSzKR4MaY=;
+        b=mDtdfUMyuT6MlSdnBif0V1bHxHyf6TD3YzcRo8FXsSFb6XccZMD6giezSh9X1z+igx
+         uwVdVbMIEKIXN2gyaHfKxbbxI/dKGUYNwf3v37vbj4tV2O8jjW8T+udgPsS8ZPxkLpWO
+         NWtJclD/itsCmgPwpiDRj5Z5rFt9sgO6Ix4iaxtWhA9AwiBMCmZnHaA0fuJLqYS8Lj/G
+         /V5oEfJH/jzLNMCT0BDRiM8Uy7ozaanjrjXd3gwAtEdlLxO8VX/SQ9vmbpzNbTo5ZtDR
+         sXOBk44qztcpJ5VOLOKI/v6MEnABsOjCfoZCGDNwt3o/gLbvEYGqPSs6rXQd47zr63WT
+         Xi+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785856097; x=1786460897;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=S4Qg2o+emc3m6rF47B2E/svsOXDIcQrkgOFSzKR4MaY=;
+        b=iWgsOKiJEZuASz7wgZaGUsuK4EE/ZNv1xJ0rqvcncTn0jXRY+NO2+AhusEPBCGx8nA
+         d8SlIA6ngrjjF/GCic/4pcOA1ArNCbwTxVO+/QIWfHb9YNW4UT5HoBo08YBLMx0UHvdE
+         QM+N7ZZoRHxsGrZgoVQfqVBRGnV9V38V2KfV86LW4qpVQLGWw+J2Yg17KerQ/ju37YuP
+         udjHFM8uXDVXDGhp8piPQmKrw0OddOQHCXlJCj+zDO0MXPoDGpBwmWY9i/EiAvHBdb5g
+         o5UTF5JLCwy5YhL5DRTfW24UxBmt7NXpEVzOO7g2UWypxUYeBu4dyUiBxxmVPSbZVieP
+         xQqw==
+X-Forwarded-Encrypted: i=1; AHgh+RqAtIP20OrEnkrh9axE5vtGgyuhE8HD0LzIRTNzTaMOSG9LLoeEZ2KlsairfNYjTqP8DuAINos72Xk4m/2n@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0kDy8YF+lqBpZBzO0AdYprgCf5/PskxjkYdSxbUUsqS31Q7OP
+	O75eg2WXvNaWSvR4vxJ1NegvxYHOyTQjuS63VcCyrEU3UNfiXzXV5Ro=
+X-Gm-Gg: AR+sD10I1nB/OtHIPLTSszNBMprxu1o3qYUMAt1rmZTOEuHrhdNt/ai/MpST6U4OEHH
+	XBStj5TRlFAXlBcKD3Bmt+urx96+F7B1eV3yHpn8go0jhbbWjM+yGCJYqicYj7Ai7+zAKeJzyTC
+	f31Fh3VoDng3X0T3JTdpUwSyyy2//zSebaGmGYBm+3QsOnmWqN/A4l301lQmeUrJ44qFKGjJzc4
+	Ld04V0UCDyJydGnXnuT+3NpIuTwfGA8xwetZ9y0FNcQpcsjJ4R9eM2gtJYEWRb9xBSKpJkg1vVQ
+	dpnbJKAIN7PYE82bwxr85E0+a1u2YvUVn/NFIcsRdAlk/H23CO0s0PuRIDO8uUHTgQaGAq9NL8Q
+	an8szccnJU2EcDHIn1pmaewyk3MXqYFwi3eMi07oy94IdEoqEr1MbSp2I5BnUu9HmXSrZ0oq+VY
+	r4xPADf4KSV60831PzBJxJ57Q8NNvEkZ0PqN5rEtCBs+OgWciisqf53OXgCdWhsWXxJU8L6xpib
+	BQXiWD1K1NYOMGSKg1CVri6+1Cb6JY1c6vbpjvXRWDdbU43p/Z9ERM+2VUJAeMymDk5lg8YNPZO
+	aNd/lKcLGTzZdRL0wC+jkOo=
+X-Received: by 2002:a05:6a00:ad1:b0:845:4126:222b with SMTP id d2e1a72fcca58-84ee47d8768mr14159742b3a.28.1785856096851;
+        Tue, 04 Aug 2026 08:08:16 -0700 (PDT)
+Received: from localhost.localdomain ([1.226.165.54])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edc41ca4dsm5420587b3a.52.2026.08.04.08.08.11
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 04 Aug 2026 08:08:15 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	stable@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH v2] drm/meson: clean up KMS polling on register failure
+Date: Wed,  5 Aug 2026 00:08:02 +0900
+Message-ID: <20260804150802.45262-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260524160657.17802-1-mhun512@gmail.com>
+References: <20260524160657.17802-1-mhun512@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/percpu-fixup
-head:   9e0b9ccad924850288def352da05df0b54fb8aa8
-commit: 636f49109b313ff05fac31d2d369c535b399d9a1 [11/18] arm64: percpu: Add infrastructure for preemptible this_cpu_*() ops
-config: arm64-randconfig-004-20260804 (https://download.01.org/0day-ci/archive/20260804/202608042017.clUz6dYs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608042017.clUz6dYs-lkp@intel.com/reproduce)
+meson_drv_bind_master() starts the KMS polling helper before registering
+the DRM device. If drm_dev_register() fails, probe unwinds the IRQ and
+DRM device without stopping the polling helper.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608042017.clUz6dYs-lkp@intel.com/
+Call drm_kms_helper_poll_fini() on that failure path before freeing the
+IRQ.
 
-All errors (new ones prefixed by >>):
+This issue was identified during our ongoing static-analysis research while
+reviewing kernel code.
 
-   arch/arm64/kernel/entry.S: Assembler messages:
->> arch/arm64/kernel/entry.S:1064: Error: operand 1 must be an integer register -- `ldrh w,[,#320]'
->> arch/arm64/kernel/entry.S:1064: Error: operand 1 must be an integer register -- `strh w,[tsk,#28]'
+Fixes: bbbe775ec5b5 ("drm: Add support for Amlogic Meson Graphic Controller")
+Cc: stable@vger.kernel.org
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- Avoid the unused uninstall_irq label reported by the kernel test robot.
+- Link to v1: https://lore.kernel.org/r/20260524160657.17802-1-mhun512@gmail.com
 
+ drivers/gpu/drm/meson/meson_drv.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-vim +1064 arch/arm64/kernel/entry.S
-
-  1040	
-  1041		/*
-  1042		 * We may have interrupted userspace, or a guest, or exit-from or
-  1043		 * return-to either of these. Preserve the interrupted sp_el0, and
-  1044		 * initialize sp_el0 to the current task.
-  1045		 */
-  1046		mrs	x20, sp_el0
-  1047		ldr_this_cpu    dst=tsk, sym=__entry_task, tmp=x1
-  1048		msr	sp_el0, tsk
-  1049	
-  1050		/* If we interrupted the kernel point to the previous stack/frame. */
-  1051		and     x0, x3, #0xc
-  1052		mrs     x1, CurrentEL
-  1053		cmp     x0, x1
-  1054		csel	x29, x29, xzr, eq	// fp, or zero
-  1055		csel	x4, x2, xzr, eq		// elr, or zero
-  1056	
-  1057		stp	x29, x4, [sp, #-16]!
-  1058		mov	x29, sp
-  1059	
-  1060		add	x0, x19, #SDEI_EVENT_INTREGS
-  1061		mov	x1, x19
-  1062		pcpu_gprs_entry tsk, x0, x2
-  1063		bl	__sdei_handler
-> 1064		pcpu_gprs_exit tsk
-  1065	
-  1066		msr	sp_el0, x20
-  1067		/* restore regs >x17 that firmware won't restore */
-  1068		mov	x4, x19         // keep x4 for __sdei_asm_exit_trampoline
-  1069		ldp	x18, x19, [x4, #SDEI_EVENT_INTREGS + 16 * 9]
-  1070		ldp	x20, x21, [x4, #SDEI_EVENT_INTREGS + 16 * 10]
-  1071		ldp	x22, x23, [x4, #SDEI_EVENT_INTREGS + 16 * 11]
-  1072		ldp	x24, x25, [x4, #SDEI_EVENT_INTREGS + 16 * 12]
-  1073		ldp	x22, x27, [x4, #SDEI_EVENT_INTREGS + 16 * 13]
-  1074		ldp	x28, x29, [x4, #SDEI_EVENT_INTREGS + 16 * 14]
-  1075		ldp	lr, x1, [x4, #SDEI_EVENT_INTREGS + S_LR]
-  1076		mov	sp, x1
-  1077	
-  1078		mov	x1, x0			// address to complete_and_resume
-  1079		/* x0 = (x0 <= SDEI_EV_FAILED) ?
-  1080		 * EVENT_COMPLETE:EVENT_COMPLETE_AND_RESUME
-  1081		 */
-  1082		cmp	x0, #SDEI_EV_FAILED
-  1083		mov_q	x2, SDEI_1_0_FN_SDEI_EVENT_COMPLETE
-  1084		mov_q	x3, SDEI_1_0_FN_SDEI_EVENT_COMPLETE_AND_RESUME
-  1085		csel	x0, x2, x3, ls
-  1086	
-  1087		ldr_l	x2, sdei_exit_mode
-  1088	
-  1089		/* Clear the registered-event seen by crash_smp_send_stop() */
-  1090		ldrb	w3, [x4, #SDEI_EVENT_PRIORITY]
-  1091		cbnz	w3, 1f
-  1092		adr_this_cpu dst=x5, sym=sdei_active_normal_event, tmp=x6
-  1093		b	2f
-  1094	1:	adr_this_cpu dst=x5, sym=sdei_active_critical_event, tmp=x6
-  1095	2:	str	xzr, [x5]
-  1096	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index 49ff9f1f16..bcc36f2cdc 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -351,8 +351,10 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	platform_set_drvdata(pdev, priv);
+ 
+ 	ret = drm_dev_register(drm, 0);
+-	if (ret)
++	if (ret) {
++		drm_kms_helper_poll_fini(drm);
+ 		goto uninstall_irq;
++	}
+ 
+ 	drm_client_setup(drm, NULL);
+ 
+-- 
+2.47.1
