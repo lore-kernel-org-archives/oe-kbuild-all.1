@@ -1,237 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B0F43B3C2;
-	Tue,  4 Aug 2026 15:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFCA30D40B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 15:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785856525; cv=none; b=VJ6Jl5rOcCQwwBggk9jx734cY0eEypKbvYgnzUcxX3MkgTY6EsKkz3fmTfBoE0iEcpMtCduHdHeUmnb+V8d4gBj66W13oxRItgjE0TS433oIC/xKb6/gnCoZyBOLBLr3hrHGRguXRk10t8SLxiXApEH8IO8sUcE3GbghcQr4dyg=
+	t=1785856842; cv=none; b=i00gviaKVYgko5lE+aywGa6TJOIc2b7CdwFPMqicb7Art62olHQghnIH+LsZTVejFXSHCDlARd7xg0XXxn97/n4x6YuXSRxlBcK4x9EWcpg9WLQLw4pEzYPsZfgoGWC7bZ8v2RWji1164lKCCLB8eFvZWw3/OgXwsecRIeHILqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785856525; c=relaxed/simple;
-	bh=A/SB9+SkUwlu0PuygB3qnHlMKSJj6xBAELZXkICPPeE=;
+	s=arc-20240116; t=1785856842; c=relaxed/simple;
+	bh=597sp7wrS5NZsGOmlApZyviJDKLYPo4BUohV9Dw2AlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzFEG64Z3YwvuUK8EcJneeCLsABwYjfK2DbME8OqLamoYQb3SoaoS4k1muHtFR1/FOh2V8gHkEh9mZ0Jjbf7tw3TBhKKDM8pdzSf5o/hRBD5vwEhQ4cc6BmESf+o91Qb2ApOcZmFuODlOEHo+ii2ZdFSqPmG+BuK6R1V21Et6K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDF/q7Li; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=biqmFGpRU/1RhImwnrnrQf8ILY0X7XFXFPi0+HnuLqGPVNXyDYw+Sc5kXFskZvAH4fMd0BFCsd964KRCSusIwJ3o0TScM9TQ0838S29PfE0oxA9uu7TStzuqeNZzKmMD027NoWYbkZLbPpva/WCy7bLKdtB1Q87a4Kj94eucKdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sck07cXY; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDF/q7Li"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sck07cXY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785856522; x=1817392522;
+  t=1785856841; x=1817392841;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=A/SB9+SkUwlu0PuygB3qnHlMKSJj6xBAELZXkICPPeE=;
-  b=bDF/q7LiVQn06XHStRh5MEQFgis/8JjouAPBrANpT4WXkQqcrV2dniRQ
-   U6CLRyrw35SzZVBti1nYt/qX0VefLo4gL05YiJdnk901QH1Rdeb8zserG
-   JPHE9Su1Gb5Pm9/u8Vwdkm9EAXG2scBqUR+Q1y/G6ZB3KJqozqQj4MAYl
-   7/CTQAF71FaIE8cbzjWgpSpZswbkwfxZ1R/Un/MsWc5rMBHxolRd034Xi
-   Bjw23SsJmyKE/gjgxNTVNsw//60KvfcjzF7q/qtDZoYLBO+YaVm/pO/i1
-   9pTAvcaUS1Yv2NBfrXDVY229ut+sZeCjwN779fvIAiPiepbK9PnPn1GOz
-   g==;
-X-CSE-ConnectionGUID: steRWVhoSmqsBbHs0f99+Q==
-X-CSE-MsgGUID: tTq6znrwTiW8INnebvB8JQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86441911"
+   mime-version:in-reply-to;
+  bh=597sp7wrS5NZsGOmlApZyviJDKLYPo4BUohV9Dw2AlI=;
+  b=Sck07cXYQbe1skwauYtZxou5RlImLWkJzK5jP5cw06D00Du668xrUtvy
+   XZcdfIckHZgrBtwo8gyQPIZLtCe/Xna6MZ8nuFzyJPSdqF3gh9O0SICMd
+   rtTW05unJfD/P+ciJczj8chhjhkX7nBgu+gcbuH/gE0eKgWFyWFcZpnqA
+   Kb1kFCY3+ioyIdCB2FiQwjUHfG52Y1KvmKMUPBoOKZNLDuAya2/vl9TcO
+   5bXeo/YzzOZSoXQMK85O3zSMnNXo38yBoEOi/a/P481IiDRj+rK4lxybG
+   3HiV/hYSNSzz0XUYmQ6GMIrLVbf8Eya2muNMB6sxmgjE+2pHdUK1vbf/d
+   A==;
+X-CSE-ConnectionGUID: iIrt2cj8Q6Cw1Tbh6tkosQ==
+X-CSE-MsgGUID: Y7VPbpHlTzqBGM10Bid5hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86287100"
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="86441911"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 08:15:12 -0700
-X-CSE-ConnectionGUID: uI3sO+zpRoWATYd6rEdJZQ==
-X-CSE-MsgGUID: ERFGBHCtRz++rj2B3nceyQ==
+   d="scan'208";a="86287100"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 08:20:40 -0700
+X-CSE-ConnectionGUID: ci2R81MSQVWy4BOjYA/FxA==
+X-CSE-MsgGUID: 1uFWCLXURrW07obHP42bBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="265359662"
+   d="scan'208";a="258865749"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Aug 2026 08:15:10 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Aug 2026 08:16:10 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrGrD-00000000A5Z-3mMy;
-	Tue, 04 Aug 2026 15:15:07 +0000
-Date: Tue, 4 Aug 2026 23:14:54 +0800
+	id 1wrGsC-00000000A5h-0kAL;
+	Tue, 04 Aug 2026 15:16:08 +0000
+Date: Tue, 4 Aug 2026 23:15:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: yaolu@kylinos.cn, jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
-	joonas.lahtinen@linux.intel.com, tursulin@ursulin.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, Lu Yao <yaolu@kylinos.cn>
-Subject: Re: [PATCH] drm/i915/display: fix error handling in
- intel_display_driver_probe_noirq
-Message-ID: <202608042218.AEuG8i7A-lkp@intel.com>
-References: <20260630031652.67747-1-yaolu@kylinos.cn>
+To: Rosen Penev <rosenp@gmail.com>, linux-gpio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] gpio: mvebu: convert to noirq suspend/resume to prevent
+ interrupt storm on resume
+Message-ID: <202608042358.6rKawjZd-lkp@intel.com>
+References: <20260707233511.1272686-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260630031652.67747-1-yaolu@kylinos.cn>
+In-Reply-To: <20260707233511.1272686-1-rosenp@gmail.com>
 
-Hi,
+Hi Rosen,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-i915/for-linux-next]
-[also build test WARNING on drm-i915/for-linux-next-fixes linus/master v7.2-rc6 next-20260803]
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v7.2-rc6 next-20260803]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/yaolu-kylinos-cn/drm-i915-display-fix-error-handling-in-intel_display_driver_probe_noirq/20260804-144429
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
-patch link:    https://lore.kernel.org/r/20260630031652.67747-1-yaolu%40kylinos.cn
-patch subject: [PATCH] drm/i915/display: fix error handling in intel_display_driver_probe_noirq
-config: i386-randconfig-006-20260804 (https://download.01.org/0day-ci/archive/20260804/202608042218.AEuG8i7A-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608042218.AEuG8i7A-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/gpio-mvebu-convert-to-noirq-suspend-resume-to-prevent-interrupt-storm-on-resume/20260804-155102
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20260707233511.1272686-1-rosenp%40gmail.com
+patch subject: [PATCH] gpio: mvebu: convert to noirq suspend/resume to prevent interrupt storm on resume
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608042358.6rKawjZd-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608042358.6rKawjZd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608042218.AEuG8i7A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608042358.6rKawjZd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_display_driver.c:309:1: warning: unused label 'cleanup_wq_unordered' [-Wunused-label]
-     309 | cleanup_wq_unordered:
-         | ^~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> drivers/gpio/gpio-mvebu.c:1034:12: warning: 'mvebu_gpio_resume' defined but not used [-Wunused-function]
+    1034 | static int mvebu_gpio_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpio-mvebu.c:982:12: warning: 'mvebu_gpio_suspend' defined but not used [-Wunused-function]
+     982 | static int mvebu_gpio_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~
 
 
-vim +/cleanup_wq_unordered +309 drivers/gpu/drm/i915/display/intel_display_driver.c
+vim +/mvebu_gpio_resume +1034 drivers/gpio/gpio-mvebu.c
 
-62bb6b4920ce9d Jani Nikula         2023-04-14  201  
-40053823baadce Jani Nikula         2023-04-14  202  /* part #1: call before irq install */
-f5d38d4fa88441 Jani Nikula         2024-12-04  203  int intel_display_driver_probe_noirq(struct intel_display *display)
-40053823baadce Jani Nikula         2023-04-14  204  {
-40053823baadce Jani Nikula         2023-04-14  205  	int ret;
-40053823baadce Jani Nikula         2023-04-14  206  
-ff8c73b7bfb547 Jani Nikula         2026-06-15  207  	intel_opregion_setup(display);
-ff8c73b7bfb547 Jani Nikula         2026-06-15  208  
-ff8c73b7bfb547 Jani Nikula         2026-06-15  209  	/*
-ff8c73b7bfb547 Jani Nikula         2026-06-15  210  	 * Fill the dram structure to get the system dram info. This will be
-ff8c73b7bfb547 Jani Nikula         2026-06-15  211  	 * used for memory latency calculation.
-ff8c73b7bfb547 Jani Nikula         2026-06-15  212  	 */
-ff8c73b7bfb547 Jani Nikula         2026-06-15  213  	ret = intel_dram_detect(display);
-ff8c73b7bfb547 Jani Nikula         2026-06-15  214  	if (ret)
-ff8c73b7bfb547 Jani Nikula         2026-06-15  215  		goto cleanup_opregion;
-ff8c73b7bfb547 Jani Nikula         2026-06-15  216  
-ff8c73b7bfb547 Jani Nikula         2026-06-15  217  	intel_bw_init_hw(display);
-ff8c73b7bfb547 Jani Nikula         2026-06-15  218  
-f5d38d4fa88441 Jani Nikula         2024-12-04  219  	if (HAS_DISPLAY(display)) {
-f5d38d4fa88441 Jani Nikula         2024-12-04  220  		ret = drm_vblank_init(display->drm,
-f5d38d4fa88441 Jani Nikula         2024-12-04  221  				      INTEL_NUM_PIPES(display));
-40053823baadce Jani Nikula         2023-04-14  222  		if (ret)
-ff8c73b7bfb547 Jani Nikula         2026-06-15  223  			goto cleanup_opregion;
-40053823baadce Jani Nikula         2023-04-14  224  	}
-40053823baadce Jani Nikula         2023-04-14  225  
-9aec6f76a28cd6 Jani Nikula         2024-08-09  226  	intel_bios_init(display);
-40053823baadce Jani Nikula         2023-04-14  227  
-39e4d3c2f89ab8 Jouni Högander      2025-04-14  228  	intel_psr_dc5_dc6_wa_init(display);
-39e4d3c2f89ab8 Jouni Högander      2025-04-14  229  
-40053823baadce Jani Nikula         2023-04-14  230  	/* FIXME: completely on the wrong abstraction layer */
-ad5190d6f35db6 Jani Nikula         2026-05-26  231  	ret = intel_display_power_init(display);
-40053823baadce Jani Nikula         2023-04-14  232  	if (ret < 0)
-70ea362b84449b Ville Syrjälä       2025-12-08  233  		goto cleanup_bios;
-40053823baadce Jani Nikula         2023-04-14  234  
-445fc685498bbb Jani Nikula         2024-12-31  235  	intel_pmdemand_init_early(display);
-4c4cc7ac207f56 Mika Kahola         2023-06-06  236  
-771394b4fb6d7d Jani Nikula         2026-05-26  237  	intel_display_power_init_hw(display);
-40053823baadce Jani Nikula         2023-04-14  238  
-f5d38d4fa88441 Jani Nikula         2024-12-04  239  	if (!HAS_DISPLAY(display))
-40053823baadce Jani Nikula         2023-04-14  240  		return 0;
-40053823baadce Jani Nikula         2023-04-14  241  
-41837232b83874 Lu Yao              2026-06-30  242  	intel_dmc_init(display);
-41837232b83874 Lu Yao              2026-06-30  243  
-ed23224b3f5e5e Jani Nikula         2025-05-16  244  	display->hotplug.dp_wq = alloc_ordered_workqueue("intel-dp", 0);
-ed23224b3f5e5e Jani Nikula         2025-05-16  245  	if (!display->hotplug.dp_wq) {
-ed23224b3f5e5e Jani Nikula         2025-05-16  246  		ret = -ENOMEM;
-70ea362b84449b Ville Syrjälä       2025-12-08  247  		goto cleanup_pw_domain_dmc;
-ed23224b3f5e5e Jani Nikula         2025-05-16  248  	}
-ed23224b3f5e5e Jani Nikula         2025-05-16  249  
-f5d38d4fa88441 Jani Nikula         2024-12-04  250  	display->wq.modeset = alloc_ordered_workqueue("i915_modeset", 0);
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  251  	if (!display->wq.modeset) {
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  252  		ret = -ENOMEM;
-ed23224b3f5e5e Jani Nikula         2025-05-16  253  		goto cleanup_wq_dp;
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  254  	}
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  255  
-f5d38d4fa88441 Jani Nikula         2024-12-04  256  	display->wq.flip = alloc_workqueue("i915_flip", WQ_HIGHPRI |
-40053823baadce Jani Nikula         2023-04-14  257  						WQ_UNBOUND, WQ_UNBOUND_MAX_ACTIVE);
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  258  	if (!display->wq.flip) {
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  259  		ret = -ENOMEM;
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  260  		goto cleanup_wq_modeset;
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  261  	}
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  262  
-c15d0056fb74d6 Marco Crivellari    2025-11-04  263  	display->wq.cleanup = alloc_workqueue("i915_cleanup", WQ_HIGHPRI | WQ_PERCPU, 0);
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  264  	if (!display->wq.cleanup) {
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  265  		ret = -ENOMEM;
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  266  		goto cleanup_wq_flip;
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  267  	}
-40053823baadce Jani Nikula         2023-04-14  268  
-c15d0056fb74d6 Marco Crivellari    2025-11-04  269  	display->wq.unordered = alloc_workqueue("display_unordered", WQ_PERCPU, 0);
-7c377900772d8f Luca Coelho         2025-06-20  270  	if (!display->wq.unordered) {
-7c377900772d8f Luca Coelho         2025-06-20  271  		ret = -ENOMEM;
-7c377900772d8f Luca Coelho         2025-06-20  272  		goto cleanup_wq_cleanup;
-7c377900772d8f Luca Coelho         2025-06-20  273  	}
-7c377900772d8f Luca Coelho         2025-06-20  274  
-f5d38d4fa88441 Jani Nikula         2024-12-04  275  	intel_mode_config_init(display);
-40053823baadce Jani Nikula         2023-04-14  276  
-d34927acff9150 Ville Syrjälä       2024-09-06  277  	ret = intel_cdclk_init(display);
-40053823baadce Jani Nikula         2023-04-14  278  	if (ret)
-41837232b83874 Lu Yao              2026-06-30  279  		goto cleanup_mode_config;
-40053823baadce Jani Nikula         2023-04-14  280  
-9d476ce24f72fc Ville Syrjälä       2024-10-24  281  	ret = intel_color_init(display);
-40053823baadce Jani Nikula         2023-04-14  282  	if (ret)
-41837232b83874 Lu Yao              2026-06-30  283  		goto cleanup_mode_config;
-40053823baadce Jani Nikula         2023-04-14  284  
-6fe8f9c1388b53 Jani Nikula         2025-04-08  285  	ret = intel_dbuf_init(display);
-40053823baadce Jani Nikula         2023-04-14  286  	if (ret)
-41837232b83874 Lu Yao              2026-06-30  287  		goto cleanup_mode_config;
-40053823baadce Jani Nikula         2023-04-14  288  
-ac930bab1c8985 Ville Syrjälä       2025-10-13  289  	ret = intel_dbuf_bw_init(display);
-ac930bab1c8985 Ville Syrjälä       2025-10-13  290  	if (ret)
-41837232b83874 Lu Yao              2026-06-30  291  		goto cleanup_mode_config;
-ac930bab1c8985 Ville Syrjälä       2025-10-13  292  
-d706998b6da687 Gustavo Sousa       2025-03-11  293  	ret = intel_bw_init(display);
-40053823baadce Jani Nikula         2023-04-14  294  	if (ret)
-41837232b83874 Lu Yao              2026-06-30  295  		goto cleanup_mode_config;
-40053823baadce Jani Nikula         2023-04-14  296  
-445fc685498bbb Jani Nikula         2024-12-31  297  	ret = intel_pmdemand_init(display);
-4c4cc7ac207f56 Mika Kahola         2023-06-06  298  	if (ret)
-41837232b83874 Lu Yao              2026-06-30  299  		goto cleanup_mode_config;
-4c4cc7ac207f56 Mika Kahola         2023-06-06  300  
-409c23ae6735cf Jani Nikula         2024-04-17  301  	intel_init_quirks(display);
-40053823baadce Jani Nikula         2023-04-14  302  
-fd5a9b950ea8ba Ville Syrjälä       2024-07-05  303  	intel_fbc_init(display);
-40053823baadce Jani Nikula         2023-04-14  304  
-40053823baadce Jani Nikula         2023-04-14  305  	return 0;
-40053823baadce Jani Nikula         2023-04-14  306  
-41837232b83874 Lu Yao              2026-06-30  307  cleanup_mode_config:
-41837232b83874 Lu Yao              2026-06-30  308  	intel_mode_config_cleanup(display);
-7c377900772d8f Luca Coelho         2025-06-20 @309  cleanup_wq_unordered:
-7c377900772d8f Luca Coelho         2025-06-20  310  	destroy_workqueue(display->wq.unordered);
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  311  cleanup_wq_cleanup:
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  312  	destroy_workqueue(display->wq.cleanup);
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  313  cleanup_wq_flip:
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  314  	destroy_workqueue(display->wq.flip);
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  315  cleanup_wq_modeset:
-dcab7a228f4ea9 Haoxiang Li         2025-05-16  316  	destroy_workqueue(display->wq.modeset);
-ed23224b3f5e5e Jani Nikula         2025-05-16  317  cleanup_wq_dp:
-ed23224b3f5e5e Jani Nikula         2025-05-16  318  	destroy_workqueue(display->hotplug.dp_wq);
-70ea362b84449b Ville Syrjälä       2025-12-08  319  cleanup_pw_domain_dmc:
-5c30cfa295ccbf Ville Syrjälä       2024-09-06  320  	intel_dmc_fini(display);
-ad5190d6f35db6 Jani Nikula         2026-05-26  321  	intel_display_power_driver_remove(display);
-40053823baadce Jani Nikula         2023-04-14  322  cleanup_bios:
-9aec6f76a28cd6 Jani Nikula         2024-08-09  323  	intel_bios_driver_remove(display);
-ff8c73b7bfb547 Jani Nikula         2026-06-15  324  cleanup_opregion:
-ff8c73b7bfb547 Jani Nikula         2026-06-15  325  	intel_opregion_cleanup(display);
-40053823baadce Jani Nikula         2023-04-14  326  
-40053823baadce Jani Nikula         2023-04-14  327  	return ret;
-40053823baadce Jani Nikula         2023-04-14  328  }
-5e2e6b595d9d4c Juha-Pekka Heikkila 2025-12-16  329  ALLOW_ERROR_INJECTION(intel_display_driver_probe_noirq, ERRNO);
-40053823baadce Jani Nikula         2023-04-14  330  
+   981	
+ > 982	static int mvebu_gpio_suspend(struct device *dev)
+   983	{
+   984		struct mvebu_gpio_chip *mvchip = dev_get_drvdata(dev);
+   985		int i;
+   986	
+   987		regmap_read(mvchip->regs, GPIO_OUT_OFF + mvchip->offset,
+   988			    &mvchip->out_reg);
+   989		regmap_read(mvchip->regs, GPIO_IO_CONF_OFF + mvchip->offset,
+   990			    &mvchip->io_conf_reg);
+   991		regmap_read(mvchip->regs, GPIO_BLINK_EN_OFF + mvchip->offset,
+   992			    &mvchip->blink_en_reg);
+   993		regmap_read(mvchip->regs, GPIO_IN_POL_OFF + mvchip->offset,
+   994			    &mvchip->in_pol_reg);
+   995	
+   996		switch (mvchip->soc_variant) {
+   997		case MVEBU_GPIO_SOC_VARIANT_ORION:
+   998		case MVEBU_GPIO_SOC_VARIANT_A8K:
+   999			regmap_read(mvchip->regs, GPIO_EDGE_MASK_OFF + mvchip->offset,
+  1000				    &mvchip->edge_mask_regs[0]);
+  1001			regmap_read(mvchip->regs, GPIO_LEVEL_MASK_OFF + mvchip->offset,
+  1002				    &mvchip->level_mask_regs[0]);
+  1003			break;
+  1004		case MVEBU_GPIO_SOC_VARIANT_MV78200:
+  1005			for (i = 0; i < 2; i++) {
+  1006				regmap_read(mvchip->regs,
+  1007					    GPIO_EDGE_MASK_MV78200_OFF(i),
+  1008					    &mvchip->edge_mask_regs[i]);
+  1009				regmap_read(mvchip->regs,
+  1010					    GPIO_LEVEL_MASK_MV78200_OFF(i),
+  1011					    &mvchip->level_mask_regs[i]);
+  1012			}
+  1013			break;
+  1014		case MVEBU_GPIO_SOC_VARIANT_ARMADAXP:
+  1015			for (i = 0; i < 4; i++) {
+  1016				regmap_read(mvchip->regs,
+  1017					    GPIO_EDGE_MASK_ARMADAXP_OFF(i),
+  1018					    &mvchip->edge_mask_regs[i]);
+  1019				regmap_read(mvchip->regs,
+  1020					    GPIO_LEVEL_MASK_ARMADAXP_OFF(i),
+  1021					    &mvchip->level_mask_regs[i]);
+  1022			}
+  1023			break;
+  1024		default:
+  1025			BUG();
+  1026		}
+  1027	
+  1028		if (IS_REACHABLE(CONFIG_PWM) && mvchip->mvpwm)
+  1029			mvebu_pwm_suspend(mvchip);
+  1030	
+  1031		return 0;
+  1032	}
+  1033	
+> 1034	static int mvebu_gpio_resume(struct device *dev)
+  1035	{
+  1036		struct mvebu_gpio_chip *mvchip = dev_get_drvdata(dev);
+  1037		int i;
+  1038	
+  1039		regmap_write(mvchip->regs, GPIO_OUT_OFF + mvchip->offset,
+  1040			     mvchip->out_reg);
+  1041		regmap_write(mvchip->regs, GPIO_IO_CONF_OFF + mvchip->offset,
+  1042			     mvchip->io_conf_reg);
+  1043		regmap_write(mvchip->regs, GPIO_BLINK_EN_OFF + mvchip->offset,
+  1044			     mvchip->blink_en_reg);
+  1045		regmap_write(mvchip->regs, GPIO_IN_POL_OFF + mvchip->offset,
+  1046			     mvchip->in_pol_reg);
+  1047	
+  1048		switch (mvchip->soc_variant) {
+  1049		case MVEBU_GPIO_SOC_VARIANT_ORION:
+  1050		case MVEBU_GPIO_SOC_VARIANT_A8K:
+  1051			regmap_write(mvchip->regs, GPIO_EDGE_MASK_OFF + mvchip->offset,
+  1052				     mvchip->edge_mask_regs[0]);
+  1053			regmap_write(mvchip->regs, GPIO_LEVEL_MASK_OFF + mvchip->offset,
+  1054				     mvchip->level_mask_regs[0]);
+  1055			break;
+  1056		case MVEBU_GPIO_SOC_VARIANT_MV78200:
+  1057			for (i = 0; i < 2; i++) {
+  1058				regmap_write(mvchip->regs,
+  1059					     GPIO_EDGE_MASK_MV78200_OFF(i),
+  1060					     mvchip->edge_mask_regs[i]);
+  1061				regmap_write(mvchip->regs,
+  1062					     GPIO_LEVEL_MASK_MV78200_OFF(i),
+  1063					     mvchip->level_mask_regs[i]);
+  1064			}
+  1065			break;
+  1066		case MVEBU_GPIO_SOC_VARIANT_ARMADAXP:
+  1067			for (i = 0; i < 4; i++) {
+  1068				regmap_write(mvchip->regs,
+  1069					     GPIO_EDGE_MASK_ARMADAXP_OFF(i),
+  1070					     mvchip->edge_mask_regs[i]);
+  1071				regmap_write(mvchip->regs,
+  1072					     GPIO_LEVEL_MASK_ARMADAXP_OFF(i),
+  1073					     mvchip->level_mask_regs[i]);
+  1074			}
+  1075			break;
+  1076		default:
+  1077			BUG();
+  1078		}
+  1079	
+  1080		if (IS_REACHABLE(CONFIG_PWM) && mvchip->mvpwm)
+  1081			mvebu_pwm_resume(mvchip);
+  1082	
+  1083		return 0;
+  1084	}
+  1085	
 
 --
 0-DAY CI Kernel Test Service
