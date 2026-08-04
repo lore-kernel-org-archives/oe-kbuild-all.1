@@ -1,150 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3DA2F2619
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 07:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9643ACF1B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 08:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785827709; cv=none; b=GiyCdQDhPGCh/HSDbXfdh/RLHWaCsIDlu0HuMa345/CkRklqWjjGZm8MPgpDXFTHsaix1eyfZLUnQbWSY3/ZiocgvDtBReyvBXgblTL95LxW3Pser/Ev/G0zHFiboFzCq7qGqvjSK7/KOhZGsi4TyLAasEMvYgGYB7R8D9KLF40=
+	t=1785832528; cv=none; b=pvO8KLv9W6EB8mm7gz73GeiBoZF40acxINK9TUobiAlK7zw/PPyvY6VkpdHGBeKdBbepSaXVzzO+BTbYrDnlTu4Wq51Y58Yz3zSrO26R6jcxL2iJhaH/rx7MEfOqASgYIu5FMiXLYbmZB7K1oot3B/47cgMNbX9MWHu0L1HSo98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785827709; c=relaxed/simple;
-	bh=Pzr/QLSmpDmOP6GpJbNhDOuftI8NKlNpSw739GLK3ns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hrT5LNZGNGvzecT54gUDDNNuUcIfdr5qrAXmRvfEvuujiROiHvUYmcAfQ4Mj+1djSLme34w+FnVBwChLMQkLKgTZ4myhRsWDQs7N6EM5EUwWNdIj+gmUSBy2FHDYjhraYVKzoelCb0o0zCBT89w1+L6UrLhfi5BkOL8kZBx5jjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyu8LgSw; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1785832528; c=relaxed/simple;
+	bh=zZ76Vhq0FngAb7GLKLtr3xN22ldD0kgYOPTfoMjVOMA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CqvnNDeqbafHs6EzQRHFxNUWiBXuY40Ise5fDk61ixXrjeD0ZCdzmJP2/O0Gtt65ykQW/DanocCTh620GlzB0jVS+x+IrS47zLxiTRvc3A4lHfkjXnF7Fh3VBOxmWOh5qwoYoqGg5EiaNK5z4RasJT75GW0tt/Nv1zhTzi+l8ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQy2EYoo; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyu8LgSw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQy2EYoo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785827707; x=1817363707;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Pzr/QLSmpDmOP6GpJbNhDOuftI8NKlNpSw739GLK3ns=;
-  b=iyu8LgSwYB7Aecgv12Xsr/gqGPqAp6nO+1OfTsrGf+4ckFDdWORxl3YE
-   U8qlVtLb5nFSxgqB27bxgXOsYraJvQGSYSEtAytSGidNp7rSKhZxpApUD
-   DqwH4b+TMyIS7j3pJ2diJ3MzXk+euC4AvyMzGHBTZA/xDMgk6xGLRghoB
-   0l79vn9dSReSiPgXj0Whg2ILFkr/AHISpytGLL19g91x/SyWWmbmphT9r
-   G3qvhv+3kLxcNzZK4h3qtRWmdy+N7vx+DZkyaUj/v0SiAoBih0Se7RFOr
-   cossLT31I0nHLQHKRx3+fPqxT+PgVMKF0LzbiyoABlOvevNlkUEuBPpFy
-   Q==;
-X-CSE-ConnectionGUID: 8FuuXy2SSImkeLvyGzSbBQ==
-X-CSE-MsgGUID: Ysp0qxKOStCCWyy5bTxSrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="96962702"
+  t=1785832527; x=1817368527;
+  h=date:from:to:cc:subject:message-id;
+  bh=zZ76Vhq0FngAb7GLKLtr3xN22ldD0kgYOPTfoMjVOMA=;
+  b=PQy2EYoom+WhC2tL49aIpp036MOjHJBJfB7DeY8M4zt7kjGrpa/FhvDY
+   lj/XzVRGObTtG7bON2vahr4umFlAXG4hfed03jU4ARl4NmWCz/aH1Hw4X
+   aknlabdi3vg+qTYdzjyeW1WQGMOIkZ5zmqEr7fm4rAyvVOMCURJvrsdJ0
+   ZORJ3XGti2W5jitfKH4DkZvR4ACL+dTTlt98foW9i54Q8fTMsRJlOMEUC
+   eWQTogD8W96jV6p+0vsNFgwWJxAjNEZC/dLgZQKQaFgFBiZdzycc/vOvy
+   xKNBsJpA7Q5eFVTz0ujPKQMhCsCc3HhhBhEpOa0RXi75ccjqSWOdgJVOT
+   A==;
+X-CSE-ConnectionGUID: uP7pl7sjSLG3AEKN5Aq8zQ==
+X-CSE-MsgGUID: 7GZd2kUbSAincB6U/HJ1Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="97029688"
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="96962702"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 00:15:06 -0700
-X-CSE-ConnectionGUID: WJI81t6kT5+AmWnZa+QLCw==
-X-CSE-MsgGUID: /n1Bdo5UTzCKfvXw9OtIQw==
+   d="scan'208";a="97029688"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 01:35:26 -0700
+X-CSE-ConnectionGUID: /ZFNBsRsQnOlPkrIZba7bQ==
+X-CSE-MsgGUID: vOvTrJ9VSHqM6CbL3E32GA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="266549532"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Aug 2026 00:15:05 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="260845608"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 04 Aug 2026 01:35:25 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wr9Mc-0000000048s-44sK;
-	Tue, 04 Aug 2026 07:15:02 +0000
-Date: Tue, 4 Aug 2026 09:14:50 +0200
+	id 1wrAcM-000000009Qc-2pF1;
+	Tue, 04 Aug 2026 08:35:22 +0000
+Date: Tue, 04 Aug 2026 16:35:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v4 4/4] platform/x86/amd: dptc: Add device entries for
- handheld PCs
-Message-ID: <202608040900.roib4Z0m-lkp@intel.com>
-References: <20260309205125.293148-5-lkml@antheas.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Subject: [vbabka:objext_split-v3-bench 7/20] mm/slub.c:9395:40:
+ error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean
+ 'cpu_stats'?
+Message-ID: <202608041612.hwLn0CQD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309205125.293148-5-lkml@antheas.dev>
 
-Hi Antheas,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 4ae12d8bd9a830799db335ee661d6cbc6597f838]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/Documentation-firmware-attributes-generalize-save_settings-entry/20260804-074606
-base:   4ae12d8bd9a830799db335ee661d6cbc6597f838
-patch link:    https://lore.kernel.org/r/20260309205125.293148-5-lkml%40antheas.dev
-patch subject: [RFC v4 4/4] platform/x86/amd: dptc: Add device entries for handheld PCs
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260804/202608040900.roib4Z0m-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git objext_split-v3-bench
+head:   00a963c6f8935eea26a26878ee6ddeedb456d5ba
+commit: bef53663aa280f0a087ff3e10344c5734cf357da [7/20] slub_kunit: sheaves microbenchmark
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260804/202608041612.hwLn0CQD-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608041612.hwLn0CQD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608040900.roib4Z0m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608041612.hwLn0CQD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
-   Using alabaster theme
->> Documentation/ABI/testing/sysfs-class-firmware-attributes:387: WARNING: Inline emphasis start-string without end-string. [docutils]
->> Documentation/ABI/testing/sysfs-class-firmware-attributes:387: WARNING: Inline emphasis start-string without end-string. [docutils]
->> Documentation/ABI/testing/sysfs-class-firmware-attributes:387: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/core-api/kref:328: ./include/linux/kref.h:72: WARNING: Invalid C declaration: Expected end of definition. [error at 96]
-   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
-   ------------------------------------------------------------------------------------------------^
-   Documentation/core-api/kref:328: ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
-   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
+   In file included from include/asm-generic/percpu.h:9,
+                    from arch/alpha/include/asm/percpu.h:16,
+                    from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:8,
+                    from mm/slub.c:15:
+   mm/slub.c: In function 'get_stat_sum':
+>> mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                                      ^~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+   In file included from include/linux/compiler_types.h:173,
+                    from <command-line>:
+>> mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/compiler-gcc.h:34:41: note: in definition of macro 'RELOC_HIDE'
+      34 |         __asm__ ("" : "=r"(__ptr) : "0"(ptr));                          \
+         |                                         ^~~
+   include/linux/percpu-defs.h:226:10: note: in expansion of macro 'TYPEOF_UNQUAL'
+     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
+         |          ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
+     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
+         |                    ^~~~~~~~~~
+   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
+         |         ^~~~~~~~~~~~~~~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+>> mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/compiler-gcc.h:34:41: note: in definition of macro 'RELOC_HIDE'
+      34 |         __asm__ ("" : "=r"(__ptr) : "0"(ptr));                          \
+         |                                         ^~~
+   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
+     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
+         |                    ^~~~~~~~~~
+   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
+         |         ^~~~~~~~~~~~~~~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+>> mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/compiler-gcc.h:35:17: note: in definition of macro 'RELOC_HIDE'
+      35 |         (typeof(ptr)) (__ptr + (off));                                  \
+         |                 ^~~
+   include/linux/percpu-defs.h:226:10: note: in expansion of macro 'TYPEOF_UNQUAL'
+     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
+         |          ^~~~~~~~~~~~~
+   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
+     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
+         |                    ^~~~~~~~~~
+   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
+         |         ^~~~~~~~~~~~~~~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+>> mm/slub.c:9395:40: error: 'struct kmem_cache' has no member named 'cpu_slab'; did you mean 'cpu_stats'?
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                                        ^~~~~~~~
+   include/linux/compiler-gcc.h:35:17: note: in definition of macro 'RELOC_HIDE'
+      35 |         (typeof(ptr)) (__ptr + (off));                                  \
+         |                 ^~~
+   include/linux/percpu-defs.h:235:20: note: in expansion of macro 'PERCPU_PTR'
+     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
+         |                    ^~~~~~~~~~
+   include/linux/percpu-defs.h:240:9: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     240 |         SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));                 \
+         |         ^~~~~~~~~~~~~~~~
+   mm/slub.c:9395:25: note: in expansion of macro 'per_cpu_ptr'
+    9395 |                 sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+         |                         ^~~~~~~~~~~
+   mm/slub.c:9389:72: warning: parameter 'si' set but not used [-Wunused-but-set-parameter=]
+    9389 | static unsigned long get_stat_sum(struct kmem_cache *s, enum stat_item si)
+         |                                                         ~~~~~~~~~~~~~~~^~
 
 
-vim +387 Documentation/ABI/testing/sysfs-class-firmware-attributes
+vim +9395 mm/slub.c
 
-318d97849fc2cb Mark Pearson        2023-09-19 @387  What:		/sys/class/firmware-attributes/*/attributes/save_settings
-318d97849fc2cb Mark Pearson        2023-09-19  388  Date:		August 2023
-318d97849fc2cb Mark Pearson        2023-09-19  389  KernelVersion:	6.6
-318d97849fc2cb Mark Pearson        2023-09-19  390  Contact:	Mark Pearson <mpearson-lenovo@squebb.ca>
-396504b5f0790b Antheas Kapenekakis 2026-03-09  391  		Antheas Kapenekakis <lkml@antheas.dev>
-318d97849fc2cb Mark Pearson        2023-09-19  392  Description:
-396504b5f0790b Antheas Kapenekakis 2026-03-09  393  		Controls how writes to current_value are applied to the hardware.
-318d97849fc2cb Mark Pearson        2023-09-19  394  
-318d97849fc2cb Mark Pearson        2023-09-19  395  		Read the attribute to check what save mode is enabled (single or bulk).
-318d97849fc2cb Mark Pearson        2023-09-19  396  		E.g:
-396504b5f0790b Antheas Kapenekakis 2026-03-09  397  		# cat /sys/class/firmware-attributes/*/attributes/save_settings
-318d97849fc2cb Mark Pearson        2023-09-19  398  		single
-318d97849fc2cb Mark Pearson        2023-09-19  399  
-318d97849fc2cb Mark Pearson        2023-09-19  400  		Write the attribute with 'bulk' to enable bulk save mode.
-396504b5f0790b Antheas Kapenekakis 2026-03-09  401  		Write the attribute with 'single' to enable saving, after every
-396504b5f0790b Antheas Kapenekakis 2026-03-09  402  		attribute set. The default setting is single mode.
-318d97849fc2cb Mark Pearson        2023-09-19  403  		E.g:
-396504b5f0790b Antheas Kapenekakis 2026-03-09  404  		# echo bulk > /sys/class/firmware-attributes/*/attributes/save_settings
-318d97849fc2cb Mark Pearson        2023-09-19  405  
-396504b5f0790b Antheas Kapenekakis 2026-03-09  406  		When in bulk mode write 'save' to trigger an apply of all
-396504b5f0790b Antheas Kapenekakis 2026-03-09  407  		currently staged attributes.
-318d97849fc2cb Mark Pearson        2023-09-19  408  		E.g:
-396504b5f0790b Antheas Kapenekakis 2026-03-09  409  		# echo save > /sys/class/firmware-attributes/*/attributes/save_settings
-396504b5f0790b Antheas Kapenekakis 2026-03-09  410  
-396504b5f0790b Antheas Kapenekakis 2026-03-09  411  		Driver-specific notes:
-396504b5f0790b Antheas Kapenekakis 2026-03-09  412  
-396504b5f0790b Antheas Kapenekakis 2026-03-09  413  		thinklmi (Lenovo): On Lenovo platforms there is a limitation in
-396504b5f0790b Antheas Kapenekakis 2026-03-09  414  		the number of times an attribute can be saved. This is an
-396504b5f0790b Antheas Kapenekakis 2026-03-09  415  		architectural limitation and it limits the number of attributes
-396504b5f0790b Antheas Kapenekakis 2026-03-09  416  		that can be modified to 48.
-396504b5f0790b Antheas Kapenekakis 2026-03-09  417  
-396504b5f0790b Antheas Kapenekakis 2026-03-09  418  		Once a save has been triggered in bulk mode, attributes can no
-396504b5f0790b Antheas Kapenekakis 2026-03-09  419  		longer be set and will return a permissions error. This is to
-396504b5f0790b Antheas Kapenekakis 2026-03-09  420  		prevent users hitting the 48+ save limitation (which requires
-396504b5f0790b Antheas Kapenekakis 2026-03-09  421  		entering the BIOS to clear the error condition).
-396504b5f0790b Antheas Kapenekakis 2026-03-09  422  
-396504b5f0790b Antheas Kapenekakis 2026-03-09  423  		amd-dptc (AMD DPTC): No save-count limitation. 'save' can be
-396504b5f0790b Antheas Kapenekakis 2026-03-09  424  		called any number of times. Returns -ENOENT if no values have
-396504b5f0790b Antheas Kapenekakis 2026-03-09  425  		been staged. In addition, when in 'single' mode, the driver
-396504b5f0790b Antheas Kapenekakis 2026-03-09  426  		uses pm ops to trigger a save of staged attributes on resume.
-318d97849fc2cb Mark Pearson        2023-09-19  427  
+  9388	
+  9389	static unsigned long get_stat_sum(struct kmem_cache *s, enum stat_item si)
+  9390	{
+  9391		unsigned long sum = 0;
+  9392		int cpu;
+  9393	
+  9394		for_each_online_cpu(cpu) {
+> 9395			sum +=  per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+  9396		}
+  9397	
+  9398		return sum;
+  9399	}
+  9400	
 
 --
 0-DAY CI Kernel Test Service
