@@ -1,139 +1,237 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA78385D73
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 15:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B0F43B3C2;
+	Tue,  4 Aug 2026 15:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785856521; cv=none; b=kPxRgCyold/ZoGbmoZxGyKpNP/wFMSf5FVTdBMBcP8cuRnhB2fS1NjgYd+/QPeR6+KvBAo68Jf7vw5kEMkQXuZ7XGiw2KH4LLowh3i1F9IazaWSsfVcNZ4kupKka8L9IVV7Q2DgmnRygmFp0FB+uU6c/cEmq0RQ6+MXDKVa24To=
+	t=1785856525; cv=none; b=VJ6Jl5rOcCQwwBggk9jx734cY0eEypKbvYgnzUcxX3MkgTY6EsKkz3fmTfBoE0iEcpMtCduHdHeUmnb+V8d4gBj66W13oxRItgjE0TS433oIC/xKb6/gnCoZyBOLBLr3hrHGRguXRk10t8SLxiXApEH8IO8sUcE3GbghcQr4dyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785856521; c=relaxed/simple;
-	bh=9NJ32ltbcB82qemSEoG7hUOvGbjw59Kq90HTXiUebBA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PnJMVevd9tOxQ1adl1jJ25tKi7jQ5wveFPDtRK+wqUqNU73iU8inUPL+RUxAcaxTqL0UC90O1Qz2oC99Du0/BhD4ArXmLvJshVQ9ClWTqxcQ3hlTy3pDBCkxP/D7aL3TnD4uQKfD40kWAZlVlrreYRRvxKltvsrJnVwc3N3QASw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDK+BRYV; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1785856525; c=relaxed/simple;
+	bh=A/SB9+SkUwlu0PuygB3qnHlMKSJj6xBAELZXkICPPeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NzFEG64Z3YwvuUK8EcJneeCLsABwYjfK2DbME8OqLamoYQb3SoaoS4k1muHtFR1/FOh2V8gHkEh9mZ0Jjbf7tw3TBhKKDM8pdzSf5o/hRBD5vwEhQ4cc6BmESf+o91Qb2ApOcZmFuODlOEHo+ii2ZdFSqPmG+BuK6R1V21Et6K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDF/q7Li; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDK+BRYV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDF/q7Li"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785856516; x=1817392516;
-  h=date:from:to:cc:subject:message-id;
-  bh=9NJ32ltbcB82qemSEoG7hUOvGbjw59Kq90HTXiUebBA=;
-  b=kDK+BRYVG8xZbGpN2uiW7cEBHiAtewOwXAmanEMVmU2vouDLaQNAw0rB
-   kKhMGl3E338v7+bA9/HIiNO73UPlWy3DVeDYVcB0d8O3zsYDAiNfVuab+
-   op+Ol/hZj1bbB5ak2BHbzERdk/RiwJvUtYqPRnrLhLpUPAynILCMreYck
-   iQBdjdRoT3a6ztiVvSU+HmloN9y9TyOHiqZx3H94hOKpKfRLO5R2yjGq5
-   7yk9J2s1nVv00Jkj6qS6B6tQbZDz+H2ib2qEppfZyJ7O7t9HgWie+oWGo
-   8iguZYT77CeWzE4dIZGkcigm+brEh0tuVUjgqRlBBQKzoy4fHj6z5+zE4
-   w==;
-X-CSE-ConnectionGUID: G/3JePPRSZa5Ak6JbUp8xA==
-X-CSE-MsgGUID: jvWvoeWhRhi3zoxs1aTpRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86441906"
+  t=1785856522; x=1817392522;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=A/SB9+SkUwlu0PuygB3qnHlMKSJj6xBAELZXkICPPeE=;
+  b=bDF/q7LiVQn06XHStRh5MEQFgis/8JjouAPBrANpT4WXkQqcrV2dniRQ
+   U6CLRyrw35SzZVBti1nYt/qX0VefLo4gL05YiJdnk901QH1Rdeb8zserG
+   JPHE9Su1Gb5Pm9/u8Vwdkm9EAXG2scBqUR+Q1y/G6ZB3KJqozqQj4MAYl
+   7/CTQAF71FaIE8cbzjWgpSpZswbkwfxZ1R/Un/MsWc5rMBHxolRd034Xi
+   Bjw23SsJmyKE/gjgxNTVNsw//60KvfcjzF7q/qtDZoYLBO+YaVm/pO/i1
+   9pTAvcaUS1Yv2NBfrXDVY229ut+sZeCjwN779fvIAiPiepbK9PnPn1GOz
+   g==;
+X-CSE-ConnectionGUID: steRWVhoSmqsBbHs0f99+Q==
+X-CSE-MsgGUID: tTq6znrwTiW8INnebvB8JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86441911"
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="86441906"
+   d="scan'208";a="86441911"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 08:15:12 -0700
-X-CSE-ConnectionGUID: SirvBuQpQ/6ErkRXpQ9eXg==
-X-CSE-MsgGUID: TWKi9LnJTDmscDnyOXkNzA==
+X-CSE-ConnectionGUID: uI3sO+zpRoWATYd6rEdJZQ==
+X-CSE-MsgGUID: ERFGBHCtRz++rj2B3nceyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="265359660"
+   d="scan'208";a="265359662"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 04 Aug 2026 08:15:10 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrGrE-00000000A5b-0Kia;
-	Tue, 04 Aug 2026 15:15:08 +0000
-Date: Tue, 04 Aug 2026 23:14:58 +0800
+	id 1wrGrD-00000000A5Z-3mMy;
+	Tue, 04 Aug 2026 15:15:07 +0000
+Date: Tue, 4 Aug 2026 23:14:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pratyush Mallick <pratmal@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>,
- SJ Park <sj@kernel.org>
-Subject: [akpm-mm:mm-new 448/454]
- tools/testing/selftests/mm/.gitignore: warning: ignored by one of the
- .gitignore files
-Message-ID: <202608042227.XDO54bZk-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: yaolu@kylinos.cn, jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+	joonas.lahtinen@linux.intel.com, tursulin@ursulin.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, Lu Yao <yaolu@kylinos.cn>
+Subject: Re: [PATCH] drm/i915/display: fix error handling in
+ intel_display_driver_probe_noirq
+Message-ID: <202608042218.AEuG8i7A-lkp@intel.com>
+References: <20260630031652.67747-1-yaolu@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260630031652.67747-1-yaolu@kylinos.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   e47602c51d20a93fa1711ed896dc9480de4374d9
-commit: e051bf0188c9ae10e822a532aac5821c2cc0632a [448/454] selftests/mm: use pattern matching in .gitignore
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260804/202608042227.XDO54bZk-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608042227.XDO54bZk-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-i915/for-linux-next]
+[also build test WARNING on drm-i915/for-linux-next-fixes linus/master v7.2-rc6 next-20260803]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/yaolu-kylinos-cn/drm-i915-display-fix-error-handling-in-intel_display_driver_probe_noirq/20260804-144429
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20260630031652.67747-1-yaolu%40kylinos.cn
+patch subject: [PATCH] drm/i915/display: fix error handling in intel_display_driver_probe_noirq
+config: i386-randconfig-006-20260804 (https://download.01.org/0day-ci/archive/20260804/202608042218.AEuG8i7A-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608042218.AEuG8i7A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608042227.XDO54bZk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608042218.AEuG8i7A-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/.gitignore: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/Makefile: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/charge_reserved_hugetlb.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/check_config.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/config: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/hugepage_settings.h: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/hugetlb_reparenting_test.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_compaction.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_cow.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_gup_test.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_hmm.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_hugetlb.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_hugevm.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_kmemleak_confirm.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_kmemleak_dedup.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_ksm.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_ksm_numa.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_madv_guard.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_madv_populate.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_mdwe.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_memfd_secret.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_memory_failure.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_migration.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_mkdirty.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_mlock.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_mmap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_mremap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_page_frag.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_pagemap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_pfnmap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_pkey.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_process_madv.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_process_mrelease.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_rmap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_soft_dirty.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_thp.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_userfaultfd.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_vma_merge.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_vmalloc.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/mlock2.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/mseal_helpers.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/page_frag/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/pkey-arm64.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/pkey-helpers.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/pkey-powerpc.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/pkey-x86.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/run_vmtests.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/settings: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/test_hmm.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/test_page_frag.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/test_vmalloc.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/uffd-common.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/va_high_addr_switch.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/vm_util.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/write_hugetlb_memory.sh: warning: ignored by one of the .gitignore files
+>> drivers/gpu/drm/i915/display/intel_display_driver.c:309:1: warning: unused label 'cleanup_wq_unordered' [-Wunused-label]
+     309 | cleanup_wq_unordered:
+         | ^~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/cleanup_wq_unordered +309 drivers/gpu/drm/i915/display/intel_display_driver.c
+
+62bb6b4920ce9d Jani Nikula         2023-04-14  201  
+40053823baadce Jani Nikula         2023-04-14  202  /* part #1: call before irq install */
+f5d38d4fa88441 Jani Nikula         2024-12-04  203  int intel_display_driver_probe_noirq(struct intel_display *display)
+40053823baadce Jani Nikula         2023-04-14  204  {
+40053823baadce Jani Nikula         2023-04-14  205  	int ret;
+40053823baadce Jani Nikula         2023-04-14  206  
+ff8c73b7bfb547 Jani Nikula         2026-06-15  207  	intel_opregion_setup(display);
+ff8c73b7bfb547 Jani Nikula         2026-06-15  208  
+ff8c73b7bfb547 Jani Nikula         2026-06-15  209  	/*
+ff8c73b7bfb547 Jani Nikula         2026-06-15  210  	 * Fill the dram structure to get the system dram info. This will be
+ff8c73b7bfb547 Jani Nikula         2026-06-15  211  	 * used for memory latency calculation.
+ff8c73b7bfb547 Jani Nikula         2026-06-15  212  	 */
+ff8c73b7bfb547 Jani Nikula         2026-06-15  213  	ret = intel_dram_detect(display);
+ff8c73b7bfb547 Jani Nikula         2026-06-15  214  	if (ret)
+ff8c73b7bfb547 Jani Nikula         2026-06-15  215  		goto cleanup_opregion;
+ff8c73b7bfb547 Jani Nikula         2026-06-15  216  
+ff8c73b7bfb547 Jani Nikula         2026-06-15  217  	intel_bw_init_hw(display);
+ff8c73b7bfb547 Jani Nikula         2026-06-15  218  
+f5d38d4fa88441 Jani Nikula         2024-12-04  219  	if (HAS_DISPLAY(display)) {
+f5d38d4fa88441 Jani Nikula         2024-12-04  220  		ret = drm_vblank_init(display->drm,
+f5d38d4fa88441 Jani Nikula         2024-12-04  221  				      INTEL_NUM_PIPES(display));
+40053823baadce Jani Nikula         2023-04-14  222  		if (ret)
+ff8c73b7bfb547 Jani Nikula         2026-06-15  223  			goto cleanup_opregion;
+40053823baadce Jani Nikula         2023-04-14  224  	}
+40053823baadce Jani Nikula         2023-04-14  225  
+9aec6f76a28cd6 Jani Nikula         2024-08-09  226  	intel_bios_init(display);
+40053823baadce Jani Nikula         2023-04-14  227  
+39e4d3c2f89ab8 Jouni Högander      2025-04-14  228  	intel_psr_dc5_dc6_wa_init(display);
+39e4d3c2f89ab8 Jouni Högander      2025-04-14  229  
+40053823baadce Jani Nikula         2023-04-14  230  	/* FIXME: completely on the wrong abstraction layer */
+ad5190d6f35db6 Jani Nikula         2026-05-26  231  	ret = intel_display_power_init(display);
+40053823baadce Jani Nikula         2023-04-14  232  	if (ret < 0)
+70ea362b84449b Ville Syrjälä       2025-12-08  233  		goto cleanup_bios;
+40053823baadce Jani Nikula         2023-04-14  234  
+445fc685498bbb Jani Nikula         2024-12-31  235  	intel_pmdemand_init_early(display);
+4c4cc7ac207f56 Mika Kahola         2023-06-06  236  
+771394b4fb6d7d Jani Nikula         2026-05-26  237  	intel_display_power_init_hw(display);
+40053823baadce Jani Nikula         2023-04-14  238  
+f5d38d4fa88441 Jani Nikula         2024-12-04  239  	if (!HAS_DISPLAY(display))
+40053823baadce Jani Nikula         2023-04-14  240  		return 0;
+40053823baadce Jani Nikula         2023-04-14  241  
+41837232b83874 Lu Yao              2026-06-30  242  	intel_dmc_init(display);
+41837232b83874 Lu Yao              2026-06-30  243  
+ed23224b3f5e5e Jani Nikula         2025-05-16  244  	display->hotplug.dp_wq = alloc_ordered_workqueue("intel-dp", 0);
+ed23224b3f5e5e Jani Nikula         2025-05-16  245  	if (!display->hotplug.dp_wq) {
+ed23224b3f5e5e Jani Nikula         2025-05-16  246  		ret = -ENOMEM;
+70ea362b84449b Ville Syrjälä       2025-12-08  247  		goto cleanup_pw_domain_dmc;
+ed23224b3f5e5e Jani Nikula         2025-05-16  248  	}
+ed23224b3f5e5e Jani Nikula         2025-05-16  249  
+f5d38d4fa88441 Jani Nikula         2024-12-04  250  	display->wq.modeset = alloc_ordered_workqueue("i915_modeset", 0);
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  251  	if (!display->wq.modeset) {
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  252  		ret = -ENOMEM;
+ed23224b3f5e5e Jani Nikula         2025-05-16  253  		goto cleanup_wq_dp;
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  254  	}
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  255  
+f5d38d4fa88441 Jani Nikula         2024-12-04  256  	display->wq.flip = alloc_workqueue("i915_flip", WQ_HIGHPRI |
+40053823baadce Jani Nikula         2023-04-14  257  						WQ_UNBOUND, WQ_UNBOUND_MAX_ACTIVE);
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  258  	if (!display->wq.flip) {
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  259  		ret = -ENOMEM;
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  260  		goto cleanup_wq_modeset;
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  261  	}
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  262  
+c15d0056fb74d6 Marco Crivellari    2025-11-04  263  	display->wq.cleanup = alloc_workqueue("i915_cleanup", WQ_HIGHPRI | WQ_PERCPU, 0);
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  264  	if (!display->wq.cleanup) {
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  265  		ret = -ENOMEM;
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  266  		goto cleanup_wq_flip;
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  267  	}
+40053823baadce Jani Nikula         2023-04-14  268  
+c15d0056fb74d6 Marco Crivellari    2025-11-04  269  	display->wq.unordered = alloc_workqueue("display_unordered", WQ_PERCPU, 0);
+7c377900772d8f Luca Coelho         2025-06-20  270  	if (!display->wq.unordered) {
+7c377900772d8f Luca Coelho         2025-06-20  271  		ret = -ENOMEM;
+7c377900772d8f Luca Coelho         2025-06-20  272  		goto cleanup_wq_cleanup;
+7c377900772d8f Luca Coelho         2025-06-20  273  	}
+7c377900772d8f Luca Coelho         2025-06-20  274  
+f5d38d4fa88441 Jani Nikula         2024-12-04  275  	intel_mode_config_init(display);
+40053823baadce Jani Nikula         2023-04-14  276  
+d34927acff9150 Ville Syrjälä       2024-09-06  277  	ret = intel_cdclk_init(display);
+40053823baadce Jani Nikula         2023-04-14  278  	if (ret)
+41837232b83874 Lu Yao              2026-06-30  279  		goto cleanup_mode_config;
+40053823baadce Jani Nikula         2023-04-14  280  
+9d476ce24f72fc Ville Syrjälä       2024-10-24  281  	ret = intel_color_init(display);
+40053823baadce Jani Nikula         2023-04-14  282  	if (ret)
+41837232b83874 Lu Yao              2026-06-30  283  		goto cleanup_mode_config;
+40053823baadce Jani Nikula         2023-04-14  284  
+6fe8f9c1388b53 Jani Nikula         2025-04-08  285  	ret = intel_dbuf_init(display);
+40053823baadce Jani Nikula         2023-04-14  286  	if (ret)
+41837232b83874 Lu Yao              2026-06-30  287  		goto cleanup_mode_config;
+40053823baadce Jani Nikula         2023-04-14  288  
+ac930bab1c8985 Ville Syrjälä       2025-10-13  289  	ret = intel_dbuf_bw_init(display);
+ac930bab1c8985 Ville Syrjälä       2025-10-13  290  	if (ret)
+41837232b83874 Lu Yao              2026-06-30  291  		goto cleanup_mode_config;
+ac930bab1c8985 Ville Syrjälä       2025-10-13  292  
+d706998b6da687 Gustavo Sousa       2025-03-11  293  	ret = intel_bw_init(display);
+40053823baadce Jani Nikula         2023-04-14  294  	if (ret)
+41837232b83874 Lu Yao              2026-06-30  295  		goto cleanup_mode_config;
+40053823baadce Jani Nikula         2023-04-14  296  
+445fc685498bbb Jani Nikula         2024-12-31  297  	ret = intel_pmdemand_init(display);
+4c4cc7ac207f56 Mika Kahola         2023-06-06  298  	if (ret)
+41837232b83874 Lu Yao              2026-06-30  299  		goto cleanup_mode_config;
+4c4cc7ac207f56 Mika Kahola         2023-06-06  300  
+409c23ae6735cf Jani Nikula         2024-04-17  301  	intel_init_quirks(display);
+40053823baadce Jani Nikula         2023-04-14  302  
+fd5a9b950ea8ba Ville Syrjälä       2024-07-05  303  	intel_fbc_init(display);
+40053823baadce Jani Nikula         2023-04-14  304  
+40053823baadce Jani Nikula         2023-04-14  305  	return 0;
+40053823baadce Jani Nikula         2023-04-14  306  
+41837232b83874 Lu Yao              2026-06-30  307  cleanup_mode_config:
+41837232b83874 Lu Yao              2026-06-30  308  	intel_mode_config_cleanup(display);
+7c377900772d8f Luca Coelho         2025-06-20 @309  cleanup_wq_unordered:
+7c377900772d8f Luca Coelho         2025-06-20  310  	destroy_workqueue(display->wq.unordered);
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  311  cleanup_wq_cleanup:
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  312  	destroy_workqueue(display->wq.cleanup);
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  313  cleanup_wq_flip:
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  314  	destroy_workqueue(display->wq.flip);
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  315  cleanup_wq_modeset:
+dcab7a228f4ea9 Haoxiang Li         2025-05-16  316  	destroy_workqueue(display->wq.modeset);
+ed23224b3f5e5e Jani Nikula         2025-05-16  317  cleanup_wq_dp:
+ed23224b3f5e5e Jani Nikula         2025-05-16  318  	destroy_workqueue(display->hotplug.dp_wq);
+70ea362b84449b Ville Syrjälä       2025-12-08  319  cleanup_pw_domain_dmc:
+5c30cfa295ccbf Ville Syrjälä       2024-09-06  320  	intel_dmc_fini(display);
+ad5190d6f35db6 Jani Nikula         2026-05-26  321  	intel_display_power_driver_remove(display);
+40053823baadce Jani Nikula         2023-04-14  322  cleanup_bios:
+9aec6f76a28cd6 Jani Nikula         2024-08-09  323  	intel_bios_driver_remove(display);
+ff8c73b7bfb547 Jani Nikula         2026-06-15  324  cleanup_opregion:
+ff8c73b7bfb547 Jani Nikula         2026-06-15  325  	intel_opregion_cleanup(display);
+40053823baadce Jani Nikula         2023-04-14  326  
+40053823baadce Jani Nikula         2023-04-14  327  	return ret;
+40053823baadce Jani Nikula         2023-04-14  328  }
+5e2e6b595d9d4c Juha-Pekka Heikkila 2025-12-16  329  ALLOW_ERROR_INJECTION(intel_display_driver_probe_noirq, ERRNO);
+40053823baadce Jani Nikula         2023-04-14  330  
 
 --
 0-DAY CI Kernel Test Service
