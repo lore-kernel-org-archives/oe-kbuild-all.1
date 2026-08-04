@@ -1,146 +1,246 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E8A36DA04;
-	Tue,  4 Aug 2026 12:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2808370AEB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 12:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785846588; cv=none; b=Vb9d/I81TuYV+j1sKyZo6+u6z+aQInEd63jhLwcBDyXM88Y1800eGUp+MqL1aCfMrBLE7/UNPo8oM5Pgc2ygQmc+voYHtOHjM/yYuT8EVeIHa5SLPXukPj5Ea5s2heNryUfsn4mwLOGNydHJZ7MoKY1g1Fz91Xc9T3ficGge4wg=
+	t=1785847153; cv=none; b=e/SDUHkMXyx52oaFtWfKu9BL7bGoJFVSBSPsf77J0EejBy8cJAK0Jmb2fYs2U5dGZSW5P8ey2Tr3EjwsEBGAoliqH3vZvmRgooiHIC9Td6sYDlFQ2RMWUb/Qp/wguppAp1xe2HBeJK5FgiqKH4M0WRwV57ELoaNSjzNr6I38900=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785846588; c=relaxed/simple;
-	bh=oocZCrdhux0LahyrzdW13AJJIW+FOTtAHLi9b1bTSm8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yk8Qdo9cUFCgZDKzGguGJpnj7PjP4OK3b5Ct0sIZ17aGj2eIr6pWl6yjti7fyLHzqODPPWwMQdr9vbCZs/d9WN/j6/KrgUHDeonpDhdZbhSyzO9dChGXtUuxG5NrccCm7ToV07LKd5m3uut2eVIrrvvFi+xyKlKrgm2d7yY5/aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=dUZ4HOTw; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1785847153; c=relaxed/simple;
+	bh=vSF/YvJLexIc7vFolSL4/8i8xDmr9gWF0n6eGzaoBj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=kzfipsWyFMHhjbCISBSu5fSdm3HbxZUyZtA0y1Guhu+xzVV1CJDdM+MZhijw9eyHzS4or4aXwik0x2rpBWWllI55IsKBkmwR8X+r3vsPqdMs3tGuzMGZDRfjazLmUYAGcVFAvbJcpdltcO/L1wg4XrYRu6rrjjQ6yFCkFtfdPok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EJ2P/9Zy; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="dUZ4HOTw"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6748HXKf295922;
-	Tue, 4 Aug 2026 12:29:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=dXgg3+
-	cjjP8exzKIanU5AMTKlFdLKN38KPpqu2U1rpQ=; b=dUZ4HOTwLT+W4N+kg5PX7X
-	gxs6ls2UNGKiOiU3EubkgkApcZJFMjPIf01TcTQuVxAeNmiT9agonolURYcKS/KT
-	kaQJMaJkC8k4TWRFZjY/KK6navJLrre53HJCvUIjdYnq6mvv1JpC9q/Q6LrTFnwT
-	TgWm0j9H6Zli12QaguyTVDVaCNzoD+YbaAcvKSip2iUYldcyQXWT5xXqkMZmtemI
-	qX6sdmhIwd54KqOJCspCxbE0szXhEvsaOUfI21mG+yFZokyYt16+0iAm4kSP+Aex
-	Dn2F5bY3abIDTmEgzls8yvTpvQKkvzCTQP2kb5ACxDv9EaWIVgIpl4vfn7JPrOVg
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fs8a3wsah-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Aug 2026 12:29:45 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 674CQQT8001436;
-	Tue, 4 Aug 2026 12:29:44 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fsv4k1vu1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Aug 2026 12:29:44 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 674CTgxb36569516
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 4 Aug 2026 12:29:42 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 52DC520040;
-	Tue,  4 Aug 2026 12:29:42 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7DCD520043;
-	Tue,  4 Aug 2026 12:29:41 +0000 (GMT)
-Received: from [9.39.27.209] (unknown [9.39.27.209])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  4 Aug 2026 12:29:41 +0000 (GMT)
-Message-ID: <08566cbf-532f-4063-9ee7-860a1246d48b@linux.ibm.com>
-Date: Tue, 4 Aug 2026 17:59:40 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EJ2P/9Zy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785847151; x=1817383151;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vSF/YvJLexIc7vFolSL4/8i8xDmr9gWF0n6eGzaoBj8=;
+  b=EJ2P/9ZyD6cgrfq7f8ecrWcewhkW08dJZbS5jkV/Ub10gkY8vhONHa49
+   WdEkoWG+9MQC7vAhulvYdjr7lGFXtVofnWVi8s9P5CpUNvSf68+CfT2wr
+   P0J7x82sVGVrb7Ca40HpTowq+uUu0EvOHHGbd5hdp1sCUIRFBI51bJUm0
+   ZNUNtbTWheUtG89x9ia1yaLwp8VpqNTTEnKaRjRry7LCN4sL9kPUate2v
+   lsOIdhvlptJjvrUpuViNueaBThunmaYniffySEG16dTyS68PzTCuO7GQ5
+   LfWhTRdBPGT0SzkjPUcAipiLxjr1tKwyoI5Y/Vt7l68OUUrM5IV/IjB/z
+   w==;
+X-CSE-ConnectionGUID: 4XCdTTGLQpyfcpHTwGD03w==
+X-CSE-MsgGUID: JdP+reJYQ0mLDsiUc48a0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="97554641"
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="97554641"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 05:39:10 -0700
+X-CSE-ConnectionGUID: T4X6+LqtQ06rdTWp+bmhCA==
+X-CSE-MsgGUID: G3AfltAgTaWkCvhEyBGtdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="265331984"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 04 Aug 2026 05:39:09 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wrEQE-000000004Ac-27OC;
+	Tue, 04 Aug 2026 12:39:06 +0000
+Date: Tue, 04 Aug 2026 14:38:47 +0200
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-shrink-go 48/59] lib/dynamic_debug.c:297:48: error:
+ 'struct _ddebug' has no member named 'filename'; did you mean '_filename'?
+Message-ID: <202608041411.a1aH2RsV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: htmldocs: Documentation/driver-api/steal-monitor.rst:2: WARNING:
- Explicit markup ends without a blank line; unexpected unindent. [docutils]
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-References: <202608031322.Mwzvo1FC-lkp@intel.com>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <202608031322.Mwzvo1FC-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=E6P9Y6dl c=1 sm=1 tr=0 ts=6a71db39 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=NEAV23lmAAAA:8
- a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=L6XSa5cvc_k_y_eX9skA:9
- a=QEXdDO2ut3YA:10 a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-ORIG-GUID: 2bomeBcFRw0HyhT7rUd965GWOEPCYNq5
-X-Proofpoint-GUID: 2bomeBcFRw0HyhT7rUd965GWOEPCYNq5
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDA5OCBTYWx0ZWRfXz1HjAwjYrxIa
- GdFFGN1M8wC1kxKbVZQp0fdfa8CNq2M40aGoJRF/Q4UvyGH745RZXirLC5zdKmNhiUTGEYU4oIR
- +JgBEmAZPJ52u0vDBaZG0NzvrOntL6o=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDA5OCBTYWx0ZWRfX+GQZTiN5whsy
- muTxR/UUVU2y8IGLaU11hf5EG0QWtjeYQbAJbsAoq5horZSD3vAGxFzCHKi2PLUXtzCfuplbOrB
- oWPb3NY+/6DND4HVL4uNYX87QwHZarMswGEi0DJNOPSYKKMrgPjpsYIJgSsnLljnswxkCZi17rv
- ZHcgCj7lPQtXPBgisBuZHHlb2Mcl2pTObEmAPd3NawIFqCDnys0H2UdST1x+Kn5+spFWP035af6
- L/WBrbhyImrOsGuGBuwJ1yx51lY24M40jga8BbiaUhL4XOYUGuunqrPAlgOGiD6ThmdNrw58Bt5
- 7z+rnkcmWBW9oh4Asi9Sza4zFPm65bgfC5V4Pf65kuux/yBt5OWAgotg1mCpycEGzRY6t7Pe/oG
- S5JsFDBwG+bEM4RDchPCaHTUROWQt3RvlENXp/wlkg+pwZTw9zlBzRCm4KjKRUmIkt9stQgL2iJ
- QcuHiLjH9xDS69pNBcw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-04_02,2026-08-03_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 impostorscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608040098
+Content-Type: text/plain; charset=us-ascii
 
-Hi. Thanks for reporting.
+Hi Jim,
 
-On 8/3/26 4:42 PM, kernel test robot wrote:
-> tree:   https://github.com/intel-lab-lkp/linux/commits/Shrikanth-Hegde/sched-docs-Document-cpu_preferred_mask-and-Preferred-CPU-concept/20260803-124520
-> head:   6b51818cdef464c594cd8aeaa6f04a2f4ca1b1a5
-> commit: 6100a3dbbee2530c908dde1eda5aff47105e4661 virt: Introduce steal monitor driver
-> date:   6 hours ago
-> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-> reproduce: (https://download.01.org/0day-ci/archive/20260803/202608031322.Mwzvo1FC-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202608031322.Mwzvo1FC-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     WARNING: ./include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
->     WARNING: ./include/linux/device.h:117 struct member 'show_const' not described in 'device_attribute'
->     WARNING: ./include/linux/device.h:117 struct member 'store_const' not described in 'device_attribute'
->     WARNING: ./include/media/media-entity.h:1394 function parameter 'args' not described in 'media_entity_call'
->     WARNING: ./include/media/media-entity.h:1394 function parameter 'args' not described in 'media_entity_call'
->>> Documentation/driver-api/steal-monitor.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent. [docutils]
->     Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
-> 
-> 
-> vim +2 Documentation/driver-api/steal-monitor.rst
-> 
->     > 2	=============
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-I believe it is due to lack of empty line after this.
-I will probably keep the one below the text and remove the above one.
+tree:   https://github.com/jimc/linux.git dd-shrink-go
+head:   7bb5af008fa5bfb055e0dd2b34a688b094890c76
+commit: cfa6f73e601bea4f41eb0a637c9baa23eefd545e [48/59] dyndbg: prep to isolate 3 repetetive fields
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260804/202608041411.a1aH2RsV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608041411.a1aH2RsV-lkp@intel.com/reproduce)
 
->       3	Steal Monitor
->       4	=============
->       5	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608041411.a1aH2RsV-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/x86/include/asm/bug.h:195,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from include/linux/kernel.h:23,
+                    from lib/dynamic_debug.c:16:
+   lib/dynamic_debug.c: In function 'ddebug_match_desc':
+>> lib/dynamic_debug.c:297:48: error: 'struct _ddebug' has no member named 'filename'; did you mean '_filename'?
+     297 |                                            dp->filename ? dp->filename : "?",
+         |                                                ^~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:705:17: note: in expansion of macro 'printk'
+     705 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:719:9: note: in expansion of macro 'printk_ratelimited'
+     719 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:296:25: note: in expansion of macro 'pr_err_ratelimited'
+     296 |                         pr_err_ratelimited("ddebug: NULL format string at %s:%s:%u\n",
+         |                         ^~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:297:63: error: 'struct _ddebug' has no member named 'filename'; did you mean '_filename'?
+     297 |                                            dp->filename ? dp->filename : "?",
+         |                                                               ^~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:705:17: note: in expansion of macro 'printk'
+     705 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:719:9: note: in expansion of macro 'printk_ratelimited'
+     719 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:296:25: note: in expansion of macro 'pr_err_ratelimited'
+     296 |                         pr_err_ratelimited("ddebug: NULL format string at %s:%s:%u\n",
+         |                         ^~~~~~~~~~~~~~~~~~
+>> lib/dynamic_debug.c:298:48: error: 'struct _ddebug' has no member named 'function'; did you mean '_function'?
+     298 |                                            dp->function ? dp->function : "?",
+         |                                                ^~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:705:17: note: in expansion of macro 'printk'
+     705 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:719:9: note: in expansion of macro 'printk_ratelimited'
+     719 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:296:25: note: in expansion of macro 'pr_err_ratelimited'
+     296 |                         pr_err_ratelimited("ddebug: NULL format string at %s:%s:%u\n",
+         |                         ^~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:298:63: error: 'struct _ddebug' has no member named 'function'; did you mean '_function'?
+     298 |                                            dp->function ? dp->function : "?",
+         |                                                               ^~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:705:17: note: in expansion of macro 'printk'
+     705 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:719:9: note: in expansion of macro 'printk_ratelimited'
+     719 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:296:25: note: in expansion of macro 'pr_err_ratelimited'
+     296 |                         pr_err_ratelimited("ddebug: NULL format string at %s:%s:%u\n",
+         |                         ^~~~~~~~~~~~~~~~~~
+
+
+vim +297 lib/dynamic_debug.c
+
+cfa6f73e601bea Jim Cromie  2023-09-15  265  
+e9d376f0fa66bd Jason Baron 2009-02-05  266  /*
+85f7f6c0edb841 Jim Cromie  2011-12-19  267   * Search the tables for _ddebug's which match the given `query' and
+85f7f6c0edb841 Jim Cromie  2011-12-19  268   * apply the `flags' and `mask' to them.  Returns number of matching
+85f7f6c0edb841 Jim Cromie  2011-12-19  269   * callsites, normally the same as number of changes.  If verbose,
+85f7f6c0edb841 Jim Cromie  2011-12-19  270   * logs the changes.  Takes ddebug_lock.
+e9d376f0fa66bd Jason Baron 2009-02-05  271   */
+83998bfdcf2e5f Jim Cromie  2025-11-18  272  static bool ddebug_match_desc(const struct ddebug_query *query,
+83998bfdcf2e5f Jim Cromie  2025-11-18  273  			      struct _ddebug *dp,
+a99144b08bf397 Jim Cromie  2025-11-18  274  			      struct _ddebug_info *di,
+a99144b08bf397 Jim Cromie  2025-11-18  275  			      int selected_class)
+83998bfdcf2e5f Jim Cromie  2025-11-18  276  {
+a99144b08bf397 Jim Cromie  2025-11-18  277  	struct ddebug_class_map *site_map;
+83998bfdcf2e5f Jim Cromie  2025-11-18  278  
+83998bfdcf2e5f Jim Cromie  2025-11-18  279  	/* match against the source filename */
+83998bfdcf2e5f Jim Cromie  2025-11-18  280  	if (query->filename &&
+cfa6f73e601bea Jim Cromie  2023-09-15  281  	    !match_wildcard(query->filename, desc_filename(dp)) &&
+83998bfdcf2e5f Jim Cromie  2025-11-18  282  	    !match_wildcard(query->filename,
+cfa6f73e601bea Jim Cromie  2023-09-15  283  			    kbasename(desc_filename(dp))) &&
+83998bfdcf2e5f Jim Cromie  2025-11-18  284  	    !match_wildcard(query->filename,
+cfa6f73e601bea Jim Cromie  2023-09-15  285  			    trim_prefix(desc_filename(dp))))
+83998bfdcf2e5f Jim Cromie  2025-11-18  286  		return false;
+83998bfdcf2e5f Jim Cromie  2025-11-18  287  
+83998bfdcf2e5f Jim Cromie  2025-11-18  288  	/* match against the function */
+83998bfdcf2e5f Jim Cromie  2025-11-18  289  	if (query->function &&
+cfa6f73e601bea Jim Cromie  2023-09-15  290  	    !match_wildcard(query->function, desc_function(dp)))
+83998bfdcf2e5f Jim Cromie  2025-11-18  291  		return false;
+83998bfdcf2e5f Jim Cromie  2025-11-18  292  
+83998bfdcf2e5f Jim Cromie  2025-11-18  293  	/* match against the format */
+83998bfdcf2e5f Jim Cromie  2025-11-18  294  	if (query->format) {
+83998bfdcf2e5f Jim Cromie  2025-11-18  295  		if (!dp->format) {
+e653e17e49b60c Jim Cromie  2026-08-03  296  			pr_err_ratelimited("ddebug: NULL format string at %s:%s:%u\n",
+83998bfdcf2e5f Jim Cromie  2025-11-18 @297  					   dp->filename ? dp->filename : "?",
+83998bfdcf2e5f Jim Cromie  2025-11-18 @298  					   dp->function ? dp->function : "?",
+83998bfdcf2e5f Jim Cromie  2025-11-18  299  					   dp->lineno);
+83998bfdcf2e5f Jim Cromie  2025-11-18  300  			return false;
+83998bfdcf2e5f Jim Cromie  2025-11-18  301  		}
+83998bfdcf2e5f Jim Cromie  2025-11-18  302  		if (*query->format == '^') {
+83998bfdcf2e5f Jim Cromie  2025-11-18  303  			char *p;
+83998bfdcf2e5f Jim Cromie  2025-11-18  304  			/* anchored search. match must be at beginning */
+83998bfdcf2e5f Jim Cromie  2025-11-18  305  			p = strstr(dp->format, query->format + 1);
+83998bfdcf2e5f Jim Cromie  2025-11-18  306  			if (p != dp->format)
+83998bfdcf2e5f Jim Cromie  2025-11-18  307  				return false;
+83998bfdcf2e5f Jim Cromie  2025-11-18  308  		} else if (!strstr(dp->format, query->format)) {
+83998bfdcf2e5f Jim Cromie  2025-11-18  309  			return false;
+83998bfdcf2e5f Jim Cromie  2025-11-18  310  		}
+83998bfdcf2e5f Jim Cromie  2025-11-18  311  	}
+83998bfdcf2e5f Jim Cromie  2025-11-18  312  
+83998bfdcf2e5f Jim Cromie  2025-11-18  313  	/* match against the line number range */
+83998bfdcf2e5f Jim Cromie  2025-11-18  314  	if (query->first_lineno &&
+83998bfdcf2e5f Jim Cromie  2025-11-18  315  	    dp->lineno < query->first_lineno)
+83998bfdcf2e5f Jim Cromie  2025-11-18  316  		return false;
+83998bfdcf2e5f Jim Cromie  2025-11-18  317  	if (query->last_lineno &&
+83998bfdcf2e5f Jim Cromie  2025-11-18  318  	    dp->lineno > query->last_lineno)
+83998bfdcf2e5f Jim Cromie  2025-11-18  319  		return false;
+83998bfdcf2e5f Jim Cromie  2025-11-18  320  
+a99144b08bf397 Jim Cromie  2025-11-18  321  	/*
+a99144b08bf397 Jim Cromie  2025-11-18  322  	 * above are all satisfied, so we can make final decisions:
+a99144b08bf397 Jim Cromie  2025-11-18  323  	 * 1- class FOO or implied class __DEFAULT__
+a99144b08bf397 Jim Cromie  2025-11-18  324  	 * 2- site.is_classed or not
+a99144b08bf397 Jim Cromie  2025-11-18  325  	 */
+a99144b08bf397 Jim Cromie  2025-11-18  326  	if (query->class_string) {
+a99144b08bf397 Jim Cromie  2025-11-18  327  		/* class FOO given, exact match required */
+a99144b08bf397 Jim Cromie  2025-11-18  328  		return (dp->class_id == selected_class);
+a99144b08bf397 Jim Cromie  2025-11-18  329  	}
+a99144b08bf397 Jim Cromie  2025-11-18  330  	/* query class __DEFAULT__ by omission. */
+a99144b08bf397 Jim Cromie  2025-11-18  331  	if (dp->class_id == _DPRINTK_CLASS_DFLT) {
+a99144b08bf397 Jim Cromie  2025-11-18  332  		/* un-classed site */
+83998bfdcf2e5f Jim Cromie  2025-11-18  333  		return true;
+83998bfdcf2e5f Jim Cromie  2025-11-18  334  	}
+a99144b08bf397 Jim Cromie  2025-11-18  335  	/* site is class'd */
+a99144b08bf397 Jim Cromie  2025-11-18  336  	site_map = ddebug_find_map_by_class_id(di, dp->class_id);
+a99144b08bf397 Jim Cromie  2025-11-18  337  	if (!site_map) {
+904a768d78c408 Jim Cromie  2026-03-12  338  		pr_warn_ratelimited("unknown class_id %d, check %s's CLASSMAP definitions\n",
+904a768d78c408 Jim Cromie  2026-03-12  339  			  dp->class_id, di->mod_name);
+a99144b08bf397 Jim Cromie  2025-11-18  340  		return false;
+a99144b08bf397 Jim Cromie  2025-11-18  341  	}
+a99144b08bf397 Jim Cromie  2025-11-18  342  	/* module(-param) decides protection */
+a99144b08bf397 Jim Cromie  2025-11-18  343  	return !ddebug_class_wants_protection(site_map);
+a99144b08bf397 Jim Cromie  2025-11-18  344  }
+83998bfdcf2e5f Jim Cromie  2025-11-18  345  
+
+:::::: The code at line 297 was first introduced by commit
+:::::: 83998bfdcf2e5f0513ad68f0e0f5b328fe0937b5 dyndbg: factor ddebug_match_desc out from ddebug_change
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
