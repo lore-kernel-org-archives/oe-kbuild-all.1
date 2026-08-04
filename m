@@ -1,136 +1,140 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A0C3D411A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 15:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA78385D73
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 15:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785856098; cv=none; b=mpxmKLy/l+ZHSk10erJoUWxtkZ2jgT29CUV7mjFTeCFy1fwcWshnnGOAJ0HIiP4PJnOZ4I27vlNdgKSGdYO7xqCBdhw8/yNTgUbphJxnLKuFiQZZEBJwEO0uggRghsJ3ToI6YVHa9F3GlUF2XsQIdMpfwVJDXmEaQ87VN8WkJv0=
+	t=1785856521; cv=none; b=kPxRgCyold/ZoGbmoZxGyKpNP/wFMSf5FVTdBMBcP8cuRnhB2fS1NjgYd+/QPeR6+KvBAo68Jf7vw5kEMkQXuZ7XGiw2KH4LLowh3i1F9IazaWSsfVcNZ4kupKka8L9IVV7Q2DgmnRygmFp0FB+uU6c/cEmq0RQ6+MXDKVa24To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785856098; c=relaxed/simple;
-	bh=s4p6juCwQ475aHXTn+wYPeV0BPHhmlo0G++9AOmJWt0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=inWIZXYpG/BRT+VSFIcHXhJvhcwPLyHEjb4UewhksSUScMHt+M2+j49SPM1CHfQGqxP2K0TS7vzWyg3rIjbjHOvWgZqmvkspoh8io96K40TEedjDdUCobUE8hCx2J/ucBi+Un2Gki/URwJ/D/kSaNuAuuQNjIaYxEsVBLEDzEjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mDtdfUMy; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785856521; c=relaxed/simple;
+	bh=9NJ32ltbcB82qemSEoG7hUOvGbjw59Kq90HTXiUebBA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PnJMVevd9tOxQ1adl1jJ25tKi7jQ5wveFPDtRK+wqUqNU73iU8inUPL+RUxAcaxTqL0UC90O1Qz2oC99Du0/BhD4ArXmLvJshVQ9ClWTqxcQ3hlTy3pDBCkxP/D7aL3TnD4uQKfD40kWAZlVlrreYRRvxKltvsrJnVwc3N3QASw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDK+BRYV; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mDtdfUMy"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-848761b5897so3274619b3a.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Aug 2026 08:08:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785856097; x=1786460897; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=S4Qg2o+emc3m6rF47B2E/svsOXDIcQrkgOFSzKR4MaY=;
-        b=mDtdfUMyuT6MlSdnBif0V1bHxHyf6TD3YzcRo8FXsSFb6XccZMD6giezSh9X1z+igx
-         uwVdVbMIEKIXN2gyaHfKxbbxI/dKGUYNwf3v37vbj4tV2O8jjW8T+udgPsS8ZPxkLpWO
-         NWtJclD/itsCmgPwpiDRj5Z5rFt9sgO6Ix4iaxtWhA9AwiBMCmZnHaA0fuJLqYS8Lj/G
-         /V5oEfJH/jzLNMCT0BDRiM8Uy7ozaanjrjXd3gwAtEdlLxO8VX/SQ9vmbpzNbTo5ZtDR
-         sXOBk44qztcpJ5VOLOKI/v6MEnABsOjCfoZCGDNwt3o/gLbvEYGqPSs6rXQd47zr63WT
-         Xi+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785856097; x=1786460897;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=S4Qg2o+emc3m6rF47B2E/svsOXDIcQrkgOFSzKR4MaY=;
-        b=iWgsOKiJEZuASz7wgZaGUsuK4EE/ZNv1xJ0rqvcncTn0jXRY+NO2+AhusEPBCGx8nA
-         d8SlIA6ngrjjF/GCic/4pcOA1ArNCbwTxVO+/QIWfHb9YNW4UT5HoBo08YBLMx0UHvdE
-         QM+N7ZZoRHxsGrZgoVQfqVBRGnV9V38V2KfV86LW4qpVQLGWw+J2Yg17KerQ/ju37YuP
-         udjHFM8uXDVXDGhp8piPQmKrw0OddOQHCXlJCj+zDO0MXPoDGpBwmWY9i/EiAvHBdb5g
-         o5UTF5JLCwy5YhL5DRTfW24UxBmt7NXpEVzOO7g2UWypxUYeBu4dyUiBxxmVPSbZVieP
-         xQqw==
-X-Forwarded-Encrypted: i=1; AHgh+RqAtIP20OrEnkrh9axE5vtGgyuhE8HD0LzIRTNzTaMOSG9LLoeEZ2KlsairfNYjTqP8DuAINos72Xk4m/2n@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0kDy8YF+lqBpZBzO0AdYprgCf5/PskxjkYdSxbUUsqS31Q7OP
-	O75eg2WXvNaWSvR4vxJ1NegvxYHOyTQjuS63VcCyrEU3UNfiXzXV5Ro=
-X-Gm-Gg: AR+sD10I1nB/OtHIPLTSszNBMprxu1o3qYUMAt1rmZTOEuHrhdNt/ai/MpST6U4OEHH
-	XBStj5TRlFAXlBcKD3Bmt+urx96+F7B1eV3yHpn8go0jhbbWjM+yGCJYqicYj7Ai7+zAKeJzyTC
-	f31Fh3VoDng3X0T3JTdpUwSyyy2//zSebaGmGYBm+3QsOnmWqN/A4l301lQmeUrJ44qFKGjJzc4
-	Ld04V0UCDyJydGnXnuT+3NpIuTwfGA8xwetZ9y0FNcQpcsjJ4R9eM2gtJYEWRb9xBSKpJkg1vVQ
-	dpnbJKAIN7PYE82bwxr85E0+a1u2YvUVn/NFIcsRdAlk/H23CO0s0PuRIDO8uUHTgQaGAq9NL8Q
-	an8szccnJU2EcDHIn1pmaewyk3MXqYFwi3eMi07oy94IdEoqEr1MbSp2I5BnUu9HmXSrZ0oq+VY
-	r4xPADf4KSV60831PzBJxJ57Q8NNvEkZ0PqN5rEtCBs+OgWciisqf53OXgCdWhsWXxJU8L6xpib
-	BQXiWD1K1NYOMGSKg1CVri6+1Cb6JY1c6vbpjvXRWDdbU43p/Z9ERM+2VUJAeMymDk5lg8YNPZO
-	aNd/lKcLGTzZdRL0wC+jkOo=
-X-Received: by 2002:a05:6a00:ad1:b0:845:4126:222b with SMTP id d2e1a72fcca58-84ee47d8768mr14159742b3a.28.1785856096851;
-        Tue, 04 Aug 2026 08:08:16 -0700 (PDT)
-Received: from localhost.localdomain ([1.226.165.54])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edc41ca4dsm5420587b3a.52.2026.08.04.08.08.11
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 04 Aug 2026 08:08:15 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	stable@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH v2] drm/meson: clean up KMS polling on register failure
-Date: Wed,  5 Aug 2026 00:08:02 +0900
-Message-ID: <20260804150802.45262-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260524160657.17802-1-mhun512@gmail.com>
-References: <20260524160657.17802-1-mhun512@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDK+BRYV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785856516; x=1817392516;
+  h=date:from:to:cc:subject:message-id;
+  bh=9NJ32ltbcB82qemSEoG7hUOvGbjw59Kq90HTXiUebBA=;
+  b=kDK+BRYVG8xZbGpN2uiW7cEBHiAtewOwXAmanEMVmU2vouDLaQNAw0rB
+   kKhMGl3E338v7+bA9/HIiNO73UPlWy3DVeDYVcB0d8O3zsYDAiNfVuab+
+   op+Ol/hZj1bbB5ak2BHbzERdk/RiwJvUtYqPRnrLhLpUPAynILCMreYck
+   iQBdjdRoT3a6ztiVvSU+HmloN9y9TyOHiqZx3H94hOKpKfRLO5R2yjGq5
+   7yk9J2s1nVv00Jkj6qS6B6tQbZDz+H2ib2qEppfZyJ7O7t9HgWie+oWGo
+   8iguZYT77CeWzE4dIZGkcigm+brEh0tuVUjgqRlBBQKzoy4fHj6z5+zE4
+   w==;
+X-CSE-ConnectionGUID: G/3JePPRSZa5Ak6JbUp8xA==
+X-CSE-MsgGUID: jvWvoeWhRhi3zoxs1aTpRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86441906"
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="86441906"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 08:15:12 -0700
+X-CSE-ConnectionGUID: SirvBuQpQ/6ErkRXpQ9eXg==
+X-CSE-MsgGUID: TWKi9LnJTDmscDnyOXkNzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="265359660"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 04 Aug 2026 08:15:10 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wrGrE-00000000A5b-0Kia;
+	Tue, 04 Aug 2026 15:15:08 +0000
+Date: Tue, 04 Aug 2026 23:14:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pratyush Mallick <pratmal@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>,
+ SJ Park <sj@kernel.org>
+Subject: [akpm-mm:mm-new 448/454]
+ tools/testing/selftests/mm/.gitignore: warning: ignored by one of the
+ .gitignore files
+Message-ID: <202608042227.XDO54bZk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-meson_drv_bind_master() starts the KMS polling helper before registering
-the DRM device. If drm_dev_register() fails, probe unwinds the IRQ and
-DRM device without stopping the polling helper.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   e47602c51d20a93fa1711ed896dc9480de4374d9
+commit: e051bf0188c9ae10e822a532aac5821c2cc0632a [448/454] selftests/mm: use pattern matching in .gitignore
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260804/202608042227.XDO54bZk-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608042227.XDO54bZk-lkp@intel.com/reproduce)
 
-Call drm_kms_helper_poll_fini() on that failure path before freeing the
-IRQ.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608042227.XDO54bZk-lkp@intel.com/
 
-This issue was identified during our ongoing static-analysis research while
-reviewing kernel code.
+All warnings (new ones prefixed by >>):
 
-Fixes: bbbe775ec5b5 ("drm: Add support for Amlogic Meson Graphic Controller")
-Cc: stable@vger.kernel.org
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
----
-Changes in v2:
-- Avoid the unused uninstall_irq label reported by the kernel test robot.
-- Link to v1: https://lore.kernel.org/r/20260524160657.17802-1-mhun512@gmail.com
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/.gitignore: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/Makefile: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/charge_reserved_hugetlb.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/check_config.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/config: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/hugepage_settings.h: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/hugetlb_reparenting_test.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_compaction.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_cow.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_gup_test.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_hmm.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_hugetlb.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_hugevm.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_kmemleak_confirm.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_kmemleak_dedup.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_ksm.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_ksm_numa.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_madv_guard.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_madv_populate.sh: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/mm/ksft_mdwe.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_memfd_secret.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_memory_failure.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_migration.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_mkdirty.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_mlock.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_mmap.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_mremap.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_page_frag.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_pagemap.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_pfnmap.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_pkey.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_process_madv.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_process_mrelease.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_rmap.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_soft_dirty.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_thp.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_userfaultfd.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_vma_merge.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/ksft_vmalloc.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/mlock2.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/mseal_helpers.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/page_frag/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/pkey-arm64.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/pkey-helpers.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/pkey-powerpc.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/pkey-x86.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/run_vmtests.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/settings: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/test_hmm.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/test_page_frag.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/test_vmalloc.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/uffd-common.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/va_high_addr_switch.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/vm_util.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/mm/write_hugetlb_memory.sh: warning: ignored by one of the .gitignore files
 
- drivers/gpu/drm/meson/meson_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 49ff9f1f16..bcc36f2cdc 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -351,8 +351,10 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	platform_set_drvdata(pdev, priv);
- 
- 	ret = drm_dev_register(drm, 0);
--	if (ret)
-+	if (ret) {
-+		drm_kms_helper_poll_fini(drm);
- 		goto uninstall_irq;
-+	}
- 
- 	drm_client_setup(drm, NULL);
- 
--- 
-2.47.1
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
