@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E650D330B3F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 04:32:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D0333C192
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 04:32:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785817970; cv=none; b=GZ69c3keiJCrM6eyDGqCZODYYUcJxOZ/dRIsphZuKvuht6TznPtcybLlRmXd5wB51eURM0T+AGAoOYOWA08rbBLUDRaPyJ6bcLfEyrvL8mJCI8jJywK6TXcSks2U//o5dAlzj6WahvLTlIO7gOVxtEz0VA1mSNlOPfBw/IkYBt8=
+	t=1785817972; cv=none; b=uM2J+2eB6nSHTumGX7/Uijy/18vhREAx1Kodj/Pm3SHyfIiXDCsITwls6Dbd+NoSAO+emNxVTB2Rfr0Q8gV5O0cWRRg95YkU7wgNkrx7r2Lb5cnpNCu4Hfv/+cmA7SGrnpMOdqiffHKbeeWWwyP5QOpMOApuJ1Z6mHkKjY0F/oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785817970; c=relaxed/simple;
-	bh=iGVnAHmg3GTt0an7xCJPSQi2hWTnkoO0trj8mYQJZ5w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RnchFFVklsm0SS3l2lKqBWPG+ggbFQCK+FO/4hH2iiZ42PQpbxrhVMxJ1ORp8Mm6KvIcsUdxMlBk7LwpNXiC7CnByI7j7oRDLOU7OyHbpD6Q8FLl8rtDF+OYDPIExTqUVzGdHbRlJf1oET2/eSHigmmtoQqOhSZ1PxdSnYJwCSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckVEeDsP; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1785817972; c=relaxed/simple;
+	bh=Yyj5zTq1ny+0BIsOJBnpTzNeioio2Fq6FzUP8X86vvE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=luPltbfbGVcK4Mclqq29IngcZOR7vd3fJpKHEuaSNbvkcCCUXeRim2sLrI0ecAJgP9fhyE/cvsGIblgKEq40nROuFwPdJddyVGElmnXJCt8+4CbJLeAJ8HOxn/iWROZW2ALO102PnbWuq62o56So95HdUV7VIW/dA6mjXdYK2uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUUiPYNc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckVEeDsP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUUiPYNc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785817969; x=1817353969;
+  t=1785817971; x=1817353971;
   h=date:from:to:cc:subject:message-id;
-  bh=iGVnAHmg3GTt0an7xCJPSQi2hWTnkoO0trj8mYQJZ5w=;
-  b=ckVEeDsP34MKrKU6wVa3vLfH9jnoI0i2BK5dTupFy5nzn3ZFyO7vHdDy
-   KyCCZ+cuyXH+fS1VI6L7WDewVKSfspJuPPTeNL8SRpQq1OHdWJX4u3Apj
-   VsSZOwWWhsxXQ2iGO62Gm1JWgky03AoJQjBcuut5heNrsoHrB2HiCLCgO
-   BiG90j2UFY704WLyZTEevhIO+nBSCeGJjaJw9W+Nn9Q6SfcAviXgpP69v
-   L1rnvwvMR6IFpPVZfIGnb/j/Vj49i65wh1VmCPvmbOl6M64XhJY8yKx6a
-   1ugSgwTMWOmGNHPM9ovn3yTed7egRT7gORRawxmiWA2iXl3FXqtepWWtE
-   g==;
-X-CSE-ConnectionGUID: jrs8XpxsQSyH4eZuvgz8xw==
-X-CSE-MsgGUID: DjWnjNUMRmSTISzqerdu+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86129904"
+  bh=Yyj5zTq1ny+0BIsOJBnpTzNeioio2Fq6FzUP8X86vvE=;
+  b=XUUiPYNcdRPnNYWvS/T+83LhxV7WBZFCgZoPDU78+nKVvKPYjiWORDGE
+   2NI7rRsWd/KvupOXxQ4oHB+brrQ1ul6Pvi9RTirITz7CgAwS1OOm+1JYU
+   Am1KufNFXXwNM8NP4whqzmVC8jk7CBtz5bHB4bgQ5FUrgWmbn0Qp0VrHf
+   Lto5cQFc+Mn2kSwjLd1G+JTwwTj4HiemT7Cq9DuG/f0k/KFrhvvHAIdmL
+   tU8w8mdwBc4tsRLCkpyuBKmNbGPB6JbFc3J2DtgGy+BtxDaGQatuid8On
+   0vTUD2NzykuWo3hvozNB6VTIGCjAptLTYixp9JcEiSkCoxOedf7+wo2ZM
+   w==;
+X-CSE-ConnectionGUID: bwbHiw+hTRG4OtOUAvPUGw==
+X-CSE-MsgGUID: h0FApffdTh+TbkvYjK+kzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86129906"
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="86129904"
+   d="scan'208";a="86129906"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 21:32:48 -0700
-X-CSE-ConnectionGUID: giewOwgDR5CwYEF84yMZLA==
-X-CSE-MsgGUID: 23iKCXKhSoev9J5f5J88EQ==
+X-CSE-ConnectionGUID: mHumKoRSSTOSQFA4UGqvOw==
+X-CSE-MsgGUID: FSau4gJGSf+SXhxdGp2zCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="258737196"
+   d="scan'208";a="258737199"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 03 Aug 2026 21:32:46 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wr6pX-000000008wP-43bn;
-	Tue, 04 Aug 2026 04:32:43 +0000
-Date: Tue, 04 Aug 2026 12:32:33 +0800
+	id 1wr6pY-000000008wR-0Pmi;
+	Tue, 04 Aug 2026 04:32:44 +0000
+Date: Tue, 04 Aug 2026 12:32:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Palmer <daniel@0x0f.com>
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chenxing:mstar_v6_5_reorder 537/700]
- drivers/misc/dt-dummy-irq.c:67:25: error: 'msc313_fcie_dt_ids' undeclared
- here (not in a function)
-Message-ID: <202608041210.7LoSoWZY-lkp@intel.com>
+Subject: [dhowells-fs:netfs-next 7/25] fs/netfs/bvecq.c:71:6:
+ warning: assignment to 'struct bvecq *' from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202608041257.gq0v52fy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,44 +60,92 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/linux-chenxing/linux.git mstar_v6_5_reorder
-head:   1a5c60e65ea399670a5384b869c4958338af2799
-commit: 5ffe59ecd11b8ae1f1acd2e5b03e758913e65aea [537/700] Create a dummy irq driver
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608041210.7LoSoWZY-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608041210.7LoSoWZY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
+head:   aaa4a525c627a60047b4d6b0d90ae8ea6a4bbdd4
+commit: 2839f517bfb007fbfccafb1e6ac2b7d858e72fb4 [7/25] netfs: Make mempool available for bvecq
+config: csky-randconfig-001-20260804 (https://download.01.org/0day-ci/archive/20260804/202608041257.gq0v52fy-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608041257.gq0v52fy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608041210.7LoSoWZY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608041257.gq0v52fy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/misc/dt-dummy-irq.c:9:
->> drivers/misc/dt-dummy-irq.c:67:25: error: 'msc313_fcie_dt_ids' undeclared here (not in a function)
-      67 | MODULE_DEVICE_TABLE(of, msc313_fcie_dt_ids);
-         |                         ^~~~~~~~~~~~~~~~~~
-   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:244:21: error: '__mod_of__msc313_fcie_dt_ids_device_table' aliased to undefined symbol 'msc313_fcie_dt_ids'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/misc/dt-dummy-irq.c:67:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-      67 | MODULE_DEVICE_TABLE(of, msc313_fcie_dt_ids);
-         | ^~~~~~~~~~~~~~~~~~~
+   fs/netfs/bvecq.c: In function 'bvecq_alloc_one':
+   fs/netfs/bvecq.c:67:24: error: invalid use of incomplete typedef 'mempool_t' {aka 'struct mempool'}
+      67 |   bq = netfs_bvecq_pool.alloc(gfp, netfs_bvecq_pool.pool_data);
+         |                        ^
+   fs/netfs/bvecq.c:67:52: error: invalid use of incomplete typedef 'mempool_t' {aka 'struct mempool'}
+      67 |   bq = netfs_bvecq_pool.alloc(gfp, netfs_bvecq_pool.pool_data);
+         |                                                    ^
+   fs/netfs/bvecq.c:71:8: error: implicit declaration of function 'mempool_alloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
+      71 |   bq = mempool_alloc(&netfs_bvecq_pool, gfp);
+         |        ^~~~~~~~~~~~~
+         |        mm_alloc
+>> fs/netfs/bvecq.c:71:6: warning: assignment to 'struct bvecq *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      71 |   bq = mempool_alloc(&netfs_bvecq_pool, gfp);
+         |      ^
+   fs/netfs/bvecq.c: In function 'bvecq_put':
+   fs/netfs/bvecq.c:260:4: error: implicit declaration of function 'mempool_free' [-Werror=implicit-function-declaration]
+     260 |    mempool_free(bq, &netfs_bvecq_pool);
+         |    ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/msc313_fcie_dt_ids +67 drivers/misc/dt-dummy-irq.c
+vim +71 fs/netfs/bvecq.c
 
+    40	
+    41	/**
+    42	 * bvecq_alloc_one - Allocate a single bvecq node with unpopulated slots
+    43	 * @nr_slots: Number of slots to allocate
+    44	 * @gfp: The allocation constraints.
+    45	 *
+    46	 * Allocate a single bvecq node and initialise the header.  A number of inline
+    47	 * slots are also allocated, rounded up to fit after the header in a power-of-2
+    48	 * slab object of up to 512 bytes (up to 29 slots on a 64-bit cpu).  The caller
+    49	 * should be aware that the number of slots allocated may be more or less than
+    50	 * the number requested.  The slot array is not initialised.
+    51	 *
+    52	 * Return: The node pointer or NULL on allocation failure.
+    53	 */
+    54	struct bvecq *bvecq_alloc_one(size_t nr_slots, gfp_t gfp)
+    55	{
+    56		struct bvecq *bq;
+    57		const size_t max_size = 512;
+    58		const size_t max_slots = (max_size - sizeof(*bq)) / sizeof(bq->__bv[0]);
+    59		size_t part = umin(nr_slots, max_slots);
+    60		size_t size = roundup_pow_of_two(struct_size(bq, __bv, part));
+    61		bool from_pool = false;
     62	
-    63	static const struct of_device_id dummy_dt_ids[] = {
-    64		{ .compatible = "dummy-irq" },
-    65		{},
-    66	};
-  > 67	MODULE_DEVICE_TABLE(of, msc313_fcie_dt_ids);
-    68	
+    63		gfp &= ~GFP_ZONEMASK;
+    64		if (size != BVECQ_STD_SIZE) {
+    65			bq = kmalloc(size, gfp);
+    66		} else {
+    67			bq = netfs_bvecq_pool.alloc(gfp, netfs_bvecq_pool.pool_data);
+    68			from_pool = true;
+    69		}
+    70		if (!bq && gfp != GFP_KERNEL) {
+  > 71			bq = mempool_alloc(&netfs_bvecq_pool, gfp);
+    72			from_pool = true;
+    73			size = BVECQ_STD_SIZE;
+    74		}
+    75		if (bq) {
+    76			*bq = (struct bvecq) {
+    77				.ref		= REFCOUNT_INIT(1),
+    78				.bv		= bq->__bv,
+    79				.inline_bv	= true,
+    80				.max_slots	= (size - sizeof(*bq)) / sizeof(bq->__bv[0]),
+    81				.from_pool	= from_pool,
+    82			};
+    83			netfs_stat(&netfs_n_bvecq);
+    84		}
+    85		return bq;
+    86	}
+    87	EXPORT_SYMBOL(bvecq_alloc_one);
+    88	
 
 --
 0-DAY CI Kernel Test Service
