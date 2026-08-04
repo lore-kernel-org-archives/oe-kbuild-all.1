@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6013515C0
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 18:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B6B413247;
+	Tue,  4 Aug 2026 18:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785866957; cv=none; b=ierxH7P++d/5B3sQUuSOpZQxw+Scvy6f+dkZKqseMkEtcz24JR6ydI/LcpSXe5Krz4Go1AdS/kVLZCTvXTcm1leYWVAi9Ka8KaB3BInOM32AutTGhfbWhYVkI6w1YeTIYphQNvEY3GlhEBSQcurYO1omfL/vkguy5XQZRs2By6A=
+	t=1785868527; cv=none; b=pvLuS/QpHKGHSXGThtAnNjQ9mWVcf1ePXE+j1tNv1zVGrza1eZQGRC50fVimGYzPYpktJcyuDwfOH9mx38blAURDU/99ReYjvVsRCE+XHmy1sX97l/lvMktYxWGdhHjnw4NBsZoMWKX7p/TYQmzqkN6d6c2w5YctUBOwT5/AwqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785866957; c=relaxed/simple;
-	bh=4aSiIYeWMIhCKAcDd1UGuzMezS0cEl8w1x31H8BKhLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ec3Cmmba1Q5ViTna4j6dRcB9iMfU7LcQiZ8NPOECvZOc4aAKDgbqBymn01t71dlRcsj0C8ve3e6uTpkTHuroeY7bZQ4TVl14YXMQwbBsDnfcT2AuGww/l3bocVlGHfMwxqLGiyxL6isuTs7jiAGjvCrRUKxyrtFOvHlwXamJdfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PNvs0kdm; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1785868527; c=relaxed/simple;
+	bh=M7VQoLkgeYT6dgwsKdw94T9Jqytp+5XBgqqoOa3bDjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NQDW6P3dh6pJpLe/IomTHbSHxHpvQAP8mxySCxZNQ8kb/ICIIXLRqS8398OR8JPBYDfRdA4o7Yex7nBk0qo1oTtOekBSa9GfRY+FM0JbAV00h0gF4FA1ch+VIvjkaHeiM/JKSwXDcL1lCRK4p3lze+jbeRHYOMgdv7kd7W4DEkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gS8rzBgS; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PNvs0kdm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gS8rzBgS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785866956; x=1817402956;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4aSiIYeWMIhCKAcDd1UGuzMezS0cEl8w1x31H8BKhLk=;
-  b=PNvs0kdm4c/niwTEFDtHTNqFcf4FPPekHvbOBn4Fo61jDk8Yzk4a7vRK
-   PoWxu44udwywjdbbllgFXxBKZKe9RKsq6wsZF/+fQnaUXj4eHfIACMNQO
-   uuofXfw6z5l00i0eu0s2Pnpu7ckUxSC8VcUjtwAFxLXzoDE/d0azsl7YB
-   X98So5QTdyULfVYTpVFoQWyLyKLSWCX7yMtGar64BNflbT1JEAVApVaON
-   wmam4cXgT8nfIWpC56E/NLB+0ytgb45PN6LHDiVoWCZQHLN/PGne6YRA5
-   f/CI8DElb+B0kZDbbQ6HKkFLlecp3qq/MJaUl05zuCHa9d5Pm0lw4HkI6
-   w==;
-X-CSE-ConnectionGUID: 22j1u4DiQ8etLNKKian4rg==
-X-CSE-MsgGUID: rjn07kcORrCpMunxmR1MMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="85406703"
+  t=1785868525; x=1817404525;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=M7VQoLkgeYT6dgwsKdw94T9Jqytp+5XBgqqoOa3bDjE=;
+  b=gS8rzBgSB6S8SiX2j6owf2GLo1hnjaRCkCphmJBd102X7qNyv2SMr7jW
+   Z22Ic0EHWWG9ZCE8/VtsVMc9+zvW3TZLuVzT9mqNLzQHsscytZPUsh84w
+   hnrHEG5f6Qz3mR6bD158mwFCVifEBlMOVOGcsv97zEf87A8Quuv0Z08sF
+   SiNB/F30WOkJKBBNJCI/KHN1cstJku7gckeUOzhsaCTyraChyyo/AhJ6s
+   Mcr+peRVweg6WKZyLJGK4qVcpc3Nch1LSVDc3TJ56s68/7eWCnW2j57pz
+   RvQB9oUWC7kIgYCGBs+tseldsxPbYF9cHxPBiKDyS7U5AQbr56OjQb82x
+   Q==;
+X-CSE-ConnectionGUID: a5tyzL3sSye2i/oDpQ7VUA==
+X-CSE-MsgGUID: MwTpG4Z0Q0WKClBd+14NuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86436526"
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="85406703"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 11:09:15 -0700
-X-CSE-ConnectionGUID: w/e1AY87R+KoigwvlggZyA==
-X-CSE-MsgGUID: KyhvMCRLRjCmqW3k5o0O+g==
+   d="scan'208";a="86436526"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 11:35:25 -0700
+X-CSE-ConnectionGUID: iIji7KOCTzm7lq2FkxLzeg==
+X-CSE-MsgGUID: p2E2TD1OQpSJEslFAlB8Sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="259798529"
+   d="scan'208";a="258241258"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Aug 2026 11:09:11 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 04 Aug 2026 11:35:23 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrJZc-00000000ANR-466W;
-	Tue, 04 Aug 2026 18:09:08 +0000
-Date: Wed, 5 Aug 2026 02:08:49 +0800
+	id 1wrJyy-00000000ARV-4680;
+	Tue, 04 Aug 2026 18:35:20 +0000
+Date: Wed, 05 Aug 2026 02:35:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>, ryder.lee@mediatek.com,
-	lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
-	bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, linux-pci@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: Re: [PATCH] PCI: mediatek-gen3: Fix 64-bit type truncation in
- mtk_pcie_set_trans_table()
-Message-ID: <202608050123.GZC7hug7-lkp@intel.com>
-References: <20260728101413.4575-1-sreekuttan2156239@gmail.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 16/39]
+ kernel/time/timekeeping.c:156:1: error: use of undeclared identifier 'symbol'
+Message-ID: <202608050219.FPUJpehf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,115 +60,110 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728101413.4575-1-sreekuttan2156239@gmail.com>
 
-Hi Sreeraj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v7.2-rc6 next-20260803]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sreeraj-S-Kurup/PCI-mediatek-gen3-Fix-64-bit-type-truncation-in-mtk_pcie_set_trans_table/20260728-183948
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260728101413.4575-1-sreekuttan2156239%40gmail.com
-patch subject: [PATCH] PCI: mediatek-gen3: Fix 64-bit type truncation in mtk_pcie_set_trans_table()
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260805/202608050123.GZC7hug7-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608050123.GZC7hug7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   67005bd34e048d0f0fb4f5762d159093fac52cb7
+commit: dcfa56542ac7fa99290449e0a2409b2d9e875e1c [16/39] timekeeping: time_test: Add a test for auxiliary to monotonic clock conversions
+config: x86_64-randconfig-076-20260804 (https://download.01.org/0day-ci/archive/20260805/202608050219.FPUJpehf-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608050219.FPUJpehf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608050123.GZC7hug7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608050219.FPUJpehf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bits.h:5,
-                    from include/linux/bitops.h:6,
-                    from include/linux/kernel.h:23,
-                    from include/linux/clk.h:13,
-                    from drivers/pci/controller/pcie-mediatek-gen3.c:10:
-   drivers/pci/controller/pcie-mediatek-gen3.c: In function 'mtk_pcie_set_trans_table':
->> drivers/pci/controller/pcie-mediatek-gen3.c:340:46: error: implicit declaration of function 'ffs64'; did you mean 'fls64'? [-Wimplicit-function-declaration]
-     340 |                         addr_align = BIT_ULL(ffs64(cpu_addr) - 1);
-         |                                              ^~~~~
-   include/vdso/bits.h:8:45: note: in definition of macro 'BIT_ULL'
-       8 | #define BIT_ULL(nr)             (ULL(1) << (nr))
-         |                                             ^~
+>> kernel/time/timekeeping.c:156:1: error: use of undeclared identifier 'symbol'
+     156 | EXPORT_SYMBOL_FOR_TIME_TEST(tk_aux_capture_mono_conv);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/timekeeping.h:44:72: note: expanded from macro 'EXPORT_SYMBOL_FOR_TIME_TEST'
+      44 | #define EXPORT_SYMBOL_FOR_TIME_TEST(_symbol) EXPORT_SYMBOL_FOR_MODULES(symbol, "time_test");
+         |                                                                        ^~~~~~
+   1 error generated.
 
 
-vim +340 drivers/pci/controller/pcie-mediatek-gen3.c
+vim +/symbol +156 kernel/time/timekeeping.c
 
-   321	
-   322	static int mtk_pcie_set_trans_table(struct mtk_gen3_pcie *pcie,
-   323					    resource_size_t cpu_addr,
-   324					    resource_size_t pci_addr,
-   325					    resource_size_t size,
-   326					    unsigned long type, int *num)
-   327	{
-   328		resource_size_t remaining = size;
-   329		resource_size_t table_size;
-   330		resource_size_t addr_align;
-   331		const char *range_type;
-   332		void __iomem *table;
-   333		u32 val;
-   334	
-   335		while (remaining && (*num < PCIE_MAX_TRANS_TABLES)) {
-   336			/* Table size needs to be a power of 2 */
-   337			table_size = BIT_ULL(fls64(remaining) - 1);
-   338	
-   339			if (cpu_addr > 0) {
- > 340				addr_align = BIT_ULL(ffs64(cpu_addr) - 1);
-   341				table_size = min(table_size, addr_align);
-   342			}
-   343	
-   344			/* Minimum size of translate table is 4KiB */
-   345			if (table_size < 0x1000) {
-   346				dev_err(pcie->dev, "illegal table size %#llx\n",
-   347					(unsigned long long)table_size);
-   348				return -EINVAL;
-   349			}
-   350	
-   351			table = pcie->base + PCIE_TRANS_TABLE_BASE_REG + *num * PCIE_ATR_TLB_SET_OFFSET;
-   352			writel_relaxed(lower_32_bits(cpu_addr) |
-   353					PCIE_ATR_SIZE(fls64(table_size) - 1), table);
-   354			writel_relaxed(upper_32_bits(cpu_addr), table + PCIE_ATR_SRC_ADDR_MSB_OFFSET);
-   355			writel_relaxed(lower_32_bits(pci_addr), table + PCIE_ATR_TRSL_ADDR_LSB_OFFSET);
-   356			writel_relaxed(upper_32_bits(pci_addr), table + PCIE_ATR_TRSL_ADDR_MSB_OFFSET);
-   357	
-   358			if (type == IORESOURCE_IO) {
-   359				val = PCIE_ATR_TYPE_IO | PCIE_ATR_TLP_TYPE_IO;
-   360				range_type = "IO";
-   361			} else {
-   362				val = PCIE_ATR_TYPE_MEM | PCIE_ATR_TLP_TYPE_MEM;
-   363				range_type = "MEM";
-   364			}
-   365	
-   366			writel_relaxed(val, table + PCIE_ATR_TRSL_PARAM_OFFSET);
-   367	
-   368			dev_dbg(pcie->dev, "set %s trans window[%d]: cpu_addr = %#llx, pci_addr = %#llx, size = %#llx\n",
-   369				range_type, *num, (unsigned long long)cpu_addr,
-   370				(unsigned long long)pci_addr,
-   371				(unsigned long long)table_size);
-   372	
-   373			cpu_addr += table_size;
-   374			pci_addr += table_size;
-   375			remaining -= table_size;
-   376			(*num)++;
-   377		}
-   378	
-   379		if (remaining)
-   380			dev_warn(pcie->dev, "not enough translate table for addr: %#llx, limited to [%d]\n",
-   381				 (unsigned long long)cpu_addr, PCIE_MAX_TRANS_TABLES);
-   382	
-   383		return 0;
-   384	}
-   385	
+    80	
+    81	/*
+    82	 * Conversion between auxiliary and monotonic clock timestamps.
+    83	 *
+    84	 * ktime_mono_to_aux() and ktime_aux_to_mono() utilize conversion factors
+    85	 * for converting from one clock to another. These conversion factors are
+    86	 * updated periodically and are based on a common base time stamp derived
+    87	 * from a clocksource readout:
+    88	 *
+    89	 *     cs_base	   = read_clock()
+    90	 *     mono_base_ns  = tk_cs_to_ns(MONO, cs_base)
+    91	 *     aux_base_ns   = tk_cs_to_ns(AUX, cs_base)
+    92	 *
+    93	 * The progression of the clocks relative to the base time is determined
+    94	 * by their conversion factors, which are constant for a given conversion
+    95	 * period:
+    96	 *
+    97	 *     cs_delta = read_clock() - cs_base
+    98	 *     delta_mono_ns = cs_delta * fMONO
+    99	 *     delta_aux_ns  = cs_delta * fAUX
+   100	 *
+   101	 * Ergo:
+   102	 *
+   103	 *     delta_mono_ns - delta_aux_ns = cs_delta * (fMONO - fAUX)
+   104	 *
+   105	 * Substituting cs_delta yields:
+   106	 *                                                    fMONO - fAUX
+   107	 *     delta_mono_ns - delta_aux_ns = delta_mono_ns * ------------
+   108	 *                                                       fMONO
+   109	 * Resolving to delta_aux_ns:
+   110	 *                                                    fMONO - fAUX
+   111	 *     delta_aux_ns = delta_mono_ns - delta_mono_ns * ------------
+   112	 *                                                       fMONO
+   113	 * Which simplifies to:
+   114	 *                                    fAUX
+   115	 *     delta_aux_ns = delta_mono_ns * -----
+   116	 *                                    fMONO
+   117	 *
+   118	 * So a MONOTONIC time value can be converted to an AUX time value by:
+   119	 *
+   120	 *                                                 fAUX
+   121	 *     aux_ts = aux_base + (mono_ts - mono_base) * -----
+   122	 *                                                 fMONO
+   123	 * The opposite conversion is:
+   124	 *                                                 fMONO
+   125	 *     mono_ts = mono_base + (aux_ts - aux_base) * -----
+   126	 *                                                 fAUX
+   127	 *
+   128	 * To avoid a division the ratios are converted to scaled math. As both
+   129	 * factors are guaranteed to have the same scaled math shift value the
+   130	 * ratio is the ratio of the scaled math multipliers:
+   131	 *
+   132	 *     conv_mult_aux = (AUX_mult << conv_shift) / MONO_mult
+   133	 *     conv_mult_mono = (MONO_mult << conv_shift) / AUX_mult
+   134	 *
+   135	 * The actual conversions become:
+   136	 *
+   137	 *     aux_ts = aux_base + (((mono_ts - mono_base) * conv_mult_aux) >> conv_shift)
+   138	 *     mono_ts = mono_base + (((aux_ts - aux_base) * conv_mult_mono) >> conv_shift)
+   139	 */
+   140	
+   141	#if !IS_ENABLED(CONFIG_TIME_KUNIT_TEST)
+   142	static inline
+   143	#endif
+   144	struct tk_aux_mono_conv tk_aux_capture_mono_conv(ktime_t mono_now, u32 mono_mult,
+   145							 ktime_t aux_now, u32 aux_mult,
+   146							 u32 shift)
+   147	{
+   148		return (struct tk_aux_mono_conv) {
+   149			.mono_base	= mono_now,
+   150			.aux_base	= aux_now,
+   151			.mono_mult	= mono_mult,
+   152			.aux_mult	= aux_mult,
+   153			.shift		= shift,
+   154		};
+   155	}
+ > 156	EXPORT_SYMBOL_FOR_TIME_TEST(tk_aux_capture_mono_conv);
+   157	
 
 --
 0-DAY CI Kernel Test Service
