@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1DE41686B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 19:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862D548425A;
+	Tue,  4 Aug 2026 19:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785870472; cv=none; b=ir7exPQg4q2lYfXNDx6FTlJwUNPU5/EGuFXQbEtO4ibcW9q4eydT32EV8KGsHCtGwOSf0VT0ByWkmnsMvyJDbku57etUGkX8p7BgUgD3JGGJjSzX6ynqmk2RnAeQZTcyT/weaDGGQE8jMPZkOoS9soxQAkfioYQMF16cVBE7T4I=
+	t=1785873296; cv=none; b=k0uCyCXNH3B+6lxNLWcLwt+zQHB3VLhgTUYqPB3nuT0d/cikkD9mKezeK6ZC/XeWipuCEPHPHZLXAz2fD7ut0wEdl9XJx5LRKbH00DtQhDIBKAZtWHHcrQjA5Cs0H7OyfPeejDYu+fQO9mP7h3sz0aD2pkgunvLjhQ9lfRi6rJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785870472; c=relaxed/simple;
-	bh=VJ3Z+FualZF4CUiff67c2iSzunQ9QwAE+SDhc08Bzkk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dIrweNSoF1fK/Bwwi3RJnWqf1QbsudLNwufog9khgZpy0DtawflzfliawWttLJ6UTG/4+iL2av9k1EU9PgKolDMbQziOCgxsZ3aCR0Y+4/p02mx9U9zKNJt3G3JH5M+95lwRnLrt7cZ3tJdD+mdu8sqXmxG2xzN5iBbxdVQnAIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SIHw/y45; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1785873296; c=relaxed/simple;
+	bh=zZqZKcAftzj8ITm91foSLDbylWN9INMq1B6IOolVLq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LZJ9h2at4N5sMmcIKvD6l0zBCJuzJytBQ52pwmAD+Winqai6GFXe1VJzJB6XlX+DmpC9hcjeX9IkMcPnB5A0XlfTF+mbwOGASVJFhS64ARVEsKFh3BWtkgflw16G7wEs402VdKbVTQ5YUiGH4BlL1yaRIMcNmMbKV/PYhvS3Q2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8JUQ28x; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SIHw/y45"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8JUQ28x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785870470; x=1817406470;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VJ3Z+FualZF4CUiff67c2iSzunQ9QwAE+SDhc08Bzkk=;
-  b=SIHw/y45JAwlTpC6EGsDm45brAWgAeHeFOdLRnuFB5OTN77oZnCZXW4A
-   LmQpxgr9nSHin3xcv4xchvX0AcG5M56i/wAOzC8vwnXOXjQSav5BXz/Qv
-   UM5NDlqN0/nfnMsA2kGJ3ABX8/PGKfKNkrKaV0fapPhnW4obeM+lzh5Qx
-   pGRb68FRvaemcXdCcDCWPADTC9IdWu96aaaz6LPTiQqpLZZTV5oiYMHG6
-   k/TDExEKTGULTiu4sC+sCI+0UZBmeg61nyFaVLvVt02AGy7frkG7ROneg
-   0y2GZO4dVs4+T+gGhPf6r7MxjwIVdeT/JYFky1GU41GicLzVJsxKt5eOx
-   Q==;
-X-CSE-ConnectionGUID: awLx08oIQ2m2iX3xDX4zdw==
-X-CSE-MsgGUID: jTipmGR1Qs2y4tJAkf2QKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="97937839"
+  t=1785873290; x=1817409290;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zZqZKcAftzj8ITm91foSLDbylWN9INMq1B6IOolVLq4=;
+  b=A8JUQ28x3z2Mkg3us+vv1JuA/mMDDEPBmjDuXab0ehiSDVUYVLdrp/BN
+   bl4L5SnjYkzq48PAkaLVfBOUm06tjVfx897H05RxBB255iTB4pUG8zCO3
+   e9RQHUFuM6kYLG8RebRbgQCV8707yLbNhMqUVVqphXM14Y2tLZkVfDwFN
+   FsRqgdYsDwIZV8UZDY6RqFNltGGXvcKAqLWcEuPRPYQc3ME5SucEfEhCI
+   W8d1aXC0rA8oIz9DVY/XeLZ7M1sjyNEernAjo3vAna1h2/ghfZb7hNxqi
+   bF4iZzzxM73NBKUdQjuOj2Xlz5J6zPrQdsuty+U1uA4yo+zMqmOknifUT
+   w==;
+X-CSE-ConnectionGUID: gQLVqH4gSKKjW7e3n1TaCQ==
+X-CSE-MsgGUID: bB3MxnhCRoaLYumge48/AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86291056"
 X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="97937839"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 12:07:49 -0700
-X-CSE-ConnectionGUID: FGb7aA+vRwye7A9tZ3gg8w==
-X-CSE-MsgGUID: KWluxCPDSMODz2yroJSoMQ==
+   d="scan'208";a="86291056"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 12:54:49 -0700
+X-CSE-ConnectionGUID: k/SqPiR/QrqTxbEfv8vGYw==
+X-CSE-MsgGUID: CWpv8vWSSMWsAvNAIgVtvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="258924412"
+   d="scan'208";a="261659357"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Aug 2026 12:07:47 -0700
+  by orviesa007.jf.intel.com with ESMTP; 04 Aug 2026 12:54:46 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrKUL-00000000AVN-1BvL;
-	Tue, 04 Aug 2026 19:07:45 +0000
-Date: Wed, 05 Aug 2026 03:07:06 +0800
+	id 1wrLDo-00000000AbZ-0isV;
+	Tue, 04 Aug 2026 19:54:44 +0000
+Date: Wed, 5 Aug 2026 03:53:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-cmap-part2 38/45] lib/dynamic_debug.c:1203:13:
- error: redefinition of 'ddebug_class_map_in_range'
-Message-ID: <202608050308.STPwUvAc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Adrian <adriangarciacasado42@gmail.com>, gfs2@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] gfs2: add missing __rcu annotation to i_gl in incore.h
+Message-ID: <202608050308.IDO5tJxh-lkp@intel.com>
+References: <6a344397.561280e1.325e99.aabf@mx.google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,75 +61,673 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a344397.561280e1.325e99.aabf@mx.google.com>
 
-tree:   https://github.com/jimc/linux.git dd-cmap-part2
-head:   13f3629b4d5ed9590e6f743c5514ea6d1436f964
-commit: 3cc274637983ec79de1f76a40296ad6e55e2c388 [38/45] dyndbg: resolve "protection" of class'd pr_debug
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260805/202608050308.STPwUvAc-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608050308.STPwUvAc-lkp@intel.com/reproduce)
+Hi Adrian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on gfs2/for-next]
+[also build test WARNING on linus/master v7.2-rc6 next-20260804]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adrian/gfs2-add-missing-__rcu-annotation-to-i_gl-in-incore-h/20260804-040145
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git for-next
+patch link:    https://lore.kernel.org/r/6a344397.561280e1.325e99.aabf%40mx.google.com
+patch subject: [PATCH] gfs2: add missing __rcu annotation to i_gl in incore.h
+config: nios2-randconfig-r132-20260804 (https://download.01.org/0day-ci/archive/20260805/202608050308.IDO5tJxh-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608050308.IDO5tJxh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608050308.STPwUvAc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608050308.IDO5tJxh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/gfs2/export.c:112:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/export.c:112:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/export.c:112:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/acl.c:70:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/acl.c:70:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/acl.c:70:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/acl.c:71:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/acl.c:71:48: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/acl.c:71:48: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/acl.c:122:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/acl.c:122:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/acl.c:122:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/acl.c:123:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/acl.c:123:44: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/acl.c:123:44: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/dentry.c:60:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dentry.c:60:51: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dentry.c:60:51: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dentry.c:62:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dentry.c:62:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dentry.c:62:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/util.c:61:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/util.c:61:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/util.c:61:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/util.c:345:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/util.c:345:33: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/util.c:345:33: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/recovery.c:36:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/recovery.c:36:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/recovery.c:36:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/recovery.c:348:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/recovery.c:348:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/recovery.c:348:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/recovery.c:443:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/recovery.c:443:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/recovery.c:443:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/meta_io.c:416:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/meta_io.c:416:36: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/meta_io.c:416:36: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/meta_io.c:451:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/meta_io.c:451:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/meta_io.c:451:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/aops.c:114:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/aops.c:114:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/aops.c:114:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/aops.c:371:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/aops.c:371:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/aops.c:371:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/aops.c:569:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/aops.c:569:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/aops.c:569:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/aops.c:135:13: sparse: sparse: dereference of noderef expression
+--
+>> fs/gfs2/glops.c:606:37: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *j_gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/glops.c:606:37: sparse:     expected struct gfs2_glock *j_gl
+   fs/gfs2/glops.c:606:37: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/xattr.c:135:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:135:34: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:135:34: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:159:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:159:42: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:159:42: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:282:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:282:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:282:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:429:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:429:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:429:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:475:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:475:42: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:475:42: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:508:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:508:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:508:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:617:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:617:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:617:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:618:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:618:44: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:618:44: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:650:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:650:32: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:650:32: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:651:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:651:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:651:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:712:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:712:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:712:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:713:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:713:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:713:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:848:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:848:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:848:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:885:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:885:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:885:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:909:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:909:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:909:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:983:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:983:42: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:983:42: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1005:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1005:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1005:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1013:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1013:41: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1013:41: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1014:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1014:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1014:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1099:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1099:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1099:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1247:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1247:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1247:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1248:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1248:44: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1248:44: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1286:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1286:34: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1286:34: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1336:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1336:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1336:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1370:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1370:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1370:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/xattr.c:1422:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/xattr.c:1422:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/xattr.c:1422:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/xattr.c:1252:21: sparse: sparse: dereference of noderef expression
+--
+>> fs/gfs2/dir.c:95:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:95:30: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:95:30: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:96:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:96:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:96:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:109:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:109:34: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:109:34: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:130:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:130:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:130:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:211:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:211:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:211:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:233:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:233:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:233:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:302:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:302:45: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:302:45: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:304:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:304:50: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:304:50: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:682:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:682:32: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:682:32: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:721:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:721:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:721:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:764:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:764:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:764:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:878:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:878:30: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:878:30: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:883:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:883:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:883:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:971:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:971:32: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:971:32: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:1028:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:1028:32: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:1028:32: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:1121:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:1121:40: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:1121:40: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/dir.c:1484:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:1484:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:1484:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:1748:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:1748:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:1748:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:1763:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:1763:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:1763:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:1949:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:1949:32: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:1949:32: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/dir.c:2069:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/dir.c:2069:32: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/dir.c:2069:32: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/lops.c:780:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/lops.c:780:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/lops.c:780:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/lops.c:835:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/lops.c:835:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/lops.c:835:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/lops.c:841:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/lops.c:841:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/lops.c:841:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/lops.c:1004:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/lops.c:1004:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/lops.c:1004:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/lops.c:1055:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/lops.c:1055:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/lops.c:1055:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/lops.c:1062:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/lops.c:1062:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/lops.c:1062:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/bmap.c:1834:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:1834:36: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:1834:36: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:1954:60: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:1954:60: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:1954:60: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:1989:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:1989:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:1989:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:81:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:81:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:81:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:127:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:127:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:127:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:681:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:681:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:681:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:725:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:725:58: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:725:58: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:751:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:751:55: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:751:55: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:753:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:753:58: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:753:58: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:763:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:763:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:763:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:996:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:996:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:996:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/bmap.c:1199:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   fs/gfs2/bmap.c:1199:31: sparse:     expected unsigned long volatile *addr
+   fs/gfs2/bmap.c:1199:31: sparse:     got unsigned long [noderef] __rcu *
+   fs/gfs2/bmap.c:1416:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:1416:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:1416:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:1588:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:1588:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:1588:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:1622:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:1622:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:1622:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:2034:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:2034:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:2034:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:2139:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:2139:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:2139:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:2390:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/bmap.c:2390:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/bmap.c:2390:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/bmap.c:1708:42: sparse: sparse: unsigned value that used to be signed checked against zero?
+   fs/gfs2/bmap.c:2006:16: sparse: signed value source
+--
+>> fs/gfs2/rgrp.c:1037:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/rgrp.c:1037:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/rgrp.c:1037:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/rgrp.c:2456:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/rgrp.c:2456:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/rgrp.c:2456:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/super.c:136:37: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *j_gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:136:37: sparse:     expected struct gfs2_glock *j_gl
+   fs/gfs2/super.c:136:37: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/super.c:186:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:186:40: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:186:40: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:225:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:225:33: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:225:33: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:252:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:252:33: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:252:33: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:253:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:253:33: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:253:33: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:276:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:276:40: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:276:40: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:345:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:345:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:345:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:443:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:443:65: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:443:65: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:449:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:449:50: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:449:50: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:498:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:498:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:498:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:499:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:499:44: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:499:44: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:502:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:502:49: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:502:49: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:520:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:520:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:520:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1212:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1212:9: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1212:9: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1212:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1212:9: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1212:9: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1212:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1212:9: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1212:9: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1218:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1218:42: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1218:42: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1258:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1258:36: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1258:36: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1262:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1262:42: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1262:42: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/super.c:1292:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1292:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1292:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1394:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1394:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1394:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1509:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1509:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1509:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/super.c:1511:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/super.c:1511:45: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/super.c:1511:45: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/super.c:506:20: sparse: sparse: dereference of noderef expression
+--
+>> fs/gfs2/inode.c:150:41: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected struct gfs2_glock **glp @@     got struct gfs2_glock [noderef] __rcu ** @@
+   fs/gfs2/inode.c:150:41: sparse:     expected struct gfs2_glock **glp
+   fs/gfs2/inode.c:150:41: sparse:     got struct gfs2_glock [noderef] __rcu **
+>> fs/gfs2/inode.c:181:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:181:54: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:181:54: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:188:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:188:58: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:188:58: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/inode.c:199:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   fs/gfs2/inode.c:199:52: sparse:     expected unsigned long volatile *addr
+   fs/gfs2/inode.c:199:52: sparse:     got unsigned long [noderef] __rcu *
+   fs/gfs2/inode.c:206:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:206:36: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:206:36: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:212:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:212:54: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:212:54: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:244:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:244:34: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:244:34: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:342:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:342:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:342:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:343:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:343:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:343:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/inode.c:459:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:459:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:459:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:553:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:553:30: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:553:30: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:554:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:554:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:554:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:580:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:580:32: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:580:32: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:581:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:581:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:581:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:729:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:729:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:729:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:835:80: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected struct gfs2_glock **glp @@     got struct gfs2_glock [noderef] __rcu ** @@
+   fs/gfs2/inode.c:835:80: sparse:     expected struct gfs2_glock **glp
+   fs/gfs2/inode.c:835:80: sparse:     got struct gfs2_glock [noderef] __rcu **
+   fs/gfs2/inode.c:857:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:857:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:857:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:860:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   fs/gfs2/inode.c:860:46: sparse:     expected unsigned long volatile *addr
+   fs/gfs2/inode.c:860:46: sparse:     got unsigned long [noderef] __rcu *
+   fs/gfs2/inode.c:873:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:873:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:873:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:917:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:917:30: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:917:30: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:936:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:936:34: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:936:34: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/inode.c:1000:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1000:12: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1000:12: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1060:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1060:29: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1060:29: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1061:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1061:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1061:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1134:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1134:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1134:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1260:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1260:29: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1260:29: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1261:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1261:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1261:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1535:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1535:30: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1535:30: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1537:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1537:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1537:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1541:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1541:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1541:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1545:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1545:37: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1545:37: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1781:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1781:30: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1781:30: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1783:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1783:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1783:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1787:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1787:29: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1787:29: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1790:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1790:29: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1790:29: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:1921:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:1921:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:1921:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:2111:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:2111:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:2111:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:2171:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:2171:42: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:2171:42: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:2172:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:2172:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:2172:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:2215:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:2215:36: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:2215:36: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:2243:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:2243:36: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:2243:36: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:2262:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:2262:36: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:2262:36: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/inode.c:2277:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/inode.c:2277:35: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/inode.c:2277:35: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/ops_fstype.c:548:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/ops_fstype.c:548:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/ops_fstype.c:548:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/ops_fstype.c:660:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/ops_fstype.c:660:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/ops_fstype.c:660:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/ops_fstype.c:755:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/ops_fstype.c:755:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/ops_fstype.c:755:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/ops_fstype.c:924:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/ops_fstype.c:924:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/ops_fstype.c:924:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/file.c:66:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:66:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:66:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:112:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:112:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:112:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:169:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:169:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:169:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:228:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:228:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:228:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:245:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:245:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:245:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:265:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:265:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:265:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:433:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:433:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:433:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/file.c:458:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   fs/gfs2/file.c:458:31: sparse:     expected unsigned long volatile *addr
+   fs/gfs2/file.c:458:31: sparse:     got unsigned long [noderef] __rcu *
+   fs/gfs2/file.c:560:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:560:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:560:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:600:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:600:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:600:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:683:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:683:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:683:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:770:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:770:34: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:770:34: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:840:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:840:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:840:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:903:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:903:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:903:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:983:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:983:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:983:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:1037:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:1037:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:1037:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:1054:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:1054:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:1054:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:1115:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:1115:44: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:1115:44: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:1192:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:1192:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:1192:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/file.c:1393:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/file.c:1393:28: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/file.c:1393:28: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+--
+>> fs/gfs2/quota.c:437:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/quota.c:437:34: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/quota.c:437:34: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/quota.c:695:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/quota.c:695:31: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/quota.c:695:31: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/quota.c:783:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/quota.c:783:39: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/quota.c:783:39: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/quota.c:938:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/quota.c:938:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/quota.c:938:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/quota.c:996:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/quota.c:996:47: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/quota.c:996:47: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/quota.c:1065:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/quota.c:1065:46: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/quota.c:1065:46: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/quota.c:1442:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/quota.c:1442:37: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/quota.c:1442:37: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+   fs/gfs2/quota.c:1748:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/quota.c:1748:38: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/quota.c:1748:38: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
+>> fs/gfs2/quota.c:996:24: sparse: sparse: dereference of noderef expression
+--
+>> fs/gfs2/glock.c:894:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct gfs2_glock *gl @@     got struct gfs2_glock [noderef] __rcu *i_gl @@
+   fs/gfs2/glock.c:894:43: sparse:     expected struct gfs2_glock *gl
+   fs/gfs2/glock.c:894:43: sparse:     got struct gfs2_glock [noderef] __rcu *i_gl
 
->> lib/dynamic_debug.c:1203:13: error: redefinition of 'ddebug_class_map_in_range'
-    1203 | static bool ddebug_class_map_in_range(const int class_id, const struct ddebug_class_map *map)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:203:13: note: previous definition of 'ddebug_class_map_in_range' with type 'bool(const int,  const struct ddebug_class_map *)' {aka '_Bool(const int,  const struct ddebug_class_map *)'}
-     203 | static bool ddebug_class_map_in_range(const int class_id, const struct ddebug_class_map *map)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/dynamic_debug.c:1211:13: error: redefinition of 'ddebug_class_user_in_range'
-    1211 | static bool ddebug_class_user_in_range(const int class_id, const struct ddebug_class_user *user)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:209:13: note: previous definition of 'ddebug_class_user_in_range' with type 'bool(const int,  const struct ddebug_class_user *)' {aka '_Bool(const int,  const struct ddebug_class_user *)'}
-     209 | static bool ddebug_class_user_in_range(const int class_id, const struct ddebug_class_user *user)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +112 fs/gfs2/export.c
 
-
-vim +/ddebug_class_map_in_range +1203 lib/dynamic_debug.c
-
-e9d376f0fa66bd Jason Baron 2009-02-05  1202  
-d3973339379cee Jim Cromie  2025-11-18 @1203  static bool ddebug_class_map_in_range(const int class_id, const struct ddebug_class_map *map)
-19ec642fbe3ebc Jim Cromie  2025-11-18  1204  {
-d3973339379cee Jim Cromie  2025-11-18  1205  	if (!map)
-d3973339379cee Jim Cromie  2025-11-18  1206  		return false;
-19ec642fbe3ebc Jim Cromie  2025-11-18  1207  	return (class_id >= map->base &&
-19ec642fbe3ebc Jim Cromie  2025-11-18  1208  		class_id < map->base + map->length);
-19ec642fbe3ebc Jim Cromie  2025-11-18  1209  }
-a4a2a427413e35 Jim Cromie  2022-09-04  1210  
-d3973339379cee Jim Cromie  2025-11-18 @1211  static bool ddebug_class_user_in_range(const int class_id, const struct ddebug_class_user *user)
-ad2bd5efcfaac4 Jim Cromie  2026-05-21  1212  {
-d3973339379cee Jim Cromie  2025-11-18  1213  	if (!user)
-1806908541ca6a Jim Cromie  2026-07-12  1214  		return false;
-d3973339379cee Jim Cromie  2025-11-18  1215  	return ddebug_class_map_in_range(class_id - user->offset, user->map);
-ad2bd5efcfaac4 Jim Cromie  2026-05-21  1216  }
-b7b476699de86d Jim Cromie  2025-11-18  1217  static const char *ddebug_class_name(struct _ddebug_info *di, struct _ddebug *dp)
-a4a2a427413e35 Jim Cromie  2022-09-04  1218  {
-19ec642fbe3ebc Jim Cromie  2025-11-18  1219  	struct ddebug_class_map *map;
-ad2bd5efcfaac4 Jim Cromie  2026-05-21  1220  	struct ddebug_class_user *cli;
-19ec642fbe3ebc Jim Cromie  2025-11-18  1221  	int i;
-a4a2a427413e35 Jim Cromie  2022-09-04  1222  
-b7b476699de86d Jim Cromie  2025-11-18  1223  	for_subvec(i, map, di, maps)
-d3973339379cee Jim Cromie  2025-11-18  1224  		if (ddebug_class_map_in_range(dp->class_id, map))
-a4a2a427413e35 Jim Cromie  2022-09-04  1225  			return map->class_names[dp->class_id - map->base];
-a4a2a427413e35 Jim Cromie  2022-09-04  1226  
-ad2bd5efcfaac4 Jim Cromie  2026-05-21  1227  	for_subvec(i, cli, di, users)
-d3973339379cee Jim Cromie  2025-11-18  1228  		if (ddebug_class_user_in_range(dp->class_id, cli))
-ad2bd5efcfaac4 Jim Cromie  2026-05-21  1229  			return cli->map->class_names[dp->class_id - cli->map->base - cli->offset];
-ad2bd5efcfaac4 Jim Cromie  2026-05-21  1230  
-a4a2a427413e35 Jim Cromie  2022-09-04  1231  	return NULL;
-a4a2a427413e35 Jim Cromie  2022-09-04  1232  }
-a4a2a427413e35 Jim Cromie  2022-09-04  1233  
-
-:::::: The code at line 1203 was first introduced by commit
-:::::: d3973339379ceed1baf9dc63089791ac48f11c65 dyndbg: detect class_id reservation conflicts
-
-:::::: TO: Jim Cromie <jim.cromie@gmail.com>
-:::::: CC: Jim Cromie <jim.cromie@gmail.com>
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   84  
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   85  static int gfs2_get_name(struct dentry *parent, char *name,
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   86  			 struct dentry *child)
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   87  {
+2b0143b5c986be1 fs/gfs2/export.c     David Howells     2015-03-17   88  	struct inode *dir = d_inode(parent);
+2b0143b5c986be1 fs/gfs2/export.c     David Howells     2015-03-17   89  	struct inode *inode = d_inode(child);
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   90  	struct gfs2_inode *dip, *ip;
+ac6614b76478e68 fs/gfs2/export.c     Al Viro           2013-05-22   91  	struct get_name_filldir gnfd = {
+ac6614b76478e68 fs/gfs2/export.c     Al Viro           2013-05-22   92  		.ctx.actor = get_name_filldir,
+ac6614b76478e68 fs/gfs2/export.c     Al Viro           2013-05-22   93  		.name = name
+ac6614b76478e68 fs/gfs2/export.c     Al Viro           2013-05-22   94  	};
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   95  	struct gfs2_holder gh;
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   96  	int error;
+dfe4d34b39b80fa fs/gfs2/export.c     Bob Peterson      2011-10-27   97  	struct file_ra_state f_ra = { .start = 0 };
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   98  
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16   99  	if (!dir)
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  100  		return -EINVAL;
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  101  
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  102  	if (!S_ISDIR(dir->i_mode) || !inode)
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  103  		return -EINVAL;
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  104  
+feaa7bba026c181 fs/gfs2/ops_export.c Steven Whitehouse 2006-06-14  105  	dip = GFS2_I(dir);
+feaa7bba026c181 fs/gfs2/ops_export.c Steven Whitehouse 2006-06-14  106  	ip = GFS2_I(inode);
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  107  
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  108  	*name = 0;
+dbb7cae2a36170c fs/gfs2/ops_export.c Steven Whitehouse 2007-05-15  109  	gnfd.inum.no_addr = ip->i_no_addr;
+dbb7cae2a36170c fs/gfs2/ops_export.c Steven Whitehouse 2007-05-15  110  	gnfd.inum.no_formal_ino = ip->i_no_formal_ino;
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  111  
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16 @112  	error = gfs2_glock_nq_init(dip->i_gl, LM_ST_SHARED, 0, &gh);
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  113  	if (error)
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  114  		return error;
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  115  
+d81a8ef59802d2d fs/gfs2/export.c     Al Viro           2013-05-16  116  	error = gfs2_dir_read(dir, &gnfd.ctx, &f_ra);
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  117  
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  118  	gfs2_glock_dq_uninit(&gh);
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  119  
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  120  	if (!error && !*name)
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  121  		error = -ENOENT;
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  122  
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  123  	return error;
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  124  }
+b3b94faa5fe5968 fs/gfs2/ops_export.c David Teigland    2006-01-16  125  
 
 --
 0-DAY CI Kernel Test Service
