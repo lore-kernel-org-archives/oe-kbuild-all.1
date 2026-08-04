@@ -1,212 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3959442B3A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 08:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BB23E49CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 09:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785833837; cv=none; b=CJJIxoXgOnEsTuK+KJWYLN2wU7JPLuYxvtpxsyuffZ3xFjGdC/2kq+WvMupW4Wd2qddTUjeSh+YVhAGOtIM3QsTmADjrfOmaLPYEghHLOscjUofZ4xStNdijxw+0uODoky54uF2RwmXjPSYk13m67bm3EkJXLLCGkaaUq6pFRLk=
+	t=1785835077; cv=none; b=iwk4aPS1YscIMlVbKHA1z0ZrVM6oSTzkcM+ivKEQ0fg0ciT0jQjvdr+L5utj+TSY07PQqYUvoY4U1DG+dwHFq+mK5/ROMAL9ql54P7Ikl09h9a/blA+8O+eNPm8Cemq1tmUibfLKlnAugIvgKw2NBr03Y+P2BXvnS3w+mONGhrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785833837; c=relaxed/simple;
-	bh=vO+rxG8KcyHY1/bmjS5c5zMQ+mdRrgyZMUml/9x9ZFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I0jY3CCBkd5xJXAmd6dCRxaA1oaeatxY9R3EsgPkAksClGOgcHIL/1GEH8tohx3BsUFj7xSJPKiRrFP0eaG5PJTCATWGL3ZCneVPf/7N1on8DIh4CEBX7/vBCnbxTD1kZae9dTiBxhc152ACtXGB/j99ZWAL3nCrLC9wQwtTHV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TpwBuxVV; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1785835077; c=relaxed/simple;
+	bh=kUox5FyZWdQYdbie9z3BNp1uk/LrgRGr+ifhcEW4Y9I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FPLRgbcrNnuzxxzl7OFMYQ7jOKLCIfYC593Ls4vJpcqHIso8FEg8wp/sSkpC6lRS30dZEymuzlstIYbCjDqmX4V+jGZceX+V6f9ZUaRKKQWMZyam43orVr0JYqe1TlWD27MN0ipz+Ztb/OyIl61k+tXYd5B/9e3b1A4kKYqyiLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+CU5iAm; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpwBuxVV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+CU5iAm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785833835; x=1817369835;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vO+rxG8KcyHY1/bmjS5c5zMQ+mdRrgyZMUml/9x9ZFg=;
-  b=TpwBuxVVlNMe/PYKmAVcxeaycsSM7I/mnkdU1vhQZNyOcreFGLX92hbM
-   dvz61GmBu+mBLuDALqwM3Yq9Sa374p7yANTx8rwVv3EUiC20SdlbIOO08
-   1CIJ9ZqQ6frVavx3GhFc1mnBwn8QlDhu0KMEwkVNcn5jLGeM1QAIDtuHS
-   U+HDohbKKEKgsZ0waf0PLdgj+tMBoDKJN2KVrc5wtI7wLJUOHHzZDzL++
-   7KX0C4AjgJ/cq0Kw0rDOXAuvnFvnYCowS/xpk53Ey5sPbh+WcSX8VQ6t1
-   MpEdtZKMcphU0fO/U6ffZwtNkt1V3GFE1MjhF5RfP9tvnYA4Pq8v+U+iA
-   w==;
-X-CSE-ConnectionGUID: 3H9nTh9+S2G9Nt2tvHuj8A==
-X-CSE-MsgGUID: Gw1gBIImSTSTE9ZZtXlqaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86499244"
+  t=1785835076; x=1817371076;
+  h=date:from:to:cc:subject:message-id;
+  bh=kUox5FyZWdQYdbie9z3BNp1uk/LrgRGr+ifhcEW4Y9I=;
+  b=A+CU5iAmMnZAqEVNdNkR/KUJtt+Z1XBO7Fd3+hpaupG/kXsRpoB1P7Nf
+   cRu9ccPJqbtXt3vlAgpj6bLnGAtNdg9tmO8pLdQsSXSY9WUAtY6eJxRfD
+   p9A4cc8ZKFQJ/aJNN+2HA2wRP0oBsmrkfi9dfUmdJ8yk7A8mIOxkO6JKP
+   j0ONCDwNBbhrqJnDbgX7FRGhfcfQLH9xYU9+iba45lorb8CVUQ3M5LUFZ
+   MkSwcPt7kkEUSC0HCqg/SYMkUaFcdW1LLJ/yiOXVYI1fpi+bOqtOzccmq
+   B9hajvUtcIGwluXFvw4ZmsTOPKrtrOoukIs68IXoMtwGdjZiwr84Gf3SJ
+   Q==;
+X-CSE-ConnectionGUID: MPRSlXZERQSkmCRHakc/KA==
+X-CSE-MsgGUID: F2GQDTVzTHSVXndu5mVaDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86150468"
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="86499244"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 01:57:14 -0700
-X-CSE-ConnectionGUID: hk9UlDrCS0e99XZEZcfWNA==
-X-CSE-MsgGUID: 09351mO6SVeuK70/rHzf5Q==
+   d="scan'208";a="86150468"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 02:17:55 -0700
+X-CSE-ConnectionGUID: RmZCVcF+RuqSkdwUl979YQ==
+X-CSE-MsgGUID: xNQ3AlGzRpaQz6PYeuZVjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="258779220"
+   d="scan'208";a="263448286"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Aug 2026 01:56:36 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 04 Aug 2026 02:17:54 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrAwr-000000009U1-2F9E;
-	Tue, 04 Aug 2026 08:56:33 +0000
-Date: Tue, 4 Aug 2026 16:56:18 +0800
+	id 1wrBHT-000000009Wn-35ll;
+	Tue, 04 Aug 2026 09:17:51 +0000
+Date: Tue, 04 Aug 2026 17:17:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeffrey Yu <jeyu@issi.com>,
-	"marek.vasut@gmail.com" <marek.vasut@gmail.com>,
-	"tudor.ambarus@microchip.com" <tudor.ambarus@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"dwmw2@infradead.org" <dwmw2@infradead.org>,
-	"computersforpeace@gmail.com" <computersforpeace@gmail.com>,
-	"bbrezillon@kernel.org" <bbrezillon@kernel.org>,
-	"richard@nod.at" <richard@nod.at>,
-	open list <linux-kernel@vger.kernel.org>,
-	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>
-Subject: Re: [PATCH] Add JEDEC ID table entries for additional ISSI SPI-NOR
-   devices. Additionally added several structs to support ISSI octal flash
-  functionality. (Octal SPI 2026 revised)
-Message-ID: <202608041622.usbEnS4x-lkp@intel.com>
-References: <LV8PR19MB85976C665A59A0DEBAF4F285B6EF2@LV8PR19MB8597.namprd19.prod.outlook.com>
+To: Daniel Palmer <daniel@0x0f.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chenxing:mstar_v6_5_reorder 543/700]
+ drivers/rtc/rtc-ssd20xd-rtcpwc.c:466:25: error: 'ms_rtc_of_match_table'
+ undeclared here (not in a function); did you mean
+ 'ssd20xd_rtcpwc_of_match_table'?
+Message-ID: <202608041741.g20pL7Hk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <LV8PR19MB85976C665A59A0DEBAF4F285B6EF2@LV8PR19MB8597.namprd19.prod.outlook.com>
 
-Hi Jeffrey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mtd/spi-nor/next]
-[also build test WARNING on linus/master v7.2-rc6 next-20260803]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Yu/Add-JEDEC-ID-table-entries-for-additional-ISSI-SPI-NOR-devices-Additionally-added-several-structs-to-support-ISSI-octal-/20260804-122036
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-nor/next
-patch link:    https://lore.kernel.org/r/LV8PR19MB85976C665A59A0DEBAF4F285B6EF2%40LV8PR19MB8597.namprd19.prod.outlook.com
-patch subject: [PATCH] Add JEDEC ID table entries for additional ISSI SPI-NOR   devices. Additionally added several structs to support ISSI octal flash  functionality. (Octal SPI 2026 revised)
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608041622.usbEnS4x-lkp@intel.com/config)
+tree:   https://github.com/linux-chenxing/linux.git mstar_v6_5_reorder
+head:   1a5c60e65ea399670a5384b869c4958338af2799
+commit: 5aec260a6a86a28889118148b047111b7075e183 [543/700] rtc: mstar: ssd20xd rtcpwc
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608041741.g20pL7Hk-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608041622.usbEnS4x-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608041741.g20pL7Hk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608041622.usbEnS4x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608041741.g20pL7Hk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mtd/spi-nor/issi.c: In function 'spi_nor_issi_phy_enable':
-   drivers/mtd/spi-nor/issi.c:22:26: error: 'SPINOR_IS_EXSPI' undeclared (first use in this function); did you mean 'SPINOR_OP_EX4B'?
-      22 |                 buf[0] = SPINOR_IS_EXSPI;
-         |                          ^~~~~~~~~~~~~~~
-         |                          SPINOR_OP_EX4B
-   drivers/mtd/spi-nor/issi.c:22:26: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/mtd/spi-nor.h:11,
-                    from drivers/mtd/spi-nor/issi.c:7:
-   drivers/mtd/spi-nor/issi.c:25:59: error: 'SPINOR_OP_IS_WR_ANY_REG' undeclared (first use in this function)
-      25 |                                 SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_IS_WR_ANY_REG, 1),
-         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spi/spi-mem.h:219:24: note: in definition of macro 'SPI_MEM_OP'
-     219 |                 .cmd = __cmd,                                   \
-         |                        ^~~~~
-   drivers/mtd/spi-nor/issi.c:25:44: note: in expansion of macro 'SPI_MEM_OP_CMD'
-      25 |                                 SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_IS_WR_ANY_REG, 1),
-         |                                            ^~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/issi.c:26:52: error: 'SPINOR_REG_IS_CFR0V' undeclared (first use in this function)
-      26 |                                 SPI_MEM_OP_ADDR(4, SPINOR_REG_IS_CFR0V, 1),
-         |                                                    ^~~~~~~~~~~~~~~~~~~
-   include/linux/spi/spi-mem.h:220:25: note: in definition of macro 'SPI_MEM_OP'
-     220 |                 .addr = __addr,                                 \
-         |                         ^~~~~~
-   drivers/mtd/spi-nor/issi.c:26:33: note: in expansion of macro 'SPI_MEM_OP_ADDR'
-      26 |                                 SPI_MEM_OP_ADDR(4, SPINOR_REG_IS_CFR0V, 1),
-         |                                 ^~~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/issi.c:36:56: error: 'SPI_CONTROLLER_SDR_PHY' undeclared (first use in this function); did you mean 'SPI_CONTROLLER_NO_RX'?
-      36 |                 nor->spimem->spi->controller->flags |= SPI_CONTROLLER_SDR_PHY;
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                                                        SPI_CONTROLLER_NO_RX
-   In file included from include/linux/mtd/spi-nor.h:11,
-                    from drivers/mtd/spi-nor/issi.c:7:
-   drivers/mtd/spi-nor/issi.c: In function 'spi_nor_issi_octal_dtr_enable':
-   drivers/mtd/spi-nor/issi.c:73:59: error: 'SPINOR_OP_IS_WR_ANY_REG' undeclared (first use in this function)
-      73 |                                 SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_IS_WR_ANY_REG, 1),
-         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spi/spi-mem.h:219:24: note: in definition of macro 'SPI_MEM_OP'
-     219 |                 .cmd = __cmd,                                   \
-         |                        ^~~~~
-   drivers/mtd/spi-nor/issi.c:73:44: note: in expansion of macro 'SPI_MEM_OP_CMD'
-      73 |                                 SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_IS_WR_ANY_REG, 1),
-         |                                            ^~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/issi.c:74:60: error: 'SPINOR_REG_IS_CFR1V' undeclared (first use in this function)
-      74 |                                         SPI_MEM_OP_ADDR(3, SPINOR_REG_IS_CFR1V, 1),
-         |                                                            ^~~~~~~~~~~~~~~~~~~
-   include/linux/spi/spi-mem.h:220:25: note: in definition of macro 'SPI_MEM_OP'
-     220 |                 .addr = __addr,                                 \
-         |                         ^~~~~~
-   drivers/mtd/spi-nor/issi.c:74:41: note: in expansion of macro 'SPI_MEM_OP_ADDR'
-      74 |                                         SPI_MEM_OP_ADDR(3, SPINOR_REG_IS_CFR1V, 1),
-         |                                         ^~~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/issi.c:92:32: error: 'SPINOR_IS_OCT_DTR' undeclared (first use in this function)
-      92 |                         *buf = SPINOR_IS_OCT_DTR;
-         |                                ^~~~~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/issi.c:94:32: error: 'SPINOR_IS_EXSPI' undeclared (first use in this function); did you mean 'SPINOR_OP_EX4B'?
-      94 |                         *buf = SPINOR_IS_EXSPI;
-         |                                ^~~~~~~~~~~~~~~
-         |                                SPINOR_OP_EX4B
-   In file included from include/linux/mtd/spi-nor.h:11,
-                    from drivers/mtd/spi-nor/issi.c:7:
-   drivers/mtd/spi-nor/issi.c:99:57: error: 'SPINOR_REG_IS_CFR0V' undeclared (first use in this function)
-      99 |                                                         SPINOR_REG_IS_CFR0V, 1),
-         |                                                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/spi/spi-mem.h:220:25: note: in definition of macro 'SPI_MEM_OP'
-     220 |                 .addr = __addr,                                 \
-         |                         ^~~~~~
-   drivers/mtd/spi-nor/issi.c:98:41: note: in expansion of macro 'SPI_MEM_OP_ADDR'
-      98 |                                         SPI_MEM_OP_ADDR(enable ? 3 : 4,
-         |                                         ^~~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/issi.c:110:35: error: 'SNOR_F_HAS_STACKED' undeclared (first use in this function); did you mean 'SNOR_F_HAS_LOCK'?
-     110 |                 if ((nor->flags & SNOR_F_HAS_STACKED) && nor->spimem->spi->cs_index_mask == 1)
-         |                                   ^~~~~~~~~~~~~~~~~~
-         |                                   SNOR_F_HAS_LOCK
-   drivers/mtd/spi-nor/issi.c: In function 'is25wx256_default_init':
-   drivers/mtd/spi-nor/issi.c:151:58: error: implicit declaration of function 'spi_nor_get_params' [-Werror=implicit-function-declaration]
-     151 |                 struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
-         |                                                          ^~~~~~~~~~~~~~~~~~
->> drivers/mtd/spi-nor/issi.c:151:58: warning: initialization of 'struct spi_nor_flash_parameter *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/mtd/spi-nor/issi.c:155:23: error: 'struct spi_nor_flash_parameter' has no member named 'phy_enable'
-     155 |                 params->phy_enable = spi_nor_issi_phy_enable;
-         |                       ^~
-   drivers/mtd/spi-nor/issi.c: In function 'is25wx256_post_sfdp_fixup':
-   drivers/mtd/spi-nor/issi.c:160:58: warning: initialization of 'struct spi_nor_flash_parameter *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     160 |                 struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
-         |                                                          ^~~~~~~~~~~~~~~~~~
-   drivers/mtd/spi-nor/issi.c:165:72: error: 'SPINOR_OP_IS_DTR_RD' undeclared (first use in this function); did you mean 'SPINOR_OP_RDSR2'?
-     165 |                                                                 0, 20, SPINOR_OP_IS_DTR_RD,
-         |                                                                        ^~~~~~~~~~~~~~~~~~~
-         |                                                                        SPINOR_OP_RDSR2
-   drivers/mtd/spi-nor/issi.c: At top level:
-   drivers/mtd/spi-nor/issi.c:314:30: error: 'USE_FSR' undeclared here (not in a function)
-     314 |                 .mfr_flags = USE_FSR,
-         |                              ^~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/rtc/rtc-ssd20xd-rtcpwc.c:8:
+>> drivers/rtc/rtc-ssd20xd-rtcpwc.c:466:25: error: 'ms_rtc_of_match_table' undeclared here (not in a function); did you mean 'ssd20xd_rtcpwc_of_match_table'?
+     466 | MODULE_DEVICE_TABLE(of, ms_rtc_of_match_table);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |               ^~~~
+>> include/linux/module.h:244:21: error: '__mod_of__ms_rtc_of_match_table_device_table' aliased to undefined symbol 'ms_rtc_of_match_table'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |                     ^~~~~~
+   drivers/rtc/rtc-ssd20xd-rtcpwc.c:466:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     466 | MODULE_DEVICE_TABLE(of, ms_rtc_of_match_table);
+         | ^~~~~~~~~~~~~~~~~~~
 
 
-vim +151 drivers/mtd/spi-nor/issi.c
+vim +466 drivers/rtc/rtc-ssd20xd-rtcpwc.c
 
-   148	
-   149	static void is25wx256_default_init(struct spi_nor *nor)
-   150	{
- > 151			struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
-   152	
-   153			params->set_octal_dtr = spi_nor_issi_octal_dtr_enable;
-   154			params->set_4byte_addr_mode = is25wx256_set_4byte_addr_mode;
-   155			params->phy_enable = spi_nor_issi_phy_enable;
-   156	}
-   157	
+   461	
+   462	static const struct of_device_id ssd20xd_rtcpwc_of_match_table[] = {
+   463		{ .compatible = "sstar,ssd20xd-rtcpwc" },
+   464		{ }
+   465	};
+ > 466	MODULE_DEVICE_TABLE(of, ms_rtc_of_match_table);
+   467	
 
 --
 0-DAY CI Kernel Test Service
