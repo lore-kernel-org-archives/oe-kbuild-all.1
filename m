@@ -1,149 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDD546C853
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 15:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4B71B4138
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 16:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785857852; cv=none; b=srMc/g0dqUebVNjizmgWpYvM6RlaoE/QvYhb/jg7ROsMrkUJX5pjyBoP6kR3I/68KYccvL2c3STcH7NJIBd6sjHZCZOcyFllLTfD3hCkZgA80x/O2oLXw20d5lVH7BIwyGg+b8Sg3ENy4KY7WQ98Xvl6euf7zzJ1biCY6LdGCzw=
+	t=1785860337; cv=none; b=MckhIZ6QAff5hOOz1IfAzhqOiMXsexDasPZD0P+5NRaA19kMrV2jzhHDSb90mN77pEtz6sgYmqed1ZY3zjn+H2kDEc8atXCQPorqB7/4fLXmp77l19nloYTgqvKnKnTY+/R38OzdH1f24ZLrAt34OYtG0ntVX5M1S3hdZpNdYRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785857852; c=relaxed/simple;
-	bh=gjrVDFzMFPA76v231W8P+9Ba4GP9F9+nK7yh6nwf4vc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CUEgciF99TSbV7TBjpURqca1KzaFZwX+TmcRtd+Yiny0R6sjCTx7PBJGp5x6xNbpxu/JZ9k3y0XyXPUHVIuil79k711W2KqU/ZQ+BsN9Ljy4YNK0eR8TQ5zaxWjad+cAyX2BnxTjPZOUKLkCISFlDpsTBvGYRpHdK9hLu6RU6yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ikjjrtWP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785860337; c=relaxed/simple;
+	bh=e2fVSQudZ8pwRBM4kRNt70cikoSelmId+nmvR+63QXo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iQKNeS5zWdI6DIvY8dRNUQ/f2rh3EEPDf1/1Ja2QdHFypo7WWxTpj4S2cJ4hq46Wl13SRi70BxTKSbVIbK+K4g7gjmPRbMjK/moyuwzQVe9Q/qjFAECy5UR2XdK/pcS1DtPt5FgOVvXRPdsAdca3MbcUEAqo2uJD1WJ8akT6scI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UaKrDZaF; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ikjjrtWP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785857848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gjrVDFzMFPA76v231W8P+9Ba4GP9F9+nK7yh6nwf4vc=;
-	b=ikjjrtWPEMzvLjOvQbhlxM1/5Pv4LCOYd6aid+G7UebGMM0IcN6Muq+rSeMV+mSqkYjMZd
-	nheo+IMy2nEZFkw/h7gqo4VU6ZXNqBKnlpv2O1n6speiHG8TrI3wPS5+oMtRaa2meHDxnQ
-	V3dBImigWxGeekgOEH3Bwm8Y6ymyO58=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-590-GQa5PeB_NgS1ZW8MA_yEpQ-1; Tue, 04 Aug 2026 11:37:27 -0400
-X-MC-Unique: GQa5PeB_NgS1ZW8MA_yEpQ-1
-X-Mimecast-MFC-AGG-ID: GQa5PeB_NgS1ZW8MA_yEpQ_1785857846
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8ee593a5a2fso326096d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Aug 2026 08:37:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785857846; x=1786462646;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gjrVDFzMFPA76v231W8P+9Ba4GP9F9+nK7yh6nwf4vc=;
-        b=B+cYqrCcS3eHI4H/B2gm3satxxn7gPvYSM+4RtSxL3/ODMZA84Rg9V8B6r34KufL4D
-         s4qD+goE8YmnHE4QGoP5Iwse5cdvajtL/NZ2Q/tQXLXnQfxGA/Kbh7xPnHlvhUrGmLQl
-         4HvdixLPkd+hS9hF+I0SCxdUAvmee9Joj8soG3JmGM++q6q+IG4aYWjHetEHXF+jgxiL
-         OEok2AfvCNq36atf4Zhit8rKrFMk5m3q2LaAQt12but75frSF96BsHK1jnPEuQqKKa99
-         gwOEtUUyXMHSsMI5H3XC2NoLM2kfOyltn5KUrl9+M/HR2sukL15tMh1iuQFR8Tu+uPdn
-         zFWg==
-X-Gm-Message-State: AOJu0YxJZchXtMEHYB0NU47Ub3JT1zgvTqhk/dBYg1o+iX+KaNP/Eunc
-	PxyMfiAXnnnEtdcxNRakuCULWrHW5yaxn+SqbVrL3dVDHhfpnDrAg4SJ61MMNJ8EUJlIgi4DKgN
-	y4BtxA3NveWewxsnwctyjC6uSDf2kt6GmUu4Ifnygmb2VoHATBFqrts8MPgihB8AT/Z4=
-X-Gm-Gg: AR+sD11lvkgYKrS7K1RnpxKtCVnfpevtYmHLQgnK10K8HoW8OXQ+lnLEoZn8zWZVRQ+
-	vbtBi8811jzBnGBo+vl0kjQ6ilx2L91BMwEzoSGLrj4I1e6czHvKlwsyMxs9aUwCSvmPA1BvEUX
-	3W0dqDUkp+cBBLmRg6inOSGokMkL3vSlSjLed5c5GHd4OB8FEw5YS1Yw1VWFbEfbjW3dT7CiCkx
-	ga+08KcWv4HkEECyyLoQ3qiW5ljf43HerfQsBiMMogTXTwfntMTNpi9cT++MmYPa0Kp8CxUjGRr
-	onJwaRMH/I9JWnTrZxGjLoHe9cRhBigpyg5ewAvCDbDMnnq5Xl9ssiLoYWZ/HyEn+4An2jNXnWq
-	+RZoL00b71ifNxa21bqhSPDV8RTdbsEOnXk2b
-X-Received: by 2002:a05:6214:493:b0:8fd:b96d:195b with SMTP id 6a1803df08f44-90872c2b7cbmr80415956d6.15.1785857846420;
-        Tue, 04 Aug 2026 08:37:26 -0700 (PDT)
-X-Received: by 2002:a05:6214:493:b0:8fd:b96d:195b with SMTP id 6a1803df08f44-90872c2b7cbmr80415046d6.15.1785857845790;
-        Tue, 04 Aug 2026 08:37:25 -0700 (PDT)
-Received: from loberman-thinkpadp16gen3.rmtusma.csb ([2600:6c65:2440:d8c:dbb1:97f1:a6e6:766b])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908800cb9basm3648296d6.45.2026.08.04.08.37.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 08:37:25 -0700 (PDT)
-Message-ID: <fa5e8dd1591ada95ac3e7e371852d9d68cd33cd8.camel@redhat.com>
-Subject: Re: [PATCH] scsi: storvsc: Support manual scans for all Hyper-V
- targets
-From: Laurence Oberman <loberman@redhat.com>
-To: kernel test robot <lkp@intel.com>, "K. Y. Srinivasan"
- <kys@microsoft.com>,  Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
- <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li	
- <longli@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, "James E.J. Bottomley"
-	 <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
-	 <martin.petersen@oracle.com>, linux-hyperv@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 04 Aug 2026 11:37:24 -0400
-In-Reply-To: <202608032058.OkCwuEDu-lkp@intel.com>
-References: <20260723151458.872265-1-loberman@redhat.com>
-	 <202608032058.OkCwuEDu-lkp@intel.com>
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UaKrDZaF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785860335; x=1817396335;
+  h=date:from:to:cc:subject:message-id;
+  bh=e2fVSQudZ8pwRBM4kRNt70cikoSelmId+nmvR+63QXo=;
+  b=UaKrDZaF3HBdftDjjbs5zj3Q0Qqc8wiv+v1manYuTWe+ejVuc4SqoCFs
+   efaLe9HL3yU69LRB/68q+Q7fM3dWPcjINVQv9/q82buv7HJ08EIsCtvng
+   e4zlNDHNNbeU6DY8yRMTC4/tgii9bBWUxTHnLU+9p3viqDVfF44u/wN0k
+   iSsXK76avIU8F9g1c/4okt8iRNjnrqOEX2EqAHVZVd2ZmGrQ+xNNyBhHm
+   NNrsfmTrc/VlJW120F7r+V2wnhewfh7esB37IWp77HnbF9lsFD8SyPxTE
+   B0MqKWiMG9PRVg/YGBaCVN0kfu5HD/O/r+wzUsXQle6kEiLRARwffU+uC
+   g==;
+X-CSE-ConnectionGUID: 3bXkxtq+SrWxNYLASgZPzA==
+X-CSE-MsgGUID: aktxs1bHRJWWyZc8Y0tvMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="109208796"
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="109208796"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 09:18:54 -0700
+X-CSE-ConnectionGUID: Kuyz6md5S6O0jCepQ+3bxw==
+X-CSE-MsgGUID: GVwlnbtGTS21JP5hnt8OGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="266670241"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 04 Aug 2026 09:18:52 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wrHqs-00000000ACH-0ZBa;
+	Tue, 04 Aug 2026 16:18:50 +0000
+Date: Wed, 05 Aug 2026 00:17:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Palmer <daniel@0x0f.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chenxing:mstar_v6_5_reorder 560/700]
+ drivers/tty/serial/8250/8250_dw.c:773:42: warning:
+ 'dw8250_starfive_jh7100_data' defined but not used
+Message-ID: <202608042308.CC4ZLVsO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: f4L66wQyO59RofAJy06pg0PZWsW0mb-7ZN1u4fEbFL0_1785857846
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-08-03 at 20:45 +0800, kernel test robot wrote:
-> Hi Laurence,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on jejb-scsi/for-next]
-> [also build test ERROR on mkp-scsi/for-next linus/master v7.2-rc6
-> next-20260731]
-> [If your patch is applied to the wrong git tree, kindly drop us a
-> note.
-> And when submitting patch, we suggest to use '--base' as documented
-> in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/Laurence-Oberman/scsi-stor=
-vsc-Support-manual-scans-for-all-Hyper-V-targets/20260803-141419
-> base:=C2=A0=C2=A0
-> https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git=C2=A0for-
-> next
-> patch link:=C2=A0=C2=A0=C2=A0
-> https://lore.kernel.org/r/20260723151458.872265-1-loberman%40redhat.com
-> patch subject: [PATCH] scsi: storvsc: Support manual scans for all
-> Hyper-V targets
-> config: i386-allmodconfig
-> (https://download.01.org/0day-ci/archive/20260803/202608032058.OkCwuE
-> Du-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=3D1 build):
-> (https://download.01.org/0day-ci/archive/20260803/202608032058.OkCwuE
-> Du-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202608032058.OkCwuEDu-lkp@intel.c=
-om/
->=20
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->=20
-> > > ERROR: modpost: "scsi_scan_host_selected"
-> > > [drivers/scsi/hv_storvsc.ko] undefined!
->=20
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->=20
->=20
-> Thanks for the report. This build failure was against v1 and was
-> fixed in v2 by replacing the unexported scsi_scan_host_selected()
-> helper with the exported scsi_scan_target() interface.
+tree:   https://github.com/linux-chenxing/linux.git mstar_v6_5_reorder
+head:   1a5c60e65ea399670a5384b869c4958338af2799
+commit: add6d38b470e2d6763780bb8f4cf970abf5b7402 [560/700] serial: 8250_dw: Reduce useless compatibles
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608042308.CC4ZLVsO-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608042308.CC4ZLVsO-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608042308.CC4ZLVsO-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/tty/serial/8250/8250_dw.c:773:42: warning: 'dw8250_starfive_jh7100_data' defined but not used [-Wunused-const-variable=]
+     773 | static const struct dw8250_platform_data dw8250_starfive_jh7100_data = {
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/tty/serial/8250/8250_dw.c:767:42: warning: 'dw8250_renesas_rzn1_data' defined but not used [-Wunused-const-variable=]
+     767 | static const struct dw8250_platform_data dw8250_renesas_rzn1_data = {
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/tty/serial/8250/8250_dw.c:762:42: warning: 'dw8250_armada_38x_data' defined but not used [-Wunused-const-variable=]
+     762 | static const struct dw8250_platform_data dw8250_armada_38x_data = {
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/tty/serial/8250/8250_dw.c:757:42: warning: 'dw8250_octeon_3860_data' defined but not used [-Wunused-const-variable=]
+     757 | static const struct dw8250_platform_data dw8250_octeon_3860_data = {
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/dw8250_starfive_jh7100_data +773 drivers/tty/serial/8250/8250_dw.c
+
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  756  
+4a218b277fdba3 Emil Renner Berthing 2022-04-22 @757  static const struct dw8250_platform_data dw8250_octeon_3860_data = {
+ffd381445eac2a Miquel Raynal        2022-04-22  758  	.usr_reg = OCTEON_UART_USR,
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  759  	.quirks = DW_UART_QUIRK_OCTEON,
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  760  };
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  761  
+4a218b277fdba3 Emil Renner Berthing 2022-04-22 @762  static const struct dw8250_platform_data dw8250_armada_38x_data = {
+ffd381445eac2a Miquel Raynal        2022-04-22  763  	.usr_reg = DW_UART_USR,
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  764  	.quirks = DW_UART_QUIRK_ARMADA_38X,
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  765  };
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  766  
+4a218b277fdba3 Emil Renner Berthing 2022-04-22 @767  static const struct dw8250_platform_data dw8250_renesas_rzn1_data = {
+ffd381445eac2a Miquel Raynal        2022-04-22  768  	.usr_reg = DW_UART_USR,
+070e246217230c Phil Edworthy        2022-04-22  769  	.cpr_val = 0x00012f32,
+070e246217230c Phil Edworthy        2022-04-22  770  	.quirks = DW_UART_QUIRK_IS_DMA_FC,
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  771  };
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  772  
+4a218b277fdba3 Emil Renner Berthing 2022-04-22 @773  static const struct dw8250_platform_data dw8250_starfive_jh7100_data = {
+ffd381445eac2a Miquel Raynal        2022-04-22  774  	.usr_reg = DW_UART_USR,
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  775  	.quirks = DW_UART_QUIRK_SKIP_SET_RATE,
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  776  };
+4a218b277fdba3 Emil Renner Berthing 2022-04-22  777  
+
+:::::: The code at line 773 was first introduced by commit
+:::::: 4a218b277fdba357d8e9022ae675c94e59d64b4e serial: 8250: dw: Create a generic platform data structure
+
+:::::: TO: Emil Renner Berthing <kernel@esmil.dk>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
