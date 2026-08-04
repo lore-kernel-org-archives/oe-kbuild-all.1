@@ -1,212 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFCA30D40B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 15:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDD546C853
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Aug 2026 15:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785856842; cv=none; b=i00gviaKVYgko5lE+aywGa6TJOIc2b7CdwFPMqicb7Art62olHQghnIH+LsZTVejFXSHCDlARd7xg0XXxn97/n4x6YuXSRxlBcK4x9EWcpg9WLQLw4pEzYPsZfgoGWC7bZ8v2RWji1164lKCCLB8eFvZWw3/OgXwsecRIeHILqQ=
+	t=1785857852; cv=none; b=srMc/g0dqUebVNjizmgWpYvM6RlaoE/QvYhb/jg7ROsMrkUJX5pjyBoP6kR3I/68KYccvL2c3STcH7NJIBd6sjHZCZOcyFllLTfD3hCkZgA80x/O2oLXw20d5lVH7BIwyGg+b8Sg3ENy4KY7WQ98Xvl6euf7zzJ1biCY6LdGCzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785856842; c=relaxed/simple;
-	bh=597sp7wrS5NZsGOmlApZyviJDKLYPo4BUohV9Dw2AlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=biqmFGpRU/1RhImwnrnrQf8ILY0X7XFXFPi0+HnuLqGPVNXyDYw+Sc5kXFskZvAH4fMd0BFCsd964KRCSusIwJ3o0TScM9TQ0838S29PfE0oxA9uu7TStzuqeNZzKmMD027NoWYbkZLbPpva/WCy7bLKdtB1Q87a4Kj94eucKdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sck07cXY; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785857852; c=relaxed/simple;
+	bh=gjrVDFzMFPA76v231W8P+9Ba4GP9F9+nK7yh6nwf4vc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CUEgciF99TSbV7TBjpURqca1KzaFZwX+TmcRtd+Yiny0R6sjCTx7PBJGp5x6xNbpxu/JZ9k3y0XyXPUHVIuil79k711W2KqU/ZQ+BsN9Ljy4YNK0eR8TQ5zaxWjad+cAyX2BnxTjPZOUKLkCISFlDpsTBvGYRpHdK9hLu6RU6yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ikjjrtWP; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sck07cXY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785856841; x=1817392841;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=597sp7wrS5NZsGOmlApZyviJDKLYPo4BUohV9Dw2AlI=;
-  b=Sck07cXYQbe1skwauYtZxou5RlImLWkJzK5jP5cw06D00Du668xrUtvy
-   XZcdfIckHZgrBtwo8gyQPIZLtCe/Xna6MZ8nuFzyJPSdqF3gh9O0SICMd
-   rtTW05unJfD/P+ciJczj8chhjhkX7nBgu+gcbuH/gE0eKgWFyWFcZpnqA
-   Kb1kFCY3+ioyIdCB2FiQwjUHfG52Y1KvmKMUPBoOKZNLDuAya2/vl9TcO
-   5bXeo/YzzOZSoXQMK85O3zSMnNXo38yBoEOi/a/P481IiDRj+rK4lxybG
-   3HiV/hYSNSzz0XUYmQ6GMIrLVbf8Eya2muNMB6sxmgjE+2pHdUK1vbf/d
-   A==;
-X-CSE-ConnectionGUID: iIrt2cj8Q6Cw1Tbh6tkosQ==
-X-CSE-MsgGUID: Y7VPbpHlTzqBGM10Bid5hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86287100"
-X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="86287100"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 08:20:40 -0700
-X-CSE-ConnectionGUID: ci2R81MSQVWy4BOjYA/FxA==
-X-CSE-MsgGUID: 1uFWCLXURrW07obHP42bBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="258865749"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Aug 2026 08:16:10 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wrGsC-00000000A5h-0kAL;
-	Tue, 04 Aug 2026 15:16:08 +0000
-Date: Tue, 4 Aug 2026 23:15:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] gpio: mvebu: convert to noirq suspend/resume to prevent
- interrupt storm on resume
-Message-ID: <202608042358.6rKawjZd-lkp@intel.com>
-References: <20260707233511.1272686-1-rosenp@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ikjjrtWP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785857848;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gjrVDFzMFPA76v231W8P+9Ba4GP9F9+nK7yh6nwf4vc=;
+	b=ikjjrtWPEMzvLjOvQbhlxM1/5Pv4LCOYd6aid+G7UebGMM0IcN6Muq+rSeMV+mSqkYjMZd
+	nheo+IMy2nEZFkw/h7gqo4VU6ZXNqBKnlpv2O1n6speiHG8TrI3wPS5+oMtRaa2meHDxnQ
+	V3dBImigWxGeekgOEH3Bwm8Y6ymyO58=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-590-GQa5PeB_NgS1ZW8MA_yEpQ-1; Tue, 04 Aug 2026 11:37:27 -0400
+X-MC-Unique: GQa5PeB_NgS1ZW8MA_yEpQ-1
+X-Mimecast-MFC-AGG-ID: GQa5PeB_NgS1ZW8MA_yEpQ_1785857846
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8ee593a5a2fso326096d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Aug 2026 08:37:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785857846; x=1786462646;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gjrVDFzMFPA76v231W8P+9Ba4GP9F9+nK7yh6nwf4vc=;
+        b=B+cYqrCcS3eHI4H/B2gm3satxxn7gPvYSM+4RtSxL3/ODMZA84Rg9V8B6r34KufL4D
+         s4qD+goE8YmnHE4QGoP5Iwse5cdvajtL/NZ2Q/tQXLXnQfxGA/Kbh7xPnHlvhUrGmLQl
+         4HvdixLPkd+hS9hF+I0SCxdUAvmee9Joj8soG3JmGM++q6q+IG4aYWjHetEHXF+jgxiL
+         OEok2AfvCNq36atf4Zhit8rKrFMk5m3q2LaAQt12but75frSF96BsHK1jnPEuQqKKa99
+         gwOEtUUyXMHSsMI5H3XC2NoLM2kfOyltn5KUrl9+M/HR2sukL15tMh1iuQFR8Tu+uPdn
+         zFWg==
+X-Gm-Message-State: AOJu0YxJZchXtMEHYB0NU47Ub3JT1zgvTqhk/dBYg1o+iX+KaNP/Eunc
+	PxyMfiAXnnnEtdcxNRakuCULWrHW5yaxn+SqbVrL3dVDHhfpnDrAg4SJ61MMNJ8EUJlIgi4DKgN
+	y4BtxA3NveWewxsnwctyjC6uSDf2kt6GmUu4Ifnygmb2VoHATBFqrts8MPgihB8AT/Z4=
+X-Gm-Gg: AR+sD11lvkgYKrS7K1RnpxKtCVnfpevtYmHLQgnK10K8HoW8OXQ+lnLEoZn8zWZVRQ+
+	vbtBi8811jzBnGBo+vl0kjQ6ilx2L91BMwEzoSGLrj4I1e6czHvKlwsyMxs9aUwCSvmPA1BvEUX
+	3W0dqDUkp+cBBLmRg6inOSGokMkL3vSlSjLed5c5GHd4OB8FEw5YS1Yw1VWFbEfbjW3dT7CiCkx
+	ga+08KcWv4HkEECyyLoQ3qiW5ljf43HerfQsBiMMogTXTwfntMTNpi9cT++MmYPa0Kp8CxUjGRr
+	onJwaRMH/I9JWnTrZxGjLoHe9cRhBigpyg5ewAvCDbDMnnq5Xl9ssiLoYWZ/HyEn+4An2jNXnWq
+	+RZoL00b71ifNxa21bqhSPDV8RTdbsEOnXk2b
+X-Received: by 2002:a05:6214:493:b0:8fd:b96d:195b with SMTP id 6a1803df08f44-90872c2b7cbmr80415956d6.15.1785857846420;
+        Tue, 04 Aug 2026 08:37:26 -0700 (PDT)
+X-Received: by 2002:a05:6214:493:b0:8fd:b96d:195b with SMTP id 6a1803df08f44-90872c2b7cbmr80415046d6.15.1785857845790;
+        Tue, 04 Aug 2026 08:37:25 -0700 (PDT)
+Received: from loberman-thinkpadp16gen3.rmtusma.csb ([2600:6c65:2440:d8c:dbb1:97f1:a6e6:766b])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908800cb9basm3648296d6.45.2026.08.04.08.37.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 08:37:25 -0700 (PDT)
+Message-ID: <fa5e8dd1591ada95ac3e7e371852d9d68cd33cd8.camel@redhat.com>
+Subject: Re: [PATCH] scsi: storvsc: Support manual scans for all Hyper-V
+ targets
+From: Laurence Oberman <loberman@redhat.com>
+To: kernel test robot <lkp@intel.com>, "K. Y. Srinivasan"
+ <kys@microsoft.com>,  Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
+ <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li	
+ <longli@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, "James E.J. Bottomley"
+	 <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
+	 <martin.petersen@oracle.com>, linux-hyperv@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 04 Aug 2026 11:37:24 -0400
+In-Reply-To: <202608032058.OkCwuEDu-lkp@intel.com>
+References: <20260723151458.872265-1-loberman@redhat.com>
+	 <202608032058.OkCwuEDu-lkp@intel.com>
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260707233511.1272686-1-rosenp@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: f4L66wQyO59RofAJy06pg0PZWsW0mb-7ZN1u4fEbFL0_1785857846
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rosen,
+On Mon, 2026-08-03 at 20:45 +0800, kernel test robot wrote:
+> Hi Laurence,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on jejb-scsi/for-next]
+> [also build test ERROR on mkp-scsi/for-next linus/master v7.2-rc6
+> next-20260731]
+> [If your patch is applied to the wrong git tree, kindly drop us a
+> note.
+> And when submitting patch, we suggest to use '--base' as documented
+> in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:=C2=A0=C2=A0=C2=A0
+> https://github.com/intel-lab-lkp/linux/commits/Laurence-Oberman/scsi-stor=
+vsc-Support-manual-scans-for-all-Hyper-V-targets/20260803-141419
+> base:=C2=A0=C2=A0
+> https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git=C2=A0for-
+> next
+> patch link:=C2=A0=C2=A0=C2=A0
+> https://lore.kernel.org/r/20260723151458.872265-1-loberman%40redhat.com
+> patch subject: [PATCH] scsi: storvsc: Support manual scans for all
+> Hyper-V targets
+> config: i386-allmodconfig
+> (https://download.01.org/0day-ci/archive/20260803/202608032058.OkCwuE
+> Du-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build):
+> (https://download.01.org/0day-ci/archive/20260803/202608032058.OkCwuE
+> Du-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new
+> version of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes:
+> > https://lore.kernel.org/oe-kbuild-all/202608032058.OkCwuEDu-lkp@intel.c=
+om/
+>=20
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>=20
+> > > ERROR: modpost: "scsi_scan_host_selected"
+> > > [drivers/scsi/hv_storvsc.ko] undefined!
+>=20
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>=20
+>=20
+> Thanks for the report. This build failure was against v1 and was
+> fixed in v2 by replacing the unexported scsi_scan_host_selected()
+> helper with the exported scsi_scan_target() interface.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v7.2-rc6 next-20260803]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/gpio-mvebu-convert-to-noirq-suspend-resume-to-prevent-interrupt-storm-on-resume/20260804-155102
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20260707233511.1272686-1-rosenp%40gmail.com
-patch subject: [PATCH] gpio: mvebu: convert to noirq suspend/resume to prevent interrupt storm on resume
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608042358.6rKawjZd-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608042358.6rKawjZd-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608042358.6rKawjZd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpio/gpio-mvebu.c:1034:12: warning: 'mvebu_gpio_resume' defined but not used [-Wunused-function]
-    1034 | static int mvebu_gpio_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~
->> drivers/gpio/gpio-mvebu.c:982:12: warning: 'mvebu_gpio_suspend' defined but not used [-Wunused-function]
-     982 | static int mvebu_gpio_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~
-
-
-vim +/mvebu_gpio_resume +1034 drivers/gpio/gpio-mvebu.c
-
-   981	
- > 982	static int mvebu_gpio_suspend(struct device *dev)
-   983	{
-   984		struct mvebu_gpio_chip *mvchip = dev_get_drvdata(dev);
-   985		int i;
-   986	
-   987		regmap_read(mvchip->regs, GPIO_OUT_OFF + mvchip->offset,
-   988			    &mvchip->out_reg);
-   989		regmap_read(mvchip->regs, GPIO_IO_CONF_OFF + mvchip->offset,
-   990			    &mvchip->io_conf_reg);
-   991		regmap_read(mvchip->regs, GPIO_BLINK_EN_OFF + mvchip->offset,
-   992			    &mvchip->blink_en_reg);
-   993		regmap_read(mvchip->regs, GPIO_IN_POL_OFF + mvchip->offset,
-   994			    &mvchip->in_pol_reg);
-   995	
-   996		switch (mvchip->soc_variant) {
-   997		case MVEBU_GPIO_SOC_VARIANT_ORION:
-   998		case MVEBU_GPIO_SOC_VARIANT_A8K:
-   999			regmap_read(mvchip->regs, GPIO_EDGE_MASK_OFF + mvchip->offset,
-  1000				    &mvchip->edge_mask_regs[0]);
-  1001			regmap_read(mvchip->regs, GPIO_LEVEL_MASK_OFF + mvchip->offset,
-  1002				    &mvchip->level_mask_regs[0]);
-  1003			break;
-  1004		case MVEBU_GPIO_SOC_VARIANT_MV78200:
-  1005			for (i = 0; i < 2; i++) {
-  1006				regmap_read(mvchip->regs,
-  1007					    GPIO_EDGE_MASK_MV78200_OFF(i),
-  1008					    &mvchip->edge_mask_regs[i]);
-  1009				regmap_read(mvchip->regs,
-  1010					    GPIO_LEVEL_MASK_MV78200_OFF(i),
-  1011					    &mvchip->level_mask_regs[i]);
-  1012			}
-  1013			break;
-  1014		case MVEBU_GPIO_SOC_VARIANT_ARMADAXP:
-  1015			for (i = 0; i < 4; i++) {
-  1016				regmap_read(mvchip->regs,
-  1017					    GPIO_EDGE_MASK_ARMADAXP_OFF(i),
-  1018					    &mvchip->edge_mask_regs[i]);
-  1019				regmap_read(mvchip->regs,
-  1020					    GPIO_LEVEL_MASK_ARMADAXP_OFF(i),
-  1021					    &mvchip->level_mask_regs[i]);
-  1022			}
-  1023			break;
-  1024		default:
-  1025			BUG();
-  1026		}
-  1027	
-  1028		if (IS_REACHABLE(CONFIG_PWM) && mvchip->mvpwm)
-  1029			mvebu_pwm_suspend(mvchip);
-  1030	
-  1031		return 0;
-  1032	}
-  1033	
-> 1034	static int mvebu_gpio_resume(struct device *dev)
-  1035	{
-  1036		struct mvebu_gpio_chip *mvchip = dev_get_drvdata(dev);
-  1037		int i;
-  1038	
-  1039		regmap_write(mvchip->regs, GPIO_OUT_OFF + mvchip->offset,
-  1040			     mvchip->out_reg);
-  1041		regmap_write(mvchip->regs, GPIO_IO_CONF_OFF + mvchip->offset,
-  1042			     mvchip->io_conf_reg);
-  1043		regmap_write(mvchip->regs, GPIO_BLINK_EN_OFF + mvchip->offset,
-  1044			     mvchip->blink_en_reg);
-  1045		regmap_write(mvchip->regs, GPIO_IN_POL_OFF + mvchip->offset,
-  1046			     mvchip->in_pol_reg);
-  1047	
-  1048		switch (mvchip->soc_variant) {
-  1049		case MVEBU_GPIO_SOC_VARIANT_ORION:
-  1050		case MVEBU_GPIO_SOC_VARIANT_A8K:
-  1051			regmap_write(mvchip->regs, GPIO_EDGE_MASK_OFF + mvchip->offset,
-  1052				     mvchip->edge_mask_regs[0]);
-  1053			regmap_write(mvchip->regs, GPIO_LEVEL_MASK_OFF + mvchip->offset,
-  1054				     mvchip->level_mask_regs[0]);
-  1055			break;
-  1056		case MVEBU_GPIO_SOC_VARIANT_MV78200:
-  1057			for (i = 0; i < 2; i++) {
-  1058				regmap_write(mvchip->regs,
-  1059					     GPIO_EDGE_MASK_MV78200_OFF(i),
-  1060					     mvchip->edge_mask_regs[i]);
-  1061				regmap_write(mvchip->regs,
-  1062					     GPIO_LEVEL_MASK_MV78200_OFF(i),
-  1063					     mvchip->level_mask_regs[i]);
-  1064			}
-  1065			break;
-  1066		case MVEBU_GPIO_SOC_VARIANT_ARMADAXP:
-  1067			for (i = 0; i < 4; i++) {
-  1068				regmap_write(mvchip->regs,
-  1069					     GPIO_EDGE_MASK_ARMADAXP_OFF(i),
-  1070					     mvchip->edge_mask_regs[i]);
-  1071				regmap_write(mvchip->regs,
-  1072					     GPIO_LEVEL_MASK_ARMADAXP_OFF(i),
-  1073					     mvchip->level_mask_regs[i]);
-  1074			}
-  1075			break;
-  1076		default:
-  1077			BUG();
-  1078		}
-  1079	
-  1080		if (IS_REACHABLE(CONFIG_PWM) && mvchip->mvpwm)
-  1081			mvebu_pwm_resume(mvchip);
-  1082	
-  1083		return 0;
-  1084	}
-  1085	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
