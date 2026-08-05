@@ -1,99 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB533A4F50
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 01:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA8A3A1C9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 02:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785895079; cv=none; b=XzAnLgTKzf+uhXXPbQBhvK0qE50/SGWCB50H2k66sxfRU8xAyq6xCIxDo0jE7mZ7+6FJa8CTA0CNDTcbYWY7SGWGwBM6VxR0YtvxRQ0BtAHaLflj3bCkHSr2Y3/WQTFLWSrn1C49JYJO2JgTLiHhw0No5Ct6BXfL6oAlD8J3GzI=
+	t=1785896884; cv=none; b=FeZTFrrGwd29gDlIe97vGhJF/98v4OhlIozMkMnRYS8fzGW343LYh07v7m0wqoe8QcmCrZBARtv9r6o/MM478KvMv8Id1en7Q+sp+ozSdSW2+lltap/fH51SfY5YNZXxtLG44Wijx+PXEJZBh/1LRnQq4G4eLr8cAICkCWHHcMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785895079; c=relaxed/simple;
-	bh=j9ybfLOPOjxQzF5jNSLc4mrl5v0GLm6W0DPw12uoTKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NWCQdxfdCyaqlX6X6sr4Tv2nCqwqqu04PwKFJYMGAsHZRpW1hEYumGUCugd+9qyhF04CPEGn1dEldpflRIQzmQCaZ4riwR9AR5Hb4quxhepAr35z1dkKHJ3+twMJsMkU6C/3HTT0ewzDiAK5TUeWz2ATgsamkVneqjx9yg/5azc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ad7PiNV9; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ad7PiNV9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785895077; x=1817431077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j9ybfLOPOjxQzF5jNSLc4mrl5v0GLm6W0DPw12uoTKY=;
-  b=Ad7PiNV9Omt+bjbX71d3awj5e6HuWfmgVkWxrX4jb8gncLcABnI5K6Yd
-   SidVhOnaxa3wJSJIRsF1heThTH0ITaJgcS6T1B8m0fzq2kUqHwIEkvZG6
-   8IOLD8xrtyI0IDO4ojjMaROWwT30BhKTBbeRCQ8U/PswitZQOnIpcl2Db
-   IgKEl7RUVG/6Fotp/DeGO7/sEJ6aLCJC3H2PHjS4+iyFjG8aA+rHMqoAF
-   1WDzu4hldYT3DXEe64FKBHu6yvSm9MOQoQj+XB19rQBSE6DxEsmbgGwPV
-   OYg5tFgALMJn4sMSjdg4OlCF6fk7Qozk9BwULU84A6uHegoe2VDphHYyQ
-   A==;
-X-CSE-ConnectionGUID: QIgzkfSsSJ62jljLDa/kDw==
-X-CSE-MsgGUID: m1zY5BTDSCyRvzAdhgFexw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="90270693"
-X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="90270693"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 18:57:56 -0700
-X-CSE-ConnectionGUID: Fr+/kWgkSIe5or2lU0lgHg==
-X-CSE-MsgGUID: dG+JRv0IREKwHHGiYixSDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="259899187"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Aug 2026 18:57:54 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wrQtD-00000000BDp-0KZ2;
-	Wed, 05 Aug 2026 01:57:51 +0000
-Date: Wed, 5 Aug 2026 09:57:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiangshan Yi <yijiangshan@kylinos.cn>, kees@kernel.org, arnd@arndb.de,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	13667453960@163.com, Jiangshan Yi <yijiangshan@kylinos.cn>
-Subject: Re: [PATCH] lkdtm/core: fix resource leaks on module init error path
-Message-ID: <202608050915.CRrKhB4T-lkp@intel.com>
-References: <20260701151438.3772375-1-yijiangshan@kylinos.cn>
+	s=arc-20240116; t=1785896884; c=relaxed/simple;
+	bh=tFmxLV8vlB+i2y3J7dYP/NGc6/SLjO6AnBeeS/cpDg4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H6LxGydLVcnkuP3yjAz7Zqcum+6cpsfOHMJfFsDbND+qN7sBuGVQV0ttRzg+xoChpgLrj7mrBn/4UKz1Yr8hmPFvd+OqDef4pVjwKuzMNuzTsjNprP6GCEkCY9GFuGPhHGYnaRmQW7C3XxYH+B7ZktGdWMvBho1lr/I+6+xbFw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 43a03232907511f1aa26b74ffac11d73-20260805
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:774fa5ad-f4a0-4fe6-8cd6-e309d1ab0a04,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:137d8ac4f0e2bc96c200d4d995fbbaf5,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|136|850|865|898,TC:nil,Cont
+	ent:0|15|50,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil
+	,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 43a03232907511f1aa26b74ffac11d73-20260805
+X-User: yijiangshan@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <yijiangshan@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 60137469; Wed, 05 Aug 2026 10:27:54 +0800
+From: Jiangshan Yi <yijiangshan@kylinos.cn>
+To: lkp@intel.com
+Cc: 13667453960@163.com,
+	arnd@arndb.de,
+	gregkh@linuxfoundation.org,
+	kees@kernel.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	yijiangshan@kylinos.cn
+Subject: Re: Re: [PATCH] lkdtm/core: fix resource leaks on module init error path
+Date: Wed,  5 Aug 2026 10:27:50 +0800
+Message-Id: <20260805022750.88966-1-yijiangshan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202608050915.CRrKhB4T-lkp@intel.com>
+References: <202608050915.CRrKhB4T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260701151438.3772375-1-yijiangshan@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Jiangshan,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for the build test report and for catching these section mismatch
+warnings:
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v7.2-rc6 next-20260804]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > WARNING: modpost: drivers/misc/lkdtm/lkdtm: section mismatch in reference: lkdtm_module_init+0x221 (section: .init.text) -> lkdtm_heap_exit (section: .exit.text)
+> > > WARNING: modpost: drivers/misc/lkdtm/lkdtm: section mismatch in reference: lkdtm_module_init+0x226 (section: .init.text) -> lkdtm_usercopy_exit (section: .exit.text)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiangshan-Yi/lkdtm-core-fix-resource-leaks-on-module-init-error-path/20260804-225548
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20260701151438.3772375-1-yijiangshan%40kylinos.cn
-patch subject: [PATCH] lkdtm/core: fix resource leaks on module init error path
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260805/202608050915.CRrKhB4T-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608050915.CRrKhB4T-lkp@intel.com/reproduce)
+These warnings have already been addressed in the v2 of this patch,
+posted at:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608050915.CRrKhB4T-lkp@intel.com/
+https://lore.kernel.org/all/20260730154911.3164527-1-yijiangshan@kylinos.cn/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+In v2, the error-handling path in lkdtm_module_init() no longer
+references the .exit.text cleanup helpers (lkdtm_heap_exit,
+lkdtm_usercopy_exit), which resolves the section mismatch reported
+by modpost.
 
->> WARNING: modpost: drivers/misc/lkdtm/lkdtm: section mismatch in reference: lkdtm_module_init+0x221 (section: .init.text) -> lkdtm_heap_exit (section: .exit.text)
->> WARNING: modpost: drivers/misc/lkdtm/lkdtm: section mismatch in reference: lkdtm_module_init+0x226 (section: .init.text) -> lkdtm_usercopy_exit (section: .exit.text)
+Since the fix is part of a new version of the same patch rather than a
+separate commit, I haven't added the Reported-by / Closes tags to
+that version. However, your report was very helpful in confirming the
+issue — thank you again for the testing.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Jiangshan Yi
