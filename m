@@ -1,79 +1,196 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5523F39D0
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 22:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53D23F4DE9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 22:23:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785968580; cv=none; b=u0zqsUuX1fWzMP/HKuV7cp+MDwhPJ3ZHk37ZaP1qYtbPcARGYmfl8bQ+Hk38BzABBaqqcTuDUujPa4KwBTJ3eNPfXP5jdzOPOwunZuxa0dRPzUvucIobgJmlVu3v/HZBg/PK6XcQJPc6IxNWNVWlUIjrxEUGqBQlAbzvaL/vZbI=
+	t=1785968582; cv=none; b=UA08f5HTKDB/WD9zLW+jGc1HzOIeWu/9adc7pMIERdOoBQlF2ICpnutgzGkwerIN5m3k8BywhAf0jo3JFzeDJ7Ju/CTr3XlBswdwcTKfDC1Faw2nJaI0AaLBSs5NbOnQG4ui0M8wwzla4nis+3DK2g0nn/k0jlPrx4wwx0y2k5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785968580; c=relaxed/simple;
-	bh=Q018WIfOvzsASSQgsAsbvCVUlqdbDRpiVs/mafwQl7M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aOmUWrh5+XKTQH33R9nXWcfgGj8aFwtoXs86WiVxiLH+f8oZ1rwj3s2vrQl1PhUO0Ft0cbs2ZR08nQvjwj/MydmmTvPt8joiNpUa3J2eNDxyzA5055Mb2aELH6QnN8urU/ULP4mbnsYdoj8IgAkaRH6cQ2NrkJo3yIxy0HN+7yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZerRqy9Y; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1785968582; c=relaxed/simple;
+	bh=fYeX9sBmULBDC2u6zUcc37fkoRNrtqSQOpJ4mmrtqOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FkqG2pYF+a9e82tKW7l0fU0gtrnc0z83uhGnM2JlKaS0Wr7fEb1bnMdxuF3QoW31m+t1O+3hLlwpPlor6x+kGzq1VQZJmBTqVQn1OQ2aK/Jp4hHpc7XeYsfLFbIEH3xDRHPP7Mwk/pnmRpV//ELAHZjcuoeeouh4lgRS6kTySoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDqp5tpq; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZerRqy9Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDqp5tpq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785968579; x=1817504579;
-  h=date:from:to:cc:subject:message-id;
-  bh=Q018WIfOvzsASSQgsAsbvCVUlqdbDRpiVs/mafwQl7M=;
-  b=ZerRqy9Y1/8wq+6e9A2fnFEnua/y+hl7fsqqPt8oWqBYq4s3Snl/rVy2
-   iwel1S9KRWdQy9f/RGJRu25NGmpdGEYU+OH6OPV8pjKmDx9GW/EkdUy2S
-   Q/ei4ySPz2WkHMCNKAcCp1GssVfAKeOdkBfW7vaS/eDMZuobuQ1t8aOqz
-   1ZwEv2HF6WKSO+x6nwmeC6xPK4UKUau15jJeY04kk+58sE1ESt65UxWiJ
-   3FH/nrYxM1WAmoNcpMJM2ZC3y44kb8tMFw3T2GeybhLpRAoBXZ1uDlPON
-   RkuzmY7VnpgZith6W+ka6ud3h9YqKCZVgXjXYNfCLt8PRmgASlPhR+Lmr
+  t=1785968581; x=1817504581;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fYeX9sBmULBDC2u6zUcc37fkoRNrtqSQOpJ4mmrtqOA=;
+  b=kDqp5tpqShR/WwUXD+2iEjylRVofaAktAfjNR0vcicwiEaY4rHshoKsU
+   PJEeu7+7aNwUl1VVr3HZKGXB4LF8bE4Oa/5LCiUCMihcRwdXTUVAecVr/
+   4svyAdFMQS31CvjWfXPh9htsBXMlx1vuwPan/NpH+D469eFdB6k62s2U4
+   57fs+CMYZJUkVN0fRlzp9wC1M+FpzOSH0x/i4MmXQy0LQAEhaYcEOt4BV
+   7QRZbHVHz0EqVioPA3tK2ysJqh7ynsqqvfKTeabVVgNFStPu8HWlAcUMb
+   slSa+XnFzrVMJh04vmZoe7PAImyqy7ZtTkOy+iMbqx8dPgd5eG7wJ7Ajy
    w==;
-X-CSE-ConnectionGUID: cL6Eg8HmTZuFo9GSEBioow==
-X-CSE-MsgGUID: zXz2Y7y8QDSIUEG9qXniOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="103956705"
+X-CSE-ConnectionGUID: FtDSWf+qTsysl6Z+rrWHAw==
+X-CSE-MsgGUID: TbAnVTsGQgyG4bI60E8bOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="103956706"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="103956705"
+   d="scan'208";a="103956706"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 15:22:58 -0700
-X-CSE-ConnectionGUID: UkjWXXuXQByeE/RhymBKBw==
-X-CSE-MsgGUID: 2Ww1jp5NRkaA+V6yoXA28Q==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 15:22:59 -0700
+X-CSE-ConnectionGUID: xmgdpI6XQTOY2UxV6Kc/EA==
+X-CSE-MsgGUID: ORH0FegOTHuV8fCOdPFXnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="265773497"
+   d="scan'208";a="265773485"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 05 Aug 2026 15:22:57 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrk0k-00000000DZ2-44UV;
+	id 1wrk0k-00000000DYv-3F2I;
 	Wed, 05 Aug 2026 22:22:54 +0000
-Date: Thu, 06 Aug 2026 06:22:30 +0800
+Date: Thu, 6 Aug 2026 06:22:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:pfncache-rcu-debug 8/9] ERROR: modpost: "__umoddi3"
- [arch/x86/kvm/kvm.ko] undefined!
-Message-ID: <202608060535.iMcNAnE7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: WenTao Liang <vulab@iscas.ac.cn>, James Bottomley <jejb@linux.ibm.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org, WenTao Liang <vulab@iscas.ac.cn>
+Subject: Re: [PATCH] fix: scsi: srp_reconnect_rport: unbalanced
+   scsi_block_targets/scsi_target_unblock
+Message-ID: <202608060507.BrNCKCeH-lkp@intel.com>
+References: <20260626161402.55116-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260626161402.55116-1-vulab@iscas.ac.cn>
 
-tree:   git://git.infradead.org/users/dwmw2/linux pfncache-rcu-debug
-head:   8c4982ab129843cd9340cb055dfb6947aba11b78
-commit: 024c810fe3ba3772608c193103449d9f1f7f5c37 [8/9] [NOT-FOR-UPSTREAM] debug: steal-time GPC invalidation counters
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260806/202608060535.iMcNAnE7-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060535.iMcNAnE7-lkp@intel.com/reproduce)
+Hi WenTao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v7.2-rc6 next-20260805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/WenTao-Liang/fix-scsi-srp_reconnect_rport-unbalanced-scsi_block_targets-scsi_target_unblock/20260805-214818
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20260626161402.55116-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] fix: scsi: srp_reconnect_rport: unbalanced   scsi_block_targets/scsi_target_unblock
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260806/202608060507.BrNCKCeH-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060507.BrNCKCeH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608060535.iMcNAnE7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608060507.BrNCKCeH-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__umoddi3" [arch/x86/kvm/kvm.ko] undefined!
+   drivers/scsi/scsi_transport_srp.c: In function 'srp_reconnect_rport':
+>> drivers/scsi/scsi_transport_srp.c:545:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+     545 |         if (rport->state != SRP_RPORT_FAIL_FAST && rport->state != SRP_RPORT_LOST)
+         |         ^~
+   drivers/scsi/scsi_transport_srp.c:553:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+     553 |                 blocked = true;
+         |                 ^~~~~~~
+
+
+vim +/if +545 drivers/scsi/scsi_transport_srp.c
+
+29c17324803c8a Bart Van Assche 2013-10-26  509  
+29c17324803c8a Bart Van Assche 2013-10-26  510  /**
+29c17324803c8a Bart Van Assche 2013-10-26  511   * srp_reconnect_rport() - reconnect to an SRP target port
+0c7f82189d2249 Bart Van Assche 2014-01-13  512   * @rport: SRP target port.
+29c17324803c8a Bart Van Assche 2013-10-26  513   *
+29c17324803c8a Bart Van Assche 2013-10-26  514   * Blocks SCSI command queueing before invoking reconnect() such that
+29c17324803c8a Bart Van Assche 2013-10-26  515   * queuecommand() won't be invoked concurrently with reconnect() from outside
+29c17324803c8a Bart Van Assche 2013-10-26  516   * the SCSI EH. This is important since a reconnect() implementation may
+29c17324803c8a Bart Van Assche 2013-10-26  517   * reallocate resources needed by queuecommand().
+29c17324803c8a Bart Van Assche 2013-10-26  518   *
+29c17324803c8a Bart Van Assche 2013-10-26  519   * Notes:
+29c17324803c8a Bart Van Assche 2013-10-26  520   * - This function neither waits until outstanding requests have finished nor
+29c17324803c8a Bart Van Assche 2013-10-26  521   *   tries to abort these. It is the responsibility of the reconnect()
+29c17324803c8a Bart Van Assche 2013-10-26  522   *   function to finish outstanding commands before reconnecting to the target
+29c17324803c8a Bart Van Assche 2013-10-26  523   *   port.
+29c17324803c8a Bart Van Assche 2013-10-26  524   * - It is the responsibility of the caller to ensure that the resources
+29c17324803c8a Bart Van Assche 2013-10-26  525   *   reallocated by the reconnect() function won't be used while this function
+29c17324803c8a Bart Van Assche 2013-10-26  526   *   is in progress. One possible strategy is to invoke this function from
+29c17324803c8a Bart Van Assche 2013-10-26  527   *   the context of the SCSI EH thread only. Another possible strategy is to
+29c17324803c8a Bart Van Assche 2013-10-26  528   *   lock the rport mutex inside each SCSI LLD callback that can be invoked by
+29c17324803c8a Bart Van Assche 2013-10-26  529   *   the SCSI EH (the scsi_host_template.eh_*() functions and also the
+29c17324803c8a Bart Van Assche 2013-10-26  530   *   scsi_host_template.queuecommand() function).
+29c17324803c8a Bart Van Assche 2013-10-26  531   */
+29c17324803c8a Bart Van Assche 2013-10-26  532  int srp_reconnect_rport(struct srp_rport *rport)
+29c17324803c8a Bart Van Assche 2013-10-26  533  {
+29c17324803c8a Bart Van Assche 2013-10-26  534  	struct Scsi_Host *shost = rport_to_shost(rport);
+29c17324803c8a Bart Van Assche 2013-10-26  535  	struct srp_internal *i = to_srp_internal(shost->transportt);
+29c17324803c8a Bart Van Assche 2013-10-26  536  	struct scsi_device *sdev;
+29c17324803c8a Bart Van Assche 2013-10-26  537  	int res;
+cc89c54580eff2 WenTao Liang    2026-06-27  538  	bool blocked = false;
+29c17324803c8a Bart Van Assche 2013-10-26  539  
+29c17324803c8a Bart Van Assche 2013-10-26  540  	pr_debug("SCSI host %s\n", dev_name(&shost->shost_gendev));
+29c17324803c8a Bart Van Assche 2013-10-26  541  
+29c17324803c8a Bart Van Assche 2013-10-26  542  	res = mutex_lock_interruptible(&rport->mutex);
+29c17324803c8a Bart Van Assche 2013-10-26  543  	if (res)
+29c17324803c8a Bart Van Assche 2013-10-26  544  		goto out;
+5cd0f6f57639c5 Martin Wilck    2021-04-01 @545  	if (rport->state != SRP_RPORT_FAIL_FAST && rport->state != SRP_RPORT_LOST)
+72eeb7c7151302 Martin Wilck    2021-01-11  546  		/*
+72eeb7c7151302 Martin Wilck    2021-01-11  547  		 * sdev state must be SDEV_TRANSPORT_OFFLINE, transition
+72eeb7c7151302 Martin Wilck    2021-01-11  548  		 * to SDEV_BLOCK is illegal. Calling scsi_target_unblock()
+72eeb7c7151302 Martin Wilck    2021-01-11  549  		 * later is ok though, scsi_internal_device_unblock_nowait()
+72eeb7c7151302 Martin Wilck    2021-01-11  550  		 * treats SDEV_TRANSPORT_OFFLINE like SDEV_BLOCK.
+72eeb7c7151302 Martin Wilck    2021-01-11  551  		 */
+31950192d939a9 Martin Wilck    2023-06-14  552  		scsi_block_targets(shost, &shost->shost_gendev);
+cc89c54580eff2 WenTao Liang    2026-06-27  553  		blocked = true;
+93079162bf0ed2 Bart Van Assche 2013-12-11  554  	res = rport->state != SRP_RPORT_LOST ? i->f->reconnect(rport) : -ENODEV;
+29c17324803c8a Bart Van Assche 2013-10-26  555  	pr_debug("%s (state %d): transport.reconnect() returned %d\n",
+29c17324803c8a Bart Van Assche 2013-10-26  556  		 dev_name(&shost->shost_gendev), rport->state, res);
+29c17324803c8a Bart Van Assche 2013-10-26  557  	if (res == 0) {
+29c17324803c8a Bart Van Assche 2013-10-26  558  		cancel_delayed_work(&rport->fast_io_fail_work);
+29c17324803c8a Bart Van Assche 2013-10-26  559  		cancel_delayed_work(&rport->dev_loss_work);
+29c17324803c8a Bart Van Assche 2013-10-26  560  
+8c64e4531c3c3b Bart Van Assche 2013-10-26  561  		rport->failed_reconnects = 0;
+29c17324803c8a Bart Van Assche 2013-10-26  562  		srp_rport_set_state(rport, SRP_RPORT_RUNNING);
+cc89c54580eff2 WenTao Liang    2026-06-27  563  		if (blocked)
+29c17324803c8a Bart Van Assche 2013-10-26  564  			scsi_target_unblock(&shost->shost_gendev, SDEV_RUNNING);
+29c17324803c8a Bart Van Assche 2013-10-26  565  		/*
+29c17324803c8a Bart Van Assche 2013-10-26  566  		 * If the SCSI error handler has offlined one or more devices,
+29c17324803c8a Bart Van Assche 2013-10-26  567  		 * invoking scsi_target_unblock() won't change the state of
+29c17324803c8a Bart Van Assche 2013-10-26  568  		 * these devices into running so do that explicitly.
+29c17324803c8a Bart Van Assche 2013-10-26  569  		 */
+0db6ca8a5e1ea5 Bart Van Assche 2017-06-02  570  		shost_for_each_device(sdev, shost) {
+0db6ca8a5e1ea5 Bart Van Assche 2017-06-02  571  			mutex_lock(&sdev->state_mutex);
+a817e73fe693f0 Linus Torvalds  2017-11-07  572  			if (sdev->sdev_state == SDEV_OFFLINE)
+29c17324803c8a Bart Van Assche 2013-10-26  573  				sdev->sdev_state = SDEV_RUNNING;
+0db6ca8a5e1ea5 Bart Van Assche 2017-06-02  574  			mutex_unlock(&sdev->state_mutex);
+0db6ca8a5e1ea5 Bart Van Assche 2017-06-02  575  		}
+29c17324803c8a Bart Van Assche 2013-10-26  576  	} else if (rport->state == SRP_RPORT_RUNNING) {
+29c17324803c8a Bart Van Assche 2013-10-26  577  		/*
+18cc4e02508e3f Bart Van Assche 2013-12-11  578  		 * srp_reconnect_rport() has been invoked with fast_io_fail
+18cc4e02508e3f Bart Van Assche 2013-12-11  579  		 * and dev_loss off. Mark the port as failed and start the TL
+18cc4e02508e3f Bart Van Assche 2013-12-11  580  		 * failure timers if these had not yet been started.
+29c17324803c8a Bart Van Assche 2013-10-26  581  		 */
+29c17324803c8a Bart Van Assche 2013-10-26  582  		__rport_fail_io_fast(rport);
+29c17324803c8a Bart Van Assche 2013-10-26  583  		__srp_start_tl_fail_timers(rport);
+29c17324803c8a Bart Van Assche 2013-10-26  584  	} else if (rport->state != SRP_RPORT_BLOCKED) {
+cc89c54580eff2 WenTao Liang    2026-06-27  585  		if (blocked)
+29c17324803c8a Bart Van Assche 2013-10-26  586  			scsi_target_unblock(&shost->shost_gendev,
+29c17324803c8a Bart Van Assche 2013-10-26  587  				    SDEV_TRANSPORT_OFFLINE);
+29c17324803c8a Bart Van Assche 2013-10-26  588  	}
+29c17324803c8a Bart Van Assche 2013-10-26  589  	mutex_unlock(&rport->mutex);
+29c17324803c8a Bart Van Assche 2013-10-26  590  
+29c17324803c8a Bart Van Assche 2013-10-26  591  out:
+29c17324803c8a Bart Van Assche 2013-10-26  592  	return res;
+29c17324803c8a Bart Van Assche 2013-10-26  593  }
+29c17324803c8a Bart Van Assche 2013-10-26  594  EXPORT_SYMBOL(srp_reconnect_rport);
+29c17324803c8a Bart Van Assche 2013-10-26  595  
 
 --
 0-DAY CI Kernel Test Service
