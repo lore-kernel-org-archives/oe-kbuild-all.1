@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53D23F4DE9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 22:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D278042BC56;
+	Wed,  5 Aug 2026 22:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785968582; cv=none; b=UA08f5HTKDB/WD9zLW+jGc1HzOIeWu/9adc7pMIERdOoBQlF2ICpnutgzGkwerIN5m3k8BywhAf0jo3JFzeDJ7Ju/CTr3XlBswdwcTKfDC1Faw2nJaI0AaLBSs5NbOnQG4ui0M8wwzla4nis+3DK2g0nn/k0jlPrx4wwx0y2k5c=
+	t=1785968951; cv=none; b=aVsuItkzAonRlp30wiDze9RDSnVxoerGbUJ5285pTEXXqUiX1W+om+5xcKSTf1IckRe23gytAeyCy7jJObfii/5J+BtLLP6FH4rIDu9gZXz0tk4aU9/gGXR1Wh/cyjg1DO7k/GzrOYDBFj1csdoFBB1yUZMDhS49tdYqYF7QLv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785968582; c=relaxed/simple;
-	bh=fYeX9sBmULBDC2u6zUcc37fkoRNrtqSQOpJ4mmrtqOA=;
+	s=arc-20240116; t=1785968951; c=relaxed/simple;
+	bh=p+tGgJjfDf+QExfIl3EY8iwwECUib4YEAIdONJSPpjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FkqG2pYF+a9e82tKW7l0fU0gtrnc0z83uhGnM2JlKaS0Wr7fEb1bnMdxuF3QoW31m+t1O+3hLlwpPlor6x+kGzq1VQZJmBTqVQn1OQ2aK/Jp4hHpc7XeYsfLFbIEH3xDRHPP7Mwk/pnmRpV//ELAHZjcuoeeouh4lgRS6kTySoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDqp5tpq; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=U7GGz/i6EM58VqzsWuxCNKTHKn0C0YEQURmQGXWDMWQT4YFYi37L4jaUprBmxU2ElJ7Lm/HyMumpmpAfKnKXhcTxnupSCjdBzWNyXu+6GH/u198HtfaR2Ef4WgXGM1KI9jznMWVJEMeyn9xWduTYl8WSk1/Nr5GKH2Z2Tbjg2VI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WL5bsVtS; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDqp5tpq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WL5bsVtS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785968581; x=1817504581;
+  t=1785968948; x=1817504948;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fYeX9sBmULBDC2u6zUcc37fkoRNrtqSQOpJ4mmrtqOA=;
-  b=kDqp5tpqShR/WwUXD+2iEjylRVofaAktAfjNR0vcicwiEaY4rHshoKsU
-   PJEeu7+7aNwUl1VVr3HZKGXB4LF8bE4Oa/5LCiUCMihcRwdXTUVAecVr/
-   4svyAdFMQS31CvjWfXPh9htsBXMlx1vuwPan/NpH+D469eFdB6k62s2U4
-   57fs+CMYZJUkVN0fRlzp9wC1M+FpzOSH0x/i4MmXQy0LQAEhaYcEOt4BV
-   7QRZbHVHz0EqVioPA3tK2ysJqh7ynsqqvfKTeabVVgNFStPu8HWlAcUMb
-   slSa+XnFzrVMJh04vmZoe7PAImyqy7ZtTkOy+iMbqx8dPgd5eG7wJ7Ajy
+  bh=p+tGgJjfDf+QExfIl3EY8iwwECUib4YEAIdONJSPpjE=;
+  b=WL5bsVtSl9bSxKln+O3ibQPXA/BzqK04A195qTZ1C6ulLESGi4+xH8kl
+   GLSR49qXm9iSWlXcVdbJkqKNPBZw0KBVXb+zlaYSRKXUCeSdfIf+goj8v
+   UyGBifFVYmKAHKi38YTDdBu3UYqk4lAl6GgSk/dxk64JCY7PLaW1EWe7L
+   a+0Ax7sE+IBk35HCx3s0KEjQ2Pvc+SfIfLwVqukWMvGAQaQez4Tdwxa9W
+   V4Jiidv3R50plI650G8VeKSVgu2REfhJQ3CUSLje9YLIh38qIrE7LUl4A
+   jWyV+alJJ+T/SE/7GpjlFjg0gJJ14mThxDczWEhTLWJWaYs274JOsV8jc
    w==;
-X-CSE-ConnectionGUID: FtDSWf+qTsysl6Z+rrWHAw==
-X-CSE-MsgGUID: TbAnVTsGQgyG4bI60E8bOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="103956706"
+X-CSE-ConnectionGUID: oKqQXysyRleRzv6oRj5i5w==
+X-CSE-MsgGUID: pZzS3L2jSVGi0fC/8R3DWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="97713326"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="103956706"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 15:22:59 -0700
-X-CSE-ConnectionGUID: xmgdpI6XQTOY2UxV6Kc/EA==
-X-CSE-MsgGUID: ORH0FegOTHuV8fCOdPFXnA==
+   d="scan'208";a="97713326"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 15:29:06 -0700
+X-CSE-ConnectionGUID: NmwiC6myTPu6zWOTTx11KQ==
+X-CSE-MsgGUID: BJGd6Ak0Rjqat4sLydi/YQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="265773485"
+   d="scan'208";a="261989405"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Aug 2026 15:22:57 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 Aug 2026 15:29:03 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrk0k-00000000DYv-3F2I;
-	Wed, 05 Aug 2026 22:22:54 +0000
-Date: Thu, 6 Aug 2026 06:22:29 +0800
+	id 1wrk6e-00000000Dan-209A;
+	Wed, 05 Aug 2026 22:29:00 +0000
+Date: Thu, 6 Aug 2026 06:28:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: WenTao Liang <vulab@iscas.ac.cn>, James Bottomley <jejb@linux.ibm.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org, WenTao Liang <vulab@iscas.ac.cn>
-Subject: Re: [PATCH] fix: scsi: srp_reconnect_rport: unbalanced
-   scsi_block_targets/scsi_target_unblock
-Message-ID: <202608060507.BrNCKCeH-lkp@intel.com>
-References: <20260626161402.55116-1-vulab@iscas.ac.cn>
+To: Kyle Switch <kyle.switch@motor-comm.com>, Frank.Sae@motor-comm.com,
+	andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jianmin.wang@motor-comm.com, ming.xu@motor-comm.com,
+	xiaolin.xu@motor-comm.com, jie.han@motor-comm.com
+Subject: Re: [PATCH] net: phy: Add driver for Motorcomm Quad 2.5GbE phy
+Message-ID: <202608060635.338Kkf6r-lkp@intel.com>
+References: <20260714111203.3852126-1-kyle.switch@motor-comm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,131 +68,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260626161402.55116-1-vulab@iscas.ac.cn>
+In-Reply-To: <20260714111203.3852126-1-kyle.switch@motor-comm.com>
 
-Hi WenTao,
+Hi Kyle,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on mkp-scsi/for-next linus/master v7.2-rc6 next-20260805]
+[auto build test WARNING on net/main]
+[also build test WARNING on linus/master v7.2-rc6 next-20260805]
+[cannot apply to net-next/main]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/WenTao-Liang/fix-scsi-srp_reconnect_rport-unbalanced-scsi_block_targets-scsi_target_unblock/20260805-214818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20260626161402.55116-1-vulab%40iscas.ac.cn
-patch subject: [PATCH] fix: scsi: srp_reconnect_rport: unbalanced   scsi_block_targets/scsi_target_unblock
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260806/202608060507.BrNCKCeH-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060507.BrNCKCeH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Switch/net-phy-Add-driver-for-Motorcomm-Quad-2-5GbE-phy/20260805-175843
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260714111203.3852126-1-kyle.switch%40motor-comm.com
+patch subject: [PATCH] net: phy: Add driver for Motorcomm Quad 2.5GbE phy
+config: powerpc64-randconfig-002-20260806 (https://download.01.org/0day-ci/archive/20260806/202608060635.338Kkf6r-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060635.338Kkf6r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608060507.BrNCKCeH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608060635.338Kkf6r-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/scsi/scsi_transport_srp.c: In function 'srp_reconnect_rport':
->> drivers/scsi/scsi_transport_srp.c:545:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-     545 |         if (rport->state != SRP_RPORT_FAIL_FAST && rport->state != SRP_RPORT_LOST)
-         |         ^~
-   drivers/scsi/scsi_transport_srp.c:553:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-     553 |                 blocked = true;
-         |                 ^~~~~~~
+>> drivers/net/phy/motorcomm.c:3336:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    3336 |                 if (reg_space == YT8824_RSSR_UTP_SPACE) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:3353:44: note: uninitialized use occurs here
+    3353 |         return phy_restore_page(phydev, old_page, ret);
+         |                                                   ^~~
+   drivers/net/phy/motorcomm.c:3336:3: note: remove the 'if' if its condition is always true
+    3336 |                 if (reg_space == YT8824_RSSR_UTP_SPACE) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:3335:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    3335 |         if (old_page >= 0) {
+         |             ^~~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:3353:44: note: uninitialized use occurs here
+    3353 |         return phy_restore_page(phydev, old_page, ret);
+         |                                                   ^~~
+   drivers/net/phy/motorcomm.c:3335:2: note: remove the 'if' if its condition is always true
+    3335 |         if (old_page >= 0) {
+         |         ^~~~~~~~~~~~~~~~~~
+>> drivers/net/phy/motorcomm.c:3332:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    3332 |         if (old_page < 0)
+         |             ^~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:3353:44: note: uninitialized use occurs here
+    3353 |         return phy_restore_page(phydev, old_page, ret);
+         |                                                   ^~~
+   drivers/net/phy/motorcomm.c:3332:2: note: remove the 'if' if its condition is always false
+    3332 |         if (old_page < 0)
+         |         ^~~~~~~~~~~~~~~~~
+    3333 |                 goto err_restore_page;
+         |                 ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:3329:9: note: initialize the variable 'ret' to silence this warning
+    3329 |         int ret;
+         |                ^
+         |                 = 0
+>> drivers/net/phy/motorcomm.c:3341:8: warning: variable 'port' is uninitialized when used here [-Wuninitialized]
+    3341 |                         if (port == 0 || port == 2) {
+         |                             ^~~~
+   drivers/net/phy/motorcomm.c:3328:10: note: initialize the variable 'port' to silence this warning
+    3328 |         int port;
+         |                 ^
+         |                  = 0
+   drivers/net/phy/motorcomm.c:4464:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    4464 |         if (old_page < 0)
+         |             ^~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:4477:44: note: uninitialized use occurs here
+    4477 |         return phy_restore_page(phydev, old_page, ret);
+         |                                                   ^~~
+   drivers/net/phy/motorcomm.c:4464:2: note: remove the 'if' if its condition is always false
+    4464 |         if (old_page < 0)
+         |         ^~~~~~~~~~~~~~~~~
+    4465 |                 goto err_restore_page;
+         |                 ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:4460:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    4460 |         if (old_page < 0)
+         |             ^~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:4477:44: note: uninitialized use occurs here
+    4477 |         return phy_restore_page(phydev, old_page, ret);
+         |                                                   ^~~
+   drivers/net/phy/motorcomm.c:4460:2: note: remove the 'if' if its condition is always false
+    4460 |         if (old_page < 0)
+         |         ^~~~~~~~~~~~~~~~~
+    4461 |                 goto err_restore_page;
+         |                 ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:4457:9: note: initialize the variable 'ret' to silence this warning
+    4457 |         int ret;
+         |                ^
+         |                 = 0
+   drivers/net/phy/motorcomm.c:4641:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    4641 |         if (old_page < 0)
+         |             ^~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:4660:44: note: uninitialized use occurs here
+    4660 |         return phy_restore_page(phydev, old_page, ret);
+         |                                                   ^~~
+   drivers/net/phy/motorcomm.c:4641:2: note: remove the 'if' if its condition is always false
+    4641 |         if (old_page < 0)
+         |         ^~~~~~~~~~~~~~~~~
+    4642 |                 goto err_restore_page;
+         |                 ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:4638:9: note: initialize the variable 'ret' to silence this warning
+    4638 |         int ret;
+         |                ^
+         |                 = 0
+   7 warnings generated.
 
 
-vim +/if +545 drivers/scsi/scsi_transport_srp.c
+vim +3336 drivers/net/phy/motorcomm.c
 
-29c17324803c8a Bart Van Assche 2013-10-26  509  
-29c17324803c8a Bart Van Assche 2013-10-26  510  /**
-29c17324803c8a Bart Van Assche 2013-10-26  511   * srp_reconnect_rport() - reconnect to an SRP target port
-0c7f82189d2249 Bart Van Assche 2014-01-13  512   * @rport: SRP target port.
-29c17324803c8a Bart Van Assche 2013-10-26  513   *
-29c17324803c8a Bart Van Assche 2013-10-26  514   * Blocks SCSI command queueing before invoking reconnect() such that
-29c17324803c8a Bart Van Assche 2013-10-26  515   * queuecommand() won't be invoked concurrently with reconnect() from outside
-29c17324803c8a Bart Van Assche 2013-10-26  516   * the SCSI EH. This is important since a reconnect() implementation may
-29c17324803c8a Bart Van Assche 2013-10-26  517   * reallocate resources needed by queuecommand().
-29c17324803c8a Bart Van Assche 2013-10-26  518   *
-29c17324803c8a Bart Van Assche 2013-10-26  519   * Notes:
-29c17324803c8a Bart Van Assche 2013-10-26  520   * - This function neither waits until outstanding requests have finished nor
-29c17324803c8a Bart Van Assche 2013-10-26  521   *   tries to abort these. It is the responsibility of the reconnect()
-29c17324803c8a Bart Van Assche 2013-10-26  522   *   function to finish outstanding commands before reconnecting to the target
-29c17324803c8a Bart Van Assche 2013-10-26  523   *   port.
-29c17324803c8a Bart Van Assche 2013-10-26  524   * - It is the responsibility of the caller to ensure that the resources
-29c17324803c8a Bart Van Assche 2013-10-26  525   *   reallocated by the reconnect() function won't be used while this function
-29c17324803c8a Bart Van Assche 2013-10-26  526   *   is in progress. One possible strategy is to invoke this function from
-29c17324803c8a Bart Van Assche 2013-10-26  527   *   the context of the SCSI EH thread only. Another possible strategy is to
-29c17324803c8a Bart Van Assche 2013-10-26  528   *   lock the rport mutex inside each SCSI LLD callback that can be invoked by
-29c17324803c8a Bart Van Assche 2013-10-26  529   *   the SCSI EH (the scsi_host_template.eh_*() functions and also the
-29c17324803c8a Bart Van Assche 2013-10-26  530   *   scsi_host_template.queuecommand() function).
-29c17324803c8a Bart Van Assche 2013-10-26  531   */
-29c17324803c8a Bart Van Assche 2013-10-26  532  int srp_reconnect_rport(struct srp_rport *rport)
-29c17324803c8a Bart Van Assche 2013-10-26  533  {
-29c17324803c8a Bart Van Assche 2013-10-26  534  	struct Scsi_Host *shost = rport_to_shost(rport);
-29c17324803c8a Bart Van Assche 2013-10-26  535  	struct srp_internal *i = to_srp_internal(shost->transportt);
-29c17324803c8a Bart Van Assche 2013-10-26  536  	struct scsi_device *sdev;
-29c17324803c8a Bart Van Assche 2013-10-26  537  	int res;
-cc89c54580eff2 WenTao Liang    2026-06-27  538  	bool blocked = false;
-29c17324803c8a Bart Van Assche 2013-10-26  539  
-29c17324803c8a Bart Van Assche 2013-10-26  540  	pr_debug("SCSI host %s\n", dev_name(&shost->shost_gendev));
-29c17324803c8a Bart Van Assche 2013-10-26  541  
-29c17324803c8a Bart Van Assche 2013-10-26  542  	res = mutex_lock_interruptible(&rport->mutex);
-29c17324803c8a Bart Van Assche 2013-10-26  543  	if (res)
-29c17324803c8a Bart Van Assche 2013-10-26  544  		goto out;
-5cd0f6f57639c5 Martin Wilck    2021-04-01 @545  	if (rport->state != SRP_RPORT_FAIL_FAST && rport->state != SRP_RPORT_LOST)
-72eeb7c7151302 Martin Wilck    2021-01-11  546  		/*
-72eeb7c7151302 Martin Wilck    2021-01-11  547  		 * sdev state must be SDEV_TRANSPORT_OFFLINE, transition
-72eeb7c7151302 Martin Wilck    2021-01-11  548  		 * to SDEV_BLOCK is illegal. Calling scsi_target_unblock()
-72eeb7c7151302 Martin Wilck    2021-01-11  549  		 * later is ok though, scsi_internal_device_unblock_nowait()
-72eeb7c7151302 Martin Wilck    2021-01-11  550  		 * treats SDEV_TRANSPORT_OFFLINE like SDEV_BLOCK.
-72eeb7c7151302 Martin Wilck    2021-01-11  551  		 */
-31950192d939a9 Martin Wilck    2023-06-14  552  		scsi_block_targets(shost, &shost->shost_gendev);
-cc89c54580eff2 WenTao Liang    2026-06-27  553  		blocked = true;
-93079162bf0ed2 Bart Van Assche 2013-12-11  554  	res = rport->state != SRP_RPORT_LOST ? i->f->reconnect(rport) : -ENODEV;
-29c17324803c8a Bart Van Assche 2013-10-26  555  	pr_debug("%s (state %d): transport.reconnect() returned %d\n",
-29c17324803c8a Bart Van Assche 2013-10-26  556  		 dev_name(&shost->shost_gendev), rport->state, res);
-29c17324803c8a Bart Van Assche 2013-10-26  557  	if (res == 0) {
-29c17324803c8a Bart Van Assche 2013-10-26  558  		cancel_delayed_work(&rport->fast_io_fail_work);
-29c17324803c8a Bart Van Assche 2013-10-26  559  		cancel_delayed_work(&rport->dev_loss_work);
-29c17324803c8a Bart Van Assche 2013-10-26  560  
-8c64e4531c3c3b Bart Van Assche 2013-10-26  561  		rport->failed_reconnects = 0;
-29c17324803c8a Bart Van Assche 2013-10-26  562  		srp_rport_set_state(rport, SRP_RPORT_RUNNING);
-cc89c54580eff2 WenTao Liang    2026-06-27  563  		if (blocked)
-29c17324803c8a Bart Van Assche 2013-10-26  564  			scsi_target_unblock(&shost->shost_gendev, SDEV_RUNNING);
-29c17324803c8a Bart Van Assche 2013-10-26  565  		/*
-29c17324803c8a Bart Van Assche 2013-10-26  566  		 * If the SCSI error handler has offlined one or more devices,
-29c17324803c8a Bart Van Assche 2013-10-26  567  		 * invoking scsi_target_unblock() won't change the state of
-29c17324803c8a Bart Van Assche 2013-10-26  568  		 * these devices into running so do that explicitly.
-29c17324803c8a Bart Van Assche 2013-10-26  569  		 */
-0db6ca8a5e1ea5 Bart Van Assche 2017-06-02  570  		shost_for_each_device(sdev, shost) {
-0db6ca8a5e1ea5 Bart Van Assche 2017-06-02  571  			mutex_lock(&sdev->state_mutex);
-a817e73fe693f0 Linus Torvalds  2017-11-07  572  			if (sdev->sdev_state == SDEV_OFFLINE)
-29c17324803c8a Bart Van Assche 2013-10-26  573  				sdev->sdev_state = SDEV_RUNNING;
-0db6ca8a5e1ea5 Bart Van Assche 2017-06-02  574  			mutex_unlock(&sdev->state_mutex);
-0db6ca8a5e1ea5 Bart Van Assche 2017-06-02  575  		}
-29c17324803c8a Bart Van Assche 2013-10-26  576  	} else if (rport->state == SRP_RPORT_RUNNING) {
-29c17324803c8a Bart Van Assche 2013-10-26  577  		/*
-18cc4e02508e3f Bart Van Assche 2013-12-11  578  		 * srp_reconnect_rport() has been invoked with fast_io_fail
-18cc4e02508e3f Bart Van Assche 2013-12-11  579  		 * and dev_loss off. Mark the port as failed and start the TL
-18cc4e02508e3f Bart Van Assche 2013-12-11  580  		 * failure timers if these had not yet been started.
-29c17324803c8a Bart Van Assche 2013-10-26  581  		 */
-29c17324803c8a Bart Van Assche 2013-10-26  582  		__rport_fail_io_fast(rport);
-29c17324803c8a Bart Van Assche 2013-10-26  583  		__srp_start_tl_fail_timers(rport);
-29c17324803c8a Bart Van Assche 2013-10-26  584  	} else if (rport->state != SRP_RPORT_BLOCKED) {
-cc89c54580eff2 WenTao Liang    2026-06-27  585  		if (blocked)
-29c17324803c8a Bart Van Assche 2013-10-26  586  			scsi_target_unblock(&shost->shost_gendev,
-29c17324803c8a Bart Van Assche 2013-10-26  587  				    SDEV_TRANSPORT_OFFLINE);
-29c17324803c8a Bart Van Assche 2013-10-26  588  	}
-29c17324803c8a Bart Van Assche 2013-10-26  589  	mutex_unlock(&rport->mutex);
-29c17324803c8a Bart Van Assche 2013-10-26  590  
-29c17324803c8a Bart Van Assche 2013-10-26  591  out:
-29c17324803c8a Bart Van Assche 2013-10-26  592  	return res;
-29c17324803c8a Bart Van Assche 2013-10-26  593  }
-29c17324803c8a Bart Van Assche 2013-10-26  594  EXPORT_SYMBOL(srp_reconnect_rport);
-29c17324803c8a Bart Van Assche 2013-10-26  595  
+  3320	
+  3321	/**
+  3322	 * disable YT8824 template test mode.
+  3323	 */
+  3324	static int yt8824_soft_reset_step4_paged(struct phy_device *phydev,
+  3325						 int reg_space)
+  3326	{
+  3327		int old_page;
+  3328		int port;
+  3329		int ret;
+  3330	
+  3331		old_page = phy_select_page(phydev, reg_space);
+> 3332		if (old_page < 0)
+  3333			goto err_restore_page;
+  3334	
+  3335		if (old_page >= 0) {
+> 3336			if (reg_space == YT8824_RSSR_UTP_SPACE) {
+  3337				/* normal mode */
+  3338				ret = ytphy_write_mmd(phydev, 0x1, 0x0084, 0x0000);
+  3339				if (ret < 0)
+  3340					goto err_restore_page;
+> 3341				if (port == 0 || port == 2) {
+  3342					/* read the calibration val of band after power on,
+  3343					 * * only for recording.
+  3344					 */
+  3345					ret = ytphy_read_ext(phydev, 0x043e);
+  3346					if (ret < 0)
+  3347						goto err_restore_page;
+  3348				}
+  3349			}
+  3350		}
+  3351	
+  3352	err_restore_page:
+  3353		return phy_restore_page(phydev, old_page, ret);
+  3354	}
+  3355	
 
 --
 0-DAY CI Kernel Test Service
