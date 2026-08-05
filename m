@@ -1,147 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E01373BF8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 14:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320A53749F7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 14:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785939478; cv=none; b=UqQvaed1v4dfs+3EtErOL+hIz6anV3M8RvrXZf/KjnhbprK8A1rn012WP7hMACEIceXQlu2b/dk8O86bqw0iqHMq/yYSOUnGXmqbMC+Tux+2pcqmAIdZviTw6ghi2V7GSIpYtfYTo5kaL+YzOVjc5yNW1mSm+7wj59MsJNxJmcc=
+	t=1785940171; cv=none; b=hYztFulamZq0JkN3egCYVPFNlC4EHHiQXJIKtmEY1oJSSjLKA0lXO+0FW2xBzSJxoQsYSi1QlAL589LGTyC2wFDlCHrCzX0Zd001xPA/NuLSM7JA/0f1L/4Pud/NozB3FqEHqDYHJ51iUECzLKBaz9ROxPXhIMKd3yJAjYjkXvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785939478; c=relaxed/simple;
-	bh=uWC9e7LcKH/SlN+YSHDFxYtxskKsbo31CBg9gUK67yU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CCr2AQAJx1c3csrCNhBG4Likoqz9rqayxry+q4zV5cZm2ZYMvVm1EPRziyuPd0DXWD3GUXsBrA0fdhcHVjOUFqvFNUtM7ROJue9jbX/kW+racVpOx1RqyqrbhtRxQrHLL6Udv4UK1m9qVdUwqAhvkElL3HjYdqCMTIJ0igV5/Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1ylVzt6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1785940171; c=relaxed/simple;
+	bh=sONdTTo7yqgnaNC3RGlXk3c4XYte3l6nj64B//XIyPk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=D3eBKcv+s+6BTb9ys5kXm7toSkG7wnzFKZlRKFgKsiYWMx+/0twoR11Yy5hdTBjt9XyXJ66F7f3R68L7kTDUT9v6KRyL+gUtOtrBzWbS+8dR1+rmDFH0oPgrZUULaX6mKpv24guq3zsfQ/WeOkTCuZbK1ROqVz+jm4I04QlsOp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K6CYkMEF; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1ylVzt6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K6CYkMEF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785939477; x=1817475477;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uWC9e7LcKH/SlN+YSHDFxYtxskKsbo31CBg9gUK67yU=;
-  b=Y1ylVzt6ziUb8Ep38X5FsWUIoWSSV9K+gmEGx9gGur04KE8HD/uO27lC
-   2YlFhnzy3tLGbM9YF+OGw03RmUIspu6aYTxVrfSfiQ+Kw9IFsXOW/7n8H
-   HN0yPw/qzC7E872vNEsLlKiLG4Xx9V5VRE1wbvS6svg76YELuVMAngBVG
-   3NtBEE7Uu8D8U8EPQS/3jJmw+gfWE76fMfBJGOjPirTrIqsb2O3ZyHawx
-   WSc03TX3EEfGdo62uhLJjssFn0FjSwI5NyVOC8y25rH4PsBJ2dVJxhuXg
-   4icKivuX/p/iCL4P67jYO1zExkLZYfK8oEeAWnxUFfNYPxNGwESiu90Hs
-   g==;
-X-CSE-ConnectionGUID: lBA+CPUGQHCu03A6R+fhWA==
-X-CSE-MsgGUID: g2g8cU7dQDqOqAFCrwWMzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="97875325"
+  t=1785940169; x=1817476169;
+  h=date:from:to:cc:subject:message-id;
+  bh=sONdTTo7yqgnaNC3RGlXk3c4XYte3l6nj64B//XIyPk=;
+  b=K6CYkMEFvuDccShJqDTb7Ob0KSNd4emnT7bcCaUvRAXwk9KIOqEKps9R
+   dbD+MdkagD4/bnK7rl1iaCZYCSJMKhkTZLuPPyDEzBG6Y9gc+qThPBwcM
+   8p3pWRooDWnIOmCBDo+tzIEpLPy6hs8oQJ0NYtzlwPZI3pPmqLKY8l8gD
+   JUoeLKdBOCZFlHGd766DEGaZNCsENhCoyyrnO42ZWdZ9Rxan6U8fc5jP1
+   GDlSL/b8dcn64xGRRrZpWmUxd+SR56zu9fpi5L3wdPExAYmERDpmzLA37
+   89ElEhsb15mCZbwTmneNckd1+djm461Z7RoZOb+nNaqr24uYffBNqlL/1
+   w==;
+X-CSE-ConnectionGUID: 01lYvxN3SteZH3vS+Rq1GA==
+X-CSE-MsgGUID: VO6oWIbDR6SUHecOPtzCBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86288572"
 X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="97875325"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 07:17:56 -0700
-X-CSE-ConnectionGUID: uhPcnlB8SFqqLvbJguNq6A==
-X-CSE-MsgGUID: /GQAli+DQdyZv3raUxNCyQ==
+   d="scan'208";a="86288572"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 07:29:20 -0700
+X-CSE-ConnectionGUID: FrxzoZPLRqC33XnvjlByJg==
+X-CSE-MsgGUID: IeSL8HbwSZGTgRvjOtzwsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="265663189"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Aug 2026 07:17:52 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="257955977"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 05 Aug 2026 07:29:18 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrcRJ-00000000Ch7-19zB;
-	Wed, 05 Aug 2026 14:17:49 +0000
-Date: Wed, 5 Aug 2026 22:17:21 +0800
+	id 1wrccO-000000004P8-2UM2;
+	Wed, 05 Aug 2026 14:29:16 +0000
+Date: Wed, 05 Aug 2026 16:29:00 +0200
 From: kernel test robot <lkp@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>, arnd@arndb.de, mcgrof@kernel.org,
-	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
-	peterz@infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, mhiramat@kernel.org, atomlin@atomlin.com,
-	neelx@suse.com, da.anzani@gmail.com, sean@ashe.io,
-	chjohnst@mail.com, steve@abita.co, mproche@mail.com,
-	nick.lane@mail.com, linux-arch@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] module: Extend module_blacklist parameter to built-in
- modules
-Message-ID: <202608052234.AvJ5oSvK-lkp@intel.com>
-References: <20260622140259.2974-1-atomlin@atomlin.com>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: mm/sparse.c:318:undefined reference to
+ `section_nr_vmemmap_pages'
+Message-ID: <202608051654.DSn2IgRz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260622140259.2974-1-atomlin@atomlin.com>
 
-Hi Aaron,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master arnd-asm-generic/master v7.2-rc6 next-20260804]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/module-Extend-module_blacklist-parameter-to-built-in-modules/20260805-123559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20260622140259.2974-1-atomlin%40atomlin.com
-patch subject: [PATCH v2] module: Extend module_blacklist parameter to built-in modules
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260805/202608052234.AvJ5oSvK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608052234.AvJ5oSvK-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Muchun-Song/mm-sparse-relax-struct-mem_section-size-constraints/20260804-161543
+head:   9fb4c3dd521d645a8c059d98341ac40c994553fd
+commit: 1fec22c19562335916faf464266d71391544c6d7 mm/sparse-vmemmap: support section-based vmemmap optimization
+date:   30 hours ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260805/202608051654.DSn2IgRz-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608051654.DSn2IgRz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608052234.AvJ5oSvK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608051654.DSn2IgRz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   init/main.c: In function 'do_one_initcall':
->> init/main.c:1364:24: error: implicit declaration of function 'module_is_blacklisted' [-Wimplicit-function-declaration]
-    1364 |         if (modname && module_is_blacklisted(modname)) {
-         |                        ^~~~~~~~~~~~~~~~~~~~~
+   s390x-linux-gnu-ld: mm/sparse.o: in function `sparse_init_nid':
+>> mm/sparse.c:318:(.init.text+0x24c): undefined reference to `section_nr_vmemmap_pages'
 
 
-vim +/module_is_blacklisted +1364 init/main.c
+vim +318 mm/sparse.c
 
-  1355	
-  1356	int __init_or_module do_one_initcall(initcall_t fn)
-  1357	{
-  1358		int count = preempt_count();
-  1359		char msgbuf[64];
-  1360		const char *modname;
-  1361		int ret;
-  1362	
-  1363		modname = initcall_get_modname(fn);
-> 1364		if (modname && module_is_blacklisted(modname)) {
-  1365			pr_info("Skipping initcall for blacklisted built-in module %s\n",
-  1366				modname);
-  1367			return 0;
-  1368		}
-  1369	
-  1370		if (initcall_blacklisted(fn))
-  1371			return -EPERM;
-  1372	
-  1373		do_trace_initcall_start(fn);
-  1374		ret = fn();
-  1375		do_trace_initcall_finish(fn, ret);
-  1376	
-  1377		msgbuf[0] = 0;
-  1378	
-  1379		if (preempt_count() != count) {
-  1380			sprintf(msgbuf, "preemption imbalance ");
-  1381			preempt_count_set(count);
-  1382		}
-  1383		if (irqs_disabled()) {
-  1384			strlcat(msgbuf, "disabled interrupts ", sizeof(msgbuf));
-  1385			local_irq_enable();
-  1386		}
-  1387		WARN(msgbuf[0], "initcall %pS returned with %s\n", fn, msgbuf);
-  1388	
-  1389		add_latent_entropy();
-  1390		return ret;
-  1391	}
-  1392	
+   287	
+   288	/*
+   289	 * Initialize sparse on a specific node. The node spans [pnum_begin, pnum_end)
+   290	 * And number of present sections in this node is map_count.
+   291	 */
+   292	static void __init sparse_init_nid(int nid, unsigned long pnum_begin,
+   293					   unsigned long pnum_end,
+   294					   unsigned long map_count)
+   295	{
+   296		unsigned long pnum;
+   297	
+   298		if (sparse_usage_init(nid, map_count))
+   299			panic("Failed to allocate usemap for node %d\n", nid);
+   300	
+   301		sparse_vmemmap_init_nid_early(nid);
+   302	
+   303		for_each_present_section_nr(pnum_begin, pnum) {
+   304			struct mem_section *ms;
+   305			unsigned long pfn = section_nr_to_pfn(pnum);
+   306	
+   307			if (pnum >= pnum_end)
+   308				break;
+   309	
+   310			ms = __nr_to_section(pnum);
+   311			if (!preinited_vmemmap_section(ms)) {
+   312				struct page *map;
+   313	
+   314				map = __populate_section_memmap(pfn, PAGES_PER_SECTION,
+   315								nid, NULL, NULL);
+   316				if (!map)
+   317					panic("Failed to allocate memmap for section %lu\n", pnum);
+ > 318				memmap_boot_pages_add(section_nr_vmemmap_pages(pfn, PAGES_PER_SECTION,
+   319									       NULL, NULL));
+   320				sparse_init_early_section(nid, map, pnum, 0);
+   321			}
+   322		}
+   323		sparse_usage_fini();
+   324	}
+   325	
 
 --
 0-DAY CI Kernel Test Service
