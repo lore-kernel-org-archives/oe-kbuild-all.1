@@ -1,84 +1,136 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA8A3A1C9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 02:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8243C0A0E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 03:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785896884; cv=none; b=FeZTFrrGwd29gDlIe97vGhJF/98v4OhlIozMkMnRYS8fzGW343LYh07v7m0wqoe8QcmCrZBARtv9r6o/MM478KvMv8Id1en7Q+sp+ozSdSW2+lltap/fH51SfY5YNZXxtLG44Wijx+PXEJZBh/1LRnQq4G4eLr8cAICkCWHHcMU=
+	t=1785899614; cv=none; b=JxNYL+wsOhxxr/pzwJi6biOo64K5KAYpJFX1BWdL6B4JkRC85SeMMWBe0BccXzAQ3Js/OI6hJGom54iSnalhh4knUp6CQqiWxyXj2ggoAT2Xx4q24HWhELW4U1TXHYKW2uINXKVKYo+rZzwGU/Ny9jn8ighyCuu7JLPOFh6hFPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785896884; c=relaxed/simple;
-	bh=tFmxLV8vlB+i2y3J7dYP/NGc6/SLjO6AnBeeS/cpDg4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H6LxGydLVcnkuP3yjAz7Zqcum+6cpsfOHMJfFsDbND+qN7sBuGVQV0ttRzg+xoChpgLrj7mrBn/4UKz1Yr8hmPFvd+OqDef4pVjwKuzMNuzTsjNprP6GCEkCY9GFuGPhHGYnaRmQW7C3XxYH+B7ZktGdWMvBho1lr/I+6+xbFw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 43a03232907511f1aa26b74ffac11d73-20260805
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:774fa5ad-f4a0-4fe6-8cd6-e309d1ab0a04,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:137d8ac4f0e2bc96c200d4d995fbbaf5,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|136|850|865|898,TC:nil,Cont
-	ent:0|15|50,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil
-	,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 43a03232907511f1aa26b74ffac11d73-20260805
-X-User: yijiangshan@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <yijiangshan@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 60137469; Wed, 05 Aug 2026 10:27:54 +0800
-From: Jiangshan Yi <yijiangshan@kylinos.cn>
-To: lkp@intel.com
-Cc: 13667453960@163.com,
-	arnd@arndb.de,
-	gregkh@linuxfoundation.org,
-	kees@kernel.org,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	yijiangshan@kylinos.cn
-Subject: Re: Re: [PATCH] lkdtm/core: fix resource leaks on module init error path
-Date: Wed,  5 Aug 2026 10:27:50 +0800
-Message-Id: <20260805022750.88966-1-yijiangshan@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202608050915.CRrKhB4T-lkp@intel.com>
-References: <202608050915.CRrKhB4T-lkp@intel.com>
+	s=arc-20240116; t=1785899614; c=relaxed/simple;
+	bh=DklzzjmHwm1kxKhqk13/7nuO6O2bKEgcsWAa9+jFVJg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YfzPso/IkL3ThoWvMeV512Kdav0mgEKQl/gr+S+iD8JsPMbdw1aoMqtXsJoKYd8k6bBTOp5WMcX5tV7RzuWnTvFwK3aPXrWCo7NOycXCdBFCAYY7eoDgcUDpiR4TCoiLuBfxzYwR+MTrhVAPAhFa2g9u6LEeV6ZHulYVC2MHSOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CKQSKk1/; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CKQSKk1/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785899611; x=1817435611;
+  h=date:from:to:cc:subject:message-id;
+  bh=DklzzjmHwm1kxKhqk13/7nuO6O2bKEgcsWAa9+jFVJg=;
+  b=CKQSKk1/Z3J/xgrsuKTsorVzGmlNNstkAxJv8m6jGpXZxEz6lpor47m5
+   LeoJKHSRepp1fDdr381AemR1pkq5SDsdyNfFRpvHo3KsVN/ZR6BvsGu3e
+   tAxgn0Ic9sAtqAVxveNACRowD7yKHLG2YPz6zdT8wEZy4Iz/6CS6EJ+5q
+   8Mb9qa5d4QI1oZx1H3QL1JiRcx8gZsFYit8Wou8hoKcBmS5JnnVFuLnzr
+   DWo6Twa162wi+SC9j932oZkBlLT3mAHWsz0NoloxEojscnp+BsloC9AOJ
+   nM1tQGrSwlu65aiDi3x/GetfVeuISQSiiTtlPy2aFf5BT/4Q4aM+BGI/u
+   Q==;
+X-CSE-ConnectionGUID: RnaGyWebTGaLatK301MSoA==
+X-CSE-MsgGUID: jnfAahq/SqSPWOCKQ7dyJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="74000660"
+X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
+   d="scan'208";a="74000660"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 20:13:30 -0700
+X-CSE-ConnectionGUID: 9kRp9mZ1QT6J5TsKySGqsw==
+X-CSE-MsgGUID: kKwrueaqTbC6IZOnluSSXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
+   d="scan'208";a="255401876"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Aug 2026 20:13:27 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wrS4K-00000000BLF-35oJ;
+	Wed, 05 Aug 2026 03:13:24 +0000
+Date: Wed, 05 Aug 2026 11:12:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [wsa:renesas/n1d/enablement 7/10]
+ drivers/clocksource/timer-rzn1.c:297:25: error: implicit declaration of
+ function 'irq_set_status_flags'
+Message-ID: <202608051029.h8zgHKlf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/n1d/enablement
+head:   a2d12f9e27fc974d97e58b9c5a7d15452a1be447
+commit: 003b1177ec24b75646dd215f6c04525f67d19060 [7/10] clocksource/drivers: Add support for the Renesas RZ/N1 timers
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260805/202608051029.h8zgHKlf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608051029.h8zgHKlf-lkp@intel.com/reproduce)
 
-Thanks for the build test report and for catching these section mismatch
-warnings:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608051029.h8zgHKlf-lkp@intel.com/
 
-> > > WARNING: modpost: drivers/misc/lkdtm/lkdtm: section mismatch in reference: lkdtm_module_init+0x221 (section: .init.text) -> lkdtm_heap_exit (section: .exit.text)
-> > > WARNING: modpost: drivers/misc/lkdtm/lkdtm: section mismatch in reference: lkdtm_module_init+0x226 (section: .init.text) -> lkdtm_usercopy_exit (section: .exit.text)
+All errors (new ones prefixed by >>):
 
-These warnings have already been addressed in the v2 of this patch,
-posted at:
+   drivers/clocksource/timer-rzn1.c: In function 'rzn1_timer_setup_timers':
+>> drivers/clocksource/timer-rzn1.c:297:25: error: implicit declaration of function 'irq_set_status_flags' [-Wimplicit-function-declaration]
+     297 |                         irq_set_status_flags(timer->ced.irq, IRQ_NOAUTOEN);
+         |                         ^~~~~~~~~~~~~~~~~~~~
+>> drivers/clocksource/timer-rzn1.c:297:62: error: 'IRQ_NOAUTOEN' undeclared (first use in this function); did you mean 'IRQF_NO_AUTOEN'?
+     297 |                         irq_set_status_flags(timer->ced.irq, IRQ_NOAUTOEN);
+         |                                                              ^~~~~~~~~~~~
+         |                                                              IRQF_NO_AUTOEN
+   drivers/clocksource/timer-rzn1.c:297:62: note: each undeclared identifier is reported only once for each function it appears in
 
-https://lore.kernel.org/all/20260730154911.3164527-1-yijiangshan@kylinos.cn/
 
-In v2, the error-handling path in lkdtm_module_init() no longer
-references the .exit.text cleanup helpers (lkdtm_heap_exit,
-lkdtm_usercopy_exit), which resolves the section mismatch reported
-by modpost.
+vim +/irq_set_status_flags +297 drivers/clocksource/timer-rzn1.c
 
-Since the fix is part of a new version of the same patch rather than a
-separate commit, I haven't added the Reported-by / Closes tags to
-that version. However, your report was very helpful in confirming the
-issue — thank you again for the testing.
+   266	
+   267	static int rzn1_timer_setup_timers(struct platform_device *pdev,
+   268					   struct rzn1_timer *tab_timers,
+   269					   unsigned int first_timer_index,
+   270					   unsigned int last_timer_index,
+   271					   void __iomem *base, unsigned long clock_rate,
+   272					   bool irq_disabled)
+   273	{
+   274		struct device *dev = &pdev->dev;
+   275		struct rzn1_timer *timer;
+   276		unsigned int i;
+   277		char *name;
+   278		int irq;
+   279		int ret;
+   280	
+   281		for (i = first_timer_index; i <= last_timer_index; i++) {
+   282			timer = &tab_timers[i];
+   283	
+   284			rzn1_timer_init(timer, i, base, clock_rate);
+   285	
+   286			irq = platform_get_irq(pdev, i);
+   287			if (irq < 0)
+   288				return irq;
+   289	
+   290			name = devm_kasprintf(dev, GFP_KERNEL, "%s-%u", dev_name(dev), i);
+   291			if (!name)
+   292				return -ENOMEM;
+   293	
+   294			rzn1_timer_clkevt_init_ced(timer, name, irq);
+   295	
+   296			if (irq_disabled)
+ > 297				irq_set_status_flags(timer->ced.irq, IRQ_NOAUTOEN);
+   298	
+   299			ret = devm_request_irq(dev, timer->ced.irq, rzn1_timer_interrupt,
+   300					       IRQF_TIMER, timer->ced.name, timer);
+   301			if (ret < 0)
+   302				return dev_err_probe(dev, ret, "timer%u: Failed to request IRQ\n", i);
+   303	
+   304			rzn1_timer_int_enable(timer);
+   305		}
+   306		return 0;
+   307	}
+   308	
 
-Best regards,
-Jiangshan Yi
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
