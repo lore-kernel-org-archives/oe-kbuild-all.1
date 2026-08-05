@@ -1,168 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47ACC1ABED9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 06:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24A03DB63A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 06:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785909884; cv=none; b=nGrVh0ovvvXyiXCpd4QD2WmIUzWgmE2bcOiJ5k1NieoHAvIjWwbnzoNbE5+DM9dTL6Y8avMvFV2RRb1s5UfrPckbC5Mr0GT0l7j8Er3Wgv44DsWUuSeUvLB7krl74aJbJeXRN38QhSGjyhIt7pvj1S/lvST9D8gcjCNRBDFMwX4=
+	t=1785910935; cv=none; b=jeZVRHWkYKbjU9+++hw0HFd0ldJ7xr+uhnNgs86UiQGVesQUqaHFfsK+gKYitZdsW2eP6RV8eXKlteKxkUUqI1TvJa5k1P8Xdlr7Vlw2d+e5HqN95X7Iz3TubK3+6w6EGpYG5SoIin2vrSJ/Tgr4mFW1tY5armZctFiS8CxLbJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785909884; c=relaxed/simple;
-	bh=4Dx2yDPCkyFQMbp325MbRQe6G9ZLtqCxCXhBkxJvRzc=;
+	s=arc-20240116; t=1785910935; c=relaxed/simple;
+	bh=R2htAVORGjl7QftlxkTLbb2pEi9VrgJn+EJGK4KZJfU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qmfhW0mTv/rpZP8r0Ge2uIMvhL/6TKqQsofCfT09mLIP7/bW8QMoK3Pk3AnC/OkkjS8nF5fylh06D9AJCn5BeNJv9uAeagzsDzjzKLvYN3yoEVcKG/FcyZZI31ntAdA8cG3Rd0mCOKWLMEy7uwhLxKGe9kTwEdLyYELuuhJu5lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igdJt2SW; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=fWd+i1w49b40ZkvWntOUuhN5JrNdxFbu9HPFt4Fd1ROgIEeKWcSvvyJu4Rs1bQkq3PVgk9R5f5IMN/6q2EIaQkBrOEbY0+J3C1cdMedRgPJyp68l9p9vu7YkWW05Njq3RKKm+qSAkhA5uJrHMugoRv7CXNUhBxCCvPnxKII2EJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RKL/KrDM; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igdJt2SW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RKL/KrDM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785909883; x=1817445883;
+  t=1785910930; x=1817446930;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4Dx2yDPCkyFQMbp325MbRQe6G9ZLtqCxCXhBkxJvRzc=;
-  b=igdJt2SWRJ+yHuXCUiJ5ApS3xXOlVeQ5mO3LT1o4x4V7uDPQf0w+VBgQ
-   Q+06s3P3oy12/NwanLqG1zEtbX6aeaBWp0cqskfrtma3vpNuA0so5EUUg
-   s1jMxihRNaDrqr7g99JdlslRDttoHu+9H/w230CujJeJESzL1iuKzyL8b
-   ZUSmV8CrpM29KGd9McpdW9+TUuquNtAUm+F4jTW1XGyfp/wn9AmxxQKGU
-   MepqqBRH49gSRjEqiz5FFuwqh3G1K22LTSfjOJilu/+IEylEPd+baoOqh
-   hbIhLq+BSt7V+E+bIWrRNIRu+pcxnthh+siR8sFRyGgosM+wdCR2nANIL
-   g==;
-X-CSE-ConnectionGUID: epw39W5jTaSqWgtTulolhQ==
-X-CSE-MsgGUID: 6NG6oE2MRye1Hw0ubhQ01Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86483623"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=R2htAVORGjl7QftlxkTLbb2pEi9VrgJn+EJGK4KZJfU=;
+  b=RKL/KrDM+MFanoKqnZdFlHFPkFS/qJrcl7/sCmaO2reXjfFM2uN4Qwsj
+   rjpFvnWVf07vOtNicypym4+uOcsh2/PJLjgFlD/0iWQ0ZZ64HmgQrDB4l
+   r5WEk3kC5axZQ6QKp/tUthYH4Dc54d9DbCuFGzOIyNjemSJuIHA17OO9R
+   wN0L5oO6OAy2lely4ts3XLoRotrFUtzZZsaVbZ/LGaG1eJwZa8MN2Ux3y
+   usCaSarcQHzCXj/X6xaQkUGMYWxyuKP3pcs/rNkG8plNqKzVZfgQ+wqQz
+   ZlWPi2Tz2Ncg52/i+xkTsBKFL/CpmkjaqBruj4vUK8QDgY/z5L1YT+C2S
+   A==;
+X-CSE-ConnectionGUID: XQzCckDrS+qhiM0p6WII8Q==
+X-CSE-MsgGUID: Li+NIBwTRbCHGB6Fcu2ksA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="97980962"
 X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="86483623"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 23:04:42 -0700
-X-CSE-ConnectionGUID: lX7Ub0lbQMO/9qGURTdxDQ==
-X-CSE-MsgGUID: NYLygFFYQbyp8lJZGyzVlQ==
+   d="scan'208";a="97980962"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 23:22:07 -0700
+X-CSE-ConnectionGUID: Zwulb0OzQPyil8ivhUNRzw==
+X-CSE-MsgGUID: 8uv+kwUiRi6XVUOFhbN/+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="291653100"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Aug 2026 23:04:39 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="285087436"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Aug 2026 23:21:53 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrUk0-00000000Bjh-3RBH;
-	Wed, 05 Aug 2026 06:04:36 +0000
-Date: Wed, 5 Aug 2026 14:03:16 +0800
+	id 1wrV0g-000000004M4-37Ok;
+	Wed, 05 Aug 2026 06:21:50 +0000
+Date: Wed, 5 Aug 2026 08:21:33 +0200
 From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Michal Wajdeczko <michal.wajdeczko@intel.com>,
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Guangshuo Li <lgs201920130244@gmail.com>
-Subject: Re: [PATCH] drm/xe/pf: clear pending packet on header init failure
-Message-ID: <202608051326.aRuRqBCC-lkp@intel.com>
-References: <20260708071502.722393-1-lgs201920130244@gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: [PATCH] tracing: Cleanup event_enable_trigger_parse() by using
+ __free()
+Message-ID: <202608050839.Ip5dU0Jz-lkp@intel.com>
+References: <20260701174829.67ab8a33@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260708071502.722393-1-lgs201920130244@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260701174829.67ab8a33@gandalf.local.home>
 
-Hi Guangshuo,
+Hi Steven,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on linus/master v7.2-rc6 next-20260804]
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v7.2-rc6 next-20260804]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/drm-xe-pf-clear-pending-packet-on-header-init-failure/20260805-104621
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20260708071502.722393-1-lgs201920130244%40gmail.com
-patch subject: [PATCH] drm/xe/pf: clear pending packet on header init failure
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260805/202608051326.aRuRqBCC-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608051326.aRuRqBCC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Cleanup-event_enable_trigger_parse-by-using-__free/20260805-073956
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20260701174829.67ab8a33%40gandalf.local.home
+patch subject: [PATCH] tracing: Cleanup event_enable_trigger_parse() by using __free()
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260805/202608050839.Ip5dU0Jz-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608050839.Ip5dU0Jz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608051326.aRuRqBCC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608050839.Ip5dU0Jz-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/xe/xe_sriov_packet.c: In function 'xe_sriov_packet_write_single':
->> drivers/gpu/drm/xe/xe_sriov_packet.c:350:17: error: unknown type name 'rturn'
-     350 |                 rturn copied;
-         |                 ^~~~~
->> drivers/gpu/drm/xe/xe_sriov_packet.c:350:23: warning: unused variable 'copied' [-Wunused-variable]
-     350 |                 rturn copied;
-         |                       ^~~~~~
+   In file included from ./include/linux/file.h:13,
+                    from ./include/linux/kernel_read_file.h:5,
+                    from ./include/linux/security.h:26,
+                    from kernel/trace/trace_events_trigger.c:8:
+   kernel/trace/trace_events_trigger.c: In function 'event_enable_trigger_parse':
+>> ./include/linux/cleanup.h:228:22: warning: ignoring return value of '__must_check_fn' declared with attribute 'warn_unused_result' [-Wunused-result]
+     228 |         ((typeof(p)) __must_check_fn((__force const volatile void *)__get_and_null(p, NULL)))
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_trigger.c:1842:9: note: in expansion of macro 'no_free_ptr'
+    1842 |         no_free_ptr(enable_data);
+         |         ^~~~~~~~~~~
 
 
-vim +/rturn +350 drivers/gpu/drm/xe/xe_sriov_packet.c
+vim +228 ./include/linux/cleanup.h
 
-   313	
-   314	/**
-   315	 * xe_sriov_packet_write_single() - Write migration data to a single packet.
-   316	 * @xe: the &xe_device
-   317	 * @vfid: the VF identifier
-   318	 * @buf: start address of userspace buffer
-   319	 * @len: requested write size from userspace
-   320	 *
-   321	 * Return: number of bytes that has been successfully written,
-   322	 *	   -errno on failure.
-   323	 */
-   324	ssize_t xe_sriov_packet_write_single(struct xe_device *xe, unsigned int vfid,
-   325					     const char __user *buf, size_t len)
-   326	{
-   327		struct xe_sriov_packet **data = pf_pick_pending(xe, vfid);
-   328		ssize_t copied;
-   329		bool writing_hdr;
-   330		int ret;
-   331	
-   332		if (IS_ERR_OR_NULL(*data)) {
-   333			*data = xe_sriov_packet_alloc(xe);
-   334			if (!*data)
-   335				return -ENOMEM;
-   336		}
-   337	
-   338		writing_hdr = (*data)->hdr_remaining;
-   339		if (writing_hdr)
-   340			copied = pkt_hdr_write(*data, buf, len);
-   341		else
-   342			copied = pkt_data_write(*data, buf, len);
-   343	
-   344		if (copied < 0) {
-   345			if (writing_hdr && !(*data)->hdr_remaining) {
-   346				kfree(*data);
-   347				*data = NULL;
-   348			}
-   349	
- > 350			rturn copied;
-   351		}
-   352	
-   353		if ((*data)->hdr_remaining == 0 && (*data)->remaining == 0) {
-   354			ret = xe_sriov_pf_migration_restore_produce(xe, vfid, *data);
-   355			if (ret) {
-   356				xe_sriov_packet_free(*data);
-   357				*data = NULL;
-   358	
-   359				return ret;
-   360			}
-   361	
-   362			*data = NULL;
-   363		}
-   364	
-   365		return copied;
-   366	}
-   367	
+85be6d84244706 Peter Zijlstra 2023-08-15  226  
+54da6a0924311c Peter Zijlstra 2023-05-26  227  #define no_free_ptr(p) \
+366fef794bd2b7 Ilpo Järvinen  2025-03-10 @228  	((typeof(p)) __must_check_fn((__force const volatile void *)__get_and_null(p, NULL)))
+54da6a0924311c Peter Zijlstra 2023-05-26  229  
 
 --
 0-DAY CI Kernel Test Service
