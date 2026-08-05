@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDD1489882
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 04:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338E93C3F48
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 04:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785903057; cv=none; b=CBvLEJ/hH1E9y1Eqi4fNfArXLOxeKJZb23iNJXkxtBsuMpGq9JnzsDkZ6M4Wu+nRK7lprwtVwli0Fw9q5eEoC2CPn1y7R0Sil1lv9G9Jhwnqp+Ses8kGuRUwYuA61FLjJYj5wQw4jd8vqwv6mbaALukTiDeyQ4d7FiDJIBzX+oY=
+	t=1785904679; cv=none; b=q5EPWssAZvxpAeF+61b9HpvAFZxC7/wa4JcOxfMtYyvoe+XQ/XGcKr2lhV9aMbzRs4V68QqECp0Lns3N65XwpUcav5y0DMDEPzwGRET1pktaSG7yzoxMh89JvF2x9NczZ5lIeiX5tGuW12iCqP6deUX5sBJkqNkKxhJTvvN0mE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785903057; c=relaxed/simple;
-	bh=NtzBG7YFHiT/WravYVt0o7lSMR2AC3EWcxtBJoWJlFE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BwkJEWZM1moBg6m4Nr+SZxIyTsaGmMGxDWKuVKIY4F1f3HcjnZuNvid8SgoePFG6nYiKi4KL4zp2ROnMj7KAF/f8svZPYNg98gzEk+iBWHoieInO7tfQGeGnw4frg1ycOKMXAe5mnKY1savdXh0ezcvrsOfIjWoLUTO5YxhweeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gyRPvM7a; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1785904679; c=relaxed/simple;
+	bh=pcYregXUTGgqmkW5pSjERSyWzyWyYg0Vv/TyBcx3I5w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qovIZVWc6oQSyfYXP0V8kL+1js5IDGgpid8Up7rNJ3h/Qty4ouQNEaQPwkB6Y5QihOnmjwgZV8JiN6lmQWXXds/wGb/PknsCD47gmNaTwOt4zLin7O6Qdv11xnN+smNLB58qfJqMOmXU67thopdOwiXQ81u7VEVKnoI/K3THwkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mnDNS/tc; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gyRPvM7a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mnDNS/tc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785903053; x=1817439053;
+  t=1785904676; x=1817440676;
   h=date:from:to:cc:subject:message-id;
-  bh=NtzBG7YFHiT/WravYVt0o7lSMR2AC3EWcxtBJoWJlFE=;
-  b=gyRPvM7aXJpKJuBSRU+wKInEoTl6P1UBk862QCT19+jaOnkALL+RxLUE
-   C7aFKxEkk9svIS77NCk+atCluTF31XPFkI31PyyZ5kcqj3FP5zlwl99Rp
-   fwPfHSrHwJ0wYWvaEbYz9wTkgOlINYN7YkJl60Mz+nRE7el/5ACgCMhL8
-   5f59rNRz0glk0TeVXFPXPcQAyjwDvsugAc96DS5lt7QYrakTnGNE6CHpH
-   /R1xqfSfFzXyr4GGYU+uw2ElRKlyiAGNRHqdfWpWem9gKdTVv3mFOOLf0
-   4VkBJ8WcClsYg4yw+a/bTd67yIz0cBBO5zUHe1oi7Rc2Kl6rkwjonQ23f
-   Q==;
-X-CSE-ConnectionGUID: qYt/pIzvRDS4dfp/BgGgXg==
-X-CSE-MsgGUID: DUb+XgchTCaVQvwhimjoWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="90281157"
+  bh=pcYregXUTGgqmkW5pSjERSyWzyWyYg0Vv/TyBcx3I5w=;
+  b=mnDNS/tcYl0diuajXEc8DqxfMDvwZgy/ymnGu/yMuLmJmjIJkFZQ9leG
+   9LaZW4POSaFdBiRmdhK5Re/wjdq/0I3jfiL2J+ORUa27i5tAQDxxAmA7X
+   dZHF433aCIPKwC7iWduRADBr5H84fju/buzM6DjgKuIgYSqncKZjHhQgy
+   dZK3TWKl6Go4vMH8x5sSm1TVkOzRS6pZndryxMB8YRSQschsu1RUAh5Op
+   hiXpNg4+kMDkp8AuFy9LKwR/4PfDeEOO0CFr+TxEQCvstB3QP1FsxalUo
+   5O32R+W1V/20Zs5xb+FSNjZbSlT+7zvW4KNnqkPZp6qRQNlOgsPyWewgy
+   w==;
+X-CSE-ConnectionGUID: bNMsKBQHTOqC0xwm81MRHA==
+X-CSE-MsgGUID: JDeZ3r5KQNW8MjO2erJNpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="97062730"
 X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="90281157"
+   d="scan'208";a="97062730"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 21:10:53 -0700
-X-CSE-ConnectionGUID: 1nmS97C7QSenrUXXy/Qu0w==
-X-CSE-MsgGUID: PD3JDGEzRSGkbullM4GDzg==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 21:37:55 -0700
+X-CSE-ConnectionGUID: s2mf/qHTQyK8kPjaXzKCFA==
+X-CSE-MsgGUID: wKTkCOEYQc6xWscqbhYpqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="286338780"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Aug 2026 21:10:52 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="286343867"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Aug 2026 21:37:22 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrSxt-000000004Ko-1ib8;
-	Wed, 05 Aug 2026 04:10:49 +0000
-Date: Wed, 05 Aug 2026 06:09:52 +0200
+	id 1wrTNY-00000000BXd-21iT;
+	Wed, 05 Aug 2026 04:37:20 +0000
+Date: Wed, 05 Aug 2026 12:36:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Artem Blagodarenko <artem.blagodarenko@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- Andreas Dilger <adilger@dilger.ca>
-Subject: fs/ext4/dir.c:240:35: error: implicit declaration of
- function 'ext4_dir_rec_len'; did you mean 'ext4_dirent_rec_len'?
-Message-ID: <202608050643.HsEEkMSm-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 29/29]
+ drivers/gpu/drm/mediatek/mtk_crtc.c:2029:27: error: 'struct mtk_crtc' has no
+ member named 'fast_modeset_done'
+Message-ID: <202608051229.vIqCwwpU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,268 +60,268 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Artem,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/intel-lab-lkp/linux/commits/Artem-Blagodarenko/ext4-validate-count-against-limit-in-ext4_dx_csum_verify-_set/20260805-014713
-head:   27d843e077693d33ed950cae73845ae35cce500e
-commit: e4749d23faefb3c72aa0acb948dbd2b325177576 ext4: rename ext4_dir_rec_len() and clarify dirdata usage
-date:   10 hours ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260805/202608050643.HsEEkMSm-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608050643.HsEEkMSm-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   1213fba9236ab86f264ce386ca98c8c671f6cb55
+commit: d987a15a211de927eda62988be34f608ebeed65e [29/29] CHROMIUM: drm/mediatek: Fix spurious wakeup causing black screen
+config: arm64-randconfig-002-20260805 (https://download.01.org/0day-ci/archive/20260805/202608051229.vIqCwwpU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608051229.vIqCwwpU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608050643.HsEEkMSm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608051229.vIqCwwpU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/ext4/dir.c: In function 'ext4_readdir':
->> fs/ext4/dir.c:240:35: error: implicit declaration of function 'ext4_dir_rec_len'; did you mean 'ext4_dirent_rec_len'? [-Wimplicit-function-declaration]
-     240 |                                   ext4_dir_rec_len(1, has_csum ? NULL : inode) &&
-         |                                   ^~~~~~~~~~~~~~~~
-         |                                   ext4_dirent_rec_len
---
-   fs/ext4/inline.c: In function 'ext4_read_inline_dir':
->> fs/ext4/inline.c:1466:33: error: implicit declaration of function 'ext4_dir_rec_len'; did you mean 'ext4_dirent_rec_len'? [-Wimplicit-function-declaration]
-    1466 |                         if (i + ext4_dir_rec_len(1, NULL) > extra_size)
-         |                                 ^~~~~~~~~~~~~~~~
-         |                                 ext4_dirent_rec_len
---
-   fs/ext4/namei.c: In function 'ext4_search_dir':
->> fs/ext4/namei.c:1515:35: error: implicit declaration of function 'ext4_dir_rec_len'; did you mean 'ext4_dirent_rec_len'? [-Wimplicit-function-declaration]
-    1515 |                      (char *)de + ext4_dir_rec_len(de->name_len, dir) <= dlimit) &&
-         |                                   ^~~~~~~~~~~~~~~~
-         |                                   ext4_dirent_rec_len
-   fs/ext4/namei.c: In function 'add_dirent_to_buf':
-   fs/ext4/namei.c:2168:23: error: too few arguments to function 'ext4_find_dest_de'
-    2168 |                 err = ext4_find_dest_de(dir, bh, bh->b_data,
-         |                       ^~~~~~~~~~~~~~~~~
-   fs/ext4/namei.c:2081:5: note: declared here
-    2081 | int ext4_find_dest_de(struct inode *dir, struct buffer_head *bh,
-         |     ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_crtc.c: In function 'mtk_crtc_update_srt_state':
+   drivers/gpu/drm/mediatek/mtk_crtc.c:597:25: warning: variable 'state' set but not used [-Wunused-but-set-variable]
+     struct mtk_crtc_state *state;
+                            ^~~~~
+   drivers/gpu/drm/mediatek/mtk_crtc.c: In function 'mtk_crtc_atomic_flush':
+   drivers/gpu/drm/mediatek/mtk_crtc.c:1649:17: error: 'struct mtk_crtc' has no member named 'cmdq_client'
+       if (!mtk_crtc->cmdq_client.chan)
+                    ^~
+   drivers/gpu/drm/mediatek/mtk_crtc.c: At top level:
+   drivers/gpu/drm/mediatek/mtk_crtc.c:1656:5: warning: no previous prototype for 'mtk_crtc_atomic_check' [-Wmissing-prototypes]
+    int mtk_crtc_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+        ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_crtc.c: In function 'mtk_crtc_create':
+>> drivers/gpu/drm/mediatek/mtk_crtc.c:2029:27: error: 'struct mtk_crtc' has no member named 'fast_modeset_done'
+     init_completion(&mtk_crtc->fast_modeset_done);
+                              ^~
+   At top level:
+   drivers/gpu/drm/mediatek/mtk_crtc.c:557:13: warning: 'mtk_crtc_post_update_hrt_state' defined but not used [-Wunused-function]
+    static void mtk_crtc_post_update_hrt_state(struct mtk_crtc *mtk_crtc)
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +240 fs/ext4/dir.c
+vim +2029 drivers/gpu/drm/mediatek/mtk_crtc.c
 
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  128  
-725bebb27882ae Al Viro            2013-05-17  129  static int ext4_readdir(struct file *file, struct dir_context *ctx)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  130  {
-498e5f24158da7 Theodore Ts'o      2008-11-05  131  	unsigned int offset;
-aa13d5f67c6f5f Giedrius Rekasius  2014-05-27  132  	int i;
-617ba13b31fbf5 Mingming Cao       2006-10-11  133  	struct ext4_dir_entry_2 *de;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  134  	int err;
-725bebb27882ae Al Viro            2013-05-17  135  	struct inode *inode = file_inode(file);
-d1f5273e9adb40 Fan Yong           2012-03-18  136  	struct super_block *sb = inode->i_sb;
-4461471107b79b Michael Halcrow    2015-04-12  137  	struct buffer_head *bh = NULL;
-a7550b30ab709f Jaegeuk Kim        2016-07-10  138  	struct fscrypt_str fstr = FSTR_INIT(NULL, 0);
-4f05ee2f82b470 Christian Brauner  2024-08-30  139  	struct dir_private_info *info = file->private_data;
-bc4b7b0414c33b Yao Kai            2026-07-06  140  	bool has_csum = ext4_has_feature_metadata_csum(sb);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  141  
-ec0caa974cd092 Eric Biggers       2020-12-02  142  	err = fscrypt_prepare_readdir(inode);
-3b1ada55b905f3 Eric Biggers       2019-12-09  143  	if (err)
-28b4c263961c47 Theodore Ts'o      2016-02-07  144  		return err;
-28b4c263961c47 Theodore Ts'o      2016-02-07  145  
-d1f5273e9adb40 Fan Yong           2012-03-18  146  	if (is_dx_dir(inode)) {
-725bebb27882ae Al Viro            2013-05-17  147  		err = ext4_dx_readdir(file, ctx);
-400086d7c11327 Milan Djurovic     2021-03-15  148  		if (err != ERR_BAD_DX_DIR)
-725bebb27882ae Al Viro            2013-05-17  149  			return err;
-400086d7c11327 Milan Djurovic     2021-03-15  150  
-48a34311953d92 Jan Kara           2020-02-10  151  		/* Can we just clear INDEX flag to ignore htree information? */
-bc4b7b0414c33b Yao Kai            2026-07-06  152  		if (!has_csum) {
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  153  			/*
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  154  			 * We don't set the inode dirty flag since it's not
-48a34311953d92 Jan Kara           2020-02-10  155  			 * critical that it gets flushed back to the disk.
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  156  			 */
-48a34311953d92 Jan Kara           2020-02-10  157  			ext4_clear_inode_flag(inode, EXT4_INODE_INDEX);
-48a34311953d92 Jan Kara           2020-02-10  158  		}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  159  	}
-8af0f082279770 Tao Ma             2013-04-19  160  
-8af0f082279770 Tao Ma             2013-04-19  161  	if (ext4_has_inline_data(inode)) {
-8af0f082279770 Tao Ma             2013-04-19  162  		int has_inline_data = 1;
-4461471107b79b Michael Halcrow    2015-04-12  163  		err = ext4_read_inline_dir(file, ctx,
-8af0f082279770 Tao Ma             2013-04-19  164  					   &has_inline_data);
-8af0f082279770 Tao Ma             2013-04-19  165  		if (has_inline_data)
-4461471107b79b Michael Halcrow    2015-04-12  166  			return err;
-4461471107b79b Michael Halcrow    2015-04-12  167  	}
-4461471107b79b Michael Halcrow    2015-04-12  168  
-592ddec7578a33 Chandan Rajendra   2018-12-12  169  	if (IS_ENCRYPTED(inode)) {
-8b10fe68985278 Jeff Layton        2020-08-10  170  		err = fscrypt_fname_alloc_buffer(EXT4_NAME_LEN, &fstr);
-b7236e21d55ff9 Theodore Ts'o      2015-05-18  171  		if (err < 0)
-4461471107b79b Michael Halcrow    2015-04-12  172  			return err;
-4461471107b79b Michael Halcrow    2015-04-12  173  	}
-8af0f082279770 Tao Ma             2013-04-19  174  
-725bebb27882ae Al Viro            2013-05-17  175  	while (ctx->pos < inode->i_size) {
-2ed886852adfcb Theodore Ts'o      2010-05-16  176  		struct ext4_map_blocks map;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  177  
-1f60fbe7274918 Theodore Ts'o      2016-04-23  178  		if (fatal_signal_pending(current)) {
-1f60fbe7274918 Theodore Ts'o      2016-04-23  179  			err = -ERESTARTSYS;
-1f60fbe7274918 Theodore Ts'o      2016-04-23  180  			goto errout;
-1f60fbe7274918 Theodore Ts'o      2016-04-23  181  		}
-1f60fbe7274918 Theodore Ts'o      2016-04-23  182  		cond_resched();
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  183  		offset = ctx->pos & (sb->s_blocksize - 1);
-725bebb27882ae Al Viro            2013-05-17  184  		map.m_lblk = ctx->pos >> EXT4_BLOCK_SIZE_BITS(sb);
-2ed886852adfcb Theodore Ts'o      2010-05-16  185  		map.m_len = 1;
-2ed886852adfcb Theodore Ts'o      2010-05-16  186  		err = ext4_map_blocks(NULL, inode, &map, 0);
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  187  		if (err == 0) {
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  188  			/* m_len should never be zero but let's avoid
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  189  			 * an infinite loop if it somehow is */
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  190  			if (map.m_len == 0)
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  191  				map.m_len = 1;
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  192  			ctx->pos += map.m_len * sb->s_blocksize;
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  193  			continue;
-4e19d6b65fb4fc Theodore Ts'o      2019-06-20  194  		}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  195  		if (err > 0) {
-609c5e0081b432 Baokun Li          2025-11-21  196  			pgoff_t index = map.m_pblk << inode->i_blkbits >>
-609c5e0081b432 Baokun Li          2025-11-21  197  					PAGE_SHIFT;
-725bebb27882ae Al Viro            2013-05-17  198  			if (!ra_has_index(&file->f_ra, index))
-cf914a7d656e62 Rusty Russell      2007-07-19  199  				page_cache_sync_readahead(
-224941e8379a0d Al Viro            2024-04-11  200  					sb->s_bdev->bd_mapping,
-609c5e0081b432 Baokun Li          2025-11-21  201  					&file->f_ra, file, index,
-609c5e0081b432 Baokun Li          2025-11-21  202  					1 << EXT4_SB(sb)->s_min_folio_order);
-09cbfeaf1a5a67 Kiryl Shutsemau    2016-04-01  203  			file->f_ra.prev_pos = (loff_t)index << PAGE_SHIFT;
-1c2150283cae89 Theodore Ts'o      2014-08-29  204  			bh = ext4_bread(NULL, inode, map.m_lblk, 0);
-c906f38e8853cf Kirill Tkhai       2016-02-16  205  			if (IS_ERR(bh)) {
-c906f38e8853cf Kirill Tkhai       2016-02-16  206  				err = PTR_ERR(bh);
-c906f38e8853cf Kirill Tkhai       2016-02-16  207  				bh = NULL;
-c906f38e8853cf Kirill Tkhai       2016-02-16  208  				goto errout;
-c906f38e8853cf Kirill Tkhai       2016-02-16  209  			}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  210  		}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  211  
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  212  		if (!bh) {
-e6c4021190c828 Eric Sandeen       2006-12-06  213  			/* corrupt size?  Maybe no more blocks to read */
-725bebb27882ae Al Viro            2013-05-17  214  			if (ctx->pos > inode->i_blocks << 9)
-e6c4021190c828 Eric Sandeen       2006-12-06  215  				break;
-725bebb27882ae Al Viro            2013-05-17  216  			ctx->pos += sb->s_blocksize - offset;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  217  			continue;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  218  		}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  219  
-b0336e8d2108e6 Darrick J. Wong    2012-04-29  220  		/* Check the checksum */
-b0336e8d2108e6 Darrick J. Wong    2012-04-29  221  		if (!buffer_verified(bh) &&
-f036adb3997646 Theodore Ts'o      2019-06-21  222  		    !ext4_dirblock_csum_verify(inode, bh)) {
-725bebb27882ae Al Viro            2013-05-17  223  			EXT4_ERROR_FILE(file, 0, "directory fails checksum "
-b0336e8d2108e6 Darrick J. Wong    2012-04-29  224  					"at offset %llu",
-725bebb27882ae Al Viro            2013-05-17  225  					(unsigned long long)ctx->pos);
-725bebb27882ae Al Viro            2013-05-17  226  			ctx->pos += sb->s_blocksize - offset;
-d5ac7773051602 Guo Chao           2013-01-28  227  			brelse(bh);
-4461471107b79b Michael Halcrow    2015-04-12  228  			bh = NULL;
-b0336e8d2108e6 Darrick J. Wong    2012-04-29  229  			continue;
-b0336e8d2108e6 Darrick J. Wong    2012-04-29  230  		}
-b0336e8d2108e6 Darrick J. Wong    2012-04-29  231  		set_buffer_verified(bh);
-b0336e8d2108e6 Darrick J. Wong    2012-04-29  232  
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  233  		/* If the dir block has changed since the last call to
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  234  		 * readdir(2), then we might be pointing to an invalid
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  235  		 * dirent right now.  Scan from the start of the block
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  236  		 * to make sure. */
-4f05ee2f82b470 Christian Brauner  2024-08-30  237  		if (!inode_eq_iversion(inode, info->cookie)) {
-bc4b7b0414c33b Yao Kai            2026-07-06  238  			for (i = 0;
-bc4b7b0414c33b Yao Kai            2026-07-06  239  			     i <= sb->s_blocksize -
-bc4b7b0414c33b Yao Kai            2026-07-06 @240  				  ext4_dir_rec_len(1, has_csum ? NULL : inode) &&
-bc4b7b0414c33b Yao Kai            2026-07-06  241  			     i < offset;) {
-617ba13b31fbf5 Mingming Cao       2006-10-11  242  				de = (struct ext4_dir_entry_2 *)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  243  					(bh->b_data + i);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  244  				/* It's too expensive to do a full
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  245  				 * dirent test each time round this
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  246  				 * loop, but we do have to test at
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  247  				 * least that it is non-zero.  A
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  248  				 * failure will be detected in the
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  249  				 * dirent test below. */
-3d0518f4758eca Wei Yongjun        2009-02-14  250  				if (ext4_rec_len_from_disk(de->rec_len,
-e4749d23faefb3 Artem Blagodarenko 2026-07-27  251  					sb->s_blocksize) < ext4_dirent_rec_len(1,
-471fbbea7ff706 Daniel Rosenberg   2021-03-19  252  									inode))
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  253  					break;
-3d0518f4758eca Wei Yongjun        2009-02-14  254  				i += ext4_rec_len_from_disk(de->rec_len,
-3d0518f4758eca Wei Yongjun        2009-02-14  255  							    sb->s_blocksize);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  256  			}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  257  			offset = i;
-725bebb27882ae Al Viro            2013-05-17  258  			ctx->pos = (ctx->pos & ~(sb->s_blocksize - 1))
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  259  				| offset;
-4f05ee2f82b470 Christian Brauner  2024-08-30  260  			info->cookie = inode_query_iversion(inode);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  261  		}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  262  
-bc4b7b0414c33b Yao Kai            2026-07-06  263  		if (unlikely(offset < sb->s_blocksize &&
-bc4b7b0414c33b Yao Kai            2026-07-06  264  			     offset > sb->s_blocksize -
-bc4b7b0414c33b Yao Kai            2026-07-06  265  			     ext4_dir_rec_len(1, has_csum ? NULL : inode))) {
-bc4b7b0414c33b Yao Kai            2026-07-06  266  			EXT4_ERROR_FILE(file, bh->b_blocknr,
-bc4b7b0414c33b Yao Kai            2026-07-06  267  					"bad entry in directory: %s - offset=%u, size=%lu",
-bc4b7b0414c33b Yao Kai            2026-07-06  268  					"directory entry too close to block end",
-bc4b7b0414c33b Yao Kai            2026-07-06  269  					offset, sb->s_blocksize);
-bc4b7b0414c33b Yao Kai            2026-07-06  270  			ctx->pos = round_up(ctx->pos, sb->s_blocksize);
-bc4b7b0414c33b Yao Kai            2026-07-06  271  			goto next_block;
-bc4b7b0414c33b Yao Kai            2026-07-06  272  		}
-bc4b7b0414c33b Yao Kai            2026-07-06  273  
-725bebb27882ae Al Viro            2013-05-17  274  		while (ctx->pos < inode->i_size
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  275  		       && offset < sb->s_blocksize) {
-617ba13b31fbf5 Mingming Cao       2006-10-11  276  			de = (struct ext4_dir_entry_2 *) (bh->b_data + offset);
-725bebb27882ae Al Viro            2013-05-17  277  			if (ext4_check_dir_entry(inode, file, de, bh,
-226ba972b08637 Tao Ma             2012-12-10  278  						 bh->b_data, bh->b_size,
-226ba972b08637 Tao Ma             2012-12-10  279  						 offset)) {
-63f5793351d821 Andrew Morton      2006-10-11  280  				/*
-725bebb27882ae Al Viro            2013-05-17  281  				 * On error, skip to the next block
-63f5793351d821 Andrew Morton      2006-10-11  282  				 */
-725bebb27882ae Al Viro            2013-05-17  283  				ctx->pos = (ctx->pos |
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  284  						(sb->s_blocksize - 1)) + 1;
-725bebb27882ae Al Viro            2013-05-17  285  				break;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  286  			}
-3d0518f4758eca Wei Yongjun        2009-02-14  287  			offset += ext4_rec_len_from_disk(de->rec_len,
-3d0518f4758eca Wei Yongjun        2009-02-14  288  					sb->s_blocksize);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  289  			if (le32_to_cpu(de->inode)) {
-592ddec7578a33 Chandan Rajendra   2018-12-12  290  				if (!IS_ENCRYPTED(inode)) {
-725bebb27882ae Al Viro            2013-05-17  291  					if (!dir_emit(ctx, de->name,
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  292  					    de->name_len,
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  293  					    le32_to_cpu(de->inode),
-4461471107b79b Michael Halcrow    2015-04-12  294  					    get_dtype(sb, de->file_type)))
-4461471107b79b Michael Halcrow    2015-04-12  295  						goto done;
-4461471107b79b Michael Halcrow    2015-04-12  296  				} else {
-a7550b30ab709f Jaegeuk Kim        2016-07-10  297  					int save_len = fstr.len;
-a7550b30ab709f Jaegeuk Kim        2016-07-10  298  					struct fscrypt_str de_name =
-a7550b30ab709f Jaegeuk Kim        2016-07-10  299  							FSTR_INIT(de->name,
-a7550b30ab709f Jaegeuk Kim        2016-07-10  300  								de->name_len);
-70dd7b573afeba yao.ly             2024-07-01  301  					u32 hash;
-70dd7b573afeba yao.ly             2024-07-01  302  					u32 minor_hash;
-70dd7b573afeba yao.ly             2024-07-01  303  
-70dd7b573afeba yao.ly             2024-07-01  304  					if (IS_CASEFOLDED(inode)) {
-70dd7b573afeba yao.ly             2024-07-01  305  						hash = EXT4_DIRENT_HASH(de);
-70dd7b573afeba yao.ly             2024-07-01  306  						minor_hash = EXT4_DIRENT_MINOR_HASH(de);
-70dd7b573afeba yao.ly             2024-07-01  307  					} else {
-70dd7b573afeba yao.ly             2024-07-01  308  						hash = 0;
-70dd7b573afeba yao.ly             2024-07-01  309  						minor_hash = 0;
-70dd7b573afeba yao.ly             2024-07-01  310  					}
-d229959072eba4 Theodore Ts'o      2015-05-18  311  
-4461471107b79b Michael Halcrow    2015-04-12  312  					/* Directory is encrypted */
-a7550b30ab709f Jaegeuk Kim        2016-07-10  313  					err = fscrypt_fname_disk_to_usr(inode,
-70dd7b573afeba yao.ly             2024-07-01  314  						hash, minor_hash, &de_name, &fstr);
-ef1eb3aa50930f Eric Biggers       2016-09-15  315  					de_name = fstr;
-a7550b30ab709f Jaegeuk Kim        2016-07-10  316  					fstr.len = save_len;
-ef1eb3aa50930f Eric Biggers       2016-09-15  317  					if (err)
-4461471107b79b Michael Halcrow    2015-04-12  318  						goto errout;
-4461471107b79b Michael Halcrow    2015-04-12  319  					if (!dir_emit(ctx,
-ef1eb3aa50930f Eric Biggers       2016-09-15  320  					    de_name.name, de_name.len,
-4461471107b79b Michael Halcrow    2015-04-12  321  					    le32_to_cpu(de->inode),
-4461471107b79b Michael Halcrow    2015-04-12  322  					    get_dtype(sb, de->file_type)))
-4461471107b79b Michael Halcrow    2015-04-12  323  						goto done;
-725bebb27882ae Al Viro            2013-05-17  324  				}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  325  			}
-725bebb27882ae Al Viro            2013-05-17  326  			ctx->pos += ext4_rec_len_from_disk(de->rec_len,
-3d0518f4758eca Wei Yongjun        2009-02-14  327  						sb->s_blocksize);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  328  		}
-bc4b7b0414c33b Yao Kai            2026-07-06  329  next_block:
-ae05327a00fd47 Al Viro            2016-05-12  330  		if ((ctx->pos < inode->i_size) && !dir_relax_shared(inode))
-4461471107b79b Michael Halcrow    2015-04-12  331  			goto done;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  332  		brelse(bh);
-4461471107b79b Michael Halcrow    2015-04-12  333  		bh = NULL;
-725bebb27882ae Al Viro            2013-05-17  334  	}
-4461471107b79b Michael Halcrow    2015-04-12  335  done:
-4461471107b79b Michael Halcrow    2015-04-12  336  	err = 0;
-4461471107b79b Michael Halcrow    2015-04-12  337  errout:
-a7550b30ab709f Jaegeuk Kim        2016-07-10  338  	fscrypt_fname_free_buffer(&fstr);
-4461471107b79b Michael Halcrow    2015-04-12  339  	brelse(bh);
-4461471107b79b Michael Halcrow    2015-04-12  340  	return err;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  341  }
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  342  
+  1813	
+  1814	int mtk_crtc_create(struct drm_device *drm_dev, enum mtk_crtc_path path_sel)
+  1815	{
+  1816		struct mtk_drm_private *priv = drm_dev->dev_private;
+  1817		struct device *dev = drm_dev->dev;
+  1818		struct mtk_crtc *mtk_crtc;
+  1819		unsigned int num_comp_planes = 0;
+  1820		int ret;
+  1821		int i, j, k;
+  1822		bool has_ctm = false;
+  1823		uint gamma_lut_size = 0;
+  1824		struct drm_crtc *tmp;
+  1825		int crtc_i = 0;
+  1826		struct mtk_drm_private *subsys_priv;
+  1827		struct mtk_crtc_comp_info path[DDP_COMPONENT_ID_MAX];
+  1828		unsigned int path_len = 0;
+  1829		const struct mtk_drm_route *conn_routes = NULL;
+  1830		unsigned int num_conn_routes = 0;
+  1831		enum mtk_drm_mmsys conn_mmsys;
+  1832	
+  1833		drm_for_each_crtc(tmp, drm_dev)
+  1834			crtc_i++;
+  1835	
+  1836		for (j = 0; j < priv->data->mmsys_dev_num; j++) {
+  1837			for (k = 0; k < MAX_MMSYS; k++) {
+  1838				const unsigned int *subsys_path;
+  1839				unsigned int subsys_path_len = 0;
+  1840				unsigned int order = 0;
+  1841	
+  1842				subsys_priv = priv->all_drm_private[k];
+  1843				if (!subsys_priv)
+  1844					continue;
+  1845	
+  1846				if (path_sel == CRTC_MAIN) {
+  1847					subsys_path = subsys_priv->data->main_path;
+  1848					subsys_path_len = subsys_priv->data->main_len;
+  1849					order = subsys_priv->data->main_order;
+  1850				} else if (path_sel == CRTC_EXT) {
+  1851					subsys_path = subsys_priv->data->ext_path;
+  1852					subsys_path_len = subsys_priv->data->ext_len;
+  1853					order = subsys_priv->data->ext_order;
+  1854				} else if (path_sel == CRTC_THIRD) {
+  1855					subsys_path = subsys_priv->data->third_path;
+  1856					subsys_path_len = subsys_priv->data->third_len;
+  1857					order = subsys_priv->data->third_order;
+  1858				}
+  1859	
+  1860				if (subsys_priv->data->num_conn_routes) {
+  1861					conn_routes = subsys_priv->data->conn_routes;
+  1862					num_conn_routes = subsys_priv->data->num_conn_routes;
+  1863					conn_mmsys = subsys_priv->data->mmsys_id;
+  1864				}
+  1865	
+  1866				if (j != order)
+  1867					continue;
+  1868				if (!subsys_path_len)
+  1869					continue;
+  1870	
+  1871				for (i = 0; i < subsys_path_len; i++) {
+  1872					path[path_len].sys = subsys_priv->data->mmsys_id;
+  1873					path[path_len].comp_id = subsys_path[i];
+  1874					path_len++;
+  1875				}
+  1876			}
+  1877		}
+  1878	
+  1879		if (!path_len)
+  1880			return 0;
+  1881	
+  1882		if (num_conn_routes) {
+  1883			for (i = 0; i < num_conn_routes; i++)
+  1884				if (conn_routes->crtc_id == crtc_i)
+  1885					break;
+  1886			if (i == num_conn_routes) {
+  1887				num_conn_routes = 0;
+  1888				conn_routes = NULL;
+  1889			}
+  1890		}
+  1891	
+  1892		for (i = 0; i < path_len; i++) {
+  1893			enum mtk_ddp_comp_id comp_id = path[i].comp_id;
+  1894			struct device_node *node;
+  1895			struct mtk_ddp_comp *comp;
+  1896	
+  1897			priv = priv->all_drm_private[path[i].sys];
+  1898			node = priv->comp_node[comp_id];
+  1899			comp = &priv->ddp_comp[comp_id];
+  1900	
+  1901			/* Not all drm components have a DTS device node, such as ovl_adaptor,
+  1902			 * which is the drm bring up sub driver
+  1903			 */
+  1904			if (!node && comp_id != DDP_COMPONENT_DRM_OVL_ADAPTOR &&
+  1905			    comp_id != DDP_COMPONENT_DRM_OVLSYS_ADAPTOR0 &&
+  1906			    comp_id != DDP_COMPONENT_DRM_OVLSYS_ADAPTOR1 &&
+  1907			    comp_id != DDP_COMPONENT_DRM_OVLSYS_ADAPTOR2 &&
+  1908			    mtk_ddp_comp_get_type(comp_id) != MTK_DISP_VIRTUAL) {
+  1909				dev_info(dev,
+  1910					"Not creating crtc %d because component %d is disabled or missing\n",
+  1911					crtc_i, comp_id);
+  1912				return 0;
+  1913			}
+  1914	
+  1915			if (!comp->dev && mtk_ddp_comp_get_type(comp_id) != MTK_DISP_VIRTUAL) {
+  1916				dev_err(dev, "Component %pOF not initialized\n", node);
+  1917				return -ENODEV;
+  1918			}
+  1919		}
+  1920	
+  1921		mtk_crtc = devm_kzalloc(dev, sizeof(*mtk_crtc), GFP_KERNEL);
+  1922		if (!mtk_crtc)
+  1923			return -ENOMEM;
+  1924	
+  1925		mtk_crtc->qos_ctx = devm_kzalloc(dev, sizeof(struct mtk_crtc_qos_ctx), GFP_KERNEL);
+  1926		if (!mtk_crtc->qos_ctx)
+  1927			return -ENOMEM;
+  1928	
+  1929		for (i = 0; i < MAX_MMSYS; i++)
+  1930			if (priv->all_drm_private[i])
+  1931				mtk_crtc->mmsys_dev[i] = priv->all_drm_private[i]->mmsys_dev;
+  1932		mtk_crtc->ddp_comp_nr = path_len;
+  1933		mtk_crtc->ddp_comp = devm_kcalloc(dev,
+  1934						  mtk_crtc->ddp_comp_nr + (conn_routes ? 1 : 0),
+  1935						  sizeof(*mtk_crtc->ddp_comp),
+  1936						  GFP_KERNEL);
+  1937		if (!mtk_crtc->ddp_comp)
+  1938			return -ENOMEM;
+  1939	
+  1940		mtk_crtc->ddp_comp_sys = devm_kmalloc_array(dev, mtk_crtc->ddp_comp_nr +
+  1941							    (conn_routes ? 1 : 0),
+  1942							    sizeof(*mtk_crtc->ddp_comp_sys), GFP_KERNEL);
+  1943		if (!mtk_crtc->ddp_comp_sys)
+  1944			return -ENOMEM;
+  1945	
+  1946		for (i = 0; i < MAX_MMSYS; i++) {
+  1947			if (!priv->all_drm_private[i])
+  1948				continue;
+  1949	
+  1950			priv = priv->all_drm_private[i];
+  1951			mtk_crtc->mutex[i] = mtk_mutex_get(priv->mutex_dev);
+  1952			if (IS_ERR(mtk_crtc->mutex[i])) {
+  1953				ret = PTR_ERR(mtk_crtc->mutex[i]);
+  1954				dev_err(dev, "Failed to get mutex: %d\n", ret);
+  1955				return ret;
+  1956			}
+  1957		}
+  1958	
+  1959		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
+  1960			unsigned int comp_id = path[i].comp_id;
+  1961			struct mtk_ddp_comp *comp;
+  1962	
+  1963			priv = priv->all_drm_private[path[i].sys];
+  1964			comp = &priv->ddp_comp[comp_id];
+  1965			if (mtk_ddp_comp_get_type(comp_id) == MTK_DISP_VIRTUAL)
+  1966				comp->id = comp_id;
+  1967			mtk_crtc->ddp_comp[i] = comp;
+  1968			mtk_crtc->ddp_comp_sys[i] = path[i].sys;
+  1969			mtk_crtc->exist[path[i].sys] = true;
+  1970	
+  1971			if (comp->funcs) {
+  1972				if (comp->funcs->gamma_set && comp->funcs->gamma_get_lut_size) {
+  1973					unsigned int lut_sz = mtk_ddp_gamma_get_lut_size(comp);
+  1974	
+  1975					if (lut_sz)
+  1976						gamma_lut_size = lut_sz;
+  1977				}
+  1978	
+  1979				if (comp->funcs->ctm_set)
+  1980					has_ctm = true;
+  1981	
+  1982	
+  1983				if (comp->funcs->crc_cnt && comp->funcs->crc_cnt(comp->dev) &&
+  1984				    !mtk_crtc->crc_provider) {
+  1985					mtk_crtc->crc_provider = comp;
+  1986					comp->funcs->crc_attach(comp->dev, mtk_crtc);
+  1987				}
+  1988	
+  1989			}
+  1990	
+  1991			mtk_ddp_comp_register_vblank_cb(comp, mtk_crtc_ddp_irq,
+  1992							&mtk_crtc->base);
+  1993		}
+  1994	
+  1995		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++)
+  1996			num_comp_planes += mtk_crtc_num_comp_planes(mtk_crtc, i);
+  1997	
+  1998		mtk_crtc->planes = devm_kcalloc(dev, num_comp_planes,
+  1999						sizeof(struct drm_plane), GFP_KERNEL);
+  2000		if (!mtk_crtc->planes)
+  2001			return -ENOMEM;
+  2002	
+  2003		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
+  2004			ret = mtk_crtc_init_comp_planes(drm_dev, mtk_crtc, i, crtc_i);
+  2005			if (ret)
+  2006				return ret;
+  2007		}
+  2008	
+  2009		/*
+  2010		 * Default to use the first component as the dma dev.
+  2011		 * In the case of ovl_adaptor sub driver, it needs to use the
+  2012		 * dma_dev_get function to get representative dma dev.
+  2013		 */
+  2014		priv = priv->all_drm_private[path[0].sys];
+  2015		mtk_crtc->dma_dev = mtk_ddp_comp_dma_dev_get(&priv->ddp_comp[path[0].comp_id]);
+  2016	
+  2017		mtk_crtc->vdisp_ao_dev = priv->vdisp_ao_dev;
+  2018		mtk_crtc->dpc_dev = priv->dpc_dev;
+  2019		mtk_crtc->pmqos_dev = priv->pmqos_dev;
+  2020		ret = mtk_crtc_init(drm_dev, mtk_crtc, crtc_i);
+  2021		if (ret < 0)
+  2022			return ret;
+  2023	
+  2024		if (gamma_lut_size)
+  2025			drm_mode_crtc_set_gamma_size(&mtk_crtc->base, gamma_lut_size);
+  2026		drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, has_ctm, gamma_lut_size);
+  2027		mutex_init(&mtk_crtc->hw_lock);
+  2028		spin_lock_init(&mtk_crtc->config_lock);
+> 2029		init_completion(&mtk_crtc->fast_modeset_done);
+  2030	
+  2031		if (mtk_crtc->layer_nr) {
+  2032			for (i = 0; i < mtk_crtc->layer_nr; i++)
+  2033				mtk_ddp_comp_channel_id_get(&priv->ddp_comp[path[0].comp_id], i,
+  2034							    &mtk_crtc->qos_ctx->plane_channel_id[i]);
+  2035		}
+  2036	
 
 --
 0-DAY CI Kernel Test Service
