@@ -1,163 +1,139 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8052721CA03
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 05:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA4139184F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Aug 2026 05:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785906694; cv=none; b=KvJuJF+n5c/vAe0AvI8FkvnXJXdrPZZUOUF+56lIab8zcWQCpjxgoySxX+8iUThXmq5I0S7R7ALPw806u5m8gZF9elmwsjEL/2AdZ1gEvntw2ib27PDRSDXGbkkm3i0/4gLwsPby9stj69++USpd1rGBJ+BHfAlHL6br3nghANQ=
+	t=1785906696; cv=none; b=KJL9ZmeRvBV+5SFKjcsolmqPa/J9ACmHwY8XbXkntFtAftN0VqXIRTBOdy73OhPf/Up5iuZo6MLWTODD12wgnff1p/23S6j/jN2n9vtR3RLYE1dI46nxNO0gdTk5ve2UDi9aJ8ot+4Ov6eipflQtQz4G0wzW3QJltcDYsXIE43k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785906694; c=relaxed/simple;
-	bh=JS2KSIWGNYTJtMP/iNeq8GRzib12Cs4xl/XCAM/pMgI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dZgCrLC3lSFdIlO0XTulMlZCHZ1f1hrLFjCVQB87V3epd9pBoXa5fB1b7/5BLZsBS1DSUUFU5noCcOXByaCj3BeHn35/LJQxN/oyxo+j0HhRBvqGZdTK9ZnnbnDB6qlPnd9hjwvnB+eryehHEfFT6o7UxxxrxQULYGqgSqRaQ10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNLOd/aP; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1785906696; c=relaxed/simple;
+	bh=tqBGZ8a6QCjVzDpBTVmGzHyX+FhioNp1HRZLPvbKiWM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZOxrqEMGav+3bxZTqrBeIWRVwx8msrGvHomGO6SvmleZ9yMfFtMBj0KpzjsdVG/MMjeiBQ2JLL4u0EJdYxUFy+NI97xlD8m9axHKhf1niu0+7EOGKf/EpiawHes5CP//gIdei39ScRo0giF2+syinRWHJC3BKYFpyUS0ZI0FZTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFIP2SO+; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNLOd/aP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFIP2SO+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785906692; x=1817442692;
-  h=date:from:to:cc:subject:message-id;
-  bh=JS2KSIWGNYTJtMP/iNeq8GRzib12Cs4xl/XCAM/pMgI=;
-  b=BNLOd/aP+a2XyZYasRHV+Qr2nn8QQK4wgjzbvUXB/ecYMRr/G8iSxAEa
-   r0d/VDJGuq3g2+OJzjz1HFCq0ZekBV2SRRjmZsglwlu2pP0oHqbFHaxXw
-   w1IxUh0bjbzAku/QrknvcbT5sBaixDtJrbhFEopJ+xi9hAom9AaoAw8Il
-   Lc7vGIToG2sHeYzbs1Xu8UjrlYM8TWqtKYXuDgmEanFPjghckJBbaBFfS
-   psoku2NNo3xsm2xtCDPPFNL6KHgaiTXYWEfXv/3LWwG2ALVbnvemM8H1e
-   kCYflJQf6MmgcZnos3KEWu4XecUL3Ier65+s4WPJJJdNdGAddX+GYH1NV
+  t=1785906694; x=1817442694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tqBGZ8a6QCjVzDpBTVmGzHyX+FhioNp1HRZLPvbKiWM=;
+  b=cFIP2SO+UiPU4CHtmVFwZ7Np5PK8D1y1UCnk9yZN2PQHJVWGGbRwHrMP
+   FIqIK+2i8xbXdZmZYWvSnj2fFVHCE3GK/J0RPqLUYDcZJg9OPecKJ/9DK
+   77htu1UNBWs/IHWRFMhzFnc7S1DqGsqnay8sPWklZdaV3zVsn3DIRm7fK
+   q/lXvD+bW5IKvAS3YuhPOXfij4XWp1EMevaJN1TlVvXsVAkFO6RHYJQ07
+   hHgNMtUYLExdFIifd9G92YmTLkogOHb8GIK6fMJPx/r9aBTSza5bj3cHJ
+   2ssQj42DoSV0153MuCMPGJDg7L+QQasyu/tNm788X9T5XoNpnWMBSrFD3
    g==;
-X-CSE-ConnectionGUID: 9rTlYQYYTWq7tAfNtyS0HA==
-X-CSE-MsgGUID: pT2WhJjfQJORroZ04OgVaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="74007174"
+X-CSE-ConnectionGUID: /H4SH7EcTeib/4ixCxyLXQ==
+X-CSE-MsgGUID: hlYju4toQCCAIp1ddCsIOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="74007177"
 X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="74007174"
+   d="scan'208";a="74007177"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 22:11:32 -0700
-X-CSE-ConnectionGUID: QIR1W+4MSQWFx59/BwJL3w==
-X-CSE-MsgGUID: puyY1toxRkyoAW9+WWPrLQ==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 22:11:34 -0700
+X-CSE-ConnectionGUID: pSs3JMSkToOze32GLjQk2g==
+X-CSE-MsgGUID: 1bvSYkESQb+loZNv3D8xNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
-   d="scan'208";a="265950764"
+   d="scan'208";a="265950761"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Aug 2026 22:11:30 -0700
+  by orviesa005.jf.intel.com with ESMTP; 04 Aug 2026 22:11:31 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrTua-00000000Bbn-24aJ;
+	id 1wrTua-00000000Bbl-1jrS;
 	Wed, 05 Aug 2026 05:11:28 +0000
-Date: Wed, 05 Aug 2026 13:10:56 +0800
+Date: Wed, 5 Aug 2026 13:11:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1/1]
- crypto/fips140-module.c:485:8: error: implicit declaration of function
- 'register_trace_android_vh_aes_decrypt'
-Message-ID: <202608051327.e2l9Eh1j-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Yuhang.Chen" <yhchen312@gmail.com>, Anup Patel <anup@brainfault.org>
+Cc: oe-kbuild-all@lists.linux.dev, Atish Patra <atish.patra@linux.dev>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Quan Zhou <zhouquan@iscas.ac.cn>, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] RISC-V: KVM: Add kvm-riscv.wfi_trap_policy to control
+ VS-mode WFI trapping
+Message-ID: <202608051354.KYOXP5po-lkp@intel.com>
+References: <20260804024707.2400404-1-yhchen312@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260804024707.2400404-1-yhchen312@gmail.com>
 
-Hi Eric,
+Hi Yuhang.Chen,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   9ed6d24476a19dbfb33c7d2b53c623b054bb285f
-commit: ae4ca7a09bb6715a0f3533fa6e499ce40b5d7ac1 [1/1] ANDROID: fips140: allow building without LTO
-config: arm64-randconfig-001-20260805 (https://download.01.org/0day-ci/archive/20260805/202608051327.e2l9Eh1j-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project bacfe2950f8218268fcc0a8765644ea0c15f0360)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608051327.e2l9Eh1j-lkp@intel.com/reproduce)
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next mst-vhost/linux-next linus/master v7.2-rc6 next-20260804]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuhang-Chen/RISC-V-KVM-Add-kvm-riscv-wfi_trap_policy-to-control-VS-mode-WFI-trapping/20260805-030043
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260804024707.2400404-1-yhchen312%40gmail.com
+patch subject: [PATCH v2] RISC-V: KVM: Add kvm-riscv.wfi_trap_policy to control VS-mode WFI trapping
+config: riscv-randconfig-001-20260805 (https://download.01.org/0day-ci/archive/20260805/202608051354.KYOXP5po-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608051354.KYOXP5po-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608051327.e2l9Eh1j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608051354.KYOXP5po-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   crypto/fips140-module.c:482:8: error: implicit declaration of function 'register_trace_android_vh_sha256' [-Werror,-Wimplicit-function-declaration]
-     482 |         ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
-         |               ^
-   crypto/fips140-module.c:482:8: note: did you mean 'trace_android_vh_sha256'?
-   include/trace/hooks/fips140.h:19:1: note: 'trace_android_vh_sha256' declared here
-      19 | DECLARE_HOOK(android_vh_sha256,
-         | ^
-   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
-     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
-         |                      ^
-   include/linux/tracepoint.h:571:21: note: expanded from macro 'DECLARE_EVENT_NOP'
-     571 |         static inline void trace_##name(proto)                          \
-         |                            ^
-   <scratch space>:20:1: note: expanded from here
-      20 | trace_android_vh_sha256
-         | ^
-   crypto/fips140-module.c:483:8: error: implicit declaration of function 'register_trace_android_vh_aes_expandkey' [-Werror,-Wimplicit-function-declaration]
-     483 |               register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
-         |               ^
-   crypto/fips140-module.c:483:8: note: did you mean 'trace_android_vh_aes_expandkey'?
-   include/trace/hooks/fips140.h:26:1: note: 'trace_android_vh_aes_expandkey' declared here
-      26 | DECLARE_HOOK(android_vh_aes_expandkey,
-         | ^
-   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
-     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
-         |                      ^
-   include/linux/tracepoint.h:571:21: note: expanded from macro 'DECLARE_EVENT_NOP'
-     571 |         static inline void trace_##name(proto)                          \
-         |                            ^
-   <scratch space>:23:1: note: expanded from here
-      23 | trace_android_vh_aes_expandkey
-         | ^
-   crypto/fips140-module.c:484:8: error: implicit declaration of function 'register_trace_android_vh_aes_encrypt' [-Werror,-Wimplicit-function-declaration]
-     484 |               register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
-         |               ^
->> crypto/fips140-module.c:485:8: error: implicit declaration of function 'register_trace_android_vh_aes_decrypt' [-Werror,-Wimplicit-function-declaration]
-     485 |               register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
-         |               ^
-   4 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+>> arch/riscv/kvm/vcpu.c:60:13: error: expected declaration specifiers or '...' before string constant
+    early_param("kvm-riscv.wfi_trap_policy", early_kvm_riscv_wfi_trap_policy_cfg);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu.c:60:42: error: expected declaration specifiers or '...' before 'early_kvm_riscv_wfi_trap_policy_cfg'
+    early_param("kvm-riscv.wfi_trap_policy", early_kvm_riscv_wfi_trap_policy_cfg);
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu.c:43:19: warning: 'early_kvm_riscv_wfi_trap_policy_cfg' defined but not used [-Wunused-function]
+    static int __init early_kvm_riscv_wfi_trap_policy_cfg(char *arg)
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/register_trace_android_vh_aes_decrypt +485 crypto/fips140-module.c
+vim +60 arch/riscv/kvm/vcpu.c
 
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  477  
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  478  static bool update_fips140_library_routines(void)
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  479  {
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  480  	int ret;
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  481  
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  482  	ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  483  	      register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  484  	      register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23 @485  	      register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  486  
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  487  	return ret == 0;
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  488  }
-2db9143a1b5a70e Ard Biesheuvel 2021-03-23  489  
-
-:::::: The code at line 485 was first introduced by commit
-:::::: 2db9143a1b5a70edaa69a5e1b12acfef490c6d38 ANDROID: fips140: add kernel crypto module
-
-:::::: TO: Ard Biesheuvel <ardb@google.com>
-:::::: CC: Eric Biggers <ebiggers@google.com>
+    39	
+    40	static enum kvm_riscv_wfi_trap_policy kvm_riscv_wfi_trap_policy __read_mostly =
+    41		KVM_RISCV_WFI_TRAP;
+    42	
+  > 43	static int __init early_kvm_riscv_wfi_trap_policy_cfg(char *arg)
+    44	{
+    45		if (!arg)
+    46			return -EINVAL;
+    47	
+    48		if (strcmp(arg, "trap") == 0) {
+    49			kvm_riscv_wfi_trap_policy = KVM_RISCV_WFI_TRAP;
+    50			return 0;
+    51		}
+    52	
+    53		if (strcmp(arg, "auto") == 0) {
+    54			kvm_riscv_wfi_trap_policy = KVM_RISCV_WFI_AUTO;
+    55			return 0;
+    56		}
+    57	
+    58		return -EINVAL;
+    59	}
+  > 60	early_param("kvm-riscv.wfi_trap_policy", early_kvm_riscv_wfi_trap_policy_cfg);
+    61	
 
 --
 0-DAY CI Kernel Test Service
