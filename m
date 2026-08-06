@@ -1,62 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85688408617;
-	Thu,  6 Aug 2026 22:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AF642252A;
+	Thu,  6 Aug 2026 22:05:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786053933; cv=none; b=l1epd1d8NbC9WRts453IE2vrcXTagbBJ9dOr5VOmKkJcf4aNUbUNdJvDPMLUtCDQfOT09BO28+pjJvTRwwCpR5DFToqkpBfm72KOTCoxbfuTllX8hm+VobEH2KiiAMff/nUnulYEjSxX0iaLcENjbYJqTgfM48jWeEau9c7XDxQ=
+	t=1786053934; cv=none; b=NuRlvfZHAHNosQs63pgMgbynwBKzR6SjAS5eZfZxOP5f8N63TJEAaR5+ZJF8f7jEXFw29l2BJOFqrDMu7/H+h7vuKZz3vj6oy2x0gYL7qNdw5nDo1pZd+GYMKr+Ps1eNG9aMlFlwC1L2Md0gHTZEYxG3nLcnhU9CjasFIWDo5Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786053933; c=relaxed/simple;
-	bh=cEZwmTbVIkec9Me7xS8nbWS07M1KWtHhzcTLYmoZkLc=;
+	s=arc-20240116; t=1786053934; c=relaxed/simple;
+	bh=bJw4Ku5cT349kSAyLM4pLoNNW6UE90NwS5FqD5AcEmQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jaMPVuk/jeaWxOf/qbl3oog7phZBp5hBSk48Ibwkez9aM5wiy4tM+XaJ8d4bto6scXvv0RLCFL8fZ8/EWnMJrMnxAX4tGFzU1/V2ei55JlUHgAuQONE9GWSIezJ1sbiWaunFMgnsLA+RV2wlDDNnAbgV0y0K0reZFgPEfFvUnwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i3hBWdG+; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=CI2Vc2otH4S1dWcrKJO93FiL/IVyLylYgh3bjj7VLfJWz14KcsZJxusotrnNDIDwmGsEL8L23VAfe+7JXH+hMWix76HPsh4Qq6Ub+z6ABGXX2QL9KFEnqOiszDJxuXh2ebXtgwnA3y/+ludhbo8HuPJe4YXapOBHocjFGuOGDXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZeWaj2PE; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i3hBWdG+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeWaj2PE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786053932; x=1817589932;
+  t=1786053934; x=1817589934;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cEZwmTbVIkec9Me7xS8nbWS07M1KWtHhzcTLYmoZkLc=;
-  b=i3hBWdG+nHe3H7EjTieb0hbwvNLXbAC5jCHp3NZW0hm8q/VCrt2BtyYE
-   E5/vp97XUZbMkcenWRRMbn5ojWCGfs3i2NFvdMbOw9Q7YxexUEZ7Rxcpm
-   xuAKkYbhIhq9DyTbVTEsabxRtyLIf7WaBaXZ6jWLTOuOcdXe9tUfoZfPM
-   03jxbMJ456wM1/APPtMXfSK15EohmahGhllu26cpdxS5b4Sq1FQqQHfCl
-   uq1MzVVN9TIzfoBshFTNMv51xDYkNs5VE9NdJYAhUcKmu32kxPk7qLegm
-   mnwdg/OIqgR8WEOxsbA6/2EEC/tAIpfdRPqX2x0wKDcBhLC34fE3G6W2g
+  bh=bJw4Ku5cT349kSAyLM4pLoNNW6UE90NwS5FqD5AcEmQ=;
+  b=ZeWaj2PEjy4TGEvf3PdrxhgxL27hbge1RVJPJckcB10mmZvUMyb5D1Qq
+   YvBzNx/enHBfJcirwWmp/JtLJHboQrDB/EV6+OUvh8iVMjJDDj6F7CmiH
+   2o+TjqmWladF7SJAVQXVZz/KIkKOA4HBEygT5W8tgQTKEyYnPxyuLcRJz
+   HukqW73RmFmREOKfreaGVsrGY1uigFxDXyVBc15yA+xrFe+iyjSm/1DF3
+   2ht1KfuDP1T35ys7sEiKy9oaapZTu96cIel5wpnMcRV4OSER2r0MJcruy
+   6w5G4VSIdilgg2zvu4DcC6E/gwh9aLGq6l4HJK+MaXHnA6jFaDmyx/iGQ
    A==;
-X-CSE-ConnectionGUID: KkkgJpyNRRKOOAv9LVm3Sw==
-X-CSE-MsgGUID: 4b+CQeMxQumqdujOM8NFkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="109454897"
+X-CSE-ConnectionGUID: pWD1epETTuSl4ROB3lqk+Q==
+X-CSE-MsgGUID: G2AC0oIUTuW7wJffW1lcUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="109454898"
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="109454897"
+   d="scan'208";a="109454898"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 15:05:31 -0700
-X-CSE-ConnectionGUID: G9FHL6TNRoS9tSiyjdy40Q==
-X-CSE-MsgGUID: FlhNnfM2Tx2x8mAj7JVgew==
+X-CSE-ConnectionGUID: gi7On4IzTE2PHaDLv0gCqA==
+X-CSE-MsgGUID: +ppkvRn3Tg+MIbcM72pDFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="262285122"
+   d="scan'208";a="262285123"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 06 Aug 2026 15:05:30 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ws6DP-00000000GN9-14PQ;
+	id 1ws6DP-00000000GN7-0ege;
 	Thu, 06 Aug 2026 22:05:27 +0000
-Date: Fri, 7 Aug 2026 06:04:45 +0800
+Date: Fri, 7 Aug 2026 06:04:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mirza Ishan Beg <seedandsyntax@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, nikolayof23@gmail.com,
-	seedandsyntax@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: refactor traffic_stat access in
- collect_traffic_statistics
-Message-ID: <202608070545.V0T8UE77-lkp@intel.com>
-References: <20260803144826.15980-1-seedandsyntax@gmail.com>
+To: luoqing <l1138897701@163.com>, mptcp@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, pabeni@redhat.com,
+	matttbe@kernel.org, davem@davemloft.net
+Subject: Re: [PATCH] mptcp: pm: Fix address ID overflow when all IDs are
+ exhausted
+Message-ID: <202608070615.6V9gQGfK-lkp@intel.com>
+References: <20260714080356.805839-1-l1138897701@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,123 +64,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260803144826.15980-1-seedandsyntax@gmail.com>
+In-Reply-To: <20260714080356.805839-1-l1138897701@163.com>
 
-Hi Mirza,
+Hi luoqing,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on staging/staging-testing]
+[auto build test WARNING on mptcp/export]
+[also build test WARNING on mptcp/export-net linus/master v7.2-rc6 next-20260806]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mirza-Ishan-Beg/staging-rtl8723bs-refactor-traffic_stat-access-in-collect_traffic_statistics/20260806-062100
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260803144826.15980-1-seedandsyntax%40gmail.com
-patch subject: [PATCH] staging: rtl8723bs: refactor traffic_stat access in collect_traffic_statistics
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260807/202608070545.V0T8UE77-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070545.V0T8UE77-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/luoqing/mptcp-pm-Fix-address-ID-overflow-when-all-IDs-are-exhausted/20260806-155815
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+patch link:    https://lore.kernel.org/r/20260714080356.805839-1-l1138897701%40163.com
+patch subject: [PATCH] mptcp: pm: Fix address ID overflow when all IDs are exhausted
+config: um-randconfig-002-20260807 (https://download.01.org/0day-ci/archive/20260807/202608070615.6V9gQGfK-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070615.6V9gQGfK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608070545.V0T8UE77-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608070615.6V9gQGfK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/staging/rtl8723bs/core/rtw_cmd.c: In function 'collect_traffic_statistics':
->> drivers/staging/rtl8723bs/core/rtw_cmd.c:1112:35: error: initialization of 'struct traffic_stat *' from incompatible pointer type 'struct rtw_traffic_statistics *' [-Wincompatible-pointer-types]
-    1112 |         struct traffic_stat *ts = &pdvobjpriv->traffic_stat
-         |                                   ^
->> drivers/staging/rtl8723bs/core/rtw_cmd.c:1115:9: error: expected ',' or ';' before 'ts'
-    1115 |         ts->tx_bytes = padapter->xmitpriv.tx_bytes;
-         |         ^~
->> drivers/staging/rtl8723bs/core/rtw_cmd.c:1116:11: error: invalid use of undefined type 'struct traffic_stat'
-    1116 |         ts->tx_pkts = padapter->xmitpriv.tx_pkts;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1117:11: error: invalid use of undefined type 'struct traffic_stat'
-    1117 |         ts->tx_drop = padapter->xmitpriv.tx_drop;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1120:11: error: invalid use of undefined type 'struct traffic_stat'
-    1120 |         ts->rx_bytes = padapter->recvpriv.rx_bytes;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1121:11: error: invalid use of undefined type 'struct traffic_stat'
-    1121 |         ts->rx_pkts = padapter->recvpriv.rx_pkts;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1122:11: error: invalid use of undefined type 'struct traffic_stat'
-    1122 |         ts->rx_drop = padapter->recvpriv.rx_drop;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1125:11: error: invalid use of undefined type 'struct traffic_stat'
-    1125 |         ts->cur_tx_bytes = ts->tx_bytes - ts->last_tx_bytes;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1125:30: error: invalid use of undefined type 'struct traffic_stat'
-    1125 |         ts->cur_tx_bytes = ts->tx_bytes - ts->last_tx_bytes;
-         |                              ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1125:45: error: invalid use of undefined type 'struct traffic_stat'
-    1125 |         ts->cur_tx_bytes = ts->tx_bytes - ts->last_tx_bytes;
-         |                                             ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1126:11: error: invalid use of undefined type 'struct traffic_stat'
-    1126 |         ts->cur_rx_bytes = ts->rx_bytes - ts->last_rx_bytes;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1126:30: error: invalid use of undefined type 'struct traffic_stat'
-    1126 |         ts->cur_rx_bytes = ts->rx_bytes - ts->last_rx_bytes;
-         |                              ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1126:45: error: invalid use of undefined type 'struct traffic_stat'
-    1126 |         ts->cur_rx_bytes = ts->rx_bytes - ts->last_rx_bytes;
-         |                                             ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1127:11: error: invalid use of undefined type 'struct traffic_stat'
-    1127 |         ts->last_tx_bytes = ts->tx_bytes;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1127:31: error: invalid use of undefined type 'struct traffic_stat'
-    1127 |         ts->last_tx_bytes = ts->tx_bytes;
-         |                               ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1128:11: error: invalid use of undefined type 'struct traffic_stat'
-    1128 |         ts->last_rx_bytes = ts->rx_bytes;
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1128:31: error: invalid use of undefined type 'struct traffic_stat'
-    1128 |         ts->last_rx_bytes = ts->rx_bytes;
-         |                               ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1130:11: error: invalid use of undefined type 'struct traffic_stat'
-    1130 |         ts->cur_tx_tp = (u32)(ts->cur_tx_bytes * 8 / 2 / 1024 / 1024);
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1130:33: error: invalid use of undefined type 'struct traffic_stat'
-    1130 |         ts->cur_tx_tp = (u32)(ts->cur_tx_bytes * 8 / 2 / 1024 / 1024);
-         |                                 ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1131:11: error: invalid use of undefined type 'struct traffic_stat'
-    1131 |         ts->cur_rx_tp = (u32)(ts->cur_rx_bytes * 8 / 2 / 1024 / 1024);
-         |           ^~
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1131:33: error: invalid use of undefined type 'struct traffic_stat'
-    1131 |         ts->cur_rx_tp = (u32)(ts->cur_rx_bytes * 8 / 2 / 1024 / 1024);
-         |                                 ^~
+   In file included from net/mptcp/pm_kernel.c:9:
+   In file included from include/net/netns/generic.h:11:
+   In file included from include/net/net_namespace.h:44:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> net/mptcp/pm_kernel.c:798:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     798 |                 unsigned int id = find_next_zero_bit(pernet->id_bitmap,
+         |                 ^
+   2 warnings generated.
 
 
-vim +1112 drivers/staging/rtl8723bs/core/rtw_cmd.c
+vim +798 net/mptcp/pm_kernel.c
 
-  1108	
-  1109	static void collect_traffic_statistics(struct adapter *padapter)
-  1110	{
-  1111		struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
-> 1112		struct traffic_stat *ts = &pdvobjpriv->traffic_stat
-  1113	
-  1114		/*  Tx */
-> 1115		ts->tx_bytes = padapter->xmitpriv.tx_bytes;
-> 1116		ts->tx_pkts = padapter->xmitpriv.tx_pkts;
-  1117		ts->tx_drop = padapter->xmitpriv.tx_drop;
-  1118	
-  1119		/*  Rx */
-  1120		ts->rx_bytes = padapter->recvpriv.rx_bytes;
-  1121		ts->rx_pkts = padapter->recvpriv.rx_pkts;
-  1122		ts->rx_drop = padapter->recvpriv.rx_drop;
-  1123	
-  1124		/*  Calculate throughput in last interval */
-  1125		ts->cur_tx_bytes = ts->tx_bytes - ts->last_tx_bytes;
-  1126		ts->cur_rx_bytes = ts->rx_bytes - ts->last_rx_bytes;
-  1127		ts->last_tx_bytes = ts->tx_bytes;
-  1128		ts->last_rx_bytes = ts->rx_bytes;
-  1129	
-  1130		ts->cur_tx_tp = (u32)(ts->cur_tx_bytes * 8 / 2 / 1024 / 1024);
-  1131		ts->cur_rx_tp = (u32)(ts->cur_rx_bytes * 8 / 2 / 1024 / 1024);
-  1132	}
-  1133	
+   734	
+   735	static int mptcp_pm_nl_append_new_local_addr(struct pm_nl_pernet *pernet,
+   736						     struct mptcp_pm_addr_entry *entry,
+   737						     bool replace)
+   738	{
+   739		struct mptcp_pm_addr_entry *cur, *del_entry = NULL;
+   740		int ret = -EINVAL;
+   741		u8 addr_max;
+   742	
+   743		spin_lock_bh(&pernet->lock);
+   744		/* to keep the code simple, don't do IDR-like allocation for address ID,
+   745		 * just bail when we exceed limits
+   746		 */
+   747		if (pernet->next_id == MPTCP_PM_MAX_ADDR_ID)
+   748			pernet->next_id = 1;
+   749		if (pernet->endpoints == MPTCP_PM_MAX_ADDR_ID) {
+   750			ret = -ERANGE;
+   751			goto out;
+   752		}
+   753		if (test_bit(entry->addr.id, pernet->id_bitmap)) {
+   754			ret = -EBUSY;
+   755			goto out;
+   756		}
+   757	
+   758		/* do not insert duplicate address, differentiate on port only
+   759		 * singled addresses
+   760		 */
+   761		if (!address_use_port(entry))
+   762			entry->addr.port = 0;
+   763		list_for_each_entry(cur, &pernet->endp_list, list) {
+   764			if (mptcp_addresses_equal(&cur->addr, &entry->addr,
+   765						  cur->addr.port || entry->addr.port)) {
+   766				/* allow replacing the exiting endpoint only if such
+   767				 * endpoint is an implicit one and the user-space
+   768				 * did not provide an endpoint id
+   769				 */
+   770				if (!(cur->flags & MPTCP_PM_ADDR_FLAG_IMPLICIT)) {
+   771					ret = -EEXIST;
+   772					goto out;
+   773				}
+   774				if (entry->addr.id)
+   775					goto out;
+   776	
+   777				/* allow callers that only need to look up the local
+   778				 * addr's id to skip replacement. This allows them to
+   779				 * avoid calling synchronize_rcu in the packet recv
+   780				 * path.
+   781				 */
+   782				if (!replace) {
+   783					kfree(entry);
+   784					ret = cur->addr.id;
+   785					goto out;
+   786				}
+   787	
+   788				pernet->endpoints--;
+   789				entry->addr.id = cur->addr.id;
+   790				list_del_rcu(&cur->list);
+   791				del_entry = cur;
+   792				break;
+   793			}
+   794		}
+   795	
+   796		if (!entry->addr.id) {
+   797	find_next:
+ > 798			unsigned int id = find_next_zero_bit(pernet->id_bitmap,
+   799							     MPTCP_PM_MAX_ADDR_ID + 1,
+   800							     pernet->next_id);
+   801			if (id > MPTCP_PM_MAX_ADDR_ID) {
+   802				ret = -ENOSPC;
+   803				goto out;
+   804			}
+   805			entry->addr.id = id;
+   806			if (!entry->addr.id && pernet->next_id != 1) {
+   807				pernet->next_id = 1;
+   808				goto find_next;
+   809			}
+   810		}
+   811	
+   812		if (!entry->addr.id)
+   813			goto out;
+   814	
+   815		__set_bit(entry->addr.id, pernet->id_bitmap);
+   816		if (entry->addr.id > pernet->next_id)
+   817			pernet->next_id = entry->addr.id;
+   818	
+   819		if (entry->flags & MPTCP_PM_ADDR_FLAG_SIGNAL) {
+   820			addr_max = pernet->endp_signal_max;
+   821			WRITE_ONCE(pernet->endp_signal_max, addr_max + 1);
+   822		}
+   823		if (entry->flags & MPTCP_PM_ADDR_FLAG_SUBFLOW) {
+   824			addr_max = pernet->endp_subflow_max;
+   825			WRITE_ONCE(pernet->endp_subflow_max, addr_max + 1);
+   826		}
+   827		if (entry->flags & MPTCP_PM_ADDR_FLAG_LAMINAR) {
+   828			addr_max = pernet->endp_laminar_max;
+   829			WRITE_ONCE(pernet->endp_laminar_max, addr_max + 1);
+   830		}
+   831		if (entry->flags & MPTCP_PM_ADDR_FLAG_FULLMESH) {
+   832			addr_max = pernet->endp_fullmesh_max;
+   833			WRITE_ONCE(pernet->endp_fullmesh_max, addr_max + 1);
+   834		}
+   835	
+   836		pernet->endpoints++;
+   837		if (!entry->addr.port)
+   838			list_add_tail_rcu(&entry->list, &pernet->endp_list);
+   839		else
+   840			list_add_rcu(&entry->list, &pernet->endp_list);
+   841		ret = entry->addr.id;
+   842	
+   843	out:
+   844		spin_unlock_bh(&pernet->lock);
+   845	
+   846		/* just replaced an existing entry, free it */
+   847		if (del_entry) {
+   848			synchronize_rcu();
+   849			__mptcp_pm_release_addr_entry(del_entry);
+   850		}
+   851		return ret;
+   852	}
+   853	
 
 --
 0-DAY CI Kernel Test Service
