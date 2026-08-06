@@ -1,143 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1583DEAD6;
-	Thu,  6 Aug 2026 09:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742F13DDAF2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 09:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786009430; cv=none; b=pYJdePeDqvotW39QpdFRCqVbGqSWGEdE5H71IMWvJ7XsjaYk4qnDtokJtSM4Rg/rrzCYLGmx9IX3UU1xE9KSBh4bp+9E3ZswRMHS2+081EfhoNl1RI5NoqI6Vt4zs/Y/WrBDqF+1sLNp5gL4ljd7DBxdbxRhRon4RaDe93GwxfQ=
+	t=1786010087; cv=none; b=tK6r5YVNgmKtok0PzPB7d9rJPXjVHZ5qsh/qvrMeh1izjZMqp5HUfthKmMhSxZrkRc+QcRL+VxsAj8w6yeoOrrRun4DWzLdDB94Kd6d5VF2Alchkt9MdkcN0FXCa9MAC1dFloxTIHQfsL8CsVA41I9MlgfxX7/rCchbUTfc9sQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786009430; c=relaxed/simple;
-	bh=3SCLHniwEHSpN7NIHiRPlSJ2z4j9Jt/Ih8EqNhGjvfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ssjQ/7iT0PgKy4ipnMFRW8R8rFuuMK5mnHkQrAtJESUF3yqHQaxT7DhgtO2OqF8ZrxnLkWdDmJkECOQUn0/ch6AuuShUDrZpF4bQY6kHAJS/565jdHsdsr3VvLcmkN+R6IzNOrOZVPZ1V+pLolgBiw7wl9mFQqLdOr+h7MaqDqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acOjvEoE; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1786010087; c=relaxed/simple;
+	bh=FwssaE0FLi+dA6cGHH8eNO6t/5udnVCaFyf0UtiEzeI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DfoHtvW4zHu69W4+busCSpNz12mvC3Bg+Qa5cGAxQ51ZIr1zFrvrABJFB2jb7+C46y+ZoVSDmtxeYE/vOV3ZuNMimyWkB4ri8zr70HVU8YVXYdPuGpmc1c+n8xZUajNBb/yG3iJ54DU3FL5BQKz7XdTmPVCJmJj40ZzhXUQZo5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXh5b2y8; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acOjvEoE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXh5b2y8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786009428; x=1817545428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3SCLHniwEHSpN7NIHiRPlSJ2z4j9Jt/Ih8EqNhGjvfI=;
-  b=acOjvEoEcmtxtFI6HNUz+ykwWXw02ka1dKyatQiUnDH1IycKhco1iQ6j
-   V4COoCQNZb7+Zube8q1vpvB2V6ch/lpFoUHr6zRUXTo+wC34em/h9RNRk
-   XTuLsmt6hzmTgueVkidGEuuoYaw3EKaQQq9G5soZZ36VW0dMEgjl8HKbM
-   CSJqUMHBzNRn5WfLA3IogIHgSNBVGU2KXRcBDFqf7Xi2X35eZs5E7Q9lG
-   v+BBqEwKcc9hcWLCsxx3RD+C/ye8/scU7bg7gtusJ72DImvhA8gA92beZ
-   jXSgUuAACwNJPT0eiR/m7+gZopcTMTh1mbqW/2E7VUZ/ZPOxH+UPN4/S5
-   g==;
-X-CSE-ConnectionGUID: 0vd4H5K4RtKysH3Ymoo3XQ==
-X-CSE-MsgGUID: UQENSHHLT2ONQsZKD2N9gQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86626318"
+  t=1786010086; x=1817546086;
+  h=date:from:to:cc:subject:message-id;
+  bh=FwssaE0FLi+dA6cGHH8eNO6t/5udnVCaFyf0UtiEzeI=;
+  b=KXh5b2y8BADa9u1KJh0KZYdM2lp2rUCvSs9yCGbxgs0xSRn54LVQedx3
+   /T4dewbOJNlymfuCigRcENTuGfmH6mzRHbnLDjS68NMf7DP+sXW0knjWk
+   oOYz0k5MNgZA+0nY1IGnVTlGc3lr28pXuA39+VlBoDrtAnos+OL71lWS9
+   JKLlAYTb6tLHvTRXnwwTTKUXMpJB164tYjiQSgwcuxV9oVYX+qsxN3J0x
+   aCx+5Dmox9V7U1YGJwcvSzMQeoN7kYnSP9WmelNS1kMbRVR41eQVCD4SP
+   /cZBsVOYTTULuzsi/TgWGEAA6mOeQcFheTSDY15Ieh0F0cBz6OyvKsQia
+   Q==;
+X-CSE-ConnectionGUID: bf87ebI5Q2yLp6ogzRk/kA==
+X-CSE-MsgGUID: dEe8eXQmRNqIZEBD90Jb7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="74134167"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="86626318"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 02:43:46 -0700
-X-CSE-ConnectionGUID: UjnGBqrTQbeZsMirezjhDw==
-X-CSE-MsgGUID: gABfhUh8SFeBpw7OEiE9Cw==
+   d="scan'208";a="74134167"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 02:54:45 -0700
+X-CSE-ConnectionGUID: 7kqv0op9TZCUh4iLuiQJXQ==
+X-CSE-MsgGUID: bigULc+LSYe9/B/Qe699UA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="267203890"
+   d="scan'208";a="258736284"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Aug 2026 02:43:43 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 Aug 2026 02:54:43 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrudZ-000000004bm-0935;
-	Thu, 06 Aug 2026 09:43:41 +0000
-Date: Thu, 6 Aug 2026 11:43:33 +0200
+	id 1wruoD-000000004bu-0c4c;
+	Thu, 06 Aug 2026 09:54:41 +0000
+Date: Thu, 06 Aug 2026 11:54:04 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] [RFC] nfs4: inject process namespace into COMPOUND tag
-Message-ID: <202608061151.ZYrYBoPN-lkp@intel.com>
-References: <20260626151029.1516839-1-tigran.mkrtchyan@desy.de>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/250-aop 57/57] Diff in
+ sound/soc/apple/aop_audio.rs:559:
+Message-ID: <202608061156.7nQ5o903-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260626151029.1516839-1-tigran.mkrtchyan@desy.de>
 
-Hi Tigran,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on linus/master v7.2-rc6 next-20260805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tigran-Mkrtchyan/nfs4-inject-process-namespace-into-COMPOUND-tag/20260806-105541
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260626151029.1516839-1-tigran.mkrtchyan%40desy.de
-patch subject: [PATCH] [RFC] nfs4: inject process namespace into COMPOUND tag
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260806/202608061151.ZYrYBoPN-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   136397c31608440bafd64cf7ce72b6049b3ee4a6
+commit: 136397c31608440bafd64cf7ce72b6049b3ee4a6 [57/57] ASoC: apple: aop: Add M3 generation built-in mics
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260806/202608061156.7nQ5o903-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061151.ZYrYBoPN-lkp@intel.com/reproduce)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061156.7nQ5o903-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608061151.ZYrYBoPN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061156.7nQ5o903-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/nfs/nfs4xdr.c:1039:7: error: use of undeclared identifier 'taks'
-    1039 |                 if (taks->tk_ns_inum != 0) {
-         |                     ^~~~
-   fs/nfs/nfs4xdr.c:1042:60: error: use of undeclared identifier 'taks'
-    1042 |                         hdr->taglen = snprintf(ns_tag, sizeof(ns_tag), "ns:%u", taks->tk_ns_inum);
-         |                                                                                 ^~~~
-   2 errors generated.
-
-
-vim +/taks +1039 fs/nfs/nfs4xdr.c
-
-  1027	
-  1028	static void encode_compound_hdr(struct xdr_stream *xdr,
-  1029					struct rpc_rqst *req,
-  1030					struct compound_hdr *hdr)
-  1031	{
-  1032		__be32 *p;
-  1033	
-  1034		/* Inject namespace info into compound tag if not already set */
-  1035		if (hdr->taglen == 0 && req->rq_task != NULL) {
-  1036			/* Use namespace info captured at task creation time */
-  1037			struct rpc_task *task = req->rq_task;
-  1038	
-> 1039			if (taks->tk_ns_inum != 0) {
-  1040				char ns_tag[NFS4_MAXTAGLEN + 1];
-  1041	
-  1042				hdr->taglen = snprintf(ns_tag, sizeof(ns_tag), "ns:%u", taks->tk_ns_inum);
-  1043				if (hdr->taglen > NFS4_MAXTAGLEN) {
-  1044					hdr->taglen = NFS4_MAXTAGLEN;
-  1045					ns_tag[NFS4_MAXTAGLEN] = '\0';
-  1046				}
-  1047				hdr->tag = ns_tag;
-  1048			}
-  1049		}
-  1050	
-  1051		/* initialize running count of expected bytes in reply.
-  1052		 * NOTE: the replied tag SHOULD be the same is the one sent,
-  1053		 * but this is not required as a MUST for the server to do so. */
-  1054		hdr->replen = 3 + hdr->taglen;
-  1055	
-  1056		WARN_ON_ONCE(hdr->taglen > NFS4_MAXTAGLEN);
-  1057		encode_string(xdr, hdr->taglen, hdr->tag);
-  1058		p = reserve_space(xdr, 8);
-  1059		*p++ = cpu_to_be32(hdr->minorversion);
-  1060		hdr->nops_p = p;
-  1061		*p = cpu_to_be32(hdr->nops);
-  1062	}
-  1063	
+   PATH=/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j384 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in sound/soc/apple/aop_audio.rs:559:
+                mic_settle_time_valid: U32(1),
+                mic_settle_time_ms: U32(50),
+                ..Zeroable::init_zeroed()
+   -        }).chain(|raw| {
+   +        })
+   +        .chain(|raw| {
+                if !self.hwdata.hf_decimator {
+                    self.build_decimator_config(&mut raw.decim);
+                }
+   Diff in sound/soc/apple/aop_audio.rs:604:
+                filter_lengths: FILTER_LENGTHS_HF,
+                coeff_bulk: DECIM_NUM_COEFFS_HF as u32,
+                ..Zeroable::init_zeroed()
+   -        }).chain(|raw| {
+   +        })
+   +        .chain(|raw| {
+                raw.coeffs[..COEFFICIENTS_HF.len()].copy_from_slice(&COEFFICIENTS_HF);
+                Ok(())
+            });
+   Diff in sound/soc/apple/aop_audio.rs:955:
+        <SndSocAopDriver as platform::Driver>::IdInfo,
+        [
+            (of::DeviceId::new(c_str!("apple,aop-audio")), &HW_CFG_T8013),
+   -        (of::DeviceId::new(c_str!("apple,t6030-aop-audio")), &HW_CFG_T6030),
+   +        (
+   +            of::DeviceId::new(c_str!("apple,t6030-aop-audio")),
+   +            &HW_CFG_T6030
+   +        ),
+        ]
+    );
+    
+   Diff in sound/soc/apple/aop_audio.rs:966:
+    
+        fn probe(
+            pdev: &platform::Device<Core>,
+   -        info: Option<&Self::IdInfo>
+   +        info: Option<&Self::IdInfo>,
+        ) -> impl PinInit<Self, Error> {
+            let info = info.ok_or(ENODEV)?;
+            let dev = ARef::<device::Device>::from(pdev.as_ref());
+   make[2]: *** [Makefile:1955: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src'
 
 --
 0-DAY CI Kernel Test Service
