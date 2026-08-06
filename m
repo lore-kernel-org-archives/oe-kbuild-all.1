@@ -1,67 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBAB3655D8;
-	Thu,  6 Aug 2026 02:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E314A35
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 02:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785982567; cv=none; b=fOaWzPAXWYsUQfjJdPghxT3fH1Se1MNhaRvmdW8ozd3IXLS0t0jlqwMS6NmNdodkEApBld9KFEIR1Kp2VqJir7LekKViV9qk2HUtxEmOFFkJMobAWWLfAf17aHGeVeAZ+Ze1cF7jPF8Fqa0FsX7GRlUngqerK4g3B4KfL38ewQM=
+	t=1785983535; cv=none; b=niGzjNxbt/82L3OpTRLpkS15fyukKXgjDrQ6MOeNTih6phhH2BFukBSlBFT8MR472a4JnFy8wEJNdbtuTFjEK5VfV7SfTZ+ZCFs/B5HgdSpmwTp4gAhIyaTFBZtMA+o2y9csvleYHYZY+zo/MEyD9spAfm2WJSjOnYpwblMN71I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785982567; c=relaxed/simple;
-	bh=ii6BnmI3u2e2Ts9Te7XbGolgJuvo1wcTB1wefhdS7hU=;
+	s=arc-20240116; t=1785983535; c=relaxed/simple;
+	bh=TsYc7cwpjOopvgez9AL09vcOfIwg9inQssuLz6FI+z8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kwuWBasYHZ0Nl6n6ArIKp2sEnC/FlTF+B89DjCcoaGm0CFmU8JEe+whRf2a6Zte0DQI9BuLRnbW0/qsMeGJTnbJzn7RTMr55tVUJuWAv6wD0KKHZ+hnT46SjbYnsRejCSVNPx4GAhz6V7Q4EIB2gPWXaQ+/R7DeAAqAWvRZZ9nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W9GCLU/R; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ITNA8CpPQu9gPHyyZD5U48wZnUQ2h7Lrs+q7pdJvXfRzRCEhvR91BkSedvAU5zAgupTJmNlynKOjIxmCJC7HWZ22UV+Fnnb+4CevVoXgJL7b8sqdLPF3UK8OyqT7GXCdnVRjDbH6dHpAxZjnYvxpNg+gWHczAl3JhV7n/rQV3/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xv4Hq5XR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W9GCLU/R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xv4Hq5XR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785982566; x=1817518566;
+  t=1785983534; x=1817519534;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ii6BnmI3u2e2Ts9Te7XbGolgJuvo1wcTB1wefhdS7hU=;
-  b=W9GCLU/R+sxLqRZAB5Lpc5R/g/3rYEip7+vfxe0Z9zjDnZ2TgWHfl7A0
-   yc9xc3cYuSJ14RycOa/QHnCysZOrEPsAzBSoFAhuA6sJPYl4A5eJJ/J04
-   I5sDOWmZk7w24hX4F71Tl+iJveVegAcrZTuesxB7Hd6DJZF3TnfUhBK/t
-   vQkMYioGt9/UwE6cw/WFnbw2VBnFs5gIMFq1638Nf7qGiUZdAPpl56CB2
-   DITHm0UfIj/kHGsdbxPV3lsQ/OeAbmeTRT1Hh+BExGTkE05yAiUWWVljo
-   rPLI00AOPKoc9ko5cABYtKHI9Uz91eThF3p5jau5EKBHXBQpq+NVte3RS
-   g==;
-X-CSE-ConnectionGUID: dk1NS7RWS7+AMhwmzOCqzw==
-X-CSE-MsgGUID: VeWcBf4sTtGBmNzUD4xn1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="90452806"
+  bh=TsYc7cwpjOopvgez9AL09vcOfIwg9inQssuLz6FI+z8=;
+  b=Xv4Hq5XRunmuC3Rd9TH7oGQKd93thzc/UHjqpougfPjMvA8ntFSB4xG/
+   2dUCSoLBKU908VLxoDKC7+KfCTPVaELiFU4rz4u4k2PgrHv+Ru3r+Cjef
+   HP4OH+oqxEhCPk0bs6tMyo+Dw5liOBq3C0F7+TXo5xEHgnGyTEtkrMhQm
+   MH1vipV+PuSjShHYdXkjDASQP58tpUAvpjc72qrql0tLVgt7lm2uKmnef
+   3lalOlOif/JzvARbVBzNKILCUnnwMk379VJzq/IG5azl2uIQbSfb9rZM/
+   aANn8J/18YBSsNPveNlSQilOR7cioeGLbV/bgGIxlXoPQYbtqjKteNS8j
+   w==;
+X-CSE-ConnectionGUID: KORKqAZZSBqCUfIF0yP8dQ==
+X-CSE-MsgGUID: on/XE8rpSa+8M/Tg0ggT3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="98080988"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="90452806"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 19:16:05 -0700
-X-CSE-ConnectionGUID: z+EFbCglSZCfoFnaJH7/ow==
-X-CSE-MsgGUID: U/7fcUptSGup3rPW0pcMDA==
+   d="scan'208";a="98080988"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 19:32:14 -0700
+X-CSE-ConnectionGUID: fywgfRtxRNKiE06hbj9Ibg==
+X-CSE-MsgGUID: 4ESvDbWbQlW1kLb0OmI/og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="267107977"
+   d="scan'208";a="262587032"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Aug 2026 19:16:01 -0700
+  by orviesa009.jf.intel.com with ESMTP; 05 Aug 2026 19:32:12 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrneH-00000000DwD-3RtN;
-	Thu, 06 Aug 2026 02:15:57 +0000
-Date: Thu, 6 Aug 2026 10:15:24 +0800
+	id 1wrntw-00000000Dyz-2Ryh;
+	Thu, 06 Aug 2026 02:32:08 +0000
+Date: Thu, 6 Aug 2026 10:31:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>, arnd@arndb.de, mcgrof@kernel.org,
-	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
-	peterz@infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	mhiramat@kernel.org, atomlin@atomlin.com, neelx@suse.com,
-	da.anzani@gmail.com, sean@ashe.io, chjohnst@mail.com,
-	steve@abita.co, mproche@mail.com, nick.lane@mail.com,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] module: Extend module_blacklist parameter to built-in
- modules
-Message-ID: <202608060957.II0PSh3B-lkp@intel.com>
-References: <20260622140259.2974-1-atomlin@atomlin.com>
+To: WenTao Liang <vulab@iscas.ac.cn>, Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+	linux-ntb@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org, WenTao Liang <vulab@iscas.ac.cn>
+Subject: Re: [PATCH] fix: ntb: perf_copy_chunk: fix tx descriptor and unmap
+ kref leak on   dmaengine_submit failure
+Message-ID: <202608061007.81Ieq7bt-lkp@intel.com>
+References: <20260626153917.53128-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,79 +66,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622140259.2974-1-atomlin@atomlin.com>
+In-Reply-To: <20260626153917.53128-1-vulab@iscas.ac.cn>
 
-Hi Aaron,
+Hi WenTao,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master arnd-asm-generic/master v7.2-rc6 next-20260805]
+[auto build test ERROR on jonmason-ntb/ntb-next]
+[also build test ERROR on linus/master v7.2-rc6 next-20260805]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/module-Extend-module_blacklist-parameter-to-built-in-modules/20260805-123559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20260622140259.2974-1-atomlin%40atomlin.com
-patch subject: [PATCH v2] module: Extend module_blacklist parameter to built-in modules
-config: powerpc64-randconfig-002-20260806 (https://download.01.org/0day-ci/archive/20260806/202608060957.II0PSh3B-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060957.II0PSh3B-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/WenTao-Liang/fix-ntb-perf_copy_chunk-fix-tx-descriptor-and-unmap-kref-leak-on-dmaengine_submit-failure/20260806-074331
+base:   https://github.com/jonmason/ntb ntb-next
+patch link:    https://lore.kernel.org/r/20260626153917.53128-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] fix: ntb: perf_copy_chunk: fix tx descriptor and unmap kref leak on   dmaengine_submit failure
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260806/202608061007.81Ieq7bt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061007.81Ieq7bt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608060957.II0PSh3B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061007.81Ieq7bt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> init/main.c:1364:17: error: call to undeclared function 'module_is_blacklisted'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1364 |         if (modname && module_is_blacklisted(modname)) {
-         |                        ^
-   1 error generated.
+   drivers/ntb/test/ntb_perf.c: In function 'perf_copy_chunk':
+>> drivers/ntb/test/ntb_perf.c:854:9: error: implicit declaration of function 'dmaengine_desc_put'; did you mean 'dmaengine_desc_free'? [-Wimplicit-function-declaration]
+     854 |         dmaengine_desc_put(tx);
+         |         ^~~~~~~~~~~~~~~~~~
+         |         dmaengine_desc_free
 
 
-vim +/module_is_blacklisted +1364 init/main.c
+vim +854 drivers/ntb/test/ntb_perf.c
 
-  1355	
-  1356	int __init_or_module do_one_initcall(initcall_t fn)
-  1357	{
-  1358		int count = preempt_count();
-  1359		char msgbuf[64];
-  1360		const char *modname;
-  1361		int ret;
-  1362	
-  1363		modname = initcall_get_modname(fn);
-> 1364		if (modname && module_is_blacklisted(modname)) {
-  1365			pr_info("Skipping initcall for blacklisted built-in module %s\n",
-  1366				modname);
-  1367			return 0;
-  1368		}
-  1369	
-  1370		if (initcall_blacklisted(fn))
-  1371			return -EPERM;
-  1372	
-  1373		do_trace_initcall_start(fn);
-  1374		ret = fn();
-  1375		do_trace_initcall_finish(fn, ret);
-  1376	
-  1377		msgbuf[0] = 0;
-  1378	
-  1379		if (preempt_count() != count) {
-  1380			sprintf(msgbuf, "preemption imbalance ");
-  1381			preempt_count_set(count);
-  1382		}
-  1383		if (irqs_disabled()) {
-  1384			strlcat(msgbuf, "disabled interrupts ", sizeof(msgbuf));
-  1385			local_irq_enable();
-  1386		}
-  1387		WARN(msgbuf[0], "initcall %pS returned with %s\n", fn, msgbuf);
-  1388	
-  1389		add_latent_entropy();
-  1390		return ret;
-  1391	}
-  1392	
+   784	
+   785	static int perf_copy_chunk(struct perf_thread *pthr,
+   786				   void __iomem *dst, void *src, size_t len)
+   787	{
+   788		struct dma_async_tx_descriptor *tx;
+   789		struct dmaengine_unmap_data *unmap;
+   790		struct device *dma_dev;
+   791		int try = 0, ret = 0;
+   792		struct perf_peer *peer = pthr->perf->test_peer;
+   793		void __iomem *vbase;
+   794		void __iomem *dst_vaddr;
+   795		dma_addr_t dst_dma_addr;
+   796	
+   797		if (!use_dma) {
+   798			memcpy_toio(dst, src, len);
+   799			goto ret_check_tsync;
+   800		}
+   801	
+   802		dma_dev = pthr->dma_chan->device->dev;
+   803	
+   804		if (!is_dma_copy_aligned(pthr->dma_chan->device, offset_in_page(src),
+   805					 offset_in_page(dst), len))
+   806			return -EIO;
+   807	
+   808		vbase = peer->outbuf;
+   809		dst_vaddr = dst;
+   810		dst_dma_addr = peer->dma_dst_addr + (dst_vaddr - vbase);
+   811	
+   812		unmap = dmaengine_get_unmap_data(dma_dev, 1, GFP_NOWAIT);
+   813		if (!unmap)
+   814			return -ENOMEM;
+   815	
+   816		unmap->len = len;
+   817		unmap->addr[0] = dma_map_page(dma_dev, virt_to_page(src),
+   818			offset_in_page(src), len, DMA_TO_DEVICE);
+   819		if (dma_mapping_error(dma_dev, unmap->addr[0])) {
+   820			ret = -EIO;
+   821			goto err_free_resource;
+   822		}
+   823		unmap->to_cnt = 1;
+   824	
+   825		do {
+   826			tx = dmaengine_prep_dma_memcpy(pthr->dma_chan, dst_dma_addr,
+   827				unmap->addr[0], len, DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+   828			if (!tx)
+   829				msleep(DMA_MDELAY);
+   830		} while (!tx && (try++ < DMA_TRIES));
+   831	
+   832		if (!tx) {
+   833			ret = -EIO;
+   834			goto err_free_resource;
+   835		}
+   836	
+   837		tx->callback = perf_dma_copy_callback;
+   838		tx->callback_param = pthr;
+   839		dma_set_unmap(tx, unmap);
+   840	
+   841		ret = dma_submit_error(dmaengine_submit(tx));
+   842		if (ret)
+   843			goto err_free_resource;
+   844	
+   845		dmaengine_unmap_put(unmap);
+   846	
+   847		atomic_inc(&pthr->dma_sync);
+   848		dma_async_issue_pending(pthr->dma_chan);
+   849	
+   850	ret_check_tsync:
+   851		return likely(atomic_read(&pthr->perf->tsync) > 0) ? 0 : -EINTR;
+   852	
+   853	err_free_resource:
+ > 854		dmaengine_desc_put(tx);
+   855		dmaengine_unmap_put(unmap);
+   856	
+   857		return ret;
+   858	}
+   859	
 
 --
 0-DAY CI Kernel Test Service
