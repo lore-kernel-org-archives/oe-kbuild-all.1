@@ -1,178 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497A6311C32
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 13:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C05382F2F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 14:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786021382; cv=none; b=G1/e+P2x9EqM6+8wu1LysoaVGO0l0n1kS0h3iPFjxPD86kRIoECnpMa4b+6mGKqcNYP3bY5KLTlG1lvQ3ElIhbWdzPpgXxDYFdNEe955HUlINUAUEqTYrejuEO6Mjsa0Y+mZjjaBUSKQz/wUAoZlA2tRNroPSZor65I1L9L43yw=
+	t=1786026072; cv=none; b=hvT915QT8mZ3L3JBUZOW94dvJBdnQJYbyeijpSb2ZqE4rwXGXwnk5EgrdR8YJmzk2bSdwI7839akAkR8CGDty7KY1nsF7Fy7vU03itMPrBME7xFjNyVW9yCwgge77GtPBk9Et7GoGFjuvat2IzzEmYPdxela7DncWWYVvxG/rZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786021382; c=relaxed/simple;
-	bh=hYrDjwLvku5ojxnuYUcL4exJBEemvK5kPuchBihDAsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ImToNPnoiH9NF3/aed9sNwubULx38nCc6M+4ggf9LA/4HisiabscqWZ0wF2ARBbvv/5VcbFKuDtuQH9TJbdT3LFVsG6MMcxgSYCIsxlLKakHgXkq20Y+5lOgOPS1B4lX7uzmLEzfROzrTCPOnTpov3lQDPsKIyM6aATyh2J6t3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nk+IH3VC; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1786026072; c=relaxed/simple;
+	bh=z/asV1M7HMWULw6xvslXD+G7g3F+9S1B0b7jdzc/Uyo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BCJygrMYq45Opc7K6Oo0vO+hiPat8iclZnJskeGvjv/fESjMdDyxpcEISE8iRmQxd4lsZdZerLGUYfTuko36JAZmwM+kQ7P+j2Sj7ySINma1xEQIbx+lx7RwQkKDG1Zw7TydXe2VmDmq780av2C8od5X8Q5+4g3H9NtWOHb4oK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bD/Bem6+; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nk+IH3VC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bD/Bem6+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786021380; x=1817557380;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hYrDjwLvku5ojxnuYUcL4exJBEemvK5kPuchBihDAsA=;
-  b=Nk+IH3VCB6zBZB0VIQnM/Fj9L63yxbgqtjo77NXSuoQR8aGsvV7wTPP0
-   aHTmKp/qw7nw/DDs0eHUmFkoIJU0DJMgrLL6ya85v6RVgqS5+2XXA6YzR
-   3vrU7pPDOYBdUmS/lxinSnDc1mn99ZfEYz58loj6DKVehQIMvOwvD4QcB
-   bzWmL/SQu8wOXCVvQENqXEWWfFCAxdJZ1KcmdieW2DhnlAFcMg/IWBh7O
-   i9jFak22JxAgNM4B0VRfFgiVPERyNK90KJgxPmJqjuGqj0Tubi0nDgHeH
-   nRH5SDsvS4NmhstG4kzKLP7WjTZMui2IWovRGs49L/A91r2uI7ol5E609
-   Q==;
-X-CSE-ConnectionGUID: 7NCWf6/JSzWt2foc23+9EQ==
-X-CSE-MsgGUID: gWff5ISIQpe7ZqAj7WNGVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86557027"
+  t=1786026069; x=1817562069;
+  h=date:from:to:cc:subject:message-id;
+  bh=z/asV1M7HMWULw6xvslXD+G7g3F+9S1B0b7jdzc/Uyo=;
+  b=bD/Bem6+LkChbEImPVM9UdqhGklfWV8rrGK5ThaShHRjkCgytv8dfIzI
+   LUQdy4GnkIDVDk62W6RQmYWLS2UOs2sZDbIVWT1IJUOZNr6sXuty67/I5
+   LL0qLR9xbf6bb43Bt881bZkahX3hgJ0Tdx5bGQxxQzaDedjByahGoeoQV
+   FeWFOzjwl7vSvmGGjb/0WLAu4Or4iiNNYS/nxp6xh4UUA8UN11UDegyBs
+   U+xrdE05G1l7EOX2m7g6myPbZ8OuS8Iafh0u3f52VbRz4FRCPCZK9gqae
+   4iB06qvM/WSRNL7ev1K4lv6PWIqZxcA2YqdT4StwfqByRH7RCdyrjuml5
+   w==;
+X-CSE-ConnectionGUID: NGx/cVGRQvObFS6F3ZpePA==
+X-CSE-MsgGUID: 5rH1wbS7QYq2yigdLyOCfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86632705"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="86557027"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 06:02:59 -0700
-X-CSE-ConnectionGUID: KgO1AvBZRVaZfc1qBgY8aA==
-X-CSE-MsgGUID: TVod3CvVQr+UPuOI1r6eLg==
+   d="scan'208";a="86632705"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:09 -0700
+X-CSE-ConnectionGUID: AQL1E3SURRSR3seZhlN6AA==
+X-CSE-MsgGUID: xVJgBKPGTy+wRnB8zzkU6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="260837214"
+   d="scan'208";a="266341634"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 06 Aug 2026 06:02:49 -0700
+  by orviesa005.jf.intel.com with ESMTP; 06 Aug 2026 07:21:07 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrxkE-00000000FAj-1p8p;
-	Thu, 06 Aug 2026 13:02:46 +0000
-Date: Thu, 6 Aug 2026 21:02:40 +0800
+	id 1wryy1-00000000FHt-1uNB;
+	Thu, 06 Aug 2026 14:21:05 +0000
+Date: Thu, 06 Aug 2026 22:21:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Akari Tsuyukusa <akkun11.open@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Miles Chen <miles.chen@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Akari Tsuyukusa <akkun11.open@gmail.com>,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] clk: mediatek: fix memory leak on module removal
-Message-ID: <202608062020.IFIwVdEc-lkp@intel.com>
-References: <20260629142348.273766-1-akkun11.open@gmail.com>
+To: Eileen Yoon <eyn@gmx.com>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/240-isp 1/67]
+ drivers/media/platform/apple/isp/isp-drv.h:253:29: warning: format '%llx'
+ expects argument of type 'long long unsigned int', but argument 4 has type
+ 'dma_addr_t' {aka 'unsigned int'}
+Message-ID: <202608062243.xmWV34OB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260629142348.273766-1-akkun11.open@gmail.com>
 
-Hi Akari,
+Hi Eileen,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on linus/master v7.2-rc6 next-20260805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Akari-Tsuyukusa/clk-mediatek-fix-memory-leak-on-module-removal/20260805-032732
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20260629142348.273766-1-akkun11.open%40gmail.com
-patch subject: [PATCH] clk: mediatek: fix memory leak on module removal
-config: sparc-randconfig-001-20260806 (https://download.01.org/0day-ci/archive/20260806/202608062020.IFIwVdEc-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608062020.IFIwVdEc-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   6b01d08e5d4d33d4a7cdfb1ecea6f78e295bfd75
+commit: 329bf83de183f0558c2e5bb6ba55da3f06a2c980 [1/67] media: apple: Add Apple ISP driver
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260806/202608062243.xmWV34OB-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608062243.xmWV34OB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608062020.IFIwVdEc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608062243.xmWV34OB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/clk/mediatek/clk-mt8173-infracfg.c: In function 'clk_mt8173_infracfg_probe':
->> drivers/clk/mediatek/clk-mt8173-infracfg.c:131:36: error: 'clk_data' undeclared (first use in this function); did you mean 'clk_gate'?
-     131 |         platform_set_drvdata(pdev, clk_data);
-         |                                    ^~~~~~~~
-         |                                    clk_gate
-   drivers/clk/mediatek/clk-mt8173-infracfg.c:131:36: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/device.h:15,
+                    from include/linux/pci.h:37,
+                    from include/media/media-device.h:17,
+                    from include/media/v4l2-device.h:12,
+                    from drivers/media/platform/apple/isp/isp-drv.h:13,
+                    from drivers/media/platform/apple/isp/isp-iommu.h:7,
+                    from drivers/media/platform/apple/isp/isp-ipc.c:4:
+   drivers/media/platform/apple/isp/isp-ipc.c: In function 'sm_malloc_deferred_worker':
+>> drivers/media/platform/apple/isp/isp-drv.h:253:29: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     253 |         dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
+         |                             ^~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/apple/isp/isp-drv.h:253:9: note: in expansion of macro 'dev_err'
+     253 |         dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
+         |         ^~~~~~~
+   drivers/media/platform/apple/isp/isp-ipc.c:227:17: note: in expansion of macro 'isp_err'
+     227 |                 isp_err(isp, "failed to vmap iova=0x%llx size=0x%llx\n",
+         |                 ^~~~~~~
 
 
-vim +131 drivers/clk/mediatek/clk-mt8173-infracfg.c
+vim +253 drivers/media/platform/apple/isp/isp-drv.h
 
-    78	
-    79	static void clk_mt8173_infra_init_early(struct device_node *node)
-    80	{
-    81		int i;
-    82	
-    83		infra_clk_data = mtk_alloc_clk_data(CLK_INFRA_NR_CLK);
-    84		if (!infra_clk_data)
-    85			return;
-    86	
-    87		for (i = 0; i < CLK_INFRA_NR_CLK; i++)
-    88			infra_clk_data->hws[i] = ERR_PTR(-EPROBE_DEFER);
-    89	
-    90		mtk_clk_register_factors(infra_early_divs,
-    91					 ARRAY_SIZE(infra_early_divs), infra_clk_data);
-    92	
-    93		of_clk_add_hw_provider(node, of_clk_hw_onecell_get, infra_clk_data);
-    94	}
-    95	CLK_OF_DECLARE_DRIVER(mtk_infrasys, "mediatek,mt8173-infracfg",
-    96			      clk_mt8173_infra_init_early);
-    97	
-    98	static int clk_mt8173_infracfg_probe(struct platform_device *pdev)
-    99	{
-   100		struct device_node *node = pdev->dev.of_node;
-   101		int r, i;
-   102	
-   103		if (!infra_clk_data) {
-   104			infra_clk_data = mtk_alloc_clk_data(CLK_INFRA_NR_CLK);
-   105			if (!infra_clk_data)
-   106				return -ENOMEM;
-   107		} else {
-   108			for (i = 0; i < CLK_INFRA_NR_CLK; i++)
-   109				if (infra_clk_data->hws[i] == ERR_PTR(-EPROBE_DEFER))
-   110					infra_clk_data->hws[i] = ERR_PTR(-ENOENT);
-   111		}
-   112	
-   113		r = mtk_clk_register_gates(&pdev->dev, node, infra_gates,
-   114					   ARRAY_SIZE(infra_gates), infra_clk_data);
-   115		if (r)
-   116			return r;
-   117	
-   118		r = mtk_clk_register_cpumuxes(&pdev->dev, node, cpu_muxes,
-   119					      ARRAY_SIZE(cpu_muxes), infra_clk_data);
-   120		if (r)
-   121			goto unregister_gates;
-   122	
-   123		r = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, infra_clk_data);
-   124		if (r)
-   125			goto unregister_cpumuxes;
-   126	
-   127		r = mtk_register_reset_controller_with_dev(&pdev->dev, &clk_rst_desc);
-   128		if (r)
-   129			goto unregister_clk_hw;
-   130	
- > 131		platform_set_drvdata(pdev, clk_data);
-   132		return 0;
-   133	
-   134	unregister_clk_hw:
-   135		of_clk_del_provider(node);
-   136	unregister_cpumuxes:
-   137		mtk_clk_unregister_cpumuxes(cpu_muxes, ARRAY_SIZE(cpu_muxes), infra_clk_data);
-   138	unregister_gates:
-   139		mtk_clk_unregister_gates(infra_gates, ARRAY_SIZE(infra_gates), infra_clk_data);
-   140		return r;
-   141	}
-   142	
+   251	
+   252	#define isp_err(isp, fmt, ...) \
+ > 253		dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
+   254	
 
 --
 0-DAY CI Kernel Test Service
