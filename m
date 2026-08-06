@@ -1,97 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1D740BCB7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 08:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A923DD503
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 09:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786005167; cv=none; b=llPO+qRuX0Xiv4usO2gpDXJABE2D2u6/3+EIj9KGlZ2GLKaKD+tuvFdAAmwndFa/1d2s5Ph+4erJPboRuqMwJfK35kV1f879IhQKvt0E31uQNT4OZlx0Qa9bC8myJ/PjPBkDdrL4rceSBz5jUJNn5fP8SiUrIxuzBQC0Ut5CpF4=
+	t=1786007041; cv=none; b=obJlN3Zlu96T4lb4AowT5Pi+LyECTREabtzk+XCBHw1lCKIXdRrjHlCgNL9vwrVe9soXMFeUxHAbuBtBjr58vnN/Am23WEsvHMWgbiQ+d63wMI4qa6VG0BcmEzr30KuGwY/2HbynSKPNFecU5F0tSPOAllTmbK81SwRtibyo1OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786005167; c=relaxed/simple;
-	bh=3vFj33SJBvC3wpdlSEfvhimVbu5aZ0H3T87pILS6vbM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aE786n6RjbK6b8QTw+MqK2FmFiMpLyTnTobBf+tBZ/rhv+HxmegIjPgFlFIpbcA8PTLw8Wr2PtjcbZV/R17FDTIFiMlU8WmjsD+LDIoII/c5hLABt8D8PMeKyjld6VBQYvd7m/i+zpJ4ba1d/EcwWh/vyj7/q324f/YJXgRfZtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CbQVlOkw; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1786007041; c=relaxed/simple;
+	bh=hRmHae7K5L1NrBLBQLNmjHXkdJmOg7U/rq8oaZxB6Lk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MyvAfvy4Gelaevks16V8I+TeCWrGUj56NL7jlRBj2dlCj9yHGXyTe4zMYMbJ/5kvBtS8ygc7pRrBaJXRivfAvpBaPkeJTYXynbhbZbVql8/t5Ye5nzygG3uIU21B9EjhYhYWafrUBYOy6TfJdiqw3seE+vLIZ4MCl0KBnSq9mvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayR3aEw/; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CbQVlOkw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayR3aEw/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786005164; x=1817541164;
-  h=date:from:to:cc:subject:message-id;
-  bh=3vFj33SJBvC3wpdlSEfvhimVbu5aZ0H3T87pILS6vbM=;
-  b=CbQVlOkwCSvNJxbZFTt+Qo1dV/8RS/RoMdsoaZwzHKxNcrNnRuzi3bJ8
-   gE5iqCQxkDIvgKJ/hqTNVWC9s3VW2uHhmxE6B0ZwzzZB+8hnUUT33iOnW
-   B4fBU8rdZp8RqHpHVrz/qiA3woNIJUV5ns/91x0WolexwvXHHP/jfYV0v
-   YydBJ7KKOq3qBqRLBCK1al8optvNYvDYa/GcwAzX9IlIfSaEP1buNGe1E
-   QRT/azs6vFdAk3TsjiRp4/bq/0T6ouI6OWqeKWiHh00+HQbPgQYIz+mZp
-   izeJ89PhJY8296fWWpkDkpvXYmP4mkhxIHGwVsIbgQR45yRjpD/hL29ed
-   Q==;
-X-CSE-ConnectionGUID: Qbz2iHXiQhqpxLrFfnYsJA==
-X-CSE-MsgGUID: OauXy4T3SrqTlte7pGfM3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="103994106"
+  t=1786007039; x=1817543039;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hRmHae7K5L1NrBLBQLNmjHXkdJmOg7U/rq8oaZxB6Lk=;
+  b=ayR3aEw/23FNi/9tZ3wcnpGkA3FCTLhBOk+1Prr6pHeH/Vh3BXPVrex8
+   DH0p1T2ujScx2a//kJaI6v/JT1M/K31NEkAIwuKIQsiqHaLq1AuJtw4lj
+   fGGtL3tR/ZhetTuejNckoffCw9X9oricEs3S3Ppr0zXLmirenRjMbxdcj
+   QawCUhjHdmxzJBaKvIwTExVFLmZo02Dg+PYdc6GDlIcTCcSPDTx/khZUM
+   vc58XHqol+JWf7SjP3w4yuqlnpm3UL5LHoMXWMG9G5y1gyTg/yudN6I74
+   RmLMHZMnQid6/ZTofRX1r6A3Y/B/rBnacVUfZ6tMO7hP8yZdjVNpeN8BK
+   w==;
+X-CSE-ConnectionGUID: ju28N13URR+MK3uUUwSHxA==
+X-CSE-MsgGUID: W9j9+vhUTF+yLu3sT/Yb2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86469042"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="103994106"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 01:32:44 -0700
-X-CSE-ConnectionGUID: Hcdt1fpqRa+xAX1MP81cEw==
-X-CSE-MsgGUID: U5pv66nyTiKpkgu6eFB44g==
+   d="scan'208";a="86469042"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 02:03:58 -0700
+X-CSE-ConnectionGUID: uMiWEOHhTya1/RcbwGrAlQ==
+X-CSE-MsgGUID: R9sb5GQ+Quagee3hReXYgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="260275516"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 06 Aug 2026 01:32:43 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="265525326"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2026 02:03:56 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrtWq-000000004b4-1wfZ;
-	Thu, 06 Aug 2026 08:32:40 +0000
-Date: Thu, 06 Aug 2026 10:32:07 +0200
+	id 1wru13-00000000EgD-3ack;
+	Thu, 06 Aug 2026 09:03:53 +0000
+Date: Thu, 6 Aug 2026 17:03:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/250-aop 25/57] warning: empty line after
- doc comment
-Message-ID: <202608061002.407QPTg6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jiazi Liu <jiazi.liu1984@gmail.com>, Thinh.Nguyen@synopsys.com
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Jiazi Liu <liujiazi@amazon.com>
+Subject: Re: [PATCH 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event
+ buffer count
+Message-ID: <202608061759.sIcC6h4C-lkp@intel.com>
+References: <20260727094015.5101-1-liujiazi@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260727094015.5101-1-liujiazi@amazon.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/250-aop
-head:   136397c31608440bafd64cf7ce72b6049b3ee4a6
-commit: ff9a7b3dd630b558a7ddc32f5d1082c4150c51da [25/57] rust: Add Ownable/Owned types
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260806/202608061002.407QPTg6-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061002.407QPTg6-lkp@intel.com/reproduce)
+Hi Jiazi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v7.2-rc6 next-20260805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiazi-Liu/usb-dwc3-gadget-fix-IRQ-storm-on-invalid-event-buffer-count/20260806-005046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20260727094015.5101-1-liujiazi%40amazon.com
+patch subject: [PATCH 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event buffer count
+config: i386-randconfig-r132-20260806 (https://download.01.org/0day-ci/archive/20260806/202608061759.sIcC6h4C-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061759.sIcC6h4C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608061002.407QPTg6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061759.sIcC6h4C-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/dwc3/gadget.c:4681:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct dwc3 *dwc @@     got void [noderef] __iomem *regs @@
+   drivers/usb/dwc3/gadget.c:4681:32: sparse:     expected struct dwc3 *dwc
+   drivers/usb/dwc3/gadget.c:4681:32: sparse:     got void [noderef] __iomem *regs
 
->> warning: empty line after doc comment
-   --> rust/kernel/types.rs:450:1
-   |
-   450 | / /// into a &mut T.
-   451 | |
-   | |_^
-   ...
-   456 |   pub unsafe trait OwnableMut: Ownable {}
-   |   --------------------------- the comment documents this trait
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#empty_line_after_doc_comments
-   = note: `-W clippy::empty-line-after-doc-comments` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::empty_line_after_doc_comments)]`
-   = help: if the empty line is unintentional, remove it
-   help: if the documentation should include the empty line include it in the comment
-   |
-   451 | ///
-   |
+vim +4681 drivers/usb/dwc3/gadget.c
+
+  4636	
+  4637	static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
+  4638	{
+  4639		struct dwc3 *dwc = evt->dwc;
+  4640		u32 amount;
+  4641		u32 count;
+  4642	
+  4643		if (pm_runtime_suspended(dwc->dev)) {
+  4644			dwc->pending_events = true;
+  4645			/*
+  4646			 * Trigger runtime resume. The get() function will be balanced
+  4647			 * after processing the pending events in dwc3_process_pending
+  4648			 * events().
+  4649			 */
+  4650			pm_runtime_get(dwc->dev);
+  4651			disable_irq_nosync(dwc->irq_gadget);
+  4652			return IRQ_HANDLED;
+  4653		}
+  4654	
+  4655		/*
+  4656		 * With PCIe legacy interrupt, test shows that top-half irq handler can
+  4657		 * be called again after HW interrupt deassertion. Check if bottom-half
+  4658		 * irq event handler completes before caching new event to prevent
+  4659		 * losing events.
+  4660		 */
+  4661		if (evt->flags & DWC3_EVENT_PENDING)
+  4662			return IRQ_HANDLED;
+  4663	
+  4664		count = dwc3_readl(dwc, DWC3_GEVNTCOUNT(0));
+  4665		count &= DWC3_GEVNTCOUNT_MASK;
+  4666		if (!count)
+  4667			return IRQ_NONE;
+  4668	
+  4669		if (count > evt->length) {
+  4670			dev_err_ratelimited(dwc->dev, "invalid count(%u) > evt->length(%u)\n",
+  4671				count, evt->length);
+  4672			/*
+  4673			 * The DWC3 interrupt is level-triggered. Returning IRQ_NONE
+  4674			 * without clearing the IRQ source leaves the line asserted,
+  4675			 * causing a tight IRQ storm that triggers spurious.c:184 BUG.
+  4676			 * Write the bogus count back to GEVNTCOUNT to clear the source,
+  4677			 * consistent with the stale event clearing in
+  4678			 * dwc3_event_buffers_setup(), then schedule a soft disconnect
+  4679			 * to recover the controller state.
+  4680			 */
+> 4681			dwc3_writel(dwc->regs, DWC3_GEVNTCOUNT(0), count);
+  4682			schedule_work(&dwc->softcon_work);
+  4683			return IRQ_HANDLED;
+  4684		}
+  4685	
+  4686		evt->count = count;
+  4687		evt->flags |= DWC3_EVENT_PENDING;
+  4688	
+  4689		/* Mask interrupt */
+  4690		dwc3_writel(dwc, DWC3_GEVNTSIZ(0),
+  4691			    DWC3_GEVNTSIZ_INTMASK | DWC3_GEVNTSIZ_SIZE(evt->length));
+  4692	
+  4693		amount = min(count, evt->length - evt->lpos);
+  4694		memcpy(evt->cache + evt->lpos, evt->buf + evt->lpos, amount);
+  4695	
+  4696		if (amount < count)
+  4697			memcpy(evt->cache, evt->buf, count - amount);
+  4698	
+  4699		dwc3_writel(dwc, DWC3_GEVNTCOUNT(0), count);
+  4700	
+  4701		return IRQ_WAKE_THREAD;
+  4702	}
+  4703	
 
 --
 0-DAY CI Kernel Test Service
