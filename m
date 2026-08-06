@@ -1,176 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA01369D43;
-	Thu,  6 Aug 2026 01:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4F23ACF17
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 01:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785979665; cv=none; b=mLj272JKSn1tXf2cyGGT2DSM091MC13jo7McQhbKKA1OE7yEqlhJH99SdQH0zS3YWt5NJU5KLbrx7hq/OWY/odI5TKcdzIbwQezzGq4UGhCN9x5TCuADZqzYDJi7yIDBMKPdIMF7GpKj0m6x3L2PjVsGKUKI20QPcfUfPb08Xzw=
+	t=1785979725; cv=none; b=kE9TyyAWKGMUCqBpd96j0cUQG94uR+dt9xW417dcOgnmQZUmGoHh0De+rcDA1Xfhv8O8LwcSu07D+ykdQBqHNVy6Gdcb3wNfabnPq1Bgca49O32NA3EvapOlKES8Z6AOkm7aJtOHQdAnYPHFuf1bhttHit/C2HoWqj5rTbjvRKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785979665; c=relaxed/simple;
-	bh=LJr84/ufAH8R/Sxi/uyEeNl1mRm+h/wTBaV2da/pzyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fpgMnpWy+92qIbSqbAsn+UY2y8rNB3oOlsN3lwgQBgdcmuCUuOmzajBYpGwgPbOBjJNX9GsCXIDfc/4zG2QU+OYfc/xa7QueSxwU4uJ5CdOa1tyK32oWGfwdhrIa7UqQeiQx27K6iFVsDRX8By30tqs0OVb91GEQNOfyI/NwTf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4Aon/6S; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1785979725; c=relaxed/simple;
+	bh=rl+kVTJfGw/FZY5ZZyRUuhLspLrgRrIBT//85JyEi6g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gqcHx6eV2/Ciq1+gfOAAfMe4m7/198Nc2mCpV/7YoeHUcl+lrzVaWhaa9Kl13aBxUQa9TXemm//+ySp4QyWvVUtaaCkMz1AAAGkhECtmOO96SVwsDfYeXwH4CaKCq/rx/S1ISouDb4bYlrAcnBeOfUfxfcpRvM/I3IdcI4jE/kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JVGdcMvq; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4Aon/6S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVGdcMvq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785979664; x=1817515664;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LJr84/ufAH8R/Sxi/uyEeNl1mRm+h/wTBaV2da/pzyc=;
-  b=O4Aon/6S9jqsBYQJ4LgjnfxMhUCzvxPfU9u8LbdJo8SOYw2Ii1O4j0YN
-   riuRnVERd9P5eMFmKLUSRGq9/LJkG/GUpPWOT+0ITUR3xQQco8e8xguvn
-   qZDYUCN7cw+D6njpUa8QpJsKneJfRNCpvxbdMNCGp5JxUUAUSyK3aFlFP
-   2BE40Ww4y1S/9pfu57pI1jvv7TgrJRNQeyp7NUaShDfaby98/wCK8z9TZ
-   GBFzBMmQxygA4/WIEsohDWLHXa62Gxnd5++rS9tTKlcY2aEigydrNGARY
-   36kw05R8Y8H7DBrqfnIgdCPy3ZOJBZ5Xg0VzHtbacHjnmOmgtaWqnrrA1
-   A==;
-X-CSE-ConnectionGUID: SQIz7OoaS3itKXoKDgCRjA==
-X-CSE-MsgGUID: gbcmngchSD++aejbI48aGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86594415"
+  t=1785979724; x=1817515724;
+  h=date:from:to:cc:subject:message-id;
+  bh=rl+kVTJfGw/FZY5ZZyRUuhLspLrgRrIBT//85JyEi6g=;
+  b=JVGdcMvqpNTnWIYEeFmKCGNVmzhUzEYmR0hAW5EiNOKSfFQoSr2kUiel
+   qRW1BBOp+M732dlKzUzOKSI7903QbI4rOplozWQLdmp1hoedwrdXq8zVg
+   njzSJR/pkyVSmI0DChBR407vfG0bSwna9UWSwXH0nfgn5c9yZcCT1GQwg
+   KeZQcYsjPZYgqI760/Y6l4mp8D127/4pf5ArM27PP84ayBneOSjrK36ms
+   nyR7BmiUtkanPFkBIZOj/KFBZlsjd6/h/Sbj6RaQlCdol+8JzG6p7GLhX
+   zZPrBHQUzHprImUtydT0G044RgHTZdrkS+7B1duy2DvDkl76CD43L9uDa
+   Q==;
+X-CSE-ConnectionGUID: 92kaehwoTLeKxtCJfKZ8JA==
+X-CSE-MsgGUID: kTNt7UQSTBCMpjlNPyLmEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86681888"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="86594415"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 18:27:43 -0700
-X-CSE-ConnectionGUID: y3zXd28/Tca7ZVV8+p6mmw==
-X-CSE-MsgGUID: C5nXk/HJTVSKkuH1op5EzQ==
+   d="scan'208";a="86681888"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 18:28:43 -0700
+X-CSE-ConnectionGUID: NmIBbkr7QTOmadH4Cne5yQ==
+X-CSE-MsgGUID: tS1Lnx04Rg+leBiKE9CDqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="267098328"
+   d="scan'208";a="286622328"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Aug 2026 18:27:42 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 05 Aug 2026 18:28:42 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrmtX-00000000Dt7-2dgn;
-	Thu, 06 Aug 2026 01:27:39 +0000
-Date: Thu, 6 Aug 2026 09:27:39 +0800
+	id 1wrmuV-00000000DtB-2qDW;
+	Thu, 06 Aug 2026 01:28:39 +0000
+Date: Thu, 06 Aug 2026 09:27:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>,
-	netfilter-devel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, fw@strlen.de,
-	ericwouds@gmail.com
-Subject: Re: [PATCH nf-next,v5] netfilter: flowtable: initial bridge support
-Message-ID: <202608060907.TfJm13ei-lkp@intel.com>
-References: <20260713123650.1656551-1-pablo@netfilter.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-2026-06 2/2]
+ drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:954:6: error: call
+ to undeclared function 'xfrm_input_state'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202608060918.GNiRo5An-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260713123650.1656551-1-pablo@netfilter.org>
 
-Hi Pablo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on netfilter-nf/main]
-[also build test ERROR on nf-next/main linus/master v7.2-rc6 next-20260805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-flowtable-initial-bridge-support/20260805-124729
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20260713123650.1656551-1-pablo%40netfilter.org
-patch subject: [PATCH nf-next,v5] netfilter: flowtable: initial bridge support
-config: loongarch-randconfig-001-20260806 (https://download.01.org/0day-ci/archive/20260806/202608060907.TfJm13ei-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060907.TfJm13ei-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-06
+head:   11fe19e75a18adc0a15fc1fb837623db140f5ac7
+commit: 3e1da3739d68558bacc60ea5f469fbddaf529c32 [2/2] ANDROID: GKI: Add GKI_HIDDEN_XFRM_OFFLOAD_CONFIGS
+config: arm64-randconfig-004-20260806 (https://download.01.org/0day-ci/archive/20260806/202608060918.GNiRo5An-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project bacfe2950f8218268fcc0a8765644ea0c15f0360)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060918.GNiRo5An-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608060907.TfJm13ei-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608060918.GNiRo5An-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/netfilter/nft_flow_offload.c:153:21: error: call to undeclared function 'nf_bridge_info_exists'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     153 |         if (!pkt->flags || nf_bridge_info_exists(pkt->skb))
-         |                            ^
-   1 error generated.
+   In file included from drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:7:
+   include/net/xfrm.h:2088:30: error: no member named 'xfrm' in 'struct dst_entry'
+    2088 |         struct xfrm_state *x = dst->xfrm;
+         |                                ~~~  ^
+   include/net/xfrm.h:2095:46: error: no member named 'xfrm' in 'struct dst_entry'
+    2095 |         if (!x->xso.offload_handle && !xdst->child->xfrm)
+         |                                        ~~~~~~~~~~~  ^
+   include/net/xfrm.h:2098:20: error: no member named 'xfrm' in 'struct dst_entry'
+    2098 |             !xdst->child->xfrm)
+         |              ~~~~~~~~~~~  ^
+>> drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:954:6: error: call to undeclared function 'xfrm_input_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     954 |         x = xfrm_input_state(skb);
+         |             ^
+   drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:954:6: note: did you mean 'xfrm_init_state'?
+   include/net/xfrm.h:1776:5: note: 'xfrm_init_state' declared here
+    1776 | int xfrm_init_state(struct xfrm_state *x);
+         |     ^
+>> drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:954:4: error: incompatible integer to pointer conversion assigning to 'struct xfrm_state *' from 'int' [-Wint-conversion]
+     954 |         x = xfrm_input_state(skb);
+         |           ^ ~~~~~~~~~~~~~~~~~~~~~
+   5 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +/nf_bridge_info_exists +153 net/netfilter/nft_flow_offload.c
+vim +/xfrm_input_state +954 drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c
 
-   138	
-   139	static void nft_flow_offload_bridge_eval(const struct nft_expr *expr,
-   140						 struct nft_regs *regs,
-   141						 const struct nft_pktinfo *pkt)
-   142	{
-   143		struct nft_flow_offload *priv = nft_expr_priv(expr);
-   144		struct nf_flowtable *flowtable = &priv->flowtable->data;
-   145		struct tcphdr _tcph, *tcph = NULL;
-   146		enum ip_conntrack_info ctinfo;
-   147		struct flow_offload *flow;
-   148		enum ip_conntrack_dir dir;
-   149		struct nf_conn *ct;
-   150		int ret;
-   151	
-   152		/* Is this a non-IP packet or br_netfilter? If so, skip. */
- > 153		if (!pkt->flags || nf_bridge_info_exists(pkt->skb))
-   154			goto out;
-   155	
-   156		ct = nf_ct_get(pkt->skb, &ctinfo);
-   157		if (!ct || !nf_ct_is_confirmed(ct))
-   158			goto out;
-   159	
-   160		/* Unlikely, conntrack bridge should not see neither helpers nor NAT in
-   161		 * the bridge forward path.
-   162		 */
-   163		if (nf_ct_ext_exist(ct, NF_CT_EXT_HELPER) ||
-   164		    ct->status & (IPS_SEQ_ADJUST | IPS_NAT_CLASH))
-   165			goto out;
-   166	
-   167		switch (ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.dst.protonum) {
-   168		case IPPROTO_TCP:
-   169			tcph = skb_header_pointer(pkt->skb, nft_thoff(pkt),
-   170						  sizeof(_tcph), &_tcph);
-   171			if (unlikely(!tcph || tcph->fin || tcph->rst ||
-   172				     !nf_conntrack_tcp_established(ct)))
-   173				goto out;
-   174			break;
-   175		case IPPROTO_UDP:
-   176			break;
-   177		default:
-   178			goto out;
-   179		}
-   180	
-   181		if (test_and_set_bit(IPS_OFFLOAD_BIT, &ct->status))
-   182			goto out;
-   183	
-   184		flow = flow_offload_alloc(ct);
-   185		if (!flow)
-   186			goto err_flow_forward;
-   187	
-   188		dir = CTINFO2DIR(ctinfo);
-   189		if (nft_flow_bridge(flow, pkt, dir, priv->flowtable) < 0)
-   190			goto err_flow_add;
-   191	
-   192		if (tcph)
-   193			flow_offload_ct_tcp(ct);
-   194	
-   195		__set_bit(NF_FLOW_HW_BIDIRECTIONAL, &flow->flags);
-   196		ret = flow_offload_add(flowtable, flow);
-   197		if (ret < 0)
-   198			goto err_flow_add;
-   199	
-   200		return;
-   201	
-   202	err_flow_add:
-   203		flow_offload_free(flow);
-   204	err_flow_forward:
-   205		clear_bit(IPS_OFFLOAD_BIT, &ct->status);
-   206	out:
-   207		regs->verdict.code = NFT_BREAK;
-   208	}
-   209	
+6a77a158848a8c Bharat Bhushan 2024-12-04  929  
+6a77a158848a8c Bharat Bhushan 2024-12-04  930  bool cn10k_ipsec_transmit(struct otx2_nic *pf, struct netdev_queue *txq,
+6a77a158848a8c Bharat Bhushan 2024-12-04  931  			  struct otx2_snd_queue *sq, struct sk_buff *skb,
+6a77a158848a8c Bharat Bhushan 2024-12-04  932  			  int num_segs, int size)
+6a77a158848a8c Bharat Bhushan 2024-12-04  933  {
+6a77a158848a8c Bharat Bhushan 2024-12-04  934  	struct cpt_inst_s inst;
+6a77a158848a8c Bharat Bhushan 2024-12-04  935  	struct cpt_res_s *res;
+6a77a158848a8c Bharat Bhushan 2024-12-04  936  	struct xfrm_state *x;
+6a77a158848a8c Bharat Bhushan 2024-12-04  937  	struct qmem *sa_info;
+6a77a158848a8c Bharat Bhushan 2024-12-04  938  	dma_addr_t dptr_iova;
+6a77a158848a8c Bharat Bhushan 2024-12-04  939  	struct sec_path *sp;
+6a77a158848a8c Bharat Bhushan 2024-12-04  940  	u8 encap_offset;
+6a77a158848a8c Bharat Bhushan 2024-12-04  941  	u8 auth_offset;
+6a77a158848a8c Bharat Bhushan 2024-12-04  942  	u8 gthr_size;
+6a77a158848a8c Bharat Bhushan 2024-12-04  943  	u8 iv_offset;
+6a77a158848a8c Bharat Bhushan 2024-12-04  944  	u16 dlen;
+6a77a158848a8c Bharat Bhushan 2024-12-04  945  
+6a77a158848a8c Bharat Bhushan 2024-12-04  946  	/* Check for IPSEC offload enabled */
+6a77a158848a8c Bharat Bhushan 2024-12-04  947  	if (!(pf->flags & OTX2_FLAG_IPSEC_OFFLOAD_ENABLED))
+6a77a158848a8c Bharat Bhushan 2024-12-04  948  		goto drop;
+6a77a158848a8c Bharat Bhushan 2024-12-04  949  
+6a77a158848a8c Bharat Bhushan 2024-12-04  950  	sp = skb_sec_path(skb);
+6a77a158848a8c Bharat Bhushan 2024-12-04  951  	if (unlikely(!sp->len))
+6a77a158848a8c Bharat Bhushan 2024-12-04  952  		goto drop;
+6a77a158848a8c Bharat Bhushan 2024-12-04  953  
+6a77a158848a8c Bharat Bhushan 2024-12-04 @954  	x = xfrm_input_state(skb);
+
+:::::: The code at line 954 was first introduced by commit
+:::::: 6a77a158848a8c68930df27b8840660db8531222 cn10k-ipsec: Process outbound ipsec crypto offload
+
+:::::: TO: Bharat Bhushan <bbhushan2@marvell.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 --
 0-DAY CI Kernel Test Service
