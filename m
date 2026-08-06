@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DEE494801
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 19:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090F3488D9C;
+	Thu,  6 Aug 2026 20:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786045176; cv=none; b=lzDvY5qpzBmu+421SariWXRFgd9VJmmAuzRl3VeBEfaTB5EcYkK72HQmz0nQdx4+klpfFi31pEuS1cyEx74st1QGSa+yHUkoGTStghzVnANyAhBmYef/Z/nkti6us0LE2TnQ/NUnolhtkU4vUJiSY3qibDD2+haQVBoJcUJ1Ye0=
+	t=1786046740; cv=none; b=hNhSFFI/DpwCpmkp0qUEg1pnwIvM6JB37DDMlVNPqYfXBXqqup9n5JUnn9RWMcJ3PY/PufctyhiX97MN3hCa/vHOEkyi994hf/Fo0MAImtazO+lDYm8BfEr4ajSBotnQzQcM4ogxp098HFFOG6h63Y45+VSiiT5sGhbbAcWHwtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786045176; c=relaxed/simple;
-	bh=ANZHdTM7TN93BOTwXE42UMStode/Rb+Fv/a3OigaJ0I=;
+	s=arc-20240116; t=1786046740; c=relaxed/simple;
+	bh=ECQppSPi7hZBE855UOuyJolqE0BmrFQhmS4e8OtJaJk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pNOB1Gd18v7q3KWozedT0XqXgsTqbIaF9seV47yOw1z8rCjvKFTrPFaLnNLBfsZ4bD8AeTda6JOQYq0YP7N9/7aKpjK52anPmOuBjH7v806MsNFoG2TIhTAxcglmz6arNe4G7xmUSi8vgLwotg03ltqVPdJjV8hbgh3HlAcxMI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEE2d/C5; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=BfikqDvAp3+GO9O7LP5IzvjWtm8Bp7ErkymLJ4jWj6rjHPhhU4kx6ecZHC0AWFCy45kTW1O3tSwajmcw4bCMSfQir4bCa1KiTuo1YNiaXcP0pHl26D8FS3/C8r/iqXb6InIbKJ/ugz8J/F9KqEeSNMmHtqomsyk56dYoQTuq7sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWKmf77B; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEE2d/C5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWKmf77B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786045174; x=1817581174;
+  t=1786046732; x=1817582732;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ANZHdTM7TN93BOTwXE42UMStode/Rb+Fv/a3OigaJ0I=;
-  b=HEE2d/C53YMOZyzxTstLZ6n+nztT2QxlBREdqTqCxBkYHGmn3xL2zm5R
-   WS8sksBAs0MHx3++radBFQ6nsTF6ERmKTMLtLWCeDnIBP28oTXr61N5ua
-   jSLeiSF6baVy80cH2gRHBCSaFNmXHmfQ59a+LXjQtwoA2dtwMjMDUiE4y
-   IJ/GnzBAmPUOi3BIkvZL5QKsYPAMcJLikDFWnb6f9lN6/svx9NrwPnsrn
-   mhwN3aCtpW/vALE/qhm6UHEPFb8h6mdgtFQKTqHlVAB9zjiAvNwochO+9
-   A2H9vh9GwSdwGaD38d6gkpNHjyQvXMQ6gv8dTJp7shqcTrloYoVDjP8oz
-   w==;
-X-CSE-ConnectionGUID: MCfIWZJ0QSmijn/bIbRLVA==
-X-CSE-MsgGUID: BwOsoOwbQtGGiH/MlyNMLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86681330"
+  bh=ECQppSPi7hZBE855UOuyJolqE0BmrFQhmS4e8OtJaJk=;
+  b=gWKmf77BZnpyzZgXzop0ks9WrGSd61XWlMpp4lKNszd2bjRUsvQ8RTaS
+   pYvYZSn/0zpDdbAVuPdXOfSBzEYiFhbI/P3GvJLUzbM+YNvcoGXuB+UL6
+   g80gSW1HSh8HU/kCQS0GykvFVpsa1WOEFAkWCxNpZHnU7OZW5WWNBNckp
+   CoCD3YI26HyTclXNDhdyDcCWWbxF3QQzITqC+5TajG2r/RRekj3Kl2+jZ
+   4lJpRzNqMOOgal7dNwx3xC1KQUejtEMHeu6lmVzfQrSBffdrHUjHlBjfQ
+   WJfzuDrwHcenWIq+v0ArOVqEMOsWgJfbjiBwRzJsg+bUU1bihtMqgnEYG
+   A==;
+X-CSE-ConnectionGUID: lw1RdmL4Q3GNnSL0JDd08w==
+X-CSE-MsgGUID: PoliwxIjRKKUtk8rr2+wgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97809613"
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="86681330"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 12:39:14 -0700
-X-CSE-ConnectionGUID: 0q/JnHUxTOq/4wxZaJ2hfA==
-X-CSE-MsgGUID: FaM/PIf4TDSad8HX7GGsiQ==
+   d="scan'208";a="97809613"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 13:05:26 -0700
+X-CSE-ConnectionGUID: kbkXwKR2TzaaboL6xfEBgw==
+X-CSE-MsgGUID: NUNlK8DoQEW2G6Lb2TqzoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="266427342"
+   d="scan'208";a="265681054"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 Aug 2026 12:39:13 -0700
+  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2026 13:05:23 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ws3vq-00000000G5B-0mwl;
-	Thu, 06 Aug 2026 19:39:10 +0000
-Date: Fri, 7 Aug 2026 03:38:25 +0800
+	id 1ws4LA-00000000G8r-4A5R;
+	Thu, 06 Aug 2026 20:05:20 +0000
+Date: Fri, 7 Aug 2026 04:04:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Martin Weiss <martin.githubacc@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Martin Weiss <Martin.weiss2410@gmail.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -58,7 +58,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	linux-trace-kernel@vger.kernel.org
 Subject: Re: [PATCH] trace_branch: use per-cpu counters for correct/incorrect
  stats
-Message-ID: <202608070304.QNhu3z0S-lkp@intel.com>
+Message-ID: <202608070317.EiUZyapo-lkp@intel.com>
 References: <20260629095838.601926-1-Martin.weiss2410@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,79 +84,54 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Weiss/trace_branch
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
 patch link:    https://lore.kernel.org/r/20260629095838.601926-1-Martin.weiss2410%40gmail.com
 patch subject: [PATCH] trace_branch: use per-cpu counters for correct/incorrect stats
-config: um-randconfig-r123-20260806 (https://download.01.org/0day-ci/archive/20260807/202608070304.QNhu3z0S-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070304.QNhu3z0S-lkp@intel.com/reproduce)
+config: hexagon-randconfig-002-20260807 (https://download.01.org/0day-ci/archive/20260807/202608070317.EiUZyapo-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070317.EiUZyapo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608070304.QNhu3z0S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608070317.EiUZyapo-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/trace/trace_branch.c:218:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:218:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:218:17: sparse:     got unsigned long *
->> kernel/trace/trace_branch.c:218:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:218:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:218:17: sparse:     got unsigned long *
->> kernel/trace/trace_branch.c:218:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:218:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:218:17: sparse:     got unsigned long *
->> kernel/trace/trace_branch.c:218:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:218:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:218:17: sparse:     got unsigned long *
->> kernel/trace/trace_branch.c:218:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:218:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:218:17: sparse:     got unsigned long *
-   kernel/trace/trace_branch.c:220:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:220:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:220:17: sparse:     got unsigned long *
-   kernel/trace/trace_branch.c:220:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:220:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:220:17: sparse:     got unsigned long *
-   kernel/trace/trace_branch.c:220:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:220:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:220:17: sparse:     got unsigned long *
-   kernel/trace/trace_branch.c:220:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:220:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:220:17: sparse:     got unsigned long *
-   kernel/trace/trace_branch.c:220:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   kernel/trace/trace_branch.c:220:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/trace/trace_branch.c:220:17: sparse:     got unsigned long *
+All warnings (new ones prefixed by >>):
 
-vim +218 kernel/trace/trace_branch.c
+>> kernel/trace/trace_branch.c:200:1: warning: all paths through this function will call itself [-Winfinite-recursion]
+     200 | {
+         | ^
+   1 warning generated.
 
-   197	
-   198	void ftrace_likely_update(struct ftrace_likely_data *f, int val,
-   199				  int expect, int is_constant)
-   200	{
-   201		unsigned long flags = user_access_save();
-   202	
-   203		/* A constant is always correct */
-   204		if (is_constant) {
-   205			f->constant++;
-   206			val = expect;
-   207		}
-   208		/*
-   209		 * I would love to have a trace point here instead, but the
-   210		 * trace point code is so inundated with unlikely and likely
-   211		 * conditions that the recursive nightmare that exists is too
-   212		 * much to try to get working. At least for now.
-   213		 */
-   214		trace_likely_condition(f, val, expect);
-   215	
-   216		/* use per-cpu counters to avoid contention */
-   217		if (val == expect)
- > 218			this_cpu_inc(f->data.correct);
-   219		else
-   220			this_cpu_inc(f->data.incorrect);
-   221	
-   222		user_access_restore(flags);
-   223	}
-   224	EXPORT_SYMBOL(ftrace_likely_update);
-   225	
+
+vim +200 kernel/trace/trace_branch.c
+
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  197  
+134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  198) void ftrace_likely_update(struct ftrace_likely_data *f, int val,
+d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  199) 			  int expect, int is_constant)
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12 @200  {
+4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  201  	unsigned long flags = user_access_save();
+4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  202  
+d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  203) 	/* A constant is always correct */
+134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  204) 	if (is_constant) {
+134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  205) 		f->constant++;
+d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  206) 		val = expect;
+134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  207) 	}
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  208  	/*
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  209  	 * I would love to have a trace point here instead, but the
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  210  	 * trace point code is so inundated with unlikely and likely
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  211  	 * conditions that the recursive nightmare that exists is too
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  212  	 * much to try to get working. At least for now.
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  213  	 */
+068f530b3f274d kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  214) 	trace_likely_condition(f, val, expect);
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  215  
+a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  216  	/* use per-cpu counters to avoid contention */
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  217  	if (val == expect)
+a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  218  		this_cpu_inc(f->data.correct);
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  219  	else
+a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  220  		this_cpu_inc(f->data.incorrect);
+4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  221  
+4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  222  	user_access_restore(flags);
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  223  }
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  224  EXPORT_SYMBOL(ftrace_likely_update);
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  225  
 
 --
 0-DAY CI Kernel Test Service
