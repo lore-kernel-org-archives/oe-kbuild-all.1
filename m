@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027503AD537
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 07:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6C033B969
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 07:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785999884; cv=none; b=gVNRE++4iAMsR+6olXvMz6U/pHRxca6gE/SNWT5CsjPZn/6NKxdu7y5DceX3lYXI/+9cThMhKLCF6SvG5RhbiUfw1gKKizBnPsoed5MhGIKko8N8sUyVyMwsqyN+nr6C/AyhoxRBGU3d9PyQKnqj17QBDgdkcmJpQ09F0LhY4aA=
+	t=1786001461; cv=none; b=AigUZvr9KSOlIrKEJqCes+KA+vGuHX43gH9gVUzc3nI13EsgC0TTzJmpG+k11IHEgOtwIvUlFYa7I8BQj3jwQv+Jyj0m7ocv9b7W7LkZhjLuWfpBp8o2aSs+ErO2nAsn8hbcy1rh1qNYTqrqQ5siHLpBejAXlOx1RiTTm5AeWmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785999884; c=relaxed/simple;
-	bh=uybity/yg5BRHJkXRsX+CN0NM1CIzcMLv3VoRjbiReE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q8VXqpNwqAIxU3n0oWs5xH0x6P6cTlnk7TMaKRod3S8sc1tGodoSItdOSjB2jmO7naxc+ityUrYoef+L+KxD1cZeFGmqSsaehxPwbhY3bkXyw74lkiS2qiDD9mt6AvTuMNiYTIzOZHcIYgUl0SaN9kYTuEZeVkpmnRnSNA8iu/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MHLp+Ze+; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1786001461; c=relaxed/simple;
+	bh=A9kbtts1LMb580YTLTJcnmvkR7OOHJmvn7p8S8jZpjI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NLyJFgf+MPXbIJnQhEYRkgxXv5+t0xj1DELsy3wK0aVYjS6A56bIlid+Qfapmw2n5teOHMyEUE8fgzYYvsrryhhFb14SIqqW9+UCrc33LkZOBETtWrb372FBsrF2MKjdpeqEvB4CJjUjEHPtki/+DWMR5S8kGehAWIVM3ohHP3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vl+T8IAL; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MHLp+Ze+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vl+T8IAL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785999883; x=1817535883;
+  t=1786001458; x=1817537458;
   h=date:from:to:cc:subject:message-id;
-  bh=uybity/yg5BRHJkXRsX+CN0NM1CIzcMLv3VoRjbiReE=;
-  b=MHLp+Ze+0CdAibHgx17lKdITuQ+ypLAQHrJ2tqvxy3BKbkf2yWucmGvw
-   ekapyzlE/n3SErIp8RXV1qLyg+qH6+WcYFY8iRCscFHKH1NqzzNFDsFgQ
-   ecdRo1tw3EJFo7T6cm14lOeVABMszYHvQLAkQp3z2l4A4LhbPGaqnEcVF
-   Jfn6md1L/jmPEwbDcDXOJwOt+vYrP3OM1j9Y9yWZ2+EeVQPRFuwu9Grxz
-   8VmOaTVSNREXRCcz6XYlXpN7ZEUi++LptW6PNFHZ9VXHsja6kxQWocozB
-   TEwY7Sw4/M57YXFC8c8pnXbFcs7VELJaS1SczxVpIj2oPD56KKr5mKRxP
-   A==;
-X-CSE-ConnectionGUID: JIaxnLkuS5S08Nuy+MNhXQ==
-X-CSE-MsgGUID: 9X6UdKdLTQOrpZNv8jMYKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="98097563"
+  bh=A9kbtts1LMb580YTLTJcnmvkR7OOHJmvn7p8S8jZpjI=;
+  b=Vl+T8IALWv/jL28XhQe6KoR9bS+cF8vheVQkso4KzxAtZF8WCBSFLjuX
+   JiDBck6pHfIS3JG0DBCnp7lCt1+30zl8fBZqykBBBjSWXyx6wXOVixEwe
+   hMPgB/qP33KDTgB7rEn/vJmOABhBnWs4LxATzZm4fH076j7yETdf+8Kv0
+   XTYJS1AFxy4hr3UdJPgYMDmAXnGps5cvWvDDWXQbLuGldUM9v9TQ3V+0L
+   7j2BrlghFWFSq3HywtAx2NgdajIjPgBB4Rqri7YSP9E8X9vil0teF63/m
+   B19r/Ne58fNMvFFdDg9qq54g9pu8SP+6X42JyTFg+NCI1xEpcLd1WVPLE
+   g==;
+X-CSE-ConnectionGUID: +LGgBfyxSfe+9XPSHAOaGQ==
+X-CSE-MsgGUID: ANTiWR5BTPePiNmVJK4PLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86615592"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="98097563"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 00:04:43 -0700
-X-CSE-ConnectionGUID: uik9H88tTUaCbTMNeJ2wCQ==
-X-CSE-MsgGUID: ZpUQB298S1Oa//cUibMVeg==
+   d="scan'208";a="86615592"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 00:30:49 -0700
+X-CSE-ConnectionGUID: CPEIUNRpSoqvMDf6O+ZAew==
+X-CSE-MsgGUID: HwClJMzASwaF0swYisClXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="255767880"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Aug 2026 00:04:41 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="286697470"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 06 Aug 2026 00:30:47 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrs9f-000000004a0-19RP;
-	Thu, 06 Aug 2026 07:04:39 +0000
-Date: Thu, 06 Aug 2026 09:03:42 +0200
+	id 1wrsYv-00000000EUv-0Fr5;
+	Thu, 06 Aug 2026 07:30:45 +0000
+Date: Thu, 06 Aug 2026 15:30:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: [linux-next:master 9617/13093]
- arch/arm/boot/dts/broadcom/bcm47094-linksys-panamera.dtb: switch@0
- (brcm,bcm53125): Unevaluated properties are not allowed ('#address-cells',
- '#size-cells', 'reset-gpios', 'reset-names' were unexpected)
-Message-ID: <202608060811.jdE2oUCq-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-08 0/13]
+ mm/pgsize_migration.c:204:19: error: no member named 'vm_lock' in 'struct
+ vm_area_struct'
+Message-ID: <202608061538.Hndz1smF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,29 +60,123 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1701fda2f58e345c050f4309971bdc07cd6146ba
-commit: fca5276165993e9ca18e746f9b41af7627cbe349 [9617/13093] ARM: dts: BCM5301X: panamera: add phy-mode to switch
-config: arm-randconfig-2053-20260803 (https://download.01.org/0day-ci/archive/20260806/202608060811.jdE2oUCq-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060811.jdE2oUCq-lkp@intel.com/reproduce)
+Hi Kalesh,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-08
+head:   08944e3ae242ce5177ecd96e33de7674550043af
+commit: 67bb232cd7287051bc998673e42c9a1b7e86e93b [0/13] ANDROID: 16K: Fallback to mmap lock for linker context VMA lookup
+config: x86_64-randconfig-015-20260806 (https://download.01.org/0day-ci/archive/20260806/202608061538.Hndz1smF-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061538.Hndz1smF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608060811.jdE2oUCq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061538.Hndz1smF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/broadcom/bcm47094-linksys-panamera.dts:144.13-196.6: Warning (avoid_unnecessary_addr_size): /mdio-mux@18003000/mdio@200/switch@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm/boot/dts/broadcom/bcm5301x-nand-cs0.dtsi:10.18-19.5: Warning (avoid_unnecessary_addr_size): /nand-controller@18028000/nand@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:24.28-47.4: Warning (unique_unit_address_if_enabled): /chipcommon-a-bus@18000000: duplicate unit-address (also used in node /axi@18000000)
-   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:377.22-382.4: Warning (unique_unit_address_if_enabled): /mdio@18003000: duplicate unit-address (also used in node /mdio-mux@18003000)
-   arch/arm/boot/dts/broadcom/bcm47094-linksys-panamera.dtb: /axi@18000000: failed to match any schema with compatible: ['brcm,bus-axi']
->> arch/arm/boot/dts/broadcom/bcm47094-linksys-panamera.dtb: switch@0 (brcm,bcm53125): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'reset-gpios', 'reset-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
-   arch/arm/boot/dts/broadcom/bcm47094-linksys-panamera.dtb: switch@0 (brcm,bcm53125): 'resets' is a dependency of 'reset-names'
-   	from schema $id: http://devicetree.org/schemas/reset/reset.yaml
+All errors (new ones prefixed by >>):
+
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:150:
+   include/linux/compiler-clang.h:33:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      33 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:353:9: note: previous definition is here
+     353 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> mm/pgsize_migration.c:204:19: error: no member named 'vm_lock' in 'struct vm_area_struct'
+     204 |                 down_read(&vma->vm_lock->lock);
+         |                            ~~~  ^
+   1 warning and 1 error generated.
+
+
+vim +204 mm/pgsize_migration.c
+
+   156	
+   157	/*
+   158	 * The dynamic linker, or interpreter, operates within the process context
+   159	 * of the binary that necessitated dynamic linking.
+   160	 *
+   161	 * Consequently, process context identifiers; like PID, comm, ...; cannot
+   162	 * be used to differentiate whether the execution context belongs to the
+   163	 * dynamic linker or not.
+   164	 *
+   165	 * linker_ctx() deduces whether execution is currently in the dynamic linker's
+   166	 * context by correlating the current userspace instruction pointer with the
+   167	 * VMAs of the current task.
+   168	 *
+   169	 * Returns true if in linker context, otherwise false.
+   170	 */
+   171	static inline bool linker_ctx(void)
+   172	{
+   173		struct pt_regs *regs = task_pt_regs(current);
+   174		struct mm_struct *mm = current->mm;
+   175		struct vm_area_struct *vma;
+   176		struct file *file;
+   177	
+   178		if (!regs)
+   179			return false;
+   180	
+   181		vma = lock_vma_under_rcu(mm, instruction_pointer(regs));
+   182	
+   183		/*
+   184		 * lock_vma_under_rcu() is a try-lock that can fail if the
+   185		 * VMA is already locked for modification.
+   186		 *
+   187		 * Fallback to finding the vma under mmap read lock.
+   188		 */
+   189		if (!vma) {
+   190			mmap_read_lock(mm);
+   191	
+   192			vma = find_vma(mm, instruction_pointer(regs));
+   193	
+   194			/* Current execution context, the VMA must be present */
+   195			BUG_ON(!vma);
+   196	
+   197			/*
+   198			 * We cannot use vma_start_read() as it may fail due to
+   199			 * false locked (see comment in vma_start_read()). We
+   200			 * can avoid that by directly locking vm_lock under
+   201			 * mmap_lock, which guarantees that nobody can lock the
+   202			 * vma for write (vma_start_write()) under us.
+   203			 */
+ > 204			down_read(&vma->vm_lock->lock);
+   205	
+   206			mmap_read_unlock(mm);
+   207		}
+   208	
+   209		file = vma->vm_file;
+   210		if (!file)
+   211			goto out;
+   212	
+   213		if ((vma->vm_flags & VM_EXEC)) {
+   214			char buf[64];
+   215			const int bufsize = sizeof(buf);
+   216			char *path;
+   217	
+   218			memset(buf, 0, bufsize);
+   219			path = d_path(&file->f_path, buf, bufsize);
+   220	
+   221			/*
+   222			 * Depending on interpreter requested, valid paths could be any of:
+   223			 *   1. /system/bin/bootstrap/linker64
+   224			 *   2. /system/bin/linker64
+   225			 *   3. /apex/com.android.runtime/bin/linker64
+   226			 *
+   227			 * Check the base name (linker64).
+   228			 */
+   229			if (!strcmp(kbasename(path), "linker64")) {
+   230				vma_end_read(vma);
+   231				return true;
+   232			}
+   233		}
+   234	out:
+   235		vma_end_read(vma);
+   236		return false;
+   237	}
+   238	
 
 --
 0-DAY CI Kernel Test Service
