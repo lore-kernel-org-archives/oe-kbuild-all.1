@@ -1,127 +1,135 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E833793C6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 17:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4E548551F;
+	Thu,  6 Aug 2026 17:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786036399; cv=none; b=FUrAQspKUZ/GNn1l3l0I/ScacRXMQPqyBJrvdfS/PdG+N424TIOmk418eQMXlsSn6O00GH4QwdPnt46tpiBAB1RBzVaCCDMcfluTxvz3KcdE27sOEYfBJ3pPVcnoiLPar1PQP/XrMQ2nqlwuXwE+XBbSnTuKcRmdWknjVms0dXI=
+	t=1786036605; cv=none; b=MyeNtJuoMNwoIA5RqJPQ3mJ3d7t6Rnyc+VXVH69dhL4touCSNluC1uI5lrAI4LINraoZT6OYlBRByu/EH0c9bDRxSkmagGuX1Ke392bKUeENQy4tLy6J2AQPCWkxdiEzNp813W6uncZKMll1JbbBQb1ltlVwPzjwakrKwygfefk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786036399; c=relaxed/simple;
-	bh=q5uKfuQLoGtmdrRsn36ltCuoJ1Eo9bvxw7g7uBsegQY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gRdu3a5Ay8uMIeFn1c4vxIVEmavjJzTiZUFVRs1OYDMbfhYBuGhLjk1GzVbVn1hZhbLOITPLWPIpO4AQNiT1hslBfF21+5n0d6eESrWGmGaWbW5voQRg8f+X5jkyrNtjK/Kqw7mRWpz2g3jhyqHpZp7Jrc6sfNLTTzIjR+YK4eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id BC3461A0179;
-	Thu,  6 Aug 2026 17:13:15 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id CC4AA20026;
-	Thu,  6 Aug 2026 17:13:13 +0000 (UTC)
-Date: Thu, 6 Aug 2026 13:13:14 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>, oe-kbuild-all@lists.linux.dev, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [PATCH] tracing: Cleanup event_enable_trigger_parse() by using
- __free()
-Message-ID: <20260806131314.771bfaea@gandalf.local.home>
-In-Reply-To: <202608050839.Ip5dU0Jz-lkp@intel.com>
-References: <20260701174829.67ab8a33@gandalf.local.home>
-	<202608050839.Ip5dU0Jz-lkp@intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1786036605; c=relaxed/simple;
+	bh=4Sq8YIMSRTIO/KIInPj/Oe7HRtw9ynnJ/uLV9HMJ93o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J+tJ5WGQXXXic5qzCrJEqui8QI5AE4Mx5GV8BlRFw0f+PO1VB/qmwFjwPiiP72g9GMNmAbvkOEuDYHIQxO773vDkdIeZ2ncRX1Iopn9VyUWaroT2X8mFOZ7LmFWdXjazBx0hbXy7KzZ91mv+SDBpChW962nz5qM6/sl5xevAM+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k8fnCzEm; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8fnCzEm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786036603; x=1817572603;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4Sq8YIMSRTIO/KIInPj/Oe7HRtw9ynnJ/uLV9HMJ93o=;
+  b=k8fnCzEmu3NdXi2igGQ3wE5JvNVmeiUJcoajVnRR6coTRfZ8Kgnab1MW
+   h8vNLG7kKpWzhJJfUHQHer/iRE2LVh9OGYor48AC7ac9jc/B1NVtNK6O7
+   zL0olUomv1jKD+fyquZtmMJA2WelplqPfp0ZA8xMgr8XVGYwyAeprIJhI
+   DY3XkUnflATlHqaG2gLe648CFao5dFDcizFLzLl8lo8Pc/srzAVeJ76X3
+   ceICcyKC/GUhybkcuGMMhHhJh0VVwreYgyAiBkSORysQH3+uCNR8oGU0z
+   /U5RYO7tJbfVx4AAyD3ohqk67x4SL4dT9lTM4q01ExPneXAM/67eZpOhv
+   Q==;
+X-CSE-ConnectionGUID: Vp6f8VwhQlCwewOTCkwGaw==
+X-CSE-MsgGUID: zm2Rc5ZxTCCHF01fjgPYIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86514545"
+X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
+   d="scan'208";a="86514545"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 10:16:43 -0700
+X-CSE-ConnectionGUID: FntjmgNuRzatEE3aXcxpHA==
+X-CSE-MsgGUID: F6YmuKn/TtyoLNvdrgjv5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
+   d="scan'208";a="265645667"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2026 10:16:41 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1ws1hu-00000000FmD-3XcW;
+	Thu, 06 Aug 2026 17:16:38 +0000
+Date: Fri, 7 Aug 2026 01:15:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mirza Ishan Beg <seedandsyntax@gmail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, nikolayof23@gmail.com,
+	seedandsyntax@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: refactor traffic_stat access in
+ collect_traffic_statistics
+Message-ID: <202608070159.puVnOVxb-lkp@intel.com>
+References: <20260803144826.15980-1-seedandsyntax@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Stat-Signature: 3zxu5catii7wwqom4cwgc78hmyihubya
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: CC4AA20026
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18wntJ8eLTWdze1jVk+IAZAz1C3ntxvfDU=
-X-HE-Tag: 1786036393-324928
-X-HE-Meta: U2FsdGVkX1/rgBM+CLUsf9sxmKDuJo5inziZG8FyT956ybuU/wxkKtdKsjwuN6loKAowENvTchxhkRbEdbpilbQhc2k79pwiG5RtmbCVk75gDOpGchPH9BikICD75KL/R13ZLdazPxvb1bJo7KoYJ8Toj54MS0bCm8tRBA/6PJhpsDEgKcytiDYZdIHg5p6ylg/jq33OSszE9a6Hmvm0O4aqGNZAmnfQNzE8rvJiRwHqHBStkv8W6y0Oe3l6eZar28pZPQM5WLPDWKM6AM3hVcrXCcQ9DA14C2n1xYNi3bgSWGluvxnScTr6uG4iZF5g+BLUxvV9JQmGwCXJygzKG1ppZq5HlQn71yjm4ojabaJ3tEZFChwiQPBZhzWag4VTYV/Xs9aMMD9lXKlcYS7vU3wMiaScHAPxNL3rknYd4e+e/8Sqg7xAC7jwgk+1FDhMgdOySyo6ivt8y8BvBOTuC4d/BxgqEa27
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260803144826.15980-1-seedandsyntax@gmail.com>
+
+Hi Mirza,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mirza-Ishan-Beg/staging-rtl8723bs-refactor-traffic_stat-access-in-collect_traffic_statistics/20260806-062100
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260803144826.15980-1-seedandsyntax%40gmail.com
+patch subject: [PATCH] staging: rtl8723bs: refactor traffic_stat access in collect_traffic_statistics
+config: arm-randconfig-r051-20260806 (https://download.01.org/0day-ci/archive/20260807/202608070159.puVnOVxb-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070159.puVnOVxb-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608070159.puVnOVxb-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/rtl8723bs/core/rtw_cmd.c: In function 'collect_traffic_statistics':
+   drivers/staging/rtl8723bs/core/rtw_cmd.c:1112:28: error: initialization of 'struct traffic_stat *' from incompatible pointer type 'struct rtw_traffic_statistics *' [-Werror=incompatible-pointer-types]
+     struct traffic_stat *ts = &pdvobjpriv->traffic_stat
+                               ^
+   drivers/staging/rtl8723bs/core/rtw_cmd.c:1115:2: error: expected ',' or ';' before 'ts'
+     ts->tx_bytes = padapter->xmitpriv.tx_bytes;
+     ^~
+>> drivers/staging/rtl8723bs/core/rtw_cmd.c:1116:4: error: dereferencing pointer to incomplete type 'struct traffic_stat'
+     ts->tx_pkts = padapter->xmitpriv.tx_pkts;
+       ^~
+   cc1: some warnings being treated as errors
 
 
-Does the kernel test robot just keep on testing old versions of a patch?
-Sashiko discovered this issue and I made a v2 with a fix a week ago:
+vim +1116 drivers/staging/rtl8723bs/core/rtw_cmd.c
 
-  https://lore.kernel.org/all/20260727155459.202af38d@gandalf.local.home/
+  1108	
+  1109	static void collect_traffic_statistics(struct adapter *padapter)
+  1110	{
+  1111		struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
+  1112		struct traffic_stat *ts = &pdvobjpriv->traffic_stat
+  1113	
+  1114		/*  Tx */
+  1115		ts->tx_bytes = padapter->xmitpriv.tx_bytes;
+> 1116		ts->tx_pkts = padapter->xmitpriv.tx_pkts;
+  1117		ts->tx_drop = padapter->xmitpriv.tx_drop;
+  1118	
+  1119		/*  Rx */
+  1120		ts->rx_bytes = padapter->recvpriv.rx_bytes;
+  1121		ts->rx_pkts = padapter->recvpriv.rx_pkts;
+  1122		ts->rx_drop = padapter->recvpriv.rx_drop;
+  1123	
+  1124		/*  Calculate throughput in last interval */
+  1125		ts->cur_tx_bytes = ts->tx_bytes - ts->last_tx_bytes;
+  1126		ts->cur_rx_bytes = ts->rx_bytes - ts->last_rx_bytes;
+  1127		ts->last_tx_bytes = ts->tx_bytes;
+  1128		ts->last_rx_bytes = ts->rx_bytes;
+  1129	
+  1130		ts->cur_tx_tp = (u32)(ts->cur_tx_bytes * 8 / 2 / 1024 / 1024);
+  1131		ts->cur_rx_tp = (u32)(ts->cur_rx_bytes * 8 / 2 / 1024 / 1024);
+  1132	}
+  1133	
 
--- Steve
-
-
-On Wed, 5 Aug 2026 08:21:33 +0200
-kernel test robot <lkp@intel.com> wrote:
-
-> Hi Steven,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on trace/for-next]
-> [also build test WARNING on linus/master v7.2-rc6 next-20260804]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tra=
-cing-Cleanup-event_enable_trigger_parse-by-using-__free/20260805-073956
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace=
- for-next
-> patch link:    https://lore.kernel.org/r/20260701174829.67ab8a33%40gandal=
-f.local.home
-> patch subject: [PATCH] tracing: Cleanup event_enable_trigger_parse() by u=
-sing __free()
-> config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/202=
-60805/202608050839.Ip5dU0Jz-lkp@intel.com/config)
-> compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260805/202608050839.Ip5dU0Jz-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202608050839.Ip5dU0Jz-lkp=
-@intel.com/
->=20
-> All warnings (new ones prefixed by >>):
->=20
->    In file included from ./include/linux/file.h:13,
->                     from ./include/linux/kernel_read_file.h:5,
->                     from ./include/linux/security.h:26,
->                     from kernel/trace/trace_events_trigger.c:8:
->    kernel/trace/trace_events_trigger.c: In function 'event_enable_trigger=
-_parse':
-> >> ./include/linux/cleanup.h:228:22: warning: ignoring return value of '_=
-_must_check_fn' declared with attribute 'warn_unused_result' [-Wunused-resu=
-lt] =20
->      228 |         ((typeof(p)) __must_check_fn((__force const volatile v=
-oid *)__get_and_null(p, NULL)))
->          |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    kernel/trace/trace_events_trigger.c:1842:9: note: in expansion of macr=
-o 'no_free_ptr'
->     1842 |         no_free_ptr(enable_data);
->          |         ^~~~~~~~~~~
->=20
->=20
-> vim +228 ./include/linux/cleanup.h
->=20
-> 85be6d84244706 Peter Zijlstra 2023-08-15  226 =20
-> 54da6a0924311c Peter Zijlstra 2023-05-26  227  #define no_free_ptr(p) \
-> 366fef794bd2b7 Ilpo J=C3=A4rvinen  2025-03-10 @228  	((typeof(p)) __must_=
-check_fn((__force const volatile void *)__get_and_null(p, NULL)))
-> 54da6a0924311c Peter Zijlstra 2023-05-26  229 =20
->=20
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
