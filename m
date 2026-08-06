@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A55E3AA19B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 01:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA01369D43;
+	Thu,  6 Aug 2026 01:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785978997; cv=none; b=OFqCgA8nF/ym2daY+D4rpUvVaIScnGd6zGEGlbMYAHrLTJk9ymygW+YR7QesWV5sJPkzgMKsIGNFIrPCT4hih9A12e3HN++ivi4AatjWsu3bUOwcqKtQbJA3uvf52Ce0HjvmZZDITweVjN4PdFgosZZp8VIYdenlEiNg6G9XTAk=
+	t=1785979665; cv=none; b=mLj272JKSn1tXf2cyGGT2DSM091MC13jo7McQhbKKA1OE7yEqlhJH99SdQH0zS3YWt5NJU5KLbrx7hq/OWY/odI5TKcdzIbwQezzGq4UGhCN9x5TCuADZqzYDJi7yIDBMKPdIMF7GpKj0m6x3L2PjVsGKUKI20QPcfUfPb08Xzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785978997; c=relaxed/simple;
-	bh=3/2WHbRB3qn6wmWMcXTmqFuRaTyDnA/ClCHZXpfomCg=;
+	s=arc-20240116; t=1785979665; c=relaxed/simple;
+	bh=LJr84/ufAH8R/Sxi/uyEeNl1mRm+h/wTBaV2da/pzyc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=abu/KJyw4TD0SgXUq4A12zsTl+ofu5YgOyhPhNWwu2Gs7YfGF0fgFxTs01W2M8vbI4uih+OnQv6ZPlCsmYi7uAkOsEPYN9zKkeLD9pXvcTF+svqnXMmuRXQZvdQmUjUOqq/YI4KfmzDa4/++ovP7aPprdsN9dbqet3inFy6Q2Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=blXcvACa; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=fpgMnpWy+92qIbSqbAsn+UY2y8rNB3oOlsN3lwgQBgdcmuCUuOmzajBYpGwgPbOBjJNX9GsCXIDfc/4zG2QU+OYfc/xa7QueSxwU4uJ5CdOa1tyK32oWGfwdhrIa7UqQeiQx27K6iFVsDRX8By30tqs0OVb91GEQNOfyI/NwTf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4Aon/6S; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="blXcvACa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4Aon/6S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785978995; x=1817514995;
+  t=1785979664; x=1817515664;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3/2WHbRB3qn6wmWMcXTmqFuRaTyDnA/ClCHZXpfomCg=;
-  b=blXcvACaQ5lBJpbn5Yjkh4eNDgMT9SJCElLyaok3MLZZdN0bEXScm7jx
-   NbmGDmSQ/6MvA2Fl1UZGM21NnM+31H9AJQD7Bij3F2hDMAqMjgl+j2xTA
-   aJWbt1IYXyo5/+pJPfiB6FTRdzemd00yCKu3A2IRayRvptgb9L9lPA6L2
-   RxBHDyep10nBUVqf0aTHBgpH4E1dG3/cnV22Ey+OfvlmebjK+24X12gnP
-   tGA/dFx3G1DbTbDs9jntK8ArfHL5ODo+9ejFcj0F+IjSS0c1l2pX4h6M1
-   pfwHkDLh++XquO9KNU8RoNy9JKGFD3FoFCE14YjhSrCWVkUUBmMNhisZW
-   g==;
-X-CSE-ConnectionGUID: Yg0KHyFdTqClvE6oK+1KIg==
-X-CSE-MsgGUID: wgeIR0yCQ/yGBa1bh/Aq6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="103967890"
+  bh=LJr84/ufAH8R/Sxi/uyEeNl1mRm+h/wTBaV2da/pzyc=;
+  b=O4Aon/6S9jqsBYQJ4LgjnfxMhUCzvxPfU9u8LbdJo8SOYw2Ii1O4j0YN
+   riuRnVERd9P5eMFmKLUSRGq9/LJkG/GUpPWOT+0ITUR3xQQco8e8xguvn
+   qZDYUCN7cw+D6njpUa8QpJsKneJfRNCpvxbdMNCGp5JxUUAUSyK3aFlFP
+   2BE40Ww4y1S/9pfu57pI1jvv7TgrJRNQeyp7NUaShDfaby98/wCK8z9TZ
+   GBFzBMmQxygA4/WIEsohDWLHXa62Gxnd5++rS9tTKlcY2aEigydrNGARY
+   36kw05R8Y8H7DBrqfnIgdCPy3ZOJBZ5Xg0VzHtbacHjnmOmgtaWqnrrA1
+   A==;
+X-CSE-ConnectionGUID: SQIz7OoaS3itKXoKDgCRjA==
+X-CSE-MsgGUID: gbcmngchSD++aejbI48aGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86594415"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="103967890"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 18:16:34 -0700
-X-CSE-ConnectionGUID: ov2u0TipTg+IML3KzrgeWQ==
-X-CSE-MsgGUID: MCevZ67pSvGO6SWqd9GfBw==
+   d="scan'208";a="86594415"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 18:27:43 -0700
+X-CSE-ConnectionGUID: y3zXd28/Tca7ZVV8+p6mmw==
+X-CSE-MsgGUID: C5nXk/HJTVSKkuH1op5EzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="260182500"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 05 Aug 2026 18:16:33 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="267098328"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 05 Aug 2026 18:27:42 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrmil-000000004XC-1IdO;
-	Thu, 06 Aug 2026 01:16:31 +0000
-Date: Thu, 6 Aug 2026 03:16:10 +0200
+	id 1wrmtX-00000000Dt7-2dgn;
+	Thu, 06 Aug 2026 01:27:39 +0000
+Date: Thu, 6 Aug 2026 09:27:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin Willi <martin@strongswan.org>,
-	Eric Biggers <ebiggers@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org
-Subject: Re: [PATCH] lib/crypto: x86/chacha: Add a 16-block AVX-512 variant
-Message-ID: <202608060312.gxywEDwl-lkp@intel.com>
-References: <20260722153247.630519-1-martin@strongswan.org>
+To: Pablo Neira Ayuso <pablo@netfilter.org>,
+	netfilter-devel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, fw@strlen.de,
+	ericwouds@gmail.com
+Subject: Re: [PATCH nf-next,v5] netfilter: flowtable: initial bridge support
+Message-ID: <202608060907.TfJm13ei-lkp@intel.com>
+References: <20260713123650.1656551-1-pablo@netfilter.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,59 +64,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260722153247.630519-1-martin@strongswan.org>
+In-Reply-To: <20260713123650.1656551-1-pablo@netfilter.org>
 
-Hi Martin,
+Hi Pablo,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linux-review/Eric-Biggers/x86-fpu-Check-for-missing-AVX-and-AVX-512-xstate-bits/20260626-124221]
+[auto build test ERROR on netfilter-nf/main]
+[also build test ERROR on nf-next/main linus/master v7.2-rc6 next-20260805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Willi/lib-crypto-x86-chacha-Add-a-16-block-AVX-512-variant/20260805-221950
-base:   https://github.com/intel-lab-lkp/linux Eric-Biggers/x86-fpu-Check-for-missing-AVX-and-AVX-512-xstate-bits/20260626-124221
-patch link:    https://lore.kernel.org/r/20260722153247.630519-1-martin%40strongswan.org
-patch subject: [PATCH] lib/crypto: x86/chacha: Add a 16-block AVX-512 variant
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260806/202608060312.gxywEDwl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060312.gxywEDwl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-flowtable-initial-bridge-support/20260805-124729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20260713123650.1656551-1-pablo%40netfilter.org
+patch subject: [PATCH nf-next,v5] netfilter: flowtable: initial bridge support
+config: loongarch-randconfig-001-20260806 (https://download.01.org/0day-ci/archive/20260806/202608060907.TfJm13ei-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060907.TfJm13ei-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608060312.gxywEDwl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608060907.TfJm13ei-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from lib/crypto/chacha.c:35:
-   lib/crypto/x86/chacha.h: In function 'chacha_mod_init_arch':
->> lib/crypto/x86/chacha.h:199:29: error: implicit declaration of function 'cpu_has_xfeatures'; did you mean 'cpu_have_feature'? [-Wimplicit-function-declaration]
-     199 |                             cpu_has_xfeatures(XFEATURE_MASK_AVX512, NULL))
-         |                             ^~~~~~~~~~~~~~~~~
-         |                             cpu_have_feature
+>> net/netfilter/nft_flow_offload.c:153:21: error: call to undeclared function 'nf_bridge_info_exists'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     153 |         if (!pkt->flags || nf_bridge_info_exists(pkt->skb))
+         |                            ^
+   1 error generated.
 
 
-vim +199 lib/crypto/x86/chacha.h
+vim +/nf_bridge_info_exists +153 net/netfilter/nft_flow_offload.c
 
+   138	
+   139	static void nft_flow_offload_bridge_eval(const struct nft_expr *expr,
+   140						 struct nft_regs *regs,
+   141						 const struct nft_pktinfo *pkt)
+   142	{
+   143		struct nft_flow_offload *priv = nft_expr_priv(expr);
+   144		struct nf_flowtable *flowtable = &priv->flowtable->data;
+   145		struct tcphdr _tcph, *tcph = NULL;
+   146		enum ip_conntrack_info ctinfo;
+   147		struct flow_offload *flow;
+   148		enum ip_conntrack_dir dir;
+   149		struct nf_conn *ct;
+   150		int ret;
+   151	
+   152		/* Is this a non-IP packet or br_netfilter? If so, skip. */
+ > 153		if (!pkt->flags || nf_bridge_info_exists(pkt->skb))
+   154			goto out;
+   155	
+   156		ct = nf_ct_get(pkt->skb, &ctinfo);
+   157		if (!ct || !nf_ct_is_confirmed(ct))
+   158			goto out;
+   159	
+   160		/* Unlikely, conntrack bridge should not see neither helpers nor NAT in
+   161		 * the bridge forward path.
+   162		 */
+   163		if (nf_ct_ext_exist(ct, NF_CT_EXT_HELPER) ||
+   164		    ct->status & (IPS_SEQ_ADJUST | IPS_NAT_CLASH))
+   165			goto out;
+   166	
+   167		switch (ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.dst.protonum) {
+   168		case IPPROTO_TCP:
+   169			tcph = skb_header_pointer(pkt->skb, nft_thoff(pkt),
+   170						  sizeof(_tcph), &_tcph);
+   171			if (unlikely(!tcph || tcph->fin || tcph->rst ||
+   172				     !nf_conntrack_tcp_established(ct)))
+   173				goto out;
+   174			break;
+   175		case IPPROTO_UDP:
+   176			break;
+   177		default:
+   178			goto out;
+   179		}
    180	
-   181	#define chacha_mod_init_arch chacha_mod_init_arch
-   182	static void chacha_mod_init_arch(void)
-   183	{
-   184		if (!boot_cpu_has(X86_FEATURE_SSSE3))
-   185			return;
-   186	
-   187		static_branch_enable(&chacha_use_simd);
-   188	
-   189		if (boot_cpu_has(X86_FEATURE_AVX) &&
-   190		    boot_cpu_has(X86_FEATURE_AVX2)) {
-   191			static_branch_enable(&chacha_use_avx2);
-   192	
-   193			if (boot_cpu_has(X86_FEATURE_AVX512VL) &&
-   194			    boot_cpu_has(X86_FEATURE_AVX512BW)) { /* kmovq */
-   195				static_branch_enable(&chacha_use_avx512vl);
-   196	
-   197				if (boot_cpu_has(X86_FEATURE_AVX512F) &&
-   198				    !boot_cpu_has(X86_FEATURE_PREFER_YMM) &&
- > 199				    cpu_has_xfeatures(XFEATURE_MASK_AVX512, NULL))
+   181		if (test_and_set_bit(IPS_OFFLOAD_BIT, &ct->status))
+   182			goto out;
+   183	
+   184		flow = flow_offload_alloc(ct);
+   185		if (!flow)
+   186			goto err_flow_forward;
+   187	
+   188		dir = CTINFO2DIR(ctinfo);
+   189		if (nft_flow_bridge(flow, pkt, dir, priv->flowtable) < 0)
+   190			goto err_flow_add;
+   191	
+   192		if (tcph)
+   193			flow_offload_ct_tcp(ct);
+   194	
+   195		__set_bit(NF_FLOW_HW_BIDIRECTIONAL, &flow->flags);
+   196		ret = flow_offload_add(flowtable, flow);
+   197		if (ret < 0)
+   198			goto err_flow_add;
+   199	
+   200		return;
+   201	
+   202	err_flow_add:
+   203		flow_offload_free(flow);
+   204	err_flow_forward:
+   205		clear_bit(IPS_OFFLOAD_BIT, &ct->status);
+   206	out:
+   207		regs->verdict.code = NFT_BREAK;
+   208	}
+   209	
 
 --
 0-DAY CI Kernel Test Service
