@@ -1,130 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F43C381E91;
-	Thu,  6 Aug 2026 04:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE9838B157
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 05:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785990585; cv=none; b=oX1C9q3hkUQsTm7WEPqRC21iu1pzX+1BO4ej+fMVfvdyNz8oedmpaj9/szODmIjKhe+G7CgMhaNqZ+QzVHVbUgZcY5OLDKYplCbCucVwi6piYbbXtx+5jaYHxgPULk3MfMml6Gz4NmCmvOmBSL8pD7wdGpwTBZPmqvm+7ONtOog=
+	t=1785994183; cv=none; b=I4bEQYaHFi1qe2cZ1p1HTkuoyIxQLGePzx/e26vrN8LK1JVelaPblLw0UXcX8ecmKB04tHh2u5QsDGHCcDII9WQup08T7dgi1uR72rtkW9iuClFGKtIoOgLCE+DajWtmgN8f+Hx79Mvlf+jVAm6F2Isqct5GYiXboOFq2XujLqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785990585; c=relaxed/simple;
-	bh=7CW8Mojz4tTHJtxhvNY+//zqS7ohbSQ0PPY1CWQ9nuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GZyqWGuGZlUfgX9i29RgiSIB1psghta34rY74nkgcw0XjEsaaQhvKIQKv20RxUD3r73W1W9ZofALRXs8OMkTFApATHwO74IxfV8XJiKjYks0HzP2E2yVyrnFrJBDXOZqf3aVmQzDE5+/ilcRHTXF9VFA1qCH/e5Po0Up8Sxszn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eU2U0F9G; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1785994183; c=relaxed/simple;
+	bh=Fovh6bD5AqyWdBfql5Js6S58p2kVwKnI+PZxSD/xajQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YnFSLVgJ7pyREGwVlZWRC2ZmntRV0gswOGbExAACzx3wwM3u2Q5TcdNVyy2ab9FaYQuayaYLa3lgNSEWwk2iAa0AOjnaE/BLPH+t8znn2I29vPcziK58txcWqF5JfEnAg6QZXkd89vaJfoaTPSEL3iB45zZNL3IgadxA5q55d2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TkktA+vT; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eU2U0F9G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TkktA+vT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785990582; x=1817526582;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7CW8Mojz4tTHJtxhvNY+//zqS7ohbSQ0PPY1CWQ9nuM=;
-  b=eU2U0F9GJYZY8d8wEFlkC/8UqNst6f/8uJ8NO2A2cj2awtdv0lW5Fii2
-   y/aITJaTQ1emYWn0ZYg7is+S3gl6J+voBu2Cbsa2T20zv0iaAIk10KSW+
-   4aRaU52SrH10+ynVrmKLOklQ46AMD0p8i5p49O9qwzFZ8ZhmNZNrsumPO
-   Mf4sxxmHb/aKcd5ZDK9KrPIPJD3eETRWnxw4fL6WEpN4xyY0LLGEnIFHy
-   Im5Lj5EX5nU/EZmhjtfWo7NFKIY9vaheKeCEW1Y1Uc6LG9+RVKbcQjxo5
-   3KwnNle2+q629LXL0ZQUQMsd615emfJNlz/OhcTm4pfNWjd5OrPb1OZlM
+  t=1785994181; x=1817530181;
+  h=date:from:to:cc:subject:message-id;
+  bh=Fovh6bD5AqyWdBfql5Js6S58p2kVwKnI+PZxSD/xajQ=;
+  b=TkktA+vTyPFF12FBgGIEESh/B8IYIc1Uk61Myd36GuzXMVkEdSkPC33h
+   iM1cgcw/FPILgYmuSOKC+ddtyCvDlyL4vgu9BMsJEhoOYqQCvzWJ2qkSh
+   73YsuWq2whNVOwk+O+krrxpicjLEl4RC3MmDzlMwKK6SF5xwAxJvBaz5/
+   zUKqE7/TBqZSw9vVa4n/4aiz9HVgDQp27Te4eNdrTDczZMD6aR7gIv6OI
+   kDMFZRQVIHMV31HFO115AHVcfSVIG2+UTZK8Eh/yTIRvDnMcmbYq2Oclx
+   Bg9+nFpi0TqaeP8HAOgEAJ8OmWiNf1e6kNn45aSeS9LsFLqMUOFv7BlzL
    Q==;
-X-CSE-ConnectionGUID: I3MJhHhRSzeT+/wtxIvdxw==
-X-CSE-MsgGUID: m5aBEMBxQ5qiv6RnB+jLHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="85700024"
+X-CSE-ConnectionGUID: wyY1mKjeSaiktCKYZlnKOw==
+X-CSE-MsgGUID: 1tzfQxXBQ1etR2zfG7HmnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86432755"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="85700024"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 21:29:42 -0700
-X-CSE-ConnectionGUID: mLQTR0OkQ/2wCOMWalBDJQ==
-X-CSE-MsgGUID: rBVBeQQARBiEmx1VFZ4j5w==
+   d="scan'208";a="86432755"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 22:29:40 -0700
+X-CSE-ConnectionGUID: qGmabeXeTYOkT1B/Ta3Ejg==
+X-CSE-MsgGUID: qoDXfeMYTnS3zLNo4fWBsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="257693647"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Aug 2026 21:29:39 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="265844539"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 05 Aug 2026 22:29:39 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrpjc-00000000E8v-0vnM;
-	Thu, 06 Aug 2026 04:29:36 +0000
-Date: Thu, 6 Aug 2026 12:29:05 +0800
+	id 1wrqfd-000000004Yw-2OVh;
+	Thu, 06 Aug 2026 05:29:33 +0000
+Date: Thu, 06 Aug 2026 07:29:11 +0200
 From: kernel test robot <lkp@intel.com>
-To: Bert Karwatzki <spasswolf@web.de>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Bert Karwatzki <spasswolf@web.de>,
-	linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	amd-gfx@lists.freedesktop.org,
-	"# = v7 . 1" <stable@vger.kernel.org>,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Rafal Ostrowski <rafal.ostrowski@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with
- PREEMPT_RT
-Message-ID: <202608061233.eufnR5Qm-lkp@intel.com>
-References: <20260801071724.12998-1-spasswolf@web.de>
+To: xiane <sangch.go@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-7.2.y 21/58]
+ arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: lcd: lcd-rst-gpio:
+ {'rockchip,pins': [[2, 22, 0, 180]], 'phandle': 86} is not of type 'array'
+Message-ID: <202608060716.QcwxCnQs-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260801071724.12998-1-spasswolf@web.de>
 
-Hi Bert,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20260804]
-[cannot apply to drm-misc/drm-misc-next linus/master v7.2-rc6 v7.2-rc5 v7.2-rc4 v7.2-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bert-Karwatzki/drm-amd-display-fix-usage-of-DC_FPU_-BEGIN-END-with-PREEMPT_RT/20260805-170330
-base:   next-20260804
-patch link:    https://lore.kernel.org/r/20260801071724.12998-1-spasswolf%40web.de
-patch subject: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260806/202608061233.eufnR5Qm-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061233.eufnR5Qm-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-7.2.y
+head:   d2521cc718fa5ae45bdc48f40517b76d2753a185
+commit: 7ab68102b150b3a92c03aec7e7651d42796a5d3d [21/58] ODROID-M1: arm64/dtbs: update mipi dsi stuffs
+config: arm64-randconfig-2054-20260803 (https://download.01.org/0day-ci/archive/20260806/202608060716.QcwxCnQs-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ade128740327db281859708ddcb3b072903b3414)
+dtschema: 2026.7.dev1+g2203c1720
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060716.QcwxCnQs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608061233.eufnR5Qm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608060716.QcwxCnQs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.c: In function 'dc_create_plane_state':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.c:89:9: error: implicit declaration of function 'DC_RUN_WITH_PREEMPTION_ENABLED' [-Wimplicit-function-declaration]
-      89 |         DC_RUN_WITH_PREEMPTION_ENABLED(plane_state = kvzalloc_obj(*plane_state, GFP_ATOMIC));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/DC_RUN_WITH_PREEMPTION_ENABLED +89 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.c
-
-    82	
-    83	/*******************************************************************************
-    84	 * Public functions
-    85	 ******************************************************************************/
-    86	struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
-    87	{
-    88		struct dc_plane_state *plane_state;
-  > 89		DC_RUN_WITH_PREEMPTION_ENABLED(plane_state = kvzalloc_obj(*plane_state, GFP_ATOMIC));
-    90	
-    91		if (NULL == plane_state)
-    92			return NULL;
-    93	
-    94		kref_init(&plane_state->refcount);
-    95		dc_plane_construct(dc->ctx, plane_state);
-    96	
-    97		return plane_state;
-    98	}
-    99	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts:274.11-278.6: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/ports/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts:709.27-723.4: Warning (i2c_bus_reg): /i2c@fe5d0000/touchscreen: missing or empty reg property
+   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:1351.21-1362.4: Warning (avoid_unnecessary_addr_size): /i2c@fe5d0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: lcd: lcd-rst-gpio: {'rockchip,pins': [[2, 22, 0, 180]], 'phandle': 86} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: lcd: touch-gpios: {'rockchip,pins': [[4, 8, 0, 182], [0, 20, 0, 182]], 'phandle': 130} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
 
 --
 0-DAY CI Kernel Test Service
