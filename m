@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5137185B48
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 02:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2172D2B2D7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 03:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785983537; cv=none; b=gS2pNBe8heO6aKTJ0cNLAj5rvNhWraeToiwU6wUjUrdlznE7YznCqLa/rPAYuKRUeQk4wJ5sR5CjNXdsftOieSyNgzHhcdMmOQLycXASP6o9T7EFnu/xdn6lQRv+cJCZoEJqJnrT+W4WxSlho/AY4DwzjA/9yFn6XgHMgap8Mio=
+	t=1785988042; cv=none; b=ebvIztNlYYV2ljvZFTNcuiKr9jyKSUJ6NLrCRGjwGLntcekmby1k0oaOA2vFKBer3AJwbZL+qdrcdm3hNdcvxEzpnA9NWXnkcLN+mYSLXRiemL55uefwTA41rT6VfPpyS5o+7B8tP83+QKzQ/YJwL6o01wIk+3M6Jv6OzFKB6xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785983537; c=relaxed/simple;
-	bh=xYiRyhrWKnKgyxY25qEou2HXPHwQ3gtXdcL8qy3+YwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qJeDMHjz1PyZ+8outfHCjl2BbVAQ2gg14IEMHC60M+2wMwbLVoIB3wD3l7yXKrXkH283q4ifcthzDwzpEmWey86HcE0A0e3FS9tgZz0DOyQUyZwU/+9gAIFH4bmUZ575dzEOYyD2w22tZ9y/3Pkje0tTium36cAhgHxAsgXnaJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KwjEv9xJ; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1785988042; c=relaxed/simple;
+	bh=YV/LG0mbD33I8t70Ir8HOGAPrSgF/Y6zhb7mCrvgOOY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ftFQk8JJNBbP0YTQbXLfNSQKejzRu2e3uavsTkLAK1WQ4VNXmS3M1AUnAvUc7aHWAW9WfZye5W/u7eAH1P6iwvPzVtvmhxL+UcfzWS7Vk8LaW/hAPqADWQVv2brvJ1Dz1Pzwepjkj9+yFe8eeohvOksrdBc4HUJDZQdM5/Afyak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bamLqDC4; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KwjEv9xJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bamLqDC4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785983535; x=1817519535;
+  t=1785988040; x=1817524040;
   h=date:from:to:cc:subject:message-id;
-  bh=xYiRyhrWKnKgyxY25qEou2HXPHwQ3gtXdcL8qy3+YwQ=;
-  b=KwjEv9xJdjrxARLDkpGZZMIqqusrFOsMVBU0xdzzEhtf++srsjzCm5Wa
-   uKUIK3h+xZs6muOlP5IKEMnsiDlpKBq10VnXm2VUdyQ/ShFQITVgwL1zb
-   UJGrcB4O6Vz5nJogwBCHCCxMeqpH2rMH7cw884kfvXQkAzDzxg6frsZRE
-   0fv6SSFWILZU8w6uYyss5PFDJiVjvYeTO+OOOvg0xJamC7MkX9UE2QgyN
-   qH2MfujuOypMRsvoxbDDLesxIj0aKytMBtvUECz6ItdPmdIO6/IwQiit/
-   mK+Lj9EDSjZ4a3KfdWnXs138h43uIV3sks/zefoA/NqQz2C7nEqi20MoD
-   w==;
-X-CSE-ConnectionGUID: IvHMW1YASLuB8EfNOWpEAg==
-X-CSE-MsgGUID: +UG+U85yT8uFitBSOgtCNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="98080994"
+  bh=YV/LG0mbD33I8t70Ir8HOGAPrSgF/Y6zhb7mCrvgOOY=;
+  b=bamLqDC43cD+tPaj2aW6s+Gw0/tIbU9Bh7BsiLxUGmXpqGSdEHjzaPGu
+   iYCTLGtWIaUv258F+8Qt47asncQkoPg1ELqywPJaB/UugbWkLsW0+f3sa
+   /mn1rB7M8mOKCJPHRjWlrzdtY7ZVu2e5XWphIrEFVSWBtVV/gfmYf3IUQ
+   4SBz7QY3notMibqHTYqdspGJK9A8DPtuaM5+krcnXHU845JQ5/cjOlJEr
+   xlBgTwxuRimHiptKYo/Izvq/bzo0G8hxRW7Sqp6mE+WYhP5M3vXoLTjrP
+   qXFq9LzgMCp6jxdszJKFFtRqtKXzEgNbbgUdg6e2ApNN2p07IStSNLldb
+   Q==;
+X-CSE-ConnectionGUID: aaPU85qhSGi84ZUJ2BOiTg==
+X-CSE-MsgGUID: jsnNJxwrSjqdw3BJlTr7hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="74109358"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="98080994"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 19:32:15 -0700
-X-CSE-ConnectionGUID: X9fQQ/iQTC64gAus09ygfA==
-X-CSE-MsgGUID: zE8+PQ1PRmCoXdo6y7ME5w==
+   d="scan'208";a="74109358"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 20:47:19 -0700
+X-CSE-ConnectionGUID: UAqRqN90QjmYBqzwmrBfcA==
+X-CSE-MsgGUID: LTNjWVPVRHi5oT5JQ1PzZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="262587039"
+   d="scan'208";a="263969354"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Aug 2026 19:32:13 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Aug 2026 20:47:17 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrntw-00000000Dz1-31HK;
-	Thu, 06 Aug 2026 02:32:08 +0000
-Date: Thu, 06 Aug 2026 10:31:43 +0800
+	id 1wrp4b-00000000E3d-2dJe;
+	Thu, 06 Aug 2026 03:47:13 +0000
+Date: Thu, 06 Aug 2026 11:44:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: ld: lontium-lt9611uxc.c:undefined reference to
- `drm_connector_hdmi_audio_plugged_notify'
-Message-ID: <202608060903.vKw3g0Q9-lkp@intel.com>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/170-atc 2/2] Warning:
+ drivers/phy/apple/atc.c:677 struct member 'hw' not described in
+ 'apple_atcphy'
+Message-ID: <202608061148.4HXAM5PQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,25 +60,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0d839570765118029aa8bf4a95444c6a11aacf85
-commit: c08c123d4cd6ec3ee482d607e29388d0db2d3f1d drm/bridge: lontium-lt9611uxc: switch to HDMI audio helpers
-date:   7 months ago
-config: i386-buildonly-randconfig-005-20260806 (https://download.01.org/0day-ci/archive/20260806/202608060903.vKw3g0Q9-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608060903.vKw3g0Q9-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/170-atc
+head:   24065f2feb4d9cd6ac1e2f4c8c229d1370073d9d
+commit: 24065f2feb4d9cd6ac1e2f4c8c229d1370073d9d [2/2] phy: apple: atc: Add initial M3 series support
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260806/202608061148.4HXAM5PQ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061148.4HXAM5PQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c08c123d4cd6 ("drm/bridge: lontium-lt9611uxc: switch to HDMI audio helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608060903.vKw3g0Q9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061148.4HXAM5PQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/gpu/drm/bridge/lontium-lt9611uxc.o: in function `lt9611uxc_bridge_hpd_notify':
-   lontium-lt9611uxc.c:(.text+0x44f): undefined reference to `drm_connector_hdmi_audio_plugged_notify'
->> ld: lontium-lt9611uxc.c:(.text+0x482): undefined reference to `drm_connector_hdmi_audio_plugged_notify'
+>> Warning: drivers/phy/apple/atc.c:677 struct member 'hw' not described in 'apple_atcphy'
+>> Warning: drivers/phy/apple/atc.c:677 struct member 'hw' not described in 'apple_atcphy'
 
 --
 0-DAY CI Kernel Test Service
