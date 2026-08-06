@@ -1,65 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090F3488D9C;
-	Thu,  6 Aug 2026 20:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD123E169F;
+	Thu,  6 Aug 2026 20:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786046740; cv=none; b=hNhSFFI/DpwCpmkp0qUEg1pnwIvM6JB37DDMlVNPqYfXBXqqup9n5JUnn9RWMcJ3PY/PufctyhiX97MN3hCa/vHOEkyi994hf/Fo0MAImtazO+lDYm8BfEr4ajSBotnQzQcM4ogxp098HFFOG6h63Y45+VSiiT5sGhbbAcWHwtM=
+	t=1786047528; cv=none; b=PkNtyLnWbdZU3dtl8ngkowFtLShpsRHaCDRy/qQZyt2DsiMOGFdoHxbo63hsjckwwtMyRUpD3+H9mKjQ1Hv6Qk5cXYG+WUiq7ONsQ3/g/E5/1UaPsjCUTXmDgNWYSa872+dStawTV6rSN6K+Ph6pybYJgH/g/YEUEWrmsTgZp4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786046740; c=relaxed/simple;
-	bh=ECQppSPi7hZBE855UOuyJolqE0BmrFQhmS4e8OtJaJk=;
+	s=arc-20240116; t=1786047528; c=relaxed/simple;
+	bh=Q4n7hXRBRwy3fJL4Bzki5M+KpFlWVDk50guP03iJCxI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BfikqDvAp3+GO9O7LP5IzvjWtm8Bp7ErkymLJ4jWj6rjHPhhU4kx6ecZHC0AWFCy45kTW1O3tSwajmcw4bCMSfQir4bCa1KiTuo1YNiaXcP0pHl26D8FS3/C8r/iqXb6InIbKJ/ugz8J/F9KqEeSNMmHtqomsyk56dYoQTuq7sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWKmf77B; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=rVrT4Xez7Tfhn/9enghctDhmtwrzo4IeE0NVwgbsHIBp+bQiLVBGfGlPARXPjyiKB/bFiyX80m3UrjMM71MbN8YKPVH5zic0aO4xjJGSaY9xUbs+chyezjbAJeKZVW+7O72fcxLFltZR87NybNq788doTZqjf/5ndivIIMZP60g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BgLH83+f; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWKmf77B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BgLH83+f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786046732; x=1817582732;
+  t=1786047525; x=1817583525;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ECQppSPi7hZBE855UOuyJolqE0BmrFQhmS4e8OtJaJk=;
-  b=gWKmf77BZnpyzZgXzop0ks9WrGSd61XWlMpp4lKNszd2bjRUsvQ8RTaS
-   pYvYZSn/0zpDdbAVuPdXOfSBzEYiFhbI/P3GvJLUzbM+YNvcoGXuB+UL6
-   g80gSW1HSh8HU/kCQS0GykvFVpsa1WOEFAkWCxNpZHnU7OZW5WWNBNckp
-   CoCD3YI26HyTclXNDhdyDcCWWbxF3QQzITqC+5TajG2r/RRekj3Kl2+jZ
-   4lJpRzNqMOOgal7dNwx3xC1KQUejtEMHeu6lmVzfQrSBffdrHUjHlBjfQ
-   WJfzuDrwHcenWIq+v0ArOVqEMOsWgJfbjiBwRzJsg+bUU1bihtMqgnEYG
+  bh=Q4n7hXRBRwy3fJL4Bzki5M+KpFlWVDk50guP03iJCxI=;
+  b=BgLH83+fTJP+3PNReze2pi4jNJ3CVWI+FyPjMeNFglNxXdq+FAyY7H8X
+   ONX342qhI+ehwo5inUNRhld0qIdymODykHkFV5va0zxV6mmO6V60PBkIW
+   bHOYykKreh7whBedJfcH+ZIA/Gxo/p4U4wMxaJ/NASp88i/EYjwmjrHWr
+   c2d1BWWiNrwoXaHh09UKXHZIUJdDgb0JaWfiO8LvMdic97JZvgWXIiE9C
+   Av3ZUGk6kuBIV5XwS7GkNUN2o4jEr9R6Wn+JYii57NEzjbEgGMMih0S5K
+   7yl0rhYxmPTIIyX6HCgT5V0sAWEW8wVagfG0+4vOVv1lmmIVUa838epdh
    A==;
-X-CSE-ConnectionGUID: lw1RdmL4Q3GNnSL0JDd08w==
-X-CSE-MsgGUID: PoliwxIjRKKUtk8rr2+wgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97809613"
+X-CSE-ConnectionGUID: bV569a2zT3aNy1e5fBtmNA==
+X-CSE-MsgGUID: BvQkRcGTR8WVH4njzvsWTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86663176"
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="97809613"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 13:05:26 -0700
-X-CSE-ConnectionGUID: kbkXwKR2TzaaboL6xfEBgw==
-X-CSE-MsgGUID: NUNlK8DoQEW2G6Lb2TqzoQ==
+   d="scan'208";a="86663176"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 13:18:42 -0700
+X-CSE-ConnectionGUID: SLixt9vrQtmzgmNLYssxow==
+X-CSE-MsgGUID: ORlMbwbLQ169NRIlkmHepA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="265681054"
+   d="scan'208";a="285572421"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2026 13:05:23 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 Aug 2026 13:18:40 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ws4LA-00000000G8r-4A5R;
-	Thu, 06 Aug 2026 20:05:20 +0000
-Date: Fri, 7 Aug 2026 04:04:46 +0800
+	id 1ws4Y1-00000000G9p-3dzZ;
+	Thu, 06 Aug 2026 20:18:37 +0000
+Date: Fri, 7 Aug 2026 04:17:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin Weiss <martin.githubacc@gmail.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Martin Weiss <Martin.weiss2410@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH] trace_branch: use per-cpu counters for correct/incorrect
- stats
-Message-ID: <202608070317.EiUZyapo-lkp@intel.com>
-References: <20260629095838.601926-1-Martin.weiss2410@gmail.com>
+To: luoqing <l1138897701@163.com>, mptcp@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, matttbe@kernel.org,
+	davem@davemloft.net
+Subject: Re: [PATCH] mptcp: pm: Fix address ID overflow when all IDs are
+ exhausted
+Message-ID: <202608070408.cjzYB3m6-lkp@intel.com>
+References: <20260714080356.805839-1-l1138897701@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,70 +64,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260629095838.601926-1-Martin.weiss2410@gmail.com>
+In-Reply-To: <20260714080356.805839-1-l1138897701@163.com>
 
-Hi Martin,
+Hi luoqing,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on linus/master v7.2-rc6 next-20260806]
+[auto build test ERROR on mptcp/export]
+[also build test ERROR on mptcp/export-net linus/master v7.2-rc6 next-20260806]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Weiss/trace_branch-use-per-cpu-counters-for-correct-incorrect-stats/20260806-093445
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20260629095838.601926-1-Martin.weiss2410%40gmail.com
-patch subject: [PATCH] trace_branch: use per-cpu counters for correct/incorrect stats
-config: hexagon-randconfig-002-20260807 (https://download.01.org/0day-ci/archive/20260807/202608070317.EiUZyapo-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070317.EiUZyapo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/luoqing/mptcp-pm-Fix-address-ID-overflow-when-all-IDs-are-exhausted/20260806-155815
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+patch link:    https://lore.kernel.org/r/20260714080356.805839-1-l1138897701%40163.com
+patch subject: [PATCH] mptcp: pm: Fix address ID overflow when all IDs are exhausted
+config: nios2-randconfig-001-20260807 (https://download.01.org/0day-ci/archive/20260807/202608070408.cjzYB3m6-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070408.cjzYB3m6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608070317.EiUZyapo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608070408.cjzYB3m6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/trace/trace_branch.c:200:1: warning: all paths through this function will call itself [-Winfinite-recursion]
-     200 | {
-         | ^
-   1 warning generated.
+   net/mptcp/pm_kernel.c: In function 'mptcp_pm_nl_append_new_local_addr':
+>> net/mptcp/pm_kernel.c:798:3: error: a label can only be part of a statement and a declaration is not a statement
+      unsigned int id = find_next_zero_bit(pernet->id_bitmap,
+      ^~~~~~~~
 
 
-vim +200 kernel/trace/trace_branch.c
+vim +798 net/mptcp/pm_kernel.c
 
-52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  197  
-134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  198) void ftrace_likely_update(struct ftrace_likely_data *f, int val,
-d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  199) 			  int expect, int is_constant)
-1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12 @200  {
-4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  201  	unsigned long flags = user_access_save();
-4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  202  
-d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  203) 	/* A constant is always correct */
-134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  204) 	if (is_constant) {
-134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  205) 		f->constant++;
-d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  206) 		val = expect;
-134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  207) 	}
-52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  208  	/*
-52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  209  	 * I would love to have a trace point here instead, but the
-52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  210  	 * trace point code is so inundated with unlikely and likely
-52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  211  	 * conditions that the recursive nightmare that exists is too
-52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  212  	 * much to try to get working. At least for now.
-52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  213  	 */
-068f530b3f274d kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  214) 	trace_likely_condition(f, val, expect);
-52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  215  
-a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  216  	/* use per-cpu counters to avoid contention */
-1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  217  	if (val == expect)
-a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  218  		this_cpu_inc(f->data.correct);
-1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  219  	else
-a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  220  		this_cpu_inc(f->data.incorrect);
-4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  221  
-4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  222  	user_access_restore(flags);
-1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  223  }
-1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  224  EXPORT_SYMBOL(ftrace_likely_update);
-1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  225  
+   734	
+   735	static int mptcp_pm_nl_append_new_local_addr(struct pm_nl_pernet *pernet,
+   736						     struct mptcp_pm_addr_entry *entry,
+   737						     bool replace)
+   738	{
+   739		struct mptcp_pm_addr_entry *cur, *del_entry = NULL;
+   740		int ret = -EINVAL;
+   741		u8 addr_max;
+   742	
+   743		spin_lock_bh(&pernet->lock);
+   744		/* to keep the code simple, don't do IDR-like allocation for address ID,
+   745		 * just bail when we exceed limits
+   746		 */
+   747		if (pernet->next_id == MPTCP_PM_MAX_ADDR_ID)
+   748			pernet->next_id = 1;
+   749		if (pernet->endpoints == MPTCP_PM_MAX_ADDR_ID) {
+   750			ret = -ERANGE;
+   751			goto out;
+   752		}
+   753		if (test_bit(entry->addr.id, pernet->id_bitmap)) {
+   754			ret = -EBUSY;
+   755			goto out;
+   756		}
+   757	
+   758		/* do not insert duplicate address, differentiate on port only
+   759		 * singled addresses
+   760		 */
+   761		if (!address_use_port(entry))
+   762			entry->addr.port = 0;
+   763		list_for_each_entry(cur, &pernet->endp_list, list) {
+   764			if (mptcp_addresses_equal(&cur->addr, &entry->addr,
+   765						  cur->addr.port || entry->addr.port)) {
+   766				/* allow replacing the exiting endpoint only if such
+   767				 * endpoint is an implicit one and the user-space
+   768				 * did not provide an endpoint id
+   769				 */
+   770				if (!(cur->flags & MPTCP_PM_ADDR_FLAG_IMPLICIT)) {
+   771					ret = -EEXIST;
+   772					goto out;
+   773				}
+   774				if (entry->addr.id)
+   775					goto out;
+   776	
+   777				/* allow callers that only need to look up the local
+   778				 * addr's id to skip replacement. This allows them to
+   779				 * avoid calling synchronize_rcu in the packet recv
+   780				 * path.
+   781				 */
+   782				if (!replace) {
+   783					kfree(entry);
+   784					ret = cur->addr.id;
+   785					goto out;
+   786				}
+   787	
+   788				pernet->endpoints--;
+   789				entry->addr.id = cur->addr.id;
+   790				list_del_rcu(&cur->list);
+   791				del_entry = cur;
+   792				break;
+   793			}
+   794		}
+   795	
+   796		if (!entry->addr.id) {
+   797	find_next:
+ > 798			unsigned int id = find_next_zero_bit(pernet->id_bitmap,
+   799							     MPTCP_PM_MAX_ADDR_ID + 1,
+   800							     pernet->next_id);
+   801			if (id > MPTCP_PM_MAX_ADDR_ID) {
+   802				ret = -ENOSPC;
+   803				goto out;
+   804			}
+   805			entry->addr.id = id;
+   806			if (!entry->addr.id && pernet->next_id != 1) {
+   807				pernet->next_id = 1;
+   808				goto find_next;
+   809			}
+   810		}
+   811	
+   812		if (!entry->addr.id)
+   813			goto out;
+   814	
+   815		__set_bit(entry->addr.id, pernet->id_bitmap);
+   816		if (entry->addr.id > pernet->next_id)
+   817			pernet->next_id = entry->addr.id;
+   818	
+   819		if (entry->flags & MPTCP_PM_ADDR_FLAG_SIGNAL) {
+   820			addr_max = pernet->endp_signal_max;
+   821			WRITE_ONCE(pernet->endp_signal_max, addr_max + 1);
+   822		}
+   823		if (entry->flags & MPTCP_PM_ADDR_FLAG_SUBFLOW) {
+   824			addr_max = pernet->endp_subflow_max;
+   825			WRITE_ONCE(pernet->endp_subflow_max, addr_max + 1);
+   826		}
+   827		if (entry->flags & MPTCP_PM_ADDR_FLAG_LAMINAR) {
+   828			addr_max = pernet->endp_laminar_max;
+   829			WRITE_ONCE(pernet->endp_laminar_max, addr_max + 1);
+   830		}
+   831		if (entry->flags & MPTCP_PM_ADDR_FLAG_FULLMESH) {
+   832			addr_max = pernet->endp_fullmesh_max;
+   833			WRITE_ONCE(pernet->endp_fullmesh_max, addr_max + 1);
+   834		}
+   835	
+   836		pernet->endpoints++;
+   837		if (!entry->addr.port)
+   838			list_add_tail_rcu(&entry->list, &pernet->endp_list);
+   839		else
+   840			list_add_rcu(&entry->list, &pernet->endp_list);
+   841		ret = entry->addr.id;
+   842	
+   843	out:
+   844		spin_unlock_bh(&pernet->lock);
+   845	
+   846		/* just replaced an existing entry, free it */
+   847		if (del_entry) {
+   848			synchronize_rcu();
+   849			__mptcp_pm_release_addr_entry(del_entry);
+   850		}
+   851		return ret;
+   852	}
+   853	
 
 --
 0-DAY CI Kernel Test Service
