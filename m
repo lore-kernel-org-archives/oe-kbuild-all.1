@@ -1,122 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948A83947A4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 06:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624A53D891E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 06:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785996467; cv=none; b=nTPfEi4OJQN9FNaAeFZZwVlrYZecGH7qw6lwk9NQoMPGUyD4rqgB5D87NaZrifn3ANERLJ3CtyYkzlv5z1jGZgjxoqiewIBqc/1/glK72TjcQ+lv7+hMY2vyfw3fGoBzzo5owZBTi0CNuGyifYemlN1AZA9rajuKTUZ55sFUBn8=
+	t=1785997184; cv=none; b=CLE4fwng/5BXtoEijJBYSSyGKGr4DOG5g9gZ/sx1HdycESTg/Ks0uUWKORfztFTlCuw/I/R+rSBQALonLB8bPELJppN/pq0XpYjPVWCdmN6a2d2GflYkQJWFRnAMcig3eG3rRcRX21w8wCBSJtKHe+7odTAzEuz/zwK4f3D76Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785996467; c=relaxed/simple;
-	bh=v0Vty1WCA7o4zhVkCWk9tgpYzthQQ3OkiuiM7lYmm/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aB8rv6LyNueguuIsdsnEx2YLNC0dV/dFOmLttsu1ZYvV+9e+wxDqC6H1T0lmiJVm88iVcpN618BDTmlk/0zOeYdkc/cd/JTylgauJh775YHIG4JYRjnrGHGNyhKKwig4tUKxulqXlE4CcaOnf21uNI2fkfSsFaquq2jCupHxN9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EmWa5KnI; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1785997184; c=relaxed/simple;
+	bh=jLRPwEfypyGTH/DkdEOPCpUYMIfe42jm1SZSsaF+WKc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Pw18lZ5IK+w8r9dJwcDYNS1cONLpoifoYKf3vYlip2ehTH2wFhuv4NyzTLXeFzcda3yE5LyCfA0KTkBuXOjCHLVD6NDSjSuKU9hoL4P0r3VEty7wqB5pEBArh04v/TVdY0nCdGYH6AdIwkNXox1d1kIxYvIsXLOTGKNA8xziEAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mnWJ/kCP; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EmWa5KnI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mnWJ/kCP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785996456; x=1817532456;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v0Vty1WCA7o4zhVkCWk9tgpYzthQQ3OkiuiM7lYmm/U=;
-  b=EmWa5KnIiRiT9IHBej6SnQCBLRrah3AgN4aLJZkR/RsNgm+1K2H55bC7
-   Cvc8W6B+Qzi76r+7hENRCGUb8TL7YPdZi+S4zBxewzS694PdH/LKZ+MYI
-   /yFkh0RRQ9ZiOLjj+K+x/voRFCdN+Pl8PAujW9YPnwVVpqqHJ+ekK1I55
-   g9gTUsmwZaN+On65JUeBbDQIoYviUaq1+KAiefomvYQEkVYlfbXH644JC
-   JhlnukPap7ALwkwCwg98JIf7zQTalI0/JSbAJBNVFKK76XlRVq9gKjmA+
-   52JxYVkl3S3t/9nX30cmnGODdQz6Mit3eeWmB0XXAmYDgs83moEIOegk9
-   Q==;
-X-CSE-ConnectionGUID: cerf5uK4SfipI/PMpi5EoA==
-X-CSE-MsgGUID: hmwqEiQVTBOh5XUAzFUFNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86608890"
+  t=1785997182; x=1817533182;
+  h=date:from:to:cc:subject:message-id;
+  bh=jLRPwEfypyGTH/DkdEOPCpUYMIfe42jm1SZSsaF+WKc=;
+  b=mnWJ/kCPukeXhquefBDOsDT3OGg2kc0pCU6Ms+WZcxdQuzWB8bbLTYs2
+   S475EB7NT0go53b5avXX4xkF4FxKBJTpq/RFZnwBNdJ2SGad87V6dh9XI
+   taQcmQXSz5GUVPQw9II85n2tns1EyHaKOBan+4GUKl2uqlSwSFxKvtZsj
+   aCdH3jxokxJQVrR7XHaGIlNKmFlImUSRFZQdGoiWs1qrKjbr0wjxruZRw
+   7bT2/J0rgltuMCweBPcs+1gKMUgLlqbW3Mw0gTAcm3n7H6mKVeHCvNdUd
+   Hi17WJ1Wl4bO/3Fet/wVTwc3kcCWoYiQT617871WY3VqXtqsFFxxs+Rd/
+   g==;
+X-CSE-ConnectionGUID: RUbLVC/6RqWiN1GS266oMA==
+X-CSE-MsgGUID: 7qZbFUZfRz214rF0hIQG/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86592122"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="86608890"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 23:07:35 -0700
-X-CSE-ConnectionGUID: MIFC1WhyTqS+SwtwaqxGeg==
-X-CSE-MsgGUID: Ah/cQnNSTmmAVhgoZP+Hcw==
+   d="scan'208";a="86592122"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 23:19:41 -0700
+X-CSE-ConnectionGUID: tGn+F9Y8SaKimzGQVKb1sw==
+X-CSE-MsgGUID: JGEnAVd1RAelMj7aKhE36w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="291931325"
+   d="scan'208";a="255757227"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Aug 2026 23:07:33 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 05 Aug 2026 23:19:40 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrrGM-00000000EL7-3bd9;
-	Thu, 06 Aug 2026 06:07:30 +0000
-Date: Thu, 6 Aug 2026 14:07:11 +0800
+	id 1wrrS5-00000000ENb-35YJ;
+	Thu, 06 Aug 2026 06:19:37 +0000
+Date: Thu, 06 Aug 2026 14:18:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin Willi <martin@strongswan.org>,
-	Eric Biggers <ebiggers@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org
-Subject: Re: [PATCH] lib/crypto: x86/chacha: Add a 16-block AVX-512 variant
-Message-ID: <202608061336.JeqEp1TW-lkp@intel.com>
-References: <20260722153247.630519-1-martin@strongswan.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-10 12/12]
+ include/trace/stages/init.h:2:23: warning: 'str__swapfile__trace_system_name'
+ defined but not used
+Message-ID: <202608061415.DzCo4IWV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260722153247.630519-1-martin@strongswan.org>
 
-Hi Martin,
+Hi Tangquan,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linux-review/Eric-Biggers/x86-fpu-Check-for-missing-AVX-and-AVX-512-xstate-bits/20260626-124221]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Willi/lib-crypto-x86-chacha-Add-a-16-block-AVX-512-variant/20260805-221950
-base:   https://github.com/intel-lab-lkp/linux Eric-Biggers/x86-fpu-Check-for-missing-AVX-and-AVX-512-xstate-bits/20260626-124221
-patch link:    https://lore.kernel.org/r/20260722153247.630519-1-martin%40strongswan.org
-patch subject: [PATCH] lib/crypto: x86/chacha: Add a 16-block AVX-512 variant
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260806/202608061336.JeqEp1TW-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-10
+head:   e6a1e5cb500cc4941674da20d2a46a005f007e0b
+commit: 58aa298d671081bcef5cd6f245c7ee1f1a414d00 [12/12] ANDROID: vendor_hooks: Add hooks to enhance mTHP functionality
+config: i386-buildonly-randconfig-002-20260806 (https://download.01.org/0day-ci/archive/20260806/202608061415.DzCo4IWV-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061336.JeqEp1TW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061415.DzCo4IWV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608061336.JeqEp1TW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061415.DzCo4IWV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from lib/crypto/chacha.c:35:
-   lib/crypto/x86/chacha.h: In function 'chacha_mod_init_arch':
->> lib/crypto/x86/chacha.h:199:29: error: implicit declaration of function 'cpu_has_xfeatures'; did you mean 'cpu_have_feature'? [-Wimplicit-function-declaration]
-     199 |                             cpu_has_xfeatures(XFEATURE_MASK_AVX512, NULL))
-         |                             ^~~~~~~~~~~~~~~~~
-         |                             cpu_have_feature
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/swapfile.h:19,
+                    from drivers/android/vendor_hooks.c:86:
+>> include/trace/stages/init.h:2:23: warning: 'str__swapfile__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/typec.h:24,
+                    from drivers/android/vendor_hooks.c:84:
+   include/trace/stages/init.h:2:23: warning: 'str__typec__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/xhci.h:25,
+                    from drivers/android/vendor_hooks.c:83:
+   include/trace/stages/init.h:2:23: warning: 'str__xhci__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/dmabuf.h:34,
+                    from drivers/android/vendor_hooks.c:82:
+   include/trace/stages/init.h:2:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/perf.h:24,
+                    from drivers/android/vendor_hooks.c:81:
+   include/trace/stages/init.h:2:23: warning: 'str__perf__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fsnotify.h:22,
+                    from drivers/android/vendor_hooks.c:80:
+   include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +199 lib/crypto/x86/chacha.h
+vim +/str__swapfile__trace_system_name +2 include/trace/stages/init.h
 
-   180	
-   181	#define chacha_mod_init_arch chacha_mod_init_arch
-   182	static void chacha_mod_init_arch(void)
-   183	{
-   184		if (!boot_cpu_has(X86_FEATURE_SSSE3))
-   185			return;
-   186	
-   187		static_branch_enable(&chacha_use_simd);
-   188	
-   189		if (boot_cpu_has(X86_FEATURE_AVX) &&
-   190		    boot_cpu_has(X86_FEATURE_AVX2)) {
-   191			static_branch_enable(&chacha_use_avx2);
-   192	
-   193			if (boot_cpu_has(X86_FEATURE_AVX512VL) &&
-   194			    boot_cpu_has(X86_FEATURE_AVX512BW)) { /* kmovq */
-   195				static_branch_enable(&chacha_use_avx512vl);
-   196	
-   197				if (boot_cpu_has(X86_FEATURE_AVX512F) &&
-   198				    !boot_cpu_has(X86_FEATURE_PREFER_YMM) &&
- > 199				    cpu_has_xfeatures(XFEATURE_MASK_AVX512, NULL))
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
