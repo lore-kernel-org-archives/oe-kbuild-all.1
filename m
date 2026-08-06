@@ -1,180 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D57D33B6FC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 03:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F43C381E91;
+	Thu,  6 Aug 2026 04:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785988707; cv=none; b=dpntaSbZC4kU8+jTlzzVX3c8htv3IgtoA9KsW0Y6sEefrT1b9AOsQlzL4AyKGvlmBGlGalCcQcNqZkUh+stC9JNEIU4YoVXe5HAIHgOctNd+rD0lbHcSpHSH7jm5gUhD+bAy+XMjtBNMpW3i77f1QtlAi/qF69KvvdS2ZwCn40A=
+	t=1785990585; cv=none; b=oX1C9q3hkUQsTm7WEPqRC21iu1pzX+1BO4ej+fMVfvdyNz8oedmpaj9/szODmIjKhe+G7CgMhaNqZ+QzVHVbUgZcY5OLDKYplCbCucVwi6piYbbXtx+5jaYHxgPULk3MfMml6Gz4NmCmvOmBSL8pD7wdGpwTBZPmqvm+7ONtOog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785988707; c=relaxed/simple;
-	bh=/414JQE8+FTwo98qPwBZ5HoH7H3daAQM+kScRXebrz8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CDwcGA++4arwt8XTTWH3XXAoEWIuoTu5PYbn3DzQpj/0YXVGAZPcUIgqSUYjWBiuZsPN4FNy33g3Xk+SU1YMurqbY/cHmsKMc+QTki3M7OrmxxUak2RQPKftkGD/gI9G+G+J4ZVMGbQB7QtgGf3vpU3arG1i6z/nDkdG1qmRKSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lTNNOTml; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1785990585; c=relaxed/simple;
+	bh=7CW8Mojz4tTHJtxhvNY+//zqS7ohbSQ0PPY1CWQ9nuM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GZyqWGuGZlUfgX9i29RgiSIB1psghta34rY74nkgcw0XjEsaaQhvKIQKv20RxUD3r73W1W9ZofALRXs8OMkTFApATHwO74IxfV8XJiKjYks0HzP2E2yVyrnFrJBDXOZqf3aVmQzDE5+/ilcRHTXF9VFA1qCH/e5Po0Up8Sxszn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eU2U0F9G; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTNNOTml"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eU2U0F9G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785988706; x=1817524706;
-  h=date:from:to:cc:subject:message-id;
-  bh=/414JQE8+FTwo98qPwBZ5HoH7H3daAQM+kScRXebrz8=;
-  b=lTNNOTmlEXrwy1ipYSr/U+VPIkPyK+q4MeV8vpPRKZ1ybQRRBV6kvm6v
-   DmJL+McW4m7hBgZY2JGNj0OAJkG0CbH8ZqYLsBzBkLcF+w5KgWpuJpn6/
-   pF9YKJoYYt5Ev6zjUO07gQJzjzLCkJQqeEA6890psiZENFaUjZ6eDwzek
-   arlBF9ZU0tO1P4vfDpVHh0J5BdseFslwaAMVIe8JAWRIRjUtiMaTERlMF
-   G6fqbnLZ1TTUq8nDdsdtygzgmsMlq4H/1qd15hIR3K2tnycqHRr4zoHpR
-   dZztrJscqAsBcr3r7paziZLrmrRzL00iYXi0JTkEBmGaVAa2MHqwUl8uC
-   g==;
-X-CSE-ConnectionGUID: etzAl0WZTpCPiALGrbmSJg==
-X-CSE-MsgGUID: IacTcpViTta7CAG2ZtYvpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="103976800"
+  t=1785990582; x=1817526582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7CW8Mojz4tTHJtxhvNY+//zqS7ohbSQ0PPY1CWQ9nuM=;
+  b=eU2U0F9GJYZY8d8wEFlkC/8UqNst6f/8uJ8NO2A2cj2awtdv0lW5Fii2
+   y/aITJaTQ1emYWn0ZYg7is+S3gl6J+voBu2Cbsa2T20zv0iaAIk10KSW+
+   4aRaU52SrH10+ynVrmKLOklQ46AMD0p8i5p49O9qwzFZ8ZhmNZNrsumPO
+   Mf4sxxmHb/aKcd5ZDK9KrPIPJD3eETRWnxw4fL6WEpN4xyY0LLGEnIFHy
+   Im5Lj5EX5nU/EZmhjtfWo7NFKIY9vaheKeCEW1Y1Uc6LG9+RVKbcQjxo5
+   3KwnNle2+q629LXL0ZQUQMsd615emfJNlz/OhcTm4pfNWjd5OrPb1OZlM
+   Q==;
+X-CSE-ConnectionGUID: I3MJhHhRSzeT+/wtxIvdxw==
+X-CSE-MsgGUID: m5aBEMBxQ5qiv6RnB+jLHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="85700024"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="103976800"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 20:58:23 -0700
-X-CSE-ConnectionGUID: gNbcYTVGQZqg3iBS/JIwew==
-X-CSE-MsgGUID: kLGpPHx8RJ2p3RdyntzyTg==
+   d="scan'208";a="85700024"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 21:29:42 -0700
+X-CSE-ConnectionGUID: mLQTR0OkQ/2wCOMWalBDJQ==
+X-CSE-MsgGUID: rBVBeQQARBiEmx1VFZ4j5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="262057560"
+   d="scan'208";a="257693647"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 05 Aug 2026 20:58:22 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 05 Aug 2026 21:29:39 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrpFL-00000000E4v-0xps;
-	Thu, 06 Aug 2026 03:58:19 +0000
-Date: Thu, 06 Aug 2026 11:57:41 +0800
+	id 1wrpjc-00000000E8v-0vnM;
+	Thu, 06 Aug 2026 04:29:36 +0000
+Date: Thu, 6 Aug 2026 12:29:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-12 2/2]
- include/linux/dma-buf.h:547:2: error: static assertion failed due to
- requirement '__alignof(struct dma_buf::(unnamed union)::(unnamed
- union)::(unnamed at include/linux/dma-buf.h:547:2)) <= __alignof(struct
- dma_buf::(unnamed union)::(unnamed union)::(unnam...
-Message-ID: <202608061151.CGSF4fQ0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Bert Karwatzki <spasswolf@web.de>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Bert Karwatzki <spasswolf@web.de>,
+	linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	amd-gfx@lists.freedesktop.org,
+	"# = v7 . 1" <stable@vger.kernel.org>,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Rafal Ostrowski <rafal.ostrowski@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with
+ PREEMPT_RT
+Message-ID: <202608061233.eufnR5Qm-lkp@intel.com>
+References: <20260801071724.12998-1-spasswolf@web.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260801071724.12998-1-spasswolf@web.de>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
-head:   43cfff9a6e925a92e86e83f67db81659b3c405e5
-commit: e24cc2d5218669b7412788d57528059ec6ecee4e [2/2] ANDROID: ABI: refresh, CRC fixups and allowed breaks
-config: i386-buildonly-randconfig-003-20260806 (https://download.01.org/0day-ci/archive/20260806/202608061151.CGSF4fQ0-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061151.CGSF4fQ0-lkp@intel.com/reproduce)
+Hi Bert,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20260804]
+[cannot apply to drm-misc/drm-misc-next linus/master v7.2-rc6 v7.2-rc5 v7.2-rc4 v7.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bert-Karwatzki/drm-amd-display-fix-usage-of-DC_FPU_-BEGIN-END-with-PREEMPT_RT/20260805-170330
+base:   next-20260804
+patch link:    https://lore.kernel.org/r/20260801071724.12998-1-spasswolf%40web.de
+patch subject: [PATCH] drm/amd/display: fix usage of DC_FPU_{BEGIN,END} with PREEMPT_RT
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260806/202608061233.eufnR5Qm-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061233.eufnR5Qm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608061151.CGSF4fQ0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061233.eufnR5Qm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/file.c:25:
->> include/linux/dma-buf.h:547:2: error: static assertion failed due to requirement '__alignof(struct dma_buf::(unnamed union)::(unnamed union)::(unnamed at include/linux/dma-buf.h:547:2)) <= __alignof(struct dma_buf::(unnamed union)::(unnamed union)::(unnamed at include/linux/dma-buf.h:547:2))': include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned the same as atomic64_t nr_task_refs
-     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:189:2: note: expanded from macro 'ANDROID_BACKPORT_USE'
-     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:79:3: note: expanded from macro '_ANDROID_KABI_REPLACE'
-      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:66:4: note: expanded from macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
-      66 |                         __alignof__(struct { _new; }) <=                \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      67 |                                 __alignof__(struct { _orig; }),         \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-buf.h:547:2: note: expression evaluates to '8 <= 4'
-     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:189:2: note: expanded from macro 'ANDROID_BACKPORT_USE'
-     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:79:3: note: expanded from macro '_ANDROID_KABI_REPLACE'
-      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:66:34: note: expanded from macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
-      66 |                         __alignof__(struct { _new; }) <=                \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-      67 |                                 __alignof__(struct { _orig; }),         \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.c: In function 'dc_create_plane_state':
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.c:89:9: error: implicit declaration of function 'DC_RUN_WITH_PREEMPTION_ENABLED' [-Wimplicit-function-declaration]
+      89 |         DC_RUN_WITH_PREEMPTION_ENABLED(plane_state = kvzalloc_obj(*plane_state, GFP_ATOMIC));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +547 include/linux/dma-buf.h
+vim +/DC_RUN_WITH_PREEMPTION_ENABLED +89 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.c
 
-   539	
-   540		ANDROID_KABI_RESERVE(1);
-   541		ANDROID_KABI_RESERVE(2);
-   542		/**
-   543		 * @nr_task_refs:
-   544		 *
-   545		 * The number of tasks that reference this buffer. For calculating PSS.
-   546		 */
- > 547		ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
-   548	};
-   549	
+    82	
+    83	/*******************************************************************************
+    84	 * Public functions
+    85	 ******************************************************************************/
+    86	struct dc_plane_state *dc_create_plane_state(const struct dc *dc)
+    87	{
+    88		struct dc_plane_state *plane_state;
+  > 89		DC_RUN_WITH_PREEMPTION_ENABLED(plane_state = kvzalloc_obj(*plane_state, GFP_ATOMIC));
+    90	
+    91		if (NULL == plane_state)
+    92			return NULL;
+    93	
+    94		kref_init(&plane_state->refcount);
+    95		dc_plane_construct(dc->ctx, plane_state);
+    96	
+    97		return plane_state;
+    98	}
+    99	
 
 --
 0-DAY CI Kernel Test Service
