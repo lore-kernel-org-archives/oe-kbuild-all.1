@@ -1,64 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C29144C67E;
-	Thu,  6 Aug 2026 14:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461C037F728
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 16:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786026136; cv=none; b=F7rXr451eW4DO9NBr7vfprRWIKq9ql20hknhw6iIa2GfvYDkVsDL1DQbeMNvHvuPNu0qjuSWeXMiLSDkVwL/hu/kQ6UGRXkyFsbFOVJSKJpevwVngmUBUjsswW3yC5mMrUw92k//meqlx7D/J5s3Mu9s1kfeyzGeo14rmilqssQ=
+	t=1786035246; cv=none; b=o1NOI73M04wAqSf77NR9PZKMwZfKQ8QqRPI6Z7y43DaRiP7LUZfg3rb6AgQxjwvI+kRgDnwBI1VR+o6RKDKRfvFqJclMzAcWOiSDqhhNxiyMp9QC6z/TGRWqckk+zGEKM8IUznuwEMlh6S67yJ/2Qj1GRIsFMyHPMwsES2r7hYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786026136; c=relaxed/simple;
-	bh=NTE0gQPp841HJZ7ZGXtEj3QFHsDZuWuGfmet1LQrV0s=;
+	s=arc-20240116; t=1786035246; c=relaxed/simple;
+	bh=ijet5q641iizCCPDbWe6qAYNPvfuSgFXgHd9tGZ1ulM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cl045Qw/GwMXA/jyFvVHiX/zZDmlAkE/ycZbMq2sU663XbxM2jabkhBO/VSqwWp8eUOcK6I5sgvLbpZZvf2z1draIM/p/unJh4bRx2a72Y/OV6b974tXSGOZNmqh5oEbEqYHzaLSkeC7oYW58H6ttl/bqDiqQWwg1L00AEv6wtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RRANwmsv; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fvh7E1r7RRHPNVprlobra5dPeQbI0Aj3hucmpJD6pCv6XR38sVjL3YfvEHAuvpHqBuZvDtB5jke2zOFINaauKCj0DwoZqcbBAsADC8q7L9XGI4WxECBLYwBkGj8GwAEKdBh1O+lr6L8j1WHN//uZGASSI12pcnwppJiHgzzmUms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3rF6SYo; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RRANwmsv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3rF6SYo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786026133; x=1817562133;
+  t=1786035245; x=1817571245;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NTE0gQPp841HJZ7ZGXtEj3QFHsDZuWuGfmet1LQrV0s=;
-  b=RRANwmsvhAyXeNd9ZqLDYiV9oTG6dzS7YW0jNCcf6xgvOrKE0Bopowwd
-   huyNDBLUJfzSTjUawJpIEdRL61BKkO51wnOf6hu8tIJ845gpgnCGldwZ+
-   W1FSOFBR0oH5uihkCZ9LzWqJauFPUyWFz1hS7H2g3n1ImAlhmsJ6eODQa
-   cObfVAgiYIO7Cy7+YIfH7kqLzxmdNMv7hAAuowcAKxBYBOWPbFM6wDBtZ
-   A8B246Rvk/Zv+qeYrkefoqUxtTks7Ds4lwykoSy8Col+I6W/9bJIZwxbN
-   XC7CufoTstCJ5FqjTZ6dDMoNy2ZQhNNhE49fBa0lBnIF8arrBMQ36ZJA6
+  bh=ijet5q641iizCCPDbWe6qAYNPvfuSgFXgHd9tGZ1ulM=;
+  b=I3rF6SYokyoIwqQ12tXsRTR/qEnkmxCkcW8PUQZIhDBIJ8rrUk5Njh4F
+   587vbZ73Qm+DIJWx8bhIsSdTGYO4plx3CkIkzWt6n97Wodl99tpG8ZeE4
+   1MgNhhVvXZf8NbV4kxFy9v5vJJ5/JJ2RGYFb9voZkpwyjrQtiGELfeFn8
+   Zqj2/MDVxB+JE+ZEBHToi0+pxIMfQDer/6ZR4s1WctXnErviw+zPYs7ed
+   AtnLZ0j6dfnPMM+vupswvpxxLcMuLq+qIfnW0nkRAbfaLdG4RfCRWd1io
+   rOyiw6PTvo2nuev4p0u8jOpxHPHfASFUdWBNCCmD6g30sJcr9URppaZyC
    w==;
-X-CSE-ConnectionGUID: 2ZnVkrJETge4Vs5BqhGwRg==
-X-CSE-MsgGUID: noQJEFTfRN+lMP7MIFIrBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="90439935"
+X-CSE-ConnectionGUID: 4XpyZdCNSMiI7iy26gQdjg==
+X-CSE-MsgGUID: /qyHoqUIR8OQH5lWuEIKoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86486215"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="90439935"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:22:10 -0700
-X-CSE-ConnectionGUID: lrDeZggjSKWosppqomCv7A==
-X-CSE-MsgGUID: 25J0DZsGSsqGVLp4wDV+nQ==
+   d="scan'208";a="86486215"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 09:54:04 -0700
+X-CSE-ConnectionGUID: vcG3Zu0eShq4diKcXCaeVg==
+X-CSE-MsgGUID: jG606nB5SPqMIoWZuUMP9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="262196547"
+   d="scan'208";a="257853545"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 Aug 2026 07:22:09 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 06 Aug 2026 09:54:01 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wryyz-00000000FI1-2ZLn;
-	Thu, 06 Aug 2026 14:22:05 +0000
-Date: Thu, 6 Aug 2026 22:21:16 +0800
+	id 1ws1Ly-00000000Fi9-3CTs;
+	Thu, 06 Aug 2026 16:53:58 +0000
+Date: Fri, 7 Aug 2026 00:53:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: WenTao Liang <vulab@iscas.ac.cn>, Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
-	linux-ntb@googlegroups.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	stable@vger.kernel.org, linux-kernel@vger.kernel.org,
-	WenTao Liang <vulab@iscas.ac.cn>
-Subject: Re: [PATCH] fix: ntb: perf_copy_chunk: fix tx descriptor and unmap
- kref leak on   dmaengine_submit failure
-Message-ID: <202608062211.ndlKUG0U-lkp@intel.com>
-References: <20260626153917.53128-1-vulab@iscas.ac.cn>
+To: Martin Weiss <martin.githubacc@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Martin Weiss <Martin.weiss2410@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH] trace_branch: use per-cpu counters for correct/incorrect
+ stats
+Message-ID: <202608070005.js0pMRDK-lkp@intel.com>
+References: <20260629095838.601926-1-Martin.weiss2410@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,122 +68,150 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260626153917.53128-1-vulab@iscas.ac.cn>
+In-Reply-To: <20260629095838.601926-1-Martin.weiss2410@gmail.com>
 
-Hi WenTao,
+Hi Martin,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on jonmason-ntb/ntb-next]
-[also build test ERROR on linus/master v7.2-rc6]
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v7.2-rc6 next-20260806]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/WenTao-Liang/fix-ntb-perf_copy_chunk-fix-tx-descriptor-and-unmap-kref-leak-on-dmaengine_submit-failure/20260806-074331
-base:   https://github.com/jonmason/ntb ntb-next
-patch link:    https://lore.kernel.org/r/20260626153917.53128-1-vulab%40iscas.ac.cn
-patch subject: [PATCH] fix: ntb: perf_copy_chunk: fix tx descriptor and unmap kref leak on   dmaengine_submit failure
-config: x86_64-buildonly-randconfig-004-20260806 (https://download.01.org/0day-ci/archive/20260806/202608062211.ndlKUG0U-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608062211.ndlKUG0U-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Weiss/trace_branch-use-per-cpu-counters-for-correct-incorrect-stats/20260806-093445
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20260629095838.601926-1-Martin.weiss2410%40gmail.com
+patch subject: [PATCH] trace_branch: use per-cpu counters for correct/incorrect stats
+config: arm64-randconfig-r062-20260806 (https://download.01.org/0day-ci/archive/20260807/202608070005.js0pMRDK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070005.js0pMRDK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608062211.ndlKUG0U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608070005.js0pMRDK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/ntb/test/ntb_perf.c:854:2: error: call to undeclared function 'dmaengine_desc_put'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     854 |         dmaengine_desc_put(tx);
-         |         ^
-   drivers/ntb/test/ntb_perf.c:854:2: note: did you mean 'dmaengine_desc_free'?
-   include/linux/dmaengine.h:1607:19: note: 'dmaengine_desc_free' declared here
-    1607 | static inline int dmaengine_desc_free(struct dma_async_tx_descriptor *desc)
-         |                   ^
-   1 error generated.
+   kernel/trace/trace_branch.c: In function 'ftrace_likely_update':
+>> kernel/trace/trace_branch.c:198:6: warning: infinite recursion detected [-Winfinite-recursion]
+     198 | void ftrace_likely_update(struct ftrace_likely_data *f, int val,
+         |      ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from include/linux/kallsyms.h:11,
+                    from kernel/trace/trace_branch.c:7:
+   include/linux/compiler.h:33:25: note: recursive call
+      33 |                         ftrace_likely_update(&______f, ______r,         \
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      34 |                                              expect, is_constant);      \
+         |                                              ~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   include/linux/preempt.h:238:9: note: in expansion of macro 'if'
+     238 |         if (unlikely(__preempt_count_dec_and_test())) \
+         |         ^~
+   include/linux/compiler.h:47:26: note: in expansion of macro '__branch_check__'
+      47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/preempt.h:238:13: note: in expansion of macro 'unlikely'
+     238 |         if (unlikely(__preempt_count_dec_and_test())) \
+         |             ^~~~~~~~
+   arch/arm64/include/asm/percpu.h:160:9: note: in expansion of macro 'preempt_enable_notrace'
+     160 |         preempt_enable_notrace();                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/percpu.h:197:9: note: in expansion of macro '_pcp_protect'
+     197 |         _pcp_protect(__percpu_add_case_64, pcp, val)
+         |         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:372:25: note: in expansion of macro 'this_cpu_add_8'
+     372 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:501:41: note: in expansion of macro '__pcpu_size_call'
+     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:511:41: note: in expansion of macro 'this_cpu_add'
+     511 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   kernel/trace/trace_branch.c:218:17: note: in expansion of macro 'this_cpu_inc'
+     218 |                 this_cpu_inc(f->data.correct);
+         |                 ^~~~~~~~~~~~
+   include/linux/compiler.h:33:25: note: recursive call
+      33 |                         ftrace_likely_update(&______f, ______r,         \
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      34 |                                              expect, is_constant);      \
+         |                                              ~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   include/linux/preempt.h:238:9: note: in expansion of macro 'if'
+     238 |         if (unlikely(__preempt_count_dec_and_test())) \
+         |         ^~
+   include/linux/compiler.h:47:26: note: in expansion of macro '__branch_check__'
+      47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/preempt.h:238:13: note: in expansion of macro 'unlikely'
+     238 |         if (unlikely(__preempt_count_dec_and_test())) \
+         |             ^~~~~~~~
+   arch/arm64/include/asm/percpu.h:160:9: note: in expansion of macro 'preempt_enable_notrace'
+     160 |         preempt_enable_notrace();                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/percpu.h:197:9: note: in expansion of macro '_pcp_protect'
+     197 |         _pcp_protect(__percpu_add_case_64, pcp, val)
+         |         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:372:25: note: in expansion of macro 'this_cpu_add_8'
+     372 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:501:41: note: in expansion of macro '__pcpu_size_call'
+     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:511:41: note: in expansion of macro 'this_cpu_add'
+     511 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
+         |                                         ^~~~~~~~~~~~
+   kernel/trace/trace_branch.c:220:17: note: in expansion of macro 'this_cpu_inc'
+     220 |                 this_cpu_inc(f->data.incorrect);
+         |                 ^~~~~~~~~~~~
 
 
-vim +/dmaengine_desc_put +854 drivers/ntb/test/ntb_perf.c
+vim +198 kernel/trace/trace_branch.c
 
-   784	
-   785	static int perf_copy_chunk(struct perf_thread *pthr,
-   786				   void __iomem *dst, void *src, size_t len)
-   787	{
-   788		struct dma_async_tx_descriptor *tx;
-   789		struct dmaengine_unmap_data *unmap;
-   790		struct device *dma_dev;
-   791		int try = 0, ret = 0;
-   792		struct perf_peer *peer = pthr->perf->test_peer;
-   793		void __iomem *vbase;
-   794		void __iomem *dst_vaddr;
-   795		dma_addr_t dst_dma_addr;
-   796	
-   797		if (!use_dma) {
-   798			memcpy_toio(dst, src, len);
-   799			goto ret_check_tsync;
-   800		}
-   801	
-   802		dma_dev = pthr->dma_chan->device->dev;
-   803	
-   804		if (!is_dma_copy_aligned(pthr->dma_chan->device, offset_in_page(src),
-   805					 offset_in_page(dst), len))
-   806			return -EIO;
-   807	
-   808		vbase = peer->outbuf;
-   809		dst_vaddr = dst;
-   810		dst_dma_addr = peer->dma_dst_addr + (dst_vaddr - vbase);
-   811	
-   812		unmap = dmaengine_get_unmap_data(dma_dev, 1, GFP_NOWAIT);
-   813		if (!unmap)
-   814			return -ENOMEM;
-   815	
-   816		unmap->len = len;
-   817		unmap->addr[0] = dma_map_page(dma_dev, virt_to_page(src),
-   818			offset_in_page(src), len, DMA_TO_DEVICE);
-   819		if (dma_mapping_error(dma_dev, unmap->addr[0])) {
-   820			ret = -EIO;
-   821			goto err_free_resource;
-   822		}
-   823		unmap->to_cnt = 1;
-   824	
-   825		do {
-   826			tx = dmaengine_prep_dma_memcpy(pthr->dma_chan, dst_dma_addr,
-   827				unmap->addr[0], len, DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-   828			if (!tx)
-   829				msleep(DMA_MDELAY);
-   830		} while (!tx && (try++ < DMA_TRIES));
-   831	
-   832		if (!tx) {
-   833			ret = -EIO;
-   834			goto err_free_resource;
-   835		}
-   836	
-   837		tx->callback = perf_dma_copy_callback;
-   838		tx->callback_param = pthr;
-   839		dma_set_unmap(tx, unmap);
-   840	
-   841		ret = dma_submit_error(dmaengine_submit(tx));
-   842		if (ret)
-   843			goto err_free_resource;
-   844	
-   845		dmaengine_unmap_put(unmap);
-   846	
-   847		atomic_inc(&pthr->dma_sync);
-   848		dma_async_issue_pending(pthr->dma_chan);
-   849	
-   850	ret_check_tsync:
-   851		return likely(atomic_read(&pthr->perf->tsync) > 0) ? 0 : -EINTR;
-   852	
-   853	err_free_resource:
- > 854		dmaengine_desc_put(tx);
-   855		dmaengine_unmap_put(unmap);
-   856	
-   857		return ret;
-   858	}
-   859	
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  197  
+134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19 @198) void ftrace_likely_update(struct ftrace_likely_data *f, int val,
+d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  199) 			  int expect, int is_constant)
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  200  {
+4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  201  	unsigned long flags = user_access_save();
+4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  202  
+d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  203) 	/* A constant is always correct */
+134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  204) 	if (is_constant) {
+134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  205) 		f->constant++;
+d45ae1f7041ac5 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-17  206) 		val = expect;
+134e6a034cb004 kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  207) 	}
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  208  	/*
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  209  	 * I would love to have a trace point here instead, but the
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  210  	 * trace point code is so inundated with unlikely and likely
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  211  	 * conditions that the recursive nightmare that exists is too
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  212  	 * much to try to get working. At least for now.
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  213  	 */
+068f530b3f274d kernel/trace/trace_branch.c   Steven Rostedt (VMware  2017-01-19  214) 	trace_likely_condition(f, val, expect);
+52f232cb720a7b kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  215  
+a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  216  	/* use per-cpu counters to avoid contention */
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  217  	if (val == expect)
+a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  218  		this_cpu_inc(f->data.correct);
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  219  	else
+a53c1587fa9e39 kernel/trace/trace_branch.c   Martin Weiss            2026-06-29  220  		this_cpu_inc(f->data.incorrect);
+4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  221  
+4a6c91fbdef846 kernel/trace/trace_branch.c   Peter Zijlstra          2019-03-07  222  	user_access_restore(flags);
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  223  }
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  224  EXPORT_SYMBOL(ftrace_likely_update);
+1f0d69a9fc815d kernel/trace/trace_unlikely.c Steven Rostedt          2008-11-12  225  
 
 --
 0-DAY CI Kernel Test Service
