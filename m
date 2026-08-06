@@ -1,131 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FF9252917;
-	Thu,  6 Aug 2026 05:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC9931F983
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 05:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785995245; cv=none; b=MdYTNkQyXseirKhL50D9W27VFniJCwCDS4jb0YEQNRJNvS+7AUmMoH/UZbIRFtwz2dtqOyAPkQx1AXe328YL4LGIWBBFScmpCDuDdvp/6Q9tFVTOG9tox2YG3H/6O2LdpLQuVw7DO9MCl42mxuJcFUwAByUQP3OiD4nvVmOxXUQ=
+	t=1785995440; cv=none; b=aRsES+NJ21EPihX1nQt7FS9l1j/M1AlGVV9WyNrwdxZv1O5IlmWbVNx0ZggodsgN7KzBD5nAtyYEI5O0ttQ48VPtWbsMlaYcwvKFhNfmJbNibLdxta5EP/FfmNkijobuTFU/gt7Aj5Z/VAiAOrjb2oHLlNfKjrWxUaC2SB8GK0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785995245; c=relaxed/simple;
-	bh=9whEcVi+bZ76hr7pVy5xXsniCrbyjEpX1fcP7rpzGNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oMyIizvP4MbpU3BGfyu8s3v15jR+mgkrWYUogkEoxrgXRh6INRs7pwjSIfIcNF1Q75XvztaO4zE3CJ2DBiM5LkCgx9sGnk6B6B4gqBXZ1JzC06nyvmFqDNfJbZQD/Bhg1Ox9dBjABG+G7D9//qRKAtW5IyPoV75Gma9v23lv6t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yzvmb+5M; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1785995440; c=relaxed/simple;
+	bh=n4IM0Vy2zB8y8Y8820jGlZd1rY0M3jtt2gYJvJhD1HY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KyOwm1eS38/mXCtBNLk2PMGsh8HDWzpwoI59GS2VG80bp4oqE4AhHrui0Ltxw+n8Id27f2RuACoTBo2r/kntuEb+tpxsD+8ea3LQiqL09aBMVaIjOBoorruGyF5bAxMjjVG+sueQLiBoAG7E8bUhSaKoEtyJBebovGcUf70lOCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SPB4iqKr; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yzvmb+5M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SPB4iqKr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785995244; x=1817531244;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9whEcVi+bZ76hr7pVy5xXsniCrbyjEpX1fcP7rpzGNc=;
-  b=Yzvmb+5MDrAdpZWC5mPC6kKzsNh5gkS660g10BjhpHLWBQY8ojip7w3H
-   VxIp/UY1ms0OYE3Y8hNm4LAbCX0fT8hKOZNpAwrcz0+kpJuwPydyYmZP9
-   PEkwA93uKJEm0PVPLwIumNINklxs6IwQZEHR95VeP8DEWlPfr/ckx2F1/
-   ta7bfjji/kDYnyEm97j1Y5wz+aJTXlfvSJtxP1lzLNXrnInibbTERWc/R
-   xbes7I2BYbShUjIdk6+Njxp2XYLvENUeMqTYWLyNWII8+VHQhdzeJfP3m
-   4qd7f5523qoQWZXDPVNIoDQ06lTWK9algtEbE0TdjuqHiFvNHkRVQYyVP
-   w==;
-X-CSE-ConnectionGUID: 8TwwZET8Ql6O+WtVBbt8FA==
-X-CSE-MsgGUID: mcYheGAHS/aWp4HC4gd6YQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="97941167"
+  t=1785995438; x=1817531438;
+  h=date:from:to:cc:subject:message-id;
+  bh=n4IM0Vy2zB8y8Y8820jGlZd1rY0M3jtt2gYJvJhD1HY=;
+  b=SPB4iqKrd+9HJtInZ1NTsPeTm376GGvoPcbCS6QqbPKKSkpEzok6EnXJ
+   6rqUXEGORs/QV1Rt4+EhOKYlI20dsBfN+6VCjEvKjs75uP3Heww8RQRR4
+   gXD+OJJmJM4LLbpIxgTxBGBJ+K1rZRClGLZmjIfIwmPr4liimshEi03Q0
+   Se6/WHcUH3fnyIb3VV3mwEV6ZqdOSxVKIDtoO6WH30EhedH1+2DWFc1vP
+   YbL1/yaCy2gNpmANBiLNxXbstsyfI4rWsvU6dTkqIau4fxaAMKBLEu/bN
+   2D5NfX/1jCMKiVFKQFAHwu8Ta+YvGX+B+mAlQa85ttrRVRl+gTaKBaUQ5
+   A==;
+X-CSE-ConnectionGUID: vWM7y1TLQXOqe9O+d4f3WA==
+X-CSE-MsgGUID: c1mLYvz3R3u9NvjcwcU1mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="96929865"
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="97941167"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 22:47:23 -0700
-X-CSE-ConnectionGUID: E+Nkj0+0Ra6BdBMaxB89jQ==
-X-CSE-MsgGUID: K6YnMC3aSRq/uy52CQCB/A==
+   d="scan'208";a="96929865"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 22:50:38 -0700
+X-CSE-ConnectionGUID: sexf8ZelQYGjhsU00NOUaA==
+X-CSE-MsgGUID: q0W4AEDBTb6S1O7YHdmi4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
-   d="scan'208";a="263991239"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Aug 2026 22:47:22 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="265490470"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 05 Aug 2026 22:50:36 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrqwp-00000000EI5-3NBh;
-	Thu, 06 Aug 2026 05:47:19 +0000
-Date: Thu, 6 Aug 2026 13:46:20 +0800
+	id 1wrqzx-000000004Z4-2u1m;
+	Thu, 06 Aug 2026 05:50:33 +0000
+Date: Thu, 06 Aug 2026 07:49:44 +0200
 From: kernel test robot <lkp@intel.com>
-To: Aakarsh Jain <aakarsh.jain@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] x86/pci-dma: add "any" keyword to swiotlb= kernel
- parameter
-Message-ID: <202608061320.CdWO5wPP-lkp@intel.com>
-References: <20260708114244.246176-1-aakarsh.jain@oss.qualcomm.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 166/166] versioncheck:
+ ./drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c: 428: need linux/version.h
+Message-ID: <202608060747.g93BcFc9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260708114244.246176-1-aakarsh.jain@oss.qualcomm.com>
 
-Hi Aakarsh,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v7.2-rc6 next-20260805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aakarsh-Jain/x86-pci-dma-add-any-keyword-to-swiotlb-kernel-parameter/20260805-183105
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260708114244.246176-1-aakarsh.jain%40oss.qualcomm.com
-patch subject: [RFC PATCH] x86/pci-dma: add "any" keyword to swiotlb= kernel parameter
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260806/202608061320.CdWO5wPP-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061320.CdWO5wPP-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   5e37c0a68662ae56b301195cbb80b7e815107fb4
+commit: 53fb773ccac7eaa530a03a18bcfffa9a8c88ce60 [166/166] anolis: driver: gpu: yhgch: update to version 3.7
+reproduce: (https://download.01.org/0day-ci/archive/20260806/202608060747.g93BcFc9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608061320.CdWO5wPP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608060747.g93BcFc9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> kernel/dma/swiotlb.c:451:2: error: use of undeclared identifier 'flags'
-     451 |         flags |= swiotlb_param_flags;
-         |         ^~~~~
-   1 error generated.
-
-
-vim +/flags +451 kernel/dma/swiotlb.c
-
-   426	
-   427	/*
-   428	 * Systems with larger DMA zones (those that don't support ISA) can
-   429	 * initialize the swiotlb later using the slab allocator if needed.
-   430	 * This should be just like above, but with some error catching.
-   431	 */
-   432	int swiotlb_init_late(size_t size, gfp_t gfp_mask,
-   433			int (*remap)(void *tlb, unsigned long nslabs))
-   434	{
-   435		struct io_tlb_pool *mem = &io_tlb_default_mem.defpool;
-   436		unsigned long nslabs = ALIGN(size >> IO_TLB_SHIFT, IO_TLB_SEGSIZE);
-   437		unsigned int nareas;
-   438		unsigned char *vstart = NULL;
-   439		unsigned int order, area_order;
-   440		bool retried = false;
-   441		int rc = 0;
-   442	
-   443		if (io_tlb_default_mem.nslabs)
-   444			return 0;
-   445	
-   446		if (swiotlb_force_disable)
-   447			return 0;
-   448	
-   449		io_tlb_default_mem.force_bounce = swiotlb_force_bounce;
-   450	
- > 451		flags |= swiotlb_param_flags;
-   452	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j384 ARCH=x86_64 versioncheck 
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/char/ipmi/ipmi_si_ls2k500.c: 19 linux/version.h not needed.
+   ./drivers/crypto/ccp/hygon/ccp-mdev.c: 12 linux/version.h not needed.
+   ./drivers/crypto/ccp/hygon/hct.c: 6 linux/version.h not needed.
+   ./drivers/crypto/ccp/hygon/tdm-dev.h: 29 linux/version.h not needed.
+   ./drivers/crypto/montage/tsse/tsse_vuart.c: 21 linux/version.h not needed.
+   ./drivers/gpu/drm/phytium/phytium_gem.c: 9 linux/version.h not needed.
+>> ./drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c: 428: need linux/version.h
+   ./drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h: 6 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-zhaoxin.c: 18 linux/version.h not needed.
+   ./drivers/net/ethernet/linkdata/sxe/base/compat/sxe_compat.h: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/linkdata/sxe2/base/compat/sxe2_compat.h: 17 linux/version.h not needed.
+   ./drivers/net/ethernet/linkdata/sxe2vf/base/compat/sxe2_compat.h: 17 linux/version.h not needed.
+   ./drivers/net/ethernet/linkdata/sxevf/base/compat/sxe_compat.h: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-ethtool.c: 1114: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: 6256: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c: 2329: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-os.h: 27 linux/version.h not needed.
+   ./drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h: 26 linux/version.h not needed.
+   ./drivers/scsi/hisi_raid/hiraid_main.c: 9 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_base.c: 11 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_cli.c: 14 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_driver_log.c: 3 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_device_manager.h: 9 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_device_manager_sas.h: 6 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_qos.c: 6 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_rb_tree.h: 7 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_sas_transport.h: 9 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c: 9 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 407: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 --
 0-DAY CI Kernel Test Service
