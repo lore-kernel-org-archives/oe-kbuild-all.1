@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC02374E55
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 18:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A081494808
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Aug 2026 19:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786040762; cv=none; b=U8NvNGSkIi0vFDCf9X8FSUksP7oFY4n2qmUaiqwyh4Og1JgttpcGqPw0W1UgxUIosobPyGjVPYyARdmE79c2Z1qHowOz6wutH/bLwtfgv8bV2MrVS7s44//nnZEB6VoDrVgckqU8vTSJ1ojvFqfrgDvyNLxGGxsoMPOB8pSmeqk=
+	t=1786045164; cv=none; b=OkIu9epuLyuVASrJMSjhgY8hTKYAxY6OwA5iehpWA5fYmhIrF40WHmiE1vK2uDpo5Ubf/zU9Fgwg//rbErjS7wf7iNtTzgxzqiaPEJ42f8lj2C+yDzj2xp+Cwp72JvZpon56CaLtQYeE1pJHPXD40AIWquiZEbjpP1eptAHqtiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786040762; c=relaxed/simple;
-	bh=l+D3OA1CPWSxR0OmdGBNrPmKPQtGkZGLIlJ9vzbLHuw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lBymlN7ERY41qf6DqnU3kTzsZqKutuLpY3ntILV5cQdpvZRrCpVndZrpOx4dERflbcUxj5Pqw+i9056QKktLP7ta0aJZdpJAhSpWiC9uUAOwjSjdirn9uOWMjeJZDQ3c3tCUQMjQmw2Bom3s4k9CBuZKoCWAVcbVaztrwrL/WSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C/Fc+o8/; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1786045164; c=relaxed/simple;
+	bh=giezZmsqiLauXkPCTFWRurjuGp5FRhjfFndOvTRAdQk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jC88S2pnjrapphYM0KthafTDvd2YQZA2HkDR+aI3qpuQTCI59s8SG0J8p6WgZsU+XXwZmNDthm8VeeNVfw6qo7GanryO+V/oF9W+OqXz309ZMPNGeBMQfzTJYxYSmcqLdeMJ42X3rv0N2GuT3xaqcWDQdlregCBz1Zkikj74jPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bTRtePPN; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/Fc+o8/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bTRtePPN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786040759; x=1817576759;
+  t=1786045162; x=1817581162;
   h=date:from:to:cc:subject:message-id;
-  bh=l+D3OA1CPWSxR0OmdGBNrPmKPQtGkZGLIlJ9vzbLHuw=;
-  b=C/Fc+o8/D7rc0dtggA/Nav8WHaMKFcr/W373BkF1wusM2jdd1fbsbRjV
-   Bp0LKcjHLlRI7OBDmGytjRWHrYxZz0lZlJO1BWAvphpNznOzqKbetlEW7
-   jXU1IDpRkaEuJZg73xbNBc14kEvdFvCTxEu5f/gZ+50Uk2R+XpRwBoEJr
-   ckqyrhL/a7Y1uetajcDWsQPczmknSMOy1r7KlRlte4ZIzHiBNrfFL74eP
-   hJjGtNfkQpad/S2z5cesMI9UhwPRtAbqyJoshOitrkZ3ulD57Jy393PFx
-   52QBCECi3Xo8Hoo+Ar7kK+eAMybg3akjnYIx/pcd3bxDwBBzhSPORW/6n
-   A==;
-X-CSE-ConnectionGUID: sZ/kyvA0RwO2/+/VpjwAFw==
-X-CSE-MsgGUID: ex2itqOOSrCt+xKwHHDt6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="104049740"
-X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="104049740"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 11:25:58 -0700
-X-CSE-ConnectionGUID: eyeRaB7MSmCA/1nPxVKeUQ==
-X-CSE-MsgGUID: jP9ABzm4TN+3MyHnwTvZ+w==
+  bh=giezZmsqiLauXkPCTFWRurjuGp5FRhjfFndOvTRAdQk=;
+  b=bTRtePPNxGXsQsP85+mo167mZpONb+9Bv54eElGIK4jk3PpktwUJaYsP
+   uhFoE59P/0xWRvwwKgs9UnyJpxX/Vd3zaDoYCJNX9V0OsmshocM17iqBp
+   zNOif9ek2WrLqteS92tbOF8pVcFoHXMOK2Ac9ePvAt7p6EyhCwggTzvaj
+   G9WYvSzWjA30adFYq92GwW28lxGNiz5anhNxEh/CjMj1SEEp0rmMgYEtp
+   5wK1S/gybFK7DjfoBhQ7FkLbAyoFmUZCi5hMy6u3k9MFEoiwKp7aDtFh4
+   27guhXnfLxZFcNcVxPnWNSNY9aW6w75V0qW3v0NIXgQS3Y7Kf3wiEIw9w
+   w==;
+X-CSE-ConnectionGUID: hPfM/L7GR4iWGgyEggBxDA==
+X-CSE-MsgGUID: ikG43X7CQzmJPHt1TbY/HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86418512"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="86418512"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 12:39:21 -0700
+X-CSE-ConnectionGUID: sfryLZ3vSRaVj71yJ6fzpg==
+X-CSE-MsgGUID: W5jDltIvSG2uIGFReR7ILw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="259566861"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="258869500"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Aug 2026 11:25:56 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 Aug 2026 12:39:13 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ws2mw-00000000Fw5-0I66;
-	Thu, 06 Aug 2026 18:25:54 +0000
-Date: Fri, 07 Aug 2026 02:25:08 +0800
+	id 1ws3vq-00000000G5L-1vVd;
+	Thu, 06 Aug 2026 19:39:10 +0000
+Date: Fri, 07 Aug 2026 03:38:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/240-isp 20/67]
- drivers/media/platform/apple/isp/isp-fw.c:295:61: warning: right shift count
- >= width of type
-Message-ID: <202608070111.DwFx4iQu-lkp@intel.com>
+To: Jan Kara <jack@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+ "Theodore Ts'o" <tytso@mit.edu>
+Subject: [tytso-ext4:dev 54/56] fs/ext4/inode.c:3711:29: warning:
+ unused variable 'bpg'
+Message-ID: <202608070336.Nq0yndDZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,111 +60,138 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Asahi,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/AsahiLinux/linux bits/240-isp
-head:   6b01d08e5d4d33d4a7cdfb1ecea6f78e295bfd75
-commit: f295ca6ad4b4662ba63cfb311d4582352cd03132 [20/67] media: apple: isp: Support >32bit VAs for t602x
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260807/202608070111.DwFx4iQu-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070111.DwFx4iQu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+head:   d77b9f1b037ed1e9102d7b200bfc90f74e1c84bf
+commit: 0db01f3b86bb23f9bc7a757e3a850963c615887e [54/56] ext4: teach ext4_meta_trans_blocks() about number of allocated extents
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260807/202608070336.Nq0yndDZ-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070336.Nq0yndDZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608070111.DwFx4iQu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608070336.Nq0yndDZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/apple/isp/isp-fw.c: In function 'isp_firmware_boot_stage2':
->> drivers/media/platform/apple/isp/isp-fw.c:295:61: warning: right shift count >= width of type [-Wshift-count-overflow]
-     295 |                 isp_gpio_write32(isp, ISP_GPIO_1, args_iova >> 32);
-         |                                                             ^~
+   fs/ext4/inode.c: In function 'ext4_iomap_alloc':
+>> fs/ext4/inode.c:3711:29: warning: unused variable 'bpg' [-Wunused-variable]
+    3711 |                         int bpg = EXT4_BLOCKS_PER_GROUP(inode->i_sb);
+         |                             ^~~
 
 
-vim +295 drivers/media/platform/apple/isp/isp-fw.c
+vim +/bpg +3711 fs/ext4/inode.c
 
-   246	
-   247	static int isp_firmware_boot_stage2(struct apple_isp *isp)
-   248	{
-   249		struct isp_firmware_bootargs args;
-   250		dma_addr_t args_iova;
-   251		int err, retries;
-   252	
-   253		u32 num_ipc_chans = isp_gpio_read32(isp, ISP_GPIO_0);
-   254		u32 args_offset = isp_gpio_read32(isp, ISP_GPIO_1);
-   255		u32 extra_size = isp_gpio_read32(isp, ISP_GPIO_3);
-   256		isp->num_ipc_chans = num_ipc_chans;
-   257	
-   258		if (!isp->num_ipc_chans) {
-   259			dev_err(isp->dev, "No IPC channels found\n");
-   260			return -ENODEV;
-   261		}
-   262	
-   263		if (isp->num_ipc_chans != 7)
-   264			dev_warn(isp->dev, "unexpected channel count (%d)\n",
-   265				 num_ipc_chans);
-   266	
-   267		isp->extra_surf = isp_alloc_surface_vmap(isp, extra_size);
-   268		if (!isp->extra_surf) {
-   269			isp_err(isp, "failed to alloc surface for extra heap\n");
-   270			return -ENOMEM;
-   271		}
-   272	
-   273		args_iova = isp->ipc_surf->iova + args_offset + 0x40;
-   274		isp->cmd_iova = args_iova + sizeof(args) + 0x40;
-   275	
-   276		memset(&args, 0, sizeof(args));
-   277		args.ipc_iova = isp->ipc_surf->iova;
-   278		args.ipc_size = isp->ipc_surf->size;
-   279		args.shared_base = isp->fw.heap_top & 0xffffffff;
-   280		args.shared_size = 0x10000000UL - args.shared_base;
-   281		args.extra_iova = isp->extra_surf->iova;
-   282		args.extra_size = isp->extra_surf->size;
-   283		args.platform_id = isp->hw->platform_id;
-   284		args.unk5 = 0x40;
-   285		args.unk7 = 0x1;
-   286		args.unk_iova1 = args_iova + sizeof(args) - 0xc;
-   287		args.unk9 = 0x3;
-   288		isp_iowrite(isp, args_iova, &args, sizeof(args));
-   289	
-   290		isp_gpio_write32(isp, ISP_GPIO_0, args_iova);
-   291		/* TODO: handle this via Kconfig depends? hardware is only present on
-   292		 *       64-bit SoCs.
-   293		 */
-   294		if (IS_ENABLED(CONFIG_ARCH_DMA_ADDR_T_64BIT))
- > 295			isp_gpio_write32(isp, ISP_GPIO_1, args_iova >> 32);
-   296		wmb();
-   297	
-   298		/* Wait for ISP_GPIO_7 to 0xf7fbdff9 -> 0x8042006 */
-   299		isp_gpio_write32(isp, ISP_GPIO_7, 0xf7fbdff9);
-   300	
-   301		for (retries = 0; retries < ISP_FIRMWARE_MAX_TRIES; retries++) {
-   302			u32 val = isp_gpio_read32(isp, ISP_GPIO_7);
-   303			if (val == 0x8042006) {
-   304				isp_dbg(isp,
-   305					"got second magic number (0x%x) from firmware\n",
-   306					val);
-   307				break;
-   308			}
-   309			mdelay(ISP_FIRMWARE_MDELAY);
-   310		}
-   311		if (retries >= ISP_FIRMWARE_MAX_TRIES) {
-   312			isp_err(isp,
-   313				"never received second magic number from firmware\n");
-   314			err = -ENODEV;
-   315			goto free_extra;
-   316		}
-   317	
-   318		return 0;
-   319	
-   320	free_extra:
-   321		isp_free_surface(isp, isp->extra_surf);
-   322		return err;
-   323	}
-   324	
+  3680	
+  3681	static int ext4_iomap_alloc(struct inode *inode, struct ext4_map_blocks *map,
+  3682				    unsigned int flags)
+  3683	{
+  3684		handle_t *handle;
+  3685		int ret, dio_credits, m_flags = 0, retries = 0;
+  3686		bool force_commit = false;
+  3687	
+  3688		if (flags & IOMAP_NOWAIT)
+  3689			return -EAGAIN;
+  3690	
+  3691		/*
+  3692		 * Trim the mapping request to the maximum value that we can map at
+  3693		 * once for direct I/O.
+  3694		 */
+  3695		if (map->m_len > DIO_MAX_BLOCKS)
+  3696			map->m_len = DIO_MAX_BLOCKS;
+  3697	
+  3698		/*
+  3699		 * journal credits estimation for atomic writes. We call
+  3700		 * ext4_map_blocks(), to find if there could be a mixed mapping. If yes,
+  3701		 * then let's assume the no. of pextents required can be m_len i.e.
+  3702		 * every alternate block can be unwritten and hole.
+  3703		 */
+  3704		if (flags & IOMAP_ATOMIC) {
+  3705			unsigned int orig_mlen = map->m_len;
+  3706	
+  3707			ret = ext4_map_blocks(NULL, inode, map, 0);
+  3708			if (ret < 0)
+  3709				return ret;
+  3710			if (map->m_len < orig_mlen) {
+> 3711				int bpg = EXT4_BLOCKS_PER_GROUP(inode->i_sb);
+  3712	
+  3713				map->m_len = orig_mlen;
+  3714				dio_credits = ext4_meta_trans_blocks(inode, map->m_len,
+  3715								     map->m_len, 0);
+  3716			} else {
+  3717				dio_credits = ext4_chunk_trans_blocks(inode,
+  3718								      map->m_len);
+  3719			}
+  3720		} else {
+  3721			dio_credits = ext4_chunk_trans_blocks(inode, map->m_len);
+  3722		}
+  3723	
+  3724	retry:
+  3725		/*
+  3726		 * Either we allocate blocks and then don't get an unwritten extent, so
+  3727		 * in that case we have reserved enough credits. Or, the blocks are
+  3728		 * already allocated and unwritten. In that case, the extent conversion
+  3729		 * fits into the credits as well.
+  3730		 */
+  3731		handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS, dio_credits);
+  3732		if (IS_ERR(handle))
+  3733			return PTR_ERR(handle);
+  3734	
+  3735		/*
+  3736		 * DAX and direct I/O are the only two operations that are currently
+  3737		 * supported with IOMAP_WRITE.
+  3738		 */
+  3739		WARN_ON(!(flags & (IOMAP_DAX | IOMAP_DIRECT)));
+  3740		if (flags & IOMAP_DAX)
+  3741			m_flags = EXT4_GET_BLOCKS_CREATE_ZERO;
+  3742		/*
+  3743		 * We use i_size instead of i_disksize here because delalloc writeback
+  3744		 * can complete at any point during the I/O and subsequently push the
+  3745		 * i_disksize out to i_size. This could be beyond where direct I/O is
+  3746		 * happening and thus expose allocated blocks to direct I/O reads.
+  3747		 */
+  3748		else if (EXT4_LBLK_TO_B(inode, map->m_lblk) >= i_size_read(inode))
+  3749			m_flags = EXT4_GET_BLOCKS_CREATE;
+  3750		else if (ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
+  3751			m_flags = EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT;
+  3752	
+  3753		if (flags & IOMAP_ATOMIC)
+  3754			ret = ext4_map_blocks_atomic_write(handle, inode, map, m_flags,
+  3755							   &force_commit);
+  3756		else
+  3757			ret = ext4_map_blocks(handle, inode, map, m_flags);
+  3758	
+  3759		/*
+  3760		 * We cannot fill holes in indirect tree based inodes as that could
+  3761		 * expose stale data in the case of a crash. Use the magic error code
+  3762		 * to fallback to buffered I/O.
+  3763		 */
+  3764		if (!m_flags && !ret)
+  3765			ret = -ENOTBLK;
+  3766	
+  3767		ext4_journal_stop(handle);
+  3768		if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
+  3769			goto retry;
+  3770	
+  3771		/*
+  3772		 * Force commit the current transaction if the allocation spans a mixed
+  3773		 * mapping range. This ensures any pending metadata updates (like
+  3774		 * unwritten to written extents conversion) in this range are in
+  3775		 * consistent state with the file data blocks, before performing the
+  3776		 * actual write I/O. If the commit fails, the whole I/O must be aborted
+  3777		 * to prevent any possible torn writes.
+  3778		 */
+  3779		if (ret > 0 && force_commit) {
+  3780			int ret2;
+  3781	
+  3782			ret2 = ext4_force_commit(inode->i_sb);
+  3783			if (ret2)
+  3784				return ret2;
+  3785		}
+  3786	
+  3787		return ret;
+  3788	}
+  3789	
 
 --
 0-DAY CI Kernel Test Service
