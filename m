@@ -1,69 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E758638B7B4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 16:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532A830BF6B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 16:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786119947; cv=none; b=Xxd5hNv+CRIEZbsAWUaJlwOiS5//FboIK/2UNMDBOLSNvbhDJYAY4D+A5Oc33eF9VvnbsX8u9+sDZz6ORjvV1VOnwF/koY7Vr2iSKB7rjmsBgde6BDbuLCXoJMrmvozNO7C0dOoURIsa57dHP/OMNjOD3hwbCj5CQPOeSecyT3U=
+	t=1786121714; cv=none; b=D8b/yHOlpvcJEAUe8m9rNSupoGGZoBWt7ZzfiODcDGEo3MJiY7+D1vGObXaF9rUI97IRhsydImsjAbPvalmhnLKXFOCg/Gwxq7PPHnTmL/HNJO+FHOqxVitVtTHk4RVTWhlk4jJ45f0OWx/9aL25g7wF63M8ZTFh8djRlKDmbXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786119947; c=relaxed/simple;
-	bh=g/O5BDI223k5deKY9eXjZTYthJwDKYLckf0FhghOlwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qYYsgnx9iNZsCVw4d5iH2dXeIXEy+z46qKtuXQZZ21i9C+I6id203AAT6zIHkCPf8FKJ+0WQ7TUHdUwfzZd7uvE8xPQEp65ib4iRGoriV+Ze5t87ZtQYQGf+EyUXpty2j20PxB/a15LOs54MaQCdTpwGQrl4oHUhP7lpVdtby7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPLZneOU; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786121714; c=relaxed/simple;
+	bh=w44gWSxPdQjrl4Q8P7ErabLUzfDafLFgd5adwGSC7hI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FRDgWmGmXJW9ceNy/zMQYW8snFHWEylwwWvdJudpOvYM8xJRSX/Is4HfXO5rsAKLTO4AVruiHeDUoJy6jJx1x4ZAC833zZZ/JUuyGFoUkZHnaPgtr8TsxRKzxE0wU4nbqrXEX5+njH/htcHLj9m1XP3DEB+twIyzE9IIfGeXsXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Os6JUhnD; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPLZneOU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786119946; x=1817655946;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g/O5BDI223k5deKY9eXjZTYthJwDKYLckf0FhghOlwk=;
-  b=ZPLZneOUD4Vtt6bdl2s6Qx3jYOmgJus1S7GkGZ+8B5OMgaxWvlriXgzu
-   jPBA9p9fYFtvoHTWyOkMQEKn9YX5+RE2UgE67QgRsKRJC8j0A4x7EOFmO
-   M0/gwB3LA1m1Adj6Tbr7cQ/ZCaG4BctgA+Rgh3N7yUpZkRE2eGOmUNxGY
-   OxnLfXLChHgOGlrxnqZy1+4IjHtfTLgcOIlTNIZZ2rhRz+fiqen3TbieM
-   nHqJ3e3/9onZvjTC4dbrG2FTnO/BrIto181T0L+//SRFPjfH3NH8NlFSQ
-   zuIopf9wY4VyeVqOZcDvVL6JDX12Pei0KPs0RCvB5F7Opy6DChdYl8Ztp
-   Q==;
-X-CSE-ConnectionGUID: agRF6jLZQCelNrY0lzLXzQ==
-X-CSE-MsgGUID: uV1DmfqZQ4iVjdi2389t+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="86741964"
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="86741964"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 09:25:45 -0700
-X-CSE-ConnectionGUID: uGOWC4ZlTyig0hGSg0YoUg==
-X-CSE-MsgGUID: igeu7tPwRaKnq+zyUHNBlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="266690004"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 07 Aug 2026 09:25:43 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wsNO8-000000004sk-3g6R;
-	Fri, 07 Aug 2026 16:25:40 +0000
-Date: Fri, 7 Aug 2026 18:25:34 +0200
-From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Doug Anderson <dianders@chromium.org>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 2/2] drm/panel: visionox-vtdr6130: switch to devm
- panel calls and drop remove
-Message-ID: <202608071839.p4QV9Yza-lkp@intel.com>
-References: <20260702-topic-sm8x50-vtdr6130-dsc-v3-2-db881a3fc026@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Os6JUhnD"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c2a76536bso32151811cf.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 07 Aug 2026 09:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786121712; x=1786726512; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s/FeEsrWnUI92U6c0JlV2MTC2xQj+SJZ7T+hkvEGMHU=;
+        b=Os6JUhnDYy0DwNhN6VTMUS/Gv+kfjTnQl4LqCP/VwMzrcisjtISq69TANGKeJO3Gos
+         Iu1wQhPpYkEZW95sTk7BaxastzP12IUwh5FtArZ9TOLgbgOHuYwzA3RDuXoZgU/mMSlx
+         71D8XdOc0N+tHj+EZAgBJfdH1575cKxmJQykRgYQm9pU29ETIEifuGo0mxtzQAew5eu3
+         nvuXpNIs9ws1LNAkPkSkeq5iiLodz1qzkjOKr8vw5UtGSwGkx5cNudG95zT1YK/nLrOp
+         F2iNjHwywoDZBzVft3Aq4Rg0RqDbzhmCRrQ3F2mWvTN8iBpqUvkA8+Q1maZL0FdHbkLN
+         nJww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786121712; x=1786726512;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=s/FeEsrWnUI92U6c0JlV2MTC2xQj+SJZ7T+hkvEGMHU=;
+        b=Qb1L8kFZ7aqEcnNRlSC2O7hpmXU/DLb627Ox1z9R+QJQjm/fPB08D9mx6kfG6mAxa8
+         Ba+oEVDSapJU3PzVxgJi1CZ2/U3n9MLoqKJ1EBtgXy/VYtbzhny0ZRk63QI2CSNghAMO
+         6+3r3PwYJcOFfIHyWuvrn9khZ3bVDillGJOeAI8IfIcC612DWEINxb1XrTYeaFUKAx9d
+         PFl7ECt4Ve2UKp0bZ8CRMJlimZ3MbUbrcDNXlGq5Xhrq00Qc2VS3wMp5nfYaWZNWpXUo
+         jqc3tE3Pg8tL+rwlE9T4an6EbvLTPVegF1y0GlYmkv1OQGzTk+gksoEVGfa3vjQvf0LV
+         Dhpw==
+X-Forwarded-Encrypted: i=1; AHgh+RoVs6GILGZonbZ6RK1Hn/01ZYzDIkZmY3+pdr4JLbBJMwZ9HnjYvV3/roIbcSuW9O6M+EAt+As9rPAGZRiw@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw8+EULe3ZJeg+qoy/YY/6iOAMtXEXTmJZdXso71dYCkW1lEUjG
+	pCFxSna0KU+gNT5Z+lAJb0WqrFWtSwQrTXdE2FWM6OPhwurQ7j3S4qOp
+X-Gm-Gg: AR+sD1002jGNUzqGCYpflEdJkaiSeZTajMWXy3XgZWsKp8uBAlivWEW/WmdU2gy4k17
+	h2kBUhn4BdKYYp/lbpqAf3O25FjdxO3bcnRbysvOlXgC80pxVDsGqMQbnmCYRQPhHuLtNsMDytm
+	I9cdYYoAcpW0fvkxuX8MmlUjx/bsdK0GFDsbCMgYWYBFwjXLtSZagCvn2GT0eg4h1ZpvIC8BWHc
+	TlPuiwDw2Ep7wzV9B7/HFlr40Fsx1rwUwcByxfX5A5JKzHmDr+Gk5+I/hX8tJzH49JASjZ/hZfK
+	Vez7OYOPC8/Be1lXxarrtpq3jC4NG1oWTsyCkz3c351zBj1NDpLbxTz883EDOOxpZVz8zSAUnYL
+	19xSgkAypUrpGFFnGqYpJ7bQt1mVYbscKURclIiyPEN+vAhKF84WfBVrNRK1I5PkYmK+6WCeKQO
+	DZc0acJgpKu0jZnti4CZxgaVztcO+NGb07xLSvfSZsZzi4TAggJsx/gkpOKKAzCeeBlQ==
+X-Received: by 2002:a05:622a:a0f:b0:50e:635b:5579 with SMTP id d75a77b69052e-52d20975cb7mr25961661cf.19.1786121712089;
+        Fri, 07 Aug 2026 09:55:12 -0700 (PDT)
+Received: from localhost ([172.216.11.43])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d16335bb4sm16036641cf.2.2026.08.07.09.55.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 09:55:11 -0700 (PDT)
+Date: Fri, 7 Aug 2026 19:55:02 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Eli Billauer <eli.billauer@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: drivers/char/xillybus/xillybus_class.c:230 xillybus_find_inode()
+ warn: variable dereferenced before check 'inode' (see line 226)
+Message-ID: <202608072246.Ee6OOcT6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,64 +73,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260702-topic-sm8x50-vtdr6130-dsc-v3-2-db881a3fc026@linaro.org>
 
-Hi Jun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cdeb2ccd993ed8647adbbda2c3b103aa717fd6f7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/drm-panel-Enable-DSC-for-Visionox-VTDR6130-panel/20260807-132154
-base:   cdeb2ccd993ed8647adbbda2c3b103aa717fd6f7
-patch link:    https://lore.kernel.org/r/20260702-topic-sm8x50-vtdr6130-dsc-v3-2-db881a3fc026%40linaro.org
-patch subject: [PATCH v3 2/2] drm/panel: visionox-vtdr6130: switch to devm panel calls and drop remove
-config: x86_64-rhel-9.4-rust (attached as .config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608071839.p4QV9Yza-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Eli-Billauer/char-xillybus-Improve-control-of-execution-flow-with-mutexes/20260806-033404
+head:   d05c024c9354aabd2ea64be46e6fccbf24ba33cd
+commit: 16edb90c39a5645b3803be32b2b77476efae2402 char: xillybus: Add defensive sanity checks
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260807/202608072246.Ee6OOcT6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608071839.p4QV9Yza-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608072246.Ee6OOcT6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/char/xillybus/xillybus_class.c:230 xillybus_find_inode() warn: variable dereferenced before check 'inode' (see line 226)
 
->> drivers/gpu/drm/panel/Kconfig:1356: syntax error
-   drivers/gpu/drm/panel/Kconfig:1356: unknown statement "selecy"
-   drivers/gpu/drm/panel/Kconfig:1357: invalid statement
-   drivers/gpu/drm/panel/Kconfig:1358: unknown statement "Say"
-   drivers/gpu/drm/panel/Kconfig:1359:warning: ignoring unsupported character '.'
-   drivers/gpu/drm/panel/Kconfig:1359: unknown statement "VTDR6130"
-   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1
-   make[2]: *** [Makefile:757: oldconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'oldconfig' not remade because of errors.
---
->> drivers/gpu/drm/panel/Kconfig:1356: syntax error
-   drivers/gpu/drm/panel/Kconfig:1356: unknown statement "selecy"
-   drivers/gpu/drm/panel/Kconfig:1357: invalid statement
-   drivers/gpu/drm/panel/Kconfig:1358: unknown statement "Say"
-   drivers/gpu/drm/panel/Kconfig:1359:warning: ignoring unsupported character '.'
-   drivers/gpu/drm/panel/Kconfig:1359: unknown statement "VTDR6130"
-   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1
-   make[2]: *** [Makefile:757: olddefconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'olddefconfig' not remade because of errors.
+vim +/inode +230 drivers/char/xillybus/xillybus_class.c
 
+8cb5d216ab3365 Eli Billauer  2021-05-26  223  int xillybus_find_inode(struct inode *inode,
+8cb5d216ab3365 Eli Billauer  2021-05-26  224  			void **private_data, int *index)
+8cb5d216ab3365 Eli Billauer  2021-05-26  225  {
+8cb5d216ab3365 Eli Billauer  2021-05-26 @226  	int minor = iminor(inode);
+8cb5d216ab3365 Eli Billauer  2021-05-26  227  	int major = imajor(inode);
+                                                                   ^^^^^
+Unchecked dereferences
 
-vim +1356 drivers/gpu/drm/panel/Kconfig
+4834f9898c7301 Jakob Koschel 2022-03-24  228  	struct xilly_unit *unit = NULL, *iter;
+8cb5d216ab3365 Eli Billauer  2021-05-26  229  
+16edb90c39a564 Eli Billauer  2026-06-30 @230  	if (!inode || !private_data || !index)
+                                                    ^^^^^^
+Checked too late.
 
-> 1356		selecy DRM_DISPLAY_HELPER
-  1357		help
-  1358		  Say Y here if you want to enable support for Visionox
-  1359		  VTDR6130 1080x2400 AMOLED DSI panel.
-  1360	
+16edb90c39a564 Eli Billauer  2026-06-30  231  		return -ENODEV;
+16edb90c39a564 Eli Billauer  2026-06-30  232  
+8cb5d216ab3365 Eli Billauer  2021-05-26  233  	mutex_lock(&unit_mutex);
+8cb5d216ab3365 Eli Billauer  2021-05-26  234  
+4834f9898c7301 Jakob Koschel 2022-03-24  235  	list_for_each_entry(iter, &unit_list, list_entry)
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
