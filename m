@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725B42F30
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 22:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3EC1CD2C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 23:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786143036; cv=none; b=pfcgVLFH3L7WDL0SXYLan1/b96gu7PouVoi6sckiOy9bdFxdJguTAsrcgYaiCR+MHKdx+vfX80ewTs6Ra4KP99QTAEgufjenqXBr/yt5qYojpSg82Hw7E/essxbChO/uZhLpivOup1iQoBHLEuwXpu5xFUK7U04dgcyCd5HcCPI=
+	t=1786143655; cv=none; b=J/BMwM+96V1DauMHGsKrfgmhlqBE9M2T3fEZ133QOtzspfWnMM8jTDpzx89yKyhif2v467UfoWw6/SUchY7NUkLJrrT6OBQWz/d8vJMEG029rf/JSDBmriJubOL0PnYPQush35vDN65sTAutV4tUqPZBY12dtlE66J8azzwSWS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786143036; c=relaxed/simple;
-	bh=9yqaudjBOhKXmKyZcLLhM7GhvFEVdHcot5Lv66UpueE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CoWEJBsLoKEyL8Fki1RpaKfFuX4R/tGrhc9dnbqClQxmWc5JQVXpi4h5POK01n0HSSRdALxXGgRBOZLfT84CqrZp+qiWP8tsIVj4t3Fe/x+pIbcUPk2OeKvlkxs2MkoM7Km5SejbUKbITRBLtun/hKjUzcAYu0sQkGTYjHAPcug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVinljfa; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1786143655; c=relaxed/simple;
+	bh=ECQVWCstlWUww5z49UTENgQT2dtPkDMO9n8FkaElep8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GRSG/p08Zm5aGXQHThnXyPcdzhJQXe6YNQv1C5h0OjQhyc9v/dWuDLT2mTvB/Ht8xgHFSrtZ14fBmXVYMS6fa4H5eMR9Gzisq+1SoQWVHA47vd0rDWOzvpsjjxvQKAXueZI4fpFOCg+13YSm9cAMxPAPtpFybvLTJIKRIvL8GmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dNHJZ5zp; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVinljfa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNHJZ5zp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786143034; x=1817679034;
+  t=1786143654; x=1817679654;
   h=date:from:to:cc:subject:message-id;
-  bh=9yqaudjBOhKXmKyZcLLhM7GhvFEVdHcot5Lv66UpueE=;
-  b=aVinljfaeNNJF4jOQ/H3tf06GQQw0ousTL2PE1XuYD9kCF1nucTqQsh/
-   HGsSMkzN6jlNN1ProAECsDj01gKioRhHwY5NPGRDNzF+EhmOU2h5oiCA1
-   0ZMvlZ+yeb5V89TSyAhLQH/C0Od2wOnuZ5/LP7RZ1EHR4+ZTP65ecK6fb
-   v9i+oM4c6ejqG6I3VkrWjMWX7HXjbuqhsVJ/gCDCCoGHopYMr9YBEzYj2
-   85dBGnU4T7JOYD9jm+dZgAcJPc5CjzdxQlnxXg7lFhlWd1N766ZPSy4DG
-   Vj+dWotkx3l0Wltsa42dVbi5UQlZV4Im3bTuT+ZMrRPM3Y9TmCJrhGxyw
-   g==;
-X-CSE-ConnectionGUID: ZpLK5RkjR/aivq1Mcw/fpA==
-X-CSE-MsgGUID: XcXkid5QQQamGCocDJQ6MQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="85731852"
+  bh=ECQVWCstlWUww5z49UTENgQT2dtPkDMO9n8FkaElep8=;
+  b=dNHJZ5zpjSIAYxuJ5wiqf9dRGe7w0sVsoIW/g6MBTCWpGPu2tkw0JIA2
+   ixBMRmLuB1YHdRhVcQTl9q7JvfNSLmdnXXbsBJTiw3OMfTaRilSUux8rT
+   zUOW41yFYqhOYwDfXXAz0mmutr8bRr39Zj6bDh7uyCRWhTowJNhSOlOoT
+   RZtEb8vqyJr4NZQNifslkubXrBFIjGwvOY1GahlW6O5AehnA6lY20FT1B
+   q+R0YUMxOy6LXNI2Un+Iv20autaVMzYprxwWvKcKsLq8+rT1Ca+Y5NwYo
+   mIQNHTRXvTvrAJh7WPVQVZJZQ8P2fW07NXXOkSbxYs3HmrLaODbG4dHaJ
+   A==;
+X-CSE-ConnectionGUID: m9rLlqR9QMOF5MD4pVSGjw==
+X-CSE-MsgGUID: o6olQBdyQEmZOAv03El7nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="86699704"
 X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="85731852"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 15:50:34 -0700
-X-CSE-ConnectionGUID: PuJp4hxeRWiD8GnfEp1twg==
-X-CSE-MsgGUID: TyQFZPbZRC6CO/2yMRB7KQ==
+   d="scan'208";a="86699704"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 16:00:54 -0700
+X-CSE-ConnectionGUID: 5eSO3vHyR9+Ak9HqorUw5A==
+X-CSE-MsgGUID: NAnA+O8jT7GCX2S2r0O8kQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="256280531"
+   d="scan'208";a="259199154"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2026 15:50:32 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Aug 2026 16:00:52 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wsTOY-00000000JRB-0o1K;
-	Fri, 07 Aug 2026 22:50:30 +0000
-Date: Sat, 08 Aug 2026 06:50:13 +0800
+	id 1wsTYW-00000000JRV-4B08;
+	Fri, 07 Aug 2026 23:00:48 +0000
+Date: Sat, 08 Aug 2026 07:00:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Johansen <john.johansen@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jj-apparmor:apparmor-next 14/14]
- security/apparmor/net.c:320:9: warning: the address of 'needput' will always
- evaluate as 'true'
-Message-ID: <202608080638.kMrWPZSd-lkp@intel.com>
+To: Valerio Setti <vsetti@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ Jerome Brunet <jbrunet@baylibre.com>
+Subject: [linux-next:master 1303/13846] sound/soc/meson/aiu.c:184:34:
+ sparse: sparse: symbol 'aiu_formatter_i2s_drv' was not declared. Should it be
+ static?
+Message-ID: <202608080634.hf6aJGPB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,50 +61,30 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi John,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
-head:   bbb153c86dafaa6497b8a0a5372d1e79be8a7617
-commit: bbb153c86dafaa6497b8a0a5372d1e79be8a7617 [14/14] apparmor: optimize current_label_crit_section() with needput
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260808/202608080638.kMrWPZSd-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608080638.kMrWPZSd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6b8c8af514d739d0335f5579b585e02babe8a727
+commit: 83b83024cdbfdddee104f4a84c2c2f1f8e6659f3 [1303/13846] ASoC: meson: aiu: use aiu-formatter-i2s to format I2S output data
+config: nios2-randconfig-r122-20260807 (https://download.01.org/0day-ci/archive/20260808/202608080634.hf6aJGPB-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608080634.hf6aJGPB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608080638.kMrWPZSd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608080634.hf6aJGPB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/meson/aiu.c:184:34: sparse: sparse: symbol 'aiu_formatter_i2s_drv' was not declared. Should it be static?
 
-   security/apparmor/net.c: In function 'aa_sk_perm':
->> security/apparmor/net.c:320:9: warning: the address of 'needput' will always evaluate as 'true' [-Waddress]
-     320 |         end_current_label_crit_section(label, &needput);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/aiu_formatter_i2s_drv +184 sound/soc/meson/aiu.c
 
-
-vim +320 security/apparmor/net.c
-
-   307	
-   308	int aa_sk_perm(const char *op, u32 request, struct sock *sk)
-   309	{
-   310		struct aa_label *label;
-   311		bool needput;
-   312		int error;
-   313	
-   314		AA_BUG(!sk);
-   315		AA_BUG(in_interrupt());
-   316	
-   317		/* TODO: switch to begin_current_label ???? */
-   318		label = begin_current_label_crit_section(&needput);
-   319		error = aa_label_sk_perm(current_cred(), label, op, request, sk);
- > 320		end_current_label_crit_section(label, &needput);
-   321	
-   322		return error;
-   323	}
-   324	
+   183	
+ > 184	const struct gx_formatter_driver aiu_formatter_i2s_drv = {
+   185		.regmap_cfg	= &aiu_regmap_cfg,
+   186		.ops		= &aiu_formatter_i2s_ops,
+   187	};
+   188	
 
 --
 0-DAY CI Kernel Test Service
