@@ -1,179 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BE9463B74
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 21:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3082609FD
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 22:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786139948; cv=none; b=HEddrGMb/+fWJbdYTaev4mWxKiTlX7HkgdCiQ5vi2Ptaxjp/56wVJiIbNl9heCWNa1BMMSLZvQwe9oc6G7c4qJVmdKF+PF83o/p8uQ217y9QmQHFLC+h8/hsF4fjvLkelYTbOfcDOBNWWrWPMLtJMnd8j1BWkofK3ewrZQQm3mw=
+	t=1786142670; cv=none; b=fUYzeFfRFtiCwk6s9TPGKRhYhkrnIDwFSBL8W7vfkYR/2rwgkV28OxzMDptiHVuI4qu7LsXmSsstORvDHu8xzpUyr5B/4KBUI4ho34DhNgjWPKYCgLNtxQ5FQjyHNq0jvP1Gx1nOmD1kFLseIV3/Ye6SxgJ/rBLA2Y/fMAKTMMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786139948; c=relaxed/simple;
-	bh=OMPA9zXQ5zDnWya5oPn/91CDMMEk4mnMb/BLCxXR530=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NP5EsUeNYTdFi1+f+XdfGxMjokduH7Suo6HyH4su/kz8lGV2o+yQyvs4n+r+nkl3TC+NYg7emIiSAqjug6HeMWE1p2i7tT1ixqw/z6Kmx5kNkLDM+wjCBr8YcZAaopLpf9nu4sEMsKpvT+RckBDqcCFBFDyp4gm+qsrDKjzOna4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZt/Oa4y; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1786142670; c=relaxed/simple;
+	bh=0YD45h2Wcu3EKYVoj0UsHOYdIzmRaJ+RhnXEFxZv4qg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UUAR5eHmtk7tRbwI2ASQWIZkpnWQ3Iv/tqQWoyDlc/8LRN7I0OKeoaD/MpA04wwcNIb1fwsqGYOT5PLvpk7XmU6BGtWCj8bC3Yf165WGI16ftqmMK3SNmDAHzQU5Rwof/mPuGHWnCJRio26FY8ex133Kj1oyG4h0l9/SUnTjlms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dwgEPtMB; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZt/Oa4y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dwgEPtMB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786139947; x=1817675947;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OMPA9zXQ5zDnWya5oPn/91CDMMEk4mnMb/BLCxXR530=;
-  b=mZt/Oa4yUg6tr+jRmitV/V/7Z15A2thHtJjt4qd4JYiSdgqebZ292tp1
-   5j1WsqhiSNfrev9lcFooQAnxJin1DXuWU/xOY+R7iUjtYmFCV9pA1YKfs
-   szUhkC6tw5hLbvs9TDrquLUbGOM++wIUELl38z6OAG8U3AxMhVHs5IfcB
-   Fzl8rdouH5/+3uEdlPFYP3txph6MU+T39nl+Bhc7Td5UnhyiF4H/YjWr7
-   mh4EimF4HYHAR34gscoxZzjtJwaS4HaY5l06TRc3a73yPQfoc/+oEEdHQ
-   R/n1E9FOA/XGTHce1narN25UgSYZhKjXUALSLmG22NAryYK0OprmOZ1xl
-   w==;
-X-CSE-ConnectionGUID: /vXFrJRASaWehcB8m6MFNw==
-X-CSE-MsgGUID: yGyOP0uwRpSxEV9RYkOqjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="112302731"
+  t=1786142668; x=1817678668;
+  h=date:from:to:cc:subject:message-id;
+  bh=0YD45h2Wcu3EKYVoj0UsHOYdIzmRaJ+RhnXEFxZv4qg=;
+  b=dwgEPtMBiqBsi2XaZOzLR1TZzprJ4QI+TwAXsRor4nwtj6/eb5G9+Eus
+   Ezeq3CLafNkYDefnTuIlb91TC4H0HRuD7q+pD4ndTsia1QrJAYPG/O2VC
+   ytBQ7mJv4U7VghOWsDKj1pRWhpfSjMw40cJPA1wNqM6gqNL+pSwCZVlQh
+   0t5gB/4dEZugn7Y1EOBc4xy/zdgrOLZbIxOrAgAkhlu8zCWpxvRM0KQel
+   HzEYVyzNNFvKab2Q/LMEAeMsOmcSyIWWiL0llXFzIiv4L8g+JrCJ8U2y8
+   T45H7GBLDLZNY3rhkW0IT3fq0Ll5ZCicdlB6cvyJpaPckk0fdHWayWlqW
+   g==;
+X-CSE-ConnectionGUID: JR8VMFXQQEqPYYQwhjNxAQ==
+X-CSE-MsgGUID: oZp4G2nyRuqRjvQFzrAz7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="86786465"
 X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="112302731"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 14:59:07 -0700
-X-CSE-ConnectionGUID: dnAzD3ZaTrmIUwx9c7YBcQ==
-X-CSE-MsgGUID: +dRjWKiRRi2D2SXSdRA0vA==
+   d="scan'208";a="86786465"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 15:44:27 -0700
+X-CSE-ConnectionGUID: RR5v4WIkSVOhPORl4jiuKA==
+X-CSE-MsgGUID: 8NPIYRxSRmqlun/Gi/lgLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="287198450"
+   d="scan'208";a="258208440"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Aug 2026 14:59:03 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 07 Aug 2026 15:44:26 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wsSah-00000000JLw-3pMV;
-	Fri, 07 Aug 2026 21:58:59 +0000
-Date: Sat, 8 Aug 2026 05:58:31 +0800
+	id 1wsTId-00000000JQX-2jdD;
+	Fri, 07 Aug 2026 22:44:23 +0000
+Date: Sat, 08 Aug 2026 06:43:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rong Tao <rtoax@foxmail.com>, andrii@kernel.org, vmalik@redhat.com,
-	ast@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, rtoax@foxmail.com,
-	Rong Tao <rongtao@cestc.cn>, Daniel Borkmann <daniel@iogearbox.net>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Yuzuki Ishiyama <ishiyama@hpc.is.uec.ac.jp>,
-	"(open list:BPF \\(Safe Dynamic Programs and Tools\\))" <bpf@vger.kernel.org>,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2 2/2] selftests/bpf: Test
- bpf_strcat,bpf_strncat kfuncs
-Message-ID: <202608080502.lI7AVjty-lkp@intel.com>
-References: <tencent_DB0510330C3A8574B3C62E6154165FCB4709@qq.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:fermata 17/21] kernel/bpf/helpers.c:2407:18:
+ sparse: sparse: symbol 'bpf_coro_frame_free' was not declared. Should it be
+ static?
+Message-ID: <202608080601.EQNiPZ0Z-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_DB0510330C3A8574B3C62E6154165FCB4709@qq.com>
 
-Hi Rong,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Tao/selftests-bpf-Test-bpf_strcat-bpf_strncat-kfuncs/20260807-065842
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/tencent_DB0510330C3A8574B3C62E6154165FCB4709%40qq.com
-patch subject: [PATCH bpf-next v2 2/2] selftests/bpf: Test bpf_strcat,bpf_strncat kfuncs
-config: s390-randconfig-r052-20260807 (https://download.01.org/0day-ci/archive/20260808/202608080502.lI7AVjty-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608080502.lI7AVjty-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux fermata
+head:   0ebfd4123c6b1719f428de91a4e4eeca34f557f6
+commit: d291ea9d36a15dcf8e45bfe20d47b2bee5c59963 [17/21] bpf: Add PTR_TO_CORO_FRAME runtime and verifier support
+config: csky-randconfig-r113-20260807 (https://download.01.org/0day-ci/archive/20260808/202608080601.EQNiPZ0Z-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608080601.EQNiPZ0Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608080502.lI7AVjty-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608080601.EQNiPZ0Z-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/helpers.c:1228:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long ( *[usertype] callback_fn )( ... ) @@     got void [noderef] __rcu * @@
+   kernel/bpf/helpers.c:1228:21: sparse:     expected unsigned long long ( *[usertype] callback_fn )( ... )
+   kernel/bpf/helpers.c:1228:21: sparse:     got void [noderef] __rcu *
+>> kernel/bpf/helpers.c:2407:18: sparse: sparse: symbol 'bpf_coro_frame_free' was not declared. Should it be static?
+   kernel/bpf/helpers.c:2865:18: sparse: sparse: symbol 'bpf_task_release_dtor' was not declared. Should it be static?
+   kernel/bpf/helpers.c:2895:18: sparse: sparse: symbol 'bpf_cgroup_release_dtor' was not declared. Should it be static?
 
->> kernel/bpf/helpers.c:4228:3: error: invalid lvalue in asm output
-    4228 |                 __put_kernel_nofault(dst + dlen + copied, &cs, char, err_out);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:612:2: note: expanded from macro '__put_kernel_nofault'
-     612 |         arch_put_kernel_nofault(dst, src, type, local_label);   \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/uaccess.h:471:33: note: expanded from macro 'arch_put_kernel_nofault'
-     471 | #define arch_put_kernel_nofault __mvc_kernel_nofault
-         |                                 ^
-   arch/s390/include/asm/uaccess.h:424:19: note: expanded from macro '__mvc_kernel_nofault'
-     424 |                         : [_dst] "=Q" (*(type *)dst)                    \
-         |                                        ^~~~~~~~~~~~
-   kernel/bpf/helpers.c:4233:2: error: invalid lvalue in asm output
-    4233 |         __put_kernel_nofault(dst + dlen + copied, &cs, char, err_out);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:612:2: note: expanded from macro '__put_kernel_nofault'
-     612 |         arch_put_kernel_nofault(dst, src, type, local_label);   \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/uaccess.h:471:33: note: expanded from macro 'arch_put_kernel_nofault'
-     471 | #define arch_put_kernel_nofault __mvc_kernel_nofault
-         |                                 ^
-   arch/s390/include/asm/uaccess.h:424:19: note: expanded from macro '__mvc_kernel_nofault'
-     424 |                         : [_dst] "=Q" (*(type *)dst)                    \
-         |                                        ^~~~~~~~~~~~
-   2 errors generated.
+vim +/bpf_coro_frame_free +2407 kernel/bpf/helpers.c
 
-
-vim +4228 kernel/bpf/helpers.c
-
-  4197	
-  4198	static int __bpf_strncat(char *dst, u32 dsz, const char *src, u32 sz)
-  4199	{
-  4200		int dlen, slen, space, copied;
-  4201		char cs = '?';
-  4202	
-  4203		if (!copy_from_kernel_nofault_allowed(dst, 1) ||
-  4204		    !copy_from_kernel_nofault_allowed(src, 1)) {
-  4205			return -ERANGE;
-  4206		}
-  4207	
-  4208		dlen = bpf_strnlen(dst, dsz);
-  4209		if (dlen < 0)
-  4210			return dlen;
-  4211		slen = bpf_strnlen(src, sz);
-  4212		if (slen < 0)
-  4213			return slen;
-  4214	
-  4215		if (dlen >= dsz || sz == 0 || dsz == 0)
-  4216			return -EINVAL;
-  4217	
-  4218		space = dsz - dlen;
-  4219		if (space <= 1 || space < min(slen, sz) + 1)
-  4220			return -E2BIG;
-  4221	
-  4222		guard(pagefault)();
-  4223		for (copied = 0; copied < space - 1 && copied < slen; copied++) {
-  4224			__get_kernel_nofault(&cs, src, char, err_out);
-  4225			if (cs == '\0')
-  4226				break;
-  4227	
-> 4228			__put_kernel_nofault(dst + dlen + copied, &cs, char, err_out);
-  4229	
-  4230			src++;
-  4231		}
-  4232		cs = '\0';
-  4233		__put_kernel_nofault(dst + dlen + copied, &cs, char, err_out);
-  4234	
-  4235		__get_kernel_nofault(&cs, src, char, err_out);
-  4236		if (cs != '\0' && sz > copied)
-  4237			return -E2BIG;
-  4238	
-  4239		return dlen + copied;
-  4240	err_out:
-  4241		return -EFAULT;
-  4242	}
-  4243	
+  2406	
+> 2407	__bpf_kfunc void bpf_coro_frame_free(void *p)
+  2408	{
+  2409		kfree_nolock(p);
+  2410	}
+  2411	
 
 --
 0-DAY CI Kernel Test Service
