@@ -1,160 +1,236 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC35B41D12D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 11:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786103248; cv=pass; b=c6QLztrjAEO+85yOWC9/ikO0vXyb2ltvybQE6wmpjkle1MT88dAXx726Q5Y5T9bvjx/7U9xslHS1P3kOmoMEZTdpjLplFCRXE6hnFVeWiIozei+RGkkvUXFQ7zUF24vI0jyQMjd8gckwAnfbXcR6iqR6uYeZL8ZKHSGzIfUwbQc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786103248; c=relaxed/simple;
-	bh=4T88Wo94NIGMg0gaIg48U5g2EDQZQ/ApJjYoD3E3jp0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lwXlV3b6cL4mlmLODAtazG2R70RjP+BaIJeL7bP4rqhIffCZ5rwg1MGz15kGdY2QRh2OhcbpepnyGBxg2il6b+NDp8zD14VeUzOAHvJZuYw3Emn3Q9aLgLVtGYCnnjTIC6XyTh8fhm2nIGCJtbMg8+XgY58WCe7cMHJHnemaDOU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=G59OsMJs; arc=pass smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E205F473C76
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 12:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786104297; cv=none; b=jyk0nlcFkSd1zZPrlTIOvU4AiR3T/0FnhNQrWnez/bJ4PN/xrPyNnglPm+KPs45L6KnKS8meHcKwZLv5Nv4YHjtIRCCzkFV5p/FZLhRtJ9C+ZCGcDmUDBs4J+NWMuyKcxLMqWRHpSIKavJuTArjI5hdjXb893e+YFmq4TDe6jNU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786104297; c=relaxed/simple;
+	bh=ZYKgvTIKfzamtsKOEHOUgdfCxfgjI+c5sSOuINsJdYo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fi9UmqgEDB4/iA1GPsZjACon8c8GXQ/QOUGN07/5CCZ9LcavNx1ozPaWBghiQFvvEv8bnJ7Qx6HhCK4tQg46fZQqFPxua4goi1GqBDGxwImC9HS3O/s7qjfdan+UM+w5OYuTDQSApspUJiwC02J8rdO7Ar5AvJiuZ4psPOdtt4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OVNOPEbF; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="G59OsMJs"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-80e24970f1dso27322057b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 07 Aug 2026 04:47:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786103227; cv=none;
-        d=google.com; s=arc-20260327;
-        b=s9y2tAVi/aZecaN9kf943QRY+7vLxxwTyOp8/oS8mIN9YYG2RVYQ9TL6LjrC6d5fFj
-         Q+5DrgG/1qI8I9VBFzfUYSGfb/SjeiLZPTYFizSeaQS7sOD35FeVOS3nzMBY+qARBJTK
-         TVFzb7m8t+EXXG+1ZM76BFOyveO8WUS7P3umEAboEWfV3XfySlyJBFP56MWWT4HWD5XM
-         flGBIF70hbn35wk9U0KCiV+CC+F7E9Qjdye0U/gVPm5JADFdf+N2Dnv0sq0IT7MEtxcN
-         NVWCQkgjyhSgTZ7wTNGswk5LZVlfxYn7EmCPpcyDYHjJzSj/QqBHvkikYrv6FXzHaXVk
-         SW4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uoRS6lteyHuaa5Tp6C6fzOIn2zZDD6ahq8EkedV4ffQ=;
-        fh=TfXFEDDprI4VAWO1nZfEjEgwYhKn7tXI7S3hgl6cdDY=;
-        b=lBglwZU2PFVOmjIoBVzXL4raezcISOKUXjWvpI1a6wBAUmG5aTiIwVEEH3smQKHk8a
-         9sX1yCVzw9GGJjv/jad7mrO+aKSn0qPkUveJX1BVNgu1plcyRz+F+jgc1N4FmU0WUwKl
-         7FDdkFVJvZsnVgEnO3UVZ//BlMKP0z2fMVJ0v7eU2a2UCHTzkvKkq3r30DwsPEbq507n
-         hCd6CKjsRpTNp/hlH7DDg6tvrv3lis1t0T3mOi5+okIgRxQgzmIFUtf6Zm97YS6zi0N7
-         TOVcaSd3CKIKn0Wf31rsDAuN7H+dHkMSA1qckKyUSDr3uhJeBbUnmDcjTMiAR+WoIAsa
-         AvLQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1786103227; x=1786708027; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uoRS6lteyHuaa5Tp6C6fzOIn2zZDD6ahq8EkedV4ffQ=;
-        b=G59OsMJs+z0OtPy+BMbekpxyL7aFRX4FwTFJZTnq5UGTWQD2dGSpRv4qWFcgh64FFp
-         Mc498lXEiTC9tO0DIgqcF+Bwu/MpSHMroU+LF++jwhhCRkqHxf69Fb1fqrSxDrSx1NEb
-         P80YD5787pYLD313qqOYecWz+bnPD5hbvZQW/c0jXWJp2ToZUkhQUF20XCYJHNc3gr5F
-         yyEU4Ykr4TJGiuw9sun7/WAP7MRc9iGI8ZgReRu/H8LzloY/VuZtQjFx670ix/eiopOY
-         GEoJeAbG8OOtGp6zPSgfFT6qmSXE9pJ0vod/DTZolh/kvQYf5vpuoK45eZ9m7vyS8nIs
-         kxmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786103227; x=1786708027;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uoRS6lteyHuaa5Tp6C6fzOIn2zZDD6ahq8EkedV4ffQ=;
-        b=GrWZqFeldCM1cK+FcFg40cm7tXOmOS6ute5oRvHCQgqwuR7YnPYX+0PfqLRIodRQc7
-         PGxaYQOfcivT1k5Nll76cLft1/6WjSppci8z58vXhe2ueyWOOWZtFk31gJsZcgX5crOW
-         zm2DIebc8daNKnkaJApTnz+6lttl069/DNYHhn3dkIubh5ff1YkIm5JGKRZNikHEkNus
-         ko5cpXu/hYEjUynxr24WTrfRQoIVs7FArs2YsEvoikBbbg8wrkhF0WpzBZvRx/Fi+zV+
-         8d/DJIoez15WwcqaYtD6OTbb77GwyfDKwdQoTrnaIXiL3KcT4y+LMEiIf/QPnV8Z1tFx
-         lwgg==
-X-Forwarded-Encrypted: i=1; AHgh+RpqDctoa21/a/tx+nlkjBFAX3lanafUO0+4X6N0pOKGP+QE9m7AtOPUF2BZz1HGd/B5Gue/WbZRAelAg8PW@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJUJec7GVdacZomrX6XJNBeCZz0kBDtojkbh1epLk62fjbPzWC
-	NSAAZhJlftiQXLNoorZ0gMtWZtdsbTJqZRGBIa3k0+knm18SOa/6/ldyIYDBggO+3cQqulnPmZe
-	uQ/l3gZgjSehwW1AHfKec48KKHDVS9Nebiru6jeKUF04oFpMPk4wVc8OKJ9wj
-X-Gm-Gg: AR+sD13IZrNCTgC+rNn7Dixd7YxM3r2vZOGJLSZ69/DY2ncG8zblylmxFFIohdkDrLs
-	ve87uHKtPOE4pSAGyiU6MbMgJEgjE9ePQYJVmcVcxPlsHD8vNZoNxT7ui+7yFx9IeRqOcCYdk2n
-	4bdr1iIb5jy15uakqkxpT4+uwCXQV324aCaflUUwFT3wby3lin/xbl/fvfCxhz+04j2NPFDapGF
-	7qeUfBzWxhKRBbrvsQtgBRBc0B17rwkc7nlGSlJOFIj93qau/OahpT1mDn4ux2FRwB7TDb3EPnT
-	RGQKCAPhWjQ59WnfGh/UFZNkAznDA+A6kgaTlF6029U=
-X-Received: by 2002:a05:690c:c0f:b0:81d:e7d2:a46d with SMTP id
- 00721157ae682-8225762b659mr50005557b3.5.1786103227417; Fri, 07 Aug 2026
- 04:47:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OVNOPEbF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786104291; x=1817640291;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZYKgvTIKfzamtsKOEHOUgdfCxfgjI+c5sSOuINsJdYo=;
+  b=OVNOPEbFq4RUdfogDJL96kLyKU3e8/NQTl0XDHrays80+Y6QUrkbJ9WQ
+   jGYnDoKr6g0VVst0elFO9tADxGBOIVGS0PDC4e43w28vZtz0nLnCT1wvd
+   rN4+Ejf1IJA3TnRg4wgJ2HyLA2V2pL73Zj9FzWMnFpTsKwlJCYu2QXfCj
+   oDGBgTfQJ8mTwm2VUTTxVlKjqXbOskRATbKwKxUIIwxTPVGp6ARfiW+5R
+   QMr1QDpLa6k0uR8S3Jb8IU5Uy01jpFFzMSB9/V0QTfBoynWaLICe+349K
+   qJKj4TVmjMgfXs6Xy6MO05BjWkWUzNmYaNpaRmy73U9klehMAUCKfaBZm
+   Q==;
+X-CSE-ConnectionGUID: 66GEBfxkQlCQr8vWWKWs+A==
+X-CSE-MsgGUID: YXpDW+iARkqP97k5JY968Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97864493"
+X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
+   d="scan'208";a="97864493"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 05:04:31 -0700
+X-CSE-ConnectionGUID: TETXYC7sQ3mdE7DKpfrQ1g==
+X-CSE-MsgGUID: 3XOd8bmyTpukOrVLmhoznA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
+   d="scan'208";a="259049624"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 07 Aug 2026 05:04:29 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wsJJK-00000000I5X-1Wdi;
+	Fri, 07 Aug 2026 12:04:26 +0000
+Date: Fri, 07 Aug 2026 20:03:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:7.1/prjc 636/719]
+ kernel/trace/rv/monitors/deadline/deadline.h:75:1: warning: control reaches
+ end of non-void function
+Message-ID: <202608071923.kzOMaZCc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202608070433.x3vNSfjt-lkp@intel.com> <20260806163644.20229f5ab7cbf176edbf2613@linux-foundation.org>
-In-Reply-To: <20260806163644.20229f5ab7cbf176edbf2613@linux-foundation.org>
-From: Muchun Song <songmuchun@bytedance.com>
-Date: Fri, 7 Aug 2026 19:46:30 +0800
-X-Gm-Features: AUfX_myppgswCKizRll7wa06WzEcopq9AaGL6Phs6d-kIlQXFDfCLVlPjtCaBeQ
-Message-ID: <CAMZfGtUdQqMVJGZP9MkqTcxaOQX=jmBi=BgESLVQy4ek_9pMjw@mail.gmail.com>
-Subject: Re: Re: [linux-next:master 8777/13479] mm/hugetlb.c:3095:39: warning:
- array subscript 4294967295 is above array bounds of 'struct list_head[1]'
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 7, 2026 at 7:37=E2=80=AFAM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
->
-> On Fri, 07 Aug 2026 05:01:04 +0800 kernel test robot <lkp@intel.com> wrot=
-e:
->
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-.git master
-> > head:   ea2bff00da89d7767d677bb68470130ba96f4928
-> > commit: 20549ccf4da49ff6dcb35ffc741f92aa92e07aeb [8777/13479] mm/hugetl=
-b: free cross-zone bootmem gigantic pages after allocation
-> > config: parisc-randconfig-002-20260807 (https://download.01.org/0day-ci=
-/archive/20260807/202608070433.x3vNSfjt-lkp@intel.com/config)
-> > compiler: hppa-linux-gcc (GCC) 8.5.0
->
-> Such an old compiler.
->
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20260807/202608070433.x3vNSfjt-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202608070433.x3vNSfjt-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    mm/hugetlb.c: In function 'alloc_bootmem_huge_page':
-> > >> mm/hugetlb.c:3095:39: warning: array subscript 4294967295 is above a=
-rray bounds of 'struct list_head[1]' [-Warray-bounds]
-> >        list_add(&m->list, &huge_boot_pages[nid_request]);
-> >                            ~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-> >    In file included from mm/hugetlb.c:6:
-> > >> include/linux/list.h:163:12: warning: array subscript -1 is below ar=
-ray bounds of 'struct list_head[1]' [-Warray-bounds]
-> >      new->prev =3D prev;
-> >      ~~~~~~~~~~^~~~~~
->
-> Well crap, that patch has been in there since June 12.
+Hi Alfred,
 
-This isn't the first report. This is the second time we've had the
-exact same report,
-see [1]. Interestingly, the GCC versions are all the same (8.5.0), so
-I think this must
-be a GCC issue.
+FYI, the error/warning still remains.
 
-https://lore.kernel.org/all/202607010945.6lDjBFTU-lkp@intel.com/
+tree:   https://github.com/zen-kernel/zen-kernel 7.1/prjc
+head:   bafe3c105f696e656e6f216bd7c2a76c373f2086
+commit: de41db545b89a8e1f708de3813fec4a38d17f710 [636/719] sched/alt: [Sync] deadline sync-up fix
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260807/202608071923.kzOMaZCc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608071923.kzOMaZCc-lkp@intel.com/reproduce)
 
-Muchun,
-Thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608071923.kzOMaZCc-lkp@intel.com/
 
->
-> I can't reproduce it with the provided config and hppa-linux gcc-16.1.0.
->
-> Muchun, I'd be inclined to pretend we never saw this.  But if you want
-> to address it, please do a patch against mm-stable with
->
-> Fixes: 20549ccf4da4 ("mm/hugetlb: free cross-zone bootmem gigantic pages =
-after allocation")
->
+All warnings (new ones prefixed by >>):
+
+   kernel/trace/rv/monitors/deadline/deadline.h: In function 'handle_newtask':
+   kernel/trace/rv/monitors/deadline/deadline.h:85:47: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                               ^~
+   kernel/trace/rv/monitors/deadline/deadline.h:194:35: note: in expansion of macro 'EXPAND_ID_TASK'
+     194 |                 da_create_storage(EXPAND_ID_TASK(task), NULL);
+         |                                   ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h:85:82: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                                                                  ^~
+   kernel/trace/rv/monitors/deadline/deadline.h:194:35: note: in expansion of macro 'EXPAND_ID_TASK'
+     194 |                 da_create_storage(EXPAND_ID_TASK(task), NULL);
+         |                                   ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h: In function 'handle_exit':
+   kernel/trace/rv/monitors/deadline/deadline.h:200:52: error: 'struct task_struct' has no member named 'dl'
+     200 |                 da_destroy_storage(get_entity_id(&p->dl, DL_TASK, DL_TASK));
+         |                                                    ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c: In function 'ha_get_env':
+   kernel/trace/rv/monitors/nomiss/nomiss.c:43:25: error: implicit declaration of function 'dl_is_implicit' [-Wimplicit-function-declaration]
+      43 |                 return !dl_is_implicit(ha_get_target(ha_mon));
+         |                         ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/nomiss/nomiss.c: In function 'handle_sched_switch':
+   kernel/trace/rv/monitors/deadline/deadline.h:85:47: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                               ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:179:33: note: in expansion of macro 'EXPAND_ID_TASK'
+     179 |                 da_handle_event(EXPAND_ID_TASK(prev), sched_switch_suspend_nomiss);
+         |                                 ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h:85:82: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                                                                  ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:179:33: note: in expansion of macro 'EXPAND_ID_TASK'
+     179 |                 da_handle_event(EXPAND_ID_TASK(prev), sched_switch_suspend_nomiss);
+         |                                 ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h:85:47: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                               ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:181:43: note: in expansion of macro 'EXPAND_ID_TASK'
+     181 |                 da_handle_start_run_event(EXPAND_ID_TASK(next), sched_switch_in_nomiss);
+         |                                           ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h:85:82: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                                                                  ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:181:43: note: in expansion of macro 'EXPAND_ID_TASK'
+     181 |                 da_handle_start_run_event(EXPAND_ID_TASK(next), sched_switch_in_nomiss);
+         |                                           ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:189:17: error: 'struct task_struct' has no member named 'dl_server'
+     189 |         if (next->dl_server)
+         |                 ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:190:53: error: 'struct task_struct' has no member named 'dl_server'
+     190 |                 da_handle_start_event(EXPAND_ID(next->dl_server, cpu,
+         |                                                     ^~
+   kernel/trace/rv/monitors/deadline/deadline.h:84:51: note: in definition of macro 'EXPAND_ID'
+      84 | #define EXPAND_ID(dl_se, cpu, type) get_entity_id(dl_se, cpu, type), dl_se
+         |                                                   ^~~~~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:190:53: error: 'struct task_struct' has no member named 'dl_server'
+     190 |                 da_handle_start_event(EXPAND_ID(next->dl_server, cpu,
+         |                                                     ^~
+   kernel/trace/rv/monitors/deadline/deadline.h:84:70: note: in definition of macro 'EXPAND_ID'
+      84 | #define EXPAND_ID(dl_se, cpu, type) get_entity_id(dl_se, cpu, type), dl_se
+         |                                                                      ^~~~~
+   kernel/trace/rv/monitors/nomiss/nomiss.c: In function 'handle_sys_enter':
+   kernel/trace/rv/monitors/deadline/deadline.h:85:47: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                               ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:215:26: note: in expansion of macro 'EXPAND_ID_TASK'
+     215 |                 da_reset(EXPAND_ID_TASK(p));
+         |                          ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h:85:82: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                                                                  ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:215:26: note: in expansion of macro 'EXPAND_ID_TASK'
+     215 |                 da_reset(EXPAND_ID_TASK(p));
+         |                          ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h:85:47: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                               ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:217:34: note: in expansion of macro 'EXPAND_ID_TASK'
+     217 |                 da_create_or_get(EXPAND_ID_TASK(p));
+         |                                  ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h:85:82: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                                                                  ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:217:34: note: in expansion of macro 'EXPAND_ID_TASK'
+     217 |                 da_create_or_get(EXPAND_ID_TASK(p));
+         |                                  ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/nomiss/nomiss.c: In function 'handle_sched_wakeup':
+   kernel/trace/rv/monitors/deadline/deadline.h:85:47: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                               ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:223:33: note: in expansion of macro 'EXPAND_ID_TASK'
+     223 |                 da_handle_event(EXPAND_ID_TASK(tsk), sched_wakeup_nomiss);
+         |                                 ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h:85:82: error: 'struct task_struct' has no member named 'dl'
+      85 | #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+         |                                                                                  ^~
+   kernel/trace/rv/monitors/nomiss/nomiss.c:223:33: note: in expansion of macro 'EXPAND_ID_TASK'
+     223 |                 da_handle_event(EXPAND_ID_TASK(tsk), sched_wakeup_nomiss);
+         |                                 ^~~~~~~~~~~~~~
+   kernel/trace/rv/monitors/deadline/deadline.h: In function 'get_entity_id':
+>> kernel/trace/rv/monitors/deadline/deadline.h:75:1: warning: control reaches end of non-void function [-Wreturn-type]
+      75 | }
+         | ^
+
+
+vim +75 kernel/trace/rv/monitors/deadline/deadline.h
+
+b133207deb7260 Gabriele Monaco 2026-03-30  48  
+b133207deb7260 Gabriele Monaco 2026-03-30  49  /*
+b133207deb7260 Gabriele Monaco 2026-03-30  50   * Use negative numbers for the server.
+b133207deb7260 Gabriele Monaco 2026-03-30  51   * Currently only one fair server per CPU, may change in the future.
+b133207deb7260 Gabriele Monaco 2026-03-30  52   */
+b133207deb7260 Gabriele Monaco 2026-03-30  53  #define fair_server_id(cpu) (-cpu)
+b133207deb7260 Gabriele Monaco 2026-03-30  54  #define ext_server_id(cpu) (-cpu - num_possible_cpus())
+b133207deb7260 Gabriele Monaco 2026-03-30  55  #define NO_SERVER_ID (-2 * num_possible_cpus())
+b133207deb7260 Gabriele Monaco 2026-03-30  56  /*
+b133207deb7260 Gabriele Monaco 2026-03-30  57   * Get a unique id used for dl entities
+b133207deb7260 Gabriele Monaco 2026-03-30  58   *
+b133207deb7260 Gabriele Monaco 2026-03-30  59   * The cpu is not required for tasks as the pid is used there, if this function
+b133207deb7260 Gabriele Monaco 2026-03-30  60   * is called on a dl_se that for sure corresponds to a task, DL_TASK can be
+b133207deb7260 Gabriele Monaco 2026-03-30  61   * used in place of cpu.
+b133207deb7260 Gabriele Monaco 2026-03-30  62   * We need the cpu for servers as it is provided in the tracepoint and we
+b133207deb7260 Gabriele Monaco 2026-03-30  63   * cannot easily retrieve it from the dl_se (requires the struct rq definition).
+b133207deb7260 Gabriele Monaco 2026-03-30  64   */
+b133207deb7260 Gabriele Monaco 2026-03-30  65  static inline int get_entity_id(struct sched_dl_entity *dl_se, int cpu, u8 type)
+b133207deb7260 Gabriele Monaco 2026-03-30  66  {
+b133207deb7260 Gabriele Monaco 2026-03-30  67  	if (dl_server(dl_se) && type != DL_TASK) {
+b133207deb7260 Gabriele Monaco 2026-03-30  68  		if (type == DL_SERVER_FAIR)
+b133207deb7260 Gabriele Monaco 2026-03-30  69  			return fair_server_id(cpu);
+b133207deb7260 Gabriele Monaco 2026-03-30  70  		if (type == DL_SERVER_EXT)
+b133207deb7260 Gabriele Monaco 2026-03-30  71  			return ext_server_id(cpu);
+b133207deb7260 Gabriele Monaco 2026-03-30  72  		return NO_SERVER_ID;
+b133207deb7260 Gabriele Monaco 2026-03-30  73  	}
+b133207deb7260 Gabriele Monaco 2026-03-30  74  	return dl_task_of(dl_se)->pid;
+b133207deb7260 Gabriele Monaco 2026-03-30 @75  }
+b133207deb7260 Gabriele Monaco 2026-03-30  76  
+b133207deb7260 Gabriele Monaco 2026-03-30  77  static inline bool task_is_scx_enabled(struct task_struct *tsk)
+b133207deb7260 Gabriele Monaco 2026-03-30  78  {
+b133207deb7260 Gabriele Monaco 2026-03-30  79  	return IS_ENABLED(CONFIG_SCHED_CLASS_EXT) &&
+b133207deb7260 Gabriele Monaco 2026-03-30  80  	       tsk->sched_class == rv_ext_sched_class;
+b133207deb7260 Gabriele Monaco 2026-03-30  81  }
+b133207deb7260 Gabriele Monaco 2026-03-30  82  
+b133207deb7260 Gabriele Monaco 2026-03-30  83  /* Expand id and target as arguments for da functions */
+b133207deb7260 Gabriele Monaco 2026-03-30  84  #define EXPAND_ID(dl_se, cpu, type) get_entity_id(dl_se, cpu, type), dl_se
+b133207deb7260 Gabriele Monaco 2026-03-30 @85  #define EXPAND_ID_TASK(tsk) get_entity_id(&tsk->dl, task_cpu(tsk), DL_TASK), &tsk->dl
+b133207deb7260 Gabriele Monaco 2026-03-30  86  
+
+:::::: The code at line 75 was first introduced by commit
+:::::: b133207deb72609ad4da40c4d50128a5e150677b rv: Add nomiss deadline monitor
+
+:::::: TO: Gabriele Monaco <gmonaco@redhat.com>
+:::::: CC: Gabriele Monaco <gmonaco@redhat.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
