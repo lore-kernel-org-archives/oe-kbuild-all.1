@@ -1,68 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFB237E5C7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 05:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD5D44839D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Aug 2026 06:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786079397; cv=none; b=g/7YF5OQdlbQokmw/ciWpe7Pi91kmB9MPfTp7qd7GwniW8Yy8XJYUqZfbB9ejcJ6kGyV2OMhW7L7aTqZ3DTCR0BaP3eGnqJCx1ry/PQJiWrGMjf+ZMfkdpv/chTwAeCqRJnDRNJGFLxgsTJJZFuRe3aep+KT+3Nuj85TsdUTnjs=
+	t=1786082879; cv=none; b=tJWhAv/PKupEpR/d8cUZY5iFLR5CCcLXgSUtOyN4pd/NbxCw+UcJwAwurU23R/t3xtL37RCeZSA/5JcJbVbb3JG8EhMUD0d/KswnhfPRobtGz1k0xSHjEpym7XOcgjO9e+NAsvuIIgeOCWaEdHoC6ybri+sVjJB+2XYJeAPvy58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786079397; c=relaxed/simple;
-	bh=bm63kvHwN4+e6sorVIAytxVgVfggcFnaeu/2Rn52isk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V4wwOHu1bNT8sS2jFWP6tgbyUj3rJ4U7vMtqHM9N+HOw5754nUOIC0FO8/3GgtDiY3mfROJz5grsRIDJsWqYWwvdgoD8LfUqK3mjOMMT5AmmOprGS/OiMHdAzEgzzSTRUtG8hFkjG9jxF4a9ted0yoQXV1Fr6iMYZas/+WAsxIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MxCIs2ns; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786082879; c=relaxed/simple;
+	bh=nVA8QV3LN9O3iWeMCvYcGIcf7DkFQ1Oa3+jPvJcGAM0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T+sH1PMJP71HLDfgurgjPU1XXNdcwUW9q3JqXqy7KeI5saBUVvDyyq2Z5zj9qf1iws+oeFn3H/BPOqVrFf/EF2ox4ftFxow4iRGgUbWHeC31Npz4Vcq/T+Q8oNXN4FD+Yek9q0EJjMLmtgh0dk81RvYZs9GrgFSz8hbtaCQhUAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K8D12524; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MxCIs2ns"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 635891F000E9;
-	Fri,  7 Aug 2026 05:09:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786079384;
-	bh=qLFQLnfAYQNTSLWVfPZ5yI1uLuKWvTDQ+2e134RvCM8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=MxCIs2ns4himibB3cFiREoNn8amblAtrDJA8rCk8p1pqhUc7lrBYIyMWU3Cc9pgOH
-	 ihYUMb8XnzFAZuD5/6GdyFAMCXy6tKKILim1Cq15MfQHascc1E1XXcruUgH0BZUt5L
-	 wLCduEH5Ow2Yp51JC3UTRcI8gGNqSEW80cK7WvLJXXa+wC+5L1MrfOKAXUIkXVF2OF
-	 6XSkaewFGFOGQE1PsjQamHXBWuL4I2uLbYQVzQ4FhRshLKMSGlQu4/rU3+Fx+EGwl0
-	 ON2Hdor/ucLQE5WwuBtpsVVDNuiVKPaZ8sJfLuK2XrVmKglqrRXmbMgR1nt3qgccNP
-	 eZrXQx1iXT2dw==
-Message-ID: <9434da92-0b42-42b8-a9e3-d0329ba76032@kernel.org>
-Date: Fri, 7 Aug 2026 07:09:40 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K8D12524"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786082878; x=1817618878;
+  h=date:from:to:cc:subject:message-id;
+  bh=nVA8QV3LN9O3iWeMCvYcGIcf7DkFQ1Oa3+jPvJcGAM0=;
+  b=K8D12524kyUtOCf0yGvweEc1iMZSwIgYqQWoR64CDKZH7DqUmciIXc6d
+   znCM7bzpG9E98DuD8j491WpO9gAQCtg036ZeCQHAPNrQxXANzUh21qxc9
+   kcP8HzCnEmtuVcsUR6Xqe1gNz/X2TOCPa+056J8R1Ffh0kF3+fClrHOlU
+   SQ5TY5/V9Kc7X0ZHWgrOyUTWITCjKtlDn2geBVCBpDEQHcuDWywqcj3nN
+   rpJ5knaWOXBqho0FJ8ET44ssyVzmCuliyIoWTo8oxs5hvA66VZy5mOILu
+   YX6zoqZ0+2hN0TF0/bffiTa+BIPrGi7I8uRFwqZMNugypX1APDMggewuu
+   w==;
+X-CSE-ConnectionGUID: 06s7L3p2QhC5MwrKKhcvUw==
+X-CSE-MsgGUID: Bb+NkYZqT+adRtaSjOfXog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97840390"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="97840390"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 23:07:57 -0700
+X-CSE-ConnectionGUID: v9dVk8dvTEy3PoFHBqbSnw==
+X-CSE-MsgGUID: qKe4HLKRTb2eKW4oZlImkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="285688401"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 06 Aug 2026 23:07:55 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wsDkG-00000000HLj-1uOp;
+	Fri, 07 Aug 2026 06:07:52 +0000
+Date: Fri, 07 Aug 2026 14:07:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>
+Subject: [linux-next:master 8357/13479] WARNING: modpost: vmlinux:
+ section mismatch in reference: test_perf_kallsyms_lookup_name+0x60 (section:
+ .text.unlikely) -> initcall_level_names (section: .init.data)
+Message-ID: <202608071305.o2Nd8WgJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 8973/12727] drivers/soc/fsl/qe/gpio.c:43:34:
- sparse: sparse: incorrect type in assignment (different base types)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-References: <202608051952.ADkLIB86-lkp@intel.com>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <202608051952.ADkLIB86-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ea2bff00da89d7767d677bb68470130ba96f4928
+commit: efdcfd9b4f4f07aa70663ee02a79dbdf980bf582 [8357/13479] tracing: Use seq_buf for string concatenation
+config: xtensa-randconfig-001-20260807 (https://download.01.org/0day-ci/archive/20260807/202608071305.o2Nd8WgJ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608071305.o2Nd8WgJ-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608071305.o2Nd8WgJ-lkp@intel.com/
 
-Le 05/08/2026 à 13:55, kernel test robot a écrit :
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   0f6da28aab51b16762ed82e8fdeaa5042da45b08
-> commit: 21d055109b2352542ac293872ca9113b42b6c55e [8973/12727] powerpc: Move CONFIG_QE_GPIO to SoC
-> config: arc-randconfig-r132-20260805 (https://download.01.org/0day-ci/archive/20260805/202608051952.ADkLIB86-lkp@intel.com/config)
-> compiler: arc-linux-gcc (GCC) 8.5.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260805/202608051952.ADkLIB86-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202608051952.ADkLIB86-lkp@intel.com/
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-This problem predates this commit and should we fixed in a follow-up patch.
+WARNING: modpost: vmlinux: section mismatch in reference: trace_initcall_level+0x5c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+>> WARNING: modpost: vmlinux: section mismatch in reference: test_perf_kallsyms_lookup_name+0x60 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
 
-Christophe
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
