@@ -1,93 +1,109 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0390C72621
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Aug 2026 07:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D0B72621
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Aug 2026 07:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786174533; cv=none; b=eglrvwA7kE2Zf3yDdp9Jp3lFQB5Aju9Z4Ff5ue7gWzbS2sohQRXlVef9tm3ZMo4Dr54gt0jGuPQkqOLHlnFeqZuLXWmXvIWVLAPn9i2XgxEOwrWcSwh91nn9JGyKXDzOjRdqFZc88rsp5IqwWKfwW5mn9RVt+0mQHd9krchHcyc=
+	t=1786175104; cv=none; b=j/txs59MwqeKtc5N3joJnF+//PVTcJMLFUomt2Oo9TK9MkmP+sD2qm+bi/6qsTcqb0RpkFfVZuZJh+kO+AmXjWl2YznLe89r0a1Qd/heSvxfrHcOLQjorSPnaAX/2QmKIogzwUBq3iaD4rldGmB3MXWtAF2BEFOeXdaryQvdwOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786174533; c=relaxed/simple;
-	bh=TMkTgTwdDNYbcxD74Uto7x9YaDeli9iE+fXtDrvBAmQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=EnZx9p2GDagbf/J/brf4EX+rreaPt6lrRZNm4myWapo8MQ8uDs02imDjsuWX+HKqQGLQdVDcU7MPhk4qdkYfof0vRAKjTYZTITZpnHUYBw1JDTkSkqF+3q69buin/1AGjgBIZnCDfWefaHk7o3YFivkDaS45S72PNI/36lmQHL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QbaRU+/J; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786175104; c=relaxed/simple;
+	bh=+pR+p0IQgWcuom0wI2YuJ6dEQ5svfyDIY29IARDhpaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E5oqD7xeAZvj8svuSdPJff9jkkopOVJH0zxBzzcB4ameiuAOu+QIMi85LN9Nf4rtpxKAJuivlb6vkCo4nD9YfJ+5aO2crUSHxHOWYD+qKSWJj/bVmoNJrEogXDTuHbv7QJ7VakP33MMLwBc13lpEyuQxnabkS6DLuFxnc21zDEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LqQHFh8C; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QbaRU+/J"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c15e592da74so26269066b.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 08 Aug 2026 00:35:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786174530; x=1786779330; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=d7ny+tvaw/RzOPizGWG4ERvF232HiO2/WaSKudACq8M=;
-        b=QbaRU+/JxGuA6C5r2TcLCuOYeCIhFTnoBKk4wJxUOlY+7hCSrCZ3r28EsUCvvVyouz
-         HUjBtR1dY6QPnEZSO3KH4bsSHpn8CJckjOJiaFVmVE5SPOa5gpRHcBrJc2/m7jUCwzLl
-         KEZfZ6yli2BZfsN1M46Y3CWbib+zN0IQf3ct2iN4JstNEocfGJGGOYcG+47JD6C8jjGz
-         sXCVboKG9rvcoK+1DbRVKpYBweWQA0RSVHwJtBZTk7Aq2HteDNZ6URJlpJEhIOY3wvH+
-         LX3bPlCfGfX4VKptxx0AW9T4SU4fv/Q+qXwyjw0nF1CaTaIxjsozK1+iNod8n82hnwgD
-         VsqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786174530; x=1786779330;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=d7ny+tvaw/RzOPizGWG4ERvF232HiO2/WaSKudACq8M=;
-        b=lPeU/34rjHlgttjft0lZc4gpknJKTCHLEqpxhi6waQNGZ+tIAX+lnoeqyJq8oDyc3i
-         97zXGcZh2kqt5BEMzTJNhLV0qmv6IAkSLCC+h1gy0UVZk4VtU5b0a72b4NzniAy9aGgH
-         RY05p+p1MlCp527Hfi8h6SPk6Q1Qs4UohUKSbI585FgTkuyjk6V9k92X37G0EF9jxhjA
-         ktSBMlDoq4HM4vAKbla+jd93w2tBFR8Mmlt/j3NGnstUIUE9dvYhuh5tHlONG5ZVJ6i9
-         lqhqcf6F5OpfgoEFaGizVZuv1R3EZMR+HIhr70ztNfzZWIsSGnvqwrGHL37Pmyj+1WmO
-         Q7yQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro3z5okqtVdNXTPR+NAkKGhOW9mzULAeaFR/GM2/I+PeZrauHXrnKe9GxdZlcNtOVykQiNsM4MInRGUxkYw@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLlVu8gCTcTOEm5zZzsn+8E57QcyyXn9hf0QTjbbBR27Yo7xi9
-	lRibND+Ppw0gW5DIjM6hYpOV6blYnBKxTXmIMobWwLwhTsG7Lt8rBgwB
-X-Gm-Gg: AR+sD12KJ6HGYR/DrEOV3gJBXGLm6eLvuyBmzXWgiIjpXcJymZ6s6M2A+YfjZC0EaTh
-	Q1r1yIQvKuRU6c++WZ8KxcgWEprdfWTkOtFRMRSmZZObeUD7sFRRZzeWmknja4FzPDedY/kf5BO
-	ckGgjkAUrv1GrnBYih/d/kn+Q2nFg5HDbllvrV93KNjVRYitUwEsv14HJzk/mI1I00EjvfSaVk3
-	6vgKatZWol7wfm7hppSWCixBk80ICCscgLgBHQw4etQzfVxqWPvI2PAX/6Z7MnUDp6dFqTYjTSm
-	jRXCYa+HQTLeNdCgcZxqZ91wFSOKmHAmm19aXAznSniLjfblo4FGv5Yy6DtHV8pEuXxiJNMhoa/
-	2zE8eE6XsWBk4XVgAjY8VI94dzyl97WGEJrl6rUk9uvAfYPJ7hj77PkdIMJkf+zaK+DKLaU4jFK
-	9Lxl9Lr5BNoRJvDboC5KvSrFqSUNcbN3eJHO3CKsYbnM4YFM3raqCjc8b968rAMXvgy81UY580f
-	7NEYnNnTAWFf+hClTAeNvs=
-X-Received: by 2002:a17:906:f5aa:b0:c16:2dc0:e1ef with SMTP id a640c23a62f3a-c20873d1e67mr329761166b.14.1786174529874;
-        Sat, 08 Aug 2026 00:35:29 -0700 (PDT)
-Received: from [192.168.1.89] (c-85-228-45-68.bbcust.telenor.se. [85.228.45.68])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2080a29a84sm140914566b.3.2026.08.08.00.35.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Aug 2026 00:35:28 -0700 (PDT)
-Message-ID: <f5dc4a77-b697-cf40-c125-9b1a1e9301cf@outbound.gmail.com>
-Date: Sat, 8 Aug 2026 09:35:26 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LqQHFh8C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786175102; x=1817711102;
+  h=date:from:to:cc:subject:message-id;
+  bh=+pR+p0IQgWcuom0wI2YuJ6dEQ5svfyDIY29IARDhpaQ=;
+  b=LqQHFh8CesIrSYoNXotnI2l6wuvcJuTanJtWlgCezctKhEv3DmqbS//H
+   9CLdr2H68lnQHE7iKKxpOA3UlaoAHJbX6zQ9datgzB11pIIneZ2pG6xIh
+   KZHUpL2zE709zF1F1y9+m6Pf1JZVfsqITQs6vtI+Cz1y8Vw7zer47/o1t
+   xZjeuEEllwFuVjlUb0DHufbetujOSI/iTr0qHguME7pNRWgmOQ5PhaiBP
+   DY8f1kvulnZHyG9JVKd3j5Ry1U7LqB1UkmPrJrBAZOAvzeb219ZvZFS+W
+   Ood7GueZZyZsDj4NSPScez6e4df/aMd+GNZmjc5oAhA+wyQLOdLJ1P/QV
+   w==;
+X-CSE-ConnectionGUID: +vjLkFQuSIywQdhVNDYGZQ==
+X-CSE-MsgGUID: mF296eFhR4+V428PXCw4SA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="86714733"
+X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
+   d="scan'208";a="86714733"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 00:44:56 -0700
+X-CSE-ConnectionGUID: MgsSlfRaSzmHOJgCDJHnqw==
+X-CSE-MsgGUID: ecJi/nuVQV69zPp/GcrXQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
+   d="scan'208";a="261296210"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 08 Aug 2026 00:44:54 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wsbjg-00000000Jy9-07Sl;
+	Sat, 08 Aug 2026 07:44:52 +0000
+Date: Sat, 08 Aug 2026 15:44:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>
+Subject: [linux-next:master 7580/13846]
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c:571:8: warning: unused variable
+ 'dev_attr_dispregs'
+Message-ID: <202608081537.o23Goj8d-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-From: Eli Billauer <eli.billauer@gmail.com>
-Subject: Re: drivers/char/xillybus/xillybus_class.c:230 xillybus_find_inode()
- warn: variable dereferenced before check 'inode' (see line 226)
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <202608072246.Ee6OOcT6-lkp@intel.com>
-Content-Language: en-US
-In-Reply-To: <202608072246.Ee6OOcT6-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hello,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6b8c8af514d739d0335f5579b585e02babe8a727
+commit: 0738ecee1ab15aa75d2ea433e636d8cbf25623de [7580/13846] fbdev: mb862xx: replace dead select with dependency
+config: powerpc64-randconfig-r054-20260808 (https://download.01.org/0day-ci/archive/20260808/202608081537.o23Goj8d-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608081537.o23Goj8d-lkp@intel.com/reproduce)
 
-Thanks. The warning is correct, and applies to the first version of the 
-patch set referred to. This was however corrected a couple of weeks ago 
-in v2:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608081537.o23Goj8d-lkp@intel.com/
 
-https://lore.kernel.org/all/20260722102307.49090-1-eli.billauer@gmail.com/T/#m2d3b975e15a454ef4455e6b28fc7cc905dcdbc2d
+All warnings (new ones prefixed by >>):
 
-Regards,
-    Eli
+   drivers/video/fbdev/mb862xx/mb862xxfbdrv.c:411:12: warning: unused function 'mb862xxfb_init_fbinfo' [-Wunused-function]
+     411 | static int mb862xxfb_init_fbinfo(struct fb_info *fbi)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/video/fbdev/mb862xx/mb862xxfbdrv.c:571:8: warning: unused variable 'dev_attr_dispregs' [-Wunused-variable]
+     571 | static DEVICE_ATTR_RO(dispregs);
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:279:26: note: expanded from macro 'DEVICE_ATTR_RO'
+     279 |         struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RO(_name)
+         |                                 ^~~~~~~~~~~~~~~~
+   <scratch space>:124:1: note: expanded from here
+     124 | dev_attr_dispregs
+         | ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/mb862xx/mb862xxfbdrv.c:573:20: warning: unused function 'mb862xx_intr' [-Wunused-function]
+     573 | static irqreturn_t mb862xx_intr(int irq, void *dev_id)
+         |                    ^~~~~~~~~~~~
+   3 warnings generated.
+
+
+vim +/dev_attr_dispregs +571 drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+
+17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  570  
+ff323d6d72e1e4 drivers/video/fbdev/mb862xx/mb862xxfbdrv.c Zhen Lei           2021-06-01 @571  static DEVICE_ATTR_RO(dispregs);
+17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  572  
+
+:::::: The code at line 571 was first introduced by commit
+:::::: ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383 video: fbdev: mb862xx: use DEVICE_ATTR_RO macro
+
+:::::: TO: Zhen Lei <thunder.leizhen@huawei.com>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
