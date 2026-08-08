@@ -1,201 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AC2272816
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Aug 2026 00:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D33730FF1D;
+	Sat,  8 Aug 2026 00:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786150747; cv=none; b=e5SinUIrfnUMoLoWKkdSg0H/k525xARdg9+QyQdJR8IQV0NLKx944O/R/2LTeh3Hu6o8I3ZLf0jo+aFEz9z6uvqRxZqeyzznWui6owkLrdpEk5nkxZwLUUeejEpCKKpOdJ1VeyvK/CJQXhUzBnzEc1gvGfT34s6tEu1xiZYwh+w=
+	t=1786150748; cv=none; b=f7bdt5ovSI+5M42EdMASWUtwSk2dG/7RDpRWapv83l9tkfQ08JvzBKinJ7mpQgOq77rI1Cwq9UDTkH2ey8X4DySXCWSj0V13IvheUF3vJPsapoRp/9vAYSBpC2zZJs+Koq2RUzXdYpgh9ScImMx8x8R4g6bBsgnEW3GBnc/kmeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786150747; c=relaxed/simple;
-	bh=qPDolAwavzdqBWqRryQZseh+/IHB3ws9y9RdiAptuyg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ChM69Voswc54FBKk+PfNf9CtDZduZ38b9sBRtCwPvFe9RydspPeuDMMhmJqh9ewqN/ZKU32/kj14gO5ajb9D2DAvNZC36OAWrtutakbAWjw2Mj9O3D+TP3tZFlAuB18yDDI4GO3BYhQpyPTBYd4jDyqQvjCKwds3NKN6u2nZxyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awsJxVCF; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1786150748; c=relaxed/simple;
+	bh=tDsgwi2+k+THwubQx+A8h/nHxkN0MXsHSi+73LAr1l8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DGGsMlGBSNcJF1o6qXfBKcWWa2J5o5Yzgy0eGHeivxc5QBw4YFxCJzSOPUeIAhV2OzmsgZgmyKx4tk7fak+scIOnPtTWJFyA6AQYaq+Xz8nT+hkRx+nYCmktRbc+vAVJEIbKdzgnkwc7yqWY2PW0qg10fekOX1GVWBgRDY1FiuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1JK75kZ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awsJxVCF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1JK75kZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1786150746; x=1817686746;
-  h=date:from:to:cc:subject:message-id;
-  bh=qPDolAwavzdqBWqRryQZseh+/IHB3ws9y9RdiAptuyg=;
-  b=awsJxVCF8fiJ6Cqzl10AlvyKlbCUt/CvyuUN9yemC67cZD2dNYWrps3p
-   sIIeh8R3JwPUow+QQeNMUvjgnsCKjtFUiBabKUGtH0neiYioN1wYfAhE9
-   mFz6rwXND15rY2QlFU7IkjhG7HjKbEbElww5LhWakXWHb7Byf4xxYVxsQ
-   glQ+XPmMeA/VPvTUMivyk+falH6ZrcSOxQKA6o5enkOw1IVhrnlalUGJv
-   1P1KAXZG0ufG9X4pl7amfrCGcoGFuQeaMPTQJfZnpdg6DwtGleLUH42HN
-   XHRrQ0S/auVOySWGwpP6DDppHqw4BaCRfwvplqqg3tgoqPfK7amhk+Ikz
-   Q==;
-X-CSE-ConnectionGUID: SZTf2oU8RKmPs0uGdWwZVg==
-X-CSE-MsgGUID: 2rXFxZMoTOK1QWx+eQuTjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="86974776"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tDsgwi2+k+THwubQx+A8h/nHxkN0MXsHSi+73LAr1l8=;
+  b=i1JK75kZZb1AkK/SfAoBWJ8WI6UHWxztA8t0US2fwP4XSpc3nbwa88g0
+   PI4fYw+K6iG23SHah/C19OlqS4WZY0zDpxaOmiy449uEA7UVokuPA1qwJ
+   SHpvL3JwE14f8NxKSbykrUtP8XFEtUFO5q8MAXpd83LMN8QvwvLmHpXdi
+   PmN98qc6DuKXQkWXR88MM24/u6azBi0Hs0ZGCUNkP3kWR1PZ9oiqH0WAX
+   gwawIcQ7jFWxvSUjPWC2/tZXf+pvKWMAQyNvVam9OFAUQIWxib31j2LDl
+   AZUbwK4NypPd20MnNbUu8YnS0gHWIMgjZjJqSrHHjmkdRtt0UW+5zSHdZ
+   g==;
+X-CSE-ConnectionGUID: CvEA40/zRW+AjR/5rhMzrw==
+X-CSE-MsgGUID: UD59hgCcQKiP0vRnWm5ffw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="86841941"
 X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
-   d="scan'208";a="86974776"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 17:59:05 -0700
-X-CSE-ConnectionGUID: OyDbzQ9NQ52zmD6oNC5rUw==
-X-CSE-MsgGUID: wqDBsazmQKyA1n60hCIBjQ==
+   d="scan'208";a="86841941"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 17:59:04 -0700
+X-CSE-ConnectionGUID: oVI4r9TbROqmryREAQmPiQ==
+X-CSE-MsgGUID: 1u6Sx5aARbCQUu/2v1uMnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
-   d="scan'208";a="300749994"
+   d="scan'208";a="256310033"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Aug 2026 17:59:03 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2026 17:59:00 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wsVOv-00000000Jak-0ErL;
-	Sat, 08 Aug 2026 00:59:01 +0000
-Date: Sat, 08 Aug 2026 08:58:42 +0800
+	id 1wsVOr-00000000Jab-02ue;
+	Sat, 08 Aug 2026 00:58:57 +0000
+Date: Sat, 8 Aug 2026 08:58:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Paul E. McKenney" <paulmck@kernel.org>
-Subject: [linux-next:master 7183/13846] kernel/hazptr.c:178: Warning:
- missing closing `"'
-Message-ID: <202608080824.VRQz4FGl-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: WenTao Liang <vulab@iscas.ac.cn>, Zack Rusin <zack.rusin@broadcom.com>,
+	dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	bcm-kernel-feedback-list@broadcom.com,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Thomas Hellstrom <thellstrom@vmware.com>, stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org, WenTao Liang <vulab@iscas.ac.cn>
+Subject: Re: [PATCH] fix: drm/vmwgfx: vmw_user_shader_alloc: fix base object
+ refcount leak on ttm_base_object_init failure
+Message-ID: <202608080849.rqxWdd9U-lkp@intel.com>
+References: <20260626150142.49732-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260626150142.49732-1-vulab@iscas.ac.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6b8c8af514d739d0335f5579b585e02babe8a727
-commit: 9d30872a4c09c2e8a97084ef1fe6913f6bf9e34d [7183/13846] hazptr: Implement Hazard Pointers
-config: s390-randconfig-001-20260808 (https://download.01.org/0day-ci/archive/20260808/202608080824.VRQz4FGl-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608080824.VRQz4FGl-lkp@intel.com/reproduce)
+Hi WenTao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.2-rc6 next-20260807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/WenTao-Liang/fix-drm-vmwgfx-vmw_user_shader_alloc-fix-base-object-refcount-leak-on-ttm_base_object_init-failure/20260807-080356
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260626150142.49732-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] fix: drm/vmwgfx: vmw_user_shader_alloc: fix base object refcount leak on ttm_base_object_init failure
+config: arm64-randconfig-002-20260807 (https://download.01.org/0day-ci/archive/20260808/202608080849.rqxWdd9U-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608080849.rqxWdd9U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608080824.VRQz4FGl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608080849.rqxWdd9U-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/hazptr.c: Assembler messages:
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
->> kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:178: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
-   kernel/hazptr.c:183: Warning: missing closing `"'
+>> drivers/gpu/drm/vmwgfx/vmwgfx_shader.c:727:25: error: incompatible pointer types passing 'struct ttm_base_object *' to parameter of type 'struct ttm_base_object **' [-Wincompatible-pointer-types]
+     727 |                 ttm_base_object_unref(&ushader->base);
+         |                                       ^~~~~~~~~~~~~~
+   drivers/gpu/drm/vmwgfx/ttm_object.h:192:60: note: passing argument to parameter 'p_base' here
+     192 | extern void ttm_base_object_unref(struct ttm_base_object **p_base);
+         |                                                            ^
+   1 error generated.
 
 
-vim +178 kernel/hazptr.c
+vim +727 drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
 
-   154	
-   155	/*
-   156	 * hazptr_synchronize: Wait until @addr is released from all slots.
-   157	 *
-   158	 * Wait to observe that each slot contains a value that differs from
-   159	 * @addr before returning.
-   160	 * Should be called from preemptible context.
-   161	 */
-   162	void hazptr_synchronize(void *addr)
-   163	{
-   164		int cpu;
-   165	
-   166		/*
-   167		 * Busy-wait should only be done from preemptible context.
-   168		 */
-   169		lockdep_assert_preemption_enabled();
-   170	
-   171		/*
-   172		 * Store A precedes hazptr_scan(): it unpublishes addr (sets it to
-   173		 * NULL or to a different value), and thus hides it from hazard
-   174		 * pointer readers.
-   175		 */
-   176		if (!addr)
-   177			return;
- > 178		/* Memory ordering: Store A before Load B. */
-   179		smp_mb();
-   180		/* Scan all CPUs slots. */
-   181		for_each_possible_cpu(cpu) {
-   182			struct hazptr_overflow_list_flip *overflow_list_flip = per_cpu_ptr(&percpu_overflow_list_flip, cpu);
-   183			unsigned int scan_idx;
-   184	
-   185			/* Scan CPU slots. */
-   186			hazptr_synchronize_cpu_slots(cpu, addr);
-   187	
-   188			/*
-   189			 * Scan backup slots in percpu overflow lists.
-   190			 * Forward progress is guaranteed by scanning one list
-   191			 * while new elements are added into the other list.
-   192			 */
-   193			guard(mutex)(&overflow_list_flip->lock);
-   194			scan_idx = overflow_list_flip->add_idx ^ 1;
-   195			hazptr_synchronize_overflow_list(&overflow_list_flip->array[scan_idx], addr);
-   196			/* Flip current list. */
-   197			WRITE_ONCE(overflow_list_flip->add_idx, scan_idx);
-   198			hazptr_synchronize_overflow_list(&overflow_list_flip->array[scan_idx ^ 1], addr);
-   199		}
-   200	}
-   201	EXPORT_SYMBOL_GPL(hazptr_synchronize);
-   202	
+   684	
+   685	static int vmw_user_shader_alloc(struct vmw_private *dev_priv,
+   686					 struct vmw_bo *buffer,
+   687					 size_t shader_size,
+   688					 size_t offset,
+   689					 SVGA3dShaderType shader_type,
+   690					 uint8_t num_input_sig,
+   691					 uint8_t num_output_sig,
+   692					 struct ttm_object_file *tfile,
+   693					 u32 *handle)
+   694	{
+   695		struct vmw_user_shader *ushader;
+   696		struct vmw_resource *res, *tmp;
+   697		int ret;
+   698	
+   699		ushader = kzalloc_obj(*ushader);
+   700		if (unlikely(!ushader)) {
+   701			ret = -ENOMEM;
+   702			goto out;
+   703		}
+   704	
+   705		res = &ushader->shader.res;
+   706		ushader->base.shareable = false;
+   707		ushader->base.tfile = NULL;
+   708	
+   709		/*
+   710		 * From here on, the destructor takes over resource freeing.
+   711		 */
+   712	
+   713		ret = vmw_gb_shader_init(dev_priv, res, shader_size,
+   714					 offset, shader_type, num_input_sig,
+   715					 num_output_sig, buffer,
+   716					 vmw_user_shader_free);
+   717		if (unlikely(ret != 0))
+   718			goto out;
+   719	
+   720		tmp = vmw_resource_reference(res);
+   721		ret = ttm_base_object_init(tfile, &ushader->base, false,
+   722					   VMW_RES_SHADER,
+   723					   &vmw_user_shader_base_release);
+   724	
+   725		if (unlikely(ret != 0)) {
+   726			vmw_resource_unreference(&tmp);
+ > 727			ttm_base_object_unref(&ushader->base);
+   728			goto out_err;
+   729		}
+   730	
+   731		if (handle)
+   732			*handle = ushader->base.handle;
+   733	out_err:
+   734		vmw_resource_unreference(&res);
+   735	out:
+   736		return ret;
+   737	}
+   738	
 
 --
 0-DAY CI Kernel Test Service
