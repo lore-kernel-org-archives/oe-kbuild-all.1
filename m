@@ -1,221 +1,322 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F494B0498;
-	Sat,  8 Aug 2026 14:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1979937B40A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Aug 2026 14:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786198364; cv=none; b=JnvJcY5QMcPmgzJ9cBOKxx5nnBX+nqgfQo2uCNorrERLFXTgvObB2FQ7YypmODOpMveU9PV5v798ysQYgRdZCLEkriTUJOFnP+1HnGr24xfIFSg6EoEOEIl+odSgEsK49Tabo4P2LGZR7Tfdljw31ZDmnD+7nrDcgswpzCPHt+U=
+	t=1786199032; cv=none; b=RCTvOodYZZ/TJVrWOAsib+ugWSG58SEVSS0ZxjcK73PhCd7qxhHzo+msTLKJA3/ICzeIifhub+xLW5k4lKtXFQ03UtDh1G8Mt/iiQ41rLtG0VwmoY4B8mPmBvE5P8hacs0NfJohKMRhXtANRccsYNPLHusYaBoJ6LNm1jfbrCu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786198364; c=relaxed/simple;
-	bh=b21wmYbglZoRgwy6OGm4EnqAMoaZHpXvQKpf1YUiIoE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NU+eQUS/oId1GqwFsqMsCyaFFZNFuNg+QeyQqrlOOTHDlr+iNoeDw8C1X6SbMSQuSh+M9ODolbU6UjUZJhg+zqR+p0mjaMlP/QWlm/uyt5r8ioc9l1BmZErHmLz2Le5k/PEct+JTtWsdNG7fGrs0U3JszcV/o3wTjcsLkE0kxs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tj/iCaln; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1786199032; c=relaxed/simple;
+	bh=vCUWFKfgmoSEJyYU1Sgce2foXImx7j2Q2oCrHM5nlnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lJvJ2pfp8tVT+aHe/0IliKmIFkqvQvG0SvbvLv1CO2FkqI9NSc8p2t2x+g0Zya7c1E1qocYNbKkq+D7Vr5VP4tNyuW8c6CdePZZCZ8Ejd7s45jZpgdPGOK0uhy8IvrH0T8Eatmvx4hs2OrrT8e+wUwKC1i4Mihim4hZUtyG2yEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gxnHUDwK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tj/iCaln"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gxnHUDwK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786198362; x=1817734362;
-  h=date:from:to:cc:subject:message-id;
-  bh=b21wmYbglZoRgwy6OGm4EnqAMoaZHpXvQKpf1YUiIoE=;
-  b=Tj/iCalnc8qiewqU5uhT6GKEYB4XUeR1+qYKV+PDbempX15+i9Nj/yEv
-   Ljz5N+D4DcOovm/BmappyHbvjJUt0KTW23Z13DFV+QrohdkenmFKrxZHV
-   Ql1Hv4XslnpblXmnbVsEAyyO/7HQttvv1X6OdpC80ZUwkRaAsykdKTs8V
-   mEkeZwT9WjG5RKylwVl/lb9ZX8fqkVcjta61sBHL2I16qvvJ04OCCYCN8
-   ThBQHpbTm6RPA5RFLJ1Pv8xSpuCoqFnS4iIdXtYuy8vPxdpWi8aF7owLv
-   QLhSHz0DMFBgKbBcwpRtd2IAZJVYQHN1fu06sKifNGihIH/oNMbo+Z4FL
-   A==;
-X-CSE-ConnectionGUID: smJElxm+QRu69RoiYPLpBA==
-X-CSE-MsgGUID: Kx3VVoy9TMyNlxQ8G13E0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="90597614"
+  t=1786199030; x=1817735030;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vCUWFKfgmoSEJyYU1Sgce2foXImx7j2Q2oCrHM5nlnM=;
+  b=gxnHUDwKoFmTVJE4qDmIa7dsWmLZXZ+gNEyHrnfqOl6jzGy7TSztBmsn
+   t1E7a4Ztx0et9JyuPiEo5FKUEHsREUZRS4prh/dIp0jsAA0eKs5k1E31K
+   nrJx9LpAq6WgDZ0cw12M482F1FhVWyk2EP65pSoASX5Mns2rWVQG5Xxdg
+   YBgTGWy5m94cBBeDjibbJUt1S96srLBw1nuKwkDraGTPND2KKX2u5sIfc
+   FvjYzM7CAzTNdrzBqWhFDL8rqi4UmgaR0P9yy3q1ubxeni7tLrHKyIWWo
+   nxXwLAtWXy3z+2UyrnAF+j0wi/JAWB9F7+Fn6R8U65fSDvG1V2htaNTRc
+   Q==;
+X-CSE-ConnectionGUID: ORDaTvbzTKasQvikU5OuXQ==
+X-CSE-MsgGUID: 5rL0rWXwTtmVSHdYQm8ebg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="90663113"
 X-IronPort-AV: E=Sophos;i="6.25,212,1779174000"; 
-   d="scan'208";a="90597614"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 07:12:41 -0700
-X-CSE-ConnectionGUID: UJ6KYhUvQW6LAanmh7qD8A==
-X-CSE-MsgGUID: 9TXEqPOXTGqDauVGbsHsuw==
+   d="scan'208";a="90663113"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 07:23:50 -0700
+X-CSE-ConnectionGUID: KhFbMEqIQf+nDbviQasnmw==
+X-CSE-MsgGUID: D2EcDgSqSMCg7uGAHB0rmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,212,1779174000"; 
-   d="scan'208";a="263255432"
+   d="scan'208";a="260027143"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Aug 2026 07:12:40 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 08 Aug 2026 07:23:46 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wshmv-00000000KFB-2oAR;
-	Sat, 08 Aug 2026 14:12:37 +0000
-Date: Sat, 08 Aug 2026 22:12:31 +0800
+	id 1wshxf-00000000KFR-0fRu;
+	Sat, 08 Aug 2026 14:23:43 +0000
+Date: Sat, 8 Aug 2026 22:23:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Kuo <rkuo@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Brian Cain <bcain@kernel.org>
-Subject: [bcain:bcain/hexagon-kcfi 26/93]
- arch/hexagon/kernel/devtree.c:104:36: error: redefinition of
- 'setup_machine_fdt'
-Message-ID: <202608082128.yZZBqpdG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Zhiling Zou <zhilinz@nebusec.ai>, netdev@vger.kernel.org,
+	dev@openvswitch.org, i.maximets@ovn.org
+Cc: oe-kbuild-all@lists.linux.dev, aconole@redhat.com, echaudro@redhat.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, vega@nebusec.ai,
+	zhilinz@nebusec.ai
+Subject: Re: [PATCH net v4 1/1] net: openvswitch: reallocate update replies
+ for mismatched IDs
+Message-ID: <202608082248.euvm5RXc-lkp@intel.com>
+References: <3b76cbe50252a5650c3b69c789ed36481d0bbee4.1785583308.git.zhilinz@nebusec.ai>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b76cbe50252a5650c3b69c789ed36481d0bbee4.1785583308.git.zhilinz@nebusec.ai>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/hexagon-kcfi
-head:   ce0e62c277ea2fc51b37b0625eeacdc5631a488f
-commit: c01c2aee2f3a158faf365c893a4578a5a0dee73f [26/93] hexagon: add memory management enhancements
-config: hexagon-randconfig-001-20260808 (https://download.01.org/0day-ci/archive/20260808/202608082128.yZZBqpdG-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608082128.yZZBqpdG-lkp@intel.com/reproduce)
+Hi Zhiling,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on horms-ipvs/master]
+[also build test ERROR on v7.2-rc6]
+[cannot apply to net/main net-next/main linus/master next-20260807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhiling-Zou/net-openvswitch-reallocate-update-replies-for-mismatched-IDs/20260808-205431
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
+patch link:    https://lore.kernel.org/r/3b76cbe50252a5650c3b69c789ed36481d0bbee4.1785583308.git.zhilinz%40nebusec.ai
+patch subject: [PATCH net v4 1/1] net: openvswitch: reallocate update replies for mismatched IDs
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260808/202608082248.euvm5RXc-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608082248.euvm5RXc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608082128.yZZBqpdG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608082248.euvm5RXc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/hexagon/kernel/devtree.c:17:13: warning: no previous prototype for function 'early_init_dt_add_memory_arch' [-Wmissing-prototypes]
-      17 | void __init early_init_dt_add_memory_arch(u64 base, u64 size)
-         |             ^
-   arch/hexagon/kernel/devtree.c:17:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      17 | void __init early_init_dt_add_memory_arch(u64 base, u64 size)
-         | ^
-         | static 
-   arch/hexagon/kernel/devtree.c:50:6: error: call to undeclared function 'of_get_flat_dt_prop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      50 |         p = of_get_flat_dt_prop(node, "bootargs", &l);
-         |             ^
-   arch/hexagon/kernel/devtree.c:50:4: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
-      50 |         p = of_get_flat_dt_prop(node, "bootargs", &l);
-         |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/hexagon/kernel/devtree.c:104:29: warning: attribute declaration must precede definition [-Wignored-attributes]
-     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
-         |                             ^
-   include/linux/init.h:45:17: note: expanded from macro '__init'
-      45 | #define __init          __section(".init.text") __cold __latent_entropy \
-         |                         ^
-   include/linux/compiler_attributes.h:330:56: note: expanded from macro '__section'
-     330 | #define __section(section)              __attribute__((__section__(section)))
-         |                                                        ^
-   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
-      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
-         |                                          ^
-   arch/hexagon/kernel/devtree.c:104:29: warning: attribute declaration must precede definition [-Wignored-attributes]
-     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
-         |                             ^
-   include/linux/init.h:45:41: note: expanded from macro '__init'
-      45 | #define __init          __section(".init.text") __cold __latent_entropy \
-         |                                                 ^
-   include/linux/compiler_types.h:112:34: note: expanded from macro '__cold'
-     112 | #define __cold                          __attribute__((__cold__))
-         |                                                        ^
-   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
-      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
-         |                                          ^
->> arch/hexagon/kernel/devtree.c:104:36: error: redefinition of 'setup_machine_fdt'
-     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
-         |                                    ^
-   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
-      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
-         |                                          ^
->> arch/hexagon/kernel/devtree.c:120:2: error: use of undeclared identifier 'initial_boot_params'
-     120 |         initial_boot_params = dt_phys;
-         |         ^~~~~~~~~~~~~~~~~~~
-   arch/hexagon/kernel/devtree.c:126:23: error: use of undeclared identifier 'initial_boot_params'
-     126 |         if (fdt_magic(initial_boot_params) != OF_DT_HEADER) {
-         |                       ^~~~~~~~~~~~~~~~~~~
-   arch/hexagon/kernel/devtree.c:130:12: error: call to undeclared function 'of_get_flat_dt_root'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     130 |         dt_root = of_get_flat_dt_root();
-         |                   ^
-   arch/hexagon/kernel/devtree.c:132:15: error: call to undeclared function 'of_flat_dt_match_machine'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     132 |         mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
-         |                      ^
-   arch/hexagon/kernel/devtree.c:132:13: error: incompatible integer to pointer conversion assigning to 'const struct machine_desc *' from 'int' [-Wint-conversion]
-     132 |         mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/hexagon/kernel/devtree.c:142:9: error: call to undeclared function 'early_init_dt_scan_root'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     142 |         early_init_dt_scan_root();
-         |         ^
-   arch/hexagon/kernel/devtree.c:147:2: error: call to undeclared function 'early_init_dt_scan_chosen'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     147 |         early_init_dt_scan_chosen(boot_command_line);
-         |         ^
-   3 warnings and 10 errors generated.
+   In file included from ./arch/alpha/include/generated/asm/current.h:1,
+                    from arch/alpha/include/asm/spinlock.h:6,
+                    from include/linux/spinlock.h:94,
+                    from include/linux/kref.h:16,
+                    from include/linux/mm_types.h:8,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from net/openvswitch/datapath.c:9:
+   net/openvswitch/datapath.c: In function 'ovs_flow_cmd_new':
+>> include/asm-generic/current.h:7:45: error: expected ')' before '->' token
+       7 | #define get_current() (current_thread_info()->task)
+         |                                             ^~
+   include/asm-generic/current.h:8:17: note: in expansion of macro 'get_current'
+       8 | #define current get_current()
+         |                 ^~~~~~~~~~~
+   net/openvswitch/datapath.c:1100:32: note: in expansion of macro 'current'
+    1100 |                         size_t current, desired;
+         |                                ^~~~~~~
+>> net/openvswitch/datapath.c:1102:33: error: assignment to 'struct task_struct *' from 'size_t' {aka 'long unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+    1102 |                         current = ovs_flow_cmd_msg_size(acts, &new_flow->id,
+         |                                 ^
+>> net/openvswitch/datapath.c:1104:25: error: 'desired' undeclared (first use in this function)
+    1104 |                         desired = ovs_flow_cmd_msg_size(acts, &flow->id,
+         |                         ^~~~~~~
+   net/openvswitch/datapath.c:1104:25: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/setup_machine_fdt +104 arch/hexagon/kernel/devtree.c
+vim +1102 net/openvswitch/datapath.c
 
-5d4b53d10af44d Brian Cain  2026-01-24   89  
-288801685d7137 Richard Kuo 2025-08-18   90  /*
-288801685d7137 Richard Kuo 2025-08-18   91   * setup_machine_fdt - set up machine based on dtb passed to kernel
-288801685d7137 Richard Kuo 2025-08-18   92   * @dt_phys: physical address of dtb
-288801685d7137 Richard Kuo 2025-08-18   93   *
-288801685d7137 Richard Kuo 2025-08-18   94   * Sets up some of the earliest stuff -- setting the machine type,
-288801685d7137 Richard Kuo 2025-08-18   95   * pulling the command line options, and finding the memory.
-288801685d7137 Richard Kuo 2025-08-18   96   *
-288801685d7137 Richard Kuo 2025-08-18   97   * Since we're calling this from setup_arch, this is going to happen
-288801685d7137 Richard Kuo 2025-08-18   98   * very, very early.  Prior to even the bootmem being set up in the
-288801685d7137 Richard Kuo 2025-08-18   99   * old scheme I think.
-288801685d7137 Richard Kuo 2025-08-18  100   *
-288801685d7137 Richard Kuo 2025-08-18  101   * Also since we're always being fired up by the hypervisor, then
-288801685d7137 Richard Kuo 2025-08-18  102   * we are already running with the MMU on with an init segtable.
-288801685d7137 Richard Kuo 2025-08-18  103   */
-5d4b53d10af44d Brian Cain  2026-01-24 @104  const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
-288801685d7137 Richard Kuo 2025-08-18  105  {
-5d4b53d10af44d Brian Cain  2026-01-24  106  	const struct machine_desc *mdesc_best = NULL;
-288801685d7137 Richard Kuo 2025-08-18  107  	unsigned long dt_root;
-288801685d7137 Richard Kuo 2025-08-18  108  
-288801685d7137 Richard Kuo 2025-08-18  109  #ifdef CONFIG_HEXAGON_MSM8974_FLUID
-288801685d7137 Richard Kuo 2025-08-18  110  	//  Fixme:  use this for...  everybody if possible
-288801685d7137 Richard Kuo 2025-08-18  111  	//  The "tags" struct or whatever provided by LK; currently stuffing it in the "external buffer" space.
-288801685d7137 Richard Kuo 2025-08-18  112  	initial_boot_params = (void *) &external_buffer;
-288801685d7137 Richard Kuo 2025-08-18  113  	dt_root = of_get_flat_dt_root();
-288801685d7137 Richard Kuo 2025-08-18  114  	of_scan_flat_dt(early_init_dt_scan_chosen_noinitrd, boot_command_line);
-288801685d7137 Richard Kuo 2025-08-18  115  #endif
-288801685d7137 Richard Kuo 2025-08-18  116  
-288801685d7137 Richard Kuo 2025-08-18  117  	/*  reset global pointer that devtree uses to the proper blob  */
-288801685d7137 Richard Kuo 2025-08-18  118  #ifdef CONFIG_DTB_BUILTIN
-288801685d7137 Richard Kuo 2025-08-18  119  	/*  This is the label placed on the assembly blob; will already be in virtual space  */
-288801685d7137 Richard Kuo 2025-08-18 @120  	initial_boot_params = dt_phys;
-288801685d7137 Richard Kuo 2025-08-18  121  #else
-288801685d7137 Richard Kuo 2025-08-18  122          initial_boot_params = phys_to_virt(dt_phys);
-288801685d7137 Richard Kuo 2025-08-18  123  #endif
-288801685d7137 Richard Kuo 2025-08-18  124  
-288801685d7137 Richard Kuo 2025-08-18  125          /* check device tree validity */
-288801685d7137 Richard Kuo 2025-08-18  126          if (fdt_magic(initial_boot_params) != OF_DT_HEADER) {
-288801685d7137 Richard Kuo 2025-08-18  127                  return NULL;
-288801685d7137 Richard Kuo 2025-08-18  128  	}
-288801685d7137 Richard Kuo 2025-08-18  129  
-288801685d7137 Richard Kuo 2025-08-18  130  	dt_root = of_get_flat_dt_root();
-288801685d7137 Richard Kuo 2025-08-18  131  
-5d4b53d10af44d Brian Cain  2026-01-24  132  	mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
-288801685d7137 Richard Kuo 2025-08-18  133  
-288801685d7137 Richard Kuo 2025-08-18  134  	if (!mdesc_best) {
-288801685d7137 Richard Kuo 2025-08-18  135  		panic("Unrecognized device tree\n");
-288801685d7137 Richard Kuo 2025-08-18  136  	}
-288801685d7137 Richard Kuo 2025-08-18  137  
-288801685d7137 Richard Kuo 2025-08-18  138          /*
-288801685d7137 Richard Kuo 2025-08-18  139  	 * Sets the top level address and size cells which are stored
-288801685d7137 Richard Kuo 2025-08-18  140  	 * in globals by the devtree infrastructure.
-288801685d7137 Richard Kuo 2025-08-18  141  	 */
-288801685d7137 Richard Kuo 2025-08-18  142          early_init_dt_scan_root();
-288801685d7137 Richard Kuo 2025-08-18  143  
-288801685d7137 Richard Kuo 2025-08-18  144          /*  Retrieve various information from the /chosen node  */
-288801685d7137 Richard Kuo 2025-08-18  145  #ifndef CONFIG_HEXAGON_MSM8974_FLUID
-288801685d7137 Richard Kuo 2025-08-18  146  	//  Fixme:  do this consistently for platforms
-288801685d7137 Richard Kuo 2025-08-18  147  	early_init_dt_scan_chosen(boot_command_line);
-288801685d7137 Richard Kuo 2025-08-18  148  #endif
-288801685d7137 Richard Kuo 2025-08-18  149          /*  Setup memory  */
-288801685d7137 Richard Kuo 2025-08-18  150  	//of_scan_flat_dt(early_init_dt_scan_memory, NULL);
-288801685d7137 Richard Kuo 2025-08-18  151  
-288801685d7137 Richard Kuo 2025-08-18  152  	return mdesc_best;
-288801685d7137 Richard Kuo 2025-08-18  153  }
-288801685d7137 Richard Kuo 2025-08-18  154  
-
-:::::: The code at line 104 was first introduced by commit
-:::::: 5d4b53d10af44d2d15e3f551692f1703ac6dbe53 arch/hexagon: fix kernel crash on unimplemented syscalls
-
-:::::: TO: Brian Cain <brian.cain@oss.qualcomm.com>
-:::::: CC: Brian Cain <brian.cain@oss.qualcomm.com>
+   966	
+   967	static int ovs_flow_cmd_new(struct sk_buff *skb, struct genl_info *info)
+   968	{
+   969		struct net *net = sock_net(skb->sk);
+   970		struct nlattr **a = info->attrs;
+   971		struct ovs_header *ovs_header = info->userhdr;
+   972		struct sw_flow *flow = NULL, *new_flow;
+   973		struct sw_flow_mask mask;
+   974		struct sk_buff *reply;
+   975		struct datapath *dp;
+   976		struct sw_flow_key *key;
+   977		struct sw_flow_actions *acts;
+   978		struct sw_flow_match match;
+   979		u32 ufid_flags = ovs_nla_get_ufid_flags(a[OVS_FLOW_ATTR_UFID_FLAGS]);
+   980		int error;
+   981		bool log = !a[OVS_FLOW_ATTR_PROBE];
+   982	
+   983		/* Must have key and actions. */
+   984		error = -EINVAL;
+   985		if (!a[OVS_FLOW_ATTR_KEY]) {
+   986			OVS_NLERR(log, "Flow key attr not present in new flow.");
+   987			goto error;
+   988		}
+   989		if (!a[OVS_FLOW_ATTR_ACTIONS]) {
+   990			OVS_NLERR(log, "Flow actions attr not present in new flow.");
+   991			goto error;
+   992		}
+   993	
+   994		/* Most of the time we need to allocate a new flow, do it before
+   995		 * locking.
+   996		 */
+   997		new_flow = ovs_flow_alloc();
+   998		if (IS_ERR(new_flow)) {
+   999			error = PTR_ERR(new_flow);
+  1000			goto error;
+  1001		}
+  1002	
+  1003		/* Extract key. */
+  1004		key = kzalloc(sizeof(*key), GFP_KERNEL);
+  1005		if (!key) {
+  1006			error = -ENOMEM;
+  1007			goto err_kfree_flow;
+  1008		}
+  1009	
+  1010		ovs_match_init(&match, key, false, &mask);
+  1011		error = ovs_nla_get_match(net, &match, a[OVS_FLOW_ATTR_KEY],
+  1012					  a[OVS_FLOW_ATTR_MASK], log);
+  1013		if (error)
+  1014			goto err_kfree_key;
+  1015	
+  1016		ovs_flow_mask_key(&new_flow->key, key, true, &mask);
+  1017	
+  1018		/* Extract flow identifier. */
+  1019		error = ovs_nla_get_identifier(&new_flow->id, a[OVS_FLOW_ATTR_UFID],
+  1020					       key, log);
+  1021		if (error)
+  1022			goto err_kfree_key;
+  1023	
+  1024		/* Validate actions. */
+  1025		error = ovs_nla_copy_actions(net, a[OVS_FLOW_ATTR_ACTIONS],
+  1026					     &new_flow->key, &acts, log);
+  1027		if (error) {
+  1028			OVS_NLERR(log, "Flow actions may not be safe on all matching packets.");
+  1029			goto err_kfree_key;
+  1030		}
+  1031	
+  1032		reply = ovs_flow_cmd_alloc_info(acts, &new_flow->id, info, false,
+  1033						ufid_flags);
+  1034		if (IS_ERR(reply)) {
+  1035			error = PTR_ERR(reply);
+  1036			goto err_kfree_acts;
+  1037		}
+  1038	
+  1039		ovs_lock();
+  1040		dp = get_dp(net, ovs_header->dp_ifindex);
+  1041		if (unlikely(!dp)) {
+  1042			error = -ENODEV;
+  1043			goto err_unlock_ovs;
+  1044		}
+  1045	
+  1046		/* Check if this is a duplicate flow */
+  1047		if (ovs_identifier_is_ufid(&new_flow->id))
+  1048			flow = ovs_flow_tbl_lookup_ufid(&dp->table, &new_flow->id);
+  1049		if (!flow)
+  1050			flow = ovs_flow_tbl_lookup(&dp->table, key);
+  1051		if (likely(!flow)) {
+  1052			rcu_assign_pointer(new_flow->sf_acts, acts);
+  1053	
+  1054			/* Put flow in bucket. */
+  1055			error = ovs_flow_tbl_insert(&dp->table, new_flow, &mask);
+  1056			if (unlikely(error)) {
+  1057				acts = NULL;
+  1058				goto err_unlock_ovs;
+  1059			}
+  1060	
+  1061			if (unlikely(reply)) {
+  1062				error = ovs_flow_cmd_fill_info(new_flow,
+  1063							       ovs_header->dp_ifindex,
+  1064							       reply, info->snd_portid,
+  1065							       info->snd_seq, 0,
+  1066							       OVS_FLOW_CMD_NEW,
+  1067							       ufid_flags);
+  1068				BUG_ON(error < 0);
+  1069			}
+  1070			ovs_unlock();
+  1071		} else {
+  1072			struct sw_flow_actions *old_acts;
+  1073	
+  1074			/* Bail out if we're not allowed to modify an existing flow.
+  1075			 * We accept NLM_F_CREATE in place of the intended NLM_F_EXCL
+  1076			 * because Generic Netlink treats the latter as a dump
+  1077			 * request.  We also accept NLM_F_EXCL in case that bug ever
+  1078			 * gets fixed.
+  1079			 */
+  1080			if (unlikely(info->nlhdr->nlmsg_flags & (NLM_F_CREATE
+  1081								 | NLM_F_EXCL))) {
+  1082				error = -EEXIST;
+  1083				goto err_unlock_ovs;
+  1084			}
+  1085	
+  1086			/* Look for any overlapping flow. */
+  1087			if (unlikely(!ovs_flow_cmp(flow, &match))) {
+  1088				if (ovs_identifier_is_key(&flow->id))
+  1089					flow = ovs_flow_tbl_lookup_exact(&dp->table,
+  1090									 &match);
+  1091				else /* UFID matches but key is different */
+  1092					flow = NULL;
+  1093				if (!flow) {
+  1094					error = -ENOENT;
+  1095					goto err_unlock_ovs;
+  1096				}
+  1097			}
+  1098	
+  1099			if (unlikely(reply)) {
+> 1100				size_t current, desired;
+  1101	
+> 1102				current = ovs_flow_cmd_msg_size(acts, &new_flow->id,
+  1103								ufid_flags);
+> 1104				desired = ovs_flow_cmd_msg_size(acts, &flow->id,
+  1105								ufid_flags);
+  1106				if (current < desired) {
+  1107					struct sk_buff *resized;
+  1108	
+  1109					resized = ovs_flow_cmd_alloc_info(acts, &flow->id,
+  1110									  info, false,
+  1111									  ufid_flags);
+  1112					if (IS_ERR(resized)) {
+  1113						error = PTR_ERR(resized);
+  1114						goto err_unlock_ovs;
+  1115					}
+  1116					kfree_skb(reply);
+  1117					reply = resized;
+  1118				}
+  1119			}
+  1120	
+  1121			/* Update actions. */
+  1122			old_acts = ovsl_dereference(flow->sf_acts);
+  1123			rcu_assign_pointer(flow->sf_acts, acts);
+  1124	
+  1125			if (unlikely(reply)) {
+  1126				error = ovs_flow_cmd_fill_info(flow,
+  1127							       ovs_header->dp_ifindex,
+  1128							       reply, info->snd_portid,
+  1129							       info->snd_seq, 0,
+  1130							       OVS_FLOW_CMD_NEW,
+  1131							       ufid_flags);
+  1132				BUG_ON(error < 0);
+  1133			}
+  1134			ovs_unlock();
+  1135	
+  1136			ovs_nla_free_flow_actions_rcu(old_acts);
+  1137			ovs_flow_free(new_flow, false);
+  1138		}
+  1139	
+  1140		if (reply)
+  1141			ovs_notify(&dp_flow_genl_family, reply, info);
+  1142	
+  1143		kfree(key);
+  1144		return 0;
+  1145	
+  1146	err_unlock_ovs:
+  1147		ovs_unlock();
+  1148		kfree_skb(reply);
+  1149	err_kfree_acts:
+  1150		ovs_nla_free_flow_actions(acts);
+  1151	err_kfree_key:
+  1152		kfree(key);
+  1153	err_kfree_flow:
+  1154		ovs_flow_free(new_flow, false);
+  1155	error:
+  1156		return error;
+  1157	}
+  1158	
 
 --
 0-DAY CI Kernel Test Service
