@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B46323D7DF
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Aug 2026 08:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFA22877DA;
+	Sat,  8 Aug 2026 10:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786177102; cv=none; b=hSSsAVUGC24t0DiCQtal6w+7RAh5BeVK2QZ4RdpVx2Ypv0sEo9EPlM2qBtdjLscQUy8OEJg+9/iBpo8Nz5yiGsAQvWzKc5UEEK3PGZdkI7HkaEDWi2Oe4PtiBoYIPnmUwVHEZyic5WQbjKMYFtw+GKdCSVLm+LZYY6p2pv0DHns=
+	t=1786183625; cv=none; b=J/jJ3fs01XzAC/YDcdc49fnfuRGhDJBoT8QJ+FLY62afqpumfGc5Eloiyg0PiJ9ztj4Qp1nfKkL1L7AUUuKFpRu6NgaHxEWmlwlzL/fU/c3Nvw6gM/nZjblLSgTTEgUCWD7fS30evWsXR4XWOMbFyaM4XRbPPumUmwje5CMpIzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786177102; c=relaxed/simple;
-	bh=aOLMl7FrqCLgN7TR5XJBsXtLaXtMWMz6OtclMtJxsd8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=naKtjHitcFNBpvXUYLhp2tkG+tXIIKoAO1PmSMCE+7276JVbiU9vsGafrXVuuebsSYzKrpA3N9t1PUQwHrzcdR/OYhGV+HDKFath/kzSYcb7FYCvbQEWhAUjWhgn1J1LETEHy3KPosYXANFgxR258zmnQAuj3j8T3TTxf36b9dU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KbkeozbN; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1786183625; c=relaxed/simple;
+	bh=84rqdDy6SFji4DV2vdXJVEvQsxj7JBWN5nM644+4O5k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Kilzm68oi8wQsMolwBcnAdmzJyY1ZCWIgW4TbWBXGqYKCg5OKxQGlOJ5UovZszyjqwlcvolBIMwFHy3L8nceoMQINe2ZGk1bw338BWS3TYnTF8flv1etJUmbjOlg0AExlFne/TZNNGuSLOtSxS5IN7sogcH4HYC7AnSwR1lu+4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCqRygjh; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KbkeozbN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCqRygjh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786177100; x=1817713100;
+  t=1786183624; x=1817719624;
   h=date:from:to:cc:subject:message-id;
-  bh=aOLMl7FrqCLgN7TR5XJBsXtLaXtMWMz6OtclMtJxsd8=;
-  b=KbkeozbNKmSmu/dfZAJocreQRtk5aG5NeDQuhrCS0X2JTSPBesVSUrzg
-   PMoFyEFx7ezhKxQxVXhfhQ3hZv/cr92J72uAyw7l45zs4747jm50B2asg
-   /thAGIu6Ffn49WU+Gf5x/BOy5fPAvIIzMn/DdZ966Wkt7C1LF8ERbcVRt
-   1qLkULWg70K3ZqL7lBvcGAylbnAeIL+OWrT0DTxV5fOmJccMDiiTDfUS7
-   Q9UyxiMmr5TaJhu/pzOgavxLYYKA8pMWFOmx+QxP0gy/Fsp6zZVWvdtPu
-   kAwjp0ARbwN22pQunYOzEzztglS1gTeJmh6YhYZq6eafknCIFRr7hghxe
-   Q==;
-X-CSE-ConnectionGUID: /hA4bHQSQQ25fnZ6JFt3qA==
-X-CSE-MsgGUID: LEjyGf7+Tdiov/9ufnE6tQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="97126785"
+  bh=84rqdDy6SFji4DV2vdXJVEvQsxj7JBWN5nM644+4O5k=;
+  b=hCqRygjhYR3kcU7Lawq7IHrnSHL0n2btA1qXTpVutgu9RjAOdFo8BnF4
+   72gjd8dxhwhIb+WOmJee36aN9eQ3czVQItcaKu4HEy3CY08KXq7NSQaJ2
+   nepjMmUa11JdErHZK5v9NNFWZ2gAPxJvUcPpEM4BVwb6aXjAaHrnOzbFC
+   d7+Xh6B4tcJnqF2Tm9tfEZceWGbcPHe7J57/mlIxnxNFu5LoB5vdscmvc
+   EfrT01/0nAxeJg7fxW3sx1nlGEzsv58vrSZegRQhEw45ffW6C/kP9VqWV
+   Bt81ybP+WaHlJx6w8VnVyFEReNOdyyKW949Zh30Ouzf3cpScpQkXoTUru
+   A==;
+X-CSE-ConnectionGUID: s0wydPbqRyiEBRp7dBy8Dg==
+X-CSE-MsgGUID: 6yCRs69FRPuzoVZeak6xBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="97931265"
 X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
-   d="scan'208";a="97126785"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 01:18:19 -0700
-X-CSE-ConnectionGUID: wUiraSCIRRu5kQKpZbQjWA==
-X-CSE-MsgGUID: IwOiM6yNTNicielMAC7Wxw==
+   d="scan'208";a="97931265"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 03:07:03 -0700
+X-CSE-ConnectionGUID: 9MHYDAr7TjCyIKZoqgGQfg==
+X-CSE-MsgGUID: Pcj10VAJQiqIBgMMMym8hQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
-   d="scan'208";a="263215580"
+   d="scan'208";a="259292620"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Aug 2026 01:18:18 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 08 Aug 2026 03:07:01 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wscFz-00000000K05-2xwe;
-	Sat, 08 Aug 2026 08:18:15 +0000
-Date: Sat, 08 Aug 2026 16:17:47 +0800
+	id 1wsdxC-00000000K53-0RH8;
+	Sat, 08 Aug 2026 10:06:58 +0000
+Date: Sat, 08 Aug 2026 18:06:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 0/4]
- kernel/sched/core.c:9042:32: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202608081609.sRrwUdLJ-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/hexagon-kcfi 26/93]
+ arch/hexagon/kernel/devtree.c:17:13: warning: no previous prototype for
+ function 'early_init_dt_add_memory_arch'
+Message-ID: <202608081757.qSvJ9atl-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,213 +61,189 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   60949a88a3e36b3c09bd5959c248f25295ab9989
-commit: a8a8087e465a4a6370c96cec61c4da0e868abb64 [0/4] Merge 2cbf335f8ccc ("Merge tag 'sched-core-2026-06-14' of gitolite.kernel.org:pub/scm/linux/kernel/git/tip/tip") into android-mainline
-config: i386-randconfig-061 (https://download.01.org/0day-ci/archive/20260808/202608081609.sRrwUdLJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608081609.sRrwUdLJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/hexagon-kcfi
+head:   ce0e62c277ea2fc51b37b0625eeacdc5631a488f
+commit: c01c2aee2f3a158faf365c893a4578a5a0dee73f [26/93] hexagon: add memory management enhancements
+config: hexagon-randconfig-001-20260808 (https://download.01.org/0day-ci/archive/20260808/202608081757.qSvJ9atl-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608081757.qSvJ9atl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608081609.sRrwUdLJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608081757.qSvJ9atl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/core.c:6569:23: sparse:    struct task_struct *
-   kernel/sched/core.c:6577:46: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6577:46: sparse:    struct task_struct *
-   kernel/sched/core.c:6577:46: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6635:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6635:9: sparse:     got struct rq *
-   kernel/sched/core.c:6635:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:6635:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:6635:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:6669:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6669:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6669:25: sparse:     got struct rq *
-   kernel/sched/core.c:6684:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6684:22: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6684:22: sparse:     got struct rq *
-   kernel/sched/core.c:6696:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6696:22: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6696:22: sparse:     got struct rq *
-   kernel/sched/core.c:6708:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6708:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6708:25: sparse:     got struct rq *
-   kernel/sched/core.c:6727:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6727:27: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6727:27: sparse:     got struct rq *
-   kernel/sched/core.c:6751:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:6751:22: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:6751:22: sparse:     got struct rq *
-   kernel/sched/core.c:7180:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:7180:14: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:7180:14: sparse:     got struct rq *
-   kernel/sched/core.c:7181:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:7181:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:7181:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:7252:52: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev_donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:7252:52: sparse:     expected struct task_struct *prev_donor
-   kernel/sched/core.c:7252:52: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:7267:31: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7267:31: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7267:31: sparse:    struct task_struct *
-   kernel/sched/core.c:7781:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7781:17: sparse:    struct task_struct *
-   kernel/sched/core.c:7781:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:8361:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8361:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8361:25: sparse:     got struct rq *
-   kernel/sched/core.c:8525:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8525:21: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8525:21: sparse:     got struct rq *
-   kernel/sched/core.c:8609:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8609:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8609:25: sparse:     got struct rq *
-   kernel/sched/core.c:8767:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8767:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8767:25: sparse:     got struct rq *
-   kernel/sched/core.c:8805:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8805:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8805:25: sparse:     got struct rq *
-   kernel/sched/core.c:8866:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8866:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8866:25: sparse:     got struct rq *
-   kernel/sched/core.c:8939:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:8939:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:8939:25: sparse:     got struct rq *
->> kernel/sched/core.c:9042:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cfs_rq [noderef] __percpu *extern [addressable] [toplevel] cfs_rq @@     got struct cfs_rq * @@
-   kernel/sched/core.c:9042:32: sparse:     expected struct cfs_rq [noderef] __percpu *extern [addressable] [toplevel] cfs_rq
-   kernel/sched/core.c:9042:32: sparse:     got struct cfs_rq *
-   kernel/sched/core.c:9080:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:9080:22: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:9080:22: sparse:     got struct rq *
-   kernel/sched/core.c:10738:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:10738:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:10738:25: sparse:     got struct rq *
-   kernel/sched/core.c:10738:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10738:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:10738:25: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:11331:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:11331:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:11331:25: sparse:     got struct rq *
-   kernel/sched/core.c:11378:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
-   kernel/sched/core.c:11378:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/sched/core.c:11378:25: sparse:     got struct rq *
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/pelt.h:109:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/pelt.h:109:13: sparse:     expected struct task_struct const *p
-   kernel/sched/pelt.h:109:13: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:927:11: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2479:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2479:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2479:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2468:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2468:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2468:25: sparse:    struct task_struct *
-   kernel/sched/core.c:2316:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:2316:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:2316:38: sparse:    struct task_struct const *
-   kernel/sched/sched.h:1432:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1432:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1432:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2479:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2479:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2479:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2781:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2781:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2781:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2781:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2781:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2781:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:1432:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1432:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1432:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2479:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2479:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2479:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2758:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2758:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2758:9: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +9042 kernel/sched/core.c
+>> arch/hexagon/kernel/devtree.c:17:13: warning: no previous prototype for function 'early_init_dt_add_memory_arch' [-Wmissing-prototypes]
+      17 | void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+         |             ^
+   arch/hexagon/kernel/devtree.c:17:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      17 | void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+         | ^
+         | static 
+   arch/hexagon/kernel/devtree.c:50:6: error: call to undeclared function 'of_get_flat_dt_prop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      50 |         p = of_get_flat_dt_prop(node, "bootargs", &l);
+         |             ^
+   arch/hexagon/kernel/devtree.c:50:4: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
+      50 |         p = of_get_flat_dt_prop(node, "bootargs", &l);
+         |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/hexagon/kernel/devtree.c:104:29: warning: attribute declaration must precede definition [-Wignored-attributes]
+     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
+         |                             ^
+   include/linux/init.h:45:17: note: expanded from macro '__init'
+      45 | #define __init          __section(".init.text") __cold __latent_entropy \
+         |                         ^
+   include/linux/compiler_attributes.h:330:56: note: expanded from macro '__section'
+     330 | #define __section(section)              __attribute__((__section__(section)))
+         |                                                        ^
+   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
+      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
+         |                                          ^
+>> arch/hexagon/kernel/devtree.c:104:29: warning: attribute declaration must precede definition [-Wignored-attributes]
+     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
+         |                             ^
+   include/linux/init.h:45:41: note: expanded from macro '__init'
+      45 | #define __init          __section(".init.text") __cold __latent_entropy \
+         |                                                 ^
+   include/linux/compiler_types.h:112:34: note: expanded from macro '__cold'
+     112 | #define __cold                          __attribute__((__cold__))
+         |                                                        ^
+   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
+      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
+         |                                          ^
+   arch/hexagon/kernel/devtree.c:104:36: error: redefinition of 'setup_machine_fdt'
+     104 | const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
+         |                                    ^
+   arch/hexagon/include/asm/prom.h:14:42: note: previous definition is here
+      14 | static inline const struct machine_desc *setup_machine_fdt(void *dt_phys)
+         |                                          ^
+   arch/hexagon/kernel/devtree.c:120:2: error: use of undeclared identifier 'initial_boot_params'
+     120 |         initial_boot_params = dt_phys;
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/hexagon/kernel/devtree.c:126:23: error: use of undeclared identifier 'initial_boot_params'
+     126 |         if (fdt_magic(initial_boot_params) != OF_DT_HEADER) {
+         |                       ^~~~~~~~~~~~~~~~~~~
+   arch/hexagon/kernel/devtree.c:130:12: error: call to undeclared function 'of_get_flat_dt_root'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     130 |         dt_root = of_get_flat_dt_root();
+         |                   ^
+   arch/hexagon/kernel/devtree.c:132:15: error: call to undeclared function 'of_flat_dt_match_machine'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     132 |         mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
+         |                      ^
+   arch/hexagon/kernel/devtree.c:132:13: error: incompatible integer to pointer conversion assigning to 'const struct machine_desc *' from 'int' [-Wint-conversion]
+     132 |         mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/kernel/devtree.c:142:9: error: call to undeclared function 'early_init_dt_scan_root'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     142 |         early_init_dt_scan_root();
+         |         ^
+   arch/hexagon/kernel/devtree.c:147:2: error: call to undeclared function 'early_init_dt_scan_chosen'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     147 |         early_init_dt_scan_chosen(boot_command_line);
+         |         ^
+   3 warnings and 10 errors generated.
 
-c3a340f7e7eada kernel/sched/core.c Steven Rostedt (VMware  2019-12-19  9038) 
-5822a454d6d222 kernel/sched/core.c Ingo Molnar             2017-03-05  9039  	wait_bit_init();
-9dcb8b685fc308 kernel/sched/core.c Linus Torvalds          2016-10-26  9040  
-434d53b00d6bb7 kernel/sched.c      Mike Travis             2008-04-04  9041  #ifdef CONFIG_FAIR_GROUP_SCHED
-b8fea7af0e40fe kernel/sched/core.c Zecheng Li              2026-05-22 @9042  	root_task_group.cfs_rq = &runqueues.cfs;
-eff766a65c6023 kernel/sched.c      Peter Zijlstra          2008-04-19  9043  
-b1d1779e5ef7a6 kernel/sched/core.c Wei Yang                2020-04-23  9044  	root_task_group.shares = ROOT_TASK_GROUP_LOAD;
-c98c18270be115 kernel/sched/core.c Phil Auld               2023-07-14  9045  	init_cfs_bandwidth(&root_task_group.cfs_bandwidth, NULL);
-6d6bc0ad867c46 kernel/sched.c      Dhaval Giani            2008-05-30  9046  #endif /* CONFIG_FAIR_GROUP_SCHED */
-8195136669661f kernel/sched/core.c Tejun Heo               2024-09-04  9047  #ifdef CONFIG_EXT_GROUP_SCHED
-33796b91871ad4 kernel/sched/core.c Tejun Heo               2025-06-16  9048  	scx_tg_init(&root_task_group);
-8195136669661f kernel/sched/core.c Tejun Heo               2024-09-04  9049  #endif /* CONFIG_EXT_GROUP_SCHED */
-434d53b00d6bb7 kernel/sched.c      Mike Travis             2008-04-04  9050  #ifdef CONFIG_RT_GROUP_SCHED
-b8fea7af0e40fe kernel/sched/core.c Zecheng Li              2026-05-22  9051  	ptr += 2 * nr_cpu_ids * sizeof(void **);
-b8fea7af0e40fe kernel/sched/core.c Zecheng Li              2026-05-22  9052  	ptr = (unsigned long)kzalloc(ptr, GFP_NOWAIT);
-07e06b011db2b3 kernel/sched.c      Yong Zhang              2011-01-07  9053  	root_task_group.rt_se = (struct sched_rt_entity **)ptr;
-434d53b00d6bb7 kernel/sched.c      Mike Travis             2008-04-04  9054  	ptr += nr_cpu_ids * sizeof(void **);
-434d53b00d6bb7 kernel/sched.c      Mike Travis             2008-04-04  9055  
-07e06b011db2b3 kernel/sched.c      Yong Zhang              2011-01-07  9056  	root_task_group.rt_rq = (struct rt_rq **)ptr;
-eff766a65c6023 kernel/sched.c      Peter Zijlstra          2008-04-19  9057  	ptr += nr_cpu_ids * sizeof(void **);
-eff766a65c6023 kernel/sched.c      Peter Zijlstra          2008-04-19  9058  
 
-:::::: The code at line 9042 was first introduced by commit
-:::::: b8fea7af0e40feb6d9cbbd60b66ff0ec265e868f sched/fair: Allocate cfs_tg_state with percpu allocator
+vim +/early_init_dt_add_memory_arch +17 arch/hexagon/kernel/devtree.c
 
-:::::: TO: Zecheng Li <zecheng@google.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+288801685d7137 Richard Kuo 2025-08-18   15  
+288801685d7137 Richard Kuo 2025-08-18   16  /*  called via early_init_dt_scan_memory?  */
+288801685d7137 Richard Kuo 2025-08-18  @17  void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+288801685d7137 Richard Kuo 2025-08-18   18  {
+288801685d7137 Richard Kuo 2025-08-18   19  	//  Cheesy solution is to just twiddle bootmem_lastpg
+288801685d7137 Richard Kuo 2025-08-18   20  	BUG();  ///  XXX Todo fixme
+288801685d7137 Richard Kuo 2025-08-18   21  }
+288801685d7137 Richard Kuo 2025-08-18   22  
+288801685d7137 Richard Kuo 2025-08-18   23  #ifdef CONFIG_BLK_DEV_INITRD
+288801685d7137 Richard Kuo 2025-08-18   24  /*  Seems to be the implementation used by most archs  */
+288801685d7137 Richard Kuo 2025-08-18   25  static void __init __maybe_unused early_init_dt_setup_initrd_arch(u64 start,
+288801685d7137 Richard Kuo 2025-08-18   26  					    u64 end)
+288801685d7137 Richard Kuo 2025-08-18   27  {
+288801685d7137 Richard Kuo 2025-08-18   28  	initrd_start = (unsigned long)__va(start);
+288801685d7137 Richard Kuo 2025-08-18   29  	initrd_end = (unsigned long)__va(end);
+288801685d7137 Richard Kuo 2025-08-18   30  	initrd_below_start_ok = 1;
+288801685d7137 Richard Kuo 2025-08-18   31  }
+288801685d7137 Richard Kuo 2025-08-18   32  #endif
+288801685d7137 Richard Kuo 2025-08-18   33  
+288801685d7137 Richard Kuo 2025-08-18   34  //  basically a copy of dt_scan_chosen, but doesn't do the initrd scan.
+288801685d7137 Richard Kuo 2025-08-18   35  static int __init early_init_dt_scan_chosen_noinitrd(unsigned long node, const char *uname,
+288801685d7137 Richard Kuo 2025-08-18   36  				     int depth, void *data)
+288801685d7137 Richard Kuo 2025-08-18   37  {
+288801685d7137 Richard Kuo 2025-08-18   38  	unsigned long l;
+288801685d7137 Richard Kuo 2025-08-18   39  	char *p;
+288801685d7137 Richard Kuo 2025-08-18   40  
+288801685d7137 Richard Kuo 2025-08-18   41  	pr_debug("search \"chosen\", depth: %d, uname: %s\n", depth, uname);
+288801685d7137 Richard Kuo 2025-08-18   42  
+288801685d7137 Richard Kuo 2025-08-18   43  	if (depth != 1 || !data ||
+288801685d7137 Richard Kuo 2025-08-18   44  	    (strcmp(uname, "chosen") != 0 && strcmp(uname, "chosen@0") != 0))
+288801685d7137 Richard Kuo 2025-08-18   45  		return 0;
+288801685d7137 Richard Kuo 2025-08-18   46  
+288801685d7137 Richard Kuo 2025-08-18   47  	//early_init_dt_check_for_initrd(node);
+288801685d7137 Richard Kuo 2025-08-18   48  
+288801685d7137 Richard Kuo 2025-08-18   49  	/* Retrieve command line */
+288801685d7137 Richard Kuo 2025-08-18   50  	p = of_get_flat_dt_prop(node, "bootargs", &l);
+288801685d7137 Richard Kuo 2025-08-18   51  	if (p != NULL && l > 0)
+288801685d7137 Richard Kuo 2025-08-18   52  		strscpy(data, p, min((int)l, COMMAND_LINE_SIZE));
+288801685d7137 Richard Kuo 2025-08-18   53  
+288801685d7137 Richard Kuo 2025-08-18   54  	/*
+288801685d7137 Richard Kuo 2025-08-18   55  	 * CONFIG_CMDLINE is meant to be a default in case nothing else
+288801685d7137 Richard Kuo 2025-08-18   56  	 * managed to set the command line, unless CONFIG_CMDLINE_FORCE
+288801685d7137 Richard Kuo 2025-08-18   57  	 * is set in which case we override whatever was found earlier.
+288801685d7137 Richard Kuo 2025-08-18   58  	 */
+288801685d7137 Richard Kuo 2025-08-18   59  #ifdef CONFIG_CMDLINE
+288801685d7137 Richard Kuo 2025-08-18   60  #ifndef CONFIG_CMDLINE_FORCE
+288801685d7137 Richard Kuo 2025-08-18   61  	if (!((char *)data)[0])
+288801685d7137 Richard Kuo 2025-08-18   62  #endif
+288801685d7137 Richard Kuo 2025-08-18   63  		strscpy(data, CONFIG_CMDLINE, COMMAND_LINE_SIZE);
+288801685d7137 Richard Kuo 2025-08-18   64  #endif /* CONFIG_CMDLINE */
+288801685d7137 Richard Kuo 2025-08-18   65  
+288801685d7137 Richard Kuo 2025-08-18   66  	pr_debug("Command line is: %s\n", (char*)data);
+288801685d7137 Richard Kuo 2025-08-18   67  
+288801685d7137 Richard Kuo 2025-08-18   68  	/* break now */
+288801685d7137 Richard Kuo 2025-08-18   69  	return 1;
+288801685d7137 Richard Kuo 2025-08-18   70  }
+288801685d7137 Richard Kuo 2025-08-18   71  
+288801685d7137 Richard Kuo 2025-08-18   72  
+288801685d7137 Richard Kuo 2025-08-18   73  
+5d4b53d10af44d Brian Cain  2026-01-24   74  /*
+5d4b53d10af44d Brian Cain  2026-01-24   75   * Iterator for of_flat_dt_match_machine
+5d4b53d10af44d Brian Cain  2026-01-24   76   */
+5d4b53d10af44d Brian Cain  2026-01-24   77  static const void * __init arch_get_next_mach(const char *const **match)
+5d4b53d10af44d Brian Cain  2026-01-24   78  {
+5d4b53d10af44d Brian Cain  2026-01-24   79  	static const struct machine_desc *mdesc = __arch_info_begin;
+5d4b53d10af44d Brian Cain  2026-01-24   80  	const struct machine_desc *m = mdesc;
+5d4b53d10af44d Brian Cain  2026-01-24   81  
+5d4b53d10af44d Brian Cain  2026-01-24   82  	if (m >= __arch_info_end)
+5d4b53d10af44d Brian Cain  2026-01-24   83  		return NULL;
+5d4b53d10af44d Brian Cain  2026-01-24   84  
+5d4b53d10af44d Brian Cain  2026-01-24   85  	mdesc++;
+5d4b53d10af44d Brian Cain  2026-01-24   86  	*match = m->dt_compat;
+5d4b53d10af44d Brian Cain  2026-01-24   87  	return m;
+5d4b53d10af44d Brian Cain  2026-01-24   88  }
+5d4b53d10af44d Brian Cain  2026-01-24   89  
+288801685d7137 Richard Kuo 2025-08-18   90  /*
+288801685d7137 Richard Kuo 2025-08-18   91   * setup_machine_fdt - set up machine based on dtb passed to kernel
+288801685d7137 Richard Kuo 2025-08-18   92   * @dt_phys: physical address of dtb
+288801685d7137 Richard Kuo 2025-08-18   93   *
+288801685d7137 Richard Kuo 2025-08-18   94   * Sets up some of the earliest stuff -- setting the machine type,
+288801685d7137 Richard Kuo 2025-08-18   95   * pulling the command line options, and finding the memory.
+288801685d7137 Richard Kuo 2025-08-18   96   *
+288801685d7137 Richard Kuo 2025-08-18   97   * Since we're calling this from setup_arch, this is going to happen
+288801685d7137 Richard Kuo 2025-08-18   98   * very, very early.  Prior to even the bootmem being set up in the
+288801685d7137 Richard Kuo 2025-08-18   99   * old scheme I think.
+288801685d7137 Richard Kuo 2025-08-18  100   *
+288801685d7137 Richard Kuo 2025-08-18  101   * Also since we're always being fired up by the hypervisor, then
+288801685d7137 Richard Kuo 2025-08-18  102   * we are already running with the MMU on with an init segtable.
+288801685d7137 Richard Kuo 2025-08-18  103   */
+5d4b53d10af44d Brian Cain  2026-01-24 @104  const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
+288801685d7137 Richard Kuo 2025-08-18  105  {
+5d4b53d10af44d Brian Cain  2026-01-24  106  	const struct machine_desc *mdesc_best = NULL;
+288801685d7137 Richard Kuo 2025-08-18  107  	unsigned long dt_root;
+288801685d7137 Richard Kuo 2025-08-18  108  
+
+:::::: The code at line 17 was first introduced by commit
+:::::: 288801685d71376da5644b5f11ea806fc06ccea1 hexagon: add device tree support
+
+:::::: TO: Richard Kuo <rkuo@quicinc.com>
+:::::: CC: Brian Cain <brian.cain@oss.qualcomm.com>
 
 --
 0-DAY CI Kernel Test Service
