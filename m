@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B0B2EF67A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Aug 2026 20:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57493AD51F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Aug 2026 20:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786308948; cv=none; b=Q6sVrZD5jicUlV6sfxBLNJp/3C37nM8YL9jn5oZMosh+5+CmpqLHWkuyjzUizM3fvPlm9BkI6aHMR5A08JXFTlUFC+U+ZLn9miBVgAIqqZKKUXfac8HYMsFIXSL51iHLu18SJs4Vcr9gFFO7s1PG9tQFU0ONAGzjmVYbesyuW+Y=
+	t=1786308950; cv=none; b=KjpLbPmcdrDxWPPkKEC3emCX1f4VBoT+NCWlUAQtr99wcWiQ2RU4lVTCpeLsHM5pT55szOXOFSl4bONxx9CT1nXERkvhHPaO+ihdqiyV3wNCnmnhrnDS7H4tfI5c/FZfwIRT88w0+5fhNAP9e0WFPiblS92YHgdzPPFyOAhQCfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786308948; c=relaxed/simple;
-	bh=ZOhAQtvgsP+VSMdFSapy67wfItiFDTvTf9zEHEQK7wI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ft19XGS8XsVnLJ4fOQ90sh1aCv7nRETmQk5Ka6dlNlVlLL1GHSPgz/2zfJShlbnJysO/tRnvkAnfHRJe1tXgz2FqYWhSCdK45nYcINLq3LDmRgMQliRsVWu8CWnLFD4YIiizyyLfa+w34+DxbbwIKqtHKHOXTePPMIrwDdrveaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDgGqmNh; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1786308950; c=relaxed/simple;
+	bh=YtrgPWoD0uN7sWbp0mYz0bGfCBFfYcwiaTjBdTAIRBY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mks2+LSksVKiJiIodlA0Zm0T3VDjJ1ARvhhmekHryYdCN9UfGZK8FFr5aHyUAPPADqjcWGQ0fpJ+ynv9ZS1VwbBLcdTDrQMI0OuEbZkbVrhmzt1noQSfvEkZ6RXbDPaMQgAUXzx56Ynv8zPjyifIgXIljdERleAjOZCGXVDIWpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QPZZVAev; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDgGqmNh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPZZVAev"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786308947; x=1817844947;
+  t=1786308948; x=1817844948;
   h=date:from:to:cc:subject:message-id;
-  bh=ZOhAQtvgsP+VSMdFSapy67wfItiFDTvTf9zEHEQK7wI=;
-  b=oDgGqmNhhQa72n0iSYOBFpgZR8rFX0tfxbqiL9ItLo+ouN6qY4bylCjf
-   GxZfstnbxjjCAN9oljvdrt03Hd4GlCoyJdRloVAWmh118pJ7KkJHB1N6R
-   UpMRs0JIclhEz9ruNZW32AYzbnxsHVRA7fkG5MwfSByEF/Xszsg1ok20E
-   5n6ZnIY86rcQKDlmcsMS4hU1BcHIPwcKu1a/aLKTFJDmAx4YSoLkO7xC3
-   6RUeWxdfxkkkRkOv1R4ja4KSJp/4LWKE40WQdJ9gNQfWwRMcc114KCu7h
-   NV7Iap3179qBdW4YLsu2K1iqjbT1roK4E4ECiFXo0DxaNDolGJ2vl9alu
+  bh=YtrgPWoD0uN7sWbp0mYz0bGfCBFfYcwiaTjBdTAIRBY=;
+  b=QPZZVAevflWJapEb+XrgZXMlGqJeToc1xYTpQCeR3sCOKheJQDV7J5Ee
+   rnCz5sFjOJ6sxsDKLK3gNo6QI30uRYWL2lTUqD1I5/x0SWk34XIAZcms/
+   Px8NjtzykqmGUYhcb5srIc9CcVKdxMsVX3qAOfZ7cNeW8mZi/MpkJ7OI+
+   LVgGtdZ6tyS4xGtmVfyY98rQiDX2ItEpN9GTOL12xjRmMNuqcy8R5uTN7
+   zcN680uqU7Y8XNiFlfhdXLckmN9jhUcjD3iSlM2lB1Sc2zYc8O6qIv19b
+   7mNtTsA2FF+pQgQw48HvvvlaUiude+Zmk2Ltr5F70YsAe/xPXQj4k35ix
    Q==;
-X-CSE-ConnectionGUID: m3iFDkoHRSSaLxHTfkMNUg==
-X-CSE-MsgGUID: BnEPyD1RQTOUQnTUhcu8hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="85796445"
+X-CSE-ConnectionGUID: RFmsWWO2TE+1GoifJyHk6Q==
+X-CSE-MsgGUID: MSb0TJrKSkWJj5pX5M5rBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="86902000"
 X-IronPort-AV: E=Sophos;i="6.25,214,1779174000"; 
-   d="scan'208";a="85796445"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 13:55:46 -0700
-X-CSE-ConnectionGUID: OF4anx+uQ/er7v67ENE2TA==
-X-CSE-MsgGUID: xoTlttKcQG2kPoOwKepktw==
+   d="scan'208";a="86902000"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 13:55:46 -0700
+X-CSE-ConnectionGUID: VTiDdnq3QZ+rXbwjW6R7Uw==
+X-CSE-MsgGUID: 9uIgtd0PSC6Cj5YN9ekZsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,214,1779174000"; 
-   d="scan'208";a="266720533"
+   d="scan'208";a="261125270"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Aug 2026 13:55:44 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Aug 2026 13:55:45 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtAYY-00000000MN2-0Pxx;
+	id 1wtAYY-00000000MN5-10mD;
 	Sun, 09 Aug 2026 20:55:42 +0000
-Date: Mon, 10 Aug 2026 04:55:31 +0800
+Date: Mon, 10 Aug 2026 04:55:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [kkdwivedi:bpf-waitq-kthread-reclaim-v1 4/9]
- kernel/bpf/waitq.c:399:3: error: call to undeclared function 'cgroup_put';
- ISO C99 and later do not support implicit function declarations
-Message-ID: <202608100344.3gdmsnuK-lkp@intel.com>
+ kernel/bpf/waitq.c:399:3: error: implicit declaration of function
+ 'cgroup_put'; did you mean 'cgroup_init'?
+Message-ID: <202608100339.vLRNRUj6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,28 +63,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/kkdwivedi/linux bpf-waitq-kthread-reclaim-v1
 head:   02201107f4d68e8f9f6b61079f487b1ebf636128
 commit: 29b9ec72533a0ecadf4dc6d032b0cffe529bc32c [4/9] bpf: Support cgroup placement for BPF kthreads
-config: powerpc64-randconfig-001-20260809 (https://download.01.org/0day-ci/archive/20260810/202608100344.3gdmsnuK-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608100344.3gdmsnuK-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20260809 (https://download.01.org/0day-ci/archive/20260810/202608100339.vLRNRUj6-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608100339.vLRNRUj6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608100344.3gdmsnuK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608100339.vLRNRUj6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/bpf/waitq.c:399:3: error: call to undeclared function 'cgroup_put'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     399 |                 cgroup_put(cgrp);
-         |                 ^
-   kernel/bpf/waitq.c:399:3: note: did you mean 'cgroup_init'?
-   include/linux/cgroup.h:773:19: note: 'cgroup_init' declared here
-     773 | static inline int cgroup_init(void) { return 0; }
-         |                   ^
-   1 error generated.
+   kernel/bpf/waitq.c: In function 'bpf_kthread_create':
+>> kernel/bpf/waitq.c:399:3: error: implicit declaration of function 'cgroup_put'; did you mean 'cgroup_init'? [-Werror=implicit-function-declaration]
+      cgroup_put(cgrp);
+      ^~~~~~~~~~
+      cgroup_init
+   cc1: some warnings being treated as errors
 
 
-vim +/cgroup_put +399 kernel/bpf/waitq.c
+vim +399 kernel/bpf/waitq.c
 
    311	
    312	__bpf_kfunc int bpf_kthread_create(struct bpf_kthread *kthread, void *p__const_map,
