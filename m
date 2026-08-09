@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760292941A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Aug 2026 13:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EDA1FB1
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Aug 2026 14:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786281547; cv=none; b=GA7EUd2dROx4tuqdcKq9vgj5kf48OldUIvhWx8WpnCcAJzbSlG2d96ZaHlh72dKmOMriB+Ytm+l5p4Amme1iNY1rvKZmBGWLOqsG5He++bRRN3z5bKL66ScDsjhsu7+zNw2GnBgwKUu258DE16mHEBDpLU/eHhxWXGDUIf155tE=
+	t=1786284984; cv=none; b=HHMKxXruI0E84OeFa1jJsEb0pbWgSEcSQtAZ5vfGKltFEWOFkmtsbe6cWpbHSoX2rujR2NSwpDEdkogptPwfrayAz++6xixy63a838wQtuRt85RiubvjntX9KXumCyMJFNoWSd19l1TWFiSWXHZRh64fYEKs5u9+o2OlOjIAu5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786281547; c=relaxed/simple;
-	bh=++jJsJnydHA2iTZChXs0rd7NFfDAxAG2OmyTKXYlpMc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MefB68pox6Wr7ziXWXStPsoIHz1QfAD/qeEqxeEH+b9Da/dxxpJAvxDJPtvZFuwY0N1UJBG/to5f6Mlfg3wmMdAm5u7nFyw1XCHFjieiadJhHlWOQZFnyQP4SFH+suODsNI4Nq/VZkB6sDNpbmO7cfzkRD6cxeuw8lkeNGNnRX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JO8pabXn; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1786284984; c=relaxed/simple;
+	bh=6e5flQlFTMNI8b5WV/pVIAQf86ysXhID9hdEkUvW9E8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=V4+heuAhe0ZVcvwxfH/MqhUXg1zcTr0hVtFwOKVHpijVotAxMKXvvkjYpPIXvPYKPAMQ6Bx48I0jPbCYzb9yR8DBtOKlBxqfaeS6+FJSTJGFUNg3rRLEOYnCWCfF6CRvdRUB2T4NaieoYCm2J27pZ1QfKeG4pvsgj1JME0qPU2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGcM1slh; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JO8pabXn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGcM1slh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786281543; x=1817817543;
+  t=1786284982; x=1817820982;
   h=date:from:to:cc:subject:message-id;
-  bh=++jJsJnydHA2iTZChXs0rd7NFfDAxAG2OmyTKXYlpMc=;
-  b=JO8pabXnIB/4bEdaVTT+0PNWtJODrPZVMuXhyDy6S9qp52G588cA0aFJ
-   0S5yj3rfPK80TRsuc/Hbg3aqgvGroUp3gNa1g/EcpBLOG/gYHTME+qcGq
-   K1/aZp74X+UjqZsDTF6o2vtVMXTXx3fTbO/NugTttvHgndPywvdhhsbyO
-   zX5IeVbDNQud/sz/T+IfAPKeoLcyklxpec9H0BtANleNPPq+UfW6FDql/
-   FSV7ac+IO/Rq/6HGbXvaViuDdANXqyHReu6hACN5XD0o62hwiCKyXXk+b
-   5BtnbKmDKDLSUeY55kiBQinKbZuLf00yVjNHCE0qNZ2W/7ae2dRb4pH+c
-   Q==;
-X-CSE-ConnectionGUID: hECqAVRfSLK4Qco3Oo3low==
-X-CSE-MsgGUID: PBBgYAcmR16scCnFiminlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="98178039"
+  bh=6e5flQlFTMNI8b5WV/pVIAQf86ysXhID9hdEkUvW9E8=;
+  b=TGcM1slhtfdq40xh17Ph8RRk4Q7dhPOYKawWV7oOCUOM+s4NBtzlJbwl
+   2jLjN+TwRRHBst2MMk9I/2zFQk7YNujB4PcZGRmC6FDgmrFKW1FLxszm0
+   mfPjlC3i55QSqlnRkmTzCNFHIbH75qDN+1B1W9OnnPSKbxaT3dufwG6Fh
+   KYcd8j879JdXlGBWinjVcXXFTxwKDXbnc1+ZcgDdg/8iWjkwbhW7k5L9d
+   4b7kUUxdkniOX5UclYM/JynL+h7SUWulL7Q8UlDEbiYO0JJYALwpJjc7A
+   JSeUi65KxErbCGSDEVnL+V1FpAu+wB/X5TyzZMZt9HHP3KB8SXgEak+HL
+   A==;
+X-CSE-ConnectionGUID: J2LuNMMeQGC0QO2pqETqfg==
+X-CSE-MsgGUID: YZhC6fmOQLy+kua+lAQSNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="85785593"
 X-IronPort-AV: E=Sophos;i="6.25,213,1779174000"; 
-   d="scan'208";a="98178039"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 06:19:02 -0700
-X-CSE-ConnectionGUID: dr22x0+hTU2q1rMQh4bkDg==
-X-CSE-MsgGUID: rJ3AyKPoRnOhqiJAwHWtPA==
+   d="scan'208";a="85785593"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 07:16:21 -0700
+X-CSE-ConnectionGUID: Cywq5cL6TzeIln2B7qwI0g==
+X-CSE-MsgGUID: JjNiDoknQpisWeefXx4Qjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,213,1779174000"; 
-   d="scan'208";a="263430980"
+   d="scan'208";a="292728587"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Aug 2026 06:18:56 -0700
+  by orviesa002.jf.intel.com with ESMTP; 09 Aug 2026 07:16:20 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wt3QS-00000000Ltp-2wxW;
-	Sun, 09 Aug 2026 13:18:52 +0000
-Date: Sun, 09 Aug 2026 21:18:03 +0800
+	id 1wt4K1-00000000LvF-1lO2;
+	Sun, 09 Aug 2026 14:16:17 +0000
+Date: Sun, 09 Aug 2026 22:15:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrea Righi <arighi@nvidia.com>
-Subject: kernel/sched/ext/ext.c:1451:38: sparse: sparse: incorrect
- type in initializer (different address spaces)
-Message-ID: <202608092048.35ueme5s-lkp@intel.com>
+To: sofus <sofus.c@icloud.com>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/240-isp 65/67]
+ drivers/media/platform/apple/avd/avd-av1.c:586:47: warning: suggest
+ parentheses around arithmetic in operand of '|'
+Message-ID: <202608092125.rKg4nmH8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,451 +60,95 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   06cf61899d6498b33e4b7c87d99d5bd471ccc375
-commit: bba2c3615bd6cfee7456d1130f2e6b01b3f4e9ba sched_ext: Move sources under kernel/sched/ext/
-date:   7 weeks ago
-config: arm-randconfig-r122-20260809 (https://download.01.org/0day-ci/archive/20260809/202608092048.35ueme5s-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260809/202608092048.35ueme5s-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   6b01d08e5d4d33d4a7cdfb1ecea6f78e295bfd75
+commit: 0d6dcb9b11b41af215b8a8443b0e3f7d5aa6c110 [65/67] media: apple: avd: add av1 support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260809/202608092125.rKg4nmH8-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260809/202608092125.rKg4nmH8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: bba2c3615bd6 ("sched_ext: Move sources under kernel/sched/ext/")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608092048.35ueme5s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608092125.rKg4nmH8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/rt.c:1498:31: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:1826:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/rt.c:1826:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/rt.c:1826:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/rt.c:1517:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/rt.c:1517:14: sparse:     expected struct task_struct *curr
-   kernel/sched/rt.c:1517:14: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:1518:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/rt.c:1518:15: sparse:     expected struct task_struct *donor
-   kernel/sched/rt.c:1518:15: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:1579:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:1579:45: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1579:45: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:1605:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:1605:35: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1605:35: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:1627:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:1627:39: sparse:     expected struct task_struct *donor
-   kernel/sched/rt.c:1627:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:1652:64: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1652:64: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:1652:64: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2002:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2002:40: sparse:     expected struct task_struct *task
-   kernel/sched/rt.c:2002:40: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2025:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:2025:13: sparse:    struct task_struct *
-   kernel/sched/rt.c:2025:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:2376:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2376:54: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:2376:54: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2378:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:2378:40: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2378:40: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:2378:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:2378:62: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2378:62: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/deadline.c:3151:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:3151:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:3151:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:3161:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:3161:13: sparse:    struct task_struct *
-   kernel/sched/deadline.c:3161:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:3267:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:3267:25: sparse:    struct task_struct *
-   kernel/sched/deadline.c:3267:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2744:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:2744:42: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:2744:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:2754:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2754:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:2754:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1188:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1188:39: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1188:39: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1188:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1188:85: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1188:85: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1286:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:1286:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1286:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:1815:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1815:31: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1815:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1815:70: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1815:70: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1815:70: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:2130:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2130:39: sparse:     expected struct task_struct *donor
-   kernel/sched/deadline.c:2130:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2973:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/deadline.c:2973:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/deadline.c:2973:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/deadline.c:2618:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:2618:14: sparse:     expected struct task_struct *curr
-   kernel/sched/deadline.c:2618:14: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2619:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:2619:15: sparse:     expected struct task_struct *donor
-   kernel/sched/deadline.c:2619:15: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2693:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2693:43: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2693:43: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2713:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2713:35: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2713:35: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:3312:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:3312:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:3312:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:3314:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:3314:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:3314:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:3316:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:3316:44: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:3316:44: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:3578:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:3578:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:3578:23: sparse:    struct task_struct *
-   kernel/sched/deadline.c:3631:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/build_policy.c: note: in included file:
->> kernel/sched/ext/ext.c:1451:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
->> kernel/sched/ext/ext.c:1622:48: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext/ext.c:1622:48: sparse:    struct task_struct *
-   kernel/sched/ext/ext.c:1622:48: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext/ext.c:1771:66: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext/ext.c:1771:66: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext/ext.c:1771:66: sparse:    struct task_struct *
->> kernel/sched/ext/ext.c:2315:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/ext/ext.c:2315:35: sparse:     expected struct task_struct *p
-   kernel/sched/ext/ext.c:2315:35: sparse:     got struct task_struct [noderef] __rcu *donor
->> kernel/sched/ext/ext.c:2326:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *from @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/ext/ext.c:2326:38: sparse:     expected struct task_struct *from
-   kernel/sched/ext/ext.c:2326:38: sparse:     got struct task_struct [noderef] __rcu *donor
->> kernel/sched/ext/ext.c:3000:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:3000:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:3000:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:3136:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:3136:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:3136:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
->> kernel/sched/ext/ext.c:3278:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext/ext.c:3278:38: sparse:     expected struct task_struct *prev
-   kernel/sched/ext/ext.c:3278:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext/ext.c:3509:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:3509:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:3509:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:3915:62: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *scx_sched @@
-   kernel/sched/ext/ext.c:3915:62: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:3915:62: sparse:     got struct scx_sched [noderef] __rcu *scx_sched
-   kernel/sched/ext/ext.c:4459:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:4459:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:4459:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:4488:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:4488:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:4488:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:4500:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:4500:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:4500:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:4548:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:4548:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:4548:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:4569:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:4569:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:4569:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:4590:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:4590:13: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:4590:13: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:4606:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:4606:13: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:4606:13: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:4623:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext/ext.c:4623:13: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext/ext.c:4623:13: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext/ext.c:5803:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_kick_syncs **ksyncs @@     got struct scx_kick_syncs [noderef] __rcu ** @@
-   kernel/sched/ext/ext.c:5803:50: sparse:     expected struct scx_kick_syncs **ksyncs
-   kernel/sched/ext/ext.c:5803:50: sparse:     got struct scx_kick_syncs [noderef] __rcu **
-   kernel/sched/ext/ext.c:5806:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext/ext.c:5806:27: sparse:    struct scx_kick_syncs [noderef] __rcu *
-   kernel/sched/ext/ext.c:5806:27: sparse:    struct scx_kick_syncs *
-   kernel/sched/ext/ext.c:5806:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext/ext.c:5806:27: sparse:    struct scx_kick_syncs [noderef] __rcu *
-   kernel/sched/ext/ext.c:5806:27: sparse:    struct scx_kick_syncs *
->> kernel/sched/ext/ext.c:6626:57: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
->> kernel/sched/ext/ext.c:6627:51: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext/ext.c:6784:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_kick_syncs **ksyncs @@     got struct scx_kick_syncs [noderef] __rcu ** @@
-   kernel/sched/ext/ext.c:6787:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext/ext.c:6787:17: sparse:    struct scx_kick_syncs [noderef] __rcu *
-   kernel/sched/ext/ext.c:6787:17: sparse:    struct scx_kick_syncs *
-   kernel/sched/ext/ext.c:6796:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext/ext.c:6796:17: sparse:    struct scx_kick_syncs [noderef] __rcu *
-   kernel/sched/ext/ext.c:6796:17: sparse:    struct scx_kick_syncs *
-   kernel/sched/ext/ext.c:7523:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *parent @@     got struct scx_sched [noderef] __rcu *scx_sched @@
-   kernel/sched/ext/ext.c:7839:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *scx_sched @@
-   kernel/sched/ext/ext.c:8379:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
->> kernel/sched/ext/ext.c:9751:18: sparse: sparse: symbol 'scx_bpf_reenqueue_local___v2' was not declared. Should it be static?
-   kernel/sched/ext/ext.c:10196:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext/ext.c:10196:33: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext/ext.c:10196:33: sparse:    struct task_struct const *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/build_policy.c: note: in included file:
->> kernel/sched/ext/idle.c:748:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [assigned] [toplevel] scx_root @@
->> kernel/sched/ext/idle.c:768:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:1418:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:1313:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:1313:23: sparse:    struct task_struct *
-   kernel/sched/rt.c:1313:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2462:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2462:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:1423:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1423:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1423:25: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/deadline.c:2339:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2339:15: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2339:15: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2462:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2462:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2462:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2451:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2451:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:1423:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1423:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1423:25: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:1343:11: sparse: sparse: dereference of noderef expression
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:1676:15: sparse: sparse: dereference of noderef expression
+All warnings (new ones prefixed by >>):
 
-vim +1451 kernel/sched/ext/ext.c
+   In file included from drivers/media/platform/apple/avd/avd-av1.c:27:
+   drivers/media/platform/apple/avd/avd-av1.c: In function 'set_refs':
+   drivers/media/platform/apple/avd/avd-av1.c:115:33: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     115 | #define AV1_GM_TYPE(v)          FIELD_PREP(GENMASK(31, 30), v)
+         |                                 ^~~~~~~~~~
+   drivers/media/platform/apple/avd/avd-inst.h:195:41: note: in definition of macro 'push'
+     195 | #define push(inst, name) push(avd, ctx, inst)
+         |                                         ^~~~
+   drivers/media/platform/apple/avd/avd-av1.c:315:30: note: in expansion of macro 'AV1_GM_TYPE'
+     315 |                         push(AV1_GM_TYPE(gm->type[ref_idx]) |
+         |                              ^~~~~~~~~~~
+   drivers/media/platform/apple/avd/avd-av1.c: In function 'set_header':
+>> drivers/media/platform/apple/avd/avd-av1.c:586:47: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
+     586 |                         frame->upscaled_width - 1, "upscaled_width");
+         |                         ~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/media/platform/apple/avd/avd-inst.h:195:41: note: in definition of macro 'push'
+     195 | #define push(inst, name) push(avd, ctx, inst)
+         |                                         ^~~~
 
-7b0888b7cc1924 kernel/sched/ext.c Tejun Heo       2024-06-18  1448  
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1449  static void update_curr_scx(struct rq *rq)
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1450  {
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18 @1451  	struct task_struct *curr = rq->curr;
-7799140b6a1697 kernel/sched/ext.c Tejun Heo       2024-08-06  1452  	s64 delta_exec;
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1453  
-7799140b6a1697 kernel/sched/ext.c Tejun Heo       2024-08-06  1454  	delta_exec = update_curr_common(rq);
-7799140b6a1697 kernel/sched/ext.c Tejun Heo       2024-08-06  1455  	if (unlikely(delta_exec <= 0))
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1456  		return;
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1457  
-7b0888b7cc1924 kernel/sched/ext.c Tejun Heo       2024-06-18  1458  	if (curr->scx.slice != SCX_SLICE_INF) {
-7799140b6a1697 kernel/sched/ext.c Tejun Heo       2024-08-06  1459  		curr->scx.slice -= min_t(u64, curr->scx.slice, delta_exec);
-7b0888b7cc1924 kernel/sched/ext.c Tejun Heo       2024-06-18  1460  		if (!curr->scx.slice)
-7b0888b7cc1924 kernel/sched/ext.c Tejun Heo       2024-06-18  1461  			touch_core_sched(rq, curr);
-7b0888b7cc1924 kernel/sched/ext.c Tejun Heo       2024-06-18  1462  	}
-cd959a3562050d kernel/sched/ext.c Andrea Righi    2026-01-26  1463  
-cd959a3562050d kernel/sched/ext.c Andrea Righi    2026-01-26  1464  	dl_server_update(&rq->ext_server, delta_exec);
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1465  }
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1466  
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1467  static bool scx_dsq_priq_less(struct rb_node *node_a,
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1468  			      const struct rb_node *node_b)
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1469  {
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1470  	const struct task_struct *a =
-d4af01c3731ff9 kernel/sched/ext.c Tejun Heo       2024-07-08  1471  		container_of(node_a, struct task_struct, scx.dsq_priq);
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1472  	const struct task_struct *b =
-d4af01c3731ff9 kernel/sched/ext.c Tejun Heo       2024-07-08  1473  		container_of(node_b, struct task_struct, scx.dsq_priq);
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1474  
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1475  	return time_before64(a->scx.dsq_vtime, b->scx.dsq_vtime);
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1476  }
-06e51be3d5e7a0 kernel/sched/ext.c Tejun Heo       2024-06-18  1477  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1478  static void dsq_inc_nr(struct scx_dispatch_q *dsq, struct task_struct *p, u64 enq_flags)
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1479  {
-80a54b807d6c0b kernel/sched/ext.c Tejun Heo       2026-03-07  1480  	/* scx_bpf_dsq_nr_queued() reads ->nr without locking, use WRITE_ONCE() */
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1481  	WRITE_ONCE(dsq->nr, dsq->nr + 1);
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1482  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1483  	/*
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1484  	 * Once @p reaches a local DSQ, it can only leave it by being dispatched
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1485  	 * to the CPU or dequeued. In both cases, the only way @p can go back to
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1486  	 * the BPF sched is through enqueueing. If being inserted into a local
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1487  	 * DSQ with IMMED, persist the state until the next enqueueing event in
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1488  	 * do_enqueue_task() so that we can maintain IMMED protection through
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1489  	 * e.g. SAVE/RESTORE cycles and slice extensions.
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1490  	 */
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1491  	if (enq_flags & SCX_ENQ_IMMED) {
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1492  		if (unlikely(dsq->id != SCX_DSQ_LOCAL)) {
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1493  			WARN_ON_ONCE(!(enq_flags & SCX_ENQ_GDSQ_FALLBACK));
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1494  			return;
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1495  		}
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1496  		p->scx.flags |= SCX_TASK_IMMED;
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1497  	}
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1498  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1499  	if (p->scx.flags & SCX_TASK_IMMED) {
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1500  		struct rq *rq = container_of(dsq, struct rq, scx.local_dsq);
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1501  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1502  		if (WARN_ON_ONCE(dsq->id != SCX_DSQ_LOCAL))
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1503  			return;
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1504  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1505  		rq->scx.nr_immed++;
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1506  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1507  		/*
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1508  		 * If @rq already had other tasks or the current task is not
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1509  		 * done yet, @p can't go on the CPU immediately. Re-enqueue.
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1510  		 */
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1511  		if (unlikely(dsq->nr > 1 || !rq_is_open(rq, enq_flags)))
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1512  			schedule_reenq_local(rq, 0);
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1513  	}
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1514  }
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1515  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1516  static void dsq_dec_nr(struct scx_dispatch_q *dsq, struct task_struct *p)
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1517  {
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1518  	/* see dsq_inc_nr() */
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1519  	WRITE_ONCE(dsq->nr, dsq->nr - 1);
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1520  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1521  	if (p->scx.flags & SCX_TASK_IMMED) {
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1522  		struct rq *rq = container_of(dsq, struct rq, scx.local_dsq);
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1523  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1524  		if (WARN_ON_ONCE(dsq->id != SCX_DSQ_LOCAL) ||
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1525  		    WARN_ON_ONCE(rq->scx.nr_immed <= 0))
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1526  			return;
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1527  
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1528  		rq->scx.nr_immed--;
-98d709cba3193f kernel/sched/ext.c Tejun Heo       2026-03-13  1529  	}
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1530  }
-f0e1a0643a59bf kernel/sched/ext.c Tejun Heo       2024-06-18  1531  
-c0008a5632103e kernel/sched/ext.c Tejun Heo       2025-09-23  1532  static void refill_task_slice_dfl(struct scx_sched *sch, struct task_struct *p)
-69120f82282977 kernel/sched/ext.c Honglei Wang    2025-04-18  1533  {
-e1cccf365ef4b8 kernel/sched/ext.c Tejun Heo       2026-03-06  1534  	p->scx.slice = READ_ONCE(sch->slice_dfl);
-c0008a5632103e kernel/sched/ext.c Tejun Heo       2025-09-23  1535  	__scx_add_event(sch, SCX_EV_REFILL_SLICE_DFL, 1);
-69120f82282977 kernel/sched/ext.c Honglei Wang    2025-04-18  1536  }
-69120f82282977 kernel/sched/ext.c Honglei Wang    2025-04-18  1537  
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1538  /*
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1539   * Return true if @p is moving due to an internal SCX migration, false
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1540   * otherwise.
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1541   */
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1542  static inline bool task_scx_migrating(struct task_struct *p)
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1543  {
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1544  	/*
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1545  	 * We only need to check sticky_cpu: it is set to the destination
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1546  	 * CPU in move_remote_task_to_local_dsq() before deactivate_task()
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1547  	 * and cleared when the task is enqueued on the destination, so it
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1548  	 * is only non-negative during an internal SCX migration.
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1549  	 */
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1550  	return p->scx.sticky_cpu >= 0;
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1551  }
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1552  
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1553  /*
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1554   * Call ops.dequeue() if the task is in BPF custody and not migrating.
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1555   * Clears %SCX_TASK_IN_CUSTODY when the callback is invoked.
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1556   */
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1557  static void call_task_dequeue(struct scx_sched *sch, struct rq *rq,
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1558  			      struct task_struct *p, u64 deq_flags)
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1559  {
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1560  	if (!(p->scx.flags & SCX_TASK_IN_CUSTODY) || task_scx_migrating(p))
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1561  		return;
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1562  
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1563  	if (SCX_HAS_OP(sch, dequeue))
-7cd9a5d7d4b758 kernel/sched/ext.c Cheng-Yang Chou 2026-04-10  1564  		SCX_CALL_OP_TASK(sch, dequeue, rq, p, deq_flags);
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1565  
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1566  	p->scx.flags &= ~SCX_TASK_IN_CUSTODY;
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1567  }
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1568  
-4e3d7c89e15ac5 kernel/sched/ext.c zhidao su       2026-04-23  1569  static void local_dsq_post_enq(struct scx_sched *sch, struct scx_dispatch_q *dsq,
-4e3d7c89e15ac5 kernel/sched/ext.c zhidao su       2026-04-23  1570  			       struct task_struct *p, u64 enq_flags)
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11  1571  {
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11  1572  	struct rq *rq = container_of(dsq, struct rq, scx.local_dsq);
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11  1573  
-4e3d7c89e15ac5 kernel/sched/ext.c zhidao su       2026-04-23  1574  	call_task_dequeue(sch, rq, p, 0);
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1575  
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1576  	/*
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1577  	 * Note that @rq's lock may be dropped between this enqueue and @p
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1578  	 * actually getting on CPU. This gives higher-class tasks (e.g. RT)
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1579  	 * an opportunity to wake up on @rq and prevent @p from running.
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1580  	 * Here are some concrete examples:
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1581  	 *
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1582  	 * Example 1:
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1583  	 *
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1584  	 * We dispatch two tasks from a single ops.dispatch():
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1585  	 * - First, a local task to this CPU's local DSQ;
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1586  	 * - Second, a local/remote task to a remote CPU's local DSQ.
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1587  	 * We must drop the local rq lock in order to finish the second
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1588  	 * dispatch. In that time, an RT task can wake up on the local rq.
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1589  	 *
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1590  	 * Example 2:
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1591  	 *
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1592  	 * We dispatch a local/remote task to a remote CPU's local DSQ.
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1593  	 * We must drop the remote rq lock before the dispatched task can run,
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1594  	 * which gives an RT task an opportunity to wake up on the remote rq.
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1595  	 *
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1596  	 * Both examples work the same if we replace dispatching with moving
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1597  	 * the tasks from a user-created DSQ.
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1598  	 *
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1599  	 * We must detect these wakeups so that we can re-enqueue IMMED tasks
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1600  	 * from @rq's local DSQ. scx_wakeup_preempt() serves exactly this
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1601  	 * purpose, but for it to be invoked, we must ensure that we bump
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1602  	 * @rq->next_class to &ext_sched_class if it's currently idle.
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1603  	 *
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1604  	 * wakeup_preempt() does the bumping, and since we only invoke it if
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1605  	 * @rq->next_class is below &ext_sched_class, it will also
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1606  	 * resched_curr(rq).
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1607  	 */
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1608  	if (sched_class_above(p->sched_class, rq->next_class))
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1609  		wakeup_preempt(rq, p, 0);
-ebf1ccff79c43f kernel/sched/ext.c Andrea Righi    2026-02-18  1610  
-f5e1e5ec204da1 kernel/sched/ext.c Tejun Heo       2025-12-11  1611  	/*
-f5e1e5ec204da1 kernel/sched/ext.c Tejun Heo       2025-12-11  1612  	 * If @rq is in balance, the CPU is already vacant and looking for the
-f5e1e5ec204da1 kernel/sched/ext.c Tejun Heo       2025-12-11  1613  	 * next task to run. No need to preempt or trigger resched after moving
-f5e1e5ec204da1 kernel/sched/ext.c Tejun Heo       2025-12-11  1614  	 * @p into its local DSQ.
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1615  	 * Note that the wakeup_preempt() above may have already triggered
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1616  	 * a resched if @rq->next_class was idle. It's harmless, since
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1617  	 * need_resched is cleared immediately after task pick.
-f5e1e5ec204da1 kernel/sched/ext.c Tejun Heo       2025-12-11  1618  	 */
-f5e1e5ec204da1 kernel/sched/ext.c Tejun Heo       2025-12-11  1619  	if (rq->scx.flags & SCX_RQ_IN_BALANCE)
-f5e1e5ec204da1 kernel/sched/ext.c Tejun Heo       2025-12-11  1620  		return;
-f5e1e5ec204da1 kernel/sched/ext.c Tejun Heo       2025-12-11  1621  
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11 @1622  	if ((enq_flags & SCX_ENQ_PREEMPT) && p != rq->curr &&
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11  1623  	    rq->curr->sched_class == &ext_sched_class) {
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11  1624  		rq->curr->scx.slice = 0;
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11  1625  		resched_curr(rq);
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11  1626  	}
-163f8b7f9a8408 kernel/sched/ext.c Kuba Piecuch    2026-04-28  1627  }
-530b6637c79e72 kernel/sched/ext.c Tejun Heo       2025-12-11  1628  
 
-:::::: The code at line 1451 was first introduced by commit
-:::::: f0e1a0643a59bf1f922fa209cec86a170b784f3f sched_ext: Implement BPF extensible scheduler class
+vim +586 drivers/media/platform/apple/avd/avd-av1.c
 
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Tejun Heo <tj@kernel.org>
+   582	
+   583		/* TODO: this is wrong, maybe has something to do with superres */
+   584		push((frame->flags & V4L2_AV1_FRAME_FLAG_USE_SUPERRES ?
+   585				(frame->superres_denom - 1) << 28 : 0) |
+ > 586				frame->upscaled_width - 1, "upscaled_width");
+   587		/* something superres related? test35 */
+   588		push(0x200000, "flag_unk0");
+   589		push(0x200000, "flag_unk1");
+   590	
+   591		u8 restoration_unit_size[V4L2_AV1_NUM_PLANES_MAX] = { 3, 3, 3 };
+   592	
+   593		if (lr->flags & V4L2_AV1_LOOP_RESTORATION_FLAG_USES_LR) {
+   594			restoration_unit_size[0] = 1 + lr->lr_unit_shift;
+   595			restoration_unit_size[1] =
+   596				1 + lr->lr_unit_shift - lr->lr_uv_shift;
+   597			restoration_unit_size[2] =
+   598				1 + lr->lr_unit_shift - lr->lr_uv_shift;
+   599		}
+   600	
+   601		push(AV1_LR_TYPE0(frame->loop_restoration.frame_restoration_type[0]) |
+   602				AV1_LR_TYPE1(frame->loop_restoration.frame_restoration_type[1]) |
+   603				AV1_LR_TYPE2(frame->loop_restoration.frame_restoration_type[2]) |
+   604				AV1_LR_UNIT0(restoration_unit_size[0]) |
+   605				AV1_LR_UNIT1(restoration_unit_size[1]) |
+   606				AV1_LR_UNIT2(restoration_unit_size[2]), "lr");
+   607	
+   608		push(0, "cnst3");
+   609		push(0, "cnst3");
+   610		pusha(av1_ctx->bufs.pipe_state.addr, "pipe_state", 0);
+   611		for (i = 0; i < 10; i++)
+   612			pusha(av1_ctx->bufs.const_unk[i + 2].addr, "const_unk", i + 2);
+   613	
+   614		push(0, "mark_section");
+   615	
+   616		push_rvra(avd, ctx, run->addresses.rvra, ctx->rvra.offsets);
+   617	
+   618		push(0, "");
+   619		push(0, "mark_section");
+   620	
+   621		bytesperline = ctx->decoded_fmt.fmt.pix_mp.plane_fmt[0].bytesperline;
+   622		pusha(run->addresses.y, "y", 0);
+   623		push(bytesperline, "bytesperline_y");
+   624		pusha(run->addresses.uv, "uv", 0);
+   625		push(bytesperline, "bytesperline_uv");
+   626	
+   627		push(0, "mark_section");
+   628	
+   629		push(AVD_HDR_HEIGHT(frame->frame_height_minus_1) |
+   630				AVD_HDR_WIDTH(frame->frame_width_minus_1),
+   631				"height_width_3");
+   632		if (!intra_only || intrabc)
+   633			set_refs(ctx, run);
+   634	
 
 --
 0-DAY CI Kernel Test Service
