@@ -1,71 +1,65 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BC73A75B1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Aug 2026 08:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD10C3B634E;
+	Mon, 10 Aug 2026 09:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786352242; cv=none; b=OC2ZuNsfXuBjptDka3d6dbfNkHCsACOqdNUWKzrKabMaVS9VO/dAY7Ayp21d78E2mlO89NHl2sYAVlsZY/Rs9D9y8Fo/Gy9PjeFiQoFdXhhuy/uFhgQ+vsoMhTLarWBgPMCAnPpELvSXTGSq0Vf00ucAphESJpQjSHuckcdi00s=
+	t=1786355893; cv=none; b=RamCXZH9hLaH3esUdU2WVSP7py8hpZHtHEpxPe6BZQwG0twb+Hh/cCEMbR/AZUAyAYfxKKz/tkipouytJlhKfvA6mSfGceYLxHrb0jIzXACrW2GCI5cf3r0n8ml3aEcVZwvOWGwOAxk9PzX6tRJs0yfYDGFB4crC+ZOSL5JtSOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786352242; c=relaxed/simple;
-	bh=rvDpV0nLPxj0eiudfzb4xmoiYPnvvVwSAPek9bEsBcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SE5JbqLTgjv0lHAOCyuljJhRaacmGxEGdeLjF2s4m3k3JMpSvbio96yvhld4l4yKAaA+dXTbVru2+Y9EOqhJHq1WYT8QnwwuUamh4raskscuoaiNKlysVnzdJpSctEXL2vGKVsbBmboSn+2QVWMaBI6V2vh7ipYzFMM5fj1ac/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QKEWMCCH; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786355893; c=relaxed/simple;
+	bh=OIBLn+vI6UtjzTR690g/0/DqXLgizFSN5e6xNFRiIQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R/dmjmbzf/WZmLRBZqaYXteR9Nmtfis98foUwqbYwreXDkf+vxq1FklG+oV4bP9v6p7XC9qvNxH35wwnm3OVUy2TrgQ7XXdD2vLqE+htmSaVkmhkyRNxwUYz9ZXzy11EfW4wUuguamz+rRfrE7bLWkhB2tohcQCG6RboS9jWGdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LR0REGSF; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QKEWMCCH"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6b0566bca30so463015eaf.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Aug 2026 01:57:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786352239; x=1786957039; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uQIOq1+0qw6L2vE4HtRjuAmoJ3l55m0t8aWFGP9VehY=;
-        b=QKEWMCCHeHYAcY2M35N/DeqWVdLZrp4J/hHHYDLPS3KnL4w/MFfaU2Yk+T7TBonU48
-         nV4CTIX5nTUkCcGw2wZVp2SRfMifInVP7M5eZ8F5E3NHPfIefmToUqd2M7xggPQW1NUL
-         ubfipl5Xhjbba11wMDY3IzF6HX+vaavmHTVKxBnC65jS1PSusYoo7WNsXbuNArjAUPHq
-         HWkZu74ctzJT3VSixBuuxah4MDsXbEOGsdmDCwXELzFMATis7Ir9uGFf+0N8TIUO7a+M
-         zt/spKx8690APFB9EgVY7gjiVicCUU/x7KhmZ6C8gn4P3jb7v7egeAvn5BkVq78zoNSt
-         xSiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786352239; x=1786957039;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uQIOq1+0qw6L2vE4HtRjuAmoJ3l55m0t8aWFGP9VehY=;
-        b=WP8DxL5UUVJlsB4zj6jDLUk//dnKt9lX8qPkGE1oZjy/FX2rAPTy2Tq+mgZqgVLaNo
-         rXY8Ry17BOgK+h0mJQ7oqkWjQHS8bPQVyIVT/BJa/TQTBizpTFMFwjj4r9et38toeF5q
-         LuAWjXzrgD73fI8U4Yel7iK1mDmbg1tF/bAwREU4nAAq3OHGvPR9e8k0IzDYUwgCo2D4
-         ZTSmWAHWT0Fh5KWRLeZtYCy8CvGmc7WoW0OhgCwjzmc++NcZJ1Of3gYxiOezvDIBhEZ1
-         k02dF2NAwC63Cl4LUwDZDYIpcMSReKDr4YMvsQCyGvNW/PRmkjhvelO3Q+BV+TjaF5k8
-         l5AQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrUfuCUGPm3DYjO5Bpd2Oq2+hGp6ijgmNAHMpLPR5w+/7ZNoNS/Zz3VWKINPc5STf677fw0gUcmAdbDqtRk@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUz8wRQ/SC0f51PaKqSzJqkQ3oJNZEkCc39PdmB+GW5XbIUx+e
-	s+E7w2Yhl7U/cIqZzml1w3HWEeQbaQY3J/Ry6qbdjZHTcEkpIXVej11z
-X-Gm-Gg: AR+sD123UH9uiOVUw6iWJqOWf8b/EPms0Xw+fSKN5cNptNJQ/Y5BD3IvCMxOh7Z56KD
-	L3+dzZweYmuhNPKOD589rKoUQoDwa3luhjuka/QwBWzyZz1LYTSGQnhPvBSITkDec3SlPnZaP91
-	p7AVjrVoz5ec567FczexLdSEnnz0gOJTFAeXzrpXkJiUj4xw+X3RMPWFOqDltry6KoVw1mb0g6d
-	4VqTZImei32tP9gGDU0AQXcDyjxEH1D1nvwQArT8D0UDQfzfiEgBQg5DMfB053QTvqnszXtP8mM
-	KYJDWgZEkFSDsIQFnv1ap4RzXndoHfEMFRvdTOZjQu7wXz5XgTWoKqVQaIekSs/Z7J3V0kcvUMW
-	Znv3EdUYyKwdYLHAS+Dhoalv8tcsBb8+NgkEcaj3Q8nzKbQ045f8dTu3aoaQ6zMZY1pSQDjH+pz
-	4Gd3okHX9HbLmKcPGKmgvadQ8N6EM2/ix27iP9xAzCR+zvTQr4cdU=
-X-Received: by 2002:a05:6820:4de7:b0:6a3:81a2:746f with SMTP id 006d021491bc7-6ae97084924mr21869081eaf.33.1786352239213;
-        Mon, 10 Aug 2026 01:57:19 -0700 (PDT)
-Received: from localhost ([45.86.208.9])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6b02be8ede0sm9233194eaf.12.2026.08.10.01.57.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 01:57:17 -0700 (PDT)
-Date: Mon, 10 Aug 2026 11:57:10 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Cristian Marussi <cristian.marussi@arm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [cris:scmi_telemetry_ng_V8 22/30]
- drivers/firmware/arm_scmi/driver.c:2342 scmi_alloc_init_protocol_instance()
- error: we previously assumed 'pi' could be null (see line 2292)
-Message-ID: <202608101250.FcZovEGe-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LR0REGSF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786355888; x=1817891888;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OIBLn+vI6UtjzTR690g/0/DqXLgizFSN5e6xNFRiIQY=;
+  b=LR0REGSFrTp2iCWnzRmDPOYYi09SU6/rm7EaZp0oNWTo8OJ8II/eEzHL
+   Yv4iR/TPf+E4JUFfHnliflVWlmoIlIo2vXyLr2CTIWXDEj3c8SE0uOBxI
+   B8F2th3p6qk4K0NePsOB4HFTbQWqrYl4XK++vMgdv6Td/gSMv3AOvv722
+   BkxlSYWTboO3N6yoROJ0j5+kSdXxdVQ4qWu1CPqYWvyX0ntlY76DfIQIA
+   GCVflQ+V7V/w1YOFGphHKBITdNOT80jtysEY2f4rmuYQTk3zDp9L4Nklc
+   JwWoL+nQQOnYG+CoiN5Ep11urjpuHj+FY4pDB0msTscDMT0rAxoMaI4R0
+   A==;
+X-CSE-ConnectionGUID: TpVT6/G3T0Gjt/RWCSKPWg==
+X-CSE-MsgGUID: Zk4bHihpSPWcdwDWH2vG5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="86941074"
+X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
+   d="scan'208";a="86941074"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 02:58:01 -0700
+X-CSE-ConnectionGUID: 1s6lpu4bQyymJDs4F82TDA==
+X-CSE-MsgGUID: PFzlndWpT9OR6jAyiitIZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
+   d="scan'208";a="261708904"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 10 Aug 2026 02:57:58 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wtMlX-00000000N6k-1EnS;
+	Mon, 10 Aug 2026 09:57:55 +0000
+Date: Mon, 10 Aug 2026 17:57:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>, bhelgaas@google.com,
+	alex@shazbot.org, mani@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jjohnson@kernel.org, linux-pci@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org, mhi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Subject: Re: [PATCH v11] PCI: Add device-specific reset for Qualcomm devices
+Message-ID: <202608101710.4bALXXJf-lkp@intel.com>
+References: <20260626055023.197470-1-jtornosm@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,107 +68,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260626055023.197470-1-jtornosm@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_ng_V8
-head:   bc3b27dd68cfc244c1e7717b72f88b2dfcb28d2e
-commit: 794ab60bbda9339aa782a6ce4a77e4e496538fb9 [22/30] firmware: arm_scmi: Add common per-protocol debugfs support
-config: arm-randconfig-r071-20260809 (https://download.01.org/0day-ci/archive/20260810/202608101250.FcZovEGe-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-smatch: v0.5.0-9187-g5189e3fb
+Hi Jose,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v7.2-rc6 next-20260807]
+[cannot apply to linux-review/Jose-Ignacio-Tornos-Martinez/Add-device-specific-reset-for-Qualcomm-devices/20260804-001013]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jose-Ignacio-Tornos-Martinez/PCI-Add-device-specific-reset-for-Qualcomm-devices/20260810-131417
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20260626055023.197470-1-jtornosm%40redhat.com
+patch subject: [PATCH v11] PCI: Add device-specific reset for Qualcomm devices
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260810/202608101710.4bALXXJf-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608101710.4bALXXJf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608101250.FcZovEGe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608101710.4bALXXJf-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/arm_scmi/driver.c:2342 scmi_alloc_init_protocol_instance() error: we previously assumed 'pi' could be null (see line 2292)
+All warnings (new ones prefixed by >>):
 
-vim +/pi +2342 drivers/firmware/arm_scmi/driver.c
+>> drivers/pci/quirks.c:4278:11: warning: result of comparison of constant 18446744073709551615 with expression of type 'u32' (aka 'unsigned int') is always true [-Wtautological-constant-out-of-range-compare]
+    4278 |                 if (val != PCI_ERROR_RESPONSE) {
+         |                     ~~~ ^  ~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2275  static struct scmi_protocol_instance *
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2276  scmi_alloc_init_protocol_instance(struct scmi_info *info,
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2277  				  const struct scmi_protocol *proto)
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2278  {
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2279  	int ret = -ENOMEM;
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2280  	void *gid;
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2281  	struct scmi_protocol_instance *pi;
-f0e73cee26dd3ed Cristian Marussi 2021-03-16  2282  	const struct scmi_handle *handle = &info->handle;
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2283  
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2284  	/* Protocol specific devres group */
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2285  	gid = devres_open_group(handle->dev, NULL, GFP_KERNEL);
-f5800e0bf6f9b7f Cristian Marussi 2021-03-16  2286  	if (!gid) {
-fc110108b98305e Cristian Marussi 2024-04-18  2287  		scmi_protocol_put(proto);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2288  		goto out;
-f5800e0bf6f9b7f Cristian Marussi 2021-03-16  2289  	}
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2290  
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2291  	pi = devm_kzalloc(handle->dev, sizeof(*pi), GFP_KERNEL);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16 @2292  	if (!pi)
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2293  		goto clean;
 
-pi is NULL
+vim +4278 drivers/pci/quirks.c
 
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2294  
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2295  	pi->gid = gid;
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2296  	pi->proto = proto;
-d7b6cc563a60076 Cristian Marussi 2021-03-16  2297  	pi->handle = handle;
-d7b6cc563a60076 Cristian Marussi 2021-03-16  2298  	pi->ph.dev = handle->dev;
-a4a20b0975dc7b1 Cristian Marussi 2021-03-16  2299  	pi->ph.xops = &xfer_ops;
-5c873d120d8676b Cristian Marussi 2022-03-30  2300  	pi->ph.hops = &helpers_ops;
-d7b6cc563a60076 Cristian Marussi 2021-03-16  2301  	pi->ph.set_priv = scmi_set_protocol_priv;
-d7b6cc563a60076 Cristian Marussi 2021-03-16  2302  	pi->ph.get_priv = scmi_get_protocol_priv;
-07e4ec9fe678323 Cristian Marussi 2025-02-28  2303  	pi->ph.instance_notifier_register = scmi_register_instance_notifier;
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2304  	refcount_set(&pi->users, 1);
-0fac05fdd9afff6 Cristian Marussi 2025-12-27  2305  
-0fac05fdd9afff6 Cristian Marussi 2025-12-27  2306  	/*
-0fac05fdd9afff6 Cristian Marussi 2025-12-27  2307  	 * Initialize effectively used protocol version performing any
-0fac05fdd9afff6 Cristian Marussi 2025-12-27  2308  	 * possibly needed negotiations.
-0fac05fdd9afff6 Cristian Marussi 2025-12-27  2309  	 */
-0fac05fdd9afff6 Cristian Marussi 2025-12-27  2310  	scmi_protocol_version_initialize(handle->dev, pi);
-0fac05fdd9afff6 Cristian Marussi 2025-12-27  2311  
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2312  	/* proto->init is assured NON NULL by scmi_protocol_register */
-a4a20b0975dc7b1 Cristian Marussi 2021-03-16  2313  	ret = pi->proto->instance_init(&pi->ph);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2314  	if (ret)
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2315  		goto clean;
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2316  
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2317  	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2318  			GFP_KERNEL);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2319  	if (ret != proto->id)
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2320  		goto clean;
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2321  
-533c7095b1ff927 Cristian Marussi 2021-03-16  2322  	/*
-533c7095b1ff927 Cristian Marussi 2021-03-16  2323  	 * Warn but ignore events registration errors since we do not want
-533c7095b1ff927 Cristian Marussi 2021-03-16  2324  	 * to skip whole protocols if their notifications are messed up.
-533c7095b1ff927 Cristian Marussi 2021-03-16  2325  	 */
-533c7095b1ff927 Cristian Marussi 2021-03-16  2326  	if (pi->proto->events) {
-533c7095b1ff927 Cristian Marussi 2021-03-16  2327  		ret = scmi_register_protocol_events(handle, pi->proto->id,
-b9f7fd907c38a38 Cristian Marussi 2021-03-16  2328  						    &pi->ph,
-533c7095b1ff927 Cristian Marussi 2021-03-16  2329  						    pi->proto->events);
-533c7095b1ff927 Cristian Marussi 2021-03-16  2330  		if (ret)
-533c7095b1ff927 Cristian Marussi 2021-03-16  2331  			dev_warn(handle->dev,
-533c7095b1ff927 Cristian Marussi 2021-03-16  2332  				 "Protocol:%X - Events Registration Failed - err:%d\n",
-533c7095b1ff927 Cristian Marussi 2021-03-16  2333  				 pi->proto->id, ret);
-533c7095b1ff927 Cristian Marussi 2021-03-16  2334  	}
-533c7095b1ff927 Cristian Marussi 2021-03-16  2335  
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2336  	devres_close_group(handle->dev, pi->gid);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2337  	dev_dbg(handle->dev, "Initialized protocol: 0x%X\n", pi->proto->id);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2338  
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2339  	return pi;
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2340  
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2341  clean:
-794ab60bbda9339 Cristian Marussi 2023-03-15 @2342  	debugfs_remove_recursive(pi->dbg);
-                                                                                 ^^^^^^^
-Dereferenced.
-
-f5800e0bf6f9b7f Cristian Marussi 2021-03-16  2343  	/* Take care to put the protocol module's owner before releasing all */
-fc110108b98305e Cristian Marussi 2024-04-18  2344  	scmi_protocol_put(proto);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2345  	devres_release_group(handle->dev, gid);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2346  out:
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2347  	return ERR_PTR(ret);
-48dc16e2e52ca38 Cristian Marussi 2021-03-16  2348  }
+  4234	
+  4235	/*
+  4236	 * Qualcomm WiFi device-specific reset using SoC global reset via BAR0
+  4237	 * registers.
+  4238	 */
+  4239	static int reset_qualcomm_wifi(struct pci_dev *pdev, bool probe)
+  4240	{
+  4241		bool link_recovered = false;
+  4242		unsigned long timeout;
+  4243		void __iomem *bar;
+  4244		u32 val;
+  4245		u16 cmd;
+  4246	
+  4247		if (probe)
+  4248			return 0;
+  4249	
+  4250		if (pdev->current_state != PCI_D0)
+  4251			return -EINVAL;
+  4252	
+  4253		pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+  4254		pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
+  4255	
+  4256		bar = pci_iomap(pdev, 0, 0);
+  4257		if (!bar) {
+  4258			pci_write_config_word(pdev, PCI_COMMAND, cmd);
+  4259			return -ENODEV;
+  4260		}
+  4261	
+  4262		val = ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4263		val |= QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V;
+  4264		iowrite32(val, bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4265		ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4266	
+  4267		msleep(10);
+  4268	
+  4269		val &= ~QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V;
+  4270		iowrite32(val, bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4271		ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4272	
+  4273		msleep(10);
+  4274	
+  4275		timeout = jiffies + msecs_to_jiffies(5000);
+  4276		while (time_before(jiffies, timeout)) {
+  4277			val = ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+> 4278			if (val != PCI_ERROR_RESPONSE) {
+  4279				link_recovered = true;
+  4280				break;
+  4281			}
+  4282			msleep(20);
+  4283		}
+  4284	
+  4285		if (!link_recovered) {
+  4286			pci_err(pdev, "PCIe link failed to recover after reset\n");
+  4287			goto out_restore;
+  4288		}
+  4289	
+  4290		/* After SOC_GLOBAL_RESET, MHISTATUS may still have SYSERR bit set
+  4291		 * and thus need to set MHICTRL_RESET to clear SYSERR.
+  4292		 */
+  4293		iowrite32(QUALCOMM_WIFI_MHICTRL_RESET_MASK, bar + QUALCOMM_WIFI_MHICTRL);
+  4294		ioread32(bar + QUALCOMM_WIFI_MHICTRL);
+  4295	
+  4296		msleep(10);
+  4297	
+  4298	out_restore:
+  4299		pci_iounmap(pdev, bar);
+  4300		pci_write_config_word(pdev, PCI_COMMAND, cmd);
+  4301	
+  4302		return link_recovered ? 0 : -ETIMEDOUT;
+  4303	}
+  4304	
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
