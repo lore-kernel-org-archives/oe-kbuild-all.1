@@ -1,111 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA950391E60
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Aug 2026 07:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72B22F39C7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Aug 2026 08:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786348668; cv=none; b=F9yCl09Pq+7XeYe69rEU09zsX5wrItW0x4LR445M2WZAmZ13yMq050zn5GL/Uabn/56lX3kQt5gX7tMS5NNzKKiodCVbBk+elTVn6zbQ7mPTMwnGbNTbW0agqRmXXQpTTkX5OCXLALATc2OdGR97Y/lQn5vOVPFHGUBJV7YDT/8=
+	t=1786350085; cv=none; b=CV+iCJkx2wXqXDrQUFk/KeF6/4pjajj+qAODq7YkKi6WxkDl528guZjb/6z0+Wdnv8Z3cs04Ksi1M1H/GCMU/PTIjXbcx/4JcssfnYDHMLr+U8eaB2+0AzswvtkGS2ZL7bxB4gfv96DaaAeyrCbCiQY1rSOBGabqg2KFJWr09B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786348668; c=relaxed/simple;
-	bh=eTk8TlJGlUY1DIeimGOJfd/36Owbg0CRuT60R9SvAA4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=o3PigbQG7LHoSBWVsXnHqECpd1ekowsv4dV4GbW2QEU/A004sdLGtK7xpz3taO7OV8vBxqljwM4ryoSL4k/vakyKspJBNH1oke4RTCySpZgtFfn7xTOxaUhqf6hSjpHdmBNZY0UJkcoNUiF65fSMnQRvEc7dxwD68v+y4jif0Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j9sZzSTS; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1786350085; c=relaxed/simple;
+	bh=Uds+KfnCuVCHCjE6IJNNEt0K81+/pL4NyqOKLJwsz2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E1n1Wmfo2f1PseIa9oW1+Nn0xj69oLASIDQucnOADEhgfQpYizHdxweYHi30xp++QqMpe7+R/G47aXMFZsQOQf1C/L579dWjzb7SSJMnGeJGNIarlRNaTnrIDiV2UMNAtwDKt6DWqH9CZfIot8d/kDrVYCD3GOK8d7JAMWzCnN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hIlqDs/+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j9sZzSTS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hIlqDs/+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786348667; x=1817884667;
-  h=date:from:to:cc:subject:message-id;
-  bh=eTk8TlJGlUY1DIeimGOJfd/36Owbg0CRuT60R9SvAA4=;
-  b=j9sZzSTSm1fW52rq6AiNIYI3TwwNYtA3qeDUAIX+eLbDvINGbrIpYk8k
-   a4b4wSP+a9jT+pf79yv7ZaAYsb2/kzpL+pIBKObJPp6IS1e085dCAqBao
-   JmDwyTG6vA205jp9Dn/ZPj2dLJZ0Re1YaSVQrS7nf2J/BsE+FhoAkxzXm
-   gRhwKCLA8a2wPPePN25ZXtsutliWynzoYBYEGwra82fXRK8WwkUYb/CR5
-   fNs03ZwunOJGhVT/qw2/+3Kk6dCqbD0c5dzwUlHn5roVCIynLxDK/xo2E
-   H7ugzyqWr36lKca+DyPQqNglxMpp99ZrOnewqQVn/S0e3499JGiHcqAnW
-   g==;
-X-CSE-ConnectionGUID: /bBvu/mcQFu7swuBIXJeQg==
-X-CSE-MsgGUID: cYDhw5BHSLuJOZC+EzdayA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="97453522"
+  t=1786350082; x=1817886082;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Uds+KfnCuVCHCjE6IJNNEt0K81+/pL4NyqOKLJwsz2Y=;
+  b=hIlqDs/+OmdInEA7AU/xStO9FweG2q4TwuMDPMy1Ke4jEeIXIET9JxSd
+   3xybyu3ygeyDduH2jXlsOhHR3VyXYoPz/n+IyqBstBQLgKLfeYeHbjrRh
+   kWfKFHALO7nIEDmwpvRlLiQ7oy3UpBhbzpizx6NCIsTESDrniB80+09HA
+   1djcdeBwGB4H6CmpdJ7yAy3zL0CaCkxryfmZ+1tUj9kaoehKuwkV6UrEx
+   RDw/7OPxqNRtd0RS0IJlYiV3qyR6FdiyAKyxEeJxY92rh/P3pmCLxK7tn
+   LIwHk9epzX5hOHuz9xw3v1SDIwYImbqQ8q1dR/bfP3J5lFy6knwU+qgFA
+   Q==;
+X-CSE-ConnectionGUID: jY1YT5pdQbqtSIBY2prqog==
+X-CSE-MsgGUID: CwMLW87mTj2fzkUEmaAJOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="86617212"
 X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="97453522"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 00:57:44 -0700
-X-CSE-ConnectionGUID: gxvDMJbnSQi8VE6jQCEfVw==
-X-CSE-MsgGUID: zznlZI2GS6SwFHYVFImtOg==
+   d="scan'208";a="86617212"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 01:21:21 -0700
+X-CSE-ConnectionGUID: e/5yw1o9SMegScwc7Nmp0g==
+X-CSE-MsgGUID: ObiF1C4LRwi39QobwjDH9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="292891015"
+   d="scan'208";a="263023521"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Aug 2026 00:57:43 -0700
+  by orviesa007.jf.intel.com with ESMTP; 10 Aug 2026 01:21:20 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtKtA-00000000N0i-2PVl;
-	Mon, 10 Aug 2026 07:57:40 +0000
-Date: Mon, 10 Aug 2026 15:56:47 +0800
+	id 1wtLG0-00000000N2U-3YJN;
+	Mon, 10 Aug 2026 08:21:16 +0000
+Date: Mon, 10 Aug 2026 16:20:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@kernel.org>
-Subject: include/linux/jiffies.h:449:36: sparse: sparse: cast
- truncates bits from constant value (7fffffffffffffff becomes ffffffff)
-Message-ID: <202608101544.nyBeQ2qT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Colin Foster <colin.foster@in-advantage.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Steve Glendinning <steve.glendinning@shawell.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Colin Foster <colin.foster@in-advantage.com>
+Subject: Re: [PATCH v1] smsc911x: add second read of EEPROM mac when possible
+ corruption seen
+Message-ID: <202608101549.Sbhie1Im-lkp@intel.com>
+References: <20250828214452.11683-1-colin.foster@in-advantage.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828214452.11683-1-colin.foster@in-advantage.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   06cf61899d6498b33e4b7c87d99d5bd471ccc375
-commit: b777b5e09eabeefc6ba80f4296366a4742701103 time/jiffies: Inline jiffies_to_msecs() and jiffies_to_usecs()
-date:   6 months ago
-config: x86_64-randconfig-r132-20260810 (https://download.01.org/0day-ci/archive/20260810/202608101544.nyBeQ2qT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608101544.nyBeQ2qT-lkp@intel.com/reproduce)
+Hi Colin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on horms-ipvs/master]
+[cannot apply to linus/master v7.2-rc6 next-20260807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Foster/smsc911x-add-second-read-of-EEPROM-mac-when-possible-corruption-seen/20260810-123819
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
+patch link:    https://lore.kernel.org/r/20250828214452.11683-1-colin.foster%40in-advantage.com
+patch subject: [PATCH v1] smsc911x: add second read of EEPROM mac when possible corruption seen
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260810/202608101549.Sbhie1Im-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608101549.Sbhie1Im-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: b777b5e09eab ("time/jiffies: Inline jiffies_to_msecs() and jiffies_to_usecs()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608101544.nyBeQ2qT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608101549.Sbhie1Im-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/i915/gt/intel_engine_cs.c: note: in included file (through include/linux/ktime.h, include/linux/timer.h, include/linux/uprobes.h, include/linux/mm_types.h, ...):
->> include/linux/jiffies.h:449:36: sparse: sparse: cast truncates bits from constant value (7fffffffffffffff becomes ffffffff)
->> include/linux/jiffies.h:449:36: sparse: sparse: cast truncates bits from constant value (7fffffffffffffff becomes ffffffff)
->> include/linux/jiffies.h:449:36: sparse: sparse: cast truncates bits from constant value (7fffffffffffffff becomes ffffffff)
->> include/linux/jiffies.h:449:36: sparse: sparse: cast truncates bits from constant value (7fffffffffffffff becomes ffffffff)
+All warnings (new ones prefixed by >>):
 
-vim +449 include/linux/jiffies.h
+   drivers/net/ethernet/smsc/smsc911x.c: In function 'smsc911x_read_mac_address':
+>> drivers/net/ethernet/smsc/smsc911x.c:2179:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    2179 |         u8 addr[ETH_ALEN];
+         |         ^~
 
-   433	
-   434	/*
-   435	 * Convert various time units to each other:
-   436	 */
-   437	
-   438	#if HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC % HZ)
-   439	/**
-   440	 * jiffies_to_msecs - Convert jiffies to milliseconds
-   441	 * @j: jiffies value
-   442	 *
-   443	 * This inline version takes care of HZ in {100,250,1000}.
-   444	 *
-   445	 * Return: milliseconds value
-   446	 */
-   447	static inline unsigned int jiffies_to_msecs(const unsigned long j)
-   448	{
- > 449		return (MSEC_PER_SEC / HZ) * j;
-   450	}
-   451	#else
-   452	unsigned int jiffies_to_msecs(const unsigned long j);
-   453	#endif
-   454	
+
+vim +2179 drivers/net/ethernet/smsc/smsc911x.c
+
+631b7568c7d8f0 drivers/net/smsc911x.c               Steve Glendinning 2008-12-25  2160  
+31f4574774e98a drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2161  /* copies the current mac address from hardware to dev->dev_addr */
+8489ec1f970064 drivers/net/ethernet/smsc/smsc911x.c Bill Pemberton    2012-12-03  2162  static void smsc911x_read_mac_address(struct net_device *dev)
+31f4574774e98a drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2163  {
+31f4574774e98a drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2164  	struct smsc911x_data *pdata = netdev_priv(dev);
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2165  	u32 mac_high16, mac_low32;
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2166  
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2167  	mac_high16 = smsc911x_mac_read(pdata, ADDRH);
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2168  	mac_low32 = smsc911x_mac_read(pdata, ADDRL);
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2169  
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2170  	/*
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2171  	 * The first mac_read always returns 0. Re-read it to get the
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2172  	 * full MAC
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2173  	 */
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2174  	if (mac_high16 == 0) {
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2175  		SMSC_TRACE(pdata, probe, "Re-read MAC ADDRH\n");
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2176  		mac_high16 = smsc911x_mac_read(pdata, ADDRH);
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2177  	}
+8b1e595e2e7800 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2178  
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18 @2179  	u8 addr[ETH_ALEN];
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2180  
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2181  	addr[0] = (u8)(mac_low32);
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2182  	addr[1] = (u8)(mac_low32 >> 8);
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2183  	addr[2] = (u8)(mac_low32 >> 16);
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2184  	addr[3] = (u8)(mac_low32 >> 24);
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2185  	addr[4] = (u8)(mac_high16);
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2186  	addr[5] = (u8)(mac_high16 >> 8);
+f15fef4c0675d4 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2187  	eth_hw_addr_set(dev, addr);
+31f4574774e98a drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2188  }
+31f4574774e98a drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2189  
 
 --
 0-DAY CI Kernel Test Service
