@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2991537E5EA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Aug 2026 03:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F93F233941;
+	Mon, 10 Aug 2026 05:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786332797; cv=none; b=FCscqrligVuKkdMs2576qoiP6ehUB7EJoGNyGZPEgn8WXU6gg8cDYBacxt5F+woyjxz5o1VHUJSRwY6BdRoi2l2e2Tw1TFsZP69wKximSG/jLGLLY6CIVs13OhfmJn6fuqmxmP+T0G9jKO75TxxWsu+VvThcWo7WhM3m+I/2hW8=
+	t=1786340740; cv=none; b=f7QDF7e34CeP3vVfvx/vxDwon3Wu3p/4QLd2jFCvoHagtu6i4tpermeBPNO0aR94tDEMlgI2s+GEWxIRuWopayC8i+VAUAoyo95ckiyBIJpWR8erpLMabNkO/eemRFNZWFrZrGbnz8XGRuyQc/1a+qWPmV5eDhSJb1IEZDWGex0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786332797; c=relaxed/simple;
-	bh=L1qkOFBmZNjGZyT5urumiLAMa6dvuN1uZ+MYO1fVeRg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GokUQAqg10fPZpgEgmx4jDUKx+cMXr0iEJbkyiOD8dRTNJA2/+mHZefMdi9dzjFIz05sa0eVsPmYEo6WSbMy7NhKnoz+FBGgMaFtah28UrmYxlM2AKEF0ueJsR1j0W6QBbxs2juCpsIuolQHe5NrhOC1DTjEUT4L+5gqsMAJUHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnUitXni; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1786340740; c=relaxed/simple;
+	bh=5Bjr3uylJ+wHh2qUC/f27yURuqXA/hRiXW+d1uBv/Yk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bhGURWDUonKMy/YkPYi8/V6/YCcvu5qL/TzkgysfsM5KfqIuGOgLhJf+Y+QXiHpPgzt6W0lgQ9KJw/kdmGAqFhWBk8TR+FE855hYZS5/HXxzYuPApEOoaSdXI31/d46c5bCZGBLfJ1MxIiE/n21sfzjY0bD+XsQetlI9pYqApT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iiJTEYQv; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnUitXni"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iiJTEYQv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786332795; x=1817868795;
+  t=1786340738; x=1817876738;
   h=date:from:to:cc:subject:message-id;
-  bh=L1qkOFBmZNjGZyT5urumiLAMa6dvuN1uZ+MYO1fVeRg=;
-  b=dnUitXniXmzethACFzlJapWjVudSNTKkaE326BoQ59JjXmjRd0wC5iFe
-   F6iUb2GzcffD70HqR1WUDapmYYUvO27gvbiajNeB4OLMCElbLN6p0sokk
-   K4xkpsoUDxytqqGswjjYvftZTpwckbxZxEw0MWbNAAsY3t9LCIYKOk3lx
-   xHpd3LQndzz4/MhmHD984lDUwkA63HuyJ6TJQG7daXfJl58hDTJcupV68
-   K3TRA46pOThT5Te8Mg+6A0Mu6cIN3+o5CMFb/F4MEQKcfHe8ycj2XnpAc
-   CB35XgEoAXOb3Wm8VPvY4HOv07s7NNkDp7g1AgDGQ3pGmD0LiItACAdST
-   w==;
-X-CSE-ConnectionGUID: jgk3ge3NRWSDg8w9snoc4Q==
-X-CSE-MsgGUID: tl/2Kv+uQKClS0QfcMTcVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="97493437"
+  bh=5Bjr3uylJ+wHh2qUC/f27yURuqXA/hRiXW+d1uBv/Yk=;
+  b=iiJTEYQvvQBvjcEIkJQUzdz+pq+5fhN+tFlFWUJYVfJRSfyZ3pws8KDr
+   NJVvQf4HO0Z9BoCqcLGutinkwxh3zjFouaybTXh9Ew5Rc/hkVmZCAmW6b
+   O/VNyzc4ZjSDDX/jSViaZ/BXnzGbZLMVS4MC8ZHEgJgWoIW23rMQ7xnrY
+   faOacrTYDHFwDV1l7YKoWFaZ5qHgiP5cxAWQJAeXsvNlS3iVrFd05eeyO
+   GoXMWR3xECWug7RLjVfZFQfVD6oRNnT4qlv6H5VjSY8iNHP4RxzASLeex
+   ig/q8ObRI3T+Km6cCxUfJTWnn/5jJK0YJHf7lwr2b6JtveMGESIz2+dG8
+   g==;
+X-CSE-ConnectionGUID: /Q7/3KqvTfm4P8siQo904Q==
+X-CSE-MsgGUID: s8W23AggR5G9moDlrrSLDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="86921668"
 X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="97493437"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 20:33:12 -0700
-X-CSE-ConnectionGUID: PjfnkVhfTTGRMpsgPE4RYA==
-X-CSE-MsgGUID: a1KoXtEbTymfGYUzEzl+Kg==
+   d="scan'208";a="86921668"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 22:45:38 -0700
+X-CSE-ConnectionGUID: 1VHxi5wMQ6+94nzOrBZH1Q==
+X-CSE-MsgGUID: E74gyPgZSrKqBnJbdRO7FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="260316883"
+   d="scan'208";a="263561635"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Aug 2026 20:33:10 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 Aug 2026 22:45:36 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtGlA-00000000Mhh-01a4;
-	Mon, 10 Aug 2026 03:33:08 +0000
-Date: Mon, 10 Aug 2026 11:32:19 +0800
+	id 1wtIpJ-00000000Muc-3swH;
+	Mon, 10 Aug 2026 05:45:33 +0000
+Date: Mon, 10 Aug 2026 13:44:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
- Kuniyuki Iwashima <kuniyu@google.com>,
- Willem de Bruijn <willemb@google.com>
-Subject: [linux-next:master 4018/13846] drivers/net/tun.c:2375:24:
- sparse: sparse: cast to non-scalar
-Message-ID: <202608101002.AO7X3ZCH-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/hmx 93/114] arch/hexagon/kernel/smp.c:74:6:
+ warning: no previous prototype for function 'smp_vm_unmask_irq'
+Message-ID: <202608101323.wazfoQLp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,69 +60,45 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6b8c8af514d739d0335f5579b585e02babe8a727
-commit: 23dad2d088dfc82cae1f5a936f8ff7ffebb38dd9 [4018/13846] tun: no longer rely on RTNL in tun_fill_info()
-config: alpha-randconfig-r134-20260810 (https://download.01.org/0day-ci/archive/20260810/202608101002.AO7X3ZCH-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.3.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608101002.AO7X3ZCH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/hmx
+head:   d18cfcbc89df32524d340991739f2a7695263a90
+commit: 6b67e2ee11b036dc18ffdc2028d4716b60cec657 [93/114] hexagon: add debug infrastructure
+config: hexagon-randconfig-002-20260810 (https://download.01.org/0day-ci/archive/20260810/202608101323.wazfoQLp-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608101323.wazfoQLp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608101002.AO7X3ZCH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608101323.wazfoQLp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/tun.c:2375:24: sparse: sparse: cast to non-scalar
->> drivers/net/tun.c:2375:24: sparse: sparse: cast from non-scalar
-   drivers/net/tun.c:2376:24: sparse: sparse: cast to non-scalar
-   drivers/net/tun.c:2376:24: sparse: sparse: cast from non-scalar
+All warnings (new ones prefixed by >>):
 
-vim +2375 drivers/net/tun.c
+>> arch/hexagon/kernel/smp.c:74:6: warning: no previous prototype for function 'smp_vm_unmask_irq' [-Wmissing-prototypes]
+      74 | void smp_vm_unmask_irq(void *info)
+         |      ^
+   arch/hexagon/kernel/smp.c:74:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      74 | void smp_vm_unmask_irq(void *info)
+         | ^
+         | static 
+   1 warning generated.
 
-  2370	
-  2371	static int tun_fill_info(struct sk_buff *skb, const struct net_device *dev)
-  2372	{
-  2373		const struct tun_struct *tun = netdev_priv(dev);
-  2374		unsigned int flags = READ_ONCE(tun->flags);
-> 2375		kuid_t owner = READ_ONCE(tun->owner);
-  2376		kgid_t group = READ_ONCE(tun->group);
-  2377	
-  2378		if (nla_put_u8(skb, IFLA_TUN_TYPE, flags & TUN_TYPE_MASK))
-  2379			goto nla_put_failure;
-  2380		if (uid_valid(owner) &&
-  2381		    nla_put_u32(skb, IFLA_TUN_OWNER,
-  2382				from_kuid_munged(current_user_ns(), owner)))
-  2383			goto nla_put_failure;
-  2384		if (gid_valid(group) &&
-  2385		    nla_put_u32(skb, IFLA_TUN_GROUP,
-  2386				from_kgid_munged(current_user_ns(), group)))
-  2387			goto nla_put_failure;
-  2388		if (nla_put_u8(skb, IFLA_TUN_PI, !(flags & IFF_NO_PI)))
-  2389			goto nla_put_failure;
-  2390		if (nla_put_u8(skb, IFLA_TUN_VNET_HDR, !!(flags & IFF_VNET_HDR)))
-  2391			goto nla_put_failure;
-  2392		if (nla_put_u8(skb, IFLA_TUN_PERSIST, !!(flags & IFF_PERSIST)))
-  2393			goto nla_put_failure;
-  2394		if (nla_put_u8(skb, IFLA_TUN_MULTI_QUEUE,
-  2395			       !!(flags & IFF_MULTI_QUEUE)))
-  2396			goto nla_put_failure;
-  2397		if (flags & IFF_MULTI_QUEUE) {
-  2398			if (nla_put_u32(skb, IFLA_TUN_NUM_QUEUES,
-  2399					READ_ONCE(tun->numqueues)))
-  2400				goto nla_put_failure;
-  2401			if (nla_put_u32(skb, IFLA_TUN_NUM_DISABLED_QUEUES,
-  2402					READ_ONCE(tun->numdisabled)))
-  2403				goto nla_put_failure;
-  2404		}
-  2405	
-  2406		return 0;
-  2407	
-  2408	nla_put_failure:
-  2409		return -EMSGSIZE;
-  2410	}
-  2411	
+
+vim +/smp_vm_unmask_irq +74 arch/hexagon/kernel/smp.c
+
+43afdf50838634 Richard Kuo 2011-10-31  72  
+43afdf50838634 Richard Kuo 2011-10-31  73  /*  Used for IPI call from other CPU's to unmask int  */
+43afdf50838634 Richard Kuo 2011-10-31 @74  void smp_vm_unmask_irq(void *info)
+43afdf50838634 Richard Kuo 2011-10-31  75  {
+43afdf50838634 Richard Kuo 2011-10-31  76  	__vmintop_locen((long) info);
+43afdf50838634 Richard Kuo 2011-10-31  77  }
+43afdf50838634 Richard Kuo 2011-10-31  78  
+
+:::::: The code at line 74 was first introduced by commit
+:::::: 43afdf508386342d714f6911c1976f934b520cb0 Hexagon: Add SMP support
+
+:::::: TO: Richard Kuo <rkuo@codeaurora.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
