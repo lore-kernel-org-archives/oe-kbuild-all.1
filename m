@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56CF28B7EA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Aug 2026 16:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F7839B94F;
+	Mon, 10 Aug 2026 19:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786377824; cv=none; b=j5VZc6xs87ay34GFzFTXpjfzReTaIOOJYJKplTaU5peMMqFrL59eCTCffNsrITbE5Q8iNCLv7HC041kfOG2La6nbpTsr5TQBqrZ6xl9XCAq8Isd97jrFMyduXEukQJW5AiQsAUgSEECF/fof9SUq+qFLs9wSLXe1PGDAwoASEUY=
+	t=1786389985; cv=none; b=vGN4zvKPyEeJH44pSdfvw4VXszJl6soHkX7bKB3ivghmc21qc7xk9kHat5qG4jlAbPXSPc7DVUwPCNNmNkQ3nMzDouQrRdlV6JlV3pnpqq41VsqIcogLktGvisG69UTYaNZKn06M4RFqCjJV8X479452TT3gT+72G/w3KnLdMTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786377824; c=relaxed/simple;
-	bh=8WbCUogRFRI5Vg2IpcgfWdVxQyI6Ic3IJRLSEUxRJuE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HlooFgJnRaQq5SvAxOaTUy2/Pc5w3YqLTZh3gPam06OhwfXfokJwBcW/aBZufg7/sMHPG5M4scNGCvnreTsVD9WDE48jcW/dZXf/xDAKtwTZxUT9CDGIzjG7Aab7JqjAipuIg4h/P/BVNSCpwHV+AbFuu1FPYOy04erBe68lE1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L95XVKzd; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1786389985; c=relaxed/simple;
+	bh=GCKXdOc28NC5OnXa1/mzOFkq4JmD7AhEVOgj5N6tN5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QussJWp8k2lwyiHYRzXIcPhgpA1udAyLFecQzmkFiyKRmUzLMgOX+adUdY/3Fg4PNZ4xFhNTlJABm5Mzx3wq7bAeELHyh4u26L/p3UMAhxHh0uhTqjlC6rXtj/VIpOWmpENRA/L8TdMnpGyXO0n/TJfMEfp6zxE8bxh0YQLV2GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyCeUZqY; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L95XVKzd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyCeUZqY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786377823; x=1817913823;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8WbCUogRFRI5Vg2IpcgfWdVxQyI6Ic3IJRLSEUxRJuE=;
-  b=L95XVKzdz9Hcu/eKOvZ4C8ahUpAkVZj0YTjz1IRM6Md6gTHYBfxcy9dR
-   XOKSPhSd5lnIBhBvc5mj2TxHyuemVVG9bQ6zTFmu8bmPM0n34Zm5jhVkI
-   Tl1Y9JdldtxRtq9QRjqAhgWHRcDa2fGsseLmnsecKBmrNg+8Viud+wnXb
-   AF0z85alxfSlw/OMKknEkuWFikn79eRf74SvoAfDExPHKY7mDQ1624c/C
-   2xDCGH2UhEg6KCmEt6ZAuTy8jOkdA04O7LrUxV3eQlOix2RKsXIXoIxM3
-   4YQouUT1oeEN5afXNuQOqqFHl/N/2DokI1L9kVJJmZUEbWnNyMd1qu/CB
-   A==;
-X-CSE-ConnectionGUID: x6Zm2wKRRw+QS3uxZ6bCpA==
-X-CSE-MsgGUID: /lqCcGfGSHK1C0rIaWyXtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="85864435"
+  t=1786389983; x=1817925983;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GCKXdOc28NC5OnXa1/mzOFkq4JmD7AhEVOgj5N6tN5k=;
+  b=jyCeUZqYnb2cxEsHIx40ac4s+ZeeOAPB7kF+urR7p1I6D/ZfCWL35Uy6
+   ASK0gTCIpz9m0PjfPMQzM30xBoiF8eAW6x4r2ndQdKfoMTiz6Oug65yEp
+   VzZD9vMgFpiQpPU+4rBxQfRzbG70vprpOtSb07/oMvTbqfHIJ9IyJtwc+
+   Xoqtq3zBl7OjuDog7KZRolSjyrFnyW1Y59yuVnWlktqI9srxYjnRbOXeq
+   O/+gnWQUavabfH2mhj0K0SjFZPUo0Z/wvDamdkhfCczfIVnXJij1x61HL
+   WzFnk0G6Kr+1ABrgmejeFM6k0tm516vpUcu0q03b+PirHGreLTxFBE1lQ
+   w==;
+X-CSE-ConnectionGUID: q5/5xp4tRbm/JLRA229ZQQ==
+X-CSE-MsgGUID: PvvekHsbQYCWjFKNoSutHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="86793155"
 X-IronPort-AV: E=Sophos;i="6.25,216,1779174000"; 
-   d="scan'208";a="85864435"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 09:03:42 -0700
-X-CSE-ConnectionGUID: 9qQHxv5uQv2TbMhW1MvAjg==
-X-CSE-MsgGUID: J40jWi0xTBCyVuY8O0gnyg==
+   d="scan'208";a="86793155"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 12:26:22 -0700
+X-CSE-ConnectionGUID: k/JuUWB9RUahXHf7zbkVEg==
+X-CSE-MsgGUID: oCH/whz2SUKhdpn+p+oIQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,216,1779174000"; 
-   d="scan'208";a="293002459"
+   d="scan'208";a="259819073"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Aug 2026 09:03:41 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 10 Aug 2026 12:26:19 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtSTS-00000000NUE-2emo;
-	Mon, 10 Aug 2026 16:03:38 +0000
-Date: Tue, 11 Aug 2026 00:02:38 +0800
+	id 1wtVdZ-00000000Neo-0AdI;
+	Mon, 10 Aug 2026 19:26:17 +0000
+Date: Tue, 11 Aug 2026 03:25:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Maxime =?utf-8?Q?B=C3=A9lair"?= <maxime.belair@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- John Johansen <john.johansen@canonical.com>
-Subject: [jj-apparmor:apparmor-next 3/14]
- security/apparmor/apparmorfs.c:519:undefined reference to
- `zstd_get_frame_header'
-Message-ID: <202608102327.CqRygLiZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>, bhelgaas@google.com,
+	alex@shazbot.org, mani@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jjohnson@kernel.org,
+	linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+	mhi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Subject: Re: [PATCH v11] PCI: Add device-specific reset for Qualcomm devices
+Message-ID: <202608110204.wb17Qqit-lkp@intel.com>
+References: <20260626055023.197470-1-jtornosm@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,136 +66,109 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260626055023.197470-1-jtornosm@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
-head:   1555a0e2a149cba4578f5270e7fb9efb420b985f
-commit: 17b5758bf35c7a113363cd7a350b7e6a251b80f4 [3/14] apparmor: Initial support for compressed policies
-config: x86_64-randconfig-004-20260810 (https://download.01.org/0day-ci/archive/20260810/202608102327.CqRygLiZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608102327.CqRygLiZ-lkp@intel.com/reproduce)
+Hi Jose,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v7.2-rc6 next-20260807]
+[cannot apply to linux-review/Jose-Ignacio-Tornos-Martinez/Add-device-specific-reset-for-Qualcomm-devices/20260804-001013]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jose-Ignacio-Tornos-Martinez/PCI-Add-device-specific-reset-for-Qualcomm-devices/20260810-131417
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20260626055023.197470-1-jtornosm%40redhat.com
+patch subject: [PATCH v11] PCI: Add device-specific reset for Qualcomm devices
+config: um-randconfig-r073-20260810 (https://download.01.org/0day-ci/archive/20260811/202608110204.wb17Qqit-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608102327.CqRygLiZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608110204.wb17Qqit-lkp@intel.com/
 
-Note: the jj-apparmor/apparmor-next HEAD 1555a0e2a149cba4578f5270e7fb9efb420b985f builds fine.
-      It only hurts bisectability.
+smatch warnings:
+drivers/pci/quirks.c:4278 reset_qualcomm_wifi() warn: always true condition '(val != (~0)) => (0-u32max != u64max)'
 
-All errors (new ones prefixed by >>):
+vim +4278 drivers/pci/quirks.c
 
-   ld: security/apparmor/apparmorfs.o: in function `aa_get_data_from_compressed':
->> security/apparmor/apparmorfs.c:519:(.text+0x2c21): undefined reference to `zstd_get_frame_header'
-   ld: security/apparmor/apparmorfs.c:533:(.text+0x2cac): undefined reference to `decompress_zstd'
-
-
-vim +519 security/apparmor/apparmorfs.c
-
-   442	
-   443	
-   444	/*
-   445	 * aa_fs - policy load/replace/remove
-   446	 */
-   447	
-   448	/**
-   449	 * aa_simple_write_to_buffer - common routine for getting policy from user
-   450	 * @userbuf: user buffer to copy data from  (NOT NULL)
-   451	 * @alloc_size: size of user buffer (REQUIRES: @alloc_size >= @copy_size)
-   452	 * @copy_size: size of data to copy from user buffer
-   453	 * @pos: position write is at in the file (NOT NULL)
-   454	 *
-   455	 * Returns: kernel buffer containing copy of user buffer data or an
-   456	 *          ERR_PTR on failure.
-   457	 */
-   458	static struct aa_loaddata *aa_simple_write_to_buffer(const char __user *userbuf,
-   459							     size_t alloc_size,
-   460							     size_t copy_size,
-   461							     loff_t *pos)
-   462	{
-   463		struct aa_loaddata *data;
-   464	
-   465		AA_BUG(copy_size > alloc_size);
-   466	
-   467		if (*pos != 0)
-   468			/* only writes from pos 0, that is complete writes */
-   469			return ERR_PTR(-ESPIPE);
-   470	
-   471		/* freed by caller to simple_write_to_buffer */
-   472		data = aa_loaddata_alloc(alloc_size);
-   473		if (IS_ERR(data))
-   474			return data;
-   475	
-   476		data->size = copy_size;
-   477		if (copy_from_user(data->data, userbuf, copy_size)) {
-   478			/* trigger free - don't need to put pcount */
-   479			aa_put_i_loaddata(data);
-   480			return ERR_PTR(-EFAULT);
-   481		}
-   482	
-   483		return data;
-   484	}
-   485	static int decompress_zstd(char *src, size_t slen, char *dst, size_t dlen);
-   486	/**
-   487	 * aa_get_data_from_compressed - common routine for getting compressed policy
-   488	 * from user and get both compressed and uncompressed version.
-   489	 * @userbuf: user buffer to copy data from  (NOT NULL)
-   490	 * @buffer_size: size of user buffer
-   491	 * @pos: position write is at in the file (NOT NULL)
-   492	 * @compressed_data Ptr on compressed data. *compressed_data is allocated there
-   493	 *
-   494	 * Returns: kernel buffer containing copy of user buffer data or an
-   495	 *          ERR_PTR on failure.
-   496	 */
-   497	
-   498	static struct aa_loaddata *aa_get_data_from_compressed(const char __user *userbuf,
-   499							  size_t buffer_size,
-   500							  loff_t *pos,
-   501							  char **compressed_data)
-   502	{
-   503		struct aa_loaddata *data;
-   504		zstd_frame_header header;
-   505		int error;
-   506	
-   507		if (!userbuf || !pos)
-   508			return ERR_PTR(-EINVAL);
-   509		if (*pos)
-   510			return ERR_PTR(-ESPIPE);
-   511	
-   512		*compressed_data = kvmalloc(buffer_size, GFP_KERNEL);
-   513		if (!*compressed_data)
-   514			return ERR_PTR(-ENOMEM);
-   515		error = copy_from_user(*compressed_data, userbuf, buffer_size);
-   516		if (error)
-   517			goto fail;
-   518	
- > 519		error = zstd_get_frame_header(&header, *compressed_data, buffer_size);
-   520		if (error || header.frameContentSize == ZSTD_CONTENTSIZE_UNKNOWN ||
-   521		    header.frameContentSize == ZSTD_CONTENTSIZE_ERROR) {
-   522			error = -EINVAL;
-   523			goto fail;
-   524		}
-   525	
-   526		data = aa_loaddata_alloc(header.frameContentSize);
-   527		if (IS_ERR(data)) {
-   528			error = PTR_ERR(data);
-   529			goto fail;
-   530		}
-   531	
-   532		// We then decompress the data
-   533		error = decompress_zstd(*compressed_data, buffer_size, data->data,
-   534					header.frameContentSize);
-   535		if (error)
-   536			goto fail_decompress;
-   537	
-   538		data->size = header.frameContentSize;
-   539		return data;
-   540	
-   541	fail_decompress:
-   542		aa_put_i_loaddata(data);
-   543	fail:
-   544		kvfree(*compressed_data);
-   545		return ERR_PTR(error);
-   546	
+  4234	
+  4235	/*
+  4236	 * Qualcomm WiFi device-specific reset using SoC global reset via BAR0
+  4237	 * registers.
+  4238	 */
+  4239	static int reset_qualcomm_wifi(struct pci_dev *pdev, bool probe)
+  4240	{
+  4241		bool link_recovered = false;
+  4242		unsigned long timeout;
+  4243		void __iomem *bar;
+  4244		u32 val;
+  4245		u16 cmd;
+  4246	
+  4247		if (probe)
+  4248			return 0;
+  4249	
+  4250		if (pdev->current_state != PCI_D0)
+  4251			return -EINVAL;
+  4252	
+  4253		pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+  4254		pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
+  4255	
+  4256		bar = pci_iomap(pdev, 0, 0);
+  4257		if (!bar) {
+  4258			pci_write_config_word(pdev, PCI_COMMAND, cmd);
+  4259			return -ENODEV;
+  4260		}
+  4261	
+  4262		val = ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4263		val |= QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V;
+  4264		iowrite32(val, bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4265		ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4266	
+  4267		msleep(10);
+  4268	
+  4269		val &= ~QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V;
+  4270		iowrite32(val, bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4271		ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+  4272	
+  4273		msleep(10);
+  4274	
+  4275		timeout = jiffies + msecs_to_jiffies(5000);
+  4276		while (time_before(jiffies, timeout)) {
+  4277			val = ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
+> 4278			if (val != PCI_ERROR_RESPONSE) {
+  4279				link_recovered = true;
+  4280				break;
+  4281			}
+  4282			msleep(20);
+  4283		}
+  4284	
+  4285		if (!link_recovered) {
+  4286			pci_err(pdev, "PCIe link failed to recover after reset\n");
+  4287			goto out_restore;
+  4288		}
+  4289	
+  4290		/* After SOC_GLOBAL_RESET, MHISTATUS may still have SYSERR bit set
+  4291		 * and thus need to set MHICTRL_RESET to clear SYSERR.
+  4292		 */
+  4293		iowrite32(QUALCOMM_WIFI_MHICTRL_RESET_MASK, bar + QUALCOMM_WIFI_MHICTRL);
+  4294		ioread32(bar + QUALCOMM_WIFI_MHICTRL);
+  4295	
+  4296		msleep(10);
+  4297	
+  4298	out_restore:
+  4299		pci_iounmap(pdev, bar);
+  4300		pci_write_config_word(pdev, PCI_COMMAND, cmd);
+  4301	
+  4302		return link_recovered ? 0 : -ETIMEDOUT;
+  4303	}
+  4304	
 
 --
 0-DAY CI Kernel Test Service
