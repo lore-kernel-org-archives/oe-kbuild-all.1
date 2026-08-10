@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885D41C84A0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Aug 2026 02:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2991537E5EA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Aug 2026 03:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786328602; cv=none; b=P5ddvxr4ZHSwiJdYM5cTAv1vITXvb32nofKiWyGdMLFjzn9GHqFOCg/8WvDY/+FNNaBFuYJMJU/SFlwkTnYRlfQ2uf7kaTz8OK/EliGB5VvgBbRqH+4ll9UOZwBw/nqNq09NGHKM+8u5xktlnOxk567P2z4UqxGqIgJKbx2wI4A=
+	t=1786332797; cv=none; b=FCscqrligVuKkdMs2576qoiP6ehUB7EJoGNyGZPEgn8WXU6gg8cDYBacxt5F+woyjxz5o1VHUJSRwY6BdRoi2l2e2Tw1TFsZP69wKximSG/jLGLLY6CIVs13OhfmJn6fuqmxmP+T0G9jKO75TxxWsu+VvThcWo7WhM3m+I/2hW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786328602; c=relaxed/simple;
-	bh=vyezduHC9pajhUn2256r7yPU8l+eiV2XQlbuW8jtxu8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VGFCG2roSTRGTGqpq+T0o3mKnN29nhvy+K0dGhuKuzwPADkU+oxs6trqalMYvI3kIgzXIl1AD/fMcMH91LYiISAFIb2WV/WZiEL51XT0sh47+mQv+o++yqI2621K6W6NTky0wSoH3ZU7ip3m9TlkTJ5rDt0V5M2AENimXBZx5LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JlLZy5GY; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1786332797; c=relaxed/simple;
+	bh=L1qkOFBmZNjGZyT5urumiLAMa6dvuN1uZ+MYO1fVeRg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GokUQAqg10fPZpgEgmx4jDUKx+cMXr0iEJbkyiOD8dRTNJA2/+mHZefMdi9dzjFIz05sa0eVsPmYEo6WSbMy7NhKnoz+FBGgMaFtah28UrmYxlM2AKEF0ueJsR1j0W6QBbxs2juCpsIuolQHe5NrhOC1DTjEUT4L+5gqsMAJUHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnUitXni; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JlLZy5GY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnUitXni"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786328599; x=1817864599;
+  t=1786332795; x=1817868795;
   h=date:from:to:cc:subject:message-id;
-  bh=vyezduHC9pajhUn2256r7yPU8l+eiV2XQlbuW8jtxu8=;
-  b=JlLZy5GYzxjRwN0T72ubgpWSdRJ1outBioDpufpvnh3r+eBQeCkWTk8A
-   RItlHTSNyC79AESOPVV31yIE2+unsnXp5z3uWgrnUnGYwU5Ie1l7BfOPK
-   AwactqTo8l5j8W9tkBG8OjrIl2LfEJWlWyDCSbC1w0h7B0Fh1tX90RG2b
-   0btaItn3k4ZCsw1Q0vvG6oD6EsFavoMf5HWXfw9IR9lYW4a73LqmFY3v7
-   pDtJ1E438ZsUJZzxp20I5gpo9CgGlrVkrIvSXiOGlzv5Y+15EZtIYNbnp
-   gpZAd5LM1aOc51tu8o+afR1spOWY1OJHk3/hvEZkXiceIlmgLl2YzNMpb
-   g==;
-X-CSE-ConnectionGUID: hFeoOGZWTOGYi58LR51F8Q==
-X-CSE-MsgGUID: 03uQ8t2KSOO2N6Nh5/hJkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="86714945"
-X-IronPort-AV: E=Sophos;i="6.25,214,1779174000"; 
-   d="scan'208";a="86714945"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 19:23:15 -0700
-X-CSE-ConnectionGUID: 5DASceLbTs2z7xHmtFo1AQ==
-X-CSE-MsgGUID: nhjFccQ+QgqFE2+XyktLIg==
+  bh=L1qkOFBmZNjGZyT5urumiLAMa6dvuN1uZ+MYO1fVeRg=;
+  b=dnUitXniXmzethACFzlJapWjVudSNTKkaE326BoQ59JjXmjRd0wC5iFe
+   F6iUb2GzcffD70HqR1WUDapmYYUvO27gvbiajNeB4OLMCElbLN6p0sokk
+   K4xkpsoUDxytqqGswjjYvftZTpwckbxZxEw0MWbNAAsY3t9LCIYKOk3lx
+   xHpd3LQndzz4/MhmHD984lDUwkA63HuyJ6TJQG7daXfJl58hDTJcupV68
+   K3TRA46pOThT5Te8Mg+6A0Mu6cIN3+o5CMFb/F4MEQKcfHe8ycj2XnpAc
+   CB35XgEoAXOb3Wm8VPvY4HOv07s7NNkDp7g1AgDGQ3pGmD0LiItACAdST
+   w==;
+X-CSE-ConnectionGUID: jgk3ge3NRWSDg8w9snoc4Q==
+X-CSE-MsgGUID: tl/2Kv+uQKClS0QfcMTcVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="97493437"
+X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
+   d="scan'208";a="97493437"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 20:33:12 -0700
+X-CSE-ConnectionGUID: PjfnkVhfTTGRMpsgPE4RYA==
+X-CSE-MsgGUID: a1KoXtEbTymfGYUzEzl+Kg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,214,1779174000"; 
-   d="scan'208";a="264893528"
+X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
+   d="scan'208";a="260316883"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Aug 2026 19:23:14 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 09 Aug 2026 20:33:10 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtFfT-00000000MYC-2OeF;
-	Mon, 10 Aug 2026 02:23:11 +0000
-Date: Mon, 10 Aug 2026 10:22:10 +0800
+	id 1wtGlA-00000000Mhh-01a4;
+	Mon, 10 Aug 2026 03:33:08 +0000
+Date: Mon, 10 Aug 2026 11:32:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 7948/13846]
- arch/riscv/include/asm/syscall_wrapper.h:39:14: warning: '__se_sys_fchroot'
- alias between functions of incompatible types 'long int(ulong,  ulong, 
- ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int, 
- long unsigned int,  long unsigne...
-Message-ID: <202608100856.I1r7K24N-lkp@intel.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
+ Kuniyuki Iwashima <kuniyu@google.com>,
+ Willem de Bruijn <willemb@google.com>
+Subject: [linux-next:master 4018/13846] drivers/net/tun.c:2375:24:
+ sparse: sparse: cast to non-scalar
+Message-ID: <202608101002.AO7X3ZCH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,260 +63,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   6b8c8af514d739d0335f5579b585e02babe8a727
-commit: 20370a5f5d9b1549ab3bf10a898b4e024b8841fa [7948/13846] fs: add fchroot()
-config: riscv-randconfig-002-20260810 (https://download.01.org/0day-ci/archive/20260810/202608100856.I1r7K24N-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608100856.I1r7K24N-lkp@intel.com/reproduce)
+commit: 23dad2d088dfc82cae1f5a936f8ff7ffebb38dd9 [4018/13846] tun: no longer rely on RTNL in tun_fill_info()
+config: alpha-randconfig-r134-20260810 (https://download.01.org/0day-ci/archive/20260810/202608101002.AO7X3ZCH-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260810/202608101002.AO7X3ZCH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608100856.I1r7K24N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608101002.AO7X3ZCH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/tun.c:2375:24: sparse: sparse: cast to non-scalar
+>> drivers/net/tun.c:2375:24: sparse: sparse: cast from non-scalar
+   drivers/net/tun.c:2376:24: sparse: sparse: cast to non-scalar
+   drivers/net/tun.c:2376:24: sparse: sparse: cast from non-scalar
 
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:736:1: note: in expansion of macro 'SYSCALL_DEFINE2'
-    SYSCALL_DEFINE2(chmod, const char __user *, filename, umode_t, mode)
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:39:14: warning: '__se_sys_fchmodat' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:730:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-    SYSCALL_DEFINE3(fchmodat, int, dfd, const char __user *, filename,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:45:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:730:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-    SYSCALL_DEFINE3(fchmodat, int, dfd, const char __user *, filename,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:39:14: warning: '__se_sys_fchmodat2' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:724:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-    SYSCALL_DEFINE4(fchmodat2, int, dfd, const char __user *, filename,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:45:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:724:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-    SYSCALL_DEFINE4(fchmodat2, int, dfd, const char __user *, filename,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:39:14: warning: '__se_sys_fchmod' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:689:1: note: in expansion of macro 'SYSCALL_DEFINE2'
-    SYSCALL_DEFINE2(fchmod, unsigned int, fd, umode_t, mode)
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:45:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:689:1: note: in expansion of macro 'SYSCALL_DEFINE2'
-    SYSCALL_DEFINE2(fchmod, unsigned int, fd, umode_t, mode)
-    ^~~~~~~~~~~~~~~
->> arch/riscv/include/asm/syscall_wrapper.h:39:14: warning: '__se_sys_fchroot' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:621:1: note: in expansion of macro 'SYSCALL_DEFINE2'
-    SYSCALL_DEFINE2(fchroot, int, fd, unsigned int, flags)
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:45:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:621:1: note: in expansion of macro 'SYSCALL_DEFINE2'
-    SYSCALL_DEFINE2(fchroot, int, fd, unsigned int, flags)
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:39:14: warning: '__se_sys_chroot' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:591:1: note: in expansion of macro 'SYSCALL_DEFINE1'
-    SYSCALL_DEFINE1(chroot, const char __user *, filename)
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:45:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:591:1: note: in expansion of macro 'SYSCALL_DEFINE1'
-    SYSCALL_DEFINE1(chroot, const char __user *, filename)
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:39:14: warning: '__se_sys_fchdir' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:571:1: note: in expansion of macro 'SYSCALL_DEFINE1'
-    SYSCALL_DEFINE1(fchdir, unsigned int, fd)
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:45:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   fs/open.c:571:1: note: in expansion of macro 'SYSCALL_DEFINE1'
-    SYSCALL_DEFINE1(fchdir, unsigned int, fd)
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:39:14: warning: '__se_sys_chdir' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:86:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:236:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
+vim +2375 drivers/net/tun.c
 
-
-vim +39 arch/riscv/include/asm/syscall_wrapper.h
-
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  16  
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  17  #define __SYSCALL_SE_DEFINEx(x, prefix, name, ...)					\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  18  	static long __se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__));		\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  19  	static long __se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  20  
-08d0ce30e0e4fc Sami Tolvanen     2023-07-10  21  #define SC_RISCV_REGS_TO_ARGS(x, ...)							\
-08d0ce30e0e4fc Sami Tolvanen     2023-07-10  22  	__MAP(x,__SC_ARGS								\
-08d0ce30e0e4fc Sami Tolvanen     2023-07-10  23  	      ,,regs->orig_a0,,regs->a1,,regs->a2					\
-08d0ce30e0e4fc Sami Tolvanen     2023-07-10  24  	      ,,regs->a3,,regs->a4,,regs->a5,,regs->a6)
-08d0ce30e0e4fc Sami Tolvanen     2023-07-10  25  
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  26  #else
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  27  /*
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  28   * Use type aliasing to ensure registers a0-a6 are correctly passed to the syscall
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  29   * implementation when >word-size arguments are used.
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  30   */
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  31  #define __SYSCALL_SE_DEFINEx(x, prefix, name, ...)					\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  32  	__diag_push();									\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  33  	__diag_ignore(GCC, 8, "-Wattribute-alias",					\
-175db11786bde9 Nathan Chancellor 2026-05-16  34  			"Type aliasing is used to sanitize syscall arguments");		\
-175db11786bde9 Nathan Chancellor 2026-05-16  35  	__diag_ignore(clang, 23, "-Wunknown-warning-option",				\
-175db11786bde9 Nathan Chancellor 2026-05-16  36  		      "Avoid breaking versions without -Wattribute-alias");		\
-175db11786bde9 Nathan Chancellor 2026-05-16  37  	__diag_ignore(clang, 23, "-Wattribute-alias",					\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  38  			"Type aliasing is used to sanitize syscall arguments");		\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11 @39  	static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong, 	\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  40  					ulong)						\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  41  			__attribute__((alias(__stringify(___se_##prefix##name))));	\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  42  	__diag_pop();									\
-653650c468be21 Sami Tolvanen     2024-03-26  43  	static long noinline ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
-653650c468be21 Sami Tolvanen     2024-03-26  44  			__used;								\
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  45  	static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-a9ad73295cc1e3 Sami Tolvanen     2024-03-11  46  
-
-:::::: The code at line 39 was first introduced by commit
-:::::: a9ad73295cc1e3af0253eee7d08943b2419444c4 riscv: Fix syscall wrapper for >word-size arguments
-
-:::::: TO: Sami Tolvanen <samitolvanen@google.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+  2370	
+  2371	static int tun_fill_info(struct sk_buff *skb, const struct net_device *dev)
+  2372	{
+  2373		const struct tun_struct *tun = netdev_priv(dev);
+  2374		unsigned int flags = READ_ONCE(tun->flags);
+> 2375		kuid_t owner = READ_ONCE(tun->owner);
+  2376		kgid_t group = READ_ONCE(tun->group);
+  2377	
+  2378		if (nla_put_u8(skb, IFLA_TUN_TYPE, flags & TUN_TYPE_MASK))
+  2379			goto nla_put_failure;
+  2380		if (uid_valid(owner) &&
+  2381		    nla_put_u32(skb, IFLA_TUN_OWNER,
+  2382				from_kuid_munged(current_user_ns(), owner)))
+  2383			goto nla_put_failure;
+  2384		if (gid_valid(group) &&
+  2385		    nla_put_u32(skb, IFLA_TUN_GROUP,
+  2386				from_kgid_munged(current_user_ns(), group)))
+  2387			goto nla_put_failure;
+  2388		if (nla_put_u8(skb, IFLA_TUN_PI, !(flags & IFF_NO_PI)))
+  2389			goto nla_put_failure;
+  2390		if (nla_put_u8(skb, IFLA_TUN_VNET_HDR, !!(flags & IFF_VNET_HDR)))
+  2391			goto nla_put_failure;
+  2392		if (nla_put_u8(skb, IFLA_TUN_PERSIST, !!(flags & IFF_PERSIST)))
+  2393			goto nla_put_failure;
+  2394		if (nla_put_u8(skb, IFLA_TUN_MULTI_QUEUE,
+  2395			       !!(flags & IFF_MULTI_QUEUE)))
+  2396			goto nla_put_failure;
+  2397		if (flags & IFF_MULTI_QUEUE) {
+  2398			if (nla_put_u32(skb, IFLA_TUN_NUM_QUEUES,
+  2399					READ_ONCE(tun->numqueues)))
+  2400				goto nla_put_failure;
+  2401			if (nla_put_u32(skb, IFLA_TUN_NUM_DISABLED_QUEUES,
+  2402					READ_ONCE(tun->numdisabled)))
+  2403				goto nla_put_failure;
+  2404		}
+  2405	
+  2406		return 0;
+  2407	
+  2408	nla_put_failure:
+  2409		return -EMSGSIZE;
+  2410	}
+  2411	
 
 --
 0-DAY CI Kernel Test Service
