@@ -1,203 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5EF330D4C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Aug 2026 05:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786425167; cv=fail; b=o2Fsc4uR+E58jZBdNN2IlSyHjibkdpeWKNLtEpQrpeC1Y3dQV9xBIFxqkYvrenLiZgs8rQuEMySWsSe3GKosXdyr4i5BvecLGE4GQKTNxSXLkQ8G2a9IS2w94kAw1N883rIAqjAM8QJIIQxjJwxm0R1JLGJFV4q4I1uOcBeXRzA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786425167; c=relaxed/simple;
-	bh=gy5j40JnAvqyplwvGzI5JZpdYE6vwxO1UagVSDr5wfA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tzYcvNxTmsqUJUW8obItgomvV0UcerRTR1eDMrhjbwJIxNxEY53kSi5NEROqJL9mEEfJQfIZQqf7raXEaS5q3A8ywHDBkNmTmjpeCceSCRQuuqIWgZV8ist6ThBvoqyNfwsyfXlFxMctDFslG6xo3bdazN9TI9eU9KmRoOw9xpw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZnpHGZV; arc=fail smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EB13BFADE;
+	Tue, 11 Aug 2026 10:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786444681; cv=none; b=otgLPdTV2f0c+QvUdPYBMJ2C14OEA4TEiQoKf+ZGUa+woC+FxISGKLm9ou+cUKxuu3cKo8iXsNGsLSYIWQ4mJr+U0vfd8q3lgwhJUxCYVjnWzuar3LD58gwxQ2ALdIwJMOABT2f+UCcESseBYbdd0TW1ddTaDDM9sJXJAWowaT8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786444681; c=relaxed/simple;
+	bh=zfyx7i/6iWrgpAX12hKTJqYnXFJPiCqXydJpgUthu2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KnXlw7SpZydNwKS29CE4T4vvb5njtozdmM6BYbtiHTSRKGQh1Q3DQC8sxYdJ8CF9QmWzYuFBzAZouUIBRy+UDdIN6NgWues+e/fFZitsMsy09ncZhR5b/rIxDkUmM7FXQiU3iBdNPn4o5GjaDOaAmPJgxIfpU50PzepTP9fGqA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RzNKufLO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZnpHGZV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RzNKufLO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786425163; x=1817961163;
+  t=1786444679; x=1817980679;
   h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=gy5j40JnAvqyplwvGzI5JZpdYE6vwxO1UagVSDr5wfA=;
-  b=iZnpHGZV9dhMTk/ZKAy4nKCbTKK4CGO/8QHAifCeObSgOR6xEeE7F4Gt
-   3cDAMc+grYaYTq0YcSQMVtFhvDMc3EN6Ui5NLoDi6ENT3RtnkG5IlUbTa
-   2v/yqXRinwCh8EY1xh13FpGu+GiktrzAMZE963CgxcBvsuykXcj6Q7QZC
-   vTYw6BK9x7ytCRmwi/H0QpE+LDCEOifdP2L+ILQFUzuwAPRFhYr5U1c1b
-   EA2qYlDrBmsNid1heGUVFQwSIaDH2GckjpVrdZCylgYai7ZOA/XIkOoH9
-   IlCoSlOq5jW3uKzKWsv6U0nfqaCaCg84sFhJGbOGY+4q0d345U8b1sPip
-   Q==;
-X-CSE-ConnectionGUID: 4Iby8nbQR/6/lj0nPRZWEA==
-X-CSE-MsgGUID: 6CT+URE4TZuwQeBSYGsGwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="97545383"
+   mime-version:in-reply-to;
+  bh=zfyx7i/6iWrgpAX12hKTJqYnXFJPiCqXydJpgUthu2s=;
+  b=RzNKufLOS+6tVkfaLM3lsM2KRlg3SJTm5m2RfJzUB6oCSs+jgA9iBwKe
+   wdPDPeZSHWFGnbADchg/tgavF3UkGewrt+GdZhxnX7UBovCesoy99kA6b
+   IzDswDWaL+7T9D/1CGqSH7arX62lVgLzJTaMDPVH9pE+lnpU6/L7Eewkv
+   8H79NeVeptNid04Y0o0OP/2ue/0GYbgcVtObkjfjEGvrcO3NsNAB6Zse+
+   29DmOe9xISqAUzh4aobddeneat9PUaUlxkJBwqjCfkFwJ4CM7yVqEAjMl
+   8Gx0ytWVBCBD5mEcQk1CCHCe7FqVBwPuSFXHRAtMYIC3rfqGvoXynGZt7
+   g==;
+X-CSE-ConnectionGUID: bLKjw8QSTZuuUfRR0QiP8Q==
+X-CSE-MsgGUID: i7GP3f82REK9elysMfJ9bQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="109761319"
 X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="97545383"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 22:12:33 -0700
-X-CSE-ConnectionGUID: ZrY7/aloQoyNDDQhdRzKVQ==
-X-CSE-MsgGUID: eqkSp5GgSlSjpIHYtUSoXg==
+   d="scan'208";a="109761319"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 03:37:58 -0700
+X-CSE-ConnectionGUID: OQC+Q5nsQzKwxrwp/4Sn4Q==
+X-CSE-MsgGUID: f/6fwpzcQ7GM6CbzmwFDwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="259925452"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 22:12:33 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 10 Aug 2026 22:12:33 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Mon, 10 Aug 2026 22:12:33 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.55) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 10 Aug 2026 22:12:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pde+4sQZ2EOtbX8X/KrVz53mX7UmW6KiYYLDHFguRideHNLNHjYbT8QoWXuDwfYsXfsUw5efa9q9478enSA42bQtlrOcy+AiL7nUNN8FvFCrA6sUFp+b91rQnTxsISJseL9PGtQQhnccs8++qDLrd8ufhhxEMOM7exjQKmWgfNkl0qXWi8kSOodi74+GuR4tJNm2rgmydEijTB5JRwybNRmpfgJ8gzImshfp7Vps34dODoSr2M1h5FbrsDFdULwQSGG3UqCXrJSq7vOF4tgVqkB1Md4iFfECD/SnpQXi9So3HPJf9KTaH+E94W8aFpItgKTXgfMdU6YUr5ZEAzsbqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/v8L0TwG08eZ4XZwpG/dq9iuDx5qvexwxrtmwglbRAE=;
- b=kPPhvpEx8MfP02iK11xAl7+i/1q8Oz54p8rcm3AxDLYJPAb2KYYsKqk+Rh0Mf696/55wup5Jtj0+UZQc3lgHPwpQM8VZNbJykbDD9ZzPkbryUFsSRnHcpiQkGmE6vn7X6heYigIjbChIPzvlnSf5PajoR5HfH47ZthsyIuJAgeh0wMz7DhTIDzz8g5O/t2j4nKUyeZPLPeNIAyylHqfKFCoA6jEhhFeslStggbEJiqbklcjDvFe+0HbRpLs7PXJpiP5gr8hAIKfqcYku6+cdBSNtJRnJFXjGssLcCdff36YXJLcEPGQEM883AK6bVrIuk6sQEmLTwe2vjcqCGX5/Iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
- by DSWPR11MB9714.namprd11.prod.outlook.com (2603:10b6:8:354::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Tue, 11 Aug
- 2026 05:12:31 +0000
-Received: from SJ0PR11MB5214.namprd11.prod.outlook.com
- ([fe80::5926:3836:4212:8640]) by SJ0PR11MB5214.namprd11.prod.outlook.com
- ([fe80::5926:3836:4212:8640%4]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
- 05:12:31 +0000
-Date: Tue, 11 Aug 2026 13:12:23 +0800
-From: Philip Li <philip.li@intel.com>
-To: Jiangshan Yi <yijiangshan@kylinos.cn>
-CC: <lkp@intel.com>, <13667453960@163.com>, <arnd@arndb.de>,
-	<gregkh@linuxfoundation.org>, <kees@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: Re: [PATCH] lkdtm/core: fix resource leaks on module init error
- path
-Message-ID: <anqvN8zNo+IferI2@rli9-mobl>
-References: <202608051446.cKZTkVXV-lkp@intel.com>
- <20260810014815.76401-1-yijiangshan@kylinos.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260810014815.76401-1-yijiangshan@kylinos.cn>
-X-ClientProxiedBy: TP0P295CA0051.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:3::10) To SJ0PR11MB5214.namprd11.prod.outlook.com
- (2603:10b6:a03:2df::22)
+   d="scan'208";a="293244378"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 11 Aug 2026 03:37:57 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wtjrm-00000000OZO-0OFn;
+	Tue, 11 Aug 2026 10:37:54 +0000
+Date: Tue, 11 Aug 2026 18:36:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Colin Foster <colin.foster@in-advantage.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Steve Glendinning <steve.glendinning@shawell.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Colin Foster <colin.foster@in-advantage.com>
+Subject: Re: [PATCH v1] smsc911x: add second read of EEPROM mac when possible
+ corruption seen
+Message-ID: <202608111832.kjA1WwgS-lkp@intel.com>
+References: <20250828214452.11683-1-colin.foster@in-advantage.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5214:EE_|DSWPR11MB9714:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1046c90-3699-43d6-a1f9-08def767255a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|10067099003|11063799006|4143699003|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: oXEPRcCS9ZTg7UYV8rVOWH2N2lbYB4vNl96YBvLhudgZoyylpreeFCrHPzkqOMuRTp05zUs3Bj04RsoqsrObhw84tz+c1oN07D+k+ntfRlI2il345f+O9S/T4n20h6/ZWUGGx+kELDTUgwK5FZAGX44izg2FyNz8Xukd420eIlDaoiNNSLXSXscn2IaYenpmUxYPmVfvNuoeQeZKS3u7mqgBMIymD8D75fJqmXplnzGOxws6/3VwHiXMKlzEpFDyEzYWeKdl4H0h0HWoc5ByXhDJApc7QFeqZs0chkzicty8Fi63Y/eXTgspRANWONS3UmVU4bKs9IiBJ91Qa7UlmZyZ09GIXw+QUzx2gEft0mfZtdq9smVT421W8bzt05RNha4jT++pHmdJa2eZgZTtacTaB96h7usjx/1mct9YJZVWL+HBOjZWTKQE2mPFI//voRmTWzcbtMeoMrcxBbbex01xooEixkHmiqR8QI5IqOMmnwgeGd4wDg/Xtg+VWD4b/1ZaD8bx+kVKW9rqBs1wDSDENdvJ0+ps607e553CqOTtR2xHUA2/CHsUeS3UXqkjQdymBvMyhDGOVc+EZHrXaarx1lpQG/x+ILe4qKu7Mb5j890WvgyM928LCDMUnhYpgdpqPG+MfQ9SvsI45We6iquP/sFcFjt8bE+Q6D5LoMo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(10067099003)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cjFpZkR6Q29BQjlXNmNYeUV6SnlRdVU1MEFHUW9iVE1nWVpYREk3UFZyWHh3?=
- =?utf-8?B?SVRHeHYwNUxDT0V2UUlkVDRUM3RkTTVNdityWVBtRGlqVXhkUUlOZ25vNVRy?=
- =?utf-8?B?NmpKNDZhaDU1dXB3MlJXdHVMdnJHUyt0MVB3cGxlcDZvU3ZJYUpzWVhiM2hh?=
- =?utf-8?B?ZHU0Z0JDai9yUlN0K2dQQ2s5NnBpU2ZCUjBxdHFGcEtKMEszakdMZ1lBNlZT?=
- =?utf-8?B?WDZLZElZdEsvMFlEQSs0cU5rM2tVS3phTGZnQ3RLKzBmQ1N1UlByTDZKMnY5?=
- =?utf-8?B?ZGxaZW56bERDQkJrNEFYL2l2ZVRLeXhJallVV1RLYmJlb0Y5Q1M4RnN4Nmcy?=
- =?utf-8?B?OWwzbE1UNXFrSy9VK2lUME13bm1FSi9GelpzVTJJUXVPdGpJcE9sUkJJc0Fs?=
- =?utf-8?B?bFNZWmZ0UE9lcVRSTzhCT2hVSzJ3ODdoMVVqYktnK2VuQTFCays3MFFHN1Vt?=
- =?utf-8?B?SVZIR1ZFcWRiL0RmOGVneVdybmc5azJuaWdCZGVZVE1uUlRqYXllSmhHUHBm?=
- =?utf-8?B?QS9vV3QyQW93dTJWaVZnL2ZJcU5yZUxDT2x5VEczWUE5eDNoeUZqWVdKZUcw?=
- =?utf-8?B?c1JSeHdmNkRXWWJYSXBZOXFCMngyaWlUTWY3SEx3NzJUSXFZSWFTSDdwUVoy?=
- =?utf-8?B?VGN4ZFdqUFowb1pRK1dUaGRRV1Vab1FMY2pxOWt2K0E0TWR3b25ySGxSei91?=
- =?utf-8?B?eU4rbWJESFMrTUhnME1xSWlUaUEwS2RzVllyTmtIOGFEbm9pOUQvZ1U1TGZC?=
- =?utf-8?B?blNKSGVBTDRMTGFVNFBNeFJ4RnNHMy9ldnhGWkpObEtsbmhsaDgrNjNNOGh5?=
- =?utf-8?B?N0lrb1BBbnF1VUI0czVoYkc0eWY2YmNjaUpFMUtCZSs5dFF6SUlTeVFkVTVt?=
- =?utf-8?B?Ulp3TDQxdVhiby8yRnN5VGhQd2NUOGM5NTFHTVpqdDluSlhEbDFBdEVvRXNN?=
- =?utf-8?B?Z0h3K0ZUOXlhSndvR214MzI5Q0F3ZmQ2ay9kM2FKYlJabmNTRXJZVC9BckNq?=
- =?utf-8?B?bUpVcndaeElXRHVndktqakUyMDlrcDVGalZIKzBQSml1Sk55VUt1aGhFODJw?=
- =?utf-8?B?OTJJdzNOTklkSnlUT0NtSUxNKzZBK1NuSmYvYWs4bWg1R3BVUlN4UkdvSkVp?=
- =?utf-8?B?NGpCMnoxc0p4anQyamE0eTA5RzhjYmx4Vzdmd0V3eVkvbmVTSGgvMGVQQmVF?=
- =?utf-8?B?WVFKL3VaL0xUNCtLeGM5b1U0RG1ROHBnZlFkUG1qTzE5VDdHdzgzOVBIZS9v?=
- =?utf-8?B?QUVHbXNkN3NEUm5vQTdpdllVT2JydFEzTGI5MFVLMXh1eDBMWFkvODlkd0Rq?=
- =?utf-8?B?bVZqQ1hDcEZGdmt6elhteSsrQUM2eC9nL3NDNVhIcjlvWGN5ejN3Vm41Vllp?=
- =?utf-8?B?NHVTMjJmNzhjY1FXUXNtSmhQTnByaVNkMHo1UytRejVjVTlSeVNxNXlCcGxT?=
- =?utf-8?B?T0NyR2Z6RVRObng2RUF1OUt5VHFCSTRweXRJWWx6akEwWStZZFloQ1NtZnEv?=
- =?utf-8?B?dlhnK2huTWpNK1FBUEY1dUZKY20xL3NWUkErQUFsc3lsUllFKzdtREwxNE1o?=
- =?utf-8?B?M3V5UFJkKzVlNE9KYzNkVE9wV2xZQ2F5bFJzb3BucFdIc3gxUVRCNDhmcXZP?=
- =?utf-8?B?bnZCcGNOZmNjUXB5dDZkWFVUQnNQQmQrZkIrRDBFL0RGZzFBUU16ajllL0xS?=
- =?utf-8?B?azdNTi9UOFAxM0xPSUc3WWN5TjQ4SWdLUGk3Tm1BZ05ZbnpVMDB0ZzlCMnBH?=
- =?utf-8?B?OE41VFIybHhmSFBUSjBNalFqRzVEN3hFQ3FpR1dsZXZ4c2xBRzR2d0I4UXd4?=
- =?utf-8?B?cHd6bTdEWmI0anlPQ2Y3YSszZ1JWMnIrcVJQU3hCWUc4eW1mM3ZsVUtYM2hX?=
- =?utf-8?B?Mnh0dVhJa0JpYlFoSnJJRnBQdk9hQnI1c083T1dyUEVNSG40YlViVWwvMmYr?=
- =?utf-8?B?b1hLUi9XUVpvZ0RLYTVsMm0yUGdPSjI1K3RsWnQzRnBpM2V5K0p3bW1XZlF5?=
- =?utf-8?B?VmZGNDBpUjJ1MzBpdVlkQWVLcXhTaUVMTmFwUWo1RU9mTWtVMGtHUlp6MHVN?=
- =?utf-8?B?SnN2REtYMldEZnNJQjFlMVpOMDQrdnRwNmlEaDU0bWhpbUpieTdWUC9EM1p0?=
- =?utf-8?B?SlhET3dXM0JndnNrZ0o3Z0dSZXU1d0xOMlArVVVlRmw5WEE1UjNTMzF3L0gw?=
- =?utf-8?B?czBqeEFTdEYzMndzZHB2eExIV1JJOWFmR0Y5eEdhbHlBY0NGYXdNK0lrN0V0?=
- =?utf-8?B?VWlva2RGL3djVzF3T3lLQ2xBdnNzLzNYRHp6Qnl1Q1hFTDZuR2RLSVlzakpN?=
- =?utf-8?B?MkhiUW1lQll3N3RxaEhhbHp3b2V6L2EwK2gvUEIxclBjU1cwK2FGZz09?=
-X-Exchange-RoutingPolicyChecked: nL/+NZu1AouUS6G2N9N1lUw2CqjrvSfbtjHcRE0LgAzl6owOZvfQ7OxjWDWJHcHlbB+dDpxXP5Uj3KfZiK2FmzJZKC9FjtG7OqD14M+rYmxDHmWnR2R7A1R04czM05/37S4ETPvR2ENUm0XqiagcTi9YWqkayV0kB3KMEi3onvNqUF0tH7Kk4RAc2Y/Tt6L+oiahElNaT52Z2vMFmsEBzchFo81hBov54pbCLkPlTxZQWLnr7Vh/IN1gdVjSm/pp49MzUvSsbeK3nln/astZ32r1Y4oQFZp5lWsjvKqNS+pCdm/g6s46cQIH7NQvnV1+UvsvgeEdBdeSokFGbwDDrQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1046c90-3699-43d6-a1f9-08def767255a
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5214.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 05:12:31.5456
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I6YGIhpBI9vLwo44EkXRtw8L1RZw0oUSi4u+naXH21y4XFwQI2N57lM08141kysPDzMb5Hi/RlCaU5ZDVzxMUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR11MB9714
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828214452.11683-1-colin.foster@in-advantage.com>
 
-On Mon, Aug 10, 2026 at 09:48:15AM +0800, Jiangshan Yi wrote:
-> Hi,
-> 
-> Thanks for the build test report and for catching these section mismatch
-> warnings:
-> 
-> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> >
-> > WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: lkdtm_module_init+0x1ec (section: .init.text) -> lkdtm_heap_exit (section: .exit.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: lkdtm_module_init+0x1f0 (section: .init.text) -> lkdtm_heap_exit (section: .exit.text)
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: lkdtm_module_init+0x1fc (section: .init.text) -> lkdtm_usercopy_exit (section: .exit.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: lkdtm_module_init+0x200 (section: .init.text) -> lkdtm_usercopy_exit (section: .exit.text)
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
-> These warnings have already been addressed in the v2 of this patch,
-> posted at:
-> 
-> https://lore.kernel.org/all/20260730154911.3164527-1-yijiangshan@kylinos.cn/
+Hi Colin,
 
-Sorry about the noise, the bot doesn't recognize the v2 correctly, we will
-fix it to avoid false positive.
+kernel test robot noticed the following build warnings:
 
-> 
-> In v2, the error-handling path in lkdtm_module_init() no longer
-> references the .exit.text cleanup helpers (lkdtm_heap_exit,
-> lkdtm_usercopy_exit), which resolves the section mismatch reported
-> by modpost.
-> 
-> Since the fix is part of a new version of the same patch rather than a
-> separate commit, I haven't added the Reported-by / Closes tags to
-> that version. However, your report was very helpful in confirming the
-> issue — thank you again for the testing.
-> 
-> Best regards,
-> Jiangshan Yi
-> 
+[auto build test WARNING on horms-ipvs/master]
+[cannot apply to linus/master v7.2-rc7 next-20260807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Foster/smsc911x-add-second-read-of-EEPROM-mac-when-possible-corruption-seen/20260810-123819
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
+patch link:    https://lore.kernel.org/r/20250828214452.11683-1-colin.foster%40in-advantage.com
+patch subject: [PATCH v1] smsc911x: add second read of EEPROM mac when possible corruption seen
+config: hexagon-randconfig-001-20260811 (https://download.01.org/0day-ci/archive/20260811/202608111832.kjA1WwgS-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260811/202608111832.kjA1WwgS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608111832.kjA1WwgS-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/net/ethernet/smsc/smsc911x.c:25:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/net/ethernet/smsc/smsc911x.c:25:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/net/ethernet/smsc/smsc911x.c:25:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/net/ethernet/smsc/smsc911x.c:2179:5: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
+    2179 |         u8 addr[ETH_ALEN];
+         |            ^
+   7 warnings generated.
+
+
+vim +2179 drivers/net/ethernet/smsc/smsc911x.c
+
+631b7568c7d8f02 drivers/net/smsc911x.c               Steve Glendinning 2008-12-25  2160  
+31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2161  /* copies the current mac address from hardware to dev->dev_addr */
+8489ec1f9700649 drivers/net/ethernet/smsc/smsc911x.c Bill Pemberton    2012-12-03  2162  static void smsc911x_read_mac_address(struct net_device *dev)
+31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2163  {
+31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2164  	struct smsc911x_data *pdata = netdev_priv(dev);
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2165  	u32 mac_high16, mac_low32;
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2166  
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2167  	mac_high16 = smsc911x_mac_read(pdata, ADDRH);
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2168  	mac_low32 = smsc911x_mac_read(pdata, ADDRL);
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2169  
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2170  	/*
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2171  	 * The first mac_read always returns 0. Re-read it to get the
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2172  	 * full MAC
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2173  	 */
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2174  	if (mac_high16 == 0) {
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2175  		SMSC_TRACE(pdata, probe, "Re-read MAC ADDRH\n");
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2176  		mac_high16 = smsc911x_mac_read(pdata, ADDRH);
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2177  	}
+8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2178  
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18 @2179  	u8 addr[ETH_ALEN];
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2180  
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2181  	addr[0] = (u8)(mac_low32);
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2182  	addr[1] = (u8)(mac_low32 >> 8);
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2183  	addr[2] = (u8)(mac_low32 >> 16);
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2184  	addr[3] = (u8)(mac_low32 >> 24);
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2185  	addr[4] = (u8)(mac_high16);
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2186  	addr[5] = (u8)(mac_high16 >> 8);
+f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2187  	eth_hw_addr_set(dev, addr);
+31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2188  }
+31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2189  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
