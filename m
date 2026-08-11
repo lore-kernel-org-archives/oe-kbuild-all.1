@@ -1,99 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871D043BDCE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Aug 2026 10:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B8143800B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Aug 2026 11:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786444743; cv=none; b=q4OWfVKgN8ihsGblG2aK+e5GfrgwyKGmwI10lce+H/QNLGnO7spgg9iEGIK6bkCqQmH6L3T/+35+fKiWEIg3mfW3etrgWI8DSSg5ERGHM2hsXA0VyPbGli02+HJp7yCGbvZ9zEd8+jPewSVGlr16LneML1nhnK+22//iXC0jaK8=
+	t=1786448453; cv=none; b=kxTWB0kNc3HaKbC1TvRnTKpJ0a6nueG8/40R69U0et6YE6fQ/j1DkoMNVtASsusTdT286qTcYCzy/cw3CaSeDWMddsmxkP2HtXcr0/sSEMcaPjtS7dFGXG27HYeWlxa+Tky6yDvqXyq9Nb3i82Wv1RCiUgL+aJXDO3C9DgL1kkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786444743; c=relaxed/simple;
-	bh=jwO17BvW0LE4M6CAaZo40/sLE1sy6tyERlG4pIzYVg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aLJ03dJRd+B8rLOLV321FwIyA57Xt8s2fyvxsYO+WHUBjcjFKX8WRvNmPhyCk2o4J0vAhd3u1RjI1b9HZYJ6MCDsQeQAbVDzTYvChgidvZFB2t5uo1xqbuGQTLee5ZoxDMbWl0wJdncYLBxMtVUQxwEOTA+A1ffSmqztdXgvh1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDlKw3Ag; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1786448453; c=relaxed/simple;
+	bh=EIHCl4sNAwVEv/c3maJu2okMIk952pEq5g+JLEnyh3A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jMpuD4BQqjRSESFxhFenl1kd28gHoKkoHNe4kI80GOO2hzn9Flw2vVqejI7NWTqY7zvQkuA6oHICW0H6DEkBuBYCfdL2g1c1pQYijFofNrTxbIYT+XDxFBuZbv1UyyVqEAwBTDUynnEA8RsHeyzorBsV1E5/covuAGkgUEe8uUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wad9zokv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDlKw3Ag"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wad9zokv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786444740; x=1817980740;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jwO17BvW0LE4M6CAaZo40/sLE1sy6tyERlG4pIzYVg8=;
-  b=WDlKw3AgAAHoJFF93oGJzXM0XS0Wmj24DHt01Xtie8nH9ZmyjxGchFxq
-   4F7WeBjb1Q7/2c7UGpwvaqFeADwdyYgA2M4fpaXd6fGvtdE7PN5iMd1Jy
-   UQ6cLNVEqRlbX4Y8YiOlKCBn7OKcqS/vp+Yl8EQNoXT2QBUtXnkT/oQLS
-   9dZLev5tKMVltEov3BYPj8XYmTntCInb1u3adym9PGSCzg7QBE2rSV6Md
-   EAduLJRfOCBZteMstJgKCl1J63660c0IcAVYpLZebwUFnVi+CTtJb4Fy/
-   094zElZg+YuHtaesIdqhduypYN3GkULN1xY6hGOcmJWFYHNOFDRE1r+6F
+  t=1786448452; x=1817984452;
+  h=date:from:to:cc:subject:message-id;
+  bh=EIHCl4sNAwVEv/c3maJu2okMIk952pEq5g+JLEnyh3A=;
+  b=Wad9zokvFVw9StSmwpYel6NA6dndLMXg5t3QenHT0fwizy+EUyVPXhcj
+   InuhRR1vO4cZZ9nS7TSS9+UT3weADuPczQzFpFpZ01JpN8n88naqUJ6AS
+   ZGB3Xf+Nerw1PNHc0cqZi72hEiW88oztXeWiCoztMsYk7KAL8Hihr2E1C
+   Dm+zCKzTE7JVdaIOm06z9pnhOPXR8RZBhnjUfevUypiK8ZNIWJ4pNzA8T
+   fCI6ykbOtjFnhysr0D1jM3T6KR3kE/O5ENQJtwOVe4JVABli5LE1wWanu
+   Me8bThb3sVi2wIc9ljFuZyqdEt2M5fwAHQUturS13DqYtahL9AmmVqZsV
    g==;
-X-CSE-ConnectionGUID: Kyz4MY6xQxeGBmhizQ12JQ==
-X-CSE-MsgGUID: 4Zualu5dTgGyFVZAjKhm9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="86850232"
+X-CSE-ConnectionGUID: jAuZbNCkTp+VkkuNNpoutA==
+X-CSE-MsgGUID: wpFsYUzvTmO10nQCEPCpVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="97633316"
 X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="86850232"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 03:38:59 -0700
-X-CSE-ConnectionGUID: /l9KYuN+RKK/liUirRpbfA==
-X-CSE-MsgGUID: 1EGawnJ3RH+qxrYaz4gqww==
+   d="scan'208";a="97633316"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 04:40:51 -0700
+X-CSE-ConnectionGUID: k703tthETjCvy/9KQX+MeA==
+X-CSE-MsgGUID: kREoRRc+RDuqmGe+ftNWqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="259994522"
+   d="scan'208";a="288025302"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Aug 2026 03:38:57 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 11 Aug 2026 04:40:49 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtjsk-00000000OZS-1iZR;
-	Tue, 11 Aug 2026 10:38:54 +0000
-Date: Tue, 11 Aug 2026 18:37:54 +0800
+	id 1wtkqc-00000000Ogs-3doL;
+	Tue, 11 Aug 2026 11:40:46 +0000
+Date: Tue, 11 Aug 2026 19:40:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>, idryomov@gmail.com,
-	amarkuze@redhat.com, ceph-devel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Max Kellermann <max.kellermann@ionos.com>
-Subject: Re: [PATCH] fs/ceph/dir: __{dir,dentry}_lease_check() returns an enum
-Message-ID: <202608112020.5nTx1rdC-lkp@intel.com>
-References: <20260709104121.884183-1-max.kellermann@ionos.com>
+To: Aksh Garg <a-garg7@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Helgaas <helgaas@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Subject: [linux-next:master 13060/13846]
+ arch/powerpc/boot/decompress.c:132:8: error: call to undeclared function
+ '__decompress'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202608111848.Kv74vVhw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260709104121.884183-1-max.kellermann@ionos.com>
 
-Hi Max,
+Hi Aksh,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on ceph-client/testing]
-[also build test WARNING on ceph-client/for-linus linus/master v7.2-rc6 next-20260807]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/fs-ceph-dir-__-dir-dentry-_lease_check-returns-an-enum/20260811-130303
-base:   https://github.com/ceph/ceph-client.git testing
-patch link:    https://lore.kernel.org/r/20260709104121.884183-1-max.kellermann%40ionos.com
-patch subject: [PATCH] fs/ceph/dir: __{dir,dentry}_lease_check() returns an enum
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260811/202608112020.5nTx1rdC-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260811/202608112020.5nTx1rdC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6b8c8af514d739d0335f5579b585e02babe8a727
+commit: 79752653c136493ae8c3b4260f9f80de0b91d0bf [13060/13846] PCI: cadence: Fix host/endpoint dependencies for cadence-plat driver
+config: powerpc-randconfig-r133-20260811 (https://download.01.org/0day-ci/archive/20260811/202608111848.Kv74vVhw-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260811/202608111848.Kv74vVhw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608112020.5nTx1rdC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608111848.Kv74vVhw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: fs/ceph/dir.c:1634 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Result of __dir_lease_check() and __dentry_lease_check().
+>> arch/powerpc/boot/decompress.c:132:8: error: call to undeclared function '__decompress'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     132 |         ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
+         |               ^
+   1 error generated.
+
+
+vim +/__decompress +132 arch/powerpc/boot/decompress.c
+
+1b7898ee276b39 Oliver O'Halloran 2016-09-22   97  
+1b7898ee276b39 Oliver O'Halloran 2016-09-22   98  /**
+1b7898ee276b39 Oliver O'Halloran 2016-09-22   99   * partial_decompress - decompresses part or all of a compressed buffer
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  100   * @inbuf:       input buffer
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  101   * @input_size:  length of the input buffer
+930a77c3ad79c3 Zhang Jianhua     2021-05-10  102   * @outbuf:      output buffer
+930a77c3ad79c3 Zhang Jianhua     2021-05-10  103   * @output_size: length of the output buffer
+6efc2f1a64ef62 Yang Li           2024-04-08  104   * @_skip:       number of output bytes to ignore
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  105   *
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  106   * This function takes compressed data from inbuf, decompresses and write it to
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  107   * outbuf. Once output_size bytes are written to the output buffer, or the
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  108   * stream is exhausted the function will return the number of bytes that were
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  109   * decompressed. Otherwise it will return whatever error code the decompressor
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  110   * reported (NB: This is specific to each decompressor type).
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  111   *
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  112   * The skip functionality is mainly there so the program and discover
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  113   * the size of the compressed image so that it can ask firmware (if present)
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  114   * for an appropriately sized buffer.
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  115   */
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  116  long partial_decompress(void *inbuf, unsigned long input_size,
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  117  	void *outbuf, unsigned long output_size, unsigned long _skip)
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  118  {
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  119  	int ret;
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  120  
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  121  	/*
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  122  	 * The skipped bytes needs to be included in the size of data we want
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  123  	 * to decompress.
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  124  	 */
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  125  	output_size += _skip;
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  126  
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  127  	decompressed_bytes = 0;
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  128  	output_buffer = outbuf;
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  129  	limit = output_size;
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  130  	skip = _skip;
+1b7898ee276b39 Oliver O'Halloran 2016-09-22  131  
+1b7898ee276b39 Oliver O'Halloran 2016-09-22 @132  	ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
+
+:::::: The code at line 132 was first introduced by commit
+:::::: 1b7898ee276b39e54d870dc4ef3374f663d0b426 powerpc/boot: Use the pre-boot decompression API
+
+:::::: TO: Oliver O'Halloran <oohall@gmail.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 --
 0-DAY CI Kernel Test Service
