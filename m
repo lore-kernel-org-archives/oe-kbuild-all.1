@@ -1,62 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523D12AE68
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Aug 2026 12:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF57386567
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Aug 2026 15:04:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786451428; cv=none; b=jJsesSUKva3iF29ITI3hECU8LlFTOG5sMX5i4+c28uBaZkEI+SiLymbgKpNQr06NvwLJ2gJ492XI8Lst4G8bQeAJkzyq9bdKGpbef9jVGewc1V788W65/6TSugnnNf+zFBNX1v8jf9lFFbbNx7hztgwB9Improo6lwZhHC6Xknw=
+	t=1786460655; cv=none; b=YWxNvi4mj2sIf3JN089OXfIms0a6Drs7OUEqmkC1o43MKDuWoM24liwMMS/PCp1/5xC3lGZXumzhdFLT5Z7aW0sDSi5cK4LjG69g/wiGkbE6rK3V4YFIZzw3jn5nSct/FPnpCKereSPD3aL43N17cYIMDKvfOUX4egBNmbMBU2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786451428; c=relaxed/simple;
-	bh=L4wS135raQL9yAvIEjvL2iifjW04RO3yfx34u80Am5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JdRLyQmwU1/rXEYbbseiLYxjiLHMHxsewANkMzyyCINu4WKiSm5+9okIb4IWDlDPFm8AeKvroX5PgDLEbWJ8BIs0SgWbUESaxLV0wFFy5wOkjVRPOeEIAX4f2VgJitITr2K3R85tIqia0Q7RK6lg8YE26o8gShZZs/sDD+OduyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEoSaTKo; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1786460655; c=relaxed/simple;
+	bh=24mRB29PumQOmbLTiuGqPfiqALaKLrKKs+8nf21qk68=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=r7CCosFKj73gu8heShAUh+JEDN/RbsbDqFQXLaO/7fq9kxxx05b65p/A9Qdw1kcjPVQUvA03sFYeQJFkUlXnctJ2WvZvU+ZCURmlfTyfUzTH5iwAInrRvuEIE77Hf/KF0kXl8gkT/LflFwJM6RPzSDRkjdMFGRSXGelX3gK9UP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyjQvzW9; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEoSaTKo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyjQvzW9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786451425; x=1817987425;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L4wS135raQL9yAvIEjvL2iifjW04RO3yfx34u80Am5w=;
-  b=bEoSaTKoFV5goligV4v3qnAbhoOSAWGarV36a22yHC/lzgM6nN9FBeQG
-   veej0NnKtOj4Pt/QxZBFfkiipwHfJjnGIWU1gV75bemXfKGjONYTq6Bv+
-   gSgJkUSDMhG8kVDAknX9mrStMTaczsT3OJtPGTwiVNTgx2lOd0+aslHOt
-   pNCGUN0zrDk8nGy2atd1FwSrRTqVj2BhlIYUlYPa2rB7KwOVFpVSAilQa
-   MHm6xjueUWobBmB/UTGgfRtwFH/jViP2kvdH2+xc/mzWH8Nl/qP+QEoQi
-   SK3nlICTXqqegt7qe5dj1ArMPTV/D4bnE3wFZtH4k4dq6fT3rXuQDav/M
-   w==;
-X-CSE-ConnectionGUID: zKzjXpUMRrKshCKLhqV7rw==
-X-CSE-MsgGUID: r8ERRW3BR4CXeb36Tzpuug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="86912174"
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="86912174"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 05:30:25 -0700
-X-CSE-ConnectionGUID: aJPAxQBaQnmYcbqPVa9myA==
-X-CSE-MsgGUID: U+QPQXIkRkmd55u5z7lVcg==
+  t=1786460654; x=1817996654;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=24mRB29PumQOmbLTiuGqPfiqALaKLrKKs+8nf21qk68=;
+  b=iyjQvzW9aXrcpc4KtdYzYIwp5EB00h+KvmU/YDFSzVWR7VlgPHoipA20
+   I4ERQTPaxowuKUcWn7E9LXJvAz7I6MtHjUFQKGelyI1R/yQfjxnuTfMfL
+   h5c5QXCRbp0VhAFKtP1ca69RwuNrVMgQwm2DuOFujCkyKZt7sqc3cKVa9
+   DbM3g+jMlsk37B9OrmiwMVJ2M1oIVtGC64UWvjSaBxi6r4CIKgK+tka8e
+   dI5s8zhVv60A2pG31UsJKC/ILo+sLAn9WdP3wk69S097OUT94cJa0TtOu
+   CpDf3MNy+hujGx/berNa0d8b96VRJ3fvzQTf3Idf+SW39qQeyPqmlnc30
+   A==;
+X-CSE-ConnectionGUID: 0+FoKOtSTM6SDZdQ8pfJlw==
+X-CSE-MsgGUID: bChrUVUVTYe8F/HWR8pgMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="86924783"
+X-IronPort-AV: E=Sophos;i="6.25,218,1779174000"; 
+   d="scan'208";a="86924783"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 08:04:14 -0700
+X-CSE-ConnectionGUID: XLzPbVnIROWasuCh+P96zQ==
+X-CSE-MsgGUID: lXRmG7WsQoCcYAD5mHs/ZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="262014516"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Aug 2026 05:30:23 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 11 Aug 2026 08:04:11 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtlca-00000000OlK-1eYp;
-	Tue, 11 Aug 2026 12:30:20 +0000
-Date: Tue, 11 Aug 2026 20:29:34 +0800
+	id 1wto1R-00000000OtB-3uuI;
+	Tue, 11 Aug 2026 15:04:09 +0000
+Date: Tue, 11 Aug 2026 23:03:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-clk@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
-	David Lechner <david@lechnology.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv2] clk: davinci: add COMPILE_TEST support
-Message-ID: <202608111912.YS4Vg7Jh-lkp@intel.com>
-References: <20260719214214.726826-1-rosenp@gmail.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 35/64] Warning:
+ kernel/time/timekeeping.c:210 function parameter 'aux' not described in
+ 'ktime_aux_to_mono'
+Message-ID: <202608112220.DiiW0RMD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,54 +59,23 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260719214214.726826-1-rosenp@gmail.com>
 
-Hi Rosen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on linus/master v7.2-rc7 next-20260807]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/clk-davinci-add-COMPILE_TEST-support/20260810-131535
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20260719214214.726826-1-rosenp%40gmail.com
-patch subject: [PATCHv2] clk: davinci: add COMPILE_TEST support
-config: xtensa-randconfig-r051-20260811 (https://download.01.org/0day-ci/archive/20260811/202608111912.YS4Vg7Jh-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260811/202608111912.YS4Vg7Jh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   3e8fc6d2f17abed506fb832160ecd7c7e5fdd222
+commit: 60b76d2c62bb7a5a95a2141f4d894620b87ed201 [35/64] timekeeping: Add facilities to convert between monotonic and auxiliary clock timestamps
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260811/202608112220.DiiW0RMD-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260811/202608112220.DiiW0RMD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608111912.YS4Vg7Jh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608112220.DiiW0RMD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
-   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
-   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen2.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen2.o
->> xtensa-linux-ld: drivers/clk/davinci/pll.o:(.init.literal+0x10): undefined reference to `of_da850_pll0_init'
->> xtensa-linux-ld: drivers/clk/davinci/pll.o:(.rodata+0x1178): undefined reference to `da850_pll0_init'
->> xtensa-linux-ld: drivers/clk/davinci/pll.o:(.rodata+0x1194): undefined reference to `da850_pll1_init'
->> xtensa-linux-ld: drivers/clk/davinci/pll.o:(.rodata+0x12a0): undefined reference to `of_da850_pll1_init'
-   xtensa-linux-ld: drivers/clk/davinci/pll.o: in function `__da850_pll0_of_clk_init_declare':
-   pll.c:(.init.text+0x1e): undefined reference to `of_da850_pll0_init'
->> xtensa-linux-ld: drivers/clk/davinci/psc.o:(.rodata+0x6b8): undefined reference to `da850_psc0_init_data'
->> xtensa-linux-ld: drivers/clk/davinci/psc.o:(.rodata+0x6d4): undefined reference to `da850_psc1_init_data'
->> xtensa-linux-ld: drivers/clk/davinci/psc.o:(.rodata+0x7e0): undefined reference to `of_da850_psc0_init_data'
->> xtensa-linux-ld: drivers/clk/davinci/psc.o:(.rodata+0x8a4): undefined reference to `of_da850_psc1_init_data'
-   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
-   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+>> Warning: kernel/time/timekeeping.c:210 function parameter 'aux' not described in 'ktime_aux_to_mono'
+>> Warning: kernel/time/timekeeping.c:210 expecting prototype for ktime_mono_to_aux(). Prototype was for ktime_aux_to_mono() instead
 
 --
 0-DAY CI Kernel Test Service
