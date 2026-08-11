@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EB13BFADE;
-	Tue, 11 Aug 2026 10:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871D043BDCE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Aug 2026 10:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786444681; cv=none; b=otgLPdTV2f0c+QvUdPYBMJ2C14OEA4TEiQoKf+ZGUa+woC+FxISGKLm9ou+cUKxuu3cKo8iXsNGsLSYIWQ4mJr+U0vfd8q3lgwhJUxCYVjnWzuar3LD58gwxQ2ALdIwJMOABT2f+UCcESseBYbdd0TW1ddTaDDM9sJXJAWowaT8=
+	t=1786444743; cv=none; b=q4OWfVKgN8ihsGblG2aK+e5GfrgwyKGmwI10lce+H/QNLGnO7spgg9iEGIK6bkCqQmH6L3T/+35+fKiWEIg3mfW3etrgWI8DSSg5ERGHM2hsXA0VyPbGli02+HJp7yCGbvZ9zEd8+jPewSVGlr16LneML1nhnK+22//iXC0jaK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786444681; c=relaxed/simple;
-	bh=zfyx7i/6iWrgpAX12hKTJqYnXFJPiCqXydJpgUthu2s=;
+	s=arc-20240116; t=1786444743; c=relaxed/simple;
+	bh=jwO17BvW0LE4M6CAaZo40/sLE1sy6tyERlG4pIzYVg8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KnXlw7SpZydNwKS29CE4T4vvb5njtozdmM6BYbtiHTSRKGQh1Q3DQC8sxYdJ8CF9QmWzYuFBzAZouUIBRy+UDdIN6NgWues+e/fFZitsMsy09ncZhR5b/rIxDkUmM7FXQiU3iBdNPn4o5GjaDOaAmPJgxIfpU50PzepTP9fGqA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RzNKufLO; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=aLJ03dJRd+B8rLOLV321FwIyA57Xt8s2fyvxsYO+WHUBjcjFKX8WRvNmPhyCk2o4J0vAhd3u1RjI1b9HZYJ6MCDsQeQAbVDzTYvChgidvZFB2t5uo1xqbuGQTLee5ZoxDMbWl0wJdncYLBxMtVUQxwEOTA+A1ffSmqztdXgvh1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDlKw3Ag; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RzNKufLO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDlKw3Ag"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786444679; x=1817980679;
+  t=1786444740; x=1817980740;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zfyx7i/6iWrgpAX12hKTJqYnXFJPiCqXydJpgUthu2s=;
-  b=RzNKufLOS+6tVkfaLM3lsM2KRlg3SJTm5m2RfJzUB6oCSs+jgA9iBwKe
-   wdPDPeZSHWFGnbADchg/tgavF3UkGewrt+GdZhxnX7UBovCesoy99kA6b
-   IzDswDWaL+7T9D/1CGqSH7arX62lVgLzJTaMDPVH9pE+lnpU6/L7Eewkv
-   8H79NeVeptNid04Y0o0OP/2ue/0GYbgcVtObkjfjEGvrcO3NsNAB6Zse+
-   29DmOe9xISqAUzh4aobddeneat9PUaUlxkJBwqjCfkFwJ4CM7yVqEAjMl
-   8Gx0ytWVBCBD5mEcQk1CCHCe7FqVBwPuSFXHRAtMYIC3rfqGvoXynGZt7
+  bh=jwO17BvW0LE4M6CAaZo40/sLE1sy6tyERlG4pIzYVg8=;
+  b=WDlKw3AgAAHoJFF93oGJzXM0XS0Wmj24DHt01Xtie8nH9ZmyjxGchFxq
+   4F7WeBjb1Q7/2c7UGpwvaqFeADwdyYgA2M4fpaXd6fGvtdE7PN5iMd1Jy
+   UQ6cLNVEqRlbX4Y8YiOlKCBn7OKcqS/vp+Yl8EQNoXT2QBUtXnkT/oQLS
+   9dZLev5tKMVltEov3BYPj8XYmTntCInb1u3adym9PGSCzg7QBE2rSV6Md
+   EAduLJRfOCBZteMstJgKCl1J63660c0IcAVYpLZebwUFnVi+CTtJb4Fy/
+   094zElZg+YuHtaesIdqhduypYN3GkULN1xY6hGOcmJWFYHNOFDRE1r+6F
    g==;
-X-CSE-ConnectionGUID: bLKjw8QSTZuuUfRR0QiP8Q==
-X-CSE-MsgGUID: i7GP3f82REK9elysMfJ9bQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="109761319"
+X-CSE-ConnectionGUID: Kyz4MY6xQxeGBmhizQ12JQ==
+X-CSE-MsgGUID: 4Zualu5dTgGyFVZAjKhm9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="86850232"
 X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="109761319"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 03:37:58 -0700
-X-CSE-ConnectionGUID: OQC+Q5nsQzKwxrwp/4Sn4Q==
-X-CSE-MsgGUID: f/6fwpzcQ7GM6CbzmwFDwg==
+   d="scan'208";a="86850232"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 03:38:59 -0700
+X-CSE-ConnectionGUID: /l9KYuN+RKK/liUirRpbfA==
+X-CSE-MsgGUID: 1EGawnJ3RH+qxrYaz4gqww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="293244378"
+   d="scan'208";a="259994522"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Aug 2026 03:37:57 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 11 Aug 2026 03:38:57 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtjrm-00000000OZO-0OFn;
-	Tue, 11 Aug 2026 10:37:54 +0000
-Date: Tue, 11 Aug 2026 18:36:39 +0800
+	id 1wtjsk-00000000OZS-1iZR;
+	Tue, 11 Aug 2026 10:38:54 +0000
+Date: Tue, 11 Aug 2026 18:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Colin Foster <colin.foster@in-advantage.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steve Glendinning <steve.glendinning@shawell.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Colin Foster <colin.foster@in-advantage.com>
-Subject: Re: [PATCH v1] smsc911x: add second read of EEPROM mac when possible
- corruption seen
-Message-ID: <202608111832.kjA1WwgS-lkp@intel.com>
-References: <20250828214452.11683-1-colin.foster@in-advantage.com>
+To: Max Kellermann <max.kellermann@ionos.com>, idryomov@gmail.com,
+	amarkuze@redhat.com, ceph-devel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Max Kellermann <max.kellermann@ionos.com>
+Subject: Re: [PATCH] fs/ceph/dir: __{dir,dentry}_lease_check() returns an enum
+Message-ID: <202608112020.5nTx1rdC-lkp@intel.com>
+References: <20260709104121.884183-1-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,131 +65,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250828214452.11683-1-colin.foster@in-advantage.com>
+In-Reply-To: <20260709104121.884183-1-max.kellermann@ionos.com>
 
-Hi Colin,
+Hi Max,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on horms-ipvs/master]
-[cannot apply to linus/master v7.2-rc7 next-20260807]
+[auto build test WARNING on ceph-client/testing]
+[also build test WARNING on ceph-client/for-linus linus/master v7.2-rc6 next-20260807]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Foster/smsc911x-add-second-read-of-EEPROM-mac-when-possible-corruption-seen/20260810-123819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
-patch link:    https://lore.kernel.org/r/20250828214452.11683-1-colin.foster%40in-advantage.com
-patch subject: [PATCH v1] smsc911x: add second read of EEPROM mac when possible corruption seen
-config: hexagon-randconfig-001-20260811 (https://download.01.org/0day-ci/archive/20260811/202608111832.kjA1WwgS-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260811/202608111832.kjA1WwgS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/fs-ceph-dir-__-dir-dentry-_lease_check-returns-an-enum/20260811-130303
+base:   https://github.com/ceph/ceph-client.git testing
+patch link:    https://lore.kernel.org/r/20260709104121.884183-1-max.kellermann%40ionos.com
+patch subject: [PATCH] fs/ceph/dir: __{dir,dentry}_lease_check() returns an enum
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260811/202608112020.5nTx1rdC-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260811/202608112020.5nTx1rdC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608111832.kjA1WwgS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608112020.5nTx1rdC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/smsc/smsc911x.c:25:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/net/ethernet/smsc/smsc911x.c:25:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/net/ethernet/smsc/smsc911x.c:25:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/net/ethernet/smsc/smsc911x.c:2179:5: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-    2179 |         u8 addr[ETH_ALEN];
-         |            ^
-   7 warnings generated.
-
-
-vim +2179 drivers/net/ethernet/smsc/smsc911x.c
-
-631b7568c7d8f02 drivers/net/smsc911x.c               Steve Glendinning 2008-12-25  2160  
-31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2161  /* copies the current mac address from hardware to dev->dev_addr */
-8489ec1f9700649 drivers/net/ethernet/smsc/smsc911x.c Bill Pemberton    2012-12-03  2162  static void smsc911x_read_mac_address(struct net_device *dev)
-31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2163  {
-31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2164  	struct smsc911x_data *pdata = netdev_priv(dev);
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2165  	u32 mac_high16, mac_low32;
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2166  
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2167  	mac_high16 = smsc911x_mac_read(pdata, ADDRH);
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2168  	mac_low32 = smsc911x_mac_read(pdata, ADDRL);
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2169  
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2170  	/*
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2171  	 * The first mac_read always returns 0. Re-read it to get the
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2172  	 * full MAC
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2173  	 */
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2174  	if (mac_high16 == 0) {
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2175  		SMSC_TRACE(pdata, probe, "Re-read MAC ADDRH\n");
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2176  		mac_high16 = smsc911x_mac_read(pdata, ADDRH);
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2177  	}
-8b1e595e2e78004 drivers/net/ethernet/smsc/smsc911x.c Colin Foster      2025-08-28  2178  
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18 @2179  	u8 addr[ETH_ALEN];
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2180  
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2181  	addr[0] = (u8)(mac_low32);
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2182  	addr[1] = (u8)(mac_low32 >> 8);
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2183  	addr[2] = (u8)(mac_low32 >> 16);
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2184  	addr[3] = (u8)(mac_low32 >> 24);
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2185  	addr[4] = (u8)(mac_high16);
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2186  	addr[5] = (u8)(mac_high16 >> 8);
-f15fef4c0675d41 drivers/net/ethernet/smsc/smsc911x.c Jakub Kicinski    2021-10-18  2187  	eth_hw_addr_set(dev, addr);
-31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2188  }
-31f4574774e98aa drivers/net/smsc911x.c               Steve Glendinning 2009-01-27  2189  
+>> Warning: fs/ceph/dir.c:1634 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Result of __dir_lease_check() and __dentry_lease_check().
 
 --
 0-DAY CI Kernel Test Service
