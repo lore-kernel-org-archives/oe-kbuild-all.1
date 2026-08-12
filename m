@@ -1,193 +1,281 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A38A17B50F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Aug 2026 07:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402D338239F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Aug 2026 08:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786519788; cv=none; b=AYtaYbDcoWb0ed2Z/+JKXtYDSzTJP6m6DgDX41uZH9eVian7IfC2oa6VlIKAxdB47Rk2i0Eqd+Uc8+/RUWlDrhhAhNEfMZWm/YMBQsH4xpfxBlZdNNRfZOXPpYt1hg73A8sPP+NHx//Waybhclo/PGy2zr3Bw9yGG/FhSKIifw0=
+	t=1786522912; cv=none; b=VGoeidOhWzJr+SGsz8pNiXyzbqPW787+nCPAq9Co358MKd31eIp8ZdsmN75ClEhpzQddcK8a0htxQlgLYd827xWbB51eaEL1c+ON8JeHNzmjJ5lhf+lI+CJ54zTKn2zKA9LyaziaD3DYBL+UmCPnBsYF5lBmKoKuFj7pUeD4QMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786519788; c=relaxed/simple;
-	bh=qe3zumMi0PhqBQOKg6fb3CHPgFrtFrtQmSfCuqDWoQM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rHV24vRHMJT2voG3Ie8Bv0VCsAhiFlS3KNrhKXj7o2cmk6LcaQI39mWhEi4MQE18xfmumDiqUpXzEQc7ceXnAQBiYVdeWMvEDTinZqkQD5zeitJiP8iVj0BPGC0XMMRqDzI0xtNe+ltHMCvzFHt+MKtexvg46F7OIThEhKY3Deg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fo8TCxci; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786522912; c=relaxed/simple;
+	bh=FBYMXzm/9qgd59ANdaZgQARfVOQfiv5uHwv1ToHWrak=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J68WTJYw8B7Dbt8JFXyn90C/mgSG55f0K6o8EGF7XD80Pgw+lDtZ5YrzMKE/vTyZYffeBuHelZuycJwJDmTSpxkRE4KWJADhNhQyc8MA0/sJUlO5Fzeb9Gbx8ax6D9/7cao2uHQMy6YEF/y2l07XgRuFbShcscr4Pmtk/OGdgHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=saGtO48n; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fo8TCxci"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786519787; x=1818055787;
-  h=date:from:to:cc:subject:message-id;
-  bh=qe3zumMi0PhqBQOKg6fb3CHPgFrtFrtQmSfCuqDWoQM=;
-  b=fo8TCxciR/GfUQ02ohAHM1VbdgAswadN0xELByJ5eR/6HM7D9CQjgHxo
-   1d7ZHVCXLEuKpz/oEZsEq4GLNI1lIzq82OtJSuqCy+yqGoUG8216UPfqr
-   0xrHW7AWdeLsBq1pR3gF8b+hRiM+CVBW8M6/3zQalVlzX0Bq9vW16IPpa
-   a6dOodBiPuSKOJN0h2ihVv5Xm4yM5+/isMbVZspeCPosLQX+zsbTp7rQU
-   FbYnR+41vw3g1wkbBa6d5txDydFdiM7A2YLiGgo8MfFasSOmbg/6HXc0X
-   pIJpiT55Y/J3zK40QhGPjMU0L0p0jsM6QZ6DkU/FAkAWyXuknDIKg45Lb
-   A==;
-X-CSE-ConnectionGUID: Bnr+JX7gQ6GpMsuFRDOH9Q==
-X-CSE-MsgGUID: PYbMGLeVQ8aHOFbE0uDadg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="90741100"
-X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="90741100"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 00:29:47 -0700
-X-CSE-ConnectionGUID: e8McC7wiS86tdOYH/XB/WA==
-X-CSE-MsgGUID: 0LKu/egmSx6mLpd8b3R5SA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="288297882"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Aug 2026 00:29:45 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wu3PC-00000000Q0r-2lkS;
-	Wed, 12 Aug 2026 07:29:42 +0000
-Date: Wed, 12 Aug 2026 15:29:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
-Subject: [avpatel:riscv_trace_support_v5 92/104]
- drivers/hwtracing/gtrace/gtrace-core.c:343:7: warning: assignment to 'struct
- gtrace_component *' from 'int' makes pointer from integer without a cast
-Message-ID: <202608121554.tw488HTf-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="saGtO48n"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cad8076b01so8531135ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Aug 2026 01:21:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786522910; x=1787127710; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nflQk1ynJ2NMOg/4B1vzQ7rLRCrtvqb920yEH95lTXY=;
+        b=saGtO48naXYF9pPdkzJgJ+J5SyKF7KwvqdLUDj1fUJHjyr0mnBarWv9k4KAU384qHH
+         40cgV9draT/npjB3O22OEjgF5pCOeeqzRaCgsc8NVPqMNjSoyO3BysNccQsEaclisZkT
+         C3t+uv/SsSQQPwjw3bJfc3ADMfaovCAzSnyZz7T4XIPhO6HQ5S4vZaq31k5TQwlM1Kl0
+         jUGqp+JFOot4I1XhJ5FBs0NHNI/qNagSG9QrtXVFNRQBCMq6a8N2iHCkDN0qLO+oXkI5
+         ZO1hWC1hflR8uqSDJkGf3BVw9Z50YG5ILWph43mRVbrEso3alM2Fyr3dPRSN1rmfV77u
+         LeFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786522910; x=1787127710;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nflQk1ynJ2NMOg/4B1vzQ7rLRCrtvqb920yEH95lTXY=;
+        b=aPo0IwVM/GB/XLM1jHx6piEQ2xHXVORZdbkj1V+jU8dbIVNWlsM2i4OPGg5X+8tScu
+         e7dtOTHSPk7cqkX0cCXgg1VV/ghN5pPxg8bqfNJ9PW5GuO/pcInYN36Xd2fQaMoNTMF0
+         ijZQXom7+qQ+86rRuw6Fh4Q5RgVGNrYiGKhH4XFSZxCHIMJZXe3/wJ2ly8R7spLz3JCW
+         CAX+MseQSO9Zb+yoQqN5uuuatoGSps8+TWTn05CuZK/+Re5Ccl/8vBk4eUqQ4qO03ZFc
+         zPrHD99W24LDrrL5RhNoE3W1cT+j+GaBDQ0ubW9VxUmj470iAjGkGuTp7XI1uwUvwLcH
+         /2gQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrUIhtkudCH5JQebQLr5EGIm1J7EImdrBXltu4OqG6tJbZcmKyupU0dyVSJaibxvdGhVu4isx81bvxz6emT@lists.linux.dev
+X-Gm-Message-State: AOJu0YwhlrHCyc/Eg7GXeXhmi2tAwVW53kq4nWyaTm/W0hkLuLCKYoD1
+	uzIzwGS40xi9eUJysS8yu4Sau1X/BGRPWLCtD9ATWLwneXH+7ttVAETy
+X-Gm-Gg: AR+sD125yHJIFngeexeQvEVxMyylxbNs3hzIolwY5Wm1uHYR00mmqUyYZFdN2btbQP4
+	eMa7qGbxiOAQaV+U3anBqguHm9k1R/Oyd1HN8PD3WlxHezawvMdMhd6li0Zq8Xh6MF5a1l7KS7n
+	+mkiNg+e38nxGoknU81WID996Z2e0ddvLQ3wH8LAEDnCUIr8yqVAO+rLz856/HvA8XRs6hHhlyy
+	loZPZKbW1vAZoXbyid4VX0+Zwvs7oLgvUu0aENuBhqk/f2+w3H/WM25YWG45T6MeeFz8ojuhixp
+	e0JVjQj8ACFo3BhNVjtuIuTukPANQppIO5zuHxPfPmTWqqpw2roPlLjQrVvP8bn6/Z9PlYz7GD1
+	R/B0IETUN/RR3ynz5SnlwlOmsr/vcIJ8iN0qqHNmx6dcuTcCbKsgSu0rJzk2NQSbHDSpj7v9hDf
+	YeUHGj9P8zMcazXn15GSYc7JRvlt2T337tWJi7gPIcHTc3mNFr6NWvhzEEYalAi8lRKwb35Htqa
+	1fNu/1OAQVW0ggIhMhg7xCQr3ups3vb9eTi42I5yXBGWdzX3H2Kk1IdMvEcoWxU3jUHLMsViqqE
+	JAk=
+X-Received: by 2002:a17:90b:390c:b0:37c:6910:5758 with SMTP id 98e67ed59e1d1-3930119eff3mr3400014a91.1.1786522910251;
+        Wed, 12 Aug 2026 01:21:50 -0700 (PDT)
+Received: from 7cf34ddc0813.ant.amazon.com ([54.222.46.39])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392f94d5cb7sm2614417a91.15.2026.08.12.01.21.45
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 12 Aug 2026 01:21:49 -0700 (PDT)
+From: Jiazi Liu <jiazi.liu1984@gmail.com>
+X-Google-Original-From: Jiazi Liu <liujiazi@amazon.com>
+To: Thinh.Nguyen@synopsys.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Jiazi Liu <jiazi.liu1984@gmail.com>,
+	Jiazi Liu <liujiazi@amazon.com>
+Subject: [PATCH v2 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event buffer count
+Date: Wed, 12 Aug 2026 16:21:27 +0800
+Message-ID: <20260812082127.79610-1-liujiazi@amazon.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260727092258.1121-1-liujiazi@amazon.com>
+References: <20260727092258.1121-1-liujiazi@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v5
-head:   1d99b155d3c1ca9a30209d51590db002a606f30c
-commit: d3f10d6966418cbed0f472d36d4567b369e9bc53 [92/104] hwtracing: gtrace: Initial implementation of gtrace framework
-config: csky-randconfig-r051-20260812 (https://download.01.org/0day-ci/archive/20260812/202608121554.tw488HTf-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260812/202608121554.tw488HTf-lkp@intel.com/reproduce)
+From: Jiazi Liu <jiazi.liu1984@gmail.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608121554.tw488HTf-lkp@intel.com/
+When dwc3_check_event_buf() reads a GEVNTCOUNT value exceeding the
+event buffer length, commit 63ccd26cd1f6 ("usb: dwc3: gadget: check
+that event count does not exceed event buffer length") returns IRQ_NONE
+without writing back GEVNTCOUNT. Since the DWC3 interrupt is
+level-triggered, the uncleared IRQ source keeps the line asserted,
+causing a tight IRQ storm that accumulates 99,900 unhandled interrupts
+and triggers spurious.c:184 BUG -> kernel panic.
 
-All warnings (new ones prefixed by >>):
+The resulting call stack:
+  __report_bad_irq+0xac/0xc8
+  note_interrupt+0x340/0x468
+  handle_irq_event+0xac/0xc0
+  handle_fasteoi_irq+0x120/0x228
+  gic_handle_irq+0x68/0x108
+  ...
+  kernel BUG at kernel/irq/spurious.c:184
 
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_component_release':
-   drivers/hwtracing/gtrace/gtrace-core.c:300:2: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
-     300 |  kfree(comp);
-         |  ^~~~~
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_register_component':
-   drivers/hwtracing/gtrace/gtrace-core.c:343:9: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
-     343 |  comp = kzalloc(sizeof(*comp), GFP_KERNEL);
-         |         ^~~~~~~
->> drivers/hwtracing/gtrace/gtrace-core.c:343:7: warning: assignment to 'struct gtrace_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     343 |  comp = kzalloc(sizeof(*comp), GFP_KERNEL);
-         |       ^
-   cc1: some warnings being treated as errors
+To reproduce, write a bogus value exceeding the event buffer length
+directly to the GEVNTCOUNT register:
 
+  devmem <DWC3_BASE + 0xc40c> 4 0x1004
 
-vim +343 drivers/hwtracing/gtrace/gtrace-core.c
+Write the bogus count back to GEVNTCOUNT to clear the IRQ source,
+consistent with the stale event clearing pattern in
+dwc3_event_buffers_setup(), and schedule error recovery to
+reinitialize the controller.
 
-   302	
-   303	struct gtrace_component *gtrace_register_component(struct gtrace_component_id *id,
-   304							   const char *name,
-   305							   struct gtrace_platform_data *pdata)
-   306	{
-   307		struct gtrace_connection *conn;
-   308		struct gtrace_component *comp;
-   309		int i, ret = 0;
-   310	
-   311		if (!id || id->type >= GTRACE_COMPONENT_TYPE_MAX) {
-   312			ret = -EINVAL;
-   313			goto err_out;
-   314		}
-   315	
-   316		if (!pdata || !pdata->dev) {
-   317			ret = -EINVAL;
-   318			goto err_out;
-   319		}
-   320	
-   321		for (i = 0; i < pdata->nr_inconns; i++) {
-   322			if (pdata->inconns[i]) {
-   323				ret = -EINVAL;
-   324				goto err_out;
-   325			}
-   326		}
-   327	
-   328		for (i = 0; i < pdata->nr_outconns; i++) {
-   329			conn = pdata->outconns[i];
-   330			if (!conn || conn->src_port < 0 || conn->src_comp ||
-   331			    !device_match_fwnode(pdata->dev, conn->src_fwnode) ||
-   332			    conn->dest_port < 0 || !conn->dest_fwnode || !conn->dest_comp) {
-   333				ret = -EINVAL;
-   334				goto err_out;
-   335			}
-   336		}
-   337	
-   338		if (pdata->bound_cpu >= 0 && !cpu_present(pdata->bound_cpu)) {
-   339			ret = -EINVAL;
-   340			goto err_out;
-   341		}
-   342	
- > 343		comp = kzalloc(sizeof(*comp), GFP_KERNEL);
-   344		if (!comp) {
-   345			ret = -ENOMEM;
-   346			goto err_out;
-   347		}
-   348		comp->pdata = pdata;
-   349		comp->id = *id;
-   350		ret = gtrace_alloc_type_idx(comp);
-   351		if (ret) {
-   352			kfree(comp);
-   353			goto err_out;
-   354		}
-   355	
-   356		comp->dev.parent = pdata->dev;
-   357		comp->dev.coherent_dma_mask = pdata->dev->coherent_dma_mask;
-   358		comp->dev.release = gtrace_component_release;
-   359		comp->dev.bus = &gtrace_bustype;
-   360		comp->dev.fwnode = fwnode_handle_get(dev_fwnode(pdata->dev));
-   361		dev_set_name(&comp->dev, "%s-%u", name ? name : "comp", comp->type_idx);
-   362	
-   363		mutex_lock(&gtrace_mutex);
-   364	
-   365		ret = device_register(&comp->dev);
-   366		if (ret) {
-   367			put_device(&comp->dev);
-   368			goto err_out_unlock;
-   369		}
-   370	
-   371		for (i = 0; i < pdata->nr_outconns; i++) {
-   372			conn = pdata->outconns[i];
-   373			conn->src_comp = comp;
-   374		}
-   375	
-   376		ret = gtrace_setup_inconns_from_outconns(comp);
-   377		if (ret < 0) {
-   378			device_unregister(&comp->dev);
-   379			goto err_out_unlock;
-   380		}
-   381	
-   382		if (comp->pdata->bound_cpu >= 0) {
-   383			gtrace_get_component(comp);
-   384			per_cpu(gtrace_cpu_source_comp, comp->pdata->bound_cpu) = comp;
-   385		}
-   386	
-   387		mutex_unlock(&gtrace_mutex);
-   388	
-   389		return comp;
-   390	
-   391	err_out_unlock:
-   392		mutex_unlock(&gtrace_mutex);
-   393	err_out:
-   394		return ERR_PTR(ret);
-   395	}
-   396	EXPORT_SYMBOL_GPL(gtrace_register_component);
-   397	
+Fixes: 63ccd26cd1f6 ("usb: dwc3: gadget: check that event count does not
+exceed event buffer length")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiazi Liu <liujiazi@amazon.com>
+---
+Changes in v2:
+  - Rename softcon_work to err_recovery_work
+  - Use dev_err instead of dev_err_ratelimited
+  - Update comment to document driver/controller out-of-sync fatal error
+    condition rather than describing IRQ storm behavior
+  - Remove dev_err from work handler; error message belongs at the call
+    site where the specific failure is known
+  - Follow dwc3_gadget_suspend/resume logic in recovery work handler
+  - Add err_dying state to reject gadget driver requests during recovery
+  - Add err_recovery_count counter and stop scheduling recovery after
+    DWC3_ERR_RECOVERY_MAX attempts to prevent infinite retry loops
+  - Add synchronize_irq() before soft_disconnect to ensure IRQ handler
+    has completed before reinitializing the controller
+  - Define DWC3_ERR_RECOVERY_MAX in core.h alongside other global constants
+  - Fix sparse warning: use dwc as first argument to dwc3_writel, not dwc->regs
+---
+ drivers/usb/dwc3/core.h   |  7 +++++++
+ drivers/usb/dwc3/gadget.c | 41 +++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 46 insertions(+), 2 deletions(-)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 608daeb7ef10..b1cd888eca77 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -49,6 +49,7 @@
+ #define DWC3_ENDPOINTS_NUM	32
+ #define DWC3_XHCI_RESOURCES_NUM	2
+ #define DWC3_ISOC_MAX_RETRIES	5
++#define DWC3_ERR_RECOVERY_MAX	3
+ 
+ #define DWC3_SCRATCHBUF_SIZE	4096	/* each buffer is assumed to be 4KiB */
+ #define DWC3_EVENT_BUFFERS_SIZE	4096
+@@ -1004,6 +1005,7 @@ struct dwc3_glue_ops {
+ /**
+  * struct dwc3 - representation of our controller
+  * @drd_work: workqueue used for role swapping
++ * @err_recovery_work: workqueue used for controller error recovery
+  * @ep0_trb: trb which is used for the ctrl_req
+  * @bounce: address of bounce buffer
+  * @setup_buf: used while precessing STD USB requests
+@@ -1171,6 +1173,7 @@ struct dwc3_glue_ops {
+  * @wakeup_configured: set if the device is configured for remote wakeup.
+  * @suspended: set to track suspend event due to U3/L2.
+  * @susphy_state: state of DWC3_GUSB2PHYCFG_SUSPHY + DWC3_GUSB3PIPECTL_SUSPHY
++ * @err_dying: true when controller is in error recovery, reject all requests
+  *		  before PM suspend.
+  * @imod_interval: set the interrupt moderation interval in 250ns
+  *			increments or 0 to disable.
+@@ -1186,9 +1189,11 @@ struct dwc3_glue_ops {
+  * @wakeup_pending_funcs: Indicates whether any interface has requested for
+  *			 function wakeup in bitmap format where bit position
+  *			 represents interface_id.
++ * @err_recovery_count: number of consecutive error recovery attempts
+  */
+ struct dwc3 {
+ 	struct work_struct	drd_work;
++	struct work_struct	err_recovery_work;
+ 	struct dwc3_trb		*ep0_trb;
+ 	void			*bounce;
+ 	u8			*setup_buf;
+@@ -1420,6 +1425,7 @@ struct dwc3 {
+ 	unsigned		wakeup_configured:1;
+ 	unsigned		suspended:1;
+ 	unsigned		susphy_state:1;
++	unsigned		err_dying:1;
+ 
+ 	u16			imod_interval;
+ 
+@@ -1429,6 +1435,7 @@ struct dwc3 {
+ 	struct dentry		*debug_root;
+ 	u32			gsbuscfg0_reqinfo;
+ 	u32			wakeup_pending_funcs;
++	u32			err_recovery_count;
+ };
+ 
+ #define INCRX_BURST_MODE 0
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index fa0f16ffafef..05f3ffab6e47 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2054,6 +2054,9 @@ static int dwc3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
+ 
+ 	int				ret;
+ 
++	if (dwc->err_dying)
++		return -ESHUTDOWN;
++
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	ret = __dwc3_gadget_ep_queue(dep, req);
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
+@@ -4667,9 +4670,22 @@ static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
+ 		return IRQ_NONE;
+ 
+ 	if (count > evt->length) {
+-		dev_err_ratelimited(dwc->dev, "invalid count(%u) > evt->length(%u)\n",
++		dev_err(dwc->dev, "invalid count(%u) > evt->length(%u)\n",
+ 			count, evt->length);
+-		return IRQ_NONE;
++		/*
++		 * This is a fatal error - the driver and controller are out of
++		 * sync on which event has been consumed. Reinitializing the
++		 * controller is required to recover. Write the bogus count back
++		 * to GEVNTCOUNT to clear the IRQ source, consistent with the
++		 * stale event clearing in dwc3_event_buffers_setup(), then
++		 * schedule error recovery.
++		 */
++		dwc3_writel(dwc, DWC3_GEVNTCOUNT(0), count);
++		dwc->err_dying = true;
++		dwc->err_recovery_count++;
++		if (dwc->err_recovery_count <= DWC3_ERR_RECOVERY_MAX)
++			schedule_work(&dwc->err_recovery_work);
++		return IRQ_HANDLED;
+ 	}
+ 
+ 	evt->count = count;
+@@ -4729,6 +4745,25 @@ static void dwc_gadget_release(struct device *dev)
+ 	kfree(gadget);
+ }
+ 
++static void dwc3_err_recovery_work(struct work_struct *work)
++{
++	struct dwc3 *dwc = container_of(work, struct dwc3, err_recovery_work);
++	int ret;
++
++	synchronize_irq(dwc->irq_gadget);
++
++	ret = dwc3_gadget_soft_disconnect(dwc);
++	if (ret)
++		return;
++
++	dwc3_disconnect_gadget_sleepable(dwc);
++
++	dwc->err_dying = false;
++
++	if (dwc->softconnect)
++		dwc3_gadget_soft_connect(dwc);
++}
++
+ /**
+  * dwc3_gadget_init - initializes gadget related registers
+  * @dwc: pointer to our controller context structure
+@@ -4772,6 +4807,7 @@ int dwc3_gadget_init(struct dwc3 *dwc)
+ 	}
+ 
+ 	init_completion(&dwc->ep0_in_setup);
++	INIT_WORK(&dwc->err_recovery_work, dwc3_err_recovery_work);
+ 	dwc->gadget = kzalloc_obj(struct usb_gadget);
+ 	if (!dwc->gadget) {
+ 		ret = -ENOMEM;
+@@ -4868,6 +4904,7 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
+ 	if (!dwc->gadget)
+ 		return;
+ 
++	cancel_work_sync(&dwc->err_recovery_work);
+ 	dwc3_enable_susphy(dwc, true);
+ 	usb_del_gadget(dwc->gadget);
+ 	dwc3_gadget_free_endpoints(dwc);
+-- 
+2.50.1 (Apple Git-155)
+
