@@ -1,128 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2A729D26E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Aug 2026 20:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD67630E0C0;
+	Wed, 12 Aug 2026 20:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786567655; cv=none; b=XtgXqwX9Ft+Le9BFRZ3+WSPE+3HyW20bHjVHO+rqX+DqgBmRiHMk6gPxxVGAt2gzJazmv2nePLiVhr3Gd0+LHinQc25+BICwcUdoyRN+b4Ttlkz7odtcc3YAMUb+8p/v/yy/potF3vythoVu6Lb3Ka6fT+MxaQfNLw+KK9AfdSk=
+	t=1786567655; cv=none; b=j49oqcFymWKCtseDIPacdja9AkDaGlQjuuoybsgdBTI1BVsI4SHbUzbw8piX9ov/XSVOXrXdK7D1qRMjeQdNbo0TlsoYabQJs9eJrG/njajhnMTXH2TgmiQFojJqL20L3VEXsksQwNVD0fD66hioWH8lRdeSN7SYsmmSdD6JTPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786567655; c=relaxed/simple;
-	bh=NEmSX2o2cKCoYEHMaKoFzYgE1h1lb1UvMcn27q2QIzU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Y3iuoCPvuoVrTEmomU8aRZoGJP0iKontxhPrhw7qA0arrq1SLLdDEBlO7pcNZwMRrPzzmh4O6qSAckPq8tbpVybg0pqFZgGGsu6vlY2IQ7oPnrjjNjCa3vtw6uhzzcyUB6T/6aspLoq8HGh0YBrabpCOkMuWr1+N7bfgWfyr+1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nT2gv6mS; arc=none smtp.client-ip=192.198.163.15
+	bh=w024XBgg1ZjZTH0vd9AYmyiNtdRYrahWGr88BWoZsA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K/X0sESNgvqaoHHYXgfz6hxfsa3mwqx41ZEpv8VxCXukpQlc5hdT/9x9cj7dlN5e5rQgAKgJF2DhI4px7LmmK0nIDgm/Hy6qrW2k4fFOewYmi9wITMrGonQKR0z/7/NK88YSzV5VMaeopJpnFRQKcgbhiJNGDWFyxwijw/Cawc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mm1cuohF; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nT2gv6mS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mm1cuohF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786567652; x=1818103652;
-  h=date:from:to:cc:subject:message-id;
-  bh=NEmSX2o2cKCoYEHMaKoFzYgE1h1lb1UvMcn27q2QIzU=;
-  b=nT2gv6mSvy86iu+e7isILYE3E5pw+NIXN4KybhZ0VLa2UNPDH1f+kVVW
-   1z43y/85Qp32BoUuuxHxtji31K9alwGZ8yFlvxu97qZ4nE6/uRIWdkETd
-   nxnBhYr93686oHTIyoGfOSDNEcgw8jQnbK79O+BmVD9vDSeQqko9Kl/rf
-   mg3ywafSWUZrQtMYuALWgljMgJxVpO4q/vM5P24Shk515zodFU/bOdTUY
-   kYFrsfrM5kOJ5WAr0WxPrhpt8VXBIZT+M7kn3IkycTrs7ZwxReQI9mDEo
-   2XHJ+UzsCNf0oII5Xa9cGAZNqU7FjPhjzrPz2tmfWJ5EOUEMKui1Tis8B
-   A==;
-X-CSE-ConnectionGUID: fbaG5jqmS/KgJ2NP61L53A==
-X-CSE-MsgGUID: lGmItzg0Rh+Mj1iW3WTL1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87259163"
+  t=1786567654; x=1818103654;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w024XBgg1ZjZTH0vd9AYmyiNtdRYrahWGr88BWoZsA0=;
+  b=mm1cuohFQUH2JFcRTVCUr/hWfNV3lTVoIWn6lXlk8Ar1Z/xZFjrmQ/kD
+   muHkt+Ldpz6UBE7y+NAWm2XL0f8q+5zg8ECSf0UNC28dSZcOgNktMAkDk
+   hYfIxvrRWvLIGtR3VomiC7Y/ifnCLV2hBo45JFkzlAYpe4Zoc20jqYkvT
+   P3VvXYKWOUFQyVfeQjvbsAwYbwZ6ca+6NGFgn/fwmqZO1DXYHIKgVslLh
+   O5XRiZvkqbihKzQpJWFiMkxZtA2zA8MphZ5I0WUafM6jbxLxmCHks3KTG
+   IGF7rRLYuiIhQ7XYi9cnWPCyxu4Cijs4g3ThlOUzND8u1wiVuYu7H7FK8
+   g==;
+X-CSE-ConnectionGUID: JNBS6BT7Qc6SynPsbWUxJQ==
+X-CSE-MsgGUID: WX0GSC1IQgWjo0liiYGEFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87015549"
 X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="87259163"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 13:47:30 -0700
-X-CSE-ConnectionGUID: T/ginAFhT5qriaVQGPVdjw==
-X-CSE-MsgGUID: DGJK5MvwQ0aB2QohlbEPHA==
+   d="scan'208";a="87015549"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 13:47:33 -0700
+X-CSE-ConnectionGUID: Iiifp7rBQgiDvA2CY6xE8w==
+X-CSE-MsgGUID: BJvATKfzTDe9unPHUxHYcg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="260445182"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Aug 2026 13:47:29 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 12 Aug 2026 13:47:29 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuFrD-00000000ReS-0xdp;
+	id 1wuFrD-00000000ReQ-0iLw;
 	Wed, 12 Aug 2026 20:47:27 +0000
-Date: Thu, 13 Aug 2026 04:46:48 +0800
+Date: Thu, 13 Aug 2026 04:46:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- arch/x86/include/asm/kvm_pkvm.h:266:31: error: field has incomplete type
- 'struct pkvm_lm_context_param'
-Message-ID: <202608130444.cipTvXQp-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pavitra Jha <jhapavitra98@gmail.com>, alexander.deucher@amd.com,
+	christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Pavitra Jha <jhapavitra98@gmail.com>
+Subject: Re: [PATCH v2] drm/amdgpu/discovery: validate table offset before IP
+ discovery header cast
+Message-ID: <202608130435.5Msck82Q-lkp@intel.com>
+References: <20260708061835.111986-1-jhapavitra98@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260708061835.111986-1-jhapavitra98@gmail.com>
 
-Hi Vineeth,
+Hi Pavitra,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   24c37396da197463e1ff2bc69bb789e34dacad53
-commit: 8ef015afc176a3d8627c1c1e6f561494d211e057 [1/1] ANDROID: pkvm: x86: Hypercalls for legacy mode context tables
-config: i386-randconfig-r072-20260813 (https://download.01.org/0day-ci/archive/20260813/202608130444.cipTvXQp-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608130444.cipTvXQp-lkp@intel.com/reproduce)
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v7.2-rc7 next-20260811]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitra-Jha/drm-amdgpu-discovery-validate-table-offset-before-IP-discovery-header-cast/20260812-100224
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260708061835.111986-1-jhapavitra98%40gmail.com
+patch subject: [PATCH v2] drm/amdgpu/discovery: validate table offset before IP discovery header cast
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260813/202608130435.5Msck82Q-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608130435.5Msck82Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608130444.cipTvXQp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608130435.5Msck82Q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/setup.c:43:
->> arch/x86/include/asm/kvm_pkvm.h:266:31: error: field has incomplete type 'struct pkvm_lm_context_param'
-     266 |         struct pkvm_lm_context_param lm_context_param;
-         |                                      ^
-   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
-     266 |         struct pkvm_lm_context_param lm_context_param;
-         |                ^
->> arch/x86/include/asm/kvm_pkvm.h:267:38: error: field has incomplete type 'struct pkvm_clear_translation_param'
-     267 |         struct pkvm_clear_translation_param clear_translation_param;
-         |                                             ^
-   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
-     267 |         struct pkvm_clear_translation_param clear_translation_param;
-         |                ^
-   2 errors generated.
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:534:25: error: member reference type 'struct table_info' is not a pointer; did you mean to use '.'?
+     534 |         if (le16_to_cpu((*info)->offset) >= adev->discovery.size) {
+         |                         ~~~~~~~^~
+         |                                .
+   include/linux/byteorder/generic.h:91:21: note: expanded from macro 'le16_to_cpu'
+      91 | #define le16_to_cpu __le16_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:536:23: error: member reference type 'struct table_info' is not a pointer; did you mean to use '.'?
+     536 |                         le16_to_cpu((*info)->offset), table_id);
+         |                                     ~~~~~~~^~
+         |                                            .
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:536:34: error: use of undeclared identifier 'table_id'
+     536 |                         le16_to_cpu((*info)->offset), table_id);
+         |                                                       ^~~~~~~~
+   3 errors generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
 
+vim +534 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
 
-vim +266 arch/x86/include/asm/kvm_pkvm.h
-
-   258	
-   259	union pkvm_pv_param {
-   260		struct kvm_segment seg;
-   261		struct msr_data msr;
-   262		struct desc_ptr desc;
-   263		struct eoi_exitmap eoi_exit_bitmap;
-   264	
-   265		/* IOMMU hypercall params */
- > 266		struct pkvm_lm_context_param lm_context_param;
- > 267		struct pkvm_clear_translation_param clear_translation_param;
-   268	} __aligned(PAGE_SIZE);
-   269	
+   508	
+   509	static int amdgpu_discovery_verify_npsinfo(struct amdgpu_device *adev,
+   510						   struct table_info *info)
+   511	{
+   512		uint8_t *discovery_bin = adev->discovery.bin;
+   513		uint16_t checksum;
+   514		uint16_t offset;
+   515	
+   516		offset = le16_to_cpu(info->offset);
+   517		checksum = le16_to_cpu(info->checksum);
+   518	
+   519		struct nps_info_header *nhdr =
+   520			(struct nps_info_header *)(discovery_bin + offset);
+   521	
+   522		if (le32_to_cpu(nhdr->table_id) != NPS_INFO_TABLE_ID) {
+   523			dev_dbg(adev->dev, "invalid ip discovery nps info table id\n");
+   524			return -EINVAL;
+   525		}
+   526	
+   527		if (!amdgpu_discovery_verify_checksum(adev, discovery_bin + offset,
+   528						      le32_to_cpu(nhdr->size_bytes),
+   529						      checksum)) {
+   530			dev_dbg(adev->dev, "invalid nps info data table checksum\n");
+   531			return -EINVAL;
+   532		}
+   533	
+ > 534		if (le16_to_cpu((*info)->offset) >= adev->discovery.size) {
+   535			dev_err(adev->dev, "invalid table offset %u for table_id %u\n",
+ > 536				le16_to_cpu((*info)->offset), table_id);
+   537			return -EINVAL;
+   538		}
+   539	
+   540		return 0;
+   541	}
+   542	
 
 --
 0-DAY CI Kernel Test Service
