@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55CA1B4F1F;
-	Tue, 11 Aug 2026 21:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E0522E3E9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Aug 2026 00:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786483068; cv=none; b=VA7ONPLnk3pdi8wuR5Dh7E9+X0dkjtXThO/CRel+JSbpI0l+GTJTIYndsu0ARH+Lc4WYImGtgkUqYC/Nektn95jgbSoJ0vDEUY3pM2Hb6USvEho3jwtvjTXU3voe5Vet3KrZcyYW/D/q0sGyolKQTpXvkN4kVXJujYG5vfoWK9c=
+	t=1786493407; cv=none; b=bKrlEYuE+k7uF9e5i8Ha2vFz5lj/P7AKDwV+HV0mTYw6d+PVjYzGxZYW8nK8Buz6AdNUaMHEaO6nz7xuO0dy8HAvNz55basg0JTjtk/hDgBTRg8RV3aNAX2li8BaGNqSdHZZxuY6E5gNgijLjmQwPrXw/ga1SWe/Cw8VovAKSGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786483068; c=relaxed/simple;
-	bh=SlgbFHYXTpejDwPt7EBLef+AzGH9lNDzzUt0HXHdZn0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=tOoUQFqz4JedBtMurdcTCFP3BfWO0E+64/LQlhqF6XkceI+4/XEl9KngIHumPkrpRchCZTOAGceOKbUR2l09gi0p3UkrVEOGELP+f0sZzQ9feVgsO9GUatTy6L2fllfkNzHonYmdJ1/J+zfRMGVzd8x1J2rVfizhXTYXfNbxBWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f8AAV0qU; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1786493407; c=relaxed/simple;
+	bh=QbUaWA6SFMUQtg+e57ZeAy6dgLN4mBuKkoU4TKHoV8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=slFr2KBz0nh4my26zc8ouxAwYd1zFXsmaR/cqyMCPobsbfWoWOmfDDYXLk6lU3I4mFmZS7QtA3t8HjHQ/A7U1ol5QIt2JlUhTn9S0U5GBwgwU/4WB4ZN/3aAdjMK3TZjqQFO7FMezpDNWkqvM0IOl+D0bW12V2H96negLXiVM70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5WQfSsf; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8AAV0qU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5WQfSsf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786483067; x=1818019067;
+  t=1786493406; x=1818029406;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SlgbFHYXTpejDwPt7EBLef+AzGH9lNDzzUt0HXHdZn0=;
-  b=f8AAV0qUCNClpBlZxs/LCGV5cFKCFQaFIZZgJakE4F5dRlQUzMYO3fnF
-   kQOIvfCwsZL63qOwNsKp4DHkV7VMfDmC9GhYh8UwazlCnWHZMK09No6Cm
-   B5SC1tQjQRLDYi/K1bHcU7e33J1Y7tGoljrfWc1fGDTtiguhdxHuQ7MBj
-   ca0J7yO2P7sEcNga1YplVjphh8eoAr3bd8UQ6wR72WMxA7BQgRiKgscm0
-   /cttKAHQJXDqIdB0CsIgXA/wURfZCa6QQMtLQhs894iMwAgCjK/YAvyQk
-   3zXXhgaXC7jae6fU/QuejcXg9eI7tSecW7NuTCXt+ZefdhrwE/KvOCrnQ
+  bh=QbUaWA6SFMUQtg+e57ZeAy6dgLN4mBuKkoU4TKHoV8Y=;
+  b=C5WQfSsfsLS96LaYQ0iimp2ePGu0E67EDrbruaCxtCil/txYfGxOcffa
+   vGGo/u9DE5QiPZ//UjjVIGMxjUuxcXE8SmRYgjo/slZJ8z8iy3u3LzNZN
+   HznknBsw1wovu4JobKNS4IUQZzcEBMbxxD5ro5JnKM3Gmv0wLu6VVooBf
+   LtkBg5osnoAfD8znS76NhfbYOFYIsYtCEW2+qF+yLEA31ZTNyc6qeOHo9
+   WzYjBqWy6IydByZ74tRRrDyRNGFcWkuVjty7W7246WWyh2c8zm0MAUDcI
+   jGIhdxIjcxoY1of4orzbWBlghSE1hMfNCXKcJerAmT2N7aH8bi5Ha7HcS
    A==;
-X-CSE-ConnectionGUID: 0+JhP0DdSlq4kMhfRGn82g==
-X-CSE-MsgGUID: o+l+yo3pTJ2qY3wKyFamVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="85984494"
+X-CSE-ConnectionGUID: YfKHVOa8ROWq+0y1Ix4XKw==
+X-CSE-MsgGUID: N1AKXwg/RymmSwK+XkFp2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="87048313"
 X-IronPort-AV: E=Sophos;i="6.25,218,1779174000"; 
-   d="scan'208";a="85984494"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 14:17:46 -0700
-X-CSE-ConnectionGUID: nzhi4VjzRKqvo4w3vEs/XA==
-X-CSE-MsgGUID: k6mRqrdeQNq5qYPVdUBpNg==
+   d="scan'208";a="87048313"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 17:10:06 -0700
+X-CSE-ConnectionGUID: XaBL0f3WS/y4bUVwMUMNtQ==
+X-CSE-MsgGUID: ryLDUte1Sbed8/J/uR9mPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,218,1779174000"; 
-   d="scan'208";a="301684139"
+   d="scan'208";a="267323883"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Aug 2026 14:17:45 -0700
+  by orviesa004.jf.intel.com with ESMTP; 11 Aug 2026 17:10:04 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wttqw-00000000PJO-2WoM;
-	Tue, 11 Aug 2026 21:17:42 +0000
-Date: Wed, 12 Aug 2026 05:16:58 +0800
+	id 1wtwXh-00000000PUQ-331n;
+	Wed, 12 Aug 2026 00:10:01 +0000
+Date: Wed, 12 Aug 2026 08:09:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-loongarch32 3/3] ld.lld: error:
- version script assignment of 'LINUX_5.10' to symbol
- '__vdso_clock_getres_time64' failed: symbol not defined
-Message-ID: <202608120456.WJtqUaW0-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 36/64] ERROR:
+ modpost: "__floatdidf" [kernel/time/time_test.ko] undefined!
+Message-ID: <202608120737.FaUaXlvp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,30 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-loongarch32
-head:   75d124026928985f158de7a2a5cfa49c7cfe9819
-commit: 75d124026928985f158de7a2a5cfa49c7cfe9819 [3/3] 32-bit
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260812/202608120456.WJtqUaW0-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260812/202608120456.WJtqUaW0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   3e8fc6d2f17abed506fb832160ecd7c7e5fdd222
+commit: 0e7eee89b53771dd220be34fd7bae2861d74a723 [36/64] timekeeping: time_test: Add a test for auxiliary to monotonic clock conversions
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260812/202608120737.FaUaXlvp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260812/202608120737.FaUaXlvp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608120456.WJtqUaW0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608120737.FaUaXlvp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ld.lld: error: version script assignment of 'LINUX_5.10' to symbol '__vdso_clock_getres_time64' failed: symbol not defined
->> ld.lld: error: version script assignment of 'LINUX_5.10' to symbol '__vdso_clock_gettime64' failed: symbol not defined
-   make[3]: *** [arch/loongarch/vdso/Makefile:83: arch/loongarch/vdso/vdso.so.dbg] Error 1
-   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
-   make[2]: *** [arch/loongarch/Makefile:206: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> ERROR: modpost: "__floatdidf" [kernel/time/time_test.ko] undefined!
+>> ERROR: modpost: "__muldf3" [kernel/time/time_test.ko] undefined!
+ERROR: modpost: "__subdf3" [kernel/time/time_test.ko] undefined!
+>> ERROR: modpost: "__fixdfdi" [kernel/time/time_test.ko] undefined!
+ERROR: modpost: "__adddf3" [kernel/time/time_test.ko] undefined!
 
 --
 0-DAY CI Kernel Test Service
