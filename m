@@ -1,129 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD1F499F1E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 17:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA64A4A2E11
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 17:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786640956; cv=none; b=FdUm1VrjSsO9twC0F3XJgQrhqf9aZSyYbUoCd1DgS9LKlES/QKGGmEmddhKdGiYJyl89rUw/PwiUc11tTlah+Zj5tlXOQNQwRtlO4188fR5rT0pRYV7mWltTiG9GA1jAgB2AQ97w8SX0oiEcmF2JMh3JDxXJyA94QyuoocCTJsE=
+	t=1786641678; cv=none; b=j7ezu/uu3tWWYz7WKj0N6XWXMQ+9LKZhCg/C7JUVYhq7WTybiWHkJeUFZUuCFHPSptncLFkL9ndnOrlDQdK51XCCs9+8VXGN6/oL5v8K9fENfE0TUliltML5MfxFCpmE1qpbGyJK4zflTQZqh3ioQA0DSUDJaHPiYlccsCEQ3c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786640956; c=relaxed/simple;
-	bh=C3gaqcWIjrHBpy/9u3sW58x56fDfDebm1SzjYUupUKY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ei6Edtjqvmob8IIVjVl9w23cVQUKlA94YEp5DK8kj8F0QYJICUuVbwk59bF5Ooi7IFMxvhl5JE5rPliWpFKfaeYJRIJoJtRaxpLzoPsW6I3CSu+qr9Cr1slckbXvTEZ/bl2MCwG8mmdGmrxba7yAAfALeu3vKc3OXUEVhUyAggM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=an43dkkb; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1786641678; c=relaxed/simple;
+	bh=Mkidty/zRD+x27WcHPxXMrfSjcU9wppgFrqjf9p/0RQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fu6JmEh/bpCDHofYwwV//n1kgCXVk7AulZQpN62D7MCnQ/Zw8dwAMXE2cp/HdKrZUas/ZB8ddwKLYQBBWs+hFvryfqeSQr5TXdZjc7blbOUMr6fYLVnZZvZrrBm4eS1NlMcMmWVkSoBOvWLy/Nw95f+FN8118x7Thd1kMaQCShU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSDKqSK9; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="an43dkkb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSDKqSK9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786640953; x=1818176953;
-  h=date:from:to:cc:subject:message-id;
-  bh=C3gaqcWIjrHBpy/9u3sW58x56fDfDebm1SzjYUupUKY=;
-  b=an43dkkbxXjCeVlyRQatOt5IfOvMCGl8rz9IYDwdKSGKaubWL33107/q
-   OFA5FE3231h53qMSo3EaiNi1CCIJ2koll8stF9HsVn27mOsfuAhYVa1I4
-   dM8GkGQpLKSwedeGxgSFBGP9+ZM70OKVP7vA14OaGJDkfCLy/XRL8QfJv
-   0Ryh+cdJRmuNmecZaI7isWNSzMMedIdqpkUAP+KnU6/02KjvM+eI2z0NI
-   BIkhy8WklPpa5f+NA7+cO8yKxAv9FmXtYfxWZaOgbzEcnt/RvaUItbyYy
-   ccdkBCvsS/hj6zaZ/lEDCE0IBfDOnPMEFaqb6jaTpnMd06x1tlIIpdrJD
-   w==;
-X-CSE-ConnectionGUID: zyMrYDfeSr2lnQWEtYjZEA==
-X-CSE-MsgGUID: 81wsjR2BQSuZcTRInrChdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="104753491"
+  t=1786641675; x=1818177675;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Mkidty/zRD+x27WcHPxXMrfSjcU9wppgFrqjf9p/0RQ=;
+  b=GSDKqSK96Nmsc0C8HIX0vj46I24UzrH2g3gU6nn/fgh0cL0bM/IwaFBO
+   089poRtrfFVK52HSI8JrHM1pJMgOEzeF0BCjRt5EwOsDAyB1Z26b6F2qr
+   nw9tlnFRFgPmcyZopYEmQskwKYHP9YVMlvb1TFe03atItAyiyVST9n/gb
+   EkG+6nUvVUOfOimWF8YOL+lf/W7B4BHhdAy9Mn72UMqvcJ0O4rbmHRBM4
+   m7r61L0vqQzj/kN5MLl0sLTxUKBcKr+OdX4CX3m+zB5OGbeZnkwZtz53X
+   /hY57gsNOPBpgJKPqeccTOOYtwjjQz01JjolkQ9NzMutaUQ8XR2r+zS/K
+   A==;
+X-CSE-ConnectionGUID: 7IHn6xaVSOu3UsjRBAl2xg==
+X-CSE-MsgGUID: QyD3R9X6R26z3ZkhiBbx1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="89743043"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="104753491"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 10:09:11 -0700
-X-CSE-ConnectionGUID: NI7XNhRsSe2qNZVAHONVCQ==
-X-CSE-MsgGUID: i6pVBrQXQCC1MfdYqwy3+Q==
+   d="scan'208";a="89743043"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 10:21:13 -0700
+X-CSE-ConnectionGUID: fkQBEffCRJievkpflTJP6A==
+X-CSE-MsgGUID: y5sJH6QgRc2ns20kGIimmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="262246938"
+   d="scan'208";a="263549106"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Aug 2026 10:09:08 -0700
+  by orviesa008.jf.intel.com with ESMTP; 13 Aug 2026 10:21:10 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuYvR-00000000Vwo-1SSa;
-	Thu, 13 Aug 2026 17:09:05 +0000
-Date: Fri, 14 Aug 2026 01:08:40 +0800
+	id 1wuZ75-00000000W0A-0mQw;
+	Thu, 13 Aug 2026 17:21:07 +0000
+Date: Fri, 14 Aug 2026 01:20:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:main-16k-gs-shusky-5.15 36/36]
- fs/ksmbd/misc.c:162: warning: Excess function parameter 'sharepath'
- description in 'convert_to_nt_pathname'
-Message-ID: <202608140153.sOW7LWfR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Chengfeng Ye <nicoyip.dev@gmail.com>,
+	Allison Henderson <achender@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+	Ka-Cheong Poon <ka-cheong.poon@oracle.com>,
+	Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org, rds-devel@oss.oracle.com,
+	linux-kernel@vger.kernel.org, Chengfeng Ye <nicoyip.dev@gmail.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] rds: synchronize info callbacks with connection teardown
+Message-ID: <202608140151.MOvRf1jc-lkp@intel.com>
+References: <20260720184955.3008978-1-nicoyip.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720184955.3008978-1-nicoyip.dev@gmail.com>
 
-Hi Hyunchul,
+Hi Chengfeng,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
-head:   3b83adad5dbcce249f6042cc64bf4ae9fddf5262
-commit: 265fd1991c1db85fbabaad4946ca0e63e2ae688d [36/36] ksmbd: use LOOKUP_BENEATH to prevent the out of share access
-config: i386-buildonly-randconfig-004-20260813 (https://download.01.org/0day-ci/archive/20260814/202608140153.sOW7LWfR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140153.sOW7LWfR-lkp@intel.com/reproduce)
+[auto build test WARNING on net/main]
+[also build test WARNING on linus/master horms-ipvs/master v7.2-rc7]
+[cannot apply to net-next/main next-20260812]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chengfeng-Ye/rds-synchronize-info-callbacks-with-connection-teardown/20260812-225931
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260720184955.3008978-1-nicoyip.dev%40gmail.com
+patch subject: [PATCH] rds: synchronize info callbacks with connection teardown
+config: mips-randconfig-r134-20260813 (https://download.01.org/0day-ci/archive/20260814/202608140151.MOvRf1jc-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140151.MOvRf1jc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 265fd1991c1d ("ksmbd: use LOOKUP_BENEATH to prevent the out of share access")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608140153.sOW7LWfR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608140151.MOvRf1jc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/rds/info.c:83:9: sparse: sparse: cast removes address space '__rcu' of expression
+>> net/rds/info.c:83:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/rds/info.c:83:9: sparse:    void ( [noderef] __rcu * )( ... )
+   net/rds/info.c:83:9: sparse:    void ( * )( ... )
+   net/rds/info.c:84:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/rds/info.c:84:9: sparse:    void ( [noderef] __rcu * )( ... )
+   net/rds/info.c:84:9: sparse:    void ( * )( ... )
+   net/rds/info.c:96:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/rds/info.c:96:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/rds/info.c:96:9: sparse:    void ( [noderef] __rcu * )( ... )
+   net/rds/info.c:96:9: sparse:    void ( * )( ... )
+   net/rds/info.c:97:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/rds/info.c:97:9: sparse:    void ( [noderef] __rcu * )( ... )
+   net/rds/info.c:97:9: sparse:    void ( * )( ... )
+   net/rds/info.c:222:16: sparse: sparse: cast removes address space '__rcu' of expression
+   net/rds/info.c:222:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/rds/info.c:222:16: sparse:    void ( [noderef] __rcu * )( ... )
+   net/rds/info.c:222:16: sparse:    void ( * )( ... )
 
-   fs/ksmbd/misc.c:30: warning: Function parameter or member 'str' not described in 'match_pattern'
-   fs/ksmbd/misc.c:30: warning: Excess function parameter 'string' description in 'match_pattern'
->> fs/ksmbd/misc.c:162: warning: Excess function parameter 'sharepath' description in 'convert_to_nt_pathname'
-   fs/ksmbd/misc.c:240: warning: Function parameter or member 'share' not described in 'convert_to_unix_name'
-   fs/ksmbd/misc.c:240: warning: Function parameter or member 'name' not described in 'convert_to_unix_name'
-   fs/ksmbd/misc.c:240: warning: Excess function parameter 'path' description in 'convert_to_unix_name'
-   fs/ksmbd/misc.c:240: warning: Excess function parameter 'tid' description in 'convert_to_unix_name'
+vim +/__rcu +83 net/rds/info.c
 
-
-vim +162 fs/ksmbd/misc.c
-
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  151  
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  152  /**
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  153   * convert_to_nt_pathname() - extract and return windows path string
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  154   *      whose share directory prefix was removed from file path
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  155   * @filename : unix filename
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  156   * @sharepath: share path string
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  157   *
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  158   * Return : windows path string or error
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  159   */
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  160  
-265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  161  char *convert_to_nt_pathname(char *filename)
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16 @162  {
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  163  	char *ab_pathname;
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  164  
-265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  165  	if (strlen(filename) == 0) {
-265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  166  		ab_pathname = kmalloc(2, GFP_KERNEL);
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  167  		ab_pathname[0] = '\\';
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  168  		ab_pathname[1] = '\0';
-265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  169  	} else {
-265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  170  		ab_pathname = kstrdup(filename, GFP_KERNEL);
-265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  171  		if (!ab_pathname)
-265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  172  			return NULL;
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  173  
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  174  		ksmbd_conv_path_to_windows(ab_pathname);
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  175  	}
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  176  	return ab_pathname;
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  177  }
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  178  
-
-:::::: The code at line 162 was first introduced by commit
-:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
-
-:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+    75	
+    76	void rds_info_register_func(int optname, rds_info_func func)
+    77	{
+    78		int offset = optname - RDS_INFO_FIRST;
+    79	
+    80		BUG_ON(optname < RDS_INFO_FIRST || optname > RDS_INFO_LAST);
+    81	
+    82		spin_lock(&rds_info_lock);
+  > 83		BUG_ON(rcu_access_pointer(rds_info_funcs[offset]));
+    84		rcu_assign_pointer(rds_info_funcs[offset], func);
+    85		spin_unlock(&rds_info_lock);
+    86	}
+    87	EXPORT_SYMBOL_GPL(rds_info_register_func);
+    88	
 
 --
 0-DAY CI Kernel Test Service
