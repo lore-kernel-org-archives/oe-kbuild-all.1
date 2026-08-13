@@ -1,603 +1,289 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F09D342173
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 10:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EE4419314
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 10:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786618145; cv=none; b=QPVDWYw0lWNLkIUfCVghi5mbDJ1NjuOccDmI7QDF/KIQsJvoM1BV0bxv0up32eNwdPBiIQsxk03LkAmykuDM+F+gMr6BS7f+a9lCFptNeM6swjIEurZpCkKOdZhREdKyf2R5C12ZaR5pfweWPEBgwHCfj70FW8ofKdujgp5jGso=
+	t=1786618397; cv=none; b=ujy1BGcvBkO6zR8FzFSlql+bqP+BD9yuaD6G0hsOj8Z+KZc0xAgXQAPDfdXdIZVeLE47ACEkeueWTlNcNiCxfbQ/HpGSRMkBbvgdl0xJscSnJNuCKbwyL3N8jHDtNnmrM2qZ9zzaHQGQMxOg9kTEKPrEZsM/VanMJIjDB8F3+ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786618145; c=relaxed/simple;
-	bh=ynz7mE6KyIit+twcZygZXOt9YxucR8842hs0y0rBafU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UTNCS5E61VTVqCWAZ2Ll8xFYIOJ7bcHjmTzxQqy6siuQ7DdpegiqdnjHeYyQtNE++er53AglY6KCtdz4P8gxAZ0P0RQoWsqq0AysuHyM1qlleHJeOIP59kxbb/++pkkBTlwFVzlbjmtEqU0bN67DnWLv9EhKbAfCWMBBQTv9lVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RRYoDgnc; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1786618397; c=relaxed/simple;
+	bh=lWlLRWzYdmEcNe27I66m/ijRvQ4Z7Wvd0t4b8p3c61k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MRnDyWFJVF5p4Awl/fp00tlHpVa/ha/qpldQ7fgtlc5lmjeumNUdLV90AmgRGTtl04DX4xSZkKv1qg9U7uky3jR8+PoD/N/ZjiLV9mlZ1Sp+GV9y26D+xAuGdYUWwbleOfpWNjWh4EC1YcE7gfDlBCAyhkP0NwOiPpI1deFPWyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZhI7jiW; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RRYoDgnc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZhI7jiW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786618142; x=1818154142;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ynz7mE6KyIit+twcZygZXOt9YxucR8842hs0y0rBafU=;
-  b=RRYoDgnco7hoAi4ofHdt+shNEpHqZZt2f2j15iMJDW4W5VZWIHbtdM3U
-   i+bTACVCS1bcRdcaAdRd5T1aFTPtwam5Z/xPZutV6R6+mMbIqUnfD4Yr2
-   AtgxrJiAhexaEobq05RpABU+SUpKllPVjtwDj0Yz5c6hJZN7R/3fYF6uR
-   xY062i5DmBrNEAJdUHB6UX4qzfEf+WOV2jLdr4xQHpC4o9TD5UNEGRvzo
-   YMocks1Eqlrj7dre+T6+MgGFoe+khbuzbSDVs9XB60l4HyQhlL6rgV5oI
-   lc1J7ErbZ/8Ec24o7hur4l6NKaus5qJ3bCbryChTe93O3yYSmzL6HeBGe
-   Q==;
-X-CSE-ConnectionGUID: NOzl5gNIQGOE+LhgHXRv6w==
-X-CSE-MsgGUID: B9faDT/tTS6Eq/eZi/5DFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87207197"
+  t=1786618386; x=1818154386;
+  h=date:from:to:cc:subject:message-id;
+  bh=lWlLRWzYdmEcNe27I66m/ijRvQ4Z7Wvd0t4b8p3c61k=;
+  b=fZhI7jiW+5fRikKcGr+qOqYZUwc6YvwvTBgINLcEiBsOAYVCtrwopH/Y
+   cH2XDe0q9BPgb+ge3aoH1pqhLIL3dRIvVh4jC58QP3Daf9+yia+/RY1Ak
+   sxk3IutZ/XHNLP8gqwntg7/ojmv/8BbMvO0qRyzfwpGPROrAvGdERAvNJ
+   p1xPSRalUClBrc/cU2ldNz1aKJniGn82l1IdmKnRhp9JIKZ0GZrlbB3Xt
+   cEr00oLFvb7T7F8sH5ZlSQZd+lmAf3zKiZsgg1Nto1uGeCxffwH1qWw/a
+   qj2pwXibyn/Ondpx7Jb1+efIU+kPhbCtZWz60M63Sjk1FvfJt/WtT5mgQ
+   A==;
+X-CSE-ConnectionGUID: 18RXZ/0mSq2Wg2pq5R+x3w==
+X-CSE-MsgGUID: 8YBn7FbnT3i9Zjjl21Z7qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="91000793"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="87207197"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 03:49:01 -0700
-X-CSE-ConnectionGUID: Btbc9NRgQ2OSIo/hp27IDA==
-X-CSE-MsgGUID: LvPcGklxT9qw7JCQXvt/qQ==
+   d="scan'208";a="91000793"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 03:53:04 -0700
+X-CSE-ConnectionGUID: HR4RisKtTTez6jkhGTASng==
+X-CSE-MsgGUID: dwwaT80VTTefVV9RHST3vA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="260628033"
+   d="scan'208";a="293851678"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Aug 2026 03:48:59 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2026 03:53:02 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuSzY-00000000Tjq-1la0;
-	Thu, 13 Aug 2026 10:48:56 +0000
-Date: Thu, 13 Aug 2026 18:47:57 +0800
+	id 1wuT3T-00000000Tko-3nlK;
+	Thu, 13 Aug 2026 10:52:59 +0000
+Date: Thu, 13 Aug 2026 18:52:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: wangyufei <wangyufei@vivo.com>
+To: Matthew Wilcox <willy@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 1/1] writeback: add sysfs to config the number of writeback
- contexts
-Message-ID: <202608131809.2ZEzONCi-lkp@intel.com>
-References: <20250825122931.13037-2-wangyufei@vivo.com>
+Subject: [willy-pagecache:headers 10/12]
+ arch/alpha/include/asm/pgtable.h:205:40: warning: parameter 'pgd' set but not
+ used
+Message-ID: <202608131819.Ql2Wh3Tn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825122931.13037-2-wangyufei@vivo.com>
 
-Hi wangyufei,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v7.2-rc7 next-20260812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/wangyufei/writeback-add-sysfs-to-config-the-number-of-writeback-contexts/20260813-143259
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250825122931.13037-2-wangyufei%40vivo.com
-patch subject: [RFC 1/1] writeback: add sysfs to config the number of writeback contexts
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260813/202608131809.2ZEzONCi-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131809.2ZEzONCi-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/willy/pagecache headers
+head:   6fa479fc028749b78a11511e466a5e46fc39c1d6
+commit: 407c67a9d6183fc8f62b6a9cf1c153a8cd49cbf3 [10/12] drm: Remove pagemap from ttm_tt.h header
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260813/202608131819.Ql2Wh3Tn-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131819.Ql2Wh3Tn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608131809.2ZEzONCi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608131819.Ql2Wh3Tn-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/filemap.c:33:
->> include/linux/backing-dev.h:118:58: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-     118 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |                                                          ^~~~~~~~~~~~~~~~~
-   include/linux/backing-dev.h:119:59: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-     119 | void bdi_wb_ctx_exit(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |                                                           ^~~~~~~~~~~~~~~~~
---
-   In file included from mm/page-writeback.c:26:
->> include/linux/backing-dev.h:118:58: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-     118 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |                                                          ^~~~~~~~~~~~~~~~~
-   include/linux/backing-dev.h:119:59: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-     119 | void bdi_wb_ctx_exit(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |                                                           ^~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:27,
-                    from mm/page-writeback.c:15:
-   mm/page-writeback.c: In function '__bdi_set_wb_ctx':
->> mm/page-writeback.c:734:32: error: 'struct backing_dev_info' has no member named 'nr_wb_ctx'
-     734 |         for (i = 0; i < min(bdi->nr_wb_ctx, nwritebacks); i++)
-         |                                ^~
-   include/linux/minmax.h:92:20: note: in definition of macro '__careful_cmp_once'
-      92 |         auto ux = (x); auto uy = (y);                   \
-         |                    ^
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   mm/page-writeback.c:734:25: note: in expansion of macro 'min'
-     734 |         for (i = 0; i < min(bdi->nr_wb_ctx, nwritebacks); i++)
-         |                         ^~~
-   In file included from <command-line>:
->> include/linux/compiler.h:165:17: error: '__UNIQUE_ID_x__697' undeclared (first use in this function); did you mean '__UNIQUE_ID_y__698'?
-     165 |         __PASTE(__UNIQUE_ID_,                                   \
-         |                 ^~~~~~~~~~~~
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
-      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
-         |                         ^~~~~~~~~~~~~~
-   include/linux/minmax.h:75:10: note: in expansion of macro '__sign_use'
-      75 |         (__sign_use(ux) & __sign_use(uy))
-         |          ^~~~~~~~~~
-   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:16:23: note: in expansion of macro '___PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^~~~~~~~
-   include/linux/compiler.h:165:9: note: in expansion of macro '__PASTE'
-     165 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^~~~~~~
-   include/linux/minmax.h:98:38: note: in expansion of macro '__UNIQUE_ID'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                      ^~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   mm/page-writeback.c:734:25: note: in expansion of macro 'min'
-     734 |         for (i = 0; i < min(bdi->nr_wb_ctx, nwritebacks); i++)
-         |                         ^~~
-   include/linux/compiler.h:165:17: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
-      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
-         |                         ^~~~~~~~~~~~~~
-   include/linux/minmax.h:75:10: note: in expansion of macro '__sign_use'
-      75 |         (__sign_use(ux) & __sign_use(uy))
-         |          ^~~~~~~~~~
-   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:16:23: note: in expansion of macro '___PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^~~~~~~~
-   include/linux/compiler.h:165:9: note: in expansion of macro '__PASTE'
-     165 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^~~~~~~
-   include/linux/minmax.h:98:38: note: in expansion of macro '__UNIQUE_ID'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                      ^~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   mm/page-writeback.c:734:25: note: in expansion of macro 'min'
-     734 |         for (i = 0; i < min(bdi->nr_wb_ctx, nwritebacks); i++)
-         |                         ^~~
->> mm/page-writeback.c:735:37: error: 'struct backing_dev_info' has no member named 'wb_ctx_arr'
-     735 |                 new_ctx_arr[i] = bdi->wb_ctx_arr[i];
-         |                                     ^~
-   mm/page-writeback.c:737:21: error: 'struct backing_dev_info' has no member named 'nr_wb_ctx'
-     737 |         for (i = bdi->nr_wb_ctx; i < nwritebacks; i++) {
-         |                     ^~
-   In file included from include/linux/workqueue.h:9,
-                    from include/linux/srcu.h:21,
-                    from include/linux/notifier.h:16,
-                    from arch/powerpc/include/asm/uprobes.h:12,
-                    from include/linux/uprobes.h:66,
-                    from include/linux/mm_types.h:16,
+   In file included from include/asm-generic/pgtable-nopud.h:7,
+                    from arch/alpha/include/asm/pgtable.h:5,
+                    from include/linux/pgtable.h:6,
+                    from include/drm/ttm/ttm_caching.h:28,
+                    from include/drm/ttm/ttm_tt.h:31,
+                    from drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c:8:
+   include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name 'pgd_t'; did you mean 'pid_t'?
+       9 | typedef struct { pgd_t pgd; } p4d_t;
+         |                  ^~~~~
+         |                  pid_t
+   include/asm-generic/pgtable-nop4d.h:21:28: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      21 | static inline int pgd_none(pgd_t pgd)           { return 0; }
+         |                            ^~~~~
+         |                            p4d_t
+   include/asm-generic/pgtable-nop4d.h:22:27: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      22 | static inline int pgd_bad(pgd_t pgd)            { return 0; }
+         |                           ^~~~~
+         |                           p4d_t
+   include/asm-generic/pgtable-nop4d.h:23:31: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      23 | static inline int pgd_present(pgd_t pgd)        { return 1; }
+         |                               ^~~~~
+         |                               p4d_t
+   include/asm-generic/pgtable-nop4d.h:24:30: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      24 | static inline void pgd_clear(pgd_t *pgd)        { }
+         |                              ^~~~~
+         |                              p4d_t
+   include/asm-generic/pgtable-nop4d.h:35:33: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      35 | static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
+         |                                 ^~~~~
+         |                                 p4d_t
+   In file included from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
                     from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs/super_types.h:7,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from mm/page-writeback.c:19:
->> mm/page-writeback.c:739:40: error: invalid application of 'sizeof' to incomplete type 'struct bdi_writeback_ctx'
-     739 |                         kzalloc(sizeof(struct bdi_writeback_ctx), GFP_KERNEL);
-         |                                        ^~~~~~
-   include/linux/alloc_tag.h:256:16: note: in definition of macro 'alloc_hooks_tag'
-     256 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:1320:49: note: in expansion of macro 'alloc_hooks'
-    1320 | #define kzalloc(size, flags)                    alloc_hooks(kzalloc_noprof(size, flags))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1320:61: note: in expansion of macro 'kzalloc_noprof'
-    1320 | #define kzalloc(size, flags)                    alloc_hooks(kzalloc_noprof(size, flags))
-         |                                                             ^~~~~~~~~~~~~~
-   mm/page-writeback.c:739:25: note: in expansion of macro 'kzalloc'
-     739 |                         kzalloc(sizeof(struct bdi_writeback_ctx), GFP_KERNEL);
-         |                         ^~~~~~~
->> mm/page-writeback.c:739:40: error: invalid application of 'sizeof' to incomplete type 'struct bdi_writeback_ctx'
-     739 |                         kzalloc(sizeof(struct bdi_writeback_ctx), GFP_KERNEL);
-         |                                        ^~~~~~
-   include/linux/alloc_tag.h:260:24: note: in definition of macro 'alloc_hooks_tag'
-     260 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:1320:49: note: in expansion of macro 'alloc_hooks'
-    1320 | #define kzalloc(size, flags)                    alloc_hooks(kzalloc_noprof(size, flags))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1320:61: note: in expansion of macro 'kzalloc_noprof'
-    1320 | #define kzalloc(size, flags)                    alloc_hooks(kzalloc_noprof(size, flags))
-         |                                                             ^~~~~~~~~~~~~~
-   mm/page-writeback.c:739:25: note: in expansion of macro 'kzalloc'
-     739 |                         kzalloc(sizeof(struct bdi_writeback_ctx), GFP_KERNEL);
-         |                         ^~~~~~~
->> mm/page-writeback.c:739:40: error: invalid application of 'sizeof' to incomplete type 'struct bdi_writeback_ctx'
-     739 |                         kzalloc(sizeof(struct bdi_writeback_ctx), GFP_KERNEL);
-         |                                        ^~~~~~
-   include/linux/alloc_tag.h:263:24: note: in definition of macro 'alloc_hooks_tag'
-     263 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:1320:49: note: in expansion of macro 'alloc_hooks'
-    1320 | #define kzalloc(size, flags)                    alloc_hooks(kzalloc_noprof(size, flags))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1320:61: note: in expansion of macro 'kzalloc_noprof'
-    1320 | #define kzalloc(size, flags)                    alloc_hooks(kzalloc_noprof(size, flags))
-         |                                                             ^~~~~~~~~~~~~~
-   mm/page-writeback.c:739:25: note: in expansion of macro 'kzalloc'
-     739 |                         kzalloc(sizeof(struct bdi_writeback_ctx), GFP_KERNEL);
-         |                         ^~~~~~~
->> mm/page-writeback.c:738:34: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     738 |                 new_ctx_arr[i] = (struct bdi_writeback_ctx *)
-         |                                  ^
-   mm/page-writeback.c:742:42: error: 'struct backing_dev_info' has no member named 'nr_wb_ctx'
-     742 |                         while (--i >= bdi->nr_wb_ctx)
-         |                                          ^~
->> mm/page-writeback.c:747:47: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-     747 |                 INIT_LIST_HEAD(&new_ctx_arr[i]->wb_list);
-         |                                               ^~
-   In file included from include/linux/swait.h:8,
-                    from include/linux/completion.h:12,
-                    from include/linux/shrinker.h:8,
-                    from include/linux/list_lru.h:13:
-   mm/page-writeback.c:748:52: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-     748 |                 init_waitqueue_head(&new_ctx_arr[i]->wb_waitq);
-         |                                                    ^~
-   include/linux/wait.h:68:40: note: in definition of macro 'init_waitqueue_head'
-      68 |                 __init_waitqueue_head((wq_head), #wq_head, &__key);             \
-         |                                        ^~~~~~~
-   mm/page-writeback.c:751:21: error: 'struct backing_dev_info' has no member named 'nr_wb_ctx'
-     751 |         for (i = bdi->nr_wb_ctx; i < nwritebacks; i++) {
-         |                     ^~
->> mm/page-writeback.c:752:55: error: passing argument 2 of 'bdi_wb_ctx_init' from incompatible pointer type [-Wincompatible-pointer-types]
-     752 |                 ret = bdi_wb_ctx_init(bdi, new_ctx_arr[i]);
-         |                                            ~~~~~~~~~~~^~~
-         |                                                       |
-         |                                                       struct bdi_writeback_ctx *
-   include/linux/backing-dev.h:118:77: note: expected 'struct bdi_writeback_ctx *' but argument is of type 'struct bdi_writeback_ctx *'
-     118 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
-   mm/page-writeback.c:754:42: error: 'struct backing_dev_info' has no member named 'nr_wb_ctx'
-     754 |                         while (--i >= bdi->nr_wb_ctx) {
-         |                                          ^~
->> mm/page-writeback.c:755:65: error: passing argument 2 of 'bdi_wb_ctx_exit' from incompatible pointer type [-Wincompatible-pointer-types]
-     755 |                                 bdi_wb_ctx_exit(bdi, new_ctx_arr[i]);
-         |                                                      ~~~~~~~~~~~^~~
-         |                                                                 |
-         |                                                                 struct bdi_writeback_ctx *
-   include/linux/backing-dev.h:119:78: note: expected 'struct bdi_writeback_ctx *' but argument is of type 'struct bdi_writeback_ctx *'
-     119 | void bdi_wb_ctx_exit(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
-   mm/page-writeback.c:761:50: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-     761 |                 list_add_tail_rcu(&new_ctx_arr[i]->wb.bdi_node, &new_ctx_arr[i]->wb_list);
-         |                                                  ^~
-   mm/page-writeback.c:761:80: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-     761 |                 list_add_tail_rcu(&new_ctx_arr[i]->wb.bdi_node, &new_ctx_arr[i]->wb_list);
-         |                                                                                ^~
-   mm/page-writeback.c:762:55: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-     762 |                 set_bit(WB_registered, &new_ctx_arr[i]->wb.state);
-         |                                                       ^~
-   mm/page-writeback.c:768:26: error: 'struct backing_dev_info' has no member named 'wb_ctx_arr'
-     768 |         old_ctx_arr = bdi->wb_ctx_arr;
-         |                          ^~
-   mm/page-writeback.c:770:12: error: 'struct backing_dev_info' has no member named 'wb_ctx_arr'
-     770 |         bdi->wb_ctx_arr = new_ctx_arr;
-         |            ^~
-   mm/page-writeback.c:771:12: error: 'struct backing_dev_info' has no member named 'nr_wb_ctx'
-     771 |         bdi->nr_wb_ctx = nwritebacks;
-         |            ^~
-   mm/page-writeback.c: In function 'bdi_set_nwritebacks':
-   mm/page-writeback.c:858:30: error: 'struct backing_dev_info' has no member named 'nr_wb_ctx'
-     858 |         if (nwritebacks < bdi->nr_wb_ctx)
-         |                              ^~
---
-   In file included from mm/backing-dev.c:7:
->> include/linux/backing-dev.h:118:58: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-     118 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |                                                          ^~~~~~~~~~~~~~~~~
-   include/linux/backing-dev.h:119:59: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-     119 | void bdi_wb_ctx_exit(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |                                                           ^~~~~~~~~~~~~~~~~
-   mm/backing-dev.c: In function 'nwritebacks_show':
->> mm/backing-dev.c:465:43: error: 'struct backing_dev_info' has no member named 'nr_wb_ctx'
-     465 |         return sysfs_emit(buf, "%d\n", bdi->nr_wb_ctx);
-         |                                           ^~
-   mm/backing-dev.c: At top level:
->> mm/backing-dev.c:1015:58: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-    1015 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx)
-         |                                                          ^~~~~~~~~~~~~~~~~
->> mm/backing-dev.c:1015:5: error: conflicting types for 'bdi_wb_ctx_init'; have 'int(struct backing_dev_info *, struct bdi_writeback_ctx *)'
-    1015 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/backing-dev.h:118:5: note: previous declaration of 'bdi_wb_ctx_init' with type 'int(struct backing_dev_info *, struct bdi_writeback_ctx *)'
-     118 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |     ^~~~~~~~~~~~~~~
-   In file included from include/linux/fs.h:16,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/blkdev.h:9,
-                    from mm/backing-dev.c:3:
-   mm/backing-dev.c: In function 'bdi_wb_ctx_init':
->> mm/backing-dev.c:1019:36: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1019 |         INIT_RADIX_TREE(&bdi_wb_ctx->cgwb_tree, GFP_ATOMIC);
-         |                                    ^~
-   include/linux/radix-tree.h:84:51: note: in definition of macro 'INIT_RADIX_TREE'
-      84 | #define INIT_RADIX_TREE(root, mask) xa_init_flags(root, mask)
-         |                                                   ^~~~
-   In file included from include/linux/mm_types.h:13,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs/super_types.h:7,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5:
-   mm/backing-dev.c:1021:31: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1021 |         init_rwsem(&bdi_wb_ctx->wb_switch_rwsem);
-         |                               ^~
-   include/linux/rwsem.h:123:23: note: in definition of macro 'init_rwsem'
-     123 |         __init_rwsem((sem), #sem, &__key);                      \
-         |                       ^~~
-   mm/backing-dev.c:1023:34: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1023 |         ret = wb_init(&bdi_wb_ctx->wb, bdi_wb_ctx, bdi, GFP_KERNEL);
-         |                                  ^~
->> mm/backing-dev.c:1023:40: error: passing argument 2 of 'wb_init' from incompatible pointer type [-Wincompatible-pointer-types]
-    1023 |         ret = wb_init(&bdi_wb_ctx->wb, bdi_wb_ctx, bdi, GFP_KERNEL);
-         |                                        ^~~~~~~~~~
-         |                                        |
-         |                                        struct bdi_writeback_ctx *
-   mm/backing-dev.c:544:71: note: expected 'struct backing_dev_info *' but argument is of type 'struct bdi_writeback_ctx *'
-     544 | static int wb_init(struct bdi_writeback *wb, struct backing_dev_info *bdi,
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
->> mm/backing-dev.c:1023:52: error: passing argument 3 of 'wb_init' makes integer from pointer without a cast [-Wint-conversion]
-    1023 |         ret = wb_init(&bdi_wb_ctx->wb, bdi_wb_ctx, bdi, GFP_KERNEL);
-         |                                                    ^~~
-         |                                                    |
-         |                                                    struct backing_dev_info *
-   mm/backing-dev.c:545:26: note: expected 'gfp_t' {aka 'unsigned int'} but argument is of type 'struct backing_dev_info *'
-     545 |                    gfp_t gfp)
-         |                    ~~~~~~^~~
->> mm/backing-dev.c:1023:15: error: too many arguments to function 'wb_init'; expected 3, have 4
-    1023 |         ret = wb_init(&bdi_wb_ctx->wb, bdi_wb_ctx, bdi, GFP_KERNEL);
-         |               ^~~~~~~
-   mm/backing-dev.c:544:12: note: declared here
-     544 | static int wb_init(struct bdi_writeback *wb, struct backing_dev_info *bdi,
-         |            ^~~~~~~
-   mm/backing-dev.c:1025:27: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1025 |                 bdi_wb_ctx->wb.memcg_css = &root_mem_cgroup->css;
-         |                           ^~
-   mm/backing-dev.c:1026:27: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1026 |                 bdi_wb_ctx->wb.blkcg_css = blkcg_root_css;
-         |                           ^~
-   mm/backing-dev.c: At top level:
-   mm/backing-dev.c:1270:58: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-    1270 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx)
-         |                                                          ^~~~~~~~~~~~~~~~~
-   mm/backing-dev.c:1270:5: error: conflicting types for 'bdi_wb_ctx_init'; have 'int(struct backing_dev_info *, struct bdi_writeback_ctx *)'
-    1270 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/backing-dev.h:118:5: note: previous declaration of 'bdi_wb_ctx_init' with type 'int(struct backing_dev_info *, struct bdi_writeback_ctx *)'
-     118 | int bdi_wb_ctx_init(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |     ^~~~~~~~~~~~~~~
-   mm/backing-dev.c: In function 'bdi_wb_ctx_init':
-   mm/backing-dev.c:1272:35: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1272 |         return wb_init(&bdi_wb_ctx->wb, bdi_wb_ctx, bdi, GFP_KERNEL);
-         |                                   ^~
-   mm/backing-dev.c:1272:41: error: passing argument 2 of 'wb_init' from incompatible pointer type [-Wincompatible-pointer-types]
-    1272 |         return wb_init(&bdi_wb_ctx->wb, bdi_wb_ctx, bdi, GFP_KERNEL);
-         |                                         ^~~~~~~~~~
-         |                                         |
-         |                                         struct bdi_writeback_ctx *
-   mm/backing-dev.c:544:71: note: expected 'struct backing_dev_info *' but argument is of type 'struct bdi_writeback_ctx *'
-     544 | static int wb_init(struct bdi_writeback *wb, struct backing_dev_info *bdi,
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/backing-dev.c:1272:53: error: passing argument 3 of 'wb_init' makes integer from pointer without a cast [-Wint-conversion]
-    1272 |         return wb_init(&bdi_wb_ctx->wb, bdi_wb_ctx, bdi, GFP_KERNEL);
-         |                                                     ^~~
-         |                                                     |
-         |                                                     struct backing_dev_info *
-   mm/backing-dev.c:545:26: note: expected 'gfp_t' {aka 'unsigned int'} but argument is of type 'struct backing_dev_info *'
-     545 |                    gfp_t gfp)
-         |                    ~~~~~~^~~
-   mm/backing-dev.c:1272:16: error: too many arguments to function 'wb_init'; expected 3, have 4
-    1272 |         return wb_init(&bdi_wb_ctx->wb, bdi_wb_ctx, bdi, GFP_KERNEL);
+                    from arch/alpha/include/asm/pgtable.h:14:
+   arch/alpha/include/asm/pgtable.h: In function 'pud_set':
+   arch/alpha/include/asm/page.h:32:29: error: request for member 'pgd' in something not a structure or union
+      32 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   arch/alpha/include/asm/pgtable.h:189:3: note: in expansion of macro 'pud_val'
+     189 | { pud_val(*pudp) = _PAGE_TABLE | ((((unsigned long) pmdp) - PAGE_OFFSET) << (32-PAGE_SHIFT)); }
+         |   ^~~~~~~
+   arch/alpha/include/asm/pgtable.h: In function 'pud_pgtable':
+   arch/alpha/include/asm/page.h:32:29: error: request for member 'pgd' in something not a structure or union
+      32 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   arch/alpha/include/asm/pgtable.h:207:42: note: in expansion of macro 'pud_val'
+     207 |         return (pmd_t *)(PAGE_OFFSET + ((pud_val(pgd) & _PFN_MASK) >> (32-PAGE_SHIFT)));
+         |                                          ^~~~~~~
+>> arch/alpha/include/asm/pgtable.h:205:40: warning: parameter 'pgd' set but not used [-Wunused-but-set-parameter=]
+     205 | extern inline pmd_t *pud_pgtable(pud_t pgd)
+         |                                  ~~~~~~^~~
+   arch/alpha/include/asm/pgtable.h: In function 'pud_none':
+   arch/alpha/include/asm/page.h:32:29: error: request for member 'pgd' in something not a structure or union
+      32 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   arch/alpha/include/asm/pgtable.h:222:59: note: in expansion of macro 'pud_val'
+     222 | extern inline int pud_none(pud_t pud)           { return !pud_val(pud); }
+         |                                                           ^~~~~~~
+>> arch/alpha/include/asm/pgtable.h:222:34: warning: parameter 'pud' set but not used [-Wunused-but-set-parameter=]
+     222 | extern inline int pud_none(pud_t pud)           { return !pud_val(pud); }
+         |                            ~~~~~~^~~
+   arch/alpha/include/asm/pgtable.h: In function 'pud_bad':
+   arch/alpha/include/asm/page.h:32:29: error: request for member 'pgd' in something not a structure or union
+      32 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   arch/alpha/include/asm/pgtable.h:223:59: note: in expansion of macro 'pud_val'
+     223 | extern inline int pud_bad(pud_t pud)            { return (pud_val(pud) & ~_PFN_MASK) != _PAGE_TABLE; }
+         |                                                           ^~~~~~~
+   arch/alpha/include/asm/pgtable.h:223:33: warning: parameter 'pud' set but not used [-Wunused-but-set-parameter=]
+     223 | extern inline int pud_bad(pud_t pud)            { return (pud_val(pud) & ~_PFN_MASK) != _PAGE_TABLE; }
+         |                           ~~~~~~^~~
+   arch/alpha/include/asm/pgtable.h: In function 'pud_present':
+   arch/alpha/include/asm/page.h:32:29: error: request for member 'pgd' in something not a structure or union
+      32 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   arch/alpha/include/asm/pgtable.h:224:58: note: in expansion of macro 'pud_val'
+     224 | extern inline int pud_present(pud_t pud)        { return pud_val(pud) & _PAGE_VALID; }
+         |                                                          ^~~~~~~
+   arch/alpha/include/asm/pgtable.h:224:37: warning: parameter 'pud' set but not used [-Wunused-but-set-parameter=]
+     224 | extern inline int pud_present(pud_t pud)        { return pud_val(pud) & _PAGE_VALID; }
+         |                               ~~~~~~^~~
+   arch/alpha/include/asm/pgtable.h: In function 'pud_clear':
+   arch/alpha/include/asm/page.h:32:29: error: request for member 'pgd' in something not a structure or union
+      32 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   arch/alpha/include/asm/pgtable.h:225:51: note: in expansion of macro 'pud_val'
+     225 | extern inline void pud_clear(pud_t * pudp)      { pud_val(*pudp) = 0; }
+         |                                                   ^~~~~~~
+   include/linux/pgtable.h: In function 'pmd_off':
+   include/linux/pgtable.h:167:38: error: implicit declaration of function 'p4d_offset'; did you mean 'pmd_offset'? [-Wimplicit-function-declaration]
+     167 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+         |                                      ^~~~~~~~~~
+         |                                      pmd_offset
+   include/linux/pgtable.h:167:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
+     167 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
+      42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+         |                                 ~~~~~~~^~~
+   include/linux/pgtable.h: In function 'pmd_off_k':
+   include/linux/pgtable.h:172:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
+     172 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset_k(va), va), va), va);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
+      42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+         |                                 ~~~~~~~^~~
+   include/linux/pgtable.h: In function 'pud_same':
+   arch/alpha/include/asm/page.h:32:29: error: request for member 'pgd' in something not a structure or union
+      32 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/linux/pgtable.h:1376:16: note: in expansion of macro 'pud_val'
+    1376 |         return pud_val(pud_a) == pud_val(pud_b);
          |                ^~~~~~~
-   mm/backing-dev.c:544:12: note: declared here
-     544 | static int wb_init(struct bdi_writeback *wb, struct backing_dev_info *bdi,
-         |            ^~~~~~~
-   mm/backing-dev.c: At top level:
-   mm/backing-dev.c:1275:59: warning: 'struct bdi_writeback_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-    1275 | void bdi_wb_ctx_exit(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx)
-         |                                                           ^~~~~~~~~~~~~~~~~
->> mm/backing-dev.c:1275:6: error: conflicting types for 'bdi_wb_ctx_exit'; have 'void(struct backing_dev_info *, struct bdi_writeback_ctx *)'
-    1275 | void bdi_wb_ctx_exit(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx)
-         |      ^~~~~~~~~~~~~~~
-   include/linux/backing-dev.h:119:6: note: previous declaration of 'bdi_wb_ctx_exit' with type 'void(struct backing_dev_info *, struct bdi_writeback_ctx *)'
-     119 | void bdi_wb_ctx_exit(struct backing_dev_info *bdi, struct bdi_writeback_ctx *bdi_wb_ctx);
-         |      ^~~~~~~~~~~~~~~
-   mm/backing-dev.c: In function 'bdi_wb_ctx_exit':
-   mm/backing-dev.c:1277:32: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1277 |         wb_shutdown(&bdi_wb_ctx->wb);
-         |                                ^~
->> mm/backing-dev.c:1278:9: error: too many arguments to function 'cgwb_bdi_unregister'; expected 1, have 2
-    1278 |         cgwb_bdi_unregister(bdi, bdi_wb_ctx);
-         |         ^~~~~~~~~~~~~~~~~~~      ~~~~~~~~~~
-   mm/backing-dev.c:881:13: note: declared here
-     881 | static void cgwb_bdi_unregister(struct backing_dev_info *bdi)
-         |             ^~~~~~~~~~~~~~~~~~~
-   In file included from arch/powerpc/include/asm/bug.h:116,
-                    from include/linux/bug.h:5,
-                    from include/linux/instrumented.h:10,
-                    from include/asm-generic/bitops/instrumented-atomic.h:14,
-                    from arch/powerpc/include/asm/bitops.h:321,
-                    from include/linux/bitops.h:67,
-                    from include/linux/bitmap.h:8,
-                    from include/linux/nodemask.h:91,
-                    from include/linux/list_lru.h:12:
-   mm/backing-dev.c:1280:57: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                                                         ^~
-   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/bitops.h:60:41: note: in expansion of macro 'bitop'
-      60 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                         ^~~~~
-   mm/backing-dev.c:1280:22: note: in expansion of macro 'test_bit'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                      ^~~~~~~~
-   mm/backing-dev.c:1280:57: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                                                         ^~
-   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/bitops.h:60:41: note: in expansion of macro 'bitop'
-      60 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                         ^~~~~
-   mm/backing-dev.c:1280:22: note: in expansion of macro 'test_bit'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                      ^~~~~~~~
-   mm/backing-dev.c:1280:57: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                                                         ^~
-   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/bitops.h:60:41: note: in expansion of macro 'bitop'
-      60 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                         ^~~~~
-   mm/backing-dev.c:1280:22: note: in expansion of macro 'test_bit'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                      ^~~~~~~~
-   mm/backing-dev.c:1280:57: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                                                         ^~
-   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/bitops.h:60:41: note: in expansion of macro 'bitop'
-      60 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                         ^~~~~
-   mm/backing-dev.c:1280:22: note: in expansion of macro 'test_bit'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                      ^~~~~~~~
-   mm/backing-dev.c:1280:57: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                                                         ^~
-   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/bitops.h:60:41: note: in expansion of macro 'bitop'
-      60 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                         ^~~~~
-   mm/backing-dev.c:1280:22: note: in expansion of macro 'test_bit'
-    1280 |         WARN_ON_ONCE(test_bit(WB_registered, &bdi_wb_ctx->wb.state));
-         |                      ^~~~~~~~
-   mm/backing-dev.c:1281:28: error: invalid use of undefined type 'struct bdi_writeback_ctx'
-    1281 |         wb_exit(&bdi_wb_ctx->wb);
-         |                            ^~
+   arch/alpha/include/asm/page.h:32:29: error: request for member 'pgd' in something not a structure or union
+      32 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/linux/pgtable.h:1376:34: note: in expansion of macro 'pud_val'
+    1376 |         return pud_val(pud_a) == pud_val(pud_b);
+         |                                  ^~~~~~~
+   include/linux/pgtable.h:1374:34: warning: parameter 'pud_a' set but not used [-Wunused-but-set-parameter=]
+    1374 | static inline int pud_same(pud_t pud_a, pud_t pud_b)
+         |                            ~~~~~~^~~~~
+   include/linux/pgtable.h:1374:47: warning: parameter 'pud_b' set but not used [-Wunused-but-set-parameter=]
+    1374 | static inline int pud_same(pud_t pud_a, pud_t pud_b)
+         |                                         ~~~~~~^~~~~
 
 
-vim +734 mm/page-writeback.c
+vim +/pgd +205 arch/alpha/include/asm/pgtable.h
 
-   724	
-   725	static int __bdi_set_wb_ctx(struct backing_dev_info *bdi, int nwritebacks)
-   726	{
-   727		struct bdi_writeback_ctx **new_ctx_arr, **old_ctx_arr;
-   728		int i, ret;
-   729	
-   730		new_ctx_arr = kcalloc(nwritebacks, sizeof(struct bdi_writeback_ctx *), GFP_KERNEL);
-   731		if (!new_ctx_arr)
-   732			return -ENOMEM;
-   733	
- > 734		for (i = 0; i < min(bdi->nr_wb_ctx, nwritebacks); i++)
- > 735			new_ctx_arr[i] = bdi->wb_ctx_arr[i];
-   736	
-   737		for (i = bdi->nr_wb_ctx; i < nwritebacks; i++) {
- > 738			new_ctx_arr[i] = (struct bdi_writeback_ctx *)
- > 739				kzalloc(sizeof(struct bdi_writeback_ctx), GFP_KERNEL);
-   740			if (!new_ctx_arr[i]) {
-   741				pr_err("Failed to allocate %d", i);
-   742				while (--i >= bdi->nr_wb_ctx)
-   743					kfree(new_ctx_arr[i]);
-   744				kfree(new_ctx_arr);
-   745				return -ENOMEM;
-   746			}
- > 747			INIT_LIST_HEAD(&new_ctx_arr[i]->wb_list);
-   748			init_waitqueue_head(&new_ctx_arr[i]->wb_waitq);
-   749		}
-   750	
-   751		for (i = bdi->nr_wb_ctx; i < nwritebacks; i++) {
- > 752			ret = bdi_wb_ctx_init(bdi, new_ctx_arr[i]);
-   753			if (ret) {
-   754				while (--i >= bdi->nr_wb_ctx) {
- > 755					bdi_wb_ctx_exit(bdi, new_ctx_arr[i]);
-   756					kfree(new_ctx_arr[i]);
-   757				}
-   758				kfree(new_ctx_arr);
-   759				return ret;
-   760			}
-   761			list_add_tail_rcu(&new_ctx_arr[i]->wb.bdi_node, &new_ctx_arr[i]->wb_list);
-   762			set_bit(WB_registered, &new_ctx_arr[i]->wb.state);
-   763		}
-   764	
-   765		// Make sure the initialization is done before assignment
-   766		smp_wmb();
-   767	
-   768		old_ctx_arr = bdi->wb_ctx_arr;
-   769		spin_lock_bh(&bdi_lock);
-   770		bdi->wb_ctx_arr = new_ctx_arr;
-   771		bdi->nr_wb_ctx = nwritebacks;
-   772		spin_unlock_bh(&bdi_lock);
-   773	
-   774		kfree(old_ctx_arr);
-   775		return 0;
-   776	}
-   777	
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  204  
+9cf6fa245844311 arch/alpha/include/asm/pgtable.h Aneesh Kumar K.V 2021-07-07 @205  extern inline pmd_t *pud_pgtable(pud_t pgd)
+9cf6fa245844311 arch/alpha/include/asm/pgtable.h Aneesh Kumar K.V 2021-07-07  206  {
+9cf6fa245844311 arch/alpha/include/asm/pgtable.h Aneesh Kumar K.V 2021-07-07  207  	return (pmd_t *)(PAGE_OFFSET + ((pud_val(pgd) & _PFN_MASK) >> (32-PAGE_SHIFT)));
+9cf6fa245844311 arch/alpha/include/asm/pgtable.h Aneesh Kumar K.V 2021-07-07  208  }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  209  
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  210  extern inline int pte_none(pte_t pte)		{ return !pte_val(pte); }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  211  extern inline int pte_present(pte_t pte)	{ return pte_val(pte) & _PAGE_VALID; }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  212  extern inline void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep)
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  213  {
+dd5712f3379cfe7 arch/alpha/include/asm/pgtable.h Magnus Lindholm  2026-01-02  214  	WRITE_ONCE(pte_val(*ptep), 0);
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  215  }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  216  
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  217  extern inline int pmd_none(pmd_t pmd)		{ return !pmd_val(pmd); }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  218  extern inline int pmd_bad(pmd_t pmd)		{ return (pmd_val(pmd) & ~_PFN_MASK) != _PAGE_TABLE; }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  219  extern inline int pmd_present(pmd_t pmd)	{ return pmd_val(pmd) & _PAGE_VALID; }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  220  extern inline void pmd_clear(pmd_t * pmdp)	{ pmd_val(*pmdp) = 0; }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  221  
+a73c948952ccd66 arch/alpha/include/asm/pgtable.h Mike Rapoport    2019-12-04 @222  extern inline int pud_none(pud_t pud)		{ return !pud_val(pud); }
+a73c948952ccd66 arch/alpha/include/asm/pgtable.h Mike Rapoport    2019-12-04  223  extern inline int pud_bad(pud_t pud)		{ return (pud_val(pud) & ~_PFN_MASK) != _PAGE_TABLE; }
+a73c948952ccd66 arch/alpha/include/asm/pgtable.h Mike Rapoport    2019-12-04  224  extern inline int pud_present(pud_t pud)	{ return pud_val(pud) & _PAGE_VALID; }
+a73c948952ccd66 arch/alpha/include/asm/pgtable.h Mike Rapoport    2019-12-04  225  extern inline void pud_clear(pud_t * pudp)	{ pud_val(*pudp) = 0; }
+^1da177e4c3f415 include/asm-alpha/pgtable.h      Linus Torvalds   2005-04-16  226  
+
+:::::: The code at line 205 was first introduced by commit
+:::::: 9cf6fa2458443118b84090aa1bf7a3630b5940e8 mm: rename pud_page_vaddr to pud_pgtable and make it return pmd_t *
+
+:::::: TO: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
