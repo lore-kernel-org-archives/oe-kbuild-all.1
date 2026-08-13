@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6BE3DB64A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 11:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2084346D09B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 11:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786620986; cv=none; b=Ly42g6QmPJ0Z1sEDe/GEZHCz74MxewZ0ztuJi9QRGGZ03hhyNjdXhRxfvps/3yqrvoXVXeorl50W9BduZpa5wmw+Bl5SerAdHQfyzStaMfAyXncc4Y93i8rhGUX/BkW5zyQTEy8cjRAaPWXwAgMTqPRNDQzj8AwyxNZz/DfB22A=
+	t=1786620987; cv=none; b=f5wAZeoGgj3/89mN1YggGX9GXTkdZ99Y4+OMcU5+EkzocSx/DBFVyY69jXCB9q1S7LQ+LWFr4TY/2wvgQ09ZZ0N7NiNQFnwQxCmriVhwe+mAKbXWeaAzaG26b/CGWGLg+dLJcfJHfQrOYQJWLVbbygEL2MWWBZnXHykxCyQ+uGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786620986; c=relaxed/simple;
-	bh=87rbxhacz42PHxZhwrSgyqAuRxoyIJv1kZ5h2nPhAoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A3xa5BQ3tlfueKjGbI+u3bHOfBJgOQr07C+79gzhYB3rOIye+S7ZGWM3RQ4TuYOg6rjFwkqe6d5aZ5/WRK6r+nkT8VmbMdc6wi8hFCMoBSu6goJkxKtU6usVDqlJyu4No1wF+x0VFo1PVhfYIr4SUqoWdbmLMdEWzrwYPyaH/D4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dF74zx82; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1786620987; c=relaxed/simple;
+	bh=wxinR0l5WufoBm+B3acO6EkPHcaSG9iVFU5iaOQk1tE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=efMHyhPcXchr9La3Y92rkMZywlgiNwwQqvfRq747m7tDul0XmZpUf/y2/g3J+MKZ1AJEw98O2hXbasoDnKer0gc7sC/eBAMGNpSYpmQB2kF9FKxyRwZplZNvKfBl0anGfXFz/ZzO45wA040ehpWpC3zzvCFF5ANP4diCV9gnjy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L5JDh3ZK; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dF74zx82"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L5JDh3ZK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1786620982; x=1818156982;
   h=date:from:to:cc:subject:message-id;
-  bh=87rbxhacz42PHxZhwrSgyqAuRxoyIJv1kZ5h2nPhAoQ=;
-  b=dF74zx82+IHGVgolqZ0qya3EOM/iJYoK0lFu3HMY5S4aRH4g6v4p6yzy
-   YVSI9+ot+cEZVSYmbRK8DUtGD1tmHaUqGRYrGlDLQNHlCeAhrv/YEYHnp
-   gplIvMPOfftVcOceoscWrohuCq46E2YiU6MqEEnrYCbcwozoemCjxyQ0R
-   RMN8UqNmVxUi+GWrp6Ao6q+J8Uewt7Kg4W9nyzAMlnfVZvhCTZXQBSZs9
-   7pQycB4tvmkD0juWKtjxpFtIh+h+s91Y4r3g21mJuRCI2CFwPzpT1izLr
-   BRaSTwlaAPdNmXT0QU7lTjSOnJVoeFzzcJx2f3GnSBf+kS+GkxuZ/oip+
+  bh=wxinR0l5WufoBm+B3acO6EkPHcaSG9iVFU5iaOQk1tE=;
+  b=L5JDh3ZKRtikQzDOF8TmeTdGpKUFyAtCPsLf2gp1uZhJxxDSNlSrvY8t
+   J0BCcs5vjh21VSbuSQ0WoNsGWB59jq7FwJULLTYo/9ETMMZ415SNkW1p4
+   2ZLtyJRKTXH17dhLqdLksTsnhO5gy3E47TlI3wXKzEbkIN6ujOp9B63Gy
+   2uSCguxH4EzOLYKqliziZ4K/EFfcRIqkqk4hjMTxKm6gfjtso1OYbRV4i
+   mTHtjUUgKf2/eKCLQgyOG3K/Kakp3edrwT4NkVjSLBt3Cdey6Sg2xWz1P
+   pJFahvC0+4God46TSkh9Ts64G+/RmHAJHDx4cIh4/TkGCUu10RsPZGSvl
    Q==;
-X-CSE-ConnectionGUID: 84Oi5gQHQtufy56k8afW3A==
-X-CSE-MsgGUID: cxH9NFa+S1ey+hLj4ZlldA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87408545"
+X-CSE-ConnectionGUID: Y6DJVVmeRYeUO5NPaloEPQ==
+X-CSE-MsgGUID: Vd021uCPQ4aqWxxNQY//EQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="86310800"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="87408545"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 04:36:19 -0700
-X-CSE-ConnectionGUID: daeVJ8MHSlaaOEBMeTf4JA==
-X-CSE-MsgGUID: SwAbkBEnS+SeNWDz+4SGcg==
+   d="scan'208";a="86310800"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 04:36:19 -0700
+X-CSE-ConnectionGUID: ATRvBC7zS5SK6/dCHNAAkQ==
+X-CSE-MsgGUID: 2NkTyOcTSLSllYG0kxzK5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="260103898"
+   d="scan'208";a="264497612"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Aug 2026 04:36:18 -0700
+  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2026 04:36:18 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuTjL-00000000Ttc-1igE;
+	id 1wuTjL-00000000Ttg-1v2B;
 	Thu, 13 Aug 2026 11:36:15 +0000
-Date: Thu, 13 Aug 2026 19:35:22 +0800
+Date: Thu, 13 Aug 2026 19:35:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- drivers/dma-buf/sync_file.c:119:12: sparse: sparse: symbol
- 'sync_fence_signaled_obj_name' was not declared. Should it be static?
-Message-ID: <202608131959.wxg4Rhos-lkp@intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>
+Subject: arch/m68k/include/asm/nettel.h:60: undefined reference to
+ `ppdata'
+Message-ID: <202608131917.ZNBnMX82-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,29 +60,50 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   24c37396da197463e1ff2bc69bb789e34dacad53
-commit: b402a1d75befcddca1b54a72297785474d05a99d [1/1] ANDROID: sync_file: Weakly paper over potential xe driver (and similar) races
-config: x86_64-randconfig-r112-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131959.wxg4Rhos-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131959.wxg4Rhos-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3d6d817622b0a9721e3cc404df3469171582be13
+commit: f47c1b77d0a2a9c0d49ec14302e74f933398d1a3 clk: Move clk_{save,restore}_context() to COMMON_CLK section
+date:   7 months ago
+config: m68k-randconfig-r071-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131917.ZNBnMX82-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131917.ZNBnMX82-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f47c1b77d0a2 ("clk: Move clk_{save,restore}_context() to COMMON_CLK section")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608131959.wxg4Rhos-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608131917.ZNBnMX82-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/dma-buf/sync_file.c:119:12: sparse: sparse: symbol 'sync_fence_signaled_obj_name' was not declared. Should it be static?
->> drivers/dma-buf/sync_file.c:120:12: sparse: sparse: symbol 'sync_fence_signaled_driver_name' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/sync_fence_signaled_obj_name +119 drivers/dma-buf/sync_file.c
+   m68k-linux-ld: arch/m68k/coldfire/nettel.o: in function `init_nettel':
+>> arch/m68k/include/asm/nettel.h:60: undefined reference to `ppdata'
+>> m68k-linux-ld: arch/m68k/include/asm/nettel.h:60: undefined reference to `ppdata'
+>> m68k-linux-ld: arch/m68k/include/asm/nettel.h:60: undefined reference to `ppdata'
+   m68k-linux-ld: arch/m68k/include/asm/nettel.h:61: undefined reference to `ppdata'
+>> m68k-linux-ld: arch/m68k/include/asm/nettel.h:60: undefined reference to `ppdata'
+   m68k-linux-ld: arch/m68k/coldfire/nettel.o:arch/m68k/include/asm/nettel.h:61: more undefined references to `ppdata' follow
 
-   118	
- > 119	const char *sync_fence_signaled_obj_name = "signaled-timeline";
- > 120	const char *sync_fence_signaled_driver_name = "signaled-driver";
-   121	
+
+vim +60 arch/m68k/include/asm/nettel.h
+
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16  55  
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16  56  static __inline__ void mcf_setppdata(unsigned int mask, unsigned int bits)
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16  57  {
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16  58  	volatile unsigned short *pp;
+732c611e5bbb76 arch/m68k/include/asm/nettel.h sfking@fdwdc.com 2009-06-19  59  	pp = (volatile unsigned short *) MCFSIM_PADAT;
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16 @60  	ppdata = (ppdata & ~mask) | bits;
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16  61  	*pp = ppdata;
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16  62  }
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16  63  #endif
+^1da177e4c3f41 include/asm-m68knommu/nettel.h Linus Torvalds   2005-04-16  64  
+
+:::::: The code at line 60 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 --
 0-DAY CI Kernel Test Service
