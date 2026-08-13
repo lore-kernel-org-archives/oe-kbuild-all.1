@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55B246EC69
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 11:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B38340407
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 11:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786620990; cv=none; b=kAoMX5b7UrptfFvp1l9gVwWrYvjrUvN/m4c+9wI2VQHR72qE/MuVlsRrY5abxWMnxx0sw/CFqoCIIutuBplA/DqzsV9OYkpNvdM7YpNEDbA1SUZ8ElBVAUwUFxffpH4JKseiA9kZU9Bj18i2sTHENrKjvePvRf4902cessMt2Bg=
+	t=1786621582; cv=none; b=bHZRv5VCrltAtOrCA/aDN89Ryk+1QlsmM8wVV2q+IVtedpx/jplS4cjl016FwiFGDgPEK4Xt3BOY7qlHnsOqQX70DMXeY3IvDIqjJySJ4+DYgAQwCO3/lUaQgPHS7jawpjMWHWebC/2Pad3QemZtNXeeI4kyuKTYQXrk4VOa20s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786620990; c=relaxed/simple;
-	bh=3KKoBHV6YiZXY6Z+5H12co3TOCaNwwAwwlE9esxuOGk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ncFk5+4WzWLCxTDK2L/PCkP81FZjCWqd4w5F8CSImUdOnvTr3FhwWw56jNXbVscWi9JCHp9TDNZM6gBxfxBA94/cPUryBPEv5GnouT2W+tsmR75TzvD+z9GIpGWvemlDmUswJzBVIbgzZy053urzKNxm55EVk/MUyp2QqQoVciU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KoB0fBI7; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1786621582; c=relaxed/simple;
+	bh=MM3qymzTNAWSchI/0+V2o+2AEKnaAwcFGswRtBGkfiw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uwGfjuB9hK7vieV5DGoLC3A3LVccHq6MAKVoihDNmLAgC2im9kJLZCk0tWiovcewTB9IaHLw4YHA2Ag0XmqGUr4rk3V8S7XTD5GVYAwY2F8dCwZy1V83WO+eRUGoAQkUt/ovDcrLTu/2GzWEFg8cYAcUeZ9SLWcKp3V+sWqU4nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FltdZFdr; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KoB0fBI7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FltdZFdr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786620988; x=1818156988;
+  t=1786621581; x=1818157581;
   h=date:from:to:cc:subject:message-id;
-  bh=3KKoBHV6YiZXY6Z+5H12co3TOCaNwwAwwlE9esxuOGk=;
-  b=KoB0fBI7mfv94UG0j5M2ABVq7HJVUMxL3yXdXmnH4CPly3EnBhKpFaip
-   q/f0mhMrrr6873SzJniUc6vm34Igllnn4Jw1yqUkGHq30VR8NJzIFmaOF
-   xM1x1igxLPoKzl/Te+f9Tm0ECkoqocJxkqDiC8bJ3ZVss+aAgYNtGgJdg
-   Gif1cfdPa5KG40Gq24EeAcgpTqW9+CU2KnyPbNg1hvcSNOq1gidRqZX+2
-   Qb/ihCzfQj/o37ytzJs+dfXc5/DUjQPGBT0yQks68PhAkKdzMhNd880K/
-   WlQArF0Xw+4CprFodZp4Bd3+cIpG31oYEVZlA14YGcuzZ7vTuF4+TfAF1
-   A==;
-X-CSE-ConnectionGUID: dIQBimqITR6lx5nTjNgjsw==
-X-CSE-MsgGUID: HdRfFq3qQGmZmjBq7mFfrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87408549"
+  bh=MM3qymzTNAWSchI/0+V2o+2AEKnaAwcFGswRtBGkfiw=;
+  b=FltdZFdrDYjnwaO4tCABK1ZnFZtFq5xgPT5EsYK+YHAmb6WpjB9WvJ/o
+   Y4hXWbcuH85jSjKRd/iOIW+Q7VYbfIbiAqKowidP3isFYCOukwAwy6Fgc
+   KmFLm2hm+YpOILqGkAa6MsrgKwmvtClfWTRpeeCqk/84x/UZWq694KlEl
+   Dmpg6fraMXPobq3HaMC8C8KRS4vQjbLXOsiJPlrIwSX+hxnsnoVy5zhJJ
+   wNhHBeklEMb9ZRPyrDKwE6ebJ/O2ck70WXNdVeLX6egWOCZttJ/EVQaUx
+   t7dyWqIdV88GEnYMYVEPaYZZ7elhZJpnDaHYvpCwk8jnfySca9mT3YaS1
+   Q==;
+X-CSE-ConnectionGUID: k+KE8ndeRlis9tHEX10u2Q==
+X-CSE-MsgGUID: KPY2+p/gTueMxaefxqkTfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="91067618"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="87408549"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 04:36:20 -0700
-X-CSE-ConnectionGUID: Ou+yRDxLQgyvc7kmYrurWg==
-X-CSE-MsgGUID: /5TPHdFnT5ymWK7cETjwlg==
+   d="scan'208";a="91067618"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 04:46:20 -0700
+X-CSE-ConnectionGUID: +LkdXsluQr6uoDu/GaituQ==
+X-CSE-MsgGUID: bOlKQ+DjR/eJxw6b+2itDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="260103902"
+   d="scan'208";a="267436781"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Aug 2026 04:36:18 -0700
+  by orviesa003.jf.intel.com with ESMTP; 13 Aug 2026 04:46:19 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuTjL-00000000Tte-1oMX;
-	Thu, 13 Aug 2026 11:36:15 +0000
-Date: Thu, 13 Aug 2026 19:35:24 +0800
+	id 1wuTt2-00000000Tuk-1JBb;
+	Thu, 13 Aug 2026 11:46:16 +0000
+Date: Thu, 13 Aug 2026 19:45:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dongjin Kim <tobetter@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tobetter:odroid-7.2.y 57/58] scripts/Makefile.clean:12:
- drivers/net/wireless/realtek/rtl8192fu/Makefile: No such file or directory
-Message-ID: <202608131924.2WHEkCvn-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 1/1]
+ drivers/usb/typec/mode_selection.c:261:9: error: implicit declaration of
+ function 'kzalloc'
+Message-ID: <202608131955.l7J3dFuN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,69 +60,132 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Dongjin,
+Hi Andrei,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
-tree:   https://github.com/tobetter/linux odroid-7.2.y
-head:   a105acaa179819b345f92c1de3b2628b9d1a31f9
-commit: aadf585168240b41fc8faa32e9b150829831a44a [57/58] ODROID-COMMON: net/wireless: add Realtek Wifi drivers
-config: powerpc64-randconfig-r122-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131924.2WHEkCvn-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131924.2WHEkCvn-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   24c37396da197463e1ff2bc69bb789e34dacad53
+commit: f49f8d90b43e2a0aa7a011c88529f38c409fbf0b [1/1] ANDROID: usb: typec: Implement mode selection
+config: arm-randconfig-004-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131955.l7J3dFuN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131955.l7J3dFuN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608131924.2WHEkCvn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608131955.l7J3dFuN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> scripts/Makefile.clean:12: drivers/net/wireless/realtek/rtl8192fu/Makefile: No such file or directory
->> make[8]: *** No rule to make target 'drivers/net/wireless/realtek/rtl8192fu/Makefile'.
-   scripts/Makefile.clean:12: Failed to remake makefile 'drivers/net/wireless/realtek/rtl8192fu/Makefile'.
->> scripts/Makefile.clean:12: drivers/net/wireless/realtek/rtl8821au/Makefile: No such file or directory
->> make[8]: *** No rule to make target 'drivers/net/wireless/realtek/rtl8821au/Makefile'.
-   scripts/Makefile.clean:12: Failed to remake makefile 'drivers/net/wireless/realtek/rtl8821au/Makefile'.
-   make[7]: *** [scripts/Makefile.clean:61: drivers/net/wireless/realtek/rtl8192fu] Error 2
-   make[7]: *** [scripts/Makefile.clean:61: drivers/net/wireless/realtek/rtl8821au] Error 2
->> scripts/Makefile.clean:12: drivers/net/wireless/realtek/rtl8821cu/Makefile: No such file or directory
->> make[8]: *** No rule to make target 'drivers/net/wireless/realtek/rtl8821cu/Makefile'.
-   scripts/Makefile.clean:12: Failed to remake makefile 'drivers/net/wireless/realtek/rtl8821cu/Makefile'.
-   make[7]: *** [scripts/Makefile.clean:61: drivers/net/wireless/realtek/rtl8821cu] Error 2
-   make[7]: Target '__clean' not remade because of errors.
-   make[6]: *** [scripts/Makefile.clean:61: drivers/net/wireless/realtek] Error 2
-   make[6]: Target '__clean' not remade because of errors.
-   make[5]: *** [scripts/Makefile.clean:61: drivers/net/wireless] Error 2
-   make[5]: Target '__clean' not remade because of errors.
-   make[4]: *** [scripts/Makefile.clean:61: drivers/net] Error 2
-   make[4]: Target '__clean' not remade because of errors.
-   make[3]: *** [scripts/Makefile.clean:61: drivers] Error 2
-   make[3]: Target '__clean' not remade because of errors.
-   make[2]: *** [Makefile:2194: _clean_.] Error 2
-   make[2]: Target 'distclean' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'distclean' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'distclean' not remade because of errors.
+   drivers/usb/typec/mode_selection.c: In function 'mode_list_clean':
+   drivers/usb/typec/mode_selection.c:110:3: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+     110 |   kfree(ms);
+         |   ^~~~~
+         |   kvfree
+   drivers/usb/typec/mode_selection.c: In function 'mode_add_to_list':
+>> drivers/usb/typec/mode_selection.c:261:9: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+     261 |    ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+         |         ^~~~~~~
+   drivers/usb/typec/mode_selection.c:261:7: warning: assignment to 'struct mode_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     261 |    ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+         |       ^
+   drivers/usb/typec/mode_selection.c: In function 'typec_mode_selection_start':
+   drivers/usb/typec/mode_selection.c:292:6: warning: assignment to 'struct altmode_selection *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     292 |  sel = kzalloc(sizeof(struct altmode_selection), GFP_KERNEL);
+         |      ^
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && MMU [=n]
+   Selected by [m]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=m]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=m] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_TTM
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && MMU [=n]
+   Selected by [m]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=m]
 
 
-vim +12 scripts/Makefile.clean
+vim +/kzalloc +261 drivers/usb/typec/mode_selection.c
 
-^1da177e4c3f415 Linus Torvalds  2005-04-16   7  
-4f1933620f57145 Paul Smith      2006-03-05   8  PHONY := __clean
-^1da177e4c3f415 Linus Torvalds  2005-04-16   9  __clean:
-^1da177e4c3f415 Linus Torvalds  2005-04-16  10  
-3204a7fb98a3bcc Masahiro Yamada 2021-02-28  11  include $(srctree)/scripts/Kbuild.include
-a2430b25c31840a Masahiro Yamada 2022-11-19 @12  include $(kbuild-file)
-^1da177e4c3f415 Linus Torvalds  2005-04-16  13  
-
-:::::: The code at line 12 was first introduced by commit
-:::::: a2430b25c31840a6dcbf95c65415d5fee2984dbc kbuild: add kbuild-file macro
-
-:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
-:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
+   250	
+   251	static int mode_add_to_list(struct device *dev, void *data)
+   252	{
+   253		struct list_head *list = (struct list_head *)data;
+   254		struct mode_state *ms;
+   255	
+   256		if (is_typec_altmode(dev)) {
+   257			struct typec_altmode *altmode = to_typec_altmode(dev);
+   258			const struct typec_altmode *pdev = typec_altmode_get_partner(altmode);
+   259	
+   260			if (pdev && altmode->ops && altmode->ops->activate) {
+ > 261				ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+   262				if (!ms)
+   263					return -ENOMEM;
+   264	
+   265				ms->altmode = altmode;
+   266				ms->priority = pdev->priority;
+   267				INIT_LIST_HEAD(&ms->list);
+   268				list_add_tail(&ms->list, list);
+   269			}
+   270		}
+   271	
+   272		return 0;
+   273	}
+   274	
 
 --
 0-DAY CI Kernel Test Service
