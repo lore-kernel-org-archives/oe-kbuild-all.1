@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A8523EAA6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 06:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3452415F34
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 06:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786600873; cv=none; b=do0DWh/WLkl/zicwVhUFELJjj5uicGqbdgNogVxiQoOyCwY4AGLogSzCPwICLrM6o0/Kw8ULSy4G8ApcctJcu32Ebgz1le+JkChro124xWpptxt19F0d97D3IVvXh3hR7F+zmZhYRmjDOWaipnjOPjbw30EE16Wf3A3Pq8kuTE4=
+	t=1786601659; cv=none; b=cYM590hf92BudjVuFBoB9tFtXQ0BUmO+rZZYfmpxA4wXCp6CgrQnZf5a4nSEyzkNIqIY7By0spG6f/4eZ7oWg4L3PXMm9Yw4bRM62Nb+ki4FA3rGzF0ibISvyY8t62MTRDG1Eyt03UGNYTohOsjd9rL12nyUbcRK4VLlKFnYhA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786600873; c=relaxed/simple;
-	bh=UCuQFSNdWHWUL1jgQS1PK0Aq/k5jsFgLlY2/TRROJkw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KVdaBa7HuDc5ttYlR0+3fHFJI/zq5qYLyhEC2ID2baIyo19Nk1ly85cPI6rjTW8YwdDpp8sRwQZFYQb6R3jti/SBReizAn89bPaRbYNcXfbc+khK/YR2MWymKHxtfCgcINlcor+C0dlrixYxDc7c63S0F/LRm+Tcw8EOTPOiaPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3b/AR/y; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1786601659; c=relaxed/simple;
+	bh=JthqzrPprzkVQkG+yLDiNmOfImZzgTacRArPxIQ4wlU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kkuL9DqYmt8htn10f7of9Sswmjpt76Q1a3xgE8FzUrkXDMHhvo4ONDblv3qz8DcHMfOx7qtA2I4SVK8T48MmQjtmjEqdLbszeDb6mn5SqMvW26m2JYj8ECnJsFXScjpAURAfFXwVmyeqbn3WRUfg4ilK8gHPzLRrrDiz7HAC8C4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iu5HwAMk; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3b/AR/y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iu5HwAMk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786600872; x=1818136872;
+  t=1786601657; x=1818137657;
   h=date:from:to:cc:subject:message-id;
-  bh=UCuQFSNdWHWUL1jgQS1PK0Aq/k5jsFgLlY2/TRROJkw=;
-  b=P3b/AR/yGH8XUgZprCx2t7uoxj7hWh+ZwVlw/mVRYoop2J6mOvD6FLjT
-   qkEMAQsgfuSHk+P5ONF1swelgFg0rgPN+XZOJgwUAGobG0Sv/rwLj5TmF
-   6JU+TFrJ67vlJpp9QcgdpnC6DnA2N1lIPjqXV2Cm91NwLCQbYNkrV3EEX
-   aC7aTvxnPvkBsEULltdAKi2lA6QmtF2DAAxRjS9UmjJ0nQsuo5wNZr899
-   mzUS3U8WjrpUAHd3l2bnEJS+eAZIEkGglpZfb5slbABsUoxsB6LTd6aKY
-   IxxeZHj38S73xIrDe3ji/1MJEzqCWV7uTUy00UKl9j0429cGQ4dbVtQwo
-   A==;
-X-CSE-ConnectionGUID: d+qb1rz5Q6WKDkK2rdEB5g==
-X-CSE-MsgGUID: TyGnmV7WR+mYMkYCIm816g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="74704340"
+  bh=JthqzrPprzkVQkG+yLDiNmOfImZzgTacRArPxIQ4wlU=;
+  b=iu5HwAMkQxXzkI8SnSN6dHM18IZhKtLdoe9r/wjeKhQ4n7yzCBAiU/ta
+   /WKE0c86dEjETMHXQ5zRkTwBqVXidjrEIxtwXErQlczuvfxWm+vDrvwBS
+   M+nvCiKkFw5e9b9epB5lIRePCeCfcSUGkk3TQxK91w4N1Y419dkXssNnr
+   tMmUTg+vdB7S4w1I6dvyfvDsE2DAcDYPjIIWEcToaCREYP61vVNWfdvJK
+   TpZU2jkjiNEu4uEUtcJ6GM18otWkpzBCTIqS0p2F3L+lPD84plmz0LW7V
+   nhnB89WhFzEW1VGtqtO7nQ1jvp52slONmCzPWlw6xJdJr8J0rNMKmtGOn
+   g==;
+X-CSE-ConnectionGUID: bhuTYGTSTI+x57YnF06wHQ==
+X-CSE-MsgGUID: 6oDgFMgiSDKnSoqTcH2S1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87049136"
 X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="74704340"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 23:01:11 -0700
-X-CSE-ConnectionGUID: rWW4FCmXS5en7GvzVh1E+Q==
-X-CSE-MsgGUID: W8PVU/BMR1WAAASoYo9UQQ==
+   d="scan'208";a="87049136"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 23:14:16 -0700
+X-CSE-ConnectionGUID: CnziEd3lTsK4JN+O1o/uZw==
+X-CSE-MsgGUID: LsmhEkTZRU6MYZps9mJYrQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="263885129"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Aug 2026 23:01:09 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 12 Aug 2026 23:14:15 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuOV1-00000000SzS-0d54;
-	Thu, 13 Aug 2026 06:01:07 +0000
-Date: Thu, 13 Aug 2026 14:00:22 +0800
+	id 1wuOhg-00000000T2k-2YcP;
+	Thu, 13 Aug 2026 06:14:12 +0000
+Date: Thu, 13 Aug 2026 14:13:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Ard Biesheuvel <ardb@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- arch/x86/include/asm/kvm_pkvm.h:270:27: error: field has incomplete type
- 'struct pkvm_domain_param'
-Message-ID: <202608131309.Fmso5uUg-lkp@intel.com>
+Subject: [ardb:arm64-bti-veneers 15/18]
+ drivers/firmware/efi/fdtparams.c:140:9: error: implicit declaration of
+ function 'early_memremap_ro'; did you mean 'arch_memremap_wb'?
+Message-ID: <202608131437.YZdXNyK7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,90 +58,103 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Vineeth,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   24c37396da197463e1ff2bc69bb789e34dacad53
-commit: f24cdadefceff37f8b2ffc66635ba5df50633b8c [1/1] ANDROID: pkvm: x86: Hypercalls for iommu domain management
-config: i386-randconfig-r072-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131309.Fmso5uUg-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131309.Fmso5uUg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-bti-veneers
+head:   82615c616e8cf0642701dd7adc233e43f761d580
+commit: f973919abbc0179c7121f903d7b5d9495f2714a4 [15/18] efi: Pass EFI boot memmap struct address to core kernel
+config: arm-randconfig-001-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131437.YZdXNyK7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131437.YZdXNyK7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608131309.Fmso5uUg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608131437.YZdXNyK7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/setup.c:43:
-   arch/x86/include/asm/kvm_pkvm.h:266:31: error: field has incomplete type 'struct pkvm_lm_context_param'
-     266 |         struct pkvm_lm_context_param lm_context_param;
-         |                                      ^
-   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
-     266 |         struct pkvm_lm_context_param lm_context_param;
-         |                ^
-   arch/x86/include/asm/kvm_pkvm.h:267:38: error: field has incomplete type 'struct pkvm_clear_translation_param'
-     267 |         struct pkvm_clear_translation_param clear_translation_param;
-         |                                             ^
-   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
-     267 |         struct pkvm_clear_translation_param clear_translation_param;
-         |                ^
-   arch/x86/include/asm/kvm_pkvm.h:268:31: error: field has incomplete type 'struct pkvm_sm_context_param'
-     268 |         struct pkvm_sm_context_param sm_context_param;
-         |                                      ^
-   arch/x86/include/asm/kvm_pkvm.h:268:9: note: forward declaration of 'struct pkvm_sm_context_param'
-     268 |         struct pkvm_sm_context_param sm_context_param;
-         |                ^
-   arch/x86/include/asm/kvm_pkvm.h:269:32: error: field has incomplete type 'struct pkvm_pasid_table_param'
-     269 |         struct pkvm_pasid_table_param pasid_table_param;
-         |                                       ^
-   arch/x86/include/asm/kvm_pkvm.h:269:9: note: forward declaration of 'struct pkvm_pasid_table_param'
-     269 |         struct pkvm_pasid_table_param pasid_table_param;
-         |                ^
->> arch/x86/include/asm/kvm_pkvm.h:270:27: error: field has incomplete type 'struct pkvm_domain_param'
-     270 |         struct pkvm_domain_param domain_param;
-         |                                  ^
-   arch/x86/include/asm/kvm_pkvm.h:270:9: note: forward declaration of 'struct pkvm_domain_param'
-     270 |         struct pkvm_domain_param domain_param;
-         |                ^
-   5 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   drivers/firmware/efi/fdtparams.c: In function 'efi_get_fdt_params':
+>> drivers/firmware/efi/fdtparams.c:140:9: error: implicit declaration of function 'early_memremap_ro'; did you mean 'arch_memremap_wb'? [-Werror=implicit-function-declaration]
+       bm = early_memremap_ro(memmap, sizeof(*bm));
+            ^~~~~~~~~~~~~~~~~
+            arch_memremap_wb
+>> drivers/firmware/efi/fdtparams.c:140:7: warning: assignment to 'struct efi_boot_memmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+       bm = early_memremap_ro(memmap, sizeof(*bm));
+          ^
+>> drivers/firmware/efi/fdtparams.c:151:4: error: implicit declaration of function 'early_memunmap'; did you mean 'devm_memunmap'? [-Werror=implicit-function-declaration]
+       early_memunmap(bm, sizeof(*bm));
+       ^~~~~~~~~~~~~~
+       devm_memunmap
+   cc1: some warnings being treated as errors
 
 
-vim +270 arch/x86/include/asm/kvm_pkvm.h
+vim +140 drivers/firmware/efi/fdtparams.c
 
-   258	
-   259	union pkvm_pv_param {
-   260		struct kvm_segment seg;
-   261		struct msr_data msr;
-   262		struct desc_ptr desc;
-   263		struct eoi_exitmap eoi_exit_bitmap;
-   264	
-   265		/* IOMMU hypercall params */
-   266		struct pkvm_lm_context_param lm_context_param;
-   267		struct pkvm_clear_translation_param clear_translation_param;
-   268		struct pkvm_sm_context_param sm_context_param;
-   269		struct pkvm_pasid_table_param pasid_table_param;
- > 270		struct pkvm_domain_param domain_param;
-   271	} __aligned(PAGE_SIZE);
-   272	
+    86	
+    87	u64 __init efi_get_fdt_params(struct efi_memory_map_data *mm)
+    88	{
+    89		const void *fdt = initial_boot_params;
+    90		unsigned long systab, memmap;
+    91		int i, j, node;
+    92		struct {
+    93			void	*var;
+    94			int	size;
+    95		} target[] = {
+    96			[SYSTAB] = { &systab,		sizeof(systab) },
+    97			[MEMMAP] = { &memmap,		sizeof(memmap) },
+    98	#ifdef CONFIG_XEN
+    99			[MMBASE] = { &mm->phys_map,	sizeof(mm->phys_map) },
+   100			[MMSIZE] = { &mm->size,		sizeof(mm->size) },
+   101			[DCSIZE] = { &mm->desc_size,	sizeof(mm->desc_size) },
+   102			[DCVERS] = { &mm->desc_version,	sizeof(mm->desc_version) },
+   103	#endif
+   104		};
+   105	
+   106		BUILD_BUG_ON(ARRAY_SIZE(target) != ARRAY_SIZE(name));
+   107		BUILD_BUG_ON(ARRAY_SIZE(target) != ARRAY_SIZE(dt_params[0].params));
+   108	
+   109		if (!fdt)
+   110			return 0;
+   111	
+   112		for (i = 0; i < ARRAY_SIZE(dt_params); i++) {
+   113			node = fdt_path_offset(fdt, dt_params[i].path);
+   114			if (node < 0)
+   115				continue;
+   116	
+   117			if (efi_enabled(EFI_DBG))
+   118				pr_info("Getting UEFI parameters from %s in DT:\n",
+   119					dt_params[i].path);
+   120	
+   121			for (j = 0; j < ARRAY_SIZE(target); j++) {
+   122				const char *pname = dt_params[i].params[j];
+   123	
+   124				if (pname[0] == '\0')
+   125					continue;
+   126	
+   127				if (!efi_get_fdt_prop(fdt, node, pname, name[j],
+   128						      target[j].var, target[j].size))
+   129					continue;
+   130				if (!j)
+   131					goto notfound;
+   132				pr_err("Can't find property '%s' in DT!\n", pname);
+   133				return 0;
+   134			}
+   135			if (IS_ENABLED(CONFIG_XEN) && dt_params[i].paravirt) {
+   136				set_bit(EFI_PARAVIRT, &efi.flags);
+   137			} else {
+   138				struct efi_boot_memmap *bm;
+   139	
+ > 140				bm = early_memremap_ro(memmap, sizeof(*bm));
+   141				if (!bm) {
+   142					pr_err("Cannot remap EFI boot memory map\n");
+   143					return 0;
+   144				}
+   145	
+   146				mm->phys_map		= memmap + sizeof(*bm);
+   147				mm->size		= bm->map_size;
+   148				mm->desc_size		= bm->desc_size;
+   149				mm->desc_version	= bm->desc_ver;
+   150	
+ > 151				early_memunmap(bm, sizeof(*bm));
 
 --
 0-DAY CI Kernel Test Service
