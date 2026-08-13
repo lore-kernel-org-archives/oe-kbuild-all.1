@@ -1,73 +1,63 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0033F8EDE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 19:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B083BCD17
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 19:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786647957; cv=none; b=mp5reJpWBdrCaouC8pgngvlJHQ6VNaDrPAxNIdVqrSPuDTmT+41hgZ1LeEZdabRZ0QhBAwpYd3aOeh9QHJi0GiGqEdIdF93oIII71E7T3kEr2qxUIPb8kiTdg4Dy/OC4hKOcQBWGdX+WwIr2WeXe/8TUJKRv5ImfYLfbPYEMhA8=
+	t=1786648212; cv=none; b=IRfeP8e4XnHg4o2v3eWckZrjuQ1tgcuZEprognLcEPY9tQPNXW2rdpvGuTuRyJnAgpRxGWW3/dg7aFcEaPRnYb5/uEeJid3QFSMTb08pI8aXN3qaN91StWIB7h1ZamVyuOATIHLcmoAsfOkfoBMGJqxxplOPMRXbOuWUlztv/bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786647957; c=relaxed/simple;
-	bh=B2bnMqNqoYYuTkMqtL6g4MAmG3rWQieX91fm8hm4Sf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B2/PtiJxucmRfi/8nkkM+SAyS/Sk7Eu1ft8sepuNAoF4zJvU7ihVFwzVcLOSRJT/HUZzFWSPZ0eNsIaVCdWzexwGrbYd9hDVCfrbmdFgM4Ewu9uf2+F3WeGumeHoTQbBOADAi02RGmhC4AsUDU7uk6xPfKCJd+mUazU1PXecUf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ogxa5U1T; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786648212; c=relaxed/simple;
+	bh=gWxgPdOFICTOnswLeOTRw2haQDIn2SOw2YLCySUySWw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dA6ZVUQ4hZ/BsfKItdWuA6SEuWapdTYmjDcGQ85K/pc8htxVclMjGc6Hw+nvMCYGuPfpStS5x5dEotEQCTCM56CccdFQ/9xk4Fs3yH5N5sWo+d/LQ4MVzpmbHCCipQ9uiYH0SKMyMBvpkpKYlgVINKBgpuekBklOlK+x8v+ZDiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bpuw3Yc1; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ogxa5U1T"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47f6609c657so84909f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 12:05:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786647954; x=1787252754; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=T55vEoBWm7W+mkApMI66CBUWbz2M2GmccHPPbYJGC5s=;
-        b=ogxa5U1ThthI1ID8o5uDKJ6IBY9SH4tLC9jf2iDLU5TFGOmoS6RnrVWoSL/yr9vtC9
-         O+d8URgdCJJ1/XgROSY4HsxQIgunV7evrJQhoFr6cyZXiSyeaaWToScN+lnOOMal9Mkb
-         ZGQO/UH+LX2wU+b0F9WS3Mg6espD1OGEdwB2Bn/gTrhCwt/V/i1wSwqZg6o0oHuaIRTX
-         /e6rr8g1ET1RID81zqG/qXhD0R6+KjtBP2bzUyfwPlerLWDFUafHkVkQ+wNNNd60S7ok
-         yyDIqIhGvCqytuIgNw7krYnJKul0Bhjpxw2hsbWoB9Refrd5UjEJ91i4iFvpgHOyBt+v
-         4I4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786647954; x=1787252754;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=T55vEoBWm7W+mkApMI66CBUWbz2M2GmccHPPbYJGC5s=;
-        b=L8hDkn4ooF6ichlqpkKRZUmKxNe8mkJOFhlITt/jJJTgDJVXTCHu1j/Y6wmIme7zth
-         aifSxQbHKJuyF75e5ev7BKVJqZOuEhbG7n1dYjdYbNiWb4eg4AoCRTxLBXUkalrR4JCP
-         +8lA5cT/E2sMi+gNUPoERThow7TOpItMPsv6frtnOGVLWvUObxFOwj68dDapjhFFFEmV
-         3xxLSJLRDTHEXbVf4nbHLEV20Z+Gtvdi4BB1P/8OgfFEGV627d/vFmvU6Mc+Y2XBtXF3
-         tGJF8CuglYmKRUgadqlVP5mVJ1VfjC6ZYzrn6/PWMHfnyYdOCzWMvjAccQ9qVno8yjpN
-         xvZg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq+Ugid1JJ6oYLntDYwCjMyH9mnMHb53uLeBfP/9o6SmwfbcSppbAN1d2S3mOkmXLwn0HTMNgJPYmN9wISc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3GklHcmVUX+ft9yq1+07v8u+tY2wzgMECx1/JdCxOjdyC4IYK
-	PWMi+2sQEA+gysuMKwHAxWvRhR9Dq5X6GI3ns41xhjFHZxAY+iCFSZem
-X-Gm-Gg: AR+sD10qUu7mFlXmC0nFwAyc22yihcYLRP2Wf69iluwLFqH/KO6dlPHUvvZTGCq4zVe
-	s16IqdPk+/BvTMgSkrYMqtJk9JcFbt7y52J063i/7768PZmvdq/u3WaBfGglH+oMYnpAS9qWZI+
-	yDFSFcCutmeHlABwabGaIji5vYI65s7ZCcL0t0ifMB2uB/zwnFWZC5HKX2ZCy7p3+ofzplCyKZn
-	/ERHJI9Gn/sVQUxtNkH2HpvX7XIRWAcG/JgCzD2ukc5SVY/gATDDFkENsYMvl76Wh1wsVwg2MOQ
-	n2uYoBPLOhGa10xDqEuludSSwLa+2AtgN0BORqK/T///ZiacOJRMe+Xkj0oszNO7QEYKvWvQ9Zo
-	cfeghVaxD2ik+xCUqlwjzAzAqvk14vt1U+OHhKr7f6x1JFkK088FtCL1vI5tHmgixR9btZlNiYD
-	OG0qWGwkGSeAvTIR2xM6vdWXAJ9aWAlINzFRkSPvBYLIVYD2Kpxeu737IA
-X-Received: by 2002:a5d:588b:0:b0:481:4fe8:696b with SMTP id ffacd0b85a97d-481607ba630mr387086f8f.29.1786647954032;
-        Thu, 13 Aug 2026 12:05:54 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2b1d9bsm1382077f8f.24.2026.08.13.12.05.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 12:05:53 -0700 (PDT)
-Date: Thu, 13 Aug 2026 22:05:49 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Michael Bommarito <michael.bommarito@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: net/sctp/socket.c:7036 sctp_getsockopt_peer_auth_chunks() warn:
- potential user controlled sizeof overflow '8 + num_chunks' '8 +
- 0-65531,4294967292-u32max'
-Message-ID: <202608140244.f2Omwf4y-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpuw3Yc1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786648209; x=1818184209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gWxgPdOFICTOnswLeOTRw2haQDIn2SOw2YLCySUySWw=;
+  b=bpuw3Yc1xeDstVIx65b6vB3sBqiTDzud5e1cEzrCkpdxptkSRXebMStZ
+   JUM1wUeWpAxm2UMaSBvcX5NTp92B0J/OzxWjLUzT/Qk9aTGnlSr4jfuCc
+   uH7fVUVQ80dQO0B1ckNH9fotta7aE2IgoMB/slvmSkkCyrQJv46H09xuR
+   5x7z/TQQROgIT31jd2i39gAmke6C1H5LvVIGiyG7GVXU32cLcsQ3qKS0m
+   FcpUOsE7i9CWIg0y8y6HLEP3N4xOkaAHV+PsbESnP30bj0JvX0HE5sYez
+   A7LS405KYtSdKCLyK99tEcovXYVcbZm03h8oRJNutjXbF0y7jDT1TI+D/
+   w==;
+X-CSE-ConnectionGUID: nrI5NvQATl2feYh3L0ZaXA==
+X-CSE-MsgGUID: /S0AvfqFSHy7aeTSsjsKaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="90908358"
+X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
+   d="scan'208";a="90908358"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 12:10:09 -0700
+X-CSE-ConnectionGUID: AhQgDMt/QdqBysArdk5JEw==
+X-CSE-MsgGUID: omL7kmDLTLKcn7Ct55Xm1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
+   d="scan'208";a="269212724"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 13 Aug 2026 12:10:05 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wuaoU-00000000WHu-3ocs;
+	Thu, 13 Aug 2026 19:10:02 +0000
+Date: Fri, 14 Aug 2026 03:09:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brandon Brnich <b-brnich@ti.com>, devarsht@ti.com, mchehab@kernel.org,
+	hverkuil@kernel.org, benjamin.gaignard@collabora.com,
+	sebastian.fricke@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, b-brnich@ti.com, k-willis@ti.com
+Subject: Re: [PATCH] media: imagination: e5010: Enable autosuspend for
+ runtime PM
+Message-ID: <202608140323.qyc8mKlp-lkp@intel.com>
+References: <20260722210845.723864-1-b-brnich@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,87 +66,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260722210845.723864-1-b-brnich@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3d6d817622b0a9721e3cc404df3469171582be13
-commit: 0cf004ffb61cd32d140531c3a84afe975f9fc7ea sctp: fix OOB write to userspace in sctp_getsockopt_peer_auth_chunks
-config: m68k-randconfig-r071-20260813 (https://download.01.org/0day-ci/archive/20260814/202608140244.f2Omwf4y-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
+Hi Brandon,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linuxtv-media-pending/master]
+[also build test WARNING on linus/master v7.2-rc7 next-20260812]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Brandon-Brnich/media-imagination-e5010-Enable-autosuspend-for-runtime-PM/20260813-213716
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20260722210845.723864-1-b-brnich%40ti.com
+patch subject: [PATCH] media: imagination: e5010: Enable autosuspend for runtime PM
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260814/202608140323.qyc8mKlp-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140323.qyc8mKlp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0cf004ffb61c ("sctp: fix OOB write to userspace in sctp_getsockopt_peer_auth_chunks")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608140244.f2Omwf4y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608140323.qyc8mKlp-lkp@intel.com/
 
-New smatch warnings:
-net/sctp/socket.c:7036 sctp_getsockopt_peer_auth_chunks() warn: potential user controlled sizeof overflow '8 + num_chunks' '8 + 0-65531,4294967292-u32max'
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-net/sctp/socket.c:7042 sctp_getsockopt_peer_auth_chunks() warn: potential user controlled sizeof overflow '8 + num_chunks' '8 + 0-65531,4294967292-u32max'
-net/sctp/socket.c:7086 sctp_getsockopt_local_auth_chunks() warn: potential user controlled sizeof overflow '8 + num_chunks' '8 + 0-65531,4294967292-u32max'
-net/sctp/socket.c:7092 sctp_getsockopt_local_auth_chunks() warn: potential user controlled sizeof overflow '8 + num_chunks' '8 + 0-65531,4294967292-u32max'
-net/sctp/socket.c:9018 sctp_wait_for_packet() warn: missing error code 'error'
+>> drivers/media/platform/imagination/e5010-jpeg-enc.c:987:12: warning: 'e5010_init_device' defined but not used [-Wunused-function]
+     987 | static int e5010_init_device(struct e5010_dev *e5010)
+         |            ^~~~~~~~~~~~~~~~~
 
-vim +7036 net/sctp/socket.c
 
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7006  static int sctp_getsockopt_peer_auth_chunks(struct sock *sk, int len,
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7007  				    char __user *optval, int __user *optlen)
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7008  {
-411223c01a5116 Al Viro                 2007-10-14  7009  	struct sctp_authchunks __user *p = (void __user *)optval;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7010  	struct sctp_authchunks val;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7011  	struct sctp_association *asoc;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7012  	struct sctp_chunks_param *ch;
-5e739d1752aca4 Vlad Yasevich           2008-08-21  7013  	u32    num_chunks = 0;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7014  	char __user *to;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7015  
-5e739d1752aca4 Vlad Yasevich           2008-08-21  7016  	if (len < sizeof(struct sctp_authchunks))
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7017  		return -EINVAL;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7018  
-c76f97c99ae6d2 Marcelo Ricardo Leitner 2018-01-08  7019  	if (copy_from_user(&val, optval, sizeof(val)))
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7020  		return -EFAULT;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7021  
-411223c01a5116 Al Viro                 2007-10-14  7022  	to = p->gauth_chunks;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7023  	asoc = sctp_id2assoc(sk, val.gauth_assoc_id);
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7024  	if (!asoc)
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7025  		return -EINVAL;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7026  
-219f9ea4d3b797 Xin Long                2019-08-19  7027  	if (!asoc->peer.auth_capable)
-219f9ea4d3b797 Xin Long                2019-08-19  7028  		return -EACCES;
-219f9ea4d3b797 Xin Long                2019-08-19  7029  
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7030  	ch = asoc->peer.peer_chunks;
-5e739d1752aca4 Vlad Yasevich           2008-08-21  7031  	if (!ch)
-5e739d1752aca4 Vlad Yasevich           2008-08-21  7032  		goto num;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7033  
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7034  	/* See if the user provided enough room for all the data */
-3c918704921412 Xin Long                2017-06-30  7035  	num_chunks = ntohs(ch->param_hdr.length) - sizeof(struct sctp_paramhdr);
-0cf004ffb61cd3 Michael Bommarito       2026-04-15 @7036  	if (len < sizeof(struct sctp_authchunks) + num_chunks)
+vim +/e5010_init_device +987 drivers/media/platform/imagination/e5010-jpeg-enc.c
 
-This is a m68k-linux-gcc build (32 bits).  sizeof(struct sctp_paramhdr)
-is 4 and sizeof(struct sctp_authchunks) is 8 so on a 32bit system if
-num_chunks U32_MAX - 4 then the "sizeof(struct sctp_authchunks) +
-num_chunks" math could overflow.
-
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7037  		return -EINVAL;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7038  
-5e739d1752aca4 Vlad Yasevich           2008-08-21  7039  	if (copy_to_user(to, ch->chunks, num_chunks))
-
-It doesn't really cause a problem these days because copy_to_user()
-doesn't accept sizes more than INT_MAX but it would trigger a warning.
-
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7040  		return -EFAULT;
-5e739d1752aca4 Vlad Yasevich           2008-08-21  7041  num:
-5e739d1752aca4 Vlad Yasevich           2008-08-21  7042  	len = sizeof(struct sctp_authchunks) + num_chunks;
-8d72651d86e9c7 wangweidong             2013-12-23  7043  	if (put_user(len, optlen))
-8d72651d86e9c7 wangweidong             2013-12-23  7044  		return -EFAULT;
-7e8616d8e7731b Vlad Yasevich           2008-02-27  7045  	if (put_user(num_chunks, &p->gauth_number_of_chunks))
-7e8616d8e7731b Vlad Yasevich           2008-02-27  7046  		return -EFAULT;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7047  	return 0;
-65b07e5d0d09c7 Vlad Yasevich           2007-09-16  7048  }
+a1e2940458853d Devarsh Thakkar 2024-06-19   986  
+a1e2940458853d Devarsh Thakkar 2024-06-19  @987  static int e5010_init_device(struct e5010_dev *e5010)
+a1e2940458853d Devarsh Thakkar 2024-06-19   988  {
+a1e2940458853d Devarsh Thakkar 2024-06-19   989  	int ret = 0;
+a1e2940458853d Devarsh Thakkar 2024-06-19   990  
+a1e2940458853d Devarsh Thakkar 2024-06-19   991  	/*TODO: Set MMU in bypass mode until support for the same is added in driver*/
+a1e2940458853d Devarsh Thakkar 2024-06-19   992  	e5010_hw_bypass_mmu(e5010->mmu_base, 1);
+a1e2940458853d Devarsh Thakkar 2024-06-19   993  
+a1e2940458853d Devarsh Thakkar 2024-06-19   994  	if (e5010_hw_enable_auto_clock_gating(e5010->core_base, 1))
+a1e2940458853d Devarsh Thakkar 2024-06-19   995  		v4l2_warn(&e5010->v4l2_dev, "failed to enable auto clock gating\n");
+a1e2940458853d Devarsh Thakkar 2024-06-19   996  
+a1e2940458853d Devarsh Thakkar 2024-06-19   997  	if (e5010_hw_enable_manual_clock_gating(e5010->core_base, 0))
+a1e2940458853d Devarsh Thakkar 2024-06-19   998  		v4l2_warn(&e5010->v4l2_dev, "failed to disable manual clock gating\n");
+a1e2940458853d Devarsh Thakkar 2024-06-19   999  
+a1e2940458853d Devarsh Thakkar 2024-06-19  1000  	if (e5010_hw_enable_crc_check(e5010->core_base, 0))
+a1e2940458853d Devarsh Thakkar 2024-06-19  1001  		v4l2_warn(&e5010->v4l2_dev, "failed to disable CRC check\n");
+a1e2940458853d Devarsh Thakkar 2024-06-19  1002  
+a1e2940458853d Devarsh Thakkar 2024-06-19  1003  	if (e5010_hw_enable_output_address_error_irq(e5010->core_base, 1))
+a1e2940458853d Devarsh Thakkar 2024-06-19  1004  		v4l2_err(&e5010->v4l2_dev, "failed to enable Output Address Error interrupts\n");
+a1e2940458853d Devarsh Thakkar 2024-06-19  1005  
+a1e2940458853d Devarsh Thakkar 2024-06-19  1006  	ret = e5010_hw_set_input_source_to_memory(e5010->core_base, 1);
+a1e2940458853d Devarsh Thakkar 2024-06-19  1007  	if (ret) {
+a1e2940458853d Devarsh Thakkar 2024-06-19  1008  		v4l2_err(&e5010->v4l2_dev, "failed to set input source to memory\n");
+a1e2940458853d Devarsh Thakkar 2024-06-19  1009  		return ret;
+a1e2940458853d Devarsh Thakkar 2024-06-19  1010  	}
+a1e2940458853d Devarsh Thakkar 2024-06-19  1011  
+a1e2940458853d Devarsh Thakkar 2024-06-19  1012  	ret = e5010_hw_enable_picture_done_irq(e5010->core_base, 1);
+a1e2940458853d Devarsh Thakkar 2024-06-19  1013  	if (ret)
+a1e2940458853d Devarsh Thakkar 2024-06-19  1014  		v4l2_err(&e5010->v4l2_dev, "failed to enable Picture Done interrupts\n");
+a1e2940458853d Devarsh Thakkar 2024-06-19  1015  
+a1e2940458853d Devarsh Thakkar 2024-06-19  1016  	return ret;
+a1e2940458853d Devarsh Thakkar 2024-06-19  1017  }
+a1e2940458853d Devarsh Thakkar 2024-06-19  1018  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
