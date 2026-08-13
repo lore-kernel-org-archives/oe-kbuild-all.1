@@ -1,131 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C3B37F8BC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 16:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD1F499F1E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 17:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786640350; cv=none; b=eN1X+eU/c+x3pbSJI1CLHzARfi/KNxz1d4rUHdoFFvsNHz6BOvD4kKK4lH/5Xm7xRhIo99uiZWlwjDI3ElWJ0dsfXn430KeII7mIMHaRYEddmWHMUAe1YJQKm1KezI8wuv3ysOyKvVQP5vB8GoaSKiIZF/+tf2mFreGVKlFaH+4=
+	t=1786640956; cv=none; b=FdUm1VrjSsO9twC0F3XJgQrhqf9aZSyYbUoCd1DgS9LKlES/QKGGmEmddhKdGiYJyl89rUw/PwiUc11tTlah+Zj5tlXOQNQwRtlO4188fR5rT0pRYV7mWltTiG9GA1jAgB2AQ97w8SX0oiEcmF2JMh3JDxXJyA94QyuoocCTJsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786640350; c=relaxed/simple;
-	bh=GoPukQW4A/wZ7dMKq+X+GW7rm/rCYafEuDVC+FmxvBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M+Zsktn7jJNKnql98pA93/lkLflNFP/XsSYJB3RYVPvwc6502sNUc1tCIk8V6kdVSLro5yj2a5BSQAXOwtcViFTekvcF5/8bredWxOy13MzUZP2yyjzmkSgYe1mesCCruXc/uYv+3XNot2ma/RIg6blgTp4kpqAEyudVF0pg2ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHaLTJsQ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1786640956; c=relaxed/simple;
+	bh=C3gaqcWIjrHBpy/9u3sW58x56fDfDebm1SzjYUupUKY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ei6Edtjqvmob8IIVjVl9w23cVQUKlA94YEp5DK8kj8F0QYJICUuVbwk59bF5Ooi7IFMxvhl5JE5rPliWpFKfaeYJRIJoJtRaxpLzoPsW6I3CSu+qr9Cr1slckbXvTEZ/bl2MCwG8mmdGmrxba7yAAfALeu3vKc3OXUEVhUyAggM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=an43dkkb; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHaLTJsQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="an43dkkb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786640349; x=1818176349;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GoPukQW4A/wZ7dMKq+X+GW7rm/rCYafEuDVC+FmxvBo=;
-  b=nHaLTJsQcfnEiwRYff1BRH1GKsHEAXv+2UNSjmccuR/0eMmcvAzSjWk3
-   83C6JuMhBR/aArclkWHanL2gmCBHdwVNMyfSU7RlVRC+FfMSz1PrOtRIX
-   7MB1XxQVKEqPE+OkZcgNs/d2IFhkzQZIApG3yR9U+qqVCvh+z/Jlv5gtT
-   hd8J1pLJrfLuLH6IK+EGLYunulPvso+ubImhx0igGtnTJZw9kzlk+fCR5
-   KXsS/+7vU7axxlILWjF+IGQBw17CmyZKpQ8RpvFViIUA+phGJEaXtmhqR
-   tpUTyehnaVlOFywkhASqhKR9pLbkiTRro9vklHOkG41rotFiOgm4AxjCZ
-   Q==;
-X-CSE-ConnectionGUID: 6yeyBepSQMKsIqjwbKORvQ==
-X-CSE-MsgGUID: Mxc1FeDYTp62gkdJrA0jfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87104060"
+  t=1786640953; x=1818176953;
+  h=date:from:to:cc:subject:message-id;
+  bh=C3gaqcWIjrHBpy/9u3sW58x56fDfDebm1SzjYUupUKY=;
+  b=an43dkkbxXjCeVlyRQatOt5IfOvMCGl8rz9IYDwdKSGKaubWL33107/q
+   OFA5FE3231h53qMSo3EaiNi1CCIJ2koll8stF9HsVn27mOsfuAhYVa1I4
+   dM8GkGQpLKSwedeGxgSFBGP9+ZM70OKVP7vA14OaGJDkfCLy/XRL8QfJv
+   0Ryh+cdJRmuNmecZaI7isWNSzMMedIdqpkUAP+KnU6/02KjvM+eI2z0NI
+   BIkhy8WklPpa5f+NA7+cO8yKxAv9FmXtYfxWZaOgbzEcnt/RvaUItbyYy
+   ccdkBCvsS/hj6zaZ/lEDCE0IBfDOnPMEFaqb6jaTpnMd06x1tlIIpdrJD
+   w==;
+X-CSE-ConnectionGUID: zyMrYDfeSr2lnQWEtYjZEA==
+X-CSE-MsgGUID: 81wsjR2BQSuZcTRInrChdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="104753491"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="87104060"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 09:59:08 -0700
-X-CSE-ConnectionGUID: Z4N5aDB+T2iBuHAPO/7iGA==
-X-CSE-MsgGUID: 0tyDqDAUS2qK9iyIQfr1Ug==
+   d="scan'208";a="104753491"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 10:09:11 -0700
+X-CSE-ConnectionGUID: NI7XNhRsSe2qNZVAHONVCQ==
+X-CSE-MsgGUID: i6pVBrQXQCC1MfdYqwy3+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="268265215"
+   d="scan'208";a="262246938"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Aug 2026 09:59:05 -0700
+  by orviesa006.jf.intel.com with ESMTP; 13 Aug 2026 10:09:08 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuYlh-00000000Vug-228x;
-	Thu, 13 Aug 2026 16:59:01 +0000
-Date: Fri, 14 Aug 2026 00:58:19 +0800
+	id 1wuYvR-00000000Vwo-1SSa;
+	Thu, 13 Aug 2026 17:09:05 +0000
+Date: Fri, 14 Aug 2026 01:08:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sanghyun Park <sanghyun.park.cnu@gmail.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sanghyun Park <sanghyun.park.cnu@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Puranjay Mohan <puranjay@kernel.org>, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v5] bpf: Fix use-after-free on mm_struct in
- bpf_find_vma()
-Message-ID: <202608140002.MOWNZYuj-lkp@intel.com>
-References: <20260630023443.3026627-2-sanghyun.park.cnu@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:main-16k-gs-shusky-5.15 36/36]
+ fs/ksmbd/misc.c:162: warning: Excess function parameter 'sharepath'
+ description in 'convert_to_nt_pathname'
+Message-ID: <202608140153.sOW7LWfR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630023443.3026627-2-sanghyun.park.cnu@gmail.com>
 
-Hi Sanghyun,
+Hi Hyunchul,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on bpf-next/net]
-[also build test ERROR on bpf/master linus/master v7.2-rc7]
-[cannot apply to bpf-next/master next-20260812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sanghyun-Park/bpf-Fix-use-after-free-on-mm_struct-in-bpf_find_vma/20260813-193715
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20260630023443.3026627-2-sanghyun.park.cnu%40gmail.com
-patch subject: [PATCH bpf-next v5] bpf: Fix use-after-free on mm_struct in bpf_find_vma()
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260814/202608140002.MOWNZYuj-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140002.MOWNZYuj-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
+head:   3b83adad5dbcce249f6042cc64bf4ae9fddf5262
+commit: 265fd1991c1db85fbabaad4946ca0e63e2ae688d [36/36] ksmbd: use LOOKUP_BENEATH to prevent the out of share access
+config: i386-buildonly-randconfig-004-20260813 (https://download.01.org/0day-ci/archive/20260814/202608140153.sOW7LWfR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140153.sOW7LWfR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 265fd1991c1d ("ksmbd: use LOOKUP_BENEATH to prevent the out of share access")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608140002.MOWNZYuj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608140153.sOW7LWfR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/bpf/task_iter.c: In function 'bpf_iter_task_vma_destroy':
->> kernel/bpf/task_iter.c:1017:17: error: implicit declaration of function 'bpf_iter_mmput_async' [-Wimplicit-function-declaration]
-    1017 |                 bpf_iter_mmput_async(kit->data->mm);
-         |                 ^~~~~~~~~~~~~~~~~~~~
+   fs/ksmbd/misc.c:30: warning: Function parameter or member 'str' not described in 'match_pattern'
+   fs/ksmbd/misc.c:30: warning: Excess function parameter 'string' description in 'match_pattern'
+>> fs/ksmbd/misc.c:162: warning: Excess function parameter 'sharepath' description in 'convert_to_nt_pathname'
+   fs/ksmbd/misc.c:240: warning: Function parameter or member 'share' not described in 'convert_to_unix_name'
+   fs/ksmbd/misc.c:240: warning: Function parameter or member 'name' not described in 'convert_to_unix_name'
+   fs/ksmbd/misc.c:240: warning: Excess function parameter 'path' description in 'convert_to_unix_name'
+   fs/ksmbd/misc.c:240: warning: Excess function parameter 'tid' description in 'convert_to_unix_name'
 
 
-vim +/bpf_iter_mmput_async +1017 kernel/bpf/task_iter.c
+vim +162 fs/ksmbd/misc.c
 
-4ac454682158473 Dave Marchevsky 2023-10-13  1009  
-4ac454682158473 Dave Marchevsky 2023-10-13  1010  __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
-4ac454682158473 Dave Marchevsky 2023-10-13  1011  {
-4ac454682158473 Dave Marchevsky 2023-10-13  1012  	struct bpf_iter_task_vma_kern *kit = (void *)it;
-4ac454682158473 Dave Marchevsky 2023-10-13  1013  
-4ac454682158473 Dave Marchevsky 2023-10-13  1014  	if (kit->data) {
-4cbee026db54cad Puranjay Mohan  2026-04-08  1015  		bpf_iter_task_vma_snapshot_reset(&kit->data->snapshot);
-4ac454682158473 Dave Marchevsky 2023-10-13  1016  		put_task_struct(kit->data->task);
-d8e27d2d22b6e2d Puranjay Mohan  2026-04-08 @1017  		bpf_iter_mmput_async(kit->data->mm);
-4ac454682158473 Dave Marchevsky 2023-10-13  1018  		bpf_mem_free(&bpf_global_ma, kit->data);
-4ac454682158473 Dave Marchevsky 2023-10-13  1019  	}
-4ac454682158473 Dave Marchevsky 2023-10-13  1020  }
-4ac454682158473 Dave Marchevsky 2023-10-13  1021  
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  151  
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  152  /**
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  153   * convert_to_nt_pathname() - extract and return windows path string
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  154   *      whose share directory prefix was removed from file path
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  155   * @filename : unix filename
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  156   * @sharepath: share path string
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  157   *
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  158   * Return : windows path string or error
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  159   */
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  160  
+265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  161  char *convert_to_nt_pathname(char *filename)
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16 @162  {
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  163  	char *ab_pathname;
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  164  
+265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  165  	if (strlen(filename) == 0) {
+265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  166  		ab_pathname = kmalloc(2, GFP_KERNEL);
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  167  		ab_pathname[0] = '\\';
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  168  		ab_pathname[1] = '\0';
+265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  169  	} else {
+265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  170  		ab_pathname = kstrdup(filename, GFP_KERNEL);
+265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  171  		if (!ab_pathname)
+265fd1991c1db8 fs/ksmbd/misc.c Hyunchul Lee 2021-09-25  172  			return NULL;
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  173  
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  174  		ksmbd_conv_path_to_windows(ab_pathname);
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  175  	}
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  176  	return ab_pathname;
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  177  }
+e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon  2021-03-16  178  
+
+:::::: The code at line 162 was first introduced by commit
+:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
+
+:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 --
 0-DAY CI Kernel Test Service
