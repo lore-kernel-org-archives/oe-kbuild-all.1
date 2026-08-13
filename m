@@ -1,151 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A212837647B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 04:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579C03DDDA0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 05:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786596963; cv=none; b=mkketSpxQF7g+IXc4dojthGFmdY8RDPD9WWzPXUolC3B3hc9RTnsONJjnzVSFeV3bcA1XAasuZWb+IG4lEwLLAE9fq1HWrFyojQL5YayHgipcQ10tKvEFEVCyxYTzqcUKPuHm8D5oxhso6VB+T4NoG4TD/uo1WJ13Rys1klCYO0=
+	t=1786598957; cv=none; b=u1C3Zl9KsAVWL2pmWEmRRPtgJvV7WR4LeBBIx7VcP+V7HxAJqqPgxpGFIs+uk3E17L98PfdLRMgZR30yUIbW0bD5Fg8spTBgr7LXDOXc1S9ppQPNpD43DeHsxMGDnviv85mQ2Sx1r+fjvLMmsLmjwLzvctIQ0NWyauAS6UQJTrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786596963; c=relaxed/simple;
-	bh=/+REivr2tSEA6yQjflHdCoXb1xW+e30zB3zefEJCqNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=d3ESY/H/BQS8rn+FPjjivun6W1LMOk4jZ1/UgdSvXEMfm5grT9GgfOpSv5jyqo9g+SQbgzWizPapBj279mdYnEmoZ8DsfbWbfKGT5Z2pAauki6+GxQ6ndAQ4UdW/XQWWuhCdAVSbX9QfuTxXSepbchPaUCObAb08BfjS/0a25n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkKbBmW9; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1786598957; c=relaxed/simple;
+	bh=T9EeiWNrz0hwUBxVZH6v0QXqCq6azgp2DqG3lLedtLc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aLAxIBEBRWzGxiEO9VlYYgknIFicYHovbQC1Cj/Vw3YNNps6G/UZHSSFggNxXoFOjvoKaC55wR7t4e6WcqvFDSxUmA864xqqlfOtyj7obso8Cu9pIOZ/hbj+YhsQ5NEVsWQPOKNoIGBy7rCqBo5V6qQFDsEzLAiJ5vffW6v5w+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bmx1hdR8; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkKbBmW9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bmx1hdR8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786596960; x=1818132960;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/+REivr2tSEA6yQjflHdCoXb1xW+e30zB3zefEJCqNI=;
-  b=ZkKbBmW9Pgs1DG69w1Y+cOniRP135Zcgbyh8XH9rflV4A2E4oXc4NSmP
-   UYud6NmQmZRzeZ5XeJNvswwKr3gv+WTqUzARVb8b1RqJ1OMus22PsK0O1
-   2jwYuiG6gZKk4jM2CU2YF1sQbeF0NsOGhsZMgrZdoTXwxKcBio26uySG3
-   fPTRka6lCBLH+557U7fFBbZ7JsMr9mr3P4iCGXoLM4KgYpFVRkZzpiMV8
-   XHQ6VDuDioyDRbvZixf+rcIPqw4U48WnD/Sg34WY4xY88URiTzxjH/m+1
-   +IsIOx1EGEq+J6S3yUQaYsIvY1285YBtLsIa+sz+wM99awyPTDmwGHGWU
-   w==;
-X-CSE-ConnectionGUID: pE/wVWe4ST601QjKVwERDw==
-X-CSE-MsgGUID: Smj7bMZSRhyrRHGglVY6Vw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="104698347"
+  t=1786598952; x=1818134952;
+  h=date:from:to:cc:subject:message-id;
+  bh=T9EeiWNrz0hwUBxVZH6v0QXqCq6azgp2DqG3lLedtLc=;
+  b=bmx1hdR81xuVZcTmOpbTy5fDJ2FNEao2jh2Rch48eWDuvsya+mq9UOzM
+   pUKfH+OUSS7zPJzb5t0W7FXwyRyYTgBLQ8So4ytZfTG9LvoTUKq7Vxmme
+   sMiy533+jbYaVigKwois2inPqqRuQIiIr5lOt0vXfqw2CYuM4kzXuiAew
+   uoeSXKfxVAMz8TapjjT5L+3Id9bhbSrmvP2V1soL0bRu+QhTr9wC5coAR
+   8OrlWpFXmAIEv2LKz5Qy9DyfOimJn5jlwVQlkXQ4T++xgOriU1zAlu/uv
+   WwRhAAxVmBsTqtdIz6TO01HLhCk9vuEmUS447wxGm886IhQz0mmZPcoPy
+   A==;
+X-CSE-ConnectionGUID: yP4IgQ73SP6h0N97LrTQ+Q==
+X-CSE-MsgGUID: p2DL3MomQj2JyxBP7EhyNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="86929761"
 X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="104698347"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 21:55:59 -0700
-X-CSE-ConnectionGUID: NvvF9au8T2ibGTD2urs/vw==
-X-CSE-MsgGUID: ihdHizXTRQqBvXnQnLoK7Q==
+   d="scan'208";a="86929761"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 22:29:08 -0700
+X-CSE-ConnectionGUID: +yEr4OacRziRIoNmCrIvAw==
+X-CSE-MsgGUID: nyfMbOVPS3m2Rbs4pAkw6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="260016004"
+   d="scan'208";a="288635717"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Aug 2026 21:55:57 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 12 Aug 2026 22:29:06 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuNTv-00000000Sri-0gWZ;
-	Thu, 13 Aug 2026 04:55:55 +0000
-Date: Thu, 13 Aug 2026 12:55:51 +0800
+	id 1wuNzz-00000000Sve-495I;
+	Thu, 13 Aug 2026 05:29:03 +0000
+Date: Thu, 13 Aug 2026 13:29:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Micka=C3=ABl?= =?utf-8?Q?_Sala=C3=BCn"?= <mic@digikod.net>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>,
- Christian Brauner <brauner@kernel.org>,
- =?utf-8?Q?"G=C3=BCnther?= Noack" <gnoack@google.com>
-Subject: [linuxsecuritymodule:dev-staging 8/8]
- include/linux/compiler_types.h:702:45: error: call to
- '__compiletime_assert_850' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(a->u) > sizeof(void *)*2
-Message-ID: <202608131232.Owej9tlx-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/1]
+ drivers/platform/x86/thinkpad_acpi.c:10451:36: warning: declaration of
+ 'struct platform_profile_handler' will not be visible outside of this
+ function
+Message-ID: <202608131313.1vWYIQNp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/LinuxSecurityModule/kernel dev-staging
-head:   1f2f7a1fd1fc34e757107e3a3849f8d22b14cc6b
-commit: 1f2f7a1fd1fc34e757107e3a3849f8d22b14cc6b [8/8] lsm: add LSM_AUDIT_DATA_NS for namespace audit records
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260813/202608131232.Owej9tlx-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131232.Owej9tlx-lkp@intel.com/reproduce)
+Hi Kurt,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   24c37396da197463e1ff2bc69bb789e34dacad53
+commit: 82c3c913af0c82e7da403f126de414662b19d5ab [0/1] UPSTREAM: ACPI: platform_profile: Move platform_profile_handler
+config: i386-randconfig-013-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131313.1vWYIQNp-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131313.1vWYIQNp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608131232.Owej9tlx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608131313.1vWYIQNp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   security/lsm_audit.c: In function 'audit_log_lsm_data':
->> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_850' declared with attribute error: BUILD_BUG_ON failed: sizeof(a->u) > sizeof(void *)*2
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   security/lsm_audit.c:185:9: note: in expansion of macro 'BUILD_BUG_ON'
-     185 |         BUILD_BUG_ON(sizeof(a->u) > sizeof(void *)*2);
-         |         ^~~~~~~~~~~~
-   In function 'audit_log_lsm_data',
-       inlined from 'dump_common_audit_data' at security/lsm_audit.c:425:2,
-       inlined from 'common_lsm_audit' at security/lsm_audit.c:455:2:
->> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_850' declared with attribute error: BUILD_BUG_ON failed: sizeof(a->u) > sizeof(void *)*2
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   security/lsm_audit.c:185:9: note: in expansion of macro 'BUILD_BUG_ON'
-     185 |         BUILD_BUG_ON(sizeof(a->u) > sizeof(void *)*2);
-         |         ^~~~~~~~~~~~
+>> drivers/platform/x86/thinkpad_acpi.c:10451:36: warning: declaration of 'struct platform_profile_handler' will not be visible outside of this function [-Wvisibility]
+    10451 | static int dytc_profile_get(struct platform_profile_handler *pprof,
+          |                                    ^
+   drivers/platform/x86/thinkpad_acpi.c:10526:36: warning: declaration of 'struct platform_profile_handler' will not be visible outside of this function [-Wvisibility]
+    10526 | static int dytc_profile_set(struct platform_profile_handler *pprof,
+          |                                    ^
+   drivers/platform/x86/thinkpad_acpi.c:10603:27: error: too few arguments to function call, single argument 'dev' was not specified
+    10603 |                 platform_profile_notify();
+          |                 ~~~~~~~~~~~~~~~~~~~~~~~ ^
+   include/linux/platform_profile.h:45:6: note: 'platform_profile_notify' declared here
+      45 | void platform_profile_notify(struct device *dev);
+         |      ^                       ~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/thinkpad_acpi.c:10607:40: error: variable has incomplete type 'struct platform_profile_handler'
+    10607 | static struct platform_profile_handler dytc_profile = {
+          |                                        ^
+   drivers/platform/x86/thinkpad_acpi.c:10607:15: note: forward declaration of 'struct platform_profile_handler'
+    10607 | static struct platform_profile_handler dytc_profile = {
+          |               ^
+   drivers/platform/x86/thinkpad_acpi.c:10701:26: error: too few arguments to function call, single argument 'dev' was not specified
+    10701 |         platform_profile_remove();
+          |         ~~~~~~~~~~~~~~~~~~~~~~~ ^
+   include/linux/platform_profile.h:40:5: note: 'platform_profile_remove' declared here
+      40 | int platform_profile_remove(struct device *dev);
+         |     ^                       ~~~~~~~~~~~~~~~~~~
+   2 warnings and 3 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +/__compiletime_assert_850 +702 include/linux/compiler_types.h
+vim +10451 drivers/platform/x86/thinkpad_acpi.c
 
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  688  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  691  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  696   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  703  
+c3bfcd4c676238e Mark Pearson  2021-01-11  10446  
+c3bfcd4c676238e Mark Pearson  2021-01-11  10447  /*
+c3bfcd4c676238e Mark Pearson  2021-01-11  10448   * dytc_profile_get: Function to register with platform_profile
+c3bfcd4c676238e Mark Pearson  2021-01-11  10449   * handler. Returns current platform profile.
+c3bfcd4c676238e Mark Pearson  2021-01-11  10450   */
+d2386d791cb72e0 Hans de Goede 2021-02-04 @10451  static int dytc_profile_get(struct platform_profile_handler *pprof,
+c3bfcd4c676238e Mark Pearson  2021-01-11  10452  			    enum platform_profile_option *profile)
+c3bfcd4c676238e Mark Pearson  2021-01-11  10453  {
+c3bfcd4c676238e Mark Pearson  2021-01-11  10454  	*profile = dytc_current_profile;
+c3bfcd4c676238e Mark Pearson  2021-01-11  10455  	return 0;
+c3bfcd4c676238e Mark Pearson  2021-01-11  10456  }
+c3bfcd4c676238e Mark Pearson  2021-01-11  10457  
 
-:::::: The code at line 702 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+:::::: The code at line 10451 was first introduced by commit
+:::::: d2386d791cb72e0dcaa5f43d509a4f71c44f47d8 platform/x86: thinkpad_acpi: Fix 'warning: no previous prototype for' warnings
 
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+:::::: TO: Hans de Goede <hdegoede@redhat.com>
+:::::: CC: Hans de Goede <hdegoede@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
