@@ -1,111 +1,85 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA313AD527
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 20:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786652489; cv=pass; b=OyGquUqQUk+/2JcyqPVyF9Cp33bprwAy8VW6esAhp/83RJy+tQePknrT9AeoWdj8lmPcNlJMZYc9euf0RxB8ZP73gRxd4rSSP79ZYe7uv8BYUrYvQFH6fvyJWnlNYswhPNBxZOTwN5AAxPz1JcrmsBxO/XDMc4CUeZi00VFtS54=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786652489; c=relaxed/simple;
-	bh=/EUsxCA39+lm4qZz/MBCSURD/yQCFJ9Pw3mnXV58pWM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A6zaZ/SugMpU8a9Zwk57NlPQtIckMWlLBHiOo5rEkBKQnkolS2YpjQozDwMBVMfxrcUClApfUTYEhFT8mPnOiFRuUEsorlRQl4sv3/Wo7tvdFLjVGC+cVW51gbqcfbWzN0a01LSCSPKMbcIC84IY0n4v1/QihmmRm68wdMs676A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8vZqrJm; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D882374E48
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 20:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786653263; cv=none; b=JjQM6p2uqMDVYgF2TbaXwqRX+7rFx6sGbnhkYacTvAroFx1Xd+CKGBkWFprLDr9Ewt6iZIgiKqqmLojHG0aEP6cCkN5fxrqCYblDbbyZBgErwMCU+TX3REIR7YxRtWNQnYKQ/ll30IMiFXjy9YI5GbRG2x9PRKT43b7eI18JQcM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786653263; c=relaxed/simple;
+	bh=6+Bwgtm0CRRK41ZlSdv5Wm8xh2VSmet+2rrDsqzxDdc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Yy/81qvOtoqfd0UviDI5KEJ0I5/SDQgj7NNlzdIthg89zBDbJ3KXBMUHCdl2XTRBVfCXDVyQ7YFWmNDXoq3X5i/BYoB/MjZWGC2kdSqwLay36rlYKq4lDEbZjp1NMA9hqgs5jDmN+nNtaj9MayZQWZrHsQv37unZUjKjyHVTwG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j3tVNoG0; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8vZqrJm"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-66b2c08803cso367149d50.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 13:21:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786652486; cv=none;
-        d=google.com; s=arc-20260327;
-        b=knHMf3tMpg02OPc8aSbLBUUmQX0IRsbcehaJ6cDvBCd0ptsoyp6Ghn6hFm2fyb3cD2
-         fKJPPUhD1PDYdoEjpICcGOdvhgYzs+SIPp6SO1vn6fguqXCzzfu0Py7q3DRiYlzZYskF
-         yftbcoPVc3jO2s7Ks9CFtpXTDKvKaO2rNo25aEg8YvFNHU7nm5r7aAHQRuTInyAXZ4D1
-         ONlcHOH9UigNjy0U2jLJRa56FPd4TpCic97oFbIuBTzCdcRQIichuvbuRBtJyTdvZpsF
-         +VrIDmg9egzZfDCCgAsL+NZfN/mkBEqpw19eXLAmbXjU1jbtTsq8+qE6+mp5MUKsDvGE
-         aqLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
-        fh=E8PfGUyZlL109joTh+8pUOw3twZuzRtoIOwben2+lIQ=;
-        b=VUyQ1Jbodg068WHMk1NMqkMsbnU0WtJv4UngpGtqJwQ3R2EMTEe0NMOdXzvYb4i5vw
-         nwzSf8OnMQUK4za9XAFJEIOYV6SO4eIoCSN7w3d6dgI4qVwKMhqbZr6mpvVvSDPhAg9O
-         jkvD2CGl1KHBc7jPJpbIn1JoFfIutyWWPG6IqvMWUDVDrlsImB5K82ttao/E+LSfzDd2
-         qH3WaA20KV9nuRIq352T8D6uG812OZhcnZqdQxQD9BPadJkWITMNlJRcJsvUX8MESNwh
-         25TRVafwg+l+qHizC/gAfVABPHmK3vsr+Xtm185GLHM6NQ3JbMRztkW6INYaTs6PADA5
-         5baA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786652486; x=1787257286; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
-        b=g8vZqrJmlMFRhMlHeNxnO56l4ZPv+ulgO1tohZKeDeSoscygiHdAe2Aavyip3AbApq
-         7gCs9wb1pDaE4rEe5OwqlIxD0mHvG2na4tg27N6sAgXDiFoaG5lS2q8Ut4wjxLoLsxnj
-         qXDEa2g8UFB04Fosy4zYYVnHIt9WFqmJRTolVAlJlmvOvkQJKvHV3hXoMiJe65wOn7Z8
-         2cL/2/4PpjO7tivoRHIguKnRY3gx5j+mtCn6G6Wv34kU887fJ5P5ZIS/vazS/b4awmND
-         qVlv6UddQcyCczKXwoMlBljkOc+NxpYx3ca7Owd+ptZViMlcbxIaHT1VJLiOkTL1fa8d
-         AFAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786652486; x=1787257286;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
-        b=D4Yk0o77kjrFHsDLZUK6hwoKEBfsozzfmli2gb7AN/LnubhAQUFbxA2s5VTXDOkenh
-         rR2ph6c4tZweI4WGf7yH3vU8bCAwuzrnSfIfxd3ogfjt6I8+VoyRlWXhbk1D/AjZkGhk
-         wjxFz7kOmEhBZTtTGC5Qs4p0IbN5YUS63Z6GUlSkEKaaJbhZYkM3uEi/1HOBERA9WTXv
-         +Nu+cC9nGN3Pagole3VS3F50uK/eo51S4KXAlYz+kkhc6Km4SXt5qqPK0GhngNgbNKGZ
-         M8DSrRAkhIquQrE9qD36pGa23Z0d46fZw7G0kjEnrpDxL8qYzOSUPCi6AXrZEIqIbhX/
-         cqPg==
-X-Forwarded-Encrypted: i=1; AHgh+RrtrIJ7VCnsEPjGpg0VvogQS/eRKgRkNi27FWQwylGMSZ3Vwtt//M+zcK8/zCSYBxtbRF7mswVnFWfNp086@lists.linux.dev
-X-Gm-Message-State: AOJu0YxlToGmljThmbRJB/N5HVjKp93CEopkieShSQa0VNQvT8/XgRrb
-	LXcgfA1TZP0W938YF+CIv6AnbGc1v7ynpdaOzobJDyY6/MFFXPflndOMPLnkefZQXbqv5Ygf4Iy
-	00eDZq4f26gu6oRzj6lVTUSjrikw+rAw=
-X-Gm-Gg: AR+sD10XbsUC7Cd5uWGNf10i8T6mBsmUesG/WnVA7fOVU86j8Ved8ji5bmSwmQjSZWt
-	BPFbMxPwmusJDR4uI/TPYsvdigECyvZtJrEHCNrn0KbPRQ1gzNe52/B0Gr9rqeNI0X8tnPEbdHm
-	SAF8K8SZrFnOae81IZ8bE9Wo58eRhLyH2x1YI7JyPEbmz8I609gDLg/JhHHWoF1qPN+CjW5DM03
-	PDzWhrtYbY+jndA4rib7jgCdO1KF3bpg2/BraRexSNQPQ22z8f1CaVzLMHPgIozIVazzVR4jpUR
-	cXwbVljGewxLPUO/xmtOdJj760vt9UC21/XkA32N9E67AYG0vlvznTGBBC+COUhRiwH0088+WKG
-	mFcE=
-X-Received: by 2002:a05:690e:43c7:b0:669:8d7d:a5c8 with SMTP id
- 956f58d0204a3-66c72ebeedbmr297462d50.54.1786652486534; Thu, 13 Aug 2026
- 13:21:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j3tVNoG0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786653261; x=1818189261;
+  h=date:from:to:cc:subject:message-id;
+  bh=6+Bwgtm0CRRK41ZlSdv5Wm8xh2VSmet+2rrDsqzxDdc=;
+  b=j3tVNoG0S93WpNxPgvmMkqkx4rJmVe0zXrM3hSCsP5tZhs9Ce6LbHAjm
+   DaStLrfOS3a4Cb/LZJwfANdJNC565WMYRWYyOHUEzCFsS5nbVTUu5/zS9
+   lNsR0+QcECf07L0GJi7fBIcLeZgT7/gN1pLodz7errU/9CsNPKFXLFuLA
+   9MPlcejhUiKouuxUMjxwKobwMgirNPaDtpnHEQoZ/R37A97thH/3Kv/NU
+   ngtRQQ8a51FUyukXD99f69cLDuFwkSdkJKjK2h8jKD7doNjaK4ztQEFj0
+   2d7Cc2gynHzmaybeUWtBltLcGNcQAmQ13SHg95DvClYJUfkOveRSQuQXN
+   g==;
+X-CSE-ConnectionGUID: lzAleb+PQfiCtR2D5MnY+Q==
+X-CSE-MsgGUID: 7oGicoEwQrC/cj3WBfnDbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="110022766"
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="110022766"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 13:34:20 -0700
+X-CSE-ConnectionGUID: 9aYhnaf+RBO15+Qz4mBhYg==
+X-CSE-MsgGUID: NB1mwcR5Q6GT4kxTxmZCiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="259788491"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 13 Aug 2026 13:34:19 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wuc80-00000000WXa-3tKZ;
+	Thu, 13 Aug 2026 20:34:16 +0000
+Date: Fri, 14 Aug 2026 04:33:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:main-16k-gs-shusky-5.15 36/36]
+ arch/x86/kernel/smp.o: warning: objtool: sysvec_reboot()+0x4b: unreachable
+ instruction
+Message-ID: <202608140448.6q6OWojV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202608140244.f2Omwf4y-lkp@intel.com>
-In-Reply-To: <202608140244.f2Omwf4y-lkp@intel.com>
-From: Michael Bommarito <michael.bommarito@gmail.com>
-Date: Thu, 13 Aug 2026 16:21:15 -0400
-X-Gm-Features: AUfX_mwUH8rppqOLlLKZe5EqV-Qv_xkpyD0Cl5wZIq7dIz9NFmE9CN4eGxZAk4E
-Message-ID: <CAJJ9bXy7KXcumxRVg0MzcYMt5Dw2txzzUKJryDE08cLfBfnr6A@mail.gmail.com>
-Subject: Re: net/sctp/socket.c:7036 sctp_getsockopt_peer_auth_chunks() warn:
- potential user controlled sizeof overflow '8 + num_chunks' '8 + 0-65531,4294967292-u32max'
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 13, 2026 at 3:05=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
-rote:
-> It doesn't really cause a problem these days because copy_to_user()
-> doesn't accept sizes more than INT_MAX but it would trigger a warning.
+Hi Peter,
 
-Thanks, good catch.
+First bad commit (maybe != root cause):
 
-Claude noted that sctp_getsockopt_local_auth_chunks might also be
-worth fixing.  If no one objects, I'll address both sides in a set.
+tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
+head:   3b83adad5dbcce249f6042cc64bf4ae9fddf5262
+commit: 54aa76ad5f0148ad54fc7ad42ad5a079bc12efee [36/36] x86: Mark stop_this_cpu() __noreturn
+config: x86_64-randconfig-014-20260813 (https://download.01.org/0day-ci/archive/20260814/202608140448.6q6OWojV-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6ea395e4fe4db26920d57779ddae98eac6ba945d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140448.6q6OWojV-lkp@intel.com/reproduce)
 
-Thanks,
-Mike
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608140448.6q6OWojV-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/kernel/smp.o: warning: objtool: sysvec_reboot()+0x4b: unreachable instruction
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
