@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A51C36C0DC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 20:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780FB442379
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 21:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786653866; cv=none; b=tE59JJZQpVIT/QyoTvuOjdRgbJuYaSK+pVV/dd4Culj67eRAawaSXzeRTdum0LodMSITbnklQXUL/vpWACAzwk75p1MMnX1I8r9SkqjqeCipi9BCuYpJjmh8MzUAB7w0kz1aKUgvbFTFXnnhIhkI+dPgoze8KkmI4cK8YSypI+o=
+	t=1786655133; cv=none; b=Rcks7occ/VT8SdxwDbdE2ZtQ/Nk8ykR72nN0KnIqozDM+aUQ+X4lVXYHkG1sSTBp51RGHqyLZjDGaus3DrmDVvyzQ6hdnTZzKPQit9s9PAQTzyPYe2AleJkoo+2X5N6sykRijjLC86jYg4UcvXpIRVApWv762q6jXMFvCiSb5Fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786653866; c=relaxed/simple;
-	bh=nHXgU6kw0jxTjeUqVFhM3aiS1O21EJPTid20lcA7tTE=;
+	s=arc-20240116; t=1786655133; c=relaxed/simple;
+	bh=SiYlYKj+35471qYe5HbwxjXNyiXXvBqXZXImPNAYxpQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ORph3PP5PA9wa8ArnpIBgcyS2ELA8ImPbArhkAMbd8PvzN/QKqxOW0kvori4gmQny4OUxhShPyFxmQwk8APjd85fKDyfbUB2T2xHkNhc62MerO50ehoES6C7LIqazZ7aeq2nHqZgnXU8O7NfXg0XbyPLlgerGwUUlyT0FfleYQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHIVIuNy; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ap++/UCKzQB1xWbeA0H3VCUThpwnX1AX8FDBdjSAhCUF+/jk+Dnnf9W+NNF0hdIeTigpZybiy++NG4EdtFYFQnFIUUEl+0IDlGFbcM7oYELOaXsPc7Hi3rBFdl9Qx3UdUCoGK/ZluCxINkIt/6TUIuG6NsXz2V53l/+gjuHCHP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UPH+g2K3; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHIVIuNy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPH+g2K3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786653865; x=1818189865;
+  t=1786655131; x=1818191131;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nHXgU6kw0jxTjeUqVFhM3aiS1O21EJPTid20lcA7tTE=;
-  b=dHIVIuNy5LpTxtay5cARW9Z4Vg/AErXfgTXcBzR5CMMr9psIgoZVn/GJ
-   vHyEHpbkNFRD2jEhYep+cec1RN7WuLQwEO6UzCpJ+jFhDJKbohl4dpKJ8
-   UZNdbMUYGVvDkGOuKm6FUzB5hu6yp3pluFAPza7HLFOBWCJ5JkhaayEPI
-   +T71s/s2CoN4YfynixY3UKrHA4bgHlCTtwBXJy46Sk5E/4lUGr4OObs53
-   g52efOu+M/IWJ1w9QAVmOsPD5JsDd3f6f/pQiAb9IiBYttFLMdYYkJWEW
-   3Gkt3qsrbHQxZ3/fU095ccXJqXzG/YeFhsqcBL3Oo7qH69r2tC71bvkx1
-   w==;
-X-CSE-ConnectionGUID: rq4w6IisSgyvZg0EQw5RPw==
-X-CSE-MsgGUID: MlTKhFMMTCaBuVRrDgLJZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="98751978"
+  bh=SiYlYKj+35471qYe5HbwxjXNyiXXvBqXZXImPNAYxpQ=;
+  b=UPH+g2K3E7+tJLvKaNhUo9yOtd1rFLtmmZe3q7dK0jLmXiWxlaWXjwGr
+   KtuqjPvjlv3A6Aj8XicNa1zNfn6prckI3lAn2xGCmY8uQXY7qklmJiTW5
+   IG6cRzENmo6JtrhAy4ZIbgLslQ9F4ndS7HqUb1Y9J2L05OcDtEVlxUP3V
+   2bOXy1pnbd4iXkHKXUaEKL1DAGoEn/0UWNDVslYY/F5306CPhsqTIc/OK
+   jKIaQQBIejZH+AfzVv5K3t61r3/LHvx+poy0V8Hk2i9f1bx97dn0EQ4WS
+   KCtAE5FYBgF01/EACX+f36PIN7QZSUUowwcACxNLyHSahuuGRwn7+57JD
+   Q==;
+X-CSE-ConnectionGUID: +5+CUZw5R/GG4yMlXBVa1w==
+X-CSE-MsgGUID: dEJ9/4rLQCaHnNy2UVjT1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="91049716"
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="98751978"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 13:44:24 -0700
-X-CSE-ConnectionGUID: mvq/wqtgRCqh+mNfGbVBoA==
-X-CSE-MsgGUID: Xa5DIXDvSHqwTea38w2gSw==
+   d="scan'208";a="91049716"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 14:05:27 -0700
+X-CSE-ConnectionGUID: ROTOgZb/SmikD8D/ghSEUw==
+X-CSE-MsgGUID: 4yuAmO5PStqOptyputgo2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="264629752"
+   d="scan'208";a="293973524"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2026 13:44:20 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2026 14:05:25 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wucHh-00000000WYs-31ZE;
-	Thu, 13 Aug 2026 20:44:17 +0000
-Date: Fri, 14 Aug 2026 04:44:08 +0800
+	id 1wucc5-00000000Wec-40yF;
+	Thu, 13 Aug 2026 21:05:21 +0000
+Date: Fri, 14 Aug 2026 05:04:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kyle Switch <kyle.switch@motor-comm.com>, Frank.Sae@motor-comm.com,
-	andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ming.xu@motor-comm.com,
-	xiaolin.xu@motor-comm.com, jianmin.wang@motor-comm.com,
-	jie.han@motor-comm.com
-Subject: Re: [PATCH net-next v8] net: phy: Add driver for Motorcomm Quad
- 2.5GbE phy
-Message-ID: <202608140410.QYqocPyD-lkp@intel.com>
-References: <20260801035236.3560015-1-kyle.switch@motor-comm.com>
+To: Hongling Zeng <zenghongling@kylinos.cn>, linkinjeon@kernel.org,
+	hyc.lee@gmail.com, charsyam@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] ntfs: prevent write access to $MFT inode
+Message-ID: <202608140556.ICYSq5Cy-lkp@intel.com>
+References: <20260702063529.45448-1-zenghongling@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,275 +65,163 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260801035236.3560015-1-kyle.switch@motor-comm.com>
+In-Reply-To: <20260702063529.45448-1-zenghongling@kylinos.cn>
 
-Hi Kyle,
+Hi Hongling,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v7.2-rc7 next-20260812]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Switch/net-phy-Add-driver-for-Motorcomm-Quad-2-5GbE-phy/20260812-155449
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260801035236.3560015-1-kyle.switch%40motor-comm.com
-patch subject: [PATCH net-next v8] net: phy: Add driver for Motorcomm Quad 2.5GbE phy
-config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260814/202608140410.QYqocPyD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongling-Zeng/ntfs-prevent-write-access-to-MFT-inode/20260814-004837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260702063529.45448-1-zenghongling%40kylinos.cn
+patch subject: [PATCH] ntfs: prevent write access to $MFT inode
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260814/202608140556.ICYSq5Cy-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140556.ICYSq5Cy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608140410.QYqocPyD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608140556.ICYSq5Cy-lkp@intel.com/
 
-smatch warnings:
-drivers/net/phy/motorcomm.c:1450 yt8824_extern_config_sds_init_paged() warn: unsigned 'data' is never less than zero.
-drivers/net/phy/motorcomm.c:1673 yt8824_internal_config_init_paged() warn: missing error code? 'ret'
+All warnings (new ones prefixed by >>):
 
-vim +/data +1450 drivers/net/phy/motorcomm.c
+   In file included from fs/ntfs/inode.h:13,
+                    from fs/ntfs/ntfs.h:26,
+                    from fs/ntfs/attrib.h:13,
+                    from fs/ntfs/lcnalloc.h:13,
+                    from fs/ntfs/file.c:19:
+   fs/ntfs/file.c: In function 'ntfs_file_write_iter':
+>> fs/ntfs/file.c:554:38: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
+     554 |                 ntfs_error(vi->i_sb, "Attempt to write to $MFT denied (mft_no: 0x%lx)",
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     555 |                                 ni->mft_no);
+         |                                 ~~~~~~~~~~
+         |                                   |
+         |                                   u64 {aka long long unsigned int}
+   fs/ntfs/debug.h:59:68: note: in definition of macro 'ntfs_error'
+      59 | #define ntfs_error(sb, f, a...)         __ntfs_error(__func__, sb, f, ##a)
+         |                                                                    ^
+   fs/ntfs/file.c:554:84: note: format string is defined here
+     554 |                 ntfs_error(vi->i_sb, "Attempt to write to $MFT denied (mft_no: 0x%lx)",
+         |                                                                                  ~~^
+         |                                                                                    |
+         |                                                                                    long unsigned int
+         |                                                                                  %llx
+   fs/ntfs/file.c: In function 'ntfs_filemap_page_mkwrite':
+   fs/ntfs/file.c:631:41: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
+     631 |                 ntfs_error(inode->i_sb, "Attempt to write to $MFT via mmap denied (mft_no: 0x%lx)",
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     632 |                                 ni->mft_no);
+         |                                 ~~~~~~~~~~
+         |                                   |
+         |                                   u64 {aka long long unsigned int}
+   fs/ntfs/debug.h:59:68: note: in definition of macro 'ntfs_error'
+      59 | #define ntfs_error(sb, f, a...)         __ntfs_error(__func__, sb, f, ##a)
+         |                                                                    ^
+   fs/ntfs/file.c:631:96: note: format string is defined here
+     631 |                 ntfs_error(inode->i_sb, "Attempt to write to $MFT via mmap denied (mft_no: 0x%lx)",
+         |                                                                                              ~~^
+         |                                                                                                |
+         |                                                                                                long unsigned int
+         |                                                                                              %llx
 
-  1220	
-  1221	/**
-  1222	 * yt8824_extern_config_sds_init_paged() - config external phy8824 sds init
-  1223	 * @phydev: target phy_device struct
-  1224	 *
-  1225	 *
-  1226	 * Returns: 0 or negative errno code
-  1227	 */
-  1228	static int yt8824_extern_config_sds_init_paged(struct phy_device *phydev)
-  1229	{
-  1230		struct yt8824_shared_priv *shared_priv;
-  1231		int ret = 0, old_page;
-  1232		int val_1, val_2, val_3, tmp;
-  1233		u16 data = 0;
-  1234		int port;
-  1235	
-  1236		shared_priv = phy_package_get_priv(phydev);
-  1237		port = phydev->mdio.addr - shared_priv->offset;
-  1238		if (port < 0)
-  1239			return -EINVAL;
-  1240		old_page = phy_select_page(phydev, YT8824_RSSR_USXGMII_SPACE);
-  1241		if (old_page < 0)
-  1242			goto err_restore_page;
-  1243	
-  1244		/* read efuse */
-  1245		val_1 = ytphy_read_top_ext(phydev, 0xa13e);
-  1246		if (val_1 < 0)
-  1247			goto err_restore_page;
-  1248	
-  1249		val_2 = ytphy_read_top_ext(phydev, 0xa13f);
-  1250		if (val_2 < 0)
-  1251			goto err_restore_page;
-  1252	
-  1253		val_3 = ytphy_read_top_ext(phydev, 0xa140);
-  1254		if (val_3 < 0)
-  1255			goto err_restore_page;
-  1256	
-  1257		if (port == 0) {
-  1258			/* Serdes optimization */
-  1259			ret = ytphy_write_ext(phydev, 0x04be, 0x000d);
-  1260			if (ret < 0)
-  1261				goto err_restore_page;
-  1262	
-  1263			ret = ytphy_write_ext(phydev, 0x049f, 0x7ded);
-  1264			if (ret < 0)
-  1265				goto err_restore_page;
-  1266	
-  1267			ret = ytphy_write_ext(phydev, 0x04a9, 0x009f);
-  1268			if (ret < 0)
-  1269				goto err_restore_page;
-  1270	
-  1271			/* analog CDR */
-  1272			ret = ytphy_write_ext(phydev, 0x0406, 0x0800);
-  1273			if (ret < 0)
-  1274				goto err_restore_page;
-  1275	
-  1276			/* optimized VCO */
-  1277			ret = ytphy_write_ext(phydev, 0x0438, 0x9024);
-  1278			if (ret < 0)
-  1279				goto err_restore_page;
-  1280	
-  1281			ret = ytphy_write_ext(phydev, 0x0439, 0x00c0);
-  1282			if (ret < 0)
-  1283				goto err_restore_page;
-  1284	
-  1285			/* optimized PLL lock */
-  1286			ret = ytphy_read_ext(phydev, 0x0429);
-  1287			if (ret < 0)
-  1288				goto err_restore_page;
-  1289	
-  1290			ret &= ~(BIT(13) | BIT(12));
-  1291			tmp = (val_1 & (BIT(7) | BIT(6))) >> 6;
-  1292			ret |= (tmp << 12);
-  1293			ret = ytphy_write_ext(phydev, 0x0429, ret);
-  1294			if (ret < 0)
-  1295				goto err_restore_page;
-  1296	
-  1297			ret = ytphy_read_ext(phydev, 0x0441);
-  1298			if (ret < 0)
-  1299				goto err_restore_page;
-  1300	
-  1301			ret &= ~(BIT(1) | BIT(0));
-  1302			tmp = (val_1 & (BIT(5) | BIT(4))) >> 4;
-  1303			ret |= tmp;
-  1304			ret = ytphy_write_ext(phydev, 0x0441, ret);
-  1305			if (ret < 0)
-  1306				goto err_restore_page;
-  1307	
-  1308			ret = ytphy_read_ext(phydev, 0x042b);
-  1309			if (ret < 0)
-  1310				goto err_restore_page;
-  1311	
-  1312			ret &= ~(BIT(13) | BIT(12));
-  1313			tmp = (val_3 & (BIT(1) | BIT(0)));
-  1314			ret |= (tmp << 12);
-  1315			ret = ytphy_write_ext(phydev, 0x042b, ret);
-  1316			if (ret < 0)
-  1317				goto err_restore_page;
-  1318	
-  1319			ret = ytphy_write_ext(phydev, 0x043a, 0x1006);
-  1320			if (ret < 0)
-  1321				goto err_restore_page;
-  1322	
-  1323			ret = ytphy_write_ext(phydev, 0x042a, 0xf070);
-  1324			if (ret < 0)
-  1325				goto err_restore_page;
-  1326	
-  1327			/* cable length threshold */
-  1328			ret = ytphy_write_ext(phydev, 0x0491, 0x007f);
-  1329			if (ret < 0)
-  1330				goto err_restore_page;
-  1331	
-  1332			ret = ytphy_write_ext(phydev, 0x0492, 0x7f7f);
-  1333			if (ret < 0)
-  1334				goto err_restore_page;
-  1335	
-  1336			/* Serdes training threshold */
-  1337			ret = ytphy_write_ext(phydev, 0x0454, 0x0f14);
-  1338			if (ret < 0)
-  1339				goto err_restore_page;
-  1340	
-  1341			ret = ytphy_write_ext(phydev, 0x0497, 0x0a44);
-  1342			if (ret < 0)
-  1343				goto err_restore_page;
-  1344	
-  1345			/* digital eye diagram of SerDes */
-  1346			ret = ytphy_write_ext(phydev, 0x04cd, 0x0000);
-  1347			if (ret < 0)
-  1348				goto err_restore_page;
-  1349	
-  1350			/* Serdes LDO */
-  1351			ret = ytphy_read_ext(phydev, 0x04b5);
-  1352			if (ret < 0)
-  1353				goto err_restore_page;
-  1354	
-  1355			ret &= ~(BIT(6) | BIT(5) | BIT(4));
-  1356			tmp = (val_2 & (BIT(4) | BIT(3) | BIT(2))) >> 2;
-  1357			ret |= (tmp << 4);
-  1358			ret = ytphy_write_ext(phydev, 0x04b5, ret);
-  1359			if (ret < 0)
-  1360				goto err_restore_page;
-  1361	
-  1362			ret = ytphy_read_ext(phydev, 0x04b4);
-  1363			if (ret < 0)
-  1364				goto err_restore_page;
-  1365	
-  1366			ret &= ~(BIT(10) | BIT(9) | BIT(8));
-  1367			tmp = (val_2 & (BIT(7) | BIT(6) | BIT(5))) >> 5;
-  1368			ret |= (tmp << 8);
-  1369			ret = ytphy_write_ext(phydev, 0x04b4, ret);
-  1370			if (ret < 0)
-  1371				goto err_restore_page;
-  1372	
-  1373			/* optimized Serdes RX */
-  1374			ret = ytphy_write_ext(phydev, 0x04af, 0x45e3);
-  1375			if (ret < 0)
-  1376				goto err_restore_page;
-  1377	
-  1378			ret = ytphy_write_ext(phydev, 0x048a, 0x0fff);
-  1379			if (ret < 0)
-  1380				goto err_restore_page;
-  1381	
-  1382			ret = ytphy_write_ext(phydev, 0x0408, 0x7c00);
-  1383			if (ret < 0)
-  1384				goto err_restore_page;
-  1385	
-  1386			ret = ytphy_write_ext(phydev, 0x04d6, 0x007f);
-  1387			if (ret < 0)
-  1388				goto err_restore_page;
-  1389	
-  1390			ret = ytphy_write_ext(phydev, 0x044f, 0xff08);
-  1391			if (ret < 0)
-  1392				goto err_restore_page;
-  1393	
-  1394			/* optimized Serdes TX */
-  1395			ret = ytphy_write_ext(phydev, 0x048e, 0x7d00);
-  1396			if (ret < 0)
-  1397				goto err_restore_page;
-  1398	
-  1399			ret = ytphy_write_ext(phydev, 0x000d, 0x0606);
-  1400			if (ret < 0)
-  1401				goto err_restore_page;
-  1402	
-  1403			/* Serdes manual config */
-  1404			ret = ytphy_write_ext(phydev, 0x04b0, 0x0804);
-  1405			if (ret < 0)
-  1406				goto err_restore_page;
-  1407	
-  1408			ret = ytphy_write_ext(phydev, 0x04b1, 0x7074);
-  1409			if (ret < 0)
-  1410				goto err_restore_page;
-  1411	
-  1412			ret = ytphy_write_ext(phydev, 0x04af, 0x45e7);
-  1413			if (ret < 0)
-  1414				goto err_restore_page;
-  1415	
-  1416			/* restart calibration */
-  1417			ret = ytphy_write_ext(phydev, 0x0003, 0x5603);
-  1418			if (ret < 0)
-  1419				goto err_restore_page;
-  1420	
-  1421			ret = ytphy_write_ext(phydev, 0x0492, 0x7fff);
-  1422			if (ret < 0)
-  1423				goto err_restore_page;
-  1424	
-  1425			ret = ytphy_write_ext(phydev, 0x0492, 0x7f7f);
-  1426			if (ret < 0)
-  1427				goto err_restore_page;
-  1428	
-  1429			ret = ytphy_write_ext(phydev, 0x2000, 0x0040);
-  1430			if (ret < 0)
-  1431				goto err_restore_page;
-  1432	
-  1433			ret = ytphy_write_ext(phydev, 0x2000, 0x0000);
-  1434			if (ret < 0)
-  1435				goto err_restore_page;
-  1436		}
-  1437	
-  1438		/* TX preamble padded to 8; RX IPG always > 8 */
-  1439		ret = __phy_read(phydev, MII_RESV1);
-  1440		if (ret < 0)
-  1441			goto err_restore_page;
-  1442		ret &= ~YT8824_SDS_CFG_MIN_PRE_MASK;
-  1443		ret |= YT8824_SDS_TX_PRE_PADDING;
-  1444		ret |= YT8824_SDS_EN_FILL_PRE;
-  1445		ret = __phy_write(phydev, MII_RESV1, ret);
-  1446		if (ret < 0)
-  1447			goto err_restore_page;
-  1448	
-  1449		data = __phy_read(phydev, MII_BMCR);
-> 1450		if (data < 0)
-  1451			goto err_restore_page;
-  1452		data |= BMCR_RESET;
-  1453		data |= BMCR_ANENABLE;
-  1454		ret = __phy_write(phydev, MII_BMCR, data);
-  1455		if (ret < 0)
-  1456			goto err_restore_page;
-  1457	
-  1458	err_restore_page:
-  1459		return phy_restore_page(phydev, old_page, ret);
-  1460	}
-  1461	
+
+vim +554 fs/ntfs/file.c
+
+   537	
+   538	static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+   539	{
+   540		struct file *file = iocb->ki_filp;
+   541		struct inode *vi = file->f_mapping->host;
+   542		struct ntfs_inode *ni = NTFS_I(vi);
+   543		struct ntfs_volume *vol = ni->vol;
+   544		ssize_t ret;
+   545		ssize_t count;
+   546		loff_t pos;
+   547		int err;
+   548		loff_t old_data_size, old_init_size;
+   549	
+   550		if (NVolShutdown(vol))
+   551			return -EIO;
+   552	
+   553		if (ni->mft_no == FILE_MFT) {
+ > 554			ntfs_error(vi->i_sb, "Attempt to write to $MFT denied (mft_no: 0x%lx)",
+   555					ni->mft_no);
+   556			return -EACCES;
+   557		}
+   558	
+   559		if (NInoEncrypted(ni)) {
+   560			ntfs_error(vi->i_sb, "Writing for %s files is not supported yet",
+   561				   NInoCompressed(ni) ? "Compressed" : "Encrypted");
+   562			return -EOPNOTSUPP;
+   563		}
+   564	
+   565		if (NInoCompressed(ni) && iocb->ki_flags & IOCB_DIRECT)
+   566			return -EOPNOTSUPP;
+   567	
+   568		if (iocb->ki_flags & IOCB_NOWAIT) {
+   569			if (!inode_trylock(vi))
+   570				return -EAGAIN;
+   571		} else
+   572			inode_lock(vi);
+   573	
+   574		ret = generic_write_checks(iocb, from);
+   575		if (ret <= 0)
+   576			goto out_lock;
+   577	
+   578		err = file_modified(iocb->ki_filp);
+   579		if (err) {
+   580			ret = err;
+   581			goto out_lock;
+   582		}
+   583	
+   584		if (!(vol->vol_flags & VOLUME_IS_DIRTY))
+   585			ntfs_set_volume_flags(vol, VOLUME_IS_DIRTY);
+   586	
+   587		pos = iocb->ki_pos;
+   588		count = ret;
+   589	
+   590		old_data_size = ni->data_size;
+   591		old_init_size = ni->initialized_size;
+   592	
+   593		if (NInoNonResident(ni) && NInoCompressed(ni)) {
+   594			ret = ntfs_compress_write(ni, pos, count, from);
+   595			if (ret > 0)
+   596				iocb->ki_pos += ret;
+   597			goto out;
+   598		}
+   599	
+   600		if (NInoNonResident(ni) && iocb->ki_flags & IOCB_DIRECT)
+   601			ret = ntfs_dio_write_iter(iocb, from);
+   602		else
+   603			ret = iomap_file_buffered_write(iocb, from, &ntfs_write_iomap_ops,
+   604					&ntfs_iomap_folio_ops, NULL);
+   605	out:
+   606		if (ret < 0 && ret != -EIOCBQUEUED) {
+   607			if (ni->initialized_size != old_init_size) {
+   608				mutex_lock(&ni->mrec_lock);
+   609				ntfs_attr_set_initialized_size(ni, old_init_size);
+   610				mutex_unlock(&ni->mrec_lock);
+   611			}
+   612			if (ni->data_size != old_data_size) {
+   613				truncate_setsize(vi, old_data_size);
+   614				ntfs_attr_truncate(ni, old_data_size);
+   615			}
+   616		}
+   617	out_lock:
+   618		inode_unlock(vi);
+   619		if (ret > 0)
+   620			ret = generic_write_sync(iocb, ret);
+   621		return ret;
+   622	}
+   623	
 
 --
 0-DAY CI Kernel Test Service
