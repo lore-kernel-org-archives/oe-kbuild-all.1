@@ -1,58 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3C446D0B9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 11:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55B246EC69
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 11:36:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786620989; cv=none; b=l23OWLia+isvhwm+F7dHXK3lqb6gPouFt+TKzaAGK3E4/XbNK7Ukg+28AIcPcNHOYYsBwl+o8UVPJzrdO15NabXRuv3WQbO3c6ZZ/w4f91QKfD8sg3hm8St0o87nM6RzgOoWq1n59G3wGyiMHOttHxdWGjcySTsVEiiDO/Q6lYc=
+	t=1786620990; cv=none; b=kAoMX5b7UrptfFvp1l9gVwWrYvjrUvN/m4c+9wI2VQHR72qE/MuVlsRrY5abxWMnxx0sw/CFqoCIIutuBplA/DqzsV9OYkpNvdM7YpNEDbA1SUZ8ElBVAUwUFxffpH4JKseiA9kZU9Bj18i2sTHENrKjvePvRf4902cessMt2Bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786620989; c=relaxed/simple;
-	bh=OHWHQqAjRsxFEGLk1UPIJ3pxxX/pMgEHzICmFeo3ubI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DjS9DYG/lUXzWuAY73Y0aDDwDIiEsHvLY+deK7xg1PI2qRTo0jc2jWehK5Nund1ujD/dpoCyhr+PzL8cCBDpsr/mqr/NmUt04sbupVKPiOTfTx4YiE/yMAtPSbMCN//0lSIXYUDusEWWM2SZqzEJYcnfTb+eOvBq0++m5gVWaXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llze5TOR; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1786620990; c=relaxed/simple;
+	bh=3KKoBHV6YiZXY6Z+5H12co3TOCaNwwAwwlE9esxuOGk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ncFk5+4WzWLCxTDK2L/PCkP81FZjCWqd4w5F8CSImUdOnvTr3FhwWw56jNXbVscWi9JCHp9TDNZM6gBxfxBA94/cPUryBPEv5GnouT2W+tsmR75TzvD+z9GIpGWvemlDmUswJzBVIbgzZy053urzKNxm55EVk/MUyp2QqQoVciU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KoB0fBI7; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llze5TOR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KoB0fBI7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1786620988; x=1818156988;
   h=date:from:to:cc:subject:message-id;
-  bh=OHWHQqAjRsxFEGLk1UPIJ3pxxX/pMgEHzICmFeo3ubI=;
-  b=llze5TOR+46EjSaWrN7NUC5vwJgoiO2o+zqJk7FtLX7V8yC/uB2Eczbr
-   jHwjT8LFexjZHoJQBZBwN/PBa8UqOmCAMRlgugROXoYpLT5qmp3aEzbst
-   rgj2LKGY/C6eaHQkxmuTkyXMWJPA4nAMm6Y3RjPAsXS+0d6pCLyye3mJD
-   LK6L7fmVL6ms+AjpVVbbeJxKhF24TjFWZq7JG03CpgvYa09gUmLJVpmS+
-   hMwfl51vpZm+YLSjEbi5zbrQd+L4NCX8z5ENOVFzQf3GAs0172AfPb8Xv
-   lF9FIR12deyLOTgo2qboqWhmrACgQXgRuVlXD3Z8TjHkLAFgRXE9SjZu5
-   g==;
-X-CSE-ConnectionGUID: vGOFflKMRXqiDV7nptPfTg==
-X-CSE-MsgGUID: SsjpuePNQQSdOY9c11jnKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87408547"
+  bh=3KKoBHV6YiZXY6Z+5H12co3TOCaNwwAwwlE9esxuOGk=;
+  b=KoB0fBI7mfv94UG0j5M2ABVq7HJVUMxL3yXdXmnH4CPly3EnBhKpFaip
+   q/f0mhMrrr6873SzJniUc6vm34Igllnn4Jw1yqUkGHq30VR8NJzIFmaOF
+   xM1x1igxLPoKzl/Te+f9Tm0ECkoqocJxkqDiC8bJ3ZVss+aAgYNtGgJdg
+   Gif1cfdPa5KG40Gq24EeAcgpTqW9+CU2KnyPbNg1hvcSNOq1gidRqZX+2
+   Qb/ihCzfQj/o37ytzJs+dfXc5/DUjQPGBT0yQks68PhAkKdzMhNd880K/
+   WlQArF0Xw+4CprFodZp4Bd3+cIpG31oYEVZlA14YGcuzZ7vTuF4+TfAF1
+   A==;
+X-CSE-ConnectionGUID: dIQBimqITR6lx5nTjNgjsw==
+X-CSE-MsgGUID: HdRfFq3qQGmZmjBq7mFfrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87408549"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="87408547"
+   d="scan'208";a="87408549"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 04:36:20 -0700
-X-CSE-ConnectionGUID: UKpn2uMcQAW7DKJ/OtY/TA==
-X-CSE-MsgGUID: 2ATzPnPtSrG90j8BD6klRQ==
+X-CSE-ConnectionGUID: Ou+yRDxLQgyvc7kmYrurWg==
+X-CSE-MsgGUID: /5TPHdFnT5ymWK7cETjwlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="260103900"
+   d="scan'208";a="260103902"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 13 Aug 2026 04:36:18 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuTjL-00000000Tta-1bWm;
+	id 1wuTjL-00000000Tte-1oMX;
 	Thu, 13 Aug 2026 11:36:15 +0000
-Date: Thu, 13 Aug 2026 19:35:23 +0800
+Date: Thu, 13 Aug 2026 19:35:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Dongjin Kim <tobetter@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 272/272]
- include/trace/trace_events.h:27:23: warning: 'str__fpsimd__trace_system_name'
- defined but not used
-Message-ID: <202608131906.5mn6bzPv-lkp@intel.com>
+Subject: [tobetter:odroid-7.2.y 57/58] scripts/Makefile.clean:12:
+ drivers/net/wireless/realtek/rtl8192fu/Makefile: No such file or directory
+Message-ID: <202608131924.2WHEkCvn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,96 +59,69 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Wooyeon,
+Hi Dongjin,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   9c40f45d2c22f05e45bc48b1d7be869adf7e473a
-commit: 74555f39924dc4c173b4bec9bd015acfeb895e68 [272/272] ANDROID: vendor_hooks: FPSIMD save/restore by using vendor_hooks
-config: arm64-randconfig-004-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131906.5mn6bzPv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131906.5mn6bzPv-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-7.2.y
+head:   a105acaa179819b345f92c1de3b2628b9d1a31f9
+commit: aadf585168240b41fc8faa32e9b150829831a44a [57/58] ODROID-COMMON: net/wireless: add Realtek Wifi drivers
+config: powerpc64-randconfig-r122-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131924.2WHEkCvn-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131924.2WHEkCvn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608131906.5mn6bzPv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608131924.2WHEkCvn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fpsimd.h:26,
-                    from drivers/android/vendor_hooks.c:12:
->> include/trace/trace_events.h:27:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sched.h:23,
-                    from drivers/android/vendor_hooks.c:11:
-   include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+>> scripts/Makefile.clean:12: drivers/net/wireless/realtek/rtl8192fu/Makefile: No such file or directory
+>> make[8]: *** No rule to make target 'drivers/net/wireless/realtek/rtl8192fu/Makefile'.
+   scripts/Makefile.clean:12: Failed to remake makefile 'drivers/net/wireless/realtek/rtl8192fu/Makefile'.
+>> scripts/Makefile.clean:12: drivers/net/wireless/realtek/rtl8821au/Makefile: No such file or directory
+>> make[8]: *** No rule to make target 'drivers/net/wireless/realtek/rtl8821au/Makefile'.
+   scripts/Makefile.clean:12: Failed to remake makefile 'drivers/net/wireless/realtek/rtl8821au/Makefile'.
+   make[7]: *** [scripts/Makefile.clean:61: drivers/net/wireless/realtek/rtl8192fu] Error 2
+   make[7]: *** [scripts/Makefile.clean:61: drivers/net/wireless/realtek/rtl8821au] Error 2
+>> scripts/Makefile.clean:12: drivers/net/wireless/realtek/rtl8821cu/Makefile: No such file or directory
+>> make[8]: *** No rule to make target 'drivers/net/wireless/realtek/rtl8821cu/Makefile'.
+   scripts/Makefile.clean:12: Failed to remake makefile 'drivers/net/wireless/realtek/rtl8821cu/Makefile'.
+   make[7]: *** [scripts/Makefile.clean:61: drivers/net/wireless/realtek/rtl8821cu] Error 2
+   make[7]: Target '__clean' not remade because of errors.
+   make[6]: *** [scripts/Makefile.clean:61: drivers/net/wireless/realtek] Error 2
+   make[6]: Target '__clean' not remade because of errors.
+   make[5]: *** [scripts/Makefile.clean:61: drivers/net/wireless] Error 2
+   make[5]: Target '__clean' not remade because of errors.
+   make[4]: *** [scripts/Makefile.clean:61: drivers/net] Error 2
+   make[4]: Target '__clean' not remade because of errors.
+   make[3]: *** [scripts/Makefile.clean:61: drivers] Error 2
+   make[3]: Target '__clean' not remade because of errors.
+   make[2]: *** [Makefile:2194: _clean_.] Error 2
+   make[2]: Target 'distclean' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'distclean' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'distclean' not remade because of errors.
 
 
-vim +/str__fpsimd__trace_system_name +27 include/trace/trace_events.h
+vim +12 scripts/Makefile.clean
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+^1da177e4c3f415 Linus Torvalds  2005-04-16   7  
+4f1933620f57145 Paul Smith      2006-03-05   8  PHONY := __clean
+^1da177e4c3f415 Linus Torvalds  2005-04-16   9  __clean:
+^1da177e4c3f415 Linus Torvalds  2005-04-16  10  
+3204a7fb98a3bcc Masahiro Yamada 2021-02-28  11  include $(srctree)/scripts/Kbuild.include
+a2430b25c31840a Masahiro Yamada 2022-11-19 @12  include $(kbuild-file)
+^1da177e4c3f415 Linus Torvalds  2005-04-16  13  
 
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+:::::: The code at line 12 was first introduced by commit
+:::::: a2430b25c31840a6dcbf95c65415d5fee2984dbc kbuild: add kbuild-file macro
 
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
+:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
