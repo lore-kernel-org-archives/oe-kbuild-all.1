@@ -1,168 +1,460 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA79483BCD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 15:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1A448D87C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 15:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786634448; cv=none; b=eSE9FPxgj7MNOSFBq0+s/0XwXKxaaJrA+bVnwu/q/TtWNzKO7sKqmKIhbwJuCWIst97lUnXea0Y1vwabZ9fENbcviJFXNg478hK74nYMS379qwktgROo5IG1Xbq/+LB64GzgFhN+0xjxnII73+DBvEFV8PuErznF+kV9MWsC7gg=
+	t=1786635655; cv=none; b=ODgAfGSBJ0Vubu0+1WzH67+nhS1dJkj1DjLV11KpUMZ/r8ZX+60dWF9n6VBlvCUu21RTjgwTs7cOftNSbn+ZGtkP2y3uI6jKwb15c+WqHTXGGqMHJhdr1rG/NPIPTjcxXxruAIIVsoYWMBRko5MigxW4EoadPTNNrVVghbO9DsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786634448; c=relaxed/simple;
-	bh=APemogmhtZDHWbVzDL+rN9To3ijEL2kyxlFbdtRKFp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ha8olPegS/GmbMoo5s8h7LAqp0fOFKtLNKP4KkYqsp2/+mt+hATIbJQ+azks1hKKx+0y4+c4DPM5ivXkVXcalXQfaWi8jCkE9+URfgJGulso9EjogIeXzISvCFcH9Re0/+Lh8yEbS3yX8aEwzjvJOPuJsl/iJ1djRdSNrhIO96o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHS/Gj6o; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1786635655; c=relaxed/simple;
+	bh=5WG8OgQDq4R0HseXMWe4anOnaWwAxgKAkx+ywB1rHFU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HpGwGXr5aKh2A/EdUiklH1P7VXNcsPHum3Un6m816B8SnpFnBTXcQs77Wy5O9RQnKS7RANwPC7+vc365zaAJl2ioN0AKn9vq1/2mdDF78/llvT0bIRlCLD9nWnxPyBLquATpzJ0TsbKRD1kruUPYGyU/hPAzVnB4tHvU759NpyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Geno8wfA; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHS/Gj6o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Geno8wfA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786634447; x=1818170447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=APemogmhtZDHWbVzDL+rN9To3ijEL2kyxlFbdtRKFp8=;
-  b=fHS/Gj6oaS++AZaNRtLkNvNRsGWLGUkVpb4rDbq19QpdL3kCWtyO/Xpi
-   AfYD+ZPpcVZQl0kZJf7W+s3wnKpOuH4hLP9MSJ5ROaNGTNW+CTbwSvXi2
-   yzngSMyi8juCgphqXK8ACiad7saEoDZMA1n6R5jv6n/epjexUOx9/XHKf
-   hvNuhPN8UtBS2kQpkuC5LzfsPEAldKReq4TL8cMtIswpB0rkRiKScZKtP
-   bmpcvZnq7EEf1yB2fsASytii5c/vAQpOtMYspD29bx2WKNLrD2jvQYQcd
-   +HbV+Kwx9mB1JUAl5f5X5yQRuwtul99G1/m2RIBZD+F2s0QEVcAbidA4J
+  t=1786635650; x=1818171650;
+  h=date:from:to:cc:subject:message-id;
+  bh=5WG8OgQDq4R0HseXMWe4anOnaWwAxgKAkx+ywB1rHFU=;
+  b=Geno8wfAB3vTXNtYxtlhzvQSU5n2FKEHoRAO+M5vc51J/YjaGh0QCaEn
+   plLnAQVSHOBsAWTz+L7AfEOhof6zxa08JglEZ+QapLQF/zP10vO6dlgd2
+   jnsbWbQDKf/lZ3TUg5DjMaEJoi0y6i2BxGQC1toDwmZrV485ZKU+ukalU
+   5kySb1H185h0K8/DzWOFKGGGBlmcg418g6+apORVkoLDrQ137msu6MxbF
+   XAWP1wkimvTP+47kHEe5DgZjCFz2PqwSGuksVJdnSlWriFzGHQ3naW6gc
+   X1QR1SISKJLi6CutzGTEY+7GMSaek9E+YCxvm/yeGS0XshKCGDhf7OAPi
    A==;
-X-CSE-ConnectionGUID: ml2XBfqpSEetV+0gGXDl9A==
-X-CSE-MsgGUID: Lzbf7hvpS+qeKblmRJxxHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87337710"
+X-CSE-ConnectionGUID: KUY87ru2SgKhrenZrTHs/A==
+X-CSE-MsgGUID: mhxpBrPsSo22QOXL8yooOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="97877583"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="87337710"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 08:20:46 -0700
-X-CSE-ConnectionGUID: Gpzvu8jwRUGOF18DA0pujw==
-X-CSE-MsgGUID: iVbRuQ3JQWuGZ44qPS/BeA==
+   d="scan'208";a="97877583"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 08:40:46 -0700
+X-CSE-ConnectionGUID: v14mB0duRVqKdwj2XZGsKQ==
+X-CSE-MsgGUID: sQIPBRp4SzqQA/xg9FZf3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="260695153"
+   d="scan'208";a="287421056"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Aug 2026 08:20:42 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 13 Aug 2026 08:40:45 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuXEV-00000000VhS-2AlQ;
-	Thu, 13 Aug 2026 15:20:39 +0000
-Date: Thu, 13 Aug 2026 23:19:53 +0800
+	id 1wuXXu-00000000Vjf-2NTe;
+	Thu, 13 Aug 2026 15:40:42 +0000
+Date: Thu, 13 Aug 2026 23:40:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rodrigo Siqueira <siqueira@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	arthurgrillo@riseup.net, linux-kernel@vger.kernel.org,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	thomas.petazzoni@bootlin.com, seanpaul@google.com,
-	nicolejadeyee@google.com, Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v4 8/8] drm/vkms: Add P01* formats
-Message-ID: <202608132328.K0ZCjw8a-lkp@intel.com>
-References: <20250530-b4-new-color-formats-v4-8-ef5f9f48376c@bootlin.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [willy-pagecache:headers 10/12]
+ include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name 'pgd_t';
+ did you mean 'pid_t'?
+Message-ID: <202608132303.fSfX99I5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250530-b4-new-color-formats-v4-8-ef5f9f48376c@bootlin.com>
 
-Hi Louis,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2271e0a20ef795838527815e057f5af206b69c87]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-vkms-Create-helpers-macro-to-avoid-code-duplication-in-format-callbacks/20260813-163823
-base:   2271e0a20ef795838527815e057f5af206b69c87
-patch link:    https://lore.kernel.org/r/20250530-b4-new-color-formats-v4-8-ef5f9f48376c%40bootlin.com
-patch subject: [PATCH v4 8/8] drm/vkms: Add P01* formats
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260813/202608132328.K0ZCjw8a-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608132328.K0ZCjw8a-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/willy/pagecache headers
+head:   05cde35b55fa761ee403c3df91a8de767f452935
+commit: 407c67a9d6183fc8f62b6a9cf1c153a8cd49cbf3 [10/12] drm: Remove pagemap from ttm_tt.h header
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260813/202608132303.fSfX99I5-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608132303.fSfX99I5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608132328.K0ZCjw8a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608132303.fSfX99I5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/vkms/vkms_formats.c:324: warning: Excess function parameter '__VA_ARGS__' description in 'READ_LINE'
->> drivers/gpu/drm/vkms/vkms_formats.c:335: warning: Function parameter or struct member 'a' not described in 'READ_LINE_ARGB8888'
->> drivers/gpu/drm/vkms/vkms_formats.c:335: warning: Function parameter or struct member 'r' not described in 'READ_LINE_ARGB8888'
->> drivers/gpu/drm/vkms/vkms_formats.c:335: warning: Function parameter or struct member 'g' not described in 'READ_LINE_ARGB8888'
->> drivers/gpu/drm/vkms/vkms_formats.c:335: warning: Function parameter or struct member 'b' not described in 'READ_LINE_ARGB8888'
->> drivers/gpu/drm/vkms/vkms_formats.c:345: warning: Function parameter or struct member 'a' not described in 'READ_LINE_le16161616'
->> drivers/gpu/drm/vkms/vkms_formats.c:345: warning: Function parameter or struct member 'r' not described in 'READ_LINE_le16161616'
->> drivers/gpu/drm/vkms/vkms_formats.c:345: warning: Function parameter or struct member 'g' not described in 'READ_LINE_le16161616'
->> drivers/gpu/drm/vkms/vkms_formats.c:345: warning: Function parameter or struct member 'b' not described in 'READ_LINE_le16161616'
+   In file included from include/asm-generic/pgtable-nopud.h:7,
+                    from include/asm-generic/pgtable-nopmd.h:7,
+                    from arch/arc/include/asm/pgtable-levels.h:95,
+                    from arch/arc/include/asm/pgtable.h:11,
+                    from include/linux/pgtable.h:6,
+                    from include/drm/ttm/ttm_caching.h:28,
+                    from include/drm/ttm/ttm_tt.h:31,
+                    from drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c:8:
+>> include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name 'pgd_t'; did you mean 'pid_t'?
+       9 | typedef struct { pgd_t pgd; } p4d_t;
+         |                  ^~~~~
+         |                  pid_t
+   include/asm-generic/pgtable-nop4d.h:21:28: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      21 | static inline int pgd_none(pgd_t pgd)           { return 0; }
+         |                            ^~~~~
+         |                            p4d_t
+   include/asm-generic/pgtable-nop4d.h:22:27: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      22 | static inline int pgd_bad(pgd_t pgd)            { return 0; }
+         |                           ^~~~~
+         |                           p4d_t
+   include/asm-generic/pgtable-nop4d.h:23:31: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      23 | static inline int pgd_present(pgd_t pgd)        { return 1; }
+         |                               ^~~~~
+         |                               p4d_t
+   include/asm-generic/pgtable-nop4d.h:24:30: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      24 | static inline void pgd_clear(pgd_t *pgd)        { }
+         |                              ^~~~~
+         |                              p4d_t
+   include/asm-generic/pgtable-nop4d.h:35:33: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      35 | static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
+         |                                 ^~~~~
+         |                                 p4d_t
+   In file included from arch/arc/include/asm/pgtable.h:12:
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:88:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      88 | PTE_BIT_FUNC(mknotpresent,     &= ~(_PAGE_PRESENT));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:88:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      88 | PTE_BIT_FUNC(mknotpresent,     &= ~(_PAGE_PRESENT));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:89:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      89 | PTE_BIT_FUNC(wrprotect, &= ~(_PAGE_WRITE));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:89:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      89 | PTE_BIT_FUNC(wrprotect, &= ~(_PAGE_WRITE));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:90:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      90 | PTE_BIT_FUNC(mkwrite_novma,     |= (_PAGE_WRITE));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:90:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      90 | PTE_BIT_FUNC(mkwrite_novma,     |= (_PAGE_WRITE));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:91:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      91 | PTE_BIT_FUNC(mkclean,   &= ~(_PAGE_DIRTY));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:91:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      91 | PTE_BIT_FUNC(mkclean,   &= ~(_PAGE_DIRTY));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:92:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      92 | PTE_BIT_FUNC(mkdirty,   |= (_PAGE_DIRTY));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:92:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      92 | PTE_BIT_FUNC(mkdirty,   |= (_PAGE_DIRTY));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:93:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      93 | PTE_BIT_FUNC(mkold,     &= ~(_PAGE_ACCESSED));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:93:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      93 | PTE_BIT_FUNC(mkold,     &= ~(_PAGE_ACCESSED));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:94:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      94 | PTE_BIT_FUNC(mkyoung,   |= (_PAGE_ACCESSED));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:94:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      94 | PTE_BIT_FUNC(mkyoung,   |= (_PAGE_ACCESSED));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:95:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      95 | PTE_BIT_FUNC(mkspecial, |= (_PAGE_SPECIAL));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:95:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      95 | PTE_BIT_FUNC(mkspecial, |= (_PAGE_SPECIAL));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:96:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      96 | PTE_BIT_FUNC(mkhuge,    |= (_PAGE_HW_SZ));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:96:1: note: in expansion of macro 'PTE_BIT_FUNC'
+      96 | PTE_BIT_FUNC(mkhuge,    |= (_PAGE_HW_SZ));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:98:15: error: unknown type name 'pte_t'
+      98 | static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+         |               ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:98:32: error: unknown type name 'pte_t'
+      98 | static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+         |                                ^~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:98:43: error: unknown type name 'pgprot_t'
+      98 | static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+         |                                           ^~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:105:40: error: unknown type name 'pte_t'
+     105 |                 unsigned long address, pte_t *ptep, unsigned int nr);
+         |                                        ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:133:38: error: unknown type name 'pte_t'
+     133 | static inline bool pte_swp_exclusive(pte_t pte)
+         |                                      ^~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:138:1: note: in expansion of macro 'PTE_BIT_FUNC'
+     138 | PTE_BIT_FUNC(swp_mkexclusive, |= (_PAGE_SWP_EXCLUSIVE));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:138:1: note: in expansion of macro 'PTE_BIT_FUNC'
+     138 | PTE_BIT_FUNC(swp_mkexclusive, |= (_PAGE_SWP_EXCLUSIVE));
+         | ^~~~~~~~~~~~
+>> arch/arc/include/asm/pgtable-bits-arcv2.h:86:23: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                       ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:139:1: note: in expansion of macro 'PTE_BIT_FUNC'
+     139 | PTE_BIT_FUNC(swp_clear_exclusive, &= ~(_PAGE_SWP_EXCLUSIVE));
+         | ^~~~~~~~~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:86:38: error: unknown type name 'pte_t'
+      86 |         static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+         |                                      ^~~~~
+   arch/arc/include/asm/pgtable-bits-arcv2.h:139:1: note: in expansion of macro 'PTE_BIT_FUNC'
+     139 | PTE_BIT_FUNC(swp_clear_exclusive, &= ~(_PAGE_SWP_EXCLUSIVE));
+         | ^~~~~~~~~~~~
+   In file included from arch/arc/include/asm/pgtable-bits-arcv2.h:142:
+>> arch/arc/include/asm/hugepage.h:20:15: error: unknown type name 'pte_t'
+      20 | static inline pte_t pmd_pte(pmd_t pmd)
+         |               ^~~~~
+   arch/arc/include/asm/hugepage.h: In function 'pmd_pte':
+>> arch/arc/include/asm/hugepage.h:22:16: error: implicit declaration of function '__pte'; did you mean 'pmd_pte'? [-Wimplicit-function-declaration]
+      22 |         return __pte(pmd_val(pmd));
+         |                ^~~~~
+         |                pmd_pte
+>> include/asm-generic/pgtable-nop4d.h:40:50: error: implicit declaration of function 'pgd_val'; did you mean 'pud_val'? [-Wimplicit-function-declaration]
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopmd.h:52:50: note: in expansion of macro 'pud_val'
+      52 | #define pmd_val(x)                              (pud_val((x).pud))
+         |                                                  ^~~~~~~
+   arch/arc/include/asm/hugepage.h:22:22: note: in expansion of macro 'pmd_val'
+      22 |         return __pte(pmd_val(pmd));
+         |                      ^~~~~~~
+   arch/arc/include/asm/hugepage.h: At top level:
+   arch/arc/include/asm/hugepage.h:25:29: error: unknown type name 'pte_t'
+      25 | static inline pmd_t pte_pmd(pte_t pte)
+         |                             ^~~~~
+>> arch/arc/include/asm/hugepage.h:47:43: error: unknown type name 'pgprot_t'
+      47 | static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
+         |                                           ^~~~~~~~
+>> arch/arc/include/asm/hugepage.h:62:41: warning: 'struct vm_area_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      62 | extern void update_mmu_cache_pmd(struct vm_area_struct *vma, unsigned long addr,
+         |                                         ^~~~~~~~~~~~~~
+   arch/arc/include/asm/hugepage.h:66:40: warning: 'struct vm_area_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      66 | extern void flush_pmd_tlb_range(struct vm_area_struct *vma, unsigned long start,
+         |                                        ^~~~~~~~~~~~~~
+   In file included from arch/arc/include/asm/pgtable.h:13:
+   include/linux/pgtable.h: In function 'pte_offset_kernel':
+>> arch/arc/include/asm/page.h:43:29: error: request for member 'pgd' in something not a structure or union
+      43 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopmd.h:52:50: note: in expansion of macro 'pud_val'
+      52 | #define pmd_val(x)                              (pud_val((x).pud))
+         |                                                  ^~~~~~~
+   arch/arc/include/asm/pgtable-levels.h:159:34: note: in expansion of macro 'pmd_val'
+     159 | #define pmd_page_vaddr(pmd)     (pmd_val(pmd) & PAGE_MASK)
+         |                                  ^~~~~~~
+   include/linux/pgtable.h:98:25: note: in expansion of macro 'pmd_page_vaddr'
+      98 |         return (pte_t *)pmd_page_vaddr(*pmd) + pte_index(address);
+         |                         ^~~~~~~~~~~~~~
+   include/linux/pgtable.h: In function 'pmd_off':
+>> include/linux/pgtable.h:167:38: error: implicit declaration of function 'p4d_offset'; did you mean 'pmd_offset'? [-Wimplicit-function-declaration]
+     167 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+         |                                      ^~~~~~~~~~
+         |                                      pmd_offset
+   include/linux/pgtable.h:167:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
+     167 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
+      42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+         |                                 ~~~~~~~^~~
+   include/linux/pgtable.h: In function 'pmd_off_k':
+   include/linux/pgtable.h:172:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
+     172 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset_k(va), va), va), va);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
+      42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+         |                                 ~~~~~~~^~~
+   include/linux/pgtable.h: In function 'virt_to_kpte':
+   arch/arc/include/asm/page.h:43:29: error: request for member 'pgd' in something not a structure or union
+      43 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopmd.h:52:50: note: in expansion of macro 'pud_val'
+      52 | #define pmd_val(x)                              (pud_val((x).pud))
+         |                                                  ^~~~~~~
+   arch/arc/include/asm/pgtable-levels.h:155:35: note: in expansion of macro 'pmd_val'
+     155 | #define pmd_none(x)             (!pmd_val(x))
+         |                                   ^~~~~~~
+   include/linux/pgtable.h:179:16: note: in expansion of macro 'pmd_none'
+     179 |         return pmd_none(*pmd) ? NULL : pte_offset_kernel(pmd, vaddr);
+         |                ^~~~~~~~
+   include/linux/pgtable.h: In function 'ptep_test_and_clear_young':
+   include/linux/pgtable.h:537:55: error: implicit declaration of function 'pte_mkold'; did you mean 'pmd_mkold'? [-Wimplicit-function-declaration]
+     537 |                 set_pte_at(vma->vm_mm, address, ptep, pte_mkold(pte));
+         |                                                       ^~~~~~~~~
+   include/linux/pgtable.h:458:66: note: in definition of macro 'set_pte_at'
+     458 | #define set_pte_at(mm, addr, ptep, pte) set_ptes(mm, addr, ptep, pte, 1)
+         |                                                                  ^~~
+   include/linux/pgtable.h:537:55: error: incompatible type for argument 4 of 'set_ptes'
+     537 |                 set_pte_at(vma->vm_mm, address, ptep, pte_mkold(pte));
+         |                                                       ^~~~~~~~~~~~~~
+         |                                                       |
+         |                                                       int
+   include/linux/pgtable.h:458:66: note: in definition of macro 'set_pte_at'
+     458 | #define set_pte_at(mm, addr, ptep, pte) set_ptes(mm, addr, ptep, pte, 1)
+         |                                                                  ^~~
+   include/linux/pgtable.h:445:36: note: expected 'pte_t' but argument is of type 'int'
+     445 |                 pte_t *ptep, pte_t pte, unsigned int nr)
+         |                              ~~~~~~^~~
+   include/linux/pgtable.h: In function 'pmdp_test_and_clear_young':
+   arch/arc/include/asm/page.h:76:29: error: request for member 'pte' in something not a structure or union
+      76 | #define pte_val(x)      ((x).pte)
+         |                             ^
+   arch/arc/include/asm/pgtable-bits-arcv2.h:82:34: note: in expansion of macro 'pte_val'
+      82 | #define pte_young(pte)          (pte_val(pte) & _PAGE_ACCESSED)
+         |                                  ^~~~~~~
+   arch/arc/include/asm/hugepage.h:40:33: note: in expansion of macro 'pte_young'
+      40 | #define pmd_young(pmd)          pte_young(pmd_pte(pmd))
+         |                                 ^~~~~~~~~
+   include/linux/pgtable.h:550:14: note: in expansion of macro 'pmd_young'
+     550 |         if (!pmd_young(pmd))
+         |              ^~~~~~~~~
+   arch/arc/include/asm/hugepage.h:33:33: error: implicit declaration of function 'pte_pmd'; did you mean 'pfn_pmd'? [-Wimplicit-function-declaration]
+      33 | #define pmd_mkold(pmd)          pte_pmd(pte_mkold(pmd_pte(pmd)))
+         |                                 ^~~~~~~
+   include/linux/pgtable.h:553:55: note: in expansion of macro 'pmd_mkold'
+     553 |                 set_pmd_at(vma->vm_mm, address, pmdp, pmd_mkold(pmd));
+         |                                                       ^~~~~~~~~
+   arch/arc/include/asm/hugepage.h:33:33: error: incompatible type for argument 4 of 'set_pmd_at'
+      33 | #define pmd_mkold(pmd)          pte_pmd(pte_mkold(pmd_pte(pmd)))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/pgtable.h:553:55: note: in expansion of macro 'pmd_mkold'
+     553 |                 set_pmd_at(vma->vm_mm, address, pmdp, pmd_mkold(pmd));
+         |                                                       ^~~~~~~~~
+   arch/arc/include/asm/hugepage.h:57:50: note: expected 'pmd_t' but argument is of type 'int'
+      57 |                               pmd_t *pmdp, pmd_t pmd)
+         |                                            ~~~~~~^~~
+   include/linux/pgtable.h: In function 'clear_young_dirty_ptes':
+   include/linux/pgtable.h:687:39: error: incompatible types when assigning to type 'pte_t' from type 'int'
+     687 |                                 pte = pte_mkold(pte);
+         |                                       ^~~~~~~~~
+   include/linux/pgtable.h:689:39: error: implicit declaration of function 'pte_mkclean'; did you mean 'pmd_mkclean'? [-Wimplicit-function-declaration]
+     689 |                                 pte = pte_mkclean(pte);
+         |                                       ^~~~~~~~~~~
+         |                                       pmd_mkclean
+   include/linux/pgtable.h:689:39: error: incompatible types when assigning to type 'pte_t' from type 'int'
+   include/linux/pgtable.h: In function 'pmdp_huge_get_and_clear':
+   arch/arc/include/asm/page.h:43:29: error: request for member 'pgd' in something not a structure or union
+      43 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
 
 
-vim +324 drivers/gpu/drm/vkms/vkms_formats.c
+vim +9 include/asm-generic/pgtable-nop4d.h
 
-   294	
-   295	/**
-   296	 * READ_LINE() - Generic generator for a read_line function which can be used for format with one
-   297	 * plane and a block_h == block_w == 1.
-   298	 *
-   299	 * @function_name: Function name to generate
-   300	 * @pixel_name: Temporary pixel name used in the @__VA_ARGS__ parameters
-   301	 * @pixel_type: Used to specify the type you want to cast the pixel pointer
-   302	 * @callback: Callback to call for each pixels. This fonction should take @__VA_ARGS__ as parameter
-   303	 *            and return a pixel_argb_u16
-   304	 * @__VA_ARGS__: Argument to pass inside the callback. You can use @pixel_name to access current
-   305	 *  pixel.
-   306	 */
-   307	#define READ_LINE(function_name, pixel_name, pixel_type, callback, ...)				\
-   308	static void function_name(const struct vkms_plane_state *plane, int x_start,			\
-   309				      int y_start, enum pixel_read_direction direction, int count,	\
-   310				      struct pixel_argb_u16 out_pixel[])				\
-   311	{												\
-   312		struct pixel_argb_u16 *end = out_pixel + count;						\
-   313		int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);			\
-   314		u8 *src_pixels;										\
-   315													\
-   316		packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);		\
-   317													\
-   318		while (out_pixel < end) {								\
-   319			pixel_type *(pixel_name) = (pixel_type *)src_pixels;				\
-   320			*out_pixel = (callback)(__VA_ARGS__);						\
-   321			out_pixel += 1;									\
-   322			src_pixels += step;								\
-   323		}											\
- > 324	}
-   325	
-   326	/**
-   327	 * READ_LINE_ARGB8888() - Generic generator for ARGB8888 formats.
-   328	 * The pixel type used is u8, so pixel_name[0]..pixel_name[n] are the n components of the pixel.
-   329	 *
-   330	 * @function_name: Function name to generate
-   331	 * @pixel_name: temporary pixel to use in @a, @r, @g and @b parameters
-   332	 * @a, @r, @g, @b: value of each channel
-   333	 */
-   334	#define READ_LINE_ARGB8888(function_name, pixel_name, a, r, g, b) \
- > 335		READ_LINE(function_name, pixel_name, u8, argb_u16_from_u8888, a, r, g, b)
-   336	/**
-   337	 * READ_LINE_le16161616() - Generic generator for ARGB16161616 formats.
-   338	 * The pixel type used is u16, so pixel_name[0]..pixel_name[n] are the n components of the pixel.
-   339	 *
-   340	 * @function_name: Function name to generate
-   341	 * @pixel_name: temporary pixel to use in @a, @r, @g and @b parameters
-   342	 * @a, @r, @g, @b: value of each channel
-   343	 */
-   344	#define READ_LINE_le16161616(function_name, pixel_name, a, r, g, b) \
- > 345		READ_LINE(function_name, pixel_name, __le16, argb_u16_from_le16161616, a, r, g, b)
-   346	
+048456dcf2c56a Kiryl Shutsemau 2017-03-09   8  
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  @9  typedef struct { pgd_t pgd; } p4d_t;
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  10  
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  11  #define P4D_SHIFT		PGDIR_SHIFT
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  12  #define PTRS_PER_P4D		1
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  13  #define P4D_SIZE		(1UL << P4D_SHIFT)
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  14  #define P4D_MASK		(~(P4D_SIZE-1))
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  15  
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  16  /*
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  17   * The "pgd_xxx()" functions here are trivial for a folded two-level
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  18   * setup: the p4d is never bad, and a p4d always exists (as it's folded
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  19   * into the pgd entry)
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  20   */
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  21  static inline int pgd_none(pgd_t pgd)		{ return 0; }
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  22  static inline int pgd_bad(pgd_t pgd)		{ return 0; }
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  23  static inline int pgd_present(pgd_t pgd)	{ return 1; }
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  24  static inline void pgd_clear(pgd_t *pgd)	{ }
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  25  #define p4d_ERROR(p4d)				(pgd_ERROR((p4d).pgd))
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  26  
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  27  #define pgd_populate(mm, pgd, p4d)		do { } while (0)
+0a9fe8ca844d43 Dan Williams    2018-12-04  28  #define pgd_populate_safe(mm, pgd, p4d)		do { } while (0)
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  29  /*
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  30   * (p4ds are folded into pgds so this doesn't get actually called,
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  31   * but the define is needed for a generic inline function.)
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  32   */
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  33  #define set_pgd(pgdptr, pgdval)	set_p4d((p4d_t *)(pgdptr), (p4d_t) { pgdval })
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  34  
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  35  static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  36  {
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  37  	return (p4d_t *)pgd;
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  38  }
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  39  
+048456dcf2c56a Kiryl Shutsemau 2017-03-09 @40  #define p4d_val(x)				(pgd_val((x).pgd))
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  41  #define __p4d(x)				((p4d_t) { __pgd(x) })
+048456dcf2c56a Kiryl Shutsemau 2017-03-09  42  
+
+:::::: The code at line 9 was first introduced by commit
+:::::: 048456dcf2c56ad6f6248e2899dda92fb6a613f6 asm-generic: introduce <asm-generic/pgtable-nop4d.h>
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
