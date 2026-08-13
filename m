@@ -1,245 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63599494A0B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 16:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C3B37F8BC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Aug 2026 16:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786637413; cv=none; b=nyxJPJVsc1Z8P/TtrBEC693BAWF9Ju9vy8gD+pAW3cG/EVXG8UvOiMnvNhVvJaCOkG+TPMWiq1DpHpEesw6lAsVzPqLuYY0OHtkYclDxOWZEPlOdWIOW+/DzlnMwHjMYj9I/O18gazOfssIrxyYgL7gTtQApoguuEQaqzi1fEGc=
+	t=1786640350; cv=none; b=eN1X+eU/c+x3pbSJI1CLHzARfi/KNxz1d4rUHdoFFvsNHz6BOvD4kKK4lH/5Xm7xRhIo99uiZWlwjDI3ElWJ0dsfXn430KeII7mIMHaRYEddmWHMUAe1YJQKm1KezI8wuv3ysOyKvVQP5vB8GoaSKiIZF/+tf2mFreGVKlFaH+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786637413; c=relaxed/simple;
-	bh=9pomJ5P8vX4xJLbPs11sBBUywRUQA3kfPFZV9z/phCk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ApuJqubIDFOvkoww9vLG9sJgqa5S7VSlPP6XEAI9w5N4mvMundrJxswtdcqZMIdw5H2pL7BAZj2AH86Xk1SRcn4kR7bNKbaQHc+ZP4cBYqtdxMWBcPXFEb+YBNydymk0HBue1J1WBn/Aw84xdOA5zt3w1Dsh4jd0KBUf5nVM+tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kBDEsH54; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1786640350; c=relaxed/simple;
+	bh=GoPukQW4A/wZ7dMKq+X+GW7rm/rCYafEuDVC+FmxvBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M+Zsktn7jJNKnql98pA93/lkLflNFP/XsSYJB3RYVPvwc6502sNUc1tCIk8V6kdVSLro5yj2a5BSQAXOwtcViFTekvcF5/8bredWxOy13MzUZP2yyjzmkSgYe1mesCCruXc/uYv+3XNot2ma/RIg6blgTp4kpqAEyudVF0pg2ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHaLTJsQ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kBDEsH54"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHaLTJsQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786637409; x=1818173409;
-  h=date:from:to:cc:subject:message-id;
-  bh=9pomJ5P8vX4xJLbPs11sBBUywRUQA3kfPFZV9z/phCk=;
-  b=kBDEsH54t22J8p/3mImDrKwnO5u6v/jxc5w1rA+1IlewroMeSGxPgCC4
-   UedQfUxDy8LCuqLBP5/6PuybknFgI2Ul4tWzGAL7/orbq9Rkd7lA/Tay8
-   J+ExcJvxtTBSQgtqz7BKb1ntzTUd7ozYEe9o+oNaFZFdgbfpojm2IozPW
-   WjxtuHm8du7TND9joPMZLCXMEF0xT5SOT9w9Q+071vpqec/8w7y0aRFoQ
-   VPu+146KC1BpxpQhgnD6qAyKxDqhvL+E1fGYW6h507ObY2Zdduu3oDHxL
-   xLCQ00BawCep4xljqAidiJzHayYvy1jaCdNwZzi0tQe+MHpq8CgkxlIs+
-   w==;
-X-CSE-ConnectionGUID: vErAGFW8T7KKW/Y1M/nPog==
-X-CSE-MsgGUID: NEqi3VvSQ2SHGWpjrIdRRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="86336975"
+  t=1786640349; x=1818176349;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GoPukQW4A/wZ7dMKq+X+GW7rm/rCYafEuDVC+FmxvBo=;
+  b=nHaLTJsQcfnEiwRYff1BRH1GKsHEAXv+2UNSjmccuR/0eMmcvAzSjWk3
+   83C6JuMhBR/aArclkWHanL2gmCBHdwVNMyfSU7RlVRC+FfMSz1PrOtRIX
+   7MB1XxQVKEqPE+OkZcgNs/d2IFhkzQZIApG3yR9U+qqVCvh+z/Jlv5gtT
+   hd8J1pLJrfLuLH6IK+EGLYunulPvso+ubImhx0igGtnTJZw9kzlk+fCR5
+   KXsS/+7vU7axxlILWjF+IGQBw17CmyZKpQ8RpvFViIUA+phGJEaXtmhqR
+   tpUTyehnaVlOFywkhASqhKR9pLbkiTRro9vklHOkG41rotFiOgm4AxjCZ
+   Q==;
+X-CSE-ConnectionGUID: 6yeyBepSQMKsIqjwbKORvQ==
+X-CSE-MsgGUID: Mxc1FeDYTp62gkdJrA0jfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87104060"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="86336975"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 09:09:57 -0700
-X-CSE-ConnectionGUID: 1poKZeEMTdqK9PdF+Vsdfw==
-X-CSE-MsgGUID: NBzGhVuGSkm9ibLLcTUvbA==
+   d="scan'208";a="87104060"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 09:59:08 -0700
+X-CSE-ConnectionGUID: Z4N5aDB+T2iBuHAPO/7iGA==
+X-CSE-MsgGUID: 0tyDqDAUS2qK9iyIQfr1Ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="267844704"
+   d="scan'208";a="268265215"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Aug 2026 09:09:56 -0700
+  by orviesa005.jf.intel.com with ESMTP; 13 Aug 2026 09:59:05 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuY09-00000000VpC-3Yc0;
-	Thu, 13 Aug 2026 16:09:53 +0000
-Date: Fri, 14 Aug 2026 00:09:13 +0800
+	id 1wuYlh-00000000Vug-228x;
+	Thu, 13 Aug 2026 16:59:01 +0000
+Date: Fri, 14 Aug 2026 00:58:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 272/272]
- include/trace/trace_events.h:27:23: warning: 'str__module__trace_system_name'
- defined but not used
-Message-ID: <202608140003.j9wXzkiV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sanghyun Park <sanghyun.park.cnu@gmail.com>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sanghyun Park <sanghyun.park.cnu@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Puranjay Mohan <puranjay@kernel.org>, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v5] bpf: Fix use-after-free on mm_struct in
+ bpf_find_vma()
+Message-ID: <202608140002.MOWNZYuj-lkp@intel.com>
+References: <20260630023443.3026627-2-sanghyun.park.cnu@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260630023443.3026627-2-sanghyun.park.cnu@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   9c40f45d2c22f05e45bc48b1d7be869adf7e473a
-commit: 4d63efb9ae67783d184a924bb73b38745c9a1119 [272/272] ANDROID: module: Add vendor hook
-config: arm64-randconfig-004-20260813 (https://download.01.org/0day-ci/archive/20260814/202608140003.j9wXzkiV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140003.j9wXzkiV-lkp@intel.com/reproduce)
+Hi Sanghyun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/net]
+[also build test ERROR on bpf/master linus/master v7.2-rc7]
+[cannot apply to bpf-next/master next-20260812]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sanghyun-Park/bpf-Fix-use-after-free-on-mm_struct-in-bpf_find_vma/20260813-193715
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20260630023443.3026627-2-sanghyun.park.cnu%40gmail.com
+patch subject: [PATCH bpf-next v5] bpf: Fix use-after-free on mm_struct in bpf_find_vma()
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260814/202608140002.MOWNZYuj-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140002.MOWNZYuj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608140003.j9wXzkiV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608140002.MOWNZYuj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/memory.h:32,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/trace_events.h:27:23: warning: 'str__memory__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/module.h:25,
-                    from drivers/android/vendor_hooks.c:46:
->> include/trace/trace_events.h:27:23: warning: 'str__module__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/creds.h:34,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/trace_events.h:27:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/avc.h:33,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:32,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/trace_events.h:27:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sys.h:17,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cgroup.h:17,
-                    from drivers/android/vendor_hooks.c:41:
-   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   kernel/bpf/task_iter.c: In function 'bpf_iter_task_vma_destroy':
+>> kernel/bpf/task_iter.c:1017:17: error: implicit declaration of function 'bpf_iter_mmput_async' [-Wimplicit-function-declaration]
+    1017 |                 bpf_iter_mmput_async(kit->data->mm);
+         |                 ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/str__module__trace_system_name +27 include/trace/trace_events.h
+vim +/bpf_iter_mmput_async +1017 kernel/bpf/task_iter.c
 
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+4ac454682158473 Dave Marchevsky 2023-10-13  1009  
+4ac454682158473 Dave Marchevsky 2023-10-13  1010  __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
+4ac454682158473 Dave Marchevsky 2023-10-13  1011  {
+4ac454682158473 Dave Marchevsky 2023-10-13  1012  	struct bpf_iter_task_vma_kern *kit = (void *)it;
+4ac454682158473 Dave Marchevsky 2023-10-13  1013  
+4ac454682158473 Dave Marchevsky 2023-10-13  1014  	if (kit->data) {
+4cbee026db54cad Puranjay Mohan  2026-04-08  1015  		bpf_iter_task_vma_snapshot_reset(&kit->data->snapshot);
+4ac454682158473 Dave Marchevsky 2023-10-13  1016  		put_task_struct(kit->data->task);
+d8e27d2d22b6e2d Puranjay Mohan  2026-04-08 @1017  		bpf_iter_mmput_async(kit->data->mm);
+4ac454682158473 Dave Marchevsky 2023-10-13  1018  		bpf_mem_free(&bpf_global_ma, kit->data);
+4ac454682158473 Dave Marchevsky 2023-10-13  1019  	}
+4ac454682158473 Dave Marchevsky 2023-10-13  1020  }
+4ac454682158473 Dave Marchevsky 2023-10-13  1021  
 
 --
 0-DAY CI Kernel Test Service
