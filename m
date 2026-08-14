@@ -1,131 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA5E25393E;
-	Fri, 14 Aug 2026 06:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC9335E1AE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Aug 2026 06:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786687549; cv=none; b=HNNzX7tYEKS6GB82gqvi34BRfIrW7bC0lXIbrybcV4lc7ZxC8q8VUTr+P1omDuAF6E2CDZVakwM1If6c17peUhSMv9xU4RJvPZSxb7TCleXlVMnQC1vrraGvgzcfP1p61VbS9lhOXAaXmA6khKdN60ShsRiMRVu7mDcg344CfCs=
+	t=1786689471; cv=none; b=EeuPEsLXtPHfuWJAKG105c4FeDlxKHKWifdqsLimEd/vxJ6t2VFqma+vLZWC3tqL2yAZAIUBkSffFU3h2UAe8MV4h9lVw2JvZI8H2O/304aNfT/UxDnrkGKusYsCtxbgFiwFZQVVSrG6HauGTtx7cTOmr+Q9ygM5ql78fbInNZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786687549; c=relaxed/simple;
-	bh=bweWAuLimVobUQxKsEkztmQk/LOdMDq6E/NcelP8x+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OcARdI/exg0UIe+F1dnnVQ1+J6LQyl6u6Zg/u2XLTuVQz72p4BuewC1fRCPPXs2pnCp75GCN/+NYrZSZw9LtdLuEZeROa5TtHyNOCYkXDFBHzLuczyacR4ic1iaWQK0c5wnOJ14OLj1aODgDvyrfxG9P7sf+00kt5bvhhvmhJ98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPblmWHd; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1786689471; c=relaxed/simple;
+	bh=Qx9QazVCF15GRxWHc4HjJBVKWf7gLrwF2TKfuMCpyiU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QzC3SHep8PIJaA+FNW2LcMI68lqcidpR1TC3mVPs5OqVdi5nyXPtCGRs1CCNBQD66R6+/m/FjgjjN3t+CdltnNgLR5gfntwqdbBV9VZDEkrtRJViTgdCo5A1iqkRKeYC6H/Wd20c4Tq85BYhBuEJ/rrDZ6SAi7o95afqs6mnaiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTFjCaPL; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPblmWHd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTFjCaPL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786687547; x=1818223547;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bweWAuLimVobUQxKsEkztmQk/LOdMDq6E/NcelP8x+Y=;
-  b=EPblmWHdU8rBZeMykyAwRVvrBN0ijIV20ezZk7tAyRf35eRiLiWZZBQg
-   gdETFHnKNqDkb/fgUjFPi2Um5PbFv0tbpv+wZCfDHa5kfVjTnLqrsWAwi
-   D+o+Y/xlOcWQr6AHnkyI8KIZI4Hacuxrn74e3vM0dV4Kk8g6eFjtLqDMc
-   5ECNqDFKrVK/fUM7dMpUSFbuSnlBRgWWeaiFk3PqzbfH/rF6nyjy+nFQb
-   Jipi+Tl+3NnEMKwZOlc8PUIMFsRTbJjxK+uzkHrqKQAQHVcxnf5VCMRGB
-   v1hDeodLPlkBV9AjctMpSlgT+wL6ddeqAzAHqOctkRd4BTE0pfew13DsG
-   w==;
-X-CSE-ConnectionGUID: o92umpwpRm6AcPfSpgVhHA==
-X-CSE-MsgGUID: 1kbhN1Q+TiWX8cw23girpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87339965"
+  t=1786689470; x=1818225470;
+  h=date:from:to:cc:subject:message-id;
+  bh=Qx9QazVCF15GRxWHc4HjJBVKWf7gLrwF2TKfuMCpyiU=;
+  b=XTFjCaPLdKgv4y4qd1c1UHZ32z80HeHnBpfRONpfFJSyZjtxWE4fR0AT
+   2NESsyx2fzBhCbr3jFX19EYQKz6opJbReqKz5HD4B0E0Ml2niIGdKIwFS
+   TCIetvDeTdKzQXyWUAHpm5kagPgfQ7riIEVrkU4mZFZdSgDduE+VAzJmv
+   Pbnc8BInYoEg6uvL3A2btzMVOo2fYplS0xr7fdiOgI7ljCj3VTMezoSLQ
+   g6P3Xn+anlJ4hbadIyeKDMQuUxn2JP5Obe4IUNvEpU5P6ekKdTkll8zLT
+   xXVq5CGgMRpvcNXFRQ2qAM02rxt9uW12IL1TayY0YIWCkNlr8zrWdGjlP
+   A==;
+X-CSE-ConnectionGUID: 847/Q0+0TzSK5JEzGMjS4A==
+X-CSE-MsgGUID: 2l+JB+nTTbyNe7ktnY7dRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="97859512"
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="87339965"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 23:05:47 -0700
-X-CSE-ConnectionGUID: qQ/hPPo8S92uG4fZyRvFCA==
-X-CSE-MsgGUID: CIq1YTc4RSaqH84efCjMnw==
+   d="scan'208";a="97859512"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 23:37:49 -0700
+X-CSE-ConnectionGUID: 5+gpb7w+SpGnGTwWktUbJA==
+X-CSE-MsgGUID: jkykk0MhRhGUHrAc67XSDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="267998779"
+   d="scan'208";a="259904893"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Aug 2026 23:05:42 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 13 Aug 2026 23:37:47 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wul2x-00000000XzS-2dGK;
-	Fri, 14 Aug 2026 06:05:39 +0000
-Date: Fri, 14 Aug 2026 14:05:12 +0800
+	id 1wulY1-00000000Y4c-0UTU;
+	Fri, 14 Aug 2026 06:37:45 +0000
+Date: Fri, 14 Aug 2026 14:37:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sanghyun Park <sanghyun.park.cnu@gmail.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sanghyun Park <sanghyun.park.cnu@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Puranjay Mohan <puranjay@kernel.org>, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v5] bpf: Fix use-after-free on mm_struct in
- bpf_find_vma()
-Message-ID: <202608141429.e94YU9PI-lkp@intel.com>
-References: <20260630023443.3026627-2-sanghyun.park.cnu@gmail.com>
+To: Andrew Jones <andrew.jones@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_support_v5 59/108]
+ drivers/iommu/riscv/iommu-ir.c:325:27: error: implicit declaration of
+ function 'virt_to_pfn'; did you mean 'virt_to_phys'?
+Message-ID: <202608141436.HEryshDf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630023443.3026627-2-sanghyun.park.cnu@gmail.com>
 
-Hi Sanghyun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/net]
-[also build test ERROR on bpf/master linus/master v7.2-rc7]
-[cannot apply to bpf-next/master next-20260812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sanghyun-Park/bpf-Fix-use-after-free-on-mm_struct-in-bpf_find_vma/20260813-193715
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20260630023443.3026627-2-sanghyun.park.cnu%40gmail.com
-patch subject: [PATCH bpf-next v5] bpf: Fix use-after-free on mm_struct in bpf_find_vma()
-config: riscv-randconfig-002-20260814 (https://download.01.org/0day-ci/archive/20260814/202608141429.e94YU9PI-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 844a18e753e822736c9805ab779144b647a2c186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608141429.e94YU9PI-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v5
+head:   d5f1be8d8fd44129a93976f98cc0153408015030
+commit: 1e5a582db6a5ae1479214eeb2f2d37b2f85928db [59/108] iommu/riscv: Add guest file irqbypass support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260814/202608141436.HEryshDf-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608141436.HEryshDf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608141429.e94YU9PI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608141436.HEryshDf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/bpf/task_iter.c:1017:3: error: call to undeclared function 'bpf_iter_mmput_async'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1017 |                 bpf_iter_mmput_async(kit->data->mm);
-         |                 ^
-   1 error generated.
+   drivers/iommu/riscv/iommu-ir.c: In function 'riscv_iommu_ir_msiptp_update':
+>> drivers/iommu/riscv/iommu-ir.c:325:27: error: implicit declaration of function 'virt_to_pfn'; did you mean 'virt_to_phys'? [-Wimplicit-function-declaration]
+     325 |                 .msiptp = virt_to_pfn(domain->msi_root) |
+         |                           ^~~~~~~~~~~
+         |                           virt_to_phys
 
 
-vim +/bpf_iter_mmput_async +1017 kernel/bpf/task_iter.c
+vim +325 drivers/iommu/riscv/iommu-ir.c
 
-4ac454682158473 Dave Marchevsky 2023-10-13  1009  
-4ac454682158473 Dave Marchevsky 2023-10-13  1010  __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
-4ac454682158473 Dave Marchevsky 2023-10-13  1011  {
-4ac454682158473 Dave Marchevsky 2023-10-13  1012  	struct bpf_iter_task_vma_kern *kit = (void *)it;
-4ac454682158473 Dave Marchevsky 2023-10-13  1013  
-4ac454682158473 Dave Marchevsky 2023-10-13  1014  	if (kit->data) {
-4cbee026db54cad Puranjay Mohan  2026-04-08  1015  		bpf_iter_task_vma_snapshot_reset(&kit->data->snapshot);
-4ac454682158473 Dave Marchevsky 2023-10-13  1016  		put_task_struct(kit->data->task);
-d8e27d2d22b6e2d Puranjay Mohan  2026-04-08 @1017  		bpf_iter_mmput_async(kit->data->mm);
-4ac454682158473 Dave Marchevsky 2023-10-13  1018  		bpf_mem_free(&bpf_global_ma, kit->data);
-4ac454682158473 Dave Marchevsky 2023-10-13  1019  	}
-4ac454682158473 Dave Marchevsky 2023-10-13  1020  }
-4ac454682158473 Dave Marchevsky 2023-10-13  1021  
+   306	
+   307	static void riscv_iommu_ir_msiptp_update(struct riscv_iommu_domain *domain)
+   308	{
+   309		struct pt_iommu_riscv_64_hw_info pt_info, gstage_info;
+   310		struct riscv_iommu_device *iommu, *prev;
+   311		struct riscv_iommu_bond *bond;
+   312		struct riscv_iommu_dc new_dc;
+   313	
+   314		pt_iommu_riscv_64_hw_info(&domain->riscvpt, &pt_info);
+   315		pt_iommu_riscv_64_hw_info(&domain->gstage_riscvpt, &gstage_info);
+   316	
+   317		new_dc = (struct riscv_iommu_dc){
+   318			.ta = FIELD_PREP(RISCV_IOMMU_PC_TA_PSCID, domain->pscid) |
+   319			      RISCV_IOMMU_PC_TA_V,
+   320			.iohgatp = FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_MODE, gstage_info.fsc_iosatp_mode) |
+   321				   FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_GSCID, domain->gscid) |
+   322				   FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_PPN, gstage_info.ppn),
+   323			.fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, pt_info.fsc_iosatp_mode) |
+   324			       FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, pt_info.ppn),
+ > 325			.msiptp = virt_to_pfn(domain->msi_root) |
+   326				  FIELD_PREP(RISCV_IOMMU_DC_MSIPTP_MODE,
+   327					     RISCV_IOMMU_DC_MSIPTP_MODE_FLAT),
+   328			.msi_addr_mask = domain->msi_addr_mask,
+   329			.msi_addr_pattern = domain->msi_addr_pattern,
+   330		};
+   331	
+   332		/* Like riscv_iommu_ir_msitbl_inval(), synchronize with riscv_iommu_bond_link() */
+   333		smp_mb();
+   334	
+   335		rcu_read_lock();
+   336	
+   337		prev = NULL;
+   338		list_for_each_entry_rcu(bond, &domain->bonds, list) {
+   339			iommu = dev_to_iommu(bond->dev);
+   340			if (iommu == prev)
+   341				continue;
+   342	
+   343			riscv_iommu_iodir_update(iommu, bond->dev, &new_dc);
+   344			prev = iommu;
+   345		}
+   346	
+   347		rcu_read_unlock();
+   348	}
+   349	
 
 --
 0-DAY CI Kernel Test Service
