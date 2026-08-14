@@ -1,176 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2FD7E792
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Aug 2026 04:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B3433F5BC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Aug 2026 05:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786681670; cv=none; b=s/kM2HdG+OYBhG/WrbiQvCx91Jfi8+nQtNUm7YVdFT/gQf++FY9r5fftgVGbq2nPkpT6z/Xtavz3G58Adaqzh/Ota2/Zd1imKYPtoro2ZxedEZee6a8JVGzxRXXRCnaWA63yAfPCREtKK4Y4vBdZPJKydlbWE6rHgW7vb4dJNl0=
+	t=1786684254; cv=none; b=r/tMgIw9NARh6pyHMOo2CUffJ51RHESlyp5GoKhq+8opwvsTPyl91cm/zh5mF2iwN0jKE2nN94z6l0TQkAFzeSMMO0ZpeE21hDd4nUy1+Asmj4PjmL9HuipGGWrQG2SpqGv73uxSPrmlMBu7E/3SwHp6L5of5JZO4ZwF8D2NAEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786681670; c=relaxed/simple;
-	bh=3gLJEiLlSAbmbVaY8h9beUk2rDB9gtNm/aEPaZ0xws8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h76NDcVH51dLpBiKOMrJrLKTwRgWx5GMt4PPyXxCQlTaFYiKd4lXZmgoZpa986xKzMarY0TD/m4CEeTa5fkTB5MfPaMRHLBh+cYXL1E0VViw17miltrtw49D9s2CVH6jDiSAdVzXHr0aDtODc59MJH3RXksGcULVhc6k+ajrKJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G2UwMc9j; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1786684254; c=relaxed/simple;
+	bh=BtOR4q9qE018zObNVydlsYcYNz5VXz7vmFQ6xMfBTRs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MlbPtI/TZeMENcOzw9Il5vA46kE/jts0Q6+S5fGwmvE8xO0WCwKt9P4T+Qw+5eKaOPwtTg/x5/EHrLZWxkV8Q7RiS9p34CqGyPwcWQ7Ct93dpzGNPCRRQiSCj0wNr+ec4VZABRvL0EMcB9wt//JgpLJR9a8KZCcKTzkMDCzOHjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ltYX54td; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G2UwMc9j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ltYX54td"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786681667; x=1818217667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3gLJEiLlSAbmbVaY8h9beUk2rDB9gtNm/aEPaZ0xws8=;
-  b=G2UwMc9j6X4WWvRPkkxXLSVChdlu3YXtG3hU8mqTx0hmPesPaOG9CXEL
-   g9gU+4ibU1r2ZTEtwKmWr7k10s34w+QnH/G010aboX0lpf4VRTnO8713v
-   n0wyJyOKB8SslmaRsLqayuXoGB9gkjygLHw+29Nx6PewcbGu9LcVKU6UG
-   0Wo0Jzaxb7FypfNsqbwUBOw0kpEXlMgT4SYl/JbDfN+ZxqV9M+3nF8t3h
-   RLPMY3jX4EcG2o1QjAK7PRyW/88biXSPcbMhjwclr3fqNdIXcG3DD33D7
-   S+yI0rquSyH5AKMWxisIkeOYZETclb7wA9Q1pflQUfYzXfPVqetCr7WsR
-   w==;
-X-CSE-ConnectionGUID: 0tJAHp3FTO2XmbZq3oCyEg==
-X-CSE-MsgGUID: hg0rqLMWRSe/nk296IjTWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87335463"
+  t=1786684252; x=1818220252;
+  h=date:from:to:cc:subject:message-id;
+  bh=BtOR4q9qE018zObNVydlsYcYNz5VXz7vmFQ6xMfBTRs=;
+  b=ltYX54tdeFFc61G7fkhkqcu3DfhP1cEH173/dzkPesuyCqu9QFgitXcj
+   gLVlL5b1yx6mBLwzWqG35UFF2Yp45qp1giRVS/B7Fk/FXMpOYw0b14Z1n
+   UoN0DKdZWTS2N3ONgqF5nvjdVGfwZt4MbqPnrbZ0o7Zm1z1UFz6sgqPDp
+   7OZyxfCHcANUZljEwj3ZilkqQRP8xrWMkGB+7DA09VCV0L4AImmVcsG8J
+   Rv3uW7bNc87qCwczPN8ohvzbjYgrET6aoUiyFWVF9pMkSUm6S2gkhKLZP
+   ImYfvD4GQCwNOObEEtwDmzY8UyVBWyWTRPXAZo0bCgiMkocZ56QP1CP+Y
+   A==;
+X-CSE-ConnectionGUID: 2d3g6IGvTDKp8YkNzDX38g==
+X-CSE-MsgGUID: uUek/ApFSVeDI6j5OM/NNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87283425"
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="87335463"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 21:27:46 -0700
-X-CSE-ConnectionGUID: P+SpblFrSkeUGMMCF/UI4Q==
-X-CSE-MsgGUID: S6AmETFUT1uoxfYnaNEzvw==
+   d="scan'208";a="87283425"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 22:10:51 -0700
+X-CSE-ConnectionGUID: dlh2YmT0R3KjJ5RhIGSQxg==
+X-CSE-MsgGUID: JESQBxkWQy+oIx6Vbxth/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="294053069"
+   d="scan'208";a="288921579"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2026 21:27:45 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 13 Aug 2026 22:10:50 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wujWA-00000000XhK-02KV;
-	Fri, 14 Aug 2026 04:27:42 +0000
-Date: Fri, 14 Aug 2026 12:27:20 +0800
+	id 1wukBr-00000000Xnq-3JCE;
+	Fri, 14 Aug 2026 05:10:47 +0000
+Date: Fri, 14 Aug 2026 13:10:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: jiale yao <19888972804@163.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Marcel Holtmann <marcel@holtmann.org>,
-	Tim Bird <tim.bird@sony.com>, Muhammad Bilal <meatuni001@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Michael Bommarito <michael.bommarito@gmail.com>,
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re:Re: [PATCH v2] Bluetooth: HIDP: add missing length check for
- incoming frames
-Message-ID: <202608141113.WMJnrfnI-lkp@intel.com>
-References: <220b6be5.d3f.19f78e165aa.Coremail.19888972804@163.com>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [legion:sysctls-v3 22/30] net/rds/tcp.c:572:28: warning:
+ unused variable 'ctx'
+Message-ID: <202608141345.mpAz9iys-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <220b6be5.d3f.19f78e165aa.Coremail.19888972804@163.com>
 
-Hi jiale,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kees/for-next/pstore]
-[also build test WARNING on kees/for-next/kspp]
-[cannot apply to bluetooth-next/master bluetooth/master linus/master v7.2-rc7 next-20260812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/jiale-yao/Re-Re-PATCH-v2-Bluetooth-HIDP-add-missing-length-check-for-incoming-frames/20260814-100503
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
-patch link:    https://lore.kernel.org/r/220b6be5.d3f.19f78e165aa.Coremail.19888972804%40163.com
-patch subject: Re:Re: [PATCH v2] Bluetooth: HIDP: add missing length check for incoming frames
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260814/202608141113.WMJnrfnI-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608141113.WMJnrfnI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/legion/linux.git sysctls-v3
+head:   b5c5a5b075f61f062cb2d253d35c118b8eecc40b
+commit: aa01e0152a5063570b31fe61af5cb16eaa895a7b [22/30] sysctl: net: use ctl_field in RDS sysctls
+config: arm-randconfig-003-20260814 (https://download.01.org/0day-ci/archive/20260814/202608141345.mpAz9iys-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608141345.mpAz9iys-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608141113.WMJnrfnI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608141345.mpAz9iys-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/powerpc/include/asm/bug.h:116,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from arch/powerpc/include/asm/preempt.h:5,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/kref.h:16,
-                    from net/bluetooth/hidp/core.c:24:
-   net/bluetooth/hidp/core.c: In function 'hidp_recv_intr_frame':
->> net/bluetooth/hidp/core.c:612:24: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'unsigned char *' [-Wformat=]
-     612 |                 BT_DBG("Unsupported protocol header 0x%02x", hdr);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:401:21: note: in definition of macro 'pr_fmt'
-     401 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:259:9: note: in expansion of macro '__dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:280:9: note: in expansion of macro '_dynamic_func_call'
-     280 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:635:9: note: in expansion of macro 'dynamic_pr_debug'
-     635 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   include/net/bluetooth/bluetooth.h:287:33: note: in expansion of macro 'pr_debug'
-     287 | #define BT_DBG(fmt, ...)        pr_debug(fmt "\n", ##__VA_ARGS__)
-         |                                 ^~~~~~~~
-   net/bluetooth/hidp/core.c:612:17: note: in expansion of macro 'BT_DBG'
-     612 |                 BT_DBG("Unsupported protocol header 0x%02x", hdr);
-         |                 ^~~~~~
-   net/bluetooth/hidp/core.c:612:58: note: format string is defined here
-     612 |                 BT_DBG("Unsupported protocol header 0x%02x", hdr);
-         |                                                       ~~~^
-         |                                                          |
-         |                                                          unsigned int
-         |                                                       %02hhn
+   net/rds/tcp.c: In function 'rds_tcp_init_net':
+>> net/rds/tcp.c:572:28: warning: unused variable 'ctx' [-Wunused-variable]
+     572 |         struct ctl_context ctx = {
+         |                            ^~~
+   net/rds/tcp.c: At top level:
+>> net/rds/tcp.c:114:31: warning: 'rds_tcp_sysctl_table' defined but not used [-Wunused-const-variable=]
+     114 | static const struct ctl_field rds_tcp_sysctl_table[] = {
+         |                               ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +612 net/bluetooth/hidp/core.c
+vim +/ctx +572 net/rds/tcp.c
 
-^1da177e4c3f415 Linus Torvalds   2005-04-16  588  
-91f5cca3d1b4341 Andrew Morton    2008-02-05  589  static void hidp_recv_intr_frame(struct hidp_session *session,
-91f5cca3d1b4341 Andrew Morton    2008-02-05  590  				struct sk_buff *skb)
-^1da177e4c3f415 Linus Torvalds   2005-04-16  591  {
-afd2c613d3369fb jiale yao        2026-07-19  592  	unsigned char *hdr;
-^1da177e4c3f415 Linus Torvalds   2005-04-16  593  
-093dabb4f1aff98 Kai Ye           2021-06-03  594  	BT_DBG("session %p skb %p len %u", session, skb, skb->len);
-^1da177e4c3f415 Linus Torvalds   2005-04-16  595  
-afd2c613d3369fb jiale yao        2026-07-19  596  	hdr = skb_pull_data(skb, 1);
-afd2c613d3369fb jiale yao        2026-07-19  597  	if (!hdr)
-afd2c613d3369fb jiale yao        2026-07-19  598  		return;
-^1da177e4c3f415 Linus Torvalds   2005-04-16  599  
-afd2c613d3369fb jiale yao        2026-07-19  600  	if (*hdr == (HIDP_TRANS_DATA | HIDP_DATA_RTYPE_INPUT)) {
-^1da177e4c3f415 Linus Torvalds   2005-04-16  601  		hidp_set_timer(session);
-e1aaadd4d8162a2 Marcel Holtmann  2007-02-17  602  
-^1da177e4c3f415 Linus Torvalds   2005-04-16  603  		if (session->input)
-^1da177e4c3f415 Linus Torvalds   2005-04-16  604  			hidp_input_report(session, skb);
-e1aaadd4d8162a2 Marcel Holtmann  2007-02-17  605  
-e1aaadd4d8162a2 Marcel Holtmann  2007-02-17  606  		if (session->hid) {
-a4b1b5877b514b2 David Rheinsberg 2013-12-19  607  			hidp_process_report(session, HID_INPUT_REPORT,
-a4b1b5877b514b2 David Rheinsberg 2013-12-19  608  					    skb->data, skb->len, 1);
-e1aaadd4d8162a2 Marcel Holtmann  2007-02-17  609  			BT_DBG("report len %d", skb->len);
-e1aaadd4d8162a2 Marcel Holtmann  2007-02-17  610  		}
-^1da177e4c3f415 Linus Torvalds   2005-04-16  611  	} else {
-^1da177e4c3f415 Linus Torvalds   2005-04-16 @612  		BT_DBG("Unsupported protocol header 0x%02x", hdr);
-^1da177e4c3f415 Linus Torvalds   2005-04-16  613  	}
-^1da177e4c3f415 Linus Torvalds   2005-04-16  614  
-^1da177e4c3f415 Linus Torvalds   2005-04-16  615  	kfree_skb(skb);
-^1da177e4c3f415 Linus Torvalds   2005-04-16  616  }
-^1da177e4c3f415 Linus Torvalds   2005-04-16  617  
+   569	
+   570	static __net_init int rds_tcp_init_net(struct net *net)
+   571	{
+ > 572		struct ctl_context ctx = {
+   573			.ns.net_ns = net,
+   574		};
+   575		struct rds_tcp_net *rtn = net_generic(net, rds_tcp_netid);
+   576		int err = 0;
+   577	
+   578		memset(rtn, 0, sizeof(*rtn));
+   579	
+   580		mutex_init(&rtn->rds_tcp_accept_lock);
+   581	
 
 --
 0-DAY CI Kernel Test Service
