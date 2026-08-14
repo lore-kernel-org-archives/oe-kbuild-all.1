@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4C53AEF2D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Aug 2026 21:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190773E7631
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Aug 2026 22:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786744399; cv=none; b=PN1FkPRxjDke2TbfdFl+oplTVS5fCloRwKvkJL4yAWZeluxeT9Nq7GDeKLlJ0+rKSW77oO4tnwh6uBue6Ky8y3Qu9lL7ymu0nLtB6uLGnhVgUUvDhZaIfPaJ6lSCRTFCbXVMgozMC5XYIdozoSrbDczBtRHpbb+L0dw2m9W6T9Y=
+	t=1786745132; cv=none; b=sXrr48Bj1G8ygYgy7jWk+1SlA6KQnNYEI9kAboIc9VbiB2q9hTUFsf9Iho71OWJra8v+E2XADvU3gy357ieBXHs0dDaivMQZpkNB1wbPRgyvVciqy5m6pz0hbMckHraKkOWdcZu/0/wzguvNl6UbewvZLfBQGFdU3Y0apzS2Zso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786744399; c=relaxed/simple;
-	bh=dbBVL3Mu+KSxQmWO+DSHwY+It6hpBf3jrnnwz/vMfp4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A+P27nDqvWACKUa9cytZmqXQRBAR+o/l0f//JiMDyfhKsvJERtA7BvpravrXGM2zny0lMeQuhOa79J1zH8e58H8714w8MeCkLFsx0YRBKhRKhC91JyBshXDO7kQrAii2mZctZHvsWHwXNkg0vDTAttmSFu29aKxo8s4JJrdvWmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQ06tROo; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1786745132; c=relaxed/simple;
+	bh=eIW6uKbv+iLVxaCJYYQmTRoAaGvKldZo+ovCW9VJ4H4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dWNRvZGDQJpdYAcGxVGKvbs8E58Jbo0Imc3tE0ImMiB91UZnAWlpaZ+wEA+SznwzEppxV89EG6YOdaT7wOTNPqXk+k5T1JVme6g9wCV7zWwxa3AlcMQLr9u98x5Byc7rUy2hM7WgP4F5x8sPiNVackPnXjgFz68xMpuYeemZkYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQ+FcT52; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQ06tROo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQ+FcT52"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786744398; x=1818280398;
+  t=1786745129; x=1818281129;
   h=date:from:to:cc:subject:message-id;
-  bh=dbBVL3Mu+KSxQmWO+DSHwY+It6hpBf3jrnnwz/vMfp4=;
-  b=MQ06tROo24167+KKXOF3MPmLUNCjVf8U9RtMB2vIWYXwWjT2ed4eoXgC
-   6kcMV/wW4GA2navIJUwvQ/f0qfTJscRYThXN0T2pgaj19dzm6+wIgfKU4
-   k9VYe7M6qmqyExwY4xRZMbTSm/2XsqYr/Dr0JPW78z5hBmEcvynG2kDpZ
-   a6tuy7XbMSMAuoZlWj+nYo2ZqSlvSJFP6+Qjbrm7sMOtjcC19NCdBvu5X
-   fc+7qxkuxRtb4xpcY89m6xI9X47qRxG7L5VzLzv+sqmDpzxzHWSsg2U9G
-   IOoH3xQ51a51hILL+ZxcUVcYvgIRkjqT5teoDAajDGnKjke0NYsjn9IaD
-   g==;
-X-CSE-ConnectionGUID: wlgkXIJVSgeIffhEDyMO5w==
-X-CSE-MsgGUID: wsA+JMSYQF2FoGd0qTYWzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="91000151"
+  bh=eIW6uKbv+iLVxaCJYYQmTRoAaGvKldZo+ovCW9VJ4H4=;
+  b=mQ+FcT52F9/V97vkG+/y837ikDv3sJ3G9ctYyFAvkFmTm/NH6oMiEUWR
+   2Nn+8brsjZQuOTvrcTn+KdM6y2iwmburbBVpZKBiIKrfxLrG2asnHTuUz
+   QdcVMmVpxeeTu8XYHkxQAfcgWnKFr+I4xFIqZ5+TeCnYplcYMsWYpbJm2
+   9eGXJ9matBHFI3S8LbGIkDZ9kaJFQQJlRWxhX0Yu0X+BEHAEY40Y/hrDm
+   tOmT1XAlAOLOB0l+R3p8/Fe5aakVVJeVKZDFVSZdMqeKbzWOCCglMwlui
+   gTwaTV2aoIdesbZMgBO6+OXC9tMq7jylcKXIl/yjJSTGUJLCGsooIzXmX
+   w==;
+X-CSE-ConnectionGUID: bzhWFWuVSw6LIrcJ0eZUHA==
+X-CSE-MsgGUID: 0jLYtysvQLuSHip9goDKGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="104860983"
 X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="91000151"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 14:53:18 -0700
-X-CSE-ConnectionGUID: vHTtFYodRcKreCOMeKr88w==
-X-CSE-MsgGUID: clyLvb1KR/G4wKbPBvaM4A==
+   d="scan'208";a="104860983"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 15:05:29 -0700
+X-CSE-ConnectionGUID: MS4w11q8SzKhoQKVao0AGw==
+X-CSE-MsgGUID: U0zhRFAHQRWkVcx9NW0e1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="294255149"
+   d="scan'208";a="261064276"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Aug 2026 14:53:16 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Aug 2026 15:05:27 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuzpy-00000000aKg-0pfR;
-	Fri, 14 Aug 2026 21:53:14 +0000
-Date: Sat, 15 Aug 2026 05:53:08 +0800
+	id 1wv01k-00000000aLu-3TP3;
+	Fri, 14 Aug 2026 22:05:24 +0000
+Date: Sat, 15 Aug 2026 06:05:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 1/1]
- fs/erofs/decompressor_lzma.c:266:12: error: implicit declaration of function
- 'xz_dec_microlzma_run'
-Message-ID: <202608150554.r02a2TR3-lkp@intel.com>
+Subject: [android-common:android16-6.12-kminext 0/1] slot.c:undefined
+ reference to `of_regulator_bulk_get_all'
+Message-ID: <202608150504.0VlbR5fh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,172 +59,131 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Gao,
+Hi Manivannan,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   8b4ccabf3e6b7ef8ad04f513e8e5b1a5a1021267
-commit: ede603374aab4bb8a612fd3c1c84ceef11435fa1 [1/1] FROMGIT: erofs: lzma compression support
-config: x86_64-randconfig-r071-20260815 (https://download.01.org/0day-ci/archive/20260815/202608150554.r02a2TR3-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 844a18e753e822736c9805ab779144b647a2c186)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260815/202608150554.r02a2TR3-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
+head:   56f164d7f06bd11dfa205c568ed165eff6a03fe4
+commit: c61d3053974a917407ce02ff923505d45dd5b5bd [0/1] UPSTREAM: PCI/pwrctrl: Add pwrctrl driver for PCI slots
+config: i386-buildonly-randconfig-003-20260815 (https://download.01.org/0day-ci/archive/20260815/202608150504.0VlbR5fh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260815/202608150504.0VlbR5fh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608150554.r02a2TR3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608150504.0VlbR5fh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <built-in>:2:
-   In file included from include/linux/compiler_types.h:69:
-   include/linux/compiler-clang.h:34:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      34 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:357:9: note: previous definition is here
-     357 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   fs/erofs/decompressor_lzma.c:42:5: error: implicit declaration of function 'xz_dec_microlzma_end' [-Werror,-Wimplicit-function-declaration]
-      42 |                                 xz_dec_microlzma_end(strm->state);
-         |                                 ^
-   fs/erofs/decompressor_lzma.c:135:4: error: implicit declaration of function 'xz_dec_microlzma_end' [-Werror,-Wimplicit-function-declaration]
-     135 |                         xz_dec_microlzma_end(strm->state);
-         |                         ^
-   fs/erofs/decompressor_lzma.c:136:17: error: implicit declaration of function 'xz_dec_microlzma_alloc' [-Werror,-Wimplicit-function-declaration]
-     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-         |                               ^
-   fs/erofs/decompressor_lzma.c:136:15: error: incompatible integer to pointer conversion assigning to 'struct xz_dec_microlzma *' from 'int' [-Wint-conversion]
-     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-         |                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/decompressor_lzma.c:193:2: error: implicit declaration of function 'xz_dec_microlzma_reset' [-Werror,-Wimplicit-function-declaration]
-     193 |         xz_dec_microlzma_reset(strm->state, inlen, outlen,
-         |         ^
->> fs/erofs/decompressor_lzma.c:266:12: error: implicit declaration of function 'xz_dec_microlzma_run' [-Werror,-Wimplicit-function-declaration]
-     266 |                 xz_err = xz_dec_microlzma_run(strm->state, &strm->buf);
-         |                          ^
-   1 warning and 6 errors generated.
+   ld: drivers/net/phy/phylink.o: in function `phylink_init_eee':
+   phylink.c:(.text+0x70e): undefined reference to `phy_init_eee'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c45_pcs_get_state':
+   phylink.c:(.text+0x764): undefined reference to `mdiobus_c45_read'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
+   phylink.c:(.text+0x7da): undefined reference to `mdiobus_read'
+   ld: phylink.c:(.text+0x7fe): undefined reference to `mdiobus_write'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
+   phylink.c:(.text+0x884): undefined reference to `mdiobus_modify'
+   ld: phylink.c:(.text+0x8bd): undefined reference to `mdiobus_modify_changed'
+   ld: drivers/net/phy/phylink.o: in function `phylink_resolve_an_pause':
+   phylink.c:(.text+0x9b1): undefined reference to `linkmode_resolve_pause'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_get_state':
+   phylink.c:(.text+0xd25): undefined reference to `mdiobus_read'
+   ld: phylink.c:(.text+0xd3d): undefined reference to `mdiobus_read'
+   ld: drivers/net/phy/phylink.o: in function `phylink_disconnect_phy':
+   phylink.c:(.text+0xee4): undefined reference to `phy_disconnect'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_wol':
+   phylink.c:(.text+0xf71): undefined reference to `phy_ethtool_get_wol'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_wol':
+   phylink.c:(.text+0xfe3): undefined reference to `phy_ethtool_set_wol'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_nway_reset':
+   phylink.c:(.text+0x10a1): undefined reference to `phy_restart_aneg'
+   ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
+   phylink.c:(.text+0x1120): undefined reference to `phy_get_eee_err'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
+   phylink.c:(.text+0x11a3): undefined reference to `phy_ethtool_get_eee'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
+   phylink.c:(.text+0x1263): undefined reference to `phy_ethtool_set_eee'
+   ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
+   phylink.c:(.text+0x133d): undefined reference to `phy_speed_down'
+   ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
+   phylink.c:(.text+0x13fa): undefined reference to `phy_speed_up'
+   ld: drivers/net/phy/phylink.o: in function `phylink_link_up.isra.0':
+   phylink.c:(.text+0x15db): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0x15e5): undefined reference to `phy_speed_to_str'
+   ld: phylink.c:(.text+0x1630): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0x163a): undefined reference to `phy_speed_to_str'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_pauseparam':
+   phylink.c:(.text+0x1815): undefined reference to `linkmode_set_pause'
+   ld: phylink.c:(.text+0x1869): undefined reference to `phy_set_asym_pause'
+   ld: drivers/net/phy/phylink.o: in function `phylink_stop':
+   phylink.c:(.text+0x199f): undefined reference to `phy_stop'
+   ld: drivers/net/phy/phylink.o: in function `phylink_phy_change':
+   phylink.c:(.text+0x1fa2): undefined reference to `phy_get_pause'
+   ld: drivers/net/phy/phylink.o: in function `phylink_validate_one':
+   phylink.c:(.text+0x2221): undefined reference to `phy_get_rate_matching'
+   ld: drivers/net/phy/phylink.o: in function `phylink_validate_phy':
+   phylink.c:(.text+0x2509): undefined reference to `phy_get_rate_matching'
+   ld: drivers/net/phy/phylink.o: in function `phylink_bringup_phy':
+   phylink.c:(.text+0x2605): undefined reference to `phy_support_asym_pause'
+   ld: phylink.c:(.text+0x2691): undefined reference to `phy_attached_info_irq'
+   ld: phylink.c:(.text+0x2743): undefined reference to `phy_request_interrupt'
+   ld: drivers/net/phy/phylink.o: in function `phylink_connect_phy':
+   phylink.c:(.text+0x27d8): undefined reference to `phy_attach_direct'
+   ld: phylink.c:(.text+0x2823): undefined reference to `phy_detach'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
+   phylink.c:(.text+0x2b61): undefined reference to `mdiobus_c45_read'
+   ld: phylink.c:(.text+0x2c13): undefined reference to `swphy_read_reg'
+   ld: phylink.c:(.text+0x2c35): undefined reference to `phy_mii_ioctl'
+   ld: phylink.c:(.text+0x2c9e): undefined reference to `mdiobus_c45_write'
+   ld: phylink.c:(.text+0x2d37): undefined reference to `mdiobus_read'
+   ld: phylink.c:(.text+0x2dda): undefined reference to `mdiobus_write'
+   ld: phylink.c:(.text+0x2e37): undefined reference to `mdiobus_c45_read'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_get':
+   phylink.c:(.text+0x2fb3): undefined reference to `phy_ethtool_ksettings_get'
+   ld: drivers/net/phy/phylink.o: in function `phylink_set_fixed_link':
+   phylink.c:(.text+0x30b2): undefined reference to `phy_lookup_setting'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_set':
+   phylink.c:(.text+0x388c): undefined reference to `phy_ethtool_ksettings_set'
+   ld: phylink.c:(.text+0x3a31): undefined reference to `phy_lookup_setting'
+   ld: drivers/net/phy/phylink.o: in function `phylink_start':
+   phylink.c:(.text+0x3c72): undefined reference to `phy_start'
+   ld: drivers/net/phy/phylink.o: in function `phylink_parse_fixedlink':
+   phylink.c:(.text+0x4056): undefined reference to `phy_lookup_setting'
+   ld: drivers/pci/pwrctrl/slot.o: in function `pci_pwrctrl_slot_probe':
+>> slot.c:(.text+0x6f): undefined reference to `of_regulator_bulk_get_all'
 
-
-vim +/xz_dec_microlzma_run +266 fs/erofs/decompressor_lzma.c
-
-   151	
-   152	int z_erofs_lzma_decompress(struct z_erofs_decompress_req *rq,
-   153				    struct list_head *pagepool)
-   154	{
-   155		const unsigned int nrpages_out =
-   156			PAGE_ALIGN(rq->pageofs_out + rq->outputsize) >> PAGE_SHIFT;
-   157		const unsigned int nrpages_in =
-   158			PAGE_ALIGN(rq->inputsize) >> PAGE_SHIFT;
-   159		unsigned int inputmargin, inlen, outlen, pageofs;
-   160		struct z_erofs_lzma *strm;
-   161		u8 *kin;
-   162		bool bounced = false;
-   163		int no, ni, j, err = 0;
-   164	
-   165		/* 1. get the exact LZMA compressed size */
-   166		kin = kmap(*rq->in);
-   167		inputmargin = 0;
-   168		while (!kin[inputmargin & ~PAGE_MASK])
-   169			if (!(++inputmargin & ~PAGE_MASK))
-   170				break;
-   171	
-   172		if (inputmargin >= PAGE_SIZE) {
-   173			kunmap(*rq->in);
-   174			return -EFSCORRUPTED;
-   175		}
-   176		rq->inputsize -= inputmargin;
-   177	
-   178		/* 2. get an available lzma context */
-   179	again:
-   180		spin_lock(&z_erofs_lzma_lock);
-   181		strm = z_erofs_lzma_head;
-   182		if (!strm) {
-   183			spin_unlock(&z_erofs_lzma_lock);
-   184			wait_event(z_erofs_lzma_wq, READ_ONCE(z_erofs_lzma_head));
-   185			goto again;
-   186		}
-   187		z_erofs_lzma_head = strm->next;
-   188		spin_unlock(&z_erofs_lzma_lock);
-   189	
-   190		/* 3. multi-call decompress */
-   191		inlen = rq->inputsize;
-   192		outlen = rq->outputsize;
-   193		xz_dec_microlzma_reset(strm->state, inlen, outlen,
-   194				       !rq->partial_decoding);
-   195		pageofs = rq->pageofs_out;
-   196		strm->buf.in = kin + inputmargin;
-   197		strm->buf.in_pos = 0;
-   198		strm->buf.in_size = min_t(u32, inlen, PAGE_SIZE - inputmargin);
-   199		inlen -= strm->buf.in_size;
-   200		strm->buf.out = NULL;
-   201		strm->buf.out_pos = 0;
-   202		strm->buf.out_size = 0;
-   203	
-   204		for (ni = 0, no = -1;;) {
-   205			enum xz_ret xz_err;
-   206	
-   207			if (strm->buf.out_pos == strm->buf.out_size) {
-   208				if (strm->buf.out) {
-   209					kunmap(rq->out[no]);
-   210					strm->buf.out = NULL;
-   211				}
-   212	
-   213				if (++no >= nrpages_out || !outlen) {
-   214					erofs_err(rq->sb, "decompressed buf out of bound");
-   215					err = -EFSCORRUPTED;
-   216					break;
-   217				}
-   218				strm->buf.out_pos = 0;
-   219				strm->buf.out_size = min_t(u32, outlen,
-   220							   PAGE_SIZE - pageofs);
-   221				outlen -= strm->buf.out_size;
-   222				if (rq->out[no])
-   223					strm->buf.out = kmap(rq->out[no]) + pageofs;
-   224				pageofs = 0;
-   225			} else if (strm->buf.in_pos == strm->buf.in_size) {
-   226				kunmap(rq->in[ni]);
-   227	
-   228				if (++ni >= nrpages_in || !inlen) {
-   229					erofs_err(rq->sb, "compressed buf out of bound");
-   230					err = -EFSCORRUPTED;
-   231					break;
-   232				}
-   233				strm->buf.in_pos = 0;
-   234				strm->buf.in_size = min_t(u32, inlen, PAGE_SIZE);
-   235				inlen -= strm->buf.in_size;
-   236				kin = kmap(rq->in[ni]);
-   237				strm->buf.in = kin;
-   238				bounced = false;
-   239			}
-   240	
-   241			/*
-   242			 * Handle overlapping: Use bounced buffer if the compressed
-   243			 * data is under processing; Otherwise, Use short-lived pages
-   244			 * from the on-stack pagepool where pages share with the same
-   245			 * request.
-   246			 */
-   247			if (!bounced && rq->out[no] == rq->in[ni]) {
-   248				memcpy(strm->bounce, strm->buf.in, strm->buf.in_size);
-   249				strm->buf.in = strm->bounce;
-   250				bounced = true;
-   251			}
-   252			for (j = ni + 1; j < nrpages_in; ++j) {
-   253				struct page *tmppage;
-   254	
-   255				if (rq->out[no] != rq->in[j])
-   256					continue;
-   257	
-   258				DBG_BUGON(erofs_page_is_managed(EROFS_SB(rq->sb),
-   259								rq->in[j]));
-   260				tmppage = erofs_allocpage(pagepool,
-   261							  GFP_KERNEL | __GFP_NOFAIL);
-   262				set_page_private(tmppage, Z_EROFS_SHORTLIVED_PAGE);
-   263				copy_highpage(tmppage, rq->in[j]);
-   264				rq->in[j] = tmppage;
-   265			}
- > 266			xz_err = xz_dec_microlzma_run(strm->state, &strm->buf);
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 --
 0-DAY CI Kernel Test Service
