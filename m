@@ -1,232 +1,238 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBD843D501
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Aug 2026 13:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F55335BBB;
+	Fri, 14 Aug 2026 13:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786714726; cv=none; b=fSDjWP37GJeCR1hnb8R+IMvu12wU2mQE4U+EMPIeG8xLnCptiHJVMI4cyiGvv1s6o0FAxI1NW5F+QdqbBU/Tgn3Zd4yz+0aBZYp8Y4IzibE43zks4sBJL1F57Qgg126WiuyGuVv9x/r5OQXf1qEOYi7r7HwZoPPxrPRiDo9jHjk=
+	t=1786715830; cv=none; b=jvSsMTFHCERL06VaUriSZN5fSrBvkcXqxgRQz8ZGzyegY5ck6iNXKVDbh7kZPZgG5FvAYUG+viqO3H9Wc+ZU46toEOXTh4DRzlUfZUCDxGGM5ev9GDA78W+X9pikWJN0GT0TT+TEv+jqtjAE6TBc6b1XvAbKDjZyZgvO9+IJi0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786714726; c=relaxed/simple;
-	bh=PVjAbdGR8EttvxcGWznPRU6KcI+fXlXrovJrssyoe/g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LKxnQIFWtXlKk/Z1YSwKjmA4iGX2qjZrBJySfAngTy8IuY8di80c9M4LzFS00bnKVYIVbhPhbHxOUniWh918WPHwx9ikIyxSx+Lrs2WKslKlrftrTzvOi2JkalxyNPXGkPchtHa/HGXNGydSzfeVlo3yEF94CsBKvdoQDE6Caxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FTWEAQ/j; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1786715830; c=relaxed/simple;
+	bh=D6DyQseefHIu9DZgQ1dva2OVkBIS793EnP9uLGMfCVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oFkFuRLjZ2mZonpOuU9RVnoipR62+ljavkIN27HX1eD0C63dUsf1x0YJBxBLQ7uEFXG1bJY2YwV3kUCjIigelxo16n4UIPMCJjQ+T63zKIZV3bPTw7L1l2eAWV/1fAD59YAPc+xsU7VP7GduvR8PIsv0xhLoGvvK+w8Ga80GvCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QnMbVxjN; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FTWEAQ/j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QnMbVxjN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786714723; x=1818250723;
-  h=date:from:to:cc:subject:message-id;
-  bh=PVjAbdGR8EttvxcGWznPRU6KcI+fXlXrovJrssyoe/g=;
-  b=FTWEAQ/jtsaVSFUrPqy8jzln2KixB9Wf2GzhXVHr6WNdWIQc+iTW+OD5
-   YE/VDsnUVTBW2d+SBl4JDerwLv9l10i7CY9ijOkY1feOFO+UX76EZgXe6
-   57+Q0zxnq3z25R95N4OJ1lA4si6dWsZJrk18iyjYro9LdQOfGH25v8FMn
-   nqmAgi8Uw5/uZToSqin++koNbR1RL2EyBqEFcAwDqZ0Of1pfvpo+K5Goi
-   abJAebPhV5pRrBxFE3FD0/WmJJ7PrDDTdaPVHsCwk24cZe3C8GAWlKmC9
-   +MINacmPToL5MVvY4jIlgtMnPdf36du5p075KplQ6q79wjVF3hJvoR5em
-   Q==;
-X-CSE-ConnectionGUID: fYjP0kCvRKiCJYEkhewT4Q==
-X-CSE-MsgGUID: 2G17HVVZQ76/0QsN3ineeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="104826099"
+  t=1786715825; x=1818251825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D6DyQseefHIu9DZgQ1dva2OVkBIS793EnP9uLGMfCVM=;
+  b=QnMbVxjNergsT2As0uT5klE6y0TgBmnpUUYEV4qQtzgE0vE2vROOJkXe
+   nAl7IJ2qBnrm5H37OkZXr/s/FKUYndWdgmozmkr8d5QgNwTyK2QC16Uin
+   uuXaAnpsl5QlwG1dzY12VPNMnt3xiMFeK8fSkuEJ4zyBuHh0vze75f92H
+   FnjJLhhknG4hnhoSQiJPL5k3wLtOzZtyumZtx/+13GzwnJ3Y0ndHCB+GR
+   4WJ3ovq1gf7wFmPh7y9lHs5jvoE2TUEMMERXttLtyq2Ks5S/laz8E0RHI
+   2Aw4gIWwPJHXmyHsX10rOi02pd462krwcMTdYpiGa+5CDtANVHZc3c7n+
+   A==;
+X-CSE-ConnectionGUID: YZk7l1L4SdilSs+G9Xv9Ag==
+X-CSE-MsgGUID: FSHCWXBARNqOY/lmX3nwjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="87218173"
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="104826099"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 06:38:42 -0700
-X-CSE-ConnectionGUID: McceNDFfSI2d8wyGMAVYBg==
-X-CSE-MsgGUID: UZ1Ovc0gSAa7QoQZImWDQw==
+   d="scan'208";a="87218173"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 06:57:04 -0700
+X-CSE-ConnectionGUID: YlqOIiufSJqOFUaTiAmIrA==
+X-CSE-MsgGUID: 6i2srB89TiixPoKqjj0lSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="259995350"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Aug 2026 06:38:41 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="268087991"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 14 Aug 2026 06:57:00 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wus7L-000000006Ft-0wjc;
-	Fri, 14 Aug 2026 13:38:39 +0000
-Date: Fri, 14 Aug 2026 15:38:36 +0200
+	id 1wusP3-00000000Z1K-1Gu9;
+	Fri, 14 Aug 2026 13:56:57 +0000
+Date: Fri, 14 Aug 2026 21:56:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heming Zhao <heming.zhao@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- Joseph Qi <joseph.qi@linux.alibaba.com>
-Subject: fs/ocfs2/aops.c:2872:22: warning: variable 'max_blocks' set
- but not used
-Message-ID: <202608141535.kOQ9g2e6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "monios114514@outlook.com" <monios114514@outlook.com>,
+	"mingo@redhat.com" <mingo@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"bsegall@google.com" <bsegall@google.com>,
+	"mgorman@suse.de" <mgorman@suse.de>,
+	"vschneid@redhat.com" <vschneid@redhat.com>,
+	"kprateek.nayak@amd.com" <kprateek.nayak@amd.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] sched/topology: fix memory leaks in allocation failure
+ paths
+Message-ID: <202608142104.E7fmtysw-lkp@intel.com>
+References: <SL2P216MB261965EB5BCCF15723D13A76C1FE2@SL2P216MB2619.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SL2P216MB261965EB5BCCF15723D13A76C1FE2@SL2P216MB2619.KORP216.PROD.OUTLOOK.COM>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Heming-Zhao/ocfs2-Add-new-ocfs2_map_blocks-to-introduce-iomap-feature/20260811-043801
-head:   4d6a46254590fa90285d4856f4ad8301cef54200
-commit: a79c0c3913814518686f2e87426267431ecfbaa0 ocfs2: switch dio write path from buffer_head to iomap
-date:   4 days ago
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260814/202608141535.kOQ9g2e6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608141535.kOQ9g2e6-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on peterz-queue/sched/core linus/master v7.2-rc7 next-20260813]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/monios114514-outlook-com/sched-topology-fix-memory-leaks-in-allocation-failure-paths/20260813-171714
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/SL2P216MB261965EB5BCCF15723D13A76C1FE2%40SL2P216MB2619.KORP216.PROD.OUTLOOK.COM
+patch subject: [PATCH] sched/topology: fix memory leaks in allocation failure paths
+config: riscv-randconfig-002-20260814 (https://download.01.org/0day-ci/archive/20260814/202608142104.E7fmtysw-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 844a18e753e822736c9805ab779144b647a2c186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608142104.E7fmtysw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608141535.kOQ9g2e6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608142104.E7fmtysw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ocfs2/aops.c: In function 'ocfs2_iomap_dio_end_io_write':
->> fs/ocfs2/aops.c:2872:22: warning: variable 'max_blocks' set but not used [-Wunused-but-set-variable]
-    2872 |         unsigned int max_blocks;
-         |                      ^~~~~~~~~~
+   In file included from kernel/sched/build_utility.c:86:
+>> kernel/sched/topology.c:2364:12: warning: explicitly assigning value of variable of type 'int' to itself [-Wself-assign]
+    2364 |                                 for (i = i; i >= 0; i--) {
+         |                                      ~ ^ ~
+   1 warning generated.
 
 
-vim +/max_blocks +2872 fs/ocfs2/aops.c
+vim +/int +2364 kernel/sched/topology.c
 
-  2853	
-  2854	/* copy from ocfs2_dio_end_io_write */
-  2855	static int ocfs2_iomap_dio_end_io_write(struct inode *inode,
-  2856					  loff_t offset,
-  2857					  ssize_t bytes)
-  2858	{
-  2859		struct ocfs2_cached_dealloc_ctxt dealloc;
-  2860		struct ocfs2_extent_tree et;
-  2861		struct ocfs2_super *osb = OCFS2_SB(inode->i_sb);
-  2862		struct ocfs2_inode_info *oi = OCFS2_I(inode);
-  2863		struct buffer_head *di_bh = NULL;
-  2864		struct ocfs2_dinode *di;
-  2865		struct ocfs2_alloc_context *data_ac = NULL;
-  2866		struct ocfs2_alloc_context *meta_ac = NULL;
-  2867		handle_t *handle = NULL;
-  2868		loff_t end = offset + bytes;
-  2869		int ret = 0, credits = 0;
-  2870		struct ocfs2_map_block map;
-  2871		unsigned int blkbits = inode->i_blkbits;
-> 2872		unsigned int max_blocks;
-  2873		unsigned int ue_cpos = 0, ue_phys = 0, ue_len = 0;
-  2874		unsigned int curr_lblk, end_lblk;
-  2875	
-  2876		map.lblk = offset >> blkbits;
-  2877		max_blocks = (bytes + offset) >> osb->s_clustersize_bits;
-  2878	
-  2879		ocfs2_init_dealloc_ctxt(&dealloc);
-  2880	
-  2881		ret = ocfs2_inode_lock(inode, &di_bh, 1);
-  2882		if (ret < 0) {
-  2883			mlog_errno(ret);
-  2884			goto out;
-  2885		}
-  2886	
-  2887		down_write(&oi->ip_alloc_sem);
-  2888	
-  2889		di = (struct ocfs2_dinode *)di_bh->b_data;
-  2890	
-  2891		ocfs2_init_dinode_extent_tree(&et, INODE_CACHE(inode), di_bh);
-  2892	
-  2893		/* Attach dealloc with extent tree in case that we may reuse extents
-  2894		 * which are already unlinked from current extent tree due to extent
-  2895		 * rotation and merging.
-  2896		 */
-  2897		et.et_dealloc = &dealloc;
-  2898	
-  2899		ret = ocfs2_lock_allocators(inode, &et, 0, (bytes >> osb->s_clustersize_bits)*2,
-  2900					    &data_ac, &meta_ac);
-  2901		if (ret) {
-  2902			mlog_errno(ret);
-  2903			goto unlock;
-  2904		}
-  2905	
-  2906		credits = ocfs2_calc_extend_credits(inode->i_sb, &di->id2.i_list);
-  2907	
-  2908		handle = ocfs2_start_trans(osb, credits);
-  2909		if (IS_ERR(handle)) {
-  2910			ret = PTR_ERR(handle);
-  2911			mlog_errno(ret);
-  2912			goto unlock;
-  2913		}
-  2914		ret = ocfs2_journal_access_di(handle, INODE_CACHE(inode), di_bh,
-  2915					      OCFS2_JOURNAL_ACCESS_WRITE);
-  2916		if (ret) {
-  2917			mlog_errno(ret);
-  2918			goto commit;
-  2919		}
-  2920	
-  2921		curr_lblk = offset >> blkbits;
-  2922		/*
-  2923		 * Round the end up so the final partial block (sub-block direct I/O)
-  2924		 * is included; otherwise the last, partially-written cluster is left
-  2925		 * unwritten and reads back as zero.
-  2926		 */
-  2927		end_lblk = (offset + bytes + (1 << blkbits) - 1) >> blkbits;
-  2928		while (ret >= 0 && curr_lblk < end_lblk) {
-  2929			memset(&map, 0, sizeof(map));
-  2930			map.lblk += curr_lblk;
-  2931			map.len = end_lblk - curr_lblk;
-  2932	
-  2933			ret = ocfs2_assure_trans_credits(handle, credits);
-  2934			if (ret < 0) {
-  2935				mlog_errno(ret);
-  2936				break;
-  2937			}
-  2938	
-  2939			ret = ocfs2_map_blocks(inode, &map, 0);
-  2940			if (ret < 0) {
-  2941				mlog_errno(ret);
-  2942				break;
-  2943			}
-  2944			if (ret == 0)
-  2945				break;
-  2946	
-  2947			if (map.flags & OCFS2_MAP_UNWRITTEN) {
-  2948				ue_cpos = ocfs2_blocks_to_clusters(inode->i_sb, map.lblk);
-  2949				ue_phys = ocfs2_blocks_to_clusters(inode->i_sb, map.pblk);
-  2950				ue_len = ocfs2_clusters_for_blocks(inode->i_sb,
-  2951							map.lblk + map.len) - ue_cpos;
-  2952	
-  2953				ret = ocfs2_mark_extent_written(inode, &et, handle,
-  2954						ue_cpos, ue_len,
-  2955						ue_phys,
-  2956						meta_ac, &dealloc);
-  2957				if (ret < 0) {
-  2958					mlog_errno(ret);
-  2959					break;
-  2960				}
-  2961			}
-  2962			curr_lblk += map.len;
-  2963		}
-  2964	
-  2965		if (end > i_size_read(inode)) {
-  2966			ret = ocfs2_set_inode_size(handle, inode, di_bh, end);
-  2967			if (ret < 0)
-  2968				mlog_errno(ret);
-  2969		}
-  2970	
-  2971	commit:
-  2972		ocfs2_commit_trans(osb, handle);
-  2973	
-  2974	unlock:
-  2975		up_write(&oi->ip_alloc_sem);
-  2976	
-  2977		if (data_ac)
-  2978			ocfs2_free_alloc_context(data_ac);
-  2979		if (meta_ac)
-  2980			ocfs2_free_alloc_context(meta_ac);
-  2981	
-  2982		down_write(&oi->ip_alloc_sem);
-  2983		if (!ret && (di->i_flags & cpu_to_le32(OCFS2_DIO_ORPHANED_FL))) {
-  2984			ret = ocfs2_del_inode_from_orphan(osb, inode, di_bh, 0, 0);
-  2985			if (ret < 0)
-  2986				mlog_errno(ret);
-  2987		}
-  2988		up_write(&oi->ip_alloc_sem);
-  2989		ocfs2_inode_unlock(inode, 1);
-  2990		brelse(di_bh);
-  2991	
-  2992	out:
-  2993		ocfs2_run_deallocs(osb, &dealloc);
-  2994		return ret;
-  2995	}
-  2996	
+  2310	
+  2311	void sched_init_numa(int offline_node)
+  2312	{
+  2313		struct sched_domain_topology_level *tl;
+  2314		int nr_levels, nr_node_levels;
+  2315		int i, j;
+  2316		int *distances, *domain_distances;
+  2317		struct cpumask ***masks;
+  2318	
+  2319		if (sched_record_numa_dist(offline_node, numa_node_dist, &distances,
+  2320					   &nr_node_levels))
+  2321			return;
+  2322	
+  2323		if (modified_sched_node_distance()) {
+  2324			if (sched_record_numa_dist(offline_node, arch_sched_node_distance,
+  2325						   &domain_distances, &nr_levels)) {
+  2326				kfree(distances);
+  2327				return;
+  2328			}
+  2329		} else {
+  2330			domain_distances = distances;
+  2331			nr_levels = nr_node_levels;
+  2332		}
+  2333		rcu_assign_pointer(sched_numa_node_distance, distances);
+  2334		WRITE_ONCE(sched_max_numa_distance, distances[nr_node_levels - 1]);
+  2335		WRITE_ONCE(sched_numa_node_levels, nr_node_levels);
+  2336	
+  2337		rcu_assign_pointer(sched_domains_numa_distance, domain_distances);
+  2338	
+  2339		sched_domains_numa_levels = 0;
+  2340	
+  2341		masks = kzalloc(sizeof(void *) * nr_levels, GFP_KERNEL);
+  2342		if (!masks)
+  2343			goto free_distance;
+  2344	
+  2345		for (i = 0; i < nr_levels; i++) {
+  2346			masks[i] = kzalloc(nr_node_ids * sizeof(void *), GFP_KERNEL);
+  2347			if (!masks[i]) {
+  2348				for (i = i - 1; i >= 0; i--) {
+  2349					if (!masks[i])
+  2350						continue;
+  2351					for_each_cpu_node_but(j, offline_node)
+  2352						kfree(masks[i][j]);
+  2353					kfree(masks[i]);
+  2354				}
+  2355				kfree(masks);
+  2356				goto free_distance;
+  2357			}
+  2358	
+  2359			for_each_cpu_node_but(j, offline_node) {
+  2360				struct cpumask *mask = kzalloc(cpumask_size(), GFP_KERNEL);
+  2361				int k;
+  2362	
+  2363				if (!mask) {
+> 2364					for (i = i; i >= 0; i--) {
+  2365						if (!masks[i])
+  2366							continue;
+  2367						for_each_cpu_node_but(j, offline_node)
+  2368							kfree(masks[i][j]);
+  2369						kfree(masks[i]);
+  2370					}
+  2371					kfree(masks);
+  2372					goto free_distance;
+  2373				}
+  2374	
+  2375				masks[i][j] = mask;
+  2376	
+  2377				for_each_cpu_node_but(k, offline_node) {
+  2378					if (sched_debug() &&
+  2379					    (arch_sched_node_distance(j, k) !=
+  2380					     arch_sched_node_distance(k, j)))
+  2381						sched_numa_warn("Node-distance not symmetric");
+  2382	
+  2383					if (arch_sched_node_distance(j, k) >
+  2384					    sched_domains_numa_distance[i])
+  2385						continue;
+  2386	
+  2387					cpumask_or(mask, mask, cpumask_of_node(k));
+  2388				}
+  2389			}
+  2390		}
+  2391		rcu_assign_pointer(sched_domains_numa_masks, masks);
+  2392	
+  2393		for (i = 0; sched_domain_topology[i].mask; i++);
+  2394	
+  2395		tl = kzalloc((i + nr_levels + 1) *
+  2396				sizeof(struct sched_domain_topology_level), GFP_KERNEL);
+  2397		if (!tl) {
+  2398			rcu_assign_pointer(sched_domains_numa_masks, NULL);
+  2399			for (i = nr_levels - 1; i >= 0; i--) {
+  2400				if (!masks[i])
+  2401					continue;
+  2402				for_each_cpu_node_but(j, offline_node)
+  2403					kfree(masks[i][j]);
+  2404				kfree(masks[i]);
+  2405			}
+  2406			kfree(masks);
+  2407			goto free_distance;
+  2408		}
+  2409	
+  2410		for (i = 0; sched_domain_topology[i].mask; i++)
+  2411			tl[i] = sched_domain_topology[i];
+  2412	
+  2413		tl[i++] = SDTL_INIT(sd_numa_mask, NULL, NODE);
+  2414	
+  2415		for (j = 1; j < nr_levels; i++, j++) {
+  2416			tl[i] = SDTL_INIT(sd_numa_mask, cpu_numa_flags, NUMA);
+  2417			tl[i].numa_level = j;
+  2418		}
+  2419	
+  2420		sched_domain_topology_saved = sched_domain_topology;
+  2421		sched_domain_topology = tl;
+  2422	
+  2423		sched_domains_numa_levels = nr_levels;
+  2424	
+  2425		init_numa_topology_type(offline_node);
+  2426		return;
+  2427	
+  2428	free_distance:
+  2429		if (domain_distances != distances)
+  2430			kfree(domain_distances);
+  2431	}
+  2432	
 
 --
 0-DAY CI Kernel Test Service
