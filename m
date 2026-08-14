@@ -1,62 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A65D390229
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Aug 2026 19:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57BE3905F0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Aug 2026 19:18:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786735086; cv=none; b=cjMPQ4y+LJv07ciK1Ypz3mludE9mecjh6XhweiVQKyi2Y79sZW8GjU6n6Uxu3pa1JA3HwsTADYW9SoVhrsX3Z8wm6EPEPYDGT/VTWbcpDX3cVo7kGIjbvUK1u6YbmANnPN6RKfQ1LBrmcDXjpl5PofYBt5TMktKQC/jLl8OsV7g=
+	t=1786735087; cv=none; b=Q4DJsCRBhFmdXYe5y/8pOEP9HZUZOHiQDG1d33Hp+HU1gGNKb5rKYlXUiyWyN9q3pKda6edRc2rQlYTsrm3KWoVdnR3B/aoSpQKHv/pzdbJDNPdmWPQr6UKBgJ1iemTQ0EN4/rzMWRPomJqAwJzQXnXJREGvyXQHAe6ypJw2JiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786735086; c=relaxed/simple;
-	bh=KvgCBPaZUSxUuc62UyZ+DBnp15fbjpGI4D1lc9Nw2Fw=;
+	s=arc-20240116; t=1786735087; c=relaxed/simple;
+	bh=aIy6AHu4mu2ezMCSPBSytPfjGUv570iE05jtc+f2OvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XmAV8r/TJRCUHOebYnMOgkdG5s+oeI/nfE1gswmsvVIGn5tki9EFmJDjvAfgcjIN7vWFPImuLru9GUZ+JQfHAechFlaQmEOAaPnuQ8+hwlVM0SLJC7l/d2D+jFihZavl5m9a3OpIt9LNRDqSXfdDlkEoNDI1jWc+XenuY2rtkZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GG5+65c5; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=ONQCDZ/lfZsYFpnB0vieb+CEoP2AM7tmIWRzgnn1HP6dQqPr1iQ4rBerqt71FWWaS9Im6HTEGYwCYnlT0Vb9bW3gFnGdltiQy/bOrZnZz29H3s8hMVgIOT4VKPeuiYooiChqqlyWX1N2sBEkduIvRoGcGVThGNy3UZpF5P5qRFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQGIEANQ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GG5+65c5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQGIEANQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786735081; x=1818271081;
+  t=1786735084; x=1818271084;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KvgCBPaZUSxUuc62UyZ+DBnp15fbjpGI4D1lc9Nw2Fw=;
-  b=GG5+65c5eTDbkkpHwdPZJxCSKeoHidH6OwQM5zb5rTviWv8tH7vV/D7i
-   d7WvrbTOslyaEI3cdwzeDtJR2dhaDtfN+eHxI/JwQZUauPcD/0NWeqm8M
-   cGzOPu7pyVvrEBoAUHKxQ5XjpW0GSu78OP4gzulOLs4WN01vMDsuCinFi
-   oC3ptrFG4K4Pgz6B7y/E4jrFiCaNgmoIxsSDWWqbbHcspT1fxjanI2WaS
-   DpJS94VTrOJmJR1t9B3biXap8QpiXUqB3QkVhYLpASdjy6+E8jTnPOaxO
-   SblTZOEYzLXyw/JOPXmgMPbjBRft5bziLvBaviVsI2K4Kd9hWwhWqbDeu
+  bh=aIy6AHu4mu2ezMCSPBSytPfjGUv570iE05jtc+f2OvY=;
+  b=IQGIEANQTRZOSarvgdQsRZ54LNPVNrsVoCIHkYHzo1qZIqt+eXUOeMMD
+   wTfr+72xq5xI5VEH+L8LNJBp17FzA1yJiHC/lZythLagHUHQrMHqRuI8k
+   UPhrOp7cTuM/TLv/hLRsk98wd/74oB2qWCOy6bh//LtOZ0kj25bFKRfeH
+   DyvUIBfqLD1lbm4Z9576EpDIa7SVxryT9vVjTRGMfkWDYU5H4gU4DboyA
+   do+AkK8M3B6Jl0V10wPJ2XKYdgKEtUo3BbrCDLMvFZG82yry1nB2STWzW
+   YxCvrSsITK+SxzuyrQ+hFEpYKlI47kDTAsBAVQf0YHR57kpn0Zox3SMpc
    w==;
-X-CSE-ConnectionGUID: J19bedz4TM+RNB84Tt6JwQ==
-X-CSE-MsgGUID: /tbnX0X0RFiO4GpIj/9SNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="87241398"
+X-CSE-ConnectionGUID: 3wTQWmbmQaqAHxT6H9QPNA==
+X-CSE-MsgGUID: i8sia3KaRPiv4+QdaC8yjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="87241407"
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="87241398"
+   d="scan'208";a="87241407"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 12:17:57 -0700
-X-CSE-ConnectionGUID: L3kzhTLLQyaxH7Nbnv5hVA==
-X-CSE-MsgGUID: fFDJb9AzTKen1JBuxnjtrA==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 12:17:58 -0700
+X-CSE-ConnectionGUID: xAUh4cfPRsmoli1n/MyUHA==
+X-CSE-MsgGUID: x4cVu1NaQRmLhQGA6npvtg==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 14 Aug 2026 12:17:55 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuxPc-00000000Zus-2DMA;
+	id 1wuxPc-00000000Zuu-2LnO;
 	Fri, 14 Aug 2026 19:17:52 +0000
-Date: Sat, 15 Aug 2026 03:17:11 +0800
+Date: Sat, 15 Aug 2026 03:17:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian van den Berg <faxuser@proton.me>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Brian van den Berg <faxuser@proton.me>
-Subject: Re: [PATCH v1] ALSA: usb-audio: Add quirk for Logitech PRO X 2
- LIGHTSPEED
-Message-ID: <202608150355.lzmkt8EL-lkp@intel.com>
-References: <20260731023307.28510-1-faxuser@proton.me>
+To: Aaron Tomlin <atomlin@atomlin.com>, akpm@linux-foundation.org,
+	lance.yang@linux.dev, mhiramat@kernel.org, pmladek@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	david.laight.linux@gmail.com, atomlin@atomlin.com, neelx@suse.com,
+	sean@ashe.io, chjohnst@gmail.com, steve@abita.co, mproche@gmail.com,
+	nick.lange@gmail.com
+Subject: Re: [PATCH v2] hung_task: Add per-round stack trace deduplication
+Message-ID: <202608150327.OJ0wc1wA-lkp@intel.com>
+References: <20260620013559.1537893-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,430 +64,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260731023307.28510-1-faxuser@proton.me>
+In-Reply-To: <20260620013559.1537893-1-atomlin@atomlin.com>
 
-Hi Brian,
+Hi Aaron,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on e7ae89a0c97ce2b68b0983cd01eda67cf373517d]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v7.2-rc7 next-20260813]
+[cannot apply to linux-review/Aaron-Tomlin/hung_task-Add-per-round-stack-trace-deduplication/20260618-025656]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-van-den-Berg/ALSA-usb-audio-Add-quirk-for-Logitech-PRO-X-2-LIGHTSPEED/20260815-015804
-base:   e7ae89a0c97ce2b68b0983cd01eda67cf373517d
-patch link:    https://lore.kernel.org/r/20260731023307.28510-1-faxuser%40proton.me
-patch subject: [PATCH v1] ALSA: usb-audio: Add quirk for Logitech PRO X 2 LIGHTSPEED
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260815/202608150355.lzmkt8EL-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/hung_task-Add-per-round-stack-trace-deduplication/20260814-211006
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260620013559.1537893-1-atomlin%40atomlin.com
+patch subject: [PATCH v2] hung_task: Add per-round stack trace deduplication
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260815/202608150327.OJ0wc1wA-lkp@intel.com/config)
 compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260815/202608150355.lzmkt8EL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260815/202608150327.OJ0wc1wA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608150355.lzmkt8EL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608150327.OJ0wc1wA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> sound/usb/quirks.c:2253:51: error: macro 'DEVICE_FLG' requires 3 arguments, but only 2 given
-    2253 |                    QUIRK_FLAG_MIXER_GET_CUR_BROKEN),
-         |                                                   ^
-   sound/usb/quirks.c:2152:9: note: macro 'DEVICE_FLG' defined here
-    2152 | #define DEVICE_FLG(vid, pid, _flags) \
-         |         ^~~~~~~~~~
->> sound/usb/quirks.c:2252:9: error: 'DEVICE_FLG' undeclared here (not in a function)
-    2252 |         DEVICE_FLG(0x046d, 0x0af7 /* Logitech PRO X 2 LIGHTSPEED */
-         |         ^~~~~~~~~~
-   sound/usb/quirks.c:2252:9: note: 'DEVICE_FLG' is a function-like macro and might be used incorrectly
+   In file included from <command-line>:
+   kernel/hung_task.c: In function 'check_hung_uninterruptible_tasks':
+>> kernel/hung_task.c:388:72: error: 'sysctl_hung_task_dedup' undeclared (first use in this function); did you mean 'sysctl_hung_task_panic'?
+     388 |         bool dedup_enabled = IS_ENABLED(CONFIG_STACKTRACE) ? READ_ONCE(sysctl_hung_task_dedup) : 0;
+         |                                                                        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/hung_task.c:388:62: note: in expansion of macro 'READ_ONCE'
+     388 |         bool dedup_enabled = IS_ENABLED(CONFIG_STACKTRACE) ? READ_ONCE(sysctl_hung_task_dedup) : 0;
+         |                                                              ^~~~~~~~~
+   kernel/hung_task.c:388:72: note: each undeclared identifier is reported only once for each function it appears in
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/hung_task.c:388:62: note: in expansion of macro 'READ_ONCE'
+     388 |         bool dedup_enabled = IS_ENABLED(CONFIG_STACKTRACE) ? READ_ONCE(sysctl_hung_task_dedup) : 0;
+         |                                                              ^~~~~~~~~
 
 
-vim +/DEVICE_FLG +2253 sound/usb/quirks.c
+vim +388 kernel/hung_task.c
 
-  2187	
-  2188	/*
-  2189	 * Use as a last resort if using VENDOR_FLG() is prone to VID conflicts.
-  2190	 *
-  2191	 * Usage:
-  2192	 *   // match vid, and "manufacturer"
-  2193	 *   VENDOR_STRING_FLG(vid, "manufacturer", flags)
-  2194	 *
-  2195	 *   // match vid, and device must have no manufacturer string
-  2196	 *   VENDOR_STRING_FLG(vid, "",             flags)
-  2197	 */
-  2198	#define VENDOR_STRING_FLG(vid, _manufacturer, _flags)			\
-  2199		DEVICE_STRING_FLG(vid, 0, _manufacturer, NULL, _flags)
-  2200	
-  2201	static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
-  2202		/* Device and string descriptor matches */
-  2203	
-  2204		/* Device matches */
-  2205		DEVICE_FLG(0x001f, 0x0b21, /* AB13X USB Audio */
-  2206			   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-  2207		DEVICE_FLG(0x001f, 0x0b23, /* AB17X USB Audio */
-  2208			   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-  2209		DEVICE_FLG(0x0020, 0x0b21, /* GHW-123P */
-  2210			   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-  2211		DEVICE_FLG(0x03f0, 0x654a, /* HP 320 FHD Webcam */
-  2212			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
-  2213		DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
-  2214			   QUIRK_FLAG_IGNORE_CTL_ERROR),
-  2215		DEVICE_FLG(0x041e, 0x4080, /* Creative Live Cam VF0610 */
-  2216			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2217		DEVICE_FLG(0x045e, 0x083c, /* MS USB Link headset */
-  2218			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY |
-  2219			   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
-  2220		DEVICE_FLG(0x045e, 0x070f, /* MS LifeChat LX-3000 Headset */
-  2221			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2222		DEVICE_FLG(0x046d, 0x0807, /* Logitech Webcam C500 */
-  2223			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2224		DEVICE_FLG(0x046d, 0x0808, /* Logitech Webcam C600 */
-  2225			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2226		DEVICE_FLG(0x046d, 0x0809,
-  2227			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2228		DEVICE_FLG(0x046d, 0x0819, /* Logitech Webcam C210 */
-  2229			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2230		DEVICE_FLG(0x046d, 0x081b, /* HD Webcam c310 */
-  2231			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2232		DEVICE_FLG(0x046d, 0x081d, /* HD Webcam c510 */
-  2233			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2234		DEVICE_FLG(0x046d, 0x0825, /* HD Webcam c270 */
-  2235			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2236		DEVICE_FLG(0x046d, 0x0826, /* HD Webcam c525 */
-  2237			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2238		DEVICE_FLG(0x046d, 0x084c, /* Logitech ConferenceCam Connect */
-  2239			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2240		DEVICE_FLG(0x046d, 0x08ca, /* Logitech Quickcam Fusion */
-  2241			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2242		DEVICE_FLG(0x046d, 0x0991, /* Logitech QuickCam Pro */
-  2243			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR |
-  2244			   QUIRK_FLAG_MIC_RES_384),
-  2245		DEVICE_FLG(0x046d, 0x09a2, /* QuickCam Communicate Deluxe/S7500 */
-  2246			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-  2247		DEVICE_FLG(0x046d, 0x09a4, /* Logitech QuickCam E 3500 */
-  2248			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
-  2249		DEVICE_FLG(0x046d, 0x0a8f, /* Logitech H390 headset */
-  2250			   QUIRK_FLAG_CTL_MSG_DELAY_1M |
-  2251			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-> 2252		DEVICE_FLG(0x046d, 0x0af7 /* Logitech PRO X 2 LIGHTSPEED */
-> 2253			   QUIRK_FLAG_MIXER_GET_CUR_BROKEN),
-  2254		DEVICE_FLG(0x0499, 0x1506, /* Yamaha THR5 */
-  2255			   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2256		DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
-  2257			   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2258		DEVICE_FLG(0x0499, 0x3108, /* Yamaha YIT-W12TX */
-  2259			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2260		DEVICE_FLG(0x04d8, 0xfeea, /* Benchmark DAC1 Pre */
-  2261			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2262		DEVICE_FLG(0x04e8, 0xa051, /* Samsung USBC Headset (AKG) */
-  2263			   QUIRK_FLAG_SKIP_CLOCK_SELECTOR | QUIRK_FLAG_CTL_MSG_DELAY_5M),
-  2264		DEVICE_FLG(0x0525, 0xa4ad, /* Hamedal C20 usb camero */
-  2265			   QUIRK_FLAG_IFACE_SKIP_CLOSE),
-  2266		DEVICE_FLG(0x054c, 0x0b8c, /* Sony WALKMAN NW-A45 DAC */
-  2267			   QUIRK_FLAG_SET_IFACE_FIRST),
-  2268		DEVICE_FLG(0x0556, 0x0014, /* Phoenix Audio TMX320VC */
-  2269			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2270		DEVICE_FLG(0x0572, 0x1b08, /* Conexant Systems (Rockwell), Inc. */
-  2271			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2272		DEVICE_FLG(0x0572, 0x1b09, /* Conexant Systems (Rockwell), Inc. */
-  2273			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2274		DEVICE_FLG(0x05a3, 0x9420, /* ELP HD USB Camera */
-  2275			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2276		DEVICE_FLG(0x05a7, 0x1020, /* Bose Companion 5 */
-  2277			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2278		DEVICE_FLG(0x05e1, 0x0408, /* Syntek STK1160 */
-  2279			   QUIRK_FLAG_ALIGN_TRANSFER),
-  2280		DEVICE_FLG(0x05e1, 0x0480, /* Hauppauge Woodbury */
-  2281			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2282		DEVICE_FLG(0x05fc, 0x0231, /* JBL Pebbles */
-  2283			   QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL | QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL |
-  2284			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2285		DEVICE_FLG(0x0624, 0x3d3f, /* AB13X USB Audio */
-  2286			   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-  2287		DEVICE_FLG(0x0644, 0x8043, /* TEAC UD-501/UD-501V2/UD-503/NT-503 */
-  2288			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY |
-  2289			   QUIRK_FLAG_IFACE_DELAY),
-  2290		DEVICE_FLG(0x0644, 0x8044, /* Esoteric D-05X */
-  2291			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY |
-  2292			   QUIRK_FLAG_IFACE_DELAY | QUIRK_FLAG_FORCE_IFACE_RESET),
-  2293		DEVICE_FLG(0x0644, 0x804a, /* TEAC UD-301 */
-  2294			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY |
-  2295			   QUIRK_FLAG_IFACE_DELAY),
-  2296		DEVICE_FLG(0x0644, 0x805f, /* TEAC Model 12 */
-  2297			   QUIRK_FLAG_FORCE_IFACE_RESET),
-  2298		DEVICE_FLG(0x0644, 0x806b, /* TEAC UD-701 */
-  2299			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY |
-  2300			   QUIRK_FLAG_IFACE_DELAY | QUIRK_FLAG_FORCE_IFACE_RESET),
-  2301		DEVICE_FLG(0x0644, 0x807d, /* TEAC UD-507 */
-  2302			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY |
-  2303			   QUIRK_FLAG_IFACE_DELAY | QUIRK_FLAG_FORCE_IFACE_RESET),
-  2304		DEVICE_FLG(0x0644, 0x806c, /* Esoteric XD */
-  2305			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY |
-  2306			   QUIRK_FLAG_IFACE_DELAY | QUIRK_FLAG_FORCE_IFACE_RESET),
-  2307		DEVICE_FLG(0x0661, 0x0883, /* iBasso DC04 Ultra */
-  2308			   QUIRK_FLAG_DSD_RAW),
-  2309		DEVICE_FLG(0x0666, 0x0880, /* SPACETOUCH USB Audio */
-  2310			   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-  2311		DEVICE_FLG(0x06f8, 0xb000, /* Hercules DJ Console (Windows Edition) */
-  2312			   QUIRK_FLAG_IGNORE_CTL_ERROR),
-  2313		DEVICE_FLG(0x06f8, 0xd002, /* Hercules DJ Console (Macintosh Edition) */
-  2314			   QUIRK_FLAG_IGNORE_CTL_ERROR),
-  2315		DEVICE_FLG(0x0711, 0x5800, /* MCT Trigger 5 USB-to-HDMI */
-  2316			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2317		DEVICE_FLG(0x074d, 0x3553, /* Outlaw RR2150 (Micronas UAC3553B) */
-  2318			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2319		DEVICE_FLG(0x0763, 0x2030, /* M-Audio Fast Track C400 */
-  2320			   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2321		DEVICE_FLG(0x0763, 0x2031, /* M-Audio Fast Track C600 */
-  2322			   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2323		DEVICE_FLG(0x07fd, 0x000b, /* MOTU M Series 2nd hardware revision */
-  2324			   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2325		DEVICE_FLG(0x08bb, 0x2702, /* LineX FM Transmitter */
-  2326			   QUIRK_FLAG_IGNORE_CTL_ERROR),
-  2327		DEVICE_FLG(0x0951, 0x16ad, /* Kingston HyperX */
-  2328			   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2329		DEVICE_FLG(0x0b05, 0x18a6, /* ASUSTek Computer, Inc. */
-  2330			   QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
-  2331		DEVICE_FLG(0x0b0e, 0x0349, /* Jabra 550a */
-  2332			   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2333		DEVICE_FLG(0x0bda, 0x498a, /* Realtek Semiconductor Corp. */
-  2334			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
-  2335		DEVICE_FLG(0x0c45, 0x6340, /* Sonix HD USB Camera */
-  2336			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2337		DEVICE_FLG(0x0c45, 0x636b, /* Microdia JP001 USB Camera */
-  2338			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2339		DEVICE_FLG(0x0d8c, 0x000c, /* C-Media */
-  2340			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2341		DEVICE_FLG(0x0d8c, 0x0012, /* C-Media */
-  2342			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2343		DEVICE_FLG(0x0d8c, 0x0014, /* C-Media */
-  2344			   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2345		DEVICE_FLG(0x0e0b, 0xfa01, /* Feaulle Rainbow */
-  2346			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2347		DEVICE_FLG(0x0ecb, 0x205c, /* JBL Quantum610 Wireless */
-  2348			   QUIRK_FLAG_FIXED_RATE),
-  2349		DEVICE_FLG(0x0ecb, 0x2069, /* JBL Quantum810 Wireless */
-  2350			   QUIRK_FLAG_FIXED_RATE),
-  2351		DEVICE_FLG(0x0fd9, 0x0008, /* Hauppauge HVR-950Q */
-  2352			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2353		DEVICE_FLG(0x1038, 0x1294, /* SteelSeries Arctis Pro Wireless */
-  2354			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2355		DEVICE_FLG(0x1101, 0x0003, /* Audioengine D1 */
-  2356			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2357		DEVICE_FLG(0x12d1, 0x3a07, /* HUAWEI USB-C HEADSET */
-  2358			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE |
-  2359			   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-  2360		DEVICE_FLG(0x1224, 0x2a25, /* Jieli Technology USB PHY 2.0 */
-  2361			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
-  2362		DEVICE_FLG(0x1395, 0x740a, /* Sennheiser DECT */
-  2363			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2364		DEVICE_FLG(0x1397, 0x0507, /* Behringer UMC202HD */
-  2365			   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2366		DEVICE_FLG(0x1397, 0x0508, /* Behringer UMC204HD */
-  2367			   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2368		DEVICE_FLG(0x1397, 0x0509, /* Behringer UMC404HD */
-  2369			   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2370		DEVICE_FLG(0x13e5, 0x0001, /* Serato Phono */
-  2371			   QUIRK_FLAG_IGNORE_CTL_ERROR),
-  2372		DEVICE_FLG(0x152a, 0x880a, /* NeuralDSP Quad Cortex */
-  2373			   0), /* Doesn't have the vendor quirk which would otherwise apply */
-  2374		DEVICE_FLG(0x1532, 0x055e, /* Razer Nommo V2 X */
-  2375			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2376		DEVICE_FLG(0x154e, 0x1002, /* Denon DCD-1500RE */
-  2377			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
-  2378		DEVICE_FLG(0x154e, 0x1003, /* Denon DA-300USB */
-  2379			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
-  2380		DEVICE_FLG(0x154e, 0x3005, /* Marantz HD-DAC1 */
-  2381			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
-  2382		DEVICE_FLG(0x154e, 0x3006, /* Marantz SA-14S1 */
-  2383			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
-  2384		DEVICE_FLG(0x154e, 0x300b, /* Marantz SA-KI RUBY / SA-12 */
-  2385			   QUIRK_FLAG_DSD_RAW),
-  2386		DEVICE_FLG(0x154e, 0x500e, /* Denon DN-X1600 */
-  2387			   QUIRK_FLAG_IGNORE_CLOCK_SOURCE),
-  2388		DEVICE_FLG(0x1686, 0x00dd, /* Zoom R16/24 */
-  2389			   QUIRK_FLAG_TX_LENGTH | QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2390		DEVICE_FLG(0x16d0, 0x0ab1, /* PureAudio APA DAC */
-  2391			   QUIRK_FLAG_DSD_RAW),
-  2392		DEVICE_FLG(0x16d0, 0xeca1, /* PureAudio Lotus DAC5, DAC5 SE and DAC5 Pro */
-  2393			   QUIRK_FLAG_DSD_RAW),
-  2394		DEVICE_FLG(0x17aa, 0x1046, /* Lenovo ThinkStation P620 Rear Line-in, Line-out and Microphone */
-  2395			   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
-  2396		DEVICE_FLG(0x17aa, 0x104d, /* Lenovo ThinkStation P620 Internal Speaker + Front Headset */
-  2397			   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
-  2398		DEVICE_FLG(0x17ef, 0x3083, /* Lenovo TBT3 dock */
-  2399			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2400		DEVICE_FLG(0x1852, 0x5062, /* Luxman D-08u */
-  2401			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
-  2402		DEVICE_FLG(0x1852, 0x5065, /* Luxman DA-06 */
-  2403			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
-  2404		DEVICE_FLG(0x1901, 0x0191, /* GE B850V3 CP2114 audio interface */
-  2405			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2406		DEVICE_FLG(0x19f7, 0x0003, /* RODE NT-USB */
-  2407			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2408		DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
-  2409			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2410		DEVICE_FLG(0x1bcf, 0x2281, /* HD Webcam */
-  2411			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
-  2412		DEVICE_FLG(0x1bcf, 0x2283, /* NexiGo N930AF FHD Webcam */
-  2413			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
-  2414		DEVICE_FLG(0x2040, 0x7200, /* Hauppauge HVR-950Q */
-  2415			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2416		DEVICE_FLG(0x2040, 0x7201, /* Hauppauge HVR-950Q-MXL */
-  2417			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2418		DEVICE_FLG(0x2040, 0x7210, /* Hauppauge HVR-950Q */
-  2419			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2420		DEVICE_FLG(0x2040, 0x7211, /* Hauppauge HVR-950Q-MXL */
-  2421			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2422		DEVICE_FLG(0x2040, 0x7213, /* Hauppauge HVR-950Q */
-  2423			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2424		DEVICE_FLG(0x2040, 0x7217, /* Hauppauge HVR-950Q */
-  2425			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2426		DEVICE_FLG(0x2040, 0x721b, /* Hauppauge HVR-950Q */
-  2427			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2428		DEVICE_FLG(0x2040, 0x721e, /* Hauppauge HVR-950Q */
-  2429			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2430		DEVICE_FLG(0x2040, 0x721f, /* Hauppauge HVR-950Q */
-  2431			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2432		DEVICE_FLG(0x2040, 0x7240, /* Hauppauge HVR-850 */
-  2433			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2434		DEVICE_FLG(0x2040, 0x7260, /* Hauppauge HVR-950Q */
-  2435			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2436		DEVICE_FLG(0x2040, 0x7270, /* Hauppauge HVR-950Q */
-  2437			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2438		DEVICE_FLG(0x2040, 0x7280, /* Hauppauge HVR-950Q */
-  2439			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2440		DEVICE_FLG(0x2040, 0x7281, /* Hauppauge HVR-950Q-MXL */
-  2441			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2442		DEVICE_FLG(0x20b1, 0x2009, /* XMOS Ltd DIYINHK USB Audio 2.0 */
-  2443			   QUIRK_FLAG_SKIP_IMPLICIT_FB | QUIRK_FLAG_DSD_RAW),
-  2444		DEVICE_FLG(0x2040, 0x8200, /* Hauppauge Woodbury */
-  2445			   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-  2446		DEVICE_FLG(0x21b4, 0x0081, /* AudioQuest DragonFly */
-  2447			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2448		DEVICE_FLG(0x21b4, 0x0230, /* Ayre QB-9 Twenty */
-  2449			   QUIRK_FLAG_DSD_RAW),
-  2450		DEVICE_FLG(0x21b4, 0x0232, /* Ayre QX-5 Twenty */
-  2451			   QUIRK_FLAG_DSD_RAW),
-  2452		DEVICE_FLG(0x2522, 0x0007, /* LH Labs Geek Out HD Audio 1V5 */
-  2453			   QUIRK_FLAG_SET_IFACE_FIRST),
-  2454		DEVICE_FLG(0x262a, 0x9302, /* ddHiFi TC44C */
-  2455			   QUIRK_FLAG_DSD_RAW),
-  2456		DEVICE_FLG(0x2708, 0x0002, /* Audient iD14 */
-  2457			   QUIRK_FLAG_IGNORE_CTL_ERROR),
-  2458		DEVICE_FLG(0x2912, 0x30c8, /* Audioengine D1 */
-  2459			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2460		DEVICE_FLG(0x2a70, 0x1881, /* OnePlus Technology (Shenzhen) Co., Ltd. BE02T */
-  2461			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
-  2462		DEVICE_FLG(0x2b53, 0x0023, /* Fiero SC-01 (firmware v1.0.0 @ 48 kHz) */
-  2463			   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2464		DEVICE_FLG(0x2b53, 0x0024, /* Fiero SC-01 (firmware v1.0.0 @ 96 kHz) */
-  2465			   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2466		DEVICE_FLG(0x2b53, 0x0031, /* Fiero SC-01 (firmware v1.1.0) */
-  2467			   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2468		DEVICE_FLG(0x2b73, 0x0047, /* AlphaTheta EUPHONIA */
-  2469			   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-  2470		DEVICE_FLG(0x2d95, 0x8011, /* VIVO USB-C HEADSET */
-  2471			   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2472		DEVICE_FLG(0x2d95, 0x8021, /* VIVO USB-C-XE710 HEADSET */
-  2473			   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2474		DEVICE_FLG(0x2d99, 0x0026, /* HECATE G2 GAMING HEADSET */
-  2475			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2476		DEVICE_FLG(0x2fc6, 0xf06b, /* MOONDROP Moonriver2 Ti */
-  2477			   QUIRK_FLAG_CTL_MSG_DELAY),
-  2478		DEVICE_FLG(0x2fc6, 0xf0b7, /* iBasso DC07 Pro */
-  2479			   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2480		DEVICE_FLG(0x30be, 0x0101, /* Schiit Hel */
-  2481			   QUIRK_FLAG_IGNORE_CTL_ERROR),
-  2482		DEVICE_FLG(0x3255, 0x0000, /* Luxman D-10X */
-  2483			   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
-  2484		DEVICE_FLG(0x3302, 0x17c2, /* TTGK Technology USB-C Audio */
-  2485			   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-  2486		DEVICE_FLG(0x339b, 0x3a07, /* Synaptics HONOR USB-C HEADSET */
-  2487			   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-  2488		DEVICE_FLG(0x3443, 0x930d, /* NexiGo N930W 60fps Webcam */
-  2489			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
-  2490		DEVICE_FLG(0x413c, 0xa506, /* Dell AE515 sound bar */
-  2491			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2492		DEVICE_FLG(0x534d, 0x0021, /* MacroSilicon MS2100/MS2106 */
-  2493			   QUIRK_FLAG_ALIGN_TRANSFER),
-  2494		DEVICE_FLG(0x534d, 0x2109, /* MacroSilicon MS2109 */
-  2495			   QUIRK_FLAG_ALIGN_TRANSFER),
-  2496		DEVICE_FLG(0x84ef, 0x0082, /* Hotone Audio Pulze Mini */
-  2497			   QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL | QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL),
-  2498	
-  2499		/* Vendor and string descriptor matches */
-  2500		VENDOR_STRING_FLG(0x1235, /* Conflict with Focusrite Novation */
-  2501				  "MV-SILICON",
-  2502				  0), /* Stop matching */
-  2503	
-  2504		/* Vendor matches */
-  2505		VENDOR_FLG(0x045e, /* MS Lifecam */
-  2506			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2507		VENDOR_FLG(0x046d, /* Logitech */
-  2508			   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-  2509		VENDOR_FLG(0x047f, /* Plantronics */
-  2510			   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY),
-  2511		VENDOR_FLG(0x0644, /* TEAC Corp. */
-  2512			   QUIRK_FLAG_CTL_MSG_DELAY | QUIRK_FLAG_IFACE_DELAY),
-  2513		VENDOR_FLG(0x07fd, /* MOTU */
-  2514			   QUIRK_FLAG_VALIDATE_RATES),
-  2515		DEVICE_FLG(0x1235, 0x8006, 0), /* Focusrite Scarlett 2i2 1st Gen */
-  2516		DEVICE_FLG(0x1235, 0x800a, 0), /* Focusrite Scarlett 2i4 1st Gen */
-  2517		DEVICE_FLG(0x1235, 0x800c, 0), /* Focusrite Scarlett 18i20 1st Gen */
-  2518		DEVICE_FLG(0x1235, 0x8016, 0), /* Focusrite Scarlett 2i2 1st Gen */
-  2519		DEVICE_FLG(0x1235, 0x801c, 0), /* Focusrite Scarlett Solo 1st Gen */
-  2520		VENDOR_FLG(0x1235, /* Focusrite Novation */
-  2521			   QUIRK_FLAG_SKIP_CLOCK_SELECTOR |
-  2522			   QUIRK_FLAG_SKIP_IFACE_SETUP),
-  2523		VENDOR_FLG(0x1511, /* AURALiC */
-  2524			   QUIRK_FLAG_DSD_RAW),
-  2525		VENDOR_FLG(0x152a, /* Thesycon devices */
-  2526			   QUIRK_FLAG_DSD_RAW),
-  2527		VENDOR_FLG(0x18d1, /* iBasso devices */
-  2528			   QUIRK_FLAG_DSD_RAW),
-  2529		VENDOR_FLG(0x1de7, /* Phoenix Audio */
-  2530			   QUIRK_FLAG_GET_SAMPLE_RATE),
-  2531		VENDOR_FLG(0x20b1, /* XMOS based devices */
-  2532			   QUIRK_FLAG_DSD_RAW),
-  2533		VENDOR_FLG(0x21ed, /* Accuphase Laboratory */
-  2534			   QUIRK_FLAG_DSD_RAW),
-  2535		VENDOR_FLG(0x22d9, /* Oppo */
-  2536			   QUIRK_FLAG_DSD_RAW),
-  2537		VENDOR_FLG(0x23ba, /* Playback Design */
-  2538			   QUIRK_FLAG_CTL_MSG_DELAY | QUIRK_FLAG_IFACE_DELAY |
-  2539			   QUIRK_FLAG_DSD_RAW),
-  2540		VENDOR_FLG(0x25ce, /* Mytek devices */
-  2541			   QUIRK_FLAG_DSD_RAW),
-  2542		VENDOR_FLG(0x2622, /* IAG Limited devices */
-  2543			   QUIRK_FLAG_DSD_RAW),
-  2544		VENDOR_FLG(0x2772, /* Musical Fidelity devices */
-  2545			   QUIRK_FLAG_DSD_RAW),
-  2546		VENDOR_FLG(0x278b, /* Rotel? */
-  2547			   QUIRK_FLAG_DSD_RAW),
-  2548		VENDOR_FLG(0x292b, /* Gustard/Ess based devices */
-  2549			   QUIRK_FLAG_DSD_RAW),
-  2550		VENDOR_FLG(0x2972, /* FiiO devices */
-  2551			   QUIRK_FLAG_DSD_RAW),
-  2552		VENDOR_FLG(0x2ab6, /* T+A devices */
-  2553			   QUIRK_FLAG_DSD_RAW),
-  2554		VENDOR_FLG(0x2afd, /* McIntosh Laboratory, Inc. */
-  2555			   QUIRK_FLAG_DSD_RAW),
-  2556		VENDOR_FLG(0x2d87, /* Cayin device */
-  2557			   QUIRK_FLAG_DSD_RAW),
-  2558		VENDOR_FLG(0x2fc6, /* Comture-inc devices */
-  2559			   QUIRK_FLAG_DSD_RAW),
-  2560		VENDOR_FLG(0x3336, /* HEM devices */
-  2561			   QUIRK_FLAG_DSD_RAW),
-  2562		VENDOR_FLG(0x3353, /* Khadas devices */
-  2563			   QUIRK_FLAG_DSD_RAW),
-  2564		VENDOR_FLG(0x35f4, /* MSB Technology */
-  2565			   QUIRK_FLAG_DSD_RAW),
-  2566		VENDOR_FLG(0x3842, /* EVGA */
-  2567			   QUIRK_FLAG_DSD_RAW),
-  2568		VENDOR_FLG(0xc502, /* HiBy devices */
-  2569			   QUIRK_FLAG_DSD_RAW),
-  2570	
-  2571		{} /* terminator */
-  2572	};
-  2573	
+   375	
+   376	/*
+   377	 * Check whether a TASK_UNINTERRUPTIBLE does not get woken up for
+   378	 * a really long time. If that happens, print out a warning.
+   379	 */
+   380	static void check_hung_uninterruptible_tasks(unsigned long timeout)
+   381	{
+   382		int max_count = sysctl_hung_task_check_count;
+   383		unsigned long last_break = jiffies;
+   384		struct task_struct *g, *t;
+   385		unsigned long this_round_count;
+   386		int need_warning = sysctl_hung_task_warnings;
+   387		unsigned long si_mask = hung_task_si_mask;
+ > 388		bool dedup_enabled = IS_ENABLED(CONFIG_STACKTRACE) ? READ_ONCE(sysctl_hung_task_dedup) : 0;
+   389	
+   390		/*
+   391		 * If the system crashed already then all bets are off,
+   392		 * do not report extra hung tasks:
+   393		 */
+   394		if (test_taint(TAINT_DIE) || did_panic)
+   395			return;
+   396	
+   397		/*
+   398		 * Reset the de-duplicator hash table for this new detection round.
+   399		 * This prevents stale hashes from permanently suppressing.
+   400		 */
+   401		if (dedup_enabled)
+   402			hung_task_dedup_flush();
+   403	
+   404		this_round_count = 0;
+   405		rcu_read_lock();
+   406		for_each_process_thread(g, t) {
+   407			if (!max_count--)
+   408				goto unlock;
+   409			if (time_after(jiffies, last_break + HUNG_TASK_LOCK_BREAK)) {
+   410				if (!rcu_lock_break(g, t))
+   411					goto unlock;
+   412				last_break = jiffies;
+   413			}
+   414	
+   415			if (task_is_hung(t, timeout)) {
+   416				/*
+   417				 * Increment the global counter so that userspace could
+   418				 * start migrating tasks ASAP. But count the current
+   419				 * round separately because userspace could reset
+   420				 * the global counter at any time.
+   421				 */
+   422				atomic_long_inc(&sysctl_hung_task_detect_count);
+   423				this_round_count++;
+   424				hung_task_info(t, timeout, this_round_count, dedup_enabled);
+   425			}
+   426		}
+   427	 unlock:
+   428		rcu_read_unlock();
+   429	
+   430		if (!this_round_count)
+   431			return;
+   432	
+   433		if (need_warning || hung_task_call_panic) {
+   434			si_mask |= SYS_INFO_LOCKS;
+   435	
+   436			if (sysctl_hung_task_all_cpu_backtrace)
+   437				si_mask |= SYS_INFO_ALL_BT;
+   438		}
+   439	
+   440		sys_info(si_mask);
+   441	
+   442		if (hung_task_call_panic)
+   443			panic("hung_task: blocked tasks");
+   444	}
+   445	
 
 --
 0-DAY CI Kernel Test Service
