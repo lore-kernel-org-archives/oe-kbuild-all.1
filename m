@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B9623507B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Aug 2026 20:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D2223507B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Aug 2026 20:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786827331; cv=none; b=T7Fb2PFvisXzb7YKndoGNccb/riMO30D3ua6KgJ0q6cI+Nse5CxEqQbyCl6o0bteg4o2wqJ4KgilsSHPONP+7zNN3EkoTOh+nshbWQSsefqP13TmKkFxnJbvdLclm6gF7Xo48aUL+lyA7xSlG60MIf714ADHMqPj7wnlFGmoDlQ=
+	t=1786827390; cv=none; b=W9GZ2T5tQMlLrLFZzmJOPi2oHNHT8FnTWWCHymSuoK1cMbhF4uNpCPVXBksHHb2Ab0s2+cxKSq2a9NjQ7UJhB5NaADwb2RNkjVNDAvI+O2n2cdMPen43SsL9GVIBll2BPdVugpXZhPMWhjuL/mz+KHlBcZQ5SP+cD41y7v5wnDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786827331; c=relaxed/simple;
-	bh=KC+ANRdQ2FVC1HzPV7g/yeNw/06/xO5c3T1dnaZjBoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EVcNg2iIj+SIBKs2I6jKaArJ86Szf8ZTGd5gy+d+060JBRAdemHVAAM6BDwr3HBMzLka73vS7kBn+97YCbv6usuN135hhT3wSG1Qy8WgWGsA/h34eqV7OzEy2TfNMEnTlfw91/xaaDlUhAvEN//IopG2PWRqO6PeQnAdCS0ZImE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CbWbeu/w; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1786827390; c=relaxed/simple;
+	bh=8UHYhPJSRqWO54qe0aubvvVCGn1p5W0JGSrncZStSAE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jvJaXI3kNs3tEgt70J2lv5PRr42Kk3XlXznMNmWVmH9Njqpw5tIy28Ua+sUNxl8k1IXEzBCCMfvuxu1kikDInPTg+s5Eq+5fj07ZK6n4qI1cznikv2Cyw9S3VhjG1h0jHKplmMhmw9X5IIHevLZkNag+5pO8kYX5skWL+zXhGGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMfnTqHP; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CbWbeu/w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMfnTqHP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786827329; x=1818363329;
+  t=1786827389; x=1818363389;
   h=date:from:to:cc:subject:message-id;
-  bh=KC+ANRdQ2FVC1HzPV7g/yeNw/06/xO5c3T1dnaZjBoQ=;
-  b=CbWbeu/w8qwimq/AyJTqWzg8lCvU5HE5cQ2i1HORSHj6uMWqRKx7LR+C
-   jeyJeY53Zv6dAbBPASk4b5ILnkqx0/dpMgR0KNCk5aCJtmzKbDaIvP7xa
-   wt0TMyz3iNvsBeY3Ak7ZXzcatdzg7iJl1zw+DPqT//uK5KtzDNg+W+ILG
-   wmGS0dLm1FETwiLWUhvTUJe2Jh+tJgk7OQN+kIGxALZVHiO4Qjw6LSmc9
-   opc3ztEN+KPgv0v6B2iZEGW9c3OUNBX8cWOlJqqVj9JPQSdTrFd9Do+rI
-   4ihCti1at2b4+VjoD2vqq5D6+Dvyd6DJtOGgRYwyfnpthPD1Fu/JnfxDj
-   w==;
-X-CSE-ConnectionGUID: bRzZpoc4SH6UMPQHw4ZPYw==
-X-CSE-MsgGUID: J0hRIxtUQUS8sKHQ/a+FXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87220650"
+  bh=8UHYhPJSRqWO54qe0aubvvVCGn1p5W0JGSrncZStSAE=;
+  b=mMfnTqHPSxWUe3FfFu5v+H6eEnthGENZOo2F9Jz3etyW14xkb2CBexef
+   COosOZbdDEOZ/Ri0crB48GI5H4yz7ikYHdpXlbSrbfrekENPVbRRiuYg7
+   TdxLdnf4mNejXDuZJEC5BJ53H9Ydwvkc7u3RFDDFOPrTVzVtMSFr5IA4A
+   kg5sTWvNa1KXbO0qAj3kcIlolaPOx6QRtosa1jY+Ofulpg+QigZQqvwoo
+   siGNNPgIH5o3V2KiviLU7BczmMRakueQRBmj+0y4xaK8aAhlFQulm/qxW
+   9/KkyM+NlDc9zoG07PwAUr5YnWhJsm3tGjuMI1BlIQ/HFRcoH0BSvK2SN
+   Q==;
+X-CSE-ConnectionGUID: eFqiSIBvRBGqk3TRo09L0w==
+X-CSE-MsgGUID: zlYhUJfLQ2GNdQ8uB0NxsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87283133"
 X-IronPort-AV: E=Sophos;i="6.25,225,1779174000"; 
-   d="scan'208";a="87220650"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 13:55:29 -0700
-X-CSE-ConnectionGUID: MEr/8C2qTnCK0ttjc9BpGw==
-X-CSE-MsgGUID: 8ji2dVdDQGSEVKSqpONyOA==
+   d="scan'208";a="87283133"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 13:56:28 -0700
+X-CSE-ConnectionGUID: yUXaIOfPSG6OGHsVhLQRuQ==
+X-CSE-MsgGUID: fnh8x0qiSbSQkQsAB1ZStw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,225,1779174000"; 
-   d="scan'208";a="289342699"
+   d="scan'208";a="264572461"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Aug 2026 13:55:26 -0700
+  by orviesa007.jf.intel.com with ESMTP; 15 Aug 2026 13:56:26 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvLPX-00000000cTw-3XUS;
-	Sat, 15 Aug 2026 20:55:23 +0000
-Date: Sun, 16 Aug 2026 04:55:04 +0800
+	id 1wvLQW-00000000cU2-00Dx;
+	Sat, 15 Aug 2026 20:56:24 +0000
+Date: Sun, 16 Aug 2026 04:56:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- arm@kernel.org
-Subject: [soc:board-remove 114/217]
- drivers/regulator/da9055-regulator.c:417:33: warning: parameter 'id' set but
- not used
-Message-ID: <202608160430.mij1LduH-lkp@intel.com>
+To: Andy Chiu <tchiu@tenstorrent.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
+ "Yong-Xuan Wang" <yongxuan.wang@sifive.com>
+Subject: [linux-next:master 14640/15435] arch/riscv/kvm/vcpu.c:650:9:
+ error: implicit declaration of function 'get_cpu_vector_context'
+Message-ID: <202608160725.zNKb2ldB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,260 +60,341 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
-head:   057394422bc04420585b2790b230d8a1f350ace8
-commit: 158b19afd623da6a93d8ac59dd4aeefe48fa2085 [114/217] mfd: da9055: remove pdata based probing
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260816/202608160430.mij1LduH-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160430.mij1LduH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4477a78374a57c3809b172ad30cceabda48c47c6
+commit: b5060a4aa33d7d78a8c1837ab08ef0c81ea96650 [14640/15435] RISC-V: KVM: fix vcpu vector context handling for kernel-mode vector
+config: riscv-randconfig-001 (https://download.01.org/0day-ci/archive/20260816/202608160725.zNKb2ldB-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160725.zNKb2ldB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608160430.mij1LduH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608160725.zNKb2ldB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/regulator/da9055-regulator.c:77:26: error: field 'reg_rselect' has incomplete type
-      77 |         enum gpio_select reg_rselect;
-         |                          ^~~~~~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_set_voltage_sel':
-   drivers/regulator/da9055-regulator.c:208:39: error: 'NO_GPIO' undeclared (first use in this function)
-     208 |         if (regulator->reg_rselect == NO_GPIO) {
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c:208:39: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_set_suspend_voltage':
-   drivers/regulator/da9055-regulator.c:248:39: error: 'NO_GPIO' undeclared (first use in this function)
-     248 |         if (regulator->reg_rselect == NO_GPIO) {
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_enable':
-   drivers/regulator/da9055-regulator.c:269:39: error: 'NO_GPIO' undeclared (first use in this function)
-     269 |         if (regulator->reg_rselect == NO_GPIO)
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_disable':
-   drivers/regulator/da9055-regulator.c:282:39: error: 'NO_GPIO' undeclared (first use in this function)
-     282 |         if (regulator->reg_rselect == NO_GPIO)
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_gpio_init':
-   drivers/regulator/da9055-regulator.c:466:42: error: 'pdata' undeclared (first use in this function); did you mean '_data'?
-     466 |                 regulator->reg_rselect = pdata->reg_rsel[id];
-         |                                          ^~~~~
-         |                                          _data
->> drivers/regulator/da9055-regulator.c:417:33: warning: parameter 'id' set but not used [-Wunused-but-set-parameter=]
-     417 |                             int id)
-         |                             ~~~~^~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kcsan-checks.h:14,
-                    from include/asm-generic/barrier.h:17,
-                    from arch/alpha/include/asm/barrier.h:21,
-                    from arch/alpha/include/asm/rwonce.h:10,
-                    from include/linux/compiler.h:369,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from drivers/regulator/da9055-regulator.c:9:
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_probe':
-   include/linux/stddef.h:8:14: error: passing argument 4 of 'da9055_gpio_init' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/regulator/da9055-regulator.c:534:64: note: in expansion of macro 'NULL'
-     534 |         ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
-         |                                                                ^~~~
-   drivers/regulator/da9055-regulator.c:417:33: note: expected 'int' but argument is of type 'void *'
-     417 |                             int id)
-         |                             ~~~~^~
-   drivers/regulator/da9055-regulator.c:534:15: error: too many arguments to function 'da9055_gpio_init'; expected 4, have 5
-     534 |         ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
-         |               ^~~~~~~~~~~~~~~~                                       ~~~~~~~~
-   drivers/regulator/da9055-regulator.c:414:12: note: declared here
-     414 | static int da9055_gpio_init(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_disable':
->> drivers/regulator/da9055-regulator.c:287:1: warning: control reaches end of non-void function [-Wreturn-type]
-     287 | }
-         | ^
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_enable':
-   drivers/regulator/da9055-regulator.c:274:1: warning: control reaches end of non-void function [-Wreturn-type]
-     274 | }
-         | ^
+   arch/riscv/kvm/vcpu.c: In function 'kvm_arch_vcpu_load':
+>> arch/riscv/kvm/vcpu.c:650:9: error: implicit declaration of function 'get_cpu_vector_context' [-Werror=implicit-function-declaration]
+     650 |         get_cpu_vector_context();
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu.c:654:9: error: implicit declaration of function 'put_cpu_vector_context' [-Werror=implicit-function-declaration]
+     654 |         put_cpu_vector_context();
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kvm/vcpu.c: In function 'kvm_riscv_vcpu_enter_exit':
+>> arch/riscv/kvm/vcpu.c:826:17: error: implicit declaration of function '__kvm_riscv_vector_restore'; did you mean 'kvm_riscv_vcpu_timer_restore'? [-Werror=implicit-function-declaration]
+     826 |                 __kvm_riscv_vector_restore(gcntx);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 kvm_riscv_vcpu_timer_restore
+   cc1: some warnings being treated as errors
 
 
-vim +/id +417 drivers/regulator/da9055-regulator.c
+vim +/get_cpu_vector_context +650 arch/riscv/kvm/vcpu.c
 
-   275	
-   276	static int da9055_suspend_disable(struct regulator_dev *rdev)
-   277	{
-   278		struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-   279		const struct da9055_regulator_info *info = regulator->info;
-   280	
-   281		/* Diselect register set B. */
-   282		if (regulator->reg_rselect == NO_GPIO)
-   283			return da9055_reg_update(regulator->da9055, info->conf.reg,
-   284						info->conf.sel_mask, DA9055_SEL_REG_A);
-   285		else
-   286			return 0;
- > 287	}
-   288	
-   289	static const struct regulator_ops da9055_buck_ops = {
-   290		.get_mode = da9055_buck_get_mode,
-   291		.set_mode = da9055_buck_set_mode,
-   292	
-   293		.get_current_limit = regulator_get_current_limit_regmap,
-   294		.set_current_limit = regulator_set_current_limit_regmap,
-   295	
-   296		.get_voltage_sel = da9055_regulator_get_voltage_sel,
-   297		.set_voltage_sel = da9055_regulator_set_voltage_sel,
-   298		.list_voltage = regulator_list_voltage_linear,
-   299		.map_voltage = regulator_map_voltage_linear,
-   300		.is_enabled = regulator_is_enabled_regmap,
-   301		.enable = regulator_enable_regmap,
-   302		.disable = regulator_disable_regmap,
-   303	
-   304		.set_suspend_voltage = da9055_regulator_set_suspend_voltage,
-   305		.set_suspend_enable = da9055_suspend_enable,
-   306		.set_suspend_disable = da9055_suspend_disable,
-   307		.set_suspend_mode = da9055_buck_set_mode,
-   308	};
-   309	
-   310	static const struct regulator_ops da9055_ldo_ops = {
-   311		.get_mode = da9055_ldo_get_mode,
-   312		.set_mode = da9055_ldo_set_mode,
-   313	
-   314		.get_voltage_sel = da9055_regulator_get_voltage_sel,
-   315		.set_voltage_sel = da9055_regulator_set_voltage_sel,
-   316		.list_voltage = regulator_list_voltage_linear,
-   317		.map_voltage = regulator_map_voltage_linear,
-   318		.is_enabled = regulator_is_enabled_regmap,
-   319		.enable = regulator_enable_regmap,
-   320		.disable = regulator_disable_regmap,
-   321	
-   322		.set_suspend_voltage = da9055_regulator_set_suspend_voltage,
-   323		.set_suspend_enable = da9055_suspend_enable,
-   324		.set_suspend_disable = da9055_suspend_disable,
-   325		.set_suspend_mode = da9055_ldo_set_mode,
-   326	
-   327	};
-   328	
-   329	#define DA9055_LDO(_id, step, min, max, vbits, voffset) \
-   330	{\
-   331		.reg_desc = {\
-   332			.name = #_id,\
-   333			.of_match = of_match_ptr(#_id),\
-   334			.regulators_node = of_match_ptr("regulators"),\
-   335			.ops = &da9055_ldo_ops,\
-   336			.type = REGULATOR_VOLTAGE,\
-   337			.id = DA9055_ID_##_id,\
-   338			.n_voltages = (max - min) / step + 1 + (voffset), \
-   339			.enable_reg = DA9055_REG_BCORE_CONT + DA9055_ID_##_id, \
-   340			.enable_mask = 1, \
-   341			.min_uV = (min) * 1000,\
-   342			.uV_step = (step) * 1000,\
-   343			.linear_min_sel = (voffset),\
-   344			.owner = THIS_MODULE,\
-   345		},\
-   346		.conf = {\
-   347			.reg = DA9055_REG_BCORE_CONT + DA9055_ID_##_id, \
-   348			.sel_mask = (1 << 4),\
-   349			.en_mask = 1,\
-   350		},\
-   351		.volt = {\
-   352			.reg_a = DA9055_REG_VBCORE_A + DA9055_ID_##_id, \
-   353			.reg_b = DA9055_REG_VBCORE_B + DA9055_ID_##_id, \
-   354			.sl_shift = 7,\
-   355			.v_mask = (1 << (vbits)) - 1,\
-   356		},\
-   357	}
-   358	
-   359	#define DA9055_BUCK(_id, step, min, max, vbits, voffset, mbits, sbits) \
-   360	{\
-   361		.reg_desc = {\
-   362			.name = #_id,\
-   363			.of_match = of_match_ptr(#_id),\
-   364			.regulators_node = of_match_ptr("regulators"),\
-   365			.ops = &da9055_buck_ops,\
-   366			.type = REGULATOR_VOLTAGE,\
-   367			.id = DA9055_ID_##_id,\
-   368			.n_voltages = (max - min) / step + 1 + (voffset), \
-   369			.enable_reg = DA9055_REG_BCORE_CONT + DA9055_ID_##_id, \
-   370			.enable_mask = 1,\
-   371			.min_uV = (min) * 1000,\
-   372			.uV_step = (step) * 1000,\
-   373			.linear_min_sel = (voffset),\
-   374			.owner = THIS_MODULE,\
-   375			.curr_table = da9055_current_limits,\
-   376			.n_current_limits = ARRAY_SIZE(da9055_current_limits),\
-   377			.csel_reg = DA9055_REG_BUCK_LIM,\
-   378			.csel_mask = (mbits),\
-   379		},\
-   380		.conf = {\
-   381			.reg = DA9055_REG_BCORE_CONT + DA9055_ID_##_id, \
-   382			.sel_mask = (1 << 4),\
-   383			.en_mask = 1,\
-   384		},\
-   385		.volt = {\
-   386			.reg_a = DA9055_REG_VBCORE_A + DA9055_ID_##_id, \
-   387			.reg_b = DA9055_REG_VBCORE_B + DA9055_ID_##_id, \
-   388			.sl_shift = 7,\
-   389			.v_mask = (1 << (vbits)) - 1,\
-   390		},\
-   391		.mode = {\
-   392			.reg = DA9055_REG_BCORE_MODE,\
-   393			.mask = (mbits),\
-   394			.shift = (sbits),\
-   395		},\
-   396	}
-   397	
-   398	static const struct da9055_regulator_info da9055_regulator_info[] = {
-   399		DA9055_BUCK(BUCK1, 25, 725, 2075, 6, 9, 0xc, 2),
-   400		DA9055_BUCK(BUCK2, 25, 925, 2500, 6, 0, 3, 0),
-   401		DA9055_LDO(LDO1, 50, 900, 3300, 6, 2),
-   402		DA9055_LDO(LDO2, 50, 900, 3300, 6, 3),
-   403		DA9055_LDO(LDO3, 50, 900, 3300, 6, 2),
-   404		DA9055_LDO(LDO4, 50, 900, 3300, 6, 2),
-   405		DA9055_LDO(LDO5, 50, 900, 2750, 6, 2),
-   406		DA9055_LDO(LDO6, 20, 900, 3300, 7, 0),
-   407	};
-   408	
-   409	/*
-   410	 * Configures regulator to be controlled either through GPIO 1 or 2.
-   411	 * GPIO can control regulator state and/or select the regulator register
-   412	 * set A/B for voltage ramping.
-   413	 */
-   414	static int da9055_gpio_init(struct device *dev,
-   415				    struct da9055_regulator *regulator,
-   416				    struct regulator_config *config,
- > 417				    int id)
-   418	{
-   419		const struct da9055_regulator_info *info = regulator->info;
-   420		struct gpio_desc *ren;
-   421		struct gpio_desc *ena;
-   422		struct gpio_desc *rsel;
-   423		int ret = 0;
-   424	
-   425		/* Look for "regulator-enable-gpios" GPIOs in the regulator node */
-   426		ren = devm_gpiod_get_optional(dev, "regulator-enable", GPIOD_IN);
-   427		if (IS_ERR(ren))
-   428			return PTR_ERR(ren);
-   429	
-   430		if (ren) {
-   431			/* This GPIO is not optional at this point */
-   432			ena = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
-   433			if (IS_ERR(ena))
-   434				return PTR_ERR(ena);
-   435	
-   436			config->ena_gpiod = ena;
-   437	
-   438			/*
-   439			 * GPI pin is muxed with regulator to control the
-   440			 * regulator state.
-   441			 */
-   442			gpiod_set_consumer_name(ren, "DA9055 ren GPI");
-   443	
+   588	
+   589	void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+   590	{
+   591		void *nsh;
+   592		struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
+   593	
+   594		/*
+   595		 * If VCPU is being reloaded on the same physical CPU and no
+   596		 * other KVM VCPU has run on this CPU since it was last put,
+   597		 * we can skip the expensive CSR and HGATP writes.
+   598		 *
+   599		 * Note: If a new CSR is added to this fast-path skip block,
+   600		 * make sure that 'csr_dirty' is set to true in any
+   601		 * ioctl (e.g., KVM_SET_ONE_REG) that modifies it.
+   602		 */
+   603		if (vcpu != __this_cpu_read(kvm_former_vcpu))
+   604			__this_cpu_write(kvm_former_vcpu, vcpu);
+   605		else if (vcpu->arch.last_exit_cpu == cpu && !vcpu->arch.csr_dirty)
+   606			goto csr_restore_done;
+   607	
+   608		vcpu->arch.csr_dirty = false;
+   609	
+   610		/*
+   611		 * Load VCPU config CSRs before other CSRs because
+   612		 * the read/write behaviour of certain CSRs change
+   613		 * based on VCPU config CSRs.
+   614		 */
+   615		kvm_riscv_vcpu_config_load(vcpu);
+   616	
+   617		if (kvm_riscv_nacl_sync_csr_available()) {
+   618			nsh = nacl_shmem();
+   619			nacl_csr_write(nsh, CSR_VSSTATUS, csr->vsstatus);
+   620			nacl_csr_write(nsh, CSR_VSIE, csr->vsie);
+   621			nacl_csr_write(nsh, CSR_VSTVEC, csr->vstvec);
+   622			nacl_csr_write(nsh, CSR_VSSCRATCH, csr->vsscratch);
+   623			nacl_csr_write(nsh, CSR_VSEPC, csr->vsepc);
+   624			nacl_csr_write(nsh, CSR_VSCAUSE, csr->vscause);
+   625			nacl_csr_write(nsh, CSR_VSTVAL, csr->vstval);
+   626			nacl_csr_write(nsh, CSR_HVIP, csr->hvip);
+   627			nacl_csr_write(nsh, CSR_VSATP, csr->vsatp);
+   628		} else {
+   629			csr_write(CSR_VSSTATUS, csr->vsstatus);
+   630			csr_write(CSR_VSIE, csr->vsie);
+   631			csr_write(CSR_VSTVEC, csr->vstvec);
+   632			csr_write(CSR_VSSCRATCH, csr->vsscratch);
+   633			csr_write(CSR_VSEPC, csr->vsepc);
+   634			csr_write(CSR_VSCAUSE, csr->vscause);
+   635			csr_write(CSR_VSTVAL, csr->vstval);
+   636			csr_write(CSR_HVIP, csr->hvip);
+   637			csr_write(CSR_VSATP, csr->vsatp);
+   638		}
+   639	
+   640		kvm_riscv_mmu_update_hgatp(vcpu);
+   641	
+   642		kvm_riscv_vcpu_aia_load(vcpu, cpu);
+   643	
+   644	csr_restore_done:
+   645		kvm_riscv_vcpu_timer_restore(vcpu);
+   646	
+   647		kvm_riscv_vcpu_host_fp_save(&vcpu->arch.host_context);
+   648		kvm_riscv_vcpu_guest_fp_restore(&vcpu->arch.guest_context,
+   649						vcpu->arch.isa);
+ > 650		get_cpu_vector_context();
+   651		kvm_riscv_vcpu_host_vector_save(&vcpu->arch.host_context);
+   652		kvm_riscv_vcpu_guest_vector_restore(&vcpu->arch.guest_context,
+   653						    vcpu->arch.isa);
+ > 654		put_cpu_vector_context();
+   655	
+   656		kvm_make_request(KVM_REQ_STEAL_UPDATE, vcpu);
+   657	
+   658		vcpu->cpu = cpu;
+   659	}
+   660	
+   661	void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
+   662	{
+   663		void *nsh;
+   664		struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
+   665	
+   666		vcpu->cpu = -1;
+   667	
+   668		kvm_riscv_vcpu_aia_put(vcpu);
+   669	
+   670		kvm_riscv_vcpu_guest_fp_save(&vcpu->arch.guest_context,
+   671					     vcpu->arch.isa);
+   672		kvm_riscv_vcpu_host_fp_restore(&vcpu->arch.host_context);
+   673	
+   674		kvm_riscv_vcpu_timer_save(vcpu);
+   675		get_cpu_vector_context();
+   676		kvm_riscv_vcpu_guest_vector_save(&vcpu->arch.guest_context,
+   677						 vcpu->arch.isa);
+   678		kvm_riscv_vcpu_host_vector_restore(&vcpu->arch.host_context);
+   679		put_cpu_vector_context();
+   680	
+   681		if (kvm_riscv_nacl_available()) {
+   682			nsh = nacl_shmem();
+   683			csr->vsstatus = nacl_csr_read(nsh, CSR_VSSTATUS);
+   684			csr->vsie = nacl_csr_read(nsh, CSR_VSIE);
+   685			csr->vstvec = nacl_csr_read(nsh, CSR_VSTVEC);
+   686			csr->vsscratch = nacl_csr_read(nsh, CSR_VSSCRATCH);
+   687			csr->vsepc = nacl_csr_read(nsh, CSR_VSEPC);
+   688			csr->vscause = nacl_csr_read(nsh, CSR_VSCAUSE);
+   689			csr->vstval = nacl_csr_read(nsh, CSR_VSTVAL);
+   690			csr->hvip = nacl_csr_read(nsh, CSR_HVIP);
+   691			csr->vsatp = nacl_csr_read(nsh, CSR_VSATP);
+   692		} else {
+   693			csr->vsstatus = csr_read(CSR_VSSTATUS);
+   694			csr->vsie = csr_read(CSR_VSIE);
+   695			csr->vstvec = csr_read(CSR_VSTVEC);
+   696			csr->vsscratch = csr_read(CSR_VSSCRATCH);
+   697			csr->vsepc = csr_read(CSR_VSEPC);
+   698			csr->vscause = csr_read(CSR_VSCAUSE);
+   699			csr->vstval = csr_read(CSR_VSTVAL);
+   700			csr->hvip = csr_read(CSR_HVIP);
+   701			csr->vsatp = csr_read(CSR_VSATP);
+   702		}
+   703	}
+   704	
+   705	/**
+   706	 * kvm_riscv_check_vcpu_requests - check and handle pending vCPU requests
+   707	 * @vcpu:	the VCPU pointer
+   708	 *
+   709	 * Return: 1 if we should enter the guest
+   710	 *	    0 if we should exit to userspace
+   711	 */
+   712	static int kvm_riscv_check_vcpu_requests(struct kvm_vcpu *vcpu)
+   713	{
+   714		struct rcuwait *wait = kvm_arch_vcpu_get_wait(vcpu);
+   715	
+   716		if (kvm_request_pending(vcpu)) {
+   717			if (kvm_check_request(KVM_REQ_SLEEP, vcpu)) {
+   718				kvm_vcpu_srcu_read_unlock(vcpu);
+   719				rcuwait_wait_event(wait,
+   720					(!kvm_riscv_vcpu_stopped(vcpu)) && (!vcpu->arch.pause),
+   721					TASK_INTERRUPTIBLE);
+   722				kvm_vcpu_srcu_read_lock(vcpu);
+   723	
+   724				if (kvm_riscv_vcpu_stopped(vcpu) || vcpu->arch.pause) {
+   725					/*
+   726					 * Awaken to handle a signal, request to
+   727					 * sleep again later.
+   728					 */
+   729					kvm_make_request(KVM_REQ_SLEEP, vcpu);
+   730				}
+   731			}
+   732	
+   733			if (kvm_check_request(KVM_REQ_VCPU_RESET, vcpu))
+   734				kvm_riscv_reset_vcpu(vcpu, true);
+   735	
+   736			if (kvm_check_request(KVM_REQ_UPDATE_HGATP, vcpu))
+   737				kvm_riscv_mmu_update_hgatp(vcpu);
+   738	
+   739			if (kvm_check_request(KVM_REQ_FENCE_I, vcpu))
+   740				kvm_riscv_fence_i_process(vcpu);
+   741	
+   742			if (kvm_check_request(KVM_REQ_TLB_FLUSH, vcpu))
+   743				kvm_riscv_tlb_flush_process(vcpu);
+   744	
+   745			if (kvm_check_request(KVM_REQ_HFENCE_VVMA_ALL, vcpu))
+   746				kvm_riscv_hfence_vvma_all_process(vcpu);
+   747	
+   748			if (kvm_check_request(KVM_REQ_HFENCE, vcpu))
+   749				kvm_riscv_hfence_process(vcpu);
+   750	
+   751			if (kvm_check_request(KVM_REQ_STEAL_UPDATE, vcpu))
+   752				kvm_riscv_vcpu_record_steal_time(vcpu);
+   753	
+   754			if (kvm_dirty_ring_check_request(vcpu))
+   755				return 0;
+   756		}
+   757	
+   758		return 1;
+   759	}
+   760	
+   761	static void kvm_riscv_update_hvip(struct kvm_vcpu *vcpu)
+   762	{
+   763		struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
+   764	
+   765		ncsr_write(CSR_HVIP, csr->hvip);
+   766		kvm_riscv_vcpu_aia_update_hvip(vcpu);
+   767	}
+   768	
+   769	static __always_inline void kvm_riscv_vcpu_swap_in_guest_state(struct kvm_vcpu *vcpu)
+   770	{
+   771		struct kvm_vcpu_zicfiss_csr *zicficsr = &vcpu->arch.zicfiss_csr;
+   772		struct kvm_vcpu_smstateen_csr *smcsr = &vcpu->arch.smstateen_csr;
+   773		struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
+   774	
+   775		vcpu->arch.host_scounteren = csr_swap(CSR_SCOUNTEREN, csr->scounteren);
+   776		vcpu->arch.host_senvcfg = csr_swap(CSR_SENVCFG, csr->senvcfg);
+   777		if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SMSTATEEN))
+   778			vcpu->arch.host_sstateen0 = csr_swap(CSR_SSTATEEN0, smcsr->sstateen0);
+   779		if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICFISS))
+   780			csr_write(CSR_SSP, zicficsr->ssp);
+   781	}
+   782	
+   783	static __always_inline void kvm_riscv_vcpu_swap_in_host_state(struct kvm_vcpu *vcpu)
+   784	{
+   785		struct kvm_vcpu_zicfiss_csr *zicficsr = &vcpu->arch.zicfiss_csr;
+   786		struct kvm_vcpu_smstateen_csr *smcsr = &vcpu->arch.smstateen_csr;
+   787		struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
+   788	
+   789		csr->scounteren = csr_swap(CSR_SCOUNTEREN, vcpu->arch.host_scounteren);
+   790		csr->senvcfg = csr_swap(CSR_SENVCFG, vcpu->arch.host_senvcfg);
+   791		if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SMSTATEEN))
+   792			smcsr->sstateen0 = csr_swap(CSR_SSTATEEN0, vcpu->arch.host_sstateen0);
+   793		if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICFISS))
+   794			zicficsr->ssp = csr_swap(CSR_SSP, 0);
+   795	}
+   796	
+   797	/*
+   798	 * Actually run the vCPU, entering an RCU extended quiescent state (EQS) while
+   799	 * the vCPU is running.
+   800	 *
+   801	 * This must be noinstr as instrumentation may make use of RCU, and this is not
+   802	 * safe during the EQS.
+   803	 */
+   804	static void noinstr kvm_riscv_vcpu_enter_exit(struct kvm_vcpu *vcpu,
+   805						      struct kvm_cpu_trap *trap)
+   806	{
+   807		void *nsh;
+   808		struct kvm_cpu_context *gcntx = &vcpu->arch.guest_context;
+   809		struct kvm_cpu_context *hcntx = &vcpu->arch.host_context;
+   810	
+   811		/*
+   812		 * We save trap CSRs (such as SEPC, SCAUSE, STVAL, HTVAL, and
+   813		 * HTINST) here because we do local_irq_enable() after this
+   814		 * function in kvm_arch_vcpu_ioctl_run() which can result in
+   815		 * an interrupt immediately after local_irq_enable() and can
+   816		 * potentially change trap CSRs.
+   817		 */
+   818	
+   819		kvm_riscv_vcpu_swap_in_guest_state(vcpu);
+   820		guest_state_enter_irqoff();
+   821	
+   822		/* sstatus.VS != SR_VS_OFF is guaranteed when NEED_RESTORE is set */
+   823		if (current->thread.riscv_v_flags & RISCV_V_VCPU_NEED_RESTORE) {
+   824			current->thread.riscv_v_flags &= ~RISCV_V_VCPU_NEED_RESTORE;
+   825			current->thread.riscv_v_flags |= RISCV_V_VCPU_CTX;
+ > 826			__kvm_riscv_vector_restore(gcntx);
+   827			gcntx->sstatus = (gcntx->sstatus & ~SR_VS) | SR_VS_CLEAN;
+   828		}
+   829	
+   830		if (kvm_riscv_nacl_sync_sret_available()) {
+   831			nsh = nacl_shmem();
+   832	
+   833			if (kvm_riscv_nacl_autoswap_csr_available()) {
+   834				hcntx->hstatus =
+   835					nacl_csr_read(nsh, CSR_HSTATUS);
+   836				nacl_scratch_write_long(nsh,
+   837							SBI_NACL_SHMEM_AUTOSWAP_OFFSET +
+   838							SBI_NACL_SHMEM_AUTOSWAP_HSTATUS,
+   839							gcntx->hstatus);
+   840				nacl_scratch_write_long(nsh,
+   841							SBI_NACL_SHMEM_AUTOSWAP_OFFSET,
+   842							SBI_NACL_SHMEM_AUTOSWAP_FLAG_HSTATUS);
+   843			} else if (kvm_riscv_nacl_sync_csr_available()) {
+   844				hcntx->hstatus = nacl_csr_swap(nsh,
+   845							       CSR_HSTATUS, gcntx->hstatus);
+   846			} else {
+   847				hcntx->hstatus = csr_swap(CSR_HSTATUS, gcntx->hstatus);
+   848			}
+   849	
+   850			nacl_scratch_write_longs(nsh,
+   851						 SBI_NACL_SHMEM_SRET_OFFSET +
+   852						 SBI_NACL_SHMEM_SRET_X(1),
+   853						 &gcntx->ra,
+   854						 SBI_NACL_SHMEM_SRET_X_LAST);
+   855	
+   856			__kvm_riscv_nacl_switch_to(&vcpu->arch, SBI_EXT_NACL,
+   857						   SBI_EXT_NACL_SYNC_SRET);
+   858	
+   859			if (kvm_riscv_nacl_autoswap_csr_available()) {
+   860				nacl_scratch_write_long(nsh,
+   861							SBI_NACL_SHMEM_AUTOSWAP_OFFSET,
+   862							0);
+   863				gcntx->hstatus = nacl_scratch_read_long(nsh,
+   864									SBI_NACL_SHMEM_AUTOSWAP_OFFSET +
+   865									SBI_NACL_SHMEM_AUTOSWAP_HSTATUS);
+   866			} else {
+   867				gcntx->hstatus = csr_swap(CSR_HSTATUS, hcntx->hstatus);
+   868			}
+   869	
+   870			trap->htval = nacl_csr_read(nsh, CSR_HTVAL);
+   871			trap->htinst = nacl_csr_read(nsh, CSR_HTINST);
+   872		} else {
+   873			hcntx->hstatus = csr_swap(CSR_HSTATUS, gcntx->hstatus);
+   874	
+   875			__kvm_riscv_switch_to(&vcpu->arch);
+   876	
+   877			gcntx->hstatus = csr_swap(CSR_HSTATUS, hcntx->hstatus);
+   878	
+   879			trap->htval = csr_read(CSR_HTVAL);
+   880			trap->htinst = csr_read(CSR_HTINST);
+   881		}
+   882	
+   883		trap->sepc = gcntx->sepc;
+   884		trap->scause = csr_read(CSR_SCAUSE);
+   885		trap->stval = csr_read(CSR_STVAL);
+   886	
+   887		vcpu->arch.last_exit_cpu = vcpu->cpu;
+   888		guest_state_exit_irqoff();
+   889		kvm_riscv_vcpu_swap_in_host_state(vcpu);
+   890	}
+   891	
 
 --
 0-DAY CI Kernel Test Service
