@@ -1,51 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715E22D594F;
-	Sat, 15 Aug 2026 09:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786787290; cv=none; b=qhQzTujmzz3a9rC6WWdzLLohMenafJ7TgUdJyQ8p78MdUd+DijU33p1cH3JaatrR57zVpze7VYOsM2bXfHtNkCXy9rt7aPQsajEkmiBj+amG/hv8TLtLFyk3H5ZbPo1mtLL6rFWhpmcwP7Qjb7TzhnJyPJjEV1LAa1UW6+cJ14g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786787290; c=relaxed/simple;
-	bh=Y19gfHfFvRjVYjUQZUipBAp6c8/xserdE4PmyyXMOXk=;
-	h=Date:Message-ID:From:To:Cc:In-Reply-To:References:Subject; b=fIMc6B5k7PlMwqdMYYHWNoW3E1yBHit3Tr9d6PldhIsxRcHqIhh9HxSzhibNPNBq4vig30U6RhqyOXeVpZn0yXrzchP9X2XcVAT44JOMsfdoLzC5okvdl8fcqJhmD18JxnIvFH6mngOCeEvIYNXVvv1vJHFeLtmWVQVyOkHzlu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EV3XnTT/; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF161EB5CE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Aug 2026 10:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.164
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786788541; cv=pass; b=QESsx40PnVCDUcRT5VJSfvgEdc368suw0D9nlrnM+MOHrN81/MyS8I+nndEV753/Cx2RcKzK1tYIFfC42dx50nzlg8d2BqQtGB9eOshmrG6UTPHcGpUqMbWiNkYlmLxV+7yhFBWnY0NRoaKs7PlliBafeuODAsAu11RKWXEj+P4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786788541; c=relaxed/simple;
+	bh=BhNuSnAetHUn+pD6fSrIQcqL4AtS6IYVRpBYR7EFvKs=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=ku4THNqlMUTLSlUODLF3XxwtFo0VbApUS6r3AOs5oV292qW+54uzidODYh25lgBq3HKraD23IB/Tik1Om7uqT4AmW4vvScLM/PcmOCmA5/U1y2Rfu5uwjnU9h2yI08g1f8NXhN4yS+DS/842vqoiJbHSd9juwOptMxYVvIUwWKY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de; spf=none smtp.mailfrom=xenosoft.de; dkim=pass (2048-bit key) header.d=xenosoft.de header.i=@xenosoft.de header.b=eI2bi5Gc; dkim=permerror (0-bit key) header.d=xenosoft.de header.i=@xenosoft.de header.b=3iSI2cFO; arc=pass smtp.client-ip=81.169.146.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=xenosoft.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EV3XnTT/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16B11F000E9;
-	Sat, 15 Aug 2026 09:48:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786787289;
-	bh=286DKP7EYWnggjEkXb9NUKoDBTmGKiRd8QyJHJItIKg=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=EV3XnTT/g3Kl++mDtAy8GOZ7N1BklG9lN5W/Aecx80cWP7laCxxDoYYp1Z3LXfS/R
-	 lMa7V6Ef/VXN8/mZpNWIvbASlMsNJANL7vA2EZVjSYnSBcllor6zVpwxDqKGrF1BBW
-	 N7shqea05+IeimqzjaYHiqnvnUPtvlY0nwh8UBQU6zBntJWz4Rkq5JUfBsAKONR67L
-	 xzstbkQbEvml4LEKlhBAEDm3Iwq6xlrkWUd5OppRHTgM0HpqV/7+mIDCVNZiYwXsVw
-	 FGwyzLBQo9lDDSjL/RvsbQxAjDih61De8H/tmVpi0HTz+mBNSBUqicMCrxoDJZ4zma
-	 m6xtTZ6wmaKTw==
-Date: Fri, 14 Aug 2026 23:48:07 -1000
-Message-ID: <e28a62975e57bc38437a4bf1f4d08e54@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: David Vernet <void@manifault.com>, Andrea Righi <arighi@nvidia.com>,
- Changwoo Min <changwoo@igalia.com>
-Cc: sched-ext@lists.linux.dev, linux-kernel@vger.kernel.org,
- Emil Tsalapatis <emil@etsalapatis.com>, kernel test robot <lkp@intel.com>,
- oe-kbuild-all@lists.linux.dev
-In-Reply-To: <34c6e5eb01c406d93c8845b94a990069@kernel.org>
-References: <34c6e5eb01c406d93c8845b94a990069@kernel.org>
-Subject: Re: [PATCH sched_ext/for-7.3] sched_ext: Make SCHED_CLASS_EXT select
- GENERIC_ALLOCATOR
+	dkim=pass (2048-bit key) header.d=xenosoft.de header.i=@xenosoft.de header.b="eI2bi5Gc";
+	dkim=permerror (0-bit key) header.d=xenosoft.de header.i=@xenosoft.de header.b="3iSI2cFO"
+ARC-Seal: i=1; a=rsa-sha256; t=1786787819; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=GK41msrg61ldnYf6c/5zqVTZGkUDKE4NOFBAStpkLO7kDqA52Ghoao0mGAhVIXI0YY
+    NnoC/7ZfT9ntviFUok0Vw2BSTyUbA1k+Mn7NB8ToEVTznfUtkkwZLEkwuzGt5WlKXuWA
+    pQPrXF8XZGmA5TYLe6VsP7xFG1U36LeA5ktENuaURE9kc3QdQeUsQ0owQxoeFj0LdbFY
+    R0NMX15zzYvgMDh6FQI2xhJb4Luitp+J9s+O//SAZZLHevf54qGYg2gtHHYR+TMYk0WJ
+    YAZNZ9mCHpchFFL9ME795IWxINaUCObrfYCohe9iZvvgndKYl4oE35mwuZAKJmh7bUMO
+    o2Tg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1786787819;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=afnTQAXkp3yavSjC2F6pm9TdU2bctdI0zMMMGBji++A=;
+    b=M4A2huit6DLkXj2WD2eu6/9FY+Bhpli4E1y2X6duFXYrVhIBQuTi0Ob4VnkKAdGx0H
+    bhjBzjC2QDuKHLFIAXl2SHiG0lflITfnVT024jSKo/Zd4pzL+vnOKvMDG9ERilSZV8y1
+    midHXlmDjkGdIaxfKa8LAM2vPZuqCQsiM7CFABgk07I54k33tTv3SWzg5ndAyYhgjLIU
+    LGj1OajE13s3Nc8y0qnM60XJK58j2/C+h8PwxEt+xLemTnPhzAv8iFLEvb9c4DxkM9x8
+    7Z627/qNrftIRzKBVrMx1JHl993nMaf8l9L14Vww8c9x5gpG7RNyoeN8lZuUuah9uxUk
+    Fn7w==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1786787819;
+    s=strato-dkim-0002; d=xenosoft.de;
+    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=afnTQAXkp3yavSjC2F6pm9TdU2bctdI0zMMMGBji++A=;
+    b=eI2bi5GcYWpDzRZ3RFixTH3Qi22yvznq6J1bfpGzLR+GIQo1ks4mOJV0tVa14s8kI0
+    ldGlDWarZI1ryTGfJcbrwGoZahQy+l/6AQQwOcW45GnzBPWwLhAhe8n5tXE5ZMHeqth8
+    E21ngjJpQGVDGPKOSpB3ZkXL33VpKB8RAz7e/s52klprGOgL6LMyXdQWWVxyar4bx4w1
+    klJqNcjRL+JWMBBUhtpZZg3O7RZLNsNA7KluGVcTOuQWqk2Bvkx+WYKqdU3fWLItqE6Z
+    UjQP2w13MBvNZAyXpISV2JzMeD8JWSvnW0tqhGCNak6rU/57oZ6XH4ltNG2MtqZWyufk
+    Pbuw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1786787819;
+    s=strato-dkim-0003; d=xenosoft.de;
+    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=afnTQAXkp3yavSjC2F6pm9TdU2bctdI0zMMMGBji++A=;
+    b=3iSI2cFOEL/yOe1f7MX6V+C5SRXWQYhApKDdFiV60DZu36l1RCMy4FKzEBh4MpamoG
+    7SqvtKe+2JiW2M3UwDDg==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr4thIFiqT9BURIC+l7Rzg"
+Received: from void-ppc.a-eon.tld
+    by smtp.strato.de (RZmta 55.5.6 DYNA|AUTH)
+    with ESMTPSA id eed0ee27F9uvmf3
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Sat, 15 Aug 2026 11:56:57 +0200 (CEST)
+Subject: Re: [PATCH] Connecting the SB600's i8259 controller rather in
+ pasemi's pci.c than in pasemi's setup.c.
+To: kernel test robot <lkp@intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ "(open list:LINUX FOR POWERPC \\(32-BIT AND 64-BIT\\))"
+ <linuxppc-dev@lists.ozlabs.org>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ Darren Stevens <darren@stevens-zone.net>,
+ Damien Stewart <hypexed@yahoo.com.au>, Christian Zigotzky <info@xenosoft.de>
+References: <20260701125941.906-2-chzigotzky@xenosoft.de>
+ <202608142355.4AeDorvg-lkp@intel.com>
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+Organization: A-EON Open Source
+Message-ID: <5ad17e60-7c02-2cd9-7cad-0c14896b8f3d@xenosoft.de>
+Date: Sat, 15 Aug 2026 11:56:56 +0200
+X-Mailer: BrassMonkey/34.3.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <202608142355.4AeDorvg-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Applied to sched_ext/for-7.3.
+On 14/08/26 17:42, kernel test robot wrote:
+ > Hi Christian,
+ >
+ > kernel test robot noticed the following build warnings:
+ >
+ > [auto build test WARNING on powerpc/next]
+ > [also build test WARNING on powerpc/fixes linus/master v7.2-rc7 
+next-20260813]
+ > [If your patch is applied to the wrong git tree, kindly drop us a note.
+ > And when submitting patch, we suggest to use '--base' as documented in
+ > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ >
+ > url: 
+https://github.com/intel-lab-lkp/linux/commits/Christian-Zigotzky/Connecting-the-SB600-s-i8259-controller-rather-in-pasemi-s-pci-c-than-in-pasemi-s-setup-c/20260813-054214
+ >
+ > All warnings (new ones prefixed by >>):
+ >
+ >>> arch/powerpc/platforms/pasemi/setup.c:217:6: warning: no previous 
+prototype for function 'nemo_init_IRQ' [-Wmissing-prototypes]
 
-Thanks.
+This is the old patch.
+
+Here is the new patch with pasemi.h: 
+https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20260801043458.12500-1-chzigotzky@xenosoft.de/
+
+Thanks
 
 -- 
-tejun
+Sent with BrassMonkey 34.3.1 (https://github.com/chzigotzky/Web-Browsers-and-Suites-for-Linux-PPC/releases/tag/BrassMonkey_34.3.1)
+
