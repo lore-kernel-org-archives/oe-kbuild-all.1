@@ -1,90 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C034A1A6817
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Aug 2026 17:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C0A1B4223
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Aug 2026 17:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786815293; cv=none; b=ONFkfQl2Zxj1hAj0eYpPKHS6OcKLsHcwYQ68Kn+gDHSMMFbmbF29DxOvW593SKUoqj6FHIuo72PuuHxqkx0HSaHg90KbslS+ix9KqPv143w4IO21W4A7T1EaSUpg/306GWDOdRcEcD6205exb3/hE9x+k/9v6hUjdRjIEsti434=
+	t=1786815421; cv=none; b=CrlqA45PHxSCV8oFYYxDGyrkb7TDzD/XA9MsKlTJDm80kY+vN4RJDCQqKu/9rMdPxUJJarb6vhT7/2WrzhHjmeUy97u5/KNq8O5W1pjrJSUZY0UgkaAvATm1M58KfA59Ut8Ea16XqbOScRP+1h+TMwuPPKr51MMrlQvknRiQ5vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786815293; c=relaxed/simple;
-	bh=IQh9WRaZnaX2piL4uAkhykPdKblHHMdzCJ3ZJSrpK1Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lDBibdxPlipkIAwMcGX0g/msHu+wlUA20QCnyxVThpCkCcYF/72uiIt11E4RcK9ymcBWuAXdZ9Krk32t79ywdzfw7GFP4y/dXnMOSA0dWzP3NMN7K7sOUyWFhTDpthk/YsNlTmef/ILWGeYw+DtfC1uNJcJscazJTKChe9VbJXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cjv+g5IU; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1786815421; c=relaxed/simple;
+	bh=MgayC8aAyYpkE5Uu1Q/FJBDk5KdfCN5FQY22C0NHmi8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ovdwR6J/pUCfVpq4uTVIMBMFJjF26WqCLxlvGMEyjsMimYuI49VktaZ1SOhITgB7WXuPPBL7wZMBReI7VmxzRvlYhrQCv/hNMH9/ixU3HLeccBJzajiK06wBy+vrBtzD8JkreYRWKnSRlhqPTeSVZ32b9GrFzOMenH+7CElP+ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKnBODa8; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cjv+g5IU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKnBODa8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786815291; x=1818351291;
-  h=date:from:to:cc:subject:message-id;
-  bh=IQh9WRaZnaX2piL4uAkhykPdKblHHMdzCJ3ZJSrpK1Q=;
-  b=Cjv+g5IUIPhwmAJ4W6itbs6EY5PpFkwHH0vhCK76+b0uNQa9rWySqSDq
-   OMcSsplDEeJNI/SwnOHd3Zogy6RMlTA21wvS/5Au2jK28QCg8BI/2qD6d
-   cbT78wDZ00qLnuhgK+RTGChxpBWVCkT86cKFriqR8xnpZpM9mgxQNsG81
-   yOOMyQa04r0Li1udbbdJYt7uM9HrB0MXuR0a8MdJp2kSjfNBo+8aXilKX
-   u1yizFCM62CNSU89+c0U24nmYbS+woTAJxtZFQD2ZIce3iBMVAPwfy5ke
-   7FAvUBEfjdPU8tFIph8WHpYFxV3nEVhkiZv/APkh0BuxoCWZ2q7jfe8Hz
-   w==;
-X-CSE-ConnectionGUID: j7GRIfwWScaBfcrzgc8QlA==
-X-CSE-MsgGUID: m9soXrcETnWvvRPhxOsTxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="86477169"
+  t=1786815419; x=1818351419;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MgayC8aAyYpkE5Uu1Q/FJBDk5KdfCN5FQY22C0NHmi8=;
+  b=hKnBODa82lOyuL8BwIylN9zMQ3Dw+MtO5aqYdlMCiHgxdKgSht1RIBv8
+   6pEeCWG7tkDR/llyC0plkqN1fZz/Acd5hE5jZqu0zhouaffn7Np+yg02Y
+   1GcdJtLDKeCoBPMJdSvF1KeijaHJHpornM7M/4TyRojFpDn0GPlSTizr1
+   macqsBXmWvGSUzGDjvoYGmzvXwoJ1To2gWZg4rJkkJd5NBJcX9Vjqup1A
+   xO3BU5zjlE1G9hbUnIs3F7c76P44jg5eLuxGoLMiO55e4t1gEzUYFEEaD
+   8yeKbF+xlBbEfSFrc73iXqB6Ad3aD5wLv4r4ZRwXdsms4jGc29ptMok8d
+   A==;
+X-CSE-ConnectionGUID: efTt/R2HRdGYQaqS6sxoXg==
+X-CSE-MsgGUID: yg+oUvspT4CcnZ38GeeUCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87235401"
 X-IronPort-AV: E=Sophos;i="6.25,225,1779174000"; 
-   d="scan'208";a="86477169"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 10:34:50 -0700
-X-CSE-ConnectionGUID: tri+4oa8TdyipWe8LuVGOQ==
-X-CSE-MsgGUID: N+e3fRn7RQKIZOOqEeG0uQ==
+   d="scan'208";a="87235401"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 10:36:58 -0700
+X-CSE-ConnectionGUID: Yl8fRK9MTVOJnnKCMKeSZg==
+X-CSE-MsgGUID: KuooLmeaSbS/Szg119Un7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,225,1779174000"; 
-   d="scan'208";a="260279594"
+   d="scan'208";a="264062995"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Aug 2026 10:34:48 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Aug 2026 10:36:56 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvIHO-00000000cOY-1kqX;
-	Sat, 15 Aug 2026 17:34:46 +0000
-Date: Sun, 16 Aug 2026 01:29:30 +0800
+	id 1wvIJQ-00000000cOg-2nhx;
+	Sat, 15 Aug 2026 17:36:52 +0000
+Date: Sun, 16 Aug 2026 01:36:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2026-06 3/3]
- arch/arm64/kvm/hyp/nvhe/trace.c:37:1: sparse: sparse: symbol
- '__pcpu_scope_trace_rb' was not declared. Should it be static?
-Message-ID: <202608160021.IJ6JMOek-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Elliot Berman <quic_eberman@quicinc.com>,
+	Andrew Halaney <ahalaney@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Subject: Re: [PATCH] firmware: qcom: scm: Fix resource cleanup on probe
+ failure
+Message-ID: <202608160100.66rYQ6on-lkp@intel.com>
+References: <20260625093644.3918184-1-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260625093644.3918184-1-mukesh.ojha@oss.qualcomm.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-06
-head:   5f02ea3e9448e9545ae85eb4f11b4ea8f58b94bf
-commit: 1e1a0f8ef58c0f6c4b6a091a786db123cf5c4610 [3/3] FROMLIST: KVM: arm64: Add tracing support for the pKVM hyp
-config: arm64-randconfig-r134-20260815 (https://download.01.org/0day-ci/archive/20260816/202608160021.IJ6JMOek-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160021.IJ6JMOek-lkp@intel.com/reproduce)
+Hi Mukesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.2-rc7]
+[cannot apply to next-20260814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/firmware-qcom-scm-Fix-resource-cleanup-on-probe-failure/20260815-220308
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260625093644.3918184-1-mukesh.ojha%40oss.qualcomm.com
+patch subject: [PATCH] firmware: qcom: scm: Fix resource cleanup on probe failure
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260816/202608160100.66rYQ6on-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160100.66rYQ6on-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608160021.IJ6JMOek-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608160100.66rYQ6on-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/nvhe/trace.c:37:1: sparse: sparse: symbol '__pcpu_scope_trace_rb' was not declared. Should it be static?
->> arch/arm64/kvm/hyp/nvhe/trace.c:38:1: sparse: sparse: symbol 'trace_rb_lock' was not declared. Should it be static?
-   arch/arm64/kvm/hyp/nvhe/trace.c:336:30: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +/__pcpu_scope_trace_rb +37 arch/arm64/kvm/hyp/nvhe/trace.c
+   drivers/firmware/qcom/qcom_tzmem.c: In function 'qcom_tzmem_disable':
+>> drivers/firmware/qcom/qcom_tzmem.c:523:9: error: 'qcom_tzmem_using_shm_bridge' undeclared (first use in this function)
+     523 |         qcom_tzmem_using_shm_bridge = false;
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/firmware/qcom/qcom_tzmem.c:523:9: note: each undeclared identifier is reported only once for each function it appears in
 
-    35	
-    36	static struct hyp_buffer_pages_backing hyp_buffer_pages_backing;
-  > 37	DEFINE_PER_CPU(struct hyp_rb_per_cpu, trace_rb);
-  > 38	DEFINE_HYP_SPINLOCK(trace_rb_lock);
-    39	
+
+vim +/qcom_tzmem_using_shm_bridge +523 drivers/firmware/qcom/qcom_tzmem.c
+
+   520	
+   521	void qcom_tzmem_disable(struct device *dev)
+   522	{
+ > 523		qcom_tzmem_using_shm_bridge = false;
+   524		qcom_tzmem_dev = NULL;
+   525	}
+   526	EXPORT_SYMBOL_GPL(qcom_tzmem_disable);
+   527	
 
 --
 0-DAY CI Kernel Test Service
