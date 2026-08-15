@@ -1,147 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30EA1E32D6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Aug 2026 06:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA9D385D73
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Aug 2026 06:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786773778; cv=none; b=uAkgptzoLrYau01g3AL/brzfjkCOSPfXSX0zIcVSJfmxLJKZ7EMvFG5eftHQr4EuXo9yhzC07NRyGUvScXgbHc/6XPQi0WTJVrJUIl2ytusfZvGwYQdzwXn4yN02u4yyOxUlXfZKxmlgy+EfjIpo+PpU22sA6PfUAzBS8dq9EJs=
+	t=1786776122; cv=none; b=F4LgsLtfKwwK+5QW2iuaB5nzhV6077Zjpwhpl5eK5msQYO9vmMxybgpPRb9Je6opmPGC6fD3nJIOvWz4NF75T4Fkf5QxahrFsPgbuPiRlOCGvtDXlLRmOiF0x+AOtyqgntBXGBuFCeiKD0pTh0WGzie6R0wkxr85mzW3SkY6jRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786773778; c=relaxed/simple;
-	bh=Hfs3LMxKLwpySXM6qMb5RjcIoxTjghPF/M9tCn5fk6U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aeS36fGF7eRl+7VCxcTgVMRIyRCuhEi7RMsM1pSLoEqfUEChm6/tfyBFnEOYRhLpxZOPF3GqbJEsBcOuL7f8+Xb5V9VCcje+JVUoMMpCfcAcWlRvsZWLFtbs39HsGxi+w1n36RXBT7BZJTSEJo6G/JCUJf6AwOr4TAHGOW5J8nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PdG8oc2D; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1786776122; c=relaxed/simple;
+	bh=4ShaXgDDN/3L2AEKbsJQBPm6JlwLH0+3siMLXXiHOXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=CXT7hRK1yucI//r9duzKdai971c+ZQeL7HVGirHTP6CdMn5v6tRVWLqVbzM/I3f2Qjxe3n/f56LngdgrmVCAGFba8CEQbcRRRrb6/QQvE6ch0dGgawH6KvaeKb0Ftj59lAwsD9v7nwUKejd0zZJN71G7AKp4Of+uN9lDAokduZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LI3CV06R; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PdG8oc2D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LI3CV06R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786773777; x=1818309777;
-  h=date:from:to:cc:subject:message-id;
-  bh=Hfs3LMxKLwpySXM6qMb5RjcIoxTjghPF/M9tCn5fk6U=;
-  b=PdG8oc2DsKhkLA6xGX3d92BAz2oRR4aeIx5yipognDcD7evvVyvbAZx9
-   NRIBk2jIvzJoPHKWvNywOSQRNoG1KjaPZdcTG6g9iPfyfi6ICO6kOUGHo
-   BmUixPZpHcFvfYuSjbdH14dkYHWBQR8x9zGzrxf8wZ0WY3Hm7RIepucgc
-   TvRQ832IZf32F5i46tmntOpodBDTOC8cvWMJ2EKDqdKYMaTHYKfmivQw0
-   zJH1bFWxu+fSZj71r6HCfhl2z/fCpZKOfiHSiJd1iCoXpYvH9G2DAmk94
-   f2gl4rMNYoBdcXtmSYP8qHFXM+FkuvJyBwgdCAyf54k+NIsGK7kRdWyih
-   A==;
-X-CSE-ConnectionGUID: rsUdl9dIS02zWqI3PDNNww==
-X-CSE-MsgGUID: +gEJmOMkQ52db8DEWmD5FQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="87364215"
+  t=1786776120; x=1818312120;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4ShaXgDDN/3L2AEKbsJQBPm6JlwLH0+3siMLXXiHOXY=;
+  b=LI3CV06RRq+UySjmfeGacTf7oSaZSKVzWhaIHBFrAc4bR2msdH9HO7ES
+   DTgQEQUUL2M+It4VTddx8C85ykDwU8B0ub4b4vtrapRbMJtKmY25W50N/
+   HcX1qyABHqLvAAhf2neut8N3ldz/2fmirxAzbo33+7ga+RyHOVlHLcZtW
+   6sNHZQgxc8bqvqiKzTLTHcSORJUdTGLs3eeiyabOR+szgZExku1JNTe7V
+   Blcw+/B9fA6QnAnLbOGdJzXoXFWU8lYjgNBabc9A6Zr+ywPKks1afaFEL
+   SDWVbydC9RPK3lryljZWlkV8NdPliZ7dwGkCHctnhgnchehz6jREhSuHO
+   g==;
+X-CSE-ConnectionGUID: TnLXkU11SJGTQgKhQ8WzHQ==
+X-CSE-MsgGUID: bdvOGvRZSOW8+BXuu2pVzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="91156692"
 X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="87364215"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 23:02:57 -0700
-X-CSE-ConnectionGUID: gajGGOIgRoCNyQPZ6SRKoQ==
-X-CSE-MsgGUID: uLdsOrSOQva7/DQTY5XqsA==
+   d="scan'208";a="91156692"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 23:41:59 -0700
+X-CSE-ConnectionGUID: UI+xzYVETlWtg5VPRXV7Zg==
+X-CSE-MsgGUID: yMSwCedzT4aKGTOl0B7o2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="264450689"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 Aug 2026 23:02:55 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="258197265"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Aug 2026 23:41:57 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wv7To-00000000bGj-1yf6;
-	Sat, 15 Aug 2026 06:02:52 +0000
-Date: Sat, 15 Aug 2026 14:02:06 +0800
+	id 1wv85b-000000006Nx-3Wt4;
+	Sat, 15 Aug 2026 06:41:55 +0000
+Date: Sat, 15 Aug 2026 08:41:46 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrea Righi <arighi@nvidia.com>
-Subject: include/linux/genalloc.h:173: undefined reference to
- `gen_pool_free_owner'
-Message-ID: <202608151315.tvN3X0Oq-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:m-4 143/145] net/netfilter/nf_tables_api.c:182:48:
+ error: 'struct folio_arena' has no member named 'chunk_order'
+Message-ID: <202608150840.IVAh8lZW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2f1baf1fc8929e6c48370be543ad028ac7ad4131
-commit: 9eca087deb0b35f3170109a9630a6c5c06c2e222 sched_ext: Sub-allocator over kernel-claimed BPF arena pages
-date:   3 months ago
-config: parisc-randconfig-001-20260815 (https://download.01.org/0day-ci/archive/20260815/202608151315.tvN3X0Oq-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260815/202608151315.tvN3X0Oq-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git m-4
+head:   0036927f87d51d733bf100cae4e407fa21a2c3a6
+commit: 42d80a3bc4214d8c2da60cf229926307ce4d78a4 [143/145] include/linux/folio_arena.h: Add !CONFIG_DYNAMIC_DEBUG_CORE stubs
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260815/202608150840.IVAh8lZW-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260815/202608150840.IVAh8lZW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9eca087deb0b ("sched_ext: Sub-allocator over kernel-claimed BPF arena pages")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608151315.tvN3X0Oq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608150840.IVAh8lZW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   hppa-linux-ld: kernel/sched/build_policy.o: in function `scx_arena_scan_prog':
-   kernel/sched/ext.c:7937: undefined reference to `bpf_prog_arena'
-   hppa-linux-ld: kernel/sched/build_policy.o: in function `gen_pool_free':
->> include/linux/genalloc.h:173: undefined reference to `gen_pool_free_owner'
-   hppa-linux-ld: kernel/sched/build_policy.o: in function `scx_arena_pool_init':
-   kernel/sched/ext_arena.c:29: undefined reference to `gen_pool_create'
-   hppa-linux-ld: kernel/sched/build_policy.o: in function `scx_arena_pool_destroy':
-   kernel/sched/ext_arena.c:57: undefined reference to `gen_pool_for_each_chunk'
-   hppa-linux-ld: kernel/sched/ext_arena.c:58: undefined reference to `gen_pool_destroy'
-   hppa-linux-ld: kernel/sched/build_policy.o: in function `gen_pool_alloc_algo':
->> include/linux/genalloc.h:139: undefined reference to `gen_pool_alloc_algo_owner'
-   hppa-linux-ld: kernel/sched/build_policy.o: in function `gen_pool_free':
->> include/linux/genalloc.h:173: undefined reference to `gen_pool_free_owner'
-   hppa-linux-ld: kernel/sched/build_policy.o: in function `scx_arena_pool_init':
-   kernel/sched/ext_arena.c:29: undefined reference to `gen_pool_create'
+   net/netfilter/nf_tables_api.c: In function 'nft_trans_alloc':
+>> net/netfilter/nf_tables_api.c:182:48: error: 'struct folio_arena' has no member named 'chunk_order'
+     182 |         if (size <= 256 && nft_net->trans_arena.chunk_order)
+         |                                                ^
 
 
-vim +173 include/linux/genalloc.h
+vim +182 net/netfilter/nf_tables_api.c
 
-795ee30648c7085 Dan Williams   2019-06-13  135  
-795ee30648c7085 Dan Williams   2019-06-13  136  static inline unsigned long gen_pool_alloc_algo(struct gen_pool *pool,
-795ee30648c7085 Dan Williams   2019-06-13  137  		size_t size, genpool_algo_t algo, void *data)
-795ee30648c7085 Dan Williams   2019-06-13  138  {
-795ee30648c7085 Dan Williams   2019-06-13 @139  	return gen_pool_alloc_algo_owner(pool, size, algo, data, NULL);
-795ee30648c7085 Dan Williams   2019-06-13  140  }
-795ee30648c7085 Dan Williams   2019-06-13  141  
-795ee30648c7085 Dan Williams   2019-06-13  142  /**
-795ee30648c7085 Dan Williams   2019-06-13  143   * gen_pool_alloc - allocate special memory from the pool
-795ee30648c7085 Dan Williams   2019-06-13  144   * @pool: pool to allocate from
-795ee30648c7085 Dan Williams   2019-06-13  145   * @size: number of bytes to allocate from the pool
-795ee30648c7085 Dan Williams   2019-06-13  146   *
-795ee30648c7085 Dan Williams   2019-06-13  147   * Allocate the requested number of bytes from the specified pool.
-795ee30648c7085 Dan Williams   2019-06-13  148   * Uses the pool allocation function (with first-fit algorithm by default).
-795ee30648c7085 Dan Williams   2019-06-13  149   * Can not be used in NMI handler on architectures without
-795ee30648c7085 Dan Williams   2019-06-13  150   * NMI-safe cmpxchg implementation.
-795ee30648c7085 Dan Williams   2019-06-13  151   */
-795ee30648c7085 Dan Williams   2019-06-13  152  static inline unsigned long gen_pool_alloc(struct gen_pool *pool, size_t size)
-795ee30648c7085 Dan Williams   2019-06-13  153  {
-795ee30648c7085 Dan Williams   2019-06-13  154  	return gen_pool_alloc_algo(pool, size, pool->algo, pool->data);
-795ee30648c7085 Dan Williams   2019-06-13  155  }
-795ee30648c7085 Dan Williams   2019-06-13  156  
-684f0d3d14f2744 Nicolin Chen   2013-11-12  157  extern void *gen_pool_dma_alloc(struct gen_pool *pool, size_t size,
-684f0d3d14f2744 Nicolin Chen   2013-11-12  158  		dma_addr_t *dma);
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  159  extern void *gen_pool_dma_alloc_algo(struct gen_pool *pool, size_t size,
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  160  		dma_addr_t *dma, genpool_algo_t algo, void *data);
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  161  extern void *gen_pool_dma_alloc_align(struct gen_pool *pool, size_t size,
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  162  		dma_addr_t *dma, int align);
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  163  extern void *gen_pool_dma_zalloc(struct gen_pool *pool, size_t size, dma_addr_t *dma);
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  164  extern void *gen_pool_dma_zalloc_algo(struct gen_pool *pool, size_t size,
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  165  		dma_addr_t *dma, genpool_algo_t algo, void *data);
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  166  extern void *gen_pool_dma_zalloc_align(struct gen_pool *pool, size_t size,
-cf394fc5f7155c2 Fredrik Noring 2019-06-25  167  		dma_addr_t *dma, int align);
-795ee30648c7085 Dan Williams   2019-06-13  168  extern void gen_pool_free_owner(struct gen_pool *pool, unsigned long addr,
-795ee30648c7085 Dan Williams   2019-06-13  169  		size_t size, void **owner);
-795ee30648c7085 Dan Williams   2019-06-13  170  static inline void gen_pool_free(struct gen_pool *pool, unsigned long addr,
-795ee30648c7085 Dan Williams   2019-06-13  171                  size_t size)
-795ee30648c7085 Dan Williams   2019-06-13  172  {
-795ee30648c7085 Dan Williams   2019-06-13 @173  	gen_pool_free_owner(pool, addr, size, NULL);
-795ee30648c7085 Dan Williams   2019-06-13  174  }
-795ee30648c7085 Dan Williams   2019-06-13  175  
+7c95f6d866d861 Pablo Neira Ayuso 2014-04-04  175  
+3d95a2e016abab Florian Westphal  2025-08-22  176  static struct nft_trans *nft_trans_alloc(const struct nft_ctx *ctx,
+3d95a2e016abab Florian Westphal  2025-08-22  177  					 int msg_type, u32 size)
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  178  {
+34305410158649 Jim Cromie        2026-08-11  179  	struct nftables_pernet *nft_net = nft_pernet(ctx->net);
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  180  	struct nft_trans *trans;
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  181  
+34305410158649 Jim Cromie        2026-08-11 @182  	if (size <= 256 && nft_net->trans_arena.chunk_order)
+34305410158649 Jim Cromie        2026-08-11  183  		trans = folio_arena_alloc(&nft_net->trans_arena, GFP_KERNEL);
+34305410158649 Jim Cromie        2026-08-11  184  	else
+3d95a2e016abab Florian Westphal  2025-08-22  185  		trans = kzalloc(size, GFP_KERNEL);
+34305410158649 Jim Cromie        2026-08-11  186  
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  187  	if (trans == NULL)
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  188  		return NULL;
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  189  
+580077855a4074 Florian Westphal  2022-08-09  190  	INIT_LIST_HEAD(&trans->list);
+b380e5c733b9f1 Pablo Neira Ayuso 2014-04-04  191  	trans->msg_type = msg_type;
+e169285f8c56b8 Florian Westphal  2024-05-13  192  
+e169285f8c56b8 Florian Westphal  2024-05-13  193  	trans->net = ctx->net;
+e169285f8c56b8 Florian Westphal  2024-05-13  194  	trans->table = ctx->table;
+e169285f8c56b8 Florian Westphal  2024-05-13  195  	trans->seq = ctx->seq;
+e169285f8c56b8 Florian Westphal  2024-05-13  196  	trans->flags = ctx->flags;
+e169285f8c56b8 Florian Westphal  2024-05-13  197  	trans->report = ctx->report;
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  198  
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  199  	return trans;
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  200  }
+1081d11b086afb Pablo Neira Ayuso 2014-04-04  201  
 
-:::::: The code at line 173 was first introduced by commit
-:::::: 795ee30648c708502da9df637f83c33361d68dcc lib/genalloc: introduce chunk owners
+:::::: The code at line 182 was first introduced by commit
+:::::: 34305410158649e65af1141e9e2d2678bb376807 netfilter/nf_tables: Add folio_arena collector to struct nftables_pernet
 
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
 
 --
 0-DAY CI Kernel Test Service
