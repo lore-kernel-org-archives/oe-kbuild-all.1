@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E5C17A30A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 19:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599DA3C0A09
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 19:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786909050; cv=none; b=nxmayGJXMuQz8QJLGf7FR+WRVa0nllmF1OAFx6oPfjHmMw/O82DkpwxAiFCKgeKlGHgRmzHWU635f2yrO/uMogZ9t3UMl/CjDsWDPvu2TWVR5jf0v9kKkAMJ5UvBBoxGpAv/NWvT9yArrVmpTb+msX/hROGU3j6GzaLBLILDN3g=
+	t=1786909050; cv=none; b=i3D9zOrpXNO3wQMuE2nh45lYUKcKrtz5GkNgekKhQW+WF6iV16weKMrt48E/Ga2aXS3/c2xBGmHXhW4Kcu90qFmVKUSf2BoHA6iDgYDJaNdAfY02quC+fmmCTKEVS0tGPsKG/uEtejPUCk/39SldIToh/ynTRma7EfmIcPxjOcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786909050; c=relaxed/simple;
-	bh=68/6RH2HBE6G7yzzP1OB/BbzALgWVRz+F9jwjG+eCcU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Oiz51KPbfMQqkNJ+B9uxwNYPyA0AU8PCJURfXqllQ80FOMelK5CQQe8KPzf6nG5vLkTawHLhFEJIEjfoxGvxcoTDURm/WIRpBkHB8JFa5PBB1ZxRt62DuyAh5U/TOYs0ufNRZc5qp9OiaU48AFPoU1gS+N6V3MPfn7aE4YASbtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ns+mXwYy; arc=none smtp.client-ip=192.198.163.14
+	bh=CnrXjJZl16h6sjUMPByZym1rW8nYJW7wjfR5SUt/PRM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nU7nuz9CQP/X+72zKCrMIv8VT8tYDMXc2ELkcHKvENi1ZJSUvOPCZMoP5+bIuQt2A3wQd94e9nLfLypdfIj7CDyifmvjBJpwEzyoj8tptimwYbubVPD1eC0dagBZrGAt4omAv+ZH/WzFIC9cbMs/NG2kOyhIdby89ZmMzLtneM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pqm+I9PI; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ns+mXwYy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pqm+I9PI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786909047; x=1818445047;
+  t=1786909048; x=1818445048;
   h=date:from:to:cc:subject:message-id;
-  bh=68/6RH2HBE6G7yzzP1OB/BbzALgWVRz+F9jwjG+eCcU=;
-  b=ns+mXwYylidT0W7kuHw4ALT8tCvEOBYW/fW90hw4RBHgI1b1mw/9CoWy
-   N79sYjuZOciaCk2QLHkv3Ni2qhXGG9exaXaC/lybnkV37xnQsWqfDC8Bo
-   s5f7JossJDcBo71QsGEWXNVducHdJvI2s91BwKFMGSeMDJILAml8iLp6N
-   cf9deZoR7lK6iq2KcMvFauxJxdxS4MSVfaPX8TG1o9Ru4LYPbVqN7HbeH
-   JFA4J3Jly+Da5sSAsVm+GsZ0Fnl3IolhNB9xPkfsb/fop0A4sDchAgEfM
-   bBlBbzLpT73pxSkQ2c+v/eBTp4EjmUBRF1R6sS2pdHe1urDFrrpGrgEUB
+  bh=CnrXjJZl16h6sjUMPByZym1rW8nYJW7wjfR5SUt/PRM=;
+  b=Pqm+I9PIU65Q75TvhuPNNTqNdDE3bjj8zQNlY4eo7FrXrEKKgqa4PrYT
+   MtBkynRHJj3/G4Q0VK9GvDMiwJVTvUpHcguabDOaeuzwZoUjTEvfPrn3n
+   /UDsI2H+UWb39e3S50vy9g9gNBnsdAHifwYIGr0ZWmvSVss5HF7gXmO2U
+   CE+kxqyIK0nBc+KK0WoNmVyBce44EXOM6qt3aDh/+Vv13KsH0FjUoVdDS
+   m/vpu3fhDi1/xVqE8tWbAPqsSuTz3Vy96UP3N1Grsz+hIQzZqeMWQgRab
+   Eqm77LEqPBQ1wnBbgtDQem2Gkro3gj8P7DmLnQZezTO6nsG+LxhGtN+Kk
    A==;
-X-CSE-ConnectionGUID: NvgS+b6SRyyQnoJcvg3VuQ==
-X-CSE-MsgGUID: yELxkjJ2THSPa3idTnRwsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="87413372"
+X-CSE-ConnectionGUID: 4l8TWTV1QBSxlRyI+CsdEw==
+X-CSE-MsgGUID: QtnQ/BqHToG63GAHSqmp9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="91208665"
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="87413372"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 12:37:27 -0700
-X-CSE-ConnectionGUID: LvjQJcpIQeKXObox5qT6lw==
-X-CSE-MsgGUID: jiUGsPqKT6Wf1KuhdZzMag==
+   d="scan'208";a="91208665"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 12:37:28 -0700
+X-CSE-ConnectionGUID: nV8t2L3DSi6j4jrufTn84Q==
+X-CSE-MsgGUID: owRCc+OeTo2RcLT492OThw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="262961491"
+   d="scan'208";a="264766524"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Aug 2026 12:37:26 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Aug 2026 12:37:26 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvgfb-00000000d4c-1S23;
+	id 1wvgfb-00000000d4f-2vG8;
 	Sun, 16 Aug 2026 19:37:23 +0000
-Date: Mon, 17 Aug 2026 03:36:49 +0800
+Date: Mon, 17 Aug 2026 03:36:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- arch/arm64/kvm/hyp_events.c:134:6: warning: no previous prototype for
- 'hyp_trace_init_event_early'
-Message-ID: <202608170357.BWkU8XT7-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ arm@kernel.org
+Subject: [soc:board-remove 114/217]
+ drivers/regulator/da9055-regulator.c:534:15: error: too many arguments to
+ function 'da9055_gpio_init'
+Message-ID: <202608170503.dqOGRyEa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,89 +61,154 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Vincent,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   24c059d9e217f32d61570fdbd7eb66bc999657a9
-commit: 898e4d2aa33bd70705040b7c2f485c968cc3d594 [2/2] ANDROID: KVM: arm64: add support for early enablement nVHE hyp events
-config: arm64-randconfig-004-20260816 (https://download.01.org/0day-ci/archive/20260817/202608170357.BWkU8XT7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170357.BWkU8XT7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
+head:   057394422bc04420585b2790b230d8a1f350ace8
+commit: 158b19afd623da6a93d8ac59dd4aeefe48fa2085 [114/217] mfd: da9055: remove pdata based probing
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260817/202608170503.dqOGRyEa-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170503.dqOGRyEa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608170357.BWkU8XT7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608170503.dqOGRyEa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp_events.c:9:
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
-         |       ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
-      14 | HYP_EVENT(hyp_enter,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
-         |       ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
-      23 | HYP_EVENT(hyp_exit,
-         | ^~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:134:6: warning: no previous prototype for 'hyp_trace_init_event_early' [-Wmissing-prototypes]
-     134 | bool hyp_trace_init_event_early(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:169:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
-     169 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:199:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
-     199 | struct hyp_event *hyp_trace_find_event(int id)
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:212:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
-     212 | int hyp_trace_init_events(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/da9055-regulator.c:77:26: error: field 'reg_rselect' has incomplete type
+      77 |         enum gpio_select reg_rselect;
+         |                          ^~~~~~~~~~~
+   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_set_voltage_sel':
+   drivers/regulator/da9055-regulator.c:208:39: error: 'NO_GPIO' undeclared (first use in this function)
+     208 |         if (regulator->reg_rselect == NO_GPIO) {
+         |                                       ^~~~~~~
+   drivers/regulator/da9055-regulator.c:208:39: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_set_suspend_voltage':
+   drivers/regulator/da9055-regulator.c:248:39: error: 'NO_GPIO' undeclared (first use in this function)
+     248 |         if (regulator->reg_rselect == NO_GPIO) {
+         |                                       ^~~~~~~
+   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_enable':
+   drivers/regulator/da9055-regulator.c:269:39: error: 'NO_GPIO' undeclared (first use in this function)
+     269 |         if (regulator->reg_rselect == NO_GPIO)
+         |                                       ^~~~~~~
+   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_disable':
+   drivers/regulator/da9055-regulator.c:282:39: error: 'NO_GPIO' undeclared (first use in this function)
+     282 |         if (regulator->reg_rselect == NO_GPIO)
+         |                                       ^~~~~~~
+   drivers/regulator/da9055-regulator.c: In function 'da9055_gpio_init':
+   drivers/regulator/da9055-regulator.c:466:42: error: 'pdata' undeclared (first use in this function); did you mean '_data'?
+     466 |                 regulator->reg_rselect = pdata->reg_rsel[id];
+         |                                          ^~~~~
+         |                                          _data
+   drivers/regulator/da9055-regulator.c:417:33: warning: parameter 'id' set but not used [-Wunused-but-set-parameter]
+     417 |                             int id)
+         |                             ~~~~^~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:5,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:369,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/regulator/da9055-regulator.c:9:
+   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_probe':
+   include/linux/stddef.h:8:14: error: passing argument 4 of 'da9055_gpio_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/regulator/da9055-regulator.c:534:64: note: in expansion of macro 'NULL'
+     534 |         ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
+         |                                                                ^~~~
+   drivers/regulator/da9055-regulator.c:417:33: note: expected 'int' but argument is of type 'void *'
+     417 |                             int id)
+         |                             ~~~~^~
+>> drivers/regulator/da9055-regulator.c:534:15: error: too many arguments to function 'da9055_gpio_init'
+     534 |         ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
+         |               ^~~~~~~~~~~~~~~~
+   drivers/regulator/da9055-regulator.c:414:12: note: declared here
+     414 | static int da9055_gpio_init(struct device *dev,
+         |            ^~~~~~~~~~~~~~~~
+   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_enable':
+   drivers/regulator/da9055-regulator.c:274:1: warning: control reaches end of non-void function [-Wreturn-type]
+     274 | }
+         | ^
+   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_disable':
+   drivers/regulator/da9055-regulator.c:287:1: warning: control reaches end of non-void function [-Wreturn-type]
+     287 | }
+         | ^
 
 
-vim +/hyp_trace_init_event_early +134 arch/arm64/kvm/hyp_events.c
+vim +/da9055_gpio_init +534 drivers/regulator/da9055-regulator.c
 
-   133	
- > 134	bool hyp_trace_init_event_early(void)
-   135	{
-   136		char *token, *buf = early_events;
-   137		bool enabled = false;
-   138	
-   139		while (true) {
-   140			token = strsep(&buf, ",");
-   141	
-   142			if (!token)
-   143				break;
-   144	
-   145			if (*token) {
-   146				struct hyp_event *event;
-   147				int ret;
-   148	
-   149				event = find_hyp_event(token);
-   150				if (event) {
-   151					ret = enable_hyp_event(event, true);
-   152					if (ret)
-   153						pr_warn("Couldn't enable hyp event %s:%d\n",
-   154							token, ret);
-   155					else
-   156						enabled = true;
-   157				} else {
-   158					pr_warn("Couldn't find hyp event %s\n", token);
-   159				}
-   160			}
-   161	
-   162			if (buf)
-   163				*(buf - 1) = ',';
-   164		}
-   165	
-   166		return enabled;
-   167	}
-   168	
+   510	
+   511	static int da9055_regulator_probe(struct platform_device *pdev)
+   512	{
+   513		struct regulator_config config = { };
+   514		struct da9055_regulator *regulator;
+   515		struct da9055 *da9055 = dev_get_drvdata(pdev->dev.parent);
+   516		int ret, irq;
+   517	
+   518		regulator = devm_kzalloc(&pdev->dev, sizeof(struct da9055_regulator),
+   519					 GFP_KERNEL);
+   520		if (!regulator)
+   521			return -ENOMEM;
+   522	
+   523		regulator->info = find_regulator_info(pdev->id);
+   524		if (regulator->info == NULL) {
+   525			dev_err(&pdev->dev, "invalid regulator ID specified\n");
+   526			return -EINVAL;
+   527		}
+   528	
+   529		regulator->da9055 = da9055;
+   530		config.dev = da9055->dev;
+   531		config.driver_data = regulator;
+   532		config.regmap = da9055->regmap;
+   533	
+ > 534		ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
+   535		if (ret < 0)
+   536			return ret;
+   537	
+   538		regulator->rdev = devm_regulator_register(&pdev->dev,
+   539							  &regulator->info->reg_desc,
+   540							  &config);
+   541		if (IS_ERR(regulator->rdev)) {
+   542			dev_err(&pdev->dev, "Failed to register regulator %s\n",
+   543				regulator->info->reg_desc.name);
+   544			return PTR_ERR(regulator->rdev);
+   545		}
+   546	
+   547		/* Only LDO 5 and 6 has got the over current interrupt */
+   548		if (pdev->id == DA9055_ID_LDO5 || pdev->id ==  DA9055_ID_LDO6) {
+   549			irq = platform_get_irq_byname(pdev, "REGULATOR");
+   550			if (irq < 0)
+   551				return irq;
+   552	
+   553			ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+   554							da9055_ldo5_6_oc_irq,
+   555							IRQF_TRIGGER_HIGH |
+   556							IRQF_ONESHOT |
+   557							IRQF_PROBE_SHARED,
+   558							pdev->name, regulator);
+   559			if (ret != 0) {
+   560				if (ret != -EBUSY) {
+   561					dev_err(&pdev->dev,
+   562					"Failed to request Regulator IRQ %d: %d\n",
+   563					irq, ret);
+   564					return ret;
+   565				}
+   566			}
+   567		}
+   568	
+   569		platform_set_drvdata(pdev, regulator);
+   570	
+   571		return 0;
+   572	}
+   573	
 
 --
 0-DAY CI Kernel Test Service
