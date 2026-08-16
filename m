@@ -1,86 +1,196 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A864B04A8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 00:33:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFD433E36A;
+	Sun, 16 Aug 2026 00:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786840392; cv=none; b=KCt+8+XN/tYdt1Ii+6edtgtP5P4mVF05DtkPkSD6kl+QDcgINmdH84wX7afFto1wWXErOxEBmloGyI1mhlWIj2txsH5oSh5GADb68Qgpxi0skZDO1lwEy4yjTeZ55P+NWfE441DTDciM6wE4HRieWCnOvgaAB7xng+zmXvauTHE=
+	t=1786840576; cv=none; b=Szdm3rlIJCciuAQCxXk96bm2kzjoz3o20/sxh+5gjdJT7eHO0gfO3GYBEa8Vd9dxPPeh9QawQjWpxE4ynCN2xQzCfuFxWGRh3/moN9M9XL1O77PegDwsHshOmYDBrNZutkVb+CCxwN0EDQe2TY2X50BkpqtZtd17pRJgFJM7mMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786840392; c=relaxed/simple;
-	bh=Z5Byhi44E3WWGiZWilb2Y+392Xtgjqt1EbKQ2st+aHk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CPVFPC7U3rnNhOcv5w6651LYd9qwePi50sKuMvdsgVX0cJhdv6Mov4JWaR9RijR0QTKMTsdqwjgIJSwZM27OQKAhYFCPJ3L2KQIa5FotxLTSsOCH0TbUwBi2J7JHgIxCfr3DS90tctlXKPcbN7xiQ+IsJwRLgmmP5vJy8CsRYz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YU3pJltd; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1786840576; c=relaxed/simple;
+	bh=sLIRpgbeDqAtJvUvGCPYtBqldhnsPq1B8sRmOTCvQQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+AAiCKCHhdytj5sC1AWHdEnqzp9H4FxxojOjF4ISMkdZtngVIwbS39tOGSdH2QeSewoo0lcPNUdokau8z7TEhGsfRSy0kXa78DkorFaR2mmQzUOeG0CQn98nNAECYAlq6fNeW1+beNwS1dk9srMWeO7H/0L8PNfByHUq0XN+2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAx4R6pN; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YU3pJltd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAx4R6pN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786840391; x=1818376391;
-  h=date:from:to:cc:subject:message-id;
-  bh=Z5Byhi44E3WWGiZWilb2Y+392Xtgjqt1EbKQ2st+aHk=;
-  b=YU3pJltd/tmvwaoRX9u9T7r130kNiGd314qI2jCWAt/JYsEw1VyUwYnc
-   AFDeW++NYBy2PVecvwSVDi/Nl4uEjBAEvI+9UTFW2GhOkEYw35xs5xcsO
-   XIXiI+GILPJcNdfa+xsoDFZsZ84dDvDckn5i0j3Xg2+nWAEGYPLOe2ITw
-   NLy5Ed/kyOK37Yu3DEVmolaNClDLCqrq/ylMnUzRxcWeZT/8rPQHBV/jl
-   7jAHWetNb2qF0YwttBckE88Ica0TQawX1+cm5m1DhtESn70Egjuz4TBj+
-   SkpUQJVOa7EEmbPaOiXm0GHgTiKsaIIHyXc1UwWOv5oaz5x8z2KEZ7LQm
+  t=1786840574; x=1818376574;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sLIRpgbeDqAtJvUvGCPYtBqldhnsPq1B8sRmOTCvQQ0=;
+  b=NAx4R6pN018/2NVIxWIG/bmF+g8h9waAXPBhb4LjLS4W6Tg3sm/3y++1
+   tDd6J5he+MaCiDzN3uoEv1LLQJOC3rXPq5vzf2eeFmvL/5l8NZmmYF8jf
+   xNpLbIXQwDMW36h5u7dpZj8YHcJpP9giyHzPtY9Lj9aUsnN+iyKp6oL/X
+   cv2wBekxoGV6CYWVW8w32JMLV6fpCOXSOPvz1VgXpD7V2e5iduE+fgpz4
+   odE+dmRqe5z36C+deQvqfWhMiFok1zkb8D6u0yQ8iVQbcc5KLn6k2unpJ
+   tzbn8/OXO8JuxxD0EzZCsQdwdOvNKlxx/HN5t9MDIR0L5a6jLQBT2gBwD
    Q==;
-X-CSE-ConnectionGUID: BdHO242dTKevYEi3pAyP5w==
-X-CSE-MsgGUID: //FJpy8KTS2sx2RK+C0n9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="112911249"
+X-CSE-ConnectionGUID: cqWMYvW2SB6KDIXUlVw5AA==
+X-CSE-MsgGUID: Pyw8VIp+TtGORaiuoT/wXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="112911325"
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="112911249"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 17:33:10 -0700
-X-CSE-ConnectionGUID: Z7EfkAxcT6yRiXMDae3iQA==
-X-CSE-MsgGUID: VB374oFTTSCrKFd8ai049Q==
+   d="scan'208";a="112911325"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 17:36:13 -0700
+X-CSE-ConnectionGUID: asGnTZ1zQOWgblt09WcbZQ==
+X-CSE-MsgGUID: ZQxrs+FRSwWUbK+0WihHdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="262789437"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 15 Aug 2026 17:33:08 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="269751916"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 15 Aug 2026 17:36:11 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvOoE-00000000cZw-0VL5;
-	Sun, 16 Aug 2026 00:33:06 +0000
-Date: Sun, 16 Aug 2026 08:32:46 +0800
+	id 1wvOrA-000000006WL-2DF1;
+	Sun, 16 Aug 2026 00:36:08 +0000
+Date: Sun, 16 Aug 2026 02:35:51 +0200
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- arm@kernel.org, linux-doc@vger.kernel.org
-Subject: [soc:board-remove 135/217] Warning:
- drivers/regulator/lp8755.c:49 This comment starts with '/**', but isn't a
- kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202608160822.uRsChfKC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: zhang.enpei@zte.com.cn, chessman@tux.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ethernet: tlan: Convert to use jiffies macro
+Message-ID: <202608160257.LKzb3DiV-lkp@intel.com>
+References: <20250827155455583-PdvmDYA9SD3J37_XRza5@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827155455583-PdvmDYA9SD3J37_XRza5@zte.com.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
-head:   057394422bc04420585b2790b230d8a1f350ace8
-commit: 467cf72c21854e4de62212c55dbed871ea134d9d [135/217] regulator: lp8755: remove platform data based probing
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260816/202608160822.uRsChfKC-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160822.uRsChfKC-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v7.2-rc7 next-20260721]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhang-enpei-zte-com-cn/ethernet-tlan-Convert-to-use-jiffies-macro/20260813-185229
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250827155455583-PdvmDYA9SD3J37_XRza5%40zte.com.cn
+patch subject: [PATCH v3] ethernet: tlan: Convert to use jiffies macro
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260816/202608160257.LKzb3DiV-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160257.LKzb3DiV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608160822.uRsChfKC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608160257.LKzb3DiV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/regulator/lp8755.c:49 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * multiphase configuration options
->> Warning: drivers/regulator/lp8755.c:72 struct member 'mphase' not described in 'lp8755_platform_data'
->> Warning: drivers/regulator/lp8755.c:72 Excess struct member 'mphase_type' description in 'lp8755_platform_data'
->> Warning: drivers/regulator/lp8755.c:72 struct member 'mphase' not described in 'lp8755_platform_data'
->> Warning: drivers/regulator/lp8755.c:72 Excess struct member 'mphase_type' description in 'lp8755_platform_data'
+>> drivers/net/ethernet/ti/tlan.c:1833:8: warning: comparison of distinct pointer types ('unsigned long *' and 'typeof (priv->timer_set_at + (250 / 10)) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+    1833 |                         if (time_is_before_eq_jiffies(priv->timer_set_at + TLAN_TIMER_ACT_DELAY)) {
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jiffies.h:288:38: note: expanded from macro 'time_is_before_eq_jiffies'
+     288 | #define time_is_before_eq_jiffies(a) time_after_eq(jiffies, a)
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jiffies.h:145:3: note: expanded from macro 'time_after_eq'
+     145 |          typecheck(unsigned long, b) && \
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/typecheck.h:12:18: note: expanded from macro 'typecheck'
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                ~~~~~~~~ ^  ~~~~~~~~~
+   drivers/net/ethernet/ti/tlan.c:2057:7: warning: variable 'def_tx' set but not used [-Wunused-but-set-variable]
+    2057 |         u32             def_tx, crc, code;
+         |                         ^
+   2 warnings generated.
+
+
+vim +1833 drivers/net/ethernet/ti/tlan.c
+
+  1771	
+  1772	
+  1773	/***************************************************************
+  1774	 *	tlan_timer
+  1775	 *
+  1776	 *	Returns:
+  1777	 *		Nothing
+  1778	 *	Parms:
+  1779	 *		data	A value given to add timer when
+  1780	 *			add_timer was called.
+  1781	 *
+  1782	 *	This function handles timed functionality for the
+  1783	 *	TLAN driver.  The two current timer uses are for
+  1784	 *	delaying for autonegotionation and driving the ACT LED.
+  1785	 *	-	Autonegotiation requires being allowed about
+  1786	 *		2 1/2 seconds before attempting to transmit a
+  1787	 *		packet.  It would be a very bad thing to hang
+  1788	 *		the kernel this long, so the driver doesn't
+  1789	 *		allow transmission 'til after this time, for
+  1790	 *		certain PHYs.  It would be much nicer if all
+  1791	 *		PHYs were interrupt-capable like the internal
+  1792	 *		PHY.
+  1793	 *	-	The ACT LED, which shows adapter activity, is
+  1794	 *		driven by the driver, and so must be left on
+  1795	 *		for a short period to power up the LED so it
+  1796	 *		can be seen.  This delay can be changed by
+  1797	 *		changing the TLAN_TIMER_ACT_DELAY in tlan.h,
+  1798	 *		if desired.  100 ms  produces a slightly
+  1799	 *		sluggish response.
+  1800	 *
+  1801	 **************************************************************/
+  1802	
+  1803	static void tlan_timer(struct timer_list *t)
+  1804	{
+  1805		struct tlan_priv	*priv = timer_container_of(priv, t, timer);
+  1806		struct net_device	*dev = priv->dev;
+  1807		unsigned long	flags = 0;
+  1808	
+  1809		priv->timer.function = NULL;
+  1810	
+  1811		switch (priv->timer_type) {
+  1812		case TLAN_TIMER_PHY_PDOWN:
+  1813			tlan_phy_power_down(dev);
+  1814			break;
+  1815		case TLAN_TIMER_PHY_PUP:
+  1816			tlan_phy_power_up(dev);
+  1817			break;
+  1818		case TLAN_TIMER_PHY_RESET:
+  1819			tlan_phy_reset(dev);
+  1820			break;
+  1821		case TLAN_TIMER_PHY_START_LINK:
+  1822			tlan_phy_start_link(dev);
+  1823			break;
+  1824		case TLAN_TIMER_PHY_FINISH_AN:
+  1825			tlan_phy_finish_auto_neg(dev);
+  1826			break;
+  1827		case TLAN_TIMER_FINISH_RESET:
+  1828			tlan_finish_reset(dev);
+  1829			break;
+  1830		case TLAN_TIMER_ACTIVITY:
+  1831			spin_lock_irqsave(&priv->lock, flags);
+  1832			if (priv->timer.function == NULL) {
+> 1833				if (time_is_before_eq_jiffies(priv->timer_set_at + TLAN_TIMER_ACT_DELAY)) {
+  1834					tlan_dio_write8(dev->base_addr,
+  1835							TLAN_LED_REG, TLAN_LED_LINK);
+  1836				} else  {
+  1837					priv->timer.expires = priv->timer_set_at
+  1838						+ TLAN_TIMER_ACT_DELAY;
+  1839					spin_unlock_irqrestore(&priv->lock, flags);
+  1840					add_timer(&priv->timer);
+  1841					break;
+  1842				}
+  1843			}
+  1844			spin_unlock_irqrestore(&priv->lock, flags);
+  1845			break;
+  1846		default:
+  1847			break;
+  1848		}
+  1849	
 
 --
 0-DAY CI Kernel Test Service
