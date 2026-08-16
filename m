@@ -1,141 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5C72F690F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 01:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0925477E;
+	Sun, 16 Aug 2026 02:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786843633; cv=none; b=p27DbGRIKcH6wHQZRzPXgZ9vjwyJOiWgxT6LgFhMwLZ4VsMIN8bqBXGY3WryBgjpjBAISfsGhqAx6vpWT7TzPyc5OsvUWrWnrAARSW52+sim5sk/8O24nUkv4vaRQ+KkI/zp08xGh62P0mDNBu44dc69m0Yq/i0Kj/DvlYWGtPo=
+	t=1786846829; cv=none; b=jzjdDRFj4mBs2n5bKfT71p0PeKQgVpBdPoWMxVIwGf+QiDRz3QqCh0yyJsLHUAYoQ0khFyyjPOU+AHe2wqmHkGDRVNwb6QsuaeUbM4E3QLXb7aS0jwnxU2nyHrEuLWYMd57/FpE+Y8OgEIBSMI8nzjqLuueoilfUWbznv/tRsM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786843633; c=relaxed/simple;
-	bh=+EzY5xESG8t5EuSAJPatP6xi7yjKMC6KN/N2UZ4Yk3Y=;
+	s=arc-20240116; t=1786846829; c=relaxed/simple;
+	bh=KJTG9L+tk857BpYI7xBnnnkPB2xo4z0xes4+gjxkJQs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WC0N9HWjLzDjFfb6tQ34Nbc+qVq4t3DaWWYnt/7c7CVscjcV1ZTddpCMlHE7LeWkVvDtdL5DZwNaNo2jcc6U/03xx72E4WuTNIbXWRGz3VHUZ1u8eOig2vx2PwINaec8veBAo6p1BkAiW/UQ3Gblz6SfkGEZLEoJf9nxRvkdrFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYL9I6K3; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZADrnVuSLE3fGATTpnEDq1hslgDrxIB5YAeQzZRWRns+Ab9I/DfhLztl2M6B439HsR4p5qOLMWCDIrTu7lB5C0VEHC+phj/be5zogRHIJjtTyh2ydY28MqYEeHXhxb67BNHcjPviYV09JXPSDe/BTVeTgRAo7AnzIiTZlAOkORo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OqBtbPG2; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYL9I6K3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OqBtbPG2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786843630; x=1818379630;
+  t=1786846827; x=1818382827;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=+EzY5xESG8t5EuSAJPatP6xi7yjKMC6KN/N2UZ4Yk3Y=;
-  b=aYL9I6K3NJrASi+uCuXL9vmuPA5ZA81TXAbulTEiTGHhGhqwATsvpGZ5
-   BG+Kt2v9GD571nXuTyGj4nMPZzSYoW6ab55ng1hQy4urRm+AldxIdMUf+
-   6dSn8vUtKh79DBGX9kiqfE3PU1uqK99bImf0s4Giv8Zx+TcOzMwu3fY47
-   q1BYkpa3ui/xuZp2GfS/MICiUSOYLC4Y8MZojKKgRxyu/F+mTm8JSZrKV
-   fddYjhyJp5AYgPVPya116IpmnjZs/8p7JUu5y+ZFgzUfSYKKvi3i+Zsre
-   BQzwH5PlAkVCyNSGpOd0ZmueX4E4iLMl0HSA8t46k4fbzYnPc8qLBszQF
+   mime-version:in-reply-to;
+  bh=KJTG9L+tk857BpYI7xBnnnkPB2xo4z0xes4+gjxkJQs=;
+  b=OqBtbPG2rDlefOjZxtjq5g82o9RDhI9ilA5lBDnaBrEk8f8KY/GMBdrJ
+   bJszSBUAr7auHf4V0P2Tn5RwsvmFNz3HQr9uqWqKZ24vIws7Qey/RfFNE
+   cSGnWPB/Ubkf9mObxUk9OfX0Q97I+ppTrAif+QACT4IbDwKgmkEbASe4v
+   wMl03A4ueNRQt5I2CjN/iWPc4hK9r/wbYSFSqeD18PIbSgU2VkcgPRmQP
+   zdURHf4AshhbZGZc+xihwAHFwNeoFHFxNGJq8ljZnDKXjoKu58Lt4eX8F
+   nVZ348hr616DLzkktAm8qyjCJ5QI9uLhEQ9RajhTYj+GeijtqfbMs+8XS
    w==;
-X-CSE-ConnectionGUID: WGoU6jN+SrGMFv3cAGJCZA==
-X-CSE-MsgGUID: wiUXZEqFSSi04Fo7ebok7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87578478"
+X-CSE-ConnectionGUID: XcAmn8zhR/ipD5JNOVYSoQ==
+X-CSE-MsgGUID: ltTvHG2ASLScd3clU3zA0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="98884986"
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="87578478"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 18:27:10 -0700
-X-CSE-ConnectionGUID: VRRW2CZxR5e/w4g42CpDIQ==
-X-CSE-MsgGUID: tDpOTD74SHa9wNL2PIYs4w==
+   d="scan'208";a="98884986"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 19:20:27 -0700
+X-CSE-ConnectionGUID: Iq57Tr41ROCieqfncajFHA==
+X-CSE-MsgGUID: sXEnOhsGSsalsajF1PEG0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="260336122"
+   d="scan'208";a="262800964"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Aug 2026 18:27:07 -0700
+  by orviesa006.jf.intel.com with ESMTP; 15 Aug 2026 19:20:24 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvPeT-00000000cdW-15EN;
-	Sun, 16 Aug 2026 01:27:05 +0000
-Date: Sun, 16 Aug 2026 09:26:56 +0800
+	id 1wvQU1-00000000cfq-34EJ;
+	Sun, 16 Aug 2026 02:20:21 +0000
+Date: Sun, 16 Aug 2026 10:19:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?Ertu=C4=9Frul_Top=C3=A7u?= <ertugtopcu0@gmail.com>,
-	hansg@kernel.org, ilpo.jarvinen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?utf-8?Q?Ertu=C4=9Frul_Top=C3=A7u?= <ertugtopcu0@gmail.com>
-Subject: Re: [PATCH] platform/x86: Add Goodix fingerprint EC mailbox transport
-Message-ID: <202608160824.RMzAY05S-lkp@intel.com>
-References: <20260727205837.91413-1-ertugtopcu0@gmail.com>
+To: jiale yao <19888972804@163.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Marcel Holtmann <marcel@holtmann.org>, Tim Bird <tim.bird@sony.com>,
+	Muhammad Bilal <meatuni001@gmail.com>, Kees Cook <kees@kernel.org>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Re:Re: [PATCH v2] Bluetooth: HIDP: add missing length check for
+ incoming frames
+Message-ID: <202608161044.9x6CmhDO-lkp@intel.com>
+References: <220b6be5.d3f.19f78e165aa.Coremail.19888972804@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260727205837.91413-1-ertugtopcu0@gmail.com>
+In-Reply-To: <220b6be5.d3f.19f78e165aa.Coremail.19888972804@163.com>
 
-Hi Ertuğrul,
+Hi jiale,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.2-rc7 next-20260814]
+[auto build test WARNING on kees/for-next/pstore]
+[also build test WARNING on kees/for-next/kspp]
+[cannot apply to bluetooth-next/master bluetooth/master linus/master v7.2-rc7 next-20260814]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ertu-rul-Top-u/platform-x86-Add-Goodix-fingerprint-EC-mailbox-transport/20260815-121223
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260727205837.91413-1-ertugtopcu0%40gmail.com
-patch subject: [PATCH] platform/x86: Add Goodix fingerprint EC mailbox transport
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260816/202608160824.RMzAY05S-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160824.RMzAY05S-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/jiale-yao/Re-Re-PATCH-v2-Bluetooth-HIDP-add-missing-length-check-for-incoming-frames/20260814-100503
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
+patch link:    https://lore.kernel.org/r/220b6be5.d3f.19f78e165aa.Coremail.19888972804%40163.com
+patch subject: Re:Re: [PATCH v2] Bluetooth: HIDP: add missing length check for incoming frames
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260816/202608161044.9x6CmhDO-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 844a18e753e822736c9805ab779144b647a2c186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161044.9x6CmhDO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608160824.RMzAY05S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608161044.9x6CmhDO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c: In function 'goodix_ec_mmio_write_tx':
->> drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c:204:17: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Wimplicit-function-declaration]
-     204 |                 writeq(value, gdev->mailbox + GOODIX_EC_TX_OFFSET + offset);
-         |                 ^~~~~~
-         |                 writel
-   drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c: In function 'goodix_ec_mmio_read_rx':
->> drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c:216:29: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
-     216 |                 u64 value = readq(gdev->mailbox + GOODIX_EC_RX_OFFSET + offset);
-         |                             ^~~~~
-         |                             readl
+>> net/bluetooth/hidp/core.c:612:48: warning: format specifies type 'unsigned int' but the argument has type 'unsigned char *' [-Wformat]
+     612 |                 BT_DBG("Unsupported protocol header 0x%02x", hdr);
+         |                                                       ~~~~   ^~~
+         |                                                       %2s
+   include/net/bluetooth/bluetooth.h:287:47: note: expanded from macro 'BT_DBG'
+     287 | #define BT_DBG(fmt, ...)        pr_debug(fmt "\n", ##__VA_ARGS__)
+         |                                          ~~~         ^~~~~~~~~~~
+   include/linux/printk.h:641:38: note: expanded from macro 'pr_debug'
+     641 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                     ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:134:18: note: expanded from macro 'no_printk'
+     134 |                 _printk(fmt, ##__VA_ARGS__);            \
+         |                         ~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +204 drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c
+vim +612 net/bluetooth/hidp/core.c
 
-   196	
-   197	static void goodix_ec_mmio_write_tx(struct goodix_device *gdev, size_t len)
-   198	{
-   199		size_t offset;
-   200	
-   201		for (offset = 0; offset < len; offset += sizeof(u64)) {
-   202			u64 value = get_unaligned_le64(gdev->tx_buf + offset);
-   203	
- > 204			writeq(value, gdev->mailbox + GOODIX_EC_TX_OFFSET + offset);
-   205		}
-   206	
-   207		/* Publish every qword before asserting the write-done doorbell. */
-   208		wmb();
-   209	}
-   210	
-   211	static void goodix_ec_mmio_read_rx(struct goodix_device *gdev)
-   212	{
-   213		size_t offset;
-   214	
-   215		for (offset = 0; offset < GOODIX_EC_RX_SIZE; offset += sizeof(u64)) {
- > 216			u64 value = readq(gdev->mailbox + GOODIX_EC_RX_OFFSET + offset);
-   217	
-   218			put_unaligned_le64(value, gdev->rx_buf + offset);
-   219		}
-   220	
-   221		/* Complete the mailbox snapshot before parsing its headers. */
-   222		rmb();
-   223	}
-   224	
+^1da177e4c3f41 Linus Torvalds   2005-04-16  588  
+91f5cca3d1b434 Andrew Morton    2008-02-05  589  static void hidp_recv_intr_frame(struct hidp_session *session,
+91f5cca3d1b434 Andrew Morton    2008-02-05  590  				struct sk_buff *skb)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  591  {
+afd2c613d3369f jiale yao        2026-07-19  592  	unsigned char *hdr;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  593  
+093dabb4f1aff9 Kai Ye           2021-06-03  594  	BT_DBG("session %p skb %p len %u", session, skb, skb->len);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  595  
+afd2c613d3369f jiale yao        2026-07-19  596  	hdr = skb_pull_data(skb, 1);
+afd2c613d3369f jiale yao        2026-07-19  597  	if (!hdr)
+afd2c613d3369f jiale yao        2026-07-19  598  		return;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  599  
+afd2c613d3369f jiale yao        2026-07-19  600  	if (*hdr == (HIDP_TRANS_DATA | HIDP_DATA_RTYPE_INPUT)) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  601  		hidp_set_timer(session);
+e1aaadd4d8162a Marcel Holtmann  2007-02-17  602  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  603  		if (session->input)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  604  			hidp_input_report(session, skb);
+e1aaadd4d8162a Marcel Holtmann  2007-02-17  605  
+e1aaadd4d8162a Marcel Holtmann  2007-02-17  606  		if (session->hid) {
+a4b1b5877b514b David Rheinsberg 2013-12-19  607  			hidp_process_report(session, HID_INPUT_REPORT,
+a4b1b5877b514b David Rheinsberg 2013-12-19  608  					    skb->data, skb->len, 1);
+e1aaadd4d8162a Marcel Holtmann  2007-02-17  609  			BT_DBG("report len %d", skb->len);
+e1aaadd4d8162a Marcel Holtmann  2007-02-17  610  		}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  611  	} else {
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @612  		BT_DBG("Unsupported protocol header 0x%02x", hdr);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  613  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  614  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  615  	kfree_skb(skb);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  616  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  617  
 
 --
 0-DAY CI Kernel Test Service
