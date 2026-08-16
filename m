@@ -1,82 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F074C2C3255
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 21:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7611B18B0A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 21:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786915125; cv=none; b=G/Woi1j/HqlnPJJpbhxO4DRtHLaNtC2yZPFgGTycfKR3RE2u1+joOcx70pjq03hSgEQsw4+IEgS3uzFlhquj5QyEAnDMk9BKJAICTcBmwiJnkJAQIiqkNqtoCS5f/cDyyn1lIjcSiI143Iz79jt+X1xhQwwoMEeVEGgM8aZnTFg=
+	t=1786917090; cv=none; b=gzsxsUeI3Tl95zDDCKqDg8ACyFH1iplbEMA554R5qRtIksnmdXpxLvPgA3VOSS93+i/GEStKpXAm6lntNm5CYjq29hEv7y4tky9dhyGSGwQyBkMWjToCF0bFrvy+ye1VWD7K3pCkGQ3EffUwErK1b6a7zSUq2DuKDjkF/9Zs+Uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786915125; c=relaxed/simple;
-	bh=BKHaEXRzagv9Hwz2NHksp9OSi74XM3X5jnihbEGshu0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UfzdnrJtnVdJzOMic2DuCaTxWCawysQVg6iopek6OZQDygwJ3Pl5r7R3bbwxvkBfPiUILMNvOdtDG7uxX9q0ME0gcBnTooQpniJEDOaZ+wqoQZjTLnVwyonKy8hrZkRRgzR9hFPDye5l/EuM/cEM2yy85ohXhFO3txsRAxQmq+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYWKjvgS; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1786917090; c=relaxed/simple;
+	bh=CtqEFv68O0/6jfD9J4yny3PjNUVsgd4jzK5J41RFoBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TmcmS1vrc3uQ9ZyS2CLd6fsKbFegECX4p1b1NMpTdA4AL+dLhKe4XNM3tQ9yYpvIiZa6ewtVUJ5lbG7br+KERQPTj1YndTZu74fcPPT+QYwksxjcMOodrv4WF4PJFU9k6PY6oZkvjJc/CVXAzah9bR+PaKF/sWEUAEjmWwaN0J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9tNQ9lg; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYWKjvgS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9tNQ9lg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786915123; x=1818451123;
-  h=date:from:to:cc:subject:message-id;
-  bh=BKHaEXRzagv9Hwz2NHksp9OSi74XM3X5jnihbEGshu0=;
-  b=jYWKjvgS06S+3xbHVY6m5eApaz62c3ExriCiBGfJFcf8KQRSbneMXt9r
-   xKzZT81ctTY3djF6Iv7xqQJrf/Ei4havMW6de9vh5MfWMuXXJ5j23nyx1
-   B943SLCuTV/E2ocW1oDfyXNuAvwaQ9cZU5APEZjDCDwUKjYSWzXyazwBt
-   8fmisDYDBVgQEBtJ/z8py3YnNi9PQVHLKOa6LVsas1vo4z5HliRZdsf1F
-   nZNDSPDeRtLsbX+GXLTjvR0Eg493259HqyGIHXPWVNWJUd7rWeEb9fwzt
-   ujuopz4VWNBTCOJ9MaROMynmTKow8IJgHWAxH42ktszVxGawnIHMGPIYZ
-   A==;
-X-CSE-ConnectionGUID: EB0h0gtcQ2yJOiEiRyX8lA==
-X-CSE-MsgGUID: PcM+gZwBSICxkSf3KAWRdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="74930722"
+  t=1786917088; x=1818453088;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CtqEFv68O0/6jfD9J4yny3PjNUVsgd4jzK5J41RFoBs=;
+  b=K9tNQ9lgVLUOeT6VoOA2OdV//B1V19ejaDhAkO2TQMVTZNuKmUpVXs/a
+   3AN6m8LM3HSbw7E4jLlt/gjAaRN6e9SR4qBFVi0meu5OxWN8us5hclmsi
+   3QD6fjCm8glDlr2MvRarGpO+1868DDnY0+VcwO31uC4waLizN2eS7PXfK
+   ZDYTq4o8/4rX0k1ZNhoQ0qnm9K30y9wfEZU9290SgaaRth6ljNp1R0m5r
+   DSCGwfPtWUoZk8Hcob6x2A8G5ALk9oLixUsKQuxBfjd7HykHGYeKIAdcj
+   27Gp6M/gh1Te8LNpeKjrFUMigjioCuU6ky4fw+48Q7HH/caH41OUM79RL
+   Q==;
+X-CSE-ConnectionGUID: xnxzOt7iRq6+yMWRdUqa6w==
+X-CSE-MsgGUID: rIbO3u8dRI+LNUA81ks6Xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="98760716"
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="74930722"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 14:18:42 -0700
-X-CSE-ConnectionGUID: X8iHqja2S8eWjgZc+X3lXA==
-X-CSE-MsgGUID: lEL85rqKTB6ibPcVCKsr3Q==
+   d="scan'208";a="98760716"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 14:51:27 -0700
+X-CSE-ConnectionGUID: z0cJomoVTfi5OwCwsfsmRg==
+X-CSE-MsgGUID: X+zZ3OAaQ/WuiBIz3IPM3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="258526561"
+   d="scan'208";a="288213754"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2026 14:18:41 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 16 Aug 2026 14:51:26 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wviFa-00000000d6u-18i6;
-	Sun, 16 Aug 2026 21:18:38 +0000
-Date: Mon, 17 Aug 2026 05:17:49 +0800
+	id 1wvilI-00000000d74-0xN1;
+	Sun, 16 Aug 2026 21:51:24 +0000
+Date: Mon, 17 Aug 2026 05:51:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- arm@kernel.org
-Subject: [soc:board-remove 156/217] Warning:
- drivers/spi/spi-davinci.c:128 Excess struct member 'dma_event_q' description
- in 'davinci_spi_platform_data'
-Message-ID: <202608170511.e4bYe4sq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tianyu Lan <ltykernel@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/1] x86/VMBus: DMA transfer with encrypted memory in
+ Coco VM
+Message-ID: <202608170501.Y5JDNZFt-lkp@intel.com>
+References: <20260803033520.12930-1-tiala@microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260803033520.12930-1-tiala@microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
-head:   057394422bc04420585b2790b230d8a1f350ace8
-commit: 6cc451353fcbdefe9d376e72702743c6dc202a1c [156/217] dma: ti-edma: remove platform data based probing
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260817/202608170511.e4bYe4sq-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170511.e4bYe4sq-lkp@intel.com/reproduce)
+Hi Tianyu,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.2-rc7 next-20260814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyu-Lan/x86-VMBus-DMA-transfer-with-encrypted-memory-in-Coco-VM/20260814-182223
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260803033520.12930-1-tiala%40microsoft.com
+patch subject: [RFC PATCH 1/1] x86/VMBus: DMA transfer with encrypted memory in Coco VM
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260817/202608170501.Y5JDNZFt-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170501.Y5JDNZFt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608170511.e4bYe4sq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608170501.Y5JDNZFt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: drivers/spi/spi-davinci.c:128 Excess struct member 'dma_event_q' description in 'davinci_spi_platform_data'
->> Warning: drivers/spi/spi-davinci.c:128 Excess struct member 'dma_event_q' description in 'davinci_spi_platform_data'
+>> drivers/hv/vmbus_drv.c:1471:6: warning: no previous prototype for 'is_vmbus_dev' [-Wmissing-prototypes]
+1471 | bool is_vmbus_dev(struct device *dev)
+|      ^~~~~~~~~~~~
+--
+>> ERROR: modpost: "hyperv_dma_ops" [drivers/hv/hv_vmbus.ko] undefined!
 
 --
 0-DAY CI Kernel Test Service
