@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599DA3C0A09
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 19:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A9638F25C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 19:50:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786909050; cv=none; b=i3D9zOrpXNO3wQMuE2nh45lYUKcKrtz5GkNgekKhQW+WF6iV16weKMrt48E/Ga2aXS3/c2xBGmHXhW4Kcu90qFmVKUSf2BoHA6iDgYDJaNdAfY02quC+fmmCTKEVS0tGPsKG/uEtejPUCk/39SldIToh/ynTRma7EfmIcPxjOcI=
+	t=1786909834; cv=none; b=f5J0tGeKVlvoS8EgYQaukxPtB084SBoNOtt1G+/UFQb30HnBo9KzUGqvJNrBRYXJrRoe63ZySezFgcyzLqHtW4ruhdS33y8tyxSOvowmrb4g0I/3EAnnKTBQA4a4ZZsYmPG2IqL2m/1TdSAXXEoGlnQh5+w4h7j3yXHo0l9QLzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786909050; c=relaxed/simple;
-	bh=CnrXjJZl16h6sjUMPByZym1rW8nYJW7wjfR5SUt/PRM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nU7nuz9CQP/X+72zKCrMIv8VT8tYDMXc2ELkcHKvENi1ZJSUvOPCZMoP5+bIuQt2A3wQd94e9nLfLypdfIj7CDyifmvjBJpwEzyoj8tptimwYbubVPD1eC0dagBZrGAt4omAv+ZH/WzFIC9cbMs/NG2kOyhIdby89ZmMzLtneM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pqm+I9PI; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1786909834; c=relaxed/simple;
+	bh=cKALu4FejD7U5lvKIhp6rgstfPb27XhvCThRIOKSjJg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=juzKiM2wIas19KzVkqDpeAGziS7wAhI30X8d5sEI9gjeveNsPmkiifNuxKmZYiCaCPUDquLl/3Ke4GP7Bx+PKGon25AtnpRNOPMrWa52G4EU2+pJxL1OpGogO3Yvqxcl1N7uoRXyLPDy6CsTAklpBqUxAUgSiC7/X++5u0R9DBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kO91IyOT; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pqm+I9PI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kO91IyOT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786909048; x=1818445048;
+  t=1786909833; x=1818445833;
   h=date:from:to:cc:subject:message-id;
-  bh=CnrXjJZl16h6sjUMPByZym1rW8nYJW7wjfR5SUt/PRM=;
-  b=Pqm+I9PIU65Q75TvhuPNNTqNdDE3bjj8zQNlY4eo7FrXrEKKgqa4PrYT
-   MtBkynRHJj3/G4Q0VK9GvDMiwJVTvUpHcguabDOaeuzwZoUjTEvfPrn3n
-   /UDsI2H+UWb39e3S50vy9g9gNBnsdAHifwYIGr0ZWmvSVss5HF7gXmO2U
-   CE+kxqyIK0nBc+KK0WoNmVyBce44EXOM6qt3aDh/+Vv13KsH0FjUoVdDS
-   m/vpu3fhDi1/xVqE8tWbAPqsSuTz3Vy96UP3N1Grsz+hIQzZqeMWQgRab
-   Eqm77LEqPBQ1wnBbgtDQem2Gkro3gj8P7DmLnQZezTO6nsG+LxhGtN+Kk
-   A==;
-X-CSE-ConnectionGUID: 4l8TWTV1QBSxlRyI+CsdEw==
-X-CSE-MsgGUID: QtnQ/BqHToG63GAHSqmp9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="91208665"
+  bh=cKALu4FejD7U5lvKIhp6rgstfPb27XhvCThRIOKSjJg=;
+  b=kO91IyOTdmIXrH/4avnVVS+JZ/klmedqjps3v6tezG3YQ1nptjWo44N9
+   Y82dRnBlzvB0IFoDYdwT1hGwsBXZyhf+6YlTiPTM2iIsuXdHHCEPcSXBv
+   9vejOXJl+oVe01ga5LE/+uQ3RZsyhe0veX8dlUq8mH63iZqGUbivpVEsQ
+   bs7PPpc06rC/QZA/JpfHXlNUIDbszk3K4oebHTaAM6tcclb+F8aLjB7Zi
+   JYc265rtH1yamThFkVeuazJlzCasgKr/Lfxsac754uZNM3tK6gTznW2Zz
+   kOrsgjnvEYHvvS6ADno7c7VE9Y5Foo/pIGEj0nGg4YFrY5YyRRDxJlAwU
+   g==;
+X-CSE-ConnectionGUID: O3rZ1ev7S+yM3lK7HkP+xQ==
+X-CSE-MsgGUID: KkFCUZPNSo+okWNBSlg4sQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="91209202"
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="91208665"
+   d="scan'208";a="91209202"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 12:37:28 -0700
-X-CSE-ConnectionGUID: nV8t2L3DSi6j4jrufTn84Q==
-X-CSE-MsgGUID: owRCc+OeTo2RcLT492OThw==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 12:50:32 -0700
+X-CSE-ConnectionGUID: EI4BrI9zQcOer+yF3aqmVQ==
+X-CSE-MsgGUID: xe1rRIm6T0qzuukgnp/Ueg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="264766524"
+   d="scan'208";a="264768241"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 16 Aug 2026 12:37:26 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Aug 2026 12:50:30 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvgfb-00000000d4f-2vG8;
-	Sun, 16 Aug 2026 19:37:23 +0000
-Date: Mon, 17 Aug 2026 03:36:52 +0800
+	id 1wvgsF-00000000d53-3WiU;
+	Sun, 16 Aug 2026 19:50:27 +0000
+Date: Mon, 17 Aug 2026 03:49:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  arm@kernel.org
-Subject: [soc:board-remove 114/217]
- drivers/regulator/da9055-regulator.c:534:15: error: too many arguments to
- function 'da9055_gpio_init'
-Message-ID: <202608170503.dqOGRyEa-lkp@intel.com>
+Subject: [soc:board-remove 155/217]
+ drivers/regulator/max8925-regulator.c:22:9: error: redeclaration of
+ enumerator 'MAX8925_ID_SD1'
+Message-ID: <202608170317.qOuw4nsC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,152 +63,313 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
 head:   057394422bc04420585b2790b230d8a1f350ace8
-commit: 158b19afd623da6a93d8ac59dd4aeefe48fa2085 [114/217] mfd: da9055: remove pdata based probing
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260817/202608170503.dqOGRyEa-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170503.dqOGRyEa-lkp@intel.com/reproduce)
+commit: 12b07cd9224f59fd9924a86b2504c9caa0045206 [155/217] mfd: max8925: remove pdata probe support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260817/202608170317.qOuw4nsC-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170317.qOuw4nsC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608170503.dqOGRyEa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608170317.qOuw4nsC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/regulator/da9055-regulator.c:77:26: error: field 'reg_rselect' has incomplete type
-      77 |         enum gpio_select reg_rselect;
-         |                          ^~~~~~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_set_voltage_sel':
-   drivers/regulator/da9055-regulator.c:208:39: error: 'NO_GPIO' undeclared (first use in this function)
-     208 |         if (regulator->reg_rselect == NO_GPIO) {
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c:208:39: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_set_suspend_voltage':
-   drivers/regulator/da9055-regulator.c:248:39: error: 'NO_GPIO' undeclared (first use in this function)
-     248 |         if (regulator->reg_rselect == NO_GPIO) {
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_enable':
-   drivers/regulator/da9055-regulator.c:269:39: error: 'NO_GPIO' undeclared (first use in this function)
-     269 |         if (regulator->reg_rselect == NO_GPIO)
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_disable':
-   drivers/regulator/da9055-regulator.c:282:39: error: 'NO_GPIO' undeclared (first use in this function)
-     282 |         if (regulator->reg_rselect == NO_GPIO)
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_gpio_init':
-   drivers/regulator/da9055-regulator.c:466:42: error: 'pdata' undeclared (first use in this function); did you mean '_data'?
-     466 |                 regulator->reg_rselect = pdata->reg_rsel[id];
-         |                                          ^~~~~
-         |                                          _data
-   drivers/regulator/da9055-regulator.c:417:33: warning: parameter 'id' set but not used [-Wunused-but-set-parameter]
-     417 |                             int id)
-         |                             ~~~~^~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from drivers/regulator/da9055-regulator.c:9:
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_probe':
-   include/linux/stddef.h:8:14: error: passing argument 4 of 'da9055_gpio_init' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/regulator/da9055-regulator.c:534:64: note: in expansion of macro 'NULL'
-     534 |         ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
-         |                                                                ^~~~
-   drivers/regulator/da9055-regulator.c:417:33: note: expected 'int' but argument is of type 'void *'
-     417 |                             int id)
-         |                             ~~~~^~
->> drivers/regulator/da9055-regulator.c:534:15: error: too many arguments to function 'da9055_gpio_init'
-     534 |         ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
+>> drivers/regulator/max8925-regulator.c:22:9: error: redeclaration of enumerator 'MAX8925_ID_SD1'
+      22 |         MAX8925_ID_SD1,
+         |         ^~~~~~~~~~~~~~
+   In file included from drivers/regulator/max8925-regulator.c:16:
+   include/linux/mfd/max8925.h:17:9: note: previous definition of 'MAX8925_ID_SD1' with type 'enum <anonymous>'
+      17 |         MAX8925_ID_SD1,
+         |         ^~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:23:9: error: redeclaration of enumerator 'MAX8925_ID_SD2'
+      23 |         MAX8925_ID_SD2,
+         |         ^~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:18:9: note: previous definition of 'MAX8925_ID_SD2' with type 'enum <anonymous>'
+      18 |         MAX8925_ID_SD2,
+         |         ^~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:24:9: error: redeclaration of enumerator 'MAX8925_ID_SD3'
+      24 |         MAX8925_ID_SD3,
+         |         ^~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:19:9: note: previous definition of 'MAX8925_ID_SD3' with type 'enum <anonymous>'
+      19 |         MAX8925_ID_SD3,
+         |         ^~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:25:9: error: redeclaration of enumerator 'MAX8925_ID_LDO1'
+      25 |         MAX8925_ID_LDO1,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:20:9: note: previous definition of 'MAX8925_ID_LDO1' with type 'enum <anonymous>'
+      20 |         MAX8925_ID_LDO1,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:26:9: error: redeclaration of enumerator 'MAX8925_ID_LDO2'
+      26 |         MAX8925_ID_LDO2,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:21:9: note: previous definition of 'MAX8925_ID_LDO2' with type 'enum <anonymous>'
+      21 |         MAX8925_ID_LDO2,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:27:9: error: redeclaration of enumerator 'MAX8925_ID_LDO3'
+      27 |         MAX8925_ID_LDO3,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:22:9: note: previous definition of 'MAX8925_ID_LDO3' with type 'enum <anonymous>'
+      22 |         MAX8925_ID_LDO3,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:28:9: error: redeclaration of enumerator 'MAX8925_ID_LDO4'
+      28 |         MAX8925_ID_LDO4,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:23:9: note: previous definition of 'MAX8925_ID_LDO4' with type 'enum <anonymous>'
+      23 |         MAX8925_ID_LDO4,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:29:9: error: redeclaration of enumerator 'MAX8925_ID_LDO5'
+      29 |         MAX8925_ID_LDO5,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:24:9: note: previous definition of 'MAX8925_ID_LDO5' with type 'enum <anonymous>'
+      24 |         MAX8925_ID_LDO5,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:30:9: error: redeclaration of enumerator 'MAX8925_ID_LDO6'
+      30 |         MAX8925_ID_LDO6,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:25:9: note: previous definition of 'MAX8925_ID_LDO6' with type 'enum <anonymous>'
+      25 |         MAX8925_ID_LDO6,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:31:9: error: redeclaration of enumerator 'MAX8925_ID_LDO7'
+      31 |         MAX8925_ID_LDO7,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:26:9: note: previous definition of 'MAX8925_ID_LDO7' with type 'enum <anonymous>'
+      26 |         MAX8925_ID_LDO7,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:32:9: error: redeclaration of enumerator 'MAX8925_ID_LDO8'
+      32 |         MAX8925_ID_LDO8,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:27:9: note: previous definition of 'MAX8925_ID_LDO8' with type 'enum <anonymous>'
+      27 |         MAX8925_ID_LDO8,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:33:9: error: redeclaration of enumerator 'MAX8925_ID_LDO9'
+      33 |         MAX8925_ID_LDO9,
+         |         ^~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:28:9: note: previous definition of 'MAX8925_ID_LDO9' with type 'enum <anonymous>'
+      28 |         MAX8925_ID_LDO9,
+         |         ^~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:34:9: error: redeclaration of enumerator 'MAX8925_ID_LDO10'
+      34 |         MAX8925_ID_LDO10,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:29:9: note: previous definition of 'MAX8925_ID_LDO10' with type 'enum <anonymous>'
+      29 |         MAX8925_ID_LDO10,
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:35:9: error: redeclaration of enumerator 'MAX8925_ID_LDO11'
+      35 |         MAX8925_ID_LDO11,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:30:9: note: previous definition of 'MAX8925_ID_LDO11' with type 'enum <anonymous>'
+      30 |         MAX8925_ID_LDO11,
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:36:9: error: redeclaration of enumerator 'MAX8925_ID_LDO12'
+      36 |         MAX8925_ID_LDO12,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:31:9: note: previous definition of 'MAX8925_ID_LDO12' with type 'enum <anonymous>'
+      31 |         MAX8925_ID_LDO12,
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:37:9: error: redeclaration of enumerator 'MAX8925_ID_LDO13'
+      37 |         MAX8925_ID_LDO13,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:32:9: note: previous definition of 'MAX8925_ID_LDO13' with type 'enum <anonymous>'
+      32 |         MAX8925_ID_LDO13,
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:38:9: error: redeclaration of enumerator 'MAX8925_ID_LDO14'
+      38 |         MAX8925_ID_LDO14,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:33:9: note: previous definition of 'MAX8925_ID_LDO14' with type 'enum <anonymous>'
+      33 |         MAX8925_ID_LDO14,
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:39:9: error: redeclaration of enumerator 'MAX8925_ID_LDO15'
+      39 |         MAX8925_ID_LDO15,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:34:9: note: previous definition of 'MAX8925_ID_LDO15' with type 'enum <anonymous>'
+      34 |         MAX8925_ID_LDO15,
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:40:9: error: redeclaration of enumerator 'MAX8925_ID_LDO16'
+      40 |         MAX8925_ID_LDO16,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:35:9: note: previous definition of 'MAX8925_ID_LDO16' with type 'enum <anonymous>'
+      35 |         MAX8925_ID_LDO16,
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/regulator/max8925-regulator.c:41:9: error: redeclaration of enumerator 'MAX8925_ID_LDO17'
+      41 |         MAX8925_ID_LDO17,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:36:9: note: previous definition of 'MAX8925_ID_LDO17' with type 'enum <anonymous>'
+      36 |         MAX8925_ID_LDO17,
+         |         ^~~~~~~~~~~~~~~~
+   drivers/regulator/max8925-regulator.c:42:9: error: redeclaration of enumerator 'MAX8925_ID_LDO18'
+      42 |         MAX8925_ID_LDO18,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:37:9: note: previous definition of 'MAX8925_ID_LDO18' with type 'enum <anonymous>'
+      37 |         MAX8925_ID_LDO18,
+         |         ^~~~~~~~~~~~~~~~
+   drivers/regulator/max8925-regulator.c:43:9: error: redeclaration of enumerator 'MAX8925_ID_LDO19'
+      43 |         MAX8925_ID_LDO19,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:38:9: note: previous definition of 'MAX8925_ID_LDO19' with type 'enum <anonymous>'
+      38 |         MAX8925_ID_LDO19,
+         |         ^~~~~~~~~~~~~~~~
+   drivers/regulator/max8925-regulator.c:44:9: error: redeclaration of enumerator 'MAX8925_ID_LDO20'
+      44 |         MAX8925_ID_LDO20,
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:39:9: note: previous definition of 'MAX8925_ID_LDO20' with type 'enum <anonymous>'
+      39 |         MAX8925_ID_LDO20,
+         |         ^~~~~~~~~~~~~~~~
+   drivers/regulator/max8925-regulator.c:45:9: error: redeclaration of enumerator 'MAX8925_ID_MAX'
+      45 |         MAX8925_ID_MAX,
+         |         ^~~~~~~~~~~~~~
+   include/linux/mfd/max8925.h:40:9: note: previous definition of 'MAX8925_ID_MAX' with type 'enum <anonymous>'
+      40 |         MAX8925_ID_MAX,
+         |         ^~~~~~~~~~~~~~
+--
+   drivers/video/backlight/max8925_bl.c: In function 'max8925_backlight_set':
+>> drivers/video/backlight/max8925_bl.c:42:15: error: implicit declaration of function 'max8925_reg_write' [-Wimplicit-function-declaration]
+      42 |         ret = max8925_reg_write(chip->i2c, data->reg_cntl, value);
+         |               ^~~~~~~~~~~~~~~~~
+>> drivers/video/backlight/max8925_bl.c:42:37: error: invalid use of undefined type 'struct max8925_chip'
+      42 |         ret = max8925_reg_write(chip->i2c, data->reg_cntl, value);
+         |                                     ^~
+>> drivers/video/backlight/max8925_bl.c:48:23: error: implicit declaration of function 'max8925_set_bits' [-Wimplicit-function-declaration]
+      48 |                 ret = max8925_set_bits(chip->i2c, data->reg_mode_cntl, 1, 1);
+         |                       ^~~~~~~~~~~~~~~~
+   drivers/video/backlight/max8925_bl.c:48:44: error: invalid use of undefined type 'struct max8925_chip'
+      48 |                 ret = max8925_set_bits(chip->i2c, data->reg_mode_cntl, 1, 1);
+         |                                            ^~
+   drivers/video/backlight/max8925_bl.c:51:44: error: invalid use of undefined type 'struct max8925_chip'
+      51 |                 ret = max8925_set_bits(chip->i2c, data->reg_mode_cntl, 1, 0);
+         |                                            ^~
+   In file included from include/linux/printk.h:620,
+                    from include/linux/kernel.h:30,
+                    from drivers/video/backlight/max8925_bl.c:10:
+   drivers/video/backlight/max8925_bl.c:54:21: error: invalid use of undefined type 'struct max8925_chip'
+      54 |         dev_dbg(chip->dev, "set brightness %d\n", value);
+         |                     ^~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/video/backlight/max8925_bl.c:54:9: note: in expansion of macro 'dev_dbg'
+      54 |         dev_dbg(chip->dev, "set brightness %d\n", value);
+         |         ^~~~~~~
+   drivers/video/backlight/max8925_bl.c:58:21: error: invalid use of undefined type 'struct max8925_chip'
+      58 |         dev_dbg(chip->dev, "set brightness %d failure with return value:%d\n",
+         |                     ^~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/video/backlight/max8925_bl.c:58:9: note: in expansion of macro 'dev_dbg'
+      58 |         dev_dbg(chip->dev, "set brightness %d failure with return value:%d\n",
+         |         ^~~~~~~
+   drivers/video/backlight/max8925_bl.c: In function 'max8925_backlight_get_brightness':
+>> drivers/video/backlight/max8925_bl.c:74:15: error: implicit declaration of function 'max8925_reg_read' [-Wimplicit-function-declaration]
+      74 |         ret = max8925_reg_read(chip->i2c, data->reg_cntl);
          |               ^~~~~~~~~~~~~~~~
-   drivers/regulator/da9055-regulator.c:414:12: note: declared here
-     414 | static int da9055_gpio_init(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_enable':
-   drivers/regulator/da9055-regulator.c:274:1: warning: control reaches end of non-void function [-Wreturn-type]
-     274 | }
-         | ^
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_disable':
-   drivers/regulator/da9055-regulator.c:287:1: warning: control reaches end of non-void function [-Wreturn-type]
-     287 | }
-         | ^
+   drivers/video/backlight/max8925_bl.c:74:36: error: invalid use of undefined type 'struct max8925_chip'
+      74 |         ret = max8925_reg_read(chip->i2c, data->reg_cntl);
+         |                                    ^~
+   drivers/video/backlight/max8925_bl.c:78:21: error: invalid use of undefined type 'struct max8925_chip'
+      78 |         dev_dbg(chip->dev, "get brightness %d\n", data->current_brightness);
+         |                     ^~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/video/backlight/max8925_bl.c:78:9: note: in expansion of macro 'dev_dbg'
+      78 |         dev_dbg(chip->dev, "get brightness %d\n", data->current_brightness);
+         |         ^~~~~~~
+   drivers/video/backlight/max8925_bl.c: In function 'max8925_backlight_dt_init':
+>> drivers/video/backlight/max8925_bl.c:100:68: error: expected ';' before 'if'
+     100 |         of_property_read_u32(np, "maxim,max8925-dual-string", &val)
+         |                                                                    ^
+         |                                                                    ;
+     101 | 
+     102 |         if (val)
+         |         ~~                                                          
+   drivers/video/backlight/max8925_bl.c: In function 'max8925_backlight_probe':
+   drivers/video/backlight/max8925_bl.c:155:36: error: invalid use of undefined type 'struct max8925_chip'
+     155 |         ret = max8925_set_bits(chip->i2c, data->reg_mode_cntl, 0xfe, value);
+         |                                    ^~
+--
+   drivers/power/supply/max8925_power.c: In function 'max8925_power_probe':
+>> drivers/power/supply/max8925_power.c:501:17: error: incompatible types when assigning to type 'struct max8925_power_pdata' from type 'struct max8925_power_pdata *'
+     501 |         pdata = max8925_power_dt_init(pdev);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/power/supply/max8925_power.c:502:13: error: wrong type argument to unary exclamation mark
+     502 |         if (!pdata)
+         |             ^
+>> drivers/power/supply/max8925_power.c:529:34: error: invalid type argument of '->' (have 'struct max8925_power_pdata')
+     529 |         info->batt_detect = pdata->batt_detect;
+         |                                  ^~
+   drivers/power/supply/max8925_power.c:530:39: error: invalid type argument of '->' (have 'struct max8925_power_pdata')
+     530 |         info->topoff_threshold = pdata->topoff_threshold;
+         |                                       ^~
+   drivers/power/supply/max8925_power.c:531:34: error: invalid type argument of '->' (have 'struct max8925_power_pdata')
+     531 |         info->fast_charge = pdata->fast_charge;
+         |                                  ^~
+   drivers/power/supply/max8925_power.c:532:38: error: invalid type argument of '->' (have 'struct max8925_power_pdata')
+     532 |         info->no_temp_support = pdata->no_temp_support;
+         |                                      ^~
+   drivers/power/supply/max8925_power.c:533:39: error: invalid type argument of '->' (have 'struct max8925_power_pdata')
+     533 |         info->no_insert_detect = pdata->no_insert_detect;
+         |                                       ^~
 
 
-vim +/da9055_gpio_init +534 drivers/regulator/da9055-regulator.c
+vim +/MAX8925_ID_SD1 +22 drivers/regulator/max8925-regulator.c
 
-   510	
-   511	static int da9055_regulator_probe(struct platform_device *pdev)
-   512	{
-   513		struct regulator_config config = { };
-   514		struct da9055_regulator *regulator;
-   515		struct da9055 *da9055 = dev_get_drvdata(pdev->dev.parent);
-   516		int ret, irq;
-   517	
-   518		regulator = devm_kzalloc(&pdev->dev, sizeof(struct da9055_regulator),
-   519					 GFP_KERNEL);
-   520		if (!regulator)
-   521			return -ENOMEM;
-   522	
-   523		regulator->info = find_regulator_info(pdev->id);
-   524		if (regulator->info == NULL) {
-   525			dev_err(&pdev->dev, "invalid regulator ID specified\n");
-   526			return -EINVAL;
-   527		}
-   528	
-   529		regulator->da9055 = da9055;
-   530		config.dev = da9055->dev;
-   531		config.driver_data = regulator;
-   532		config.regmap = da9055->regmap;
-   533	
- > 534		ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
-   535		if (ret < 0)
-   536			return ret;
-   537	
-   538		regulator->rdev = devm_regulator_register(&pdev->dev,
-   539							  &regulator->info->reg_desc,
-   540							  &config);
-   541		if (IS_ERR(regulator->rdev)) {
-   542			dev_err(&pdev->dev, "Failed to register regulator %s\n",
-   543				regulator->info->reg_desc.name);
-   544			return PTR_ERR(regulator->rdev);
-   545		}
-   546	
-   547		/* Only LDO 5 and 6 has got the over current interrupt */
-   548		if (pdev->id == DA9055_ID_LDO5 || pdev->id ==  DA9055_ID_LDO6) {
-   549			irq = platform_get_irq_byname(pdev, "REGULATOR");
-   550			if (irq < 0)
-   551				return irq;
-   552	
-   553			ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-   554							da9055_ldo5_6_oc_irq,
-   555							IRQF_TRIGGER_HIGH |
-   556							IRQF_ONESHOT |
-   557							IRQF_PROBE_SHARED,
-   558							pdev->name, regulator);
-   559			if (ret != 0) {
-   560				if (ret != -EBUSY) {
-   561					dev_err(&pdev->dev,
-   562					"Failed to request Regulator IRQ %d: %d\n",
-   563					irq, ret);
-   564					return ret;
-   565				}
-   566			}
-   567		}
-   568	
-   569		platform_set_drvdata(pdev, regulator);
-   570	
-   571		return 0;
-   572	}
-   573	
+    19	
+    20	/* Unified sub device IDs for MAX8925 */
+    21	enum {
+  > 22		MAX8925_ID_SD1,
+  > 23		MAX8925_ID_SD2,
+  > 24		MAX8925_ID_SD3,
+  > 25		MAX8925_ID_LDO1,
+  > 26		MAX8925_ID_LDO2,
+  > 27		MAX8925_ID_LDO3,
+  > 28		MAX8925_ID_LDO4,
+  > 29		MAX8925_ID_LDO5,
+  > 30		MAX8925_ID_LDO6,
+  > 31		MAX8925_ID_LDO7,
+  > 32		MAX8925_ID_LDO8,
+  > 33		MAX8925_ID_LDO9,
+  > 34		MAX8925_ID_LDO10,
+  > 35		MAX8925_ID_LDO11,
+  > 36		MAX8925_ID_LDO12,
+  > 37		MAX8925_ID_LDO13,
+  > 38		MAX8925_ID_LDO14,
+  > 39		MAX8925_ID_LDO15,
+  > 40		MAX8925_ID_LDO16,
+  > 41		MAX8925_ID_LDO17,
+  > 42		MAX8925_ID_LDO18,
+  > 43		MAX8925_ID_LDO19,
+  > 44		MAX8925_ID_LDO20,
+  > 45		MAX8925_ID_MAX,
+    46	};
+    47	
+    48	
 
 --
 0-DAY CI Kernel Test Service
