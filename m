@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B16A3A872B;
-	Sun, 16 Aug 2026 14:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CE6EEBB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 15:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786891224; cv=none; b=Ik4rjhEw0uhIjjjz46rcoV8ATK7EZ5cov0lwumMmZxXTBzO4Az2wJ5HvIXtbDAIJt0lVXfc9CARKPEaaFQbAdTRg+W36XHJWMX7A5sEzHaze9U4Ew0DaWqCd7KpX0cNa8KzHw8aJ0Nc8qKtutysEzCiTabuOGj1TlPKiPZApOTI=
+	t=1786893392; cv=none; b=LFnW/qXUQPfr4TfbW4qFUAL26AfZgmr2P3HYyFHPgaTqNhkbxlZy6mB+5YttFthIoh7m3N77ypSSFFTYri1z72EMVKsBdftqbSuPClRg/KEcRZANuvozJyf5JMuj9f6bsTHOx0CofdcjAHzSwZZUCQNNMj1tvrNsL8Z142SSgTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786891224; c=relaxed/simple;
-	bh=FzaGI7tH10WSf7ggdHj4n/dsYNSQQHnW3BFWHr7bcIk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iSEiTvHCx6uv375YAhhNNfSKiHf89ZExvhKvPyP/AexjaHRH5Tz0K9JeFAgCoBnpJpcnuf/pd70Ecz+SXTCdhGKoTIIGGh2XuSi7mSDw5PoiARy8OhuiXgzYegDzop2thoDO3fUKaq4aLCTIvqX3LtTrgMq5GjfwHNM+Simn4UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JcEZyUmE; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1786893392; c=relaxed/simple;
+	bh=hldgK4fwRYAbFmpTwDrKTvmfP8LlOOStdXf5lHuM52o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DqIotsOnxmhML82Fw7lX5BpuR565+uIFIkPO2TRx7RnFeb0NboF62elvqVdUPiwuz8FhsssrBUHRvX8sv1+I4SSVJSNwCsbBA3LC4Ghd9Vs/XztF3dWO+EySxfdwROgVwD0jsXw94qqQLYhF3ait7DKCLZTN2i9BELXNehKeacE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNxP7FZN; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JcEZyUmE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNxP7FZN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786891223; x=1818427223;
+  t=1786893391; x=1818429391;
   h=date:from:to:cc:subject:message-id;
-  bh=FzaGI7tH10WSf7ggdHj4n/dsYNSQQHnW3BFWHr7bcIk=;
-  b=JcEZyUmEw9sCSDOdr9PpigT6REypYkLEgjrsGlwnRveb1oeFY9nBnYnT
-   00/9ZWEiMjm43b5GvAmEBbZsZpzpuJcfiENtIXlhkeLEn4VQDre2qsJXx
-   AzhXbYDCO+zq90eKFqWc878R38k+fXhP8b74hcBWKa10dDCgLyWiHf6eF
-   BFUKcdViBsSX5UflNnX0dN0lpn10yL92AHRsxpSZ3Z+2hJLsS0owqvz5b
-   vimAYZBSJIKDcsVju0w7r7novSPF1/4kuyDwyuw+94Oo7GWtjXGkQe2gk
-   Ow+drARwkPxoD8sY37ce2tCcpRTYVotDwWRnOHGMEBfs9oZxHan3f3B4B
-   w==;
-X-CSE-ConnectionGUID: 5esgNfpVQ8ykpqfbZcxIpQ==
-X-CSE-MsgGUID: oTUBHYReSKSNH34Iog7tIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="87597239"
+  bh=hldgK4fwRYAbFmpTwDrKTvmfP8LlOOStdXf5lHuM52o=;
+  b=BNxP7FZNMLSVqWyw2S75WUxUps4OX3yBZd7T/HvivlFwJn9LC1Ws2AAz
+   oWOSDUm4T34G8CITMCJK5m06T5gogwUAU+8pbAgi8kltlAQlCHNjudjez
+   PIvWr8D4+a/mUV/YtsMqj0E1cX/63P9eVdi8lYdsGE5UWXaV+664EgZCJ
+   ttw9N/OMeGpnO949WbGu2jiw2a3BdNwEOJC/oP1s04O1APfRl4RPsrqc6
+   9KDYC5XBhlaWlXiLJCUCjJn7DTyL/KlkpAZ+rrOoLC7jbnxUR81Bwucqo
+   tkMBD1M7Cdijqrqa2NdcHbjzBu8myF77eiZESuLIi0XyA+xZAEpey5wkW
+   A==;
+X-CSE-ConnectionGUID: V4QiEN5nSPWXASHIG92/QQ==
+X-CSE-MsgGUID: fXXXTjDpRnynzsJsEte+RA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="86347717"
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="87597239"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 07:40:22 -0700
-X-CSE-ConnectionGUID: sCMSTgOQQyScUYlDSk6sPg==
-X-CSE-MsgGUID: R7RDT55fREO09BKhvp38Xg==
+   d="scan'208";a="86347717"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 08:16:30 -0700
+X-CSE-ConnectionGUID: nDGR1mIqSZqE29Htf9RLnQ==
+X-CSE-MsgGUID: BIZAlDhZSoeDnTdV8o813A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="265292277"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 16 Aug 2026 07:40:20 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="266681588"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 16 Aug 2026 08:16:28 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvc26-000000006bR-0eLS;
-	Sun, 16 Aug 2026 14:40:18 +0000
-Date: Sun, 16 Aug 2026 16:39:36 +0200
+	id 1wvcb4-00000000cyA-1eMu;
+	Sun, 16 Aug 2026 15:16:26 +0000
+Date: Sun, 16 Aug 2026 23:15:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Longjun Tang <tanglongjun@kylinos.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: Warning: kernel/bpf/helpers.c:4090 Incorrect use of
- kernel-doc format:  * bpf_strpbrk - Find the first occurrence of a set of
- characters in a string
-Message-ID: <202608161659.Yqj3Asxx-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous
+ prototype for 'hyp_event_trace_hyp_enter'
+Message-ID: <202608162351.tLYdgVIK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,25 +60,65 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Longjun-Tang/bpf-add-bpf_memcmp-kfunc/20260810-191652
-head:   31fa7f646be6064b4be75b1e82cfff74597b6464
-commit: 572e424dd77331c6f3cc067893c812c03104d09c bpf: add bpf_strpbrk kfunc
-date:   6 days ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260816/202608161659.Yqj3Asxx-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161659.Yqj3Asxx-lkp@intel.com/reproduce)
+Hi Vincent,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   24c059d9e217f32d61570fdbd7eb66bc999657a9
+commit: f6dbfc683cf5fbbd37b6fdead1b5b08912cf6570 [2/2] ANDROID: KVM: arm64: Add support for nVHE hyp events
+config: arm64-randconfig-004-20260816 (https://download.01.org/0day-ci/archive/20260816/202608162351.tLYdgVIK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608162351.tLYdgVIK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608161659.Yqj3Asxx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608162351.tLYdgVIK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: kernel/bpf/helpers.c:4090 Incorrect use of kernel-doc format:  * bpf_strpbrk - Find the first occurrence of a set of characters in a string
->> Warning: kernel/bpf/helpers.c:4103 function parameter 's__ign' not described in 'bpf_strpbrk'
->> Warning: kernel/bpf/helpers.c:4103 function parameter 'accept__ign' not described in 'bpf_strpbrk'
->> Warning: kernel/bpf/helpers.c:4103 expecting prototype for bpf_memcmp(). Prototype was for bpf_strpbrk() instead
+   In file included from arch/arm64/kvm/hyp_events.c:9:
+>> arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
+      14 | HYP_EVENT(hyp_enter,
+         | ^~~~~~~~~
+>> arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
+      23 | HYP_EVENT(hyp_exit,
+         | ^~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:100:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
+     100 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:130:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
+     130 | struct hyp_event *hyp_trace_find_event(int id)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:143:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
+     143 | int hyp_trace_init_events(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/hyp_event_trace_hyp_enter +17 arch/arm64/include/asm/kvm_define_hypevents.h
+
+    14	
+    15	#define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
+    16		HYP_EVENT_FORMAT(__name, __struct);					\
+  > 17		void hyp_event_trace_##__name(struct ht_iterator *iter)			\
+    18		{									\
+    19			struct trace_hyp_format_##__name __maybe_unused *__entry =	\
+    20				(struct trace_hyp_format_##__name *)iter->ent;		\
+    21			trace_seq_puts(&iter->seq, #__name);				\
+    22			trace_seq_putc(&iter->seq, ' ');				\
+    23			trace_seq_printf(&iter->seq, __printk);				\
+    24			trace_seq_putc(&iter->seq, '\n');				\
+    25		}
+    26	#define HYP_EVENT_MULTI_READ
+    27	#include __HYP_EVENT_FILE
+    28	
 
 --
 0-DAY CI Kernel Test Service
