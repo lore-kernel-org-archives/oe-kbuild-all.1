@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18EC6345CCD
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 09:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DED02D8DDB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 10:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786872751; cv=none; b=mzMpwbZ1NWaaVMqMemxpyB/nQNsVUXRv2oYsdhY2NUNg1dDWfmcU4PzTfJ0MTu4QYK7BUpPTY+FIDnHT33YgAa2CPmkNRcPitFxUvOO7fdyxOm0rn0+4uhWnz+Lrtv/M2WrxMx+m0ioqAXZH7C0QUm6WRTV2hn8Lbn29kb4Hsp4=
+	t=1786874916; cv=none; b=VQL41oZPVr1LJehJeseOYkJ78n5Ql+Tf2qPLTm1yDNL6VKwe1UqX63ZpJXWhIfMhYACN8e5wwncq5jtGdR81ig3j7/PAZ7vjw6857cuUdnT5PIKwsY49VfjuASD8xVQq2JzNHk0zfOL502ijIn1pyAq1uWHVD2vDXERJ7HZmJrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786872751; c=relaxed/simple;
-	bh=StQmV5OrVMenz39D8q13bAe7PQZjTUbCu7bUqGAXJwc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=f6p20ED6H6riqS1HrwoiF+6sy2OlA/QIl8FQBsUcwIpQTqLGwquUEtaA+D1zpzQx3iQYTbKdHBx+8533Ol7mBeBqMZPPuAW2GEZxwk6qIuqpZQWf6I7aVgE7SYjcvvfv+M21w5LmrAzleOvXBR4WQO7PHOp+TT1kHE09GnR8rhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEyBTZvZ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1786874916; c=relaxed/simple;
+	bh=En8shR1f4kj0mf7dYdf4m9Ju1AY49uV8EnTr3UhO7Qs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ag4Mg2eMbUOgUuTLWukSJ6Q1BMdDQRmKsVLCxlXOu9+YXFEpzZI97RH8JTUqlkWUu7r47pzduUsALR6d7HZf06aEuFNpiPFT6NudEcpr9Rvzu+urP/KlEhUPGzyMX6pbIwfTu3oyZyjEti/hYJ185K63HG/e8a15SKTt57RaOoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/lnK87F; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEyBTZvZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/lnK87F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786872749; x=1818408749;
+  t=1786874914; x=1818410914;
   h=date:from:to:cc:subject:message-id;
-  bh=StQmV5OrVMenz39D8q13bAe7PQZjTUbCu7bUqGAXJwc=;
-  b=TEyBTZvZ7uRQyZ6BWdULugNh45XCCGCURpRtXihcpS486pOu5Wh8F/Dj
-   iX+aPadaNH5cEvDuh2bbxoS5fW5jh3yPdxX2k0XXuKyj5OXhW3wyr9UiK
-   6YE1BYvqJuWm65xYwGE5D23s8Qk2BPdsrrG5UuQ18PAB82WBqmiPJYr7L
-   /fDlCj/hVFiiDQMfnF+9wa7EFjVgaLkKFoPtOlJkTHKJEgiDS6lBSWXzs
-   yz/KjeX0CpCZpv4p081+riid3a1H+yytWCrXjOOlNjn+n23SyHfPyGUkX
-   ohmKfNni6hz2vD+CxxeEUak82r7wnFp7hUBbrgLtx0r6uwckudoFOhXcO
-   w==;
-X-CSE-ConnectionGUID: YqR/esAOQE6bMw5ASKDZhQ==
-X-CSE-MsgGUID: cCnxeDHPQvicOeaylk8fNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="110163589"
+  bh=En8shR1f4kj0mf7dYdf4m9Ju1AY49uV8EnTr3UhO7Qs=;
+  b=f/lnK87F9cLWP5aGVVj/dLx292M10tVpcx7GG8LW8Det9MIzg8gNaiQZ
+   8HDW6awEHruoQNlb2FnNt/wPYCXvok+WIY/j/4BuJjY2UESNtDZBYuwCP
+   wttV9cz74X7kGZSg2C6zCr8ywNOcHaww+uzrHyfG390q9i5jYvEgtBmKj
+   /EfADO8hmL+buJk0GZ8kHcITBwKlTWOlFaqaadWm2mEh3YIPFs/KK2dsF
+   u/9RLg3Op8fP3NHQrN/1LPU4gJI8SkSdqevt8Ev+ttp1CxyzNdn14SkbC
+   edXf8liQ3MLd7rlVfwaMonsxPjN7DGQ2RAk8/zBsnEdpjZid9bPgibzqJ
+   g==;
+X-CSE-ConnectionGUID: DZ9MiFhmTWyez01wTocktw==
+X-CSE-MsgGUID: BtntSJD5SheIUa+qOab7BA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87398519"
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="110163589"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 02:32:25 -0700
-X-CSE-ConnectionGUID: Je2ryJCdSMyTjSLsKQtoGQ==
-X-CSE-MsgGUID: CgtSzv6dQ5u2EktFcogRmA==
+   d="scan'208";a="87398519"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 03:08:34 -0700
+X-CSE-ConnectionGUID: Zxhe0TrTSpymFgmIYf4ulQ==
+X-CSE-MsgGUID: XLpZFOyHQ3O0sFaliEMcZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="268487655"
+   d="scan'208";a="266641248"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Aug 2026 02:32:24 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 16 Aug 2026 03:08:32 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvXE5-00000000cqI-2Hl0;
-	Sun, 16 Aug 2026 09:32:21 +0000
-Date: Sun, 16 Aug 2026 17:31:21 +0800
+	id 1wvXn3-00000000cr8-2w0n;
+	Sun, 16 Aug 2026 10:08:29 +0000
+Date: Sun, 16 Aug 2026 18:07:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- arm@kernel.org
-Subject: [soc:board-remove 114/217]
- drivers/regulator/da9055-regulator.c:77:26: error: field 'reg_rselect' has
- incomplete type
-Message-ID: <202608161718.qy3xohxH-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ lib/../mm/internal.h:1249:18: error: static declaration of
+ 'vmap_pages_range_noflush' follows non-static declaration
+Message-ID: <202608161711.5tYCL43s-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,301 +60,181 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
-head:   057394422bc04420585b2790b230d8a1f350ace8
-commit: 158b19afd623da6a93d8ac59dd4aeefe48fa2085 [114/217] mfd: da9055: remove pdata based probing
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260816/202608161718.qy3xohxH-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161718.qy3xohxH-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   24c059d9e217f32d61570fdbd7eb66bc999657a9
+commit: c079fb2a08aa30fea641845ea6f5669d72d913c9 [2/2] ANDROID: mm/vmalloc: export vmap_pages_range_noflush and __get_vm_area_caller
+config: arm-randconfig-004-20260816 (https://download.01.org/0day-ci/archive/20260816/202608161711.5tYCL43s-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161711.5tYCL43s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608161718.qy3xohxH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608161711.5tYCL43s-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/regulator/da9055-regulator.c:77:26: error: field 'reg_rselect' has incomplete type
-      77 |         enum gpio_select reg_rselect;
-         |                          ^~~~~~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_set_voltage_sel':
->> drivers/regulator/da9055-regulator.c:208:39: error: 'NO_GPIO' undeclared (first use in this function)
-     208 |         if (regulator->reg_rselect == NO_GPIO) {
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c:208:39: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_set_suspend_voltage':
-   drivers/regulator/da9055-regulator.c:248:39: error: 'NO_GPIO' undeclared (first use in this function)
-     248 |         if (regulator->reg_rselect == NO_GPIO) {
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_enable':
-   drivers/regulator/da9055-regulator.c:269:39: error: 'NO_GPIO' undeclared (first use in this function)
-     269 |         if (regulator->reg_rselect == NO_GPIO)
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_disable':
-   drivers/regulator/da9055-regulator.c:282:39: error: 'NO_GPIO' undeclared (first use in this function)
-     282 |         if (regulator->reg_rselect == NO_GPIO)
-         |                                       ^~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_gpio_init':
->> drivers/regulator/da9055-regulator.c:466:42: error: 'pdata' undeclared (first use in this function); did you mean '_data'?
-     466 |                 regulator->reg_rselect = pdata->reg_rsel[id];
-         |                                          ^~~~~
-         |                                          _data
-   drivers/regulator/da9055-regulator.c:417:33: warning: parameter 'id' set but not used [-Wunused-but-set-parameter=]
-     417 |                             int id)
-         |                             ~~~~^~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kcsan-checks.h:14,
-                    from include/asm-generic/barrier.h:17,
-                    from arch/alpha/include/asm/barrier.h:21,
-                    from arch/alpha/include/asm/rwonce.h:10,
-                    from include/linux/compiler.h:369,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from drivers/regulator/da9055-regulator.c:9:
-   drivers/regulator/da9055-regulator.c: In function 'da9055_regulator_probe':
->> include/linux/stddef.h:8:14: error: passing argument 4 of 'da9055_gpio_init' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/regulator/da9055-regulator.c:534:64: note: in expansion of macro 'NULL'
-     534 |         ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
-         |                                                                ^~~~
-   drivers/regulator/da9055-regulator.c:417:33: note: expected 'int' but argument is of type 'void *'
-     417 |                             int id)
-         |                             ~~~~^~
->> drivers/regulator/da9055-regulator.c:534:15: error: too many arguments to function 'da9055_gpio_init'; expected 4, have 5
-     534 |         ret = da9055_gpio_init(&pdev->dev, regulator, &config, NULL, pdev->id);
-         |               ^~~~~~~~~~~~~~~~                                       ~~~~~~~~
-   drivers/regulator/da9055-regulator.c:414:12: note: declared here
-     414 | static int da9055_gpio_init(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_disable':
-   drivers/regulator/da9055-regulator.c:287:1: warning: control reaches end of non-void function [-Wreturn-type]
-     287 | }
-         | ^
-   drivers/regulator/da9055-regulator.c: In function 'da9055_suspend_enable':
-   drivers/regulator/da9055-regulator.c:274:1: warning: control reaches end of non-void function [-Wreturn-type]
-     274 | }
-         | ^
+   In file included from lib/vsprintf.c:50:
+>> lib/../mm/internal.h:1249:18: error: static declaration of 'vmap_pages_range_noflush' follows non-static declaration
+    1249 | int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/io.h:1028,
+                    from arch/arm/include/asm/io.h:416,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/arm/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/rtc.h:17,
+                    from lib/vsprintf.c:36:
+   include/linux/vmalloc.h:129:5: note: previous declaration of 'vmap_pages_range_noflush' with type 'int(long unsigned int,  long unsigned int,  pgprot_t,  struct page **, unsigned int)' {aka 'int(long unsigned int,  long unsigned int,  long unsigned int,  struct page **, unsigned int)'}
+     129 | int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1682:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1682 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+         |         ^~~
+--
+   In file included from mm/filemap.c:52:
+>> mm/internal.h:1249:18: error: static declaration of 'vmap_pages_range_noflush' follows non-static declaration
+    1249 | int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/io.h:1028,
+                    from arch/arm/include/asm/io.h:416,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/arm/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:9,
+                    from mm/filemap.c:20:
+   include/linux/vmalloc.h:129:5: note: previous declaration of 'vmap_pages_range_noflush' with type 'int(long unsigned int,  long unsigned int,  pgprot_t,  struct page **, unsigned int)' {aka 'int(long unsigned int,  long unsigned int,  long unsigned int,  struct page **, unsigned int)'}
+     129 | int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from mm/vmscan.c:68:
+>> mm/internal.h:1249:18: error: static declaration of 'vmap_pages_range_noflush' follows non-static declaration
+    1249 | int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/io.h:1028,
+                    from arch/arm/include/asm/io.h:416,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/arm/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:9,
+                    from mm/vmscan.c:19:
+   include/linux/vmalloc.h:129:5: note: previous declaration of 'vmap_pages_range_noflush' with type 'int(long unsigned int,  long unsigned int,  pgprot_t,  struct page **, unsigned int)' {aka 'int(long unsigned int,  long unsigned int,  long unsigned int,  struct page **, unsigned int)'}
+     129 | int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c:1071:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
+    1071 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^~~~~~~~~~~
+   mm/vmscan.c:2681:15: warning: no previous prototype for 'shrink_inactive_list' [-Wmissing-prototypes]
+    2681 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+         |               ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from mm/gup.c:26:
+>> mm/internal.h:1249:18: error: static declaration of 'vmap_pages_range_noflush' follows non-static declaration
+    1249 | int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/io.h:1028,
+                    from arch/arm/include/asm/io.h:416,
+                    from include/linux/io.h:13,
+                    from arch/arm/include/asm/cachetype.h:85,
+                    from arch/arm/include/asm/cacheflush.h:14,
+                    from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from include/linux/pagemap.h:11,
+                    from mm/gup.c:9:
+   include/linux/vmalloc.h:129:5: note: previous declaration of 'vmap_pages_range_noflush' with type 'int(long unsigned int,  long unsigned int,  pgprot_t,  struct page **, unsigned int)' {aka 'int(long unsigned int,  long unsigned int,  long unsigned int,  struct page **, unsigned int)'}
+     129 | int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/gup.c:408:6: warning: no previous prototype for '_trace_android_vh_mm_customize_longterm_pinnable' [-Wmissing-prototypes]
+     408 | void _trace_android_vh_mm_customize_longterm_pinnable(struct folio *folio,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from mm/early_ioremap.c:20:
+>> mm/internal.h:1249:18: error: static declaration of 'vmap_pages_range_noflush' follows non-static declaration
+    1249 | int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/io.h:1028,
+                    from arch/arm/include/asm/io.h:416,
+                    from include/linux/io.h:13,
+                    from mm/early_ioremap.c:13:
+   include/linux/vmalloc.h:129:5: note: previous declaration of 'vmap_pages_range_noflush' with type 'int(long unsigned int,  long unsigned int,  pgprot_t,  struct page **, unsigned int)' {aka 'int(long unsigned int,  long unsigned int,  long unsigned int,  struct page **, unsigned int)'}
+     129 | int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/early_ioremap.c:18:
+   arch/arm/include/asm/fixmap.h:39:35: warning: '__end_of_fixed_addresses' defined but not used [-Wunused-const-variable=]
+      39 | static const enum fixed_addresses __end_of_fixed_addresses =
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from mm/page_alloc.c:62:
+>> mm/internal.h:1249:18: error: static declaration of 'vmap_pages_range_noflush' follows non-static declaration
+    1249 | int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/io.h:1028,
+                    from arch/arm/include/asm/io.h:416,
+                    from include/linux/io.h:13,
+                    from arch/arm/include/asm/cachetype.h:85,
+                    from arch/arm/include/asm/cacheflush.h:14,
+                    from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from mm/page_alloc.c:20:
+   include/linux/vmalloc.h:129:5: note: previous declaration of 'vmap_pages_range_noflush' with type 'int(long unsigned int,  long unsigned int,  pgprot_t,  struct page **, unsigned int)' {aka 'int(long unsigned int,  long unsigned int,  long unsigned int,  struct page **, unsigned int)'}
+     129 | int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:1729:6: warning: no previous prototype for 'prep_new_page' [-Wmissing-prototypes]
+    1729 | void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
+         |      ^~~~~~~~~~~~~
+--
+   In file included from mm/oom_kill.c:51:
+>> mm/internal.h:1249:18: error: static declaration of 'vmap_pages_range_noflush' follows non-static declaration
+    1249 | int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/io.h:1028,
+                    from arch/arm/include/asm/io.h:416,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/arm/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:9,
+                    from include/linux/cgroup.h:26,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/swap.h:9,
+                    from mm/oom_kill.c:30:
+   include/linux/vmalloc.h:129:5: note: previous declaration of 'vmap_pages_range_noflush' with type 'int(long unsigned int,  long unsigned int,  pgprot_t,  struct page **, unsigned int)' {aka 'int(long unsigned int,  long unsigned int,  long unsigned int,  struct page **, unsigned int)'}
+     129 | int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/oom_kill.c:432:6: warning: no previous prototype for 'dump_tasks' [-Wmissing-prototypes]
+     432 | void dump_tasks(struct oom_control *oc)
+         |      ^~~~~~~~~~
 
 
-vim +/reg_rselect +77 drivers/regulator/da9055-regulator.c
+vim +/vmap_pages_range_noflush +1249 lib/../mm/internal.h
 
-f6130be652d0b4f Ashish Jangam       2012-11-01   72  
-f6130be652d0b4f Ashish Jangam       2012-11-01   73  struct da9055_regulator {
-f6130be652d0b4f Ashish Jangam       2012-11-01   74  	struct da9055 *da9055;
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09   75  	const struct da9055_regulator_info *info;
-f6130be652d0b4f Ashish Jangam       2012-11-01   76  	struct regulator_dev *rdev;
-f6130be652d0b4f Ashish Jangam       2012-11-01  @77  	enum gpio_select reg_rselect;
-f6130be652d0b4f Ashish Jangam       2012-11-01   78  };
-f6130be652d0b4f Ashish Jangam       2012-11-01   79  
-f6130be652d0b4f Ashish Jangam       2012-11-01   80  static unsigned int da9055_buck_get_mode(struct regulator_dev *rdev)
-f6130be652d0b4f Ashish Jangam       2012-11-01   81  {
-f6130be652d0b4f Ashish Jangam       2012-11-01   82  	struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09   83  	const struct da9055_regulator_info *info = regulator->info;
-f6130be652d0b4f Ashish Jangam       2012-11-01   84  	int ret, mode = 0;
-f6130be652d0b4f Ashish Jangam       2012-11-01   85  
-f6130be652d0b4f Ashish Jangam       2012-11-01   86  	ret = da9055_reg_read(regulator->da9055, info->mode.reg);
-f6130be652d0b4f Ashish Jangam       2012-11-01   87  	if (ret < 0)
-f6130be652d0b4f Ashish Jangam       2012-11-01   88  		return ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01   89  
-f6130be652d0b4f Ashish Jangam       2012-11-01   90  	switch ((ret & info->mode.mask) >> info->mode.shift) {
-f6130be652d0b4f Ashish Jangam       2012-11-01   91  	case DA9055_BUCK_MODE_SYNC:
-f6130be652d0b4f Ashish Jangam       2012-11-01   92  		mode = REGULATOR_MODE_FAST;
-f6130be652d0b4f Ashish Jangam       2012-11-01   93  		break;
-f6130be652d0b4f Ashish Jangam       2012-11-01   94  	case DA9055_BUCK_MODE_AUTO:
-f6130be652d0b4f Ashish Jangam       2012-11-01   95  		mode = REGULATOR_MODE_NORMAL;
-f6130be652d0b4f Ashish Jangam       2012-11-01   96  		break;
-f6130be652d0b4f Ashish Jangam       2012-11-01   97  	case DA9055_BUCK_MODE_SLEEP:
-f6130be652d0b4f Ashish Jangam       2012-11-01   98  		mode = REGULATOR_MODE_STANDBY;
-f6130be652d0b4f Ashish Jangam       2012-11-01   99  		break;
-f6130be652d0b4f Ashish Jangam       2012-11-01  100  	}
-f6130be652d0b4f Ashish Jangam       2012-11-01  101  
-f6130be652d0b4f Ashish Jangam       2012-11-01  102  	return mode;
-f6130be652d0b4f Ashish Jangam       2012-11-01  103  }
-f6130be652d0b4f Ashish Jangam       2012-11-01  104  
-f6130be652d0b4f Ashish Jangam       2012-11-01  105  static int da9055_buck_set_mode(struct regulator_dev *rdev,
-f6130be652d0b4f Ashish Jangam       2012-11-01  106  					unsigned int mode)
-f6130be652d0b4f Ashish Jangam       2012-11-01  107  {
-f6130be652d0b4f Ashish Jangam       2012-11-01  108  	struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09  109  	const struct da9055_regulator_info *info = regulator->info;
-f6130be652d0b4f Ashish Jangam       2012-11-01  110  	int val = 0;
-f6130be652d0b4f Ashish Jangam       2012-11-01  111  
-f6130be652d0b4f Ashish Jangam       2012-11-01  112  	switch (mode) {
-f6130be652d0b4f Ashish Jangam       2012-11-01  113  	case REGULATOR_MODE_FAST:
-f6130be652d0b4f Ashish Jangam       2012-11-01  114  		val = DA9055_BUCK_MODE_SYNC << info->mode.shift;
-f6130be652d0b4f Ashish Jangam       2012-11-01  115  		break;
-f6130be652d0b4f Ashish Jangam       2012-11-01  116  	case REGULATOR_MODE_NORMAL:
-f6130be652d0b4f Ashish Jangam       2012-11-01  117  		val = DA9055_BUCK_MODE_AUTO << info->mode.shift;
-f6130be652d0b4f Ashish Jangam       2012-11-01  118  		break;
-f6130be652d0b4f Ashish Jangam       2012-11-01  119  	case REGULATOR_MODE_STANDBY:
-f6130be652d0b4f Ashish Jangam       2012-11-01  120  		val = DA9055_BUCK_MODE_SLEEP << info->mode.shift;
-f6130be652d0b4f Ashish Jangam       2012-11-01  121  		break;
-f6130be652d0b4f Ashish Jangam       2012-11-01  122  	}
-f6130be652d0b4f Ashish Jangam       2012-11-01  123  
-f6130be652d0b4f Ashish Jangam       2012-11-01  124  	return da9055_reg_update(regulator->da9055, info->mode.reg,
-f6130be652d0b4f Ashish Jangam       2012-11-01  125  				 info->mode.mask, val);
-f6130be652d0b4f Ashish Jangam       2012-11-01  126  }
-f6130be652d0b4f Ashish Jangam       2012-11-01  127  
-f6130be652d0b4f Ashish Jangam       2012-11-01  128  static unsigned int da9055_ldo_get_mode(struct regulator_dev *rdev)
-f6130be652d0b4f Ashish Jangam       2012-11-01  129  {
-f6130be652d0b4f Ashish Jangam       2012-11-01  130  	struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09  131  	const struct da9055_regulator_info *info = regulator->info;
-f6130be652d0b4f Ashish Jangam       2012-11-01  132  	int ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  133  
-f6130be652d0b4f Ashish Jangam       2012-11-01  134  	ret = da9055_reg_read(regulator->da9055, info->volt.reg_b);
-f6130be652d0b4f Ashish Jangam       2012-11-01  135  	if (ret < 0)
-f6130be652d0b4f Ashish Jangam       2012-11-01  136  		return ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  137  
-f6130be652d0b4f Ashish Jangam       2012-11-01  138  	if (ret >> info->volt.sl_shift)
-f6130be652d0b4f Ashish Jangam       2012-11-01  139  		return REGULATOR_MODE_STANDBY;
-f6130be652d0b4f Ashish Jangam       2012-11-01  140  	else
-f6130be652d0b4f Ashish Jangam       2012-11-01  141  		return REGULATOR_MODE_NORMAL;
-f6130be652d0b4f Ashish Jangam       2012-11-01  142  }
-f6130be652d0b4f Ashish Jangam       2012-11-01  143  
-f6130be652d0b4f Ashish Jangam       2012-11-01  144  static int da9055_ldo_set_mode(struct regulator_dev *rdev, unsigned int mode)
-f6130be652d0b4f Ashish Jangam       2012-11-01  145  {
-f6130be652d0b4f Ashish Jangam       2012-11-01  146  	struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09  147  	const struct da9055_regulator_info *info = regulator->info;
-f6130be652d0b4f Ashish Jangam       2012-11-01  148  	struct da9055_volt_reg volt = info->volt;
-f6130be652d0b4f Ashish Jangam       2012-11-01  149  	int val = 0;
-f6130be652d0b4f Ashish Jangam       2012-11-01  150  
-f6130be652d0b4f Ashish Jangam       2012-11-01  151  	switch (mode) {
-f6130be652d0b4f Ashish Jangam       2012-11-01  152  	case REGULATOR_MODE_NORMAL:
-f6130be652d0b4f Ashish Jangam       2012-11-01  153  	case REGULATOR_MODE_FAST:
-f6130be652d0b4f Ashish Jangam       2012-11-01  154  		val = DA9055_LDO_MODE_SYNC;
-f6130be652d0b4f Ashish Jangam       2012-11-01  155  		break;
-f6130be652d0b4f Ashish Jangam       2012-11-01  156  	case REGULATOR_MODE_STANDBY:
-f6130be652d0b4f Ashish Jangam       2012-11-01  157  		val = DA9055_LDO_MODE_SLEEP;
-f6130be652d0b4f Ashish Jangam       2012-11-01  158  		break;
-f6130be652d0b4f Ashish Jangam       2012-11-01  159  	}
-f6130be652d0b4f Ashish Jangam       2012-11-01  160  
-f6130be652d0b4f Ashish Jangam       2012-11-01  161  	return da9055_reg_update(regulator->da9055, volt.reg_b,
-f6130be652d0b4f Ashish Jangam       2012-11-01  162  				 1 << volt.sl_shift,
-f6130be652d0b4f Ashish Jangam       2012-11-01  163  				 val << volt.sl_shift);
-f6130be652d0b4f Ashish Jangam       2012-11-01  164  }
-f6130be652d0b4f Ashish Jangam       2012-11-01  165  
-f6130be652d0b4f Ashish Jangam       2012-11-01  166  static int da9055_regulator_get_voltage_sel(struct regulator_dev *rdev)
-f6130be652d0b4f Ashish Jangam       2012-11-01  167  {
-f6130be652d0b4f Ashish Jangam       2012-11-01  168  	struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09  169  	const struct da9055_regulator_info *info = regulator->info;
-f6130be652d0b4f Ashish Jangam       2012-11-01  170  	struct da9055_volt_reg volt = info->volt;
-f6130be652d0b4f Ashish Jangam       2012-11-01  171  	int ret, sel;
-f6130be652d0b4f Ashish Jangam       2012-11-01  172  
-f6130be652d0b4f Ashish Jangam       2012-11-01  173  	/*
-f6130be652d0b4f Ashish Jangam       2012-11-01  174  	 * There are two voltage register set A & B for voltage ramping but
-f6130be652d0b4f Ashish Jangam       2012-11-01  175  	 * either one of then can be active therefore we first determine
-f6130be652d0b4f Ashish Jangam       2012-11-01  176  	 * the active register set.
-f6130be652d0b4f Ashish Jangam       2012-11-01  177  	 */
-f6130be652d0b4f Ashish Jangam       2012-11-01  178  	ret = da9055_reg_read(regulator->da9055, info->conf.reg);
-f6130be652d0b4f Ashish Jangam       2012-11-01  179  	if (ret < 0)
-f6130be652d0b4f Ashish Jangam       2012-11-01  180  		return ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  181  
-f6130be652d0b4f Ashish Jangam       2012-11-01  182  	ret &= info->conf.sel_mask;
-f6130be652d0b4f Ashish Jangam       2012-11-01  183  
-f6130be652d0b4f Ashish Jangam       2012-11-01  184  	/* Get the voltage for the active register set A/B */
-f6130be652d0b4f Ashish Jangam       2012-11-01  185  	if (ret == DA9055_REGUALTOR_SET_A)
-f6130be652d0b4f Ashish Jangam       2012-11-01  186  		ret = da9055_reg_read(regulator->da9055, volt.reg_a);
-f6130be652d0b4f Ashish Jangam       2012-11-01  187  	else
-f6130be652d0b4f Ashish Jangam       2012-11-01  188  		ret = da9055_reg_read(regulator->da9055, volt.reg_b);
-f6130be652d0b4f Ashish Jangam       2012-11-01  189  
-f6130be652d0b4f Ashish Jangam       2012-11-01  190  	if (ret < 0)
-f6130be652d0b4f Ashish Jangam       2012-11-01  191  		return ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  192  
-f6130be652d0b4f Ashish Jangam       2012-11-01  193  	sel = (ret & volt.v_mask);
-f6130be652d0b4f Ashish Jangam       2012-11-01  194  	return sel;
-f6130be652d0b4f Ashish Jangam       2012-11-01  195  }
-f6130be652d0b4f Ashish Jangam       2012-11-01  196  
-f6130be652d0b4f Ashish Jangam       2012-11-01  197  static int da9055_regulator_set_voltage_sel(struct regulator_dev *rdev,
-f6130be652d0b4f Ashish Jangam       2012-11-01  198  					    unsigned int selector)
-f6130be652d0b4f Ashish Jangam       2012-11-01  199  {
-f6130be652d0b4f Ashish Jangam       2012-11-01  200  	struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09  201  	const struct da9055_regulator_info *info = regulator->info;
-f6130be652d0b4f Ashish Jangam       2012-11-01  202  	int ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  203  
-f6130be652d0b4f Ashish Jangam       2012-11-01  204  	/*
-f6130be652d0b4f Ashish Jangam       2012-11-01  205  	 * Regulator register set A/B is not selected through GPIO therefore
-f6130be652d0b4f Ashish Jangam       2012-11-01  206  	 * we use default register set A for voltage ramping.
-f6130be652d0b4f Ashish Jangam       2012-11-01  207  	 */
-f6130be652d0b4f Ashish Jangam       2012-11-01 @208  	if (regulator->reg_rselect == NO_GPIO) {
-f6130be652d0b4f Ashish Jangam       2012-11-01  209  		/* Select register set A */
-f6130be652d0b4f Ashish Jangam       2012-11-01  210  		ret = da9055_reg_update(regulator->da9055, info->conf.reg,
-f6130be652d0b4f Ashish Jangam       2012-11-01  211  					info->conf.sel_mask, DA9055_SEL_REG_A);
-f6130be652d0b4f Ashish Jangam       2012-11-01  212  		if (ret < 0)
-f6130be652d0b4f Ashish Jangam       2012-11-01  213  			return ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  214  
-f6130be652d0b4f Ashish Jangam       2012-11-01  215  		/* Set the voltage */
-369cf602f364a60 Axel Lin            2012-11-20  216  		return da9055_reg_update(regulator->da9055, info->volt.reg_a,
-369cf602f364a60 Axel Lin            2012-11-20  217  					 info->volt.v_mask, selector);
-f6130be652d0b4f Ashish Jangam       2012-11-01  218  	}
-f6130be652d0b4f Ashish Jangam       2012-11-01  219  
-f6130be652d0b4f Ashish Jangam       2012-11-01  220  	/*
-f6130be652d0b4f Ashish Jangam       2012-11-01  221  	 * Here regulator register set A/B is selected through GPIO.
-f6130be652d0b4f Ashish Jangam       2012-11-01  222  	 * Therefore we first determine the selected register set A/B and
-f6130be652d0b4f Ashish Jangam       2012-11-01  223  	 * then set the desired voltage for that register set A/B.
-f6130be652d0b4f Ashish Jangam       2012-11-01  224  	 */
-f6130be652d0b4f Ashish Jangam       2012-11-01  225  	ret = da9055_reg_read(regulator->da9055, info->conf.reg);
-f6130be652d0b4f Ashish Jangam       2012-11-01  226  	if (ret < 0)
-f6130be652d0b4f Ashish Jangam       2012-11-01  227  		return ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  228  
-f6130be652d0b4f Ashish Jangam       2012-11-01  229  	ret &= info->conf.sel_mask;
-f6130be652d0b4f Ashish Jangam       2012-11-01  230  
-f6130be652d0b4f Ashish Jangam       2012-11-01  231  	/* Set the voltage */
-f6130be652d0b4f Ashish Jangam       2012-11-01  232  	if (ret == DA9055_REGUALTOR_SET_A)
-369cf602f364a60 Axel Lin            2012-11-20  233  		return da9055_reg_update(regulator->da9055, info->volt.reg_a,
-369cf602f364a60 Axel Lin            2012-11-20  234  					 info->volt.v_mask, selector);
-f6130be652d0b4f Ashish Jangam       2012-11-01  235  	else
-369cf602f364a60 Axel Lin            2012-11-20  236  		return da9055_reg_update(regulator->da9055, info->volt.reg_b,
-369cf602f364a60 Axel Lin            2012-11-20  237  					 info->volt.v_mask, selector);
-f6130be652d0b4f Ashish Jangam       2012-11-01  238  }
-f6130be652d0b4f Ashish Jangam       2012-11-01  239  
-f6130be652d0b4f Ashish Jangam       2012-11-01  240  static int da9055_regulator_set_suspend_voltage(struct regulator_dev *rdev,
-f6130be652d0b4f Ashish Jangam       2012-11-01  241  						int uV)
-f6130be652d0b4f Ashish Jangam       2012-11-01  242  {
-f6130be652d0b4f Ashish Jangam       2012-11-01  243  	struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09  244  	const struct da9055_regulator_info *info = regulator->info;
-f6130be652d0b4f Ashish Jangam       2012-11-01  245  	int ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  246  
-f6130be652d0b4f Ashish Jangam       2012-11-01  247  	/* Select register set B for suspend voltage ramping. */
-f6130be652d0b4f Ashish Jangam       2012-11-01  248  	if (regulator->reg_rselect == NO_GPIO) {
-f6130be652d0b4f Ashish Jangam       2012-11-01  249  		ret = da9055_reg_update(regulator->da9055, info->conf.reg,
-f6130be652d0b4f Ashish Jangam       2012-11-01  250  					info->conf.sel_mask, DA9055_SEL_REG_B);
-f6130be652d0b4f Ashish Jangam       2012-11-01  251  		if (ret < 0)
-f6130be652d0b4f Ashish Jangam       2012-11-01  252  			return ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  253  	}
-f6130be652d0b4f Ashish Jangam       2012-11-01  254  
-6b1f8a45666877d Axel Lin            2012-11-27  255  	ret = regulator_map_voltage_linear(rdev, uV, uV);
-f6130be652d0b4f Ashish Jangam       2012-11-01  256  	if (ret < 0)
-f6130be652d0b4f Ashish Jangam       2012-11-01  257  		return ret;
-f6130be652d0b4f Ashish Jangam       2012-11-01  258  
-369cf602f364a60 Axel Lin            2012-11-20  259  	return da9055_reg_update(regulator->da9055, info->volt.reg_b,
-369cf602f364a60 Axel Lin            2012-11-20  260  				 info->volt.v_mask, ret);
-f6130be652d0b4f Ashish Jangam       2012-11-01  261  }
-f6130be652d0b4f Ashish Jangam       2012-11-01  262  
-f6130be652d0b4f Ashish Jangam       2012-11-01  263  static int da9055_suspend_enable(struct regulator_dev *rdev)
-f6130be652d0b4f Ashish Jangam       2012-11-01  264  {
-f6130be652d0b4f Ashish Jangam       2012-11-01  265  	struct da9055_regulator *regulator = rdev_get_drvdata(rdev);
-dfa9e708c63e783 Krzysztof Kozlowski 2024-09-09  266  	const struct da9055_regulator_info *info = regulator->info;
-f6130be652d0b4f Ashish Jangam       2012-11-01  267  
-f6130be652d0b4f Ashish Jangam       2012-11-01  268  	/* Select register set B for voltage ramping. */
-f6130be652d0b4f Ashish Jangam       2012-11-01 @269  	if (regulator->reg_rselect == NO_GPIO)
-f6130be652d0b4f Ashish Jangam       2012-11-01  270  		return da9055_reg_update(regulator->da9055, info->conf.reg,
-f6130be652d0b4f Ashish Jangam       2012-11-01  271  					info->conf.sel_mask, DA9055_SEL_REG_B);
-f6130be652d0b4f Ashish Jangam       2012-11-01  272  	else
-f6130be652d0b4f Ashish Jangam       2012-11-01  273  		return 0;
-f6130be652d0b4f Ashish Jangam       2012-11-01  274  }
-f6130be652d0b4f Ashish Jangam       2012-11-01  275  
+b671491199acd3 Mike Rapoport (IBM  2023-03-21  1247) 
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  1248  static inline
+d905ae2b0f7eaf Alexander Potapenko 2023-04-13 @1249  int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  1250                  pgprot_t prot, struct page **pages, unsigned int page_shift)
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  1251  {
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  1252  	return -EINVAL;
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  1253  }
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  1254  #endif
+4ad0ae8c64ac8f Nicholas Piggin     2021-04-29  1255  
 
-:::::: The code at line 77 was first introduced by commit
-:::::: f6130be652d0b4fbf710d83a816298c007e59ed1 regulator: DA9055 regulator driver
+:::::: The code at line 1249 was first introduced by commit
+:::::: d905ae2b0f7eaf8fb37febfe4833ccf3f8c1c27a mm: apply __must_check to vmap_pages_range_noflush()
 
-:::::: TO: Ashish Jangam <ashish.jangam@kpitcummins.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+:::::: TO: Alexander Potapenko <glider@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
