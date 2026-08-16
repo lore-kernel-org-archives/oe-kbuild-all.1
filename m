@@ -1,163 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7331D1F2B88;
-	Sun, 16 Aug 2026 13:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A284F3B0ADB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 14:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786888764; cv=none; b=NaxmQibrjc7aUVAzvTB5vZQ16pBN9Ltr7X9GmwAskPndGCiFNfjJqrio/9/QZTjLISHNBOsDSrVp3wp7McCpOS75ExYL00MU79ocMiutNNqfsvpZ0hS2ZmpCCAS2XWGVV+2YFkOnils5vR2G24IoqB/une4lgqGbUzT4vFwyQo0=
+	t=1786889380; cv=none; b=mvLT+QXYcJJxGsFAfQTd+bQfL25uIArPkqjERupogC67MYP//WmMwjmmY3frTq2pSovJ5+gDx9ZEolC67cw25uSp+wM/RYz1jxUwbl9k8RPOA5f3GKlQq9wZHInzn+A4Jn/nFarpeNK17am6w//x9831xMqZ9ZWBdm1HaE4GcfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786888764; c=relaxed/simple;
-	bh=ybrlKZHnphcNdbxsCP6DNy7Rf0tFcREloQ8dWcNJo7s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CQZHfbfQCLQKe70h5uh6GXDPRcz52yibqnd1QvJhjly07ilgB0IQiHLOHFTzfxP57cp0CFcPnhuBmR7LlSR+Crw5vl+ui9X/SGXRMGkbkxQZDfxM6HDcrs+nu4OqzPDS85F4wNDB4vFqCwCAwlUfgUr6P3TZ3tYthjQ5BoGz0DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q4OBDmG9; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1786889380; c=relaxed/simple;
+	bh=ixNKXlfbyvYEDhKHRxomUadDZquNpvGYWGT75yks6FA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AkWNGYtBzm2LSnFFLhhBHGaBJrM2CdQttX03qASSTTbg4uMuY2uGH+7ARaITXUNI9As7dBOfQ0bi/pfohaWMYvlhAE5YU+ZwVUUIKJBhgGJQ0Rubyaw4B2q3dChT/GHJdrl/fRbUL2j+J76kjl8MZLGab31yLlZG8n5Hgg9f+8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iFyhHGl6; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q4OBDmG9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iFyhHGl6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786888762; x=1818424762;
-  h=date:from:to:cc:subject:message-id;
-  bh=ybrlKZHnphcNdbxsCP6DNy7Rf0tFcREloQ8dWcNJo7s=;
-  b=Q4OBDmG97NkY7oNTrhKjkk8JYx96Hn3wB1LRlnPhXEMyeg/BaNjnjJ/9
-   rW6yNkweFqlwg7NmbHS6+YkCjER5ezci/iCkveGyLBjuA9xVxPolnP3xj
-   9Obzi6dRKn84P6NsSRMi05ZHjn1LQL7W5py/+/Y0BYJSqow5zMc7fdn0a
-   aWJvnOGPXrtyYeMiy5RR3QRs47faVjKlUGuYQTUgiSRZL/Mp6lUbTTc7j
-   aQF0bSLU2UefM/SZrO1lzfYn4FcSX2sFx1AEdKnkhOWnKxSh8Ype+/h9f
-   WMKHUhcLs5T4bhDxyIjj1yN4iwU/zB+hwuSv8c0kdLWv5l8t7Tir7n1Y9
+  t=1786889378; x=1818425378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ixNKXlfbyvYEDhKHRxomUadDZquNpvGYWGT75yks6FA=;
+  b=iFyhHGl6tQ5iB3xURWcpK8WUYMJIWQ1qdoygevVmhhkwEkxi/hP0KSF5
+   Z0e1tHR63rAgHbMB05qNi8uW3JD065158k3oGuQba/a25MNOjryz09RTc
+   01XZOy8FpiZCcMUNtAqhIgeNgNy0Vf3NZMLcI6lSMe5+nimzUHpaEa5/y
+   KWcIsX6wCSTATXkzJP1r2x4RFFOaJsc+ohfza4t2sqqiKelJrlRCM98nm
+   ThFb0pVcsXwjRW0IcZDVphNQq5RYYRN16gbnsmB0Bq3GzjyaMNlKcbpWm
+   0fU4Q8fNSPWwcFYvY6ZMXoAzzucrW3c17I+oIbKx0FsLeRhTQsWGifri3
    Q==;
-X-CSE-ConnectionGUID: lNjGLTXYSGWQx4dHE4H3qg==
-X-CSE-MsgGUID: sQuLkd+NQcW5cBKzFYJXPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="98540449"
+X-CSE-ConnectionGUID: c56ron+URFaiSyzvA4qxNQ==
+X-CSE-MsgGUID: J3AGt+nCQaqySJ00lKC2iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="98901858"
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="98540449"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 06:59:21 -0700
-X-CSE-ConnectionGUID: eGLVH6JOSFq/K7VqqZUNbg==
-X-CSE-MsgGUID: hKhzWDX/ReCC82T8FxpW4A==
+   d="scan'208";a="98901858"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 07:09:37 -0700
+X-CSE-ConnectionGUID: tq0x3LxyQJynKYBgPz5NFg==
+X-CSE-MsgGUID: aXFAyCVHR0qo7eslTE8quQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="264726470"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 16 Aug 2026 06:59:20 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="262036019"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 16 Aug 2026 07:09:34 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvbOP-000000006az-1QmC;
-	Sun, 16 Aug 2026 13:59:17 +0000
-Date: Sun, 16 Aug 2026 15:58:26 +0200
+	id 1wvbYJ-00000000cuI-1oGl;
+	Sun, 16 Aug 2026 14:09:31 +0000
+Date: Sun, 16 Aug 2026 22:08:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: lib/sys_info.c:154:3: error: call to undeclared function
- 'ftrace_dump'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202608161529.P5YMPr86-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: code_0002@163.com, andersson@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, konradybcio@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, map220v <map220v300@gmail.com>,
+	code002-2 <hiez832670@gmail.com>
+Subject: Re: [PATCH] arm64: dts: qcom: sm8550: add Xiaomi Pad 6S Pro (sheng)
+Message-ID: <202608162115.dXrmXfLt-lkp@intel.com>
+References: <20260721133204.902-1-code_0002@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260721133204.902-1-code_0002@163.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Move-non-trace_printk-prototypes-back-to-kernel-h/20260814-235157
-head:   5803c3be0223106fdafb05968cefd241bf88fef1
-commit: 5803c3be0223106fdafb05968cefd241bf88fef1 tracing: Add CONFIG_TRACE_PRINTK_DEBUGGING to clean up kernel.h
-date:   2 days ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260816/202608161529.P5YMPr86-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161529.P5YMPr86-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v7.2-rc7 next-20260814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/code_0002-163-com/arm64-dts-qcom-sm8550-add-Xiaomi-Pad-6S-Pro-sheng/20260815-144756
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260721133204.902-1-code_0002%40163.com
+patch subject: [PATCH] arm64: dts: qcom: sm8550: add Xiaomi Pad 6S Pro (sheng)
+config: arm64-randconfig-004-20260816 (https://download.01.org/0day-ci/archive/20260816/202608162115.dXrmXfLt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608162115.dXrmXfLt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608161529.P5YMPr86-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608162115.dXrmXfLt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/sys_info.c:154:3: error: call to undeclared function 'ftrace_dump'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     154 |                 ftrace_dump(DUMP_ALL);
-         |                 ^
-   lib/sys_info.c:154:3: note: did you mean 'ftrace_bug'?
-   include/linux/ftrace.h:739:6: note: 'ftrace_bug' declared here
-     739 | void ftrace_bug(int err, struct dyn_ftrace *rec);
-         |      ^
->> lib/sys_info.c:154:15: error: use of undeclared identifier 'DUMP_ALL'
-     154 |                 ftrace_dump(DUMP_ALL);
-         |                             ^~~~~~~~
-   2 errors generated.
---
->> drivers/tty/sysrq.c:331:2: error: call to undeclared function 'ftrace_dump'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     331 |         ftrace_dump(DUMP_ALL);
-         |         ^
-   drivers/tty/sysrq.c:331:2: note: did you mean 'ftrace_bug'?
-   include/linux/ftrace.h:739:6: note: 'ftrace_bug' declared here
-     739 | void ftrace_bug(int err, struct dyn_ftrace *rec);
-         |      ^
->> drivers/tty/sysrq.c:331:14: error: use of undeclared identifier 'DUMP_ALL'
-     331 |         ftrace_dump(DUMP_ALL);
-         |                     ^~~~~~~~
-   2 errors generated.
---
-   In file included from kernel/rcu/tree.c:4951:
->> kernel/rcu/tree_stall.h:238:3: error: call to undeclared function 'ftrace_dump'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     238 |                 rcu_ftrace_dump(DUMP_ALL);
-         |                 ^
-   kernel/rcu/rcu.h:337:3: note: expanded from macro 'rcu_ftrace_dump'
-     337 |                 ftrace_dump(oops_dump_mode); \
-         |                 ^
-   kernel/rcu/tree_stall.h:238:3: note: did you mean 'ftrace_bug'?
-   kernel/rcu/rcu.h:337:3: note: expanded from macro 'rcu_ftrace_dump'
-     337 |                 ftrace_dump(oops_dump_mode); \
-         |                 ^
-   include/linux/ftrace.h:739:6: note: 'ftrace_bug' declared here
-     739 | void ftrace_bug(int err, struct dyn_ftrace *rec);
-         |      ^
-   In file included from kernel/rcu/tree.c:4951:
->> kernel/rcu/tree_stall.h:238:19: error: use of undeclared identifier 'DUMP_ALL'
-     238 |                 rcu_ftrace_dump(DUMP_ALL);
-         |                                 ^~~~~~~~
-   kernel/rcu/tree_stall.h:859:4: error: call to undeclared function 'ftrace_dump'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     859 |                         rcu_ftrace_dump(DUMP_ALL);
-         |                         ^
-   kernel/rcu/rcu.h:337:3: note: expanded from macro 'rcu_ftrace_dump'
-     337 |                 ftrace_dump(oops_dump_mode); \
-         |                 ^
-   In file included from kernel/rcu/tree.c:4951:
-   kernel/rcu/tree_stall.h:859:20: error: use of undeclared identifier 'DUMP_ALL'
-     859 |                         rcu_ftrace_dump(DUMP_ALL);
-         |                                         ^~~~~~~~
-   4 errors generated.
-
-
-vim +/ftrace_dump +154 lib/sys_info.c
-
-d747755917bf8ae Feng Tang       2025-07-03  138  
-03ef32d665e8a23 Feng Tang       2025-11-13  139  static void __sys_info(unsigned long si_mask)
-b76e89e50fc3693 Feng Tang       2025-07-03  140  {
-b76e89e50fc3693 Feng Tang       2025-07-03  141  	if (si_mask & SYS_INFO_TASKS)
-b76e89e50fc3693 Feng Tang       2025-07-03  142  		show_state();
-b76e89e50fc3693 Feng Tang       2025-07-03  143  
-b76e89e50fc3693 Feng Tang       2025-07-03  144  	if (si_mask & SYS_INFO_MEM)
-b76e89e50fc3693 Feng Tang       2025-07-03  145  		show_mem();
-b76e89e50fc3693 Feng Tang       2025-07-03  146  
-b76e89e50fc3693 Feng Tang       2025-07-03  147  	if (si_mask & SYS_INFO_TIMERS)
-b76e89e50fc3693 Feng Tang       2025-07-03  148  		sysrq_timer_list_show();
-b76e89e50fc3693 Feng Tang       2025-07-03  149  
-b76e89e50fc3693 Feng Tang       2025-07-03  150  	if (si_mask & SYS_INFO_LOCKS)
-b76e89e50fc3693 Feng Tang       2025-07-03  151  		debug_show_all_locks();
-b76e89e50fc3693 Feng Tang       2025-07-03  152  
-b76e89e50fc3693 Feng Tang       2025-07-03  153  	if (si_mask & SYS_INFO_FTRACE)
-b76e89e50fc3693 Feng Tang       2025-07-03 @154  		ftrace_dump(DUMP_ALL);
-b76e89e50fc3693 Feng Tang       2025-07-03  155  
-760fc597c33d5a7 Andy Shevchenko 2025-10-30  156  	if (si_mask & SYS_INFO_ALL_BT)
-b76e89e50fc3693 Feng Tang       2025-07-03  157  		trigger_all_cpu_backtrace();
-b76e89e50fc3693 Feng Tang       2025-07-03  158  
-b76e89e50fc3693 Feng Tang       2025-07-03  159  	if (si_mask & SYS_INFO_BLOCKED_TASKS)
-b76e89e50fc3693 Feng Tang       2025-07-03  160  		show_state_filter(TASK_UNINTERRUPTIBLE);
-b76e89e50fc3693 Feng Tang       2025-07-03  161  }
-03ef32d665e8a23 Feng Tang       2025-11-13  162  
+   Error: arch/arm64/boot/dts/qcom/sm8550-xiaomi-sheng.dts:947.1-11 Label or path cci1_i2c1 not found
+>> FATAL ERROR: Syntax error parsing input tree
 
 --
 0-DAY CI Kernel Test Service
