@@ -1,196 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFD433E36A;
-	Sun, 16 Aug 2026 00:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5C72F690F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 01:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786840576; cv=none; b=Szdm3rlIJCciuAQCxXk96bm2kzjoz3o20/sxh+5gjdJT7eHO0gfO3GYBEa8Vd9dxPPeh9QawQjWpxE4ynCN2xQzCfuFxWGRh3/moN9M9XL1O77PegDwsHshOmYDBrNZutkVb+CCxwN0EDQe2TY2X50BkpqtZtd17pRJgFJM7mMw=
+	t=1786843633; cv=none; b=p27DbGRIKcH6wHQZRzPXgZ9vjwyJOiWgxT6LgFhMwLZ4VsMIN8bqBXGY3WryBgjpjBAISfsGhqAx6vpWT7TzPyc5OsvUWrWnrAARSW52+sim5sk/8O24nUkv4vaRQ+KkI/zp08xGh62P0mDNBu44dc69m0Yq/i0Kj/DvlYWGtPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786840576; c=relaxed/simple;
-	bh=sLIRpgbeDqAtJvUvGCPYtBqldhnsPq1B8sRmOTCvQQ0=;
+	s=arc-20240116; t=1786843633; c=relaxed/simple;
+	bh=+EzY5xESG8t5EuSAJPatP6xi7yjKMC6KN/N2UZ4Yk3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+AAiCKCHhdytj5sC1AWHdEnqzp9H4FxxojOjF4ISMkdZtngVIwbS39tOGSdH2QeSewoo0lcPNUdokau8z7TEhGsfRSy0kXa78DkorFaR2mmQzUOeG0CQn98nNAECYAlq6fNeW1+beNwS1dk9srMWeO7H/0L8PNfByHUq0XN+2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAx4R6pN; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=WC0N9HWjLzDjFfb6tQ34Nbc+qVq4t3DaWWYnt/7c7CVscjcV1ZTddpCMlHE7LeWkVvDtdL5DZwNaNo2jcc6U/03xx72E4WuTNIbXWRGz3VHUZ1u8eOig2vx2PwINaec8veBAo6p1BkAiW/UQ3Gblz6SfkGEZLEoJf9nxRvkdrFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYL9I6K3; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAx4R6pN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYL9I6K3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786840574; x=1818376574;
+  t=1786843630; x=1818379630;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sLIRpgbeDqAtJvUvGCPYtBqldhnsPq1B8sRmOTCvQQ0=;
-  b=NAx4R6pN018/2NVIxWIG/bmF+g8h9waAXPBhb4LjLS4W6Tg3sm/3y++1
-   tDd6J5he+MaCiDzN3uoEv1LLQJOC3rXPq5vzf2eeFmvL/5l8NZmmYF8jf
-   xNpLbIXQwDMW36h5u7dpZj8YHcJpP9giyHzPtY9Lj9aUsnN+iyKp6oL/X
-   cv2wBekxoGV6CYWVW8w32JMLV6fpCOXSOPvz1VgXpD7V2e5iduE+fgpz4
-   odE+dmRqe5z36C+deQvqfWhMiFok1zkb8D6u0yQ8iVQbcc5KLn6k2unpJ
-   tzbn8/OXO8JuxxD0EzZCsQdwdOvNKlxx/HN5t9MDIR0L5a6jLQBT2gBwD
-   Q==;
-X-CSE-ConnectionGUID: cqWMYvW2SB6KDIXUlVw5AA==
-X-CSE-MsgGUID: Pyw8VIp+TtGORaiuoT/wXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="112911325"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=+EzY5xESG8t5EuSAJPatP6xi7yjKMC6KN/N2UZ4Yk3Y=;
+  b=aYL9I6K3NJrASi+uCuXL9vmuPA5ZA81TXAbulTEiTGHhGhqwATsvpGZ5
+   BG+Kt2v9GD571nXuTyGj4nMPZzSYoW6ab55ng1hQy4urRm+AldxIdMUf+
+   6dSn8vUtKh79DBGX9kiqfE3PU1uqK99bImf0s4Giv8Zx+TcOzMwu3fY47
+   q1BYkpa3ui/xuZp2GfS/MICiUSOYLC4Y8MZojKKgRxyu/F+mTm8JSZrKV
+   fddYjhyJp5AYgPVPya116IpmnjZs/8p7JUu5y+ZFgzUfSYKKvi3i+Zsre
+   BQzwH5PlAkVCyNSGpOd0ZmueX4E4iLMl0HSA8t46k4fbzYnPc8qLBszQF
+   w==;
+X-CSE-ConnectionGUID: WGoU6jN+SrGMFv3cAGJCZA==
+X-CSE-MsgGUID: wiUXZEqFSSi04Fo7ebok7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87578478"
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="112911325"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 17:36:13 -0700
-X-CSE-ConnectionGUID: asGnTZ1zQOWgblt09WcbZQ==
-X-CSE-MsgGUID: ZQxrs+FRSwWUbK+0WihHdQ==
+   d="scan'208";a="87578478"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 18:27:10 -0700
+X-CSE-ConnectionGUID: VRRW2CZxR5e/w4g42CpDIQ==
+X-CSE-MsgGUID: tDpOTD74SHa9wNL2PIYs4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="269751916"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Aug 2026 17:36:11 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="260336122"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Aug 2026 18:27:07 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvOrA-000000006WL-2DF1;
-	Sun, 16 Aug 2026 00:36:08 +0000
-Date: Sun, 16 Aug 2026 02:35:51 +0200
+	id 1wvPeT-00000000cdW-15EN;
+	Sun, 16 Aug 2026 01:27:05 +0000
+Date: Sun, 16 Aug 2026 09:26:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: zhang.enpei@zte.com.cn, chessman@tux.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ethernet: tlan: Convert to use jiffies macro
-Message-ID: <202608160257.LKzb3DiV-lkp@intel.com>
-References: <20250827155455583-PdvmDYA9SD3J37_XRza5@zte.com.cn>
+To: =?utf-8?Q?Ertu=C4=9Frul_Top=C3=A7u?= <ertugtopcu0@gmail.com>,
+	hansg@kernel.org, ilpo.jarvinen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?utf-8?Q?Ertu=C4=9Frul_Top=C3=A7u?= <ertugtopcu0@gmail.com>
+Subject: Re: [PATCH] platform/x86: Add Goodix fingerprint EC mailbox transport
+Message-ID: <202608160824.RMzAY05S-lkp@intel.com>
+References: <20260727205837.91413-1-ertugtopcu0@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250827155455583-PdvmDYA9SD3J37_XRza5@zte.com.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260727205837.91413-1-ertugtopcu0@gmail.com>
 
-Hi,
+Hi Ertuğrul,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
-[also build test WARNING on net/main linus/master v7.2-rc7 next-20260721]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.2-rc7 next-20260814]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/zhang-enpei-zte-com-cn/ethernet-tlan-Convert-to-use-jiffies-macro/20260813-185229
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250827155455583-PdvmDYA9SD3J37_XRza5%40zte.com.cn
-patch subject: [PATCH v3] ethernet: tlan: Convert to use jiffies macro
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260816/202608160257.LKzb3DiV-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160257.LKzb3DiV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ertu-rul-Top-u/platform-x86-Add-Goodix-fingerprint-EC-mailbox-transport/20260815-121223
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260727205837.91413-1-ertugtopcu0%40gmail.com
+patch subject: [PATCH] platform/x86: Add Goodix fingerprint EC mailbox transport
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260816/202608160824.RMzAY05S-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160824.RMzAY05S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608160257.LKzb3DiV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608160824.RMzAY05S-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/ti/tlan.c:1833:8: warning: comparison of distinct pointer types ('unsigned long *' and 'typeof (priv->timer_set_at + (250 / 10)) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
-    1833 |                         if (time_is_before_eq_jiffies(priv->timer_set_at + TLAN_TIMER_ACT_DELAY)) {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/jiffies.h:288:38: note: expanded from macro 'time_is_before_eq_jiffies'
-     288 | #define time_is_before_eq_jiffies(a) time_after_eq(jiffies, a)
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/jiffies.h:145:3: note: expanded from macro 'time_after_eq'
-     145 |          typecheck(unsigned long, b) && \
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/typecheck.h:12:18: note: expanded from macro 'typecheck'
-      12 |         (void)(&__dummy == &__dummy2); \
-         |                ~~~~~~~~ ^  ~~~~~~~~~
-   drivers/net/ethernet/ti/tlan.c:2057:7: warning: variable 'def_tx' set but not used [-Wunused-but-set-variable]
-    2057 |         u32             def_tx, crc, code;
-         |                         ^
-   2 warnings generated.
+   drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c: In function 'goodix_ec_mmio_write_tx':
+>> drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c:204:17: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Wimplicit-function-declaration]
+     204 |                 writeq(value, gdev->mailbox + GOODIX_EC_TX_OFFSET + offset);
+         |                 ^~~~~~
+         |                 writel
+   drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c: In function 'goodix_ec_mmio_read_rx':
+>> drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c:216:29: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
+     216 |                 u64 value = readq(gdev->mailbox + GOODIX_EC_RX_OFFSET + offset);
+         |                             ^~~~~
+         |                             readl
 
 
-vim +1833 drivers/net/ethernet/ti/tlan.c
+vim +204 drivers/platform/x86/goodix-ec-mailbox/goodix_ec_main.c
 
-  1771	
-  1772	
-  1773	/***************************************************************
-  1774	 *	tlan_timer
-  1775	 *
-  1776	 *	Returns:
-  1777	 *		Nothing
-  1778	 *	Parms:
-  1779	 *		data	A value given to add timer when
-  1780	 *			add_timer was called.
-  1781	 *
-  1782	 *	This function handles timed functionality for the
-  1783	 *	TLAN driver.  The two current timer uses are for
-  1784	 *	delaying for autonegotionation and driving the ACT LED.
-  1785	 *	-	Autonegotiation requires being allowed about
-  1786	 *		2 1/2 seconds before attempting to transmit a
-  1787	 *		packet.  It would be a very bad thing to hang
-  1788	 *		the kernel this long, so the driver doesn't
-  1789	 *		allow transmission 'til after this time, for
-  1790	 *		certain PHYs.  It would be much nicer if all
-  1791	 *		PHYs were interrupt-capable like the internal
-  1792	 *		PHY.
-  1793	 *	-	The ACT LED, which shows adapter activity, is
-  1794	 *		driven by the driver, and so must be left on
-  1795	 *		for a short period to power up the LED so it
-  1796	 *		can be seen.  This delay can be changed by
-  1797	 *		changing the TLAN_TIMER_ACT_DELAY in tlan.h,
-  1798	 *		if desired.  100 ms  produces a slightly
-  1799	 *		sluggish response.
-  1800	 *
-  1801	 **************************************************************/
-  1802	
-  1803	static void tlan_timer(struct timer_list *t)
-  1804	{
-  1805		struct tlan_priv	*priv = timer_container_of(priv, t, timer);
-  1806		struct net_device	*dev = priv->dev;
-  1807		unsigned long	flags = 0;
-  1808	
-  1809		priv->timer.function = NULL;
-  1810	
-  1811		switch (priv->timer_type) {
-  1812		case TLAN_TIMER_PHY_PDOWN:
-  1813			tlan_phy_power_down(dev);
-  1814			break;
-  1815		case TLAN_TIMER_PHY_PUP:
-  1816			tlan_phy_power_up(dev);
-  1817			break;
-  1818		case TLAN_TIMER_PHY_RESET:
-  1819			tlan_phy_reset(dev);
-  1820			break;
-  1821		case TLAN_TIMER_PHY_START_LINK:
-  1822			tlan_phy_start_link(dev);
-  1823			break;
-  1824		case TLAN_TIMER_PHY_FINISH_AN:
-  1825			tlan_phy_finish_auto_neg(dev);
-  1826			break;
-  1827		case TLAN_TIMER_FINISH_RESET:
-  1828			tlan_finish_reset(dev);
-  1829			break;
-  1830		case TLAN_TIMER_ACTIVITY:
-  1831			spin_lock_irqsave(&priv->lock, flags);
-  1832			if (priv->timer.function == NULL) {
-> 1833				if (time_is_before_eq_jiffies(priv->timer_set_at + TLAN_TIMER_ACT_DELAY)) {
-  1834					tlan_dio_write8(dev->base_addr,
-  1835							TLAN_LED_REG, TLAN_LED_LINK);
-  1836				} else  {
-  1837					priv->timer.expires = priv->timer_set_at
-  1838						+ TLAN_TIMER_ACT_DELAY;
-  1839					spin_unlock_irqrestore(&priv->lock, flags);
-  1840					add_timer(&priv->timer);
-  1841					break;
-  1842				}
-  1843			}
-  1844			spin_unlock_irqrestore(&priv->lock, flags);
-  1845			break;
-  1846		default:
-  1847			break;
-  1848		}
-  1849	
+   196	
+   197	static void goodix_ec_mmio_write_tx(struct goodix_device *gdev, size_t len)
+   198	{
+   199		size_t offset;
+   200	
+   201		for (offset = 0; offset < len; offset += sizeof(u64)) {
+   202			u64 value = get_unaligned_le64(gdev->tx_buf + offset);
+   203	
+ > 204			writeq(value, gdev->mailbox + GOODIX_EC_TX_OFFSET + offset);
+   205		}
+   206	
+   207		/* Publish every qword before asserting the write-done doorbell. */
+   208		wmb();
+   209	}
+   210	
+   211	static void goodix_ec_mmio_read_rx(struct goodix_device *gdev)
+   212	{
+   213		size_t offset;
+   214	
+   215		for (offset = 0; offset < GOODIX_EC_RX_SIZE; offset += sizeof(u64)) {
+ > 216			u64 value = readq(gdev->mailbox + GOODIX_EC_RX_OFFSET + offset);
+   217	
+   218			put_unaligned_le64(value, gdev->rx_buf + offset);
+   219		}
+   220	
+   221		/* Complete the mailbox snapshot before parsing its headers. */
+   222		rmb();
+   223	}
+   224	
 
 --
 0-DAY CI Kernel Test Service
