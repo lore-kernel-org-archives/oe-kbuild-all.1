@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409B636F8EA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 08:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F50120ADF8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 08:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786867332; cv=none; b=Yb351LRfnNGfLl/SNKEVUZ395+dHFzzuJZ7XW2KHSMtTu7fdvVN6pSIs4DNG4RFaX9RUXywrJqVqa0LytQIW2JeI2kPy4CVZCGQYRr3ojXy24TDuoTaCD/ahDiHmxL+iQl0Jg4aYYs1qLDjnrkTSwcC0w8lcXl/y0SR8S3ulgqs=
+	t=1786870581; cv=none; b=nZm6TjvDiz1TRUkKAXdBM7T1k5BXVzPDlsLREDHT9wN6Rw7lnEsshimBa7GFXJJ/oLEBRJho9dByr3iFaGJxqnuJOzSc8E5Jq79Cm7ROh07DsVjV2UlkH3J0gK3NW2TzCyupdvxAvuF3pP8zJ3hYOf9PZxreFzYnRSC8D/DthgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786867332; c=relaxed/simple;
-	bh=yKOZhF0ozKjlSEy5EQw1VGDCV5O3JGm6wMbgaZjrlDI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RaI2hTELjq4C/UAPSSBgEJfVyuPBH8sEvAaVbsSfI2Auf8OrK9kREDsiXN9BzKrJxFxYhQUg/C1NwwgIRca62KWRAqkWA9jtZ1miESe34kcOpvO++/rDSNZ/7t7FxvCIOELnvtqo3fOZKV+uKrlovnios+BzvQVGfeEIl4R23Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kNXlA5w6; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1786870581; c=relaxed/simple;
+	bh=EVc9oNR7AEVpYqBTTGrogkaC7grGmfVAPANz9DOwxwM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=F+UvW5v+nKIx2gPu0/GeqwoaN990/b9AIZKWkqby5tVVrMxUO/vB34prYVDExHR8yChnLHt+4Zpvi9DM5PWp3bAw3eLL6DnQ/vKDtBlHoNqNrZ9BN6PyMdt2oUyPDVJLp3TqUd1wVPUr5SSAzdLYyQzk+S03vUSxEBwQ5O4U4wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6y7fZEv; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kNXlA5w6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6y7fZEv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786867330; x=1818403330;
+  t=1786870579; x=1818406579;
   h=date:from:to:cc:subject:message-id;
-  bh=yKOZhF0ozKjlSEy5EQw1VGDCV5O3JGm6wMbgaZjrlDI=;
-  b=kNXlA5w6WBWGt2wGQKjrhi/LfOGyYp+WpxHLm56LjjgJ+RA9Vcvk3rW4
-   W0BUeE537/0n/FIEHRObMzHE992fEXw5ngds/s8KxAwsTIECgAUGNNCeN
-   aDyHMVPwPYhaOKXTiuMir88y0YGmTVI24sROKC7/WMLnEUt4qc3BhL8ok
-   QalGonbHThOnydpx5gEGnYiZXFuk/DV7R/ZnKRm53TPPNSG/YQPPx0Csu
-   MVFqlKEjRc7UjPUyTe22GBJMqhpfXbEcqPSyt7Uo5y2k+o5RxWOf/Z31S
-   qQe1YsrCiwwkHbvB7O/71WvNw0u1ZMNZ4sIRIpzu3Ns7B9GV+m64iXXAT
-   g==;
-X-CSE-ConnectionGUID: MDR+mopuQY+E/Fvotxbe3Q==
-X-CSE-MsgGUID: S8CG/fQHS46P9GCDiOVN5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87503320"
+  bh=EVc9oNR7AEVpYqBTTGrogkaC7grGmfVAPANz9DOwxwM=;
+  b=C6y7fZEvDpzgxm17yDnp/IZZyNs9lPsWuo3oOc76aqHwqFkeHG7lcjKI
+   dHyFjRlP0G9UYbEB750gG/yYrz3udm9G0SihLakEEdpLV/0Vkxlqdsx1O
+   IG4zQQ6XaTz+NUPum3STXN5qZGTX/TfYNVauQgpJ4OoZ2wS5bnNxtJ/19
+   Y3sa674laYs0jwJSriXwKN1FCeADtRSj2aF+ZsVyfx3rzerLNaTcNHDsd
+   LRFPg3OhnwEWKE2O7R5+WwDGeVrHM5eGpozofq4NWUmGc6CplrorgC0j/
+   zIbaEXPYf2EPw7l3qd4hWJjJ9kSxz8W0bSpSrYXxtC7D7Cz33/VckIOaT
+   w==;
+X-CSE-ConnectionGUID: b48ahNubTqifQWEya+HIzA==
+X-CSE-MsgGUID: PoW8NMu1T+SyH3O4eqPBUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87587782"
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="87503320"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 01:02:08 -0700
-X-CSE-ConnectionGUID: UU8scZwhSXi4dvEAI398ww==
-X-CSE-MsgGUID: 5HjeCm2XRZeWMR3IY3hfDw==
+   d="scan'208";a="87587782"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 01:56:18 -0700
+X-CSE-ConnectionGUID: LJLXg9f0SHmgm4lgSgYdhw==
+X-CSE-MsgGUID: qKq79scyT5+QCJZ0IaxvPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="261980387"
+   d="scan'208";a="268481955"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Aug 2026 01:02:06 -0700
+  by orviesa004.jf.intel.com with ESMTP; 16 Aug 2026 01:56:17 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvVoh-00000000coc-3Kdu;
-	Sun, 16 Aug 2026 08:02:03 +0000
-Date: Sun, 16 Aug 2026 16:01:43 +0800
+	id 1wvWf9-00000000cpe-1gFq;
+	Sun, 16 Aug 2026 08:56:15 +0000
+Date: Sun, 16 Aug 2026 16:55:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yang Wang <kevinyang.wang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>,
- Kenneth Feng <kenneth.feng@amd.com>
-Subject: [linux-next:master 11959/15435]
- drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:3073
- smu_v13_0_0_set_ppt_limit() warn: inconsistent indenting
-Message-ID: <202608161557.IjVTb9fD-lkp@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [reinette:resctrl/controls_rfc_v2.2 75/88]
+ drivers/resctrl/mpam_resctrl.c:1016:19: error: 'hw_ctrl' undeclared
+Message-ID: <202608161654.OW8cHxE0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,77 +59,98 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4477a78374a57c3809b172ad30cceabda48c47c6
-commit: 6c9e0328d1dee58cd2ebbcc34b43eefc342d6d62 [11959/15435] drm/amd/pm: refactor PPT limits by controller and power source
-config: x86_64-randconfig-161-20260810 (https://download.01.org/0day-ci/archive/20260816/202608161557.IjVTb9fD-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/reinette/linux.git resctrl/controls_rfc_v2.2
+head:   e53ef7bef436e58b8b4a1ef2337330bfd8588fd4
+commit: 3407e523c988cfeea969aeb210ad64b2b2cd3642 [75/88] fs/resctrl: Introduce emulated controls and control mode
+config: arm64-randconfig-004-20260816 (https://download.01.org/0day-ci/archive/20260816/202608161654.OW8cHxE0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161654.OW8cHxE0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608161557.IjVTb9fD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608161654.OW8cHxE0-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:3073 smu_v13_0_0_set_ppt_limit() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +3073 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c
+   drivers/resctrl/mpam_resctrl.c: In function 'mpam_resctrl_control_init':
+>> drivers/resctrl/mpam_resctrl.c:1016:19: error: 'hw_ctrl' undeclared (first use in this function)
+    1016 |   INIT_LIST_HEAD(&hw_ctrl->r_ctrl.emulated_by);
+         |                   ^~~~~~~
+   drivers/resctrl/mpam_resctrl.c:1016:19: note: each undeclared identifier is reported only once for each function it appears in
 
-  3041	
-  3042	static int smu_v13_0_0_set_ppt_limit(struct smu_context *smu,
-  3043					     enum smu_ppt_limit_type limit_type,
-  3044					     uint32_t limit)
-  3045	{
-  3046		PPTable_t *pptable = smu->smu_table.driver_pptable;
-  3047		SkuTable_t *skutable = &pptable->SkuTable;
-  3048		uint32_t msg_limit = skutable->MsgLimits.Power[PPT_THROTTLER_PPT0][POWER_SOURCE_AC];
-  3049		struct smu_table_context *table_context = &smu->smu_table;
-  3050		OverDriveTableExternal_t *od_table =
-  3051			(OverDriveTableExternal_t *)table_context->overdrive_table;
-  3052		uint32_t current_limit;
-  3053		int ret = 0;
-  3054	
-  3055		if (limit_type != SMU_PPT_LIMIT_PPT0)
-  3056			return -EINVAL;
-  3057	
-  3058		ret = smu_v13_0_0_get_ppt_limit(smu, limit_type, &current_limit);
-  3059		if (ret)
-  3060			return ret;
-  3061	
-  3062		if (limit <= msg_limit) {
-  3063			if (current_limit > msg_limit) {
-  3064				od_table->OverDriveTable.Ppt = 0;
-  3065				od_table->OverDriveTable.FeatureCtrlMask |= 1U << PP_OD_FEATURE_PPT_BIT;
-  3066	
-  3067				ret = smu_v13_0_0_upload_overdrive_table(smu, od_table);
-  3068				if (ret) {
-  3069					dev_err(smu->adev->dev, "Failed to upload overdrive table!\n");
-  3070					return ret;
-  3071				}
-  3072			}
-> 3073				return smu_v13_0_set_ppt_limit(smu, limit_type, limit);
-  3074		} else if (smu->od_enabled) {
-  3075			ret = smu_v13_0_set_ppt_limit(smu, limit_type, msg_limit);
-  3076			if (ret)
-  3077				return ret;
-  3078	
-  3079			od_table->OverDriveTable.Ppt = (limit * 100) / msg_limit - 100;
-  3080			od_table->OverDriveTable.FeatureCtrlMask |= 1U << PP_OD_FEATURE_PPT_BIT;
-  3081	
-  3082			ret = smu_v13_0_0_upload_overdrive_table(smu, od_table);
-  3083			if (ret) {
-  3084			  dev_err(smu->adev->dev, "Failed to upload overdrive table!\n");
-  3085			  return ret;
-  3086			}
-  3087	
-  3088		} else {
-  3089			return -EINVAL;
-  3090		}
-  3091	
-  3092		return 0;
-  3093	}
-  3094	
+
+vim +/hw_ctrl +1016 drivers/resctrl/mpam_resctrl.c
+
+   998	
+   999	static int mpam_resctrl_control_init(struct mpam_resctrl_res *res)
+  1000	{
+  1001		struct mpam_class *class = res->class;
+  1002		struct mpam_props *cprops = &class->props;
+  1003		struct rdt_resource *r = &res->resctrl_res;
+  1004		struct mpam_resctrl_ctrl *mpam_ctrl;
+  1005	
+  1006		mpam_ctrl = kzalloc_obj(*mpam_ctrl);
+  1007		if (!mpam_ctrl)
+  1008			return -ENOMEM;
+  1009	
+  1010		switch (r->rid) {
+  1011		case RDT_RESOURCE_L2:
+  1012		case RDT_RESOURCE_L3:
+  1013			mpam_ctrl->r_ctrl.type = RESCTRL_CTRL_BITMAP;
+  1014			mpam_ctrl->r_ctrl.name = RESCTRL_CTRL_NAME_DEF;
+  1015			INIT_LIST_HEAD_RCU(&mpam_ctrl->r_ctrl.domains);
+> 1016			INIT_LIST_HEAD(&hw_ctrl->r_ctrl.emulated_by);
+  1017			__set_bit(RESCTRL_BITMAP_FLAG_SPARSE, mpam_ctrl->r_ctrl.bitmap.flags);
+  1018			mpam_ctrl->r_ctrl.bitmap.cbm_len = class->props.cpbm_wd;
+  1019			/* mpam_devices will reject empty bitmaps */
+  1020			mpam_ctrl->r_ctrl.bitmap.min_cbm_bits = 1;
+  1021	
+  1022			if (r->rid == RDT_RESOURCE_L2) {
+  1023				r->name = "L2";
+  1024				r->ctrl_scope = RESCTRL_L2_CACHE;
+  1025				r->cdp_capable = true;
+  1026			} else {
+  1027				r->name = "L3";
+  1028				r->ctrl_scope = RESCTRL_L3_CACHE;
+  1029				r->cdp_capable = true;
+  1030			}
+  1031	
+  1032			/*
+  1033			 * Which bits are shared with other ...things...  Unknown
+  1034			 * devices use partid-0 which uses all the bitmap fields. Until
+  1035			 * we have configured the SMMU and GIC not to do this 'all the
+  1036			 * bits' is the correct answer here.
+  1037			 */
+  1038			mpam_ctrl->r_ctrl.bitmap.shareable_bits = resctrl_get_default_ctrlval(&mpam_ctrl->r_ctrl);
+  1039			list_add(&mpam_ctrl->r_ctrl.entry, &r->controls);
+  1040			r->alloc_capable = true;
+  1041			break;
+  1042		case RDT_RESOURCE_MBA:
+  1043			r->ctrl_scope = RESCTRL_L3_CACHE;
+  1044			mpam_ctrl->r_ctrl.type = RESCTRL_CTRL_SCALAR;
+  1045			mpam_ctrl->r_ctrl.name = RESCTRL_CTRL_NAME_DEF;
+  1046			INIT_LIST_HEAD_RCU(&mpam_ctrl->r_ctrl.domains);
+  1047			INIT_LIST_HEAD(&hw_ctrl->r_ctrl.emulated_by);
+  1048	
+  1049			r->bw_throttle_mode = THREAD_THROTTLE_UNDEFINED;
+  1050			__set_bit(RESCTRL_SCALAR_FLAG_LINEAR, mpam_ctrl->r_ctrl.scalar.flags);
+  1051			mpam_ctrl->r_ctrl.scalar.min = get_mba_min(cprops);
+  1052			mpam_ctrl->r_ctrl.scalar.max = MAX_MBA_BW;
+  1053			mpam_ctrl->r_ctrl.scalar.reset_val = MAX_MBA_BW;
+  1054			mpam_ctrl->r_ctrl.scalar.gran = get_mba_granularity(cprops);
+  1055			list_add(&mpam_ctrl->r_ctrl.entry, &r->controls);
+  1056	
+  1057			r->name = "MB";
+  1058			r->alloc_capable = true;
+  1059			break;
+  1060		default:
+  1061			return -EINVAL;
+  1062		}
+  1063	
+  1064		return 0;
+  1065	}
+  1066	
 
 --
 0-DAY CI Kernel Test Service
