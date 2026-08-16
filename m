@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CE6EEBB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 15:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CC44B04AB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 16:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786893392; cv=none; b=LFnW/qXUQPfr4TfbW4qFUAL26AfZgmr2P3HYyFHPgaTqNhkbxlZy6mB+5YttFthIoh7m3N77ypSSFFTYri1z72EMVKsBdftqbSuPClRg/KEcRZANuvozJyf5JMuj9f6bsTHOx0CofdcjAHzSwZZUCQNNMj1tvrNsL8Z142SSgTs=
+	t=1786898225; cv=none; b=lVGIVBsZhDhBz389mv+7YEFMZ2udBd2ZWR9YNbEsEu6U0p2lETmssCUxnuka7Mr78XoQSmS21qejakOMcyOPeTK410nHh1BW/2XK6HSRWzzCrSd9f6HRbq1JOVBJISG3LAMoQdCRI7pmXFN7i31mDWFrq41Yp9azGGk8A49OJgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786893392; c=relaxed/simple;
-	bh=hldgK4fwRYAbFmpTwDrKTvmfP8LlOOStdXf5lHuM52o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DqIotsOnxmhML82Fw7lX5BpuR565+uIFIkPO2TRx7RnFeb0NboF62elvqVdUPiwuz8FhsssrBUHRvX8sv1+I4SSVJSNwCsbBA3LC4Ghd9Vs/XztF3dWO+EySxfdwROgVwD0jsXw94qqQLYhF3ait7DKCLZTN2i9BELXNehKeacE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNxP7FZN; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1786898225; c=relaxed/simple;
+	bh=LUT1X5gNR2zGDfqYMkVCXmcxX/qUeGz6V976KRKVfRY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QtQZFH6+cBxUK5p0I1kZn7DEYsevC+EpAEyM4ocf25H0ttxQntDgMoqkLPtd3QX1hDMsQK2i04DMeuKAubW2M9HPvQykUvVdO0hUDkD90I6hREXI7vZw98U+46rjBO2UFxwnmgkYQzqVQJy5cimd7gQ08sX5ki8SNJidse/L5u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RWSEBw4H; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNxP7FZN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWSEBw4H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786893391; x=1818429391;
+  t=1786898223; x=1818434223;
   h=date:from:to:cc:subject:message-id;
-  bh=hldgK4fwRYAbFmpTwDrKTvmfP8LlOOStdXf5lHuM52o=;
-  b=BNxP7FZNMLSVqWyw2S75WUxUps4OX3yBZd7T/HvivlFwJn9LC1Ws2AAz
-   oWOSDUm4T34G8CITMCJK5m06T5gogwUAU+8pbAgi8kltlAQlCHNjudjez
-   PIvWr8D4+a/mUV/YtsMqj0E1cX/63P9eVdi8lYdsGE5UWXaV+664EgZCJ
-   ttw9N/OMeGpnO949WbGu2jiw2a3BdNwEOJC/oP1s04O1APfRl4RPsrqc6
-   9KDYC5XBhlaWlXiLJCUCjJn7DTyL/KlkpAZ+rrOoLC7jbnxUR81Bwucqo
-   tkMBD1M7Cdijqrqa2NdcHbjzBu8myF77eiZESuLIi0XyA+xZAEpey5wkW
+  bh=LUT1X5gNR2zGDfqYMkVCXmcxX/qUeGz6V976KRKVfRY=;
+  b=RWSEBw4HLt0qNG8TwXHhwL4UU4DDMA67BLvbFr+kV6oGfBuCuEPqzYxk
+   HA6aNkXFYPbWX5621F3N0oNFvnJz9FmUGFq7mKe5EKaaq7bpNgrKWuEcs
+   zkJSbLRAmAN0+zlywmGs+5K7eU7FrMtJFghnTcS06TczkHnEm1XuYwZ2W
+   8wxCEPwK0YJlXf5S2WSoQ5fJSq1PsSJQeUa73FrQCDuVeg0tiTp21XX0W
+   Tb5wWnAflG0uGP4zAGad9sCsSYtilsDh751VQvR1pEhuMqG9+SCX/EspV
+   ZI9n1jjWePOErGvefD0V98/f0op9tzy6AKtzFWmP0MsMv1EvudnOhk0qH
    A==;
-X-CSE-ConnectionGUID: V4QiEN5nSPWXASHIG92/QQ==
-X-CSE-MsgGUID: fXXXTjDpRnynzsJsEte+RA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="86347717"
+X-CSE-ConnectionGUID: YFCuzdLTQdG5mUShcdYJag==
+X-CSE-MsgGUID: uA/G/VmuTOqlbznOEkg5jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="91204013"
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="86347717"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 08:16:30 -0700
-X-CSE-ConnectionGUID: nDGR1mIqSZqE29Htf9RLnQ==
-X-CSE-MsgGUID: BIZAlDhZSoeDnTdV8o813A==
+   d="scan'208";a="91204013"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 09:37:02 -0700
+X-CSE-ConnectionGUID: TOdTP/B7TzyXdNk/171kAg==
+X-CSE-MsgGUID: Zer9avPYT1Sp+4uQ96tO4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="266681588"
+   d="scan'208";a="264747119"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Aug 2026 08:16:28 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Aug 2026 09:37:00 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvcb4-00000000cyA-1eMu;
-	Sun, 16 Aug 2026 15:16:26 +0000
-Date: Sun, 16 Aug 2026 23:15:59 +0800
+	id 1wvdr0-00000000d0M-1OwO;
+	Sun, 16 Aug 2026 16:36:58 +0000
+Date: Mon, 17 Aug 2026 00:36:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous
- prototype for 'hyp_event_trace_hyp_enter'
-Message-ID: <202608162351.tLYdgVIK-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ arm@kernel.org
+Subject: [soc:board-remove 154/217] drivers/mfd/max8925-i2c.c:146:9:
+ error: 'ret' undeclared; did you mean 'net'?
+Message-ID: <202608170025.qu8rAquT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,65 +60,95 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Vincent,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   24c059d9e217f32d61570fdbd7eb66bc999657a9
-commit: f6dbfc683cf5fbbd37b6fdead1b5b08912cf6570 [2/2] ANDROID: KVM: arm64: Add support for nVHE hyp events
-config: arm64-randconfig-004-20260816 (https://download.01.org/0day-ci/archive/20260816/202608162351.tLYdgVIK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608162351.tLYdgVIK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
+head:   057394422bc04420585b2790b230d8a1f350ace8
+commit: a4e72f5a88a6efa6a9edbb7e22c08bb45fd91940 [154/217] mfd: max8925: remove platform data probing
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260817/202608170025.qu8rAquT-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170025.qu8rAquT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608162351.tLYdgVIK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608170025.qu8rAquT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp_events.c:9:
->> arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
-         |       ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
-      14 | HYP_EVENT(hyp_enter,
-         | ^~~~~~~~~
->> arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
-         |       ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
-      23 | HYP_EVENT(hyp_exit,
-         | ^~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:100:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
-     100 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:130:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
-     130 | struct hyp_event *hyp_trace_find_event(int id)
-         |                   ^~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:143:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
-     143 | int hyp_trace_init_events(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/mfd/max8925-i2c.c: In function 'max8925_probe':
+>> drivers/mfd/max8925-i2c.c:146:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+     146 |         ret = of_property_read_u32(np, "maxim,tsc-irq", &chip->tsc_irq);
+         |         ^~~
+         |         net
+   drivers/mfd/max8925-i2c.c:146:9: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/mfd/max8925-i2c.c:146:36: error: 'np' undeclared (first use in this function); did you mean 'up'?
+     146 |         ret = of_property_read_u32(np, "maxim,tsc-irq", &chip->tsc_irq);
+         |                                    ^~
+         |                                    up
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/mfd/max8925-i2c.c:10:
+>> drivers/mfd/max8925-i2c.c:148:25: error: 'dev' undeclared (first use in this function); did you mean 'cdev'?
+     148 |                 dev_err(dev, "Not found maxim,tsc-irq property\n");
+         |                         ^~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/mfd/max8925-i2c.c:148:17: note: in expansion of macro 'dev_err'
+     148 |                 dev_err(dev, "Not found maxim,tsc-irq property\n");
+         |                 ^~~~~~~
+   drivers/mfd/max8925-i2c.c:137:29: warning: unused variable 'node' [-Wunused-variable]
+     137 |         struct device_node *node = client->dev.of_node;
+         |                             ^~~~
 
 
-vim +/hyp_event_trace_hyp_enter +17 arch/arm64/include/asm/kvm_define_hypevents.h
+vim +146 drivers/mfd/max8925-i2c.c
 
-    14	
-    15	#define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
-    16		HYP_EVENT_FORMAT(__name, __struct);					\
-  > 17		void hyp_event_trace_##__name(struct ht_iterator *iter)			\
-    18		{									\
-    19			struct trace_hyp_format_##__name __maybe_unused *__entry =	\
-    20				(struct trace_hyp_format_##__name *)iter->ent;		\
-    21			trace_seq_puts(&iter->seq, #__name);				\
-    22			trace_seq_putc(&iter->seq, ' ');				\
-    23			trace_seq_printf(&iter->seq, __printk);				\
-    24			trace_seq_putc(&iter->seq, '\n');				\
-    25		}
-    26	#define HYP_EVENT_MULTI_READ
-    27	#include __HYP_EVENT_FILE
-    28	
+   133	
+   134	static int max8925_probe(struct i2c_client *client)
+   135	{
+   136		struct max8925_chip *chip;
+   137		struct device_node *node = client->dev.of_node;
+   138		int tsc_irq;
+   139	
+   140		chip = devm_kzalloc(&client->dev,
+   141				    sizeof(struct max8925_chip), GFP_KERNEL);
+   142		if (chip == NULL)
+   143			return -ENOMEM;
+   144	
+   145		/* parse DT to get platform data */
+ > 146		ret = of_property_read_u32(np, "maxim,tsc-irq", &chip->tsc_irq);
+   147		if (ret) {
+ > 148			dev_err(dev, "Not found maxim,tsc-irq property\n");
+   149			return -EINVAL;
+   150		}
+   151	
+   152		chip->i2c = client;
+   153		chip->dev = &client->dev;
+   154		i2c_set_clientdata(client, chip);
+   155		mutex_init(&chip->io_lock);
+   156	
+   157		chip->rtc = i2c_new_dummy_device(chip->i2c->adapter, RTC_I2C_ADDR);
+   158		if (IS_ERR(chip->rtc)) {
+   159			dev_err(chip->dev, "Failed to allocate I2C device for RTC\n");
+   160			return PTR_ERR(chip->rtc);
+   161		}
+   162		i2c_set_clientdata(chip->rtc, chip);
+   163	
+   164		chip->adc = i2c_new_dummy_device(chip->i2c->adapter, ADC_I2C_ADDR);
+   165		if (IS_ERR(chip->adc)) {
+   166			dev_err(chip->dev, "Failed to allocate I2C device for ADC\n");
+   167			i2c_unregister_device(chip->rtc);
+   168			return PTR_ERR(chip->adc);
+   169		}
+   170		i2c_set_clientdata(chip->adc, chip);
+   171	
+   172		device_init_wakeup(&client->dev, 1);
+   173	
+   174		max8925_device_init(chip, tsc_irq);
+   175	
+   176		return 0;
+   177	}
+   178	
 
 --
 0-DAY CI Kernel Test Service
