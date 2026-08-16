@@ -1,186 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3124A3D4123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F074C2C3255
 	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Aug 2026 21:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786915124; cv=none; b=iINJ6N701kxkxlyFw8VzasfK6Aky9owRBV1NpLivOiRjd7bRV08dknukBGvzlEct5L96ksWdq0jmZo4mu7kXAhWI+6ktrHRqWaTWSQ6Wv9BAt5WuPNfll89UN8m6ibVTVEn74nzf5FoYQbgHYDc0luPsLm5Ts5oqqnPFqqUtYcc=
+	t=1786915125; cv=none; b=G/Woi1j/HqlnPJJpbhxO4DRtHLaNtC2yZPFgGTycfKR3RE2u1+joOcx70pjq03hSgEQsw4+IEgS3uzFlhquj5QyEAnDMk9BKJAICTcBmwiJnkJAQIiqkNqtoCS5f/cDyyn1lIjcSiI143Iz79jt+X1xhQwwoMEeVEGgM8aZnTFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786915124; c=relaxed/simple;
-	bh=/IjJtWmshGNcO4y6OXlGzgPWVThJcVGNMQHa07bsFPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wt4lLs8a+ZO1yCOvYambmKgaDZApaNnFFU1/P2rR9Tj3QEWfb8t7jQNCZAK4f/UrMkYYLmYsNa5tP5Qiv/Zwq3JXDO1j0nsQXgzhLGDasrmDWuGBAJtBtT3y45DFPI1McbNo3aFiCPVfQu7qMJ+umnjjtDuK15Ey0HzBPgKbfI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H+kl4eJu; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1786915125; c=relaxed/simple;
+	bh=BKHaEXRzagv9Hwz2NHksp9OSi74XM3X5jnihbEGshu0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UfzdnrJtnVdJzOMic2DuCaTxWCawysQVg6iopek6OZQDygwJ3Pl5r7R3bbwxvkBfPiUILMNvOdtDG7uxX9q0ME0gcBnTooQpniJEDOaZ+wqoQZjTLnVwyonKy8hrZkRRgzR9hFPDye5l/EuM/cEM2yy85ohXhFO3txsRAxQmq+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYWKjvgS; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H+kl4eJu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYWKjvgS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786915122; x=1818451122;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/IjJtWmshGNcO4y6OXlGzgPWVThJcVGNMQHa07bsFPU=;
-  b=H+kl4eJuHLpCGJqkS5OnrAK7ABXtBF/AALD0skpavr0HqhmCHy3mwTFO
-   NfLnnurGWgLFunZr5bSQBw5eUmIQw6mVmsRYboBwUPyCNYDFiVOdxtw6m
-   hvhfM+vqlyueckawPji+AuD+ADYVXTQVOBHKhauiqVsuUdCX324qXR31M
-   N9VM7ldelne1ljUXlOxfKtZTDc0VHkxFtDAMBT7jSIe6m/xh4j6Sujug9
-   PsHZOxOLYk0PgKz2AR5Ki3zKTmFiRxz3SvuXzg7x1IrZ3Cr854+4ieB/Q
-   OJo+shbD2ErgEZLvnSRWyEapn04u38I9FwLJPUewJr9Uxt1acu904ynJT
+  t=1786915123; x=1818451123;
+  h=date:from:to:cc:subject:message-id;
+  bh=BKHaEXRzagv9Hwz2NHksp9OSi74XM3X5jnihbEGshu0=;
+  b=jYWKjvgS06S+3xbHVY6m5eApaz62c3ExriCiBGfJFcf8KQRSbneMXt9r
+   xKzZT81ctTY3djF6Iv7xqQJrf/Ei4havMW6de9vh5MfWMuXXJ5j23nyx1
+   B943SLCuTV/E2ocW1oDfyXNuAvwaQ9cZU5APEZjDCDwUKjYSWzXyazwBt
+   8fmisDYDBVgQEBtJ/z8py3YnNi9PQVHLKOa6LVsas1vo4z5HliRZdsf1F
+   nZNDSPDeRtLsbX+GXLTjvR0Eg493259HqyGIHXPWVNWJUd7rWeEb9fwzt
+   ujuopz4VWNBTCOJ9MaROMynmTKow8IJgHWAxH42ktszVxGawnIHMGPIYZ
    A==;
-X-CSE-ConnectionGUID: ZWrsvs0BTyubczyjOqdPXQ==
-X-CSE-MsgGUID: y3f7akrgTTeQpELc2t/kfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="87156528"
+X-CSE-ConnectionGUID: EB0h0gtcQ2yJOiEiRyX8lA==
+X-CSE-MsgGUID: PcM+gZwBSICxkSf3KAWRdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="74930722"
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="87156528"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 14:18:42 -0700
-X-CSE-ConnectionGUID: CUxr0pSvS7iI+T9tVV9eKw==
-X-CSE-MsgGUID: y6a6RNZjTdGqDPmG6dhAtA==
+   d="scan'208";a="74930722"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 14:18:42 -0700
+X-CSE-ConnectionGUID: X8iHqja2S8eWjgZc+X3lXA==
+X-CSE-MsgGUID: lEL85rqKTB6ibPcVCKsr3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="289558951"
+   d="scan'208";a="258526561"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Aug 2026 14:18:40 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2026 14:18:41 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wviFa-00000000d6s-0w5E;
+	id 1wviFa-00000000d6u-18i6;
 	Sun, 16 Aug 2026 21:18:38 +0000
-Date: Mon, 17 Aug 2026 05:17:47 +0800
+Date: Mon, 17 Aug 2026 05:17:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeremy Bingham <jbingham@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/1] minix: unify the v1 and v2/v3 itree code paths
-Message-ID: <202608170548.3YDAL7r3-lkp@intel.com>
-References: <d9f07a9037d019043ed24d8245d9a58ce2c669f0.1783324260.git.jbingham@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ arm@kernel.org
+Subject: [soc:board-remove 156/217] Warning:
+ drivers/spi/spi-davinci.c:128 Excess struct member 'dma_event_q' description
+ in 'davinci_spi_platform_data'
+Message-ID: <202608170511.e4bYe4sq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d9f07a9037d019043ed24d8245d9a58ce2c669f0.1783324260.git.jbingham@gmail.com>
 
-Hi Jeremy,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v7.2-rc7]
-[also build test WARNING on linus/master next-20260814]
-[cannot apply to brauner-vfs/vfs.all]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Bingham/minix-unify-the-v1-and-v2-v3-itree-code-paths/20260814-012958
-base:   v7.2-rc7
-patch link:    https://lore.kernel.org/r/d9f07a9037d019043ed24d8245d9a58ce2c669f0.1783324260.git.jbingham%40gmail.com
-patch subject: [RFC PATCH 1/1] minix: unify the v1 and v2/v3 itree code paths
-config: s390-randconfig-r062-20260817 (https://download.01.org/0day-ci/archive/20260817/202608170548.3YDAL7r3-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
+head:   057394422bc04420585b2790b230d8a1f350ace8
+commit: 6cc451353fcbdefe9d376e72702743c6dc202a1c [156/217] dma: ti-edma: remove platform data based probing
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260817/202608170511.e4bYe4sq-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170511.e4bYe4sq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608170548.3YDAL7r3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608170511.e4bYe4sq-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/minix/itree.c:420:3-8: WARNING: NULL check before some freeing functions is not needed.
-   fs/minix/itree.c:422:3-8: WARNING: NULL check before some freeing functions is not needed.
-   fs/minix/itree.c:717:2-7: WARNING: NULL check before some freeing functions is not needed.
-   fs/minix/itree.c:719:2-7: WARNING: NULL check before some freeing functions is not needed.
+All warnings (new ones prefixed by >>):
 
-vim +420 fs/minix/itree.c
-
-   401	
-   402	/* offsets and chain have DEPTH elements. Since DEPTH varies between versions of
-   403	 * the minix filesystems, instead of having two different definitions of DEPTH
-   404	 * and two different versions of this function just allocate the offsets and
-   405	 * chain arrays dynamically. This does require remembering to free them.
-   406	 */
-   407	int minix_get_block(struct inode *inode, sector_t block,
-   408				struct buffer_head *bh, int create)
-   409	{
-   410		struct super_block *sb = inode->i_sb;
-   411		struct minix_sb_info *sbi = minix_sb(sb);
-   412		u8 s_depth = sbi->s_depth;
-   413		int err = -EIO;
-   414		int *offsets = kmalloc_array(s_depth, sizeof(int), GFP_KERNEL);
-   415		Indirect *chain = kmalloc_array(s_depth, sizeof(Indirect), GFP_KERNEL);
-   416	
-   417		if (offsets == NULL || chain == NULL) {
-   418			err = -ENOMEM;
-   419			if (offsets != NULL)
- > 420				kfree(offsets);
-   421			if (chain != NULL)
-   422				kfree(chain);
-   423			goto out;
-   424		}
-   425	
-   426		Indirect *partial;
-   427		int left;
-   428		int depth = block_to_path(inode, block, offsets);
-   429	
-   430		if (depth == 0)
-   431			goto out;
-   432	
-   433	reread:
-   434		partial = get_branch(inode, depth, offsets, chain, &err);
-   435	
-   436		/* Simplest case - block found, no allocation needed */
-   437		if (!partial) {
-   438	got_it:
-   439			map_bh(bh, inode->i_sb, block_to_cpu(chain[depth-1].key));
-   440			/* Clean up and exit */
-   441			partial = chain+depth-1; /* the whole chain */
-   442			goto cleanup;
-   443		}
-   444	
-   445		/* Next simple case - plain lookup or failed read of indirect block */
-   446		if (!create || err == -EIO) {
-   447	cleanup:
-   448			while (partial > chain) {
-   449				brelse(partial->bh);
-   450				partial--;
-   451			}
-   452	
-   453			kfree(offsets);
-   454			kfree(chain);
-   455	out:
-   456			return err;
-   457		}
-   458	
-   459		/*
-   460		 * Indirect block might be removed by truncate while we were
-   461		 * reading it. Handling of that case (forget what we've got and
-   462		 * reread) is taken out of the main path.
-   463		 */
-   464		if (err == -EAGAIN)
-   465			goto changed;
-   466	
-   467		left = (chain + depth) - partial;
-   468		err = alloc_branch(inode, left, offsets+(partial-chain), partial);
-   469		if (err)
-   470			goto cleanup;
-   471	
-   472		if (splice_branch(inode, chain, partial, left) < 0)
-   473			goto changed;
-   474	
-   475		set_buffer_new(bh);
-   476		goto got_it;
-   477	
-   478	changed:
-   479		while (partial > chain) {
-   480			brelse(partial->bh);
-   481			partial--;
-   482		}
-   483		goto reread;
-   484	}
-   485	
+>> Warning: drivers/spi/spi-davinci.c:128 Excess struct member 'dma_event_q' description in 'davinci_spi_platform_data'
+>> Warning: drivers/spi/spi-davinci.c:128 Excess struct member 'dma_event_q' description in 'davinci_spi_platform_data'
 
 --
 0-DAY CI Kernel Test Service
