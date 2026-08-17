@@ -1,185 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B487226296
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 04:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2133002AB;
+	Mon, 17 Aug 2026 04:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786941617; cv=none; b=BFSmciCORZrntyiueQ7q5CEIfQIEGIFjBdIQ2fI/kl2ZIV7BT9FV+PHQlvgFZhWeY/ttMZLx5UwLZyrwigW/HeFoTtVeb3IM1hlAuK/jyjXOGZu6M9rXllHks9lh+q28nEKJ5421KG1jYWPhoTJpq8KpgMSOs8fGajx1zEvmDC0=
+	t=1786941799; cv=none; b=QYIpsfKpMPSBB4nqqGiefmBmSSnIMNeUYV0jaZU8iDICVhELdi0loVtls8ktofrgWiB0yFinL+kGvpN0W8wqi3tPudog1JuRwUdutZWZVAWv2Wb97umozp+9rpFU0qY/ljc/TyDr/ywkJb0SuEBeOJgm0zNfD/Hyo9x064Yij8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786941617; c=relaxed/simple;
-	bh=pInzdS3fVKHNjkfsX7JNQYahFsJ5mN6YqccQ6+RHLIc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TDdq0XH4xyeoisYtlvUncyn/YS3ar2F+Xjh+huVmUbER/UI9rSTm1oxnZ81OpUTLr/qu1WfmcGSx1/hfYE7OyTiJD+oM7OJROo9CUNaANnxkApbmOV7qPhPJypVpzIVd9rQ4OVcqbl6OkUf0XdLckgNYdB6E8Ga3XxTVCE/AjWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TmmEE8d0; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1786941799; c=relaxed/simple;
+	bh=UNr0WqQQ4LJxUBaTbPsNIgkkxHQNCsswdCTMUgWZVk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WDbVyhpPadjKf4Xlu8+TWlN5WtT3N40cFAmh+zDbl5mg1ENUT9fC3W2QRmADlnlNTZZg464/i15s9NsBuj0S/C87f9DU92UGZJzKBYozsjIIHcPYz4b87BEUyHfhO8O8u0fRNntX7sn3tXCprRPF5pINgpF1nQbIQ7KkouU6u9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODG9GF4e; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TmmEE8d0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODG9GF4e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786941615; x=1818477615;
-  h=date:from:to:cc:subject:message-id;
-  bh=pInzdS3fVKHNjkfsX7JNQYahFsJ5mN6YqccQ6+RHLIc=;
-  b=TmmEE8d0sC0ozxHqOt9uMNwg8PCUsSHnp1GGgn96ju9CdWGt2ltYtY9F
-   bn2uqoiGYwfS87oJhBJP6JdryVIxXH5vUvkGn0oAy+0nCIDkj4pZ684Vi
-   54M3QhpdRl3CI4AFjtjxvQF0XU9aFHvjnuPSNf+tb2fobATlJi4y81Uoy
-   jMD+b8prHWvBT1EhivtkW+zHP0ZfJmyOkqjgckKUFUmQvXnJx3ROyb4ix
-   fb5uTEbsvAdcPOMkZoXfshfFbgRhj5TrTeuXcoBC8H1OQcAc1EHJz5UZS
-   1XEEhb4972+gsuutnv192wmN5GJsDHpx46tUG/1pIlNuASHf6fezplGlj
-   A==;
-X-CSE-ConnectionGUID: dKb2iQe3R2CdJ6C0Hk61YA==
-X-CSE-MsgGUID: C89J4p3eT0OqoNlpwrnpVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="74943287"
+  t=1786941798; x=1818477798;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UNr0WqQQ4LJxUBaTbPsNIgkkxHQNCsswdCTMUgWZVk4=;
+  b=ODG9GF4edWSfd+XlfSWIcb6rWd1+HqVN/VnpRowRAjDoNfG8+PCVJ2yX
+   4kFC2OMluQES7rbv33CiytrFKqF4Zj5gS/Wxq4/ILkvq57m5Nfbl5rRXO
+   y01fatOviRfAkLZVBs5n2xq+DZMvzorh3W2+v2EVzBT6eoict6xFi7jxZ
+   3xRVIna2GtzqyOCM8VeXT6Y6nxUpKoJ8cqMEPQQjPm+YoKxpdq8fYZCIb
+   UA7JgzwAs+gBugd33w3eAaNsYNlzfjEi4G+YvpPWAtQ2GMCq1BpHGTc4a
+   9HgQkNEIwjPnQBC5VKsyd1mfbMwNkuTjETy0pQdOm2uTSIvhFNHac05C2
+   Q==;
+X-CSE-ConnectionGUID: XB/2DBbwQwyKAKU0qA4NXw==
+X-CSE-MsgGUID: HLPqeJI+StKr1C7835/gUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="87170323"
 X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="74943287"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 21:40:14 -0700
-X-CSE-ConnectionGUID: 3T7RcBV4SBa/wlZZN3zOww==
-X-CSE-MsgGUID: T5RQp45mQYWmyMg6fxTL5g==
+   d="scan'208";a="87170323"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 21:43:17 -0700
+X-CSE-ConnectionGUID: SpDoziGAS0GX9hXWAkS+1w==
+X-CSE-MsgGUID: vt9sgPe4RHmQp1s1WxUpiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="262170968"
+   d="scan'208";a="269069343"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Aug 2026 21:40:12 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 Aug 2026 21:43:15 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvp8r-00000000dIU-3kX7;
-	Mon, 17 Aug 2026 04:40:09 +0000
-Date: Mon, 17 Aug 2026 12:39:48 +0800
+	id 1wvpBo-00000000dIY-3Hn2;
+	Mon, 17 Aug 2026 04:43:12 +0000
+Date: Mon, 17 Aug 2026 12:42:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- arm@kernel.org
-Subject: [soc:board-remove 160/217]
- drivers/mfd/88pm860x-core.c:985:36: error: 'np' undeclared; did you mean
- 'up'?
-Message-ID: <202608171207.4fB2Fj1E-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: LiMing Wu <liming.wu@jaguarmicro.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>
+Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, virtualization@lists.linux.dev,
+	iommu@lists.linux.dev, angus.chen@jaguarmicro.com,
+	Liming Wu <liming.wu@jaguarmicro.com>
+Subject: Re: [PATCH] iommu/virtio: Add debugfs state dump
+Message-ID: <202608171219.4vMy8i3D-lkp@intel.com>
+References: <20260731014838.31187-1-liming.wu@jaguarmicro.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260731014838.31187-1-liming.wu@jaguarmicro.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
-head:   057394422bc04420585b2790b230d8a1f350ace8
-commit: 59d0d39f2a1e71a171b677f5c4a10641c22d6fff [160/217] mfd: 88pm860x: remove pdata based probing
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260817/202608171207.4fB2Fj1E-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608171207.4fB2Fj1E-lkp@intel.com/reproduce)
+Hi LiMing,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on arm-perf/for-next/perf v7.2-rc7 next-20260814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/LiMing-Wu/iommu-virtio-Add-debugfs-state-dump/20260815-175817
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260731014838.31187-1-liming.wu%40jaguarmicro.com
+patch subject: [PATCH] iommu/virtio: Add debugfs state dump
+config: i386-buildonly-randconfig-002-20260817 (https://download.01.org/0day-ci/archive/20260817/202608171219.4vMy8i3D-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608171219.4vMy8i3D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608171207.4fB2Fj1E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608171219.4vMy8i3D-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/mfd/88pm860x-core.c: In function 'pm860x_probe':
->> drivers/mfd/88pm860x-core.c:985:36: error: 'np' undeclared (first use in this function); did you mean 'up'?
-     985 |         ret = of_property_read_u32(np, "marvell,88pm860x-slave-addr",
-         |                                    ^~
-         |                                    up
-   drivers/mfd/88pm860x-core.c:985:36: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:15,
-                    from include/linux/i2c.h:13,
-                    from drivers/mfd/88pm860x-core.c:13:
->> drivers/mfd/88pm860x-core.c:988:25: error: 'dev' undeclared (first use in this function); did you mean 'cdev'?
-     988 |                 dev_err(dev,
-         |                         ^~~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/mfd/88pm860x-core.c:988:17: note: in expansion of macro 'dev_err'
-     988 |                 dev_err(dev,
-         |                 ^~~~~~~
-   drivers/mfd/88pm860x-core.c:980:29: warning: unused variable 'node' [-Wunused-variable]
-     980 |         struct device_node *node = client->dev.of_node;
-         |                             ^~~~
-   drivers/mfd/88pm860x-core.c: At top level:
-   drivers/mfd/88pm860x-core.c:841:13: warning: 'device_codec_init' defined but not used [-Wunused-function]
-     841 | static void device_codec_init(struct pm860x_chip *chip)
-         |             ^~~~~~~~~~~~~~~~~
-   drivers/mfd/88pm860x-core.c:326:33: warning: 'chg_desc_regulator_data' defined but not used [-Wunused-variable]
-     326 | static struct charger_regulator chg_desc_regulator_data[] = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/virtio-iommu.c: In function 'viommu_debugfs_status_show':
+>> drivers/iommu/virtio-iommu.c:164:41: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     164 |         seq_printf(s, "input_range: %#llx-%#llx\n",
+         |                                     ~~~~^
+         |                                         |
+         |                                         long long unsigned int
+         |                                     %#x
+     165 |                    viommu->geometry.aperture_start,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    dma_addr_t {aka unsigned int}
+   drivers/iommu/virtio-iommu.c:164:47: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     164 |         seq_printf(s, "input_range: %#llx-%#llx\n",
+         |                                           ~~~~^
+         |                                               |
+         |                                               long long unsigned int
+         |                                           %#x
+     165 |                    viommu->geometry.aperture_start,
+     166 |                    viommu->geometry.aperture_end);
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    dma_addr_t {aka unsigned int}
+   In file included from include/linux/limits.h:7,
+                    from include/linux/overflow.h:6,
+                    from include/linux/bits.h:32,
+                    from include/linux/bitops.h:6,
+                    from include/linux/log2.h:12,
+                    from arch/x86/include/asm/div64.h:8,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:12,
+                    from drivers/iommu/virtio-iommu.c:10:
+   drivers/iommu/virtio-iommu.c: In function 'viommu_debugfs_count_mappings':
+   include/vdso/limits.h:16:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      16 | #define ULLONG_MAX      (~0ULL)
+         |                         ^~~~~~~
+   drivers/iommu/virtio-iommu.c:242:69: note: in expansion of macro 'ULLONG_MAX'
+     242 |         for (node = interval_tree_iter_first(&vdomain->mappings, 0, ULLONG_MAX);
+         |                                                                     ^~~~~~~~~~
+   include/vdso/limits.h:16:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      16 | #define ULLONG_MAX      (~0ULL)
+         |                         ^~~~~~~
+   drivers/iommu/virtio-iommu.c:243:60: note: in expansion of macro 'ULLONG_MAX'
+     243 |              node; node = interval_tree_iter_next(node, 0, ULLONG_MAX))
+         |                                                            ^~~~~~~~~~
+   drivers/iommu/virtio-iommu.c: In function 'viommu_debugfs_print_domain':
+   drivers/iommu/virtio-iommu.c:260:75: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 7 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     260 |                    "id=%u type=%s endpoints=%lu mappings=%lu aperture=%#llx-%#llx pgsize_bitmap=%#lx map_flags=%#x\n",
+         |                                                                       ~~~~^
+         |                                                                           |
+         |                                                                           long long unsigned int
+         |                                                                       %#x
+   ......
+     263 |                    vdomain->domain.geometry.aperture_start,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                 
+         |                                            |
+         |                                            dma_addr_t {aka unsigned int}
+   drivers/iommu/virtio-iommu.c:260:81: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 8 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     260 |                    "id=%u type=%s endpoints=%lu mappings=%lu aperture=%#llx-%#llx pgsize_bitmap=%#lx map_flags=%#x\n",
+         |                                                                             ~~~~^
+         |                                                                                 |
+         |                                                                                 long long unsigned int
+         |                                                                             %#x
+   ......
+     264 |                    vdomain->domain.geometry.aperture_end,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                         
+         |                                            |
+         |                                            dma_addr_t {aka unsigned int}
+   drivers/iommu/virtio-iommu.c: In function 'viommu_debugfs_print_mapping':
+   include/vdso/limits.h:16:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      16 | #define ULLONG_MAX      (~0ULL)
+         |                         ^~~~~~~
+   drivers/iommu/virtio-iommu.c:296:69: note: in expansion of macro 'ULLONG_MAX'
+     296 |         for (node = interval_tree_iter_first(&vdomain->mappings, 0, ULLONG_MAX);
+         |                                                                     ^~~~~~~~~~
+   include/vdso/limits.h:16:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      16 | #define ULLONG_MAX      (~0ULL)
+         |                         ^~~~~~~
+   drivers/iommu/virtio-iommu.c:297:60: note: in expansion of macro 'ULLONG_MAX'
+     297 |              node; node = interval_tree_iter_next(node, 0, ULLONG_MAX)) {
+         |                                                            ^~~~~~~~~~
 
 
-vim +985 drivers/mfd/88pm860x-core.c
+vim +164 drivers/iommu/virtio-iommu.c
 
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17   977  
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07   978  static int pm860x_probe(struct i2c_client *client)
-2e57d56747e601b Haojian Zhuang      2012-09-21   979  {
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07   980  	struct device_node *node = client->dev.of_node;
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07   981  	struct pm860x_chip *chip;
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07   982  	int companion_addr;
-2e57d56747e601b Haojian Zhuang      2012-09-21   983  	int ret;
-2e57d56747e601b Haojian Zhuang      2012-09-21   984  
-2e57d56747e601b Haojian Zhuang      2012-09-21  @985  	ret = of_property_read_u32(np, "marvell,88pm860x-slave-addr",
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07   986  				   &companion_addr);
-2e57d56747e601b Haojian Zhuang      2012-09-21   987  	if (ret) {
-2e57848fed74352 Lee Jones           2014-05-08  @988  		dev_err(dev,
-2e57848fed74352 Lee Jones           2014-05-08   989  			"Not found \"marvell,88pm860x-slave-addr\" property\n");
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07   990  		companion_addr = 0;
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17   991  	}
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17   992  
-a1ace0aac5a83b8 Lee Jones           2013-05-23   993  	chip = devm_kzalloc(&client->dev,
-a1ace0aac5a83b8 Lee Jones           2013-05-23   994  			    sizeof(struct pm860x_chip), GFP_KERNEL);
-85529575b67c318 Jingoo Han          2013-02-20   995  	if (chip == NULL)
-85529575b67c318 Jingoo Han          2013-02-20   996  		return -ENOMEM;
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17   997  
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17   998  	chip->id = verify_addr(client);
-aaaab4223ebad24 Sachin Kamat        2013-06-12   999  	chip->regmap = devm_regmap_init_i2c(client, &pm860x_regmap_config);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1000  	if (IS_ERR(chip->regmap)) {
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1001  		ret = PTR_ERR(chip->regmap);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1002  		dev_err(&client->dev, "Failed to allocate register map: %d\n",
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1003  				ret);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1004  		return ret;
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1005  	}
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07  1006  	chip->irq_mode = of_property_read_bool(np, "marvell,88pm860x-irq-read-clr");
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1007  	chip->client = client;
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1008  	i2c_set_clientdata(client, chip);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1009  	chip->dev = &client->dev;
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1010  
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1011  	/*
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1012  	 * Both client and companion client shares same platform driver.
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07  1013  	 * Driver distinguishes them by companion_addr.
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07  1014  	 * companion_addr is only assigned if companion chip exists.
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1015  	 * At the same time, the companion_addr shouldn't equal to client
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1016  	 * address.
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1017  	 */
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07  1018  	if (companion_addr && (companion_addr != client->addr)) {
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07  1019  		chip->companion_addr = companion_addr;
-9520b835ffda85c Wolfram Sang        2019-07-22  1020  		chip->companion = i2c_new_dummy_device(chip->client->adapter,
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1021  						chip->companion_addr);
-9520b835ffda85c Wolfram Sang        2019-07-22  1022  		if (IS_ERR(chip->companion)) {
-159ce52a6b777fc Krzysztof Kozlowski 2014-02-11  1023  			dev_err(&client->dev,
-159ce52a6b777fc Krzysztof Kozlowski 2014-02-11  1024  				"Failed to allocate I2C companion device\n");
-9520b835ffda85c Wolfram Sang        2019-07-22  1025  			return PTR_ERR(chip->companion);
-159ce52a6b777fc Krzysztof Kozlowski 2014-02-11  1026  		}
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1027  		chip->regmap_companion = regmap_init_i2c(chip->companion,
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1028  							&pm860x_regmap_config);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1029  		if (IS_ERR(chip->regmap_companion)) {
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1030  			ret = PTR_ERR(chip->regmap_companion);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1031  			dev_err(&chip->companion->dev,
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1032  				"Failed to allocate register map: %d\n", ret);
-a7ab1c8b261305a Krzysztof Kozlowski 2014-02-11  1033  			i2c_unregister_device(chip->companion);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1034  			return ret;
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1035  		}
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1036  		i2c_set_clientdata(chip->companion, chip);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1037  	}
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1038  
-59d0d39f2a1e71a Arnd Bergmann       2026-08-07  1039  	pm860x_device_init(chip);
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1040  	return 0;
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1041  }
-f2f218cdc3ef4fd Haojian Zhuang      2012-09-17  1042  
-
-:::::: The code at line 985 was first introduced by commit
-:::::: 2e57d56747e601b3e0ff6697e524025d0504d161 mfd: 88pm860x: Device tree support
-
-:::::: TO: Haojian Zhuang <haojian.zhuang@gmail.com>
-:::::: CC: Samuel Ortiz <sameo@linux.intel.com>
+   158	
+   159	static int viommu_debugfs_status_show(struct seq_file *s, void *unused)
+   160	{
+   161		struct viommu_dev *viommu = s->private;
+   162	
+   163		seq_printf(s, "device: %s\n", virtio_bus_name(viommu->vdev));
+ > 164		seq_printf(s, "input_range: %#llx-%#llx\n",
+   165			   viommu->geometry.aperture_start,
+   166			   viommu->geometry.aperture_end);
+   167		seq_printf(s, "page_size_mask: %#llx\n", viommu->pgsize_bitmap);
+   168		seq_printf(s, "domain_range: %u-%u\n", viommu->first_domain,
+   169			   viommu->last_domain);
+   170		seq_printf(s, "identity_domain_id: %u\n",
+   171			   viommu->identity_domain_id);
+   172		seq_printf(s, "probe_size: %u\n", viommu->probe_size);
+   173		seq_printf(s, "map_flags: %#x\n", viommu->map_flags);
+   174		seq_puts(s, "features:\n");
+   175		viommu_debugfs_feature(s, viommu, VIRTIO_IOMMU_F_MAP_UNMAP,
+   176				       "map_unmap");
+   177		viommu_debugfs_feature(s, viommu, VIRTIO_IOMMU_F_INPUT_RANGE,
+   178				       "input_range");
+   179		viommu_debugfs_feature(s, viommu, VIRTIO_IOMMU_F_DOMAIN_RANGE,
+   180				       "domain_range");
+   181		viommu_debugfs_feature(s, viommu, VIRTIO_IOMMU_F_PROBE, "probe");
+   182		viommu_debugfs_feature(s, viommu, VIRTIO_IOMMU_F_MMIO, "mmio");
+   183		viommu_debugfs_feature(s, viommu, VIRTIO_IOMMU_F_BYPASS_CONFIG,
+   184				       "bypass_config");
+   185	
+   186		return 0;
+   187	}
+   188	DEFINE_SHOW_ATTRIBUTE(viommu_debugfs_status);
+   189	
 
 --
 0-DAY CI Kernel Test Service
