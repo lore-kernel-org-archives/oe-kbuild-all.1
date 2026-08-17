@@ -1,64 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDB83B47D3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 07:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657443BB13B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 09:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786952675; cv=none; b=LhYl5pRdkn56p+569S8XvRKw0UesLfTKxTWuXrTZE4uULHW2V0PufXPyHpmNylZK9EQ0nnHJFTsbmPsMBEhxvw3XDhqMUWS3jVro11hjHTkN6x7BC1E5OQlr9sxlcRWoHTi83BxgyJ2gaSNW06+7j/shqFoX8wwiNSHO0h+J93I=
+	t=1786958613; cv=none; b=kMWRFeU4UzgSn6NkLeJByE++sAgYN0BHRGspUkEOHy6DvzwIXiuj80rbm40KumV4Bwe/laZP8QDBchjwLeQSaUjx5VAkwvJ7mYNBeym0YfNf31Ntqk7WaRJXrZJLi8wvthoUANglGoRFCwglICC8nq6ohk3pbt8JtYSR12v0Dcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786952675; c=relaxed/simple;
-	bh=Dnb+XbrtyuqhjHyFkm447UwD9Y/MP2hNGk9Ct+Ds8Po=;
+	s=arc-20240116; t=1786958613; c=relaxed/simple;
+	bh=AreqCOhMaxWIwJn0Mp4GFkoAzARRrhQImIH9f9PL7wA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MCzmIfa3LzY5jOfnLstqPAwdNpjc9lSBNGc2GOZ4ijCbkhan56kDA9QerFrE/OtzgCMxyiTTlpihlJuIcBPCMXCS6FwSd4UqS51xJ1cRR/vMwvWbkchwlL4oGwrZd6pmM+u5VXqSpE8Bz+5qS4hyKtli/G7RnbLMMoqc7t6lpqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W00MuY2g; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bB9EtoZ3mn9kRNyjdr1zcfaPKGmrI04dI4JVuUO6ODnV920oQOQiFJLX0Q1SgNGAE9pNTi7QTtMYB6H9LHg33+RRyB7dQTZYPu62+g/JzrK3rofPhh3BPEDSNQbjtHZvx8/xF1WlUyB+0Kt4eBS+DdraaH5riQrBGcHd9dw2NLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oyPw1qjV; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W00MuY2g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786952673; x=1818488673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Dnb+XbrtyuqhjHyFkm447UwD9Y/MP2hNGk9Ct+Ds8Po=;
-  b=W00MuY2g53S2QTNsAlhNQGSH1KAdazhiVjykIIIC9/g11SltHIfsBGbN
-   pJHvGPgoAN7vcgeYm86Ry8pxpGEy+WE50bBDSmv2oFGLJSLqCWZ0G3Y6y
-   x3iddOb0tDoNKYs1khdBwa2pwHod9O6ueoUr0rd0JwUvy7Yxsk96/iNyo
-   H90C0gy+NydRt6IGGd3HT0WOQ8JDD8yAiWHxUiLjjLF8TfEjO3MtD///3
-   9jfN6lROeYf97iB8AvtBGSD9p9syxm5G6MLJk5a6hejHggk3wR5cUr2aj
-   jSg1DOCiLNEPFOu4AHyGfDbsVZAsXsRQUNhMTWNAzhv4NcBQ5qoE3c5hG
-   A==;
-X-CSE-ConnectionGUID: fYEgGaL7QGu3JKlCYAo75w==
-X-CSE-MsgGUID: KfV7gAN7TceqVYAoYCw21A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="86541857"
-X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="86541857"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 00:44:32 -0700
-X-CSE-ConnectionGUID: UNvMBamPScygexSOA1eEbg==
-X-CSE-MsgGUID: VW2ePQYfQpSFQmcWfEPaJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="258628258"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Aug 2026 00:44:29 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wvs1D-000000006lV-2hC4;
-	Mon, 17 Aug 2026 07:44:27 +0000
-Date: Mon, 17 Aug 2026 09:43:34 +0200
-From: kernel test robot <lkp@intel.com>
-To: Artem Lytkin <iprintercanon@gmail.com>, linux-watchdog@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	wim@linux-watchdog.org, linux@roeck-us.net, ojeda@kernel.org,
-	miguel.ojeda.sandonis@gmail.com, dakr@kernel.org,
-	aliceryhl@google.com, a.hindborg@kernel.org, lossin@kernel.org
-Subject: Re: [PATCH v2 3/3] watchdog: softdog_rs: add Rust software watchdog
- driver
-Message-ID: <202608170957.oeQwdAP3-lkp@intel.com>
-References: <20260723161529.23759-4-iprintercanon@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oyPw1qjV"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49557167508so32089185e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 02:23:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786958610; x=1787563410; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=M+Nom0s7oNpI/XIll9PoJtnSLrDCfPy9TDBZPzwXnlY=;
+        b=oyPw1qjVkunmIxm9PGUzn+blu7dQ3CQolVFKXUcsD9MNDigWko4CRoVa/E8Rg1eBI/
+         KJWeX6ctal/mdrcZ0pQ4EbvbkecSTLBG4gSXUOEVSIYrwV3f9udNchY6pEx2hZdOWGv7
+         lLwRaA80awo5s1lP2QdBYMV+kMJ0YH/bvkkschrPh3K92ywx4IJPEakRMpxXUFcQpHKg
+         Pwj4D6Ma0SgnRCqCKvHkkla9P/bewl0Aznp8AKl0CP0j5O9Tz9zPWccA6IrSDe5WQlAE
+         3c6xDzlxQx4sQgicAtRG9REQ1KKhNV8ilf4uh0fJODdEgCVR8YyzIV4d1wN8VmOC2r1q
+         MxYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786958610; x=1787563410;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=M+Nom0s7oNpI/XIll9PoJtnSLrDCfPy9TDBZPzwXnlY=;
+        b=H4PcLAWC/VDOkv38bPQLHo2k5yrguxgMQHIukgJwvf1cosRrnMKnmakkqELnZEcSKF
+         t/Ir8l52/OTarchE7vKl3naZe92Yw1cSx84CjtCcqHhv6j86anN/VYiJH7+oAXaJvLb5
+         u9A5Qp/CHTCHjjE0xDSY3gD+4Uvct45+8p0PP19oaFOuovKQBHL6rGiHyWmv+eCPfArB
+         QNTXS46ivsT/ZWpNOI3O89qIcnl2QvjlVvDDuokLqHO3y7RLHZvLJedf1tsDwFOE1/mU
+         y3im8iaiOxqu1zXUpr8mbrRoQCvx5AuOBHQutMq65Ta9DuZaDd4OXaiWzdv4acftfWzX
+         mgog==
+X-Gm-Message-State: AOJu0Yyonm1zi1sfnv8fxflzIx4w7Nd/UyPI7XqUvMnft1XoFQj0PFkW
+	VlJFVT5wCFj7g1p4k4VTWdGBQKql4D7L0QoHrnWchrPdLG3T8kBvxcDc
+X-Gm-Gg: AR+sD12XQyEsNc253NxzA4qIgKxkxkNfQDRm48fGvOHOIqHb457GL+gaGX+jxL7KAqd
+	2E8Ys3jQ3EKmiMHexIWaiU7G6GuLS5qyy/qO4jWhNmpne8GHsNNcFyWOLMKc76uIUfpLKSUAla4
+	GThGCnp1iRUinB7v6PJGJRpXPsvBtN39mv950u3Wk7gYyCnlAj0J1wVeRv6Aeh7HAVUR7CPZR1o
+	9nNQi42J0v/2DjmGxrI0Lw8JszEqJgcFjHJf1sxphDvNd4JMHl7iLhHIbQHCWmnwkGLxHwtZnka
+	Mr5EeQZvaCaznFAVDWO4TTmAFA7CM5BautRSNj0SyUMZkdKBYH9EcRJHosc6hwVWLbz0HLB9Oac
+	DNAeS/NaFB4h4MFfidd+o+SdJvNUy0TmVkHnWJPj5crDsxWvOYpssuwv2FOHqdmlBZ6eqTljD2/
+	hy450HdGpkMAx0LMPqx5PVLb+9hUKJvPRj860wGo8xps8b4Y6wY3SmzRcvSv4V596MKpqfzE/Nn
+	B4ZZXjt13BS6AvNpAeN
+X-Received: by 2002:a05:600c:1d0e:b0:495:4fd4:619b with SMTP id 5b1f17b1804b1-49987941a4amr303250995e9.1.1786958610438;
+        Mon, 17 Aug 2026 02:23:30 -0700 (PDT)
+Received: from gmail.com (deskosmtp.auranext.com. [195.134.167.217])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499877d7974sm181552305e9.1.2026.08.17.02.23.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 02:23:30 -0700 (PDT)
+Date: Mon, 17 Aug 2026 11:23:28 +0200
+From: Mahe Tardy <mahe.tardy@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>,
+	Jiayuan Chen <jiayuan.chen@linux.dev>
+Subject: Re: [bpf-next:master 2/5] net/core/bpf_ksock.c:221:18: sparse:
+ sparse: symbol 'bpf_ksock_release_dtor' was not declared. Should it be
+ static?
+Message-ID: <aoLTELXtjRC_SEcg@gmail.com>
+References: <202608171256.McaD8rfl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,79 +77,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260723161529.23759-4-iprintercanon@gmail.com>
+In-Reply-To: <202608171256.McaD8rfl-lkp@intel.com>
 
-Hi Artem,
+On Mon, Aug 17, 2026 at 12:36:48PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> head:   c93cbdb13f995f87b5356329b3fe551c80bb482d
+> commit: 7ae4eb14c5f9d9bf0e0feabeab206151b1280512 [2/5] bpf: Add ksock kfuncs
+> config: nios2-randconfig-r112-20260817 (https://download.01.org/0day-ci/archive/20260817/202608171256.McaD8rfl-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608171256.McaD8rfl-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202608171256.McaD8rfl-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> net/core/bpf_ksock.c:221:18: sparse: sparse: symbol 'bpf_ksock_release_dtor' was not declared. Should it be static?
 
-kernel test robot noticed the following build warnings:
+I'll add the 'static', it seems to make sense. I mostly copied this from
+all the others examples with release_dtor functions which don't have
+them but it seems for no good reason.
 
-[auto build test WARNING on rust/rust-next]
-[also build test WARNING on linus/master v7.2 next-20260721]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Artem-Lytkin/rust-watchdog-add-watchdog-device-abstraction/20260813-051424
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260723161529.23759-4-iprintercanon%40gmail.com
-patch subject: [PATCH v2 3/3] watchdog: softdog_rs: add Rust software watchdog driver
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260817/202608170957.oeQwdAP3-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170957.oeQwdAP3-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608170957.oeQwdAP3-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> warning: this `impl` can be derived
-   --> rust/kernel/watchdog.rs:164:1
-   |
-   164 | / impl Default for Options {
-   165 | |     fn default() -> Self {
-   166 | |         Self {
-   167 | |             timeout: 0,
-   ...   |
-   175 | | }
-   | |_^
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#derivable_impls
-   = note: `-W clippy::derivable-impls` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::derivable_impls)]`
-   help: replace the manual implementation with a derive attribute
-   |
-   147 + #[derive(Default)]
-   148 | pub struct Options {
-   |
---
->> warning: unresolved link to `super::Info::new`
-   --> rust/kernel/watchdog.rs:98:7
-   |
-   98 | /// [`super::Info::new`].
-   |       ^^^^^^^^^^^^^^^^ no item named `Info` in module `kernel`
-   |
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
---
->> warning: public documentation for `Registration` links to private item `Inner`
-   --> rust/kernel/watchdog.rs:392:34
-   |
-   392 | /// - `inner` points at a live [`Inner`] obtained from [`KBox::into_raw`],
-   |                                  ^^^^^ this item is private
-   |
-   = note: this link will resolve properly if you pass `--document-private-items`
-   = note: `#[warn(rustdoc::private_intra_doc_links)]` on by default
---
->> warning: public documentation for `Registration` links to private item `Inner`
-   --> rust/kernel/watchdog.rs:395:45
-   |
-   395 | ///   the `ops` and `data` fields of that [`Inner`].
-   |                                             ^^^^^ this item is private
-   |
-   = note: this link will resolve properly if you pass `--document-private-items`
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> vim +/bpf_ksock_release_dtor +221 net/core/bpf_ksock.c
+> 
+>    220	
+>  > 221	__bpf_kfunc void bpf_ksock_release_dtor(void *ks)
+>    222	{
+>    223		bpf_ksock_release(ks);
+>    224	}
+>    225	CFI_NOSEAL(bpf_ksock_release_dtor);
+>    226	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
