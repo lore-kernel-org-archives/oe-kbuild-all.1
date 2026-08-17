@@ -1,157 +1,167 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B40E3F54C5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 10:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473AD3FAE1B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 11:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786960887; cv=none; b=OD3mjDZYV91KSzIQLPFJXbgD/QAJd5KBrLvOF0Qv9heKCrPkjk+LdL2LH+OmrvMXZrBDdZzZA0yfxnhl5j/g7nwwYGJK98oF2rRgo7LqqdH4/PzNO6cE5Im68iXFSulu0+6OZ96P4qmYRnwaDaOLVSm45HNwtkq0myBmEbNtZWY=
+	t=1786964986; cv=none; b=Ljei6D2Lit22l9gIo5evB/ZW6JBncG6BstnMTiITcBbwRSQXdCjtRrBht6UBi5X9Z7YmgUMdD8RY+PjHUDpun6pnT8k3qTHweG1sRqFh0NBia/DbYKuALbyq1c9adpRMVMpzmPAA3p2wx+RcwX/ed4jfvZGg4iSJsKBM+yaf/GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786960887; c=relaxed/simple;
-	bh=sD9fivjih6d6YvP8jetJUY6MMIif7wajmLU4WtFfQ9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I1vkFBtK6TTi551w4hJTdJ1TGZ7ZxD3Cxqc9G94CLOmU/2JQ1lJtI4ZEsPbiFN+E7KE81p/6ke0bLIruXsTbO6HKC1B6HNgqAE8Jo9eIUpml4VYNLmRTIw3ZygHWcbFKXQBOZXr37XXbQDclNN1GYgkwFusOxnspwm9NfY9jdhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftRY6ZZk; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786964986; c=relaxed/simple;
+	bh=R5RWFrEkPLsupnHmSzpb7k54d8794WILQCgey6h/NBI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pCmgDKNAZ2rcSLlUqUKwt7v6Ko0whY+wyzasWPfQLPcEN5np8EL2lYyQYfOeT25+XPm1E6OfSm2G4w9Fl4FSR3ZHetV8T3oBk56Z3DSOdhcaq6qMvOxdq/Jka8dqO3ovjK0tTNdbRamGo/1iR+LXais3G0exFazWsb7pwKbaGN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsdXXklp; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftRY6ZZk"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so35429545e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 03:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786960876; x=1787565676; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9XnhZdf64l5mef5RCreV5vYnxAU+4WJlbu5LfpIob84=;
-        b=ftRY6ZZkmBRGb4HWfqf4imP7YO+iDtYn4y0S8L9ZllsGL1YREXEAu3NZ4tWkdHNcex
-         K0PPbgVmK5WFDY79jivC+K55pZkiI62xYjvwx+Gnf8LezLAFOcTxAVbX9Kkza41jnT+R
-         qKMxE0CINyWrifZktDTa9ohWNTrk5moIz0ZjH0reCFax2Z4PDoscOWwKlcT9Oi4uc6mk
-         n5bosG7KK2LTQpNrDIvkgwCi1CY/nbfc/u22scZLml7td6clVcXAQJZuM0cyl8/W8Ecq
-         Tu3durNDduOQUU0M1hunfkTfZSyL5LTO3A+KzssjEsX3OWYP9AncRfYiY3z5/nfLrgi8
-         cRsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786960876; x=1787565676;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=9XnhZdf64l5mef5RCreV5vYnxAU+4WJlbu5LfpIob84=;
-        b=JQfaW1ezbadtqh/5sKwZPrPQz5G0rJwaV64GiP6rZvo0qve++T03W53E1ikQl19MJq
-         hMYwXiBzUoxD79f6+cOjJlRLgc4QqYNgUbJ0iFHcQmhJEoyPyLA67JAcX1woNhl7f9cy
-         Vqhkb9smyeU3qsmxvTEfc+/sFiEtOi6eZC4YtQzcqzLF4KxPBBAnqBvgxFXZikcspdVC
-         Fjcf0TgLu44pEkDnDRdjswoeUl73BhrXgPjqh/Q5R+mIkyioTMMAR+/H9v/WPYZ6Egi+
-         MLBRK98wNiuN+q1iL5a+8bMFn8+sMnyANmLAzsnZB9x1JVHOD/MDpqYrrn/5xULdoigt
-         JHLQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqpGofTxLd4sal/ONUGLkUhp9+/IcTr1tBcJ+uenFC+duXxASDNGzfO7+mk5qzrZgJNRHmSjXOj9M+HRTce@lists.linux.dev
-X-Gm-Message-State: AOJu0YxWrPLF4HJOTj2E+CgXj/opQ8OwBlpKdAm/uO9W0MZb3v4alzrA
-	LcCGqe2Ia7wlQTKiC03VbRRFYs/GWH2dEHpMilbFlMAN5UmNO1XmM00z
-X-Gm-Gg: AR+sD12CMRTw3Ysi28CcPEoDA/18yYPg840LZA7Qc5LJU0MpKdmjvKGq1eqXPE7Isvu
-	SqwtxWw3xRPzuac0BH9ayAFksZkCSOCAbhYG/KRNyI0lddl6rJWIv7qoGR7ZSjbuVSDgxMjNPal
-	W/+5vBVZQYF8LIGmxMqxiI7AauUaOk6jwq9CtlaT+530g2WQbRLdftKusfhsAzAhFZeoR4fFnZv
-	cOwR3jdQ84rtYdCfJPZHL/U3nz/y04V0AhTP5QHD5GmqSsNxDhcnnEsW7wPBJxgtx2xE2upj298
-	H/wkbvqBQhiuofLvHG4xf/VZuzzJIsV7G0NVjsR+mjuJQJWkvqq9W+Iv7NnN9QlggJXE7Q5WAQI
-	KBlBHUkLQu4ft6e8QSzEgu+7k/EG2jEgFpldYcT0agOI09FNfIHfEtcvF6qJTE+JRTvUqtOU6MY
-	l0Xt9U/6TJFht9MAci70LjMsx9eUJvWAQ/+TkTZh5w/3wXCygqwMde7NEfR0fmY3UZCIpunG/ys
-	vARbwXD4EGaq31XZBHG4JptEjEdRKnl+a8P
-X-Received: by 2002:a05:600c:528d:b0:499:900c:9c69 with SMTP id 5b1f17b1804b1-499900c9e99mr240828505e9.9.1786960875443;
-        Mon, 17 Aug 2026 03:01:15 -0700 (PDT)
-Received: from gmail.com (deskosmtp.auranext.com. [195.134.167.217])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4999d063a68sm25137585e9.2.2026.08.17.03.01.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 03:01:15 -0700 (PDT)
-Date: Mon, 17 Aug 2026 12:01:13 +0200
-From: Mahe Tardy <mahe.tardy@gmail.com>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Daniel Borkmann <daniel@iogearbox.net>
-Subject: Re: [bpf-next:master 2/5] net/core/bpf_ksock.c:221:18: sparse:
- sparse: symbol 'bpf_ksock_release_dtor' was not declared. Should it be
- static?
-Message-ID: <aoLb6bqvF6tA-riG@gmail.com>
-References: <202608171256.McaD8rfl-lkp@intel.com>
- <aoLTELXtjRC_SEcg@gmail.com>
- <cd082ee1-efde-4cbe-b8f5-00d8aa2d072b@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsdXXklp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786964985; x=1818500985;
+  h=date:from:to:cc:subject:message-id;
+  bh=R5RWFrEkPLsupnHmSzpb7k54d8794WILQCgey6h/NBI=;
+  b=nsdXXklpJA35p7fSov7AdK0t3F3k6wcXOktSET1mtf2HfYytAQNovlVB
+   zyM3kk6Np7AQZGo0BQZzSe7dJ4bkN27to3C6R9C3TJ7SwHEpaAZRhEDzo
+   JZ3lf3esFjsNCGvszQnFyzMKJFpHoQsp+r7AZMNNPnxJNQArMPiCSvUiu
+   ycl7sY2XuG3fpHdm+rQfQZwSMaYCuSezdeTwBSMkRy5pVuL+jCD4Bj4qx
+   Qk1bHuN3ItEFx4rpDK/s7TeeiHdqyixfpSHxDp5560ELbuWN1J7uABBL9
+   Qv7/RbrOjSXu+HO2nBbCsoVOM8gCsvWu0MjkEw6eYiQg0gKfCkb+JHtLB
+   g==;
+X-CSE-ConnectionGUID: +JrrWUbdSpWKUBhvrS4aNA==
+X-CSE-MsgGUID: gNN36a1XSKGiBxC8+EcmHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="98591543"
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="98591543"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 04:09:45 -0700
+X-CSE-ConnectionGUID: xBRKPwC+QpSdKfxVNZFBug==
+X-CSE-MsgGUID: 46bw5RrLQo2UHNQAxn3+0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="263120662"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 17 Aug 2026 04:09:42 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wvvDn-00000000dQs-3ZUI;
+	Mon, 17 Aug 2026 11:09:39 +0000
+Date: Mon, 17 Aug 2026 19:08:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous
+ prototype for 'hyp_event_trace_host_ffa_call'
+Message-ID: <202608171832.B1XhLy5o-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cd082ee1-efde-4cbe-b8f5-00d8aa2d072b@linux.dev>
 
-On Mon, Aug 17, 2026 at 05:39:52PM +0800, Jiayuan Chen wrote:
-> 
-> On 8/17/26 5:23 PM, Mahe Tardy wrote:
-> > On Mon, Aug 17, 2026 at 12:36:48PM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> > > head:   c93cbdb13f995f87b5356329b3fe551c80bb482d
-> > > commit: 7ae4eb14c5f9d9bf0e0feabeab206151b1280512 [2/5] bpf: Add ksock kfuncs
-> > > config: nios2-randconfig-r112-20260817 (https://download.01.org/0day-ci/archive/20260817/202608171256.McaD8rfl-lkp@intel.com/config)
-> > > compiler: nios2-linux-gcc (GCC) 11.5.0
-> > > sparse: v0.6.5-rc1
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608171256.McaD8rfl-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202608171256.McaD8rfl-lkp@intel.com/
-> > > 
-> > > sparse warnings: (new ones prefixed by >>)
-> > > > > net/core/bpf_ksock.c:221:18: sparse: sparse: symbol 'bpf_ksock_release_dtor' was not declared. Should it be static?
-> > I'll add the 'static', it seems to make sense. I mostly copied this from
-> > all the others examples with release_dtor functions which don't have
-> > them but it seems for no good reason.
-> 
-> 
-> I think we do not need 'static' actually, just like the doc says
-> 
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/Documentation/bpf/kfuncs.rst#n356
-> 
-> 
->     Note that kfuncs must not be declared ``static``. A kfunc can be called
-> from a
->     BPF program ``*.c`` file outside the compilation unit that defines it,
-> so its
->     externally visible name must remain available for BTF ID lookup.
-> ``static``
->     linkage allows the compiler to rename the function, which can break this
->     BTF-based kfunc resolution. Further note that sparse may warn that an
-> otherwise
->     unreferenced kfunc should be static. Such warnings should be ignored for
-> kfunc
->     definitions.
-> 
-> 
+Hi Sebastian,
 
-Ah thanks for pointing that documentation, indeed I was looking at
-examples of "__bpf_kfunc static" in the kernel code but it seems those
-things are actually outdated and the paragraph you mention is up to date
-since added last month[^1].
+FYI, the error/warning still remains.
 
-I assumed that since it was some kind of internal kfunc for the BPF
-infra it would be okay but no, it still needs a stable name to resolves
-the destructor´s address through kallsyms from the named retrieve via
-the BTF id in btf_parse_kptr().
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   24c059d9e217f32d61570fdbd7eb66bc999657a9
+commit: 107000fef3c7d0562e234da7033f35b53d0e8b3d [2/2] ANDROID: KVM: arm64: Add FF-A trace event
+config: arm64-randconfig-004-20260816 (https://download.01.org/0day-ci/archive/20260817/202608171832.B1XhLy5o-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608171832.B1XhLy5o-lkp@intel.com/reproduce)
 
-[^1]: https://lore.kernel.org/all/20260626172026.7327-1-jp.kobryn@linux.dev/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608171832.B1XhLy5o-lkp@intel.com/
 
-> 
-> 
-> > > vim +/bpf_ksock_release_dtor +221 net/core/bpf_ksock.c
-> > > 
-> > >     220	
-> > >   > 221	__bpf_kfunc void bpf_ksock_release_dtor(void *ks)
-> > >     222	{
-> > >     223		bpf_ksock_release(ks);
-> > >     224	}
-> > >     225	CFI_NOSEAL(bpf_ksock_release_dtor);
-> > >     226	
-> > > 
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
+      14 | HYP_EVENT(hyp_enter,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
+      23 | HYP_EVENT(hyp_exit,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_host_hcall' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:32:1: note: in expansion of macro 'HYP_EVENT'
+      32 | HYP_EVENT(host_hcall,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_host_smc' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:46:1: note: in expansion of macro 'HYP_EVENT'
+      46 | HYP_EVENT(host_smc,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_host_mem_abort' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:61:1: note: in expansion of macro 'HYP_EVENT'
+      61 | HYP_EVENT(host_mem_abort,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace___hyp_printk' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:75:1: note: in expansion of macro 'HYP_EVENT'
+      75 | HYP_EVENT(__hyp_printk,
+         | ^~~~~~~~~
+>> arch/arm64/include/asm/kvm_define_hypevents.h:17:7: warning: no previous prototype for 'hyp_event_trace_host_ffa_call' [-Wmissing-prototypes]
+      17 |  void hyp_event_trace_##__name(struct ht_iterator *iter)   \
+         |       ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:95:1: note: in expansion of macro 'HYP_EVENT'
+      95 | HYP_EVENT(host_ffa_call,
+         | ^~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:215:6: warning: no previous prototype for 'hyp_trace_init_event_early' [-Wmissing-prototypes]
+     215 | bool hyp_trace_init_event_early(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:265:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
+     265 | struct hyp_event *hyp_trace_find_event(int id)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:339:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
+     339 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:361:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
+     361 | int hyp_trace_init_events(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:378:5: warning: no previous prototype for 'hyp_trace_init_mod_events' [-Wmissing-prototypes]
+     378 | int hyp_trace_init_mod_events(struct hyp_event *event,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/hyp_event_trace_host_ffa_call +17 arch/arm64/include/asm/kvm_define_hypevents.h
+
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  14  
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  15  #define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  16  	HYP_EVENT_FORMAT(__name, __struct);					\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26 @17  	void hyp_event_trace_##__name(struct ht_iterator *iter)			\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  18  	{									\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  19  		struct trace_hyp_format_##__name __maybe_unused *__entry =	\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  20  			(struct trace_hyp_format_##__name *)iter->ent;		\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  21  		trace_seq_puts(&iter->seq, #__name);				\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  22  		trace_seq_putc(&iter->seq, ' ');				\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  23  		trace_seq_printf(&iter->seq, __printk);				\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  24  		trace_seq_putc(&iter->seq, '\n');				\
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  25  	}
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  26  #define HYP_EVENT_MULTI_READ
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  27  #include __HYP_EVENT_FILE
+f6dbfc683cf5fbb Vincent Donnefort 2023-01-26  28  
+
+:::::: The code at line 17 was first introduced by commit
+:::::: f6dbfc683cf5fbbd37b6fdead1b5b08912cf6570 ANDROID: KVM: arm64: Add support for nVHE hyp events
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Fuad Tabba <tabba@google.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
