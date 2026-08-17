@@ -1,59 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09CE442368
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 15:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D566442381;
+	Mon, 17 Aug 2026 15:15:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786979721; cv=none; b=i5jXqdwgg7t/EeMHUY4PcIBaXbvzSn2rE/FSR++uPEcay355tEuzz2rdVsd/oI++CGQDiXA2u6FCSckfrFuBwRm99+jdHFfsmrtsgZefhv0uIC9ZNcFjhxZI6FpKA/IQ2kcNrKNXpTKI8NZfPUfeIX0CnFDJOi44CzTbXSh7U08=
+	t=1786979722; cv=none; b=L/vuRRa31pOhuDSTIbmRXmmepVsDFkstbFobG9SScsmRVrRmFeozFM24GC98429MgltMISROZ0MDNwRKJP/NrpwD7OCeL9pBi+QvAzNjGu0H+wa776eOU5cOHQAu+B0bz+dTbP4+DWLYEb8/wpXvGaNwZdSQA8l+pIy+oAAJ8M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786979721; c=relaxed/simple;
-	bh=qjRTAp7jbyU9j8N4MFMnhLPKkid/Tt8q0DghW8jzzqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FrC7fRUPwYNDkmBIm4NDbCwymNRd65SeoNr8K2gP3O2LMv7jNdEEqZzzJFk73L0nDv2KyZlIXq6NnWCfQzpMj5Melib/lDyVUfbBV83PP3oTVvlH10F02lQTPsjq/X65KNpKF6pRciVLIJrKgNMdnnExY5UppCYpOsGsrhe00po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JxgD6t+L; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1786979722; c=relaxed/simple;
+	bh=lD75faxk6T2SqiPx9InsGxlmfBFxceKkBHBdqZZjC04=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LxtdzoApnM+GZMhi5lhgVMIMhCm8PSNc2sl+0UUzOWJaDPomaOlziqAuN1LSO8zvFCCLI+INDnQN2z0GCJb+biOFlY7tvYlYVDjcMoa0v9tHq2vQCESsW3URdgbDf7iFbx8Nh+VzIHzMNOzyOnoVdIJwH6pKIZSBEwYddEbb7vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YzPgnnH7; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxgD6t+L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzPgnnH7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786979720; x=1818515720;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qjRTAp7jbyU9j8N4MFMnhLPKkid/Tt8q0DghW8jzzqY=;
-  b=JxgD6t+LJnPJZJi8spvs1mTLA/dOoCn8ReN9ozqkL43wXHtprNrw8dzr
-   8JacSH4jNbX0X7cKcnBfHJsh00mg8Pp+2BhUOwsUIwLmlWZUsCKo2FjA7
-   VMeb1YqkxrvA9/tLUH20SgaJnn/ShptYR9/zlMDpOxTRQ1KCdcQD7Z/s2
-   EnRO85lz7QqX4oCBSB8xnExBiFt+UL1vqcpjiBXRtKd7DGTo8fyOC6WFD
-   gAJAxr23FhUdaKy00iuLFZF2o7tGgh0Nip14/eiNr46SVXzufm0VeaLHM
-   JcJP6KGesVnxVwakf+cUDWcJNbxKjnN2xOOfE5nBoPYIYy4ON8xgCA7oq
+  t=1786979721; x=1818515721;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lD75faxk6T2SqiPx9InsGxlmfBFxceKkBHBdqZZjC04=;
+  b=YzPgnnH7A60Aglx+zrEwUxT1vHgGLVfZsnVJDqFb1wjNKUwxw0WR5lJp
+   Pi59YN6MYzB7Yz+tPbI1fWbl20QmzHZG/NFGo1WVNtioYaIaafxuLOzxm
+   QuPXRckPEGmPFufolfP+mTPWCi62S5cxgzHEUUUFt+RLkQvd0z0GThIK9
+   DiQUW/MlSphr1HgKUWqQpsg4eaD9VhQ0nbum1ebr2+ja4WE9claIBMT9U
+   HDGmeOSZahxNAeZMbxE8rhCIHMl2D/VKDPQXoD2+xKMN84MqDSwJm2jGd
+   DkNm26QlzB/iQstTQ8tqjjx7uUDKLwf4I4pB83+dsp+wUWT+WyUGrLg1m
    Q==;
-X-CSE-ConnectionGUID: GmVwN5A0RyWSCWVjeLafNA==
-X-CSE-MsgGUID: r7/D+O/FTZmiC/8aumGMZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="87667225"
+X-CSE-ConnectionGUID: R22EG1BaQr63rAGXPjQrZw==
+X-CSE-MsgGUID: vf4CvBQeTgKA5q2aLrpVSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="87667230"
 X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
-   d="scan'208";a="87667225"
+   d="scan'208";a="87667230"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:15:19 -0700
-X-CSE-ConnectionGUID: cqz9bEXuRsmEq5jKP67vnA==
-X-CSE-MsgGUID: GgHjbaPFRD6fZ/4h+6YqpQ==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:15:20 -0700
+X-CSE-ConnectionGUID: KGDBhN9ySt63IqSQBW8/2Q==
+X-CSE-MsgGUID: FI8sOt0ASByiXGenP4TNtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
-   d="scan'208";a="261198541"
+   d="scan'208";a="261198537"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 17 Aug 2026 08:15:17 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvz3S-00000000dY8-3tjH;
+	id 1wvz3S-00000000dY6-2Zou;
 	Mon, 17 Aug 2026 15:15:14 +0000
-Date: Mon, 17 Aug 2026 23:15:08 +0800
+Date: Mon, 17 Aug 2026 23:15:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-cached-prefix 65/71] lib/dynamic_debug.c:1375:58:
- error: 'pr_prefixes_count' undeclared; did you mean 'pr_prefixes_lock'?
-Message-ID: <202608172309.6uMYk6WP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Antonin Malzieu Ridolfi via B4 Relay <devnull+dev.nanonej.com@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Antonin Malzieu Ridolfi <dev@nanonej.com>
+Subject: Re: [PATCH] gpu: nova-core: Extract PMC registers definitions
+Message-ID: <202608172357.txha23v7-lkp@intel.com>
+References: <20260804-b4-extract-pmc-registers-to-gpu-mod-v1-1-86c0895b6072@nanonej.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,79 +68,38 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260804-b4-extract-pmc-registers-to-gpu-mod-v1-1-86c0895b6072@nanonej.com>
 
-tree:   https://github.com/jimc/linux.git dd-cached-prefix
-head:   9c2bc97085eaafb97fb747811e19d549297d5e0a
-commit: a033e345061f1753387ea54e6920ec9eb3b0c952 [65/71] dyndbg: add cached-prefixes to control file's epilogue
-config: i386-randconfig-011-20260812 (https://download.01.org/0day-ci/archive/20260817/202608172309.6uMYk6WP-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608172309.6uMYk6WP-lkp@intel.com/reproduce)
+Hi Antonin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 44e7e7f7cffb10a93bb88e7cb59b7b8b3e2deb1c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antonin-Malzieu-Ridolfi-via-B4-Relay/gpu-nova-core-Extract-PMC-registers-definitions/20260814-143445
+base:   44e7e7f7cffb10a93bb88e7cb59b7b8b3e2deb1c
+patch link:    https://lore.kernel.org/r/20260804-b4-extract-pmc-registers-to-gpu-mod-v1-1-86c0895b6072%40nanonej.com
+patch subject: [PATCH] gpu: nova-core: Extract PMC registers definitions
+config: arm64-randconfig-003-20260817 (https://download.01.org/0day-ci/archive/20260817/202608172357.txha23v7-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608172357.txha23v7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608172309.6uMYk6WP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608172357.txha23v7-lkp@intel.com/
 
-Note: the jimc/dd-cached-prefix HEAD 9c2bc97085eaafb97fb747811e19d549297d5e0a builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   lib/dynamic_debug.c: In function 'ddebug_proc_show':
->> lib/dynamic_debug.c:1375:58: error: 'pr_prefixes_count' undeclared (first use in this function); did you mean 'pr_prefixes_lock'?
-    1375 |                 seq_printf(m, "#: cached_prefixes=%u\n", pr_prefixes_count);
-         |                                                          ^~~~~~~~~~~~~~~~~
-         |                                                          pr_prefixes_lock
-   lib/dynamic_debug.c:1375:58: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +1375 lib/dynamic_debug.c
-
-  1355	
-  1356	/*
-  1357	 * Seq_ops show method.  Called several times within a read()
-  1358	 * call from userspace, with ddebug_lock held.  Formats the
-  1359	 * current _ddebug as a single human-readable line, with a
-  1360	 * special case for the header line.
-  1361	 */
-  1362	static int ddebug_proc_show(struct seq_file *m, void *p)
-  1363	{
-  1364		struct ddebug_iter *iter = m->private;
-  1365		struct _ddebug *dp = p;
-  1366		struct flagsbuf flags;
-  1367		char const *class;
-  1368	
-  1369		if (p == SEQ_START_TOKEN) {
-  1370			seq_puts(m,
-  1371				 "# filename:lineno [module]function flags format\n");
-  1372			return 0;
-  1373		}
-  1374		if (p == EPILOGUE_TOKEN) {
-> 1375			seq_printf(m, "#: cached_prefixes=%u\n", pr_prefixes_count);
-  1376			seq_printf(m, "#: total call-counts: %lu\n",
-  1377				   get_ddebug_call_count());
-  1378			return 0;
-  1379		}
-  1380	
-  1381		seq_printf(m, "%s:%u [%s]%s =%s \"",
-  1382			   trim_prefix(desc_filename(dp)), dp->lineno,
-  1383			   iter->table->info.mod_name, desc_function(dp),
-  1384			   ddebug_describe_flags(dp->flags, &flags));
-  1385		seq_escape_str(m, dp->format, ESCAPE_SPACE, "\t\r\n\"");
-  1386		seq_putc(m, '"');
-  1387	
-  1388		if (dp->class_id != _DPRINTK_CLASS_DFLT) {
-  1389			class = ddebug_class_name(&iter->table->info, dp);
-  1390			if (class)
-  1391				seq_printf(m, " class:%s", class);
-  1392			else
-  1393				seq_printf(m, " class:_UNKNOWN_ _id:%d", dp->class_id);
-  1394		}
-  1395		seq_putc(m, '\n');
-  1396	
-  1397		return 0;
-  1398	}
-  1399	
+>> warning: unused import: `prelude::*`
+   --> drivers/gpu/nova-core/regs.rs:10:5
+   |
+   10 |     prelude::*,
+   |     ^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
 --
 0-DAY CI Kernel Test Service
