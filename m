@@ -1,67 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0259732B131;
-	Mon, 17 Aug 2026 05:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDB83B47D3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 07:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786945845; cv=none; b=ktKciM3kl4TMnwjdiSZg+d5lD3pzv3wDZlXvuoEhRaoGghxdPVRfdXyYdHyLisJyKnql6b7qbQV7kqWjw1YhpuCXllQzMsIEeah9FB/PS8OBnD0gsXFwAOeOLVkE+CwtK8IiVzZpM9obixkRA1bNNfGyeFQRNFuXM919+UQVt9U=
+	t=1786952675; cv=none; b=LhYl5pRdkn56p+569S8XvRKw0UesLfTKxTWuXrTZE4uULHW2V0PufXPyHpmNylZK9EQ0nnHJFTsbmPsMBEhxvw3XDhqMUWS3jVro11hjHTkN6x7BC1E5OQlr9sxlcRWoHTi83BxgyJ2gaSNW06+7j/shqFoX8wwiNSHO0h+J93I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786945845; c=relaxed/simple;
-	bh=Z6xGjeg51aVSBgLKu3+DxbP17VeZxtjDRxxQWkPCdHk=;
+	s=arc-20240116; t=1786952675; c=relaxed/simple;
+	bh=Dnb+XbrtyuqhjHyFkm447UwD9Y/MP2hNGk9Ct+Ds8Po=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k7pIcgXUG/qKN5zOtpDtxM5I6hT66j3QcDTT1592yoBRy9uCFaQDdmGR0ua0xRhMFYhG406vNnXE5+6yHszr4oXkSKMf47fEEaeEh5x1GrhfhmSFbTrk+5/hnvOKeR9CbQ8auheU/EFtjT3796DTB7yrCfVZqOy1flzQ/tf9+JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LZuFO2nt; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=MCzmIfa3LzY5jOfnLstqPAwdNpjc9lSBNGc2GOZ4ijCbkhan56kDA9QerFrE/OtzgCMxyiTTlpihlJuIcBPCMXCS6FwSd4UqS51xJ1cRR/vMwvWbkchwlL4oGwrZd6pmM+u5VXqSpE8Bz+5qS4hyKtli/G7RnbLMMoqc7t6lpqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W00MuY2g; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LZuFO2nt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W00MuY2g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786945843; x=1818481843;
+  t=1786952673; x=1818488673;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Z6xGjeg51aVSBgLKu3+DxbP17VeZxtjDRxxQWkPCdHk=;
-  b=LZuFO2ntj2aO8iR/n7apCidOkTGGnDe5msKHymU2R0YSu+57XlQ2E9yN
-   GOkjAoOUK7r41XhLbXj8ariOI0pEDqwoFW/UeKjqICFQWEbGvmy6MgoUD
-   09MaD0Gli/SKiqytjYkovXOhXUrjk+tpNtq8O5HJU9/P2MFysVrife48e
-   ZDJde9HeVZiPzzpz3cundiCjYz6bpluYCG8a/G4VD6IIlxkCw93AFG/bi
-   qqG+NqGTUWJU5/87E6sMCwJzPFo5zHaYZoqRJTR1sQYJxYXgUT4qUsYEe
-   Sut+an3zIXAoj995bSRsJwV1353xUHwLExl6QuI5tUvceN3/icOiJRG+u
-   g==;
-X-CSE-ConnectionGUID: OxJDY158TRW0lPr1GFJVNw==
-X-CSE-MsgGUID: A2gn6ffeSM6lETbHNaHuzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="112957398"
+  bh=Dnb+XbrtyuqhjHyFkm447UwD9Y/MP2hNGk9Ct+Ds8Po=;
+  b=W00MuY2g53S2QTNsAlhNQGSH1KAdazhiVjykIIIC9/g11SltHIfsBGbN
+   pJHvGPgoAN7vcgeYm86Ry8pxpGEy+WE50bBDSmv2oFGLJSLqCWZ0G3Y6y
+   x3iddOb0tDoNKYs1khdBwa2pwHod9O6ueoUr0rd0JwUvy7Yxsk96/iNyo
+   H90C0gy+NydRt6IGGd3HT0WOQ8JDD8yAiWHxUiLjjLF8TfEjO3MtD///3
+   9jfN6lROeYf97iB8AvtBGSD9p9syxm5G6MLJk5a6hejHggk3wR5cUr2aj
+   jSg1DOCiLNEPFOu4AHyGfDbsVZAsXsRQUNhMTWNAzhv4NcBQ5qoE3c5hG
+   A==;
+X-CSE-ConnectionGUID: fYEgGaL7QGu3JKlCYAo75w==
+X-CSE-MsgGUID: KfV7gAN7TceqVYAoYCw21A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="86541857"
 X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="112957398"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 22:50:32 -0700
-X-CSE-ConnectionGUID: IZkimFl8Tfe9ag03ddeZ7Q==
-X-CSE-MsgGUID: 2ZrNMPsVT5eOBkwuY8cMwQ==
+   d="scan'208";a="86541857"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 00:44:32 -0700
+X-CSE-ConnectionGUID: UNvMBamPScygexSOA1eEbg==
+X-CSE-MsgGUID: VW2ePQYfQpSFQmcWfEPaJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="268664355"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Aug 2026 22:50:30 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="258628258"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 17 Aug 2026 00:44:29 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvqEt-00000000dK6-27ij;
-	Mon, 17 Aug 2026 05:50:27 +0000
-Date: Mon, 17 Aug 2026 13:50:07 +0800
+	id 1wvs1D-000000006lV-2hC4;
+	Mon, 17 Aug 2026 07:44:27 +0000
+Date: Mon, 17 Aug 2026 09:43:34 +0200
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Elliot Berman <quic_eberman@quicinc.com>,
-	Andrew Halaney <ahalaney@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Subject: Re: [PATCH] firmware: qcom: scm: Fix resource cleanup on probe
- failure
-Message-ID: <202608171329.vdD9aiQC-lkp@intel.com>
-References: <20260625093644.3918184-1-mukesh.ojha@oss.qualcomm.com>
+To: Artem Lytkin <iprintercanon@gmail.com>, linux-watchdog@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	wim@linux-watchdog.org, linux@roeck-us.net, ojeda@kernel.org,
+	miguel.ojeda.sandonis@gmail.com, dakr@kernel.org,
+	aliceryhl@google.com, a.hindborg@kernel.org, lossin@kernel.org
+Subject: Re: [PATCH v2 3/3] watchdog: softdog_rs: add Rust software watchdog
+ driver
+Message-ID: <202608170957.oeQwdAP3-lkp@intel.com>
+References: <20260723161529.23759-4-iprintercanon@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,51 +67,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260625093644.3918184-1-mukesh.ojha@oss.qualcomm.com>
+In-Reply-To: <20260723161529.23759-4-iprintercanon@gmail.com>
 
-Hi Mukesh,
+Hi Artem,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.2-rc7]
-[cannot apply to next-20260814]
+[auto build test WARNING on rust/rust-next]
+[also build test WARNING on linus/master v7.2 next-20260721]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/firmware-qcom-scm-Fix-resource-cleanup-on-probe-failure/20260815-220308
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260625093644.3918184-1-mukesh.ojha%40oss.qualcomm.com
-patch subject: [PATCH] firmware: qcom: scm: Fix resource cleanup on probe failure
-config: arm64-randconfig-003-20260817 (https://download.01.org/0day-ci/archive/20260817/202608171329.vdD9aiQC-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+url:    https://github.com/intel-lab-lkp/linux/commits/Artem-Lytkin/rust-watchdog-add-watchdog-device-abstraction/20260813-051424
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260723161529.23759-4-iprintercanon%40gmail.com
+patch subject: [PATCH v2 3/3] watchdog: softdog_rs: add Rust software watchdog driver
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260817/202608170957.oeQwdAP3-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608171329.vdD9aiQC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170957.oeQwdAP3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608171329.vdD9aiQC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608170957.oeQwdAP3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/firmware/qcom/qcom_tzmem.c:523:2: error: use of undeclared identifier 'qcom_tzmem_using_shm_bridge'
-     523 |         qcom_tzmem_using_shm_bridge = false;
-         |         ^
-   1 error generated.
-
-
-vim +/qcom_tzmem_using_shm_bridge +523 drivers/firmware/qcom/qcom_tzmem.c
-
-   520	
-   521	void qcom_tzmem_disable(struct device *dev)
-   522	{
- > 523		qcom_tzmem_using_shm_bridge = false;
-   524		qcom_tzmem_dev = NULL;
-   525	}
-   526	EXPORT_SYMBOL_GPL(qcom_tzmem_disable);
-   527	
+>> warning: this `impl` can be derived
+   --> rust/kernel/watchdog.rs:164:1
+   |
+   164 | / impl Default for Options {
+   165 | |     fn default() -> Self {
+   166 | |         Self {
+   167 | |             timeout: 0,
+   ...   |
+   175 | | }
+   | |_^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#derivable_impls
+   = note: `-W clippy::derivable-impls` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::derivable_impls)]`
+   help: replace the manual implementation with a derive attribute
+   |
+   147 + #[derive(Default)]
+   148 | pub struct Options {
+   |
+--
+>> warning: unresolved link to `super::Info::new`
+   --> rust/kernel/watchdog.rs:98:7
+   |
+   98 | /// [`super::Info::new`].
+   |       ^^^^^^^^^^^^^^^^ no item named `Info` in module `kernel`
+   |
+   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+--
+>> warning: public documentation for `Registration` links to private item `Inner`
+   --> rust/kernel/watchdog.rs:392:34
+   |
+   392 | /// - `inner` points at a live [`Inner`] obtained from [`KBox::into_raw`],
+   |                                  ^^^^^ this item is private
+   |
+   = note: this link will resolve properly if you pass `--document-private-items`
+   = note: `#[warn(rustdoc::private_intra_doc_links)]` on by default
+--
+>> warning: public documentation for `Registration` links to private item `Inner`
+   --> rust/kernel/watchdog.rs:395:45
+   |
+   395 | ///   the `ops` and `data` fields of that [`Inner`].
+   |                                             ^^^^^ this item is private
+   |
+   = note: this link will resolve properly if you pass `--document-private-items`
 
 --
 0-DAY CI Kernel Test Service
