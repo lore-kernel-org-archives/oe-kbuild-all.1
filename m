@@ -1,91 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB801175A84
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 01:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9A5272816
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Aug 2026 02:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786931206; cv=none; b=X8I53GFuUwwNq5ptITvb9Zcm/U3ybBNjzaIi+AT3yewDydS84FvUAuNoKAzEhqgeq6hnBBxLtlk7W6EDZcFEYE6pWCBBHwiD406dXmf7IaUZLm1IiCX4p7ownqhHRntbVHCrCAlA+6zDAfEU51qulazXT7Zg8h87qb81m3gDDkc=
+	t=1786934325; cv=none; b=UlObq0frXHd+t5TrWxUJpZ53EcGhBwx7V3jBi9cwZE8LoilLk8LxmzW0x4p/yghJdgul2nLpk9UqwJO5eBh/X0VUFi7xd6Jx6qMp38caPcsw1q/xueqIUunIgHiehYqxrJkfI+Hxooz7MiW5bLJogDizgPIl0DuytblaDimApcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786931206; c=relaxed/simple;
-	bh=FdYdcvMAvKoxYda7qe9wL5Fnn9ct9HzoHGS66ROiQvo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZtAiYLCekSVAOL2Fv5zgq54k5mAuXrKoUrCos0WLYrDVoKVm6d8PLv73pGOFIoQVnuWPUgIdDboH12neoawMAbqt6fbyUPeNefOv5maIFmp9zHc6YWComxDKzKcvlwNiD3nOGSnzJ5UburQDKOhuQSTr00Lja1BOkkSgmKIyWUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dpxitP6T; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786934325; c=relaxed/simple;
+	bh=GegpXDcutpDDvj7DpMEeBigmoYhrFQQxpe8x2m85to8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Oa+wg4U9FRO0wEQ4GkreFzTrHqQ7nIj9zZ5S/saji3SBQa7p9hGv5vWBiB8v8sOwwqQpUqwEIUYgmcaITyDFQQhUGXx3dCykfzksfh8pyNk8FrlT7ce/nn8GtsVKpcxgR+iJgTE/YM02KuJX5cpP26deylwRMWcQyFseob3ZIYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=TH/2KIti; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dpxitP6T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786931205; x=1818467205;
-  h=date:from:to:cc:subject:message-id;
-  bh=FdYdcvMAvKoxYda7qe9wL5Fnn9ct9HzoHGS66ROiQvo=;
-  b=dpxitP6TSL9rBxZBpXp1mQeXJ0ENitRCcx6pneebkeuhIM44v+B2jB+h
-   9noPtRDSgAYRt2Shcc3ja5v15VIpm6CBPQY7LsX/4C1H0gRm0PZqx5fs5
-   hIrQSwHwfaj9Da1WsGI76hl3xMmRvxPG2Tl34AtLzxi4zJUa8ejhqRMq+
-   R0hutuNnrcG06QfiYYliLHm6pxaNCJ6OLU5+89PXODvVDj+yURhPx62FM
-   Noe+BpyDPSq6b46WS/uFm/8eS9iqSli0yqw1kiCi3fsBlmHlc4LVxam/p
-   b/KLGq1BCIZoHq7N7E+jGaWVOzOBFUs7pM5hfOefhFOpXLGdKs3BP1df3
-   Q==;
-X-CSE-ConnectionGUID: u7SkGs5LTX2vNSlBDVvgFQ==
-X-CSE-MsgGUID: gAIz0EGiR0aznjl1VHvlzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="98065566"
-X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="98065566"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 18:46:44 -0700
-X-CSE-ConnectionGUID: 8esR0oB5RLSIAQtCcpncbQ==
-X-CSE-MsgGUID: VXAP7rfEQY+Aa3zA6NmE1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="261502446"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Aug 2026 18:46:28 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wvmQj-000000006jd-1kPb;
-	Mon, 17 Aug 2026 01:46:25 +0000
-Date: Mon, 17 Aug 2026 03:46:07 +0200
-From: kernel test robot <lkp@intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/gpu/drm-kms-helpers:197:
- ./drivers/gpu/drm/drm_bridge.c:1459: WARNING: Block quote ends without a
- blank line; unexpected unindent. [docutils]
-Message-ID: <202608170332.x9tuWw3X-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="TH/2KIti"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1786934255;
+	bh=h+6Q0J6JCA+a12KGJ99TS9qmbev11ZbTu4xdbQoRAV8=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=TH/2KItiFIT39x/EKXeDbeFX4eJbVrjrFezYPOn08UoT34tc0s0UD31WH47vj+Cfd
+	 NLUsoL9bcDRF1MXSwCw5bKAJAw5OVs6eiY3P8h0s+d9yDzX0UwhRVYi++Faj2sOfvW
+	 EznXp1wzpUnCFiCBQv9hj6P0AekwRApPjvdYXLJ8=
+X-QQ-mid: esmtpgz13t1786934249tb85d61e4
+X-QQ-Originating-IP: Gc55HQvq+MeE1hB4MN3PpgJNEfVR7gnm2TzdvFrXBgM=
+Received: from uniontech.com ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 17 Aug 2026 10:37:27 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 3959441994811052823
+EX-QQ-RecipientCnt: 9
+From: Yichong Chen <chenyichong@uniontech.com>
+To: lkp@intel.com
+Cc: boris@bur.io,
+	chenyichong@uniontech.com,
+	chris.mason@fusionio.com,
+	dsterba@suse.com,
+	linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	willy@infradead.org
+Subject: Re: [PATCH] btrfs: remove verity Merkle folio from page cache on error
+Date: Mon, 17 Aug 2026 10:37:26 +0800
+Message-Id: <20260817023726.1731478-1-chenyichong@uniontech.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <202608150828.VDr6P7DT-lkp@intel.com>
+References: <202608150828.VDr6P7DT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: MnHj12EHtzRtY/hfoabY6lbBnAgbgMSWbcUZCdBFCCs5h820o4tWBE6s
+	wv/iNs68lUKxijcUMn/Y5w2aQN8QrdPaqZFPe/fqbt3iChMwbX6YVIRq5ZG1TrYL7nJ6qZE
+	ST+xR4JR5VUHzRtHSEx3v0nuXE2A2FtHM5hhtaJVJQeJ0orjkhp88GXYQKb/ODYaR0stf2u
+	HL3htlMJc2qEnpu67l/m+NzBTpoChO/sEqupU1JnoKAgFf5tXreGmA+Z2su6giVBOum893c
+	9KCUr/1ysIjEdPTsAn000ilYURbJZGqXaqkRUjIrYX/QM2Hu/d2WN9sew4V1NyE3vhPAtsA
+	tsPMirGCaytLEw8JsKDFZKl7sQ2UszFQRuzHH1MzXvfjFryUdgW3S+iSU3hexTij0DZfsz3
+	MoIdGlj8VxvdBFWTBE6cNnMl9nSlUdPMEdeZOHfENclSChJKaJEA+me5Bo4JkHgVsrf2Nv4
+	iNokk5zl/ktY93tjtbc3yAB7TicvQGTyKjNuzDlaq4h10OmeVaIu2Z0/lmT95aty6umiurE
+	gzUPSp3/GgldmsIFkU8RX2Sgg8Hrk6lzU/QAWeXnZR0B5Z8qsJrc6paNwt6SEcpbpphBK0a
+	9433ORz0OjWBh7AB/z5iJfW6M2procRJXwYoO7M53/5ou5i1V2lkBscqPtc3ZHr9qVM06Gd
+	jFj8qGDUgz5LTO2Vx32MBJ6tKWH7pBe37RFwKjCYR6KYPs43uaV/GM7hrmww2leJohPUADK
+	a+03NNq5p95WR6G9LwddH+ZBsYodiSCshvVkOScmSLwg3HDMwLBlk0tlPr7hr2SNdRK1Jfz
+	ajANf7a+3JgVXHq2K0Fn0ldHfaE6CgE+19pZS8cGBm1QY/esOyCYsR+rynnfe0lSbWzGmXV
+	/DzeQbQXZRNl7K3x66KEPwm4meISuU8gusNhgbIGjvFCNRBQMlNpnz/BI7olZ/X45UtGSS/
+	TAsgoOdX6nOER0osB3rAxmwz0ZG9nnUd+0BSsG1kagUxhNZZzUXM04mtEk5hK9pB9UcoLeO
+	kHgSiWUYnmLZXrNvpsxWGFa/RSkdFiFAkWMCVaF04AyMl81Rou
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+X-QQ-RECHKSPAM: 0
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-bridge-add-of_drm_get_bridge/20260810-013143
-head:   cdf2e81b1c4767c693eccefda68bf527752f2994
-commit: 387975ede9e288d8f8b8b22361c7efee1ecba8a7 drm/bridge: deprecate of_drm_find_bridge()
-date:   7 days ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260817/202608170332.x9tuWw3X-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608170332.x9tuWw3X-lkp@intel.com/
+Thanks for the report.
 
-All warnings (new ones prefixed by >>):
+This was a problem in v1.  The patch called filemap_remove_folio(), which is
+not exported and therefore breaks when btrfs is built as a module.
 
-   Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:397: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
-   Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'. [duplicate_declaration.c]
-   Documentation/gpu/drm-kms:491: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
-   Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'. [duplicate_declaration.c]
-   Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1457: ERROR: Unexpected indentation. [docutils]
->> Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1459: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/drm-uapi:607: ./drivers/gpu/drm/drm_ioctl.c:923: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
-   Declaration is '.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'. [duplicate_declaration.c]
-   Documentation/gpu/xe/xe_firmware:31: ./drivers/gpu/drm/xe/xe_guc_pc.c:76: ERROR: A level 2 section cannot be used here.
+I avoided filemap_remove_folio() in v2, and the patch has since been reworked
+further.  The latest version no longer calls filemap_remove_folio():
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  [PATCH v4] btrfs: retry verity reads for not-uptodate Merkle folios
+  https://lore.kernel.org/all/20260722025435.1493093-1-chenyichong@uniontech.com/
+
+Thanks,
+Yichong
