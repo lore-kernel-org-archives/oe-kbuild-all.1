@@ -1,83 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7202D2495
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 22:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A455F2BFC60
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 23:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787090753; cv=none; b=mEWncp/557exr7KIe/rx2FYHXkkvrLT/e20wDzIKBlBtSCpn5ou1rAosqvhGT6Tn0uVlCnYAIjDt1H1LLwHRm3Gn8+UUT5KdtftN50AulVBI7F5XZBrXVomdqxBugrq8f78aEq22Mz3cmT8At4CdAdkFAfGnj/PmB/LUG9ebRXs=
+	t=1787095146; cv=none; b=Q4s2kNKJQZNrj/pTpXvOYDIqukYd2zQzmxKKKqfaKiZtzq9UsmYjD14hA2WKeJkfpAUNirBWsBWL0iM520OuZeNgXDJjrVR1ByCXClhlZ3v+NQ3+iQMMlyoCRjdet0baUJPECcAHeowfxpxv7pFIFskJO9PH6NiI5AywrQ6YA7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787090753; c=relaxed/simple;
-	bh=npjXiA/jKj3l/CxQsQyScphUmJSkdp+k6qr9XAA+tEY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OUQjmpRovK19xuvgXlbB3t0RXBEKoUJE028FxWmD+iZb1slUTK7LCjTXMUGAI6YTPPFnRC6faSTe5y0QRvPbIlEX63WITVcBnjkH1tfXh7q/5PAyVjgCbMYHB6IrHaW9NRx7AdckBst5DFrdZwHJf37tJaf6uS035KbN7UabvNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDEXSevs; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787095146; c=relaxed/simple;
+	bh=wN8LyteSkx8yvXRtruSGC5Zu20b8LlE6PCVv75gL8+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0ebQpEcmTChx+XFK27uOVhxd5vMVvVK2LtQTDpsea4xm42QCW1+s/hmce52DapeF3yiT1HCNZWBbdWoFO09zjOQsUSPYIiRg6hU3NIQ08XimC/IeIwCSJgBIYiu3qj+UQBsVpYL66IV91mqioF6QO07I9ssUhypsCefuUYwYIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lg5rK8hn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDEXSevs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787090752; x=1818626752;
-  h=date:from:to:cc:subject:message-id;
-  bh=npjXiA/jKj3l/CxQsQyScphUmJSkdp+k6qr9XAA+tEY=;
-  b=oDEXSevsEDmVhKtyddug8l3jQRcGGPr8DjAE8+oVeGzhthwW6jNmuPs9
-   OQHkDRiGDdXdo3IqtKeOFrl+OlYrj/hxa8wc8kYM6YpMCYtPCKN3UnjL8
-   6Xg7pjeh3uOIYKCKp6TckbudDf+G1TT81pVEgMjWSpfUjFQEqWEavGzIq
-   576/0w2rVWNYawi7iTIRNRwVnurTfHjgV9WUUjETO67HoZPWBxj50YylI
-   o2fAA7PfK4yLmhJe8wY7ZkqRJbxB6i52d1R8HW5FjCTBqQK+Jy3/eYlfS
-   rDIiqMoB8dMnvgF1cKlBq2a2X56RwU0TNhuqcImZtgIbJGt9yEfDIlXra
-   g==;
-X-CSE-ConnectionGUID: Nh7Y5cCQRfi+qdlse/+3+A==
-X-CSE-MsgGUID: E6x2OHgDSfG3Byi2OH4N4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="87615658"
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87615658"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 15:05:51 -0700
-X-CSE-ConnectionGUID: VUIgdRwiQxyAxJaMfsQ9lA==
-X-CSE-MsgGUID: 7eLClg2YS7uQDJwpbTdaZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="295271688"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Aug 2026 15:05:49 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wwRwJ-00000000edq-0zFc;
-	Tue, 18 Aug 2026 22:05:47 +0000
-Date: Wed, 19 Aug 2026 06:05:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Bommarito <michael.bommarito@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jiri Kosina <jikos@kernel.org>
-Subject: [linux-next:master 10759/15982] ld.lld: error: undefined
- symbol: kunit_mem_assert_format
-Message-ID: <202608190536.d9qCkWWc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lg5rK8hn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21D101F000E9;
+	Tue, 18 Aug 2026 23:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787095145;
+	bh=GneT8VLO4q0qYvdHw+7XGPW1mNrdY8wKU7AlNKd3T+g=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=lg5rK8hnVRcdoFwq0WmbT0rfs5rsoJrrsma2MsOulvRWs8sMcFyYFEZ+gL5bDGlYg
+	 EFykNMdYkbXYdOTEAY3b3cjmxJ97n52iB2yDodN6oTIxK7/1USwiSfbUgnuwLePWBB
+	 YAM/ptt6nlibGk6N9Fr0GtSDgNosMIng/ctVu07E6FSmOcmLn2syj+Ik6hWfrwHe4s
+	 yjaEPIBewCJkzW3JZ6qIXhHoyokhB/v4DsecuzFaGTglmb2BijOt54jThloMLegJtR
+	 1mg5rQoZKhiaU8FtTa0zvvXkbNID8BFHfJgeRneez4osDjtEumEfmjhLNGdelSCbkc
+	 0PynwPu1Wchwg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 8CC78CE1623; Tue, 18 Aug 2026 16:19:04 -0700 (PDT)
+Date: Tue, 18 Aug 2026 16:19:04 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:non-rcu/next 39/40] include/linux/hrtimer.h:355:16:
+ sparse: sparse: incorrect type in return expression (different modifiers)
+Message-ID: <a3953bb5-ca5c-42ea-b78c-8c60be0982d7@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202608131347.dXTHYsI1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202608131347.dXTHYsI1-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e6664f2b33db9b6811eb4cec109f06cb2b4f458d
-commit: 83df7b5fa6735b5084ecd296a0f67208650ba497 [10759/15982] HID: hyperv: add KUnit coverage for device info bounds
-config: i386-randconfig-r123-20260818 (https://download.01.org/0day-ci/archive/20260819/202608190536.d9qCkWWc-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608190536.d9qCkWWc-lkp@intel.com/reproduce)
+On Thu, Aug 13, 2026 at 01:39:51PM +0800, kernel test robot wrote:
+> tree:   https://github.com/paulmckrcu/linux non-rcu/next
+> head:   e39a12053df0951120ff6283177e0d5179feda45
+> commit: c3d1cae06fc1ad9b6948fa0ca8a93415607ea8b1 [39/40] hrtimer: Mark the hrtimer_sleeper structure's ->task field __private
+> config: arc-randconfig-r132-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131347.dXTHYsI1-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 13.4.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608131347.dXTHYsI1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202608131347.dXTHYsI1-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>    kernel/time/sleep_timeout.c: note: in included file (through include/linux/alarmtimer.h, include/linux/posix-timers.h, include/linux/sched/signal.h):
+> >> include/linux/hrtimer.h:355:16: sparse: sparse: incorrect type in return expression (different modifiers) @@     expected struct task_struct * @@     got struct task_struct [noderef] * @@
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608190536.d9qCkWWc-lkp@intel.com/
+Thank you for the testing!
 
-All errors (new ones prefixed by >>):
+Does the patch below clear things up for you?
 
->> ld.lld: error: undefined symbol: kunit_mem_assert_format
-   >>> referenced by hid-hyperv.c:697 (drivers/hid/hid-hyperv.c:697)
-   >>>               drivers/hid/hid-hyperv.o:(mousevsc_device_info_valid_descriptor) in archive vmlinux.a
+							Thanx, Paul
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+------------------------------------------------------------------------
+
+commit 6597c140656fe857a51debfd684e66e09636fa45
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Tue Aug 18 16:17:47 2026 -0700
+
+    squash! hrtimer: Mark the hrtimer_sleeper structure's ->task field __private
+    
+    [ paulmck: Apply kernel test robot feedback. ]
+    
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/include/linux/hrtimer.h b/include/linux/hrtimer.h
+index 5c04423e8e900b..b919ee508fb494 100644
+--- a/include/linux/hrtimer.h
++++ b/include/linux/hrtimer.h
+@@ -73,7 +73,7 @@ enum hrtimer_mode {
+  */
+ struct hrtimer_sleeper {
+ 	struct hrtimer timer;
+-	struct task_struct __private *task;
++	struct task_struct *__private task;
+ };
+ 
+ static inline void hrtimer_set_expires(struct hrtimer *timer, ktime_t time)
