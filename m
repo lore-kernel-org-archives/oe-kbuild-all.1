@@ -1,268 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC3F19644B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 16:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A0A3A257C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 16:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787071041; cv=none; b=fwhN2cKG8Xtbj6Bjw/P205QNCNpE9XkZjYwQ2uvNqw4sA1xM9GwWp5y8+AkzOU3SdQ8TGaavEFnT4UkuyrJ/P9cpFiDuRgVWptexdtYJ6IWFxoPKl7tT5C2EgqyBsD73qRMSQHfvRQNWk5Ir+8QM02GExdxasnaLRDUnRouiyG4=
+	t=1787071051; cv=none; b=BW/j8dmYS3g9O4XbOndq3BtLNNC2kOkX+dq829p9ai9jFlWQdH9h5Ep3GuJ1NG//QAh9oAPH5K/qz40FhHSkqz2mFBWWJiCgnyusfinVP3wEX27TwgwVZvM7Bng7xlQn5dEnpEuSmI1Fs9GQJzzMwSPeaNBDr9yD6Q0swyIJX7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787071041; c=relaxed/simple;
-	bh=dvTUFqiydE0+Ur/do9KApJGG74gS9bNa4c2swOFa8sU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nyWcZHi1ehOa5yFs1V7Ja+kxoOASz/1EmJ7NnYOnYdfUSglosQDiWiwiF4xTIT3vYy8QjitSWgb3usMfPW5phcOSqqwGPGw8ZErEAzZfGWNU82wEToI9JGCSCeCg5EQ6Gi8xAZ9pfWHdi8u59DQXIF268oImbCtsn9/pBsoBMmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Om94uvn0; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1787071051; c=relaxed/simple;
+	bh=hpSzPxLbh06KNXaXsHoygzI2mxJwiHfJ8oCQwGd/7hk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kI4tt2oQmCzHLAWvjszplaM1PPNtI5dSoYBOitOz5CWGa5VQo/0Q5hNdSHBUsckXMLsC3si8AyTdpN/i9OlFVplVEEFLuITtnjtjUQe37LosllcnR5RzhsuCle2V2ua3gCHcdJ8HxrgIS5dyxsyd5lrl0/s6DZ+yKwnRDFCfXmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6jpatj8; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Om94uvn0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6jpatj8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787071036; x=1818607036;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dvTUFqiydE0+Ur/do9KApJGG74gS9bNa4c2swOFa8sU=;
-  b=Om94uvn0ciEQJyWu6l2IDO/mRHEapqmK0v6wbTcPf4rWiUk6dCD3xQTL
-   sAjU7QgnbicW+gl1Bpu9oZZiGNljL2nYSIcDO+xorvkBJTsZ8IogBFSqT
-   MkOJjnS5/8i0KIVBFkRFXaXUc6U7SYxZW748mg3bQEabefUvKGpBsaH/X
-   3MVoBcn9RXJBbC2cJCzT4EWAY8BZvINJF0bdYzIfypufU3a0qjdO/MZT1
-   QoNqzmF8w6Apd79Sd0/ojM5t5s+gSMN8knKkdu/zA4N4S5GPQmC1wkkYu
-   oxUvnZiOz5e8QtvU73IkYR2ehod04pKEeyQMe2oJCZ52HVzocAuEN5TQ4
+  t=1787071044; x=1818607044;
+  h=date:from:to:cc:subject:message-id;
+  bh=hpSzPxLbh06KNXaXsHoygzI2mxJwiHfJ8oCQwGd/7hk=;
+  b=l6jpatj8WlN4kg5lkEfNLiKHBL6c8pi+fZS4BAlbqNlQqW0kFWLtQVIr
+   8QZUa1M4e0/0sDu3H4nqTX4TTQkE4DCfMaajjb0z4BUBI9Ll2LuEOYnxO
+   h6awuMJZKOhfWd+XJq8H3E8VPtMkV90qOiMnEmrJPnLoYkTGMAz9DKnyK
+   OLZLtTouIJy+3Fs5bfMJXWoiHbTbg9gZD2wI4sehRcpJkfcpV0LA2PsZh
+   OAMX+rZcr5DUYiISjRb4/74hjDTjR5Ez46XJXwJGLWfVZoUJ/RRmrkor5
+   8yskLqg3BzCcpMdDKKXFmwz2pxuX+2BJFpTC898yp64LrStRyd/R+eyIU
    w==;
-X-CSE-ConnectionGUID: Q7AutrHNTIWMmFZMBC6u5g==
-X-CSE-MsgGUID: o4i+gJIjTca8xG/p+Y9Shw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="91381912"
+X-CSE-ConnectionGUID: Iu4u4Cp8Sli5jynsRXIQ3Q==
+X-CSE-MsgGUID: dzd9scKEQwWe0q3S/ZVKQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="98930594"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="91381912"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 09:37:14 -0700
-X-CSE-ConnectionGUID: m8V7gM+4RN6rYIe5QpY8nw==
-X-CSE-MsgGUID: Dqn7HgFMQVaXMICd+vbEtg==
+   d="scan'208";a="98930594"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 09:37:14 -0700
+X-CSE-ConnectionGUID: AbYSFJ5eS6aoAMyeYJjLig==
+X-CSE-MsgGUID: Wv5+92lXT/2OAlfbbYisLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="261998709"
+   d="scan'208";a="267255003"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Aug 2026 09:37:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 18 Aug 2026 09:37:12 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwMoH-00000000eRO-2vKO;
+	id 1wwMoH-00000000eRQ-35TX;
 	Tue, 18 Aug 2026 16:37:09 +0000
-Date: Wed, 19 Aug 2026 00:36:25 +0800
+Date: Wed, 19 Aug 2026 00:36:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+To: Matthew Wilcox <willy@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:folio-pool-v2-lockdep 14/21]
- kernel/locking/lockdep.c:6776:2: error: use of undeclared identifier
- 'bootstrap_stack_trace'
-Message-ID: <202608190004.QWOuY3ze-lkp@intel.com>
+Subject: [willy-pagecache:headers 4/19]
+ drivers/soc/xilinx/zynqmp_power.c:101:8: error: unknown type name
+ 'irqreturn_t'
+Message-ID: <202608190039.XjU7uENJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git folio-pool-v2-lockdep
-head:   e77ee8289ea0755b0ee299348504d4568f942d71
-commit: 198cb0234063750d4125d2f5b3fd29f373fba200 [14/21] locking/lockdep: Migrate and compact stack trace entries into folio_scratchpad
-config: powerpc64-randconfig-001-20260818 (https://download.01.org/0day-ci/archive/20260819/202608190004.QWOuY3ze-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 844a18e753e822736c9805ab779144b647a2c186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608190004.QWOuY3ze-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/willy/pagecache headers
+head:   032f02810150ef15c319b0ac8f82f7ca9760fe47
+commit: ee8c3d1b21838865d98d47c06331c531fa5f426c [4/19] headers: Remove swap.h from suspend.h
+config: arm64-randconfig-003-20260818 (https://download.01.org/0day-ci/archive/20260819/202608190039.XjU7uENJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608190039.XjU7uENJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608190004.QWOuY3ze-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608190039.XjU7uENJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/locking/lockdep.c:6776:2: error: use of undeclared identifier 'bootstrap_stack_trace'
-    6776 |         bootstrap_stack_trace = early_stack_trace;
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> kernel/locking/lockdep.c:6776:26: error: use of undeclared identifier 'early_stack_trace'
-    6776 |         bootstrap_stack_trace = early_stack_trace;
-         |                                 ^~~~~~~~~~~~~~~~~
->> kernel/locking/lockdep.c:6777:2: error: use of undeclared identifier 'bootstrap_stack_trace_in_use'; did you mean 'bootstrap_entries_in_use'?
-    6777 |         bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         bootstrap_entries_in_use
-   kernel/locking/lockdep.c:237:23: note: 'bootstrap_entries_in_use' declared here
-     237 | static unsigned long *bootstrap_entries_in_use __read_mostly = early_list_entries_in_use;
-         |                       ^
->> kernel/locking/lockdep.c:6777:34: error: use of undeclared identifier 'early_stack_trace_in_use'
-    6777 |         bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:6821:3: error: use of undeclared identifier 'early_stack_trace_in_use'
-    6821 |                 early_stack_trace_in_use,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/locking/lockdep.c:6822:18: error: use of undeclared identifier 'BOOTSTRAP_STACK_TRACE_ENTRIES'
-    6822 |                 (unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:6844:26: error: use of undeclared identifier 'lockdep_trace_scratchpad'; did you mean 'lockdep_trace_stats'?
-    6844 |         folio_scratchpad_alloc(&lockdep_trace_scratchpad, sizeof(struct lock_trace) + 32 * sizeof(unsigned long),
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                 lockdep_trace_stats
-   kernel/locking/lockdep_internals.h:163:6: note: 'lockdep_trace_stats' declared here
-     163 | void lockdep_trace_stats(unsigned int *nr_chunks, size_t *chunk_size, size_t *tail_used);
-         |      ^
-   kernel/locking/lockdep.c:6844:52: error: invalid application of 'sizeof' to an incomplete type 'struct lock_trace'
-    6844 |         folio_scratchpad_alloc(&lockdep_trace_scratchpad, sizeof(struct lock_trace) + 32 * sizeof(unsigned long),
-         |                                                           ^     ~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep_types.h:85:8: note: forward declaration of 'struct lock_trace'
-      85 | struct lock_trace;
-         |        ^
-   kernel/locking/lockdep.c:6854:29: error: use of undeclared identifier 'stack_trace_hash'; did you mean 'stack_trace_save'?
-    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
-         |                                    ^~~~~~~~~~~~~~~~
-         |                                    stack_trace_save
-   include/linux/array_size.h:11:33: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                 ^~~
-   include/linux/stacktrace.h:70:14: note: 'stack_trace_save' declared here
-      70 | unsigned int stack_trace_save(unsigned long *store, unsigned int size,
-         |              ^
-   kernel/locking/lockdep.c:6854:29: error: use of undeclared identifier 'stack_trace_hash'; did you mean 'stack_trace_save'?
-    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
-         |                                    ^~~~~~~~~~~~~~~~
-         |                                    stack_trace_save
-   include/linux/array_size.h:11:48: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                ^~~
-   include/linux/stacktrace.h:70:14: note: 'stack_trace_save' declared here
-      70 | unsigned int stack_trace_save(unsigned long *store, unsigned int size,
-         |              ^
-   kernel/locking/lockdep.c:6854:18: error: subscript of pointer to function type 'unsigned int (unsigned long *, unsigned int, unsigned int)'
-    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:47: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                               ^~~~~
-   kernel/locking/lockdep.c:6854:29: error: use of undeclared identifier 'stack_trace_hash'; did you mean 'stack_trace_save'?
-    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
-         |                                    ^~~~~~~~~~~~~~~~
-         |                                    stack_trace_save
-   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                                           ^~~
-   include/linux/compiler.h:205:64: note: expanded from macro '__must_be_array'
-     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                                     ^
-   include/linux/compiler.h:204:39: note: expanded from macro '__is_array'
-     204 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                                ^
-   include/linux/compiler_types.h:610:63: note: expanded from macro '__same_type'
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/compiler.h:200:84: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                    ^
-   include/linux/stacktrace.h:70:14: note: 'stack_trace_save' declared here
-      70 | unsigned int stack_trace_save(unsigned long *store, unsigned int size,
-         |              ^
-   kernel/locking/lockdep.c:6854:29: error: use of undeclared identifier 'stack_trace_hash'; did you mean 'stack_trace_save'?
-    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
-         |                                    ^~~~~~~~~~~~~~~~
-         |                                    stack_trace_save
-   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                                           ^~~
-   include/linux/compiler.h:205:64: note: expanded from macro '__must_be_array'
-     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                                     ^
-   include/linux/compiler.h:204:45: note: expanded from macro '__is_array'
-     204 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                                      ^
-   include/linux/compiler_types.h:610:74: note: expanded from macro '__same_type'
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler.h:200:84: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                    ^
-   include/linux/stacktrace.h:70:14: note: 'stack_trace_save' declared here
-      70 | unsigned int stack_trace_save(unsigned long *store, unsigned int size,
-         |              ^
-   kernel/locking/lockdep.c:6854:18: error: subscript of pointer to function type 'unsigned int (unsigned long *, unsigned int, unsigned int)'
-    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:205:53: note: expanded from macro '__must_be_array'
-     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-     206 |                                                         "must be array")
-         |                                                         ~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:204:44: note: expanded from macro '__is_array'
-     204 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                                     ^
-   include/linux/compiler_types.h:610:74: note: expanded from macro '__same_type'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
+>> drivers/soc/xilinx/zynqmp_power.c:101:8: error: unknown type name 'irqreturn_t'
+    static irqreturn_t zynqmp_pm_isr(int irq, void *data)
+           ^~~~~~~~~~~
+   drivers/soc/xilinx/zynqmp_power.c: In function 'zynqmp_pm_isr':
+>> drivers/soc/xilinx/zynqmp_power.c:124:9: error: 'IRQ_HANDLED' undeclared (first use in this function); did you mean 'EBADHANDLE'?
+     return IRQ_HANDLED;
+            ^~~~~~~~~~~
+            EBADHANDLE
+   drivers/soc/xilinx/zynqmp_power.c:124:9: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/soc/xilinx/zynqmp_power.c: In function 'zynqmp_pm_probe':
+>> drivers/soc/xilinx/zynqmp_power.c:366:9: error: implicit declaration of function 'devm_request_threaded_irq'; did you mean 'devm_request_region'? [-Werror=implicit-function-declaration]
+      ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+            ^~~~~~~~~~~~~~~~~~~~~~~~~
+            devm_request_region
+>> drivers/soc/xilinx/zynqmp_power.c:368:7: error: 'IRQF_NO_SUSPEND' undeclared (first use in this function); did you mean 'SUSPEND_SUSPEND'?
+          IRQF_NO_SUSPEND | IRQF_ONESHOT,
+          ^~~~~~~~~~~~~~~
+          SUSPEND_SUSPEND
+>> drivers/soc/xilinx/zynqmp_power.c:368:25: error: 'IRQF_ONESHOT' undeclared (first use in this function); did you mean 'SA_ONESHOT'?
+          IRQF_NO_SUSPEND | IRQF_ONESHOT,
+                            ^~~~~~~~~~~~
+                            SA_ONESHOT
+   cc1: some warnings being treated as errors
 
 
-vim +/bootstrap_stack_trace +6776 kernel/locking/lockdep.c
+vim +/irqreturn_t +101 drivers/soc/xilinx/zynqmp_power.c
 
-  6771	
-  6772	void __init lockdep_init(void)
-  6773	{
-  6774		bootstrap_entries = early_list_entries;
-  6775		bootstrap_entries_in_use = early_list_entries_in_use;
-> 6776		bootstrap_stack_trace = early_stack_trace;
-> 6777		bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
-  6778	
-  6779		pr_info("Lock dependency validator: Copyright (c) 2006 Red Hat, Inc., Ingo Molnar\n");
-  6780	
-  6781		pr_info("... MAX_LOCKDEP_SUBCLASSES:  %lu\n", MAX_LOCKDEP_SUBCLASSES);
-  6782		pr_info("... MAX_LOCK_DEPTH:          %lu\n", MAX_LOCK_DEPTH);
-  6783		pr_info("... MAX_LOCKDEP_KEYS:        %lu\n", MAX_LOCKDEP_KEYS);
-  6784		pr_info("... CLASSHASH_SIZE:          %lu\n", CLASSHASH_SIZE);
-  6785		pr_info("... MAX_LOCKDEP_ENTRIES:     %lu\n", MAX_LOCKDEP_ENTRIES);
-  6786		pr_info("... MAX_LOCKDEP_CHAINS:      %lu\n", MAX_LOCKDEP_CHAINS);
-  6787		pr_info("... CHAINHASH_SIZE:          %lu\n", CHAINHASH_SIZE);
-  6788	
-  6789		pr_info(" memory used by lock dependency info: %zu kB\n",
-  6790		       (sizeof(lock_classes) +
-  6791			sizeof(lock_classes_in_use) +
-  6792			sizeof(classhash_table) +
-  6793			sizeof(early_list_entries) +
-  6794			sizeof(early_list_entries_in_use) +
-  6795			sizeof(chainhash_table) +
-  6796			sizeof(delayed_free)
-  6797	#ifdef CONFIG_PROVE_LOCKING
-  6798			+ sizeof(lock_cq)
-  6799			+ sizeof(lock_chains)
-  6800			+ sizeof(lock_chains_in_use)
-  6801			+ sizeof(chain_hlocks)
-  6802	#endif
-  6803			) / 1024
-  6804			);
-  6805	
-  6806	#if defined(CONFIG_TRACE_IRQFLAGS) && defined(CONFIG_PROVE_LOCKING)
-  6807		pr_info(" memory used for stack traces: dynamic (bootstrap %zu kB)\n",
-  6808		       sizeof(early_stack_trace) / 1024
-  6809		       );
-  6810	#endif
-  6811	
-  6812		pr_info(" per task-struct memory footprint: %zu bytes\n",
-  6813		       sizeof(((struct task_struct *)NULL)->held_locks));
-  6814	}
-  6815	
-  6816	static int __init lockdep_boot_report(void)
-  6817	{
-  6818		pr_info("lockdep: %lu/%lu bootstrap entries, %lu/%lu bootstrap traces used before buddy init, folio_pool active\n",
-  6819			min_t(unsigned long, nr_list_entries, BOOTSTRAP_LOCKDEP_ENTRIES),
-  6820			BOOTSTRAP_LOCKDEP_ENTRIES,
-  6821			early_stack_trace_in_use,
-> 6822			(unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
-  6823		return 0;
-  6824	}
-  6825	core_initcall(lockdep_boot_report);
-  6826	
+70602b37c4afd9 Abhyuday Godhasara      2021-11-28  100  
+ab272643d723f5 Rajan Vaja              2019-01-29 @101  static irqreturn_t zynqmp_pm_isr(int irq, void *data)
+ab272643d723f5 Rajan Vaja              2019-01-29  102  {
+ab272643d723f5 Rajan Vaja              2019-01-29  103  	u32 payload[CB_PAYLOAD_SIZE];
+ab272643d723f5 Rajan Vaja              2019-01-29  104  
+ab272643d723f5 Rajan Vaja              2019-01-29  105  	zynqmp_pm_get_callback_data(payload);
+ab272643d723f5 Rajan Vaja              2019-01-29  106  
+ab272643d723f5 Rajan Vaja              2019-01-29  107  	/* First element is callback API ID, others are callback arguments */
+ab272643d723f5 Rajan Vaja              2019-01-29  108  	if (payload[0] == PM_INIT_SUSPEND_CB) {
+ab272643d723f5 Rajan Vaja              2019-01-29  109  		switch (payload[1]) {
+ab272643d723f5 Rajan Vaja              2019-01-29  110  		case SUSPEND_SYSTEM_SHUTDOWN:
+ab272643d723f5 Rajan Vaja              2019-01-29  111  			orderly_poweroff(true);
+ab272643d723f5 Rajan Vaja              2019-01-29  112  			break;
+ab272643d723f5 Rajan Vaja              2019-01-29  113  		case SUSPEND_POWER_REQUEST:
+ab272643d723f5 Rajan Vaja              2019-01-29  114  			pm_suspend(PM_SUSPEND_MEM);
+ab272643d723f5 Rajan Vaja              2019-01-29  115  			break;
+ab272643d723f5 Rajan Vaja              2019-01-29  116  		default:
+4c0afac2dfa1e1 Michal Simek            2023-10-27  117  			pr_err("%s Unsupported InitSuspendCb reason code %d\n",
+4c0afac2dfa1e1 Michal Simek            2023-10-27  118  			       __func__, payload[1]);
+ab272643d723f5 Rajan Vaja              2019-01-29  119  		}
+87fda1acfc3b90 Naman Trivedi Manojbhai 2023-12-07  120  	} else {
+87fda1acfc3b90 Naman Trivedi Manojbhai 2023-12-07  121  		pr_err("%s() Unsupported Callback %d\n", __func__, payload[0]);
+ab272643d723f5 Rajan Vaja              2019-01-29  122  	}
+ab272643d723f5 Rajan Vaja              2019-01-29  123  
+ab272643d723f5 Rajan Vaja              2019-01-29 @124  	return IRQ_HANDLED;
+ab272643d723f5 Rajan Vaja              2019-01-29  125  }
+ab272643d723f5 Rajan Vaja              2019-01-29  126  
+
+:::::: The code at line 101 was first introduced by commit
+:::::: ab272643d723f531b9caa8a4ac5f85fcd26840d2 drivers: soc: xilinx: Add ZynqMP PM driver
+
+:::::: TO: Rajan Vaja <rajan.vaja@xilinx.com>
+:::::: CC: Michal Simek <michal.simek@xilinx.com>
 
 --
 0-DAY CI Kernel Test Service
