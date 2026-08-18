@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099C23806DA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 20:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7202D2495
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 22:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787086743; cv=none; b=uQ0/Ndbz5Tza/lg/HQCrDmxiyKgUY2yJP5k6r9rDuBJI72fXWQFGdhZxrk30ckcmwmIiSKwmtmnFY7B668973uN7KJsVfG5ysYTbzhw1D1oajyygPXSMA6ZXoTpeCDKrw4IN5hdCzoRA/UiYLv1N4yIufbYBhQMAz5sr2b9cZeQ=
+	t=1787090753; cv=none; b=mEWncp/557exr7KIe/rx2FYHXkkvrLT/e20wDzIKBlBtSCpn5ou1rAosqvhGT6Tn0uVlCnYAIjDt1H1LLwHRm3Gn8+UUT5KdtftN50AulVBI7F5XZBrXVomdqxBugrq8f78aEq22Mz3cmT8At4CdAdkFAfGnj/PmB/LUG9ebRXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787086743; c=relaxed/simple;
-	bh=wHAHCzRCozqPLcLhV7bWSiG+fmEkabPRGIHfim/pzbg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Yi3yyM6VW3NMa8H1EigCf/5QA8do4iaqwE7hc8CjTZNHNn3M4OIQJRBppOW66YtZ4hCk4aNfIHMRy6Oz1Igzd2fnJA5EoTQvZJfAzIglXcWVTeFUh0MIYLfU++9we/mdaDUgrXndKyxYk3MpxtUjXN3MmZveVwuCJhMftI6SNUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhTjjKyC; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1787090753; c=relaxed/simple;
+	bh=npjXiA/jKj3l/CxQsQyScphUmJSkdp+k6qr9XAA+tEY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OUQjmpRovK19xuvgXlbB3t0RXBEKoUJE028FxWmD+iZb1slUTK7LCjTXMUGAI6YTPPFnRC6faSTe5y0QRvPbIlEX63WITVcBnjkH1tfXh7q/5PAyVjgCbMYHB6IrHaW9NRx7AdckBst5DFrdZwHJf37tJaf6uS035KbN7UabvNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDEXSevs; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhTjjKyC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDEXSevs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787086740; x=1818622740;
+  t=1787090752; x=1818626752;
   h=date:from:to:cc:subject:message-id;
-  bh=wHAHCzRCozqPLcLhV7bWSiG+fmEkabPRGIHfim/pzbg=;
-  b=hhTjjKyCjvTdHDTxfrl/YutuBXySHMQAkwd17B9Sd80zpPlGbpdyBjuo
-   nU9CDXnxStdj5r5suv2jvmCQwjD3Oourc9KP8f+tRvotIyi1GUGBNn3kv
-   2Q4OEYPblu6QQ5sUreM0AlgNKPP72khYg14vPC2f/4hWTgbnkDzqMFHNA
-   Ag+6EspEJNOcJ4MbuQkSt4O1jlS2Mkk39s7ElwKufZEcWlyBGOrkwJ17S
-   Dkumm+Y3572SkmZwnGTQ5GHdfVTvnmlPxyedxKSIkXPHwVOGczqgLH4cu
-   jYI0ZCEPgkYMmgsCq6MYvriDH/kREdAnN9rDkUtmRj+1m156rXzJDUekm
-   Q==;
-X-CSE-ConnectionGUID: WjWhKaCpRuqzwR8am2oSmQ==
-X-CSE-MsgGUID: /6MLtgMzSpuv0D2WOiULGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="90106959"
+  bh=npjXiA/jKj3l/CxQsQyScphUmJSkdp+k6qr9XAA+tEY=;
+  b=oDEXSevsEDmVhKtyddug8l3jQRcGGPr8DjAE8+oVeGzhthwW6jNmuPs9
+   OQHkDRiGDdXdo3IqtKeOFrl+OlYrj/hxa8wc8kYM6YpMCYtPCKN3UnjL8
+   6Xg7pjeh3uOIYKCKp6TckbudDf+G1TT81pVEgMjWSpfUjFQEqWEavGzIq
+   576/0w2rVWNYawi7iTIRNRwVnurTfHjgV9WUUjETO67HoZPWBxj50YylI
+   o2fAA7PfK4yLmhJe8wY7ZkqRJbxB6i52d1R8HW5FjCTBqQK+Jy3/eYlfS
+   rDIiqMoB8dMnvgF1cKlBq2a2X56RwU0TNhuqcImZtgIbJGt9yEfDIlXra
+   g==;
+X-CSE-ConnectionGUID: Nh7Y5cCQRfi+qdlse/+3+A==
+X-CSE-MsgGUID: E6x2OHgDSfG3Byi2OH4N4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="87615658"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="90106959"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 13:58:59 -0700
-X-CSE-ConnectionGUID: mit8ewOHRT63/fJiiY10pw==
-X-CSE-MsgGUID: /PVVyb8qTCK7UG0GwwbjTA==
+   d="scan'208";a="87615658"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 15:05:51 -0700
+X-CSE-ConnectionGUID: VUIgdRwiQxyAxJaMfsQ9lA==
+X-CSE-MsgGUID: 7eLClg2YS7uQDJwpbTdaZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="269176295"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 18 Aug 2026 13:58:57 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="295271688"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 18 Aug 2026 15:05:49 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwQtb-000000007E3-1rbS;
-	Tue, 18 Aug 2026 20:58:55 +0000
-Date: Tue, 18 Aug 2026 22:58:06 +0200
+	id 1wwRwJ-00000000edq-0zFc;
+	Tue, 18 Aug 2026 22:05:47 +0000
+Date: Wed, 19 Aug 2026 06:05:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tj-sched-ext:scx-tools-header-sync 40/40] versioncheck:
- ./tools/sched_ext/include/scx/common.bpf.h: 1191: need linux/version.h
-Message-ID: <202608182245.4DkiEQ79-lkp@intel.com>
+To: Michael Bommarito <michael.bommarito@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jiri Kosina <jikos@kernel.org>
+Subject: [linux-next:master 10759/15982] ld.lld: error: undefined
+ symbol: kunit_mem_assert_format
+Message-ID: <202608190536.d9qCkWWc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,33 +59,24 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git scx-tools-header-sync
-head:   9b6c26813834207a665efc20c7e9457f205c7b77
-commit: 9b6c26813834207a665efc20c7e9457f205c7b77 [40/40] sched_ext: Sync common and compat headers from the scx repo
-reproduce: (https://download.01.org/0day-ci/archive/20260818/202608182245.4DkiEQ79-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e6664f2b33db9b6811eb4cec109f06cb2b4f458d
+commit: 83df7b5fa6735b5084ecd296a0f67208650ba497 [10759/15982] HID: hyperv: add KUnit coverage for device info bounds
+config: i386-randconfig-r123-20260818 (https://download.01.org/0day-ci/archive/20260819/202608190536.d9qCkWWc-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608190536.d9qCkWWc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608182245.4DkiEQ79-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608190536.d9qCkWWc-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j384 ARCH=x86_64 versioncheck 
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 446: need linux/version.h
->> ./tools/sched_ext/include/scx/common.bpf.h: 1191: need linux/version.h
->> ./tools/sched_ext/include/scx/compat.bpf.h: 495: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: kunit_mem_assert_format
+   >>> referenced by hid-hyperv.c:697 (drivers/hid/hid-hyperv.c:697)
+   >>>               drivers/hid/hid-hyperv.o:(mousevsc_device_info_valid_descriptor) in archive vmlinux.a
 
 --
 0-DAY CI Kernel Test Service
