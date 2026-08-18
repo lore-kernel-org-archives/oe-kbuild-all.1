@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67972E736E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 05:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D893E3176
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 06:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787032007; cv=none; b=Ag3Vk9wl+qlonUZ20M/3LsD0nhvyhegpaLIelbkpu/SImuvXr8y9l3zSysZSfT+ypDTCMQKCAK5CW77UEI8GcxXCAqkBHC/S6Y2OT+walrNuxFpZC9g9RUtcBBxYsZXAcIgPHlXrh8bS9BiO/Jddfaj5+vkZinBosiKb5B7r5l4=
+	t=1787033271; cv=none; b=VgALlMHnGtKaNB1WIwR8DGU9yIwkRL/PpUqxIo62Sek/5EKuLDJ+Rg0+IlgYhoXqykx9OMjm4vgW0wmJGMWO/SWWL+TlLooI+Te9SWz/KO0lrLuy6inQNPOsxVkZhzm7O4/Wif9QnjwjE8V3RY0id3t2CZNk/jkdMNsAfahBH94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787032007; c=relaxed/simple;
-	bh=Ru0pUk8KybU5EFwGf7oXyMKzu0NQzqiWu3K3pBSs1ck=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AlBdyg2chz7o8bYqAHK+/cBzAp/DRWf0PgPais/PtNad3tVAtJWfMKT4WbK7m57omQyozjHs1wGC9bM/fNvEwOMUR5dTGrtCygsHURhjNJBpIEY4MHYBoj0VdlRqfiW2/x9t1PsYBjyaWPy9D+3Jj5bRjGKiSKjM+eOQK7diY10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BULvrY2T; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1787033271; c=relaxed/simple;
+	bh=KvS83adaWOdds+7QYPB51x2PUfexp547mWHSBwZudAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D/Do61j4fzfxb/EmX36DCNaT0IzCU0vrZ5qn57097RDj6O+jXiTI/MnhOjnAmeOyQ4snA/5bJLvMVMGYjOXvRaM9r8J9J4an48OQ2vJx7sTxpVf+IAUNjd6Kr12kEoQkBlAuxCLMWcy9pApSSdG8DPPduVojZqm8lSXtxldBHJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BTF7u8uc; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BULvrY2T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTF7u8uc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787032006; x=1818568006;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ru0pUk8KybU5EFwGf7oXyMKzu0NQzqiWu3K3pBSs1ck=;
-  b=BULvrY2TkeEebI/P2himdyGKNespg7JzSJknyF6JI6I+TWoMxv52H7rC
-   p1V980xkMaEMc/D5UwgrLeGlMqbkZFkcR0zYwYHoTcrAbQQC+Kv63KQn9
-   OP4yycloGAIQ/v4qfm6MT8vnIAJSwJo2ES5K30XXznsmQRkLHYfwvm/W1
-   rUh0nGG469X4cmGKSprgEnRbBktyR+cGNYO2tI6MCGDnqKkPIV10zu9hZ
-   E/9fmh+Do4n0yzh6gqL7zcMZX6U3WR0E6xyR/5pKz5AbVCnDsgb5jdweb
-   YCogJxx2qjaE5Ia1sxduTbO+0YtNRAxuG97qjZeXPmbXFruFT56QrUsR5
-   g==;
-X-CSE-ConnectionGUID: TiaZPRXFRdCccaRybVId5g==
-X-CSE-MsgGUID: yPYO0fzCQRm01OSoOWNblg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87635914"
+  t=1787033269; x=1818569269;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KvS83adaWOdds+7QYPB51x2PUfexp547mWHSBwZudAw=;
+  b=BTF7u8ucSjDTM9O3iB11QBGFfGgmqFMnzSNN+alU0WDkdErM91lWaOEx
+   Q5SYjKSvGwQHGwd+8i1eZjP7fCwq8cZ4oiLLBla5XMIktCrIlkRphO8zm
+   XeTe/6uvIv+laEmSy6lozAln/XZN26FdePcYtE9KZtkxB/wwglFzXGXj3
+   kZaWoEWmSnT/Ace3r/R9lMBGCqC4eyDXP4nOg26RY21Wa3KXiAryriTpI
+   9FcOFvz/v54SFHJ01v5AXQCwQ0DrvhR3zM6J83N2L8UgIxvGDWMVISFNw
+   bz/8/3FFTPaYIEsjZUM0LoSdDLmThbamcIz4CpCndbnOEbZx30XWswfpV
+   w==;
+X-CSE-ConnectionGUID: DR8cMggBTBG+0Hb6NT6CAg==
+X-CSE-MsgGUID: nqACCcJxRWuu6Qgk7gpfYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="97852783"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87635914"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 22:46:45 -0700
-X-CSE-ConnectionGUID: 1aAXXICtRdCLtn7mgB/Exg==
-X-CSE-MsgGUID: KCHE0wYJR0iXy2yluNj+Ng==
+   d="scan'208";a="97852783"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 23:07:49 -0700
+X-CSE-ConnectionGUID: dm+8t8jZSLOzanmXdpgtag==
+X-CSE-MsgGUID: nqfAmaKgSWSH6T5Ju2Grvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="263799455"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Aug 2026 22:46:43 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="303359965"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 17 Aug 2026 23:07:46 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwCen-00000000e8k-29mD;
-	Tue, 18 Aug 2026 05:46:41 +0000
-Date: Tue, 18 Aug 2026 13:45:53 +0800
+	id 1wwCzA-00000000737-0Bo8;
+	Tue, 18 Aug 2026 06:07:44 +0000
+Date: Tue, 18 Aug 2026 08:06:47 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:folio-pool-v2-lockdep 5/21]
- net/netfilter/nf_tables_api.c:12172:7: error: incompatible pointer types
- passing 'struct static_key_true *' to parameter of type 'struct static_key *'
-Message-ID: <202608181341.KdUerT0X-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jun Miao <jun.miao@intel.com>, jarkko@kernel.org,
+	dave.hansen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, kai.huang@intel.com,
+	challvy.tee@gmail.com, fan.du@intel.com, jun.miao@intel.com,
+	linux-kernel@vger.kernel.org, qiang.zhang@linux.dev
+Subject: Re: [PATCH v2] x86/sgx: Fix RCU Tasks stalls in EPC sanitization loop
+Message-ID: <202608180846.b3eJmlOU-lkp@intel.com>
+References: <20260623030329.2786571-1-jun.miao@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,58 +64,105 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623030329.2786571-1-jun.miao@intel.com>
 
-tree:   https://github.com/jimc/linux.git folio-pool-v2-lockdep
-head:   e77ee8289ea0755b0ee299348504d4568f942d71
-commit: 73ef69b58c7d39a45a6fdbd29d4767eedda7ff41 [5/21] netfilter/nf_tables: Add folio_scratchpad collector to struct nftables_pernet
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260818/202608181341.KdUerT0X-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 844a18e753e822736c9805ab779144b647a2c186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608181341.KdUerT0X-lkp@intel.com/reproduce)
+Hi Jun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on tip/x86/sgx v7.2 next-20260817]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jun-Miao/x86-sgx-Fix-RCU-Tasks-stalls-in-EPC-sanitization-loop/20260815-121253
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260623030329.2786571-1-jun.miao%40intel.com
+patch subject: [PATCH v2] x86/sgx: Fix RCU Tasks stalls in EPC sanitization loop
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260818/202608180846.b3eJmlOU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608180846.b3eJmlOU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608181341.KdUerT0X-lkp@intel.com/
-
-Note: the jimc/folio-pool-v2-lockdep HEAD e77ee8289ea0755b0ee299348504d4568f942d71 builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608180846.b3eJmlOU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/netfilter/nf_tables_api.c:12172:7: error: incompatible pointer types passing 'struct static_key_true *' to parameter of type 'struct static_key *' [-Wincompatible-pointer-types]
-    12172 |                                   &nft_trans_scratchpad_key);
-          |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/folio_pool.h:104:30: note: passing argument to parameter 'key' here
-     104 |                                struct static_key *key);
-         |                                                   ^
-   1 error generated.
+   arch/x86/kernel/cpu/sgx/main.c: In function '__sgx_sanitize_pages':
+>> arch/x86/kernel/cpu/sgx/main.c:109:17: error: implicit declaration of function 'cond_resched_rcu_qs'; did you mean 'cond_resched_lock'? [-Wimplicit-function-declaration]
+     109 |                 cond_resched_rcu_qs();
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 cond_resched_lock
 
 
-vim +12172 net/netfilter/nf_tables_api.c
+vim +109 arch/x86/kernel/cpu/sgx/main.c
 
- 12159	
- 12160	static int __net_init nf_tables_init_net(struct net *net)
- 12161	{
- 12162		struct nftables_pernet *nft_net = nft_pernet(net);
- 12163	
- 12164		INIT_LIST_HEAD(&nft_net->tables);
- 12165		INIT_LIST_HEAD(&nft_net->commit_list);
- 12166		INIT_LIST_HEAD(&nft_net->destroy_list);
- 12167		INIT_LIST_HEAD(&nft_net->commit_set_list);
- 12168		INIT_LIST_HEAD(&nft_net->binding_list);
- 12169		INIT_LIST_HEAD(&nft_net->module_list);
- 12170		INIT_LIST_HEAD(&nft_net->notify_list);
- 12171		folio_scratchpad_init_key(&nft_net->trans_scratchpad, get_order(SZ_64K),
- 12172					  &nft_trans_scratchpad_key);
- 12173		mutex_init(&nft_net->commit_mutex);
- 12174		net->nft.base_seq = 1;
- 12175		nft_net->gc_seq = 0;
- 12176		nft_net->validate_state = NFT_VALIDATE_SKIP;
- 12177		INIT_WORK(&nft_net->destroy_work, nf_tables_trans_destroy_work);
- 12178	
- 12179		return 0;
- 12180	}
- 12181	
+    54	
+    55	/*
+    56	 * Reset post-kexec EPC pages to the uninitialized state. The pages are removed
+    57	 * from the input list, and made available for the page allocator. SECS pages
+    58	 * prepending their children in the input list are left intact.
+    59	 *
+    60	 * Return 0 when sanitization was successful or kthread was stopped, and the
+    61	 * number of unsanitized pages otherwise.
+    62	 */
+    63	static unsigned long __sgx_sanitize_pages(struct list_head *dirty_page_list)
+    64	{
+    65		unsigned long left_dirty = 0;
+    66		struct sgx_epc_page *page;
+    67		LIST_HEAD(dirty);
+    68		int ret;
+    69	
+    70		/* dirty_page_list is thread-local, no need for a lock: */
+    71		while (!list_empty(dirty_page_list)) {
+    72			if (kthread_should_stop())
+    73				return 0;
+    74	
+    75			page = list_first_entry(dirty_page_list, struct sgx_epc_page, list);
+    76	
+    77			/*
+    78			 * Checking page->poison without holding the node->lock
+    79			 * is racy, but losing the race (i.e. poison is set just
+    80			 * after the check) just means __eremove() will be uselessly
+    81			 * called for a page that sgx_free_epc_page() will put onto
+    82			 * the node->sgx_poison_page_list later.
+    83			 */
+    84			if (page->poison) {
+    85				struct sgx_epc_section *section = &sgx_epc_sections[page->section];
+    86				struct sgx_numa_node *node = section->node;
+    87	
+    88				spin_lock(&node->lock);
+    89				list_move(&page->list, &node->sgx_poison_page_list);
+    90				spin_unlock(&node->lock);
+    91	
+    92				continue;
+    93			}
+    94	
+    95			ret = __eremove(sgx_get_epc_virt_addr(page));
+    96			if (!ret) {
+    97				/*
+    98				 * page is now sanitized.  Make it available via the SGX
+    99				 * page allocator:
+   100				 */
+   101				list_del(&page->list);
+   102				sgx_free_epc_page(page);
+   103			} else {
+   104				/* The page is not yet clean - move to the dirty list. */
+   105				list_move_tail(&page->list, &dirty);
+   106				left_dirty++;
+   107			}
+   108	
+ > 109			cond_resched_rcu_qs();
+   110		}
+   111	
+   112		list_splice(&dirty, dirty_page_list);
+   113		return left_dirty;
+   114	}
+   115	
 
 --
 0-DAY CI Kernel Test Service
