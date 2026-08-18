@@ -1,289 +1,268 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F25547ACD7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 16:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC3F19644B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 16:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787069045; cv=none; b=klOjma9QUBf4hCnyEaqKAjhmFBFrFgcDMt26ZwsFUdQNnynx1lCbZdme40aIkRY+YybaX7RDH4qAxxPLDrW9MHFLLpbMxUYUd+eFD21AR221bayU2i4tZxO1oz1d3MLfRPveSV/M400pqp68SElswNnn0IhXNFPTWjHYaBYdAGs=
+	t=1787071041; cv=none; b=fwhN2cKG8Xtbj6Bjw/P205QNCNpE9XkZjYwQ2uvNqw4sA1xM9GwWp5y8+AkzOU3SdQ8TGaavEFnT4UkuyrJ/P9cpFiDuRgVWptexdtYJ6IWFxoPKl7tT5C2EgqyBsD73qRMSQHfvRQNWk5Ir+8QM02GExdxasnaLRDUnRouiyG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787069045; c=relaxed/simple;
-	bh=V2hL992bWHKqo2S/xTSl1HAmIATIXldQBe1piaU1+kE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mS1XKPc/Xqiku0WXLf1IwVkwBiaJntxiJQKV96jlXp/XLGNJnmrRJq2OLfdw+bU8hq0WvdFJWosjbdHgVbz0EGCfIEQ5a6//JUSQ2dwjz41nGmsW7dIw8NVE390/madnoGrsi76Qi8BL68H6x13NVFwrcnDnY2lyRuKpsGQEAI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QoqBFbba; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1787071041; c=relaxed/simple;
+	bh=dvTUFqiydE0+Ur/do9KApJGG74gS9bNa4c2swOFa8sU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nyWcZHi1ehOa5yFs1V7Ja+kxoOASz/1EmJ7NnYOnYdfUSglosQDiWiwiF4xTIT3vYy8QjitSWgb3usMfPW5phcOSqqwGPGw8ZErEAzZfGWNU82wEToI9JGCSCeCg5EQ6Gi8xAZ9pfWHdi8u59DQXIF268oImbCtsn9/pBsoBMmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Om94uvn0; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoqBFbba"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Om94uvn0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787069044; x=1818605044;
-  h=date:from:to:cc:subject:message-id;
-  bh=V2hL992bWHKqo2S/xTSl1HAmIATIXldQBe1piaU1+kE=;
-  b=QoqBFbbaDe3ZRaEw77poYxhrNe+F8qGxNsGC/ICrGVhJqqPKna9I8uBM
-   MKm8s55y6NMdE/9XEjUXVcISTdw3njg7ip2mcaQZh4hNw9y+hzS9WbZOg
-   3gAUlFsaCSPfYLW+uZPocBT0uLdRvSOz5uhiBTN/4T27z0XtHhs6dyGCJ
-   FZJxXEKBKOSoU+C/0rblHZYafPTtePYpG1f4mUYSKfos/AJ7uYUdWDZjZ
-   hmS8Voq9NMz8JZL+Tpe8khgfL4ZEoKMWGZzfs0JOwAh0MKBKFd69aid9D
-   izj2BxpmrEceFLPqpYUIXC+2UEQfhgc24ZNiZtzM1BFUJxJpwuFrF5eRM
-   A==;
-X-CSE-ConnectionGUID: 79X9BXGkSvCEPDm8hWOj6w==
-X-CSE-MsgGUID: x8A7/euKSfq6I0ns9AeQ+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="87634860"
+  t=1787071036; x=1818607036;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dvTUFqiydE0+Ur/do9KApJGG74gS9bNa4c2swOFa8sU=;
+  b=Om94uvn0ciEQJyWu6l2IDO/mRHEapqmK0v6wbTcPf4rWiUk6dCD3xQTL
+   sAjU7QgnbicW+gl1Bpu9oZZiGNljL2nYSIcDO+xorvkBJTsZ8IogBFSqT
+   MkOJjnS5/8i0KIVBFkRFXaXUc6U7SYxZW748mg3bQEabefUvKGpBsaH/X
+   3MVoBcn9RXJBbC2cJCzT4EWAY8BZvINJF0bdYzIfypufU3a0qjdO/MZT1
+   QoNqzmF8w6Apd79Sd0/ojM5t5s+gSMN8knKkdu/zA4N4S5GPQmC1wkkYu
+   oxUvnZiOz5e8QtvU73IkYR2ehod04pKEeyQMe2oJCZ52HVzocAuEN5TQ4
+   w==;
+X-CSE-ConnectionGUID: Q7AutrHNTIWMmFZMBC6u5g==
+X-CSE-MsgGUID: o4i+gJIjTca8xG/p+Y9Shw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="91381912"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87634860"
+   d="scan'208";a="91381912"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 09:03:51 -0700
-X-CSE-ConnectionGUID: XhM8BSMvSIeLQkxXaOMUUw==
-X-CSE-MsgGUID: WHKWXgWdQVGCH047zknPTg==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 09:37:14 -0700
+X-CSE-ConnectionGUID: m8V7gM+4RN6rYIe5QpY8nw==
+X-CSE-MsgGUID: Dqn7HgFMQVaXMICd+vbEtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="261985216"
+   d="scan'208";a="261998709"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Aug 2026 09:03:49 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 18 Aug 2026 09:37:12 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwMHy-00000000eP0-3XSo;
-	Tue, 18 Aug 2026 16:03:46 +0000
-Date: Wed, 19 Aug 2026 00:03:17 +0800
+	id 1wwMoH-00000000eRO-2vKO;
+	Tue, 18 Aug 2026 16:37:09 +0000
+Date: Wed, 19 Aug 2026 00:36:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:headers 13/19]
- arch/sh/include/asm/page.h:78:29: error: request for member 'pgd' in
- something not a structure or union
-Message-ID: <202608182310.dHyWZgO8-lkp@intel.com>
+Subject: [jimc:folio-pool-v2-lockdep 14/21]
+ kernel/locking/lockdep.c:6776:2: error: use of undeclared identifier
+ 'bootstrap_stack_trace'
+Message-ID: <202608190004.QWOuY3ze-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   git://git.infradead.org/users/willy/pagecache headers
-head:   032f02810150ef15c319b0ac8f82f7ca9760fe47
-commit: 2d6459dd8379df55b30ba4c0d2103a7af55d5416 [13/19] drm: Remove pagemap from ttm_tt.h header
-config: sh-randconfig-001-20260818 (https://download.01.org/0day-ci/archive/20260818/202608182310.dHyWZgO8-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608182310.dHyWZgO8-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git folio-pool-v2-lockdep
+head:   e77ee8289ea0755b0ee299348504d4568f942d71
+commit: 198cb0234063750d4125d2f5b3fd29f373fba200 [14/21] locking/lockdep: Migrate and compact stack trace entries into folio_scratchpad
+config: powerpc64-randconfig-001-20260818 (https://download.01.org/0day-ci/archive/20260819/202608190004.QWOuY3ze-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 844a18e753e822736c9805ab779144b647a2c186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608190004.QWOuY3ze-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608182310.dHyWZgO8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608190004.QWOuY3ze-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/pgtable-nopud.h:7,
-                    from arch/sh/include/asm/pgtable-3level.h:5,
-                    from arch/sh/include/asm/pgtable.h:13,
-                    from include/linux/pgtable.h:6,
-                    from include/drm/ttm/ttm_caching.h:28,
-                    from include/drm/ttm/ttm_tt.h:31,
-                    from drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c:8:
-   include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name 'pgd_t'; did you mean 'pid_t'?
-       9 | typedef struct { pgd_t pgd; } p4d_t;
-         |                  ^~~~~
-         |                  pid_t
-   include/asm-generic/pgtable-nop4d.h:21:28: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      21 | static inline int pgd_none(pgd_t pgd)           { return 0; }
-         |                            ^~~~~
-         |                            p4d_t
-   include/asm-generic/pgtable-nop4d.h:22:27: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      22 | static inline int pgd_bad(pgd_t pgd)            { return 0; }
-         |                           ^~~~~
-         |                           p4d_t
-   include/asm-generic/pgtable-nop4d.h:23:31: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      23 | static inline int pgd_present(pgd_t pgd)        { return 1; }
-         |                               ^~~~~
-         |                               p4d_t
-   include/asm-generic/pgtable-nop4d.h:24:30: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      24 | static inline void pgd_clear(pgd_t *pgd)        { }
-         |                              ^~~~~
-         |                              p4d_t
-   include/asm-generic/pgtable-nop4d.h:35:33: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      35 | static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
-         |                                 ^~~~~
-         |                                 p4d_t
-   arch/sh/include/asm/pgtable-3level.h: In function 'pud_pgtable':
-   include/asm-generic/pgtable-nop4d.h:40:50: error: implicit declaration of function 'pgd_val'; did you mean 'p4d_val'? [-Wimplicit-function-declaration]
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
-      48 | #define pud_val(x)                              (p4d_val((x).p4d))
-         |                                                  ^~~~~~~
-   arch/sh/include/asm/pgtable-3level.h:43:40: note: in expansion of macro 'pud_val'
-      43 |         return (pmd_t *)(unsigned long)pud_val(pud);
-         |                                        ^~~~~~~
-   include/linux/pgtable.h: In function 'pmd_off':
-   include/linux/pgtable.h:167:38: error: implicit declaration of function 'p4d_offset'; did you mean 'pmd_offset'? [-Wimplicit-function-declaration]
-     167 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
-         |                                      ^~~~~~~~~~
-         |                                      pmd_offset
-   include/linux/pgtable.h:167:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
-     167 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                      |
-         |                                      int
-   include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
-      42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
-         |                                 ~~~~~~~^~~
-   include/linux/pgtable.h: In function 'pmd_off_k':
-   include/linux/pgtable.h:172:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
-     172 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset_k(va), va), va), va);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                      |
-         |                                      int
-   include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
-      42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
-         |                                 ~~~~~~~^~~
-   In file included from arch/sh/include/asm/pgtable.h:17:
-   include/linux/pgtable.h: In function 'pud_same':
->> arch/sh/include/asm/page.h:78:29: error: request for member 'pgd' in something not a structure or union
-      78 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
-      48 | #define pud_val(x)                              (p4d_val((x).p4d))
-         |                                                  ^~~~~~~
-   include/linux/pgtable.h:1395:16: note: in expansion of macro 'pud_val'
-    1395 |         return pud_val(pud_a) == pud_val(pud_b);
-         |                ^~~~~~~
->> arch/sh/include/asm/page.h:78:29: error: request for member 'pgd' in something not a structure or union
-      78 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
-      48 | #define pud_val(x)                              (p4d_val((x).p4d))
-         |                                                  ^~~~~~~
-   include/linux/pgtable.h:1395:34: note: in expansion of macro 'pud_val'
-    1395 |         return pud_val(pud_a) == pud_val(pud_b);
-         |                                  ^~~~~~~
-   include/linux/pgtable.h:1393:34: warning: parameter 'pud_a' set but not used [-Wunused-but-set-parameter=]
-    1393 | static inline int pud_same(pud_t pud_a, pud_t pud_b)
-         |                            ~~~~~~^~~~~
-   include/linux/pgtable.h:1393:47: warning: parameter 'pud_b' set but not used [-Wunused-but-set-parameter=]
-    1393 | static inline int pud_same(pud_t pud_a, pud_t pud_b)
-         |                                         ~~~~~~^~~~~
-   include/linux/pgtable.h: In function 'p4d_same':
->> arch/sh/include/asm/page.h:78:29: error: request for member 'pgd' in something not a structure or union
-      78 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/linux/pgtable.h:1403:16: note: in expansion of macro 'p4d_val'
-    1403 |         return p4d_val(p4d_a) == p4d_val(p4d_b);
-         |                ^~~~~~~
->> arch/sh/include/asm/page.h:78:29: error: request for member 'pgd' in something not a structure or union
-      78 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/linux/pgtable.h:1403:34: note: in expansion of macro 'p4d_val'
-    1403 |         return p4d_val(p4d_a) == p4d_val(p4d_b);
-         |                                  ^~~~~~~
-   include/linux/pgtable.h:1401:34: warning: parameter 'p4d_a' set but not used [-Wunused-but-set-parameter=]
-    1401 | static inline int p4d_same(p4d_t p4d_a, p4d_t p4d_b)
-         |                            ~~~~~~^~~~~
-   include/linux/pgtable.h:1401:47: warning: parameter 'p4d_b' set but not used [-Wunused-but-set-parameter=]
-    1401 | static inline int p4d_same(p4d_t p4d_a, p4d_t p4d_b)
-         |                                         ~~~~~~^~~~~
-   include/linux/pgtable.h: In function 'pgd_none_or_clear_bad':
-   include/linux/pgtable.h:1563:13: error: implicit declaration of function 'pgd_none'; did you mean 'p4d_none'? [-Wimplicit-function-declaration]
-    1563 |         if (pgd_none(*pgd))
-         |             ^~~~~~~~
-         |             p4d_none
-   In file included from include/linux/export.h:5,
-                    from drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c:6:
-   include/linux/pgtable.h:1565:22: error: implicit declaration of function 'pgd_bad'; did you mean 'p4d_bad'? [-Wimplicit-function-declaration]
-    1565 |         if (unlikely(pgd_bad(*pgd))) {
-         |                      ^~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/pgtable.h: In function 'pud_none_or_clear_bad':
->> arch/sh/include/asm/page.h:78:29: error: request for member 'pgd' in something not a structure or union
-      78 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
-      48 | #define pud_val(x)                              (p4d_val((x).p4d))
-         |                                                  ^~~~~~~
-   arch/sh/include/asm/pgtable-3level.h:48:27: note: in expansion of macro 'pud_val'
-      48 | #define pud_none(x)     (!pud_val(x))
-         |                           ^~~~~~~
-   include/linux/pgtable.h:1585:13: note: in expansion of macro 'pud_none'
-    1585 |         if (pud_none(*pud))
-         |             ^~~~~~~~
->> arch/sh/include/asm/page.h:78:29: error: request for member 'pgd' in something not a structure or union
-      78 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
-      48 | #define pud_val(x)                              (p4d_val((x).p4d))
-         |                                                  ^~~~~~~
-   arch/sh/include/asm/pgtable-3level.h:51:26: note: in expansion of macro 'pud_val'
-      51 | #define pud_bad(x)      (pud_val(x) & ~PAGE_MASK)
-         |                          ^~~~~~~
-   include/linux/pgtable.h:1587:22: note: in expansion of macro 'pud_bad'
-    1587 |         if (unlikely(pud_bad(*pud))) {
-         |                      ^~~~~~~
-   In file included from include/linux/scatterlist.h:8,
-                    from include/linux/dma-buf.h:19,
-                    from include/drm/drm_gem.h:38,
-                    from include/drm/ttm/ttm_bo.h:34,
-                    from drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h:10,
-                    from drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c:10:
-   include/linux/mm.h: In function 'p4d_alloc':
-   include/linux/mm.h:3589:22: error: pointer/integer type mismatch in conditional expression [-Wint-conversion]
-    3589 |                 NULL : p4d_offset(pgd, address);
-         |                      ^
-   include/linux/mm.h: In function 'pmd_alloc':
->> arch/sh/include/asm/page.h:78:29: error: request for member 'pgd' in something not a structure or union
-      78 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
-      48 | #define pud_val(x)                              (p4d_val((x).p4d))
-         |                                                  ^~~~~~~
-   arch/sh/include/asm/pgtable-3level.h:48:27: note: in expansion of macro 'pud_val'
-      48 | #define pud_none(x)     (!pud_val(x))
-         |                           ^~~~~~~
-   include/linux/mm.h:3601:26: note: in expansion of macro 'pud_none'
-    3601 |         return (unlikely(pud_none(*pud)) && __pmd_alloc(mm, pud, address))?
-         |                          ^~~~~~~~
+>> kernel/locking/lockdep.c:6776:2: error: use of undeclared identifier 'bootstrap_stack_trace'
+    6776 |         bootstrap_stack_trace = early_stack_trace;
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/locking/lockdep.c:6776:26: error: use of undeclared identifier 'early_stack_trace'
+    6776 |         bootstrap_stack_trace = early_stack_trace;
+         |                                 ^~~~~~~~~~~~~~~~~
+>> kernel/locking/lockdep.c:6777:2: error: use of undeclared identifier 'bootstrap_stack_trace_in_use'; did you mean 'bootstrap_entries_in_use'?
+    6777 |         bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         bootstrap_entries_in_use
+   kernel/locking/lockdep.c:237:23: note: 'bootstrap_entries_in_use' declared here
+     237 | static unsigned long *bootstrap_entries_in_use __read_mostly = early_list_entries_in_use;
+         |                       ^
+>> kernel/locking/lockdep.c:6777:34: error: use of undeclared identifier 'early_stack_trace_in_use'
+    6777 |         bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/lockdep.c:6821:3: error: use of undeclared identifier 'early_stack_trace_in_use'
+    6821 |                 early_stack_trace_in_use,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/locking/lockdep.c:6822:18: error: use of undeclared identifier 'BOOTSTRAP_STACK_TRACE_ENTRIES'
+    6822 |                 (unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/lockdep.c:6844:26: error: use of undeclared identifier 'lockdep_trace_scratchpad'; did you mean 'lockdep_trace_stats'?
+    6844 |         folio_scratchpad_alloc(&lockdep_trace_scratchpad, sizeof(struct lock_trace) + 32 * sizeof(unsigned long),
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 lockdep_trace_stats
+   kernel/locking/lockdep_internals.h:163:6: note: 'lockdep_trace_stats' declared here
+     163 | void lockdep_trace_stats(unsigned int *nr_chunks, size_t *chunk_size, size_t *tail_used);
+         |      ^
+   kernel/locking/lockdep.c:6844:52: error: invalid application of 'sizeof' to an incomplete type 'struct lock_trace'
+    6844 |         folio_scratchpad_alloc(&lockdep_trace_scratchpad, sizeof(struct lock_trace) + 32 * sizeof(unsigned long),
+         |                                                           ^     ~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep_types.h:85:8: note: forward declaration of 'struct lock_trace'
+      85 | struct lock_trace;
+         |        ^
+   kernel/locking/lockdep.c:6854:29: error: use of undeclared identifier 'stack_trace_hash'; did you mean 'stack_trace_save'?
+    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
+         |                                    ^~~~~~~~~~~~~~~~
+         |                                    stack_trace_save
+   include/linux/array_size.h:11:33: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   include/linux/stacktrace.h:70:14: note: 'stack_trace_save' declared here
+      70 | unsigned int stack_trace_save(unsigned long *store, unsigned int size,
+         |              ^
+   kernel/locking/lockdep.c:6854:29: error: use of undeclared identifier 'stack_trace_hash'; did you mean 'stack_trace_save'?
+    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
+         |                                    ^~~~~~~~~~~~~~~~
+         |                                    stack_trace_save
+   include/linux/array_size.h:11:48: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                ^~~
+   include/linux/stacktrace.h:70:14: note: 'stack_trace_save' declared here
+      70 | unsigned int stack_trace_save(unsigned long *store, unsigned int size,
+         |              ^
+   kernel/locking/lockdep.c:6854:18: error: subscript of pointer to function type 'unsigned int (unsigned long *, unsigned int, unsigned int)'
+    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:47: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                               ^~~~~
+   kernel/locking/lockdep.c:6854:29: error: use of undeclared identifier 'stack_trace_hash'; did you mean 'stack_trace_save'?
+    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
+         |                                    ^~~~~~~~~~~~~~~~
+         |                                    stack_trace_save
+   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                                           ^~~
+   include/linux/compiler.h:205:64: note: expanded from macro '__must_be_array'
+     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                                     ^
+   include/linux/compiler.h:204:39: note: expanded from macro '__is_array'
+     204 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                ^
+   include/linux/compiler_types.h:610:63: note: expanded from macro '__same_type'
+     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/compiler.h:200:84: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
+     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                    ^
+   include/linux/stacktrace.h:70:14: note: 'stack_trace_save' declared here
+      70 | unsigned int stack_trace_save(unsigned long *store, unsigned int size,
+         |              ^
+   kernel/locking/lockdep.c:6854:29: error: use of undeclared identifier 'stack_trace_hash'; did you mean 'stack_trace_save'?
+    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
+         |                                    ^~~~~~~~~~~~~~~~
+         |                                    stack_trace_save
+   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                                           ^~~
+   include/linux/compiler.h:205:64: note: expanded from macro '__must_be_array'
+     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                                     ^
+   include/linux/compiler.h:204:45: note: expanded from macro '__is_array'
+     204 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                      ^
+   include/linux/compiler_types.h:610:74: note: expanded from macro '__same_type'
+     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/compiler.h:200:84: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
+     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                    ^
+   include/linux/stacktrace.h:70:14: note: 'stack_trace_save' declared here
+      70 | unsigned int stack_trace_save(unsigned long *store, unsigned int size,
+         |              ^
+   kernel/locking/lockdep.c:6854:18: error: subscript of pointer to function type 'unsigned int (unsigned long *, unsigned int, unsigned int)'
+    6854 |         for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:205:53: note: expanded from macro '__must_be_array'
+     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+     206 |                                                         "must be array")
+         |                                                         ~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:204:44: note: expanded from macro '__is_array'
+     204 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                     ^
+   include/linux/compiler_types.h:610:74: note: expanded from macro '__same_type'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
 
 
-vim +/pgd +78 arch/sh/include/asm/page.h
+vim +/bootstrap_stack_trace +6776 kernel/locking/lockdep.c
 
-21440cf04a64cd include/asm-sh/page.h Paul Mundt     2006-11-20  77  
-^1da177e4c3f41 include/asm-sh/page.h Linus Torvalds 2005-04-16 @78  #define pgd_val(x)	((x).pgd)
-^1da177e4c3f41 include/asm-sh/page.h Linus Torvalds 2005-04-16  79  #define pgprot_val(x)	((x).pgprot)
-^1da177e4c3f41 include/asm-sh/page.h Linus Torvalds 2005-04-16  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  6771	
+  6772	void __init lockdep_init(void)
+  6773	{
+  6774		bootstrap_entries = early_list_entries;
+  6775		bootstrap_entries_in_use = early_list_entries_in_use;
+> 6776		bootstrap_stack_trace = early_stack_trace;
+> 6777		bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
+  6778	
+  6779		pr_info("Lock dependency validator: Copyright (c) 2006 Red Hat, Inc., Ingo Molnar\n");
+  6780	
+  6781		pr_info("... MAX_LOCKDEP_SUBCLASSES:  %lu\n", MAX_LOCKDEP_SUBCLASSES);
+  6782		pr_info("... MAX_LOCK_DEPTH:          %lu\n", MAX_LOCK_DEPTH);
+  6783		pr_info("... MAX_LOCKDEP_KEYS:        %lu\n", MAX_LOCKDEP_KEYS);
+  6784		pr_info("... CLASSHASH_SIZE:          %lu\n", CLASSHASH_SIZE);
+  6785		pr_info("... MAX_LOCKDEP_ENTRIES:     %lu\n", MAX_LOCKDEP_ENTRIES);
+  6786		pr_info("... MAX_LOCKDEP_CHAINS:      %lu\n", MAX_LOCKDEP_CHAINS);
+  6787		pr_info("... CHAINHASH_SIZE:          %lu\n", CHAINHASH_SIZE);
+  6788	
+  6789		pr_info(" memory used by lock dependency info: %zu kB\n",
+  6790		       (sizeof(lock_classes) +
+  6791			sizeof(lock_classes_in_use) +
+  6792			sizeof(classhash_table) +
+  6793			sizeof(early_list_entries) +
+  6794			sizeof(early_list_entries_in_use) +
+  6795			sizeof(chainhash_table) +
+  6796			sizeof(delayed_free)
+  6797	#ifdef CONFIG_PROVE_LOCKING
+  6798			+ sizeof(lock_cq)
+  6799			+ sizeof(lock_chains)
+  6800			+ sizeof(lock_chains_in_use)
+  6801			+ sizeof(chain_hlocks)
+  6802	#endif
+  6803			) / 1024
+  6804			);
+  6805	
+  6806	#if defined(CONFIG_TRACE_IRQFLAGS) && defined(CONFIG_PROVE_LOCKING)
+  6807		pr_info(" memory used for stack traces: dynamic (bootstrap %zu kB)\n",
+  6808		       sizeof(early_stack_trace) / 1024
+  6809		       );
+  6810	#endif
+  6811	
+  6812		pr_info(" per task-struct memory footprint: %zu bytes\n",
+  6813		       sizeof(((struct task_struct *)NULL)->held_locks));
+  6814	}
+  6815	
+  6816	static int __init lockdep_boot_report(void)
+  6817	{
+  6818		pr_info("lockdep: %lu/%lu bootstrap entries, %lu/%lu bootstrap traces used before buddy init, folio_pool active\n",
+  6819			min_t(unsigned long, nr_list_entries, BOOTSTRAP_LOCKDEP_ENTRIES),
+  6820			BOOTSTRAP_LOCKDEP_ENTRIES,
+  6821			early_stack_trace_in_use,
+> 6822			(unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
+  6823		return 0;
+  6824	}
+  6825	core_initcall(lockdep_boot_report);
+  6826	
 
 --
 0-DAY CI Kernel Test Service
