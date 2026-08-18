@@ -1,281 +1,300 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3953E2F12AC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 13:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B22C477E2A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Aug 2026 13:31:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787059109; cv=none; b=bFpVdrE/VtLAoqL1vLxBcU/mpxVD7qfIMD5UjUdAEPj9PYNw7Y5KfGlUE6++vqsKaOiL3PUZc2z0B6CHwqaBzz+UG4xv+Mrfm2JTOyc9VPoOfr5ymbjeONeVwol/e7s5+Sv/4boZEimYW0cn+P1zMaOu+/9nE0ZUXRPabq0QTaM=
+	t=1787059889; cv=none; b=K0gITfK4ZhNr0lIvFRLWT3Y1yAARwMttVpz18CzAToHKAHflz5OwhcVpzjiB6cUeVqg7l5LikgnFEhcI8pMX7s9Vka5Q4jGGvoTVfnC5DSYA7RrL4OSK6E2f7/mImz6yZFp4UIBzj4lNN3KoPia/ygcoaua7VaG4VG0EY0tPvCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787059109; c=relaxed/simple;
-	bh=h+ASz1Sxk4tkZxxV0S0Na4ZRPxYEdCspVR8Q45UYrjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=lxe+FeekcEFHwr/s69X2Zawzg4y5vhC1DudLEnWtrxbCm1PtVSIN0TMOo+5VXFiNAk/TQd5nU4AL7exh88lq0/kwhcb6xtxPCVPuMwJoU8gn94v6P5CboAlYbgjF3drgP35wfLyWGsoDwMM1dQgdJE1eddR8cj7qaVx40etOklk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bzx40j8m; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1787059889; c=relaxed/simple;
+	bh=FKYPyZX3LD388oo37o024z1f3NqhCl6LZf98CLBnoWM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VdQc3mxcqDQwKZcFDFjg544iDcznGHV0RTUoG4aFSDRJTbUlSA7DepBbADDXMGOYXQpUZkZAIYofzJ6hjYlHeGxaIQClvSVisgO41Qzg2V03pbrF0yeLKHCmprUVarAmDbrzwFRgEZV5ia7+Sb7aH2hjF1eMp8zSnWo6rimcNrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gCc91yFn; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bzx40j8m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gCc91yFn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787059107; x=1818595107;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h+ASz1Sxk4tkZxxV0S0Na4ZRPxYEdCspVR8Q45UYrjo=;
-  b=bzx40j8me5OzqCYpo/b+cEpmE0MuE/tWcFXvjz8S/vnBVTIaXfB/tLn7
-   LN9cYrjzU1RLKTi1IuU6+q8IozE+jp5JOOj9X17b/nyQvDmycYt0/VXbc
-   Gje76DfeHFNPj6QpipJKa8B3oOtf2YseqAgy7cbIaVWXyrpA4TTMMXBvG
-   rVMT3RKJpqSsZ9nM/JoBY5OmcG2dVp7kSRLehLtdSnMAmiIplWE3EVliV
-   ESARacPpdYfk1Z+Fmrb0xEBuSLGRfZlJtab/5Og3BFacyTjj139tEgq5R
-   Df60jKQB9BCO7lO49Hp9PrdMGvSpdMZc1yyJ6ylrKRsXO0jNuIj1/hxCB
-   w==;
-X-CSE-ConnectionGUID: 8fiEIUtERd+1Fgi73CqXHA==
-X-CSE-MsgGUID: 83sTG1ceRPeRpYrdjR/U+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="91420835"
+  t=1787059888; x=1818595888;
+  h=date:from:to:cc:subject:message-id;
+  bh=FKYPyZX3LD388oo37o024z1f3NqhCl6LZf98CLBnoWM=;
+  b=gCc91yFnxUsrPM4FTDF4qtemtuODfqyHHNoYgnwZJtCVk6bJv3uszp52
+   gl7PlcKbECbJ5W3yeeLoL6tjB/Jux7j8kf/ZjDYdvWgv4gqRI5OYKApPV
+   xewDRBciYJZwioYFW8ANHdEbbeTePtV7gLX3GLh/qPfrqnr3cBss736uQ
+   QtcgFt2A+YRXlpkuiZwMbvUw8X1nJ/qK/5dORT/V8ZWybsVAIVzSWOxx2
+   Z+ji8/ojfA2pWQ48BKVUnLclmY8DosvRQC2Z9gsw87tiQzOcfIQu2b/Wc
+   FtiTpmKPeTcjCnbTG1KyBw/b6m64IPVXqa+I3a4xZecP6UIQQl/yo/wZR
+   g==;
+X-CSE-ConnectionGUID: NhEXJCazRASKpQP0EJ6DjA==
+X-CSE-MsgGUID: gQrvFAofRhC18vldqC0q5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="91422217"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="91420835"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 06:18:27 -0700
-X-CSE-ConnectionGUID: 2mGobLqFQgu+pdioQWOETg==
-X-CSE-MsgGUID: akixx5CLQh6qbQtpDnczug==
+   d="scan'208";a="91422217"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 06:31:27 -0700
+X-CSE-ConnectionGUID: +G6x0oaLT1CoDjxYpDfD3w==
+X-CSE-MsgGUID: uhmLLeSVSWi2xLrUCShZtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="265836311"
+   d="scan'208";a="264785449"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Aug 2026 06:18:25 -0700
+  by orviesa008.jf.intel.com with ESMTP; 18 Aug 2026 06:31:25 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwJhu-00000000eLO-3PDk;
-	Tue, 18 Aug 2026 13:18:22 +0000
-Date: Tue, 18 Aug 2026 21:18:08 +0800
+	id 1wwJuV-00000000eLW-15hu;
+	Tue, 18 Aug 2026 13:31:23 +0000
+Date: Tue, 18 Aug 2026 21:31:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:folio-pool-v2-lockdep 14/21]
- kernel/locking/lockdep.c:6776:2: error: 'bootstrap_stack_trace' undeclared;
- did you mean 'save_stack_trace'?
-Message-ID: <202608182137.3ygq0RhO-lkp@intel.com>
+Subject: [kas:collapse/rfc-v1 65/76] mm/khugepaged.c:593:7: warning:
+ assignment to 'struct vm_area_struct *' from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202608182134.5PVOWpia-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git folio-pool-v2-lockdep
-head:   e77ee8289ea0755b0ee299348504d4568f942d71
-commit: 198cb0234063750d4125d2f5b3fd29f373fba200 [14/21] locking/lockdep: Migrate and compact stack trace entries into folio_scratchpad
-config: sparc64-randconfig-001-20260818 (https://download.01.org/0day-ci/archive/20260818/202608182137.3ygq0RhO-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git collapse/rfc-v1
+head:   efac4ce42bf9ea34a32d1563fe3370ee837a751f
+commit: 99f13a62a94d3cb1a452889bf38875e51c7cbee3 [65/76] mm/khugepaged: scan under a per-VMA read lock
+config: sparc64-randconfig-001-20260818 (https://download.01.org/0day-ci/archive/20260818/202608182134.5PVOWpia-lkp@intel.com/config)
 compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608182137.3ygq0RhO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608182134.5PVOWpia-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608182137.3ygq0RhO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608182134.5PVOWpia-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/locking/lockdep.c: In function 'lockdep_init':
->> kernel/locking/lockdep.c:6776:2: error: 'bootstrap_stack_trace' undeclared (first use in this function); did you mean 'save_stack_trace'?
-     bootstrap_stack_trace = early_stack_trace;
-     ^~~~~~~~~~~~~~~~~~~~~
-     save_stack_trace
-   kernel/locking/lockdep.c:6776:2: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/locking/lockdep.c:6776:26: error: 'early_stack_trace' undeclared (first use in this function); did you mean 'save_stack_trace'?
-     bootstrap_stack_trace = early_stack_trace;
-                             ^~~~~~~~~~~~~~~~~
-                             save_stack_trace
->> kernel/locking/lockdep.c:6777:2: error: 'bootstrap_stack_trace_in_use' undeclared (first use in this function); did you mean 'bootstrap_entries_in_use'?
-     bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     bootstrap_entries_in_use
->> kernel/locking/lockdep.c:6777:34: error: 'early_stack_trace_in_use' undeclared (first use in this function); did you mean 'save_stack_trace_user'?
-     bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~
-                                     save_stack_trace_user
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/sparc/include/asm/bug.h:25,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/sparc/include/asm/current.h:15,
-                    from include/linux/mutex.h:14,
-                    from kernel/locking/lockdep.c:30:
-   kernel/locking/lockdep.c: In function 'lockdep_boot_report':
-   kernel/locking/lockdep.c:6821:3: error: 'early_stack_trace_in_use' undeclared (first use in this function); did you mean 'save_stack_trace_user'?
-      early_stack_trace_in_use,
-      ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:483:19: note: in definition of macro 'printk_index_wrap'
-      _p_func(_fmt, ##__VA_ARGS__);    \
-                      ^~~~~~~~~~~
-   include/linux/printk.h:584:2: note: in expansion of macro 'printk'
-     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-     ^~~~~~
-   kernel/locking/lockdep.c:6818:2: note: in expansion of macro 'pr_info'
-     pr_info("lockdep: %lu/%lu bootstrap entries, %lu/%lu bootstrap traces used before buddy init, folio_pool active\n",
-     ^~~~~~~
->> kernel/locking/lockdep.c:6822:18: error: 'BOOTSTRAP_STACK_TRACE_ENTRIES' undeclared (first use in this function); did you mean 'MAX_STACK_TRACE_ENTRIES'?
-      (unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:483:19: note: in definition of macro 'printk_index_wrap'
-      _p_func(_fmt, ##__VA_ARGS__);    \
-                      ^~~~~~~~~~~
-   include/linux/printk.h:584:2: note: in expansion of macro 'printk'
-     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-     ^~~~~~
-   kernel/locking/lockdep.c:6818:2: note: in expansion of macro 'pr_info'
-     pr_info("lockdep: %lu/%lu bootstrap entries, %lu/%lu bootstrap traces used before buddy init, folio_pool active\n",
-     ^~~~~~~
-   kernel/locking/lockdep.c: In function 'lockdep_compact_boot_graph':
-   kernel/locking/lockdep.c:6844:26: error: 'lockdep_trace_scratchpad' undeclared (first use in this function); did you mean 'lockdep_trace_stats'?
-     folio_scratchpad_alloc(&lockdep_trace_scratchpad, sizeof(struct lock_trace) + 32 * sizeof(unsigned long),
-                             ^~~~~~~~~~~~~~~~~~~~~~~~
-                             lockdep_trace_stats
-   kernel/locking/lockdep.c:6844:59: error: invalid application of 'sizeof' to incomplete type 'struct lock_trace'
-     folio_scratchpad_alloc(&lockdep_trace_scratchpad, sizeof(struct lock_trace) + 32 * sizeof(unsigned long),
-                                                              ^~~~~~
-   In file included from include/linux/string.h:6,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/mutex.h:17,
-                    from kernel/locking/lockdep.c:30:
-   kernel/locking/lockdep.c:6854:29: error: 'stack_trace_hash' undeclared (first use in this function); did you mean 'stack_trace_save'?
-     for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
-                                ^~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
-    #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-                                    ^~~
-   In file included from arch/sparc/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/sparc/include/asm/current.h:15,
-                    from include/linux/mutex.h:14,
-                    from kernel/locking/lockdep.c:30:
-   include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
-    #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-                                                                                     ^
-   include/linux/compiler.h:205:28: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-    #define __must_be_array(a) __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-                               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-    #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-                                                              ^~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:6854:18: note: in expansion of macro 'ARRAY_SIZE'
-     for (i = 0; i < ARRAY_SIZE(stack_trace_hash); i++) {
-                     ^~~~~~~~~~
-   In file included from include/linux/list.h:5,
-                    from include/linux/mutex.h:15,
-                    from kernel/locking/lockdep.c:30:
-   include/linux/container_of.h:20:17: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     void *__mptr = (void *)(ptr);     \
-                    ^
-   include/linux/list.h:1183:40: note: in expansion of macro 'container_of'
-    #define hlist_entry(ptr, type, member) container_of(ptr,type,member)
-                                           ^~~~~~~~~~~~
-   include/linux/list.h:1194:15: note: in expansion of macro 'hlist_entry'
-        ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-                  ^~~~~~~~~~~
-   include/linux/list.h:1235:13: note: in expansion of macro 'hlist_entry_safe'
-     for (pos = hlist_entry_safe((head)->first, typeof(*pos), member);\
-                ^~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:6858:3: note: in expansion of macro 'hlist_for_each_entry_safe'
-      hlist_for_each_entry_safe(trace, n, &stack_trace_hash[i], hash_entry) {
-      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:31,
-                    from arch/sparc/include/asm/bug.h:25,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/sparc/include/asm/current.h:15,
-                    from include/linux/mutex.h:14,
-                    from kernel/locking/lockdep.c:30:
-   include/linux/container_of.h:21:28: error: invalid type argument of unary '*' (have 'int')
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                               ^~~~~~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                           ^~~~
-   include/linux/container_of.h:21:2: note: in expansion of macro 'static_assert'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-     ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:16: note: in expansion of macro '__same_type'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                   ^~~~~~~~~~~
-   include/linux/list.h:1183:40: note: in expansion of macro 'container_of'
-    #define hlist_entry(ptr, type, member) container_of(ptr,type,member)
-                                           ^~~~~~~~~~~~
-   include/linux/list.h:1194:15: note: in expansion of macro 'hlist_entry'
-        ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-                  ^~~~~~~~~~~
-   include/linux/list.h:1235:13: note: in expansion of macro 'hlist_entry_safe'
-     for (pos = hlist_entry_safe((head)->first, typeof(*pos), member);\
-                ^~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:6858:3: note: in expansion of macro 'hlist_for_each_entry_safe'
-      hlist_for_each_entry_safe(trace, n, &stack_trace_hash[i], hash_entry) {
+   mm/khugepaged.c: In function 'collapse_scan_mm_slot':
+   mm/khugepaged.c:593:9: error: implicit declaration of function 'lock_next_vma'; did you mean 'lock_set_class'? [-Werror=implicit-function-declaration]
+      vma = lock_next_vma(mm, &vmi, khugepaged_scan.address);
+            ^~~~~~~~~~~~~
+            lock_set_class
+>> mm/khugepaged.c:593:7: warning: assignment to 'struct vm_area_struct *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      vma = lock_next_vma(mm, &vmi, khugepaged_scan.address);
+          ^
+   cc1: some warnings being treated as errors
 
 
-vim +6776 kernel/locking/lockdep.c
+vim +593 mm/khugepaged.c
 
-  6771	
-  6772	void __init lockdep_init(void)
-  6773	{
-  6774		bootstrap_entries = early_list_entries;
-  6775		bootstrap_entries_in_use = early_list_entries_in_use;
-> 6776		bootstrap_stack_trace = early_stack_trace;
-> 6777		bootstrap_stack_trace_in_use = &early_stack_trace_in_use;
-  6778	
-  6779		pr_info("Lock dependency validator: Copyright (c) 2006 Red Hat, Inc., Ingo Molnar\n");
-  6780	
-  6781		pr_info("... MAX_LOCKDEP_SUBCLASSES:  %lu\n", MAX_LOCKDEP_SUBCLASSES);
-  6782		pr_info("... MAX_LOCK_DEPTH:          %lu\n", MAX_LOCK_DEPTH);
-  6783		pr_info("... MAX_LOCKDEP_KEYS:        %lu\n", MAX_LOCKDEP_KEYS);
-  6784		pr_info("... CLASSHASH_SIZE:          %lu\n", CLASSHASH_SIZE);
-  6785		pr_info("... MAX_LOCKDEP_ENTRIES:     %lu\n", MAX_LOCKDEP_ENTRIES);
-  6786		pr_info("... MAX_LOCKDEP_CHAINS:      %lu\n", MAX_LOCKDEP_CHAINS);
-  6787		pr_info("... CHAINHASH_SIZE:          %lu\n", CHAINHASH_SIZE);
-  6788	
-  6789		pr_info(" memory used by lock dependency info: %zu kB\n",
-  6790		       (sizeof(lock_classes) +
-  6791			sizeof(lock_classes_in_use) +
-  6792			sizeof(classhash_table) +
-  6793			sizeof(early_list_entries) +
-  6794			sizeof(early_list_entries_in_use) +
-  6795			sizeof(chainhash_table) +
-  6796			sizeof(delayed_free)
-  6797	#ifdef CONFIG_PROVE_LOCKING
-  6798			+ sizeof(lock_cq)
-  6799			+ sizeof(lock_chains)
-  6800			+ sizeof(lock_chains_in_use)
-  6801			+ sizeof(chain_hlocks)
-  6802	#endif
-  6803			) / 1024
-  6804			);
-  6805	
-  6806	#if defined(CONFIG_TRACE_IRQFLAGS) && defined(CONFIG_PROVE_LOCKING)
-  6807		pr_info(" memory used for stack traces: dynamic (bootstrap %zu kB)\n",
-  6808		       sizeof(early_stack_trace) / 1024
-  6809		       );
-  6810	#endif
-  6811	
-  6812		pr_info(" per task-struct memory footprint: %zu bytes\n",
-  6813		       sizeof(((struct task_struct *)NULL)->held_locks));
-  6814	}
-  6815	
-  6816	static int __init lockdep_boot_report(void)
-  6817	{
-  6818		pr_info("lockdep: %lu/%lu bootstrap entries, %lu/%lu bootstrap traces used before buddy init, folio_pool active\n",
-  6819			min_t(unsigned long, nr_list_entries, BOOTSTRAP_LOCKDEP_ENTRIES),
-  6820			BOOTSTRAP_LOCKDEP_ENTRIES,
-  6821			early_stack_trace_in_use,
-> 6822			(unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
-  6823		return 0;
-  6824	}
-  6825	core_initcall(lockdep_boot_report);
-  6826	
+   508	
+   509	static void collapse_scan_mm_slot(unsigned int progress_max,
+   510			enum scan_result *result, struct collapse_control *cc)
+   511		__releases(&khugepaged_mm_lock)
+   512		__acquires(&khugepaged_mm_lock)
+   513	{
+   514		struct mm_slot *slot;
+   515		struct mm_struct *mm;
+   516		struct vm_area_struct *vma;
+   517		bool scan_complete = false;
+   518		unsigned int progress_prev = cc->progress;
+   519	
+   520		lockdep_assert_held(&khugepaged_mm_lock);
+   521		*result = SCAN_FAIL;
+   522	
+   523		if (khugepaged_scan.mm_slot) {
+   524			slot = khugepaged_scan.mm_slot;
+   525		} else {
+   526			slot = list_first_entry(&khugepaged_scan.mm_head,
+   527					     struct mm_slot, mm_node);
+   528			khugepaged_scan.address = 0;
+   529			khugepaged_scan.mm_slot = slot;
+   530		}
+   531		spin_unlock(&khugepaged_mm_lock);
+   532	
+   533		mm = slot->mm;
+   534		vma = NULL;
+   535	
+   536		/*
+   537		 * Hold the address space open for the pass.  A collapse works under a
+   538		 * per-VMA read lock, and the barrier __khugepaged_exit() puts in front
+   539		 * of exit_mmap() -- mmap_write_lock() -- waits for a reader of
+   540		 * mmap_lock, not for a reader of one VMA.  A reference on mm_users
+   541		 * stops __mmput(), and so both of those, from starting at all.
+   542		 *
+   543		 * Once per pass rather than once per table: the reference is what makes
+   544		 * the address space safe to work on, and the pass is how long that is
+   545		 * wanted for.  Nothing else in mm takes it per unit of work -- DAMON
+   546		 * takes one per target and walks every region under it, swapoff one per
+   547		 * mm across the whole address space, userfaultfd one per call.  It is
+   548		 * dropped below before the exiting mm is judged, so that judgement still
+   549		 * sees the true count.
+   550		 */
+   551		if (!mmget_not_zero(mm))
+   552			goto breakouterloop_no_mmput;
+   553	
+   554		cc->progress++;
+   555	
+   556		/*
+   557		 * One VMA at a time, each held by its own read lock rather than by
+   558		 * mmap_lock over the whole address space.  lock_next_vma() locks what it
+   559		 * finds, falling back to mmap_lock only where it cannot.
+   560		 *
+   561		 * Whether this mm still wants collapsing is asked once, at the top of
+   562		 * each round of the loop.  Asking again before entering it only repeats
+   563		 * the same question: nothing between the two can answer it differently.
+   564		 */
+   565		for (;;) {
+   566			unsigned long hstart, hend, window;
+   567			struct vma_iterator vmi;
+   568			unsigned long orders;
+   569	
+   570			cond_resched();
+   571			/*
+   572			 * Our reference is the reason the count cannot fall to zero, so
+   573			 * it is also what an address space whose owner has gone looks
+   574			 * like.  Stopping is what frees it: nothing else here would.
+   575			 */
+   576			if (unlikely(collapse_test_exit_or_disable_mmref(mm))) {
+   577				cc->progress++;
+   578				goto breakouterloop;
+   579			}
+   580	
+   581			/*
+   582			 * Before a VMA is locked, so that a pass over an address space
+   583			 * of VMAs it skips is bounded by the budget too, and so that a
+   584			 * collapse returning here does not lock one to be told it is
+   585			 * out of budget.
+   586			 */
+   587			if (cc->progress >= progress_max)
+   588				goto breakouterloop;
+   589	
+   590			/* The first VMA at or after the cursor, which often sits in a gap */
+   591			rcu_read_lock();
+   592			vma_iter_init(&vmi, mm, khugepaged_scan.address);
+ > 593			vma = lock_next_vma(mm, &vmi, khugepaged_scan.address);
+   594			rcu_read_unlock();
+   595	
+   596			/*
+   597			 * NULL is the end of the address space, and the only thing that
+   598			 * finishes this mm.  An error is a fatal signal or the unlikely
+   599			 * reference count overflow: leave the mm for the next pass
+   600			 * rather than treat it as walked.
+   601			 */
+   602			if (IS_ERR_OR_NULL(vma)) {
+   603				scan_complete = !IS_ERR(vma);
+   604				vma = NULL;
+   605				goto breakouterloop;
+   606			}
+   607	
+   608			orders = collapse_possible_orders(vma, vma->vm_flags,
+   609							  TVA_KHUGEPAGED);
+   610			if (!orders) {
+   611				cc->progress++;
+   612				goto next_vma;
+   613			}
+   614	
+   615			/*
+   616			 * Coverage is rooted at windows of the largest order the VMA
+   617			 * allows: below the PMD order that reaches VMAs a whole table
+   618			 * would not fit in, and parts of a VMA that a whole table would
+   619			 * leave out.
+   620			 */
+   621			window = PAGE_SIZE << __fls(orders);
+   622			hstart = ALIGN(vma->vm_start, window);
+   623			hend = ALIGN_DOWN(vma->vm_end, window);
+   624			if (khugepaged_scan.address > hend) {
+   625				cc->progress++;
+   626				goto next_vma;
+   627			}
+   628			if (khugepaged_scan.address < hstart)
+   629				khugepaged_scan.address = hstart;
+   630	
+   631			while (khugepaged_scan.address < hend) {
+   632				unsigned long pmd_addr, range_end, start;
+   633	
+   634				cond_resched();
+   635	
+   636				if (unlikely(collapse_test_exit_or_disable_mmref(mm)) ||
+   637				    cc->progress >= progress_max) {
+   638					vma_end_read(vma);
+   639					vma = NULL;
+   640					goto breakouterloop;
+   641				}
+   642	
+   643				/* One table's worth at most, and never past the VMA */
+   644				pmd_addr = khugepaged_scan.address & HPAGE_PMD_MASK;
+   645				range_end = min(hend, pmd_addr + HPAGE_PMD_SIZE);
+   646				start = khugepaged_scan.address;
+   647	
+   648				VM_WARN_ON_ONCE(khugepaged_scan.address < hstart);
+   649				VM_WARN_ON_ONCE(range_end > hend);
+   650	
+   651				/* Move the cursor on regardless of what the scan says */
+   652				khugepaged_scan.address = range_end;
+   653	
+   654				/* If nothing to collapse, the lock is still ours */
+   655				if (!collapse_scan_pmd(vma, start, range_end, cc, orders)) {
+   656					*result = cc->scan_refusal;
+   657					continue;
+   658				}
+   659	
+   660				/* collapse_run_pmd() takes its own locks, so give this up */
+   661				vma_end_read(vma);
+   662				vma = NULL;
+   663	
+   664				*result = collapse_run_pmd(mm, start, range_end, cc);
+   665				if (*result == SCAN_SUCCEED)
+   666					khugepaged_pages_collapsed++;
+   667				goto breakouterloop;
+   668			}
+   669	next_vma:
+   670			/*
+   671			 * Past this VMA: the cursor has to move by hand, where the
+   672			 * mmap_lock iterator used to carry it.  A VMA that was walked
+   673			 * is charged by the scan itself, one table at a time; only one
+   674			 * passed over without being looked at is charged here.
+   675			 */
+   676			khugepaged_scan.address = vma->vm_end;
+   677			vma_end_read(vma);
+   678			vma = NULL;
+   679		}
+   680	
+   681	breakouterloop:
+   682		/*
+   683		 * Not mmput(): the last reference would run exit_mmap() here, and
+   684		 * khugepaged is not the thread that should tear an address space down.
+   685		 */
+   686		mmput_async(mm);
+   687	breakouterloop_no_mmput:
+   688	
+   689		spin_lock(&khugepaged_mm_lock);
+   690		VM_BUG_ON(khugepaged_scan.mm_slot != slot);
+   691		/*
+   692		 * Release the current mm_slot if this mm is about to die, or
+   693		 * if we scanned all vmas of this mm, or THP got disabled.
+   694		 */
+   695		if (collapse_test_exit_or_disable(mm) || scan_complete) {
+   696			/*
+   697			 * Make sure that if mm_users is reaching zero while
+   698			 * khugepaged runs here, khugepaged_exit will find
+   699			 * mm_slot not pointing to the exiting mm.
+   700			 */
+   701			if (!list_is_last(&slot->mm_node, &khugepaged_scan.mm_head)) {
+   702				khugepaged_scan.mm_slot = list_next_entry(slot, mm_node);
+   703				khugepaged_scan.address = 0;
+   704			} else {
+   705				khugepaged_scan.mm_slot = NULL;
+   706				khugepaged_full_scans++;
+   707			}
+   708	
+   709			collect_mm_slot(slot);
+   710		}
+   711	
+   712		trace_mm_khugepaged_scan(mm, cc->progress - progress_prev,
+   713					 khugepaged_scan.mm_slot == NULL);
+   714	}
+   715	
 
 --
 0-DAY CI Kernel Test Service
