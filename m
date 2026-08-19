@@ -1,57 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A373C108C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527E438B124
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 03:24:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787109851; cv=none; b=Ch7dd/AU0f9uD+rK53d9s1KwP3nGiRffeDJm84xV2iFMMJyJwAIrSk9fcSU3rXkuy9sHJOXUs4o3khCXHepO5YjboMZxJkj3qDPD+m6vL5Fa++B4LOw4hTFQ4aTfOimBHRXFY8ix+hs80TCuLB0JwO9GedS2Woh6Y0gN1KogTNk=
+	t=1787109853; cv=none; b=VZRO/AebSY3tK4yi6QmpvZ+BjMbqTPQqC0aTA9rn90HyZ6SKPUzeIulOadUdifIv8k10ecjxdqFKDKYGVBXljGHXQyoi3NSzgxc67KJ9nLDM37uuXmOH2WSk4H1HaQCDXk5ZrDM760bAxqYQWHiRzFl5zt3odRM/rxUROiETOP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787109851; c=relaxed/simple;
-	bh=v2zqESgo32HL0LUsvk312xVxeHworXWVJAUbgvLfjNY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MTv8PcDeumcZQwwra7QAArloqOV3mzgotBbbBqJGdAQPCKaOYnqSYr/deeLnyBz992MBSGosgYsTzIicQlU+afI8Y6ConY+vuxpdGhiwVodZRc5TcG6Ap6vI9p4tYTa+rHq7tKCVMjPCKnicHMttXg32L/zwpmUQGZObYE5NvOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NODJKItK; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1787109853; c=relaxed/simple;
+	bh=l76vAPN3VguzM2NS7goSOBIWz9UY2IRIBt8QY7CrUtk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pSFWbkw7QdfaPmF1lu78LPoszM6CqsNA5UXW3moqE/Pe1SpyAQxP+p9rvKA4mVhma4Qlqy+NoXxL18HJs7tDVBziaLzn4bhn+352J8Is3j1kAJjP82pntuRv7hFsDaHqoLMI7+amVNBt7XVcaWRj5Wx6HZ4gTBLD/1TLFlpjqRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JblP0mdr; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NODJKItK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JblP0mdr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787109850; x=1818645850;
+  t=1787109852; x=1818645852;
   h=date:from:to:cc:subject:message-id;
-  bh=v2zqESgo32HL0LUsvk312xVxeHworXWVJAUbgvLfjNY=;
-  b=NODJKItK3tlf457m+PHVBJh5TUyJgE6iK2wugjzyWzOlO9wiKk+dmRu/
-   PFKgMkFM/TYV6sGCMzsIZXN8CI5+7djJNnV2Solzdp8OMg63YWToNzxz/
-   Bjtc0w1wuJW5fg+Wvb4hYXkhXNhmcooRb7ZZxhLLYMW7J1R/zvtUUGRC/
-   ea9ydu2YpO3F89gA4cLjda3i9Z4Ql+b7kur+Yw9kNUyvQFaiTkdLjflg4
-   7FXDf80tzXo9Uj6GsliDxxbVj4zwihUwKj7amgdJ1r/wrlIMUcMYUWt19
-   M7OxrPkgmZg6fTWLL6dlCGRfvNSKowmBgf0neO0w3ceFuBRe3vAzwIjXi
-   A==;
-X-CSE-ConnectionGUID: 7OV1MSMxROGXkWAFVjtRyg==
-X-CSE-MsgGUID: 3GnF4UaNSWupZSK04g4z/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="90130506"
+  bh=l76vAPN3VguzM2NS7goSOBIWz9UY2IRIBt8QY7CrUtk=;
+  b=JblP0mdrMjz+U345iNAZoNY/cleEBrk8Rmfx3+fWqV3Cu8mqBSPQif2A
+   JAQ5Rwms0+6Cm0iBrtB5yKnqyvhCl4qswRlZ/valT+LC+767Po+1vyOLW
+   if0WYpZ4qjq20Vav1/Eq01AaogV7liw3kjSKfwhpP49rTK++/1bmy2a2T
+   dxsVse67c2BR4bvdwi+oIcGipMOha7FGdv/nN0Oco5Nyh5T5pLLp13chi
+   fIDioSBKEYcNp0CwL7bJGRh/aTOxT4KGE48uMKOF/ZHFnjmb2sibaOVBR
+   nRVs5rkJssT124NbQmZQHueupD1aoJ1Ko870nhb6IIBJItn7oxmL/nbv0
+   g==;
+X-CSE-ConnectionGUID: 2R/JjKumTX2gOhR7eumJiA==
+X-CSE-MsgGUID: 8y29fAEMSamh933ofXLRTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="90130507"
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="90130506"
+   d="scan'208";a="90130507"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 20:24:07 -0700
-X-CSE-ConnectionGUID: xF5qTniOSGyoecNSdun/nw==
-X-CSE-MsgGUID: 9FM441P2Rp+lsIms+n8RBQ==
+X-CSE-ConnectionGUID: Ynhs4khGSrOe1d3C81q21A==
+X-CSE-MsgGUID: U6KLSbuGQVq4qzB5xmifng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="269254094"
+   d="scan'208";a="269254096"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 18 Aug 2026 20:24:06 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwWuJ-00000000erE-1MxG;
+	id 1wwWuJ-00000000erC-1FiF;
 	Wed, 19 Aug 2026 03:24:03 +0000
-Date: Wed, 19 Aug 2026 11:23:08 +0800
+Date: Wed, 19 Aug 2026 11:23:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chao:feature/cache 8/13] fs/f2fs/data.c:61:30: warning:
- variable 'sbi' set but not used
-Message-ID: <202608191142.iuOMBM1T-lkp@intel.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Subject: [avpatel:riscv_trace_support_v5 86/108]
+ arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for
+ 'sbi_mpxy_read_attrs'
+Message-ID: <202608191132.4OQ2akyI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,56 +61,102 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/cache
-head:   cc6a23d8c232f588f3a5415d1b10a19e1e4ce860
-commit: f93483387c4c8dd531a818f52e740c1049d00de1 [8/13] f2fs: cache: use node cache
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260819/202608191142.iuOMBM1T-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191142.iuOMBM1T-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v5
+head:   e58ea3f194d326370813c549a76ecdfa211a4768
+commit: a81b95aa56abb5c8e32d24bcdd6d51cc998f1fcf [86/108] RISC-V: Move common MPXY helper routines to arch/riscv
+config: riscv-randconfig-r073-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191132.4OQ2akyI-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 16.1.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191132.4OQ2akyI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608191142.iuOMBM1T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608191132.4OQ2akyI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/f2fs/data.c: In function 'f2fs_is_cp_guaranteed':
->> fs/f2fs/data.c:61:30: warning: variable 'sbi' set but not used [-Wunused-but-set-variable]
-      61 |         struct f2fs_sb_info *sbi;
-         |                              ^~~
+   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12,
+                    from arch/riscv/include/asm/kvm_host.h:25,
+                    from arch/riscv/kernel/asm-offsets.c:13:
+>> arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
+     799 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^~~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/sbi.h:805:5: warning: no previous prototype for 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
+     805 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/sbi.h:811:5: warning: no previous prototype for 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
+     811 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/sbi.h:819:5: warning: no previous prototype for 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
+     819 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/sbi.h:826:39: warning: 'struct sbi_mpxy_notification_data' declared inside parameter list will not be visible outside of this definition or declaration
+     826 |                                struct sbi_mpxy_notification_data *notif_data,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/sbi.h:825:5: warning: no previous prototype for 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
+     825 | int sbi_mpxy_get_notifications(u32 channel_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12,
+                    from arch/riscv/include/asm/kvm_host.h:25,
+                    from arch/riscv/kernel/asm-offsets.c:13:
+>> arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
+     799 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^~~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/sbi.h:805:5: warning: no previous prototype for 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
+     805 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/sbi.h:811:5: warning: no previous prototype for 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
+     811 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/sbi.h:819:5: warning: no previous prototype for 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
+     819 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/sbi.h:826:39: warning: 'struct sbi_mpxy_notification_data' declared inside parameter list will not be visible outside of this definition or declaration
+     826 |                                struct sbi_mpxy_notification_data *notif_data,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/sbi.h:825:5: warning: no previous prototype for 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
+     825 | int sbi_mpxy_get_notifications(u32 channel_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/sbi +61 fs/f2fs/data.c
+vim +/sbi_mpxy_read_attrs +799 arch/riscv/include/asm/sbi.h
 
-f543805fcd60f3 Chao Yu                 2019-12-04  56  
-d6966e7ed280ca Matthew Wilcox (Oracle  2025-07-08  57) bool f2fs_is_cp_guaranteed(const struct folio *folio)
-36951b38d13ac7 Chao Yu                 2016-11-16  58  {
-a824388d911927 Matthew Wilcox (Oracle  2025-07-08  59) 	struct address_space *mapping = folio->mapping;
-36951b38d13ac7 Chao Yu                 2016-11-16  60  	struct inode *inode;
-36951b38d13ac7 Chao Yu                 2016-11-16 @61  	struct f2fs_sb_info *sbi;
-36951b38d13ac7 Chao Yu                 2016-11-16  62  
-a824388d911927 Matthew Wilcox (Oracle  2025-07-08  63) 	if (fscrypt_is_bounce_folio(folio))
-a824388d911927 Matthew Wilcox (Oracle  2025-07-08  64) 		return folio_test_f2fs_gcing(fscrypt_pagecache_folio(folio));
-36951b38d13ac7 Chao Yu                 2016-11-16  65  
-36951b38d13ac7 Chao Yu                 2016-11-16  66  	inode = mapping->host;
-36951b38d13ac7 Chao Yu                 2016-11-16  67  	sbi = F2FS_I_SB(inode);
-36951b38d13ac7 Chao Yu                 2016-11-16  68  
-f93483387c4c8d Chao Yu                 2026-08-18  69  	if (S_ISDIR(inode->i_mode))
-b763f3bedc2da2 Chao Yu                 2021-04-28  70  		return true;
-b763f3bedc2da2 Chao Yu                 2021-04-28  71  
-3db1de0e582c35 Daeho Jeong             2022-04-28  72  	if ((S_ISREG(inode->i_mode) && IS_NOQUOTA(inode)) ||
-a824388d911927 Matthew Wilcox (Oracle  2025-07-08  73) 			folio_test_f2fs_gcing(folio))
-36951b38d13ac7 Chao Yu                 2016-11-16  74  		return true;
-36951b38d13ac7 Chao Yu                 2016-11-16  75  	return false;
-36951b38d13ac7 Chao Yu                 2016-11-16  76  }
-36951b38d13ac7 Chao Yu                 2016-11-16  77  
-
-:::::: The code at line 61 was first introduced by commit
-:::::: 36951b38d13ac7cce9fcf89e0e01c22ed0d05688 f2fs: don't wait writeback for datas during checkpoint
-
-:::::: TO: Chao Yu <yuchao0@huawei.com>
-:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
+   798	
+ > 799	int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+   800				u32 *attrs_buf)
+   801	{
+   802		return -ENODEV;
+   803	}
+   804	
+ > 805	int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+   806				 u32 *attrs_buf)
+   807	{
+   808		return -ENODEV;
+   809	}
+   810	
+ > 811	int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+   812					    void *tx, unsigned long tx_len,
+   813					    void *rx, unsigned long max_rx_len,
+   814					    unsigned long *rx_len)
+   815	{
+   816		return -ENODEV;
+   817	}
+   818	
+ > 819	int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+   820					       void *tx, unsigned long tx_len)
+   821	{
+   822		return -ENODEV;
+   823	}
+   824	
+ > 825	int sbi_mpxy_get_notifications(u32 channel_id,
+   826				       struct sbi_mpxy_notification_data *notif_data,
+   827				       unsigned long *events_data_len)
+   828	{
+   829		return -ENODEV;
+   830	}
+   831	
 
 --
 0-DAY CI Kernel Test Service
