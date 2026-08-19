@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F59B38BF69;
-	Wed, 19 Aug 2026 01:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9095338911E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 01:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787101932; cv=none; b=GfDY5XiDDi4tAmIcxH58BsevplpocMABdgOwcKd/UBMtg0EwNxLBg2SgmCNaMWQUGt/UnhFnQI6JN9u3j/krDap4WCoWBEfeiUwo/RpjNHmnhH0PWs9um4a5cvM8jo0JIXn8JGxVA29MI0OG/90Y0iSDXfdViH3/dV1hSqw+bBk=
+	t=1787104437; cv=none; b=EBx+5vmiSE2beo1hshMP1Y0agUVKYm3Zufs0zkUdXUPOYNxidAhQzxTDq+T5/pC1LMxcZjGP5RL8g5730Xep8vQF8RT6nEu0Wf2eoeY4dJKm/mR5HG4vpLAILI+FQQSwzXJO4nbLVXmQA54Co0GlHSEKs2xNfAtiMKYUMnKwgzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787101932; c=relaxed/simple;
-	bh=0nKWSLzU2mejXrdPy3Hh1s0eX5r610iTw5Imr7vQeGA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ujDJSW0jtYWNXuee7Uc6qEDQzTzsN5nWCmIQuhv5o3uHux79LA+iccbvGB702icKJrdVAZ7iomauWjZU79WsowZTmBTWsWy/GNYeRaFv3mjab7POYkdxC3EFM1+vvpPDIoqkpdlgGY2/eKJNp7kK37sJm1HIGU979HUBjnQBuMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SJMP+n1D; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1787104437; c=relaxed/simple;
+	bh=/OfaoOqWsFmn3DwfU/crQjCS0zT/jrqHlrtMHHLt9xg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WLqYA2gXsPk0nDbWwvWgMLDewoyf1MNX2aCrZzdkpWxuaPBRkx2S76afHun2q3/HpaZxMRR6MT5YHLC6RLo0ZffhkH1ZMxmsT+IXeA+Js1DLzUPIETC2uVIcG3RkVZv+iBOijmEMvWCjWall+XNzaF7fJKrU23CNwgXpZgw2Z0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cR/whCr1; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SJMP+n1D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cR/whCr1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787101930; x=1818637930;
+  t=1787104435; x=1818640435;
   h=date:from:to:cc:subject:message-id;
-  bh=0nKWSLzU2mejXrdPy3Hh1s0eX5r610iTw5Imr7vQeGA=;
-  b=SJMP+n1DjXVQnjv2f0VN7DRYBc90jqVsQufrT8OBM8Ahdh0auRDEt3Pv
-   8TgzrzjHk76/TRavyyNi8M0rTmeEyO07AOyL7Lxg2AkEWQAw1pgy36Hhd
-   0TyHmAv01tLRLsUNEaNoTXb813FH0Ufu5mCeA2UoQZQGIvsqgzBznubtZ
-   BQycAMrvbXeYpexG2+V8Yzc1iIJZSrbII3H60SJin1sBkcKd75QQ0/ay7
-   YKlvdTiXQ3oCap+iUmk37U2qgUuWdtOjb8ugcBdS8LDkHzDSah3GO2OVS
-   RTZ6fsuCZB6ecvFzmNU5AzkDxzBwwKW8LuTXf2amGATkhI+eSRvhC2BiG
-   w==;
-X-CSE-ConnectionGUID: i38QF/q8S3i9SIVXlZvDSA==
-X-CSE-MsgGUID: jN8Sq6XiQp+cZR8TBL/gbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="87367265"
+  bh=/OfaoOqWsFmn3DwfU/crQjCS0zT/jrqHlrtMHHLt9xg=;
+  b=cR/whCr1ULdhu0Rqtu0NeGTv6E5gSNVFrdFNzRn9IH0p4VokNeb+buPi
+   E7rUoa6TR1N5JjrVkP0Hsz9PDn36Jdvx/S/U/3nTMFBvQRO618Mqs7nbe
+   wa/UgFRPqj8iJivMt+pPA3ShbGKdAXnXueZp1XCrdASmhJtiBHK1im14w
+   1NhnaxgTNQxPE0MoYTFEF9QDlo6LS/cuRZJ6yYNBdYWhpyCPM+VQeOL3+
+   fuRtgJjFgJQFuw6V6ZvBdBbs9gGlVgbgCvTLXWkIfYqGmG4tItm/UFW0K
+   j4aGGK7pGCA/GEwaFa+eRcoLqFf2Gov1q1KX7ZxfdQELc1CA/ShjkOWeD
+   g==;
+X-CSE-ConnectionGUID: gB65RhVOTRalUHmS3k6qPQ==
+X-CSE-MsgGUID: UE3hvGXPQemNonu+GayCgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="104988792"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87367265"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 18:12:10 -0700
-X-CSE-ConnectionGUID: NsfMHffqTwySFcSX9F6hGQ==
-X-CSE-MsgGUID: 1bijJAfQRCKt8vRim3IuGA==
+   d="scan'208";a="104988792"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 18:53:54 -0700
+X-CSE-ConnectionGUID: bH9yS/T2QdS3EH5mrCIIcA==
+X-CSE-MsgGUID: 6VLJSynxSA+Io+Ee9wcCuw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="259205411"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Aug 2026 18:12:07 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 18 Aug 2026 18:53:52 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwUqb-000000007L3-1O11;
-	Wed, 19 Aug 2026 01:12:05 +0000
-Date: Wed, 19 Aug 2026 03:11:29 +0200
+	id 1wwVUz-00000000ena-3OE6;
+	Wed, 19 Aug 2026 01:53:49 +0000
+Date: Wed, 19 Aug 2026 09:53:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [chao:feature/cache 8/13] fs/f2fs/data.c:61:23: warning:
- variable 'sbi' set but not used
-Message-ID: <202608190320.yN1NeKmO-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 0/32] fs/f2fs/f2fs.h:2392:47:
+ error: 'struct f2fs_rwsem' has no member named 'read_waiters'
+Message-ID: <202608190824.NpXWcfW1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,56 +57,46 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/cache
-head:   cc6a23d8c232f588f3a5415d1b10a19e1e4ce860
-commit: f93483387c4c8dd531a818f52e740c1049d00de1 [8/13] f2fs: cache: use node cache
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260819/202608190320.yN1NeKmO-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608190320.yN1NeKmO-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   5c36f73a41f1533cae407eba882ca2940e1775f1
+commit: 4e1c4268094aed2888ea52c2626905886854a5c2 [0/32] ANDROID: vendor_hooks: add hooks for f2fs down read
+config: i386-randconfig-002-20260818 (https://download.01.org/0day-ci/archive/20260819/202608190824.NpXWcfW1-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608190824.NpXWcfW1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608190320.yN1NeKmO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608190824.NpXWcfW1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/f2fs/data.c:61:23: warning: variable 'sbi' set but not used [-Wunused-but-set-variable]
-      61 |         struct f2fs_sb_info *sbi;
-         |                              ^
-   1 warning generated.
+   In file included from fs/f2fs/hash.c:18:
+   fs/f2fs/f2fs.h: In function 'f2fs_down_read':
+>> fs/f2fs/f2fs.h:2392:47: error: 'struct f2fs_rwsem' has no member named 'read_waiters'
+    2392 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
+         |                                               ^~
 
 
-vim +/sbi +61 fs/f2fs/data.c
+vim +2392 fs/f2fs/f2fs.h
 
-f543805fcd60f3 Chao Yu                 2019-12-04  56  
-d6966e7ed280ca Matthew Wilcox (Oracle  2025-07-08  57) bool f2fs_is_cp_guaranteed(const struct folio *folio)
-36951b38d13ac7 Chao Yu                 2016-11-16  58  {
-a824388d911927 Matthew Wilcox (Oracle  2025-07-08  59) 	struct address_space *mapping = folio->mapping;
-36951b38d13ac7 Chao Yu                 2016-11-16  60  	struct inode *inode;
-36951b38d13ac7 Chao Yu                 2016-11-16 @61  	struct f2fs_sb_info *sbi;
-36951b38d13ac7 Chao Yu                 2016-11-16  62  
-a824388d911927 Matthew Wilcox (Oracle  2025-07-08  63) 	if (fscrypt_is_bounce_folio(folio))
-a824388d911927 Matthew Wilcox (Oracle  2025-07-08  64) 		return folio_test_f2fs_gcing(fscrypt_pagecache_folio(folio));
-36951b38d13ac7 Chao Yu                 2016-11-16  65  
-36951b38d13ac7 Chao Yu                 2016-11-16  66  	inode = mapping->host;
-36951b38d13ac7 Chao Yu                 2016-11-16  67  	sbi = F2FS_I_SB(inode);
-36951b38d13ac7 Chao Yu                 2016-11-16  68  
-f93483387c4c8d Chao Yu                 2026-08-18  69  	if (S_ISDIR(inode->i_mode))
-b763f3bedc2da2 Chao Yu                 2021-04-28  70  		return true;
-b763f3bedc2da2 Chao Yu                 2021-04-28  71  
-3db1de0e582c35 Daeho Jeong             2022-04-28  72  	if ((S_ISREG(inode->i_mode) && IS_NOQUOTA(inode)) ||
-a824388d911927 Matthew Wilcox (Oracle  2025-07-08  73) 			folio_test_f2fs_gcing(folio))
-36951b38d13ac7 Chao Yu                 2016-11-16  74  		return true;
-36951b38d13ac7 Chao Yu                 2016-11-16  75  	return false;
-36951b38d13ac7 Chao Yu                 2016-11-16  76  }
-36951b38d13ac7 Chao Yu                 2016-11-16  77  
-
-:::::: The code at line 61 was first introduced by commit
-:::::: 36951b38d13ac7cce9fcf89e0e01c22ed0d05688 f2fs: don't wait writeback for datas during checkpoint
-
-:::::: TO: Chao Yu <yuchao0@huawei.com>
-:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
+  2385	
+  2386	void _trace_android_rvh_f2fs_down_read(wait_queue_head_t *read_waiters,
+  2387					   struct rw_semaphore *rwsem, bool *skip);
+  2388	
+  2389	static inline void f2fs_down_read(struct f2fs_rwsem *sem)
+  2390	{
+  2391		bool skip = false;
+> 2392		_trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
+  2393		if (skip)
+  2394			return;
+  2395	#ifdef CONFIG_F2FS_UNFAIR_RWSEM
+  2396		wait_event(sem->read_waiters, down_read_trylock(&sem->internal_rwsem));
+  2397	#else
+  2398		down_read(&sem->internal_rwsem);
+  2399	#endif
+  2400	}
+  2401	
 
 --
 0-DAY CI Kernel Test Service
