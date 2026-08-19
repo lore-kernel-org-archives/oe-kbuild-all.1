@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A5043B4B2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 09:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25671402B8A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 09:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787131681; cv=none; b=jXwzCvOgF5i83R8wdsQL67bvC/6wi2+31Zwjfe+AGMgh4TW9HxqnVa+Da3Qi68ysexN//6/yoXoVBILN8ssLl9mnv1rg6nXhb4lGSixkpVe7Gt8pf9MTnU/SDtHpCNTrtAAp0wzdtx2AJgNphEWY26ubeyIfY9gHbtoJswJcF0s=
+	t=1787132232; cv=none; b=UaiZCuCQK2ZcVeS7vxwan5RfI0FAgwi2lle6LIEkUWtLuKxhH9hQru/O+/ltjIPC2PPyVL5nx+6LjjbjwPvTQJQWistCduxsWaWMrsLGYBhqtt/H5dJJxIvSqq2FqYsxFWcya+Tnb7bnGjD1uW9dzmcqjGvdiYPyh58Lbyl9K1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787131681; c=relaxed/simple;
-	bh=LgNfmz3rbkiDx+RA5lmUJc9/naPyormm7NsXgwopTHg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=u6tuFrTVqMYkxIQcXPdgVcJCtkHcOKFMp1Phc2Z9F0DYy91po9w2MCAicZ8yBWE4ieLqFrr/Odt35QxRcK7o97j89k077OJilILO5d6GsH1vunw5giAIXQbCFjLrpW7rnaS3uAhpQOqbaDu/Mr8zptzNzjNg5vD8QFpkwEnfxHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXFFTre1; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1787132232; c=relaxed/simple;
+	bh=Pkk56UhXNUwuMiFfh3EkZyfbky2uzihOpy+35lWnefQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=t1YkTalUbDqENhymemtO7A0xw7cZ9JB+EM85znkxAoDg3Cnx3hAbhZQmLoThUbueRlcgs2UFXuGTynkzM8eljbK0AAG7l8wdIQ0aC9WPq9UdDYLXz7pgwGIx5ajFB5baADAyQh/bXrebhcUKaLml9afpDu1gJivmqC16guGS3lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=esM19kcV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXFFTre1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="esM19kcV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787131678; x=1818667678;
+  t=1787132232; x=1818668232;
   h=date:from:to:cc:subject:message-id;
-  bh=LgNfmz3rbkiDx+RA5lmUJc9/naPyormm7NsXgwopTHg=;
-  b=HXFFTre1yYp+CgpktL3HWXJFp0mpwClKtrIZ+Jmcw/iJVuSJghJkKxxH
-   FsEfjBbCdCzBfQcDRnrkb8pt3I9F6MogqmbR2iY6BfIIEsSh3liW62L69
-   2ucbNFmSH0HoJkTEBY8a673Hw7uZ1WZBlHuejaqFVRZJCGCzOiMz9+FLt
-   XZyaYVO591AXZoYFXr8RDZwDRT7AyqHL87scRWS4HP4ctYxk74NGOMKGV
-   9xP7yzfDM6ptYxgnyJo8GoEAX2ZNI96pPwD9du3XDGQqi/CDyJzkwq2su
-   x9GV1bEMfowCKJ3SUIfclrXuXsbddAQtM7LEgH9a2nzt1LwEXQvcy8XJX
+  bh=Pkk56UhXNUwuMiFfh3EkZyfbky2uzihOpy+35lWnefQ=;
+  b=esM19kcVKGNcDqo0amQUQiRucYHEGyLpQKlIf+7wSrTSw0GoKZKOZn1a
+   IulWkzD8dZlyS8CgdLW/KSlVXpFgDfo4V9KZRCZHJz58WAHZleYuaxeg4
+   7nhL7vAc0Ef1VwAS9tsGV/KpS6AJJlegbv6N4R8OvSgqyceUJqiBKs/DB
+   SnRFDe0wvIhwPgPVG0n67QcxxgEG4xay6HwCExi7YOMnizQCadq63QnGk
+   HMyx2P42qKMAPGBvQWF2SOhIv7W5+Ajfv/Az142HMPSou/PwjNa5e9uov
+   GUxI6RQoKNE6aWRPRF/JumruZa2XbOP+Cgw3AW1KYqO5qTSmvwZVrnF9n
    w==;
-X-CSE-ConnectionGUID: 3Vl/46Z5SaWVcMbPFYrrvA==
-X-CSE-MsgGUID: WdusUqC2RBa3ndFsCtC+rQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="87762058"
+X-CSE-ConnectionGUID: EwjKd4ySSxibJD6Zmg6BEw==
+X-CSE-MsgGUID: kPB/AUF7QrOPysMsMcTTyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="99167648"
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="87762058"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 02:27:53 -0700
-X-CSE-ConnectionGUID: 8mqJcMJ/RuWhMewQC/nb2A==
-X-CSE-MsgGUID: przJdmXaRwWkpVDb+3+PHw==
+   d="scan'208";a="99167648"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 02:37:11 -0700
+X-CSE-ConnectionGUID: RrccwPsOQVW3qKgEvqbr+Q==
+X-CSE-MsgGUID: 0e6tHwiFT/OLL3Z75l4D1g==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Aug 2026 02:27:52 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
+   d="scan'208";a="295405398"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 19 Aug 2026 02:37:10 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwcaL-00000000f10-0t4E;
-	Wed, 19 Aug 2026 09:27:49 +0000
-Date: Wed, 19 Aug 2026 17:27:33 +0800
+	id 1wwcjL-000000007Mf-0MO4;
+	Wed, 19 Aug 2026 09:37:07 +0000
+Date: Wed, 19 Aug 2026 11:36:34 +0200
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:7.2/prjc 651/740] kernel/sched/alt_sched.h:334:25:
- sparse: sparse: incompatible types in comparison expression (different
- address spaces):
-Message-ID: <202608191732.ytq7bc3P-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ arm@kernel.org
+Subject: [soc:board-remove 198/200] htmldocs:
+ Documentation/hwmon/index.rst:19: WARNING: toctree contains reference to
+ nonexisting document 'hwmon/max197' [toc.not_readable]
+Message-ID: <202608191100.NpT4Y8jp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,39 +61,36 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/zen-kernel/zen-kernel 7.2/prjc
-head:   b735d8ec47d31db8e62d1925521a44d98c1cac2d
-commit: add9dba34cde0a2265b292326f8318bf0fd733ef [651/740] sched/alt: [Sync] 6199f9999a9b sched/cputime: Handle dyntick-idle steal time correctly
-config: m68k-randconfig-r122-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191732.ytq7bc3P-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191732.ytq7bc3P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
+head:   c12d647b0229f4d75a2973c9b4e79f9b53406426
+commit: ac9888639e961ae0a4bceac5a00698724ae1a940 [198/200] remaining driver removal
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260819/202608191100.NpT4Y8jp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608191732.ytq7bc3P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608191100.NpT4Y8jp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/build_policy.c: note: in included file (through kernel/sched/sched.h):
->> kernel/sched/alt_sched.h:334:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/alt_sched.h:334:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/alt_sched.h:334:25: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +334 kernel/sched/alt_sched.h
+   Runtime Survivability
+   ===================== [docutils]
+>> Documentation/hwmon/index.rst:19: WARNING: toctree contains reference to nonexisting document 'hwmon/max197' [toc.not_readable]
+   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
 
-2f7ec82370cbb7 Alfred Chen 2019-08-19  331  
-e6d6a4e78f98f6 Alfred Chen 2026-01-19  332  static inline bool idle_rq(struct rq *rq)
-e6d6a4e78f98f6 Alfred Chen 2026-01-19  333  {
-e6d6a4e78f98f6 Alfred Chen 2026-01-19 @334  	return rq->curr == rq->idle && !rq->nr_running && !rq->ttwu_pending;
-e6d6a4e78f98f6 Alfred Chen 2026-01-19  335  }
-e6d6a4e78f98f6 Alfred Chen 2026-01-19  336  
 
-:::::: The code at line 334 was first introduced by commit
-:::::: e6d6a4e78f98f667774453eb1b15379f06183e1f sched/alt: [Sync] 1e0a2ba7afb1 sched: Provide idle_rq() helper
+vim +19 Documentation/hwmon/index.rst
 
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+7ebd8b66dd9e5a Mauro Carvalho Chehab 2019-04-17  18  
+7ebd8b66dd9e5a Mauro Carvalho Chehab 2019-04-17 @19  .. toctree::
+
+:::::: The code at line 19 was first introduced by commit
+:::::: 7ebd8b66dd9e5a0b65e5ee5e2b8e7ca382ec97b7 docs: hwmon: Add an index file and rename docs to *.rst
+
+:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+:::::: CC: Guenter Roeck <linux@roeck-us.net>
 
 --
 0-DAY CI Kernel Test Service
