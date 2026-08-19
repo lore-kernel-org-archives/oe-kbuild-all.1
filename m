@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527E438B124
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 03:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA6638BF6A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 03:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787109853; cv=none; b=VZRO/AebSY3tK4yi6QmpvZ+BjMbqTPQqC0aTA9rn90HyZ6SKPUzeIulOadUdifIv8k10ecjxdqFKDKYGVBXljGHXQyoi3NSzgxc67KJ9nLDM37uuXmOH2WSk4H1HaQCDXk5ZrDM760bAxqYQWHiRzFl5zt3odRM/rxUROiETOP8=
+	t=1787110510; cv=none; b=I9huOFcP9VgTUJrxQv8u8HJ+hICdJXRIgXHGJw3OEbQQ29dNeYyS6zDVqGNHuLXyX9j0Qqg2jZd1tPPAqEzLgv7fkUF9QZhd7DCWKHdgoZ4cmEYzN4F5A2gOTKA0KjQDjEjLjR/rp8qZA+t/3Mo18bGL2lsh4g1cjl39fSE+EzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787109853; c=relaxed/simple;
-	bh=l76vAPN3VguzM2NS7goSOBIWz9UY2IRIBt8QY7CrUtk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pSFWbkw7QdfaPmF1lu78LPoszM6CqsNA5UXW3moqE/Pe1SpyAQxP+p9rvKA4mVhma4Qlqy+NoXxL18HJs7tDVBziaLzn4bhn+352J8Is3j1kAJjP82pntuRv7hFsDaHqoLMI7+amVNBt7XVcaWRj5Wx6HZ4gTBLD/1TLFlpjqRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JblP0mdr; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1787110510; c=relaxed/simple;
+	bh=byQ9+mN5gix4sX3p7MwLeWXlZydKOtDI4F1xDg7GI1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OcRkPyEvP9IXCv8MSxk5SlQgsoNYVJ7hbryuSHrcnE+FOKHTlyas+v9OjKqIrzO4gfWDF5I4DGG11H3jKfHLL2RoAMY9lM+9vJ5UgMF9rHag1XWMSsWn2a0nzE3tMZW9wpDyLIjk9zzas8NJDlyrsYEdbN1n71sSNxx1kNDXY90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FaJBqgQR; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JblP0mdr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FaJBqgQR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787109852; x=1818645852;
+  t=1787110508; x=1818646508;
   h=date:from:to:cc:subject:message-id;
-  bh=l76vAPN3VguzM2NS7goSOBIWz9UY2IRIBt8QY7CrUtk=;
-  b=JblP0mdrMjz+U345iNAZoNY/cleEBrk8Rmfx3+fWqV3Cu8mqBSPQif2A
-   JAQ5Rwms0+6Cm0iBrtB5yKnqyvhCl4qswRlZ/valT+LC+767Po+1vyOLW
-   if0WYpZ4qjq20Vav1/Eq01AaogV7liw3kjSKfwhpP49rTK++/1bmy2a2T
-   dxsVse67c2BR4bvdwi+oIcGipMOha7FGdv/nN0Oco5Nyh5T5pLLp13chi
-   fIDioSBKEYcNp0CwL7bJGRh/aTOxT4KGE48uMKOF/ZHFnjmb2sibaOVBR
-   nRVs5rkJssT124NbQmZQHueupD1aoJ1Ko870nhb6IIBJItn7oxmL/nbv0
-   g==;
-X-CSE-ConnectionGUID: 2R/JjKumTX2gOhR7eumJiA==
-X-CSE-MsgGUID: 8y29fAEMSamh933ofXLRTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="90130507"
+  bh=byQ9+mN5gix4sX3p7MwLeWXlZydKOtDI4F1xDg7GI1Y=;
+  b=FaJBqgQRPrQM0HHDa8ixqmvgNY7OcBAxJ18/31D2JDEQNe+bzzp8ytAR
+   606Ah9CutnRQLHrFi8bZShMnQBuTXET186XG+u/juAtdkItbxoitDp10y
+   AJMukObRRax2BM1NRVX4108qcCf8OO8CYvlnDYyL9YJNBbn1a7yDqjR6q
+   HwFI778LK+cQOhvqtMxrbnE01wxmLBXpFujJ4c2PvcMt4nDpZqcAVse3l
+   uqmlFx6R+6T03XOhgJBKzxpZpi+33dVoCn0B6vYLYwf+LcLNM7DjeTUps
+   qD8Hcgr/YEEUr7DrPUR+3pqkeFqJ4ifYi+KLnsqGZLq5G0hRsEGvUjylG
+   Q==;
+X-CSE-ConnectionGUID: q0hT6dyDTfqvGtg6yc7UEQ==
+X-CSE-MsgGUID: Vy2tLLHTSneFAOf1bm+QOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="110397321"
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="90130507"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 20:24:07 -0700
-X-CSE-ConnectionGUID: Ynhs4khGSrOe1d3C81q21A==
-X-CSE-MsgGUID: U6KLSbuGQVq4qzB5xmifng==
+   d="scan'208";a="110397321"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 20:35:07 -0700
+X-CSE-ConnectionGUID: RMS+aBDLQvm9DLI4gU2ZrA==
+X-CSE-MsgGUID: DJpcHhmlQPqbfElo4kMMlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="269254096"
+   d="scan'208";a="303626716"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Aug 2026 20:24:06 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Aug 2026 20:35:07 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwWuJ-00000000erC-1FiF;
-	Wed, 19 Aug 2026 03:24:03 +0000
-Date: Wed, 19 Aug 2026 11:23:10 +0800
+	id 1wwX4x-00000000era-2l4c;
+	Wed, 19 Aug 2026 03:35:03 +0000
+Date: Wed, 19 Aug 2026 11:34:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Subject: [avpatel:riscv_trace_support_v5 86/108]
- arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for
- 'sbi_mpxy_read_attrs'
-Message-ID: <202608191132.4OQ2akyI-lkp@intel.com>
+To: Dave Airlie <airlied@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 13/55]
+ drivers/gpu/drm/xe/xe_device.c:51:10: fatal error: xe_log.h: No such file or
+ directory
+Message-ID: <202608191120.4qS1lHiP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,102 +61,333 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v5
-head:   e58ea3f194d326370813c549a76ecdfa211a4768
-commit: a81b95aa56abb5c8e32d24bcdd6d51cc998f1fcf [86/108] RISC-V: Move common MPXY helper routines to arch/riscv
-config: riscv-randconfig-r073-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191132.4OQ2akyI-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191132.4OQ2akyI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   03fb6a6169e563cfc4ad01bac2578fa412a343d3
+commit: 20a18e2d8ff4fe20a2620818fba2a8fca44d7b25 [13/55] Merge remote-tracking branch 'drm/drm-next' into renesas-drivers
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260819/202608191120.4qS1lHiP-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191120.4qS1lHiP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608191132.4OQ2akyI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608191120.4qS1lHiP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12,
-                    from arch/riscv/include/asm/kvm_host.h:25,
-                    from arch/riscv/kernel/asm-offsets.c:13:
->> arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     799 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:805:5: warning: no previous prototype for 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     805 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:811:5: warning: no previous prototype for 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     811 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:819:5: warning: no previous prototype for 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     819 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:826:39: warning: 'struct sbi_mpxy_notification_data' declared inside parameter list will not be visible outside of this definition or declaration
-     826 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:825:5: warning: no previous prototype for 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     825 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_device.c:51:10: fatal error: xe_log.h: No such file or directory
+      51 | #include "xe_log.h"
+         |          ^~~~~~~~~~
+   compilation terminated.
 --
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12,
-                    from arch/riscv/include/asm/kvm_host.h:25,
-                    from arch/riscv/kernel/asm-offsets.c:13:
->> arch/riscv/include/asm/sbi.h:799:5: warning: no previous prototype for 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     799 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:805:5: warning: no previous prototype for 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     805 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:811:5: warning: no previous prototype for 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     811 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:819:5: warning: no previous prototype for 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     819 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:826:39: warning: 'struct sbi_mpxy_notification_data' declared inside parameter list will not be visible outside of this definition or declaration
-     826 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/sbi.h:825:5: warning: no previous prototype for 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     825 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c: In function 'xe_guc_exec_queue_group_cgp_sync':
+>> drivers/gpu/drm/xe/xe_guc_submit.c:844:31: error: 'struct xe_guc_exec_queue' has no member named 'multi_queue'
+     844 |                         q->guc->multi_queue.re_register = true;
+         |                               ^~
+   drivers/gpu/drm/xe/xe_guc_submit.c:846:31: error: 'struct xe_guc_exec_queue' has no member named 'multi_queue'
+     846 |                         q->guc->multi_queue.re_update = true;
+         |                               ^~
+   drivers/gpu/drm/xe/xe_guc_submit.c:862:23: error: 'struct xe_guc_exec_queue' has no member named 'multi_queue'
+     862 |                 q->guc->multi_queue.registering_cgp = true;
+         |                       ^~
+   drivers/gpu/drm/xe/xe_guc_submit.c:863:23: error: 'struct xe_guc_exec_queue' has no member named 'multi_queue'
+     863 |                 q->guc->multi_queue.updating_cgp = false;
+         |                       ^~
+   drivers/gpu/drm/xe/xe_guc_submit.c:865:23: error: 'struct xe_guc_exec_queue' has no member named 'multi_queue'
+     865 |                 q->guc->multi_queue.updating_cgp = true;
+         |                       ^~
+   drivers/gpu/drm/xe/xe_guc_submit.c:866:23: error: 'struct xe_guc_exec_queue' has no member named 'multi_queue'
+     866 |                 q->guc->multi_queue.registering_cgp = false;
+         |                       ^~
+   In file included from <command-line>:
+>> drivers/gpu/drm/xe/xe_guc_submit.c:868:25: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:868:9: note: in expansion of macro 'WRITE_ONCE'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |         ^~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_guc_submit.c:868:25: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:868:9: note: in expansion of macro 'WRITE_ONCE'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |         ^~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_guc_submit.c:868:25: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:868:9: note: in expansion of macro 'WRITE_ONCE'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |         ^~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_guc_submit.c:868:25: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:868:9: note: in expansion of macro 'WRITE_ONCE'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |         ^~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_guc_submit.c:868:25: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:868:9: note: in expansion of macro 'WRITE_ONCE'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |         ^~~~~~~~~~
+   In file included from ./arch/arc/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:369,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/bitfield.h:10,
+                    from drivers/gpu/drm/xe/xe_guc_submit.c:8:
+>> drivers/gpu/drm/xe/xe_guc_submit.c:868:25: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |                         ^~
+   include/asm-generic/rwonce.h:55:27: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                           ^
+   drivers/gpu/drm/xe/xe_guc_submit.c:868:9: note: in expansion of macro 'WRITE_ONCE'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |         ^~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_guc_submit.c:868:25: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |                         ^~
+   include/asm-generic/rwonce.h:55:34: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                  ^
+   drivers/gpu/drm/xe/xe_guc_submit.c:868:9: note: in expansion of macro 'WRITE_ONCE'
+     868 |         WRITE_ONCE(group->cgp_update_q, q);
+         |         ^~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c: In function 'guc_exec_queue_revert_pending_state_change':
+   drivers/gpu/drm/xe/xe_guc_submit.c:2773:19: error: 'struct xe_guc_exec_queue' has no member named 'multi_queue'
+    2773 |         if (q->guc->multi_queue.re_register) {
+         |                   ^~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2775:23: error: 'struct xe_guc_exec_queue' has no member named 'multi_queue'
+    2775 |                 q->guc->multi_queue.re_register = false;
+         |                       ^~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:41: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+    2788 |                 if (q == READ_ONCE(group->cgp_update_q) &&
+         |                                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:26: note: in expansion of macro 'READ_ONCE'
+    2788 |                 if (q == READ_ONCE(group->cgp_update_q) &&
+         |                          ^~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:41: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+    2788 |                 if (q == READ_ONCE(group->cgp_update_q) &&
+         |                                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:26: note: in expansion of macro 'READ_ONCE'
+    2788 |                 if (q == READ_ONCE(group->cgp_update_q) &&
+         |                          ^~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:41: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+    2788 |                 if (q == READ_ONCE(group->cgp_update_q) &&
+         |                                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:26: note: in expansion of macro 'READ_ONCE'
+    2788 |                 if (q == READ_ONCE(group->cgp_update_q) &&
+         |                          ^~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:41: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+    2788 |                 if (q == READ_ONCE(group->cgp_update_q) &&
+         |                                         ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:26: note: in expansion of macro 'READ_ONCE'
+    2788 |                 if (q == READ_ONCE(group->cgp_update_q) &&
+         |                          ^~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_submit.c:2788:41: error: 'struct xe_exec_queue_group' has no member named 'cgp_update_q'
+--
+>> drivers/gpu/drm/xe/xe_pci.c:28:10: fatal error: xe_log.h: No such file or directory
+      28 | #include "xe_log.h"
+         |          ^~~~~~~~~~
+   compilation terminated.
 
 
-vim +/sbi_mpxy_read_attrs +799 arch/riscv/include/asm/sbi.h
+vim +51 drivers/gpu/drm/xe/xe_device.c
 
-   798	
- > 799	int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-   800				u32 *attrs_buf)
-   801	{
-   802		return -ENODEV;
-   803	}
-   804	
- > 805	int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-   806				 u32 *attrs_buf)
-   807	{
-   808		return -ENODEV;
-   809	}
-   810	
- > 811	int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-   812					    void *tx, unsigned long tx_len,
-   813					    void *rx, unsigned long max_rx_len,
-   814					    unsigned long *rx_len)
-   815	{
-   816		return -ENODEV;
-   817	}
-   818	
- > 819	int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-   820					       void *tx, unsigned long tx_len)
-   821	{
-   822		return -ENODEV;
-   823	}
-   824	
- > 825	int sbi_mpxy_get_notifications(u32 channel_id,
-   826				       struct sbi_mpxy_notification_data *notif_data,
-   827				       unsigned long *events_data_len)
-   828	{
-   829		return -ENODEV;
-   830	}
-   831	
+    21	
+    22	#include "display/xe_display.h"
+    23	#include "instructions/xe_gpu_commands.h"
+    24	#include "regs/xe_gt_regs.h"
+    25	#include "regs/xe_regs.h"
+    26	#include "xe_bo.h"
+    27	#include "xe_bo_evict.h"
+    28	#include "xe_configfs.h"
+    29	#include "xe_debugfs.h"
+    30	#include "xe_defaults.h"
+    31	#include "xe_devcoredump.h"
+    32	#include "xe_device_sysfs.h"
+    33	#include "xe_dma_buf.h"
+    34	#include "xe_drm_client.h"
+    35	#include "xe_drv.h"
+    36	#include "xe_exec.h"
+    37	#include "xe_exec_queue.h"
+    38	#include "xe_force_wake.h"
+    39	#include "xe_ggtt.h"
+    40	#include "xe_gt.h"
+    41	#include "xe_gt_mcr.h"
+    42	#include "xe_gt_printk.h"
+    43	#include "xe_gt_sriov_vf.h"
+    44	#include "xe_guc.h"
+    45	#include "xe_guc_pc.h"
+    46	#include "xe_hw_engine_group.h"
+    47	#include "xe_hwmon.h"
+    48	#include "xe_i2c.h"
+    49	#include "xe_irq.h"
+    50	#include "xe_late_bind_fw.h"
+  > 51	#include "xe_log.h"
+    52	#include "xe_mmio.h"
+    53	#include "xe_module.h"
+    54	#include "xe_nvm.h"
+    55	#include "xe_oa.h"
+    56	#include "xe_observation.h"
+    57	#include "xe_pagefault.h"
+    58	#include "xe_pat.h"
+    59	#include "xe_pcode.h"
+    60	#include "xe_pm.h"
+    61	#include "xe_pmu.h"
+    62	#include "xe_psmi.h"
+    63	#include "xe_pxp.h"
+    64	#include "xe_query.h"
+    65	#include "xe_ras.h"
+    66	#include "xe_shrinker.h"
+    67	#include "xe_soc_remapper.h"
+    68	#include "xe_survivability_mode.h"
+    69	#include "xe_sriov.h"
+    70	#include "xe_svm.h"
+    71	#include "xe_sysctrl.h"
+    72	#include "xe_tile.h"
+    73	#include "xe_ttm_stolen_mgr.h"
+    74	#include "xe_ttm_sys_mgr.h"
+    75	#include "xe_vm.h"
+    76	#include "xe_vm_madvise.h"
+    77	#include "xe_vram.h"
+    78	#include "xe_vram_types.h"
+    79	#include "xe_vsec.h"
+    80	#include "xe_wait_user_fence.h"
+    81	#include "xe_wa.h"
+    82	
 
 --
 0-DAY CI Kernel Test Service
