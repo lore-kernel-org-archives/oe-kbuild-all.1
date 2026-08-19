@@ -1,200 +1,146 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5FB2EF67A;
-	Wed, 19 Aug 2026 20:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006E62C21FD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 20:59:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787172976; cv=none; b=aucak7YuKSmfs/7XgpGlXWyUpfB8YIzVObTI9Fkpl/FOH8L5cG319e48qmUeDgJar3Rasfkz0hkctUiwr74FswynRXC5Xmh0zY3KTyc6HgM83DrYpJsyljRkFz/fC4bls0eN09k7+c5aQwBkb3AmZNla7SwiXusidJeEz/bDi38=
+	t=1787173146; cv=none; b=Z4iRiLcgL8O7k2lzpJerwRG7L3JT4oGY5DEBofzmZz/oHDygonHsU1BxUZYICRerDCRrEvK+cY8af2xvUMFA50BgHwXsa4RgjpG2+SEMbIP6+7lNLcs4mvRgItbDZWYYf4yBZvDnbuRkgIkm7pLxqHveI1bx0DGwQKmFe94rgko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787172976; c=relaxed/simple;
-	bh=J8UpUb83/V7JrOeJsv6fZAjbKgeNB2BOk0vfeoZsiXY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WwCGVZpDJ4HKex00pcoKu1zoAsVo1llAgfcyTk/pNjqprHn05ngRJ1LkVsvyIPJD9z1eaqKWXzfDhi2M4O9309QejzrLYjevbv1z1X5stLreA/vyp7XUC4+8epnikrYD+B04mr5A+Jt01gnM1ZmUIxoMRn2qBYpfoyNSGKgPKtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8Q+4Rub; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1787173146; c=relaxed/simple;
+	bh=ViIaFpCUQYsw3FMMwgjVBVSvigycBmJHQLE1t95qP9o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rnAMwWtXaixAKa1J4ei4HdtKVjNNmu/wyLVqBZVehP5+hDX3Wn1vCpu5syhqb6AP+QdZ1nvNLjbn2CwobOkkyQtQhiiaVEuvtO55CGDdGXsGmU2GUe2k5lBgOPW1OetG16q7MQztGyZHTVYkFDJ0jjowhb1I9khCFkQLZb3mkqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxSVZJZp; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8Q+4Rub"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxSVZJZp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787172974; x=1818708974;
-  h=date:from:to:cc:subject:message-id;
-  bh=J8UpUb83/V7JrOeJsv6fZAjbKgeNB2BOk0vfeoZsiXY=;
-  b=C8Q+4RubT6tZcApB1a1wDwyA9VsqB8U73IBAGBCS9mkNZNngMfNzWnsY
-   u8ivShVVYW9m333YHm3nFVhVxVlgRSslvCbaKjA5d/KyNuQaVcJcNkLtB
-   qfh0MFs3YXj87ywjRHiqAELWZVWnpv0uXQh/puS2tMx4L0vD5w/sNpYzx
-   FZ2o4jSoDk6MPdNmLwDCmcFkbjzt6gAIFrNGV/XvFE5+ym7vH7ICRjfxH
-   jQSvLGO7lljeh+r/gCocecy+SG/bwLLWAbJfnX45Qi34i+NqII6el6O8p
-   UU74AT6Mcqoiq4onkKkxzLll6/pcyj9S4H35CeqsjUYWHCfzWgIbfa0Th
-   w==;
-X-CSE-ConnectionGUID: U885qAtASOaD6vO5pSRq0Q==
-X-CSE-MsgGUID: GFPU1PRcQTyND5lGdSWGeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87561485"
+  t=1787173146; x=1818709146;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ViIaFpCUQYsw3FMMwgjVBVSvigycBmJHQLE1t95qP9o=;
+  b=kxSVZJZpOkxT9dHGEGgWwjbkqGdV0Ilxt+ccbVHljKHNE510BmyHO1F3
+   Nf1UWqXhon6K3IjGOsznglYNFTc2FEjxhJB6H/QbGwYjOST8wKQXYYdiL
+   akibMmd/FvQunVv3UAf8vdJDyCwD9bdg5i41rL69tyaq0NPB6jyfP2DRQ
+   2QnrYuzNDCDiXf5xq9vMMWx0Ew9QtzeqC6c5xoxwiBFRixYnYPftloeyK
+   KhwVsP39h3SM5Bzf74qBlNF++GGb3J0sUeUHshVWU2AmbZbXbnoJ9niy4
+   0z0xrtIcK/RLNkKEjhYBISGKbHllgZAaY6YimLAE/ltjZiE6GL3inQdFn
+   Q==;
+X-CSE-ConnectionGUID: 99rA49c2St2Sl0mOUxHovw==
+X-CSE-MsgGUID: i3vJD3VCTIm7ZExxk06ENA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87561642"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="87561485"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 13:56:14 -0700
-X-CSE-ConnectionGUID: yYWc0XdySVqEDoDWWrpWsg==
-X-CSE-MsgGUID: GdsUfLzPQn+oF29wiTsMng==
+   d="scan'208";a="87561642"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 13:59:05 -0700
+X-CSE-ConnectionGUID: aYskDuoqTCO2m7mfmp1lNQ==
+X-CSE-MsgGUID: q3KjGVURQ4u22+ZBA+FESw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="261881897"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Aug 2026 13:56:11 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="267616788"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 19 Aug 2026 13:59:02 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwnKT-000000007Oj-1t4i;
-	Wed, 19 Aug 2026 20:56:09 +0000
-Date: Wed, 19 Aug 2026 22:55:44 +0200
+	id 1wwnNE-00000000gSF-09x1;
+	Wed, 19 Aug 2026 20:59:00 +0000
+Date: Thu, 20 Aug 2026 04:58:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:arm64-combine-module-section-allocations 1/1]
- kernel/module/main.c:2826:21: warning: comparison between pointer and integer
- ('enum iter_type (*)(const struct iov_iter *)' and 'int')
-Message-ID: <202608192253.Q3oNYow4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: kr494167@gmail.com, lee@kernel.org, pavel@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, s.trumtrar@pengutronix.de,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Surendra Singh Chouhan <kr494167@gmail.com>
+Subject: Re: [PATCH v2] leds: lp5860: fix LED teardown ordering using
+ devm_add_action_or_reset()
+Message-ID: <202608200410.1YCGXTpW-lkp@intel.com>
+References: <20260806145527.114844-1-kr494167@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806145527.114844-1-kr494167@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-combine-module-section-allocations
-head:   eaa00409fb18efd5ba35159657893d158d91faa4
-commit: eaa00409fb18efd5ba35159657893d158d91faa4 [1/1] module: Permit module section allocations to be combined
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260819/202608192253.Q3oNYow4-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608192253.Q3oNYow4-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.2]
+[cannot apply to lee-leds/for-leds-next next-20260818]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/kr494167-gmail-com/leds-lp5860-fix-LED-teardown-ordering-using-devm_add_action_or_reset/20260806-202527
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260806145527.114844-1-kr494167%40gmail.com
+patch subject: [PATCH v2] leds: lp5860: fix LED teardown ordering using devm_add_action_or_reset()
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260820/202608200410.1YCGXTpW-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608200410.1YCGXTpW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608192253.Q3oNYow4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608200410.1YCGXTpW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/module/main.c:2826:7: error: use of undeclared identifier 'provider_type'; did you mean 'iov_iter_type'?
-    2826 |                 if (provider_type == MOD_INVALID)
-         |                     ^~~~~~~~~~~~~
-         |                     iov_iter_type
-   include/linux/uio.h:110:30: note: 'iov_iter_type' declared here
-     110 | static inline enum iter_type iov_iter_type(const struct iov_iter *i)
-         |                              ^
->> kernel/module/main.c:2826:21: warning: comparison between pointer and integer ('enum iter_type (*)(const struct iov_iter *)' and 'int') [-Wpointer-integer-compare]
-    2826 |                 if (provider_type == MOD_INVALID)
-         |                     ~~~~~~~~~~~~~ ^  ~~~~~~~~~~~
-   1 warning and 1 error generated.
+   drivers/leds/rgb/leds-lp5860-spi.c: In function 'lp5860_probe':
+>> drivers/leds/rgb/leds-lp5860-spi.c:64:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+      64 |         ret = devm_mutex_init(dev, &lp5860->lock);
+         |         ^~~
+         |         net
+   drivers/leds/rgb/leds-lp5860-spi.c:64:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +2826 kernel/module/main.c
+vim +64 drivers/leds/rgb/leds-lp5860-spi.c
 
-  2800	
-  2801	static int move_module(struct module *mod, struct load_info *info)
-  2802	{
-  2803		int i, ret;
-  2804		enum mod_mem_type t = MOD_MEM_NUM_TYPES;
-  2805		bool codetag_section_found = false;
-  2806	
-  2807		for_each_mod_mem_type(type) {
-  2808			if (!mod->mem[type].size) {
-  2809				mod->mem[type].base = NULL;
-  2810				continue;
-  2811			}
-  2812	
-  2813			if (mod->mem[type].alloc_provider != MOD_INVALID)
-  2814				continue;
-  2815	
-  2816			ret = module_memory_alloc(mod, type);
-  2817			if (ret) {
-  2818				t = type;
-  2819				goto out_err;
-  2820			}
-  2821		}
-  2822	
-  2823		for_each_mod_mem_type(type) {
-  2824			auto p_type = mod->mem[type].alloc_provider;
-  2825	
-> 2826			if (provider_type == MOD_INVALID)
-  2827				continue;
-  2828	
-  2829			mod->mem[p_type].size -= mod->mem[type].size;
-  2830			mod->mem[type].base = mod->mem[p_type].base +
-  2831					      mod->mem[p_type].size;
-  2832	
-  2833			mod->mem[type].is_rox = mod->mem[p_type].is_rox;
-  2834		}
-  2835	
-  2836		/* Transfer each section which specifies SHF_ALLOC */
-  2837		pr_debug("Final section addresses for %s:\n", mod->name);
-  2838		for (i = 0; i < info->hdr->e_shnum; i++) {
-  2839			void *dest;
-  2840			Elf_Shdr *shdr = &info->sechdrs[i];
-  2841			const char *sname;
-  2842	
-  2843			if (!(shdr->sh_flags & SHF_ALLOC))
-  2844				continue;
-  2845	
-  2846			sname = info->secstrings + shdr->sh_name;
-  2847			/*
-  2848			 * Load codetag sections separately as they might still be used
-  2849			 * after module unload.
-  2850			 */
-  2851			if (codetag_needs_module_section(mod, sname, shdr->sh_size)) {
-  2852				dest = codetag_alloc_module_section(mod, sname, shdr->sh_size,
-  2853						arch_mod_section_prepend(mod, i), shdr->sh_addralign);
-  2854				if (WARN_ON(!dest)) {
-  2855					ret = -EINVAL;
-  2856					goto out_err;
-  2857				}
-  2858				if (IS_ERR(dest)) {
-  2859					ret = PTR_ERR(dest);
-  2860					goto out_err;
-  2861				}
-  2862				codetag_section_found = true;
-  2863			} else {
-  2864				enum mod_mem_type type = shdr->sh_entsize >> SH_ENTSIZE_TYPE_SHIFT;
-  2865				unsigned long offset = shdr->sh_entsize & SH_ENTSIZE_OFFSET_MASK;
-  2866	
-  2867				dest = mod->mem[type].base + offset;
-  2868			}
-  2869	
-  2870			if (shdr->sh_type != SHT_NOBITS) {
-  2871				/*
-  2872				 * Our ELF checker already validated this, but let's
-  2873				 * be pedantic and make the goal clearer. We actually
-  2874				 * end up copying over all modifications made to the
-  2875				 * userspace copy of the entire struct module.
-  2876				 */
-  2877				if (i == info->index.mod &&
-  2878				   (WARN_ON_ONCE(shdr->sh_size != sizeof(struct module)))) {
-  2879					ret = -ENOEXEC;
-  2880					goto out_err;
-  2881				}
-  2882				memcpy(dest, (void *)shdr->sh_addr, shdr->sh_size);
-  2883			}
-  2884			/*
-  2885			 * Update the userspace copy's ELF section address to point to
-  2886			 * our newly allocated memory as a pure convenience so that
-  2887			 * users of info can keep taking advantage and using the newly
-  2888			 * minted official memory area.
-  2889			 */
-  2890			shdr->sh_addr = (unsigned long)dest;
-  2891			pr_debug("\t0x%lx 0x%.8lx %s\n", (long)shdr->sh_addr,
-  2892				 (long)shdr->sh_size, info->secstrings + shdr->sh_name);
-  2893		}
-  2894	
-  2895		return 0;
-  2896	out_err:
-  2897		module_memory_restore_rox(mod);
-  2898		while (t--)
-  2899			module_memory_free(mod, t);
-  2900		if (codetag_section_found)
-  2901			codetag_free_module_sections(mod);
-  2902	
-  2903		return ret;
-  2904	}
-  2905	
+    35	
+    36	static int lp5860_probe(struct spi_device *spi)
+    37	{
+    38		struct device *dev = &spi->dev;
+    39		struct lp5860 *lp5860;
+    40		unsigned int multi_leds;
+    41	
+    42		multi_leds = device_get_child_node_count(dev);
+    43		if (!multi_leds) {
+    44			dev_err(dev, "LEDs are not defined in Device Tree!");
+    45			return -ENODEV;
+    46		}
+    47	
+    48		if (multi_leds > LP5860_MAX_LED) {
+    49			dev_err(dev, "Too many LEDs specified.\n");
+    50			return -EINVAL;
+    51		}
+    52	
+    53		lp5860 = devm_kzalloc(dev, struct_size(lp5860, leds, multi_leds),
+    54				      GFP_KERNEL);
+    55		if (!lp5860)
+    56			return -ENOMEM;
+    57	
+    58		lp5860->regmap = devm_regmap_init_spi(spi, &lp5860_regmap_config);
+    59		if (IS_ERR(lp5860->regmap))
+    60			return dev_err_probe(&spi->dev, PTR_ERR(lp5860->regmap),
+    61					     "Failed to initialise Regmap.\n");
+    62	
+    63		lp5860->dev = dev;
+  > 64		ret = devm_mutex_init(dev, &lp5860->lock);
+    65		if (ret)
+    66			return ret;
+    67	
+    68		spi_set_drvdata(spi, lp5860);
+    69	
+    70		return lp5860_device_init(dev);
+    71	}
+    72	
 
 --
 0-DAY CI Kernel Test Service
