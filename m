@@ -1,187 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF793CFF6C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 06:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBE33AB269;
+	Wed, 19 Aug 2026 06:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787120441; cv=none; b=FvBk0s0CMsI9DxveC1O+kzmuIs5QR+RU1KPNfTAjqZakBm1hO1ZA2VQw8sjuQGcazbReXeeg4sypJLy/LKB16T8zVV+zknu500wEnozrDBRPZGToIOjgm1KPrMZIBm9de0mwdqhh2YYs36cj8NVpYvn4pZbEtnLD/vRZ4xMOFB4=
+	t=1787121764; cv=none; b=hsJaOBMcyVFKXDRHdLwEtCQWA8kB9laNVolt7hFsTRsAIGn9wgnht5sHYoHa81Evj7Oztc7uTQfftOjNft+kwKuPgEbwc3Hl+HUmbGeeSsyWyrMYw8rAg83LKcyK7rlZ/6XhqlZdU1gTVBj397yP3aFwunD4d/E5APMs4K21/c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787120441; c=relaxed/simple;
-	bh=awWdr4/HBdT9YL310/9jEycvDOWJIwNU23guunU9Ve8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=i3TFssbf/7VFBIUpmsWhsGuecbq/Laa+VKkFPOGgxxHVlneCPXTUz3GvHryxJuxvRyUXkg2Gfqy2K7N1nIB8r1MCEWMpsPkC8gCEmgqjVAkQLsigGpSJl41AWY3z7gR1/471Wl5G0Aq2i0KFI7ByXQ9P6UyivWLd4wdbSb0CWHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGlze7Mk; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1787121764; c=relaxed/simple;
+	bh=V9E5u2HgyGP463i60aQEWJYgpGhCjNkMp3Hg4Cd23TY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oEWoxyeOjUTTZnWx/+lkF0b0HfbC6rehpnyHQDpPeOgXd4lMvsYSiRw71jDitiJPlFRZMW7/i4Pxk6UecBILbg0cbtVftq0Q/psSPfU0LX9wQvYu31IyjEfwcvRaxiFkikHdzlzg0gkurPprjUu2ng2AD32Rmr6Tyx6ZOxtn75g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3hkEZDF; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGlze7Mk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3hkEZDF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787120440; x=1818656440;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=awWdr4/HBdT9YL310/9jEycvDOWJIwNU23guunU9Ve8=;
-  b=nGlze7MkzqBdc79p4UE7VphzMKZDDjR5TeHsUeCjhs+32RjDs+ug0ni7
-   IlnnaQXwahe3lC2JXFEmj5vpjtxWXjLGUzadVgY/zv/+zOSS85wusL9lG
-   9GvOS8r5/CRssmiUdf29xqKLV9xxB6tzCcUL+hjKq5CgQEuObU+aDbAjn
-   HsRXHOicOkmDTs6tLfqP3lKN2a3/ayVCazamcVngk5B7Lyr6vjuM4dFgf
-   6Lac+zvvDIn4GUSUKTVbA8IHEneQOAGPy4dKRVh1e6B+MRvSUUkb3Z9qS
-   Z1B3CXpEjlJpq187jYc0BXzJqxuGdOMZLa/bP68S9GaEfbORxuyxZV4B6
-   Q==;
-X-CSE-ConnectionGUID: EkQJzoRuTqWl3bodQXfoew==
-X-CSE-MsgGUID: KdFxot5BSrivhwy0fL88VA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="110408910"
+  t=1787121763; x=1818657763;
+  h=date:from:to:cc:subject:message-id;
+  bh=V9E5u2HgyGP463i60aQEWJYgpGhCjNkMp3Hg4Cd23TY=;
+  b=E3hkEZDFge2LRpT1ZTsQQ4BMOPQG58nU7qKghyI1uipZuAVzyTonHm6X
+   iXd9YjBae+oWQiL60paVwNsZevZin+cUo5mAKkpsmA6gTYx6ma5aCjxyz
+   lnRd79cTCNGur00SRtZ18bBShLluFRov8Sf1Pfhh6G+VytxWSuRCdLCXQ
+   cbXJSumw0fwSDQsjUkbV3+493S7fh5H+J+O9lgQdJvtbqmSIz8N47MUNp
+   aq8jYGbd7K86V+EnAia18IcAX2Eqh0otG6hl98YqJeHxHLpEhXfN/dHSX
+   VOHkjZYE4LGmHa867INszCip3hHxIL2cys3Ls+q3IgCYLJ8usxiiFs4E3
+   A==;
+X-CSE-ConnectionGUID: XRQ8r/muTeSsmZ7POzCUWA==
+X-CSE-MsgGUID: 4qDxYVImRPKIFOdwqowcBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="99150389"
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="110408910"
+   d="scan'208";a="99150389"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 23:20:38 -0700
-X-CSE-ConnectionGUID: cTnHNM28R2iZryLNIqBEdA==
-X-CSE-MsgGUID: 5iRTqXsRSLmMnQ5ZC4iPdA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 23:42:41 -0700
+X-CSE-ConnectionGUID: ik4Y6D5dQ0+BqViLNalTsA==
+X-CSE-MsgGUID: xCrVE40SQhuliZe9AQQEVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="261691507"
+   d="scan'208";a="261696367"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Aug 2026 23:20:35 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 18 Aug 2026 23:42:38 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwZf7-00000000ewA-0ATb;
-	Wed, 19 Aug 2026 06:20:33 +0000
-Date: Wed, 19 Aug 2026 14:20:31 +0800
+	id 1wwa0R-00000000ex2-2vgA;
+	Wed, 19 Aug 2026 06:42:35 +0000
+Date: Wed, 19 Aug 2026 14:42:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-shrink-cached 62/64] lib/dynamic_debug.c:2146:2:
- error: call to undeclared function 'arena_mas_lock'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202608191428.AxPChBSW-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, arm@kernel.org
+Subject: [soc:board-remove 200/200]
+ drivers/iio/frequency/adf4350.c:717:6: warning: variable 'pdata' is used
+ uninitialized whenever 'if' condition is false
+Message-ID: <202608191415.46I3v29o-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git dd-shrink-cached
-head:   917ff2e5a74ae1c252ad3a2c9017bd464f9258f9
-commit: 9ddeda37ca2aba5800b9bbc30e16a1db1ce44e5c [62/64] lib/arena_maple_tree: Specialized arena-backed maple tree
-config: i386-buildonly-randconfig-001-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191428.AxPChBSW-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
+head:   c12d647b0229f4d75a2973c9b4e79f9b53406426
+commit: c12d647b0229f4d75a2973c9b4e79f9b53406426 [200/200] remaining pdata removal
+config: hexagon-randconfig-001-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191415.46I3v29o-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191428.AxPChBSW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191415.46I3v29o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608191428.AxPChBSW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608191415.46I3v29o-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   lib/dynamic_debug.c:112:20: warning: no previous prototype for function 'ddebug_arena_alloc' [-Wmissing-prototypes]
-     112 | struct maple_node *ddebug_arena_alloc(void *arena, gfp_t gfp)
-         |                    ^
-   lib/dynamic_debug.c:112:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     112 | struct maple_node *ddebug_arena_alloc(void *arena, gfp_t gfp)
-         | ^
-         | static 
-   lib/dynamic_debug.c:408:2: error: call to undeclared function 'arena_mas_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     408 |         arena_mas_init(&mas, mt, (unsigned long)dp);
-         |         ^
-   lib/dynamic_debug.c:409:8: error: call to undeclared function 'arena_mas_walk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     409 |         val = arena_mas_walk(&mas);
-         |               ^
-   lib/dynamic_debug.c:409:6: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-     409 |         val = arena_mas_walk(&mas);
-         |             ^ ~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:415:18: error: call to undeclared function 'arena_mas_prev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     415 |                         while ((val = arena_mas_prev(&mas, 0))) {
-         |                                       ^
-   lib/dynamic_debug.c:415:16: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-     415 |                         while ((val = arena_mas_prev(&mas, 0))) {
-         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:474:8: error: call to undeclared function 'arena_mtree_store_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     474 |                 rc = arena_mtree_store_range(mt, first, last, (void *)name, GFP_KERNEL);
-         |                      ^
-   lib/dynamic_debug.c:474:8: note: did you mean 'mtree_store_range'?
-   include/linux/maple_tree.h:384:5: note: 'mtree_store_range' declared here
-     384 | int mtree_store_range(struct maple_tree *mt, unsigned long first,
-         |     ^
-   lib/dynamic_debug.c:477:8: error: call to undeclared function 'arena_mtree_store_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     477 |                 rc = arena_mtree_store_range(mt, addr, addr, (void *)name, GFP_KERNEL);
-         |                      ^
-   lib/dynamic_debug.c:480:8: error: call to undeclared function 'arena_mtree_store_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     480 |                 rc = arena_mtree_store_range(mt, addr, addr, (void *)name, GFP_KERNEL);
-         |                      ^
->> lib/dynamic_debug.c:2146:2: error: call to undeclared function 'arena_mas_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2146 |         arena_mas_lock(&mas);
-         |         ^
->> lib/dynamic_debug.c:2148:2: error: call to undeclared function 'arena_mas_erase'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2148 |         arena_mas_erase(&mas);
-         |         ^
->> lib/dynamic_debug.c:2150:2: error: call to undeclared function 'arena_mas_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2150 |         arena_mas_unlock(&mas);
-         |         ^
-   lib/dynamic_debug.c:2306:2: error: call to undeclared function 'arena_mas_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2306 |         arena_mas_init(&mas, mt, addr);
-         |         ^
-   lib/dynamic_debug.c:2310:9: error: call to undeclared function 'arena_mas_walk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2310 |                 val = arena_mas_walk(&mas);
-         |                       ^
-   lib/dynamic_debug.c:2310:7: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-    2310 |                 val = arena_mas_walk(&mas);
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:2321:16: error: call to undeclared function 'arena_mas_prev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2321 |         while ((val = arena_mas_prev(&mas, 0))) {
-         |                       ^
-   lib/dynamic_debug.c:2321:14: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-    2321 |         while ((val = arena_mas_prev(&mas, 0))) {
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:2336:16: error: call to undeclared function 'arena_mas_next'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2336 |         while ((val = arena_mas_next(&mas, ULONG_MAX))) {
-         |                       ^
-   lib/dynamic_debug.c:2336:14: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-    2336 |         while ((val = arena_mas_next(&mas, ULONG_MAX))) {
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:2429:3: error: call to undeclared function 'arena___mt_destroy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2429 |                 arena___mt_destroy(&dd_modules_site_map.mt);
-         |                 ^
-   lib/dynamic_debug.c:2429:3: note: did you mean '__mt_destroy'?
-   include/linux/maple_tree.h:394:6: note: '__mt_destroy' declared here
-     394 | void __mt_destroy(struct maple_tree *mt);
-         |      ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   1 warning and 20 errors generated.
+>> drivers/iio/frequency/adf4350.c:717:6: warning: variable 'pdata' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     717 |         if (dev_fwnode(&spi->dev)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/property.h:36:2: note: expanded from macro 'dev_fwnode'
+      36 |         _Generic((dev),                                                 \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      37 |                  const struct device *: __dev_fwnode_const,     \
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      38 |                  struct device *: __dev_fwnode)(dev)
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/frequency/adf4350.c:723:7: note: uninitialized use occurs here
+     723 |         if (!pdata) {
+         |              ^~~~~
+   drivers/iio/frequency/adf4350.c:717:2: note: remove the 'if' if its condition is always true
+     717 |         if (dev_fwnode(&spi->dev)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/frequency/adf4350.c:711:37: note: initialize the variable 'pdata' to silence this warning
+     711 |         struct adf4350_platform_data *pdata;
+         |                                            ^
+         |                                             = NULL
+   1 warning generated.
 
 
-vim +/arena_mas_lock +2146 lib/dynamic_debug.c
+vim +717 drivers/iio/frequency/adf4350.c
 
-  2131	
-  2132	/*
-  2133	 * Called in response to a module being unloaded.  Removes
-  2134	 * any ddebug_table's which point at the module.
-  2135	 */
-  2136	static void ddebug_module_sites_clear(struct ddebug_table *dt)
-  2137	{
-  2138		unsigned long start = (unsigned long) dt->info.descs.start;
-  2139		unsigned long end = (unsigned long) &dt->info.descs.start[dt->info.descs.len - 1];
-  2140	
-  2141		MA_STATE(mas, &dd_modules_site_map.mt, start - DD_KEY_MOD_OFFSET, end);
-  2142	
-  2143		v2pr_info("clearing %3d debugs of removed module %s\n",
-  2144			  dt->info.descs.len, dt->info.mod_name);
-  2145	
-> 2146		arena_mas_lock(&mas);
-  2147		current_ddebug_write_tree = &dd_modules_site_map.mt;
-> 2148		arena_mas_erase(&mas);
-  2149		current_ddebug_write_tree = NULL;
-> 2150		arena_mas_unlock(&mas);
-  2151	
-  2152		if (dt->compressed_sites) {
-  2153			vfree(dt->compressed_sites);
-  2154			dt->compressed_sites = NULL;
-  2155		}
-  2156	}
-  2157	
+9979cc64853b59 Jinjie Ruan        2023-08-28  708  
+fc52692c49969e Greg Kroah-Hartman 2012-12-21  709  static int adf4350_probe(struct spi_device *spi)
+e31166f0fd4847 Michael Hennerich  2012-05-29  710  {
+e764df67963940 Michael Hennerich  2013-06-03  711  	struct adf4350_platform_data *pdata;
+e31166f0fd4847 Michael Hennerich  2012-05-29  712  	struct iio_dev *indio_dev;
+e31166f0fd4847 Michael Hennerich  2012-05-29  713  	struct adf4350_state *st;
+9404fa15f20e89 Michael Hennerich  2013-06-03  714  	struct clk *clk = NULL;
+e31166f0fd4847 Michael Hennerich  2012-05-29  715  	int ret;
+e31166f0fd4847 Michael Hennerich  2012-05-29  716  
+130650e8360fa3 Andy Shevchenko    2022-02-03 @717  	if (dev_fwnode(&spi->dev)) {
+e764df67963940 Michael Hennerich  2013-06-03  718  		pdata = adf4350_parse_dt(&spi->dev);
+e764df67963940 Michael Hennerich  2013-06-03  719  		if (pdata == NULL)
+bc2cb23607eb0f Antoniu Miclaus    2026-02-11  720  			return -ENOMEM;
+e764df67963940 Michael Hennerich  2013-06-03  721  	}
+e764df67963940 Michael Hennerich  2013-06-03  722  
+e31166f0fd4847 Michael Hennerich  2012-05-29  723  	if (!pdata) {
+e31166f0fd4847 Michael Hennerich  2012-05-29  724  		dev_warn(&spi->dev, "no platform data? using default\n");
+e31166f0fd4847 Michael Hennerich  2012-05-29  725  		pdata = &default_pdata;
+e31166f0fd4847 Michael Hennerich  2012-05-29  726  	}
+e31166f0fd4847 Michael Hennerich  2012-05-29  727  
+9404fa15f20e89 Michael Hennerich  2013-06-03  728  	if (!pdata->clkin) {
+9979cc64853b59 Jinjie Ruan        2023-08-28  729  		clk = devm_clk_get_enabled(&spi->dev, "clkin");
+9404fa15f20e89 Michael Hennerich  2013-06-03  730  		if (IS_ERR(clk))
+9979cc64853b59 Jinjie Ruan        2023-08-28  731  			return PTR_ERR(clk);
+9404fa15f20e89 Michael Hennerich  2013-06-03  732  	}
+9404fa15f20e89 Michael Hennerich  2013-06-03  733  
+a8b168a15f8d7b Sachin Kamat       2013-07-22  734  	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
+9979cc64853b59 Jinjie Ruan        2023-08-28  735  	if (indio_dev == NULL)
+9979cc64853b59 Jinjie Ruan        2023-08-28  736  		return -ENOMEM;
+e31166f0fd4847 Michael Hennerich  2012-05-29  737  
+e31166f0fd4847 Michael Hennerich  2012-05-29  738  	st = iio_priv(indio_dev);
+e31166f0fd4847 Michael Hennerich  2012-05-29  739  
+9979cc64853b59 Jinjie Ruan        2023-08-28  740  	ret = devm_regulator_get_enable(&spi->dev, "vcc");
+e31166f0fd4847 Michael Hennerich  2012-05-29  741  	if (ret)
+9979cc64853b59 Jinjie Ruan        2023-08-28  742  		return ret;
+e31166f0fd4847 Michael Hennerich  2012-05-29  743  
+e31166f0fd4847 Michael Hennerich  2012-05-29  744  	st->spi = spi;
+e31166f0fd4847 Michael Hennerich  2012-05-29  745  	st->pdata = pdata;
+e31166f0fd4847 Michael Hennerich  2012-05-29  746  
+e31166f0fd4847 Michael Hennerich  2012-05-29  747  	indio_dev->name = (pdata->name[0] != 0) ? pdata->name :
+e31166f0fd4847 Michael Hennerich  2012-05-29  748  		spi_get_device_id(spi)->name;
+e31166f0fd4847 Michael Hennerich  2012-05-29  749  
+e31166f0fd4847 Michael Hennerich  2012-05-29  750  	indio_dev->info = &adf4350_info;
+e31166f0fd4847 Michael Hennerich  2012-05-29  751  	indio_dev->modes = INDIO_DIRECT_MODE;
+e31166f0fd4847 Michael Hennerich  2012-05-29  752  
+f0e64305cf741c Sergiu Cuciurean   2020-09-16  753  	mutex_init(&st->lock);
+f0e64305cf741c Sergiu Cuciurean   2020-09-16  754  
+e31166f0fd4847 Michael Hennerich  2012-05-29  755  	st->chspc = pdata->channel_spacing;
+9404fa15f20e89 Michael Hennerich  2013-06-03  756  	if (clk) {
+9404fa15f20e89 Michael Hennerich  2013-06-03  757  		st->clk = clk;
+9404fa15f20e89 Michael Hennerich  2013-06-03  758  		st->clkin = clk_get_rate(clk);
+9404fa15f20e89 Michael Hennerich  2013-06-03  759  	} else {
+e31166f0fd4847 Michael Hennerich  2012-05-29  760  		st->clkin = pdata->clkin;
+9404fa15f20e89 Michael Hennerich  2013-06-03  761  	}
+e31166f0fd4847 Michael Hennerich  2012-05-29  762  
+e31166f0fd4847 Michael Hennerich  2012-05-29  763  	st->min_out_freq = spi_get_device_id(spi)->driver_data == 4351 ?
+e31166f0fd4847 Michael Hennerich  2012-05-29  764  		ADF4351_MIN_OUT_FREQ : ADF4350_MIN_OUT_FREQ;
+e31166f0fd4847 Michael Hennerich  2012-05-29  765  
+e31166f0fd4847 Michael Hennerich  2012-05-29  766  	memset(st->regs_hw, 0xFF, sizeof(st->regs_hw));
+e31166f0fd4847 Michael Hennerich  2012-05-29  767  
+4a89d2f47ccdce Linus Walleij      2019-12-02  768  	st->lock_detect_gpiod = devm_gpiod_get_optional(&spi->dev, NULL,
+4a89d2f47ccdce Linus Walleij      2019-12-02  769  							GPIOD_IN);
+9979cc64853b59 Jinjie Ruan        2023-08-28  770  	if (IS_ERR(st->lock_detect_gpiod))
+9979cc64853b59 Jinjie Ruan        2023-08-28  771  		return PTR_ERR(st->lock_detect_gpiod);
+e31166f0fd4847 Michael Hennerich  2012-05-29  772  
+e31166f0fd4847 Michael Hennerich  2012-05-29  773  	if (pdata->power_up_frequency) {
+e31166f0fd4847 Michael Hennerich  2012-05-29  774  		ret = adf4350_set_freq(st, pdata->power_up_frequency);
+e31166f0fd4847 Michael Hennerich  2012-05-29  775  		if (ret)
+e31166f0fd4847 Michael Hennerich  2012-05-29  776  			return ret;
+e31166f0fd4847 Michael Hennerich  2012-05-29  777  	}
+e31166f0fd4847 Michael Hennerich  2012-05-29  778  
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  779  	ret = adf4350_clk_register(st);
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  780  	if (ret)
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  781  		return ret;
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  782  
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  783  	if (!st->clkout) {
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  784  		indio_dev->channels = &adf4350_chan;
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  785  		indio_dev->num_channels = 1;
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  786  	}
+a1a09713b40dfc Antoniu Miclaus    2024-06-21  787  
+9979cc64853b59 Jinjie Ruan        2023-08-28  788  	ret = devm_add_action_or_reset(&spi->dev, adf4350_power_down, indio_dev);
+9979cc64853b59 Jinjie Ruan        2023-08-28  789  	if (ret)
+65e8202f03224d Waqar Hameed       2025-08-05  790  		return ret;
+9404fa15f20e89 Michael Hennerich  2013-06-03  791  
+9979cc64853b59 Jinjie Ruan        2023-08-28  792  	return devm_iio_device_register(&spi->dev, indio_dev);
+e31166f0fd4847 Michael Hennerich  2012-05-29  793  }
+e31166f0fd4847 Michael Hennerich  2012-05-29  794  
+
+:::::: The code at line 717 was first introduced by commit
+:::::: 130650e8360fa39919b61eab048c6a724da243d8 iio: frequency: adf4350: Make use of device properties
+
+:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 --
 0-DAY CI Kernel Test Service
