@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D4C37188A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 21:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14603440631;
+	Wed, 19 Aug 2026 22:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787174235; cv=none; b=m1iL7uUdoDkCT7Buaxbj6F9FdBA1GrFBOip7OEiAGYaE7yrrTXZGRQVPT5hTnBWgza7lNw/UqALCjBjNE9vTJsBRHc26Py514BIPl4n/5RepjrqdmYkVRiZTX2leS+S5MmcZYrokrHgr8gqG9E0Klr4MlmAO/6H1G3SNzRg1DSs=
+	t=1787177895; cv=none; b=d8BclGLB/hGOmkEnMyW8Apz2W/S1ZkOSvkL9wIZcvDOAaBaG6EDFp/p2WQgUNOjniq4+IwHdV3OEsBa01jHJujFhqQAV9polecpCuUmKWMSDTVpi/3M+SFemtJ104kdHrTO2Z6xgWZN6FS7gH5A0vPJKPsfCZnGSqEj/+uxmYjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787174235; c=relaxed/simple;
-	bh=cXZoDe6dAZJX9LdWJxqiaBRRPlaHfhPPw60TDJwAKs4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DRdrmPm2U3CDrpv3T9+t/Vh3uSZtbxOAAGtfOXIx+38BUoZ2V/G8P9qXzFFa5kHOBoOUHmARg/unXSj7PxYOl1V6EmCCmtymrwF7phDMOurfGZR2RiMg0MSCmdWJF3AuoruFMcTrRNkTWpdojUxT/mZjRhcACPcN7oeHqr4YaZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKQtw8bM; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1787177895; c=relaxed/simple;
+	bh=o08invfKxtwW27ODSi0Y6zrxWm35Smtn3IPw8Gh2JnY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ODGJ2vc163h0Cbl7SCBSsflFCr6M3xRfsPVx9HEdgRlS1vlcIwlUVyoIlO+zfLsBznVa6EZsXVCLT+rVHW/A6ajcVYBKLTByFggQF3gNAHyYD5uKElf4a6Z/1J32OqqW+MystXLsfu5fckcqoFPQ79Pq0nZWs+FTs4lvF1fQJLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfqs+qTR; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKQtw8bM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfqs+qTR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787174233; x=1818710233;
+  t=1787177894; x=1818713894;
   h=date:from:to:cc:subject:message-id;
-  bh=cXZoDe6dAZJX9LdWJxqiaBRRPlaHfhPPw60TDJwAKs4=;
-  b=EKQtw8bMAIGLFJ4TVrhFV9qRXfwnUltpsouw1KiIhfBUv+EqoeKTd9MO
-   SqML6p4ZiZ8nBSWswIwas+nRXlRvjvsTP+MOEdKhEnuGNDCI9Yk7EbUPW
-   c4gaKEoHcBdbzammtOKOJ/hk564Djg+fWp2u1aQDD/yMrVCY49uaIEV8/
-   vTS9HeuNZLFctMAYw2LtOi7j+P7+Ku+kGajw2Babdv+qkCZzQPSb46gGp
-   9GfRp8fBoARZIGWiyciLl8oWRZrUtP0PyvElwVXv8Sm0WZbrLAZ7dJGdz
-   +wtKyNRctjwAIY09W7Z3LXzfWVQaujh5vTm6kHxBHUF9qyKmEPgs3a4aX
-   A==;
-X-CSE-ConnectionGUID: HqFeGarrQrCPkwkATzME/g==
-X-CSE-MsgGUID: 0HTjokB+THithoGWUuZTQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87621513"
+  bh=o08invfKxtwW27ODSi0Y6zrxWm35Smtn3IPw8Gh2JnY=;
+  b=cfqs+qTRp0/hoQZebkNZb50Ef0ZOWnUXz7epaHMSCQalkXd62v9KXbUM
+   csVb0Ntfbu45jX6EvAU1l/+IVnAJk8N70incF+lO/WqmEcrE9NErOtGIn
+   aky+bA3UbWLfeDdji7+rsAl1Hi+6nPwhobte8YyZEAcvOsYGxr5VHG5O3
+   wuG5P1dCfjcyct2Di+grGrrrxAxR4fah0gXPBZYhQC1hQv1h0YiwOonAS
+   77n6t20Bdobcpy/wtOuBC4N7+OM31qCwSECuhyP6e/QjEG57rMBCETWX/
+   dIBtR/OIWj/oKEojToNs6DadWOlrSkTgIXoy7OdElb80MLITLbyS8Fp4K
+   w==;
+X-CSE-ConnectionGUID: 5dPgsSHjRFuhrjxMPCb+NA==
+X-CSE-MsgGUID: nkKJchyaRBGg1exKyfe6yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="91516361"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="87621513"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 14:17:13 -0700
-X-CSE-ConnectionGUID: e523jZxwSqyacSYce9Npyg==
-X-CSE-MsgGUID: xdyMp1FmStW78774dgtsIg==
+   d="scan'208";a="91516361"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 15:18:13 -0700
+X-CSE-ConnectionGUID: ltXyJBH3S5CIDNOfPjTajg==
+X-CSE-MsgGUID: sAumHUmoSHWHjUq4xeoXcg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="262405620"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Aug 2026 14:17:11 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 19 Aug 2026 15:18:12 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwnen-000000007Or-2KWt;
-	Wed, 19 Aug 2026 21:17:09 +0000
-Date: Wed, 19 Aug 2026 23:16:21 +0200
+	id 1wwobp-000000007PN-482w;
+	Wed, 19 Aug 2026 22:18:09 +0000
+Date: Thu, 20 Aug 2026 00:17:19 +0200
 From: kernel test robot <lkp@intel.com>
 To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [ardb:arm64-combine-module-section-allocations 1/1]
- kernel/module/main.c:2826:21: error: 'provider_type' undeclared; did you mean
- 'iov_iter_type'?
-Message-ID: <202608192303.1pesQXJm-lkp@intel.com>
+ kernel/module/main.c:2826:7: error: use of undeclared identifier
+ 'provider_type'; did you mean 'iov_iter_type'?
+Message-ID: <202608200016.8sPdd0rE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,23 +61,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-combine-module-section-allocations
 head:   eaa00409fb18efd5ba35159657893d158d91faa4
 commit: eaa00409fb18efd5ba35159657893d158d91faa4 [1/1] module: Permit module section allocations to be combined
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260819/202608192303.1pesQXJm-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608192303.1pesQXJm-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260820/202608200016.8sPdd0rE-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608200016.8sPdd0rE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608192303.1pesQXJm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608200016.8sPdd0rE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/module/main.c: In function 'move_module':
->> kernel/module/main.c:2826:21: error: 'provider_type' undeclared (first use in this function); did you mean 'iov_iter_type'?
+>> kernel/module/main.c:2826:7: error: use of undeclared identifier 'provider_type'; did you mean 'iov_iter_type'?
     2826 |                 if (provider_type == MOD_INVALID)
          |                     ^~~~~~~~~~~~~
          |                     iov_iter_type
-   kernel/module/main.c:2826:21: note: each undeclared identifier is reported only once for each function it appears in
+   include/linux/uio.h:110:30: note: 'iov_iter_type' declared here
+     110 | static inline enum iter_type iov_iter_type(const struct iov_iter *i)
+         |                              ^
+   kernel/module/main.c:2826:21: warning: comparison between pointer and integer ('enum iter_type (*)(const struct iov_iter *)' and 'int') [-Wpointer-integer-compare]
+    2826 |                 if (provider_type == MOD_INVALID)
+         |                     ~~~~~~~~~~~~~ ^  ~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
 vim +2826 kernel/module/main.c
