@@ -1,184 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4514A3CFF4F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 06:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF793CFF6C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Aug 2026 06:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787120440; cv=none; b=oJeKrQop/FJxGR1ZKnp4NSNXBSHA3pz7TDfcpeWKw/w09AIrbKdMEZp+gTIoEsWZjMhMqM9kLkwgtkZs3THHrvIvqvDYUQRKcbTjAaiY4Teo0cKaNdYPzG7Ouj50zcySb0RyZt+7Ley2V7jMjSHy7FCd7jx+MQ6FKRWnU10C7a4=
+	t=1787120441; cv=none; b=FvBk0s0CMsI9DxveC1O+kzmuIs5QR+RU1KPNfTAjqZakBm1hO1ZA2VQw8sjuQGcazbReXeeg4sypJLy/LKB16T8zVV+zknu500wEnozrDBRPZGToIOjgm1KPrMZIBm9de0mwdqhh2YYs36cj8NVpYvn4pZbEtnLD/vRZ4xMOFB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787120440; c=relaxed/simple;
-	bh=Ae5EtFaI9BGXxjoLx/GdUMTnmrJbYbn05HWs+4m7cjs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NKhvYguAQu0B0+bY70NlPoqtBVGyuTvWwNKO67pJE21VMDBOZ3wzchKm/BTKPvy65520jDuthFLh2GOnYEJOrGl5ZsbXQfj/MNH/geIa6wkPd8XhxKVr9G/cuiO9bTLVIYQ3iMuaNqrcfL7MDYwLHqxgtoYen8nxRQeHKbmftrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTPH5aHX; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1787120441; c=relaxed/simple;
+	bh=awWdr4/HBdT9YL310/9jEycvDOWJIwNU23guunU9Ve8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=i3TFssbf/7VFBIUpmsWhsGuecbq/Laa+VKkFPOGgxxHVlneCPXTUz3GvHryxJuxvRyUXkg2Gfqy2K7N1nIB8r1MCEWMpsPkC8gCEmgqjVAkQLsigGpSJl41AWY3z7gR1/471Wl5G0Aq2i0KFI7ByXQ9P6UyivWLd4wdbSb0CWHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGlze7Mk; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTPH5aHX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGlze7Mk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787120438; x=1818656438;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ae5EtFaI9BGXxjoLx/GdUMTnmrJbYbn05HWs+4m7cjs=;
-  b=aTPH5aHXGAmNxdAbGJuxsbnBmM6bUJuaLTgGNZJFULFPEWWnaLmmZAkh
-   enAxC/i8lACxN864YHDEyW22SYrRw5vqNe5wgXUfby1Q+pyx0/Q79PO4v
-   lVY4aTA//OIJbbhsvbUO3NYIr+4PluD3ikXQS3951x2mJLlpZn15DoGeF
-   glCoR9g0IATSdJoFqN64Ni+BrgNRgJrO2FUOAv9unWp3X3qdr77c/vXYK
-   gKvIy9E/ytl3mb1vSuwChymiaJ7HpqkuwF+J3wAZBhGvbSlpBOzZ0Wizy
-   rOxUmYv466/F9AlFnadWxqker5Dh/pdXzNT5AXAPcL8L3isxxefUxBZZ4
-   A==;
-X-CSE-ConnectionGUID: uEPH52zsSm6U1ugMEm1/sw==
-X-CSE-MsgGUID: QYimTXFTRp+TR02tkQIPxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="86740148"
+  t=1787120440; x=1818656440;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=awWdr4/HBdT9YL310/9jEycvDOWJIwNU23guunU9Ve8=;
+  b=nGlze7MkzqBdc79p4UE7VphzMKZDDjR5TeHsUeCjhs+32RjDs+ug0ni7
+   IlnnaQXwahe3lC2JXFEmj5vpjtxWXjLGUzadVgY/zv/+zOSS85wusL9lG
+   9GvOS8r5/CRssmiUdf29xqKLV9xxB6tzCcUL+hjKq5CgQEuObU+aDbAjn
+   HsRXHOicOkmDTs6tLfqP3lKN2a3/ayVCazamcVngk5B7Lyr6vjuM4dFgf
+   6Lac+zvvDIn4GUSUKTVbA8IHEneQOAGPy4dKRVh1e6B+MRvSUUkb3Z9qS
+   Z1B3CXpEjlJpq187jYc0BXzJqxuGdOMZLa/bP68S9GaEfbORxuyxZV4B6
+   Q==;
+X-CSE-ConnectionGUID: EkQJzoRuTqWl3bodQXfoew==
+X-CSE-MsgGUID: KdFxot5BSrivhwy0fL88VA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="110408910"
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="86740148"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 23:20:37 -0700
-X-CSE-ConnectionGUID: wqXct5asQouFb3hiKQu9Vg==
-X-CSE-MsgGUID: kdMqOqGLTKOOkCAngsBGtg==
+   d="scan'208";a="110408910"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 23:20:38 -0700
+X-CSE-ConnectionGUID: cTnHNM28R2iZryLNIqBEdA==
+X-CSE-MsgGUID: 5iRTqXsRSLmMnQ5ZC4iPdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="268961315"
+   d="scan'208";a="261691507"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Aug 2026 23:20:35 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 18 Aug 2026 23:20:35 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwZf7-00000000ewE-0Sgv;
+	id 1wwZf7-00000000ewA-0ATb;
 	Wed, 19 Aug 2026 06:20:33 +0000
-Date: Wed, 19 Aug 2026 14:20:30 +0800
+Date: Wed, 19 Aug 2026 14:20:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- arm@kernel.org
-Subject: [soc:board-remove 148/200]
- drivers/regulator/max8907-regulator.c:296 max8907_regulator_probe() warn:
- inconsistent indenting
-Message-ID: <202608191451.uGAOqA5g-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-shrink-cached 62/64] lib/dynamic_debug.c:2146:2:
+ error: call to undeclared function 'arena_mas_lock'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202608191428.AxPChBSW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
-head:   c12d647b0229f4d75a2973c9b4e79f9b53406426
-commit: f8926841ac3e6d3be98b2ce7873f2a038816b3d2 [148/200] mfd: max8907: remove pdata based probing
-config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260819/202608191451.uGAOqA5g-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/jimc/linux.git dd-shrink-cached
+head:   917ff2e5a74ae1c252ad3a2c9017bd464f9258f9
+commit: 9ddeda37ca2aba5800b9bbc30e16a1db1ce44e5c [62/64] lib/arena_maple_tree: Specialized arena-backed maple tree
+config: i386-buildonly-randconfig-001-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191428.AxPChBSW-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191428.AxPChBSW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608191451.uGAOqA5g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608191428.AxPChBSW-lkp@intel.com/
 
-smatch warnings:
-drivers/regulator/max8907-regulator.c:296 max8907_regulator_probe() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +296 drivers/regulator/max8907-regulator.c
+   lib/dynamic_debug.c:112:20: warning: no previous prototype for function 'ddebug_arena_alloc' [-Wmissing-prototypes]
+     112 | struct maple_node *ddebug_arena_alloc(void *arena, gfp_t gfp)
+         |                    ^
+   lib/dynamic_debug.c:112:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     112 | struct maple_node *ddebug_arena_alloc(void *arena, gfp_t gfp)
+         | ^
+         | static 
+   lib/dynamic_debug.c:408:2: error: call to undeclared function 'arena_mas_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     408 |         arena_mas_init(&mas, mt, (unsigned long)dp);
+         |         ^
+   lib/dynamic_debug.c:409:8: error: call to undeclared function 'arena_mas_walk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     409 |         val = arena_mas_walk(&mas);
+         |               ^
+   lib/dynamic_debug.c:409:6: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+     409 |         val = arena_mas_walk(&mas);
+         |             ^ ~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:415:18: error: call to undeclared function 'arena_mas_prev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     415 |                         while ((val = arena_mas_prev(&mas, 0))) {
+         |                                       ^
+   lib/dynamic_debug.c:415:16: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+     415 |                         while ((val = arena_mas_prev(&mas, 0))) {
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:474:8: error: call to undeclared function 'arena_mtree_store_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     474 |                 rc = arena_mtree_store_range(mt, first, last, (void *)name, GFP_KERNEL);
+         |                      ^
+   lib/dynamic_debug.c:474:8: note: did you mean 'mtree_store_range'?
+   include/linux/maple_tree.h:384:5: note: 'mtree_store_range' declared here
+     384 | int mtree_store_range(struct maple_tree *mt, unsigned long first,
+         |     ^
+   lib/dynamic_debug.c:477:8: error: call to undeclared function 'arena_mtree_store_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     477 |                 rc = arena_mtree_store_range(mt, addr, addr, (void *)name, GFP_KERNEL);
+         |                      ^
+   lib/dynamic_debug.c:480:8: error: call to undeclared function 'arena_mtree_store_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     480 |                 rc = arena_mtree_store_range(mt, addr, addr, (void *)name, GFP_KERNEL);
+         |                      ^
+>> lib/dynamic_debug.c:2146:2: error: call to undeclared function 'arena_mas_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2146 |         arena_mas_lock(&mas);
+         |         ^
+>> lib/dynamic_debug.c:2148:2: error: call to undeclared function 'arena_mas_erase'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2148 |         arena_mas_erase(&mas);
+         |         ^
+>> lib/dynamic_debug.c:2150:2: error: call to undeclared function 'arena_mas_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2150 |         arena_mas_unlock(&mas);
+         |         ^
+   lib/dynamic_debug.c:2306:2: error: call to undeclared function 'arena_mas_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2306 |         arena_mas_init(&mas, mt, addr);
+         |         ^
+   lib/dynamic_debug.c:2310:9: error: call to undeclared function 'arena_mas_walk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2310 |                 val = arena_mas_walk(&mas);
+         |                       ^
+   lib/dynamic_debug.c:2310:7: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+    2310 |                 val = arena_mas_walk(&mas);
+         |                     ^ ~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:2321:16: error: call to undeclared function 'arena_mas_prev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2321 |         while ((val = arena_mas_prev(&mas, 0))) {
+         |                       ^
+   lib/dynamic_debug.c:2321:14: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+    2321 |         while ((val = arena_mas_prev(&mas, 0))) {
+         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:2336:16: error: call to undeclared function 'arena_mas_next'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2336 |         while ((val = arena_mas_next(&mas, ULONG_MAX))) {
+         |                       ^
+   lib/dynamic_debug.c:2336:14: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+    2336 |         while ((val = arena_mas_next(&mas, ULONG_MAX))) {
+         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:2429:3: error: call to undeclared function 'arena___mt_destroy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2429 |                 arena___mt_destroy(&dd_modules_site_map.mt);
+         |                 ^
+   lib/dynamic_debug.c:2429:3: note: did you mean '__mt_destroy'?
+   include/linux/maple_tree.h:394:6: note: '__mt_destroy' declared here
+     394 | void __mt_destroy(struct maple_tree *mt);
+         |      ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   1 warning and 20 errors generated.
 
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  255  
-a5023574d120ca Bill Pemberton      2012-11-19  256  static int max8907_regulator_probe(struct platform_device *pdev)
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  257  {
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  258  	struct max8907 *max8907 = dev_get_drvdata(pdev->dev.parent);
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  259  	int ret;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  260  	struct max8907_regulator *pmic;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  261  	unsigned int val;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  262  	int i;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  263  	struct regulator_config config = {};
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  264  	struct regulator_init_data *idata;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  265  	const char *mbatt_rail_name = NULL;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  266  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  267  	ret = max8907_regulator_parse_dt(pdev);
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  268  	if (ret)
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  269  		return ret;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  270  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  271  	pmic = devm_kzalloc(&pdev->dev, sizeof(*pmic), GFP_KERNEL);
-d016bdc7f4e8b2 Sachin Kamat        2014-02-20  272  	if (!pmic)
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  273  		return -ENOMEM;
-d016bdc7f4e8b2 Sachin Kamat        2014-02-20  274  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  275  	platform_set_drvdata(pdev, pmic);
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  276  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  277  	memcpy(pmic->desc, max8907_regulators, sizeof(pmic->desc));
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  278  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  279  	/* Backwards compatibility with MAX8907B; SD1 uses different voltages */
-472b39c3d1bba0 Yizhuo              2019-10-03  280  	ret = regmap_read(max8907->regmap_gen, MAX8907_REG_II2RR, &val);
-472b39c3d1bba0 Yizhuo              2019-10-03  281  	if (ret)
-472b39c3d1bba0 Yizhuo              2019-10-03  282  		return ret;
-472b39c3d1bba0 Yizhuo              2019-10-03  283  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  284  	if ((val & MAX8907_II2RR_VERSION_MASK) ==
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  285  	    MAX8907_II2RR_VERSION_REV_B) {
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  286  		pmic->desc[MAX8907_SD1].min_uV = 637500;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  287  		pmic->desc[MAX8907_SD1].uV_step = 12500;
-7305608bc88827 Axel Lin            2012-08-16  288  		pmic->desc[MAX8907_SD1].n_voltages =
-7305608bc88827 Axel Lin            2012-08-16  289  						(1425000 - 637500) / 12500 + 1;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  290  	}
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  291  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  292  	for (i = 0; i < MAX8907_NUM_REGULATORS; i++) {
-f991525a1acc64 Krzysztof Kozlowski 2014-03-10  293  		struct regulator_dev *rdev;
-f991525a1acc64 Krzysztof Kozlowski 2014-03-10  294  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  295  		config.dev = pdev->dev.parent;
-db55168265699c Stephen Warren      2012-08-20 @296  			idata = match_init_data(i);
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  297  		config.init_data = idata;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  298  		config.driver_data = pmic;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  299  		config.regmap = max8907->regmap_gen;
-db55168265699c Stephen Warren      2012-08-20  300  		config.of_node = match_of_node(i);
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  301  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  302  		switch (pmic->desc[i].id) {
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  303  		case MAX8907_MBATT:
-5fc72f57e62e10 Stephen Warren      2012-08-23  304  			if (idata && idata->constraints.name)
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  305  				mbatt_rail_name = idata->constraints.name;
-5fc72f57e62e10 Stephen Warren      2012-08-23  306  			else
-5fc72f57e62e10 Stephen Warren      2012-08-23  307  				mbatt_rail_name = pmic->desc[i].name;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  308  			break;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  309  		case MAX8907_BBAT:
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  310  		case MAX8907_SDBY:
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  311  		case MAX8907_VRTC:
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  312  			idata->supply_regulator = mbatt_rail_name;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  313  			break;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  314  		}
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  315  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  316  		if (pmic->desc[i].ops == &max8907_ldo_ops) {
-472b39c3d1bba0 Yizhuo              2019-10-03  317  			ret = regmap_read(config.regmap, pmic->desc[i].enable_reg,
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  318  				    &val);
-472b39c3d1bba0 Yizhuo              2019-10-03  319  			if (ret)
-472b39c3d1bba0 Yizhuo              2019-10-03  320  				return ret;
-472b39c3d1bba0 Yizhuo              2019-10-03  321  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  322  			if ((val & MAX8907_MASK_LDO_SEQ) !=
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  323  			    MAX8907_MASK_LDO_SEQ)
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  324  				pmic->desc[i].ops = &max8907_ldo_hwctl_ops;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  325  		} else if (pmic->desc[i].ops == &max8907_out5v_ops) {
-472b39c3d1bba0 Yizhuo              2019-10-03  326  			ret = regmap_read(config.regmap, pmic->desc[i].enable_reg,
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  327  				    &val);
-472b39c3d1bba0 Yizhuo              2019-10-03  328  			if (ret)
-472b39c3d1bba0 Yizhuo              2019-10-03  329  				return ret;
-472b39c3d1bba0 Yizhuo              2019-10-03  330  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  331  			if ((val & (MAX8907_MASK_OUT5V_VINEN |
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  332  						MAX8907_MASK_OUT5V_ENSRC)) !=
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  333  			    MAX8907_MASK_OUT5V_ENSRC)
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  334  				pmic->desc[i].ops = &max8907_out5v_hwctl_ops;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  335  		}
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  336  
-f991525a1acc64 Krzysztof Kozlowski 2014-03-10  337  		rdev = devm_regulator_register(&pdev->dev,
-5ecdf140f21c50 Sachin Kamat        2013-09-04  338  						&pmic->desc[i], &config);
-f991525a1acc64 Krzysztof Kozlowski 2014-03-10  339  		if (IS_ERR(rdev)) {
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  340  			dev_err(&pdev->dev,
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  341  				"failed to register %s regulator\n",
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  342  				pmic->desc[i].name);
-f991525a1acc64 Krzysztof Kozlowski 2014-03-10  343  			return PTR_ERR(rdev);
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  344  		}
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  345  	}
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  346  
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  347  	return 0;
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  348  }
-ffee19091a4e0c Gyungoh Yoo         2012-08-09  349  
 
-:::::: The code at line 296 was first introduced by commit
-:::::: db55168265699c72e6ebf7a4228029da590a3eab regulator: max8907: fix compile error when !CONFIG_OF
+vim +/arena_mas_lock +2146 lib/dynamic_debug.c
 
-:::::: TO: Stephen Warren <swarren@nvidia.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+  2131	
+  2132	/*
+  2133	 * Called in response to a module being unloaded.  Removes
+  2134	 * any ddebug_table's which point at the module.
+  2135	 */
+  2136	static void ddebug_module_sites_clear(struct ddebug_table *dt)
+  2137	{
+  2138		unsigned long start = (unsigned long) dt->info.descs.start;
+  2139		unsigned long end = (unsigned long) &dt->info.descs.start[dt->info.descs.len - 1];
+  2140	
+  2141		MA_STATE(mas, &dd_modules_site_map.mt, start - DD_KEY_MOD_OFFSET, end);
+  2142	
+  2143		v2pr_info("clearing %3d debugs of removed module %s\n",
+  2144			  dt->info.descs.len, dt->info.mod_name);
+  2145	
+> 2146		arena_mas_lock(&mas);
+  2147		current_ddebug_write_tree = &dd_modules_site_map.mt;
+> 2148		arena_mas_erase(&mas);
+  2149		current_ddebug_write_tree = NULL;
+> 2150		arena_mas_unlock(&mas);
+  2151	
+  2152		if (dt->compressed_sites) {
+  2153			vfree(dt->compressed_sites);
+  2154			dt->compressed_sites = NULL;
+  2155		}
+  2156	}
+  2157	
 
 --
 0-DAY CI Kernel Test Service
