@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DCE419FDA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Aug 2026 11:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CAF41BA8B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Aug 2026 11:13:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787224420; cv=none; b=fnsUDpqu9ceZQvVReY89xtXaZ0hvkDtM51eSitr0v0618FHduK1NmLQK2wuBu4zp20qF8s0+92Ll/s2RqjegMbHsX0QbHwJssob4LHQK81KJc7vj+qaGFhpFF6SzjUV/qwtyNRq0ys6wOW6RO4f21hzoBFTTr1HdmrfBi0FZDEA=
+	t=1787224422; cv=none; b=d0X2wFlZT3FFEYsYvbR0ClrlQdd55tz+hCVhaoTJPzWapud4x3uEenIyh+uJ4/x4M0ghtCqO7a/cKube90Haw8D1RPfFHx3MDHi/EUkJLOljZVsmirDBK9amNnsbzlzg+Za0Yg9c/5Hj2yogvwPXxBfcQm1pXEi5cQc7ctbcagY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787224420; c=relaxed/simple;
-	bh=3IWyi1Ma+ppFwD0Z3DXqR992ZEKekLKkyP7zs32sb2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZX8ArZcGg4m2YHXK1tO6V1TJcW8jjP4J4D2QdRVUTDY46eSWOoP7HanNpiKzgS06l1flWkUC5oaJ0Nqub/yeq8ENz2UWEZYX5OYBK8/nhgc62wFPLU5dPR+eRBFzd+qeX/gMdwTWYApUIlMG4GR300Te0roiFWtJtsxl10uXVM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WP0CViRC; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1787224422; c=relaxed/simple;
+	bh=yCNzB+neYJgrbk9cNmONTlPoXtFBq6AAkmgz6+KkC2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Qus3AMjapVHVsO1ZsSgqX81VzDSBYs7WBEMkofXy2UStULfAk/mLJ3DmQ1QwPGrdstSSnCj3PTt6Hel58EdN1v/mYY0J81ScfrnrL//YoH0L+ge9+dq2hoSSC8az+VCFWuj7rzU7XAWWvK75pByuffKP5ZYM2XtzgYt238uwOLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMWisok9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WP0CViRC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMWisok9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787224419; x=1818760419;
+  t=1787224421; x=1818760421;
   h=date:from:to:cc:subject:message-id;
-  bh=3IWyi1Ma+ppFwD0Z3DXqR992ZEKekLKkyP7zs32sb2Q=;
-  b=WP0CViRC162jHEOBIJw4kYlp2eUCZPHbICea0TgpSu2WNMk2Vo1+64/s
-   g2iW7C3zHaw9CUl3yOl3pzxqOISTSy8agpFxnOR/gAPoHz5/ZqYd4iwE7
-   CjOEpn1H7Pux1VtjU1T62Ze7+fLDs9n3ByelWBkyZFfPzS3LsgVzX+pGz
-   fcOEzmxN6+n4OaHcNjEdRPLmZuBkvX6+J34EFRIB5iVFIJcuTONmwxrwI
-   GJJOW1N8Et56f734lbvfRF5opKdwSRPZQyL8zeLYo9GPRer2nk/gDfmNo
-   uiVnZmdapp+JiLC52qO+q/G/bgORWn+qQLAlL5TUe5wOpDiOKDklh2sE2
+  bh=yCNzB+neYJgrbk9cNmONTlPoXtFBq6AAkmgz6+KkC2Q=;
+  b=nMWisok9G7ddNLTR6wfNpFdA7LQuzHMxhe+JLRI9a9yQOeJ1FZMRod2E
+   uZ1e0EPV0XlGpWNrLPzXTGuhcV4+kPU7QFrItR7t70SFjw/SGsAizDpTd
+   pKwkYF4G4+LqLgo/Poxtufq6tO8w+zmmEtaFOFkV1AfE/kFmAKFU9UjPv
+   LI5YVGjXmUZeb/en2/DoFogQSw9BgZ9k9Nxcpg/oYMBoO2StHI3ZK2ajj
+   Mt5tJ9+kRsG+Kra5D6mnUI7WoDt8NCAQQu5wU3QTEe2a58x9xvgn+U7UO
+   PtQrjB7cyKjUzn6YefB7CV4TguAWF6AsCFa10ItRhe/U5wGvzYqO6VGuJ
    w==;
-X-CSE-ConnectionGUID: qjnhag8zT8GltcloaHmgYQ==
-X-CSE-MsgGUID: qVqo0VgKRQymFK1vCAqQ8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87877685"
+X-CSE-ConnectionGUID: 41KzI4iiRNO9MwNarbKj/A==
+X-CSE-MsgGUID: 7ev5AHOpTSW/SpuKmmDcgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87877687"
 X-IronPort-AV: E=Sophos;i="6.25,233,1779174000"; 
-   d="scan'208";a="87877685"
+   d="scan'208";a="87877687"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 04:13:38 -0700
-X-CSE-ConnectionGUID: yS9glbhQQziB3eizBcql0w==
-X-CSE-MsgGUID: pQaEHOVxTm+OPWs20Ck3mQ==
+X-CSE-ConnectionGUID: 2bDrZ3slSkK22/UFf0No3w==
+X-CSE-MsgGUID: ivkNdqd9RHmvbWCmWQQ7Zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,233,1779174000"; 
-   d="scan'208";a="265493359"
+   d="scan'208";a="265493361"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 20 Aug 2026 04:13:37 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wx0iE-00000000imb-0ks2;
+	id 1wx0iE-00000000imd-11u3;
 	Thu, 20 Aug 2026 11:13:34 +0000
-Date: Thu, 20 Aug 2026 19:13:24 +0800
+Date: Thu, 20 Aug 2026 19:13:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt_arm64 19/37]
- include/linux/bitops.h:279:19: sparse: sparse: cast truncates bits from
- constant value (fffffffffffe0 becomes ffffffe0)
-Message-ID: <202608201925.v1ShtOtY-lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Manivannan Sadhasivam <mani@kernel.org>
+Subject: [linux-next:master 4858/16374]
+ drivers/pci/controller/cadence/pcie-cadence-debugfs.c:230:18: warning:
+ conditional expression between different enumeration types ('enum
+ cdns_pcie_hpa_ltssm' and 'enum cdns_pcie_lga_ltssm')
+Message-ID: <202608201933.w2579mwx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,54 +62,58 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt_arm64
-head:   ec570e1cdbc0f03b5f4f9940802c7579d913e1ce
-commit: c5d3121e6ad2a22ea8059b1ef203c86fd1649625 [19/37] iommupt/armv8: Implement the iommu specific components
-config: um-randconfig-r134-20260820 (https://download.01.org/0day-ci/archive/20260820/202608201925.v1ShtOtY-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608201925.v1ShtOtY-lkp@intel.com/reproduce)
+Hi Hans,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6a746cd265aed59107ebdaa9ce039bb832922969
+commit: d70e964dc099821f6c159d8f40aa7be2c62ecfd2 [4858/16374] PCI: cadence: Add LGA IP debugfs for LTSSM status
+config: loongarch-randconfig-r061-20260820 (https://download.01.org/0day-ci/archive/20260820/202608201933.w2579mwx-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608201933.w2579mwx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608201925.v1ShtOtY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608201933.w2579mwx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/iommu/generic_pt/fmt/iommu_armv8.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
->> include/linux/bitops.h:279:19: sparse: sparse: cast truncates bits from constant value (fffffffffffe0 becomes ffffffe0)
-   include/linux/bitops.h:284:16: sparse: sparse: cast truncates bits from constant value (fffffffffffe0 becomes ffffffe0)
->> include/linux/bitops.h:279:19: sparse: sparse: cast truncates bits from constant value (fffffffffffe0 becomes ffffffe0)
-   include/linux/bitops.h:284:16: sparse: sparse: cast truncates bits from constant value (fffffffffffe0 becomes ffffffe0)
+All warnings (new ones prefixed by >>):
 
-vim +279 include/linux/bitops.h
+>> drivers/pci/controller/cadence/pcie-cadence-debugfs.c:230:18: warning: conditional expression between different enumeration types ('enum cdns_pcie_hpa_ltssm' and 'enum cdns_pcie_lga_ltssm') [-Wenum-compare-conditional]
+     230 |                    pci->is_hpa ? hpa_ltssm : lga_ltssm);
+         |                                ^ ~~~~~~~~~   ~~~~~~~~~
+   1 warning generated.
 
-c320592f3f2a1e6 Wolfram Sang       2025-01-07  267  
-952043ac12a117d Steven Whitehouse  2009-04-23  268  /**
-952043ac12a117d Steven Whitehouse  2009-04-23  269   * __ffs64 - find first set bit in a 64 bit word
-952043ac12a117d Steven Whitehouse  2009-04-23  270   * @word: The 64 bit word
-952043ac12a117d Steven Whitehouse  2009-04-23  271   *
-4945cca232ce8bc Geert Uytterhoeven 2021-02-25  272   * On 64 bit arches this is a synonym for __ffs
-952043ac12a117d Steven Whitehouse  2009-04-23  273   * The result is not defined if no bits are set, so check that @word
-952043ac12a117d Steven Whitehouse  2009-04-23  274   * is non-zero before calling this.
-952043ac12a117d Steven Whitehouse  2009-04-23  275   */
-6606c8c7e818865 Kees Cook          2025-08-04  276  static inline __attribute_const__ unsigned int __ffs64(u64 word)
-952043ac12a117d Steven Whitehouse  2009-04-23  277  {
-952043ac12a117d Steven Whitehouse  2009-04-23  278  #if BITS_PER_LONG == 32
-952043ac12a117d Steven Whitehouse  2009-04-23 @279  	if (((u32)word) == 0UL)
-952043ac12a117d Steven Whitehouse  2009-04-23  280  		return __ffs((u32)(word >> 32)) + 32;
-952043ac12a117d Steven Whitehouse  2009-04-23  281  #elif BITS_PER_LONG != 64
-952043ac12a117d Steven Whitehouse  2009-04-23  282  #error BITS_PER_LONG not 32 or 64
-952043ac12a117d Steven Whitehouse  2009-04-23  283  #endif
-952043ac12a117d Steven Whitehouse  2009-04-23  284  	return __ffs((unsigned long)word);
-952043ac12a117d Steven Whitehouse  2009-04-23  285  }
-952043ac12a117d Steven Whitehouse  2009-04-23  286  
 
-:::::: The code at line 279 was first introduced by commit
-:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
+vim +230 drivers/pci/controller/cadence/pcie-cadence-debugfs.c
 
-:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
-:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
+   209	
+   210	static int ltssm_status_show(struct seq_file *s, void *v)
+   211	{
+   212		struct cdns_pcie *pci = s->private;
+   213		enum cdns_pcie_lga_ltssm lga_ltssm;
+   214		enum cdns_pcie_hpa_ltssm hpa_ltssm;
+   215		const char *str_ltssm;
+   216		u32 val;
+   217	
+   218		if (pci->is_hpa) {
+   219			val = cdns_pcie_hpa_readl(pci, REG_BANK_IP_REG,
+   220						  CDNS_PCIE_HPA_PHY_DBG_STS_REG0);
+   221			hpa_ltssm = FIELD_GET(CDNS_PCIE_HPA_LTSSM_STATUS_MASK, val);
+   222			str_ltssm = cdns_pcie_hpa_ltssm_status_string(hpa_ltssm);
+   223		} else {
+   224			val = cdns_pcie_readl(pci, CDNS_PCIE_LM_BASE);
+   225			lga_ltssm = FIELD_GET(CDNS_PCIE_LGA_LTSSM_STATUS_MASK, val);
+   226			str_ltssm = cdns_pcie_lga_ltssm_status_string(lga_ltssm);
+   227		}
+   228	
+   229		seq_printf(s, "%s (0x%02x)\n", str_ltssm,
+ > 230			   pci->is_hpa ? hpa_ltssm : lga_ltssm);
+   231	
+   232		return 0;
+   233	}
+   234	
 
 --
 0-DAY CI Kernel Test Service
