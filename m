@@ -1,178 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDFE38757A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Aug 2026 04:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDAE1FF5E3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Aug 2026 05:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787201943; cv=none; b=SE6YujTw5UKZWsiuP+oI6ViNX4uHSw1YFR4SlvN89vYwjtw5kU4fSYVKwu+/BkJmZi/ive0wqfrA0Bfu+Thn+bkaMhGR5Pd5xxpZgpr4Hm3fMd8crQdEilu2Ia2Rlwb7PU3iYDM73cm+Z+IebJ/U6YHpzR6A47VC0/cRRSj8dVQ=
+	t=1787202605; cv=none; b=ueKT8DyTHWxDbrn+dbugdIi+l7TUBfjmOEOhuWmhrAe43/n4Kh3n6IHW6P8JIpPv2KXeNb95jOOBY0xWv/LlYcs0WoQDFQAMfys03C8ThGWqkel65E7o4/tT/6cnPPsojRT3B3p6S/DKyzPJkpFCdMU2/3PVIs9RHpPIaVdsIT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787201943; c=relaxed/simple;
-	bh=VLCo0tvkMrTiHkazAxrk3Xgo+Y2IxEa+zzIHRDUc7XM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KMQPgtk89Yn5oK/Oudim762a3+JuAmHko16n6x372X2Fxuk4WWiA5ombEZRFcuL6dg/m/py+ouv/O9js8qCUhSzvUY1G3t/QVUoanOXBT7iZCUFKyv9cZ3RcHta5KSF3w8EjMYaifcDAXwZfrlG25sSubwZOhwN2f/DFZGq/qyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5kDHJVi; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1787202605; c=relaxed/simple;
+	bh=3nLGpgBPdWwc8JpLxbQ4Z3gEuYcaV+RB4izohmoVF14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S49T7pQfhLOkXzjGoP0acyacwruX6fmLL9HTg2eyNSxgP5acPO2MMPbdWkvoOm+XSaXRwbZEpYHAyIbYcpdKIXpxGhi2Hk2/Z0c55bROO/32At1hGIe1mB3LDH2etbWCsHuPYIGOtuZ3Q5M3+9yoD4gVibvFP8qPpThHicDA4Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3jr3Fz0; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5kDHJVi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3jr3Fz0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787201941; x=1818737941;
-  h=date:from:to:cc:subject:message-id;
-  bh=VLCo0tvkMrTiHkazAxrk3Xgo+Y2IxEa+zzIHRDUc7XM=;
-  b=e5kDHJViFZAVA1kaRh3QmpcVnj0GgtPPiBjm/6IFi5N9yHm/METkbA+V
-   pMADONghNI9ManIRuFS7IcRRyj0ivZAxulOWKIJfTv/SgjJLNneElcAIY
-   DNKW8OaXtSvAK5QqgYI9haxMrzVO4izwqGZLPoLVYUuZyENE0sv6ffC/i
-   VDvKyw+biBboSjIcF4lhTKBL9G3gn9E6n8Bgu+YAhKI1izKe70+93Ko3F
-   m8g8jd++MUQ+7d76jaYgorcLDBaxWx8nKqVzaq4rtRWdlhC7h8m5MSRMW
-   7PeXrfOnOet9lt7ZO+/gn8EiqL2p0za03J4zL324JSGlsv6Ts6phWSb+P
-   A==;
-X-CSE-ConnectionGUID: ze4GSipiSQeSVAEd7ODjUg==
-X-CSE-MsgGUID: tyBhkjOqTburR4nGaCQISA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87749216"
+  t=1787202603; x=1818738603;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3nLGpgBPdWwc8JpLxbQ4Z3gEuYcaV+RB4izohmoVF14=;
+  b=M3jr3Fz0mGEKw0Qr+O4110WChpxx/C80zKKtA2lOrNMJKZSv4k93muga
+   jLRzqmGVxzhpLy7eczPTgD01fQcCykoysORo2FMppAhMDHDwyDwaTT2/V
+   s1X+eMKnDt08J2LcdjUBNsxE7W3XDB5Dqln988PZePtVR/d3FOTXtEfrH
+   07JloKz/pbJjCDdO0MGr426IUCKUIAhweSe04PGqwP8y9KTRyCHX7Z2Rz
+   kO/wp48YDw4Q+eMVqgKxgZM/qB84/aGluCFXogO5KMaG5MlYiVxO0HSZF
+   FkHEAMa4zJ8JBPHbZ4yni1QQtw+P7gtP/QNE8W3ljXZhVkPXMV2CbiTAF
+   Q==;
+X-CSE-ConnectionGUID: ydjIph4VQhyDITdtFnyEOg==
+X-CSE-MsgGUID: ZdC/yYQxQwi4vXChrhD9gQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="98321824"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="87749216"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 21:59:00 -0700
-X-CSE-ConnectionGUID: VhOTR55STQOJv8t/LR665g==
-X-CSE-MsgGUID: 1WHlfrnTRHSR4sjZLRYHkg==
+   d="scan'208";a="98321824"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 22:10:03 -0700
+X-CSE-ConnectionGUID: 94I9o2DLSeWCqmq+GedBpQ==
+X-CSE-MsgGUID: HLqbnT5+TG2cC68lIlVXEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="270087655"
+   d="scan'208";a="271039019"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 19 Aug 2026 21:58:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 19 Aug 2026 22:09:59 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwurf-00000000hrd-3knj;
-	Thu, 20 Aug 2026 04:58:55 +0000
-Date: Thu, 20 Aug 2026 12:58:07 +0800
+	id 1wwv2K-00000000ht3-2foM;
+	Thu, 20 Aug 2026 05:09:56 +0000
+Date: Thu, 20 Aug 2026 13:09:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/sched/fair.c:2004:38: sparse: sparse: incorrect type
- in initializer (different address spaces)
-Message-ID: <202608201214.QpYw7L8N-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Subject: Re: [PATCH] PCI: qcom: Add register dump support for PCIe Link Down
+ events
+Message-ID: <202608201351.dBcT51sv-lkp@intel.com>
+References: <20260811-regdump-v1-1-f22db3fb37c2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260811-regdump-v1-1-f22db3fb37c2@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cb8a75eec0877810b50aa1c5a833f929525cd2ee
-commit: 85570f10a4c61372c1d437365b9d8dbad512ec6f sched/eevdf: Move to a single runqueue
-date:   7 weeks ago
-config: microblaze-randconfig-r112-20260820 (https://download.01.org/0day-ci/archive/20260820/202608201214.QpYw7L8N-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608201214.QpYw7L8N-lkp@intel.com/reproduce)
+Hi Krishna,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d55d5a8f3d852baab49dba910dcb04b6d8091b05]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-qcom-Add-register-dump-support-for-PCIe-Link-Down-events/20260811-214223
+base:   d55d5a8f3d852baab49dba910dcb04b6d8091b05
+patch link:    https://lore.kernel.org/r/20260811-regdump-v1-1-f22db3fb37c2%40oss.qualcomm.com
+patch subject: [PATCH] PCI: qcom: Add register dump support for PCIe Link Down events
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260820/202608201351.dBcT51sv-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608201351.dBcT51sv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 85570f10a4c6 ("sched/eevdf: Move to a single runqueue")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608201214.QpYw7L8N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608201351.dBcT51sv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:1335:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *running @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:1335:49: sparse:     expected struct task_struct *running
-   kernel/sched/fair.c:1335:49: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:1945:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1945:33: sparse:     expected struct sched_entity *se
-   kernel/sched/fair.c:1945:33: sparse:     got struct sched_entity [noderef] __rcu *
->> kernel/sched/fair.c:2004:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:2004:38: sparse:     expected struct sched_entity *se
-   kernel/sched/fair.c:2004:38: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:14433:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:14433:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:14433:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:7744:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:7744:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:7744:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:9440:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:9440:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:9440:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:9635:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:9635:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:9635:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:9809:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:9809:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:9809:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:9843:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:9843:37: sparse:     expected struct task_struct *tsk
-   kernel/sched/fair.c:9843:37: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:10045:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:10045:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:10045:38: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:11385:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:11385:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:11385:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:12151:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:12151:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:12151:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:13669:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:13669:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:13669:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:13300:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:13300:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:13300:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:13805:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:13805:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:13805:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:7644:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2465:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:1426:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:1426:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:1426:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:1426:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:1426:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:1426:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:1426:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:1426:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2465:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2454:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2454:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2454:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2465:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2465:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2465:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2465:26: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +2004 kernel/sched/fair.c
+>> drivers/pci/controller/dwc/pcie-qcom.c:220:18: warning: 'qcom_pcie_ext_parf_dump_regs' defined but not used [-Wunused-const-variable=]
+     220 | static const u32 qcom_pcie_ext_parf_dump_regs[] = {
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  2001	
-  2002	static void update_curr_fair(struct rq *rq)
-  2003	{
-> 2004		struct sched_entity *se = &rq->donor->se;
-  2005	
-  2006		for_each_sched_entity(se)
-  2007			update_curr(cfs_rq_of(se));
-  2008	}
-  2009	
+
+vim +/qcom_pcie_ext_parf_dump_regs +220 drivers/pci/controller/dwc/pcie-qcom.c
+
+   219	
+ > 220	static const u32 qcom_pcie_ext_parf_dump_regs[] = {
+   221		PARF_PM_STTS,
+   222		PARF_PM_STTS_1,
+   223		PARF_INT_ALL_STATUS,
+   224		PARF_INT_ALL_2_STATUS,
+   225		PARF_CLKREQ_OVERRIDE,
+   226		PARF_L1SS_SLEEP_MODE_HANDLER_STATUS,
+   227		PARF_L1SS_SLEEP_MODE_HANDLER_CFG,
+   228		PARF_CORE_ERRORS,
+   229		PARF_LINK_DOWN_AXI_ECAM_BLOCK_STATUS,
+   230		PARF_STATUS,
+   231		PARF_SYS_CTRL,
+   232	};
+   233	
 
 --
 0-DAY CI Kernel Test Service
