@@ -1,122 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2262C0F93;
-	Wed, 19 Aug 2026 23:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F50C233944
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Aug 2026 00:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787183958; cv=none; b=Ie4qy1+Dc6/jOyZvn5loDUtkVlJYVNvz1WMNsTL8vYtx5/O+RPYIdcfAuCM2TLC0ZDyJc9kLJmUE09MVMCKQqbHG1TC7bZK9yrtwgKYmFNO49MnmrNyxHF8+CHaggeYDbGths14+AQ0Fr89yaBFIjNsJgjgJeM4UY8pmDGO4zO8=
+	t=1787186421; cv=none; b=jLHIAkV8AMHkw+5QHsh3++CbshAFUSFDzt9QliVy0+5TvAB0ZN+1jYlTFKGK6Vk2PozUYgXLAt5lZvgvOy9S5c1oDmpyIvXKyOQpY3IRFbnJoejA4ktXe5KOLipiIohZT/ao+tz2T0iMWzDv9AvsD4pnd48+nQffVQoGb4X6xeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787183958; c=relaxed/simple;
-	bh=+2BvtNv4XwMOy86djj9xd1rItPsVO4KoSyVuwUTvHpc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nSQjxGHQ+TBAWIWmMUheIUdjZlNxtJjgQt6aNIxUsjPGePMqYBifMTWp+21xHZ/uGpXfyX5b53uU4K8WCNwEXd2468O927TIFbYb3SCczazA5Sz562fqeWkkpQ7/scRLy+9Ggc6GAogAuq7ZhAG6/q+oCvYFwsAlW+fpcW35z3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dm3TCisy; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1787186421; c=relaxed/simple;
+	bh=3CGdKUoQC7sJEMocnaq4RyqmWNI06A+OvXyQsccfeps=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=kaXrl+GFL8c5NQhk2Q+BKqKvce2y2sB9THTHGBbJBV8qzd4DrjogoCQCsuWhvFnAGEj5r5HSH5WxksvPmj69Q/kBQDkPofDYzU1zlFWcJf4IIANkmrj0ew5hWOE2kJJ+kvvIzg3ZRGQflumPuC9ONIQp3vw2acPIcYHlTSxdKNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WETYBVGo; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dm3TCisy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WETYBVGo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787183956; x=1818719956;
-  h=date:from:to:cc:subject:message-id;
-  bh=+2BvtNv4XwMOy86djj9xd1rItPsVO4KoSyVuwUTvHpc=;
-  b=dm3TCisyGLq7a9K2cLpSiPkXBQ3XglMX5flEcgh0UB38Oicn3l9q4eC8
-   BvoROI+MujKWeijP0vnVtCvIQQvHyjLfCsYZXdGxdKITLoXIaQ5iAkd4V
-   eVtcJ4PiGPOMuZgQ2w7kX+xntapJtZKtcle86XapnpxsBxnATeINW2nTI
-   4rrKmKEG4PlhtI4qB/1a76dnjtrvfUpTD2PusUQhpe2ZGVPkWvB6p4cCy
-   wh/f3OgJg64fTlkrie8dvA5m45/YrH+bI5VWo/GgwUJxl86BtdqVvWNAB
-   nqB3K+25OzuLGgJiz2r+65q5D4AcEG20Lq4JPgx7ytczZ7BFFAP3Pj3jZ
+  t=1787186418; x=1818722418;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3CGdKUoQC7sJEMocnaq4RyqmWNI06A+OvXyQsccfeps=;
+  b=WETYBVGoSKO4WyjY7R0ggGGnCImL9vlYaTYEdam7uW7TQ8iyBR0lbB9H
+   Oy6mzNpbYJdPTtzTbkYPJ9z1d8wqt6IQ+MNqnkMJ4OV0pKOy8wRRlq0/m
+   ygqkB4978QBOVMbHeS+Yno+zL1RUE8KOm110o2XTAAq4lnDeA/zi1JT0L
+   r54MNDUJoPCRJTuox3zkzR+PM3fBe407+rhja7adybkoqLVh/l6kuxiLp
+   7rIC1mb2O5GXymPtiKGtz1PT/OOVZaU69x5wjr9PR2Z2w29qgP+PsK8tu
+   cQfRvrHUlWOE+2iub3okxLFBpxEtjQza5NgFfylfw+bNINjNi1wirH7w4
    A==;
-X-CSE-ConnectionGUID: +lrA/vBcTwy4GArsox4rhQ==
-X-CSE-MsgGUID: Q+HdzhkUQpKpOEloWFKYFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="91521596"
+X-CSE-ConnectionGUID: 7fkhOQxvRdmNWSfxpXAtog==
+X-CSE-MsgGUID: o3AvBYzVTOe5x855wMUAGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="105097055"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="91521596"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 16:59:15 -0700
-X-CSE-ConnectionGUID: K3EhypeaTDyr4RZbcHLeyQ==
-X-CSE-MsgGUID: 14xvftHPTcKb5NXGqPK1lQ==
+   d="scan'208";a="105097055"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 17:40:16 -0700
+X-CSE-ConnectionGUID: /eJbr8+cSu+CP8yDSXMdRQ==
+X-CSE-MsgGUID: BuTCBKOTQ5eCbI8SLqWkjg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="264416162"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 19 Aug 2026 16:59:12 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 19 Aug 2026 17:40:14 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwqBa-000000007Px-28n6;
-	Wed, 19 Aug 2026 23:59:10 +0000
-Date: Thu, 20 Aug 2026 01:58:31 +0200
+	id 1wwqpI-000000007SF-2Inv;
+	Thu, 20 Aug 2026 00:40:12 +0000
+Date: Thu, 20 Aug 2026 02:39:28 +0200
 From: kernel test robot <lkp@intel.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Luis Chamberlain <mcgrof@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- Daniel Gomez <da.gomez@kernel.org>, linux-modules@vger.kernel.org
-Subject: [modules:ppavlu-module-include 32/37]
- mm/page_alloc.c:6949:2: error: call to undeclared function
- 'DEFINE_DYNAMIC_DEBUG_METADATA'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202608200157.w2LJC8K6-lkp@intel.com>
+To: Renzo Davoli <renzo@cs.unibo.it>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: 
+ =?us-ascii?Q?[linux-review:Renzo-Davoli/ptrace-add-PTRACE=5FSYSCALL=5FI?=
+ =?us-ascii?Q?NFO=5FSECCOMP=5FSKIP/20260807-184127?= 5/5] checkpatch:
+ ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same
+ indent
+Message-ID: <202608200245.qniVtemw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/modules/linux.git ppavlu-module-include
-head:   fcbfd3cbe0a054838436812cc0b664f71ba1d0a4
-commit: 1c6a138c5d5c9156a13a7d82df4f2fec5c2b71a2 [32/37] WIP: module: Avoid including linux/dynamic_debug in linux/module.h
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260820/202608200157.w2LJC8K6-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608200157.w2LJC8K6-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Renzo-Davoli/ptrace-add-PTRACE_SYSCALL_INFO_SECCOMP_SKIP/20260807-184127
+head:   0896a35f00ecd1fd1324cd01d11239d6e2f7d5bd
+commit: 0896a35f00ecd1fd1324cd01d11239d6e2f7d5bd [5/5] selftests/ptrace: add a test case for PTRACE_SYSCALL_INFO_FLAG_SET_IP
+reproduce: (https://download.01.org/0day-ci/archive/20260820/202608200245.qniVtemw-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608200157.w2LJC8K6-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-All errors (new ones prefixed by >>):
-
->> mm/page_alloc.c:6949:2: error: call to undeclared function 'DEFINE_DYNAMIC_DEBUG_METADATA'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6949 |         DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, "migrate failure");
-         |         ^
->> mm/page_alloc.c:6949:32: error: use of undeclared identifier 'descriptor'
-    6949 |         DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, "migrate failure");
-         |                                       ^~~~~~~~~~
->> mm/page_alloc.c:6951:6: error: call to undeclared function 'DYNAMIC_DEBUG_BRANCH'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6951 |         if (DYNAMIC_DEBUG_BRANCH(descriptor)) {
-         |             ^
-   mm/page_alloc.c:6951:27: error: use of undeclared identifier 'descriptor'
-    6951 |         if (DYNAMIC_DEBUG_BRANCH(descriptor)) {
-         |                                  ^~~~~~~~~~
-   4 errors generated.
-
-
-vim +/DEFINE_DYNAMIC_DEBUG_METADATA +6949 mm/page_alloc.c
-
-4aa4abf1f14bd6 Ryan Roberts    2026-04-01  6944  
-8df995f6bde01d Alexandre Ghiti 2019-05-13  6945  #ifdef CONFIG_CONTIG_ALLOC
-a1394bddf9b60e Minchan Kim     2021-04-29  6946  /* Usage: See admin-guide/dynamic-debug-howto.rst */
-a1394bddf9b60e Minchan Kim     2021-04-29  6947  static void alloc_contig_dump_pages(struct list_head *page_list)
-a1394bddf9b60e Minchan Kim     2021-04-29  6948  {
-a1394bddf9b60e Minchan Kim     2021-04-29 @6949  	DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, "migrate failure");
-a1394bddf9b60e Minchan Kim     2021-04-29  6950  
-a1394bddf9b60e Minchan Kim     2021-04-29 @6951  	if (DYNAMIC_DEBUG_BRANCH(descriptor)) {
-a1394bddf9b60e Minchan Kim     2021-04-29  6952  		struct page *page;
-a1394bddf9b60e Minchan Kim     2021-04-29  6953  
-a1394bddf9b60e Minchan Kim     2021-04-29  6954  		dump_stack();
-a1394bddf9b60e Minchan Kim     2021-04-29  6955  		list_for_each_entry(page, page_list, lru)
-a1394bddf9b60e Minchan Kim     2021-04-29  6956  			dump_page(page, "migration failure");
-a1394bddf9b60e Minchan Kim     2021-04-29  6957  	}
-a1394bddf9b60e Minchan Kim     2021-04-29  6958  }
-a1394bddf9b60e Minchan Kim     2021-04-29  6959  
-
-:::::: The code at line 6949 was first introduced by commit
-:::::: a1394bddf9b60e96d075d94b71a8857696598186 mm: page_alloc: dump migrate-failed pages
-
-:::::: TO: Minchan Kim <minchan@kernel.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+#137: FILE: tools/testing/selftests/ptrace/set_syscall_info.c:798:
++			switch (ptrace_stop) {
+[...]
++				case 1:
+[...]
++				default:
 
 --
 0-DAY CI Kernel Test Service
