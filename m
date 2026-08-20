@@ -1,67 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDAE1FF5E3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Aug 2026 05:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E52B3783C7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Aug 2026 05:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787202605; cv=none; b=ueKT8DyTHWxDbrn+dbugdIi+l7TUBfjmOEOhuWmhrAe43/n4Kh3n6IHW6P8JIpPv2KXeNb95jOOBY0xWv/LlYcs0WoQDFQAMfys03C8ThGWqkel65E7o4/tT/6cnPPsojRT3B3p6S/DKyzPJkpFCdMU2/3PVIs9RHpPIaVdsIT4=
+	t=1787203987; cv=none; b=rDqxI8IK1KFbtoSvuO8+ODV3+Cd/+U5tHk6gvxVR6A4KraygbGy7R8UtM1MmYYdeLmYscxkDj06jnNmszXAV753gjBvQC7EsqmXCwi50Bgh1mV2m04od+kcC9O2sVGKJpiscJcaUnTkMgnkhiopfzusZLyJnt4rTNN74jfv7LTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787202605; c=relaxed/simple;
-	bh=3nLGpgBPdWwc8JpLxbQ4Z3gEuYcaV+RB4izohmoVF14=;
+	s=arc-20240116; t=1787203987; c=relaxed/simple;
+	bh=3S1bSnlBhWx4HK5AwtWT7IpvRgMAbGMSQk5Azw7D0/Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S49T7pQfhLOkXzjGoP0acyacwruX6fmLL9HTg2eyNSxgP5acPO2MMPbdWkvoOm+XSaXRwbZEpYHAyIbYcpdKIXpxGhi2Hk2/Z0c55bROO/32At1hGIe1mB3LDH2etbWCsHuPYIGOtuZ3Q5M3+9yoD4gVibvFP8qPpThHicDA4Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3jr3Fz0; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZqIWBAQYPVlzQIKqj5XAJUosPylB44n34gQlKJljnkJTHaVs3VnLKfq/EUQPn7bO+dt2DASc6bpy9lhKx64jcJM3e0U0CYQNqEwqU60gvZ4sXcJTkI12SFWmA0JPX2FInJ1Mk+CN4jCRTzMyxoIU4hQXh13s050FJESc6kklcSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWat4R3G; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3jr3Fz0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWat4R3G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787202603; x=1818738603;
+  t=1787203985; x=1818739985;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3nLGpgBPdWwc8JpLxbQ4Z3gEuYcaV+RB4izohmoVF14=;
-  b=M3jr3Fz0mGEKw0Qr+O4110WChpxx/C80zKKtA2lOrNMJKZSv4k93muga
-   jLRzqmGVxzhpLy7eczPTgD01fQcCykoysORo2FMppAhMDHDwyDwaTT2/V
-   s1X+eMKnDt08J2LcdjUBNsxE7W3XDB5Dqln988PZePtVR/d3FOTXtEfrH
-   07JloKz/pbJjCDdO0MGr426IUCKUIAhweSe04PGqwP8y9KTRyCHX7Z2Rz
-   kO/wp48YDw4Q+eMVqgKxgZM/qB84/aGluCFXogO5KMaG5MlYiVxO0HSZF
-   FkHEAMa4zJ8JBPHbZ4yni1QQtw+P7gtP/QNE8W3ljXZhVkPXMV2CbiTAF
-   Q==;
-X-CSE-ConnectionGUID: ydjIph4VQhyDITdtFnyEOg==
-X-CSE-MsgGUID: ZdC/yYQxQwi4vXChrhD9gQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="98321824"
+  bh=3S1bSnlBhWx4HK5AwtWT7IpvRgMAbGMSQk5Azw7D0/Q=;
+  b=OWat4R3GlSmMhLBnzpj1bJWf/+uPX7maVdzxpezdMANUC2OLa4hCvJ+E
+   +eOaGgRtZP1ZyEUoelvZfqjNCMCR6bKEbAjQSRuw3wuKimykw5c2N5gZf
+   AGyNvuL0MZdgnj7Dtcg8ynwgpI0QYk4YymorqzaB8VVXBr9HWl5cov31r
+   Os7T/OQllaqtQWfAIzKUsiNFA3vYtaXfVgjMoh5C6/4n6POOMMmQ9nYmp
+   BKzSRRQ8Osf/CIxtaax8b4Nz5OhLzw6ekFH3SIc/u1C9znwKfLTw7/u5o
+   VMffzqgl/bggKb+8VrUzBRavmR57QWJnVsuZJnQd7iTpMTo+jlSr3//gg
+   g==;
+X-CSE-ConnectionGUID: hE5fyakGT12Fyo2q6Wr2bw==
+X-CSE-MsgGUID: nGZ2BywKT1uIwJoJHoQVhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="87850298"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="98321824"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 22:10:03 -0700
-X-CSE-ConnectionGUID: 94I9o2DLSeWCqmq+GedBpQ==
-X-CSE-MsgGUID: HLqbnT5+TG2cC68lIlVXEQ==
+   d="scan'208";a="87850298"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 22:33:04 -0700
+X-CSE-ConnectionGUID: 7cZX4p2jQnu1irIj4tXWwQ==
+X-CSE-MsgGUID: jgjBOSHGQgqyiWsPptTYkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="271039019"
+   d="scan'208";a="262055988"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Aug 2026 22:09:59 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 19 Aug 2026 22:33:01 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwv2K-00000000ht3-2foM;
-	Thu, 20 Aug 2026 05:09:56 +0000
-Date: Thu, 20 Aug 2026 13:09:44 +0800
+	id 1wwvOc-00000000hx3-2mfN;
+	Thu, 20 Aug 2026 05:32:58 +0000
+Date: Thu, 20 Aug 2026 13:32:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Subject: Re: [PATCH] PCI: qcom: Add register dump support for PCIe Link Down
- events
-Message-ID: <202608201351.dBcT51sv-lkp@intel.com>
-References: <20260811-regdump-v1-1-f22db3fb37c2@oss.qualcomm.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Anubhav Shelat <ashelat@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Fuad Tabba <tabba@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH v3] tracefs: Add read-only eventfs filesystem at
+ /sys/kernel/events
+Message-ID: <202608201306.OB6m5zzX-lkp@intel.com>
+References: <20260810160708.3460a2fd@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,51 +71,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260811-regdump-v1-1-f22db3fb37c2@oss.qualcomm.com>
+In-Reply-To: <20260810160708.3460a2fd@gandalf.local.home>
 
-Hi Krishna,
+Hi Steven,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on d55d5a8f3d852baab49dba910dcb04b6d8091b05]
+[auto build test ERROR on v7.2]
+[also build test ERROR on next-20260819]
+[cannot apply to trace/for-next linus/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-qcom-Add-register-dump-support-for-PCIe-Link-Down-events/20260811-214223
-base:   d55d5a8f3d852baab49dba910dcb04b6d8091b05
-patch link:    https://lore.kernel.org/r/20260811-regdump-v1-1-f22db3fb37c2%40oss.qualcomm.com
-patch subject: [PATCH] PCI: qcom: Add register dump support for PCIe Link Down events
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260820/202608201351.dBcT51sv-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracefs-Add-read-only-eventfs-filesystem-at-sys-kernel-events/20260810-160708
+base:   v7.2
+patch link:    https://lore.kernel.org/r/20260810160708.3460a2fd%40gandalf.local.home
+patch subject: [PATCH v3] tracefs: Add read-only eventfs filesystem at /sys/kernel/events
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260820/202608201306.OB6m5zzX-lkp@intel.com/config)
 compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608201351.dBcT51sv-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608201306.OB6m5zzX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608201351.dBcT51sv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608201306.OB6m5zzX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-qcom.c:220:18: warning: 'qcom_pcie_ext_parf_dump_regs' defined but not used [-Wunused-const-variable=]
-     220 | static const u32 qcom_pcie_ext_parf_dump_regs[] = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/tracefs/event_inode.c: In function 'eventfs_ro_fill_super':
+>> fs/tracefs/event_inode.c:38:23: error: 'EVENTFS_SUPER_MAGIC' undeclared (first use in this function)
+      38 |         sb->s_magic = EVENTFS_SUPER_MAGIC;
+         |                       ^~~~~~~~~~~~~~~~~~~
+   fs/tracefs/event_inode.c:38:23: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/qcom_pcie_ext_parf_dump_regs +220 drivers/pci/controller/dwc/pcie-qcom.c
+vim +/EVENTFS_SUPER_MAGIC +38 fs/tracefs/event_inode.c
 
-   219	
- > 220	static const u32 qcom_pcie_ext_parf_dump_regs[] = {
-   221		PARF_PM_STTS,
-   222		PARF_PM_STTS_1,
-   223		PARF_INT_ALL_STATUS,
-   224		PARF_INT_ALL_2_STATUS,
-   225		PARF_CLKREQ_OVERRIDE,
-   226		PARF_L1SS_SLEEP_MODE_HANDLER_STATUS,
-   227		PARF_L1SS_SLEEP_MODE_HANDLER_CFG,
-   228		PARF_CORE_ERRORS,
-   229		PARF_LINK_DOWN_AXI_ECAM_BLOCK_STATUS,
-   230		PARF_STATUS,
-   231		PARF_SYS_CTRL,
-   232	};
-   233	
+    30	
+    31	static int eventfs_ro_fill_super(struct super_block *sb, struct fs_context *fc)
+    32	{
+    33		struct inode *inode;
+    34		struct dentry *root;
+    35	
+    36		sb->s_blocksize = PAGE_SIZE;
+    37		sb->s_blocksize_bits = PAGE_SHIFT;
+  > 38		sb->s_magic = EVENTFS_SUPER_MAGIC;
+    39		sb->s_op = &eventfs_ro_super_operations;
+    40		sb->s_time_gran = 1;
+    41		sb->s_flags |= SB_RDONLY;
+    42	
+    43		inode = new_inode(sb);
+    44		if (!inode)
+    45			return -ENOMEM;
+    46	
+    47		inode->i_ino = 1;
+    48		inode->i_mode = S_IFDIR | 0555;
+    49		simple_inode_init_ts(inode);
+    50		inode->i_op = &simple_dir_inode_operations;
+    51		inode->i_fop = &simple_dir_operations;
+    52		set_nlink(inode, 2);
+    53	
+    54		set_default_d_op(sb, &tracefs_dentry_operations);
+    55	
+    56		root = d_make_root(inode);
+    57		if (!root)
+    58			return -ENOMEM;
+    59	
+    60		sb->s_root = root;
+    61	
+    62		return 0;
+    63	}
+    64	
 
 --
 0-DAY CI Kernel Test Service
