@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCCD1DA0E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Aug 2026 00:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2031F12F8;
+	Thu, 20 Aug 2026 00:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787187132; cv=none; b=Z3XOdWpXejfhJmRW7QyMA9dzkiJmqzUV4uMD0UDG6Ob1IyeyU3zF/eylNtBbdhczE7svbR+GSpoCd6rv81JWq06xVCQsoBBogFD/9yWUo8nUwadhCceewiZDo0ZEwFZN1RwFbg7KOnXck17kkVxgYUxpIlE363KjV5/YTxxa50A=
+	t=1787187133; cv=none; b=SqWVweKNE3l3td8R3mhMCGCOzqtsZvSYq3wMOE1MZB55KL3U001RTL+Zj3ucqoM40apaYIRdR2XHvqcPEbLFXhifjCIWGqdrawuF1sAZYohJRGAMJRCWeraCooKorsnEX2DE0byLuPpqkVMkmgST475NENhuUcuHZ2KCqRYlNOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787187132; c=relaxed/simple;
-	bh=mlSyNG/TWfss1F9k3b+Wd/OHHCVdS+cZdanX7J30pfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=p/oyiRvxrLZ1bFyQ/DxbMFEzw9PXIq+0BjkLMAnANAubB5paTiytDhvRkx2gaRo3xmoaVR94QuN9HEd65uGRelLVPyncI11FFfDsApHFAQKfL9GenIN08mmm6vq9Mm418hCcCkXiY1GalEC4/9OrDuwzADgSaZO8D6IBPudSeiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZXCe8rQ2; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1787187133; c=relaxed/simple;
+	bh=W1CJx4mpvTxeMRfM3r72nkrczXnLqwaeUwQq310Ggtw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XmCp+mNOfoRBC8hs9ossP8H71XawKXLHyX5e4G1ByOKIPXNARdKFFAiGuM2VuESZzQJ9SIz2gztJaes1vnb5F4CEhj5KaCYiTdrwKeO6w9Ps18+PN1eSIaG3Sl67JsUQMl0rDmqhvkxQAa+M0W8OtPw+cPpNGvOQomYkKpJGdIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFPUFWBS; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZXCe8rQ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFPUFWBS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787187130; x=1818723130;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mlSyNG/TWfss1F9k3b+Wd/OHHCVdS+cZdanX7J30pfY=;
-  b=ZXCe8rQ2raXVPQZ3TP0XtQ+8jetNlt+QsIaJmiXnXYCOzGzoANNgky1c
-   wxBGlC66vo+ACztsAMkuOr5lWNu6O1Kv7bcKNQ8hlQs53+Kz7eFM8BJhs
-   yIQRvSRcKRzeCBnIoBd4uNT8dOrGCtU/T4cpz6z/3IGZGLfW3d0FqC97l
-   Q3fzsAPkV4xCddjtyb3r1QsvUG1RUbSFI9pcpSazOEIx67wIIsYpThv3I
-   zx7jlfs1EZi4xHsLO3SDrn5AglWZ9VXpFqgpdD9lNEBM+GGjZZ997aNfo
-   g/p/syvDrrGWcik8Fx9jSz5BsgM5oXYtkdrrO1ov/6yeSZTbU1PuxEU8J
-   g==;
-X-CSE-ConnectionGUID: RcgQ1Ju4SqmoUd839UVqGg==
-X-CSE-MsgGUID: bWQ0+wLhRGSHZpbl8Zs5aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="113255231"
+  t=1787187131; x=1818723131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W1CJx4mpvTxeMRfM3r72nkrczXnLqwaeUwQq310Ggtw=;
+  b=WFPUFWBSB0s954lwLe05UmI+9vFxQPCZyS1qxvxHwo5Uey0+W52JBll9
+   IHPM3+2GWdYdhcfpjnzvDAh8gpYKDFkMeCCDiHL7owG/+g3J6rQj8OIYV
+   WsyXuN3DTTN6igqyIO8O78MbX1pk4OEYxi5V1ZdWqNNUuAOUynCw7HtQb
+   2jmNkEcVurOZHTBSYKeIktxt3SFAIe9jZhQg1G0nMWg8KBhrrk5CAJIKg
+   0FfRaiPEYztoZzfICAbm8C71aPo9C6q4Z8tk/tAv+X58y7JQB8voGJgDt
+   xW8BmdnUNLTrZEjHqVqSs8aNe/bH4hjUK+Zos7kkeNMsTDdxTWjwaBI3r
+   Q==;
+X-CSE-ConnectionGUID: 111+0Ex/RXmB7dgZyHsU3w==
+X-CSE-MsgGUID: Jf7z5lxlTvynViOmuX56Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="91524251"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="113255231"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 17:52:10 -0700
-X-CSE-ConnectionGUID: OXthSv/bTAat/A7Z04+Kug==
-X-CSE-MsgGUID: yYc70cjdQeCLyL+iEnNdqA==
+   d="scan'208";a="91524251"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 17:52:11 -0700
+X-CSE-ConnectionGUID: kc4/KrlOQnycyhcFx5I9yg==
+X-CSE-MsgGUID: t9vMTmQCRfqG4FeO5dHIug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="267688693"
+   d="scan'208";a="266370907"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Aug 2026 17:52:07 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 Aug 2026 17:52:07 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwr0n-00000000hBV-1IfV;
+	id 1wwr0n-00000000hBR-126e;
 	Thu, 20 Aug 2026 00:52:05 +0000
-Date: Thu, 20 Aug 2026 08:51:17 +0800
+Date: Thu, 20 Aug 2026 08:51:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Th=C3=A9o?= Lebrun" <theo.lebrun@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
- Nicolai Buchwitz <nb@tipi-net.de>
-Subject: [linux-next:master 15734/16374]
- drivers/net/ethernet/cadence/macb_main.c:5948:8: error: call to undeclared
- function 'macb_alloc_tieoff'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202608200834.4xXOZYO0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: dayou5941@163.com, akpm@linux-foundation.org, david@kernel.org,
+	ljs@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
+	linux-mm@kvack.org, Li Youhong <liyouhong@kylinos.cn>,
+	Sashiko <sashiko-bot@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v3] mm/memory-failure: fix concurrent access issue in
+ min_order_for_split()
+Message-ID: <202608200820.y1lwo7dj-lkp@intel.com>
+References: <20260805084224.2597547-1-dayou5941@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,263 +65,313 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260805084224.2597547-1-dayou5941@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6a746cd265aed59107ebdaa9ce039bb832922969
-commit: 5262eab9462adffd73a84409dee0cbf57fe31da3 [15734/16374] net: macb: allocate tieoff descriptor once across device lifetime
-config: x86_64-randconfig-122-20260820 (https://download.01.org/0day-ci/archive/20260820/202608200834.4xXOZYO0-lkp@intel.com/config)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/dayou5941-163-com/mm-memory-failure-fix-concurrent-access-issue-in-min_order_for_split/20260805-164224
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260805084224.2597547-1-dayou5941%40163.com
+patch subject: [PATCH v3] mm/memory-failure: fix concurrent access issue in min_order_for_split()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260820/202608200820.y1lwo7dj-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608200834.4xXOZYO0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608200820.y1lwo7dj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608200834.4xXOZYO0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608200820.y1lwo7dj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/cadence/macb_main.c:5948:8: error: call to undeclared function 'macb_alloc_tieoff'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    5948 |         err = macb_alloc_tieoff(bp);
-         |               ^
->> drivers/net/ethernet/cadence/macb_main.c:5970:2: error: call to undeclared function 'macb_free_tieoff'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    5970 |         macb_free_tieoff(bp);
-         |         ^
-   drivers/net/ethernet/cadence/macb_main.c:6001:3: error: call to undeclared function 'macb_free_tieoff'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6001 |                 macb_free_tieoff(bp);
-         |                 ^
-   3 errors generated.
+>> mm/memory-failure.c:2517:13: error: cannot assign to variable 'new_order' with const-qualified type 'const int'
+    2517 |                 new_order = min_order_for_split(folio);
+         |                 ~~~~~~~~~ ^
+   mm/memory-failure.c:2513:13: note: variable 'new_order' declared const here
+    2513 |                 const int new_order;
+         |                 ~~~~~~~~~~^~~~~~~~~
+   mm/memory-failure.c:2873:13: error: cannot assign to variable 'new_order' with const-qualified type 'const int'
+    2873 |                 new_order = min_order_for_split(folio);
+         |                 ~~~~~~~~~ ^
+   mm/memory-failure.c:2870:13: note: variable 'new_order' declared const here
+    2870 |                 const int new_order;
+         |                 ~~~~~~~~~~^~~~~~~~~
+   2 errors generated.
 
 
-vim +/macb_alloc_tieoff +5948 drivers/net/ethernet/cadence/macb_main.c
+vim +2517 mm/memory-failure.c
 
-  5764	
-  5765	static int macb_probe(struct platform_device *pdev)
-  5766	{
-  5767		struct clk *pclk, *hclk = NULL, *tx_clk = NULL, *rx_clk = NULL;
-  5768		struct device_node *np = pdev->dev.of_node;
-  5769		const struct macb_config *macb_config;
-  5770		struct clk *tsu_clk = NULL;
-  5771		phy_interface_t interface;
-  5772		struct net_device *netdev;
-  5773		struct resource *regs;
-  5774		u32 wtrmrk_rst_val;
-  5775		void __iomem *mem;
-  5776		struct macb *bp;
-  5777		int num_queues;
-  5778		bool native_io;
-  5779		int err, val;
-  5780	
-  5781		mem = devm_platform_get_and_ioremap_resource(pdev, 0, &regs);
-  5782		if (IS_ERR(mem))
-  5783			return PTR_ERR(mem);
-  5784	
-  5785		macb_config = of_device_get_match_data(&pdev->dev);
-  5786		if (!macb_config)
-  5787			macb_config = &default_gem_config;
-  5788	
-  5789		err = macb_clk_init(pdev, &pclk, &hclk, &tx_clk, &rx_clk, &tsu_clk,
-  5790				    macb_config);
-  5791		if (err)
-  5792			return err;
-  5793	
-  5794		pm_runtime_set_autosuspend_delay(&pdev->dev, MACB_PM_TIMEOUT);
-  5795		pm_runtime_use_autosuspend(&pdev->dev);
-  5796		pm_runtime_get_noresume(&pdev->dev);
-  5797		pm_runtime_set_active(&pdev->dev);
-  5798		pm_runtime_enable(&pdev->dev);
-  5799		native_io = hw_is_native_io(mem);
-  5800	
-  5801		num_queues = macb_probe_queues(&pdev->dev, mem, native_io);
-  5802		if (num_queues < 0) {
-  5803			err = num_queues;
-  5804			goto err_disable_clocks;
-  5805		}
-  5806	
-  5807		netdev = alloc_etherdev_mq(sizeof(*bp), num_queues);
-  5808		if (!netdev) {
-  5809			err = -ENOMEM;
-  5810			goto err_disable_clocks;
-  5811		}
-  5812	
-  5813		netdev->base_addr = regs->start;
-  5814	
-  5815		SET_NETDEV_DEV(netdev, &pdev->dev);
-  5816	
-  5817		bp = netdev_priv(netdev);
-  5818		bp->pdev = pdev;
-  5819		bp->netdev = netdev;
-  5820		bp->regs = mem;
-  5821		bp->native_io = native_io;
-  5822		if (native_io) {
-  5823			bp->macb_reg_readl = hw_readl_native;
-  5824			bp->macb_reg_writel = hw_writel_native;
-  5825		} else {
-  5826			bp->macb_reg_readl = hw_readl;
-  5827			bp->macb_reg_writel = hw_writel;
-  5828		}
-  5829		bp->num_queues = num_queues;
-  5830		bp->dma_burst_length = macb_config->dma_burst_length;
-  5831		bp->pclk = pclk;
-  5832		bp->hclk = hclk;
-  5833		bp->tx_clk = tx_clk;
-  5834		bp->rx_clk = rx_clk;
-  5835		bp->tsu_clk = tsu_clk;
-  5836		bp->jumbo_max_len = macb_config->jumbo_max_len;
-  5837	
-  5838		if (!hw_is_gem(bp->regs, bp->native_io))
-  5839			bp->max_tx_length = MACB_MAX_TX_LEN;
-  5840		else if (macb_config->max_tx_length)
-  5841			bp->max_tx_length = macb_config->max_tx_length;
-  5842		else
-  5843			bp->max_tx_length = GEM_MAX_TX_LEN;
-  5844	
-  5845		bp->wol = 0;
-  5846		device_set_wakeup_capable(&pdev->dev, 1);
-  5847	
-  5848		bp->usrio = macb_config->usrio;
-  5849	
-  5850		if (of_property_read_bool(bp->pdev->dev.of_node, "cdns,timer-adjust") &&
-  5851				IS_ENABLED(CONFIG_MACB_USE_HWSTAMP)) {
-  5852			dev_err(&pdev->dev, "Timer adjust mode is not supported\n");
-  5853			err = -EINVAL;
-  5854			goto err_out_free_netdev;
-  5855		}
-  5856	
-  5857		/* By default we set to partial store and forward mode for zynqmp.
-  5858		 * Disable if not set in devicetree.
-  5859		 */
-  5860		if (GEM_BFEXT(PBUF_CUTTHRU, gem_readl(bp, DCFG6))) {
-  5861			err = of_property_read_u32(bp->pdev->dev.of_node,
-  5862						   "cdns,rx-watermark",
-  5863						   &bp->rx_watermark);
-  5864	
-  5865			if (!err) {
-  5866				/* Disable partial store and forward in case of error or
-  5867				 * invalid watermark value
-  5868				 */
-  5869				wtrmrk_rst_val = (1 << (GEM_BFEXT(RX_PBUF_ADDR, gem_readl(bp, DCFG2)))) - 1;
-  5870				if (bp->rx_watermark > wtrmrk_rst_val || !bp->rx_watermark) {
-  5871					dev_info(&bp->pdev->dev, "Invalid watermark value\n");
-  5872					bp->rx_watermark = 0;
-  5873				}
-  5874			}
-  5875		}
-  5876		spin_lock_init(&bp->lock);
-  5877		spin_lock_init(&bp->stats_lock);
-  5878	
-  5879		/* setup capabilities */
-  5880		macb_configure_caps(bp, macb_config);
-  5881	
-  5882	#ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
-  5883		if (GEM_BFEXT(DAW64, gem_readl(bp, DCFG6))) {
-  5884			err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(44));
-  5885			if (err) {
-  5886				dev_err(&pdev->dev, "failed to set DMA mask\n");
-  5887				goto err_out_free_netdev;
-  5888			}
-  5889			bp->caps |= MACB_CAPS_DMA_64B;
-  5890		}
-  5891	#endif
-  5892		platform_set_drvdata(pdev, netdev);
-  5893	
-  5894		netdev->irq = platform_get_irq(pdev, 0);
-  5895		if (netdev->irq < 0) {
-  5896			err = netdev->irq;
-  5897			goto err_out_free_netdev;
-  5898		}
-  5899	
-  5900		/* MTU range: 68 - 1518 or 10240 */
-  5901		netdev->min_mtu = GEM_MTU_MIN_SIZE;
-  5902		if ((bp->caps & MACB_CAPS_JUMBO) && bp->jumbo_max_len)
-  5903			netdev->max_mtu = MIN(bp->jumbo_max_len, RX_BUFFER_MAX) -
-  5904					ETH_HLEN - ETH_FCS_LEN;
-  5905		else
-  5906			netdev->max_mtu = 1536 - ETH_HLEN - ETH_FCS_LEN;
-  5907	
-  5908		if (bp->caps & MACB_CAPS_BD_RD_PREFETCH) {
-  5909			val = GEM_BFEXT(RXBD_RDBUFF, gem_readl(bp, DCFG10));
-  5910			if (val)
-  5911				bp->rx_bd_rd_prefetch = (2 << (val - 1)) *
-  5912							macb_dma_desc_get_size(bp);
-  5913	
-  5914			val = GEM_BFEXT(TXBD_RDBUFF, gem_readl(bp, DCFG10));
-  5915			if (val)
-  5916				bp->tx_bd_rd_prefetch = (2 << (val - 1)) *
-  5917							macb_dma_desc_get_size(bp);
-  5918		}
-  5919	
-  5920		bp->rx_intr_mask = MACB_RX_INT_FLAGS;
-  5921		if (bp->caps & MACB_CAPS_NEEDS_RSTONUBR)
-  5922			bp->rx_intr_mask |= MACB_BIT(RXUBR);
-  5923	
-  5924		err = of_get_ethdev_address(np, bp->netdev);
-  5925		if (err == -EPROBE_DEFER)
-  5926			goto err_out_free_netdev;
-  5927		else if (err)
-  5928			macb_get_hwaddr(bp);
-  5929	
-  5930		err = of_get_phy_mode(np, &interface);
-  5931		if (err)
-  5932			/* not found in DT, MII by default */
-  5933			bp->phy_interface = PHY_INTERFACE_MODE_MII;
-  5934		else
-  5935			bp->phy_interface = interface;
-  5936	
-  5937		/* IP specific init */
-  5938		err = macb_init(pdev, macb_config);
-  5939		if (err)
-  5940			goto err_out_free_netdev;
-  5941	
-  5942		err = macb_mii_init(bp);
-  5943		if (err)
-  5944			goto err_out_phy_exit;
-  5945	
-  5946		netif_carrier_off(netdev);
-  5947	
-> 5948		err = macb_alloc_tieoff(bp);
-  5949		if (err)
-  5950			goto err_out_unregister_mdio;
-  5951	
-  5952		err = register_netdev(netdev);
-  5953		if (err) {
-  5954			dev_err(&pdev->dev, "Cannot register net device, aborting.\n");
-  5955			goto err_out_free_tieoff;
-  5956		}
-  5957	
-  5958		INIT_WORK(&bp->hresp_err_bh_work, macb_hresp_error_task);
-  5959		INIT_DELAYED_WORK(&bp->tx_lpi_work, macb_tx_lpi_work_fn);
-  5960	
-  5961		netdev_info(netdev, "Cadence %s rev 0x%08x at 0x%08lx irq %d (%pM)\n",
-  5962			    macb_is_gem(bp) ? "GEM" : "MACB", macb_readl(bp, MID),
-  5963			    netdev->base_addr, netdev->irq, netdev->dev_addr);
-  5964	
-  5965		pm_runtime_put_autosuspend(&bp->pdev->dev);
-  5966	
-  5967		return 0;
-  5968	
-  5969	err_out_free_tieoff:
-> 5970		macb_free_tieoff(bp);
-  5971	
-  5972	err_out_unregister_mdio:
-  5973		mdiobus_unregister(bp->mii_bus);
-  5974		mdiobus_free(bp->mii_bus);
-  5975	
-  5976	err_out_phy_exit:
-  5977		phy_exit(bp->phy);
-  5978	
-  5979	err_out_free_netdev:
-  5980		free_netdev(netdev);
-  5981	
-  5982	err_disable_clocks:
-  5983		macb_clks_disable(pclk, hclk, tx_clk, rx_clk, tsu_clk);
-  5984		pm_runtime_disable(&pdev->dev);
-  5985		pm_runtime_set_suspended(&pdev->dev);
-  5986		pm_runtime_dont_use_autosuspend(&pdev->dev);
-  5987	
-  5988		return err;
-  5989	}
-  5990	
+  2360	
+  2361	/**
+  2362	 * memory_failure - Handle memory failure of a page.
+  2363	 * @pfn: Page Number of the corrupted page
+  2364	 * @flags: fine tune action taken
+  2365	 *
+  2366	 * This function is called by the low level machine check code
+  2367	 * of an architecture when it detects hardware memory corruption
+  2368	 * of a page. It tries its best to recover, which includes
+  2369	 * dropping pages, killing processes etc.
+  2370	 *
+  2371	 * The function is primarily of use for corruptions that
+  2372	 * happen outside the current execution context (e.g. when
+  2373	 * detected by a background scrubber)
+  2374	 *
+  2375	 * Must run in process context (e.g. a work queue) with interrupts
+  2376	 * enabled and no spinlocks held.
+  2377	 *
+  2378	 * Return:
+  2379	 *   0             - success,
+  2380	 *   -ENXIO        - memory not managed by the kernel
+  2381	 *   -EOPNOTSUPP   - hwpoison_filter() filtered the error event,
+  2382	 *   -EHWPOISON    - the page was already poisoned, potentially
+  2383	 *                   kill process,
+  2384	 *   other negative values - failure.
+  2385	 */
+  2386	int memory_failure(unsigned long pfn, int flags)
+  2387	{
+  2388		struct page *p;
+  2389		struct folio *folio;
+  2390		struct dev_pagemap *pgmap;
+  2391		int res = 0;
+  2392		unsigned long page_flags;
+  2393		bool retry = true;
+  2394	
+  2395		if (!sysctl_memory_failure_recovery)
+  2396			panic("Memory failure on page %lx", pfn);
+  2397	
+  2398		mutex_lock(&mf_mutex);
+  2399	
+  2400		if (!(flags & MF_SW_SIMULATED))
+  2401			hw_memory_failure = true;
+  2402	
+  2403		p = pfn_to_online_page(pfn);
+  2404		if (!p) {
+  2405			res = arch_memory_failure(pfn, flags);
+  2406			if (res == 0)
+  2407				goto unlock_mutex;
+  2408	
+  2409			if (!pfn_valid(pfn) && !arch_is_platform_page(PFN_PHYS(pfn))) {
+  2410				/*
+  2411				 * The PFN is not backed by struct page.
+  2412				 */
+  2413				res = memory_failure_pfn(pfn, flags);
+  2414				goto unlock_mutex;
+  2415			}
+  2416	
+  2417			if (pfn_valid(pfn)) {
+  2418				pgmap = get_dev_pagemap(pfn);
+  2419				put_ref_page(pfn, flags);
+  2420				if (pgmap) {
+  2421					res = memory_failure_dev_pagemap(pfn, flags,
+  2422									 pgmap);
+  2423					goto unlock_mutex;
+  2424				}
+  2425			}
+  2426			pr_err("%#lx: memory outside kernel control\n", pfn);
+  2427			res = -ENXIO;
+  2428			goto unlock_mutex;
+  2429		}
+  2430	
+  2431	try_again:
+  2432		res = try_memory_failure_hugetlb(pfn, flags);
+  2433		/*
+  2434		 * -ENOENT means the page we found is not hugetlb, so proceed with normal page handling
+  2435		 */
+  2436		if (res != -ENOENT)
+  2437			goto unlock_mutex;
+  2438	
+  2439		if (TestSetPageHWPoison(p)) {
+  2440			res = -EHWPOISON;
+  2441			if (flags & MF_ACTION_REQUIRED)
+  2442				res = kill_accessing_process(current, pfn, flags);
+  2443			if (flags & MF_COUNT_INCREASED)
+  2444				put_page(p);
+  2445			action_result(pfn, MF_MSG_ALREADY_POISONED, MF_FAILED);
+  2446			goto unlock_mutex;
+  2447		}
+  2448	
+  2449		/*
+  2450		 * We need/can do nothing about count=0 pages.
+  2451		 * 1) it's a free page, and therefore in safe hand:
+  2452		 *    check_new_page() will be the gate keeper.
+  2453		 * 2) it's part of a non-compound high order page.
+  2454		 *    Implies some kernel user: cannot stop them from
+  2455		 *    R/W the page; let's pray that the page has been
+  2456		 *    used and will be freed some time later.
+  2457		 * In fact it's dangerous to directly bump up page count from 0,
+  2458		 * that may make page_ref_freeze()/page_ref_unfreeze() mismatch.
+  2459		 */
+  2460		res = get_hwpoison_page(p, flags);
+  2461		switch (res) {
+  2462		case 0:
+  2463			if (is_free_buddy_page(p)) {
+  2464				if (take_page_off_buddy(p)) {
+  2465					page_ref_inc(p);
+  2466					res = MF_RECOVERED;
+  2467				} else {
+  2468					/* We lost the race, try again */
+  2469					if (retry) {
+  2470						ClearPageHWPoison(p);
+  2471						retry = false;
+  2472						goto try_again;
+  2473					}
+  2474					res = MF_FAILED;
+  2475				}
+  2476				res = action_result(pfn, MF_MSG_BUDDY, res);
+  2477			} else {
+  2478				res = action_result(pfn, MF_MSG_KERNEL_HIGH_ORDER, MF_IGNORED);
+  2479			}
+  2480			goto unlock_mutex;
+  2481		case 1:
+  2482			/* Got a refcount on a handlable page. */
+  2483			break;
+  2484		case -ENOTRECOVERABLE:
+  2485			/*
+  2486			 * Stable unhandlable kernel-owned page (PG_reserved,
+  2487			 * slab, page tables, large-kmalloc).
+  2488			 * No recovery possible.
+  2489			 */
+  2490			res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
+  2491			goto unlock_mutex;
+  2492		default:
+  2493			/* Transient lifecycle race with the page allocator. */
+  2494			res = action_result(pfn, MF_MSG_GET_HWPOISON, MF_IGNORED);
+  2495			goto unlock_mutex;
+  2496		}
+  2497	
+  2498		folio = page_folio(p);
+  2499	
+  2500		/* filter pages that are protected from hwpoison test by users */
+  2501		folio_lock(folio);
+  2502		if (hwpoison_filter(p)) {
+  2503			ClearPageHWPoison(p);
+  2504			folio_unlock(folio);
+  2505			folio_put(folio);
+  2506			res = -EOPNOTSUPP;
+  2507			goto unlock_mutex;
+  2508		}
+  2509	
+  2510		folio_unlock(folio);
+  2511	
+  2512		if (folio_test_large(folio)) {
+  2513			const int new_order;
+  2514			int err;
+  2515	
+  2516			folio_lock(folio);
+> 2517			new_order = min_order_for_split(folio);
+  2518			folio_unlock(folio);
+  2519	
+  2520			/*
+  2521			 * The flag must be set after the refcount is bumped
+  2522			 * otherwise it may race with THP split.
+  2523			 * And the flag can't be set in get_hwpoison_page() since
+  2524			 * it is called by soft offline too and it is just called
+  2525			 * for !MF_COUNT_INCREASED.  So here seems to be the best
+  2526			 * place.
+  2527			 *
+  2528			 * Don't need care about the above error handling paths for
+  2529			 * get_hwpoison_page() since they handle either free page
+  2530			 * or unhandlable page.  The refcount is bumped iff the
+  2531			 * page is a valid handlable page.
+  2532			 */
+  2533			folio_set_has_hwpoisoned(folio);
+  2534			err = try_to_split_thp_page(p, new_order, /* release= */ false);
+  2535			/*
+  2536			 * If splitting a folio to order-0 fails, kill the process.
+  2537			 * Split the folio regardless to minimize unusable pages.
+  2538			 * Because the memory failure code cannot handle large
+  2539			 * folios, this split is always treated as if it failed.
+  2540			 */
+  2541			if (err || new_order) {
+  2542				/* get folio again in case the original one is split */
+  2543				folio = page_folio(p);
+  2544				res = -EHWPOISON;
+  2545				kill_procs_now(p, pfn, flags, folio);
+  2546				put_page(p);
+  2547				action_result(pfn, MF_MSG_UNSPLIT_THP, MF_FAILED);
+  2548				goto unlock_mutex;
+  2549			}
+  2550			VM_BUG_ON_PAGE(!page_count(p), p);
+  2551			folio = page_folio(p);
+  2552		}
+  2553	
+  2554		/*
+  2555		 * We ignore non-LRU pages for good reasons.
+  2556		 * - PG_locked is only well defined for LRU pages and a few others
+  2557		 * - to avoid races with __SetPageLocked()
+  2558		 * - to avoid races with __SetPageSlab*() (and more non-atomic ops)
+  2559		 * The check (unnecessarily) ignores LRU pages being isolated and
+  2560		 * walked by the page reclaim code, however that's not a big loss.
+  2561		 */
+  2562		shake_folio(folio);
+  2563	
+  2564		folio_lock(folio);
+  2565	
+  2566		/*
+  2567		 * We're only intended to deal with the non-Compound page here.
+  2568		 * The page cannot become compound pages again as folio has been
+  2569		 * splited and extra refcnt is held.
+  2570		 */
+  2571		WARN_ON(folio_test_large(folio));
+  2572	
+  2573		/*
+  2574		 * We use page flags to determine what action should be taken, but
+  2575		 * the flags can be modified by the error containment action.  One
+  2576		 * example is an mlocked page, where PG_mlocked is cleared by
+  2577		 * folio_remove_rmap_*() in try_to_unmap_one(). So to determine page
+  2578		 * status correctly, we save a copy of the page flags at this time.
+  2579		 */
+  2580		page_flags = folio->flags.f;
+  2581	
+  2582		/*
+  2583		 * __munlock_folio() may clear a writeback folio's LRU flag without
+  2584		 * the folio lock. We need to wait for writeback completion for this
+  2585		 * folio or it may trigger a vfs BUG while evicting inode.
+  2586		 */
+  2587		if (!folio_test_lru(folio) && !folio_test_writeback(folio))
+  2588			goto identify_page_state;
+  2589	
+  2590		/*
+  2591		 * It's very difficult to mess with pages currently under IO
+  2592		 * and in many cases impossible, so we just avoid it here.
+  2593		 */
+  2594		folio_wait_writeback(folio);
+  2595	
+  2596		/*
+  2597		 * Now take care of user space mappings.
+  2598		 * Abort on fail: __filemap_remove_folio() assumes unmapped page.
+  2599		 */
+  2600		if (!hwpoison_user_mappings(folio, p, pfn, flags)) {
+  2601			res = action_result(pfn, MF_MSG_UNMAP_FAILED, MF_FAILED);
+  2602			goto unlock_page;
+  2603		}
+  2604	
+  2605		/*
+  2606		 * Torn down by someone else?
+  2607		 */
+  2608		if (folio_test_lru(folio) && !folio_test_swapcache(folio) &&
+  2609		    folio->mapping == NULL) {
+  2610			res = action_result(pfn, MF_MSG_TRUNCATED_LRU, MF_IGNORED);
+  2611			goto unlock_page;
+  2612		}
+  2613	
+  2614	identify_page_state:
+  2615		res = identify_page_state(pfn, p, page_flags);
+  2616		mutex_unlock(&mf_mutex);
+  2617		return res;
+  2618	unlock_page:
+  2619		folio_unlock(folio);
+  2620	unlock_mutex:
+  2621		mutex_unlock(&mf_mutex);
+  2622		return res;
+  2623	}
+  2624	EXPORT_SYMBOL_GPL(memory_failure);
+  2625	
 
 --
 0-DAY CI Kernel Test Service
