@@ -1,118 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B1D41A55D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 22:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B169A434406
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 23:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787352738; cv=none; b=lEpJqy9Hh2jzMVn0wi6LVYFu8Kx/8lvnVsCLbZB/8so6yZGi6FBhhiJsJZxQd170BfyAlsgN1BoZHHBIcxXwCmqyNSBEHyY2cKnoJOSuWizXouiTGgKa/LayUSIvB6p4EqYh2IC8vHIWQYPsiJ6rtTLL+J27vY7BaI5buhuZXys=
+	t=1787354059; cv=none; b=RIO5lC9xnspUDPhWMw+9EeCYYRkH3O86nJg5KmBtgwJfRdZLzBOdUtl+WcWdPZhPHLX+eu+epS8tWECvQrZF4j97ctC18TbvJLOlslbIlNgJi0hj9elm62C5SWW5Xu/be0YpXANu67nZZPXF9hN0FlY3dgjCOLrf4yfaDIbmljQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787352738; c=relaxed/simple;
-	bh=xtd+/m1W2G4/cDp49HmRYG1ThLH6ozbJUl1dfZuGwq4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TRUq5qQ7h7CCMloPP43IJb0ZMh/r75BnUD8YBGUMb9SKX4CJ2vHXfkoguqJZP6wddDLKahOaQs5vE6iBsV1XctRUShwLr+ZLuxpX5pw2edzWOGnVchM9Lcb8FgC9jZlRmkDWUv4DyrAEQY2fZMkumn6TfDNizg6ffmf2Hvh+60s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSuGjyR6; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1787354059; c=relaxed/simple;
+	bh=kfVAGds45ceNNu97UkR7OlMCcwzcYjqZDdk3gPfHyuM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=sJ1LK9fEOecC0t1ZQZSs6sXo5ImGmu4Rduo3lJV3ZcecaIXy3oLEi4JfNA6oa9gDxiypA6WKQoW83O9VoiZmsclXx/eTLBSBeHfxszd8Yn6TA4GURQLIdjo2nkDj4D3maRgF/KKUHgEMBUBETUF62rF3+o0CBqxS8NsM/YKusgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q2qTRYHl; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSuGjyR6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q2qTRYHl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787352736; x=1818888736;
-  h=date:from:to:cc:subject:message-id;
-  bh=xtd+/m1W2G4/cDp49HmRYG1ThLH6ozbJUl1dfZuGwq4=;
-  b=LSuGjyR6ju9EzoUuKoVK03hzFfBOzkaIgnNdDBs6OlBmmxYRQlW5qUmI
-   sNIHScK4H3bXuFp+imh108JZMBoW37GP5RMr0gOYDOdsz2L37QQIMXF0f
-   m9ZhZsPR6Mnv49J3AP37VCqmi1Lqpks3hjYJRS3XenvvGChi+9psdGfvt
-   uRKmBijo5HLTjxczxo/zOq//IGzCEU63gBiA3jY8zOnnBu0eSJAR4Y694
-   6J4cguaB0R/nHD2dYOxz+hysls0tuZUM/AhyYjjOHsN8e/1aPsMefsyPg
-   5e6lH1ntcC7+GXJh+PZjHQzAKyuhHccZBrQyq0tyK2CfydpUjyhxomJ6Y
-   w==;
-X-CSE-ConnectionGUID: PtT2DAiHQoCFCuk5cHpW7A==
-X-CSE-MsgGUID: MwtDb08rQyKa+yxNGHAeSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="91779920"
+  t=1787354056; x=1818890056;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kfVAGds45ceNNu97UkR7OlMCcwzcYjqZDdk3gPfHyuM=;
+  b=Q2qTRYHlx0btf4scCz4lkceJLHqpLnccg3bOpap6SLJ/48f3yQKPOupl
+   smN/p9xWGOSYjBgxXs4g/w3excjFXMqvObJxj821/2l2e9ABGmXv+Mbw0
+   D1mBWEeKDUvK4OjVjmoakldUG9ARjOUwuDreDM/U8ZzY2HHCETZbr/M+K
+   WCkv/3xechjfFROUMW/snL26ukiw3ZdoDwik4ZxB1ywlacK2/Gy/B/GFO
+   jxsfxUt00KQdXzOyn0LOS8qhvOjrbQ4dRGGgyEYwsRgAQgzWkWdg31v/F
+   QWfYcGVrqtalfBxbRMAwuAhut4dcXHXpczVoarWJojtsJvoEnjshU3LqG
+   g==;
+X-CSE-ConnectionGUID: e4G/YLlDTC2mAXsQyA6nRw==
+X-CSE-MsgGUID: QaQpfCqFQ/+qgsCEVxFbAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="87672973"
 X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="91779920"
+   d="scan'208";a="87672973"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 15:52:15 -0700
-X-CSE-ConnectionGUID: Pq/ffM7/R66N2Nru5swPRg==
-X-CSE-MsgGUID: IgWd3PeLSj+/yHM3tWc0Kg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 16:14:16 -0700
+X-CSE-ConnectionGUID: XXfEocPMTLK+eJd8seuVGQ==
+X-CSE-MsgGUID: UJY3cXs+TtyD39FwfVAWCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="264699597"
+   d="scan'208";a="264702445"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 Aug 2026 15:52:14 -0700
+  by orviesa006.jf.intel.com with ESMTP; 21 Aug 2026 16:14:15 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxY5r-00000000qXj-1pGx;
-	Fri, 21 Aug 2026 22:52:11 +0000
-Date: Sat, 22 Aug 2026 06:51:18 +0800
+	id 1wxYRA-00000000qZp-2gKH;
+	Fri, 21 Aug 2026 23:14:12 +0000
+Date: Sat, 22 Aug 2026 07:13:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 0/2]
- drivers/usb/gadget/configfs.c:1620:2: error: implicit declaration of function
- 'acc_disconnect'
-Message-ID: <202608220616.rehAmLWe-lkp@intel.com>
+Subject: [jimc:scratchpad-v10 14/24]
+ kernel/locking/lockdep.c:6710:10: error: use of undeclared identifier
+ 'stack_trace'
+Message-ID: <202608220728.EPdgObe8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-Hi Ronak,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   233907fd00d20cb913bac974697845f18998af64
-commit: 80fef39de7e9dbe706d0cbc820a09b5c05dc366f [0/2] ANDROID: usb: gadget: Resolve NULL pointer dereference in composite_disconnect
-config: i386-randconfig-015-20260822 (https://download.01.org/0day-ci/archive/20260822/202608220616.rehAmLWe-lkp@intel.com/config)
+tree:   https://github.com/jimc/linux.git scratchpad-v10
+head:   a23fc077806416450fbeb0a5a534fd995e465430
+commit: 336938fcdc2d4cb4705b1ebcae351ef17abee91e [14/24] locking/lockdep: Route stack trace entries to static bootstrap scratchpad
+config: powerpc-randconfig-002-20260822 (https://download.01.org/0day-ci/archive/20260822/202608220728.EPdgObe8-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220616.rehAmLWe-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220728.EPdgObe8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608220616.rehAmLWe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608220728.EPdgObe8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/gadget/configfs.c:1620:2: error: implicit declaration of function 'acc_disconnect' [-Werror,-Wimplicit-function-declaration]
-    1620 |         acc_disconnect();
+   kernel/locking/lockdep.c:71:33: error: too many arguments provided to function-like macro invocation
+      71 |                                SCRATCH_64K_ORDER, 0, &lockdep_pool_key);
+         |                                                      ^
+   include/linux/scratchpad.h:360:9: note: macro 'SCRATCHREC_INIT_STATIC' defined here
+     360 | #define SCRATCHREC_INIT_STATIC(name, _elem_size, _static_buf, _size_bytes, _min_order, _key) \
          |         ^
-   1 error generated.
+   kernel/locking/lockdep.c:69:2: error: use of undeclared identifier 'SCRATCHREC_INIT_STATIC'
+      69 |         SCRATCHREC_INIT_STATIC(lockdep_pool, sizeof(struct lock_list),
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/lockdep.c:1139:20: warning: unused variable 'e' [-Wunused-variable]
+    1139 |         struct lock_list *e;
+         |                           ^
+>> kernel/locking/lockdep.c:6710:10: error: use of undeclared identifier 'stack_trace'
+    6710 |                 sizeof(stack_trace) - lockdep_trace_scratchpad.remaining,
+         |                        ^~~~~~~~~~~
+>> kernel/locking/lockdep.c:6710:25: error: use of undeclared identifier 'lockdep_trace_scratchpad'
+    6710 |                 sizeof(stack_trace) - lockdep_trace_scratchpad.remaining,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/lockdep.c:6711:18: error: use of undeclared identifier 'BOOTSTRAP_STACK_TRACE_ENTRIES'
+    6711 |                 (unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 5 errors generated.
 
 
-vim +/acc_disconnect +1620 drivers/usb/gadget/configfs.c
+vim +/stack_trace +6710 kernel/locking/lockdep.c
 
-  1603	
-  1604	static void configfs_composite_disconnect(struct usb_gadget *gadget)
-  1605	{
-  1606		struct usb_composite_dev *cdev;
-  1607		struct gadget_info *gi;
-  1608		unsigned long flags;
-  1609	
-  1610		cdev = get_gadget_data(gadget);
-  1611		if (!cdev)
-  1612			return;
-  1613	
-  1614	#ifdef CONFIG_USB_CONFIGFS_F_ACC
-  1615		/*
-  1616		 * accessory HID support can be active while the
-  1617		 * accessory function is not actually enabled,
-  1618		 * so we need to inform it when we are disconnected.
-  1619		 */
-> 1620		acc_disconnect();
-  1621	#endif
-  1622		gi = container_of(cdev, struct gadget_info, cdev);
-  1623		spin_lock_irqsave(&gi->spinlock, flags);
-  1624		cdev = get_gadget_data(gadget);
-  1625		if (!cdev || gi->unbind) {
-  1626			spin_unlock_irqrestore(&gi->spinlock, flags);
-  1627			return;
-  1628		}
-  1629	
+  6704	
+  6705	static int __init lockdep_boot_report(void)
+  6706	{
+  6707		pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
+  6708			min_t(unsigned long, nr_list_entries, BOOTSTRAP_LOCKDEP_ENTRIES),
+  6709			BOOTSTRAP_LOCKDEP_ENTRIES,
+> 6710			sizeof(stack_trace) - lockdep_trace_scratchpad.remaining,
+  6711			(unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
+  6712		return 0;
+  6713	}
+  6714	core_initcall(lockdep_boot_report);
+  6715	
 
 --
 0-DAY CI Kernel Test Service
