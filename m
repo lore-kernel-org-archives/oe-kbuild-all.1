@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E8336EA8B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 15:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAA949362B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 16:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787327760; cv=none; b=ebTty1vn5wHWDwp+EAK7XSJsY3Z16SfAeFVYnrJo/DTCxm/xP7Rc1Kk+6MOiua9oXU8Xg8LvzkhVvEKqplzyiQ486AqwSXemGi9ojzNF1n84zZB0WlhHHqeqihB/X0GruZM1yYlzHWqvkdhbXkP+SkO0IcIhUUy6pFj11lckL+E=
+	t=1787329679; cv=none; b=I1KBebn6Qaqrk1lRhbXEQ2asreqN1kNW5B5tFcxdg+laYtE/5eAE5Iv6lkAsM/ZEA2TMZmgTuNzmpGppATuFt3EErWlXSfJ3ztNy7qbE6pQ8uokGo6PNLMzjEcDbRn3OBSaDnBxND1xtVPktOS5MUU/Nctm+flal54DXcfMiwSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787327760; c=relaxed/simple;
-	bh=xpw7Lb3IyGVuNXgsa8It18ulURhPwPoN/iPZXz4KI+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WNn7gAf4gPTauXFhOJ0JfLkJNPN0ls5ZIP6iQ3A22073qQfSnUPfAeIU2m7yYk3+6eun4sBmlfuV6Sq8GhQjlIZUh2qkqMGgI4TdPxAb/sDH1QBCeNxLNfVZhH11pcX51fOu0IulNbMl6+/R3J16s1wzprrR/IuM4fAm5hUnm4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BcX5azP1; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1787329679; c=relaxed/simple;
+	bh=zByslpLcrXWlM8olCU5/nUSKQueAzxfRwIC/AZWlB5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fe2njawXRxct1fGWqdXQs0PqDlbMbtndzT99IKBLzdXFyX8JtZdBqEzlmAl3QJdEgKZEzvlJgodoD28uZb+IfK4oEBLrAf7l+bcTgy4bzBEQ18KrK2hZMaGm4Ojaz+dLWXao2I7eKKyiNbPffw+e+8uQbp/hPdXhnHNM8Rf8zWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jB+0vrMp; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BcX5azP1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jB+0vrMp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787327756; x=1818863756;
+  t=1787329677; x=1818865677;
   h=date:from:to:cc:subject:message-id;
-  bh=xpw7Lb3IyGVuNXgsa8It18ulURhPwPoN/iPZXz4KI+Y=;
-  b=BcX5azP13GIw69MlkvZuJ9JgX5eBtnCWuvisVGBRBY8o75UgHO/bwpMW
-   64XL6yh+4A6ZxV2ZmdAPCSfLwLtHQMJybAX2pHGFbCDSXGne/klZFAsmG
-   YNip4hCDYjGgOKlr/VdX78MEUi9QcxAxgZhmeboAoRDUCW5XTqvcJYSCn
-   5CuIUzn98Gbw1XjWXgyRjzCSHklAledbEUlx0mTn9CEAJzC4dMaZ9lN7C
-   cMQ/QpJEDgmva17FZkSFaRlfQgrNvmR0GUvAZWZqAqNtLlUGHeJxQWUAo
-   x7gfaCJlhXCNrb/TdUiAarEGitzsWlGqXquigYgr7zk01Xg7yhrPjoDxr
+  bh=zByslpLcrXWlM8olCU5/nUSKQueAzxfRwIC/AZWlB5Q=;
+  b=jB+0vrMpOCOqph/ywbSGozHjWEcPo9sOuBIvA4unZXXqfk0ulnx1/msy
+   fRzmJ/SgBMtmKFb3E50f9EHe1YJN9aeCIarmCsPDwN6/FyKG/F4t2mR0S
+   CuyLqZcfynFW8inXEqD04ThzAzzBl0KP3fFCV6MezrHks0LIEmEcPt91D
+   ikxtoAK/nlbVDZ8r47yUjNbgv8it6jTt4JnXcS1jNt1V/pU9sztTuZ/vr
+   y0H/d+BuevA1Hvac46Z0TCxHtOc9daHZHVuuT3Nt4JjdVb5jRPb/KUOa1
+   Xd2HqYuofAZO/+Qn8OmOgb5DiFDJCWb9YfC1D7nAB7lkCxkpKClQ9yT9l
    A==;
-X-CSE-ConnectionGUID: TH85zQIXRKyvFi2Pm45Gjg==
-X-CSE-MsgGUID: YDe+34T5S+GwXTlk50ygJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="105258427"
+X-CSE-ConnectionGUID: JVftfbDZR72Dqs6hHQPjjg==
+X-CSE-MsgGUID: Ksm0kvR4TbC92kbcrhBQzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="87739162"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="105258427"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 08:55:54 -0700
-X-CSE-ConnectionGUID: Wjv68jYBT0q4tNQHD8hi5w==
-X-CSE-MsgGUID: PzIKYV29TKCNRlM1bSOIew==
+   d="scan'208";a="87739162"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 09:27:57 -0700
+X-CSE-ConnectionGUID: C7a8+m5BQ3Gzbt5rxyx2ZA==
+X-CSE-MsgGUID: 3ruTVvoFSTCC9VC6P8lfCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="291235239"
+   d="scan'208";a="264624482"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Aug 2026 08:55:51 -0700
+  by orviesa006.jf.intel.com with ESMTP; 21 Aug 2026 09:27:54 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxRau-00000000q81-32uL;
-	Fri, 21 Aug 2026 15:55:48 +0000
-Date: Fri, 21 Aug 2026 23:55:14 +0800
+	id 1wxS5v-00000000qCj-2D7j;
+	Fri, 21 Aug 2026 16:27:51 +0000
+Date: Sat, 22 Aug 2026 00:26:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavan Chebbi <pavan.chebbi@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Andy Gospodarek <gospo@broadcom.com>,
- Dave Jiang <dave.jiang@intel.com>
-Subject: drivers/fwctl/bnxt/main.c:85 bnxtctl_validate_rpc() warn:
- always true condition '(scope >= 0) => (0-u32max >= 0)'
-Message-ID: <202608212315.eIwZpVXQ-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 2/2] kernel/sched/idle.c:179:
+ warning: Function parameter or member 'stop_tick' not described in
+ 'cpuidle_idle_call'
+Message-ID: <202608220252.nTDXJoDN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,120 +60,142 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
-commit: e782efb830cd8c1879ee15d80c6441ac9fa6c8a8 fwctl/bnxt_fwctl: Add bnxt fwctl device
-date:   5 months ago
-config: powerpc-randconfig-r073-20260821 (https://download.01.org/0day-ci/archive/20260821/202608212315.eIwZpVXQ-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
-smatch: v0.5.0-9187-g5189e3fb
+Hi Rafael,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   e165496edc1142154adde5a5f0335042db432c41
+commit: 39c0d422f501d8000e9e1257b0783a43bd2249a7 [2/2] sched: idle: Consolidate the handling of two special cases
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260822/202608220252.nTDXJoDN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220252.nTDXJoDN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e782efb830cd ("fwctl/bnxt_fwctl: Add bnxt fwctl device")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608212315.eIwZpVXQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608220252.nTDXJoDN-lkp@intel.com/
 
-smatch warnings:
-drivers/fwctl/bnxt/main.c:85 bnxtctl_validate_rpc() warn: always true condition '(scope >= 0) => (0-u32max >= 0)'
+All warnings (new ones prefixed by >>):
 
-vim +85 drivers/fwctl/bnxt/main.c
+>> kernel/sched/idle.c:179: warning: Function parameter or member 'stop_tick' not described in 'cpuidle_idle_call'
 
-    57	
-    58	/* Caller must hold edev->en_dev_lock */
-    59	static bool bnxtctl_validate_rpc(struct bnxt_en_dev *edev,
-    60					 struct bnxt_fw_msg *hwrm_in,
-    61					 enum fwctl_rpc_scope scope)
-    62	{
-    63		struct input *req = (struct input *)hwrm_in->msg;
-    64	
-    65		lockdep_assert_held(&edev->en_dev_lock);
-    66		if (edev->flags & BNXT_EN_FLAG_ULP_STOPPED)
-    67			return false;
-    68	
-    69		switch (le16_to_cpu(req->req_type)) {
-    70		case HWRM_FUNC_RESET:
-    71		case HWRM_PORT_CLR_STATS:
-    72		case HWRM_FW_RESET:
-    73		case HWRM_FW_SYNC:
-    74		case HWRM_FW_SET_TIME:
-    75		case HWRM_DBG_LOG_BUFFER_FLUSH:
-    76		case HWRM_DBG_ERASE_NVM:
-    77		case HWRM_DBG_CFG:
-    78		case HWRM_NVM_DEFRAG:
-    79		case HWRM_NVM_FACTORY_DEFAULTS:
-    80		case HWRM_NVM_FLUSH:
-    81		case HWRM_NVM_VERIFY_UPDATE:
-    82		case HWRM_NVM_ERASE_DIR_ENTRY:
-    83		case HWRM_NVM_MOD_DIR_ENTRY:
-    84		case HWRM_NVM_FIND_DIR_ENTRY:
-  > 85			return scope >= FWCTL_RPC_CONFIGURATION;
-    86	
-    87		case HWRM_VER_GET:
-    88		case HWRM_ERROR_RECOVERY_QCFG:
-    89		case HWRM_FUNC_QCAPS:
-    90		case HWRM_FUNC_QCFG:
-    91		case HWRM_FUNC_QSTATS:
-    92		case HWRM_PORT_PHY_QCFG:
-    93		case HWRM_PORT_MAC_QCFG:
-    94		case HWRM_PORT_PHY_QCAPS:
-    95		case HWRM_PORT_PHY_I2C_READ:
-    96		case HWRM_PORT_PHY_MDIO_READ:
-    97		case HWRM_QUEUE_PRI2COS_QCFG:
-    98		case HWRM_QUEUE_COS2BW_QCFG:
-    99		case HWRM_VNIC_RSS_QCFG:
-   100		case HWRM_QUEUE_GLOBAL_QCFG:
-   101		case HWRM_QUEUE_ADPTV_QOS_RX_FEATURE_QCFG:
-   102		case HWRM_QUEUE_ADPTV_QOS_TX_FEATURE_QCFG:
-   103		case HWRM_QUEUE_QCAPS:
-   104		case HWRM_QUEUE_ADPTV_QOS_RX_TUNING_QCFG:
-   105		case HWRM_QUEUE_ADPTV_QOS_TX_TUNING_QCFG:
-   106		case HWRM_TUNNEL_DST_PORT_QUERY:
-   107		case HWRM_PORT_TX_FIR_QCFG:
-   108		case HWRM_FW_LIVEPATCH_QUERY:
-   109		case HWRM_FW_QSTATUS:
-   110		case HWRM_FW_HEALTH_CHECK:
-   111		case HWRM_FW_GET_TIME:
-   112		case HWRM_PORT_EP_TX_QCFG:
-   113		case HWRM_PORT_QCFG:
-   114		case HWRM_PORT_MAC_QCAPS:
-   115		case HWRM_TEMP_MONITOR_QUERY:
-   116		case HWRM_REG_POWER_QUERY:
-   117		case HWRM_CORE_FREQUENCY_QUERY:
-   118		case HWRM_CFA_REDIRECT_QUERY_TUNNEL_TYPE:
-   119		case HWRM_CFA_ADV_FLOW_MGNT_QCAPS:
-   120		case HWRM_FUNC_RESOURCE_QCAPS:
-   121		case HWRM_FUNC_BACKING_STORE_QCAPS:
-   122		case HWRM_FUNC_BACKING_STORE_QCFG:
-   123		case HWRM_FUNC_QSTATS_EXT:
-   124		case HWRM_FUNC_PTP_PIN_QCFG:
-   125		case HWRM_FUNC_PTP_EXT_QCFG:
-   126		case HWRM_FUNC_BACKING_STORE_QCFG_V2:
-   127		case HWRM_FUNC_BACKING_STORE_QCAPS_V2:
-   128		case HWRM_FUNC_SYNCE_QCFG:
-   129		case HWRM_FUNC_TTX_PACING_RATE_PROF_QUERY:
-   130		case HWRM_PORT_PHY_FDRSTAT:
-   131		case HWRM_DBG_RING_INFO_GET:
-   132		case HWRM_DBG_QCAPS:
-   133		case HWRM_DBG_QCFG:
-   134		case HWRM_DBG_USEQ_FLUSH:
-   135		case HWRM_DBG_USEQ_QCAPS:
-   136		case HWRM_DBG_SIM_CABLE_STATE:
-   137		case HWRM_DBG_TOKEN_QUERY_AUTH_IDS:
-   138		case HWRM_NVM_GET_DEV_INFO:
-   139		case HWRM_NVM_GET_DIR_INFO:
-   140		case HWRM_SELFTEST_QLIST:
-   141			return scope >= FWCTL_RPC_DEBUG_READ_ONLY;
-   142	
-   143		case HWRM_PORT_PHY_I2C_WRITE:
-   144		case HWRM_PORT_PHY_MDIO_WRITE:
-   145			return scope >= FWCTL_RPC_DEBUG_WRITE;
-   146	
-   147		default:
-   148			return false;
-   149		}
-   150	}
-   151	
+
+vim +179 kernel/sched/idle.c
+
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  168  
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  169  /**
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  170   * cpuidle_idle_call - the main idle function
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  171   *
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  172   * NOTE: no locks or semaphores should be used here
+82c65d60d64401a Andy Lutomirski   2014-06-04  173   *
+82c65d60d64401a Andy Lutomirski   2014-06-04  174   * On archs that support TIF_POLLING_NRFLAG, is called with polling
+82c65d60d64401a Andy Lutomirski   2014-06-04  175   * set, and it returns with polling set.  If it ever stops polling, it
+82c65d60d64401a Andy Lutomirski   2014-06-04  176   * must clear the polling bit.
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  177   */
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  178  static void cpuidle_idle_call(bool stop_tick)
+30cdd69e2a26650 Daniel Lezcano    2014-03-03 @179  {
+9bd616e3dbedfc1 Catalin Marinas   2016-06-01  180  	struct cpuidle_device *dev = cpuidle_get_device();
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  181  	struct cpuidle_driver *drv = cpuidle_get_cpu_driver(dev);
+37352273ad48f2d Peter Zijlstra    2014-04-11  182  	int next_state, entered_state;
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  183  
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  184  	/*
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  185  	 * Check if the idle task must be rescheduled. If it is the
+c444117f0f39d59 Peter Zijlstra    2014-04-11  186  	 * case, exit the function after re-enabling the local irq.
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  187  	 */
+c444117f0f39d59 Peter Zijlstra    2014-04-11  188  	if (need_resched()) {
+8ca3c6424f4988f Daniel Lezcano    2014-03-03  189  		local_irq_enable();
+08c373e5123b459 Rafael J. Wysocki 2014-04-21  190  		return;
+8ca3c6424f4988f Daniel Lezcano    2014-03-03  191  	}
+8ca3c6424f4988f Daniel Lezcano    2014-03-03  192  
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  193  	/*
+ed98c34919985a9 Rafael J. Wysocki 2018-03-15  194  	 * The RCU framework needs to be told that we are entering an idle
+ed98c34919985a9 Rafael J. Wysocki 2018-03-15  195  	 * section, so no more rcu read side critical sections and one more
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  196  	 * step to the grace period
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  197  	 */
+c8cc7d4de7a4f2f Daniel Lezcano    2014-03-03  198  
+82f663277d0db85 Rafael J. Wysocki 2015-05-04  199  	if (cpuidle_not_available(drv, dev)) {
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  200  		idle_call_stop_or_retain_tick(stop_tick);
+ed98c34919985a9 Rafael J. Wysocki 2018-03-15  201  
+82f663277d0db85 Rafael J. Wysocki 2015-05-04  202  		default_idle_call();
+82f663277d0db85 Rafael J. Wysocki 2015-05-04  203  		goto exit_idle;
+82f663277d0db85 Rafael J. Wysocki 2015-05-04  204  	}
+ef2b22ac540c018 Rafael J. Wysocki 2015-03-02  205  
+3810631332465d9 Rafael J. Wysocki 2015-02-12  206  	/*
+f02f4f9d826590f Rafael J. Wysocki 2017-08-10  207  	 * Suspend-to-idle ("s2idle") is a system state in which all user space
+3810631332465d9 Rafael J. Wysocki 2015-02-12  208  	 * has been frozen, all I/O devices have been suspended and the only
+3e0de271fff77ab Hewenliang        2020-01-09  209  	 * activity happens here and in interrupts (if any). In that case bypass
+3810631332465d9 Rafael J. Wysocki 2015-02-12  210  	 * the cpuidle governor and go stratight for the deepest idle state
+3810631332465d9 Rafael J. Wysocki 2015-02-12  211  	 * available.  Possibly also suspend the local tick and the entire
+3810631332465d9 Rafael J. Wysocki 2015-02-12  212  	 * timekeeping to prevent timer interrupts from kicking us out of idle
+3810631332465d9 Rafael J. Wysocki 2015-02-12  213  	 * until a proper wakeup interrupt happens.
+3810631332465d9 Rafael J. Wysocki 2015-02-12  214  	 */
+bb8313b603eb8fd Jacob Pan         2016-11-28  215  
+c55b51a06b01d67 Daniel Lezcano    2019-11-16  216  	if (idle_should_enter_s2idle() || dev->forced_idle_latency_limit_ns) {
+5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  217  		u64 max_latency_ns;
+5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  218  
+f02f4f9d826590f Rafael J. Wysocki 2017-08-10  219  		if (idle_should_enter_s2idle()) {
+ed98c34919985a9 Rafael J. Wysocki 2018-03-15  220  
+10e8b11eb3195e1 Rafael J. Wysocki 2020-06-25  221  			entered_state = call_cpuidle_s2idle(drv, dev);
+10e8b11eb3195e1 Rafael J. Wysocki 2020-06-25  222  			if (entered_state > 0)
+3810631332465d9 Rafael J. Wysocki 2015-02-12  223  				goto exit_idle;
+ed98c34919985a9 Rafael J. Wysocki 2018-03-15  224  
+5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  225  			max_latency_ns = U64_MAX;
+5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  226  		} else {
+5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  227  			max_latency_ns = dev->forced_idle_latency_limit_ns;
+bb8313b603eb8fd Jacob Pan         2016-11-28  228  		}
+3810631332465d9 Rafael J. Wysocki 2015-02-12  229  
+ed98c34919985a9 Rafael J. Wysocki 2018-03-15  230  		tick_nohz_idle_stop_tick();
+ed98c34919985a9 Rafael J. Wysocki 2018-03-15  231  
+5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  232  		next_state = cpuidle_find_deepest_state(drv, dev, max_latency_ns);
+bcf6ad8a4a3d002 Rafael J. Wysocki 2015-05-04  233  		call_cpuidle(drv, dev, next_state);
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  234  	} else if (drv->state_count > 1) {
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  235  		/*
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  236  		 * stop_tick is expected to be true by default by cpuidle
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  237  		 * governors, which allows them to select idle states with
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  238  		 * target residency above the tick period length.
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  239  		 */
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  240  		stop_tick = true;
+45f1ff59e27ca59 Rafael J. Wysocki 2018-03-22  241  
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  242  		/*
+52c324f8a87b336 Rafael J. Wysocki 2014-05-01  243  		 * Ask the cpuidle framework to choose a convenient idle state.
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  244  		 */
+45f1ff59e27ca59 Rafael J. Wysocki 2018-03-22  245  		next_state = cpuidle_select(drv, dev, &stop_tick);
+554c8aa8ecade21 Rafael J. Wysocki 2018-04-03  246  
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  247  		idle_call_stop_or_retain_tick(stop_tick);
+554c8aa8ecade21 Rafael J. Wysocki 2018-04-03  248  
+bcf6ad8a4a3d002 Rafael J. Wysocki 2015-05-04  249  		entered_state = call_cpuidle(drv, dev, next_state);
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  250  		/*
+37352273ad48f2d Peter Zijlstra    2014-04-11  251  		 * Give the governor an opportunity to reflect on the outcome
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  252  		 */
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  253  		cpuidle_reflect(dev, entered_state);
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  254  	} else {
+39c0d422f501d80 Rafael J. Wysocki 2026-03-13  255  		idle_call_stop_or_retain_tick(stop_tick);
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  256  
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  257  		/*
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  258  		 * If there is only a single idle state (or none), there is
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  259  		 * nothing meaningful for the governor to choose.  Skip the
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  260  		 * governor and always use state 0.
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  261  		 */
+3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  262  		call_cpuidle(drv, dev, 0);
+bcf6ad8a4a3d002 Rafael J. Wysocki 2015-05-04  263  	}
+8ca3c6424f4988f Daniel Lezcano    2014-03-03  264  
+37352273ad48f2d Peter Zijlstra    2014-04-11  265  exit_idle:
+8ca3c6424f4988f Daniel Lezcano    2014-03-03  266  	__current_set_polling();
+8ca3c6424f4988f Daniel Lezcano    2014-03-03  267  
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  268  	/*
+37352273ad48f2d Peter Zijlstra    2014-04-11  269  	 * It is up to the idle functions to reenable local interrupts
+a1d028bd6d2b778 Daniel Lezcano    2014-03-03  270  	 */
+c8cc7d4de7a4f2f Daniel Lezcano    2014-03-03  271  	if (WARN_ON_ONCE(irqs_disabled()))
+c8cc7d4de7a4f2f Daniel Lezcano    2014-03-03  272  		local_irq_enable();
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  273  }
+30cdd69e2a26650 Daniel Lezcano    2014-03-03  274  
+
+:::::: The code at line 179 was first introduced by commit
+:::::: 30cdd69e2a266505ca8229c944d361ff350a6959 cpuidle/idle: Move the cpuidle_idle_call function to idle.c
+
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
