@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29A7352008
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 21:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B1D41A55D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 22:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787348957; cv=none; b=o+kVpI1ZptYuP6yP2mvk397SoBB55tLODRSkGI6q8a6GNDSrOaPRfvby1GAbj+Fb1UeqNtFuE+xvibjkoQlKhlSQMnFz2RNFvPSbhYLD4BphfZok/3KzFWcJ5mGi4qiqZsF+EQj4mt5oAdlD5Hnz+cJ4xMFaD4rn3BlRqU8G7uE=
+	t=1787352738; cv=none; b=lEpJqy9Hh2jzMVn0wi6LVYFu8Kx/8lvnVsCLbZB/8so6yZGi6FBhhiJsJZxQd170BfyAlsgN1BoZHHBIcxXwCmqyNSBEHyY2cKnoJOSuWizXouiTGgKa/LayUSIvB6p4EqYh2IC8vHIWQYPsiJ6rtTLL+J27vY7BaI5buhuZXys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787348957; c=relaxed/simple;
-	bh=mpbeUr0ndskysJi0swa5dNpzP2wNz5A//MgKqqoBwBY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cw7WOlGPZLZKSGdHFXvRfR4bfQlOsEc/dwRpNoKTlD+k8IcIhZBsxVWq4dWD6YFNzWPwQH5DSc6DczfxPLNtkkAvk+YKTqFOt96sJyYLfzgBIb3l8HwjnRdgwP89M9iMlgOUVhyUEthNaYlDFOXNtza7jU1GLyw8ZaA1AGO/e6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DYrMp40Y; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1787352738; c=relaxed/simple;
+	bh=xtd+/m1W2G4/cDp49HmRYG1ThLH6ozbJUl1dfZuGwq4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TRUq5qQ7h7CCMloPP43IJb0ZMh/r75BnUD8YBGUMb9SKX4CJ2vHXfkoguqJZP6wddDLKahOaQs5vE6iBsV1XctRUShwLr+ZLuxpX5pw2edzWOGnVchM9Lcb8FgC9jZlRmkDWUv4DyrAEQY2fZMkumn6TfDNizg6ffmf2Hvh+60s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSuGjyR6; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DYrMp40Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSuGjyR6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787348955; x=1818884955;
+  t=1787352736; x=1818888736;
   h=date:from:to:cc:subject:message-id;
-  bh=mpbeUr0ndskysJi0swa5dNpzP2wNz5A//MgKqqoBwBY=;
-  b=DYrMp40YD0fQdwS8DNQmI37i8P5uYMHZN1Nk9P9B0JpgzuyYQO88wCNL
-   EK+lrgYs9jxAq4LvWH12421b3NEeGRb1f0o1NqMU3uQKJwt7fF17KoL/k
-   0D8qqjoOBG4mcs5EA2PsBYDAFhxq5Wb+Z89fwLcQyl8LVGxgV7adZ7YAO
-   QX7EIZs16uEJRTEWTeMKSesTT1u0mJ640u1JKt5RDdnMCRk/o0SxxFDrc
-   /3521BRjGbnx2LTx/J50mchTUAaFW6HOcb+VFX/QInCeaKE9fo6/HrZtG
-   xmXyMRUyfkGU/v4SmHSuy/u7FRBK0xoA7LCJtNBdykZMk50tokEhZ/paG
-   A==;
-X-CSE-ConnectionGUID: wDhAKlKRRgqQLN/nOKohHw==
-X-CSE-MsgGUID: Ba3J0/SXR16yN63nwPVffg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="113441186"
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="113441186"
+  bh=xtd+/m1W2G4/cDp49HmRYG1ThLH6ozbJUl1dfZuGwq4=;
+  b=LSuGjyR6ju9EzoUuKoVK03hzFfBOzkaIgnNdDBs6OlBmmxYRQlW5qUmI
+   sNIHScK4H3bXuFp+imh108JZMBoW37GP5RMr0gOYDOdsz2L37QQIMXF0f
+   m9ZhZsPR6Mnv49J3AP37VCqmi1Lqpks3hjYJRS3XenvvGChi+9psdGfvt
+   uRKmBijo5HLTjxczxo/zOq//IGzCEU63gBiA3jY8zOnnBu0eSJAR4Y694
+   6J4cguaB0R/nHD2dYOxz+hysls0tuZUM/AhyYjjOHsN8e/1aPsMefsyPg
+   5e6lH1ntcC7+GXJh+PZjHQzAKyuhHccZBrQyq0tyK2CfydpUjyhxomJ6Y
+   w==;
+X-CSE-ConnectionGUID: PtT2DAiHQoCFCuk5cHpW7A==
+X-CSE-MsgGUID: MwtDb08rQyKa+yxNGHAeSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="91779920"
+X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
+   d="scan'208";a="91779920"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 14:49:12 -0700
-X-CSE-ConnectionGUID: EkvgDv9ORUyEzBC9ZDfUfg==
-X-CSE-MsgGUID: a9/hsZLLQ669ZjXHf11Q2g==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 15:52:15 -0700
+X-CSE-ConnectionGUID: Pq/ffM7/R66N2Nru5swPRg==
+X-CSE-MsgGUID: IgWd3PeLSj+/yHM3tWc0Kg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="264685473"
+X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
+   d="scan'208";a="264699597"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 Aug 2026 14:49:11 -0700
+  by orviesa006.jf.intel.com with ESMTP; 21 Aug 2026 15:52:14 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxX6q-00000000qVJ-3z76;
-	Fri, 21 Aug 2026 21:49:08 +0000
-Date: Sat, 22 Aug 2026 05:48:52 +0800
+	id 1wxY5r-00000000qXj-1pGx;
+	Fri, 21 Aug 2026 22:52:11 +0000
+Date: Sat, 22 Aug 2026 06:51:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 0/8]
- arch/x86/xen/enlighten_pv.c:650:24: warning: no previous prototype for
- function 'xen_pv_evtchn_do_upcall'
-Message-ID: <202608220519.3LglqRHS-lkp@intel.com>
+Subject: [android-common:android13-5.10 0/2]
+ drivers/usb/gadget/configfs.c:1620:2: error: implicit declaration of function
+ 'acc_disconnect'
+Message-ID: <202608220616.rehAmLWe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,64 +60,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Brian,
+Hi Ronak,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   9fd3e1d56be51348e5fa5a1633a82a3e82987954
-commit: 67d749f3e3516c7343ea6c7fdd38fd3dbfa05936 [0/8] x86/xen: Move Xen upcall handler
-config: x86_64-randconfig-004-20260822 (https://download.01.org/0day-ci/archive/20260822/202608220519.3LglqRHS-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220519.3LglqRHS-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   233907fd00d20cb913bac974697845f18998af64
+commit: 80fef39de7e9dbe706d0cbc820a09b5c05dc366f [0/2] ANDROID: usb: gadget: Resolve NULL pointer dereference in composite_disconnect
+config: i386-randconfig-015-20260822 (https://download.01.org/0day-ci/archive/20260822/202608220616.rehAmLWe-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220616.rehAmLWe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608220519.3LglqRHS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608220616.rehAmLWe-lkp@intel.com/
 
-Note: functions only called from assembly code should be annotated with the asmlinkage attribute
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/xen/enlighten_pv.c:650:24: warning: no previous prototype for function 'xen_pv_evtchn_do_upcall' [-Wmissing-prototypes]
-     650 | __visible noinstr void xen_pv_evtchn_do_upcall(struct pt_regs *regs)
-         |                        ^
-   arch/x86/xen/enlighten_pv.c:650:19: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     650 | __visible noinstr void xen_pv_evtchn_do_upcall(struct pt_regs *regs)
-         |                   ^
-         |                   static 
-   arch/x86/xen/enlighten_pv.c:1301:34: warning: no previous prototype for function 'xen_start_kernel' [-Wmissing-prototypes]
-    1301 | asmlinkage __visible void __init xen_start_kernel(struct start_info *si)
-         |                                  ^
-   arch/x86/xen/enlighten_pv.c:1301:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1301 | asmlinkage __visible void __init xen_start_kernel(struct start_info *si)
-         |                      ^
-         |                      static 
-   2 warnings generated.
+>> drivers/usb/gadget/configfs.c:1620:2: error: implicit declaration of function 'acc_disconnect' [-Werror,-Wimplicit-function-declaration]
+    1620 |         acc_disconnect();
+         |         ^
+   1 error generated.
 
 
-vim +/xen_pv_evtchn_do_upcall +650 arch/x86/xen/enlighten_pv.c
+vim +/acc_disconnect +1620 drivers/usb/gadget/configfs.c
 
-   649	
- > 650	__visible noinstr void xen_pv_evtchn_do_upcall(struct pt_regs *regs)
-   651	{
-   652		irqentry_state_t state = irqentry_enter(regs);
-   653		bool inhcall;
-   654	
-   655		instrumentation_begin();
-   656		run_sysvec_on_irqstack_cond(__xen_pv_evtchn_do_upcall, regs);
-   657	
-   658		inhcall = get_and_clear_inhcall();
-   659		if (inhcall && !WARN_ON_ONCE(state.exit_rcu)) {
-   660			irqentry_exit_cond_resched();
-   661			instrumentation_end();
-   662			restore_inhcall(inhcall);
-   663		} else {
-   664			instrumentation_end();
-   665			irqentry_exit(regs, state);
-   666		}
-   667	}
-   668	
+  1603	
+  1604	static void configfs_composite_disconnect(struct usb_gadget *gadget)
+  1605	{
+  1606		struct usb_composite_dev *cdev;
+  1607		struct gadget_info *gi;
+  1608		unsigned long flags;
+  1609	
+  1610		cdev = get_gadget_data(gadget);
+  1611		if (!cdev)
+  1612			return;
+  1613	
+  1614	#ifdef CONFIG_USB_CONFIGFS_F_ACC
+  1615		/*
+  1616		 * accessory HID support can be active while the
+  1617		 * accessory function is not actually enabled,
+  1618		 * so we need to inform it when we are disconnected.
+  1619		 */
+> 1620		acc_disconnect();
+  1621	#endif
+  1622		gi = container_of(cdev, struct gadget_info, cdev);
+  1623		spin_lock_irqsave(&gi->spinlock, flags);
+  1624		cdev = get_gadget_data(gadget);
+  1625		if (!cdev || gi->unbind) {
+  1626			spin_unlock_irqrestore(&gi->spinlock, flags);
+  1627			return;
+  1628		}
+  1629	
 
 --
 0-DAY CI Kernel Test Service
