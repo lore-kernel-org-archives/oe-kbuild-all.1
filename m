@@ -1,140 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64783C10B6;
-	Fri, 21 Aug 2026 08:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F244503E6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 08:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787301362; cv=none; b=JuTtI84wN2UJ1ITtYoLxjqRq4cqPmsVlrW/UIqq37WLWqIjPr5DfzXJqI/ESCBW6oer6T1t5CwdLjkyZFmXTfuSc/9eFunOmXB/q1H4zs5M3pOWFIEFSPw++9NBxJ/8y3jfxx/00Qi1eqE+GxEv0RjkTbt731bi1jLAjn13vafE=
+	t=1787302765; cv=none; b=MwkHW62Y3jVs07Y67IDRblV6R75d70VxdT5mg5YS1iB+BZwrYzKSULIMaOSquzkDaSlMN8KRsbLIIshDUG1gAFd866rj34Du/juaUyvqO7G96/z0QyMFaqHSAlIleDO96qhphBb6GZqO3BM8vVDSB0mu/RqP0sF8LZIaNkZ7Do4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787301362; c=relaxed/simple;
-	bh=EJYE5osII66Y2HveI+uu49t7RXfKKfg3eaJiiA93NT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TqSa5Je4Z6QY9PXtRUDcL8v/cFEG8wHOONko8PBgB1kVoT25yoskqcfBMulVplcw48M3qeppYZtBLQLQjpnMJGaZyWVh+hw8Tozt8GCN2sqVD5UaukHHsBN3lC1drM/Txj85uJHHd0xqM8ytFk/IsEN6bGIp/ZAauD8KBeLG+i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJ8tdoi1; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1787302765; c=relaxed/simple;
+	bh=7gXJ6nB/2MtU93N8Tovm5joAXj5MvJ+Q4plJo5ur6T4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=W9lCjfbESsz8gzC160SRLFkmsy53LE04QGIctArgvb9T4iD8OPVAS+js4MCrcQYMkP74OB1nFooKghiXgMHAJwyXIGzh/pqx9t6VhGof4VXACTV6/pzO9iiifMp6qpF061wafkzWVWR+nf93ul1Q8eSl795eLRYOk/voJpPwOJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PNJZt4yM; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJ8tdoi1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PNJZt4yM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787301360; x=1818837360;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EJYE5osII66Y2HveI+uu49t7RXfKKfg3eaJiiA93NT8=;
-  b=jJ8tdoi1zMht0om2NbYCpNBHhnyUJCIONDs+CtgM3FgCYFkyt0s6W6zP
-   HPEWeM9hhk566wpjudUVgN2kVun/RqJxqrIb+Flq1FHrhoychad17XvZ4
-   MMRUX4T0Ynb+qhSPVrlsNXhft9VmYTgxkD6Nto/Gpr6HKbAJdEiHIBrFu
-   pueJTO7aUgs3uKgtHdAz1Z1nfqYXITAUuVg3BQm4P8yZo7l6GgNcjbl4T
-   rNjulrMcmQ2oXtmh4yg/TJWnSHo/dF/V89sSsUPBUCgOoAd95DKujWaS9
-   YxbDwniilgwDB8KQEdxSE4yWXuswjk2mQpbgbensdmeypqrONj3TvVVNi
+  t=1787302762; x=1818838762;
+  h=date:from:to:cc:subject:message-id;
+  bh=7gXJ6nB/2MtU93N8Tovm5joAXj5MvJ+Q4plJo5ur6T4=;
+  b=PNJZt4yM66RFGIotSUKd6WqXCaHNYq777vtoFmocRhTfHJg7B/8l6fes
+   rQN5d34uvrX+fnE3UDsHEZ0IcVRP5Ng3MNQOkJQVd+1ti0Ply7w07MsIG
+   O0itk7eclZdNORTunHaT7oiPTnGiuHGVksPqJ3HmAcKVqm6FKYGshRmwU
+   IF99CCDojCfF58KH6KXd9YkY0ctoQu2+rTqveeu5ffDfxG4LIheQNz1J8
+   S9axYO8F5fGFue+Xq81quZgEDXy5ERHZoZQ78ZfcbEkCdUBncvH7IXlrs
+   ysT88SOun2V+xVO/CnPkt1KBj7D5M+dL0B62PN/YEawRLXHFEC13IKMjH
    Q==;
-X-CSE-ConnectionGUID: ppUxZeHGQdC+ZcgGGSo/tg==
-X-CSE-MsgGUID: Yp+I51H+R82ldcS9lu7mBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="87865766"
+X-CSE-ConnectionGUID: V09sZ+vyQ1SePit++ZRSFA==
+X-CSE-MsgGUID: Cqq9BkPfTQKsotHWMsNhKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="75384350"
 X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="87865766"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 01:36:00 -0700
-X-CSE-ConnectionGUID: XwtK2wYaT4+DOIFOe8HJ6g==
-X-CSE-MsgGUID: NUDoPnBaSYOfThemt2JFJw==
+   d="scan'208";a="75384350"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 01:59:21 -0700
+X-CSE-ConnectionGUID: K5eOmTIwR1GHukPHkP2BoQ==
+X-CSE-MsgGUID: 3BfBkYyOR1OFuN+2NwGvww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="291125078"
+   d="scan'208";a="304476178"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Aug 2026 01:35:56 -0700
+  by orviesa001.jf.intel.com with ESMTP; 21 Aug 2026 01:59:19 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxKjC-00000000pbx-1BME;
-	Fri, 21 Aug 2026 08:35:54 +0000
-Date: Fri, 21 Aug 2026 16:35:29 +0800
+	id 1wxL5o-00000000pdR-3dQo;
+	Fri, 21 Aug 2026 08:59:16 +0000
+Date: Fri, 21 Aug 2026 16:58:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin Chen <xin.chen2@oss.qualcomm.com>, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-	stable@vger.kernel.org, liulzhao@qti.qualcomm.com,
-	cheng.jiang@oss.qualcomm.com, cxin@qti.qualcomm.com,
-	Xin Chen <xin.chen2@oss.qualcomm.com>
-Subject: Re: [PATCH v2] tty: n_tty: use kvzalloc/kvfree for line discipline
- data
-Message-ID: <202608211618.rZcRAXep-lkp@intel.com>
-References: <20260818070324.136726-1-xin.chen2@oss.qualcomm.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Subject: [avpatel:riscv_trace_support_v5 86/108]
+ include/asm-generic/memory_model.h:56:14: error: implicit declaration of
+ function 'memdesc_section'
+Message-ID: <202608211609.BQbIh963-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260818070324.136726-1-xin.chen2@oss.qualcomm.com>
 
-Hi Xin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus linus/master v7.2 next-20260819]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Chen/tty-n_tty-use-kvzalloc-kvfree-for-line-discipline-data/20260818-150324
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20260818070324.136726-1-xin.chen2%40oss.qualcomm.com
-patch subject: [PATCH v2] tty: n_tty: use kvzalloc/kvfree for line discipline data
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260821/202608211618.rZcRAXep-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608211618.rZcRAXep-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v5
+head:   e58ea3f194d326370813c549a76ecdfa211a4768
+commit: a81b95aa56abb5c8e32d24bcdd6d51cc998f1fcf [86/108] RISC-V: Move common MPXY helper routines to arch/riscv
+config: riscv-randconfig-001-20260821 (https://download.01.org/0day-ci/archive/20260821/202608211609.BQbIh963-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608211609.BQbIh963-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608211618.rZcRAXep-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608211609.BQbIh963-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/tty/n_tty.c:1890:8: error: incompatible pointer types assigning to 'struct n_tty_data *' from 'typeof (ldata) *' (aka 'struct n_tty_data **'); dereference with * [-Wincompatible-pointer-types]
-    1890 |         ldata = kvzalloc_obj(ldata);
-         |               ^ ~~~~~~~~~~~~~~~~~~~
-         |                 *(                 )
-   1 error generated.
+   In file included from arch/riscv/kernel/sbi_mpxy.c:16:
+   arch/riscv/kernel/sbi_mpxy.c: In function 'mpxy_setup_shmem':
+>> include/asm-generic/memory_model.h:56:14: error: implicit declaration of function 'memdesc_section' [-Werror=implicit-function-declaration]
+      56 |  int __sec = memdesc_section(__pg->flags);  \
+         |              ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/sbi.h:634:15: note: in definition of macro 'sbi_ecall'
+     634 |   __sbi_ecall(a0, a1, a2, a3, a4, a5, f, e)
+         |               ^~
+   include/asm-generic/memory_model.h:73:21: note: in expansion of macro '__page_to_pfn'
+      73 | #define page_to_pfn __page_to_pfn
+         |                     ^~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:79:24: note: in expansion of macro 'page_to_pfn'
+      79 |  unsigned long __pfn = page_to_pfn(page);   \
+         |                        ^~~~~~~~~~~
+   arch/riscv/kernel/sbi_mpxy.c:287:5: note: in expansion of macro 'page_to_phys'
+     287 |     page_to_phys(shmem_page), 0, 0, 0, 0, 0);
+         |     ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1890 drivers/tty/n_tty.c
+vim +/memdesc_section +56 include/asm-generic/memory_model.h
 
-  1876	
-  1877	/**
-  1878	 * n_tty_open		-	open an ldisc
-  1879	 * @tty: terminal to open
-  1880	 *
-  1881	 * Called when this line discipline is being attached to the terminal device.
-  1882	 * Can sleep. Called serialized so that no other events will occur in parallel.
-  1883	 * No further open will occur until a close.
-  1884	 */
-  1885	static int n_tty_open(struct tty_struct *tty)
-  1886	{
-  1887		struct n_tty_data *ldata;
-  1888	
-  1889		/* Currently a malloc failure here can panic */
-> 1890		ldata = kvzalloc_obj(ldata);
-  1891		if (!ldata)
-  1892			return -ENOMEM;
-  1893	
-  1894		ldata->overrun_time = jiffies;
-  1895		mutex_init(&ldata->atomic_read_lock);
-  1896		mutex_init(&ldata->output_lock);
-  1897	
-  1898		tty->disc_data = ldata;
-  1899		tty->closing = 0;
-  1900		/* indicate buffer work may resume */
-  1901		clear_bit(TTY_LDISC_HALTED, &tty->flags);
-  1902		n_tty_set_termios(tty, NULL);
-  1903		tty_unthrottle(tty);
-  1904		return 0;
-  1905	}
-  1906	
+8f6aac419bd590 Christoph Lameter       2007-10-16  48  
+a117e66ed45ac0 KAMEZAWA Hiroyuki       2006-03-27  49  #elif defined(CONFIG_SPARSEMEM)
+a117e66ed45ac0 KAMEZAWA Hiroyuki       2006-03-27  50  /*
+1a49123b343461 Zhang Yanfei            2013-10-03  51   * Note: section's mem_map is encoded to reflect its start_pfn.
+a117e66ed45ac0 KAMEZAWA Hiroyuki       2006-03-27  52   * section[i].section_mem_map == mem_map's address - start_pfn;
+a117e66ed45ac0 KAMEZAWA Hiroyuki       2006-03-27  53   */
+67de648211fa04 Andy Whitcroft          2006-06-23  54  #define __page_to_pfn(pg)					\
+aa462abe8aaf21 Ian Campbell            2011-08-17  55  ({	const struct page *__pg = (pg);				\
+56d578c1300f7e Matthew Wilcox (Oracle  2025-08-05 @56) 	int __sec = memdesc_section(__pg->flags);		\
+f05b6284ee5d3b Randy Dunlap            2007-02-10  57  	(unsigned long)(__pg - __section_mem_map_addr(__nr_to_section(__sec)));	\
+a117e66ed45ac0 KAMEZAWA Hiroyuki       2006-03-27  58  })
+a117e66ed45ac0 KAMEZAWA Hiroyuki       2006-03-27  59  
+
+:::::: The code at line 56 was first introduced by commit
+:::::: 56d578c1300f7efe9605b75714173dd3fda16fe2 mm: convert page_to_section() to memdesc_section()
+
+:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
