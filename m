@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546D647254E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 10:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F269C46F4B4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 10:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787307876; cv=none; b=dAU1D/LyBuvCXzB8b/tb0uwpTass28ujw9FypydMkTB4QJvWhxFba0KxicIhuCbJ0vHTujaWG5WJ6If4zLPaQuxHHWKqI8IeY45gNmSFOjzeqLeeBPqUTJNsPNeJu/UWWOz8PM6Av78xtCfjgzdvR0c7WKeUIWyYzrd68VfZntw=
+	t=1787308660; cv=none; b=iy7SstYq8zEba+JJ7pD/GGw9JWnb9rWuOO0BnlOAavtgZHdmoi8uzVLjIfDksp0bdLE8hciu+T3WeKEn1zxkzFys65GFtYDe+pe1bX3XN4Yt6Z4LzRJAWSFcVlW8WHJvhBBlzb7rcV5WGnRaiTt+wFmWnodFSeAb4VmAAhWZtYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787307876; c=relaxed/simple;
-	bh=UkkOMQikOSq1RnyC5PonmdGI77HA7b6PKfbsuaLwdxA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iD+JMF3CZXU3tjeqNTf5mB75BgCL/Lxo4QSPXXcdbdQTjsBB+nAuiOLmgjqiVklXXJWNVa668NUzltFiUidI9FCNt6rHPz452M2HWs26Iswjy75e5pi3poCdAP0cJZaFmFszrZhN79MWr1AKuyColtTpi5NEzVhp2H/KC89l3Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UwDKps8h; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1787308660; c=relaxed/simple;
+	bh=pPWehGHx6M1GIeLL0t1J7orna/9EbO5l7dlSmJJ5asU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=f0QANVDq8/pFVcXPZjPSDqDeinJ06rec5XTnsIWOUF2AKZLQITaXc98QqEF4JsdBmPqBT01mwgv0LFNt4Cnr1AnXMegYoveRw6XFbUKOItT+tWPq4MCKZQz5Jl3g65o6bhExyzbtYRjMD1YO4YCwdHruEDbQkme5/v1YXagpd4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maNRFyzm; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UwDKps8h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maNRFyzm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787307871; x=1818843871;
+  t=1787308656; x=1818844656;
   h=date:from:to:cc:subject:message-id;
-  bh=UkkOMQikOSq1RnyC5PonmdGI77HA7b6PKfbsuaLwdxA=;
-  b=UwDKps8hCg7DQSfy8tC1H/2ihXcerqhItZt59JyBjmuViJ3sfJDwiVww
-   tTqltO7HKomAqJfJus6DRpOlNU7eLbBxdp+curoxYm2ZLiXwbyzSK77Ai
-   MccvEuHQs1sPOgsMf1dKSIx8dL4oyEwSDTHaA2cUSRI9G/NSaDgTjYtXk
-   HnL/nrlp5TgEjgi9c2n/HFx271Fq6FD+ydFlgfjLB84eQne4jIRCXaJp2
-   clp9/HM8IEc/jEF9YuL/SJCL1dTFDdZOu3mctmCbNu82rJtyhbjbuhSKg
-   8k8aVdcPIfcPGNQbYj4vTygYDLDbYNHVWYHm6AdJnschEbuykMRnZZK+E
-   w==;
-X-CSE-ConnectionGUID: 0/a3TSiaT4K9rAOFvPtubA==
-X-CSE-MsgGUID: +gnV/GcPSFeK8ieX53e1yA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="98189830"
+  bh=pPWehGHx6M1GIeLL0t1J7orna/9EbO5l7dlSmJJ5asU=;
+  b=maNRFyzmKkjPxXcbqdxarLOhYVX8kyG1yBXbqpWHjtcAfA/PIwnexc8J
+   ViJHolLv8cuRg1ll3EEPjHeB+CQDSK9WQnJgjKkWwH+52BXkPhEyI1O2m
+   vqj3LfKYaVoiKZOSu9sipBaW8X3GQhZRDBuBfkk+3BF8k4Te/rGr70UbS
+   +y4UIPBn6Y6P9JIHEKrfX4kEvgfJsOFaFzLQPEzHBEUYskLZHyJ9zJeQi
+   0KyvVf8KrmWLUP01MBuSJfJLYt+DFZWmu8YIb3Sn0Bbf/9jvlfEOdsJLz
+   wDTeFzC6FBm2sD7K39ZADwHYJLXrF97dgT0zpYDMyqyh8Z89KxvsUb5C5
+   Q==;
+X-CSE-ConnectionGUID: ROiu26FIRTWvC7U5xOKBZQ==
+X-CSE-MsgGUID: ewLtvHhUT0SUB+1cVgtKYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="91668676"
 X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="98189830"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 03:24:28 -0700
-X-CSE-ConnectionGUID: tsc54YUXSG+sQESOz3iDbg==
-X-CSE-MsgGUID: N5whnqewSJiHPvLOhYvtBg==
+   d="scan'208";a="91668676"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 03:37:31 -0700
+X-CSE-ConnectionGUID: EgLQCAoaRYWxUG5Qx/4KGg==
+X-CSE-MsgGUID: e/39AJQJQS2gb0uZTyk/0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="263021118"
+X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
+   d="scan'208";a="304509326"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Aug 2026 03:24:26 -0700
+  by orviesa001.jf.intel.com with ESMTP; 21 Aug 2026 03:37:29 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxMQC-00000000piv-0Zw3;
-	Fri, 21 Aug 2026 10:24:24 +0000
-Date: Fri, 21 Aug 2026 18:24:17 +0800
+	id 1wxMco-00000000plP-3EPy;
+	Fri, 21 Aug 2026 10:37:26 +0000
+Date: Fri, 21 Aug 2026 18:36:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
-Subject: [avpatel:riscv_trace_support_v5 96/108]
- drivers/hwtracing/gtrace/gtrace-core.c:300:9: error: implicit declaration of
- function 'kfree'
-Message-ID: <202608211840.twlbnI0G-lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Francois Dugast <francois.dugast@intel.com>,
+ Balbir Singh <balbirs@nvidia.com>
+Subject: include/linux/compiler_types.h:706:45: error: call to
+ '__compiletime_assert_468' declared with attribute error: BUILD_BUG failed
+Message-ID: <202608211818.EouTM76p-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,140 +61,79 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v5
-head:   e58ea3f194d326370813c549a76ecdfa211a4768
-commit: 7eb7691614f11ec061f1986bde65b11a34af97e9 [96/108] hwtracing: gtrace: Initial implementation of gtrace framework
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260821/202608211840.twlbnI0G-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608211840.twlbnI0G-lkp@intel.com/reproduce)
+Hi Matthew,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
+commit: 139ab31aea8a9436460568d556b432bb7e9311f7 drm/pagemap: Correct cpages calculation for migrate_vma_setup
+date:   5 months ago
+config: x86_64-randconfig-071-20260821 (https://download.01.org/0day-ci/archive/20260821/202608211818.EouTM76p-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608211818.EouTM76p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 139ab31aea8a ("drm/pagemap: Correct cpages calculation for migrate_vma_setup")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608211840.twlbnI0G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608211818.EouTM76p-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_component_release':
->> drivers/hwtracing/gtrace/gtrace-core.c:300:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
-     300 |         kfree(comp);
-         |         ^~~~~
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_register_component':
->> drivers/hwtracing/gtrace/gtrace-core.c:343:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-     343 |         comp = kzalloc(sizeof(*comp), GFP_KERNEL);
-         |                ^~~~~~~
->> drivers/hwtracing/gtrace/gtrace-core.c:343:14: error: assignment to 'struct gtrace_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     343 |         comp = kzalloc(sizeof(*comp), GFP_KERNEL);
-         |              ^
+   In file included from <command-line>:
+   In function 'drm_pagemap_cpages',
+       inlined from 'drm_pagemap_migrate_to_devmem' at drivers/gpu/drm/drm_pagemap.c:593:6:
+>> include/linux/compiler_types.h:706:45: error: call to '__compiletime_assert_468' declared with attribute error: BUILD_BUG failed
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:687:25: note: in definition of macro '__compiletime_assert'
+     687 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^~~~~~~~~~~~~~~~
+   include/linux/huge_mm.h:113:28: note: in expansion of macro 'BUILD_BUG'
+     113 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
+         |                            ^~~~~~~~~
+   include/linux/huge_mm.h:117:26: note: in expansion of macro 'HPAGE_PMD_SHIFT'
+     117 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
+         |                          ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_pagemap.c:480:33: note: in expansion of macro 'HPAGE_PMD_ORDER'
+     480 |                         order = HPAGE_PMD_ORDER;
+         |                                 ^~~~~~~~~~~~~~~
 
 
-vim +/kfree +300 drivers/hwtracing/gtrace/gtrace-core.c
+vim +/__compiletime_assert_468 +706 include/linux/compiler_types.h
 
-   293	
-   294	static void gtrace_component_release(struct device *dev)
-   295	{
-   296		struct gtrace_component *comp = to_gtrace_component(dev);
-   297	
-   298		fwnode_handle_put(comp->dev.fwnode);
-   299		gtrace_free_type_idx(comp);
- > 300		kfree(comp);
-   301	}
-   302	
-   303	struct gtrace_component *gtrace_register_component(struct gtrace_component_id *id,
-   304							   const char *name,
-   305							   struct gtrace_platform_data *pdata)
-   306	{
-   307		struct gtrace_connection *conn;
-   308		struct gtrace_component *comp;
-   309		int i, ret = 0;
-   310	
-   311		if (!id || id->type >= GTRACE_COMPONENT_TYPE_MAX) {
-   312			ret = -EINVAL;
-   313			goto err_out;
-   314		}
-   315	
-   316		if (!pdata || !pdata->dev) {
-   317			ret = -EINVAL;
-   318			goto err_out;
-   319		}
-   320	
-   321		for (i = 0; i < pdata->nr_inconns; i++) {
-   322			if (pdata->inconns[i]) {
-   323				ret = -EINVAL;
-   324				goto err_out;
-   325			}
-   326		}
-   327	
-   328		for (i = 0; i < pdata->nr_outconns; i++) {
-   329			conn = pdata->outconns[i];
-   330			if (!conn || conn->src_port < 0 || conn->src_comp ||
-   331			    !device_match_fwnode(pdata->dev, conn->src_fwnode) ||
-   332			    conn->dest_port < 0 || !conn->dest_fwnode || !conn->dest_comp) {
-   333				ret = -EINVAL;
-   334				goto err_out;
-   335			}
-   336		}
-   337	
-   338		if (pdata->bound_cpu >= 0 && !cpu_present(pdata->bound_cpu)) {
-   339			ret = -EINVAL;
-   340			goto err_out;
-   341		}
-   342	
- > 343		comp = kzalloc(sizeof(*comp), GFP_KERNEL);
-   344		if (!comp) {
-   345			ret = -ENOMEM;
-   346			goto err_out;
-   347		}
-   348		comp->pdata = pdata;
-   349		comp->id = *id;
-   350		ret = gtrace_alloc_type_idx(comp);
-   351		if (ret) {
-   352			kfree(comp);
-   353			goto err_out;
-   354		}
-   355	
-   356		comp->dev.parent = pdata->dev;
-   357		comp->dev.coherent_dma_mask = pdata->dev->coherent_dma_mask;
-   358		comp->dev.release = gtrace_component_release;
-   359		comp->dev.bus = &gtrace_bustype;
-   360		comp->dev.fwnode = fwnode_handle_get(dev_fwnode(pdata->dev));
-   361		dev_set_name(&comp->dev, "%s-%u", name ? name : "comp", comp->type_idx);
-   362	
-   363		mutex_lock(&gtrace_mutex);
-   364	
-   365		ret = device_register(&comp->dev);
-   366		if (ret) {
-   367			put_device(&comp->dev);
-   368			goto err_out_unlock;
-   369		}
-   370	
-   371		for (i = 0; i < pdata->nr_outconns; i++) {
-   372			conn = pdata->outconns[i];
-   373			conn->src_comp = comp;
-   374		}
-   375	
-   376		ret = gtrace_setup_inconns_from_outconns(comp);
-   377		if (ret < 0) {
-   378			device_unregister(&comp->dev);
-   379			goto err_out_unlock;
-   380		}
-   381	
-   382		if (comp->pdata->bound_cpu >= 0) {
-   383			gtrace_get_component(comp);
-   384			per_cpu(gtrace_cpu_source_comp, comp->pdata->bound_cpu) = comp;
-   385		}
-   386	
-   387		mutex_unlock(&gtrace_mutex);
-   388	
-   389		return comp;
-   390	
-   391	err_out_unlock:
-   392		mutex_unlock(&gtrace_mutex);
-   393	err_out:
-   394		return ERR_PTR(ret);
-   395	}
-   396	EXPORT_SYMBOL_GPL(gtrace_register_component);
-   397	
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  695  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  696  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  703   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  704   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  707  
+
+:::::: The code at line 706 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
