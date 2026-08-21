@@ -1,227 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE714361944
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 15:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E8336EA8B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 15:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787326497; cv=none; b=RFZZwYozpqxdK/5NlV/ESlLVFiaLXbtIk3CK1H6vCVl3hCBfRqVJwLBN6YOK9Az5d4tE9aDclphjkvFcdJZAH1W/gXNcKx9/XXBCtkGeR7oJoArPhbseeOTwYdXWQLpkzfmn7Y3LEhmo2bTx+A2JTuWfAcXwFVAEEjuUzSCwrjE=
+	t=1787327760; cv=none; b=ebTty1vn5wHWDwp+EAK7XSJsY3Z16SfAeFVYnrJo/DTCxm/xP7Rc1Kk+6MOiua9oXU8Xg8LvzkhVvEKqplzyiQ486AqwSXemGi9ojzNF1n84zZB0WlhHHqeqihB/X0GruZM1yYlzHWqvkdhbXkP+SkO0IcIhUUy6pFj11lckL+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787326497; c=relaxed/simple;
-	bh=ykwZWgDMgOV8peIGe6wkaEkS+CcdQbH5sJf9SdYvdyo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SmDHy1iFmXAH53EbkcpUnj1N0fZcE2h1AcBjD/VZyg8UcIVcPclYKlg20FsT3e4X3ufAAQODJL1ANg3UfpWXU+LeSc2Jp6AHc6bBL4et0iin2/0A6F5OCUfcBvNUWXABgtTxe91JY1ouaxHdbWHUBSYcNY7m3IbShcTTXhG5tGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJO+UxFg; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1787327760; c=relaxed/simple;
+	bh=xpw7Lb3IyGVuNXgsa8It18ulURhPwPoN/iPZXz4KI+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WNn7gAf4gPTauXFhOJ0JfLkJNPN0ls5ZIP6iQ3A22073qQfSnUPfAeIU2m7yYk3+6eun4sBmlfuV6Sq8GhQjlIZUh2qkqMGgI4TdPxAb/sDH1QBCeNxLNfVZhH11pcX51fOu0IulNbMl6+/R3J16s1wzprrR/IuM4fAm5hUnm4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BcX5azP1; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJO+UxFg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BcX5azP1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787326495; x=1818862495;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ykwZWgDMgOV8peIGe6wkaEkS+CcdQbH5sJf9SdYvdyo=;
-  b=nJO+UxFg4IgGe78tOD0X+BFDS4EY94O1mc8Dw3nbFgO7ai0GZPlvg20U
-   5K2FtUD8xyG53ZaBL2a4NKYQbCUvdJPRfzfqDmXepXh8+c85neNXILwRI
-   eIRDTrxRJ8v+bXug8eT37jAf11RM1IGac0q9GTzlANaUdJwQ2Hj81WMlP
-   cEAOuVRSvixnqrkjq1NG6SAVEeW+tqUfGJavjvRe4oukQ8TIEo2kSKMcV
-   nsO8d/ry/5jBBWvBjK4KWwLbb0zhWuCZv+FBR7t7agyvYrCH789k3qDjv
-   4wgWJqpY8x2rj38aLyB74gS0HJLtCZy0lNcf0uWAKXFdwZQc2LznPZaCZ
-   g==;
-X-CSE-ConnectionGUID: q+HqCv3ER6uql3vBssQeXQ==
-X-CSE-MsgGUID: 5BHgKrNoRAe+kO3z+/YU1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="99031839"
+  t=1787327756; x=1818863756;
+  h=date:from:to:cc:subject:message-id;
+  bh=xpw7Lb3IyGVuNXgsa8It18ulURhPwPoN/iPZXz4KI+Y=;
+  b=BcX5azP13GIw69MlkvZuJ9JgX5eBtnCWuvisVGBRBY8o75UgHO/bwpMW
+   64XL6yh+4A6ZxV2ZmdAPCSfLwLtHQMJybAX2pHGFbCDSXGne/klZFAsmG
+   YNip4hCDYjGgOKlr/VdX78MEUi9QcxAxgZhmeboAoRDUCW5XTqvcJYSCn
+   5CuIUzn98Gbw1XjWXgyRjzCSHklAledbEUlx0mTn9CEAJzC4dMaZ9lN7C
+   cMQ/QpJEDgmva17FZkSFaRlfQgrNvmR0GUvAZWZqAqNtLlUGHeJxQWUAo
+   x7gfaCJlhXCNrb/TdUiAarEGitzsWlGqXquigYgr7zk01Xg7yhrPjoDxr
+   A==;
+X-CSE-ConnectionGUID: TH85zQIXRKyvFi2Pm45Gjg==
+X-CSE-MsgGUID: YDe+34T5S+GwXTlk50ygJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="105258427"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="99031839"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 08:34:52 -0700
-X-CSE-ConnectionGUID: YCmjc5zpSKe6qOfMnt93zQ==
-X-CSE-MsgGUID: sjcpjyf+Qh+J6H/K79WmwQ==
+   d="scan'208";a="105258427"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 08:55:54 -0700
+X-CSE-ConnectionGUID: Wjv68jYBT0q4tNQHD8hi5w==
+X-CSE-MsgGUID: PzIKYV29TKCNRlM1bSOIew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="271595539"
+   d="scan'208";a="291235239"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Aug 2026 08:34:50 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Aug 2026 08:55:51 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxRGZ-00000000q6z-3Tmf;
-	Fri, 21 Aug 2026 15:34:47 +0000
-Date: Fri, 21 Aug 2026 23:34:26 +0800
+	id 1wxRau-00000000q81-32uL;
+	Fri, 21 Aug 2026 15:55:48 +0000
+Date: Fri, 21 Aug 2026 23:55:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Jun <lijun01@kylinos.cn>, marcel@holtmann.org, luiz.dentz@gmail.com,
-	linux-bluetooth@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] bluetooth: pm: use SIMPLE_DEV_OPS for pm struct
-Message-ID: <202608212327.5HOcOSwg-lkp@intel.com>
-References: <20260819054525.2325031-1-lijun01@kylinos.cn>
+To: Pavan Chebbi <pavan.chebbi@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andy Gospodarek <gospo@broadcom.com>,
+ Dave Jiang <dave.jiang@intel.com>
+Subject: drivers/fwctl/bnxt/main.c:85 bnxtctl_validate_rpc() warn:
+ always true condition '(scope >= 0) => (0-u32max >= 0)'
+Message-ID: <202608212315.eIwZpVXQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260819054525.2325031-1-lijun01@kylinos.cn>
 
-Hi Li,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v7.2 next-20260820]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Jun/bluetooth-pm-use-SIMPLE_DEV_OPS-for-pm-struct/20260819-134525
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20260819054525.2325031-1-lijun01%40kylinos.cn
-patch subject: [PATCH] bluetooth: pm: use SIMPLE_DEV_OPS for pm struct
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260821/202608212327.5HOcOSwg-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608212327.5HOcOSwg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
+commit: e782efb830cd8c1879ee15d80c6441ac9fa6c8a8 fwctl/bnxt_fwctl: Add bnxt fwctl device
+date:   5 months ago
+config: powerpc-randconfig-r073-20260821 (https://download.01.org/0day-ci/archive/20260821/202608212315.eIwZpVXQ-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e782efb830cd ("fwctl/bnxt_fwctl: Add bnxt fwctl device")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608212327.5HOcOSwg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608212315.eIwZpVXQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/fwctl/bnxt/main.c:85 bnxtctl_validate_rpc() warn: always true condition '(scope >= 0) => (0-u32max >= 0)'
 
->> drivers/bluetooth/btmrvl_sdio.c:1678:12: warning: 'btmrvl_sdio_resume' defined but not used [-Wunused-function]
-    1678 | static int btmrvl_sdio_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~
->> drivers/bluetooth/btmrvl_sdio.c:1608:12: warning: 'btmrvl_sdio_suspend' defined but not used [-Wunused-function]
-    1608 | static int btmrvl_sdio_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~
+vim +85 drivers/fwctl/bnxt/main.c
 
-
-vim +/btmrvl_sdio_resume +1678 drivers/bluetooth/btmrvl_sdio.c
-
-789221ecc870117 Bing Zhao              2009-06-02  1607  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25 @1608  static int btmrvl_sdio_suspend(struct device *dev)
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1609  {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1610  	struct sdio_func *func = dev_to_sdio_func(dev);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1611  	struct btmrvl_sdio_card *card;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1612  	struct btmrvl_private *priv;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1613  	mmc_pm_flag_t pm_flags;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1614  	struct hci_dev *hcidev;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1615  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1616  	if (func) {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1617  		pm_flags = sdio_get_host_pm_caps(func);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1618  		BT_DBG("%s: suspend: PM flags = 0x%x", sdio_func_id(func),
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1619  		       pm_flags);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1620  		if (!(pm_flags & MMC_PM_KEEP_POWER)) {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1621  			BT_ERR("%s: cannot remain alive while suspended",
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1622  			       sdio_func_id(func));
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1623  			return -ENOSYS;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1624  		}
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1625  		card = sdio_get_drvdata(func);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1626  		if (!card || !card->priv) {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1627  			BT_ERR("card or priv structure is not valid");
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1628  			return 0;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1629  		}
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1630  	} else {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1631  		BT_ERR("sdio_func is not specified");
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1632  		return 0;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1633  	}
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1634  
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1635  	/* Enable platform specific wakeup interrupt */
-e660b3510eb4b3c Abhishek Pandit-Subedi 2020-06-10  1636  	if (card->plt_wake_cfg && card->plt_wake_cfg->irq_bt >= 0 &&
-e660b3510eb4b3c Abhishek Pandit-Subedi 2020-06-10  1637  	    device_may_wakeup(dev)) {
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1638  		card->plt_wake_cfg->wake_by_bt = false;
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1639  		enable_irq(card->plt_wake_cfg->irq_bt);
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1640  		enable_irq_wake(card->plt_wake_cfg->irq_bt);
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1641  	}
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1642  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1643  	priv = card->priv;
-8cf60cf238ce1be Chin-Ran Lo            2016-01-06  1644  	priv->adapter->is_suspending = true;
-5bf8a7481d21a66 Chin-Ran Lo            2014-07-14  1645  	hcidev = priv->btmrvl_dev.hcidev;
-5bf8a7481d21a66 Chin-Ran Lo            2014-07-14  1646  	BT_DBG("%s: SDIO suspend", hcidev->name);
-5bf8a7481d21a66 Chin-Ran Lo            2014-07-14  1647  	hci_suspend_dev(hcidev);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1648  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1649  	if (priv->adapter->hs_state != HS_ACTIVATED) {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1650  		if (btmrvl_enable_hs(priv)) {
-8f91566f99fab8f Colin Ian King         2017-02-18  1651  			BT_ERR("HS not activated, suspend failed!");
-6eb7bd66830c1e1 Xinming Hu             2017-03-31  1652  			/* Disable platform specific wakeup interrupt */
-6eb7bd66830c1e1 Xinming Hu             2017-03-31  1653  			if (card->plt_wake_cfg &&
-e660b3510eb4b3c Abhishek Pandit-Subedi 2020-06-10  1654  			    card->plt_wake_cfg->irq_bt >= 0 &&
-e660b3510eb4b3c Abhishek Pandit-Subedi 2020-06-10  1655  			    device_may_wakeup(dev)) {
-6eb7bd66830c1e1 Xinming Hu             2017-03-31  1656  				disable_irq_wake(card->plt_wake_cfg->irq_bt);
-6eb7bd66830c1e1 Xinming Hu             2017-03-31  1657  				disable_irq(card->plt_wake_cfg->irq_bt);
-6eb7bd66830c1e1 Xinming Hu             2017-03-31  1658  			}
-6eb7bd66830c1e1 Xinming Hu             2017-03-31  1659  
-e7acf43024e95fa Amitkumar Karwar       2016-07-15  1660  			priv->adapter->is_suspending = false;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1661  			return -EBUSY;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1662  		}
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1663  	}
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1664  
-8cf60cf238ce1be Chin-Ran Lo            2016-01-06  1665  	priv->adapter->is_suspending = false;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1666  	priv->adapter->is_suspended = true;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1667  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1668  	/* We will keep the power when hs enabled successfully */
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1669  	if (priv->adapter->hs_state == HS_ACTIVATED) {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1670  		BT_DBG("suspend with MMC_PM_KEEP_POWER");
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1671  		return sdio_set_host_pm_flags(func, MMC_PM_KEEP_POWER);
-f1554b7b2c27ced prasanna karthik       2017-03-28  1672  	}
-f1554b7b2c27ced prasanna karthik       2017-03-28  1673  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1674  	BT_DBG("suspend without MMC_PM_KEEP_POWER");
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1675  	return 0;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1676  }
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1677  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25 @1678  static int btmrvl_sdio_resume(struct device *dev)
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1679  {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1680  	struct sdio_func *func = dev_to_sdio_func(dev);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1681  	struct btmrvl_sdio_card *card;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1682  	struct btmrvl_private *priv;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1683  	mmc_pm_flag_t pm_flags;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1684  	struct hci_dev *hcidev;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1685  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1686  	if (func) {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1687  		pm_flags = sdio_get_host_pm_caps(func);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1688  		BT_DBG("%s: resume: PM flags = 0x%x", sdio_func_id(func),
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1689  		       pm_flags);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1690  		card = sdio_get_drvdata(func);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1691  		if (!card || !card->priv) {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1692  			BT_ERR("card or priv structure is not valid");
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1693  			return 0;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1694  		}
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1695  	} else {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1696  		BT_ERR("sdio_func is not specified");
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1697  		return 0;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1698  	}
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1699  	priv = card->priv;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1700  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1701  	if (!priv->adapter->is_suspended) {
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1702  		BT_DBG("device already resumed");
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1703  		return 0;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1704  	}
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1705  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1706  	priv->hw_wakeup_firmware(priv);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1707  	priv->adapter->hs_state = HS_DEACTIVATED;
-5bf8a7481d21a66 Chin-Ran Lo            2014-07-14  1708  	hcidev = priv->btmrvl_dev.hcidev;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1709  	BT_DBG("%s: HS DEACTIVATED in resume!", hcidev->name);
-5bf8a7481d21a66 Chin-Ran Lo            2014-07-14  1710  	priv->adapter->is_suspended = false;
-5bf8a7481d21a66 Chin-Ran Lo            2014-07-14  1711  	BT_DBG("%s: SDIO resume", hcidev->name);
-5bf8a7481d21a66 Chin-Ran Lo            2014-07-14  1712  	hci_resume_dev(hcidev);
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1713  
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1714  	/* Disable platform specific wakeup interrupt */
-e660b3510eb4b3c Abhishek Pandit-Subedi 2020-06-10  1715  	if (card->plt_wake_cfg && card->plt_wake_cfg->irq_bt >= 0 &&
-e660b3510eb4b3c Abhishek Pandit-Subedi 2020-06-10  1716  	    device_may_wakeup(dev)) {
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1717  		disable_irq_wake(card->plt_wake_cfg->irq_bt);
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1718  		disable_irq(card->plt_wake_cfg->irq_bt);
-9af02d86e11dc40 Jeffy Chen             2017-01-23  1719  		if (card->plt_wake_cfg->wake_by_bt)
-9af02d86e11dc40 Jeffy Chen             2017-01-23  1720  			/* Undo our disable, since interrupt handler already
-9af02d86e11dc40 Jeffy Chen             2017-01-23  1721  			 * did this.
-9af02d86e11dc40 Jeffy Chen             2017-01-23  1722  			 */
-9af02d86e11dc40 Jeffy Chen             2017-01-23  1723  			enable_irq(card->plt_wake_cfg->irq_bt);
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1724  	}
-bb7f4f0bcee6844 Xinming Hu             2016-04-26  1725  
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1726  	return 0;
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1727  }
-ba54a16ffacfc71 Amitkumar Karwar       2012-04-25  1728  
+    57	
+    58	/* Caller must hold edev->en_dev_lock */
+    59	static bool bnxtctl_validate_rpc(struct bnxt_en_dev *edev,
+    60					 struct bnxt_fw_msg *hwrm_in,
+    61					 enum fwctl_rpc_scope scope)
+    62	{
+    63		struct input *req = (struct input *)hwrm_in->msg;
+    64	
+    65		lockdep_assert_held(&edev->en_dev_lock);
+    66		if (edev->flags & BNXT_EN_FLAG_ULP_STOPPED)
+    67			return false;
+    68	
+    69		switch (le16_to_cpu(req->req_type)) {
+    70		case HWRM_FUNC_RESET:
+    71		case HWRM_PORT_CLR_STATS:
+    72		case HWRM_FW_RESET:
+    73		case HWRM_FW_SYNC:
+    74		case HWRM_FW_SET_TIME:
+    75		case HWRM_DBG_LOG_BUFFER_FLUSH:
+    76		case HWRM_DBG_ERASE_NVM:
+    77		case HWRM_DBG_CFG:
+    78		case HWRM_NVM_DEFRAG:
+    79		case HWRM_NVM_FACTORY_DEFAULTS:
+    80		case HWRM_NVM_FLUSH:
+    81		case HWRM_NVM_VERIFY_UPDATE:
+    82		case HWRM_NVM_ERASE_DIR_ENTRY:
+    83		case HWRM_NVM_MOD_DIR_ENTRY:
+    84		case HWRM_NVM_FIND_DIR_ENTRY:
+  > 85			return scope >= FWCTL_RPC_CONFIGURATION;
+    86	
+    87		case HWRM_VER_GET:
+    88		case HWRM_ERROR_RECOVERY_QCFG:
+    89		case HWRM_FUNC_QCAPS:
+    90		case HWRM_FUNC_QCFG:
+    91		case HWRM_FUNC_QSTATS:
+    92		case HWRM_PORT_PHY_QCFG:
+    93		case HWRM_PORT_MAC_QCFG:
+    94		case HWRM_PORT_PHY_QCAPS:
+    95		case HWRM_PORT_PHY_I2C_READ:
+    96		case HWRM_PORT_PHY_MDIO_READ:
+    97		case HWRM_QUEUE_PRI2COS_QCFG:
+    98		case HWRM_QUEUE_COS2BW_QCFG:
+    99		case HWRM_VNIC_RSS_QCFG:
+   100		case HWRM_QUEUE_GLOBAL_QCFG:
+   101		case HWRM_QUEUE_ADPTV_QOS_RX_FEATURE_QCFG:
+   102		case HWRM_QUEUE_ADPTV_QOS_TX_FEATURE_QCFG:
+   103		case HWRM_QUEUE_QCAPS:
+   104		case HWRM_QUEUE_ADPTV_QOS_RX_TUNING_QCFG:
+   105		case HWRM_QUEUE_ADPTV_QOS_TX_TUNING_QCFG:
+   106		case HWRM_TUNNEL_DST_PORT_QUERY:
+   107		case HWRM_PORT_TX_FIR_QCFG:
+   108		case HWRM_FW_LIVEPATCH_QUERY:
+   109		case HWRM_FW_QSTATUS:
+   110		case HWRM_FW_HEALTH_CHECK:
+   111		case HWRM_FW_GET_TIME:
+   112		case HWRM_PORT_EP_TX_QCFG:
+   113		case HWRM_PORT_QCFG:
+   114		case HWRM_PORT_MAC_QCAPS:
+   115		case HWRM_TEMP_MONITOR_QUERY:
+   116		case HWRM_REG_POWER_QUERY:
+   117		case HWRM_CORE_FREQUENCY_QUERY:
+   118		case HWRM_CFA_REDIRECT_QUERY_TUNNEL_TYPE:
+   119		case HWRM_CFA_ADV_FLOW_MGNT_QCAPS:
+   120		case HWRM_FUNC_RESOURCE_QCAPS:
+   121		case HWRM_FUNC_BACKING_STORE_QCAPS:
+   122		case HWRM_FUNC_BACKING_STORE_QCFG:
+   123		case HWRM_FUNC_QSTATS_EXT:
+   124		case HWRM_FUNC_PTP_PIN_QCFG:
+   125		case HWRM_FUNC_PTP_EXT_QCFG:
+   126		case HWRM_FUNC_BACKING_STORE_QCFG_V2:
+   127		case HWRM_FUNC_BACKING_STORE_QCAPS_V2:
+   128		case HWRM_FUNC_SYNCE_QCFG:
+   129		case HWRM_FUNC_TTX_PACING_RATE_PROF_QUERY:
+   130		case HWRM_PORT_PHY_FDRSTAT:
+   131		case HWRM_DBG_RING_INFO_GET:
+   132		case HWRM_DBG_QCAPS:
+   133		case HWRM_DBG_QCFG:
+   134		case HWRM_DBG_USEQ_FLUSH:
+   135		case HWRM_DBG_USEQ_QCAPS:
+   136		case HWRM_DBG_SIM_CABLE_STATE:
+   137		case HWRM_DBG_TOKEN_QUERY_AUTH_IDS:
+   138		case HWRM_NVM_GET_DEV_INFO:
+   139		case HWRM_NVM_GET_DIR_INFO:
+   140		case HWRM_SELFTEST_QLIST:
+   141			return scope >= FWCTL_RPC_DEBUG_READ_ONLY;
+   142	
+   143		case HWRM_PORT_PHY_I2C_WRITE:
+   144		case HWRM_PORT_PHY_MDIO_WRITE:
+   145			return scope >= FWCTL_RPC_DEBUG_WRITE;
+   146	
+   147		default:
+   148			return false;
+   149		}
+   150	}
+   151	
 
 --
 0-DAY CI Kernel Test Service
