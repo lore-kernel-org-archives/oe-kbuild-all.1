@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAA949362B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 16:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21889359A6F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 16:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787329679; cv=none; b=I1KBebn6Qaqrk1lRhbXEQ2asreqN1kNW5B5tFcxdg+laYtE/5eAE5Iv6lkAsM/ZEA2TMZmgTuNzmpGppATuFt3EErWlXSfJ3ztNy7qbE6pQ8uokGo6PNLMzjEcDbRn3OBSaDnBxND1xtVPktOS5MUU/Nctm+flal54DXcfMiwSs=
+	t=1787330338; cv=none; b=cMDBzWqiiQCXl+FMNO2xfeI/fV8WscZ9UG14HbkPmPCo7bt6W8aLGLpOU8O9qLdyIQVOfN+3hAD2fPWI7JJ7KUUX5w8C8uxdE6aqigqTXvI/f4NvPmRa0AZ2fTMLpa48jeY6aWZvAFi85rkCSGnf/dnGH43zVH4/xQyv3Pmzxdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787329679; c=relaxed/simple;
-	bh=zByslpLcrXWlM8olCU5/nUSKQueAzxfRwIC/AZWlB5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fe2njawXRxct1fGWqdXQs0PqDlbMbtndzT99IKBLzdXFyX8JtZdBqEzlmAl3QJdEgKZEzvlJgodoD28uZb+IfK4oEBLrAf7l+bcTgy4bzBEQ18KrK2hZMaGm4Ojaz+dLWXao2I7eKKyiNbPffw+e+8uQbp/hPdXhnHNM8Rf8zWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jB+0vrMp; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1787330338; c=relaxed/simple;
+	bh=TSAY36WIjv+eskzWaz4dk+KxUsEL81rJzrKk7VHmznM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Za7g7ZdXrkoThAW8vIhNDZotoLOU65QlSWtXZV5sxl2ohL3zuTOqv5YOgc9VCBw2M/Ge/dJf2TnGb7YL/8ByCDvuAntW+RsJ3IIsJOvQrX3T90RQaL85yGqTCl1/tiXJjWCu6UexWOvu55tt2O7MnpPShJ9p1cMrG9WKx9+DenQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jT+rOAiG; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jB+0vrMp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT+rOAiG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787329677; x=1818865677;
+  t=1787330336; x=1818866336;
   h=date:from:to:cc:subject:message-id;
-  bh=zByslpLcrXWlM8olCU5/nUSKQueAzxfRwIC/AZWlB5Q=;
-  b=jB+0vrMpOCOqph/ywbSGozHjWEcPo9sOuBIvA4unZXXqfk0ulnx1/msy
-   fRzmJ/SgBMtmKFb3E50f9EHe1YJN9aeCIarmCsPDwN6/FyKG/F4t2mR0S
-   CuyLqZcfynFW8inXEqD04ThzAzzBl0KP3fFCV6MezrHks0LIEmEcPt91D
-   ikxtoAK/nlbVDZ8r47yUjNbgv8it6jTt4JnXcS1jNt1V/pU9sztTuZ/vr
-   y0H/d+BuevA1Hvac46Z0TCxHtOc9daHZHVuuT3Nt4JjdVb5jRPb/KUOa1
-   Xd2HqYuofAZO/+Qn8OmOgb5DiFDJCWb9YfC1D7nAB7lkCxkpKClQ9yT9l
-   A==;
-X-CSE-ConnectionGUID: JVftfbDZR72Dqs6hHQPjjg==
-X-CSE-MsgGUID: Ksm0kvR4TbC92kbcrhBQzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="87739162"
+  bh=TSAY36WIjv+eskzWaz4dk+KxUsEL81rJzrKk7VHmznM=;
+  b=jT+rOAiG5cKVIEyVvSxrcnyo0PxnZQZtGQ4K+grA8gFiG0ShMELv9gTn
+   +J81tswAeS3aJ3qsCdUIl3RtAQXWvp7NwYRzVKGad/zvNy09E2USF4A4t
+   /SuC974Uylifj2sWgn5VWCskeXZ4/CEeugggfuKyX0VHoyOgsHw3q+mK+
+   EPfPwaQ3ShtPE6gqh9OaJeNXYWaIAKwj7SwZT4pl15p2sLetz6z2n8lMs
+   CEBx3EezN6eWnLp2g/46GK2lWV6VWRcjHZcqQzq7ZGlclExVxrTRqB3qP
+   tZg584qh9IDzTIdg759JlyaNrwZz4SUw/PpcFmiJL2F9LV0H07bjjvYGd
+   g==;
+X-CSE-ConnectionGUID: EAfMNqjoSP23Q6nIRSB3sg==
+X-CSE-MsgGUID: FR3yT4kMTrO0kkmwk3gW0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="98216385"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="87739162"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 09:27:57 -0700
-X-CSE-ConnectionGUID: C7a8+m5BQ3Gzbt5rxyx2ZA==
-X-CSE-MsgGUID: 3ruTVvoFSTCC9VC6P8lfCw==
+   d="scan'208";a="98216385"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 09:38:56 -0700
+X-CSE-ConnectionGUID: BcS7yw4URY60z6j76QwMzw==
+X-CSE-MsgGUID: PhFiUlEST/2cePeLPS4a0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="264624482"
+   d="scan'208";a="266452428"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 Aug 2026 09:27:54 -0700
+  by orviesa007.jf.intel.com with ESMTP; 21 Aug 2026 09:38:54 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxS5v-00000000qCj-2D7j;
-	Fri, 21 Aug 2026 16:27:51 +0000
-Date: Sat, 22 Aug 2026 00:26:54 +0800
+	id 1wxSGZ-00000000qDF-3tai;
+	Fri, 21 Aug 2026 16:38:51 +0000
+Date: Sat, 22 Aug 2026 00:38:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 2/2] kernel/sched/idle.c:179:
- warning: Function parameter or member 'stop_tick' not described in
- 'cpuidle_idle_call'
-Message-ID: <202608220252.nTDXJoDN-lkp@intel.com>
+Subject: [android-common:android16-6.12-kminext 0/5]
+ include/linux/tracepoint.h:385:27: error: '__tracepoint_rcu_stall_warning'
+ undeclared here (not in a function); did you mean
+ '__tracepoint_rcu_utilization'?
+Message-ID: <202608220023.SizpYswy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,141 +61,261 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Rafael,
+Hi Qinglin,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   e165496edc1142154adde5a5f0335042db432c41
-commit: 39c0d422f501d8000e9e1257b0783a43bd2249a7 [2/2] sched: idle: Consolidate the handling of two special cases
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260822/202608220252.nTDXJoDN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220252.nTDXJoDN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
+head:   5922ee2e751845b0716e158317a1dd492c6f7c39
+commit: 5019ece9a34a655ee3def1159956106b706cde5e [0/5] ANDROID: rcu: allow hooks into rcu stall warning
+config: i386-randconfig-011-20260821 (https://download.01.org/0day-ci/archive/20260822/202608220023.SizpYswy-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220023.SizpYswy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608220252.nTDXJoDN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608220023.SizpYswy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/sched/idle.c:179: warning: Function parameter or member 'stop_tick' not described in 'cpuidle_idle_call'
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:18,
+                    from kernel/rcu/update.c:21:
+>> include/linux/tracepoint.h:385:27: error: '__tracepoint_rcu_stall_warning' undeclared here (not in a function); did you mean '__tracepoint_rcu_utilization'?
+     385 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/tracepoint.h:385:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     385 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:53:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/tracepoint.h:386:27: error: '__traceiter_rcu_stall_warning' undeclared here (not in a function); did you mean '__tracepoint_rcu_stall_warning'?
+     386 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/tracepoint.h:386:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     386 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:53:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/static_call_types.h:9:41: error: '__SCK__tp_func_rcu_stall_warning' undeclared here (not in a function); did you mean '__SCK__tp_func_rcu_utilization'?
+       9 | #define STATIC_CALL_KEY_PREFIX          __SCK__
+         |                                         ^~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/static_call.h:277:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     277 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/static_call_types.h:12:41: note: in expansion of macro '__PASTE'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:12:49: note: in expansion of macro 'STATIC_CALL_KEY_PREFIX'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:277:27: note: in expansion of macro 'STATIC_CALL_KEY'
+     277 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:387:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     387 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:53:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:15:41: error: '__SCT__tp_func_rcu_stall_warning' undeclared here (not in a function); did you mean '__SCK__tp_func_rcu_stall_warning'?
+      15 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/static_call.h:278:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     278 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/static_call_types.h:18:41: note: in expansion of macro '__PASTE'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:18:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:278:27: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     278 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:387:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     387 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:53:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +179 kernel/sched/idle.c
+vim +385 include/linux/tracepoint.h
 
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  168  
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  169  /**
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  170   * cpuidle_idle_call - the main idle function
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  171   *
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  172   * NOTE: no locks or semaphores should be used here
-82c65d60d64401a Andy Lutomirski   2014-06-04  173   *
-82c65d60d64401a Andy Lutomirski   2014-06-04  174   * On archs that support TIF_POLLING_NRFLAG, is called with polling
-82c65d60d64401a Andy Lutomirski   2014-06-04  175   * set, and it returns with polling set.  If it ever stops polling, it
-82c65d60d64401a Andy Lutomirski   2014-06-04  176   * must clear the polling bit.
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  177   */
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  178  static void cpuidle_idle_call(bool stop_tick)
-30cdd69e2a26650 Daniel Lezcano    2014-03-03 @179  {
-9bd616e3dbedfc1 Catalin Marinas   2016-06-01  180  	struct cpuidle_device *dev = cpuidle_get_device();
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  181  	struct cpuidle_driver *drv = cpuidle_get_cpu_driver(dev);
-37352273ad48f2d Peter Zijlstra    2014-04-11  182  	int next_state, entered_state;
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  183  
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  184  	/*
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  185  	 * Check if the idle task must be rescheduled. If it is the
-c444117f0f39d59 Peter Zijlstra    2014-04-11  186  	 * case, exit the function after re-enabling the local irq.
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  187  	 */
-c444117f0f39d59 Peter Zijlstra    2014-04-11  188  	if (need_resched()) {
-8ca3c6424f4988f Daniel Lezcano    2014-03-03  189  		local_irq_enable();
-08c373e5123b459 Rafael J. Wysocki 2014-04-21  190  		return;
-8ca3c6424f4988f Daniel Lezcano    2014-03-03  191  	}
-8ca3c6424f4988f Daniel Lezcano    2014-03-03  192  
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  193  	/*
-ed98c34919985a9 Rafael J. Wysocki 2018-03-15  194  	 * The RCU framework needs to be told that we are entering an idle
-ed98c34919985a9 Rafael J. Wysocki 2018-03-15  195  	 * section, so no more rcu read side critical sections and one more
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  196  	 * step to the grace period
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  197  	 */
-c8cc7d4de7a4f2f Daniel Lezcano    2014-03-03  198  
-82f663277d0db85 Rafael J. Wysocki 2015-05-04  199  	if (cpuidle_not_available(drv, dev)) {
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  200  		idle_call_stop_or_retain_tick(stop_tick);
-ed98c34919985a9 Rafael J. Wysocki 2018-03-15  201  
-82f663277d0db85 Rafael J. Wysocki 2015-05-04  202  		default_idle_call();
-82f663277d0db85 Rafael J. Wysocki 2015-05-04  203  		goto exit_idle;
-82f663277d0db85 Rafael J. Wysocki 2015-05-04  204  	}
-ef2b22ac540c018 Rafael J. Wysocki 2015-03-02  205  
-3810631332465d9 Rafael J. Wysocki 2015-02-12  206  	/*
-f02f4f9d826590f Rafael J. Wysocki 2017-08-10  207  	 * Suspend-to-idle ("s2idle") is a system state in which all user space
-3810631332465d9 Rafael J. Wysocki 2015-02-12  208  	 * has been frozen, all I/O devices have been suspended and the only
-3e0de271fff77ab Hewenliang        2020-01-09  209  	 * activity happens here and in interrupts (if any). In that case bypass
-3810631332465d9 Rafael J. Wysocki 2015-02-12  210  	 * the cpuidle governor and go stratight for the deepest idle state
-3810631332465d9 Rafael J. Wysocki 2015-02-12  211  	 * available.  Possibly also suspend the local tick and the entire
-3810631332465d9 Rafael J. Wysocki 2015-02-12  212  	 * timekeeping to prevent timer interrupts from kicking us out of idle
-3810631332465d9 Rafael J. Wysocki 2015-02-12  213  	 * until a proper wakeup interrupt happens.
-3810631332465d9 Rafael J. Wysocki 2015-02-12  214  	 */
-bb8313b603eb8fd Jacob Pan         2016-11-28  215  
-c55b51a06b01d67 Daniel Lezcano    2019-11-16  216  	if (idle_should_enter_s2idle() || dev->forced_idle_latency_limit_ns) {
-5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  217  		u64 max_latency_ns;
-5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  218  
-f02f4f9d826590f Rafael J. Wysocki 2017-08-10  219  		if (idle_should_enter_s2idle()) {
-ed98c34919985a9 Rafael J. Wysocki 2018-03-15  220  
-10e8b11eb3195e1 Rafael J. Wysocki 2020-06-25  221  			entered_state = call_cpuidle_s2idle(drv, dev);
-10e8b11eb3195e1 Rafael J. Wysocki 2020-06-25  222  			if (entered_state > 0)
-3810631332465d9 Rafael J. Wysocki 2015-02-12  223  				goto exit_idle;
-ed98c34919985a9 Rafael J. Wysocki 2018-03-15  224  
-5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  225  			max_latency_ns = U64_MAX;
-5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  226  		} else {
-5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  227  			max_latency_ns = dev->forced_idle_latency_limit_ns;
-bb8313b603eb8fd Jacob Pan         2016-11-28  228  		}
-3810631332465d9 Rafael J. Wysocki 2015-02-12  229  
-ed98c34919985a9 Rafael J. Wysocki 2018-03-15  230  		tick_nohz_idle_stop_tick();
-ed98c34919985a9 Rafael J. Wysocki 2018-03-15  231  
-5aa9ba6312e36c1 Daniel Lezcano    2019-11-16  232  		next_state = cpuidle_find_deepest_state(drv, dev, max_latency_ns);
-bcf6ad8a4a3d002 Rafael J. Wysocki 2015-05-04  233  		call_cpuidle(drv, dev, next_state);
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  234  	} else if (drv->state_count > 1) {
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  235  		/*
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  236  		 * stop_tick is expected to be true by default by cpuidle
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  237  		 * governors, which allows them to select idle states with
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  238  		 * target residency above the tick period length.
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  239  		 */
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  240  		stop_tick = true;
-45f1ff59e27ca59 Rafael J. Wysocki 2018-03-22  241  
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  242  		/*
-52c324f8a87b336 Rafael J. Wysocki 2014-05-01  243  		 * Ask the cpuidle framework to choose a convenient idle state.
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  244  		 */
-45f1ff59e27ca59 Rafael J. Wysocki 2018-03-22  245  		next_state = cpuidle_select(drv, dev, &stop_tick);
-554c8aa8ecade21 Rafael J. Wysocki 2018-04-03  246  
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  247  		idle_call_stop_or_retain_tick(stop_tick);
-554c8aa8ecade21 Rafael J. Wysocki 2018-04-03  248  
-bcf6ad8a4a3d002 Rafael J. Wysocki 2015-05-04  249  		entered_state = call_cpuidle(drv, dev, next_state);
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  250  		/*
-37352273ad48f2d Peter Zijlstra    2014-04-11  251  		 * Give the governor an opportunity to reflect on the outcome
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  252  		 */
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  253  		cpuidle_reflect(dev, entered_state);
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  254  	} else {
-39c0d422f501d80 Rafael J. Wysocki 2026-03-13  255  		idle_call_stop_or_retain_tick(stop_tick);
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  256  
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  257  		/*
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  258  		 * If there is only a single idle state (or none), there is
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  259  		 * nothing meaningful for the governor to choose.  Skip the
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  260  		 * governor and always use state 0.
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  261  		 */
-3e84116d45a2f35 Rafael J. Wysocki 2026-03-07  262  		call_cpuidle(drv, dev, 0);
-bcf6ad8a4a3d002 Rafael J. Wysocki 2015-05-04  263  	}
-8ca3c6424f4988f Daniel Lezcano    2014-03-03  264  
-37352273ad48f2d Peter Zijlstra    2014-04-11  265  exit_idle:
-8ca3c6424f4988f Daniel Lezcano    2014-03-03  266  	__current_set_polling();
-8ca3c6424f4988f Daniel Lezcano    2014-03-03  267  
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  268  	/*
-37352273ad48f2d Peter Zijlstra    2014-04-11  269  	 * It is up to the idle functions to reenable local interrupts
-a1d028bd6d2b778 Daniel Lezcano    2014-03-03  270  	 */
-c8cc7d4de7a4f2f Daniel Lezcano    2014-03-03  271  	if (WARN_ON_ONCE(irqs_disabled()))
-c8cc7d4de7a4f2f Daniel Lezcano    2014-03-03  272  		local_irq_enable();
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  273  }
-30cdd69e2a26650 Daniel Lezcano    2014-03-03  274  
+7ece55a4a3a04a Josh Triplett             2012-09-04  259  
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  260  /*
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  261   * Declare an exported function that Rust code can call to trigger this
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  262   * tracepoint. This function does not include the static branch; that is done
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  263   * in Rust to avoid a function call when the tracepoint is disabled.
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  264   */
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  265  #define DEFINE_RUST_DO_TRACE(name, proto, args)
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  266  #define __DEFINE_RUST_DO_TRACE(name, proto, args)			\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  267  	notrace void rust_do_trace_##name(proto)			\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  268  	{								\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  269  		__rust_do_trace_##name(args);				\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  270  	}
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  271  
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  272  /*
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  273   * Make sure the alignment of the structure in the __tracepoints section will
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  274   * not add unwanted padding between the beginning of the section and the
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  275   * structure. Force alignment to the same alignment as the section start.
+3a630178fd5f30 Dave Hansen               2014-08-07  276   *
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  277)  * When lockdep is enabled, we make sure to always test if RCU is
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  278)  * "watching" regardless if the tracepoint is enabled or not. Tracepoints
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  279)  * require RCU to be active, and it should always warn at the tracepoint
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  280)  * site if it is not watching, as it will need to be active when the
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  281)  * tracepoint is enabled.
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  282   */
+1746fd4416ed55 Steven Rostedt (VMware    2021-02-08  283) #define __DECLARE_TRACE(name, proto, args, cond, data_proto)		\
+de394e7568ce2c peterz@infradead.org      2020-09-08  284  	extern int __traceiter_##name(data_proto);			\
+de394e7568ce2c peterz@infradead.org      2020-09-08  285  	DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);	\
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  286  	extern struct tracepoint __tracepoint_##name;			\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  287  	extern void rust_do_trace_##name(proto);			\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  288  	static inline void __rust_do_trace_##name(proto)		\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  289  	{								\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  290  		__DO_TRACE(name,					\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  291  			TP_ARGS(args),					\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  292  			TP_CONDITION(cond), 0);				\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  293  	}								\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  294  	static inline void trace_##name(proto)				\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  295  	{								\
+c5905afb0ee655 Ingo Molnar               2012-02-24  296  		if (static_key_false(&__tracepoint_##name.key))		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  297) 			__DO_TRACE(name,				\
+1746fd4416ed55 Steven Rostedt (VMware    2021-02-08  298) 				TP_ARGS(args),				\
+d54b6eeb553c89 Steven Rostedt (VMware    2017-04-07  299) 				TP_CONDITION(cond), 0);			\
+a05d59a5673339 Steven Rostedt (Red Hat   2015-02-06  300) 		if (IS_ENABLED(CONFIG_LOCKDEP) && (cond)) {		\
+1b273124107cc8 Steven Rostedt (Google    2024-02-28  301) 			WARN_ONCE(!rcu_is_watching(),			\
+1b273124107cc8 Steven Rostedt (Google    2024-02-28  302) 				  "RCU not watching for tracepoint");	\
+3a630178fd5f30 Dave Hansen               2014-08-07  303  		}							\
+2fbb90db1b8fcc Steven Rostedt            2012-02-07  304  	}								\
+7ece55a4a3a04a Josh Triplett             2012-09-04  305  	__DECLARE_TRACE_RCU(name, PARAMS(proto), PARAMS(args),		\
+1746fd4416ed55 Steven Rostedt (VMware    2021-02-08  306) 			    PARAMS(cond))				\
+38516ab59fbc5b Steven Rostedt            2010-04-20  307  	static inline int						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  308  	register_trace_##name(void (*probe)(data_proto), void *data)	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  309  	{								\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  310  		return tracepoint_probe_register(&__tracepoint_##name,	\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  311  						(void *)probe, data);	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  312  	}								\
+38516ab59fbc5b Steven Rostedt            2010-04-20  313  	static inline int						\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  314) 	register_trace_prio_##name(void (*probe)(data_proto), void *data,\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  315) 				   int prio)				\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  316) 	{								\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  317) 		return tracepoint_probe_register_prio(&__tracepoint_##name, \
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  318) 					      (void *)probe, data, prio); \
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  319) 	}								\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  320) 	static inline int						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  321  	unregister_trace_##name(void (*probe)(data_proto), void *data)	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  322  	{								\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  323  		return tracepoint_probe_unregister(&__tracepoint_##name,\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  324  						(void *)probe, data);	\
+53da59aa6dd881 Mathieu Desnoyers         2010-04-30  325  	}								\
+38516ab59fbc5b Steven Rostedt            2010-04-20  326  	static inline void						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  327  	check_trace_callback_type_##name(void (*cb)(data_proto))	\
+53da59aa6dd881 Mathieu Desnoyers         2010-04-30  328  	{								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  329) 	}								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  330) 	static inline bool						\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  331) 	trace_##name##_enabled(void)					\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  332) 	{								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  333) 		return static_key_false(&__tracepoint_##name.key);	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  334  	}
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  335  
+654986462939cd Mathieu Desnoyers         2011-01-26  336  /*
+654986462939cd Mathieu Desnoyers         2011-01-26  337   * We have no guarantee that gcc and the linker won't up-align the tracepoint
+654986462939cd Mathieu Desnoyers         2011-01-26  338   * structures, so we create an array of pointers that will be used for iteration
+654986462939cd Mathieu Desnoyers         2011-01-26  339   * on the tracepoints.
+654986462939cd Mathieu Desnoyers         2011-01-26  340   */
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  341) #define DEFINE_TRACE_FN(_name, _reg, _unreg, proto, args)		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  342) 	static const char __tpstrtab_##_name[]				\
+33def8498fdde1 Joe Perches               2020-10-21  343  	__section("__tracepoints_strings") = #_name;			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  344) 	extern struct static_call_key STATIC_CALL_KEY(tp_func_##_name);	\
+de394e7568ce2c peterz@infradead.org      2020-09-08  345  	int __traceiter_##_name(void *__data, proto);			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  346) 	void __probestub_##_name(void *__data, proto);			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  347) 	struct tracepoint __tracepoint_##_name	__used			\
+33def8498fdde1 Joe Perches               2020-10-21  348  	__section("__tracepoints") = {					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  349) 		.name = __tpstrtab_##_name,				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  350) 		.key = STATIC_KEY_INIT_FALSE,				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  351) 		.static_call_key = &STATIC_CALL_KEY(tp_func_##_name),	\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  352) 		.static_call_tramp = STATIC_CALL_TRAMP_ADDR(tp_func_##_name), \
+de394e7568ce2c peterz@infradead.org      2020-09-08  353  		.iterator = &__traceiter_##_name,			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  354) 		.probestub = &__probestub_##_name,			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  355) 		.regfunc = _reg,					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  356) 		.unregfunc = _unreg,					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  357) 		.funcs = NULL };					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  358) 	__TRACEPOINT_ENTRY(_name);					\
+de394e7568ce2c peterz@infradead.org      2020-09-08  359  	int __traceiter_##_name(void *__data, proto)			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  360) 	{								\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  361) 		struct tracepoint_func *it_func_ptr;			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  362) 		void *it_func;						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  363) 									\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  364) 		it_func_ptr =						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  365) 			rcu_dereference_raw((&__tracepoint_##_name)->funcs); \
+c8b186a8d54d7e Alexey Kardashevskiy      2021-02-02  366  		if (it_func_ptr) {					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  367) 			do {						\
+7211f0a25781ac Steven Rostedt (VMware    2021-02-04  368) 				it_func = READ_ONCE((it_func_ptr)->func); \
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  369) 				__data = (it_func_ptr)->data;		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  370) 				((void(*)(void *, proto))(it_func))(__data, args); \
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  371) 			} while ((++it_func_ptr)->func);		\
+c8b186a8d54d7e Alexey Kardashevskiy      2021-02-02  372  		}							\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  373) 		return 0;						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  374) 	}								\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  375) 	void __probestub_##_name(void *__data, proto)			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  376) 	{								\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  377) 	}								\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  378  	DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);	\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  379  	DEFINE_RUST_DO_TRACE(_name, TP_PROTO(proto), TP_ARGS(args))
+97419875865859 Josh Stone                2009-08-24  380  
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  381) #define DEFINE_TRACE(name, proto, args)		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  382) 	DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  383  
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  384  #define EXPORT_TRACEPOINT_SYMBOL_GPL(name)				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18 @385) 	EXPORT_SYMBOL_GPL(__tracepoint_##name);				\
+de394e7568ce2c peterz@infradead.org      2020-09-08 @386  	EXPORT_SYMBOL_GPL(__traceiter_##name);				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  387) 	EXPORT_STATIC_CALL_GPL(tp_func_##name)
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  388  #define EXPORT_TRACEPOINT_SYMBOL(name)					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  389) 	EXPORT_SYMBOL(__tracepoint_##name);				\
+de394e7568ce2c peterz@infradead.org      2020-09-08  390  	EXPORT_SYMBOL(__traceiter_##name);				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  391) 	EXPORT_STATIC_CALL(tp_func_##name)
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  392) 
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  393  
 
-:::::: The code at line 179 was first introduced by commit
-:::::: 30cdd69e2a266505ca8229c944d361ff350a6959 cpuidle/idle: Move the cpuidle_idle_call function to idle.c
+:::::: The code at line 385 was first introduced by commit
+:::::: d25e37d89dd2f41d7acae0429039d2f0ae8b4a07 tracepoint: Optimize using static_call()
 
-:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
 :::::: CC: Ingo Molnar <mingo@kernel.org>
 
 --
