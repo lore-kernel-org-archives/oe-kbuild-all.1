@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024A03B5306
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 20:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447B635E55D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 21:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787345715; cv=none; b=IZ+Aj8sKGfD7/g03TZnLZNRTRQOCFo/y2mtNiCktglmFxz+Iy5qF3QKK5mvMcAPH8m0Kw9UsmTOj7wzii6gAkKQkchVksV1T9RMbNiDabdoeAr515jCTtN8HNR5rREUNlSFl+ErgLSjmp+FSkg7J0tvnxjG5spsVzX+W5VtMLlI=
+	t=1787347032; cv=none; b=FHMO/XqISFMz3w9jt2czM6p2ZqhL4+skNcVBkueR43M1sb/Y5d6JQttnrhloUnnJAXPvatQtwXTnAdJVHt6v9Ci/XKiv0JWsFynwl545+SZlyPut/qJt/EjkhKlhHJlncZzLXRvup+Lg3mOTkfNLjP+ZcQ+Xc4CN8cgd328fJXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787345715; c=relaxed/simple;
-	bh=4Z3VNM7wHD7qkdbheZZRKuP4qi9wChlzOxQepvHRcbE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PLUVSF+aOV5NvJYClzPdbY6NnWD62ItB8ILUr3/pndaIpDwVOJFbJQsBBSqddC+IgeEjRyl8iT5e0Z4+78QoTZQ1EQJUh9la5qWc/+Vms95ZvvnEgzteTQC3aFbYvuKorcxKRQHPmkHEKsOYYLIa+K9aQUjxlYI+2d2StPypD7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cldRo2Kl; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1787347032; c=relaxed/simple;
+	bh=L7XEc2f2YilHQODmsQ8cDYc9MOcu7Iaxjkq0GDehZsY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZbkyMJbzCT5PvqlybqmflPzUOx7IHTap8Ht8iD1j18A2UlBWxjE4wz/EbO6BOv8TheBCAoG6hGk+ZD36fYPUZFMy8TpyFA0f489v/EUEXXPzs9H4wjUAkyu6/w3BRdzKIc+20GGr/FxLNGDEAVQW7ZcnJl/HrwX/S9UgUY5br4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GmKTXaUk; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cldRo2Kl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GmKTXaUk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787345712; x=1818881712;
+  t=1787347031; x=1818883031;
   h=date:from:to:cc:subject:message-id;
-  bh=4Z3VNM7wHD7qkdbheZZRKuP4qi9wChlzOxQepvHRcbE=;
-  b=cldRo2KlmF82mQuDFfLUXfby5km4VlYAeJHjBEm4r5qn0+w3MuAwhz0G
-   FtNI3sKwRt6rfueg3A9ExXLCZSSCmFiNvvYs7Tk7QiEGTOp6vbiU5S82d
-   m60bDOFpF52WcVTFaO6/h9K7pdruonaBiRoK5nlN7DUIx8RAb4Wc4Jgo1
-   0bv4XOVf9QUDmlWqjOVeyiuSR1iZX++fx0SrQYJ8JVni1Mwfoi4I/F5dE
-   SfZMdbxiZfzHYpmVKsgAPathGGso0yRTZJ6vbCw5PH9AhUatSxbk1oQl3
-   Fc8sg2RIx2mKE+yCzsGL5LIPf9ASPFm460n4n6ukYQE3HqwPefEXGNkUr
+  bh=L7XEc2f2YilHQODmsQ8cDYc9MOcu7Iaxjkq0GDehZsY=;
+  b=GmKTXaUk4yaM14RSR7a3kD5sz0z0mtVxZmbPJPFCG9Wnz/hdQibeI5Hy
+   OrvS1FMNyhCYpT5aevIERZgy05HdyfMSe9+RoSVItZ7c6+D1kkzCA505i
+   tcfUuTed9MvfWs78pL7LIqTcD5umL1tiE2LkNYjSGHw3zTtnfRzEMzb/H
+   nLdPjs5b5gnpWIb0h/jQRQI9Qberub4fB+eexoeO21HpK+ll9Je29f94i
+   Dz2pPZl9wtBZXfA9fPrnWCgKfcW4SCm9yp0He2xnnMhMIncOQ/qC5CtGm
+   U6tsW0CnKW7k8J1hjKKGeguhhatTYymQzTKEsUIQJ3hL73Ea7TKZshcr+
    w==;
-X-CSE-ConnectionGUID: FpG3oiQ9QViy8COUa/rQeg==
-X-CSE-MsgGUID: zYk9cNjFQe69rkDw+UKnmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="87916478"
+X-CSE-ConnectionGUID: OAvIu+bcQRirHGj2UEkqxA==
+X-CSE-MsgGUID: g90WqCrYQ3qME30H+gs/uA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="91775309"
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="87916478"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 13:55:10 -0700
-X-CSE-ConnectionGUID: Ai7iSiHyS82TYH7CNvlAkw==
-X-CSE-MsgGUID: BD8YxWc7Sqy/l4um9Mnqqg==
+   d="scan'208";a="91775309"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 14:17:10 -0700
+X-CSE-ConnectionGUID: t1Lz5bWKSD2jWZakaw45aw==
+X-CSE-MsgGUID: RK1pLmhxTpmHLWSXr4748Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="263796601"
+   d="scan'208";a="262728785"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Aug 2026 13:55:08 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 21 Aug 2026 14:17:09 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxWGX-00000000qSn-3leA;
-	Fri, 21 Aug 2026 20:55:05 +0000
-Date: Sat, 22 Aug 2026 04:54:13 +0800
+	id 1wxWbq-00000000qTr-4Azb;
+	Fri, 21 Aug 2026 21:17:06 +0000
+Date: Sat, 22 Aug 2026 05:16:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: crypto/ahash.c:1073:1: warning: the frame size of 1040 bytes
- is larger than 1024 bytes
-Message-ID: <202608220456.HAcVMI5V-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1/1]
+ kernel/gki_module.c:31:6: warning: no previous prototype for
+ 'gki_is_module_unprotected_symbol'
+Message-ID: <202608220529.9f5jWHu2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,57 +60,44 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Herbert,
+Hi Ramji,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   818bebeb63dd6bf5f4e07e145f6cdbace520a34c
-commit: 9d9b193ed73a65ec47cf1fd39925b09da8216461 crypto: hash - Increase HASH_MAX_DESCSIZE for hmac(sha3-224-s390)
-date:   1 year, 1 month ago
-config: mips-eyeq5_defconfig (https://download.01.org/0day-ci/archive/20260822/202608220456.HAcVMI5V-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220456.HAcVMI5V-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   65cae2a31acde46e949fffddac8903d3f6d11240
+commit: e7451150cb701de01d6b836c496e1bd012d885cd [1/1] ANDROID: GKI: Add module load time symbol protection
+config: arm64-randconfig-004-20260822 (https://download.01.org/0day-ci/archive/20260822/202608220529.9f5jWHu2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220529.9f5jWHu2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9d9b193ed73a ("crypto: hash - Increase HASH_MAX_DESCSIZE for hmac(sha3-224-s390)")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608220456.HAcVMI5V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608220529.9f5jWHu2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   crypto/ahash.c: In function 'crypto_hash_digest':
->> crypto/ahash.c:1073:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1073 | }
-         | ^
+>> kernel/gki_module.c:31:6: warning: no previous prototype for 'gki_is_module_unprotected_symbol' [-Wmissing-prototypes]
+      31 | bool gki_is_module_unprotected_symbol(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
 
 
-vim +1073 crypto/ahash.c
+vim +/gki_is_module_unprotected_symbol +31 kernel/gki_module.c
 
-04bfa4c7d5119c Herbert Xu 2025-04-12  1059  
-04bfa4c7d5119c Herbert Xu 2025-04-12  1060  int crypto_hash_digest(struct crypto_ahash *tfm, const u8 *data,
-04bfa4c7d5119c Herbert Xu 2025-04-12  1061  		       unsigned int len, u8 *out)
-04bfa4c7d5119c Herbert Xu 2025-04-12  1062  {
-19da081a28c95f Herbert Xu 2025-04-23  1063  	HASH_REQUEST_ON_STACK(req, crypto_ahash_fb(tfm));
-04bfa4c7d5119c Herbert Xu 2025-04-12  1064  	int err;
-04bfa4c7d5119c Herbert Xu 2025-04-12  1065  
-04bfa4c7d5119c Herbert Xu 2025-04-12  1066  	ahash_request_set_callback(req, 0, NULL, NULL);
-04bfa4c7d5119c Herbert Xu 2025-04-12  1067  	ahash_request_set_virt(req, data, out, len);
-04bfa4c7d5119c Herbert Xu 2025-04-12  1068  	err = crypto_ahash_digest(req);
-04bfa4c7d5119c Herbert Xu 2025-04-12  1069  
-04bfa4c7d5119c Herbert Xu 2025-04-12  1070  	ahash_request_zero(req);
-04bfa4c7d5119c Herbert Xu 2025-04-12  1071  
-04bfa4c7d5119c Herbert Xu 2025-04-12  1072  	return err;
-04bfa4c7d5119c Herbert Xu 2025-04-12 @1073  }
-04bfa4c7d5119c Herbert Xu 2025-04-12  1074  EXPORT_SYMBOL_GPL(crypto_hash_digest);
-04bfa4c7d5119c Herbert Xu 2025-04-12  1075  
-
-:::::: The code at line 1073 was first introduced by commit
-:::::: 04bfa4c7d5119ca38f8133bfdae7957a60c8b221 crypto: hash - Add HASH_REQUEST_ON_STACK
-
-:::::: TO: Herbert Xu <herbert@gondor.apana.org.au>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+    25	
+    26	/**
+    27	 * gki_is_module_unprotected_symbol - Is a symbol unprotected for unsigned module?
+    28	 *
+    29	 * @name:	Symbol being checked in list of unprotected symbols
+    30	 */
+  > 31	bool gki_is_module_unprotected_symbol(const char *name)
 
 --
 0-DAY CI Kernel Test Service
