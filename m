@@ -1,140 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503214562A0;
-	Fri, 21 Aug 2026 09:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546D647254E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Aug 2026 10:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787305363; cv=none; b=S6niD3JMJF1AxS1UE+xA9U2i+B2HS6W0Ii186qEmmTDag1sQGBtczDN49BV1s2Ea0aqff8GbHLNKib5Pd2kxw7ph7EBWSpPxtHt/MMAVHPl6h4n5RWHEN1yxVmJYADwZ5zsgBSDZmBkqWKdnNXcICKqmJJlauAhy7tJ2AYxsIoQ=
+	t=1787307876; cv=none; b=dAU1D/LyBuvCXzB8b/tb0uwpTass28ujw9FypydMkTB4QJvWhxFba0KxicIhuCbJ0vHTujaWG5WJ6If4zLPaQuxHHWKqI8IeY45gNmSFOjzeqLeeBPqUTJNsPNeJu/UWWOz8PM6Av78xtCfjgzdvR0c7WKeUIWyYzrd68VfZntw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787305363; c=relaxed/simple;
-	bh=JO5QFe2wQoESZjh0FkcnVu82NHIer0fa+ChwsfnRqos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KxZq9ufEQWJL6DVULcH76EdMBMWFl+g+Pg4rLLscvGHJkFdW7cxUU9u01pLwanWasX5fOSv4vdXiSFU277MRaSC1izPL9NUS6IUCSva9OPn69Xmc3mIzvcnpbHy2SEZP5psk2jhgwLjKeW/DEqvShc3qj29hWoDVk1ZvCxyQoqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h8Ik3Pq5; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1787307876; c=relaxed/simple;
+	bh=UkkOMQikOSq1RnyC5PonmdGI77HA7b6PKfbsuaLwdxA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iD+JMF3CZXU3tjeqNTf5mB75BgCL/Lxo4QSPXXcdbdQTjsBB+nAuiOLmgjqiVklXXJWNVa668NUzltFiUidI9FCNt6rHPz452M2HWs26Iswjy75e5pi3poCdAP0cJZaFmFszrZhN79MWr1AKuyColtTpi5NEzVhp2H/KC89l3Xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UwDKps8h; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8Ik3Pq5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UwDKps8h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787305355; x=1818841355;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JO5QFe2wQoESZjh0FkcnVu82NHIer0fa+ChwsfnRqos=;
-  b=h8Ik3Pq5NxyhGq/XHCvLum5vanmGDFC0BY9gyhIbtunyG0Ivo+D+0NlC
-   c+uEl60kRjAkBa0zqQ3B1p7cggdFpSRqsf2Ygaz++NEPgMJBgcUJER3G9
-   34HbSmdfKoLqi68ZIwqUNlgvTTUPbUlo0eBEoNT1Bca79ouIsml/Hekyr
-   j+Eym8S5SBZR84zg5ftWkNxvpo/N0s+T4LpDdT/z7JKnu9giAX81Xec93
-   9Bw3SNz8Ga3kX8r29kvusky5tHuXkLDQQtQRR5xE/6tlcZCHIMDsLnTuM
-   oQCga19XLdY8LftVn2jwPo7ZyoM66Kv0SJm17+5e6PWUoPYqspwbj7qOv
-   g==;
-X-CSE-ConnectionGUID: 6v4a9dxEQpWCVGGLHNsb/g==
-X-CSE-MsgGUID: XF47kGOGSOimPeRAdCyU0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="87621433"
+  t=1787307871; x=1818843871;
+  h=date:from:to:cc:subject:message-id;
+  bh=UkkOMQikOSq1RnyC5PonmdGI77HA7b6PKfbsuaLwdxA=;
+  b=UwDKps8hCg7DQSfy8tC1H/2ihXcerqhItZt59JyBjmuViJ3sfJDwiVww
+   tTqltO7HKomAqJfJus6DRpOlNU7eLbBxdp+curoxYm2ZLiXwbyzSK77Ai
+   MccvEuHQs1sPOgsMf1dKSIx8dL4oyEwSDTHaA2cUSRI9G/NSaDgTjYtXk
+   HnL/nrlp5TgEjgi9c2n/HFx271Fq6FD+ydFlgfjLB84eQne4jIRCXaJp2
+   clp9/HM8IEc/jEF9YuL/SJCL1dTFDdZOu3mctmCbNu82rJtyhbjbuhSKg
+   8k8aVdcPIfcPGNQbYj4vTygYDLDbYNHVWYHm6AdJnschEbuykMRnZZK+E
+   w==;
+X-CSE-ConnectionGUID: 0/a3TSiaT4K9rAOFvPtubA==
+X-CSE-MsgGUID: +gnV/GcPSFeK8ieX53e1yA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="98189830"
 X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="87621433"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 02:42:29 -0700
-X-CSE-ConnectionGUID: 0YMZmJ6YR0WVtkjU/AjEAw==
-X-CSE-MsgGUID: rNMgWl/HSUy923rouI6tiQ==
+   d="scan'208";a="98189830"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 03:24:28 -0700
+X-CSE-ConnectionGUID: tsc54YUXSG+sQESOz3iDbg==
+X-CSE-MsgGUID: N5whnqewSJiHPvLOhYvtBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="270113233"
+   d="scan'208";a="263021118"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 21 Aug 2026 02:42:25 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Aug 2026 03:24:26 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxLlV-00000000phh-2ll1;
-	Fri, 21 Aug 2026 09:42:21 +0000
-Date: Fri, 21 Aug 2026 17:41:25 +0800
+	id 1wxMQC-00000000piv-0Zw3;
+	Fri, 21 Aug 2026 10:24:24 +0000
+Date: Fri, 21 Aug 2026 18:24:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuqi Xu <xuyuqiabc@gmail.com>, Aaron Conole <aconole@redhat.com>,
-	Eelco Chaudron <echaudro@redhat.com>,
-	Ilya Maximets <i.maximets@ovn.org>,
-	Pravin B Shelar <pshelar@ovn.org>, Jakub Kicinski <kuba@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Yi-Hung Wei <yihung.wei@gmail.com>,
-	netdev@vger.kernel.org, dev@openvswitch.org,
-	linux-kernel@vger.kernel.org, Vega <vega@nebusec.ai>,
-	Nan Li <tonanli66@gmail.com>, Ren Wei <enjou1224z@gmail.com>
-Subject: Re: [PATCH net v8 1/1] openvswitch: Fix CT limit teardown
- use-after-free
-Message-ID: <202608211727.eYRZFh9r-lkp@intel.com>
-References: <d9687780533d0b257e01ab792c8206a69beb281e.1787129643.git.xuyuqiabc@gmail.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
+Subject: [avpatel:riscv_trace_support_v5 96/108]
+ drivers/hwtracing/gtrace/gtrace-core.c:300:9: error: implicit declaration of
+ function 'kfree'
+Message-ID: <202608211840.twlbnI0G-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d9687780533d0b257e01ab792c8206a69beb281e.1787129643.git.xuyuqiabc@gmail.com>
 
-Hi Yuqi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 564973a259ec76f2dad0853420e7034cc43994c4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuqi-Xu/openvswitch-Fix-CT-limit-teardown-use-after-free/20260819-172433
-base:   564973a259ec76f2dad0853420e7034cc43994c4
-patch link:    https://lore.kernel.org/r/d9687780533d0b257e01ab792c8206a69beb281e.1787129643.git.xuyuqiabc%40gmail.com
-patch subject: [PATCH net v8 1/1] openvswitch: Fix CT limit teardown use-after-free
-config: i386-buildonly-randconfig-005-20260821 (https://download.01.org/0day-ci/archive/20260821/202608211727.eYRZFh9r-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608211727.eYRZFh9r-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v5
+head:   e58ea3f194d326370813c549a76ecdfa211a4768
+commit: 7eb7691614f11ec061f1986bde65b11a34af97e9 [96/108] hwtracing: gtrace: Initial implementation of gtrace framework
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260821/202608211840.twlbnI0G-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260821/202608211840.twlbnI0G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608211727.eYRZFh9r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608211840.twlbnI0G-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/openvswitch/datapath.c:2777:36: error: no member named 'ct_exit_data' in 'struct ovs_net'
-    2777 |         ovs_ct_exit_finish(dnet, ovs_net->ct_exit_data);
-         |                                  ~~~~~~~  ^
-   1 error generated.
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_component_release':
+>> drivers/hwtracing/gtrace/gtrace-core.c:300:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+     300 |         kfree(comp);
+         |         ^~~~~
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_register_component':
+>> drivers/hwtracing/gtrace/gtrace-core.c:343:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+     343 |         comp = kzalloc(sizeof(*comp), GFP_KERNEL);
+         |                ^~~~~~~
+>> drivers/hwtracing/gtrace/gtrace-core.c:343:14: error: assignment to 'struct gtrace_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     343 |         comp = kzalloc(sizeof(*comp), GFP_KERNEL);
+         |              ^
 
 
-vim +2777 net/openvswitch/datapath.c
+vim +/kfree +300 drivers/hwtracing/gtrace/gtrace-core.c
 
-  2766	
-  2767	static void __net_exit ovs_exit_net(struct net *dnet)
-  2768	{
-  2769		struct ovs_net *ovs_net = net_generic(dnet, ovs_net_id);
-  2770		struct vport *vport, *vport_next;
-  2771		struct datapath *dp, *dp_next;
-  2772		struct net *net;
-  2773		LIST_HEAD(head);
-  2774	
-  2775		ovs_lock();
-  2776	
-> 2777		ovs_ct_exit_finish(dnet, ovs_net->ct_exit_data);
-  2778	
-  2779		list_for_each_entry_safe(dp, dp_next, &ovs_net->dps, list_node)
-  2780			__dp_destroy(dp);
-  2781	
-  2782		down_read(&net_rwsem);
-  2783		for_each_net(net)
-  2784			list_vports_from_net(net, dnet, &head);
-  2785		up_read(&net_rwsem);
-  2786	
-  2787		/* Detach all vports from given namespace. */
-  2788		list_for_each_entry_safe(vport, vport_next, &head, detach_list) {
-  2789			list_del(&vport->detach_list);
-  2790			ovs_dp_detach_port(vport);
-  2791		}
-  2792	
-  2793		ovs_unlock();
-  2794	
-  2795		cancel_delayed_work_sync(&ovs_net->masks_rebalance);
-  2796		cancel_work_sync(&ovs_net->dp_notify_work);
-  2797	}
-  2798	
+   293	
+   294	static void gtrace_component_release(struct device *dev)
+   295	{
+   296		struct gtrace_component *comp = to_gtrace_component(dev);
+   297	
+   298		fwnode_handle_put(comp->dev.fwnode);
+   299		gtrace_free_type_idx(comp);
+ > 300		kfree(comp);
+   301	}
+   302	
+   303	struct gtrace_component *gtrace_register_component(struct gtrace_component_id *id,
+   304							   const char *name,
+   305							   struct gtrace_platform_data *pdata)
+   306	{
+   307		struct gtrace_connection *conn;
+   308		struct gtrace_component *comp;
+   309		int i, ret = 0;
+   310	
+   311		if (!id || id->type >= GTRACE_COMPONENT_TYPE_MAX) {
+   312			ret = -EINVAL;
+   313			goto err_out;
+   314		}
+   315	
+   316		if (!pdata || !pdata->dev) {
+   317			ret = -EINVAL;
+   318			goto err_out;
+   319		}
+   320	
+   321		for (i = 0; i < pdata->nr_inconns; i++) {
+   322			if (pdata->inconns[i]) {
+   323				ret = -EINVAL;
+   324				goto err_out;
+   325			}
+   326		}
+   327	
+   328		for (i = 0; i < pdata->nr_outconns; i++) {
+   329			conn = pdata->outconns[i];
+   330			if (!conn || conn->src_port < 0 || conn->src_comp ||
+   331			    !device_match_fwnode(pdata->dev, conn->src_fwnode) ||
+   332			    conn->dest_port < 0 || !conn->dest_fwnode || !conn->dest_comp) {
+   333				ret = -EINVAL;
+   334				goto err_out;
+   335			}
+   336		}
+   337	
+   338		if (pdata->bound_cpu >= 0 && !cpu_present(pdata->bound_cpu)) {
+   339			ret = -EINVAL;
+   340			goto err_out;
+   341		}
+   342	
+ > 343		comp = kzalloc(sizeof(*comp), GFP_KERNEL);
+   344		if (!comp) {
+   345			ret = -ENOMEM;
+   346			goto err_out;
+   347		}
+   348		comp->pdata = pdata;
+   349		comp->id = *id;
+   350		ret = gtrace_alloc_type_idx(comp);
+   351		if (ret) {
+   352			kfree(comp);
+   353			goto err_out;
+   354		}
+   355	
+   356		comp->dev.parent = pdata->dev;
+   357		comp->dev.coherent_dma_mask = pdata->dev->coherent_dma_mask;
+   358		comp->dev.release = gtrace_component_release;
+   359		comp->dev.bus = &gtrace_bustype;
+   360		comp->dev.fwnode = fwnode_handle_get(dev_fwnode(pdata->dev));
+   361		dev_set_name(&comp->dev, "%s-%u", name ? name : "comp", comp->type_idx);
+   362	
+   363		mutex_lock(&gtrace_mutex);
+   364	
+   365		ret = device_register(&comp->dev);
+   366		if (ret) {
+   367			put_device(&comp->dev);
+   368			goto err_out_unlock;
+   369		}
+   370	
+   371		for (i = 0; i < pdata->nr_outconns; i++) {
+   372			conn = pdata->outconns[i];
+   373			conn->src_comp = comp;
+   374		}
+   375	
+   376		ret = gtrace_setup_inconns_from_outconns(comp);
+   377		if (ret < 0) {
+   378			device_unregister(&comp->dev);
+   379			goto err_out_unlock;
+   380		}
+   381	
+   382		if (comp->pdata->bound_cpu >= 0) {
+   383			gtrace_get_component(comp);
+   384			per_cpu(gtrace_cpu_source_comp, comp->pdata->bound_cpu) = comp;
+   385		}
+   386	
+   387		mutex_unlock(&gtrace_mutex);
+   388	
+   389		return comp;
+   390	
+   391	err_out_unlock:
+   392		mutex_unlock(&gtrace_mutex);
+   393	err_out:
+   394		return ERR_PTR(ret);
+   395	}
+   396	EXPORT_SYMBOL_GPL(gtrace_register_component);
+   397	
 
 --
 0-DAY CI Kernel Test Service
