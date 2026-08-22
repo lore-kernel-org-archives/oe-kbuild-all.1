@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74270199EAD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Aug 2026 00:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4752C08D0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Aug 2026 00:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787358775; cv=none; b=p0HJxynRgTYdkPu/i/APq9XFLDmb9ezDnSgwM3RrO/BY36sgoF66UnVjCkhLO/M8mrjGK6eilV9gnORDgx1FLmBA7PAtUWtHiOXPdBerrBMrER9asD0w4RgXRifW6Zq3zYW4t/rUHuwtYKF45Sv8rR1YOCkBchP5uE6lA/8IBzc=
+	t=1787359647; cv=none; b=MgjxNJG+aXJmf5AZydBbyzsnADwkAGjZDsEwtypue1acPkrhlavf66iIee1+vCovaVzL7rkRN5ESy+YV2O/Nn1azaxPH84gjOJrxmTbjb3UZswHC/N4+Qlr2msFavbAOXRvh16cnnLXmob2aDEBrwHFM0MqqhACesaIaFlyNBU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787358775; c=relaxed/simple;
-	bh=mZfdniIMKu420UHqyWBCSq03sy03fncEvYNLUovTRQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=PLy3WU5XLa+QpEkoibYAYOHLETOzQ2/ECJ+Qh9pBtN6+7ArDJ8L5cphfXUbPuIuCVmTJlZRVS1ZqCT7ICe8Zb/ey1G7tmFuyTqcZdpDx51tf9EnKTjkMpDo01n6wflgI3jTQJowYTDHAsmvNgLW1P1Jce/lU4A8/68Jj9PusnwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVD5b6ZW; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1787359647; c=relaxed/simple;
+	bh=XqsT3DXzzwo5ITbxEbERRgI0PoQKxsBQ7+fobNFF00E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=mq88r1Sri4n5PufjQVc3aL/kGauFz+1C0Ja/8V+KNqY6of7zjBrJwc2D43c6mTwuXdYRYYIgnnKKEzzIW6Xv2Ar+9owB32dfnkXAOBjTNvm6yR/O5CQFuervVIAdYRpeMXHwe10BVoPTApwpWqlro0F5XZ+GidaF1fLJT0jS4CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+wNNCT3; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVD5b6ZW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+wNNCT3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787358773; x=1818894773;
+  t=1787359645; x=1818895645;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mZfdniIMKu420UHqyWBCSq03sy03fncEvYNLUovTRQs=;
-  b=XVD5b6ZW08t4V5ZNM17prO/o11vE64UCzkT57zZrNwIYrmOAQrgi+zSi
-   QruJ4eeEngrYDgX5C/TaAsE03vTgsTpI14T/4hfItChNkmOIMB7W33ZAk
-   +GmqQtzb0TpwK+327YUDaIemXCsBM4qQV4FtpROspHyUjyX4UaM+M80YG
-   Q0K3HTYJcbO10PEunWwjRhW2M1MnoPNXXTYxkcntw4VQGpLt5oUN64205
-   QAiw3r9j4jI/cQ5zZdT9OPvFQ1UR0CxQbka6R4A9MfSCGoOZ1aeCA2k8C
-   ECXrhxCyCOwNc7iA5gzACxVAQP/8PLpEw6Bl9mxovskOwwLFZqGGoFOyf
+  bh=XqsT3DXzzwo5ITbxEbERRgI0PoQKxsBQ7+fobNFF00E=;
+  b=V+wNNCT3hNmH0sSXv06pR+30OkAXyovCmEZRTK4OzZO9WKIQO6cDtoVX
+   UOd8qf0S1MGMztWfDo9Yu2gVI3HDvQmKHOgY/PKmB6ww6U+ZeY7qQ0Hjv
+   YDi9DGiJaogWP5BnJTIXnfPiYGIbX/pkz1gV39LG9HWIFNnYJMSmLKHeW
+   BsdMB8M9rV+v5JG9tCnS1N3JODluOZe+5YvbJ2URJvAD+wgKGeqMtSi5J
+   4LoTXkmG0vWwmaSlXHKvK2cL55m44uc3qfHkIysgBpk4DRJJBICAsz8Vt
+   mIhaNQN6uZrmgagOalNjV0qqcQbF4Em8XdfFIuamsqTH7vQTQTGOLvlIg
    Q==;
-X-CSE-ConnectionGUID: SspoYx3XR1+oJn2pYqoCog==
-X-CSE-MsgGUID: yPaC4eneT7SdpTUikFZXUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="87969631"
+X-CSE-ConnectionGUID: Sr08MadLRqSGszzVvQ8CgA==
+X-CSE-MsgGUID: VLgHsOF9QjqBnLPIpnJd7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="98576666"
 X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="87969631"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 17:32:52 -0700
-X-CSE-ConnectionGUID: c6B3CPMKTkaEss9bf1ndUg==
-X-CSE-MsgGUID: wjHStcRRQ4iOp/kO+CvEAQ==
+   d="scan'208";a="98576666"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 17:47:24 -0700
+X-CSE-ConnectionGUID: +lPHy2/fRqeMfP69+WTC8w==
+X-CSE-MsgGUID: KW2ldgjARHWHHobUBTf7bQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="264712743"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 21 Aug 2026 17:32:50 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="271699983"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 21 Aug 2026 17:47:23 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxZfE-000000007nV-0R4R;
-	Sat, 22 Aug 2026 00:32:48 +0000
-Date: Sat, 22 Aug 2026 02:31:48 +0200
+	id 1wxZtI-00000000qgr-2hTU;
+	Sat, 22 Aug 2026 00:47:20 +0000
+Date: Sat, 22 Aug 2026 08:46:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Gr=C3=A9goire?= Layet" <gregoire.layet@9elements.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- Jacky Chou <jacky_chou@aspeedtech.com>,
- aspeedyh <yh_chung@aspeedtech.com>,
- Tan Siewert <tan.siewert@9elements.com>
-Subject: drivers/tty/serial/8250/8250_aspeed_vuart.c:50:17: error:
- implicit declaration of function 'FIELD_PREP'
-Message-ID: <202608220207.eiTRxzFs-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:scratchpad-v10 14/24]
+ kernel/locking/lockdep.c:6710:24: error: 'stack_trace' undeclared; did you
+ mean 'lock_trace'?
+Message-ID: <202608220839.a0YKGqsN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,41 +63,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Gr-goire-Layet/dt-bindings-serial-8250-aspeed-add-ast2600-and-aspeed-vuart-over-pci/20260818-102914
-head:   28e6fa9a9ae89ef5b7ad92e1df59fea67a5f7c0d
-commit: 98949d2e1e8bfc6849ee8ee049efd883ddd970ba serial: 8250_aspeed_vuart: add VUART over PCI
-date:   34 hours ago
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260822/202608220207.eiTRxzFs-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220207.eiTRxzFs-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git scratchpad-v10
+head:   a23fc077806416450fbeb0a5a534fd995e465430
+commit: 336938fcdc2d4cb4705b1ebcae351ef17abee91e [14/24] locking/lockdep: Route stack trace entries to static bootstrap scratchpad
+config: arm-randconfig-003-20260822 (https://download.01.org/0day-ci/archive/20260822/202608220839.a0YKGqsN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260822/202608220839.a0YKGqsN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608220207.eiTRxzFs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608220839.a0YKGqsN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_aspeed_vuart.c: In function 'aspeed_ast2600_vuart_over_pci_set_enabled':
->> drivers/tty/serial/8250/8250_aspeed_vuart.c:50:17: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      50 |                 FIELD_PREP(ASPEED_SCUC24_MSI_ROUTING_MASK, 2)
-         |                 ^~~~~~~~~~
-   drivers/tty/serial/8250/8250_aspeed_vuart.c:480:41: note: in expansion of macro 'ASPEED_SCUC24_MSI_ROUTING_PCIE2LPC_PCIDEV1'
-     480 |                                         ASPEED_SCUC24_MSI_ROUTING_PCIE2LPC_PCIDEV1);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/lockdep.c:71:71: error: macro "SCRATCHREC_INIT_STATIC" passed 7 arguments, but takes just 6
+      71 |                                SCRATCH_64K_ORDER, 0, &lockdep_pool_key);
+         |                                                                       ^
+   In file included from kernel/locking/lockdep.c:61:
+   include/linux/scratchpad.h:360: note: macro "SCRATCHREC_INIT_STATIC" defined here
+     360 | #define SCRATCHREC_INIT_STATIC(name, _elem_size, _static_buf, _size_bytes, _min_order, _key) \
+         | 
+   kernel/locking/lockdep.c:69:9: error: 'SCRATCHREC_INIT_STATIC' undeclared here (not in a function)
+      69 |         SCRATCHREC_INIT_STATIC(lockdep_pool, sizeof(struct lock_list),
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/instrumented.h:10,
+                    from include/linux/atomic/atomic-instrumented.h:17,
+                    from include/linux/atomic.h:82,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from kernel/locking/lockdep.c:30:
+   kernel/locking/lockdep.c: In function 'lockdep_boot_report':
+>> kernel/locking/lockdep.c:6710:24: error: 'stack_trace' undeclared (first use in this function); did you mean 'lock_trace'?
+    6710 |                 sizeof(stack_trace) - lockdep_trace_scratchpad.remaining,
+         |                        ^~~~~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
+     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   kernel/locking/lockdep.c:6707:9: note: in expansion of macro 'pr_info'
+    6707 |         pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
+         |         ^~~~~~~
+   kernel/locking/lockdep.c:6710:24: note: each undeclared identifier is reported only once for each function it appears in
+    6710 |                 sizeof(stack_trace) - lockdep_trace_scratchpad.remaining,
+         |                        ^~~~~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
+     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   kernel/locking/lockdep.c:6707:9: note: in expansion of macro 'pr_info'
+    6707 |         pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
+         |         ^~~~~~~
+>> kernel/locking/lockdep.c:6710:39: error: 'lockdep_trace_scratchpad' undeclared (first use in this function); did you mean 'lockdep_trace_stats'?
+    6710 |                 sizeof(stack_trace) - lockdep_trace_scratchpad.remaining,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
+     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   kernel/locking/lockdep.c:6707:9: note: in expansion of macro 'pr_info'
+    6707 |         pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
+         |         ^~~~~~~
+   kernel/locking/lockdep.c:6711:32: error: 'BOOTSTRAP_STACK_TRACE_ENTRIES' undeclared (first use in this function); did you mean 'MAX_STACK_TRACE_ENTRIES'?
+    6711 |                 (unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
+     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   kernel/locking/lockdep.c:6707:9: note: in expansion of macro 'pr_info'
+    6707 |         pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
+         |         ^~~~~~~
 
 
-vim +/FIELD_PREP +50 drivers/tty/serial/8250/8250_aspeed_vuart.c
+vim +6710 kernel/locking/lockdep.c
 
-    46	
-    47	#define ASPEED_SCUC24 0xC24
-    48	#define  ASPEED_SCUC24_MSI_ROUTING_MASK				GENMASK(11, 10)
-    49	#define  ASPEED_SCUC24_MSI_ROUTING_PCIE2LPC_PCIDEV1 \
-  > 50			FIELD_PREP(ASPEED_SCUC24_MSI_ROUTING_MASK, 2)
-    51	#define  ASPEED_SCUC24_RESERVED_14					BIT(14)
-    52	#define  ASPEED_SCUC24_PCIDEV1_INTX_MSI_SCU560_EN	BIT(17)
-    53	#define  ASPEED_SCUC24_PCIDEV1_INTX_MSI_HOST2BMC_EN	BIT(18)
-    54	
+  6704	
+  6705	static int __init lockdep_boot_report(void)
+  6706	{
+> 6707		pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
+  6708			min_t(unsigned long, nr_list_entries, BOOTSTRAP_LOCKDEP_ENTRIES),
+  6709			BOOTSTRAP_LOCKDEP_ENTRIES,
+> 6710			sizeof(stack_trace) - lockdep_trace_scratchpad.remaining,
+  6711			(unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
+  6712		return 0;
+  6713	}
+  6714	core_initcall(lockdep_boot_report);
+  6715	
 
 --
 0-DAY CI Kernel Test Service
