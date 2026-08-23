@@ -1,259 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0493D1A8F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Aug 2026 13:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787490085; cv=none; b=esTVnOuhmX441khlz49EilhYc75mdAwHVCm1pMF2LMPXCnWUxHjo06vPvMbR6nyEJ8pnCukwT9+Wtn0S8zD4x44SEB+30eSt8gd2+XQvJqu40jirPZArDM5iyiiw5YX+hsr81GLqj0ZBKVqmK7eWSy54YQj8Xk+BV5fTYRTZqAU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787490085; c=relaxed/simple;
-	bh=14KpMjjgZyOCgOG6AgsEjp9fu5JymD9BTvKRILT6NjA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dizTK5BxlQjvtycx/W27VIFMhfAKEFgyy8ySo1ZeeSv18quG4SVbLh8jd4chRBLWTKHQ7hKXIaPbO1mcFDaR0h4WnM9uU7E6bYZb02KQR5aQP4cbMh+BGaWzRj1o/oEkZQ75ECjm50hUmWXjSK7fJEkFP70LI0k2fP4w5aHM4LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZcZ24Kik; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAEC49364A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Aug 2026 13:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787491306; cv=fail; b=us3Ycf9BajdPx3j351D238/jet35GqpW/H5ptL77O40s4WnjsLQP7f/5jBNMeWSCON1RnLxLfoGU2iSS95bzcxbPWm4uDbCvNY7GovFQcsmQSeXcLsS6a77G4S5t2EazBGna5rGrWkz56R9uamGo0eJVBSbqVf7y/dZw7gSujt0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787491306; c=relaxed/simple;
+	bh=SWVTqM9H0egiVlenZ2mEtv8u9Iq7u1EXqKnNOgQLNUU=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=EYMLgLS70oG6aeLVhWPbY2Hmv/dtIkH9nyHI8QZPwk70Y63gAs5heKjea/wg4WFfJmwjRJh2ZIL/BpQXCIa0NApjCvULrUWAGW67nQWlyoFXxZkxZ8AUD7ETUJ5yjodMyICC9ZE7ObMYnnhP0lT1oBRoFAD/M3a0xyknWi7+DhA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EpSc7mW6; arc=fail smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZcZ24Kik"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EpSc7mW6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787490083; x=1819026083;
-  h=date:from:to:cc:subject:message-id;
-  bh=14KpMjjgZyOCgOG6AgsEjp9fu5JymD9BTvKRILT6NjA=;
-  b=ZcZ24KikuUflm+LvgHZ0iPxSY+DqkkoToKWA/sZCBlN82ncyRBBYkEse
-   y/EOD58T3yy6Ioz2QJHdRhgDkhxDnfwLKJY+l3Gt5Zw5E4H2Hk+trFcXK
-   O549jb7Su6Dk1unD7/xjgBlWExqPrdNbXvEC40zeHRZd2GDxJe4NjzJ+Y
-   InZJj5HEZWJYvlXolfs1jS9gaBTNcbWwxD3/gh8bDM19L07EkLFBC45zB
-   FRU22riGOWwfGU+JuJxcvgyn/k8xP9gYPgCnWy/ebNl0u9CsTUOmGKVD+
-   OrwuQEOeXGDSWruGyqNNoprFCJG0vm4gUhi9ZUw526Oz9M94lmZIzQHdR
-   Q==;
-X-CSE-ConnectionGUID: e7sRqE7cRhqBzJo+Knr2kg==
-X-CSE-MsgGUID: y8iqbLkdSjiHpzYj5f51Lw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="105338670"
+  t=1787491304; x=1819027304;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SWVTqM9H0egiVlenZ2mEtv8u9Iq7u1EXqKnNOgQLNUU=;
+  b=EpSc7mW6eUTWa/+xR1+/RQkwOndNpYhPGuFFsDn9qIzfeBQSvhvyOni9
+   9K4Suq6FAGCYLkpFMMNko56RkVsZv+RobgurH6Pf9YfFfjlWaW9ZbtK0B
+   /QSiYwhi7mlN1JA5eeYEiyk78Ij6JYJmGSVG+lmKJrECELsZAzfCUsUn/
+   7pglKWEEcaImV/FEJSUN/nKL8yA6r+Nm5+9kfF5d1hD35qCU9I3Pu0TR7
+   44lA9x6mS2vGOi5jzdfYGkHEtuQximGp1AVg75oaoaqZ4qqOu2KzXUSb5
+   6uw/iB+RAYuLjQIUgN9fjnhEnp1fpAPWAkoPiphLXFy/D7FnRJ1g/oRzE
+   A==;
+X-CSE-ConnectionGUID: jNUTjSx6TbGwwCoGwKb29g==
+X-CSE-MsgGUID: 5vxm+n/2TxGV0jsWfWrWyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="87823020"
 X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="105338670"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 06:01:21 -0700
-X-CSE-ConnectionGUID: eJF4UqDJRi++BPL6akOXZg==
-X-CSE-MsgGUID: Jre1ENOTQB2FxS5uiGijSQ==
+   d="scan'208";a="87823020"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 06:21:43 -0700
+X-CSE-ConnectionGUID: w74wpweET5+Vnzskl7VEcA==
+X-CSE-MsgGUID: UPgo265PSoe0fdI4Q6/GfQ==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Aug 2026 06:01:18 -0700
-Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wy7p6-0000000009r-2hGx;
-	Sun, 23 Aug 2026 13:01:16 +0000
-Date: Sun, 23 Aug 2026 21:00:51 +0800
+X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
+   d="scan'208";a="263509721"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 06:21:43 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Sun, 23 Aug 2026 06:21:43 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 06:21:43 -0700
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.35) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Sun, 23 Aug 2026 06:21:42 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EgL3fUeIGJIXslC2pSM0t5vBzpS6jstfzbxrOg9cw6V/U2mhdH+NPQMHHcGFy9arOFFcO+iOB+f7J35jQj5aHUvfn2UexuRAE8m1DJMKZq4CVCKJM+tzFz6cl+Y92ChDMMh4vPsrlXAOODFMrSmcQD/RuLJ8o/nfKR/Mp+2zVJj+Pn2HSC2ogilh2/O6gHHNcBffnvymcmRrOzgLinVreUAu0tMXvWuiDw7G96EW5K8Uk4VqzgJtREiI5gFKux+HLBiwqe2aGm3SxHZnSw+pb4VUXJNohVbX+TJZCTBzdqwFi7rC/ix05zmHprruuMlZU3ShGZ4tbE91s7HqkJvoKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xs+uEUtonwSecuh+ZolGCTAKgFB5r0vRhFk5sIh3TNM=;
+ b=jeZDefSkEW9VCaDgz8wPMmv1qZQZSiM6UgfgYK5cmkNjW9E+VWuWttgZwTGqxjiLFrmfyA71nhCepax1+egn2CKfHCWBL9hU71V+MBU7NK3+KDqYB11ZeXQvnOCUKZ2clcmxM2tH/wIwe0XcJqJeEPVlD7aP/bmVIi/I32dZKA++4mpfL7SV9+7adWIIv5t+YVpcSxnoo3291hJYKXCND/keJch8Od2MFtKHJVWqlZGz1eTk7YY93eOzQXhu02bexR5zN/QTa2vfcDKOeCfJsBdqDI7XhAH/kh9K/eWlYMgm9NKCaiSVBhg2scrfTVrtvozdtX7+BbtrxLmmFqKKVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
+ by MW4PR11MB6569.namprd11.prod.outlook.com (2603:10b6:303:1e1::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Sun, 23 Aug
+ 2026 13:21:40 +0000
+Received: from SJ0PR11MB5214.namprd11.prod.outlook.com
+ ([fe80::5926:3836:4212:8640]) by SJ0PR11MB5214.namprd11.prod.outlook.com
+ ([fe80::5926:3836:4212:8640%4]) with mapi id 15.21.0339.012; Sun, 23 Aug 2026
+ 13:21:40 +0000
+Date: Sun, 23 Aug 2026 21:21:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philip Yang <Philip.Yang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>
-Subject: [agd5f:ualink 125/183]
- drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2901:31: warning: left shift count
- >= width of type
-Message-ID: <202608232003.BmLOg5dv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Keith Busch <kbusch@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, 0day robot <lkp@intel.com>
+Subject: fs/file_attr.c:100:24: error: implicit declaration of function
+ 'bdev_fileattr'
+Message-ID: <202608230621.c9CRXHtf-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SI2PR02CA0004.apcprd02.prod.outlook.com
+ (2603:1096:4:194::14) To SJ0PR11MB5214.namprd11.prod.outlook.com
+ (2603:10b6:a03:2df::22)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5214:EE_|MW4PR11MB6569:EE_
+X-MS-Office365-Filtering-Correlation-Id: 39a40701-58fd-4002-43c9-08df0119775f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|18002099003|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info: 3PJqG3MpWbYMs+vyxkSHBx+iK0AZCjQUsGHmRX4O+kJg/JRrcsDxrLwqgNbgam97860aEqXmOB4Q4uF9VJSZyMcFPdnrJ71kzQZVOjWOm/pgtR2KrA/cAdvWYC1aKnevlqKriWvKmx9pRCR1M3dkWlkiAdMm7tvYzOsmbGNXHPwROXGkQynlCjcqZ+Nbq4nySi7IapeBmcPyqh7fPHxNpNQ+WfS9PGs5KtLAfZXeRRh5Fi4UJ2Fl84C3v5uMUJDsbllzBgGfTP2aX/DDFO6gVHyzB/vs5iM8Py+uzJlzLe+22PYk8D1RxaxxTOeFNFEc6GBfzXCB2hF+zxNTuF/I0Q1cyQBkEAIaBAqRn0xSqhajOes1kyoaSZn/hSKj4ipR5Yuidhd+UNUJy3NKszZr+sdEZLGSuOD8pT4os8SneGEB6d7AdwGk6oowX9xXxpvygKR/ubGoneUWWGJbm2/nH0Vlay5rGwvy0dfOavf4TswkPKlUHXACuPUQxgmkB/R5UqwQqwKjDbY0tQ+LSLwGUivAJ+uP9Q7W1+O3rBk0Y/jWE2VQQrouNAc3Q6zrKkYNTAgumJITlZ9+R851OSC6RkOYGE1JfY62vV6OoeEb+VFTG3zrZArymTWkdyEfDkxT
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(18002099003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?l+i2t5S4dLXTu5MRKCe8wN5wgv0GExJA2URZb0x2Ez7/HUdxp2PYaDlR1x1X?=
+ =?us-ascii?Q?5Y8dLCNFOnW+meWskuOpbPlmvK+mV58Hb2lJRZhHovmjFO7zlqMdGX7tjyz3?=
+ =?us-ascii?Q?Iva25nUixHlEnECEDeYaa4t72ky92H0X/4msO5WHSB1hfRTCUHcstPLUXVws?=
+ =?us-ascii?Q?gIq2p/YtkGLkoXoTwTQWmDKvL0Cgy+4UDJW7twLAUh+VLWeDLVy0RdJFp/mI?=
+ =?us-ascii?Q?g7nWtjvwEo1pTJEEJSlrXArlxx5P/LKyY7gu+2inB9vKiKQVIMHi+5DVsecO?=
+ =?us-ascii?Q?yAburILnCZ3fl1nohn5wk5+dY610LH5CKR+q2lT2qbO6dwFUvUEAWGYs8qAc?=
+ =?us-ascii?Q?g8ZN8a9KeBd52oLdyYtRz71cv7QPFffbHjU3Jke9X4+ZTdjOKUOaxdIcdrwR?=
+ =?us-ascii?Q?OxI4uwMTXJWppXCfxAsPkqTwV1uap5Fb7F6SplXM5OiI93JpTSZRBI1NHYbJ?=
+ =?us-ascii?Q?VrUmrA+mO9XqOpR7ByHWDajhj3Qw4Iu2Lg7aK1hdVbut4mUvfrCH0o1ssahY?=
+ =?us-ascii?Q?sEDIEpAwfRLiewlzfGGRMOssdBvBOOHyYRrvIQjzHLz3dI+pD9tCRAjTQyP4?=
+ =?us-ascii?Q?o1YB2qIe4bXFHeiqHhw1l3KVJLjttm8azhjD7oYxf48V6PohAXQyf43xgRsQ?=
+ =?us-ascii?Q?F5GNb4KYQfD8QTjhqRFButwjuIdglZox0sMgVSkpZMsozJCK9Q7SEzivgzy9?=
+ =?us-ascii?Q?HWYTwkf/+g2TRClJXOGEC+wl8X7MfqkMiWO7il+awxSHJFD/m2TscrsOWUSG?=
+ =?us-ascii?Q?oPEQftZWL37P2a0KyJHMsuNf+cnNlJNljN6IhtkpPdI7WChIGKgv/9hERdHV?=
+ =?us-ascii?Q?FtTmzjcl0y1Kr3FPNLJAuSvvPcCQM2ilSj1z9yN7bMykEtVO3QkB1wyMrXfa?=
+ =?us-ascii?Q?+W8Ds8HiVkUO1COnBeZKJbei+NAl4LyzUR08qmSkRp0BBz09WhKqey/vMdKf?=
+ =?us-ascii?Q?lzFQus3SkzmXWI5zmYua3Q03s9AIXMLB5kU+2YO9084IPQAFC2NKlqCVfDva?=
+ =?us-ascii?Q?CBZI3gkR0jeOQ+DcV/+F+r/4zdoB/vTHhlQawrhMksTv6vh3jyhLbkOrwOBi?=
+ =?us-ascii?Q?j/efj3mLpvoX7tOgkll+IjZPeyYXs0yTxA0F7UBCzn1WJFdgHuncgY5PgEso?=
+ =?us-ascii?Q?aUb6gufSjLNgV+f93FLkTs9I8ec67eaifXuWdYM1AcBui5BjZOChkrKG+p9n?=
+ =?us-ascii?Q?w2B4St9srecJTuT0uW5S+HHZNDYQA1Dkb98iEY1GNampka98uyRLrZzEZFxn?=
+ =?us-ascii?Q?RVdpnwheDdkOV56hTAO+wco51EH67hLzijKy7OtjaXTwenM9qif5HZaZOp+E?=
+ =?us-ascii?Q?4b7/oKVTB1EA1XvQjIVBlwXTZ4ofJz+5jPJL142rBBV9jLAQ6aXV+dM0Z03c?=
+ =?us-ascii?Q?T5sYIGRq4QKLBCaRSDYwbXvnwuUS4ISmc5kcxGFP4DIOWuP6yP78lq9dcM3k?=
+ =?us-ascii?Q?avmsR5J2XMZN0/fBtM9vUxfLckBZdk1LQnH9WhZnVd4D3JZAQu1+gWw7QXL5?=
+ =?us-ascii?Q?Dq7iYgJfSOHeGKClglLVXgCJi3WOTGbRnvHFOlUtWaBJXolkKkQRKhwD6MuM?=
+ =?us-ascii?Q?BgHYn1qHosmNkBv5U+nVYmi+Q/Rl2t5u4WIeZoaxGSSJ8HkYzoIZlxdb1dRD?=
+ =?us-ascii?Q?b8+8faIvLd1DBaP8EXNnz1nCYyXzgtMuZ+Ovwmj2PupZ5CUj4KdqoCjNMUPL?=
+ =?us-ascii?Q?QXtMY1PUOM/lWyzruMcFAZENVSnimVfNejLIBMLARitHfVXovxFB2mYr8gNN?=
+ =?us-ascii?Q?sEvEQ5ak1w=3D=3D?=
+X-Exchange-RoutingPolicyChecked: K42m6UTbktPHVf3sjXZIQLXBLOKJzIxWl8Eo2qB8/Zk/WwIuy6c5x17lNAvZIOR2TUTk//6olArDesNObXj0at/N/heH/caug1AQD8Z4jGq/GTdHGFRqWmlxl/lsEncIyhxw4laCK+QUER5ypNN1V4YnYMiiRzV/MZor2wAAYaT3VJa5UCPDuFC0XeJR3gzaQWPCaXdL/Cklavs9ZTxb91I1mVJKPhoDDO8Yq2m1aTM0ZsB5zvUqcUgZCRI3BekGrorDPz3hHBbh8L4VbkXo8Aj8/AJ8Ktk+m284zUgismEe/+rfB5RArWf3YBW4MDL9eoiYHWLpBm9bsDLjEdSJ3Q==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39a40701-58fd-4002-43c9-08df0119775f
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5214.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 13:21:39.9336
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xQPJ5xnzBvREKnJY1NsyjWKzMKB1SncGJs42/PPhPo35s8JKWKJSPc4QJZIapCjboWpuMQeGTMlmq0g+7qPaXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6569
+X-OriginatorOrg: intel.com
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git ualink
-head:   67bd1d6d1b25ea1f893a76fffd13dd6335d297d0
-commit: 25e0f08e1877bf453c1ad49086dda2ed562325d2 [125/183] drm/amdgpu: Add UALink cross-GPU TLB shootdown and remote interrupt
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260823/202608232003.BmLOg5dv-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260823/202608232003.BmLOg5dv-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/fs-add-direct-io-attributes-to-file_getattr/20260815-124138
+head:   6501161303f993815f8074b592e0f7c264537f72
+commit: 311da0a53d527a6287f6d3fd89bcf394c03f663b block: report direct io attributes through file_getattr
+date:   8 days ago
+config: x86_64-randconfig-2005-20250721 (https://download.01.org/0day-ci/archive/20260823/202608230621.c9CRXHtf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260823/202608230621.c9CRXHtf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608232003.BmLOg5dv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608230621.c9CRXHtf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c: In function 'amdgpu_ualink_gart_map':
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2073:26: error: assignment to 'dma_addr_t *' {aka 'unsigned int *'} from incompatible pointer type 'u64 *' {aka 'long long unsigned int *'} [-Wincompatible-pointer-types]
-    2073 |                 dma_addr = &npa;
-         |                          ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c: In function 'amdgpu_ualink_get_wb_addr':
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2669:22: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    2669 |                 wb = (u64)remote->rb_cpu_addr + rb_size * remote->num_accel;
-         |                      ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2673:22: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    2673 |                 wb = (u64)remote->rptr_cpu_addr;
-         |                      ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2683:19: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2683 |         *wb_cpu = (struct amdgpu_ualink_wb *)(wb + offset);
-         |                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c: In function 'amdgpu_ualink_peer_remote_init':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2901:31: warning: left shift count >= width of type [-Wshift-count-overflow]
-    2901 |                 npa = 0xFFFUL << 40 | (u64)dst_accel_id << 30;
-         |                               ^~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c: At top level:
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2939:13: warning: 'amdgpu_ualink_peer_remote_fini' defined but not used [-Wunused-function]
-    2939 | static void amdgpu_ualink_peer_remote_fini(struct amdgpu_device *adev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2813:12: warning: 'amdgpu_ualink_peer_remote_init' defined but not used [-Wunused-function]
-    2813 | static int amdgpu_ualink_peer_remote_init(struct amdgpu_device *adev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2779:12: warning: 'amdgpu_ualink_remote_interrupt' defined but not used [-Wunused-function]
-    2779 | static int amdgpu_ualink_remote_interrupt(struct amdgpu_device *adev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2738:12: warning: 'amdgpu_ualink_remote_shootdown' defined but not used [-Wunused-function]
-    2738 | static int amdgpu_ualink_remote_shootdown(struct amdgpu_device *adev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2144:12: warning: 'amdgpu_ualink_metadata_init' defined but not used [-Wunused-function]
-    2144 | static int amdgpu_ualink_metadata_init(struct amdgpu_device *adev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:2029:13: warning: 'amdgpu_ualink_sdma_entities_fini' defined but not used [-Wunused-function]
-    2029 | static void amdgpu_ualink_sdma_entities_fini(struct amdgpu_device *adev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:1996:12: warning: 'amdgpu_ualink_sdma_entities_init' defined but not used [-Wunused-function]
-    1996 | static int amdgpu_ualink_sdma_entities_init(struct amdgpu_device *adev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:1840:12: warning: 'amdgpu_ualink_metadata_npa_mapping' defined but not used [-Wunused-function]
-    1840 | static int amdgpu_ualink_metadata_npa_mapping(struct amdgpu_device *adev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:1718:13: warning: 'amdgpu_ualink_metadata_npa_unmapping' defined but not used [-Wunused-function]
-    1718 | static void amdgpu_ualink_metadata_npa_unmapping(struct amdgpu_device *adev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/file_attr.c: In function 'vfs_fileattr_get':
+>> fs/file_attr.c:100:24: error: implicit declaration of function 'bdev_fileattr' [-Wimplicit-function-declaration]
+     100 |                 return bdev_fileattr(inode, fa);
+         |                        ^~~~~~~~~~~~~
 
 
-vim +2901 drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c
+vim +/bdev_fileattr +100 fs/file_attr.c
 
-  2803	
-  2804	/**
-  2805	 * amdgpu_ualink_peer_remote_init - Initialize remote peer GPU connections
-  2806	 * @adev: amdgpu device pointer
-  2807	 *
-  2808	 * Sets up ring buffers, GART mappings, and control structures for
-  2809	 * communicating with remote GPUs in the fabric.
-  2810	 *
-  2811	 * Return: 0 on success, negative error code on failure
-  2812	 */
-  2813	static int amdgpu_ualink_peer_remote_init(struct amdgpu_device *adev)
-  2814	{
-  2815		u32 rb_pages = AMDGPU_UALINK_RB_SIZE >> AMDGPU_GPU_PAGE_SHIFT;
-  2816		struct amdgpu_ualink_remote *remote = to_remote(adev);
-  2817		struct amdgpu_bo *bo = remote->ring_bo;
-  2818		struct amdgpu_ualink_peer *peer;
-  2819		struct amdgpu_ualink_ring *interrupt;
-  2820		struct amdgpu_ualink_ring *shootdown;
-  2821		u32 src_accel_id = ualink_accel_id(adev);
-  2822		u32 dst_accel_id;
-  2823		u64 npa, flags;
-  2824		int r = 0;
-  2825	
-  2826		/* NPA mapping PTE flags VSCT = 0011 */
-  2827		flags = amdgpu_ttm_tt_pte_flags(adev, bo->tbo.ttm, bo->tbo.resource);
-  2828		flags |= AMDGPU_PTE_SNOOPED | AMDGPU_PTE_PRT_GFX12 | AMDGPU_PTE_BUS_ATOMICS;
-  2829		flags &= ~AMDGPU_PTE_VALID;
-  2830		/* PTE.X=0 turn off RPC checks for RBs, wptr and doorbell NPA address */
-  2831		flags &= ~AMDGPU_PTE_EXECUTABLE;
-  2832	
-  2833		dev_dbg(adev->dev, "src_accel_id %u gart mapping flags 0x%llx\n",
-  2834			src_accel_id, flags);
-  2835	
-  2836		for_each_set_bit(dst_accel_id, remote->active_accel_bits, AMDGPU_UALINK_ACCEL_MAX) {
-  2837			if (dst_accel_id == src_accel_id)
-  2838				continue;
-  2839	
-  2840			dev_dbg(adev->dev, "peer_remote to dst_accel_id %u\n", dst_accel_id);
-  2841	
-  2842			peer = &remote->peer[dst_accel_id];
-  2843			mutex_init(&peer->lock);
-  2844	
-  2845			interrupt = &peer->interrupt;
-  2846			shootdown = &peer->shootdown;
-  2847	
-  2848			/* ring buffer npa gart mapping */
-  2849			npa = amdgpu_ualink_gart_npa_addr(adev, RB_TYPE_REMOTE_INTERRUPT,
-  2850							   src_accel_id, dst_accel_id);
-  2851			r = amdgpu_ualink_gart_map(adev, rb_pages, npa, &interrupt->mm_node_rb, flags);
-  2852			if (r)
-  2853				break;
-  2854			interrupt->rb_npa_gart = adev->gmc.gart_start +
-  2855						 (interrupt->mm_node_rb.start << AMDGPU_GPU_PAGE_SHIFT);
-  2856	
-  2857			dev_dbg(adev->dev, "rb npa 0x%llx mapped on gart 0x%llx\n",
-  2858				npa, interrupt->rb_npa_gart);
-  2859	
-  2860			/* tlb invalidate ring buffer npa gart mapping */
-  2861			npa = amdgpu_ualink_gart_npa_addr(adev, RB_TYPE_TLB_INV, src_accel_id,
-  2862							  dst_accel_id);
-  2863			r = amdgpu_ualink_gart_map(adev, rb_pages, npa, &shootdown->mm_node_rb, flags);
-  2864			if (r)
-  2865				break;
-  2866			shootdown->rb_npa_gart = adev->gmc.gart_start +
-  2867						 (shootdown->mm_node_rb.start << AMDGPU_GPU_PAGE_SHIFT);
-  2868	
-  2869			dev_dbg(adev->dev, "tlb rb npa 0x%llx mapped on gart 0x%llx\n",
-  2870				npa, shootdown->rb_npa_gart);
-  2871	
-  2872			/* wptr npa gart mapping */
-  2873			npa = amdgpu_ualink_gart_npa_addr(adev, RB_TYPE_TAILPTR, src_accel_id,
-  2874							  dst_accel_id);
-  2875			r = amdgpu_ualink_gart_map(adev, 1, npa, &interrupt->mm_node_wptr, flags);
-  2876			if (r)
-  2877				break;
-  2878	
-  2879			interrupt->wptr_npa_gart = adev->gmc.gart_start +
-  2880						   (interrupt->mm_node_wptr.start << AMDGPU_GPU_PAGE_SHIFT)
-  2881						    + ualink_wptr_offset(adev, src_accel_id);
-  2882			shootdown->wptr_npa_gart = adev->gmc.gart_start +
-  2883						   (interrupt->mm_node_wptr.start << AMDGPU_GPU_PAGE_SHIFT)
-  2884						    + ualink_tlb_wptr_offset(adev, src_accel_id);
-  2885	
-  2886			dev_dbg(adev->dev, "rb wptr npa 0x%llx on gart 0x%llx, tlb wptr on gart 0x%llx\n",
-  2887				npa, interrupt->wptr_npa_gart, shootdown->wptr_npa_gart);
-  2888	
-  2889			/*
-  2890			 * doorbell npa gart mapping, doorbell NPA address coding
-  2891			 *
-  2892			 * ReqAddr[51:40] = 0xFFF
-  2893			 * ReqAddr[39:30] = GPU accel_id
-  2894			 * ReqAddr[29:12] = 18'h00000
-  2895			 * ReqAddr[11:8]  = Random value
-  2896			 * ReqAddr[7:6]   = PMI Index
-  2897			 *     0 - PMI0 Remote Interrupt
-  2898			 *     1 - PMI1 Remote TLB Shootdown
-  2899			 * ReqAddr[5:0]   = 6'h0
-  2900			 */
-> 2901			npa = 0xFFFUL << 40 | (u64)dst_accel_id << 30;
-  2902			r = amdgpu_ualink_gart_map(adev, 1, npa, &interrupt->mm_node_doorbell, flags);
-  2903			if (r)
-  2904				break;
-  2905	
-  2906			interrupt->doorbell_npa_gart = adev->gmc.gart_start +
-  2907				(interrupt->mm_node_doorbell.start << AMDGPU_GPU_PAGE_SHIFT);
-  2908	
-  2909			dev_dbg(adev->dev, "rb doorbell npa 0x%llx mapped on gart 0x%llx\n",
-  2910				npa, interrupt->doorbell_npa_gart);
-  2911	
-  2912			shootdown->doorbell_npa_gart = adev->gmc.gart_start+
-  2913				(interrupt->mm_node_doorbell.start << AMDGPU_GPU_PAGE_SHIFT) + (1 << 6);
-  2914	
-  2915			dev_dbg(adev->dev, "tlb doorbell npa 0x%llx mapped on gart 0x%llx\n",
-  2916				npa, shootdown->doorbell_npa_gart);
-  2917	
-  2918			interrupt->rb_size = AMDGPU_UALINK_RB_SIZE / 64;
-  2919			interrupt->wptr = 0;
-  2920			interrupt->rptr = 0;
-  2921			interrupt->seq = 0;
-  2922	
-  2923			shootdown->rb_size = AMDGPU_UALINK_RB_SIZE / 64;
-  2924			shootdown->wptr = 0;
-  2925			shootdown->rptr = 0;
-  2926			shootdown->seq = 0;
-  2927		}
-  2928	
-  2929		dev_dbg(adev->dev, "peer remote init done r=%d\n", r);
-  2930		return r;
-  2931	}
-  2932	
+    77	
+    78	/**
+    79	 * vfs_fileattr_get - retrieve miscellaneous file attributes
+    80	 * @dentry:	the object to retrieve from
+    81	 * @fa:		fileattr pointer
+    82	 *
+    83	 * Call i_op->fileattr_get() callback, if exists.
+    84	 *
+    85	 * Return: 0 on success, or a negative error on failure.
+    86	 */
+    87	int vfs_fileattr_get(struct dentry *dentry, struct file_kattr *fa)
+    88	{
+    89		struct inode *inode = d_inode(dentry);
+    90		int error;
+    91	
+    92		if (!inode->i_op->fileattr_get && !S_ISBLK(inode->i_mode))
+    93			return -ENOIOCTLCMD;
+    94	
+    95		error = security_inode_file_getattr(dentry, fa);
+    96		if (error)
+    97			return error;
+    98	
+    99		if (!inode->i_op->fileattr_get)
+ > 100			return bdev_fileattr(inode, fa);
+   101	
+   102		return inode->i_op->fileattr_get(dentry, fa);
+   103	}
+   104	EXPORT_SYMBOL(vfs_fileattr_get);
+   105	
 
 --
 0-DAY CI Kernel Test Service
