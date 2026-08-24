@@ -1,99 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-204.mta1.migadu.com [95.215.58.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0A334404E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 05:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614A2352007
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 05:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787550595; cv=none; b=PxZRsAbCeTi0dN4Y2y3G8pONKtt1T2nEjGzm7WSNThMop3SB01F7Zc+rbsnKhOHM1gk75O+ySODaz9JSR6Y4SrlG/kSW3nRxjkVpfvHhD7tryjP3Ok5Lhou7xKgfaKqda7Qr6I0LjIybZy9quG8BCtcNnvCwT5WhF7jfFqVvZ0g=
+	t=1787550813; cv=none; b=fOmrI+YeYuqtF5dWqVyz+2NevekwoJOTvFhnApoqPo+jyNnOfouoUqG6aoMBb6iZ1Di3Gy9IPjU40hNkkp5/THRxyCHkOMePx+G6E7FyhB8/hUnTzQSrU4Hbry0BJQEyvwcRZ5nj0C0Fm7T60lWg82W1oezRmddaNp1M8ReBwps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787550595; c=relaxed/simple;
-	bh=PNge1KRdTWN6icLqKQzUyf7tbpVoEP52LwT7X37OF/0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ovIiVSn7igYFsONu5Lkc93eA69sHC56rPCVNuFkDqIpldWj1JOgOSb1d/HhlgVJ3gB4bwN7mjb/khUf/P4e5D/ifxix1sQ1ReCDFsulaJ/s+PZ6PEEl6dmCxW5jvoYcQfNaQgGwwd5tAd4zyG3Tg1F5wLCO3RGXhUyOrDP6CFcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjzJSHSR; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787550813; c=relaxed/simple;
+	bh=sVrfIy0j5BMRI+BAnneTCOjRGJgbbMszegrPykf2t9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ga49dzDW3TWsfUHf/2ja5M+cfLgmtmCgv5ux3ZzhBkXaP8thLgtnsaorOLRqJFdv9qRmYTF0Z1nFku9snI9Z2Xp3QFpbkLMTPsDCVU6quVA7T5A5wq0jhkK4oR1XOyFdTRsf1Q9l8Vi8tSYBY/hAZZw2sgGe5rUq+pS5tMpRVZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=lIlRE1LN; arc=none smtp.client-ip=95.215.58.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjzJSHSR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787550594; x=1819086594;
-  h=date:from:to:cc:subject:message-id;
-  bh=PNge1KRdTWN6icLqKQzUyf7tbpVoEP52LwT7X37OF/0=;
-  b=jjzJSHSRd/ntTz6banp7hCbrrgbR8w8KHuwDE97B67EDtLOvkk/tLf1i
-   Ov0CmaW9lQFtXp8ArnbzhHs9S6FpP+bxc1jwOtUaUDKNcCbyAxWMrO6N6
-   K8/ZSDkbzRshbN5M84xA/vykaqz/SEUd/mu9oRqkzi2jatdIIXe+JHruh
-   qetlq7RNfMbH9JJCo8pcaQMMEhOfKrVLO6XAdTC1OYEd7t1nkaLWf3A9u
-   Nnzr8m4c7Gd9e15YuhpFsahmuuoS1+PPFG+QpnpHKi5bRuAP2BC0ehQVk
-   88LVwlQdOH62KrMDRmtB77jRYgPlu9F/EJPZxH5Pdb7XBR6HPRtbRdpma
-   w==;
-X-CSE-ConnectionGUID: 7j6csmzXT1aGUDCKRCljuw==
-X-CSE-MsgGUID: 9x4PijRkRaeACR4LXkPirg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="105526711"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="105526711"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 22:49:54 -0700
-X-CSE-ConnectionGUID: LPSi5LCVTjicV0KVrBdiGQ==
-X-CSE-MsgGUID: JzJhUJyKTS6Ow0a3do/YMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="296810117"
-Received: from igk-lkp-server01.igk.intel.com (HELO b49262788783) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 23 Aug 2026 22:49:52 -0700
-Received: from kbuild by b49262788783 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wyNZ8-000000000Hb-1RXp;
-	Mon, 24 Aug 2026 05:49:50 +0000
-Date: Mon, 24 Aug 2026 07:49:47 +0200
-From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:asahi-wip-7.2 656/964] warning: explicit call to
- `.into_iter()` in function argument accepting `IntoIterator`
-Message-ID: <202608240745.gyxCVkKs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="lIlRE1LN"
+X-Envelope-To: oe-kbuild-all@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=sVrfIy0j5BMRI+BAnneTCOjRGJgbbMszegrPykf2t9A=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787550809; v=1; x=1788155609;
+ b=lIlRE1LNEiGWv49qjWKOZSSbbepixHi+lGJ05rbn7idJzmk1YrOD010/eJRB3j9z7jwK5O/2
+ /PqkK2IJQ2gcxJxnUUlw0Tfbx6Vpyl+nhzHTVJNcu0FOhri0+skCOfkTHknPet0ElIlCTfJM2YP
+ lBhqWEaZNLwey5C3yNLq8xFikhJhJs5+I4vHqYU/y7Ce8YFbuUMs1neEeOw4LYEB11069y1eUvf
+ A2PYNiJLvKEIVuZkct/EmM803+ULSIh+yWAYdWk6nKgDyejAbpXwXj1yDOKULUv9B8IhlzngjJL
+ zmd9St4jkiIhL0K37i9z2nMiZaMrgRs2hJrT8ozdCUGug==
+X-Envelope-To: oe-kbuild-all@lists.linux.dev
+Received: from localhost (117.176.242.187)
+	by smtp.migadu.com with ESMTPS id e331f9a19a8a276a;
+	Mon, 24 Aug 2026 05:53:29 +0000
+X-Mizu-Trace-ID: e331f9a19a8a276a
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 24 Aug 2026 13:53:22 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: htmldocs:
+ Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst:773:
+ WARNING: duplicate label kernel_org_trust_repository, other instance in
+ Documentation/process/maintainer-pgp-guide.rst
+Message-ID: <aovcUs2jAbjN9Htl@wyuan.org>
+References: <202608240726.cBe6kj27-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202608240726.cBe6kj27-lkp@intel.com>
 
-tree:   https://github.com/AsahiLinux/linux asahi-wip-7.2
-head:   57124f5176e4a4ceb553942a5f3de94cb5035877
-commit: f1bd025505718f950b0925e7d578961d4c553f40 [656/964] rust: macros: Add versions macro
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260824/202608240745.gyxCVkKs-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608240745.gyxCVkKs-lkp@intel.com/reproduce)
+On Mon, Aug 24, 2026 at 07:08:56AM +0200, kernel test robot wrote:
+> tree:   https://github.com/intel-lab-lkp/linux/commits/Weijie-Yuan/docs-zh_CN-clarify-free-Nitrokey-requirements/20260821-011321
+> head:   a88007053f65ab396839b4e3084e6925a9be0894
+> commit: a88007053f65ab396839b4e3084e6925a9be0894 docs/zh_CN: add kernel.org trust repository reference
+> date:   3 days ago
+> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+> reproduce: (https://download.01.org/0day-ci/archive/20260824/202608240726.cBe6kj27-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202608240726.cBe6kj27-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+>    WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'fast' description in 'page_pool_params' (did you mean one of: 'flags', 'offset')
+>    WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'slow' description in 'page_pool_params'
+>    WARNING: ./security/landlock/ruleset.h:48 Excess struct member 'quiet' description in 'landlock_layer' (did you mean one of: 'flags.quiet')
+>    WARNING: ./security/landlock/ruleset.h:48 Excess struct member 'quiet' description in 'landlock_layer' (did you mean one of: 'flags.quiet')
+> >> Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst:773: WARNING: duplicate label kernel_org_trust_repository, other instance in Documentation/process/maintainer-pgp-guide.rst
+>    Documentation/userspace-api/landlock:550: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+> 
+> 
+> vim +773 Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+> 
+> a88007053f65ab Weijie Yuan 2026-08-21  771  
+> 87ef333c0c046b Yanteng Si  2023-11-20  772  使用 kernel.org 信任网仓库
+> 87ef333c0c046b Yanteng Si  2023-11-20 @773  --------------------------
+> 87ef333c0c046b Yanteng Si  2023-11-20  774  
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608240745.gyxCVkKs-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> warning: explicit call to `.into_iter()` in function argument accepting `IntoIterator`
-   --> rust/macros/versions.rs:261:55
-   |
-   261 |                     filter_versions(config, tag, ver, group.stream().into_iter(), is_struct);
-   |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   note: this parameter accepts any `IntoIterator`, so you don't need to call `.into_iter()`
-   --> rust/macros/versions.rs:176:16
-   |
-   176 |     tree: impl IntoIterator<Item = TokenTree>,
-   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#useless_conversion
-   = note: `-W clippy::useless-conversion` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::useless_conversion)]`
-   help: consider removing the `.into_iter()`
-   |
-   261 -                     filter_versions(config, tag, ver, group.stream().into_iter(), is_struct);
-   261 +                     filter_versions(config, tag, ver, group.stream(), is_struct);
-   |
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks, fixed in v2.
