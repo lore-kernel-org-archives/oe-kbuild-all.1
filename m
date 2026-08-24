@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E164353A73
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 19:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2223876B3;
+	Mon, 24 Aug 2026 19:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787598924; cv=none; b=NMxIT1T+KbUlCg/pP4/Jvl1/jzNjcY1HxQnFiB1FXq4N1ol+UkgY10hIOh3yuV5oj/5iw1GH4V6NOo4C+EiF1HNSQ0S2An8iiWOqo7Zq64YRCIpZKoAkS5u52o95jzxfGkE1RaoZEo9XxN3Ke3Vo+tDzP2Bg+M3vZe3PnzJYu9Y=
+	t=1787601006; cv=none; b=qwpWfuJ5SLdzDcn6hrtevZVN/hGQYT5hc+lmp6INoxSzindhLEieDV3M3xOEGhUJf9hl/cZU6uEvlXf1OmrmmdtgUW8ue5hMt3tqCZVjlKZQtwVzS3YDgNEJsOIZ0XB6BFdg4eyOVT6fwVOKIbqijVT4jGRTe0fX3PwJ7CorNCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787598924; c=relaxed/simple;
-	bh=gsekJprGaXKAM7tM8FJNjyQjNV/9Z4HuwtcP34Q5/4s=;
+	s=arc-20240116; t=1787601006; c=relaxed/simple;
+	bh=ahlPqpkIPSw1IsjsmVM21wJnovl1SrnM6Dd9PQlIDbs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ThSbsQhDZn5Bq6e5blDRjoGr/9pNJgU0M9mE5r8MMHspPydm2lB7unVUJuyBf3LJrCC+lgN2I/MC3Iy2nVAtEZpwpsU++7/cbT2nOhPh3kHuwkPmTCnoGrFtQpHf5lZFl2xC+OLWxPiIGp/e6V3tb1LDW7e7ftklpay1+cuRsyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ny3X5huG; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=DcATdWvRqFX34IK4grdJRsIF1tLJ1TcTIMMEQY59a/LFkqftGoUlq82omvD+nak703o7VLFRXCqc+UcMRlnaB5Pf/py3NG/pxNtz95J8TzpeQbTPADqRMVKqSfzkxLynGM7ooxIrjQIiNbG2IirM0KxL1XGg6d1C/U4+CMlbeMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N60jQ1MX; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ny3X5huG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N60jQ1MX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787598922; x=1819134922;
+  t=1787601004; x=1819137004;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gsekJprGaXKAM7tM8FJNjyQjNV/9Z4HuwtcP34Q5/4s=;
-  b=ny3X5huG6eksYESGgFWF2kxTciHsCyEciHofffVnhQFLQZmFCy7kPK8S
-   T/IGr/MrVgCynF0ZXldnuMdIauhc1Rvg62Lrn0n5FFVkjj3wN8U4/R+PE
-   gsE7qVqQMYMpMJ/QsVeRHoO30QORQnKkEcW3Kb+JMgNEC/GwEdQX7f4BJ
-   qLLZ5TPlUBduj1sbYtzFTf1xg/wQo1vdkd+L5R+rn17bEXBK8ROI5HIi0
-   kodZYRPs0piQXAlWNCnkGjPHP1hyXTCocF5yLkHdR4kAEEWQ40RtPSXBD
-   NI6q6NYd9/EqpzJqNQ0/H1dfD0PvepGWPoW5wdYzMOTKr3fkWmp/2gXCy
+  bh=ahlPqpkIPSw1IsjsmVM21wJnovl1SrnM6Dd9PQlIDbs=;
+  b=N60jQ1MXvZOM7W1gWsIR1FOSzTkD6SAbHNCUg8ZP6eTy7CSH5wpclYjH
+   VeWZsA3Hs5VNUWlaulXHGzBEcNOKPg8WHPEr3mTSwHyJcoWUJHZhMTINW
+   0aCdIOFg6ZOZ5z7AaqukuJTCoABjRHz5GWRxGSRbD7leszTSS3xojA8mP
+   yLlTGw18+ZjWGWWXuhKwN7gyj/emZ8nncE+pstWY0dLam0NdM7qNblCOq
+   yKEPm8i+wxqG1EJ+qEEQvE4Z9xdNNi5daBBp2rOHdNPUQIUETie9yNxZN
+   ZH+TKIslUMSwNcxFsSflfhDK8eKvZGsW8E5PFaVkZCCIOovNrb7zHjEJg
    A==;
-X-CSE-ConnectionGUID: fSE6w8LMQXKY99+eqGqLYQ==
-X-CSE-MsgGUID: tSuuj/MlS3SdlCRpY22loA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="88073492"
+X-CSE-ConnectionGUID: JiT5yEthS5i+Pk3XRUeFQg==
+X-CSE-MsgGUID: PwU1aoKtSWGqOGpHeidybQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="87921946"
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="88073492"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 12:15:22 -0700
-X-CSE-ConnectionGUID: ff27bxXkSEGswYxlha5lvA==
-X-CSE-MsgGUID: 7baDVX3rR8q/oa5sf18GTQ==
+   d="scan'208";a="87921946"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 12:50:04 -0700
+X-CSE-ConnectionGUID: Dsag7avqSlurvZJXEL8gvQ==
+X-CSE-MsgGUID: Sv9RE7OFSz+avZGUJedHng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="265771432"
+   d="scan'208";a="270557835"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Aug 2026 12:15:21 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 Aug 2026 12:50:02 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wya8V-000000003rX-1Wm7;
-	Mon, 24 Aug 2026 19:15:13 +0000
-Date: Tue, 25 Aug 2026 03:12:13 +0800
+	id 1wyag4-000000003wF-0sfl;
+	Mon, 24 Aug 2026 19:49:55 +0000
+Date: Tue, 25 Aug 2026 03:48:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-mtd@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mtd: rawnand: ndfc: use devm_platform_ioremap_resource
-Message-ID: <202608250359.cFwVUqgE-lkp@intel.com>
-References: <20260822224150.198749-1-rosenp@gmail.com>
+To: Hang Nan <2122295973@qq.com>, linux-bluetooth@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	marcel@holtmann.org, luiz.dentz@gmail.com,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, pav@iki.fi
+Subject: Re: [PATCH v3] Bluetooth: ISO: fix use-after-free of listener socket
+ in iso_conn_ready
+Message-ID: <202608250307.IiUVBpTP-lkp@intel.com>
+References: <tencent_1E12CBD7417A4019FF058EFD19B1DB930006@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,97 +65,233 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260822224150.198749-1-rosenp@gmail.com>
+In-Reply-To: <tencent_1E12CBD7417A4019FF058EFD19B1DB930006@qq.com>
 
-Hi Rosen,
+Hi Hang,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on v7.2]
-[also build test WARNING on linus/master next-20260821]
-[cannot apply to mtd/nand/next]
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on linus/master v7.2]
+[cannot apply to bluetooth-next/master next-20260821]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/mtd-rawnand-ndfc-use-devm_platform_ioremap_resource/20260822-154150
-base:   v7.2
-patch link:    https://lore.kernel.org/r/20260822224150.198749-1-rosenp%40gmail.com
-patch subject: [PATCH] mtd: rawnand: ndfc: use devm_platform_ioremap_resource
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260825/202608250359.cFwVUqgE-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608250359.cFwVUqgE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hang-Nan/Bluetooth-ISO-fix-use-after-free-of-listener-socket-in-iso_conn_ready/20260818-193343
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/tencent_1E12CBD7417A4019FF058EFD19B1DB930006%40qq.com
+patch subject: [PATCH v3] Bluetooth: ISO: fix use-after-free of listener socket in iso_conn_ready
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260825/202608250307.IiUVBpTP-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608250307.IiUVBpTP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608250359.cFwVUqgE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608250307.IiUVBpTP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/mtd/nand/raw/ndfc.c: In function 'ndfc_probe':
->> drivers/mtd/nand/raw/ndfc.c:192:13: warning: unused variable 'err' [-Wunused-variable]
-     192 |         int err, len = 0;
-         |             ^~~
+>> net/bluetooth/iso.c:2267:4: error: call to undeclared function 'release_sock_flagsock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2267 |                         release_sock_flagsock(parent);
+         |                         ^
+>> net/bluetooth/iso.c:2266:8: warning: left operand of comma operator has no effect [-Wunused-value]
+    2266 |                     (parent, SOCK_ZAPPED)) {
+         |                      ^~~~~~
+   1 warning and 1 error generated.
 
 
-vim +/err +192 drivers/mtd/nand/raw/ndfc.c
+vim +/release_sock_flagsock +2267 net/bluetooth/iso.c
 
-ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  184  
-06f25510692385 drivers/mtd/nand/ndfc.c     Bill Pemberton  2012-11-19  185  static int ndfc_probe(struct platform_device *ofdev)
-ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  186  {
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  187  	struct ndfc_controller *ndfc;
-dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  188  	void __iomem *ndfcbase;
-766f271a63d1ee drivers/mtd/nand/ndfc.c     Ian Munsie      2010-10-01  189  	const __be32 *reg;
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  190  	u32 ccr;
-5828c60826e942 drivers/mtd/nand/ndfc.c     Dan Carpenter   2014-07-31  191  	u32 cs;
-cceca8cb776b03 drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-06-13 @192  	int err, len = 0;
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  193  
-dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  194  	ndfcbase = devm_platform_ioremap_resource(ofdev, 0);
-dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  195  	if (IS_ERR(ndfcbase))
-dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  196  		return PTR_ERR(ndfcbase);
-dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  197  
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  198  	/* Read the reg property to get the chip select */
-61c7a080a5a061 drivers/mtd/nand/ndfc.c     Grant Likely    2010-04-13  199  	reg = of_get_property(ofdev->dev.of_node, "reg", &len);
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  200  	if (reg == NULL || len != 12) {
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  201  		dev_err(&ofdev->dev, "unable read reg property (%d)\n", len);
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  202  		return -ENOENT;
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  203  	}
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  204  
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  205  	cs = be32_to_cpu(reg[0]);
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  206  	if (cs >= NDFC_MAX_CS) {
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  207  		dev_err(&ofdev->dev, "invalid CS number (%d)\n", cs);
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  208  		return -EINVAL;
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  209  	}
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  210  
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  211  	ndfc = &ndfc_ctrl[cs];
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  212  	ndfc->chip_select = cs;
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  213  
-7da45139d264f3 drivers/mtd/nand/raw/ndfc.c Miquel Raynal   2018-07-17  214  	nand_controller_init(&ndfc->ndfc_control);
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  215  	ndfc->ofdev = ofdev;
-410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  216  	dev_set_drvdata(&ofdev->dev, ndfc);
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  217  
-dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  218  	ndfc->ndfcbase = ndfcbase;
-ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  219  
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  220  	ccr = NDFC_CCR_BS(ndfc->chip_select);
-ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  221  
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  222  	/* It is ok if ccr does not exist - just default to 0 */
-61c7a080a5a061 drivers/mtd/nand/ndfc.c     Grant Likely    2010-04-13  223  	reg = of_get_property(ofdev->dev.of_node, "ccr", NULL);
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  224  	if (reg)
-766f271a63d1ee drivers/mtd/nand/ndfc.c     Ian Munsie      2010-10-01  225  		ccr |= be32_to_cpup(reg);
-ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  226  
-4f2692a5383e4b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-06-01  227  	iowrite32be(ccr, ndfc->ndfcbase + NDFC_CCR);
-ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  228  
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  229  	/* Set the bank settings if given */
-61c7a080a5a061 drivers/mtd/nand/ndfc.c     Grant Likely    2010-04-13  230  	reg = of_get_property(ofdev->dev.of_node, "bank-settings", NULL);
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  231  	if (reg) {
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  232  		int offset = NDFC_BCFG0 + (ndfc->chip_select << 2);
-4f2692a5383e4b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-06-01  233  		iowrite32be(be32_to_cpup(reg), ndfc->ndfcbase + offset);
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  234  	}
-a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  235  
-dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  236  	return ndfc_chip_init(ndfc, ofdev->dev.of_node);
-ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  237  }
-ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  238  
+  2156	
+  2157	static void iso_conn_ready(struct iso_conn *conn)
+  2158	{
+  2159		struct sock *parent = NULL;
+  2160		struct sock *sk;
+  2161		struct hci_ev_le_big_sync_established *ev = NULL;
+  2162		struct hci_ev_le_pa_sync_established *ev2 = NULL;
+  2163		struct hci_ev_le_per_adv_report *ev3 = NULL;
+  2164		struct hci_conn *hcon;
+  2165		struct hci_dev *hdev;
+  2166	
+  2167		BT_DBG("conn %p", conn);
+  2168	
+  2169		iso_conn_lock(conn);
+  2170		sk = iso_sock_hold(conn);
+  2171		iso_conn_unlock(conn);
+  2172	
+  2173		if (sk) {
+  2174			lock_sock(sk);
+  2175	
+  2176			/* conn->sk may have become NULL if racing with sk close, but
+  2177			 * due to held hdev->lock, it can't become different sk.
+  2178			 */
+  2179			if (!conn->sk) {
+  2180				release_sock(sk);
+  2181				sock_put(sk);
+  2182				return;
+  2183			}
+  2184	
+  2185			/* Attempt to update source address in case of BIS Sender if
+  2186			 * the advertisement is using a random address.
+  2187			 */
+  2188			if (conn->hcon->type == BIS_LINK &&
+  2189			    conn->hcon->role == HCI_ROLE_MASTER &&
+  2190			    !bacmp(&conn->hcon->dst, BDADDR_ANY)) {
+  2191				struct hci_conn *bis = conn->hcon;
+  2192				struct adv_info *adv;
+  2193	
+  2194				adv = hci_find_adv_instance(bis->hdev,
+  2195							    bis->iso_qos.bcast.bis);
+  2196				if (adv && bacmp(&adv->random_addr, BDADDR_ANY)) {
+  2197					iso_pi(sk)->src_type = BDADDR_LE_RANDOM;
+  2198					bacpy(&iso_pi(sk)->src, &adv->random_addr);
+  2199				}
+  2200			}
+  2201	
+  2202			iso_sock_ready(sk);
+  2203	
+  2204			release_sock(sk);
+  2205			sock_put(sk);
+  2206		} else {
+  2207			hcon = conn->hcon;
+  2208			if (!hcon)
+  2209				return;
+  2210	
+  2211			hdev = hcon->hdev;
+  2212	
+  2213			if (test_bit(HCI_CONN_BIG_SYNC, &hcon->flags)) {
+  2214				/* A BIS slave hcon is notified to the ISO layer
+  2215				 * after the Command Complete for the LE Setup
+  2216				 * ISO Data Path command is received. Get the
+  2217				 * parent socket that matches the hcon BIG handle.
+  2218				 */
+  2219				parent = iso_get_sock(hdev, &hcon->src, &hcon->dst,
+  2220						      BT_LISTEN, iso_match_big_hcon,
+  2221						      hcon);
+  2222			} else if (test_bit(HCI_CONN_BIG_SYNC_FAILED, &hcon->flags)) {
+  2223				ev = hci_recv_event_data(hcon->hdev,
+  2224							 HCI_EVT_LE_BIG_SYNC_ESTABLISHED);
+  2225	
+  2226				/* Get reference to PA sync parent socket, if it exists */
+  2227				parent = iso_get_sock(hdev, &hcon->src, &hcon->dst,
+  2228						      BT_LISTEN,
+  2229						      iso_match_pa_sync_flag,
+  2230						      NULL);
+  2231				if (!parent && ev)
+  2232					parent = iso_get_sock(hdev, &hcon->src,
+  2233							      &hcon->dst,
+  2234							      BT_LISTEN,
+  2235							      iso_match_big, ev);
+  2236			} else if (test_bit(HCI_CONN_PA_SYNC_FAILED, &hcon->flags)) {
+  2237				ev2 = hci_recv_event_data(hcon->hdev,
+  2238							  HCI_EV_LE_PA_SYNC_ESTABLISHED);
+  2239				if (ev2)
+  2240					parent = iso_get_sock(hdev, &hcon->src,
+  2241							      &hcon->dst,
+  2242							      BT_LISTEN,
+  2243							      iso_match_sid, ev2);
+  2244			} else if (test_bit(HCI_CONN_PA_SYNC, &hcon->flags)) {
+  2245				ev3 = hci_recv_event_data(hcon->hdev,
+  2246							  HCI_EV_LE_PER_ADV_REPORT);
+  2247				if (ev3)
+  2248					parent = iso_get_sock(hdev, &hcon->src,
+  2249							      &hcon->dst,
+  2250							      BT_LISTEN,
+  2251							      iso_match_sync_handle_pa_report,
+  2252							      ev3);
+  2253			}
+  2254	
+  2255			if (!parent)
+  2256				parent = iso_get_sock(hdev, &hcon->src, BDADDR_ANY,
+  2257						      BT_LISTEN, iso_match_dst, BDADDR_ANY);
+  2258	
+  2259			if (!parent)
+  2260				return;
+  2261	
+  2262			lock_sock(parent);
+  2263	
+  2264			/* The listener may have been closed concurrently. */
+  2265			if (parent->sk_state != BT_LISTEN ||
+> 2266			    (parent, SOCK_ZAPPED)) {
+> 2267				release_sock_flagsock(parent);
+  2268				sock_put(parent);
+  2269				return;
+  2270			}
+  2271	
+  2272			sk = iso_sock_alloc(sock_net(parent), NULL,
+  2273					    BTPROTO_ISO, GFP_ATOMIC, 0);
+  2274			if (!sk) {
+  2275				release_sock(parent);
+  2276				return;
+  2277			}
+  2278	
+  2279			iso_sock_init(sk, parent);
+  2280	
+  2281			bacpy(&iso_pi(sk)->src, &hcon->src);
+  2282	
+  2283			/* Convert from HCI to three-value type */
+  2284			if (hcon->src_type == ADDR_LE_DEV_PUBLIC)
+  2285				iso_pi(sk)->src_type = BDADDR_LE_PUBLIC;
+  2286			else
+  2287				iso_pi(sk)->src_type = BDADDR_LE_RANDOM;
+  2288	
+  2289			/* If hcon has no destination address (BDADDR_ANY) it means it
+  2290			 * was created by HCI_EV_LE_BIG_SYNC_ESTABILISHED or
+  2291			 * HCI_EV_LE_PA_SYNC_ESTABLISHED so we need to initialize using
+  2292			 * the parent socket destination address.
+  2293			 */
+  2294			if (!bacmp(&hcon->dst, BDADDR_ANY)) {
+  2295				bacpy(&hcon->dst, &iso_pi(parent)->dst);
+  2296				hcon->dst_type = le_addr_type(iso_pi(parent)->dst_type);
+  2297			}
+  2298	
+  2299			if (test_bit(HCI_CONN_PA_SYNC, &hcon->flags)) {
+  2300				iso_pi(sk)->qos = iso_pi(parent)->qos;
+  2301				hcon->iso_qos = iso_pi(sk)->qos;
+  2302				iso_pi(sk)->bc_sid = iso_pi(parent)->bc_sid;
+  2303				iso_pi(sk)->bc_num_bis = iso_pi(parent)->bc_num_bis;
+  2304				memcpy(iso_pi(sk)->bc_bis, iso_pi(parent)->bc_bis,
+  2305				       ISO_MAX_NUM_BIS);
+  2306				set_bit(BT_SK_PA_SYNC, &iso_pi(sk)->flags);
+  2307			}
+  2308	
+  2309			bacpy(&iso_pi(sk)->dst, &hcon->dst);
+  2310	
+  2311			/* Convert from HCI to three-value type */
+  2312			if (hcon->dst_type == ADDR_LE_DEV_PUBLIC)
+  2313				iso_pi(sk)->dst_type = BDADDR_LE_PUBLIC;
+  2314			else
+  2315				iso_pi(sk)->dst_type = BDADDR_LE_RANDOM;
+  2316	
+  2317			iso_pi(sk)->sync_handle = iso_pi(parent)->sync_handle;
+  2318			memcpy(iso_pi(sk)->base, iso_pi(parent)->base, iso_pi(parent)->base_len);
+  2319			iso_pi(sk)->base_len = iso_pi(parent)->base_len;
+  2320	
+  2321			hci_conn_hold(hcon);
+  2322			iso_chan_add(conn, sk, parent);
+  2323	
+  2324			if ((ev && ((struct hci_evt_le_big_sync_established *)ev)->status) ||
+  2325			    (ev2 && ev2->status)) {
+  2326				/* Trigger error signal on child socket */
+  2327				sk->sk_err = ECONNREFUSED;
+  2328				sk->sk_error_report(sk);
+  2329			}
+  2330	
+  2331			if (test_bit(BT_SK_DEFER_SETUP, &bt_sk(parent)->flags))
+  2332				sk->sk_state = BT_CONNECT2;
+  2333			else
+  2334				sk->sk_state = BT_CONNECTED;
+  2335	
+  2336			/* Wake up parent */
+  2337			parent->sk_data_ready(parent);
+  2338	
+  2339			release_sock(parent);
+  2340			sock_put(parent);
+  2341		}
+  2342	}
+  2343	
 
 --
 0-DAY CI Kernel Test Service
