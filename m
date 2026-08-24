@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B463515C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 18:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E164353A73
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 19:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787597438; cv=none; b=uFIBmv81szGa7NMFWYcIdXzVFjB+zsdymxpq7Wb51JWqydl7HOLSI++RafuJU321nvJ+sFSpxxadO9NUe6Pc8QEE7zWvUcAFLvM5thS+DEUEfMNiOypuj/g7VpMjhHcf7eIkAVm4IwgZB9LZSmmrQrncs7pcUmd8/NRQ1oZ9Jzc=
+	t=1787598924; cv=none; b=NMxIT1T+KbUlCg/pP4/Jvl1/jzNjcY1HxQnFiB1FXq4N1ol+UkgY10hIOh3yuV5oj/5iw1GH4V6NOo4C+EiF1HNSQ0S2An8iiWOqo7Zq64YRCIpZKoAkS5u52o95jzxfGkE1RaoZEo9XxN3Ke3Vo+tDzP2Bg+M3vZe3PnzJYu9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787597438; c=relaxed/simple;
-	bh=vwsIkq3vGwtCk1Yi+102hhzLj4F624CUHBps8Z9LWeo=;
+	s=arc-20240116; t=1787598924; c=relaxed/simple;
+	bh=gsekJprGaXKAM7tM8FJNjyQjNV/9Z4HuwtcP34Q5/4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uu9S1IaiaqxB6ABaai9t2BGxlffpOOaA2OPBMSU4Nf/2bOmAiy0cx84D7GS7DZXFoneLS+HLJvgUSaBKNdLL+sFjOJjfQlBP1znjE2ZB2SUAszzP5aUjYA4o6HZPRaprrqpOiqgGlRGDLMpSZV/d+1inCFTiPz+aBCjcxXr+dHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJftUlsn; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=ThSbsQhDZn5Bq6e5blDRjoGr/9pNJgU0M9mE5r8MMHspPydm2lB7unVUJuyBf3LJrCC+lgN2I/MC3Iy2nVAtEZpwpsU++7/cbT2nOhPh3kHuwkPmTCnoGrFtQpHf5lZFl2xC+OLWxPiIGp/e6V3tb1LDW7e7ftklpay1+cuRsyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ny3X5huG; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJftUlsn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ny3X5huG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787597436; x=1819133436;
+  t=1787598922; x=1819134922;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vwsIkq3vGwtCk1Yi+102hhzLj4F624CUHBps8Z9LWeo=;
-  b=iJftUlsnx4EeRXUxsFNs5jE6ARuq6QHeQR2niFzg47fsfb7S/zY099v0
-   +XzYTGXVhPWNLSzboy3YSoMcyJq5fA0apajacpsWLsL18AR+QLXN1vJGs
-   upLWvSN6TObCjaXHq3EcNG+dkSH6YRJnotyq4LP7Os7SSD+xN7MaGkXc6
-   4Cyp9ZsA3N93AN/yG+nMl4ek/uR04R0f5RxdEDSlaNG2tVZizhQjHMmkl
-   iys2Kjfeyckp40LakF/SPUYRbHMUzkyvqfmRWuZ6nnaDTjeFGEnjLa9pH
-   VaRER0fqrPb9qozrAYBCWuCJm/0U+lJeCtRpbpPwylYNxfTUSnjrI/djk
-   Q==;
-X-CSE-ConnectionGUID: 5laQgJlBRKKAaiTtAf7ixQ==
-X-CSE-MsgGUID: s/l6sr8uRiCAMRWb2JbKZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="87931494"
+  bh=gsekJprGaXKAM7tM8FJNjyQjNV/9Z4HuwtcP34Q5/4s=;
+  b=ny3X5huG6eksYESGgFWF2kxTciHsCyEciHofffVnhQFLQZmFCy7kPK8S
+   T/IGr/MrVgCynF0ZXldnuMdIauhc1Rvg62Lrn0n5FFVkjj3wN8U4/R+PE
+   gsE7qVqQMYMpMJ/QsVeRHoO30QORQnKkEcW3Kb+JMgNEC/GwEdQX7f4BJ
+   qLLZ5TPlUBduj1sbYtzFTf1xg/wQo1vdkd+L5R+rn17bEXBK8ROI5HIi0
+   kodZYRPs0piQXAlWNCnkGjPHP1hyXTCocF5yLkHdR4kAEEWQ40RtPSXBD
+   NI6q6NYd9/EqpzJqNQ0/H1dfD0PvepGWPoW5wdYzMOTKr3fkWmp/2gXCy
+   A==;
+X-CSE-ConnectionGUID: fSE6w8LMQXKY99+eqGqLYQ==
+X-CSE-MsgGUID: tSuuj/MlS3SdlCRpY22loA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="88073492"
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="87931494"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 11:50:36 -0700
-X-CSE-ConnectionGUID: ZaMwmeuaTQyvIhm+6uASJA==
-X-CSE-MsgGUID: ixMfBGXHSPaLCnIE9XMeQg==
+   d="scan'208";a="88073492"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 12:15:22 -0700
+X-CSE-ConnectionGUID: ff27bxXkSEGswYxlha5lvA==
+X-CSE-MsgGUID: 7baDVX3rR8q/oa5sf18GTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="260930454"
+   d="scan'208";a="265771432"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Aug 2026 11:50:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 24 Aug 2026 12:15:21 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyZkV-000000003nH-1Jc8;
-	Mon, 24 Aug 2026 18:50:25 +0000
-Date: Tue, 25 Aug 2026 02:49:45 +0800
+	id 1wya8V-000000003rX-1Wm7;
+	Mon, 24 Aug 2026 19:15:13 +0000
+Date: Tue, 25 Aug 2026 03:12:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-sound@vger.kernel.org
+To: Rosen Penev <rosenp@gmail.com>, linux-mtd@lists.infradead.org
 Cc: oe-kbuild-all@lists.linux.dev,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Michal Simek <monstr@monstr.eu>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv4] ASoC: xilinx: formatter_pcm: use more devm in probe
-Message-ID: <202608250212.z7M3tz5i-lkp@intel.com>
-References: <20260823050012.17067-1-rosenp@gmail.com>
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mtd: rawnand: ndfc: use devm_platform_ioremap_resource
+Message-ID: <202608250359.cFwVUqgE-lkp@intel.com>
+References: <20260822224150.198749-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,127 +65,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260823050012.17067-1-rosenp@gmail.com>
+In-Reply-To: <20260822224150.198749-1-rosenp@gmail.com>
 
 Hi Rosen,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on v7.2]
-[also build test ERROR on linus/master next-20260821]
-[cannot apply to xilinx-xlnx/master]
+[auto build test WARNING on v7.2]
+[also build test WARNING on linus/master next-20260821]
+[cannot apply to mtd/nand/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/ASoC-xilinx-formatter_pcm-use-more-devm-in-probe/20260822-220012
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/mtd-rawnand-ndfc-use-devm_platform_ioremap_resource/20260822-154150
 base:   v7.2
-patch link:    https://lore.kernel.org/r/20260823050012.17067-1-rosenp%40gmail.com
-patch subject: [PATCHv4] ASoC: xilinx: formatter_pcm: use more devm in probe
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260825/202608250212.z7M3tz5i-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608250212.z7M3tz5i-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20260822224150.198749-1-rosenp%40gmail.com
+patch subject: [PATCH] mtd: rawnand: ndfc: use devm_platform_ioremap_resource
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260825/202608250359.cFwVUqgE-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608250359.cFwVUqgE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608250212.z7M3tz5i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608250359.cFwVUqgE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sound/soc/xilinx/xlnx_formatter_pcm.c: In function 'xlnx_formatter_pcm_probe':
->> sound/soc/xilinx/xlnx_formatter_pcm.c:632:51: error: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
-     632 |                         return dev_err_probe(dev, "audio formatter reset failed\n");
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                   |
-         |                                                   char *
-   In file included from include/linux/device.h:15,
-                    from include/sound/soc.h:15,
-                    from sound/soc/xilinx/xlnx_formatter_pcm.c:17:
-   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                            ~~~~^~~
->> sound/soc/xilinx/xlnx_formatter_pcm.c:632:32: error: too few arguments to function 'dev_err_probe'; expected at least 3, have 2
-     632 |                         return dev_err_probe(dev, "audio formatter reset failed\n");
-         |                                ^~~~~~~~~~~~~
-   include/linux/dev_printk.h:278:20: note: declared here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                    ^~~~~~~~~~~~~
+   drivers/mtd/nand/raw/ndfc.c: In function 'ndfc_probe':
+>> drivers/mtd/nand/raw/ndfc.c:192:13: warning: unused variable 'err' [-Wunused-variable]
+     192 |         int err, len = 0;
+         |             ^~~
 
 
-vim +/dev_err_probe +632 sound/soc/xilinx/xlnx_formatter_pcm.c
+vim +/err +192 drivers/mtd/nand/raw/ndfc.c
 
-   584	
-   585	static int xlnx_formatter_pcm_probe(struct platform_device *pdev)
-   586	{
-   587		int ret;
-   588		u32 val;
-   589		struct xlnx_pcm_drv_data *aud_drv_data;
-   590		struct device *dev = &pdev->dev;
-   591		struct clk *axi_clk;
-   592	
-   593		axi_clk = devm_clk_get_enabled(dev, "s_axi_lite_aclk");
-   594		if (IS_ERR(axi_clk))
-   595			return dev_err_probe(dev, PTR_ERR(axi_clk), "failed to get s_axi_lite_aclk");
-   596	
-   597		aud_drv_data = devm_kzalloc(dev, sizeof(*aud_drv_data), GFP_KERNEL);
-   598		if (!aud_drv_data)
-   599			return -ENOMEM;
-   600	
-   601		aud_drv_data->mmio = devm_platform_ioremap_resource(pdev, 0);
-   602		if (IS_ERR(aud_drv_data->mmio))
-   603			return PTR_ERR(aud_drv_data->mmio);
-   604	
-   605		val = readl(aud_drv_data->mmio + XLNX_AUD_CORE_CONFIG);
-   606		if (val & AUD_CFG_MM2S_MASK) {
-   607			aud_drv_data->mm2s_presence = true;
-   608			ret = xlnx_formatter_pcm_reset(aud_drv_data->mmio +
-   609						       XLNX_MM2S_OFFSET);
-   610			if (ret)
-   611				return dev_err_probe(dev, ret, "audio formatter reset failed\n");
-   612			xlnx_formatter_disable_irqs(aud_drv_data->mmio +
-   613						    XLNX_MM2S_OFFSET,
-   614						    SNDRV_PCM_STREAM_PLAYBACK);
-   615	
-   616			aud_drv_data->mm2s_irq = platform_get_irq_byname(pdev,
-   617									 "irq_mm2s");
-   618			if (aud_drv_data->mm2s_irq < 0)
-   619				return aud_drv_data->mm2s_irq;
-   620	
-   621			ret = devm_request_irq(dev, aud_drv_data->mm2s_irq,
-   622					       xlnx_mm2s_irq_handler, 0,
-   623					       "xlnx_formatter_pcm_mm2s_irq", aud_drv_data);
-   624			if (ret)
-   625				return ret;
-   626		}
-   627		if (val & AUD_CFG_S2MM_MASK) {
-   628			aud_drv_data->s2mm_presence = true;
-   629			ret = xlnx_formatter_pcm_reset(aud_drv_data->mmio +
-   630						       XLNX_S2MM_OFFSET);
-   631			if (ret)
- > 632				return dev_err_probe(dev, "audio formatter reset failed\n");
-   633			xlnx_formatter_disable_irqs(aud_drv_data->mmio +
-   634						    XLNX_S2MM_OFFSET,
-   635						    SNDRV_PCM_STREAM_CAPTURE);
-   636	
-   637			aud_drv_data->s2mm_irq = platform_get_irq_byname(pdev,
-   638									 "irq_s2mm");
-   639			if (aud_drv_data->s2mm_irq < 0)
-   640				return aud_drv_data->s2mm_irq;
-   641	
-   642			ret = devm_request_irq(dev, aud_drv_data->s2mm_irq,
-   643					       xlnx_s2mm_irq_handler, 0,
-   644					       "xlnx_formatter_pcm_s2mm_irq",
-   645					       aud_drv_data);
-   646			if (ret)
-   647				return ret;
-   648		}
-   649	
-   650		dev_set_drvdata(dev, aud_drv_data);
-   651	
-   652		return devm_snd_soc_register_component(dev, &xlnx_asoc_component, NULL, 0);
-   653	}
-   654	
+ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  184  
+06f25510692385 drivers/mtd/nand/ndfc.c     Bill Pemberton  2012-11-19  185  static int ndfc_probe(struct platform_device *ofdev)
+ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  186  {
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  187  	struct ndfc_controller *ndfc;
+dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  188  	void __iomem *ndfcbase;
+766f271a63d1ee drivers/mtd/nand/ndfc.c     Ian Munsie      2010-10-01  189  	const __be32 *reg;
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  190  	u32 ccr;
+5828c60826e942 drivers/mtd/nand/ndfc.c     Dan Carpenter   2014-07-31  191  	u32 cs;
+cceca8cb776b03 drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-06-13 @192  	int err, len = 0;
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  193  
+dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  194  	ndfcbase = devm_platform_ioremap_resource(ofdev, 0);
+dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  195  	if (IS_ERR(ndfcbase))
+dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  196  		return PTR_ERR(ndfcbase);
+dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  197  
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  198  	/* Read the reg property to get the chip select */
+61c7a080a5a061 drivers/mtd/nand/ndfc.c     Grant Likely    2010-04-13  199  	reg = of_get_property(ofdev->dev.of_node, "reg", &len);
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  200  	if (reg == NULL || len != 12) {
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  201  		dev_err(&ofdev->dev, "unable read reg property (%d)\n", len);
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  202  		return -ENOENT;
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  203  	}
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  204  
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  205  	cs = be32_to_cpu(reg[0]);
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  206  	if (cs >= NDFC_MAX_CS) {
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  207  		dev_err(&ofdev->dev, "invalid CS number (%d)\n", cs);
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  208  		return -EINVAL;
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  209  	}
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  210  
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  211  	ndfc = &ndfc_ctrl[cs];
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  212  	ndfc->chip_select = cs;
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  213  
+7da45139d264f3 drivers/mtd/nand/raw/ndfc.c Miquel Raynal   2018-07-17  214  	nand_controller_init(&ndfc->ndfc_control);
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  215  	ndfc->ofdev = ofdev;
+410fe2f02630fa drivers/mtd/nand/ndfc.c     Felix Radensky  2011-04-26  216  	dev_set_drvdata(&ofdev->dev, ndfc);
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  217  
+dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  218  	ndfc->ndfcbase = ndfcbase;
+ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  219  
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  220  	ccr = NDFC_CCR_BS(ndfc->chip_select);
+ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  221  
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  222  	/* It is ok if ccr does not exist - just default to 0 */
+61c7a080a5a061 drivers/mtd/nand/ndfc.c     Grant Likely    2010-04-13  223  	reg = of_get_property(ofdev->dev.of_node, "ccr", NULL);
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  224  	if (reg)
+766f271a63d1ee drivers/mtd/nand/ndfc.c     Ian Munsie      2010-10-01  225  		ccr |= be32_to_cpup(reg);
+ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  226  
+4f2692a5383e4b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-06-01  227  	iowrite32be(ccr, ndfc->ndfcbase + NDFC_CCR);
+ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  228  
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  229  	/* Set the bank settings if given */
+61c7a080a5a061 drivers/mtd/nand/ndfc.c     Grant Likely    2010-04-13  230  	reg = of_get_property(ofdev->dev.of_node, "bank-settings", NULL);
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  231  	if (reg) {
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  232  		int offset = NDFC_BCFG0 + (ndfc->chip_select << 2);
+4f2692a5383e4b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-06-01  233  		iowrite32be(be32_to_cpup(reg), ndfc->ndfcbase + offset);
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  234  	}
+a808ad3b0d2841 drivers/mtd/nand/ndfc.c     Sean MacLennan  2008-12-10  235  
+dcd80db3efa82b drivers/mtd/nand/raw/ndfc.c Rosen Penev     2026-08-22  236  	return ndfc_chip_init(ndfc, ofdev->dev.of_node);
+ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  237  }
+ce4c61f1848649 drivers/mtd/nand/ndfc.c     Thomas Gleixner 2006-05-23  238  
 
 --
 0-DAY CI Kernel Test Service
