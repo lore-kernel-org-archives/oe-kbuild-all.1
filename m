@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196DF234973
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 03:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC09E219E8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 03:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787541353; cv=none; b=JJNgn4vnzeQqPDlRa9ZXr4HJS9gHKQRaz1VflH7DcXyh4v6iKITggEs7ukwLF0muS9lnTZe+cgUzn3y5Mr7GGsXZVaJ+Kjx4bKT4vZRMus+zokuZ9jcgKPmxYGMzD7rxiQ0wTws3OCKGgcGi/2GVXocjxM63+/f3HUrEu27Yfv4=
+	t=1787542615; cv=none; b=gIXWuUM6Me7rOScNAH5VCChrS8VJl2fv78APowMOKenrv64AbrvSGb3EkU6kmUPL6VjmN73Wa6qQXW90aCwdFuH40+GkI3TKaNnP283w03DnyjnVGFDD54RuSsq1qufLU5J7LjzbpEFSTlt0KaT2zZOdE81gUWJmdbLjFSxq+zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787541353; c=relaxed/simple;
-	bh=FT8RkqBgsoLtUZeeTOZJxCnFSgFhgxova5/dl5GEZ2E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Wr2F4T3vSA2StBfXY/aIh8O2QVAsuDswLeVCc5p17TzXcx9htUvFPlnzj+u1UGrLOlf9TjFR89a3u0qal5LqMPLSyPk4lzrcCb3wx48F+kWPZJoRaJiszU6ZwhSFT9ZSk4MBedDf7WpD5vjEAViR8/8bLkTepr1MiNzQFQ+ILpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxftLxIl; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1787542615; c=relaxed/simple;
+	bh=iK5XABe3JbZOeSRY0va2ttTePn6ZQhPVN9+BSwlDX2M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E52J0V/2uKd4+HUWFFwsKf0dK+YnaoENd1XBmR4gsYTc947r6QqeU3RU/zktzpB2JEzONMsO3Qi12ZrQYt+NX+TpDIXYNtPa/QDcL2fnlt/PpmmQOabRVOtIckivk9z84ekBhMQ4VColVefaSFYvFJfVEPtWyQtxwmPE4v2N3H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jK/8hlLv; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxftLxIl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jK/8hlLv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787541352; x=1819077352;
+  t=1787542613; x=1819078613;
   h=date:from:to:cc:subject:message-id;
-  bh=FT8RkqBgsoLtUZeeTOZJxCnFSgFhgxova5/dl5GEZ2E=;
-  b=kxftLxIlen1mx/mbmFaoisPp/8PsgJx/vl2GGmQkffL9KAEI2vlcbQR7
-   rOzeViWZlG2bS3XDezsJw5iPRhRuERqdbGPVd4DfNfIeP+Y+Dt7YriOzu
-   aHvZD5PiE8r2P2Wz7k1dFKrXR7tivqn+b0trPRdswj9i4mVPmQZxigNIw
-   QPxP7uNP8nMp0F3IqZalF+ebVjQMLDvoUNlT6ZcGZR5quZMZsBSfGir48
-   X61BcKqwuBXCu5naIDhcHKDOojH9XGiQ79ff102gGlpTvtjeUNPUI/8tf
-   QmMXTK9puBvcwgNnEDUYvrULtKp58co3DBeaEQnh7bFWDHtH+qRSCbC9a
-   g==;
-X-CSE-ConnectionGUID: m/JFC/71THGMlntSv6oaSg==
-X-CSE-MsgGUID: L2RUVuCWRW2Ti4OXfw7bOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="91660792"
+  bh=iK5XABe3JbZOeSRY0va2ttTePn6ZQhPVN9+BSwlDX2M=;
+  b=jK/8hlLv8zKzT9f9YntVsAd5g+0pZE84hFDdHcD3vyDu8yLYHEFeyFSp
+   miTVH22neNmYG7TDqw18mubxviwM74Y6R8Hy/Rj1mVr/Dyaa5D+AdMFvX
+   ww6z46r/12nTpQSE3j+kuTFrdw3/RqHomtEXgJs9JEz67jkY2burli96J
+   l/md1c7IGR6rOGLR1Sip1C0yQkTpNFHZtp06Tx5hml5P+xPJeK0Rtp99d
+   7u2v0s7XuS23YpNSMK+G4J+nluXiJjTSDVMec6e/yw7y+BfpY7MrZvPxF
+   ANwsr9AUkWOSv1jCRfqgCAeQdQxc6Ms1P5BAEK/FIp584lTDoJXdxnxxH
+   Q==;
+X-CSE-ConnectionGUID: +/J15Sr7QFWVoXVqq+30Hw==
+X-CSE-MsgGUID: 8VYCJ83rRSW6Gd4NhnuYdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87103104"
 X-IronPort-AV: E=Sophos;i="6.25,239,1779174000"; 
-   d="scan'208";a="91660792"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 20:15:51 -0700
-X-CSE-ConnectionGUID: p8zmoGSdR9ev4R3Q+NWKhQ==
-X-CSE-MsgGUID: 0oWRaQHETbiCtGVIQzW6Pg==
+   d="scan'208";a="87103104"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 20:36:52 -0700
+X-CSE-ConnectionGUID: V0YN7reLRZqhm5CNUgqzmQ==
+X-CSE-MsgGUID: 1IlEv3ohQ9ST3GY1VRMkhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,239,1779174000"; 
-   d="scan'208";a="265581836"
+   d="scan'208";a="296787522"
 Received: from igk-lkp-server01.igk.intel.com (HELO b49262788783) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 23 Aug 2026 20:15:51 -0700
+  by orviesa002.jf.intel.com with ESMTP; 23 Aug 2026 20:36:52 -0700
 Received: from kbuild by b49262788783 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyLA4-000000000Fb-24Lb;
-	Mon, 24 Aug 2026 03:15:48 +0000
-Date: Mon, 24 Aug 2026 05:15:19 +0200
+	id 1wyLUO-000000000Fz-3NjK;
+	Mon, 24 Aug 2026 03:36:48 +0000
+Date: Mon, 24 Aug 2026 05:35:56 +0200
 From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:asahi-wip-7.2 640/964] Diff in
- drivers/gpu/drm/nova/file.rs:4:
-Message-ID: <202608240552.om2UzXim-lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/250-aop 44/79] warning: unclosed HTML tag
+ `T`
+Message-ID: <202608240533.rD809Jzp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,54 +59,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux asahi-wip-7.2
-head:   57124f5176e4a4ceb553942a5f3de94cb5035877
-commit: 9b31038f137dc8805cf04ac8f9499b5179b34bc6 [640/964] rust: drm: file: Add as_raw()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260824/202608240552.om2UzXim-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   e793b14f66e33b70363166d84886d82d462f1987
+commit: 86060f3b420a65df146a3a273297049fc8686885 [44/79] rust: Add Ownable/Owned types
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260824/202608240533.rD809Jzp-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608240552.om2UzXim-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608240533.rD809Jzp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608240552.om2UzXim-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608240533.rD809Jzp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j128 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in drivers/gpu/drm/nova/file.rs:4:
-    use crate::gem::NovaObject;
-    use kernel::{
-        alloc::flags::*,
-   -    auxiliary,
-   -    bindings,
-   +    auxiliary, bindings,
-        device::Bound,
-        drm::{
-            self,
->> Diff in drivers/gpu/drm/nova/file.rs:4:
-    use crate::gem::NovaObject;
-    use kernel::{
-        alloc::flags::*,
-   -    auxiliary,
-   -    bindings,
-   +    auxiliary, bindings,
-        device::Bound,
-        drm::{
-            self,
-   make[2]: *** [Makefile:1996: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src'
+>> warning: unclosed HTML tag `T`
+   --> rust/kernel/types.rs:453:53
+   |
+   453 | /// A subtrait of Ownable that asserts that an Owned<T> Rust reference is not only unique
+   |                                                     ^^^
+   |
+   = note: `#[warn(rustdoc::invalid_html_tags)]` on by default
+   help: try marking as source code
+   |
+   453 | /// A subtrait of Ownable that asserts that an `Owned<T>` Rust reference is not only unique
+   |                                                +        +
+--
+>> warning: unclosed HTML tag `T`
+   --> rust/kernel/types.rs:457:71
+   |
+   457 | /// When this type is implemented for an Ownable type, it allows Owned<T> to be dereferenced
+   |                                                                       ^^^
+   |
+   help: try marking as source code
+   |
+   457 | /// When this type is implemented for an Ownable type, it allows `Owned<T>` to be dereferenced
+   |                                                                  +        +
 
 --
 0-DAY CI Kernel Test Service
