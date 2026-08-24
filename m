@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E029A430CC6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 13:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168DD439008
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 14:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787579774; cv=none; b=Aw1RYjXZMfrVSQM5f5qUYgGg23MP3rpwweBxGIqrcqQDbxS+wyt352L/hH4oj+fmMlvreO+IkEyhr/8zaKChaRLqbqe17SbPzR1quIvnlgYKKIMhO/vXc+genVEAniLA7I9eLHmfCrsYwND9bl3mejFYYD1uKcWoYLPZoJUBgOM=
+	t=1787581202; cv=none; b=tv9iYInUgP4+GvaNlWJRWVbrW1Ux4/7McVGByznPWnZxnTggqbPypIqK7CYoAiMHidjDsiS/8LrN8H7/HRzS5Zl5X0Q7x5Nc6J85zK6HfAGoiEp08J8V54CGOQiegxuPRz+h7KzpOuBzXfYB23vx+S6EAbMi/9kCcEz0UeMtcr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787579774; c=relaxed/simple;
-	bh=q3wTf1f327xIGwYOhczcXX+HdJnBpu/SZv6v4m6OsZ0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fRSJFNAjw+tfPbpBP9WQl+IzD2pp1Hk5xom/D8yi1JOSY6xiJcLl6Uet+LsW4HECe3J0ll6t2VLPosQlPfbfuzEb8yc2U1jKQdG4HdVRwX0r4UdsX83VQWSav+25edrCnqUbcLUvUwkobgizGLsLAMcCgv9WTai9jcc+7nBd0G0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9H8mSqg; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1787581202; c=relaxed/simple;
+	bh=5ovlW63ro1JbbkESw40127Pgk8UGxN6ANib6O/lV18M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ktx5iOHN6oCIQT/cR2Sjf2bGqs65obSG6YgxqSSbGemLy7dHECM4CY7oDSva1qK/1EOWu21FB9d9jJgyyT7xP92nZXfBTePxMx83d0g1WNS+2tMqh8B/UZbXzmPVlLALI54h93IJ0y0Ctf+elduU3lGmR4GtprE/C442GYQn8N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8KYsV83; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9H8mSqg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8KYsV83"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787579771; x=1819115771;
+  t=1787581200; x=1819117200;
   h=date:from:to:cc:subject:message-id;
-  bh=q3wTf1f327xIGwYOhczcXX+HdJnBpu/SZv6v4m6OsZ0=;
-  b=m9H8mSqg6kyqcednVE5FkK6amdAt/eqEP8YmuRKsk6tQHlJb1Zo4Rdi8
-   sZ9c3AF7TB2J9vo5AFKTHa5Zjz3ZaBlO5nQ5+qRv2PKEY4KxuLF+S0/ZX
-   K06xAP1yjm/Zsfbe6NO4xy6IVlTAL7loACO4ZS44z6naluwV010/PkUw3
-   9YlXzhS5kW1GBD4DgphdkzgCHCYv1BQwKiHfvHlHlVGMwQnlWDb9l8Z9f
-   +pzKSRx8NhvxiDFkECiqJMnUPOmrGnJQgLgTdSU7Vfm9DsxU+pIXmon6K
-   DO79ENLiavVNdmNtPhbV7eqK8erCDWZ2FuATtpA6Xj8ZrkOrzsGjslB+R
-   Q==;
-X-CSE-ConnectionGUID: LdYtfdntSy+evS3UFjALQw==
-X-CSE-MsgGUID: hy6WbQ81QS6AzkkFDp0dxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87901427"
+  bh=5ovlW63ro1JbbkESw40127Pgk8UGxN6ANib6O/lV18M=;
+  b=J8KYsV83Wwg+aKLlfv/2GXLe7pjx6vDpRxleH82ck7mUuDqtsNr7mZse
+   QnBR4wbp8KFA4rCQ3PyFsATvPQ4FXZl2Rs1T4GPyfQ9DLjetJvXE3AWYa
+   Y3FEnRvD3+gQrU1D22EuXl4mU1jVUBaPBVEHxSH7iwILQuiy0n3eZrU7u
+   dyfMOHVvCcxdWxL6lSCVhuaVtPwjxuRKLJnS44owRJIUfAYvdUHnE1Myt
+   TIM5JUoRhXyW9uGKesPJFYwIUxUSmuV+hxynKxkXpsQNO7TV99WuVmdbi
+   H55pcBb79DE5wJefYq7xZJ3WnISJx2XEr+L3tENDt7E/p1a3t9NQVYyeN
+   w==;
+X-CSE-ConnectionGUID: o8e4n5t/QiGoTq35hBCkig==
+X-CSE-MsgGUID: pbPrWuHJRRCuxgGzf5APIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98625137"
 X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="87901427"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 06:56:11 -0700
-X-CSE-ConnectionGUID: bGipl+XIQqu2gMFBQTYB6A==
-X-CSE-MsgGUID: ol1Mc9Z3TLeRK/uQVgE4Zw==
+   d="scan'208";a="98625137"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 07:20:00 -0700
+X-CSE-ConnectionGUID: 79SjdCSsRza2v9AvzjhUAg==
+X-CSE-MsgGUID: CsS7e8fMTw27LeqmSs4tgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="265235239"
-Received: from igk-lkp-server01.igk.intel.com (HELO b49262788783) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 24 Aug 2026 06:56:10 -0700
-Received: from kbuild by b49262788783 with local (Exim 4.98.2)
+   d="scan'208";a="264400046"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 24 Aug 2026 07:19:58 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyV9j-000000000NP-307G;
-	Mon, 24 Aug 2026 13:56:07 +0000
-Date: Mon, 24 Aug 2026 15:55:51 +0200
+	id 1wyVWg-000000003EQ-2tak;
+	Mon, 24 Aug 2026 14:19:52 +0000
+Date: Mon, 24 Aug 2026 22:19:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:asahi-wip-7.2 649/964] Warning:
- drivers/gpu/drm/drm_gpuvm.c:3177 function parameter 'priv' not described in
- 'drm_gpuvm_bo_unmap'
-Message-ID: <202608241538.Yt2NxyXc-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Frank Li <Frank.Li@nxp.com>
+Subject: [sailus-media-tree:frame-desc 28/38]
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:51:25: warning:
+ format '%p' expects argument of type 'void *', but argument 5 has type 'long
+ int'
+Message-ID: <202608242201.UypJNTA2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,22 +62,88 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux asahi-wip-7.2
-head:   57124f5176e4a4ceb553942a5f3de94cb5035877
-commit: 27443ed82e0168b50d6af080f2c9ddd2b9bcbb9d [649/964] drm/gpuvm: Add drm_gpuvm_bo_unmap()
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260824/202608241538.Yt2NxyXc-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608241538.Yt2NxyXc-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git frame-desc
+head:   7c1e8e3f907ccd6c51f2c23e1a4ac09b6d4b1f04
+commit: d4fcc2fd2e12bdb46cd8a49eff24056dd12ad846 [28/38] media: nxp: imx8-isi: Use v4l2_subdev_get_frame_desc()
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260824/202608242201.UypJNTA2-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608242201.UypJNTA2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608241538.Yt2NxyXc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608242201.UypJNTA2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/drm_gpuvm.c:3177 function parameter 'priv' not described in 'drm_gpuvm_bo_unmap'
->> Warning: drivers/gpu/drm/drm_gpuvm.c:3177 function parameter 'priv' not described in 'drm_gpuvm_bo_unmap'
+   In file included from include/linux/device.h:15,
+                    from drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:9:
+   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c: In function 'mxc_isi_crossbar_gasket_enable':
+>> drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:51:25: warning: format '%p' expects argument of type 'void *', but argument 5 has type 'long int' [-Wformat=]
+      51 |                         "failed to get frame descriptor from '%s':%u: %pe\n",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:50:17: note: in expansion of macro 'dev_err'
+      50 |                 dev_err(isi->dev,
+         |                 ^~~~~~~
+   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:51:72: note: format string is defined here
+      51 |                         "failed to get frame descriptor from '%s':%u: %pe\n",
+         |                                                                       ~^
+         |                                                                        |
+         |                                                                        void *
+         |                                                                       %ld
+
+
+vim +51 drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+
+    27	
+    28	static int mxc_isi_crossbar_gasket_enable(struct mxc_isi_crossbar *xbar,
+    29						  struct v4l2_subdev_state *state,
+    30						  struct v4l2_subdev *remote_sd,
+    31						  u32 remote_pad, unsigned int port)
+    32	{
+    33		struct mxc_isi_dev *isi = xbar->isi;
+    34		const struct mxc_gasket_ops *gasket_ops = isi->pdata->gasket_ops;
+    35		const struct v4l2_mbus_framefmt *fmt;
+    36	
+    37		if (!gasket_ops)
+    38			return 0;
+    39	
+    40		/*
+    41		 * Configure and enable the gasket with the frame size and CSI-2 data
+    42		 * type. For YUV422 8-bit, enable dual component mode unconditionally,
+    43		 * to match the configuration of the CSIS.
+    44		 */
+    45	
+    46		struct v4l2_mbus_frame_desc *fd __free(v4l2_subdev_free_frame_desc) =
+    47			v4l2_subdev_get_frame_desc(remote_sd, remote_pad,
+    48						   V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL);
+    49		if (IS_ERR(fd)) {
+    50			dev_err(isi->dev,
+  > 51				"failed to get frame descriptor from '%s':%u: %pe\n",
+    52				remote_sd->name, remote_pad, PTR_ERR(fd));
+    53			return PTR_ERR(fd);
+    54		}
+    55	
+    56		if (fd->num_entries != 1) {
+    57			dev_err(isi->dev, "invalid frame descriptor for '%s':%u\n",
+    58				remote_sd->name, remote_pad);
+    59			return -EINVAL;
+    60		}
+    61	
+    62		fmt = v4l2_subdev_state_get_format(state, port, 0);
+    63		if (!fmt)
+    64			return -EINVAL;
+    65	
+    66		gasket_ops->enable(isi, fd, fmt, port);
+    67		return 0;
+    68	}
+    69	
 
 --
 0-DAY CI Kernel Test Service
