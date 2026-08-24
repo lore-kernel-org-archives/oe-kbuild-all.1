@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4262340DB23
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 12:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB679429003;
+	Mon, 24 Aug 2026 13:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787576262; cv=none; b=qT31CWeg4W/nBEkK+AOordvQC8UVExe3/gcKlMrqPoQKi8pJIOKhV5gYbeYsph3Eau8ZTMc631G67Z1+uPagjd3f1fLwwSyez9Xquewx7XSOIiZG3Y3J1GtVYQj1VgQu9qic/LIGA/YwidXu69QkKpE6kHrI+Jyd0E/v1NObzwA=
+	t=1787579394; cv=none; b=axZrEgMIAnjB9TRsE0FQJZn0bTiMZReddV5ftJpddaYEgMX2wZo42Fpj7uybwHu7ktvYH7ulLF0ZeERAAnNPcLvPuJZauK0d3Wr4fo71ZGmi05XFLxZrVH70hgxr0NZPfjkaegjenxxjAddybUalcrB750tdrBQh43YLkECVBsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787576262; c=relaxed/simple;
-	bh=NBS7DBzE6QZYniXKibmBmce3RCY+uIEx/f4k7NZtlGU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oLpLnowAM73a4lOr1DHx3/InUYZ9x1rY3Y1Z+iAtqiGJYKlcWE3fhywDMpAwohkYs38W4bjIcLpBHY6Z1DCKA9nJoFQze1M864CLxXPj2FZ1cEWvE2RilJUQDO9JVLBpkN7wIGCVp9QiPYEBiu5vTTGyQk/GPiAe1EYajGw1snY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arVRHpkL; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1787579394; c=relaxed/simple;
+	bh=GUG4621iiC5IMhZV0tFnZ6/5S6xQg8p2lZxDokPA5hY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JAcW1csAv3Q0mlkGjYi06wJV/NmieY9eaCrufUKrGHSBIs+WMVmM5bnbqIj64HDIfwPzzIu1hzsXytLNg30kT0pXJOFxZXDKMHDaqcBtnbK8xHFvnBbq9CNOEMZrX174/bplTyjQ7zkG4d2IgVUBHwyyCvxhdFDjbANRQ1Dx1RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l051HiFF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arVRHpkL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l051HiFF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787576260; x=1819112260;
+  t=1787579392; x=1819115392;
   h=date:from:to:cc:subject:message-id;
-  bh=NBS7DBzE6QZYniXKibmBmce3RCY+uIEx/f4k7NZtlGU=;
-  b=arVRHpkL91jhgwtGGG8QJTgfv1EhqZEjRjzUTVwW69Bn0/swpz2hdOka
-   4Bj9MsoI33UmUa1AH1SUwjF5cgU+2/XtCJd8RrpOo8MjvwzLabovc3Izv
-   qLUkghRSRGgStuF2bVDI6d2yj4K1uJIzlSGZlIWnVc/OFzHVho/ejwRrL
-   EMQLHvtQvS1KzfG1xRJZPm87XAH7tWqOSyjJvVyNh+d0lMm4Qz/0cviqV
-   oiDhzkZtaE7C5z6AKMuJZCmlQz9RadhqxyeNhWgyIH9WrxFbtVogFUN4j
-   iHFON7yZQjT50Vpikgu+s2sMhK1Kirt+SyzZK3hVHGaC35+u+47QtKMKz
+  bh=GUG4621iiC5IMhZV0tFnZ6/5S6xQg8p2lZxDokPA5hY=;
+  b=l051HiFFdg5yelk0NVBVEnoQ5pz8mtVniKNd1gXbmzcRBP5nAzK8o5zP
+   OMqAPVDKWox5ja7WZQnEjTw1hju366kEjRRlymVrQeWLiF7eD2/wCZKih
+   louUwoeLHwLfPcHD6HTmDQYM8GJfCOJSsblGsH6RJL8FpfGj7oT1ZDxNC
+   oIIW5ll3LqZVe7FIer7g4KlLZDlPq/znfwbFhEuZhWl2CDobTf+XWDCvS
+   zt95vstoc5OHhYGDXjzJth4ssts/aLA9AT7Hu9Qf2FbCvbEYcsfIbI4J/
+   GqeCD97upwhYh1ZK0o21WDcko0I1RYzEShWhIvHpT7ovyBjVK/OCDqHLS
    Q==;
-X-CSE-ConnectionGUID: tlP2SCnaQv6jNO1LaqKTog==
-X-CSE-MsgGUID: RnCGsthYRp6Mjq/rT64/UQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="99186660"
+X-CSE-ConnectionGUID: lyXdFBnoSUGjldVj9raj6A==
+X-CSE-MsgGUID: SIn4camyT+uZp9XVVlQ/7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="88232573"
 X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="99186660"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 05:57:39 -0700
-X-CSE-ConnectionGUID: 0S+xgRErSOCdxD1KNG3DAQ==
-X-CSE-MsgGUID: 4sh+1acHQLmayExND/fazw==
+   d="scan'208";a="88232573"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 06:49:52 -0700
+X-CSE-ConnectionGUID: +W0CNAq7S5KzcMplUIMDMg==
+X-CSE-MsgGUID: V2UAmF9yQAqi1v50w/Za3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="268941444"
+   d="scan'208";a="272228252"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Aug 2026 05:57:36 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 Aug 2026 06:49:49 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyUEx-0000000032v-0kI5;
-	Mon, 24 Aug 2026 12:57:29 +0000
-Date: Mon, 24 Aug 2026 20:56:33 +0800
+	id 1wyV3X-00000000399-08gd;
+	Mon, 24 Aug 2026 13:49:44 +0000
+Date: Mon, 24 Aug 2026 21:48:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gaghik Khachatrian <gaghik.khachatrian@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- ChiaHsuan Chung <ChiaHsuan.Chung@amd.com>,
- Dillon Varone <dillon.varone@amd.com>
-Subject: [agd5f:tlb_inv_rework 2327/2583]
- drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3322:13:
- warning: 'program_output_csc' defined but not used
-Message-ID: <202608242006.cInJhrN8-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/qemu_boot 26/87]
+ arch/hexagon/kernel/devtree.c:130:12: error: call to undeclared function
+ 'of_get_flat_dt_root'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202608242142.XFuz1Lzp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,382 +62,188 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git tlb_inv_rework
-head:   c106ea1157a2b6750e428b0fc2c2033a11d409ab
-commit: e37aa747d993a12774b07219a71ffc8c341ca329 [2327/2583] drm/amd/display: gate DCE ASIC code behind CONFIG_DRM_AMD_DC_DCE
-config: parisc-randconfig-r052-20260824 (https://download.01.org/0day-ci/archive/20260824/202608242006.cInJhrN8-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608242006.cInJhrN8-lkp@intel.com/reproduce)
+Hi Richard,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/qemu_boot
+head:   844bcfb5bee7bf0e713f61307dc2a4e16963c2f9
+commit: c01c2aee2f3a158faf365c893a4578a5a0dee73f [26/87] hexagon: add memory management enhancements
+config: hexagon-randconfig-002-20260824 (https://download.01.org/0day-ci/archive/20260824/202608242142.XFuz1Lzp-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608242142.XFuz1Lzp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608242006.cInJhrN8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608242142.XFuz1Lzp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3512:13: warning: 'dce110_enable_analog_link_output' defined but not used [-Wunused-function]
-    3512 | static void dce110_enable_analog_link_output(
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3393:13: warning: 'dce110_set_cursor_attribute' defined but not used [-Wunused-function]
-    3393 | static void dce110_set_cursor_attribute(struct pipe_ctx *pipe_ctx)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3348:13: warning: 'dce110_set_cursor_position' defined but not used [-Wunused-function]
-    3348 | static void dce110_set_cursor_position(struct pipe_ctx *pipe_ctx)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3322:13: warning: 'program_output_csc' defined but not used [-Wunused-function]
-    3322 | static void program_output_csc(struct dc *dc,
-         |             ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3311:13: warning: 'dce110_wait_for_mpcc_disconnect' defined but not used [-Wunused-function]
-    3311 | static void dce110_wait_for_mpcc_disconnect(
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3293:13: warning: 'dce110_power_down_fe' defined but not used [-Wunused-function]
-    3293 | static void dce110_power_down_fe(struct dc *dc, struct dc_state *state, struct pipe_ctx *pipe_ctx)
-         |             ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3285:13: warning: 'dce110_post_unlock_program_front_end' defined but not used [-Wunused-function]
-    3285 | static void dce110_post_unlock_program_front_end(
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3245:13: warning: 'dce110_apply_ctx_for_surface' defined but not used [-Wunused-function]
-    3245 | static void dce110_apply_ctx_for_surface(
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3027:13: warning: 'dce110_init_hw' defined but not used [-Wunused-function]
-    3027 | static void dce110_init_hw(struct dc *dc)
-         |             ^~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:3020:13: warning: 'dce110_init_pipes' defined but not used [-Wunused-function]
-    3020 | static void dce110_init_pipes(struct dc *dc, struct dc_state *context)
-         |             ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2987:13: warning: 'dce110_enable_per_frame_crtc_position_reset' defined but not used [-Wunused-function]
-    2987 | static void dce110_enable_per_frame_crtc_position_reset(
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2938:13: warning: 'dce110_enable_timing_synchronization' defined but not used [-Wunused-function]
-    2938 | static void dce110_enable_timing_synchronization(
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2872:13: warning: 'dce110_update_pending_status' defined but not used [-Wunused-function]
-    2872 | static void dce110_update_pending_status(struct pipe_ctx *pipe_ctx)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2855:13: warning: 'update_plane_addr' defined but not used [-Wunused-function]
-    2855 | static void update_plane_addr(const struct dc *dc,
-         |             ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2834:13: warning: 'program_gamut_remap' defined but not used [-Wunused-function]
-    2834 | static void program_gamut_remap(struct program_gamut_remap_params *params)
-         |             ^~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2451:13: warning: 'dce110_reset_hw_ctx_wrap' defined but not used [-Wunused-function]
-    2451 | static void dce110_reset_hw_ctx_wrap(
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2331:13: warning: 'set_static_screen_control' defined but not used [-Wunused-function]
-    2331 | static void set_static_screen_control(struct pipe_ctx **pipe_ctx,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2319:13: warning: 'get_position' defined but not used [-Wunused-function]
-    2319 | static void get_position(struct pipe_ctx **pipe_ctx,
-         |             ^~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:2285:13: warning: 'set_drr' defined but not used [-Wunused-function]
-    2285 | static void set_drr(struct pipe_ctx **pipe_ctx,
-         |             ^~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:1633:23: warning: 'dce110_enable_stream_timing' defined but not used [-Wunused-function]
-    1633 | static enum dc_status dce110_enable_stream_timing(
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:709:1: warning: 'dce110_dac_load_detect' defined but not used [-Wunused-function]
-     709 | dce110_dac_load_detect(struct dc_link *link)
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:702:1: warning: 'dce110_prepare_ddc' defined but not used [-Wunused-function]
-     702 | dce110_prepare_ddc(struct dc_link *link)
-         | ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:610:1: warning: 'dce110_set_output_transfer_func' defined but not used [-Wunused-function]
-     610 | dce110_set_output_transfer_func(struct set_output_transfer_func_params *params)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:286:1: warning: 'dce110_set_input_transfer_func' defined but not used [-Wunused-function]
-     286 | dce110_set_input_transfer_func(struct dc *dc, struct pipe_ctx *pipe_ctx,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:209:13: warning: 'dce110_enable_display_power_gating' defined but not used [-Wunused-function]
-     209 | static bool dce110_enable_display_power_gating(
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/kernel/devtree.c:17:13: warning: no previous prototype for function 'early_init_dt_add_memory_arch' [-Wmissing-prototypes]
+      17 | void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+         |             ^
+   arch/hexagon/kernel/devtree.c:17:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      17 | void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+         | ^
+         | static 
+   arch/hexagon/kernel/devtree.c:50:6: error: call to undeclared function 'of_get_flat_dt_prop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      50 |         p = of_get_flat_dt_prop(node, "bootargs", &l);
+         |             ^
+   arch/hexagon/kernel/devtree.c:50:4: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
+      50 |         p = of_get_flat_dt_prop(node, "bootargs", &l);
+         |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/hexagon/kernel/devtree.c:130:12: error: call to undeclared function 'of_get_flat_dt_root'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     130 |         dt_root = of_get_flat_dt_root();
+         |                   ^
+>> arch/hexagon/kernel/devtree.c:132:15: error: call to undeclared function 'of_flat_dt_match_machine'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     132 |         mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
+         |                      ^
+>> arch/hexagon/kernel/devtree.c:132:13: error: incompatible integer to pointer conversion assigning to 'const struct machine_desc *' from 'int' [-Wint-conversion]
+     132 |         mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/hexagon/kernel/devtree.c:142:9: error: call to undeclared function 'early_init_dt_scan_root'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     142 |         early_init_dt_scan_root();
+         |         ^
+>> arch/hexagon/kernel/devtree.c:147:2: error: call to undeclared function 'early_init_dt_scan_chosen'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     147 |         early_init_dt_scan_chosen(boot_command_line);
+         |         ^
+   arch/hexagon/kernel/devtree.c:107:16: warning: variable 'dt_root' set but not used [-Wunused-but-set-variable]
+     107 |         unsigned long dt_root;
+         |                       ^
+   2 warnings and 7 errors generated.
 
 
-vim +/program_output_csc +3322 drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c
+vim +/of_get_flat_dt_root +130 arch/hexagon/kernel/devtree.c
 
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3244  
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12 @3245  static void dce110_apply_ctx_for_surface(
-fb3466a450cc46 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Bhawanpreet Lakha   2017-08-01  3246  		struct dc *dc,
-3e9ad6164b98f8 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-08-03  3247  		const struct dc_stream_state *stream,
-3e9ad6164b98f8 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-08-03  3248  		int num_planes,
-608ac7bb392417 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-08-25  3249  		struct dc_state *context)
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3250  {
-64b4c4cdfddd31 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-04-21  3251  	unsigned int i;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3252  
-3e9ad6164b98f8 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-08-03  3253  	if (num_planes == 0)
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3254  		return;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3255  
-65d38262b3e82f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c hersen wu           2018-10-30  3256  	if (dc->fbc_compressor)
-65d38262b3e82f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c hersen wu           2018-10-30  3257  		dc->fbc_compressor->funcs->disable_fbc(dc->fbc_compressor);
-65d38262b3e82f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c hersen wu           2018-10-30  3258  
-a2b8659db9b435 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Tony Cheng          2017-04-22  3259  	for (i = 0; i < dc->res_pool->pipe_count; i++) {
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3260  		struct pipe_ctx *pipe_ctx = &context->res_ctx.pipe_ctx[i];
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3261  
-a2607aef3d0210 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-08-08  3262  		if (pipe_ctx->stream != stream)
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3263  			continue;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3264  
-3b21b6d239f43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-10-17  3265  		/* Need to allocate mem before program front end for Fiji */
-3b21b6d239f43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-10-17  3266  		pipe_ctx->plane_res.mi->funcs->allocate_mem_input(
-3b21b6d239f43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-10-17  3267  				pipe_ctx->plane_res.mi,
-3b21b6d239f43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-10-17  3268  				pipe_ctx->stream->timing.h_total,
-3b21b6d239f43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-10-17  3269  				pipe_ctx->stream->timing.v_total,
-380604e27bc9c2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Ken Chalmers        2018-11-06  3270  				pipe_ctx->stream->timing.pix_clk_100hz / 10,
-3b21b6d239f43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-10-17  3271  				context->stream_count);
-3b21b6d239f43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-10-17  3272  
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3273  		dce110_program_front_end_for_pipe(dc, pipe_ctx);
-4f804817d5cfb4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2017-11-09  3274  
-4f804817d5cfb4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2017-11-09  3275  		dc->hwss.update_plane_addr(dc, pipe_ctx);
-4f804817d5cfb4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2017-11-09  3276  
-b06b7680e34115 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Leon Elazar         2017-01-05  3277  		program_surface_visibility(dc, pipe_ctx);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3278  
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3279  	}
-3dc780ec347320 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2017-10-17  3280  
-65d38262b3e82f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c hersen wu           2018-10-30  3281  	if (dc->fbc_compressor)
-12a8bd8862ebd7 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Shirish S           2019-02-04  3282  		enable_fbc(dc, context);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3283  }
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3284  
-bbf5f6c3f83bed drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Anthony Koo         2020-01-14 @3285  static void dce110_post_unlock_program_front_end(
-bbf5f6c3f83bed drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Anthony Koo         2020-01-14  3286  		struct dc *dc,
-bbf5f6c3f83bed drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Anthony Koo         2020-01-14  3287  		struct dc_state *context)
-bbf5f6c3f83bed drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Anthony Koo         2020-01-14  3288  {
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3289  	(void)dc;
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3290  	(void)context;
-bbf5f6c3f83bed drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Anthony Koo         2020-01-14  3291  }
-009114f6df8415 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Anthony Koo         2020-01-14  3292  
-012a04b1d6af62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Dillon Varone       2023-11-21 @3293  static void dce110_power_down_fe(struct dc *dc, struct dc_state *state, struct pipe_ctx *pipe_ctx)
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3294  {
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3295  	(void)state;
-f42ea55be11147 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Anthony Koo         2019-11-05  3296  	struct dce_hwseq *hws = dc->hwseq;
-bc373a890f1495 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Roman Li            2017-12-29  3297  	int fe_idx = pipe_ctx->plane_res.mi ?
-bc373a890f1495 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Roman Li            2017-12-29  3298  		pipe_ctx->plane_res.mi->inst : pipe_ctx->pipe_idx;
-e6c258cb4e6fbc drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2017-10-30  3299  
-7950f0f9815a2d drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2017-06-13  3300  	/* Do not power down fe when stream is active on dce*/
-608ac7bb392417 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jerry Zuo           2017-08-25  3301  	if (dc->current_state->res_ctx.pipe_ctx[fe_idx].stream)
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3302  		return;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3303  
-f42ea55be11147 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Anthony Koo         2019-11-05  3304  	hws->funcs.enable_display_power_gating(
-f4cdbb5d540578 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-31  3305  		dc, (uint8_t)fe_idx, dc->ctx->dc_bios, PIPE_GATING_CONTROL_ENABLE);
-cfe4645e17f8db drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2017-06-14  3306  
-cfe4645e17f8db drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2017-06-14  3307  	dc->res_pool->transforms[fe_idx]->funcs->transform_reset(
-cfe4645e17f8db drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2017-06-14  3308  				dc->res_pool->transforms[fe_idx]);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3309  }
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2017-09-12  3310  
-6be425f3dc16ba drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-07-24 @3311  static void dce110_wait_for_mpcc_disconnect(
-fb3466a450cc46 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Bhawanpreet Lakha   2017-08-01  3312  		struct dc *dc,
-6be425f3dc16ba drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-07-24  3313  		struct resource_pool *res_pool,
-6be425f3dc16ba drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-07-24  3314  		struct pipe_ctx *pipe_ctx)
-b6762f0c16a43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-07-24  3315  {
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3316  	(void)dc;
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3317  	(void)res_pool;
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3318  	(void)pipe_ctx;
-b6762f0c16a43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-07-24  3319  	/* do nothing*/
-b6762f0c16a43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-07-24  3320  }
-b6762f0c16a43c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2017-07-24  3321  
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10 @3322  static void program_output_csc(struct dc *dc,
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3323  		struct pipe_ctx *pipe_ctx,
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3324  		enum dc_color_space colorspace,
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3325  		uint16_t *matrix,
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3326  		int opp_id)
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3327  {
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3328  	(void)dc;
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3329  	(void)colorspace;
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3330  	(void)matrix;
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3331  	(void)opp_id;
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3332  	int i;
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3333  	struct out_csc_color_matrix tbl_entry;
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3334  
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3335  	if (pipe_ctx->stream->csc_color_matrix.enable_adjustment == true) {
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3336  		enum dc_color_space color_space = pipe_ctx->stream->output_color_space;
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3337  
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3338  		for (i = 0; i < 12; i++)
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3339  			tbl_entry.regval[i] = pipe_ctx->stream->csc_color_matrix.matrix[i];
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3340  
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3341  		tbl_entry.color_space = color_space;
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3342  
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3343  		pipe_ctx->plane_res.xfm->funcs->opp_set_csc_adjustment(
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3344  				pipe_ctx->plane_res.xfm, &tbl_entry);
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3345  	}
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3346  }
-4bd0dc68fd00f4 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Joshua Aberback     2018-12-10  3347  
-faf0389f1e4004 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jason Yan           2020-09-28 @3348  static void dce110_set_cursor_position(struct pipe_ctx *pipe_ctx)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3349  {
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3350  	struct dc_cursor_position pos_cpy = pipe_ctx->stream->cursor_position;
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3351  	struct input_pixel_processor *ipp = pipe_ctx->plane_res.ipp;
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3352  	struct mem_input *mi = pipe_ctx->plane_res.mi;
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3353  	struct dc_cursor_mi_param param = {
-380604e27bc9c2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Ken Chalmers        2018-11-06  3354  		.pixel_clk_khz = pipe_ctx->stream->timing.pix_clk_100hz / 10,
-33d7598d7022ea drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jun Lei             2019-02-22  3355  		.ref_clk_khz = pipe_ctx->stream->ctx->dc->res_pool->ref_clocks.xtalin_clock_inKhz,
-39a9f4d89e123b drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2018-06-19  3356  		.viewport = pipe_ctx->plane_res.scl_data.viewport,
-39a9f4d89e123b drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2018-06-19  3357  		.h_scale_ratio = pipe_ctx->plane_res.scl_data.ratios.horz,
-39a9f4d89e123b drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2018-06-19  3358  		.v_scale_ratio = pipe_ctx->plane_res.scl_data.ratios.vert,
-08ed681c8453c2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2018-06-21  3359  		.rotation = pipe_ctx->plane_state->rotation,
-08ed681c8453c2 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Dmytro Laktyushkin  2018-06-21  3360  		.mirror = pipe_ctx->plane_state->horizontal_mirror
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3361  	};
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3362  
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3363  	/**
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3364  	 * If the cursor's source viewport is clipped then we need to
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3365  	 * translate the cursor to appear in the correct position on
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3366  	 * the screen.
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3367  	 *
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3368  	 * This translation isn't affected by scaling so it needs to be
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3369  	 * done *after* we adjust the position for the scale factor.
-033baeeefbf088 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3370  	 *
-033baeeefbf088 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3371  	 * This is only done by opt-in for now since there are still
-033baeeefbf088 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3372  	 * some usecases like tiled display that might enable the
-033baeeefbf088 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3373  	 * cursor on both streams while expecting dc to clip it.
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3374  	 */
-033baeeefbf088 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3375  	if (pos_cpy.translate_by_source) {
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3376  		pos_cpy.x += pipe_ctx->plane_state->src_rect.x;
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3377  		pos_cpy.y += pipe_ctx->plane_state->src_rect.y;
-033baeeefbf088 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3378  	}
-03a4059b8dddf6 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Nicholas Kazlauskas 2020-04-05  3379  
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3380  	if (pipe_ctx->plane_state->address.type
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3381  			== PLN_ADDR_TYPE_VIDEO_PROGRESSIVE)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3382  		pos_cpy.enable = false;
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3383  
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3384  	if (pipe_ctx->top_pipe && pipe_ctx->plane_state != pipe_ctx->top_pipe->plane_state)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3385  		pos_cpy.enable = false;
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3386  
-dc75dd707cb558 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Roman Li            2018-01-23  3387  	if (ipp->funcs->ipp_cursor_set_position)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3388  		ipp->funcs->ipp_cursor_set_position(ipp, &pos_cpy, &param);
-dc75dd707cb558 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Roman Li            2018-01-23  3389  	if (mi->funcs->set_cursor_position)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3390  		mi->funcs->set_cursor_position(mi, &pos_cpy, &param);
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3391  }
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3392  
-faf0389f1e4004 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Jason Yan           2020-09-28 @3393  static void dce110_set_cursor_attribute(struct pipe_ctx *pipe_ctx)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3394  {
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3395  	struct dc_cursor_attributes *attributes = &pipe_ctx->stream->cursor_attributes;
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3396  
-d1aaad05d0c39c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2018-03-02  3397  	if (pipe_ctx->plane_res.ipp &&
-d1aaad05d0c39c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2018-03-02  3398  	    pipe_ctx->plane_res.ipp->funcs->ipp_cursor_set_attributes)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3399  		pipe_ctx->plane_res.ipp->funcs->ipp_cursor_set_attributes(
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3400  				pipe_ctx->plane_res.ipp, attributes);
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3401  
-d1aaad05d0c39c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2018-03-02  3402  	if (pipe_ctx->plane_res.mi &&
-d1aaad05d0c39c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2018-03-02  3403  	    pipe_ctx->plane_res.mi->funcs->set_cursor_attributes)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3404  		pipe_ctx->plane_res.mi->funcs->set_cursor_attributes(
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3405  				pipe_ctx->plane_res.mi, attributes);
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3406  
-d1aaad05d0c39c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2018-03-02  3407  	if (pipe_ctx->plane_res.xfm &&
-d1aaad05d0c39c drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Harry Wentland      2018-03-02  3408  	    pipe_ctx->plane_res.xfm->funcs->set_cursor_attributes)
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3409  		pipe_ctx->plane_res.xfm->funcs->set_cursor_attributes(
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3410  				pipe_ctx->plane_res.xfm, attributes);
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3411  }
-33fd17d9125c00 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Eric Yang           2018-01-18  3412  
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3413  bool dce110_set_backlight_level(struct pipe_ctx *pipe_ctx,
-38077562e0594a drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Kaitlyn Tse         2024-10-03  3414  	struct set_backlight_level_params *backlight_level_params)
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3415  {
-38077562e0594a drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Kaitlyn Tse         2024-10-03  3416  	uint32_t backlight_pwm_u16_16 = backlight_level_params->backlight_pwm_u16_16;
-38077562e0594a drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Kaitlyn Tse         2024-10-03  3417  	uint32_t frame_ramp = backlight_level_params->frame_ramp;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3418  	struct dc_link *link = pipe_ctx->stream->link;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3419  	struct dc  *dc = link->ctx->dc;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3420  	struct abm *abm = pipe_ctx->stream_res.abm;
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3421  	struct panel_cntl *panel_cntl = link->panel_cntl;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3422  	struct dmcu *dmcu = dc->res_pool->dmcu;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3423  	bool fw_set_brightness = true;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3424  	/* DMCU -1 for all controller id values,
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3425  	 * therefore +1 here
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3426  	 */
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3427  	uint32_t controller_id = pipe_ctx->stream_res.tg->inst + 1;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3428  
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3429  	if (abm == NULL || panel_cntl == NULL || (abm->funcs->set_backlight_level_pwm == NULL))
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3430  		return false;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3431  
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3432  	if (dmcu)
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3433  		fw_set_brightness = dmcu->funcs->is_dmcu_initialized(dmcu);
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3434  
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3435  	if (!fw_set_brightness && panel_cntl->funcs->driver_set_backlight)
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3436  		panel_cntl->funcs->driver_set_backlight(panel_cntl, backlight_pwm_u16_16);
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3437  	else
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3438  		abm->funcs->set_backlight_level_pwm(
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3439  				abm,
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3440  				backlight_pwm_u16_16,
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3441  				frame_ramp,
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3442  				controller_id,
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3443  				link->panel_cntl->inst);
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3444  
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3445  	return true;
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3446  }
-4b0e95d1838f0e drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-22  3447  
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3448  void dce110_set_abm_immediate_disable(struct pipe_ctx *pipe_ctx)
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3449  {
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3450  	struct abm *abm = pipe_ctx->stream_res.abm;
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3451  	struct panel_cntl *panel_cntl = pipe_ctx->stream->link->panel_cntl;
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3452  
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3453  	if (abm)
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3454  		abm->funcs->set_abm_immediate_disable(abm,
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3455  				pipe_ctx->stream->link->panel_cntl->inst);
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3456  
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3457  	if (panel_cntl)
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3458  		panel_cntl->funcs->store_backlight_level(panel_cntl);
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3459  }
-3ba01817365c5a drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-18  3460  
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3461  void dce110_set_pipe(struct pipe_ctx *pipe_ctx)
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3462  {
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3463  	struct abm *abm = pipe_ctx->stream_res.abm;
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3464  	struct panel_cntl *panel_cntl = pipe_ctx->stream->link->panel_cntl;
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3465  	uint32_t otg_inst = pipe_ctx->stream_res.tg->inst + 1;
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3466  
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3467  	if (abm && panel_cntl)
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3468  		abm->funcs->set_pipe(abm, otg_inst, panel_cntl->inst);
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3469  }
-474ac4a875ca6f drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Yongqiang Sun       2020-04-27  3470  
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3471  void dce110_enable_lvds_link_output(struct dc_link *link,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3472  		const struct link_resource *link_res,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3473  		enum clock_source_id clock_source,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3474  		uint32_t pixel_clock)
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3475  {
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3476  	(void)link_res;
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3477  	link->link_enc->funcs->enable_lvds_output(
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3478  			link->link_enc,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3479  			clock_source,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3480  			pixel_clock);
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3481  	link->phy_state.symclk_state = SYMCLK_ON_TX_ON;
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3482  }
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3483  
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3484  void dce110_enable_tmds_link_output(struct dc_link *link,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3485  		const struct link_resource *link_res,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3486  		enum signal_type signal,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3487  		enum clock_source_id clock_source,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3488  		enum dc_color_depth color_depth,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3489  		uint32_t pixel_clock)
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3490  {
-f82480fafedf62 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Gaghik Khachatrian  2026-03-09  3491  	(void)link_res;
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3492  	link->link_enc->funcs->enable_tmds_output(
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3493  			link->link_enc,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3494  			clock_source,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3495  			color_depth,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3496  			signal,
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3497  			pixel_clock);
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3498  	link->phy_state.symclk_state = SYMCLK_ON_TX_ON;
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3499  
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3500  	// For dongle Type 2 with no I2C support on board, setup sw mode of Ri/Pj check with proper aux instance
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3501  	if (link->force_to_use_aux) {
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3502  		if (link->link_enc && link->link_enc->funcs->setup_ri_pj_check_in_sw_or_hw_mode)
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3503  			link->link_enc->funcs->setup_ri_pj_check_in_sw_or_hw_mode(link->link_enc,
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3504  				link->aux_hw_inst, true);
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3505  	} else
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3506  		// For HDMI setup hw mode of Ri/Pj check with proper ddc pin instance
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3507  		if (link->link_enc && link->link_enc->funcs->setup_ri_pj_check_in_sw_or_hw_mode)
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3508  			link->link_enc->funcs->setup_ri_pj_check_in_sw_or_hw_mode(link->link_enc,
-64fb5e1fd7fd78 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Aurabindo Pillai    2026-07-21  3509  				link->ddc_hw_inst, false);
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3510  }
-9c75891feef0f9 drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c Wenjing Liu         2022-08-31  3511  
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15 @3512  static void dce110_enable_analog_link_output(
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15  3513  		struct dc_link *link,
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15  3514  		uint32_t pix_clk_100hz)
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15  3515  {
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15  3516  	link->link_enc->funcs->enable_analog_output(
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15  3517  			link->link_enc,
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15  3518  			pix_clk_100hz);
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15  3519  }
-cea8349e4494d2 drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c   Roman Li            2026-04-15  3520  
+288801685d7137 Richard Kuo 2025-08-18   33  
+288801685d7137 Richard Kuo 2025-08-18   34  //  basically a copy of dt_scan_chosen, but doesn't do the initrd scan.
+288801685d7137 Richard Kuo 2025-08-18   35  static int __init early_init_dt_scan_chosen_noinitrd(unsigned long node, const char *uname,
+288801685d7137 Richard Kuo 2025-08-18   36  				     int depth, void *data)
+288801685d7137 Richard Kuo 2025-08-18   37  {
+288801685d7137 Richard Kuo 2025-08-18   38  	unsigned long l;
+288801685d7137 Richard Kuo 2025-08-18   39  	char *p;
+288801685d7137 Richard Kuo 2025-08-18   40  
+288801685d7137 Richard Kuo 2025-08-18   41  	pr_debug("search \"chosen\", depth: %d, uname: %s\n", depth, uname);
+288801685d7137 Richard Kuo 2025-08-18   42  
+288801685d7137 Richard Kuo 2025-08-18   43  	if (depth != 1 || !data ||
+288801685d7137 Richard Kuo 2025-08-18   44  	    (strcmp(uname, "chosen") != 0 && strcmp(uname, "chosen@0") != 0))
+288801685d7137 Richard Kuo 2025-08-18   45  		return 0;
+288801685d7137 Richard Kuo 2025-08-18   46  
+288801685d7137 Richard Kuo 2025-08-18   47  	//early_init_dt_check_for_initrd(node);
+288801685d7137 Richard Kuo 2025-08-18   48  
+288801685d7137 Richard Kuo 2025-08-18   49  	/* Retrieve command line */
+288801685d7137 Richard Kuo 2025-08-18  @50  	p = of_get_flat_dt_prop(node, "bootargs", &l);
+288801685d7137 Richard Kuo 2025-08-18   51  	if (p != NULL && l > 0)
+288801685d7137 Richard Kuo 2025-08-18   52  		strscpy(data, p, min((int)l, COMMAND_LINE_SIZE));
+288801685d7137 Richard Kuo 2025-08-18   53  
+288801685d7137 Richard Kuo 2025-08-18   54  	/*
+288801685d7137 Richard Kuo 2025-08-18   55  	 * CONFIG_CMDLINE is meant to be a default in case nothing else
+288801685d7137 Richard Kuo 2025-08-18   56  	 * managed to set the command line, unless CONFIG_CMDLINE_FORCE
+288801685d7137 Richard Kuo 2025-08-18   57  	 * is set in which case we override whatever was found earlier.
+288801685d7137 Richard Kuo 2025-08-18   58  	 */
+288801685d7137 Richard Kuo 2025-08-18   59  #ifdef CONFIG_CMDLINE
+288801685d7137 Richard Kuo 2025-08-18   60  #ifndef CONFIG_CMDLINE_FORCE
+288801685d7137 Richard Kuo 2025-08-18   61  	if (!((char *)data)[0])
+288801685d7137 Richard Kuo 2025-08-18   62  #endif
+288801685d7137 Richard Kuo 2025-08-18   63  		strscpy(data, CONFIG_CMDLINE, COMMAND_LINE_SIZE);
+288801685d7137 Richard Kuo 2025-08-18   64  #endif /* CONFIG_CMDLINE */
+288801685d7137 Richard Kuo 2025-08-18   65  
+288801685d7137 Richard Kuo 2025-08-18   66  	pr_debug("Command line is: %s\n", (char*)data);
+288801685d7137 Richard Kuo 2025-08-18   67  
+288801685d7137 Richard Kuo 2025-08-18   68  	/* break now */
+288801685d7137 Richard Kuo 2025-08-18   69  	return 1;
+288801685d7137 Richard Kuo 2025-08-18   70  }
+288801685d7137 Richard Kuo 2025-08-18   71  
+288801685d7137 Richard Kuo 2025-08-18   72  
+288801685d7137 Richard Kuo 2025-08-18   73  
+5d4b53d10af44d Brian Cain  2026-01-24   74  /*
+5d4b53d10af44d Brian Cain  2026-01-24   75   * Iterator for of_flat_dt_match_machine
+5d4b53d10af44d Brian Cain  2026-01-24   76   */
+5d4b53d10af44d Brian Cain  2026-01-24   77  static const void * __init arch_get_next_mach(const char *const **match)
+5d4b53d10af44d Brian Cain  2026-01-24   78  {
+5d4b53d10af44d Brian Cain  2026-01-24   79  	static const struct machine_desc *mdesc = __arch_info_begin;
+5d4b53d10af44d Brian Cain  2026-01-24   80  	const struct machine_desc *m = mdesc;
+5d4b53d10af44d Brian Cain  2026-01-24   81  
+5d4b53d10af44d Brian Cain  2026-01-24   82  	if (m >= __arch_info_end)
+5d4b53d10af44d Brian Cain  2026-01-24   83  		return NULL;
+5d4b53d10af44d Brian Cain  2026-01-24   84  
+5d4b53d10af44d Brian Cain  2026-01-24   85  	mdesc++;
+5d4b53d10af44d Brian Cain  2026-01-24   86  	*match = m->dt_compat;
+5d4b53d10af44d Brian Cain  2026-01-24   87  	return m;
+5d4b53d10af44d Brian Cain  2026-01-24   88  }
+5d4b53d10af44d Brian Cain  2026-01-24   89  
+288801685d7137 Richard Kuo 2025-08-18   90  /*
+288801685d7137 Richard Kuo 2025-08-18   91   * setup_machine_fdt - set up machine based on dtb passed to kernel
+288801685d7137 Richard Kuo 2025-08-18   92   * @dt_phys: physical address of dtb
+288801685d7137 Richard Kuo 2025-08-18   93   *
+288801685d7137 Richard Kuo 2025-08-18   94   * Sets up some of the earliest stuff -- setting the machine type,
+288801685d7137 Richard Kuo 2025-08-18   95   * pulling the command line options, and finding the memory.
+288801685d7137 Richard Kuo 2025-08-18   96   *
+288801685d7137 Richard Kuo 2025-08-18   97   * Since we're calling this from setup_arch, this is going to happen
+288801685d7137 Richard Kuo 2025-08-18   98   * very, very early.  Prior to even the bootmem being set up in the
+288801685d7137 Richard Kuo 2025-08-18   99   * old scheme I think.
+288801685d7137 Richard Kuo 2025-08-18  100   *
+288801685d7137 Richard Kuo 2025-08-18  101   * Also since we're always being fired up by the hypervisor, then
+288801685d7137 Richard Kuo 2025-08-18  102   * we are already running with the MMU on with an init segtable.
+288801685d7137 Richard Kuo 2025-08-18  103   */
+5d4b53d10af44d Brian Cain  2026-01-24  104  const struct machine_desc * __init setup_machine_fdt(void *dt_phys)
+288801685d7137 Richard Kuo 2025-08-18  105  {
+5d4b53d10af44d Brian Cain  2026-01-24  106  	const struct machine_desc *mdesc_best = NULL;
+288801685d7137 Richard Kuo 2025-08-18  107  	unsigned long dt_root;
+288801685d7137 Richard Kuo 2025-08-18  108  
+288801685d7137 Richard Kuo 2025-08-18  109  #ifdef CONFIG_HEXAGON_MSM8974_FLUID
+288801685d7137 Richard Kuo 2025-08-18  110  	//  Fixme:  use this for...  everybody if possible
+288801685d7137 Richard Kuo 2025-08-18  111  	//  The "tags" struct or whatever provided by LK; currently stuffing it in the "external buffer" space.
+288801685d7137 Richard Kuo 2025-08-18  112  	initial_boot_params = (void *) &external_buffer;
+288801685d7137 Richard Kuo 2025-08-18  113  	dt_root = of_get_flat_dt_root();
+288801685d7137 Richard Kuo 2025-08-18  114  	of_scan_flat_dt(early_init_dt_scan_chosen_noinitrd, boot_command_line);
+288801685d7137 Richard Kuo 2025-08-18  115  #endif
+288801685d7137 Richard Kuo 2025-08-18  116  
+288801685d7137 Richard Kuo 2025-08-18  117  	/*  reset global pointer that devtree uses to the proper blob  */
+288801685d7137 Richard Kuo 2025-08-18  118  #ifdef CONFIG_DTB_BUILTIN
+288801685d7137 Richard Kuo 2025-08-18  119  	/*  This is the label placed on the assembly blob; will already be in virtual space  */
+288801685d7137 Richard Kuo 2025-08-18  120  	initial_boot_params = dt_phys;
+288801685d7137 Richard Kuo 2025-08-18  121  #else
+288801685d7137 Richard Kuo 2025-08-18  122          initial_boot_params = phys_to_virt(dt_phys);
+288801685d7137 Richard Kuo 2025-08-18  123  #endif
+288801685d7137 Richard Kuo 2025-08-18  124  
+288801685d7137 Richard Kuo 2025-08-18  125          /* check device tree validity */
+288801685d7137 Richard Kuo 2025-08-18  126          if (fdt_magic(initial_boot_params) != OF_DT_HEADER) {
+288801685d7137 Richard Kuo 2025-08-18  127                  return NULL;
+288801685d7137 Richard Kuo 2025-08-18  128  	}
+288801685d7137 Richard Kuo 2025-08-18  129  
+288801685d7137 Richard Kuo 2025-08-18 @130  	dt_root = of_get_flat_dt_root();
+288801685d7137 Richard Kuo 2025-08-18  131  
+5d4b53d10af44d Brian Cain  2026-01-24 @132  	mdesc_best = of_flat_dt_match_machine(NULL, arch_get_next_mach);
+288801685d7137 Richard Kuo 2025-08-18  133  
+288801685d7137 Richard Kuo 2025-08-18  134  	if (!mdesc_best) {
+288801685d7137 Richard Kuo 2025-08-18  135  		panic("Unrecognized device tree\n");
+288801685d7137 Richard Kuo 2025-08-18  136  	}
+288801685d7137 Richard Kuo 2025-08-18  137  
+288801685d7137 Richard Kuo 2025-08-18  138          /*
+288801685d7137 Richard Kuo 2025-08-18  139  	 * Sets the top level address and size cells which are stored
+288801685d7137 Richard Kuo 2025-08-18  140  	 * in globals by the devtree infrastructure.
+288801685d7137 Richard Kuo 2025-08-18  141  	 */
+288801685d7137 Richard Kuo 2025-08-18 @142          early_init_dt_scan_root();
+288801685d7137 Richard Kuo 2025-08-18  143  
+288801685d7137 Richard Kuo 2025-08-18  144          /*  Retrieve various information from the /chosen node  */
+288801685d7137 Richard Kuo 2025-08-18  145  #ifndef CONFIG_HEXAGON_MSM8974_FLUID
+288801685d7137 Richard Kuo 2025-08-18  146  	//  Fixme:  do this consistently for platforms
+288801685d7137 Richard Kuo 2025-08-18 @147  	early_init_dt_scan_chosen(boot_command_line);
+288801685d7137 Richard Kuo 2025-08-18  148  #endif
+288801685d7137 Richard Kuo 2025-08-18  149          /*  Setup memory  */
+288801685d7137 Richard Kuo 2025-08-18  150  	//of_scan_flat_dt(early_init_dt_scan_memory, NULL);
+288801685d7137 Richard Kuo 2025-08-18  151  
+288801685d7137 Richard Kuo 2025-08-18  152  	return mdesc_best;
+288801685d7137 Richard Kuo 2025-08-18  153  }
+288801685d7137 Richard Kuo 2025-08-18  154  
 
-:::::: The code at line 3322 was first introduced by commit
-:::::: 4bd0dc68fd00f41ed64fbcfe7b7afe93763b04ad drm/amd/display: Fix missing hwss function for dce
+:::::: The code at line 130 was first introduced by commit
+:::::: 288801685d71376da5644b5f11ea806fc06ccea1 hexagon: add device tree support
 
-:::::: TO: Joshua Aberback <joshua.aberback@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Richard Kuo <rkuo@quicinc.com>
+:::::: CC: Brian Cain <brian.cain@oss.qualcomm.com>
 
 --
 0-DAY CI Kernel Test Service
