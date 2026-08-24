@@ -1,166 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6C9364049
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 14:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B463515C4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 18:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787583068; cv=none; b=Lezvl8IigYYyqH0ih5XHTM7UcSIaxRkExG+SjyNfpzhN7WlttFrDaaagPseUUCj09qyhCdMYg3q8oZoEq3VEqEkdchb9vT5Rge6pSkHTQE6SrU4MJvrixC1yt53Wt11lik6o1NFS0uuBz2qVG/mGYVaoM2tzD27cmTt+hRkmmaY=
+	t=1787597438; cv=none; b=uFIBmv81szGa7NMFWYcIdXzVFjB+zsdymxpq7Wb51JWqydl7HOLSI++RafuJU321nvJ+sFSpxxadO9NUe6Pc8QEE7zWvUcAFLvM5thS+DEUEfMNiOypuj/g7VpMjhHcf7eIkAVm4IwgZB9LZSmmrQrncs7pcUmd8/NRQ1oZ9Jzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787583068; c=relaxed/simple;
-	bh=fOZiwFAE9Wuvlu3PhFUKTUS0M9KyCx8yhpdH6laDcUk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qmyMQ0DxheknGuNulZMoW+wRKyXQh7wHzhDfpvaJUKoqfnTrWGiGRNg4xksw0HT+HGDSWqe4MuP3IZa5x4Q8wNSjDNnawI8q2mEKWxvxUI/vuuysNJEThFzAZE0bSmyLL2N4JccyKVPC44NvTbmjwxmOj5xkcdajWmrh2wlSkMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hyp3Nhok; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1787597438; c=relaxed/simple;
+	bh=vwsIkq3vGwtCk1Yi+102hhzLj4F624CUHBps8Z9LWeo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uu9S1IaiaqxB6ABaai9t2BGxlffpOOaA2OPBMSU4Nf/2bOmAiy0cx84D7GS7DZXFoneLS+HLJvgUSaBKNdLL+sFjOJjfQlBP1znjE2ZB2SUAszzP5aUjYA4o6HZPRaprrqpOiqgGlRGDLMpSZV/d+1inCFTiPz+aBCjcxXr+dHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJftUlsn; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyp3Nhok"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJftUlsn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787583066; x=1819119066;
-  h=date:from:to:cc:subject:message-id;
-  bh=fOZiwFAE9Wuvlu3PhFUKTUS0M9KyCx8yhpdH6laDcUk=;
-  b=hyp3Nhok8761uj4dpWZZAGMh/JWt5Ahv1K1GxKeGUszOVgYfuanmrsC3
-   OBNSuf1bvLL0L6WJV6SU9WxKk0HXeupKW4qeSZXb6HCtlHXyQC1LWHdtu
-   TzRBJV2VtpDvklM8B93rrh9zxW3/QGiCF1HXr2i9t0JCnxSoGjJRrn8CP
-   n0LQV1g88KzxzvoU3UFYN8bj8TLFK983Tjm+Wkp5ksUANCnDUsyMU/jR/
-   PMDcwjFMnpeDnIc+NDkjGZQ1cGw8N/qBFb3rKvMwWpB0KxFxiSkqu0GBQ
-   etuB0q0f+pDuyEGLBkCT2eaFNo+dUbFQauILNl+oa3O+im04XsZGODMca
-   w==;
-X-CSE-ConnectionGUID: KdxpdgNBRmOi4kdKGBY25A==
-X-CSE-MsgGUID: +RUaPf2iQbu9O+bWCOLePQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="88161290"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="88161290"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 07:51:06 -0700
-X-CSE-ConnectionGUID: CSA0CGsxTE2otHpAWbZOGw==
-X-CSE-MsgGUID: zTMmo3kST3aW3GahTyZwiA==
+  t=1787597436; x=1819133436;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vwsIkq3vGwtCk1Yi+102hhzLj4F624CUHBps8Z9LWeo=;
+  b=iJftUlsnx4EeRXUxsFNs5jE6ARuq6QHeQR2niFzg47fsfb7S/zY099v0
+   +XzYTGXVhPWNLSzboy3YSoMcyJq5fA0apajacpsWLsL18AR+QLXN1vJGs
+   upLWvSN6TObCjaXHq3EcNG+dkSH6YRJnotyq4LP7Os7SSD+xN7MaGkXc6
+   4Cyp9ZsA3N93AN/yG+nMl4ek/uR04R0f5RxdEDSlaNG2tVZizhQjHMmkl
+   iys2Kjfeyckp40LakF/SPUYRbHMUzkyvqfmRWuZ6nnaDTjeFGEnjLa9pH
+   VaRER0fqrPb9qozrAYBCWuCJm/0U+lJeCtRpbpPwylYNxfTUSnjrI/djk
+   Q==;
+X-CSE-ConnectionGUID: 5laQgJlBRKKAaiTtAf7ixQ==
+X-CSE-MsgGUID: s/l6sr8uRiCAMRWb2JbKZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="87931494"
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="87931494"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 11:50:36 -0700
+X-CSE-ConnectionGUID: ZaMwmeuaTQyvIhm+6uASJA==
+X-CSE-MsgGUID: ixMfBGXHSPaLCnIE9XMeQg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="267589894"
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="260930454"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 Aug 2026 07:51:04 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 24 Aug 2026 11:50:32 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyW0j-000000003HR-3jM0;
-	Mon, 24 Aug 2026 14:50:55 +0000
-Date: Mon, 24 Aug 2026 22:50:20 +0800
+	id 1wyZkV-000000003nH-1Jc8;
+	Mon, 24 Aug 2026 18:50:25 +0000
+Date: Tue, 25 Aug 2026 02:49:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:frame-desc 31/38]
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:25: warning: format
- '%p' expects argument of type 'void *', but argument 5 has type 'long int'
-Message-ID: <202608242231.UUc2L5th-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Rosen Penev <rosenp@gmail.com>, linux-sound@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Michal Simek <monstr@monstr.eu>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv4] ASoC: xilinx: formatter_pcm: use more devm in probe
+Message-ID: <202608250212.z7M3tz5i-lkp@intel.com>
+References: <20260823050012.17067-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260823050012.17067-1-rosenp@gmail.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git frame-desc
-head:   7c1e8e3f907ccd6c51f2c23e1a4ac09b6d4b1f04
-commit: 212ff03f220ab9cdff207d0ff3c6a459e1f1e1d5 [31/38] media: rkisp1: Use v4l2_subdev_get_frame_desc()
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260824/202608242231.UUc2L5th-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608242231.UUc2L5th-lkp@intel.com/reproduce)
+Hi Rosen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v7.2]
+[also build test ERROR on linus/master next-20260821]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/ASoC-xilinx-formatter_pcm-use-more-devm-in-probe/20260822-220012
+base:   v7.2
+patch link:    https://lore.kernel.org/r/20260823050012.17067-1-rosenp%40gmail.com
+patch subject: [PATCHv4] ASoC: xilinx: formatter_pcm: use more devm in probe
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260825/202608250212.z7M3tz5i-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608250212.z7M3tz5i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608242231.UUc2L5th-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608250212.z7M3tz5i-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
+   sound/soc/xilinx/xlnx_formatter_pcm.c: In function 'xlnx_formatter_pcm_probe':
+>> sound/soc/xilinx/xlnx_formatter_pcm.c:632:51: error: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     632 |                         return dev_err_probe(dev, "audio formatter reset failed\n");
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                   |
+         |                                                   char *
    In file included from include/linux/device.h:15,
-                    from include/linux/pm_runtime.h:11,
-                    from drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:13:
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c: In function 'rkisp1_gasket_enable':
->> drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:25: warning: format '%p' expects argument of type 'void *', but argument 5 has type 'long int' [-Wformat=]
-     109 |                         "failed to get frame descriptor from '%s':%u: %pe\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:108:17: note: in expansion of macro 'dev_err'
-     108 |                 dev_err(rkisp1->dev,
-         |                 ^~~~~~~
-   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:72: note: format string is defined here
-     109 |                         "failed to get frame descriptor from '%s':%u: %pe\n",
-         |                                                                       ~^
-         |                                                                        |
-         |                                                                        void *
-         |                                                                       %ld
+                    from include/sound/soc.h:15,
+                    from sound/soc/xilinx/xlnx_formatter_pcm.c:17:
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+>> sound/soc/xilinx/xlnx_formatter_pcm.c:632:32: error: too few arguments to function 'dev_err_probe'; expected at least 3, have 2
+     632 |                         return dev_err_probe(dev, "audio formatter reset failed\n");
+         |                                ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:278:20: note: declared here
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^~~~~~~~~~~~~
 
 
-vim +109 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+vim +/dev_err_probe +632 sound/soc/xilinx/xlnx_formatter_pcm.c
 
-    86	
-    87	static int rkisp1_gasket_enable(struct rkisp1_device *rkisp1,
-    88					struct media_pad *source)
-    89	{
-    90		struct v4l2_subdev *source_sd;
-    91		unsigned int dt;
-    92		u32 mask;
-    93		u32 val;
-    94	
-    95		/*
-    96		 * Configure and enable the gasket with the CSI-2 data type. Set the
-    97		 * vsync polarity as active high, as that is what the ISP is configured
-    98		 * to expect in ISP_ACQ_PROP. Enable left justification, as the i.MX8MP
-    99		 * ISP has a 16-bit wide input and expects data to be left-aligned.
-   100		 */
-   101	
-   102		source_sd = media_entity_to_v4l2_subdev(source->entity);
-   103	
-   104		struct v4l2_mbus_frame_desc *fd __free(v4l2_subdev_free_frame_desc) =
-   105			v4l2_subdev_get_frame_desc(source_sd, source->index,
-   106						   V4L2_MBUS_FRAME_DESC_TYPE_CSI2);
-   107		if (IS_ERR(fd)) {
-   108			dev_err(rkisp1->dev,
- > 109				"failed to get frame descriptor from '%s':%u: %pe\n",
-   110				source_sd->name, 0, PTR_ERR(fd));
-   111			return PTR_ERR(fd);
-   112		}
-   113	
-   114		if (fd->num_entries != 1) {
-   115			dev_err(rkisp1->dev, "invalid frame descriptor for '%s':%u\n",
-   116				source_sd->name, 0);
-   117			return -EINVAL;
-   118		}
-   119	
-   120		dt = fd->entry[0].bus.csi2.dt;
-   121	
-   122		if (rkisp1->gasket_id == 0) {
-   123			mask = ISP_DEWARP_CONTROL_MIPI_CSI1_HS_POLARITY
-   124			     | ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_MASK
-   125			     | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
-   126			     | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK
-   127			     | ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
-   128			val = ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_POSITIVE
-   129			    | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
-   130			    | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE(dt);
-   131		} else {
-   132			mask = ISP_DEWARP_CONTROL_MIPI_CSI2_HS_POLARITY
-   133			     | ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_MASK
-   134			     | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
-   135			     | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK
-   136			     | ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
-   137			val = ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_POSITIVE
-   138			    | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
-   139			    | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE(dt);
-   140		}
-   141	
-   142		regmap_update_bits(rkisp1->gasket, ISP_DEWARP_CONTROL, mask, val);
-   143	
-   144		return 0;
-   145	}
-   146	
+   584	
+   585	static int xlnx_formatter_pcm_probe(struct platform_device *pdev)
+   586	{
+   587		int ret;
+   588		u32 val;
+   589		struct xlnx_pcm_drv_data *aud_drv_data;
+   590		struct device *dev = &pdev->dev;
+   591		struct clk *axi_clk;
+   592	
+   593		axi_clk = devm_clk_get_enabled(dev, "s_axi_lite_aclk");
+   594		if (IS_ERR(axi_clk))
+   595			return dev_err_probe(dev, PTR_ERR(axi_clk), "failed to get s_axi_lite_aclk");
+   596	
+   597		aud_drv_data = devm_kzalloc(dev, sizeof(*aud_drv_data), GFP_KERNEL);
+   598		if (!aud_drv_data)
+   599			return -ENOMEM;
+   600	
+   601		aud_drv_data->mmio = devm_platform_ioremap_resource(pdev, 0);
+   602		if (IS_ERR(aud_drv_data->mmio))
+   603			return PTR_ERR(aud_drv_data->mmio);
+   604	
+   605		val = readl(aud_drv_data->mmio + XLNX_AUD_CORE_CONFIG);
+   606		if (val & AUD_CFG_MM2S_MASK) {
+   607			aud_drv_data->mm2s_presence = true;
+   608			ret = xlnx_formatter_pcm_reset(aud_drv_data->mmio +
+   609						       XLNX_MM2S_OFFSET);
+   610			if (ret)
+   611				return dev_err_probe(dev, ret, "audio formatter reset failed\n");
+   612			xlnx_formatter_disable_irqs(aud_drv_data->mmio +
+   613						    XLNX_MM2S_OFFSET,
+   614						    SNDRV_PCM_STREAM_PLAYBACK);
+   615	
+   616			aud_drv_data->mm2s_irq = platform_get_irq_byname(pdev,
+   617									 "irq_mm2s");
+   618			if (aud_drv_data->mm2s_irq < 0)
+   619				return aud_drv_data->mm2s_irq;
+   620	
+   621			ret = devm_request_irq(dev, aud_drv_data->mm2s_irq,
+   622					       xlnx_mm2s_irq_handler, 0,
+   623					       "xlnx_formatter_pcm_mm2s_irq", aud_drv_data);
+   624			if (ret)
+   625				return ret;
+   626		}
+   627		if (val & AUD_CFG_S2MM_MASK) {
+   628			aud_drv_data->s2mm_presence = true;
+   629			ret = xlnx_formatter_pcm_reset(aud_drv_data->mmio +
+   630						       XLNX_S2MM_OFFSET);
+   631			if (ret)
+ > 632				return dev_err_probe(dev, "audio formatter reset failed\n");
+   633			xlnx_formatter_disable_irqs(aud_drv_data->mmio +
+   634						    XLNX_S2MM_OFFSET,
+   635						    SNDRV_PCM_STREAM_CAPTURE);
+   636	
+   637			aud_drv_data->s2mm_irq = platform_get_irq_byname(pdev,
+   638									 "irq_s2mm");
+   639			if (aud_drv_data->s2mm_irq < 0)
+   640				return aud_drv_data->s2mm_irq;
+   641	
+   642			ret = devm_request_irq(dev, aud_drv_data->s2mm_irq,
+   643					       xlnx_s2mm_irq_handler, 0,
+   644					       "xlnx_formatter_pcm_s2mm_irq",
+   645					       aud_drv_data);
+   646			if (ret)
+   647				return ret;
+   648		}
+   649	
+   650		dev_set_drvdata(dev, aud_drv_data);
+   651	
+   652		return devm_snd_soc_register_component(dev, &xlnx_asoc_component, NULL, 0);
+   653	}
+   654	
 
 --
 0-DAY CI Kernel Test Service
