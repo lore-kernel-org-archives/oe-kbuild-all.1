@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B2B22D4C3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 01:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A789C2F0673
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 02:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787533976; cv=none; b=FardwHHP9WrNpAPNKe+3BGJiPUz/KgYM53LLBBUjfY1jlaRcOLEEU5qKEfLIGMenPROGwrdN403i6DlJpFLxoeihQQkHIDlEY68A+G1Xx60a448nOUmYczitSbzeEC1K7h20I/tvZZvRlPuP/bgi1DfJn1ixGhBREnHD42C8oFc=
+	t=1787537032; cv=none; b=GlD/2f0zSzx6Xz9w9zr58xLeDL4J9Kx2cWjXSOw8XsuHyjBmLGVk8x2ta7H7H9VJ2hdszY5l+GzpHdWrpneSVrzcYeAKeLFp7yix9uowII7IWIZkN+OVWv0vK3K1XQPy2BT1ouFUFe0rnT6KsU5DTOWPpsxxVcIkZ04XAHnD8Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787533976; c=relaxed/simple;
-	bh=333dcJgdKIPNL5C+srKB6rYKfeR9Bj7iGQ9zDWAXAGc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rqKtT4KlwsHwpQ1igAxUuf4Qj63/0+LIzcB8PTkUh72k2H8rOLW/00J32kl2H88VUZCgeqBASXXqJGEbH45zRJtL1lo9yqtT5+KS9/YcCmMvNgpPGrHpsdHTwHgVv0z2EHHEgtC01mGUozQG24GofzCoDNihoHJjVR/i0BK6UTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBdJs7ls; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1787537032; c=relaxed/simple;
+	bh=IdN3O5uzBi4jrALu98j6SA3Ke/ofbXDbEuE+i8MXwFA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S/3lFNkrHHYKDQN7B8D6yDY4QGOTY+BJaOZPUfIIGoVLkkswmsAwMaZcNOn6x6WGhKGkBBaQV9gYfnSydD3J/NeDxRWt6VeXtFCrghRcS2s5S7kHNyuNDNqQSLaMzKoe4U7OWF9SOePh9eF0yM9k1psUMhf62pQ78GwZ66ki7HY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+xEJ/Iu; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBdJs7ls"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+xEJ/Iu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787533973; x=1819069973;
+  t=1787537030; x=1819073030;
   h=date:from:to:cc:subject:message-id;
-  bh=333dcJgdKIPNL5C+srKB6rYKfeR9Bj7iGQ9zDWAXAGc=;
-  b=XBdJs7ls/O8zWT3zUQckvBL+2oI2T8xZ75F8P5EpQX/5bJtwGlDqiHr2
-   NEyh1hC4s/3htnN/w6qPU5JBL6muxfkRS0XGNdUoV641IsMI1vCgW6sz5
-   v3lu0jXrsz8AdZTIqU46i76sj0weBzd18NlYDCWb1wKbABRmoHxDc51MG
-   wLbeKRcCDbUcKEHWzBG/xq/45TQy0FAwv1/ltccFbNcEy6hAVsjABBCUv
-   m+vadu9XXJbsV0sxlVCHVfy4TxKtFPBSAk25QsY1I5RtW5JkQcG5PiZlB
-   jgLzsyOXZ9iZIRDUx/WaCgmV+s4RIucNq+8potCY3dfMZiTZJVKsM3Du9
-   A==;
-X-CSE-ConnectionGUID: 7jW9dN45RXi4N30lPbSktg==
-X-CSE-MsgGUID: inQ1J2vCQOOt539My+5vEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="99139776"
+  bh=IdN3O5uzBi4jrALu98j6SA3Ke/ofbXDbEuE+i8MXwFA=;
+  b=Y+xEJ/Iu3wWQkqOd/9bq4Guo1oAqZzQPkURiGiniYeBKhrJVsKuIRxi7
+   9m+dXJ/tvjJ4LrIFFFjjjlxBkyAQVfLUF8jLWoQNABaxcxu0W45u/Pv+O
+   PY5jkzEOPSX7mCUSIKS/h/JO5tfcMR4bR5Ca0VmSQJCtMykr8Q0r5/uEE
+   IbZtIH3VOhvTaFYUBgFJ2Zax/qT52uQCVw5h3PBGly2gZAsFDlRrvAytE
+   /jGn2JTylPRUNLiVc0X2pXZJYUybF8AtC25ADIIX3EJwIS4fNR1tMYAvp
+   cYzvJvdmTjEB2gAj2tTgVzP0VuqCWtDbZsrYFdpOuVM+bS43uL2vH4Lvt
+   g==;
+X-CSE-ConnectionGUID: LM6jN0MBROm00xSU0aiNWQ==
+X-CSE-MsgGUID: +e6vktSxSmaMJUPvzJ0Skg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="98572681"
 X-IronPort-AV: E=Sophos;i="6.25,239,1779174000"; 
-   d="scan'208";a="99139776"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 18:12:53 -0700
-X-CSE-ConnectionGUID: QD22mQR4REau8CNyr4m7EA==
-X-CSE-MsgGUID: YpDy90KpQ76T+fDyK/kk7Q==
+   d="scan'208";a="98572681"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 19:03:49 -0700
+X-CSE-ConnectionGUID: kfpAhy/yRxOoIqXmt9C3/w==
+X-CSE-MsgGUID: POL1NeJMTemqWNBJIa0Wmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,239,1779174000"; 
-   d="scan'208";a="291699085"
+   d="scan'208";a="305064354"
 Received: from igk-lkp-server01.igk.intel.com (HELO b49262788783) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Aug 2026 18:12:47 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Aug 2026 19:03:48 -0700
 Received: from kbuild by b49262788783 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyJEy-000000000At-3HB0;
-	Mon, 24 Aug 2026 01:12:44 +0000
-Date: Mon, 24 Aug 2026 03:11:49 +0200
+	id 1wyK2L-000000000Bl-2qt5;
+	Mon, 24 Aug 2026 02:03:45 +0000
+Date: Mon, 24 Aug 2026 04:02:53 +0200
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Janne Grunau <j@jannau.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/158] htmldocs: Warning:
- anolis/rpm/kernel.spec.template references a file that doesn't exist:
- linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-Message-ID: <202608240356.PnvQZ1VU-lkp@intel.com>
+Subject: [asahilinux:bits/250-aop 28/79] warning: `as` casting
+ between raw pointers without changing their constness
+Message-ID: <202608240344.OBGilCnt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,40 +59,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Qiao,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   fb512bc986e8e5e13460409fae533531d54fa59b
-commit: b59c41852684e0cfcf198cb3ded58b8b37413a47 [0/158] anolis: spec: add basic framework to generate rpm tree
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260824/202608240356.PnvQZ1VU-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   e793b14f66e33b70363166d84886d82d462f1987
+commit: ade253cc58e6089f3650bc816b34863e60d3ca13 [28/79] rust: alloc: vec: Add TryFrom trait
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260824/202608240344.OBGilCnt-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608240344.OBGilCnt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608240356.PnvQZ1VU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608240344.OBGilCnt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
->> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Using alabaster theme
---
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
->> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+>> warning: `as` casting between raw pointers without changing their constness
+   --> rust/kernel/alloc/kvec.rs:1706:40
+   |
+   1706 |         let array = unsafe { ptr::read(vec.as_ptr() as *const [T; N]) };
+   |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `vec.as_ptr().cast::<[T; N]>()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#ptr_as_ptr
+   = note: requested on the command line with `-W clippy::ptr-as-ptr`
 
 --
 0-DAY CI Kernel Test Service
