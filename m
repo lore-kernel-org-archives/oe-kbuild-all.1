@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168DD439008
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 14:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6C9364049
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Aug 2026 14:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787581202; cv=none; b=tv9iYInUgP4+GvaNlWJRWVbrW1Ux4/7McVGByznPWnZxnTggqbPypIqK7CYoAiMHidjDsiS/8LrN8H7/HRzS5Zl5X0Q7x5Nc6J85zK6HfAGoiEp08J8V54CGOQiegxuPRz+h7KzpOuBzXfYB23vx+S6EAbMi/9kCcEz0UeMtcr4=
+	t=1787583068; cv=none; b=Lezvl8IigYYyqH0ih5XHTM7UcSIaxRkExG+SjyNfpzhN7WlttFrDaaagPseUUCj09qyhCdMYg3q8oZoEq3VEqEkdchb9vT5Rge6pSkHTQE6SrU4MJvrixC1yt53Wt11lik6o1NFS0uuBz2qVG/mGYVaoM2tzD27cmTt+hRkmmaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787581202; c=relaxed/simple;
-	bh=5ovlW63ro1JbbkESw40127Pgk8UGxN6ANib6O/lV18M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ktx5iOHN6oCIQT/cR2Sjf2bGqs65obSG6YgxqSSbGemLy7dHECM4CY7oDSva1qK/1EOWu21FB9d9jJgyyT7xP92nZXfBTePxMx83d0g1WNS+2tMqh8B/UZbXzmPVlLALI54h93IJ0y0Ctf+elduU3lGmR4GtprE/C442GYQn8N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8KYsV83; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1787583068; c=relaxed/simple;
+	bh=fOZiwFAE9Wuvlu3PhFUKTUS0M9KyCx8yhpdH6laDcUk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qmyMQ0DxheknGuNulZMoW+wRKyXQh7wHzhDfpvaJUKoqfnTrWGiGRNg4xksw0HT+HGDSWqe4MuP3IZa5x4Q8wNSjDNnawI8q2mEKWxvxUI/vuuysNJEThFzAZE0bSmyLL2N4JccyKVPC44NvTbmjwxmOj5xkcdajWmrh2wlSkMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hyp3Nhok; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8KYsV83"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyp3Nhok"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787581200; x=1819117200;
+  t=1787583066; x=1819119066;
   h=date:from:to:cc:subject:message-id;
-  bh=5ovlW63ro1JbbkESw40127Pgk8UGxN6ANib6O/lV18M=;
-  b=J8KYsV83Wwg+aKLlfv/2GXLe7pjx6vDpRxleH82ck7mUuDqtsNr7mZse
-   QnBR4wbp8KFA4rCQ3PyFsATvPQ4FXZl2Rs1T4GPyfQ9DLjetJvXE3AWYa
-   Y3FEnRvD3+gQrU1D22EuXl4mU1jVUBaPBVEHxSH7iwILQuiy0n3eZrU7u
-   dyfMOHVvCcxdWxL6lSCVhuaVtPwjxuRKLJnS44owRJIUfAYvdUHnE1Myt
-   TIM5JUoRhXyW9uGKesPJFYwIUxUSmuV+hxynKxkXpsQNO7TV99WuVmdbi
-   H55pcBb79DE5wJefYq7xZJ3WnISJx2XEr+L3tENDt7E/p1a3t9NQVYyeN
+  bh=fOZiwFAE9Wuvlu3PhFUKTUS0M9KyCx8yhpdH6laDcUk=;
+  b=hyp3Nhok8761uj4dpWZZAGMh/JWt5Ahv1K1GxKeGUszOVgYfuanmrsC3
+   OBNSuf1bvLL0L6WJV6SU9WxKk0HXeupKW4qeSZXb6HCtlHXyQC1LWHdtu
+   TzRBJV2VtpDvklM8B93rrh9zxW3/QGiCF1HXr2i9t0JCnxSoGjJRrn8CP
+   n0LQV1g88KzxzvoU3UFYN8bj8TLFK983Tjm+Wkp5ksUANCnDUsyMU/jR/
+   PMDcwjFMnpeDnIc+NDkjGZQ1cGw8N/qBFb3rKvMwWpB0KxFxiSkqu0GBQ
+   etuB0q0f+pDuyEGLBkCT2eaFNo+dUbFQauILNl+oa3O+im04XsZGODMca
    w==;
-X-CSE-ConnectionGUID: o8e4n5t/QiGoTq35hBCkig==
-X-CSE-MsgGUID: pbPrWuHJRRCuxgGzf5APIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98625137"
+X-CSE-ConnectionGUID: KdxpdgNBRmOi4kdKGBY25A==
+X-CSE-MsgGUID: +RUaPf2iQbu9O+bWCOLePQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="88161290"
 X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="98625137"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 07:20:00 -0700
-X-CSE-ConnectionGUID: 79SjdCSsRza2v9AvzjhUAg==
-X-CSE-MsgGUID: CsS7e8fMTw27LeqmSs4tgA==
+   d="scan'208";a="88161290"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 07:51:06 -0700
+X-CSE-ConnectionGUID: CSA0CGsxTE2otHpAWbZOGw==
+X-CSE-MsgGUID: zTMmo3kST3aW3GahTyZwiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="264400046"
+   d="scan'208";a="267589894"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Aug 2026 07:19:58 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 Aug 2026 07:51:04 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyVWg-000000003EQ-2tak;
-	Mon, 24 Aug 2026 14:19:52 +0000
-Date: Mon, 24 Aug 2026 22:19:17 +0800
+	id 1wyW0j-000000003HR-3jM0;
+	Mon, 24 Aug 2026 14:50:55 +0000
+Date: Mon, 24 Aug 2026 22:50:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- Frank Li <Frank.Li@nxp.com>
-Subject: [sailus-media-tree:frame-desc 28/38]
- drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:51:25: warning:
- format '%p' expects argument of type 'void *', but argument 5 has type 'long
- int'
-Message-ID: <202608242201.UypJNTA2-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:frame-desc 31/38]
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:25: warning: format
+ '%p' expects argument of type 'void *', but argument 5 has type 'long int'
+Message-ID: <202608242231.UUc2L5th-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,23 +62,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   git://linuxtv.org/sailus/media_tree.git frame-desc
 head:   7c1e8e3f907ccd6c51f2c23e1a4ac09b6d4b1f04
-commit: d4fcc2fd2e12bdb46cd8a49eff24056dd12ad846 [28/38] media: nxp: imx8-isi: Use v4l2_subdev_get_frame_desc()
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260824/202608242201.UypJNTA2-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608242201.UypJNTA2-lkp@intel.com/reproduce)
+commit: 212ff03f220ab9cdff207d0ff3c6a459e1f1e1d5 [31/38] media: rkisp1: Use v4l2_subdev_get_frame_desc()
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260824/202608242231.UUc2L5th-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260824/202608242231.UUc2L5th-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608242201.UypJNTA2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608242231.UUc2L5th-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
    In file included from include/linux/device.h:15,
-                    from drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:9:
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c: In function 'mxc_isi_crossbar_gasket_enable':
->> drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:51:25: warning: format '%p' expects argument of type 'void *', but argument 5 has type 'long int' [-Wformat=]
-      51 |                         "failed to get frame descriptor from '%s':%u: %pe\n",
+                    from include/linux/pm_runtime.h:11,
+                    from drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:13:
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c: In function 'rkisp1_gasket_enable':
+>> drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:25: warning: format '%p' expects argument of type 'void *', but argument 5 has type 'long int' [-Wformat=]
+     109 |                         "failed to get frame descriptor from '%s':%u: %pe\n",
          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
@@ -88,62 +87,80 @@ All warnings (new ones prefixed by >>):
    include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
      154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
          |                                                        ^~~~~~~
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:50:17: note: in expansion of macro 'dev_err'
-      50 |                 dev_err(isi->dev,
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:108:17: note: in expansion of macro 'dev_err'
+     108 |                 dev_err(rkisp1->dev,
          |                 ^~~~~~~
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:51:72: note: format string is defined here
-      51 |                         "failed to get frame descriptor from '%s':%u: %pe\n",
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:72: note: format string is defined here
+     109 |                         "failed to get frame descriptor from '%s':%u: %pe\n",
          |                                                                       ~^
          |                                                                        |
          |                                                                        void *
          |                                                                       %ld
 
 
-vim +51 drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+vim +109 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 
-    27	
-    28	static int mxc_isi_crossbar_gasket_enable(struct mxc_isi_crossbar *xbar,
-    29						  struct v4l2_subdev_state *state,
-    30						  struct v4l2_subdev *remote_sd,
-    31						  u32 remote_pad, unsigned int port)
-    32	{
-    33		struct mxc_isi_dev *isi = xbar->isi;
-    34		const struct mxc_gasket_ops *gasket_ops = isi->pdata->gasket_ops;
-    35		const struct v4l2_mbus_framefmt *fmt;
-    36	
-    37		if (!gasket_ops)
-    38			return 0;
-    39	
-    40		/*
-    41		 * Configure and enable the gasket with the frame size and CSI-2 data
-    42		 * type. For YUV422 8-bit, enable dual component mode unconditionally,
-    43		 * to match the configuration of the CSIS.
-    44		 */
-    45	
-    46		struct v4l2_mbus_frame_desc *fd __free(v4l2_subdev_free_frame_desc) =
-    47			v4l2_subdev_get_frame_desc(remote_sd, remote_pad,
-    48						   V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL);
-    49		if (IS_ERR(fd)) {
-    50			dev_err(isi->dev,
-  > 51				"failed to get frame descriptor from '%s':%u: %pe\n",
-    52				remote_sd->name, remote_pad, PTR_ERR(fd));
-    53			return PTR_ERR(fd);
-    54		}
-    55	
-    56		if (fd->num_entries != 1) {
-    57			dev_err(isi->dev, "invalid frame descriptor for '%s':%u\n",
-    58				remote_sd->name, remote_pad);
-    59			return -EINVAL;
-    60		}
-    61	
-    62		fmt = v4l2_subdev_state_get_format(state, port, 0);
-    63		if (!fmt)
-    64			return -EINVAL;
-    65	
-    66		gasket_ops->enable(isi, fd, fmt, port);
-    67		return 0;
-    68	}
-    69	
+    86	
+    87	static int rkisp1_gasket_enable(struct rkisp1_device *rkisp1,
+    88					struct media_pad *source)
+    89	{
+    90		struct v4l2_subdev *source_sd;
+    91		unsigned int dt;
+    92		u32 mask;
+    93		u32 val;
+    94	
+    95		/*
+    96		 * Configure and enable the gasket with the CSI-2 data type. Set the
+    97		 * vsync polarity as active high, as that is what the ISP is configured
+    98		 * to expect in ISP_ACQ_PROP. Enable left justification, as the i.MX8MP
+    99		 * ISP has a 16-bit wide input and expects data to be left-aligned.
+   100		 */
+   101	
+   102		source_sd = media_entity_to_v4l2_subdev(source->entity);
+   103	
+   104		struct v4l2_mbus_frame_desc *fd __free(v4l2_subdev_free_frame_desc) =
+   105			v4l2_subdev_get_frame_desc(source_sd, source->index,
+   106						   V4L2_MBUS_FRAME_DESC_TYPE_CSI2);
+   107		if (IS_ERR(fd)) {
+   108			dev_err(rkisp1->dev,
+ > 109				"failed to get frame descriptor from '%s':%u: %pe\n",
+   110				source_sd->name, 0, PTR_ERR(fd));
+   111			return PTR_ERR(fd);
+   112		}
+   113	
+   114		if (fd->num_entries != 1) {
+   115			dev_err(rkisp1->dev, "invalid frame descriptor for '%s':%u\n",
+   116				source_sd->name, 0);
+   117			return -EINVAL;
+   118		}
+   119	
+   120		dt = fd->entry[0].bus.csi2.dt;
+   121	
+   122		if (rkisp1->gasket_id == 0) {
+   123			mask = ISP_DEWARP_CONTROL_MIPI_CSI1_HS_POLARITY
+   124			     | ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_MASK
+   125			     | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
+   126			     | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK
+   127			     | ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
+   128			val = ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_POSITIVE
+   129			    | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
+   130			    | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE(dt);
+   131		} else {
+   132			mask = ISP_DEWARP_CONTROL_MIPI_CSI2_HS_POLARITY
+   133			     | ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_MASK
+   134			     | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
+   135			     | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK
+   136			     | ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
+   137			val = ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_POSITIVE
+   138			    | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
+   139			    | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE(dt);
+   140		}
+   141	
+   142		regmap_update_bits(rkisp1->gasket, ISP_DEWARP_CONTROL, mask, val);
+   143	
+   144		return 0;
+   145	}
+   146	
 
 --
 0-DAY CI Kernel Test Service
