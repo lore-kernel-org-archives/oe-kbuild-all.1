@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D579E33B970
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 21:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA08463B94;
+	Tue, 25 Aug 2026 22:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787694553; cv=none; b=I13bClUxMs7YwhthNOj/76FuTih6ziqmoiaHkCjXfNBFuPbcRPCDB9Qx7XxLOSYCTTcZYKTG2Ubkhr7U6Zh2yuufvRGBmgLZ0g70n96PBWpk9xL9PMEVv/0Xx8i7Xtu8HSe3C8rqO8EcY3Pc4T8RFaTq7EerPr14WJkVGe+7fyQ=
+	t=1787695875; cv=none; b=KKjMQ8jXTQ9Eo7vkEkcjfzt99GebX0uc8Ftv+A1j+FZZa7PV9rzb+GHc3XgGwepo1i5UJ1gFSZxNg1qmfUTesujb5/p4VYx3r9qJnfQbqaHJLmkhbDP3ifrR9IDlM/0sLwApm86VOxsVW3WwySbK+GWmzMv9aZkNp0updzHxu7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787694553; c=relaxed/simple;
-	bh=iB3iJIpaeOIAGFQcRGJ3kUrukKd06vNTAahyWN3RODE=;
+	s=arc-20240116; t=1787695875; c=relaxed/simple;
+	bh=MoKpQAvgL/jtjrJivUZ7Cj0yMoVDx7MoG75fFAB+a+c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HE5MNneolQNqKHmaWrFmOd1FZEvL+mF8QFvrpcLYpPMutaNkFBD6dUIaYaJzu2zNj1YxTkhy5VPHnyvrA+v+KlDrm5N87TqT+qrqahO4FDYXtUnOCjL3yfkMkUreVOp/ZNI6cSzfgJe3RMcitbd7Qa5/BZ/A8lX4IH+dHjYJxhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KCnVcC49; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YdfaDbiykjRkQCciD9xmJVQ6HWGKB/wzpQAPyaLF1huBs2At7oRMEmS+hkIZPL+GZYgnK42ZLKNXo17KmtLmFd5Jj5ePKiAHUxS8qF0dvZRAGtHjAKzKO3M8x1J7/KAIx7f1iEplMGMOu+nlEhjeJwgPBSF1TJnCd92h0mOTPqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQa1hzKA; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KCnVcC49"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQa1hzKA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787694545; x=1819230545;
+  t=1787695865; x=1819231865;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iB3iJIpaeOIAGFQcRGJ3kUrukKd06vNTAahyWN3RODE=;
-  b=KCnVcC496L59sRst3KrmzRYads8uY6p7Gt5rVNTMTZrRau/FskeLioy9
-   gVjWMJM/e7bnyEcmX2O9pHeYseec9OngBlTfjNWff6S/jSnb7mz+DJyBB
-   yhv1o5gJv8b5Jh1VjONVijCxlaRSHPBuBtkEnlBe5FzQ8MO5His2hQY6L
-   TAXQXonYxc0/jZzYbTqdeEjWTZdbM3reVTeCAVA3P0pfQUjZi8otk2CL7
-   bvH8QyM3iquVhCgL7xu4PszUd43RlDbbftrMKI34BgzASduS2yYJFrsXd
-   ajGG8UcvGUV38xNojkDiswUqWmSi04weKu1pVv5/3eHswgDOmAMhjFxop
+  bh=MoKpQAvgL/jtjrJivUZ7Cj0yMoVDx7MoG75fFAB+a+c=;
+  b=MQa1hzKA2OFKJr1fRpETcgec6BO+bzFVzoR97E3sYSkZJLC0LY8uiKsK
+   Meke2YqG0etSjeQzOipUrPysjXV0G+PYo+3/iXf+7LSmDXsIXUDmQ2xsC
+   8AZqtlI9//NdkG2jcA2FGjPy6ALVKh/x5JLghG+5QDMV5ug+EvkayJkFZ
+   zhUEv+tu+QAgWt38sXrQ5x9sQEYWBGRVSiMmciBOr7T+itUllFUMYEPYm
+   Hd9CMi9L7J1WzaQ11MsaGz3p6afwyEJcuOxXtVRU+p5AUprtEQGwaJuHk
+   Hzs8ocKEthsmPuoYadjg17tIn5YnfTaH6+vGnXMaLFBQ+lfWbn6Xg9XW0
    w==;
-X-CSE-ConnectionGUID: b5O9KlpNSpa4TclAc2KViA==
-X-CSE-MsgGUID: qLtl64F+RQC4035bG161tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="88227565"
+X-CSE-ConnectionGUID: EJsmobunRLK0sCnQPYF7nA==
+X-CSE-MsgGUID: UUTl71lBTe2SqO0RuxACxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="87942355"
 X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
-   d="scan'208";a="88227565"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 14:49:01 -0700
-X-CSE-ConnectionGUID: sSXVMHspTkG5ZgURYSZq9g==
-X-CSE-MsgGUID: 1OeZazf8TWOUGQUNOZDvLQ==
+   d="scan'208";a="87942355"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 15:11:03 -0700
+X-CSE-ConnectionGUID: lqrxtMecQM6vrC891Az2dw==
+X-CSE-MsgGUID: /ap+vbZQQxyCWgQ6+KqHYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
-   d="scan'208";a="271188036"
+   d="scan'208";a="265599661"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Aug 2026 14:49:00 -0700
+  by orviesa006.jf.intel.com with ESMTP; 25 Aug 2026 15:11:01 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyz0r-000000006QV-1QAU;
-	Tue, 25 Aug 2026 21:48:57 +0000
-Date: Wed, 26 Aug 2026 05:48:25 +0800
+	id 1wyzMB-000000006SZ-2Jon;
+	Tue, 25 Aug 2026 22:10:59 +0000
+Date: Wed, 26 Aug 2026 06:10:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: "A. Sverdlin" <alexander.sverdlin@siemens.com>,
 	linux-rtc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Alexander Sverdlin <alexander.sverdlin@siemens.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] rtc: pcf85063: disable the clkout output by default
-Message-ID: <202608260554.ivtsRrZ9-lkp@intel.com>
+Message-ID: <202608260642.ydlr9qYE-lkp@intel.com>
 References: <20260824080801.709764-1-alexander.sverdlin@siemens.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,26 +82,30 @@ url:    https://github.com/intel-lab-lkp/linux/commits/A-Sverdlin/rtc-pcf85063-d
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
 patch link:    https://lore.kernel.org/r/20260824080801.709764-1-alexander.sverdlin%40siemens.com
 patch subject: [PATCH] rtc: pcf85063: disable the clkout output by default
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260826/202608260554.ivtsRrZ9-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260826/202608260554.ivtsRrZ9-lkp@intel.com/reproduce)
+config: arm-randconfig-003-20260826 (https://download.01.org/0day-ci/archive/20260826/202608260642.ydlr9qYE-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 771bdfdab2d66a4eb85b8ea7673cfa30152718b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260826/202608260642.ydlr9qYE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608260554.ivtsRrZ9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608260642.ydlr9qYE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/rtc/rtc-pcf85063.c: In function 'pcf85063_clkout_register_clk':
->> drivers/rtc/rtc-pcf85063.c:527:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+>> drivers/rtc/rtc-pcf85063.c:527:2: error: use of undeclared identifier 'ret'
      527 |         ret = regmap_update_bits(pcf85063->regmap, PCF85063_REG_CTRL2,
          |         ^~~
-         |         net
-   drivers/rtc/rtc-pcf85063.c:527:9: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/rtc/rtc-pcf85063.c:529:6: error: use of undeclared identifier 'ret'
+     529 |         if (ret)
+         |             ^~~
+   drivers/rtc/rtc-pcf85063.c:530:10: error: use of undeclared identifier 'ret'
+     530 |                 return ret;
+         |                        ^~~
+   3 errors generated.
 
 
-vim +527 drivers/rtc/rtc-pcf85063.c
+vim +/ret +527 drivers/rtc/rtc-pcf85063.c
 
    497	
    498	static struct clk *pcf85063_clkout_register_clk(struct pcf85063 *pcf85063)
