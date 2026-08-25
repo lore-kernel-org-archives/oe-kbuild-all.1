@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56493C10A6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 19:00:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E153B42C3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 19:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787684455; cv=none; b=LM8DHTBJTU/yohxTj4Kd3XfxXVh54O3n9SzcotW42irMFPJgH1M5dknMK7GEkpaDCDfFCHoDzjAX/Bq6BFMgOYes4IDZunZM9YQmxvFuQem4rwoiMdbBpaRNwU3ObMZ3E3Kf7r13b9mhviyKFoY1NP2q7WjXOJffP/Vax8Neqlc=
+	t=1787686570; cv=none; b=WPySQzkHHAt4atpHemOI6c+gHLZTfvuknlJ+duzeCDNpqtihBPRPK3siWbi+XyaosXhxIrMs8sr4ezR+Kc62a9rFxmsatqg1ZiOF1heTeswvf0tKBa3DCch3v3dUE64VCcDQFXBcbXSK2UZa1A16WJbGVQ1stisy84pWxp+ortk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787684455; c=relaxed/simple;
-	bh=sqi+Sa4oDoA2zZnmTfcgodNmYBQjMGGQHYrDPwkslwU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=q5T/mZYUkKiZ17ko0fGLde9P6YQx9x+HBaXYcei/5j1AERVB50nFcEOXhIKrX+Xxe6nb+eb4jmpTqRAE3bafUQ6kOXIL159p9LgBv2suMbHwNfuM60e7T5jGuXtFND+qAFVlwRd6hPrzGWESMWtJtF/SfiotCQLSamR6x85wWLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lPnSJ6ka; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1787686570; c=relaxed/simple;
+	bh=71VXExIsXk740RHMxuBUvS8QebKzmRSk6kAv2CYPzXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=tx7ssMUim6c0ZY8J245GhhtHwxLJ9ZCx+aRRceL+A3V/9ZQ6q0vYPGq4k2JZ1bFqofskBxBM2fDa8e4wwzJVCOtK2NDMqsr/rclZ3Kz8EoqgWsBnXLMLt+XMigUJ/pxLGDsAlJlqz6c5yIIWlUAQSJYJZSVhkQDiKixoj9zR7zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gzc7q7Nf; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lPnSJ6ka"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gzc7q7Nf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787684427; x=1819220427;
+  t=1787686568; x=1819222568;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sqi+Sa4oDoA2zZnmTfcgodNmYBQjMGGQHYrDPwkslwU=;
-  b=lPnSJ6kaDhVUJKoPo5/xMccbqPwYShUSj2fdfGRYMM81ARfnVE4z1mML
-   VFuB2w88y4cfkcqgn1v+oZ5TqLtsCSQUS3Snn3wlntFJRhqbLa00Hnvq0
-   h/1XHJuiKAbSzWKe9qefpA/WtN/os/ZfyFo1eff3AZFOkL+bLrPxo6O2s
-   Kgay82ESt7rn+B3gFUTdLKUsL3CuEiitIRN66xuDPDGMdDGz4oj8d2OUv
-   Lg4KKWwEl13SoS9cMLfQ7CBDG1HHGbrMATpZHA0dYTQCjGa9WeshFd5ji
-   NIGMTRzShmqyVK2M1z3LDxsfoDt1gyOiinXmvIe7bgZEYw7QQPBekvN9P
-   w==;
-X-CSE-ConnectionGUID: dHuPW8ncT4GQktwMQNKLcg==
-X-CSE-MsgGUID: zH7KHSgiRx6rG5uhFfmp1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="75699002"
+  bh=71VXExIsXk740RHMxuBUvS8QebKzmRSk6kAv2CYPzXg=;
+  b=Gzc7q7NfBVXjEDjn6lB0mDB9dq+No7GmAZLcmG/p4LiuQGQehucl0Rb7
+   0pqEQCA+hNX9IHIvwNwRkMXVDHK9zfnMzQKJk29Mq07yvZjiTLvGBTXzG
+   rQuyxUpcpowrbEQ6MhdVxaWU85sVbvJiFGDocZBPFLgAi1mN+GP+HXfZg
+   QiB18yW1iPZmO1hL0ST3fB17ttr7AmBn6BhwSdL16HQxR+ckEC3UAzQaE
+   vPnaqSa6rgML/d6SLBu9FvbCfBQPLujyuHsBemsd1X2jnUsYPyNhK4BeO
+   rE2MSFwCX14F3hRekASTdEq2MSAywlOaxrG4un14zzX/0C+wNcpgAK1rv
+   A==;
+X-CSE-ConnectionGUID: DhQAcCyyQAOkOtWVzvfxQg==
+X-CSE-MsgGUID: HmkkwzxtQ22YVFGLo1O59A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="90676125"
 X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
-   d="scan'208";a="75699002"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 12:00:26 -0700
-X-CSE-ConnectionGUID: 5M8u6Tu8R8yXOqNMBgPn8g==
-X-CSE-MsgGUID: NOe5ZzxlRou+1YJlPxNmug==
+   d="scan'208";a="90676125"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 12:36:07 -0700
+X-CSE-ConnectionGUID: 3Ckz72f3QySZv6Ul1ZG7Ig==
+X-CSE-MsgGUID: DFhvNT/VTeavvD9P0seT1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
-   d="scan'208";a="267938182"
-Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Aug 2026 12:00:25 -0700
-Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
+   d="scan'208";a="266073606"
+Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 25 Aug 2026 12:36:07 -0700
+Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wywNi-000000006GV-2QZ1;
-	Tue, 25 Aug 2026 19:00:22 +0000
-Date: Wed, 26 Aug 2026 03:00:12 +0800
+	id 1wywwG-000000000BF-0eyD;
+	Tue, 25 Aug 2026 19:36:04 +0000
+Date: Tue, 25 Aug 2026 21:35:33 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:scratchpad-v10 14/14]
- arch/x86/net/bpf_jit_comp.c:28:1: sparse: sparse: symbol 'jit_ENABLE_KEY' was
- not declared. Should it be static?
-Message-ID: <202608260258.V659aXDB-lkp@intel.com>
+Subject: 
+ =?us-ascii?Q?[linux-review:Himanshu-Chauhan/riscv-Add-breakpoint-and-w?=
+ =?us-ascii?Q?atchpoint-test-for-riscv/20260811-110610?= 3/5] checkpatch:
+ WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+Message-ID: <202608252120.bPpuU0tm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,28 +63,17 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git scratchpad-v10
-head:   45e5e0071e4ad7afee159e8cbe6cbe50c8db61d0
-commit: 45e5e0071e4ad7afee159e8cbe6cbe50c8db61d0 [14/14] bpf/x86: Route JIT compilation addrs and trampoline image to scratchpad
-config: x86_64-randconfig-121-20260825 (https://download.01.org/0day-ci/archive/20260826/202608260258.V659aXDB-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260826/202608260258.V659aXDB-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Himanshu-Chauhan/riscv-Add-breakpoint-and-watchpoint-test-for-riscv/20260811-110610
+head:   575d0121c61fe28be5c9c7481961939d2ea32f43
+commit: c8108faba5ff559573014eab2665149b122f2b8b [3/5] riscv: ptrace support for hardware break/watchpoints
+reproduce: (https://download.01.org/0day-ci/archive/20260825/202608252120.bPpuU0tm-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608260258.V659aXDB-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/net/bpf_jit_comp.c:28:1: sparse: sparse: symbol 'jit_ENABLE_KEY' was not declared. Should it be static?
-
-vim +/jit_ENABLE_KEY +28 arch/x86/net/bpf_jit_comp.c
-
-    27	
-  > 28	DEFINE_SCRATCHPAD_PARAM(jit, "Toggle BPF x86 JIT compilation scratchpad");
-    29	
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#161: FILE: arch/riscv/include/uapi/asm/ptrace.h:178:
++ * bit[XLEN-1:17]  Reserved
++*/
 
 --
 0-DAY CI Kernel Test Service
