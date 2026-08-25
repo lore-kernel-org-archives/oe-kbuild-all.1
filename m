@@ -1,152 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FB42EEE90
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 03:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3223A4F30
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 04:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787627652; cv=none; b=p5Gi6ao/JX7VAXBzDmuAwxQ/XGVIaoOQg4DqYkNi3eMGFcozJxs74jTxHQ0lxDaIeQPMxh3goDwCyN+6r2rW1gqk7pHkGdMFb4ZOkTLi3SG38IS04HUDtZePxG/Vpo84JhwPz1lD6ycXznKmrFrSIufdMk9tTB2jOnh/zrA3FJo=
+	t=1787630474; cv=none; b=f6Ugy+Iy26wzxxsz4/GNpb35/Xva0qiXQdSGNsRqWhFIKnqPYmwR8vP9O3fL+2ly+byAR7FFjA/2gnZJhTCxE2ycTelUfaZIxi7AURkKByipdg2dDGcwD4qq3cN5lBV5NdIZ2Cg1QmXuSkxW5jlOgiDhoq7OhTEcjUDB2qBbs8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787627652; c=relaxed/simple;
-	bh=dOoRRytKS5NuTcf3ujPgNkg9+oAbmAcERQJqTXtsJ34=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=iAYCP/oekimzniT/N5ZZOFXBMrKFguZFNOGKNE2ld1gMvZqZ3O3pVBZcI6nI01e0z1axi+NthibTTjFAhvzWoJ5WCm0S/05KUYx2Mjspa0IAQw6Rze5+wVhSEdHr5D0WJfxNDCYpNdqn7194JnVTY24riaUtck8yzTrfMT4vsHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dzJk9rVL; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1787630474; c=relaxed/simple;
+	bh=cdyQdSz0mXnmObifZHruNQcGE2qu5fM7RuRYUPQ16go=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mrEUluDAu0k4NEVHNPGXZJt4JbqPCDwL9y0yaGJ1I5GonBm2fwV3NGjI9gQeG42P0hbGbjdNYZ3Au98UvTPJJeXDdrx0jUrTSAM9VbCvtQVkpOHyCB9Rual3N79EfRfDhDsc9wLpkx5fn/pOyDPq6FNyI5rAovDoBB3mf9Lvy60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jnMXBTC6; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dzJk9rVL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jnMXBTC6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787627651; x=1819163651;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dOoRRytKS5NuTcf3ujPgNkg9+oAbmAcERQJqTXtsJ34=;
-  b=dzJk9rVLmJIefAQwY4zOJ/ip11E87MtR8AlPTdta+YOxqRg0X75iUhGQ
-   AZxnV07h20OwlGqXoMEiCX4J7AU9faf9diBp8f0roL4fiy2SmgmAhQ3np
-   v/2tB/Bt+6BnOPsBNZzdvhmslcvL9O7kjzaNhsPWNpXiuKLlS5OYljRwR
-   I0IlqlPAEmuZFl2L0iAqKGYkzIriur7ceSvel9vz3m9n1kp1lUfamwzHv
-   o9SSVc0j9o+dCsdR3XNomigkHoJ4/NEkIEJ52v0Zy7lgQuy3o5l4dJrvY
-   ytqZ9S25ikCQ+DqzS3wlu+HC+ImJAa8L69Ibe2PpQX52BO6Q6Ap2YOQ8L
-   A==;
-X-CSE-ConnectionGUID: s9Kg/iZHRYWkH5F6vRg0vQ==
-X-CSE-MsgGUID: ywR+wJj9ROaaXN9x7lZq/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98763571"
+  t=1787630473; x=1819166473;
+  h=date:from:to:cc:subject:message-id;
+  bh=cdyQdSz0mXnmObifZHruNQcGE2qu5fM7RuRYUPQ16go=;
+  b=jnMXBTC6j8Fkryy0jwDukbf5Ksytei61DHSa6mh7nY4caZM2VDw0AbP9
+   iwNM2syfOKbE1l2jV0oO0b9nnvrxqXelw8j17D+FcK5r7+dPXksIGQT3Y
+   /CvCA9x4xoMvO9NcmUr6FWY0Te0ukRdcIffgJi0mEyR8sufgBgrNuaCPP
+   7P93oGvqJsDCNPwYLHm6108/+X6+AZrc40OyvPo/lXtD1eZ6wVbQ21xnO
+   w5f7vK0D4uZcs3+kDhTD2272U0LL2tIztNpPRVoPISKdDSUAyDfsopez5
+   Yy/7uea1UT9yJeBBjw7Kv8rH2RvVGzQvc0fX9WzadSdd1BCdGAs8NvSbx
+   Q==;
+X-CSE-ConnectionGUID: +2o8GKoDTNqWSmVhLNldJQ==
+X-CSE-MsgGUID: ma+oaZYEQL+MYWuGOshA2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="105620854"
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="98763571"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 20:14:10 -0700
-X-CSE-ConnectionGUID: PUdlGmmlSh2eNL09wbURqA==
-X-CSE-MsgGUID: NDcYrHmnQOib0ZcqoH4/Cw==
+   d="scan'208";a="105620854"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 21:01:12 -0700
+X-CSE-ConnectionGUID: AIuLzQWjREy/PyvxEpftIw==
+X-CSE-MsgGUID: drPQT4UPSxSDdK+TYAf1ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="305405809"
+   d="scan'208";a="266634214"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 Aug 2026 20:14:09 -0700
+  by orviesa008.jf.intel.com with ESMTP; 24 Aug 2026 21:01:10 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyhby-000000004rt-17Zy;
-	Tue, 25 Aug 2026 03:14:06 +0000
-Date: Tue, 25 Aug 2026 11:13:27 +0800
+	id 1wyiLT-000000004uV-47Uj;
+	Tue, 25 Aug 2026 04:01:07 +0000
+Date: Tue, 25 Aug 2026 12:01:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:scratchpad-v10 6/14] kernel/locking/lockdep.c:6754:39:
- error: 'lockdep_trace_pool' undeclared; did you mean 'lockdep_trace_stats'?
-Message-ID: <202608251159.XhiTMQKp-lkp@intel.com>
+To: Shuming Fan <shumingf@realtek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Subject: sound/soc/codecs/rt766-sdca.c:89:undefined reference to
+ `hid_input_report'
+Message-ID: <202608251149.oUJkk2jH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git scratchpad-v10
-head:   45e5e0071e4ad7afee159e8cbe6cbe50c8db61d0
-commit: 4e4680605a52c4e4bf0f7c6b0cf1455d0b26f4ed [6/14] locking/lockdep: Convert lock graph and radix tables to dynamic pools
-config: riscv-randconfig-001-20260825 (https://download.01.org/0day-ci/archive/20260825/202608251159.XhiTMQKp-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608251159.XhiTMQKp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0a0d1d55dad570724bf8c7ea83409639cfb4be9b
+commit: b50ecf5873df1ce6ff34f3e3421ebb33750e61f6 ASoC: rt766: add RT766/RT767 SDCA driver
+date:   3 weeks ago
+config: x86_64-buildonly-randconfig-004-20260825 (https://download.01.org/0day-ci/archive/20260825/202608251149.oUJkk2jH-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608251149.oUJkk2jH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: b50ecf5873df ("ASoC: rt766: add RT766/RT767 SDCA driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608251159.XhiTMQKp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608251149.oUJkk2jH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/riscv/include/asm/bug.h:90,
-                    from include/linux/bug.h:5,
-                    from arch/riscv/include/asm/current.h:13,
-                    from include/linux/mutex.h:14,
-                    from kernel/locking/lockdep.c:30:
-   kernel/locking/lockdep.c: In function 'lockdep_boot_report':
-   kernel/locking/lockdep.c:6754:24: error: 'stack_trace' undeclared (first use in this function); did you mean 'lock_trace'?
-    6754 |                 sizeof(stack_trace) - lockdep_trace_pool.remaining,
-         |                        ^~~~~~~~~~~
-   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/locking/lockdep.c:6751:9: note: in expansion of macro 'pr_info'
-    6751 |         pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
-         |         ^~~~~~~
-   kernel/locking/lockdep.c:6754:24: note: each undeclared identifier is reported only once for each function it appears in
-    6754 |                 sizeof(stack_trace) - lockdep_trace_pool.remaining,
-         |                        ^~~~~~~~~~~
-   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/locking/lockdep.c:6751:9: note: in expansion of macro 'pr_info'
-    6751 |         pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
-         |         ^~~~~~~
->> kernel/locking/lockdep.c:6754:39: error: 'lockdep_trace_pool' undeclared (first use in this function); did you mean 'lockdep_trace_stats'?
-    6754 |                 sizeof(stack_trace) - lockdep_trace_pool.remaining,
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/locking/lockdep.c:6751:9: note: in expansion of macro 'pr_info'
-    6751 |         pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
-         |         ^~~~~~~
-   kernel/locking/lockdep.c:6755:32: error: 'BOOTSTRAP_STACK_TRACE_ENTRIES' undeclared (first use in this function); did you mean 'BOOTSTRAP_STACK_TRACE_CAP'?
-    6755 |                 (unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/locking/lockdep.c:6751:9: note: in expansion of macro 'pr_info'
-    6751 |         pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
-         |         ^~~~~~~
+   ld: vmlinux.o: in function `rt766_sdca_btn_detect':
+>> sound/soc/codecs/rt766-sdca.c:89:(.text+0x1b497de): undefined reference to `hid_input_report'
+   ld: vmlinux.o: in function `sdwhid_parse':
+>> sound/soc/sdca/sdca_hid.c:37:(.text+0x1cdeba3): undefined reference to `hid_parse_report'
+   ld: vmlinux.o: in function `sdca_add_hid_device':
+>> sound/soc/sdca/sdca_hid.c:95:(.text+0x1cdec14): undefined reference to `hid_allocate_device'
+>> ld: sound/soc/sdca/sdca_hid.c:114:(.text+0x1cded5d): undefined reference to `hid_add_device'
+>> ld: sound/soc/sdca/sdca_hid.c:117:(.text+0x1cded8d): undefined reference to `hid_destroy_device'
+   ld: vmlinux.o: in function `sdca_hid_process_report':
+>> sound/soc/sdca/sdca_hid.c:160:(.text+0x1cdef92): undefined reference to `hid_input_report'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_SOC_SDCA_HID
+   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SDCA [=y] && (HID [=n]=y [=y] || HID [=n]=SND_SOC_SDCA [=y])
+   Selected by [y]:
+   - SND_SOC_RT766_SDCA_SDW [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SOUNDWIRE [=y] && SND_SOC_SDCA [=y]
 
 
-vim +6754 kernel/locking/lockdep.c
+vim +89 sound/soc/codecs/rt766-sdca.c
 
-  6748	
-  6749	static int __init lockdep_boot_report(void)
-  6750	{
-> 6751		pr_info("lockdep: %lu/%lu bootstrap entries, %zu/%lu bootstrap traces used before buddy init, scratchrec active\n",
-  6752			min_t(unsigned long, nr_list_entries, BOOTSTRAP_LOCKDEP_ENTRIES),
-  6753			BOOTSTRAP_LOCKDEP_ENTRIES,
-> 6754			sizeof(stack_trace) - lockdep_trace_pool.remaining,
-  6755			(unsigned long)BOOTSTRAP_STACK_TRACE_ENTRIES);
-  6756		return 0;
-  6757	}
-  6758	core_initcall(lockdep_boot_report);
-  6759	
+    32	
+    33	static int rt766_sdca_btn_detect(struct sdca_interrupt *interrupt)
+    34	{
+    35		struct rt766_sdca_priv *rt766 = interrupt->priv;
+    36		struct sdca_entity *ent_hid = interrupt->entity;
+    37		unsigned char *buf = NULL;
+    38		unsigned int offset, owner, length;
+    39		unsigned int det_mode, idx, val;
+    40		int ret;
+    41	
+    42		ret = regmap_read(rt766->regmap,
+    43			RT766_SDCA_CTL(UAJ, GE49, SDCA_CTL_GE_DETECTED_MODE),
+    44			&det_mode);
+    45		if (ret < 0)
+    46			goto io_error;
+    47	
+    48		/* get current UMP message owner */
+    49		ret = regmap_read(rt766->regmap,
+    50			RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_CURRENTOWNER),
+    51			&owner);
+    52		if (ret < 0)
+    53			goto io_error;
+    54	
+    55		/* if owner is device then there is no button event from device */
+    56		if (owner == 1)
+    57			return 0;
+    58	
+    59		if (det_mode) {
+    60			/* read UMP message length */
+    61			ret = regmap_read(rt766->regmap,
+    62				RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_MESSAGELENGTH),
+    63				&length);
+    64			if (ret < 0)
+    65				goto _end_btn_det_;
+    66	
+    67			/* read UMP message offset */
+    68			ret = regmap_read(rt766->regmap,
+    69				RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_MESSAGEOFFSET),
+    70				&offset);
+    71			if (ret < 0)
+    72				goto _end_btn_det_;
+    73	
+    74			buf = devm_kzalloc(&rt766->slave->dev, length, GFP_KERNEL);
+    75			if (!buf) {
+    76				dev_err(&rt766->slave->dev, "%s: alloc buf failed\n", __func__);
+    77				goto _end_btn_det_;
+    78			}
+    79	
+    80			for (idx = 0; idx < length; idx++) {
+    81				ret = regmap_read(rt766->regmap,
+    82					RT766_BUF_ADDR_HID1 + offset + idx, &val);
+    83				if (ret < 0)
+    84					goto _end_btn_det_;
+    85				buf[idx] = val & 0xff;
+    86			}
+    87	
+    88			if (ent_hid)
+  > 89				hid_input_report(ent_hid->hide.hid, HID_INPUT_REPORT,
+    90					buf, length, 1);
+    91		}
+    92	
+    93	_end_btn_det_:
+    94		if (buf)
+    95			devm_kfree(&rt766->slave->dev, buf);
+    96	
+    97		/* Host is owner, so set back to device */
+    98		if (owner == 0) {
+    99			regmap_write(rt766->regmap,
+   100				RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_CURRENTOWNER), 0x01);
+   101		}
+   102	
+   103		return 0;
+   104	
+   105	io_error:
+   106		pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
+   107		return ret;
+   108	}
+   109	
 
 --
 0-DAY CI Kernel Test Service
