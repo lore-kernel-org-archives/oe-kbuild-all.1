@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6562EEB3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 05:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A792D3B961B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 06:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787636075; cv=none; b=GvD1z4XEJG0OoEBIex6clesZgpFizaZDa3wgzK4tZeO7nLx48EYPOCrZwJ6BDmtTeFvulepOK4H+TJl1NuEuRfNfylC1P+A4mKDg2/GInF4dAWMhAi5i6etFoAmjCBa+kGItdUrUeLPkHeOi9SQrZvbHudJx+Sdi4nnmYh1x/48=
+	t=1787638780; cv=none; b=Rpnj5d9sODgKzUtNqG2dMb42+2oKfzAuDM9T90N8hyqLHLMrCfNRN14I7nqG8o0xDOMhc6/NMFDe0aYH8bULxJOEFhefNhxUFFLUHnPSSkZZWLezgVLCMh7hyORayyxRUMTzYqKb9XS3MOMmxMliMsmQTp//bqdJa6VhB47QOUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787636075; c=relaxed/simple;
-	bh=updYvxowtwN3mM8fMPA3lejK5dlTZzCw5iAixjL2/+o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KIjGo4+DSf79L7b6i5omqrtsjhcEX5yBPBdhYlJ9v05KUGmkLLo9hNXyf35UTY2SmKjLiaoG7ApXZDlkFQZbUAmuguuBfMxUyHzr3RruRaQU72vL5yTeRhvWDGhpVkC/VrbNiRClFTRpCkDI6geUqedj87qM0hcPAlsndWMVqDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e8xXxWJR; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1787638780; c=relaxed/simple;
+	bh=xLOKavvHZUic0KKUbE3tR2Bc7/M7KoBM0RGZ+2q9sPk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RF4XFbi1NzceHJtarPYxlOTjOt/G+c+xm9O/DegGgUbXPjQzzMYSkt8i8Vl0rbooWg7aV9IMmPeoyl8LaYp4tZajMS6xJj1uwOMnFTmYlwcpf6CG8jbGxgFga/uu5Ov1wxPWoZ4iX96xsGKCnlZKlc0eDfndZerz03/7fVPfHk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zj25DYLH; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e8xXxWJR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zj25DYLH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787636073; x=1819172073;
+  t=1787638778; x=1819174778;
   h=date:from:to:cc:subject:message-id;
-  bh=updYvxowtwN3mM8fMPA3lejK5dlTZzCw5iAixjL2/+o=;
-  b=e8xXxWJRRnugvXEzYLuOgUwQWZ4diEDspEmx1gL0BqRnhizZIRlaAyvf
-   ark/jR7HpchS1wJ8fzOyT1LJlf1M+vcrRj0p1iQGyWFBmqdFgEoDmJhm5
-   DRtB/oGQRaccVjLKutECBB/vHis24Z3WOl9g4gNR71Ww6s7gOeMA7JKpN
-   /ElRu+zWUEQ08PNoADk95tzQ1V9UWUtjSeVEesq2FGCOiMP8EiuqQgS/h
-   PdH28R5JR8cQs9wRlHIRXeRXMHmjbq9SkTbWd87WfImgKztzpyy5xgYbd
-   NkRkNivBsVgC11/8AdKPxZcigxQmkGAmW/NM3Yf2+4e7xB6VOLqY78ndr
-   A==;
-X-CSE-ConnectionGUID: fHp7n5DHTie/qGEL60Hiiw==
-X-CSE-MsgGUID: Y/QXiWwVQBexIfdfeRMJqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="87222638"
+  bh=xLOKavvHZUic0KKUbE3tR2Bc7/M7KoBM0RGZ+2q9sPk=;
+  b=Zj25DYLHM00qM5w88SW92xoLddVN6LEItiFopzYThoXasP11QSYMPAtJ
+   r80d9Bj7aRayvxdLs5bXxNLP2ITQrjxa9xuJKbxS/oby4Fv7FsCNGfrbo
+   FdjSYl+4NVNzx/20PiY3WaZwqrmLILEA1EXYLltY8WeU+tozCkooDX3TC
+   M+Lm2QXo53lqCj/28ECq19HDvwuOhg1JbhwAVnp5a9sR1kOqpq743qc3h
+   ovELem2/oUrlAmmZHlVENl7T7ijCXQckOWrQOzBfYZvpSuDzD7f2ergOV
+   jNA/4payRc79+sz3GqmklM/k0gpmgN/HNfKfT9VhCHM+VCeEmHikzmdG0
+   g==;
+X-CSE-ConnectionGUID: KCXM6eNxQLG++t0hibB3Gg==
+X-CSE-MsgGUID: GCS9FedlSd2225zvsbdyqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98772372"
 X-IronPort-AV: E=Sophos;i="6.25,242,1779174000"; 
-   d="scan'208";a="87222638"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 22:34:31 -0700
-X-CSE-ConnectionGUID: X34xj7isTLycg5wjD5H0rg==
-X-CSE-MsgGUID: vXubZPsDRc2tO/6RI7f+Ig==
+   d="scan'208";a="98772372"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 23:19:35 -0700
+X-CSE-ConnectionGUID: UjGVOY7XTj+dHBsIWYhAnA==
+X-CSE-MsgGUID: iBSAo6upTeeEiNWJzsJOiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,242,1779174000"; 
-   d="scan'208";a="262883585"
+   d="scan'208";a="265425269"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Aug 2026 22:34:30 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Aug 2026 23:19:34 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wyjnn-0000000053L-39Gf;
-	Tue, 25 Aug 2026 05:34:27 +0000
-Date: Tue, 25 Aug 2026 13:33:44 +0800
+	id 1wykVQ-00000000574-0dbE;
+	Tue, 25 Aug 2026 06:19:32 +0000
+Date: Tue, 25 Aug 2026 14:18:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/020-dart 4/20]
- drivers/iommu/apple-dart.c:851:54: warning: left shift count >= width of type
-Message-ID: <202608251306.uDBzdkWI-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 14/14] fs/eventpoll.c:2008:
+ warning: Function parameter or member 'depth' not described in
+ 'ep_get_upwards_depth_proc'
+Message-ID: <202608251402.evHenq68-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,117 +60,48 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux bits/020-dart
-head:   45b2aa771c5241177bad6c3f1777bb34871aa5ef
-commit: 679ee8da9f5f0497de57348d1c60a8a856f411b2 [4/20] iommu: apple-dart: Support specifying the DMA aperture in the DT
-config: i386-buildonly-randconfig-006-20260825 (https://download.01.org/0day-ci/archive/20260825/202608251306.uDBzdkWI-lkp@intel.com/config)
+Hi Jann,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   42af5216d44771f3071e771ac4dca6c186e017ed
+commit: 1b13b033062824495554e836a1ff5f85ccf6b039 [14/14] eventpoll: Fix semi-unbounded recursion
+config: x86_64-randconfig-104-20260825 (https://download.01.org/0day-ci/archive/20260825/202608251402.evHenq68-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608251306.uDBzdkWI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608251402.evHenq68-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608251306.uDBzdkWI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608251402.evHenq68-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iommu/apple-dart.c: In function 'apple_dart_of_xlate':
->> drivers/iommu/apple-dart.c:851:54: warning: left shift count >= width of type [-Wshift-count-overflow]
-     851 |                 dma_min = ((dma_addr_t)args->args[1] << 32) | args->args[2];
-         |                                                      ^~
-   drivers/iommu/apple-dart.c:852:62: warning: left shift count >= width of type [-Wshift-count-overflow]
-     852 |                 dma_addr_t size = ((dma_addr_t)args->args[3] << 32) | args->args[4];
-         |                                                              ^~
+   fs/eventpoll.c:2008: warning: Function parameter or member 'ep' not described in 'ep_get_upwards_depth_proc'
+>> fs/eventpoll.c:2008: warning: Function parameter or member 'depth' not described in 'ep_get_upwards_depth_proc'
 
 
-vim +851 drivers/iommu/apple-dart.c
+vim +2008 fs/eventpoll.c
 
-   831	
-   832	static int apple_dart_of_xlate(struct device *dev,
-   833				       const struct of_phandle_args *args)
-   834	{
-   835		struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
-   836		struct platform_device *iommu_pdev = of_find_device_by_node(args->np);
-   837		struct apple_dart *dart = platform_get_drvdata(iommu_pdev);
-   838		struct apple_dart *cfg_dart;
-   839		dma_addr_t dma_max = DMA_BIT_MASK(dart->ias);
-   840		dma_addr_t dma_min = 0;
-   841		int i, sid;
-   842	
-   843		put_device(&iommu_pdev->dev);
-   844	
-   845		if (args->args_count != 1 && args->args_count != 5)
-   846			return -EINVAL;
-   847	
-   848		sid = args->args[0];
-   849	
-   850		if (args->args_count == 5) {
- > 851			dma_min = ((dma_addr_t)args->args[1] << 32) | args->args[2];
-   852			dma_addr_t size = ((dma_addr_t)args->args[3] << 32) | args->args[4];
-   853			if (!(IS_ALIGNED(dma_min, dart->pgsize) || !IS_ALIGNED(size, dart->pgsize))) {
-   854				dev_err(dev, "Unaligned DMA window %pad..%pad for page size 0x%x\n",
-   855					&dma_min, &size, dart->pgsize);
-   856				return -EINVAL;
-   857			}
-   858			dma_max = dma_min + size - 1;
-   859			/*
-   860			 * Ensure that the DMA window does not exceed the dart's ias.
-   861			 */
-   862			if ((dma_min ^ dma_max) & ~DMA_BIT_MASK(dart->ias)) {
-   863				dev_err(dev, "Invalid DMA window for ias=%d\n",
-   864					dart->ias);
-   865				return -EINVAL;
-   866			}
-   867		}
-   868	
-   869		if (!cfg) {
-   870			cfg = kzalloc_obj(*cfg);
-   871			if (!cfg)
-   872				return -ENOMEM;
-   873			/* Will be ANDed with DART capabilities */
-   874			cfg->supports_bypass = true;
-   875			/* Will be merged with other DARTs to the to fully overlapping range. */
-   876			cfg->dma_min = dma_min;
-   877			cfg->dma_max = dma_max;
-   878		} else {
-   879			if (dma_min >= cfg->dma_max || cfg->dma_min >= dma_max) {
-   880				dev_err(dev, "non-overlapping DMA windows: %pad..%pad, "
-   881					"%pad..%pad\n", &dma_min, &dma_max,
-   882					&cfg->dma_min, &cfg->dma_max);
-   883				return -EINVAL;
-   884			}
-   885			cfg->dma_min = max(dma_min, cfg->dma_min);
-   886			cfg->dma_max = min(dma_max, cfg->dma_max);
-   887		}
-   888		dev_iommu_priv_set(dev, cfg);
-   889	
-   890		cfg_dart = cfg->stream_maps[0].dart;
-   891		if (cfg_dart) {
-   892			if (cfg_dart->pgsize != dart->pgsize)
-   893				return -EINVAL;
-   894			if (cfg_dart->ias != dart->ias)
-   895				return -EINVAL;
-   896		}
-   897	
-   898		cfg->supports_bypass &= dart->supports_bypass;
-   899	
-   900		for (i = 0; i < MAX_DARTS_PER_DEVICE; ++i) {
-   901			if (cfg->stream_maps[i].dart == dart) {
-   902				set_bit(sid, cfg->stream_maps[i].sidmap);
-   903				return 0;
-   904			}
-   905		}
-   906		for (i = 0; i < MAX_DARTS_PER_DEVICE; ++i) {
-   907			if (!cfg->stream_maps[i].dart) {
-   908				cfg->stream_maps[i].dart = dart;
-   909				set_bit(sid, cfg->stream_maps[i].sidmap);
-   910				return 0;
-   911			}
-   912		}
-   913	
-   914		return -EINVAL;
-   915	}
-   916	
+  2003	
+  2004	/**
+  2005	 * ep_get_upwards_depth_proc - determine depth of @ep when traversed upwards
+  2006	 */
+  2007	static int ep_get_upwards_depth_proc(struct eventpoll *ep, int depth)
+> 2008	{
+  2009		int result = 0;
+  2010		struct epitem *epi;
+  2011	
+  2012		if (ep->gen == loop_check_gen)
+  2013			return ep->loop_check_depth;
+  2014		hlist_for_each_entry_rcu(epi, &ep->refs, fllink)
+  2015			result = max(result, ep_get_upwards_depth_proc(epi->ep, depth + 1) + 1);
+  2016		ep->gen = loop_check_gen;
+  2017		ep->loop_check_depth = result;
+  2018		return result;
+  2019	}
+  2020	
 
 --
 0-DAY CI Kernel Test Service
