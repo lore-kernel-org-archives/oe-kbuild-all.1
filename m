@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E153B42C3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 19:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715373403F4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Aug 2026 20:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787686570; cv=none; b=WPySQzkHHAt4atpHemOI6c+gHLZTfvuknlJ+duzeCDNpqtihBPRPK3siWbi+XyaosXhxIrMs8sr4ezR+Kc62a9rFxmsatqg1ZiOF1heTeswvf0tKBa3DCch3v3dUE64VCcDQFXBcbXSK2UZa1A16WJbGVQ1stisy84pWxp+ortk=
+	t=1787688818; cv=none; b=txG4rpfasIkK39HfxKD3C1oJ002AqYM1Mv17Nmp3pFzBshDmMKjftYgGLGk3XhlnPdWeLJoyOE7JViXbRnzt5c3Y0PAr3FMla27YFKzFTv4mSBzYYx2SghYWv6QYzLlm7SkewRRRjKiIRt4tvHxIidaR155zs9QJrBoN3l1ycOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787686570; c=relaxed/simple;
-	bh=71VXExIsXk740RHMxuBUvS8QebKzmRSk6kAv2CYPzXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=tx7ssMUim6c0ZY8J245GhhtHwxLJ9ZCx+aRRceL+A3V/9ZQ6q0vYPGq4k2JZ1bFqofskBxBM2fDa8e4wwzJVCOtK2NDMqsr/rclZ3Kz8EoqgWsBnXLMLt+XMigUJ/pxLGDsAlJlqz6c5yIIWlUAQSJYJZSVhkQDiKixoj9zR7zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gzc7q7Nf; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1787688818; c=relaxed/simple;
+	bh=p5PIuMzBWQbg+MB0Z71V+GUXdgSOjlIjIDP8IWR5RwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dZwM1P8V5nU0OAbZwBB1jiu9HL9DaljMVYZ3xVqstddPxBho6pLwobvqetKcsai2ieuUEKRE1rax+xHag/Eb1b9nj5LKOa1qLJ8NWENZeiqvDByiVzc7YE1LVxxfY764GQgMo6TlvQmNetGt5jpdDDmdmXCk1mGPqxbTADNh+U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0i3lvmp; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gzc7q7Nf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0i3lvmp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787686568; x=1819222568;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=71VXExIsXk740RHMxuBUvS8QebKzmRSk6kAv2CYPzXg=;
-  b=Gzc7q7NfBVXjEDjn6lB0mDB9dq+No7GmAZLcmG/p4LiuQGQehucl0Rb7
-   0pqEQCA+hNX9IHIvwNwRkMXVDHK9zfnMzQKJk29Mq07yvZjiTLvGBTXzG
-   rQuyxUpcpowrbEQ6MhdVxaWU85sVbvJiFGDocZBPFLgAi1mN+GP+HXfZg
-   QiB18yW1iPZmO1hL0ST3fB17ttr7AmBn6BhwSdL16HQxR+ckEC3UAzQaE
-   vPnaqSa6rgML/d6SLBu9FvbCfBQPLujyuHsBemsd1X2jnUsYPyNhK4BeO
-   rE2MSFwCX14F3hRekASTdEq2MSAywlOaxrG4un14zzX/0C+wNcpgAK1rv
+  t=1787688816; x=1819224816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p5PIuMzBWQbg+MB0Z71V+GUXdgSOjlIjIDP8IWR5RwE=;
+  b=G0i3lvmpgdeyksVybTkRvBvH9xZuQxpFiAg7DhE0zYvo9t0Gu1pmg4b8
+   YHZTeHc584nsa1j88eFnCqDol+68a/ya4xRyFl2QHbO11cnZD/8Bio8be
+   C4owu6aAJKNbBi4Y7vHVEn44aLJG88eMsz+kQKN9tMIJKCvHn8xrzO9RT
+   vHXdhYpLVnIJTm2ib05Rs4QTq0YnLEokhND7myj9HjpvsQ1O9kHPXJ6BW
+   20Gdqf/OJyZrQMabyzjQZLEMBm3yDffp+1RVKFyXZ2MpuuJe5fn7GDz2N
+   nxZmDaRz+xUyDZrAOCIzND2oehOgaMWtmN2D/2IFOJScswVvkZEZqUHP/
    A==;
-X-CSE-ConnectionGUID: DhQAcCyyQAOkOtWVzvfxQg==
-X-CSE-MsgGUID: HmkkwzxtQ22YVFGLo1O59A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="90676125"
+X-CSE-ConnectionGUID: nehoQthCRbGqVD5C+M6qZA==
+X-CSE-MsgGUID: nuOY49lkQF+sr2RwpGkr5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="91983167"
 X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
-   d="scan'208";a="90676125"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 12:36:07 -0700
-X-CSE-ConnectionGUID: 3Ckz72f3QySZv6Ul1ZG7Ig==
-X-CSE-MsgGUID: DFhvNT/VTeavvD9P0seT1A==
+   d="scan'208";a="91983167"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 13:13:35 -0700
+X-CSE-ConnectionGUID: SPKpC5QpQa2e5m1L7y41rg==
+X-CSE-MsgGUID: I5oUfwkmTJK1oO4Ru7tN9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
-   d="scan'208";a="266073606"
-Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 25 Aug 2026 12:36:07 -0700
-Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
+   d="scan'208";a="264757810"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 25 Aug 2026 13:13:34 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wywwG-000000000BF-0eyD;
-	Tue, 25 Aug 2026 19:36:04 +0000
-Date: Tue, 25 Aug 2026 21:35:33 +0200
+	id 1wyxWV-000000006Kh-2ImB;
+	Tue, 25 Aug 2026 20:13:31 +0000
+Date: Wed, 26 Aug 2026 04:13:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: 
- =?us-ascii?Q?[linux-review:Himanshu-Chauhan/riscv-Add-breakpoint-and-w?=
- =?us-ascii?Q?atchpoint-test-for-riscv/20260811-110610?= 3/5] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202608252120.bPpuU0tm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Triet Hoang <triet.hoang.dev@gmail.com>,
+	Maxim Levitsky <maximlevitsky@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Dubov <oakad@yahoo.com>,
+	Ulf Hansson <ulfh@kernel.org>, linux-mmc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Triet Hoang <triet.hoang.dev@gmail.com>
+Subject: Re: [PATCH] memstick: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <202608260448.DBZikir0-lkp@intel.com>
+References: <20260825082718.244949-1-triet.hoang.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,18 +65,53 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260825082718.244949-1-triet.hoang.dev@gmail.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Himanshu-Chauhan/riscv-Add-breakpoint-and-watchpoint-test-for-riscv/20260811-110610
-head:   575d0121c61fe28be5c9c7481961939d2ea32f43
-commit: c8108faba5ff559573014eab2665149b122f2b8b [3/5] riscv: ptrace support for hardware break/watchpoints
-reproduce: (https://download.01.org/0day-ci/archive/20260825/202608252120.bPpuU0tm-lkp@intel.com/reproduce)
+Hi Triet,
 
-# many are suggestions rather than must-fix
+kernel test robot noticed the following build errors:
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#161: FILE: arch/riscv/include/uapi/asm/ptrace.h:178:
-+ * bit[XLEN-1:17]  Reserved
-+*/
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.2 next-20260824]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Triet-Hoang/memstick-Convert-to-DEFINE_SIMPLE_DEV_PM_OPS/20260825-152717
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260825082718.244949-1-triet.hoang.dev%40gmail.com
+patch subject: [PATCH] memstick: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260826/202608260448.DBZikir0-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260826/202608260448.DBZikir0-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608260448.DBZikir0-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/memstick/host/r592.c: In function 'r592_suspend':
+>> drivers/memstick/host/r592.c:854:9: error: implicit declaration of function 'r592_clear_interrupts' [-Wimplicit-function-declaration]
+     854 |         r592_clear_interrupts(dev);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/r592_clear_interrupts +854 drivers/memstick/host/r592.c
+
+9263412501022fe Maxim Levitsky  2011-03-25  849  
+9263412501022fe Maxim Levitsky  2011-03-25  850  static int r592_suspend(struct device *core_dev)
+9263412501022fe Maxim Levitsky  2011-03-25  851  {
+deaa53989537c62 Chuhong Yuan    2019-07-23  852  	struct r592_device *dev = dev_get_drvdata(core_dev);
+9263412501022fe Maxim Levitsky  2011-03-25  853  
+9263412501022fe Maxim Levitsky  2011-03-25 @854  	r592_clear_interrupts(dev);
+9263412501022fe Maxim Levitsky  2011-03-25  855  	memstick_suspend_host(dev->host);
+8fa7292fee5c524 Thomas Gleixner 2025-04-05  856  	timer_delete_sync(&dev->detect_timer);
+9263412501022fe Maxim Levitsky  2011-03-25  857  	return 0;
+9263412501022fe Maxim Levitsky  2011-03-25  858  }
+9263412501022fe Maxim Levitsky  2011-03-25  859  
 
 --
 0-DAY CI Kernel Test Service
