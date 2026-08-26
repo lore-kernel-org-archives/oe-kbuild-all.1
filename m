@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE813624B7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Aug 2026 17:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9F4367F41
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Aug 2026 18:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787766761; cv=none; b=Zq4J/wFu3mVefFbBPHJwwwZUighjOQ6A1bcwZUMOk/pQsupsaVwWXzzTHDBR4q/vcpAteAsgqNiM6h+Rq100Acoi/ow5LHtJE+QiX1JOQGbGcQdh3FeC59EDNvgeZQivSEyWprs893/uJu2stns3mBiauxDJYj3I0/9JT/YpfZw=
+	t=1787768022; cv=none; b=kMLZveqmxEAQEue3keamy37OYibYpDnCzvVpJhii6ECWeEd1qDrDCSrY6fMWqC9BQ5om6r0vRu3no1P1iSSmyfMUMCFa3YfD53UXotJ+9YI5E3HO0+PpOATLcE3DBUOozhtXkMg/NNOKcVRMIjlT/RpocWqVhhEJTOSrZ8QkZpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787766761; c=relaxed/simple;
-	bh=kIA5VFk/IM7+TjrXZbU18YQ4m10B0wjr+qkzTO8jICs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RqgFEspcD6cO224e4rAUEHtXLiWvOHcpMDvN8yrNAW6RTJTLqthczDLBirS2Muz+XNNJFuk7HwspFV2rCJMRYC27QDP2aMe+cAaGi4PDkDza1nwVko1KDoT/yTMjZpe76mBP+wzp+5Cc0cFqL5dFaNkWH9ZjFJm6vmIkcpKPyTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eelGZ31H; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1787768022; c=relaxed/simple;
+	bh=7hACW6gqwn+kYHLYeH9RIrv0GGWGhAtvLcPUpFtkEhA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Qif2ZxCPsaBwN4VlWsA/8Dn3g+wVDEAmd7dzgTNE/yBk59smGKx1cKVWh0NnmYFGPADajs2NgbLiMLJrtJHzaOMsNhg2NQGI8B0HhJ1/2exKmh1FuC2SyWIHbpI1ljsmGg7FfTbW3IHGkH5w5Sd1a4XLcYpPHJM9sZSQ0V22vw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ggeRYOi/; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eelGZ31H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ggeRYOi/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787766757; x=1819302757;
+  t=1787768015; x=1819304015;
   h=date:from:to:cc:subject:message-id;
-  bh=kIA5VFk/IM7+TjrXZbU18YQ4m10B0wjr+qkzTO8jICs=;
-  b=eelGZ31HMgb6Knaz0eVQlGjlNImzv3f2jcWWK0OJMmY2kOXk+n7tfHlm
-   nfPyMWrzudmTe1dwAX865WJaFr5UcCSKmlGuzyQ75IwctVUWegVjosyQo
-   nZTojFGxNDThtaO/+xBg5ABbBqo6Y3ji+BAMJ65cOwC3hq6ZPUNFopJWN
-   ne4OtpNAiKULSSHi/s8iNA3d8PG1mQiHWWM56qg4E1fi0GV/QS9lAmfGu
-   OtamVHuhbyk+L+LSPYgkY1ysZygMa49doBYx/VMNzTz+q6mqbmy5jBK4n
-   fSmISHlC5A1u2Pc4NSw4g7lzUw27/qWkSZ5q6w6BFGRXhfvAa7aSoHjOM
-   A==;
-X-CSE-ConnectionGUID: 2iU+B2X7RTqr2/dS4+YQLA==
-X-CSE-MsgGUID: Wu2EQyMGRI+ZuIgxp0Wk6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88276026"
+  bh=7hACW6gqwn+kYHLYeH9RIrv0GGWGhAtvLcPUpFtkEhA=;
+  b=ggeRYOi/ncGj+A996U0YS6+GxKTBuVakOfoRhU7tsAyaQvUC3d7NYBz8
+   vNhRnhnHkwHMaolSAZCV/BEaFKPWy++1AX0jBPpTYlxwBiCzUmAbQgF8J
+   4fS1wO0uPxlwNwnOBKyc1L4wR5aJRHZCpLEu4Fl27xpvVqIdSqLZuTQsj
+   7mwT5QOYv1Oe/KNmgk/e52UWImhfCgFBchdxEt4R17p0qRBBg8x/+A8+A
+   Ljw2kOzrFu6WYNxdKyp64rsyO4wW4bZHIzTisHcXm/dE/chaKweaG4Dkq
+   cFC95T3CDIAguD9k71J1+R19sSU5VaA4c/gVrKpxwkJuYFA7xj584OWOn
+   Q==;
+X-CSE-ConnectionGUID: Es3kTlbmTz+se+JjqtHg5w==
+X-CSE-MsgGUID: DG9u/xZpTTm7mHwM7XGI5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="92120505"
 X-IronPort-AV: E=Sophos;i="6.25,245,1779174000"; 
-   d="scan'208";a="88276026"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 10:52:28 -0700
-X-CSE-ConnectionGUID: TCmsEinhSj+HtifhRBxMRg==
-X-CSE-MsgGUID: 1F4cK9ZrSzy1TRqGp8pw1Q==
+   d="scan'208";a="92120505"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 11:13:28 -0700
+X-CSE-ConnectionGUID: 1oxNJB+2TVW9EHc+Usq7yw==
+X-CSE-MsgGUID: stahew9TSAOJ61CiVS1zJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,245,1779174000"; 
-   d="scan'208";a="271840807"
+   d="scan'208";a="267069089"
 Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 26 Aug 2026 10:52:27 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Aug 2026 11:13:27 -0700
 Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wzHnU-000000000YH-2KpC;
-	Wed, 26 Aug 2026 17:52:24 +0000
-Date: Wed, 26 Aug 2026 19:52:08 +0200
+	id 1wzI7o-000000000YT-311m;
+	Wed, 26 Aug 2026 18:13:24 +0000
+Date: Wed, 26 Aug 2026 20:12:43 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 6/6] kismet: WARNING: unmet
- direct dependencies detected for ACPI_THERMAL_LIB when selected by
- GKI_HIDDEN_X86_CONFIGS
-Message-ID: <202608261926.Z2DYudTc-lkp@intel.com>
+To: Caleb James DeLisle <cjd@cjdns.fr>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ EARLY_PRINTK_8250 when selected by ECONET
+Message-ID: <202608262023.aWiCeMHm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,28 +62,30 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   97c6de407fa22bc729802f8a67bf88699953bcc1
-commit: 4bb372791d1e195cad530dce5005509564c27cc7 [6/6] ANDROID: GKI: x86: Enable ACPI thermal lib as x86 hidden
-config: x86_64-kismet-CONFIG_ACPI_THERMAL_LIB-CONFIG_GKI_HIDDEN_X86_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260826/202608261926.Z2DYudTc-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260826/202608261926.Z2DYudTc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229
+commit: 35fb26f94dfa1b291086b84b2421f957214824d1 mips: Add EcoNet MIPS platform support
+date:   1 year, 3 months ago
+config: mips-kismet-CONFIG_EARLY_PRINTK_8250-CONFIG_ECONET-0-0 (https://download.01.org/0day-ci/archive/20260826/202608262023.aWiCeMHm-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260826/202608262023.aWiCeMHm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 35fb26f94dfa ("mips: Add EcoNet MIPS platform support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608261926.Z2DYudTc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608262023.aWiCeMHm-lkp@intel.com/
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB when selected by GKI_HIDDEN_X86_CONFIGS
-   WARNING: unmet direct dependencies detected for INTEL_TCC
-     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y]
+>> kismet: WARNING: unmet direct dependencies detected for EARLY_PRINTK_8250 when selected by ECONET
+   WARNING: unmet direct dependencies detected for EARLY_PRINTK_8250
+     Depends on [n]: EARLY_PRINTK [=n] && USE_GENERIC_EARLY_PRINTK_8250 [=y]
      Selected by [y]:
-     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+     - ECONET [=y]
    
-   WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB
-     Depends on [n]: ACPI [=y] && THERMAL [=n]
+   WARNING: unmet direct dependencies detected for SERIAL_OF_PLATFORM
+     Depends on [n]: TTY [=y] && HAS_IOMEM [=y] && SERIAL_8250 [=n] && OF [=y]
      Selected by [y]:
-     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y] && ACPI [=y]
+     - ECONET [=y]
 
 --
 0-DAY CI Kernel Test Service
