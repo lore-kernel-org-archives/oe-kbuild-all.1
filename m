@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F120A3F9A12
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Aug 2026 15:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0670327C18
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Aug 2026 15:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787758176; cv=none; b=K6zH5zoTIO+55W8swISyfo0dYmFEDLTb7ngEnemQmMJRzzOV6ZWEsxAx87zKosArYsMfTAm1qWtlAKs4YAmP2obKIV2J2pJksSpNksoP1PZSQ5ym8H3Szcoa5At8AkowTj1Qq0ed4TAursTtpvq9VAFKXR4L9X5UBFRqMwLbdMM=
+	t=1787758767; cv=none; b=WvVfjWsrD0ifmvvyJb2GooicLDYdD3D/dbzfF4mzn0a20v9eahrOT4GSqSositjyPIbOYljG8pNNqtoVvP0Ct/fUiwmIPf2RKrJixaSH6WzyQhbV+g5waX4nEh/Rqoz5LfGBaxgy6tOYMSSAwwQBH3ATw36j4Rlkmv6WBnpOWak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787758176; c=relaxed/simple;
-	bh=FYGOgKZz37QetNIUWTuy2O42l5tFqb7CKHEkV7Dq+lU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DAXcSOslCY0bC1Un3Qt5lj/AwrtwyvSMhHX0WMRWhpYtBilTlx66gDDSZG0cLFREeDjWo7F4CeUTkdvCliRIHSdRRCitVGpDf16bSNVO04kJgaDnLlb4/GyhLzr9um6yu2Er5gzE4QmKpxKJKZXe435AZcaFMCw4MgnkCoXpbgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ux1rqwIN; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1787758767; c=relaxed/simple;
+	bh=Uf8frH1j4CCPWZze7+W2vvg5LGSJ9sQdRfH5wj5dNts=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z2T5UniLSvxjwuAvCJWjXVIS0gtoI4pxb9hLYYdJ8oEA6pM5bmyhXBbqI828ilLeohDg2RIHss68DknJ9bwbGz4TgeIX/SStAxGVi7g+F2sjWEVF5+5nxY0ihTn/K82c9UfTYhGrPh7JggxL1MHFfzxfTRHjCCpMzSkADKNYlA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c8ny+pzX; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ux1rqwIN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c8ny+pzX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787758163; x=1819294163;
+  t=1787758762; x=1819294762;
   h=date:from:to:cc:subject:message-id;
-  bh=FYGOgKZz37QetNIUWTuy2O42l5tFqb7CKHEkV7Dq+lU=;
-  b=Ux1rqwINMYuistXHpF4Qp/UWZ2heR+RKd4OTkI8YHBzexuvkWpYBwcSb
-   znM+enktPhnwKXZ5TPhnbC4Wf19inqB5Qn4E0/7jvtDyQxRE8/kLRT06v
-   2VNJc4CjeTb2DElDCS9PusGAca35FuAvDmCAZ9U9GMQ5PxoczavAAKNUD
-   Qtxwr1LK4HnBd+uuGO4qZxd7xeiB5XNibpUFiWht7VrgnPfWLR7qzmklU
-   E8INpXegFN4wTkNsJWGzU8uWUaVlCPp8JP5jA9vJnJpKFjpIYpXzIPiTm
-   saHcJb0R+R8a1z8eobSTu3WMXLrgmkIhc2tnGRIwSy6UENepTduY1lDL2
+  bh=Uf8frH1j4CCPWZze7+W2vvg5LGSJ9sQdRfH5wj5dNts=;
+  b=c8ny+pzXhi9h0aTWlny7hI470Z5mU2WWLU6r8Aj9SC8QxEBoX8/tRBq5
+   Hjj+/UOfIf3gDCTtL2ahWLoeEiEV56l5XlIxrXLkUcEPbiX6SsEuKpJJa
+   zn9Cps2JBYuKwr4054AZp5AwPiq/icPu3qjhdHqAGvtc/GyTzkZw2/dUf
+   MJ3q/2Ob4IFGd1eBysoEch9zupZb+fj6uDXDWqgB5a74S/59NK/MFl+jS
+   qFephD2ibYXk+Lg5TJcDS40z65jGlU/JCCgwPMF61j1qWW6EoQ5fKrpvk
+   bRhaDQkeHqpjf1oNbfhS+QQT+GuzqOR7QsZLWZBzcjBXGdMraQl6sJxQq
    A==;
-X-CSE-ConnectionGUID: 9QS5ums7TIOTG5IfyV5hqA==
-X-CSE-MsgGUID: Z05FmbG/SlyYIcpom/e1Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88271581"
+X-CSE-ConnectionGUID: L4aw2QsnT2KYAtuG+aoaVw==
+X-CSE-MsgGUID: Utr6xiSaT5uik25I+ljONg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="98836243"
 X-IronPort-AV: E=Sophos;i="6.25,244,1779174000"; 
-   d="scan'208";a="88271581"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 08:29:20 -0700
-X-CSE-ConnectionGUID: BRkhhoIfQB2FnDkpJkOQKw==
-X-CSE-MsgGUID: 2S+MY3DvSWmTcT95VpRNSA==
+   d="scan'208";a="98836243"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 08:39:20 -0700
+X-CSE-ConnectionGUID: VGdox3qsRVqGien4MYhRjQ==
+X-CSE-MsgGUID: JkQSpdGmTliOmA2C+5BOAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,244,1779174000"; 
-   d="scan'208";a="271408750"
+   d="scan'208";a="261462462"
 Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 26 Aug 2026 08:29:19 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Aug 2026 08:39:18 -0700
 Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wzFYy-000000000Mr-25vV;
-	Wed, 26 Aug 2026 15:29:16 +0000
-Date: Wed, 26 Aug 2026 17:28:24 +0200
+	id 1wzFie-000000000Mz-2aAI;
+	Wed, 26 Aug 2026 15:39:16 +0000
+Date: Wed, 26 Aug 2026 17:39:03 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 6/6] kismet: WARNING: unmet
- direct dependencies detected for DIMLIB when selected by
- GKI_HIDDEN_VIRTUAL_CONFIGS
-Message-ID: <202608261707.NF189Uzx-lkp@intel.com>
+To: "Chen-Yu Tsai" <wenst@chromium.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, Brian Masney <bmasney@redhat.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 8151/17167] kismet: WARNING: unmet direct
+ dependencies detected for PM_GENERIC_DOMAINS_OF when selected by
+ COMMON_CLK_MT8173_MFGTOP
+Message-ID: <202608261704.yBTAhfhq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,53 +63,23 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   624994dfdb395b0071c731f6940cd7f26df5979c
-commit: 1dfbe413d21f18f714cca818435299947bf5649a [6/6] Merge 6706415bf9f3 ("Merge tag 'gfs2-v6.10-rc1-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2") into android-mainline
-config: x86_64-kismet-CONFIG_DIMLIB-CONFIG_GKI_HIDDEN_VIRTUAL_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260826/202608261707.NF189Uzx-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260826/202608261707.NF189Uzx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a8406e6c0b793ce0788019683837c40855b55995
+commit: ebd0b73d2137c2277440da04124a0ce7011b2d1a [8151/17167] clk: mediatek: Add mt8173-mfgtop driver
+config: x86_64-kismet-CONFIG_PM_GENERIC_DOMAINS_OF-CONFIG_COMMON_CLK_MT8173_MFGTOP-0-0 (https://download.01.org/0day-ci/archive/20260826/202608261704.yBTAhfhq-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260826/202608261704.yBTAhfhq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608261707.NF189Uzx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608261704.yBTAhfhq-lkp@intel.com/
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DIMLIB when selected by GKI_HIDDEN_VIRTUAL_CONFIGS
-   WARNING: unmet direct dependencies detected for SND_JACK
-     Depends on [n]: SOUND [=n] && SND [=n]
+>> kismet: WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS_OF when selected by COMMON_CLK_MT8173_MFGTOP
+   WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS_OF
+     Depends on [n]: PM_GENERIC_DOMAINS [=y] && OF [=n]
      Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-     Depends on [n]: SOUND [=n] && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-     Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-     Depends on [n]: SOUND [=n] && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   
-   WARNING: unmet direct dependencies detected for DIMLIB
-     Depends on [n]: NET [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-     Depends on [n]: SOUND [=n] && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-     Depends on [n]: TTY [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+     - COMMON_CLK_MT8173_MFGTOP [=y] && COMMON_CLK [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y]) && COMMON_CLK_MT8173 [=y] && PM [=y]
 
 --
 0-DAY CI Kernel Test Service
