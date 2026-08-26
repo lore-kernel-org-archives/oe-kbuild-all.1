@@ -1,85 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D0E468C22
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Aug 2026 16:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBE545A2AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Aug 2026 16:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787761297; cv=none; b=S1HuthS3pvwkrF7Sp8jE2Dc3eHROfsUCLP06Nr7I4ulf/kKoGyNG1G/5OkzQNbTvHiNUgQhtqrTQHajNRtAcSs3E8zkjuW27yu+nLdeH5SBRKkovswqJoUYppDf7h4cVnkzDsFnVyDh4ztUJ8cvLunbhDzVMkTccOZVFhbR2NBI=
+	t=1787761411; cv=none; b=iWVcRz6cVRvmLY7l8xnLwHACnIMaC6paDtr8muBuvjrU355bC3SLmnCsiLbtsgFZIwquAIt8Z8wjep8dNqIX21jwKfvsANpF6BLcLbIFnbVNZokNifcVQQ3WSIpZclU789aJ1BI8GQFeoLz/ORY9vWm6X7Edg0SEujsuno6IJX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787761297; c=relaxed/simple;
-	bh=ITxnO/cBIeQd0+R47dTK6JsJNMQOeIraZdA2KQ6hgYk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OUMZrDhftb7eAf41G6ZKNjXw9ceL5pyeKQjPWj/S4pRagkoWNl3qVo8zoD641c6+IB1zQV43m3YatoRtJOFPTCPcSpO0hGHqK/yrD5JiVKKke7x65+JVt6ZHzzBjOpx2Uz1Oa5SV5PR3bTTn60pIt6yxj/2F6utvRCNEzr1jH+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hoxYjv3+; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1787761411; c=relaxed/simple;
+	bh=6kzQ95U1YQGNGVH/1wyaYETJmIZw4uwWKvlsrvcnlv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GNL35h1L7QHSI+S5Jnz/QsHTZfTD+4ooyaTFBbzAW5eU7IFNHBCRcgBcAZveVAHB3G0+y3Ei45bIn8O1zG4KNCqf0UAGGSrBNKEiEYtFDyaD9t0B8CaLDg/WcHqojs6d2FYArlVHMDHLsIhYbQNRYeqkCkf2WVNzqUCCCAuTQ2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nih8bIuM; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hoxYjv3+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nih8bIuM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787761293; x=1819297293;
-  h=date:from:to:cc:subject:message-id;
-  bh=ITxnO/cBIeQd0+R47dTK6JsJNMQOeIraZdA2KQ6hgYk=;
-  b=hoxYjv3+IGl+b+vbIEwIqQXMSadPqtxLrh+AhJfcbsA8uZGfarQVLRhV
-   0HFupLAv6Ta+3uqOfPMfjxO5p62JW8BWUtMs5uLIUYkr/aG3PEKjegSG9
-   T6RCn97aiFf0q9+SdMhf5Up/eBHgH5RuxZ2xsDgbHXpaTP5+EGABZ7jRg
-   FeHxo+Pk4NICiWsQd1/JOUqBIBb2O2djsDGk2F8zOYfyM37YCQ7OmSZ+5
-   g6ZHnJCh2oxbOBFcRJz+XkJAYgaxnhimeonR3wQhUxWmGN/rNAhcNOmeJ
-   wdJKBt1yB/0v4MfdyWiutOzOvt+AeLBx2KLEwhO8zNGetQOu8konfIX6w
-   A==;
-X-CSE-ConnectionGUID: By5ZmRRpSFeSsis/JhaQ2A==
-X-CSE-MsgGUID: liGU74b5RlyPILzclvhfNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="98583612"
-X-IronPort-AV: E=Sophos;i="6.25,244,1779174000"; 
-   d="scan'208";a="98583612"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 09:21:27 -0700
-X-CSE-ConnectionGUID: 96+Xd9b1TnS+fGxVVZNsAw==
-X-CSE-MsgGUID: 03YKP/XjThWFiFTv+DcBpw==
+  t=1787761408; x=1819297408;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6kzQ95U1YQGNGVH/1wyaYETJmIZw4uwWKvlsrvcnlv8=;
+  b=Nih8bIuMicgdw6fsMYgnaUW6XkkwwOvLuMUJ3yF7Jqit98sI6BqrgVh9
+   KlQBfaETlrrT0rto9DWDebpAUGjXzDPm7y8BdkWZYbzYa8ai965/cDx88
+   vEMggOUIqrLJvvCOmrpRC2xIt1MvQO0ctAp3pHDUyDpWmpz5MSL8+PLNE
+   inQ7TLYZ+onKPl5BktjReU2+0Lz9dY0+nf7iewaRxUMIf1mXZzG27f1N5
+   jwExSjns0K+KbOCaCqGZJCmOiM6ZMn87F0Ypm0egR8o37ILTmw6+0euG1
+   h9NRN70XChRP5TW9Az/Wo0JqiMqox+MLtOmM5Dt3s/h8wBoCr34SfXIAP
+   Q==;
+X-CSE-ConnectionGUID: h1NkFf0JRI6mXf6NcEj93w==
+X-CSE-MsgGUID: 7NEW5DEcRI6Z0Q8SJ0DKXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="87378556"
+X-IronPort-AV: E=Sophos;i="6.25,245,1779174000"; 
+   d="scan'208";a="87378556"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 09:23:26 -0700
+X-CSE-ConnectionGUID: lR7Q+sj3S6C+exrR/EcD1g==
+X-CSE-MsgGUID: sTlQIIJsTYG1G5BfCPibWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,245,1779174000"; 
-   d="scan'208";a="271424884"
-Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 26 Aug 2026 09:21:26 -0700
-Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
+   d="scan'208";a="291144168"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Aug 2026 09:23:23 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wzGNP-000000000XN-2haH;
-	Wed, 26 Aug 2026 16:21:23 +0000
-Date: Wed, 26 Aug 2026 18:20:24 +0200
+	id 1wzGPH-00000000837-3X1S;
+	Wed, 26 Aug 2026 16:23:19 +0000
+Date: Thu, 27 Aug 2026 00:23:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Usyskin <alexander.usyskin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Baoli.Zhang" <baoli.zhang@intel.com>
-Subject: [intel-lts:6.18/linux 0/1] htmldocs:
- Documentation/driver-api/issei/issei.rst: WARNING: document isn't included in
- any toctree [toc.not_included]
-Message-ID: <202608261807.zeiSlcwF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Qi Zheng <zhengqi.arch@bytedance.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>, Barry Song <baohua@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Zhaoyang Huang <huangzhaoyang@gmail.com>, steve.kang@unisoc.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH] mm: workingset: judge cross-memcg refaults by generation
+ age
+Message-ID: <202608270037.JUsg3wm5-lkp@intel.com>
+References: <20260826075133.751049-1-zhaoyang.huang@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260826075133.751049-1-zhaoyang.huang@unisoc.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
-head:   6589ebb7420106d5db39b84880e040cd907b7143
-commit: b50d2a7550d5cf9d63171d44eda4bdc124c0dd1e [0/1] issei: initial driver skeleton
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260826/202608261807.zeiSlcwF-lkp@intel.com/reproduce)
+Hi zhaoyang.huang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhaoyang-huang/mm-workingset-judge-cross-memcg-refaults-by-generation-age/20260826-155133
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260826075133.751049-1-zhaoyang.huang%40unisoc.com
+patch subject: [PATCH] mm: workingset: judge cross-memcg refaults by generation age
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260827/202608270037.JUsg3wm5-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260827/202608270037.JUsg3wm5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608261807.zeiSlcwF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608270037.JUsg3wm5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "thresharg". [docutils]
-   Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tracer". [docutils]
-   Documentation/tools/rtla/common_options.rst:92: ERROR: Undefined substitution referenced: "tracer". [docutils]
-   Documentation/tools/rtla/common_options.rst:98: ERROR: Undefined substitution referenced: "actionsperf". [docutils]
-   Documentation/tools/rtla/common_options.rst:113: ERROR: Undefined substitution referenced: "tool". [docutils]
->> Documentation/driver-api/issei/issei.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   In file included from <command-line>:
+   In function 'lru_gen_eviction',
+       inlined from 'workingset_eviction' at mm/workingset.c:459:10:
+>> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_649' declared with attribute error: BUILD_BUG_ON failed: EVICT_TS_WIDTH <= 0
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
+     683 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   mm/workingset.c:275:9: note: in expansion of macro 'BUILD_BUG_ON'
+     275 |         BUILD_BUG_ON(EVICT_TS_WIDTH <= 0);
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_649 +702 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  688  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  691  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  696   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  703  
 
 --
 0-DAY CI Kernel Test Service
