@@ -1,115 +1,228 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2F53A1686
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 07:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DC03A2E36;
+	Thu, 27 Aug 2026 07:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787817056; cv=none; b=oS+/89H+ulu82zTQvHbUKrDzy6Y2Cs/XoWppzCKngI9a6EHi7tJNf8hWYPkXcsp4obvHPu6nuugPIz7oWHzaa1Qg7znHp7opNT2xAtiE4U/yqLrU5aMtkiVeuwwZsF1IHS235MGF+Cxr5nGC4SfGU11R3uvl7hPehsyg8Nt2v/k=
+	t=1787817219; cv=none; b=qn65z6KjXwyaLOckZ2f41x9XV2xpfSjSbJnwvAol+oAilWwQi/I1nZ5oNk7pSjVyBg3/Hd1Dv8pRj2bbc08Ug8cTgzNKFto7XvLsJaMy6DeZ12IKSOb9xMYMkFHB1KX5+y/ZuK/BK/6xxALOli+kda/YbV+ZQPbpPXE7ecTJpl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787817056; c=relaxed/simple;
-	bh=o9SfOayrWajRW/+NG/zMKHW/ffcQ2S0g3uodt2BKZtE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iGwrqdEpy7uLakORI1wFtY/yTuZ5PtXcJD3dLrfJ07TbxwH0xUIiKBNJn7hIaAdU+5AogM9sXqU44+xqI57QaIuZPLfTdGOvWncp2LgwYWgJa4yUtK3LL8aVByytaXKb6CRQ5rtyZdzO045D4sEXqFR61RchFm/Q3CYMyPrh3ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=monstr.eu; spf=none smtp.mailfrom=monstr.eu; dkim=pass (2048-bit key) header.d=monstr-eu.20251104.gappssmtp.com header.i=@monstr-eu.20251104.gappssmtp.com header.b=TtP4XErx; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=monstr.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=monstr.eu
+	s=arc-20240116; t=1787817219; c=relaxed/simple;
+	bh=6XpatlI+dHeGkIrqwIh4hcY27vGRLm+swVbrSIZwGK4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Iz4skPH2K5lHJr/q0yuSTztlG86HoPkqEVLzecsP9mf2XVsqxgLlkxvWwyBnGgvomlrxRATVNQIb5cDNcJ1g73PsAoCODzvtep45LcccXNS+MMfDqLF7DbUmZe4vd5s6kUzRulyRFt351qsXtZ9jdotXn3Y2CPKrjqFIUrWmIxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=efS/vxqK; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=monstr-eu.20251104.gappssmtp.com header.i=@monstr-eu.20251104.gappssmtp.com header.b="TtP4XErx"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c250f28f1cdso311438966b.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 00:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=monstr-eu.20251104.gappssmtp.com; s=20251104; t=1787817051; x=1788421851; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3TC/uq2OAWBJlRWDS0+FgLZUaW3+hNg8rcbu4E+WX7w=;
-        b=TtP4XErxUjh0u+FyZHyevM2Sbi80F2nY1+ACGQ7ZPj95Pd5b66vQT9yGdxnLaXW7+w
-         g/imCQGRf34ceM3egekfxAnj80brbYBe4fMQpn4g/9LaEUH98TzbPru19KGfEaJQgTOS
-         7I2tTYUSDcjN+QbBlmFp0FX8XvbUYT+jB201E8+wD1Xq4yx/PgRDrF+VDcLqvIYQwoIh
-         ZNVJii/BK4jDRJoq+aC5bRFZyoXxeQZimBM1MUagg7WwhI1Y806PTRer06e2tzTallSp
-         unLL4fQjLNWi4/7YT5AP8gJp6VVp8uFbtbbuU9XcDPIcwkfm+pnof3p4Vu/yfhcYOeA8
-         ea/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787817051; x=1788421851;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3TC/uq2OAWBJlRWDS0+FgLZUaW3+hNg8rcbu4E+WX7w=;
-        b=G97vHixShpvwijVvgfY4nC1xphF6uzu+QhjrWlQQM1cYph+imhL1sxMoAynDi3QQ+M
-         Sa50W3ZYTknB/m3YA6X0Nchc79Dlh/tsA3/ffK7VuarBdxozsgfjsrSILaj8qgXzLyno
-         PkYgMoGN/jFLE1XUgzFsyWk8kgLk7E5OHOzimI5nk8c5DjJxnKM6EUU4opTFPu8/Xy4N
-         lJr7AprIzM9jtdANjcr1WaQ0a5CJJioK8YHT+lCE5fRPecLKDN8zKyjl3HOb76SodlvQ
-         UI/+xAHaPqxyvzBTViOANJeUMaTTi2470Mn8MhV/6yd6ET3r7YP6CUY52nntDMSyVL6M
-         P2fQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrSC3xgmxM16qNknzwaLa/X4bPgcftRav7E3P0CDgcf7UtR9HYkbVED/KamaNIw4UacB3qnH+ISTOON2g8C@lists.linux.dev
-X-Gm-Message-State: AFuF++mkR5S8RvdcBru7rihv32zvAjdsFjAI+1M1RTIiTwOYBUWAqDF4
-	8cqkl1mYJacfOYuJlWZycxIN6qp+cW+5bR5GJkHuWYnv/zAllfcbh3AEWKtdOY2k5Q==
-X-Gm-Gg: AR+sD12sBpGdBd1Ld0uaUaMiIgq55fCh81q3Zbm6AL7CMvZHAvkNVEW1wssR1STGERb
-	fmO83uCDF9RV7Vm06+FocyX+5P5WZZ4OuiIuX6rnWCDUfR7FyEQRyyHw3NR/ohecivregeT9P6P
-	9rzdukFMC8l9sLvLkDgQyxHiijwacVnnydR86yMiWQAScRKewwqqYIl8CwgFxCaMq6DDlhzHXP9
-	0vrp8mPYYsTbsnKfOmQJEK26k5XsrpRkTyXEMC+HwjiB/o8qy/b6ANQqO+RCjKiaV8yNpDmDCQ1
-	TQ7GFfbuHNco9hH1GLJqjLtqPuxfqTkBQv/96rqpt1DnIWOLjKWcRWQz1Duahv+9Gzd1FQ3Hl4T
-	FH/mmeRtTQ3kLdJpLUVSMWsUaJMu7+qb8P1oj17oJS+vwbAJB1LFQa6zs6OBq6G6Yab7FTfpnHe
-	fBh7bUoynaY5e48tnNdh8s4jSkOUxK7jb9TbklBqPbYMGDAjBpOD6L7XbAFpLJCwE9g11iWOvc8
-	ZkauFwTal0sojw7j4LMyw==
-X-Received: by 2002:a17:907:930b:b0:c24:680b:3944 with SMTP id a640c23a62f3a-c250c330febmr1350343566b.13.1787817050958;
-        Thu, 27 Aug 2026 00:50:50 -0700 (PDT)
-Received: from [10.254.183.223] ([149.199.62.131])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c250a722400sm652641166b.23.2026.08.27.00.50.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Aug 2026 00:50:50 -0700 (PDT)
-Message-ID: <702a199e-6439-4890-9dbf-0111aa76aee1@monstr.eu>
-Date: Thu, 27 Aug 2026 09:50:43 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="efS/vxqK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787817217; x=1819353217;
+  h=date:from:to:cc:subject:message-id;
+  bh=6XpatlI+dHeGkIrqwIh4hcY27vGRLm+swVbrSIZwGK4=;
+  b=efS/vxqK4UHEjkvnrbfbd9b4y2/cVdc5Fl+PaHQGPxi9xacKcznsFP17
+   glsym7U8OPhiM4H2uHO4/iyQC8OORvHSDsvp0zI4F/Oi5m/kyGDIaaeLK
+   /Us1Y73vNqgQyu9UxkkigV6x4gOZknFtOu67BojhkEPMORpY2CuryDl67
+   zHuO3CX263KegMB9Poo10h3ZsLejY3pM5MlmpKLd7GMQj0OOs9tACgaJs
+   tHXVymOIqkGSquuuA/LzlpeKSpU2UN6nuLfRdjS0iY1/l+VTqQF5/vUvS
+   Nt+UMNNK6eV+1ICrNCLtqMh030qcCe57pS9w1leB5+Q3oBGS+bOzki4u7
+   Q==;
+X-CSE-ConnectionGUID: Q9aCpqjkRBCYiAcm4Tp8sw==
+X-CSE-MsgGUID: QLG4weI4TrCBeLXQQuRODw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88329629"
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="88329629"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 00:53:36 -0700
+X-CSE-ConnectionGUID: t6aheHulSg2UM3JETcEblw==
+X-CSE-MsgGUID: EJh4tLmcRty5c930XVQ5Qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="264035018"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 27 Aug 2026 00:53:34 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wzUvU-0000000097J-0dFb;
+	Thu, 27 Aug 2026 07:53:32 +0000
+Date: Thu, 27 Aug 2026 15:52:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: [davidhildenbrand:get_dummy 14/21]
+ include/linux/pgtable.h:2351:6: error: call to undeclared function
+ 'mm_pmd_folded'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202608271502.qJGgVpP0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] microblaze: Fix MB_MANAGER build with older binutils
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Appana Durga Kedareswara rao <appana.durga.kedareswara.rao@amd.com>,
- kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260813024026.5402-1-kmehltretter@gmail.com>
- <ao-3jrT0aP0_fSBA@gmail.com>
-Content-Language: en-US
-From: Michal Simek <monstr@monstr.eu>
-In-Reply-To: <ao-3jrT0aP0_fSBA@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+
+Hi Yeoreum,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/davidhildenbrand/linux get_dummy
+head:   112a153a97494becabd764fe6257578ba908801f
+commit: db92928e80f5332bbfca9a70beaef62d46a0c9de [14/21] x86: mm: carve out the generic compile-time folded pgtable case in effective_prot()
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260827/202608271502.qJGgVpP0-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260827/202608271502.qJGgVpP0-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608271502.qJGgVpP0-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:31:
+>> include/linux/pgtable.h:2351:6: error: call to undeclared function 'mm_pmd_folded'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2351 |         if (mm_pmd_folded(mm))
+         |             ^
+>> include/linux/pgtable.h:2353:6: error: call to undeclared function 'mm_pud_folded'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2353 |         if (mm_pud_folded(mm))
+         |             ^
+>> include/linux/pgtable.h:2355:6: error: call to undeclared function 'mm_p4d_folded'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2355 |         if (mm_p4d_folded(mm))
+         |             ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:139:8: note: expanded from macro '_SIG_SET_BINOP'
+     139 |                 b3 = b->sig[3]; b2 = b->sig[2];                         \
+         |                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
 
 
+vim +/mm_pmd_folded +2351 include/linux/pgtable.h
 
-On 8/27/26 06:06, Karl Mehltretter wrote:
-> On Thu, Aug 13, 2026 at 04:40:26AM +0100, Karl Mehltretter wrote:
->> The suspend mnemonic is an alias for mbar 24, and both encode as
->> 0xbb020004. Use the underlying instruction, which GNU as 2.30 already
->> supports.
->>
->> Fixes: 88707ebe77e2 ("microblaze: Add custom break vector handler for mb manager")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202310310151.UhB396Qs-lkp@intel.com/
->> Suggested-by: Michal Simek <monstr@monstr.eu>
->> Cc: stable@vger.kernel.org
->> Assisted-by: Codex:gpt-5.6-sol
->> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> 
-> Just a friendly ping in case this got missed.
+  2331	
+  2332	/**
+  2333	 * mm_first_pgtable_level - return the first non-folded page-table level
+  2334	 * @mm: The mm structure.
+  2335	 *
+  2336	 * With runtime- or compile-time folded page tables, page-table walkers
+  2337	 * effectively skip the folded top-level page tables, treating them as
+  2338	 * always-present entries pointing to the next lower-level page table.
+  2339	 *
+  2340	 * Return the first page-table level in @mm that is not folded.
+  2341	 *
+  2342	 * Return: the first non-folded page-table level.
+  2343	 */
+  2344	static inline enum pgtable_level mm_first_pgtable_level(struct mm_struct *mm)
+  2345	{
+  2346		/*
+  2347		 * "PMD folded" actually means "PMD is folded into PUD", and
+  2348		 * pud_present() etc. are hard-coded to look like present page table
+  2349		 * levels, whereby pmd_present() etc. contain real logic.
+  2350		 */
+> 2351		if (mm_pmd_folded(mm))
+  2352			return PGTABLE_LEVEL_PMD;
+> 2353		if (mm_pud_folded(mm))
+  2354			return PGTABLE_LEVEL_PUD;
+> 2355		if (mm_p4d_folded(mm))
+  2356			return PGTABLE_LEVEL_P4D;
+  2357		return PGTABLE_LEVEL_PGD;
+  2358	}
+  2359	
 
-will look at it after rc1.
-
-M
--- 
-Michal Simek, Ing. (M.Eng), OpenPGP -> KeyID: FE3D1F91
-w: www.monstr.eu p: +42-0-721842854
-Maintainer of Linux kernel - Xilinx Microblaze
-Maintainer of Linux kernel - Xilinx Zynq ARM and ZynqMP/Versal ARM64 SoCs
-U-Boot custodian - Xilinx Microblaze/Zynq/ZynqMP/Versal/Versal NET SoCs
-TF-A maintainer - Xilinx ZynqMP/Versal/Versal NET SoCs
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
