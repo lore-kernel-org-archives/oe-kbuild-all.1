@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02BE3859F5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 17:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327FF4DBD8A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 19:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787850291; cv=none; b=In9VOgEcYAXIAEzSwxMuqC6aIsTxCvemQqcDgDOcTEGO4VKN8lj//BMJNc18Sd8khQc9RXEwf+R6BsWJzSCerqHrZ8eh4T2lgmZHMDHRFnOFfhel3CqCvZmfggXB77AyfB/APFdKjilqqLDNqSJCdY0WXlBVkAVvTxaKvccseyQ=
+	t=1787857671; cv=none; b=DdP39bsIa9hr3sNRStshly3dGFybw6TBm+GMFcOETp742OqICcdJKtt0r/YoorbDV4cd5M+/m41xcWPei+Zgz+DA4zHR6wIAzcBxT6oRK04eEJsif5Mc7+Q2RBR/qyhxlqutIL+WfaN6p5E5AUZCij1/hH/RhEOQUhXkdXStp5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787850291; c=relaxed/simple;
-	bh=71t0wKfXvu2VNVi5vpAh3sq7Rb2/zY0b93xkK/CKVSM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nvmYr2dbD5eokiHb9ol4xPhRNkmtv0ZjgK0ZXtM+SzOsj4LJdtf5DoY8h1+PmbL2XJL9FQa/iJYxEXAn5ZNw5Q0PmiVhh09EOILJ0UAL8tobv6bfGQGoka/5+hdHgTr4yp8E1jS0vc7LgZ8uD+Gjgm/EaQDES0M8r/z+M6YRSEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTej6iir; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1787857671; c=relaxed/simple;
+	bh=RUTNOVmZrQnuHBk71EBrhQtxHU/WMxqmShwK0PP+fYE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uTrIRTBAd4GmopoycPCX/L/Z1Lk1F/eRlvfSVuHipztV0kT0cjr28TpQsQIchIuzZmEGJxKVbLKWD7xLLVeqbgjui/LNLWtw0a+9EwbHOI4zniwF6kL2jxauvF8xFxXvx0uNL+Y3cvyq0gj9E5ZwCAOphbJTGpoWwnZM8Lsxf7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B6EwShEy; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTej6iir"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B6EwShEy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787850289; x=1819386289;
+  t=1787857666; x=1819393666;
   h=date:from:to:cc:subject:message-id;
-  bh=71t0wKfXvu2VNVi5vpAh3sq7Rb2/zY0b93xkK/CKVSM=;
-  b=VTej6iirSJr+G+5FmffNFBf3JJooUG2W3kmMY2w/SD1v1w9xgHuhZnDH
-   7wQWTarp5nCFCh7mYRXYs3H4XKctVR6t7a3jvSHeHfkU38y+Dh1eb7fcK
-   ckcHDQgvSP0CktPawkEJwQUcCplF2IkEKb2x09pKPu90kJRwwnLouE2HS
-   s3Q1voKizZc6hckJtFrBY3QebY58wX/5JsxzrAI/0dLrRL1ZnYsDQ4EJp
-   BIYzQXB2F5T4IOIQh7PF3G+ZdmZ45tXzILGfqk5cCdzG5tXOep+n4zkEO
-   hxsUlj2WWdK6Q87/jwSs9ckGInR1Re22+ChziE50FLNpwz8LqdT9D7nZE
+  bh=RUTNOVmZrQnuHBk71EBrhQtxHU/WMxqmShwK0PP+fYE=;
+  b=B6EwShEyUvJ2Ken9j2OuEkJtiB7Gi/gopzFSQ0n2o1LQd/ovDhfj/9lw
+   7qENkVWJH7Ac3UjUbdruvgznkUTK3VeWdRSPfdBIutuuWeflWEGwZftV7
+   3CtD5IFbHxai5Ggjvr5maHZw1+PpjSxbzyMfdXW3R9lSZzFDFd/203J1w
+   lBZxUBEM8u+lgrewW5UrinjD7LqSUezDGCa3gy7kBxFultMglwO48xbbJ
+   TBe/EQHE9VAEJLQUk4a8sG674KRUeRlre0qzQP5f5ghln0SzW9O8hyuFD
+   /9OTRYBXOjV/f0ZDjQopIvBtD0x3uih/4zE2egBVdAo4MvUYwdUwpToRg
    w==;
-X-CSE-ConnectionGUID: Soa1WO62Sfy07z3/WVJkOQ==
-X-CSE-MsgGUID: cXPrd7UYTTqyOhdUCMYSXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="92216090"
-X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="92216090"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 10:04:49 -0700
-X-CSE-ConnectionGUID: FnhZszxJTm2HgfDK4PXlCg==
-X-CSE-MsgGUID: dxGltFNtR7WhtmIvtsrg5A==
+X-CSE-ConnectionGUID: b0kNYsqLToyIZ7erKsyReQ==
+X-CSE-MsgGUID: eF5dQbx8SoWJqzV2xdXTzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="90881856"
+X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
+   d="scan'208";a="90881856"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 12:07:42 -0700
+X-CSE-ConnectionGUID: i1mkiSmnQCmFN4RvwEO6OQ==
+X-CSE-MsgGUID: vdK+XjVjSL6yidKqscFZuQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="267951948"
-Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 27 Aug 2026 10:04:47 -0700
-Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
+   d="scan'208";a="265362411"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Aug 2026 12:07:41 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wzdWu-000000000pZ-3uFt;
-	Thu, 27 Aug 2026 17:04:44 +0000
-Date: Thu, 27 Aug 2026 19:04:12 +0200
+	id 1wzfRp-000000009wv-3vpe;
+	Thu, 27 Aug 2026 19:07:38 +0000
+Date: Fri, 28 Aug 2026 03:07:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 6/6] kismet: WARNING: unmet
- direct dependencies detected for CAN_RX_OFFLOAD when selected by
- GKI_HIDDEN_MCP251XFD_CONFIGS
-Message-ID: <202608271838.4AjdPEFD-lkp@intel.com>
+Subject: [jpoimboe:noreturn 25/26] vmlinux.o: warning: objtool:
+ xen_prepare_pvh+0x187: mem_map_via_hcall() is missing __noreturn in .c/.h
+Message-ID: <202608280214.c28GlIx6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,23 +59,21 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   d17c7fc3c8aab85da0676b913f9268a8cd402f50
-commit: 39f48f66f74cdfa79f254376442a07663ab58335 [6/6] ANDROID: GKI: Add GKI_HIDDEN_MCP251XFD_CONFIGS
-config: x86_64-kismet-CONFIG_CAN_RX_OFFLOAD-CONFIG_GKI_HIDDEN_MCP251XFD_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260827/202608271838.4AjdPEFD-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260827/202608271838.4AjdPEFD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git noreturn
+head:   cce026d22bdcc6f946c07c58381bc8cc59b6d270
+commit: 3b2a8f0dfeed86a0227057d4caa2343c83e3b070 [25/26] objtool: Annotate all module-exported noreturns and remove noreturns.h
+config: x86_64-randconfig-075-20260827 (https://download.01.org/0day-ci/archive/20260828/202608280214.c28GlIx6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608280214.c28GlIx6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608271838.4AjdPEFD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608280214.c28GlIx6-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD when selected by GKI_HIDDEN_MCP251XFD_CONFIGS
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-     Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+All warnings (new ones prefixed by >>):
+
+>> vmlinux.o: warning: objtool: xen_prepare_pvh+0x187: mem_map_via_hcall() is missing __noreturn in .c/.h
 
 --
 0-DAY CI Kernel Test Service
