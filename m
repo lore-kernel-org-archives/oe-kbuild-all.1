@@ -1,99 +1,281 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBB0175A6D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 04:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FB53783AD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 04:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787803617; cv=none; b=ni7CtIechkmCaUsmowuhoqX9TaDTfA0Ku5SpDMb6EEggMThsL71sFc/kHVxg4Coh7e3DluIHQyHa7725n4hAKlLmwlPLH0TRlSaHUjdG6jhPP/wavBOclNgKLOsKK/8UxJ3cIx0BklpPoI4UmUynhk+CmsFhwbzcvGMwUqO7D4E=
+	t=1787804210; cv=none; b=hnJhmL12qoXX6QxeXilFHJEXtrRj8ne6WCtXY3XWFvvvnd5GXjtOkYMOkEfpmqOtQmVarZpJALHy6g12XawOe1T2YIIs14cmoCS7VVGun5iGkWC7/ntu3KxYuh3eRUukNGWDiZaQvCgdAD4u6kQ4sh2AdAVBcx9yXbdlidia1Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787803617; c=relaxed/simple;
-	bh=kEI9OvVbWJ7wq71P6L9MVOAfwamjGbck54SdcC+yBG4=;
+	s=arc-20240116; t=1787804210; c=relaxed/simple;
+	bh=PPd9OCYVQWioAWIApaXxZnX+PdFhu/b8He2oPGx31FI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P9d4wVtDJkdkjTfYHHGel0g8mnN35Us1e2jM/8drU3kYTQu9VdCPZOScyRPzqVOqhH7RgASbjms6+dulHGmM3vFXRpuXWrkfF/Db5hNaqxNK2bN87FWNdvnSg6kxSOUQEduYqd2TeUrKVRLyz+GHAEhK5QlRgF2sQHcHEKbCCH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQxsF2Cj; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=kn7wP+RQovKKSInwye5IenjUG36HgvGVtSKrWEIuUJ2JQj5p90gR2Fk0E0nf8ur206BohPy1g2EcO+IJC9blfKPjxgmsfKoYOh1OZCnYVMRVnMqlGzlJakWk+r+AOHMaHdp97woo1RcM/8NQHSu8Iiw1TLk520lUGlauJiE0soU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTVlKS7+; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQxsF2Cj"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4956242332dso14330945e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Aug 2026 21:06:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787803614; x=1788408414; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=leRlXbqgKULRfa+v/5YQeWOCF+c2KyYlCCc0f3p+zUs=;
-        b=NQxsF2CjeTgbLkXkMjB8nyjtQ/Cz+ny7BPH4/0jqCQ6bO8HXoMujYAOmPzYR9N0/Sv
-         ODGOXa/yA+8IqP3Sw/2gXYP1TiGkwmsxXkx3Me69CQlvUGy9a/s46hUCJHAV+Utt2RFx
-         SslUOqLYPcO5CbgSCjKVx1Bm399OTfqgrzjQbsx359c2aTcbutD4fkgyOgqv3teJ7Hws
-         ujxgYFJh6C4222Bcs0dnlVD7oFGjzWyLi/7WNQ0pjmM3lcXJJ9jzec+/mB9+4Zdf/+Bn
-         1YsIUHwH2WYDtquBUENx96UHsEVVjXhcS+de9BwwOQPzY5rXxk/Hv2C31OjOoM4Yoaez
-         EDNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787803614; x=1788408414;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=leRlXbqgKULRfa+v/5YQeWOCF+c2KyYlCCc0f3p+zUs=;
-        b=slCimVruy9oCKJpUd08fHK042BHR/nE4xMADaHP4Ee9ik/G5MEe4tGNOiieEvVVk8M
-         MJ23nFFadREYXel0d7IHK7J7TxoKQeehNwsjUeqfWNZzrgkAgpuSHSfRyXu0ADakDSMp
-         6NpEj/3WV9lXRPKkvgsbp9UJasMUIku0yuEsfjgXYoy2K+MZBgvTuQ8IXbdEo1q27Kw0
-         3mSjzHXAedo+FichrAltuKazVMe8glkPRb+fpZzuKAW7ffqfnt+Wa/1MO8z9ZTMP0TQ3
-         1t5pQnIZwmYLiKd4uCKbGGknLvt0Y5UREcB0Ne6K+q0WNlODNuRKc5tcEkVxAdyn8Lke
-         h9rQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq25K+x6YnTIaF87unJSRuxJ1wEiVGgzTSAdGMOT48oOWcTbkzCgmZnuLdeEiop1YYSCkW0WVOIMPXuLDd1@lists.linux.dev
-X-Gm-Message-State: AFuF++lkP7z8slniGsHSjzdsGN4xroB6lyfUvlE2wwqSZILjcUzXFBEU
-	pF+YFwhL8Xt8KpBBzYHoPeiFfqy+YDmpXxO8TrQwplMe06IlR/rzLhye
-X-Gm-Gg: AR+sD12LeuT5wRDhYh62JLY/1BXqfwAP9k10ganCo361HSCNJ5fYGQQd5htx21zioe3
-	WjWzzUu7ei/7jWBD4LoDuyO3B79gvEw7uLUw4s2PPKZPCoXtEO4rI5PMmNlH2uuvOphRp9fjGxV
-	Kr4ekbKenOj0G/TItVab7eCd8WPEYJLIeWSPNJwdnPjaMeBCYjNeMWNPnsR+JajW3a1uJPo7ydj
-	2aG/SRVWaC/L1W3eLASBqzxp1WiZx9Cjv4u1YPrkGZ0xGxAXKxwwAQPDctemXzXCqjdn626jaCi
-	ky6qi1gWiXeJFbeC+NolWuorJsLHHsavtmep+Y+Adda7NL0j5srlXomSiirXZFn8WTnxqsdwfzO
-	2wurllOyIKCXUf080LP89yvgEZIm5n2NnqWKC8HRDgKVdJqW3yumNsSFBy70EgUUXw1u6EYbDKn
-	eSmssom9bS+vWdfeLoqDsxQ7oCjqWqab737tktvNv7LDFoLCq96DJg1+W8+HJL4dTMl3jrNJGSy
-	ZyIJH1zr0zaxog54/rE0aS39BKyfRYYQWKrm4JS5ltfe8J6ZGlXChfRhX02RY59y2guIcK3A6Tv
-	32TPpZY1Y2LvWsapA7qAjho=
-X-Received: by 2002:a05:600c:c118:b0:49b:c8e:8e6 with SMTP id 5b1f17b1804b1-49b0c8e0911mr59314915e9.0.1787803614027;
-        Wed, 26 Aug 2026 21:06:54 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-095-114-154-097.95.114.pool.telefonica.de. [95.114.154.97])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499fa55f458sm31127865e9.0.2026.08.26.21.06.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 21:06:53 -0700 (PDT)
-Date: Thu, 27 Aug 2026 06:06:22 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Michal Simek <monstr@monstr.eu>
-Cc: Appana Durga Kedareswara rao <appana.durga.kedareswara.rao@amd.com>, 
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] microblaze: Fix MB_MANAGER build with older binutils
-Message-ID: <ao-3jrT0aP0_fSBA@gmail.com>
-References: <20260813024026.5402-1-kmehltretter@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTVlKS7+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787804209; x=1819340209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=PPd9OCYVQWioAWIApaXxZnX+PdFhu/b8He2oPGx31FI=;
+  b=GTVlKS7+7i8fosjvm9veKdO4nYHgqVF8FpeAT3Fv6x2AFZEScoTsMyvA
+   6LV9tF7D/Am5JTWrc/iig5xzqm0yYbe3oUaMt6yuoUSyF+5e1Q9iS2ghB
+   4RnODdWYx1oKCQj3o4uU32f8lquublmoWUfEZ3LQuFGeF/MvaZMkudOXd
+   I+6v8KIYhnIluerF7EN48tPVlyED3b8SnlManpvbUiM2Wj5pzq3GnHBbD
+   ULUMl9nRpNSuvZil1xuifkpsjKGy5/nRios3ufVkTPbQXunEgSp28WYxu
+   gV/mzS5nYbgIFLG2825f+JIYeoVUT3AwBNHmGNwI5dHc99GHXbFhWWTJP
+   w==;
+X-CSE-ConnectionGUID: vj48RFjGTvi2uur3MNS1Tg==
+X-CSE-MsgGUID: HuVp8t3QQoWA6JIsgKzFgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88217801"
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="88217801"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 21:16:48 -0700
+X-CSE-ConnectionGUID: j4HmHifpRkaYKt3Spy6hAg==
+X-CSE-MsgGUID: TWOqt7CuS6+Ecd21Q2PyIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="265970683"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 26 Aug 2026 21:16:46 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wzRXf-000000008tJ-38aW;
+	Thu, 27 Aug 2026 04:16:43 +0000
+Date: Thu, 27 Aug 2026 12:15:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Sebasti=E1n?= Peyrott <speyrott@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] hwmon: Add Minisforum UM780 XTX EC monitoring and
+ fan control
+Message-ID: <202608271258.TPpO3tyX-lkp@intel.com>
+References: <20260825184107.355980-2-speyrott@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260813024026.5402-1-kmehltretter@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260825184107.355980-2-speyrott@gmail.com>
 
-On Thu, Aug 13, 2026 at 04:40:26AM +0100, Karl Mehltretter wrote:
-> The suspend mnemonic is an alias for mbar 24, and both encode as
-> 0xbb020004. Use the underlying instruction, which GNU as 2.30 already
-> supports.
-> 
-> Fixes: 88707ebe77e2 ("microblaze: Add custom break vector handler for mb manager")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202310310151.UhB396Qs-lkp@intel.com/
-> Suggested-by: Michal Simek <monstr@monstr.eu>
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5.6-sol
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Hi Sebastián,
 
-Just a friendly ping in case this got missed.
+kernel test robot noticed the following build errors:
 
-Thanks,
-Karl
+[auto build test ERROR on 75f2c0b3690702c90863c2e138cb5520670845ea]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebasti-n-Peyrott/hwmon-Add-Minisforum-UM780-XTX-EC-monitoring-and-fan-control/20260825-154107
+base:   75f2c0b3690702c90863c2e138cb5520670845ea
+patch link:    https://lore.kernel.org/r/20260825184107.355980-2-speyrott%40gmail.com
+patch subject: [PATCH v3 1/1] hwmon: Add Minisforum UM780 XTX EC monitoring and fan control
+config: i386-randconfig-141-20260827 (https://download.01.org/0day-ci/archive/20260827/202608271258.TPpO3tyX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260827/202608271258.TPpO3tyX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608271258.TPpO3tyX-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_oem_read':
+>> drivers/hwmon/minisforum-um780xtx.c:75:(.text+0xa3): undefined reference to `ec_transaction'
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_write_profile':
+   drivers/hwmon/minisforum-um780xtx.c:141:(.text+0x19a): undefined reference to `ec_transaction'
+>> ld: drivers/hwmon/minisforum-um780xtx.c:144:(.text+0x1ad): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_write_sys_point':
+>> drivers/hwmon/minisforum-um780xtx.c:336:(.text+0x215): undefined reference to `ec_write'
+   ld: drivers/hwmon/minisforum-um780xtx.c:339:(.text+0x223): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_sys_point_temp_store':
+>> drivers/hwmon/minisforum-um780xtx.c:192:(.text+0x2ac): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.c:195:(.text+0x2c3): undefined reference to `ec_read'
+>> ld: drivers/hwmon/minisforum-um780xtx.c:209:(.text+0x385): undefined reference to `ec_write'
+   ld: drivers/hwmon/minisforum-um780xtx.c:213:(.text+0x3ae): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_sys_point_temp_show':
+   drivers/hwmon/minisforum-um780xtx.c:168:(.text+0x455): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_probe':
+   drivers/hwmon/minisforum-um780xtx.c:431:(.text+0x4e9): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_read_initial_state':
+   drivers/hwmon/minisforum-um780xtx.c:375:(.text+0x511): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.c:382:(.text+0x53c): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.o:drivers/hwmon/minisforum-um780xtx.c:385: more undefined references to `ec_read' follow
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_restore_state':
+   drivers/hwmon/minisforum-um780xtx.c:403:(.text+0x6f9): undefined reference to `ec_transaction'
+   ld: drivers/hwmon/minisforum-um780xtx.c:406:(.text+0x712): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.c:412:(.text+0x732): undefined reference to `ec_read'
+   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_init':
+>> drivers/hwmon/minisforum-um780xtx.c:473:(.init.text+0x75): undefined reference to `ec_get_handle'
+
+
+vim +75 drivers/hwmon/minisforum-um780xtx.c
+
+    72	
+    73	static int um780xtx_oem_read(u8 command, u8 *value)
+    74	{
+  > 75		return ec_transaction(command, NULL, 0, value, 1);
+    76	}
+    77	
+    78	static int um780xtx_read_rpm(u8 command_hi, u8 command_lo, long *rpm)
+    79	{
+    80		u8 hi_before;
+    81		u8 hi_after;
+    82		u8 lo;
+    83		unsigned int value;
+    84		int attempt;
+    85		int ret;
+    86	
+    87		for (attempt = 0; attempt < UM780XTX_EC_RPM_RETRIES; attempt++) {
+    88			ret = um780xtx_oem_read(command_hi, &hi_before);
+    89			if (ret)
+    90				return ret;
+    91			ret = um780xtx_oem_read(command_lo, &lo);
+    92			if (ret)
+    93				return ret;
+    94			ret = um780xtx_oem_read(command_hi, &hi_after);
+    95			if (ret)
+    96				return ret;
+    97			if (hi_before != hi_after)
+    98				continue;
+    99	
+   100			value = (hi_after << 8) | lo;
+   101			if (value > UM780XTX_EC_MAX_RPM)
+   102				continue;
+   103	
+   104			*rpm = value;
+   105			return 0;
+   106		}
+   107	
+   108		return -EIO;
+   109	}
+   110	
+   111	static int um780xtx_read_profile(long *mode)
+   112	{
+   113		u8 profile;
+   114		int ret;
+   115	
+   116		ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
+   117		if (ret)
+   118			return ret;
+   119		if (profile == UM780XTX_EC_PROFILE_B1) {
+   120			*mode = 2;
+   121			return 0;
+   122		}
+   123		if (profile == UM780XTX_EC_PROFILE_B2) {
+   124			*mode = 3;
+   125			return 0;
+   126		}
+   127	
+   128		return -ENODATA;
+   129	}
+   130	
+   131	static int um780xtx_write_profile(struct um780xtx_data *data, long mode)
+   132	{
+   133		u8 expected;
+   134		u8 profile;
+   135		int ret;
+   136	
+   137		if (mode != 2 && mode != 3)
+   138			return -EINVAL;
+   139		expected = mode == 2 ? UM780XTX_EC_PROFILE_B1 : UM780XTX_EC_PROFILE_B2;
+   140	
+   141		ret = ec_transaction(expected, NULL, 0, NULL, 0);
+   142		if (ret)
+   143			return ret;
+ > 144		ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
+   145		if (ret)
+   146			return ret;
+   147		if (profile != expected)
+   148			return -EIO;
+   149	
+   150		data->saved_profile = profile;
+   151		return 0;
+   152	}
+   153	
+   154	static const u8 um780xtx_sys_point_offsets[] = {
+   155		UM780XTX_EC_SYS_POINT1,
+   156		UM780XTX_EC_SYS_POINT2,
+   157	};
+   158	
+   159	static ssize_t um780xtx_sys_point_temp_show(struct device *dev,
+   160						    struct device_attribute *attr,
+   161						    char *buf)
+   162	{
+   163		struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
+   164		u8 value;
+   165		int ret;
+   166	
+   167		guard(hwmon_lock)(dev);
+   168		ret = ec_read(um780xtx_sys_point_offsets[sattr->index], &value);
+   169		if (ret)
+   170			return ret;
+   171	
+   172		return sysfs_emit(buf, "%u\n", value * 1000);
+   173	}
+   174	
+   175	static ssize_t um780xtx_sys_point_temp_store(struct device *dev,
+   176						     struct device_attribute *attr,
+   177						     const char *buf, size_t count)
+   178	{
+   179		struct um780xtx_data *data = dev_get_drvdata(dev);
+   180		struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
+   181		u8 points[2];
+   182		u8 readback;
+   183		long value;
+   184		int ret;
+   185	
+   186		ret = kstrtol(buf, 10, &value);
+   187		if (ret)
+   188			return ret;
+   189	
+   190		guard(hwmon_lock)(dev);
+   191		/* Validate and clamp against the live peer threshold. */
+ > 192		ret = ec_read(UM780XTX_EC_SYS_POINT1, &points[0]);
+   193		if (ret)
+   194			return ret;
+   195		ret = ec_read(UM780XTX_EC_SYS_POINT2, &points[1]);
+   196		if (ret)
+   197			return ret;
+   198		if (points[0] >= points[1] || points[1] >= data->sys_point3)
+   199			return -EIO;
+   200	
+   201		value = DIV_ROUND_CLOSEST(value, 1000);
+   202		if (!sattr->index)
+   203			value = clamp_val(value, 0, points[1] - 1);
+   204		else
+   205			value = clamp_val(value, points[0] + 1,
+   206					  data->sys_point3 - 1);
+   207		points[sattr->index] = value;
+   208	
+ > 209		ret = ec_write(um780xtx_sys_point_offsets[sattr->index],
+   210			       points[sattr->index]);
+   211		if (ret)
+   212			return ret;
+   213		ret = ec_read(um780xtx_sys_point_offsets[sattr->index], &readback);
+   214		if (ret)
+   215			return ret;
+   216		if (readback != points[sattr->index])
+   217			return -EIO;
+   218	
+   219		data->saved_sys_point1 = points[0];
+   220		data->saved_sys_point2 = points[1];
+   221		return count;
+   222	}
+   223	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
