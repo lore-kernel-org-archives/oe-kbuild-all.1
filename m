@@ -1,92 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB4526CE05;
-	Thu, 27 Aug 2026 12:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC6C2DE70D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 12:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787832861; cv=none; b=R6FFZbQLsc6w9cIPJ5iO25V/jHTWJ+v2zgMzv48fOwUEuSiui8ITCtfKKr60Ufa2XMp3rRzoCJQXu9R1HTL5v67SgSwZCD8CGbc5fhMy/ltJyaHxfOxxVKFxEQAAh8yYAafrTjw3qvHLIoJsa++xHnBJxsEASyMXWjPbcE49a6k=
+	t=1787834508; cv=none; b=qwFEsmf+QPiJssQSRkgxC6E5Dga7Rdw6KQM68D7hI9XsiF0c7F0x+llpfokVI6e7i/vNwMs/B4s3s9rdzmgFLJWFolYmHgc4N/D/bZHtOEmik8vVClGbsimu/JJdpIOTBC2TD6oWJCx5ZwWxR8qNmd+P9rw+U2PcbnGF1btdLbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787832861; c=relaxed/simple;
-	bh=LJrgAR7mb0F5iCwaOv+yKru57axH/TAn9IIw6+1xjU4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UnTAoDyERF3cq0vAsJVhipDmvvUL57LJbpyqzETI1n+xZ8hAohEbM51epcOb+dUYwzx5vypfSQNoFJQF6xjPsfKveoNeqyaasVbTi18NbhQc2GLmmV3Rjx/MzDPq7hE1Rn5psUp97sGNtPGb0eKOq5+ATdmTiFQCRM5fpdQtsNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TArlaF7B; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787834508; c=relaxed/simple;
+	bh=NuUcLXC1miviOWwxdxW/zevwsBNyJMfHBpvZ7GTNVyA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hsVbLlNFn+iIduSERWlnI+3viwNepx/bbBtM4ROBpJ6uDt/OdUJU0de1ez4GIynZSBwxVkzku4grqSF5VjE0lAzRNpQFln3Id9aGSphonPdA7YTVMGPswouWi0mo0OSJtMmeJZt/Ux/l+lU0rgUTUXTNwuXsHjR5MF9Ddz85tOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGEa4Pyu; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TArlaF7B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E84451F000E9;
-	Thu, 27 Aug 2026 12:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787832859;
-	bh=a/W3eP7zS3b8l5HIXi0BAzbByIGH+pq8Gfw52P6c/Is=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=TArlaF7BaHWwUgXnywLb+6QZ4tvixswsGl91GRmlynr50Z+raSGkptFCy0+SUy8QJ
-	 oqmUPdvZSH9+ViL2YAGwGu3Wa4kHnIlUtgiOgvczhLbkUCADzb8hFQ1tUNnWreLv93
-	 keAgNAf48PA0LDd48uJY7QoCBHMyLMp0aMXIFSLzbIfg6z3iTDM7lGFRxAvR/gAqr/
-	 ilbu1lCZg9QEWZM1Vno4VltAE8iJXeldxGpLXWyOhliiqHwgLF6DaJU5AYWPGs+BwH
-	 iIeMPq70aS05aJ2rP9mSK4EvtkCSMxZOv/xJX/zZaLxpOVASEYY1/j7RXdKFAk1pO1
-	 +2b+d+OthStug==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wzYzp-00000001isy-1yHu;
-	Thu, 27 Aug 2026 12:14:17 +0000
-Date: Thu, 27 Aug 2026 13:14:16 +0100
-Message-ID: <86qzjj4v6v.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Shanker Donthineni <sdonthineni@nvidia.com>,
-	Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vikram Sethi <vsethi@nvidia.com>
-Subject: Re: kismet: WARNING: unmet direct dependencies detected for HAVE_ARM_SMCCC_DISCOVERY when selected by ARM_GIC_V3
-In-Reply-To: <202608262054.WWa7JMca-lkp@intel.com>
-References: <202608262054.WWa7JMca-lkp@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGEa4Pyu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787834506; x=1819370506;
+  h=date:from:to:cc:subject:message-id;
+  bh=NuUcLXC1miviOWwxdxW/zevwsBNyJMfHBpvZ7GTNVyA=;
+  b=QGEa4PyufpAr7wEmWhLxgJLOAHlKZReBOs7JRcfWehyA1POX1xpisuaE
+   tkRyqVnRIJhIo5l7O/isQjzEbSCjvwTwBbhrhoAt0AQkvd7gEHfBwQDG7
+   0/Wvqo0/EfImCx5x94P32m5Za0dNCUFU718iqIoPN2D9u/nq4QeTHG5K4
+   C5c4lJMwazRbjHgrqMGK/mKPox6gh1fcQ9Q1Vox1zd8RnRhRKqzueca6h
+   mrnvexp8MicqIdsBpXaYMLTnwTUzfwh0DF405Q4A38fzNsfgIleSW68/1
+   PqWzEAS6CIgDhOT9I4PLLm9IBTBIRy27qURo7nwBg49Yr3rxDkc+rNPQf
+   A==;
+X-CSE-ConnectionGUID: 1gFw8jBLRbCiMfFSTOYUNg==
+X-CSE-MsgGUID: XxyyTkY2SjO5ZTxE6g7dcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="92148445"
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="92148445"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 05:41:45 -0700
+X-CSE-ConnectionGUID: iJiSpMJlTpOXchiqrUc5qw==
+X-CSE-MsgGUID: FLIFghzFTXq4MWuCu0ov/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="292699566"
+Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 27 Aug 2026 05:41:44 -0700
+Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wzZQM-000000000mv-1sWy;
+	Thu, 27 Aug 2026 12:41:42 +0000
+Date: Thu, 27 Aug 2026 14:41:07 +0200
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 254/254]
+ drivers/net/ethernet/linkdata/sxe2/sxe2pf/sxe2_main.c:1533:27: error:
+ 'sxe2_pm_resume' declared 'static' but never defined
+Message-ID: <202608271406.FwkZSiRH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: lkp@intel.com, sdonthineni@nvidia.com, paul@pgazz.com, fazilyildiran@gmail.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, vsethi@nvidia.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Wed, 26 Aug 2026 19:43:49 +0100,
-kernel test robot <lkp@intel.com> wrote:
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229
-> commit: 35727af2b15d98a2dd2811d631d3a3886111312e irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
-> date:   3 years, 5 months ago
-> config: arm-kismet-CONFIG_HAVE_ARM_SMCCC_DISCOVERY-CONFIG_ARM_GIC_V3-0-0 (https://download.01.org/0day-ci/archive/20260826/202608262054.WWa7JMca-lkp@intel.com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20260826/202608262054.WWa7JMca-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Fixes: 35727af2b15d ("irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202608262054.WWa7JMca-lkp@intel.com/
-> 
-> kismet warnings: (new ones prefixed by >>)
-> >> kismet: WARNING: unmet direct dependencies detected for HAVE_ARM_SMCCC_DISCOVERY when selected by ARM_GIC_V3
->    WARNING: unmet direct dependencies detected for HAVE_ARM_SMCCC_DISCOVERY
->      Depends on [n]: ARM_PSCI_FW [=n]
->      Selected by [y]:
->      - ARM_GIC_V3 [=y]
-> 
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   1cb14b8ebd706a55e3cb0251941355687e595e1d
+commit: e0244015478adde7baee3a127e43091668d91289 [254/254] anolis: net: update linkdata ethernet driver features.
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260827/202608271406.FwkZSiRH-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260827/202608271406.FwkZSiRH-lkp@intel.com/reproduce)
 
-See 20260823180832.1246363-1-julianbraha@gmail.com.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608271406.FwkZSiRH-lkp@intel.com/
 
-	M.
+All errors (new ones prefixed by >>):
 
--- 
-Without deviation from the norm, progress is not possible.
+>> drivers/net/ethernet/linkdata/sxe2/sxe2pf/sxe2_main.c:1533:27: error: 'sxe2_pm_resume' declared 'static' but never defined [-Werror=unused-function]
+    1533 | static int __maybe_unused sxe2_pm_resume(struct device *dev);
+         |                           ^~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxe2/sxe2pf/sxe2_main.c:1534:27: error: 'sxe2_pm_suspend' declared 'static' but never defined [-Werror=unused-function]
+    1534 | static int __maybe_unused sxe2_pm_suspend(struct device *dev);
+         |                           ^~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/linkdata/sxe2vf/sxe2vf/sxe2vf_main.c:1864:27: error: 'sxe2vf_pm_resume' declared 'static' but never defined [-Werror=unused-function]
+    1864 | static int __maybe_unused sxe2vf_pm_resume(struct device *dev);
+         |                           ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxe2vf/sxe2vf/sxe2vf_main.c:1865:27: error: 'sxe2vf_pm_suspend' declared 'static' but never defined [-Werror=unused-function]
+    1865 | static int __maybe_unused sxe2vf_pm_suspend(struct device *dev);
+         |                           ^~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +1533 drivers/net/ethernet/linkdata/sxe2/sxe2pf/sxe2_main.c
+
+  1532	
+> 1533	static int __maybe_unused sxe2_pm_resume(struct device *dev);
+> 1534	static int __maybe_unused sxe2_pm_suspend(struct device *dev);
+  1535	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
