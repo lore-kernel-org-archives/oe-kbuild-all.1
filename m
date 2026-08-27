@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6230D37F737
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 02:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BEF231C91
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 03:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787796822; cv=none; b=UVo8QfUpwxkFdAbDTzCxpw29z18JdOBpFqHI3sr+blX3Zy/7By7OEMLHN1xCg0bz+b8+YcXBWgD97a5c5k00kciQpDIAiclSEWZpVJCEOFPJfKxITuzfwnjtClUIjjFpWq6O70+yNIhVbOY2TPIuoUCFgTOZNXvMck2VkfatAlQ=
+	t=1787801023; cv=none; b=c8VU/ZlxwNw9AhZ4PYyqf5Mztlk2fRKCZR1zDcRHcwysC9XJvyasA/0/8CRVmt0h1LeCYETvDhkRC42JWjzhNwxKQmhhF3/lxxI/QgbyEn6YqrX2Uh7H96aXP/GkOCQPLMPDQwdAD+3dNSkumNIdgRvUYWeoV9vsHfFALMAGeUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787796822; c=relaxed/simple;
-	bh=2dHuMFPXfD1BNusSwxSfZh7oqwqE7AQ6aS6PJWfkRa8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tbzOtM+uuQ/VbZlrNf1SzJmOx6ElXS8jvQ6XiEmehQYhwcFIrnaDDMisDz1e1VLvqt6b7hG0qW2EilXAW7KdQ+xiD1XBLgMzAoJbFzEMtJ2FhE4n+2I1ltbGSRFBcqDS2Z/G/i0pBDnvMEbGx8jkR27S4XlkZBNeHvCE9ZbyHSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kqfjh0fG; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1787801023; c=relaxed/simple;
+	bh=u6MXVL5rODDrDkVTGFGcoH0yjO81GvhfQfLvm46kq7k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M40ZOGOfYyeflAQYnBOE2IJBYC1o/eh6Pb231jVZ+vSsNLC80W5KqLIkMhEoZnqpAiXeQz4EZHcyj0s6qImLpkCjZgiAZRKv7VLGzxnt83ck6UjTUdHas6Q/t/TU/v4aRWiCMyj1FNzJAIo4H2EHNwpI56rUIinyzClwA6ktQGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YfI6sDFJ; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kqfjh0fG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YfI6sDFJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787796820; x=1819332820;
+  t=1787801022; x=1819337022;
   h=date:from:to:cc:subject:message-id;
-  bh=2dHuMFPXfD1BNusSwxSfZh7oqwqE7AQ6aS6PJWfkRa8=;
-  b=kqfjh0fG+eJIgv5/JKv98T/E1P3DRYLsCjrHAp9lcRqfaH9Q9ZdWESWF
-   aVJTcpQvBZ80pG91uCtcitmJwfJm5UdOEFckQmlyDOesZhzvjjRrN1pv2
-   8Uxkn/UVoFcyAJqEQnCWDI9ZAcBkMxSGnVW9E9LixRspr+G0sLGJiRKBo
-   bO6gvchLqO9CV2NbVZ84MhJxUaew9t2ty2IWQid0f9zs1AyjHiOOB8qNi
-   dXGoMk2DXq3YWYTRK0n1u8ZjBTuSTcsqgci8daP/c/9vtyqRfib6cg/kb
-   /VlYjZLb4ElHqeIeRlIPPHqce+yzUgmN7sOKJLpD/J6CdITUaNXshEHxg
-   g==;
-X-CSE-ConnectionGUID: CwDczj3kQ6SpfuwPFo+F8g==
-X-CSE-MsgGUID: vOhQpfNhRRSNujyGLOq+Ww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88055519"
+  bh=u6MXVL5rODDrDkVTGFGcoH0yjO81GvhfQfLvm46kq7k=;
+  b=YfI6sDFJErYOhUsBKrUF4n/pZAhEfFlufr4q+iKpj++/6kyOv/zXMYKt
+   AmBtozrWv8tJrmRx4ARinu3KnrO9TkwUbQdlt37YiKNHRlasza26BE10X
+   rqpnBKNYZJoPtORssUStgRni/pCN9cn6OpEmy0RxQkGS9lR1G6fMDmoKf
+   tfDKbQSBGMMjhjQUxegbLuHPIrYRJD5R5jtGAozQxeRALt1tIjdoKNy1b
+   6+nd2bTOKjinVPBH/ggXQpKTW/qrTlgfzMDQsYVZAqayig5LT7oPIwoQW
+   cPckPP3iBSIkGZemvKVKpeq26ghXJY9EgrTATSVzxy/kSZYqbwHH+TLwG
+   A==;
+X-CSE-ConnectionGUID: UgXSOOwqQzaEh7AM3jvjLQ==
+X-CSE-MsgGUID: FEPTFKZOS/yUmEKeeuFA8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88501314"
 X-IronPort-AV: E=Sophos;i="6.25,245,1779174000"; 
-   d="scan'208";a="88055519"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 19:13:40 -0700
-X-CSE-ConnectionGUID: 5fVJWfU4QEWAaBHC0OCgxQ==
-X-CSE-MsgGUID: 7ajzokWeTYmldH7ndiSujg==
+   d="scan'208";a="88501314"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 20:23:39 -0700
+X-CSE-ConnectionGUID: Vf3gWfkWS2aA8z4yYaBfBQ==
+X-CSE-MsgGUID: EytQaFw8TqGmNXXqrffabg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,245,1779174000"; 
-   d="scan'208";a="271539409"
-Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 26 Aug 2026 19:13:39 -0700
-Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
+   d="scan'208";a="297628448"
+Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2026 20:23:38 -0700
+Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wzPcW-000000008nF-1DUn;
-	Thu, 27 Aug 2026 02:13:36 +0000
-Date: Thu, 27 Aug 2026 10:12:38 +0800
+	id 1wzQiF-000000000gn-34Bq;
+	Thu, 27 Aug 2026 03:23:35 +0000
+Date: Thu, 27 Aug 2026 05:22:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tyrel Datwyler <tyreld@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:1881 expecting
- prototype for ibmvfc_relogin(). Prototype was for ibmvfc_scsi_relogin()
- instead
-Message-ID: <202608271026.iMLmrwz4-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 6/6] kismet: WARNING: unmet
+ direct dependencies detected for INTEL_TCC when selected by
+ GKI_HIDDEN_X86_CONFIGS
+Message-ID: <202608270516.T18ADSjS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,25 +60,23 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229
-commit: e0fca728a89f14c2edd3e9f5343d0f019d8f50dd scsi: ibmvfc: delete NVMe/FC targets as well as SCSI
-date:   4 weeks ago
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260827/202608271026.iMLmrwz4-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260827/202608271026.iMLmrwz4-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   3b090ab3bf57f3728e7cd0cca1e5e0461d9a79a9
+commit: 8f5b5565305bb4a90b9e398d224aa7a48af1c5bc [6/6] ANDROID: GKI: x86: Enable Intel TCC lib as x86 hidden
+config: x86_64-kismet-CONFIG_INTEL_TCC-CONFIG_GKI_HIDDEN_X86_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260827/202608270516.T18ADSjS-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260827/202608270516.T18ADSjS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e0fca728a89f ("scsi: ibmvfc: delete NVMe/FC targets as well as SCSI")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608271026.iMLmrwz4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608270516.T18ADSjS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:1881 expecting prototype for ibmvfc_relogin(). Prototype was for ibmvfc_scsi_relogin() instead
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:4976 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:4976 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for INTEL_TCC when selected by GKI_HIDDEN_X86_CONFIGS
+   WARNING: unmet direct dependencies detected for INTEL_TCC
+     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y]
+     Selected by [y]:
+     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
 
 --
 0-DAY CI Kernel Test Service
