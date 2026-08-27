@@ -1,93 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82C9299922
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 16:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC72337EFFB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Aug 2026 16:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787847229; cv=none; b=JzMs8MXXxJKn2f8kPicpS8ZGs2pL7EsZ/p9vw/TnDhJ7OrCEKup6/4ijB5dGfGHSbP9bbw5FmK1VhgfnwIIbrmud0PMH5Cnh8YyL8IjypJI8QphRhBR0sOT50on3n/ZvOoqRZ/BCPDSpAXzHVGLZFQt4ia7kqMmqfB3+rIbg2TY=
+	t=1787848962; cv=none; b=Eq6LCM/8qRcR8SQyldU5MyFZXDaor9QZEWqqY5b4byQ1nGMBPXftxL5p60EWcKsDyvnNwMTdsosudovvb2Tg5cjTSMbnUZjwCaC+9UItBjnjhmXLDPtYuwnOhHLxeeK7cESCfvAyftcidHBa07K/UCzqCdQHE6c9TIyR5t0xMp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787847229; c=relaxed/simple;
-	bh=iEEfrVHf7NcjUkCDt0Khh5d9njPNFfitcZhIXLSkUFY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bsv78wqll/Wp+8wNo0zkskO+g4HkzJo3mg6ajqzP/P4kUNcbZ+e0vsEGalBJKuInRYsBJpka0F5u8Nynh/KzbGwtHnuMec1um8pWKl/XJCQR2Yn0LAaZuIgWYNJeYVmfuKmYFL4uZeXSMTiJfE+3CKdpFUrm7PlKpbTDNzJYLAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3H1YIMz; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787848962; c=relaxed/simple;
+	bh=sPGvdUYvO7fpucR0pdCt6gCxTbX4Una0yoMmxcC2yD0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RLJvVLynIvszZpwzIKfwAoCQZqLselz7DNHu+90bc2+nwEARxERDLiz/5cbgBGRwVXQSmOai6GyMH0bL83zU37oO8Wt+ISpuG56qYaiLmr9xsSsdiO8vg+ZFKT6mK7I7Ikt/HFM8n1jaxfEY3vhq7KO+kLPja683c9CEWXUN2aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YRhtlYry; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3H1YIMz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787847228; x=1819383228;
-  h=date:from:to:cc:subject:message-id;
-  bh=iEEfrVHf7NcjUkCDt0Khh5d9njPNFfitcZhIXLSkUFY=;
-  b=a3H1YIMzcQYzWEBeyEg36XPqC48i9GbvGsdzhA5pBT0r6vczvYzWv3HN
-   G+LD5RzDaTlZUZavSUe3NVJPQ5bt5kbrr9B6i/6T78wCAHATQGxTfeE+t
-   xqTt1Mt0TyFLc5b9DhdsrGwMCMzatKPN4HEe8DbDWHfIgrB8UZTQYCOos
-   DDnBOYI1J0H8KA0HcOG4wg2p406YIHPtHOni/pbhCQVefog3eizr4T7qP
-   lTMH6X50dtOOfvUKipWiHWQ+C6X8lMBYh6AqCDbyFilSypJOYwpMwHmKx
-   sQSPkeYnGyz1m6elGgpuX0c8xNDWV/9Tr4RodDAQrhOuUd0B/kMUFTWTv
-   g==;
-X-CSE-ConnectionGUID: 00hhco3FQIi6QktVDUvJgQ==
-X-CSE-MsgGUID: kx7AU4wpTMmeCzSlJr6AUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="105726691"
-X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="105726691"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 09:13:47 -0700
-X-CSE-ConnectionGUID: dKAW61u/RRCkhOkP5pPqaw==
-X-CSE-MsgGUID: 7bDhIyk1QOSkwhkQo0WTrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="267943246"
-Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 27 Aug 2026 09:13:47 -0700
-Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wzcjY-000000000ov-17J8;
-	Thu, 27 Aug 2026 16:13:44 +0000
-Date: Thu, 27 Aug 2026 18:13:21 +0200
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 6/6] kismet: WARNING: unmet
- direct dependencies detected for ACPI_THERMAL_LIB when selected by
- GKI_HIDDEN_X86_CONFIGS
-Message-ID: <202608271858.mUSrzvzl-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YRhtlYry"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 325F71F000E9;
+	Thu, 27 Aug 2026 16:42:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787848959;
+	bh=hC8yprawrh8DRVhXBUS+WOgzhbITHfzDxe/J4AuOB3g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=YRhtlYryDByhyfggTjdAMx+EYPoEKBsUXDJMV8JynL3JlekLUuqOR6+th2b1TyChz
+	 t7pmHnBf3WIIz3d2vRSgBZP2KfONV/TB7wpZdKHqCMIK7fiBwN0fFOunxa+Md7RuU2
+	 5bi+cicrY3zgEvMn0QyjYBKxKs9UhFFisBbyj0eVGZukjISgVbbYXWpTbOFCzigc7F
+	 pcSMxBbSi+x++NNlhXb9R2KqCs1WjsbBly/NOXlvB1QCziJQbufTqs/1oUDbbMlPqQ
+	 5ZYPNofo/JhKmMY7o2p8z13CwIgogRUy/T9vGyN2IBlwT+kjSp2526wnIRboH/p1PZ
+	 hUgHvl7nKaGhQ==
+Message-ID: <c269583e-3d53-41f2-865d-e609a3b2fb4b@kernel.org>
+Date: Thu, 27 Aug 2026 11:42:38 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ksinyuk:drm-tip 6/12] amdgpu_dm_connector_test.c:undefined
+ reference to `parse_hdmi_amd_vsdb'
+To: Doug Anderson <dianders@chromium.org>, Alex Huang <Alex.Huang2@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ruben Wauters <rubenru09@aol.com>,
+ kernel test robot <lkp@intel.com>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>
+References: <202608272312.xpie6XDa-lkp@intel.com>
+ <CAD=FV=XbqrLPDB9EviJ5h0jWv4XDR_ujkCmqaUcHFTL8zeiUVw@mail.gmail.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <CAD=FV=XbqrLPDB9EviJ5h0jWv4XDR_ujkCmqaUcHFTL8zeiUVw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   3b090ab3bf57f3728e7cd0cca1e5e0461d9a79a9
-commit: 4bb372791d1e195cad530dce5005509564c27cc7 [6/6] ANDROID: GKI: x86: Enable ACPI thermal lib as x86 hidden
-config: x86_64-kismet-CONFIG_ACPI_THERMAL_LIB-CONFIG_GKI_HIDDEN_X86_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260827/202608271858.mUSrzvzl-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260827/202608271858.mUSrzvzl-lkp@intel.com/reproduce)
+On 8/27/26 10:47 AM, Doug Anderson wrote:
+> Hi,
+> 
+> On Thu, Aug 27, 2026 at 8:31 AM kernel test robot <lkp@intel.com> wrote:
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ksinyuk/linux.git drm-tip
+>> head:   e3e05bddbe9fea67639d2a3551e7cf2d473b804c
+>> commit: 6fa42e05f7e63d41ade0e59fa5d94ca8028f7887 [6/12] Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip
+>> config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260827/202608272312.xpie6XDa-lkp@intel.com/config)
+>> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260827/202608272312.xpie6XDa-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202608272312.xpie6XDa-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     /usr/bin/ld: drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_connector_test.o: in function `dm_test_parse_hdmi_amd_vsdb_no_cea_ext':
+>>>> amdgpu_dm_connector_test.c:(.text+0x8cfe): undefined reference to `parse_hdmi_amd_vsdb'
+>>     /usr/bin/ld: drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_connector_test.o: in function `dm_test_parse_hdmi_amd_vsdb_no_extensions':
+>>     amdgpu_dm_connector_test.c:(.text+0x91c8): undefined reference to `parse_hdmi_amd_vsdb'
+>>     /usr/bin/ld: drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_connector_test.o: in function `dm_test_parse_hdmi_amd_vsdb_null_edid':
+>>     amdgpu_dm_connector_test.c:(.text+0x95ca): undefined reference to `parse_hdmi_amd_vsdb'
+>>     /usr/lib/gcc/x86_64-linux-gnu/14/crtbegin.o: in function `deregister_tm_clones':
+>>     crtstuff.c:(.text+0x7): relocation truncated to fit: R_X86_64_32S against `.tm_clone_table'
+>>     /usr/lib/gcc/x86_64-linux-gnu/14/crtbegin.o: in function `register_tm_clones':
+>>     crtstuff.c:(.text+0x38): relocation truncated to fit: R_X86_64_32S against `.tm_clone_table'
+>>     collect2: error: ld returned 1 exit status
+> 
+> Not that this error seems to have anything to do with me, but I did a
+> quick grep and my best guess is that the error you're seeing is
+> related to this patch:
+> 
+> commit f65198b3d07389afdcb48e4ad00fea2aded95dfd
+> Author:     Alex Huang <Alex.Huang2@amd.com>
+> AuthorDate: Tue Aug 4 10:33:37 2026 -0400
+> Commit:     Mario Limonciello <superm1@kernel.org>
+> CommitDate: Mon Aug 10 23:26:00 2026 -0500
+> 
+>      drm/amd/display: Use HDMI FreeSync range from common EDID parser
+> 
+>      HDMI FreeSync on amdgpu is detected using the AMD VSDB parser in the
+>      DMUB firmware, now that the common DRM EDID parser can do the same, use
+>      the common parser.
+> 
+>      Extend get_amd_vsdb() to copy the relevant flags and data now being
+>      extracted from the AMD VSDB. Additionally, parse_hdmi_amd_vsdb() and the
+>      parse_edid_cea() firmware helpers now have no callers; remove them.
+> 
+>      Signed-off-by: Alex Huang <Alex.Huang2@amd.com>
+>      Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>      Link: https://patch.msgid.link/20260804143339.714548-3-Alex.Huang2@amd.com
+>      (Adjust for movement to amdgpu_dm_connector.c)
+>      Signed-off-by: Mario Limonciello <superm1@kernel.org>
+> 
+> That seems to have removed the parse_hdmi_amd_vsdb(). Despite the
+> commit message, the function prototype is still in a header and there
+> are still callers to it in amdgpu_dm_connector_test.c.
+> 
+> Adding the two people involved in that patch to this email thread.
+> 
+> Seems like the kernel test robot could use some help identifying the
+> proper patch / people involved.
+> 
+> -Doug
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608271858.mUSrzvzl-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB when selected by GKI_HIDDEN_X86_CONFIGS
-   WARNING: unmet direct dependencies detected for PHYLINK
-     Depends on [n]: NETDEVICES [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for INTEL_TCC
-     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y]
-     Selected by [y]:
-     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
-   
-   WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB
-     Depends on [n]: ACPI [=y] && THERMAL [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y] && ACPI [=y]
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alex (Deucher) is planning to send a PR after the merge window with the fix.
