@@ -1,117 +1,120 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8219C389E07
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Aug 2026 03:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C1023A564
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Aug 2026 03:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787887380; cv=none; b=hU33m8pMyKxaY4FPWhwU0VUfud8Bv0D7zdMy045ylqcx1WGweByY6h7O9knpzGUwDN4rFi4g5Pr01ATXYEiIuCGMOPO7RVxyHDBi7glMQNup4IH1RS4QjOBQinz22fGMoY6ZThHiVtR7Jab8nlAK3cJQwg2hnHliFAC0dIpz+pU=
+	t=1787888100; cv=none; b=D25T1Y5xK+4oOTBJHS8/JPKmBBij8aahDWrRrG5K6cqmL2y3I8ALsyzXWTeaHl8XDmUwgF5jI/0tY1eOgF120R554JuKtvcKB78VRR4wou+EMkInzKD/NtGYkZukJwLkCykCT50uYAsT/xtxhx9SA2qaFkxH2BgOFM0pspG/4xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787887380; c=relaxed/simple;
-	bh=e9hRHQ6aFzR5cn+38V4JJ8FVmkjRNBrpiy92HLnfLew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fWCohV3Obt1NXsYiMS+nQDvPwFkJoTdA/f6dYmyEhUY4bj7ZWPrqBZAkk/Wrlt6u+IPX/ed52La4klQGzMMRl0sX4CD/nMDczCQYpuD/5RD+CHw6enfOjjQw/xdkrmL95N/0ZFlC5u9S5+USzXH9n5k/Qaq3/iAevIP9mzwjqaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MWBkayRI; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1787888100; c=relaxed/simple;
+	bh=QkjKb17vnfJWdfUOCEuDfWu4ylVQ4LaYwObMKPZPXAU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WnxYz5WyYJvAWe9sn7jdXzcsMfWrG6EbYaW4MHnhlo129+HlORUmY9jh/jqu5mLdwbO2GXj9tRAmTFfZyi6Foi5Etu4AfbgSblYx+mcpDMzxL7Dm0C/fMVsgY7FyFFX+W6LMIp9Lri39opPYeph6HvDnkj7mpbyZcVvRwahDVkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DvET8Gsb; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MWBkayRI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DvET8Gsb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787887378; x=1819423378;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e9hRHQ6aFzR5cn+38V4JJ8FVmkjRNBrpiy92HLnfLew=;
-  b=MWBkayRI/kq8R1YMVh31aTu38dqaZxh+8x3He4Y+eHclL3Hrst9jBQbV
-   MHS+zD/S4hE7BzL+SRbE3cSW28Ax+5RIUvEqlipszEl9FuJOkWW7ToCMT
-   W2nbwBbF0Zpv2D5rZwVUCif0AmoO7K3qfIZmkZbp6fh1wf/PeubzsQL7p
-   yG6ST5bsd3m4slADxqdkG6j1mPiAWcg5yp9Z+cpbOWOrgsRcRPGF1q7Az
-   +j+HPWlNIRWz4joDpdSB5FBMWEfPwYhJtyJtQ0i0KPRqx4oaW9AWgmzb6
-   U+pG4H/94TCVvjrI/FzT5jNwiD8MaW63HiujffydA1ugJlpZwd8dZ3RxA
+  t=1787888098; x=1819424098;
+  h=date:from:to:cc:subject:message-id;
+  bh=QkjKb17vnfJWdfUOCEuDfWu4ylVQ4LaYwObMKPZPXAU=;
+  b=DvET8GsbHWN6QIQrC+9XQEpnXzz7dxbo8ZO3Vp2VsKFoP6ZOr4sXX2t1
+   Xwpfdhd6P+OzKeBbpcqLCypX5xCJgfu1t6WxrHiOJ1koN9vdqndNAkC9t
+   bakgHmZJ/zDVV+NQF8VkUyDDeoIPswVoHatrW4JVSpxPKrZ5in3GG+yHf
+   xYu6S/oUz6dCUTu3iAF5mCI4Y5kBF5ct47xToXIYNkjR3dsa1J513mJoN
+   cIGxDL+sV9CcQsCHFYLdsLaHQq1tcPgsKkUU9wBmZDBW4grdvNkFbozlT
+   RmjORPNGsAD/jROr/GhK/gzIRQeZOoxh5GAs0kY6PCFOh96NTcBkrtr4B
    A==;
-X-CSE-ConnectionGUID: oZURN64UQ+WWeGvOZJHYng==
-X-CSE-MsgGUID: d9i+PSYWQ+udZQtW+09Ayg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="88518141"
+X-CSE-ConnectionGUID: ldSYO2dIRpCotCzyPB5Q9w==
+X-CSE-MsgGUID: OhDihf63RZ2bfPyj5m4Zjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="88519337"
 X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="88518141"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 20:22:57 -0700
-X-CSE-ConnectionGUID: bIY3IgiKTmi14/iipIiR9A==
-X-CSE-MsgGUID: Q1F7nL41TcmvXhXm5pucxg==
+   d="scan'208";a="88519337"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 20:34:56 -0700
+X-CSE-ConnectionGUID: Tb5LrqwKQ4Si71R5vC76IA==
+X-CSE-MsgGUID: Fro1YovdQ56gEmKQDEuGKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="266231271"
+   d="scan'208";a="268615230"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Aug 2026 20:22:55 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Aug 2026 20:34:56 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wznB6-00000000AIb-2U06;
-	Fri, 28 Aug 2026 03:22:52 +0000
-Date: Fri, 28 Aug 2026 11:22:03 +0800
+	id 1wznMj-00000000AJ5-0kCd;
+	Fri, 28 Aug 2026 03:34:53 +0000
+Date: Fri, 28 Aug 2026 11:34:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rik van Riel <riel@surriel.com>, Johannes Weiner <hannes@cmpxchg.org>
-Cc: oe-kbuild-all@lists.linux.dev, Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH] mm/memcg: fix UAF in drain_all_stock() async work during
- offline
-Message-ID: <202608281149.3OqBLtQa-lkp@intel.com>
-References: <20260827124211.3b94b103@fangorn>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:arm64-mm-ro-pmds-puds 2/2]
+ arch/arm64/include/asm/pgtable.h:984:30: error: no member named 'p4d' in
+ 'p4d_t'
+Message-ID: <202608281105.Cffss7UO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260827124211.3b94b103@fangorn>
 
-Hi Rik,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rik-van-Riel/mm-memcg-fix-UAF-in-drain_all_stock-async-work-during-offline/20260827-124211
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260827124211.3b94b103%40fangorn
-patch subject: [PATCH] mm/memcg: fix UAF in drain_all_stock() async work during offline
-config: xtensa-randconfig-r073-20260828 (https://download.01.org/0day-ci/archive/20260828/202608281149.3OqBLtQa-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608281149.3OqBLtQa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-mm-ro-pmds-puds
+head:   94ed97bda114e544f5563b31ac9babc7508ac535
+commit: 94ed97bda114e544f5563b31ac9babc7508ac535 [2/2] WIP
+config: arm64-randconfig-r051-20260828 (https://download.01.org/0day-ci/archive/20260828/202608281105.Cffss7UO-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608281105.Cffss7UO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608281149.3OqBLtQa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608281105.Cffss7UO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/memcontrol.c:2380:6: warning: no previous prototype for 'drain_all_stock_sync' [-Wmissing-prototypes]
-    2380 | void drain_all_stock_sync(struct mem_cgroup *root_memcg)
-         |      ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kernel/asm-offsets.c:13:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/arm64/include/asm/hardirq.h:17:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/arm64/include/asm/io.h:12:
+   In file included from include/linux/pgtable.h:6:
+>> arch/arm64/include/asm/pgtable.h:984:30: error: no member named 'p4d' in 'p4d_t'
+     984 |                 set_readonly_ptval(pa, p4d.p4d);
+         |                                        ~~~ ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:185: arch/arm64/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1414: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/drain_all_stock_sync +2380 mm/memcontrol.c
+vim +984 arch/arm64/include/asm/pgtable.h
 
-  2379	
-> 2380	void drain_all_stock_sync(struct mem_cgroup *root_memcg)
-  2381	{
-  2382		/*
-  2383		 * Make sure the workqueue is done with this memcg
-  2384		 * before freeing it.
-  2385		 */
-  2386		__drain_all_stock(root_memcg, true);
-  2387		flush_workqueue(memcg_wq);
-  2388	}
-  2389	
+   978	
+   979	static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
+   980	{
+   981		u64 pa;
+   982	
+   983		if (in_kernel_rodata_lmalias(p4dp, &pa)) {
+ > 984			set_readonly_ptval(pa, p4d.p4d);
+   985			return;
+   986		}
+   987	
+   988		WRITE_ONCE(*p4dp, p4d);
+   989		queue_pte_barriers();
+   990	}
+   991	
 
 --
 0-DAY CI Kernel Test Service
