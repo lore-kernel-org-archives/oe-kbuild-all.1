@@ -1,82 +1,116 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF2B3921D5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Aug 2026 10:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932E037268A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Aug 2026 10:25:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787912108; cv=none; b=XVqEX04nudp19re3vIYgagDUdD/PlcE0pblYYnppt5XiGCV0pXVkCOWlJYu/rqnx//WK7s95/t8LhYstlI94G6TX0WVI94/eF2/jsiuuH5Nx1IPbXNw500062L4hnaubfudKKco3drHi/inKoVgoSRZ25IKmrd0vb1DdBECScTs=
+	t=1787912756; cv=none; b=qp0hPH/q327wqVLOtfKMcmtaxIZUpRDsADrCqimULVjhUAapwsB72zmqWtdckTjZaFFyG0Kf+wd0WyPrNuKPZFtouhxhJl4jpqQ8yU485OvYxRdPe/L5GrpUI0ze1FHOu7JGTwW7uVzNah5E8jZcmWJbZzu0pQQyP51qMjs6Li4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787912108; c=relaxed/simple;
-	bh=0Y7RUxN9co6Rzwa2KBgNlh1Y555VGvGafdJCR0AM5oY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hTY+/fkccK/rKJrE/pOxlxOMP4aEKVVMvvcs35fAFFVNmPZG2v9PSgno/YLo4EPhSTIhgymUpmY86pdDRXOy+RFrUMPwi0klv8Op0ne8uG891JnS1DuKtICO8/Ax+U2tDXzuIi6hN6jw7PtqvI87zmPW4X6poFRF3iuvKtlp0uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpTupqFn; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1787912756; c=relaxed/simple;
+	bh=y2hbqMERCbiubt7BDkFMXl1dBTo5MssDHay4qoq9wxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ozCm98zg02vUPisZdZlWGwMNPMtPYGY8hPUTwxgN9yJC91zSOL0KnrLn5zF4jRA332I8DhFbl+YXNIJElXmv0tZvg5Mdx+RvXXxWX9p+kAw91mwq/ejL4weTFBMoLoeN0/v9z7QBU26S6Ddb07Bhg17UBTCU1Z36sQ0130jbyEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OfwhvkOr; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpTupqFn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OfwhvkOr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787912105; x=1819448105;
-  h=date:from:to:cc:subject:message-id;
-  bh=0Y7RUxN9co6Rzwa2KBgNlh1Y555VGvGafdJCR0AM5oY=;
-  b=lpTupqFnzO7hWsLF21YJLXVHQvnmmSKagb3DvOiIzlAoGSUlVHPDFkvB
-   ViZI5jvQt1D8gom6ii93vLM8agxqEcYr5S+hFMmN63fGqJRdCkS+7yYGS
-   upvAq1Wxoelauu333G8GeGqQIizxDeNlrV3GPHeWv6buX7yPwu1TMa1tq
-   ASRtTcP6gXj18HIOn1FLUyxqae8jisO6MbQqny09dgRoxpm7UvD3t8KuU
-   QAsesT2n4lw3jSRu+4u92b8Q3JqP9BbsrWZvizlnOHMNAyMeY8toKKpKI
-   QIhVzW79JI9Ze4JMbhAq+aGXlCn8Y4KMomBqpEQSoEM7GabJMQJ5i03H2
-   w==;
-X-CSE-ConnectionGUID: XyI4QlQ0TnutdPLpSeo6Vg==
-X-CSE-MsgGUID: lXtz5HZ8SNS3xheRSK66zA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="99580305"
+  t=1787912754; x=1819448754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y2hbqMERCbiubt7BDkFMXl1dBTo5MssDHay4qoq9wxA=;
+  b=OfwhvkOr2b6oN/wkqJr2bItw5OFPB4ZA2LHG8T7BrhRI4axAumrRRael
+   xK4zQOXtDNeuP16L45eUbonQgRi/P1qaS0IdUgwvBBnIX+1t/VJVm3bJC
+   je2ewzc2Xwm9JbzzvmcUVfnk39A+G5aCInhxfdk1vn7lkk9W0ovrEb6Y0
+   iEnGUsFcBvyPnPfMteOzaX8dmvWMEQ5jybYzJzasz9BeL+UjM3C9Wb6D1
+   FPMYQU3ehGzpDC32xb3FdaUg+LFTeHl9gkczQwg3QBGjUkOpcUKuHiewU
+   uHB7JIY3A9HYhcR9Bf/SR2uynTwvKB4JATG25SYrJurDOiDc+OAeq7zCf
+   Q==;
+X-CSE-ConnectionGUID: w1XWpIM5RSuYt2RRlUc79A==
+X-CSE-MsgGUID: F9xRT4DySyyaFLGpNoQ8Qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="99580835"
 X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="99580305"
+   d="scan'208";a="99580835"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 03:15:04 -0700
-X-CSE-ConnectionGUID: ub1zx+CvRmeBmGGUUG4Apw==
-X-CSE-MsgGUID: y1F5SXrzQny5m89BilZM7A==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 03:25:54 -0700
+X-CSE-ConnectionGUID: 6SUyTDvTToGtt1YkFVWwbw==
+X-CSE-MsgGUID: xaSfKNblR3SZYeLPnQSyQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="273378202"
-Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Aug 2026 03:15:03 -0700
-Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
+   d="scan'208";a="273380978"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 28 Aug 2026 03:25:51 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wztbx-0000000013x-0gmn;
-	Fri, 28 Aug 2026 10:15:01 +0000
-Date: Fri, 28 Aug 2026 12:14:48 +0200
+	id 1wztmO-00000000Ar3-0FNM;
+	Fri, 28 Aug 2026 10:25:48 +0000
+Date: Fri, 28 Aug 2026 18:25:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1] kismet: WARNING: unmet
- direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by
- GKI_HIDDEN_QCOM_CONFIGS
-Message-ID: <202608281212.TbjTy7lL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Rik van Riel <riel@surriel.com>, Johannes Weiner <hannes@cmpxchg.org>
+Cc: oe-kbuild-all@lists.linux.dev, Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH] mm/memcg: fix UAF in drain_all_stock() async work during
+ offline
+Message-ID: <202608281724.4MTLH1h2-lkp@intel.com>
+References: <20260827124211.3b94b103@fangorn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260827124211.3b94b103@fangorn>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   92378ced66f1faad5aa0211129792fcbca45a282
-commit: 0c8ec66904ac0a02c5ca7d0498308d90356f81c7 [1/1] ANDROID: Switch CONFIG_QCOM_PDC CONFIG_QCOM_SCM and CONFIG_ARM_SMMU to be loaded as modules
-config: arm64-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_GKI_HIDDEN_QCOM_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260828/202608281212.TbjTy7lL-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260828/202608281212.TbjTy7lL-lkp@intel.com/reproduce)
+Hi Rik,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rik-van-Riel/mm-memcg-fix-UAF-in-drain_all_stock-async-work-during-offline/20260827-124211
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260827124211.3b94b103%40fangorn
+patch subject: [PATCH] mm/memcg: fix UAF in drain_all_stock() async work during offline
+config: nios2-randconfig-r121-20260828 (https://download.01.org/0day-ci/archive/20260828/202608281724.4MTLH1h2-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608281724.4MTLH1h2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608281212.TbjTy7lL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608281724.4MTLH1h2-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by GKI_HIDDEN_QCOM_CONFIGS
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-     Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
-     Selected by [y]:
-     - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+sparse warnings: (new ones prefixed by >>)
+>> mm/memcontrol.c:2380:6: sparse: sparse: symbol 'drain_all_stock_sync' was not declared. Should it be static?
+   mm/memcontrol.c:4678:52: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4678:52: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol.c:4678:52: sparse:    struct task_struct *
+
+vim +/drain_all_stock_sync +2380 mm/memcontrol.c
+
+  2379	
+> 2380	void drain_all_stock_sync(struct mem_cgroup *root_memcg)
+  2381	{
+  2382		/*
+  2383		 * Make sure the workqueue is done with this memcg
+  2384		 * before freeing it.
+  2385		 */
+  2386		__drain_all_stock(root_memcg, true);
+  2387		flush_workqueue(memcg_wq);
+  2388	}
+  2389	
 
 --
 0-DAY CI Kernel Test Service
