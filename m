@@ -1,131 +1,119 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF6432692C;
-	Fri, 28 Aug 2026 00:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB6C28DB54
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Aug 2026 02:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787878552; cv=none; b=B9IE7sJ1046sRwSydT2yvKJW8B8zFvOTzMqcYY3Ly5pcq1b3t6evZKL21O/XV9GbVZbtlULkLDdMOimM4t4c1+z0mV33hOfJawauekF5cgmULPtfajfZlNSJicyGa6UDV//vW3K2zT+I9WKBq0BZfdZ1VJ9t1NKgeE378NWm5ws=
+	t=1787882935; cv=none; b=IfkbP1ztKTdyiygzw0PF+00MUM9YZ053EnM1Ti9lE+82hjC0c1YrVXJhWPqgUAfh4QYMQM23VqR2tALp+tCVGxAgadZV5/cNz+hx+qxpdvsnCufQ3Sl3pkqoLZKfMJyJsZi0GWi0OY2JuDq7HNUrgFY8oKAe23O57XlulUoAC2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787878552; c=relaxed/simple;
-	bh=pxJJ/Gq2BOZaGKWbI4sy8nb0IV9yvaOJO4OZ8lJb3Fw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SqYpk1Q+OgdhSFDK0Kjc03cf270r8Ppk4S40MXkIuqlWeUVFntQkzLKJXO/4LwcnKmrlF5V06tLz0w/gtlBJrajbRiFLkJMeE/S8cMia714yp+qZOnbIvwAIYaYXJVeRmnqu4j+F5q/s3kDGCHQ6swaBCOopgCwYNf9pBg/Kq/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdBTlzKQ; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1787882935; c=relaxed/simple;
+	bh=N/OmfWRr5BE9ZeYSOHIER3Ln1V2uJkn8sX1qLpmL44c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XvJ1s3I5BFR8HCEed0pqmDB4H4FuiIDWXBTuDsYuAW27BY7OThXFuzd3Zp55xR5b26gbmq0+SIDPuyf9oMZk4UY/7AfCEZ8LSGo0V73jN4UI7B0/4BYnqaDTILTNqMATU1VZNbxl3k6hFKqiQxSfUaxyfLCw6VjpI7RYwItOiN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZJjLaIpz; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdBTlzKQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJjLaIpz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787878550; x=1819414550;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pxJJ/Gq2BOZaGKWbI4sy8nb0IV9yvaOJO4OZ8lJb3Fw=;
-  b=TdBTlzKQo/2RJ0ldl0lyYP8VLhRvpVYtZhPi2XIWwKjqrnfl4MiCFbtm
-   AQ/fVukYQ3+85UCdKY1ZqRBI5biDGYXraZEapf60GfS34CE8Bseu1Rdlk
-   s8s8oTVI25BxEaX/nox+px7Itr1lGDm6H16qEE/Za1SauEaGPi/N2aJWy
-   BuEnc+T9ge6lIaNnmU+3+feesHwM8edN/uhCQI6/RkislZ0ndCp9iPli8
-   Sc2I07Mrr/9/z6eh8aruNXFUTgn/UOrHmbV+pHluaT8oyorrjpSZX7CQo
-   1Sq6BZCsJ2/6nYtuXrXY6PDXs06cnnDSi2UevSJkHmFI/VveqDB3dsAsC
+  t=1787882934; x=1819418934;
+  h=date:from:to:cc:subject:message-id;
+  bh=N/OmfWRr5BE9ZeYSOHIER3Ln1V2uJkn8sX1qLpmL44c=;
+  b=ZJjLaIpzhgSB40GeE5JC4s9nAAJVfxPFnHjwAu5c/VnxUoS7YgNg3SPq
+   jY00V7bmX5gypToBVw7duI+SY7AD8YfdB87XBegNCh7rX3jT31tsG7KRY
+   t4bWg8zyvwmXHVGMGYSwmVVx+ya9xuyffgXhFUoJwdsm3qjhIXNK+7dT5
+   SHrYCzcQbPJ7cgAgHSdVO/nLCIh9/g0WjTmD4zFovkuIvCsf5SgHzXWNr
+   GXuYAMuS5j7Ra1Fpae5LDp4f6loLabTQQluEweIj5LrAOi6qW9YXgdRX5
+   bDizMxC9OO9JsBdxIYHx6zxbD9DIKYhtaXlxaJcsjpU7yZo4lShYHOJRk
    A==;
-X-CSE-ConnectionGUID: iIBM/cMpSsGzSCSyI7X4sQ==
-X-CSE-MsgGUID: o86vHt2TT1qjfrjLrQWbQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="92246511"
+X-CSE-ConnectionGUID: oNFAVGybTMGx6pXZmax9Sw==
+X-CSE-MsgGUID: QHliJJ10R3mO8t7uNa2L2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="92250599"
 X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="92246511"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 17:55:50 -0700
-X-CSE-ConnectionGUID: D94VrNDqS12fWXoUw+nM9w==
-X-CSE-MsgGUID: TwDvaBS/Q6qrl8OnJjoNTw==
+   d="scan'208";a="92250599"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 19:08:53 -0700
+X-CSE-ConnectionGUID: qcfXairKQWKZgRwa0CMb0g==
+X-CSE-MsgGUID: /ND5x58xQiW7+seelD6E5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="271834038"
+   d="scan'208";a="271557334"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Aug 2026 17:55:47 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Aug 2026 19:08:51 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wzksj-00000000ADN-27PO;
-	Fri, 28 Aug 2026 00:55:45 +0000
-Date: Fri, 28 Aug 2026 08:54:51 +0800
+	id 1wzm1Q-00000000AGD-2tEG;
+	Fri, 28 Aug 2026 02:08:48 +0000
+Date: Fri, 28 Aug 2026 10:08:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zenghui Yu <zenghui.yu@linux.dev>, damon@lists.linux.dev,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, sj@kernel.org, akpm@linux-foundation.org,
-	"Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
-Subject: Re: [PATCH] mm/damon/core: remove declaration of kdamond_fn()
-Message-ID: <202608280848.9o0Z64CP-lkp@intel.com>
-References: <20260827163953.83520-1-zenghui.yu@linux.dev>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>,
+ "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>
+Subject: sound/soc/sdca/sdca_hid.c:133:undefined reference to
+ `hid_destroy_device'
+Message-ID: <202608281034.4X4V9tcq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260827163953.83520-1-zenghui.yu@linux.dev>
 
-Hi Zenghui,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zenghui-Yu/mm-damon-core-remove-declaration-of-kdamond_fn/20260828-003953
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260827163953.83520-1-zenghui.yu%40linux.dev
-patch subject: [PATCH] mm/damon/core: remove declaration of kdamond_fn()
-config: hexagon-randconfig-r052-20260828 (https://download.01.org/0day-ci/archive/20260828/202608280848.9o0Z64CP-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608280848.9o0Z64CP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   73e3f0710014fe6d4ed98cfc02292f6121db7558
+commit: df1fd5d8ab403c264b364abe187ce94b2fa7b96f ASoC: SDCA: Add missing destroy for HID device
+date:   3 weeks ago
+config: x86_64-buildonly-randconfig-004-20260825 (https://download.01.org/0day-ci/archive/20260828/202608281034.4X4V9tcq-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608281034.4X4V9tcq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: df1fd5d8ab40 ("ASoC: SDCA: Add missing destroy for HID device")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608280848.9o0Z64CP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608281034.4X4V9tcq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/damon/core.c:1941:30: error: use of undeclared identifier 'kdamond_fn'
-    1941 |                 ctx->kdamond = kthread_run(kdamond_fn, ctx, "kdamond.%d",
-         |                                            ^
-   1 error generated.
+   ld: vmlinux.o: in function `rt766_sdca_destroy_hid_device':
+   sound/soc/codecs/rt766-sdca.c:198:(.text+0x1b37dbf): undefined reference to `hid_destroy_device'
+   ld: vmlinux.o: in function `rt766_sdca_btn_detect':
+   sound/soc/codecs/rt766-sdca.c:89:(.text+0x1b39eaa): undefined reference to `hid_input_report'
+   ld: vmlinux.o: in function `sdca_destroy_hid_device':
+>> sound/soc/sdca/sdca_hid.c:133:(.text+0x1ccf77c): undefined reference to `hid_destroy_device'
+   ld: vmlinux.o: in function `sdwhid_parse':
+   sound/soc/sdca/sdca_hid.c:38:(.text+0x1ccf7fd): undefined reference to `hid_parse_report'
+   ld: vmlinux.o: in function `sdca_add_hid_device':
+   sound/soc/sdca/sdca_hid.c:96:(.text+0x1ccf864): undefined reference to `hid_allocate_device'
+   ld: sound/soc/sdca/sdca_hid.c:112:(.text+0x1ccf974): undefined reference to `hid_add_device'
+   ld: sound/soc/sdca/sdca_hid.c:115:(.text+0x1ccf9a2): undefined reference to `hid_destroy_device'
+   ld: vmlinux.o: in function `sdca_hid_process_report':
+   sound/soc/sdca/sdca_hid.c:170:(.text+0x1ccfba2): undefined reference to `hid_input_report'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_SOC_SDCA_HID
+   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SDCA [=y] && (HID [=n]=y [=y] || HID [=n]=SND_SOC_SDCA [=y])
+   Selected by [y]:
+   - SND_SOC_RT766_SDCA_SDW [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SOUNDWIRE [=y] && SND_SOC_SDCA [=y]
 
 
-vim +/kdamond_fn +1941 mm/damon/core.c
+vim +133 sound/soc/sdca/sdca_hid.c
 
-b1029f29eb1d5fb SJ Park        2026-02-28  1924  
-2224d8485492e49 SeongJae Park  2021-09-07  1925  /*
-2224d8485492e49 SeongJae Park  2021-09-07  1926   * __damon_start() - Starts monitoring with given context.
-2224d8485492e49 SeongJae Park  2021-09-07  1927   * @ctx:	monitoring context
-2224d8485492e49 SeongJae Park  2021-09-07  1928   *
-2224d8485492e49 SeongJae Park  2021-09-07  1929   * This function should be called while damon_lock is hold.
-2224d8485492e49 SeongJae Park  2021-09-07  1930   *
-2224d8485492e49 SeongJae Park  2021-09-07  1931   * Return: 0 on success, negative error code otherwise.
-2224d8485492e49 SeongJae Park  2021-09-07  1932   */
-2224d8485492e49 SeongJae Park  2021-09-07  1933  static int __damon_start(struct damon_ctx *ctx)
-2224d8485492e49 SeongJae Park  2021-09-07  1934  {
-2224d8485492e49 SeongJae Park  2021-09-07  1935  	int err = -EBUSY;
-2224d8485492e49 SeongJae Park  2021-09-07  1936  
-2224d8485492e49 SeongJae Park  2021-09-07  1937  	mutex_lock(&ctx->kdamond_lock);
-2224d8485492e49 SeongJae Park  2021-09-07  1938  	if (!ctx->kdamond) {
-2224d8485492e49 SeongJae Park  2021-09-07  1939  		err = 0;
-6376a824595607e SJ Park        2023-12-08  1940  		reinit_completion(&ctx->kdamond_started);
-2224d8485492e49 SeongJae Park  2021-09-07 @1941  		ctx->kdamond = kthread_run(kdamond_fn, ctx, "kdamond.%d",
-2224d8485492e49 SeongJae Park  2021-09-07  1942  				nr_running_ctxs);
-2224d8485492e49 SeongJae Park  2021-09-07  1943  		if (IS_ERR(ctx->kdamond)) {
-2224d8485492e49 SeongJae Park  2021-09-07  1944  			err = PTR_ERR(ctx->kdamond);
-7ec1992b891e59d Colin Ian King 2021-11-05  1945  			ctx->kdamond = NULL;
-6376a824595607e SJ Park        2023-12-08  1946  		} else {
-6376a824595607e SJ Park        2023-12-08  1947  			wait_for_completion(&ctx->kdamond_started);
-2224d8485492e49 SeongJae Park  2021-09-07  1948  		}
-2224d8485492e49 SeongJae Park  2021-09-07  1949  	}
-2224d8485492e49 SeongJae Park  2021-09-07  1950  	mutex_unlock(&ctx->kdamond_lock);
-2224d8485492e49 SeongJae Park  2021-09-07  1951  
-2224d8485492e49 SeongJae Park  2021-09-07  1952  	return err;
-2224d8485492e49 SeongJae Park  2021-09-07  1953  }
-2224d8485492e49 SeongJae Park  2021-09-07  1954  
+   124	
+   125	/**
+   126	 * sdca_destroy_hid_device - destroy the HID device
+   127	 * @interrupt: Pointer to the SDCA interrupt information structure.
+   128	 */
+   129	void sdca_destroy_hid_device(struct sdca_interrupt *interrupt)
+   130	{
+   131		struct hid_device *hid = interrupt->priv;
+   132	
+ > 133		hid_destroy_device(hid);
+   134	}
+   135	EXPORT_SYMBOL_NS(sdca_destroy_hid_device, "SND_SOC_SDCA");
+   136	
 
 --
 0-DAY CI Kernel Test Service
