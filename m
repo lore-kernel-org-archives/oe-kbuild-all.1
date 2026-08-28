@@ -1,386 +1,155 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1FF3F44C1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Aug 2026 09:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787910556; cv=pass; b=MFH6Hx+vgnsIv3a5tBiP3lfeijjn+iGWkvL6H4vo0XyfjeOx6Ft3+xXqx/YGqt0Q5Jc3wnqgC/KTCTVguKAsjtWWAM1DyrUsH2BuXPZATfj0py2pJUYKAol6Xsqjp4RTSgIEdy/IXX/X4trU2fmGjIUT0tIanZ25GFeeSPwbER8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787910556; c=relaxed/simple;
-	bh=7Cxy+dQ+EI6qV8/HB1WWPtDGMv2x7/tWAIuc4/K/IoA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QWT1aZ1JVTv/GDhdUJSHGt3DfQEcnTB4viWWhi+urdu+TbeYPM0EqhZqH/8LX6RcdWi8pjUyBV2zDotFbnIO6j4UTs+rMHNTXaQu9nOyjMkoFpJWYyRjQ3PEXfYRJ1o6wq+qB1589EeVN4C5t9JvLpe969M5803NJobYl2qZzfI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KB/sYgNX; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1893F54BB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Aug 2026 09:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787910608; cv=none; b=HZh2R++Lht0dkjHfW/eIhLQnEI8uApZ/Bx2EoDkfc2hpvm3ys+1d5QYDevtcyRFo15OHwLMHdmM2W3el5yKFfJOI404OBSlSbp8pFIj7m2PMoFdso11kdqapNgqEJ6DIkR0YFNcnq4+2U1+1oZSKiX/8b2IhnyMgU3pBrZeScBo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787910608; c=relaxed/simple;
+	bh=E9lkvK6JVHDyf9CsdpdAYjF8Zj+80R9xZDs7n/1hsjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tcz+wxz2ygw0TWP0tcVpA0CuHFwFxImDhlbdh5qzr8LfXGmu164aiWlidZxk8mNOMzi6qnSeIHng4A0wz6X82zkjUiDNL60x86WKu6e2pKYOYpOokOSxhnHdWwunzT5R/AdgwYYyvQEHyEsI2vgVNpR+5VjNf8uf2DEhKXVlTKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JZr1amXi; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KB/sYgNX"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c0cea8883so12690671cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Aug 2026 02:49:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787910547; cv=none;
-        d=google.com; s=arc-20260327;
-        b=f0biAyCM7YBm4mKmnOfTPIi8kUMCmKs3fShES1Ubz+2CqT8/0shc2qtVRxMgUmvxKQ
-         WQFozXmWexFOekNsXV/UUIP0uvZU47FonlwADMKxjIBpSfT+JBoHG9eSzp7IJj5OhbJ3
-         e8l3vAU210Zt+Eld4T2BUHccmGkaG5jgcDPOytIdbXY9jwPl4zs9DLpcIsmOb0uEm7nG
-         zl0u+zSUtBVbN+0Lk3XjJjcRED+9VlKrhZ8MF0tLNGCf8KsI9sbo8lV/wOukR2oxkZmn
-         vuYI3rN2SQLSxIlMg/V/vlAphVxLP0z/RFSEozQU4WAF045TiJL1vWHTCss8MKdNNnJ1
-         1ujA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=z7+GEY3r36gO9sYtigtzYIP+u8ELV4NYrOFl9bdxXfw=;
-        fh=10XeSIRT6MkK+81C+skg1C4n29fv2jEBKpCijRX77v4=;
-        b=WjDeVkyqdC8CymyP3aIA/TroB1O8CRT1daTS04/rkqUfczIN0W4mH7nl9sBRhPA3B9
-         Hc7TsBIv//e5NB9+8Xcm0Bz69TTQWjVCG6E2m1hhYKXwmC0zydFCJu26q4igij89P+/i
-         aHbQoO5JjDXAEr969I7kEh5DCRLFO9Q+k44V9/Lu7+uOXB2kEn1oO4RGQR9vHcSCLae7
-         Av9p3RceD0Ov/b48WAuYgPrGR1M0EF8irN1om9j7PmpenEY5g4vaajYQsZ7UbA6+FII+
-         Bsi2yrATyCjSYAeZKmC8IXop5b81Rcgt663xHtxts50XLqdn31eLlVAs0LixvB6Lf/Wu
-         KKSw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787910547; x=1788515347; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=z7+GEY3r36gO9sYtigtzYIP+u8ELV4NYrOFl9bdxXfw=;
-        b=KB/sYgNXCZx/LkneTspZvRSghr5eDX9hP7SObCThgo/vI3VWS2z7TjAGGuMEasWvGA
-         aj+iBFTTiERI+2jN4a4XQ6amYG0JQNtwIsu8+PLWljrgUyIHNCdJ+awuf5nppK32/nPX
-         4cJrRisfr5LxaWsusDH3TXqP6v0rOM7OxYn1ODL601S7Cxj1d/moJPtEL4GfZ9jole6h
-         EJOukGURjrawc4ttC0CBm9vZ/pUvCm11T/cC8fQWDvfUET3akl9N3VPHsTsugdA2o88v
-         X9gvlxzv+bEZV+D0bcwQbZGzxbKwKTouXZSmkcPdzKG8Hw8EHJKEBLl7+tu9UpumQQp6
-         ZWbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787910547; x=1788515347;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=z7+GEY3r36gO9sYtigtzYIP+u8ELV4NYrOFl9bdxXfw=;
-        b=eiyCekKZlFhUvBPRLN6UPHbO4LKXtAQtHibxrI9+EFx8PKl4DhhLtB/OdsdWDMiJUF
-         kvq08JKdTJK+rF2IVsX8/jc7t3MGnR6viY9SdUmcqYclDdEcGdpqljGN7/Uxbg1vr2Gh
-         5+u46FBLZVmFowJrcgVPzY9HzqUCF1RsFzyWj4pZKRITDmZuLIS5ErylJNcv7hpT610n
-         ro5Mf9hOlMrGlfWHmfVSeb1RyIOBJr6/hy4po7aSD/NH5h3yvHPAi6svSM2mpmJgJw3N
-         Ut/ssjws684OYu3s64RoG1ioSMrc0sifINCfuwG1tWGchD1S2+3TUie55ukXhrGiuukh
-         2xNg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr2A/h9NuAx2BNtUINoKyHAxOCbHDogoH5S9P7cbfZLjKMl6OuH6VNyHkfEzpJKL1UU/YFL6HgD60bokB6x@lists.linux.dev
-X-Gm-Message-State: AFuF++lgCF3UytDb/iQoTW3a2xunteAJCL8gfTx9NAUbDlOpL32LmUrf
-	/7PYHcfGS4ert4gFcDsLy7P/gRRPEg7PIMyz9+co+xZwTGz5lTGPNX4C2UGciMqv73lFXVhqs9u
-	5YlvlbPEGJdtOMH8xoHCjnb//CRNKAAc=
-X-Gm-Gg: AR+sD12Hy+quMOfhJ+oMXrEmTQGkfYvhciOgg/a8mqqs1xHhxFq19fiiz3f2Py1VNYX
-	i5YPbUENdJOqfCb0V/Cq6kpdunuCt2JPFHO84Yr7HGJzkk5WCV7ujATp9WHZH7uHfM6YvwmeNX5
-	ccW52LaH/gEQ2QjJbjHSWdaziUFZjqOmWJr68Fc0ZY89jfRcXn8L+w1UNjpP/PdNg/KXgHngR78
-	c++s9eaz/HFuPkupdWk1HP2rGw2VvuKxh64hsqkGNcyAX0sCd3Dko8ccVBRmAQBdunhC0aP+Wfj
-	Pr0HSnc5j9oKE6PvQNg+SQSRNZ/yOLnztOzlb02pzX81EM1/xwG1Lhm6nwrdZkZkEisFhVGukbQ
-	JBYoi3ktMrSsPaPg8RHVtjIzcNsmlLKyTWp8=
-X-Received: by 2002:a05:622a:3ca:b0:51b:9873:e37b with SMTP id
- d75a77b69052e-52fb8ef9bc4mr55620421cf.9.1787910547272; Fri, 28 Aug 2026
- 02:49:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JZr1amXi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787910585; x=1819446585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E9lkvK6JVHDyf9CsdpdAYjF8Zj+80R9xZDs7n/1hsjs=;
+  b=JZr1amXiYMdCPWRovoaVdE6ugW50KzIGcVeR/BkcgrGmOGVw9SI2QUJU
+   zBG1piAB6t/Q6pf+LyeyErP+MfThX+Z+Jn6kGQopd3CBSovcNF+CW5qiB
+   2ZKAs91NWI5rtIkY9PQPSHHCEQ1fzl1seYIonT0gMQrUKZ8H+84SObE0u
+   zN3ZMXWtNWZn9o/7xTTODCjAYXjnZ4Fm8bt8H6tTWwfiqZJiMMRlZ3ZzN
+   maE1bcawlE+xT/oE8G3JGBM6OifbV3majD6a5WH3sAaoNgrwCEBAfqQyt
+   LDslIjwrFFPqvSKziiCJGKcsBsc4LKOUKRUjtAW5HT5ORnVzNVHUDyQBp
+   Q==;
+X-CSE-ConnectionGUID: N2DhYyXLSxiLyCEuwv8STg==
+X-CSE-MsgGUID: oOrk+GGZQpuoTcx02vDf8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="87360953"
+X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
+   d="scan'208";a="87360953"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 02:49:39 -0700
+X-CSE-ConnectionGUID: uCLi9JCNSEW7nXJKgHL2bQ==
+X-CSE-MsgGUID: ULTzFYNqSTGmJdfvzRaD6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
+   d="scan'208";a="267516480"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 28 Aug 2026 02:49:37 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wztDI-00000000All-22ir;
+	Fri, 28 Aug 2026 09:49:33 +0000
+Date: Fri, 28 Aug 2026 17:49:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geramy Loveless <gloveless@jqluv.com>, linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com,
+	alexander.deucher@amd.com, ilpo.jarvinen@linux.intel.com,
+	christian.koenig@amd.com, amd-gfx@lists.freedesktop.org,
+	mario.limonciello@amd.com, nra3088@gmail.com, gloveless@jqluv.com
+Subject: Re: How to correctly reserve prefetchable bridge windows for large,
+ resizable BARs behind PCIe switches (8x GPU, PEX890xx) - seeking guidance on
+ upstreamable approach.
+Message-ID: <202608281725.lCnQu9B3-lkp@intel.com>
+References: <a2292dfb-2ee5-4988-ac67-c75dd3e97a4c@jqluv.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260727092258.1121-1-liujiazi@amazon.com> <20260812082127.79610-1-liujiazi@amazon.com>
- <apDmBeD8UQIvtfR4@vbox>
-In-Reply-To: <apDmBeD8UQIvtfR4@vbox>
-From: Liu Jiazi <jiazi.liu1984@gmail.com>
-Date: Fri, 28 Aug 2026 17:48:55 +0800
-X-Gm-Features: AcwNN1Wxk02VycXFR6FzqMc0tphW6zYgmo6hQyd1Yvdiu2jarMguczM5cc_XdZg
-Message-ID: <CAAcjFgh-f2=cK09BLGN-kPVu2usjN7pWOxCWb31hSePB2nLVEA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event
- buffer count
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"stable@vger.kernel.org" <stable@vger.kernel.org>, "lkp@intel.com" <lkp@intel.com>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Jiazi Liu <liujiazi@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a2292dfb-2ee5-4988-ac67-c75dd3e97a4c@jqluv.com>
 
-Hi @Thinh.Nguyen@synopsys.com , Krishna,
+Hi Geramy,
 
-Thanks for the detailed review.
-For the gadget ops protection, I propose adding the check only in
-dwc3_gadget_ep_queue.
-This covers two scenarios:
-1. The window between error detection and soft_disconnect completing.
-2. After soft_disconnect, existing checks on
-connected/pullups_connected/endpoint.desc naturally block all ops.
-This is also consistent with how other gadget handles it.
+kernel test robot noticed the following build errors:
 
-Brs
-Jiazi
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master next-20260826]
+[cannot apply to drm-misc/drm-misc-next v7.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geramy-Loveless/How-to-correctly-reserve-prefetchable-bridge-windows-for-large-resizable-BARs-behind-PCIe-switches-8x-GPU-PEX890xx-seeki/20260826-132218
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/a2292dfb-2ee5-4988-ac67-c75dd3e97a4c%40jqluv.com
+patch subject: How to correctly reserve prefetchable bridge windows for large, resizable BARs behind PCIe switches (8x GPU, PEX890xx) - seeking guidance on upstreamable approach.
+config: arm-randconfig-r072-20260827 (https://download.01.org/0day-ci/archive/20260828/202608281725.lCnQu9B3-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608281725.lCnQu9B3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608281725.lCnQu9B3-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: drivers/pci/setup-res.o: in function `pcibios_align_resource':
+>> drivers/pci/setup-res.c:289: undefined reference to `__aeabi_uldivmod'
+>> arm-linux-gnueabi-ld: drivers/pci/setup-res.c:289: undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: drivers/pci/setup-res.o: in function `pci_align_resource':
+>> drivers/pci/setup-res.c:289: undefined reference to `__aeabi_uldivmod'
+>> arm-linux-gnueabi-ld: drivers/pci/setup-res.c:289: undefined reference to `__aeabi_uldivmod'
 
 
-Thinh Nguyen <Thinh.Nguyen@synopsys.com> =E4=BA=8E2026=E5=B9=B48=E6=9C=8828=
-=E6=97=A5=E5=91=A8=E4=BA=94 10:36=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hi,
->
-> Sorry for the delay response.
->
-> On Wed, Aug 12, 2026, Jiazi Liu wrote:
-> > From: Jiazi Liu <jiazi.liu1984@gmail.com>
-> >
-> > When dwc3_check_event_buf() reads a GEVNTCOUNT value exceeding the
-> > event buffer length, commit 63ccd26cd1f6 ("usb: dwc3: gadget: check
-> > that event count does not exceed event buffer length") returns IRQ_NONE
-> > without writing back GEVNTCOUNT. Since the DWC3 interrupt is
-> > level-triggered, the uncleared IRQ source keeps the line asserted,
-> > causing a tight IRQ storm that accumulates 99,900 unhandled interrupts
-> > and triggers spurious.c:184 BUG -> kernel panic.
-> >
-> > The resulting call stack:
-> >   __report_bad_irq+0xac/0xc8
-> >   note_interrupt+0x340/0x468
-> >   handle_irq_event+0xac/0xc0
-> >   handle_fasteoi_irq+0x120/0x228
-> >   gic_handle_irq+0x68/0x108
-> >   ...
-> >   kernel BUG at kernel/irq/spurious.c:184
-> >
-> > To reproduce, write a bogus value exceeding the event buffer length
-> > directly to the GEVNTCOUNT register:
-> >
-> >   devmem <DWC3_BASE + 0xc40c> 4 0x1004
-> >
-> > Write the bogus count back to GEVNTCOUNT to clear the IRQ source,
-> > consistent with the stale event clearing pattern in
-> > dwc3_event_buffers_setup(), and schedule error recovery to
-> > reinitialize the controller.
-> >
-> > Fixes: 63ccd26cd1f6 ("usb: dwc3: gadget: check that event count does no=
-t
-> > exceed event buffer length")
->
-> Fixes tag should be single line.
->
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Jiazi Liu <liujiazi@amazon.com>
->
-> Your email from Signed-off-by is mismatching your From: line above.
->
-> > ---
-> > Changes in v2:
-> >   - Rename softcon_work to err_recovery_work
-> >   - Use dev_err instead of dev_err_ratelimited
-> >   - Update comment to document driver/controller out-of-sync fatal erro=
-r
-> >     condition rather than describing IRQ storm behavior
-> >   - Remove dev_err from work handler; error message belongs at the call
-> >     site where the specific failure is known
-> >   - Follow dwc3_gadget_suspend/resume logic in recovery work handler
-> >   - Add err_dying state to reject gadget driver requests during recover=
-y
-> >   - Add err_recovery_count counter and stop scheduling recovery after
-> >     DWC3_ERR_RECOVERY_MAX attempts to prevent infinite retry loops
-> >   - Add synchronize_irq() before soft_disconnect to ensure IRQ handler
-> >     has completed before reinitializing the controller
-> >   - Define DWC3_ERR_RECOVERY_MAX in core.h alongside other global const=
-ants
-> >   - Fix sparse warning: use dwc as first argument to dwc3_writel, not d=
-wc->regs
-> > ---
-> >  drivers/usb/dwc3/core.h   |  7 +++++++
-> >  drivers/usb/dwc3/gadget.c | 41 +++++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 46 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-> > index 608daeb7ef10..b1cd888eca77 100644
-> > --- a/drivers/usb/dwc3/core.h
-> > +++ b/drivers/usb/dwc3/core.h
-> > @@ -49,6 +49,7 @@
-> >  #define DWC3_ENDPOINTS_NUM   32
-> >  #define DWC3_XHCI_RESOURCES_NUM      2
-> >  #define DWC3_ISOC_MAX_RETRIES        5
-> > +#define DWC3_ERR_RECOVERY_MAX        3
-> >
-> >  #define DWC3_SCRATCHBUF_SIZE 4096    /* each buffer is assumed to be 4=
-KiB */
-> >  #define DWC3_EVENT_BUFFERS_SIZE      4096
-> > @@ -1004,6 +1005,7 @@ struct dwc3_glue_ops {
-> >  /**
-> >   * struct dwc3 - representation of our controller
-> >   * @drd_work: workqueue used for role swapping
-> > + * @err_recovery_work: workqueue used for controller error recovery
-> >   * @ep0_trb: trb which is used for the ctrl_req
-> >   * @bounce: address of bounce buffer
-> >   * @setup_buf: used while precessing STD USB requests
-> > @@ -1171,6 +1173,7 @@ struct dwc3_glue_ops {
-> >   * @wakeup_configured: set if the device is configured for remote wake=
-up.
-> >   * @suspended: set to track suspend event due to U3/L2.
-> >   * @susphy_state: state of DWC3_GUSB2PHYCFG_SUSPHY + DWC3_GUSB3PIPECTL=
-_SUSPHY
-> > + * @err_dying: true when controller is in error recovery, reject all r=
-equests
-> >   *             before PM suspend.
-> >   * @imod_interval: set the interrupt moderation interval in 250ns
-> >   *                   increments or 0 to disable.
-> > @@ -1186,9 +1189,11 @@ struct dwc3_glue_ops {
-> >   * @wakeup_pending_funcs: Indicates whether any interface has requeste=
-d for
-> >   *                    function wakeup in bitmap format where bit posit=
-ion
-> >   *                    represents interface_id.
-> > + * @err_recovery_count: number of consecutive error recovery attempts
-> >   */
-> >  struct dwc3 {
-> >       struct work_struct      drd_work;
-> > +     struct work_struct      err_recovery_work;
-> >       struct dwc3_trb         *ep0_trb;
-> >       void                    *bounce;
-> >       u8                      *setup_buf;
-> > @@ -1420,6 +1425,7 @@ struct dwc3 {
-> >       unsigned                wakeup_configured:1;
-> >       unsigned                suspended:1;
-> >       unsigned                susphy_state:1;
-> > +     unsigned                err_dying:1;
->
-> Can we change this to enum dwc3_err_state err_state where
->
-> enum dwc3_err_state {
->         DWC3_ERR_NONE =3D 0,
->         DWC3_ERR_RECOVERY,
->         DWC3_ERR_UNRECOVERABLE,
-> };
->
-> Then we can set err_state to DWC3_ERR_RECOVERY before scheduling the
-> recovery work, and set it to DWC3_ERR_NONE when the recovery work is
-> done. If we hit the max number of retries, we can set it to
-> DWC3_ERR_UNRECOVERABLE. This will make it clearer what state the
-> controller is in.
->
-> >
-> >       u16                     imod_interval;
-> >
-> > @@ -1429,6 +1435,7 @@ struct dwc3 {
-> >       struct dentry           *debug_root;
-> >       u32                     gsbuscfg0_reqinfo;
-> >       u32                     wakeup_pending_funcs;
-> > +     u32                     err_recovery_count;
-> >  };
-> >
-> >  #define INCRX_BURST_MODE 0
-> > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > index fa0f16ffafef..05f3ffab6e47 100644
-> > --- a/drivers/usb/dwc3/gadget.c
-> > +++ b/drivers/usb/dwc3/gadget.c
-> > @@ -2054,6 +2054,9 @@ static int dwc3_gadget_ep_queue(struct usb_ep *ep=
-, struct usb_request *request,
-> >
-> >       int                             ret;
-> >
-> > +     if (dwc->err_dying)
-> > +             return -ESHUTDOWN;
-> > +
->
-> As Krishna brought up, may need to double check, but I think all the
-> gadget and ep ops need to be guarded.
->
-> >       spin_lock_irqsave(&dwc->lock, flags);
-> >       ret =3D __dwc3_gadget_ep_queue(dep, req);
-> >       spin_unlock_irqrestore(&dwc->lock, flags);
-> > @@ -4667,9 +4670,22 @@ static irqreturn_t dwc3_check_event_buf(struct d=
-wc3_event_buffer *evt)
-> >               return IRQ_NONE;
-> >
-> >       if (count > evt->length) {
-> > -             dev_err_ratelimited(dwc->dev, "invalid count(%u) > evt->l=
-ength(%u)\n",
-> > +             dev_err(dwc->dev, "invalid count(%u) > evt->length(%u)\n"=
-,
-> >                       count, evt->length);
-> > -             return IRQ_NONE;
-> > +             /*
-> > +              * This is a fatal error - the driver and controller are =
-out of
-> > +              * sync on which event has been consumed. Reinitializing =
-the
-> > +              * controller is required to recover. Write the bogus cou=
-nt back
-> > +              * to GEVNTCOUNT to clear the IRQ source, consistent with=
- the
-> > +              * stale event clearing in dwc3_event_buffers_setup(), th=
-en
-> > +              * schedule error recovery.
-> > +              */
-> > +             dwc3_writel(dwc, DWC3_GEVNTCOUNT(0), count);
-> > +             dwc->err_dying =3D true;
-> > +             dwc->err_recovery_count++;
->
-> This increment should be done in dwc3_err_recovery_work(). Reset the
-> count to 0 after err_state transition to DWC3_ERR_NONE and on reset
-> event interrupt.
->
-> > +             if (dwc->err_recovery_count <=3D DWC3_ERR_RECOVERY_MAX)
->
-> The dwc->err_recovery_count check here should be checked in the
-> dwc3_err_recovery_work, to check whether to perform soft connect or not.
-> Set the err_state to unrecoverable and print a dev_err() if soft_connect
-> or soft_disconnect fails or if recovery count exceeds the max.
->
-> > +                     schedule_work(&dwc->err_recovery_work);
-> > +             return IRQ_HANDLED;
-> >       }
-> >
-> >       evt->count =3D count;
-> > @@ -4729,6 +4745,25 @@ static void dwc_gadget_release(struct device *de=
-v)
-> >       kfree(gadget);
-> >  }
-> >
-> > +static void dwc3_err_recovery_work(struct work_struct *work)
-> > +{
-> > +     struct dwc3 *dwc =3D container_of(work, struct dwc3, err_recovery=
-_work);
-> > +     int ret;
-> > +
-> > +     synchronize_irq(dwc->irq_gadget);
->
-> I think we should use disable_irq_nosync() before soft_disconnect and
-> re-enabling it after soft_connect succeeds. Leave it disabled if
-> DWC3_ERR_RECOVERY_MAX is reached or soft_connect fails or is skipped.
->
-> > +
-> > +     ret =3D dwc3_gadget_soft_disconnect(dwc);
-> > +     if (ret)
-> > +             return;
-> > +
-> > +     dwc3_disconnect_gadget_sleepable(dwc);
-> > +
-> > +     dwc->err_dying =3D false;
-> > +
-> > +     if (dwc->softconnect)
-> > +             dwc3_gadget_soft_connect(dwc);
-> > +}
-> > +
-> >  /**
-> >   * dwc3_gadget_init - initializes gadget related registers
-> >   * @dwc: pointer to our controller context structure
-> > @@ -4772,6 +4807,7 @@ int dwc3_gadget_init(struct dwc3 *dwc)
-> >       }
-> >
-> >       init_completion(&dwc->ep0_in_setup);
-> > +     INIT_WORK(&dwc->err_recovery_work, dwc3_err_recovery_work);
-> >       dwc->gadget =3D kzalloc_obj(struct usb_gadget);
-> >       if (!dwc->gadget) {
-> >               ret =3D -ENOMEM;
-> > @@ -4868,6 +4904,7 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
-> >       if (!dwc->gadget)
-> >               return;
-> >
-> > +     cancel_work_sync(&dwc->err_recovery_work);
-> >       dwc3_enable_susphy(dwc, true);
-> >       usb_del_gadget(dwc->gadget);
-> >       dwc3_gadget_free_endpoints(dwc);
-> > --
-> > 2.50.1 (Apple Git-155)
-> >
->
-> Thanks,
-> Thinh
+vim +289 drivers/pci/setup-res.c
+
+   262	
+   263	/*
+   264	 * For mem bridge windows, try to relocate tail remainder space to space
+   265	 * before res->start if there's enough free space there. This enables
+   266	 * tighter packing for resources.
+   267	 */
+   268	resource_size_t pci_align_resource(struct pci_dev *dev,
+   269					   const struct resource *res,
+   270					   const struct resource *empty_res,
+   271					   resource_size_t size,
+   272					   resource_size_t align)
+   273	{
+   274		resource_size_t remainder, start_addr;
+   275	
+   276		if (!(res->flags & IORESOURCE_MEM))
+   277			return res->start;
+   278	
+   279		if (IS_ALIGNED(size, align))
+   280			return res->start;
+   281	
+   282		remainder = size - ALIGN_DOWN(size, align);
+   283		/*
+   284		 * A window holding several align-sized resources has one tail per
+   285		 * resource, but only the lowest can tuck below the first aligned
+   286		 * boundary; the rest sit above it. Relocate a single tail's worth.
+   287		 */
+   288		if (ALIGN_DOWN(size, align) > align)
+ > 289			remainder /= ALIGN_DOWN(size, align) / align;
+   290		/* Don't mess with size that doesn't align with window size granularity */
+   291		if (!IS_ALIGNED(remainder, pci_min_window_alignment(dev->bus, res->flags)))
+   292			return res->start;
+   293		/* Try to place remainder that doesn't fill align before */
+   294		if (res->start < remainder)
+   295			return res->start;
+   296		start_addr = res->start - remainder;
+   297		if (empty_res->start > start_addr)
+   298			return res->start;
+   299	
+   300		pci_dbg(dev, "%pR: moving candidate start address below align to %llx\n",
+   301			res, (unsigned long long)start_addr);
+   302		return start_addr;
+   303	}
+   304	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
