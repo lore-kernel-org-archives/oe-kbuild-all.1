@@ -1,68 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8613033DE;
-	Fri, 28 Aug 2026 00:42:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF6432692C;
+	Fri, 28 Aug 2026 00:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787877772; cv=none; b=ovXMkQv75DS1vdW/8nW0jICEa3pIyKg2iB4zLWjovZTUYH89DnG7eTUMJgFcgNim/NgIZCHI8xLajFfw8R+C7S8Yvn2sORRC2TEQWUriFCaq+WgYqVjn4cuZo+8bQws6+TfTQAQt0Vzsod15PlzlvWCw1O3xF0xpZ693HAUmllI=
+	t=1787878552; cv=none; b=B9IE7sJ1046sRwSydT2yvKJW8B8zFvOTzMqcYY3Ly5pcq1b3t6evZKL21O/XV9GbVZbtlULkLDdMOimM4t4c1+z0mV33hOfJawauekF5cgmULPtfajfZlNSJicyGa6UDV//vW3K2zT+I9WKBq0BZfdZ1VJ9t1NKgeE378NWm5ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787877772; c=relaxed/simple;
-	bh=rXFUXxlKqBaXuqzdOpAFlhPtekA9ua3NlNpqEnttbNU=;
+	s=arc-20240116; t=1787878552; c=relaxed/simple;
+	bh=pxJJ/Gq2BOZaGKWbI4sy8nb0IV9yvaOJO4OZ8lJb3Fw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qstcg8WklqKWr+5pB+UxIum4thFKznY6hxfhJcGJZ5EmBI8arlRUcAXmoTpqs7CPRGfaJBK01nRiXJyfjkqPV7NoIkzcv1yT5Z03qJpdZ4mZ0FEEkLv/3gkq/b5FI7mn7y+2n84sdahhD1DG3VtuCAdpoxCrclRT7jXXwei/hRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSoXWTb5; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=SqYpk1Q+OgdhSFDK0Kjc03cf270r8Ppk4S40MXkIuqlWeUVFntQkzLKJXO/4LwcnKmrlF5V06tLz0w/gtlBJrajbRiFLkJMeE/S8cMia714yp+qZOnbIvwAIYaYXJVeRmnqu4j+F5q/s3kDGCHQ6swaBCOopgCwYNf9pBg/Kq/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdBTlzKQ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSoXWTb5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdBTlzKQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787877770; x=1819413770;
+  t=1787878550; x=1819414550;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rXFUXxlKqBaXuqzdOpAFlhPtekA9ua3NlNpqEnttbNU=;
-  b=eSoXWTb55RHWJohS9YWqNhHsHQCkRgHpQVp5sbuZztjqY+t6g7lgTFUI
-   L7TPHujEH1nfy/9xGAZoBpjLLw0RXWjFRPxu+foGVXu6SD9dpikzV1Hi1
-   ZIq1J2p/mXjvwhm9uS2mJJo36FhARtL0g5TU9ISbt0YSD7OEnEUn5BmEF
-   b583SoUzwJbOwVTpybkpiPQ/zhOE+K7HTXB/E+Y+xI9BbOLOdNnflVZKC
-   gbdE8dF3zWAccGxZX2aZRVKCdIgH+wm3ii5OYaWcJAc9i6GktktH7X0Ni
-   lAp6+FPwkHhG6qVEiPYqGqVCxDXAqqCJr0JLJcxDThpe6A3RnRNj1I/1I
-   g==;
-X-CSE-ConnectionGUID: 5IRaL6WjR0mHT4hxCPnOdw==
-X-CSE-MsgGUID: IuatNvN8QpWI0pdd5hOpTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="92245957"
+  bh=pxJJ/Gq2BOZaGKWbI4sy8nb0IV9yvaOJO4OZ8lJb3Fw=;
+  b=TdBTlzKQo/2RJ0ldl0lyYP8VLhRvpVYtZhPi2XIWwKjqrnfl4MiCFbtm
+   AQ/fVukYQ3+85UCdKY1ZqRBI5biDGYXraZEapf60GfS34CE8Bseu1Rdlk
+   s8s8oTVI25BxEaX/nox+px7Itr1lGDm6H16qEE/Za1SauEaGPi/N2aJWy
+   BuEnc+T9ge6lIaNnmU+3+feesHwM8edN/uhCQI6/RkislZ0ndCp9iPli8
+   Sc2I07Mrr/9/z6eh8aruNXFUTgn/UOrHmbV+pHluaT8oyorrjpSZX7CQo
+   1Sq6BZCsJ2/6nYtuXrXY6PDXs06cnnDSi2UevSJkHmFI/VveqDB3dsAsC
+   A==;
+X-CSE-ConnectionGUID: iIBM/cMpSsGzSCSyI7X4sQ==
+X-CSE-MsgGUID: o86vHt2TT1qjfrjLrQWbQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="92246511"
 X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="92245957"
+   d="scan'208";a="92246511"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 17:42:50 -0700
-X-CSE-ConnectionGUID: XDqL6UANT36uEF3p2NzRAQ==
-X-CSE-MsgGUID: xNdi13Q/QkOl/mSsam120g==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 17:55:50 -0700
+X-CSE-ConnectionGUID: D94VrNDqS12fWXoUw+nM9w==
+X-CSE-MsgGUID: TwDvaBS/Q6qrl8OnJjoNTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="271831002"
+   d="scan'208";a="271834038"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Aug 2026 17:42:47 -0700
+  by orviesa004.jf.intel.com with ESMTP; 27 Aug 2026 17:55:47 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wzkg8-00000000ACb-1p3b;
-	Fri, 28 Aug 2026 00:42:44 +0000
-Date: Fri, 28 Aug 2026 08:42:25 +0800
+	id 1wzksj-00000000ADN-27PO;
+	Fri, 28 Aug 2026 00:55:45 +0000
+Date: Fri, 28 Aug 2026 08:54:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rik van Riel <riel@surriel.com>, Johannes Weiner <hannes@cmpxchg.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH] mm/memcg: fix UAF in drain_all_stock() async work during
- offline
-Message-ID: <202608280832.9NUcmGpu-lkp@intel.com>
-References: <20260827124211.3b94b103@fangorn>
+To: Zenghui Yu <zenghui.yu@linux.dev>, damon@lists.linux.dev,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sj@kernel.org, akpm@linux-foundation.org,
+	"Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
+Subject: Re: [PATCH] mm/damon/core: remove declaration of kdamond_fn()
+Message-ID: <202608280848.9o0Z64CP-lkp@intel.com>
+References: <20260827163953.83520-1-zenghui.yu@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,52 +64,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260827124211.3b94b103@fangorn>
+In-Reply-To: <20260827163953.83520-1-zenghui.yu@linux.dev>
 
-Hi Rik,
+Hi Zenghui,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rik-van-Riel/mm-memcg-fix-UAF-in-drain_all_stock-async-work-during-offline/20260827-124211
+url:    https://github.com/intel-lab-lkp/linux/commits/Zenghui-Yu/mm-damon-core-remove-declaration-of-kdamond_fn/20260828-003953
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260827124211.3b94b103%40fangorn
-patch subject: [PATCH] mm/memcg: fix UAF in drain_all_stock() async work during offline
-config: x86_64-randconfig-074-20260828 (https://download.01.org/0day-ci/archive/20260828/202608280832.9NUcmGpu-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608280832.9NUcmGpu-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20260827163953.83520-1-zenghui.yu%40linux.dev
+patch subject: [PATCH] mm/damon/core: remove declaration of kdamond_fn()
+config: hexagon-randconfig-r052-20260828 (https://download.01.org/0day-ci/archive/20260828/202608280848.9o0Z64CP-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260828/202608280848.9o0Z64CP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608280832.9NUcmGpu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608280848.9o0Z64CP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/memcontrol.c:2380:6: warning: no previous prototype for function 'drain_all_stock_sync' [-Wmissing-prototypes]
-    2380 | void drain_all_stock_sync(struct mem_cgroup *root_memcg)
-         |      ^
-   mm/memcontrol.c:2380:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2380 | void drain_all_stock_sync(struct mem_cgroup *root_memcg)
-         | ^
-         | static 
-   1 warning generated.
+>> mm/damon/core.c:1941:30: error: use of undeclared identifier 'kdamond_fn'
+    1941 |                 ctx->kdamond = kthread_run(kdamond_fn, ctx, "kdamond.%d",
+         |                                            ^
+   1 error generated.
 
 
-vim +/drain_all_stock_sync +2380 mm/memcontrol.c
+vim +/kdamond_fn +1941 mm/damon/core.c
 
-  2379	
-> 2380	void drain_all_stock_sync(struct mem_cgroup *root_memcg)
-  2381	{
-  2382		/*
-  2383		 * Make sure the workqueue is done with this memcg
-  2384		 * before freeing it.
-  2385		 */
-  2386		__drain_all_stock(root_memcg, true);
-  2387		flush_workqueue(memcg_wq);
-  2388	}
-  2389	
+b1029f29eb1d5fb SJ Park        2026-02-28  1924  
+2224d8485492e49 SeongJae Park  2021-09-07  1925  /*
+2224d8485492e49 SeongJae Park  2021-09-07  1926   * __damon_start() - Starts monitoring with given context.
+2224d8485492e49 SeongJae Park  2021-09-07  1927   * @ctx:	monitoring context
+2224d8485492e49 SeongJae Park  2021-09-07  1928   *
+2224d8485492e49 SeongJae Park  2021-09-07  1929   * This function should be called while damon_lock is hold.
+2224d8485492e49 SeongJae Park  2021-09-07  1930   *
+2224d8485492e49 SeongJae Park  2021-09-07  1931   * Return: 0 on success, negative error code otherwise.
+2224d8485492e49 SeongJae Park  2021-09-07  1932   */
+2224d8485492e49 SeongJae Park  2021-09-07  1933  static int __damon_start(struct damon_ctx *ctx)
+2224d8485492e49 SeongJae Park  2021-09-07  1934  {
+2224d8485492e49 SeongJae Park  2021-09-07  1935  	int err = -EBUSY;
+2224d8485492e49 SeongJae Park  2021-09-07  1936  
+2224d8485492e49 SeongJae Park  2021-09-07  1937  	mutex_lock(&ctx->kdamond_lock);
+2224d8485492e49 SeongJae Park  2021-09-07  1938  	if (!ctx->kdamond) {
+2224d8485492e49 SeongJae Park  2021-09-07  1939  		err = 0;
+6376a824595607e SJ Park        2023-12-08  1940  		reinit_completion(&ctx->kdamond_started);
+2224d8485492e49 SeongJae Park  2021-09-07 @1941  		ctx->kdamond = kthread_run(kdamond_fn, ctx, "kdamond.%d",
+2224d8485492e49 SeongJae Park  2021-09-07  1942  				nr_running_ctxs);
+2224d8485492e49 SeongJae Park  2021-09-07  1943  		if (IS_ERR(ctx->kdamond)) {
+2224d8485492e49 SeongJae Park  2021-09-07  1944  			err = PTR_ERR(ctx->kdamond);
+7ec1992b891e59d Colin Ian King 2021-11-05  1945  			ctx->kdamond = NULL;
+6376a824595607e SJ Park        2023-12-08  1946  		} else {
+6376a824595607e SJ Park        2023-12-08  1947  			wait_for_completion(&ctx->kdamond_started);
+2224d8485492e49 SeongJae Park  2021-09-07  1948  		}
+2224d8485492e49 SeongJae Park  2021-09-07  1949  	}
+2224d8485492e49 SeongJae Park  2021-09-07  1950  	mutex_unlock(&ctx->kdamond_lock);
+2224d8485492e49 SeongJae Park  2021-09-07  1951  
+2224d8485492e49 SeongJae Park  2021-09-07  1952  	return err;
+2224d8485492e49 SeongJae Park  2021-09-07  1953  }
+2224d8485492e49 SeongJae Park  2021-09-07  1954  
 
 --
 0-DAY CI Kernel Test Service
