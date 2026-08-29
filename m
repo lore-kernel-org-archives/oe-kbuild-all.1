@@ -1,97 +1,229 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62A12620DE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Aug 2026 06:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DCF632
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Aug 2026 09:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787984327; cv=none; b=ZphRHtxlTqUBLjzTALw4tS/jatnmsFZzGemN2EKK2rOXydF5ps1bC8S+uG2FSltJFLwOzPhyjhiLi5KGDGIfxHx6E99a4F2107xXN9oTmdIUUEIMo0G+wcxmfodL1QOf9W1H6DDRYcn0r5TlKYiaZ0Xyn1Pcn3nig0Z6D4k9Apo=
+	t=1787996558; cv=none; b=P41pCwhqgzCMvUh0/zWaBf8Z7nkG7JgVzbghd3CEm00WFEinltWoy5FsKWd4C+zuwXVNeQkloLaqP8sV4wMQQNnUhDsPdpJp6cZZLFlvTuvSiR7inM1afqEQPhqnjBTOKrlLWZddscj2aQEEfqgIvn7RD0LbCTaE8CnReK2LpbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787984327; c=relaxed/simple;
-	bh=MocRcrfIJb+3sbHJIV0NburxoAR56M3DXfckPZPXFdo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i8S3MyePBQuvvCG8QM+y/BvC+2ERa3ZiX8o9PMzFw9XdKURIjYaszKA1bITdOlgY3KgxCFIPwYZ4JhI4Kc5nF2ihEACwDCOhs1IwMP/K2c30GPH7gJjZfS7OvuKM9kppYGHZ+cAQvBkB10InfPcNuhUDJjCSlZZdTHRsUYlfzhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUeWxK6D; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1787996558; c=relaxed/simple;
+	bh=gPbWuMSSpUhxFF74ADCEKGChT4Gev0NEPXKUauisxYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=bKeGSwA1dWxs6kOE+doTmxo7eYg4fUvNkv6NYNJDdHV9k2Jz4iLfLB+pfhCTecqeq8TSRBg8pPUhT3wQaqu7L8arAhCJ72Ug11LwEt7noCC4qXeydUT2+TvneZcmFUZ6I17WEakrFbc0FWJdOz1rdvCicDyZONYm3zjoW/yFmZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KU/+eIu+; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUeWxK6D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KU/+eIu+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787984326; x=1819520326;
-  h=date:from:to:cc:subject:message-id;
-  bh=MocRcrfIJb+3sbHJIV0NburxoAR56M3DXfckPZPXFdo=;
-  b=cUeWxK6DkGRbwASC16feZtdrTBlAh9C2rc3HBQ/BG8oxf70HKoD/gq+i
-   7yJZ3mbm3XM1qBCTlYH2NwpPKcVbA9y63fKYsh5qsvU3PCRCCc1xa+HEK
-   axzRelLu69mUFclGtRLZBcDZL7C8MJAIO45TuqqQnKJdgTcwbsWwwjw9U
-   pGNdy15ZbQlNJhbMfkrhBJccL/9y2Mxsrmq8pDWY8WP6e07v76KJlcY/t
-   Liq+7sIj96/RCdG8ZEH0WUqg79I/eTpU52CddME8FMoPCyFmvEaq9Aq5B
-   idGWWFgM4wKCRZIog65VO+5met/4m2WnpsnULCS+SZqWISIUSFKGhSSWu
+  t=1787996556; x=1819532556;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gPbWuMSSpUhxFF74ADCEKGChT4Gev0NEPXKUauisxYs=;
+  b=KU/+eIu+4wXYt2tItEmBQ4dLygYe9qgrocpF3u7/hX/u/d6dL7p3X0DM
+   V2DLBo7UuwQC1M54JeNmaYeZDEc5Bf7NwlNVrxL1qLQI4564h1xSxQxx9
+   tdoBgGxtuq1/VQkFstJkZjqgAyWHwzAqRA22k/5W+MRFyWWeLfvjoKYua
+   KyLz3msVChMIvsB/bZnv0Uw6oEHKsCLbeWmE/tE0UsgaQ5U1k6Wan2V8G
+   kr5px6NdzdNAC1Mom2dmmEyX2OakPzF40DDqg4uaYJ3/vwDAE/H7hBYu6
+   /8/Ho/s4NLFEIm6Zxu4nM+uDUeUu3PsxgqEM1tjeF49fZD3G/ebhZPvFr
    w==;
-X-CSE-ConnectionGUID: +bwWaHUyTgS9VlG6P9xDJg==
-X-CSE-MsgGUID: 5kZmkn59TB6cKH0D8dBnzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11889"; a="98819791"
+X-CSE-ConnectionGUID: IE3N8fa/RgaVCkzyGfaE9A==
+X-CSE-MsgGUID: INUfNwC2S/m89cDtVikxFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11889"; a="88537730"
 X-IronPort-AV: E=Sophos;i="6.25,250,1779174000"; 
-   d="scan'208";a="98819791"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 23:18:25 -0700
-X-CSE-ConnectionGUID: yuIO9CsqQF+u8rPBhjW34g==
-X-CSE-MsgGUID: aSdOXXhpR3ynVLmRnRlcCw==
+   d="scan'208";a="88537730"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2026 02:42:35 -0700
+X-CSE-ConnectionGUID: CVo6qOI2SwKttYzWpzA5aA==
+X-CSE-MsgGUID: x5A0zNgQRMi9u/CFpMda/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,250,1779174000"; 
-   d="scan'208";a="265114865"
-Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Aug 2026 23:18:24 -0700
-Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
+   d="scan'208";a="267048818"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 29 Aug 2026 02:42:34 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0COT-000000001KD-3UOx;
-	Sat, 29 Aug 2026 06:18:21 +0000
-Date: Sat, 29 Aug 2026 08:17:31 +0200
+	id 1x0Fa4-00000000CdA-0NaD;
+	Sat, 29 Aug 2026 09:42:32 +0000
+Date: Sat, 29 Aug 2026 17:41:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 6/6] kismet: WARNING: unmet
- direct dependencies detected for ACPI_THERMAL_LIB when selected by
- GKI_HIDDEN_X86_CONFIGS
-Message-ID: <202608290837.gxGmXmcy-lkp@intel.com>
+Subject: [zen:7.2/vramstuff 21/28]
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c:335:9: error: too few arguments to
+ function 'ttm_lru_bulk_move_init'
+Message-ID: <202608291747.FgRdHIvB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   afea13f9ff7137797a2858fc973c226ec93866aa
-commit: 4bb372791d1e195cad530dce5005509564c27cc7 [6/6] ANDROID: GKI: x86: Enable ACPI thermal lib as x86 hidden
-config: x86_64-kismet-CONFIG_ACPI_THERMAL_LIB-CONFIG_GKI_HIDDEN_X86_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260829/202608290837.gxGmXmcy-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260829/202608290837.gxGmXmcy-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 7.2/vramstuff
+head:   da1cf9de1bba45648450c64323fca70bcf2a65ae
+commit: 2fbdb6893cc6ed358f0232bff4eef598a6c5b419 [21/28] drm/ttm: Add order=
+ed bulk moves
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/2026082=
+9/202608291747.FgRdHIvB-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260829/202608291747.FgRdHIvB-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608290837.gxGmXmcy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608291747.FgRdHIvB-lkp@i=
+ntel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB when selected by GKI_HIDDEN_X86_CONFIGS
-   WARNING: unmet direct dependencies detected for INTEL_SCU
-     Depends on [n]: X86_PLATFORM_DEVICES [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_SHA256
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - INCREMENTAL_FS [=y] && BLOCK [=y] && !CONFIG_FS_VERITY_BUILTIN_SIGNATURES
-   
-   WARNING: unmet direct dependencies detected for INTEL_TCC
-     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y]
-     Selected by [y]:
-     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
-   
-   WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB
-     Depends on [n]: ACPI [=y] && THERMAL [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y] && ACPI [=y]
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_unreserve_b=
+ulk':
+>> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:335:9: error: too few arguments =
+to function 'ttm_lru_bulk_move_init'
+     335 |         ttm_lru_bulk_move_init(&lru_bulk_move);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:13:
+   include/drm/ttm/ttm_resource.h:443:6: note: declared here
+     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
+ ordered);
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_pin_unpin_r=
+esource':
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:508:9: error: too few arguments =
+to function 'ttm_lru_bulk_move_init'
+     508 |         ttm_lru_bulk_move_init(&lru_bulk_move);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:13:
+   include/drm/ttm/ttm_resource.h:443:6: note: declared here
+     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
+ ordered);
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_multiple_pi=
+n_one_unpin':
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:559:9: error: too few arguments =
+to function 'ttm_lru_bulk_move_init'
+     559 |         ttm_lru_bulk_move_init(&lru_bulk_move);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:13:
+   include/drm/ttm/ttm_resource.h:443:6: note: declared here
+     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
+ ordered);
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ttm_lru_bulk_move_init +335 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+
+995279d280d1ef5 Karolina Stolarek 2023-11-29  320 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29  321  static void ttm_bo_unres=
+erve_bulk(struct kunit *test)
+995279d280d1ef5 Karolina Stolarek 2023-11-29  322  {
+995279d280d1ef5 Karolina Stolarek 2023-11-29  323  	struct ttm_test_devices=
+ *priv =3D test->priv;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  324  	struct ttm_lru_bulk_mov=
+e lru_bulk_move;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  325  	struct ttm_lru_bulk_mov=
+e_pos *pos;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  326  	struct ttm_buffer_objec=
+t *bo1, *bo2;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  327  	struct ttm_resource *re=
+s1, *res2;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  328  	struct ttm_device *ttm_=
+dev;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  329  	struct ttm_place *place;
+588c4c8d58c413b Karolina Stolarek 2024-06-12  330  	struct dma_resv *resv;
+07430fa5248964d Karolina Stolarek 2024-06-12  331  	u32 mem_type =3D TTM_PL=
+_SYSTEM;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  332  	unsigned int bo_priorit=
+y =3D 0;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  333  	int err;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  334 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29 @335  	ttm_lru_bulk_move_init(=
+&lru_bulk_move);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  336 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29  337  	place =3D ttm_place_kun=
+it_init(test, mem_type, 0);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  338 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29  339  	ttm_dev =3D kunit_kzall=
+oc(test, sizeof(*ttm_dev), GFP_KERNEL);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  340  	KUNIT_ASSERT_NOT_NULL(t=
+est, ttm_dev);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  341 =20
+588c4c8d58c413b Karolina Stolarek 2024-06-12  342  	resv =3D kunit_kzalloc(=
+test, sizeof(*resv), GFP_KERNEL);
+878516a9e62cd22 Qasim Ijaz        2025-03-13  343  	KUNIT_ASSERT_NOT_NULL(t=
+est, resv);
+588c4c8d58c413b Karolina Stolarek 2024-06-12  344 =20
+77e19f8d32979f0 Tvrtko Ursulin    2025-10-20  345  	err =3D ttm_device_kuni=
+t_init(priv, ttm_dev, 0);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  346  	KUNIT_ASSERT_EQ(test, e=
+rr, 0);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  347  	priv->ttm_dev =3D ttm_d=
+ev;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  348 =20
+588c4c8d58c413b Karolina Stolarek 2024-06-12  349  	dma_resv_init(resv);
+588c4c8d58c413b Karolina Stolarek 2024-06-12  350 =20
+588c4c8d58c413b Karolina Stolarek 2024-06-12  351  	bo1 =3D ttm_bo_kunit_in=
+it(test, test->priv, BO_SIZE, resv);
+588c4c8d58c413b Karolina Stolarek 2024-06-12  352  	bo2 =3D ttm_bo_kunit_in=
+it(test, test->priv, BO_SIZE, resv);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  353 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29  354  	dma_resv_lock(bo1->base=
+.resv, NULL);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  355  	ttm_bo_set_bulk_move(bo=
+1, &lru_bulk_move);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  356  	dma_resv_unlock(bo1->ba=
+se.resv);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  357 =20
+2b624a2c18656ea Maarten Lankhorst 2024-12-04  358  	err =3D ttm_resource_al=
+loc(bo1, place, &res1, NULL);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  359  	KUNIT_ASSERT_EQ(test, e=
+rr, 0);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  360  	bo1->resource =3D res1;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  361 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29  362  	dma_resv_lock(bo2->base=
+.resv, NULL);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  363  	ttm_bo_set_bulk_move(bo=
+2, &lru_bulk_move);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  364  	dma_resv_unlock(bo2->ba=
+se.resv);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  365 =20
+2b624a2c18656ea Maarten Lankhorst 2024-12-04  366  	err =3D ttm_resource_al=
+loc(bo2, place, &res2, NULL);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  367  	KUNIT_ASSERT_EQ(test, e=
+rr, 0);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  368  	bo2->resource =3D res2;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  369 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29  370  	ttm_bo_reserve(bo1, fal=
+se, false, NULL);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  371  	ttm_bo_unreserve(bo1);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  372 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29  373  	pos =3D &lru_bulk_move.=
+pos[mem_type][bo_priority];
+995279d280d1ef5 Karolina Stolarek 2023-11-29  374  	KUNIT_ASSERT_PTR_EQ(tes=
+t, res1, pos->last);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  375 =20
+995279d280d1ef5 Karolina Stolarek 2023-11-29  376  	ttm_resource_free(bo1, =
+&res1);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  377  	ttm_resource_free(bo2, =
+&res2);
+588c4c8d58c413b Karolina Stolarek 2024-06-12  378 =20
+588c4c8d58c413b Karolina Stolarek 2024-06-12  379  	dma_resv_fini(resv);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  380  }
+995279d280d1ef5 Karolina Stolarek 2023-11-29  381 =20
+
+:::::: The code at line 335 was first introduced by commit
+:::::: 995279d280d1ef5cc349b6eafee4dccd720c99bf drm/ttm/tests: Add tests fo=
+r ttm_bo functions
+
+:::::: TO: Karolina Stolarek <karolina.stolarek@intel.com>
+:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
 
 --
 0-DAY CI Kernel Test Service
