@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8A33164B4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Aug 2026 05:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62A12620DE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Aug 2026 06:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787982449; cv=none; b=n4/NFPa/2mGHtS2d8tR+C2XR27mYy2qyxl/EQ7NJwdpQeF6u8ybdqeeLOeqvo0rrKTxeZR8ZNWOmXnlPojruAHoCDD3/S5N8N/q4WuXhgvfhRMZRvrdds0+Rv89eA+lAjk0LZn/lQbT9yP+AuTA6bdTOqzLsnZnAxl08WalcLT4=
+	t=1787984327; cv=none; b=ZphRHtxlTqUBLjzTALw4tS/jatnmsFZzGemN2EKK2rOXydF5ps1bC8S+uG2FSltJFLwOzPhyjhiLi5KGDGIfxHx6E99a4F2107xXN9oTmdIUUEIMo0G+wcxmfodL1QOf9W1H6DDRYcn0r5TlKYiaZ0Xyn1Pcn3nig0Z6D4k9Apo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787982449; c=relaxed/simple;
-	bh=u/JjQb3gVZ/5MWTG8e0LUXXP69yottg3AuoK/fU7++s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U85ATS60xXPnc1Tq8JG9xgrCP4zxb41Y+ijtDD8EfrsXmuFEEx6S5yb5aPSVQpn1FrHQ/Qm2RJxYm1mx31Gbf73b64La93nbn2dr/OP96hyUzqKQhTf/UyRAFGf7S9FKG3EWj3QBBYyHZiGpRIxisOApquOBU4eAzbuDOlfNErg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wh3XLdvM; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1787984327; c=relaxed/simple;
+	bh=MocRcrfIJb+3sbHJIV0NburxoAR56M3DXfckPZPXFdo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i8S3MyePBQuvvCG8QM+y/BvC+2ERa3ZiX8o9PMzFw9XdKURIjYaszKA1bITdOlgY3KgxCFIPwYZ4JhI4Kc5nF2ihEACwDCOhs1IwMP/K2c30GPH7gJjZfS7OvuKM9kppYGHZ+cAQvBkB10InfPcNuhUDJjCSlZZdTHRsUYlfzhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUeWxK6D; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wh3XLdvM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUeWxK6D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787982447; x=1819518447;
+  t=1787984326; x=1819520326;
   h=date:from:to:cc:subject:message-id;
-  bh=u/JjQb3gVZ/5MWTG8e0LUXXP69yottg3AuoK/fU7++s=;
-  b=Wh3XLdvMnCO8IRcWjtD7gXcBjpkfvnFVQ6Mk0CLWztrbAqefaFsM1d94
-   DZnRzjDITHQXZ3V9FFgiEryEMbN5ctCpzuFSBTJjxZZYZ9imvychFarrM
-   Bimy2vyAkrjYCulf+MkxAovZaFDK7jst9+V+DhJyR4KAQLqrTsaNGMLEd
-   4FlO4KgYmR0gemy5X1AeA95sMuMN1NFs9JfaqSaEe+aYKCBXFt329v8wJ
-   M6YjQGu6zaPA6fV76bzqiVMk+w1QxXuEYpoMObtxv+dNSyAjQE/46+Qa7
-   TrNVhUTUUa0npKDEeyCbzUOO6yPffF3tK/833fkfZE8Aml0kdTNQGf4WF
+  bh=MocRcrfIJb+3sbHJIV0NburxoAR56M3DXfckPZPXFdo=;
+  b=cUeWxK6DkGRbwASC16feZtdrTBlAh9C2rc3HBQ/BG8oxf70HKoD/gq+i
+   7yJZ3mbm3XM1qBCTlYH2NwpPKcVbA9y63fKYsh5qsvU3PCRCCc1xa+HEK
+   axzRelLu69mUFclGtRLZBcDZL7C8MJAIO45TuqqQnKJdgTcwbsWwwjw9U
+   pGNdy15ZbQlNJhbMfkrhBJccL/9y2Mxsrmq8pDWY8WP6e07v76KJlcY/t
+   Liq+7sIj96/RCdG8ZEH0WUqg79I/eTpU52CddME8FMoPCyFmvEaq9Aq5B
+   idGWWFgM4wKCRZIog65VO+5met/4m2WnpsnULCS+SZqWISIUSFKGhSSWu
    w==;
-X-CSE-ConnectionGUID: iOOk49izRdKIsjnIEqz3mQ==
-X-CSE-MsgGUID: ncIOCBqETi2mv/14jLDmHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11889"; a="76027304"
+X-CSE-ConnectionGUID: +bwWaHUyTgS9VlG6P9xDJg==
+X-CSE-MsgGUID: 5kZmkn59TB6cKH0D8dBnzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11889"; a="98819791"
 X-IronPort-AV: E=Sophos;i="6.25,250,1779174000"; 
-   d="scan'208";a="76027304"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 22:47:25 -0700
-X-CSE-ConnectionGUID: 52E9eUaGT/G1w4tyEGNxMQ==
-X-CSE-MsgGUID: Kkl1CBCIR++VqhKuGBlMnw==
+   d="scan'208";a="98819791"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 23:18:25 -0700
+X-CSE-ConnectionGUID: yuIO9CsqQF+u8rPBhjW34g==
+X-CSE-MsgGUID: aSdOXXhpR3ynVLmRnRlcCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,250,1779174000"; 
-   d="scan'208";a="271857671"
+   d="scan'208";a="265114865"
 Received: from igk-lkp-server01.igk.intel.com (HELO b2f8001b2633) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 28 Aug 2026 22:47:24 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 28 Aug 2026 23:18:24 -0700
 Received: from kbuild by b2f8001b2633 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0BuT-000000001Jt-1QaZ;
-	Sat, 29 Aug 2026 05:47:21 +0000
-Date: Sat, 29 Aug 2026 07:46:50 +0200
+	id 1x0COT-000000001KD-3UOx;
+	Sat, 29 Aug 2026 06:18:21 +0000
+Date: Sat, 29 Aug 2026 08:17:31 +0200
 From: kernel test robot <lkp@intel.com>
-To: Boqun Feng <boqun@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@kernel.org>,
- Lyude Paul <lyude@redhat.com>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Subject: [tglx-devel:irqflags 2/20] rust/helpers/interrupt.c:7:2:
- error: call to undeclared function 'local_interrupt_disable'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202608290725.a5kydlkP-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 6/6] kismet: WARNING: unmet
+ direct dependencies detected for ACPI_THERMAL_LIB when selected by
+ GKI_HIDDEN_X86_CONFIGS
+Message-ID: <202608290837.gxGmXmcy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,83 +60,38 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irqflags
-head:   59394501f5a285ef270931207a67d2f129403151
-commit: 80deadb1a815addda89fa7d485109a13b4a851a7 [2/20] Revert: irq,spin_lock: Add counted interrupt disabling/enabling
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260829/202608290725.a5kydlkP-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260829/202608290725.a5kydlkP-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   afea13f9ff7137797a2858fc973c226ec93866aa
+commit: 4bb372791d1e195cad530dce5005509564c27cc7 [6/6] ANDROID: GKI: x86: Enable ACPI thermal lib as x86 hidden
+config: x86_64-kismet-CONFIG_ACPI_THERMAL_LIB-CONFIG_GKI_HIDDEN_X86_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260829/202608290837.gxGmXmcy-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260829/202608290837.gxGmXmcy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608290725.a5kydlkP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608290837.gxGmXmcy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from rust/helpers/helpers.c:69:
->> rust/helpers/interrupt.c:7:2: error: call to undeclared function 'local_interrupt_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-       7 |         local_interrupt_disable();
-         |         ^
->> rust/helpers/interrupt.c:12:2: error: call to undeclared function 'local_interrupt_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      12 |         local_interrupt_enable();
-         |         ^
-   In file included from rust/helpers/helpers.c:97:
->> rust/helpers/spinlock.c:42:2: error: call to undeclared function 'spin_lock_irq_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      42 |         spin_lock_irq_disable(lock);
-         |         ^
-   rust/helpers/spinlock.c:42:2: note: did you mean 'arch_local_irq_disable'?
-   arch/x86/include/asm/irqflags.h:112:29: note: 'arch_local_irq_disable' declared here
-     112 | static __always_inline void arch_local_irq_disable(void)
-         |                             ^
-   In file included from rust/helpers/helpers.c:97:
->> rust/helpers/spinlock.c:47:2: error: call to undeclared function 'spin_unlock_irq_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      47 |         spin_unlock_irq_enable(lock);
-         |         ^
-   rust/helpers/spinlock.c:47:2: note: did you mean 'spin_unlock_irqrestore'?
-   include/linux/spinlock.h:405:29: note: 'spin_unlock_irqrestore' declared here
-     405 | static __always_inline void spin_unlock_irqrestore(spinlock_t *lock, unsigned long flags)
-         |                             ^
-   In file included from rust/helpers/helpers.c:97:
->> rust/helpers/spinlock.c:52:9: error: call to undeclared function 'spin_trylock_irq_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      52 |         return spin_trylock_irq_disable(lock);
-         |                ^
-   rust/helpers/spinlock.c:52:9: note: did you mean '_spin_trylock_irqsave'?
-   include/linux/spinlock.h:423:29: note: '_spin_trylock_irqsave' declared here
-     423 | static __always_inline bool _spin_trylock_irqsave(spinlock_t *lock, unsigned long *flags)
-         |                             ^
-   5 errors generated.
---
->> rust/helpers/interrupt.c:7:2: error: call to undeclared function 'local_interrupt_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> rust/helpers/interrupt.c:12:2: error: call to undeclared function 'local_interrupt_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> rust/helpers/spinlock.c:42:2: error: call to undeclared function 'spin_lock_irq_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> rust/helpers/spinlock.c:47:2: error: call to undeclared function 'spin_unlock_irq_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> rust/helpers/spinlock.c:52:9: error: call to undeclared function 'spin_trylock_irq_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> Unable to generate bindings: clang diagnosed error: rust/helpers/interrupt.c:7:2: error: call to undeclared function 'local_interrupt_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> rust/helpers/interrupt.c:12:2: error: call to undeclared function 'local_interrupt_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> rust/helpers/spinlock.c:42:2: error: call to undeclared function 'spin_lock_irq_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> rust/helpers/spinlock.c:47:2: error: call to undeclared function 'spin_unlock_irq_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->> rust/helpers/spinlock.c:52:9: error: call to undeclared function 'spin_trylock_irq_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-
-
-vim +/local_interrupt_disable +7 rust/helpers/interrupt.c
-
-c1f0451ec748f7 Lyude Paul 2026-08-07   4  
-c1f0451ec748f7 Lyude Paul 2026-08-07   5  __rust_helper void rust_helper_local_interrupt_disable(void)
-c1f0451ec748f7 Lyude Paul 2026-08-07   6  {
-c1f0451ec748f7 Lyude Paul 2026-08-07  @7  	local_interrupt_disable();
-c1f0451ec748f7 Lyude Paul 2026-08-07   8  }
-c1f0451ec748f7 Lyude Paul 2026-08-07   9  
-c1f0451ec748f7 Lyude Paul 2026-08-07  10  __rust_helper void rust_helper_local_interrupt_enable(void)
-c1f0451ec748f7 Lyude Paul 2026-08-07  11  {
-c1f0451ec748f7 Lyude Paul 2026-08-07 @12  	local_interrupt_enable();
-
-:::::: The code at line 7 was first introduced by commit
-:::::: c1f0451ec748f7a58a4e50bcb8f75bd89718be78 rust: Introduce interrupt module
-
-:::::: TO: Lyude Paul <lyude@redhat.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB when selected by GKI_HIDDEN_X86_CONFIGS
+   WARNING: unmet direct dependencies detected for INTEL_SCU
+     Depends on [n]: X86_PLATFORM_DEVICES [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_SHA256
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - INCREMENTAL_FS [=y] && BLOCK [=y] && !CONFIG_FS_VERITY_BUILTIN_SIGNATURES
+   
+   WARNING: unmet direct dependencies detected for INTEL_TCC
+     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y]
+     Selected by [y]:
+     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+   
+   WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB
+     Depends on [n]: ACPI [=y] && THERMAL [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y] && ACPI [=y]
 
 --
 0-DAY CI Kernel Test Service
