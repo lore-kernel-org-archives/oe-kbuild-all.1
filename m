@@ -1,151 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9E9314D35
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 21:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D16819CD0A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 21:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788125111; cv=none; b=Kbf/ybf/IKqNNNLIsnTS5sZ1jq3SNR4geP7z4/4/0lXrbzuQOT07add+36jPqNa1eRYe/wd4l3jB4gOt0xd8Y3MGWb3DmrXzm4CFf05urskGenlu1D8oIEGdPQBOfD+WEe59HQStPoEiw4ZDj1BS+uFX+LIKq27uWiJhcLxcH9Y=
+	t=1788125684; cv=none; b=ShsvtqYuknz1fxCyepAdw3DPIgOFzjDQ0ycNdiVyYTRGQ5o+EqQ7zLDB40SG6Cb0cai8VL98au99paVV1/PyxYl02PV/huhQ/8Hjc0J6t70Dhq7HDSIUNwwLaQfdMy/Rc3A691Nk2p6Qc5zdKdVvZcy/1ZhWuN3F+LIQh66yXK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788125111; c=relaxed/simple;
-	bh=e3DGhgfryeBvmyMQZklEG0R0wT6o3YGyy8gco7UnuL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=srlkT8cM8FG8l3drXMopl5A5FtT8y4kE9DUFXHyfMHqQQP55BiwycQR/iNbpMZn6s/5+bt5kLNnnwubKSrDoGPKmsXZ+9nJ6aZSj2qkIKDp4jnWxiwIzyprieHGjaKrXmJjlbquRAw9M66wZQnBFzQGpizUvstsSmZrz4F/wdfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObNHNS9/; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1788125684; c=relaxed/simple;
+	bh=eMakZ5uWb0TLNU8gwlWBhze/AL+/a4VgmfD6Yc5VTAA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O5qssSWQL87QjTjtZKX0XXOMz1h4l58LcQOk1wcmQVkr3HvTGOtcpk2Iadb6Lc7oh635XUjrDVktLsvIcbbrWm8/OrQF7bqEu3yO1HcbM3bNAOpNfj1JXs3xSnAaivACB4+rWE4+LPX4Vjg1vGcngfHEqlRdB37jj81DO+erpQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ji0amnT1; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObNHNS9/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ji0amnT1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788125109; x=1819661109;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=e3DGhgfryeBvmyMQZklEG0R0wT6o3YGyy8gco7UnuL8=;
-  b=ObNHNS9/2EFUuvXoD+Xdm0VGptK6ad1b33h7XrnFDaUQSTUPmY4gC3lX
-   n63jstf/j0BrwA82Rb9Oycj5URXtI/+vzKB3qoDMStZHr/968lgTDHpqN
-   VbUakUF/1az/w/YAhYTbqky1r4EXEU8sva84XwxejLweH1KmMoofIMonm
-   hWfdie+KR/PKr/sGw43Gxzr+X9oIC75gPPduEYrObHxo/r+jBk4SqUcCJ
-   YK12MtuTHbc6YMjhPAQtme93EFJkz0rZzNLMjDMFOmbpO25P0eABJFbdE
-   tSYQKbkcAwfoSxUi5aFJpOrSKDvS9TpVEHnexAU2sGEcOzeSzDpCjfw8V
+  t=1788125682; x=1819661682;
+  h=date:from:to:cc:subject:message-id;
+  bh=eMakZ5uWb0TLNU8gwlWBhze/AL+/a4VgmfD6Yc5VTAA=;
+  b=Ji0amnT13wHmsmV0sEC4zUy6oIUthmO3Y32iULw9T4kMmfqO2Vn8OAzw
+   xwjYDzFOLxFgoGqrcrjrEHKZfTeJTweW0dUmobmMEKDlelWBCgRjmdb2a
+   T1haGV0vareLisoEHqBQYz8H/Jyj3rapdLirjWi9PTd2up0qEPyy4sTFj
+   OL5d44c4c2fxExmXM9Nn69JfIJl3ald722Pm1OkPqjutyVOXxgH5qZtpo
+   hlzCxefCKvKCPF3RXmGO4UIHhf7oL7U0v5kmoFXe3oHzE+Ox9kzLJiR27
+   Rb6fupIjA6IFImprFeKMLqSx7ofpNl7OstnlJMOLrZIUeTHq+2ElcpHeX
    Q==;
-X-CSE-ConnectionGUID: CDhjlmqkSHKvXZ+XQN/+Hw==
-X-CSE-MsgGUID: hK65LgnFQUaTFMV1T5noVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="100047258"
+X-CSE-ConnectionGUID: KAW87TbcQXO5QnDrKqhqxw==
+X-CSE-MsgGUID: 7v2QPx/3Tfaukh1SMROJGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99885611"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="100047258"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 14:25:09 -0700
-X-CSE-ConnectionGUID: KMlicqj9QYiOJSs2SPAA8w==
-X-CSE-MsgGUID: qnUquIXZQEukjLDuvMohTQ==
+   d="scan'208";a="99885611"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 14:34:42 -0700
+X-CSE-ConnectionGUID: oBvsPyF2SdWgNMc7k5fzVQ==
+X-CSE-MsgGUID: sdK16rbGSO2hYHawox1PZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="268075473"
-Received: from igk-lkp-server01.igk.intel.com (HELO 32268bdb9915) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 30 Aug 2026 14:25:05 -0700
-Received: from kbuild by 32268bdb9915 with local (Exim 4.98.2)
+   d="scan'208";a="306869730"
+Received: from lkp-server01.sh.intel.com (HELO 12c799cf0c09) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 30 Aug 2026 14:34:41 -0700
+Received: from kbuild by 12c799cf0c09 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0n1S-000000000Dr-1DlD;
-	Sun, 30 Aug 2026 21:25:02 +0000
-Date: Sun, 30 Aug 2026 23:24:06 +0200
+	id 1x0nAU-0000000004N-0Qg1;
+	Sun, 30 Aug 2026 21:34:25 +0000
+Date: Mon, 31 Aug 2026 05:26:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>, willy@infradead.org,
-	mathieu.desnoyers@efficios.com,
-	David Laight <david.laight.linux@gmail.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	akpm@linux-foundation.org, Yafang Shao <laoar.shao@gmail.com>,
-	andrii.nakryiko@gmail.com, arnaldo.melo@gmail.com,
-	Petr Mladek <pmladek@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	kernel-dev@igalia.com, linux-mm@kvack.org,
-	linux-api@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH v5 6/6] selftests: prctl: Add test for long thread names
-Message-ID: <202608302318.ORNqwjNf-lkp@intel.com>
-References: <20260827-tonyk-long_name-v5-6-5fa843782a00@igalia.com>
+To: Kelvin Zhang <zhangxp1998@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
+Subject: [chao:feature/subpage 9/10]
+ file.c:(.text.f2fs_sec_trim_file+0xe08): undefined reference to
+ `__aeabi_ldivmod'
+Message-ID: <202608310457.IU02LlMJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260827-tonyk-long_name-v5-6-5fa843782a00@igalia.com>
 
-Hi André,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 73e3f0710014fe6d4ed98cfc02292f6121db7558]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/treewide-Get-rid-of-get_task_comm/20260827-152300
-base:   73e3f0710014fe6d4ed98cfc02292f6121db7558
-patch link:    https://lore.kernel.org/r/20260827-tonyk-long_name-v5-6-5fa843782a00%40igalia.com
-patch subject: [PATCH v5 6/6] selftests: prctl: Add test for long thread names
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260830/202608302318.ORNqwjNf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260830/202608302318.ORNqwjNf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/subpage
+head:   3a537197e7b9327a386b4c5deab273a387072d1f
+commit: 7967e8f5c2c2f347acdc20281027d28c46b8a9e1 [9/10] f2fs: parameterize block size and mask macros
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260831/202608310457.IU02LlMJ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608310457.IU02LlMJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608302318.ORNqwjNf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608310457.IU02LlMJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/slab.h:15,
-                    from include/linux/xattr.h:15,
-                    from security/smack/smack_lsm.c:18:
-   security/smack/smack_lsm.c: In function 'smk_bu_tsk_to_obj':
-   security/smack/smack_lsm.c:150:22: error: implicit declaration of function 'get_task_comm'; did you mean 'set_task_comm'? [-Wimplicit-function-declaration]
-     150 |                 acc, get_task_comm(comm, tsk), note);
-         |                      ^~~~~~~~~~~~~
-   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   security/smack/smack_lsm.c:148:9: note: in expansion of macro 'pr_info'
-     148 |         pr_info("Smack %s: (%s %s %s) %s %s\n", smk_bu_mess[rc],
-         |         ^~~~~~~
->> include/linux/kern_levels.h:5:25: warning: format '%s' expects argument of type 'char *', but argument 6 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
-         |                         ^~~~~~~~
-   include/linux/printk.h:584:16: note: in expansion of macro 'KERN_INFO'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   security/smack/smack_lsm.c:148:9: note: in expansion of macro 'pr_info'
-     148 |         pr_info("Smack %s: (%s %s %s) %s %s\n", smk_bu_mess[rc],
-         |         ^~~~~~~
-
-
-vim +5 include/linux/kern_levels.h
-
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+   arm-linux-gnueabi-ld: fs/f2fs/file.o: in function `f2fs_sec_trim_file':
+>> file.c:(.text.f2fs_sec_trim_file+0xe08): undefined reference to `__aeabi_ldivmod'
 
 --
 0-DAY CI Kernel Test Service
