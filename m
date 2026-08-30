@@ -1,272 +1,247 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9079283FE5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 19:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C5F25F988;
+	Sun, 30 Aug 2026 19:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788117725; cv=none; b=If5iupOigvM6WYnFGiDA4LSl36CQhCduobsLCRllfvuzqQAozR0r2AcVcdUEqrsHFJ3vOwN57s7iNAiuqWEGFOpgCDuD893naXaKOAiJm7lZtCY0EHy4oByRx2TQTUeAry+ze5o3pUsvTIRYFD6/TvYucJif7C9R/r9iF7Frcmc=
+	t=1788118327; cv=none; b=JMFmsI4o1lYFzavXwCMBHn/QdHDr433nLWdqZA4j2fMZFobyVM7pqdQyecYV/4YZApqzyO2rORM2f5Gf0EZYtdh2VL4eGYDnM3m7Uurh2TSmCMnqE7eBgSJRXPho3czhdUgcj8CyJ4YR1O8IZxVacH5bY/pLm4p2KImyPO7ofog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788117725; c=relaxed/simple;
-	bh=mEZtljBcgsMD0Q0/s3DxMCEunQrD6n0t7014/UQ4FVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZFJDkWs2a8LgyC44hQIR8QHNErQHPdaFVU9/+c4H3OCstsxj1iBl/bgvJ/hOnUR9SjWoks/GmyzVjMxOhNuEOP6A4j0TLmatjIGdTCPhi9+C9ZFKMXXOG7sSGeSBRJairv7VFzzbiXmJXgyoAxF6SUomDJaDyABgZBeJJHebgvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qa8KqSDI; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1788118327; c=relaxed/simple;
+	bh=GF2+6d5Ki9Lkpywk+mOfcy0XeM7raY0lCN+vafb/k9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ps6dDdTMG536FkEwhg7BwNs3jA08Qd3TyrSJxoTP/OUG13UpIxCFANpLDESTly13+LDHhZbd0V241vA5PLmhCBztcWdzg7A9QN24ixb9e4HnB1MGJ51u94vocAIEdrfpl58KH/29WaXegx9FoEYMtdJk/N6NFONFd3w/h6Xelq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q00d5KZ0; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qa8KqSDI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q00d5KZ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788117722; x=1819653722;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mEZtljBcgsMD0Q0/s3DxMCEunQrD6n0t7014/UQ4FVI=;
-  b=Qa8KqSDIdDEagnxiAK5YWe0Go00OAa1uVGNIjRtOIdOiQq7Nk4wXRPTn
-   Y6hVJakiVz1j5oG8jhZ39ODqBMbYwyRBeB5YaKwKTxO8fP6aaRPA1i5QJ
-   4DIOBfcY6o0eCa9oi0UzGsZL2DJ2NXn/IhBDgejt8Nz2hFvSUDBnoCeQa
-   Gnnm/3QZUqj9+9RzJ7XOcf7O2qU2qhvZAykZ/cAEuVKZduq2ECwvWO9Sn
-   aAckWlS7tVhj6KADJOxc7wkIrWt6OpDdby9RvIVpPKAt/QLxeed4WImuB
-   urwgV95VZq6WLWAyrZ/jUPRy7cmBXe1XyU3d0S45oq0DI1ysjE7y67iQN
-   w==;
-X-CSE-ConnectionGUID: YLAy216uQgq7TBFcEN7OlQ==
-X-CSE-MsgGUID: pU7V/SA+SEaiNLqV0O577w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="105908917"
+  t=1788118324; x=1819654324;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GF2+6d5Ki9Lkpywk+mOfcy0XeM7raY0lCN+vafb/k9E=;
+  b=Q00d5KZ0AiBF36LsOCPfELfUZTQAmsnBoJWLoKSN+0VjDFs7t03zQlLg
+   TqnVIa58Q6BYEGxJLfiNDGHdjlyX1busCbFI7J/bK6zGvvd/WPjLVTpPg
+   7C6isXa2MX1XPB0fbnQYXq40a00PFrfV5rSJdojGetgNbtdI/jdqy6+s5
+   QpB3DGaZ0uI+JlMyZN5+wfC46KoggLAXhNz7POFkforbtTG3PV9jL2PBI
+   NrU4Z4ff8QiEZMBgbxwpI6nyBeiw7xcsIsAGrY08ZZ0ylU4ycnM772HcG
+   akw3oUNornr0nmEaypGbwrSfiDSL5Za8p/PM0x1+mxfkEvRj9k5kUII1Q
+   g==;
+X-CSE-ConnectionGUID: fc1SQtSOTUejQ7gENChFGA==
+X-CSE-MsgGUID: ki2ignHNR46oVdJd4PWI7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88294607"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="105908917"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 12:22:02 -0700
-X-CSE-ConnectionGUID: hv/sckytRKyqXAo65iSJiA==
-X-CSE-MsgGUID: Wu6SxCapTsmKsEewxYIZVw==
+   d="scan'208";a="88294607"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 12:32:03 -0700
+X-CSE-ConnectionGUID: iIVXZHUeRDiPClN+2A6u+A==
+X-CSE-MsgGUID: ATmQ9GHuQgCsXgPjH5YoiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="262490383"
+   d="scan'208";a="272424132"
 Received: from igk-lkp-server01.igk.intel.com (HELO 32268bdb9915) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Aug 2026 12:22:00 -0700
+  by orviesa004.jf.intel.com with ESMTP; 30 Aug 2026 12:32:01 -0700
 Received: from kbuild by 32268bdb9915 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0l6M-000000000CV-1h8Q;
-	Sun, 30 Aug 2026 19:21:58 +0000
-Date: Sun, 30 Aug 2026 21:21:07 +0200
+	id 1x0lG2-000000000CZ-1ucC;
+	Sun, 30 Aug 2026 19:31:58 +0000
+Date: Sun, 30 Aug 2026 21:31:37 +0200
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: drivers/staging/media/max96712/max96712.c:267:13: error:
- incompatible function pointer types initializing 'int (*)(struct v4l2_subdev
- *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct
- v4l2_subdev_format *)' with an expression o...
-Message-ID: <202608302111.KSUnWF5W-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linus Walleij <linusw@kernel.org>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>
+Subject: Re: [PATCH v1 4/4] pinctrl: pistachio: Replace open coded
+ fwnode_is_gpiochip()
+Message-ID: <202608302138.FQoQsbAf-lkp@intel.com>
+References: <20260824074427.3226457-5-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260824074427.3226457-5-andriy.shevchenko@linux.intel.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-D=
-ocumentation-Improve-pixel-rate-calculation-documentation/20260807-004311
-head:   e0a6fe294ffbd4c2f0fae9bd3e777bc9375161dc
-commit: e0a6fe294ffbd4c2f0fae9bd3e777bc9375161dc media: v4l2-subdev: Add st=
-ruct v4l2_subdev_client_info pointer to pad ops
-date:   3 weeks ago
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/202=
-60830/202608302111.KSUnWF5W-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
-e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260830/202608302111.KSUnWF5W-lkp@intel.com/reproduce)
+Hi Andy,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v7.2 next-20260828]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpio-Split-fwnode_is_gpiochip-helper/20260824-094232
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20260824074427.3226457-5-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 4/4] pinctrl: pistachio: Replace open coded fwnode_is_gpiochip()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260830/202608302138.FQoQsbAf-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260830/202608302138.FQoQsbAf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608302111.KSUnWF5W-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608302138.FQoQsbAf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/media/max96712/max96712.c:267:13: error: incompatible fu=
-nction pointer types initializing 'int (*)(struct v4l2_subdev *, const stru=
-ct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subde=
-v_format *)' with an expression of type 'int (struct v4l2_subdev *, struct =
-v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function=
--pointer-types]
-     267 |         .set_fmt =3D v4l2_subdev_get_fmt,
-         |                    ^~~~~~~~~~~~~~~~~~~
-   1 error generated.
---
->> drivers/media/platform/renesas/sh_vou.c:980:8: error: too few arguments =
-to function call, expected 4, have 3
-     980 |         ret =3D v4l2_device_call_until_err(&vou_dev->v4l2_dev, 0=
-, pad,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-     981 |                                          set_fmt, NULL, &format);
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-device.h:448:2: note: expanded from macro 'v4l2_devic=
-e_call_until_err'
-     448 |         __v4l2_device_call_subdevs_until_err_p(v4l2_dev, __sd,  =
-        \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-     449 |                         (grpid) =3D=3D 0 || __sd->grp_id =3D=3D =
-(grpid), o, f , \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-     450 |                         ##args);                                =
-        \
-         |                         ~~~~~~~
-   include/media/v4l2-device.h:356:41: note: expanded from macro '__v4l2_de=
-vice_call_subdevs_until_err_p'
-     356 |                         __err =3D (sd)->ops->o->f((sd) , ##args)=
-;         \
-         |                                 ~~~~~~~~~~~~~~~              ^
-   1 error generated.
---
->> drivers/media/platform/ti/cal/cal-video.c:139:8: error: incompatible poi=
-nter types passing 'struct v4l2_subdev_state *' to parameter of type 'const=
- struct v4l2_subdev_client_info *' [-Wincompatible-pointer-types]
-     139 |         ret =3D v4l2_subdev_call_state_active(sd, pad, set_fmt, =
-NULL, &sd_fmt);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:2010:41: note: expanded from macro 'v4l2_sub=
-dev_call_state_active'
-    2010 |                 __result =3D v4l2_subdev_call(sd, o, f, state, #=
-#args);   \
-         |                                                       ^~~~~
->> drivers/media/platform/ti/cal/cal-video.c:139:8: error: incompatible poi=
-nter types passing 'struct v4l2_subdev_state *' to parameter of type 'const=
- struct v4l2_subdev_client_info *' [-Wincompatible-pointer-types]
-     139 |         ret =3D v4l2_subdev_call_state_active(sd, pad, set_fmt, =
-NULL, &sd_fmt);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:2010:41: note: expanded from macro 'v4l2_sub=
-dev_call_state_active'
-    2010 |                 __result =3D v4l2_subdev_call(sd, o, f, state, #=
-#args);   \
-         |                                                       ^~~~~
-   drivers/media/platform/ti/cal/cal-video.c:284:2: error: incompatible poi=
-nter types passing 'struct v4l2_subdev_state *' to parameter of type 'const=
- struct v4l2_subdev_client_info *' [-Wincompatible-pointer-types]
-     284 |         v4l2_subdev_call_state_active(sd, pad, set_fmt, NULL, &s=
-d_fmt);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   include/media/v4l2-subdev.h:2010:41: note: expanded from macro 'v4l2_sub=
-dev_call_state_active'
-    2010 |                 __result =3D v4l2_subdev_call(sd, o, f, state, #=
-#args);   \
-         |                                                       ^~~~~
-   drivers/media/platform/ti/cal/cal-video.c:284:2: error: incompatible poi=
-nter types passing 'struct v4l2_subdev_state *' to parameter of type 'const=
- struct v4l2_subdev_client_info *' [-Wincompatible-pointer-types]
-     284 |         v4l2_subdev_call_state_active(sd, pad, set_fmt, NULL, &s=
-d_fmt);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   include/media/v4l2-subdev.h:2010:41: note: expanded from macro 'v4l2_sub=
-dev_call_state_active'
-    2010 |                 __result =3D v4l2_subdev_call(sd, o, f, state, #=
-#args);   \
-         |                                                       ^~~~~
-   4 errors generated.
---
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1066:8: error: too few argu=
-ments to function call, expected 4, have 3
-    1066 |         ret =3D v4l2_subdev_call_state_try(dcmi->source, pad, se=
-t_fmt, &format);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:2047:15: note: expanded from macro 'v4l2_sub=
-dev_call_state_try'
-    2047 |                         __result =3D v4l2_subdev_call(sd, o, f, =
-state, ##args); \
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1980:20: note: expanded from macro 'v4l2_sub=
-dev_call'
-    1979 |                         __result =3D v4l2_subdev_call_wrappers.o=
-->f(      \
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1980 |                                                         __sd, ##=
-args);  \
-         |                                                                 =
-    ^
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1066:8: error: too few argu=
-ments to function call, expected 4, have 3
-    1066 |         ret =3D v4l2_subdev_call_state_try(dcmi->source, pad, se=
-t_fmt, &format);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:2047:15: note: expanded from macro 'v4l2_sub=
-dev_call_state_try'
-    2047 |                         __result =3D v4l2_subdev_call(sd, o, f, =
-state, ##args); \
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1982:43: note: expanded from macro 'v4l2_sub=
-dev_call'
-    1982 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
-s);       \
-         |                                    ~~~~~~~~~~~~~~~             ^
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1227:8: error: incompatible=
- pointer types passing 'struct v4l2_subdev_state *' to parameter of type 'c=
-onst struct v4l2_subdev_client_info *' [-Wincompatible-pointer-types]
-    1227 |         ret =3D v4l2_subdev_call_state_try(dcmi->source, pad, se=
-t_fmt, NULL,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~
-    1228 |                                          &format);
-         |                                          ~~~~~~~~
-   include/media/v4l2-subdev.h:2047:42: note: expanded from macro 'v4l2_sub=
-dev_call_state_try'
-    2047 |                         __result =3D v4l2_subdev_call(sd, o, f, =
-state, ##args); \
-         |                                                               ^~=
-~~~
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1227:8: error: incompatible=
- pointer types passing 'struct v4l2_subdev_state *' to parameter of type 'c=
-onst struct v4l2_subdev_client_info *' [-Wincompatible-pointer-types]
-    1227 |         ret =3D v4l2_subdev_call_state_try(dcmi->source, pad, se=
-t_fmt, NULL,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~
-    1228 |                                          &format);
-         |                                          ~~~~~~~~
-   include/media/v4l2-subdev.h:2047:42: note: expanded from macro 'v4l2_sub=
-dev_call_state_try'
-    2047 |                         __result =3D v4l2_subdev_call(sd, o, f, =
-state, ##args); \
-         |                                                               ^~=
-~~~
-   4 errors generated.
---
->> drivers/media/i2c/cvs/v4l2.c:365:13: error: incompatible function pointe=
-r types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subde=
-v_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' =
-with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_s=
-tate *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-type=
-s]
-     365 |         .set_fmt =3D cvs_csi_set_fmt,
-         |                    ^~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from drivers/gpio/gpiolib-cdev.c:15:
+   include/linux/gpio/driver.h:888:33: error: use of undeclared identifier 'child'
+     888 |         return fwnode_property_present(child, "gpio-controller");
+         |                                        ^~~~~
+>> drivers/gpio/gpiolib-cdev.c:1650:2: warning: implicit conversion from '__size_t' (aka 'unsigned long') to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+    1650 |         INIT_KFIFO(lr->events);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kfifo.h:135:69: note: expanded from macro 'INIT_KFIFO'
+     135 |         __kfifo->mask = __is_kfifo_ptr(__tmp) ? 0 : ARRAY_SIZE(__tmp->buf) - 1;\
+         |                       ~                             ~~~~~~~~~~~~~~~~~~~~~~~^~~
+   1 warning and 1 error generated.
 
 
-vim +267 drivers/staging/media/max96712/max96712.c
+vim +1650 drivers/gpio/gpiolib-cdev.c
 
-ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10  264 =20
-5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  265  static const struct v=
-4l2_subdev_pad_ops max96712_pad_ops =3D {
-ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10  266  	.get_fmt =3D v4l2_su=
-bdev_get_fmt,
-ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10 @267  	.set_fmt =3D v4l2_su=
-bdev_get_fmt,
-5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  268  };
-5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  269 =20
+96c02c906a44bc2 Kent Gibson         2026-02-16  1603  
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1604  static int linereq_create(struct gpio_device *gdev, void __user *ip)
+925ca36913fc7df Kent Gibson         2020-06-16  1605  {
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1606  	struct gpio_v2_line_request ulr;
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1607  	struct gpio_v2_line_config *lc;
+96c02c906a44bc2 Kent Gibson         2026-02-16  1608  	struct linereq *lr __free(linereq_free) = NULL;
+b1a92e94560def6 Kent Gibson         2022-07-14  1609  	u64 flags, edflags;
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1610  	unsigned int i;
+96c02c906a44bc2 Kent Gibson         2026-02-16  1611  	int ret;
+925ca36913fc7df Kent Gibson         2020-06-16  1612  
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1613  	if (copy_from_user(&ulr, ip, sizeof(ulr)))
+925ca36913fc7df Kent Gibson         2020-06-16  1614  		return -EFAULT;
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1615  
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1616  	if ((ulr.num_lines == 0) || (ulr.num_lines > GPIO_V2_LINES_MAX))
+925ca36913fc7df Kent Gibson         2020-06-16  1617  		return -EINVAL;
+925ca36913fc7df Kent Gibson         2020-06-16  1618  
+e106b1dd38e723e Andy Shevchenko     2024-11-10  1619  	if (!mem_is_zero(ulr.padding, sizeof(ulr.padding)))
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1620  		return -EINVAL;
+925ca36913fc7df Kent Gibson         2020-06-16  1621  
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1622  	lc = &ulr.config;
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1623  	ret = gpio_v2_line_config_validate(lc, ulr.num_lines);
+925ca36913fc7df Kent Gibson         2020-06-16  1624  	if (ret)
+925ca36913fc7df Kent Gibson         2020-06-16  1625  		return ret;
+925ca36913fc7df Kent Gibson         2020-06-16  1626  
+323bbfcf1ef8836 Linus Torvalds      2026-02-21  1627  	lr = kvzalloc_flex(*lr, lines, ulr.num_lines);
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1628  	if (!lr)
+925ca36913fc7df Kent Gibson         2020-06-16  1629  		return -ENOMEM;
+a512635da9f7223 Kees Cook           2023-09-22  1630  	lr->num_lines = ulr.num_lines;
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1631  
+dc0989e3aa58dc4 Andy Shevchenko     2022-12-28  1632  	lr->gdev = gpio_device_get(gdev);
+925ca36913fc7df Kent Gibson         2020-06-16  1633  
+65cff70464068a8 Kent Gibson         2020-09-28  1634  	for (i = 0; i < ulr.num_lines; i++) {
+73e0341992b68bb Kent Gibson         2020-09-28  1635  		lr->lines[i].req = lr;
+65cff70464068a8 Kent Gibson         2020-09-28  1636  		WRITE_ONCE(lr->lines[i].sw_debounced, 0);
+65cff70464068a8 Kent Gibson         2020-09-28  1637  		INIT_DELAYED_WORK(&lr->lines[i].work, debounce_work_func);
+65cff70464068a8 Kent Gibson         2020-09-28  1638  	}
+73e0341992b68bb Kent Gibson         2020-09-28  1639  
+f188ac1251b909c Kent Gibson         2020-10-05  1640  	if (ulr.consumer[0] != '\0') {
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1641  		/* label is only initialized if consumer is set */
+f188ac1251b909c Kent Gibson         2020-10-05  1642  		lr->label = kstrndup(ulr.consumer, sizeof(ulr.consumer) - 1,
+925ca36913fc7df Kent Gibson         2020-06-16  1643  				     GFP_KERNEL);
+96c02c906a44bc2 Kent Gibson         2026-02-16  1644  		if (!lr->label)
+96c02c906a44bc2 Kent Gibson         2026-02-16  1645  			return -ENOMEM;
+925ca36913fc7df Kent Gibson         2020-06-16  1646  	}
+925ca36913fc7df Kent Gibson         2020-06-16  1647  
+a54756cb24eafac Kent Gibson         2020-09-28  1648  	mutex_init(&lr->config_mutex);
+73e0341992b68bb Kent Gibson         2020-09-28  1649  	init_waitqueue_head(&lr->wait);
+35d848e7a1cbba2 Kent Gibson         2024-05-29 @1650  	INIT_KFIFO(lr->events);
+73e0341992b68bb Kent Gibson         2020-09-28  1651  	lr->event_buffer_size = ulr.event_buffer_size;
+73e0341992b68bb Kent Gibson         2020-09-28  1652  	if (lr->event_buffer_size == 0)
+73e0341992b68bb Kent Gibson         2020-09-28  1653  		lr->event_buffer_size = ulr.num_lines * 16;
+73e0341992b68bb Kent Gibson         2020-09-28  1654  	else if (lr->event_buffer_size > GPIO_V2_LINES_MAX * 16)
+73e0341992b68bb Kent Gibson         2020-09-28  1655  		lr->event_buffer_size = GPIO_V2_LINES_MAX * 16;
+73e0341992b68bb Kent Gibson         2020-09-28  1656  
+73e0341992b68bb Kent Gibson         2020-09-28  1657  	atomic_set(&lr->seqno, 0);
+883f91981843712 Kent Gibson         2020-07-08  1658  
+925ca36913fc7df Kent Gibson         2020-06-16  1659  	/* Request each GPIO */
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1660  	for (i = 0; i < ulr.num_lines; i++) {
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1661  		u32 offset = ulr.offsets[i];
+f4e14d45d7fe95f Bartosz Golaszewski 2024-01-24  1662  		struct gpio_desc *desc = gpio_device_get_desc(gdev, offset);
+925ca36913fc7df Kent Gibson         2020-06-16  1663  
+96c02c906a44bc2 Kent Gibson         2026-02-16  1664  		if (IS_ERR(desc))
+96c02c906a44bc2 Kent Gibson         2026-02-16  1665  			return PTR_ERR(desc);
+925ca36913fc7df Kent Gibson         2020-06-16  1666  
+95a4eed7dd5b7c1 Andy Shevchenko     2022-02-01  1667  		ret = gpiod_request_user(desc, lr->label);
+925ca36913fc7df Kent Gibson         2020-06-16  1668  		if (ret)
+96c02c906a44bc2 Kent Gibson         2026-02-16  1669  			return ret;
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1670  
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1671  		lr->lines[i].desc = desc;
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1672  		flags = gpio_v2_line_config_flags(lc, i);
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1673  		gpio_v2_line_config_flags_to_desc_flags(flags, &desc->flags);
+925ca36913fc7df Kent Gibson         2020-06-16  1674  
+925ca36913fc7df Kent Gibson         2020-06-16  1675  		ret = gpiod_set_transitory(desc, false);
+925ca36913fc7df Kent Gibson         2020-06-16  1676  		if (ret < 0)
+96c02c906a44bc2 Kent Gibson         2026-02-16  1677  			return ret;
+925ca36913fc7df Kent Gibson         2020-06-16  1678  
+b1a92e94560def6 Kent Gibson         2022-07-14  1679  		edflags = flags & GPIO_V2_LINE_EDGE_DETECTOR_FLAGS;
+925ca36913fc7df Kent Gibson         2020-06-16  1680  		/*
+925ca36913fc7df Kent Gibson         2020-06-16  1681  		 * Lines have to be requested explicitly for input
+925ca36913fc7df Kent Gibson         2020-06-16  1682  		 * or output, else the line will be treated "as is".
+925ca36913fc7df Kent Gibson         2020-06-16  1683  		 */
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1684  		if (flags & GPIO_V2_LINE_FLAG_OUTPUT) {
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1685  			int val = gpio_v2_line_config_output_value(lc, i);
+925ca36913fc7df Kent Gibson         2020-06-16  1686  
+07c61d4da43fa3b Bartosz Golaszewski 2024-10-18  1687  			ret = gpiod_direction_output_nonotify(desc, val);
+925ca36913fc7df Kent Gibson         2020-06-16  1688  			if (ret)
+96c02c906a44bc2 Kent Gibson         2026-02-16  1689  				return ret;
+3c0d9c635ae2b2c Kent Gibson         2020-09-28  1690  		} else if (flags & GPIO_V2_LINE_FLAG_INPUT) {
+07c61d4da43fa3b Bartosz Golaszewski 2024-10-18  1691  			ret = gpiod_direction_input_nonotify(desc);
+925ca36913fc7df Kent Gibson         2020-06-16  1692  			if (ret)
+96c02c906a44bc2 Kent Gibson         2026-02-16  1693  				return ret;
+73e0341992b68bb Kent Gibson         2020-09-28  1694  
+65cff70464068a8 Kent Gibson         2020-09-28  1695  			ret = edge_detector_setup(&lr->lines[i], lc, i,
+b1a92e94560def6 Kent Gibson         2022-07-14  1696  						  edflags);
+73e0341992b68bb Kent Gibson         2020-09-28  1697  			if (ret)
+96c02c906a44bc2 Kent Gibson         2026-02-16  1698  				return ret;
+925ca36913fc7df Kent Gibson         2020-06-16  1699  		}
+925ca36913fc7df Kent Gibson         2020-06-16  1700  
+b1a92e94560def6 Kent Gibson         2022-07-14  1701  		lr->lines[i].edflags = edflags;
+b1a92e94560def6 Kent Gibson         2022-07-14  1702  
+9ce4ed5b4db1363 Bartosz Golaszewski 2023-08-21  1703  		gpiod_line_state_notify(desc, GPIO_V2_LINE_CHANGED_REQUESTED);
+925ca36913fc7df Kent Gibson         2020-06-16  1704  
+925ca36913fc7df Kent Gibson         2020-06-16  1705  		dev_dbg(&gdev->dev, "registered chardev handle for line %d\n",
+925ca36913fc7df Kent Gibson         2020-06-16  1706  			offset);
+925ca36913fc7df Kent Gibson         2020-06-16  1707  	}
+925ca36913fc7df Kent Gibson         2020-06-16  1708  
+a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  1709  	lr->device_unregistered_nb.notifier_call = linereq_unregistered_notify;
+a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  1710  	ret = blocking_notifier_chain_register(&gdev->device_notifier,
+a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  1711  					       &lr->device_unregistered_nb);
+a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  1712  	if (ret)
+96c02c906a44bc2 Kent Gibson         2026-02-16  1713  		return ret;
+925ca36913fc7df Kent Gibson         2020-06-16  1714  
+96c02c906a44bc2 Kent Gibson         2026-02-16  1715  	FD_PREPARE(fdf, O_RDONLY | O_CLOEXEC,
+96c02c906a44bc2 Kent Gibson         2026-02-16  1716  		   anon_inode_getfile("gpio-line", &line_fileops, lr,
+96c02c906a44bc2 Kent Gibson         2026-02-16  1717  				      O_RDONLY | O_CLOEXEC));
+96c02c906a44bc2 Kent Gibson         2026-02-16  1718  	if (fdf.err)
+96c02c906a44bc2 Kent Gibson         2026-02-16  1719  		return fdf.err;
+96c02c906a44bc2 Kent Gibson         2026-02-16  1720  	retain_and_null_ptr(lr);
+925ca36913fc7df Kent Gibson         2020-06-16  1721  
+96c02c906a44bc2 Kent Gibson         2026-02-16  1722  	ulr.fd = fd_prepare_fd(fdf);
+96c02c906a44bc2 Kent Gibson         2026-02-16  1723  	if (copy_to_user(ip, &ulr, sizeof(ulr)))
+925ca36913fc7df Kent Gibson         2020-06-16  1724  		return -EFAULT;
+925ca36913fc7df Kent Gibson         2020-06-16  1725  
+96c02c906a44bc2 Kent Gibson         2026-02-16  1726  	fd_publish(fdf);
+925ca36913fc7df Kent Gibson         2020-06-16  1727  
+925ca36913fc7df Kent Gibson         2020-06-16  1728  	dev_dbg(&gdev->dev, "registered chardev handle for %d lines\n",
+96c02c906a44bc2 Kent Gibson         2026-02-16  1729  		ulr.num_lines);
+925ca36913fc7df Kent Gibson         2020-06-16  1730  
+925ca36913fc7df Kent Gibson         2020-06-16  1731  	return 0;
+925ca36913fc7df Kent Gibson         2020-06-16  1732  }
+925ca36913fc7df Kent Gibson         2020-06-16  1733  
 
 --
 0-DAY CI Kernel Test Service
