@@ -1,83 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1177A30DECC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 22:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B81731A56C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 22:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788130191; cv=none; b=OKOQsyhgLMe8CD7icfqZWkOckSrbgrCs2+e1GsN9CSyUFs4frzzOQo1EMPCq9/Lfn/pWfwVMSPMOoFsNl3hIq1+VMRC8T5z6PJ5SvEOYdZw9F1C1I2Odbt9RevZs0kz0dR2xawdWq09tgD5tVL7oBeL3y/ldxjaZ+AReVrxYFuY=
+	t=1788130579; cv=none; b=QY6F9b6nHRjaBCBe+u53LDBYZEt9kBLOUkFBoK8ZIi/lO3hT3C/qJ5Bd/0oee3OiB6bz4bfckues6CGsFjfozJWIPiEZElRQ0aPsIMbFueb83qAzkl60FvE2wgJzGu5Za9C0joOqSTQoRHwH7ougskLFM+tuJhFujzEpD01S9H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788130191; c=relaxed/simple;
-	bh=2Td0vZLkFvxsUvZuoncdZkmKA1CuP87fs3RZsCCjN2A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Fc8wa14vI6/zjgRURtZcYsPNifE9L21CI5b9o3MQ8KgHuWO+xd9UQfoAjg+wUl0ChPkhM5CeezKFQsE/X5WFFQRpJ8nvRQP9HVr6OgOTCa2yVuZp+TUe3FElDXWlB7qiCH6YzCgFlHKhcpuEaxfnjCGn+xw8V51HmwKBYaeLkrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejw3C3Vk; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1788130579; c=relaxed/simple;
+	bh=w2+MqKImWzvJSAsgyiI2Ii4OdoNpIUEYROMw5ChEGl8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tyci/L6pphNtL1aX3sfWHcsS/eAxEhBkn2Jh240uegmPYd9WzCkwnjWhU7S/VDV3T5kfTYT44YQcC2A53MrT7m4Lz9tyicjZ9LjmgiMMuGYcfR6ZvgMT6Qjsk9+FQ6pcE8evCIq/vsB2Dke4oMW+aqL4XRuWBykN3Z+njbKLqh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HsO29Q73; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejw3C3Vk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HsO29Q73"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788130188; x=1819666188;
-  h=date:from:to:cc:subject:message-id;
-  bh=2Td0vZLkFvxsUvZuoncdZkmKA1CuP87fs3RZsCCjN2A=;
-  b=ejw3C3Vk3V3nUz6tNaMy1cunGoufo25Zml+EnM9mT7TpAeNwC3mKAtCG
-   oz9c/QRC6ylVLxb0pA9WxI2ys9Qf0dRjBSsJh0jHEiQ0QmfiT4DWrHg5l
-   VAVqBMGChHCXlp6v2KTYQhsutt+pwdNoRNyGVhdKuP1A0nDzFja88lnNH
-   y4wujLF409tTiYZsAHz3OOoC57KfLQLDtLtm0u2XI01CTZyTiHOnC7rk3
-   DbtxTbv2rhZ8JYZth3ySydp5A4GQtI0LE5Vfn5iKqznexjsMFUFlGdCP+
-   b+ocs1tc2T+ANTW3mLF70QvmIsddPl4IccoRUnhSpYEBtruxJOIVyKNeK
+  t=1788130578; x=1819666578;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=w2+MqKImWzvJSAsgyiI2Ii4OdoNpIUEYROMw5ChEGl8=;
+  b=HsO29Q73F2wZHId1/+MSz2yLzRuMdcKbqUGQ6GczG7oKyH3+aVqG1wyV
+   i/DO7/IsxQrtB75s7cxZHSu6MUavqPoX0lUf/n0nxLVxfuO3BUfl8DkTW
+   DZF/ogpquYmgxgjnnIzSb5MGKvlFUG3oEGSlh2m+lMC+Dm32GWjHw0l3W
+   fYOe91qmvvGtt31+Yt3QrZso3y8nBFRcLwrPV/U7oWuFqbn2qEwwynghK
+   8WJXkGxsIkmIP4fDpk7WVDbybVhaRyJkJR6PefaV6nmcQDFWEMgXiI+Ls
+   uzPckbFcND60cGhOPjHIwJGI+4caGhENhg8anlkyD3nO+bLx6cAsXOyLk
    Q==;
-X-CSE-ConnectionGUID: TSxjjInPQWyluGbXfLgqug==
-X-CSE-MsgGUID: zi+SKYZmRpyNW21aV4JLEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="100048718"
+X-CSE-ConnectionGUID: PjDDR0rJSk2Y7HlYtcuJ+A==
+X-CSE-MsgGUID: 0kp0EtY5QDaYrc6svekQ3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88462321"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="100048718"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 15:49:48 -0700
-X-CSE-ConnectionGUID: pGCdFtbjQcu0agyWTJ9pwA==
-X-CSE-MsgGUID: MiGmiFL1RACeldnEf4gUQQ==
+   d="scan'208";a="88462321"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 15:56:17 -0700
+X-CSE-ConnectionGUID: RywSKtqsQvSRZEniFtSE1g==
+X-CSE-MsgGUID: TucMrbV9Sc+der39RTEi7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="272152335"
-Received: from lkp-server01.sh.intel.com (HELO 12c799cf0c09) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 30 Aug 2026 15:49:47 -0700
-Received: from kbuild by 12c799cf0c09 with local (Exim 4.98.2)
+   d="scan'208";a="292139749"
+Received: from igk-lkp-server01.igk.intel.com (HELO 32268bdb9915) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 30 Aug 2026 15:56:12 -0700
+Received: from kbuild by 32268bdb9915 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0oLH-00000000077-10zd;
-	Sun, 30 Aug 2026 22:49:40 +0000
-Date: Mon, 31 Aug 2026 06:48:52 +0800
+	id 1x0oRc-000000000GZ-40gG;
+	Sun, 30 Aug 2026 22:56:08 +0000
+Date: Mon, 31 Aug 2026 00:55:20 +0200
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:7.2/vramstuff 7/29] Warning:
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:229 function parameter 'vm_bo' not
- described in 'amdgpu_vm_bo_needs_eviction'
-Message-ID: <202608310602.aDXqjqYm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>, willy@infradead.org,
+	mathieu.desnoyers@efficios.com,
+	David Laight <david.laight.linux@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	akpm@linux-foundation.org, Yafang Shao <laoar.shao@gmail.com>,
+	andrii.nakryiko@gmail.com, arnaldo.melo@gmail.com,
+	Petr Mladek <pmladek@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	kernel-dev@igalia.com, linux-mm@kvack.org,
+	linux-api@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v5 6/6] selftests: prctl: Add test for long thread names
+Message-ID: <202608310045.6IJtlqhj-lkp@intel.com>
+References: <20260827-tonyk-long_name-v5-6-5fa843782a00@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260827-tonyk-long_name-v5-6-5fa843782a00@igalia.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 7.2/vramstuff
-head:   13a8e2000329a36f994acf2fd31d307d27fa9189
-commit: 2388ecc6c08a3f8bc3509809b955571433de2561 [7/29] drm/amdgpu: Track suboptimal always-valid BOs in soft-evicted state
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260831/202608310602.aDXqjqYm-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608310602.aDXqjqYm-lkp@intel.com/reproduce)
+Hi André,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 73e3f0710014fe6d4ed98cfc02292f6121db7558]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/treewide-Get-rid-of-get_task_comm/20260827-152300
+base:   73e3f0710014fe6d4ed98cfc02292f6121db7558
+patch link:    https://lore.kernel.org/r/20260827-tonyk-long_name-v5-6-5fa843782a00%40igalia.com
+patch subject: [PATCH v5 6/6] selftests: prctl: Add test for long thread names
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20260831/202608310045.6IJtlqhj-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608310045.6IJtlqhj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608310602.aDXqjqYm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608310045.6IJtlqhj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:229 function parameter 'vm_bo' not described in 'amdgpu_vm_bo_needs_eviction'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:229 Excess function parameter 'base' description in 'amdgpu_vm_bo_needs_eviction'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:229 function parameter 'vm_bo' not described in 'amdgpu_vm_bo_needs_eviction'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:229 Excess function parameter 'base' description in 'amdgpu_vm_bo_needs_eviction'
+   security/smack/smack_lsm.c:150:8: error: call to undeclared function 'get_task_comm'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     150 |                 acc, get_task_comm(comm, tsk), note);
+         |                      ^
+   security/smack/smack_lsm.c:150:8: note: did you mean 'get_task_mm'?
+   include/linux/sched/mm.h:151:26: note: 'get_task_mm' declared here
+     151 | extern struct mm_struct *get_task_mm(struct task_struct *task);
+         |                          ^
+>> security/smack/smack_lsm.c:150:8: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
+     148 |         pr_info("Smack %s: (%s %s %s) %s %s\n", smk_bu_mess[rc],
+         |                                       ~~
+         |                                       %d
+     149 |                 smk_of_task(tsp)->smk_known, oskp->smk_known,
+     150 |                 acc, get_task_comm(comm, tsk), note);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:584:34: note: expanded from macro 'pr_info'
+     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                                 ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:511:60: note: expanded from macro 'printk'
+     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning and 1 error generated.
+
+
+vim +150 security/smack/smack_lsm.c
+
+d166c8024d620d Casey Schaufler    2014-08-27  132  
+fba3d32825f4bb Konstantin Andreev 2026-05-11  133  static int
+fba3d32825f4bb Konstantin Andreev 2026-05-11  134  smk_bu_tsk_to_obj(struct task_struct *tsk, const struct task_smack *tsp,
+fba3d32825f4bb Konstantin Andreev 2026-05-11  135  		  char *note, struct smack_known *oskp, int mode, int rc)
+d166c8024d620d Casey Schaufler    2014-08-27  136  {
+fba3d32825f4bb Konstantin Andreev 2026-05-11  137  #ifdef CONFIG_SECURITY_SMACK_BRINGUP
+d166c8024d620d Casey Schaufler    2014-08-27  138  	char acc[SMK_NUM_ACCESS_TYPE + 1];
+fba3d32825f4bb Konstantin Andreev 2026-05-11  139  	char comm[TASK_COMM_LEN];
+d166c8024d620d Casey Schaufler    2014-08-27  140  
+d166c8024d620d Casey Schaufler    2014-08-27  141  	if (rc <= 0)
+d166c8024d620d Casey Schaufler    2014-08-27  142  		return rc;
+bf4b2fee997997 Casey Schaufler    2015-03-21  143  	if (rc > SMACK_UNCONFINED_OBJECT)
+bf4b2fee997997 Casey Schaufler    2015-03-21  144  		rc = 0;
+d166c8024d620d Casey Schaufler    2014-08-27  145  
+d166c8024d620d Casey Schaufler    2014-08-27  146  	smk_bu_mode(mode, acc);
+fba3d32825f4bb Konstantin Andreev 2026-05-11  147  
+bf4b2fee997997 Casey Schaufler    2015-03-21  148  	pr_info("Smack %s: (%s %s %s) %s %s\n", smk_bu_mess[rc],
+fba3d32825f4bb Konstantin Andreev 2026-05-11  149  		smk_of_task(tsp)->smk_known, oskp->smk_known,
+fba3d32825f4bb Konstantin Andreev 2026-05-11 @150  		acc, get_task_comm(comm, tsk), note);
+d166c8024d620d Casey Schaufler    2014-08-27  151  	return 0;
+d166c8024d620d Casey Schaufler    2014-08-27  152  #else
+fba3d32825f4bb Konstantin Andreev 2026-05-11  153  	return rc;
+d166c8024d620d Casey Schaufler    2014-08-27  154  #endif
+fba3d32825f4bb Konstantin Andreev 2026-05-11  155  }
+fba3d32825f4bb Konstantin Andreev 2026-05-11  156  
 
 --
 0-DAY CI Kernel Test Service
