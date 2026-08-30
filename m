@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9022F2F84F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 23:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093C43F105B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 23:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788131175; cv=none; b=GUYf9BCtUcu7TTaoFQj4464cII4IIGwMq3Ih1TyAFR7lVxuGV6JXE0Y6/q+xFGsP4EKcWrCSMnDkBeZ7wF5a9LvXwagoz1pKdGgXuCFAWSdIMbv5AIn8b1JsZvi8MPxVJFPl2D+yqPb+mg+FSU7gurZfex+TFffh+o/buiWbejI=
+	t=1788131835; cv=none; b=F31Hv729kze7d42i24Zm8bY61nvLsngLxtxfQIRUDiu/A+3gMjZUZ9XuspEdTB6fyfO7OCf3S2VzndhRGtZdxXOtWxzaiBCKJlvS4DSpKMyRVwVmwTyuTmIOMMPri/fgLfJKEEvXpJoxuQGgWU2wZMrMnKCqIA8UceCmS5BlmwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788131175; c=relaxed/simple;
-	bh=XJ+HPAT+aJKhguxQQhG07rkPQLwPlVdQ03Bf/YSM59A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rP4wvvbwTep0pMdbdznw9Cp2qOK48ZaBaRB4aBJrA+Rg/e0GSvs1QF9qjWO/W8G7ZDUVNfPX8IwsDJCMLNyN8OGsA82dQL5k8Y3ABFdMiqOgaQvaYWWPf0xv/53/4x5AILa4sUKqoC6dhOFrIEC4gHFPb9JSiTBGiv6HACD3Pgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DsDrq83Y; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1788131835; c=relaxed/simple;
+	bh=tbdtDTJ/v0bOoZ0O1N/VPnHU/nwdCuJdDEIjxVtfJhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nxfKnl6qcMh+UHqEGrXbqWa80MP/N89ulrGUNVLY1QtYwz5GgfXm4cvzEP07YLH8p+qA7AD0G5PNIw5Z2Gr4yRSRrS46VhwLCE7GVX2+bKWro+78TAa8Zq1WFOJnEP3lDzie9AGKAdZhqU+qgXYmkS6Kbj0QG2Vws8MRb/MYGqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnAid0zF; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DsDrq83Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnAid0zF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788131173; x=1819667173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XJ+HPAT+aJKhguxQQhG07rkPQLwPlVdQ03Bf/YSM59A=;
-  b=DsDrq83YtzY2SqgMm5IA1J4N12a+TriJyPePfcyI3Cf5EddDGF80xDdF
-   dao/47hoQV6aysOlrKb+WCPVIh8KdY/VjSvVzCNynZOuOszUjZojQJBug
-   w3LPNy+J0VepboTJmswZlfLy1J0JhzucNcrCdmO015Lnb66238M1mEKrG
-   o8VkoxYqsZVkOYgkn8ax/pp+t9hf1urTbIIdYT9mCdvEEmXljxD54LVQO
-   59SaM7GwmjNdNTzoQXvv6l2TqOMiEb1ak8UF3oWbHgnsR9fYhuDfB5sq3
-   0sdPocYCNfWyP0t2PGadAU/gDNVFd420eB58kY5ytxsO67D5qZqYjQL9i
-   Q==;
-X-CSE-ConnectionGUID: 7v8r/dTVS12i1n1ANNNvSQ==
-X-CSE-MsgGUID: BnCQaddvRnaOYcIIPakl8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88462596"
+  t=1788131833; x=1819667833;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tbdtDTJ/v0bOoZ0O1N/VPnHU/nwdCuJdDEIjxVtfJhA=;
+  b=BnAid0zFlsEMgdh08QKkeRXPtIGDRNhVQjE0n2bd4ZlkLmJpwHDKUzap
+   oiCdq7HHuXwP/qjzGcgaoa0knS9NSuhd3H4Hyw9WKwD9L2NQy1A3+AGTS
+   ltkqd5n0NstP3o4jLpUdLFqNN0boPXB0ZAYtS00O7CU28KZyTs8yyLknD
+   HHmC4b5xksCdwLzXr//oxxhaTLA/MUJ6vInBdbnD2f29h+teiCRhQINtF
+   hqUD3S2P4zCWuToI7xjSsodhVAkEeWeGWw9oJc8GRWKbeKr8tRvIOHrCS
+   Z0m8ckB1Ls45DVvxdW3m5eKZCuz3XEHC7A0mDiR2vyKr+Ot1msQQ1xkf3
+   g==;
+X-CSE-ConnectionGUID: GPm4fDq7S/y+0XDIjUlf9w==
+X-CSE-MsgGUID: nP+PNXY/Q0Kn9S79Bw1jbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88299704"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="88462596"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 16:06:12 -0700
-X-CSE-ConnectionGUID: 6VyEF96pSsqaCTiwZF1Hfg==
-X-CSE-MsgGUID: R7JbQwJfQNCpYW3yG3lB3w==
+   d="scan'208";a="88299704"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 16:17:12 -0700
+X-CSE-ConnectionGUID: Oohsh89URXudyatG5uCZaw==
+X-CSE-MsgGUID: +UJXjKwYR3mC4f3aw3y2Dw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="293455585"
+   d="scan'208";a="292142438"
 Received: from igk-lkp-server01.igk.intel.com (HELO 32268bdb9915) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Aug 2026 16:06:11 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Aug 2026 16:17:11 -0700
 Received: from kbuild by 32268bdb9915 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0obJ-000000000Gl-15F6;
-	Sun, 30 Aug 2026 23:06:09 +0000
-Date: Mon, 31 Aug 2026 01:05:46 +0200
+	id 1x0olx-000000000Gt-1UUF;
+	Sun, 30 Aug 2026 23:17:09 +0000
+Date: Mon, 31 Aug 2026 01:16:12 +0200
 From: kernel test robot <lkp@intel.com>
-To: Bo Zhang <zhangbo0325@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 4/4] mm: adjust free_pages to make
- __zone_watermark_ok() mTHP-aware
-Message-ID: <202608310029.Jjv3T2aV-lkp@intel.com>
-References: <20260825043833.2659350-5-zhangbo56@xiaomi.com>
+To: =?utf-8?Q?"Andr=C3=A9?= Almeida" <andrealmeid@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gem/i915_gem_context.c:1733:49:
+ warning: '%s' directive output may be truncated writing up to 63 bytes into a
+ region of size 24
+Message-ID: <202608310136.6yOAGoKr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,87 +61,88 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260825043833.2659350-5-zhangbo56@xiaomi.com>
 
-Hi Bo,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bo-Zhang/mm-compaction-make-proactive-compaction-mTHP-aware/20260825-123830
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260825043833.2659350-5-zhangbo56%40xiaomi.com
-patch subject: [RFC PATCH 4/4] mm: adjust free_pages to make __zone_watermark_ok() mTHP-aware
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260831/202608310029.Jjv3T2aV-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608310029.Jjv3T2aV-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/treewide-Get-rid-of-get_task_comm/20260827-152300
+head:   0468e596e7692d0874d82d22272c5759279e96fb
+commit: 49cbe4f51427d31478bfbfb63afb27b312ca5a16 sched: Extend task command name with TASK_COMM_EXT_LEN
+date:   3 days ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260831/202608310136.6yOAGoKr-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608310136.6yOAGoKr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608310029.Jjv3T2aV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608310136.6yOAGoKr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   mm/compaction.c: In function 'compact_hpage_order':
->> mm/compaction.c:87:42: error: 'huge_anon_orders_always' undeclared (first use in this function)
-      87 |         unsigned long orders = READ_ONCE(huge_anon_orders_always);
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/compaction.c:87:32: note: in expansion of macro 'READ_ONCE'
-      87 |         unsigned long orders = READ_ONCE(huge_anon_orders_always);
-         |                                ^~~~~~~~~
-   mm/compaction.c:87:42: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/compaction.c:87:32: note: in expansion of macro 'READ_ONCE'
-      87 |         unsigned long orders = READ_ONCE(huge_anon_orders_always);
-         |                                ^~~~~~~~~
+   drivers/gpu/drm/i915/gem/i915_gem_context.c: In function 'gem_context_register':
+>> drivers/gpu/drm/i915/gem/i915_gem_context.c:1733:49: warning: '%s' directive output may be truncated writing up to 63 bytes into a region of size 24 [-Wformat-truncation=]
+    1733 |         snprintf(ctx->name, sizeof(ctx->name), "%s[%d]",
+         |                                                 ^~
+   drivers/gpu/drm/i915/gem/i915_gem_context.c:1733:9: note: 'snprintf' output between 4 and 77 bytes into a destination of size 24
+    1733 |         snprintf(ctx->name, sizeof(ctx->name), "%s[%d]",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1734 |                  current->comm, pid_nr(ctx->pid));
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/gpu/drm/nouveau/nouveau_drm.c: In function 'nouveau_drm_open':
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:1233:39: warning: '%s' directive output may be truncated writing up to 63 bytes into a region of size 32 [-Wformat-truncation=]
+    1233 |         snprintf(name, sizeof(name), "%s[%d]",
+         |                                       ^~
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1233:9: note: 'snprintf' output between 4 and 77 bytes into a destination of size 32
+    1233 |         snprintf(name, sizeof(name), "%s[%d]",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1234 |                  current->comm, pid_nr(rcu_dereference(fpriv->pid)));
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/gpu/drm/nouveau/nouveau_chan.c: In function 'nouveau_channel_ctor':
+>> drivers/gpu/drm/nouveau/nouveau_chan.c:336:58: warning: '%s' directive output may be truncated writing up to 63 bytes into a region of size 32 [-Wformat-truncation=]
+     336 |         snprintf(args->name, __member_size(args->name), "%s[%d]",
+         |                                                          ^~
+   drivers/gpu/drm/nouveau/nouveau_chan.c:336:9: note: 'snprintf' output between 4 and 77 bytes into a destination of size 32
+     336 |         snprintf(args->name, __member_size(args->name), "%s[%d]",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     337 |                  current->comm, task_pid_nr(current));
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/huge_anon_orders_always +87 mm/compaction.c
+vim +1733 drivers/gpu/drm/i915/gem/i915_gem_context.c
 
-    84	
-    85	static inline int compact_hpage_order(void)
-    86	{
-  > 87		unsigned long orders = READ_ONCE(huge_anon_orders_always);
-    88	
-    89		if (orders)
-    90			return __ffs(orders);
-    91		return COMPACTION_HPAGE_ORDER;
-    92	}
-    93	
+254f965c39e391 drivers/gpu/drm/i915/i915_gem_context.c     Ben Widawsky   2012-06-04  1716  
+bed4b455cf5374 drivers/gpu/drm/i915/gem/i915_gem_context.c Rob Clark      2023-01-03  1717  /*
+bed4b455cf5374 drivers/gpu/drm/i915/gem/i915_gem_context.c Rob Clark      2023-01-03  1718   * Note that this implicitly consumes the ctx reference, by placing
+bed4b455cf5374 drivers/gpu/drm/i915/gem/i915_gem_context.c Rob Clark      2023-01-03  1719   * the ctx in the context_xa.
+bed4b455cf5374 drivers/gpu/drm/i915/gem/i915_gem_context.c Rob Clark      2023-01-03  1720   */
+a4c1cdd34e2cda drivers/gpu/drm/i915/gem/i915_gem_context.c Faith Ekstrand 2021-07-08  1721  static void gem_context_register(struct i915_gem_context *ctx,
+c100777cc00ce9 drivers/gpu/drm/i915/gem/i915_gem_context.c Tvrtko Ursulin 2019-12-24  1722  				 struct drm_i915_file_private *fpriv,
+a4c1cdd34e2cda drivers/gpu/drm/i915/gem/i915_gem_context.c Faith Ekstrand 2021-07-08  1723  				 u32 id)
+3aa9945a528e76 drivers/gpu/drm/i915/i915_gem_context.c     Chris Wilson   2019-03-21  1724  {
+eb4dedae920a07 drivers/gpu/drm/i915/gem/i915_gem_context.c Chris Wilson   2020-07-30  1725  	struct drm_i915_private *i915 = ctx->i915;
+a4c1cdd34e2cda drivers/gpu/drm/i915/gem/i915_gem_context.c Faith Ekstrand 2021-07-08  1726  	void *old;
+3aa9945a528e76 drivers/gpu/drm/i915/i915_gem_context.c     Chris Wilson   2019-03-21  1727  
+3aa9945a528e76 drivers/gpu/drm/i915/i915_gem_context.c     Chris Wilson   2019-03-21  1728  	ctx->file_priv = fpriv;
+a4e7ccdac38ec8 drivers/gpu/drm/i915/gem/i915_gem_context.c Chris Wilson   2019-10-04  1729  
+3aa9945a528e76 drivers/gpu/drm/i915/i915_gem_context.c     Chris Wilson   2019-03-21  1730  	ctx->pid = get_task_pid(current, PIDTYPE_PID);
+43c504607dc3e5 drivers/gpu/drm/i915/gem/i915_gem_context.c Tvrtko Ursulin 2022-04-01  1731  	ctx->client = i915_drm_client_get(fpriv->client);
+43c504607dc3e5 drivers/gpu/drm/i915/gem/i915_gem_context.c Tvrtko Ursulin 2022-04-01  1732  
+fc4f125d958f4e drivers/gpu/drm/i915/gem/i915_gem_context.c Chris Wilson   2019-11-11 @1733  	snprintf(ctx->name, sizeof(ctx->name), "%s[%d]",
+3aa9945a528e76 drivers/gpu/drm/i915/i915_gem_context.c     Chris Wilson   2019-03-21  1734  		 current->comm, pid_nr(ctx->pid));
+3aa9945a528e76 drivers/gpu/drm/i915/i915_gem_context.c     Chris Wilson   2019-03-21  1735  
+49bd54b390c209 drivers/gpu/drm/i915/gem/i915_gem_context.c Tvrtko Ursulin 2022-04-01  1736  	spin_lock(&ctx->client->ctx_lock);
+49bd54b390c209 drivers/gpu/drm/i915/gem/i915_gem_context.c Tvrtko Ursulin 2022-04-01  1737  	list_add_tail_rcu(&ctx->client_link, &ctx->client->ctx_list);
+49bd54b390c209 drivers/gpu/drm/i915/gem/i915_gem_context.c Tvrtko Ursulin 2022-04-01  1738  	spin_unlock(&ctx->client->ctx_lock);
+49bd54b390c209 drivers/gpu/drm/i915/gem/i915_gem_context.c Tvrtko Ursulin 2022-04-01  1739  
+eb4dedae920a07 drivers/gpu/drm/i915/gem/i915_gem_context.c Chris Wilson   2020-07-30  1740  	spin_lock(&i915->gem.contexts.lock);
+eb4dedae920a07 drivers/gpu/drm/i915/gem/i915_gem_context.c Chris Wilson   2020-07-30  1741  	list_add_tail(&ctx->link, &i915->gem.contexts.list);
+eb4dedae920a07 drivers/gpu/drm/i915/gem/i915_gem_context.c Chris Wilson   2020-07-30  1742  	spin_unlock(&i915->gem.contexts.lock);
+bed4b455cf5374 drivers/gpu/drm/i915/gem/i915_gem_context.c Rob Clark      2023-01-03  1743  
+bed4b455cf5374 drivers/gpu/drm/i915/gem/i915_gem_context.c Rob Clark      2023-01-03  1744  	/* And finally expose ourselves to userspace via the idr */
+bed4b455cf5374 drivers/gpu/drm/i915/gem/i915_gem_context.c Rob Clark      2023-01-03  1745  	old = xa_store(&fpriv->context_xa, id, ctx, GFP_KERNEL);
+bed4b455cf5374 drivers/gpu/drm/i915/gem/i915_gem_context.c Rob Clark      2023-01-03  1746  	WARN_ON(old);
+3aa9945a528e76 drivers/gpu/drm/i915/i915_gem_context.c     Chris Wilson   2019-03-21  1747  }
+3aa9945a528e76 drivers/gpu/drm/i915/i915_gem_context.c     Chris Wilson   2019-03-21  1748  
 
 --
 0-DAY CI Kernel Test Service
