@@ -1,247 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C5F25F988;
-	Sun, 30 Aug 2026 19:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A4D3033E3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 20:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788118327; cv=none; b=JMFmsI4o1lYFzavXwCMBHn/QdHDr433nLWdqZA4j2fMZFobyVM7pqdQyecYV/4YZApqzyO2rORM2f5Gf0EZYtdh2VL4eGYDnM3m7Uurh2TSmCMnqE7eBgSJRXPho3czhdUgcj8CyJ4YR1O8IZxVacH5bY/pLm4p2KImyPO7ofog=
+	t=1788120786; cv=none; b=Z3y+gJt8l9xY4foymGCQWB3UbsC0fpLKFIaD14ek6kGO/KKHgG8d6emNUj65f23gJW/vcgIP3BG3WXSZt1pWnCdZBgqYsWQmmlahUkuo65a8OHXB7wjlXsvIHU3YV++jL7wc+kW4dCOqszGeWixiNhOQFN48FvjU00FRS6kdyW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788118327; c=relaxed/simple;
-	bh=GF2+6d5Ki9Lkpywk+mOfcy0XeM7raY0lCN+vafb/k9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ps6dDdTMG536FkEwhg7BwNs3jA08Qd3TyrSJxoTP/OUG13UpIxCFANpLDESTly13+LDHhZbd0V241vA5PLmhCBztcWdzg7A9QN24ixb9e4HnB1MGJ51u94vocAIEdrfpl58KH/29WaXegx9FoEYMtdJk/N6NFONFd3w/h6Xelq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q00d5KZ0; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1788120786; c=relaxed/simple;
+	bh=MzTS0LgVhM+aAmvFV03hrXnHPoCu05lPhRxfACTOOxA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DjYAZqK/IDEsa9ICuA9vBpKv6rUKiltsQ9jyncobjTeD8Ss/l6EDsoL+YqVpAsL0T0tjxGB7lwOvHCd6vuvDreB1WkhygJHa15Fh8x6QUk7g23/1rPa/y0MpQNyZEC6owNVwSP2LbfH93sJFhEpfvS02hIgkP1i4vcoiTw561nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JhabHfsz; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q00d5KZ0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JhabHfsz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788118324; x=1819654324;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GF2+6d5Ki9Lkpywk+mOfcy0XeM7raY0lCN+vafb/k9E=;
-  b=Q00d5KZ0AiBF36LsOCPfELfUZTQAmsnBoJWLoKSN+0VjDFs7t03zQlLg
-   TqnVIa58Q6BYEGxJLfiNDGHdjlyX1busCbFI7J/bK6zGvvd/WPjLVTpPg
-   7C6isXa2MX1XPB0fbnQYXq40a00PFrfV5rSJdojGetgNbtdI/jdqy6+s5
-   QpB3DGaZ0uI+JlMyZN5+wfC46KoggLAXhNz7POFkforbtTG3PV9jL2PBI
-   NrU4Z4ff8QiEZMBgbxwpI6nyBeiw7xcsIsAGrY08ZZ0ylU4ycnM772HcG
-   akw3oUNornr0nmEaypGbwrSfiDSL5Za8p/PM0x1+mxfkEvRj9k5kUII1Q
+  t=1788120784; x=1819656784;
+  h=date:from:to:cc:subject:message-id;
+  bh=MzTS0LgVhM+aAmvFV03hrXnHPoCu05lPhRxfACTOOxA=;
+  b=JhabHfszYoaRB9aZViZ3+qqYRgLd5Nq5emGP696mnHVdvw9zrkcFdj9r
+   PnrF18lNCVF9NKpn9SPN41uu5v5SNIBMi/Fe5ZHXRTFcQ5aUerMgRRXG4
+   j5P71fSaW3XqQSkrX6EkIztc9lAP820DikWArVfVj3T2HBiHWxSCCV3+O
+   dofpmcCJdzWIo2sSYEAVzUXHAB262q0mNZyxKjpYSF+o6LVvgG9x5oVKy
+   lL39tZeufVZsl7RKBAZ8RMMDQj9dnsmsEbwNLbUIXYMVZvA29mVu6IJhp
+   exja0b9iganw9Q/vzi4u3VA/ie4stAEPBiAaTFxmaLsnTO55AaWkGDwvC
    g==;
-X-CSE-ConnectionGUID: fc1SQtSOTUejQ7gENChFGA==
-X-CSE-MsgGUID: ki2ignHNR46oVdJd4PWI7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88294607"
+X-CSE-ConnectionGUID: Ojbwh+saSMOiZsQNXp2z+A==
+X-CSE-MsgGUID: 4zkMoKZjTLWenckN2ys66w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88459084"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="88294607"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 12:32:03 -0700
-X-CSE-ConnectionGUID: iIVXZHUeRDiPClN+2A6u+A==
-X-CSE-MsgGUID: ATmQ9GHuQgCsXgPjH5YoiA==
+   d="scan'208";a="88459084"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 13:13:03 -0700
+X-CSE-ConnectionGUID: e4iv0HbyT6itchkzdvE/pA==
+X-CSE-MsgGUID: xaTSCVclQ3SVPrXX+CUeVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="272424132"
+   d="scan'208";a="262496663"
 Received: from igk-lkp-server01.igk.intel.com (HELO 32268bdb9915) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 30 Aug 2026 12:32:01 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 30 Aug 2026 13:13:01 -0700
 Received: from kbuild by 32268bdb9915 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0lG2-000000000CZ-1ucC;
-	Sun, 30 Aug 2026 19:31:58 +0000
-Date: Sun, 30 Aug 2026 21:31:37 +0200
+	id 1x0ltj-000000000Cr-0FCN;
+	Sun, 30 Aug 2026 20:12:59 +0000
+Date: Sun, 30 Aug 2026 22:12:33 +0200
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linus Walleij <linusw@kernel.org>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>
-Subject: Re: [PATCH v1 4/4] pinctrl: pistachio: Replace open coded
- fwnode_is_gpiochip()
-Message-ID: <202608302138.FQoQsbAf-lkp@intel.com>
-References: <20260824074427.3226457-5-andriy.shevchenko@linux.intel.com>
+To: Carlo Szelinsky <github@szelinsky.de>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: net/ethtool/pse-pd.c:287:undefined reference to
+ `phy_pse_control_lock'
+Message-ID: <202608302239.ZpkaN51z-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260824074427.3226457-5-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v7.2 next-20260828]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpio-Split-fwnode_is_gpiochip-helper/20260824-094232
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20260824074427.3226457-5-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 4/4] pinctrl: pistachio: Replace open coded fwnode_is_gpiochip()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260830/202608302138.FQoQsbAf-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260830/202608302138.FQoQsbAf-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Carlo-Szelinsky/net-pse-pd-add-notifier-chain-for-controller-lifecycle-events/20260827-000340
+head:   16e3924b8f46ad1002a2937228ba031223e3b7ec
+commit: bd47f5cd512aaf1ab36475e5bfa5c5102d0a4c5d net: phy: use a dedicated mutex instead of rtnl for PSE control attach
+date:   4 days ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260830/202608302239.ZpkaN51z-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260830/202608302239.ZpkaN51z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608302138.FQoQsbAf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608302239.ZpkaN51z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpio/gpiolib-cdev.c:15:
-   include/linux/gpio/driver.h:888:33: error: use of undeclared identifier 'child'
-     888 |         return fwnode_property_present(child, "gpio-controller");
-         |                                        ^~~~~
->> drivers/gpio/gpiolib-cdev.c:1650:2: warning: implicit conversion from '__size_t' (aka 'unsigned long') to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-    1650 |         INIT_KFIFO(lr->events);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kfifo.h:135:69: note: expanded from macro 'INIT_KFIFO'
-     135 |         __kfifo->mask = __is_kfifo_ptr(__tmp) ? 0 : ARRAY_SIZE(__tmp->buf) - 1;\
-         |                       ~                             ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   1 warning and 1 error generated.
+   s390x-linux-gnu-ld: net/ethtool/pse-pd.o: in function `ethnl_set_pse':
+>> net/ethtool/pse-pd.c:287:(.text+0x1e4): undefined reference to `phy_pse_control_lock'
+>> s390x-linux-gnu-ld: net/ethtool/pse-pd.c:331:(.text+0x2a6): undefined reference to `phy_pse_control_unlock'
+   s390x-linux-gnu-ld: net/ethtool/pse-pd.c:331:(.text+0x2f6): undefined reference to `phy_pse_control_unlock'
+   s390x-linux-gnu-ld: net/ethtool/pse-pd.o: in function `pse_prepare_data':
+   net/ethtool/pse-pd.c:74:(.text+0xd2c): undefined reference to `phy_pse_control_lock'
+   s390x-linux-gnu-ld: net/ethtool/pse-pd.c:76:(.text+0xd70): undefined reference to `phy_pse_control_unlock'
 
 
-vim +1650 drivers/gpio/gpiolib-cdev.c
+vim +287 net/ethtool/pse-pd.c
 
-96c02c906a44bc2 Kent Gibson         2026-02-16  1603  
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1604  static int linereq_create(struct gpio_device *gdev, void __user *ip)
-925ca36913fc7df Kent Gibson         2020-06-16  1605  {
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1606  	struct gpio_v2_line_request ulr;
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1607  	struct gpio_v2_line_config *lc;
-96c02c906a44bc2 Kent Gibson         2026-02-16  1608  	struct linereq *lr __free(linereq_free) = NULL;
-b1a92e94560def6 Kent Gibson         2022-07-14  1609  	u64 flags, edflags;
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1610  	unsigned int i;
-96c02c906a44bc2 Kent Gibson         2026-02-16  1611  	int ret;
-925ca36913fc7df Kent Gibson         2020-06-16  1612  
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1613  	if (copy_from_user(&ulr, ip, sizeof(ulr)))
-925ca36913fc7df Kent Gibson         2020-06-16  1614  		return -EFAULT;
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1615  
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1616  	if ((ulr.num_lines == 0) || (ulr.num_lines > GPIO_V2_LINES_MAX))
-925ca36913fc7df Kent Gibson         2020-06-16  1617  		return -EINVAL;
-925ca36913fc7df Kent Gibson         2020-06-16  1618  
-e106b1dd38e723e Andy Shevchenko     2024-11-10  1619  	if (!mem_is_zero(ulr.padding, sizeof(ulr.padding)))
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1620  		return -EINVAL;
-925ca36913fc7df Kent Gibson         2020-06-16  1621  
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1622  	lc = &ulr.config;
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1623  	ret = gpio_v2_line_config_validate(lc, ulr.num_lines);
-925ca36913fc7df Kent Gibson         2020-06-16  1624  	if (ret)
-925ca36913fc7df Kent Gibson         2020-06-16  1625  		return ret;
-925ca36913fc7df Kent Gibson         2020-06-16  1626  
-323bbfcf1ef8836 Linus Torvalds      2026-02-21  1627  	lr = kvzalloc_flex(*lr, lines, ulr.num_lines);
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1628  	if (!lr)
-925ca36913fc7df Kent Gibson         2020-06-16  1629  		return -ENOMEM;
-a512635da9f7223 Kees Cook           2023-09-22  1630  	lr->num_lines = ulr.num_lines;
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1631  
-dc0989e3aa58dc4 Andy Shevchenko     2022-12-28  1632  	lr->gdev = gpio_device_get(gdev);
-925ca36913fc7df Kent Gibson         2020-06-16  1633  
-65cff70464068a8 Kent Gibson         2020-09-28  1634  	for (i = 0; i < ulr.num_lines; i++) {
-73e0341992b68bb Kent Gibson         2020-09-28  1635  		lr->lines[i].req = lr;
-65cff70464068a8 Kent Gibson         2020-09-28  1636  		WRITE_ONCE(lr->lines[i].sw_debounced, 0);
-65cff70464068a8 Kent Gibson         2020-09-28  1637  		INIT_DELAYED_WORK(&lr->lines[i].work, debounce_work_func);
-65cff70464068a8 Kent Gibson         2020-09-28  1638  	}
-73e0341992b68bb Kent Gibson         2020-09-28  1639  
-f188ac1251b909c Kent Gibson         2020-10-05  1640  	if (ulr.consumer[0] != '\0') {
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1641  		/* label is only initialized if consumer is set */
-f188ac1251b909c Kent Gibson         2020-10-05  1642  		lr->label = kstrndup(ulr.consumer, sizeof(ulr.consumer) - 1,
-925ca36913fc7df Kent Gibson         2020-06-16  1643  				     GFP_KERNEL);
-96c02c906a44bc2 Kent Gibson         2026-02-16  1644  		if (!lr->label)
-96c02c906a44bc2 Kent Gibson         2026-02-16  1645  			return -ENOMEM;
-925ca36913fc7df Kent Gibson         2020-06-16  1646  	}
-925ca36913fc7df Kent Gibson         2020-06-16  1647  
-a54756cb24eafac Kent Gibson         2020-09-28  1648  	mutex_init(&lr->config_mutex);
-73e0341992b68bb Kent Gibson         2020-09-28  1649  	init_waitqueue_head(&lr->wait);
-35d848e7a1cbba2 Kent Gibson         2024-05-29 @1650  	INIT_KFIFO(lr->events);
-73e0341992b68bb Kent Gibson         2020-09-28  1651  	lr->event_buffer_size = ulr.event_buffer_size;
-73e0341992b68bb Kent Gibson         2020-09-28  1652  	if (lr->event_buffer_size == 0)
-73e0341992b68bb Kent Gibson         2020-09-28  1653  		lr->event_buffer_size = ulr.num_lines * 16;
-73e0341992b68bb Kent Gibson         2020-09-28  1654  	else if (lr->event_buffer_size > GPIO_V2_LINES_MAX * 16)
-73e0341992b68bb Kent Gibson         2020-09-28  1655  		lr->event_buffer_size = GPIO_V2_LINES_MAX * 16;
-73e0341992b68bb Kent Gibson         2020-09-28  1656  
-73e0341992b68bb Kent Gibson         2020-09-28  1657  	atomic_set(&lr->seqno, 0);
-883f91981843712 Kent Gibson         2020-07-08  1658  
-925ca36913fc7df Kent Gibson         2020-06-16  1659  	/* Request each GPIO */
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1660  	for (i = 0; i < ulr.num_lines; i++) {
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1661  		u32 offset = ulr.offsets[i];
-f4e14d45d7fe95f Bartosz Golaszewski 2024-01-24  1662  		struct gpio_desc *desc = gpio_device_get_desc(gdev, offset);
-925ca36913fc7df Kent Gibson         2020-06-16  1663  
-96c02c906a44bc2 Kent Gibson         2026-02-16  1664  		if (IS_ERR(desc))
-96c02c906a44bc2 Kent Gibson         2026-02-16  1665  			return PTR_ERR(desc);
-925ca36913fc7df Kent Gibson         2020-06-16  1666  
-95a4eed7dd5b7c1 Andy Shevchenko     2022-02-01  1667  		ret = gpiod_request_user(desc, lr->label);
-925ca36913fc7df Kent Gibson         2020-06-16  1668  		if (ret)
-96c02c906a44bc2 Kent Gibson         2026-02-16  1669  			return ret;
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1670  
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1671  		lr->lines[i].desc = desc;
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1672  		flags = gpio_v2_line_config_flags(lc, i);
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1673  		gpio_v2_line_config_flags_to_desc_flags(flags, &desc->flags);
-925ca36913fc7df Kent Gibson         2020-06-16  1674  
-925ca36913fc7df Kent Gibson         2020-06-16  1675  		ret = gpiod_set_transitory(desc, false);
-925ca36913fc7df Kent Gibson         2020-06-16  1676  		if (ret < 0)
-96c02c906a44bc2 Kent Gibson         2026-02-16  1677  			return ret;
-925ca36913fc7df Kent Gibson         2020-06-16  1678  
-b1a92e94560def6 Kent Gibson         2022-07-14  1679  		edflags = flags & GPIO_V2_LINE_EDGE_DETECTOR_FLAGS;
-925ca36913fc7df Kent Gibson         2020-06-16  1680  		/*
-925ca36913fc7df Kent Gibson         2020-06-16  1681  		 * Lines have to be requested explicitly for input
-925ca36913fc7df Kent Gibson         2020-06-16  1682  		 * or output, else the line will be treated "as is".
-925ca36913fc7df Kent Gibson         2020-06-16  1683  		 */
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1684  		if (flags & GPIO_V2_LINE_FLAG_OUTPUT) {
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1685  			int val = gpio_v2_line_config_output_value(lc, i);
-925ca36913fc7df Kent Gibson         2020-06-16  1686  
-07c61d4da43fa3b Bartosz Golaszewski 2024-10-18  1687  			ret = gpiod_direction_output_nonotify(desc, val);
-925ca36913fc7df Kent Gibson         2020-06-16  1688  			if (ret)
-96c02c906a44bc2 Kent Gibson         2026-02-16  1689  				return ret;
-3c0d9c635ae2b2c Kent Gibson         2020-09-28  1690  		} else if (flags & GPIO_V2_LINE_FLAG_INPUT) {
-07c61d4da43fa3b Bartosz Golaszewski 2024-10-18  1691  			ret = gpiod_direction_input_nonotify(desc);
-925ca36913fc7df Kent Gibson         2020-06-16  1692  			if (ret)
-96c02c906a44bc2 Kent Gibson         2026-02-16  1693  				return ret;
-73e0341992b68bb Kent Gibson         2020-09-28  1694  
-65cff70464068a8 Kent Gibson         2020-09-28  1695  			ret = edge_detector_setup(&lr->lines[i], lc, i,
-b1a92e94560def6 Kent Gibson         2022-07-14  1696  						  edflags);
-73e0341992b68bb Kent Gibson         2020-09-28  1697  			if (ret)
-96c02c906a44bc2 Kent Gibson         2026-02-16  1698  				return ret;
-925ca36913fc7df Kent Gibson         2020-06-16  1699  		}
-925ca36913fc7df Kent Gibson         2020-06-16  1700  
-b1a92e94560def6 Kent Gibson         2022-07-14  1701  		lr->lines[i].edflags = edflags;
-b1a92e94560def6 Kent Gibson         2022-07-14  1702  
-9ce4ed5b4db1363 Bartosz Golaszewski 2023-08-21  1703  		gpiod_line_state_notify(desc, GPIO_V2_LINE_CHANGED_REQUESTED);
-925ca36913fc7df Kent Gibson         2020-06-16  1704  
-925ca36913fc7df Kent Gibson         2020-06-16  1705  		dev_dbg(&gdev->dev, "registered chardev handle for line %d\n",
-925ca36913fc7df Kent Gibson         2020-06-16  1706  			offset);
-925ca36913fc7df Kent Gibson         2020-06-16  1707  	}
-925ca36913fc7df Kent Gibson         2020-06-16  1708  
-a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  1709  	lr->device_unregistered_nb.notifier_call = linereq_unregistered_notify;
-a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  1710  	ret = blocking_notifier_chain_register(&gdev->device_notifier,
-a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  1711  					       &lr->device_unregistered_nb);
-a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  1712  	if (ret)
-96c02c906a44bc2 Kent Gibson         2026-02-16  1713  		return ret;
-925ca36913fc7df Kent Gibson         2020-06-16  1714  
-96c02c906a44bc2 Kent Gibson         2026-02-16  1715  	FD_PREPARE(fdf, O_RDONLY | O_CLOEXEC,
-96c02c906a44bc2 Kent Gibson         2026-02-16  1716  		   anon_inode_getfile("gpio-line", &line_fileops, lr,
-96c02c906a44bc2 Kent Gibson         2026-02-16  1717  				      O_RDONLY | O_CLOEXEC));
-96c02c906a44bc2 Kent Gibson         2026-02-16  1718  	if (fdf.err)
-96c02c906a44bc2 Kent Gibson         2026-02-16  1719  		return fdf.err;
-96c02c906a44bc2 Kent Gibson         2026-02-16  1720  	retain_and_null_ptr(lr);
-925ca36913fc7df Kent Gibson         2020-06-16  1721  
-96c02c906a44bc2 Kent Gibson         2026-02-16  1722  	ulr.fd = fd_prepare_fd(fdf);
-96c02c906a44bc2 Kent Gibson         2026-02-16  1723  	if (copy_to_user(ip, &ulr, sizeof(ulr)))
-925ca36913fc7df Kent Gibson         2020-06-16  1724  		return -EFAULT;
-925ca36913fc7df Kent Gibson         2020-06-16  1725  
-96c02c906a44bc2 Kent Gibson         2026-02-16  1726  	fd_publish(fdf);
-925ca36913fc7df Kent Gibson         2020-06-16  1727  
-925ca36913fc7df Kent Gibson         2020-06-16  1728  	dev_dbg(&gdev->dev, "registered chardev handle for %d lines\n",
-96c02c906a44bc2 Kent Gibson         2026-02-16  1729  		ulr.num_lines);
-925ca36913fc7df Kent Gibson         2020-06-16  1730  
-925ca36913fc7df Kent Gibson         2020-06-16  1731  	return 0;
-925ca36913fc7df Kent Gibson         2020-06-16  1732  }
-925ca36913fc7df Kent Gibson         2020-06-16  1733  
+   276	
+   277	static int
+   278	ethnl_set_pse(struct ethnl_req_info *req_info, struct genl_info *info)
+   279	{
+   280		struct nlattr **tb = info->attrs;
+   281		struct phy_device *phydev;
+   282		int ret;
+   283	
+   284		phydev = ethnl_req_get_phydev(req_info, tb, ETHTOOL_A_PSE_HEADER,
+   285					      info->extack);
+   286	
+ > 287		phy_pse_control_lock();
+   288	
+   289		ret = ethnl_set_pse_validate(phydev, info);
+   290		if (ret)
+   291			goto out;
+   292	
+   293		if (tb[ETHTOOL_A_PSE_PRIO]) {
+   294			unsigned int prio;
+   295	
+   296			prio = nla_get_u32(tb[ETHTOOL_A_PSE_PRIO]);
+   297			ret = pse_ethtool_set_prio(phydev->psec, info->extack, prio);
+   298			if (ret)
+   299				goto out;
+   300		}
+   301	
+   302		if (tb[ETHTOOL_A_C33_PSE_AVAIL_PW_LIMIT]) {
+   303			unsigned int pw_limit;
+   304	
+   305			pw_limit = nla_get_u32(tb[ETHTOOL_A_C33_PSE_AVAIL_PW_LIMIT]);
+   306			ret = pse_ethtool_set_pw_limit(phydev->psec, info->extack,
+   307						       pw_limit);
+   308			if (ret)
+   309				goto out;
+   310		}
+   311	
+   312		/* These values are already validated by the ethnl_pse_set_policy */
+   313		if (tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL] ||
+   314		    tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL]) {
+   315			struct pse_control_config config = {};
+   316	
+   317			if (tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL])
+   318				config.podl_admin_control = nla_get_u32(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
+   319			if (tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL])
+   320				config.c33_admin_control = nla_get_u32(tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL]);
+   321	
+   322			/* pse_ethtool_set_config() will do nothing if the config
+   323			 * is zero
+   324			 */
+   325			ret = pse_ethtool_set_config(phydev->psec, info->extack,
+   326						     &config);
+   327		}
+   328	
+   329	out:
+   330		/* Return errno or zero - PSE has no notification */
+ > 331		phy_pse_control_unlock();
+   332		return ret;
+   333	}
+   334	
 
 --
 0-DAY CI Kernel Test Service
