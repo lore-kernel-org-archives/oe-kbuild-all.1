@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24FF1A9F87
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 10:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DA52DC783
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 11:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788084266; cv=none; b=JbNVhY5hEm/Lkze8zZJhJaAOJ19VCaQcQpBn+759Ix+kr8IcXbvkiwszksjvYWhG7Dz72qCrcSxaknlcs4HZsgJFda0Si4xdOf2XteNyg+T5AXGstNoZrvVyh7gauvnsB6neKBIkq3R8o6Bxb2Hxat7aOlFBlsWGGk3NXEjtwbo=
+	t=1788090517; cv=none; b=UqzQZAAda35hnQyFNhyW8Wth6ApV/zpUKhRqngYZ4u2WCdgVC48GrfoQ9e16UDnLZ5mMDAwYopKXaRi4wenK/fhdVxPdHcIKi7Nmz8JI3JWq0fB1pPWP/rKiHAZDEPkOerhwJMScv7PYNrG5NvjXJ4KjJddJALBTxqSeVPenpRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788084266; c=relaxed/simple;
-	bh=HtfTVsgMqLrXbeg4pJHcHK23Im6LkxqrsOpLiBNk2aM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oNiP4YYfuu03zFP8PHb3x5NBPLahHDbtsycpYSqsgXE5oKlZMWdaFbZxcSJ3hXuUpxtQjwKG3RsFx8rhXS5u28m6KImU4tDbgrU+/37lexeMY3Nj499q4RNtanSri4y85ElNo78YcEy/ZuuEF3xtxRExEWu9QhBS/D4VTyUcRYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=akl/T9fD; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1788090517; c=relaxed/simple;
+	bh=8x/ch8FiFvOb8AAPLMbN/jh2/THCJdpaithyjKrv9/w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JL8U3GbibSFBiZRS2FT4PINQSDl13QYHcAjRU5ce5gi63KFtS1B4fVMfboQHTNz/ylwnG/TfMABu1qbpX880IQ875mQbLqa44A3D/Q3oZ/c5dKMb9tphdvqou+T4NBYQimEZ5lq8DleIYFYimQbwd72zA1iQOBoh6YC9epWHTX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EtRRBhwK; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="akl/T9fD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EtRRBhwK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788084264; x=1819620264;
+  t=1788090514; x=1819626514;
   h=date:from:to:cc:subject:message-id;
-  bh=HtfTVsgMqLrXbeg4pJHcHK23Im6LkxqrsOpLiBNk2aM=;
-  b=akl/T9fDSwmi1iLF8Vswy2TPoCdJtvXnr8qAlorKHwclXzehgU2qstwa
-   eMJteGPFYW7BQ9G2Lu3uHLLcRpEZeP9vWzrYj0L+twDaO8oYldTvsXII4
-   5rGospkUXPNTHlRbQpJjnqdYrLm9u2zCFgBLOhwJMtyAG26/EnMuQ5ZNT
-   gSvyxG+Yp7yd+1jU2ttE+Zw9cTsjIEUMxin58dWv1VG23Y1hPcbTwQCsy
-   TB1oE1FwKxwhIAJJYiVnwQBUGr1uMbMmUMQqd+FWBT/hlF1ATimDQbsMO
-   IEkoA72gf9v3LI/A5jZmuZws8JzOwJrVrMImKyFm7LGFF0LuT4AAN/74F
-   g==;
-X-CSE-ConnectionGUID: 4hLVFJcbR8+95MZE3i2s9A==
-X-CSE-MsgGUID: E0fM+V1CQ76w5oc5RP1wxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11890"; a="88569717"
-X-IronPort-AV: E=Sophos;i="6.25,251,1779174000"; 
-   d="scan'208";a="88569717"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 03:04:23 -0700
-X-CSE-ConnectionGUID: 9wFABmpESJig8sbcTcJslw==
-X-CSE-MsgGUID: UpLeqDtcS622KPVNQKVk1Q==
+  bh=8x/ch8FiFvOb8AAPLMbN/jh2/THCJdpaithyjKrv9/w=;
+  b=EtRRBhwKPWWvW0Lugw/6ukeXhXblZHnyw92kYdcE1vJqD+THO4oForE/
+   TquJnhZBzcT3Z6h0WgZplarHUF5qLlhkl2lsEdXoMTfPFCGTgPRNQ88s0
+   nhaGPWXppX7toaA43kSHqu9yPdT6rsZZgIBh9fgMVnF1jWhZeLiaDEzFj
+   3BjsHQnyOUptbjOQ0c5BDhCjS48H03e+c2tGdCLaWL3J3P5Hrl1LvQF5v
+   UHkUgdgC2dlVrEFluO4cSArMAPSazek5XlJL1EMQ/F4p/2d3DzaiFYKl7
+   iyvK4qC8xkfcj5XgHvD6poKNmG1PbTqo/OVJk+AsHugGvViqXy1IenMgh
+   A==;
+X-CSE-ConnectionGUID: oO8vuiytTBy7VG5e9oWDeg==
+X-CSE-MsgGUID: bILlnM1RSR2SXd6OndpICw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11890"; a="106047665"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="106047665"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 04:48:33 -0700
+X-CSE-ConnectionGUID: NMUbNAg6S2+31cz+oFGMlQ==
+X-CSE-MsgGUID: OojBHUZwQG6S8w53mDfhfA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,251,1779174000"; 
-   d="scan'208";a="298468808"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="272757635"
 Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Aug 2026 03:04:22 -0700
+  by orviesa005.jf.intel.com with ESMTP; 30 Aug 2026 04:48:31 -0700
 Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0cOi-00000000Dls-0Zsy;
-	Sun, 30 Aug 2026 10:04:20 +0000
-Date: Sun, 30 Aug 2026 18:03:22 +0800
+	id 1x0e1U-00000000Dpo-2bM2;
+	Sun, 30 Aug 2026 11:48:28 +0000
+Date: Sun, 30 Aug 2026 19:47:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:7.2/vramstuff 9/29]
- drivers/gpu/drm/ttm/ttm_bo_util.c:52:35: sparse: sparse: symbol
- 'ttm_transfer_object_funcs' was not declared. Should it be static?
-Message-ID: <202608301731.UpNNN4bY-lkp@intel.com>
+To: Kelvin Zhang <zhangxp1998@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
+Subject: [chao:feature/subpage 5/10] include/linux/f2fs_fs.h:347:24:
+ error: flexible array member in union
+Message-ID: <202608301900.19vrzwch-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,38 +59,304 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/zen-kernel/zen-kernel 7.2/vramstuff
-head:   13a8e2000329a36f994acf2fd31d307d27fa9189
-commit: 57394df648c83d7fb95565867626ecdda07f4af7 [9/29] drm/ttm: replace TTMs refcount with the DRM refcount v4
-config: um-randconfig-r134-20260829 (https://download.01.org/0day-ci/archive/20260830/202608301731.UpNNN4bY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260830/202608301731.UpNNN4bY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/subpage
+head:   3a537197e7b9327a386b4c5deab273a387072d1f
+commit: 0afae9798e90aeeeebfaaf8878c16c2a5f1dbc9f [5/10] f2fs: describe {i,d,id}node block layout dynamically
+config: m68k-randconfig-r072-20260830 (https://download.01.org/0day-ci/archive/20260830/202608301900.19vrzwch-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260830/202608301900.19vrzwch-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608301731.UpNNN4bY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608301900.19vrzwch-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/ttm/ttm_bo_util.c:52:35: sparse: sparse: symbol 'ttm_transfer_object_funcs' was not declared. Should it be static?
-   drivers/gpu/drm/ttm/ttm_bo_util.c:342:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *virtual @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:342:38: sparse:     expected void *virtual
-   drivers/gpu/drm/ttm/ttm_bo_util.c:342:38: sparse:     got void [noderef] __iomem *
-   drivers/gpu/drm/ttm/ttm_bo_util.c:348:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *virtual @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:348:38: sparse:     expected void *virtual
-   drivers/gpu/drm/ttm/ttm_bo_util.c:348:38: sparse:     got void [noderef] __iomem *
-   drivers/gpu/drm/ttm/ttm_bo_util.c:478:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *virtual @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:478:28: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/gpu/drm/ttm/ttm_bo_util.c:478:28: sparse:     got void *virtual
+All error/warnings (new ones prefixed by >>):
 
-vim +/ttm_transfer_object_funcs +52 drivers/gpu/drm/ttm/ttm_bo_util.c
+   In file included from fs/f2fs/dir.c:10:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+   In file included from fs/f2fs/dir.c:15:
+   fs/f2fs/f2fs.h: In function 'blkaddr_in_node':
+>> fs/f2fs/f2fs.h:3314:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3314 | }
+         | ^
+--
+   In file included from fs/f2fs/namei.c:9:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+--
+   In file included from fs/f2fs/node.c:9:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+   In file included from fs/f2fs/node.c:18:
+   fs/f2fs/node.h: In function 'get_nid':
+>> fs/f2fs/node.h:395:1: warning: control reaches end of non-void function [-Wreturn-type]
+     395 | }
+         | ^
+   In file included from fs/f2fs/node.c:17:
+   fs/f2fs/f2fs.h: In function 'blkaddr_in_node':
+>> fs/f2fs/f2fs.h:3314:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3314 | }
+         | ^
+   fs/f2fs/f2fs.h: In function 'inline_xattr_addr':
+   fs/f2fs/f2fs.h:3660:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3660 | }
+         | ^
+--
+   In file included from fs/f2fs/segment.c:9:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+   fs/f2fs/segment.c: In function 'f2fs_flush_sit_entries':
+   fs/f2fs/segment.c:4865:37: warning: variable 'sit_offset' set but not used [-Wunused-but-set-variable]
+    4865 |                         int offset, sit_offset;
+         |                                     ^~~~~~~~~~
+   In file included from fs/f2fs/segment.c:22:
+   fs/f2fs/f2fs.h: In function 'blkaddr_in_node':
+>> fs/f2fs/f2fs.h:3314:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3314 | }
+         | ^
+--
+   In file included from fs/f2fs/xattr.c:19:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+   In file included from fs/f2fs/xattr.c:23:
+   fs/f2fs/f2fs.h: In function 'inline_xattr_addr':
+   fs/f2fs/f2fs.h:3660:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3660 | }
+         | ^
+--
+   In file included from f2fs/dir.c:10:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+   In file included from f2fs/dir.c:15:
+   f2fs/f2fs.h: In function 'blkaddr_in_node':
+   f2fs/f2fs.h:3314:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3314 | }
+         | ^
+--
+   In file included from f2fs/node.c:9:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+   In file included from f2fs/node.c:18:
+   f2fs/node.h: In function 'get_nid':
+   f2fs/node.h:395:1: warning: control reaches end of non-void function [-Wreturn-type]
+     395 | }
+         | ^
+   In file included from f2fs/node.c:17:
+   f2fs/f2fs.h: In function 'blkaddr_in_node':
+   f2fs/f2fs.h:3314:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3314 | }
+         | ^
+   f2fs/f2fs.h: In function 'inline_xattr_addr':
+   f2fs/f2fs.h:3660:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3660 | }
+         | ^
+--
+   In file included from f2fs/segment.c:9:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+   f2fs/segment.c: In function 'f2fs_flush_sit_entries':
+   f2fs/segment.c:4865:37: warning: variable 'sit_offset' set but not used [-Wunused-but-set-variable]
+    4865 |                         int offset, sit_offset;
+         |                                     ^~~~~~~~~~
+   In file included from f2fs/segment.c:22:
+   f2fs/f2fs.h: In function 'blkaddr_in_node':
+   f2fs/f2fs.h:3314:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3314 | }
+         | ^
+--
+   In file included from f2fs/xattr.c:19:
+>> include/linux/f2fs_fs.h:347:24: error: flexible array member in union
+     347 |                 __le32 i_addr[];                /* data block pointers */
+         |                        ^~~~~~
+   include/linux/f2fs_fs.h:360:16: error: flexible array member in a struct with no named members
+     360 |         __le32 addr[];                  /* array of data block address */
+         |                ^~~~
+   include/linux/f2fs_fs.h:365:16: error: flexible array member in a struct with no named members
+     365 |         __le32 nid[];                   /* array of data block address */
+         |                ^~~
+   include/linux/f2fs_fs.h:404:31: error: flexible array member in a struct with no named members
+     404 |         struct f2fs_nat_entry entries[];
+         |                               ^~~~~~~
+   include/linux/f2fs_fs.h:448:31: error: flexible array member in a struct with no named members
+     448 |         struct f2fs_sit_entry entries[];
+         |                               ^~~~~~~
+   In file included from f2fs/xattr.c:23:
+   f2fs/f2fs.h: In function 'inline_xattr_addr':
+   f2fs/f2fs.h:3660:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3660 | }
+         | ^
 
-    51	
-  > 52	const struct drm_gem_object_funcs ttm_transfer_object_funcs = {
-    53		.free = ttm_transfer_object_free,
-    54	};
-    55	
+
+vim +347 include/linux/f2fs_fs.h
+
+   297	
+   298	struct f2fs_inode {
+   299		__le16 i_mode;			/* file mode */
+   300		__u8 i_advise;			/* file hints */
+   301		__u8 i_inline;			/* file inline flags */
+   302		__le32 i_uid;			/* user ID */
+   303		__le32 i_gid;			/* group ID */
+   304		__le32 i_links;			/* links count */
+   305		__le64 i_size;			/* file size in bytes */
+   306		__le64 i_blocks;		/* file size in blocks */
+   307		__le64 i_atime;			/* access time */
+   308		__le64 i_ctime;			/* change time */
+   309		__le64 i_mtime;			/* modification time */
+   310		__le32 i_atime_nsec;		/* access time in nano scale */
+   311		__le32 i_ctime_nsec;		/* change time in nano scale */
+   312		__le32 i_mtime_nsec;		/* modification time in nano scale */
+   313		__le32 i_generation;		/* file version (for NFS) */
+   314		union {
+   315			__le32 i_current_depth;	/* only for directory depth */
+   316			__le16 i_gc_failures;	/*
+   317						 * # of gc failures on pinned file.
+   318						 * only for regular files.
+   319						 */
+   320		};
+   321		__le32 i_xattr_nid;		/* nid to save xattr */
+   322		__le32 i_flags;			/* file attributes */
+   323		__le32 i_pino;			/* parent inode number */
+   324		__le32 i_namelen;		/* file name length */
+   325		__u8 i_name[F2FS_NAME_LEN];	/* file name for SPOR */
+   326		__u8 i_dir_level;		/* dentry_level for large dir */
+   327	
+   328		struct f2fs_extent i_ext;	/* caching a largest extent */
+   329	
+   330		union {
+   331			struct {
+   332				__le16 i_extra_isize;	/* extra inode attribute size */
+   333				__le16 i_inline_xattr_size;	/* inline xattr size, unit: 4 bytes */
+   334				__le32 i_projid;	/* project id */
+   335				__le32 i_inode_checksum;/* inode meta checksum */
+   336				__le64 i_crtime;	/* creation time */
+   337				__le32 i_crtime_nsec;	/* creation time in nano scale */
+   338				__le64 i_compr_blocks;	/* # of compressed blocks */
+   339				__u8 i_compress_algorithm;	/* compress algorithm */
+   340				__u8 i_log_cluster_size;	/* log of cluster size */
+   341				__le16 i_compress_flag;		/* compress flag */
+   342							/* 0 bit: chksum flag
+   343							 * [8,15] bits: compress level
+   344							 */
+   345				__le32 i_extra_end[0];	/* for attribute size calculation */
+   346			} __packed;
+ > 347			__le32 i_addr[];		/* data block pointers */
+   348		};
+   349		/*
+   350		 * __le32 i_nid[DEF_NIDS_PER_INODE];
+   351		 *
+   352		 * It is stored immediately before the node footer at the end of the
+   353		 * filesystem block. Its offset depends on the filesystem block size, so
+   354		 * locate it dynamically with F2FS_INODE_NIDS().
+   355		 */
+   356	} __packed;
+   357	
 
 --
 0-DAY CI Kernel Test Service
