@@ -1,121 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C16139891F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 14:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD8646A604
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 15:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788187994; cv=none; b=GvZWvVOBlRLyxN/B74wqNnersNPf+4Lxtlc08W/P9wiAmv8mIR9ZZkTRbdQzFZGjpxxjIYdxyLubQ89J4UxG+3mIhTSjNAUmYfpgNshexckZbhdD2Xt9XNObnIWyfdIdPsiWpQMye5VgrR8cN/cIoRIztUtsCc61yUy8Eer3hIA=
+	t=1788189257; cv=none; b=jDRJ+21Ko9gRZOtg7E8+Wlx/tggN5kAo5k1U76q3MFGqKJH8VjsRicY8TDzUaXX/AtDS+eRWzmsscs2cgLGNh7rkB+5zZ0LT7g1YCmpESBI8JGbEj/fbitR7qPwWKp7Ie1wmyt+35GjpcEWrTlKx+fE9qneyo5A1yjLv0f90M2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788187994; c=relaxed/simple;
-	bh=gnqCyPvXkuu7Ii05gSKqTu2yvod+BBnWZtLS4SwT69s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=gFMNvCUEG9Cj9tj3T0QA/eooI++IPNV/H0T+7Hyfo4UltXXnA7o2OUYBf55+9q3XRJd0HlA1soWv9OABLyUNtnndwxc9II0nosin6J0nxqgDeZFqeb+SKNRceGqVQjR1WOm5dOqZ+J+99GLO3E0JGX7SNTC3dt63a5gOfbXFzFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbToKfkC; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1788189257; c=relaxed/simple;
+	bh=i2eGAZ1hDFTvuS0i6VoPbv69QBZ/9uKJcpYfS0RSHbk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dUboyZ7QMb0r+qcVcrZFolzBiJtjZLRLq2tMd1HPYSrqvh4yMV8hJCH7gaih83bfpeUJmdmkrXaf6O/Yk/++m3YRcKK4py1L8RIr2JyuZSzm/R3Q1LBIr5tkkAt8Ahbirk80NKh1Mz82M+qp7UZu6S2+ZiOcFTof5VoestTC+BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZxIysDf; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbToKfkC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZxIysDf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788187993; x=1819723993;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gnqCyPvXkuu7Ii05gSKqTu2yvod+BBnWZtLS4SwT69s=;
-  b=nbToKfkCNwPKBmRgSTjr2hUo1VgsiFF3GC2cxynIcqG3ImeEzBpWt1Jo
-   Ah1P+F6HATLQ7BDaB4D8RjNRrJavMXAcWAAMJw7bbf2zlZO37pD7Dr/x/
-   yj3b3MCM+NFs1+hjQiaPlPVfO0PfScps4ChIZEqH3G1syre65kSM5J2SY
-   1vzpd4tDpPtQTZ3rjMQI20doBa8vOQThIdpNvXneRcyX8TacdckmYUzEv
-   yUKyrLeaVX0l1Akd8TZYGNN6mygkJjXYQ60Zvm7SeonH5GOx8jQQYlFYe
-   hEIN9F9noWPYuyMmsQE5nz7MsFhG+4FgbOHm6NUQ2YqoajSZC8Ie0hCWE
-   w==;
-X-CSE-ConnectionGUID: TxnXz0cRQKmTNxQIN7dNbQ==
-X-CSE-MsgGUID: BnhfMu09TXi+gzUkfBf4JA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92464367"
+  t=1788189254; x=1819725254;
+  h=date:from:to:cc:subject:message-id;
+  bh=i2eGAZ1hDFTvuS0i6VoPbv69QBZ/9uKJcpYfS0RSHbk=;
+  b=UZxIysDfBKU1vOcLL8St1nyJEAXaIe5o+PhZv3b4o5CZqucZxcouE939
+   U+I3eXidVYJjFa2kOC0fz25C8/dRvvWqW5zEoLSeGMEW484TrLxJpRfI9
+   KSOSagO7GJY5xAauQVDHM2BP1TCx0IAXhWZ85+80/JlK7e1s+ymwC1Yyw
+   wcZs8/BUSMq9oCmZyux8VR8mMFnQldJa15bWJG3V3zc5K3DYhbDzMQTmn
+   I5qDVA8omn4knkZpu/lw15bK4IwDuXpxEyJUTp8W+AyyN5LS423XNwg0i
+   LGuGbDymdcHBLhzfQnHiGl/Puws1ESlw9Mr1K80+OZQOuB7NorLZt8zI3
+   g==;
+X-CSE-ConnectionGUID: BSS83Q1cSouDdH0MGxvpzw==
+X-CSE-MsgGUID: 0bhFLug1QmmhdpEBjL0I6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92285949"
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="92464367"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 07:53:12 -0700
-X-CSE-ConnectionGUID: uWl8pZnoTNCwymyN64iilg==
-X-CSE-MsgGUID: I5a8gAvqSdaHCcOQ35R+lg==
+   d="scan'208";a="92285949"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 08:14:14 -0700
+X-CSE-ConnectionGUID: iNAdkLRmTay1A7GsDwrtwg==
+X-CSE-MsgGUID: LgF6tKdeTkG4wx9/9jR4FQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="262692771"
 Received: from lkp-server01.sh.intel.com (HELO 78edef60ff5d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Aug 2026 07:53:10 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 31 Aug 2026 08:14:12 -0700
 Received: from kbuild by 78edef60ff5d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x13Nj-000000000lX-44xV;
-	Mon, 31 Aug 2026 14:53:07 +0000
-Date: Mon, 31 Aug 2026 22:52:36 +0800
+	id 1x13i6-000000000mp-1Ugx;
+	Mon, 31 Aug 2026 15:14:10 +0000
+Date: Mon, 31 Aug 2026 23:13:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Martin =?utf-8?Q?Povi=C5=A1er"?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/070-audio 4/86] sound/soc/soc-ops.c:583:1:
- warning: the frame size of 1296 bytes is larger than 1280 bytes
-Message-ID: <202608312223.Ekqfp1xz-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.2-rc 213/213]
+ drivers/net/pcs/pcs-airoha.c:2581:2: warning: unannotated fall-through
+ between switch labels
+Message-ID: <202608312345.puWz9DRX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   5b800acda8d7c7353e880b74d8bc8553956421c0
-commit: 90924920e353b65e5ccc9a1b3c438c50107ddeb1 [4/86] ASoC: ops: Introduce 'soc_set_enum_kctl'
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260831/202608312223.Ekqfp1xz-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608312223.Ekqfp1xz-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
+head:   8f1ae3a99f8f4bbde9c6a17df87b4585fc4eb674
+commit: b6960ae531bd4aeca296d56a41af3f4b3df73e0b [213/213] net: pcs: airoha: add PCS driver for Airoha SoC
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260831/202608312345.puWz9DRX-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608312345.puWz9DRX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608312223.Ekqfp1xz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608312345.puWz9DRX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/soc-ops.c: In function 'soc_set_enum_kctl':
->> sound/soc/soc-ops.c:583:1: warning: the frame size of 1296 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     583 | }
-         | ^
+>> drivers/net/pcs/pcs-airoha.c:2581:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    2581 |         default:
+         |         ^
+   drivers/net/pcs/pcs-airoha.c:2581:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    2581 |         default:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/net/pcs/pcs-airoha.c:2581:2: note: insert 'break;' to avoid fall-through
+    2581 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
 
 
-vim +583 sound/soc/soc-ops.c
+vim +2581 drivers/net/pcs/pcs-airoha.c
 
-   552	
-   553	static int soc_set_enum_kctl(struct snd_kcontrol *kctl, const char *strval)
-   554	{
-   555		struct snd_ctl_elem_value value;
-   556		struct snd_ctl_elem_info info;
-   557		int sel, i, ret;
-   558	
-   559		ret = kctl->info(kctl, &info);
-   560		if (ret < 0)
-   561			return ret;
-   562	
-   563		if (info.type != SNDRV_CTL_ELEM_TYPE_ENUMERATED)
-   564			return -EINVAL;
-   565	
-   566		for (sel = 0; sel < info.value.enumerated.items; sel++) {
-   567			info.value.enumerated.item = sel;
-   568			ret = kctl->info(kctl, &info);
-   569			if (ret < 0)
-   570				return ret;
-   571	
-   572			if (!strcmp(strval, info.value.enumerated.name))
-   573				break;
-   574		}
-   575	
-   576		if (sel == info.value.enumerated.items)
-   577			return -EINVAL;
-   578	
-   579		for (i = 0; i < info.count; i++)
-   580			value.value.enumerated.item[i] = sel;
-   581	
-   582		return kctl->put(kctl, &value);
- > 583	}
-   584	
+  2560	
+  2561	static void airoha_pcs_an_restart(struct phylink_pcs *pcs)
+  2562	{
+  2563		struct airoha_pcs_priv *priv = phylink_pcs_to_airoha_pcs_port(pcs);
+  2564	
+  2565		switch (priv->interface) {
+  2566		case PHY_INTERFACE_MODE_SGMII:
+  2567		case PHY_INTERFACE_MODE_1000BASEX:
+  2568		case PHY_INTERFACE_MODE_2500BASEX:
+  2569			regmap_set_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2570					AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2571			udelay(3);
+  2572			regmap_clear_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2573					  AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2574			break;
+  2575		case PHY_INTERFACE_MODE_USXGMII:
+  2576			regmap_set_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2577					AIROHA_PCS_USXGMII_AN_RESTART);
+  2578			udelay(3);
+  2579			regmap_clear_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2580					  AIROHA_PCS_USXGMII_AN_RESTART);
+> 2581		default:
+  2582			return;
+  2583		}
+  2584	}
+  2585	
 
 --
 0-DAY CI Kernel Test Service
