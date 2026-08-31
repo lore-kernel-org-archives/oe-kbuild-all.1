@@ -1,83 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2F43C1D5E;
-	Mon, 31 Aug 2026 07:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF5D3905F4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 07:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788161127; cv=none; b=dbDc4G2iKHaaA0ityFqybgLGO7LF1eWABytNZ0W7UXrSDZdDwKb6fIqT+u7zOBE29DMpkv6C6Cbs1t4t0Ml4/u83rZsj8g5CFiRQzm7Gvi1xwxXaO1Y8BPuTwlt+6ET7WgXZUMT0+CCZiXcSiGfnGqbeYrPtbgzHJ1WjkMIl9dI=
+	t=1788161715; cv=none; b=J/P9WFkAABZUxoAMtD1i156IFCmTjl/Vi5Z2BIrlQfsU1rFNafXtOND3sLrMgbQmbvQD/T/0VWlsRHjzyp9Cp3PDPT85Kivdcd5KcGpX9vBgyxWMYUmM5uRWMpR3xmwxCpy2w3sKILcG1THnygQTbX1TBpcKD1VA1zEhJQ+SKmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788161127; c=relaxed/simple;
-	bh=aU9wpk7BBC3namw6KBpNc+rexGH13OF0twavOKJZTxw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Fj+SHrV4CMgGPW8UVUoqs6EFXiBUDgxiwWSMdY3EByMEPSmMs51WVpP8LPI/yhVxwmZ4Mffc8dGejY0VHpWHXHoEigJRhUiPAXUE12EErJ3dKOixiRyfF8DOUlZNR4uLMh3pBS8wF9+g9Qj+TuVADZfxuf3ALfLPgcZolsCJbag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lz3LYotG; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788161715; c=relaxed/simple;
+	bh=EEpMdvaSoRRNpzIw0uDeIf4lK9QMPRgw6IJLb2ROgLs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X6i0WgAS9oT+tR6SCcrEystASl4aORsuPGwqLDTSo4r+WNp0HarhnIs6xU+Wy3DGii4x/VJUQ8LC8G7a2u91Vo+Gvx5mki/+eHDHzLRBYuPb6W9W4EAiie2wGX186FPPC2oPb9hLfCRG+ZljjWdhPAdAGiBkaiwXTeHt7caCsjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=monstr.eu; spf=none smtp.mailfrom=monstr.eu; dkim=pass (2048-bit key) header.d=monstr-eu.20251104.gappssmtp.com header.i=@monstr-eu.20251104.gappssmtp.com header.b=yJ/zQwl2; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=monstr.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=monstr.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lz3LYotG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788161125; x=1819697125;
-  h=date:from:to:cc:subject:message-id;
-  bh=aU9wpk7BBC3namw6KBpNc+rexGH13OF0twavOKJZTxw=;
-  b=lz3LYotGafAEzKDPHcYAu4CAoNR67qB4GfMAEMB+n4fyepoVlg+A9YBk
-   5IVaCKxmQBsy9PMwBDwKxIzRozkskL66QvMeAM5hLz5hg2x16cR3JxJC1
-   stej/xp19JiD8pR0T+aAGV6QBqiSIw6wopgJkQ/jCmTqu2c1Tarq8xA3z
-   jMoOZl2nYP+kuoAKTkI2G/zKYZZaVMnKff9cgpm6qD1YLO54g2a9hWfT4
-   /Mm7P0IpwxunGhS0vw228kH4L6RwJgPA3mDx8J7hAWixXO3pkWgeH+SW4
-   mnlfWVdGfhd8EXn8NAtnAOM1wXdE1GH9v/4vPVoRMoMFDh6cVanUcMlD7
-   A==;
-X-CSE-ConnectionGUID: tl07QmhUQviwlCHYET17xQ==
-X-CSE-MsgGUID: KBo0Byw9R4GDc7IOn6Nqag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99160096"
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="99160096"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:25:25 -0700
-X-CSE-ConnectionGUID: v5jeEOsoRQqZ1a+RY03wzQ==
-X-CSE-MsgGUID: SjD4XI4fT02EfapYmC3kWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="272236697"
-Received: from igk-lkp-server01.igk.intel.com (HELO 32268bdb9915) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 31 Aug 2026 00:25:24 -0700
-Received: from kbuild by 32268bdb9915 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x0wOP-000000000R9-1PHt;
-	Mon, 31 Aug 2026 07:25:21 +0000
-Date: Mon, 31 Aug 2026 09:25:02 +0200
-From: kernel test robot <lkp@intel.com>
-To: Boqun Feng <boqun@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [boqun:irqflags 19/20] vmlinux.o: warning: objtool:
- rust_doctest_kernel_sync_lock_spinlock_rs_1+0x209:
- rust_helper_local_interrupt_enable() missing __noreturn in .c/.h or
- NORETURN() in noreturns.h
-Message-ID: <202608310937.YzeF5j5i-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=monstr-eu.20251104.gappssmtp.com header.i=@monstr-eu.20251104.gappssmtp.com header.b="yJ/zQwl2"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c1c26d7e951so547552566b.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 00:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=monstr-eu.20251104.gappssmtp.com; s=20251104; t=1788161709; x=1788766509; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BUJjc7NoHpI9mQtQ42R4ZIO0mKllq40nvRDUfnZeAwE=;
+        b=yJ/zQwl2CUyljd6S9CNwii8ZuwCHi4BvJyj9O/NQxMhmLiD0gwWLS1iyp1t4j94FFQ
+         Jxfc5uE303f1I/FPAqL+hL+kWt4oNJEipB1wfWTdcouctVXtqs/hkV1pwqjV6nH0D06p
+         BBFgMMf2O3Yl0AcIe3JjsmUSznjQ/HB7NUmq6hljxRE8mvmpe/zuuQuEOLLVdzxj8/Kl
+         +b+9htk8QUgw6JecSBPPoqubFmSlemTpZdbzJxv7qH5XYshpTtNtODgHbmXnGA37KEDU
+         +MbSmEfzJ6j2VW5N9+WSg+tmxs9yEErX3pwq1FT7tgdJF0ezsvzHj4bWnitJRK50Vvqe
+         vF1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788161709; x=1788766509;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BUJjc7NoHpI9mQtQ42R4ZIO0mKllq40nvRDUfnZeAwE=;
+        b=Ie3enEeXIqntpzOESgO+9WQ+XRkJkup8LNA1iNaWL2fez2lR/jGyCa1wRsCaP/tnt/
+         UO3BrhD3XAfejs0jIInUA70V8giWntdyjTde4l+S2kwe/6Ef0dT5pWeQmcPGIHNkLZAV
+         MKHO7Cbs063E0JRKnmLs2IPwW3yDEQ9n7tHBtjsbZ9l4+XRhDc7SuMlPHTT1HUYJFtvP
+         oJBHG5yEA+MIlI82mBs9FISsyR8YVfdh1XotawMmhTtQ0dvefwkl+6q4gxa5yRdMkVku
+         TzWTWKeKC81LL8rb0Sns4vkMK10awNZPCrTcAdw5Uyx49yJ0W+CnqIa6X4gMq22bnqxe
+         Uzdw==
+X-Forwarded-Encrypted: i=1; AKwUvBw3YAJl7eH73hSK1nWDpHpFMg+EghOJ63jvjpclaBP0+vL0TZFKA4zngHyv6OOin3YYan8zc3HnHCLu5s2F@lists.linux.dev
+X-Gm-Message-State: AFuF++kkyhaUSYsaAgUkGxUIdkOsjABisrJC6FIfYQHB050LX78xy0os
+	jJRnTezSAyrv1/Zk/9tkeOcyNKuB8N2XSQ65Qz30COzMmwQZgf9TsXdHAJyhV8UbZg==
+X-Gm-Gg: AYBFou0MKPz0tB47WAwjnvmR6w1iPhCaMVQtHd5tBfPas8CSI2PX6z4+6nMQB2G84Hi
+	dF2N/IjWOrOUeyDX74IWsKKIxBGji07wV7riL1bqwaTWGPPfZzHBaaR9WgD4Ol5YdL66WWZUlhs
+	racMYDGi3aa+UMPq/biBQta+7h/BLG3qYCU+G/iHuuXvluJEGvCKQ4xD4PwTjDcVrb3fxSXI9m8
+	nSWi+oBe/M3EFTn/YGlKp9jt2i+TGsAl6m7Z9QEEyJiw1+bBhvz74nRqqyrgN4ihFHwsVIEpgM+
+	Q9aUic2qUsRoBl/Wk2u4Pa8bq0RV4URB3/uSDbTQEn6B+i+RYDA4WV4eDniJF4Mh2qvR+T49hgy
+	B9NGnhrdw1lXmcavHhRd8Vyo2nPVlY4XAbDCwkqV5ToXiYmwEchN8l0ZEh9tNO76fLqngyTjwE0
+	NHfv6GyD9KPvl2hz2yvc76gpprtbzke807DFqT6jR+1GtEIq4KXwGcLUEc4brjk5Jf5Aq4+Vdh2
+	ZsjOB8ZTzz4pUkkB8CZlAXtacNJh+6douH3
+X-Received: by 2002:a17:907:960d:b0:c25:659:89ba with SMTP id a640c23a62f3a-c2556c4b566mr1404315366b.9.1788161708901;
+        Mon, 31 Aug 2026 00:35:08 -0700 (PDT)
+Received: from [192.168.0.105] (nat-108f.starnet.cz. [109.164.53.108])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c255ee2cc8asm404441566b.26.2026.08.31.00.35.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Aug 2026 00:35:08 -0700 (PDT)
+Message-ID: <ab3f14c3-8249-492a-b3d9-817504095610@monstr.eu>
+Date: Mon, 31 Aug 2026 09:35:07 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] microblaze: Fix MB_MANAGER build with older binutils
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Appana Durga Kedareswara rao <appana.durga.kedareswara.rao@amd.com>,
+ kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260813024026.5402-1-kmehltretter@gmail.com>
+Content-Language: en-US
+From: Michal Simek <monstr@monstr.eu>
+In-Reply-To: <20260813024026.5402-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git irqflags
-head:   d5c6783a39c9f3ae4513eb61038d5306e4ba5f5b
-commit: b12fc14f713d1916fc91d5c6bf49c98ab27c45cc [19/20] interrupt: Add {raw_}local_irq_resume()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260831/202608310937.YzeF5j5i-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608310937.YzeF5j5i-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608310937.YzeF5j5i-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+On 8/13/26 04:40, Karl Mehltretter wrote:
+> Commit 88707ebe77e2 ("microblaze: Add custom break vector handler for mb
+> manager") added the suspend mnemonic to the MB Manager break handler.
+> 
+> GNU as only learned this mnemonic in binutils 2.42. Linux supports
+> binutils 2.30, where enabling CONFIG_MB_MANAGER fails:
+> 
+>    arch/microblaze/kernel/entry.S:946: Error: unknown opcode "suspend"
+> 
+> The suspend mnemonic is an alias for mbar 24, and both encode as
+> 0xbb020004. Use the underlying instruction, which GNU as 2.30 already
+> supports.
+> 
+> Fixes: 88707ebe77e2 ("microblaze: Add custom break vector handler for mb manager")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202310310151.UhB396Qs-lkp@intel.com/
+> Suggested-by: Michal Simek <monstr@monstr.eu>
+> Cc: stable@vger.kernel.org
+> Assisted-by: Codex:gpt-5.6-sol
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> ---
+>   arch/microblaze/kernel/entry.S | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/microblaze/kernel/entry.S b/arch/microblaze/kernel/entry.S
+> index 582d7256d8154..ad44341a5dbc7 100644
+> --- a/arch/microblaze/kernel/entry.S
+> +++ b/arch/microblaze/kernel/entry.S
+> @@ -943,7 +943,7 @@ ret_from_break:
+>   	mbar	1
+>   	mbar	2
+>   	bri	4
+> -	suspend
+> +	mbar	24 /* suspend */
+>   	nop
+>   #endif
+>   
 
->> vmlinux.o: warning: objtool: rust_doctest_kernel_sync_lock_spinlock_rs_1+0x209: rust_helper_local_interrupt_enable() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+Applied.
+M
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+Michal Simek, Ing. (M.Eng), OpenPGP -> KeyID: FE3D1F91
+w: www.monstr.eu p: +42-0-721842854
+Maintainer of Linux kernel - Xilinx Microblaze
+Maintainer of Linux kernel - Xilinx Zynq ARM and ZynqMP/Versal ARM64 SoCs
+U-Boot custodian - Xilinx Microblaze/Zynq/ZynqMP/Versal/Versal NET SoCs
+TF-A maintainer - Xilinx ZynqMP/Versal/Versal NET SoCs
+
