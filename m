@@ -1,115 +1,115 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9006352016
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 04:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788152321; cv=pass; b=BDMe8IINZ+U4kZqPLYNY9brySL1oftUcHpIsa5ZZGQhLfIagF9H8zbeZR5H0uQEITWhbDYMG0VMly+3SEBVj/4eQyXUvdGkD25YvB9plnsuQ/ST+R+oolpB8l8Eo8xeqSS+zJAI3k2S5j2TxIm0qm79znegk+JDOh00nuzJjoow=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788152321; c=relaxed/simple;
-	bh=3C2R6LYfOqhNQ/EJlkOC9oZNoMcVsUhyHH1uvi7df04=;
-	h=From:MIME-Version:In-Reply-To:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UTQ6hoYl+CX1wgk6G/iFqqSNFxZcuhn7BHt/KDXK1GUW8YjEpdX46xlOeGpDX4GA/598JFwS3sMHYBBVBthjI6jhjjKHFMlWxE2dL6ewyJhTinrrtF1FvptueiXH/7AeIFoF5lRnplFLpBP3DpWTP7loFz+AKt2vTph7b1hYxz0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qHMX3Uji; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514643ACA7C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 05:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788155663; cv=none; b=iHqNt+hnPs3Cy/lbAWiwll5ph5SuuXQ30tsnNspQQ0gyCSQiyibAY2/VGYnZxC4RyV4ZOQwI5vuRfk89nIbS05E+xnP0IZabPFLQY6+UITYRHjYKNP3eXFmAtIyfMNapiu0JJL61R6UazvSheHFBp+Vjd0dyXbS+NG3cfRuwNes=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788155663; c=relaxed/simple;
+	bh=iRiUwRkzGbldLyGZMvKE8rjALb9rdJTacl4wKghteIM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sONhpwJ1VUjNJj0+RRhLZsVmqmI6Qpssyq9uCBSW3+2S4ZtKkojr6hcRA2ADq4160khbqgx8WshjBu5JEujsXm2QYnr3ZAZ+M+DKRZqxXxNqOGbDNzP6R6E6xfOSIjSRG5zR7ocaHELiBcfTlUT3aPz6XUOH5DlWIEFKUHoILug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kv1FE5/J; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qHMX3Uji"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a156627e22so7353363a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 21:58:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788152318; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ab5/wpnKULnorS2Udr/cTtcgtG5op3DHT9iclG80OBEwM6bSqYs8mXlOcfOHtkXJMI
-         1/9kc563cHM609GAu9gYgJN9Hy1fLHldzvLziYEdjQdJ8bcXL7Ls+SefiSjlNnEt8P1b
-         H48z2HiH+W0e102LBbDU2qt0vvKNVEp5Pd/fwGipVta56pslPmGaot6ZTxEHXav6942I
-         econro2NglO2AferXonsYlgX7itBIGXhFitfxAIFKUHU79bFVIoTkqMLQC5HwBrxGlSL
-         GHTn4Ix5o0ty+NJHgpL6B5BAq0xZJi2ojZMlLMGYey0ppVwSWXQNErnCr6SGe49gnurj
-         /HTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:references:in-reply-to:mime-version
-         :from:dkim-signature;
-        bh=3C2R6LYfOqhNQ/EJlkOC9oZNoMcVsUhyHH1uvi7df04=;
-        fh=9Qzo/MmqeGHXLBQLInXZjJ+TJR2VLfVDsWEBtmMVJwE=;
-        b=khzQwteaHBXFscHpnYeXxMVmQ6DkzX1M5j3jk/cnykNnPIxiErrc24Jz3liW7me85C
-         DSwkKC9Eh9yr6fxU+VmWxPnUJP/6VJNLoA4B0Tkv7H/sFXuETb0nxgxsmgdZKYok6JI2
-         JnfgDIhvblv4PoTgiew+smz/WtXdD29zS5cmPRPI9O87po7+Zcvh7tl3KaFXp/IRJK+P
-         uRT63xGIg4WvVf4bc7XyZiIyGxJHZe3YPBft1DJQMiOxwYV3VtuOfkYB6VYQ99lSJNFU
-         HDL9EbTOpoW+iwZ0ySk2kqfVJVS9CH35Owpplifd9PxJnfdIWrPApZeYxI866WZC/FOq
-         7vog==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788152318; x=1788757118; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
-         :mime-version:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3C2R6LYfOqhNQ/EJlkOC9oZNoMcVsUhyHH1uvi7df04=;
-        b=qHMX3UjizaxiB5CphrVE9tZ3LTu0Cc4ZYq/twiKuL9+OA8AL3HkqGJH+rTD39nO5iE
-         xFK6Jd84BoKmPXI2xCl3sfwH411gGNVAoEDOo5bUpVLZQwpxnw+OW8TMAKT1jN2yeSWa
-         6/Y3frQ1ack1j+BkEdPC5idnu51tMIcivTrVSztdJqQC8z9CxOc1p15+M2684oEz4obl
-         RH08UG9T0/0IHHTVcELpgeOdQ/JzSrWjP9iEXUguhSNn/3IHeH9aAHORtGaq17ESUTLp
-         gz4VX/GPzaWVuCztCGI5wrh6d0uk60xWLUyP+WIF4ir3C8we/ug5w4wrFdEBhb4OVhYS
-         rPSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788152318; x=1788757118;
-        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
-         :mime-version:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3C2R6LYfOqhNQ/EJlkOC9oZNoMcVsUhyHH1uvi7df04=;
-        b=Z4K378uLJHNvVL2SANJIg+UEZ7/uqUCs04imwp9L45NsgqxHqws+shCrHSMWZbPvOZ
-         oGMZH2NnVll5uOs1livnANA0l0CdGhxpfUyvtBOgcZoR113R/y4XXTjKB3aTKxbmCw8D
-         wTYMTa06emChD7weIfLqhBdyo/+R1sYspMAJ0i8Js16/qfi1ZanSniIykPMIUldNToYR
-         H4B1ETPc+5qpug/U4Zm8b9NEgoOE/tPdoSY1zcMF/AXdor+lqvDam2xCGV237srbHH47
-         b/AuZ7+baaDseNQFUrxts75O6sp4kVziocPjlWOGQX8NuoXPAV1DCyoTT0M03OI0+zc4
-         vB2w==
-X-Gm-Message-State: AFuF++m2ptPoMIleeBcYOp2+a+XN6W7/ceykjQ8Ef2aI/4bWBS1FAT8t
-	DtE31x+H0+GD7QM/cebNC4QgMNpdrA2Ut0bf8NJPtbzZk8df3fzfPz1YaiPZFrLZzqmgN2yysUZ
-	VLScOc6rQTH1xpUbAQowwXasrDy5YAqe+W2xa
-X-Gm-Gg: AYBFou12tyO8V2r53sJx4+h32wysqLA+QcnBEHqVSKIT4eK110bKXL5q/skGFXVZvbc
-	4aWqAAIIrW4KBIfcbmJ5KnuoDVfJ23a+tUSzU616QvzV4Rsn3NR5v8/tRTjWOq2Zakde7I4Mi2E
-	CSW0czA8lFABS+RDIK92WHy9+iT02YlrS6uRbRxAhEXLghqVnYox3yWQzHg2gbZkig4UqmPKJyH
-	JePVtg/DS0wx/4vywJzzZMr7pOXscGIAh9+F25mOF4rgYMehmy5frxXWlaRAvCXvw8OlNdC3Tin
-	LJcLUN5R7hHkCh3ni6Q49yCSltOqWcYnp14B2fOlSn6jLy8E0++JbEhUxYQThFbqVc/lmBDHZgv
-	1daE=
-X-Received: by 2002:aa7:d7ce:0:b0:6a5:d284:1134 with SMTP id
- 4fb4d7f45d1cf-6a6476996b7mr2292703a12.2.1788152317739; Sun, 30 Aug 2026
- 21:58:37 -0700 (PDT)
-Received: from 637551599889 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 31 Aug 2026 06:58:37 +0200
-Received: from 637551599889 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 31 Aug 2026 06:58:37 +0200
-From: Xinping Zhang <zhangxp1998@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kv1FE5/J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788155661; x=1819691661;
+  h=date:from:to:cc:subject:message-id;
+  bh=iRiUwRkzGbldLyGZMvKE8rjALb9rdJTacl4wKghteIM=;
+  b=Kv1FE5/JbZ10exHeyWNd2ah8dsHlAOXqkxZGCkNqrJCuXJtr13qM5MDg
+   MmPx23eOrZlHNshQ7on95X1R0E08JJLgJb8d/RAPoDM2Sq917WX+LFzd8
+   sf+mDelGxT2HKRzGTHQHp8Ro7S6/d8EfTD3EFngZb6pqS2BaXFH6KaobD
+   76XwCIsDdAMr51dJkI42DGzPjoqtuXhfcOigf7kn7hnTeEgEdKr03HNSr
+   vTh+9zg4/CvyPBEiU9sbAGUuLIt5iLYsobTPf4ITwLp8uNH2anox4F7Aw
+   JaplwQ4K50yEnVFWTku60rZ9ET98dRk+QxDZ79L4tPSXjXcJxocpmRpn8
+   w==;
+X-CSE-ConnectionGUID: jXluCe3wSWetpKp8fepRxg==
+X-CSE-MsgGUID: Mcj8xhJpSIu89XzmiKzTrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="91064886"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="91064886"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 22:54:21 -0700
+X-CSE-ConnectionGUID: sxtO8BgBTGqc/J0E/txlTw==
+X-CSE-MsgGUID: jS2QRavMQ8aIKcBtGk4h6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="292199363"
+Received: from igk-lkp-server01.igk.intel.com (HELO 32268bdb9915) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 30 Aug 2026 22:54:19 -0700
+Received: from kbuild by 32268bdb9915 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x0uyH-000000000PX-1yhZ;
+	Mon, 31 Aug 2026 05:54:17 +0000
+Date: Mon, 31 Aug 2026 07:53:23 +0200
+From: kernel test robot <lkp@intel.com>
+To: Nikolay Kulikov <nikolayof23@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c:528:30:
+ warning: variable 'phal' set but not used
+Message-ID: <202608310749.mheatdIW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <202608310236.uXxkLfk8-lkp@intel.com>
-References: <202608310236.uXxkLfk8-lkp@intel.com>
-Date: Mon, 31 Aug 2026 06:58:37 +0200
-X-Gm-Features: AcwNN1WhPUL0nna4HS2-tIwZcGrn6eOTTd0JwNrL8x0g0DiDTpjDhdmnzulN3_o
-Message-ID: <CAH=xXfEXaY8vaW=002+hu03aYCgx3KEADeek6i8yNqHEgRo5rQ@mail.gmail.com>
-Subject: Re: [chao:feature/kelvin_subpage 21/22] WARNING: modpost: vmlinux:
- section mismatch in reference: filemap_unaccount_folio+0x338 (section:
- .text.filemap_unaccount_folio) -> task_iter_init (section: .init.text)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 
-Thanks for the report.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cee9395acd8043be0644b25c34bfa86623f2b935
+commit: e9b50a2821bbfb5395cc2b9f90e2af45a3137f19 staging: rtl8723bs: remove unused spinlock 'SdioTxFIFOFreePageLock'
+date:   5 weeks ago
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260831/202608310749.mheatdIW-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608310749.mheatdIW-lkp@intel.com/reproduce)
 
-I checked this warning and believe it is unrelated to the F2FS change.
-The patch only modifies fs/f2fs/data.c, fs/f2fs/file.c, and
-fs/f2fs/super.c, with no section annotations, while the report shows
-the same unexpected references to task_iter_init across MM, ext4,
-btrfs, jfs, DRM, and other unrelated code. It also contains __ex_table
-references to .debug_str.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: e9b50a2821bb ("staging: rtl8723bs: remove unused spinlock 'SdioTxFIFOFreePageLock'")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608310749.mheatdIW-lkp@intel.com/
 
-This looks like a MIPS clang-24/modpost relocation or debug-info issue
-rather than an F2FS regression. Could you please retest it? I did not
-make an F2FS code change for this report.
+All warnings (new ones prefixed by >>):
 
-Thanks,
-Kelvin
+   drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c: In function 'rtl8723bs_init_xmit_priv':
+>> drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c:528:30: warning: variable 'phal' set but not used [-Wunused-but-set-variable=]
+     528 |         struct hal_com_data *phal;
+         |                              ^~~~
+
+
+vim +/phal +528 drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+
+554c0a3abf216c Hans de Goede 2017-03-29  518  
+554c0a3abf216c Hans de Goede 2017-03-29  519  /*
+554c0a3abf216c Hans de Goede 2017-03-29  520   * Return
+554c0a3abf216c Hans de Goede 2017-03-29  521   *_SUCCESS	start thread ok
+554c0a3abf216c Hans de Goede 2017-03-29  522   *_FAIL		start thread fail
+554c0a3abf216c Hans de Goede 2017-03-29  523   *
+554c0a3abf216c Hans de Goede 2017-03-29  524   */
+554c0a3abf216c Hans de Goede 2017-03-29  525  s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
+554c0a3abf216c Hans de Goede 2017-03-29  526  {
+554c0a3abf216c Hans de Goede 2017-03-29  527  	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
+554c0a3abf216c Hans de Goede 2017-03-29 @528  	struct hal_com_data *phal;
+554c0a3abf216c Hans de Goede 2017-03-29  529  
+554c0a3abf216c Hans de Goede 2017-03-29  530  	phal = GET_HAL_DATA(padapter);
+554c0a3abf216c Hans de Goede 2017-03-29  531  
+09a8ea34cf431b Arnd Bergmann 2018-12-10  532  	init_completion(&xmitpriv->SdioXmitStart);
+09a8ea34cf431b Arnd Bergmann 2018-12-10  533  	init_completion(&xmitpriv->SdioXmitTerminate);
+554c0a3abf216c Hans de Goede 2017-03-29  534  
+554c0a3abf216c Hans de Goede 2017-03-29  535  	return _SUCCESS;
+554c0a3abf216c Hans de Goede 2017-03-29  536  }
+554c0a3abf216c Hans de Goede 2017-03-29  537  
+
+:::::: The code at line 528 was first introduced by commit
+:::::: 554c0a3abf216c991c5ebddcdb2c08689ecd290b staging: Add rtl8723bs sdio wifi driver
+
+:::::: TO: Hans de Goede <hdegoede@redhat.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
