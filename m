@@ -1,103 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5BC3DB62A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 08:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCDC3E5A2C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 08:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788164785; cv=none; b=QugG1ET+5PLbkHzcdIHyEJiygsl/4N1JqoHDjXDkQm+BAJnddOLt1IudB7q4wl6ebfao1vKs7BxFdq/n8YJfC2AIgPLkt8jOigk8IEIT+bP6T95726jYj16qvkpbYuBnYURQDuwNj2RFbL7w/pHn7MpzBnx6fFhLjkxxYrub2Ug=
+	t=1788164787; cv=none; b=kXMYehDRkUx4+Gl85C1+DT+ijEB/ve3esi/Fy6gr+5P1ca/yh9o7eNrVJm5XxeGl6bcF9RbCyoxBsotK24EGIWQAZy+dPpPCXw3kqTqG5SZEDBNUtsEqL0k9dAqgQtvh+0Z5qWfE8QAzx+R4g4OMVqxWoSF1I2gfQU6F+RKC11o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788164785; c=relaxed/simple;
-	bh=Wl239s/AM/Sr8vhO/IDHQFgREfJt5DhgmCR6RGQN63k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFXOlGOcPuXO+8ZN77LuIh3t5/9ezjUlduh9Elgve3/NucUoZTqDzIunQpdpF0zHKd7wIhuKPD3tMaHJLcyzU+UT6ddbFW9RQ99mJW5HYol4U+ZmFldHwS7/js99RH3rUnJrI3AG4Ce2V3vuH1FRCe9IjXJQpKxL62Ya2zasZB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLgxwk8I; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1788164787; c=relaxed/simple;
+	bh=0nFR0IxnfRW1OFta78r40wXKaZnNzueer9b6dTa7sG0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EsrVkX80nEmpqXby68cIQHbwtzVOuI9i52EdMAdZwOVcUOTm9qaOA2egv/f5Jj3tR/hB5B9NYyQjuaAT4d+cndI0uuKMegmpfKe4pSCdMFHZvWD1Q2iLv4luzzNrFQHpUCUJoc6OQsRA2JzamDG0p/z3vExmLbT2+rOCMNiex/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MIJw3iV2; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLgxwk8I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIJw3iV2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788164784; x=1819700784;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wl239s/AM/Sr8vhO/IDHQFgREfJt5DhgmCR6RGQN63k=;
-  b=mLgxwk8IYi1ZqW7PdzqCZk40FtKx6ctTpptaAlKInE9+7BcdI01mesjV
-   tZNGJUTogEaRTTEHuhnFP5qg1RQlFt4e6OyPg3r6tcCJilxR9X3FwnJ6i
-   mRXaej080H6dUIdhRyan31s2njgtUx9Q7PjlBfBxQx5kfXru2bdxsmnIF
-   HLvCJ0vVKR/ARUQCTXlgvH/+8zDvXOVEi27QKC7hIwirkrWZvlr/0LnnO
-   ngeM9HIq3BPlUvTTibbQ6f9tNeq87mU3Tcb0L1sShro3hZCMFG2D8xbPS
-   7pC2UZHuvwSNkAaY/tvGV9UI0qTzoq22FAJshKUj65nZdvl18IlxEgBgW
-   g==;
-X-CSE-ConnectionGUID: uLNxf4XZSpepYHUvMZQAmg==
-X-CSE-MsgGUID: oCHL3QuQToC6BzmY5cowEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99916923"
+  t=1788164786; x=1819700786;
+  h=date:from:to:cc:subject:message-id;
+  bh=0nFR0IxnfRW1OFta78r40wXKaZnNzueer9b6dTa7sG0=;
+  b=MIJw3iV2+MZVIMC00FzX/Ce95yMLuicZoEIG5hXs40X3K4nIGFC3Akbl
+   uVLMBJANu+/s7fBCD85lVojlFurQxlYaHGJycn9+XNZQF5cpUJhJdm5NM
+   nvd71IGkl/3mgRT1Q2rrPblE8pH51WCy2Zkk9do1GxDyXBt/XGzJbDn7s
+   CBsyl0thDg1hpuIFCxAMZMlP3eE2hPbR+m5YBASKz8Mjz6scTuwrHE0XT
+   O76wSynNdu/eUg+VCG5jC30BUqlh4Tued3zrk0FYa/x1eIshjTgy6/l/l
+   S+WdXe0wDeUCtXnEENaE8bk5hvc4TE7OsCtNf5otlcDb2WTutjgNR+zzw
+   Q==;
+X-CSE-ConnectionGUID: 7cYe0CBGR+yM5H8ZwHn4xQ==
+X-CSE-MsgGUID: LkHXDT42RjS2ug7TSgLc+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99227262"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="99916923"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 01:26:21 -0700
-X-CSE-ConnectionGUID: PpWLn4f2Q86PSomyiiInEA==
-X-CSE-MsgGUID: HPMMGgMETXmDjjzTVFde2g==
+   d="scan'208";a="99227262"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 01:26:20 -0700
+X-CSE-ConnectionGUID: mZlSBCV7QmqyxuT1GEm32A==
+X-CSE-MsgGUID: Pasp0UjHQACuaBwfIUGcnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="262606057"
+   d="scan'208";a="268177985"
 Received: from lkp-server01.sh.intel.com (HELO 78edef60ff5d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Aug 2026 01:26:19 -0700
+  by orviesa008.jf.intel.com with ESMTP; 31 Aug 2026 01:26:20 -0700
 Received: from kbuild by 78edef60ff5d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x0xLM-000000000A3-4BVd;
-	Mon, 31 Aug 2026 08:26:16 +0000
-Date: Mon, 31 Aug 2026 16:25:23 +0800
+	id 1x0xLN-000000000A7-0Fl2;
+	Mon, 31 Aug 2026 08:26:17 +0000
+Date: Mon, 31 Aug 2026 16:25:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tate Whiteberg <whiteberg@arista.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Tate Whiteberg <whiteberg@arista.com>,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH] serial: 8250_mid: wait for LSR tx empty before setting
- termios
-Message-ID: <202608311414.nybi87OD-lkp@intel.com>
-References: <20260828144617.1210599-2-whiteberg@arista.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.2-rc 213/213]
+ utils/firmware/airoha/EthMD32.DSP.bin: warning: ignored by one of the
+ .gitignore files
+Message-ID: <202608311316.Jjc3vIBC-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260828144617.1210599-2-whiteberg@arista.com>
 
-Hi Tate,
+Hi Frank,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master next-20260828]
-[cannot apply to v7.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tate-Whiteberg/serial-8250_mid-wait-for-LSR-tx-empty-before-setting-termios/20260828-144517
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20260828144617.1210599-2-whiteberg%40arista.com
-patch subject: [PATCH] serial: 8250_mid: wait for LSR tx empty before setting termios
-config: alpha-randconfig-r073-20260829 (https://download.01.org/0day-ci/archive/20260831/202608311414.nybi87OD-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
+head:   8f1ae3a99f8f4bbde9c6a17df87b4585fc4eb674
+commit: b4f36e791b05f368a838ea83b520a8d881bc6b63 [213/213] firmware: add r3mini phy firmware
+config: x86_64-randconfig-r073-20260831 (https://download.01.org/0day-ci/archive/20260831/202608311316.Jjc3vIBC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608311414.nybi87OD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608311316.Jjc3vIBC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608311414.nybi87OD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608311316.Jjc3vIBC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: 'saved_config' is COMMON symbol
->> WARNING: modpost: drivers/tty/serial/8250/8250_mid.ko: module uses symbol 'serial8250_wait_for_xmitr' from namespace 'SERIAL_8250', but does not import it.
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+>> utils/firmware/airoha/EthMD32.DSP.bin: warning: ignored by one of the .gitignore files
+>> utils/firmware/airoha/EthMD32.dm.bin: warning: ignored by one of the .gitignore files
 
 --
 0-DAY CI Kernel Test Service
