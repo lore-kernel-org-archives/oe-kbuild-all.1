@@ -1,84 +1,84 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FABD3C1D40
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 04:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9006352016
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 04:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788152315; cv=pass; b=V2ICw7DqaydqkhS69JyTHxS3GuGizxxMaZu+G1tSuLfQqpi5gKGP5KsSpRvxeGjmGyMCJxQZvxYhnlb22HyLsA3PSO/3rEjRQzcg8BMfWrcZZWT5rCjQPt0OU9v0ZPwLnF5vRKH4QZikhdEv2lAiL04Uh62ag0AyGQm55XfHjxg=
+	t=1788152321; cv=pass; b=BDMe8IINZ+U4kZqPLYNY9brySL1oftUcHpIsa5ZZGQhLfIagF9H8zbeZR5H0uQEITWhbDYMG0VMly+3SEBVj/4eQyXUvdGkD25YvB9plnsuQ/ST+R+oolpB8l8Eo8xeqSS+zJAI3k2S5j2TxIm0qm79znegk+JDOh00nuzJjoow=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788152315; c=relaxed/simple;
-	bh=lP9YWmhzl9FoqeWkat1iqsAoNJUyExdIVjFsoX3A0Ag=;
+	s=arc-20240116; t=1788152321; c=relaxed/simple;
+	bh=3C2R6LYfOqhNQ/EJlkOC9oZNoMcVsUhyHH1uvi7df04=;
 	h=From:MIME-Version:In-Reply-To:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A42L+VWqnbZBsZl/TUB2L9/O+ktQfPyiiL7K8XqzKPOId/qlA5F4r9D3bMvGqtNCKVuYF6WSFLmdVz7O/QRkLxDqm0PPoSIaG3rWFCMdyEVHn7uxtlF3aqJ1gvJ+KwgVRVJdfrNiJopURVvrZcRZVke2sDZ2g4zDYzB7IcYSCp0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EDAEThdt; arc=pass smtp.client-ip=209.85.208.50
+	 To:Cc:Content-Type; b=UTQ6hoYl+CX1wgk6G/iFqqSNFxZcuhn7BHt/KDXK1GUW8YjEpdX46xlOeGpDX4GA/598JFwS3sMHYBBVBthjI6jhjjKHFMlWxE2dL6ewyJhTinrrtF1FvptueiXH/7AeIFoF5lRnplFLpBP3DpWTP7loFz+AKt2vTph7b1hYxz0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qHMX3Uji; arc=pass smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EDAEThdt"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a0c8283146so4676783a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 21:58:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788152313; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qHMX3Uji"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a156627e22so7353363a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 21:58:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788152318; cv=none;
         d=google.com; s=arc-20260327;
-        b=m3WWhs8v9K72r+MNmpcqNG1ljOdNgXFDRPtlD4xwnagIQ7fOL4IEFUx0fKaoLzcZVc
-         Ly1ro9ptNgW4X6Pm9ASMpHTyfz9JSyvOI4cy3H+cE60QBl9obYcAq+R6SAKm1p3J9exl
-         XgS3kReRtT0M59ubK2e0IcYoyfZ3hPfB4bOKW/Vb8i6UeXyLKxVkkcqnZaoK4swxk5Q4
-         0Yx8jqhoC23KNGWhS5HyvxF+KpuxdEMJAjFeXSrR8uXqFQbJO++MTWC0UmR64n5Ij4M7
-         Wad/AUgrV6nBUWKS8YWJuinUhj9ssl5m3K49DFg6zSPoEyRl+J7tgo7veubHJSiR3zli
-         goDQ==
+        b=Ab5/wpnKULnorS2Udr/cTtcgtG5op3DHT9iclG80OBEwM6bSqYs8mXlOcfOHtkXJMI
+         1/9kc563cHM609GAu9gYgJN9Hy1fLHldzvLziYEdjQdJ8bcXL7Ls+SefiSjlNnEt8P1b
+         H48z2HiH+W0e102LBbDU2qt0vvKNVEp5Pd/fwGipVta56pslPmGaot6ZTxEHXav6942I
+         econro2NglO2AferXonsYlgX7itBIGXhFitfxAIFKUHU79bFVIoTkqMLQC5HwBrxGlSL
+         GHTn4Ix5o0ty+NJHgpL6B5BAq0xZJi2ojZMlLMGYey0ppVwSWXQNErnCr6SGe49gnurj
+         /HTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:references:in-reply-to:mime-version
          :from:dkim-signature;
-        bh=lP9YWmhzl9FoqeWkat1iqsAoNJUyExdIVjFsoX3A0Ag=;
+        bh=3C2R6LYfOqhNQ/EJlkOC9oZNoMcVsUhyHH1uvi7df04=;
         fh=9Qzo/MmqeGHXLBQLInXZjJ+TJR2VLfVDsWEBtmMVJwE=;
-        b=J146yh9G303meYoCCGJukU8opLb/ytC5eSyjEX91wbZtz0bdDqgCiU4BAJ/nRosM0H
-         H4sD2DVDUIaibdd2l9qI7dYZJQ9+K5VTnHPhyFGBMRExnwJAi5bZrBNzvFRjp8oC6Znk
-         VXAdxsKaLMuFfue7yTtJu5xLIgTCcs+Az4tTBjKgsXrspB3DLgm/hzMuxfiBCiw3JvdJ
-         EJ7rY0LuO1cQv0dzYaZJIvjZ2P2X2P+uWiAkh2XGCNjoUUVJtQHX7nSto0MNtLjMNr9w
-         yOowOwJ8b+MOvU7Qbcnl8pGLmxMqP7LKicKl/bUEWS5/hvtv+e3tlV7WeWQq2+tuOBQr
-         9oBw==;
+        b=khzQwteaHBXFscHpnYeXxMVmQ6DkzX1M5j3jk/cnykNnPIxiErrc24Jz3liW7me85C
+         DSwkKC9Eh9yr6fxU+VmWxPnUJP/6VJNLoA4B0Tkv7H/sFXuETb0nxgxsmgdZKYok6JI2
+         JnfgDIhvblv4PoTgiew+smz/WtXdD29zS5cmPRPI9O87po7+Zcvh7tl3KaFXp/IRJK+P
+         uRT63xGIg4WvVf4bc7XyZiIyGxJHZe3YPBft1DJQMiOxwYV3VtuOfkYB6VYQ99lSJNFU
+         HDL9EbTOpoW+iwZ0ySk2kqfVJVS9CH35Owpplifd9PxJnfdIWrPApZeYxI866WZC/FOq
+         7vog==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788152313; x=1788757113; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788152318; x=1788757118; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:references:in-reply-to
          :mime-version:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lP9YWmhzl9FoqeWkat1iqsAoNJUyExdIVjFsoX3A0Ag=;
-        b=EDAEThdt6iU8SC2C896AGc6rMb8Je49FnjrqaxWqBuBJ//UtS7kVslySz4GRjOs0+2
-         IuqqZ620fiafIgeqo8MFRlu69SLqFx7FPmAto86ukqw3fIAJBiUpOcprGeLDcz+r52fm
-         QXx8fj9HX/8j4zBg8W5pZZUv2mwTYMsx6QG8dcsqxh/UcmeQX21qi13r8m8HkKM/ZCDk
-         f7qoVzT3vmZGoEcXqEPOORzU8A2udCEuRHZk2yWZFvuM9I02Rfx5icfF9ZqXp/462m94
-         Y/1L/5DjL/X1X6XZ0EpFdFlEX+KKSKgAvv87CddTUcUMzQCeYD9HFk8viyQVi6qAMET+
-         J0lg==
+        bh=3C2R6LYfOqhNQ/EJlkOC9oZNoMcVsUhyHH1uvi7df04=;
+        b=qHMX3UjizaxiB5CphrVE9tZ3LTu0Cc4ZYq/twiKuL9+OA8AL3HkqGJH+rTD39nO5iE
+         xFK6Jd84BoKmPXI2xCl3sfwH411gGNVAoEDOo5bUpVLZQwpxnw+OW8TMAKT1jN2yeSWa
+         6/Y3frQ1ack1j+BkEdPC5idnu51tMIcivTrVSztdJqQC8z9CxOc1p15+M2684oEz4obl
+         RH08UG9T0/0IHHTVcELpgeOdQ/JzSrWjP9iEXUguhSNn/3IHeH9aAHORtGaq17ESUTLp
+         gz4VX/GPzaWVuCztCGI5wrh6d0uk60xWLUyP+WIF4ir3C8we/ug5w4wrFdEBhb4OVhYS
+         rPSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788152313; x=1788757113;
+        d=1e100.net; s=20251104; t=1788152318; x=1788757118;
         h=content-type:cc:to:subject:message-id:date:references:in-reply-to
          :mime-version:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=lP9YWmhzl9FoqeWkat1iqsAoNJUyExdIVjFsoX3A0Ag=;
-        b=WeIwwBLj39eFyq3dcg8CLIkjq9EOHS/eoUknsDfidiqrIndLHQ/2KXNfg9a9JH+dGD
-         mSX6F/8ZKLrYadajzzT1ezxF4+NjcXOn0E22PusmMI0StZs6OeNzodnM38BgbOYXdAKu
-         bDvQv613fBN3XhMk45MIg33aEAmLsaN9BGTZnUTYfIZeIgI+tNf7zgEJH1U5TCMD6aTy
-         hW0YsNbvJIJMGoagAKsflsCNbZnQEF2v/AUNRXoXil7LPtrc1+gg2M6eF1r/0AsWgPz0
-         CQnTX3Sj8VGt+mbg0Hsfue35uUbT3IWkOpl7uOT1HRbXkJDPJ6fZZs1wLbdAuJsQl0El
-         bMUw==
-X-Gm-Message-State: AFuF++nkPhSmyrwo9Voor5wTtbEg6mlKd+Pmvx3jBsBWtwWrVTKpHLWF
-	VBYZ/MYVhX97dUMAJ9tpJAf7uH+9rVcIPUyvRIZbL67YSvuPo14kw/ZiDIqPBDPKEEPWocI49yL
-	UYTQWaQDhoVzAzPjpUfX+EVdy3MgYxGI=
-X-Gm-Gg: AYBFou2oy9eLBYiZE9AHlYcAmuMdpUGOoko1l2+3x/yvhNSHcYBadkdmeOxf9e7/Gdy
-	8LdByfjcQsAPqS2fraYw5RysUk53RUFOcZDMLqwfL1UFn1ExJhxFBiIQy4vQgKB4SLhfYgufspF
-	nDq7I3jD5opde7rc+jUY7MfWjmb/yxttCgrxPY/LEQodUuZZSag/rluh2tDmMMBf5PjWt4ypM44
-	mJBTk4KyA7qXMAqpp5ciXxaIG1XPYAZJN8USU73r1TrGiW6S0Yhl4D+ORNkT+CpKtn+uPliYFOM
-	1wTNY01sXIzwq91zype8bXtIYwTLnpL/R9XhmB+rdUSIN+FJJjr9c0WqrEHR9h1FP464FLwB7zw
-	kfV4=
-X-Received: by 2002:a05:6402:44d7:b0:6a6:4c0:9623 with SMTP id
- 4fb4d7f45d1cf-6a60d3b86f6mr11492245a12.15.1788152312725; Sun, 30 Aug 2026
- 21:58:32 -0700 (PDT)
+        bh=3C2R6LYfOqhNQ/EJlkOC9oZNoMcVsUhyHH1uvi7df04=;
+        b=Z4K378uLJHNvVL2SANJIg+UEZ7/uqUCs04imwp9L45NsgqxHqws+shCrHSMWZbPvOZ
+         oGMZH2NnVll5uOs1livnANA0l0CdGhxpfUyvtBOgcZoR113R/y4XXTjKB3aTKxbmCw8D
+         wTYMTa06emChD7weIfLqhBdyo/+R1sYspMAJ0i8Js16/qfi1ZanSniIykPMIUldNToYR
+         H4B1ETPc+5qpug/U4Zm8b9NEgoOE/tPdoSY1zcMF/AXdor+lqvDam2xCGV237srbHH47
+         b/AuZ7+baaDseNQFUrxts75O6sp4kVziocPjlWOGQX8NuoXPAV1DCyoTT0M03OI0+zc4
+         vB2w==
+X-Gm-Message-State: AFuF++m2ptPoMIleeBcYOp2+a+XN6W7/ceykjQ8Ef2aI/4bWBS1FAT8t
+	DtE31x+H0+GD7QM/cebNC4QgMNpdrA2Ut0bf8NJPtbzZk8df3fzfPz1YaiPZFrLZzqmgN2yysUZ
+	VLScOc6rQTH1xpUbAQowwXasrDy5YAqe+W2xa
+X-Gm-Gg: AYBFou12tyO8V2r53sJx4+h32wysqLA+QcnBEHqVSKIT4eK110bKXL5q/skGFXVZvbc
+	4aWqAAIIrW4KBIfcbmJ5KnuoDVfJ23a+tUSzU616QvzV4Rsn3NR5v8/tRTjWOq2Zakde7I4Mi2E
+	CSW0czA8lFABS+RDIK92WHy9+iT02YlrS6uRbRxAhEXLghqVnYox3yWQzHg2gbZkig4UqmPKJyH
+	JePVtg/DS0wx/4vywJzzZMr7pOXscGIAh9+F25mOF4rgYMehmy5frxXWlaRAvCXvw8OlNdC3Tin
+	LJcLUN5R7hHkCh3ni6Q49yCSltOqWcYnp14B2fOlSn6jLy8E0++JbEhUxYQThFbqVc/lmBDHZgv
+	1daE=
+X-Received: by 2002:aa7:d7ce:0:b0:6a5:d284:1134 with SMTP id
+ 4fb4d7f45d1cf-6a6476996b7mr2292703a12.2.1788152317739; Sun, 30 Aug 2026
+ 21:58:37 -0700 (PDT)
 Received: from 637551599889 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 31 Aug 2026 06:58:32 +0200
+ HTTPREST; Mon, 31 Aug 2026 06:58:37 +0200
 Received: from 637551599889 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 31 Aug 2026 06:58:32 +0200
+ HTTPREST; Mon, 31 Aug 2026 06:58:37 +0200
 From: Xinping Zhang <zhangxp1998@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -86,26 +86,30 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202608302349.AXJE2LxU-lkp@intel.com>
-References: <202608302349.AXJE2LxU-lkp@intel.com>
-Date: Mon, 31 Aug 2026 06:58:32 +0200
-X-Gm-Features: AcwNN1VkdzOM8uGfEyH68KT0UP935mXLMHt9ZMFJ-XqrWHgjuysVSl9HBjxMZI0
-Message-ID: <CAH=xXfFCoso90bDSxFv6h2W62D0eEsjF4nQWw5R=3D28z7eGvQ@mail.gmail.com>
-Subject: Re: [chao:feature/subpage 9/10] file.c:undefined reference to `__divdi3'
+In-Reply-To: <202608310236.uXxkLfk8-lkp@intel.com>
+References: <202608310236.uXxkLfk8-lkp@intel.com>
+Date: Mon, 31 Aug 2026 06:58:37 +0200
+X-Gm-Features: AcwNN1WhPUL0nna4HS2-tIwZcGrn6eOTTd0JwNrL8x0g0DiDTpjDhdmnzulN3_o
+Message-ID: <CAH=xXfEXaY8vaW=002+hu03aYCgx3KEADeek6i8yNqHEgRo5rQ@mail.gmail.com>
+Subject: Re: [chao:feature/kelvin_subpage 21/22] WARNING: modpost: vmlinux:
+ section mismatch in reference: filemap_unaccount_folio+0x338 (section:
+ .text.filemap_unaccount_folio) -> task_iter_init (section: .init.text)
 To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
 Thanks for the report.
 
-This is fixed by using F2FS_BLK_ALIGN(sbi, end_addr) instead of
-DIV_ROUND_UP(end_addr, F2FS_BLKSIZE(sbi)). F2FS_BLK_ALIGN() uses
-DIV_ROUND_UP_ULL()/do_div() and avoids a runtime 64-bit division on
-32-bit architectures.
+I checked this warning and believe it is unrelated to the F2FS change.
+The patch only modifies fs/f2fs/data.c, fs/f2fs/file.c, and
+fs/f2fs/super.c, with no section annotations, while the report shows
+the same unexpected references to task_iter_init across MM, ext4,
+btrfs, jfs, DRM, and other unrelated code. It also contains __ex_table
+references to .debug_str.
 
-I folded the fix into "f2fs: parameterize block size and mask macros".
-A W=1 SH build with the reported randconfig now passes, and
-fs/f2fs/file.o no longer references __divdi3.
+This looks like a MIPS clang-24/modpost relocation or debug-info issue
+rather than an F2FS regression. Could you please retest it? I did not
+make an F2FS code change for this report.
 
 Thanks,
 Kelvin
