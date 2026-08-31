@@ -1,82 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526F7199FB0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 04:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788150651; cv=none; b=EEXd1GCLGoAk69zeJicQ+U3mOdK5Ee8krDnIvMVjd8B8f4dir9YeoDHCb6irJbUn/maTltYeIcmE0fyxVo8q8fFE80fvoI4gc1YhIAyj1V2okXFe66yAWNEvpQ/yIRaRDTK7TqU47l65CByXOED6NhRR3CEAtGAdxZnhguSvqt0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788150651; c=relaxed/simple;
-	bh=Yv0BkLDcA+5NQjGb/fg5H4LlJ9cdLdFKVp/uqBbbwjs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YXeCP9EGV7bDRiN+sp9mGcsPKMcgMtfvKMX0vvQvLT1BtAa1Kq6bZB04o+786h/3bd9naL9M1JJlqmU1QMMeGmN8nvKr3Mi/shhVNjwuYrVzpBt1bC4tDAZYvdP2Gpx69kY8gFpdzeKzfKZCY6mNrRMV5U8TCcFLbmAikeSJ5Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7RAbO5J; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D041B349B0D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 04:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788152306; cv=pass; b=sA5wXAYq8Y5QFbNhszX+sxzVnfbNJ3IDY4qjuE5RN9MthV04la0cIbAlI/sTAjPEVfzmg0HAjZRAPx4b7cIneTa6wCGoobJbI2gsF5Jy+IkbhJTkhskVZNmQ6VBSovjOG0B8SIVDurJsyBPAsODYTLxumL4odGG1sVPo4ETVvTM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788152306; c=relaxed/simple;
+	bh=7d3RzoLYdcXvAJ23J+J4rZPDyuFpwavzVHorfEUe2Sg=;
+	h=From:MIME-Version:In-Reply-To:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DxU/Bxf4gaNpvElpUVLu+98pQh+bUF2rRyq+Dt3dC/0daMPLfCawI/diu7Dck4QTGMoO+DWkk3iUoWgW7eu4nAv7gefmbCr+KJKm0IvYu9VcQAIQsCA2n3p+A3sf3Fgdz+mzv78xJpLhUM6br8WxSj/srodlebay/zbqZYP4bQo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMmp02s6; arc=pass smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7RAbO5J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788150649; x=1819686649;
-  h=date:from:to:cc:subject:message-id;
-  bh=Yv0BkLDcA+5NQjGb/fg5H4LlJ9cdLdFKVp/uqBbbwjs=;
-  b=N7RAbO5J73VYdJVmgHUxVlBuLoltvIhcbngOvz7VUm/NFzbXNHUjWheS
-   thWBysp3UInz4RU1rwpfKqHQ64iPd3ux06VG2YCFrz7n84TCmBSkNNqZY
-   4hBlSFyXhvUgy3AYer6/6cybuyKMxxQEGxoPNyvYdLN8wKMY4rYkDqxfO
-   nAlRDVfaP3JUT62jQ/f9qcvdkQhPPAeP+yfH7nFCYaUVquL2e2oRpuC5x
-   MFJfXrCn5jDhu926MPhfjKOzfIJGzKjULBIysZkBjNskEmjJeoXgSKpoO
-   n5bida2DBwoP33/QenSSRVwQqWhLNr3HwmxHzMgujyBUFRSWS7A3G2x6/
-   Q==;
-X-CSE-ConnectionGUID: uk0nRgF8QC2xbaiQ1Q2aCQ==
-X-CSE-MsgGUID: Zg3w6SolT7q6ssUaRVLivA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99708126"
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="99708126"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 21:30:49 -0700
-X-CSE-ConnectionGUID: zyvO/jdrRi6ObADqOCOc8w==
-X-CSE-MsgGUID: /b80zqsBRXOETRn00mtNZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="264940054"
-Received: from lkp-server01.sh.intel.com (HELO 12c799cf0c09) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Aug 2026 21:30:47 -0700
-Received: from kbuild by 12c799cf0c09 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x0tad-000000000GV-0G4O;
-	Mon, 31 Aug 2026 04:25:54 +0000
-Date: Mon, 31 Aug 2026 12:23:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:7.2/vramstuff 18/29] Warning:
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:932 function parameter 'exec' not
- described in 'amdgpu_bo_pin'
-Message-ID: <202608311134.vrfA9i0r-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMmp02s6"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a18e24ad25so3529629a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Aug 2026 21:58:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788152303; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bYrZG/Qy8NN2J0PxLHNSiszlGCboX529Xciedpp1jnNvJ/jYJBheJzWZXtrir0ej5M
+         s/tCRd9Bfo7dMjPw5SxcbzZ7CTBtUSDqb5g2Fh9jio0y3aW9VNruqrbD93XxKDdUkyby
+         Mtj8a2rFl19RTft9ENYPduSjwV1+rxHC8n3q8sSv3BIuFLw0nko9tX1bkLpMkVWAVq7/
+         xoYIPtmtNx3FVqL/sX/CqlNVSvq+aNlkNLJmKluTkloz1v6silTtsANNnq7EIzZBwg4d
+         kdG4LUFVI3CUx1Ell1Fm54DT83SJY19NU5hDcexJ5b/9HZIYKqyk3fnSxsXx1svC/kmf
+         9EFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:references:in-reply-to:mime-version
+         :from:dkim-signature;
+        bh=7d3RzoLYdcXvAJ23J+J4rZPDyuFpwavzVHorfEUe2Sg=;
+        fh=9Qzo/MmqeGHXLBQLInXZjJ+TJR2VLfVDsWEBtmMVJwE=;
+        b=SyDU/vgYI5cjeZqnydlWcKJu+JvFnDFT1+gnBIyZNcKlXarLm0cN9RBr/YDAl9sOmb
+         qpcniEppAEuuYamJRBguOXfqzGftALw+DOUPqZk5VJgByqrDUDJMoIzLWHQI+lvOs1Aj
+         InTFfLpeb2i3em7+vmGRV8F4V1DnzclQH0DQX1Z2Wp0lEa3BWY33uCTf7Mj73KwsVzWl
+         Afk6mThNUyK4b55uPaAY7tpbUXaunB6pDww3KisjMgZRSFXNCSEodwk/tvMA9nQ7r2dp
+         y5+dOjUr3kHQWejupU05m7vz1uE0ltqLwCTypMbqTI/qM3Mjme6oqB19hPk3TTynqdNG
+         ng2A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788152303; x=1788757103; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
+         :mime-version:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7d3RzoLYdcXvAJ23J+J4rZPDyuFpwavzVHorfEUe2Sg=;
+        b=nMmp02s60TmRAoV7Yx4p/fCSs2JgRPlQyQ3IuYxUpPugOS8qplAzWHoa0JTv+Sx/bu
+         wy9MK7/MJJycploa3cSupz8nMX8K9Ow6CkC6EoNODu+yqlTt1GAV21txUuRzNMVCZfKr
+         nowvA0tBJZdERPIosrUy/IF9lX0X0++WwYi1neo4e9K9MT35G/DqPKKpkRTeqrQBGmOh
+         fpQkGA2lJAwEAuM4/kRK+LR4vKFSxwV2lB9luovDP/KOgkNbtOI+XEDXM/t1hCgI53Cu
+         6nPLDRWxO3lHkETcVE1/C7R5WzfvjZ+sS4+pU06cg/2AUNDQriFsNFpP6sltAmbKvy7O
+         EM+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788152303; x=1788757103;
+        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
+         :mime-version:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7d3RzoLYdcXvAJ23J+J4rZPDyuFpwavzVHorfEUe2Sg=;
+        b=ZHWlcRyZMNYSBh62GftffnkLYAHlAQqi/Da9PawjcYmJJxRKGaKAfeOKaty8jsk6/V
+         qG+aO+K66cK/sx5UwpHp561r6AVdx2rP+UcFv5c3QjM52Bl+mYqRMzcQgLCvqJoobkl8
+         LP2gh5P+dDXo6JOAmLkMfxTTeDGT2aoRsnJ2XkJehIHctgZMeB/bm/9RwitUsquJyaXW
+         LOFlSXlfYm28U/MDHclD7/uABF9fdsA8Cjqu67VPuoRoon2rOyV8pHNU6RoGecEnGxYW
+         NQ4BDQAN4WJtDsaGvPPJ9Z0qbgtYIlAEb+i/9B35bkQRePLvlN5gSferaZaiTmc98dAq
+         rxBg==
+X-Gm-Message-State: AFuF++kpwnwMZb9gQHNBOi20+agytOocyxsW7HjlVx8rEAOOnwXwtwP4
+	PyRKBcXEt9CF1QPuN6IsiDZlPRxtX+LgC7o7apmU0cfjYux631Oq590Hk3wXuivbQE0RwcJ9mUJ
+	SNFGeTc4OIRpYsT91LCr/Prurn3S6u9c=
+X-Gm-Gg: AYBFou0pg3sEw6NZqZls9MwzSEbdXTEpmD+LcGLwA976zVhME0Yo2wH8Mg6upUu7Etm
+	1kvSO9hjStbdSfpZRFMLMB5PZ2T+GHQzTR/Q646GsrY00CxAgYhApLpw0hGVx4GujKbxA4Hl3yQ
+	jSoeyFK9lXTkdY4ZWaBRjyZ248CFiGClxehgm3vdfychE6u66E3z/aPPjaUpN75docyY/3lCkSL
+	6wIN670+Cei+EKdG1U3UmmPkYA/D7c+Lnlkhjx9j1JY+LJ5ZyZ3OYvnLTDiy//SkhiNBeSzR6M+
+	DR8sAkcyWvMJhBL1mOmto1tXllYsB1HhOa3IOktnw2QCmBqapR8I5i4Oktg82qql5Y4GW+VYEXH
+	ngIF/DbHAGA+E
+X-Received: by 2002:a05:6402:51cc:b0:6a5:d7cd:fb9b with SMTP id
+ 4fb4d7f45d1cf-6a60d1591bdmr14427713a12.0.1788152302907; Sun, 30 Aug 2026
+ 21:58:22 -0700 (PDT)
+Received: from 637551599889 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 31 Aug 2026 06:58:22 +0200
+Received: from 637551599889 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 31 Aug 2026 06:58:22 +0200
+From: Xinping Zhang <zhangxp1998@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <202608301649.G22k4ucE-lkp@intel.com>
+References: <202608301649.G22k4ucE-lkp@intel.com>
+Date: Mon, 31 Aug 2026 06:58:22 +0200
+X-Gm-Features: AcwNN1UeeGrvH2ZDcgFXzcA99m8x-7rMU-mPxJYlOhb2Nt_uqZemX-ImBk6Qau0
+Message-ID: <CAH=xXfFRnR5LVZaNNd-c1GLF8tC-B-T5ZRdbG_YVim_mz9eNyQ@mail.gmail.com>
+Subject: Re: [chao:feature/subpage 1/10] include/linux/f2fs_fs.h:431:31:
+ error: flexible array member in a struct with no named members
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/zen-kernel/zen-kernel 7.2/vramstuff
-head:   13a8e2000329a36f994acf2fd31d307d27fa9189
-commit: 07a1b5bc107c22a7457914175381ae7cf2a0b22f [18/29] drm/amdgpu: Use drm_exec to reliably pin fb buffers
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260831/202608311134.vrfA9i0r-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260831/202608311134.vrfA9i0r-lkp@intel.com/reproduce)
+Thanks for the report.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608311134.vrfA9i0r-lkp@intel.com/
+This is fixed by using DECLARE_FLEX_ARRAY(struct f2fs_sit_entry,
+entries) for struct f2fs_sit_block. I folded the fix into "f2fs:
+describe SIT block layout dynamically" for the next revision.
 
-All warnings (new ones prefixed by >>):
+I also rebuilt fs/f2fs/ with the reported m68k randconfig, and the
+flexible-array error is gone.
 
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:932 function parameter 'exec' not described in 'amdgpu_bo_pin'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:932 function parameter 'exec' not described in 'amdgpu_bo_pin'
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Kelvin
