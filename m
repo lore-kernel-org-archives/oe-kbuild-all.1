@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29954CCDD0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Aug 2026 23:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79895B640;
+	Tue,  1 Sep 2026 00:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788219764; cv=none; b=BOTPepYyPmhtEJtGPbZBOX48PoOLPILp/jkejPkWj14DJBBpE8u6/MZZfPBPGMlu2Ypp3GjDFEt3U4I0RPQ57D3aZfIFIy6yTJG9pLXzr22nAO2YyQcPHlVQ7iCUm9FmkcPtpZKDRff3HHGFyRGMi1SLDNzU3NTJOaqfYxk6tGQ=
+	t=1788221028; cv=none; b=UmG5Gy+gozgs6pMHKGoODCL+tiRAZxynD81OmPnbCJOaHKbcm6vqGpIw1ZvgWtddtPVIiDdVf7K9K1u4qyftbCSkgH8CLcW5007NPe53wEVUPZflQbW1hndM/jaTx1X3AcQriOPBgjHysVl8wHQt6tz3eYvo+zGmOiGULhC75NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788219764; c=relaxed/simple;
-	bh=q4BeS/kfRdaOO5ebKgmI68NWumbkvd64vG43GPURB7E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FnVbPmr14aeAhIGS8KVHkYPIamEfhHSvJA4kuJwyDjfO2T8PiSrVeRAOdfJhg0lLqer47+XKMeG0fkJHEaEbvbHUupke0b7kotiFzNt9mnv2jUabqptUZUeRCl5YgsYmDX2psbHyWkerOHBD7bVZJ9eMuGywlA/LJ4i8DAdOm80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxjk93op; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1788221028; c=relaxed/simple;
+	bh=+u+paPEl69EI8EJgLp/S44yzlA16FXZ/5JKDKEIBKDk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ui2kTnTaV/urF3JfAir4IiRHLMq2lPlZBENw4Dzd40JsLa2PySmIETyGKxUwuXe+s8P8ovaBWbu8f4X1DCHrSE6LxI5cYmEwH1lvjSBiiPGpExgnEU8yM5gIvcTRB4PNlQlRwmkWZTZq8ueuDSqknstBpyxVZTVCtrh9LhQm55s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AHjEQhnz; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxjk93op"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHjEQhnz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788219763; x=1819755763;
+  t=1788221025; x=1819757025;
   h=date:from:to:cc:subject:message-id;
-  bh=q4BeS/kfRdaOO5ebKgmI68NWumbkvd64vG43GPURB7E=;
-  b=hxjk93opjStGbJRUoFqTytOKk/6pqhEzsrFjIWg2fr6eLF0X5MxItfjK
-   nV2K1gPTCFAy7sq6bQlVNBecM/JB9M2aOvRX4oTg3/OL678dI/B4QxOYb
-   Rb9rRkqVJ2l9/drxMnb57NO7LiPU5XRFi4VfLFifmLe0ILo2RTTvqi7Zd
-   r3pCJtVX0mDN7l2sZpRdJ0bv6VIgdwFZIqNKW9A4WvLbeHHWhHMsOYSk0
-   BG/9+5e7gy8SutQnq6fUPDzSnrPAthZNjzvcRkREpYTNOOev/KfRXQpgN
-   Oe4OpUSBoenJjwS3QlH/v6wKBxUaaWwsineyNWy/XDGCKVQnOvEZao816
-   g==;
-X-CSE-ConnectionGUID: akMbw6B8QFCnDPTl1GXFgw==
-X-CSE-MsgGUID: gfsb02l6QSipbm6xjORA+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="88512928"
+  bh=+u+paPEl69EI8EJgLp/S44yzlA16FXZ/5JKDKEIBKDk=;
+  b=AHjEQhnzd/k49CrQUqwVlpPxnMyRVn+L0snt30zoxcw0D7TtyC54cKDS
+   KnSttrYUddm5vReCA1xnh7qhX8GbWmeQk4g3y0sC/pSYKhHDfHlXKw9l3
+   fofYsflQ4fDU98cSI/sWVrDa4u6C5CZUNBqWwVnQgfZ2GmtKIIyI0e2pX
+   FdH+xR8idnQrF3eVNAKBqRyI+yodRIkcC+M1VNriPZ1iLKfoh+Jp7z0O7
+   66/jZZB+qoHzRL9+vHFSgP1SyMgERyVUfUT1KyqehWUJtG8SIlEvcriC2
+   Ecwb5r9YRH6pfGB8S+je5xaEzPOkj68YELEDb1/ug91VtMkgPg3x3MPhj
+   A==;
+X-CSE-ConnectionGUID: lMHN91A6T4i9h02zFyOmjA==
+X-CSE-MsgGUID: HbDqn8XfSxSYBLPpnd1sMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="114175916"
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="88512928"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 16:42:42 -0700
-X-CSE-ConnectionGUID: gVKH7hH2SQGkD5AmAMHwRA==
-X-CSE-MsgGUID: qfZMdIWkTlSd9mNI3c455w==
+   d="scan'208";a="114175916"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 17:03:45 -0700
+X-CSE-ConnectionGUID: kROgGcWsT2uMI3nzaAVQgw==
+X-CSE-MsgGUID: S26Q+SOWSpCg9MtIq3WUGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="267614295"
+   d="scan'208";a="273120702"
 Received: from lkp-server01.sh.intel.com (HELO 793b8a0addc2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 31 Aug 2026 16:42:39 -0700
+  by orviesa005.jf.intel.com with ESMTP; 31 Aug 2026 17:03:43 -0700
 Received: from kbuild by 793b8a0addc2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1BeA-0000000006J-326a;
-	Mon, 31 Aug 2026 23:42:38 +0000
-Date: Tue, 01 Sep 2026 07:41:46 +0800
+	id 1x1ByW-0000000008W-2TFX;
+	Tue, 01 Sep 2026 00:03:40 +0000
+Date: Tue, 01 Sep 2026 08:02:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3]
- arch/arm64/kvm/../../../virt/kvm/vfio.c:130:undefined reference to
- `vfio_file_iommu_group'
-Message-ID: <202609010710.aoWhYncr-lkp@intel.com>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@kernel.org>
+Subject: vmlinux.o: warning: objtool: kernel_entry+0x118:
+ start_kernel() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+Message-ID: <202609010734.HlRB5VXA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,52 +60,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   96b3287eace89e145c28c3461ed3d8c8ea0b2baa
-commit: e43f03eb172d7e8ecac55bc3f9547c18f436ea82 [3/3] ANDROID: drivers/vfio: Call KVM directly
-config: arm64-randconfig-004-20260829 (https://download.01.org/0day-ci/archive/20260901/202609010710.aoWhYncr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260901/202609010710.aoWhYncr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cee9395acd8043be0644b25c34bfa86623f2b935
+commit: 1b2f4706c6a20ab6ac41533dd8032d54322076e3 LoongArch: Use UNWIND_HINT_END_OF_STACK for entry points
+date:   8 months ago
+config: loongarch-randconfig-002-20260829 (https://download.01.org/0day-ci/archive/20260901/202609010734.HlRB5VXA-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 52774473867e49b5891ab9381accf4e5a3ce0024)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260901/202609010734.HlRB5VXA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 1b2f4706c6a2 ("LoongArch: Use UNWIND_HINT_END_OF_STACK for entry points")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609010710.aoWhYncr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609010734.HlRB5VXA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: virt/kvm/vfio.o: in function `kvm_vfio_reclaim_file':
->> arch/arm64/kvm/../../../virt/kvm/vfio.c:130:(.text+0x21c): undefined reference to `vfio_file_iommu_group'
-   aarch64-linux-ld: virt/kvm/vfio.o: in function `kvm_vfio_file_add':
-   arch/arm64/kvm/../../../virt/kvm/vfio.c:130:(.text+0xc74): undefined reference to `vfio_file_iommu_group'
-
-
-vim +130 arch/arm64/kvm/../../../virt/kvm/vfio.c
-
-   125	
-   126	static struct iommu_group *kvm_vfio_file_iommu_group(struct file *file)
-   127	{
-   128		/* See kvm_vfio_file_set_kvm() */
-   129	#if IS_BUILTIN(CONFIG_VFIO)
- > 130		return vfio_file_iommu_group(file);
-   131	#else
-   132		struct iommu_group *(*fn)(struct file *file);
-   133		struct iommu_group *ret;
-   134	
-   135		fn = symbol_get(vfio_file_iommu_group);
-   136		if (!fn)
-   137			return NULL;
-   138	
-   139		ret = fn(file);
-   140	
-   141		symbol_put(vfio_file_iommu_group);
-   142	
-   143		return ret;
-   144	#endif
-   145	}
-   146	
+>> vmlinux.o: warning: objtool: kernel_entry+0x118: start_kernel() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: smpboot_entry+0xa4: start_secondary() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: kernel_kexec+0xb8: machine_kexec() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: wdt_interrupt+0x48: machine_restart() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: sama5d4_wdt_irq_handler+0x88: machine_restart() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: rzn1_wdt_irq+0x34: machine_restart() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   vmlinux.o: warning: objtool: eurwdt_interrupt+0x40: machine_restart() missing __noreturn in .c/.h or NORETURN() in noreturns.h
 
 --
 0-DAY CI Kernel Test Service
