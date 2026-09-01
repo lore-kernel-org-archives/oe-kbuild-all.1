@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A55537FF6A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Sep 2026 21:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4A147606F;
+	Tue,  1 Sep 2026 22:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788297880; cv=none; b=fjPCVczWUcjJZkiHqBA7I9g3W11Z6uic5o+JfHcq5hvZnMO19uXp81EFMA55XDHC2ourozFS5oK2lfpJR4ugfS8D6zIMxFSIYb9fXBFQdI4JBmwIvRfjK67jzYRjxPm7h4x5SZDltSQ/rnEnfZopuaRKmHndMCOJIXHl2pTGomY=
+	t=1788301064; cv=none; b=hioE0dwHicIt70QHZXUBYQOtBuEev13cR2+lWw24VYT9pKdkPdj+vP3ldufCn/iiLiX4IZJsR5IxVXPJQas4uPVA9xUqRt6Dn6wda0JSJABY8OAB/7zPQTRz0Zb2Dt7gnD1hpFXpQQTtTBaRuPoxXkdvY/UVOhONtAjqU5tnY4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788297880; c=relaxed/simple;
-	bh=1TaDDlib/ind8bEndJR97bfpyKBISIC1rLJNN0pTeIw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=I4J1H4WwKnBpu5vFLoQ8ADG7i9QKALEo8Y0HjnA06BVHKat/i4GOHMmIgPcXoyDm9YJTny2MayXmpnNIh+NFdal4xCODOGeRNSaUiWB8kzZBnZFYWbNXuDlet2dHcTgHi6XWeS6f+wHO/XkUd07w6KZZU7jG2a8LFUa6HlYvEWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJSGofUj; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1788301064; c=relaxed/simple;
+	bh=fi5+aacIxoyIhHCtTxJSRZq1FobSMzqDFquwJVHzMfU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=L3GOeDPtG60MGmkAMXIgmi37cXNZJWEEaKq41SrEKp99nrAbp7thROppITAFnf4wV8u7+eUsQtM/vylziQMsRwtOaAUotffGaMOeiQotvmg6S9HkWHJHn5VP581eHCM8xg4bO5gsj2b1Uj0rFiJqW7cyi9eJyFKu1jzEENOgFkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=at3zDvC/; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJSGofUj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="at3zDvC/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788297879; x=1819833879;
+  t=1788301061; x=1819837061;
   h=date:from:to:cc:subject:message-id;
-  bh=1TaDDlib/ind8bEndJR97bfpyKBISIC1rLJNN0pTeIw=;
-  b=QJSGofUjUrUxJb6rWIjh3icS+2kTflglTfo9yX+0oweGknaElnNh7YM2
-   h1r6boat/kYHTTIFYF4BCIYQ2U0yN9pIY/l7ylBREDSrtDAcVTLTMNoje
-   LxYPnwW7Wg+sGhFu5tsISRCdYPBx+yuxJpxVCDo3kxCtuZvcc07Iibjie
-   OJo6xupTHFmSFONQzWvPmPSI5YIZkAWMqks1kKXN2tnLZf7+xQu6tHOpi
-   b65N8Wea+OZq2NJMH/EChi2AAmhEaOKEmO6Kgw6V1ToZvJpBmrf29uxWM
-   fUM6hb1AGBl12l3DxnOyw+jFRSDSurKZjSsxfDwNmDT0zTQI6IuQ76GB0
+  bh=fi5+aacIxoyIhHCtTxJSRZq1FobSMzqDFquwJVHzMfU=;
+  b=at3zDvC/rnPvy2QCPrqEsTcWyOt4F9ieM5Y8OXsaIpu3LZLyuYJd9gIv
+   HAXiLBVrpabEUoAx9fWFA42wQ42IELbvzCB6LQOOeEtooz9t07EX9svWd
+   TFNwW78O3yAFdOKfLB5k0qSaqih2ZnXPYfh2v1vM1TPD2KfbGxKvRBLmk
+   +6B2CrfOGeQylv5pHC2r6n4/ZWKL4iIfaOEiVlDu3X7Wqib2klMVieirw
+   oCpDpIduuV62FWGnRoNZeM4kVhUHAYjCiemFvDKB/FLx/dC5fCpMjq73K
+   LRzbEftGbXv9sJjM1egsFixnK1MUyX+RHbWoNPN2YUWIZ5DpoAkdi7wH6
    Q==;
-X-CSE-ConnectionGUID: mVDlxFYdQAqOB9q3IJtsYg==
-X-CSE-MsgGUID: nV4gE38TSEWNImxujEfxDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="87683340"
+X-CSE-ConnectionGUID: N/wzJKr8TzG/V3Phnfn/MA==
+X-CSE-MsgGUID: 7pN8yAJVSPKM25zru1+lcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88951850"
 X-IronPort-AV: E=Sophos;i="6.25,256,1779174000"; 
-   d="scan'208";a="87683340"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 14:24:38 -0700
-X-CSE-ConnectionGUID: QrWQJvoFTSeErf5ilgAInQ==
-X-CSE-MsgGUID: TwDpVbSLTgGNpq+I3EMcXw==
+   d="scan'208";a="88951850"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 15:17:41 -0700
+X-CSE-ConnectionGUID: ZeibHuehSDqVLVlSEszJPw==
+X-CSE-MsgGUID: joJuF778QCCD7d5TtVPU6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,256,1779174000"; 
-   d="scan'208";a="272989775"
+   d="scan'208";a="294058924"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 01 Sep 2026 14:24:37 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 01 Sep 2026 15:17:39 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1Vy6-000000001X8-0ut6;
-	Tue, 01 Sep 2026 21:24:34 +0000
-Date: Wed, 02 Sep 2026 05:23:57 +0800
+	id 1x1WnQ-000000001Zq-2y72;
+	Tue, 01 Sep 2026 22:17:36 +0000
+Date: Wed, 02 Sep 2026 06:16:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Steffen Eiden <seiden@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org,
- Sean Christopherson <seanjc@google.com>,
- "Jason J. Herne" <jjherne@linux.ibm.com>
-Subject: [kvms390:sae 1/43] drivers/vfio/vfio_main.c:1554:29: error:
- passing argument 2 of 'vfio_group_set_kvm' from incompatible pointer type
-Message-ID: <202609020524.2vsc6rBO-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-s390@vger.kernel.org, Andreas Grapentin <gra@linux.ibm.com>
+Subject: [kvms390:sae 34/43] Warning: arch/s390/kernel/aef.c:25
+ function parameter 'sa' not described in 'kvm_vcpu_init_save_area'
+Message-ID: <202609020610.X8okomyb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,59 +62,20 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git sae
 head:   e3cbc45b3834d68c7e45ba1562f45af312c99d81
-commit: 457efc947019e9f93ce012b857f567189b9d382d [1/43] vfio: Use file-based reference counting for KVM
-config: arm-randconfig-r051-20260901 (https://download.01.org/0day-ci/archive/20260902/202609020524.2vsc6rBO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609020524.2vsc6rBO-lkp@intel.com/reproduce)
+commit: 25a6a0afc2f7d6a10555783deba6300978693a84 [34/43] KVM: s390: arm64: Query Available Arm features
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260902/202609020610.X8okomyb-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 678058af7da6a20593d8bb23076dc4773f9e55f1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609020610.X8okomyb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609020524.2vsc6rBO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609020610.X8okomyb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/vfio/vfio_main.c: In function 'vfio_file_set_kvm':
->> drivers/vfio/vfio_main.c:1554:29: error: passing argument 2 of 'vfio_group_set_kvm' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      vfio_group_set_kvm(group, kvm);
-                                ^~~
-   In file included from drivers/vfio/vfio_main.c:43:
-   drivers/vfio/vfio.h:168:77: note: expected 'struct kvm *' but argument is of type 'struct file *'
-    static inline void vfio_group_set_kvm(struct vfio_group *group, struct kvm *kvm)
-                                                                    ~~~~~~~~~~~~^~~
-   cc1: some warnings being treated as errors
-
-
-vim +/vfio_group_set_kvm +1554 drivers/vfio/vfio_main.c
-
-34aeeecdb3357f9 Yi Liu        2023-07-18  1539  
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1540  /**
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1541   * vfio_file_set_kvm - Link a kvm with VFIO drivers
-457efc947019e9f Steffen Eiden 2026-08-12  1542   * @vfio_file: VFIO group file or VFIO device file
-457efc947019e9f Steffen Eiden 2026-08-12  1543   * @kvm: KVM file to link
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1544   *
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1545   * When a VFIO device is first opened the KVM will be available in
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1546   * device->kvm if one was associated with the file.
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1547   */
-457efc947019e9f Steffen Eiden 2026-08-12  1548  void vfio_file_set_kvm(struct file *vfio_file, struct file *kvm)
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1549  {
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1550  	struct vfio_group *group;
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1551  
-457efc947019e9f Steffen Eiden 2026-08-12  1552  	group = vfio_group_from_file(vfio_file);
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1553  	if (group)
-b1a59be8a2b64d0 Yi Liu        2023-07-18 @1554  		vfio_group_set_kvm(group, kvm);
-34aeeecdb3357f9 Yi Liu        2023-07-18  1555  
-457efc947019e9f Steffen Eiden 2026-08-12  1556  	if (vfio_device_from_file(vfio_file))
-457efc947019e9f Steffen Eiden 2026-08-12  1557  		vfio_device_file_set_kvm(vfio_file, kvm);
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1558  }
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1559  EXPORT_SYMBOL_GPL(vfio_file_set_kvm);
-b1a59be8a2b64d0 Yi Liu        2023-07-18  1560  
-
-:::::: The code at line 1554 was first introduced by commit
-:::::: b1a59be8a2b64d00409dc7c9d523572ed32bcff8 vfio: Refine vfio file kAPIs for KVM
-
-:::::: TO: Yi Liu <yi.l.liu@intel.com>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+>> Warning: arch/s390/kernel/aef.c:25 function parameter 'sa' not described in 'kvm_vcpu_init_save_area'
+>> Warning: arch/s390/kernel/aef.c:25 expecting prototype for kvm_init_save_area(). Prototype was for kvm_vcpu_init_save_area() instead
 
 --
 0-DAY CI Kernel Test Service
