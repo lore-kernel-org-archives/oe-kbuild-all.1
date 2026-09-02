@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6109441F35C;
-	Wed,  2 Sep 2026 09:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4F544AB77
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 10:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788341681; cv=none; b=cU5yet3sfL6fRvkY0xv35K/CXfyh8CfIim5uud8bUhOahEcU0RNA+Y7Yad5h8j4CWBJgdEFgJT9YE58+HNWLZBYg4cVXiD5B+vh/Q8RQberFf27vVa4PM5BCHY2zP9WOojGh8WuGTJbXWED1CoNK1UeqYwoswfSFVw+7ax6799w=
+	t=1788345416; cv=none; b=Whk4Q5++ULQr+tGB1zoDYKinCvGlIHkTKPO9qB0di/9ViM7QNd3n2eJWxF88EXsRtavnF411Kz5IstuzdmxAIN7WWH0Sji54n+P6Q9YbCquYZcLqQ4UjFZujlE6tP6IUyNs2/GErcADeyxjvJ+rizAsXX0eB8XFlgagmu8bfLL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788341681; c=relaxed/simple;
-	bh=nwC8aYYFaY5Tyx3HWiEDRZ3+KuRU1Y0WxaDl262CvF0=;
+	s=arc-20240116; t=1788345416; c=relaxed/simple;
+	bh=DtiljPF8RM3CbiZNvKGav7U5lwgYYje0es0kdk5KYoM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m/ia+YmltpT6P4VazqDSOpAlfX/MDbELEaSnFp3dvEFnm+hZqAPV80YOuGGOBdCAyjjIZtYWpsiMeDwUL6EXdMQrrQ95WyfXMQeudtBxkJFar5zLinkMse/jn9ytECJa9u5HbSAHN5zmPblNxjblHkf0j6HGnUGijsFheANYndg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FcZ2vw/+; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=ExLX4lF6QV7xjV2mnRrPULj02Jc5ounXvxg6I9Bzx694/RM8tWXZcCnO8IySnkvDI1lPgNc2avg6vf8Y2YDU0aTGVT1Ghj9re20OCyCBFLbcIvUEb+OJaapWbUYGXKyUAimqtPu5+ugNKTHshXEdkO4XEVKqQgHobWLsmPpINQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kN+/lwtF; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FcZ2vw/+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kN+/lwtF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788341679; x=1819877679;
+  t=1788345414; x=1819881414;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nwC8aYYFaY5Tyx3HWiEDRZ3+KuRU1Y0WxaDl262CvF0=;
-  b=FcZ2vw/+BK0Ve8zzg4rouYTEGJVdir1ypBb78ZQlmRPeFj79xapEixi0
-   IXqdCq5GAfM/UPjVDyfxWRiVxF5aATcEyZ5qDfffGUkltgqYlCPuxddUj
-   PiiSrytKL8uLvZpn59JTkn1ktpIr+JPgXQDxVR7KDxBUbRzUFq4/5k3zL
-   U4mB79i3TXdEbZUy6rQwfz6wfcOQ31Fmm9JB+Xwvd/hX3ZFhxyiKiqHNW
-   pgZbyq8rlO9s0BIIxwjbRTnAevyqUjG1TR49vd4qp8t8UELPjXnCfPzL2
-   g8GKRHtl9vVPXNjss8GVL9HGa5sqnnwR//qNh1YObgwH2dzVbKKPWXBIF
-   Q==;
-X-CSE-ConnectionGUID: kCvYV5rxTNmqqVvNjH6hGQ==
-X-CSE-MsgGUID: CfVcLTKYT/GSM3ZcCVYNtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88720099"
+  bh=DtiljPF8RM3CbiZNvKGav7U5lwgYYje0es0kdk5KYoM=;
+  b=kN+/lwtF96baCEs+ZZihMBz5R6r8xrm0u5y/kosOuGMZcTj2hALfXy8G
+   8TOewLR1z1UGcic8k9rGso5r/N/UKfEtv7795Mxn/8lWllP/ZoK6UMGFL
+   kuGmIsgljoxYK1i2TWKXO3IxrfCgGY0JIz3b9EjzKhrUcUopV32fwG6g5
+   gSWW5Oh9CrAgfV8sx0uswzJrAldCJ8z54SzRBCBK/1aYjEVmOuOBvujmm
+   bg24o9nraQZhss49qGxYNjrx6Wz9S7tdYeagjCw9OUTFeYJpj8hp7YAx7
+   f6vCPqYjb/GNV8i3nCDYnho0f1GruQXRRgNlluIu4lJvlKGcfNLf2f53K
+   g==;
+X-CSE-ConnectionGUID: rs/J16huS4iPHWYw1ty1lA==
+X-CSE-MsgGUID: 6L0LLxZET/6fNG/5GFzOiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="114342810"
 X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="88720099"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 02:34:38 -0700
-X-CSE-ConnectionGUID: CcsVaQg8Ss61fMs8jdko6g==
-X-CSE-MsgGUID: HEVhHsv8R8mBRzgbLNiBmA==
+   d="scan'208";a="114342810"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 03:36:53 -0700
+X-CSE-ConnectionGUID: CQ/lMKj7RZKsXUPxxDEqPQ==
+X-CSE-MsgGUID: EFNWThchQvy/tpF0MEAVpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="266117153"
+   d="scan'208";a="266770023"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 02 Sep 2026 02:34:36 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 02 Sep 2026 03:36:51 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1hMX-000000002KM-3aac;
-	Wed, 02 Sep 2026 09:34:33 +0000
-Date: Wed, 2 Sep 2026 17:33:37 +0800
+	id 1x1iKm-000000002Py-3Bpi;
+	Wed, 02 Sep 2026 10:36:48 +0000
+Date: Wed, 2 Sep 2026 18:36:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qingfang Deng <qingfang.deng@linux.dev>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Qingfang Deng <qingfang.deng@linux.dev>
-Subject: Re: [PATCH] dma-mapping: use exact allocation for DMA pages
-Message-ID: <202609021750.Ifwj5NHl-lkp@intel.com>
-References: <20260901085348.53140-1-qingfang.deng@linux.dev>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH] tracing: Take trace_array reference when opening options
+ file
+Message-ID: <202609021814.YH14WR0q-lkp@intel.com>
+References: <20260901163620.6cbe0ada@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,38 +66,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260901085348.53140-1-qingfang.deng@linux.dev>
+In-Reply-To: <20260901163620.6cbe0ada@gandalf.local.home>
 
-Hi Qingfang,
+Hi Steven,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.3-rc1 next-20260901]
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v7.3-rc1 next-20260901]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qingfang-Deng/dma-mapping-use-exact-allocation-for-DMA-pages/20260901-165347
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260901085348.53140-1-qingfang.deng%40linux.dev
-patch subject: [PATCH] dma-mapping: use exact allocation for DMA pages
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260902/202609021750.Ifwj5NHl-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021750.Ifwj5NHl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Take-trace_array-reference-when-opening-options-file/20260901-163620
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20260901163620.6cbe0ada%40gandalf.local.home
+patch subject: [PATCH] tracing: Take trace_array reference when opening options file
+config: openrisc-randconfig-r072-20260902 (https://download.01.org/0day-ci/archive/20260902/202609021814.YH14WR0q-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.3.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021814.YH14WR0q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609021750.Ifwj5NHl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609021814.YH14WR0q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: 'saved_config' is COMMON symbol
->> WARNING: modpost: vmlinux: section mismatch in reference: __dma_direct_alloc_pages.isra.0+0xcc (section: .text) -> alloc_pages_exact_nid_noprof (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __dma_direct_alloc_pages.isra.0+0xe0 (section: .text) -> alloc_pages_exact_nid_noprof (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: dma_common_alloc_pages+0x10 (section: .text.unlikely) -> alloc_pages_exact_nid_noprof (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dma_common_alloc_pages+0x50 (section: .text.unlikely) -> alloc_pages_exact_nid_noprof (section: .init.text)
+   kernel/trace/trace.c: In function 'trace_array_options_get':
+>> kernel/trace/trace.c:7871:30: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+    7871 |                 if (tr_index >= &tr->trace_flags_index[0] &&
+         |                              ^~
+   kernel/trace/trace.c:7872:30: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+    7872 |                     tr_index < &tr->trace_flags_index[TRACE_FLAGS_MAX_SIZE])
+         |                              ^
+
+
+vim +7871 kernel/trace/trace.c
+
+  7844	
+  7845	/*
+  7846	 * The tr_index is the address of a trace_array->trace_flags_index[]
+  7847	 * element that holds the index of the trace flag. But since the
+  7848	 * trace_array reference has not been taken yet, it cannot be referenced
+  7849	 * as it could have been freed by a rmdir of the instance the trace_array
+  7850	 * represents.
+  7851	 *
+  7852	 * Search the list of trace_arrays and compare the tr_index to the
+  7853	 * address of the entire trace_array trace_flags_index array for each
+  7854	 * trace_array in the list. If one is matched, then take the reference
+  7855	 * and return it. If not, the trace_array no longer exits.
+  7856	 */
+  7857	static int trace_array_options_get(void *tr_index)
+  7858	{
+  7859		struct trace_array *tr;
+  7860		int ret;
+  7861	
+  7862		ret = security_locked_down(LOCKDOWN_TRACEFS);
+  7863		if (ret)
+  7864			return ret;
+  7865	
+  7866		if (tracing_disabled)
+  7867			return -ENODEV;
+  7868	
+  7869		guard(mutex)(&trace_types_lock);
+  7870		list_for_each_entry(tr, &ftrace_trace_arrays, list) {
+> 7871			if (tr_index >= &tr->trace_flags_index[0] &&
+  7872			    tr_index < &tr->trace_flags_index[TRACE_FLAGS_MAX_SIZE])
+  7873				return __trace_array_get(tr);
+  7874		}
+  7875		return -ENODEV;
+  7876	}
+  7877	
 
 --
 0-DAY CI Kernel Test Service
