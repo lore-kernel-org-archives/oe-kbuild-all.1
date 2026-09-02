@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACA247ECC7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 20:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C561945FFA0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 22:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788381908; cv=none; b=uagSQVAIGpaGr6MWxkJmfB17KSNF2ZGc4K+LJeaHl0ENj53PV4UHf+0G8a4WcboW1IszvseUXiCiW14k5qQOKZuTbd7nMuRkagvrzy5eLchO4z55ssr4BO3ToZ08VEypeHfkPIPfcrUDaBzT6El1FQ/EWWGkUZgq82QBEGHPmcw=
+	t=1788388579; cv=none; b=mVQ429Ht8HIG0UzgxmzwU8/DyXbk0rSO2NTyU48gwYl97/CxxN/T9olfkc4F/0dvE79aDNrWAvGNmn7TDXJo210Ia9XLdMB2ON+ozmiqDN1xGDk2E/CLVtr57tElUa68Fg2grDpl70YZznwLWEZBJ84ldsCuq40HBBjnXt+dJX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788381908; c=relaxed/simple;
-	bh=cJqtIbT+/edOKUncoX8184OUAae7prg1jC6ykyLgmKA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HE/zaBQy3RvcPP9wfXk+rqVq8l2M32rWM17M09ok3dRWADQgogCB9NBFkJJ09ESOMfufczg8ABSrJSO8uPTuVObUf/KEtHztNfJLsqAgMxJwEDMZK0QoXbyMznrNENQsCJ7mJl/OGldqIV/4P21u74rwvaFK7RmjOQ+mQpyA3CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nuxEDgxW; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1788388579; c=relaxed/simple;
+	bh=0d0h+yE1LtsNcYMIajiLG4/S0USio8ZW0JMert7f4mE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Pb1G6gdrpxj6EG8H/TDTMShrn4WXZpXoFuf77lVdO5YuQLm48LlIfOXlnRcGRV3O14xtyud644XWz35QeQvv81bP9o12w4lJSoq3ZWV3tGG5JZX3XCOtggfwZjthcVY/xsPDHlv0OfFCcF5EV9tlU+93+MnQpqKSYuJAtwxwKdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LFId9Dqq; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nuxEDgxW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LFId9Dqq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788381907; x=1819917907;
+  t=1788388572; x=1819924572;
   h=date:from:to:cc:subject:message-id;
-  bh=cJqtIbT+/edOKUncoX8184OUAae7prg1jC6ykyLgmKA=;
-  b=nuxEDgxWoCex/5cr5x2+LP4iLFY1/pNHtTvNxXN6k1rAe3K5KqCg1n2b
-   VK7Hng91WAag2pD0Nh6+4y9w4ggn1nNRXJtD9LhzcCOSX891HD8OIiwy2
-   8RWI+9gQ0GzhJcuhgFsBXyYYwb6S7j7SWecXHcbOgi1RduL5m9LlryfKV
-   mmL32gteGm49i5IUsILcu1F5D2kC5HeFZ43I8FQJ7Zdcglr5mlAi+Jm+x
-   otHhzhycVhA0wkuGe0WjVj4IOrdQCgCTIOZkZe2ryrmBS6XppKm5ZFCSN
-   jgmsNuBIvSl8iTRgMT2rK2NTwb8hTqJP0c+ZE9VfshAoFsqwhLzqE7ebA
-   A==;
-X-CSE-ConnectionGUID: HOeTO8UVT1SUntR3a3uY8w==
-X-CSE-MsgGUID: nFHEG7XhQxivX+J/BsnY+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="92554898"
+  bh=0d0h+yE1LtsNcYMIajiLG4/S0USio8ZW0JMert7f4mE=;
+  b=LFId9DqqJxQ2I6ziSA3U4ViQLzYzd2bfWcW9/6ZrtmjIRa7/ASBSwjei
+   FkeqRMrAGGN2dO93p6pTJWLeazc4PiWjORCPylQrrDawiird8amQiTzMF
+   l6+8zj9PH0IbjHbeuA08v3gXYXT5YFu+BgN7bVKB9qpzx5pOj5t6sDHUp
+   Lbju7Hdkms+iw0Jsc4kWYChNy5rZvzt+K/76xJZxlJRTVuVwnucP4Px82
+   oeB74sPQIA/YR+SPUSk1FW113/wrzSlF4OGYUeCWvcN1TS0Q/mg5cweSo
+   MjVgw4lHx5ARSTiIISpwJ0yd+uN3H/Eg3FimnWC4WUvw+8sFzbp844ILF
+   g==;
+X-CSE-ConnectionGUID: AQqH3Fo3Q3eEIHJl6be7aA==
+X-CSE-MsgGUID: ZmceTN8AT6Gb12Pwi5OzRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="111634356"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="92554898"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 13:45:06 -0700
-X-CSE-ConnectionGUID: 1fXAzYBsQxeMsvvrk0qKvA==
-X-CSE-MsgGUID: Se5KzlWBSgGRZDWhIKfHIg==
+   d="scan'208";a="111634356"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 15:36:08 -0700
+X-CSE-ConnectionGUID: akmqHB7hQ8OyYTxJVbJkyA==
+X-CSE-MsgGUID: IAT1Md2NQs+zks+hUt4ZfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="265196699"
+   d="scan'208";a="266298345"
 Received: from igk-lkp-server01.igk.intel.com (HELO 05545efcfdd3) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Sep 2026 13:45:04 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 Sep 2026 15:36:06 -0700
 Received: from kbuild by 05545efcfdd3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1rpN-000000000UZ-3t5D;
-	Wed, 02 Sep 2026 20:45:01 +0000
-Date: Wed, 02 Sep 2026 22:44:27 +0200
+	id 1x1tYq-000000000Xf-1nqK;
+	Wed, 02 Sep 2026 22:36:04 +0000
+Date: Thu, 03 Sep 2026 00:35:51 +0200
 From: kernel test robot <lkp@intel.com>
-To: SJ Park <sj@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sj:damon/next 136/167] mm/damon/core.c:1418:2: warning:
- unannotated fall-through between switch labels
-Message-ID: <202609022203.Jc30tB50-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 278/278]
+ Documentation/devicetree/bindings/arm/ete.yaml:44:60: mapping values are not
+ allowed here
+Message-ID: <202609030035.f5qwAf0c-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,63 +60,76 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   aeaf89c6296bfe16ada0b791acafc3859ab4e926
-commit: 2770a25234fb67de711dfd89751ecb2afc0e654f [136/167] mm/damon/core: commit range_{min,max} for probe hits wsum filter
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20260902/202609022203.Jc30tB50-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609022203.Jc30tB50-lkp@intel.com/reproduce)
+Hi Qais,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   ae917b3c7332e08006443a49c261aa97ce703103
+commit: 4198bdb2cff86af72de536067e11d8783928c881 [278/278] ANDROID: coresight: Update ETE DT yaml file
+config: arm-randconfig-2051-20260902 (https://download.01.org/0day-ci/archive/20260903/202609030035.f5qwAf0c-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 88e822a5253bec54a95687e59540a2d48cbaf4ca)
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609030035.f5qwAf0c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609022203.Jc30tB50-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609030035.f5qwAf0c-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/damon/core.c:1418:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-    1418 |         default:
-         |         ^
-   mm/damon/core.c:1418:2: note: insert 'break;' to avoid fall-through
-    1418 |         default:
-         |         ^
-         |         break; 
-   1 warning generated.
+>> make[2]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/arm/ete.example.dts] Error 1
+   make[2]: *** Deleting file 'Documentation/devicetree/bindings/arm/ete.example.dts'
+   make[2]: *** [Documentation/devicetree/bindings/Makefile:59: Documentation/devicetree/bindings/processed-schema-examples.json] Error 123
+   make[2]: Target '__build' not remade because of errors.
 
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/arm/ete.yaml:44:60: mapping values are not allowed here
 
-vim +1418 mm/damon/core.c
+vim +44 Documentation/devicetree/bindings/arm/ete.yaml
 
-63f5dec16760f2c Sang-Heon Jeon 2025-08-10  1398  
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1399  static void damos_commit_filter_arg(
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1400  		struct damos_filter *dst, struct damos_filter *src)
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1401  {
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1402  	switch (dst->type) {
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1403  	case DAMOS_FILTER_TYPE_MEMCG:
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1404  		dst->memcg_id = src->memcg_id;
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1405  		break;
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1406  	case DAMOS_FILTER_TYPE_ADDR:
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1407  		dst->addr_range = src->addr_range;
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1408  		break;
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1409  	case DAMOS_FILTER_TYPE_TARGET:
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1410  		dst->target_idx = src->target_idx;
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1411  		break;
-0431c42622612a9 Usama Arif     2025-02-11  1412  	case DAMOS_FILTER_TYPE_HUGEPAGE_SIZE:
-0431c42622612a9 Usama Arif     2025-02-11  1413  		dst->sz_range = src->sz_range;
-0431c42622612a9 Usama Arif     2025-02-11  1414  		break;
-2770a25234fb67d SJ Park        2026-08-25  1415  	case DAMOS_FILTER_TYPE_PROBE_HITS_WSUM:
-2770a25234fb67d SJ Park        2026-08-25  1416  		dst->range_min = src->range_min;
-2770a25234fb67d SJ Park        2026-08-25  1417  		dst->range_max = src->range_max;
-9cb3d0b9dfce6a3 SJ Park        2024-06-18 @1418  	default:
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1419  		break;
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1420  	}
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1421  }
-9cb3d0b9dfce6a3 SJ Park        2024-06-18  1422  
-
-:::::: The code at line 1418 was first introduced by commit
-:::::: 9cb3d0b9dfce6a3258d91e6d69e418d0b4cce46a mm/damon/core: implement DAMON context commit function
-
-:::::: TO: SeongJae Park <sj@kernel.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+     9	
+    10	maintainers:
+    11	  - Suzuki K Poulose <suzuki.poulose@arm.com>
+    12	  - Mathieu Poirier <mathieu.poirier@linaro.org>
+    13	
+    14	description: |
+    15	  Arm Embedded Trace Extension(ETE) is a per CPU trace component that
+    16	  allows tracing the CPU execution. It overlaps with the CoreSight ETMv4
+    17	  architecture and has extended support for future architecture changes.
+    18	  The trace generated by the ETE could be stored via legacy CoreSight
+    19	  components (e.g, TMC-ETR) or other means (e.g, using a per CPU buffer
+    20	  Arm Trace Buffer Extension (TRBE)). Since the ETE can be connected to
+    21	  legacy CoreSight components, a node must be listed per instance, along
+    22	  with any optional connection graph as per the coresight bindings.
+    23	  See bindings/arm/coresight.txt.
+    24	
+    25	properties:
+    26	  $nodename:
+    27	    pattern: "^ete([0-9a-f]+)$"
+    28	  compatible:
+    29	    items:
+    30	      - const: arm,embedded-trace-extension
+    31	
+    32	  cpu:
+    33	    description: |
+    34	      Handle to the cpu this ETE is bound to.
+    35	    $ref: /schemas/types.yaml#/definitions/phandle
+    36	
+    37	  out-ports:
+    38	    description: |
+    39	      Output connections from the ETE to legacy CoreSight trace bus.
+    40	    $ref: /schemas/graph.yaml#/properties/ports
+    41	    properties:
+    42	      port:
+    43	        description: Output connection from the ETE to legacy CoreSight Trace bus.
+  > 44	        $ref: /schemas/graph.yaml#/properties/port required:
+    45	
+    46	required:
+    47	  - compatible
+    48	  - cpu
+    49	
 
 --
 0-DAY CI Kernel Test Service
