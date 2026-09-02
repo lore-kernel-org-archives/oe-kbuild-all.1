@@ -1,144 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAD4244667;
-	Wed,  2 Sep 2026 04:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD583054E4
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 04:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788323170; cv=none; b=ryX+E3tylBABCX4sG093gYQ2E4lyFEX5jrqkd3XvION4i3ZtHDJZzA3dhnvrw4v43/ILEbrJHjAC8mPshrn6ZwCeUxXbq//+W54Tl1Q9qr9BlME5gz+ihd6F2ReaoHbeP//RPgwFl2fC6yUq8xLDaKybMJS12rzRqrOSDNvYMp8=
+	t=1788324688; cv=none; b=qTB71vCmIGjJw5XQtI19llNoXrQsmfwbjWWBaXp2dp/2trv3maJxSKIrwr3QQqu4+70V3ugu4fVyLx+CxucJMfL98a4CwPvvRZCnFo259G61jcZAsT7kmjAwUGy5hilwSt7+v4NJesIzHX8KaOU9sIcVq/3E1Vcs+KETXji3LGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788323170; c=relaxed/simple;
-	bh=zP5ZhSowRPGpYmdA5e0K7FfoiqjOee59uTTP7+S95/E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oushKtuf7/jscbNGy/WfDpgjWvc9Cnh9IddcxxEQp25hwxykeaeAEsqL60OU1TCKUJNnwLoKFBUS0fjd0BZ0ECXa91lW/HNE98vQcyrad0U48Nvc/oFyhDgjFZpB54GlJsUCcrc+7VuTXuu6sS89ExMSgDgvVK8Pu4GQRH1KZY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LwAe4tXR; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788324688; c=relaxed/simple;
+	bh=ejk0JJWqe1cF/EYmHaHgslQqmM69yyX4ksUuMQWX8UA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q7xXZbNVfBf9ApwZFTKcbHBN25OjBxPXhJpw3qD/L2rDqi37cPkiDOYa/zjQSrP49Ix3uHnrMQYobJjEqasss8ZsNtvDfJI26X65WIXYZlpkTtdrfIKWEW8cC1b9Cb/VnZ6BjkS5uYVUFfhbxOl6rNxciCEirDNzbx95/XfiBSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CM/fRBb/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LwAe4tXR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788323168; x=1819859168;
-  h=date:from:to:cc:subject:message-id;
-  bh=zP5ZhSowRPGpYmdA5e0K7FfoiqjOee59uTTP7+S95/E=;
-  b=LwAe4tXRMeG+Z1vYgRV8av5sBVg5f2aIvOBuWjck8RVWFf9ugzGb/5Rp
-   d6VjA8TnTxPkLiwFOkaPaXjBmiOXf+pFU/rjibLBc5qIxEzO56o5dm8Ic
-   MQL6+UUErdA74e45QbnKLQE1/niob5ISkKyf3/oY6bEAfMRIGTEspJT8V
-   oEPn0QjraAhY+VvTSfz0DB5Um+dsxVHw8BfiLU44EwA8IAzxjsRWYXrtG
-   5/acn0hNB3p/cbIZaZQ3/lUtq+H6mcO74bfecXRNodLwGUqktaapzZMkZ
-   yVygJuozXvDGGz9unAaDmcZO0zViJwmCK6zDjgcgorljdg0QB4EGyW081
-   Q==;
-X-CSE-ConnectionGUID: hRE+meeCRi2jgnJ4uqi8Xg==
-X-CSE-MsgGUID: NMSBsp1DS2iKnDTn6egI5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="92640257"
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="92640257"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 21:26:07 -0700
-X-CSE-ConnectionGUID: yLrpXmBMRDaaprGAvCgVSQ==
-X-CSE-MsgGUID: GBynp4FiQMGyI9I6gbhz1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="263154834"
-Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Sep 2026 21:26:05 -0700
-Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x1cXy-000000001zC-1Mf9;
-	Wed, 02 Sep 2026 04:26:02 +0000
-Date: Wed, 02 Sep 2026 12:25:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/250-aop 38/79] error[E0425]: cannot find
- type `Registration` in module `soc`
-Message-ID: <202609021217.1vnDmN5r-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CM/fRBb/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 376CD1F00A3A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 04:51:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788324687;
+	bh=8WEgQIgSKzPLNoud5uFAEFlpKrFvZNoW0X2DCeY/nbs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=CM/fRBb/OSkplh+zU8SEtnRYpFBugfWCO9AeMStUD8L53234v9krxnDEUhXwmBWev
+	 2hMaGQ008lrCc+TN8wdJqixNTCc6Mq7hD9AnRoxdcO1jLalwqf0gQV+JnwDI+dGfOC
+	 ccG55f5ChKc7heIuvJw5TtK/D7IewHb+YJhWZlgX+UHdCdOk4ed1YuA6Oy56qyUbMz
+	 KMAXTJcKUGKdIWFFRT2XEydbj4sbVUTRDWFqcBi+leb9k6/fTe6IT0ci0kdDPDl/NJ
+	 ojrvPcmiz3l48Tm9MAmru5ZCVSepaOSR0ldJRHECxmbe0IBPZpm+TNnL8gLbGCM3K5
+	 BHD5yBY0l1Vgg==
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c20e70a0962so69265466b.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 01 Sep 2026 21:51:27 -0700 (PDT)
+X-Gm-Message-State: AFuF++nof8N3mgTpj1mFHB+r+3wAQm8IuDyEqn6qpFvPv6qG78mqwBK3
+	9dprJOfXv4ORH7u11LeQNmYRdEXOYr1LDqUhtBRn5LLVoDpG8IVJkat9fCt8B6U/fz1WivPpt61
+	hM0ZolTFCWsS/Gw2x8ZolZxnt1aABJ0M=
+X-Received: by 2002:a17:907:6d1c:b0:c25:47a4:fedc with SMTP id
+ a640c23a62f3a-c25d53bb71dmr116762966b.2.1788324685811; Tue, 01 Sep 2026
+ 21:51:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202609021157.8f7Wx34I-lkp@intel.com>
+In-Reply-To: <202609021157.8f7Wx34I-lkp@intel.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 2 Sep 2026 13:51:13 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_i-C-D8Zr87aYVbfTdiORhzB3AJfPoUt2DUgq9ZP-ToQ@mail.gmail.com>
+X-Gm-Features: AcwNN1Ud_J0aThJQAxYtOto2b3SEXDZBp3UjM4KodxGMFLE33Jf_ZZ4NhqNgLIk
+Message-ID: <CAKYAXd_i-C-D8Zr87aYVbfTdiORhzB3AJfPoUt2DUgq9ZP-ToQ@mail.gmail.com>
+Subject: Re: vfs_cache.c:undefined reference to `__xchg_called_with_bad_pointer'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/AsahiLinux/linux bits/250-aop
-head:   e793b14f66e33b70363166d84886d82d462f1987
-commit: 12df0d4caf19584f993989efdfd00fc7d8f9b1cf [38/79] rust: soc: apple: rtkit: Add Apple RTKit abstraction
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260902/202609021217.1vnDmN5r-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021217.1vnDmN5r-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609021217.1vnDmN5r-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> error[E0425]: cannot find type `Registration` in module `soc`
-   --> samples/rust/rust_soc.rs:21:20
-   |
-   21 |     _dev_reg: soc::Registration,
-   |                    ^^^^^^^^^^^^ not found in `soc`
-   |
-   help: consider importing one of these structs
-   |
-   5 + use crate::soc::bus::Registration;
-   |
-   5 + use kernel::auxiliary::Registration;
-   |
-   5 + use kernel::cpufreq::Registration;
-   |
-   5 + use kernel::driver::Registration;
-   |
-   = and 5 other candidates
-   help: if you import `Registration`, refer to it directly
-   |
-   21 -     _dev_reg: soc::Registration,
-   21 +     _dev_reg: Registration,
-   |
---
->> error[E0422]: cannot find struct, variant or union type `Attributes` in module `soc`
-   --> samples/rust/rust_soc.rs:58:29
-   |
-   58 |             let attr = soc::Attributes {
-   |                             ^^^^^^^^^^ not found in `soc`
-   |
-   help: consider importing one of these structs
-   |
-   5 + use crate::soc::bus::Attributes;
-   |
-   5 + use kernel::soc::bus::Attributes;
-   |
-   help: if you import `Attributes`, refer to it directly
-   |
-   58 -             let attr = soc::Attributes {
-   58 +             let attr = Attributes {
-   |
---
->> error[E0433]: cannot find `Registration` in `soc`
-   --> samples/rust/rust_soc.rs:68:34
-   |
-   68 |                 _dev_reg <- soc::Registration::new(attr),
-   |                                  ^^^^^^^^^^^^ could not find `Registration` in `soc`
-   |
-   help: consider importing one of these structs
-   |
-   5 + use crate::soc::bus::Registration;
-   |
-   5 + use kernel::auxiliary::Registration;
-   |
-   5 + use kernel::cpufreq::Registration;
-   |
-   5 + use kernel::driver::Registration;
-   |
-   = and 5 other candidates
-   help: if you import `Registration`, refer to it directly
-   |
-   68 -                 _dev_reg <- soc::Registration::new(attr),
-   68 +                 _dev_reg <- Registration::new(attr),
-   |
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Wed, Sep 2, 2026 at 12:53=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   89a312991dc6e638a36adc43ccb91dbc25504c04
+> commit: d12168084c8c1b6d883c8eca5853929ac5136a9e ksmbd: safely drain sess=
+ions during logoff
+> date:   2 days ago
+> config: sparc-randconfig-r052-20260902 (https://download.01.org/0day-ci/a=
+rchive/20260902/202609021157.8f7Wx34I-lkp@intel.com/config)
+> compiler: sparc-linux-gcc (GCC) 13.4.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260902/202609021157.8f7Wx34I-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Fixes: d12168084c8c ("ksmbd: safely drain sessions during logoff")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202609021157.8f7Wx34I-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    sparc-linux-ld: fs/smb/server/vfs_cache.o: in function `__close_file_t=
+able_ids':
+> >> vfs_cache.c:(.text+0x175c): undefined reference to `__xchg_called_with=
+_bad_pointer'
+> >> sparc-linux-ld: vfs_cache.c:(.text+0x17e0): undefined reference to `__=
+xchg_called_with_bad_pointer'
+>    sparc-linux-ld: fs/smb/server/vfs_cache.o: in function `ksmbd_close_di=
+sconnected_durable_delete_on_close':
+>    vfs_cache.c:(.text+0x1fc0): undefined reference to `__xchg_called_with=
+_bad_pointer'
+>    sparc-linux-ld: fs/smb/server/vfs_cache.o: in function `ksmbd_wake_ses=
+sion_blocked_works':
+>    vfs_cache.c:(.text+0x2104): undefined reference to `__xchg_called_with=
+_bad_pointer'
+>    sparc-linux-ld: fs/smb/server/vfs_cache.o: in function `ksmbd_close_fd=
+':
+>    vfs_cache.c:(.text+0x21f0): undefined reference to `__xchg_called_with=
+_bad_pointer'
+>    sparc-linux-ld: fs/smb/server/vfs_cache.o:vfs_cache.c:(.text+0x2b84): =
+more undefined references to `__xchg_called_with_bad_pointer' follow
+I will fix it.
+Thanks for the report!
