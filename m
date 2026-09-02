@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E6047CA72
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 11:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D4F42DA3D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 13:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788349336; cv=none; b=RgvWZygs0EEhuRMWKmUxruSXXsYgDMxPnVtaViQ56onkLRZ+KWPC60PjxEC+V82negWzqMvYt5kVjzcDOZrmS7IRDkrU62mZG8ymzyj9Oju8H2hPuVDDVbRg4z1g3jwndHt/JxD1nSutzpSGynN81teX8Yb27Oct0h+j2BfomZo=
+	t=1788354380; cv=none; b=SD2T3epmhwPQ3NroJW2l/CBOsdJRELk4MF21Ncg07YfDMJpPu3sqSxwhqLRzs8hUl1TnRrHGKm8XsZSwYIh+qbGVoeuC3xnz2x6dBbwZGzsdb8f/RgK9sjJErBjLwNjisKlMPGqQzZm1Q8Zz1n3VsDmHUbqgnvZ7/D3Z1YQ+c2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788349336; c=relaxed/simple;
-	bh=AKUnfdhcTKHUJXot2dXdtcpFnmAAQLkTtfgBy/UsLGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NwDoZMtvxgv/+wUnyREPj5TPDG0BJFH++4LQzQQ1M/XYxV8L6tSqxYB/UJSqQOyyjl/ca6Q+8OJKyGScGfUN7G4/KMa0IfVSgyy2BeaCl0gNyjnKjLebbULx5K41ae4sKFHlurIWjH66AzBiIEHaIwubNxIzMnToyAG5En1ZefI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKLsU2BD; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1788354380; c=relaxed/simple;
+	bh=s1qv/ItgQFbZNcylvQ8Y041xRAGswh3LON2LTJeuDv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=GTn/Tf0AgDlY/DlhIYOl5UjjZulM2abdYq4GxjXtU7laa01NiLYRvcC8k9ttjHxRo9UkirVr+VSIBwDMDjUJD3BBAYs/VTOzm2GpcqJTMSz7gkMuLvNhZxXUsbtrG0u0H9fd14LV7V2tdmGWsBhTdL9yeAk37l23L7D4udzJlQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCt7h4py; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKLsU2BD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCt7h4py"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788349332; x=1819885332;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AKUnfdhcTKHUJXot2dXdtcpFnmAAQLkTtfgBy/UsLGQ=;
-  b=hKLsU2BD5q7Rr0FZmkHzFUbunXZAnm5ZXDdu7mjwjoucbAtYO9XTJ8du
-   IOc4VgPhWlKMw9HiY/okMsydt1JZKHIbo36JaouF5IFqN8yhSnkMAlzqn
-   aOHA/sXDKB6y6xpuhUZ07/xLwh3EtdIguWngx/vr1Jpx0Os45l99XwP5F
-   AcV8USCS7yeeDM0G2AZAnQbNIgmr9+yRSGr8oSfnJDg0Sz4kRycxLzcyf
-   2YzrgxLNYKxyipsN3KAX86+rqB0lgn+ulcFVuk+nG8mGxSD647T35WnjH
-   8Z3P13qCBrNfBKKYdLYRioz12UsjUMItZohX4IVZlf+AishC1Qg6qgSug
-   Q==;
-X-CSE-ConnectionGUID: iX8PXs/pTPON/H/MqfgHXg==
-X-CSE-MsgGUID: huoqufk5QU2PaPAWFcg1eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88562031"
+  t=1788354379; x=1819890379;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s1qv/ItgQFbZNcylvQ8Y041xRAGswh3LON2LTJeuDv0=;
+  b=nCt7h4pynPiLCLK8vO7riwj6cxytzGyOCi4xbTasDfx2QE+iqPqxzSwD
+   zKiT8eAhoeN7NztU7nQ+dBpht3sDOU1/YP4Hcnf41mFB1051otBq6ST/X
+   M/AX/2EPHSjxu91WFYenS9vcKir/rWVBOJ5fKdvBgS4NQ6G8as68OjVZI
+   YONhUqDiIfsPRVZccyPVfk3O83tGYdLesR3Ahn4PV5zxmtIex2a78CNpl
+   b88H5upSQ1EoF6y8ceRd9DesJFfuwl/EE5YidUopRmtsmw4K9kd9xySbJ
+   Eojithx8uWGW2lFGz9ncz/1QKxXBIyzXyyjBnHds2FM5eTY8Ra5SNaRqV
+   g==;
+X-CSE-ConnectionGUID: sSW4W+T5SSq2qzGgCI5USQ==
+X-CSE-MsgGUID: E/RZSUxLRFy954HFKYQZqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88687353"
 X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="88562031"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 04:42:09 -0700
-X-CSE-ConnectionGUID: kmkujtPYRVmiDJ3O91nOow==
-X-CSE-MsgGUID: 3S70Y/nwTLGcaoS1NGpj7w==
+   d="scan'208";a="88687353"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:06:18 -0700
+X-CSE-ConnectionGUID: ifW7lftaQy6HGyFARj+AIQ==
+X-CSE-MsgGUID: XQJEHRUDSLucO3I+DggEpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="268840869"
+   d="scan'208";a="268098507"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 Sep 2026 04:42:06 -0700
+  by orviesa010.jf.intel.com with ESMTP; 02 Sep 2026 06:06:16 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1jLv-000000002XK-31kx;
-	Wed, 02 Sep 2026 11:42:03 +0000
-Date: Wed, 2 Sep 2026 19:41:07 +0800
+	id 1x1kfO-000000002jI-3KyP;
+	Wed, 02 Sep 2026 13:06:14 +0000
+Date: Wed, 02 Sep 2026 21:06:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bowen Yu <yubowen8@huawei.com>, linuxarm@huawei.com,
-	liudingyuan@h-partners.com, andi.shyti@kernel.org,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, zhanjie9@hisilicon.com,
-	prime.zeng@hisilicon.com, wanghuiqiang@huawei.com,
-	xuwei5@huawei.com, yubowen8@huawei.com, zhangpengjie2@huawei.com
-Subject: Re: [PATCH v2] i2c: hisi: Add I2C bus recovery support
-Message-ID: <202609021937.s2FqKDO3-lkp@intel.com>
-References: <20260901063116.3438094-1-yubowen8@huawei.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:wk-3way-merge 74/180]
+ kernel/module/decompress.c:112:31: error: too many arguments to function
+ 'scratchpad_alloc'; expected 2, have 3
+Message-ID: <202609022117.XejGzHJ4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,144 +62,103 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901063116.3438094-1-yubowen8@huawei.com>
 
-Hi Bowen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on linus/master v7.3-rc1 next-20260901]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bowen-Yu/i2c-hisi-Add-I2C-bus-recovery-support/20260901-143116
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20260901063116.3438094-1-yubowen8%40huawei.com
-patch subject: [PATCH v2] i2c: hisi: Add I2C bus recovery support
-config: csky-randconfig-r064-20260902 (https://download.01.org/0day-ci/archive/20260902/202609021937.s2FqKDO3-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021937.s2FqKDO3-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git wk-3way-merge
+head:   d0c943103cb664ad87f6e3202f62d82153394afe
+commit: 150c4ac3f72211323b916d80201583b5074abd4c [74/180] module: Route decompression workspaces and page tracking to scratchpad
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260902/202609022117.XejGzHJ4-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609022117.XejGzHJ4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609021937.s2FqKDO3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609022117.XejGzHJ4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-hisi.c:249:12: warning: 'hisi_i2c_get_bus_recovery_res' defined but not used [-Wunused-function]
-     249 | static int hisi_i2c_get_bus_recovery_res(struct hisi_i2c_controller *ctlr,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-hisi.c:222:13: warning: 'hisi_i2c_unprepare_recovery' defined but not used [-Wunused-function]
-     222 | static void hisi_i2c_unprepare_recovery(struct i2c_adapter *adap)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-hisi.c:210:13: warning: 'hisi_i2c_prepare_recovery' defined but not used [-Wunused-function]
-     210 | static void hisi_i2c_prepare_recovery(struct i2c_adapter *adap)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-hisi.c:197:13: warning: 'hisi_i2c_recovery_set_scl' defined but not used [-Wunused-function]
-     197 | static void hisi_i2c_recovery_set_scl(struct i2c_adapter *adap, int val)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-hisi.c:189:12: warning: 'hisi_i2c_recovery_get_sda' defined but not used [-Wunused-function]
-     189 | static int hisi_i2c_recovery_get_sda(struct i2c_adapter *adap)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-hisi.c:181:12: warning: 'hisi_i2c_recovery_get_scl' defined but not used [-Wunused-function]
-     181 | static int hisi_i2c_recovery_get_scl(struct i2c_adapter *adap)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/module/decompress.c: In function 'module_gzip_decompress':
+>> kernel/module/decompress.c:112:31: error: too many arguments to function 'scratchpad_alloc'; expected 2, have 3
+     112 |                 s.workspace = scratchpad_alloc(&info->sp, zlib_inflate_workspacesize(), GFP_KERNEL);
+         |                               ^~~~~~~~~~~~~~~~
+   In file included from kernel/module/internal.h:16,
+                    from kernel/module/decompress.c:15:
+   include/linux/scratchpad.h:169:30: note: declared here
+     169 | static __always_inline void *scratchpad_alloc(struct scratchpad *sp,
+         |                              ^~~~~~~~~~~~~~~~
 
 
-vim +/hisi_i2c_get_bus_recovery_res +249 drivers/i2c/busses/i2c-hisi.c
+vim +/scratchpad_alloc +112 kernel/module/decompress.c
 
-   180	
- > 181	static int hisi_i2c_recovery_get_scl(struct i2c_adapter *adap)
-   182	{
-   183		struct hisi_i2c_controller *ctlr = i2c_get_adapdata(adap);
-   184		u32 reg = readl(ctlr->iobase + HISI_I2C_TRANS_STATE);
-   185	
-   186		return !!(reg & HISI_I2C_TRANS_STATE_SCL_LEVEL);
-   187	}
-   188	
- > 189	static int hisi_i2c_recovery_get_sda(struct i2c_adapter *adap)
-   190	{
-   191		struct hisi_i2c_controller *ctlr = i2c_get_adapdata(adap);
-   192		u32 reg = readl(ctlr->iobase + HISI_I2C_TRANS_STATE);
-   193	
-   194		return !!(reg & HISI_I2C_TRANS_STATE_SDA_LEVEL);
-   195	}
-   196	
- > 197	static void hisi_i2c_recovery_set_scl(struct i2c_adapter *adap, int val)
-   198	{
-   199		struct hisi_i2c_controller *ctlr = i2c_get_adapdata(adap);
-   200		u32 reg;
-   201	
-   202		reg = readl(ctlr->sctrl_addr);
-   203		if (val)
-   204			reg |= HISI_I2C_CTRL_SCL_OUT;
-   205		else
-   206			reg &= ~HISI_I2C_CTRL_SCL_OUT;
-   207		writel(reg, ctlr->sctrl_addr);
-   208	}
-   209	
- > 210	static void hisi_i2c_prepare_recovery(struct i2c_adapter *adap)
-   211	{
-   212		struct hisi_i2c_controller *ctlr = i2c_get_adapdata(adap);
-   213		u32 reg;
-   214	
-   215		reg = readl(ctlr->sctrl_addr);
-   216		reg |= HISI_I2C_CTRL_SCL_CFG_EN | HISI_I2C_CTRL_DAT_CFG_EN |
-   217			   HISI_I2C_CTRL_CLK_OE | HISI_I2C_CTRL_SCL_OUT;
-   218		reg &= ~HISI_I2C_CTRL_DAT_OE;
-   219		writel(reg, ctlr->sctrl_addr);
-   220	}
-   221	
- > 222	static void hisi_i2c_unprepare_recovery(struct i2c_adapter *adap)
-   223	{
-   224		struct hisi_i2c_controller *ctlr = i2c_get_adapdata(adap);
-   225		u32 reg;
-   226	
-   227		reg = readl(ctlr->sctrl_addr);
-   228		reg &= ~(HISI_I2C_CTRL_SCL_CFG_EN | HISI_I2C_CTRL_DAT_CFG_EN);
-   229		writel(reg, ctlr->sctrl_addr);
-   230	
-   231		/*
-   232		 * Invokes the specific ACPI method "_RST" to trigger a soft reset
-   233		 * of the I2C controller to help the I2C controller recover from
-   234		 * the abnormal state after the bus recovery process.
-   235		 */
-   236	#ifdef CONFIG_ACPI
-   237		if (ctlr->acpi_handle && acpi_has_method(ctlr->acpi_handle, "_RST")) {
-   238			acpi_status status;
-   239	
-   240			status = acpi_evaluate_object(ctlr->acpi_handle, "_RST", NULL, NULL);
-   241			if (ACPI_FAILURE(status))
-   242				dev_err(ctlr->dev, "_RST method failed: %s\n",
-   243					acpi_format_exception(status));
-   244		}
-   245	#endif
-   246		hisi_i2c_configure_bus(ctlr);
-   247	}
-   248	
- > 249	static int hisi_i2c_get_bus_recovery_res(struct hisi_i2c_controller *ctlr,
-   250						 struct platform_device *pdev)
-   251	{
-   252		struct resource *res0;
-   253	
-   254		res0 = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-   255	
-   256		if (!res0 || resource_size(res0) != HISI_I2C_RECOVERY_REG_SIZE)
-   257			return -ENODEV;
-   258	
-   259		ctlr->sctrl_addr = devm_ioremap_resource(&pdev->dev, res0);
-   260		if (IS_ERR(ctlr->sctrl_addr)) {
-   261			ctlr->sctrl_addr = NULL;
-   262			return -ENOMEM;
-   263		}
-   264	
-   265		return 0;
-   266	}
-   267	
+    92	
+    93	static ssize_t module_gzip_decompress(struct load_info *info,
+    94					      const void *buf, size_t size)
+    95	{
+    96		struct z_stream_s s = { 0 };
+    97		size_t new_size = 0;
+    98		size_t gzip_hdr_len;
+    99		ssize_t retval;
+   100		int rc;
+   101	
+   102		gzip_hdr_len = module_gzip_header_len(buf, size);
+   103		if (!gzip_hdr_len) {
+   104			pr_err("not a gzip compressed module\n");
+   105			return -EINVAL;
+   106		}
+   107	
+   108		s.next_in = buf + gzip_hdr_len;
+   109		s.avail_in = size - gzip_hdr_len;
+   110	
+   111		if (static_branch_likely(&modload_ENABLE_KEY))
+ > 112			s.workspace = scratchpad_alloc(&info->sp, zlib_inflate_workspacesize(), GFP_KERNEL);
+   113		else
+   114			s.workspace = kvmalloc(zlib_inflate_workspacesize(), GFP_KERNEL);
+   115		if (!s.workspace)
+   116			return -ENOMEM;
+   117	
+   118		rc = zlib_inflateInit2(&s, -MAX_WBITS);
+   119		if (rc != Z_OK) {
+   120			pr_err("failed to initialize decompressor: %d\n", rc);
+   121			retval = -EINVAL;
+   122			goto out;
+   123		}
+   124	
+   125		do {
+   126			struct page *page = module_get_next_page(info);
+   127	
+   128			if (IS_ERR(page)) {
+   129				retval = PTR_ERR(page);
+   130				goto out_inflate_end;
+   131			}
+   132	
+   133			s.next_out = kmap_local_page(page);
+   134			s.avail_out = PAGE_SIZE;
+   135			rc = zlib_inflate(&s, 0);
+   136			kunmap_local(s.next_out);
+   137	
+   138			new_size += PAGE_SIZE - s.avail_out;
+   139		} while (rc == Z_OK);
+   140	
+   141		if (rc != Z_STREAM_END) {
+   142			pr_err("decompression failed with status %d\n", rc);
+   143			retval = -EINVAL;
+   144			goto out_inflate_end;
+   145		}
+   146	
+   147		retval = new_size;
+   148	
+   149	out_inflate_end:
+   150		zlib_inflateEnd(&s);
+   151	out:
+   152		if (!static_branch_likely(&modload_ENABLE_KEY))
+   153			kvfree(s.workspace);
+   154		return retval;
+   155	}
+   156	#elif defined(CONFIG_MODULE_COMPRESS_XZ)
+   157	#include <linux/xz.h>
+   158	#define MODULE_COMPRESSION	xz
+   159	#define MODULE_DECOMPRESS_FN	module_xz_decompress
+   160	
 
 --
 0-DAY CI Kernel Test Service
