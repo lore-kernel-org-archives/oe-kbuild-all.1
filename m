@@ -1,153 +1,510 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9BB2D59E8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 04:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788321787; cv=none; b=KRcBI2D47EoUmf3rZ6YQShDvL+xsUitK9/hy3zwPQ6otknobtzx0iw7kHw9P8cjKS5ZFuNZ87BDbP99Gy+tLKcFHyNuyZ7jFDdZbMA0+6GGjQ7l8gGS6U1Ssx1CT/+9Ez+jAzhCAnBWNqHzK8TI4un4gFILsbnzgQLVqZuaFs6I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788321787; c=relaxed/simple;
-	bh=60SFwzqdMf6wp8xD6mow3OO/FPQrGKoOZSLGlUuGpX8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jdh7qJ3L9JVRUhcLKJ02zqICS2Kf77PdUTOflzM+omA8ODqvD8NCWElpJ3k/ahRbGSbR3UbBUIcRMGjPQqBb1HLyNfVsLI9asNemwi22fIba0pT6rX44kTojMQIliaSgoNxsErc5OT4pd/7BxzueskobKLhmiwXtEmhMNGaonxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+HBGaf2; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F57832B13F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Sep 2026 04:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788322512; cv=pass; b=mt1Mb0C52Uz66IpnjW5c+i2i6F8mJJzaF9cAWwIDzhFzIZ3kyvpESAExPH3byVhPjWuHyH+UvPBae2NRwWX+BdVHkSG+C/sJdAOMB3xiwhR1Dy78i1i3BZfbcQ1YJMJ/Yz4tLbpqqALgjrjUU7JGuV2x1QaT69/Uite4v7up1wQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788322512; c=relaxed/simple;
+	bh=GYrLpPXSr+wpw5uA9ENTksY4R3RpGrsVmCMNlh9NRZM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vbk70PPJ0/kR1rkOqv8zyfigPfY/tS6mw7vgdK5krFCcLANEwMoPZOf+dPddfY7oDGFISy8/pJkE92p9GlGGcISeMf54JEEI/fxFXcAfhwIn3VxUlG6GihBxSQM0sbVtalk9YjS49/5gWshI8re1ySpDSEFZ/dNyxxOla0XvlAY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pYBq/e8e; arc=pass smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+HBGaf2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788321785; x=1819857785;
-  h=date:from:to:cc:subject:message-id;
-  bh=60SFwzqdMf6wp8xD6mow3OO/FPQrGKoOZSLGlUuGpX8=;
-  b=D+HBGaf2I33PYQ3Lndj566zAc0jn2nChokfI4v5SjXwyg9Gi7uAUeFk2
-   L06aI15MiQy0hbhl/yxsGbQKXKlA2mjvMnDhf3/TIBmnvvf9t2Rz+XeYc
-   oFuvpaqpRmAjNqchkDL11y0EbdFNTtSNseKAfvMvcj42eJOwt+uUJEgox
-   H4Wk1fnDIvwDAB0Inl2LZB2Y61rmGhTWVFxRNfICRR8vloZh+CTJg/v6A
-   Ma0vvHYYZI2bE5/+Xv41a24P6AhcyvcfdHQ9b66a4yPFdLdLZnu9JnES7
-   BED/UYGLTDBuqBTrXbdV76wml0id7+WIKICPuOSALMePApJMRlAKZEunI
-   A==;
-X-CSE-ConnectionGUID: lFtwJfkdSLunFzPi256C8Q==
-X-CSE-MsgGUID: Jzm9t29xRkKN3IJVBp4rJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88646772"
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="88646772"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 21:03:03 -0700
-X-CSE-ConnectionGUID: q1t0CJjrT8+1YjiD0/7wtw==
-X-CSE-MsgGUID: Z8zxu7zOR7embn+m+Oyqew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="273477783"
-Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 01 Sep 2026 21:03:03 -0700
-Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x1cBf-000000001v7-3AYS;
-	Wed, 02 Sep 2026 04:02:59 +0000
-Date: Wed, 02 Sep 2026 12:02:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chao:feature/test/cache 14/14] fs/f2fs/cache_test.c:280:27:
- error: implicit declaration of function 'f2fs_cache_test_and_set_referenced';
- did you mean 'f2fs_cache_test_and_clear_referenced'?
-Message-ID: <202609021227.BGM2MWwj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pYBq/e8e"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-930f618435cso78400085a.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 01 Sep 2026 21:15:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788322509; cv=none;
+        d=google.com; s=arc-20260327;
+        b=n/t/oq4bGv5QJNDrwRAjEhGhqrQmxY+bXFAltDe3nAETPQ955n0QyVTeGFPXpL0mnC
+         bNbQBuUO18jfyadY6r55BTHrMU/MNT3ukf1sLc+3KTlM72CQG9RoDMArmoAgvDAvNAbP
+         DCWIZgK+WJqXIUf1cCIUkqrofwHJIsSgJ2NKBc8CZb3wFPZNN/tjzSUoYkjbaJn5KgFW
+         Qdg14qT41xGE6KZKWmOxuqVYljMOdOExeC0JNjenZ2Gl6OzVEZbVtCcpXTp02aul+Snp
+         crDPaYlSG9scZk3qc8xr9yYiWyvmSjtbGzA8duOReJMjn2VbNDrGFyI3k8WzMkXyoMyU
+         /1QQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8zLcTNB8D6Av53uE6bMjzR5QHWvUxA2Hm598w4QvsTU=;
+        fh=44gGQ4LV6myVyPSxc1yq7ue1ZfsrLE1TJDLqDVv7EwY=;
+        b=NAKzhc2X2kA7bE5T1jQiRh97GGberhyJqym7l0ZYFqWJ194K9ZNi8wmuTSe0Fiz1Iu
+         u+mxRLqvssXOrGA4ug2nlc1+3JIAfoLZpjMvLUYPvyOQcavVEeMqDoVYyM5NucpGywvL
+         mRqKrQ4/IcTE8B7dKp9HTOB41PFdhLP4wZKPwHcjEMJUeWKTCQyW2+Q5UZN5vq9tlTd7
+         XWYt0GneEJoACgC98CVFuD98/nvVNb5S5nW7t2gt5GPXwEKI4uXYXdZieR29+iBxcZxn
+         C94yyAHGolbEC/Kj8duqz85/rMJ1ASovxS3GrEQrpeDRFJw5ZVLVI39gHdPSdHYOJp4v
+         8ong==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788322509; x=1788927309; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8zLcTNB8D6Av53uE6bMjzR5QHWvUxA2Hm598w4QvsTU=;
+        b=pYBq/e8eBncQwqjbi/g/NN5tsUNfGbm1VI2CHADZvJHqh0pUlcIVHjoCQ9CYhzEcnc
+         SG0G+R8Elo6Q+mgUbNLzsMZCyEIWYNTOX3ytsv1ep/M63/6FLoO+6+b7w58mKYjSl5+9
+         ma6/WZw3swSIBP1y3BAk3mvsIbs46HAw1J+TlV/9KZ5ZLZUEvpkg2Ctaai/hdK2Fiaue
+         HmSD+PFkOZccjHr3bADYmoy6yajs3T6XVOvysIXO3zckdRrPC3biVXen660hAAgEyaxN
+         iKWbkeqLJUBHU8l+mEgDW1ho5MBn7/vISRXfqpKUSqHZAA79bAOgKfw2oYwwiB7+T7hG
+         qQvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788322509; x=1788927309;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8zLcTNB8D6Av53uE6bMjzR5QHWvUxA2Hm598w4QvsTU=;
+        b=mOJDjkHwlSqQ/pTBym6ynx1T66zmKkhrg3qEdp1UquddPlxPpx/RlO7aGZtlRV1Ui5
+         HlZkaYxes43WtR/+hXYe2AyLemtdgivdsulSQcDhJzzB+V/Be2xE3pDlxJDGaG87roIa
+         8FGNqNomeT+32wfstveX9pIoQ8wtrop5ravF2K23I5JXu+TSEvinjpebIQO4qPkUPk+d
+         4KZtzceTcyTIEt2XreURXYxu17G/XeCe3InnkdOKMAHtRKtXZ+VSb4nhsHqXGjDd611+
+         U+yzcjVV4YTGBcyYVVc2j67TqUG0uZrJxdMnJG5jgp/GH33U20UhYX670my+GyuxNLFP
+         vynQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqXLc5duOVuaY3jdQApatU4HlAE8ZoYDnPqQm8Afe7KxL3ZZkJV58xSod6qh3ARLLceg3LMcbkkVQKj8t0M@lists.linux.dev
+X-Gm-Message-State: AFuF++nmpEZOAv/1PDZl/lFrnlG0mkl8nJvLyKWC4l1y6tTmkEp4Fbnj
+	e1SxYlcPwWPJbyUWPfQbSDtiybVgGKOEn7cjoBL+U8HaV+dhUDVB1sYDmVrR1OuW9Xt2eewIsGd
+	Mb7GGclwUYosFbSpTvUffmA8q+/DsVPQ=
+X-Gm-Gg: AR+sD10AIhaRwJNHHPY4dJ4lgDYTYPJ3rEokmypz24b971gZH7CWkgqG6r1y5BRZCBN
+	+Un9lgqwt/61oWDoDVH1gnt2aup0KRpr7AHqhx+UHVNPiFC9snXKxFVTNif3QUz4afOrh1mZNNd
+	rmqu4eLqikPkm6Zl8lrTVG+RHQSPHsELsj5S/JZyOyHcz3gu3F7r/Q/E+UqQBDoYDMZxyXa2lQq
+	beU7a3Luti/ZYm8Xhk+u8AV3S+RKSOJ54xtA2GDQJTNvWdIU5SAGN/H9qh+5M6wjKUBQDNXQJjy
+	0YJiyjW67i2jD0LKq86Gs1Z7zMt6cZJIS5vl9x0WwRtMNbrbE+x2tiosj/qZ1TjplAcPcpaoO58
+	+DlIqlNDR2sdCzR9WsV5RaTrV
+X-Received: by 2002:a05:620a:72cc:20b0:939:32cf:641c with SMTP id
+ af79cd13be357-93960cbcc17mr192773485a.9.1788322508992; Tue, 01 Sep 2026
+ 21:15:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260727092258.1121-1-liujiazi@amazon.com> <20260812082127.79610-1-liujiazi@amazon.com>
+ <apDmBeD8UQIvtfR4@vbox> <CAAcjFgh-f2=cK09BLGN-kPVu2usjN7pWOxCWb31hSePB2nLVEA@mail.gmail.com>
+ <apIe9XE5_lFJWyg_@vbox>
+In-Reply-To: <apIe9XE5_lFJWyg_@vbox>
+From: Liu Jiazi <jiazi.liu1984@gmail.com>
+Date: Wed, 2 Sep 2026 12:14:57 +0800
+X-Gm-Features: AcwNN1VXmGHCkNH8FtWDhHqlwDvUE-1fS4RzWF171H-D6YyMHcp7U0t0pNMrg6g
+Message-ID: <CAAcjFgiCF0tC-REwzHmBTKew9LT9gmWsF==LUZ-htSTD2+s7+Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event
+ buffer count
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"stable@vger.kernel.org" <stable@vger.kernel.org>, "lkp@intel.com" <lkp@intel.com>, 
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Jiazi Liu <liujiazi@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/test/cache
-head:   80184bf033f71e094078e92116db41b8329e136a
-commit: 80184bf033f71e094078e92116db41b8329e136a [14/14] f2fs: cache: introduce KUnit test suite
-config: sh-randconfig-r062-20260901 (https://download.01.org/0day-ci/archive/20260902/202609021227.BGM2MWwj-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021227.BGM2MWwj-lkp@intel.com/reproduce)
+Hi @Thinh Nguyen
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609021227.BGM2MWwj-lkp@intel.com/
+Tested on our device with the patch you provided.
+Trigger the error by writing a bogus value to GEVNTCOUNT and the
+controller recovers successfully
+USB re-enumrates and ADB comes back. No kernel panic observed.
 
-All errors (new ones prefixed by >>):
+uart print:
+[ 1892.781261][    C0] dwc3 b1800000.usb: invalid count(61436) >
+evt->length(4096)
+[ 1892.834341][ T6793] dwc3 b1800000.usb: request ffffff81475856c0 was
+not queued to ep0out
+[ 1895.042752][ T9114] ffs_data_put(): freeing
+[ 1896.206669][ T9142] read descriptors
+[ 1896.207465][ T9142] bcdVersion must be 0x0100, stored in Little
+Endian order. Userspace driver should be
+fixed, accepting 0x0001 for compatibility.
+[ 1896.209638][ T9142] bcdVersion must be 0x0100, stored in Little
+Endian order. Userspace driver should be
+fixed, accepting 0x0001 for compatibility.
+[ 1896.211754][ T9142] read strings
+[ 1897.244130][ T9123] FFS endpoints ready, proceeding with UDC bind
+[ 1897.258493][ T9123] bcdVersion must be 0x0100, stored in Little
+Endian order. Userspace driver should be
+fixed, accepting 0x0001 for compatibility.
+[ 1897.260970][ T9123] bcdVersion must be 0x0100, stored in Little
+Endian order. Userspace driver should be
+fixed, accepting 0x0001 for compatibility.
 
-   In file included from include/linux/err.h:5,
-                    from include/kunit/assert.h:12,
-                    from include/kunit/test.h:12,
-                    from fs/f2fs/cache_test.c:9:
-   fs/f2fs/cache_test.c: In function 'test_cache_block_states_and_bitlocks':
->> fs/f2fs/cache_test.c:280:27: error: implicit declaration of function 'f2fs_cache_test_and_set_referenced'; did you mean 'f2fs_cache_test_and_clear_referenced'? [-Werror=implicit-function-declaration]
-     280 |  KUNIT_EXPECT_FALSE(test, f2fs_cache_test_and_set_referenced(entry));
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:40: note: in definition of macro 'likely'
-      76 | # define likely(x) __builtin_expect(!!(x), 1)
-         |                                        ^
-   include/kunit/test.h:810:2: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
-     810 |  KUNIT_UNARY_ASSERTION(test,            \
-         |  ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1017:2: note: in expansion of macro 'KUNIT_FALSE_MSG_ASSERTION'
-    1017 |  KUNIT_FALSE_MSG_ASSERTION(test,            \
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1014:2: note: in expansion of macro 'KUNIT_EXPECT_FALSE_MSG'
-    1014 |  KUNIT_EXPECT_FALSE_MSG(test, condition, NULL)
-         |  ^~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/cache_test.c:280:2: note: in expansion of macro 'KUNIT_EXPECT_FALSE'
-     280 |  KUNIT_EXPECT_FALSE(test, f2fs_cache_test_and_set_referenced(entry));
-         |  ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Brs
+Jiazi
 
-
-vim +280 fs/f2fs/cache_test.c
-
-   241	
-   242	/* Module 5: F2FS_BLOCK_* block states and bit-locks */
-   243	static void test_cache_block_states_and_bitlocks(struct kunit *test)
-   244	{
-   245		struct f2fs_cache_test_ctx *ctx = test->priv;
-   246		struct f2fs_cached_block_list *cache = META_CACHE(&ctx->sbi);
-   247		struct f2fs_cached_block *entry;
-   248	
-   249		entry = f2fs_grab_cache(cache, 1, F2FS_CACHE_CREATE);
-   250		KUNIT_ASSERT_FALSE(test, IS_ERR(entry));
-   251	
-   252		/* Lock / Trylock / Unlock */
-   253		KUNIT_EXPECT_TRUE(test, f2fs_trylock_cache(entry));
-   254		KUNIT_EXPECT_TRUE(test, f2fs_cache_test_locked(entry));
-   255		KUNIT_EXPECT_FALSE(test, f2fs_trylock_cache(entry));
-   256		f2fs_unlock_cache(entry);
-   257		KUNIT_EXPECT_FALSE(test, f2fs_cache_test_locked(entry));
-   258	
-   259		/* Uptodate */
-   260		KUNIT_EXPECT_FALSE(test, f2fs_cache_test_uptodate(entry));
-   261		f2fs_cache_set_uptodate(entry);
-   262		KUNIT_EXPECT_TRUE(test, f2fs_cache_test_uptodate(entry));
-   263		f2fs_cache_clear_uptodate(entry);
-   264		KUNIT_EXPECT_FALSE(test, f2fs_cache_test_uptodate(entry));
-   265	
-   266		/* Dirty */
-   267		KUNIT_EXPECT_FALSE(test, f2fs_cache_test_dirty(entry));
-   268		f2fs_mark_cache_dirty(entry);
-   269		KUNIT_EXPECT_TRUE(test, f2fs_cache_test_dirty(entry));
-   270		KUNIT_EXPECT_TRUE(test, f2fs_cache_test_and_clear_dirty(entry));
-   271		KUNIT_EXPECT_FALSE(test, f2fs_cache_test_dirty(entry));
-   272	
-   273		/* Inline */
-   274		f2fs_cache_set_inline(entry);
-   275		KUNIT_EXPECT_TRUE(test, f2fs_cache_test_inline(entry));
-   276		f2fs_cache_clear_inline(entry);
-   277		KUNIT_EXPECT_FALSE(test, f2fs_cache_test_inline(entry));
-   278	
-   279		/* Referenced */
- > 280		KUNIT_EXPECT_FALSE(test, f2fs_cache_test_and_set_referenced(entry));
-   281		KUNIT_EXPECT_TRUE(test, f2fs_cache_test_and_set_referenced(entry));
-   282		KUNIT_EXPECT_TRUE(test, f2fs_cache_test_and_clear_referenced(entry));
-   283		KUNIT_EXPECT_FALSE(test, f2fs_cache_test_and_clear_referenced(entry));
-   284	}
-   285	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> =E4=BA=8E2026=E5=B9=B48=E6=9C=8829=
+=E6=97=A5=E5=91=A8=E5=85=AD 08:31=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi Liu,
+>
+> On Fri, Aug 28, 2026, Liu Jiazi wrote:
+> > Hi @Thinh.Nguyen@synopsys.com , Krishna,
+> >
+> > Thanks for the detailed review.
+> > For the gadget ops protection, I propose adding the check only in
+> > dwc3_gadget_ep_queue.
+> > This covers two scenarios:
+> > 1. The window between error detection and soft_disconnect completing.
+> > 2. After soft_disconnect, existing checks on
+> > connected/pullups_connected/endpoint.desc naturally block all ops.
+> > This is also consistent with how other gadget handles it.
+> >
+>
+> Looking at the change more closely, especially the gadget_ops and
+> ep_ops. We need to consider the followings:
+>
+> 1) We need a mutex to prevent a race against dwc3_gadget_pullup()
+> 2) ep_enable, ep_queue, ep_set_halt/wedge, wakeup, and function_wakeup
+>    need to be guarded. The other ones are for cleanup and should be
+>    left alone.
+> 3) We shouldn't use disable_irq_nosync() as suggested previously because
+>    we need the event interrupt to drain the GEVENTCOUNT to allow the
+>    controller to halt after clearing the DCTL.RUN_STOP bit. But we
+>    should move the synchronize_irq() before the soft_connect.
+>
+> Can you try the change below (not tested).
+>
+> Thanks,
+> Thinh
+>
+>
+>
+> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+> index 608daeb7ef10..f3dabb37f806 100644
+> --- a/drivers/usb/dwc3/core.h
+> +++ b/drivers/usb/dwc3/core.h
+> @@ -49,6 +49,7 @@
+>  #define DWC3_ENDPOINTS_NUM     32
+>  #define DWC3_XHCI_RESOURCES_NUM        2
+>  #define DWC3_ISOC_MAX_RETRIES  5
+> +#define DWC3_ERR_RECOVERY_MAX  3
+>
+>  #define DWC3_SCRATCHBUF_SIZE   4096    /* each buffer is assumed to be 4=
+KiB */
+>  #define DWC3_EVENT_BUFFERS_SIZE        4096
+> @@ -841,6 +842,12 @@ enum dwc3_link_state {
+>         DWC3_LINK_STATE_MASK            =3D 0x0f,
+>  };
+>
+> +enum dwc3_err_state {
+> +       DWC3_ERR_NONE =3D 0,
+> +       DWC3_ERR_RECOVERY,
+> +       DWC3_ERR_UNRECOVERABLE,
+> +};
+> +
+>  /* TRB Length, PCM and Status */
+>  #define DWC3_TRB_SIZE_MASK     (0x00ffffff)
+>  #define DWC3_TRB_SIZE_LENGTH(n)        ((n) & DWC3_TRB_SIZE_MASK)
+> @@ -1004,6 +1011,7 @@ struct dwc3_glue_ops {
+>  /**
+>   * struct dwc3 - representation of our controller
+>   * @drd_work: workqueue used for role swapping
+> + * @err_recovery_work: workqueue used for controller error recovery
+>   * @ep0_trb: trb which is used for the ctrl_req
+>   * @bounce: address of bounce buffer
+>   * @setup_buf: used while precessing STD USB requests
+> @@ -1013,6 +1021,7 @@ struct dwc3_glue_ops {
+>   * @ep0_in_setup: one control transfer is completed and enter setup phas=
+e
+>   * @lock: for synchronizing
+>   * @mutex: for mode switching
+> + * @connect_mutex: for the pull-up and err_recovery_work
+>   * @dev: pointer to our struct device
+>   * @sysdev: pointer to the DMA-capable device
+>   * @xhci: pointer to our xHCI child
+> @@ -1079,6 +1088,9 @@ struct dwc3_glue_ops {
+>   * @ep0_next_event: hold the next expected event
+>   * @ep0state: state of endpoint zero
+>   * @link_state: link state
+> + * @err_state: current error recovery state.
+> + * @err_recovery_count: number of consecutive error recovery attempts un=
+til
+> + *             confirmed healthy and reset to 0 on reset event.
+>   * @speed: device speed (super, high, full, low)
+>   * @hwparams: copy of hwparams registers
+>   * @regset: debugfs pointer to regdump file
+> @@ -1189,6 +1201,7 @@ struct dwc3_glue_ops {
+>   */
+>  struct dwc3 {
+>         struct work_struct      drd_work;
+> +       struct work_struct      err_recovery_work;
+>         struct dwc3_trb         *ep0_trb;
+>         void                    *bounce;
+>         u8                      *setup_buf;
+> @@ -1203,6 +1216,9 @@ struct dwc3 {
+>         /* mode switching lock */
+>         struct mutex            mutex;
+>
+> +       /* serializes pull-up run/stop vs error recovery */
+> +       struct mutex            connect_mutex;
+> +
+>         struct device           *dev;
+>         struct device           *sysdev;
+>
+> @@ -1332,6 +1348,9 @@ struct dwc3 {
+>         enum dwc3_ep0_next      ep0_next_event;
+>         enum dwc3_ep0_state     ep0state;
+>         enum dwc3_link_state    link_state;
+> +       enum dwc3_err_state     err_state;
+> +
+> +       u32                     err_recovery_count;
+>
+>         u16                     u2sel;
+>         u16                     u2pel;
+> diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
+> index bfe616194dfa..fa3d8b9f6f8e 100644
+> --- a/drivers/usb/dwc3/ep0.c
+> +++ b/drivers/usb/dwc3/ep0.c
+> @@ -200,6 +200,11 @@ int dwc3_gadget_ep0_queue(struct usb_ep *ep, struct =
+usb_request *request,
+>         int                             ret;
+>
+>         spin_lock_irqsave(&dwc->lock, flags);
+> +       if (dwc->err_state !=3D DWC3_ERR_NONE) {
+> +               ret =3D -ESHUTDOWN;
+> +               goto out;
+> +       }
+> +
+>         if (!dep->endpoint.desc || !dwc->pullups_connected || !dwc->conne=
+cted) {
+>                 dev_err(dwc->dev, "%s: can't queue to disabled endpoint\n=
+",
+>                                 dep->name);
+> @@ -271,6 +276,10 @@ int dwc3_gadget_ep0_set_halt(struct usb_ep *ep, int =
+value)
+>         int                             ret;
+>
+>         spin_lock_irqsave(&dwc->lock, flags);
+> +       if (dwc->err_state !=3D DWC3_ERR_NONE) {
+> +               spin_unlock_irqrestore(&dwc->lock, flags);
+> +               return -ESHUTDOWN;
+> +       }
+>         ret =3D __dwc3_gadget_ep0_set_halt(ep, value);
+>         spin_unlock_irqrestore(&dwc->lock, flags);
+>
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index fa944856f956..87b535fb9443 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -1149,6 +1149,10 @@ static int dwc3_gadget_ep_enable(struct usb_ep *ep=
+,
+>                 return 0;
+>
+>         spin_lock_irqsave(&dwc->lock, flags);
+> +       if (dwc->err_state !=3D DWC3_ERR_NONE) {
+> +               spin_unlock_irqrestore(&dwc->lock, flags);
+> +               return -ESHUTDOWN;
+> +       }
+>         ret =3D __dwc3_gadget_ep_enable(dep, DWC3_DEPCFG_ACTION_INIT);
+>         spin_unlock_irqrestore(&dwc->lock, flags);
+>
+> @@ -2055,6 +2059,10 @@ static int dwc3_gadget_ep_queue(struct usb_ep *ep,=
+ struct usb_request *request,
+>         int                             ret;
+>
+>         spin_lock_irqsave(&dwc->lock, flags);
+> +       if (dwc->err_state !=3D DWC3_ERR_NONE) {
+> +               spin_unlock_irqrestore(&dwc->lock, flags);
+> +               return -ESHUTDOWN;
+> +       }
+>         ret =3D __dwc3_gadget_ep_queue(dep, req);
+>         spin_unlock_irqrestore(&dwc->lock, flags);
+>
+> @@ -2287,6 +2295,10 @@ static int dwc3_gadget_ep_set_halt(struct usb_ep *=
+ep, int value)
+>         int                             ret;
+>
+>         spin_lock_irqsave(&dwc->lock, flags);
+> +       if (dwc->err_state !=3D DWC3_ERR_NONE) {
+> +               spin_unlock_irqrestore(&dwc->lock, flags);
+> +               return -ESHUTDOWN;
+> +       }
+>         ret =3D __dwc3_gadget_ep_set_halt(dep, value, false);
+>         spin_unlock_irqrestore(&dwc->lock, flags);
+>
+> @@ -2301,6 +2313,10 @@ static int dwc3_gadget_ep_set_wedge(struct usb_ep =
+*ep)
+>         int                             ret;
+>
+>         spin_lock_irqsave(&dwc->lock, flags);
+> +       if (dwc->err_state !=3D DWC3_ERR_NONE) {
+> +               spin_unlock_irqrestore(&dwc->lock, flags);
+> +               return -ESHUTDOWN;
+> +       }
+>         dep->flags |=3D DWC3_EP_WEDGE;
+>
+>         if (dep->number =3D=3D 0 || dep->number =3D=3D 1)
+> @@ -2432,6 +2448,10 @@ static int dwc3_gadget_wakeup(struct usb_gadget *g=
+)
+>         }
+>
+>         spin_lock_irqsave(&dwc->lock, flags);
+> +       if (dwc->err_state !=3D DWC3_ERR_NONE) {
+> +               spin_unlock_irqrestore(&dwc->lock, flags);
+> +               return -ESHUTDOWN;
+> +       }
+>         if (!dwc->gadget->wakeup_armed) {
+>                 dev_err(dwc->dev, "not armed for remote wakeup\n");
+>                 spin_unlock_irqrestore(&dwc->lock, flags);
+> @@ -2459,6 +2479,10 @@ static int dwc3_gadget_func_wakeup(struct usb_gadg=
+et *g, int intf_id)
+>         }
+>
+>         spin_lock_irqsave(&dwc->lock, flags);
+> +       if (dwc->err_state !=3D DWC3_ERR_NONE) {
+> +               spin_unlock_irqrestore(&dwc->lock, flags);
+> +               return -ESHUTDOWN;
+> +       }
+>         /*
+>          * If the link is in U3, signal for remote wakeup and wait for th=
+e
+>          * link to transition to U0 before sending device notification.
+> @@ -2828,10 +2852,13 @@ static int dwc3_gadget_pullup(struct usb_gadget *=
+g, int is_on)
+>
+>         synchronize_irq(dwc->irq_gadget);
+>
+> +       /* Serialize against dwc3_err_recovery_work() */
+> +       mutex_lock(&dwc->connect_mutex);
+>         if (!is_on)
+>                 ret =3D dwc3_gadget_soft_disconnect(dwc);
+>         else
+>                 ret =3D dwc3_gadget_soft_connect(dwc);
+> +       mutex_unlock(&dwc->connect_mutex);
+>
+>         pm_runtime_put(dwc->dev);
+>
+> @@ -4148,6 +4175,10 @@ static void dwc3_gadget_reset_interrupt(struct dwc=
+3 *dwc)
+>
+>         dwc->suspended =3D false;
+>
+> +       /* The controller is recovered. */
+> +       if (dwc->err_state =3D=3D DWC3_ERR_NONE)
+> +               dwc->err_recovery_count =3D 0;
+> +
+>         /*
+>          * Ideally, dwc3_reset_gadget() would trigger the function
+>          * drivers to stop any active transfers through ep disable.
+> @@ -4635,6 +4666,12 @@ static irqreturn_t dwc3_thread_interrupt(int irq, =
+void *_evt)
+>         return ret;
+>  }
+>
+> +static void dwc3_schedule_err_recovery(struct dwc3 *dwc)
+> +{
+> +       dwc->err_state =3D DWC3_ERR_RECOVERY;
+> +       schedule_work(&dwc->err_recovery_work);
+> +}
+> +
+>  static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
+>  {
+>         struct dwc3 *dwc =3D evt->dwc;
+> @@ -4668,9 +4705,21 @@ static irqreturn_t dwc3_check_event_buf(struct dwc=
+3_event_buffer *evt)
+>                 return IRQ_NONE;
+>
+>         if (count > evt->length) {
+> -               dev_err_ratelimited(dwc->dev, "invalid count(%u) > evt->l=
+ength(%u)\n",
+> +               dev_err(dwc->dev, "invalid count(%u) > evt->length(%u)\n"=
+,
+>                         count, evt->length);
+> -               return IRQ_NONE;
+> +               /*
+> +                * This is a fatal error - the driver and controller are =
+out of
+> +                * sync on which event has been consumed. Reinitializing =
+the
+> +                * controller is required to recover. Write the bogus cou=
+nt back
+> +                * to GEVNTCOUNT to clear the IRQ source, consistent with=
+ the
+> +                * stale event clearing in dwc3_event_buffers_setup(), th=
+en
+> +                * schedule error recovery.
+> +                */
+> +               spin_lock(&dwc->lock);
+> +               dwc3_schedule_err_recovery(dwc);
+> +               spin_unlock(&dwc->lock);
+> +               dwc3_writel(dwc, DWC3_GEVNTCOUNT(0), count);
+> +               return IRQ_HANDLED;
+>         }
+>
+>         evt->count =3D count;
+> @@ -4730,6 +4779,53 @@ static void dwc_gadget_release(struct device *dev)
+>         kfree(gadget);
+>  }
+>
+> +static void dwc3_err_recovery_work(struct work_struct *work)
+> +{
+> +       struct dwc3 *dwc =3D container_of(work, struct dwc3, err_recovery=
+_work);
+> +       unsigned long flags;
+> +       int ret;
+> +
+> +       dwc->err_recovery_count++;
+> +
+> +       /* serializes against dwc3_gadget_pullup() */
+> +       mutex_lock(&dwc->connect_mutex);
+> +
+> +       ret =3D dwc3_gadget_soft_disconnect(dwc);
+> +       if (ret)
+> +               goto err_unrecoverable;
+> +
+> +       dwc3_disconnect_gadget_sleepable(dwc);
+> +
+> +       if (dwc->err_recovery_count > DWC3_ERR_RECOVERY_MAX)
+> +               goto err_unrecoverable;
+> +
+> +       if (dwc->softconnect) {
+> +               /*
+> +                * Wait irq to finish before soft_connect resets evt->lpo=
+s and
+> +                * the event buffer registers to avoid racing with
+> +                * dwc3_process_event_buf().
+> +                */
+> +               synchronize_irq(dwc->irq_gadget);
+> +
+> +               ret =3D dwc3_gadget_soft_connect(dwc);
+> +               if (ret)
+> +                       goto err_unrecoverable;
+> +       }
+> +       mutex_unlock(&dwc->connect_mutex);
+> +
+> +       spin_lock_irqsave(&dwc->lock, flags);
+> +       dwc->err_state =3D DWC3_ERR_NONE;
+> +       spin_unlock_irqrestore(&dwc->lock, flags);
+> +       return;
+> +
+> +err_unrecoverable:
+> +       dev_err(dwc->dev, "Unable to recover the controller\n");
+> +       mutex_unlock(&dwc->connect_mutex);
+> +       spin_lock_irqsave(&dwc->lock, flags);
+> +       dwc->err_state =3D DWC3_ERR_UNRECOVERABLE;
+> +       spin_unlock_irqrestore(&dwc->lock, flags);
+> +}
+> +
+>  /**
+>   * dwc3_gadget_init - initializes gadget related registers
+>   * @dwc: pointer to our controller context structure
+> @@ -4773,6 +4869,8 @@ int dwc3_gadget_init(struct dwc3 *dwc)
+>         }
+>
+>         init_completion(&dwc->ep0_in_setup);
+> +       INIT_WORK(&dwc->err_recovery_work, dwc3_err_recovery_work);
+> +       mutex_init(&dwc->connect_mutex);
+>         dwc->gadget =3D kzalloc_obj(struct usb_gadget);
+>         if (!dwc->gadget) {
+>                 ret =3D -ENOMEM;
+> @@ -4869,6 +4967,8 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
+>         if (!dwc->gadget)
+>                 return;
+>
+> +       cancel_work_sync(&dwc->err_recovery_work);
+> +       mutex_destroy(&dwc->connect_mutex);
+>         dwc3_enable_susphy(dwc, true);
+>         usb_del_gadget(dwc->gadget);
+>         dwc3_gadget_free_endpoints(dwc);
