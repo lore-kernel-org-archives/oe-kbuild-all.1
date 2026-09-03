@@ -1,128 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335383546FF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 04:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788408954; cv=none; b=o6/Q6jQcjsCgv4sxNv24I5xKJWfMON1mfzVeW265Jh5i9cq8SGNka3dFTBS1dIACrA5eC8N/6nOi7ulHGT6g4i+Hwy9rmfeGvC9PIdfO+L51rdaC6HY5UywQ1EOknezeUT6dmF9AowGsCbqIebCHUHne50HY9xN9dx2Lwk3gwhk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788408954; c=relaxed/simple;
-	bh=hYG6l8n+3ICOSgbIdRk6Rbfrs8W/nP66wV62G7SWYEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dyt0gIXSsjSavSsiTCQgEJDEELfw/vLFf8+mD2V1jdcpp33cab86fqA5Q3GtoiR6syIFvCsPnpYRcY7PWoJb3Wsfsrd+C7J+xvZiheNBzOfB+Z59zXz2ycOHgDbGfQjbMLea7xQROiOwK3xWW18JjMiBnnPjkIZ9zta7fRSudjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCNrtTYi; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F392F212FAD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 04:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788409910; cv=pass; b=Z56I82s4CL32mowrYNCKpAqiY5tgPUtqLxqk0BNBfi6VpPiSoekG4VW6H2uRzSqxlxpvycH7z/GLfb6Ii8QSy6lp8ajK5WG9mx/s/CmPg5+4qEyW0WlNIG6+C3myNKkwX+BHvfpHjBC7W5oUGBLw+zA4wtPuZSbMy9TgpftyvHI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788409910; c=relaxed/simple;
+	bh=/CdnSkAI/SEeFBhKT8eXTMpB/EwyptIYnhSh6zIHjt0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S+V4anAa8OnsFL+7MxvyX8BMMgdUuOporZyJxsHnMd5UbiU8iAEbunnLmqrOEGN9BktU+vkl4rMcRfNL+Z+QxGfRenZn6oGVIRHOL8+LaPmaMn/H0yfvhDERJOSPBlGaHjMjVOztCDnI911dRqfwVgzkK0tczX1sHlBRDJvPdG4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QmW5rjBr; arc=pass smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCNrtTYi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788408952; x=1819944952;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hYG6l8n+3ICOSgbIdRk6Rbfrs8W/nP66wV62G7SWYEI=;
-  b=QCNrtTYiI1aCaGWBIrIzq91FVgxOGJXrr1BbMRX87SI1w+L8MtpZrI+M
-   AnYnPodQ2tUEf8BsglsDXO/idkqcB2uOOm3RoyjMzPsY9lpZZ5QlTA6/7
-   Y74u1fKEmQN4JKMM7SxdqX18Fr2YjMdwOsqFpVc0+yjtoe0S1zEOZki5n
-   BzIzy6qPt/xMUzCFZuZGjTvM7xffCaCTtqSYXqZxFocvQbuKtOnpHGOYH
-   DsD+45Xw+dY9V9N7nGqO/duFnYxxeoO0Bkd0RFWIykMbUUjdnyyadg92j
-   XPknq7hXufGNDgc/YznALcJ0S9+oD3xP9LcfdLQM+Zp9A5+U42RT78c6b
-   g==;
-X-CSE-ConnectionGUID: 5g1AfLxRRpeUMiyHX6mVjg==
-X-CSE-MsgGUID: BgLI7ov1Q/KSQsy6SYaSBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="100234918"
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="100234918"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 21:15:51 -0700
-X-CSE-ConnectionGUID: OmOcC7utT6Sc/7qqkyCUug==
-X-CSE-MsgGUID: Os6zgQG3TlGsk1QvC0ANNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="273101325"
-Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 02 Sep 2026 21:15:50 -0700
-Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x1yrb-0000000042k-2qNf;
-	Thu, 03 Sep 2026 04:15:47 +0000
-Date: Thu, 3 Sep 2026 12:15:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Todd Brandt <todd.e.brandt@linux.intel.com>, linux-pm@vger.kernel.org,
-	rafael.j.wysocki@intel.com, rjw@rjwysocki.net
-Cc: oe-kbuild-all@lists.linux.dev, todd.e.brandt@linux.intel.com,
-	todd.e.brandt@intel.com
-Subject: Re: [PATCH v2] PM: dpm_show_time changes to suspend/resume dmesg
- prints
-Message-ID: <202609031247.SRpWbgoA-lkp@intel.com>
-References: <20260831222926.34698-1-todd.e.brandt@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QmW5rjBr"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2d8fd3b729dso17086235ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Sep 2026 21:31:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788409908; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cKaH755zBJ7IG+KRtGiqwfR/bbd7iEJT19EILiiCfIP8zp2HhogKVpehglVxjEheDY
+         W1qeNWARr8pnyQdvaG0ZHhKFDJ8IrzG3Xdb0Wu1zgUMGegNgH7n5/psnymQxakUqG9D9
+         5ElU0S9BQhD9Ubg6i26Ry3wJ4/nzf9K0RaKZ2XGuj8XXMXXC3bMJnrRutHIN/7nEfVOf
+         OwAYLQcF/CsLhkJyE9wQAhWFe5SB41A/kKr3NuVpc9xPGlOZOECV81vWvGCzvSBRPeyz
+         ASBeyeOu4e37gRBh9qb3CgXJv73OcnQ0m76W0waEsAGLT8W21IWWDnE5iX71ZHL3D4EM
+         3OLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/CdnSkAI/SEeFBhKT8eXTMpB/EwyptIYnhSh6zIHjt0=;
+        fh=2k/9fxu4o4LsFD5uZIr3cTi1jqJxPPGFDRTP8XYjuZE=;
+        b=FUesz7BxBFglALg4BDDTDB0XxA9TK6lSIoOX+O4ImP7eo0HbJM6pTLdbg0mrCQGH4O
+         wwARu+wNWTL6I9Hi9NlDkPAwLecDd7HbX0NyScK7YmI51TWoOEJgiZsvRDUVdBHTsSnk
+         csfXBY17rDPkmxL0u4FX3ohTiMJaZMJ912QeLRP65nK38PPrXq2W74lXQZ0QBZA7wver
+         RNy2p/cK3PXpHEvBw4BFazEHI/mLdt+i2vVkPtj7dEFh5+NUGrKQXEVtlCCrfiLuPJ7N
+         Nfu+/vOWMCiopUqBbhtlZ6hvd2PvtcccN5IeeImkQnIjZ42rjVH38FlpvFRCmfBmL7QH
+         r7mA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788409908; x=1789014708; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/CdnSkAI/SEeFBhKT8eXTMpB/EwyptIYnhSh6zIHjt0=;
+        b=QmW5rjBrFmgFiEDMtQ5dVQ8zYWbrgxL4EMcsYyS/Xp6hlHXJlpOxLi0aShMDt4tDrq
+         5AbcLL3zJSs4g3hcp8JWc5lDbc4EvHMeDMJychr6s16MuqeM/52xGcxZkrXPwMGdBES0
+         8ly/f0s8SgXdmKYGrJUwbE7+knjkLn5og2ZeJqc442fUWxxuVPiOROa3jmQ/WL5iFIHk
+         FdLicS6wswgnoD7lFIuTbIQ5Xz9dJhKhSnMMrC8wMYRhYjMmiaZpjZxnr6UWzLbKrG8i
+         1mjx+axFXYsySP2xF39WlppwXwVC6o/eDDoIM+T21fXkt+N0lZpxDgGnqQ8br9dfoHAt
+         JpnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788409908; x=1789014708;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/CdnSkAI/SEeFBhKT8eXTMpB/EwyptIYnhSh6zIHjt0=;
+        b=VmpxFQw6JPIJa/u6UNrt6DMJnMqvZK5a3UwHgGetPy0lZDSOBsKSvE7oPDQNmKVuy7
+         npLDKWwTpAa+lRNvxJQSd7oyQbXf90imSscHUIaRQ+yT0WPRbzgj7gqa91e06mL3JUWG
+         5jscUxhLAs51w5y54fy+lQQwu8uSm7/G9c9w2NrKc9kfU77t/pJJFoInRnTQN40Hi8gL
+         uT6ztD3AiskIFePK0JQvhMD2ePXJSRC9XIDDD/Mtmau4tI7FauevF5qABciGNOTAfinM
+         P04hJN/v3ZUKh7nBPywviiRUbiKJrCrgpyEnF0znxj6KF3vvWPrkzhn3DDa0FSE3DB+6
+         erDw==
+X-Gm-Message-State: AFuF++kKEHmqXNbMJppoEhzG6Je3vOEL+31MyEcmPtyDi9kbDgF2LJQB
+	iACxi1k03InuBmYiAdKpvBaWPvvl2IjBEEcCQ509oMm836RddQJ7ptmHpx3QR7r8jXqyv/3S9PC
+	+aE7/u/vNOcXVJuAZH+0G4rBJljkyr58=
+X-Gm-Gg: AYBFou3ybWEhPjTxmzjlO2ikrOe3t/IY2EPyqJxOWrVfr1sFGdmqfADwQn2WrhYl2OP
+	o2yk1THUOG7VJVbq3QciOgUwrwsVEYo39e3n9JOAeYQitiFjCDEwjdJW5v8xxa2q5sbTri8k/s6
+	Vdc5VE2JiYQ5JwY4T+2vGxN7usdPRBnhKbKoYkB1RRJ6WlpSI4I/ygjW3+MBuVqBA5t3dmPMtBj
+	KlXBWXngC1A6txrnzJvKy1nNR6cU/hT4bmTYdHTJAaBLYOkI+8Li8XxIyK5mrbBJQW1OJBZfx3b
+	5WBRKRzGE9Dt8YeSPYF2abg65uO/32r3/RaCSITSl09I6puKwIZFJV6BdMjAuQSHPMaY6DJYt1h
+	FwO4hkIzDD96XL8MNFnjkb+K9RAzcQFXo6OojmBtdgH5tt+P5ARpesn0JHOTJ6Hlo5To=
+X-Received: by 2002:a17:902:d4cf:b0:2d8:d4d3:da51 with SMTP id
+ d9443c01a7336-2daec7b84a3mr112445875ad.21.1788409908115; Wed, 02 Sep 2026
+ 21:31:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260831222926.34698-1-todd.e.brandt@linux.intel.com>
+References: <202609031134.VMzbwyVl-lkp@intel.com>
+In-Reply-To: <202609031134.VMzbwyVl-lkp@intel.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Thu, 3 Sep 2026 11:31:37 +0700
+X-Gm-Features: AcwNN1UAGNeHZ0Ro131jH_gR3Av0iLt72gQZ7Ksi_o1wD_3WkkTyfR6Bijy5O5w
+Message-ID: <CAABR9nH=-8AY6kgZKNNK9tWb4K8Ya7tUFn_9vYxm+AsaPw=O6g@mail.gmail.com>
+Subject: Re: [brgl:gpio/for-next 5/8] drivers/gpio/gpio-altera.c:224:7: error:
+ use of undeclared identifier 'irq'; did you mean 'girq'?
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Todd,
+Hi all,
 
-kernel test robot noticed the following build errors:
+I have sent a fix for this issue:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.3-rc1 next-20260902]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+https://lore.kernel.org/all/20260903030700.132068-1-phucduc.bui@gmail.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Todd-Brandt/PM-dpm_show_time-changes-to-suspend-resume-dmesg-prints/20260831-152926
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260831222926.34698-1-todd.e.brandt%40linux.intel.com
-patch subject: [PATCH v2] PM: dpm_show_time changes to suspend/resume dmesg prints
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260903/202609031247.SRpWbgoA-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031247.SRpWbgoA-lkp@intel.com/reproduce)
+The patch is based on brgl/gpio/for-next.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609031247.SRpWbgoA-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/mips/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/linux/dev_printk.h:14,
-                    from include/linux/device.h:15,
-                    from drivers/base/power/main.c:21:
-   drivers/base/power/main.c: In function 'dpm_complete':
->> include/linux/stddef.h:8:14: error: passing argument 3 of 'dpm_show_time' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/base/power/main.c:1362:41: note: in expansion of macro 'NULL'
-    1362 |         dpm_show_time(starttime, state, NULL, "complete");
-         |                                         ^~~~
-   drivers/base/power/main.c:480:70: note: expected 'int' but argument is of type 'void *'
-     480 | static void dpm_show_time(ktime_t starttime, pm_message_t state, int error,
-         |                                                                  ~~~~^~~~~
-
-
-vim +/dpm_show_time +8 include/linux/stddef.h
-
-^1da177e4c3f415 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f415 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f415 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e2182874324727 Richard Knutsson 2006-09-30  9  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Phuc
